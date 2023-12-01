@@ -34,4 +34,9 @@ export interface SkyDataManagerStateOptions {
    * The states of the individual views.
    */
   views?: SkyDataViewStateOptions[];
+  /**
+   * The text to highlight in the data view. To highlight `searchText`,
+   * please instead set `searchHighlightEnabled` to true in the view config.
+   */
+  highlightText?: string;
 }

@@ -387,6 +387,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
   #subscriptions = new Subscription();
   #ngUnsubscribe = new Subject<void>();
   #gridChanged = new Subject<void>();
+  #currentState: SkyDataManagerState | undefined;
   #viewReady = false;
   #_agGrid: AgGridAngular | undefined;
   #_messageStream: Subject<SkyGridMessage> | undefined;
@@ -399,6 +400,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((state) => {
           this.agGrid?.api.setQuickFilter(state.searchText || '');
+          this.#currentState = state;
         });
 
       this.gridOptions$.next(
@@ -427,9 +429,13 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       if (Object.keys(changes).length === 1 && changes['data']) {
         this.agGrid?.api.setRowData(this.data || []);
       } else if (
-        ['enableMultiselect', 'settingsKey', 'columns', 'sortField'].some(
-          (key) => key in changes,
-        )
+        [
+          'enableMultiselect',
+          'settingsKey',
+          'columns',
+          'sortField',
+          'highlightText',
+        ].some((key) => key in changes)
       ) {
         if (changes['columns']) {
           this.#updateColumns();
@@ -468,6 +474,9 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         this.agGrid?.api.setGetRowClass(
           this.#gridService.getRowClassFn(this.settings),
         );
+      }
+
+      if (['rowHighlightedId', 'highlightText'].some((key) => key in changes)) {
         this.agGrid?.api.redrawRows();
       }
     }
@@ -551,14 +560,17 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         }
       : undefined;
     if (existingView) {
-      this.#dataManagerService.updateDataState(
-        new SkyDataManagerState({
-          views: [this.#dataManagerViewState],
-          activeSortOption: sort,
-        }),
-        this.viewId,
-      );
+      const newState = new SkyDataManagerState({
+        ...this.#currentState,
+        views: [this.#dataManagerViewState],
+        activeSortOption: sort,
+        highlightText: this.highlightText,
+      });
+
+      this.#currentState = newState;
+      this.#dataManagerService.updateDataState(newState, this.viewId);
     } else {
+      console.log('initializing grid to text', this.highlightText);
       const viewConfig = this.#getViewConfig();
       this.#dataManagerService.initDataView(viewConfig);
       this.#dataManagerService.initDataManager({
@@ -569,6 +581,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
         defaultDataState: new SkyDataManagerState({
           views: [this.#dataManagerViewState],
           activeSortOption: sort,
+          highlightText: this.highlightText,
         }),
         settingsKey: this.settings.settingsKey,
       });

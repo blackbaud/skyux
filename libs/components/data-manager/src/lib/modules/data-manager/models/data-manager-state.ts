@@ -23,6 +23,11 @@ export class SkyDataManagerState {
    */
   public filterData: SkyDataManagerFilterData | undefined;
   /**
+   * The text to highlight in the data view. To highlight `searchText`,
+   * please instead set `searchHighlightEnabled` to true in the view config.
+   */
+  public highlightText: string | undefined;
+  /**
    * Whether to display only the selected rows or objects. The multiselect toolbar
    * uses this property.
    */
@@ -47,6 +52,7 @@ export class SkyDataManagerState {
     this.activeSortOption = data.activeSortOption;
     this.additionalData = data.additionalData;
     this.filterData = data.filterData;
+    this.highlightText = data.highlightText;
     this.onlyShowSelected = data.onlyShowSelected;
     this.selectedIds = data.selectedIds;
     this.searchText = data.searchText;
@@ -66,6 +72,7 @@ export class SkyDataManagerState {
       activeSortOption: this.activeSortOption,
       additionalData: this.additionalData,
       filterData: this.filterData,
+      highlightText: this.highlightText,
       onlyShowSelected: this.onlyShowSelected,
       searchText: this.searchText,
       selectedIds: this.selectedIds,

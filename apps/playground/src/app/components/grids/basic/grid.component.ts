@@ -117,7 +117,11 @@ export default class GridComponent {
   }
 
   public triggerTextHighlight(): void {
-    this.highlightText = 'e';
+    if (!this.highlightText) {
+      this.highlightText = 'e';
+    } else {
+      this.highlightText = undefined;
+    }
   }
 
   public triggerRowHighlight(): void {

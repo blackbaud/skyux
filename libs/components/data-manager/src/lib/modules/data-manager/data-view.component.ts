@@ -46,18 +46,19 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public get textHighlight(): string | undefined {
+  public get textHighlight(): string[] | undefined {
     return this.#_textHighlight;
   }
 
-  public set textHighlight(value: string | undefined) {
+  public set textHighlight(value: string[] | undefined) {
+    console.log('setting text highlight to', value);
     this.#_textHighlight = value;
     this.#textHighlight.skyHighlight = value;
     this.#changeDetector.markForCheck();
   }
 
   #_isActive = false;
-  #_textHighlight: string | undefined;
+  #_textHighlight: string[] | undefined;
 
   #ngUnsubscribe = new Subject<void>();
   #currentState: SkyDataManagerState | undefined;
@@ -87,7 +88,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
     /* istanbul ignore else */
     if (this.viewId) {
       this.#dataManagerService
-        .getDataStateUpdates(this.viewId)
+        .getDataStateUpdates(`data-view-${this.viewId}`)
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((state: SkyDataManagerState) => {
           this.#currentState = state;
@@ -102,14 +103,18 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   }
 
   #updateSearchHighlight(state?: SkyDataManagerState): void {
+    console.log(state?.highlightText);
     if (this.viewId) {
+      const highlights: string[] = [];
       const view = this.#dataManagerService.getViewById(this.viewId);
-
-      if (view?.searchHighlightEnabled) {
-        this.textHighlight = state?.searchText;
-      } else if (this.textHighlight) {
-        this.textHighlight = undefined;
+      if (state?.highlightText) {
+        highlights.push(state.highlightText);
       }
+      if (view?.searchHighlightEnabled && state?.searchText) {
+        highlights.push(state.searchText);
+      }
+
+      this.textHighlight = highlights;
     }
   }
 }
