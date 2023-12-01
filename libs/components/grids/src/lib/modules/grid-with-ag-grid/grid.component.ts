@@ -370,6 +370,7 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
     return {
       ...SkyGridDefaultOptions,
       ...this.options,
+      getDataManagerState: () => this.#currentState,
       enableMultiselect: this.enableMultiselect,
       multiselectRowId: this.multiselectRowId,
       rowHighlightId: this.rowHighlightedId,
@@ -398,9 +399,9 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
       this.#dataManagerService
         .getDataStateUpdates(this.viewId)
         .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((state) => {
-          this.agGrid?.api.setQuickFilter(state.searchText || '');
-          this.#currentState = state;
+        .subscribe((newState) => {
+          this.#currentState = newState;
+          this.agGrid?.api.onFilterChanged();
         });
 
       this.gridOptions$.next(
@@ -569,8 +570,8 @@ export class SkyGridComponent<TData extends Record<string, unknown> = any>
 
       this.#currentState = newState;
       this.#dataManagerService.updateDataState(newState, this.viewId);
+      this.agGrid?.api.onFilterChanged();
     } else {
-      console.log('initializing grid to text', this.highlightText);
       const viewConfig = this.#getViewConfig();
       this.#dataManagerService.initDataView(viewConfig);
       this.#dataManagerService.initDataManager({

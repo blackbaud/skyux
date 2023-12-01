@@ -1,5 +1,8 @@
+import { SkyDataManagerState } from '@skyux/data-manager';
+
 export type SkyGridOptions = {
   columnPickerEnabled: boolean;
+  getDataManagerState?: () => SkyDataManagerState;
   enableMultiselect: boolean;
   filterButtonEnabled: boolean;
   listDescriptor?: string;

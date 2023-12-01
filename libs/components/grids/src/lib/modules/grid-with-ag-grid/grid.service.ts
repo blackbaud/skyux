@@ -54,9 +54,13 @@ export class SkyGridService {
   ): GridOptions<TData> {
     options = Object.assign({}, SkyGridDefaultOptions, options);
 
+    const columnDefs = this.getAgGridColDefs(
+      options as SkyGridOptions,
+      columns,
+    );
     const gridOptions: GridOptions<TData> = this.#agGridService.getGridOptions({
       gridOptions: {
-        columnDefs: this.getAgGridColDefs(options as SkyGridOptions, columns),
+        columnDefs,
         context: {
           enableTopScroll: options.showTopScroll,
         },
@@ -67,6 +71,37 @@ export class SkyGridService {
         suppressRowClickSelection: !options.enableMultiselect,
         rowData: this.#processData(rowData),
         getRowClass: this.getRowClassFn(options),
+        isExternalFilterPresent: () => {
+          return (
+            !!options.getDataManagerState &&
+            !!(options.getDataManagerState().searchText || '').trim()
+          );
+        },
+        doesExternalFilterPass: (node) => {
+          const searchText = `${
+            options.getDataManagerState &&
+            options.getDataManagerState().searchText
+          }`.trim();
+          if (!searchText) {
+            return true;
+          }
+          return columnDefs.some((colDef) => {
+            if (!colDef.hide) {
+              const value = node.data[colDef.field];
+              if (value) {
+                if (colDef.filterParams.searchFunction) {
+                  return colDef.filterParams.searchFunction(value, searchText);
+                } else {
+                  return value
+                    .toString()
+                    .toLocaleLowerCase()
+                    .includes(searchText?.toLocaleLowerCase());
+                }
+              }
+            }
+            return false;
+          });
+        },
       } as GridOptions,
     });
 
@@ -109,6 +144,9 @@ export class SkyGridService {
         type: columnTypeMapping[column.template ? 'template' : column.type],
         width: column.width,
         minWidth: column.width,
+        filterParams: {
+          searchFunction: column.search,
+        },
       } as ColDefWithField<TData>;
     });
     if (options.enableMultiselect) {

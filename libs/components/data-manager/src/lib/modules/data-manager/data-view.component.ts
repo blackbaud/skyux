@@ -51,7 +51,6 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   }
 
   public set textHighlight(value: string[] | undefined) {
-    console.log('setting text highlight to', value);
     this.#_textHighlight = value;
     this.#textHighlight.skyHighlight = value;
     this.#changeDetector.markForCheck();
@@ -103,7 +102,6 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   }
 
   #updateSearchHighlight(state?: SkyDataManagerState): void {
-    console.log(state?.highlightText);
     if (this.viewId) {
       const highlights: string[] = [];
       const view = this.#dataManagerService.getViewById(this.viewId);

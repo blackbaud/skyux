@@ -22,6 +22,15 @@ const routes: ComponentRouteInfo[] = [
       library: 'grids',
     },
   },
+  {
+    path: 'search',
+    loadComponent: () => import('./search/grid-search.component'),
+    data: {
+      name: 'ABC SKY Grid Search',
+      icon: 'table',
+      library: 'grids',
+    },
+  },
 ];
 
 @NgModule({
