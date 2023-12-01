@@ -145,9 +145,11 @@ export class SkyResizeObserverService implements OnDestroy {
       // ResizeObserver throws an error when it is disconnected while it is
       // still observing an element. When an element is no longer observed, this
       // is not a concern.
-      this.#zone.runOutsideAngular(() =>
-        this.#window.nativeWindow.addEventListener('error', errorHandler),
-      );
+      this.#zone.runOutsideAngular(() => {
+        if (this.#window.nativeWindow?.addEventListener) {
+          this.#window.nativeWindow.addEventListener('error', errorHandler);
+        }
+      });
     }
     if (this.#window.nativeWindow.onerror !== onError) {
       originalOnError = this.#window.nativeWindow.onerror;
@@ -156,7 +158,9 @@ export class SkyResizeObserverService implements OnDestroy {
   }
 
   #resetWindowError(): void {
-    this.#window.nativeWindow.removeEventListener('error', errorHandler);
+    if (this.#window.nativeWindow?.removeEventListener) {
+      this.#window.nativeWindow.removeEventListener('error', errorHandler);
+    }
     if (originalOnError) {
       this.#window.nativeWindow.onerror = originalOnError;
       originalOnError = undefined;
