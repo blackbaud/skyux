@@ -31,7 +31,7 @@ export const SkyGridDefaultOptions: SkyGridOptions = {
   minColWidth: 50,
   name: 'Grid',
   pageSize: 0,
-  searchEnabled: true,
+  searchEnabled: false,
   sortEnabled: true,
   viewId: `SKY_GRID_VIEW_${Date.now()}`,
   visibleRows: 'all',
