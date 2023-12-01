@@ -125,7 +125,7 @@ export class SkyGridService {
     options: Partial<SkyGridOptions>,
   ): ((params: RowClassParams) => string | string[]) => {
     return (params: RowClassParams) =>
-      params.data.id === options.rowHighlightId ? SkyRowClass.Highlight : '';
+      params.node.id === options.rowHighlightId ? SkyRowClass.Highlight : '';
   };
 
   #getHeaderClass(alignment: SkyGridColumnAlignment): string[] {
