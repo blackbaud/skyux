@@ -1,5 +1,14 @@
 # Changelog
 
+## [9.16.0](https://github.com/blackbaud/skyux/compare/9.15.0...9.16.0) (2023-12-01)
+
+
+### Features
+
+* **components/lookup:** selection modal broadcasts aria status updates when selection changes ([#1886](https://github.com/blackbaud/skyux/issues/1886)) ([84da449](https://github.com/blackbaud/skyux/commit/84da449c9aa14d1aea688c45d9b915c04f06db87))
+* **components/lookup:** show more modal broadcasts aria status updates when selection changes ([#1897](https://github.com/blackbaud/skyux/issues/1897)) ([dd465ed](https://github.com/blackbaud/skyux/commit/dd465edd082251f39df123d8cbed6697accd29bb))
+* **components/theme:** update to latest icons library ([#1895](https://github.com/blackbaud/skyux/issues/1895)) ([78ac971](https://github.com/blackbaud/skyux/commit/78ac971ed9084a015a014a0f90d82f2187b15a9a))
+
 ## [9.15.0](https://github.com/blackbaud/skyux/compare/9.14.1...9.15.0) (2023-11-22)
 
 
