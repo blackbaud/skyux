@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.16.1](https://github.com/blackbaud/skyux/compare/9.16.0...9.16.1) (2023-12-04)
+
+
+### Bug Fixes
+
+* **components/packages:** simplify style paths ([#1894](https://github.com/blackbaud/skyux/issues/1894)) ([c028575](https://github.com/blackbaud/skyux/commit/c028575db76cee653115b865c513fee0f08692db))
+* **components/theme:** update icon variant aliases ([#1901](https://github.com/blackbaud/skyux/issues/1901)) ([275a4cc](https://github.com/blackbaud/skyux/commit/275a4cce0f60c036fa9ac9083ff1a2b3e9adebf1))
+
 ## [9.16.0](https://github.com/blackbaud/skyux/compare/9.15.0...9.16.0) (2023-12-01)
 
 
