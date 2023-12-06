@@ -21,11 +21,13 @@ import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
+  SkyLiveAnnouncerService,
   SkyOverlayInstance,
   SkyOverlayService,
   SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import {
   BehaviorSubject,
@@ -463,6 +465,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   readonly #environmentInjector = inject(EnvironmentInjector);
 
+  readonly #liveAnnounceService = inject(SkyLiveAnnouncerService);
+
+  readonly #libResourceService = inject(SkyLibResourcesService);
+
   #hasFocus = false;
 
   #inputBoxHostSvc: SkyInputBoxHostService | undefined;
@@ -634,6 +640,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#activeElementIndex = this.#activeElementIndex + 1;
           }
           this.#addFocusedClass();
+          this.#announceResults(false);
           this.#changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
@@ -649,12 +656,45 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#activeElementIndex = this.#activeElementIndex - 1;
           }
           this.#addFocusedClass();
+          this.#announceResults(false);
           this.#changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
           break;
       }
     }
+  }
+
+  // todo change getactiveelement return call to potentialy be undefined
+  #announceResults(readCount: boolean): void {
+    const selectedValue = this.#getActiveElement()?.textContent;
+    this.#libResourceService
+      .getStrings({
+        singleCountResult: 'skyux_autocomplete_one_result',
+        multipleCountResults: [
+          'skyux_autocomplete_multiple_results',
+          this.searchResultsCount,
+        ],
+        selectedResult: [
+          'skyux_autocomplete_results',
+          selectedValue,
+          this.#activeElementIndex + 1,
+          this.searchResultsCount,
+        ],
+      })
+      .pipe(take(1))
+      .subscribe((localizedStrings) => {
+        let announcementString = '';
+        if (this.searchResultsCount && readCount) {
+          if (this.searchResultsCount === 1) {
+            announcementString = localizedStrings.singleCountResult;
+          } else if (this.searchResultsCount > 1) {
+            announcementString = localizedStrings.multipleCountResults;
+          }
+        }
+        announcementString += localizedStrings.selectedResult;
+        this.#liveAnnounceService.announce(announcementString);
+      });
   }
 
   public moreButtonClicked(): void {
@@ -683,6 +723,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#removeFocusedClass();
       this.#activeElementIndex = id;
       this.#addFocusedClass();
+      this.#announceResults(false);
       this.#changeDetector.markForCheck();
     }
   }
@@ -895,6 +936,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#changeDetector.markForCheck();
       this.#updateAriaControls();
       this.#initOverlayFocusableElements();
+      this.#announceResults(true);
       this.openChange.emit(true);
     }
   }
@@ -1042,10 +1084,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         });
         this.#addFocusedClass();
       }
+      this.#announceResults(true);
     });
   }
 
-  #getActiveElement(): HTMLElement {
+  #getActiveElement(): HTMLElement | undefined {
     return this.#overlayFocusableElements[this.#activeElementIndex];
   }
 
