@@ -7,7 +7,8 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyViewkeeperModule } from '@skyux/core';
+import { SkyLiveAnnouncerService, SkyViewkeeperModule } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import {
   SkyBackToTopMessage,
   SkyBackToTopMessageType,
@@ -15,9 +16,11 @@ import {
 } from '@skyux/layout';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerService } from './data-manager.service';
+import { SkyDataManagerState } from './models/data-manager-state';
+import { SkyDataManagerSummary } from './models/data-manager-summary';
 
 const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 
@@ -63,18 +66,42 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   #allViewkeeperClasses: Record<string, string[]> = {};
   #ngUnsubscribe = new Subject<void>();
   #sourceId = 'dataManagerComponent';
+  #dataState: SkyDataManagerState | undefined;
 
   #_isInitialized = false;
   #_currentViewkeeperClasses = VIEWKEEPER_CLASSES_DEFAULT;
 
   readonly #changeDetection = inject(ChangeDetectorRef);
   readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
+  readonly #resourceSvc = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     this.#dataManagerService
       .getDataStateUpdates(this.#sourceId)
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => (this.isInitialized = true));
+      .subscribe((state) => {
+        this.isInitialized = true;
+        this.#dataState = state;
+      });
+
+    this.#dataManagerService
+      .getDataSummaryUpdates(this.#sourceId)
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((summary: SkyDataManagerSummary) => {
+        const selectedItems = this.#dataState?.selectedIds?.length || 0;
+        const resourceString = `skyux_data_manager_status_update${
+          this.#dataState?.onlyShowSelected ? '_only_selected' : ''
+        }`;
+
+        this.#announceState(
+          resourceString,
+          summary.itemsMatching,
+          summary.totalItems,
+          summary.itemsDisplayed,
+          selectedItems,
+        );
+      });
 
     this.#dataManagerService.viewkeeperClasses
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -101,5 +128,14 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  #announceState(resourceString: string, ...args: any[]): void {
+    this.#resourceSvc
+      .getString(resourceString, ...args)
+      .pipe(take(1))
+      .subscribe((internationalizedString) => {
+        this.#liveAnnouncer.announce(internationalizedString);
+      });
   }
 }

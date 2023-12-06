@@ -114,6 +114,15 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
+    this.#dataManagerSvc.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsDisplayed: this.displayedItems.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.viewId,
+    );
+
     this.#changeDetector.markForCheck();
   }
 

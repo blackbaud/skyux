@@ -163,7 +163,7 @@ export class DataManagerVisualComponent implements OnInit {
     },
   ];
   public activeViewId = 'repeaterView';
-  public settingsKey = 'test';
+  // public settingsKey = 'test';
 
   constructor(private dataManagerService: SkyDataManagerService) {
     this.dataManagerService
@@ -179,12 +179,16 @@ export class DataManagerVisualComponent implements OnInit {
       activeViewId: this.activeViewId,
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.defaultDataState,
-      settingsKey: this.settingsKey,
+      // settingsKey: this.settingsKey,
     });
   }
 
   public searchSo() {
-    this.dataState.searchText = 'so';
-    this.dataManagerService.updateDataState(this.dataState, 'dataManager');
+    const newDataState = new SkyDataManagerState({
+      ...this.dataState,
+      searchText: 'so',
+    });
+    this.dataManagerService.updateDataState(newDataState, 'dataManager');
+    this.dataState = newDataState;
   }
 }
