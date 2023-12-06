@@ -89,7 +89,7 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
       .getDataSummaryUpdates(this.#sourceId)
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((summary: SkyDataManagerSummary) => {
-        const selectedItems = this.#dataState?.selectedIds?.length || 0;
+        const itemsSelected = this.#dataState?.selectedIds?.length || 0;
         const resourceString = `skyux_data_manager_status_update${
           this.#dataState?.onlyShowSelected ? '_only_selected' : ''
         }`;
@@ -99,7 +99,7 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
           summary.itemsMatching,
           summary.totalItems,
           summary.itemsDisplayed,
-          selectedItems,
+          itemsSelected,
         );
       });
 
@@ -130,9 +130,21 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
     this.#ngUnsubscribe.complete();
   }
 
-  #announceState(resourceString: string, ...args: any[]): void {
+  #announceState(
+    resourceString: string,
+    itemsMatching: number,
+    totalItems: number,
+    itemsDisplayed: number,
+    itemsSelected: number,
+  ): void {
     this.#resourceSvc
-      .getString(resourceString, ...args)
+      .getString(
+        resourceString,
+        itemsMatching,
+        totalItems,
+        itemsDisplayed,
+        itemsSelected,
+      )
       .pipe(take(1))
       .subscribe((internationalizedString) => {
         this.#liveAnnouncer.announce(internationalizedString);
