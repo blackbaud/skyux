@@ -168,11 +168,6 @@
     background-size: 100% 100%;
     background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/colorpicker/saturation-lightness.webp);
   }
-  @media (max-height: 600px) {
-    .saturation-lightness {
-      display: none;
-    }
-  }
   .box {
     display: flex;
     padding: 4px 8px;
@@ -414,6 +409,8 @@
   .sky-colorpicker-container {
     background-color: #fff;
     border-radius: 0 0 6px 6px;
+    max-height: 100vh;
+    overflow-y: scroll;
   }
 
   .sky-colorpicker-footer {
