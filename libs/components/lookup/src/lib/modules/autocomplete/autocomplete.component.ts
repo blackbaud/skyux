@@ -665,9 +665,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  // todo change getactiveelement return call to potentialy be undefined
-  #announceResults(readCount: boolean): void {
-    const selectedValue = this.#getActiveElement()?.textContent;
+  #announceResults(announceTotalCount: boolean): void {
+    const highlightedResult = this.#getActiveElement()?.textContent;
     this.#libResourceService
       .getStrings({
         singleCountResult: 'skyux_autocomplete_one_result',
@@ -675,9 +674,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           'skyux_autocomplete_multiple_results',
           this.searchResultsCount,
         ],
-        selectedResult: [
+        highlightedResult: [
           'skyux_autocomplete_results',
-          selectedValue,
+          highlightedResult,
           this.#activeElementIndex + 1,
           this.searchResultsCount,
         ],
@@ -685,15 +684,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       .pipe(take(1))
       .subscribe((localizedStrings) => {
         let announcementString = '';
-        if (this.searchResultsCount && readCount) {
-          if (this.searchResultsCount === 1) {
-            announcementString = localizedStrings.singleCountResult;
-          } else if (this.searchResultsCount > 1) {
-            announcementString = localizedStrings.multipleCountResults;
+        if (this.searchResultsCount && this.searchResultsCount > 0) {
+          if (announceTotalCount) {
+            announcementString =
+              this.searchResultsCount === 1
+                ? localizedStrings.singleCountResult
+                : localizedStrings.multipleCountResults;
           }
+          announcementString += localizedStrings.highlightedResult;
+          this.#liveAnnounceService.announce(announcementString);
         }
-        announcementString += localizedStrings.selectedResult;
-        this.#liveAnnounceService.announce(announcementString);
       });
   }
 
@@ -808,6 +808,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
                   this.#affixer.reaffix();
                   this.#changeDetector.detectChanges();
                   this.#initOverlayFocusableElements();
+                  this.#announceResults(true);
                 }
               });
             } else {
@@ -1084,11 +1085,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         });
         this.#addFocusedClass();
       }
-      this.#announceResults(true);
     });
   }
 
-  #getActiveElement(): HTMLElement | undefined {
+  #getActiveElement(): HTMLElement {
     return this.#overlayFocusableElements[this.#activeElementIndex];
   }
 
