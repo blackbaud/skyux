@@ -546,8 +546,9 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         horizontalAlignment: 'left',
+        verticalAlignment: 'bottom',
         isSticky: true,
-        placement: 'below',
+        placement: 'right',
       });
 
       this.#affixer = affixer;
