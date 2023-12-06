@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "9.15.0",
+  "version": "9.16.2",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -17,6 +17,7 @@
     "format:check": "nx format:check",
     "dev:check-library-dependencies": "skyux-dev check-lib-dependencies",
     "dev:check-library-missing-peers": "skyux-dev check-lib-missing-peers --fix",
+    "dev:update-library-dependencies": "nx g @skyux-sdk/tools:update-dependencies",
     "dev:cherry-pick": "skyux-dev cherry-pick",
     "dev:commit": "npx cz",
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
@@ -99,7 +100,7 @@
     "@blackbaud/skyux-design-tokens": "0.0.28",
     "@nx/angular": "16.10.0",
     "@skyux/auth-client-factory": "1.2.0",
-    "@skyux/icons": "6.5.0",
+    "@skyux/icons": "6.6.2",
     "ag-grid-angular": "29.3.5",
     "ag-grid-community": "29.3.5",
     "autonumeric": "4.9.0",
@@ -153,7 +154,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "16.2.6",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#9.0.0-alpha.15",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#9.0.0-alpha.16",
     "@storybook/addon-a11y": "7.4.6",
     "@storybook/addon-actions": "7.4.6",
     "@storybook/addon-controls": "7.4.6",

@@ -47,7 +47,7 @@ function removeAgGridCssFiles(): Rule {
           targetDefinition?.['options']?.['styles'] &&
           Array.isArray(targetDefinition.options['styles']) &&
           targetDefinition.options['styles'].includes(
-            'node_modules/@skyux/theme/css/sky.css',
+            '@skyux/theme/css/sky.css',
           )
         ) {
           targetDefinition['options']['styles'] = (
@@ -57,11 +57,14 @@ function removeAgGridCssFiles(): Rule {
           );
           if (
             !targetDefinition.options['styles'].includes(
+              '@skyux/ag-grid/css/sky-ag-grid.css',
+            ) &&
+            !targetDefinition.options['styles'].includes(
               'node_modules/@skyux/ag-grid/css/sky-ag-grid.css',
             )
           ) {
             targetDefinition.options['styles'].push(
-              'node_modules/@skyux/ag-grid/css/sky-ag-grid.css',
+              '@skyux/ag-grid/css/sky-ag-grid.css',
             );
           }
           project.targets.set(targetName, targetDefinition);

@@ -2326,6 +2326,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -2361,6 +2362,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -2370,6 +2375,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -2406,6 +2412,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -2811,6 +2821,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -2846,6 +2857,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -2855,6 +2870,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -2891,6 +2907,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -3146,6 +3166,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -3165,11 +3186,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -3190,6 +3216,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);
@@ -3380,6 +3410,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -3399,11 +3430,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -3424,6 +3460,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);
@@ -5744,6 +5784,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5779,6 +5820,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -5788,6 +5833,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -5824,6 +5870,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -6217,6 +6267,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6252,6 +6303,10 @@ describe('Lookup component', function () {
                 'Select all items',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add items',
+              );
+
               expect(
                 getModalOnlyShowSelectedInput().getAttribute('aria-label'),
               ).toBe('Show only selected items');
@@ -6261,6 +6316,7 @@ describe('Lookup component', function () {
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
               });
@@ -6297,6 +6353,10 @@ describe('Lookup component', function () {
               );
               expect(getModalSelectAllButton().getAttribute('aria-label')).toBe(
                 'Select all people',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add people',
               );
 
               expect(
@@ -6558,6 +6618,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6577,11 +6638,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -6602,6 +6668,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);
@@ -6769,6 +6839,7 @@ describe('Lookup component', function () {
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6788,11 +6859,16 @@ describe('Lookup component', function () {
                 'Select item',
               );
 
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add item',
+              );
+
               closeModal(fixture);
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
               component.enableShowMore = true;
+              component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
               });
@@ -6813,6 +6889,10 @@ describe('Lookup component', function () {
               expect(selectButton?.textContent.trim()).toBe('Select');
               expect(selectButton?.getAttribute('aria-label')).toBe(
                 'Select person',
+              );
+
+              expect(getModalAddButton().getAttribute('aria-label')).toBe(
+                'Add person',
               );
 
               closeModal(fixture);

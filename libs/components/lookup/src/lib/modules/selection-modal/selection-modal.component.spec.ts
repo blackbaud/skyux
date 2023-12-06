@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 import {
   SkyModalConfiguration,
   SkyModalHostService,
@@ -20,6 +21,8 @@ import { SkySelectionModalSearchResult } from './types/selection-modal-search-re
 describe('Selection modal component', () => {
   const modalInstance = new MockSkyModalInstance();
   const modalHost = new MockSkyModalHostService();
+
+  let liveAnnouncerSpy: jasmine.Spy;
 
   function createSelectionModal(
     config: Partial<SkySelectionModalContext>,
@@ -56,6 +59,11 @@ describe('Selection modal component', () => {
         ],
       },
     });
+
+    liveAnnouncerSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce',
+    );
 
     return TestBed.createComponent(SkySelectionModalComponent);
   }
@@ -104,6 +112,14 @@ describe('Selection modal component', () => {
     );
   }
 
+  function getAddButton(
+    fixture: ComponentFixture<SkySelectionModalComponent>,
+  ): HTMLButtonElement | undefined {
+    return fixture.nativeElement.querySelector(
+      '.sky-lookup-show-more-modal-add',
+    );
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
@@ -118,11 +134,13 @@ describe('Selection modal component', () => {
   it('should set the title and accessibility labels using the value of the selection descriptor - single select', async () => {
     const fixture = createSelectionModal({
       selectionDescriptor: 'person',
+      showAddButton: true,
     });
     fixture.detectChanges();
     await fixture.whenStable();
 
     const selectButton = getSelectButton(fixture);
+    const addButton = getAddButton(fixture);
 
     expect(getHeader(fixture)?.textContent.trim()).toBe('Select person');
     expect(getSearchInput(fixture)?.getAttribute('aria-label')).toBe(
@@ -134,17 +152,24 @@ describe('Selection modal component', () => {
     expect(getClearAllButton(fixture)).toBeNull();
     expect(getSelectAllButton(fixture)).toBeNull();
     expect(getOnlySelectedInput(fixture)).toBeNull();
+    expect(addButton?.textContent.trim()).toBe('New');
+    expect(addButton?.getAttribute('aria-label')).toBe('Add person');
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'Showing 20 items, with 0 selected.',
+    );
   });
 
   it('should set the title and accessibility labels using the value of the selection descriptor - multi-select', async () => {
     const fixture = createSelectionModal({
       selectionDescriptor: 'people',
+      showAddButton: true,
       selectMode: 'multiple',
     });
     fixture.detectChanges();
     await fixture.whenStable();
 
     const selectButton = getSelectButton(fixture);
+    const addButton = getAddButton(fixture);
 
     expect(getHeader(fixture)?.textContent.trim()).toBe('Select people');
     expect(getSearchInput(fixture)?.getAttribute('aria-label')).toBe(
@@ -168,6 +193,13 @@ describe('Selection modal component', () => {
 
     expect(getOnlySelectedInput(fixture).getAttribute('aria-label')).toBe(
       'Show only selected people',
+    );
+
+    expect(addButton?.textContent.trim()).toBe('New');
+    expect(addButton?.getAttribute('aria-label')).toBe('Add people');
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      'Showing 20 items, with 0 selected.',
     );
   });
 });

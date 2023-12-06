@@ -28,6 +28,10 @@
           <sky-toolbar-view-actions>
             <button
               *ngIf="context.showAddButton"
+              [attr.aria-label]="
+                'skyux_lookup_show_more_add_button_aria_label'
+                  | skyLibResources : context.userConfig.selectionDescriptor
+              "
               type="button"
               class="sky-btn sky-btn-link sky-lookup-show-more-modal-add"
               (click)="addButtonClicked()"

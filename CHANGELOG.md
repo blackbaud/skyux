@@ -1,5 +1,29 @@
 # Changelog
 
+## [9.16.2](https://github.com/blackbaud/skyux/compare/9.16.1...9.16.2) (2023-12-06)
+
+
+### Bug Fixes
+
+* **components/theme:** update icon names for variants ([#1903](https://github.com/blackbaud/skyux/issues/1903)) ([c2d38a2](https://github.com/blackbaud/skyux/commit/c2d38a20d1e0dc27cfffe45510aaf4498e46b1c0))
+
+## [9.16.1](https://github.com/blackbaud/skyux/compare/9.16.0...9.16.1) (2023-12-04)
+
+
+### Bug Fixes
+
+* **components/packages:** simplify style paths ([#1894](https://github.com/blackbaud/skyux/issues/1894)) ([c028575](https://github.com/blackbaud/skyux/commit/c028575db76cee653115b865c513fee0f08692db))
+* **components/theme:** update icon variant aliases ([#1901](https://github.com/blackbaud/skyux/issues/1901)) ([275a4cc](https://github.com/blackbaud/skyux/commit/275a4cce0f60c036fa9ac9083ff1a2b3e9adebf1))
+
+## [9.16.0](https://github.com/blackbaud/skyux/compare/9.15.0...9.16.0) (2023-12-01)
+
+
+### Features
+
+* **components/lookup:** selection modal broadcasts aria status updates when selection changes ([#1886](https://github.com/blackbaud/skyux/issues/1886)) ([84da449](https://github.com/blackbaud/skyux/commit/84da449c9aa14d1aea688c45d9b915c04f06db87))
+* **components/lookup:** show more modal broadcasts aria status updates when selection changes ([#1897](https://github.com/blackbaud/skyux/issues/1897)) ([dd465ed](https://github.com/blackbaud/skyux/commit/dd465edd082251f39df123d8cbed6697accd29bb))
+* **components/theme:** update to latest icons library ([#1895](https://github.com/blackbaud/skyux/issues/1895)) ([78ac971](https://github.com/blackbaud/skyux/commit/78ac971ed9084a015a014a0f90d82f2187b15a9a))
+
 ## [9.15.0](https://github.com/blackbaud/skyux/compare/9.14.1...9.15.0) (2023-11-22)
 
 
