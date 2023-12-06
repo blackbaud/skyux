@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.16.2](https://github.com/blackbaud/skyux/compare/9.16.1...9.16.2) (2023-12-06)
+
+
+### Bug Fixes
+
+* **components/theme:** update icon names for variants ([#1903](https://github.com/blackbaud/skyux/issues/1903)) ([c2d38a2](https://github.com/blackbaud/skyux/commit/c2d38a20d1e0dc27cfffe45510aaf4498e46b1c0))
+
 ## [9.16.1](https://github.com/blackbaud/skyux/compare/9.16.0...9.16.1) (2023-12-04)
 
 
