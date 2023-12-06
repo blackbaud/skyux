@@ -669,6 +669,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     const highlightedResult = this.#getActiveElement()?.textContent;
     this.#libResourceService
       .getStrings({
+        noResults: 'skyux_autocomplete_no_results',
         singleCountResult: 'skyux_autocomplete_one_result',
         multipleCountResults: [
           'skyux_autocomplete_multiple_results',
@@ -693,7 +694,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           }
           announcementString += localizedStrings.highlightedResult;
           this.#liveAnnounceService.announce(announcementString);
+        } else if (this.searchResultsCount === 0) {
+          this.#liveAnnounceService.announce(localizedStrings.noResults);
         }
+        this.#liveAnnounceService.clear();
       });
   }
 
@@ -808,7 +812,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
                   this.#affixer.reaffix();
                   this.#changeDetector.detectChanges();
                   this.#initOverlayFocusableElements();
-                  this.#announceResults(true);
                 }
               });
             } else {
@@ -1084,6 +1087,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#adapterService.setTabIndex(el, -1);
         });
         this.#addFocusedClass();
+        this.#announceResults(true);
       }
     });
   }

@@ -12,7 +12,7 @@
     "message": "No matches found"
   },
   "skyux_autocomplete_one_result": {
-    "_description": "Scren reader only text for singular available result",
+    "_description": "Screen reader only text for singular available result",
     "message": "One result available. "
   },
   "skyux_autocomplete_results": {
