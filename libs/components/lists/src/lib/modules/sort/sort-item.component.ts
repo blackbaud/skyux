@@ -39,7 +39,7 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   public itemSelect: EventEmitter<any> = new EventEmitter(); // TODO: Change to `EventEmitter<void>` in a breaking change.
 
   public isSelected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
+    false,
   );
 
   #subscription: Subscription | undefined;
@@ -61,7 +61,7 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
       (itemId: string) => {
         this.isSelected.next(itemId === this.#sortItemId);
         this.#detector.detectChanges();
-      }
+      },
     );
 
     if (this.active) {

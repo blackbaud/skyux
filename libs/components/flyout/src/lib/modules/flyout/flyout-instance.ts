@@ -118,7 +118,7 @@ export class SkyFlyoutInstance<T> {
       console.warn(
         `The SkyFlyoutInstance was created without a reference to the flyout's child component instance.
         The instance will not have a reference to this child component.
-        Support for creating an instance without this reference will be removed in a future breaking change.`
+        Support for creating an instance without this reference will be removed in a future breaking change.`,
       );
     }
 

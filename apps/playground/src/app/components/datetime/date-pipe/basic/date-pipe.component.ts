@@ -45,7 +45,7 @@ export class DatePipeComponent implements OnInit {
     const result = this.datePipe.transform(
       new Date('01/01/2019'),
       'short',
-      'en-US'
+      'en-US',
     );
     console.log('Result from calling pipe directly:', result);
   }

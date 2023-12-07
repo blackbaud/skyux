@@ -18,7 +18,7 @@ export class TimepickerComponent {
     customFormat: 'h:mm A',
     local: '12:30 AM',
     iso8601: new Date(
-      'Mon Jul 31 2023 00:30:00 GMT-0400 (Eastern Daylight Time)'
+      'Mon Jul 31 2023 00:30:00 GMT-0400 (Eastern Daylight Time)',
     ),
   };
 }

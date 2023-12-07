@@ -1,5 +1,5 @@
 <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
-  <sky-ag-grid-wrapper *ngIf="isActive && gridInitialized">
+  <sky-ag-grid-wrapper *ngIf="isActive">
     <ag-grid-angular [gridOptions]="gridOptions" [rowData]="displayedItems" />
   </sky-ag-grid-wrapper>
 </sky-data-view>

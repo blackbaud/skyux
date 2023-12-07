@@ -7,13 +7,13 @@ import { createTestApp, createTestLibrary } from '../../../testing/scaffold';
 describe('ag-grid-29.schematic', () => {
   const runner = new SchematicTestRunner(
     'schematics',
-    require.resolve('../../migration-collection.json')
+    require.resolve('../../migration-collection.json'),
   );
 
   async function setupTest(
     packageJson: { dependencies?: any } = {},
     build: { options?: any } = {},
-    appOrLib: 'application' | 'library' = 'application'
+    appOrLib: 'application' | 'library' = 'application',
   ) {
     let tree: Tree;
     if (appOrLib === 'application') {
@@ -32,7 +32,7 @@ describe('ag-grid-29.schematic', () => {
       const angularJsonFile = new JSONFile(tree, 'angular.json');
       angularJsonFile.modify(
         ['projects', 'test', 'architect', 'build', 'options'],
-        build['options']
+        build['options'],
       );
     }
     return {
@@ -53,11 +53,11 @@ describe('ag-grid-29.schematic', () => {
       {
         options: {
           styles: [
-            'node_modules/@skyux/theme/css/sky.css',
+            '@skyux/theme/css/sky.css',
             'ag-grid-community/dist/styles/ag-theme-alpine.css',
           ],
         },
-      }
+      },
     );
     const updatedTree = await runner.runSchematic('ag-grid-29', {}, tree);
     const workspace = new JSONFile(updatedTree, '/angular.json');
@@ -69,10 +69,10 @@ describe('ag-grid-29.schematic', () => {
         'build',
         'options',
         'styles',
-      ])
+      ]),
     ).toEqual([
-      'node_modules/@skyux/theme/css/sky.css',
-      'node_modules/@skyux/ag-grid/css/sky-ag-grid.css',
+      '@skyux/theme/css/sky.css',
+      '@skyux/ag-grid/css/sky-ag-grid.css',
     ]);
   });
 
@@ -98,14 +98,14 @@ describe('ag-grid-29.schematic', () => {
         },
       },
       {},
-      'library'
+      'library',
     );
     const angularJson = new JSONFile(tree, '/angular.json');
     const beforeConfig = angularJson.get(['projects', 'test', 'architect']);
     const updatedTree = await runner.runSchematic('ag-grid-29', {}, tree);
     const updatedAngularJson = new JSONFile(updatedTree, '/angular.json');
     expect(updatedAngularJson.get(['projects', 'test', 'architect'])).toEqual(
-      beforeConfig
+      beforeConfig,
     );
   });
 
@@ -125,11 +125,11 @@ describe('ag-grid-29.schematic', () => {
               return this.#row.selectThisNode(selected);
             }
           }
-        }`
+        }`,
     );
     tree.create(
       'src/app/no-change.component.ts',
-      `export class NoChangeComponent {}`
+      `export class NoChangeComponent {}`,
     );
     const updatedTree = await runner.runSchematic('ag-grid-29', {}, tree);
     expect(updatedTree.readText('src/app/app.component.ts'))
@@ -164,11 +164,11 @@ describe('ag-grid-29.schematic', () => {
             };
             row.addEventListener(RowNode.EVENT_CELL_CHANGED, () => undefined)
           }
-        }`
+        }`,
     );
     tree.create(
       'src/app/no-change.component.ts',
-      `export class NoChangeComponent {}`
+      `export class NoChangeComponent {}`,
     );
 
     // The spec says sourceRoot is optional, so testing a case without it.

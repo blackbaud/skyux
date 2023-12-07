@@ -17,8 +17,7 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { SkyLogService } from '@skyux/core';
-import { SkyScrollableHostService } from '@skyux/core';
+import { SkyLogService, SkyScrollableHostService } from '@skyux/core';
 
 import { DragulaService } from 'ng2-dragula';
 import { Subject } from 'rxjs';
@@ -334,12 +333,12 @@ export class SkyRepeaterComponent
               maxSpeed: 10,
               scrollWhenOutside: true,
               autoScroll: () => true,
-            }
+            },
           );
 
           this.#renderer.addClass(args.el, 'sky-repeater-item-dragging');
           draggedItemIndex = this.#adapterService.getRepeaterItemIndex(
-            args.el as HTMLElement
+            args.el as HTMLElement,
           );
         }
       });
@@ -354,7 +353,7 @@ export class SkyRepeaterComponent
 
           this.#renderer.removeClass(args.el, 'sky-repeater-item-dragging');
           const newItemIndex = this.#adapterService.getRepeaterItemIndex(
-            args.el as HTMLElement
+            args.el as HTMLElement,
           );
 
           /* sanity check */
@@ -436,7 +435,7 @@ export class SkyRepeaterComponent
     ]
       .map(
         (selector) =>
-          `sky-repeater-item-title ${selector}:not([hidden]), sky-repeater-item-content ${selector}:not([hidden])`
+          `sky-repeater-item-title ${selector}:not([hidden]), sky-repeater-item-content ${selector}:not([hidden])`,
       )
       .concat([`skyux-dropdown`])
       .join(', ');
@@ -446,7 +445,7 @@ export class SkyRepeaterComponent
       this.items?.some((item) => item.isCollapsible) ||
       this.items?.some((item) => !!item.selectable) ||
       !!(this.#elementRef.nativeElement as HTMLElement).querySelector(
-        interactionSelector
+        interactionSelector,
       );
 
     if (hasInteraction) {
@@ -474,7 +473,7 @@ export class SkyRepeaterComponent
   #validateTags(): void {
     if (this.reorderable && !this.#everyItemHasTag()) {
       console.warn(
-        'Please supply tag properties for each repeater item when reordering functionality is enabled.'
+        'Please supply tag properties for each repeater item when reordering functionality is enabled.',
       );
     }
   }

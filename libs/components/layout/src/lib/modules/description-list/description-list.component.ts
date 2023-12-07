@@ -84,7 +84,7 @@ export class SkyDescriptionListComponent
   constructor(
     adapterService: SkyDescriptionListAdapterService,
     changeDetector: ChangeDetectorRef,
-    descriptionListService: SkyDescriptionListService
+    descriptionListService: SkyDescriptionListService,
   ) {
     this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;

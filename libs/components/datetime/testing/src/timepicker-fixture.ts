@@ -16,7 +16,7 @@ export class SkyTimepickerFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-timepicker'
+      'sky-timepicker',
     );
   }
 
@@ -58,7 +58,7 @@ export class SkyTimepickerFixture {
    */
   public get isValid(): boolean {
     return !this.#getTimepickerInputEl().nativeElement.classList.contains(
-      'ng-invalid'
+      'ng-invalid',
     );
   }
 

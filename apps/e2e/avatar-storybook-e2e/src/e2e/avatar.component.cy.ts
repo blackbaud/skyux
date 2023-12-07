@@ -5,8 +5,8 @@ describe('avatar-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=avatarcomponent-avatar--avatar`
-        )
+          `/iframe.html?globals=theme:${theme}&id=avatarcomponent-avatar--avatar`,
+        ),
       );
       it('should render the component', () => {
         cy.get('#screenshot-wrapper')

@@ -34,6 +34,7 @@ export class DataViewRepeaterComponent implements OnInit {
     name: 'Repeater View',
     icon: 'list',
     searchEnabled: true,
+    searchHighlightEnabled: true,
     filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
     onClearAllClick: this.clearAll.bind(this),
@@ -42,7 +43,7 @@ export class DataViewRepeaterComponent implements OnInit {
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService
+    private dataManagerService: SkyDataManagerService,
   ) {}
 
   public ngOnInit(): void {
@@ -72,6 +73,14 @@ export class DataViewRepeaterComponent implements OnInit {
     if (this.dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
+
+    this.dataManagerService.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.viewId,
+    );
 
     this.changeDetector.detectChanges();
   }

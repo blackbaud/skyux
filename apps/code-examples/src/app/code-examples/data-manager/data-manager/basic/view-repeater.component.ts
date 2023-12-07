@@ -45,6 +45,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
     name: 'Repeater View',
     icon: 'list',
     searchEnabled: true,
+    sortEnabled: true,
     filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
     onClearAllClick: () => this.#clearAll(),
@@ -112,6 +113,14 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
     if (this.#dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
+
+    this.#dataManagerSvc.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.viewId,
+    );
 
     this.#changeDetector.markForCheck();
   }

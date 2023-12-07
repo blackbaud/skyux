@@ -9,7 +9,7 @@ import path from 'path';
 export async function runCommand(
   command: string,
   args: string[] = [],
-  spawnOptions: SpawnOptions = {}
+  spawnOptions: SpawnOptions = {},
 ): Promise<string | void> {
   spawnOptions = {
     ...{

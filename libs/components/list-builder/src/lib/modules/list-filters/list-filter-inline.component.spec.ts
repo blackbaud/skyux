@@ -54,13 +54,13 @@ describe('List inline filters', () => {
 
   function getFilterButton() {
     return nativeElement.querySelector(
-      '.sky-list-toolbar-container .sky-filter-btn'
+      '.sky-list-toolbar-container .sky-filter-btn',
     );
   }
 
   function getInlineFilters() {
     return nativeElement.querySelectorAll(
-      '.sky-list-toolbar-container .sky-filter-inline-item'
+      '.sky-list-toolbar-container .sky-filter-inline-item',
     );
   }
 
@@ -98,13 +98,13 @@ describe('List inline filters', () => {
 
       expect(filterButton.getAttribute('aria-controls')).toBeTruthy();
       const inlineFilter = document.querySelector(
-        `#${filterButton.getAttribute('aria-controls')}`
+        `#${filterButton.getAttribute('aria-controls')}`,
       );
 
       expect(filterButton.getAttribute('aria-controls')).toBe(inlineFilter.id);
       expect(filterButton.getAttribute('aria-expanded')).toBe('true');
       expect(inlineFilter.getAttribute('aria-labelledby')).toBe(
-        filterButton.id
+        filterButton.id,
       );
 
       filterButton.click();
@@ -132,7 +132,7 @@ describe('List inline filters', () => {
       tick();
       fixture.detectChanges();
       const selectEl = nativeElement.querySelector(
-        '#sky-demo-select-type'
+        '#sky-demo-select-type',
       ) as HTMLSelectElement;
       selectEl.value = 'berry';
       SkyAppTestUtility.fireDomEvent(selectEl, 'change');
@@ -164,7 +164,7 @@ describe('List inline filters', () => {
       tick();
       fixture.detectChanges();
       const selectEl = nativeElement.querySelector(
-        '#sky-demo-select-type'
+        '#sky-demo-select-type',
       ) as HTMLSelectElement;
       selectEl.value = 'berry';
       SkyAppTestUtility.fireDomEvent(selectEl, 'change');

@@ -8,8 +8,13 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import { SkyIdService, SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyIdService,
+  SkyLiveAnnouncerService,
+  SkyViewkeeperModule,
+} from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
@@ -95,6 +100,8 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
   protected readonly modalInstance = inject(SkyModalInstance);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #idSvc = inject(SkyIdService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   constructor() {
     this.id = this.#idSvc.generateId();
@@ -214,7 +221,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       (itemData, index) => ({
         index,
         itemData,
-      })
+      }),
     ).sort((a, b) => {
       return this.items.indexOf(a.itemData) < this.items.indexOf(b.itemData)
         ? -1
@@ -225,13 +232,23 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
   }
 
   public updateDisplayedItems(): void {
+    const selectedItems = this.items.filter((item) =>
+      this.selectedIdMap.has(item[this.context.idProperty]),
+    );
+
     if (this.onlyShowSelected) {
-      this.displayedItems = this.items.filter((item) =>
-        this.selectedIdMap.has(item[this.context.idProperty])
-      );
+      this.displayedItems = selectedItems;
     } else {
       this.displayedItems = this.items;
     }
+
+    setTimeout(() => {
+      this.#announceSelectionState(
+        selectedItems.length,
+        this.displayedItems.length,
+      );
+      this.#changeDetector.markForCheck();
+    });
   }
 
   #loadSearchResults(): void {
@@ -252,12 +269,12 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       this.context.initialValue.map((item) => [
         (item as Record<string, unknown>)[this.context.idProperty],
         item,
-      ])
+      ]),
     );
   }
 
   #performSearch(
-    processResults: (result: SkySelectionModalSearchResult) => void
+    processResults: (result: SkySelectionModalSearchResult) => void,
   ): void {
     this.#currentSearchSub = this.context
       .searchAsync({
@@ -287,5 +304,21 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
       this.isLoadingMore = false;
       this.isSearching = false;
     }
+  }
+
+  #announceSelectionState(
+    selectedItemCount: number,
+    displayedItemCount: number,
+  ): void {
+    this.#resourcesSvc
+      .getString(
+        'skyux_lookup_show_more_displayed_items_updated',
+        selectedItemCount.toString(),
+        displayedItemCount.toString(),
+      )
+      .pipe(take(1))
+      .subscribe((resourceString) => {
+        this.#liveAnnouncerSvc.announce(resourceString);
+      });
   }
 }

@@ -5,8 +5,8 @@ describe('layout-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=boxcomponent-box--box&args=showHelp:false;`
-        )
+          `/iframe.html?globals=theme:${theme}&id=boxcomponent-box--box&args=showHelp:false;`,
+        ),
       );
       it('should render the component', () => {
         cy.get('#ready')

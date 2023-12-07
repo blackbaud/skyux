@@ -27,7 +27,7 @@ const routes: Routes = [
     path: 'data-grid/basic',
     loadComponent: () =>
       import('../code-examples/ag-grid/data-grid/basic/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
   },
   {
@@ -62,8 +62,15 @@ const routes: Routes = [
     path: 'data-grid/paging',
     loadComponent: () =>
       import('../code-examples/ag-grid/data-grid/paging/demo.component').then(
-        (c) => c.DemoComponent
+        (c) => c.DemoComponent,
       ),
+  },
+  {
+    path: 'data-grid/template-ref-column',
+    loadComponent: () =>
+      import(
+        '../code-examples/ag-grid/data-grid/template-ref-column/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'data-grid/top-scroll',

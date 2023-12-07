@@ -20,7 +20,7 @@ export class HrefResolverFixtureService implements SkyHrefResolver {
             url: 'https://success' + path,
             userHasAccess: true,
           }),
-          500
+          500,
         );
       });
     } else if (url.startsWith('1bb-nav://')) {

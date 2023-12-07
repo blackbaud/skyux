@@ -16,7 +16,7 @@ function getPackageJson(tree: Tree): PackageJson {
 function hardenPackageVersion(): Rule {
   return async (tree) => {
     const thisPackageJson = await readJson(
-      resolve(__dirname, '../../../package.json')
+      resolve(__dirname, '../../../package.json'),
     );
 
     const packageJson = getPackageJson(tree);
@@ -35,7 +35,7 @@ export default function ngAdd(): Rule {
       throw new Error(
         "The package '@angular-eslint/schematics' is not installed. " +
           "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
-          'See: https://github.com/angular-eslint/angular-eslint#quick-start'
+          'See: https://github.com/angular-eslint/angular-eslint#quick-start',
       );
     }
 

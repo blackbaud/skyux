@@ -63,7 +63,7 @@ describe('Skip link adapter service', () => {
 
     expect(scrollSpy).toHaveBeenCalledWith(
       0,
-      TEST_EL_TOP - BODY_MARGIN_TOP - ADAPTER_SVC_PADDING
+      TEST_EL_TOP - BODY_MARGIN_TOP - ADAPTER_SVC_PADDING,
     );
   });
 });

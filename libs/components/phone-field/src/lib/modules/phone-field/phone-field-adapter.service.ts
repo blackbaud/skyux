@@ -28,19 +28,19 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
 
   public setElementDisabledState(
     elementRef: ElementRef,
-    disabled: boolean
+    disabled: boolean,
   ): void {
     this.#renderer.setProperty(elementRef.nativeElement, 'disabled', disabled);
   }
 
   public setElementPlaceholder(
     elementRef: ElementRef,
-    placeholder: string
+    placeholder: string,
   ): void {
     this.#renderer.setAttribute(
       elementRef.nativeElement,
       'placeholder',
-      placeholder
+      placeholder,
     );
   }
 
@@ -59,7 +59,7 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
 
   public focusPhoneInput(el: Element): void {
     const input: HTMLElement | null = el.querySelector(
-      '.sky-phone-field-container input'
+      '.sky-phone-field-container input',
     );
     input?.focus();
   }

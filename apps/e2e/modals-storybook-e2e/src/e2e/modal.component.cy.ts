@@ -5,8 +5,8 @@ describe('modals-storybook', () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=modalcomponent-modal--modal`
-        )
+          `/iframe.html?globals=theme:${theme}&id=modalcomponent-modal--modal`,
+        ),
       );
 
       for (const modalType of [
@@ -39,7 +39,7 @@ describe('modals-storybook', () => {
                 `modalcomponent-modal--${modalType}-modal-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                }
+                },
               );
           } else {
             cy.get('.sky-modal')
@@ -51,7 +51,7 @@ describe('modals-storybook', () => {
                 `modalcomponent-modal--${modalType}-modal-${theme}`,
                 {
                   widths: E2eVariations.DISPLAY_WIDTHS,
-                }
+                },
               );
           }
           cy.get('.sky-btn-close')
@@ -78,13 +78,13 @@ describe('modals-storybook', () => {
               {
                 disableTimersAndAnimations: true,
                 scale: false,
-              }
+              },
             )
             .percySnapshot(
               `modalcomponent-modal--${modalType}-modal-${theme}-mobile`,
               {
                 widths: E2eVariations.MOBILE_WIDTHS,
-              }
+              },
             )
             .get('.sky-btn-close')
             .should('exist')

@@ -13,7 +13,7 @@ export class SkyActionButtonFixture {
    */
   public get headerText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.#debugEl.query(By.css('.sky-action-button-header'))
+      this.#debugEl.query(By.css('.sky-action-button-header')),
     );
   }
 
@@ -22,7 +22,7 @@ export class SkyActionButtonFixture {
    */
   public get detailsText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.#debugEl.query(By.css('sky-action-button-details'))
+      this.#debugEl.query(By.css('sky-action-button-details')),
     );
   }
 
@@ -50,7 +50,7 @@ export class SkyActionButtonFixture {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
-      'sky-action-button'
+      'sky-action-button',
     );
   }
 

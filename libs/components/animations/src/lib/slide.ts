@@ -16,7 +16,7 @@ export const skyAnimationSlide: AnimationTriggerMetadata = trigger(
         overflow: 'visible',
         visibility: 'visible',
         height: '*',
-      })
+      }),
     ),
     state(
       'up',
@@ -24,8 +24,8 @@ export const skyAnimationSlide: AnimationTriggerMetadata = trigger(
         overflow: 'hidden',
         visibility: 'hidden',
         height: 0,
-      })
+      }),
     ),
     transition('up <=> down', animate('150ms ease-in')),
-  ]
+  ],
 );

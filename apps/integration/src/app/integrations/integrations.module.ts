@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'modal-viewkeeper',
     loadChildren: () =>
       import('./modal-viewkept-toolbars/modal-viewkept-toolbars.module').then(
-        (m) => m.ModalViewkeptToolbarsModule
+        (m) => m.ModalViewkeptToolbarsModule,
       ),
   },
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'viewkeeper-tabset',
     loadChildren: () =>
       import('./viewkeeper-tabset/viewkeeper-tabset.module').then(
-        (m) => m.ViewkeeperTabsetModule
+        (m) => m.ViewkeeperTabsetModule,
       ),
   },
   {
@@ -37,21 +37,21 @@ const routes: Routes = [
     path: 'toolbar-standard-items',
     loadChildren: () =>
       import('./toolbar-standard-items/toolbar-standard-items.module').then(
-        (m) => m.ToolbarStandardItemsModule
+        (m) => m.ToolbarStandardItemsModule,
       ),
   },
   {
     path: 'field-heights',
     loadChildren: () =>
       import('./field-heights/field-heights.module').then(
-        (m) => m.FieldHeightsModule
+        (m) => m.FieldHeightsModule,
       ),
   },
   {
     path: 'lookup-in-modal',
     loadChildren: () =>
       import('./lookup-in-modal/lookup-in-modal.module').then(
-        (m) => m.LookupInModalModule
+        (m) => m.LookupInModalModule,
       ),
   },
 ];

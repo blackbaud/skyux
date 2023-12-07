@@ -5,8 +5,8 @@ describe(`pages-storybook`, () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=actionhubcomponent-actionhub--action-hub`
-        )
+          `/iframe.html?globals=theme:${theme}&id=actionhubcomponent-actionhub--action-hub`,
+        ),
       );
       it('should render the component', () => {
         cy.get('app-action-hub')

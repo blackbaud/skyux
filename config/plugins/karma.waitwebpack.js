@@ -5,7 +5,7 @@ function WebpackCompilerEventsPlugin(options) {
 WebpackCompilerEventsPlugin.prototype.apply = function (compiler) {
   compiler.hooks.afterDone.tap(
     'webpack-compiler-events-plugin',
-    this.options.afterDone
+    this.options.afterDone,
   );
 };
 
@@ -21,7 +21,7 @@ function waitWebpackFactory(config) {
             resolve();
           }
         },
-      })
+      }),
     );
   });
 }

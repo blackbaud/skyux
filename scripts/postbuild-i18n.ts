@@ -17,19 +17,19 @@ async function buildSchematics() {
   // Copy collection.json.
   fs.copySync(
     path.join(LIB_PATH, 'schematics/collection.json'),
-    path.join(CWD, 'dist/libs/components/i18n/schematics/collection.json')
+    path.join(CWD, 'dist/libs/components/i18n/schematics/collection.json'),
   );
 
   // Copy schemas.
   fs.copySync(
     path.join(
       LIB_PATH,
-      'schematics/ng-generate/lib-resources-module/schema.json'
+      'schematics/ng-generate/lib-resources-module/schema.json',
     ),
     path.join(
       CWD,
-      'dist/libs/components/i18n/schematics/ng-generate/lib-resources-module/schema.json'
-    )
+      'dist/libs/components/i18n/schematics/ng-generate/lib-resources-module/schema.json',
+    ),
   );
 
   // Copy template files.
@@ -37,8 +37,8 @@ async function buildSchematics() {
     path.join(LIB_PATH, 'schematics/ng-generate/lib-resources-module/files'),
     path.join(
       CWD,
-      'dist/libs/components/i18n/schematics/ng-generate/lib-resources-module/files'
-    )
+      'dist/libs/components/i18n/schematics/ng-generate/lib-resources-module/files',
+    ),
   );
 
   console.log('Done.');

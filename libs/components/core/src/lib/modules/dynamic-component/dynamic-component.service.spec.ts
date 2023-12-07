@@ -32,10 +32,10 @@ describe('Dynamic component service', () => {
     reference?: HTMLElement,
     providers?: StaticProvider[],
     injector = TestBed.inject(EnvironmentInjector),
-    viewRef?: ViewContainerRef
+    viewRef?: ViewContainerRef,
   ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.inject(
-      SkyDynamicComponentService
+      SkyDynamicComponentService,
     );
 
     const cmpRef: ComponentRef<DynamicComponentTestComponent> =
@@ -55,10 +55,10 @@ describe('Dynamic component service', () => {
   }
 
   function removeTestComponent(
-    refToRemove?: ComponentRef<DynamicComponentTestComponent>
+    refToRemove?: ComponentRef<DynamicComponentTestComponent>,
   ): ComponentRef<DynamicComponentTestComponent> | undefined {
     const svc: SkyDynamicComponentService = TestBed.inject(
-      SkyDynamicComponentService
+      SkyDynamicComponentService,
     );
 
     svc.removeComponent(refToRemove);
@@ -86,7 +86,7 @@ describe('Dynamic component service', () => {
             path: 'lazy-loaded-test',
             loadChildren: () =>
               import('./fixtures/lazy-loaded-test.module').then(
-                (m) => m.LazyLoadedTestModule
+                (m) => m.LazyLoadedTestModule,
               ),
           },
         ]),
@@ -124,7 +124,7 @@ describe('Dynamic component service', () => {
 
   it('should allow components to be created in the bottom of another element', () => {
     const referenceRef = createTestComponent(
-      SkyDynamicComponentLocation.BodyTop
+      SkyDynamicComponentLocation.BodyTop,
     );
     const referenceEl = referenceRef.location.nativeElement;
 
@@ -135,7 +135,7 @@ describe('Dynamic component service', () => {
 
   it('should allow components to be created in the top of another element', () => {
     const referenceRef = createTestComponent(
-      SkyDynamicComponentLocation.BodyTop
+      SkyDynamicComponentLocation.BodyTop,
     );
     const referenceEl = referenceRef.location.nativeElement;
 
@@ -146,7 +146,7 @@ describe('Dynamic component service', () => {
 
   it('should allow components to be created with the ViewContainerRef of another element', () => {
     const referenceRef = createTestComponent(
-      SkyDynamicComponentLocation.BodyTop
+      SkyDynamicComponentLocation.BodyTop,
     );
     const referenceViewRef = referenceRef.instance.content;
 
@@ -155,17 +155,17 @@ describe('Dynamic component service', () => {
       undefined,
       undefined,
       undefined,
-      referenceViewRef
+      referenceViewRef,
     );
 
     expect(referenceRef.location.nativeElement.children[2]).toEqual(
-      getComponentEl(1)
+      getComponentEl(1),
     );
   });
 
   it('should allow components to be created before another element', () => {
     const referenceRef = createTestComponent(
-      SkyDynamicComponentLocation.BodyTop
+      SkyDynamicComponentLocation.BodyTop,
     );
     const referenceEl = referenceRef.location.nativeElement;
 
@@ -205,14 +205,14 @@ describe('Dynamic component service', () => {
 
     expect(document.body.lastChild).toBe(el);
     expect(el.querySelector('.component-test')).toHaveText(
-      'Hello world My name is Pat.'
+      'Hello world My name is Pat.',
     );
   });
 
   it('should use a parent injector if supplied', () => {
     const injector = createEnvironmentInjector(
       [{ provide: 'greeting', useValue: 'My name is Pat.' }],
-      TestBed.inject(EnvironmentInjector)
+      TestBed.inject(EnvironmentInjector),
     );
     createTestComponent(undefined, undefined, undefined, injector);
 
@@ -220,7 +220,7 @@ describe('Dynamic component service', () => {
 
     expect(document.body.lastChild).toBe(el);
     expect(el.querySelector('.component-test')).toHaveText(
-      'Hello world My name is Pat.'
+      'Hello world My name is Pat.',
     );
   });
 
@@ -228,10 +228,10 @@ describe('Dynamic component service', () => {
     expect(() =>
       createTestComponent(
         SkyDynamicComponentLocation.BeforeElement,
-        undefined // <-- Intentionally do not provide a reference element.
-      )
+        undefined, // <-- Intentionally do not provide a reference element.
+      ),
     ).toThrowError(
-      '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.BeforeElement` because a reference element was not provided.'
+      '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.BeforeElement` because a reference element was not provided.',
     );
   });
 
@@ -239,10 +239,10 @@ describe('Dynamic component service', () => {
     expect(() =>
       createTestComponent(
         SkyDynamicComponentLocation.ElementTop,
-        undefined // <-- Intentionally do not provide a reference element.
-      )
+        undefined, // <-- Intentionally do not provide a reference element.
+      ),
     ).toThrowError(
-      '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.ElementTop` because a reference element was not provided.'
+      '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.ElementTop` because a reference element was not provided.',
     );
   });
 
@@ -263,7 +263,7 @@ describe('Dynamic component service', () => {
     fixture.detectChanges();
 
     expect(
-      (document.body.lastChild as HTMLElement).querySelector('.component-test')
+      (document.body.lastChild as HTMLElement).querySelector('.component-test'),
     ).toHaveText('I am lazy.'); // <-- provided by the lazy-loaded module
   });
 });

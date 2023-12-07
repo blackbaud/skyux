@@ -103,7 +103,7 @@ describe('Text editor', () => {
 
   function checkboxExecCommandTest(
     checkboxInputElement: HTMLElement,
-    expectedCommand: string
+    expectedCommand: string,
   ): void {
     fixture.detectChanges();
     tick();
@@ -121,14 +121,14 @@ describe('Text editor', () => {
     expect(iframeDocument.execCommand).toHaveBeenCalledWith(
       expectedCommand,
       jasmine.anything(),
-      jasmine.anything()
+      jasmine.anything(),
     );
   }
 
   function buttonExecCommandTest(
     buttonElement: HTMLButtonElement,
     expectedCommand: string,
-    expectedValue = ''
+    expectedValue = '',
   ): void {
     fixture.detectChanges();
     tick();
@@ -146,7 +146,7 @@ describe('Text editor', () => {
     expect(iframeDocument.execCommand).toHaveBeenCalledOnceWith(
       expectedCommand,
       jasmine.anything(),
-      expectedValue
+      expectedValue,
     );
   }
 
@@ -161,7 +161,7 @@ describe('Text editor', () => {
       fixture.nativeElement.querySelector(className);
     expect(dropdown).toBeTruthy();
     const dropdownButton: HTMLButtonElement | null = dropdown.querySelector(
-      '.sky-dropdown-button'
+      '.sky-dropdown-button',
     );
     expect(dropdownButton).toBeTruthy();
     SkyAppTestUtility.fireDomEvent(dropdownButton, 'click');
@@ -187,7 +187,7 @@ describe('Text editor', () => {
 
   function getDropdownItems(): NodeListOf<Element> {
     return getDropdownMenuElement()?.querySelectorAll(
-      '.sky-dropdown-item'
+      '.sky-dropdown-item',
     ) as NodeListOf<Element>;
   }
 
@@ -195,7 +195,7 @@ describe('Text editor', () => {
     dropdownElementClassName: string,
     optionIndex: number,
     expectedCommand: string,
-    expectedValue = ''
+    expectedValue = '',
   ): void {
     fixture.detectChanges();
     tick();
@@ -208,7 +208,7 @@ describe('Text editor', () => {
     openDropdown(dropdownElementClassName);
 
     const optionButtons = document.querySelectorAll(
-      '.sky-dropdown-item button'
+      '.sky-dropdown-item button',
     );
     SkyAppTestUtility.fireDomEvent(optionButtons[optionIndex], 'click');
     fixture.detectChanges();
@@ -218,7 +218,7 @@ describe('Text editor', () => {
     expect(iframeDocument.execCommand).toHaveBeenCalledWith(
       expectedCommand,
       jasmine.anything(),
-      expectedValue
+      expectedValue,
     );
   }
 
@@ -259,7 +259,7 @@ describe('Text editor', () => {
   function selectRangeInsideElement(
     selector = '',
     rangeStart: number,
-    rangeEnd: number
+    rangeEnd: number,
   ): void {
     const iframe = fixture.nativeElement.querySelector('iframe');
     const documentEl = iframe.contentDocument;
@@ -286,7 +286,7 @@ describe('Text editor', () => {
 
     iframeDocument.body.focus();
     const mergeFieldOption = document.querySelectorAll(
-      '.sky-dropdown-item button'
+      '.sky-dropdown-item button',
     )[index];
     SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
     fixture.detectChanges();
@@ -294,61 +294,61 @@ describe('Text editor', () => {
 
   function getFontPicker(): HTMLElement {
     return fixture.nativeElement.querySelector(
-      '.sky-text-editor-toolbar .sky-text-editor-font-picker'
+      '.sky-text-editor-toolbar .sky-text-editor-font-picker',
     );
   }
 
   function getFontSizePicker(): HTMLElement {
     return fixture.nativeElement.querySelector(
-      '.sky-text-editor-toolbar .sky-text-editor-font-size-picker'
+      '.sky-text-editor-toolbar .sky-text-editor-font-size-picker',
     );
   }
 
   function getFontStylePicker(): HTMLElement {
     return fixture.nativeElement.querySelector(
-      '.sky-text-editor-toolbar .sky-text-editor-font-style-picker'
+      '.sky-text-editor-toolbar .sky-text-editor-font-style-picker',
     );
   }
 
   function getFontColorPicker(): HTMLElement {
     return fixture.nativeElement.querySelector(
-      '.sky-text-editor-toolbar .sky-text-editor-font-color-picker'
+      '.sky-text-editor-toolbar .sky-text-editor-font-color-picker',
     );
   }
 
   function getListButtons(): NodeListOf<HTMLButtonElement> {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action-list button'
+      '.sky-text-editor-toolbar-action-list button',
     );
   }
 
   function getFontStyleCheckboxes(): NodeListOf<HTMLInputElement> {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action-font-style input'
+      '.sky-text-editor-toolbar-action-font-style input',
     );
   }
 
   function getAlignmentButtons(): NodeListOf<HTMLButtonElement> {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action-alignment button'
+      '.sky-text-editor-toolbar-action-alignment button',
     );
   }
 
   function getIndentationButtons(): NodeListOf<HTMLButtonElement> {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action-indentation button'
+      '.sky-text-editor-toolbar-action-indentation button',
     );
   }
 
   function getUndoRedoButtons(): NodeListOf<HTMLButtonElement> {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action-undo-redo button'
+      '.sky-text-editor-toolbar-action-undo-redo button',
     );
   }
 
   function getLinkButton(): HTMLElement {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action-link button'
+      '.sky-text-editor-toolbar-action-link button',
     )[0];
   }
 
@@ -361,7 +361,7 @@ describe('Text editor', () => {
 
   function getUnlinkButton(): HTMLElement {
     return fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action-link button'
+      '.sky-text-editor-toolbar-action-link button',
     )[1];
   }
 
@@ -400,7 +400,7 @@ describe('Text editor', () => {
 
   function getUrlModalSaveButton(): HTMLButtonElement {
     return document.querySelector(
-      '.sky-modal-footer-container .sky-btn-primary'
+      '.sky-modal-footer-container .sky-btn-primary',
     ) as HTMLButtonElement;
   }
 
@@ -413,14 +413,14 @@ describe('Text editor', () => {
 
   function validateIframeDocumentAttribute(
     name: string,
-    expectedValue: string
+    expectedValue: string,
   ): void {
     expect(iframeDocument.body.getAttribute(name)).toBe(expectedValue);
   }
 
   function validateMenus(expected: string[]): void {
     const menus = fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-menu'
+      '.sky-text-editor-menu',
     );
 
     expect(menus.length).toBe(expected.length);
@@ -433,7 +433,7 @@ describe('Text editor', () => {
   function validateMergeFields(expected: string[]): void {
     if (expected.length === 0) {
       expect(
-        document.querySelector('.sky-text-editor-menu-merge-field')
+        document.querySelector('.sky-text-editor-menu-merge-field'),
       ).toBeFalsy();
     } else {
       openDropdown('.sky-text-editor-menu-merge-field');
@@ -449,7 +449,7 @@ describe('Text editor', () => {
 
   function validateToolbarActions(expected: string[]): void {
     const toolbarActions = fixture.nativeElement.querySelectorAll(
-      '.sky-text-editor-toolbar-action'
+      '.sky-text-editor-toolbar-action',
     );
 
     expect(toolbarActions.length).toBe(expected.length);
@@ -470,7 +470,7 @@ describe('Text editor', () => {
       iframeDocument = getIframeDocument();
       iframeElement = getIframeElement();
       textEditorDebugElement = fixture.debugElement.query(
-        By.directive(SkyTextEditorComponent)
+        By.directive(SkyTextEditorComponent),
       );
       ngModel = textEditorDebugElement.injector.get<NgModel>(NgModel);
     });
@@ -495,7 +495,7 @@ describe('Text editor', () => {
 
       fixture.detectChanges();
       const toolbarActions = fixture.nativeElement.querySelectorAll(
-        '.sky-text-editor-toolbar-action'
+        '.sky-text-editor-toolbar-action',
       );
       expect(toolbarActions.length).toBe(9);
       for (let i = 0; i < toolbarActions.length; i++) {
@@ -517,11 +517,11 @@ describe('Text editor', () => {
         ],
         containsHintTextExpect: (
           inputBoxText = document.querySelector(
-            '.sky-modal .sky-text-editor-url-input .sky-input-box-hint-text'
-          )
+            '.sky-modal .sky-text-editor-url-input .sky-input-box-hint-text',
+          ),
         ) =>
           expect(inputBoxText).toHaveText(
-            'This link will open in a new window.'
+            'This link will open in a new window.',
           ),
       },
       {
@@ -530,8 +530,8 @@ describe('Text editor', () => {
         urlStrings: ['<a', 'href="https://google.com">'],
         containsHintTextExpect: (
           inputBoxText = document.querySelector(
-            '.sky-modal .sky-text-editor-url-input .sky-input-box-hint-text'
-          )
+            '.sky-modal .sky-text-editor-url-input .sky-input-box-hint-text',
+          ),
         ) => expect(inputBoxText).not.toExist(),
       },
     ].forEach((testArgs) => {
@@ -562,7 +562,7 @@ describe('Text editor', () => {
 
         expect(document.querySelector('.sky-modal')).toBeFalsy();
         testArgs.urlStrings.forEach((urlString) =>
-          expect(testComponent.value).toContain(urlString)
+          expect(testComponent.value).toContain(urlString),
         );
       }));
     });
@@ -580,16 +580,16 @@ describe('Text editor', () => {
 
       openDropdown('.sky-text-editor-toolbar-action-font-size');
       const fontSizes = Array.from(getDropdownItems()).map((item) =>
-        item.textContent?.trim()
+        item.textContent?.trim(),
       );
 
       openDropdown('.sky-text-editor-toolbar-action-font-family');
       const fonts = Array.from(getDropdownItems()).map((item) =>
-        item.textContent?.trim()
+        item.textContent?.trim(),
       );
 
       expect(fontSizes).toEqual(
-        FONT_SIZE_LIST_DEFAULTS.map((item) => item + 'px')
+        FONT_SIZE_LIST_DEFAULTS.map((item) => item + 'px'),
       );
       expect(fonts).toEqual(FONT_LIST_DEFAULTS.map((item) => item.name));
       validateIframeDocumentAttribute('id', ID_DEFAULT + '1');
@@ -638,7 +638,7 @@ describe('Text editor', () => {
       expect(items.length).toBe(4);
       for (let i = 0; i < items.length; i++) {
         expect(items[i].textContent?.trim()).toBe(
-          testComponent.fontSizeList[i].toString() + 'px'
+          testComponent.fontSizeList[i].toString() + 'px',
         );
       }
     }));
@@ -666,7 +666,7 @@ describe('Text editor', () => {
       expect(items.length).toBe(3);
       for (let i = 0; i < items.length; i++) {
         expect(items[i].textContent?.trim()).toBe(
-          testComponent.fontList[i].name
+          testComponent.fontList[i].name,
         );
       }
     }));
@@ -729,7 +729,7 @@ describe('Text editor', () => {
 
       openDropdown('.sky-text-editor-menu-merge-field');
       const optionButtons = document.querySelectorAll(
-        '.sky-dropdown-item button'
+        '.sky-dropdown-item button',
       );
       expect(optionButtons.length).toBe(3);
       iframeDocument.body.focus();
@@ -757,7 +757,7 @@ describe('Text editor', () => {
 
       iframeDocument.body.focus();
       const mergeFieldOption = document.querySelector(
-        '.sky-dropdown-item button'
+        '.sky-dropdown-item button',
       );
       SkyAppTestUtility.fireDomEvent(mergeFieldOption, 'click');
       fixture.detectChanges();
@@ -777,7 +777,7 @@ describe('Text editor', () => {
 
       expect(testComponent.value).toContain('data-fieldid="2"');
       expect(testComponent.value).toContain(
-        'data-fielddisplay="A field that is really too long for its own good"'
+        'data-fielddisplay="A field that is really too long for its own good"',
       );
     }));
 
@@ -841,10 +841,10 @@ describe('Text editor', () => {
       expect(getFontSizePicker().textContent?.trim()).toBe('16px');
       expect(
         getFontStylePicker().querySelectorAll('.sky-switch-input:checked')
-          .length
+          .length,
       ).toBe(3);
       expect(getFontColorPicker().querySelector('input')?.value).toBe(
-        '#c14040'
+        '#c14040',
       );
 
       // Firefox backColor bug: https://bugzilla.mozilla.org/show_bug.cgi?id=547848
@@ -871,7 +871,7 @@ describe('Text editor', () => {
       expect(iframeDocument.execCommand).toHaveBeenCalledOnceWith(
         expectedCommand,
         jasmine.anything(),
-        expectedValue
+        expectedValue,
       );
     }));
 
@@ -897,7 +897,7 @@ describe('Text editor', () => {
       expect(iframeDocument.execCommand).toHaveBeenCalledOnceWith(
         expectedCommand,
         jasmine.anything(),
-        expectedValue
+        expectedValue,
       );
     }));
 
@@ -928,7 +928,7 @@ describe('Text editor', () => {
       expect(iframeDocument.execCommand).toHaveBeenCalledOnceWith(
         expectedCommand,
         jasmine.anything(),
-        expectedValue
+        expectedValue,
       );
     }));
 
@@ -984,7 +984,7 @@ describe('Text editor', () => {
       expect(iframeDocument.execCommand).toHaveBeenCalledOnceWith(
         expectedCommand,
         jasmine.anything(),
-        expectedValue
+        expectedValue,
       );
     }));
 
@@ -1014,7 +1014,7 @@ describe('Text editor', () => {
       expect(iframeDocument.execCommand).toHaveBeenCalledOnceWith(
         expectedCommand,
         jasmine.anything(),
-        expectedValue
+        expectedValue,
       );
     }));
 
@@ -1145,7 +1145,7 @@ describe('Text editor', () => {
       clickLinkButton();
 
       const emailTab = document.querySelectorAll(
-        '.sky-btn-tab'
+        '.sky-btn-tab',
       )[1] as HTMLAnchorElement;
       emailTab.href = '#';
       SkyAppTestUtility.fireDomEvent(emailTab, 'click');
@@ -1162,7 +1162,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       const saveButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-primary'
+        '.sky-modal-footer-container .sky-btn-primary',
       ) as HTMLButtonElement;
       saveButton.click();
       SkyAppTestUtility.fireDomEvent(saveButton, 'click');
@@ -1172,7 +1172,7 @@ describe('Text editor', () => {
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
       expect(testComponent.value).toContain(
-        '<a href="mailto:harima.kenji@schooldays.asia">'
+        '<a href="mailto:harima.kenji@schooldays.asia">',
       );
     }));
 
@@ -1187,7 +1187,7 @@ describe('Text editor', () => {
       clickLinkButton();
 
       const emailTab = document.querySelectorAll(
-        '.sky-btn-tab'
+        '.sky-btn-tab',
       )[1] as HTMLAnchorElement;
       emailTab.href = '#';
       SkyAppTestUtility.fireDomEvent(emailTab, 'click');
@@ -1211,7 +1211,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       const saveButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-primary'
+        '.sky-modal-footer-container .sky-btn-primary',
       ) as HTMLButtonElement;
       saveButton.click();
       SkyAppTestUtility.fireDomEvent(saveButton, 'click');
@@ -1221,7 +1221,7 @@ describe('Text editor', () => {
 
       expect(document.querySelector('.sky-modal')).toBeFalsy();
       expect(testComponent.value).toContain(
-        '<a href="mailto:harima.kenji@schooldays.asia?Subject=none%20really">'
+        '<a href="mailto:harima.kenji@schooldays.asia?Subject=none%20really">',
       );
     }));
 
@@ -1237,7 +1237,7 @@ describe('Text editor', () => {
       clickLinkButton();
 
       const urlField = document.querySelector(
-        '.sky-modal input'
+        '.sky-modal input',
       ) as HTMLInputElement;
       urlField.value = 'https://uncyclopedia.org';
       SkyAppTestUtility.fireDomEvent(urlField, 'input');
@@ -1246,7 +1246,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       const saveButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-primary'
+        '.sky-modal-footer-container .sky-btn-primary',
       );
       SkyAppTestUtility.fireDomEvent(saveButton, 'click');
       fixture.detectChanges();
@@ -1271,17 +1271,17 @@ describe('Text editor', () => {
       clickLinkButton();
 
       const urlField = document.querySelector(
-        '.sky-modal input'
+        '.sky-modal input',
       ) as HTMLInputElement;
       const selectField = document.querySelector(
-        '.sky-modal select'
+        '.sky-modal select',
       ) as HTMLInputElement;
       expect(document.querySelector('.sky-modal')).toBeTruthy();
       expect(urlField.value).toBe('https://google.com/');
       expect(selectField.value).toBe('0');
 
       const cancelButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-link'
+        '.sky-modal-footer-container .sky-btn-link',
       );
       SkyAppTestUtility.fireDomEvent(cancelButton, 'click');
       fixture.detectChanges();
@@ -1312,7 +1312,7 @@ describe('Text editor', () => {
       expect(inputs[2].value).toBe('Pad Pad');
 
       const cancelButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-link'
+        '.sky-modal-footer-container .sky-btn-link',
       );
       SkyAppTestUtility.fireDomEvent(cancelButton, 'click');
       fixture.detectChanges();
@@ -1343,7 +1343,7 @@ describe('Text editor', () => {
       expect(inputs[2].value).toBe('Pad Pad');
 
       const cancelButton = document.querySelector(
-        '.sky-modal-footer-container .sky-btn-link'
+        '.sky-modal-footer-container .sky-btn-link',
       );
       SkyAppTestUtility.fireDomEvent(cancelButton, 'click');
       fixture.detectChanges();
@@ -1394,14 +1394,14 @@ describe('Text editor', () => {
       const style = iframeDocument.querySelector('body')
         ?.style as CSSStyleDeclaration;
       expect(style.getPropertyValue('background-color')).toEqual(
-        'rgba(0, 0, 0, 0)'
+        'rgba(0, 0, 0, 0)',
       );
       expect(style.getPropertyValue('color')).toEqual('rgb(0, 0, 0)');
       expect(style.getPropertyValue('font-family')).toEqual(
-        STYLE_STATE_DEFAULTS.font
+        STYLE_STATE_DEFAULTS.font,
       );
       expect(style.getPropertyValue('font-size')).toEqual(
-        `${STYLE_STATE_DEFAULTS.fontSize}px`
+        `${STYLE_STATE_DEFAULTS.fontSize}px`,
       );
     }));
 
@@ -1422,7 +1422,7 @@ describe('Text editor', () => {
       const style = iframeDocument.querySelector('body')
         ?.style as CSSStyleDeclaration;
       expect(style.getPropertyValue('background-color')).toEqual(
-        'rgb(51, 51, 51)'
+        'rgb(51, 51, 51)',
       );
       expect(style.getPropertyValue('color')).toEqual('rgb(238, 238, 238)');
       expect(style.getPropertyValue('font-family')).toEqual(`"${font}"`);
@@ -1450,7 +1450,7 @@ describe('Text editor', () => {
         iframeDocument.body,
         {
           ignoreVisibility: true,
-        }
+        },
       );
 
       testComponent.disabled = true;
@@ -1479,7 +1479,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(iframeElement).not.toHaveCssClass(
-        'sky-text-editor-wrapper-disabled'
+        'sky-text-editor-wrapper-disabled',
       );
 
       testComponent.disabled = true;
@@ -1497,7 +1497,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(iframeElement).not.toHaveCssClass(
-        'sky-text-editor-wrapper-disabled'
+        'sky-text-editor-wrapper-disabled',
       );
     });
 
@@ -1507,7 +1507,7 @@ describe('Text editor', () => {
       tick();
       fixture.detectChanges();
       const textEditorEl = document.querySelector(
-        '#fixture-wrapper'
+        '#fixture-wrapper',
       ) as HTMLElement;
 
       expect(iframeDocument.body.innerHTML).toEqual('<p>FOO BAR</p>');
@@ -1515,10 +1515,10 @@ describe('Text editor', () => {
       // Move text editor in DOM, which will destroy and reload the iframe.
       document.body.appendChild(textEditorEl);
       const textEditorElNew = document.querySelector(
-        '#fixture-wrapper'
+        '#fixture-wrapper',
       ) as HTMLElement;
       const iframeNew = textEditorElNew.querySelector(
-        'iframe'
+        'iframe',
       ) as HTMLIFrameElement;
       SkyAppTestUtility.fireDomEvent(iframeNew, 'load');
       fixture.detectChanges();
@@ -1526,7 +1526,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect((iframeNew.contentDocument as Document).body.innerHTML).toEqual(
-        '<p>FOO BAR</p>'
+        '<p>FOO BAR</p>',
       );
     }));
 
@@ -1538,7 +1538,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1549,7 +1549,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1560,7 +1560,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1571,7 +1571,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1582,7 +1582,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1593,7 +1593,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1604,7 +1604,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-format',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1615,7 +1615,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-format',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1626,7 +1626,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-format',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1637,7 +1637,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-format',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1648,7 +1648,7 @@ describe('Text editor', () => {
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-format',
           optionNumber,
-          expectedCommand
+          expectedCommand,
         );
       }));
 
@@ -1670,7 +1670,7 @@ describe('Text editor', () => {
         openDropdown('.sky-text-editor-menu-format');
 
         const optionButtons = document.querySelectorAll(
-          '.sky-dropdown-item button'
+          '.sky-dropdown-item button',
         );
         SkyAppTestUtility.fireDomEvent(optionButtons[optionIndex], 'click');
         fixture.detectChanges();
@@ -1681,12 +1681,12 @@ describe('Text editor', () => {
         expect(iframeDocument.execCommand).toHaveBeenCalledWith(
           'selectAll',
           jasmine.anything(),
-          jasmine.anything()
+          jasmine.anything(),
         );
         expect(iframeDocument.execCommand).toHaveBeenCalledWith(
           'removeFormat',
           jasmine.anything(),
-          jasmine.anything()
+          jasmine.anything(),
         );
       }));
     });
@@ -1702,7 +1702,7 @@ describe('Text editor', () => {
       testComponent.isRequired = false;
 
       textEditorDebugElement = fixture.debugElement.query(
-        By.directive(SkyTextEditorComponent)
+        By.directive(SkyTextEditorComponent),
       );
       textEditorNativeElement = textEditorDebugElement.nativeElement;
       editableElement = getIframeDocument().body;
@@ -1741,7 +1741,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(textEditorDebugElement.componentInstance.value).toEqual(
-        HELLO_WORLD
+        HELLO_WORLD,
       );
       expect(ngModel.value).toEqual(HELLO_WORLD);
     }));
@@ -1804,7 +1804,7 @@ describe('Text editor', () => {
       testComponent = fixture.componentInstance as TextEditorWithFormControl;
       editableElement = getIframeDocument().body;
       textEditorDebugElement = fixture.debugElement.query(
-        By.directive(SkyTextEditorComponent)
+        By.directive(SkyTextEditorComponent),
       );
       textEditorComponent = textEditorDebugElement.componentInstance;
       iframeElement = getIframeElement();
@@ -1826,7 +1826,7 @@ describe('Text editor', () => {
       expect(textEditorComponent.disabled).toBe(false);
       expect(editableElement.getAttribute('contenteditable')).toEqual('true');
       expect(iframeElement).not.toHaveCssClass(
-        'sky-text-editor-wrapper-disabled'
+        'sky-text-editor-wrapper-disabled',
       );
     });
   });

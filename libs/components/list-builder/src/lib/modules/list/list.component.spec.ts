@@ -52,7 +52,7 @@ describe('List Component', () => {
   describe('List Fixture', () => {
     function validateRowCount(element: DebugElement, expectedCount: number) {
       expect(element.queryAll(By.css('.list-view-test-item')).length).toBe(
-        expectedCount
+        expectedCount,
       );
     }
 
@@ -141,12 +141,12 @@ describe('List Component', () => {
       function validateRowValue(
         rowIndex: number,
         columnNumber: number,
-        expectedValue: string
+        expectedValue: string,
       ) {
         const row = element.queryAll(By.css('.list-view-test-item'));
 
         const cell = row[rowIndex].query(
-          By.css('.list-view-test-item-column' + columnNumber)
+          By.css('.list-view-test-item-column' + columnNumber),
         );
 
         expect(cell.nativeElement.innerText.trim()).toBe(expectedValue);
@@ -240,7 +240,7 @@ describe('List Component', () => {
                 fieldSelector: 'column1',
                 descending: true,
               },
-            ])
+            ]),
           );
 
           validateRowValue(0, 1, '30');
@@ -252,7 +252,7 @@ describe('List Component', () => {
                 fieldSelector: 'column1',
                 descending: false,
               },
-            ])
+            ]),
           );
           fixture.detectChanges();
           validateRowValue(0, 1, '01');
@@ -263,7 +263,7 @@ describe('List Component', () => {
                 fieldSelector: 'column3',
                 descending: true,
               },
-            ])
+            ]),
           );
           fixture.detectChanges();
           validateRowValue(0, 3, '21');
@@ -357,7 +357,7 @@ describe('List Component', () => {
           state
             .pipe(
               observableMap((s) => (s.items.lastUpdate = undefined)),
-              take(1)
+              take(1),
             )
             .subscribe();
           component.list.lastUpdate.pipe(take(1)).subscribe((u) => {
@@ -442,7 +442,7 @@ describe('List Component', () => {
       describe('models and actions', () => {
         it('should set items properly', fakeAsync(() => {
           dispatcher.next(
-            new ListSelectedSetItemsSelectedAction(['1', '2'], true)
+            new ListSelectedSetItemsSelectedAction(['1', '2'], true),
           );
 
           tick();
@@ -456,7 +456,7 @@ describe('List Component', () => {
           tick();
 
           dispatcher.next(
-            new ListSelectedSetItemsSelectedAction(['1'], false, false)
+            new ListSelectedSetItemsSelectedAction(['1'], false, false),
           );
 
           tick();
@@ -470,7 +470,7 @@ describe('List Component', () => {
           tick();
 
           dispatcher.next(
-            new ListSelectedSetItemsSelectedAction(['3'], true, true)
+            new ListSelectedSetItemsSelectedAction(['3'], true, true),
           );
 
           tick();
@@ -627,7 +627,7 @@ describe('List Component', () => {
         fixture.detectChanges();
         const dispatcherSpy = spyOn(
           dispatcher,
-          'setSelected'
+          'setSelected',
         ).and.callThrough();
 
         component.selectedIds = ['3', '4'];
@@ -650,7 +650,7 @@ describe('List Component', () => {
         fixture.detectChanges();
         const dispatcherSpy = spyOn(
           dispatcher,
-          'setSelected'
+          'setSelected',
         ).and.callThrough();
 
         component.selectedIds = ['3', '4'];
@@ -695,14 +695,14 @@ describe('List Component', () => {
         fixture.detectChanges();
 
         dispatcher.next(
-          new ListSelectedSetItemsSelectedAction(['1', '2'], true)
+          new ListSelectedSetItemsSelectedAction(['1', '2'], true),
         );
 
         tick();
 
         fixture.detectChanges();
         const selectedIds: Array<string> = Array.from(
-          component.selectedItems.entries()
+          component.selectedItems.entries(),
         )
           .filter((item) => item[1])
           .map((item) => item[0]);
@@ -762,7 +762,7 @@ describe('List Component', () => {
         state
           .pipe(
             observableMap((s) => s.items.items),
-            take(1)
+            take(1),
           )
           .subscribe((items) => {
             items.forEach((i) => {
@@ -782,7 +782,7 @@ describe('List Component', () => {
         state
           .pipe(
             observableMap((s) => s.items.items),
-            take(1)
+            take(1),
           )
           .subscribe((items) => {
             items.forEach((i) => {
@@ -963,7 +963,7 @@ describe('List Component', () => {
 
         expect(component.appliedFilters).toEqual(appliedFilters);
         expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(
-          1
+          1,
         );
 
         fixture.nativeElement
@@ -975,7 +975,7 @@ describe('List Component', () => {
 
         expect(component.appliedFilters).toEqual([]);
         expect(component.list.appliedFiltersChange.emit).toHaveBeenCalledTimes(
-          2
+          2,
         );
       }));
 
@@ -1278,7 +1278,7 @@ describe('List Component', () => {
           list.displayedItems;
         } catch (error) {
           expect(error.message).toBe(
-            'List requires data or dataProvider to be set.'
+            'List requires data or dataProvider to be set.',
           );
         }
       });
@@ -1364,9 +1364,9 @@ describe('List Component', () => {
         expect(
           element.queryAll(
             By.css(
-              'sky-list-view-test[ng-reflect-name="First"] .list-view-test-item'
-            )
-          ).length
+              'sky-list-view-test[ng-reflect-name="First"] .list-view-test-item',
+            ),
+          ).length,
         ).toBe(7);
         dispatcher.viewsSetActive(component.list.views[1].id);
 
@@ -1375,20 +1375,20 @@ describe('List Component', () => {
         expect(
           element.queryAll(
             By.css(
-              'sky-list-view-test[ng-reflect-name="Second"] .list-view-test-item'
-            )
-          ).length
+              'sky-list-view-test[ng-reflect-name="Second"] .list-view-test-item',
+            ),
+          ).length,
         ).toBe(7);
       });
 
       it('should return list of views', () => {
         expect(component.list.views.length).toBe(2);
         expect(
-          component.list.views[0] instanceof ListViewTestComponent
+          component.list.views[0] instanceof ListViewTestComponent,
         ).toBeTruthy();
         expect(component.list.views[0].label).toBe('First');
         expect(
-          component.list.views[1] instanceof ListViewTestComponent
+          component.list.views[1] instanceof ListViewTestComponent,
         ).toBeTruthy();
         expect(component.list.views[1].label).toBe('Second');
       });
@@ -1457,7 +1457,7 @@ describe('List Component', () => {
         state
           .pipe(
             observableMap((s) => s.search),
-            take(1)
+            take(1),
           )
           .subscribe((search) => {
             expect(search.searchText).toBe('');
@@ -1476,13 +1476,13 @@ describe('List Component', () => {
             searchText: 'search text',
             functions: [searchFunc],
             fieldSelectors: ['fields'],
-          })
+          }),
         );
 
         state
           .pipe(
             observableMap((s) => s.search),
-            take(1)
+            take(1),
           )
           .subscribe((search) => {
             expect(search.searchText).toBe('search text');

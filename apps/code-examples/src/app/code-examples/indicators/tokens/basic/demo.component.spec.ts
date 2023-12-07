@@ -15,7 +15,7 @@ describe('Tokens basic demo', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const tokensHarness = await loader.getHarness(
-      SkyTokensHarness.with({ dataSkyId: 'color-tokens' })
+      SkyTokensHarness.with({ dataSkyId: 'color-tokens' }),
     );
 
     return { tokensHarness, fixture };

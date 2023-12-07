@@ -34,7 +34,7 @@ export class SkySelectionBoxComponent implements OnDestroy {
    */
   @Input()
   public set control(
-    value: SkyCheckboxComponent | SkyRadioComponent | undefined
+    value: SkyCheckboxComponent | SkyRadioComponent | undefined,
   ) {
     this.#_control = value;
     this.#ngUnsubscribe.next();
@@ -63,7 +63,7 @@ export class SkySelectionBoxComponent implements OnDestroy {
     if (this.selectionBoxEl) {
       this.#selectionBoxAdapterService.setTabIndex(
         this.selectionBoxEl,
-        value ? -1 : 0
+        value ? -1 : 0,
       );
     }
     this.#_disabled = value;
@@ -89,7 +89,7 @@ export class SkySelectionBoxComponent implements OnDestroy {
     if (value) {
       this.#selectionBoxAdapterService.setTabIndex(
         value,
-        this.disabled ? -1 : 0
+        this.disabled ? -1 : 0,
       );
 
       // Wait for child elements to render before overriding tabIndex values.
@@ -120,7 +120,7 @@ export class SkySelectionBoxComponent implements OnDestroy {
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    selectionBoxAdapterService: SkySelectionBoxAdapterService
+    selectionBoxAdapterService: SkySelectionBoxAdapterService,
   ) {
     this.#changeDetector = changeDetector;
     this.#selectionBoxAdapterService = selectionBoxAdapterService;

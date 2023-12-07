@@ -36,7 +36,7 @@ async function setupTest(options?: {
     popoverHarness = await loader.getHarness(
       SkyPopoverHarness.with({
         dataSkyId: options.dataSkyId,
-      })
+      }),
     );
   } else {
     popoverHarness = await loader.getHarness(SkyPopoverHarness);
@@ -56,7 +56,7 @@ describe('Popover harness', () => {
     const { popoverHarness } = await setupTest();
 
     await expectAsync(popoverHarness.getPopoverContent()).toBeRejectedWithError(
-      'Unable to retrieve the popover content because the popover is not open.'
+      'Unable to retrieve the popover content because the popover is not open.',
     );
   });
 
@@ -70,10 +70,10 @@ describe('Popover harness', () => {
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
-      'popover title'
+      'popover title',
     );
     await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
-      'popover body'
+      'popover body',
     );
     await expectAsync(contentHarness.getAlignment()).toBeResolvedTo('center');
     await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('right');
@@ -86,16 +86,16 @@ describe('Popover harness', () => {
     const contentHarness = await popoverHarness.getPopoverContent();
 
     const bodyHarness = await contentHarness.queryHarness(
-      PopoverHarnessTestItemHarness
+      PopoverHarnessTestItemHarness,
     );
 
     expect(bodyHarness).not.toBeNull();
     await expectAsync((await bodyHarness!.host()).text()).toBeResolvedTo(
-      'popover body'
+      'popover body',
     );
 
     const bodyHarnesses = await contentHarness.queryHarnesses(
-      PopoverHarnessTestItemHarness
+      PopoverHarnessTestItemHarness,
     );
     expect(bodyHarnesses).not.toBeNull();
     expect(bodyHarnesses!.length).toBe(1);
@@ -153,10 +153,10 @@ describe('Popover harness', () => {
     const contentHarness = await popoverHarness.getPopoverContent();
 
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
-      'Another popover'
+      'Another popover',
     );
     await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
-      'I have different content'
+      'I have different content',
     );
   });
 
@@ -171,7 +171,7 @@ describe('Popover harness', () => {
     const popoverHarness2 = await loader.getHarness(
       SkyPopoverHarness.with({
         dataSkyId: 'another-popover',
-      })
+      }),
     );
 
     await popoverHarness1.clickPopoverButton();
@@ -181,17 +181,17 @@ describe('Popover harness', () => {
     const contentHarness2 = await popoverHarness2.getPopoverContent();
 
     await expectAsync(contentHarness1.getTitleText()).toBeResolvedTo(
-      'popover title'
+      'popover title',
     );
     await expectAsync(contentHarness1.getBodyText()).toBeResolvedTo(
-      'popover body'
+      'popover body',
     );
 
     await expectAsync(contentHarness2.getTitleText()).toBeResolvedTo(
-      'Another popover'
+      'Another popover',
     );
     await expectAsync(contentHarness2.getBodyText()).toBeResolvedTo(
-      'I have different content'
+      'I have different content',
     );
   });
 });

@@ -102,7 +102,7 @@ describe('Dropdown fixture', () => {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
-          SkyThemeMode.presets.light
+          SkyThemeMode.presets.light,
         ),
         previousSettings: undefined,
       }),
@@ -136,16 +136,16 @@ describe('Dropdown fixture', () => {
 
     // Expect new values to be set on sky-dropdown component.
     expect(dropdownFixture.dropdown?.buttonStyle).toEqual(
-      testComponent.buttonStyle
+      testComponent.buttonStyle,
     );
     expect(dropdownFixture.dropdown?.buttonType).toEqual(
-      testComponent.buttonType
+      testComponent.buttonType,
     );
     expect(dropdownFixture.dropdown?.disabled).toEqual(testComponent.disabled);
     expect(dropdownFixture.dropdown?.label).toEqual(testComponent.label);
     expect(dropdownFixture.dropdown?.title).toEqual(testComponent.title);
     expect(dropdownFixture.dropdown?.buttonType).toEqual(
-      testComponent.buttonType
+      testComponent.buttonType,
     );
 
     // Check default button styling.
@@ -161,7 +161,7 @@ describe('Dropdown fixture', () => {
 
   it('should expose the inner text of the dropdown button', () => {
     expect(dropdownFixture.dropdownButtonText).toEqual(
-      testComponent.dropdownButtonText
+      testComponent.dropdownButtonText,
     );
   });
 
@@ -183,10 +183,10 @@ describe('Dropdown fixture', () => {
 
     // Expect new values to be set on sky-dropdown-menu component.
     expect(dropdownFixture.dropdownMenu?.ariaLabelledBy).toEqual(
-      testComponent.dropdownMenuAriaLabelledBy
+      testComponent.dropdownMenuAriaLabelledBy,
     );
     expect(dropdownFixture.dropdownMenu?.ariaRole).toEqual(
-      testComponent.dropdownMenuAriaRole
+      testComponent.dropdownMenuAriaRole,
     );
   });
 
@@ -196,14 +196,14 @@ describe('Dropdown fixture', () => {
     expect(dropdownFixture.getDropdownItem(0)?.ariaRole).toEqual('menuitem');
     expect(dropdownFixture.getDropdownItem(1)?.ariaRole).toEqual('menuitem');
     expect(dropdownFixture.getDropdownItem(2)?.ariaRole).toEqual(
-      'item-custom-role'
+      'item-custom-role',
     );
   });
 
   it('should allow a dropdown item to be clicked', async () => {
     const clickSpy = spyOn(
       fixture.componentInstance,
-      'onItemClick'
+      'onItemClick',
     ).and.callThrough();
 
     await dropdownFixture.clickDropdownButton();
@@ -228,17 +228,17 @@ describe('Dropdown fixture', () => {
     expect(buttonEls.length).toEqual(3);
 
     expect(buttonEls[0].textContent.trim()).toEqual(
-      testComponent.items[0].name
+      testComponent.items[0].name,
     );
     expect(buttonEls[0].disabled).toEqual(false);
 
     expect(buttonEls[1].textContent.trim()).toEqual(
-      testComponent.items[1].name
+      testComponent.items[1].name,
     );
     expect(buttonEls[1].disabled).toEqual(true);
 
     expect(buttonEls[2].textContent.trim()).toEqual(
-      testComponent.items[2].name
+      testComponent.items[2].name,
     );
     expect(buttonEls[2].disabled).toEqual(false);
   });
@@ -249,7 +249,7 @@ describe('Dropdown fixture', () => {
 
     // Clicking an item on an unopened menu.
     await expectAsync(dropdownFixture.clickDropdownItem(0)).toBeResolvedTo(
-      undefined
+      undefined,
     );
 
     // Getting items from a closed menu.
@@ -260,12 +260,12 @@ describe('Dropdown fixture', () => {
 
     // Getting a non-existent item.
     expect(() => dropdownFixture.getDropdownItem(999)).toThrowError(
-      'There is no dropdown item at index 999.'
+      'There is no dropdown item at index 999.',
     );
 
     // Clicking a non-existent menu item.
     await expectAsync(
-      dropdownFixture.clickDropdownItem(999)
+      dropdownFixture.clickDropdownItem(999),
     ).toBeRejectedWithError('There is no dropdown item at index 999.');
   });
 });

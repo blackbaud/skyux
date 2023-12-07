@@ -8,15 +8,20 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import { SkyIdService, SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyIdService,
+  SkyLiveAnnouncerService,
+  SkyViewkeeperModule,
+} from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 
 import { SkySearchModule } from '../search/search.module';
 import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module';
@@ -101,6 +106,8 @@ export class SkyLookupShowMoreModalComponent
   protected readonly context = inject(SkyLookupShowMoreNativePickerContext);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #idSvc = inject(SkyIdService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   constructor() {
     this.id = this.#idSvc.generateId();
@@ -138,11 +145,11 @@ export class SkyLookupShowMoreModalComponent
           this.context.initialValue === item.value;
 
         const initialIsArray: boolean = Array.isArray(
-          this.context.initialValue
+          this.context.initialValue,
         );
         const initialValueContainsItem: boolean =
           this.context.initialValue.findIndex(
-            (initialItem: any) => initialItem === item.value
+            (initialItem: any) => initialItem === item.value,
           ) >= 0;
 
         if (isInitialValue || (initialIsArray && initialValueContainsItem)) {
@@ -150,7 +157,7 @@ export class SkyLookupShowMoreModalComponent
           const itemIndex = this.items.indexOf(item);
           if (
             selectedItems.findIndex(
-              (selectedItem) => selectedItem.index === itemIndex
+              (selectedItem) => selectedItem.index === itemIndex,
             ) < 0
           ) {
             selectedItems.push({ index: itemIndex, itemData: item.value });
@@ -178,6 +185,12 @@ export class SkyLookupShowMoreModalComponent
         this.itemsHaveMore = true;
       }
       this.itemsLoading = false;
+
+      this.#announceSelectionState(
+        this.selectedItems.length,
+        this.displayedItems.length,
+      );
+
       this.#changeDetector.markForCheck();
     });
   }
@@ -218,7 +231,7 @@ export class SkyLookupShowMoreModalComponent
           }
         });
         const itemIndex = items.findIndex(
-          (item) => item.value === itemToSelect.value
+          (item) => item.value === itemToSelect.value,
         );
         this.selectedItems = [
           { index: itemIndex, itemData: items[itemIndex].value },
@@ -228,10 +241,10 @@ export class SkyLookupShowMoreModalComponent
       const selectedItems: { index: number; itemData: any }[] =
         this.selectedItems;
       const allItemsIndex = items.findIndex(
-        (item) => item.value === itemToSelect.value
+        (item) => item.value === itemToSelect.value,
       );
       const selectedItemsIndex = selectedItems.findIndex(
-        (selectedItem) => selectedItem.index === allItemsIndex
+        (selectedItem) => selectedItem.index === allItemsIndex,
       );
 
       if (newSelectState && selectedItemsIndex === -1) {
@@ -275,18 +288,18 @@ export class SkyLookupShowMoreModalComponent
         items.map((item) => {
           return item.value;
         }),
-        { context: 'modal' }
+        { context: 'modal' },
       );
 
       if (resultValues instanceof Array) {
         const result = items.filter(
-          (item) => resultValues.indexOf(item.value) >= 0
+          (item) => resultValues.indexOf(item.value) >= 0,
         );
         return Promise.resolve(result);
       } else {
         return resultValues.then((values) => {
           const result = items.filter(
-            (item) => values.indexOf(item.value) >= 0
+            (item) => values.indexOf(item.value) >= 0,
           );
           return Promise.resolve(result);
         });
@@ -311,7 +324,7 @@ export class SkyLookupShowMoreModalComponent
         /* istanbul ignore else */
         if (
           selectedItems.findIndex(
-            (selectedItem) => selectedItem.index === index
+            (selectedItem) => selectedItem.index === index,
           ) < 0
         ) {
           selectedItems.push({
@@ -335,7 +348,7 @@ export class SkyLookupShowMoreModalComponent
     items?.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(
-          (selectedItem) => selectedItem.index === index
+          (selectedItem) => selectedItem.index === index,
         ) !== -1;
     });
 
@@ -351,6 +364,11 @@ export class SkyLookupShowMoreModalComponent
         this.itemsHaveMore = true;
       }
       this.itemsLoading = false;
+
+      this.#announceSelectionState(
+        selectedItems.length,
+        this.displayedItems.length,
+      );
 
       this.#changeDetector.markForCheck();
     });
@@ -371,5 +389,21 @@ export class SkyLookupShowMoreModalComponent
     this.addItems();
 
     this.#changeDetector.markForCheck();
+  }
+
+  #announceSelectionState(
+    selectedItemCount: number,
+    displayedItemCount: number,
+  ): void {
+    this.#resourcesSvc
+      .getString(
+        'skyux_lookup_show_more_displayed_items_updated',
+        selectedItemCount.toString(),
+        displayedItemCount.toString(),
+      )
+      .pipe(take(1))
+      .subscribe((resourcesString) => {
+        this.#liveAnnouncerSvc.announce(resourcesString);
+      });
   }
 }

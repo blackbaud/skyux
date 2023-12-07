@@ -59,7 +59,7 @@ export class SkyAgGridRowDeleteDirective
 
     for (const id of value) {
       const existingConfig = this.#rowDeleteConfigs.find(
-        (config) => config.id === id
+        (config) => config.id === id,
       );
       if (existingConfig) {
         existingConfig.pending = false;
@@ -89,7 +89,7 @@ export class SkyAgGridRowDeleteDirective
               getRowDeleteItem: (row: IRowNode) => this.getRowDeleteItem(row),
               cancelRowDelete: (row: IRowNode) => this.cancelRowDelete(row),
               confirmRowDelete: (row: IRowNode) => this.confirmRowDelete(row),
-            }
+            },
           );
         }
 
@@ -114,7 +114,7 @@ export class SkyAgGridRowDeleteDirective
           const inlineDeleteRef = this.#rowDeleteComponent?.inlineDeleteRefs
             ?.toArray()
             .find(
-              (elRef) => elRef.nativeElement.id === 'row-delete-ref-' + id
+              (elRef) => elRef.nativeElement.id === 'row-delete-ref-' + id,
             ) as ElementRef;
           const affixer = this.#affixService.createAffixer(inlineDeleteRef);
 
@@ -201,7 +201,7 @@ export class SkyAgGridRowDeleteDirective
       {
         environmentInjector: this.#environmentInjector,
         viewContainerRef: this.#viewContainerRef,
-      }
+      },
     ).instance;
 
     if (this.agGrid) {
@@ -248,7 +248,7 @@ export class SkyAgGridRowDeleteDirective
   public cancelRowDelete(row: IRowNode): void {
     if (row.id) {
       this.#rowDeleteConfigs = this.#rowDeleteConfigs.filter(
-        (config) => config.id !== row.id
+        (config) => config.id !== row.id,
       );
       this.rowDeleteCancel.emit({ id: row.id });
 
@@ -259,7 +259,7 @@ export class SkyAgGridRowDeleteDirective
   public confirmRowDelete(row: IRowNode): void {
     if (row.id) {
       const rowConfig = this.#rowDeleteConfigs.find(
-        (config) => config.id === row.id
+        (config) => config.id === row.id,
       );
 
       if (rowConfig) {
@@ -284,7 +284,7 @@ export class SkyAgGridRowDeleteDirective
     /* istanbul ignore if */
     if (!rowElement) {
       const columns = this.#elementRef.nativeElement.querySelectorAll(
-        '[row-id="' + id + '"] > div'
+        '[row-id="' + id + '"] > div',
       );
 
       for (let i = 0; i < columns.length; i++) {
@@ -315,10 +315,10 @@ export class SkyAgGridRowDeleteDirective
       this.#overlayService.close(rowDeleteContents.overlay);
       delete this.#rowDeleteContents[id];
       this.#rowDeleteConfigs = this.#rowDeleteConfigs.filter(
-        (config) => config.id !== id
+        (config) => config.id !== id,
       );
       this.#rowDeleteIdsInternal = this.rowDeleteIds?.filter(
-        (arrayId) => arrayId !== id
+        (arrayId) => arrayId !== id,
       );
       this.rowDeleteIdsChange.emit(this.#rowDeleteIdsInternal);
     }

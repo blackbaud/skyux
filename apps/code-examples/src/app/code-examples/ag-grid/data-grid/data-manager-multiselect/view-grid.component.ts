@@ -154,7 +154,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       name: 'Data Grid View',
       icon: 'table',
       searchEnabled: true,
-      sortEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
@@ -278,13 +277,13 @@ export class ViewGridComponent implements OnInit, OnDestroy {
         const displayedColumnIdIndex1: number =
           viewState.displayedColumnIds.findIndex(
             (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition1.field
+              aDisplayedColumnId === columnDefinition1.field,
           );
 
         const displayedColumnIdIndex2: number =
           viewState.displayedColumnIds.findIndex(
             (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition2.field
+              aDisplayedColumnId === columnDefinition2.field,
           );
 
         if (displayedColumnIdIndex1 === -1) {
@@ -325,5 +324,13 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     } else {
       this.#gridApi?.showNoRowsOverlay();
     }
+
+    this.#dataManagerSvc.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.#viewId,
+    );
   }
 }

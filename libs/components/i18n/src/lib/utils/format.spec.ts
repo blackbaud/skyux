@@ -5,7 +5,7 @@ describe('Format', () => {
     const result = Format.formatText(
       'This is the {0} test string. It {1}!',
       'first',
-      'worked'
+      'worked',
     );
 
     expect(result).toBe('This is the first test string. It worked!');

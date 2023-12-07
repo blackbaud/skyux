@@ -17,7 +17,7 @@ describe('flyout-storybook', () => {
       ].forEach((style) => {
         it(`should render the component (${style})`, () => {
           cy.visit(
-            `/iframe.html?globals=theme:${theme}&id=flyoutcomponent-flyout--flyout-${style}`
+            `/iframe.html?globals=theme:${theme}&id=flyoutcomponent-flyout--flyout-${style}`,
           );
           cy.get('#ready').should('exist').end();
 
@@ -30,8 +30,8 @@ describe('flyout-storybook', () => {
           if (style.includes('responsive')) {
             cy.get(
               `.sky-responsive-container-${style.substring(
-                style.lastIndexOf('-') + 1
-              )}`
+                style.lastIndexOf('-') + 1,
+              )}`,
             ).should('exist');
           }
 

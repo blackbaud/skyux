@@ -60,7 +60,7 @@ describe('Paging component', () => {
       expect(
         element
           .query(By.css(getPagingSelector('1')))
-          .nativeElement.classList.contains('sky-paging-current')
+          .nativeElement.classList.contains('sky-paging-current'),
       ).toBe(true);
     });
 
@@ -71,7 +71,7 @@ describe('Paging component', () => {
       expect(
         element
           .query(By.css(getPagingSelector('1')))
-          .nativeElement.classList.contains('sky-paging-current')
+          .nativeElement.classList.contains('sky-paging-current'),
       ).toBe(true);
     });
 
@@ -82,7 +82,7 @@ describe('Paging component', () => {
       expect(
         element
           .query(By.css(getPagingSelector('1')))
-          .nativeElement.classList.contains('sky-paging-current')
+          .nativeElement.classList.contains('sky-paging-current'),
       ).toBe(true);
     });
 
@@ -116,7 +116,7 @@ describe('Paging component', () => {
         expect(
           element
             .query(By.css(getPagingSelector('3')))
-            .nativeElement.classList.contains('sky-paging-current')
+            .nativeElement.classList.contains('sky-paging-current'),
         ).toBe(true);
       });
 
@@ -172,7 +172,7 @@ describe('Paging component', () => {
           expect(
             element
               .query(By.css(getPagingSelector('1')))
-              .nativeElement.classList.contains('sky-paging-current')
+              .nativeElement.classList.contains('sky-paging-current'),
           ).toBe(true);
         });
       });
@@ -193,17 +193,17 @@ describe('Paging component', () => {
         expect(
           element
             .query(By.css(getPagingSelector('2')))
-            .nativeElement.classList.contains('sky-paging-current')
+            .nativeElement.classList.contains('sky-paging-current'),
         ).toBe(true);
 
         expect(
           element.query(By.css(getPagingSelector('previous'))).nativeElement
-            .disabled
+            .disabled,
         ).toBeFalsy();
 
         expect(
           element.query(By.css(getPagingSelector('next'))).nativeElement
-            .disabled
+            .disabled,
         ).toBeFalsy();
       });
 
@@ -235,7 +235,7 @@ describe('Paging component', () => {
         fixture.detectChanges();
 
         const navElement = element.query(
-          By.css('nav.sky-paging')
+          By.css('nav.sky-paging'),
         ).nativeElement;
 
         expect(navElement.getAttribute('aria-label')).toBe('My label');
@@ -243,7 +243,7 @@ describe('Paging component', () => {
 
       it('should have a nav role on the parent element with a default aria-label', () => {
         const navElement = element.query(
-          By.css('nav.sky-paging')
+          By.css('nav.sky-paging'),
         ).nativeElement;
 
         expect(navElement.getAttribute('aria-label')).toBe('Pagination');
@@ -251,13 +251,13 @@ describe('Paging component', () => {
 
       it('should have aria-label on each of the next and previous buttons', () => {
         const prevElement = element.query(
-          By.css(getPagingSelector('previous'))
+          By.css(getPagingSelector('previous')),
         ).nativeElement;
 
         expect(prevElement.getAttribute('aria-label')).toBe('Previous');
 
         const nextElement = element.query(
-          By.css(getPagingSelector('next'))
+          By.css(getPagingSelector('next')),
         ).nativeElement;
 
         expect(nextElement.getAttribute('aria-label')).toBe('Next');

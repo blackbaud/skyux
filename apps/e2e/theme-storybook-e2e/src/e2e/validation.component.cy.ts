@@ -6,7 +6,7 @@ describe('theme-storybook', () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
         cy.visit(
-          `/iframe.html?globals=theme:${theme}&id=validationcomponent-validation--validation`
+          `/iframe.html?globals=theme:${theme}&id=validationcomponent-validation--validation`,
         );
       });
       it('should render the component', () => {
@@ -35,7 +35,7 @@ describe('theme-storybook', () => {
             `validationcomponent-validation--validation-${theme}`,
             {
               widths: E2eVariations.MOBILE_WIDTHS,
-            }
+            },
           );
       });
     });

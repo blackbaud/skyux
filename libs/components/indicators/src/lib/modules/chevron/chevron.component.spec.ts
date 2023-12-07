@@ -29,7 +29,7 @@ describe('Chevron component', () => {
     fixture.detectChanges();
 
     expect(
-      chevronEl.classList.contains('sky-chevron-' + expectedDirection)
+      chevronEl.classList.contains('sky-chevron-' + expectedDirection),
     ).toBe(true);
   }
 
