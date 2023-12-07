@@ -150,20 +150,3 @@
 <ng-template let-item="item" #defaultSearchResultTemplate>
   {{ item[descriptorProperty] }}
 </ng-template>
-<!--
-<div
-  class="sky-screen-reader-only"
-  role="status"
-  aria-live="polite"
-  aria-atomic="true"
->
-  <div *ngIf="searchResultsCount! === 1">
-    {{ 'skyux_autocomplete_one_result' | skyLibResources }}
-  </div>
-  <div *ngIf="searchResultsCount! > 1">
-    {{
-      'skyux_autocomplete_multiple_results'
-        | skyLibResources : searchResultsCount
-    }}
-  </div>
-</div> -->
