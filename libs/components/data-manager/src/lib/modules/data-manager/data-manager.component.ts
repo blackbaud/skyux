@@ -98,7 +98,6 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
           resourceString,
           summary.itemsMatching,
           summary.totalItems,
-          summary.itemsDisplayed,
           itemsSelected,
         );
       });
@@ -134,17 +133,10 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
     resourceString: string,
     itemsMatching: number,
     totalItems: number,
-    itemsDisplayed: number,
     itemsSelected: number,
   ): void {
     this.#resourceSvc
-      .getString(
-        resourceString,
-        itemsMatching,
-        totalItems,
-        itemsDisplayed,
-        itemsSelected,
-      )
+      .getString(resourceString, itemsMatching, totalItems, itemsSelected)
       .pipe(take(1))
       .subscribe((internationalizedString) => {
         this.#liveAnnouncer.announce(internationalizedString);

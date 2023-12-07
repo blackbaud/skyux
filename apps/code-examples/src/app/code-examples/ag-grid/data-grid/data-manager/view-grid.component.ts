@@ -302,7 +302,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     this.#dataManagerSvc.updateDataSummary(
       {
         totalItems: this.items.length,
-        itemsDisplayed: this.displayedItems.length,
         itemsMatching: this.displayedItems.length,
       },
       this.#viewId,

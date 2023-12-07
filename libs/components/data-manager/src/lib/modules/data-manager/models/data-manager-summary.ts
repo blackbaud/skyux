@@ -10,8 +10,4 @@ export interface SkyDataManagerSummary {
    * The total number of items that match the search and filter criteria.
    */
   itemsMatching: number;
-  /**
-   * The number of items that match search and filter criteria and are currently displayed in the data manager.
-   */
-  itemsDisplayed: number;
 }

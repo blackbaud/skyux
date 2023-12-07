@@ -170,7 +170,7 @@ describe('SkyDataManagerComponent', () => {
     dataManagerFixture.detectChanges();
 
     dataManagerService.updateDataSummary(
-      { totalItems: 10, itemsMatching: 8, itemsDisplayed: 5 },
+      { totalItems: 10, itemsMatching: 8 },
       'unitTest',
     );
 
@@ -178,7 +178,7 @@ describe('SkyDataManagerComponent', () => {
     await dataManagerFixture.whenStable();
 
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      '8 of 10 meet the search and filter criteria, and 5 are displayed. 0 items are selected.',
+      '8 of 10 items meet criteria and 0 selected.',
     );
   });
 
@@ -195,7 +195,7 @@ describe('SkyDataManagerComponent', () => {
     );
 
     dataManagerService.updateDataSummary(
-      { totalItems: 10, itemsMatching: 2, itemsDisplayed: 2 },
+      { totalItems: 10, itemsMatching: 2 },
       'unitTest',
     );
 
@@ -203,7 +203,7 @@ describe('SkyDataManagerComponent', () => {
     await dataManagerFixture.whenStable();
 
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      '2 of 10 items meet the search and filter criteria, and 2 of 2 selected items are displayed. Unselected items are not displayed.',
+      '2 of 10 items meet criteria and 2 selected. Only selected items are displayed.',
     );
   });
 

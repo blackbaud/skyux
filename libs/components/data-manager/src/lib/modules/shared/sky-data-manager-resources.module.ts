@@ -46,12 +46,11 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Select at least one column.',
     },
     skyux_data_manager_status_update: {
-      message:
-        '{0} of {1} meet the search and filter criteria, and {2} are displayed. {3} items are selected.',
+      message: '{0} of {1} items meet criteria and {2} selected.',
     },
     skyux_data_manager_status_update_only_selected: {
       message:
-        '{0} of {1} items meet the search and filter criteria, and {2} of {3} selected items are displayed. Unselected items are not displayed.',
+        '{0} of {1} items meet criteria and {2} selected. Only selected items are displayed.',
     },
   },
 };

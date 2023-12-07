@@ -137,7 +137,6 @@ export class DataViewGridComponent implements OnInit {
     this.dataManagerService.updateDataSummary(
       {
         totalItems: this.items.length,
-        itemsDisplayed: this.displayedItems.length,
         itemsMatching: this.displayedItems.length,
       },
       this.viewId,
