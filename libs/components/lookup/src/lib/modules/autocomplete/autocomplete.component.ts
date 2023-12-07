@@ -407,6 +407,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#cancelCurrentSearch();
           directive.onTouched();
           this.#hasFocus = false;
+          this.#liveAnnounceService.clear();
         });
 
       this.#_inputDirective.focus
@@ -700,7 +701,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         } else if (this.searchResultsCount === 0) {
           this.#liveAnnounceService.announce(localizedStrings.noResults);
         }
-        this.#liveAnnounceService.clear();
       });
   }
 
