@@ -90,8 +90,12 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((summary: SkyDataManagerSummary) => {
         const itemsSelected = this.#dataState?.selectedIds?.length || 0;
-        const resourceString = `skyux_data_manager_status_update${
-          this.#dataState?.onlyShowSelected ? '_only_selected' : ''
+        const resourceString = `skyux_data_manager_status_update_${
+          this.#dataState?.onlyShowSelected
+            ? 'only_selected'
+            : itemsSelected
+            ? 'with_selections'
+            : 'without_selections'
         }`;
 
         this.#announceState(

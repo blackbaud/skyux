@@ -165,7 +165,30 @@ describe('SkyDataManagerComponent', () => {
     expect(mockSkyHighlightDirective.skyHighlight).toBeUndefined();
   });
 
-  it('should announce a status message when the data summary changes and all items are displayed', async () => {
+  it('should announce a status message when the data summary changes, all items are displayed, and some are selected', async () => {
+    const liveAnnouncerSpy = spyOn(liveAnnouncerService, 'announce');
+    dataManagerFixture.detectChanges();
+
+    dataManagerService.updateDataState(
+      new SkyDataManagerState({
+        selectedIds: ['1', '2'],
+      }),
+      'unitTest',
+    );
+    dataManagerService.updateDataSummary(
+      { totalItems: 10, itemsMatching: 8 },
+      'unitTest',
+    );
+
+    dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
+
+    expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+      '8 of 10 items meet criteria and 2 selected.',
+    );
+  });
+
+  it('should announce a status message when the data summary changes, all items are displayed, and none are selected', async () => {
     const liveAnnouncerSpy = spyOn(liveAnnouncerService, 'announce');
     dataManagerFixture.detectChanges();
 
@@ -178,7 +201,7 @@ describe('SkyDataManagerComponent', () => {
     await dataManagerFixture.whenStable();
 
     expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-      '8 of 10 items meet criteria and 0 selected.',
+      '8 of 10 items meet criteria.',
     );
   });
 

@@ -45,8 +45,11 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_data_manager_select_column_status_indicator_title: {
       message: 'Select at least one column.',
     },
-    skyux_data_manager_status_update: {
+    skyux_data_manager_status_update_with_selections: {
       message: '{0} of {1} items meet criteria and {2} selected.',
+    },
+    skyux_data_manager_status_update_without_selections: {
+      message: '{0} of {1} items meet criteria.',
     },
     skyux_data_manager_status_update_only_selected: {
       message:
