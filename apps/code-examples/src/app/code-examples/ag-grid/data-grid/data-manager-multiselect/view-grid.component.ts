@@ -154,7 +154,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       name: 'Data Grid View',
       icon: 'table',
       searchEnabled: true,
-      sortEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
