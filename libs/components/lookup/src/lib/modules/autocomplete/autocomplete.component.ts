@@ -666,7 +666,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   #announceResults(announceTotalCount: boolean): void {
-    const highlightedResult = this.#getActiveElement()?.textContent;
+    const highlightedResult = this.#getActiveElement()?.textContent?.replace(
+      /\n/,
+      ''
+    );
     this.#libResourceService
       .getStrings({
         noResults: 'skyux_autocomplete_no_results',

@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SKY_STACKING_CONTEXT } from '@skyux/core';
+import { SKY_STACKING_CONTEXT, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -237,6 +237,7 @@ describe('Autocomplete component', () => {
     let autocomplete: SkyAutocompleteComponent;
     let asyncAutocomplete: SkyAutocompleteComponent;
     let viewportRulerChange: Subject<Event>;
+    let liveAnnounceSpy: jasmine.Spy;
 
     beforeEach(() => {
       viewportRulerChange = new Subject();
@@ -254,6 +255,10 @@ describe('Autocomplete component', () => {
 
       spyOn(ViewportRuler.prototype, 'change').and.returnValue(
         viewportRulerChange
+      );
+      liveAnnounceSpy = spyOn(
+        TestBed.inject(SkyLiveAnnouncerService),
+        'announce'
       );
 
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
@@ -321,13 +326,16 @@ describe('Autocomplete component', () => {
       expect(input.value).toEqual(selectedValue);
     }));
 
-    it('should search', fakeAsync(() => {
+    fit('should search', fakeAsync(() => {
       fixture.detectChanges();
       const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       enterSearch('r', fixture);
 
       expect(spy.calls.argsFor(0)[0]).toEqual('r');
+      expect(liveAnnounceSpy).toHaveBeenCalledWith(
+        '6 results available. Red selected. Result 1 of 6.'
+      );
     }));
 
     it('should search async', fakeAsync(() => {
@@ -444,6 +452,8 @@ describe('Autocomplete component', () => {
 
       const actionsContainer = getActionsContainer();
       expect(actionsContainer).toBeNull();
+
+      expect(liveAnnounceSpy).toHaveBeenCalledWith('No matches found');
     }));
 
     it('should show a no results found message in the actions area if the add button is shown', fakeAsync(() => {
