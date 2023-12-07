@@ -46,5 +46,17 @@
   "skyux_data_manager_select_column_status_indicator_title": {
     "_description": "Text for the status indicator in the data manager column picker",
     "message": "Select at least one column."
+  },
+  "skyux_data_manager_status_update_with_selections": {
+    "_description": "Text for the status update about displayed items when all items are displayed",
+    "message": "{0} of {1} items meet criteria and {2} selected."
+  },
+  "skyux_data_manager_status_update_without_selections": {
+    "_description": "Text for the status update about displayed items when all items are displayed",
+    "message": "{0} of {1} items meet criteria."
+  },
+  "skyux_data_manager_status_update_only_selected": {
+    "_description": "Text for the status update about displayed items when only selected items are displayed",
+    "message": "{0} of {1} items meet criteria and {2} selected. Only selected items are displayed."
   }
 }

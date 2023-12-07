@@ -244,5 +244,13 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     } else {
       this.#gridApi?.showNoRowsOverlay();
     }
+
+    this.#dataManagerSvc.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.viewId,
+    );
   }
 }
