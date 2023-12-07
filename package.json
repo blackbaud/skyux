@@ -100,7 +100,7 @@
     "@blackbaud/skyux-design-tokens": "0.0.28",
     "@nx/angular": "16.10.0",
     "@skyux/auth-client-factory": "1.2.0",
-    "@skyux/icons": "6.6.2",
+    "@skyux/icons": "6.7.0",
     "ag-grid-angular": "29.3.5",
     "ag-grid-community": "29.3.5",
     "autonumeric": "4.9.0",
