@@ -237,7 +237,6 @@ describe('Autocomplete component', () => {
     let autocomplete: SkyAutocompleteComponent;
     let asyncAutocomplete: SkyAutocompleteComponent;
     let viewportRulerChange: Subject<Event>;
-    let liveAnnounceSpy: jasmine.Spy;
 
     beforeEach(() => {
       viewportRulerChange = new Subject();
@@ -255,10 +254,6 @@ describe('Autocomplete component', () => {
 
       spyOn(ViewportRuler.prototype, 'change').and.returnValue(
         viewportRulerChange
-      );
-      liveAnnounceSpy = spyOn(
-        TestBed.inject(SkyLiveAnnouncerService),
-        'announce'
       );
 
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
@@ -326,16 +321,13 @@ describe('Autocomplete component', () => {
       expect(input.value).toEqual(selectedValue);
     }));
 
-    fit('should search', fakeAsync(() => {
+    it('should search', fakeAsync(() => {
       fixture.detectChanges();
       const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
 
       enterSearch('r', fixture);
 
       expect(spy.calls.argsFor(0)[0]).toEqual('r');
-      expect(liveAnnounceSpy).toHaveBeenCalledWith(
-        '6 results available. Red selected. Result 1 of 6.'
-      );
     }));
 
     it('should search async', fakeAsync(() => {
@@ -452,8 +444,6 @@ describe('Autocomplete component', () => {
 
       const actionsContainer = getActionsContainer();
       expect(actionsContainer).toBeNull();
-
-      expect(liveAnnounceSpy).toHaveBeenCalledWith('No matches found');
     }));
 
     it('should show a no results found message in the actions area if the add button is shown', fakeAsync(() => {
@@ -1162,6 +1152,67 @@ describe('Autocomplete component', () => {
       blurInput(getInputElement(), fixture);
       expect(wrapper?.getAttribute('aria-controls')).toBeNull();
     }));
+
+    describe('status change screen reader announcements', () => {
+      let liveAnnouncerSpy: jasmine.Spy;
+      beforeEach(() => {
+        liveAnnouncerSpy = spyOn(
+          TestBed.inject(SkyLiveAnnouncerService),
+          'announce'
+        );
+      });
+
+      it('should announce number of results and first highlighted value', fakeAsync(() => {
+        fixture.detectChanges();
+        enterSearch('r', fixture);
+
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+          '6 results available. Red selected. Result 1 of 6.'
+        );
+      }));
+
+      it('should announce only selected value when user navigates through results', fakeAsync(() => {
+        fixture.detectChanges();
+        enterSearch('r', fixture);
+
+        // keyboard navigation
+        const inputElement: HTMLInputElement = getInputElement();
+
+        sendArrowDown(inputElement, fixture);
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+          ' Green selected. Result 2 of 6.'
+        );
+
+        sendArrowUp(inputElement, fixture);
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+          ' Red selected. Result 1 of 6.'
+        );
+
+        // mouse hover
+        const results: NodeListOf<Element> = getSearchResultItems();
+
+        sendMouseMove(results.item(1) as HTMLElement, fixture);
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+          ' Green selected. Result 2 of 6.'
+        );
+      }));
+
+      it('should announce when no results found', fakeAsync(() => {
+        fixture.detectChanges();
+
+        enterSearch('abcdefgh', fixture);
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith('No matches found');
+      }));
+
+      it('should announce when only one result available', fakeAsync(() => {
+        fixture.detectChanges();
+
+        enterSearch('red', fixture);
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
+          'One result available. Red selected. Result 1 of 1.'
+        );
+      }));
+    });
 
     describe('highlighting', () => {
       it('should highlight when one letter is pressed', fakeAsync(() => {
