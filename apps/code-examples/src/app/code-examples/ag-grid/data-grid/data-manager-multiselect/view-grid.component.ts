@@ -154,7 +154,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       name: 'Data Grid View',
       icon: 'table',
       searchEnabled: true,
-      sortEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
@@ -325,5 +324,13 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     } else {
       this.#gridApi?.showNoRowsOverlay();
     }
+
+    this.#dataManagerSvc.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.#viewId,
+    );
   }
 }

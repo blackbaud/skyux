@@ -184,7 +184,11 @@ export class DataManagerVisualComponent implements OnInit {
   }
 
   public searchSo() {
-    this.dataState.searchText = 'so';
-    this.dataManagerService.updateDataState(this.dataState, 'dataManager');
+    const newDataState = new SkyDataManagerState({
+      ...this.dataState,
+      searchText: 'so',
+    });
+    this.dataManagerService.updateDataState(newDataState, 'dataManager');
+    this.dataState = newDataState;
   }
 }
