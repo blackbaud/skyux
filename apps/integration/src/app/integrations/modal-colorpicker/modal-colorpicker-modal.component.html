@@ -18,6 +18,7 @@
           Colorpicker with transparent option, 6 presets, and SKY UX icon
         </label>
         <sky-colorpicker
+          (selectedColorApplied)="cdr.markForCheck()"
           #colorPickerTransparent
           pickerButtonIcon="text-color"
           pickerButtonIconType="skyux"
@@ -39,7 +40,11 @@
         <label class="sky-control-label">
           Colorpicker with no icons, no clear button, default color swatches
         </label>
-        <sky-colorpicker [showResetButton]="false" #colorPickerDefault>
+        <sky-colorpicker
+          [showResetButton]="false"
+          (selectedColorApplied)="cdr.markForCheck()"
+          #colorPickerDefault
+        >
           <input
             formControlName="colorFour"
             skyId
@@ -53,7 +58,11 @@
         <label class="sky-control-label">
           Colorpicker with 12 presets and FA icon
         </label>
-        <sky-colorpicker #colorPickerPresets pickerButtonIcon="pencil">
+        <sky-colorpicker
+          (selectedColorApplied)="cdr.markForCheck()"
+          #colorPickerPresets
+          pickerButtonIcon="pencil"
+        >
           <input
             formControlName="colorOne"
             skyId

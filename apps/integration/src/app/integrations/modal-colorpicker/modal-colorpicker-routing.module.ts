@@ -3,12 +3,13 @@ import { RouterModule } from '@angular/router';
 
 import { IntegrationRouteInfo } from '../../shared/integration-info/integration-route-info';
 
-import { ModalColorpickerComponent } from './modal-colorpicker.component';
-
 const routes: IntegrationRouteInfo[] = [
   {
     path: '',
-    component: ModalColorpickerComponent,
+    loadComponent: () =>
+      import('./modal-colorpicker.component').then(
+        (m) => m.ModalColorpickerComponent,
+      ),
     data: {
       name: 'Colorpicker inside Modal',
       icon: 'paint-brush',

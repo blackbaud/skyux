@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -27,9 +32,10 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   ],
 })
 export class ModalColorpickerModalComponent {
-  public colorForm: FormGroup;
+  protected readonly colorForm: FormGroup;
+  protected readonly cdr = inject(ChangeDetectorRef);
 
-  public swatches12: string[] = [
+  protected readonly swatches12: string[] = [
     '#333333',
     '#888888',
     '#EFEFEF',
@@ -44,7 +50,7 @@ export class ModalColorpickerModalComponent {
     '#68AFEF',
   ];
 
-  public swatches6: string[] = [
+  protected readonly swatches6: string[] = [
     '#BD4040',
     '#617FC2',
     '#60AC68',
