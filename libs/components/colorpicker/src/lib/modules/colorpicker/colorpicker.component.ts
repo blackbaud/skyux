@@ -548,7 +548,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         horizontalAlignment: 'left',
         verticalAlignment: 'bottom',
         isSticky: true,
-        placement: 'right',
+        placement: 'below',
       });
 
       this.#affixer = affixer;
