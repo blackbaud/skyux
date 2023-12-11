@@ -1,31 +1,39 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
-import { SkyInputBoxErrorComponent } from './input-box-error.component';
+import { SkyErrorComponent } from './error.component';
 
 /**
  * @internal
  */
 @Component({
-  selector: 'sky-input-box-errors',
+  selector: 'sky-errors',
   standalone: true,
   imports: [
     CommonModule,
     SkyI18nModule,
     SkyIdModule,
-    SkyInputBoxErrorComponent,
+    SkyErrorComponent,
     SkyFormsResourcesModule,
   ],
-  templateUrl: './input-box-errors.component.html',
-  styleUrls: ['./input-box-errors.component.scss'],
+  templateUrl: './errors.component.html',
+  styleUrls: ['./errors.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyInputBoxErrorsComponent {
+export class SkyErrorsComponent {
+  @HostBinding('attr.aria-live')
+  public readonly ariaLive = 'polite';
+
   @Input()
   public errors: ValidationErrors | undefined;
 

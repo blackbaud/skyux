@@ -170,17 +170,7 @@
 
 <ng-template #errorLabelTemplate>
   <div class="sky-control-errors" role="alert" [id]="errorId">
-    <sky-input-box-errors
-      *ngIf="
-        labelText &&
-        controlDir &&
-        controlDir.invalid &&
-        (controlDir.dirty || controlDir.touched) &&
-        controlDir.errors
-      "
-      [errors]="controlDir.errors"
-      [labelText]="labelText"
-    />
+    <sky-errors [errors]="controlDir?.errors" [labelText]="labelText" />
     <ng-content select=".sky-error-label,.sky-error-indicator" />
   </div>
 </ng-template>
