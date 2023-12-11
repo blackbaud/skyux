@@ -1,4 +1,4 @@
-<ng-container *ngIf="errors">
+<ng-container *ngIf="labelText && showErrors && errors">
   <sky-error *ngIf="errors['required']" class="sky-error-required">
     {{ 'skyux_error_required' | skyLibResources : labelText }}
   </sky-error>

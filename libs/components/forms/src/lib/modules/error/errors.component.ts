@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -34,9 +35,22 @@ export class SkyErrorsComponent {
   @HostBinding('attr.aria-live')
   public readonly ariaLive = 'polite';
 
-  @Input()
+  /**
+   * The validation errors from the form control.
+   */
+  @Input({ transform: (value: unknown) => value || undefined })
   public errors: ValidationErrors | undefined;
 
+  /**
+   * Input label text to display in the error messages.
+   */
   @Input()
   public labelText: string | undefined;
+
+  /**
+   * Indicates whether to show error messages, which might only be true if the
+   * form control is touched or dirty.
+   */
+  @Input({ transform: coerceBooleanProperty })
+  public showErrors = true;
 }
