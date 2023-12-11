@@ -1,5 +1,18 @@
 # Changelog
 
+## [9.17.0](https://github.com/blackbaud/skyux/compare/9.16.2...9.17.0) (2023-12-11)
+
+
+### Features
+
+* **components/data-manager:** announce status messages ([#1906](https://github.com/blackbaud/skyux/issues/1906)) ([5d77dc3](https://github.com/blackbaud/skyux/commit/5d77dc397b45f6f160a6b55eb91096e146d22b98))
+* **components/indicators:** add sparkle icon ([#1910](https://github.com/blackbaud/skyux/issues/1910)) ([583ef90](https://github.com/blackbaud/skyux/commit/583ef9072a6282a2e28049c257695d25a32e6231))
+
+
+### Bug Fixes
+
+* **components/data-manager:** don't include sort dropdown in grid views ([#1908](https://github.com/blackbaud/skyux/issues/1908)) ([7f14348](https://github.com/blackbaud/skyux/commit/7f1434810bb1a657196990a9d004000e64af483a))
+
 ## [9.16.2](https://github.com/blackbaud/skyux/compare/9.16.1...9.16.2) (2023-12-06)
 
 
