@@ -4,6 +4,9 @@
 
 .sky-colorpicker-container {
   position: fixed;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sky-colorpicker-button {

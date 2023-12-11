@@ -54,7 +54,7 @@ describe('colorpicker-storybook', () => {
             .should('be.visible')
             .then(($el) => {
               cy.wrap($el.position().top)
-                .should('be.greaterThan', 15)
+                .should('be.gte', 0)
                 .should('be.lessThan', 1000);
               cy.wrap($el.position().left).should('be.gte', 15);
             })
