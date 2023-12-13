@@ -15,10 +15,6 @@
     "_description": "Screen reader only text for singular available result",
     "message": "One result available."
   },
-  "skyux_autocomplete_results": {
-    "_description": "Screen reader only text for highlighted text",
-    "message": "{0} selected. Result {1} of {2}."
-  },
   "skyux_autocomplete_show_all": {
     "_description": "Menu item text to display when an unknown number of items is available to be selected",
     "message": "Show all"
