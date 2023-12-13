@@ -8,32 +8,30 @@ import {
 } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
-import { SkyErrorComponent } from './error.component';
+import { SkyFormErrorComponent } from './error.component';
 
 /**
  * @internal
  */
 @Component({
-  selector: 'sky-errors',
+  selector: 'sky-form-errors',
   standalone: true,
   imports: [
     CommonModule,
-    SkyI18nModule,
     SkyIdModule,
-    SkyErrorComponent,
+    SkyFormErrorComponent,
     SkyFormsResourcesModule,
   ],
   templateUrl: './errors.component.html',
   styleUrls: ['./errors.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyErrorsComponent {
+export class SkyFormErrorsComponent {
   @HostBinding('attr.aria-live')
-  public readonly ariaLive = 'polite';
+  protected readonly ariaLive = 'polite';
 
   /**
    * The validation errors from the form control.

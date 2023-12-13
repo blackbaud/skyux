@@ -5,12 +5,12 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
  * @internal
  */
 @Component({
-  selector: 'sky-error',
+  selector: 'sky-form-error',
   standalone: true,
   imports: [SkyStatusIndicatorModule],
   template: `
     <sky-status-indicator
-      class="sky-error-indicator sky-error"
+      class="sky-form-error-indicator sky-form-error"
       descriptionType="error"
       indicatorType="danger"
     >
@@ -25,7 +25,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
     `,
   ],
 })
-export class SkyErrorComponent {
+export class SkyFormErrorComponent {
   @HostBinding('class')
-  protected cssClass = 'sky-error-indicator';
+  protected cssClass = 'sky-form-error-indicator';
 }

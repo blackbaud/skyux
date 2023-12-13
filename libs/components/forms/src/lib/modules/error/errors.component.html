@@ -1,55 +1,55 @@
 <ng-container *ngIf="labelText && showErrors && errors">
-  <sky-error *ngIf="errors['required']" class="sky-error-required">
-    {{ 'skyux_error_required' | skyLibResources : labelText }}
-  </sky-error>
+  <sky-form-error *ngIf="errors['required']" class="sky-form-error-required">
+    {{ 'skyux_form_error_required' | skyLibResources : labelText }}
+  </sky-form-error>
 
-  <sky-error
+  <sky-form-error
     *ngIf="errors['maxlength'] as maxLengthError"
-    class="sky-error-maxlength"
+    class="sky-form-error-maxlength"
   >
     {{
-      'skyux_error_maxlength'
+      'skyux_form_error_maxlength'
         | skyLibResources : labelText : maxLengthError.requiredLength
     }}
-  </sky-error>
+  </sky-form-error>
 
-  <sky-error
+  <sky-form-error
     *ngIf="errors['minlength'] as minLengthError"
-    class="sky-error-minlength"
+    class="sky-form-error-minlength"
   >
     {{
-      'skyux_error_minlength'
+      'skyux_form_error_minlength'
         | skyLibResources : labelText : minLengthError.requiredLength
     }}
-  </sky-error>
+  </sky-form-error>
 
-  <sky-error
+  <sky-form-error
     *ngIf="errors['skyCharacterCounter'] as characterCounterError"
-    class="sky-error-character-counter"
+    class="sky-form-error-character-counter"
   >
     {{
-      'skyux_error_character_count'
+      'skyux_form_error_character_count'
         | skyLibResources : labelText : characterCounterError.limit
     }}
-  </sky-error>
+  </sky-form-error>
 
-  <sky-error *ngIf="errors['skyDate']" class="sky-error-date">
-    {{ 'skyux_error_date' | skyLibResources }}
-  </sky-error>
+  <sky-form-error *ngIf="errors['skyDate']" class="sky-form-error-date">
+    {{ 'skyux_form_error_date' | skyLibResources }}
+  </sky-form-error>
 
-  <sky-error *ngIf="errors['skyEmail']" class="sky-error-email">
-    {{ 'skyux_error_email' | skyLibResources }}
-  </sky-error>
+  <sky-form-error *ngIf="errors['skyEmail']" class="sky-form-error-email">
+    {{ 'skyux_form_error_email' | skyLibResources }}
+  </sky-form-error>
 
-  <sky-error *ngIf="errors['skyPhoneField']" class="sky-error-phone">
-    {{ 'skyux_error_phone' | skyLibResources }}
-  </sky-error>
+  <sky-form-error *ngIf="errors['skyPhoneField']" class="sky-form-error-phone">
+    {{ 'skyux_form_error_phone' | skyLibResources }}
+  </sky-form-error>
 
-  <sky-error *ngIf="errors['skyTime']" class="sky-error-time">
-    {{ 'skyux_error_time' | skyLibResources }}
-  </sky-error>
+  <sky-form-error *ngIf="errors['skyTime']" class="sky-form-error-time">
+    {{ 'skyux_form_error_time' | skyLibResources }}
+  </sky-form-error>
 
-  <sky-error *ngIf="errors['skyUrl']" class="sky-error-url">
-    {{ 'skyux_error_url' | skyLibResources }}
-  </sky-error>
+  <sky-form-error *ngIf="errors['skyUrl']" class="sky-form-error-url">
+    {{ 'skyux_form_error_url' | skyLibResources }}
+  </sky-form-error>
 </ng-container>

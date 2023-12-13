@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyCharacterCounterModule } from '../character-counter/character-counter.module';
-import { SkyErrorsComponent } from '../error/errors.component';
+import { SkyFormErrorsComponent } from '../error/errors.component';
 
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
 import { SkyInputBoxHelpInlineComponent } from './input-box-help-inline.component';
@@ -14,7 +14,7 @@ import { SkyInputBoxComponent } from './input-box.component';
   imports: [
     CommonModule,
     SkyCharacterCounterModule,
-    SkyErrorsComponent,
+    SkyFormErrorsComponent,
     SkyInputBoxControlDirective,
     SkyInputBoxHelpInlineComponent,
     SkyThemeModule,
