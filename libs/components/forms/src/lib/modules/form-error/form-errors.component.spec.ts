@@ -13,21 +13,27 @@ describe('SkyFormErrorsComponent', () => {
     await fixture.whenStable();
   });
 
-  it('should be toggle announcements', async () => {
+  it('should toggle announcements', async () => {
     expect(component).toBeTruthy();
-    expect(fixture.nativeElement.outerHTML).toContain('aria-live="polite"');
+
+    // Initially the component should announce errors.
     expect(fixture.nativeElement.outerHTML).toContain('aria-relevant="all"');
+    expect(fixture.nativeElement.outerHTML).toContain('role="alert"');
+
+    // When announceErrors is false, the component should not announce errors.
     component.announceErrors = false;
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(fixture.nativeElement.outerHTML).not.toContain('aria-live="polite"');
     expect(fixture.nativeElement.outerHTML).not.toContain(
       'aria-relevant="all"',
     );
+    expect(fixture.nativeElement.outerHTML).not.toContain('role="alert"');
+
+    // When announceErrors is true, the component should announce errors.
     component.announceErrors = true;
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(fixture.nativeElement.outerHTML).toContain('aria-live="polite"');
     expect(fixture.nativeElement.outerHTML).toContain('aria-relevant="all"');
+    expect(fixture.nativeElement.outerHTML).toContain('role="alert"');
   });
 });
