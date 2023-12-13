@@ -1,5 +1,17 @@
 # Changelog
 
+## [9.19.0](https://github.com/blackbaud/skyux/compare/9.18.0...9.19.0) (2023-12-13)
+
+
+### Features
+
+* **components/lookup:** announce autocomplete search result state change ([#1909](https://github.com/blackbaud/skyux/issues/1909)) ([b6d8fd0](https://github.com/blackbaud/skyux/commit/b6d8fd0c1099c117c0910b62cc2ded6903492d12))
+
+
+### Bug Fixes
+
+* **components/popovers:** adjust dropdown position when at the bottom of the screen ([#1914](https://github.com/blackbaud/skyux/issues/1914)) ([e408250](https://github.com/blackbaud/skyux/commit/e408250526f9dbf04ae12cdbc10979ee449847f8))
+
 ## [9.18.0](https://github.com/blackbaud/skyux/compare/9.17.0...9.18.0) (2023-12-13)
 
 
