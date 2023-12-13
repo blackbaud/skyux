@@ -641,7 +641,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#activeElementIndex = this.#activeElementIndex + 1;
           }
           this.#addFocusedClass();
-          this.#announceResults(false);
           this.#changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
@@ -657,7 +656,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#activeElementIndex = this.#activeElementIndex - 1;
           }
           this.#addFocusedClass();
-          this.#announceResults(false);
           this.#changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
@@ -666,11 +664,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  #announceResults(announceTotalCount: boolean): void {
-    const highlightedResult = this.#getActiveElement()?.textContent?.replace(
-      /\n/,
-      ''
-    );
+  #announceResults(): void {
     this.#libResourceService
       .getStrings({
         noResults: 'skyux_autocomplete_no_results',
@@ -679,24 +673,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           'skyux_autocomplete_multiple_results',
           this.searchResultsCount,
         ],
-        highlightedResult: [
-          'skyux_autocomplete_results',
-          highlightedResult,
-          this.#activeElementIndex + 1,
-          this.searchResultsCount,
-        ],
       })
       .pipe(take(1))
       .subscribe((localizedStrings) => {
         let announcementString = '';
         if (this.searchResultsCount && this.searchResultsCount > 0) {
-          if (announceTotalCount) {
-            announcementString =
-              this.searchResultsCount === 1
-                ? localizedStrings.singleCountResult
-                : localizedStrings.multipleCountResults;
-          }
-          announcementString += localizedStrings.highlightedResult;
+          announcementString =
+            this.searchResultsCount === 1
+              ? localizedStrings.singleCountResult
+              : localizedStrings.multipleCountResults;
           this.#liveAnnounceService.announce(announcementString);
         } else if (this.searchResultsCount === 0) {
           this.#liveAnnounceService.announce(localizedStrings.noResults);
@@ -730,7 +715,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#removeFocusedClass();
       this.#activeElementIndex = id;
       this.#addFocusedClass();
-      this.#announceResults(false);
       this.#changeDetector.markForCheck();
     }
   }
@@ -943,7 +927,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#changeDetector.markForCheck();
       this.#updateAriaControls();
       this.#initOverlayFocusableElements();
-      this.#announceResults(true);
+      this.#announceResults();
       this.openChange.emit(true);
     }
   }
@@ -1090,7 +1074,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#adapterService.setTabIndex(el, -1);
         });
         this.#addFocusedClass();
-        this.#announceResults(true);
+        this.#announceResults();
       }
     });
   }

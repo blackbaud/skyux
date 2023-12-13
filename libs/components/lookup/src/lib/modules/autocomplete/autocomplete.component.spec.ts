@@ -1158,43 +1158,15 @@ describe('Autocomplete component', () => {
       beforeEach(() => {
         liveAnnouncerSpy = spyOn(
           TestBed.inject(SkyLiveAnnouncerService),
-          'announce'
+          'announce',
         );
       });
 
-      it('should announce number of results and first highlighted value', fakeAsync(() => {
+      it('should announce number of results', fakeAsync(() => {
         fixture.detectChanges();
         enterSearch('r', fixture);
 
-        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-          '6 results available. Red selected. Result 1 of 6.'
-        );
-      }));
-
-      it('should announce only selected value when user navigates through results', fakeAsync(() => {
-        fixture.detectChanges();
-        enterSearch('r', fixture);
-
-        // keyboard navigation
-        const inputElement: HTMLInputElement = getInputElement();
-
-        sendArrowDown(inputElement, fixture);
-        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-          ' Green selected. Result 2 of 6.'
-        );
-
-        sendArrowUp(inputElement, fixture);
-        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-          ' Red selected. Result 1 of 6.'
-        );
-
-        // mouse hover
-        const results: NodeListOf<Element> = getSearchResultItems();
-
-        sendMouseMove(results.item(1) as HTMLElement, fixture);
-        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-          ' Green selected. Result 2 of 6.'
-        );
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith('6 results available.');
       }));
 
       it('should announce when no results found', fakeAsync(() => {
@@ -1208,9 +1180,7 @@ describe('Autocomplete component', () => {
         fixture.detectChanges();
 
         enterSearch('red', fixture);
-        expect(liveAnnouncerSpy).toHaveBeenCalledWith(
-          'One result available. Red selected. Result 1 of 1.'
-        );
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith('One result available.');
       }));
     });
 
