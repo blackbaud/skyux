@@ -21,6 +21,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
     `
       :host {
         display: block;
+        margin-top: var(--sky-margin-inline-xs);
       }
     `,
   ],
