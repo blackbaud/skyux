@@ -26,6 +26,11 @@ export const componentRoutes: Routes = [
       ),
   },
   {
+    path: 'avatar',
+    loadChildren: () =>
+      import('./avatar/avatar.module').then((m) => m.AvatarModule),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./colorpicker/colorpicker.module').then(
