@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -12,6 +13,7 @@ import { DropdownComponent } from './dropdown.component';
     DropdownRoutingModule,
     SkyDropdownModule,
     SkyIconModule,
+    FormsModule,
   ],
   declarations: [DropdownComponent],
 })
