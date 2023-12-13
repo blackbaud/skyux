@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SKY_STACKING_CONTEXT } from '@skyux/core';
+import { SKY_STACKING_CONTEXT, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -1152,6 +1152,37 @@ describe('Autocomplete component', () => {
       blurInput(getInputElement(), fixture);
       expect(wrapper?.getAttribute('aria-controls')).toBeNull();
     }));
+
+    describe('status change screen reader announcements', () => {
+      let liveAnnouncerSpy: jasmine.Spy;
+      beforeEach(() => {
+        liveAnnouncerSpy = spyOn(
+          TestBed.inject(SkyLiveAnnouncerService),
+          'announce',
+        );
+      });
+
+      it('should announce number of results', fakeAsync(() => {
+        fixture.detectChanges();
+        enterSearch('r', fixture);
+
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith('6 results available.');
+      }));
+
+      it('should announce when no results found', fakeAsync(() => {
+        fixture.detectChanges();
+
+        enterSearch('abcdefgh', fixture);
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith('No matches found');
+      }));
+
+      it('should announce when only one result available', fakeAsync(() => {
+        fixture.detectChanges();
+
+        enterSearch('red', fixture);
+        expect(liveAnnouncerSpy).toHaveBeenCalledWith('One result available.');
+      }));
+    });
 
     describe('highlighting', () => {
       it('should highlight when one letter is pressed', fakeAsync(() => {
