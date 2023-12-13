@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyCharacterCounterModule, SkyInputBoxModule } from '@skyux/forms';
+import {
+  SkyCharacterCounterModule,
+  SkyFormErrorsComponent,
+  SkyInputBoxModule,
+} from '@skyux/forms';
 import {
   SkyHelpInlineModule,
   SkyIconModule,
@@ -26,6 +30,7 @@ import { InputBoxComponent } from './input-box.component';
     SkyIdModule,
     SkyInputBoxModule,
     SkyStatusIndicatorModule,
+    SkyFormErrorsComponent,
   ],
 })
 export class InputBoxModule {

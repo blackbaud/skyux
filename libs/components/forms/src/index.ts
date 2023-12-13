@@ -3,7 +3,7 @@ export { SkyCharacterCounterModule } from './lib/modules/character-counter/chara
 export { SkyCheckboxChange } from './lib/modules/checkbox/checkbox-change';
 export { SkyCheckboxModule } from './lib/modules/checkbox/checkbox.module';
 
-export { SkyFormErrorsComponent } from './lib/modules/error/errors.component';
+export { SkyFormErrorsComponent } from './lib/modules/form-error/form-errors.component';
 
 export { SkyFileAttachmentsModule } from './lib/modules/file-attachment/file-attachments.module';
 export { SkyFileItem } from './lib/modules/file-attachment/file-item';

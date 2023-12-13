@@ -11,7 +11,7 @@ import { SkyIdModule } from '@skyux/core';
 
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
-import { SkyFormErrorComponent } from './error.component';
+import { SkyFormErrorComponent } from './form-error.component';
 
 /**
  * @internal
@@ -25,13 +25,16 @@ import { SkyFormErrorComponent } from './error.component';
     SkyFormErrorComponent,
     SkyFormsResourcesModule,
   ],
-  templateUrl: './errors.component.html',
-  styleUrls: ['./errors.component.scss'],
+  templateUrl: './form-errors.component.html',
+  styleUrls: ['./form-errors.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormErrorsComponent {
-  @HostBinding('attr.aria-live')
-  protected readonly ariaLive = 'polite';
+  @HostBinding('attr.aria-relevant')
+  protected ariaRelevant: 'all' | undefined = 'all';
+
+  @HostBinding('attr.role')
+  protected role: 'alert' | undefined = 'alert';
 
   /**
    * The validation errors from the form control.
@@ -51,4 +54,15 @@ export class SkyFormErrorsComponent {
    */
   @Input({ transform: coerceBooleanProperty })
   public showErrors = true;
+
+  /**
+   * Indicates whether error messages should be announced to screen readers by
+   * this component when they are shown. Set to `false` if the error messages
+   * are already announced, such as if a parent has `role="alert"` or `aria-live`.
+   */
+  @Input({ transform: coerceBooleanProperty })
+  public set announceErrors(value: boolean) {
+    this.ariaRelevant = value ? 'all' : undefined;
+    this.role = value ? 'alert' : undefined;
+  }
 }
