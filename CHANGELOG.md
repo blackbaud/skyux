@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.18.0](https://github.com/blackbaud/skyux/compare/9.17.0...9.18.0) (2023-12-13)
+
+
+### Features
+
+* **components/colorpicker:** adjust interface on smaller screens ([#1905](https://github.com/blackbaud/skyux/issues/1905)) ([f76dca5](https://github.com/blackbaud/skyux/commit/f76dca52b20dfe23f8e410e9bc0085cd56c1eb1f))
+
 ## [9.17.0](https://github.com/blackbaud/skyux/compare/9.16.2...9.17.0) (2023-12-11)
 
 
