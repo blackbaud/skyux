@@ -211,7 +211,9 @@ $modernDarkThemeBase: map.merge(
 }
 
 ag-grid-angular {
-  border-top: sky-ag-grid-variables.$sky-standard-border;
+  &.sky-ag-grid-editable {
+    border-top: sky-ag-grid-variables.$sky-standard-border;
+  }
 
   .ag-root-wrapper {
     border: none;
