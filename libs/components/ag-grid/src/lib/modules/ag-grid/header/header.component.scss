@@ -45,7 +45,7 @@ button.ag-header-cell-label {
     flex-wrap: nowrap;
     flex-direction: row;
     overflow: hidden;
-    //gap: var(--sky-margin-inline-xs);
+    gap: var(--sky-margin-inline-xs);
 
     .ag-header-cell-text {
       flex-grow: 0;
@@ -53,8 +53,13 @@ button.ag-header-cell-label {
     }
 
     .ag-sort-indicator-container {
+      color: var(--ag-header-foreground-color);
       width: initial;
       height: initial;
+
+      &:hover {
+        border: none;
+      }
 
       &:empty {
         display: none;
