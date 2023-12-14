@@ -1,4 +1,9 @@
-import { ElementRef, Injectable } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  RendererFactory2,
+  inject,
+} from '@angular/core';
 
 const ARIA_DESCRIBEDBY_ATTR = 'aria-describedby';
 
@@ -7,6 +12,8 @@ const ARIA_DESCRIBEDBY_ATTR = 'aria-describedby';
  */
 @Injectable()
 export class SkyInputBoxAdapterService {
+  #renderer = inject(RendererFactory2).createRenderer(undefined, null);
+
   public focusControl(elRef: ElementRef): void {
     const control = elRef.nativeElement.querySelector('.sky-form-control');
     /* istanbul ignore else */
@@ -38,34 +45,41 @@ export class SkyInputBoxAdapterService {
     inputRef: ElementRef,
     hintTextId: string,
     hintText: string | undefined,
+    hintTextPosition: 'first' | 'last' = 'last',
   ): void {
     const inputEl = inputRef.nativeElement as HTMLElement;
 
+    const previousValue = inputEl.getAttribute(ARIA_DESCRIBEDBY_ATTR);
     const describedByIds =
-      inputEl
-        .getAttribute(ARIA_DESCRIBEDBY_ATTR)
-        ?.split(' ')
-        .map((id) => id.trim()) ?? [];
+      previousValue?.split(' ').map((id) => id.trim()) ?? [];
 
     const hintTextIdIndex = describedByIds.indexOf(hintTextId);
-    const previousCount = describedByIds.length;
 
     if (hintText && hintTextIdIndex < 0) {
-      describedByIds.push(hintTextId);
+      if (hintTextPosition === 'last') {
+        describedByIds.push(hintTextId);
+      } else {
+        describedByIds.unshift(hintTextId);
+      }
     } else if (!hintText && hintTextIdIndex >= 0) {
       describedByIds.splice(hintTextIdIndex, 1);
     }
 
-    if (describedByIds.length !== previousCount) {
-      this.#setDescribedByIds(inputEl, describedByIds);
+    const newValue = describedByIds.join(' ');
+    if (newValue !== previousValue) {
+      this.#setDescribedByIds(inputEl, newValue);
     }
   }
 
-  #setDescribedByIds(inputEl: HTMLElement, describedByIds: string[]): void {
+  #setDescribedByIds(inputEl: HTMLElement, describedByIds: string): void {
     if (describedByIds.length === 0) {
-      inputEl.removeAttribute(ARIA_DESCRIBEDBY_ATTR);
+      this.#renderer.removeAttribute(inputEl, ARIA_DESCRIBEDBY_ATTR);
     } else {
-      inputEl.setAttribute(ARIA_DESCRIBEDBY_ATTR, describedByIds.join(' '));
+      this.#renderer.setAttribute(
+        inputEl,
+        ARIA_DESCRIBEDBY_ATTR,
+        describedByIds,
+      );
     }
   }
 }
