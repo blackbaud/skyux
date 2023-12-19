@@ -151,9 +151,9 @@ describe('HeaderComponent', () => {
     apiEvents['sortChanged'].forEach((listener) => listener());
     columnEvents['sortChanged'].forEach((listener) => listener());
     expect(
-      fixture.debugElement.query(By.css('.ag-header-label-icon')).attributes[
-        'icon'
-      ],
+      fixture.debugElement.query(
+        By.css('.ag-sort-indicator-container sky-icon'),
+      ).attributes['icon'],
     ).toBe('caret-up');
     useSort = undefined;
     apiEvents['sortChanged'].forEach((listener) => listener());
