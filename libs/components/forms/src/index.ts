@@ -3,6 +3,8 @@ export { SkyCharacterCounterModule } from './lib/modules/character-counter/chara
 export { SkyCheckboxChange } from './lib/modules/checkbox/checkbox-change';
 export { SkyCheckboxModule } from './lib/modules/checkbox/checkbox.module';
 
+export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
+
 export { SkyFileAttachmentsModule } from './lib/modules/file-attachment/file-attachments.module';
 export { SkyFileItem } from './lib/modules/file-attachment/file-item';
 export { SkyFileItemErrorType } from './lib/modules/file-attachment/file-item-error-type';
@@ -39,6 +41,7 @@ export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attac
 export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment/file-attachment.component';
 export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachment/file-drop.component';
 export { SkyFileItemComponent as λ9 } from './lib/modules/file-attachment/file-item.component';
+export { SkyFormErrorsComponent as λ21 } from './lib/modules/form-error/form-errors.component';
 export { SkyInputBoxControlDirective as λ20 } from './lib/modules/input-box/input-box-control.directive';
 export { SkyInputBoxComponent as λ10 } from './lib/modules/input-box/input-box.component';
 export { SkyRadioGroupComponent as λ11 } from './lib/modules/radio/radio-group.component';
