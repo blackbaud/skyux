@@ -45,40 +45,37 @@ export class SkyInputBoxAdapterService {
     inputRef: ElementRef,
     hintTextId: string,
     hintText: string | undefined,
-    hintTextPosition: 'first' | 'last' = 'last',
   ): void {
     const inputEl = inputRef.nativeElement as HTMLElement;
 
-    const previousValue = inputEl.getAttribute(ARIA_DESCRIBEDBY_ATTR);
     const describedByIds =
-      previousValue?.split(' ').map((id) => id.trim()) ?? [];
+      inputEl
+        .getAttribute(ARIA_DESCRIBEDBY_ATTR)
+        ?.split(' ')
+        .map((id) => id.trim()) ?? [];
 
     const hintTextIdIndex = describedByIds.indexOf(hintTextId);
+    const previousCount = describedByIds.length;
 
     if (hintText && hintTextIdIndex < 0) {
-      if (hintTextPosition === 'last') {
-        describedByIds.push(hintTextId);
-      } else {
-        describedByIds.unshift(hintTextId);
-      }
+      describedByIds.push(hintTextId);
     } else if (!hintText && hintTextIdIndex >= 0) {
       describedByIds.splice(hintTextIdIndex, 1);
     }
 
-    const newValue = describedByIds.join(' ');
-    if (newValue !== previousValue) {
-      this.#setDescribedByIds(inputEl, newValue);
+    if (describedByIds.length !== previousCount) {
+      this.#setDescribedByIds(inputEl, describedByIds);
     }
   }
 
-  #setDescribedByIds(inputEl: HTMLElement, describedByIds: string): void {
+  #setDescribedByIds(inputEl: HTMLElement, describedByIds: string[]): void {
     if (describedByIds.length === 0) {
       this.#renderer.removeAttribute(inputEl, ARIA_DESCRIBEDBY_ATTR);
     } else {
       this.#renderer.setAttribute(
         inputEl,
         ARIA_DESCRIBEDBY_ATTR,
-        describedByIds,
+        describedByIds.join(' '),
       );
     }
   }

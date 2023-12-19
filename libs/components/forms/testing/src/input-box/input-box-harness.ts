@@ -72,7 +72,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     const errors = await this.locatorForAll(
       new HarnessPredicate(SkyStatusIndicatorHarness, {
         selector:
-          'sky-status-indicator:not(.sky-form-error-indicator.sky-form-error)',
+          'sky-status-indicator:not(sky-form-error sky-status-indicator)',
       }),
     )();
 

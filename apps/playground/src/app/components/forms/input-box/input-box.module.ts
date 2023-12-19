@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import {
   SkyCharacterCounterModule,
-  SkyFormErrorsComponent,
+  SkyFormErrorsModule,
   SkyInputBoxModule,
 } from '@skyux/forms';
 import {
@@ -25,12 +25,12 @@ import { InputBoxComponent } from './input-box.component';
     InputBoxRoutingModule,
     ReactiveFormsModule,
     SkyCharacterCounterModule,
+    SkyFormErrorsModule,
     SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
     SkyInputBoxModule,
     SkyStatusIndicatorModule,
-    SkyFormErrorsComponent,
   ],
 })
 export class InputBoxModule {

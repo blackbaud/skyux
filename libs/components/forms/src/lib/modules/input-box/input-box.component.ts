@@ -241,13 +241,6 @@ export class SkyInputBoxComponent
         this.hintText,
       );
 
-      this.#adapterService.updateDescribedBy(
-        this.inputRef,
-        this.errorId,
-        'errorId', // Passing a string here to force the aria-describedby attribute to include the errorId.
-        'first',
-      );
-
       if (this.inputRef !== this.#previousInputRef) {
         this.#renderer.addClass(inputEl, 'sky-form-control');
         this.#renderer.setAttribute(inputEl, 'id', this.controlId);

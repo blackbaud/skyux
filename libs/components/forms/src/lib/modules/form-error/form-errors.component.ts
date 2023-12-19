@@ -30,17 +30,11 @@ import { SkyFormErrorComponent } from './form-error.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormErrorsComponent {
-  @HostBinding('attr.aria-relevant')
-  protected ariaRelevant: 'all' | undefined = 'all';
-
-  @HostBinding('attr.role')
-  protected role: 'alert' | undefined = 'alert';
-
   /**
    * The validation errors from the form control.
    */
-  @Input({ transform: (value: unknown) => value || undefined })
-  public errors: ValidationErrors | undefined;
+  @Input()
+  public errors: ValidationErrors | null | undefined;
 
   /**
    * Input label text to display in the error messages.
@@ -55,14 +49,12 @@ export class SkyFormErrorsComponent {
   @Input({ transform: coerceBooleanProperty })
   public showErrors = true;
 
-  /**
-   * Indicates whether error messages should be announced to screen readers by
-   * this component when they are shown. Set to `false` if the error messages
-   * are already announced, such as if a parent has `role="alert"` or `aria-live`.
-   */
-  @Input({ transform: coerceBooleanProperty })
-  public set announceErrors(value: boolean) {
-    this.ariaRelevant = value ? 'all' : undefined;
-    this.role = value ? 'alert' : undefined;
-  }
+  @HostBinding('attr.aria-atomic')
+  protected readonly ariaAtomic = 'true';
+
+  @HostBinding('attr.aria-live')
+  protected readonly ariaLive = 'assertive';
+
+  @HostBinding('attr.aria-relevant')
+  protected readonly ariaRelevant = 'all';
 }

@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 /**
@@ -10,7 +10,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
   imports: [SkyStatusIndicatorModule],
   template: `
     <sky-status-indicator
-      class="sky-form-error-indicator sky-form-error"
+      class="sky-form-error"
       descriptionType="error"
       indicatorType="danger"
     >
@@ -21,12 +21,13 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
     `
       :host {
         display: block;
-        margin-top: var(--sky-margin-inline-xs);
+        margin-top: var(--sky-margin-stacked-xs);
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormErrorComponent {
   @HostBinding('class')
-  protected cssClass = 'sky-form-error-indicator';
+  protected readonly cssClass = 'sky-form-error-indicator';
 }

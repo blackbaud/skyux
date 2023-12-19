@@ -169,15 +169,14 @@
 </ng-template>
 
 <ng-template #errorLabelTemplate>
-  <div class="sky-control-errors" role="alert" [id]="errorId">
-    <sky-form-errors
-      [errors]="controlDir?.errors"
-      [labelText]="labelText"
-      [showErrors]="controlDir?.touched || controlDir?.dirty"
-      announceErrors="false"
-    />
+  <sky-form-errors
+    [id]="errorId"
+    [errors]="controlDir?.errors"
+    [labelText]="labelText"
+    [showErrors]="controlDir?.touched || controlDir?.dirty"
+  >
     <ng-content select=".sky-error-label,.sky-error-indicator" />
-  </div>
+  </sky-form-errors>
 </ng-template>
 
 <ng-template #hintTextTemplate>
