@@ -96,7 +96,7 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
     const computedStyle = window.getComputedStyle(parentElement, undefined);
     const overflowY = computedStyle.overflowY.toLowerCase();
 
-    if (computedStyle.position === 'fixed' || parentElement.matches('body')) {
+    if (parentElement.matches('body')) {
       break;
     }
     if (
@@ -105,6 +105,9 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
       overflowY === 'scroll'
     ) {
       results.push(parentElement);
+    }
+    if (computedStyle.position === 'fixed') {
+      break;
     }
 
     parentElement = parentElement.parentNode;

@@ -13,8 +13,12 @@ import {
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
+  SkyAffixAutoFitContext,
+  SkyAffixAutoFitContextDefault,
+  SkyAffixPositionDefault,
   SkyDynamicComponentService,
   SkyMediaQueryService,
+  SkyOverlayPositionDefault,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
@@ -97,6 +101,18 @@ export class SkyModalHostComponent implements OnDestroy {
 
     params.providers ||= [];
     params.providers.push(
+      {
+        provide: SkyAffixAutoFitContextDefault,
+        useValue: SkyAffixAutoFitContext.OverflowParent,
+      },
+      {
+        provide: SkyAffixPositionDefault,
+        useValue: 'fixed',
+      },
+      {
+        provide: SkyOverlayPositionDefault,
+        useValue: 'fixed',
+      },
       { provide: SkyResizeObserverMediaQueryService },
       {
         provide: SkyModalHostService,
