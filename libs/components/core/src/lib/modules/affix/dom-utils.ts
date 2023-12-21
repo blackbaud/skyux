@@ -118,18 +118,6 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   return results;
 }
 
-function applyBufferOffset(
-  elementOffset: Required<SkyAffixOffset>,
-  bufferOffset: SkyAffixOffset | undefined,
-): void {
-  if (bufferOffset) {
-    elementOffset.top -= bufferOffset.top || 0;
-    elementOffset.right += bufferOffset.right || 0;
-    elementOffset.bottom += bufferOffset.bottom || 0;
-    elementOffset.left -= bufferOffset.left || 0;
-  }
-}
-
 /**
  * Confirms offset is fully visible within a parent element.
  */
@@ -149,10 +137,11 @@ export function isOffsetFullyVisibleWithinParent(
       right: viewportRect.width,
       bottom: viewportRect.height,
     };
+  } else if (bufferOffset) {
+    parentOffset = getElementOffset(parent, bufferOffset);
   } else {
     parentOffset = getVisibleRectForElement(viewportRuler, parent);
   }
-  applyBufferOffset(parentOffset, bufferOffset);
 
   return (
     parentOffset.top <= offset.top &&
@@ -168,8 +157,9 @@ export function isOffsetPartiallyVisibleWithinParent(
   offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset,
 ): boolean {
-  const parentOffset = getVisibleRectForElement(viewportRuler, parent);
-  applyBufferOffset(parentOffset, bufferOffset);
+  const parentOffset = bufferOffset
+    ? getElementOffset(parent, bufferOffset)
+    : getVisibleRectForElement(viewportRuler, parent);
 
   return !(
     parentOffset.top >= offset.bottom ||
