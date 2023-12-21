@@ -1,4 +1,3 @@
-import { ContentObserver } from '@angular/cdk/observers';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,15 +15,12 @@ import {
 import {
   SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
-  SkyAffixAutoFitContextDefault,
   SkyAffixHorizontalAlignment,
-  SkyAffixPositionDefault,
   SkyAffixService,
   SkyAffixer,
   SkyContentInfo,
   SkyContentInfoProvider,
   SkyOverlayInstance,
-  SkyOverlayPositionDefault,
   SkyOverlayService,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
@@ -215,17 +211,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   protected destroyRef = inject(DestroyRef);
 
   #affixer: SkyAffixer | undefined;
-  #affixAutoFitContextDefault = inject(SkyAffixAutoFitContextDefault, {
-    optional: true,
-  });
-  #affixPositionDefault = inject(SkyAffixPositionDefault, {
-    optional: true,
-  });
-  #contentObserver = inject(ContentObserver);
   #overlay: SkyOverlayInstance | undefined;
-  #overlayPositionDefault = inject(SkyOverlayPositionDefault, {
-    optional: true,
-  });
   #ngUnsubscribe = new Subject<void>();
   #positionTimeout: number | undefined;
 
@@ -377,7 +363,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         enableScroll: true,
         enablePointerEvents: true,
         environmentInjector: this.#environmentInjector,
-        position: this.#overlayPositionDefault || undefined,
       });
 
       if (this.#zIndex) {
@@ -395,15 +380,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           if (this.dismissOnBlur) {
             this.#sendMessage(SkyDropdownMessageType.Close);
-          }
-        });
-
-      this.#contentObserver
-        .observe(this.menuContainerElementRef?.nativeElement)
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          if (this.#affixer) {
-            this.#affixer.reaffix();
           }
         });
 
@@ -482,15 +458,13 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     this.#positionTimeout = window.setTimeout(() => {
       if (this.#affixer) {
         this.#affixer.affixTo(this.triggerButton?.nativeElement, {
-          autoFitContext:
-            this.#affixAutoFitContextDefault ?? SkyAffixAutoFitContext.Viewport,
+          autoFitContext: SkyAffixAutoFitContext.Viewport,
           enableAutoFit: true,
           horizontalAlignment: parseAffixHorizontalAlignment(
             this.horizontalAlignment,
           ),
           isSticky: true,
           placement: 'below',
-          position: this.#affixPositionDefault || undefined,
         });
 
         this.isVisible = true;

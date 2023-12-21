@@ -3,7 +3,6 @@ export { SkyCoreAdapterService } from './lib/modules/adapter-service/adapter.ser
 export { SkyFocusableChildrenOptions } from './lib/modules/adapter-service/focusable-children-options';
 
 export { SkyAffixAutoFitContext } from './lib/modules/affix/affix-auto-fit-context';
-export { SkyAffixAutoFitContextDefault } from './lib/modules/affix/affix-auto-fit-context-default';
 export { SkyAffixConfig } from './lib/modules/affix/affix-config';
 export { SkyAffixHorizontalAlignment } from './lib/modules/affix/affix-horizontal-alignment';
 export { SkyAffixOffset } from './lib/modules/affix/affix-offset';
@@ -11,7 +10,6 @@ export { SkyAffixOffsetChange } from './lib/modules/affix/affix-offset-change';
 export { SkyAffixPlacement } from './lib/modules/affix/affix-placement';
 export { SkyAffixPlacementChange } from './lib/modules/affix/affix-placement-change';
 export { SkyAffixPosition } from './lib/modules/affix/affix-position';
-export { SkyAffixPositionDefault } from './lib/modules/affix/affix-position-default';
 export { SkyAffixVerticalAlignment } from './lib/modules/affix/affix-vertical-alignment';
 export { SkyAffixModule } from './lib/modules/affix/affix.module';
 export { SkyAffixService } from './lib/modules/affix/affix.service';
@@ -75,7 +73,6 @@ export { SkyNumericService } from './lib/modules/numeric/numeric.service';
 export { SkyOverlayConfig } from './lib/modules/overlay/overlay-config';
 export { SkyOverlayInstance } from './lib/modules/overlay/overlay-instance';
 export { SkyOverlayPosition } from './lib/modules/overlay/overlay-position';
-export { SkyOverlayPositionDefault } from './lib/modules/overlay/overlay-position-default';
 export { SkyOverlayModule } from './lib/modules/overlay/overlay.module';
 export {
   SkyOverlayLegacyService,

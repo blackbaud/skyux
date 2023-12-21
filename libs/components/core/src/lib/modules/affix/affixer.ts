@@ -219,16 +219,6 @@ export class SkyAffixer {
       return getOuterRect(this.#affixedElement.offsetParent as HTMLElement);
     } else {
       const layoutRect = getOuterRect(this.#layoutViewport);
-      if (this.#config.position === 'fixed') {
-        return {
-          top: 0,
-          left: 0,
-          height: layoutRect.height,
-          width: layoutRect.width,
-          bottom: layoutRect.height,
-          right: layoutRect.width,
-        };
-      }
       return {
         top: layoutRect.top,
         left: layoutRect.left,
