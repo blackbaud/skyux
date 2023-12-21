@@ -11,7 +11,7 @@ describe('Modal Colorpicker', () => {
           .click();
         cy.url()
           .should('include', '#/integrations/modal-colorpicker')
-          .get('app-modal-colorpicker button')
+          .get('app-modal-colorpicker button:first-of-type')
           .should('be.visible')
           .should('contain.text', 'Open modal')
           .click();

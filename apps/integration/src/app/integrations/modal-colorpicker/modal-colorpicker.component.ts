@@ -17,4 +17,10 @@ export class ModalColorpickerComponent {
   public openModal(): void {
     this.#modalService.open(ModalColorpickerModalComponent);
   }
+
+  public openFullPageModal(): void {
+    this.#modalService.open(ModalColorpickerModalComponent, {
+      fullPage: true,
+    });
+  }
 }

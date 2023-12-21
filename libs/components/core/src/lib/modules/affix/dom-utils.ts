@@ -75,8 +75,8 @@ export function getVisibleRectForElement(
   const visibleRect = {
     top: Math.max(elementRect.top, 0),
     left: Math.max(elementRect.left, 0),
-    bottom: Math.min(elementRect.bottom, viewportRect.bottom),
-    right: Math.min(elementRect.right, viewportRect.right),
+    bottom: Math.min(elementRect.bottom, viewportRect.height),
+    right: Math.min(elementRect.right, viewportRect.width),
   };
 
   return {
@@ -96,7 +96,7 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
     const computedStyle = window.getComputedStyle(parentElement, undefined);
     const overflowY = computedStyle.overflowY.toLowerCase();
 
-    if (computedStyle.position === 'fixed' || parentElement.matches('body')) {
+    if (parentElement.matches('body')) {
       break;
     }
     if (
@@ -105,6 +105,9 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
       overflowY === 'scroll'
     ) {
       results.push(parentElement);
+    }
+    if (computedStyle.position === 'fixed') {
+      break;
     }
 
     parentElement = parentElement.parentNode;
@@ -131,8 +134,8 @@ export function isOffsetFullyVisibleWithinParent(
     parentOffset = {
       top: 0,
       left: 0,
-      right: viewportRect.right,
-      bottom: viewportRect.bottom,
+      right: viewportRect.width,
+      bottom: viewportRect.height,
     };
   } else if (bufferOffset) {
     parentOffset = getElementOffset(parent, bufferOffset);

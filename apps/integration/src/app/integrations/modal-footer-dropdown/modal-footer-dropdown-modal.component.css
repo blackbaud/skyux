@@ -1,0 +1,4 @@
+.footer-buttons {
+  display: flex;
+  gap: var(--sky-margin-inline-lg);
+}
