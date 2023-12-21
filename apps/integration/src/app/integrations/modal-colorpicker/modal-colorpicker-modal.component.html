@@ -2,7 +2,7 @@
   <sky-modal-header>Colorpicker inside a Modal</sky-modal-header>
   <sky-modal-content>
     <form novalidate [formGroup]="colorForm">
-      <div class="sky-margin-stacked-xl" id="colorpicker-disabled">
+      <div id="colorpicker-disabled">
         <label class="sky-control-label"> Disabled colorpicker </label>
         <sky-colorpicker #colorPickerDisabled>
           <input
@@ -13,7 +13,7 @@
           />
         </sky-colorpicker>
       </div>
-      <div class="sky-margin-stacked-xl" id="colorpicker-6-presets-sky-icon">
+      <div id="colorpicker-6-presets-sky-icon">
         <label class="sky-control-label">
           Colorpicker with transparent option, 6 presets, and SKY UX icon
         </label>
@@ -33,10 +33,7 @@
           />
         </sky-colorpicker>
       </div>
-      <div
-        class="sky-margin-stacked-xl"
-        id="colorpicker-default-presets-no-clear-btn"
-      >
+      <div id="colorpicker-default-presets-no-clear-btn">
         <label class="sky-control-label">
           Colorpicker with no icons, no clear button, default color swatches
         </label>
@@ -54,7 +51,7 @@
           />
         </sky-colorpicker>
       </div>
-      <div class="sky-margin-stacked-xl" id="colorpicker-12-presets-fa-icon">
+      <div id="colorpicker-12-presets-fa-icon">
         <label class="sky-control-label">
           Colorpicker with 12 presets and FA icon
         </label>
