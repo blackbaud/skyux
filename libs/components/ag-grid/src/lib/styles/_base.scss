@@ -125,6 +125,10 @@ $modernDarkThemeBase: map.merge(
 .ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-dark {
+  .ag-header-cell-sortable .ag-header-cell-label {
+    cursor: initial;
+  }
+
   .ag-scrollbar-invisible.sky-viewkeeper-fixed {
     box-shadow: none;
   }

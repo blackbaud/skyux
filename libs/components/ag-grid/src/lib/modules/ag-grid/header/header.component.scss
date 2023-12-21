@@ -52,8 +52,18 @@ button.ag-header-cell-label {
       flex-shrink: 1;
     }
 
-    .ag-sort-indicator-container:empty {
-      display: none;
+    .ag-sort-indicator-container {
+      color: var(--ag-header-foreground-color);
+      width: initial;
+      height: initial;
+
+      &:hover {
+        border: none;
+      }
+
+      &:empty {
+        display: none;
+      }
     }
   }
 }
