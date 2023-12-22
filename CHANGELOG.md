@@ -1,5 +1,14 @@
 # Changelog
 
+## [9.19.1](https://github.com/blackbaud/skyux/compare/9.19.0...9.19.1) (2023-12-22)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** clarify header sort buttons ([#1917](https://github.com/blackbaud/skyux/issues/1917)) ([d3ba262](https://github.com/blackbaud/skyux/commit/d3ba26255c52ff99b969fc57f3009b818ab2f1f9))
+* **components/ag-grid:** remove top border on data-grid ([#1918](https://github.com/blackbaud/skyux/issues/1918)) ([08fa497](https://github.com/blackbaud/skyux/commit/08fa49745dd1252c17cbaebfbb9de5f1ba1297ba))
+* **components/popovers:** dropdown position in modal footer ([#1920](https://github.com/blackbaud/skyux/issues/1920)) ([e1e6955](https://github.com/blackbaud/skyux/commit/e1e6955f99484d4b5cff8b3e9e82c5f38a34f131))
+
 ## [9.19.0](https://github.com/blackbaud/skyux/compare/9.18.0...9.19.0) (2023-12-13)
 
 
