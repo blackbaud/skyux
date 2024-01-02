@@ -5,7 +5,6 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ModalDemoContext } from './context';
-import { ModalDemoData } from './data';
 import { ModalDemoDataService } from './data.service';
 import { ModalComponent } from './modal.component';
 
@@ -14,7 +13,6 @@ import { ModalComponent } from './modal.component';
   templateUrl: './modal-split-view-tile-dashboard.component.html',
 })
 export class ModalSplitViewTileDashboardComponent implements OnDestroy {
-  protected modalSize = 'medium';
   protected demoValue: string | null | undefined;
 
   #ngUnsubscribe = new Subject<void>();
@@ -41,20 +39,10 @@ export class ModalSplitViewTileDashboardComponent implements OnDestroy {
               useValue: new ModalDemoContext(data),
             },
           ],
-          size: this.modalSize,
           fullPage: true,
         };
 
-        // Show the modal after data is loaded.
-        const instance = this.#modalSvc.open(ModalComponent, options);
-
-        instance.closed.subscribe((result) => {
-          if (result.reason === 'save') {
-            // Display the updated value.
-            const data = result.data as ModalDemoData;
-            this.demoValue = data.value1;
-          }
-        });
+        this.#modalSvc.open(ModalComponent, options);
       });
   }
 }

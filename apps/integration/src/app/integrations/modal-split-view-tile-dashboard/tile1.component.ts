@@ -9,6 +9,7 @@ import { SkyTilesModule } from '@skyux/tiles';
   imports: [SkyTilesModule],
 })
 export class Tile1Component {
+  /* istanbul ignore next */
   protected tileSettingsClick(): void {
     alert('tile settings clicked');
   }
