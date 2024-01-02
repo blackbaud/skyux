@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-@include mixins.sky-host-responsive-container-xs-min() {
+:host.sky-tile-dashboard-single-column {
   display: block;
   padding: 0;
 
@@ -31,7 +31,7 @@
   }
 }
 
-@include mixins.sky-host-responsive-container-md-min() {
+:host.sky-tile-dashboard-multi-column {
   display: flex;
   padding: 0 $sky-padding;
 

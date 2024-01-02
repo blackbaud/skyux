@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   Optional,
@@ -13,7 +14,7 @@ import {
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
@@ -33,6 +34,11 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
   providers: [SkyTileDashboardService],
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
+  @HostBinding('class')
+  protected layoutClassName:
+    | 'sky-tile-dashboard-single-column'
+    | 'sky-tile-dashboard-multi-column' = 'sky-tile-dashboard-multi-column';
+
   /**
    * Populates the tile dashboard based on the `SkyTileDashboardConfig` object.
    * @required
@@ -92,6 +98,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   #dashboardService: SkyTileDashboardService;
   #mediaQueryService: SkyMediaQueryService;
   #ngUnsubscribe = new Subject<void>();
+  #subscriptions = new Subscription();
   #resourcesService: SkyLibResourcesService | undefined;
   #viewReady = false;
   #_config: SkyTileDashboardConfig | undefined;
@@ -106,6 +113,19 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     this.#resourcesService = resourcesService;
     this.moveInstructionsId =
       this.#dashboardService.bagId + '-move-instructions';
+
+    this.#subscriptions.add(
+      this.#mediaQueryService.subscribe((args: SkyMediaBreakpoints) => {
+        if (
+          args === SkyMediaBreakpoints.xs ||
+          args === SkyMediaBreakpoints.sm
+        ) {
+          this.layoutClassName = 'sky-tile-dashboard-single-column';
+        } else {
+          this.layoutClassName = 'sky-tile-dashboard-multi-column';
+        }
+      }),
+    );
 
     this.#dashboardService.configChange.subscribe(
       (config: SkyTileDashboardConfig) => {
@@ -160,6 +180,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.#subscriptions.unsubscribe();
     this.#dashboardService.destroy();
   }
 
