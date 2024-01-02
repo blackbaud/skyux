@@ -35,9 +35,8 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class')
-  protected layoutClassName:
-    | 'sky-tile-dashboard-single-column'
-    | 'sky-tile-dashboard-multi-column' = 'sky-tile-dashboard-multi-column';
+  protected layoutClassName =
+    'sky-tile-dashboard-multi-column sky-tile-dashboard-gt-xs';
 
   /**
    * Populates the tile dashboard based on the `SkyTileDashboardConfig` object.
@@ -123,6 +122,11 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
           this.layoutClassName = 'sky-tile-dashboard-single-column';
         } else {
           this.layoutClassName = 'sky-tile-dashboard-multi-column';
+        }
+        if (args === SkyMediaBreakpoints.xs) {
+          this.layoutClassName += ' sky-tile-dashboard-xs';
+        } else {
+          this.layoutClassName += ' sky-tile-dashboard-gt-xs';
         }
       }),
     );

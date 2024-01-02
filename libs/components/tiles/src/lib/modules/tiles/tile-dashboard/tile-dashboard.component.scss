@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-:host.sky-tile-dashboard-single-column {
+:host {
   display: block;
   padding: 0;
 
@@ -20,7 +20,7 @@
   }
 }
 
-@include mixins.sky-host-responsive-container-sm-min() {
+:host-context(.sky-tile-dashboard-gt-xs) {
   .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
   .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
     margin-bottom: $sky-margin-double;
@@ -31,7 +31,7 @@
   }
 }
 
-:host.sky-tile-dashboard-multi-column {
+:host-context(.sky-tile-dashboard-multi-column) {
   display: flex;
   padding: 0 $sky-padding;
 
@@ -55,7 +55,7 @@
 }
 
 @include mixins.sky-theme-modern {
-  @include mixins.sky-host-responsive-container-sm-min() {
+  :host-context(.sky-tile-dashboard-gt-xs) {
     .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
     .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
       margin-bottom: $sky-theme-modern-space-xl;
