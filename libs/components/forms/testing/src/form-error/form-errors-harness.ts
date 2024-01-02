@@ -2,9 +2,9 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 
-import { SkyFormErrorHarnessFilters } from './form-error-harness.filters';
+import { SkyFormErrorsHarnessFilters } from './form-errors-harness.filters';
 
-export class SkyFormErrorHarness extends SkyComponentHarness {
+export class SkyFormErrorsHarness extends SkyComponentHarness {
   /**
    * @internal
    */
@@ -12,14 +12,22 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
 
   #getFormError = this.locatorForAll('sky-form-error');
 
+  async #getFormErrorsClasses(): Promise<string[]> {
+    return this.#getFormError().then((formErrors) => {
+      formErrors.map((formError) => {
+        return formError.getProperty('classList');
+      });
+    });
+  }
+
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyFormErrorHarness` that meets certain criteria
+   * `SkyFormErrorsHarness` that meets certain criteria
    */
   public static with(
-    filters: SkyFormErrorHarnessFilters,
-  ): HarnessPredicate<SkyFormErrorHarness> {
-    return SkyFormErrorHarness.getDataSkyIdPredicate(filters);
+    filters: SkyFormErrorsHarnessFilters,
+  ): HarnessPredicate<SkyFormErrorsHarness> {
+    return SkyFormErrorsHarness.getDataSkyIdPredicate(filters);
   }
 
   public async getErrors(): Promise<string[] | void> {
@@ -35,5 +43,11 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
 
   public async getNumberOfErrors(): Promise<number> {
     return (await this.#getFormError()).length;
+  }
+
+  public async isRequiredError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes(
+      'skyux_form_error_required',
+    );
   }
 }

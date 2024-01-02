@@ -6,7 +6,7 @@ import { ValidationErrors } from '@angular/forms';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyFormErrorsModule } from '@skyux/forms';
 
-import { SkyFormErrorHarness } from './form-error-harness';
+import { SkyFormErrorsHarness } from './form-errors-harness';
 
 //#region Test component
 @Component({
@@ -23,7 +23,7 @@ class TestComponent {
 
 fdescribe('Form errors harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
-    formErrorHarness: SkyFormErrorHarness;
+    formErrorsHarness: SkyFormErrorsHarness;
     fixture: ComponentFixture<TestComponent>;
     loader: HarnessLoader;
     pageLoader: HarnessLoader;
@@ -36,17 +36,17 @@ fdescribe('Form errors harness', () => {
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const pageLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-    const formErrorHarness: SkyFormErrorHarness = options.dataSkyId
+    const formErrorsHarness: SkyFormErrorsHarness = options.dataSkyId
       ? await loader.getHarness(
-          SkyFormErrorHarness.with({ dataSkyId: options.dataSkyId }),
+          SkyFormErrorsHarness.with({ dataSkyId: options.dataSkyId }),
         )
-      : await loader.getHarness(SkyFormErrorHarness);
+      : await loader.getHarness(SkyFormErrorsHarness);
 
-    return { formErrorHarness, fixture, loader, pageLoader };
+    return { formErrorsHarness, fixture, loader, pageLoader };
   }
 
   it('should get all errors', async () => {
-    const { formErrorHarness, fixture } = await setupTest();
+    const { formErrorsHarness, fixture } = await setupTest();
     fixture.componentInstance.errors = {
       required: true,
       skyUrl: true,
@@ -55,7 +55,7 @@ fdescribe('Form errors harness', () => {
 
     fixture.detectChanges();
 
-    await expectAsync(formErrorHarness.getErrors()).toBeResolvedTo([
+    await expectAsync(formErrorsHarness.getErrors()).toBeResolvedTo([
       'Form is required.',
       'Form must be at least 5 character(s).',
       'Enter a URL with a valid format.',
@@ -63,10 +63,10 @@ fdescribe('Form errors harness', () => {
   });
 
   it('should get number of errors', async () => {
-    const { formErrorHarness, fixture } = await setupTest();
+    const { formErrorsHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
 
-    await expectAsync(formErrorHarness.getNumberOfErrors()).toBeResolvedTo(1);
+    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(1);
   });
 });
