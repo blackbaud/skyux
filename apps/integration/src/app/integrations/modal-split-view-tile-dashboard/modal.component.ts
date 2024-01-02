@@ -91,6 +91,10 @@ export class ModalComponent {
   protected get activeIndex(): number {
     return this.#_activeIndex;
   }
+  protected set activeIndex(value: number) {
+    this.#_activeIndex = value;
+    this.activeRecord = this.items[this.#_activeIndex];
+  }
 
   protected items = [
     {
@@ -134,10 +138,7 @@ export class ModalComponent {
   protected activeRecord: TestRecord = this.items[0];
 
   protected splitViewStream = new Subject<SkySplitViewMessage>();
-  protected set activeIndex(value: number) {
-    this.#_activeIndex = value;
-    this.activeRecord = this.items[this.#_activeIndex];
-  }
+
   #_activeIndex = 0;
   constructor() {
     this.demoForm = new FormGroup({
