@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -35,7 +36,7 @@ describe('HeaderComponent', () => {
         TestHelpComponent,
         OtherTestHelpComponent,
       ],
-      imports: [SkyIconModule, SkyThemeModule],
+      imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
     });
     apiEvents = {};
     columnEvents = {};
@@ -150,9 +151,9 @@ describe('HeaderComponent', () => {
     apiEvents['sortChanged'].forEach((listener) => listener());
     columnEvents['sortChanged'].forEach((listener) => listener());
     expect(
-      fixture.debugElement.query(By.css('.ag-header-label-icon')).attributes[
-        'icon'
-      ],
+      fixture.debugElement.query(
+        By.css('.ag-sort-indicator-container sky-icon'),
+      ).attributes['icon'],
     ).toBe('caret-up');
     useSort = undefined;
     apiEvents['sortChanged'].forEach((listener) => listener());

@@ -16,6 +16,8 @@ import { SkyDataManagerState } from './models/data-manager-state';
 import { SkyDataManagerStateChange } from './models/data-manager-state-change';
 import { SkyDataManagerStateOptions } from './models/data-manager-state-options';
 import { SkyDataManagerStateUpdateFilterArgs } from './models/data-manager-state-update-filter-args';
+import { SkyDataManagerSummary } from './models/data-manager-summary';
+import { SkyDataManagerSummaryChange } from './models/data-manager-summary-change';
 import { SkyDataViewConfig } from './models/data-view-config';
 import { SkyDataViewState } from './models/data-view-state';
 
@@ -35,6 +37,7 @@ export class SkyDataManagerService implements OnDestroy {
   readonly #dataManagerConfig = new BehaviorSubject<SkyDataManagerConfig>({});
   readonly #views = new BehaviorSubject<SkyDataViewConfig[]>([]);
   readonly #dataStateChange = new ReplaySubject<SkyDataManagerStateChange>(1);
+  readonly #dataSummary = new Subject<SkyDataManagerSummaryChange>();
 
   #isInitialized: boolean | undefined;
   #ngUnsubscribe = new Subject<void>();
@@ -248,6 +251,36 @@ export class SkyDataManagerService implements OnDestroy {
     const newStateChange = new SkyDataManagerStateChange(newState, sourceId);
 
     this.#dataStateChange.next(newStateChange);
+  }
+
+  /**
+   * Returns an observable of data summary changes that views and other data manager entities can subscribe to.
+   * It excludes updates originating from the provided source. This allows subscribers to only respond to
+   * changes they did not create and helps prevent infinite loops of updates and responses.
+   * @param sourceId The ID of the entity subscribing to data summary updates. This can be any value you choose
+   * but should be unique within the data manager instance and should also be used when that entity updates the summary.
+   */
+  public getDataSummaryUpdates(
+    sourceId: string,
+  ): Observable<SkyDataManagerSummary> {
+    return this.#dataSummary.pipe(
+      filter((summaryChange) => sourceId !== summaryChange.source),
+      map((summaryChange) => summaryChange.dataSummary),
+    );
+  }
+
+  /**
+   * Updates the data summary and emits a new value to entities subscribed to data summary changes.
+   * @param summary The new `SkyDataManagerSummary` value.
+   * @param sourceId The ID of the entity updating the summary. This can be any value you choose,
+   * but should be unique within the data manager instance and should also be used when that entity
+   * subscribes to summary changes from `getDataSummaryUpdates`.
+   */
+  public updateDataSummary(
+    summary: SkyDataManagerSummary,
+    sourceId: string,
+  ): void {
+    this.#dataSummary.next({ dataSummary: summary, source: sourceId });
   }
 
   /**

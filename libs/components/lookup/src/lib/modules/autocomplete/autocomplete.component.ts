@@ -21,11 +21,13 @@ import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
+  SkyLiveAnnouncerService,
   SkyOverlayInstance,
   SkyOverlayService,
   SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import {
   BehaviorSubject,
@@ -405,6 +407,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#cancelCurrentSearch();
           directive.onTouched();
           this.#hasFocus = false;
+          this.#liveAnnounceService.clear();
         });
 
       this.#_inputDirective.focus
@@ -462,6 +465,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #elementRef: ElementRef;
 
   readonly #environmentInjector = inject(EnvironmentInjector);
+
+  readonly #liveAnnounceService = inject(SkyLiveAnnouncerService);
+
+  readonly #libResourceService = inject(SkyLibResourcesService);
 
   #hasFocus = false;
 
@@ -655,6 +662,31 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           break;
       }
     }
+  }
+
+  #announceResults(): void {
+    this.#libResourceService
+      .getStrings({
+        noResults: 'skyux_autocomplete_no_results',
+        singleCountResult: 'skyux_autocomplete_one_result',
+        multipleCountResults: [
+          'skyux_autocomplete_multiple_results',
+          this.searchResultsCount,
+        ],
+      })
+      .pipe(take(1))
+      .subscribe((localizedStrings) => {
+        let announcementString = '';
+        if (this.searchResultsCount && this.searchResultsCount > 0) {
+          announcementString =
+            this.searchResultsCount === 1
+              ? localizedStrings.singleCountResult
+              : localizedStrings.multipleCountResults;
+          this.#liveAnnounceService.announce(announcementString);
+        } else if (this.searchResultsCount === 0) {
+          this.#liveAnnounceService.announce(localizedStrings.noResults);
+        }
+      });
   }
 
   public moreButtonClicked(): void {
@@ -895,6 +927,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#changeDetector.markForCheck();
       this.#updateAriaControls();
       this.#initOverlayFocusableElements();
+      this.#announceResults();
       this.openChange.emit(true);
     }
   }
@@ -1041,6 +1074,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#adapterService.setTabIndex(el, -1);
         });
         this.#addFocusedClass();
+        this.#announceResults();
       }
     });
   }

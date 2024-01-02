@@ -23,6 +23,24 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_character_count_over_limit: {
       message: 'You are over the character limit.',
     },
+    skyux_form_error_character_count: {
+      message: 'Limit {0} to {1} character(s).',
+    },
+    skyux_form_error_date: { message: 'Select or enter a valid date.' },
+    skyux_form_error_email: {
+      message: 'Enter an email address with a valid format.',
+    },
+    skyux_form_error_maxlength: { message: 'Limit {0} to {1} character(s).' },
+    skyux_form_error_minlength: {
+      message: '{0} must be at least {1} character(s).',
+    },
+    skyux_form_error_phone: {
+      message:
+        'Enter a phone number matching the format for the selected country.',
+    },
+    skyux_form_error_required: { message: '{0} is required.' },
+    skyux_form_error_time: { message: 'Select or enter a valid time.' },
+    skyux_form_error_url: { message: 'Enter a URL with a valid format.' },
     skyux_file_attachment_button_label_choose_file: { message: 'Attach file' },
     skyux_file_attachment_button_label_choose_file_label: {
       message: 'Attach file for',
@@ -75,26 +93,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Link to {0} removed.',
     },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
-    skyux_input_box_error_character_count: {
-      message: 'Limit {0} to {1} character(s).',
-    },
-    skyux_input_box_error_date: { message: 'Select or enter a valid date.' },
-    skyux_input_box_error_email: {
-      message: 'Enter an email address with a valid format.',
-    },
-    skyux_input_box_error_maxlength: {
-      message: 'Limit {0} to {1} character(s).',
-    },
-    skyux_input_box_error_minlength: {
-      message: '{0} must be at least {1} character(s).',
-    },
-    skyux_input_box_error_phone: {
-      message:
-        'Enter a phone number matching the format for the selected country.',
-    },
-    skyux_input_box_error_required: { message: '{0} is required.' },
-    skyux_input_box_error_time: { message: 'Select or enter a valid time.' },
-    skyux_input_box_error_url: { message: 'Enter a URL with a valid format.' },
     skyux_input_box_help_inline_aria_label: {
       message: 'Show help content for {0}',
     },

@@ -417,8 +417,8 @@ export class SkyAffixer {
       parentOffset = {
         top: -viewportRect.top,
         left: -viewportRect.left,
-        bottom: -viewportRect.bottom,
-        right: -viewportRect.right,
+        bottom: viewportRect.height + viewportRect.top,
+        right: viewportRect.width + viewportRect.left,
       };
     }
 

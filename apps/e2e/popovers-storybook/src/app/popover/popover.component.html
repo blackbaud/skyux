@@ -1,7 +1,7 @@
 <ng-container *ngFor="let popoverType of popoverTypes">
   <div *ngFor="let popoverTitle of titles" class="static-popover-row">
     <div
-      *ngFor="let poveroverPlacement of placements"
+      *ngFor="let popoverPlacement of placements"
       class="static-popover-wrapper"
     >
       <button
@@ -9,11 +9,11 @@
         [skyPopover]="staticPopover"
         [skyPopoverMessageStream]="staticPopoverMessageStream"
         class="static-popover-button"
-        [ngClass]="'static-popover-button-' + poveroverPlacement"
+        [ngClass]="'static-popover-button-' + popoverPlacement"
       ></button>
       <sky-popover
         #staticPopover
-        [placement]="poveroverPlacement"
+        [placement]="popoverPlacement"
         [popoverTitle]="popoverTitle"
         [popoverType]="popoverType"
         alignment="center"

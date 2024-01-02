@@ -3,6 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'modal-colorpicker',
+    loadChildren: () =>
+      import('./modal-colorpicker/modal-colorpicker.module').then(
+        (m) => m.ModalColorpickerModule,
+      ),
+  },
+  {
+    path: 'modal-footer-dropdown',
+    loadChildren: () =>
+      import('./modal-footer-dropdown/modal-footer-dropdown.module').then(
+        (m) => m.ModalFooterDropdownModule,
+      ),
+  },
+  {
     path: 'modal-viewkeeper',
     loadChildren: () =>
       import('./modal-viewkept-toolbars/modal-viewkept-toolbars.module').then(

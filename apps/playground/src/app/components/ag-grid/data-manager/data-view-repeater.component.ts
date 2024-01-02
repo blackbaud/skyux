@@ -88,6 +88,14 @@ export class DataViewRepeaterComponent implements OnInit {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
+    this.dataManagerService.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.viewId,
+    );
+
     this.changeDetector.detectChanges();
   }
 

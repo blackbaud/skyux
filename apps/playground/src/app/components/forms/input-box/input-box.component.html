@@ -64,11 +64,7 @@
         "
         class="sky-error-indicator"
       >
-        <sky-status-indicator
-          *ngIf="errorsComputed?.['skyCharacterCounter']"
-          indicatorType="danger"
-          descriptionType="error"
-        >
+        <sky-status-indicator indicatorType="danger" descriptionType="error">
           Hard mode must be fewer than 10 character(s).
         </sky-status-indicator>
       </div>
@@ -622,6 +618,7 @@ No label</textarea
           #inputBoxBasic="skyId"
           name="fname"
           autocomplete="given-name"
+          required
         />
       </sky-input-box>
     </div>
@@ -637,6 +634,7 @@ No label</textarea
           #inputBoxTextarea="skyId"
           name="address"
           autocomplete="street-address"
+          required
         >
 Value</textarea
         >
@@ -656,6 +654,7 @@ Value</textarea
           #inputBoxBasic="skyId"
           name="lname"
           autocomplete="family-name"
+          required
         />
       </sky-input-box>
     </div>
@@ -672,11 +671,18 @@ Value</textarea
           formControlName="errorAutofillTextareaFormField"
           name="address"
           autocomplete="street-address"
+          required
         >
 Value</textarea
         >
       </sky-input-box>
     </div>
+
+    <sky-form-errors
+      labelText="Just errors"
+      [errors]="{ required: true, skyUrl: true }"
+    />
+
     <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
   </form>
 </div>

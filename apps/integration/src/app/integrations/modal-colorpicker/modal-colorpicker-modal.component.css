@@ -1,0 +1,13 @@
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sky-padding-even-md);
+}
+
+form > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sky-padding-even-md);
+}

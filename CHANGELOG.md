@@ -1,5 +1,70 @@
 # Changelog
 
+## [9.19.1](https://github.com/blackbaud/skyux/compare/9.19.0...9.19.1) (2023-12-22)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** clarify header sort buttons ([#1917](https://github.com/blackbaud/skyux/issues/1917)) ([d3ba262](https://github.com/blackbaud/skyux/commit/d3ba26255c52ff99b969fc57f3009b818ab2f1f9))
+* **components/ag-grid:** remove top border on data-grid ([#1918](https://github.com/blackbaud/skyux/issues/1918)) ([08fa497](https://github.com/blackbaud/skyux/commit/08fa49745dd1252c17cbaebfbb9de5f1ba1297ba))
+* **components/popovers:** dropdown position in modal footer ([#1920](https://github.com/blackbaud/skyux/issues/1920)) ([e1e6955](https://github.com/blackbaud/skyux/commit/e1e6955f99484d4b5cff8b3e9e82c5f38a34f131))
+
+## [9.19.0](https://github.com/blackbaud/skyux/compare/9.18.0...9.19.0) (2023-12-13)
+
+
+### Features
+
+* **components/lookup:** announce autocomplete search result state change ([#1909](https://github.com/blackbaud/skyux/issues/1909)) ([b6d8fd0](https://github.com/blackbaud/skyux/commit/b6d8fd0c1099c117c0910b62cc2ded6903492d12))
+
+
+### Bug Fixes
+
+* **components/popovers:** adjust dropdown position when at the bottom of the screen ([#1914](https://github.com/blackbaud/skyux/issues/1914)) ([e408250](https://github.com/blackbaud/skyux/commit/e408250526f9dbf04ae12cdbc10979ee449847f8))
+
+## [9.18.0](https://github.com/blackbaud/skyux/compare/9.17.0...9.18.0) (2023-12-13)
+
+
+### Features
+
+* **components/colorpicker:** adjust interface on smaller screens ([#1905](https://github.com/blackbaud/skyux/issues/1905)) ([f76dca5](https://github.com/blackbaud/skyux/commit/f76dca52b20dfe23f8e410e9bc0085cd56c1eb1f))
+
+## [9.17.0](https://github.com/blackbaud/skyux/compare/9.16.2...9.17.0) (2023-12-11)
+
+
+### Features
+
+* **components/data-manager:** announce status messages ([#1906](https://github.com/blackbaud/skyux/issues/1906)) ([5d77dc3](https://github.com/blackbaud/skyux/commit/5d77dc397b45f6f160a6b55eb91096e146d22b98))
+* **components/indicators:** add sparkle icon ([#1910](https://github.com/blackbaud/skyux/issues/1910)) ([583ef90](https://github.com/blackbaud/skyux/commit/583ef9072a6282a2e28049c257695d25a32e6231))
+
+
+### Bug Fixes
+
+* **components/data-manager:** don't include sort dropdown in grid views ([#1908](https://github.com/blackbaud/skyux/issues/1908)) ([7f14348](https://github.com/blackbaud/skyux/commit/7f1434810bb1a657196990a9d004000e64af483a))
+
+## [9.16.2](https://github.com/blackbaud/skyux/compare/9.16.1...9.16.2) (2023-12-06)
+
+
+### Bug Fixes
+
+* **components/theme:** update icon names for variants ([#1903](https://github.com/blackbaud/skyux/issues/1903)) ([c2d38a2](https://github.com/blackbaud/skyux/commit/c2d38a20d1e0dc27cfffe45510aaf4498e46b1c0))
+
+## [9.16.1](https://github.com/blackbaud/skyux/compare/9.16.0...9.16.1) (2023-12-04)
+
+
+### Bug Fixes
+
+* **components/packages:** simplify style paths ([#1894](https://github.com/blackbaud/skyux/issues/1894)) ([c028575](https://github.com/blackbaud/skyux/commit/c028575db76cee653115b865c513fee0f08692db))
+* **components/theme:** update icon variant aliases ([#1901](https://github.com/blackbaud/skyux/issues/1901)) ([275a4cc](https://github.com/blackbaud/skyux/commit/275a4cce0f60c036fa9ac9083ff1a2b3e9adebf1))
+
+## [9.16.0](https://github.com/blackbaud/skyux/compare/9.15.0...9.16.0) (2023-12-01)
+
+
+### Features
+
+* **components/lookup:** selection modal broadcasts aria status updates when selection changes ([#1886](https://github.com/blackbaud/skyux/issues/1886)) ([84da449](https://github.com/blackbaud/skyux/commit/84da449c9aa14d1aea688c45d9b915c04f06db87))
+* **components/lookup:** show more modal broadcasts aria status updates when selection changes ([#1897](https://github.com/blackbaud/skyux/issues/1897)) ([dd465ed](https://github.com/blackbaud/skyux/commit/dd465edd082251f39df123d8cbed6697accd29bb))
+* **components/theme:** update to latest icons library ([#1895](https://github.com/blackbaud/skyux/issues/1895)) ([78ac971](https://github.com/blackbaud/skyux/commit/78ac971ed9084a015a014a0f90d82f2187b15a9a))
+
 ## [9.15.0](https://github.com/blackbaud/skyux/compare/9.14.1...9.15.0) (2023-11-22)
 
 

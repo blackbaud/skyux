@@ -31,6 +31,18 @@
     "_description": "aria label for the currency cell editor",
     "message": "Editable currency {0} for row {1}"
   },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_asc": {
+    "_description": "aria label for the column header sort button when the column is currently sorted ascending",
+    "message": "Sort column {0}, currently ascending"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_desc": {
+    "_description": "aria label for the column header sort button when the column is currently sorted descending",
+    "message": "Sort column {0}, currently descending"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted": {
+    "_description": "aria label for the column header sort button when the column is currently not sorted",
+    "message": "Sort column {0}, not currently sorted"
+  },
   "sky_ag_grid_column_group_header_expand_aria_label": {
     "_description": "aria label for the expand column group header button",
     "message": "Expand column group {0}"

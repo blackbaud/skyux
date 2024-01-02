@@ -41,6 +41,15 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     sky_ag_grid_cell_editor_currency_aria_label: {
       message: 'Editable currency {0} for row {1}',
     },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_asc: {
+      message: 'Sort column {0}, currently ascending',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_desc: {
+      message: 'Sort column {0}, currently descending',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted: {
+      message: 'Sort column {0}, not currently sorted',
+    },
     sky_ag_grid_column_group_header_expand_aria_label: {
       message: 'Expand column group {0}',
     },

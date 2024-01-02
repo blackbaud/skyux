@@ -147,6 +147,14 @@ export class DataViewGridComponent implements OnInit {
     if (this.dataState.onlyShowSelected) {
       this.filteredItems = this.filteredItems.filter((item) => item.selected);
     }
+
+    this.dataManagerService.updateDataSummary(
+      {
+        totalItems: this.items.length,
+        itemsMatching: this.displayedItems.length,
+      },
+      this.viewId,
+    );
   }
 
   public onGridReady(event: GridReadyEvent): void {

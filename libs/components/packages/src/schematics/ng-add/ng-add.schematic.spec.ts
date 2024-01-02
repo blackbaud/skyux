@@ -65,8 +65,8 @@ describe('ng-add.schematic', () => {
     expect(
       angularJson.projects['my-lib-showcase'].architect.build.options.styles,
     ).toEqual([
-      'node_modules/@skyux/theme/css/sky.css',
-      'node_modules/@skyux/theme/css/themes/modern/styles.css',
+      '@skyux/theme/css/sky.css',
+      '@skyux/theme/css/themes/modern/styles.css',
       'projects/my-lib-showcase/src/styles.css',
     ]);
   });
