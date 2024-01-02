@@ -9,7 +9,10 @@ export { SkyCheckboxHarness } from './checkbox/checkbox-harness';
 export { SkyCheckboxHarnessFilters } from './checkbox/checkbox-harness-filters';
 export { SkyCheckboxLabelHarness } from './checkbox/checkbox-label-harness';
 
-export { SkyFormErrorHarness } from './form-error/form-errors-harness';
-export { SkyFormErrorHarnessFilters } from './form-error/form-errors-harness.filters';
+export { SkyFormErrorsHarness } from './form-error/form-errors-harness';
+export { SkyFormErrorsHarnessFilters } from './form-error/form-errors-harness.filters';
+
+export { SkyFormErrorHarness } from './form-error/form-error-harness';
+export { SkyFormErrorHarnessFilters } from './form-error/form-error-harness.filters';
 
 export { SkyRadioFixture } from './radio-fixture';
