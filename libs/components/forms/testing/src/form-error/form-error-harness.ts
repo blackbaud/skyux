@@ -24,6 +24,9 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
     return Array.from(formErrorClasses);
   }
 
+  /*
+   * Gets the error class that signifies which error is fired.
+   */
   public async getFirstClassError(): Promise<string> {
     return (await this.#getFormErrorClasses())[0];
   }
