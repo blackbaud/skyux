@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
@@ -28,7 +32,7 @@ export class CheckboxComponent implements OnInit {
 
   public ngOnInit(): void {
     this.reactiveFormGroup = this.#formBuilder.group({
-      reactiveCheckbox: [undefined],
+      reactiveCheckbox: new FormControl(undefined),
     });
   }
 

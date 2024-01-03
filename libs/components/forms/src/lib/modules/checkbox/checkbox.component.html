@@ -53,3 +53,13 @@
   </span>
   <ng-content select="sky-checkbox-label" />
 </label>
+<div *ngIf="controlDir?.errors">
+  <sky-form-errors
+    [id]="errorId"
+    [errors]="controlDir?.errors"
+    [labelText]="errorLabelText"
+    [showErrors]="controlDir?.touched || controlDir?.dirty"
+  >
+    <ng-content select=".sky-error-label,.sky-error-indicator" />
+  </sky-form-errors>
+</div>

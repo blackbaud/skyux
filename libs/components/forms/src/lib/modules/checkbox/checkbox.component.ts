@@ -1,6 +1,8 @@
 import {
+  AfterContentChecked,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
@@ -9,7 +11,12 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  AbstractControlDirective,
+  ControlValueAccessor,
+  NgControl,
+  NgModel,
+} from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -17,6 +24,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyCheckboxChange } from './checkbox-change';
+import { SkyCheckboxLabelComponent } from './checkbox-label.component';
 
 /**
  * Replaces the HTML input element with `type="checkbox"`. When users select a checkbox, its value
@@ -27,7 +35,9 @@ import { SkyCheckboxChange } from './checkbox-change';
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
 })
-export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
+export class SkyCheckboxComponent
+  implements ControlValueAccessor, OnInit, AfterContentChecked
+{
   /**
    * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
@@ -35,7 +45,15 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    this.#updateErrorLabelText();
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
 
   /**
    * The HTML element ID of the element that labels the
@@ -44,7 +62,19 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * If the checkbox does not include a visible label, use `label` instead.
    */
   @Input()
-  public labelledBy: string | undefined;
+  public set labelledBy(value: string | undefined) {
+    this.#_labelledBy = value;
+
+    this.#labelledByLabelText = this.labelledBy
+      ? this.#elementRef.nativeElement.querySelector(this.labelledBy)
+          ?.nativeElement?.textContent
+      : undefined;
+    this.#updateErrorLabelText();
+  }
+
+  public get labelledBy(): string | undefined {
+    return this.#_labelledBy;
+  }
 
   /**
    * The ID for the checkbox.
@@ -234,6 +264,20 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_inputEl;
   }
 
+  @ContentChild(SkyCheckboxLabelComponent, { read: ElementRef })
+  public set checkboxLabelElText(value: ElementRef | undefined) {
+    this.#_checkboxLabelElText = value?.nativeElement.textContent || undefined;
+    this.#updateErrorLabelText();
+  }
+
+  public get checkboxLabelElText(): string | undefined {
+    return this.#_checkboxLabelElText;
+  }
+
+  @ContentChild(NgModel)
+  public ngModel: NgModel | undefined;
+
+  protected controlDir: AbstractControlDirective | undefined;
   protected inputId = '';
 
   #checkedChange: BehaviorSubject<boolean>;
@@ -250,11 +294,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_inputEl: ElementRef | undefined;
   #_name = '';
   #_required = false;
+  #_checkboxLabelElText: string | undefined;
+  #_labelledBy: string | undefined;
+  #_label: string | undefined;
+
+  #labelledByLabelText: string | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
-  #defaultId = inject(SkyIdService).generateId();
+  #idSvc = inject(SkyIdService);
+  #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
   #ngControl = inject(NgControl, { optional: true, self: true });
+  #elementRef = inject(ElementRef);
+
+  public readonly errorId = this.#idSvc.generateId();
+  public errorLabelText: string | undefined;
 
   constructor() {
     if (this.#ngControl) {
@@ -271,6 +325,12 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
     this.id = this.#defaultId;
     this.name = this.#defaultId;
+  }
+
+  public ngAfterContentChecked(): void {
+    this.controlDir = this.#ngControl || this.ngModel;
+    console.log('hellooooo');
+    console.log(this.controlDir);
   }
 
   public ngOnInit(): void {
@@ -348,5 +408,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   #toggle(): void {
     this.checked = !this.checked;
+  }
+
+  #updateErrorLabelText(): void {
+    this.errorLabelText =
+      this.#labelledByLabelText || this.label || this.checkboxLabelElText;
+    this.#changeDetector.markForCheck();
   }
 }
