@@ -5,16 +5,10 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    AppRoutingModule,
-    HomeModule,
-  ],
+  imports: [BrowserAnimationsModule, BrowserModule, AppRoutingModule],
   providers: [SkyThemeService],
   bootstrap: [AppComponent],
 })

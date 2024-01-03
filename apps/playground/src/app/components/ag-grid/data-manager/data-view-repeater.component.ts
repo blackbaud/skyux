@@ -12,12 +12,24 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import { SkyRepeaterModule } from '@skyux/lists';
+import {
+  SkyPagingContentChangeArgs,
+  SkyPagingModule,
+  SkyRepeaterModule,
+} from '@skyux/lists';
+
+import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
 
 @Component({
   selector: 'app-data-view-repeater',
   standalone: true,
-  imports: [CommonModule, SkyDataManagerModule, SkyRepeaterModule],
+  imports: [
+    CommonModule,
+    DataManagerPagedItemsPipe,
+    SkyDataManagerModule,
+    SkyPagingModule,
+    SkyRepeaterModule,
+  ],
   templateUrl: './data-view-repeater.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,6 +52,8 @@ export class DataViewRepeaterComponent implements OnInit {
     onClearAllClick: this.clearAll.bind(this),
     onSelectAllClick: this.selectAll.bind(this),
   };
+
+  protected readonly pageSize = 5;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -142,7 +156,7 @@ export class DataViewRepeaterComponent implements OnInit {
     });
 
     this.dataState.selectedIds = selectedIds;
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
+    this.#updateDataState();
     this.changeDetector.markForCheck();
   }
 
@@ -157,7 +171,7 @@ export class DataViewRepeaterComponent implements OnInit {
       }
     });
     this.dataState.selectedIds = selectedIds;
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
+    this.#updateDataState();
     this.changeDetector.markForCheck();
   }
 
@@ -172,6 +186,19 @@ export class DataViewRepeaterComponent implements OnInit {
     }
 
     this.dataState.selectedIds = selectedItems;
+    this.#updateDataState();
+  }
+
+  protected onContentChange(args: SkyPagingContentChangeArgs): void {
+    setTimeout(() => {
+      this.dataState.additionalData.currentPage = args.currentPage;
+      this.#updateDataState();
+
+      args.loadingComplete();
+    }, 500);
+  }
+
+  #updateDataState(): void {
     this.dataManagerService.updateDataState(this.dataState, this.viewId);
   }
 }
