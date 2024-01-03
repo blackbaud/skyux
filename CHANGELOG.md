@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.20.0](https://github.com/blackbaud/skyux/compare/9.19.1...9.20.0) (2024-01-03)
+
+
+### Features
+
+* **components/lists:** add content section to paging for accessibility ([#1898](https://github.com/blackbaud/skyux/issues/1898)) ([cd0277f](https://github.com/blackbaud/skyux/commit/cd0277f8a3776eb205b2cec2b755602a310768c3))
+
 ## [9.19.1](https://github.com/blackbaud/skyux/compare/9.19.0...9.19.1) (2023-12-22)
 
 
