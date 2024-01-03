@@ -11,17 +11,20 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
 //#region Test component
 @Component({
   selector: 'sky-form-errors-test',
-  template: ` <sky-form-errors [labelText]="errorText" [errors]="errors" /> `,
+  template: ` <sky-form-errors [labelText]="errorText" [errors]="errors" />
+    <sky-form-errors
+      data-sky-id="other-error"
+      labelText="other error"
+      [errors]="{ required: true }"
+    />"`,
 })
 class TestComponent {
   public errorText: string | undefined = 'Form';
-  public errors: ValidationErrors | undefined = {
-    required: true,
-  };
+  public errors: ValidationErrors | undefined;
 }
 //#endregion Test component
 
-fdescribe('Form errors harness', () => {
+describe('Form errors harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     formErrorsHarness: SkyFormErrorsHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -45,28 +48,86 @@ fdescribe('Form errors harness', () => {
     return { formErrorsHarness, fixture, loader, pageLoader };
   }
 
-  it('should get all errors', async () => {
-    const { formErrorsHarness, fixture } = await setupTest();
-    fixture.componentInstance.errors = {
-      required: true,
-      skyUrl: true,
-      minlength: { requiredLength: 5 },
-    };
+  it('should get form error by its data-sky-id', async () => {
+    const { formErrorsHarness, fixture } = await setupTest({
+      dataSkyId: 'other-error',
+    });
 
     fixture.detectChanges();
 
-    await expectAsync(formErrorsHarness.getErrors()).toBeResolvedTo([
-      'Form is required.',
-      'Form must be at least 5 character(s).',
-      'Enter a URL with a valid format.',
-    ]);
+    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(1);
+    await expectAsync(formErrorsHarness.isRequiredError()).toBeResolvedTo(true);
   });
-
   it('should get number of errors', async () => {
     const { formErrorsHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
 
-    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(1);
+    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(0);
+
+    fixture.componentInstance.errors = {
+      required: true,
+      minlength: true,
+    };
+    fixture.detectChanges();
+
+    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(2);
+  });
+
+  it('should return whether first class errors are fired', async () => {
+    const { formErrorsHarness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+
+    await expectAsync(formErrorsHarness.isRequiredError()).toBeResolvedTo(
+      false,
+    );
+    await expectAsync(formErrorsHarness.isMaxLengthError()).toBeResolvedTo(
+      false,
+    );
+    await expectAsync(formErrorsHarness.isMinLengthError()).toBeResolvedTo(
+      false,
+    );
+    await expectAsync(formErrorsHarness.isCharacterCountError()).toBeResolvedTo(
+      false,
+    );
+    await expectAsync(formErrorsHarness.isDateError()).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.isEmailError()).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.isPhoneFieldError()).toBeResolvedTo(
+      false,
+    );
+    await expectAsync(formErrorsHarness.isTimeError()).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.isUrlError()).toBeResolvedTo(false);
+
+    fixture.componentInstance.errors = {
+      required: true,
+      minlength: true,
+      maxlength: true,
+      skyCharacterCounter: true,
+      skyDate: true,
+      skyEmail: true,
+      skyPhoneField: true,
+      skyTime: true,
+      skyUrl: true,
+    };
+    fixture.detectChanges();
+
+    await expectAsync(formErrorsHarness.isRequiredError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.isMaxLengthError()).toBeResolvedTo(
+      true,
+    );
+    await expectAsync(formErrorsHarness.isMinLengthError()).toBeResolvedTo(
+      true,
+    );
+    await expectAsync(formErrorsHarness.isCharacterCountError()).toBeResolvedTo(
+      true,
+    );
+    await expectAsync(formErrorsHarness.isDateError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.isEmailError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.isPhoneFieldError()).toBeResolvedTo(
+      true,
+    );
+    await expectAsync(formErrorsHarness.isTimeError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.isUrlError()).toBeResolvedTo(true);
   });
 });

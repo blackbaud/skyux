@@ -1,7 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 
+import { SkyFormErrorHarness } from './form-error-harness';
 import { SkyFormErrorsHarnessFilters } from './form-errors-harness.filters';
 
 export class SkyFormErrorsHarness extends SkyComponentHarness {
@@ -13,11 +13,15 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
   #getFormError = this.locatorForAll('sky-form-error');
 
   async #getFormErrorsClasses(): Promise<string[]> {
-    return this.#getFormError().then((formErrors) => {
-      formErrors.map((formError) => {
-        return formError.getProperty('classList');
-      });
-    });
+    const formErrorHarnesses = await this.locatorForAll(
+      SkyFormErrorHarness.with({}),
+    )();
+
+    return Promise.all(
+      formErrorHarnesses.map((formError) => {
+        return formError.getFirstClassError();
+      }),
+    );
   }
 
   /**
@@ -30,24 +34,55 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
     return SkyFormErrorsHarness.getDataSkyIdPredicate(filters);
   }
 
-  public async getErrors(): Promise<string[] | void> {
-    const harnesses = await this.locatorForAll(
-      SkyStatusIndicatorHarness.with({}),
-    )();
-    return await Promise.all(
-      harnesses.map((harness) => {
-        return harness.getText();
-      }),
-    );
-  }
-
   public async getNumberOfErrors(): Promise<number> {
     return (await this.#getFormError()).length;
   }
 
   public async isRequiredError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes(
-      'skyux_form_error_required',
+      'sky-form-error-required',
     );
+  }
+
+  public async isMaxLengthError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes(
+      'sky-form-error-maxlength',
+    );
+  }
+
+  public async isMinLengthError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes(
+      'sky-form-error-minlength',
+    );
+  }
+
+  public async isCharacterCountError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes(
+      'sky-form-error-character-counter',
+    );
+  }
+
+  public async isDateError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes('sky-form-error-date');
+  }
+
+  public async isEmailError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes(
+      'sky-form-error-email',
+    );
+  }
+
+  public async isPhoneFieldError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes(
+      'sky-form-error-phone',
+    );
+  }
+
+  public async isTimeError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes('sky-form-error-time');
+  }
+
+  public async isUrlError(): Promise<boolean> {
+    return (await this.#getFormErrorsClasses()).includes('sky-form-error-url');
   }
 }
