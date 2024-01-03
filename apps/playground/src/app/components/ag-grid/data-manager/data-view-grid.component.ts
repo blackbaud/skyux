@@ -101,7 +101,7 @@ export class DataViewGridComponent implements OnInit {
   };
 
   public columnApi: ColumnApi;
-  public filteredItems: any[];
+  public displayedItems: any[];
   public gridApi: GridApi;
   public gridOptions: GridOptions;
   public isActive: boolean;
@@ -116,7 +116,7 @@ export class DataViewGridComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.filteredItems = this.items;
+    this.displayedItems = this.items;
 
     this.dataManagerService.initDataView(this.viewConfig);
 
@@ -142,10 +142,10 @@ export class DataViewGridComponent implements OnInit {
   }
 
   public updateData(): void {
-    this.filteredItems = this.#filterItems(this.searchItems(this.items));
+    this.displayedItems = this.#filterItems(this.searchItems(this.items));
 
     if (this.dataState.onlyShowSelected) {
-      this.filteredItems = this.filteredItems.filter((item) => item.selected);
+      this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
     this.dataManagerService.updateDataSummary(
