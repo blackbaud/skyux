@@ -184,6 +184,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     if (value) {
       this.#_timepickerRef = value;
 
+      this.#addKeyupListener();
+
       // Wait for the timepicker component to render before gauging dimensions.
       setTimeout(() => {
         this.#destroyAffixer();
@@ -283,7 +285,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.setFormat(this.timeFormat);
-    this.#addKeydownListener();
+    this.#addKeyupListener();
 
     if (this.inputBoxHostService && this.inputTemplateRef) {
       this.inputBoxHostService.populate({
@@ -381,7 +383,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     this.#openPicker();
   }
 
-  #closePicker() {
+  #closePicker(): void {
     this.#destroyAffixer();
     this.#destroyOverlay();
     this.#removePickerEventListeners();
@@ -458,7 +460,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
           }
         });
 
-      this.#addKeydownListener();
+      // this.#addKeyupListener();
 
       overlay.attachTemplate(this.timepickerTemplateRef);
 
@@ -474,19 +476,25 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  #addKeydownListener(): void {
-    this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
-      window.document,
-      'keydown',
-    )
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((event) => {
-        const key = event.key?.toLowerCase();
-        /* istanbul ignore else */
-        if (key === 'escape' && this.isOpen) {
-          this.#closePicker();
-        }
-      });
+  #addKeyupListener(): void {
+    const timepickerMenuElement = this.timepickerRef?.nativeElement;
+
+    if (timepickerMenuElement) {
+      this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
+        timepickerMenuElement,
+        'keyup',
+      )
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event) => {
+          const key = event.key?.toLowerCase();
+          /* istanbul ignore else */
+          if (key === 'escape' && this.isOpen) {
+            this.#closePicker();
+            event.stopPropagation();
+            event.preventDefault();
+          }
+        });
+    }
   }
 
   #removePickerEventListeners(): void {
