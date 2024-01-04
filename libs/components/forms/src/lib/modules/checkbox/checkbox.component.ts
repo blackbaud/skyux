@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -24,7 +23,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyCheckboxChange } from './checkbox-change';
-import { SkyCheckboxLabelComponent } from './checkbox-label.component';
 
 /**
  * Replaces the HTML input element with `type="checkbox"`. When users select a checkbox, its value
@@ -35,9 +33,7 @@ import { SkyCheckboxLabelComponent } from './checkbox-label.component';
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
 })
-export class SkyCheckboxComponent
-  implements ControlValueAccessor, OnInit, AfterContentChecked
-{
+export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
@@ -45,15 +41,7 @@ export class SkyCheckboxComponent
    * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
    */
   @Input()
-  public set label(value: string | undefined) {
-    this.#_label = value;
-
-    this.#updateErrorLabelText();
-  }
-
-  public get label(): string | undefined {
-    return this.#_label;
-  }
+  public label: string | undefined;
 
   /**
    * The HTML element ID of the element that labels the
@@ -62,19 +50,7 @@ export class SkyCheckboxComponent
    * If the checkbox does not include a visible label, use `label` instead.
    */
   @Input()
-  public set labelledBy(value: string | undefined) {
-    this.#_labelledBy = value;
-
-    this.#labelledByLabelText = this.labelledBy
-      ? this.#elementRef.nativeElement.querySelector(this.labelledBy)
-          ?.nativeElement?.textContent
-      : undefined;
-    this.#updateErrorLabelText();
-  }
-
-  public get labelledBy(): string | undefined {
-    return this.#_labelledBy;
-  }
+  public labelledBy: string | undefined;
 
   /**
    * The ID for the checkbox.
@@ -264,16 +240,6 @@ export class SkyCheckboxComponent
     return this.#_inputEl;
   }
 
-  @ContentChild(SkyCheckboxLabelComponent, { read: ElementRef })
-  public set checkboxLabelElText(value: ElementRef | undefined) {
-    this.#_checkboxLabelElText = value?.nativeElement.textContent || undefined;
-    this.#updateErrorLabelText();
-  }
-
-  public get checkboxLabelElText(): string | undefined {
-    return this.#_checkboxLabelElText;
-  }
-
   @ContentChild(NgModel)
   public ngModel: NgModel | undefined;
 
@@ -294,18 +260,12 @@ export class SkyCheckboxComponent
   #_inputEl: ElementRef | undefined;
   #_name = '';
   #_required = false;
-  #_checkboxLabelElText: string | undefined;
-  #_labelledBy: string | undefined;
-  #_label: string | undefined;
-
-  #labelledByLabelText: string | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
   #idSvc = inject(SkyIdService);
   #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
   #ngControl = inject(NgControl, { optional: true, self: true });
-  #elementRef = inject(ElementRef);
 
   public readonly errorId = this.#idSvc.generateId();
   public errorLabelText: string | undefined;
@@ -327,17 +287,13 @@ export class SkyCheckboxComponent
     this.name = this.#defaultId;
   }
 
-  public ngAfterContentChecked(): void {
-    this.controlDir = this.#ngControl || this.ngModel;
-    console.log('hellooooo');
-    console.log(this.controlDir);
-  }
-
   public ngOnInit(): void {
     if (this.#ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
         this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
+
+      this.controlDir = this.#ngControl || this.ngModel;
     }
   }
 
@@ -408,11 +364,5 @@ export class SkyCheckboxComponent
    */
   #toggle(): void {
     this.checked = !this.checked;
-  }
-
-  #updateErrorLabelText(): void {
-    this.errorLabelText =
-      this.#labelledByLabelText || this.label || this.checkboxLabelElText;
-    this.#changeDetector.markForCheck();
   }
 }

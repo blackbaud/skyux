@@ -57,7 +57,7 @@
   <sky-form-errors
     [id]="errorId"
     [errors]="controlDir?.errors"
-    [labelText]="errorLabelText"
+    [labelText]="'skyux_checkbox_required_label_text' | skyLibResources"
     [showErrors]="controlDir?.touched || controlDir?.dirty"
   >
     <ng-content select=".sky-error-label,.sky-error-indicator" />
