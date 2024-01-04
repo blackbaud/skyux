@@ -42,77 +42,77 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
   }
 
   /*
-   * Gets if the required error is triggered.
+   * Gets if the required error has triggered.
    */
-  public async isRequiredError(): Promise<boolean> {
+  public async hasRequiredError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes(
       'sky-form-error-required',
     );
   }
 
   /*
-   * Gets if the maximum length error is triggered.
+   * Gets if the maximum length error has triggered.
    */
-  public async isMaxLengthError(): Promise<boolean> {
+  public async hasMaxLengthError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes(
       'sky-form-error-maxlength',
     );
   }
 
   /*
-   * Gets if the minimum length is triggered.
+   * Gets if the minimum length has triggered.
    */
-  public async isMinLengthError(): Promise<boolean> {
+  public async hasMinLengthError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes(
       'sky-form-error-minlength',
     );
   }
 
   /*
-   * Gets if the character count error is triggered.
+   * Gets if the character count error has triggered.
    */
-  public async isCharacterCountError(): Promise<boolean> {
+  public async hasCharacterCountError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes(
       'sky-form-error-character-counter',
     );
   }
 
   /*
-   * Gets if the date error is triggered.
+   * Gets if the date error has triggered.
    */
-  public async isDateError(): Promise<boolean> {
+  public async hasDateError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes('sky-form-error-date');
   }
 
   /*
-   * Gets if the email error is triggered.
+   * Gets if the email error has triggered.
    */
-  public async isEmailError(): Promise<boolean> {
+  public async hasEmailError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes(
       'sky-form-error-email',
     );
   }
 
   /*
-   * Gets if the phone field error is triggered.
+   * Gets if the phone field error has triggered.
    */
-  public async isPhoneFieldError(): Promise<boolean> {
+  public async hasPhoneFieldError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes(
       'sky-form-error-phone',
     );
   }
 
   /*
-   * Gets if the time field error is triggered.
+   * Gets if the time field error has triggered.
    */
-  public async isTimeError(): Promise<boolean> {
+  public async hasTimeError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes('sky-form-error-time');
   }
 
   /*
-   * Gets if the URL error is triggered.
+   * Gets if the URL error has triggered.
    */
-  public async isUrlError(): Promise<boolean> {
+  public async hasUrlError(): Promise<boolean> {
     return (await this.#getFormErrorsClasses()).includes('sky-form-error-url');
   }
 }
