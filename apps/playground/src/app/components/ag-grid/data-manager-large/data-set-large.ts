@@ -11,7 +11,13 @@ export const columnDefinitions: ColDef[] = [
   {
     field: 'select',
     headerName: ' ',
-    type: [SkyCellType.RowSelector],
+    type: [SkyCellType.RowSelector, SkyCellType.Validator],
+    cellRendererParams: {
+      skyComponentProperties: {
+        validator: () => false,
+        validatorMessage: () => 'This is a validator message.',
+      },
+    },
   },
   {
     field: 'object_number',

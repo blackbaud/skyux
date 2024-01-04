@@ -1,4 +1,8 @@
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
+import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { ICellRendererParams } from 'ag-grid-community';
 
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
@@ -8,6 +12,26 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-
 const NOOP = (): void => {
   return;
 };
+
+@Component({
+  standalone: true,
+  template: `{{ params?.value }}`,
+})
+class MockNestedCellRendererComponent implements ICellRendererAngularComp {
+  protected params: ICellRendererParams | undefined;
+
+  #changeDetectorRef = inject(ChangeDetectorRef);
+
+  public agInit(params: ICellRendererParams): void {
+    this.params = params;
+  }
+
+  public refresh(params: ICellRendererParams): boolean {
+    this.params = params;
+    this.#changeDetectorRef.markForCheck();
+    return false;
+  }
+}
 
 describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
   beforeEach(() => {
@@ -27,12 +51,16 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
           return -1;
         },
       },
+      colDef: {
+        cellRendererParams: {
+          skyComponentProperties: {},
+        },
+      },
       formatValue: NOOP,
       getValue: NOOP,
       refreshCell: NOOP,
       rowIndex: 0,
       setValue: NOOP,
-      skyComponentProperties: {},
     } as unknown as SkyCellRendererValidatorParams;
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
@@ -56,5 +84,38 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
       fixture.componentInstance.cellRendererParams,
     );
     expect(valueFormatter).toHaveBeenCalled();
+  });
+
+  it('should nest another cell renderer', () => {
+    const fixture = TestBed.createComponent(
+      SkyAgGridCellRendererValidatorTooltipComponent,
+    );
+    fixture.componentInstance.agInit({
+      column: {
+        getActualWidth(): number {
+          return -1;
+        },
+      },
+      colDef: {
+        cellRenderer: MockNestedCellRendererComponent,
+        cellRendererParams: {
+          skyComponentProperties: {},
+        },
+      },
+      rowIndex: 0,
+    } as SkyCellRendererValidatorParams);
+    fixture.detectChanges();
+    expect(fixture.componentInstance).toBeTruthy();
+
+    fixture.componentInstance.refresh({
+      column: {
+        getActualWidth(): number {
+          return -1;
+        },
+      },
+      rowIndex: 0,
+    } as SkyCellRendererValidatorParams);
+    fixture.detectChanges();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });
