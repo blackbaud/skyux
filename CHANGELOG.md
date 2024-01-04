@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.20.1](https://github.com/blackbaud/skyux/compare/9.20.0...9.20.1) (2024-01-04)
+
+
+### Bug Fixes
+
+* **components/tiles:** adjust column behavior when wrapped in multiple responsive contexts ([#1921](https://github.com/blackbaud/skyux/issues/1921)) ([8038f60](https://github.com/blackbaud/skyux/commit/8038f60d76a6e7514c4f98ee3ae63f28d3163743))
+
 ## [9.20.0](https://github.com/blackbaud/skyux/compare/9.19.1...9.20.0) (2024-01-03)
 
 
