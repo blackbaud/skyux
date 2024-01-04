@@ -1,3 +1,23 @@
+<sky-wait
+  [ariaLabel]="
+    'skyux_paging_loading' | skyLibResources : currentPage : pageCount
+  "
+  [isWaiting]="!!(isLoading | async)"
+  [screenReaderCompletedText]="
+    'skyux_paging_loaded' | skyLibResources : currentPage
+  "
+/>
+<div
+  class="sky-paging-content-wrapper"
+  role="group"
+  tabindex="-1"
+  [attr.aria-label]="
+    'skyux_paging_page_label' | skyLibResources : currentPage : pageCount
+  "
+  #contentWrapper
+>
+  <ng-content select="sky-paging-content" />
+</div>
 <nav
   *ngIf="pageCount > 1"
   class="sky-paging"
