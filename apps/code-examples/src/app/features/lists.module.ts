@@ -31,6 +31,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'paging/with-content',
+    loadComponent: () =>
+      import('../code-examples/lists/paging/with-content/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
     path: 'repeater/add-remove',
     loadComponent: () =>
       import('../code-examples/lists/repeater/add-remove/demo.component').then(
