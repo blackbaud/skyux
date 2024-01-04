@@ -58,6 +58,7 @@ describe('Form errors harness', () => {
     await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(1);
     await expectAsync(formErrorsHarness.isRequiredError()).toBeResolvedTo(true);
   });
+
   it('should get number of errors', async () => {
     const { formErrorsHarness, fixture } = await setupTest();
 
