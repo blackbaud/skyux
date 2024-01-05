@@ -798,6 +798,18 @@ describe('Checkbox component', () => {
       expect(labelElement).toHaveCssClass('sky-control-label-required');
     });
 
+    it('should display a required error message when the checkbox is touched or dirty but not selected', () => {
+      labelElement?.click();
+      labelElement?.click();
+
+      fixture.detectChanges();
+
+      const errorMessage = checkboxNativeElement?.querySelector(
+        '.sky-form-error-required',
+      );
+      expect(errorMessage).toBeVisible();
+    });
+
     it('should not have required and aria-required attributes when input is false', async () => {
       fixture.detectChanges();
       testComponent.required = false;
@@ -1099,6 +1111,18 @@ describe('Checkbox component', () => {
       expect(formControl.valid).toBe(true);
       labelElement?.click();
       expect(formControl.valid).toBe(false);
+    });
+
+    it('should display a required error message when the checkbox is touched or dirty but not selected', () => {
+      labelElement?.click();
+      labelElement?.click();
+
+      fixture.detectChanges();
+
+      const errorMessage = checkboxNativeElement?.querySelector(
+        '.sky-form-error-required',
+      );
+      expect(errorMessage).toBeVisible();
     });
   });
 

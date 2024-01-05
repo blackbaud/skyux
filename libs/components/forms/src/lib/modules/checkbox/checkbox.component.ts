@@ -1,7 +1,6 @@
 import {
   ChangeDetectorRef,
   Component,
-  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
@@ -10,12 +9,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  AbstractControlDirective,
-  ControlValueAccessor,
-  NgControl,
-  NgModel,
-} from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -240,10 +234,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_inputEl;
   }
 
-  @ContentChild(NgModel)
-  public ngModel: NgModel | undefined;
-
-  protected controlDir: AbstractControlDirective | undefined;
   protected inputId = '';
 
   #checkedChange: BehaviorSubject<boolean>;
@@ -265,14 +255,15 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #idSvc = inject(SkyIdService);
   #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
-  #ngControl = inject(NgControl, { optional: true, self: true });
+
+  protected ngControl = inject(NgControl, { optional: true, self: true });
 
   public readonly errorId = this.#idSvc.generateId();
   public errorLabelText: string | undefined;
 
   constructor() {
-    if (this.#ngControl) {
-      this.#ngControl.valueAccessor = this;
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
     }
 
     this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
@@ -288,12 +279,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.#ngControl) {
+    if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
-
-      this.controlDir = this.#ngControl || this.ngModel;
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
