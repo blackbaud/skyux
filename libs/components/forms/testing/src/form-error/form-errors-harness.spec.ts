@@ -56,7 +56,9 @@ describe('Form errors harness', () => {
     fixture.detectChanges();
 
     await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(1);
-    await expectAsync(formErrorsHarness.isRequiredError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.hasRequiredError()).toBeResolvedTo(
+      true,
+    );
   });
 
   it('should get number of errors', async () => {
@@ -80,25 +82,25 @@ describe('Form errors harness', () => {
 
     fixture.detectChanges();
 
-    await expectAsync(formErrorsHarness.isRequiredError()).toBeResolvedTo(
+    await expectAsync(formErrorsHarness.hasRequiredError()).toBeResolvedTo(
       false,
     );
-    await expectAsync(formErrorsHarness.isMaxLengthError()).toBeResolvedTo(
+    await expectAsync(formErrorsHarness.hasMaxLengthError()).toBeResolvedTo(
       false,
     );
-    await expectAsync(formErrorsHarness.isMinLengthError()).toBeResolvedTo(
+    await expectAsync(formErrorsHarness.hasMinLengthError()).toBeResolvedTo(
       false,
     );
-    await expectAsync(formErrorsHarness.isCharacterCountError()).toBeResolvedTo(
+    await expectAsync(
+      formErrorsHarness.hasCharacterCountError(),
+    ).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.hasDateError()).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.hasEmailError()).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.hasPhoneFieldError()).toBeResolvedTo(
       false,
     );
-    await expectAsync(formErrorsHarness.isDateError()).toBeResolvedTo(false);
-    await expectAsync(formErrorsHarness.isEmailError()).toBeResolvedTo(false);
-    await expectAsync(formErrorsHarness.isPhoneFieldError()).toBeResolvedTo(
-      false,
-    );
-    await expectAsync(formErrorsHarness.isTimeError()).toBeResolvedTo(false);
-    await expectAsync(formErrorsHarness.isUrlError()).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.hasTimeError()).toBeResolvedTo(false);
+    await expectAsync(formErrorsHarness.hasUrlError()).toBeResolvedTo(false);
 
     fixture.componentInstance.errors = {
       required: true,
@@ -113,22 +115,24 @@ describe('Form errors harness', () => {
     };
     fixture.detectChanges();
 
-    await expectAsync(formErrorsHarness.isRequiredError()).toBeResolvedTo(true);
-    await expectAsync(formErrorsHarness.isMaxLengthError()).toBeResolvedTo(
+    await expectAsync(formErrorsHarness.hasRequiredError()).toBeResolvedTo(
       true,
     );
-    await expectAsync(formErrorsHarness.isMinLengthError()).toBeResolvedTo(
+    await expectAsync(formErrorsHarness.hasMaxLengthError()).toBeResolvedTo(
       true,
     );
-    await expectAsync(formErrorsHarness.isCharacterCountError()).toBeResolvedTo(
+    await expectAsync(formErrorsHarness.hasMinLengthError()).toBeResolvedTo(
       true,
     );
-    await expectAsync(formErrorsHarness.isDateError()).toBeResolvedTo(true);
-    await expectAsync(formErrorsHarness.isEmailError()).toBeResolvedTo(true);
-    await expectAsync(formErrorsHarness.isPhoneFieldError()).toBeResolvedTo(
+    await expectAsync(
+      formErrorsHarness.hasCharacterCountError(),
+    ).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.hasDateError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.hasEmailError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.hasPhoneFieldError()).toBeResolvedTo(
       true,
     );
-    await expectAsync(formErrorsHarness.isTimeError()).toBeResolvedTo(true);
-    await expectAsync(formErrorsHarness.isUrlError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.hasTimeError()).toBeResolvedTo(true);
+    await expectAsync(formErrorsHarness.hasUrlError()).toBeResolvedTo(true);
   });
 });
