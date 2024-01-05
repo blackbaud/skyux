@@ -241,7 +241,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   #overlay: SkyOverlayInstance | undefined;
 
-  #overlayKeydownListener: Subscription | undefined;
+  #overlayKeyupListener: Subscription | undefined;
 
   #_disabled = false;
 
@@ -460,8 +460,6 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
           }
         });
 
-      // this.#addKeyupListener();
-
       overlay.attachTemplate(this.timepickerTemplateRef);
 
       this.#overlay = overlay;
@@ -480,7 +478,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     const timepickerMenuElement = this.timepickerRef?.nativeElement;
 
     if (timepickerMenuElement) {
-      this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
+      this.#overlayKeyupListener = fromEvent<KeyboardEvent>(
         timepickerMenuElement,
         'keyup',
       )
@@ -505,6 +503,6 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       this.#timepickerUnsubscribe = new Subject<void>();
     }
     /* istanbul ignore next */
-    this.#overlayKeydownListener?.unsubscribe();
+    this.#overlayKeyupListener?.unsubscribe();
   }
 }
