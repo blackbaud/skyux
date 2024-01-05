@@ -68,6 +68,13 @@ const routes: Routes = [
         (m) => m.LookupInModalModule,
       ),
   },
+  {
+    path: 'modal-split-view-tile-dashboard',
+    loadChildren: () =>
+      import(
+        './modal-split-view-tile-dashboard/modal-split-view-tile-dashboard.module'
+      ).then((m) => m.ModalSplitViewTileDashboardModule),
+  },
 ];
 
 @NgModule({
