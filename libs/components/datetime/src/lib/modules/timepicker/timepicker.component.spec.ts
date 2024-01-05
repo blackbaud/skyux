@@ -482,14 +482,15 @@ describe('Timepicker', () => {
     it('should close picker when `escape` key is pressed', fakeAsync(() => {
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
+      let picker = getTimepicker();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keyup', {
         customEventInit: {
           key: 'escape',
         },
       });
       detectChangesAndTick(fixture);
-      const picker = getTimepicker();
+      picker = getTimepicker();
 
       expect(picker).toBeNull();
     }));
@@ -497,12 +498,13 @@ describe('Timepicker', () => {
     it('should handle non-keyboard events', fakeAsync(() => {
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
+      let picker = getTimepicker();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keyup', {
         customEventInit: {}, // Don't pass in a key value.
       });
       detectChangesAndTick(fixture);
-      const picker = getTimepicker();
+      picker = getTimepicker();
 
       expect(picker).not.toBeNull();
     }));
