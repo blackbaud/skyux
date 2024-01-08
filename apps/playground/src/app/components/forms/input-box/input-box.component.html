@@ -680,7 +680,11 @@ Value</textarea
 
     <sky-form-errors
       labelText="Just errors"
-      [errors]="{ required: true, skyUrl: true }"
+      [errors]="{
+        required: true,
+        skyUrl: true,
+        minlength: { requiredLength: 5 }
+      }"
     />
 
     <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
