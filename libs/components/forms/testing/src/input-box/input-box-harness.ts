@@ -9,6 +9,7 @@ import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
 import { SkyCharacterCounterIndicatorHarness } from '../character-counter/character-counter-indicator-harness';
+import { SkyFormErrorsHarness } from '../public-api';
 
 import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
 
@@ -77,6 +78,13 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     )();
 
     return errors;
+  }
+
+  /**
+   * Gets the form error for this input box.
+   */
+  public async getFormError(skyId?: string): Promise<SkyFormErrorsHarness> {
+    return this.locatorFor(SkyFormErrorsHarness.with({ selector: skyId }))();
   }
 
   /**

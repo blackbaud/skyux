@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
 import { InputBoxHarnessTestModule } from './fixtures/input-box-harness-test.module';
@@ -40,6 +41,22 @@ describe('Input box harness', () => {
     const harness = await inputBoxHarness.queryHarness(LastNameHarness);
 
     await expectAsync(harness?.value()).toBeResolvedTo('Doe');
+  });
+
+  it('should query form error harness', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-easy-mode-errors',
+    });
+
+    const inputBox = document.querySelector('input.input-easy-mode-error');
+
+    SkyAppTestUtility.fireDomEvent(inputBox, 'blur');
+    await fixture.whenStable();
+
+    const errorHarness = await inputBoxHarness.getFormError();
+
+    await expectAsync(errorHarness.getNumberOfErrors()).toBeResolvedTo(1);
+    await expectAsync(errorHarness.hasRequiredError()).toBeResolvedTo(true);
   });
 
   it('should return disabled', async () => {
