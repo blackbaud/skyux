@@ -94,7 +94,12 @@ class CheckboxWithFormDirectivesComponent {
   template: `
     <div>
       <form>
-        <sky-checkbox [labelText]="labelText" name="cb" ngModel [required]="required">
+        <sky-checkbox
+          [labelText]="labelText"
+          name="cb"
+          ngModel
+          [required]="required"
+        >
           <sky-checkbox-label>
             Be good
             <span *ngIf="showInlineHelp">Help inline</span>
@@ -443,7 +448,7 @@ describe('Checkbox component', () => {
     });
 
     it('should render the labelText when provided', () => {
-      const labelText = 'Label text'
+      const labelText = 'Label text';
       testComponent.labelText = labelText;
       fixture.detectChanges();
 
@@ -452,7 +457,7 @@ describe('Checkbox component', () => {
       );
 
       expect(label?.textContent?.trim()).toBe(labelText);
-    })
+    });
 
     it('should make the host element a tab stop', () => {
       expect(inputElement?.tabIndex).toBe(0);
