@@ -2,9 +2,14 @@
   <sky-modal data-sky-id="modal-demo" [isDirty]="demoForm.dirty">
     <sky-modal-header> Modal title </sky-modal-header>
     <sky-modal-content>
-      <sky-input-box labelText="An input inside a modal">
+      <sky-input-box labelText="An input inside a modal" [stacked]="true">
         <input formControlName="value1" type="text" />
       </sky-input-box>
+      <sky-checkbox formControlName="checkbox" [required]="true">
+        <sky-checkbox-label>
+          I agree to terms and conditions
+        </sky-checkbox-label>
+      </sky-checkbox>
     </sky-modal-content>
     <sky-modal-footer>
       <button class="sky-btn sky-btn-primary" type="submit">Save</button>

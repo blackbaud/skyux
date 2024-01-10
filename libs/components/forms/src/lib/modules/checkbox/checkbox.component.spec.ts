@@ -36,6 +36,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       [disabled]="isDisabled"
       [icon]="icon"
       [id]="id"
+      [labelText]="labelText"
       [(indeterminate)]="indeterminate"
       (change)="checkboxChange($event)"
     >
@@ -54,6 +55,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   public isChecked: boolean | undefined = false;
   public isDisabled = false;
   public showInlineHelp = false;
+  public labelText: string | undefined;
 
   @ViewChild(SkyCheckboxComponent)
   public checkboxComponent: SkyCheckboxComponent | undefined;
@@ -92,7 +94,12 @@ class CheckboxWithFormDirectivesComponent {
   template: `
     <div>
       <form>
-        <sky-checkbox name="cb" ngModel [required]="required">
+        <sky-checkbox
+          [labelText]="labelText"
+          name="cb"
+          ngModel
+          [required]="required"
+        >
           <sky-checkbox-label>
             Be good
             <span *ngIf="showInlineHelp">Help inline</span>
@@ -105,6 +112,7 @@ class CheckboxWithFormDirectivesComponent {
 class CheckboxWithRequiredInputComponent {
   public required = true;
   public showInlineHelp = false;
+  public labelText: string | undefined;
 }
 
 /** Simple component for testing a required template-driven checkbox. */
@@ -152,6 +160,7 @@ class CheckboxWithReactiveFormComponent {
           name="cb"
           formControlName="checkbox1"
           [required]="required"
+          [labelText]="labelText"
           #wut
         >
           <sky-checkbox-label> Be good </sky-checkbox-label>
@@ -164,6 +173,7 @@ class CheckboxWithReactiveFormRequiredInputComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
   public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
   public required = true;
+  public labelText: string | undefined;
 }
 
 /** Simple component for testing a reactive form checkbox with required validator. */
@@ -429,10 +439,24 @@ describe('Checkbox component', () => {
     });
 
     it('should project the checkbox content into the label element', () => {
+      fixture.detectChanges();
       const label = checkboxNativeElement?.querySelector(
         '.sky-checkbox-wrapper sky-checkbox-label',
       );
+
       expect(label?.textContent?.trim()).toBe('Simple checkbox');
+    });
+
+    it('should render the labelText when provided', () => {
+      const labelText = 'Label text';
+      testComponent.labelText = labelText;
+      fixture.detectChanges();
+
+      const label = checkboxNativeElement?.querySelector(
+        '.sky-checkbox-wrapper sky-checkbox-label',
+      );
+
+      expect(label?.textContent?.trim()).toBe(labelText);
     });
 
     it('should make the host element a tab stop', () => {
@@ -798,6 +822,21 @@ describe('Checkbox component', () => {
       expect(labelElement).toHaveCssClass('sky-control-label-required');
     });
 
+    it('should display a required error message when labelText is set and the checkbox is touched or dirty but not selected', () => {
+      testComponent.labelText = 'Label';
+      fixture.detectChanges();
+
+      labelElement?.click();
+      labelElement?.click();
+
+      fixture.detectChanges();
+
+      const errorMessage = checkboxNativeElement?.querySelector(
+        '.sky-form-error-required',
+      );
+      expect(errorMessage).toBeVisible();
+    });
+
     it('should not have required and aria-required attributes when input is false', async () => {
       fixture.detectChanges();
       testComponent.required = false;
@@ -1099,6 +1138,21 @@ describe('Checkbox component', () => {
       expect(formControl.valid).toBe(true);
       labelElement?.click();
       expect(formControl.valid).toBe(false);
+    });
+
+    it('should display a required error message when labelText is set and the checkbox is touched or dirty but not selected', () => {
+      testComponent.labelText = 'Label';
+      fixture.detectChanges();
+
+      labelElement?.click();
+      labelElement?.click();
+
+      fixture.detectChanges();
+
+      const errorMessage = checkboxNativeElement?.querySelector(
+        '.sky-form-error-required',
+      );
+      expect(errorMessage).toBeVisible();
     });
   });
 
