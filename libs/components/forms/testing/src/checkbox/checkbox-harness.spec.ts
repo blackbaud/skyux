@@ -107,6 +107,15 @@ describe('Checkbox harness', () => {
     await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo(undefined);
   });
 
+  it('should get the label when specified via labelText input', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+      hideEmailLabel: true,
+    });
+
+    await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo('Phone');
+  });
+
   it('should get the checkbox name and value', async () => {
     const { checkboxHarness } = await setupTest({
       dataSkyId: 'my-email-checkbox',
@@ -130,5 +139,19 @@ describe('Checkbox harness', () => {
     await expectAsync(checkboxHarness.check()).toBeRejectedWithError(
       'Could not toggle the checkbox because it is disabled.',
     );
+  });
+
+  it('should display an error message when there is an error', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+      hideEmailLabel: true,
+    });
+
+    await expectAsync(checkboxHarness.hasErrorMessage()).toBeResolvedTo(false);
+
+    await checkboxHarness.check();
+    await checkboxHarness.uncheck();
+
+    await expectAsync(checkboxHarness.hasErrorMessage()).toBeResolvedTo(true);
   });
 });
