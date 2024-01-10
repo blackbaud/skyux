@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
@@ -9,6 +10,7 @@ import {
   OnInit,
   Optional,
   Output,
+  Renderer2,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
@@ -19,6 +21,7 @@ import {
   SkyAffixService,
   SkyAffixer,
   SkyCoreAdapterService,
+  SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
@@ -29,6 +32,7 @@ import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
+import { SkyColorpickerInputDirective } from './colorpicker-input.directive';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -86,6 +90,13 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
    */
   @Input()
   public labelledBy: string | undefined;
+
+  /**
+   * The text to display as the colorpicker's label. Use this instead of a `label` element when the label is text-only.
+   * Specifying `labelText` also enables automatic error message handling for standard colorpicker errors.
+   */
+  @Input()
+  public labelText: string | undefined;
 
   /**
    * Fires when users select a color in the colorpicker.
@@ -239,6 +250,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   })
   protected set colorpickerRef(value: ElementRef | undefined) {
     if (value) {
+      console.log(value);
       this.#_colorpickerRef = value;
       this.#destroyAffixer();
 
@@ -263,6 +275,15 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   protected get colorpickerRef(): ElementRef | undefined {
     return this.#_colorpickerRef;
+  }
+
+  @ContentChild(SkyColorpickerInputDirective, {
+    read: ElementRef,
+  })
+  public set inputRef(value: ElementRef | undefined) {
+    if (value && this.labelText) {
+      this.#renderer.setAttribute(value.nativeElement, 'id', this.controlId);
+    }
   }
 
   protected colorpickerId: string;
@@ -302,9 +323,14 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #svc: SkyColorpickerService;
   #themeSvc: SkyThemeService | undefined;
 
+  #idSvc = inject(SkyIdService);
+  #renderer = inject(Renderer2);
+
   #_backgroundColorForDisplay: string | undefined;
   #_colorpickerRef: ElementRef | undefined;
   #_disabled = false;
+
+  protected readonly controlId = this.#idSvc.generateId();
 
   constructor(
     affixSvc: SkyAffixService,

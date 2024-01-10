@@ -390,6 +390,19 @@ describe('Colorpicker Component', () => {
       ).toBeNull();
     }));
 
+    it('should add a label if labelText is provided', fakeAsync(() => {
+      const labelText = 'Label Text';
+      component.labelText = labelText;
+
+      fixture.detectChanges();
+      tick();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+
+      expect(label).toBeVisible();
+      expect(label.textContent).toBe(labelText);
+    }));
+
     it('should add icon overlay', fakeAsync(() => {
       const icon = getColorpickerIcon();
       expect(icon).toBeNull();
