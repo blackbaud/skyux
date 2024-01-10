@@ -3,6 +3,9 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyFormErrorHarnessFilters } from './form-error-harness.filters';
 
+/**
+ * Harness for interacting with a form error in tests.
+ */
 export class SkyFormErrorHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -17,17 +20,5 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
     filters: SkyFormErrorHarnessFilters,
   ): HarnessPredicate<SkyFormErrorHarness> {
     return SkyFormErrorHarness.getDataSkyIdPredicate(filters);
-  }
-
-  async #getFormErrorClasses(): Promise<string[]> {
-    const formErrorClasses = await (await this.host()).getProperty('classList');
-    return Array.from(formErrorClasses);
-  }
-
-  /*
-   * Gets the error class that signifies which error has fired.
-   */
-  public async getFirstClassError(): Promise<string> {
-    return (await this.#getFormErrorClasses())[0];
   }
 }

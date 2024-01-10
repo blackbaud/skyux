@@ -4,25 +4,14 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFormErrorHarness } from './form-error-harness';
 import { SkyFormErrorsHarnessFilters } from './form-errors-harness.filters';
 
+/**
+ * Harness for interacting with form errors in tests.
+ */
 export class SkyFormErrorsHarness extends SkyComponentHarness {
   /**
    * @internal
    */
   public static hostSelector = 'sky-form-errors';
-
-  #getFormError = this.locatorForAll('sky-form-error');
-
-  async #getFormErrorsClasses(): Promise<string[]> {
-    const formErrorHarnesses = await this.locatorForAll(
-      SkyFormErrorHarness.with({}),
-    )();
-
-    return Promise.all(
-      formErrorHarnesses.map((formError) => {
-        return formError.getFirstClassError();
-      }),
-    );
-  }
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -35,84 +24,73 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
   }
 
   /*
-   * Gets total number of errors.
-   */
-  public async getNumberOfErrors(): Promise<number> {
-    return (await this.#getFormError()).length;
-  }
-
-  /*
-   * Gets if the required error has triggered.
+   * Whether the required field is set to an empty value.
    */
   public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-required',
-    );
+    return this.#hasErrorOfType('required');
   }
 
   /*
-   * Gets if the maximum length error has triggered.
+   * Whether the field has more characters than is allowed.
    */
   public async hasMaxLengthError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-maxlength',
-    );
+    return this.#hasErrorOfType('maxlength');
   }
 
   /*
-   * Gets if the minimum length has triggered.
+   * Whether the field has fewer characters than is allowed.
    */
   public async hasMinLengthError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-minlength',
-    );
+    return this.#hasErrorOfType('minlength');
   }
 
   /*
-   * Gets if the character count error has triggered.
+   * Whether the field has exceeded its maximum character count allowance.
    */
   public async hasCharacterCountError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-character-counter',
-    );
+    return this.#hasErrorOfType('character-counter');
   }
 
   /*
-   * Gets if the date error has triggered.
+   * Gets the field is set to an invalid date.
    */
   public async hasDateError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes('sky-form-error-date');
+    return this.#hasErrorOfType('date');
   }
 
   /*
-   * Gets if the email error has triggered.
+   * Whether the field is set to an invalid email address.
    */
   public async hasEmailError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-email',
-    );
+    return this.#hasErrorOfType('email');
   }
 
   /*
-   * Gets if the phone field error has triggered.
+   * Whether the field is set to an invalid phone number.
    */
   public async hasPhoneFieldError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-phone',
-    );
+    return this.#hasErrorOfType('phone');
   }
 
   /*
-   * Gets if the time field error has triggered.
+   * Whether the field is set to an invalid time.
    */
   public async hasTimeError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes('sky-form-error-time');
+    return this.#hasErrorOfType('time');
   }
 
   /*
-   * Gets if the URL error has triggered.
+   * Whether the field is set to an invalid URL.
    */
   public async hasUrlError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes('sky-form-error-url');
+    return this.#hasErrorOfType('url');
+  }
+
+  async #hasErrorOfType(errorType: string): Promise<boolean> {
+    const found = await this.locatorForOptional(
+      SkyFormErrorHarness.with({ selector: `.sky-form-error-${errorType}` }),
+    )();
+
+    return !!found;
   }
 }

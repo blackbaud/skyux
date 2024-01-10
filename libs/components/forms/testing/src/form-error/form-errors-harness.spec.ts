@@ -55,26 +55,9 @@ describe('Form errors harness', () => {
 
     fixture.detectChanges();
 
-    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(1);
     await expectAsync(formErrorsHarness.hasRequiredError()).toBeResolvedTo(
       true,
     );
-  });
-
-  it('should get number of errors', async () => {
-    const { formErrorsHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(0);
-
-    fixture.componentInstance.errors = {
-      required: true,
-      minlength: true,
-    };
-    fixture.detectChanges();
-
-    await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(2);
   });
 
   it('should return whether first class errors are fired', async () => {
