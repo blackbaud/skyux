@@ -18,7 +18,9 @@
     [attr.aria-labelledby]="labelledBy"
     [attr.aria-required]="required ? true : null"
     [attr.aria-invalid]="!!ngControl?.errors"
-    [attr.aria-errormessage]="labelText && ngControl?.errors ? errorId : undefined"
+    [attr.aria-errormessage]="
+      labelText && ngControl?.errors ? errorId : undefined
+    "
     (blur)="onInputBlur()"
     (change)="onInteractionEvent($event)"
     #inputEl
@@ -67,6 +69,6 @@
     [labelText]="'skyux_checkbox_required_label_text' | skyLibResources"
     [showErrors]="ngControl?.touched || ngControl?.dirty"
   >
-    <ng-content select=".sky-error-label,.sky-error-indicator" />
+    <ng-content select="sky-form-error" />
   </sky-form-errors>
 </div>

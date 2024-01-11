@@ -1,8 +1,5 @@
 <form novalidate [formGroup]="reactiveForm" (ngSubmit)="submit()">
   <div class="sky-form-group">
-    <!-- <label class="sky-control-label" [for]="colorInput.id">
-      What is your favorite color?
-    </label> -->
     <sky-colorpicker
       (selectedColorChanged)="onSelectedColorChanged($event)"
       pickerButtonIcon="calendar"
@@ -18,8 +15,27 @@
         [skyColorpickerInput]="colorPicker"
         #colorInput="skyId"
       />
+
+      <sky-form-error *ngIf="favoriteColor.errors?.['opaque']">
+        Color must have at least 80% opacity.
+      </sky-form-error>
     </sky-colorpicker>
   </div>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ favoriteColor.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ favoriteColor.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ favoriteColor.valid }}</td>
+    </tr>
+  </table>
 
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
 </form>

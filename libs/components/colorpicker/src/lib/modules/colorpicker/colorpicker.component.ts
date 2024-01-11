@@ -17,6 +17,12 @@ import {
   inject,
 } from '@angular/core';
 import {
+  AbstractControlDirective,
+  FormControlDirective,
+  FormControlName,
+  NgModel,
+} from '@angular/forms';
+import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
@@ -286,6 +292,36 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
   }
 
+  @ContentChild(FormControlDirective)
+  public set formControl(value: FormControlDirective | undefined) {
+    if (value) {
+      console.log('meeeee');
+      console.log(value);
+      this.ngControl = value;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  @ContentChild(FormControlName)
+  public set formControlByName(value: FormControlName | undefined) {
+    if (value) {
+      console.log('meeeee');
+      console.log(value);
+      this.ngControl = value;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  @ContentChild(NgModel)
+  public set ngModel(value: NgModel | undefined) {
+    if (value) {
+      console.log('meeeee');
+      console.log(value);
+      this.ngControl = value;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
   protected colorpickerId: string;
   protected isOpen = false;
   protected triggerButtonId: string;
@@ -331,6 +367,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #_disabled = false;
 
   protected readonly controlId = this.#idSvc.generateId();
+  protected readonly errorId = this.#idSvc.generateId();
+  protected ngControl: AbstractControlDirective | undefined;
 
   constructor(
     affixSvc: SkyAffixService,
@@ -423,6 +461,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public onTriggerButtonClick(): void {
+    this.ngControl?.control.markAsTouched();
     this.#sendMessage(SkyColorpickerMessageType.Open);
   }
 

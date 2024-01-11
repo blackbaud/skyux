@@ -316,3 +316,14 @@
     <sky-icon *skyThemeIf="'modern'" icon="trash" size="lg" />
   </button>
 </div>
+
+<div>
+  <sky-form-errors
+    [id]="errorId"
+    [errors]="ngControl?.errors"
+    [labelText]="'skyux_checkbox_required_label_text' | skyLibResources"
+    [showErrors]="ngControl?.touched || ngControl?.dirty"
+  >
+    <ng-content select="sky-form-error" />
+  </sky-form-errors>
+</div>
