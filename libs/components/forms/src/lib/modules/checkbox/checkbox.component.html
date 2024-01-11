@@ -17,6 +17,8 @@
     [attr.aria-label]="label"
     [attr.aria-labelledby]="labelledBy"
     [attr.aria-required]="required ? true : null"
+    [attr.aria-invalid]="!!ngControl?.errors"
+    [attr.aria-errormessage]="labelText && ngControl?.errors ? errorId : undefined"
     (blur)="onInputBlur()"
     (change)="onInteractionEvent($event)"
     #inputEl

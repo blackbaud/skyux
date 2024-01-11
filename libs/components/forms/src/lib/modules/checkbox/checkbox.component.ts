@@ -265,8 +265,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   protected ngControl = inject(NgControl, { optional: true, self: true });
 
-  public readonly errorId = this.#idSvc.generateId();
-  public errorLabelText: string | undefined;
+  protected readonly errorId = this.#idSvc.generateId();
 
   constructor() {
     if (this.ngControl) {
