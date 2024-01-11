@@ -4,7 +4,11 @@
   id="screenshot-phone-field"
   style="width: 50%; height: 100px; margin: 10px; padding: 10px"
 >
-  <sky-phone-field [allowExtensions]="false" returnFormat="international">
+  <sky-phone-field
+    [allowExtensions]="false"
+    defaultCountry="mx"
+    returnFormat="international"
+  >
     <input [(ngModel)]="phoneNumber" skyPhoneFieldInput />
   </sky-phone-field>
 </div>
