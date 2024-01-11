@@ -3,5 +3,6 @@
  * Our ESLint config requires the following packages, but we don't import them in any of our TypeScript files.
  * TODO: Add a feature to ignore peer dependencies for the above command.
  */
+import { rules } from 'eslint-plugin-deprecation';
 
-// import * from 'eslint-plugin-deprecation';
+[rules].pop();
