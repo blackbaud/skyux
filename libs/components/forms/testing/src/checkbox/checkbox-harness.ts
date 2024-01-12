@@ -15,7 +15,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * @internal
    */
   public static hostSelector = 'sky-checkbox';
-  
+
   #getInput = this.locatorFor('input.sky-checkbox-input');
 
   #getLabel = this.locatorForOptional(SkyCheckboxLabelHarness);

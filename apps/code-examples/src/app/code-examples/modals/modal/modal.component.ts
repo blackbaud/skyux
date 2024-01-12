@@ -6,6 +6,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { ModalDemoContext } from './context';
 import { ModalDemoDataService } from './data.service';
+
 @Component({
   standalone: true,
   selector: 'app-modal',

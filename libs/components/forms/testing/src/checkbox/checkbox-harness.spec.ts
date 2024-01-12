@@ -133,7 +133,7 @@ describe('Checkbox harness', () => {
     });
 
     fixture.componentInstance.disableForm();
-    
+
     await expectAsync(checkboxHarness.isChecked()).toBeResolvedTo(false);
 
     await expectAsync(checkboxHarness.check()).toBeRejectedWithError(

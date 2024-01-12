@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
+
 @Component({
   standalone: true,
   selector: 'app-demo',
