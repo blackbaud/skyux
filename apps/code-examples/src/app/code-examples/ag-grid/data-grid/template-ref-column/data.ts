@@ -11,12 +11,14 @@ export const AG_GRID_DEMO_DATA = [
     age: 55,
     department: 'Customer Support',
     jobTitle: 'Customer Support Representative',
+    jobLevel: '🥈',
   },
   {
     name: 'Jane Deere',
     age: 33,
     department: 'Engineering',
     jobTitle: 'Software Engineer',
+    jobLevel: '🥇',
   },
   {
     name: 'John Doe',
@@ -29,6 +31,7 @@ export const AG_GRID_DEMO_DATA = [
     age: 51,
     department: 'Engineering',
     jobTitle: 'Software Engineer',
+    jobLevel: '🥉',
   },
   {
     name: 'Emily Johnson',
@@ -42,6 +45,7 @@ export const AG_GRID_DEMO_DATA = [
     startDate: new Date('11/1/2019'),
     department: 'Marketing',
     jobTitle: 'Account Manager',
+    jobLevel: '🥈',
   },
   {
     name: 'Carl Roberts',
@@ -49,5 +53,6 @@ export const AG_GRID_DEMO_DATA = [
     startDate: new Date('11/1/2019'),
     department: 'Marketing',
     jobTitle: 'Social Media Coordinator',
+    jobLevel: '🥇',
   },
 ];

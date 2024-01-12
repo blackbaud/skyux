@@ -55,12 +55,7 @@
       />
     </ng-template>
   </span>
-  <ng-container *ngIf="labelText; else labelElement">
-    <sky-checkbox-label>{{ labelText }}</sky-checkbox-label>
-  </ng-container>
-  <ng-template #labelElement>
-    <ng-content select="sky-checkbox-label" />
-  </ng-template>
+  <ng-content select="sky-checkbox-label" />
 </label>
 <div *ngIf="labelText && ngControl?.errors">
   <sky-form-errors

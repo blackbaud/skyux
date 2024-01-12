@@ -14,10 +14,10 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
+import { FORM_ERRORS } from '../form-error/form-errors-token';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyCheckboxChange } from './checkbox-change';
-import { FORM_ERRORS } from '../form-error/form-errors-token';
 
 /**
  * Replaces the HTML input element with `type="checkbox"`. When users select a checkbox, its value
@@ -30,9 +30,9 @@ import { FORM_ERRORS } from '../form-error/form-errors-token';
   providers: [
     {
       provide: FORM_ERRORS,
-      useValue: true
-    }
-  ]
+      useValue: true,
+    },
+  ],
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
@@ -205,13 +205,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
-   * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
-   * Specifying `labelText` also enables automatic error message handling for checkbox.
-   */
-  @Input()
-  public labelText: string | undefined;
-
-  /**
    * Fires when users select or deselect the checkbox.
    */
   @Output()
@@ -266,13 +259,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_required = false;
 
   #changeDetector = inject(ChangeDetectorRef);
-  #idSvc = inject(SkyIdService);
-  #defaultId = this.#idSvc.generateId();
+  #defaultId = inject(SkyIdService).generateId();
   #logger = inject(SkyLogService);
 
   protected ngControl = inject(NgControl, { optional: true, self: true });
-
-  protected readonly errorId = this.#idSvc.generateId();
+  protected readonly errorId = 'id';
 
   constructor() {
     if (this.ngControl) {
