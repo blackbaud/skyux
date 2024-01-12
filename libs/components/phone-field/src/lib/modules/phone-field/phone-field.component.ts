@@ -425,10 +425,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       }
     } catch (_) {
       if (
-        !(
-          this.selectedCountry?.dialCode &&
-          phoneNumberRaw.startsWith(`${this.selectedCountry?.dialCode}`)
-        )
+        !this.selectedCountry?.dialCode ||
+        !phoneNumberRaw.startsWith(`${this.selectedCountry?.dialCode}`)
       ) {
         for (let i = 1; i < this.#longestDialCodeLength + 1; i++) {
           dialCode = phoneNumberRaw.substring(0, i);
