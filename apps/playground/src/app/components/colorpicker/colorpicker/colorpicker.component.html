@@ -16,7 +16,7 @@
         #colorInput="skyId"
       />
 
-      <sky-form-error *ngIf="favoriteColor.errors?.['opaque']">
+      <sky-form-error *ngIf="favoriteColor.errors?.['opaque']" errorName="opaque">
         Color must have at least 80% opacity.
       </sky-form-error>
     </sky-colorpicker>

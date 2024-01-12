@@ -1,4 +1,5 @@
 import {
+  AfterContentChecked,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -31,6 +32,7 @@ import {
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
+import { FORM_ERRORS } from '@skyux/forms';
 import { SkyIconType } from '@skyux/indicators';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -60,10 +62,18 @@ let componentIdIndex = 0;
   selector: 'sky-colorpicker',
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
-  providers: [SkyColorpickerService],
+  providers: [
+    SkyColorpickerService,
+    {
+      provide: FORM_ERRORS,
+      useValue: true,
+    },
+  ],
   encapsulation: ViewEncapsulation.None,
 })
-export class SkyColorpickerComponent implements OnInit, OnDestroy {
+export class SkyColorpickerComponent
+  implements OnInit, OnDestroy, AfterContentChecked
+{
   /**
    * The name of the [Font Awesome 4.7](https://fontawesome.com/v4.7/icons/) icon to overlay on top of the picker. Do not specify the `fa fa-` classes.
    * @internal
@@ -256,7 +266,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   })
   protected set colorpickerRef(value: ElementRef | undefined) {
     if (value) {
-      console.log(value);
       this.#_colorpickerRef = value;
       this.#destroyAffixer();
 
@@ -287,16 +296,19 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     read: ElementRef,
   })
   public set inputRef(value: ElementRef | undefined) {
+    this.#_inputRef = value;
     if (value && this.labelText) {
       this.#renderer.setAttribute(value.nativeElement, 'id', this.controlId);
     }
   }
 
+  public get inputRef(): ElementRef | undefined {
+    return this.#_inputRef;
+  }
+
   @ContentChild(FormControlDirective)
   public set formControl(value: FormControlDirective | undefined) {
     if (value) {
-      console.log('meeeee');
-      console.log(value);
       this.ngControl = value;
       this.#changeDetector.markForCheck();
     }
@@ -305,8 +317,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   @ContentChild(FormControlName)
   public set formControlByName(value: FormControlName | undefined) {
     if (value) {
-      console.log('meeeee');
-      console.log(value);
       this.ngControl = value;
       this.#changeDetector.markForCheck();
     }
@@ -315,8 +325,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   @ContentChild(NgModel)
   public set ngModel(value: NgModel | undefined) {
     if (value) {
-      console.log('meeeee');
-      console.log(value);
       this.ngControl = value;
       this.#changeDetector.markForCheck();
     }
@@ -339,6 +347,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   protected selectedColor: SkyColorpickerOutput | undefined;
   protected iconColor: string | undefined;
   protected isPickerVisible: boolean | undefined;
+  protected ngControl: AbstractControlDirective | undefined;
 
   #idIndex: number;
   #alphaChannel: string | undefined;
@@ -365,10 +374,10 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #_backgroundColorForDisplay: string | undefined;
   #_colorpickerRef: ElementRef | undefined;
   #_disabled = false;
+  #_inputRef: ElementRef | undefined;
 
   protected readonly controlId = this.#idSvc.generateId();
   protected readonly errorId = this.#idSvc.generateId();
-  protected ngControl: AbstractControlDirective | undefined;
 
   constructor(
     affixSvc: SkyAffixService,
@@ -452,6 +461,38 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     }
   }
 
+  public ngAfterContentChecked(): void {
+    console.log('content being checked');
+    console.log(this.ngControl);
+    console.log('form control is valid', this.ngControl?.valid);
+    console.log(this.labelText);
+    console.log(this.inputRef);
+    if (this.labelText && this.inputRef) {
+      if (!this.ngControl?.valid) {
+        console.log('setting stuff to invalid');
+        this.#renderer.setAttribute(
+          this.inputRef?.nativeElement,
+          'aria-invalid',
+          'true',
+        );
+        this.#renderer.setAttribute(
+          this.inputRef?.nativeElement,
+          'aria-errormessage',
+          this.errorId,
+        );
+      } else {
+        this.#renderer.removeAttribute(
+          this.inputRef?.nativeElement,
+          'aria-invalid',
+        );
+        this.#renderer.removeAttribute(
+          this.inputRef?.nativeElement,
+          'aria-errormessage',
+        );
+      }
+    }
+  }
+
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
@@ -461,7 +502,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public onTriggerButtonClick(): void {
-    this.ngControl?.control.markAsTouched();
+    this.ngControl?.control?.markAsTouched();
     this.#sendMessage(SkyColorpickerMessageType.Open);
   }
 

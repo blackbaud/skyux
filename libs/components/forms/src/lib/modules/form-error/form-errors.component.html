@@ -1,11 +1,11 @@
 <ng-container *ngIf="labelText && showErrors && errors">
-  <sky-form-error *ngIf="errors['required']" class="sky-form-error-required">
+  <sky-form-error *ngIf="errors['required']" errorName="required">
     {{ 'skyux_form_error_required' | skyLibResources : labelText }}
   </sky-form-error>
 
   <sky-form-error
     *ngIf="errors['maxlength'] as maxLengthError"
-    class="sky-form-error-maxlength"
+    errorName="maxlength"
   >
     {{
       'skyux_form_error_maxlength'
@@ -15,7 +15,7 @@
 
   <sky-form-error
     *ngIf="errors['minlength'] as minLengthError"
-    class="sky-form-error-minlength"
+    errorName="minlength"
   >
     {{
       'skyux_form_error_minlength'
@@ -25,7 +25,7 @@
 
   <sky-form-error
     *ngIf="errors['skyCharacterCounter'] as characterCounterError"
-    class="sky-form-error-character-counter"
+    errorName="character-counter"
   >
     {{
       'skyux_form_error_character_count'
@@ -33,23 +33,23 @@
     }}
   </sky-form-error>
 
-  <sky-form-error *ngIf="errors['skyDate']" class="sky-form-error-date">
+  <sky-form-error *ngIf="errors['skyDate']" errorName="date">
     {{ 'skyux_form_error_date' | skyLibResources }}
   </sky-form-error>
 
-  <sky-form-error *ngIf="errors['skyEmail']" class="sky-form-error-email">
+  <sky-form-error *ngIf="errors['skyEmail']" errorName="email">
     {{ 'skyux_form_error_email' | skyLibResources }}
   </sky-form-error>
 
-  <sky-form-error *ngIf="errors['skyPhoneField']" class="sky-form-error-phone">
+  <sky-form-error *ngIf="errors['skyPhoneField']" errorName="phone">
     {{ 'skyux_form_error_phone' | skyLibResources }}
   </sky-form-error>
 
-  <sky-form-error *ngIf="errors['skyTime']" class="sky-form-error-time">
+  <sky-form-error *ngIf="errors['skyTime']" errorName="time">
     {{ 'skyux_form_error_time' | skyLibResources }}
   </sky-form-error>
 
-  <sky-form-error *ngIf="errors['skyUrl']" class="sky-form-error-url">
+  <sky-form-error *ngIf="errors['skyUrl']" errorName="url">
     {{ 'skyux_form_error_url' | skyLibResources }}
   </sky-form-error>
 </ng-container>

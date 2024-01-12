@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAffixModule } from '@skyux/core';
-import { SkyFormErrorsModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyFormErrorComponent, SkyFormErrorsModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -27,11 +27,8 @@ import { SkyColorpickerComponent } from './colorpicker.component';
     SkyInputBoxModule,
     SkyThemeModule,
     SkyFormErrorsModule,
+    SkyFormErrorComponent
   ],
-  exports: [
-    SkyColorpickerComponent,
-    SkyColorpickerInputDirective,
-    SkyFormErrorsModule,
-  ],
+  exports: [SkyColorpickerComponent, SkyColorpickerInputDirective, SkyFormErrorComponent],
 })
 export class SkyColorpickerModule {}

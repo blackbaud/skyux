@@ -17,6 +17,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyCheckboxChange } from './checkbox-change';
+import { FORM_ERRORS } from '../form-error/form-errors-token';
 
 /**
  * Replaces the HTML input element with `type="checkbox"`. When users select a checkbox, its value
@@ -26,6 +27,12 @@ import { SkyCheckboxChange } from './checkbox-change';
   selector: 'sky-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
+  providers: [
+    {
+      provide: FORM_ERRORS,
+      useValue: true
+    }
+  ]
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
