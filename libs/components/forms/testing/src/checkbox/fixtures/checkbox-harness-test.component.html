@@ -15,13 +15,13 @@
       </li>
       <li>
         <sky-checkbox
-          [required]="true"
           data-sky-id="my-phone-checkbox"
           formControlName="phone"
           label="Your phone number"
           labelledBy="foo-phone-id"
-          labelText="Phone"
-        />
+        >
+          <sky-checkbox-label> Phone </sky-checkbox-label>
+        </sky-checkbox>
       </li>
     </ul>
   </div>
