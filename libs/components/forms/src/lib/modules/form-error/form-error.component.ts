@@ -50,7 +50,7 @@ export class SkyFormErrorComponent {
   }
 
   @HostBinding('class')
-  protected cssClass = `sky-form-error-indicator sky-form-error-${this.errorName}`;
+  protected cssClass = '';
 
   #_errorName = '';
 
@@ -58,7 +58,7 @@ export class SkyFormErrorComponent {
   readonly #changeDetector = inject(ChangeDetectorRef);
 
   #updateClasses(): void {
-    this.cssClass = `sky-form-error-indicator sky-form-error-${this.errorName}`;
+    this.cssClass = `sky-form-error-${this.errorName} sky-form-error-indicator`;
     this.#changeDetector.markForCheck();
   }
 }

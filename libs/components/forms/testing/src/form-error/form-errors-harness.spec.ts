@@ -4,13 +4,19 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { SkyFormErrorsModule } from '@skyux/forms';
+import { FORM_ERRORS, SkyFormErrorsModule } from '@skyux/forms';
 
 import { SkyFormErrorsHarness } from './form-errors-harness';
 
 //#region Test component
 @Component({
   selector: 'sky-form-errors-test',
+  providers: [
+    {
+      provide: FORM_ERRORS,
+      useValue: true,
+    },
+  ],
   template: ` <sky-form-errors [labelText]="errorText" [errors]="errors" />
     <sky-form-errors
       data-sky-id="other-error"
@@ -53,6 +59,7 @@ describe('Form errors harness', () => {
       dataSkyId: 'other-error',
     });
 
+    fixture.detectChanges();
     fixture.detectChanges();
 
     await expectAsync(formErrorsHarness.getNumberOfErrors()).toBeResolvedTo(1);
