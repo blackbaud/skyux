@@ -1,5 +1,19 @@
 # Changelog
 
+## [9.21.0](https://github.com/blackbaud/skyux/compare/9.20.1...9.21.0) (2024-01-12)
+
+
+### Features
+
+* **components/forms:** checkbox errors easy mode ([#1923](https://github.com/blackbaud/skyux/issues/1923)) ([4e4a039](https://github.com/blackbaud/skyux/commit/4e4a03989cd96ba7c80263f8299ac4c67c036132))
+* **components/forms:** form errors test harness ([#1925](https://github.com/blackbaud/skyux/issues/1925)) ([ca59e35](https://github.com/blackbaud/skyux/commit/ca59e355d2ff0b2db59e2a27002e34502bc7daf2))
+
+
+### Bug Fixes
+
+* **components/datetime:** timepicker overlay prevents unintended keyboard navigation from reaching parent components ([#1929](https://github.com/blackbaud/skyux/issues/1929)) ([a8bd16c](https://github.com/blackbaud/skyux/commit/a8bd16cb89755bcc8fc011817bc32f51354bf809))
+* **components/phone-field:** phone field will switch to the correct country when a valid number for that country is given when the dial code matches multiple countries ([#1936](https://github.com/blackbaud/skyux/issues/1936)) ([0b59ed5](https://github.com/blackbaud/skyux/commit/0b59ed5c954de1120fd4dde95b03af3049f45120))
+
 ## [9.20.1](https://github.com/blackbaud/skyux/compare/9.20.0...9.20.1) (2024-01-04)
 
 
