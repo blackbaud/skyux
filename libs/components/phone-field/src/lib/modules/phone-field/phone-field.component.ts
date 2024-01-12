@@ -402,45 +402,60 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public setCountryByDialCode(phoneNumber: string): boolean {
-    if (
-      !phoneNumber ||
-      !phoneNumber.startsWith('+') ||
-      (this.selectedCountry?.dialCode &&
-        phoneNumber.startsWith(`${this.selectedCountry?.dialCode}`))
-    ) {
+  public setCountryByDialCode(phoneNumberRaw: string): boolean {
+    if (!phoneNumberRaw || !phoneNumberRaw.startsWith('+')) {
       return false;
     }
 
+    let dialCode = '';
+    let foundCountry: SkyPhoneFieldCountry | undefined;
     let newCountry: SkyPhoneFieldCountry | undefined;
 
-    for (let i = 1; i < this.#longestDialCodeLength + 1; i++) {
-      const dialCode = phoneNumber.substring(0, i);
+    try {
+      const phoneNumberParsed =
+        this.#phoneUtils.parseAndKeepRawInput(phoneNumberRaw);
+      const regionCode =
+        this.#phoneUtils.getRegionCodeForNumber(phoneNumberParsed);
+      foundCountry = this.countries.find(
+        (country) => country.iso2.toUpperCase() === regionCode?.toUpperCase(),
+      );
 
-      if (this.#defaultCountryData?.dialCode === dialCode) {
-        newCountry = this.#defaultCountryData;
-      } else if (this.selectedCountry?.dialCode !== dialCode) {
-        let foundCountry = this.countries.find(
-          (country) => country.dialCode === dialCode && country.priority === 0,
-        );
+      if (foundCountry && !this.#validateSupportedCountry(foundCountry)) {
+        foundCountry = undefined;
+      }
+    } catch (_) {
+      if (
+        !this.selectedCountry?.dialCode ||
+        !phoneNumberRaw.startsWith(`${this.selectedCountry?.dialCode}`)
+      ) {
+        for (let i = 1; i < this.#longestDialCodeLength + 1; i++) {
+          dialCode = phoneNumberRaw.substring(0, i);
 
-        if (foundCountry) {
-          // Ensure that the country that was found is one of the supported countries
-          if (
-            this.supportedCountryISOs &&
-            this.supportedCountryISOs.findIndex(
-              (isoCode) =>
-                isoCode.toUpperCase() === foundCountry?.iso2.toUpperCase(),
-            ) < 0
-          ) {
-            foundCountry = undefined;
-          }
+          if (this.#defaultCountryData?.dialCode === dialCode) {
+            foundCountry = this.#defaultCountryData;
+          } else if (this.selectedCountry?.dialCode !== dialCode) {
+            const dialCodeCountries = this.countries.filter(
+              (country) => country.dialCode === dialCode,
+            );
 
-          if (foundCountry !== this.selectedCountry) {
-            newCountry = foundCountry;
+            if (dialCodeCountries.length > 0) {
+              foundCountry =
+                dialCodeCountries.find((country) => country.priority === 0) ??
+                dialCodeCountries[0];
+              if (
+                foundCountry &&
+                !this.#validateSupportedCountry(foundCountry)
+              ) {
+                foundCountry = undefined;
+              }
+            }
           }
         }
       }
+    }
+
+    if (foundCountry !== this.selectedCountry) {
+      newCountry = foundCountry;
     }
 
     if (newCountry) {
@@ -450,5 +465,14 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     return false;
+  }
+
+  #validateSupportedCountry(country: SkyPhoneFieldCountry): boolean {
+    return (
+      !this.supportedCountryISOs ||
+      this.supportedCountryISOs.findIndex(
+        (isoCode) => isoCode.toUpperCase() === country.iso2.toUpperCase(),
+      ) >= 0
+    );
   }
 }
