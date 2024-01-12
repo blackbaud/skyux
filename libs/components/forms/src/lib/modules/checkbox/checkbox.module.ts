@@ -4,9 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 
-import { SkyFormErrorsModule } from '../form-error/form-errors.module';
-import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
-
 import { SkyCheckboxLabelComponent } from './checkbox-label.component';
 import { SkyCheckboxRequiredValidatorDirective } from './checkbox-required-validator.directive';
 import { SkyCheckboxComponent } from './checkbox.component';
@@ -17,14 +14,7 @@ import { SkyCheckboxComponent } from './checkbox.component';
     SkyCheckboxLabelComponent,
     SkyCheckboxRequiredValidatorDirective,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SkyFormErrorsModule,
-    SkyFormsResourcesModule,
-    SkyIconModule,
-    SkyTrimModule,
-  ],
+  imports: [CommonModule, FormsModule, SkyIconModule, SkyTrimModule],
   exports: [
     SkyCheckboxComponent,
     SkyCheckboxLabelComponent,
