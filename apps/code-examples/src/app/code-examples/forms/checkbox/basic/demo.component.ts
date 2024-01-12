@@ -22,13 +22,10 @@ export class DemoComponent {
       email: new FormControl(false),
       phone: new FormControl(false),
       text: new FormControl(false),
-      terms: new FormControl(false),
     });
   }
 
   protected onSubmit(): void {
-    this.formGroup.markAllAsTouched();
-
     console.log(this.formGroup.value);
   }
 }
