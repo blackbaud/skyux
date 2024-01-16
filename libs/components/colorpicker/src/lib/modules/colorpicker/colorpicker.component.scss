@@ -149,19 +149,13 @@
     position: absolute;
     z-index: 999999;
   }
-  div.cursor-sv {
-    cursor: default;
-    position: relative;
-    width: 14px;
-    height: 14px;
-    @include mixins.sky-border(dark, top, right, bottom, left);
-  }
   div.cursor {
     cursor: default;
     position: relative;
     width: 17px;
     height: 17px;
-    border: $sky-text-color-deemphasized solid 2px;
+    border: $sky-color-white solid 2px;
+    outline: thin solid;
   }
   .saturation-lightness {
     cursor: pointer;
