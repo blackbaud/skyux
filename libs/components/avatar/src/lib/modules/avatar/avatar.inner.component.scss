@@ -37,7 +37,7 @@ $modern-avatar-padding-small: 2px;
 }
 
 .sky-avatar-initials-inner {
-  color: #fff;
+  color: var(--sky-text-color-default);
   cursor: default;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -111,10 +111,6 @@ $modern-avatar-padding-small: 2px;
     border-radius: 50%;
     height: $avatar-size-large - ($modern-avatar-padding-large * 2);
     width: $avatar-size-large - ($modern-avatar-padding-large * 2);
-  }
-
-  .sky-avatar-initials-inner {
-    color: $sky-text-color-default;
   }
 
   .sky-file-drop-accept,
@@ -200,10 +196,6 @@ $modern-avatar-padding-small: 2px;
   &.sky-theme-mode-dark {
     .sky-avatar-wrapper {
       background-color: transparent;
-    }
-
-    .sky-avatar-initials-inner {
-      color: $sky-text-color-default;
     }
   }
 }
