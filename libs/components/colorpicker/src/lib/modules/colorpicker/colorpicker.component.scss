@@ -463,12 +463,12 @@
       margin: 0 0 10px 0;
     }
 
-    sky-input-box:not(:first-child) {
+    fieldset sky-input-box {
       flex: 1;
       margin: 0 10px 10px 0;
     }
 
-    sky-input-box:last-child {
+    fieldset sky-input-box:last-child {
       margin: 0 0 10px 0;
     }
   }
