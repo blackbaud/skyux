@@ -457,7 +457,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-    sky-input-box:first-child {
+    & > sky-input-box:first-child {
       width: 100%;
       flex: 0 1 auto;
       margin: 0 0 10px 0;
