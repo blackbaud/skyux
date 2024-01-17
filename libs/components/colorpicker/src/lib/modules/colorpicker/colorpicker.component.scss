@@ -225,8 +225,12 @@
       flex: 1;
       margin: 0 8px 0 0;
     }
-    sky-input-box:first-child {
+    & > sky-input-box {
       flex: 2;
+    }
+    & > fieldset {
+      display: flex;
+      flex: 4;
     }
     sky-input-box:last-child {
       margin: 0;
