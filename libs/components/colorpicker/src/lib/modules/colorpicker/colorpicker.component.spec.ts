@@ -390,18 +390,17 @@ describe('Colorpicker Component', () => {
       ).toBeNull();
     }));
 
-    it('should add a label if labelText is provided', fakeAsync(() => {
+    it('should add a label if labelText is provided', () => {
       const labelText = 'Label Text';
       component.labelText = labelText;
 
       fixture.detectChanges();
-      tick();
 
       const label = fixture.nativeElement.querySelector('.sky-control-label');
 
       expect(label).toBeVisible();
       expect(label.textContent).toBe(labelText);
-    }));
+    });
 
     it('should add icon overlay', fakeAsync(() => {
       const icon = getColorpickerIcon();
@@ -1205,17 +1204,18 @@ describe('Colorpicker Component', () => {
     it('should toggle reset button via messageStream.', fakeAsync(() => {
       fixture.detectChanges();
       tick();
+      expect(getResetButton().length).toEqual(2);
+      component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
+      tick();
+      fixture.detectChanges();
+      tick();
+      // There are 2 colorpicker components and only one is using the message stream
       expect(getResetButton().length).toEqual(1);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(0);
-      component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
-      tick();
-      fixture.detectChanges();
-      tick();
-      expect(getResetButton().length).toEqual(1);
+      expect(getResetButton().length).toEqual(2);
     }));
 
     it('should only emit the form control valueChanged event once per change', (done) => {
@@ -1310,6 +1310,38 @@ describe('Colorpicker Component', () => {
 
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
     });
+
+    it('should render an error message if the form control has an error', fakeAsync(() => {
+      component.labelText1 = 'Label Text';
+
+      fixture.detectChanges();
+
+      let inputElement: HTMLInputElement | null =
+        nativeElement.querySelector('input');
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBeNull();
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
+
+      openColorpicker(nativeElement);
+      setInputElementValue(nativeElement, 'red', '163');
+      setInputElementValue(nativeElement, 'green', '19');
+      setInputElementValue(nativeElement, 'blue', '84');
+      setInputElementValue(nativeElement, 'alpha', '0.5');
+      applyColorpicker();
+
+      fixture.detectChanges();
+
+      inputElement = nativeElement.querySelector('input');
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();
+
+      const errorMessage = nativeElement.querySelector(
+        '.sky-form-error-indicator',
+      );
+
+      expect(errorMessage).toBeVisible();
+    }));
   });
 
   describe('accessibility', () => {

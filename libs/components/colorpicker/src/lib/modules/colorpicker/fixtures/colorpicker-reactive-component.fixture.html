@@ -13,6 +13,12 @@
       [outputFormat]="selectedOutputFormat"
       [alphaChannel]="selectedHexType"
     />
+    <sky-form-error
+    *ngIf="colorControl.errors?.['opaque']"
+    errorName="opaque"
+  >
+    Color must have at least 80% opacity.
+  </sky-form-error>
   </sky-colorpicker>
   <sky-colorpicker #colorPickerTest2 [labelText]="labelText2">
     <input

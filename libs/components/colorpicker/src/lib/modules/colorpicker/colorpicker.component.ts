@@ -462,14 +462,8 @@ export class SkyColorpickerComponent
   }
 
   public ngAfterContentChecked(): void {
-    console.log('content being checked');
-    console.log(this.ngControl);
-    console.log('form control is valid', this.ngControl?.valid);
-    console.log(this.labelText);
-    console.log(this.inputRef);
     if (this.labelText && this.inputRef) {
       if (!this.ngControl?.valid) {
-        console.log('setting stuff to invalid');
         this.#renderer.setAttribute(
           this.inputRef?.nativeElement,
           'aria-invalid',
