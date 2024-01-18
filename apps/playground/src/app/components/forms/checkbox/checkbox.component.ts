@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
