@@ -16,7 +16,6 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
-  "main": "./src/index.js",
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
@@ -98,5 +97,6 @@
   "dependencies": {
     "fs-extra": "11.1.1",
     "jsonc-parser": "3.2.0"
-  }
+  },
+  "main": "./src/index.js"
 }
