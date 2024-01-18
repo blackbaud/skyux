@@ -8,6 +8,23 @@ $modern-avatar-padding-large: 5px;
 $modern-avatar-padding-medium: 3px;
 $modern-avatar-padding-small: 2px;
 
+// begin avatar colors
+$sky-avatar-colors: (
+  var(--sky-category-color-light-blue),
+  var(--sky-category-color-teal),
+  var(--sky-category-color-purple),
+  var(--sky-category-color-orange),
+  var(--sky-category-color-blue),
+  var(--sky-category-color-yellow),
+  var(--sky-category-color-red)
+);
+
+@for $i from 1 through length($sky-avatar-colors) {
+  .sky-avatar-colors-#{$i} {
+    background-color: nth($sky-avatar-colors, $i);
+  }
+}
+
 .sky-avatar-wrapper {
   height: $sky-avatar-height + ($sky-avatar-border-width * 2);
   width: $sky-avatar-width + ($sky-avatar-border-width * 2);
