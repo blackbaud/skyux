@@ -225,8 +225,12 @@
       flex: 1;
       margin: 0 8px 0 0;
     }
-    sky-input-box:first-child {
+    & > sky-input-box {
       flex: 2;
+    }
+    & > fieldset {
+      display: flex;
+      flex: 4;
     }
     sky-input-box:last-child {
       margin: 0;
@@ -453,18 +457,18 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-    sky-input-box:first-child {
+    & > sky-input-box:first-child {
       width: 100%;
       flex: 0 1 auto;
       margin: 0 0 10px 0;
     }
 
-    sky-input-box:not(:first-child) {
+    fieldset sky-input-box {
       flex: 1;
       margin: 0 10px 10px 0;
     }
 
-    sky-input-box:last-child {
+    fieldset sky-input-box:last-child {
       margin: 0 0 10px 0;
     }
   }
