@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.21.1](https://github.com/blackbaud/skyux/compare/9.21.0...9.21.1) (2024-01-18)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update focus style in data grid ([#1938](https://github.com/blackbaud/skyux/issues/1938)) ([69341df](https://github.com/blackbaud/skyux/commit/69341dfb5cf84f93b4b9c29f2aa5180703e0ddef))
+* **components/colorpicker:** updated color picker selection cursors to have accessible color contrast ([#1940](https://github.com/blackbaud/skyux/issues/1940)) ([85e17ad](https://github.com/blackbaud/skyux/commit/85e17adfffda78a5ed21ca926e8152646e26a28c))
+
 ## [9.21.0](https://github.com/blackbaud/skyux/compare/9.20.1...9.21.0) (2024-01-12)
 
 
