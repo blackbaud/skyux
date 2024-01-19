@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class CharacterCounterComponent {
   protected description: FormControl;
   protected formGroup: FormGroup;
-  protected maxDescriptionCharacterCount = 50;
+  protected maxDescriptionCharacterCount = 99;
 
   readonly #formBuilder = inject(FormBuilder);
 

@@ -4,7 +4,9 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { expect, expectAsync } from '@skyux-sdk/testing';
+import { By } from '@angular/platform-browser';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
 import { CharacterCountNoIndicatorTestComponent } from './fixtures/character-count-no-indicator.component.fixture';
@@ -12,6 +14,33 @@ import { CharacterCountTestComponent } from './fixtures/character-count.componen
 import { CharacterCountTestModule } from './fixtures/character-count.module.fixture';
 
 describe('Character Counter component', () => {
+  function focusFirstNameInput(
+    fixture: ComponentFixture<
+      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
+    >,
+  ): void {
+    const inputElement = fixture.debugElement.query(
+      By.css('#first-name-input'),
+    ).nativeElement;
+    inputElement.focus();
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    fixture.detectChanges();
+    tick();
+  }
+
+  function removeFirstNameFocus(
+    fixture: ComponentFixture<
+      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
+    >,
+  ): void {
+    const inputElement = fixture.debugElement.query(
+      By.css('#first-name-input'),
+    ).nativeElement;
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focusout');
+    fixture.detectChanges();
+    tick();
+  }
+
   function setInputValue(
     fixture: ComponentFixture<
       CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
@@ -36,6 +65,8 @@ describe('Character Counter component', () => {
     let characterCountComponent: SkyCharacterCounterIndicatorComponent;
     let characterCountLabel: HTMLLabelElement;
     let characterCountLabelLastName: HTMLLabelElement;
+    let liveAnnouncerAnnounceSpy: jasmine.Spy;
+    let liveAnnouncerClearSpy: jasmine.Spy;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(CharacterCountTestComponent);
@@ -52,6 +83,10 @@ describe('Character Counter component', () => {
       characterCountLabelLastName = nativeElement.querySelector(
         '.input-count-example-wrapper-last-name .sky-character-count-label',
       ) as HTMLLabelElement;
+
+      const liveAnnouncerSvc = TestBed.inject(SkyLiveAnnouncerService);
+      liveAnnouncerAnnounceSpy = spyOn(liveAnnouncerSvc, 'announce');
+      liveAnnouncerClearSpy = spyOn(liveAnnouncerSvc, 'clear');
     });
 
     it('should set the count with the initial length', () => {
@@ -154,6 +189,128 @@ describe('Character Counter component', () => {
       expect(characterCountComponent.characterCount).toBe(4);
       expect(characterCountLabelLastName.innerText.trim()).toBe('4/5');
     });
+
+    it('should announce to screen readers every 10 characters when within 50 characters of the limit', fakeAsync(() => {
+      component.setCharacterCountLimit(49);
+      fixture.detectChanges();
+
+      setInputValue(fixture, '1'.repeat(9));
+      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+
+      setInputValue(fixture, '1'.repeat(10));
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '10 characters out of 49',
+      );
+
+      setInputValue(fixture, '');
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '0 characters out of 49',
+      );
+    }));
+
+    it('should announce to screen readers every 50 characters when not within 50 characters of the limit', fakeAsync(() => {
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      setInputValue(fixture, '1'.repeat(9));
+      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+
+      setInputValue(fixture, '1'.repeat(10));
+      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+
+      setInputValue(fixture, '1'.repeat(50));
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '50 characters out of 99',
+      );
+
+      setInputValue(fixture, '1'.repeat(60));
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '60 characters out of 99',
+      );
+
+      setInputValue(fixture, '');
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '0 characters out of 99',
+      );
+    }));
+
+    it('should announce to screen readers when reaching the limit', fakeAsync(() => {
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      setInputValue(fixture, '1'.repeat(98));
+      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+
+      setInputValue(fixture, '1'.repeat(90));
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '90 characters out of 99',
+      );
+
+      setInputValue(fixture, '1'.repeat(99));
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '99 characters out of 99',
+      );
+    }));
+
+    it('should announce to screen readers when over the limit', fakeAsync(() => {
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      setInputValue(fixture, '1'.repeat(99));
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '99 characters out of 99',
+      );
+
+      setInputValue(fixture, '1'.repeat(100));
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        'You are over the character limit.',
+      );
+    }));
+
+    it('should announce to screen readers when the input is focused even when not at a standard announcement point', fakeAsync(() => {
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      setInputValue(fixture, '1'.repeat(98));
+      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+
+      focusFirstNameInput(fixture);
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '98 characters out of 99',
+      );
+      expect(liveAnnouncerClearSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should clear the screen reader announcement when removing focus from the input so that it can be put back when refocused', fakeAsync(() => {
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      setInputValue(fixture, '1'.repeat(98));
+      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+
+      // Baseline that focusing works
+      focusFirstNameInput(fixture);
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '98 characters out of 99',
+      );
+      expect(liveAnnouncerClearSpy).not.toHaveBeenCalled();
+
+      liveAnnouncerAnnounceSpy.calls.reset();
+
+      // Clear screen reader when focus is removed (and ensure no new announcement is made)
+      removeFirstNameFocus(fixture);
+      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+      expect(liveAnnouncerClearSpy).toHaveBeenCalled();
+
+      liveAnnouncerClearSpy.calls.reset();
+
+      // Ensure a new announcement works if refocused.
+      focusFirstNameInput(fixture);
+      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+        '98 characters out of 99',
+      );
+      expect(liveAnnouncerClearSpy).not.toHaveBeenCalled();
+    }));
 
     it('should pass accessibility', async () => {
       fixture.detectChanges();
