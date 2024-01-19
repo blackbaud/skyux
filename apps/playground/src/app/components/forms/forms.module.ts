@@ -3,6 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'character-counter',
+    loadChildren: () =>
+      import('./character-counter/character-counter.module').then(
+        (m) => m.CharacterCounterModule,
+      ),
+  },
+  {
     path: 'input-box',
     loadChildren: () =>
       import('./input-box/input-box.module').then((m) => m.InputBoxModule),
