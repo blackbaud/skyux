@@ -1,5 +1,14 @@
 # Changelog
 
+## [9.21.2](https://github.com/blackbaud/skyux/compare/9.21.1...9.21.2) (2024-01-19)
+
+
+### Bug Fixes
+
+* **components/avatar:** colors used within avatars are accessible ([#1941](https://github.com/blackbaud/skyux/issues/1941)) ([62c69d6](https://github.com/blackbaud/skyux/commit/62c69d60de2cd57172b53cf2340786bb71cf26f1))
+* **components/colorpicker:** rgba inputs are properly associated with each other ([#1942](https://github.com/blackbaud/skyux/issues/1942)) ([65d65fa](https://github.com/blackbaud/skyux/commit/65d65fac4b414b16ec527d4f39d6350bde2795b1))
+* **components/forms:** reactive form required validator sets required checkbox input ([#1944](https://github.com/blackbaud/skyux/issues/1944)) ([793646a](https://github.com/blackbaud/skyux/commit/793646a10282dbd598bb04efd3ebdd6ba1f8c967))
+
 ## [9.21.1](https://github.com/blackbaud/skyux/compare/9.21.0...9.21.1) (2024-01-18)
 
 
