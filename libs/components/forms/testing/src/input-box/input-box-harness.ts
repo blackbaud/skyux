@@ -9,6 +9,7 @@ import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
 import { SkyCharacterCounterIndicatorHarness } from '../character-counter/character-counter-indicator-harness';
+import { SkyFormErrorsHarness } from '../public-api';
 
 import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
 
@@ -24,6 +25,14 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   #getHintText = this.locatorForOptional('.sky-input-box-hint-text');
   #getLabel = this.locatorForOptional('.sky-control-label');
   #getWrapper = this.locatorFor('.sky-input-box');
+
+  async #getFormError(): Promise<SkyFormErrorsHarness> {
+    try {
+      return this.locatorFor(SkyFormErrorsHarness)();
+    } catch {
+      throw new Error('No error found');
+    }
+  }
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -77,6 +86,69 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     )();
 
     return errors;
+  }
+
+  /**
+   * Whether the required field is empty.
+   */
+  public async hasRequiredError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('required');
+  }
+
+  /**
+   * Whether the field has more characters than allowed.
+   */
+  public async hasMaxLengthError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('minlength');
+  }
+
+  /**
+   * Whether the field has fewer characters than allowed.
+   */
+  public async hasMinLengthError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('maxlength');
+  }
+
+  /**
+   * Whether the field has exceeded character limit.
+   */
+  public async hasCharacterLimitError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('character-counter');
+  }
+
+  /*
+   * Whether the field is set to an invalid email address.
+   */
+  public async hasEmailError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('email');
+  }
+
+  /*
+   * Whether the field is set to an invalid URL.
+   */
+  public async hasUrlError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('url');
+  }
+
+  /*
+   * Whether the field is set to an invalid date.
+   */
+  public async hasDateError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('date');
+  }
+
+  /*
+   * Whether the field is set to an invalid phone number.
+   */
+  public async hasPhoneFieldError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('phone');
+  }
+
+  /*
+   * Whether the field is set to an invalid time.
+   */
+  public async hasTimeError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('time');
   }
 
   /**

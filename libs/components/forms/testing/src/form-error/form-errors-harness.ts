@@ -10,6 +10,16 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-form-errors';
 
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyFormErrorsHarness` that meets certain criteria
+   */
+  public static with(
+    filters: SkyFormErrorsHarnessFilters,
+  ): HarnessPredicate<SkyFormErrorsHarness> {
+    return SkyFormErrorsHarness.getDataSkyIdPredicate(filters);
+  }
+
   public async getFormErrors(): Promise<{ errorName: string | null }[]> {
     const formErrorHarnesses = await this.locatorForAll(
       SkyFormErrorHarness.with({}),
@@ -22,13 +32,7 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
     );
   }
 
-  /**
-   * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyFormErrorsHarness` that meets certain criteria
-   */
-  public static with(
-    filters: SkyFormErrorsHarnessFilters,
-  ): HarnessPredicate<SkyFormErrorsHarness> {
-    return SkyFormErrorsHarness.getDataSkyIdPredicate(filters);
+  public async hasError(errorName: string): Promise<boolean> {
+    return (await this.getFormErrors()).includes({ errorName: errorName });
   }
 }

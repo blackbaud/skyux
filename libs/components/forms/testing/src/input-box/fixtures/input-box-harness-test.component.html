@@ -38,6 +38,16 @@
       </sky-status-indicator>
     </div>
   </sky-input-box>
+  <sky-input-box
+    [attr.data-sky-id]="'my-input-box-easy-mode-errors'"
+    [labelText]="easyModeLabel"
+  >
+    <input
+      class="input-easy-mode-error"
+      type="text"
+      formControlName="errorForm"
+    />
+  </sky-input-box>
 </form>
 
 <ng-template #helpContentTemplate> Help content from template </ng-template>
