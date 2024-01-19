@@ -126,7 +126,7 @@ class CheckboxWithRequiredAttributeComponent {
   public showInlineHelp = false;
 }
 
-/** Simple component for testing an MdCheckbox with ngModel. */
+/** Simple component for testing a checkbox with a reactive form. */
 @Component({
   template: `
     <div>
@@ -181,7 +181,7 @@ class CheckboxWithReactiveFormRequiredInputComponent {
 class CheckboxWithReactiveFormRequiredValidatorComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(
     false,
-    Validators.requiredTrue,
+    Validators.required,
   );
   public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
 }
