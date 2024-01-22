@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/sdk/prettier-schematics/**/*.ts"]
@@ -15,15 +15,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/sdk/prettier-schematics"],
       "options": {
-        "jestConfig": "libs/sdk/prettier-schematics/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true,
-          "runInBand": true
-        }
+        "jestConfig": "libs/sdk/prettier-schematics/jest.config.ts"
       }
     },
     "build": {

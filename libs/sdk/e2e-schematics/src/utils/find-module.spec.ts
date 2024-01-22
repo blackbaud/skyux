@@ -35,7 +35,12 @@ describe('find-module', () => {
       project: 'test',
       module: 'test',
     });
-    expect(tree.listChanges().map((c) => c.path)).toMatchSnapshot();
+    expect(
+      tree
+        .listChanges()
+        .map((c) => c.path)
+        .sort(),
+    ).toMatchSnapshot();
     expect(
       tree.read('apps/test/src/app/test/test.module.ts', 'utf-8'),
     ).toMatchSnapshot();

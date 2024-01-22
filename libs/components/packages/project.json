@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/components/packages/**/*.ts"]
@@ -16,16 +16,8 @@
       "outputs": ["{workspaceRoot}/coverage/libs/components/packages"],
       "options": {
         "jestConfig": "libs/components/packages/jest.config.ts",
-        "passWithNoTests": true,
         "codeCoverage": true,
         "coverageReporters": ["html", "text"]
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true,
-          "runInBand": true
-        }
       }
     },
     "build": {

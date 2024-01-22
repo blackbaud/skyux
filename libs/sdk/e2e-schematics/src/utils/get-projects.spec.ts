@@ -6,7 +6,7 @@ import {
 import { cypressProjectGenerator } from '@nx/cypress';
 import { getProjects } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 
 import {
   getE2eProjects,
@@ -51,7 +51,7 @@ describe('some-or-all-projects', () => {
         generateCypressSpecs: false,
         generateStories: false,
         linter: Linter.None,
-        name: `test-app${i}`,
+        project: `test-app${i}`,
       });
     }
     // Without specifying name.

@@ -39,6 +39,12 @@ export function findDeclaringModule(
   const componentSource = readSourceFile(tree, componentPath);
   const componentClass = findComponentClass(componentSource);
   if (componentClass) {
+    if (componentClass.properties['standalone']) {
+      return {
+        filepath: componentPath,
+        module: componentClass,
+      };
+    }
     findModulePaths(
       tree,
       path,

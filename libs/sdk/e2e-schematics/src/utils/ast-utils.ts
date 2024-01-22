@@ -217,7 +217,7 @@ export function getInsertExportTransformer(
       ) => ts.Node | ts.NodeArray<ts.ExportDeclaration> = (
         rootNode: ts.Node,
       ) => {
-        const node = ts.visitEachChild(rootNode, visitor as any, context);
+        const node = ts.visitEachChild(rootNode, visitor, context);
         if (ts.isExportDeclaration(node)) {
           const exportPath = (
             (node as ts.ExportDeclaration).moduleSpecifier as ts.StringLiteral
@@ -236,7 +236,7 @@ export function getInsertExportTransformer(
         }
         return node;
       };
-      return ts.visitNode(sourceFile, visitor as any) as ts.SourceFile;
+      return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
     };
   };
 }

@@ -5,13 +5,13 @@
     "@angular/cdk": "^16.2.8",
     "@angular/cli": "^16.2.6",
     "@percy/cypress": "^3.1.2",
-    "@nx/devkit": "^16.10.0",
-    "@nx/workspace": "^16.10.0",
-    "@nx/linter": "^16.10.0",
-    "@nx/storybook": "^16.10.0",
-    "@nx/angular": "^16.10.0",
-    "@percy/sdk-utils": "^1.27.3",
-    "typescript": "^5.1.6"
+    "@nx/devkit": "^17.2.8",
+    "@nx/workspace": "^17.2.8",
+    "@nx/storybook": "^17.2.8",
+    "@nx/angular": "^17.2.8",
+    "@percy/sdk-utils": "^1.27.7",
+    "typescript": "^5.1.6",
+    "@nx/eslint": "^17.2.8"
   },
   "main": "src/index.js",
   "generators": "./generators.json"

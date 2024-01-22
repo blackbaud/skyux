@@ -4,7 +4,7 @@ import {
 } from '@nx/angular/generators';
 import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 
 import configureStorybook from '../configure-storybook';
 
@@ -35,7 +35,7 @@ describe('storybook-composition', () => {
         generateCypressSpecs: false,
         generateStories: false,
         linter: Linter.None,
-        name,
+        project: name,
       });
       await configureStorybook(tree, { name });
     }
@@ -60,7 +60,7 @@ describe('storybook-composition', () => {
           generateCypressSpecs: false,
           generateStories: false,
           linter: Linter.None,
-          name,
+          project: name,
         });
         await configureStorybook(tree, { name });
       }
@@ -97,7 +97,7 @@ describe('storybook-composition', () => {
       generateCypressSpecs: false,
       generateStories: false,
       linter: Linter.None,
-      name: 'storybook',
+      project: 'storybook',
     });
     await configureStorybook(tree, { name: 'storybook' });
     await generateStorybookComposition(tree, {
@@ -129,7 +129,7 @@ describe('storybook-composition', () => {
         generateCypressSpecs: false,
         generateStories: false,
         linter: Linter.None,
-        name,
+        project: name,
       });
       await configureStorybook(tree, { name });
     }

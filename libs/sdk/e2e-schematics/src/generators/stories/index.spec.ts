@@ -11,7 +11,7 @@ import {
   updateNxJson,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
@@ -45,7 +45,7 @@ describe('stories generator', () => {
       name: 'test',
     });
     await storybookConfigurationGenerator(appTree, {
-      name: 'test',
+      project: 'test',
       generateCypressSpecs: false,
       configureCypress: true,
       linter: Linter.None,
@@ -67,7 +67,7 @@ describe('stories generator', () => {
       name: 'test',
     });
     await storybookConfigurationGenerator(appTree, {
-      name: 'test',
+      project: 'test',
       generateCypressSpecs: false,
       configureCypress: true,
       linter: Linter.None,
@@ -93,7 +93,7 @@ describe('stories generator', () => {
       project: 'test',
     });
     await storybookConfigurationGenerator(appTree, {
-      name: 'test',
+      project: 'test',
       generateCypressSpecs: false,
       configureCypress: true,
       linter: Linter.None,
@@ -132,7 +132,7 @@ describe('stories generator', () => {
       ...projectConfiguration,
     });
     await storybookConfigurationGenerator(appTree, {
-      name: 'test-storybook',
+      project: 'test-storybook',
       generateCypressSpecs: false,
       configureCypress: true,
       linter: Linter.None,
