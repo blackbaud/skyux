@@ -5,4 +5,5 @@ export interface ComponentGeneratorSchema {
   cypressProject?: string;
   generateCypressSpecs: boolean;
   includeTests: boolean;
+  standalone?: boolean;
 }

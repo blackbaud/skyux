@@ -1,15 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`stories generator should generate folder path 1`] = `
-"import { AppModule } from '../../../app.module';
-import { NestedComponent } from './nested.component';
+"import { NestedComponent } from './nested.component';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 const meta: Meta<NestedComponent> = {
   component: NestedComponent,
   id: 'nestedcomponent-nested',
   title: 'Components/To/Nested',
-  decorators: [moduleMetadata({ imports: [AppModule] })],
+  decorators: [moduleMetadata({ imports: [NestedComponent] })],
 };
 export default meta;
 type Story = StoryObj<NestedComponent>;
@@ -46,15 +45,14 @@ describe('test', () => {
 `;
 
 exports[`stories generator should run successfully 1`] = `
-"import { AppModule } from './app.module';
-import { NxWelcomeComponent } from './nx-welcome.component';
+"import { NxWelcomeComponent } from './nx-welcome.component';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 const meta: Meta<NxWelcomeComponent> = {
   component: NxWelcomeComponent,
   id: 'nxwelcomecomponent-nxwelcome',
   title: 'Components/Nx Welcome',
-  decorators: [moduleMetadata({ imports: [AppModule] })],
+  decorators: [moduleMetadata({ imports: [NxWelcomeComponent] })],
 };
 export default meta;
 type Story = StoryObj<NxWelcomeComponent>;
@@ -65,15 +63,14 @@ export const NxWelcome: Story = {
 `;
 
 exports[`stories generator should use -storybook project 1`] = `
-"import { AppModule } from './app.module';
-import { NxWelcomeComponent } from './nx-welcome.component';
+"import { NxWelcomeComponent } from './nx-welcome.component';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 const meta: Meta<NxWelcomeComponent> = {
   component: NxWelcomeComponent,
   id: 'nxwelcomecomponent-nxwelcome',
   title: 'Components/Nx Welcome',
-  decorators: [moduleMetadata({ imports: [AppModule] })],
+  decorators: [moduleMetadata({ imports: [NxWelcomeComponent] })],
 };
 export default meta;
 type Story = StoryObj<NxWelcomeComponent>;
