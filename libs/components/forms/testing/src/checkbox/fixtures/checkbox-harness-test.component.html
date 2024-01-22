@@ -23,6 +23,20 @@
           labelText="Phone"
         />
       </li>
+      <li>
+        <sky-checkbox
+          data-sky-id="my-mail-checkbox"
+          formControlName="mail"
+          labelText="Mail"
+        >
+          <sky-form-error
+            *ngIf="mailControl.errors?.['requiredFalse']"
+            errorName="requiredFalse"
+          >
+            This checkbox must be unchecked
+          </sky-form-error>
+        </sky-checkbox>
+      </li>
     </ul>
   </div>
 </form>

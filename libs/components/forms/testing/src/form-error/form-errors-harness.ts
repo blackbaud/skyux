@@ -33,6 +33,9 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
   }
 
   public async hasError(errorName: string): Promise<boolean> {
-    return (await this.getFormErrors()).includes({ errorName: errorName });
+    const formErrors = await this.getFormErrors();
+    return !!formErrors.find((error) => {
+      return error.errorName === errorName;
+    });
   }
 }

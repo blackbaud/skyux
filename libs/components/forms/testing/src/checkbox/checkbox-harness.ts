@@ -1,7 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
-import { SkyFormErrorHarness } from '../form-error/form-error-harness';
+import { SkyFormErrorsHarness } from '../public-api';
 
 import { SkyCheckboxHarnessFilters } from './checkbox-harness-filters';
 import { SkyCheckboxLabelHarness } from './checkbox-label-harness';
@@ -20,7 +20,15 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
 
   #getLabel = this.locatorForOptional(SkyCheckboxLabelHarness);
 
-  #getFormError = this.locatorForOptional(SkyFormErrorHarness);
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    const harness = await this.locatorForOptional(SkyFormErrorsHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No error found');
+  }
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -133,10 +141,12 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     }
   }
 
-  public async hasErrorMessage(): Promise<boolean> {
-    const errorClass = (await this.#getFormError())?.getFirstClassError();
+  public async hasRequiredError(): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError('required');
+  }
 
-    return !!errorClass;
+  public async hasCustomError(errorName: string): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError(errorName);
   }
 
   async #toggle(): Promise<void> {

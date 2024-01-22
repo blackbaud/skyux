@@ -3,6 +3,7 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
 } from '@angular/forms';
 
 @Component({
@@ -12,15 +13,27 @@ import {
 export class CheckboxHarnessTestComponent {
   public myForm: UntypedFormGroup;
   public hideEmailLabel = false;
+  public mailControl: UntypedFormControl;
 
   #formBuilder: UntypedFormBuilder;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
 
+    this.mailControl = new UntypedFormControl(false, [
+      (control): ValidationErrors | null => {
+        if (control.value) {
+          return { requiredFalse: true };
+        }
+
+        return null;
+      },
+    ]);
+
     this.myForm = this.#formBuilder.group({
       email: new UntypedFormControl(false),
       phone: new UntypedFormControl(false),
+      mail: this.mailControl,
     });
   }
 

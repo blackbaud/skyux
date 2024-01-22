@@ -141,17 +141,38 @@ describe('Checkbox harness', () => {
     );
   });
 
-  it('should display an error message when there is an error', async () => {
+  it('should display a required error message when there is an error', async () => {
     const { checkboxHarness } = await setupTest({
       dataSkyId: 'my-phone-checkbox',
-      hideEmailLabel: true,
     });
-
-    await expectAsync(checkboxHarness.hasErrorMessage()).toBeResolvedTo(false);
 
     await checkboxHarness.check();
     await checkboxHarness.uncheck();
 
-    await expectAsync(checkboxHarness.hasErrorMessage()).toBeResolvedTo(true);
+    await expectAsync(checkboxHarness.hasRequiredError()).toBeResolvedTo(true);
+  });
+
+  it('should display a custom error message when there is a custom validation error', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-mail-checkbox',
+    });
+
+    await checkboxHarness.check();
+    await checkboxHarness.uncheck();
+    await checkboxHarness.check();
+
+    await expectAsync(
+      checkboxHarness.hasCustomError('requiredFalse'),
+    ).toBeResolvedTo(true);
+  });
+
+  it('should throw an error if no form error is found', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-email-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.hasRequiredError()).toBeRejectedWithError(
+      'No error found',
+    );
   });
 });
