@@ -29,7 +29,7 @@ export class DatepickerComponent implements OnInit {
     selectedDate: FormControl<Date | undefined>;
   }>;
   public showCustomDates = false;
-  public selectedDate: Date | string | undefined;
+  public selectedDate: Date | undefined;
   public startingDay: number | undefined;
   public strict = false;
   public readonly ready$ = inject(FontLoadingService).ready();
@@ -94,7 +94,8 @@ export class DatepickerComponent implements OnInit {
 
   public setInvalidValue(): void {
     this.reactiveDate.setValue('invalid');
-    this.selectedDate = 'invalid';
+    // Calendar works with strings but the API only supports Date or undefined.
+    this.selectedDate = 'invalid' as unknown as Date;
   }
 
   public onToggleCustomDatesClick(): void {
