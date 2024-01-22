@@ -23,16 +23,6 @@
     }}
   </sky-form-error>
 
-  <sky-form-error
-    *ngIf="errors['skyCharacterCounter'] as characterCounterError"
-    errorName="character-counter"
-  >
-    {{
-      'skyux_form_error_character_count'
-        | skyLibResources : labelText : characterCounterError.limit
-    }}
-  </sky-form-error>
-
   <sky-form-error *ngIf="errors['skyDate']" errorName="date">
     {{ 'skyux_form_error_date' | skyLibResources }}
   </sky-form-error>

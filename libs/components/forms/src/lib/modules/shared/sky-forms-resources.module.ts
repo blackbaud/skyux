@@ -23,9 +23,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_character_count_over_limit: {
       message: 'You are over the character limit.',
     },
-    skyux_form_error_character_count: {
-      message: 'Limit {0} to {1} character(s).',
-    },
     skyux_form_error_date: { message: 'Select or enter a valid date.' },
     skyux_form_error_email: {
       message: 'Enter an email address with a valid format.',

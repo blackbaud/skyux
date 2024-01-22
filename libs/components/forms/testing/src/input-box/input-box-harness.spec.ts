@@ -2,7 +2,9 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyValidators } from '@skyux/validation';
 
+// import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
 import { InputBoxHarnessTestModule } from './fixtures/input-box-harness-test.module';
 import { LastNameHarness } from './fixtures/last-name-harness';
@@ -136,6 +138,81 @@ describe('Input box harness', () => {
     await expectAsync(customError.getDescriptionType()).toBeResolvedTo('error');
     await expectAsync(customError.getIndicatorType()).toBeResolvedTo('danger');
     await expectAsync(customError.getText()).toBeResolvedTo('Test error');
+  });
+
+  it('should return whether a required error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(Validators.required);
+    control.setValue('');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasRequiredError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether minimum length error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(Validators.minLength(2));
+    control.setValue('a');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasMinLengthError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether maximum length error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(Validators.maxLength(1));
+    control.setValue('abc');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasMaxLengthError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether email validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(SkyValidators.email);
+    control.setValue('abc');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasEmailError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether url validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(SkyValidators.url);
+    control.setValue('abc');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasUrlError()).toBeResolvedTo(true);
   });
 
   it('should return character counter indicator', async () => {

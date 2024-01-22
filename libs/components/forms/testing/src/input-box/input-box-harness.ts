@@ -89,6 +89,13 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   }
 
   /**
+   * Whether the custom error is triggered.
+   */
+  public async hasCustomFormError(errorName: string): Promise<boolean> {
+    return (await this.#getFormError()).hasError(errorName);
+  }
+
+  /**
    * Whether the required field is empty.
    */
   public async hasRequiredError(): Promise<boolean> {
@@ -99,21 +106,14 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
    * Whether the field has more characters than allowed.
    */
   public async hasMaxLengthError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('minlength');
+    return (await this.#getFormError()).hasError('maxlength');
   }
 
   /**
    * Whether the field has fewer characters than allowed.
    */
   public async hasMinLengthError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('maxlength');
-  }
-
-  /**
-   * Whether the field has exceeded character limit.
-   */
-  public async hasCharacterLimitError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('character-counter');
+    return (await this.#getFormError()).hasError('minlength');
   }
 
   /*

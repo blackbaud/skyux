@@ -66,6 +66,9 @@ describe('Form errors harness', () => {
     fixture.detectChanges();
     fixture.detectChanges();
 
+    await expectAsync(formErrorsHarness.hasError('required')).toBeResolvedTo(
+      true,
+    );
     await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([
       { errorName: 'required' },
     ]);
@@ -82,7 +85,6 @@ describe('Form errors harness', () => {
       required: true,
       minlength: true,
       maxlength: true,
-      skyCharacterCounter: true,
       skyDate: true,
       skyEmail: true,
       skyPhoneField: true,
@@ -95,7 +97,6 @@ describe('Form errors harness', () => {
       { errorName: 'required' },
       { errorName: 'maxlength' },
       { errorName: 'minlength' },
-      { errorName: 'character-counter' },
       { errorName: 'date' },
       { errorName: 'email' },
       { errorName: 'phone' },

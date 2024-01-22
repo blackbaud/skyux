@@ -2,8 +2,7 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
+  UntypedFormGroup, //Validators,
 } from '@angular/forms';
 
 @Component({
@@ -32,7 +31,6 @@ export class InputBoxHarnessTestComponent {
     this.myForm = formBuilder.group({
       firstName: new UntypedFormControl('John'),
       lastName: new UntypedFormControl('Doe'),
-      errorForm: new UntypedFormControl('', [Validators.required]),
     });
   }
 }

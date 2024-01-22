@@ -7,10 +7,6 @@
     "_description": "Screen reader only label for character count over limit symbol",
     "message": "You are over the character limit."
   },
-  "skyux_form_error_character_count": {
-    "_description": "Error message for a field with a value that exceeds the character count limit",
-    "message": "Limit {0} to {1} character(s)."
-  },
   "skyux_form_error_date": {
     "_description": "Error message for a field with an invalid date value",
     "message": "Select or enter a valid date."
