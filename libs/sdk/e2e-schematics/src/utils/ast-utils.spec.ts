@@ -285,8 +285,6 @@ describe('ast-utils', () => {
     );
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(componentClass!.properties).toHaveProperty('templateUrl');
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(componentClass!.properties).toHaveProperty('styleUrls');
   });
 
   it('should findComponentClass, not component', async () => {

@@ -10,7 +10,7 @@ import {
   updateNxJson,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
 import { angularModuleGenerator } from '../../utils';
@@ -38,19 +38,16 @@ describe('component generator', () => {
     };
     await applicationGenerator(appTree, {
       name: 'test',
-      standalone: false,
     });
     await applicationGenerator(appTree, {
       name: 'test-storybook',
-      standalone: false,
     });
     await libraryGenerator(appTree, {
       name: 'storybook',
       directory: 'components',
-      standalone: false,
     });
     await storybookConfigurationGenerator(appTree, {
-      name: 'test-storybook',
+      project: 'test-storybook',
       generateCypressSpecs: false,
       configureCypress: true,
       linter: Linter.None,
@@ -67,6 +64,16 @@ describe('component generator', () => {
 
   it('should run successfully', async () => {
     await storyGenerator(appTree, options);
+    expect(
+      appTree.read(
+        'apps/test-storybook/src/app/example/example.component.stories.ts',
+        'utf-8',
+      ),
+    ).toMatchSnapshot();
+  });
+
+  it('should run successfully, not standalone', async () => {
+    await storyGenerator(appTree, { ...options, standalone: false });
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
@@ -147,7 +154,7 @@ describe('component generator', () => {
       route: 'sub3',
       module: 'test-sub',
     });
-    await storyGenerator(appTree, options);
+    await storyGenerator(appTree, { ...options, standalone: false });
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
@@ -206,32 +213,30 @@ describe('component generator', () => {
       route: 'sub3',
       module: 'test-sub',
     });
-    options.includeTests = false;
-    await storyGenerator(appTree, options);
+    await storyGenerator(appTree, {
+      ...options,
+      name: 'example/sub-example',
+      includeTests: false,
+      standalone: false,
+    });
     expect(
       appTree.read(
-        'apps/test-storybook/src/app/example/example.component.stories.ts',
+        'apps/test-storybook/src/app/example/sub-example/sub-example.component.stories.ts',
         'utf-8',
       ),
     ).toMatchSnapshot();
     expect(
       appTree.read(
-        'apps/test-storybook/src/app/example/example.component.ts',
+        'apps/test-storybook/src/app/example/sub-example/sub-example.component.ts',
         'utf-8',
       ),
     ).toMatchSnapshot();
     expect(
       appTree.read(
-        'apps/test-storybook/src/app/example/example.component.spec.ts',
+        'apps/test-storybook/src/app/example/sub-example/sub-example.component.spec.ts',
         'utf-8',
       ),
     ).toBeNull();
-    expect(
-      appTree.read(
-        'apps/test-storybook/src/app/example/example.module.ts',
-        'utf-8',
-      ),
-    ).toMatchSnapshot();
     expect(
       appTree.read(
         'apps/test-storybook/src/app/test-router.module.ts',
@@ -253,18 +258,23 @@ describe('component generator', () => {
     ).toMatchSnapshot();
     // expect(appTree.listChanges().filter(c => c.path.includes('test-storybook')).map(c => c.path)).toEqual([]);
     expect(
-      appTree.isFile('apps/test-storybook-e2e/src/e2e/example.component.cy.ts'),
+      appTree.isFile(
+        'apps/test-storybook-e2e/src/e2e/example/example.component.cy.ts',
+      ),
     ).toBeTruthy();
     expect(
       appTree.read(
-        'apps/test-storybook-e2e/src/e2e/example.component.cy.ts',
+        'apps/test-storybook-e2e/src/e2e/example/example.component.cy.ts',
         'utf-8',
       ),
     ).toMatchSnapshot();
   });
 
   it('should throw errors', async () => {
-    appTree.write('apps/test-storybook/src/app/example/example.ts', 'test');
+    appTree.write(
+      'apps/test-storybook/src/app/example/example.component.ts',
+      'test',
+    );
 
     try {
       await storyGenerator(appTree, options);
@@ -276,7 +286,7 @@ describe('component generator', () => {
       expect(e.message).toBe(`example already exists for test-storybook`);
     }
 
-    appTree.delete('apps/test-storybook/src/app/example/example.ts');
+    appTree.delete('apps/test-storybook/src/app/example/example.component.ts');
     try {
       await storyGenerator(appTree, {
         ...options,
@@ -316,7 +326,7 @@ describe('component generator', () => {
     }
     appTree.delete('apps/test-storybook/src/app/test-router-routing.module.ts');
     try {
-      await storyGenerator(appTree, options);
+      await storyGenerator(appTree, { ...options, standalone: false });
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(

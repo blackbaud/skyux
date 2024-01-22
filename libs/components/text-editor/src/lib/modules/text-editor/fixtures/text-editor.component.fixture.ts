@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { SkyTextEditorLinkWindowOptionsType } from '@skyux/text-editor';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from '../defaults/font-size-list-defaults';
 import { SkyTextEditorFont } from '../types/font-state';
+import { SkyTextEditorLinkWindowOptionsType } from '../types/link-window-options-type';
 import { SkyTextEditorMenuType } from '../types/menu-type';
 import { SkyTextEditorStyleState } from '../types/style-state';
 import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
