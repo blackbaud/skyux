@@ -60,6 +60,7 @@ describe('angularModuleGenerator', () => {
     await angularComponentGenerator(tree, {
       name: 'my-component',
       project: 'my-app',
+      skipImport: true,
     });
     expect(
       tree.read(

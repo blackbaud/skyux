@@ -10,7 +10,7 @@ import {
   updateNxJson,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
@@ -46,7 +46,7 @@ describe('configure-storybook', () => {
       generateCypressSpecs: false,
       generateStories: false,
       linter: Linter.None,
-      name: `test-app`,
+      project: `test-app`,
     });
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/preview.js`)).toBeFalsy();
@@ -96,7 +96,7 @@ describe('configure-storybook', () => {
       generateCypressSpecs: false,
       generateStories: false,
       linter: Linter.None,
-      name: `test-app`,
+      project: `test-app`,
     });
     tree.delete(`apps/test-app/.storybook/tsconfig.json`);
     updateJson(
@@ -124,7 +124,7 @@ describe('configure-storybook', () => {
       generateCypressSpecs: false,
       generateStories: false,
       linter: Linter.None,
-      name: `test-app`,
+      project: `test-app`,
     });
     updateJson<TsConfig>(
       tree,
@@ -159,7 +159,7 @@ describe('configure-storybook', () => {
       generateCypressSpecs: false,
       generateStories: false,
       linter: Linter.None,
-      name: `test-app`,
+      project: `test-app`,
     });
     await configureStorybook(tree, { name: 'test-app' });
     expect(warnSpy).toHaveBeenCalledWith(
@@ -183,7 +183,7 @@ describe('configure-storybook', () => {
       generateCypressSpecs: false,
       generateStories: false,
       linter: Linter.None,
-      name: `test-app`,
+      project: `test-app`,
     });
     await configureStorybook(tree, { name: 'test-app' });
     expect(warnSpy).toHaveBeenCalledWith(
