@@ -1,5 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
@@ -44,7 +48,7 @@ export class ColorpickerReactiveTestComponent {
     colorModel2: '#111',
   };
 
-  public colorControl =  new UntypedFormControl('#00f', [
+  public colorControl = new UntypedFormControl('#00f', [
     (control): ValidationErrors | null => {
       if (control.value?.rgba?.alpha < 0.8) {
         return { opaque: true };
