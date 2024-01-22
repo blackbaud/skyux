@@ -21,7 +21,6 @@ export const rootMain: StorybookConfig = {
     // '@storybook/addon-docs',
     '@storybook/addon-toolbars',
     '@storybook/addon-viewport',
-    'storybook-addon-angular-router',
   ],
   docs: docs,
   framework: framework,
