@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -19,7 +19,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
 })
-export class DatepickerComponent {
+export class DatepickerComponent implements OnInit {
   public dateFormat: string | undefined = undefined;
   public disabled = false;
   public minDate: Date | undefined;
@@ -29,7 +29,7 @@ export class DatepickerComponent {
     selectedDate: FormControl<Date | undefined>;
   }>;
   public showCustomDates = false;
-  public selectedDate: Date | undefined;
+  public selectedDate: Date | string | undefined;
   public startingDay: number | undefined;
   public strict = false;
   public readonly ready$ = inject(FontLoadingService).ready();
@@ -49,11 +49,11 @@ export class DatepickerComponent {
   public ngOnInit(): void {
     this.reactiveDate.statusChanges
       .pipe(distinctUntilChanged())
-      .subscribe((status: any) => {
+      .subscribe((status) => {
         console.log('Status changed:', status);
       });
 
-    this.reactiveDate.valueChanges.subscribe((value: any) => {
+    this.reactiveDate.valueChanges.subscribe((value) => {
       console.log('Value changed:', value);
     });
   }
@@ -94,7 +94,7 @@ export class DatepickerComponent {
 
   public setInvalidValue(): void {
     this.reactiveDate.setValue('invalid');
-    (this.selectedDate as any) = 'invalid';
+    this.selectedDate = 'invalid';
   }
 
   public onToggleCustomDatesClick(): void {

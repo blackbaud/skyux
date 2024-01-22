@@ -9,14 +9,14 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class SwitchControlsComponent {
   public myForm: FormGroup;
 
-  public checkboxOptions: any[] = [
+  public checkboxOptions = [
     { label: 'Checked Checkbox', checked: true, disabled: false },
     { label: 'Unchecked Checkbox', checked: false, disabled: false },
     { label: 'Disabled Checkbox', checked: false, disabled: true },
     { label: 'Disabled Checked Checkbox', checked: true, disabled: true },
   ];
 
-  public checkboxIconGroupOptions: any[] = [
+  public checkboxIconGroupOptions = [
     { label: 'Bold', checked: true, icon: 'bold', disabled: false },
     { label: 'Italicized', checked: false, icon: 'italic', disabled: false },
     { label: 'Underlined', checked: false, icon: 'underline', disabled: false },
@@ -24,18 +24,18 @@ export class SwitchControlsComponent {
     { label: 'Outdent', icon: 'outdent', checked: true, disabled: true },
   ];
 
-  public radioGroupIconOptions: any[] = [
+  public radioGroupIconOptions = [
     { name: 'Left align', value: '1', icon: 'align-left', disabled: false },
     { name: 'Center align', value: '2', icon: 'align-center', disabled: false },
     { name: 'Right align', value: '3', icon: 'align-right', disabled: false },
   ];
 
-  public radioGroupIconDisabledOptions: any[] = [
+  public radioGroupIconDisabledOptions = [
     { name: 'Indent', value: '1', icon: 'indent', disabled: true },
     { name: 'Outdent', value: '2', icon: 'outdent', disabled: true },
   ];
 
-  public radioOptions: any[] = [
+  public radioOptions = [
     { name: 'Selected radio button', value: '1', disabled: false },
     { name: 'Unselected radio button', value: '2', disabled: false },
     { name: 'Disabled radio button', value: '3', disabled: true },

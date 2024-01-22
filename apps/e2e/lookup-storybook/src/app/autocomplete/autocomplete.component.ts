@@ -7,7 +7,7 @@ import { FontLoadingService } from '@skyux/storybook';
   styleUrls: ['./autocomplete.component.scss'],
 })
 export class AutocompleteComponent {
-  public data: any[] = [
+  public data = [
     { name: 'Red' },
     { name: 'Blue' },
     { name: 'Green' },

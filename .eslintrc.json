@@ -30,10 +30,7 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript", "prettier"],
-      "rules": {
-        "@typescript-eslint/no-explicit-any": ["warn", {}],
-        "@typescript-eslint/no-unused-vars": ["warn", {}]
-      }
+      "rules": {}
     },
     {
       "files": ["*.js", "*.jsx"],

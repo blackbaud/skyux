@@ -205,7 +205,7 @@ async function getRemovedSnapshots(
     'removed snapshots',
   ).then((response) =>
     response
-      .filter((snapshot: any) => snapshot.type === 'snapshots')
+      .filter((snapshot) => snapshot.type === 'snapshots')
       .map((snapshot: Snapshot) => snapshot.attributes.name)
       .sort((a: string, b: string) => a.localeCompare(b)),
   );

@@ -11,10 +11,10 @@ describe('ag-grid-29.schematic', () => {
   );
 
   async function setupTest(
-    packageJson: { dependencies?: any } = {},
-    build: { options?: any } = {},
+    packageJson: { dependencies?: Record<string, string> } = {},
+    build: { options?: { styles: string[] } } = {},
     appOrLib: 'application' | 'library' = 'application',
-  ) {
+  ): Promise<{ tree: Tree }> {
     let tree: Tree;
     if (appOrLib === 'application') {
       tree = await createTestApp(runner, { projectName: 'test' });
