@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
+  UntypedFormControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { SkyColorpickerModule, SkyColorpickerOutput } from '@skyux/colorpicker';
 import { SkyIdModule } from '@skyux/core';
@@ -12,10 +14,16 @@ import { SkyIdModule } from '@skyux/core';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [ReactiveFormsModule, SkyColorpickerModule, SkyIdModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SkyColorpickerModule,
+    SkyIdModule,
+  ],
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
+  protected favoriteColor: UntypedFormControl;
 
   protected swatches: string[] = [
     '#BD4040',
@@ -27,8 +35,18 @@ export class DemoComponent {
   ];
 
   constructor() {
+    this.favoriteColor = new UntypedFormControl('#f00', [
+      (control): ValidationErrors | null => {
+        if (control.value?.rgba?.alpha < 0.8) {
+          return { opaque: true };
+        }
+
+        return null;
+      },
+    ]);
+
     this.formGroup = inject(FormBuilder).group({
-      favoriteColor: new FormControl('#f00'),
+      favoriteColor: this.favoriteColor,
     });
   }
 
