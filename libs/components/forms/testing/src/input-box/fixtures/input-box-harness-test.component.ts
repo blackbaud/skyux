@@ -11,6 +11,7 @@ import {
 })
 export class InputBoxHarnessTestComponent {
   public myForm: UntypedFormGroup;
+  public directiveErrorForm: UntypedFormGroup;
 
   @ViewChild('helpContentTemplate', {
     read: TemplateRef,
@@ -31,6 +32,11 @@ export class InputBoxHarnessTestComponent {
     this.myForm = formBuilder.group({
       firstName: new UntypedFormControl('John'),
       lastName: new UntypedFormControl('Doe'),
+    });
+    this.directiveErrorForm = formBuilder.group({
+      easyModeDatepicker: new UntypedFormControl('123'),
+      easyModeTimepicker: new UntypedFormControl('abc'),
+      easyModePhoneField: new UntypedFormControl('abc'),
     });
   }
 }

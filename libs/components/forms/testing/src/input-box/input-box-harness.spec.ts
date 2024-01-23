@@ -140,6 +140,16 @@ describe('Input box harness', () => {
     await expectAsync(customError.getText()).toBeResolvedTo('Test error');
   });
 
+  it('should return whether custom form error has fired', async () => {
+    const { inputBoxHarness } = await setupTest({
+      dataSkyId: 'custom-error-easy-mode',
+    });
+
+    await expectAsync(
+      inputBoxHarness.hasCustomFormError('custom'),
+    ).toBeResolvedTo(true);
+  });
+
   it('should return whether a required error has fired', async () => {
     const { component, fixture, inputBoxHarness } = await setupTest({
       dataSkyId: 'my-input-box-last-name-easy-mode',
@@ -213,6 +223,42 @@ describe('Input box harness', () => {
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.hasUrlError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether date picker validator error has fired', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'datepicker-easy-mode',
+    });
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasDateError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether time picker validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'timepicker-easy-mode',
+    });
+
+    const control = component.directiveErrorForm.controls['easyModeTimepicker'];
+    control.markAsDirty();
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasTimeError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether phone field validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'phone-field-easy-mode',
+    });
+
+    const control = component.directiveErrorForm.controls['easyModePhoneField'];
+    control.markAsDirty();
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasPhoneFieldError()).toBeResolvedTo(
+      true,
+    );
   });
 
   it('should return character counter indicator', async () => {

@@ -27,11 +27,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   #getWrapper = this.locatorFor('.sky-input-box');
 
   async #getFormError(): Promise<SkyFormErrorsHarness> {
-    try {
-      return this.locatorFor(SkyFormErrorsHarness)();
-    } catch {
-      throw new Error('No error found');
-    }
+    return this.locatorFor(SkyFormErrorsHarness)();
   }
 
   /**
