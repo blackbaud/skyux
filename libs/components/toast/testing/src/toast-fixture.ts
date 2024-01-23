@@ -12,7 +12,7 @@ export class SkyToastFixture {
    * The toast's current text.
    */
   public get text(): string | undefined {
-    return SkyAppTestUtility.getText(this.#debugEl);
+    return SkyAppTestUtility.getText(this.#getToastContentEl());
   }
 
   /**
@@ -57,6 +57,10 @@ export class SkyToastFixture {
 
   #getToastEl(): DebugElement {
     return this.#debugEl.query(By.css('.sky-toast'));
+  }
+
+  #getToastContentEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-toast-content'));
   }
 
   #getCloseBtnEl(): DebugElement {
