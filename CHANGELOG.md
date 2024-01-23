@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.21.3](https://github.com/blackbaud/skyux/compare/9.21.2...9.21.3) (2024-01-23)
+
+
+### Bug Fixes
+
+* **components/datetime:** datepicker calendar overlay prevents unintended keyboard navigation from reaching parent components ([#1952](https://github.com/blackbaud/skyux/issues/1952)) ([34c8941](https://github.com/blackbaud/skyux/commit/34c8941f19abec185b41997eb56fd3c5f0092d29))
+
 ## [9.21.2](https://github.com/blackbaud/skyux/compare/9.21.1...9.21.2) (2024-01-19)
 
 
