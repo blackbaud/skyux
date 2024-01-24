@@ -1,14 +1,16 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { DemoComponent } from './demo.component';
 
 describe('Basic input box demo', () => {
-  async function setupTest(options: {
-    dataSkyId: string;
-  }): Promise<SkyInputBoxHarness> {
+  async function setupTest(options: { dataSkyId: string }): Promise<{
+    harness: SkyInputBoxHarness;
+    fixture: ComponentFixture<DemoComponent>;
+  }> {
     const fixture = TestBed.createComponent(DemoComponent);
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -20,7 +22,7 @@ describe('Basic input box demo', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    return harness;
+    return { harness, fixture };
   }
 
   beforeEach(() => {
@@ -31,7 +33,7 @@ describe('Basic input box demo', () => {
 
   describe('first name field', () => {
     it('should have the expected label text and stacked values', async () => {
-      const harness = await setupTest({
+      const { harness } = await setupTest({
         dataSkyId: 'input-box-first-name',
       });
 
@@ -40,9 +42,25 @@ describe('Basic input box demo', () => {
     });
   });
 
+  describe('last name field', () => {
+    it('should have last name required', async () => {
+      const { harness } = await setupTest({
+        dataSkyId: 'input-box-last-name',
+      });
+      const inputEl = document.querySelector(
+        'input.last-name-input-box',
+      ) as HTMLInputElement;
+      inputEl.value = '';
+      SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+      SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+
+      await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
+    });
+  });
+
   describe('bio field', () => {
     it('should have a character limit of 250', async () => {
-      const harness = await setupTest({
+      const { harness } = await setupTest({
         dataSkyId: 'input-box-bio',
       });
 
@@ -55,7 +73,7 @@ describe('Basic input box demo', () => {
     });
 
     it('should show a help popover with the expected text', async () => {
-      const harness = await setupTest({
+      const { harness } = await setupTest({
         dataSkyId: 'input-box-bio',
       });
 
@@ -72,7 +90,7 @@ describe('Basic input box demo', () => {
 
   describe('favorite color field', () => {
     it('should not allow bird to be selected', async () => {
-      const harness = await setupTest({
+      const { harness } = await setupTest({
         dataSkyId: 'input-box-favorite-color',
       });
 
@@ -93,6 +111,22 @@ describe('Basic input box demo', () => {
       await expectAsync(birdError.getIndicatorType()).toBeResolvedTo('danger');
       await expectAsync(birdError.getText()).toBeResolvedTo(
         'Bird is not a color.',
+      );
+    });
+    fit('should not allow blur to be selected', async () => {
+      const { harness } = await setupTest({
+        dataSkyId: 'input-box-favorite-color',
+      });
+
+      const selectEl = document.querySelector(
+        '.input-box-favorite-color-select',
+      ) as HTMLSelectElement;
+
+      selectEl.value = 'blur';
+      selectEl.dispatchEvent(new Event('change'));
+
+      await expectAsync(harness.hasCustomFormError('color')).toBeResolvedTo(
+        true,
       );
     });
   });

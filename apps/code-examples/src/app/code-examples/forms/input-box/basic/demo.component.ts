@@ -55,6 +55,13 @@ export class DemoComponent {
 
         return null;
       },
+      (control): ValidationErrors | null => {
+        if (control.value === 'blur') {
+          return { color2: true };
+        }
+
+        return null;
+      },
     ]);
 
     this.formGroup = inject(FormBuilder).group({
