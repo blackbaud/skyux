@@ -373,16 +373,16 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #setValidators(): void {
     if (
       this.required &&
-      !this.#ngControl?.control?.hasValidator(Validators.requiredTrue)
+      !this.ngControl?.control?.hasValidator(Validators.requiredTrue)
     ) {
-      this.#ngControl?.control?.addValidators(Validators.requiredTrue);
-      this.#ngControl?.control?.updateValueAndValidity();
+      this.ngControl?.control?.addValidators(Validators.requiredTrue);
+      this.ngControl?.control?.updateValueAndValidity();
     } else if (
       !this.required &&
-      this.#ngControl?.control?.hasValidator(Validators.requiredTrue)
+      this.ngControl?.control?.hasValidator(Validators.requiredTrue)
     ) {
-      this.#ngControl.control.removeValidators(Validators.requiredTrue);
-      this.#ngControl.control?.updateValueAndValidity();
+      this.ngControl.control.removeValidators(Validators.requiredTrue);
+      this.ngControl.control?.updateValueAndValidity();
     }
   }
 }
