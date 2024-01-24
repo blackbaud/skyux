@@ -91,11 +91,11 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^16.2.6",
-    "@angular/core": "^16.2.9"
+    "@angular/cli": "^17.1.0",
+    "@angular/core": "^17.1.0"
   },
   "dependencies": {
-    "fs-extra": "11.1.1",
+    "fs-extra": "11.2.0",
     "jsonc-parser": "3.2.0"
   },
   "main": "./src/index.js"

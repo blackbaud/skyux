@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { importProvidersFrom } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { SkyThemeService } from '@skyux/theme';
 import {
   applicationConfig,
@@ -18,7 +19,7 @@ export const previewWrapperDecorators: DecoratorFunction<
   unknown[]
 >[] = [
   moduleMetadata({
-    imports: [CommonModule, PreviewWrapperModule],
+    imports: [CommonModule, PreviewWrapperModule, RouterTestingModule],
   }),
   // Define application-wide providers with the applicationConfig decorator
   applicationConfig({

@@ -53,10 +53,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "errors-storybook:build:production"
+          "buildTarget": "errors-storybook:build:production"
         },
         "development": {
-          "browserTarget": "errors-storybook:build:development"
+          "buildTarget": "errors-storybook:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -64,7 +64,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "errors-storybook:build"
+        "buildTarget": "errors-storybook:build"
       }
     },
     "lint": {

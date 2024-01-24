@@ -1,4 +1,4 @@
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/manager-api';
 import { ThemeVars } from '@storybook/theming';
 
 import { blackbaud } from './blackbaud';

@@ -20,9 +20,9 @@
     "save": "dependencies"
   },
   "peerDependencies": {
-    "@angular/cli": "^16.2.6",
-    "@angular/common": "^16.2.9",
-    "@angular/core": "^16.2.9",
+    "@angular/cli": "^17.1.0",
+    "@angular/common": "^17.1.0",
+    "@angular/core": "^17.1.0",
     "@skyux/assets": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {

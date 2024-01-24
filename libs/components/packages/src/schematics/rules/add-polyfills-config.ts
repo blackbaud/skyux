@@ -4,6 +4,7 @@ import { updateWorkspace } from '../utility/workspace';
 
 // List of approved builders the polyfill can be added to.
 const polyfillsBuilders = [
+  '@angular-devkit/build-angular:application',
   '@angular-devkit/build-angular:browser',
   '@angular-devkit/build-angular:karma',
   '@blackbaud-internal/skyux-angular-builders:browser',

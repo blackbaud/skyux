@@ -16,8 +16,8 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^16.2.9",
-    "@angular/core": "^16.2.9",
+    "@angular/common": "^17.1.0",
+    "@angular/core": "^17.1.0",
     "@blackbaud/auth-client": "^2.71.0",
     "@skyux/config": "0.0.0-PLACEHOLDER"
   },

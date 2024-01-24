@@ -49,8 +49,8 @@ describe('find-module', () => {
       'apps/test/src',
       'apps/test/src/app/test/test.component.ts',
     );
-    expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
-    expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
+    expect(module?.filepath).toBe('apps/test/src/app/test/test.component.ts');
+    expect(module?.module.classDeclaration.name?.text).toBe('TestComponent');
   });
 
   it('should find module, skip non-declaring reference', async () => {
@@ -77,8 +77,8 @@ describe('find-module', () => {
       'apps/test/src',
       'apps/test/src/app/test/test.component.ts',
     );
-    expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
-    expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
+    expect(module?.filepath).toBe('apps/test/src/app/test/test.component.ts');
+    expect(module?.module.classDeclaration.name?.text).toBe('TestComponent');
   });
 
   it('should find routing module', async () => {

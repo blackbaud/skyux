@@ -59,10 +59,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "indicators-storybook:build:production"
+          "buildTarget": "indicators-storybook:build:production"
         },
         "development": {
-          "browserTarget": "indicators-storybook:build:development"
+          "buildTarget": "indicators-storybook:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -70,7 +70,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "indicators-storybook:build"
+        "buildTarget": "indicators-storybook:build"
       }
     },
     "lint": {
