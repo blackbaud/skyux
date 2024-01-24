@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -36,7 +37,7 @@ export class DemoComponent {
 
   constructor() {
     this.favoriteColor = new UntypedFormControl('#f00', [
-      (control): ValidationErrors | null => {
+      (control: AbstractControl): ValidationErrors | null => {
         if (control.value?.rgba?.alpha < 0.8) {
           return { opaque: true };
         }

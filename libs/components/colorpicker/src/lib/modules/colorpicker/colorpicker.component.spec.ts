@@ -41,14 +41,16 @@ describe('Colorpicker Component', () => {
     return document.querySelector('.sky-colorpicker-container') as HTMLElement;
   }
 
-  function openColorpicker(element: HTMLElement): void {
+  function openColorpicker(element: HTMLElement, className?: string): void {
     tick();
     fixture.detectChanges();
     verifyMenuVisibility(false);
 
-    const buttonElem = element.querySelector(
-      '.sky-colorpicker-button',
-    ) as HTMLElement;
+    const buttonSelector = className
+      ? `.${className} .sky-colorpicker-button`
+      : '.sky-colorpicker-button';
+    const buttonElem = element.querySelector(buttonSelector) as HTMLElement;
+
     buttonElem.click();
     tick();
     fixture.detectChanges();
@@ -1311,8 +1313,8 @@ describe('Colorpicker Component', () => {
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
     });
 
-    it('should render an error message if the form control has an error', fakeAsync(() => {
-      component.labelText1 = 'Label Text';
+    it('should render an error message if the form control set via name has an error', fakeAsync(() => {
+      component.labelText = 'Label Text';
 
       fixture.detectChanges();
 
@@ -1332,6 +1334,39 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
 
       inputElement = nativeElement.querySelector('input');
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();
+
+      const errorMessage = nativeElement.querySelector(
+        '.sky-form-error-indicator',
+      );
+
+      expect(errorMessage).toBeVisible();
+    }));
+
+    it('should render an error message if the form control has an error set via form control', fakeAsync(() => {
+      fixture.detectChanges();
+
+      let inputElement: HTMLInputElement | null = nativeElement.querySelector(
+        '.colorpicker-form-control input',
+      );
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBeNull();
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
+
+      openColorpicker(nativeElement, 'colorpicker-form-control');
+      setInputElementValue(nativeElement, 'red', '163');
+      setInputElementValue(nativeElement, 'green', '19');
+      setInputElementValue(nativeElement, 'blue', '84');
+      setInputElementValue(nativeElement, 'alpha', '0.5');
+      applyColorpicker();
+
+      fixture.detectChanges();
+
+      inputElement = nativeElement.querySelector(
+        '.colorpicker-form-control input',
+      );
 
       expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
       expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();

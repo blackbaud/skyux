@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
@@ -26,7 +27,7 @@ export class ColorpickerComponent {
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.favoriteColor = new UntypedFormControl('#f00', [
-      (control): ValidationErrors | null => {
+      (control: AbstractControl): ValidationErrors | null => {
         if (control.value?.rgba?.alpha < 0.8) {
           return { opaque: true };
         }

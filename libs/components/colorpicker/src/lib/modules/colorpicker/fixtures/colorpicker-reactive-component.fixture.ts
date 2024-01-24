@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import {
+  AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
@@ -34,8 +35,7 @@ export class ColorpickerReactiveTestComponent {
     '#68AFEF',
   ];
   public inputType = 'text';
-  public labelText1: string | undefined;
-  public labelText2: string | undefined;
+  public labelText: string | undefined;
 
   @ViewChild('colorPickerTest', {
     static: true,
@@ -49,7 +49,7 @@ export class ColorpickerReactiveTestComponent {
   };
 
   public colorControl = new UntypedFormControl('#00f', [
-    (control): ValidationErrors | null => {
+    (control: AbstractControl): ValidationErrors | null => {
       if (control.value?.rgba?.alpha < 0.8) {
         return { opaque: true };
       }
@@ -57,7 +57,17 @@ export class ColorpickerReactiveTestComponent {
       return null;
     },
   ]);
-  public colorControl2 = new UntypedFormControl('#aaa');
+
+  public colorControl2 = new UntypedFormControl('#00f', [
+    (control: AbstractControl): ValidationErrors | null => {
+      if (control.value?.rgba?.alpha < 0.8) {
+        return { opaque: true };
+      }
+
+      return null;
+    },
+  ]);
+
   public colorForm = new UntypedFormGroup({
     colorModel: this.colorControl,
     colorModel2: this.colorControl2,
