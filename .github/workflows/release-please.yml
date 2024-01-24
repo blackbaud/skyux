@@ -7,8 +7,8 @@ on:
     branches:
       - main
 env:
-  PRERELEASE: 'false'
-  MAJOR_VERSION: 9
+  PRERELEASE: 'true'
+  MAJOR_VERSION: 10
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -24,10 +24,14 @@ jobs:
           CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
 
           # Bump the prerelease version.
-          NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+          if [ -z "$CURRENT_RELEASE" ]; then
+            NEXT_VERSION="${{ env.MAJOR_VERSION }}.0.0-alpha.0"
+          else
+            NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+          fi
 
           # If version is empty, exit.
-          if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
+          if [ -z "$NEXT_VERSION" ]; then
             echo "Not able to determine prerelease version."
             exit 1
           fi
