@@ -120,6 +120,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     if (value) {
       this.#_calendarRef = value;
 
+      this.#addKeyupListener();
+
       // Wait for the calendar component to render before gauging dimensions.
       setTimeout(() => {
         if (this.calendarRef) {
@@ -181,7 +183,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   #overlay: SkyOverlayInstance | undefined;
 
-  #overlayKeydownListener: Subscription | undefined;
+  #overlayKeyupListener: Subscription | undefined;
 
   #_calendarRef: ElementRef | undefined;
 
@@ -382,8 +384,6 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
           }
         });
 
-      this.#addKeydownListener();
-
       overlay.attachTemplate(this.calendarTemplateRef);
 
       this.#overlay = overlay;
@@ -398,25 +398,29 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  #addKeydownListener(): void {
-    this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
-      window.document,
-      'keydown',
-    )
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((event) => {
-        const key = event.key?.toLowerCase();
-        if (key === 'escape' && this.isOpen) {
-          this.#closePicker();
-        }
-      });
+  #addKeyupListener(): void {
+    const datepickerCalendarElement = this.calendarRef?.nativeElement;
+
+    if (datepickerCalendarElement) {
+      this.#overlayKeyupListener = fromEvent<KeyboardEvent>(
+        datepickerCalendarElement,
+        'keyup',
+      )
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event) => {
+          const key = event.key?.toLowerCase();
+          if (key === 'escape' && this.isOpen) {
+            this.#closePicker();
+          }
+        });
+    }
   }
 
   #removePickerEventListeners(): void {
     this.#calendarUnsubscribe.next();
     this.#calendarUnsubscribe.complete();
     this.#calendarUnsubscribe = new Subject<void>();
-    this.#overlayKeydownListener?.unsubscribe();
+    this.#overlayKeyupListener?.unsubscribe();
   }
 
   #cancelCustomDatesSubscription(): void {

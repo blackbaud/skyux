@@ -18,7 +18,10 @@ import {
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': { skyux_toast_close_button: { message: 'Close the message' } },
+  'EN-US': {
+    skyux_toast_close_button_aria_label: { message: 'Close message:' },
+    skyux_toast_close_button_title: { message: 'Close the message' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

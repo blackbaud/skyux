@@ -7,8 +7,8 @@ on:
     branches:
       - main
 env:
-  PRERELEASE: 'false'
-  MAJOR_VERSION: 9
+  PRERELEASE: 'true'
+  MAJOR_VERSION: 10
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -21,13 +21,20 @@ jobs:
           set -exo pipefail
 
           # Get the current prerelease version.
-          CURRENT_RELEASE=$(gh release list -R blackbaud/skyux|grep '^v${{ env.MAJOR_VERSION }}'|head -1|cut -d$'\t' -f 3)
+          ACC="Accept: application/vnd.github+json"
+          VER="X-GitHub-Api-Version: 2022-11-28"
+          JSON='map(.tag_name) | [.[] | select(startswith("${{ env.MAJOR_VERSION }}.")) ] | .[0] // empty'
+          CURRENT_RELEASE=$(gh api -H "${ACC}" -H "${VER}" /repos/${{ github.repository }}/releases | jq -r "${JSON}")
 
           # Bump the prerelease version.
-          NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+          if [ -z "$CURRENT_RELEASE" ]; then
+            NEXT_VERSION="${{ env.MAJOR_VERSION }}.0.0-alpha.0"
+          else
+            NEXT_VERSION=$(npx --yes semver -i prerelease $CURRENT_RELEASE)
+          fi
 
           # If version is empty, exit.
-          if [ -z "$CURRENT_RELEASE" ] || [ -z "$NEXT_VERSION" ]; then
+          if [ -z "$NEXT_VERSION" ]; then
             echo "Not able to determine prerelease version."
             exit 1
           fi
