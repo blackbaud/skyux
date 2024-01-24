@@ -4,7 +4,6 @@ import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyValidators } from '@skyux/validation';
 
-// import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
 import { InputBoxHarnessTestModule } from './fixtures/input-box-harness-test.module';
 import { LastNameHarness } from './fixtures/last-name-harness';
@@ -150,7 +149,7 @@ describe('Input box harness', () => {
     ).toBeResolvedTo(true);
   });
 
-  it('should return whether a required error has fired', async () => {
+  it('should return whether required error has fired', async () => {
     const { component, fixture, inputBoxHarness } = await setupTest({
       dataSkyId: 'my-input-box-last-name-easy-mode',
     });

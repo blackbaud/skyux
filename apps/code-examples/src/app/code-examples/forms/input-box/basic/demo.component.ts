@@ -44,20 +44,8 @@ export class DemoComponent {
   constructor() {
     this.favoriteColor = new FormControl('none', [
       (control): ValidationErrors | null => {
-        if (control.value === 'bird') {
-          return {
-            color: {
-              invalid: true,
-              message: 'Bird is not a color.',
-            },
-          };
-        }
-
-        return null;
-      },
-      (control): ValidationErrors | null => {
         if (control.value === 'blur') {
-          return { color2: true };
+          return { color: true };
         }
 
         return null;
