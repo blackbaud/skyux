@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
-@Component({
+@Component({<% if(standalone) {%>
+  standalone: true,
+  imports: [CommonModule],<%}%>
   selector: '<%= prefix %>-<%= nameDash %>',
   templateUrl: './<%= nameDash %>.component.html',
   styleUrls: ['./<%= nameDash %>.component.scss'],

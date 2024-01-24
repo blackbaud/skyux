@@ -137,6 +137,11 @@ $modernDarkThemeBase: map.merge(
 .ag-theme-sky-data-grid-default,
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-dark {
+  &:not(:has(:focus-visible)) {
+    --ag-input-focus-border-color: transparent;
+    --ag-range-selection-border-color: transparent;
+  }
+
   .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
     padding-top: var(--ag-row-height);
   }

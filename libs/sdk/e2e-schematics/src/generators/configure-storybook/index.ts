@@ -31,7 +31,7 @@ export default async function (tree: Tree, schema: Schema) {
     );
     if (!targets.includes('static-storybook')) {
       addStaticTarget(tree, {
-        name: projectName,
+        project: projectName,
         interactionTests: false,
         uiFramework: '@storybook/angular',
         skipFormat: true,
@@ -45,6 +45,7 @@ export default async function (tree: Tree, schema: Schema) {
       if (
         targetConfig.executor &&
         [
+          '@angular-devkit/build-angular:application',
           '@angular-devkit/build-angular:browser',
           '@storybook/angular:build-storybook',
           '@storybook/angular:start-storybook',
@@ -84,7 +85,7 @@ export default async function (tree: Tree, schema: Schema) {
         }
       }
       // Drop the asset path.
-      if (target === 'build' && targetConfig.options.assets) {
+      if (target === 'build' && targetConfig.options?.assets) {
         hasChanged = true;
         delete targetConfig.options.assets;
       }

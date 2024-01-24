@@ -38,7 +38,6 @@ export { FORM_ERRORS } from './lib/modules/form-error/form-errors-token';
 export { SkyCharacterCounterIndicatorComponent as λ1 } from './lib/modules/character-counter/character-counter-indicator.component';
 export { SkyCharacterCounterInputDirective as λ2 } from './lib/modules/character-counter/character-counter.directive';
 export { SkyCheckboxLabelComponent as λ4 } from './lib/modules/checkbox/checkbox-label.component';
-export { SkyCheckboxRequiredValidatorDirective as λ5 } from './lib/modules/checkbox/checkbox-required-validator.directive';
 export { SkyCheckboxComponent as λ3 } from './lib/modules/checkbox/checkbox.component';
 export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachment/file-attachment-label.component';
 export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment/file-attachment.component';

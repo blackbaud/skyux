@@ -16,7 +16,7 @@ import {
   updateProjectConfiguration,
 } from '@nx/devkit';
 import { addDependenciesToPackageJson } from '@nx/devkit/src/utils/package-json';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import { configurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
 
@@ -81,6 +81,7 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
  */
 function addPackagesPolyfills(tree: Tree, projectName: string) {
   const polyfillsBuilders = [
+    '@angular-devkit/build-angular:application',
     '@angular-devkit/build-angular:browser',
     '@angular-devkit/build-angular:karma',
     '@blackbaud-internal/skyux-angular-builders:browser',
@@ -234,7 +235,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     )
   ) {
     await configurationGenerator(tree, {
-      name: options.storybookAppName,
+      project: options.storybookAppName,
       uiFramework: '@storybook/angular',
       configureCypress: true,
       linter: Linter.EsLint,

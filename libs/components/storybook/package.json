@@ -7,7 +7,7 @@
     "@angular/core": "^16.2.9",
     "@angular/platform-browser": "^16.2.9",
     "@skyux/theme": "0.0.0-PLACEHOLDER",
-    "@storybook/angular": "^7.4.1"
+    "@storybook/angular": "^7.4.6"
   },
   "dependencies": {
     "tslib": "^2.6.2"

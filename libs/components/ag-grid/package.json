@@ -15,6 +15,11 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "exports": {
+    "./css/sky-ag-grid.css": {
+      "default": "./css/sky-ag-grid.css"
+    }
+  },
   "peerDependencies": {
     "@angular/common": "^16.2.9",
     "@angular/core": "^16.2.9",
@@ -35,10 +40,5 @@
   },
   "dependencies": {
     "tslib": "^2.6.2"
-  },
-  "exports": {
-    "./css/sky-ag-grid.css": {
-      "default": "./css/sky-ag-grid.css"
-    }
   }
 }

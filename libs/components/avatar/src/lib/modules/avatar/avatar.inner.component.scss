@@ -8,6 +8,23 @@ $modern-avatar-padding-large: 5px;
 $modern-avatar-padding-medium: 3px;
 $modern-avatar-padding-small: 2px;
 
+// begin avatar colors
+$sky-avatar-colors: (
+  var(--sky-category-color-light-blue),
+  var(--sky-category-color-teal),
+  var(--sky-category-color-purple),
+  var(--sky-category-color-orange),
+  var(--sky-category-color-blue),
+  var(--sky-category-color-yellow),
+  var(--sky-category-color-red)
+);
+
+@for $i from 1 through length($sky-avatar-colors) {
+  .sky-avatar-colors-#{$i} {
+    background-color: nth($sky-avatar-colors, $i);
+  }
+}
+
 .sky-avatar-wrapper {
   height: $sky-avatar-height + ($sky-avatar-border-width * 2);
   width: $sky-avatar-width + ($sky-avatar-border-width * 2);
@@ -37,7 +54,7 @@ $modern-avatar-padding-small: 2px;
 }
 
 .sky-avatar-initials-inner {
-  color: #fff;
+  color: var(--sky-text-color-default);
   cursor: default;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -111,10 +128,6 @@ $modern-avatar-padding-small: 2px;
     border-radius: 50%;
     height: $avatar-size-large - ($modern-avatar-padding-large * 2);
     width: $avatar-size-large - ($modern-avatar-padding-large * 2);
-  }
-
-  .sky-avatar-initials-inner {
-    color: $sky-text-color-default;
   }
 
   .sky-file-drop-accept,
@@ -200,10 +213,6 @@ $modern-avatar-padding-small: 2px;
   &.sky-theme-mode-dark {
     .sky-avatar-wrapper {
       background-color: transparent;
-    }
-
-    .sky-avatar-initials-inner {
-      color: $sky-text-color-default;
     }
   }
 }

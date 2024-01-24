@@ -1,25 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "skyux",
   "affected": {
-    "defaultBase": "main"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "posttest",
-          "e2e",
-          "build-storybook"
-        ],
-        "accessToken": "NzE5ZWYwYzUtMGU0OC00OTU3LTk4ZDYtOTc1Zjk3MTExMzY5fHJlYWQtd3JpdGU=",
-        "parallel": 1
-      }
-    }
+    "defaultBase": "9.x.x"
   },
   "cli": {
     "packageManager": "npm"
@@ -45,19 +27,46 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["buildInputs", "^buildInputs"]
+      "inputs": ["buildInputs", "^buildInputs"],
+      "cache": true
     },
     "test": {
-      "inputs": ["testInputs", "^buildInputs"]
+      "inputs": ["testInputs", "^buildInputs"],
+      "cache": true
     },
     "e2e": {
-      "inputs": ["e2eInputs", "^storybookInputs", "^buildInputs"]
+      "inputs": ["e2eInputs", "^storybookInputs", "^buildInputs"],
+      "cache": true
     },
     "lint": {
-      "inputs": ["lintInputs"]
+      "inputs": ["lintInputs"],
+      "cache": true
     },
     "build-storybook": {
-      "inputs": ["storybookInputs", "^buildInputs"]
+      "inputs": ["storybookInputs", "^buildInputs"],
+      "cache": true
+    },
+    "posttest": {
+      "dependsOn": [
+        {
+          "target": "test"
+        }
+      ],
+      "cache": true
+    },
+    "@nx/jest:jest": {
+      "inputs": ["testInputs", "^buildInputs"],
+      "cache": true,
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true,
+          "runInBand": true
+        }
+      }
     }
   },
   "namedInputs": {
@@ -107,5 +116,6 @@
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/tsconfig.storybook.json"
     ]
-  }
+  },
+  "nxCloudAccessToken": "NzE5ZWYwYzUtMGU0OC00OTU3LTk4ZDYtOTc1Zjk3MTExMzY5fHJlYWQtd3JpdGU="
 }

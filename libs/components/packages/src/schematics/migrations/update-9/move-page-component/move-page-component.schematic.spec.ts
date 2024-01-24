@@ -17,6 +17,10 @@ import {
   updateWorkspace,
 } from '../../../utility/workspace';
 
+type PackageJson = {
+  dependencies: Record<string, string>;
+};
+
 describe('MovePageComponentSchematic', () => {
   const runner = new SchematicTestRunner(
     'schematics',
@@ -78,7 +82,9 @@ describe('MovePageComponentSchematic', () => {
       export class CustomModule {}"
     `);
     expect(
-      (result.readJson('package.json') as any).dependencies['@skyux/pages'],
+      (result.readJson('package.json') as PackageJson).dependencies[
+        '@skyux/pages'
+      ],
     ).toEqual('0.0.0');
   });
 
@@ -144,7 +150,9 @@ describe('MovePageComponentSchematic', () => {
             import { AgGridModule } from 'ag-grid-angular';"
     `);
     expect(
-      (result.readJson('package.json') as any).dependencies['@skyux/pages'],
+      (result.readJson('package.json') as PackageJson).dependencies[
+        '@skyux/pages'
+      ],
     ).toEqual('0.0.0');
   });
 

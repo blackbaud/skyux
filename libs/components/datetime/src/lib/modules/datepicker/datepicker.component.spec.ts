@@ -341,15 +341,16 @@ describe('datepicker', () => {
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
+      let picker = getCalendar();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keyup', {
         customEventInit: {
           key: 'escape',
         },
       });
       fixture.detectChanges();
       tick();
-      const picker = getCalendar();
+      picker = getCalendar();
 
       expect(picker).toBeNull();
     }));
@@ -406,15 +407,16 @@ describe('datepicker', () => {
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
+      let picker = getCalendar();
 
-      SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
+      SkyAppTestUtility.fireDomEvent(picker, 'keydown', {
         customEventInit: {
           key: undefined,
         },
       });
       fixture.detectChanges();
       tick();
-      const picker = getCalendar();
+      picker = getCalendar();
 
       expect(picker).not.toBeNull();
     }));

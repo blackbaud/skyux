@@ -6,7 +6,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - 9.x.x
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
@@ -104,7 +104,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel=3
+        run: npx nx affected:lint --quiet --silent --parallel=5
 
   check-workspace:
     name: Check dependencies and resources
@@ -182,7 +182,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel=3
+        run: npx nx affected --target=build --parallel=10
 
   build-dist:
     name: Build packages distribution
@@ -244,8 +244,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel=3 --configuration=ci
-          npx nx affected --target=posttest --parallel=3 --configuration=ci
+          npx nx affected --target=test,posttest --parallel=5 --configuration=ci
 
   stop-agents:
     name: Stop Nx Cloud agents

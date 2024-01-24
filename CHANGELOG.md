@@ -1,5 +1,43 @@
 # Changelog
 
+## [9.21.3](https://github.com/blackbaud/skyux/compare/9.21.2...9.21.3) (2024-01-23)
+
+
+### Bug Fixes
+
+* **components/datetime:** datepicker calendar overlay prevents unintended keyboard navigation from reaching parent components ([#1952](https://github.com/blackbaud/skyux/issues/1952)) ([34c8941](https://github.com/blackbaud/skyux/commit/34c8941f19abec185b41997eb56fd3c5f0092d29))
+
+## [9.21.2](https://github.com/blackbaud/skyux/compare/9.21.1...9.21.2) (2024-01-19)
+
+
+### Bug Fixes
+
+* **components/avatar:** colors used within avatars are accessible ([#1941](https://github.com/blackbaud/skyux/issues/1941)) ([62c69d6](https://github.com/blackbaud/skyux/commit/62c69d60de2cd57172b53cf2340786bb71cf26f1))
+* **components/colorpicker:** rgba inputs are properly associated with each other ([#1942](https://github.com/blackbaud/skyux/issues/1942)) ([65d65fa](https://github.com/blackbaud/skyux/commit/65d65fac4b414b16ec527d4f39d6350bde2795b1))
+* **components/forms:** reactive form required validator sets required checkbox input ([#1944](https://github.com/blackbaud/skyux/issues/1944)) ([793646a](https://github.com/blackbaud/skyux/commit/793646a10282dbd598bb04efd3ebdd6ba1f8c967))
+
+## [9.21.1](https://github.com/blackbaud/skyux/compare/9.21.0...9.21.1) (2024-01-18)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update focus style in data grid ([#1938](https://github.com/blackbaud/skyux/issues/1938)) ([69341df](https://github.com/blackbaud/skyux/commit/69341dfb5cf84f93b4b9c29f2aa5180703e0ddef))
+* **components/colorpicker:** updated color picker selection cursors to have accessible color contrast ([#1940](https://github.com/blackbaud/skyux/issues/1940)) ([85e17ad](https://github.com/blackbaud/skyux/commit/85e17adfffda78a5ed21ca926e8152646e26a28c))
+
+## [9.21.0](https://github.com/blackbaud/skyux/compare/9.20.1...9.21.0) (2024-01-12)
+
+
+### Features
+
+* **components/forms:** checkbox errors easy mode ([#1923](https://github.com/blackbaud/skyux/issues/1923)) ([4e4a039](https://github.com/blackbaud/skyux/commit/4e4a03989cd96ba7c80263f8299ac4c67c036132))
+* **components/forms:** form errors test harness ([#1925](https://github.com/blackbaud/skyux/issues/1925)) ([ca59e35](https://github.com/blackbaud/skyux/commit/ca59e355d2ff0b2db59e2a27002e34502bc7daf2))
+
+
+### Bug Fixes
+
+* **components/datetime:** timepicker overlay prevents unintended keyboard navigation from reaching parent components ([#1929](https://github.com/blackbaud/skyux/issues/1929)) ([a8bd16c](https://github.com/blackbaud/skyux/commit/a8bd16cb89755bcc8fc011817bc32f51354bf809))
+* **components/phone-field:** phone field will switch to the correct country when a valid number for that country is given when the dial code matches multiple countries ([#1936](https://github.com/blackbaud/skyux/issues/1936)) ([0b59ed5](https://github.com/blackbaud/skyux/commit/0b59ed5c954de1120fd4dde95b03af3049f45120))
+
 ## [9.20.1](https://github.com/blackbaud/skyux/compare/9.20.0...9.20.1) (2024-01-04)
 
 

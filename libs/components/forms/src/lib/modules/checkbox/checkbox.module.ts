@@ -9,15 +9,10 @@ import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyCheckboxLabelComponent } from './checkbox-label.component';
-import { SkyCheckboxRequiredValidatorDirective } from './checkbox-required-validator.directive';
 import { SkyCheckboxComponent } from './checkbox.component';
 
 @NgModule({
-  declarations: [
-    SkyCheckboxComponent,
-    SkyCheckboxLabelComponent,
-    SkyCheckboxRequiredValidatorDirective,
-  ],
+  declarations: [SkyCheckboxComponent, SkyCheckboxLabelComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -30,7 +25,6 @@ import { SkyCheckboxComponent } from './checkbox.component';
   exports: [
     SkyCheckboxComponent,
     SkyCheckboxLabelComponent,
-    SkyCheckboxRequiredValidatorDirective,
     SkyFormErrorComponent,
   ],
 })
