@@ -1,5 +1,21 @@
 # Changelog
 
+## [10.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/9.21.3...10.0.0-alpha.0) (2024-01-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added support for Angular 17 and removed support for Angular 16
+
+### Features
+
+* add Angular 17 support ([#1949](https://github.com/blackbaud/skyux/issues/1949)) ([6c6af7b](https://github.com/blackbaud/skyux/commit/6c6af7bbd72266cc8a7ded47301b66fa3faeffd8))
+
+
+### Bug Fixes
+
+* **components/toast:** toast close buttons have distinct aria labels ([#1951](https://github.com/blackbaud/skyux/issues/1951)) ([#1957](https://github.com/blackbaud/skyux/issues/1957)) ([de5ced7](https://github.com/blackbaud/skyux/commit/de5ced79a4d86314631beacdb44558a874172191))
+
 ## [9.21.3](https://github.com/blackbaud/skyux/compare/9.21.2...9.21.3) (2024-01-23)
 
 
