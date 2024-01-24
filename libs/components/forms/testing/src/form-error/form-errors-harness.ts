@@ -20,6 +20,9 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
     return SkyFormErrorsHarness.getDataSkyIdPredicate(filters);
   }
 
+  /**
+   * Gets an array of all errors fired.
+   */
   public async getFormErrors(): Promise<{ errorName: string | null }[]> {
     const formErrorHarnesses = await this.locatorForAll(
       SkyFormErrorHarness.with({}),
@@ -32,6 +35,9 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
     );
   }
 
+  /**
+   * Whether an error with the given name has fired.
+   */
   public async hasError(errorName: string): Promise<boolean> {
     const formErrors = await this.getFormErrors();
     return !!formErrors.find((error) => {
