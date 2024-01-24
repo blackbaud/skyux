@@ -17,16 +17,23 @@
         [topIcon]="topIcon"
       ></sky-icon-stack>
     </div>
-    <div class="sky-toast-content">
+    <div class="sky-toast-content" skyId="toastContent" #toastContent>
       <ng-content />
     </div>
     <button
       class="sky-toast-btn-close"
       type="button"
-      [attr.title]="'skyux_toast_close_button' | skyLibResources"
+      [attr.title]="'skyux_toast_close_button_title' | skyLibResources"
+      [attr.aria-labelledby]="toastCloseMessage.id + ' ' + toastContent.id"
       (click)="close()"
     >
       <sky-icon icon="close" />
     </button>
   </div>
+  <span
+    class="sky-screen-reader-only"
+    skyId="toastCloseMessage"
+    #toastCloseMessage
+    >{{ 'skyux_toast_close_button_aria_label' | skyLibResources }}</span
+  >
 </aside>
