@@ -15,6 +15,7 @@ import { SkyColorpickerOutput } from '@skyux/colorpicker';
 export class ColorpickerComponent {
   public reactiveForm: UntypedFormGroup;
   public favoriteColor: UntypedFormControl;
+  public secondFavoriteColor: UntypedFormControl;
 
   public swatches: string[] = [
     '#BD4040',
@@ -35,8 +36,12 @@ export class ColorpickerComponent {
         return null;
       },
     ]);
+
+    this.secondFavoriteColor = new UntypedFormControl('#f00');
+
     this.reactiveForm = formBuilder.group({
       favoriteColor: this.favoriteColor,
+      secondFavoriteColor: this.secondFavoriteColor,
     });
   }
 

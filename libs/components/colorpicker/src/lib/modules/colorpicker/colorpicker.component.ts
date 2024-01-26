@@ -11,7 +11,6 @@ import {
   OnInit,
   Optional,
   Output,
-  Renderer2,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
@@ -40,7 +39,7 @@ import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
-import { SkyColorpickerInputDirective } from './colorpicker-input.directive';
+import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -63,6 +62,7 @@ let componentIdIndex = 0;
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
   providers: [
+    SkyColorpickerInputService,
     SkyColorpickerService,
     {
       provide: FORM_ERRORS,
@@ -292,22 +292,8 @@ export class SkyColorpickerComponent
     return this.#_colorpickerRef;
   }
 
-  @ContentChild(SkyColorpickerInputDirective, {
-    read: ElementRef,
-  })
-  public set inputRef(value: ElementRef | undefined) {
-    this.#_inputRef = value;
-    if (value && this.labelText) {
-      this.#renderer.setAttribute(value.nativeElement, 'id', this.controlId);
-    }
-  }
-
-  public get inputRef(): ElementRef | undefined {
-    return this.#_inputRef;
-  }
-
   @ContentChild(FormControlDirective)
-  public set formControl(value: FormControlDirective | undefined) {
+  protected set formControl(value: FormControlDirective | undefined) {
     if (value) {
       this.ngControl = value;
       this.#changeDetector.markForCheck();
@@ -315,7 +301,7 @@ export class SkyColorpickerComponent
   }
 
   @ContentChild(FormControlName)
-  public set formControlByName(value: FormControlName | undefined) {
+  protected set formControlByName(value: FormControlName | undefined) {
     if (value) {
       this.ngControl = value;
       this.#changeDetector.markForCheck();
@@ -323,11 +309,20 @@ export class SkyColorpickerComponent
   }
 
   @ContentChild(NgModel)
-  public set ngModel(value: NgModel | undefined) {
+  protected set ngModel(value: NgModel | undefined) {
     if (value) {
       this.ngControl = value;
       this.#changeDetector.markForCheck();
     }
+  }
+
+  protected get inputId(): string | undefined {
+    return this.#_inputId;
+  }
+
+  protected set inputId(value: string | undefined) {
+    this.#_inputId = value;
+    this.#changeDetector.markForCheck();
   }
 
   protected colorpickerId: string;
@@ -369,14 +364,13 @@ export class SkyColorpickerComponent
   #themeSvc: SkyThemeService | undefined;
 
   #idSvc = inject(SkyIdService);
-  #renderer = inject(Renderer2);
+  #colorpickerInputSvc = inject(SkyColorpickerInputService);
 
   #_backgroundColorForDisplay: string | undefined;
   #_colorpickerRef: ElementRef | undefined;
   #_disabled = false;
-  #_inputRef: ElementRef | undefined;
+  #_inputId: string | undefined;
 
-  protected readonly controlId = this.#idSvc.generateId();
   protected readonly errorId = this.#idSvc.generateId();
 
   constructor(
@@ -439,6 +433,12 @@ export class SkyColorpickerComponent
         this.#handleIncomingMessages(message);
       });
 
+    this.#colorpickerInputSvc.inputId
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((id) => {
+        this.inputId = id;
+      });
+
     this.#addTriggerButtonEventListeners();
 
     /* istanbul ignore else */
@@ -462,28 +462,11 @@ export class SkyColorpickerComponent
   }
 
   public ngAfterContentChecked(): void {
-    if (this.labelText && this.inputRef) {
-      if (!this.ngControl?.valid) {
-        this.#renderer.setAttribute(
-          this.inputRef?.nativeElement,
-          'aria-invalid',
-          'true',
-        );
-        this.#renderer.setAttribute(
-          this.inputRef?.nativeElement,
-          'aria-errormessage',
-          this.errorId,
-        );
-      } else {
-        this.#renderer.removeAttribute(
-          this.inputRef?.nativeElement,
-          'aria-invalid',
-        );
-        this.#renderer.removeAttribute(
-          this.inputRef?.nativeElement,
-          'aria-errormessage',
-        );
-      }
+    if (this.labelText) {
+      this.#colorpickerInputSvc.ariaError.next({
+        hasError: !this.ngControl?.valid,
+        errorId: this.errorId,
+      });
     }
   }
 

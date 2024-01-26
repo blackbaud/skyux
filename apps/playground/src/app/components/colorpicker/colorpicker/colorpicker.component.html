@@ -40,5 +40,22 @@
     </tr>
   </table>
 
+  <div class="sky-form-group">
+    <sky-colorpicker
+      (selectedColorChanged)="onSelectedColorChanged($event)"
+      pickerButtonIcon="calendar"
+      pickerButtonIconType="skyux"
+      labelText="What is your second favorite color?"
+      #colorPicker2
+    >
+      <input
+        formControlName="secondFavoriteColor"
+        type="text"
+        [presetColors]="swatches"
+        [skyColorpickerInput]="colorPicker2"
+      />
+    </sky-colorpicker>
+  </div>
+
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
 </form>
