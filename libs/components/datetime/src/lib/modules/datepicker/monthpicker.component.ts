@@ -27,9 +27,10 @@ export class SkyMonthPickerComponent implements OnInit {
       years: 1,
     };
 
-    this.datepicker.setRefreshViewHandler(() => {
-      this.#refreshMonthView();
-    }, 'month');
+    this.datepicker.setRefreshViewHandler(
+      () => this.#refreshMonthView(),
+      'month',
+    );
 
     this.datepicker.setCompareHandler(this.#compareMonth, 'month');
 
@@ -46,7 +47,7 @@ export class SkyMonthPickerComponent implements OnInit {
     return d1.getTime() - d2.getTime();
   }
 
-  #refreshMonthView(): void {
+  #refreshMonthView(): string {
     const months: Array<SkyDatepickerDate> = new Array(12);
     const year: number = this.datepicker.activeDate.getFullYear();
     let date: Date;
@@ -62,28 +63,29 @@ export class SkyMonthPickerComponent implements OnInit {
       );
     }
 
-    this.title = this.datepicker.dateFilter(
-      this.datepicker.activeDate,
-      this.datepicker.formatMonthTitle,
-    );
     this.rows = this.datepicker.createCalendarRows(
       months,
       this.datepicker.monthColLimit,
     );
+
+    return this.datepicker.dateFilter(
+      this.datepicker.activeDate,
+      this.datepicker.formatMonthTitle,
+    );
   }
 
-  #keydownMonths(key: string, event: KeyboardEvent) {
+  #keydownMonths(key: string, event: KeyboardEvent): void {
     let date = this.datepicker.activeDate.getMonth();
 
     /* istanbul ignore else */
     /* sanity check */
-    if (key === 'left') {
+    if (key === 'left' || key === 'arrowleft') {
       date = date - 1;
-    } else if (key === 'up') {
+    } else if (key === 'up' || key === 'arrowup') {
       date = date - this.datepicker.monthColLimit;
-    } else if (key === 'right') {
+    } else if (key === 'right' || key === 'arrowright') {
       date = date + 1;
-    } else if (key === 'down') {
+    } else if (key === 'down' || key === 'arrowdown') {
       date = date + this.datepicker.monthColLimit;
     } else if (key === 'pageup' || key === 'pagedown') {
       const year =

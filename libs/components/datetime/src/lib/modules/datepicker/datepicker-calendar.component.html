@@ -8,13 +8,19 @@
     (calendarModeChange)="onCalendarModeChange($event)"
     (selectedDateChange)="onSelectedDateChange($event)"
   >
-    <sky-daypicker
-      tabindex="0"
-      [customDates]="customDates"
-      [isWaiting]="isDaypickerWaiting"
-      (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
-    ></sky-daypicker>
-    <sky-monthpicker tabindex="0"></sky-monthpicker>
-    <sky-yearpicker tabindex="0"></sky-yearpicker>
+    <div tabindex="0" (keydown)="datepicker?.onKeydown($event)">
+      <sky-daypicker
+        *ngIf="datepicker?.datepickerMode === 'day'"
+        [customDates]="customDates"
+        [isWaiting]="isDaypickerWaiting"
+        (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
+      ></sky-daypicker>
+      <sky-monthpicker
+        *ngIf="datepicker?.datepickerMode === 'month'"
+      ></sky-monthpicker>
+      <sky-yearpicker
+        *ngIf="datepicker?.datepickerMode === 'year'"
+      ></sky-yearpicker>
+    </div>
   </sky-datepicker-inner>
 </div>

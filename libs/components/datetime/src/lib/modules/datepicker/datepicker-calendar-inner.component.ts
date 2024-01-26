@@ -78,6 +78,8 @@ export class SkyDatepickerCalendarInnerComponent
   public activeDate = new Date();
   public activeDateId = '';
 
+  public title = '';
+
   public minMode = 'day';
   public maxMode = 'year';
   public monthColLimit = 3;
@@ -101,11 +103,11 @@ export class SkyDatepickerCalendarInnerComponent
   protected modes: string[] = ['day', 'month', 'year'];
   protected dateFormatter: SkyDateFormatter = new SkyDateFormatter();
 
-  public refreshViewHandlerDay: (() => void) | undefined;
+  public refreshViewHandlerDay: (() => string) | undefined;
   public compareHandlerDay: DateComparator | undefined;
-  public refreshViewHandlerMonth: (() => void) | undefined;
+  public refreshViewHandlerMonth: (() => string) | undefined;
   public compareHandlerMonth: DateComparator | undefined;
-  public refreshViewHandlerYear: (() => void) | undefined;
+  public refreshViewHandlerYear: (() => string) | undefined;
   public compareHandlerYear: DateComparator | undefined;
 
   public handleKeydownDay: KeyboardEventHandler | undefined;
@@ -187,7 +189,7 @@ export class SkyDatepickerCalendarInnerComponent
     return undefined;
   }
 
-  public setRefreshViewHandler(handler: () => void, type: string): void {
+  public setRefreshViewHandler(handler: () => string, type: string): void {
     if (type === 'day') {
       this.refreshViewHandlerDay = handler;
     }
@@ -203,19 +205,19 @@ export class SkyDatepickerCalendarInnerComponent
 
   public refreshView(): void {
     if (this.datepickerMode === 'day' && this.refreshViewHandlerDay) {
-      this.refreshViewHandlerDay();
+      this.title = this.refreshViewHandlerDay();
     }
 
     if (this.datepickerMode === 'month' && this.refreshViewHandlerMonth) {
-      this.refreshViewHandlerMonth();
+      this.title = this.refreshViewHandlerMonth();
     }
 
     if (this.datepickerMode === 'year' && this.refreshViewHandlerYear) {
-      this.refreshViewHandlerYear();
+      this.title = this.refreshViewHandlerYear();
     }
   }
 
-  public setKeydownHandler(handler: KeyboardEventHandler, type: string) {
+  public setKeydownHandler(handler: KeyboardEventHandler, type: string): void {
     if (type === 'day') {
       this.handleKeydownDay = handler;
     }
@@ -256,23 +258,28 @@ export class SkyDatepickerCalendarInnerComponent
     return false;
   }
 
-  public onKeydown(event: KeyboardEvent) {
-    const key = this.keys[event.which];
+  public onKeydown(event: KeyboardEvent): void {
+    // const key = this.keys[event.which];
+    const key = event.key?.toLowerCase();
 
-    if (!key || event.shiftKey || event.altKey) {
+    if (!key || event.shiftKey /* || event.altKey */) {
       return;
     }
+    if (key !== 'tab') {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (key === 'enter' || key === 'space') {
+    if (key === 'enter' || key === 'space' || key === ' ') {
       if (this.isDisabled(this.activeDate)) {
         return;
       }
       this.select(this.activeDate);
-    } else if (event.ctrlKey && (key === 'up' || key === 'down')) {
-      this.toggleMode(key === 'up' ? 1 : -1);
+    } else if (
+      event.ctrlKey &&
+      ['up', 'arrowup', 'down', 'arrowdown'].includes(key)
+    ) {
+      this.toggleMode(key === 'up' || key === 'arrowup' ? 1 : -1);
     } else {
       this.handleKeydown(key, event);
       this.refreshView();
@@ -324,7 +331,7 @@ export class SkyDatepickerCalendarInnerComponent
     return newDate;
   }
 
-  public selectCalendar(event: Event, date: Date, closePicker = false) {
+  public selectCalendar(event: Event, date: Date, closePicker = false): void {
     if (!closePicker) {
       event.preventDefault();
       event.stopPropagation();
@@ -357,7 +364,7 @@ export class SkyDatepickerCalendarInnerComponent
     this.refreshView();
   }
 
-  public moveCalendar(event: Event, direction: number) {
+  public moveCalendar(event: Event, direction: number): void {
     event.preventDefault();
     event.stopPropagation();
     this.move(direction);
@@ -391,7 +398,7 @@ export class SkyDatepickerCalendarInnerComponent
     }
   }
 
-  public toggleModeCalendar(event: Event) {
+  public toggleModeCalendar(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.toggleMode(1);

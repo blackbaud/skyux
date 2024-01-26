@@ -6,6 +6,11 @@
   background-color: $sky-color-white;
   @include mixins.sky-border(light, top, bottom, left, right);
 
+  .sky-datepicker-calendar-header {
+    width: 100%;
+    display: flex;
+  }
+
   .sky-btn-default {
     border-color: transparent;
     border: 2px solid $sky-color-white;
