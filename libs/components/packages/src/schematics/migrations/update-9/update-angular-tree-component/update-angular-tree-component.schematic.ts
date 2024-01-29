@@ -5,6 +5,7 @@ import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { ensurePeersInstalled } from '../../../rules/ensure-peers-installed';
+import { visitProjectFiles } from '../../../utility/visit-project-files';
 
 const OLD_PACKAGE = '@circlon/angular-tree-component';
 const NEW_PACKAGE = '@blackbaud/angular-tree-component';
@@ -14,7 +15,7 @@ function renameTypeScriptImportPaths(): Rule {
     const workspace = await getWorkspace(tree);
 
     for (const [, projectDefinition] of workspace.projects.entries()) {
-      tree.getDir(projectDefinition.root).visit((filePath) => {
+      visitProjectFiles(tree, projectDefinition.root, (filePath) => {
         if (filePath.match(/\.ts$/)) {
           const source = ts.createSourceFile(
             filePath,
