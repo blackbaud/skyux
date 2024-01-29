@@ -1,19 +1,15 @@
 <form novalidate [formGroup]="formGroup" (ngSubmit)="submit()">
   <div class="sky-margin-stacked-lg">
-    <label class="sky-control-label" [for]="colorInput.id">
-      What is your favorite color?
-    </label>
     <sky-colorpicker
+      labelText="What is your favorite color?"
       (selectedColorChanged)="onSelectedColorChanged($event)"
       #colorPicker
     >
       <input
         formControlName="favoriteColor"
-        skyId
         type="text"
         [presetColors]="swatches"
         [skyColorpickerInput]="colorPicker"
-        #colorInput="skyId"
       />
     </sky-colorpicker>
   </div>

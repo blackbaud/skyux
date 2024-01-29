@@ -29,6 +29,7 @@ import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SliderDimension, SliderPosition } from './colorpicker-classes';
+import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -50,7 +51,7 @@ let componentIdIndex = 0;
   selector: 'sky-colorpicker',
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
-  providers: [SkyColorpickerService],
+  providers: [SkyColorpickerInputService, SkyColorpickerService],
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyColorpickerComponent implements OnInit, OnDestroy {
@@ -86,6 +87,13 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
    */
   @Input()
   public labelledBy: string | undefined;
+
+  /**
+   * The text to display as the colorpicker's label. Use this instead of a `label` element when the label is text-only.
+   * Specifying `labelText` also enables automatic error message handling for standard colorpicker errors.
+   */
+  @Input()
+  public labelText: string | undefined;
 
   /**
    * Fires when users select a color in the colorpicker.
@@ -265,6 +273,15 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     return this.#_colorpickerRef;
   }
 
+  protected get inputId(): string | undefined {
+    return this.#_inputId;
+  }
+
+  protected set inputId(value: string | undefined) {
+    this.#_inputId = value;
+    this.#changeDetector.markForCheck();
+  }
+
   protected colorpickerId: string;
   protected isOpen = false;
   protected triggerButtonId: string;
@@ -302,9 +319,12 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #svc: SkyColorpickerService;
   #themeSvc: SkyThemeService | undefined;
 
+  #colorpickerInputSvc = inject(SkyColorpickerInputService);
+
   #_backgroundColorForDisplay: string | undefined;
   #_colorpickerRef: ElementRef | undefined;
   #_disabled = false;
+  #_inputId: string | undefined;
 
   constructor(
     affixSvc: SkyAffixService,
@@ -364,6 +384,12 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyColorpickerMessage) => {
         this.#handleIncomingMessages(message);
+      });
+
+    this.#colorpickerInputSvc.inputId
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((id) => {
+        this.inputId = id;
       });
 
     this.#addTriggerButtonEventListeners();

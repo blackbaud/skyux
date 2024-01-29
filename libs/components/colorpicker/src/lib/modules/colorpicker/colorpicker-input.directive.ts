@@ -10,6 +10,7 @@ import {
   OnInit,
   Renderer2,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -19,10 +20,12 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subscription } from 'rxjs';
 
+import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerComponent } from './colorpicker.component';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
@@ -142,6 +145,9 @@ export class SkyColorpickerInputDirective
   #_disabled: boolean | undefined;
   #_initialColor: string | undefined;
 
+  #colorpickerInputSvc = inject(SkyColorpickerInputService);
+  #idSvc = inject(SkyIdService);
+
   constructor(
     elementRef: ElementRef,
     renderer: Renderer2,
@@ -173,6 +179,14 @@ export class SkyColorpickerInputDirective
 
   public ngOnInit(): void {
     const element = this.#elementRef.nativeElement;
+    let id = element.id;
+
+    if (!id) {
+      id = this.#idSvc.generateId();
+      this.#renderer.setAttribute(element, 'id', id);
+    }
+
+    this.#colorpickerInputSvc.inputId.next(id);
 
     this.#renderer.addClass(element, 'sky-form-control');
     this.skyColorpickerInput.initialColor = this.initialColor;

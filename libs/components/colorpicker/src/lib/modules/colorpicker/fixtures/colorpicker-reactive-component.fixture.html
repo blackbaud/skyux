@@ -1,5 +1,9 @@
 <form [formGroup]="colorForm">
-  <sky-colorpicker #colorPickerTest [messageStream]="colorpickerController">
+  <sky-colorpicker
+    #colorPickerTest
+    [messageStream]="colorpickerController"
+    [labelText]="labelText"
+  >
     <input
       [type]="inputType"
       [skyColorpickerInput]="colorPickerTest"
@@ -10,39 +14,4 @@
       [alphaChannel]="selectedHexType"
     />
   </sky-colorpicker>
-  <ng-container *ngIf="showMultiple">
-    <sky-colorpicker #colorPickerTest2 [messageStream]="colorpickerController">
-      <input
-        [type]="inputType"
-        [skyColorpickerInput]="colorPickerTest2"
-        formControlName="colorModel2"
-        [presetColors]="presetColors"
-        [initialColor]="initialColor"
-        [outputFormat]="selectedOutputFormat"
-        [alphaChannel]="selectedHexType"
-      />
-    </sky-colorpicker>
-    <sky-colorpicker #colorPickerTest3 [messageStream]="colorpickerController">
-      <input
-        [type]="inputType"
-        [skyColorpickerInput]="colorPickerTest3"
-        formControlName="colorModel3"
-        [presetColors]="presetColors"
-        [initialColor]="initialColor"
-        [outputFormat]="selectedOutputFormat"
-        [alphaChannel]="selectedHexType"
-      />
-    </sky-colorpicker>
-    <sky-colorpicker #colorPickerTest4 [messageStream]="colorpickerController">
-      <input
-        [type]="inputType"
-        [skyColorpickerInput]="colorPickerTest4"
-        formControlName="colorModel4"
-        [presetColors]="presetColors"
-        [initialColor]="initialColor"
-        [outputFormat]="selectedOutputFormat"
-        [alphaChannel]="selectedHexType"
-      />
-    </sky-colorpicker>
-  </ng-container>
 </form>
