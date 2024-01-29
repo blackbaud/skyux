@@ -7,6 +7,7 @@ import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
 import { readRequiredFile } from '../../../utility/tree';
 import { getImports, getUsages } from '../../../utility/typescript/imports';
 import { createSourceFile } from '../../../utility/typescript/source-file';
+import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 type RewriteFn = (startPos: number, origLength: number, text: string) => void;
@@ -95,8 +96,8 @@ export default function (): Rule {
     const { workspace } = await getWorkspace(tree);
 
     workspace.projects.forEach((project) => {
-      tree.getDir(project.root).visit((filePath) => {
-        if (filePath.endsWith('.ts') && !filePath.includes('node_modules')) {
+      visitProjectFiles(tree, project.root, (filePath) => {
+        if (filePath.endsWith('.ts')) {
           runLegacyServicesMigration(tree, filePath);
         }
       });
