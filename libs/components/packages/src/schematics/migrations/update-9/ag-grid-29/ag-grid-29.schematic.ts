@@ -13,6 +13,8 @@ import {
 } from '@schematics/angular/utility/change';
 import { getPackageJsonDependency } from '@schematics/angular/utility/dependencies';
 
+import { visitProjectFiles } from '../../../utility/visit-project-files';
+
 const AG_GRID = 'ag-grid-community';
 const AG_GRID_ENT = 'ag-grid-enterprise';
 
@@ -133,9 +135,10 @@ function updateSourceFiles(): Rule {
   return async (tree: Tree): Promise<void> => {
     const workspace = await readWorkspace(tree);
     workspace.projects.forEach((project) => {
-      tree
-        .getDir(project.sourceRoot || project.root)
-        .visit((filePath: Path) => {
+      visitProjectFiles(
+        tree,
+        project.sourceRoot || project.root,
+        (filePath) => {
           // If the file is not a TypeScript file, we can skip it.
           if (!filePath.endsWith('.ts')) {
             return;
@@ -149,7 +152,8 @@ function updateSourceFiles(): Rule {
           const recorder = tree.beginUpdate(filePath);
           applyToUpdateRecorder(recorder, changes);
           tree.commitUpdate(recorder);
-        });
+        },
+      );
     });
   };
 }
