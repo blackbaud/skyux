@@ -199,6 +199,13 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
+   * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
+   * Specifying `labelText` also enables automatic error message handling for checkbox.
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
    * Fires when users select or deselect the checkbox.
    */
   @Output()
