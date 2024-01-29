@@ -59,15 +59,9 @@ export class SkyCharacterCounterInputDirective implements Validator {
    */
   @HostListener('focus')
   public announceToScreenReaderOnFocus(): void {
-    this.skyCharacterCounterIndicator?.announceToScreenReader(true);
-  }
-
-  /**
-   * Tells the character counter component to clear the screen reader element when losing focus. This ensures that the count will be read out again if refocused.
-   */
-  @HostListener('focusout')
-  public clearScreenReader(): void {
-    this.skyCharacterCounterIndicator?.clearScreenReader();
+    if (this.skyCharacterCounterIndicator) {
+      this.skyCharacterCounterIndicator.alwaysAnnounce = true;
+    }
   }
 
   #_skyCharacterCounterIndicator:
