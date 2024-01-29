@@ -446,6 +446,18 @@ describe('Checkbox component', () => {
       expect(label?.textContent?.trim()).toBe('Simple checkbox');
     });
 
+    it('should render the labelText when provided', () => {
+      const labelText = 'Label text';
+      testComponent.labelText = labelText;
+      fixture.detectChanges();
+
+      const label = checkboxNativeElement?.querySelector(
+        '.sky-checkbox-wrapper sky-checkbox-label',
+      );
+
+      expect(label?.textContent?.trim()).toBe(labelText);
+    });
+
     it('should make the host element a tab stop', () => {
       expect(inputElement?.tabIndex).toBe(0);
     });
