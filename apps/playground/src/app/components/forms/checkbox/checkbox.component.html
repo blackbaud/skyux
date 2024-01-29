@@ -152,16 +152,9 @@
       ngModel
       [indeterminate]="indeterminate"
       [required]="required"
+      labelText="Check me"
       #templateDrivenCheckbox="ngModel"
-    >
-      <sky-checkbox-label>
-        Check me
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-checkbox-label>
-    </sky-checkbox>
+    />
   </p>
 
   <table>
@@ -187,16 +180,9 @@
     <sky-checkbox
       [indeterminate]="indeterminate"
       [required]="required"
+      labelText="Check me"
       formControlName="reactiveCheckbox"
-    >
-      <sky-checkbox-label>
-        Check me
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-checkbox-label>
-    </sky-checkbox>
+    />
   </form>
 
   <table>
