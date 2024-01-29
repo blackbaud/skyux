@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - 9.x.x
 env:
   PRERELEASE: 'false'
   MAJOR_VERSION: 9

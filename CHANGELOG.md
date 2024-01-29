@@ -1,5 +1,25 @@
 # Changelog
 
+## [9.22.0](https://github.com/blackbaud/skyux/compare/9.21.3...9.22.0) (2024-01-29)
+
+
+### Features
+
+* **components/forms:** add checkbox labelText input ([#1965](https://github.com/blackbaud/skyux/issues/1965)) ([f34bfb5](https://github.com/blackbaud/skyux/commit/f34bfb5d935aad924bd828e351c407663904d5f6))
+
+
+### Bug Fixes
+
+* **components/packages:** standardize how schematics visit project files ([#1967](https://github.com/blackbaud/skyux/issues/1967)) ([2a226f0](https://github.com/blackbaud/skyux/commit/2a226f0db85448884db5a984d7824174857ecbe4))
+* **components/toast:** toast close buttons have distinct aria labels ([#1951](https://github.com/blackbaud/skyux/issues/1951)) ([687a1f5](https://github.com/blackbaud/skyux/commit/687a1f58b72d6ad09ef017c6997f3a31a835e9ce))
+
+## [9.21.3](https://github.com/blackbaud/skyux/compare/9.21.2...9.21.3) (2024-01-23)
+
+
+### Bug Fixes
+
+* **components/datetime:** datepicker calendar overlay prevents unintended keyboard navigation from reaching parent components ([#1952](https://github.com/blackbaud/skyux/issues/1952)) ([34c8941](https://github.com/blackbaud/skyux/commit/34c8941f19abec185b41997eb56fd3c5f0092d29))
+
 ## [9.21.2](https://github.com/blackbaud/skyux/compare/9.21.1...9.21.2) (2024-01-19)
 
 

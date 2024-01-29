@@ -13,6 +13,7 @@ import {
   inject,
 } from '@angular/core';
 import { skyAnimationEmerge } from '@skyux/animations';
+import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule, SkyIconStackItem } from '@skyux/indicators';
 
 import { Subject, combineLatest } from 'rxjs';
@@ -37,7 +38,7 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, SkyIconModule, SkyToastResourcesModule],
+  imports: [CommonModule, SkyIconModule, SkyIdModule, SkyToastResourcesModule],
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
   /**
