@@ -14,33 +14,15 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
  *******************************************************************************/
 
 /*******************************************************************************
- * COMPONENT: INPUT BOX
- *******************************************************************************/
-
-/*******************************************************************************
- * The bottom margin has been removed from the  \`sky-input-box\`. To address
- * this, remove this block of CSS and use \`stacked="true"\` to automatically
- * have the latest vertical spacing added.
- *******************************************************************************/
-
-:root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
-}
-
-/*******************************************************************************
  * COMPONENT: STYLES
  *******************************************************************************/
 
 /*******************************************************************************
- * The bottom margin has been removed from \`sky-form-group\` style class. To
- * address this, remove this block of css and change \`sky-form-group\` to
- * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
- * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
- * supported spacing classes.
+ * This is an example and should be removed.
  *******************************************************************************/
 
 :root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
+  --sky-compat-example: 0;
 }
 "
 `;
@@ -59,33 +41,15 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
  *******************************************************************************/
 
 /*******************************************************************************
- * COMPONENT: INPUT BOX
- *******************************************************************************/
-
-/*******************************************************************************
- * The bottom margin has been removed from the  \`sky-input-box\`. To address
- * this, remove this block of CSS and use \`stacked="true"\` to automatically
- * have the latest vertical spacing added.
- *******************************************************************************/
-
-:root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
-}
-
-/*******************************************************************************
  * COMPONENT: STYLES
  *******************************************************************************/
 
 /*******************************************************************************
- * The bottom margin has been removed from \`sky-form-group\` style class. To
- * address this, remove this block of css and change \`sky-form-group\` to
- * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
- * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
- * supported spacing classes.
+ * This is an example and should be removed.
  *******************************************************************************/
 
 :root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
+  --sky-compat-example: 0;
 }
 "
 `;
@@ -104,33 +68,15 @@ exports[`Migrations > Add compat stylesheets should handle missing styles array 
  *******************************************************************************/
 
 /*******************************************************************************
- * COMPONENT: INPUT BOX
- *******************************************************************************/
-
-/*******************************************************************************
- * The bottom margin has been removed from the  \`sky-input-box\`. To address
- * this, remove this block of CSS and use \`stacked="true"\` to automatically
- * have the latest vertical spacing added.
- *******************************************************************************/
-
-:root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
-}
-
-/*******************************************************************************
  * COMPONENT: STYLES
  *******************************************************************************/
 
 /*******************************************************************************
- * The bottom margin has been removed from \`sky-form-group\` style class. To
- * address this, remove this block of css and change \`sky-form-group\` to
- * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
- * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
- * supported spacing classes.
+ * This is an example and should be removed.
  *******************************************************************************/
 
 :root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
+  --sky-compat-example: 0;
 }
 "
 `;
@@ -149,33 +95,15 @@ exports[`Migrations > Add compat stylesheets should overwrite an existing compat
  *******************************************************************************/
 
 /*******************************************************************************
- * COMPONENT: INPUT BOX
- *******************************************************************************/
-
-/*******************************************************************************
- * The bottom margin has been removed from the  \`sky-input-box\`. To address
- * this, remove this block of CSS and use \`stacked="true"\` to automatically
- * have the latest vertical spacing added.
- *******************************************************************************/
-
-:root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
-}
-
-/*******************************************************************************
  * COMPONENT: STYLES
  *******************************************************************************/
 
 /*******************************************************************************
- * The bottom margin has been removed from \`sky-form-group\` style class. To
- * address this, remove this block of css and change \`sky-form-group\` to
- * \`sky-margin-stacked-sm\` or other appropriate spacing classes. See
- * https://developer.blackbaud.com/skyux/design/styles/spacing for a list of
- * supported spacing classes.
+ * This is an example and should be removed.
  *******************************************************************************/
 
 :root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
+  --sky-compat-example: 0;
 }
 "
 `;
