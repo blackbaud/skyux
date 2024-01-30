@@ -5,7 +5,7 @@ import { join } from 'path';
 import { createTestApp, createTestLibrary } from '../../../testing/scaffold';
 
 describe('Migrations > Add compat stylesheets', () => {
-  const compatStylesheetPath = 'src/app/skyux9-compat.css';
+  const compatStylesheetPath = 'src/app/skyux10-compat.css';
 
   const runner = new SchematicTestRunner(
     'migrations',
@@ -155,7 +155,7 @@ describe('Migrations > Add compat stylesheets', () => {
     );
 
     const libShowcaseCompatStylesheetPath =
-      'projects/my-lib-showcase/src/app/skyux9-compat.css';
+      'projects/my-lib-showcase/src/app/skyux10-compat.css';
 
     angularJson = JSON.parse(updatedTree.readContent('/angular.json'));
 

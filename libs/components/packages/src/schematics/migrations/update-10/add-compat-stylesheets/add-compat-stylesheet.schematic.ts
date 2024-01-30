@@ -4,29 +4,20 @@ import { Rule, Tree, chain } from '@angular-devkit/schematics';
 import { readRequiredFile } from '../../../utility/tree';
 import { getWorkspace, updateWorkspace } from '../../../utility/workspace';
 
-const COMPAT_CSS_FILE_NAME = 'skyux9-compat.css';
+const COMPAT_CSS_FILE_NAME = 'skyux10-compat.css';
 
-const compatStyles = {
+type CompatStyle = {
+  libraries: {
+    name: string;
+    components: {
+      name: string;
+      styles: { css: string; instructions: string }[];
+    }[];
+  }[];
+};
+
+const compatStyles: CompatStyle = {
   libraries: [
-    {
-      name: '@skyux/forms',
-      components: [
-        {
-          name: 'input box',
-          styles: [
-            {
-              css: `
-:root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
-}
-`,
-              instructions: `
-The bottom margin has been removed from the  \`sky-input-box\`. To address this, remove this block of CSS and use \`stacked="true"\` to automatically have the latest vertical spacing added.`,
-            },
-          ],
-        },
-      ],
-    },
     {
       name: '@skyux/theme',
       components: [
@@ -36,11 +27,11 @@ The bottom margin has been removed from the  \`sky-input-box\`. To address this,
             {
               css: `
 :root {
-  --sky-compat-sky-form-group-margin-bottom: 10px
+  --sky-compat-example: 0;
 }
 `,
               instructions: `
-The bottom margin has been removed from \`sky-form-group\` style class. To address this, remove this block of css and change \`sky-form-group\` to \`sky-margin-stacked-sm\` or other appropriate spacing classes. See https://developer.blackbaud.com/skyux/design/styles/spacing for a list of supported spacing classes.`,
+This is an example and should be removed.`,
             },
           ],
         },
