@@ -262,13 +262,12 @@ export class SkyDatepickerCalendarInnerComponent
     // const key = this.keys[event.which];
     const key = event.key?.toLowerCase();
 
-    if (!key || event.shiftKey /* || event.altKey */) {
+    if (!key || key === 'tab' || event.shiftKey /* || event.altKey */) {
       return;
     }
-    if (key !== 'tab') {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+
+    event.preventDefault();
+    event.stopPropagation();
 
     if (key === 'enter' || key === 'space' || key === ' ') {
       if (this.isDisabled(this.activeDate)) {

@@ -8,7 +8,7 @@
     (calendarModeChange)="onCalendarModeChange($event)"
     (selectedDateChange)="onSelectedDateChange($event)"
   >
-    <div tabindex="0" (keydown)="datepicker?.onKeydown($event)">
+    <div autofocus tabindex="0" (keydown)="datepicker?.onKeydown($event)">
       <sky-daypicker
         *ngIf="datepicker?.datepickerMode === 'day'"
         [customDates]="customDates"
