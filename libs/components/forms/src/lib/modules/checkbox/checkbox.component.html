@@ -51,5 +51,10 @@
       />
     </ng-template>
   </span>
-  <ng-content select="sky-checkbox-label" />
+  <ng-container *ngIf="labelText; else labelElement">
+    <sky-checkbox-label>{{ labelText }}</sky-checkbox-label>
+  </ng-container>
+  <ng-template #labelElement>
+    <ng-content select="sky-checkbox-label" />
+  </ng-template>
 </label>

@@ -1,6 +1,7 @@
 import { Rule, chain, externalSchematic } from '@angular-devkit/schematics';
 
 import { readRequiredFile } from '../../../utility/tree';
+import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 const RESOURCES_MODULE_SUFFIX = '-resources.module.ts';
@@ -32,7 +33,7 @@ export default function (): Rule {
 
         const srcRootRegex = new RegExp(`^/${srcRoot}/`);
 
-        tree.getDir(srcRoot).visit((filePath) => {
+        visitProjectFiles(tree, srcRoot, (filePath) => {
           if (filePath.endsWith(RESOURCES_MODULE_SUFFIX)) {
             const content = readRequiredFile(tree, filePath);
 

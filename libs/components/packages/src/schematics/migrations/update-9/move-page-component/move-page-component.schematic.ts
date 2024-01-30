@@ -9,6 +9,7 @@ import {
   getPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
+import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 function getImportNames(importDeclaration: ts.ImportDeclaration): string[] {
@@ -27,7 +28,7 @@ export default function movePageComponent(): Rule {
       const source = project.sourceRoot || `${project.root}/src`;
 
       // Visit all TypeScript files in each project.
-      tree.getDir(source).visit((path) => {
+      visitProjectFiles(tree, source, (path) => {
         if (path.endsWith('.ts')) {
           // Parse the TypeScript file.
           const source = ts.createSourceFile(
