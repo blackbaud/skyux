@@ -13,19 +13,19 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyCharacterCounterIndicatorComponent {
-  #_alwaysAnnounce = false;
+  #_hasFocus = false;
   #_characterCountLimit = 0;
   #_characterCount = 0;
 
   #changeDetector = inject(ChangeDetectorRef);
 
-  public set alwaysAnnounce(value: boolean) {
-    this.#_alwaysAnnounce = value;
+  public set hasFocus(value: boolean) {
+    this.#_hasFocus = value;
     this.#changeDetector.markForCheck();
   }
 
-  public get alwaysAnnounce(): boolean {
-    return this.#_alwaysAnnounce;
+  public get hasFocus(): boolean {
+    return this.#_hasFocus;
   }
 
   public get characterCount(): number {
@@ -35,7 +35,7 @@ export class SkyCharacterCounterIndicatorComponent {
   @Input()
   public set characterCount(count: number) {
     this.#_characterCount = count;
-    this.alwaysAnnounce = false;
+    this.hasFocus = false;
     this.#changeDetector.markForCheck();
   }
 

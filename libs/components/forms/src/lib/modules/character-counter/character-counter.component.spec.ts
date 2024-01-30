@@ -6,7 +6,6 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
 import { CharacterCountNoIndicatorTestComponent } from './fixtures/character-count-no-indicator.component.fixture';
@@ -23,7 +22,7 @@ describe('Character Counter component', () => {
       By.css('#first-name-input'),
     ).nativeElement;
     inputElement.focus();
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+    SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
     fixture.detectChanges();
     tick();
   }
@@ -52,6 +51,18 @@ describe('Character Counter component', () => {
     tick();
   }
 
+  function getScreenReaderText(
+    fixture: ComponentFixture<
+      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
+    >,
+  ): string | null | undefined {
+    const screenReaderElement: HTMLElement | undefined =
+      fixture.debugElement.query(
+        By.css('.sky-screen-reader-only'),
+      ).nativeElement;
+    return screenReaderElement?.textContent;
+  }
+
   beforeEach(function () {
     TestBed.configureTestingModule({
       imports: [CharacterCountTestModule],
@@ -65,8 +76,6 @@ describe('Character Counter component', () => {
     let characterCountComponent: SkyCharacterCounterIndicatorComponent;
     let characterCountLabel: HTMLLabelElement;
     let characterCountLabelLastName: HTMLLabelElement;
-    let liveAnnouncerAnnounceSpy: jasmine.Spy;
-    let liveAnnouncerClearSpy: jasmine.Spy;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(CharacterCountTestComponent);
@@ -83,10 +92,6 @@ describe('Character Counter component', () => {
       characterCountLabelLastName = nativeElement.querySelector(
         '.input-count-example-wrapper-last-name .sky-character-count-label',
       ) as HTMLLabelElement;
-
-      const liveAnnouncerSvc = TestBed.inject(SkyLiveAnnouncerService);
-      liveAnnouncerAnnounceSpy = spyOn(liveAnnouncerSvc, 'announce');
-      liveAnnouncerClearSpy = spyOn(liveAnnouncerSvc, 'clear');
     });
 
     it('should set the count with the initial length', () => {
@@ -195,17 +200,13 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(9));
-      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('');
 
       setInputValue(fixture, '1'.repeat(10));
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '10 characters out of 49',
-      );
+      expect(getScreenReaderText(fixture)).toBe('10 characters out of 49');
 
       setInputValue(fixture, '');
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '0 characters out of 49',
-      );
+      expect(getScreenReaderText(fixture)).toBe('0 characters out of 49');
     }));
 
     it('should announce to screen readers every 50 characters when not within 50 characters of the limit', fakeAsync(() => {
@@ -213,25 +214,19 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(9));
-      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('');
 
       setInputValue(fixture, '1'.repeat(10));
-      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('');
 
       setInputValue(fixture, '1'.repeat(50));
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '50 characters out of 99',
-      );
+      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
 
       setInputValue(fixture, '1'.repeat(60));
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '60 characters out of 99',
-      );
+      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
 
       setInputValue(fixture, '');
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '0 characters out of 99',
-      );
+      expect(getScreenReaderText(fixture)).toBe('0 characters out of 99');
     }));
 
     it('should announce to screen readers when reaching the limit', fakeAsync(() => {
@@ -239,17 +234,13 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(98));
-      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('');
 
       setInputValue(fixture, '1'.repeat(90));
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '90 characters out of 99',
-      );
+      expect(getScreenReaderText(fixture)).toBe('90 characters out of 99');
 
       setInputValue(fixture, '1'.repeat(99));
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '99 characters out of 99',
-      );
+      expect(getScreenReaderText(fixture)).toBe('99 characters out of 99');
     }));
 
     it('should announce to screen readers when over the limit', fakeAsync(() => {
@@ -257,12 +248,10 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(99));
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '99 characters out of 99',
-      );
+      expect(getScreenReaderText(fixture)).toBe('99 characters out of 99');
 
       setInputValue(fixture, '1'.repeat(100));
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
+      expect(getScreenReaderText(fixture)).toBe(
         'You are over the character limit.',
       );
     }));
@@ -272,13 +261,10 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(98));
-      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('');
 
       focusFirstNameInput(fixture);
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '98 characters out of 99',
-      );
-      expect(liveAnnouncerClearSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('98 characters out of 99');
     }));
 
     it('should clear the screen reader announcement when removing focus from the input so that it can be put back when refocused', fakeAsync(() => {
@@ -286,30 +272,24 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(98));
-      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('');
 
       // Baseline that focusing works
       focusFirstNameInput(fixture);
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '98 characters out of 99',
-      );
-      expect(liveAnnouncerClearSpy).not.toHaveBeenCalled();
-
-      liveAnnouncerAnnounceSpy.calls.reset();
+      expect(getScreenReaderText(fixture)).toBe('98 characters out of 99');
 
       // Clear screen reader when focus is removed (and ensure no new announcement is made)
       removeFirstNameFocus(fixture);
-      expect(liveAnnouncerAnnounceSpy).not.toHaveBeenCalled();
-      expect(liveAnnouncerClearSpy).toHaveBeenCalled();
-
-      liveAnnouncerClearSpy.calls.reset();
+      expect(getScreenReaderText(fixture)).toBe('');
 
       // Ensure a new announcement works if refocused.
+      setInputValue(fixture, '1'.repeat(60));
       focusFirstNameInput(fixture);
-      expect(liveAnnouncerAnnounceSpy).toHaveBeenCalledWith(
-        '98 characters out of 99',
-      );
-      expect(liveAnnouncerClearSpy).not.toHaveBeenCalled();
+      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
+
+      // Clear screen reader when focus is removed (and ensure no new announcement is made) when the count is a standard announcement interval
+      removeFirstNameFocus(fixture);
+      expect(getScreenReaderText(fixture)).toBe('');
     }));
 
     it('should pass accessibility', async () => {
