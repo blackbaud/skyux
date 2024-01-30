@@ -87,7 +87,7 @@
       "ag-grid-angular": "^29.3.5",
       "ag-grid-community": "^29.3.5",
       "ag-grid-enterprise": "^29.3.5",
-      "autonumeric": "^4.9.0"
+      "autonumeric": "^4.10.4"
     }
   },
   "peerDependencies": {
