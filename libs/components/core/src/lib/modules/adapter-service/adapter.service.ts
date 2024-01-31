@@ -129,20 +129,18 @@ export class SkyCoreAdapterService {
     containerSelector?: string,
     focusOnContainerIfNoChildrenFound = false,
   ): void {
-    if (!this.applyAutoFocus(elementRef)) {
-      const containerElement =
-        elementRef.nativeElement.querySelector(containerSelector);
+    const containerElement =
+      elementRef.nativeElement.querySelector(containerSelector);
 
-      if (containerElement) {
-        const focusableChildren = this.getFocusableChildren(containerElement);
+    if (containerElement) {
+      const focusableChildren = this.getFocusableChildren(containerElement);
 
-        // Focus first focusable child if available. Otherwise, set focus on container.
-        if (
-          !this.#focusFirstElement(focusableChildren) &&
-          focusOnContainerIfNoChildrenFound
-        ) {
-          containerElement.focus();
-        }
+      // Focus first focusable child if available. Otherwise, set focus on container.
+      if (
+        !this.#focusFirstElement(focusableChildren) &&
+        focusOnContainerIfNoChildrenFound
+      ) {
+        containerElement.focus();
       }
     }
   }
