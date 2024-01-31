@@ -23,7 +23,10 @@ import { delay, filter, map } from 'rxjs/operators';
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 import { InlineHelpComponent } from '../shared/inline-help/inline-help.component';
 
-interface DataSet { id: string; data: any[] }
+interface DataSet {
+  id: string;
+  data: any[];
+}
 
 @Component({
   selector: 'app-data-entry-grid',

@@ -72,9 +72,7 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
     });
   }
 
-  private getFilterModelFromInline(
-    inlineFilters: SkyListFilterInlineModel[],
-  ) {
+  private getFilterModelFromInline(inlineFilters: SkyListFilterInlineModel[]) {
     return inlineFilters.map((filter) => {
       return new ListFilterModel({
         name: filter.name,

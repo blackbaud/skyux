@@ -47,10 +47,7 @@ export class SkyModalComponentAdapterService {
     return list.length > 0 && eventTarget === list[0];
   }
 
-  public isFocusInLastItem(
-    event: KeyboardEvent,
-    list: HTMLElement[],
-  ): boolean {
+  public isFocusInLastItem(event: KeyboardEvent, list: HTMLElement[]): boolean {
     /* istanbul ignore next */
     /* sanity check */
     const eventTarget = event.target || event.srcElement;

@@ -20,11 +20,14 @@ export interface SkyuxRuntimeConfigLocalDev {
 }
 
 export class SkyuxPactConfig {
-  public providers?: Record<string, {
+  public providers?: Record<
+    string,
+    {
       host?: string;
       port?: string;
       fullUrl?: string;
-    }>;
+    }
+  >;
   public pactProxyServer?: string;
 }
 

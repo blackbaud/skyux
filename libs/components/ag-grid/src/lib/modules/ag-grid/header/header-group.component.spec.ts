@@ -21,7 +21,9 @@ import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 })
 class TestHelpComponent {}
 
-interface mockEventParam { columnGroup: ProvidedColumnGroup }
+interface mockEventParam {
+  columnGroup: ProvidedColumnGroup;
+}
 
 describe('SkyAgGridHeaderGroupComponent', () => {
   let component: SkyAgGridHeaderGroupComponent;

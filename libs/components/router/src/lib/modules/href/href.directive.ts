@@ -18,7 +18,10 @@ import { SkyHref } from './types/href';
 import { SkyHrefChange } from './types/href-change';
 import { SkyHrefQueryParams } from './types/href-query-params';
 
-interface HrefChanges { href: string; hidden: boolean }
+interface HrefChanges {
+  href: string;
+  hidden: boolean;
+}
 
 @Directive({
   selector: '[skyHref]',

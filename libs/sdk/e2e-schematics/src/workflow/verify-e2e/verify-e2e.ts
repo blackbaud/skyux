@@ -1,7 +1,13 @@
 import { Fetch, checkPercyBuild } from '../percy-api/percy-api';
 
-interface WorkflowJob { name: string; steps: WorkflowJobStep[] }
-interface WorkflowJobStep { name: string; conclusion: string }
+interface WorkflowJob {
+  name: string;
+  steps: WorkflowJobStep[];
+}
+interface WorkflowJobStep {
+  name: string;
+  conclusion: string;
+}
 interface WorkflowStepSummary {
   project: string;
   skipped: boolean;

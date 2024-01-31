@@ -5,8 +5,5 @@ import { ListToolbarItemModel } from './toolbar-item.model';
  * @deprecated
  */
 export class ListToolbarItemsLoadAction {
-  constructor(
-    public items: ListToolbarItemModel[],
-    public index = -1,
-  ) {}
+  constructor(public items: ListToolbarItemModel[], public index = -1) {}
 }

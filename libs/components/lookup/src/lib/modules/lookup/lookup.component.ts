@@ -204,8 +204,7 @@ export class SkyLookupComponent
    * Fires when users select the button to add options to the list.
    */
   @Output()
-  public addClick =
-    new EventEmitter<SkyLookupAddClickEventArgs>();
+  public addClick = new EventEmitter<SkyLookupAddClickEventArgs>();
 
   /**
    * @internal

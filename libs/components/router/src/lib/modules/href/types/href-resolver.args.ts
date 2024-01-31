@@ -1,1 +1,3 @@
-export interface SkyHrefResolverArgs { url: string }
+export interface SkyHrefResolverArgs {
+  url: string;
+}

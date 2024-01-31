@@ -76,7 +76,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {"foobar":{"message":"Hello, world!"}},
   'FR-CA': {},
 };
@@ -171,7 +171,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {"foobar":{"message":"Hello, world!"}},
 };
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { Route, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
 
 @NgModule({
   declarations: [AppComponent],
+  providers: [provideAnimationsAsync()],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),

@@ -45,7 +45,9 @@ export class SkyLibResourcesService {
   /**
    * Adds locale resources to be used by library components.
    */
-  public static addResources(localeResources: Record<string, SkyLibResources>): void {
+  public static addResources(
+    localeResources: Record<string, SkyLibResources>,
+  ): void {
     for (const [locale, resources] of Object.entries(localeResources)) {
       SkyLibResourcesService.resources[locale] ||= {};
       SkyLibResourcesService.resources[locale] = {

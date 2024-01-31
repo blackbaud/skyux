@@ -30,7 +30,10 @@ import { columnDefinitions, data } from '../shared/baseball-players-data';
 
 import { ContextMenuComponent } from './context-menu.component';
 
-interface DataSet { id: string; data: any[] }
+interface DataSet {
+  id: string;
+  data: any[];
+}
 
 @Component({
   selector: 'app-ag-grid-stories',

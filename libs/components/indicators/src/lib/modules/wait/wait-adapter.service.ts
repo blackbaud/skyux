@@ -6,12 +6,15 @@ import {
   RendererFactory2,
 } from '@angular/core';
 
-const busyElements: Record<string, {
+const busyElements: Record<
+  string,
+  {
     busyEl: HTMLElement | undefined;
     listener: () => void;
     restoreFocusElement?: HTMLElement | undefined;
     restoreFocusCheckElement?: HTMLElement | undefined;
-  }> = {};
+  }
+> = {};
 
 // Need to add the following to classes which contain static methods.
 // See: https://github.com/ng-packagr/ng-packagr/issues/641

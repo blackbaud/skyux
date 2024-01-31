@@ -57,9 +57,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   public datepicker: SkyDatepickerCalendarInnerComponent;
   public CURRENT_THEME_TEMPLATE: any;
 
-  #daysInMonth: number[] = [
-    31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
-  ];
+  #daysInMonth: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   #initialDate: number | undefined;
   #ngUnsubscribe = new Subject<void>();
 
@@ -282,9 +280,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  #getDateRange(
-    rows: SkyDatepickerDate[][],
-  ): SkyDateRange | undefined {
+  #getDateRange(rows: SkyDatepickerDate[][]): SkyDateRange | undefined {
     /* istanbul ignore else */
     if (rows && rows.length > 0) {
       return {

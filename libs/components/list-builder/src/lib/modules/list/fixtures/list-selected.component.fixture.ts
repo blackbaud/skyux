@@ -17,10 +17,7 @@ export class ListSelectedTestComponent {
 
   public selectedItems: Map<string, boolean>;
 
-  public selectedIds: string[] | BehaviorSubject<string[]> = [
-    '1',
-    '2',
-  ];
+  public selectedIds: string[] | BehaviorSubject<string[]> = ['1', '2'];
 
   constructor(@Inject('items') public items: any) {}
 

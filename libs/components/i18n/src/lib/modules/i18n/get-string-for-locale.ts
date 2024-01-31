@@ -14,8 +14,7 @@ export function getStringForLocale(
     return resources[parsedLocale];
   }
 
-  let values: Record<string, string> =
-    getResourcesForLocale(preferredLocale);
+  let values: Record<string, string> = getResourcesForLocale(preferredLocale);
 
   if (values && values[name]) {
     return values[name];

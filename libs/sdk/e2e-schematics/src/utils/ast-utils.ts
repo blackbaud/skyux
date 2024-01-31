@@ -471,7 +471,9 @@ export function getInsertStringPropertyTransformer(
 /**
  * Create a transformer to update the value of string literals in a typescript source file.
  */
-export function getStringLiteralsSetterTransformer(strings: Record<string, string>): ts.TransformerFactory<ts.SourceFile> {
+export function getStringLiteralsSetterTransformer(
+  strings: Record<string, string>,
+): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
       const visitor: (node: ts.Node) => ts.Node | ts.Identifier = (
@@ -501,7 +503,9 @@ export function getStringLiteralsSetterTransformer(strings: Record<string, strin
 /**
  * Create a transformer to rename variables in a typescript source file.
  */
-export function getRenameVariablesTransformer(renameMap: Record<string, string>): ts.TransformerFactory<ts.SourceFile> {
+export function getRenameVariablesTransformer(
+  renameMap: Record<string, string>,
+): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
       const visitor: (node: ts.Node) => ts.Node | ts.Identifier = (

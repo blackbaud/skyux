@@ -8,7 +8,11 @@ import { scan } from 'rxjs/operators';
 export class StateOrchestrator<TStateNode, TAction> {
   private registeredActions: any[] = [];
 
-  private registeredCallbacks: ((state: TStateNode, action: TAction, initialState?: any) => any)[] = [];
+  private registeredCallbacks: ((
+    state: TStateNode,
+    action: TAction,
+    initialState?: any,
+  ) => any)[] = [];
 
   public register(
     action: any,
