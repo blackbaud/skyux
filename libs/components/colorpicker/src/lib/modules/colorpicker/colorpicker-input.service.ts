@@ -8,4 +8,5 @@ import { ReplaySubject } from 'rxjs';
 @Injectable()
 export class SkyColorpickerInputService {
   public inputId = new ReplaySubject<string>(1);
+  public labelText = new ReplaySubject<string | undefined>(1);
 }

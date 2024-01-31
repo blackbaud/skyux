@@ -10,7 +10,6 @@
       <input
         formControlName="favoriteColor"
         type="text"
-        [id]="inputId"
         [presetColors]="swatches"
         [skyColorpickerInput]="colorPicker"
       />
@@ -18,7 +17,4 @@
   </div>
 
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
-  <button class="sky-btn sky-btn-default" type="button" (click)="setId()">
-    Change input ID
-  </button>
 </form>

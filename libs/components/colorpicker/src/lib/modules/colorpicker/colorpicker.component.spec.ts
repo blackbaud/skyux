@@ -400,23 +400,15 @@ describe('Colorpicker Component', () => {
 
       expect(label).toBeVisible();
       expect(label.textContent).toBe(labelText);
-      expect(label.getAttribute('for')).toBe(component.id);
     });
 
-    it('should update the labelText for attribute if the input ID changes', () => {
-      const labelText = 'Label Text';
-      const newId = 'different-id';
-      component.labelText = labelText;
+    it('should allow setting ID if labelText is not set', () => {
+      const id = 'test-id';
+      component.id = id;
 
       fixture.detectChanges();
 
-      const label = fixture.nativeElement.querySelector('.sky-control-label');
-      expect(label.getAttribute('for')).toBe(component.id);
-
-      component.id = newId;
-      fixture.detectChanges();
-
-      expect(label.getAttribute('for')).toBe(component.id);
+      expect(fixture.nativeElement.querySelector(`#${id}`)).toExist();
     });
 
     it('should add icon overlay', fakeAsync(() => {

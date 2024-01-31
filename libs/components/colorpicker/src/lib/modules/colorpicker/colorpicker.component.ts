@@ -19,6 +19,7 @@ import {
   SkyAffixService,
   SkyAffixer,
   SkyCoreAdapterService,
+  SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
@@ -93,7 +94,14 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
    * Specifying `labelText` also enables automatic error message handling for standard colorpicker errors.
    */
   @Input()
-  public labelText: string | undefined;
+  public set labelText(value: string | undefined) {
+    this.#_labelText = value;
+    this.#colorpickerInputSvc.labelText.next(value);
+  }
+
+  public get labelText(): string | undefined {
+    return this.#_labelText;
+  }
 
   /**
    * Fires when users select a color in the colorpicker.
@@ -306,16 +314,18 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #affixSvc: SkyAffixService;
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
-  readonly #environmentInjector = inject(EnvironmentInjector);
   #overlaySvc: SkyOverlayService;
   #svc: SkyColorpickerService;
   #themeSvc: SkyThemeService | undefined;
 
+  readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
+  readonly #idSvc = inject(SkyIdService);
 
   #_backgroundColorForDisplay: string | undefined;
   #_colorpickerRef: ElementRef | undefined;
   #_disabled = false;
+  #_labelText: string | undefined;
 
   constructor(
     affixSvc: SkyAffixService,
@@ -335,6 +345,8 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     componentIdIndex++;
 
     this.#idIndex = componentIdIndex;
+    this.inputId = this.#idSvc.generateId();
+    this.#colorpickerInputSvc.inputId.next(this.inputId);
     this.skyColorpickerRedId = `sky-colorpicker-red-${this.#idIndex}`;
     this.skyColorpickerHexId = `sky-colorpicker-hex--${this.#idIndex}`;
     this.skyColorpickerRedId = `sky-colorpicker-red--${this.#idIndex}`;
@@ -375,13 +387,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyColorpickerMessage) => {
         this.#handleIncomingMessages(message);
-      });
-
-    this.#colorpickerInputSvc.inputId
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((id) => {
-        this.inputId = id;
-        this.#changeDetector.markForCheck();
       });
 
     this.#addTriggerButtonEventListeners();

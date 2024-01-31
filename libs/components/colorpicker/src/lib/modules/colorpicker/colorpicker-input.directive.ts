@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   Directive,
   ElementRef,
   HostBinding,
@@ -21,10 +20,9 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerComponent } from './colorpicker.component';
@@ -53,13 +51,7 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
   providers: [SKY_COLORPICKER_VALUE_ACCESSOR, SKY_COLORPICKER_VALIDATOR],
 })
 export class SkyColorpickerInputDirective
-  implements
-    OnInit,
-    OnChanges,
-    ControlValueAccessor,
-    Validator,
-    OnDestroy,
-    AfterContentChecked
+  implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy
 {
   /**
    * Creates the colorpicker element and dropdown. Place this attribute on an `input` element
@@ -89,6 +81,13 @@ export class SkyColorpickerInputDirective
 
   public get initialColor(): string {
     return this.#_initialColor || SKY_COLORPICKER_DEFAULT_COLOR;
+  }
+
+  @Input()
+  public set id(value: string | undefined) {
+    if (!this.#labelText && value) {
+      this.#setInputId(value);
+    }
   }
 
   /**
@@ -142,19 +141,19 @@ export class SkyColorpickerInputDirective
   }
 
   #modelValue: SkyColorpickerOutput | undefined;
-  #pickerChangedSubscription: Subscription | undefined;
   #elementRef: ElementRef;
   #renderer: Renderer2;
   #svc: SkyColorpickerService;
   #resourcesSvc: SkyLibResourcesService;
   #injector: Injector;
-  #id: string | undefined;
+  #inputIdSubscription: Subscription | undefined;
+  #labelText: string | undefined;
 
   #_disabled: boolean | undefined;
   #_initialColor: string | undefined;
 
   readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
-  readonly #idSvc = inject(SkyIdService);
+  readonly #ngUnsubscribe = new Subject<void>();
 
   constructor(
     elementRef: ElementRef,
@@ -187,31 +186,37 @@ export class SkyColorpickerInputDirective
 
   public ngOnInit(): void {
     const element = this.#elementRef.nativeElement;
-    this.#id = element.id;
-
-    if (!this.#id) {
-      this.#id = this.#idSvc.generateId();
-      this.#renderer.setAttribute(element, 'id', this.#id);
-    }
-
-    this.#colorpickerInputSvc.inputId.next(this.#id);
 
     this.#renderer.addClass(element, 'sky-form-control');
     this.skyColorpickerInput.initialColor = this.initialColor;
     this.skyColorpickerInput.returnFormat = this.returnFormat;
 
-    this.#pickerChangedSubscription =
-      this.skyColorpickerInput.selectedColorChanged.subscribe(
-        (newColor: SkyColorpickerOutput) => {
-          /* istanbul ignore else */
-          if (newColor) {
-            this.#modelValue = this.#formatter(newColor);
+    this.skyColorpickerInput.selectedColorChanged
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((newColor: SkyColorpickerOutput) => {
+        /* istanbul ignore else */
+        if (newColor) {
+          this.#modelValue = this.#formatter(newColor);
 
-            // Write the new value to the reactive form control, which will update the template model
-            this.writeValue(newColor);
-          }
-        },
-      );
+          // Write the new value to the reactive form control, which will update the template model
+          this.writeValue(newColor);
+        }
+      });
+
+    this.#colorpickerInputSvc.labelText
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((labelText) => {
+        this.#labelText = labelText;
+        this.#inputIdSubscription?.unsubscribe();
+
+        if (labelText) {
+          this.#inputIdSubscription = this.#colorpickerInputSvc.inputId
+            .pipe(takeUntil(this.#ngUnsubscribe))
+            .subscribe((inputId) => {
+              this.#setInputId(inputId);
+            });
+        }
+      });
 
     this.skyColorpickerInput.updatePickerValues(this.initialColor);
 
@@ -238,19 +243,9 @@ export class SkyColorpickerInputDirective
     }
   }
 
-  public ngAfterContentChecked(): void {
-    const id = this.#elementRef.nativeElement?.id;
-
-    if (id && id !== this.#id) {
-      this.#colorpickerInputSvc.inputId.next(id);
-      this.#id = id;
-    }
-  }
-
   public ngOnDestroy(): void {
-    if (this.#pickerChangedSubscription) {
-      this.#pickerChangedSubscription.unsubscribe();
-    }
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public setColorPickerDefaults(): void {
@@ -371,5 +366,9 @@ export class SkyColorpickerInputDirective
   #getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
     return this.#resourcesSvc.getStringForLocale({ locale: 'en-US' }, key);
+  }
+
+  #setInputId(id: string): void {
+    this.#renderer.setAttribute(this.#elementRef.nativeElement, 'id', id);
   }
 }

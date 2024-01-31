@@ -22,8 +22,6 @@ export class ColorpickerComponent {
     '#DA9C9C',
   ];
 
-  public inputId = 'blah';
-
   constructor(formBuilder: UntypedFormBuilder) {
     this.reactiveForm = formBuilder.group({
       favoriteColor: new UntypedFormControl('#f00'),
@@ -39,9 +37,5 @@ export class ColorpickerComponent {
     const controlValue = this.reactiveForm.get('favoriteColor')?.value;
     const favoriteColor: string = controlValue.hex || controlValue;
     alert('Your favorite color is: \n' + favoriteColor);
-  }
-
-  public setId(): void {
-    this.inputId = 'someId';
   }
 }
