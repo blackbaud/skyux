@@ -255,9 +255,9 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   #getFontName(fontName: string): string | undefined {
-    for (let i = 0; i < this.fontList.length; i++) {
-      if (fontName.replace(/['"]+/g, '') === this.fontList[i].name) {
-        return this.fontList[i].name;
+    for (const skyTextEditorFont of this.fontList) {
+      if (fontName.replace(/['"]+/g, '') === skyTextEditorFont.name) {
+        return skyTextEditorFont.name;
       }
     }
 

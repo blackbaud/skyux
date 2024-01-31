@@ -3,5 +3,5 @@
  * @deprecated
  */
 export class ListItemsSetLoadingAction {
-  constructor(public loading: boolean = true) {}
+  constructor(public loading = true) {}
 }

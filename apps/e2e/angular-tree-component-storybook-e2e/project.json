@@ -25,11 +25,8 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/e2e/angular-tree-component-storybook-e2e/**/*.{js,ts}"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
   },

@@ -17,7 +17,7 @@ import { SkyAppLocaleInfo } from './locale-info';
 import { SkyAppLocaleProvider } from './locale-provider';
 import { SkyAppResourceNameProvider } from './resource-name-provider';
 
-declare type SkyResourceType = { [key: string]: { message: string } };
+type SkyResourceType = Record<string, { message: string }>;
 type ResourceKey = string;
 type TemplatedResource = [ResourceKey, ...any[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
@@ -35,8 +35,8 @@ function getDefaultObs(): Observable<SkyResourceType> {
   providedIn: 'root',
 })
 export class SkyAppResourcesService {
-  #resourcesObsCache: { [key: string]: Observable<SkyResourceType> } = {};
-  #httpObsCache: { [key: string]: Observable<SkyResourceType> } = {};
+  #resourcesObsCache: Record<string, Observable<SkyResourceType>> = {};
+  #httpObsCache: Record<string, Observable<SkyResourceType>> = {};
 
   #http: HttpClient;
   #assets: SkyAppAssetsService | undefined;

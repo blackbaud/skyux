@@ -1,5 +1,3 @@
-export interface SkyLibResources {
-  [name: string]: {
+export type SkyLibResources = Record<string, {
     message: string;
-  };
-}
+  }>;

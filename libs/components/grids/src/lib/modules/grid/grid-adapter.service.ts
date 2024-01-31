@@ -27,7 +27,7 @@ export class SkyGridAdapterService {
   public initializeDragAndDrop(
     dragulaGroupName: string,
     dragulaService: DragulaService,
-    dropCallback: (newColumnIds: Array<string>) => void,
+    dropCallback: (newColumnIds: string[]) => void,
   ) {
     dragulaService
       .drag(dragulaGroupName)
@@ -41,11 +41,12 @@ export class SkyGridAdapterService {
 
     dragulaService.drop(dragulaGroupName).subscribe((args) => {
       const columnIds: string[] = [];
-      const nodes = args.target.querySelectorAll(
-        `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`,
+      const nodes = Array.from(
+        args.target.querySelectorAll(
+          `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`,
+        ),
       );
-      for (let i = 0; i < nodes.length; i++) {
-        const el = nodes[i];
+      for (const el of nodes) {
         const id = el.getAttribute('sky-cmp-id');
         columnIds.push(id);
       }

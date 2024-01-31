@@ -21,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class SkyDateService implements OnDestroy {
   /* spell-checker:disable */
-  #ALIASES: { [key: string]: string } = {
+  #ALIASES: Record<string, string> = {
     medium: 'yMMMdjms',
     short: 'yMdjm',
     fullDate: 'yMMMMEEEEd',

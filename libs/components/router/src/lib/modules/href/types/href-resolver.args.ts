@@ -1,1 +1,1 @@
-export type SkyHrefResolverArgs = { url: string };
+export interface SkyHrefResolverArgs { url: string }

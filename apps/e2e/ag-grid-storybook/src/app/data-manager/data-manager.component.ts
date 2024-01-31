@@ -20,10 +20,10 @@ import { filter, first, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 
-type GridSettingsType = {
+interface GridSettingsType {
   enableTopScroll: FormControl<boolean>;
   domLayout: FormControl<'normal' | 'autoHeight' | 'print'>;
-};
+}
 
 @Component({
   selector: 'app-data-manager',

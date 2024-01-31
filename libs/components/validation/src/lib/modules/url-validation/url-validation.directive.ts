@@ -10,7 +10,6 @@ import { SkyValidation } from '../validation/validation';
 
 import { SkyUrlValidationOptions } from './url-validation-options';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_URL_VALIDATION_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyUrlValidationDirective),

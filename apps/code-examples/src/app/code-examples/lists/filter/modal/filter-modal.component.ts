@@ -64,13 +64,13 @@ export class FilterModalComponent {
   }
 
   #setFormFilters(appliedFilters: Filter[]): void {
-    for (let i = 0; i < appliedFilters.length; i++) {
-      if (appliedFilters[i].name === 'fruitType') {
-        this.fruitType = `${appliedFilters[i].value}`;
+    for (const appliedFilter of appliedFilters) {
+      if (appliedFilter.name === 'fruitType') {
+        this.fruitType = `${appliedFilter.value}`;
       }
 
-      if (appliedFilters[i].name === 'hideOrange') {
-        this.hideOrange = !!appliedFilters[i].value;
+      if (appliedFilter.name === 'hideOrange') {
+        this.hideOrange = !!appliedFilter.value;
       }
     }
   }

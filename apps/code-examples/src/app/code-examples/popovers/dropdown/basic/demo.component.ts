@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-type DropdownItem = {
+interface DropdownItem {
   name: string;
   disabled: boolean;
-};
+}
 
 @Component({
   standalone: true,

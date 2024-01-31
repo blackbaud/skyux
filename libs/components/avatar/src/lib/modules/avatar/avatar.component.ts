@@ -131,7 +131,7 @@ export class SkyAvatarComponent {
     }
   }
 
-  #handleError(rejectedFiles: Array<SkyFileItem>): void {
+  #handleError(rejectedFiles: SkyFileItem[]): void {
     const rejectedFile = rejectedFiles[0];
 
     if (rejectedFile.errorType === 'maxFileSize') {

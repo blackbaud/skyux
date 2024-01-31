@@ -28,6 +28,13 @@
       }
     },
     {
+      "files": ["*.cy.ts"],
+      "extends": ["plugin:cypress/recommended"],
+      "rules": {
+        "cypress/unsafe-to-chain-command": "warn"
+      }
+    },
+    {
       "files": ["routes.ts"],
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off"

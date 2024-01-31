@@ -1,7 +1,5 @@
 export interface SkyA11yAnalyzerConfig {
-  rules: {
-    [key: string]: {
+  rules: Record<string, {
       enabled: boolean;
-    };
-  };
+    }>;
 }

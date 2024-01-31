@@ -13,11 +13,11 @@ import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 import { ContactContextMenuComponent } from './contact-context-menu.component';
 
-type Contact = {
+interface Contact {
   name: string;
   organization: string;
   emailAddress: string;
-};
+}
 
 @Component({
   standalone: true,

@@ -298,8 +298,8 @@ describe('Action button component modern theme', () => {
     fixture.detectChanges();
     tick();
     const buttons = getActionButtons(fixture);
-    for (let i = 0; i < buttons.length; i++) {
-      expect(buttons[i].style.height).toEqual('500px');
+    for (const button of Array.from(buttons)) {
+      expect(button.style.height).toEqual('500px');
     }
   }));
 
@@ -326,8 +326,8 @@ describe('Action button component modern theme', () => {
     tick();
     const buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBeGreaterThan(0);
-    for (let i = 0; i < buttons.length; i++) {
-      expect(buttons[i].style.height).toEqual('500px');
+    for (const button of Array.from(buttons)) {
+      expect(button.style.height).toEqual('500px');
     }
   }));
 
@@ -345,8 +345,8 @@ describe('Action button component modern theme', () => {
     tick();
     buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBeGreaterThan(0);
-    for (let i = 0; i < buttons.length; i++) {
-      expect(buttons[i].style.height).toEqual('500px');
+    for (const button of Array.from(buttons)) {
+      expect(button.style.height).toEqual('500px');
     }
   }));
 

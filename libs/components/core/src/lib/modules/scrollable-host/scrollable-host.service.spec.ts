@@ -178,7 +178,7 @@ describe('Scrollable host service', () => {
   it('should only setup the mutation observer once for multiple observations of the scrollable host', (done) => {
     let observable1Count = 0;
     let observable2Count = 0;
-    const testUnsubscribe: Subject<void> = new Subject();
+    const testUnsubscribe = new Subject<void>();
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
@@ -437,7 +437,7 @@ describe('Scrollable host service', () => {
   it('should only setup the scrollable host observer once for multiple observations of the scroll events', (done) => {
     let observable1Count = 0;
     let observable2Count = 0;
-    const testUnsubscribe: Subject<void> = new Subject();
+    const testUnsubscribe = new Subject<void>();
 
     const scrollObservable = cmp.watchScrollableHostScrollEvents();
 

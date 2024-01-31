@@ -309,11 +309,9 @@ export class SkyFileAttachmentComponent
 
     if (transfer) {
       if (transfer.items) {
-        const files = transfer.items;
+        const files = Array.from(transfer.items);
 
-        for (let index = 0; index < files.length; index++) {
-          const file: any = files[index];
-
+        for (const file of files) {
           if (
             file.type &&
             this.#fileAttachmentService.fileTypeRejected(

@@ -17,7 +17,7 @@ export class ListSelectedTestComponent {
 
   public selectedItems: Map<string, boolean>;
 
-  public selectedIds: Array<string> | BehaviorSubject<Array<string>> = [
+  public selectedIds: string[] | BehaviorSubject<string[]> = [
     '1',
     '2',
   ];

@@ -9,7 +9,7 @@ import { ListState } from './state/list-state.state-node';
  * @deprecated
  */
 export abstract class ListPagingComponent {
-  protected initialized: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  protected initialized = new BehaviorSubject<boolean>(false);
   protected state: ListState;
   protected dispatcher: ListStateDispatcher;
 

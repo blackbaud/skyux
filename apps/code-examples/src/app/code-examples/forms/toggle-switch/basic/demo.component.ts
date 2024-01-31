@@ -8,10 +8,10 @@ import {
 } from '@angular/forms';
 import { SkyToggleSwitchModule } from '@skyux/forms';
 
-type ToggleSwitchFormType = {
+interface ToggleSwitchFormType {
   controlToggle: FormControl<boolean | null>;
   dynamicToggle: FormControl<boolean | null>;
-};
+}
 
 @Component({
   standalone: true,

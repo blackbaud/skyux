@@ -82,10 +82,11 @@ export class SkyCoreAdapterService {
    * @param enable - Set to `true` to enable pointer events. Set to `false` to disable.
    */
   public toggleIframePointerEvents(enable: boolean): void {
-    const iframes = document.querySelectorAll('iframe');
-    for (let i = 0; i < iframes.length; i++) {
-      // Setting to empty string will allow iframe to fall back to its prior CSS assignment.
-      iframes[i].style.pointerEvents = enable ? '' : 'none';
+    const iframes = Array.from<HTMLElement>(
+      document.querySelectorAll('iframe'),
+    );
+    for (const iframe of iframes) {
+      this.#renderer.setStyle(iframe, 'pointer-events', enable ? '' : 'none');
     }
   }
 
@@ -228,12 +229,8 @@ export class SkyCoreAdapterService {
    */
   public resetHeight(elementRef: ElementRef, selector: string): void {
     const children = elementRef.nativeElement.querySelectorAll(selector);
-    /* istanbul ignore else */
-    if (children.length > 0) {
-      for (let i = 0; i < children.length; i++) {
-        // Setting style attributes with Web API requires null instead of undefined.
-        children[i].style.height = null;
-      }
+    for (const child of children) {
+      this.#renderer.removeStyle(child, 'height');
     }
   }
 
@@ -243,20 +240,22 @@ export class SkyCoreAdapterService {
    * @param selector - The CSS selector to use when finding elements for syncing height.
    */
   public syncMaxHeight(elementRef: ElementRef, selector: string): void {
-    const children = elementRef.nativeElement.querySelectorAll(selector);
+    const children = Array.from<HTMLElement>(
+      elementRef.nativeElement.querySelectorAll(selector),
+    );
     /* istanbul ignore else */
     if (children.length > 0) {
       let maxHeight = 0;
-      for (let i = 0; i < children.length; i++) {
-        maxHeight = Math.max(maxHeight, children[i].offsetHeight);
+      for (const child of children) {
+        maxHeight = Math.max(maxHeight, child.offsetHeight);
       }
-      for (let i = 0; i < children.length; i++) {
-        children[i].style.height = maxHeight + 'px';
+      for (const child of children) {
+        this.#renderer.setStyle(child, 'height', `${maxHeight}px`);
       }
     }
   }
 
-  #focusFirstElement(list: Array<HTMLElement>): boolean {
+  #focusFirstElement(list: HTMLElement[]): boolean {
     if (list.length > 0) {
       list[0].focus();
       return true;

@@ -18,7 +18,7 @@ export class SkyBackToTopFixtureComponent {
 
   public scrollableParent = false;
 
-  public backToTopController: Subject<SkyBackToTopMessage> = new Subject();
+  public backToTopController = new Subject<SkyBackToTopMessage>();
 
   public backToTopOptions: SkyBackToTopOptions | undefined = {
     buttonHidden: false,

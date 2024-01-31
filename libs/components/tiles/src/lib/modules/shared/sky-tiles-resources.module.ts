@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_tile_expand: { message: 'Expand or collapse {0}' },
     skyux_tile_expand_default: { message: 'Expand or collapse' },

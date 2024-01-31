@@ -1,9 +1,7 @@
-export const iconMap: {
-  [key: string]: {
+export const iconMap: Record<string, {
     faIcon: string;
     skyIcon?: string;
-  };
-} = {
+  }> = {
   sortDescending: {
     faIcon: 'caret-down',
     skyIcon: 'chevron-down',

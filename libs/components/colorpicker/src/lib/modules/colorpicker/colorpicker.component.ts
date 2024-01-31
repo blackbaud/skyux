@@ -340,7 +340,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   public setDialog(
     color: string | undefined,
     outputFormat: string,
-    presetColors: Array<string>,
+    presetColors: string[],
     alphaChannel: string,
     allowTransparency: boolean,
   ): void {

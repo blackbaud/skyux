@@ -25,7 +25,7 @@ import { SkyListFilterInlineModel } from './list-filter-inline.model';
   templateUrl: './list-filter-inline.component.html',
 })
 export class SkyListFilterInlineComponent implements AfterContentInit {
-  public inlineFilters: Array<SkyListFilterInlineModel> = [];
+  public inlineFilters: SkyListFilterInlineModel[] = [];
 
   @ContentChildren(SkyListFilterInlineItemComponent)
   private filters: QueryList<SkyListFilterInlineItemComponent>;
@@ -73,7 +73,7 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
   }
 
   private getFilterModelFromInline(
-    inlineFilters: Array<SkyListFilterInlineModel>,
+    inlineFilters: SkyListFilterInlineModel[],
   ) {
     return inlineFilters.map((filter) => {
       return new ListFilterModel({

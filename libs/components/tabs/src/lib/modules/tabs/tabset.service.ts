@@ -125,9 +125,7 @@ export class SkyTabsetService implements OnDestroy {
   }
 
   public focusFirstOrNearestTabBtn(tabButtons: TabButtonViewModel[]): void {
-    for (let i = 0; i < tabButtons.length; i++) {
-      const tabBtn = tabButtons[i];
-
+    for (const tabBtn of tabButtons) {
       if (!tabBtn.disabled && tabBtn.tabIndex !== undefined) {
         this.setFocusedTabBtnIndex(tabBtn.tabIndex);
         return;

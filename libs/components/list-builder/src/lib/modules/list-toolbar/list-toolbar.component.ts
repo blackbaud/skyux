@@ -144,7 +144,7 @@ export class SkyListToolbarComponent
     return this.isFilterBarDisplayed ? this.listFilterInlineId : undefined;
   }
 
-  public sortSelectors: Observable<Array<any>>;
+  public sortSelectors: Observable<any[]>;
   public searchTextInput: Observable<string>;
   public view: Observable<string>;
   public leftTemplates: ListToolbarItemModel[];
@@ -155,7 +155,7 @@ export class SkyListToolbarComponent
   public isToolbarDisabled = false;
   public isMultiselectEnabled: Observable<boolean>;
   public isSortSelectorEnabled: Observable<boolean>;
-  public appliedFilters: Observable<Array<ListFilterModel>>;
+  public appliedFilters: Observable<ListFilterModel[]>;
   public hasAppliedFilters: Observable<boolean>;
   public showFilterSummary: boolean;
   public hasInlineFilters: boolean;
@@ -488,9 +488,9 @@ export class SkyListToolbarComponent
         distinctUntilChanged(),
       ),
       (
-        available: Array<ListSortLabelModel>,
-        global: Array<ListSortLabelModel>,
-        fieldSelectors: Array<ListSortFieldSelectorModel>,
+        available: ListSortLabelModel[],
+        global: ListSortLabelModel[],
+        fieldSelectors: ListSortFieldSelectorModel[],
       ) => {
         // Get sorts that are in the global that are not in the available
         const sorts = global.filter(

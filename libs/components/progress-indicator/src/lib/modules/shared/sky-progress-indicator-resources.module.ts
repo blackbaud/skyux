@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_progress_indicator_navigator_finish: { message: 'Finish' },
     skyux_progress_indicator_navigator_next: { message: 'Next' },

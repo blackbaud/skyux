@@ -372,9 +372,7 @@ describe('Grid Component', () => {
       useAllHeaders = false,
       hiddenCol = false,
     ) {
-      for (let i = 0; i < component.data.length; i++) {
-        const row = component.data[i];
-
+      for (const row of component.data) {
         expect(
           getCell(row.id, 'column1', element).nativeElement.textContent.trim(),
         ).toBe(row.column1);
@@ -563,8 +561,8 @@ describe('Grid Component', () => {
         );
 
         expect(searchFunctions.length).toBe(5);
-        for (let i = 0; i < searchFunctions.length; i++) {
-          const result = searchFunctions[i]('Something', 'something');
+        for (const searchFunction of searchFunctions) {
+          const result = searchFunction('Something', 'something');
           expect(result).toBe(true);
         }
 
@@ -574,8 +572,8 @@ describe('Grid Component', () => {
         component.searchText = '';
         component.searchedData = '';
 
-        for (let i = 0; i < searchFunctions.length; i++) {
-          const result = searchFunctions[i]('blah', 'something');
+        for (const searchFunction of searchFunctions) {
+          const result = searchFunction('blah', 'something');
           if (component.searchText !== '') {
             expect(result).toBe(true);
           } else {
@@ -585,8 +583,8 @@ describe('Grid Component', () => {
           component.searchedData = '';
         }
 
-        for (let i = 0; i < searchFunctions.length; i++) {
-          const result = searchFunctions[i](undefined, 'something');
+        for (const searchFunction of searchFunctions) {
+          const result = searchFunction(undefined, 'something');
           if (component.searchText !== '') {
             expect(result).toBe(true);
           } else {
@@ -2740,9 +2738,7 @@ describe('Grid Component', () => {
     }
 
     function verifyData(hideColumn = false, thirdColumn = false): void {
-      for (let i = 0; i < component.data.length; i++) {
-        const row = component.data[i];
-
+      for (const row of component.data) {
         expect(
           getCell(row.id, 'column1', element).nativeElement.textContent.trim(),
         ).toBe(row.column1);

@@ -23,19 +23,19 @@ export class SkyVerticalTabsetService {
 
   public hidingTabs = new BehaviorSubject(false);
 
-  public indexChanged: ReplaySubject<number | undefined> = new ReplaySubject(1);
+  public indexChanged = new ReplaySubject<number | undefined>(1);
 
   public maintainTabContent: boolean | undefined = false;
 
   public showingTabs = new BehaviorSubject(false);
 
-  public switchingMobile: Subject<boolean> = new Subject();
+  public switchingMobile = new Subject<boolean>();
 
-  public tabs: Array<SkyVerticalTabComponent> = [];
+  public tabs: SkyVerticalTabComponent[] = [];
 
-  public tabAdded: Subject<SkyVerticalTabComponent> = new Subject();
+  public tabAdded = new Subject<SkyVerticalTabComponent>();
 
-  public tabClicked: ReplaySubject<boolean> = new ReplaySubject(1);
+  public tabClicked = new ReplaySubject<boolean>(1);
 
   #contentAdded = false;
 

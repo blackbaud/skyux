@@ -7,9 +7,7 @@ import { Observable, Subject, SubscriptionLike } from 'rxjs';
 /**
  * @internal
  */
-interface PermalinkParams {
-  [_: string]: string;
-}
+type PermalinkParams = Record<string, string>;
 
 /**
  * @internal

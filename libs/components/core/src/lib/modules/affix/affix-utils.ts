@@ -16,7 +16,7 @@ export function getNextPlacement(
 export function getInversePlacement(
   placement: SkyAffixPlacement,
 ): SkyAffixPlacement {
-  const pairings: { [_: string]: SkyAffixPlacement } = {
+  const pairings: Record<string, SkyAffixPlacement> = {
     above: 'below',
     below: 'above',
     right: 'left',

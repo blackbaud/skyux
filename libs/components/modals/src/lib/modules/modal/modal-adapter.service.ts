@@ -61,8 +61,7 @@ export class SkyModalAdapterService {
     const hostElement = hostElRef.nativeElement;
     const hostSiblings = hostElement.parentElement.children;
 
-    for (let i = 0; i < hostSiblings.length; i++) {
-      const element = hostSiblings[i];
+    for (const element of hostSiblings) {
       if (
         element !== hostElement &&
         !element.hasAttribute('aria-live') &&

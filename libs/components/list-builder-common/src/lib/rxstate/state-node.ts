@@ -8,7 +8,7 @@ import { StateDispatcher } from './state-dispatcher';
  * @deprecated
  */
 export class StateNode<T> extends BehaviorSubject<T> {
-  private stateMap: { [stateKey: string]: any } = {};
+  private stateMap: Record<string, any> = {};
 
   constructor(
     private initialState: T,
@@ -28,7 +28,7 @@ export class StateNode<T> extends BehaviorSubject<T> {
 
   public begin() {
     const stateKeys: string[] = Object.keys(this.stateMap);
-    const init: { [stateKey: string]: any } = this.initialState;
+    const init: Record<string, any> = this.initialState;
 
     const orchestrators = stateKeys.map((key) =>
       new this.stateMap[key]().scan(init[key], this.dispatcher),

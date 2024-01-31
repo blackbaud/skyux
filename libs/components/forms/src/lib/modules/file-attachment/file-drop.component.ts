@@ -184,11 +184,9 @@ export class SkyFileDropComponent implements OnDestroy {
 
     if (transfer) {
       if (transfer.items) {
-        const files = transfer.items;
+        const files = Array.from(transfer.items);
 
-        for (let index = 0; index < files.length; index++) {
-          const file: any = files[index];
-
+        for (const file of files) {
           if (
             file.type &&
             this.#fileAttachmentService.fileTypeRejected(
@@ -277,8 +275,8 @@ export class SkyFileDropComponent implements OnDestroy {
 
   #emitFileChangeEvent(
     totalFiles: number,
-    rejectedFileArray: Array<SkyFileItem>,
-    validFileArray: Array<SkyFileItem>,
+    rejectedFileArray: SkyFileItem[],
+    validFileArray: SkyFileItem[],
   ): void {
     if (totalFiles === rejectedFileArray.length + validFileArray.length) {
       this.filesChanged.emit({
@@ -294,8 +292,8 @@ export class SkyFileDropComponent implements OnDestroy {
 
   #filesRejected(
     file: SkyFileItem,
-    validFileArray: Array<SkyFileItem>,
-    rejectedFileArray: Array<SkyFileItem>,
+    validFileArray: SkyFileItem[],
+    rejectedFileArray: SkyFileItem[],
     totalFiles: number,
   ): void {
     rejectedFileArray.push(file);
@@ -305,8 +303,8 @@ export class SkyFileDropComponent implements OnDestroy {
   #loadFile(
     fileDrop: SkyFileDropComponent,
     file: SkyFileItem,
-    validFileArray: Array<SkyFileItem>,
-    rejectedFileArray: Array<SkyFileItem>,
+    validFileArray: SkyFileItem[],
+    rejectedFileArray: SkyFileItem[],
     totalFiles: number,
   ): void {
     const reader = new FileReader();
@@ -348,8 +346,8 @@ export class SkyFileDropComponent implements OnDestroy {
 
   #handleFiles(files?: FileList | null): void {
     if (files) {
-      const validFileArray: Array<SkyFileItem> = [];
-      const rejectedFileArray: Array<SkyFileItem> = [];
+      const validFileArray: SkyFileItem[] = [];
+      const rejectedFileArray: SkyFileItem[] = [];
       const totalFiles = files.length;
 
       const processedFiles = this.#fileAttachmentService.checkFiles(

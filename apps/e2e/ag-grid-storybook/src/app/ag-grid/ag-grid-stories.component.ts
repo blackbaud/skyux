@@ -30,7 +30,7 @@ import { columnDefinitions, data } from '../shared/baseball-players-data';
 
 import { ContextMenuComponent } from './context-menu.component';
 
-type DataSet = { id: string; data: any[] };
+interface DataSet { id: string; data: any[] }
 
 @Component({
   selector: 'app-ag-grid-stories',
@@ -55,7 +55,7 @@ export class AgGridStoriesComponent
       data: data.slice(60, 63),
     },
   ];
-  public gridOptions: { [_: string]: GridOptions } = {};
+  public gridOptions: Record<string, GridOptions> = {};
   public isActive$ = new BehaviorSubject(true);
   public addPreviewWrapper$ = new BehaviorSubject(false);
   public ready = new BehaviorSubject(false);

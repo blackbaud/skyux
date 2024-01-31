@@ -3,5 +3,5 @@
  * @deprecated
  */
 export class ListSearchSetFieldSelectorsAction {
-  constructor(public fieldSelectors: Array<string> = []) {}
+  constructor(public fieldSelectors: string[] = []) {}
 }

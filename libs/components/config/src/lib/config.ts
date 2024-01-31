@@ -20,13 +20,11 @@ export interface SkyuxRuntimeConfigLocalDev {
 }
 
 export class SkyuxPactConfig {
-  public providers?: {
-    [provider: string]: {
+  public providers?: Record<string, {
       host?: string;
       port?: string;
       fullUrl?: string;
-    };
-  };
+    }>;
   public pactProxyServer?: string;
 }
 
@@ -109,9 +107,7 @@ export interface SkyuxConfigHostFrameOptionsOthers {
   urls?: string[];
 }
 
-export interface SkyuxConfigHostCspDirectives {
-  [directiveName: string]: string[];
-}
+export type SkyuxConfigHostCspDirectives = Record<string, string[]>;
 
 export interface SkyuxConfigHostCsp {
   enabled: boolean;
@@ -156,13 +152,13 @@ export interface SkyuxConfig {
   importPath?: string;
   librarySettings?: SkyuxConfigLibrarySettings;
   mode?: string;
-  moduleAliases?: { [key: string]: string };
+  moduleAliases?: Record<string, string>;
   name?: string;
   pacts?: any[];
   params?: SkyuxConfigParams; // List of allowed params
   pipelineSettings?: any;
   plugins?: string[];
-  redirects?: { [from: string]: string };
+  redirects?: Record<string, string>;
   remoteModules?: SkyuxConfigRemoteModules;
   routes?: {
     public?: {

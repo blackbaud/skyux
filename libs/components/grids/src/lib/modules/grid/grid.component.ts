@@ -88,7 +88,7 @@ export class SkyGridComponent
    * Columns and column properties for the grid.
    */
   @Input()
-  public set columns(newColumns: Array<SkyGridColumnModel>) {
+  public set columns(newColumns: SkyGridColumnModel[]) {
     const oldColumns = this.columns;
     this._columns = newColumns;
     if (oldColumns) {
@@ -99,7 +99,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  public get columns(): Array<SkyGridColumnModel> {
+  public get columns(): SkyGridColumnModel[] {
     return this._columns;
   }
 
@@ -108,7 +108,7 @@ export class SkyGridComponent
    * to the `field` or `id` property of each column in the grid.
    */
   @Input()
-  public data: Array<any>;
+  public data: any[];
 
   /**
    * Whether to enable the multiselect feature to display a column of
@@ -175,7 +175,7 @@ export class SkyGridComponent
    * of the columns. If no columns are specified, then the grid displays all columns.
    */
   @Input()
-  public set selectedColumnIds(value: Array<string>) {
+  public set selectedColumnIds(value: string[]) {
     const currentIds = this._selectedColumnIds;
     this._selectedColumnIds = value;
 
@@ -203,7 +203,7 @@ export class SkyGridComponent
     this.selectedColumnIdsSet = true;
   }
 
-  public get selectedColumnIds(): Array<string> {
+  public get selectedColumnIds(): string[] {
     return this._selectedColumnIds;
   }
 
@@ -213,7 +213,7 @@ export class SkyGridComponent
    * Rows with IDs that are not included are de-selected in the grid.
    */
   @Input()
-  public set selectedRowIds(value: Array<string>) {
+  public set selectedRowIds(value: string[]) {
     if (value) {
       this._selectedRowIds = value;
       this.applySelectedRows();
@@ -221,7 +221,7 @@ export class SkyGridComponent
     }
   }
 
-  public get selectedRowIds(): Array<string> {
+  public get selectedRowIds(): string[] {
     return this._selectedRowIds;
   }
 
@@ -256,7 +256,7 @@ export class SkyGridComponent
    */
   @Output()
   public columnWidthChange = new EventEmitter<
-    Array<SkyGridColumnWidthModelChange>
+    SkyGridColumnWidthModelChange[]
   >();
 
   /**
@@ -285,7 +285,7 @@ export class SkyGridComponent
    * The event emits an array of IDs for the displayed columns that reflects the column order.
    */
   @Output()
-  public selectedColumnIdsChange = new EventEmitter<Array<string>>();
+  public selectedColumnIdsChange = new EventEmitter<string[]>();
 
   /**
    * Fires when the active sort field changes.
@@ -295,11 +295,11 @@ export class SkyGridComponent
 
   public columnResizeStep = 10;
   public currentSortField: BehaviorSubject<ListSortFieldSelectorModel>;
-  public displayedColumns: Array<SkyGridColumnModel>;
+  public displayedColumns: SkyGridColumnModel[];
   public dragulaGroupName: string;
   public gridId: number = ++nextId;
   public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
-  public items: Array<any>;
+  public items: any[];
   public maxColWidth = 9999; // This is an arbitrary number, as the input range picker won't work without a value.
   public minColWidth = 50;
   public showResizeBar = false;
@@ -333,16 +333,16 @@ export class SkyGridComponent
   private isDraggingResizeHandle = false;
   private isResized = false;
   private ngUnsubscribe = new Subject<void>();
-  private rowDeleteContents: { [id: string]: SkyGridRowDeleteContents } = {};
+  private rowDeleteContents: Record<string, SkyGridRowDeleteContents> = {};
   private startColumnWidth: number;
   private subscriptions: Subscription[] = [];
   private scrollTriggered = false;
   private selectedColumnIdsSet = false;
   private xPosStart: number;
 
-  private _columns: Array<SkyGridColumnModel>;
-  private _selectedColumnIds: Array<string>;
-  private _selectedRowIds: Array<string>;
+  private _columns: SkyGridColumnModel[];
+  private _selectedColumnIds: string[];
+  private _selectedRowIds: string[];
 
   readonly #environmentInjector = inject(EnvironmentInjector);
 
@@ -392,7 +392,7 @@ export class SkyGridComponent
     this.gridAdapter.initializeDragAndDrop(
       this.dragulaGroupName,
       this.dragulaService,
-      (selectedColumnIds: Array<string>) => {
+      (selectedColumnIds: string[]) => {
         this.onHeaderDrop(selectedColumnIds);
       },
     );
@@ -867,16 +867,16 @@ export class SkyGridComponent
   }
 
   private multiselectSelectAll() {
-    for (let i = 0; i < this.items.length; i++) {
-      this.items[i].isSelected = true;
+    for (const item of this.items) {
+      item.isSelected = true;
     }
     this.changeDetector.markForCheck();
     this.emitSelectedRows(SkyGridSelectedRowsSource.SelectAll);
   }
 
   private multiselectClearAll() {
-    for (let i = 0; i < this.items.length; i++) {
-      this.items[i].isSelected = false;
+    for (const item of this.items) {
+      item.isSelected = false;
     }
     this.changeDetector.markForCheck();
     this.emitSelectedRows(SkyGridSelectedRowsSource.ClearAll);
@@ -976,7 +976,7 @@ export class SkyGridComponent
     this.changeDetector.markForCheck();
   }
 
-  private onHeaderDrop(newColumnIds: Array<string>) {
+  private onHeaderDrop(newColumnIds: string[]) {
     // update selected columnIds
     this.selectedColumnIdsSet = true;
     this.selectedColumnIds = newColumnIds;
@@ -1041,9 +1041,8 @@ export class SkyGridComponent
 
   private applySelectedRows(): void {
     if (this.items && this.items.length > 0 && this.selectedRowIds) {
-      for (let i = 0; i < this.items.length; i++) {
-        this.items[i].isSelected =
-          this.selectedRowIds.indexOf(this.items[i].id) > -1;
+      for (const item of this.items) {
+        item.isSelected = this.selectedRowIds.indexOf(item.id) > -1;
       }
       this.changeDetector.markForCheck();
     }

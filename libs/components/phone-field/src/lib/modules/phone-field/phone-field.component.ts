@@ -208,7 +208,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public phoneInputShown = true;
 
   public countrySearchForm: FormGroup<{
-    countrySearch: FormControl<SkyCountryFieldCountry | undefined>;
+    countrySearch: FormControl<SkyCountryFieldCountry | undefined | null>;
   }>;
 
   /**
@@ -274,8 +274,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #_selectedCountry: SkyPhoneFieldCountry | undefined;
 
-  #countrySearchFormControl: FormControl<SkyCountryFieldCountry | undefined> =
-    new FormControl();
+  #countrySearchFormControl = new FormControl<
+    SkyCountryFieldCountry | undefined | null
+  >(undefined);
 
   #formBuilder: FormBuilder;
   #adapterService: SkyPhoneFieldAdapterService;
@@ -338,9 +339,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }, 0);
 
     this.#countrySearchFormControl.valueChanges.subscribe(
-      (newValue?: SkyCountryFieldCountry) => {
+      (newValue: SkyCountryFieldCountry | undefined | null) => {
         if (newValue?.iso2 !== this.selectedCountry?.iso2) {
-          this.selectedCountry = newValue;
+          this.selectedCountry = newValue || undefined;
         }
       },
     );

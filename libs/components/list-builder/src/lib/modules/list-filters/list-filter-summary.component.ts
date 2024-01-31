@@ -32,7 +32,7 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
   @Output()
   public summaryItemClick = new EventEmitter<ListFilterModel>();
 
-  public appliedFilters: Observable<Array<ListFilterModel>>;
+  public appliedFilters: Observable<ListFilterModel[]>;
 
   constructor(
     private state: ListState,

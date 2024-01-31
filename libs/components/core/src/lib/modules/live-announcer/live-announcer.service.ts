@@ -72,13 +72,14 @@ export class SkyLiveAnnouncerService implements OnDestroy {
 
   #createLiveElement(): HTMLElement {
     const elementClass = 'sky-live-announcer-element';
-    const previousElements =
-      this.#document.getElementsByClassName(elementClass);
+    const previousElements = Array.from<Element>(
+      this.#document.getElementsByClassName(elementClass),
+    );
     const liveEl = this.#document.createElement('div');
 
     // Remove any old containers. This can happen when coming in from a server-side-rendered page.
-    for (let i = 0; i < previousElements.length; i++) {
-      previousElements[i].remove();
+    for (const previousElement of previousElements) {
+      previousElement.remove();
     }
 
     liveEl.classList.add(elementClass);

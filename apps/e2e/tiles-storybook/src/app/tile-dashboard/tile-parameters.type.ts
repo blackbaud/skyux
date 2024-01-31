@@ -1,4 +1,4 @@
-export type TileParametersType = {
+export interface TileParametersType {
   tileName: string;
   showInlineHelp: boolean;
-};
+}

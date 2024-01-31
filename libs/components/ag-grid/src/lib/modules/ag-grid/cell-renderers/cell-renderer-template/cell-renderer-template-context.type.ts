@@ -1,1 +1,1 @@
-export type CellRendererTemplateContext = { value: unknown; row: object };
+export interface CellRendererTemplateContext { value: unknown; row: object }

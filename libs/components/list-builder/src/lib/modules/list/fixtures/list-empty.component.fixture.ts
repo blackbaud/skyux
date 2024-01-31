@@ -24,7 +24,7 @@ export class ListEmptyTestComponent {
   ) {}
 
   public get options() {
-    const bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);
+    const bs = new BehaviorSubject<any[]>(['banana', 'apple']);
     return bs.asObservable();
   }
 }

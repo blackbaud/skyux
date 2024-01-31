@@ -101,7 +101,7 @@ describe('Autonumeric directive', () => {
    * Checks both the reactive and template-driven controls against various statuses.
    * @param statuses A set of Angular NgModel statuses to check against (e.g., pristine, touched, valid).
    */
-  function verifyFormControlStatuses(statuses: { [_: string]: boolean }): void {
+  function verifyFormControlStatuses(statuses: Record<string, boolean>): void {
     const control = fixture.componentInstance.formControl;
     const ngModel = fixture.componentInstance.templateNgModel;
 
@@ -363,10 +363,10 @@ describe('Autonumeric directive', () => {
       });
 
       const inputs = fixture.nativeElement.querySelectorAll('input');
-      for (let i = 0; i < inputs.length; i++) {
-        inputs[i].value = '';
-        SkyAppTestUtility.fireDomEvent(inputs[i], 'input');
-        SkyAppTestUtility.fireDomEvent(inputs[i], 'keyup');
+      for (const input of inputs) {
+        input.value = '';
+        SkyAppTestUtility.fireDomEvent(input, 'input');
+        SkyAppTestUtility.fireDomEvent(input, 'keyup');
       }
       detectChangesTick();
 

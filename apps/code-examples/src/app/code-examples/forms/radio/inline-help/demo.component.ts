@@ -9,11 +9,11 @@ import {
 import { SkyRadioModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 
-type Item = {
+interface Item {
   disabled: boolean;
   name: string;
   value: string;
-};
+}
 
 @Component({
   standalone: true,

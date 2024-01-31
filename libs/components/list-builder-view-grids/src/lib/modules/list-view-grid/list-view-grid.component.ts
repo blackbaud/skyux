@@ -97,13 +97,13 @@ export class SkyListViewGridComponent
    * The columns to display by default based on the ID or field of the item.
    */
   @Input()
-  public displayedColumns: Array<string> | Observable<Array<string>>;
+  public displayedColumns: string[] | Observable<string[]>;
 
   /**
    * The columns to hide by default based on the ID or field of the item.
    */
   @Input()
-  public hiddenColumns: Array<string> | Observable<Array<string>>;
+  public hiddenColumns: string[] | Observable<string[]>;
 
   /**
    * How the grid fits to its parent. `"width"` fits the grid to the parent's full
@@ -201,7 +201,7 @@ export class SkyListViewGridComponent
    * reflects the column order.
    */
   @Output()
-  public selectedColumnIdsChange = new EventEmitter<Array<string>>();
+  public selectedColumnIdsChange = new EventEmitter<string[]>();
 
   @ViewChild(SkyGridComponent)
   public gridComponent: SkyGridComponent;
@@ -220,9 +220,9 @@ export class SkyListViewGridComponent
       : this.width;
   }
 
-  public columns: Observable<Array<SkyGridColumnModel>>;
+  public columns: Observable<SkyGridColumnModel[]>;
 
-  public selectedColumnIds: Observable<Array<string>>;
+  public selectedColumnIds: Observable<string[]>;
 
   public items: Observable<ListItemModel[]>;
 
@@ -452,7 +452,7 @@ export class SkyListViewGridComponent
     }
   }
 
-  public columnIdsChanged(selectedColumnIds: Array<string>) {
+  public columnIdsChanged(selectedColumnIds: string[]) {
     this.selectedColumnIds.pipe(take(1)).subscribe((currentIds) => {
       if (!this.arraysEqual(selectedColumnIds, currentIds)) {
         this.gridState
@@ -588,7 +588,7 @@ export class SkyListViewGridComponent
     });
   }
 
-  private getGridItems(): Observable<Array<ListItemModel>> {
+  private getGridItems(): Observable<ListItemModel[]> {
     /*
       Same problem as above. We should move from having a state object observable with a bunch of
       static properties to a static state object with observable properties that you can subscribe
@@ -617,7 +617,7 @@ export class SkyListViewGridComponent
     );
   }
 
-  private getSelectedIds(): Observable<Array<string>> {
+  private getSelectedIds(): Observable<string[]> {
     /*
       Same problem as above. We should move from having a state object observable with a bunch of
       static properties to a static state object with observable properties that you can subscribe
@@ -679,9 +679,7 @@ export class SkyListViewGridComponent
       keys.push(key);
     });
 
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-
+    for (const key of keys) {
       const value = next.selectedIdMap.get(key);
       if (value !== prev.selectedIdMap.get(key)) {
         return false;
@@ -691,11 +689,11 @@ export class SkyListViewGridComponent
     return true;
   }
 
-  private arrayDiff(arrA: Array<any>, arrB: Array<any>): Array<any> {
+  private arrayDiff(arrA: any[], arrB: any[]): any[] {
     return arrA.filter((i) => arrB.indexOf(i) < 0);
   }
 
-  private arrayIntersection(arrA: Array<any>, arrB: Array<any>): Array<any> {
+  private arrayIntersection(arrA: any[], arrB: any[]): any[] {
     return arrA.filter((value) => -1 !== arrB.indexOf(value));
   }
 

@@ -73,7 +73,7 @@ export class ListStateDispatcher extends StateDispatcher<ListStateAction> {
   }
 
   /* istanbul ignore next */
-  public searchSetFieldSelectors(fieldSelectors: Array<string>): void {
+  public searchSetFieldSelectors(fieldSelectors: string[]): void {
     this.next(new ListSearchSetFieldSelectorsAction(fieldSelectors));
   }
 

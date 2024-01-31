@@ -20,7 +20,7 @@ export class SkyDateRangeService {
 
   #calculatorReadyStream = new BehaviorSubject<boolean>(false);
 
-  #calculatorConfigs: { [id: number]: SkyDateRangeCalculatorConfig } = {};
+  #calculatorConfigs: Record<number, SkyDateRangeCalculatorConfig> = {};
 
   #calculators: SkyDateRangeCalculator[] = [];
 

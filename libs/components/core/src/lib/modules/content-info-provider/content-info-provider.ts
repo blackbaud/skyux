@@ -10,7 +10,7 @@ import { SkyContentInfo } from './content-info';
  * name to its context menus.
  */
 export class SkyContentInfoProvider {
-  #contentInfo: ReplaySubject<SkyContentInfo> = new ReplaySubject(1);
+  #contentInfo = new ReplaySubject<SkyContentInfo>(1);
   #currentValue: SkyContentInfo = {};
 
   public patchInfo(value: SkyContentInfo): void {

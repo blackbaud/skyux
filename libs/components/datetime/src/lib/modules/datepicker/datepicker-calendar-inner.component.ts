@@ -304,10 +304,10 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public createCalendarRows(
-    dates: Array<SkyDatepickerDate>,
+    dates: SkyDatepickerDate[],
     size: number,
-  ): Array<Array<SkyDatepickerDate>> {
-    const rows: Array<Array<SkyDatepickerDate>> = [];
+  ): SkyDatepickerDate[][] {
+    const rows: SkyDatepickerDate[][] = [];
     while (dates.length > 0) {
       rows.push(dates.splice(0, size));
     }

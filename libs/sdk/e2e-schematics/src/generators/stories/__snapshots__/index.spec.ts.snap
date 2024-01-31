@@ -29,6 +29,7 @@ describe('test', () => {
           \`/iframe.html?globals=theme:\${theme}&id=nestedcomponent-nested--nested\`
         )
       );
+
       it('should render the component', () => {
         cy.get('proj-nested')
           .should('exist')
@@ -91,6 +92,7 @@ describe('test-storybook', () => {
           \`/iframe.html?globals=theme:\${theme}&id=nxwelcomecomponent-nxwelcome--nx-welcome\`
         )
       );
+
       it('should render the component', () => {
         cy.get('proj-nx-welcome')
           .should('exist')

@@ -8,7 +8,7 @@ import { SkyGridComponent } from '../grid.component';
   templateUrl: './grid-no-header.component.fixture.html',
 })
 export class GridNoHeaderTestComponent {
-  public columns: Array<SkyGridColumnModel>;
+  public columns: SkyGridColumnModel[];
 
   public data: any[] = [
     {

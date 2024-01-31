@@ -12,7 +12,7 @@ import { SkyThemeService } from '@skyux/theme';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { delay, map, startWith } from 'rxjs/operators';
 
-type Person = { name: string; id: string };
+interface Person { name: string; id: string }
 
 @Component({
   selector: 'app-field-heights',

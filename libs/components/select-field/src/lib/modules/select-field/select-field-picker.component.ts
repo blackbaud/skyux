@@ -85,15 +85,13 @@ export class SkySelectFieldPickerComponent
     return this._inMemorySearchEnabled;
   }
 
+  public readonly defaultCategory = 'any';
+
   public selectedCategory = this.defaultCategory;
   public selectedIds: any[] = [];
 
   public addNewRecordButtonClick = new Subject<void>();
   public showAddNewRecordButton = false;
-
-  public get defaultCategory(): string {
-    return 'any';
-  }
 
   @ViewChild(SkyListViewChecklistComponent, {
     static: true,

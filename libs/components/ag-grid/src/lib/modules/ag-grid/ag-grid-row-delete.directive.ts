@@ -166,7 +166,7 @@ export class SkyAgGridRowDeleteDirective
 
   #ngUnsubscribe = new Subject<void>();
   #rowDeleteComponent: SkyAgGridRowDeleteComponent | undefined;
-  #rowDeleteContents: { [id: string]: SkyAgGridRowDeleteContents } = {};
+  #rowDeleteContents: Record<string, SkyAgGridRowDeleteContents> = {};
 
   #rowDeleteIdsInternal: string[] | undefined;
   #clipPath = new BehaviorSubject<string | undefined>(undefined);
@@ -287,9 +287,9 @@ export class SkyAgGridRowDeleteDirective
         '[row-id="' + id + '"] > div',
       );
 
-      for (let i = 0; i < columns.length; i++) {
-        if (columns[i].querySelector('[aria-colindex="1"]')) {
-          rowElement = columns[i];
+      for (const column of columns) {
+        if (column.querySelector('[aria-colindex="1"]')) {
+          rowElement = column;
           break;
         }
       }

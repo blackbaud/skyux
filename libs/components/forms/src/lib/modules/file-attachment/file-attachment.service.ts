@@ -87,8 +87,7 @@ export class SkyFileAttachmentService {
       return true;
     }
 
-    for (let index = 0; index < typeArray.length; index++) {
-      const type = typeArray[index];
+    for (const type of typeArray) {
       const validSubtype = this.#getMimeSubtype(type);
 
       if (validSubtype === '*') {

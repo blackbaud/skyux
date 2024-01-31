@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_angular_tree_clear_all: { message: 'Clear all' },
     skyux_angular_tree_click_to_expand: { message: 'Click to expand' },

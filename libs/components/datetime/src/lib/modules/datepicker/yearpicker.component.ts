@@ -14,7 +14,7 @@ import { SkyDatepickerDate } from './datepicker-date';
 export class SkyYearPickerComponent implements OnInit {
   public datepicker: SkyDatepickerCalendarInnerComponent;
 
-  public rows: Array<Array<SkyDatepickerDate>> = [];
+  public rows: SkyDatepickerDate[][] = [];
 
   public title = '';
 
@@ -51,7 +51,7 @@ export class SkyYearPickerComponent implements OnInit {
   }
 
   #refreshYearView() {
-    const years: Array<SkyDatepickerDate> = new Array(
+    const years = new Array<SkyDatepickerDate>(
       this.datepicker.yearRange,
     );
     let date: Date;
