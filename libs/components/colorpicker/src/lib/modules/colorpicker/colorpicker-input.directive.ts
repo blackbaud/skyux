@@ -1,4 +1,5 @@
 import {
+  AfterContentChecked,
   Directive,
   ElementRef,
   HostBinding,
@@ -52,7 +53,13 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
   providers: [SKY_COLORPICKER_VALUE_ACCESSOR, SKY_COLORPICKER_VALIDATOR],
 })
 export class SkyColorpickerInputDirective
-  implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy
+  implements
+    OnInit,
+    OnChanges,
+    ControlValueAccessor,
+    Validator,
+    OnDestroy,
+    AfterContentChecked
 {
   /**
    * Creates the colorpicker element and dropdown. Place this attribute on an `input` element
@@ -141,12 +148,13 @@ export class SkyColorpickerInputDirective
   #svc: SkyColorpickerService;
   #resourcesSvc: SkyLibResourcesService;
   #injector: Injector;
+  #id: string | undefined;
 
   #_disabled: boolean | undefined;
   #_initialColor: string | undefined;
 
-  #colorpickerInputSvc = inject(SkyColorpickerInputService);
-  #idSvc = inject(SkyIdService);
+  readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
+  readonly #idSvc = inject(SkyIdService);
 
   constructor(
     elementRef: ElementRef,
@@ -179,14 +187,14 @@ export class SkyColorpickerInputDirective
 
   public ngOnInit(): void {
     const element = this.#elementRef.nativeElement;
-    let id = element.id;
+    this.#id = element.id;
 
-    if (!id) {
-      id = this.#idSvc.generateId();
-      this.#renderer.setAttribute(element, 'id', id);
+    if (!this.#id) {
+      this.#id = this.#idSvc.generateId();
+      this.#renderer.setAttribute(element, 'id', this.#id);
     }
 
-    this.#colorpickerInputSvc.inputId.next(id);
+    this.#colorpickerInputSvc.inputId.next(this.#id);
 
     this.#renderer.addClass(element, 'sky-form-control');
     this.skyColorpickerInput.initialColor = this.initialColor;
@@ -227,6 +235,15 @@ export class SkyColorpickerInputDirective
       this.skyColorpickerInput.isVisible = false;
     } else {
       this.skyColorpickerInput.isVisible = true;
+    }
+  }
+
+  public ngAfterContentChecked(): void {
+    const id = this.#elementRef.nativeElement?.id;
+
+    if (id && id !== this.#id) {
+      this.#colorpickerInputSvc.inputId.next(id);
+      this.#id = id;
     }
   }
 

@@ -273,15 +273,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     return this.#_colorpickerRef;
   }
 
-  protected get inputId(): string | undefined {
-    return this.#_inputId;
-  }
-
-  protected set inputId(value: string | undefined) {
-    this.#_inputId = value;
-    this.#changeDetector.markForCheck();
-  }
-
+  protected inputId: string | undefined;
   protected colorpickerId: string;
   protected isOpen = false;
   protected triggerButtonId: string;
@@ -319,12 +311,11 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #svc: SkyColorpickerService;
   #themeSvc: SkyThemeService | undefined;
 
-  #colorpickerInputSvc = inject(SkyColorpickerInputService);
+  readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
 
   #_backgroundColorForDisplay: string | undefined;
   #_colorpickerRef: ElementRef | undefined;
   #_disabled = false;
-  #_inputId: string | undefined;
 
   constructor(
     affixSvc: SkyAffixService,
@@ -390,6 +381,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((id) => {
         this.inputId = id;
+        this.#changeDetector.markForCheck();
       });
 
     this.#addTriggerButtonEventListeners();
