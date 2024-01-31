@@ -114,18 +114,19 @@ export class SkyDatepickerCalendarInnerComponent
   public handleKeydownMonth: KeyboardEventHandler | undefined;
   public handleKeydownYear: KeyboardEventHandler | undefined;
 
-  public keys: any = {
-    13: 'enter',
-    32: 'space',
-    33: 'pageup',
-    34: 'pagedown',
-    35: 'end',
-    36: 'home',
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-  };
+  public keys = [
+    'enter',
+    ' ',
+    'spacebar',
+    'pageup',
+    'pagedown',
+    'end',
+    'home',
+    'arrowleft',
+    'arrowup',
+    'arrowright',
+    'arrowdown',
+  ];
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -262,23 +263,20 @@ export class SkyDatepickerCalendarInnerComponent
     // const key = this.keys[event.which];
     const key = event.key?.toLowerCase();
 
-    if (!key || key === 'tab' || event.shiftKey /* || event.altKey */) {
+    if (!this.keys.includes(key)) {
       return;
     }
 
     event.preventDefault();
     event.stopPropagation();
 
-    if (key === 'enter' || key === 'space' || key === ' ') {
+    if (key === 'enter' || key === 'spacebar' || key === ' ') {
       if (this.isDisabled(this.activeDate)) {
         return;
       }
       this.select(this.activeDate);
-    } else if (
-      event.ctrlKey &&
-      ['up', 'arrowup', 'down', 'arrowdown'].includes(key)
-    ) {
-      this.toggleMode(key === 'up' || key === 'arrowup' ? 1 : -1);
+    } else if (event.ctrlKey && (key === 'arrowup' || key === 'arrowdown')) {
+      this.toggleMode(key === 'arrowup' ? 1 : -1);
     } else {
       this.handleKeydown(key, event);
       this.refreshView();

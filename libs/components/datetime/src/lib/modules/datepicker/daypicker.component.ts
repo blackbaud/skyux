@@ -183,13 +183,13 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     let date = this.datepicker.activeDate.getDate();
     /* istanbul ignore else */
     /* sanity check */
-    if (key === 'left' || key === 'arrowleft') {
+    if (key === 'arrowleft') {
       date = date - 1;
-    } else if (key === 'up' || key === 'arrowup') {
+    } else if (key === 'arrowup') {
       date = date - 7;
-    } else if (key === 'right' || key === 'arrowright') {
+    } else if (key === 'arrowright') {
       date = date + 1;
-    } else if (key === 'down' || key === 'arrowdown') {
+    } else if (key === 'arrowdown') {
       date = date + 7;
     } else if (key === 'pageup' || key === 'pagedown') {
       const month =
