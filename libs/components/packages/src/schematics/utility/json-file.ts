@@ -44,6 +44,7 @@ export class JsonFile {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public get(jsonPath: JsonPath): any {
     const jsonAstNode = this.#getJsonAst();
     if (!jsonAstNode) {

@@ -346,7 +346,7 @@ describe('verify-e2e', () => {
       'project-missing',
       'project-other',
     ];
-    checkPercyBuild.mockImplementation((...args: any) =>
+    checkPercyBuild.mockImplementation((...args) =>
       Promise.resolve({
         project: `${args[0]}`,
         approved: false,

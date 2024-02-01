@@ -149,19 +149,13 @@
     position: absolute;
     z-index: 999999;
   }
-  div.cursor-sv {
-    cursor: default;
-    position: relative;
-    width: 14px;
-    height: 14px;
-    @include mixins.sky-border(dark, top, right, bottom, left);
-  }
   div.cursor {
     cursor: default;
     position: relative;
     width: 17px;
     height: 17px;
-    border: $sky-text-color-deemphasized solid 2px;
+    border: $sky-color-white solid 2px;
+    outline: thin solid;
   }
   .saturation-lightness {
     cursor: pointer;
@@ -231,8 +225,12 @@
       flex: 1;
       margin: 0 8px 0 0;
     }
-    sky-input-box:first-child {
+    & > sky-input-box {
       flex: 2;
+    }
+    & > fieldset {
+      display: flex;
+      flex: 4;
     }
     sky-input-box:last-child {
       margin: 0;
@@ -459,18 +457,18 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
-    sky-input-box:first-child {
+    & > sky-input-box:first-child {
       width: 100%;
       flex: 0 1 auto;
       margin: 0 0 10px 0;
     }
 
-    sky-input-box:not(:first-child) {
+    fieldset sky-input-box {
       flex: 1;
       margin: 0 10px 10px 0;
     }
 
-    sky-input-box:last-child {
+    fieldset sky-input-box:last-child {
       margin: 0 0 10px 0;
     }
   }

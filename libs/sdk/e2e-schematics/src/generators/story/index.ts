@@ -1,5 +1,4 @@
 import { strings } from '@angular-devkit/core';
-import { componentGenerator } from '@nx/angular/generators';
 import {
   ProjectConfiguration,
   Tree,
@@ -11,6 +10,7 @@ import {
 } from '@nx/devkit';
 
 import {
+  angularComponentGenerator,
   angularModuleGenerator,
   capitalizeWords,
   dirname,
@@ -44,6 +44,7 @@ function normalizeOptions(
   }
 
   options.name = normalizePath(options.name);
+  options.standalone ??= !options.module;
   const projects = getProjects(tree);
   const projectConfig = getStorybookProject(tree, options);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -52,10 +53,13 @@ function normalizeOptions(
   const projectRoot = projectConfig.root;
   const projectTypeBase = getProjectTypeBase(projectConfig);
 
+  const basePath = joinPathFragments(
+    projectDirectory,
+    projectTypeBase,
+    options.name,
+  );
   if (
-    tree.exists(
-      joinPathFragments(projectDirectory, projectTypeBase, options.name),
-    )
+    tree.exists(joinPathFragments(basePath, `${options.name}.component.ts`))
   ) {
     throw new Error(`${options.name} already exists for ${projectName}`);
   }
@@ -71,7 +75,7 @@ function normalizeOptions(
   let module: string | undefined;
   if (options.module) {
     module = options.module;
-  } else {
+  } else if (!options.standalone) {
     const moduleOptions = findModulePaths(tree, projectDirectory, (path) => {
       const sourceFile = readSourceFile(tree, path);
       const module = findNgModuleClass(sourceFile);
@@ -119,13 +123,22 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     .filter((change) => change.type === 'CREATE')
     .map((change) => normalizePath(change.path));
 
-  // nx g @schematics/angular:module
-  await angularModuleGenerator(tree, {
-    name: normalizedOptions.name,
-    route: normalizedOptions.name,
-    module: normalizedOptions.module,
-    project: `${normalizedOptions.project}`,
-  });
+  if (options.standalone) {
+    await angularComponentGenerator(tree, {
+      name: normalizedOptions.name,
+      skipImport: true,
+      standalone: true,
+      project: `${normalizedOptions.project}`,
+    });
+  } else {
+    // nx g @schematics/angular:module
+    await angularModuleGenerator(tree, {
+      name: normalizedOptions.name,
+      route: normalizedOptions.name,
+      module: normalizedOptions.module,
+      project: `${normalizedOptions.project}`,
+    });
+  }
   const componentFilePaths = tree
     .listChanges()
     .filter((change) => change.type === 'CREATE')
@@ -155,17 +168,6 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   });
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const baseName = normalizedOptions.name.split('/').pop()!;
-  await componentGenerator(tree, {
-    name: normalizedOptions.name,
-    module: baseName,
-    project: normalizedOptions.projectName,
-    style: 'scss',
-    displayBlock: true,
-    changeDetection: 'OnPush',
-    export: true,
-    skipImport: true,
-    skipTests: !normalizedOptions.includeTests,
-  });
   generateFiles(
     tree,
     joinPathFragments(__dirname, 'files'),
@@ -179,6 +181,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       componentPath: dirname(componentFilePath),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       prefix: (normalizedOptions.projectConfig as any)['prefix'],
+      standalone: options.standalone,
     },
   );
   if (!normalizedOptions.includeTests) {

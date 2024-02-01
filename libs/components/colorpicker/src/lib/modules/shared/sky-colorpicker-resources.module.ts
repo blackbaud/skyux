@@ -28,6 +28,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_colorpicker_aria_green: { message: 'Green value between 0 and 255' },
     skyux_colorpicker_aria_hex: { message: 'Hexadecimal color code' },
     skyux_colorpicker_aria_red: { message: 'Red value between 0 and 255' },
+    skyux_colorpicker_aria_rgba: { message: 'RGBA values' },
     skyux_colorpicker_blue: { message: 'B:' },
     skyux_colorpicker_close: { message: 'Cancel' },
     skyux_colorpicker_dropdown_button: { message: 'Select color value' },

@@ -9,7 +9,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl, Validators } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -191,11 +191,19 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   @Input()
   public set required(value: boolean | undefined) {
     this.#_required = SkyFormsUtility.coerceBooleanProperty(value);
+    this.#setValidators();
   }
 
   public get required(): boolean {
     return this.#_required;
   }
+
+  /**
+   * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
+   * Specifying `labelText` also enables automatic error message handling for checkbox.
+   */
+  @Input()
+  public labelText: string | undefined;
 
   /**
    * Fires when users select or deselect the checkbox.
@@ -348,5 +356,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   #toggle(): void {
     this.checked = !this.checked;
+  }
+
+  #setValidators(): void {
+    if (
+      this.required &&
+      !this.#ngControl?.control?.hasValidator(Validators.requiredTrue)
+    ) {
+      this.#ngControl?.control?.addValidators(Validators.requiredTrue);
+      this.#ngControl?.control?.updateValueAndValidity();
+    } else if (
+      !this.required &&
+      this.#ngControl?.control?.hasValidator(Validators.requiredTrue)
+    ) {
+      this.#ngControl.control.removeValidators(Validators.requiredTrue);
+      this.#ngControl.control?.updateValueAndValidity();
+    }
   }
 }

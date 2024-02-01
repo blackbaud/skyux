@@ -3,6 +3,7 @@
 //
 import type { StorybookConfig } from '@storybook/angular';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { rootMain } from '../../../../.storybook/main';
 
 const config: StorybookConfig = {
