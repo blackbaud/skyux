@@ -287,7 +287,7 @@ export class SkyAgGridRowDeleteDirective
         '[row-id="' + id + '"] > div',
       );
 
-      for (const column of columns) {
+      for (const column of Array.from<HTMLElement>(columns)) {
         if (column.querySelector('[aria-colindex="1"]')) {
           rowElement = column;
           break;

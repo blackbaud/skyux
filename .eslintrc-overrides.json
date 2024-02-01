@@ -28,11 +28,6 @@
       }
     },
     {
-      "files": ["*.cy.ts"],
-      "extends": ["plugin:cypress/recommended"],
-      "rules": {}
-    },
-    {
       "files": ["routes.ts"],
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off"

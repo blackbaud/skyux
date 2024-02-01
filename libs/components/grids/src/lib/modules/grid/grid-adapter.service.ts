@@ -41,7 +41,7 @@ export class SkyGridAdapterService {
 
     dragulaService.drop(dragulaGroupName).subscribe((args) => {
       const columnIds: string[] = [];
-      const nodes = Array.from(
+      const nodes = Array.from<HTMLElement>(
         args.target.querySelectorAll(
           `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`,
         ),

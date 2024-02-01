@@ -228,7 +228,9 @@ export class SkyCoreAdapterService {
    * @param selector - The CSS selector to use when finding elements for removing height.
    */
   public resetHeight(elementRef: ElementRef, selector: string): void {
-    const children = elementRef.nativeElement.querySelectorAll(selector);
+    const children = Array.from<HTMLElement>(
+      elementRef.nativeElement.querySelectorAll(selector),
+    );
     for (const child of children) {
       this.#renderer.removeStyle(child, 'height');
     }
