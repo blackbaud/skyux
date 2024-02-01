@@ -64,7 +64,7 @@ describe('modal footer dropdown', () => {
         cy.get('app-modal-footer-dropdown .space + div button')
           .should('be.visible')
           .should('contain.text', 'Open full page modal')
-          .first()
+          .last()
           .click({
             waitForAnimations: true,
           });
