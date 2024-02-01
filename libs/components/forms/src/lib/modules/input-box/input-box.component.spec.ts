@@ -1278,7 +1278,7 @@ describe('Input box component', () => {
       const inputEl = inputBoxEl.querySelector('input') as HTMLInputElement;
 
       expect(inputEl.ariaRequired).toBe('true');
-      expect(inputBoxEl.querySelector('label')).toHaveCssClass(
+      expect(inputBoxEl.querySelector('span')).toHaveCssClass(
         'sky-control-label-required',
       );
 
@@ -1286,7 +1286,7 @@ describe('Input box component', () => {
       fixture.detectChanges();
 
       expect(inputEl.ariaRequired).toBeNull();
-      expect(inputBoxEl.querySelector('label')).not.toHaveCssClass(
+      expect(inputBoxEl.querySelector('span')).not.toHaveCssClass(
         'sky-control-label-required',
       );
     });
