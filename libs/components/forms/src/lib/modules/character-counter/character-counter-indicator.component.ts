@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  inject,
 } from '@angular/core';
 
 @Component({
@@ -16,7 +15,11 @@ export class SkyCharacterCounterIndicatorComponent {
   #_characterCountLimit = 0;
   #_characterCount = 0;
 
-  #changeDetector = inject(ChangeDetectorRef);
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public get characterCount(): number {
     return this.#_characterCount;
