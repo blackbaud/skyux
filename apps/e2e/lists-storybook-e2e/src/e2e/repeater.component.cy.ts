@@ -12,10 +12,13 @@ describe('lists-storybook', () => {
         cy.get('app-repeater')
           .should('exist')
           .should('be.visible')
-          .screenshot(`repeatercomponent-repeater--repeater-${theme}`)
-          .percySnapshot(`repeatercomponent-repeater--repeater-${theme}`, {
+          .screenshot(`repeatercomponent-repeater--repeater-${theme}`);
+        cy.get('app-repeater').percySnapshot(
+          `repeatercomponent-repeater--repeater-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

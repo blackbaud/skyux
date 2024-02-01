@@ -13,13 +13,13 @@ describe('popovers-storybook', () => {
             .should('be.visible')
             .screenshot(
               `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
-            )
-            .percySnapshot(
-              `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              },
             );
+          cy.get('app-dropdown').percySnapshot(
+            `dropdowncomponent-dropdown--dropdown-${buttonStyle}-button-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
         });
       });
 
@@ -38,20 +38,20 @@ describe('popovers-storybook', () => {
                 .last()
                 .should('exist')
                 .should('be.visible')
-                .click()
-                .end()
-                .get('.sky-dropdown-menu')
+                .click();
+
+              cy.get('.sky-dropdown-menu')
                 .should('exist')
                 .should('be.visible')
                 .screenshot(
                   `dropdowncomponent-dropdown--dropdown-${buttonType}-button-${horizontalAlignment}-algnment-${theme}`,
-                )
-                .percySnapshot(
-                  `dropdowncomponent-dropdown--dropdown-${buttonType}-button-${horizontalAlignment}-algnment-${theme}`,
-                  {
-                    widths: E2eVariations.DISPLAY_WIDTHS,
-                  },
                 );
+              cy.get('.sky-dropdown-menu').percySnapshot(
+                `dropdowncomponent-dropdown--dropdown-${buttonType}-button-${horizontalAlignment}-algnment-${theme}`,
+                {
+                  widths: E2eVariations.DISPLAY_WIDTHS,
+                },
+              );
             });
           });
         });

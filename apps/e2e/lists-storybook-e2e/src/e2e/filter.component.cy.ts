@@ -17,10 +17,13 @@ describe('lists-storybook', () => {
           .should('exist')
           .end()
           .get('body')
-          .screenshot(`filtercomponent-filter--filter-${theme}`)
-          .percySnapshot(`filtercomponent-filter--filter-${theme}`, {
+          .screenshot(`filtercomponent-filter--filter-${theme}`);
+        cy.get('body').percySnapshot(
+          `filtercomponent-filter--filter-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

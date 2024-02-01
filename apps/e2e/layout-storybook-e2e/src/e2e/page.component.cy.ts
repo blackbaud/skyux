@@ -13,10 +13,13 @@ describe('layout-storybook', () => {
         cy.get('.screenshot-area')
           .should('exist')
           .should('be.visible')
-          .screenshot(`pagecomponent-page--page-layout-fit-${theme}`)
-          .percySnapshot(`pagecomponent-page--page-layout-fit-${theme}`, {
+          .screenshot(`pagecomponent-page--page-layout-fit-${theme}`);
+        cy.get('.screenshot-area').percySnapshot(
+          `pagecomponent-page--page-layout-fit-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

@@ -14,12 +14,16 @@ describe('toast-storybook', () => {
           .should('exist')
           .should('be.visible')
           .get('#default-trigger')
-          .click()
-          .get('.sky-toaster')
-          .screenshot(`toastcomponent-toast--toast-${theme}`)
-          .percySnapshot(`toastcomponent-toast--toast-${theme}`, {
+          .click();
+        cy.get('.sky-toaster').screenshot(
+          `toastcomponent-toast--toast-${theme}`,
+        );
+        cy.get('.sky-toaster').percySnapshot(
+          `toastcomponent-toast--toast-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
 
       it('should render the components when a custom component is used', () => {
@@ -27,12 +31,16 @@ describe('toast-storybook', () => {
           .should('exist')
           .should('be.visible')
           .get('#custom-trigger')
-          .click()
-          .get('.sky-toaster')
-          .screenshot(`toastcomponent-toast--toast-custom-${theme}`)
-          .percySnapshot(`toastcomponent-toast--toast-custom-${theme}`, {
+          .click();
+        cy.get('.sky-toaster').screenshot(
+          `toastcomponent-toast--toast-custom-${theme}`,
+        );
+        cy.get('.sky-toaster').percySnapshot(
+          `toastcomponent-toast--toast-custom-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

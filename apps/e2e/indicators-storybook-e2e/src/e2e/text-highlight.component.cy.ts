@@ -14,13 +14,13 @@ describe('indicators-storybook - text-highlight', () => {
           .should('be.visible')
           .screenshot(
             `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
-          )
-          .percySnapshot(
-            `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-text-highlight').percySnapshot(
+          `texthighlightcomponent-texthighlight--text-highlight-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

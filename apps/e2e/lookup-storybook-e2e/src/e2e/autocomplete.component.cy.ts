@@ -15,13 +15,13 @@ describe('lookup-storybook', () => {
           .should('be.visible')
           .screenshot(
             `autocompletecomponent-autocomplete--autocomplete-${theme}`,
-          )
-          .percySnapshot(
-            `autocompletecomponent-autocomplete--autocomplete-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-autocomplete').percySnapshot(
+          `autocompletecomponent-autocomplete--autocomplete-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
 
       it('should render the component with the dropdown', () => {
@@ -31,20 +31,20 @@ describe('lookup-storybook', () => {
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
-          .type('a')
-          .get('app-autocomplete')
+          .type('a');
+        cy.get('app-autocomplete')
           .should('exist')
           .should('be.visible')
           .screenshot(
             `autocompletecomponent-autocomplete--autocomplete-dropdown-${theme}`,
-          )
-          .percySnapshot(
-            `autocompletecomponent-autocomplete--autocomplete-dropdown-${theme}`,
-            {
-              minHeight: 900,
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-autocomplete').percySnapshot(
+          `autocompletecomponent-autocomplete--autocomplete-dropdown-${theme}`,
+          {
+            minHeight: 900,
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
 
       it('should render the component with a selected result', () => {
@@ -54,24 +54,21 @@ describe('lookup-storybook', () => {
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
-          .type('a')
-          .get('.sky-autocomplete-result')
+          .type('a');
+        cy.get('app-autocomplete .sky-form-control .sky-autocomplete-result')
           .first()
-          .click()
-          .get('app-autocomplete')
-          .should('exist')
-          .should('be.visible')
-          .click()
-          .screenshot(
-            `autocompletecomponent-autocomplete--autocomplete-selected-${theme}`,
-          )
-          .percySnapshot(
-            `autocompletecomponent-autocomplete--autocomplete-seleted-${theme}`,
-            {
-              minHeight: 900,
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+          .click();
+        cy.get('app-autocomplete').should('exist').should('be.visible').click();
+        cy.get('app-autocomplete').screenshot(
+          `autocompletecomponent-autocomplete--autocomplete-selected-${theme}`,
+        );
+        cy.get('app-autocomplete').percySnapshot(
+          `autocompletecomponent-autocomplete--autocomplete-seleted-${theme}`,
+          {
+            minHeight: 900,
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
 
       it('should render the component with no results', () => {
@@ -81,20 +78,20 @@ describe('lookup-storybook', () => {
           .get('.sky-form-control')
           .should('exist')
           .should('be.visible')
-          .type('z')
-          .get('app-autocomplete')
+          .type('z');
+        cy.get('app-autocomplete')
           .should('exist')
           .should('be.visible')
           .screenshot(
             `autocompletecomponent-autocomplete--autocomplete-no-results-${theme}`,
-          )
-          .percySnapshot(
-            `autocompletecomponent-autocomplete--autocomplete-no-results-${theme}`,
-            {
-              minHeight: 900,
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-autocomplete').percySnapshot(
+          `autocompletecomponent-autocomplete--autocomplete-no-results-${theme}`,
+          {
+            minHeight: 900,
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

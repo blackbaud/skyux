@@ -11,18 +11,15 @@ describe('affix', () => {
           ),
       );
       it('should render the component', () => {
-        cy.get('#ready')
-          .should('exist')
-          .end()
-          .window()
-          .skyVisualTest(`affix-${theme}--initial`, {
-            capture: 'viewport',
-          })
-          .window()
-          .scrollTo(0, 175)
-          .skyVisualTest(`affix-${theme}--scrolled`, {
-            capture: 'viewport',
-          });
+        cy.get('#ready').should('exist');
+
+        cy.window().skyVisualTest(`affix-${theme}--initial`, {
+          capture: 'viewport',
+        });
+        cy.window().scrollTo(0, 175);
+        cy.skyVisualTest(`affix-${theme}--scrolled`, {
+          capture: 'viewport',
+        });
       });
     });
   });

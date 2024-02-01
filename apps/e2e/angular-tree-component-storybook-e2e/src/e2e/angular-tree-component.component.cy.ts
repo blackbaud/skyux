@@ -26,26 +26,23 @@ describe('angular-tree-component-storybook', () => {
               .first()
               .should('exist')
               .should('be.visible')
-              .click()
-              .end();
+              .click();
             cy.get('tree-node-content')
               .should('exist')
               .eq(1)
               .should('exist')
               .should('be.visible')
-              .click()
-              .end();
+              .click();
 
-            cy.get('app-angular-tree-component')
-              .screenshot(
-                `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
-              )
-              .percySnapshot(
-                `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+            cy.get('app-angular-tree-component').screenshot(
+              `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
+            );
+            cy.get('app-angular-tree-component').percySnapshot(
+              `angulartreecomponentcomponent-angulartreecomponent--${mode}-angular-tree-component-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
           });
         });
       });

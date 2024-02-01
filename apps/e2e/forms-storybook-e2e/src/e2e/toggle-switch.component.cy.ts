@@ -14,13 +14,13 @@ describe('forms-storybook - toggle switch', () => {
           .should('be.visible')
           .screenshot(
             `toggleswitchcomponent-toggleswitch--toggle-switch-${theme}`,
-          )
-          .percySnapshot(
-            `toggleswitchcomponent-toggleswitch--toggle-switch-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-toggle-switch').percySnapshot(
+          `toggleswitchcomponent-toggleswitch--toggle-switch-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

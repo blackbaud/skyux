@@ -39,8 +39,7 @@ describe('action-bars-storybook - summary action bar', () => {
                   cy.get('sky-modal-content')
                     .should('exist')
                     .should('be.visible')
-                    .click()
-                    .end();
+                    .click();
                 }
 
                 cy.window().skyVisualTest(
@@ -121,11 +120,11 @@ describe('action-bars-storybook - summary action bar', () => {
                     .get('sky-summary-action-bar-secondary-actions button')
                     .should('exist')
                     .should('be.visible')
-                    .click()
-                    .end()
-                    .get(
-                      'sky-dropdown-menu sky-summary-action-bar-secondary-action',
-                    )
+                    .click();
+
+                  cy.get(
+                    'sky-dropdown-menu sky-summary-action-bar-secondary-action',
+                  )
                     .should('exist')
                     .should('be.visible')
                     .end()

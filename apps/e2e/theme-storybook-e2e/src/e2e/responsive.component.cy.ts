@@ -23,14 +23,14 @@ describe('theme-storybook', () => {
           .document()
           .screenshot(
             `responsivecomponent-responsive--responsive-${theme}-${width}px`,
-          )
-          .percySnapshot(
-            `responsivecomponent-responsive--responsive-${theme}-${width}px`,
-            {
-              widths: [width],
-              minHeight: 960,
-            },
           );
+        cy.document().percySnapshot(
+          `responsivecomponent-responsive--responsive-${theme}-${width}px`,
+          {
+            widths: [width],
+            minHeight: 960,
+          },
+        );
       });
     });
   });

@@ -21,11 +21,13 @@ describe('navbar-storybook', () => {
           .first()
           .click();
 
-        cy.get('body')
-          .screenshot(`navbarcomponent-navbar--navbar-${theme}`)
-          .percySnapshot(`navbarcomponent-navbar--navbar-${theme}`, {
+        cy.get('body').screenshot(`navbarcomponent-navbar--navbar-${theme}`);
+        cy.get('body').percySnapshot(
+          `navbarcomponent-navbar--navbar-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

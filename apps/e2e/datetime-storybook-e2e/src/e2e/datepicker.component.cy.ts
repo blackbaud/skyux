@@ -27,40 +27,47 @@ describe('Date picker', () => {
       });
 
       it('should show month picker', () => {
+        cy.get(
+          '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
+        ).click();
+
         cy.get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
-          .click()
-          .end()
-          .get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
           .invoke('text')
-          .should('match', /^\d{4}$/)
-          .end()
-          .get('#screenshot-datepicker')
-          .skyVisualTest(`datepicker-month-picker-${theme}`, {
+          .should('match', /^\d{4}$/);
+
+        cy.get('#screenshot-datepicker').skyVisualTest(
+          `datepicker-month-picker-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
 
       it('should show year picker', () => {
+        cy.get(
+          '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
+        ).click();
+
         cy.get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
-          .click()
-          .end()
-          .get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
           .invoke('text')
-          .should('match', /^\d{4}$/)
-          .end()
-          .get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
-          .click()
-          .end()
-          .get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
+          .should('match', /^\d{4}$/);
+
+        cy.get(
+          '#screenshot-datepicker-calendar .sky-datepicker-calendar-title',
+        ).click();
+
+        cy.get('#screenshot-datepicker-calendar .sky-datepicker-calendar-title')
           .invoke('text')
-          .should('match', /^\d{4} - \d{4}$/)
-          .end()
-          .get('#screenshot-datepicker')
-          .skyVisualTest(`datepicker-year-picker-${theme}`, {
+          .should('match', /^\d{4} - \d{4}$/);
+
+        cy.get('#screenshot-datepicker').skyVisualTest(
+          `datepicker-year-picker-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
 
       it('should show datepicker input when open', () => {
@@ -69,15 +76,13 @@ describe('Date picker', () => {
           .should('be.visible')
           .then(($datepicker) => {
             cy.window().scrollTo(0, $datepicker.position().top);
-          })
-          .end()
-          .get('#set-value-button')
-          .click()
-          .end()
-          .get('#screenshot-datepicker .sky-datepicker button')
-          .click()
-          .end()
-          .get('body')
+          });
+
+        cy.get('#set-value-button').click();
+
+        cy.get('#screenshot-datepicker .sky-datepicker button').click();
+
+        cy.get('body')
           .should('exist')
           .should('be.visible')
           .then(($body) => {
@@ -94,68 +99,71 @@ describe('Date picker', () => {
             );
             cy.wrap(buttonBottom).should('equal', dialogTop);
             return cy.wrap($body.get(0));
-          })
-          .end()
-          .get('#screenshot-datepicker')
-          .skyVisualTest(`datepicker-input-open-${theme}`, {
+          });
+
+        cy.get('#screenshot-datepicker').skyVisualTest(
+          `datepicker-input-open-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
 
       it('should show datepicker input when invalid', () => {
-        cy.get('#button-set-invalid-value')
-          .scrollIntoView()
-          .click()
-          .end()
-          .get('#screenshot-datepicker')
-          .scrollIntoView()
-          .skyVisualTest(`datepicker-input-invalid-${theme}`, {
+        cy.get('#button-set-invalid-value').scrollIntoView();
+        cy.get('#button-set-invalid-value').click();
+
+        cy.get('#screenshot-datepicker').scrollIntoView();
+        cy.get('#screenshot-datepicker').skyVisualTest(
+          `datepicker-input-invalid-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
 
       it('should show datepicker input', () => {
-        cy.get('#toggle-disabled-btn')
-          .scrollIntoView()
-          .end()
-          .get('#screenshot-datepicker-input-box')
-          .skyVisualTest(`datepicker-input-box-${theme}`, {
+        cy.get('#toggle-disabled-btn').scrollIntoView();
+
+        cy.get('#screenshot-datepicker-input-box').skyVisualTest(
+          `datepicker-input-box-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
 
       it('should show datepicker input when disabled', () => {
-        cy.get('#toggle-disabled-btn')
-          .scrollIntoView()
-          .click()
-          .end()
-          .get('#screenshot-datepicker-input-box input.sky-form-control')
-          .should('be.disabled')
-          .end()
-          .get('#screenshot-datepicker-input-box')
-          .skyVisualTest(`datepicker-input-box-disabled-${theme}`, {
+        cy.get('#toggle-disabled-btn').scrollIntoView();
+        cy.get('#toggle-disabled-btn').click();
+
+        cy.get(
+          '#screenshot-datepicker-input-box input.sky-form-control',
+        ).should('be.disabled');
+
+        cy.get('#screenshot-datepicker-input-box').skyVisualTest(
+          `datepicker-input-box-disabled-${theme}`,
+          {
             overwrite: true,
             disableTimersAndAnimations: true,
-          });
+          },
+        );
       });
 
       it('should show datepicker input with custom dates', () => {
-        cy.get('#button-set-custom-dates')
-          .scrollIntoView()
-          .click()
-          .end()
-          .get('#set-value-button')
-          .click()
-          .end()
-          .get('#sky-datepicker-button-2')
-          .click()
-          .end()
-          .get('body > sky-overlay sky-wait[ng-reflect-is-waiting="false"]', {
-            timeout: 10000,
-          })
+        cy.get('#button-set-custom-dates').scrollIntoView();
+        cy.get('#button-set-custom-dates').click();
+
+        cy.get('#set-value-button').click();
+
+        cy.get('#sky-datepicker-button-2').click();
+
+        cy.get('body > sky-overlay sky-wait[ng-reflect-is-waiting="false"]', {
+          timeout: 10000,
+        })
           .should('exist')
           .should('not.be.visible')
           .end()

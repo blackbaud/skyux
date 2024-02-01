@@ -12,10 +12,13 @@ describe('lists-storybook - paging', () => {
         cy.get('app-paging')
           .should('exist')
           .should('be.visible')
-          .screenshot(`pagingcomponent-paging--paging-${theme}`)
-          .percySnapshot(`pagingcomponent-paging--paging-${theme}`, {
+          .screenshot(`pagingcomponent-paging--paging-${theme}`);
+        cy.get('app-paging').percySnapshot(
+          `pagingcomponent-paging--paging-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

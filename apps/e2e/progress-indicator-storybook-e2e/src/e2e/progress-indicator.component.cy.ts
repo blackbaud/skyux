@@ -14,13 +14,13 @@ describe('progress-indicator-storybook', () => {
           .should('be.visible')
           .screenshot(
             `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
-          )
-          .percySnapshot(
-            `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-progress-indicator').percySnapshot(
+          `progressindicatorcomponent-progressindicator--progress-indicator-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

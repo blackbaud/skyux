@@ -14,13 +14,13 @@ describe('indicators-storybook - expansion indicator', () => {
           .should('be.visible')
           .screenshot(
             `expansionindicatorcomponent-expansionindicator--expansion-indicator-${theme}`,
-          )
-          .percySnapshot(
-            `expansionindicatorcomponent-expansionindicator--expansion-indicator-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-expansion-indicator').percySnapshot(
+          `expansionindicatorcomponent-expansionindicator--expansion-indicator-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

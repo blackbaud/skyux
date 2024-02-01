@@ -25,10 +25,13 @@ describe('errors-storybook - error', () => {
             .get('app-error')
             .should('exist')
             .should('be.visible')
-            .screenshot(`errorcomponent-error--error--${style}-${theme}`)
-            .percySnapshot(`errorcomponent-error--error--${style}-${theme}`, {
+            .screenshot(`errorcomponent-error--error--${style}-${theme}`);
+          cy.get('app-error').percySnapshot(
+            `errorcomponent-error--error--${style}-${theme}`,
+            {
               widths: E2eVariations.DISPLAY_WIDTHS,
-            });
+            },
+          );
         });
       });
     });

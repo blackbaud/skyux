@@ -18,13 +18,13 @@ describe('layout-storybook - fluid-grid', () => {
               .should('be.visible')
               .screenshot(
                 `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
-              )
-              .percySnapshot(
-                `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
-                {
-                  widths: [width],
-                },
               );
+            cy.percySnapshot(
+              `fluidgridcomponent-fluidgrid--fluid-grid-${theme}-${width}`,
+              {
+                widths: [width],
+              },
+            );
           });
         });
       });

@@ -18,7 +18,8 @@ describe('modal footer dropdown', () => {
         cy.get('app-modal-footer-dropdown .space + div button')
           .should('exist')
           .first()
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get('app-modal-footer-dropdown .space + div button')
           .should('be.visible')
           .should('contain.text', 'Open medium modal')
           .click({ waitForAnimations: true });
@@ -58,10 +59,13 @@ describe('modal footer dropdown', () => {
         cy.get('app-modal-footer-dropdown .space + div button')
           .should('exist')
           .last()
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get('app-modal-footer-dropdown .space + div button')
           .should('be.visible')
           .should('contain.text', 'Open full page modal')
-          .click({ waitForAnimations: true });
+          .click({
+            waitForAnimations: true,
+          });
         cy.get('sky-modal h2')
           .should('exist')
           .should('be.visible')
