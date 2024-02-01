@@ -10,6 +10,7 @@ import {
   OnInit,
   Renderer2,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -21,8 +22,9 @@ import {
 } from '@angular/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
+import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerComponent } from './colorpicker.component';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
@@ -82,6 +84,18 @@ export class SkyColorpickerInputDirective
   }
 
   /**
+   * The ID should only be settable when `labelText` is undefined.
+   * When `labelText` is set, the ID is defined by `SkyColorpickerComponent`.
+   * @internal
+   */
+  @Input()
+  public set id(value: string | undefined) {
+    if (!this.#labelText && value) {
+      this.#setInputId(value);
+    }
+  }
+
+  /**
    * This property is deprecated and does not affect the colorpicker.
    * We recommend against using it.
    * @deprecated
@@ -128,15 +142,19 @@ export class SkyColorpickerInputDirective
   protected readonly colorInputClass = true;
 
   #modelValue: SkyColorpickerOutput | undefined;
-  #pickerChangedSubscription: Subscription | undefined;
   #elementRef: ElementRef;
   #renderer: Renderer2;
   #svc: SkyColorpickerService;
   #resourcesSvc: SkyLibResourcesService;
   #injector: Injector;
+  #inputIdSubscription: Subscription | undefined;
+  #labelText: string | undefined;
 
   #_disabled: boolean | undefined;
   #_initialColor: string | undefined;
+
+  readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
+  readonly #ngUnsubscribe = new Subject<void>();
 
   constructor(
     elementRef: ElementRef,
@@ -174,18 +192,32 @@ export class SkyColorpickerInputDirective
     this.skyColorpickerInput.initialColor = this.initialColor;
     this.skyColorpickerInput.returnFormat = this.returnFormat;
 
-    this.#pickerChangedSubscription =
-      this.skyColorpickerInput.selectedColorChanged.subscribe(
-        (newColor: SkyColorpickerOutput) => {
-          /* istanbul ignore else */
-          if (newColor) {
-            this.#modelValue = this.#formatter(newColor);
+    this.skyColorpickerInput.selectedColorChanged
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((newColor: SkyColorpickerOutput) => {
+        /* istanbul ignore else */
+        if (newColor) {
+          this.#modelValue = this.#formatter(newColor);
 
-            // Write the new value to the reactive form control, which will update the template model
-            this.writeValue(newColor);
-          }
-        },
-      );
+          // Write the new value to the reactive form control, which will update the template model
+          this.writeValue(newColor);
+        }
+      });
+
+    this.#colorpickerInputSvc.labelText
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((labelText) => {
+        this.#labelText = labelText;
+        this.#inputIdSubscription?.unsubscribe();
+
+        if (labelText) {
+          this.#inputIdSubscription = this.#colorpickerInputSvc.inputId
+            .pipe(takeUntil(this.#ngUnsubscribe))
+            .subscribe((inputId) => {
+              this.#setInputId(inputId);
+            });
+        }
+      });
 
     this.skyColorpickerInput.updatePickerValues(this.initialColor);
 
@@ -213,9 +245,8 @@ export class SkyColorpickerInputDirective
   }
 
   public ngOnDestroy(): void {
-    if (this.#pickerChangedSubscription) {
-      this.#pickerChangedSubscription.unsubscribe();
-    }
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public setColorPickerDefaults(): void {
@@ -336,5 +367,9 @@ export class SkyColorpickerInputDirective
   #getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
     return this.#resourcesSvc.getStringForLocale({ locale: 'en-US' }, key);
+  }
+
+  #setInputId(id: string): void {
+    this.#renderer.setAttribute(this.#elementRef.nativeElement, 'id', id);
   }
 }

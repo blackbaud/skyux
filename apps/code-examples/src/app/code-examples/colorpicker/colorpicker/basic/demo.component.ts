@@ -6,13 +6,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyColorpickerModule, SkyColorpickerOutput } from '@skyux/colorpicker';
-import { SkyIdModule } from '@skyux/core';
 
 @Component({
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [ReactiveFormsModule, SkyColorpickerModule, SkyIdModule],
+  imports: [ReactiveFormsModule, SkyColorpickerModule],
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
