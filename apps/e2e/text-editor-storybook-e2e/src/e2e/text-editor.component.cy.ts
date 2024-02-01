@@ -10,6 +10,7 @@ describe('text-editor-storybook', () => {
               `/iframe.html?globals=theme:${theme}&id=texteditorcomponent-texteditor--text-editor-${mode}`,
             ),
           );
+
           it('should render', () => {
             cy.get('app-text-editor')
               .should('exist')
@@ -26,6 +27,7 @@ describe('text-editor-storybook', () => {
           });
         });
       });
+
       describe('text editor component', () => {
         beforeEach(() =>
           cy.visit(
@@ -52,6 +54,7 @@ describe('text-editor-storybook', () => {
             },
           );
         });
+
         it('should open all the menus', () => {
           ['Edit menu', 'Format menu', 'Insert merge field'].forEach(
             (button) => {
@@ -72,6 +75,7 @@ describe('text-editor-storybook', () => {
             },
           );
         });
+
         it('should open create link dialog', () => {
           cy.get('app-text-editor')
             .should('exist')
@@ -96,15 +100,19 @@ describe('text-editor-storybook', () => {
             .get('sky-tab-button')
             .eq(1)
             .click();
-          cy.get('.sky-modal sky-tab-button').screenshot(
-            `texteditorcomponent-texteditor--text-editor-create-link-modal-email-address-tab-${theme}`,
-          );
-          cy.get('.sky-modal sky-tab-button').percySnapshot(
-            `texteditorcomponent-texteditor--text-editor-create-link-modal-email-address-tab-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+          cy.get('.sky-modal sky-tab-button')
+            .first()
+            .screenshot(
+              `texteditorcomponent-texteditor--text-editor-create-link-modal-email-address-tab-${theme}`,
+            );
+          cy.get('.sky-modal sky-tab-button')
+            .first()
+            .percySnapshot(
+              `texteditorcomponent-texteditor--text-editor-create-link-modal-email-address-tab-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
         });
       });
     });

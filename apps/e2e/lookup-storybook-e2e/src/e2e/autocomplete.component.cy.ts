@@ -9,6 +9,7 @@ describe('lookup-storybook', () => {
         );
         cy.viewport(1300, 900).get('#ready').should('exist').end();
       });
+
       it('should render the component', () => {
         cy.get('app-autocomplete')
           .should('exist')
@@ -55,9 +56,7 @@ describe('lookup-storybook', () => {
           .should('exist')
           .should('be.visible')
           .type('a');
-        cy.get('app-autocomplete .sky-form-control .sky-autocomplete-result')
-          .first()
-          .click();
+        cy.get('.sky-autocomplete-result').first().click();
         cy.get('app-autocomplete').should('exist').should('be.visible').click();
         cy.get('app-autocomplete').screenshot(
           `autocompletecomponent-autocomplete--autocomplete-selected-${theme}`,
