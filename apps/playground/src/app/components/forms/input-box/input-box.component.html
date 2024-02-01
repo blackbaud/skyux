@@ -246,6 +246,16 @@ Value</textarea
   <div id="input-box-form-control-name-error">
     <form [formGroup]="errorForm">
       <sky-input-box
+        labelText="Custom error easy mode"
+        stacked="true"
+        hintText="type in blue"
+      >
+        <input formControlName="customError" type="text" />
+        <sky-form-error *ngIf="customError.errors?.['blue']" errorName="blue">
+          Input must be blue.
+        </sky-form-error>
+      </sky-input-box>
+      <sky-input-box
         mode="detect"
         labelText="Form control by name error with status indicator"
       >

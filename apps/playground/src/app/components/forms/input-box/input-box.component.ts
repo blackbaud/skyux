@@ -3,6 +3,7 @@ import {
   NgModel,
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
@@ -16,6 +17,8 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
 
   public errorField: UntypedFormControl;
 
+  public customError: UntypedFormControl;
+
   public errorForm: UntypedFormGroup;
 
   public errorNgModelValue: string;
@@ -28,10 +31,23 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
   public ngOnInit(): void {
     this.errorField = new UntypedFormControl('', [Validators.required]);
 
+    this.customError = new UntypedFormControl('', [
+      (control): ValidationErrors | null => {
+        console.log(control.value);
+        if (control.value !== 'blue') {
+          return { blue: true };
+        }
+        return null;
+      },
+      Validators.required,
+      Validators.maxLength(1),
+    ]);
+
     this.errorField.markAsTouched();
 
     this.errorForm = new UntypedFormGroup({
       errorFormField: new UntypedFormControl('', [Validators.required]),
+      customError: this.customError,
     });
     this.errorAutofillForm = new UntypedFormGroup({
       errorAutofillFormField: new UntypedFormControl('', [

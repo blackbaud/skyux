@@ -16,8 +16,17 @@
         </sky-input-box>
       </sky-column>
       <sky-column [screenSmall]="12" [screenMedium]="6">
-        <sky-input-box labelText="Last name" stacked="true">
-          <input formControlName="lastName" spellcheck="false" type="text" />
+        <sky-input-box
+          data-sky-id="input-box-last-name"
+          labelText="Last name"
+          stacked="true"
+        >
+          <input
+            class="last-name-input-box"
+            formControlName="lastName"
+            spellcheck="false"
+            type="text"
+          />
         </sky-input-box>
       </sky-column>
     </sky-row>
@@ -69,18 +78,15 @@
             <option value="green">Green</option>
             <option value="blue">Blue</option>
             <option value="purple">Purple</option>
-            <option value="bird">Bird</option>
+            <option value="blur">Blur</option>
           </select>
-          <!-- Custom validator not handled by input box. -->
-          <div class="sky-error-indicator">
-            <sky-status-indicator
-              *ngIf="favoriteColor.errors?.['color'] as colorError"
-              descriptionType="error"
-              indicatorType="danger"
-            >
-              {{ colorError.message }}
-            </sky-status-indicator>
-          </div>
+          <!-- Custom form error not handled by input box. -->
+          <sky-form-error
+            *ngIf="favoriteColor.errors?.['color']"
+            errorName="color"
+          >
+            Blur is not a color.
+          </sky-form-error>
         </sky-input-box>
       </sky-column>
     </sky-row>
