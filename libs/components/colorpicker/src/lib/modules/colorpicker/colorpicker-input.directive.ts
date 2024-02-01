@@ -83,6 +83,11 @@ export class SkyColorpickerInputDirective
     return this.#_initialColor || SKY_COLORPICKER_DEFAULT_COLOR;
   }
 
+  /**
+   * The ID should only be settable when `labelText` is undefined.
+   * When `labelText` is set, the ID is defined by `SkyColorpickerComponent`.
+   * @internal
+   */
   @Input()
   public set id(value: string | undefined) {
     if (!this.#labelText && value) {
