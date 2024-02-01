@@ -1,19 +1,15 @@
 <form class="sky-margin-stacked-xxl" novalidate [formGroup]="formGroup">
   <div class="sky-margin-stacked-lg">
-    <label class="sky-control-label" [for]="colorInput.id">
-      What is your favorite color?
-    </label>
     <sky-colorpicker
+      labelText="What is your favorite color?"
       [messageStream]="colorpickerController"
       [showResetButton]="showResetButton"
       #colorPicker
     >
       <input
         formControlName="favoriteColor"
-        skyId
         type="text"
         [skyColorpickerInput]="colorPicker"
-        #colorInput="skyId"
       />
     </sky-colorpicker>
   </div>
