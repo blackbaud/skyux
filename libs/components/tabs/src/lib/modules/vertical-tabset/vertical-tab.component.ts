@@ -247,10 +247,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onSpace(): void {
-    alert('space!');
-  }
-
   @HostListener('window:resize')
   public onWindowResize(): void {
     if (this.tabContent) {
