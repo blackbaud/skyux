@@ -5,12 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class SkyCharacterCounterScreenReaderPipe implements PipeTransform {
-  #hasFocus = false;
+  #previousAnnouncementPoint: number | undefined;
 
   public transform(
     characterCount: number | undefined,
     characterCountLimit: number | undefined,
-    hasFocus: boolean,
   ): string {
     /* Safety check */
     /* istanbul ignore if */
@@ -20,20 +19,23 @@ export class SkyCharacterCounterScreenReaderPipe implements PipeTransform {
 
     // We want to announce every 10 characters if we are within 50 of the limit or every 50 otherwise.
     const modulus = characterCountLimit - characterCount <= 50 ? 10 : 50;
-    let returnString = '';
 
-    // We want to clear the screen reader when focus is lost - no matter the current count
-    if (!hasFocus && this.#hasFocus) {
-      returnString = '';
-    } else if (
-      (!this.#hasFocus && hasFocus) ||
+    if (
       characterCount === characterCountLimit ||
       characterCount % modulus === 0
     ) {
-      returnString = characterCount.toLocaleString();
+      this.#previousAnnouncementPoint = characterCount;
+      return characterCount.toLocaleString();
+    } else if (this.#previousAnnouncementPoint === undefined) {
+      this.#previousAnnouncementPoint = characterCount;
+      return this.#previousAnnouncementPoint.toLocaleString();
+    } else if (
+      Math.floor(characterCount / modulus) ===
+      Math.floor(this.#previousAnnouncementPoint / modulus)
+    ) {
+      return this.#previousAnnouncementPoint.toLocaleString();
+    } else {
+      return (Math.floor(characterCount / modulus) * modulus).toLocaleString();
     }
-
-    this.#hasFocus = hasFocus;
-    return returnString;
   }
 }

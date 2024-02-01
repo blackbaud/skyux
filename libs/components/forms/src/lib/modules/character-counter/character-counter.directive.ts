@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import {
   AbstractControl,
   NG_VALIDATORS,
@@ -52,26 +52,6 @@ export class SkyCharacterCounterInputDirective implements Validator {
   public set skyCharacterCounterLimit(value: number | undefined) {
     this.#skyCharacterCounterLimitOrDefault = value ?? 0;
     this.#updateIndicatorLimit();
-  }
-
-  /**
-   * Tells the character counter component to announce to screen readers when the input if focused - no matter the current state of the counter.
-   */
-  @HostListener('focusin')
-  public announceToScreenReaderOnFocus(): void {
-    if (this.skyCharacterCounterIndicator) {
-      this.skyCharacterCounterIndicator.hasFocus = true;
-    }
-  }
-
-  /**
-   * Tells the character counter component to clear the screen reader text when focus is lost.
-   */
-  @HostListener('focusout')
-  public clearScreenReaderWithoutFocus(): void {
-    if (this.skyCharacterCounterIndicator) {
-      this.skyCharacterCounterIndicator.hasFocus = false;
-    }
   }
 
   #_skyCharacterCounterIndicator:

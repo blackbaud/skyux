@@ -5,7 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
 import { CharacterCountNoIndicatorTestComponent } from './fixtures/character-count-no-indicator.component.fixture';
@@ -13,33 +13,6 @@ import { CharacterCountTestComponent } from './fixtures/character-count.componen
 import { CharacterCountTestModule } from './fixtures/character-count.module.fixture';
 
 describe('Character Counter component', () => {
-  function focusFirstNameInput(
-    fixture: ComponentFixture<
-      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
-    >,
-  ): void {
-    const inputElement = fixture.debugElement.query(
-      By.css('#first-name-input'),
-    ).nativeElement;
-    inputElement.focus();
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focusin');
-    fixture.detectChanges();
-    tick();
-  }
-
-  function removeFirstNameFocus(
-    fixture: ComponentFixture<
-      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
-    >,
-  ): void {
-    const inputElement = fixture.debugElement.query(
-      By.css('#first-name-input'),
-    ).nativeElement;
-    SkyAppTestUtility.fireDomEvent(inputElement, 'focusout');
-    fixture.detectChanges();
-    tick();
-  }
-
   function setInputValue(
     fixture: ComponentFixture<
       CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
@@ -196,11 +169,14 @@ describe('Character Counter component', () => {
     });
 
     it('should announce to screen readers every 10 characters when within 50 characters of the limit', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
       component.setCharacterCountLimit(49);
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(9));
-      expect(getScreenReaderText(fixture)).toBe('');
+      // Sets currently typed characters do not change until a breakpoint
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 49');
 
       setInputValue(fixture, '1'.repeat(10));
       expect(getScreenReaderText(fixture)).toBe('10 characters out of 49');
@@ -210,14 +186,17 @@ describe('Character Counter component', () => {
     }));
 
     it('should announce to screen readers every 50 characters when not within 50 characters of the limit', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
       component.setCharacterCountLimit(99);
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(9));
-      expect(getScreenReaderText(fixture)).toBe('');
+      // Sets currently typed characters do not change until a breakpoint
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 99');
 
       setInputValue(fixture, '1'.repeat(10));
-      expect(getScreenReaderText(fixture)).toBe('');
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 99');
 
       setInputValue(fixture, '1'.repeat(50));
       expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
@@ -229,12 +208,21 @@ describe('Character Counter component', () => {
       expect(getScreenReaderText(fixture)).toBe('0 characters out of 99');
     }));
 
-    it('should announce to screen readers when reaching the limit', fakeAsync(() => {
+    it('should announce to screen readers when jumping from the initial value to a value past an announcement point', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
       component.setCharacterCountLimit(99);
       fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(98));
-      expect(getScreenReaderText(fixture)).toBe('');
+      expect(getScreenReaderText(fixture)).toBe('90 characters out of 99');
+    }));
+
+    it('should announce to screen readers when reaching the limit', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
 
       setInputValue(fixture, '1'.repeat(90));
       expect(getScreenReaderText(fixture)).toBe('90 characters out of 99');
@@ -254,42 +242,6 @@ describe('Character Counter component', () => {
       expect(getScreenReaderText(fixture)).toBe(
         'You are over the character limit.',
       );
-    }));
-
-    it('should announce to screen readers when the input is focused even when not at a standard announcement point', fakeAsync(() => {
-      component.setCharacterCountLimit(99);
-      fixture.detectChanges();
-
-      setInputValue(fixture, '1'.repeat(98));
-      expect(getScreenReaderText(fixture)).toBe('');
-
-      focusFirstNameInput(fixture);
-      expect(getScreenReaderText(fixture)).toBe('98 characters out of 99');
-    }));
-
-    it('should clear the screen reader announcement when removing focus from the input so that it can be put back when refocused', fakeAsync(() => {
-      component.setCharacterCountLimit(99);
-      fixture.detectChanges();
-
-      setInputValue(fixture, '1'.repeat(98));
-      expect(getScreenReaderText(fixture)).toBe('');
-
-      // Baseline that focusing works
-      focusFirstNameInput(fixture);
-      expect(getScreenReaderText(fixture)).toBe('98 characters out of 99');
-
-      // Clear screen reader when focus is removed (and ensure no new announcement is made)
-      removeFirstNameFocus(fixture);
-      expect(getScreenReaderText(fixture)).toBe('');
-
-      // Ensure a new announcement works if refocused.
-      setInputValue(fixture, '1'.repeat(60));
-      focusFirstNameInput(fixture);
-      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
-
-      // Clear screen reader when focus is removed (and ensure no new announcement is made) when the count is a standard announcement interval
-      removeFirstNameFocus(fixture);
-      expect(getScreenReaderText(fixture)).toBe('');
     }));
 
     it('should pass accessibility', async () => {

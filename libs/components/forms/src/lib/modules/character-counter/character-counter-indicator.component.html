@@ -4,7 +4,7 @@
 >
   {{ characterCount + '/' + characterCountLimit }}
 </span>
-<span aria-live="polite" class="sky-screen-reader-only">
+<span aria-live="assertive" class="sky-screen-reader-only">
   <ng-container
     *ngIf="characterCount > characterCountLimit; else screenReaderCountMessage"
     >{{ 'skyux_character_count_over_limit' | skyLibResources }}</ng-container
@@ -14,8 +14,7 @@
       *ngIf="
         characterCount
           | skyCharacterCounterScreenReader
-            : characterCountLimit
-            : hasFocus as screenReaderCount
+            : characterCountLimit as screenReaderCount
       "
       >{{
         'skyux_character_count_message'
