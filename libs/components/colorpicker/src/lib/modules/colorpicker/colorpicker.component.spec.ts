@@ -390,6 +390,27 @@ describe('Colorpicker Component', () => {
       ).toBeNull();
     }));
 
+    it('should add a label if labelText is provided', () => {
+      const labelText = 'Label Text';
+      component.labelText = labelText;
+
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+
+      expect(label).toBeVisible();
+      expect(label.textContent).toBe(labelText);
+    });
+
+    it('should allow setting ID if labelText is not set', () => {
+      const id = 'test-id';
+      component.id = id;
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector(`#${id}`)).toExist();
+    });
+
     it('should add icon overlay', fakeAsync(() => {
       const icon = getColorpickerIcon();
       expect(icon).toBeNull();

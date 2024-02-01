@@ -11,7 +11,6 @@ import {
   SkyColorpickerMessageType,
   SkyColorpickerModule,
 } from '@skyux/colorpicker';
-import { SkyIdModule } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -19,12 +18,7 @@ import { Subject } from 'rxjs';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SkyColorpickerModule,
-    SkyIdModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyColorpickerModule],
 })
 export class DemoComponent {
   protected colorpickerController = new Subject<SkyColorpickerMessage>();
