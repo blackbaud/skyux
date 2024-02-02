@@ -198,11 +198,40 @@ describe('Character Counter component', () => {
       setInputValue(fixture, '1'.repeat(10));
       expect(getScreenReaderText(fixture)).toBe('4 characters out of 99');
 
+      // Should not update when 50 characters is hit on a non-multiple of 10
+      setInputValue(fixture, '1'.repeat(49));
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 99');
+
       setInputValue(fixture, '1'.repeat(50));
       expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
 
       setInputValue(fixture, '1'.repeat(60));
       expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
+
+      setInputValue(fixture, '');
+      expect(getScreenReaderText(fixture)).toBe('0 characters out of 99');
+    }));
+
+    it('should announce to screen readers when backspacing at breakpoints', fakeAsync(() => {
+      // Sets the screen reader to the initial state
+      expect(getScreenReaderText(fixture)).toBe('4 characters out of 5');
+      component.setCharacterCountLimit(99);
+      fixture.detectChanges();
+
+      setInputValue(fixture, '1'.repeat(60));
+      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
+
+      setInputValue(fixture, '1'.repeat(59));
+      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
+
+      setInputValue(fixture, '1'.repeat(50));
+      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
+
+      setInputValue(fixture, '1'.repeat(49));
+      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
+
+      setInputValue(fixture, '1'.repeat(5));
+      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
 
       setInputValue(fixture, '');
       expect(getScreenReaderText(fixture)).toBe('0 characters out of 99');

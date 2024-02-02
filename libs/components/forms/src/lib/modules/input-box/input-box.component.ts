@@ -197,6 +197,8 @@ export class SkyInputBoxComponent
     );
   }
 
+  protected characterCountScreenReader = 0;
+
   #_stacked = false;
   #_characterLimit: number | undefined;
   #_hintText: string | undefined;
@@ -211,6 +213,10 @@ export class SkyInputBoxComponent
   public ngAfterContentChecked(): void {
     this.controlDir =
       this.formControl || this.formControlByName || this.ngModel;
+
+    if (!this.formControlHasFocus) {
+      this.characterCountScreenReader = this.controlDir?.value?.length || 0;
+    }
 
     if (this.inputRef) {
       const inputEl = this.inputRef.nativeElement as HTMLElement;
@@ -266,6 +272,7 @@ export class SkyInputBoxComponent
   }
 
   public formControlFocusOut(): void {
+    this.characterCountScreenReader = this.controlDir?.value?.length || 0;
     this.#updateHasFocus(false);
   }
 

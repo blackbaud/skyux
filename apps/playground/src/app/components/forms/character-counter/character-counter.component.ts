@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class CharacterCounterComponent {
   protected description: FormControl;
   protected formGroup: FormGroup;
+  protected name: FormControl;
   protected maxDescriptionCharacterCount = 99;
 
   readonly #formBuilder = inject(FormBuilder);
@@ -17,8 +18,11 @@ export class CharacterCounterComponent {
       'Boys and Girls Club of South Carolina donation',
     );
 
+    this.name = this.#formBuilder.control('Robert Hernandez');
+
     this.formGroup = this.#formBuilder.group({
       description: this.description,
+      name: this.name,
     });
   }
 }

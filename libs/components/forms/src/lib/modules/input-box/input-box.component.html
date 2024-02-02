@@ -79,6 +79,14 @@
   <label
     *ngIf="labelText"
     class="sky-control-label"
+    [attr.aria-label]="
+      characterLimit !== undefined
+        ? labelText +
+          ' ' +
+          ('skyux_character_count_message'
+            | skyLibResources : characterCountScreenReader : characterLimit)
+        : null
+    "
     [for]="controlId"
     [ngClass]="{
       'sky-control-label-required': required

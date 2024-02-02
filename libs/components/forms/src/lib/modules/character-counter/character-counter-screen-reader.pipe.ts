@@ -18,7 +18,10 @@ export class SkyCharacterCounterScreenReaderPipe implements PipeTransform {
     }
 
     // We want to announce every 10 characters if we are within 50 of the limit or every 50 otherwise.
-    const modulus = characterCountLimit - characterCount <= 50 ? 10 : 50;
+    const modulus =
+      characterCountLimit - Math.floor(characterCount / 10) * 10 <= 50
+        ? 10
+        : 50;
 
     if (
       characterCount === characterCountLimit ||
@@ -31,11 +34,15 @@ export class SkyCharacterCounterScreenReaderPipe implements PipeTransform {
       return this.#previousAnnouncementPoint.toLocaleString();
     } else if (
       Math.floor(characterCount / modulus) ===
-      Math.floor(this.#previousAnnouncementPoint / modulus)
+        Math.floor(this.#previousAnnouncementPoint / modulus) ||
+      Math.ceil(characterCount / modulus) ===
+        Math.floor(this.#previousAnnouncementPoint / modulus)
     ) {
       return this.#previousAnnouncementPoint.toLocaleString();
     } else {
-      return (Math.floor(characterCount / modulus) * modulus).toLocaleString();
+      this.#previousAnnouncementPoint =
+        Math.floor(characterCount / modulus) * modulus;
+      return this.#previousAnnouncementPoint.toLocaleString();
     }
   }
 }
