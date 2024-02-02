@@ -30,6 +30,7 @@ export class ColorpickerReactiveTestComponent {
     '#68AFEF',
   ];
   public inputType = 'text';
+  public labelText: string | undefined;
 
   @ViewChild('colorPickerTest', {
     static: true,
@@ -37,23 +38,13 @@ export class ColorpickerReactiveTestComponent {
   public colorpickerComponent!: SkyColorpickerComponent;
   public colorpickerController = new Subject<SkyColorpickerMessage>();
 
-  public showMultiple = false;
   public newValues = {
     colorModel: '#000',
-    colorModel2: '#111',
-    colorModel3: '#222',
-    colorModel4: '#333',
   };
 
   public colorControl = new UntypedFormControl('#00f');
-  public colorControl2 = new UntypedFormControl('#aaa');
-  public colorControl3 = new UntypedFormControl('#bbb');
-  public colorControl4 = new UntypedFormControl('#ccc');
   public colorForm = new UntypedFormGroup({
     colorModel: this.colorControl,
-    colorModel2: this.colorControl2,
-    colorModel3: this.colorControl3,
-    colorModel4: this.colorControl4,
   });
 
   public sendMessage(type: SkyColorpickerMessageType) {

@@ -16,6 +16,7 @@ export class ColorpickerTestComponent {
   public pickerButtonIconType: string | undefined;
   public label: string | undefined;
   public labelledBy: string | undefined;
+  public labelText: string | undefined;
   public selectedHexType = 'hex6';
   public selectedColor: string | undefined = '#2889e5';
   public selectedOutputFormat = 'rgba';
@@ -36,6 +37,7 @@ export class ColorpickerTestComponent {
   public inputType = 'text';
   public selectedTransparency = true;
   public disabled = false;
+  public id: string | undefined;
 
   @ViewChild(SkyColorpickerComponent, {
     static: true,
