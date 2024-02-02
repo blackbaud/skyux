@@ -22,65 +22,104 @@ import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
 let mockQueryService: MockSkyMediaQueryService;
 
 function getVisibleTabContentPane(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): HTMLElement[] {
-  return fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)',
+  return Array.from(
+    fixture.nativeElement.querySelectorAll(
+      '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)',
+    ),
   );
 }
 
-function getTabContentPanes(fixture: ComponentFixture<any>): HTMLElement[] {
-  return fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tab-content-pane',
+function getTabset(fixture: ComponentFixture<unknown>): HTMLElement {
+  return (fixture.nativeElement as HTMLElement).querySelector(
+    '.sky-vertical-tabset',
+  ) as HTMLElement;
+}
+
+function getTabContentPanes(fixture: ComponentFixture<unknown>): HTMLElement[] {
+  return Array.from(
+    fixture.nativeElement.querySelectorAll('.sky-vertical-tab-content-pane'),
   );
 }
 
 function getVisibleTabsetContent(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): HTMLElement[] {
-  return fixture.nativeElement.querySelectorAll(
-    '.sky-vertical-tabset-content:not(.sky-vertical-tabset-content-hidden)',
+  return Array.from(
+    fixture.nativeElement.querySelectorAll(
+      '.sky-vertical-tabset-content:not(.sky-vertical-tabset-content-hidden)',
+    ),
   );
 }
 
-function getTabsContainer(fixture: ComponentFixture<any>): HTMLElement[] {
-  return fixture.nativeElement.querySelectorAll(
+function getTabsContainer(fixture: ComponentFixture<unknown>): HTMLElement {
+  return fixture.nativeElement.querySelector(
     '.sky-vertical-tabset-group-container:not(.sky-vertical-tabset-hidden)',
   );
 }
 
-function getTabs(fixture: ComponentFixture<any>): HTMLElement[] {
-  return fixture.nativeElement.querySelectorAll('.sky-vertical-tab');
+function getTabs(fixture: ComponentFixture<unknown>): HTMLElement[] {
+  return Array.from(
+    fixture.nativeElement.querySelectorAll('.sky-vertical-tab'),
+  );
 }
 
-function getTabGroups(fixture: ComponentFixture<any>): HTMLElement[] {
-  return fixture.nativeElement.querySelectorAll('.sky-vertical-tabset-group');
+function getTabGroups(fixture: ComponentFixture<unknown>): HTMLElement[] {
+  return Array.from(
+    fixture.nativeElement.querySelectorAll('.sky-vertical-tabset-group'),
+  );
 }
 
-function getOpenTabGroups(fixture: ComponentFixture<any>): HTMLElement[] {
-  return fixture.nativeElement.querySelectorAll('.sky-expansion-indicator-up');
+function getOpenTabGroups(fixture: ComponentFixture<unknown>): HTMLElement[] {
+  return Array.from(
+    fixture.nativeElement.querySelectorAll('.sky-expansion-indicator-up'),
+  );
 }
 
-function clickGroupButton(fixture: ComponentFixture<any>, index: number): void {
-  getTabGroups(fixture)[index].querySelector('button')?.click();
+function getAllTabButtons(fixture: ComponentFixture<unknown>): HTMLElement[] {
+  return Array.from(
+    fixture.nativeElement.querySelectorAll('.sky-vertical-tabset-button'),
+  );
+}
+
+function getGroupButton(
+  fixture: ComponentFixture<unknown>,
+  index: number,
+): HTMLButtonElement | null {
+  return getTabGroups(fixture)[index].querySelector('button');
+}
+
+function clickGroupButton(
+  fixture: ComponentFixture<unknown>,
+  index: number,
+): void {
+  getGroupButton(fixture, index)?.click();
   fixture.detectChanges();
   tick();
 }
 
+function getTab(
+  fixture: ComponentFixture<unknown>,
+  groupIndex: number,
+  tabIndex: number,
+): HTMLElement {
+  return getTabGroups(fixture)[groupIndex].querySelectorAll(
+    '.sky-vertical-tab',
+  )[tabIndex] as HTMLElement;
+}
+
 function clickTab(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
   groupIndex: number,
   tabIndex: number,
 ): void {
-  const tab = getTabGroups(fixture)[groupIndex].querySelectorAll(
-    '.sky-vertical-tab',
-  )[tabIndex] as HTMLElement;
-  tab.click();
+  getTab(fixture, groupIndex, tabIndex).click();
   fixture.detectChanges();
 }
 
 function expectGroupTabsAreVisible(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
   index: number,
 ): void {
   const groupContent = getTabGroups(fixture)[index].querySelector(
@@ -92,7 +131,7 @@ function expectGroupTabsAreVisible(
 }
 
 function expectGroupTabsAreNotVisible(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
   index: number,
 ): void {
   const groupContent = getTabGroups(fixture)[index].querySelector(
@@ -102,24 +141,77 @@ function expectGroupTabsAreNotVisible(
   expect(['0', '0px']).toContain(groupContent.style.height);
 }
 
-function expectOpenGroup(
-  fixture: ComponentFixture<any>,
+function expectActiveGroup(
+  fixture: ComponentFixture<unknown>,
   innerText: string,
 ): void {
-  const openGroupEl = fixture.nativeElement.querySelectorAll(
+  const openGroupEl = fixture.nativeElement.querySelector(
+    '.sky-vertical-tabset-group-header-active',
+  ) as HTMLElement | null;
+
+  expect(openGroupEl).toBeTruthy();
+  expect(openGroupEl?.textContent?.trim()).toBe(innerText);
+}
+
+function expectOpenGroup(
+  fixture: ComponentFixture<unknown>,
+  innerText: string,
+  open = true,
+): void {
+  const openGroupEl = fixture.nativeElement.querySelector(
     '.sky-vertical-tabset-group-header-sub-open',
-  );
-  expect(openGroupEl.length).toBe(1);
-  expect(openGroupEl[0].textContent.trim()).toBe(innerText);
+  ) as HTMLElement | null;
+
+  if (open) {
+    expect(openGroupEl).toBeTruthy();
+    expect(openGroupEl?.textContent?.trim()).toBe(innerText);
+  } else {
+    expect(openGroupEl?.textContent?.trim() === innerText).toBe(false);
+  }
 }
 
 function expectVisibleTabContentPane(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
   innerText: string,
 ): void {
   const visibleTabContent = getVisibleTabContentPane(fixture);
   expect(visibleTabContent.length).toBe(1);
   expect(visibleTabContent[0]).toHaveText(innerText);
+}
+
+function elementHasFocus(el: HTMLElement | null): boolean {
+  return !!el && document.activeElement === el;
+}
+
+function fireKeyEvent(
+  el: HTMLElement | null,
+  eventName: 'keydown' | 'keyup',
+  key: string,
+): void {
+  SkyAppTestUtility.fireDomEvent(el, eventName, {
+    keyboardEventInit: {
+      key,
+    },
+  });
+}
+
+function fireTabsContainerKeydown(
+  fixture: ComponentFixture<unknown>,
+  key: string,
+): void {
+  fireKeyEvent(getTabsContainer(fixture), 'keydown', key);
+}
+
+function validateTabsKeyboardNav(
+  fixture: ComponentFixture<unknown>,
+  key: 'ArrowDown' | 'ArrowUp',
+  expectedActiveIndex: number,
+): void {
+  fireTabsContainerKeydown(fixture, key);
+
+  expect(
+    elementHasFocus(getAllTabButtons(fixture)[expectedActiveIndex]),
+  ).toBeTrue();
 }
 // #endregion
 
@@ -138,7 +230,7 @@ describe('Vertical tabset component', () => {
     });
   });
 
-  function createTestComponent() {
+  function createTestComponent(): ComponentFixture<VerticalTabsetTestComponent> {
     const fixture = TestBed.overrideComponent(SkyVerticalTabsetComponent, {
       add: {
         providers: [
@@ -187,8 +279,8 @@ describe('Vertical tabset component', () => {
     // check open tab
     expectVisibleTabContentPane(fixture, 'Group 2 Tab 2 content');
 
-    // check if parent group of selected tab has "open" CSS class
-    expectOpenGroup(fixture, 'Group 2');
+    // check if parent group of selected tab has "active" CSS class
+    expectActiveGroup(fixture, 'Group 2');
 
     flush();
   }));
@@ -201,11 +293,7 @@ describe('Vertical tabset component', () => {
     const tabs = getTabs(fixture);
 
     // open second tab
-    SkyAppTestUtility.fireDomEvent(tabs[1], 'keyup', {
-      keyboardEventInit: {
-        key: 'enter',
-      },
-    });
+    fireKeyEvent(tabs[1], 'keyup', 'enter');
     fixture.detectChanges();
 
     // check open tab
@@ -222,15 +310,169 @@ describe('Vertical tabset component', () => {
     const tabs = getTabs(fixture);
 
     // open second tab
-    SkyAppTestUtility.fireDomEvent(tabs[1], 'keyup', {
-      keyboardEventInit: {
-        key: ' ',
-      },
-    });
+    fireKeyEvent(tabs[1], 'keyup', ' ');
     fixture.detectChanges();
 
     // check open tab
     expectVisibleTabContentPane(fixture, 'Group 1 Tab 2 content');
+
+    flush();
+  }));
+
+  it('should expand and collapse groups with the left and right arrow keys', () => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const groupButton = getGroupButton(fixture, 0);
+
+    expectOpenGroup(fixture, 'Group 1');
+
+    fireKeyEvent(groupButton, 'keyup', 'ArrowLeft');
+    fixture.detectChanges();
+
+    expectOpenGroup(fixture, 'Group 1', false);
+
+    fireKeyEvent(groupButton, 'keyup', 'ArrowRight');
+    fixture.detectChanges();
+
+    expectOpenGroup(fixture, 'Group 1');
+  });
+
+  it('should move to the first item in a group with the right arrow key', () => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const groupButton = getGroupButton(fixture, 0);
+
+    expectOpenGroup(fixture, 'Group 1');
+
+    fireKeyEvent(groupButton, 'keyup', 'ArrowRight');
+    fixture.detectChanges();
+
+    expect(elementHasFocus(getTab(fixture, 0, 0))).toBeTrue();
+  });
+
+  it('should focus parent group when left arrow is pressed', fakeAsync(() => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    clickGroupButton(fixture, 1);
+
+    // click second tab in second group
+    clickTab(fixture, 1, 1);
+
+    fireKeyEvent(getTab(fixture, 1, 1), 'keyup', 'ArrowLeft');
+
+    expect(elementHasFocus(getGroupButton(fixture, 1))).toBeTrue();
+
+    flush();
+  }));
+
+  it('should navigate between tabs when up and down arrow keys are pressed', () => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    const allButtons = getAllTabButtons(fixture);
+    const groups = getTabGroups(fixture);
+
+    // This will focus the active tab, which is the second tab button
+    // (the first being its group button)
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focus');
+
+    // The last group is disabled, so get the penultimate group.
+    const lastEnabledGroupButton = getGroupButton(
+      fixture,
+      groups.length - 2,
+    ) as HTMLButtonElement;
+
+    validateTabsKeyboardNav(fixture, 'ArrowDown', 2);
+    validateTabsKeyboardNav(fixture, 'ArrowDown', 3);
+    validateTabsKeyboardNav(fixture, 'ArrowUp', 2);
+    validateTabsKeyboardNav(fixture, 'ArrowUp', 1);
+    validateTabsKeyboardNav(fixture, 'ArrowUp', 0);
+
+    // Validate focus circles back to the top or bottom.
+    validateTabsKeyboardNav(
+      fixture,
+      'ArrowUp',
+      allButtons.indexOf(lastEnabledGroupButton),
+    );
+    validateTabsKeyboardNav(fixture, 'ArrowDown', 0);
+  });
+
+  it('should focus the active tab when the tabs container is focused', fakeAsync(() => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabset = getTabset(fixture);
+    const tabsContainer = getTabsContainer(fixture);
+
+    clickGroupButton(fixture, 1);
+
+    // click second tab in second group
+    clickTab(fixture, 1, 1);
+
+    // Disallow tabbing to the tabset while focus is in the tabs container.
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focusin');
+    fixture.detectChanges();
+    expect(tabset.tabIndex).toBe(-1);
+
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focus');
+
+    expect(elementHasFocus(getTab(fixture, 1, 1))).toBeTrue();
+
+    // Enable tabbing to the tabset when focus leaves the tabs container.
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focusout');
+    fixture.detectChanges();
+    expect(tabset.tabIndex).toBe(0);
+
+    flush();
+  }));
+
+  it('should focus the first tab when the tabs container is focused and no tab is active', () => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+
+    fixture.componentInstance.active = false;
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    const tabButtons = getAllTabButtons(fixture);
+
+    expect(elementHasFocus(tabButtons[0])).toBeFalse();
+
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focus');
+
+    expect(elementHasFocus(tabButtons[0])).toBeTrue();
+  });
+
+  it("should focus the active tab's group when the tabs container is focused and the tab's group is collapsed", fakeAsync(() => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    clickGroupButton(fixture, 1);
+
+    // click second tab in second group
+    clickTab(fixture, 1, 1);
+
+    clickGroupButton(fixture, 1);
+
+    expectOpenGroup(fixture, 'Group 2', false);
+    expect(elementHasFocus(getGroupButton(fixture, 1))).toBeFalse();
+
+    SkyAppTestUtility.fireDomEvent(tabsContainer, 'focus');
+
+    expect(elementHasFocus(getGroupButton(fixture, 1))).toBeTrue();
 
     flush();
   }));
@@ -335,7 +577,7 @@ describe('Vertical tabset component', () => {
 
     // check tabs are not visible
     const tabs = getTabsContainer(fixture);
-    expect(tabs.length).toBe(0);
+    expect(tabs).toBeFalsy();
   });
 
   it('show tabs button should show tabs on mobile', () => {
@@ -347,7 +589,7 @@ describe('Vertical tabset component', () => {
 
     // check tabs are not visible
     const tabs = getTabsContainer(fixture);
-    expect(tabs.length).toBe(0);
+    expect(tabs).toBeFalsy();
 
     // check content is visible
     let visibleTabs = getVisibleTabContentPane(fixture);
@@ -364,7 +606,7 @@ describe('Vertical tabset component', () => {
 
     // check tabs are visible
     const tabsUpdated = getTabsContainer(fixture);
-    expect(tabsUpdated.length).toBe(1);
+    expect(tabsUpdated).toBeTruthy();
 
     // check content is not visible
     visibleTabs = getVisibleTabsetContent(fixture);
@@ -394,7 +636,7 @@ describe('Vertical tabset component', () => {
 
     // check tabs are not visible
     const tabs = getTabsContainer(fixture);
-    expect(tabs.length).toBe(0);
+    expect(tabs).toBeFalsy();
 
     // check content is visible
     const visibleTabs = getVisibleTabContentPane(fixture);
@@ -436,7 +678,7 @@ describe('Vertical tabset component', () => {
 
     // check tabs are not visible
     const tabs = getTabsContainer(fixture);
-    expect(tabs.length).toBe(0);
+    expect(tabs).toBeFalsy();
 
     // check content is visible
     const visibleTabs = getVisibleTabContentPane(fixture);
@@ -464,7 +706,7 @@ describe('Vertical tabset component', () => {
 
     // check tabs are visible
     const tabs = getTabsContainer(fixture);
-    expect(tabs.length).toBe(1);
+    expect(tabs).toBeTruthy();
 
     // check content is visible
     const visibleTabs = getVisibleTabContentPane(fixture);
@@ -632,8 +874,8 @@ describe('Vertical tabset component', () => {
     expect(visibleTabs.length).toBe(1);
     expect(visibleTabs[0]).toHaveText('Group 2 Tab 2 content');
 
-    // check open group
-    expectOpenGroup(fixture, 'Group 2');
+    // check active group
+    expectActiveGroup(fixture, 'Group 2');
 
     fixture.detectChanges();
 

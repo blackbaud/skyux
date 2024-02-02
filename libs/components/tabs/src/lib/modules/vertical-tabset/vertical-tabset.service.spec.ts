@@ -1,5 +1,8 @@
+import { TestBed } from '@angular/core/testing';
+import { SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
+import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 describe('Vertical tabset service', () => {
@@ -7,7 +10,18 @@ describe('Vertical tabset service', () => {
   const mockQueryService = new MockSkyMediaQueryService();
 
   beforeEach(() => {
-    service = new SkyVerticalTabsetService(mockQueryService as any);
+    TestBed.configureTestingModule({
+      providers: [
+        SkyVerticalTabsetService,
+        SkyVerticalTabsetAdapterService,
+        {
+          provide: SkyMediaQueryService,
+          useValue: mockQueryService,
+        },
+      ],
+    });
+
+    service = TestBed.inject(SkyVerticalTabsetService);
   });
 
   it('should add two non active tabs', () => {
