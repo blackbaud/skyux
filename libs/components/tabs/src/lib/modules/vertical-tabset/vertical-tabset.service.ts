@@ -1,9 +1,11 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 
 import { SkyVerticalTabComponent } from './vertical-tab.component';
+import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
+import { SkyVerticalTabsetGroupComponent } from './vertical-tabset-group.component';
 
 export const VISIBLE_STATE = 'shown';
 export const HIDDEN_STATE = 'void';
@@ -37,6 +39,8 @@ export class SkyVerticalTabsetService {
 
   public tabClicked: ReplaySubject<boolean> = new ReplaySubject(1);
 
+  #groups: SkyVerticalTabsetGroupComponent[] = [];
+
   #contentAdded = false;
 
   #tabsVisible = false;
@@ -44,6 +48,7 @@ export class SkyVerticalTabsetService {
   #isMobile = false;
 
   #mediaQueryService: SkyMediaQueryService;
+  #adapterSvc = inject(SkyVerticalTabsetAdapterService);
 
   constructor(mediaQueryService: SkyMediaQueryService) {
     this.#mediaQueryService = mediaQueryService;
@@ -116,6 +121,18 @@ export class SkyVerticalTabsetService {
     }
   }
 
+  public addGroup(group: SkyVerticalTabsetGroupComponent): void {
+    this.#groups.push(group);
+  }
+
+  public destroyGroup(group: SkyVerticalTabsetGroupComponent): void {
+    const groupIndex = this.#groups.indexOf(group);
+
+    if (groupIndex >= 0) {
+      this.#groups.splice(groupIndex, 1);
+    }
+  }
+
   public activateTab(tab: SkyVerticalTabComponent): void {
     // deactivate active tab
     const activeTab = this.tabs.find((t) => t.index === this.activeIndex);
@@ -172,6 +189,35 @@ export class SkyVerticalTabsetService {
     this.animationTabsVisibleState = VISIBLE_STATE;
     this.animationContentVisibleState = HIDDEN_STATE;
     this.showingTabs.next(true);
+  }
+
+  public focusActiveTab(tabGroups: ElementRef | undefined): void {
+    let focused = false;
+
+    const activeTab = this.tabs.find((tab) => tab.active);
+
+    if (activeTab) {
+      const parentGroup = this.#findParentGroup(activeTab);
+
+      const buttonToFocus =
+        parentGroup && !parentGroup.open
+          ? parentGroup.groupHeadingButton
+          : activeTab.tabButton;
+
+      focused = this.#adapterSvc.focusButton(buttonToFocus);
+    }
+
+    if (!focused) {
+      this.#adapterSvc.focusFirstButton(tabGroups);
+    }
+  }
+
+  #findParentGroup(
+    tab: SkyVerticalTabComponent,
+  ): SkyVerticalTabsetGroupComponent | undefined {
+    return this.#groups.find((group) =>
+      group.tabs?.some((groupTab) => tab === groupTab),
+    );
   }
 
   #destroyContent(): void {
