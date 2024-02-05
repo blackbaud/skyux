@@ -25,24 +25,32 @@ export class SkyCharacterCounterScreenReaderPipe implements PipeTransform {
 
     if (
       characterCount === characterCountLimit ||
-      characterCount % modulus === 0
+      characterCount % modulus === 0 ||
+      this.#previousAnnouncementPoint === undefined
     ) {
       this.#previousAnnouncementPoint = characterCount;
-      return characterCount.toLocaleString();
-    } else if (this.#previousAnnouncementPoint === undefined) {
-      this.#previousAnnouncementPoint = characterCount;
-      return this.#previousAnnouncementPoint.toLocaleString();
-    } else if (
-      Math.floor(characterCount / modulus) ===
-        Math.floor(this.#previousAnnouncementPoint / modulus) ||
-      Math.ceil(characterCount / modulus) ===
-        Math.floor(this.#previousAnnouncementPoint / modulus)
-    ) {
-      return this.#previousAnnouncementPoint.toLocaleString();
     } else {
-      this.#previousAnnouncementPoint =
-        Math.floor(characterCount / modulus) * modulus;
-      return this.#previousAnnouncementPoint.toLocaleString();
+      // We want the floor of the previous announcement and modulus in case the previous announcement wasn't an announcement point.
+      const previousAnnouncementQuotient = Math.floor(
+        this.#previousAnnouncementPoint / modulus,
+      );
+      // Lower limit of what announcement should have been made for the current count
+      const currentAnnouncementQuotient = Math.floor(characterCount / modulus);
+      // Next announcement that would be made if the current count increases
+      const currentAnnouncementNextAnnouncement = Math.ceil(
+        characterCount / modulus,
+      );
+
+      // Jump to the appropriate announcement point if the count jumps. For example, if going from 43 of 50 characters to 21 of 50 characters.
+      if (
+        currentAnnouncementQuotient !== previousAnnouncementQuotient &&
+        currentAnnouncementNextAnnouncement !== previousAnnouncementQuotient
+      ) {
+        this.#previousAnnouncementPoint =
+          Math.floor(characterCount / modulus) * modulus;
+      }
     }
+
+    return this.#previousAnnouncementPoint.toLocaleString();
   }
 }

@@ -34,6 +34,21 @@ interface InputBoxA11yTestingOptions {
   inlineHelpType?: 'custom' | 'sky';
 }
 
+interface InputBoxElements {
+  characterCountEl: HTMLElement | null;
+  hintTextEl: HTMLElement | null;
+  inputBoxEl: HTMLElement | null;
+  inputEl: HTMLElement | null;
+  inputGroupBtnEls: HTMLElement[];
+  inputGroupEl: HTMLElement | null;
+  insetBtnEl: HTMLElement | null;
+  labelEl: HTMLLabelElement | null;
+  inlineHelpEl: HTMLElement | null;
+  insetIconEl: HTMLElement | null;
+  insetIconWrapperEl: HTMLElement | null;
+  leftInsetIconEl: HTMLElement | null;
+}
+
 describe('Input box component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
@@ -324,21 +339,21 @@ describe('Input box component', () => {
     validateInvalid('when dirty and untouched', inputBoxEl, true);
   }
 
+  function validateLabelAccessibilityLabel(
+    els: Partial<InputBoxElements>,
+    label: string | null,
+  ): void {
+    expect(els.labelEl?.getAttribute('aria-label')).toBe(label);
+  }
+
   describe('default theme', () => {
     function getDefaultEls(
       fixture: ComponentFixture<any>,
       parentCls: string,
-    ): {
-      characterCountEl: HTMLElement | null;
-      hintTextEl: HTMLElement | null;
-      inputBoxEl: HTMLElement | null;
-      inputEl: HTMLElement | null;
-      inputGroupBtnEls: HTMLElement[];
-      inputGroupEl: HTMLElement | null;
-      insetBtnEl: HTMLElement | null;
-      labelEl: HTMLLabelElement | null;
-      inlineHelpEl: HTMLElement | null;
-    } {
+    ): Omit<
+      InputBoxElements,
+      'insetIconEl' | 'insetIconWrapperEl' | 'leftInsetIconEl'
+    > {
       const parentEl = document.querySelector(`.${parentCls}`);
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
@@ -483,7 +498,7 @@ describe('Input box component', () => {
       expect(els.inputGroupEl).toExist();
 
       expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
-      expect(els.labelEl?.getAttribute('aria-label')).toBeNull();
+      validateLabelAccessibilityLabel(els, null);
 
       expect(els.inputEl?.tagName).toBe('INPUT');
     });
@@ -618,9 +633,7 @@ describe('Input box component', () => {
 
       expect(els.labelEl).toHaveText('Easy mode');
       expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
-      expect(els.labelEl?.getAttribute('aria-label')).toBe(
-        'Easy mode 0 characters out of 10',
-      );
+      validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
     });
 
     it('should add stacked CSS class', () => {
@@ -673,9 +686,7 @@ describe('Input box component', () => {
 
       expect(characterCountLabelEl).toHaveText('0/10');
 
-      expect(els.labelEl?.getAttribute('aria-label')).toBe(
-        'Easy mode 0 characters out of 10',
-      );
+      validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
 
       fixture.componentInstance.easyModeValue = 'def';
 
@@ -687,9 +698,7 @@ describe('Input box component', () => {
       expect(characterCountLabelEl).toHaveText('3/10');
 
       // Aria-label updates when not focused
-      expect(els.labelEl?.getAttribute('aria-label')).toBe(
-        'Easy mode 3 characters out of 10',
-      );
+      validateLabelAccessibilityLabel(els, 'Easy mode 3 characters out of 10');
 
       fixture.componentInstance.easyModeCharacterLimit = 11;
 
@@ -698,9 +707,7 @@ describe('Input box component', () => {
       expect(characterCountLabelEl).toHaveText('3/11');
 
       // Aria-label updates when not focused
-      expect(els.labelEl?.getAttribute('aria-label')).toBe(
-        'Easy mode 3 characters out of 11',
-      );
+      validateLabelAccessibilityLabel(els, 'Easy mode 3 characters out of 11');
 
       SkyAppTestUtility.fireDomEvent(els.inputEl, 'focusin');
 
@@ -714,9 +721,7 @@ describe('Input box component', () => {
       expect(characterCountLabelEl).toHaveText('6/11');
 
       // Aria-label does not update when focused
-      expect(els.labelEl?.getAttribute('aria-label')).toBe(
-        'Easy mode 3 characters out of 11',
-      );
+      validateLabelAccessibilityLabel(els, 'Easy mode 3 characters out of 11');
 
       SkyAppTestUtility.fireDomEvent(els.inputEl, 'focusout');
 
@@ -724,9 +729,7 @@ describe('Input box component', () => {
       await fixture.whenStable();
 
       // Aria-label updates when focus lis lost
-      expect(els.labelEl?.getAttribute('aria-label')).toBe(
-        'Easy mode 6 characters out of 11',
-      );
+      validateLabelAccessibilityLabel(els, 'Easy mode 6 characters out of 11');
     });
 
     it('should remove character count when character limit is set to undefined', () => {
@@ -883,18 +886,7 @@ describe('Input box component', () => {
     function getModernEls(
       fixture: ComponentFixture<any>,
       parentCls: string,
-    ): {
-      characterCountEl: HTMLElement | null;
-      inputBoxEl: HTMLElement | null;
-      inputEl: HTMLElement | null;
-      inputGroupBtnEls: HTMLElement[];
-      insetBtnEl: HTMLElement | null;
-      insetIconEl: HTMLElement | null;
-      insetIconWrapperEl: HTMLElement | null;
-      leftInsetIconEl: HTMLElement | null;
-      labelEl: HTMLLabelElement | null;
-      inlineHelpEl: HTMLElement | null;
-    } {
+    ): InputBoxElements {
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
       const inputGroupEl = inputBoxEl?.querySelector(
@@ -907,6 +899,10 @@ describe('Input box component', () => {
 
       const formGroupInnerEl = formGroupEl?.querySelector(
         '.sky-input-box-form-group-inner',
+      ) as HTMLElement | null;
+
+      const hintTextEl = formGroupEl?.querySelector(
+        '.sky-input-box-hint-text',
       ) as HTMLElement | null;
 
       const labelEl = formGroupInnerEl?.querySelector(
@@ -956,6 +952,8 @@ describe('Input box component', () => {
         leftInsetIconEl,
         labelEl,
         inlineHelpEl,
+        hintTextEl,
+        inputGroupEl,
       };
     }
 
@@ -1001,7 +999,7 @@ describe('Input box component', () => {
       expect(els.labelEl).toExist();
       expect(els.inputEl).toExist();
       expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
-      expect(els.labelEl?.getAttribute('aria-label')).toBeNull();
+      validateLabelAccessibilityLabel(els, null);
 
       expect(els.inputEl?.tagName).toBe('INPUT');
     });

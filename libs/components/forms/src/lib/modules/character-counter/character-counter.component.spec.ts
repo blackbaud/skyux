@@ -36,6 +36,22 @@ describe('Character Counter component', () => {
     return screenReaderElement?.textContent;
   }
 
+  function validateScreenReaderTextForCount(
+    fixture: ComponentFixture<
+      CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
+    >,
+    characterCount: number,
+    expectedCountOrText: number | string,
+    characterCountLimit: number,
+  ): void {
+    setInputValue(fixture, '1'.repeat(characterCount));
+    expect(getScreenReaderText(fixture)).toBe(
+      typeof expectedCountOrText === 'string'
+        ? expectedCountOrText
+        : `${expectedCountOrText} characters out of ${characterCountLimit}`,
+    );
+  }
+
   beforeEach(function () {
     TestBed.configureTestingModule({
       imports: [CharacterCountTestModule],
@@ -174,15 +190,12 @@ describe('Character Counter component', () => {
       component.setCharacterCountLimit(49);
       fixture.detectChanges();
 
-      setInputValue(fixture, '1'.repeat(9));
       // Sets currently typed characters do not change until a breakpoint
-      expect(getScreenReaderText(fixture)).toBe('4 characters out of 49');
+      validateScreenReaderTextForCount(fixture, 9, 4, 49);
 
-      setInputValue(fixture, '1'.repeat(10));
-      expect(getScreenReaderText(fixture)).toBe('10 characters out of 49');
+      validateScreenReaderTextForCount(fixture, 10, 10, 49);
 
-      setInputValue(fixture, '');
-      expect(getScreenReaderText(fixture)).toBe('0 characters out of 49');
+      validateScreenReaderTextForCount(fixture, 0, 0, 49);
     }));
 
     it('should announce to screen readers every 50 characters when not within 50 characters of the limit', fakeAsync(() => {
@@ -191,25 +204,19 @@ describe('Character Counter component', () => {
       component.setCharacterCountLimit(99);
       fixture.detectChanges();
 
-      setInputValue(fixture, '1'.repeat(9));
       // Sets currently typed characters do not change until a breakpoint
-      expect(getScreenReaderText(fixture)).toBe('4 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 9, 4, 99);
 
-      setInputValue(fixture, '1'.repeat(10));
-      expect(getScreenReaderText(fixture)).toBe('4 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 10, 4, 99);
 
       // Should not update when 50 characters is hit on a non-multiple of 10
-      setInputValue(fixture, '1'.repeat(49));
-      expect(getScreenReaderText(fixture)).toBe('4 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 49, 4, 99);
 
-      setInputValue(fixture, '1'.repeat(50));
-      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 50, 50, 99);
 
-      setInputValue(fixture, '1'.repeat(60));
-      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 60, 60, 99);
 
-      setInputValue(fixture, '');
-      expect(getScreenReaderText(fixture)).toBe('0 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 0, 0, 99);
     }));
 
     it('should announce to screen readers when backspacing at breakpoints', fakeAsync(() => {
@@ -218,23 +225,17 @@ describe('Character Counter component', () => {
       component.setCharacterCountLimit(99);
       fixture.detectChanges();
 
-      setInputValue(fixture, '1'.repeat(60));
-      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 60, 60, 99);
 
-      setInputValue(fixture, '1'.repeat(59));
-      expect(getScreenReaderText(fixture)).toBe('60 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 59, 60, 99);
 
-      setInputValue(fixture, '1'.repeat(50));
-      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 50, 50, 99);
 
-      setInputValue(fixture, '1'.repeat(49));
-      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 49, 50, 99);
 
-      setInputValue(fixture, '1'.repeat(5));
-      expect(getScreenReaderText(fixture)).toBe('50 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 5, 50, 99);
 
-      setInputValue(fixture, '');
-      expect(getScreenReaderText(fixture)).toBe('0 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 0, 0, 99);
     }));
 
     it('should announce to screen readers when jumping from the initial value to a value past an announcement point', fakeAsync(() => {
@@ -243,8 +244,7 @@ describe('Character Counter component', () => {
       component.setCharacterCountLimit(99);
       fixture.detectChanges();
 
-      setInputValue(fixture, '1'.repeat(98));
-      expect(getScreenReaderText(fixture)).toBe('90 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 98, 90, 99);
     }));
 
     it('should announce to screen readers when reaching the limit', fakeAsync(() => {
@@ -253,23 +253,22 @@ describe('Character Counter component', () => {
       component.setCharacterCountLimit(99);
       fixture.detectChanges();
 
-      setInputValue(fixture, '1'.repeat(90));
-      expect(getScreenReaderText(fixture)).toBe('90 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 90, 90, 99);
 
-      setInputValue(fixture, '1'.repeat(99));
-      expect(getScreenReaderText(fixture)).toBe('99 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 99, 99, 99);
     }));
 
     it('should announce to screen readers when over the limit', fakeAsync(() => {
       component.setCharacterCountLimit(99);
       fixture.detectChanges();
 
-      setInputValue(fixture, '1'.repeat(99));
-      expect(getScreenReaderText(fixture)).toBe('99 characters out of 99');
+      validateScreenReaderTextForCount(fixture, 99, 99, 99);
 
-      setInputValue(fixture, '1'.repeat(100));
-      expect(getScreenReaderText(fixture)).toBe(
+      validateScreenReaderTextForCount(
+        fixture,
+        100,
         'You are over the character limit.',
+        99,
       );
     }));
 
