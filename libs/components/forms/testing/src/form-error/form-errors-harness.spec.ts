@@ -5,8 +5,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
-  FORM_ERRORS,
-  SkyFormErrorComponent,
+  SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorModule,
   SkyFormErrorsModule,
 } from '@skyux/forms';
 
@@ -17,7 +17,7 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
   selector: 'sky-form-errors-test',
   providers: [
     {
-      provide: FORM_ERRORS,
+      provide: SKY_FORM_ERRORS_ENABLED,
       useValue: true,
     },
   ],
@@ -43,7 +43,7 @@ describe('Form errors harness', () => {
   }> {
     await TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [SkyFormErrorsModule, SkyFormErrorComponent],
+      imports: [SkyFormErrorsModule, SkyFormErrorModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);

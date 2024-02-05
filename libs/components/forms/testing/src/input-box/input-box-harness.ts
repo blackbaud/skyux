@@ -9,7 +9,7 @@ import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
 import { SkyCharacterCounterIndicatorHarness } from '../character-counter/character-counter-indicator-harness';
-import { SkyFormErrorsHarness } from '../public-api';
+import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
 

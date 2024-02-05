@@ -78,15 +78,14 @@
             <option value="green">Green</option>
             <option value="blue">Blue</option>
             <option value="purple">Purple</option>
-            <option value="blur">Blur</option>
+            <option value="invalid">Invalid Color</option>
           </select>
           <!-- Custom form error not handled by input box. -->
           <sky-form-error
-            *ngIf="favoriteColor.errors?.['color']"
-            errorName="color"
-          >
-            Blur is not a color.
-          </sky-form-error>
+            *ngIf="favoriteColor.errors?.['invalid']"
+            errorName="invalid"
+            errorText="Invalid Color is not a color"
+          />
         </sky-input-box>
       </sky-column>
     </sky-row>

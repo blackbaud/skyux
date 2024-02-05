@@ -251,9 +251,11 @@ Value</textarea
         hintText="type in blue"
       >
         <input formControlName="customError" type="text" />
-        <sky-form-error *ngIf="customError.errors?.['blue']" errorName="blue">
-          Input must be blue.
-        </sky-form-error>
+        <sky-form-error
+          *ngIf="customError.errors?.['blue']"
+          errorName="blue"
+          errorText="Input must be blue."
+        />
       </sky-input-box>
       <sky-input-box
         mode="detect"

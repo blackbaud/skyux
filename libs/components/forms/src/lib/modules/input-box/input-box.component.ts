@@ -31,7 +31,7 @@ import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 
 import { ReplaySubject } from 'rxjs';
 
-import { FORM_ERRORS } from '../form-error/form-errors-token';
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -50,7 +50,7 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
     SkyInputBoxAdapterService,
     SkyInputBoxHostService,
     {
-      provide: FORM_ERRORS,
+      provide: SKY_FORM_ERRORS_ENABLED,
       useValue: true,
     },
   ],

@@ -88,7 +88,7 @@ describe('Basic input box demo', () => {
   });
 
   describe('favorite color field', () => {
-    it('should not allow blur to be selected', async () => {
+    it('should not allow invalid color to be selected', async () => {
       const harness = await setupTest({
         dataSkyId: 'input-box-favorite-color',
       });
@@ -97,10 +97,10 @@ describe('Basic input box demo', () => {
         '.input-box-favorite-color-select',
       ) as HTMLSelectElement;
 
-      selectEl.value = 'blur';
+      selectEl.value = 'invalid';
       selectEl.dispatchEvent(new Event('change'));
 
-      await expectAsync(harness.hasCustomFormError('color')).toBeResolvedTo(
+      await expectAsync(harness.hasCustomFormError('invalid')).toBeResolvedTo(
         true,
       );
     });

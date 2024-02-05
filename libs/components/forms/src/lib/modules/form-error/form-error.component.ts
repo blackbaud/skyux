@@ -1,18 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  HostBinding,
   Input,
   inject,
 } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
-import { FORM_ERRORS } from './form-errors-token';
+import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 
 /**
- * @internal
+ * Displays default and custom input error messages for SKY UX form components.
  */
 @Component({
   selector: 'sky-form-error',
@@ -25,7 +23,7 @@ import { FORM_ERRORS } from './form-errors-token';
       descriptionType="error"
       indicatorType="danger"
     >
-      <ng-content />
+      {{ errorText }}
     </sky-status-indicator>
   `,
   styles: [
@@ -39,26 +37,27 @@ import { FORM_ERRORS } from './form-errors-token';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormErrorComponent {
-  @Input()
-  public set errorName(value: string) {
-    this.#_errorName = value;
-    this.#updateClasses();
-  }
+  /**
+   * The name of the error.
+   */
+  @Input({ required: true })
+  public errorName!: string;
 
-  public get errorName(): string {
-    return this.#_errorName;
-  }
+  /**
+   * The error message to display.
+   */
+  @Input({ required: true })
+  public errorText!: string;
 
-  @HostBinding('class')
-  protected cssClass = '';
+  protected readonly formErrors = inject(SKY_FORM_ERRORS_ENABLED, {
+    optional: true,
+  });
 
-  #_errorName = '';
-
-  protected readonly formErrors = inject(FORM_ERRORS, { optional: true });
-  readonly #changeDetector = inject(ChangeDetectorRef);
-
-  #updateClasses(): void {
-    this.cssClass = `sky-form-error-${this.errorName} sky-form-error-indicator`;
-    this.#changeDetector.markForCheck();
+  constructor() {
+    if (!this.formErrors) {
+      throw new Error(
+        'The `sky-form-error` component is not supported in the provided context.',
+      );
+    }
   }
 }

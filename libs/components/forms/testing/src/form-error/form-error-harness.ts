@@ -19,7 +19,7 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
     return SkyFormErrorHarness.getDataSkyIdPredicate(filters);
   }
 
-  /*
+  /**
    * Gets the error name.
    */
   public async getErrorName(): Promise<string | null> {
