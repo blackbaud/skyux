@@ -4,6 +4,7 @@ export { SkyCheckboxChange } from './lib/modules/checkbox/checkbox-change';
 export { SkyCheckboxModule } from './lib/modules/checkbox/checkbox.module';
 
 export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
+export { SkyFormErrorModule } from './lib/modules/form-error/form-error.module';
 
 export { SkyFileAttachmentsModule } from './lib/modules/file-attachment/file-attachments.module';
 export { SkyFileItem } from './lib/modules/file-attachment/file-item';
@@ -29,6 +30,8 @@ export { SkySelectionBoxGridAlignItemsType } from './lib/modules/selection-box/t
 export { SkyToggleSwitchModule } from './lib/modules/toggle-switch/toggle-switch.module';
 export { SkyToggleSwitchChange } from './lib/modules/toggle-switch/types/toggle-switch-change';
 
+export { SKY_FORM_ERRORS_ENABLED } from './lib/modules/form-error/form-errors-enabled-token';
+
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 
@@ -41,6 +44,7 @@ export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment
 export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachment/file-drop.component';
 export { SkyFileItemComponent as λ9 } from './lib/modules/file-attachment/file-item.component';
 export { SkyFormErrorsComponent as λ21 } from './lib/modules/form-error/form-errors.component';
+export { SkyFormErrorComponent as λ22 } from './lib/modules/form-error/form-error.component';
 export { SkyInputBoxControlDirective as λ20 } from './lib/modules/input-box/input-box-control.directive';
 export { SkyInputBoxComponent as λ10 } from './lib/modules/input-box/input-box.component';
 export { SkyRadioGroupComponent as λ11 } from './lib/modules/radio/radio-group.component';
