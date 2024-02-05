@@ -10,20 +10,6 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-form-errors';
 
-  #getFormError = this.locatorForAll('sky-form-error');
-
-  async #getFormErrorsClasses(): Promise<string[]> {
-    const formErrorHarnesses = await this.locatorForAll(
-      SkyFormErrorHarness.with({}),
-    )();
-
-    return Promise.all(
-      formErrorHarnesses.map((formError) => {
-        return formError.getFirstClassError();
-      }),
-    );
-  }
-
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyFormErrorsHarness` that meets certain criteria
@@ -34,85 +20,28 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
     return SkyFormErrorsHarness.getDataSkyIdPredicate(filters);
   }
 
-  /*
-   * Gets total number of errors.
+  /**
+   * Gets a list of all errors fired.
    */
-  public async getNumberOfErrors(): Promise<number> {
-    return (await this.#getFormError()).length;
-  }
+  public async getFormErrors(): Promise<{ errorName: string | null }[]> {
+    const formErrorHarnesses = await this.locatorForAll(
+      SkyFormErrorHarness.with({}),
+    )();
 
-  /*
-   * Gets if the required error has triggered.
-   */
-  public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-required',
+    return Promise.all(
+      formErrorHarnesses.map(async (formError) => {
+        return { errorName: await formError.getErrorName() };
+      }),
     );
   }
 
-  /*
-   * Gets if the maximum length error has triggered.
+  /**
+   * Whether an error with the given name has fired.
    */
-  public async hasMaxLengthError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-maxlength',
-    );
-  }
-
-  /*
-   * Gets if the minimum length has triggered.
-   */
-  public async hasMinLengthError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-minlength',
-    );
-  }
-
-  /*
-   * Gets if the character count error has triggered.
-   */
-  public async hasCharacterCountError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-character-counter',
-    );
-  }
-
-  /*
-   * Gets if the date error has triggered.
-   */
-  public async hasDateError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes('sky-form-error-date');
-  }
-
-  /*
-   * Gets if the email error has triggered.
-   */
-  public async hasEmailError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-email',
-    );
-  }
-
-  /*
-   * Gets if the phone field error has triggered.
-   */
-  public async hasPhoneFieldError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes(
-      'sky-form-error-phone',
-    );
-  }
-
-  /*
-   * Gets if the time field error has triggered.
-   */
-  public async hasTimeError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes('sky-form-error-time');
-  }
-
-  /*
-   * Gets if the URL error has triggered.
-   */
-  public async hasUrlError(): Promise<boolean> {
-    return (await this.#getFormErrorsClasses()).includes('sky-form-error-url');
+  public async hasError(errorName: string): Promise<boolean> {
+    const formErrors = await this.getFormErrors();
+    return formErrors.some((error) => {
+      return error.errorName === errorName;
+    });
   }
 }

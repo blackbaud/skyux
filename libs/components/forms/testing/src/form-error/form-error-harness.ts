@@ -19,15 +19,10 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
     return SkyFormErrorHarness.getDataSkyIdPredicate(filters);
   }
 
-  async #getFormErrorClasses(): Promise<string[]> {
-    const formErrorClasses = await (await this.host()).getProperty('classList');
-    return Array.from(formErrorClasses);
-  }
-
-  /*
-   * Gets the error class that signifies which error has fired.
+  /**
+   * Gets the error name.
    */
-  public async getFirstClassError(): Promise<string> {
-    return (await this.#getFormErrorClasses())[0];
+  public async getErrorName(): Promise<string | null> {
+    return (await this.host()).getAttribute('errorName');
   }
 }

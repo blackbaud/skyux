@@ -50,7 +50,7 @@
   margin-left: $sky-margin-half;
 }
 
-.sky-vertical-tab-disabled {
+.sky-vertical-tabset-button-disabled {
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -58,6 +58,13 @@
 .sky-vertical-tab-right-arrow {
   padding: 3px $sky-padding 0 0;
   color: $sky-text-color-icon-borderless;
+}
+
+.sky-vertical-tab-content-pane {
+  &:focus-visible {
+    outline: none;
+    border: none;
+  }
 }
 
 @include mixins.sky-theme-modern {

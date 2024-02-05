@@ -9,6 +9,7 @@ import {
   OnInit,
   Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { SkyMediaQueryService } from '@skyux/core';
 
@@ -19,6 +20,7 @@ import { SkyTabIdService } from '../shared/tab-id.service';
 
 import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
+import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 let nextId = 0;
@@ -140,8 +142,15 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   public isMobile = false;
 
+  @ViewChild('tabButton')
+  public tabButton: ElementRef | undefined;
+
   @ViewChild('tabContentWrapper')
   public tabContent: ElementRef | undefined;
+
+  public groupService = inject(SkyVerticalTabsetGroupService, {
+    optional: true,
+  });
 
   #_ariaRole = 'tab';
 
@@ -210,14 +219,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.#tabsetService.destroyTab(this);
   }
 
-  public tabIndex(): number {
-    if (!this.disabled) {
-      return 0;
-    } else {
-      return -1;
-    }
-  }
-
   public activateTab(): void {
     if (!this.disabled) {
       this.active = true;
@@ -227,19 +228,22 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onTabButtonKeyUp(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      switch (event.key.toUpperCase()) {
-        case ' ':
-        case 'ENTER':
-          this.activateTab();
-          event.stopPropagation();
-          break;
-        /* istanbul ignore next */
-        default:
-          break;
-      }
+  public focusButton(): void {
+    this.#adapterService.focusButton(this.tabButton);
+  }
+
+  public tabButtonActivate(event: Event): void {
+    this.activateTab();
+    event.stopPropagation();
+  }
+
+  public tabButtonArrowLeft(event: Event): void {
+    if (this.groupService) {
+      this.groupService.messageStream.next({
+        messageType: 'focus',
+      });
+
+      event.preventDefault();
     }
   }
 
