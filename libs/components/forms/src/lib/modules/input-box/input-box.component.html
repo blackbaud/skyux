@@ -76,15 +76,15 @@
 
 <ng-template #labelTemplate>
   <ng-content select=".sky-control-label" />
-  <label *ngIf="labelText" class="sky-control-label" [for]="controlId"
-    >{{ labelText }}
-    <span
-      aria-hidden="true"
-      [ngClass]="{
-        'sky-control-label-required': required
-      }"
-    ></span
-  ></label>
+  <label
+    *ngIf="labelText"
+    class="sky-control-label"
+    [for]="controlId"
+    [ngClass]="{
+      'sky-control-label-required': required
+    }"
+    >{{ labelText }}</label
+  >
 </ng-template>
 
 <ng-template #inlineHelpTemplate>

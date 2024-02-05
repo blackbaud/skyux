@@ -141,7 +141,7 @@
 }
 
 @mixin sky-required-field {
-  content: '*';
+  content: '*' / '';
   color: var(--sky-highlight-color-danger);
   padding-left: compatVars.$sky-padding-half;
 }
