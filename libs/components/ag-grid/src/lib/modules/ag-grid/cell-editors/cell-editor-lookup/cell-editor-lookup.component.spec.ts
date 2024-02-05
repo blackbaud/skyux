@@ -1,4 +1,3 @@
-import { ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -37,12 +36,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   let callback: ((args: Record<string, unknown>) => void) | undefined;
   const selection = [data[0]];
   let cellEditorParams: Partial<SkyCellEditorLookupParams>;
-  let elementRef: ElementRef<HTMLElement>;
 
   beforeEach(() => {
-    elementRef = {
-      nativeElement: jasmine.createSpyObj('nativeElement', ['matches']),
-    };
     TestBed.configureTestingModule({
       declarations: [SkyAgGridCellEditorLookupComponent],
       imports: [
@@ -50,12 +45,6 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         ReactiveFormsModule,
         SkyInputBoxModule,
         SkyLookupModule,
-      ],
-      providers: [
-        {
-          provide: ElementRef,
-          useValue: elementRef,
-        },
       ],
     });
 
@@ -285,13 +274,13 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(component.skyComponentProperties?.addClick).toHaveBeenCalled();
       });
 
-      // NOTE: This is different than other editors due to the selection nature of autocomplete
+      // NOTE: This is different from other editors due to the selection nature of autocomplete
       it('initializes with the current value when a standard keyboard event triggers the edit', () => {
         expect(component.editorForm.get('selection')?.value).toEqual([]);
 
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(component.editorForm.get('selection')?.value).toEqual(selection);
@@ -301,9 +290,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         cellEditorParams.context.gridOptions = {
           stopEditingWhenCellsLoseFocus: true,
         };
-        (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
-          false,
-        );
+        spyOn(nativeElement, 'matches').and.returnValue(false);
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
         });
@@ -374,7 +361,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
 
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(component.editorForm.get('selection')?.value).toEqual(selection);
@@ -456,7 +443,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       it('does not select the input value when a standard keyboard event triggers the edit', () => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(
@@ -549,7 +536,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       it('does not select the input value when a standard keyboard event triggers the edit', () => {
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         fixture.detectChanges();
         const input = nativeElement.querySelector(

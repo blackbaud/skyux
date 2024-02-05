@@ -57,7 +57,7 @@ export class SkyAgGridCellEditorTextComponent
           control.setValue(undefined);
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
-          control.setValue(params.charPress);
+          control.setValue(params.eventKey);
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:
         case SkyAgGridCellEditorInitialAction.Untouched:

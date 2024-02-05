@@ -5,6 +5,7 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
@@ -48,13 +49,8 @@ export class SkyAgGridCellEditorLookupComponent
   #lookupOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
-  #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
-
-  constructor(changeDetector: ChangeDetectorRef, elementRef: ElementRef) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-  }
+  #changeDetector = inject(ChangeDetectorRef);
+  #elementRef = inject(ElementRef<HTMLElement>);
 
   @HostListener('blur')
   public onBlur(): void {
@@ -132,13 +128,17 @@ export class SkyAgGridCellEditorLookupComponent
     return true;
   }
 
+  public getPopupPosition(): 'over' | 'under' | undefined {
+    return 'over';
+  }
+
   public afterGuiAttached(): void {
     const lookupInput: HTMLTextAreaElement =
       this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
     lookupInput.focus();
     if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
       lookupInput.select();
-      lookupInput.setRangeText(this.#params?.charPress as string);
+      lookupInput.setRangeText(`${this.#params?.eventKey}`);
       // Ensure the cursor is at the end of the text.
       lookupInput.setSelectionRange(
         lookupInput.value.length,

@@ -84,9 +84,9 @@
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
       "@skyux/validation": "0.0.0-PLACEHOLDER",
-      "ag-grid-angular": "^29.3.5",
-      "ag-grid-community": "^29.3.5",
-      "ag-grid-enterprise": "^29.3.5",
+      "ag-grid-angular": "^30.2.1",
+      "ag-grid-community": "^30.2.1",
+      "ag-grid-enterprise": "^30.2.1",
       "autonumeric": "^4.10.4"
     }
   },

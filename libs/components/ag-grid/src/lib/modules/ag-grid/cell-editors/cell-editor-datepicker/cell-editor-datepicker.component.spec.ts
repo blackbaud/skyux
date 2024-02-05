@@ -105,12 +105,11 @@ describe('SkyCellEditorDatepickerComponent', () => {
     });
 
     it('should respond to changes in focus', fakeAsync(() => {
-      const api = jasmine.createSpyObj('GridApi', GridApi.prototype);
-      const column = jasmine.createSpyObj('Column', Column.prototype);
+      const api = jasmine.createSpyObj<GridApi>('GridApi', ['stopEditing']);
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
-        column,
+        column: new Column<any>({}, null, 'col', true),
         context: {
           gridOptions: {
             stopEditingWhenCellsLoseFocus: true,
@@ -262,7 +261,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
@@ -343,7 +342,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(datepickerEditorComponent.editorForm.get('date')?.value).toBe(
@@ -507,7 +506,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       it('does not select the input value when a standard keyboard event triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         datepickerEditorFixture.detectChanges();
         tick();
@@ -611,7 +610,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       it('does not select the input value when a standard keyboard event triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
         datepickerEditorFixture.detectChanges();
         tick();

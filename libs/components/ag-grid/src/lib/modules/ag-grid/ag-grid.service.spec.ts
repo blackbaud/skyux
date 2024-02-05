@@ -17,6 +17,7 @@ import {
   GetRowIdParams,
   GridApi,
   GridOptions,
+  ICellRendererParams,
   RowClassParams,
   RowNode,
   SuppressHeaderKeyboardEventParams,
@@ -24,7 +25,6 @@ import {
   ValueFormatterFunc,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { ICellRendererParams } from 'ag-grid-community/dist/lib/rendering/cellRenderers/iCellRenderer';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
@@ -43,6 +43,7 @@ describe('SkyAgGridService', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let dateService: jasmine.SpyObj<SkyDateService>;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -54,6 +55,10 @@ describe('SkyAgGridService', () => {
         previousSettings: undefined,
       }),
     };
+    dateService = jasmine.createSpyObj<SkyDateService>('SkyDateService', [
+      'format',
+    ]);
+    (dateService.format as jasmine.Spy).and.returnValue('FORMATTED_DATE');
 
     TestBed.configureTestingModule({
       providers: [
@@ -65,7 +70,7 @@ describe('SkyAgGridService', () => {
         },
         {
           provide: SkyDateService,
-          useValue: { format: () => 'FORMATTED_DATE' },
+          useValue: dateService,
         },
       ],
     });
@@ -268,26 +273,6 @@ describe('SkyAgGridService', () => {
       expect(gridOptions.rowHeight).toBe(60);
     });
 
-    it('should respect the value of the deprecated `frameworkComponents` property', () => {
-      const options = agGridService.getGridOptions({
-        gridOptions: {
-          frameworkComponents: {
-            frameworkFoo: 'framework-bar',
-          },
-        },
-      });
-
-      expect(Object.keys(options.frameworkComponents)).toEqual([
-        'frameworkFoo',
-      ]);
-
-      expect(Object.keys(options.components as string[])).toEqual([
-        'sky-ag-grid-cell-renderer-currency',
-        'sky-ag-grid-cell-renderer-currency-validator',
-        'sky-ag-grid-cell-renderer-validator-tooltip',
-      ]);
-    });
-
     it('should not overwrite default component definitions', () => {
       const options = agGridService.getGridOptions({
         gridOptions: {
@@ -335,18 +320,16 @@ describe('SkyAgGridService', () => {
     });
 
     it('should return an empty string if the date service returns undefined', () => {
-      const dateSvc = TestBed.inject(SkyDateService);
-      dateSvc.format = () => undefined;
+      (dateService.format as jasmine.Spy).and.returnValue(undefined);
 
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
       expect(formattedDate).toBe('');
     });
 
     it('should return an empty string if the date service returns an error', () => {
-      const dateSvc = TestBed.inject(SkyDateService);
-      dateSvc.format = () => {
-        throw new Error('SkyDateService error message.');
-      };
+      (dateService.format as jasmine.Spy).and.throwError(
+        'SkyDateService error message.',
+      );
 
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
       expect(formattedDate).toBe('');
@@ -888,25 +871,6 @@ describe('SkyAgGridService', () => {
       expect(
         defaultGridOptions.getRowId?.({ data: {} } as GetRowIdParams),
       ).toBeTruthy();
-    });
-
-    it('should prefer the deprecated getRowNodeId if set by consumer', () => {
-      expect(defaultGridOptions.getRowId).toBeDefined();
-      expect(defaultGridOptions.getRowNodeId).toBeUndefined();
-
-      const options = agGridService.getGridOptions({
-        gridOptions: {
-          getRowNodeId: (data) => {
-            if ('id' in data && data.id !== undefined) {
-              return `${data.id}`;
-            }
-            return '-1';
-          },
-        },
-      });
-
-      expect(options.getRowId).toBeUndefined();
-      expect(options.getRowNodeId).toBeDefined();
     });
   });
 
