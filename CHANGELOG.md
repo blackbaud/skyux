@@ -1,5 +1,18 @@
 # Changelog
 
+## [9.23.0](https://github.com/blackbaud/skyux/compare/9.22.0...9.23.0) (2024-02-05)
+
+
+### Features
+
+* **components/colorpicker:** add labelText input ([#1968](https://github.com/blackbaud/skyux/issues/1968)) ([f19cb29](https://github.com/blackbaud/skyux/commit/f19cb29d0735177c6939e7a854bd4097d5a71d4b))
+* **components/tabs:** add keyboard navigation to vertical tabset ([#1978](https://github.com/blackbaud/skyux/issues/1978)) ([f0ce7d4](https://github.com/blackbaud/skyux/commit/f0ce7d4a4fe1f008239da6ddb0257b0bda67b47d))
+
+
+### Bug Fixes
+
+* **components/forms:** refactor form errors ([#1981](https://github.com/blackbaud/skyux/issues/1981)) ([f9f0391](https://github.com/blackbaud/skyux/commit/f9f0391411f7c2b70e8a18050b3e8533f0381d3b))
+
 ## [9.22.0](https://github.com/blackbaud/skyux/compare/9.21.3...9.22.0) (2024-01-29)
 
 
