@@ -83,7 +83,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     const fixture = TestBed.createComponent(
       SkyAgGridCellValidatorTooltipComponent,
     );
-    const eventHandlers: { [eventName: string]: (event: Event) => void } = {};
+    const eventHandlers: Record<string, (event: Event) => void> = {};
     fixture.componentInstance.params = {
       addRenderedRowListener: NOOP,
       column: {

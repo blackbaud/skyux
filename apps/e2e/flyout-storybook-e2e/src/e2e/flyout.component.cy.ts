@@ -24,8 +24,7 @@ describe('flyout-storybook', () => {
           cy.get('.sky-flyout .sky-flyout-content')
             .should('exist')
             .should('be.visible')
-            .click()
-            .end();
+            .click();
 
           if (style.includes('responsive')) {
             cy.get(
@@ -40,11 +39,14 @@ describe('flyout-storybook', () => {
             .should('be.visible')
             .screenshot(`flyoutcomponent-flyout--flyout-${style}-${theme}`, {
               capture: 'fullPage',
-            })
-            .percySnapshot(`flyoutcomponent-flyout--flyout-${style}-${theme}`, {
+            });
+          cy.get('app-flyout').percySnapshot(
+            `flyoutcomponent-flyout--flyout-${style}-${theme}`,
+            {
               enableJavaScript: true,
               widths: E2eVariations.DISPLAY_WIDTHS,
-            });
+            },
+          );
         });
       });
     });

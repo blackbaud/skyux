@@ -39,7 +39,7 @@ export class SkyModalComponentAdapterService {
 
   public isFocusInFirstItem(
     event: KeyboardEvent,
-    list: Array<HTMLElement>,
+    list: HTMLElement[],
   ): boolean {
     /* istanbul ignore next */
     /* sanity check */
@@ -47,10 +47,7 @@ export class SkyModalComponentAdapterService {
     return list.length > 0 && eventTarget === list[0];
   }
 
-  public isFocusInLastItem(
-    event: KeyboardEvent,
-    list: Array<HTMLElement>,
-  ): boolean {
+  public isFocusInLastItem(event: KeyboardEvent, list: HTMLElement[]): boolean {
     /* istanbul ignore next */
     /* sanity check */
     const eventTarget = event.target || event.srcElement;
@@ -67,7 +64,7 @@ export class SkyModalComponentAdapterService {
     );
   }
 
-  public focusLastElement(list: Array<HTMLElement>): boolean {
+  public focusLastElement(list: HTMLElement[]): boolean {
     if (list.length > 0) {
       list[list.length - 1].focus();
       return true;
@@ -75,7 +72,7 @@ export class SkyModalComponentAdapterService {
     return false;
   }
 
-  public focusFirstElement(list: Array<HTMLElement>): boolean {
+  public focusFirstElement(list: HTMLElement[]): boolean {
     if (list.length > 0) {
       list[0].focus();
       return true;

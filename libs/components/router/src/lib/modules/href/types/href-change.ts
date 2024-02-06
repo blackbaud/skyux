@@ -1,1 +1,3 @@
-export type SkyHrefChange = { userHasAccess: boolean };
+export interface SkyHrefChange {
+  userHasAccess: boolean;
+}

@@ -62,32 +62,23 @@ describe(`ag-grid-storybook data manager`, () => {
             `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-normal`,
           )
           .get('#ready')
-          .should('exist')
-          .end()
+          .should('exist');
 
-          .get('#storybook-root')
-          .should('exist')
-          .should('be.visible')
-          .end()
-          // Necessary to wait for the grid to render.
-          .wait(1000)
-          .get('.sky-col-picker-btn')
-          .click()
-          .end()
-          .get('sky-modal-header')
-          .should('exist')
-          .should('be.visible')
-          .click()
-          .end()
-          .window()
-          .skyVisualTest(
-            `datamanagercomponent-datamanager--data-manager-column-picker-${theme}`,
-            {
-              clip: { x: 0, y: 0, width: 1280, height: 900 },
-              overwrite: true,
-              disableTimersAndAnimations: true,
-            },
-          );
+        cy.get('#storybook-root').should('exist').should('be.visible');
+        // Necessary to wait for the grid to render.
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000).get('.sky-col-picker-btn').click();
+
+        cy.get('sky-modal-header').should('exist').should('be.visible').click();
+
+        cy.window().skyVisualTest(
+          `datamanagercomponent-datamanager--data-manager-column-picker-${theme}`,
+          {
+            clip: { x: 0, y: 0, width: 1280, height: 900 },
+            overwrite: true,
+            disableTimersAndAnimations: true,
+          },
+        );
       });
     });
   });

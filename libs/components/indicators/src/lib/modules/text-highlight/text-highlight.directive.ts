@@ -61,13 +61,12 @@ function markTextNodes(node: Node, searchRegex: RegExp): number {
 }
 
 function removeHighlight(el: ElementRef): void {
-  const matchedElements = (el.nativeElement as Element).querySelectorAll(
-    `mark.${CLASS_NAME}`,
+  const matchedElements = Array.from(
+    (el.nativeElement as Element).querySelectorAll(`mark.${CLASS_NAME}`),
   );
 
   if (matchedElements) {
-    for (let i = 0; i < matchedElements.length; i++) {
-      const node = matchedElements[i];
+    for (const node of matchedElements) {
       const parentNode = node.parentNode;
 
       if (parentNode && node.firstChild) {

@@ -18,12 +18,13 @@ describe('Modal Colorpicker', () => {
         cy.get('sky-modal button[aria-haspopup="dialog"]:not([disabled])')
           .should('exist')
           .should('have.length', 3);
+        cy.get(
+          '#colorpicker-6-presets-sky-icon button[aria-haspopup="dialog"]',
+        ).scrollIntoView();
         cy.get('#colorpicker-6-presets-sky-icon button[aria-haspopup="dialog"]')
-          .scrollIntoView()
           .should('be.visible')
-          .click({ waitForAnimations: true })
-          .end()
-          .get('.sky-colorpicker-container[role="dialog"]')
+          .click({ waitForAnimations: true });
+        cy.get('.sky-colorpicker-container[role="dialog"]')
           .should('exist')
           .should('be.visible')
           .end()
@@ -31,25 +32,31 @@ describe('Modal Colorpicker', () => {
             '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-apply',
           )
           .should('exist')
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get(
+          '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-apply',
+        )
           .should('be.visible')
           .end()
           .get(
             '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-close',
           )
           .should('exist')
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get(
+          '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-close',
+        )
           .should('be.visible')
-          .click({ waitForAnimations: true })
-          .end()
-          .get(
-            '#colorpicker-default-presets-no-clear-btn button[aria-haspopup="dialog"]',
-          )
-          .scrollIntoView()
+          .click({ waitForAnimations: true });
+        cy.get(
+          '#colorpicker-default-presets-no-clear-btn button[aria-haspopup="dialog"]',
+        ).scrollIntoView();
+        cy.get(
+          '#colorpicker-default-presets-no-clear-btn button[aria-haspopup="dialog"]',
+        )
           .should('be.visible')
-          .click({ waitForAnimations: true })
-          .end()
-          .get('.sky-colorpicker-container[role="dialog"]')
+          .click({ waitForAnimations: true });
+        cy.get('.sky-colorpicker-container[role="dialog"]')
           .should('exist')
           .should('be.visible')
           .end()
@@ -57,23 +64,29 @@ describe('Modal Colorpicker', () => {
             '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-apply',
           )
           .should('exist')
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get(
+          '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-apply',
+        )
           .should('be.visible')
           .end()
           .get(
             '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-close',
           )
           .should('exist')
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get(
+          '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-close',
+        )
           .should('be.visible')
-          .click({ waitForAnimations: true })
-          .end()
-          .get('#colorpicker-12-presets-fa-icon button[aria-haspopup="dialog"]')
-          .scrollIntoView()
+          .click({ waitForAnimations: true });
+        cy.get(
+          '#colorpicker-12-presets-fa-icon button[aria-haspopup="dialog"]',
+        ).scrollIntoView();
+        cy.get('#colorpicker-12-presets-fa-icon button[aria-haspopup="dialog"]')
           .should('be.visible')
-          .click({ waitForAnimations: true })
-          .end()
-          .get('.sky-colorpicker-container[role="dialog"]')
+          .click({ waitForAnimations: true });
+        cy.get('.sky-colorpicker-container[role="dialog"]')
           .should('exist')
           .should('be.visible')
           .end()
@@ -81,14 +94,20 @@ describe('Modal Colorpicker', () => {
             '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-apply',
           )
           .should('exist')
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get(
+          '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-apply',
+        )
           .should('be.visible')
           .end()
           .get(
             '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-close',
           )
           .should('exist')
-          .scrollIntoView()
+          .scrollIntoView();
+        cy.get(
+          '.sky-colorpicker-container[role="dialog"] button.sky-btn-colorpicker-close',
+        )
           .should('be.visible')
           .click({ waitForAnimations: true });
       });

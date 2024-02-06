@@ -1,18 +1,22 @@
 <a
-  class="sky-vertical-tab"
+  class="sky-vertical-tab sky-vertical-tabset-button"
   [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
+  [attr.aria-disabled]="disabled || undefined"
   [attr.aria-selected]="active"
   [attr.id]="tabId"
   [attr.role]="isMobile ? undefined : ariaRole"
   [ngClass]="{
     'sky-vertical-tab-active': active,
-    'sky-vertical-tab-disabled': disabled,
+    'sky-vertical-tabset-button-disabled': disabled,
     'sky-font-deemphasized': disabled,
     'sky-deemphasized': disabled
   }"
-  [tabIndex]="tabIndex()"
+  [tabIndex]="-1"
   (click)="activateTab()"
-  (keyup)="onTabButtonKeyUp($event)"
+  (keyup.arrowleft)="tabButtonArrowLeft($event)"
+  (keyup.enter)="tabButtonActivate($event)"
+  (keyup.space)="tabButtonActivate($event)"
+  #tabButton
 >
   <div class="sky-vertical-tab-display">
     <div class="sky-vertical-tab-heading">

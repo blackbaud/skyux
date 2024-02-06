@@ -9,9 +9,9 @@ import {
 
 import { Subject } from 'rxjs';
 
-type TokenItem = {
+interface TokenItem {
   label: string;
-};
+}
 
 @Component({
   standalone: true,

@@ -16,14 +16,14 @@ describe('forms-storybook - checkbox', () => {
           .get('#standard-checkboxes')
           .should('exist')
           .should('be.visible')
-          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-standard`)
-          .percySnapshot(
-            `checkboxcomponent-checkbox--checkbox-${theme}-standard`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              scope: '#standard-checkboxes',
-            },
-          );
+          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-standard`);
+        cy.get('#standard-checkboxes').percySnapshot(
+          `checkboxcomponent-checkbox--checkbox-${theme}-standard`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#standard-checkboxes',
+          },
+        );
       });
 
       it('should render the icon components', () => {
@@ -33,11 +33,14 @@ describe('forms-storybook - checkbox', () => {
           .get('#icon-checkboxes')
           .should('exist')
           .should('be.visible')
-          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-icon`)
-          .percySnapshot(`checkboxcomponent-checkbox--checkbox-${theme}-icon`, {
+          .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-icon`);
+        cy.get('#icon-checkboxes').percySnapshot(
+          `checkboxcomponent-checkbox--checkbox-${theme}-icon`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
             scope: '#icon-checkboxes',
-          });
+          },
+        );
       });
     });
   });

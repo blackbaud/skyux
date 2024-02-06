@@ -19,11 +19,10 @@ describe('lookup in modal', () => {
           .get('textarea[placeholder="Type a person\'s name..."]')
           .should('exist')
           .should('be.visible')
-          .click()
-          .end()
-          .get(
-            '.sky-autocomplete-results-container .sky-autocomplete-action-more',
-          )
+          .click();
+        cy.get(
+          '.sky-autocomplete-results-container .sky-autocomplete-action-more',
+        )
           .should('exist')
           .should('be.visible')
           .should('contain.text', 'Show all 21')

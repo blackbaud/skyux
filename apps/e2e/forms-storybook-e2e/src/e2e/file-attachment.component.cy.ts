@@ -16,13 +16,13 @@ describe('forms-storybook', () => {
               .should('be.visible')
               .screenshot(
                 `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`,
-              )
-              .percySnapshot(
-                `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
               );
+            cy.get('app-file-attachment').percySnapshot(
+              `fileattachmentcomponent-fileattachment--file-attachment-${mode}-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
           });
         });
       });
@@ -41,13 +41,13 @@ describe('forms-storybook', () => {
             .should('be.visible')
             .screenshot(
               `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}`,
-            )
-            .percySnapshot(
-              `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              },
             );
+          cy.get('.sky-file-drop-col').percySnapshot(
+            `fileattachmentcomponent-fileattachment--file-attachment-drag-and-drop-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
         });
       });
     });

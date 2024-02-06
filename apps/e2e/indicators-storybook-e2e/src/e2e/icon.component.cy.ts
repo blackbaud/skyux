@@ -15,10 +15,10 @@ describe('indicators-storybook', () => {
           .get('app-icon')
           .should('exist')
           .should('be.visible')
-          .screenshot(`iconcomponent-icon--icon-${theme}`)
-          .percySnapshot(`iconcomponent-icon--icon-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          .screenshot(`iconcomponent-icon--icon-${theme}`);
+        cy.get('app-icon').percySnapshot(`iconcomponent-icon--icon-${theme}`, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
     });
   });

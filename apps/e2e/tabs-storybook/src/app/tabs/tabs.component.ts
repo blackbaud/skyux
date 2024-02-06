@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-type Tab = {
+interface Tab {
   tabHeading: string;
   tabContent: string;
   disabled?: boolean;
   isPermanent?: boolean;
   tabHeaderCount?: number;
-};
+}
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',

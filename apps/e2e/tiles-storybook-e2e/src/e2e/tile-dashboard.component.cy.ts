@@ -18,11 +18,13 @@ describe('tiles-storybook', () => {
           .should('be.visible')
           .screenshot(`tile-dashboard-${theme}-desktop`, {
             overwrite: true,
-          })
-          .get('app-tile-dashboard')
-          .percySnapshot(`tile dashboard ${theme} desktop`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
           });
+        cy.get('app-tile-dashboard').percySnapshot(
+          `tile dashboard ${theme} desktop`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
 
       it('should render the component in mobile', () => {
@@ -35,11 +37,13 @@ describe('tiles-storybook', () => {
           .should('be.visible')
           .screenshot(`tile-dashboard-${theme}-mobile`, {
             overwrite: true,
-          })
-          .get('app-tile-dashboard')
-          .percySnapshot(`tile dashboard ${theme} mobile`, {
-            widths: E2eVariations.MOBILE_WIDTHS,
           });
+        cy.get('app-tile-dashboard').percySnapshot(
+          `tile dashboard ${theme} mobile`,
+          {
+            widths: E2eVariations.MOBILE_WIDTHS,
+          },
+        );
       });
     });
   });

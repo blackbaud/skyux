@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_back_to_top: { message: 'Back to top' },
     skyux_card_checkbox_label: { message: 'Select card' },

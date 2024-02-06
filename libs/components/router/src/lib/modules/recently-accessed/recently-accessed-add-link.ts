@@ -13,5 +13,5 @@ export interface SkyRecentlyAccessedAddLink {
   /**
    * The link's parameters.
    */
-  params?: { [key: string]: string };
+  params?: Record<string, string>;
 }

@@ -35,8 +35,7 @@ function parseLocaleIdFromFileName(fileName: string): string {
 }
 
 function getResources(tree: Tree, project: ProjectDefinition): string {
-  let resourcesVar =
-    'const RESOURCES: { [locale: string]: SkyLibResources } = {';
+  let resourcesVar = 'const RESOURCES: Record<string, SkyLibResources> = {';
 
   const localesPath = normalize(`${project.sourceRoot}/assets/locales`);
   const localesDir = tree.getDir(localesPath);

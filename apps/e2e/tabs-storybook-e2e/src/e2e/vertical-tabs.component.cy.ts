@@ -14,13 +14,13 @@ describe('tabs-storybook - vertical tabs', () => {
           .should('be.visible')
           .screenshot(
             `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
-          )
-          .percySnapshot(
-            `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-vertical-tabs').percySnapshot(
+          `verticaltabscomponent-verticaltabs--vertical-tabs-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
 
       it('should render the vertical tabs content section on a mobile screen', () => {
@@ -38,13 +38,15 @@ describe('tabs-storybook - vertical tabs', () => {
           .should('be.visible')
           .screenshot(
             `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-content-section-${theme}`,
-          )
-          .percySnapshot(
-            `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-content-section-${theme}`,
-            {
-              widths: E2eVariations.MOBILE_WIDTHS,
-            },
           );
+        cy.get(
+          '#vertical-tabs-with-groups .sky-vertical-tabset-show-tabs-btn',
+        ).percySnapshot(
+          `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-content-section-${theme}`,
+          {
+            widths: E2eVariations.MOBILE_WIDTHS,
+          },
+        );
       });
 
       it('should render the vertical tabs tablist section on a mobile screen', () => {
@@ -55,16 +57,16 @@ describe('tabs-storybook - vertical tabs', () => {
           .get('#vertical-tabs-with-groups .sky-vertical-tabset-show-tabs-btn')
           .should('exist')
           .should('be.visible')
-          .click()
-          .get(
-            '#vertical-tabs-without-groups .sky-vertical-tabset-show-tabs-btn',
-          )
+          .click();
+        cy.get(
+          '#vertical-tabs-without-groups .sky-vertical-tabset-show-tabs-btn',
+        )
           .should('exist')
           .should('be.visible')
-          .click()
-          .get(
-            '#vertical-tabs-with-groups .sky-vertical-tabset-group-container',
-          )
+          .click();
+        cy.get(
+          '#vertical-tabs-with-groups .sky-vertical-tabset-group-container',
+        )
           .should('exist')
           .should('be.visible')
           .get(
@@ -74,13 +76,15 @@ describe('tabs-storybook - vertical tabs', () => {
           .should('be.visible')
           .screenshot(
             `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-tablist-section-${theme}`,
-          )
-          .percySnapshot(
-            `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-tablist-section-${theme}`,
-            {
-              widths: E2eVariations.MOBILE_WIDTHS,
-            },
           );
+        cy.get(
+          '#vertical-tabs-without-groups .sky-vertical-tabset-group-container',
+        ).percySnapshot(
+          `verticaltabscomponent-verticaltabs--vertical-tabs-mobile-tablist-section-${theme}`,
+          {
+            widths: E2eVariations.MOBILE_WIDTHS,
+          },
+        );
       });
     });
   });

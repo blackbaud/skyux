@@ -21,12 +21,14 @@ import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 })
 class TestHelpComponent {}
 
-type mockEventParam = { columnGroup: ProvidedColumnGroup };
+interface mockEventParam {
+  columnGroup: ProvidedColumnGroup;
+}
 
 describe('SkyAgGridHeaderGroupComponent', () => {
   let component: SkyAgGridHeaderGroupComponent;
   let fixture: ComponentFixture<SkyAgGridHeaderGroupComponent>;
-  let events: { [key: string]: ((value: mockEventParam) => void)[] };
+  let events: Record<string, ((value: mockEventParam) => void)[]>;
   let expanded: boolean;
   let providedColumnGroup: ProvidedColumnGroup;
   const baseProvidedColumnGroup = {

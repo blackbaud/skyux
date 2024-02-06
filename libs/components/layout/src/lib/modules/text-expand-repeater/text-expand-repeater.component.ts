@@ -208,7 +208,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
     }
   }
 
-  #setup(value: Array<unknown> | undefined): void {
+  #setup(value: unknown[] | undefined): void {
     if (value) {
       const length = value.length;
       if (this.maxItems && length > this.maxItems) {

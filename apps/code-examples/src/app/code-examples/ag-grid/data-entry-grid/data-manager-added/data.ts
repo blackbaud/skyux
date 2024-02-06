@@ -22,7 +22,7 @@ export const DEPARTMENTS = [
   },
 ];
 
-export const JOB_TITLES: { [name: string]: AutocompleteOption[] } = {
+export const JOB_TITLES: Record<string, AutocompleteOption[]> = {
   Marketing: [
     {
       id: '1',

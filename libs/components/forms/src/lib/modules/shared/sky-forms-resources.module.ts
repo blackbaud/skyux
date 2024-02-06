@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_character_count_message: { message: 'characters out of' },
     skyux_character_count_over_limit: {

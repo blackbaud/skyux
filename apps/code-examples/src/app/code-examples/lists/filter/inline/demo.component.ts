@@ -6,16 +6,16 @@ import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyFilterModule, SkyRepeaterModule } from '@skyux/lists';
 
-type Filter = {
+interface Filter {
   name: string;
   value: string | boolean;
-};
+}
 
-type Fruit = {
+interface Fruit {
   name: string;
   type: string;
   color: string;
-};
+}
 
 @Component({
   standalone: true,

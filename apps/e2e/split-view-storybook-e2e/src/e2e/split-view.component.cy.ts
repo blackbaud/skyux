@@ -22,13 +22,13 @@ describe('split-view-storybook', () => {
                 .should('be.visible')
                 .screenshot(
                   `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`,
-                )
-                .percySnapshot(
-                  `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`,
-                  {
-                    widths: [width],
-                  },
                 );
+              cy.get('.screenshot-area').percySnapshot(
+                `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`,
+                {
+                  widths: [width],
+                },
+              );
             });
           });
         },

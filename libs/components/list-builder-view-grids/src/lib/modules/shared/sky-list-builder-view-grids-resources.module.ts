@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_grid_column_picker_cancel: { message: 'Cancel' },
     skyux_grid_column_picker_header: {

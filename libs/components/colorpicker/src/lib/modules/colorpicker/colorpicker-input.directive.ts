@@ -136,14 +136,10 @@ export class SkyColorpickerInputDirective
   public allowTransparency = true;
 
   @HostBinding('readonly')
-  protected get readonly(): boolean {
-    return true;
-  }
+  protected readonly readonly = true;
 
   @HostBinding('class.sky-colorpicker-input')
-  protected get colorInputClass(): boolean {
-    return true;
-  }
+  protected readonly colorInputClass = true;
 
   #modelValue: SkyColorpickerOutput | undefined;
   #elementRef: ElementRef;

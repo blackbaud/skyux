@@ -52,14 +52,12 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   public activeDateHasChanged = false;
   public labels: any[] = [];
   public title = '';
-  public rows: Array<Array<SkyDatepickerDate>> = [];
+  public rows: SkyDatepickerDate[][] = [];
   public weekNumbers: number[] = [];
   public datepicker: SkyDatepickerCalendarInnerComponent;
   public CURRENT_THEME_TEMPLATE: any;
 
-  #daysInMonth: Array<number> = [
-    31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
-  ];
+  #daysInMonth: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   #initialDate: number | undefined;
   #ngUnsubscribe = new Subject<void>();
 
@@ -134,7 +132,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
 
     // 42 is the number of days on a six-week calendar
     const days: Date[] = this.getDates(firstDate, 42);
-    const pickerDates: Array<SkyDatepickerDate> = [];
+    const pickerDates: SkyDatepickerDate[] = [];
     for (let i = 0; i < 42; i++) {
       const _dateObject = this.datepicker.createDateObject(
         days[i],
@@ -282,9 +280,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  #getDateRange(
-    rows: Array<Array<SkyDatepickerDate>>,
-  ): SkyDateRange | undefined {
+  #getDateRange(rows: SkyDatepickerDate[][]): SkyDateRange | undefined {
     /* istanbul ignore else */
     if (rows && rows.length > 0) {
       return {

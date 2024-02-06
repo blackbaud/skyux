@@ -11,10 +11,10 @@ import { SkyHelpInlineModule } from '@skyux/indicators';
 
 import { Subject, takeUntil } from 'rxjs';
 
-type ToggleSwitchFormType = {
+interface ToggleSwitchFormType {
   controlToggle: FormControl<boolean | null>;
   dynamicToggle: FormControl<boolean | null>;
-};
+}
 
 @Component({
   standalone: true,

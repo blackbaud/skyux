@@ -6,12 +6,11 @@
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/sdk/tools/**/*.ts",
-          "libs/sdk/tools/generators.json",
-          "libs/sdk/tools/package.json"
+          "{projectRoot}/**/*.ts",
+          "{projectRoot}/generators.json",
+          "{projectRoot}/package.json"
         ]
       }
     },

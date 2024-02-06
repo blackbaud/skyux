@@ -12,8 +12,8 @@ describe(`pages-storybook`, () => {
         cy.get('app-fit-page sky-page')
           .should('exist')
           .should('be.visible')
-          .screenshot(`${ID}-${theme}`)
-          .percySnapshot(`${ID}-${theme}`);
+          .screenshot(`${ID}-${theme}`);
+        cy.get('app-fit-page sky-page').percySnapshot(`${ID}-${theme}`);
       });
     });
   });

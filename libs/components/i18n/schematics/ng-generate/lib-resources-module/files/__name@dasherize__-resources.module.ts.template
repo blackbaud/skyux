@@ -6,7 +6,6 @@
  * the 'ng generate @skyux/i18n:lib-resources-module<%= modulePath %>' schematic.
  * To update this file, simply rerun the command.
  */
-
 import { NgModule } from '@angular/core';
 import {
   SKY_LIB_RESOURCES_PROVIDERS,
@@ -23,7 +22,10 @@ import {
 SkyLibResourcesService.addResources(RESOURCES);
 
 export class <%= classify(name) %>ResourcesProvider implements SkyLibResourcesProvider {
-  public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
+  public getString(
+    localeInfo: SkyAppLocaleInfo,
+    name: string,
+  ): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }
@@ -33,10 +35,12 @@ export class <%= classify(name) %>ResourcesProvider implements SkyLibResourcesPr
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: <%= classify(name) %>ResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: <%= classify(name) %>ResourcesProvider,
+      multi: true
+    }
+  ]
 })
-export class <%= classify(name) %>ResourcesModule { }
+export class <%= classify(name) %>ResourcesModule {}

@@ -17,10 +17,10 @@ describe('inline delete', () => {
           .should('exist')
           .end()
           .get('body')
-          .screenshot(`inline-delete-${theme}`)
-          .percySnapshot(`inline-delete-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          .screenshot(`inline-delete-${theme}`);
+        cy.get('body').percySnapshot(`inline-delete-${theme}`, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
     });
   });

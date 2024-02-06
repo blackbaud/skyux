@@ -301,7 +301,7 @@ export class SkyListViewChecklistComponent
       this.dispatcher.searchSetFunctions([this.search]);
     }
 
-    const fieldSelectors: Array<string> = [];
+    const fieldSelectors: string[] = [];
     if (this.labelFieldSelector) {
       fieldSelectors.push(this.labelFieldSelector);
     }

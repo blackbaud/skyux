@@ -97,7 +97,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({
@@ -407,7 +407,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({
@@ -536,7 +536,7 @@ describe('List Component', () => {
       }));
 
       it('should allow users to initialize selectedIds with an observable', fakeAsync(() => {
-        component.selectedIds = new BehaviorSubject<Array<string>>(['1', '3']);
+        component.selectedIds = new BehaviorSubject<string[]>(['1', '3']);
 
         tick();
         fixture.detectChanges();
@@ -588,7 +588,7 @@ describe('List Component', () => {
       }));
 
       it('should allow users to change selectedIds when using observables', fakeAsync(() => {
-        component.selectedIds = new BehaviorSubject<Array<string>>(['3', '4']);
+        component.selectedIds = new BehaviorSubject<string[]>(['3', '4']);
 
         tick();
         fixture.detectChanges();
@@ -604,7 +604,7 @@ describe('List Component', () => {
           expect(selectedIdMap.get('7')).toBeUndefined();
         });
 
-        component.selectedIds = new BehaviorSubject<Array<string>>([]);
+        component.selectedIds = new BehaviorSubject<string[]>([]);
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -701,7 +701,7 @@ describe('List Component', () => {
         tick();
 
         fixture.detectChanges();
-        const selectedIds: Array<string> = Array.from(
+        const selectedIds: string[] = Array.from(
           component.selectedItems.entries(),
         )
           .filter((item) => item[1])
@@ -832,7 +832,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({
@@ -1077,7 +1077,7 @@ describe('List Component', () => {
           { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
         dataProvider = new SkyListInMemoryDataProvider(items);
 
@@ -1327,7 +1327,7 @@ describe('List Component', () => {
           { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
         ];
 
-        bs = new BehaviorSubject<Array<any>>(itemsArray);
+        bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
 
         TestBed.configureTestingModule({

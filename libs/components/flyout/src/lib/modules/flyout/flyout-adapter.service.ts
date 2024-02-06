@@ -73,9 +73,9 @@ export class SkyFlyoutAdapterService {
     // temporarily disable pointer events in iframes when dragging starts.
     // When re-enabling we set to the empty string as it will remove the element styling
     // and fall back to any css originally given to iframe
-    const iframes = document.querySelectorAll('iframe');
-    for (let i = 0; i < iframes.length; i++) {
-      iframes[i].style.pointerEvents = enable ? '' : 'none';
+    const iframes = Array.from(document.querySelectorAll('iframe'));
+    for (const iframe of iframes) {
+      this.#renderer.setStyle(iframe, 'pointer-events', enable ? '' : 'none');
     }
   }
 }

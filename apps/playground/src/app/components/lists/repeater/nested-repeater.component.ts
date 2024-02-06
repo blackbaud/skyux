@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import { SkyRepeaterModule } from '@skyux/lists';
 
-type ListItem = {
+interface ListItem {
   label: string;
   reorderable?: boolean;
   selectable?: boolean;
   children?: ListItem[];
-};
+}
 
 @Component({
   selector: 'app-nested-repeater',

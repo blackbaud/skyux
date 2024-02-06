@@ -22,9 +22,8 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/e2e/tabs-storybook-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
       }
     }
   },

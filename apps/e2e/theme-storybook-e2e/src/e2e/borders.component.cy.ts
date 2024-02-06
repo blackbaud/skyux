@@ -15,10 +15,13 @@ describe('theme-storybook', () => {
           .should('be.visible')
           .end()
           .document()
-          .screenshot(`borderscomponent-borders--borders-${theme}`)
-          .percySnapshot(`borderscomponent-borders--borders-${theme}`, {
+          .screenshot(`borderscomponent-borders--borders-${theme}`);
+        cy.document().percySnapshot(
+          `borderscomponent-borders--borders-${theme}`,
+          {
             widths: E2eVariations.MOBILE_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

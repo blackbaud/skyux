@@ -12,7 +12,8 @@ describe('core-storybook', () => {
         cy.get('sky-dock').should('exist').should('be.visible');
         cy.screenshot(`dockcomponent-dock--dock-${theme}`, {
           capture: 'fullPage',
-        }).percySnapshot(`dockcomponent-dock--dock-${theme}`, {
+        });
+        cy.percySnapshot(`dockcomponent-dock--dock-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
       });

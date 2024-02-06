@@ -246,6 +246,7 @@ describe('test-storybook', () => {
           \`/iframe.html?globals=theme:\${theme}&id=examplecomponent-example--example\`
         )
       );
+
       it('should render the component', () => {
         cy.get('proj-example')
           .should('exist')

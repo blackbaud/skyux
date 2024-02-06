@@ -19,17 +19,16 @@ describe('character-counter', () => {
           .should('exist')
           .end()
           .get('#screenshot-character-count-input-box-invalid input')
-          .focus()
-          .blur()
-          .end()
-          .get('body')
-          .screenshot(`character-counter-${theme}`, {
-            disableTimersAndAnimations: true,
-            overwrite: true,
-          })
-          .percySnapshot(`character-counter-${theme}`, {
-            widths: E2eVariations.MOBILE_WIDTHS,
-          });
+          .focus();
+        cy.get('#screenshot-character-count-input-box-invalid input').blur();
+
+        cy.get('body').screenshot(`character-counter-${theme}`, {
+          disableTimersAndAnimations: true,
+          overwrite: true,
+        });
+        cy.get('body').percySnapshot(`character-counter-${theme}`, {
+          widths: E2eVariations.MOBILE_WIDTHS,
+        });
       });
     });
   });

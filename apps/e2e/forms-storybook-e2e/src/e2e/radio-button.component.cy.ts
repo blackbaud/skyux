@@ -13,13 +13,15 @@ describe('forms-storybook - radio button', () => {
         cy.get('app-radio-button')
           .should('exist')
           .should('be.visible')
-          .screenshot(`radiobuttoncomponent-radiobutton--radio-button-${theme}`)
-          .percySnapshot(
+          .screenshot(
             `radiobuttoncomponent-radiobutton--radio-button-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-radio-button').percySnapshot(
+          `radiobuttoncomponent-radiobutton--radio-button-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

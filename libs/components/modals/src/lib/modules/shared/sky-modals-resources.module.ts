@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_confirm_dialog_default_ok_text: { message: 'OK' },
     skyux_confirm_dialog_default_yes_text: { message: 'Yes' },

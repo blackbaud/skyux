@@ -17,26 +17,24 @@ describe('theme-storybook', () => {
           .get('#textInputTouched')
           .should('exist')
           .should('be.visible')
-          .click()
-          .end()
-          .get('#selectInputTouched')
+          .click();
+
+        cy.get('#selectInputTouched')
           .should('exist')
           .should('be.visible')
-          .focus()
-          .end()
-          .get('#free-space')
-          .should('exist')
-          .should('be.visible')
-          .click()
-          .end()
-          .document()
-          .screenshot(`validationcomponent-validation--validation-${theme}`)
-          .percySnapshot(
-            `validationcomponent-validation--validation-${theme}`,
-            {
-              widths: E2eVariations.MOBILE_WIDTHS,
-            },
-          );
+          .focus();
+
+        cy.get('#free-space').should('exist').should('be.visible').click();
+
+        cy.document().screenshot(
+          `validationcomponent-validation--validation-${theme}`,
+        );
+        cy.document().percySnapshot(
+          `validationcomponent-validation--validation-${theme}`,
+          {
+            widths: E2eVariations.MOBILE_WIDTHS,
+          },
+        );
       });
     });
   });

@@ -9,8 +9,8 @@ import { SkyListViewGridComponent } from '../list-view-grid.component';
 export class ListViewGridDynamicTestComponent {
   @ViewChild(SkyListViewGridComponent)
   public grid: SkyListViewGridComponent;
-  public data: Array<any>;
-  public gridColumns: Array<any>;
+  public data: any[];
+  public gridColumns: any[];
   constructor() {
     this.data = [
       {

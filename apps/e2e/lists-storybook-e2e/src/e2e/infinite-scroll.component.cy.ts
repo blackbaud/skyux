@@ -20,13 +20,13 @@ describe('lists-storybook - infinite-scroll', () => {
             .should('be.visible')
             .screenshot(
               `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
-            )
-            .percySnapshot(
-              `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              },
             );
+          cy.get('app-infinite-scroll').percySnapshot(
+            `infinitescrollcomponent-infinitescroll--infinite-scroll-${style}-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
         });
       });
     });

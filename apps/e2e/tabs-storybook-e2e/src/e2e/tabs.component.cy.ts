@@ -13,8 +13,8 @@ describe(`tabs-storybook`, () => {
           cy.get('app-tabs')
             .should('exist')
             .should('be.visible')
-            .screenshot(`tabscomponent-tabs--tabs-${theme}`)
-            .percySnapshot(`tabscomponent-tabs--tabs-${theme}`);
+            .screenshot(`tabscomponent-tabs--tabs-${theme}`);
+          cy.get('app-tabs').percySnapshot(`tabscomponent-tabs--tabs-${theme}`);
         });
       });
 
@@ -31,8 +31,10 @@ describe(`tabs-storybook`, () => {
             .get('sky-dropdown')
             .should('exist')
             .should('be.visible')
-            .screenshot(`tabscomponent-tabs--tabs-dropdown-${theme}`)
-            .percySnapshot(`tabscomponent-tabs--tabs-dropdown-${theme}`);
+            .screenshot(`tabscomponent-tabs--tabs-dropdown-${theme}`);
+          cy.get('sky-dropdown').percySnapshot(
+            `tabscomponent-tabs--tabs-dropdown-${theme}`,
+          );
         });
       });
     });

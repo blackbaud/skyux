@@ -15,33 +15,30 @@ describe('ag-grid-storybook', () => {
           /* spell-checker:disable-next-line */
           .get('#editLookup div[row-id="alexape01"] > div[col-id="name"]')
           .should('be.visible')
-          .click()
-          .end()
+          .click();
 
-          // Activate a date field without the calendar.
+        // Activate a date field without the calendar.
+        /* spell-checker:disable-next-line */
+        cy.get('#editDate div[row-id="bankser01"] > div[col-id="birthday"]')
+          .should('be.visible')
+          .click();
+
+        // Activate a date field.
+        cy.get(
           /* spell-checker:disable-next-line */
-          .get('#editDate div[row-id="bankser01"] > div[col-id="birthday"]')
+          '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]',
+        )
           .should('be.visible')
-          .click()
-          .end()
+          .click();
 
-          // Activate a date field.
-          .get(
-            /* spell-checker:disable-next-line */
-            '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]',
-          )
+        // Open the calendar and verify 04/06/1951 is selected.
+        cy.get(
+          '#editDateWithCalendar .ag-popup-editor button[aria-label="Select date"]',
+        )
           .should('be.visible')
-          .click()
-          .end()
+          .click();
 
-          // Open the calendar and verify 04/06/1951 is selected.
-          .get(
-            '#editDateWithCalendar .ag-popup-editor button[aria-label="Select date"]',
-          )
-          .should('be.visible')
-          .click()
-          .end()
-          .get('.ag-custom-component-popup .sky-datepicker-btn-selected')
+        cy.get('.ag-custom-component-popup .sky-datepicker-btn-selected')
           .should('be.visible')
           .should('contain.text', '06')
           .end()
@@ -85,20 +82,17 @@ describe('ag-grid-storybook', () => {
         );
         // Briefly wait between arrowing down.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.get('#ready')
-          .should('exist')
-          .end()
+        cy.get('#ready').should('exist');
 
-          // Activate a text field.
-          /* spell-checker:disable-next-line */
-          .get('#editText div[row-id="benchjo01"] > div[col-id="name"]')
+        // Activate a text field.
+        /* spell-checker:disable-next-line */
+        cy.get('#editText div[row-id="benchjo01"] > div[col-id="name"]')
           .should('be.visible')
-          .click()
-          .end()
+          .click();
 
-          // Focus on a cell in the middle of the grid.
-          /* spell-checker:disable-next-line */
-          .get('#sideScroll .ag-cell-value[col-id="triplecrown"]')
+        // Focus on a cell in the middle of the grid.
+        /* spell-checker:disable-next-line */
+        cy.get('#sideScroll .ag-cell-value[col-id="triplecrown"]')
           .should('be.visible')
           .should('not.be.empty')
           .end()
@@ -113,70 +107,75 @@ describe('ag-grid-storybook', () => {
           /* spell-checker:disable-next-line */
           .get('#sideScroll .sky-ag-grid-row-speaktr01 [col-id="mvp"]')
           .should('be.visible')
-          .click()
-          .end()
+          .click();
 
-          // Activate a lookup multi-select field and add a second value.
-          .get(
-            /* spell-checker:disable-next-line */
-            '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="name"]',
-          )
+        // Activate a lookup multi-select field and add a second value.
+        cy.get(
+          /* spell-checker:disable-next-line */
+          '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="name"]',
+        )
           .should('be.visible')
-          .click()
-          .end()
-          .get('.ag-popup-editor textarea')
+          .click();
+
+        cy.get('.ag-popup-editor textarea')
           .should('be.visible')
           /* spell-checker:disable-next-line */
-          .type('gossage')
-          .trigger('keydown', { key: 'Enter' })
-          .end()
+          .type('gossage');
+        cy.get('.ag-popup-editor textarea').trigger('keydown', {
+          key: 'Enter',
+        });
 
-          // Leave the lookup field to show it render multiple values.
-          .get(
-            /* spell-checker:disable-next-line */
-            '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="birthday"]',
-          )
-          .should('be.visible')
-          .click()
-          .end()
-
-          // Activate another lookup multi-select field and enter values, leaving it active.
-          .get(
-            /* spell-checker:disable-next-line */
-            '#editLookupMultiple div[row-id="simmoal01"] > div[col-id="name"]',
-          )
-          .should('be.visible')
-          .click()
-          .end()
-          .get('.ag-popup-editor textarea')
-          .should('be.visible')
-          .type('mat')
-          .trigger('keydown', { key: 'Enter' })
-          .type('Rabbit')
-          .trigger('keydown', { key: 'Enter' })
-          .end()
-
-          // Activate a lookup single-select field.
+        // Leave the lookup field to show it render multiple values.
+        cy.get(
           /* spell-checker:disable-next-line */
-          .get('#editLookup div[row-id="berrayo01"] > div[col-id="name"]')
+          '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="birthday"]',
+        )
           .should('be.visible')
-          .click()
-          .end()
+          .click();
 
-          // Search the lookup field.
-          .get('#editLookup .ag-popup-editor textarea')
+        // Activate another lookup multi-select field and enter values, leaving it active.
+        cy.get(
+          /* spell-checker:disable-next-line */
+          '#editLookupMultiple div[row-id="simmoal01"] > div[col-id="name"]',
+        )
           .should('be.visible')
-          .clear()
-          .type('mar', { delay: 100 })
-          .wait(100)
-          .trigger('keydown', { key: 'ArrowDown' })
-          .wait(100)
-          .trigger('keydown', { key: 'ArrowDown' })
-          .wait(300)
-          .end()
+          .click();
 
-          // Verify the lookup field results.
-          .get('.ag-custom-component-popup mark.sky-highlight-mark')
+        cy.get('.ag-popup-editor textarea').should('be.visible').type('mat');
+        cy.get('.ag-popup-editor textarea').trigger('keydown', {
+          key: 'Enter',
+        });
+        cy.get('.ag-popup-editor textarea').type('Rabbit');
+        cy.get('.ag-popup-editor textarea').trigger('keydown', {
+          key: 'Enter',
+        });
+
+        // Activate a lookup single-select field.
+        /* spell-checker:disable-next-line */
+        cy.get('#editLookup div[row-id="berrayo01"] > div[col-id="name"]')
+          .should('be.visible')
+          .click();
+
+        // Search the lookup field.
+        cy.get('#editLookup .ag-popup-editor textarea')
+          .should('be.visible')
+          .clear();
+        cy.get('#editLookup .ag-popup-editor textarea').type('mar', {
+          delay: 100,
+        });
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.get('#editLookup .ag-popup-editor textarea')
+          .wait(100)
+          .trigger('keydown', { key: 'ArrowDown' });
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.get('#editLookup .ag-popup-editor textarea')
+          .wait(100)
+          .trigger('keydown', { key: 'ArrowDown' });
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(300);
+
+        // Verify the lookup field results.
+        cy.get('.ag-custom-component-popup mark.sky-highlight-mark')
           .should('be.visible')
           .should('have.length.gt', 2)
           .end()

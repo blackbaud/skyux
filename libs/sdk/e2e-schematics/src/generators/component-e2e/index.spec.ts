@@ -67,7 +67,7 @@ describe('component-e2e', () => {
       return nxJson;
     });
     await componentE2eGenerator(tree, { name: 'test' });
-    const config: { [_: string]: ProjectConfiguration } = {};
+    const config: Record<string, ProjectConfiguration> = {};
     for (const projectName of ['test-storybook', 'test-storybook-e2e']) {
       config[projectName] = readProjectConfiguration(tree, projectName);
       expect(config[projectName].projectType).toEqual('application');

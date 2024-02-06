@@ -3,18 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
 
-type Item = {
+interface Item {
   title: string;
   note: string;
   assignee: string;
   date: Date;
-};
-type SortOption = {
+}
+interface SortOption {
   id: number;
   label: string;
   name: keyof Item;
   descending: boolean;
-};
+}
 
 @Component({
   standalone: true,

@@ -25,8 +25,8 @@ class OtherTestHelpComponent {}
 describe('HeaderComponent', () => {
   let component: SkyAgGridHeaderComponent;
   let fixture: ComponentFixture<SkyAgGridHeaderComponent>;
-  let apiEvents: { [key: string]: (() => void)[] };
-  let columnEvents: { [key: string]: (() => void)[] };
+  let apiEvents: Record<string, (() => void)[]>;
+  let columnEvents: Record<string, (() => void)[]>;
   let params: SkyAgGridHeaderParams;
 
   beforeEach(() => {

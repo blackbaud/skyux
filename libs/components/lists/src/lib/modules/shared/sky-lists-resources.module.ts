@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_filter_aria_label_descriptor: { message: 'Filter {0}' },
     skyux_filter_button_title: { message: 'Filter' },
