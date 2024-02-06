@@ -182,7 +182,8 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel=10
+        run: |
+          npx nx affected --target=build --parallel=10 --exclude '*,!tag:npm'
 
   build-dist:
     name: Build packages distribution
