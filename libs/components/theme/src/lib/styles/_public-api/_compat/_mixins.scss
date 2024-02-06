@@ -141,7 +141,9 @@
 }
 
 @mixin sky-required-field {
+  /* TODO: remove this fallback `content` line, once support for content alt text is added to firefox & safari */
   content: '*';
+  content: '*' / '';
   color: var(--sky-highlight-color-danger);
   padding-left: compatVars.$sky-padding-half;
 }
