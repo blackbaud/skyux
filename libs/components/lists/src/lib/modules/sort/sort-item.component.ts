@@ -9,6 +9,8 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -41,6 +43,9 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   public isSelected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false,
   );
+
+  @ViewChild(TemplateRef<any>)
+  public itemTemplate?: TemplateRef<any> | null;
 
   #subscription: Subscription | undefined;
 
