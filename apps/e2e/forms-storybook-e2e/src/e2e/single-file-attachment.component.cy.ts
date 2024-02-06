@@ -14,13 +14,13 @@ describe('forms-storybook - single file attachment', () => {
           .should('be.visible')
           .screenshot(
             `singlefileattachmentcomponent-singlefileattachment--single-file-attachment-${theme}`,
-          )
-          .percySnapshot(
-            `singlefileattachmentcomponent-singlefileattachment--single-file-attachment-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-single-file-attachment').percySnapshot(
+          `singlefileattachmentcomponent-singlefileattachment--single-file-attachment-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

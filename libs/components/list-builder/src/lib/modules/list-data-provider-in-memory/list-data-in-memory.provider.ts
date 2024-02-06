@@ -15,8 +15,8 @@ let idIndex = 0;
  * @deprecated
  */
 export class SkyListInMemoryDataProvider extends ListDataProvider {
-  public items: BehaviorSubject<Array<ListItemModel>> = new BehaviorSubject<
-    Array<ListItemModel>
+  public items: BehaviorSubject<ListItemModel[]> = new BehaviorSubject<
+    ListItemModel[]
   >([]);
 
   private lastItems: ListItemModel[];
@@ -28,7 +28,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
   private lastFilterResults: ListItemModel[];
 
   constructor(
-    data?: Observable<Array<any>>,
+    data?: Observable<any[]>,
     searchFunction?: (data: any, searchText: string) => boolean,
   ) {
     super(data);
@@ -79,7 +79,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
 
   private filteredItems(
     request: ListDataRequestModel,
-  ): Observable<Array<ListItemModel>> {
+  ): Observable<ListItemModel[]> {
     const showSelectedId = ['show-selected'];
 
     return this.items.pipe(
@@ -127,8 +127,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
           result = this.lastFilterResults;
         } else if (filters && filters.length > 0) {
           result = result.filter((item) => {
-            for (let i = 0; i < filters.length; i++) {
-              const filter = filters[i];
+            for (const filter of filters) {
               if (
                 filter.value === undefined ||
                 filter.value === '' ||
@@ -175,8 +174,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
           result = result.filter((item) => {
             let isMatch = false;
 
-            for (let i = 0; i < searchFunctions.length; i++) {
-              const searchFunction = searchFunctions[i];
+            for (const searchFunction of searchFunctions) {
               const searchResult = searchFunction(item.data, searchText);
 
               if (
@@ -203,8 +201,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
             .slice()
             .sort((item1: ListItemModel, item2: ListItemModel) => {
               let compareResult = 0;
-              for (let i = 0; i < sort.fieldSelectors.length; i++) {
-                const selector = sort.fieldSelectors[i];
+              for (const selector of sort.fieldSelectors) {
                 const value1 = getData(item1.data, selector.fieldSelector);
                 const value2 = getData(item2.data, selector.fieldSelector);
 

@@ -5,9 +5,7 @@ import { readJsonFile, writeJsonFile } from '../../utility/tree';
 export function addFormatNpmScript(): Rule {
   return (tree) => {
     const packageJson = readJsonFile<{
-      scripts: {
-        [_: string]: string;
-      };
+      scripts: Record<string, string>;
     }>(tree, 'package.json');
 
     packageJson.scripts = packageJson.scripts || {};

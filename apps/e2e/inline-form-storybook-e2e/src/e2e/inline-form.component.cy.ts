@@ -13,13 +13,13 @@ describe('inline-form-storybook', () => {
           .should('be.visible')
           .screenshot(
             `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
-          )
-          .percySnapshot(
-            `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-inline-form').percySnapshot(
+          `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
       [
         'custom',
@@ -41,19 +41,17 @@ describe('inline-form-storybook', () => {
               .last()
               .should('exist')
               .should('be.visible')
-              .click()
-              .end();
+              .click();
 
-            cy.get('app-inline-form')
-              .screenshot(
-                `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
-              )
-              .percySnapshot(
-                `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+            cy.get('app-inline-form').screenshot(
+              `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
+            );
+            cy.get('app-inline-form').percySnapshot(
+              `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
           });
         });
       });

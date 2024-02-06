@@ -79,7 +79,7 @@ export class SkySectionedFormComponent
    * section. The index is based on the section's position when the form loads.
    */
   @Output()
-  public indexChanged: EventEmitter<number> = new EventEmitter();
+  public indexChanged = new EventEmitter<number>();
 
   /**
    * Fires when the sectioned form tabs are shown or hidden.

@@ -64,7 +64,6 @@ describe('lib-resources-module.schematic', () => {
  * the 'ng generate @skyux/i18n:lib-resources-module' schematic.
  * To update this file, simply rerun the command.
  */
-
 import { NgModule } from '@angular/core';
 import {
   SKY_LIB_RESOURCES_PROVIDERS,
@@ -76,7 +75,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {"foobar":{"message":"Hello, world!"}},
   'FR-CA': {},
 };
@@ -84,7 +83,10 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
 SkyLibResourcesService.addResources(RESOURCES);
 
 export class MyLibResourcesProvider implements SkyLibResourcesProvider {
-  public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
+  public getString(
+    localeInfo: SkyAppLocaleInfo,
+    name: string,
+  ): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }
@@ -94,13 +96,15 @@ export class MyLibResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: MyLibResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: MyLibResourcesProvider,
+      multi: true
+    }
+  ]
 })
-export class MyLibResourcesModule { }
+export class MyLibResourcesModule {}
 `);
   });
 
@@ -159,7 +163,6 @@ export class MyLibResourcesModule { }
  * the 'ng generate @skyux/i18n:lib-resources-module shared/foobar' schematic.
  * To update this file, simply rerun the command.
  */
-
 import { NgModule } from '@angular/core';
 import {
   SKY_LIB_RESOURCES_PROVIDERS,
@@ -171,14 +174,17 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {"foobar":{"message":"Hello, world!"}},
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
 
 export class FoobarResourcesProvider implements SkyLibResourcesProvider {
-  public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
+  public getString(
+    localeInfo: SkyAppLocaleInfo,
+    name: string,
+  ): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }
@@ -188,13 +194,15 @@ export class FoobarResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: FoobarResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: FoobarResourcesProvider,
+      multi: true
+    }
+  ]
 })
-export class FoobarResourcesModule { }
+export class FoobarResourcesModule {}
 `);
   });
 

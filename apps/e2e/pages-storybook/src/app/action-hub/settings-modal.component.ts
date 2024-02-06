@@ -15,7 +15,7 @@ export class SettingsModalComponent {
     public modal: SkyModalInstance,
     @Inject('modalTitle') public title: string,
   ) {
-    const controls: { [key: string]: unknown } = {};
+    const controls: Record<string, unknown> = {};
     for (let i = 1; i <= 5; i++) {
       const field = `${this.title} ${i}`;
       this.fields.push(field);

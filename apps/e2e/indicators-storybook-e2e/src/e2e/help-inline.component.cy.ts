@@ -12,13 +12,13 @@ describe('indicators-storybook', () => {
         cy.get('app-help-inline')
           .should('exist')
           .should('be.visible')
-          .screenshot(`helpinlinecomponent-helpinline--help-inline-${theme}`)
-          .percySnapshot(
-            `helpinlinecomponent-helpinline--help-inline-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+          .screenshot(`helpinlinecomponent-helpinline--help-inline-${theme}`);
+        cy.get('app-help-inline').percySnapshot(
+          `helpinlinecomponent-helpinline--help-inline-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

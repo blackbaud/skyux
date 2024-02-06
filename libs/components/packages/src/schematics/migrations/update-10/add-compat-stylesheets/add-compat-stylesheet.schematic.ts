@@ -6,7 +6,7 @@ import { getWorkspace, updateWorkspace } from '../../../utility/workspace';
 
 const COMPAT_CSS_FILE_NAME = 'skyux10-compat.css';
 
-type CompatStyle = {
+interface CompatStyle {
   libraries: {
     name: string;
     components: {
@@ -14,7 +14,7 @@ type CompatStyle = {
       styles: { css: string; instructions: string }[];
     }[];
   }[];
-};
+}
 
 const compatStyles: CompatStyle = {
   libraries: [

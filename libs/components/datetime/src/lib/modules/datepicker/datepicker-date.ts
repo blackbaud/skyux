@@ -10,5 +10,5 @@ export interface SkyDatepickerDate {
   secondary: boolean;
   uid: string;
   keyDate?: boolean;
-  keyDateText?: Array<string>;
+  keyDateText?: string[];
 }

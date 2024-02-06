@@ -179,7 +179,7 @@ const matchers: jasmine.CustomMatcherFactories = {
     return {
       compare(
         el: any,
-        expectedStyles: { [index: string]: string },
+        expectedStyles: Record<string, string>,
       ): jasmine.CustomMatcherResult {
         const message: string[] = [];
 
@@ -697,7 +697,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
    * `expect` the actual element to have the expected style(s).
    * @param expectedStyles An object representing the style(s) to check for.
    */
-  toHaveStyle(expectedStyles: { [index: string]: string }): void;
+  toHaveStyle(expectedStyles: Record<string, string>): void;
 
   /**
    * `expect` the actual element to have the expected text.

@@ -1,12 +1,18 @@
 import { Fetch, checkPercyBuild } from '../percy-api/percy-api';
 
-type WorkflowJob = { name: string; steps: WorkflowJobStep[] };
-type WorkflowJobStep = { name: string; conclusion: string };
-type WorkflowStepSummary = {
+interface WorkflowJob {
+  name: string;
+  steps: WorkflowJobStep[];
+}
+interface WorkflowJobStep {
+  name: string;
+  conclusion: string;
+}
+interface WorkflowStepSummary {
   project: string;
   skipped: boolean;
   succeeded: boolean;
-};
+}
 
 /**
  * Call from GitHub Actions workflow:

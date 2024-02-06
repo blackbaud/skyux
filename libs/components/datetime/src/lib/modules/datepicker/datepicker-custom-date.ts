@@ -20,5 +20,5 @@ export interface SkyDatepickerCustomDate {
   /**
    * Displays a popup of the provided text when hovering over the key date in the calendar.
    */
-  keyDateText?: Array<string>;
+  keyDateText?: string[];
 }

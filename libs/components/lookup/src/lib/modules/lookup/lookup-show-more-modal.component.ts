@@ -59,7 +59,7 @@ export class SkyLookupShowMoreModalComponent
    * @internal
    * Fires when users select the button to add new options to the list.
    */
-  public addClick: Subject<void> = new Subject();
+  public addClick = new Subject<void>();
 
   /**
    * Used to associate this modal with its owning lookup component.

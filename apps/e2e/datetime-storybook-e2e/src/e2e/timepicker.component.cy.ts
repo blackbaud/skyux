@@ -15,17 +15,17 @@ describe('datetime-storybook', () => {
               .last()
               .should('exist')
               .should('be.visible')
-              .click()
-              .end()
-              .get(
-                'sky-overlay .sky-timepicker-container .sky-timepicker-footer',
-              )
+              .click();
+
+            cy.get(
+              'sky-overlay .sky-timepicker-container .sky-timepicker-footer',
+            )
               .should('exist')
               .should('be.visible')
               // Move focus so the focus ring is not in the screenshot.
-              .click()
-              .end()
-              .get('body')
+              .click();
+
+            cy.get('body')
               .should('exist')
               .should('be.visible')
               .then(($body) => {

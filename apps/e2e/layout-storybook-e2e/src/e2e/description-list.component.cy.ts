@@ -20,13 +20,13 @@ describe('layout-storybook - description-list', () => {
                 .should('be.visible')
                 .screenshot(
                   `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
-                )
-                .percySnapshot(
-                  `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
-                  {
-                    widths: [width],
-                  },
                 );
+              cy.percySnapshot(
+                `descriptionlistcomponent-descriptionlist--description-list-${width}-${theme}`,
+                {
+                  widths: [width],
+                },
+              );
             });
           });
         },

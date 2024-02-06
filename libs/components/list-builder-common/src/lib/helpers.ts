@@ -18,8 +18,7 @@ export function getData(item: any, selector: string): any {
 
   /* istanbul ignore else */
   if (resultFieldParts.length > 0) {
-    for (let index = 0; index < resultFieldParts.length; index++) {
-      const part = resultFieldParts[index];
+    for (const part of resultFieldParts) {
       /* istanbul ignore else */
       if (result[part] === null || result[part] === undefined) {
         result = null;

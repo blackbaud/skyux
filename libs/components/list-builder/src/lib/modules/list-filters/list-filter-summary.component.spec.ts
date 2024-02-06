@@ -18,7 +18,7 @@ describe('List filter summary', () => {
     fixture: ComponentFixture<ListFilterSummaryTestComponent>,
     nativeElement: HTMLElement,
     component: ListFilterSummaryTestComponent,
-    filters: Array<ListFilterModel> = [
+    filters: ListFilterModel[] = [
       new ListFilterModel({
         name: 'color',
         value: 'blue',

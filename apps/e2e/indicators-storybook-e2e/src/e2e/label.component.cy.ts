@@ -12,8 +12,10 @@ describe(`indicators-storybook`, () => {
         cy.get('app-label')
           .should('exist')
           .should('be.visible')
-          .screenshot(`labelcomponent-label--label-${theme}`)
-          .percySnapshot(`labelcomponent-label--label-${theme}`);
+          .screenshot(`labelcomponent-label--label-${theme}`);
+        cy.get('app-label').percySnapshot(
+          `labelcomponent-label--label-${theme}`,
+        );
       });
     });
   });

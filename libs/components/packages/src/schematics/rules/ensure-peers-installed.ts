@@ -8,17 +8,17 @@ import {
 
 import { readRequiredFile } from '../utility/tree';
 
-type PackageDetails = {
+interface PackageDetails {
   matchVersion?: boolean;
   name: string;
   version?: string;
   type: NodeDependencyType;
-};
+}
 
-type PackageJson = {
+interface PackageJson {
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
-};
+}
 
 function installPackages(
   packages: PackageDetails[],

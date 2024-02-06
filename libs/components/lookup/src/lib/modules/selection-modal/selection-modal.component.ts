@@ -61,7 +61,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
    * @internal
    * Fires when users select the button to add new options to the list.
    */
-  public addClick: Subject<void> = new Subject();
+  public addClick = new Subject<void>();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public displayedItems: any[] = [];
@@ -86,7 +86,7 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
 
   public searchText: string | undefined;
 
-  public selectedIdMap: Map<unknown, unknown> = new Map();
+  public selectedIdMap = new Map<unknown, unknown>();
 
   #continuationData: unknown;
 

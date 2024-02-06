@@ -12,8 +12,10 @@ describe(`indicators-storybook`, () => {
         cy.get('app-alert')
           .should('exist')
           .should('be.visible')
-          .screenshot(`alertcomponent-alert--alert-${theme}`)
-          .percySnapshot(`alertcomponent-alert--alert-${theme}`);
+          .screenshot(`alertcomponent-alert--alert-${theme}`);
+        cy.get('app-alert').percySnapshot(
+          `alertcomponent-alert--alert-${theme}`,
+        );
         for (const x of ['info', 'success', 'warning', 'danger']) {
           cy.get(
             `[ng-reflect-alert-type="${x}"][ng-reflect-closeable="true"] > .sky-alert > .sky-alert-close`,

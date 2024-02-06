@@ -20,7 +20,7 @@ import { SkyLibResourcesService } from './lib-resources.service';
 export class SkyLibResourcesPipe implements PipeTransform, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
 
-  #resourceCache: { [key: string]: any } = {};
+  #resourceCache: Record<string, any> = {};
 
   #changeDetector: ChangeDetectorRef;
   #resourcesService: SkyLibResourcesService;

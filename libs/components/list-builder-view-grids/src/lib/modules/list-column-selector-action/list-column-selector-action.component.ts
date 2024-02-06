@@ -119,8 +119,8 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
     /* istanbul ignore else */
     /* sanity check */
     if (this.gridView) {
-      let columns: Array<SkyColumnSelectorModel> = [];
-      let selectedColumnIds: Array<string> = [];
+      let columns: SkyColumnSelectorModel[] = [];
+      let selectedColumnIds: string[] = [];
       this.gridView.gridState
         .pipe(take(1))
         .subscribe((state: GridStateModel) => {
@@ -165,7 +165,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
         if (result.reason === 'save' && result.data) {
           const newSelectedIds = result.data;
-          let newDisplayedColumns: Array<SkyGridColumnModel> = [];
+          let newDisplayedColumns: SkyGridColumnModel[] = [];
           this.gridView.gridState
             .pipe(take(1))
             .subscribe((state: GridStateModel) => {

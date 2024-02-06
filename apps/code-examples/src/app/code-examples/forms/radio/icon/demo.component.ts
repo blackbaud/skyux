@@ -8,11 +8,11 @@ import {
 } from '@angular/forms';
 import { SkyRadioModule } from '@skyux/forms';
 
-type Item = {
+interface Item {
   icon: string;
   label: string;
   name: string;
-};
+}
 
 @Component({
   standalone: true,

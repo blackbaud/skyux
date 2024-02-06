@@ -15,10 +15,13 @@ describe('theme-storybook', () => {
           .should('be.visible')
           .end()
           .document()
-          .screenshot(`buttonscomponent-buttons--buttons-${theme}`)
-          .percySnapshot(`buttonscomponent-buttons--buttons-${theme}`, {
+          .screenshot(`buttonscomponent-buttons--buttons-${theme}`);
+        cy.document().percySnapshot(
+          `buttonscomponent-buttons--buttons-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

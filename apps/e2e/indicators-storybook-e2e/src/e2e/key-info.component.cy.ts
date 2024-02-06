@@ -12,8 +12,10 @@ describe('indicators-storybook', () => {
         cy.get('app-key-info')
           .should('exist')
           .should('be.visible')
-          .screenshot(`keyinfocomponent-keyinfo--key-info-${theme}`)
-          .percySnapshot(`keyinfocomponent-keyinfo--key-info-${theme}`);
+          .screenshot(`keyinfocomponent-keyinfo--key-info-${theme}`);
+        cy.get('app-key-info').percySnapshot(
+          `keyinfocomponent-keyinfo--key-info-${theme}`,
+        );
         for (const x of ['vertical', 'horizontal']) {
           cy.get(`.${x}-key-info`).should('exist').should('be.visible');
         }

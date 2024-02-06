@@ -17,13 +17,13 @@ describe('theme-storybook', () => {
           .document()
           .screenshot(
             `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
-          )
-          .percySnapshot(
-            `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
-            {
-              widths: E2eVariations.MOBILE_WIDTHS,
-            },
           );
+        cy.document().percySnapshot(
+          `switchcontrolscomponent-switchcontrols--switch-controls-${theme}`,
+          {
+            widths: E2eVariations.MOBILE_WIDTHS,
+          },
+        );
       });
     });
   });

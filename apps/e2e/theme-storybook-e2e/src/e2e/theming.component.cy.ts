@@ -28,10 +28,13 @@ describe('theme-storybook', () => {
           .should('be.visible')
           .end()
           .document()
-          .screenshot(`themingcomponent-theming--theming-${theme}`)
-          .percySnapshot(`themingcomponent-theming--theming-${theme}`, {
+          .screenshot(`themingcomponent-theming--theming-${theme}`);
+        cy.document().percySnapshot(
+          `themingcomponent-theming--theming-${theme}`,
+          {
             widths: E2eVariations.MOBILE_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

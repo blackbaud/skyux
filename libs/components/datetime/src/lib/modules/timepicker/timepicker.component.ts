@@ -155,7 +155,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public activeTime: Date = new Date();
 
-  public hours: Array<number> = [];
+  public hours: number[] = [];
 
   public is8601 = false;
 
@@ -165,7 +165,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public localeFormat = 'h:mm A';
 
-  public minutes: Array<number> = [];
+  public minutes: number[] = [];
 
   public minuteMultiplier: number | undefined;
 

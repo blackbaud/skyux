@@ -214,7 +214,7 @@ describe('File attachment', () => {
   }
 
   function setupStandardFileChangeEvent(
-    files?: Array<any>,
+    files?: any[],
     existingSpy?: jasmine.Spy,
   ): jasmine.Spy {
     const fileReaderSpyData = getFileReaderSpyData(existingSpy);

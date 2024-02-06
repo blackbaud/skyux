@@ -17,7 +17,7 @@ import {
   getLibStringForLocale,
 } from '@skyux/i18n';
 
-const RESOURCES: { [locale: string]: SkyLibResources } = {
+const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_list_show_secondary_actions_button: { message: 'More' },
     skyux_list_multiselect_clear_all: { message: 'Clear all' },

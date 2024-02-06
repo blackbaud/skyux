@@ -1,4 +1,4 @@
-type Build = {
+interface Build {
   id: string;
   type: 'builds';
   attributes: {
@@ -25,9 +25,9 @@ type Build = {
     'created-at': string;
     'updated-at': string;
   };
-};
+}
 
-export type BuildSummary = {
+export interface BuildSummary {
   project: string;
   state:
     | 'unsaved'
@@ -40,7 +40,7 @@ export type BuildSummary = {
     | undefined;
   approved: boolean;
   removedSnapshots: string[];
-};
+}
 
 export type Fetch = (
   input: RequestInfo | URL,
@@ -49,13 +49,13 @@ export type Fetch = (
 
 type FetchJson = <T extends object>(url: string, name: string) => Promise<T>;
 
-type Snapshot = {
+interface Snapshot {
   type: 'snapshots';
   id: string;
   attributes: {
     name: string;
   };
-};
+}
 
 function getFetchJson(
   fetchClient: (input: RequestInfo | URL) => Promise<Response>,

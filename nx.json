@@ -38,10 +38,6 @@
       "inputs": ["e2eInputs", "^storybookInputs", "^buildInputs"],
       "cache": true
     },
-    "lint": {
-      "inputs": ["lintInputs"],
-      "cache": true
-    },
     "build-storybook": {
       "inputs": ["storybookInputs", "^buildInputs"],
       "cache": true
@@ -67,6 +63,10 @@
           "runInBand": true
         }
       }
+    },
+    "@nx/eslint:lint": {
+      "inputs": ["lintInputs"],
+      "cache": true
     }
   },
   "namedInputs": {

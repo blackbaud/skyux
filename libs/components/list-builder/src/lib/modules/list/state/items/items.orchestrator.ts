@@ -83,10 +83,8 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
     );
   }
 
-  private cloneListItemModelArray(
-    source: Array<ListItemModel>,
-  ): ListItemModel[] {
-    const newListItems: Array<ListItemModel> = [];
+  private cloneListItemModelArray(source: ListItemModel[]): ListItemModel[] {
+    const newListItems: ListItemModel[] = [];
     source.forEach((item) => {
       newListItems.push(
         new ListItemModel(

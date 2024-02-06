@@ -14,13 +14,13 @@ describe('indicators-storybook', () => {
           .should('be.visible')
           .screenshot(
             `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
-          )
-          .percySnapshot(
-            `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
           );
+        cy.get('app-status-indicator').percySnapshot(
+          `statusindicatorcomponent-statusindicator--status-indicator-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

@@ -31,15 +31,13 @@ describe('phone-field-storybook', () => {
           .eq(4)
           .should('exist')
           .should('be.visible')
-          .click()
-          .end();
+          .click();
 
         cy.get('.sky-phone-field-country-btn')
           .eq(5)
           .should('exist')
           .should('be.visible')
-          .type('Ar')
-          .end();
+          .type('Ar');
 
         cy.get('app-phone-field')
           .should('exist')

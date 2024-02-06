@@ -84,7 +84,7 @@ export class SkyFilterButtonComponent {
    * Fires when the filter button is selected.
    */
   @Output()
-  public filterButtonClick: EventEmitter<void> = new EventEmitter();
+  public filterButtonClick = new EventEmitter<void>();
 
   protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 

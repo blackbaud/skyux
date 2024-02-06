@@ -12,8 +12,10 @@ describe(`pages-storybook`, () => {
         cy.get('app-action-hub')
           .should('exist')
           .should('be.visible')
-          .screenshot(`actionhubcomponent-actionhub--action-hub-${theme}`)
-          .percySnapshot(`actionhubcomponent-actionhub--action-hub-${theme}`);
+          .screenshot(`actionhubcomponent-actionhub--action-hub-${theme}`);
+        cy.get('app-action-hub').percySnapshot(
+          `actionhubcomponent-actionhub--action-hub-${theme}`,
+        );
       });
     });
   });

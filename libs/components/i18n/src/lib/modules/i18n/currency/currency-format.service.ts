@@ -8,12 +8,12 @@ const DEFAULT_CURRENCY_CODE = 'USD';
 const DEFAULT_GROUP_CHARACTER = ',';
 const DEFAULT_DECIMAL_CHARACTER = '.';
 
-type CurrencyFormatParts = {
+interface CurrencyFormatParts {
   symbol: string;
   symbolLocation: SkyI18nCurrencySymbolLocation;
   decimalCharacter: string;
   groupCharacter: string;
-};
+}
 
 /**
  * Used to format a currency within a given locale.

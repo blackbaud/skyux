@@ -16,11 +16,11 @@ import {
 } from '@skyux/inline-form';
 import { SkyRepeaterModule } from '@skyux/lists';
 
-type Item = {
+interface Item {
   id: string;
   title: string | undefined;
   note: string | undefined;
-};
+}
 
 @Component({
   standalone: true,

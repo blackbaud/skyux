@@ -14,10 +14,10 @@ import {
 import { ThemeSelectorSpacingValue } from './theme-selector-spacing-value';
 import { ThemeSelectorValue } from './theme-selector-value';
 
-type LocalStorageSettings = {
+interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
   themeSpacing: ThemeSelectorSpacingValue;
-};
+}
 
 const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
 

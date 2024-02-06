@@ -74,7 +74,7 @@ export class SkyPagingComponent implements OnChanges {
   @ViewChild('contentWrapper', { read: ElementRef })
   public contentWrapper: ElementRef | undefined;
 
-  public displayedPages: Array<number> = [];
+  public displayedPages: number[] = [];
 
   public pageCount = 0;
 
@@ -137,7 +137,7 @@ export class SkyPagingComponent implements OnChanges {
     pageCount: number,
     maxDisplayedPages: number,
     pageNumber: number,
-  ): Array<number> {
+  ): number[] {
     const pageIndex = pageNumber - 1;
     const pageBounds = Math.floor(maxDisplayedPages / 2);
 
@@ -164,7 +164,7 @@ export class SkyPagingComponent implements OnChanges {
       upperBound = pageCount;
     }
 
-    const displayedPageNumbers: Array<number> = [];
+    const displayedPageNumbers: number[] = [];
     for (let i = lowerBound; i < upperBound; i++) {
       displayedPageNumbers.push(i + 1);
     }

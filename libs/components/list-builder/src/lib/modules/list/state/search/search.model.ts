@@ -16,12 +16,12 @@ export class ListSearchModel {
    * the search is successful. This property accepts a function of type
    * `(data: any, searchText: string) => boolean>.`
    */
-  public functions: Array<(data: any, searchText: string) => boolean> = [];
+  public functions: ((data: any, searchText: string) => boolean)[] = [];
   /**
    * The columns to search. The columns correspond to `field` values that
    * you specify with the list component's `data` property.
    */
-  public fieldSelectors: Array<string> = [];
+  public fieldSelectors: string[] = [];
 
   constructor(data?: any) {
     if (data) {

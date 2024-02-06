@@ -20,10 +20,13 @@ describe('layout-storybook', () => {
           .get('app-back-to-top')
           .should('exist')
           .should('be.visible')
-          .screenshot(`backtotopcomponent-backtotop--back-to-top-${theme}`)
-          .percySnapshot(`backtotopcomponent-backtotop--back-to-top-${theme}`, {
+          .screenshot(`backtotopcomponent-backtotop--back-to-top-${theme}`);
+        cy.get('app-back-to-top').percySnapshot(
+          `backtotopcomponent-backtotop--back-to-top-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

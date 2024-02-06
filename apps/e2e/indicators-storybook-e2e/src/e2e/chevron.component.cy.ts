@@ -12,10 +12,13 @@ describe('indicators-storybook - chevron', () => {
         cy.get('app-chevron')
           .should('exist')
           .should('be.visible')
-          .screenshot(`chevroncomponent-chevron--chevron-${theme}`)
-          .percySnapshot(`chevroncomponent-chevron--chevron-${theme}`, {
+          .screenshot(`chevroncomponent-chevron--chevron-${theme}`);
+        cy.get('app-chevron').percySnapshot(
+          `chevroncomponent-chevron--chevron-${theme}`,
+          {
             widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          },
+        );
       });
     });
   });

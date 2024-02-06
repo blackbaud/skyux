@@ -14,10 +14,10 @@ describe('layout-storybook - action button', () => {
         cy.get('app-action-button')
           .should('exist')
           .should('be.visible')
-          .screenshot(screenshotPrefix)
-          .percySnapshot(screenshotPrefix, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          .screenshot(screenshotPrefix);
+        cy.get('app-action-button').percySnapshot(screenshotPrefix, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
 
       it('should render in a medium modal', () => {
@@ -29,18 +29,18 @@ describe('layout-storybook - action button', () => {
           .get('.action-button-open-modal')
           .should('exist')
           .should('be.visible')
-          .click()
-          .end()
-          .get('.sky-modal')
+          .click();
+
+        cy.get('.sky-modal')
           .should('exist')
           .should('be.visible')
           .screenshot(screenshotName, {
             disableTimersAndAnimations: true,
             scale: false,
-          })
-          .percySnapshot(screenshotName, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
           });
+        cy.get('.sky-modal').percySnapshot(screenshotName, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
 
       it('should render the component on mobile', () => {
@@ -50,10 +50,10 @@ describe('layout-storybook - action button', () => {
         cy.get('app-action-button')
           .should('exist')
           .should('be.visible')
-          .screenshot(screenshotName)
-          .percySnapshot(screenshotName, {
-            widths: E2eVariations.MOBILE_WIDTHS,
-          });
+          .screenshot(screenshotName);
+        cy.get('app-action-button').percySnapshot(screenshotName, {
+          widths: E2eVariations.MOBILE_WIDTHS,
+        });
       });
     });
   });

@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './grid-dynamic.component.fixture.html',
 })
 export class GridDynamicTestComponent {
-  public data: Array<any>;
-  public gridColumns: Array<any>;
+  public data: any[];
+  public gridColumns: any[];
   constructor() {
     this.data = [
       { id: 1, name: 'Windstorm', email: 'windstorm@gmail.com' },

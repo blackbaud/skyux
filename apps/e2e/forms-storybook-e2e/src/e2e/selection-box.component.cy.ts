@@ -21,9 +21,9 @@ describe('forms-storybook', () => {
             el.get(0).ownerDocument.defaultView?.dispatchEvent(
               new Event('resize'),
             );
-          })
-          .end()
-          .get('app-selection-box label.sky-selection-box')
+          });
+
+        cy.get('app-selection-box label.sky-selection-box')
           .should('exist')
           .should('be.visible')
           .should('have.length', 6)
@@ -31,25 +31,24 @@ describe('forms-storybook', () => {
             el.each((_, box) => {
               cy.wrap(Cypress.$(box).outerHeight()).should('be.gte', 83);
             });
-          })
-          .end()
-          .get('app-selection-box sky-selection-box-header')
+          });
+
+        cy.get('app-selection-box sky-selection-box-header')
           .should('contain.text', 'Icon')
           .should('contain.text', 'No icon')
           .should('contain.text', 'Icon no description')
           .should('contain.text', 'No icon no description')
-          .should('contain.text', 'Disabled')
-          .end()
-          .window()
-          .screenshot(
-            `selectionboxcomponent-selectionbox--selection-box-${theme}`,
-          )
-          .percySnapshot(
-            `selectionboxcomponent-selectionbox--selection-box-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+          .should('contain.text', 'Disabled');
+
+        cy.window().screenshot(
+          `selectionboxcomponent-selectionbox--selection-box-${theme}`,
+        );
+        cy.window().percySnapshot(
+          `selectionboxcomponent-selectionbox--selection-box-${theme}`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          },
+        );
       });
     });
   });

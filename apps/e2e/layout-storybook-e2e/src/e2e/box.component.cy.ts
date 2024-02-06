@@ -15,10 +15,10 @@ describe('layout-storybook', () => {
           .get('app-box')
           .should('exist')
           .should('be.visible')
-          .screenshot(`boxcomponent-box--box-${theme}`)
-          .percySnapshot(`boxcomponent-box--box-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          .screenshot(`boxcomponent-box--box-${theme}`);
+        cy.get('app-box').percySnapshot(`boxcomponent-box--box-${theme}`, {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        });
       });
     });
   });
