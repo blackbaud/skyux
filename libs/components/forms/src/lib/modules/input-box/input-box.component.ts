@@ -31,6 +31,8 @@ import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 
 import { ReplaySubject } from 'rxjs';
 
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
 import { SkyInputBoxHostService } from './input-box-host.service';
@@ -47,6 +49,10 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
     SkyContentInfoProvider,
     SkyInputBoxAdapterService,
     SkyInputBoxHostService,
+    {
+      provide: SKY_FORM_ERRORS_ENABLED,
+      useValue: true,
+    },
   ],
   // Note that change detection is not set to OnPush; default change detection allows the
   // invalid CSS class to be added when the content control's invalid/dirty state changes.

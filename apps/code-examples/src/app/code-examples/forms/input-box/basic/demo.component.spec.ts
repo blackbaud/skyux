@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { DemoComponent } from './demo.component';
@@ -40,6 +41,22 @@ describe('Basic input box demo', () => {
     });
   });
 
+  describe('last name field', () => {
+    it('should have last name required', async () => {
+      const harness = await setupTest({
+        dataSkyId: 'input-box-last-name',
+      });
+      const inputEl = document.querySelector(
+        'input.last-name-input-box',
+      ) as HTMLInputElement;
+      inputEl.value = '';
+      SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+      SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+
+      await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
+    });
+  });
+
   describe('bio field', () => {
     it('should have a character limit of 250', async () => {
       const harness = await setupTest({
@@ -71,7 +88,7 @@ describe('Basic input box demo', () => {
   });
 
   describe('favorite color field', () => {
-    it('should not allow bird to be selected', async () => {
+    it('should not allow invalid color to be selected', async () => {
       const harness = await setupTest({
         dataSkyId: 'input-box-favorite-color',
       });
@@ -80,19 +97,11 @@ describe('Basic input box demo', () => {
         '.input-box-favorite-color-select',
       ) as HTMLSelectElement;
 
-      selectEl.value = 'bird';
+      selectEl.value = 'invalid';
       selectEl.dispatchEvent(new Event('change'));
 
-      const customErrors = await harness.getCustomErrors();
-
-      expect(customErrors.length).toBe(1);
-
-      const birdError = customErrors[0];
-
-      await expectAsync(birdError.getDescriptionType()).toBeResolvedTo('error');
-      await expectAsync(birdError.getIndicatorType()).toBeResolvedTo('danger');
-      await expectAsync(birdError.getText()).toBeResolvedTo(
-        'Bird is not a color.',
+      await expectAsync(harness.hasCustomFormError('invalid')).toBeResolvedTo(
+        true,
       );
     });
   });
