@@ -62,6 +62,7 @@ export const columnDefinitions: ColDef[] = [
     headerName,
     sortable: false,
     cellClass: 'booleanType',
+    cellRenderer: 'textContent',
     valueFormatter: (params: ValueFormatterParams) =>
       params.value ? 'Yes' : 'No',
   })),

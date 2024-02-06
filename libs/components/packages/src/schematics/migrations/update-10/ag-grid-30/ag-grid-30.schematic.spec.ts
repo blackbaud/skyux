@@ -143,6 +143,44 @@ describe('ag-grid-30.schematic', () => {
     expect(tree.readText('src/app/app.component.ts')).toMatchSnapshot();
   });
 
+  it('should update enterMovesDown', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/app.component.ts',
+      `
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+          #agGridService: SkyAgGridService;
+
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
+            let customOptions: Partial<GridOptions> = {};
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              enterMovesDown: true
+              enterMovesDownAfterEdit: true
+            });
+          }
+        }`,
+    );
+    tree.create(
+      'src/app/no-change.component.ts',
+      `export class NoChangeComponent {}`,
+    );
+    await runner.runSchematic('ag-grid-30', {}, tree);
+    expect(tree.readText('src/app/app.component.ts')).toMatchSnapshot();
+  });
+
   it('should warn about mixing modules and packages', async () => {
     expect.assertions(1);
     const { tree } = setupTest({

@@ -8,6 +8,7 @@ const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
 const AG_GRID = 'ag-grid-community';
 const AG_GRID_ENT = 'ag-grid-enterprise';
+const AG_GRID_SKY = '@skyux/ag-grid';
 
 /**
  * Check package.json for AG Grid dependencies.
@@ -35,10 +36,7 @@ function hasAgGridDependency(tree: Tree): boolean {
  * Column API renamed getSecondaryColumns / setSecondaryColumns to getSecondaryPivotColumns / setSecondaryPivotColumns.
  */
 function renameColumnApiFunctionsInCode(updatedContent: string): string {
-  if (
-    updatedContent.includes(AG_GRID) &&
-    updatedContent.includes('etSecondaryColumns(')
-  ) {
+  if (updatedContent.includes('etSecondaryColumns(')) {
     updatedContent = updatedContent.replace(
       /(?<=columnApi\s*)\.(get|set)SecondaryColumns\(/g,
       (_, x) => `.${x}PivotResultColumns(`,
@@ -48,22 +46,32 @@ function renameColumnApiFunctionsInCode(updatedContent: string): string {
 }
 
 /**
- * Grid option renamed suppressCellSelection to suppressCellFocus.
+ * Update renamed grid options in code.
  */
-function renameSuppressCellSelectionGridOptionInCode(
-  updatedContent: string,
-): string {
+function renameGridOptionsInCode(updatedContent: string): string {
   if (
-    updatedContent.includes(AG_GRID) &&
     updatedContent.match(/gridOptions/i) &&
-    updatedContent.includes('suppressCellSelection')
+    (updatedContent.includes('suppressCellSelection') ||
+      updatedContent.includes('enterMovesDown'))
   ) {
-    updatedContent = updatedContent.replace(
-      /\bsuppressCellSelection\b/g,
-      'suppressCellFocus',
-    );
+    updatedContent = updatedContent
+      .replace(/\bsuppressCellSelection\b/g, 'suppressCellFocus')
+      .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
   }
   return updatedContent;
+}
+
+/**
+ * Check if the file includes any AG Grid imports.
+ */
+function includesAgGrid(updatedContent: string): boolean {
+  return (
+    updatedContent.includes(AG_GRID) ||
+    updatedContent.includes(AG_GRID_ENT) ||
+    updatedContent.includes(AG_GRID_SKY) ||
+    updatedContent.includes(ANY_MODULE) ||
+    updatedContent.includes(ENT_MODULE)
+  );
 }
 
 /**
@@ -90,6 +98,9 @@ async function updateSourceFiles(
         return;
       }
       const content = tree.readText(filePath);
+      if (!content || !includesAgGrid(content)) {
+        return;
+      }
       let updatedContent = content;
 
       // Prompt the user to moderate the use of AG Grid modules
@@ -105,8 +116,7 @@ async function updateSourceFiles(
       }
 
       updatedContent = renameColumnApiFunctionsInCode(updatedContent);
-      updatedContent =
-        renameSuppressCellSelectionGridOptionInCode(updatedContent);
+      updatedContent = renameGridOptionsInCode(updatedContent);
 
       if (updatedContent !== content) {
         tree.overwrite(filePath, updatedContent);
