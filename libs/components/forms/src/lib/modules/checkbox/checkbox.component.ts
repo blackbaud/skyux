@@ -14,6 +14,7 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyCheckboxChange } from './checkbox-change';
@@ -26,6 +27,7 @@ import { SkyCheckboxChange } from './checkbox-change';
   selector: 'sky-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
+  providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
@@ -260,13 +262,19 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_required = false;
 
   #changeDetector = inject(ChangeDetectorRef);
-  #defaultId = inject(SkyIdService).generateId();
+  #idSvc = inject(SkyIdService);
+  #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
-  #ngControl = inject(NgControl, { optional: true, self: true });
+
+  protected readonly ngControl = inject(NgControl, {
+    optional: true,
+    self: true,
+  });
+  public readonly errorId = this.#idSvc.generateId();
 
   constructor() {
-    if (this.#ngControl) {
-      this.#ngControl.valueAccessor = this;
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
     }
 
     this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
@@ -282,10 +290,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.#ngControl) {
+    if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
@@ -361,16 +369,16 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #setValidators(): void {
     if (
       this.required &&
-      !this.#ngControl?.control?.hasValidator(Validators.requiredTrue)
+      !this.ngControl?.control?.hasValidator(Validators.requiredTrue)
     ) {
-      this.#ngControl?.control?.addValidators(Validators.requiredTrue);
-      this.#ngControl?.control?.updateValueAndValidity();
+      this.ngControl?.control?.addValidators(Validators.requiredTrue);
+      this.ngControl?.control?.updateValueAndValidity();
     } else if (
       !this.required &&
-      this.#ngControl?.control?.hasValidator(Validators.requiredTrue)
+      this.ngControl?.control?.hasValidator(Validators.requiredTrue)
     ) {
-      this.#ngControl.control.removeValidators(Validators.requiredTrue);
-      this.#ngControl.control?.updateValueAndValidity();
+      this.ngControl.control.removeValidators(Validators.requiredTrue);
+      this.ngControl.control?.updateValueAndValidity();
     }
   }
 }
