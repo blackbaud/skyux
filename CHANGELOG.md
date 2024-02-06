@@ -1,5 +1,35 @@
 # Changelog
 
+## [9.23.0](https://github.com/blackbaud/skyux/compare/9.22.0...9.23.0) (2024-02-05)
+
+
+### Features
+
+* **components/colorpicker:** add labelText input ([#1968](https://github.com/blackbaud/skyux/issues/1968)) ([f19cb29](https://github.com/blackbaud/skyux/commit/f19cb29d0735177c6939e7a854bd4097d5a71d4b))
+* **components/tabs:** add keyboard navigation to vertical tabset ([#1978](https://github.com/blackbaud/skyux/issues/1978)) ([f0ce7d4](https://github.com/blackbaud/skyux/commit/f0ce7d4a4fe1f008239da6ddb0257b0bda67b47d))
+
+
+### Bug Fixes
+
+* **components/forms:** refactor form errors ([#1981](https://github.com/blackbaud/skyux/issues/1981)) ([f9f0391](https://github.com/blackbaud/skyux/commit/f9f0391411f7c2b70e8a18050b3e8533f0381d3b))
+
+## [10.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.0...10.0.0-alpha.1) (2024-02-02)
+
+
+### Features
+
+* **components/autonumeric:** update `autonumeric` to `4.10.4` ([#1974](https://github.com/blackbaud/skyux/issues/1974)) ([06afbcf](https://github.com/blackbaud/skyux/commit/06afbcf120732db11688799ccb930d397b77d8f3))
+* **components/colorpicker:** add labelText input ([#1968](https://github.com/blackbaud/skyux/issues/1968)) ([#1979](https://github.com/blackbaud/skyux/issues/1979)) ([f27b176](https://github.com/blackbaud/skyux/commit/f27b176969b6960e681d28dfffe97f1d9ab9178f))
+* **components/datetime:** update `moment` to `2.30.1` ([#1975](https://github.com/blackbaud/skyux/issues/1975)) ([5fe13c8](https://github.com/blackbaud/skyux/commit/5fe13c881f2e6e64f9e823d52ebed604d57222ed))
+* **components/forms:** add checkbox labelText input ([#1965](https://github.com/blackbaud/skyux/issues/1965)) ([#1966](https://github.com/blackbaud/skyux/issues/1966)) ([44b6f31](https://github.com/blackbaud/skyux/commit/44b6f3152e4681aba1a67cd8b6114a152888234b))
+* **components/text-editor:** update `dompurify` to `3.0.8` ([#1973](https://github.com/blackbaud/skyux/issues/1973)) ([81ff0bc](https://github.com/blackbaud/skyux/commit/81ff0bc67ee55a56b034bb3b4f41422ed2d91152))
+
+
+### Bug Fixes
+
+* **components/packages:** standardize how schematics visit project files ([#1967](https://github.com/blackbaud/skyux/issues/1967)) ([#1970](https://github.com/blackbaud/skyux/issues/1970)) ([24d9190](https://github.com/blackbaud/skyux/commit/24d91903f34c5b83f107fbc454d071880be0849d))
+* **sdk/eslint-config:** downgrade `package-json` to `7.0.0` since it only works with ES modules ([#1985](https://github.com/blackbaud/skyux/issues/1985)) ([8b25942](https://github.com/blackbaud/skyux/commit/8b25942d1774d1f089ee5774f748c464facddb0d))
+
 ## [9.22.0](https://github.com/blackbaud/skyux/compare/9.21.3...9.22.0) (2024-01-29)
 
 
