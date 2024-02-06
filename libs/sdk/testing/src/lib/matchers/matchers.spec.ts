@@ -23,7 +23,7 @@ function createElement(innerText: string): any {
   return elem;
 }
 
-function createPassingElement(): any {
+function createPassingElement(): HTMLDivElement {
   const wrapper = document.createElement('div');
   const elem1 = document.createElement('div');
   const elem2 = document.createElement('div');
@@ -33,12 +33,20 @@ function createPassingElement(): any {
   return wrapper;
 }
 
-function createFailingElement(): any {
-  // Make every DIV have the same ID:
+function createFailingElement(params?: {
+  includeRelatedNodesError: boolean;
+}): HTMLDivElement {
+  // Use a deprecated role to trigger an accessibility failure.
   const element = createPassingElement();
-  [].slice.call(element.querySelectorAll('div')).forEach((elem: any) => {
-    elem.setAttribute('id', 'same-id');
-  });
+  element.setAttribute('role', 'directory');
+
+  if (params?.includeRelatedNodesError) {
+    // Related nodes include additional reporting.
+    const elem1 = element.firstElementChild as HTMLElement;
+    elem1.setAttribute('role', 'grid');
+    elem1.appendChild(document.createElement('textarea'));
+  }
+
   return element;
 }
 
@@ -191,11 +199,13 @@ describe('Jasmine matchers', () => {
     it('should fail if accessibility rules fail', waitForAsync(() => {
       const failSpy = spyOn(window as any, 'fail').and.callFake(
         (message: string) => {
-          expect(message.indexOf('duplicate-id') > -1).toEqual(true);
+          expect(message.indexOf('aria-deprecated-role') > -1).toEqual(true);
         },
       );
 
-      const element = createFailingElement();
+      const element = createFailingElement({
+        includeRelatedNodesError: true,
+      });
 
       // This will result in a failure on a consumer unit test.
       // We're swallowing the error in order to double-check
@@ -225,7 +235,7 @@ describe('Jasmine matchers', () => {
         const element = createFailingElement();
         expect(element).toBeAccessible(undefined, {
           rules: {
-            'duplicate-id': { enabled: false },
+            'aria-deprecated-role': { enabled: false },
           },
         });
       }));
