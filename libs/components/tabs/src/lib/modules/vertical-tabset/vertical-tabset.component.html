@@ -1,4 +1,8 @@
-<div class="sky-vertical-tabset">
+<div
+  class="sky-vertical-tabset"
+  [tabIndex]="tablistHasFocus ? -1 : 0"
+  (focus)="tabsetFocus()"
+>
   <!--
     ARIA rules do not allow tabpanel elements to be children of a tablist element.
     However, the markup for each sky-vertical-tab component includes both the tab button
@@ -15,7 +19,7 @@
     class="sky-vertical-tabset-tablist"
     [attr.aria-label]="ariaLabel"
     [attr.aria-labelledby]="ariaLabelledBy"
-    [attr.aria-owns]="ariaOwns"
+    [attr.aria-owns]="(tabIdSvc.ids | async)?.join(' ') || undefined"
     [attr.role]="isMobile ? undefined : ariaRole"
   ></span>
   <div
@@ -23,6 +27,11 @@
     class="sky-vertical-tabset-group-container"
     [@tabGroupEnter]="tabService.animationTabsVisibleState"
     [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+    (keydown.arrowdown)="tabGroupsArrowDown(); $event.preventDefault()"
+    (keydown.arrowup)="tabGroupsArrowUp(); $event.preventDefault()"
+    (focusin)="tabGroupsFocusIn()"
+    (focusout)="tabGroupsFocusOut()"
+    #groupContainerWrapper
   >
     <ng-content />
   </div>
