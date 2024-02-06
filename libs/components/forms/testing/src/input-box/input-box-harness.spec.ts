@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyValidators } from '@skyux/validation';
 
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
 import { InputBoxHarnessTestModule } from './fixtures/input-box-harness-test.module';
@@ -136,6 +137,127 @@ describe('Input box harness', () => {
     await expectAsync(customError.getDescriptionType()).toBeResolvedTo('error');
     await expectAsync(customError.getIndicatorType()).toBeResolvedTo('danger');
     await expectAsync(customError.getText()).toBeResolvedTo('Test error');
+  });
+
+  it('should return whether custom form error has fired', async () => {
+    const { inputBoxHarness } = await setupTest({
+      dataSkyId: 'custom-error-easy-mode',
+    });
+
+    await expectAsync(
+      inputBoxHarness.hasCustomFormError('custom'),
+    ).toBeResolvedTo(true);
+  });
+
+  it('should return whether required error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(Validators.required);
+    control.setValue('');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasRequiredError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether minimum length error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(Validators.minLength(2));
+    control.setValue('a');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasMinLengthError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether maximum length error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(Validators.maxLength(1));
+    control.setValue('abc');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasMaxLengthError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether email validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(SkyValidators.email);
+    control.setValue('abc');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasEmailError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether url validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name-easy-mode',
+    });
+
+    const control = component.myForm.controls['lastName'];
+    control.addValidators(SkyValidators.url);
+    control.setValue('abc');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasUrlError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether date picker validator error has fired', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'datepicker-easy-mode',
+    });
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasDateError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether time picker validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'timepicker-easy-mode',
+    });
+
+    const control = component.directiveErrorForm.controls['easyModeTimepicker'];
+    control.markAsDirty();
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasTimeError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether phone field validator error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'phone-field-easy-mode',
+    });
+
+    const control = component.directiveErrorForm.controls['easyModePhoneField'];
+    control.markAsDirty();
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasPhoneFieldError()).toBeResolvedTo(
+      true,
+    );
   });
 
   it('should return character counter indicator', async () => {
