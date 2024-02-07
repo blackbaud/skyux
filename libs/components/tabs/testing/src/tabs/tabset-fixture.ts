@@ -65,7 +65,7 @@ export class SkyTabsetFixture {
     const active = this.activeTabIndex === tabIndex;
     const disabled = tabLinkEl.classList.contains('sky-btn-tab-disabled');
     const tabHeading = this.#getTextContent(
-      tabLinkEl.querySelector('.sky-tab-heading')?.childNodes[0],
+      tabLinkEl.querySelector('.sky-tab-heading span')?.childNodes[0],
     );
     const tabHeaderCount = this.#getTextContent(
       tabLinkEl.querySelector('.sky-tab-header-count'),

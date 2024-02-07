@@ -430,6 +430,65 @@ describe('Popover directive', () => {
       expect(popover).toBeNull();
     }));
 
+    it('should open and close popover via focus when a hover trigger is used', fakeAsync(() => {
+      fixture.componentInstance.trigger = 'mouseenter';
+
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+
+      button?.focus();
+      SkyAppTestUtility.fireDomEvent(button, 'focusin');
+
+      detectChangesFakeAsync();
+
+      let popover = getPopoverElement();
+
+      expect(isElementVisible(popover)).toEqual(true);
+
+      // Simulate moving the mouse to the popover.
+      SkyAppTestUtility.fireDomEvent(popover, 'mouseenter');
+
+      detectChangesFakeAsync();
+
+      popover = getPopoverElement();
+
+      // Confirm popover is still open.
+      expect(isElementVisible(popover)).toEqual(true);
+
+      // Simulate moving the mouse from the popover to the trigger button.
+      SkyAppTestUtility.fireDomEvent(popover, 'mouseleave');
+      tick();
+      fixture.detectChanges();
+      SkyAppTestUtility.fireDomEvent(button, 'mouseenter');
+      tick();
+      fixture.detectChanges();
+
+      popover = getPopoverElement();
+
+      // Confirm popover is still open.
+      expect(isElementVisible(popover)).toEqual(true);
+
+      // Simulate mouse leaving the trigger button.
+      SkyAppTestUtility.fireDomEvent(button, 'mouseleave');
+
+      detectChangesFakeAsync();
+
+      popover = getPopoverElement();
+
+      // Confirm popover is still open.
+      expect(isElementVisible(popover)).toEqual(true);
+
+      SkyAppTestUtility.fireDomEvent(button, 'focusout');
+
+      detectChangesFakeAsync();
+
+      popover = getPopoverElement();
+
+      // Menu should now be closed.
+      expect(popover).toBeNull();
+    }));
+
     it('should close popover when clicking outside', fakeAsync(() => {
       detectChangesFakeAsync();
 

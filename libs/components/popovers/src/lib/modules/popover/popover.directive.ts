@@ -215,11 +215,39 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
             this.skyPopover.isActive &&
             this.skyPopoverTrigger === 'mouseenter'
           ) {
-            // Give the popover a chance to set its isMouseEnter flag before checking to see
-            // if it should be closed.
-            setTimeout(() => {
-              this.#closePopoverOrMarkForClose();
-            });
+            if (document.activeElement !== element) {
+              // Give the popover a chance to set its isMouseEnter flag before checking to see
+              // if it should be closed.
+              setTimeout(() => {
+                this.#closePopoverOrMarkForClose();
+              });
+            }
+          }
+        }
+      });
+
+    observableFromEvent(element, 'focusin')
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        if (this.skyPopover) {
+          if (
+            !this.skyPopover.isActive &&
+            this.skyPopoverTrigger === 'mouseenter'
+          ) {
+            this.#sendMessage(SkyPopoverMessageType.Open);
+          }
+        }
+      });
+
+    observableFromEvent(element, 'focusout')
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        if (this.skyPopover) {
+          if (
+            this.skyPopover.isActive &&
+            this.skyPopoverTrigger === 'mouseenter'
+          ) {
+            this.#sendMessage(SkyPopoverMessageType.Close);
           }
         }
       });
