@@ -9,4 +9,7 @@ import { ReplaySubject } from 'rxjs';
 export class SkyColorpickerInputService {
   public inputId = new ReplaySubject<string>(1);
   public labelText = new ReplaySubject<string | undefined>(1);
+  public ariaError = new ReplaySubject<{ hasError: boolean; errorId: string }>(
+    1,
+  );
 }
