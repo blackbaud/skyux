@@ -1,7 +1,7 @@
 {
   "skyux_character_count_message": {
     "_description": "Screen reader only label for character count",
-    "message": "characters out of"
+    "message": "{0} characters out of {1}"
   },
   "skyux_character_count_over_limit": {
     "_description": "Screen reader only label for character count over limit symbol",

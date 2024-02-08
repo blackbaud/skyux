@@ -19,7 +19,7 @@ import {
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
-    skyux_character_count_message: { message: 'characters out of' },
+    skyux_character_count_message: { message: '{0} characters out of {1}' },
     skyux_character_count_over_limit: {
       message: 'You are over the character limit.',
     },

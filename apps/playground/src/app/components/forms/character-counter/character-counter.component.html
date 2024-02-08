@@ -1,38 +1,48 @@
-<div style="width: 50%">
-  <form novalidate [formGroup]="formGroup">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label" [for]="descriptionInput.id">
-        Transaction description
-      </label>
+<sky-page layout="blocks">
+  <sky-page-content>
+    <div style="width: 50%">
+      <h3>Standard</h3>
+      <form novalidate [formGroup]="formGroup">
+        <sky-input-box stacked="true">
+          <label class="sky-control-label" [for]="descriptionInput.id">
+            Transaction description
+          </label>
 
-      <sky-character-counter-indicator
-        data-sky-id="description-indicator"
-        #descriptionIndicator
-      />
+          <sky-character-counter-indicator
+            data-sky-id="description-indicator"
+            #descriptionIndicator
+          />
 
-      <input
-        class="sky-form-control description-input"
-        formControlName="description"
-        skyCharacterCounter
-        skyId
-        type="text"
-        [attr.aria-describedby]="characterCountError.id"
-        [skyCharacterCounterIndicator]="descriptionIndicator"
-        [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
-        #descriptionInput="skyId"
-      />
+          <input
+            class="sky-form-control description-input"
+            formControlName="description"
+            skyCharacterCounter
+            skyId
+            type="text"
+            [attr.aria-describedby]="characterCountError.id"
+            [skyCharacterCounterIndicator]="descriptionIndicator"
+            [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
+            #descriptionInput="skyId"
+          />
 
-      <span class="sky-error-indicator" skyId #characterCountError="skyId">
-        <sky-status-indicator
-          *ngIf="description.errors?.['skyCharacterCounter']"
-          data-sky-id="description-status-indicator-over-limit"
-          descriptionType="error"
-          indicatorType="danger"
-        >
-          Limit Transaction description to
-          {{ maxDescriptionCharacterCount }} characters.
-        </sky-status-indicator>
-      </span>
-    </sky-input-box>
-  </form>
-</div>
+          <span class="sky-error-indicator" skyId #characterCountError="skyId">
+            <sky-status-indicator
+              *ngIf="description.errors?.['skyCharacterCounter']"
+              data-sky-id="description-status-indicator-over-limit"
+              descriptionType="error"
+              indicatorType="danger"
+            >
+              Limit Transaction description to
+              {{ maxDescriptionCharacterCount }} characters.
+            </sky-status-indicator>
+          </span>
+        </sky-input-box>
+
+        <h3>Easy mode</h3>
+        <sky-input-box stacked="true" labelText="Name" characterLimit="99">
+          <input formControlName="name" type="text" />
+        </sky-input-box>
+      </form>
+    </div>
+  </sky-page-content>
+</sky-page>
