@@ -5,11 +5,21 @@
   {{ characterCount + '/' + characterCountLimit }}
 </span>
 <span aria-live="polite" class="sky-screen-reader-only">
-  {{ characterCount }} {{ 'skyux_character_count_message' | skyLibResources }}
-  {{ characterCountLimit }}.
-  {{
-    characterCount > characterCountLimit
-      ? ('skyux_character_count_over_limit' | skyLibResources)
-      : ''
-  }}
+  <ng-container
+    *ngIf="characterCount > characterCountLimit; else screenReaderCountMessage"
+    >{{ 'skyux_character_count_over_limit' | skyLibResources }}</ng-container
+  >
+  <ng-template #screenReaderCountMessage>
+    <ng-container
+      *ngIf="
+        characterCount
+          | skyCharacterCounterScreenReader
+            : characterCountLimit as screenReaderCount
+      "
+      >{{
+        'skyux_character_count_message'
+          | skyLibResources : screenReaderCount : characterCountLimit
+      }}</ng-container
+    >
+  </ng-template>
 </span>
