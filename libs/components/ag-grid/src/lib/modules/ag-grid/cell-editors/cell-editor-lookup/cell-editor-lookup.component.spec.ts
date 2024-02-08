@@ -1,3 +1,4 @@
+import { ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -36,8 +37,12 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   let callback: ((args: Record<string, unknown>) => void) | undefined;
   const selection = [data[0]];
   let cellEditorParams: Partial<SkyCellEditorLookupParams>;
+  let elementRef: ElementRef<HTMLElement>;
 
   beforeEach(() => {
+    elementRef = {
+      nativeElement: jasmine.createSpyObj('nativeElement', ['matches']),
+    };
     TestBed.configureTestingModule({
       declarations: [SkyAgGridCellEditorLookupComponent],
       imports: [
@@ -45,6 +50,12 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         ReactiveFormsModule,
         SkyInputBoxModule,
         SkyLookupModule,
+      ],
+      providers: [
+        {
+          provide: ElementRef,
+          useValue: elementRef,
+        },
       ],
     });
 
@@ -290,7 +301,9 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         cellEditorParams.context.gridOptions = {
           stopEditingWhenCellsLoseFocus: true,
         };
-        spyOn(nativeElement, 'matches').and.returnValue(false);
+        (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
+          false,
+        );
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
         });

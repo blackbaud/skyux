@@ -62,6 +62,19 @@ function renameGridOptionsInCode(updatedContent: string): string {
 }
 
 /**
+ * Switch charPress to eventKey.
+ */
+function renameCharPress(updatedContent: string): string {
+  if (updatedContent.match(/\bcharPress\b(?!: undefined)/)) {
+    updatedContent = updatedContent.replace(
+      /\bcharPress\b(?!: undefined)/g,
+      'eventKey',
+    );
+  }
+  return updatedContent;
+}
+
+/**
  * Check if the file includes any AG Grid imports.
  */
 function includesAgGrid(updatedContent: string): boolean {
@@ -115,6 +128,7 @@ async function updateSourceFiles(
         );
       }
 
+      updatedContent = renameCharPress(updatedContent);
       updatedContent = renameColumnApiFunctionsInCode(updatedContent);
       updatedContent = renameGridOptionsInCode(updatedContent);
 

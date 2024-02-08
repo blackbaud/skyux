@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ag-grid-30.schematic should update charPress 1`] = `
+"
+        import { ICellEditorAngularComp, ICellEditorParams } from 'ag-grid-community';
+
+        export class EditorComponent implements ICellEditorAngularComp {
+          public agInit(params: ICellEditorParams) {
+            if (params.eventKey === 'Enter') {
+              // do something
+            }
+          }
+        }"
+`;
+
 exports[`ag-grid-30.schematic should update enterMovesDown 1`] = `
 "
         import { SkyAgGridService } from '@skyux/ag-grid';

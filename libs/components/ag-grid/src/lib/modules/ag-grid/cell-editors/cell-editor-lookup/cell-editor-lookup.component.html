@@ -1,4 +1,8 @@
-<sky-input-box *ngIf="isAlive && useAsyncSearch" [formGroup]="editorForm">
+<sky-input-box
+  *ngIf="isAlive && useAsyncSearch"
+  [disabled]="skyComponentProperties?.disabled"
+  [formGroup]="editorForm"
+>
   <sky-lookup
     [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
@@ -6,6 +10,7 @@
     [data]="skyComponentProperties?.data"
     [debounceTime]="skyComponentProperties?.debounceTime"
     [descriptorProperty]="skyComponentProperties?.descriptorProperty"
+    [disabled]="skyComponentProperties?.disabled || false"
     [enableShowMore]="skyComponentProperties?.enableShowMore"
     formControlName="selection"
     [idProperty]="skyComponentProperties?.idProperty"
@@ -27,7 +32,11 @@
     (openChange)="onLookupOpenChange($event)"
   />
 </sky-input-box>
-<sky-input-box *ngIf="isAlive && !useAsyncSearch" [formGroup]="editorForm">
+<sky-input-box
+  *ngIf="isAlive && !useAsyncSearch"
+  [disabled]="skyComponentProperties?.disabled"
+  [formGroup]="editorForm"
+>
   <sky-lookup
     [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
@@ -35,6 +44,7 @@
     [data]="skyComponentProperties?.data"
     [debounceTime]="skyComponentProperties?.debounceTime"
     [descriptorProperty]="skyComponentProperties?.descriptorProperty"
+    [disabled]="skyComponentProperties?.disabled || false"
     [enableShowMore]="skyComponentProperties?.enableShowMore"
     formControlName="selection"
     [idProperty]="skyComponentProperties?.idProperty"

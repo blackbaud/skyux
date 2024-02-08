@@ -181,6 +181,32 @@ describe('ag-grid-30.schematic', () => {
     expect(tree.readText('src/app/app.component.ts')).toMatchSnapshot();
   });
 
+  it('should update charPress', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/editor.component.ts',
+      `
+        import { ICellEditorAngularComp, ICellEditorParams } from 'ag-grid-community';
+
+        export class EditorComponent implements ICellEditorAngularComp {
+          public agInit(params: ICellEditorParams) {
+            if (params.charPress === 'Enter') {
+              // do something
+            }
+          }
+        }`,
+    );
+    await runner.runSchematic('ag-grid-30', {}, tree);
+    expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
+  });
+
   it('should warn about mixing modules and packages', async () => {
     expect.assertions(1);
     const { tree } = setupTest({
