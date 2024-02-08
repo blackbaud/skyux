@@ -1,5 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
@@ -40,11 +45,32 @@ export class ColorpickerReactiveTestComponent {
 
   public newValues = {
     colorModel: '#000',
+    colorModel2: '#000',
   };
 
-  public colorControl = new UntypedFormControl('#00f');
+  public colorControl = new UntypedFormControl('#00f', [
+    (control: AbstractControl): ValidationErrors | null => {
+      if (control.value?.rgba?.alpha < 0.8) {
+        return { opaque: true };
+      }
+
+      return null;
+    },
+  ]);
+
+  public colorControl2 = new UntypedFormControl('#00f', [
+    (control: AbstractControl): ValidationErrors | null => {
+      if (control.value?.rgba?.alpha < 0.8) {
+        return { opaque: true };
+      }
+
+      return null;
+    },
+  ]);
+
   public colorForm = new UntypedFormGroup({
     colorModel: this.colorControl,
+    colorModel2: this.colorControl2,
   });
 
   public sendMessage(type: SkyColorpickerMessageType) {
