@@ -66,8 +66,12 @@
     border-radius: $sky-theme-modern-border-radius-md;
     padding: 5px 10px;
 
-    &:focus-within {
-      @include mixins.sky-theme-modern-border-focus;
+    .sky-datepicker-calendar-table-container:focus-visible {
+      .sky-btn-active {
+        @include mixins.sky-theme-modern-border-active;
+      }
+
+      outline: none;
     }
 
     .sky-btn-default {

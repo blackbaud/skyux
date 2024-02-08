@@ -9,7 +9,6 @@ import { SkyDatepickerDate } from './datepicker-date';
 @Component({
   selector: 'sky-yearpicker',
   templateUrl: 'yearpicker.component.html',
-  styleUrls: ['./yearpicker.component.scss'],
 })
 export class SkyYearPickerComponent implements OnInit {
   public datepicker: SkyDatepickerCalendarInnerComponent;

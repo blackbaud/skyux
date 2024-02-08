@@ -30,7 +30,6 @@ interface SkyDateRange {
 @Component({
   selector: 'sky-daypicker',
   templateUrl: 'daypicker.component.html',
-  styleUrls: ['./daypicker.component.scss'],
 })
 export class SkyDayPickerComponent implements OnDestroy, OnInit {
   @Input()
