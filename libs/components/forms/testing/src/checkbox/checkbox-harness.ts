@@ -1,7 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
-import { SkyFormErrorsHarness } from '../public-api';
+import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyCheckboxHarnessFilters } from './checkbox-harness-filters';
 import { SkyCheckboxLabelHarness } from './checkbox-label-harness';
@@ -27,7 +27,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
       return harness;
     }
 
-    throw Error('No error found');
+    throw Error('No form errors found.');
   }
 
   /**
