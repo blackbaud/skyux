@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
+  SkyIdService,
   SkyLayoutHostService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
@@ -1702,6 +1703,12 @@ describe('Tabset component', () => {
     });
 
     describe('button aria label', () => {
+      beforeEach(() => {
+        let uniqueId = 0;
+        const idSvc = TestBed.inject(SkyIdService);
+        spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
+      });
+
       it('should indicate the current state of a wizard step', fakeAsync(() => {
         const wizardFixture = TestBed.createComponent(
           SkyWizardTestFormComponent,
@@ -1742,7 +1749,10 @@ describe('Tabset component', () => {
         const tabBtns = debugElement.queryAll(By.css('.sky-btn-tab'));
         const tabBtn1 = tabBtns[0]?.nativeElement;
 
-        expect(tabBtn1?.ariaLabel).toEqual('Tab 1 of 3: Tab 1');
+        expect(tabBtn1?.ariaLabel).toBeNull();
+        expect(tabBtn1?.getAttribute('aria-labelledby')).toEqual(
+          jasmine.stringMatching(/MOCK_ID_[0-9]/),
+        );
       }));
     });
   });

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyCharacterCounterModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyPageModule } from '@skyux/pages';
 
 import { CharacterCounterRoutingModule } from './character-counter-routing.module';
 import { CharacterCounterComponent } from './character-counter.component';
@@ -16,6 +17,7 @@ import { CharacterCounterComponent } from './character-counter.component';
     SkyCharacterCounterModule,
     SkyIdModule,
     SkyInputBoxModule,
+    SkyPageModule,
     SkyStatusIndicatorModule,
     CharacterCounterRoutingModule,
   ],
