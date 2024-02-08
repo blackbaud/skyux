@@ -324,13 +324,12 @@
   </button>
 </div>
 
-<div *ngIf="labelText && ngControl?.errors">
-  <sky-form-errors
-    [id]="errorId"
-    [errors]="ngControl?.errors"
-    [labelText]="labelText"
-    [showErrors]="ngControl?.touched || ngControl?.dirty"
-  >
-    <ng-content select="sky-form-error" />
-  </sky-form-errors>
-</div>
+<sky-form-errors
+  *ngIf="labelText && ngControl?.errors"
+  [id]="errorId"
+  [errors]="ngControl?.errors"
+  [labelText]="labelText"
+  [showErrors]="ngControl?.touched || ngControl?.dirty"
+>
+  <ng-content select="sky-form-error" />
+</sky-form-errors>

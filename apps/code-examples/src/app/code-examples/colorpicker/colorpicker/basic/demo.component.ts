@@ -3,9 +3,9 @@ import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
-  UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
 import { SkyColorpickerModule, SkyColorpickerOutput } from '@skyux/colorpicker';
@@ -18,7 +18,7 @@ import { SkyColorpickerModule, SkyColorpickerOutput } from '@skyux/colorpicker';
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
-  protected favoriteColor: UntypedFormControl;
+  protected favoriteColor: FormControl<string | null>;
 
   protected swatches: string[] = [
     '#BD4040',
@@ -30,7 +30,7 @@ export class DemoComponent {
   ];
 
   constructor() {
-    this.favoriteColor = new UntypedFormControl('#f00', [
+    this.favoriteColor = new FormControl('#f00', [
       (control: AbstractControl): ValidationErrors | null => {
         if (control.value?.rgba?.alpha < 0.8) {
           return { opaque: true };
