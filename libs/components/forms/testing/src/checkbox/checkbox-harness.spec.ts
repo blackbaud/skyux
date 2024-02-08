@@ -172,7 +172,7 @@ describe('Checkbox harness', () => {
     });
 
     await expectAsync(checkboxHarness.hasRequiredError()).toBeRejectedWithError(
-      'No error found',
+      'No form errors found.',
     );
   });
 });
