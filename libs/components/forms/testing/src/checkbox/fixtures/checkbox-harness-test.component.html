@@ -15,12 +15,25 @@
       </li>
       <li>
         <sky-checkbox
+          [required]="true"
           data-sky-id="my-phone-checkbox"
           formControlName="phone"
           label="Your phone number"
           labelledBy="foo-phone-id"
+          labelText="Phone"
+        />
+      </li>
+      <li>
+        <sky-checkbox
+          data-sky-id="my-mail-checkbox"
+          formControlName="mail"
+          labelText="Mail"
         >
-          <sky-checkbox-label> Phone </sky-checkbox-label>
+          <sky-form-error
+            *ngIf="mailControl.errors?.['requiredFalse']"
+            errorName="requiredFalse"
+            errorText="This checkbox must be unchecked."
+          />
         </sky-checkbox>
       </li>
     </ul>

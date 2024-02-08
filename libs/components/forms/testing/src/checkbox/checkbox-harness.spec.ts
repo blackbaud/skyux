@@ -107,6 +107,15 @@ describe('Checkbox harness', () => {
     await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo(undefined);
   });
 
+  it('should get the label when specified via labelText input', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+      hideEmailLabel: true,
+    });
+
+    await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo('Phone');
+  });
+
   it('should get the checkbox name and value', async () => {
     const { checkboxHarness } = await setupTest({
       dataSkyId: 'my-email-checkbox',
@@ -129,6 +138,41 @@ describe('Checkbox harness', () => {
 
     await expectAsync(checkboxHarness.check()).toBeRejectedWithError(
       'Could not toggle the checkbox because it is disabled.',
+    );
+  });
+
+  it('should display a required error message when there is an error', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+
+    await checkboxHarness.check();
+    await checkboxHarness.uncheck();
+
+    await expectAsync(checkboxHarness.hasRequiredError()).toBeResolvedTo(true);
+  });
+
+  it('should display a custom error message when there is a custom validation error', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-mail-checkbox',
+    });
+
+    await checkboxHarness.check();
+    await checkboxHarness.uncheck();
+    await checkboxHarness.check();
+
+    await expectAsync(
+      checkboxHarness.hasCustomError('requiredFalse'),
+    ).toBeResolvedTo(true);
+  });
+
+  it('should throw an error if no form error is found', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-email-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.hasRequiredError()).toBeRejectedWithError(
+      'No form errors found.',
     );
   });
 });
