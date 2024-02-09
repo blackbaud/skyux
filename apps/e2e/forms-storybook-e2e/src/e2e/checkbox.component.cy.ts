@@ -13,6 +13,10 @@ describe('forms-storybook - checkbox', () => {
         cy.get('app-checkbox')
           .should('exist')
           .should('be.visible')
+          .get('#touched-required-checkbox')
+          .dblclick();
+
+        cy.get('app-checkbox')
           .get('#standard-checkboxes')
           .should('exist')
           .should('be.visible')
