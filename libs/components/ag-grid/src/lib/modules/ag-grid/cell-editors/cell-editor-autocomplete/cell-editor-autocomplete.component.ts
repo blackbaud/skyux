@@ -74,7 +74,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
     if (this.input) {
       this.input.nativeElement.focus();
       if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        const charPress = this.#params?.charPress as string;
+        const charPress = this.#params?.eventKey as string;
 
         this.input.nativeElement.select();
         this.input.nativeElement.setRangeText(charPress);

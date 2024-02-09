@@ -271,7 +271,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -295,7 +295,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -420,7 +420,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(
@@ -444,7 +444,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
           currencyEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: 'a',
+            eventKey: 'a',
           });
           currencyEditorFixture.detectChanges();
           const input = currencyEditorNativeElement.querySelector(

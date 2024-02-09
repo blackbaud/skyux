@@ -45,7 +45,16 @@ describe('SkyAgGridWrapperComponent', () => {
 
   beforeEach(() => {
     agGrid = {
-      api: jasmine.createSpyObj('api', GridApi.prototype),
+      api: jasmine.createSpyObj<GridApi>('api', [
+        'ensureColumnVisible',
+        'forEachDetailGridInfo',
+        'getEditingCells',
+        'refreshCells',
+        'resetRowHeights',
+        'setFocusedCell',
+        'setHeaderHeight',
+        'stopEditing',
+      ]),
       columnApi: new ColumnApi(),
       gridReady: new Subject<GridReadyEvent>(),
       rowDataUpdated: new Subject<RowDataUpdatedEvent>(),

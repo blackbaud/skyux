@@ -169,7 +169,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: '4',
+          eventKey: '4',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(4);
@@ -182,7 +182,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(
@@ -263,7 +263,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: '4',
+          eventKey: '4',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
@@ -278,7 +278,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
         numberEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
-          charPress: 'a',
+          eventKey: 'a',
         });
 
         expect(numberEditorComponent.editorForm.get('number')?.value).toBe(
@@ -423,7 +423,7 @@ describe('SkyCellEditorNumberComponent', () => {
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(
@@ -514,7 +514,7 @@ describe('SkyCellEditorNumberComponent', () => {
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
-            charPress: '4',
+            eventKey: '4',
           });
           numberEditorFixture.detectChanges();
           const input = numberEditorNativeElement.querySelector(

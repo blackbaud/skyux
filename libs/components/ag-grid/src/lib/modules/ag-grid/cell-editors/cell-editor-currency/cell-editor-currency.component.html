@@ -9,7 +9,7 @@
     [style.width.px]="columnWidth"
     [style.height.px]="rowHeightWithoutBorders"
     [skyAutonumeric]="skyComponentProperties"
-    [skyAutonumericFormChangesUnformatted]="!!params?.charPress"
+    [skyAutonumericFormChangesUnformatted]="params?.eventKey?.length === 1"
     (keyup.escape)="onPressEscape()"
     #skyCellEditorCurrency
   />

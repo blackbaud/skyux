@@ -199,16 +199,6 @@ $modernDarkThemeBase: map.merge(
 }
 
 .sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
-  > .ag-body-viewport {
-    .ag-center-cols-viewport {
-      /* Prevent a double scrollbar. */
-      scrollbar-width: none;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-  }
   .ag-body-horizontal-scroll.ag-scrollbar-invisible {
     /* Value is overridden in SkyAgGridWrapperComponent to match the calculated value AG Grid uses. */
     --sky-ag-body-horizontal-scroll-width: 15px;
@@ -236,6 +226,7 @@ ag-grid-angular {
   .sky-ag-grid-cell-currency {
     text-align: right;
     padding-right: 12px;
+    font-variant-numeric: tabular-nums;
   }
 
   .sky-ag-grid-cell-row-selector {

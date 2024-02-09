@@ -16,7 +16,7 @@ export class SkyAgGridCellEditorUtils {
         params.eventKey === KeyCode.DELETE
       ) {
         return SkyAgGridCellEditorInitialAction.Delete;
-      } else if (params.charPress) {
+      } else if (params.eventKey?.length === 1) {
         return SkyAgGridCellEditorInitialAction.Replace;
       } else {
         if (params.eventKey !== KeyCode.F2) {

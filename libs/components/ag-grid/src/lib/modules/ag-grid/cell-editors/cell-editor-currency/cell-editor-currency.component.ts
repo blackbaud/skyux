@@ -85,7 +85,7 @@ export class SkyAgGridCellEditorCurrencyComponent
           break;
         case SkyAgGridCellEditorInitialAction.Replace:
           control.setValue(
-            parseFloat(String(this.params?.charPress)) || undefined,
+            parseFloat(String(this.params?.eventKey)) || undefined,
           );
           break;
         case SkyAgGridCellEditorInitialAction.Highlighted:

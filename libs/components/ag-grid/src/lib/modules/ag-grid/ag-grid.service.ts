@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy, Optional, inject } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
@@ -132,7 +133,8 @@ export class SkyAgGridService implements OnDestroy {
   #currentTheme: SkyThemeSettings | undefined = undefined;
   #agGridAdapterService: SkyAgGridAdapterService;
   #resources: SkyLibResourcesService | undefined;
-  private dateService = inject(SkyDateService);
+  #dateService = inject(SkyDateService);
+  #logService = inject(SkyLogService);
 
   constructor(
     agGridAdapterService: SkyAgGridAdapterService,
@@ -228,11 +230,6 @@ export class SkyAgGridService implements OnDestroy {
       },
     };
 
-    // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
-    if (mergedGridOptions.getRowNodeId) {
-      delete mergedGridOptions.getRowId;
-    }
-
     return mergedGridOptions;
   }
 
@@ -321,14 +318,19 @@ export class SkyAgGridService implements OnDestroy {
           valueFormatter: (params: ValueFormatterParams) => {
             try {
               return (
-                this.dateService.format(
+                this.#dateService.format(
                   params.value,
                   args.locale,
                   args.dateFormat || 'shortDate',
                 ) || ''
               );
             } catch (err) {
-              console.error(err);
+              /* istanbul ignore else */
+              if ((err as Error).stack) {
+                this.#logService.error(`${(err as Error).stack}`);
+              } else {
+                this.#logService.error(`${err}`);
+              }
               return '';
             }
           },
@@ -416,7 +418,7 @@ export class SkyAgGridService implements OnDestroy {
       },
       domLayout: 'autoHeight',
       ensureDomOrder: true,
-      enterMovesDownAfterEdit: true,
+      enterNavigatesVerticallyAfterEdit: true,
       components: {
         'sky-ag-grid-cell-renderer-currency':
           SkyAgGridCellRendererCurrencyComponent,
