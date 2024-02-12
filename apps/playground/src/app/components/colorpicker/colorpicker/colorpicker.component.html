@@ -13,8 +13,29 @@
         [presetColors]="swatches"
         [skyColorpickerInput]="colorPicker"
       />
+
+      <sky-form-error
+        *ngIf="favoriteColor.errors?.['opaque']"
+        errorName="opaque"
+        errorText="Color must have at least 80% opacity."
+      />
     </sky-colorpicker>
   </div>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ favoriteColor.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ favoriteColor.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ favoriteColor.valid }}</td>
+    </tr>
+  </table>
 
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
 </form>

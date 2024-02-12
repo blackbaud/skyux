@@ -41,14 +41,16 @@ describe('Colorpicker Component', () => {
     return document.querySelector('.sky-colorpicker-container') as HTMLElement;
   }
 
-  function openColorpicker(element: HTMLElement): void {
+  function openColorpicker(element: HTMLElement, className?: string): void {
     tick();
     fixture.detectChanges();
     verifyMenuVisibility(false);
 
-    const buttonElem = element.querySelector(
-      '.sky-colorpicker-button',
-    ) as HTMLElement;
+    const buttonSelector = className
+      ? `.${className} .sky-colorpicker-button`
+      : '.sky-colorpicker-button';
+    const buttonElem = element.querySelector(buttonSelector) as HTMLElement;
+
     buttonElem.click();
     tick();
     fixture.detectChanges();
@@ -1210,20 +1212,21 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, 'rgba(40,137,229,1)', '40, 137, 229');
     }));
 
-    it('should toggle reset button via messageStream.', fakeAsync(() => {
+    it('should toggle reset button via messageStream', fakeAsync(() => {
       fixture.detectChanges();
       tick();
+      expect(getResetButton().length).toEqual(2);
+      component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
+      tick();
+      fixture.detectChanges();
+      tick();
+      // There are 2 colorpicker components and only one is using the message stream
       expect(getResetButton().length).toEqual(1);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(0);
-      component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
-      tick();
-      fixture.detectChanges();
-      tick();
-      expect(getResetButton().length).toEqual(1);
+      expect(getResetButton().length).toEqual(2);
     }));
 
     it('should only emit the form control valueChanged event once per change', (done) => {
@@ -1318,6 +1321,67 @@ describe('Colorpicker Component', () => {
 
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
     });
+
+    it('should render an error message if the form control set via name has an error', fakeAsync(() => {
+      component.labelText = 'Label Text';
+
+      fixture.detectChanges();
+
+      let inputElement: HTMLInputElement | null =
+        nativeElement.querySelector('input');
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBeNull();
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
+
+      openColorpicker(nativeElement);
+      setInputElementValue(nativeElement, 'red', '163');
+      setInputElementValue(nativeElement, 'green', '19');
+      setInputElementValue(nativeElement, 'blue', '84');
+      setInputElementValue(nativeElement, 'alpha', '0.5');
+      applyColorpicker();
+
+      fixture.detectChanges();
+
+      inputElement = nativeElement.querySelector('input');
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();
+
+      const errorMessage = nativeElement.querySelector('sky-form-error');
+
+      expect(errorMessage).toBeVisible();
+    }));
+
+    it('should render an error message if the form control has an error set via form control', fakeAsync(() => {
+      fixture.detectChanges();
+
+      let inputElement: HTMLInputElement | null = nativeElement.querySelector(
+        '.colorpicker-form-control input',
+      );
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBeNull();
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
+
+      openColorpicker(nativeElement, 'colorpicker-form-control');
+      setInputElementValue(nativeElement, 'red', '163');
+      setInputElementValue(nativeElement, 'green', '19');
+      setInputElementValue(nativeElement, 'blue', '84');
+      setInputElementValue(nativeElement, 'alpha', '0.5');
+      applyColorpicker();
+
+      fixture.detectChanges();
+
+      inputElement = nativeElement.querySelector(
+        '.colorpicker-form-control input',
+      );
+
+      expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
+      expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();
+
+      const errorMessage = nativeElement.querySelector('sky-form-error');
+
+      expect(errorMessage).toBeVisible();
+    }));
   });
 
   describe('accessibility', () => {
