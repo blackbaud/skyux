@@ -36,6 +36,8 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public tabIndex: number | undefined;
 
+  public labelText: string | undefined;
+
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
 

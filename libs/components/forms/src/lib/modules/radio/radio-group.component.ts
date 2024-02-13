@@ -9,6 +9,7 @@ import {
   Optional,
   QueryList,
   Self,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
@@ -20,6 +21,7 @@ import { SkyFormsUtility } from '../shared/forms-utility';
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
 import { SkyRadioChange } from './types/radio-change';
+import { SkyIdService } from '@skyux/core';
 
 let nextUniqueId = 0;
 
@@ -142,6 +144,12 @@ export class SkyRadioGroupComponent
   }
 
   /**
+   * The text to display as the radio group's label.
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
    * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the
@@ -168,6 +176,11 @@ export class SkyRadioGroupComponent
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
   #ngControl: NgControl | undefined;
+
+  readonly #idService = inject(SkyIdService);
+
+  protected labelId = this.#idService.generateId();
+
 
   constructor(
     changeDetector: ChangeDetectorRef,

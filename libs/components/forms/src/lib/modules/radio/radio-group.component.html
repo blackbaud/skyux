@@ -1,8 +1,15 @@
+<label
+  *ngIf="labelText"
+  [id]="labelId"
+  class="sky-control-label"
+>
+  {{ labelText }}
+</label>
 <div
   class="sky-radio-group"
   role="radiogroup"
   [attr.aria-label]="ariaLabel"
-  [attr.aria-labelledby]="ariaLabelledBy"
+  [attr.aria-labelledby]="labelText ? labelId : ariaLabelledBy"
   [attr.aria-owns]="ariaOwns"
   [attr.aria-required]="required ? true : null"
   [attr.required]="required ? '' : null"
