@@ -13,8 +13,10 @@
           "error",
           { "overrides": { "constructors": "no-public" } }
         ],
+        "complexity": ["error", { "max": 24 }],
         "curly": "error",
         "eqeqeq": ["error", "always"],
+        "max-depth": ["warn"],
         "no-restricted-syntax": ["error", "ExportAllDeclaration"]
       }
     },
