@@ -26,7 +26,7 @@
 
 .sky-tile-summary {
   color: $sky-text-color-action-primary;
-  opacity: 0;
+  display: none;
   padding-right: $sky-tile-header-tool-padding;
   transition: opacity $sky-transition-time-medium;
   max-height: 30px;
@@ -35,7 +35,7 @@
 
 .sky-tile-collapsed {
   .sky-tile-summary {
-    opacity: 1;
+    display: block;
   }
 }
 
