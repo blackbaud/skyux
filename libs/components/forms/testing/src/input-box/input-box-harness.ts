@@ -112,35 +112,35 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     return (await this.#getFormError()).hasError('minlength');
   }
 
-  /*
+  /**
    * Whether the field is set to an invalid email address.
    */
   public async hasEmailError(): Promise<boolean> {
     return (await this.#getFormError()).hasError('email');
   }
 
-  /*
+  /**
    * Whether the field is set to an invalid URL.
    */
   public async hasUrlError(): Promise<boolean> {
     return (await this.#getFormError()).hasError('url');
   }
 
-  /*
+  /**
    * Whether the field is set to an invalid date.
    */
   public async hasDateError(): Promise<boolean> {
     return (await this.#getFormError()).hasError('date');
   }
 
-  /*
+  /**
    * Whether the field is set to an invalid phone number.
    */
   public async hasPhoneFieldError(): Promise<boolean> {
     return (await this.#getFormError()).hasError('phone');
   }
 
-  /*
+  /**
    * Whether the field is set to an invalid time.
    */
   public async hasTimeError(): Promise<boolean> {
@@ -194,7 +194,6 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
 
   /**
    * Indicates whether the input box has stacked styles applied.
-   * @returns
    */
   public async getStacked(): Promise<boolean> {
     const host = await this.host();
