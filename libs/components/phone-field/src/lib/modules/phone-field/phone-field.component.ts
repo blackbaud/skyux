@@ -3,7 +3,7 @@ import {
   animate,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
@@ -16,21 +16,23 @@ import {
   Output,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import {
   SKY_COUNTRY_FIELD_CONTEXT,
-  SkyCountryFieldCountry
+  SkyCountryFieldCountry,
 } from '@skyux/lookup';
 import { SkyThemeService } from '@skyux/theme';
+
 import {
   PhoneNumberFormat,
   PhoneNumberType,
-  PhoneNumberUtil
+  PhoneNumberUtil,
 } from 'google-libphonenumber';
 import 'intl-tel-input';
+
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldCountry } from './types/country';
 import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
