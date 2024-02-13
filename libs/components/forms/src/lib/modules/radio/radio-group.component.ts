@@ -12,6 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -21,7 +22,6 @@ import { SkyFormsUtility } from '../shared/forms-utility';
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
 import { SkyRadioChange } from './types/radio-change';
-import { SkyIdService } from '@skyux/core';
 
 let nextUniqueId = 0;
 
@@ -180,7 +180,6 @@ export class SkyRadioGroupComponent
   readonly #idService = inject(SkyIdService);
 
   protected labelId = this.#idService.generateId();
-
 
   constructor(
     changeDetector: ChangeDetectorRef,

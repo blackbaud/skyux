@@ -14,7 +14,13 @@ import { SkyRadioComponent } from './radio.component';
     SkyRadioGroupComponent,
     SkyRadioLabelComponent,
   ],
-  imports: [CommonModule, FormsModule, SkyIconModule, SkyIdModule, SkyTrimModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyTrimModule,
+  ],
   exports: [SkyRadioComponent, SkyRadioGroupComponent, SkyRadioLabelComponent],
 })
 export class SkyRadioModule {}
