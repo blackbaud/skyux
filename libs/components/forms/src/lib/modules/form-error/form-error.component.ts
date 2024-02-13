@@ -42,12 +42,14 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 export class SkyFormErrorComponent {
   /**
    * The name of the error.
+   * @required
    */
   @Input({ required: true })
   public errorName!: string;
 
   /**
    * The error message to display.
+   * @required
    */
   @Input({ required: true })
   public errorText!: string;
