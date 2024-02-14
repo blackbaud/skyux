@@ -17,14 +17,6 @@
     }
   }
 
-  button[disabled],
-  a[disabled] {
-    cursor: default;
-    &:hover {
-      background-color: transparent;
-    }
-  }
-
   & > a,
   & > button {
     background-color: transparent;
@@ -41,10 +33,11 @@
     }
 
     &[disabled] {
-      color: $sky-text-color-deemphasized;
+      @include mixins.sky-deemphasized;
 
       &:hover {
         cursor: default;
+        background-color: transparent;
       }
     }
   }
@@ -68,18 +61,18 @@
       border-radius: 6px;
       transition: box-shadow $sky-transition-time-short;
 
-      &:hover {
+      &:hover:not([disabled]) {
         outline: solid 1px $sky-theme-modern-background-color-primary-dark;
         outline-offset: -1px;
       }
 
-      &:focus-visible,
-      &:active {
+      &:focus-visible:not([disabled]),
+      &:active:not([disabled]) {
         outline: solid 2px $sky-theme-modern-background-color-primary-dark;
         outline-offset: -2px;
       }
 
-      &:focus-visible:not(:active) {
+      &:focus-visible:not(:active):not([disabled]) {
         box-shadow: $sky-theme-modern-elevation-3-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }
