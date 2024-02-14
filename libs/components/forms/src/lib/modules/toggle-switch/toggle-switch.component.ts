@@ -101,7 +101,6 @@ export class SkyToggleSwitchComponent
 
   /**
    * The text to display as the toggle switch's label. Use this instead of `sky-toggle-switch-label` when the label is text-only.
-   * Specifying this input also automatically enables error message handling for toggle switch.
    */
   @Input()
   public labelText: string | undefined;
