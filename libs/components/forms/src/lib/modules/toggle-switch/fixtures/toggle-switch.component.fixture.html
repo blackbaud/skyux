@@ -4,6 +4,7 @@
   [disabled]="isDisabled"
   [tabIndex]="customTabIndex"
   (toggleChange)="checkChanged($event)"
+  [labelText]="labelText"
 >
   <sky-toggle-switch-label *ngIf="showLabel"
     >{{ buttonLabel }}</sky-toggle-switch-label

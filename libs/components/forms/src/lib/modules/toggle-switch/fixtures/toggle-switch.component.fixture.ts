@@ -12,6 +12,7 @@ export class SkyToggleSwitchFixtureComponent {
   public showLabel = true;
   public ariaLabel: string | undefined;
   public buttonLabel: string | undefined = 'Simple toggle';
+  public labelText: string | undefined;
 
   public checkChanged(event: { checked: boolean }): void {
     this.isChecked = event.checked;

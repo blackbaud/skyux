@@ -161,6 +161,42 @@ describe('Toggle switch component', () => {
       ).toBeTruthy();
     });
 
+    it('should pass accessibility with label text input and no `ariaLabel`', async () => {
+      testComponent.labelText = 'label text';
+      testComponent.buttonLabel = undefined;
+
+      fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
+        getLabelElement(fixture).id,
+      );
+      expect(buttonElement?.getAttribute('aria-label')).toBeNull();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should render label text', async () => {
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+      const label = fixture.nativeElement.querySelector(
+        'label.sky-toggle-switch-label',
+      );
+
+      expect(label?.textContent?.trim()).toBe('label text');
+    });
+
+    it('label text should override `sky-toggle-switch-label`', async () => {
+      testComponent.labelText = 'label text';
+      testComponent.showLabel = true;
+      testComponent.buttonLabel = 'other label';
+
+      fixture.detectChanges();
+      const label = fixture.nativeElement.querySelector(
+        'label.sky-toggle-switch-label',
+      );
+
+      expect(label?.textContent?.trim()).toBe('label text');
+    });
+
     it('should pass accessibility with label element and no `ariaLabel`', async () => {
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
