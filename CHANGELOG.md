@@ -1,5 +1,19 @@
 # Changelog
 
+## [9.24.2](https://github.com/blackbaud/skyux/compare/9.24.1...9.24.2) (2024-02-13)
+
+
+### Bug Fixes
+
+* **components/forms:** document form error inputs as required ([#2011](https://github.com/blackbaud/skyux/issues/2011)) ([2858037](https://github.com/blackbaud/skyux/commit/2858037e70bab844ed80cb36b36c7ab486d2e601))
+
+## [9.24.1](https://github.com/blackbaud/skyux/compare/9.24.0...9.24.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* **components/forms:** improve form error documentation ([#2007](https://github.com/blackbaud/skyux/issues/2007)) ([845bb44](https://github.com/blackbaud/skyux/commit/845bb44e087bdfe2f8cd58ed4aa2a579c6c33e1f))
+
 ## [9.24.0](https://github.com/blackbaud/skyux/compare/9.23.0...9.24.0) (2024-02-08)
 
 
