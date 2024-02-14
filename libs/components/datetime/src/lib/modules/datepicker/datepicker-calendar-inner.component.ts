@@ -260,10 +260,9 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public onKeydown(event: KeyboardEvent): void {
-    // const key = this.keys[event.which];
     const key = event.key?.toLowerCase();
 
-    if (!this.keys.includes(key)) {
+    if (!this.keys.includes(key) || event.shiftKey || event.altKey) {
       return;
     }
 

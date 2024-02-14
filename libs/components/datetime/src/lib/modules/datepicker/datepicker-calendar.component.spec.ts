@@ -451,10 +451,16 @@ describe('datepicker calendar', () => {
       componentFixture.detectChanges();
     }
 
-    it('should do nothing on unrecognized keys', () => {
+    it('should do nothing on unrecognized keys or shift or alt', () => {
       component.selectedDate = new Date('4/4/2017');
       fixture.detectChanges();
       triggerKeydown(fixture, { key: 'tab' });
+      verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
+
+      triggerKeydown(fixture, { key: 'Enter', shiftKey: true });
+      verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
+
+      triggerKeydown(fixture, { key: 'Enter', altKey: true });
       verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
     });
 
