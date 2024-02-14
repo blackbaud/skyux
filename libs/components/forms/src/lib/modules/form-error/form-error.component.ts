@@ -10,7 +10,10 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 
 /**
- * Displays default and custom input error messages for SKY UX form components.
+ * Displays default and custom form field error messages for form field components.
+ * Set `labelText` on the form field component to automatically display required,
+ * maximum length, minimum length, date, email, phone number, time, and URL errors.
+ * To display custom errors, include sky-form-error elements in the form field component.
  */
 @Component({
   selector: 'sky-form-error',
@@ -39,12 +42,14 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 export class SkyFormErrorComponent {
   /**
    * The name of the error.
+   * @required
    */
   @Input({ required: true })
   public errorName!: string;
 
   /**
    * The error message to display.
+   * @required
    */
   @Input({ required: true })
   public errorText!: string;

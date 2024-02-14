@@ -323,3 +323,13 @@
     <sky-icon *skyThemeIf="'modern'" icon="trash" size="lg" />
   </button>
 </div>
+
+<sky-form-errors
+  *ngIf="labelText && ngControl?.errors"
+  [id]="errorId"
+  [errors]="ngControl?.errors"
+  [labelText]="labelText"
+  [showErrors]="ngControl?.touched || ngControl?.dirty"
+>
+  <ng-content select="sky-form-error" />
+</sky-form-errors>

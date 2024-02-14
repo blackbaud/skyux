@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
+import { SkyCharacterCounterScreenReaderPipe } from './character-counter-screen-reader.pipe';
 import { SkyCharacterCounterInputDirective } from './character-counter.directive';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { SkyCharacterCounterInputDirective } from './character-counter.directive
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyCharacterCounterScreenReaderPipe,
     SkyFormsResourcesModule,
   ],
   exports: [

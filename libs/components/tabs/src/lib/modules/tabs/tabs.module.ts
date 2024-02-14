@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
@@ -24,6 +25,7 @@ import { SkyTabsetComponent } from './tabset.component';
     CommonModule,
     SkyDropdownModule,
     SkyIconModule,
+    SkyIdModule,
     SkyTabsResourcesModule,
     SkyThemeModule,
   ],
