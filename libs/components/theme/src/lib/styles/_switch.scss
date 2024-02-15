@@ -110,10 +110,11 @@ $sky-switch-size: 22px !default;
     margin-right: 0;
   }
 }
-
 .sky-switch-icon-group .sky-radio-group {
   display: flex;
+}
 
+.sky-switch-icon-group {
   .sky-switch-control-icon {
     margin-left: 0;
     margin-right: 0;
