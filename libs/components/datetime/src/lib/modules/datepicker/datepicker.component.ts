@@ -132,11 +132,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
           setTimeout(() => {
             if (this.calendarRef) {
-              this.#coreAdapter.getFocusableChildrenAndApplyFocus(
-                this.calendarRef,
-                '.sky-datepicker-calendar-inner',
-                false,
-              );
+              this.#coreAdapter.applyAutoFocus(this.calendarRef);
 
               this.isVisible = true;
               this.#changeDetector.markForCheck();
