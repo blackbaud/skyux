@@ -24,6 +24,7 @@ export class InputBoxVisualHostComponent implements OnInit {
     if (this.inputBoxHostSvc) {
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
+        hintText: 'Host hint text.',
       });
     }
   }

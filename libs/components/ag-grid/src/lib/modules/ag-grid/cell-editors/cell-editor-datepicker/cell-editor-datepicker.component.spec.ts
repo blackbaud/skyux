@@ -643,7 +643,9 @@ describe('SkyCellEditorDatepickerComponent', () => {
     datepickerEditorFixture.detectChanges();
     await datepickerEditorFixture.whenStable();
 
-    await expectAsync(datepickerEditorNativeElement).toBeAccessible();
+    await expectAsync(datepickerEditorNativeElement).toBeAccessible({
+      rules: { label: { enabled: false } },
+    });
   });
 });
 

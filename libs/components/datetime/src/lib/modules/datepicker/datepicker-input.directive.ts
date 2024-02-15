@@ -27,7 +27,6 @@ import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from './date-formatter';
-import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerComponent } from './datepicker.component';
 
@@ -45,11 +44,7 @@ const SKY_DATEPICKER_VALIDATOR = {
 
 @Directive({
   selector: '[skyDatepickerInput]',
-  providers: [
-    SKY_DATEPICKER_VALUE_ACCESSOR,
-    SKY_DATEPICKER_VALIDATOR,
-    SkyDatepickerAdapterService,
-  ],
+  providers: [SKY_DATEPICKER_VALUE_ACCESSOR, SKY_DATEPICKER_VALIDATOR],
 })
 export class SkyDatepickerInputDirective
   implements
@@ -211,7 +206,6 @@ export class SkyDatepickerInputDirective
 
   #control: AbstractControl | undefined;
   #dateFormatter = new SkyDateFormatter();
-  #initialPlaceholder: string;
   #preferredShortDateFormat: string | undefined;
   #ngUnsubscribe = new Subject<void>();
 
@@ -223,7 +217,6 @@ export class SkyDatepickerInputDirective
   #_strict = false;
   #_value: any;
 
-  #adapter: SkyDatepickerAdapterService;
   #changeDetector: ChangeDetectorRef;
   #configService: SkyDatepickerConfigService;
   #elementRef: ElementRef;
@@ -232,7 +225,6 @@ export class SkyDatepickerInputDirective
   #datepickerComponent: SkyDatepickerComponent;
 
   constructor(
-    adapter: SkyDatepickerAdapterService,
     changeDetector: ChangeDetectorRef,
     configService: SkyDatepickerConfigService,
     elementRef: ElementRef,
@@ -246,15 +238,12 @@ export class SkyDatepickerInputDirective
           '`<sky-datepicker>` component!',
       );
     }
-    this.#adapter = adapter;
     this.#changeDetector = changeDetector;
     this.#configService = configService;
     this.#elementRef = elementRef;
     this.#localeProvider = localeProvider;
     this.#renderer = renderer;
     this.#datepickerComponent = datepickerComponent;
-    this.#initialPlaceholder = this.#adapter.getPlaceholder(this.#elementRef);
-    this.#updatePlaceholder();
 
     this.#localeProvider
       .getLocaleInfo()
@@ -274,6 +263,7 @@ export class SkyDatepickerInputDirective
   }
 
   public ngAfterContentInit(): void {
+    this.#datepickerComponent.dateFormat = this.dateFormat;
     this.#datepickerComponent.dateChange
       .pipe(distinctUntilChanged())
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -446,7 +436,7 @@ export class SkyDatepickerInputDirective
   }
 
   #applyDateFormat(): void {
-    this.#updatePlaceholder();
+    this.#datepickerComponent.dateFormat = this.dateFormat;
     if (this.#value) {
       const formattedDate = this.#dateFormatter.format(
         this.#value,
@@ -556,12 +546,6 @@ export class SkyDatepickerInputDirective
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   // istanbul ignore next
   #onValidatorChange = () => {};
-
-  #updatePlaceholder(): void {
-    if (!this.#initialPlaceholder && this.dateFormat) {
-      this.#adapter.setPlaceholder(this.#elementRef, this.dateFormat);
-    }
-  }
 
   /**
    * Update the value of the form control and input element

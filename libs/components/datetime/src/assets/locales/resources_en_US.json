@@ -1,4 +1,8 @@
 {
+  "skyux_datepicker_format_hint_text": {
+    "_description": "Hint text for the date format currently set on the datepicker.",
+    "message": "Use the format {0}."
+  },
   "skyux_datepicker_trigger_button_label": {
     "_description": "Label for the trigger button of the datepicker",
     "message": "Select date"

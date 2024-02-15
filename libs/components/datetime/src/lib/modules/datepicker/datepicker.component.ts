@@ -26,10 +26,11 @@ import {
   SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, Subscription, fromEvent, of } from 'rxjs';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
@@ -54,6 +55,15 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    */
   @Input()
   public pickerClass: string | undefined = '';
+
+  public set dateFormat(value: string | undefined) {
+    this.#_dateFormat = value;
+    this.#populateInputBox();
+  }
+
+  public get dateFormat(): string | undefined {
+    return this.#_dateFormat;
+  }
 
   public get disabled(): boolean | undefined {
     return this.#_disabled;
@@ -187,6 +197,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   #_calendarRef: ElementRef | undefined;
 
+  #_dateFormat: string | undefined;
+
   #_disabled: boolean | undefined = false;
 
   #_selectedDate: Date | undefined;
@@ -195,6 +207,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
   readonly #environmentInjector = inject(EnvironmentInjector);
+  #resourceSvc = inject(SkyLibResourcesService);
   #overlayService: SkyOverlayService;
   readonly #zIndex: Observable<number> | undefined;
 
@@ -227,12 +240,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.inputBoxHostService && this.inputTemplateRef) {
-      this.inputBoxHostService.populate({
-        inputTemplate: this.inputTemplateRef,
-        buttonsTemplate: this.triggerButtonTemplateRef,
-      });
-    }
+    this.#populateInputBox();
   }
 
   public ngOnDestroy(): void {
@@ -428,5 +436,24 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       this.#customDatesSubscription.unsubscribe();
       this.#customDatesSubscription = undefined;
     }
+  }
+
+  #populateInputBox(): void {
+    const hintTextObs: Observable<string | undefined> = this.dateFormat
+      ? this.#resourceSvc.getString(
+          'skyux_datepicker_format_hint_text',
+          this.dateFormat,
+        )
+      : of('');
+
+    hintTextObs.pipe(take(1)).subscribe((formatString) => {
+      if (this.inputBoxHostService && this.inputTemplateRef) {
+        this.inputBoxHostService.populate({
+          inputTemplate: this.inputTemplateRef,
+          buttonsTemplate: this.triggerButtonTemplateRef,
+          hintText: formatString,
+        });
+      }
+    });
   }
 }

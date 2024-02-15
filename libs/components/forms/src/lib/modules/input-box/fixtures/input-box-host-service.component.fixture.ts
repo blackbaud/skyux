@@ -21,6 +21,8 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
 
   public controlId: string | undefined;
 
+  public hintText: string | undefined = 'Host component hint text.';
+
   #inputBoxHostSvc: SkyInputBoxHostService;
 
   constructor(inputBoxHostSvc: SkyInputBoxHostService) {
@@ -31,6 +33,7 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
     this.#inputBoxHostSvc.populate({
       inputTemplate: this.inputTemplate!,
       buttonsTemplate: this.buttonsTemplate,
+      hintText: this.hintText,
     });
 
     this.controlId = this.#inputBoxHostSvc.controlId;

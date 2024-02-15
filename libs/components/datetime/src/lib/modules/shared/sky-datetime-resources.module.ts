@@ -52,6 +52,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
   },
   'EN-US': {
+    skyux_datepicker_format_hint_text: { message: 'Use the format {0}.' },
     skyux_datepicker_trigger_button_label: { message: 'Select date' },
     skyux_datepicker_trigger_button_label_context: {
       message: 'Open calendar for {0}',

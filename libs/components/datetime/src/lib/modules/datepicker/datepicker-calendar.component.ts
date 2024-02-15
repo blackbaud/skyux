@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 
 import { SkyDateFormatter } from './date-formatter';
-import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
@@ -20,7 +19,6 @@ import { SkyDatepickerCustomDate } from './datepicker-custom-date';
   selector: 'sky-datepicker-calendar',
   templateUrl: './datepicker-calendar.component.html',
   styleUrls: ['./datepicker-calendar.component.scss'],
-  providers: [SkyDatepickerAdapterService],
 })
 export class SkyDatepickerCalendarComponent {
   @Input()

@@ -164,6 +164,8 @@ export class SkyInputBoxComponent
 
   public hostIconsInsetLeftTemplate: TemplateRef<unknown> | undefined;
 
+  protected hostHintText: string | undefined;
+
   public readonly controlId = this.#idSvc.generateId();
   public readonly errorId = this.#idSvc.generateId();
   public readonly hintTextId = this.#idSvc.generateId();
@@ -295,6 +297,8 @@ export class SkyInputBoxComponent
     this.hostButtonsInsetTemplate = args.buttonsInsetTemplate;
     this.hostIconsInsetTemplate = args.iconsInsetTemplate;
     this.hostIconsInsetLeftTemplate = args.iconsInsetLeftTemplate;
+    this.hostHintText = args.hintText;
+    this.#changeRef.markForCheck();
   }
 
   #hasRequiredValidator(): boolean {
