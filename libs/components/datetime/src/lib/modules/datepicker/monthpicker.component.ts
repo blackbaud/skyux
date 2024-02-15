@@ -46,7 +46,7 @@ export class SkyMonthPickerComponent implements OnInit {
     return d1.getTime() - d2.getTime();
   }
 
-    #refreshMonthView(): string {
+  #refreshMonthView(): string {
     const months = new Array<SkyDatepickerDate>(12);
     const year: number = this.datepicker.activeDate.getFullYear();
     let date: Date;
