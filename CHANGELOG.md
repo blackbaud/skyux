@@ -1,5 +1,17 @@
 # Changelog
 
+## [9.25.0](https://github.com/blackbaud/skyux/compare/9.24.2...9.25.0) (2024-02-14)
+
+
+### Features
+
+* **components/indicators:** add up arrow icon ([#2021](https://github.com/blackbaud/skyux/issues/2021)) ([4534d43](https://github.com/blackbaud/skyux/commit/4534d433e903fcd5348504850c82d18bde460507))
+
+
+### Bug Fixes
+
+* **components/tiles:** tile summary is not visible to screen readers when tile is expanded ([#2002](https://github.com/blackbaud/skyux/issues/2002)) ([80ab964](https://github.com/blackbaud/skyux/commit/80ab9641e8056bdf831cc0cd81cfdb15764544bb))
+
 ## [9.24.2](https://github.com/blackbaud/skyux/compare/9.24.1...9.24.2) (2024-02-13)
 
 
