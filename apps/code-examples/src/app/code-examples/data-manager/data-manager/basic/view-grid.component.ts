@@ -23,7 +23,7 @@ import {
   GridReadyEvent,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
@@ -57,6 +57,10 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       suppressMovable: true,
       lockPosition: true,
       lockVisible: true,
+      cellRendererParams: {
+        // Could be a SkyAppResourcesService.getString call that returns an observable.
+        label: (data: DataManagerDemoRow) => of(`Select ${data.name}`),
+      },
     },
     {
       colId: 'name',

@@ -2,8 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import {
@@ -12,6 +15,7 @@ import {
   RowNode,
   RowSelectedEvent,
 } from 'ag-grid-community';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 /**
  * @internal
@@ -24,18 +28,27 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridCellRendererRowSelectorComponent
-  implements ICellRendererAngularComp
+  implements ICellRendererAngularComp, OnDestroy
 {
   public checked: boolean | undefined;
   public dataField: string | undefined;
   public rowNode: IRowNode | undefined;
   public rowNumber: number | undefined;
 
-  #params: ICellRendererParams | undefined;
-  #changeDetector: ChangeDetectorRef;
+  protected readonly label = new BehaviorSubject('');
 
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
+  #changeDetector = inject(ChangeDetectorRef);
+  readonly #labelResourceKey = 'sky_ag_grid_row_selector_aria_label';
+  #params: ICellRendererParams | undefined;
+  #resources = inject(SkyLibResourcesService);
+  #subscription = new Subscription();
+
+  constructor() {
+    this.#setDefaultLabel();
+  }
+
+  public ngOnDestroy(): void {
+    this.#subscription.unsubscribe();
   }
 
   /**
@@ -83,7 +96,28 @@ export class SkyAgGridCellRendererRowSelectorComponent
     this.dataField = this.#params.colDef?.field;
     this.rowNode = this.#params?.node as IRowNode | undefined;
     this.rowNumber = this.#params.rowIndex + 1;
-    const rowSelected = this.#params.node.isSelected();
+
+    this.#subscription.unsubscribe();
+    this.#subscription = new Subscription();
+    this.#subscription.add(
+      this.label.subscribe(() => this.#changeDetector.markForCheck()),
+    );
+    if (typeof params.colDef?.cellRendererParams?.label === 'string') {
+      this.label.next(params.colDef.cellRendererParams.label);
+    } else if (typeof params.colDef?.cellRendererParams?.label === 'function') {
+      const label = params.colDef.cellRendererParams.label(params.data);
+      if (label.subscribe) {
+        this.#subscription.add(
+          label.subscribe((value: string) => this.label.next(value)),
+        );
+      } else {
+        this.label.next(label);
+      }
+    } else {
+      this.#setDefaultLabel();
+    }
+
+    const rowSelected = !!this.#params.node?.isSelected();
 
     if (this.dataField) {
       this.checked = !!this.#params.value;
@@ -95,6 +129,14 @@ export class SkyAgGridCellRendererRowSelectorComponent
     }
 
     this.#changeDetector.markForCheck();
+  }
+
+  #setDefaultLabel(): void {
+    this.#subscription.add(
+      this.#resources
+        .getString(this.#labelResourceKey, this.rowNumber)
+        .subscribe((value) => this.label.next(value)),
+    );
   }
 
   #rowSelectedListener(event: RowSelectedEvent): void {
