@@ -30,7 +30,6 @@ interface SkyDateRange {
 @Component({
   selector: 'sky-daypicker',
   templateUrl: 'daypicker.component.html',
-  styleUrls: ['./daypicker.component.scss'],
 })
 export class SkyDayPickerComponent implements OnDestroy, OnInit {
   @Input()
@@ -69,9 +68,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     this.datepicker.stepDay = { months: 1 };
     this.#initialDate = this.datepicker.activeDate.getDate();
 
-    this.datepicker.setRefreshViewHandler(() => {
-      this.#refreshDayView();
-    }, 'day');
+    this.datepicker.setRefreshViewHandler(() => this.#refreshDayView(), 'day');
 
     this.datepicker.setCompareHandler(this.#compareDays, 'day');
 
@@ -111,7 +108,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     return d1.getTime() - d2.getTime();
   }
 
-  #refreshDayView() {
+  #refreshDayView(): string {
     const year = this.datepicker.activeDate.getFullYear();
     const month = this.datepicker.activeDate.getMonth();
     const firstDayOfMonth = new Date(year, month, 1);
@@ -156,11 +153,6 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
       );
     }
 
-    this.title = this.datepicker.dateFilter(
-      this.datepicker.activeDate,
-      this.datepicker.formatDayTitle,
-    );
-
     const oldDateRange = this.#getDateRange(this.rows);
     this.rows = this.datepicker.createCalendarRows(pickerDates, 7);
     const newDateRange = this.#getDateRange(this.rows);
@@ -177,19 +169,24 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
         this.calendarDateRangeChange.next(undefined);
       }
     }
+
+    return this.datepicker.dateFilter(
+      this.datepicker.activeDate,
+      this.datepicker.formatDayTitle,
+    );
   }
 
-  #keydownDays(key: string, event: KeyboardEvent) {
+  #keydownDays(key: string, event: KeyboardEvent): void {
     let date = this.datepicker.activeDate.getDate();
     /* istanbul ignore else */
     /* sanity check */
-    if (key === 'left') {
+    if (key === 'arrowleft') {
       date = date - 1;
-    } else if (key === 'up') {
+    } else if (key === 'arrowup') {
       date = date - 7;
-    } else if (key === 'right') {
+    } else if (key === 'arrowright') {
       date = date + 1;
-    } else if (key === 'down') {
+    } else if (key === 'arrowdown') {
       date = date + 7;
     } else if (key === 'pageup' || key === 'pagedown') {
       const month =
@@ -213,7 +210,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     this.datepicker.activeDate.setDate(date);
   }
 
-  #getDaysInMonth(year: number, month: number) {
+  #getDaysInMonth(year: number, month: number): number {
     return month === 1 &&
       year % 4 === 0 &&
       (year % 400 === 0 || year % 100 !== 0)
