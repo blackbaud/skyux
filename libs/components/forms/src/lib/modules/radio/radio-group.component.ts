@@ -35,13 +35,6 @@ let nextUniqueId = 0;
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
   providers: [SkyRadioGroupIdService],
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
 })
 export class SkyRadioGroupComponent
   implements AfterContentInit, AfterViewInit, OnDestroy
