@@ -78,6 +78,8 @@ export class SkyDatepickerCalendarInnerComponent
   public activeDate = new Date();
   public activeDateId = '';
 
+  public title = '';
+
   public minMode = 'day';
   public maxMode = 'year';
   public monthColLimit = 3;
@@ -101,29 +103,30 @@ export class SkyDatepickerCalendarInnerComponent
   protected modes: string[] = ['day', 'month', 'year'];
   protected dateFormatter: SkyDateFormatter = new SkyDateFormatter();
 
-  public refreshViewHandlerDay: (() => void) | undefined;
+  public refreshViewHandlerDay: (() => string) | undefined;
   public compareHandlerDay: DateComparator | undefined;
-  public refreshViewHandlerMonth: (() => void) | undefined;
+  public refreshViewHandlerMonth: (() => string) | undefined;
   public compareHandlerMonth: DateComparator | undefined;
-  public refreshViewHandlerYear: (() => void) | undefined;
+  public refreshViewHandlerYear: (() => string) | undefined;
   public compareHandlerYear: DateComparator | undefined;
 
   public handleKeydownDay: KeyboardEventHandler | undefined;
   public handleKeydownMonth: KeyboardEventHandler | undefined;
   public handleKeydownYear: KeyboardEventHandler | undefined;
 
-  public keys: any = {
-    13: 'enter',
-    32: 'space',
-    33: 'pageup',
-    34: 'pagedown',
-    35: 'end',
-    36: 'home',
-    37: 'left',
-    38: 'up',
-    39: 'right',
-    40: 'down',
-  };
+  public keys = [
+    'enter',
+    ' ',
+    'spacebar',
+    'pageup',
+    'pagedown',
+    'end',
+    'home',
+    'arrowleft',
+    'arrowup',
+    'arrowright',
+    'arrowdown',
+  ];
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -187,7 +190,7 @@ export class SkyDatepickerCalendarInnerComponent
     return undefined;
   }
 
-  public setRefreshViewHandler(handler: () => void, type: string): void {
+  public setRefreshViewHandler(handler: () => string, type: string): void {
     if (type === 'day') {
       this.refreshViewHandlerDay = handler;
     }
@@ -203,19 +206,19 @@ export class SkyDatepickerCalendarInnerComponent
 
   public refreshView(): void {
     if (this.datepickerMode === 'day' && this.refreshViewHandlerDay) {
-      this.refreshViewHandlerDay();
+      this.title = this.refreshViewHandlerDay();
     }
 
     if (this.datepickerMode === 'month' && this.refreshViewHandlerMonth) {
-      this.refreshViewHandlerMonth();
+      this.title = this.refreshViewHandlerMonth();
     }
 
     if (this.datepickerMode === 'year' && this.refreshViewHandlerYear) {
-      this.refreshViewHandlerYear();
+      this.title = this.refreshViewHandlerYear();
     }
   }
 
-  public setKeydownHandler(handler: KeyboardEventHandler, type: string) {
+  public setKeydownHandler(handler: KeyboardEventHandler, type: string): void {
     if (type === 'day') {
       this.handleKeydownDay = handler;
     }
@@ -256,23 +259,23 @@ export class SkyDatepickerCalendarInnerComponent
     return false;
   }
 
-  public onKeydown(event: KeyboardEvent) {
-    const key = this.keys[event.which];
+  public onKeydown(event: KeyboardEvent): void {
+    const key = event.key?.toLowerCase();
 
-    if (!key || event.shiftKey || event.altKey) {
+    if (!this.keys.includes(key) || event.shiftKey || event.altKey) {
       return;
     }
 
     event.preventDefault();
     event.stopPropagation();
 
-    if (key === 'enter' || key === 'space') {
+    if (key === 'enter' || key === 'spacebar' || key === ' ') {
       if (this.isDisabled(this.activeDate)) {
         return;
       }
       this.select(this.activeDate);
-    } else if (event.ctrlKey && (key === 'up' || key === 'down')) {
-      this.toggleMode(key === 'up' ? 1 : -1);
+    } else if (event.ctrlKey && (key === 'arrowup' || key === 'arrowdown')) {
+      this.toggleMode(key === 'arrowup' ? 1 : -1);
     } else {
       this.handleKeydown(key, event);
       this.refreshView();
@@ -324,7 +327,7 @@ export class SkyDatepickerCalendarInnerComponent
     return newDate;
   }
 
-  public selectCalendar(event: Event, date: Date, closePicker = false) {
+  public selectCalendar(event: Event, date: Date, closePicker = false): void {
     if (!closePicker) {
       event.preventDefault();
       event.stopPropagation();
@@ -357,7 +360,7 @@ export class SkyDatepickerCalendarInnerComponent
     this.refreshView();
   }
 
-  public moveCalendar(event: Event, direction: number) {
+  public moveCalendar(event: Event, direction: number): void {
     event.preventDefault();
     event.stopPropagation();
     this.move(direction);
@@ -391,7 +394,7 @@ export class SkyDatepickerCalendarInnerComponent
     }
   }
 
-  public toggleModeCalendar(event: Event) {
+  public toggleModeCalendar(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.toggleMode(1);
