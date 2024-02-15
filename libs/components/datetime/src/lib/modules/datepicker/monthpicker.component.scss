@@ -1,7 +1,0 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-
-@include mixins.sky-theme-modern {
-  :host:focus {
-    outline: none;
-  }
-}

@@ -6,6 +6,11 @@
   background-color: $sky-color-white;
   @include mixins.sky-border(light, top, bottom, left, right);
 
+  .sky-datepicker-calendar-header {
+    width: 100%;
+    display: flex;
+  }
+
   .sky-btn-default {
     border-color: transparent;
     border: 2px solid $sky-color-white;
@@ -45,6 +50,11 @@
     text-align: left;
   }
 
+  .sky-datepicker-header-center {
+    display: flex;
+    width: 100%;
+  }
+
   .sky-datepicker-header-right {
     text-align: right;
   }
@@ -56,8 +66,12 @@
     border-radius: $sky-theme-modern-border-radius-md;
     padding: 5px 10px;
 
-    &:focus-within {
-      @include mixins.sky-theme-modern-border-focus;
+    .sky-datepicker-calendar-table-container:focus-visible {
+      .sky-btn-active {
+        @include mixins.sky-theme-modern-border-active;
+      }
+
+      outline: none;
     }
 
     .sky-btn-default {
