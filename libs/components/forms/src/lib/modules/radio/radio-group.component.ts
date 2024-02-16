@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -45,9 +45,22 @@ export class SkyRadioGroupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public ariaLabelledBy: string | undefined;
+  public set ariaLabelledBy(value: string | undefined) {
+    this.#_ariaLabelledBy = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioGroupComponent.ariaLabelledBy', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get ariaLabelledBy(): string | undefined {
+    return this.#_ariaLabelledBy;
+  }
 
   /**
    * The ARIA label for the radio button group. This sets the
@@ -55,9 +68,22 @@ export class SkyRadioGroupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public ariaLabel: string | undefined;
+  public set ariaLabel(value: string | undefined) {
+    this.#_ariaLabel = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioGroupComponent.ariaLabel', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get ariaLabel(): string | undefined {
+    return this.#_ariaLabel;
+  }
 
   /**
    * Whether to disable the input on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
@@ -179,11 +205,16 @@ export class SkyRadioGroupComponent
 
   #_tabIndex: number | undefined;
 
+  #_ariaLabel: string | undefined;
+
+  #_ariaLabelledBy: string | undefined;
+
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
   #ngControl: NgControl | undefined;
 
   readonly #idService = inject(SkyIdService);
+  readonly #logger = inject(SkyLogService);
 
   protected labelId = this.#idService.generateId();
 

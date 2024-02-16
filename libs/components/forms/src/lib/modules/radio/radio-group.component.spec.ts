@@ -6,7 +6,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
@@ -621,14 +621,36 @@ describe('Radio group component (reactive)', function () {
   it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
     const labelText = 'Label Text';
     componentInstance.labelText = labelText;
+    componentInstance.ariaLabel = 'some other label text';
 
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement
-        .querySelector('.sky-radio-group')
-        .getAttribute('aria-labelledBy'),
-    ).toEqual('MOCK_ID_1');
+    const radioGroup = fixture.nativeElement.querySelector('.sky-radio-group');
+
+    expect(radioGroup.getAttribute('aria-labelledBy')).toEqual('MOCK_ID_1');
+    expect(radioGroup.getAttribute('aria-label')).toEqual(labelText);
+  });
+
+  it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
+    const logService = TestBed.inject(SkyLogService);
+    const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+    fixture.componentInstance.ariaLabel = 'aria label';
+    fixture.detectChanges();
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyRadioGroupComponent.ariaLabel',
+      Object({
+        deprecationMajorVersion: 9,
+      }),
+    );
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyRadioGroupComponent.ariaLabelledBy',
+      Object({
+        deprecationMajorVersion: 9,
+      }),
+    );
   });
 });
 
