@@ -150,6 +150,12 @@ export class SkyRadioGroupComponent
   public labelText: string | undefined;
 
   /**
+   * Indicates whether to hide the `labelText`.
+   */
+  @Input()
+  public labelHidden: boolean = false;
+
+  /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
    * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the

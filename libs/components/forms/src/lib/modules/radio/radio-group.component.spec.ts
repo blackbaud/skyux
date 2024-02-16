@@ -605,6 +605,31 @@ describe('Radio group component (reactive)', function () {
     expect(labelEl).toBeVisible();
     expect(labelEl.textContent.trim()).toBe(labelText);
   });
+
+  it('should not display `labelText` if `labelHidden` is true', () => {
+    const labelText = 'Label Text';
+    componentInstance.labelText = labelText;
+    componentInstance.labelHidden = true;
+
+    fixture.detectChanges();
+
+    const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
+
+    expect(labelEl).toBeNull();
+  });
+
+  it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
+    const labelText = 'Label Text';
+    componentInstance.labelText = labelText;
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement
+        .querySelector('.sky-radio-group')
+        .getAttribute('aria-labelledBy'),
+    ).toEqual('MOCK_ID_1');
+  });
 });
 
 describe('Radio group component (template-driven)', () => {
