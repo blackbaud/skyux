@@ -37,10 +37,10 @@ export class SkyAgGridCellRendererRowSelectorComponent
 
   protected readonly label = new BehaviorSubject('');
 
-  #changeDetector = inject(ChangeDetectorRef);
+  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #labelResourceKey = 'sky_ag_grid_row_selector_aria_label';
   #params: ICellRendererParams | undefined;
-  #resources = inject(SkyLibResourcesService);
+  readonly #resources = inject(SkyLibResourcesService);
   #subscription = new Subscription();
 
   constructor() {
@@ -134,7 +134,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
   #setDefaultLabel(): void {
     this.#subscription.add(
       this.#resources
-        .getString(this.#labelResourceKey, this.rowNumber)
+        .getString(this.#labelResourceKey, this.rowNumber ?? '')
         .subscribe((value) => this.label.next(value)),
     );
   }
