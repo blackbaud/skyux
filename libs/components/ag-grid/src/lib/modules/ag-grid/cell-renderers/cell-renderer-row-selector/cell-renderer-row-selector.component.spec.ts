@@ -15,6 +15,7 @@ import {
   RowClickedEvent,
   RowNode,
 } from 'ag-grid-community';
+import { Observable, of } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -45,6 +46,9 @@ describe('SkyCellRendererCheckboxComponent', () => {
     cellRendererParams = {
       colDef: {
         field: dataField,
+        cellRendererParams: {
+          label: 'Select',
+        },
       },
     };
   });
@@ -112,9 +116,14 @@ describe('SkyCellRendererCheckboxComponent', () => {
       expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
 
-      rowSelectorCellComponent.agInit(
-        cellRendererParams as ICellRendererParams,
-      );
+      rowSelectorCellComponent.agInit({
+        ...cellRendererParams,
+        colDef: {
+          cellRendererParams: {
+            label: (): string => 'Select',
+          },
+        },
+      } as ICellRendererParams);
 
       rowSelectorCellFixture.detectChanges();
       tick();
@@ -298,6 +307,15 @@ describe('SkyCellRendererCheckboxComponent', () => {
   });
 
   it('should pass accessibility', async () => {
+    rowSelectorCellComponent.agInit({
+      ...cellRendererParams,
+      colDef: {
+        cellRendererParams: {
+          label: (): Observable<string> => of('Select'),
+        },
+      },
+    } as ICellRendererParams);
+
     rowSelectorCellFixture.detectChanges();
     await rowSelectorCellFixture.whenStable();
 
