@@ -17,9 +17,10 @@ import {
   GridReadyEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
+import { of } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
-import { AG_GRID_DEMO_DATA } from './data';
+import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 import { InlineHelpComponent } from './inline-help.component';
 
 @Component({
@@ -40,6 +41,10 @@ export class DemoComponent {
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
+      cellRendererParams: {
+        // Could be a SkyAppResourcesService.getString call that returns an observable.
+        label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
+      },
     },
     {
       colId: 'context',

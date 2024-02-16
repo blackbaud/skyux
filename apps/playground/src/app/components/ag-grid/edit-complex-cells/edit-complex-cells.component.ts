@@ -92,6 +92,9 @@ export class EditComplexCellsComponent implements OnInit {
         field: 'selected',
         colId: 'selected',
         type: SkyCellType.RowSelector,
+        cellRendererParams: {
+          label: (data: any) => of(`Select ${data.name}`),
+        },
       },
       {
         colId: 'name',
