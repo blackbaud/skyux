@@ -7,6 +7,30 @@
     "_description": "Label for the trigger button of the datepicker when context is available",
     "message": "Open calendar for {0}"
   },
+  "skyux_datepicker_move_calendar_previous_day": {
+    "_description": "ARIA label for the previous month calendar button in 'day' mode",
+    "message": "Previous month"
+  },
+  "skyux_datepicker_move_calendar_next_day": {
+    "_description": "ARIA label for the next month calendar button in 'day' mode",
+    "message": "Next month"
+  },
+  "skyux_datepicker_move_calendar_previous_month": {
+    "_description": "ARIA label for the previous month calendar button in 'day' mode",
+    "message": "Previous year"
+  },
+  "skyux_datepicker_move_calendar_next_month": {
+    "_description": "ARIA label for the next month calendar button in 'day' mode",
+    "message": "Next year"
+  },
+  "skyux_datepicker_move_calendar_previous_year": {
+    "_description": "ARIA label for the previous month calendar button in 'day' mode",
+    "message": "Previous page"
+  },
+  "skyux_datepicker_move_calendar_next_year": {
+    "_description": "ARIA label for the next month calendar button in 'day' mode",
+    "message": "Next page"
+  },
   "skyux_timepicker_button_label": {
     "_description": "Screen reader text for the timepicker trigger button",
     "message": "Choose time"
