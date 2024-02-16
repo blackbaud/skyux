@@ -1,6 +1,7 @@
 <div class="sky-padding-even-large">
   <p>
-    <sky-toggle-switch [checked]="true" labelText='Switch is "on"'>
+    <sky-toggle-switch [checked]="true">
+      <sky-toggle-switch-label> Switch is "on" </sky-toggle-switch-label>
       <sky-help-inline class="sky-control-help"></sky-help-inline>
     </sky-toggle-switch>
   </p>
@@ -11,11 +12,10 @@
   </p>
 
   <p>
-    <sky-toggle-switch
-      [checked]="true"
-      [disabled]="true"
-      labelText=' Switch is "on", disabled'
-    >
+    <sky-toggle-switch [checked]="true" [disabled]="true">
+      <sky-toggle-switch-label>
+        Switch is "on", disabled
+      </sky-toggle-switch-label>
     </sky-toggle-switch>
   </p>
 
@@ -23,7 +23,7 @@
     <sky-toggle-switch
       [checked]="false"
       [disabled]="true"
-      labelText=' Switch is "off", disabled'
+      labelText='Switch is "off", disabled'
     >
     </sky-toggle-switch>
   </p>
