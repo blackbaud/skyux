@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { ReplaySubject } from 'rxjs';
-
 import { SkyModalCloseArgs } from '../modal/modal-close-args';
 import { SkyModalInstance } from '../modal/modal-instance';
 import { SkyModalService } from '../modal/modal.service';
@@ -42,10 +40,7 @@ export class SkyConfirmService {
       },
     );
 
-    const closedSubject = new ReplaySubject<SkyConfirmCloseEventArgs>();
-    const confirmInstance = new SkyConfirmInstance(
-      closedSubject.asObservable(),
-    );
+    const confirmInstance = new SkyConfirmInstance();
 
     modalInstance.closed.subscribe((args: SkyModalCloseArgs) => {
       let result: SkyConfirmCloseEventArgs = args.data;
@@ -57,8 +52,7 @@ export class SkyConfirmService {
         };
       }
 
-      closedSubject.next(result);
-      closedSubject.complete();
+      confirmInstance.notifyClosed(result);
     });
 
     return confirmInstance;

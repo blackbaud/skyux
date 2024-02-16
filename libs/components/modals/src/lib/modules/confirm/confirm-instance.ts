@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 
@@ -8,11 +8,18 @@ export class SkyConfirmInstance {
    * returns a `SkyConfirmCloseEventArgs` object with information about the button that
    * users select. It returns the `'cancel'` action when users press the <kbd>Escape</kbd> key.
    */
-  public closed: Observable<SkyConfirmCloseEventArgs>;
+  public get closed(): Observable<SkyConfirmCloseEventArgs> {
+    return this.#closed;
+  }
 
-  constructor(closedObs?: Observable<SkyConfirmCloseEventArgs>) {
-    this.closed =
-      closedObs ??
-      /* istanbul ignore next */ new Observable<SkyConfirmCloseEventArgs>();
+  readonly #closed = new ReplaySubject<SkyConfirmCloseEventArgs>();
+
+  /**
+   * Triggers the closed event with the given result.
+   * @internal
+   */
+  public notifyClosed(result: SkyConfirmCloseEventArgs): void {
+    this.#closed.next(result);
+    this.#closed.complete();
   }
 }
