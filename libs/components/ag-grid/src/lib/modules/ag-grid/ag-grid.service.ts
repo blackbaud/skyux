@@ -8,6 +8,7 @@ import {
   CellClassParams,
   ColDef,
   EditableCallbackParams,
+  GridApi,
   GridOptions,
   ICellRendererParams,
   RowClassParams,
@@ -229,6 +230,21 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.icons,
       },
     };
+
+    // Enable text selection unless explicitly disabled or conflicting with another setting.
+    if (
+      !('enableCellTextSelection' in mergedGridOptions) &&
+      !mergedGridOptions.enableRangeSelection
+    ) {
+      mergedGridOptions.context ||= {};
+      mergedGridOptions.context.allowCellTextSelection = (
+        api: GridApi | undefined,
+      ): boolean => {
+        const columnDefs = api?.getColumnDefs();
+        return !columnDefs?.some((colDef: ColDef) => colDef.editable);
+      };
+      mergedGridOptions.enableCellTextSelection = true;
+    }
 
     return mergedGridOptions;
   }

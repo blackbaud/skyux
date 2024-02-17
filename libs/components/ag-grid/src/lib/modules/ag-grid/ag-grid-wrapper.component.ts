@@ -198,12 +198,14 @@ export class SkyAgGridWrapperComponent
         'sky-ag-grid-editable',
       );
       this.#updateGridTheme(this.#currentTheme);
+      this.#updateTextSelection();
     };
     if (agGridElement) {
       const agGridClassObserver =
         this.#mutationObserverService.create(callback);
       agGridClassObserver.observe(agGridElement, {
         attributes: true,
+        attributeFilter: ['class'],
       });
       this.#ngUnsubscribe.pipe(take(1)).subscribe(() => {
         agGridClassObserver.disconnect();
@@ -304,5 +306,16 @@ export class SkyAgGridWrapperComponent
         .filter((c) => !c.startsWith('ag-theme-')),
       `ag-theme-sky-${variation}-${agTheme}`,
     ]);
+  }
+
+  #updateTextSelection(): void {
+    if (
+      this.agGrid?.gridOptions?.context?.allowCellTextSelection &&
+      this.agGrid.gridOptions.context.allowCellTextSelection(this.agGrid.api)
+    ) {
+      this.agGrid.api.setEnableCellTextSelection(!this.#hasEditableClass);
+    } else {
+      this.agGrid?.api.setEnableCellTextSelection(false);
+    }
   }
 }

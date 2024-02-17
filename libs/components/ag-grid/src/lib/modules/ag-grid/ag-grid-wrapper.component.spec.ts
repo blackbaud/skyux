@@ -51,6 +51,7 @@ describe('SkyAgGridWrapperComponent', () => {
         'getEditingCells',
         'refreshCells',
         'resetRowHeights',
+        'setEnableCellTextSelection',
         'setFocusedCell',
         'setHeaderHeight',
         'stopEditing',
