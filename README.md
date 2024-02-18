@@ -6,7 +6,7 @@
 
 ---
 
-This project was generated using [Nx](https://nx.dev).
+This project was generated using the [Nx](https://nx.dev) tool.
 
 [Nx Documentation](https://nx.dev/angular)
 
