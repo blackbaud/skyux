@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 import { createTestLibrary } from '../../../testing/scaffold';
 
-describe('i18n-resources-module.schematic', () => {
+describe('axe-core.schematic', () => {
   const runner = new SchematicTestRunner(
     'migrations',
     resolve(__dirname, '../../migration-collection.json'),
@@ -35,8 +35,10 @@ describe('i18n-resources-module.schematic', () => {
   it('should update axe-core version if @skyux-sdk/testing installed', async () => {
     const { runSchematic, tree } = await setupTest({
       packageJson: {
-        devDependencies: {
+        dependencies: {
           'axe-core': '*',
+        },
+        devDependencies: {
           '@skyux-sdk/testing': '*',
         },
       },
@@ -44,9 +46,15 @@ describe('i18n-resources-module.schematic', () => {
 
     await runSchematic();
 
-    expect(tree.readText('package.json')).toMatchInlineSnapshot(
-      `"{"devDependencies":{"axe-core":"~4.8.3","@skyux-sdk/testing":"*"}}"`,
-    );
+    expect(tree.readText('package.json')).toMatchInlineSnapshot(`
+      "{
+        "dependencies": {},
+        "devDependencies": {
+          "@skyux-sdk/testing": "*",
+          "axe-core": "~4.8.3"
+        }
+      }"
+    `);
   });
 
   it('should abort if @skyux-sdk/testing not installed', async () => {
@@ -63,5 +71,26 @@ describe('i18n-resources-module.schematic', () => {
     expect(tree.readText('package.json')).toMatchInlineSnapshot(
       `"{"devDependencies":{"axe-core":"*"}}"`,
     );
+  });
+
+  it('should install axe-core if @skyux-sdk/testing installed without', async () => {
+    const { runSchematic, tree } = await setupTest({
+      packageJson: {
+        devDependencies: {
+          '@skyux-sdk/testing': '*',
+        },
+      },
+    });
+
+    await runSchematic();
+
+    expect(tree.readText('package.json')).toMatchInlineSnapshot(`
+      "{
+        "devDependencies": {
+          "@skyux-sdk/testing": "*",
+          "axe-core": "~4.8.3"
+        }
+      }"
+    `);
   });
 });
