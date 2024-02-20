@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject, take } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { SkyDateFormatter } from './date-formatter';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
@@ -144,7 +144,7 @@ export class SkyDatepickerCalendarInnerComponent
   #_selectedDate: Date | undefined;
   #_startingDay = 0;
 
-  #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     if (this.selectedDate) {
@@ -162,7 +162,7 @@ export class SkyDatepickerCalendarInnerComponent
         prevYear: 'skyux_datepicker_move_calendar_previous_year',
         nextYear: 'skyux_datepicker_move_calendar_next_year',
       })
-      .pipe(take(1))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((resources) => {
         this.#prevDay = resources.prevDay;
         this.#nextDay = resources.nextDay;

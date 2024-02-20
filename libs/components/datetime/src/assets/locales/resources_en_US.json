@@ -16,19 +16,19 @@
     "message": "Next month"
   },
   "skyux_datepicker_move_calendar_previous_month": {
-    "_description": "ARIA label for the previous month calendar button in 'day' mode",
+    "_description": "ARIA label for the previous year calendar button in 'month' mode",
     "message": "Previous year"
   },
   "skyux_datepicker_move_calendar_next_month": {
-    "_description": "ARIA label for the next month calendar button in 'day' mode",
+    "_description": "ARIA label for the next year calendar button in 'month' mode",
     "message": "Next year"
   },
   "skyux_datepicker_move_calendar_previous_year": {
-    "_description": "ARIA label for the previous month calendar button in 'day' mode",
+    "_description": "ARIA label for the previous page calendar button in 'year' mode",
     "message": "Previous page"
   },
   "skyux_datepicker_move_calendar_next_year": {
-    "_description": "ARIA label for the next month calendar button in 'day' mode",
+    "_description": "ARIA label for the next page calendar button in 'year' mode",
     "message": "Next page"
   },
   "skyux_timepicker_button_label": {
