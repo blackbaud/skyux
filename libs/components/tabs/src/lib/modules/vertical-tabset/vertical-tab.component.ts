@@ -41,9 +41,21 @@ let nextId = 0;
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   /**
    * Whether the tab is active when the tabset loads.
+   * @default false
    */
   @Input()
-  public active: boolean | undefined = false;
+  public set active(value: boolean | undefined) {
+    if (value !== this.#_active) {
+      this.#_active = value ?? false;
+      this.#tabsetService.activateTab(this);
+    }
+  }
+
+  public get active(): boolean {
+    return this.#_active;
+  }
+
+  #_active = false;
 
   /**
    * The HTML element ID of the element that contains
