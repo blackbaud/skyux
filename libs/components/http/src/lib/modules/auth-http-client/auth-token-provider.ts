@@ -88,6 +88,7 @@ export class SkyAuthTokenProvider {
     if (runtimeParams) {
       const envId = runtimeParams.get('envid');
       const leId = runtimeParams.get('leid');
+      const svcId = runtimeParams.get('svcid');
 
       if (envId) {
         tokenArgs.envId = envId;
@@ -95,6 +96,10 @@ export class SkyAuthTokenProvider {
 
       if (leId) {
         tokenArgs.leId = leId;
+      }
+
+      if (svcId) {
+        tokenArgs.svcId = svcId;
       }
     }
 

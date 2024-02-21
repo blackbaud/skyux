@@ -60,49 +60,107 @@ describe('Auth token provider', () => {
   });
 
   describe('getContextToken() method', () => {
-    it("should call BBAuth.getToken() with the SPA's context parameters", () => {
-      const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
-
-      let provider = new SkyAuthTokenProvider({
-        runtime: {
-          params: {
-            get: (name: string) => {
-              switch (name) {
-                case 'envid':
-                  return 'test-envid';
-                default:
-                  return undefined;
-              }
+    describe("should call BBAuth.getToken() with the SPA's context parameters", () => {
+      it('include environment id', () => {
+        const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
+        const provider = new SkyAuthTokenProvider({
+          runtime: {
+            params: {
+              get: (name: string) => {
+                switch (name) {
+                  case 'envid':
+                    return 'test-envid';
+                  default:
+                    return undefined;
+                }
+              },
             },
           },
-        },
-      } as any);
+        } as any);
 
-      provider.getContextToken();
+        provider.getContextToken();
 
-      expect(getTokenSpy).toHaveBeenCalledWith({
-        envId: 'test-envid',
+        expect(getTokenSpy).toHaveBeenCalledWith({
+          envId: 'test-envid',
+        });
       });
 
-      provider = new SkyAuthTokenProvider({
-        runtime: {
-          params: {
-            get: (name: string) => {
-              switch (name) {
-                case 'leid':
-                  return 'test-leid';
-                default:
-                  return undefined;
-              }
+      it('include legal entity id', () => {
+        const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
+        const provider = new SkyAuthTokenProvider({
+          runtime: {
+            params: {
+              get: (name: string) => {
+                switch (name) {
+                  case 'leid':
+                    return 'test-leid';
+                  default:
+                    return undefined;
+                }
+              },
             },
           },
-        },
-      } as any);
+        } as any);
 
-      provider.getContextToken();
+        provider.getContextToken();
 
-      expect(getTokenSpy).toHaveBeenCalledWith({
-        leId: 'test-leid',
+        expect(getTokenSpy).toHaveBeenCalledWith({
+          leId: 'test-leid',
+        });
+      });
+
+      it('include service id', () => {
+        const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
+        const provider = new SkyAuthTokenProvider({
+          runtime: {
+            params: {
+              get: (name: string) => {
+                switch (name) {
+                  case 'svcid':
+                    return 'test-svcid';
+                  default:
+                    return undefined;
+                }
+              },
+            },
+          },
+        } as any);
+
+        provider.getContextToken();
+
+        expect(getTokenSpy).toHaveBeenCalledWith({
+          svcId: 'test-svcid',
+        });
+      });
+
+      it('include full context', () => {
+        const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
+        const provider = new SkyAuthTokenProvider({
+          runtime: {
+            params: {
+              get: (name: string) => {
+                switch (name) {
+                  case 'envid':
+                    return 'test-envid';
+                  case 'leid':
+                    return 'test-leid';
+                  case 'svcid':
+                    return 'test-svcid';
+                  default:
+                    return undefined;
+                }
+              },
+            },
+          },
+        } as any);
+
+        provider.getContextToken();
+
+        expect(getTokenSpy).toHaveBeenCalledWith({
+          envId: 'test-envid',
+          leId: 'test-leid',
+          svcId: 'test-svcid',
+        });
       });
     });
 
@@ -158,7 +216,7 @@ describe('Auth token provider', () => {
 
     beforeEach(() => {
       testParams = {
-        get: (name: string) => {
+        get: (name: string): string | undefined => {
           switch (name) {
             case 'leid':
               return 'test-leid';
