@@ -25,14 +25,12 @@
 <h1>Radio buttons (reactive)</h1>
 
 <form novalidate [formGroup]="radioForm">
-  <h3 id="favorite-id" [ngClass]="{ 'sky-control-label-required': required }">
-    What is your favorite season?
-  </h3>
   <div id="screenshot-radio">
     <sky-radio-group
       ariaLabelledBy="favorite-id"
       formControlName="favoriteSeason"
       [required]="required"
+      labelText="What is your favorite season?"
     >
       <ul class="sky-list-unstyled">
         <li *ngFor="let value of seasons">
