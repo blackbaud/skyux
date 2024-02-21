@@ -97,12 +97,21 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public set selectedMeridies(meridies: string) {
+    meridies = meridies.trim();
     /* istanbul ignore else */
-    if (!this.is8601) {
-      if (meridies.trim() !== this.selectedMeridies) {
-        this.activeTime = moment(this.activeTime).add(12, 'hours').toDate();
-        this.selectedTimeChanged.emit(this.selectedTime);
+    if (meridies !== this.selectedMeridies) {
+      switch (meridies) {
+        case 'AM':
+          this.activeTime = moment(this.activeTime)
+            .subtract(12, 'hours')
+            .toDate();
+          break;
+
+        case 'PM':
+          this.activeTime = moment(this.activeTime).add(12, 'hours').toDate();
+          break;
       }
+      this.selectedTimeChanged.emit(this.selectedTime);
     }
   }
 
