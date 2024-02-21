@@ -100,10 +100,16 @@ export class SkyToggleSwitchComponent
   public tabIndex: number | undefined = 0;
 
   /**
-   * The text to display as the toggle switch's label. Use this instead of `sky-toggle-switch-label` when the label is text-only.
+   * The text to display as the toggle switch's label.
    */
   @Input()
   public labelText: string | undefined;
+
+  /**
+   * Indicates whether to hide the `labelText`.
+   */
+  @Input()
+  public labelHidden = false;
 
   /**
    * Fires when the checked state of a toggle switch changes.

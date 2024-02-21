@@ -17,7 +17,7 @@ import { SkyToggleSwitchFixtureComponent } from './fixtures/toggle-switch.compon
 import { SkyToggleSwitchFixturesModule } from './fixtures/toggle-switch.module.fixture';
 import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
-fdescribe('Toggle switch component', () => {
+describe('Toggle switch component', () => {
   function getButtonElement(
     fixture: ComponentFixture<unknown>,
   ): HTMLButtonElement | null {
@@ -199,6 +199,18 @@ fdescribe('Toggle switch component', () => {
       );
 
       expect(label?.textContent?.trim()).toBe('label text');
+    });
+
+    it('should render not render label text if `labelHidden` is true', async () => {
+      testComponent.labelText = 'label text';
+      testComponent.labelHidden = true;
+
+      fixture.detectChanges();
+      const label = fixture.nativeElement.querySelector(
+        'label.sky-toggle-switch-label',
+      );
+
+      expect(label).toBeNull;
     });
 
     it('label text should override `sky-toggle-switch-label`', async () => {
