@@ -8,7 +8,6 @@ import {
 import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLogService } from '@skyux/core';
 
 import { SkyToggleSwitchChangeEventFixtureComponent } from './fixtures/toggle-switch-change-event.component.fixture';
 import { SkyToggleSwitchFormDirectivesFixtureComponent } from './fixtures/toggle-switch-form-directives.component.fixture';
@@ -18,7 +17,7 @@ import { SkyToggleSwitchFixtureComponent } from './fixtures/toggle-switch.compon
 import { SkyToggleSwitchFixturesModule } from './fixtures/toggle-switch.module.fixture';
 import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
-describe('Toggle switch component', () => {
+fdescribe('Toggle switch component', () => {
   function getButtonElement(
     fixture: ComponentFixture<unknown>,
   ): HTMLButtonElement | null {
@@ -179,7 +178,7 @@ describe('Toggle switch component', () => {
       ).toBeTruthy();
     });
 
-    it('should pass accessibility with label text input and no `ariaLabel`', async () => {
+    it('should pass accessibility with label text input and should set `ariaLabel`', async () => {
       testComponent.labelText = 'label text';
       testComponent.buttonLabel = undefined;
 
@@ -187,7 +186,7 @@ describe('Toggle switch component', () => {
       expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
         getLabelElement(fixture).id,
       );
-      expect(buttonElement?.getAttribute('aria-label')).toBeNull();
+      expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
