@@ -93,11 +93,9 @@ export class SkyAuthTokenProvider {
       if (envId) {
         tokenArgs.envId = envId;
       }
-
       if (leId) {
         tokenArgs.leId = leId;
       }
-
       if (svcId) {
         tokenArgs.svcId = svcId;
       }
