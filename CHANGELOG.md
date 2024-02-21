@@ -1,5 +1,47 @@
 # Changelog
 
+## [9.25.0](https://github.com/blackbaud/skyux/compare/9.24.2...9.25.0) (2024-02-14)
+
+
+### Features
+
+* **components/indicators:** add up arrow icon ([#2021](https://github.com/blackbaud/skyux/issues/2021)) ([4534d43](https://github.com/blackbaud/skyux/commit/4534d433e903fcd5348504850c82d18bde460507))
+
+
+### Bug Fixes
+
+* **components/tiles:** tile summary is not visible to screen readers when tile is expanded ([#2002](https://github.com/blackbaud/skyux/issues/2002)) ([80ab964](https://github.com/blackbaud/skyux/commit/80ab9641e8056bdf831cc0cd81cfdb15764544bb))
+
+## [9.24.2](https://github.com/blackbaud/skyux/compare/9.24.1...9.24.2) (2024-02-13)
+
+
+### Bug Fixes
+
+* **components/forms:** document form error inputs as required ([#2011](https://github.com/blackbaud/skyux/issues/2011)) ([2858037](https://github.com/blackbaud/skyux/commit/2858037e70bab844ed80cb36b36c7ab486d2e601))
+
+## [9.24.1](https://github.com/blackbaud/skyux/compare/9.24.0...9.24.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* **components/forms:** improve form error documentation ([#2007](https://github.com/blackbaud/skyux/issues/2007)) ([845bb44](https://github.com/blackbaud/skyux/commit/845bb44e087bdfe2f8cd58ed4aa2a579c6c33e1f))
+
+## [9.24.0](https://github.com/blackbaud/skyux/compare/9.23.0...9.24.0) (2024-02-08)
+
+
+### Features
+
+* **components/colorpicker:** add form errors to colorpicker ([#1999](https://github.com/blackbaud/skyux/issues/1999)) ([e16f096](https://github.com/blackbaud/skyux/commit/e16f0961ef7db41231dc1b0d674bd1f990ceb47f))
+* **components/forms:** add form errors to checkbox ([#1994](https://github.com/blackbaud/skyux/issues/1994)) ([71e931e](https://github.com/blackbaud/skyux/commit/71e931e25517d38e7fe55587c687fed614f0f138))
+* **components/forms:** hide required asterisk from screen readers ([#1982](https://github.com/blackbaud/skyux/issues/1982)) ([b30bb09](https://github.com/blackbaud/skyux/commit/b30bb09ee25365fbe3253e3c978b2ab3ba644bcd))
+
+
+### Bug Fixes
+
+* **components/forms:** character counter reads to screen readers at unobtrusive intervals ([#1947](https://github.com/blackbaud/skyux/issues/1947)) ([eb5c65c](https://github.com/blackbaud/skyux/commit/eb5c65cd42a2adc4f27f98610377657b8f23e9de))
+* **components/popovers:** popovers with a hover trigger display when the trigger element is focused ([#1991](https://github.com/blackbaud/skyux/issues/1991)) ([8258a43](https://github.com/blackbaud/skyux/commit/8258a43a707fdaddb9d2c01b357e668374992b61))
+* **components/tabs:** tabs are read by screen readers in an industry standard format ([#1984](https://github.com/blackbaud/skyux/issues/1984)) ([f4fba7c](https://github.com/blackbaud/skyux/commit/f4fba7c76531d183ed7f85a2b2fc293544570b32))
+
 ## [9.23.0](https://github.com/blackbaud/skyux/compare/9.22.0...9.23.0) (2024-02-05)
 
 

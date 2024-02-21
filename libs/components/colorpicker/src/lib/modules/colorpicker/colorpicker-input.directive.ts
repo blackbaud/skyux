@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, Subscription, distinctUntilChanged, takeUntil } from 'rxjs';
 
 import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerComponent } from './colorpicker.component';
@@ -220,6 +220,27 @@ export class SkyColorpickerInputDirective
             .subscribe((inputId) => {
               this.#setInputId(inputId);
             });
+        }
+      });
+
+    this.#colorpickerInputSvc.ariaError
+      .pipe(
+        distinctUntilChanged((a, b) => {
+          return a.hasError === b.hasError && a.errorId === b.errorId;
+        }),
+        takeUntil(this.#ngUnsubscribe),
+      )
+      .subscribe((errorState) => {
+        if (errorState.hasError) {
+          this.#renderer.setAttribute(element, 'aria-invalid', 'true');
+          this.#renderer.setAttribute(
+            element,
+            'aria-errormessage',
+            errorState.errorId,
+          );
+        } else {
+          this.#renderer.removeAttribute(element, 'aria-invalid');
+          this.#renderer.removeAttribute(element, 'aria-errormessage');
         }
       });
 

@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -34,6 +35,7 @@ import { SkyYearPickerComponent } from './yearpicker.component';
     SkyDayPickerButtonComponent,
   ],
   imports: [
+    A11yModule,
     CommonModule,
     FormsModule,
     SkyIconModule,

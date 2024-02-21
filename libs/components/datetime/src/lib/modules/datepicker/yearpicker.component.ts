@@ -9,7 +9,6 @@ import { SkyDatepickerDate } from './datepicker-date';
 @Component({
   selector: 'sky-yearpicker',
   templateUrl: 'yearpicker.component.html',
-  styleUrls: ['./yearpicker.component.scss'],
 })
 export class SkyYearPickerComponent implements OnInit {
   public datepicker: SkyDatepickerCalendarInnerComponent;
@@ -25,9 +24,10 @@ export class SkyYearPickerComponent implements OnInit {
   public ngOnInit(): void {
     this.datepicker.stepYear = { years: this.datepicker.yearRange };
 
-    this.datepicker.setRefreshViewHandler(() => {
-      this.#refreshYearView();
-    }, 'year');
+    this.datepicker.setRefreshViewHandler(
+      () => this.#refreshYearView(),
+      'year',
+    );
 
     this.datepicker.setCompareHandler(this.#compareYears, 'year');
 
@@ -50,7 +50,7 @@ export class SkyYearPickerComponent implements OnInit {
     return date1.getFullYear() - date2.getFullYear();
   }
 
-  #refreshYearView() {
+  #refreshYearView(): string {
     const years: Array<SkyDatepickerDate> = new Array(
       this.datepicker.yearRange,
     );
@@ -71,7 +71,7 @@ export class SkyYearPickerComponent implements OnInit {
       );
     }
 
-    this.title = [
+    const newTitle = [
       years[0].label,
       years[this.datepicker.yearRange - 1].label,
     ].join(' - ');
@@ -79,20 +79,22 @@ export class SkyYearPickerComponent implements OnInit {
       years,
       this.datepicker.yearColLimit,
     );
+
+    return newTitle;
   }
 
-  #keydownYears(key: string, event: KeyboardEvent) {
+  #keydownYears(key: string, event: KeyboardEvent): void {
     let date = this.datepicker.activeDate.getFullYear();
 
     /* istanbul ignore else */
     /* sanity check */
-    if (key === 'left') {
+    if (key === 'arrowleft') {
       date = date - 1;
-    } else if (key === 'up') {
+    } else if (key === 'arrowup') {
       date = date - this.datepicker.yearColLimit;
-    } else if (key === 'right') {
+    } else if (key === 'arrowright') {
       date = date + 1;
-    } else if (key === 'down') {
+    } else if (key === 'arrowdown') {
       date = date + this.datepicker.yearColLimit;
     } else if (key === 'pageup' || key === 'pagedown') {
       date += (key === 'pageup' ? -1 : 1) * this.datepicker.yearRange;

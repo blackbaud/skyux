@@ -9,7 +9,7 @@ import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
   styleUrls: ['./vertical-tabset.component.fixture.scss'],
 })
 export class VerticalTabsetTestComponent {
-  public active = true;
+  public active: boolean | undefined = true;
 
   public group1Open = true;
   public group1Disabled = false;

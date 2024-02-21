@@ -4,12 +4,28 @@ import { FormsModule } from '@angular/forms';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 
+import { SkyFormErrorModule } from '../form-error/form-error.module';
+import { SkyFormErrorsModule } from '../form-error/form-errors.module';
+import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
+
 import { SkyCheckboxLabelComponent } from './checkbox-label.component';
 import { SkyCheckboxComponent } from './checkbox.component';
 
 @NgModule({
   declarations: [SkyCheckboxComponent, SkyCheckboxLabelComponent],
-  imports: [CommonModule, FormsModule, SkyIconModule, SkyTrimModule],
-  exports: [SkyCheckboxComponent, SkyCheckboxLabelComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyFormErrorModule,
+    SkyFormErrorsModule,
+    SkyFormsResourcesModule,
+    SkyIconModule,
+    SkyTrimModule,
+  ],
+  exports: [
+    SkyCheckboxComponent,
+    SkyCheckboxLabelComponent,
+    SkyFormErrorModule,
+  ],
 })
 export class SkyCheckboxModule {}

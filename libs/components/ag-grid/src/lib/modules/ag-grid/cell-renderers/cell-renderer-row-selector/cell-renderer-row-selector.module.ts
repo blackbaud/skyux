@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -6,7 +7,12 @@ import { SkyAgGridResourcesModule } from '../../../shared/sky-ag-grid-resources.
 import { SkyAgGridCellRendererRowSelectorComponent } from '../cell-renderer-row-selector/cell-renderer-row-selector.component';
 
 @NgModule({
-  imports: [SkyAgGridResourcesModule, SkyCheckboxModule, FormsModule],
+  imports: [
+    AsyncPipe,
+    SkyAgGridResourcesModule,
+    SkyCheckboxModule,
+    FormsModule,
+  ],
   declarations: [SkyAgGridCellRendererRowSelectorComponent],
   exports: [SkyAgGridCellRendererRowSelectorComponent],
 })
