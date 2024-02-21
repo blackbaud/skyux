@@ -23,7 +23,6 @@ let sortItemIdNumber = 0;
 
 @Component({
   selector: 'sky-sort-item',
-  styleUrls: ['./sort-item.component.scss'],
   templateUrl: './sort-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
