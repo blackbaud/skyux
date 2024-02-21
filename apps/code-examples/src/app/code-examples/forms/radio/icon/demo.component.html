@@ -1,8 +1,8 @@
 <form novalidate [formGroup]="formGroup">
   <sky-radio-group
     class="sky-switch-icon-group"
-    ariaLabel="Demo view"
     formControlName="myView"
+    labelText="View"
   >
     <sky-radio
       *ngFor="let view of views"
