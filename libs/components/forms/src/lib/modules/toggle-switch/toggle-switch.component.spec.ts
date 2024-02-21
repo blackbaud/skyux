@@ -8,6 +8,7 @@ import {
 import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyToggleSwitchChangeEventFixtureComponent } from './fixtures/toggle-switch-change-event.component.fixture';
 import { SkyToggleSwitchFormDirectivesFixtureComponent } from './fixtures/toggle-switch-form-directives.component.fixture';
@@ -148,6 +149,23 @@ describe('Toggle switch component', () => {
 
       expect(label?.textContent?.trim()).toEqual('Simple toggle');
     });
+
+    // TODO why doesn't this work
+    // fit('should log a deprecation warning when toggle switch label component is used', () => {
+    //   const logService = TestBed.inject(SkyLogService);
+    //   const spy = spyOn(logService, 'deprecated');
+
+    //   fixture.detectChanges();
+
+    //   expect(spy).toHaveBeenCalledWith(
+    //     'SkyToggleSwitchComponent',
+    //     Object({
+    //       deprecationMajorVersion: 9,
+    //       replacementRecommendation:
+    //         'To add label to toggle switch, use `labelText` input on the toggle switch component.',
+    //     }),
+    //   );
+    // });
 
     it('should make the host element a tab stop', () => {
       expect(buttonElement?.tabIndex).toEqual(0);

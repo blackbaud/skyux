@@ -1,13 +1,23 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 /**
  * Specifies the label to display beside the toggle switch. To display a help button beside the label, include a help
  * button element, such as `sky-help-inline`, in the `sky-toggle-switch` element and a `sky-control-help` CSS class on
  * that help button element.
+ * @deprecated use `labelText` input on `sky-toggle-switch` instead.
  */
 @Component({
   selector: 'sky-toggle-switch-label',
   templateUrl: './toggle-switch-label.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyToggleSwitchLabelComponent {}
+export class SkyToggleSwitchLabelComponent {
+  constructor(logger: SkyLogService) {
+    logger.deprecated('SkyToggleSwitchLabelComponent', {
+      deprecationMajorVersion: 9,
+      replacementRecommendation:
+        'To add label to toggle switch, use `labelText` input on the toggle switch component.',
+    });
+  }
+}
