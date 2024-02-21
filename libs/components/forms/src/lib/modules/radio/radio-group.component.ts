@@ -179,7 +179,7 @@ export class SkyRadioGroupComponent
    * Indicates whether to hide the `labelText`.
    */
   @Input()
-  public labelHidden: boolean = false;
+  public labelHidden = false;
 
   /**
    * Our radio components are usually implemented using an unordered list. This is an
