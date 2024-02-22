@@ -140,8 +140,9 @@ class CheckboxWithRequiredAttributeComponent {
     <div>
       <form [formGroup]="checkboxForm">
         <sky-checkbox
-          [label]="label"
-          [labelledBy]="labelledBy"
+          [label]="ariaLabel"
+          [labelledBy]="ariaLabelledBy"
+          [labelText]="labelText"
           name="cb"
           formControlName="checkbox1"
           #wut
@@ -155,8 +156,9 @@ class CheckboxWithRequiredAttributeComponent {
 class CheckboxWithReactiveFormComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
   public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
-  public label: string | undefined;
-  public labelledBy: string | undefined;
+  public ariaLabel: string | undefined;
+  public ariaLabelledBy: string | undefined;
+  public labelText: string | undefined;
 }
 
 /** Simple component for testing a reactive form checkbox with required validator. */
@@ -1031,8 +1033,8 @@ describe('Checkbox component', () => {
       const logService = TestBed.inject(SkyLogService);
       const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
 
-      fixture.componentInstance.label = 'aria label';
-      fixture.componentInstance.labelledBy = '#aria-label';
+      fixture.componentInstance.ariaLabel = 'aria label';
+      fixture.componentInstance.ariaLabelledBy = '#aria-label';
       fixture.detectChanges();
 
       expect(deprecatedLogSpy).toHaveBeenCalledWith(
@@ -1048,6 +1050,23 @@ describe('Checkbox component', () => {
           deprecationMajorVersion: 9,
         }),
       );
+    });
+
+    it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
+      const labelText = 'Label Text';
+      fixture.componentInstance.labelText = labelText;
+      fixture.componentInstance.ariaLabel = 'some other label text';
+      fixture.componentInstance.ariaLabelledBy = '#some-element';
+
+      fixture.detectChanges();
+
+      const checkboxInput = fixture.nativeElement.querySelector('input');
+
+      expect(checkboxInput.getAttribute('aria-labelledBy')).toEqual(
+        jasmine.stringMatching(/MOCK_ID_[0-9]/),
+      );
+
+      expect(checkboxInput.getAttribute('aria-label')).toEqual(labelText);
     });
   });
 

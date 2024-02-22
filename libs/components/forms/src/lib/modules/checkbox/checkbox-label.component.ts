@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Specifies a label for the checkbox. To display a help button beside the label, include a help button element, such as
@@ -10,4 +10,7 @@ import { Component } from '@angular/core';
   selector: 'sky-checkbox-label',
   templateUrl: './checkbox-label.component.html',
 })
-export class SkyCheckboxLabelComponent {}
+export class SkyCheckboxLabelComponent {
+  @Input()
+  public id: string | undefined;
+}

@@ -234,6 +234,12 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public labelText: string | undefined;
 
   /**
+   * Indicates whether to hide the `labelText`.
+   */
+  @Input()
+  public labelHidden: boolean = false;
+
+  /**
    * Fires when users select or deselect the checkbox.
    */
   @Output()
@@ -299,6 +305,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     self: true,
   });
   protected readonly errorId = this.#idSvc.generateId();
+  protected readonly labelId = this.#idSvc.generateId();
 
   constructor() {
     if (this.ngControl) {
