@@ -115,7 +115,7 @@ export class SkyToggleSwitchComponent
   public tabIndex: number | undefined = 0;
 
   /**
-   * The text to display as the toggle switch's label.
+   * The text to display as the toggle switch's label. This text will also be the `aria-label` attribute and override any input in the deprecated `ariaLabel` input.
    */
   @Input()
   public labelText: string | undefined;
