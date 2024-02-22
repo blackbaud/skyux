@@ -52,8 +52,7 @@ export class SkyConfirmService {
         };
       }
 
-      confirmInstance.closed.emit(result);
-      confirmInstance.closed.complete();
+      confirmInstance.notifyClosed(result);
     });
 
     return confirmInstance;
