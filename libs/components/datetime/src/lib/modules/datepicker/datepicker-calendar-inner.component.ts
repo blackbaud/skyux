@@ -8,9 +8,11 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { SkyDateFormatter } from './date-formatter';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
@@ -94,6 +96,9 @@ export class SkyDatepickerCalendarInnerComponent
   public formatDayTitle = 'MMMM YYYY';
   public formatMonthTitle = 'YYYY';
 
+  public previousLabel: string | undefined;
+  public nextLabel: string | undefined;
+
   public datepickerId = `sky-datepicker-${++nextDatepickerId}`;
 
   public stepDay: any = {};
@@ -129,9 +134,17 @@ export class SkyDatepickerCalendarInnerComponent
   ];
 
   #ngUnsubscribe = new Subject<void>();
+  #prevDay: string | undefined;
+  #nextDay: string | undefined;
+  #prevMonth: string | undefined;
+  #nextMonth: string | undefined;
+  #prevYear: string | undefined;
+  #nextYear: string | undefined;
 
   #_selectedDate: Date | undefined;
   #_startingDay = 0;
+
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
     if (this.selectedDate) {
@@ -139,6 +152,27 @@ export class SkyDatepickerCalendarInnerComponent
     } else {
       this.activeDate = new Date();
     }
+
+    this.#resourcesSvc
+      .getStrings({
+        prevDay: 'skyux_datepicker_move_calendar_previous_day',
+        nextDay: 'skyux_datepicker_move_calendar_next_day',
+        prevMonth: 'skyux_datepicker_move_calendar_previous_month',
+        nextMonth: 'skyux_datepicker_move_calendar_next_month',
+        prevYear: 'skyux_datepicker_move_calendar_previous_year',
+        nextYear: 'skyux_datepicker_move_calendar_next_year',
+      })
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((resources) => {
+        this.#prevDay = resources.prevDay;
+        this.#nextDay = resources.nextDay;
+        this.#prevMonth = resources.prevMonth;
+        this.#nextMonth = resources.nextMonth;
+        this.#prevYear = resources.prevYear;
+        this.#nextYear = resources.nextYear;
+
+        this.refreshView();
+      });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -207,14 +241,20 @@ export class SkyDatepickerCalendarInnerComponent
   public refreshView(): void {
     if (this.datepickerMode === 'day' && this.refreshViewHandlerDay) {
       this.title = this.refreshViewHandlerDay();
+      this.previousLabel = this.#prevDay;
+      this.nextLabel = this.#nextDay;
     }
 
     if (this.datepickerMode === 'month' && this.refreshViewHandlerMonth) {
       this.title = this.refreshViewHandlerMonth();
+      this.previousLabel = this.#prevMonth;
+      this.nextLabel = this.#nextMonth;
     }
 
     if (this.datepickerMode === 'year' && this.refreshViewHandlerYear) {
       this.title = this.refreshViewHandlerYear();
+      this.previousLabel = this.#prevYear;
+      this.nextLabel = this.#nextYear;
     }
   }
 
