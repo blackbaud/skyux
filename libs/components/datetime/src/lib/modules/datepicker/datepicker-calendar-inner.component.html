@@ -4,6 +4,7 @@
       <button
         type="button"
         class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous"
+        [attr.aria-label]="previousLabel"
         (click)="moveCalendar($event, -1)"
       >
         <sky-icon class="sky-datepicker-chevron" icon="chevron-left" />
@@ -27,6 +28,7 @@
       <button
         type="button"
         class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-next"
+        [attr.aria-label]="nextLabel"
         (click)="moveCalendar($event, 1)"
       >
         <sky-icon class="sky-datepicker-chevron" icon="chevron-right" />
