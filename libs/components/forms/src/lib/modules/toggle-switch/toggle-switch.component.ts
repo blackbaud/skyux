@@ -19,7 +19,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -57,9 +57,24 @@ export class SkyToggleSwitchComponent
    * Use a context-sensitive label, such as "Activate annual fundraiser" for a toggle switch that activates and deactivates an annual fundraiser. Context is especially important if multiple toggle switches are in close proximity.
    * When the `sky-toggle-switch-label` component displays a visible label, this property is only necessary if that label requires extra context.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use `labelText` input instead.
    */
   @Input()
-  public ariaLabel: string | undefined;
+  public set ariaLabel(value: string | undefined) {
+    this.#_ariaLabel = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyToggleSwitchComponent.ariaLabel', {
+        deprecationMajorVersion: 9,
+        replacementRecommendation:
+          'To add aria label to toggle switch, use `labelText` input.',
+      });
+    }
+  }
+
+  public get ariaLabel(): string | undefined {
+    return this.#_ariaLabel;
+  }
 
   /**
    * Whether the toggle switch is selected.
@@ -128,14 +143,21 @@ export class SkyToggleSwitchComponent
   #control: AbstractControl | undefined;
   #isFirstChange = true;
   #ngUnsubscribe = new Subject<void>();
+  #logger: SkyLogService;
 
   #_checked = false;
+  #_ariaLabel: string | undefined;
 
   #changeDetector: ChangeDetectorRef;
 
-  constructor(changeDetector: ChangeDetectorRef, idService: SkyIdService) {
+  constructor(
+    changeDetector: ChangeDetectorRef,
+    idService: SkyIdService,
+    logger: SkyLogService,
+  ) {
     this.#changeDetector = changeDetector;
     this.labelId = idService.generateId();
+    this.#logger = logger;
   }
 
   public ngAfterContentInit(): void {

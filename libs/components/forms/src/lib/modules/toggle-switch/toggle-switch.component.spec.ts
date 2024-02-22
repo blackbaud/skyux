@@ -8,6 +8,7 @@ import {
 import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyToggleSwitchChangeEventFixtureComponent } from './fixtures/toggle-switch-change-event.component.fixture';
 import { SkyToggleSwitchFormDirectivesFixtureComponent } from './fixtures/toggle-switch-form-directives.component.fixture';
@@ -149,22 +150,22 @@ describe('Toggle switch component', () => {
       expect(label?.textContent?.trim()).toEqual('Simple toggle');
     });
 
-    // TODO why doesn't this work
-    // fit('should log a deprecation warning when toggle switch label component is used', () => {
-    //   const logService = TestBed.inject(SkyLogService);
-    //   const spy = spyOn(logService, 'deprecated');
+    it('should log a deprecation warning when aria label input is used', () => {
+      const logService = TestBed.inject(SkyLogService);
+      const spy = spyOn(logService, 'deprecated');
 
-    //   fixture.detectChanges();
+      testComponent.ariaLabel = 'aria label';
+      fixture.detectChanges();
 
-    //   expect(spy).toHaveBeenCalledWith(
-    //     'SkyToggleSwitchComponent',
-    //     Object({
-    //       deprecationMajorVersion: 9,
-    //       replacementRecommendation:
-    //         'To add label to toggle switch, use `labelText` input on the toggle switch component.',
-    //     }),
-    //   );
-    // });
+      expect(spy).toHaveBeenCalledWith(
+        'SkyToggleSwitchComponent.ariaLabel',
+        Object({
+          deprecationMajorVersion: 9,
+          replacementRecommendation:
+            'To add aria label to toggle switch, use `labelText` input.',
+        }),
+      );
+    });
 
     it('should make the host element a tab stop', () => {
       expect(buttonElement?.tabIndex).toEqual(0);
@@ -178,7 +179,7 @@ describe('Toggle switch component', () => {
       ).toBeTruthy();
     });
 
-    it('should pass accessibility with label text input and should set `ariaLabel`', async () => {
+    it('should pass accessibility with label text input and should set `aria-label` to label text', async () => {
       testComponent.labelText = 'label text';
       testComponent.buttonLabel = undefined;
 
@@ -211,6 +212,14 @@ describe('Toggle switch component', () => {
       );
 
       expect(label).toBeNull;
+    });
+
+    it('should still have `aria-label` if `labelHidden` is true', async () => {
+      testComponent.labelText = 'label text';
+      testComponent.labelHidden = true;
+
+      fixture.detectChanges();
+      expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
     });
 
     it('label text should override `sky-toggle-switch-label`', async () => {
