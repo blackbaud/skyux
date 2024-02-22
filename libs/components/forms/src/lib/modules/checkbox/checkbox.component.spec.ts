@@ -1062,10 +1062,7 @@ describe('Checkbox component', () => {
 
       const checkboxInput = fixture.nativeElement.querySelector('input');
 
-      expect(checkboxInput.getAttribute('aria-labelledBy')).toEqual(
-        jasmine.stringMatching(/MOCK_ID_[0-9]/),
-      );
-
+      expect(checkboxInput.getAttribute('aria-labelledBy')).toBeNull();
       expect(checkboxInput.getAttribute('aria-label')).toEqual(labelText);
     });
   });

@@ -15,7 +15,7 @@
     [required]="required"
     [tabIndex]="tabindex"
     [attr.aria-label]="labelText || label"
-    [attr.aria-labelledby]="labelText ? labelId : labelledBy"
+    [attr.aria-labelledby]="labelText ? undefined : labelledBy"
     [attr.aria-required]="required ? true : null"
     [attr.aria-invalid]="!!ngControl?.errors"
     [attr.aria-errormessage]="
@@ -57,7 +57,7 @@
   </span>
 
   <ng-container *ngIf="labelText; else labelElement">
-    <sky-checkbox-label *ngIf="!labelHidden" [id]="labelId">{{
+    <sky-checkbox-label *ngIf="!labelHidden">{{
       labelText
     }}</sky-checkbox-label>
   </ng-container>
