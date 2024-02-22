@@ -170,6 +170,8 @@ export class SkyDatepickerCalendarInnerComponent
         this.#nextMonth = resources.nextMonth;
         this.#prevYear = resources.prevYear;
         this.#nextYear = resources.nextYear;
+
+        this.refreshView();
       });
   }
 
