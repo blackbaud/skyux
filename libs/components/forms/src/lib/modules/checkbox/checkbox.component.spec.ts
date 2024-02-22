@@ -139,7 +139,13 @@ class CheckboxWithRequiredAttributeComponent {
   template: `
     <div>
       <form [formGroup]="checkboxForm">
-        <sky-checkbox name="cb" formControlName="checkbox1" #wut>
+        <sky-checkbox
+          [label]="label"
+          [labelledBy]="labelledBy"
+          name="cb"
+          formControlName="checkbox1"
+          #wut
+        >
           <sky-checkbox-label> Be good </sky-checkbox-label>
         </sky-checkbox>
       </form>
@@ -149,6 +155,8 @@ class CheckboxWithRequiredAttributeComponent {
 class CheckboxWithReactiveFormComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
   public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
+  public label: string | undefined;
+  public labelledBy: string | undefined;
 }
 
 /** Simple component for testing a reactive form checkbox with required validator. */
@@ -1017,6 +1025,29 @@ describe('Checkbox component', () => {
       setTimeout(() => {
         subscription.unsubscribe();
       }, 20);
+    });
+
+    it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+      fixture.componentInstance.label = 'aria label';
+      fixture.componentInstance.labelledBy = '#aria-label';
+      fixture.detectChanges();
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyCheckboxComponent.label',
+        Object({
+          deprecationMajorVersion: 9,
+        }),
+      );
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyCheckboxComponent.labelledBy',
+        Object({
+          deprecationMajorVersion: 9,
+        }),
+      );
     });
   });
 
