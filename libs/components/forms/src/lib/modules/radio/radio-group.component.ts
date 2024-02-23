@@ -375,20 +375,4 @@ export class SkyRadioGroupComponent
     this.#updateRadioButtonTabIndexes();
     this.#updateRadioButtonDisabled();
   }
-
-  // #setValidators(): void {
-  //   if (
-  //     this.required &&
-  //     !this.ngControl?.control?.hasValidator(Validators.required)
-  //   ) {
-  //     this.ngControl?.control?.addValidators(Validators.required);
-  //     this.ngControl?.control?.updateValueAndValidity();
-  //   } else if (
-  //     !this.required &&
-  //     this.ngControl?.control?.hasValidator(Validators.required)
-  //   ) {
-  //     this.ngControl.control.removeValidators(Validators.required);
-  //     this.ngControl.control?.updateValueAndValidity();
-  //   }
-  // }
 }
