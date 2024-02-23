@@ -3,9 +3,9 @@
 exports[`Migrations > Add compat stylesheets should add a compat stylesheet for libraries in dependencies 1`] = `
 "/*******************************************************************************
  * TODO: The following component libraries introduced visual breaking changes
- * in SKY UX 9. Each block of CSS reintroduces the styles that were changed or
- * removed for backwards compatibility. You will need to do the following
- * before migrating to the next major version of SKY UX:
+ * in SKY UX CURRENT_VERSION. Each block of CSS reintroduces the styles that
+ * were changed or removed for backward compatibility. You will need to do the
+ * following before migrating to the next major version of SKY UX:
  * - Address each of the changes by following the instructions
  *   in each block of CSS, then remove the block.
  * - Delete this file after all blocks have been addressed.
@@ -30,9 +30,9 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
 exports[`Migrations > Add compat stylesheets should add a compat stylesheet for libraries in devDependencies 1`] = `
 "/*******************************************************************************
  * TODO: The following component libraries introduced visual breaking changes
- * in SKY UX 9. Each block of CSS reintroduces the styles that were changed or
- * removed for backwards compatibility. You will need to do the following
- * before migrating to the next major version of SKY UX:
+ * in SKY UX CURRENT_VERSION. Each block of CSS reintroduces the styles that
+ * were changed or removed for backward compatibility. You will need to do the
+ * following before migrating to the next major version of SKY UX:
  * - Address each of the changes by following the instructions
  *   in each block of CSS, then remove the block.
  * - Delete this file after all blocks have been addressed.
@@ -57,9 +57,9 @@ exports[`Migrations > Add compat stylesheets should add a compat stylesheet for 
 exports[`Migrations > Add compat stylesheets should handle missing styles array 1`] = `
 "/*******************************************************************************
  * TODO: The following component libraries introduced visual breaking changes
- * in SKY UX 9. Each block of CSS reintroduces the styles that were changed or
- * removed for backwards compatibility. You will need to do the following
- * before migrating to the next major version of SKY UX:
+ * in SKY UX CURRENT_VERSION. Each block of CSS reintroduces the styles that
+ * were changed or removed for backward compatibility. You will need to do the
+ * following before migrating to the next major version of SKY UX:
  * - Address each of the changes by following the instructions
  *   in each block of CSS, then remove the block.
  * - Delete this file after all blocks have been addressed.
@@ -84,9 +84,9 @@ exports[`Migrations > Add compat stylesheets should handle missing styles array 
 exports[`Migrations > Add compat stylesheets should overwrite an existing compat stylesheet 1`] = `
 "/*******************************************************************************
  * TODO: The following component libraries introduced visual breaking changes
- * in SKY UX 9. Each block of CSS reintroduces the styles that were changed or
- * removed for backwards compatibility. You will need to do the following
- * before migrating to the next major version of SKY UX:
+ * in SKY UX CURRENT_VERSION. Each block of CSS reintroduces the styles that
+ * were changed or removed for backward compatibility. You will need to do the
+ * following before migrating to the next major version of SKY UX:
  * - Address each of the changes by following the instructions
  *   in each block of CSS, then remove the block.
  * - Delete this file after all blocks have been addressed.
