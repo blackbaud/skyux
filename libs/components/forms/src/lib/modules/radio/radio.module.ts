@@ -6,11 +6,11 @@ import { SkyIconModule } from '@skyux/indicators';
 
 import { SkyFormErrorModule } from '../form-error/form-error.module';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
+import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyRadioGroupComponent } from './radio-group.component';
 import { SkyRadioLabelComponent } from './radio-label.component';
 import { SkyRadioComponent } from './radio.component';
-import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
     SkyIconModule,
     SkyIdModule,
     SkyFormsResourcesModule,
-    SkyTrimModule
+    SkyTrimModule,
   ],
   exports: [
     SkyFormErrorModule,
