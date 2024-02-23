@@ -17,6 +17,7 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
@@ -34,7 +35,10 @@ let nextUniqueId = 0;
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
-  providers: [SkyRadioGroupIdService],
+  providers: [
+    SkyRadioGroupIdService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
 })
 export class SkyRadioGroupComponent
   implements AfterContentInit, AfterViewInit, OnDestroy
@@ -211,12 +215,13 @@ export class SkyRadioGroupComponent
 
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
-  #ngControl: NgControl | undefined;
 
   readonly #idService = inject(SkyIdService);
   readonly #logger = inject(SkyLogService);
 
   protected labelId = this.#idService.generateId();
+  protected errorId = this.#idService.generateId();
+  protected ngControl: NgControl | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -228,7 +233,7 @@ export class SkyRadioGroupComponent
     }
     this.#changeDetector = changeDetector;
     this.#radioGroupIdSvc = radioGroupIdSvc;
-    this.#ngControl = ngControl;
+    this.ngControl = ngControl;
     this.name = this.#defaultName;
 
     this.#radioGroupIdSvc.radioIds
@@ -263,10 +268,10 @@ export class SkyRadioGroupComponent
   }
 
   public ngAfterViewInit(): void {
-    if (this.#ngControl) {
+    if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
 
       // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
       this.#changeDetector.detectChanges();
@@ -370,4 +375,20 @@ export class SkyRadioGroupComponent
     this.#updateRadioButtonTabIndexes();
     this.#updateRadioButtonDisabled();
   }
+
+  // #setValidators(): void {
+  //   if (
+  //     this.required &&
+  //     !this.ngControl?.control?.hasValidator(Validators.required)
+  //   ) {
+  //     this.ngControl?.control?.addValidators(Validators.required);
+  //     this.ngControl?.control?.updateValueAndValidity();
+  //   } else if (
+  //     !this.required &&
+  //     this.ngControl?.control?.hasValidator(Validators.required)
+  //   ) {
+  //     this.ngControl.control.removeValidators(Validators.required);
+  //     this.ngControl.control?.updateValueAndValidity();
+  //   }
+  // }
 }
