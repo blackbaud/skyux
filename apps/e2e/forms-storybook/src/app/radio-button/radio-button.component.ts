@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-radio-button',
@@ -8,6 +14,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 })
 export class RadioButtonComponent {
   public radioForm: FormGroup;
+
+  public invalidRadioButtonOption: FormControl;
 
   public radioButtonOptions = [
     { name: 'Option 1', value: '1', disabled: false },
@@ -22,6 +30,15 @@ export class RadioButtonComponent {
   ];
 
   constructor(formBuilder: FormBuilder) {
+    this.invalidRadioButtonOption = new FormControl(undefined, [
+      (control: AbstractControl): ValidationErrors | null => {
+        if (control.value === '1') {
+          return { incorrectOption: true };
+        }
+        return null;
+      },
+    ]);
+
     this.radioForm = formBuilder.group({
       radioButtonOption: this.radioButtonOptions[0].value,
       radioIconOption: this.radioIconOptions[0].name,
@@ -35,6 +52,7 @@ export class RadioButtonComponent {
         value: this.radioIconOptions[0].name,
         disabled: true,
       }),
+      invalidRadioButtonOption: this.invalidRadioButtonOption,
     });
   }
 }
