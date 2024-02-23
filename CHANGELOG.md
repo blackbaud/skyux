@@ -1,5 +1,22 @@
 # Changelog
 
+## [9.26.0](https://github.com/blackbaud/skyux/compare/9.25.0...9.26.0) (2024-02-22)
+
+
+### Features
+
+* **components/ag-grid:** support custom label for row selector ([#2029](https://github.com/blackbaud/skyux/issues/2029)) ([d94feab](https://github.com/blackbaud/skyux/commit/d94feab0751dd0fa9b435f4036bd123822d7385b))
+* **components/datetime:** add aria labels to datepicker calendar navigation buttons ([#2033](https://github.com/blackbaud/skyux/issues/2033)) ([655eb6f](https://github.com/blackbaud/skyux/commit/655eb6fa7d39f4731f9c9524f5aa918ebb3acbaa))
+* **components/datetime:** improve keyboard navigation on datepicker calendar ([#1964](https://github.com/blackbaud/skyux/issues/1964)) ([b745087](https://github.com/blackbaud/skyux/commit/b7450877f5e4e39440b3fad0065bbb22524a0b08))
+* **components/forms:** add labelText to radio group ([#2018](https://github.com/blackbaud/skyux/issues/2018)) ([80a2507](https://github.com/blackbaud/skyux/commit/80a25072e9e5304b47d8a8faaa14b2d8f17b2e5d))
+* **components/lists:** improve keyboard navigation on sort picker ([#2005](https://github.com/blackbaud/skyux/issues/2005)) ([9304d02](https://github.com/blackbaud/skyux/commit/9304d02ebb075f371a7b36e70155cc432bce8b17))
+
+
+### Bug Fixes
+
+* **components/datetime:** keep date consistent when switching meridies ([#2034](https://github.com/blackbaud/skyux/issues/2034)) ([a822317](https://github.com/blackbaud/skyux/commit/a822317049cb81fa66304837f5dd1967bb9c0a9c))
+* **components/tabs:** show vertical tab content when activated programmatically after init ([#2024](https://github.com/blackbaud/skyux/issues/2024)) ([d453e40](https://github.com/blackbaud/skyux/commit/d453e4075c013b578b1ed7e6a1859ec390de3f90))
+
 ## [9.25.0](https://github.com/blackbaud/skyux/compare/9.24.2...9.25.0) (2024-02-14)
 
 
