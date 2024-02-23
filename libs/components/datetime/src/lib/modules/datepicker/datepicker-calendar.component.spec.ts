@@ -66,19 +66,27 @@ describe('datepicker calendar', () => {
     fixture.detectChanges();
   }
 
-  function clickNextArrow(element: HTMLElement) {
-    const nextArrowEl = element.querySelector(
+  function getNextArrow(element: HTMLElement): HTMLButtonElement {
+    return element.querySelector(
       '.sky-datepicker-btn-next',
     ) as HTMLButtonElement;
+  }
+
+  function clickNextArrow(element: HTMLElement) {
+    const nextArrowEl = getNextArrow(element);
 
     nextArrowEl.click();
     fixture.detectChanges();
   }
 
-  function clickPreviousArrow(element: HTMLElement) {
-    const previousArrowEl = element.querySelector(
+  function getPreviousArrow(element: HTMLElement): HTMLButtonElement {
+    return element.querySelector(
       '.sky-datepicker-btn-previous',
     ) as HTMLButtonElement;
+  }
+
+  function clickPreviousArrow(element: HTMLElement) {
+    const previousArrowEl = getPreviousArrow(element);
 
     previousArrowEl.click();
     fixture.detectChanges();
@@ -505,6 +513,15 @@ describe('datepicker calendar', () => {
     });
 
     describe('daypicker accessibility', () => {
+      it('should have the correct aria labels for the previous and next buttons', () => {
+        component.selectedDate = new Date('4/4/2017');
+        fixture.detectChanges();
+        const nextArrowEl = getNextArrow(nativeElement);
+        expect(nextArrowEl.getAttribute('aria-label')).toBe('Next month');
+        const prevArrowEl = getPreviousArrow(nativeElement);
+        expect(prevArrowEl.getAttribute('aria-label')).toBe('Previous month');
+      });
+
       it('should move to the previous day when hitting left arrow key', () => {
         component.selectedDate = new Date('4/4/2017');
         fixture.detectChanges();
@@ -570,6 +587,16 @@ describe('datepicker calendar', () => {
     });
 
     describe('monthpicker accessibility', () => {
+      it('should have the correct aria labels for the previous and next buttons', () => {
+        component.selectedDate = new Date('4/4/2017');
+        fixture.detectChanges();
+        clickDatepickerTitle(nativeElement);
+        const nextArrowEl = getNextArrow(nativeElement);
+        expect(nextArrowEl.getAttribute('aria-label')).toBe('Next year');
+        const prevArrowEl = getPreviousArrow(nativeElement);
+        expect(prevArrowEl.getAttribute('aria-label')).toBe('Previous year');
+      });
+
       it('should move to the previous month with left arrow', () => {
         component.selectedDate = new Date('4/4/2017');
         fixture.detectChanges();
@@ -636,6 +663,17 @@ describe('datepicker calendar', () => {
     });
 
     describe('year accessibility', () => {
+      it('should have the correct aria labels for the previous and next buttons', () => {
+        component.selectedDate = new Date('4/4/2017');
+        fixture.detectChanges();
+        clickDatepickerTitle(nativeElement);
+        clickDatepickerTitle(nativeElement);
+        const nextArrowEl = getNextArrow(nativeElement);
+        expect(nextArrowEl.getAttribute('aria-label')).toBe('Next page');
+        const prevArrowEl = getPreviousArrow(nativeElement);
+        expect(prevArrowEl.getAttribute('aria-label')).toBe('Previous page');
+      });
+
       it('should move to the previous year with left arrow', () => {
         component.selectedDate = new Date('4/4/2017');
         fixture.detectChanges();
