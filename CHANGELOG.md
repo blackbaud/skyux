@@ -1,5 +1,44 @@
 # Changelog
 
+## [10.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.1...10.0.0-alpha.2) (2024-02-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/modals:** The `SkyConfirmInstance`'s `closed` property has been changed to an `Observable<SkyConfirmCloseEventArgs>`. This change drives consistency throughout the SKY UX libraries and allows consumers to chain observables together when appropriate. Consumers who are constructing `SkyConfirmInstance` objects or call the `closed` property's `emit` function will need to update their code to no longer trigger the `closed` event directly.
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 30 ([#1993](https://github.com/blackbaud/skyux/issues/1993)) ([fcf47af](https://github.com/blackbaud/skyux/commit/fcf47af483e6c8d09e4454efa2fa3083b7ebb42f))
+* **components/ag-grid:** support custom label for row selector ([#2029](https://github.com/blackbaud/skyux/issues/2029)) ([#2032](https://github.com/blackbaud/skyux/issues/2032)) ([e6c2226](https://github.com/blackbaud/skyux/commit/e6c22263f98d6c71021455c4130a6b35b48b02ea))
+* **components/colorpicker:** add form errors to colorpicker ([#1999](https://github.com/blackbaud/skyux/issues/1999)) ([#2004](https://github.com/blackbaud/skyux/issues/2004)) ([9b56708](https://github.com/blackbaud/skyux/commit/9b567082222a069594b02564196536e0d8e3a544))
+* **components/datetime:** add aria labels to datepicker calendar navigation buttons ([#2033](https://github.com/blackbaud/skyux/issues/2033)) ([#2042](https://github.com/blackbaud/skyux/issues/2042)) ([21d1edb](https://github.com/blackbaud/skyux/commit/21d1edbc7317bb149877c79ab17db21dde5c37e6))
+* **components/datetime:** improve keyboard navigation on datepicker calendar ([#1964](https://github.com/blackbaud/skyux/issues/1964)) ([#2026](https://github.com/blackbaud/skyux/issues/2026)) ([44dde5e](https://github.com/blackbaud/skyux/commit/44dde5e19a618a616026e2976074435dd7547a00))
+* **components/forms:** add form errors to checkbox ([#1994](https://github.com/blackbaud/skyux/issues/1994)) ([#2003](https://github.com/blackbaud/skyux/issues/2003)) ([3e77234](https://github.com/blackbaud/skyux/commit/3e7723494343da3026c3a8f5e469b8bac3c58661))
+* **components/forms:** add labelText to radio group ([#2018](https://github.com/blackbaud/skyux/issues/2018)) ([#2037](https://github.com/blackbaud/skyux/issues/2037)) ([d1a415a](https://github.com/blackbaud/skyux/commit/d1a415ac3455bd6dc6d8078636eed2112666621a))
+* **components/forms:** hide required asterisk from screen readers ([#1982](https://github.com/blackbaud/skyux/issues/1982)) ([#1995](https://github.com/blackbaud/skyux/issues/1995)) ([62b2995](https://github.com/blackbaud/skyux/commit/62b29959fb8c5dbe909a464153f895da45a64f00))
+* **components/forms:** radio button form errors support ([#2044](https://github.com/blackbaud/skyux/issues/2044)) ([#2046](https://github.com/blackbaud/skyux/issues/2046)) ([865ad00](https://github.com/blackbaud/skyux/commit/865ad00424edc32e07fa8c214c76b17e7ae216e0))
+* **components/indicators:** add up arrow icon ([#2021](https://github.com/blackbaud/skyux/issues/2021)) ([#2022](https://github.com/blackbaud/skyux/issues/2022)) ([189d2aa](https://github.com/blackbaud/skyux/commit/189d2aa7b8aa526b49b83763df55ba04c780fd49))
+* **components/lists:** improve keyboard navigation on sort picker ([#2005](https://github.com/blackbaud/skyux/issues/2005)) ([#2040](https://github.com/blackbaud/skyux/issues/2040)) ([2c13741](https://github.com/blackbaud/skyux/commit/2c13741e135c3aba317cce39738f22e4082c8e30))
+* **components/modals:** confirm instance uses an observable for the closed notification ([#2031](https://github.com/blackbaud/skyux/issues/2031)) ([3b8f975](https://github.com/blackbaud/skyux/commit/3b8f9757b8750cb65f5d3c507f11d3a6b5bb1d7d))
+* **components/packages:** remove backward compatible stylesheets from prior migrations ([#2041](https://github.com/blackbaud/skyux/issues/2041)) ([a55abe7](https://github.com/blackbaud/skyux/commit/a55abe7bd68b3ecde404c85f534b97390b4083b2))
+* **components/packages:** update axe-core if @skyux-sdk/testing installed ([#2030](https://github.com/blackbaud/skyux/issues/2030)) ([6ed4b7d](https://github.com/blackbaud/skyux/commit/6ed4b7d61c6d98ae5c38f80211660a3b8103320d))
+* **components/tabs:** add keyboard navigation to vertical tabset ([#1978](https://github.com/blackbaud/skyux/issues/1978)) ([#1986](https://github.com/blackbaud/skyux/issues/1986)) ([55eca8b](https://github.com/blackbaud/skyux/commit/55eca8b038e24730b8a821956c9d76fcb1215472))
+
+
+### Bug Fixes
+
+* **components/datetime:** keep date consistent when switching meridies ([#2034](https://github.com/blackbaud/skyux/issues/2034)) ([#2039](https://github.com/blackbaud/skyux/issues/2039)) ([c3f5c12](https://github.com/blackbaud/skyux/commit/c3f5c122973abebc5e83a6739805b2d3cabc5b76))
+* **components/forms:** character counter reads to screen readers at unobtrusive intervals ([#1947](https://github.com/blackbaud/skyux/issues/1947)) ([#2001](https://github.com/blackbaud/skyux/issues/2001)) ([1651c16](https://github.com/blackbaud/skyux/commit/1651c16c66f762ae738f43cd7acbbf95dad1a059))
+* **components/forms:** document form error inputs as required ([#2011](https://github.com/blackbaud/skyux/issues/2011)) ([#2012](https://github.com/blackbaud/skyux/issues/2012)) ([e421859](https://github.com/blackbaud/skyux/commit/e4218591e0723529ad91a35d51930083a4ec8570))
+* **components/forms:** improve form error documentation ([#2007](https://github.com/blackbaud/skyux/issues/2007)) ([#2008](https://github.com/blackbaud/skyux/issues/2008)) ([1ec6a39](https://github.com/blackbaud/skyux/commit/1ec6a39a0a4ec44c3d4757116ac37c50fba811f0))
+* **components/forms:** refactor form errors ([#1981](https://github.com/blackbaud/skyux/issues/1981)) ([#1988](https://github.com/blackbaud/skyux/issues/1988)) ([915a64a](https://github.com/blackbaud/skyux/commit/915a64a3ca5cf38c285258587eb61f9ab8ddb30a))
+* **components/popovers:** disabled dropdown items are styled to not appear clickable ([#2020](https://github.com/blackbaud/skyux/issues/2020)) ([bc00749](https://github.com/blackbaud/skyux/commit/bc00749b8fdb1d67fb3b7580d6491c7cfc5a05af))
+* **components/popovers:** popovers with a hover trigger display when the trigger element is focused ([#1991](https://github.com/blackbaud/skyux/issues/1991)) ([#1997](https://github.com/blackbaud/skyux/issues/1997)) ([d34aabb](https://github.com/blackbaud/skyux/commit/d34aabba2f87f9f963556795e95140cc23f06532))
+* **components/tabs:** show vertical tab content when activated programmatically after init ([#2024](https://github.com/blackbaud/skyux/issues/2024)) ([#2027](https://github.com/blackbaud/skyux/issues/2027)) ([35f1ee2](https://github.com/blackbaud/skyux/commit/35f1ee2672a23396c6804a0249e6e1ea0374a41c))
+* **components/tabs:** tabs are read by screen readers in an industry standard format ([#1984](https://github.com/blackbaud/skyux/issues/1984)) ([#2000](https://github.com/blackbaud/skyux/issues/2000)) ([54f070d](https://github.com/blackbaud/skyux/commit/54f070dce75fb021252e0bced43b3458c019d5e3))
+* **components/tiles:** tile summary is not visible to screen readers when tile is expanded ([#2002](https://github.com/blackbaud/skyux/issues/2002)) ([#2016](https://github.com/blackbaud/skyux/issues/2016)) ([9cfdcb6](https://github.com/blackbaud/skyux/commit/9cfdcb62babbdf95db63c7538c1d44c2b4b5898c))
+
 ## [9.26.0](https://github.com/blackbaud/skyux/compare/9.25.0...9.26.0) (2024-02-22)
 
 
