@@ -58,14 +58,14 @@ export class SkyToggleSwitchComponent
    * Use a context-sensitive label, such as "Activate annual fundraiser" for a toggle switch that activates and deactivates an annual fundraiser. Context is especially important if multiple toggle switches are in close proximity.
    * When the `sky-toggle-switch-label` component displays a visible label, this property is only necessary if that label requires extra context.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
-   * @deprecated Use `labelText` input instead.
+   * @deprecated Use the `labelText` input instead.
    */
   @Input()
   public set ariaLabel(value: string | undefined) {
     this.#_ariaLabel = value;
 
-    if (value) {
-      this.#logger.deprecated('SkyToggleSwitchComponent.ariaLabel', {
+    if (value !== undefined) {
+      this.#logSvc.deprecated('SkyToggleSwitchComponent.ariaLabel', {
         deprecationMajorVersion: 9,
         replacementRecommendation:
           'To add an aria label to the toggle switch, use the `labelText` input instead',
@@ -116,13 +116,13 @@ export class SkyToggleSwitchComponent
   public tabIndex: number | undefined = 0;
 
   /**
-   * The text to display as the toggle switch's label. This text will also be the `aria-label` attribute and override any input in the deprecated `ariaLabel` input.
+   * The text to display as the toggle switch's label.
    */
   @Input()
   public labelText: string | undefined;
 
   /**
-   * Indicates whether to hide the `labelText`.
+   * Whether to hide `labelText` from view.
    */
   @Input()
   public labelHidden = false;
@@ -143,11 +143,11 @@ export class SkyToggleSwitchComponent
 
   #control: AbstractControl | undefined;
   #isFirstChange = true;
+  #logSvc = inject(SkyLogService);
   #ngUnsubscribe = new Subject<void>();
-  #logger = inject(SkyLogService);
 
-  #_checked = false;
   #_ariaLabel: string | undefined;
+  #_checked = false;
 
   #changeDetector: ChangeDetectorRef;
 

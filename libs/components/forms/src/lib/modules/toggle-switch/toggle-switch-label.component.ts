@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 /**
@@ -13,8 +13,8 @@ import { SkyLogService } from '@skyux/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyToggleSwitchLabelComponent {
-  constructor(logger: SkyLogService) {
-    logger.deprecated('SkyToggleSwitchLabelComponent', {
+  constructor() {
+    inject(SkyLogService).deprecated('SkyToggleSwitchLabelComponent', {
       deprecationMajorVersion: 9,
       replacementRecommendation:
         'To add a label to toggle switch, use the `labelText` input on the toggle switch component instead.',

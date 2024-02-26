@@ -18,7 +18,7 @@ import { SkyToggleSwitchFixtureComponent } from './fixtures/toggle-switch.compon
 import { SkyToggleSwitchFixturesModule } from './fixtures/toggle-switch.module.fixture';
 import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
-fdescribe('Toggle switch component', () => {
+describe('Toggle switch component', () => {
   function getButtonElement(
     fixture: ComponentFixture<unknown>,
   ): HTMLButtonElement | null {
@@ -188,29 +188,6 @@ fdescribe('Toggle switch component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should render label text', async () => {
-      testComponent.labelText = 'label text';
-
-      fixture.detectChanges();
-      const label = fixture.nativeElement.querySelector(
-        'label.sky-toggle-switch-label',
-      );
-
-      expect(label?.textContent?.trim()).toBe('label text');
-    });
-
-    fit('should not render the label text if `labelHidden` is true', async () => {
-      testComponent.labelText = 'label text';
-      testComponent.labelHidden = true;
-
-      fixture.detectChanges();
-      const label = fixture.nativeElement.querySelector(
-        'label.sky-toggle-switch-label',
-      );
-
-      expect(label).toBeNull;
-    });
-
     it('should still have `aria-label` if `labelHidden` is true', async () => {
       testComponent.labelText = 'label text';
       testComponent.labelHidden = true;
@@ -219,17 +196,63 @@ fdescribe('Toggle switch component', () => {
       expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
     });
 
-    it('label text should override `sky-toggle-switch-label`', async () => {
+    it('should render the `labelText` and not label element if `labelText` is set', async () => {
       testComponent.labelText = 'label text';
-      testComponent.showLabel = true;
-      testComponent.buttonLabel = 'other label';
+      testComponent.buttonLabel = 'label element';
 
       fixture.detectChanges();
-      const label = fixture.nativeElement.querySelector(
-        'label.sky-toggle-switch-label',
-      );
+
+      const label = getLabelElement(fixture);
 
       expect(label?.textContent?.trim()).toBe('label text');
+    });
+
+    it('should not render the label or label element if `labelText` is set and `labelHidden` is true', async () => {
+      testComponent.labelText = 'label text';
+      testComponent.buttonLabel = 'label element';
+      testComponent.labelHidden = true;
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('');
+    });
+
+    it('should not render the label if `labelText` is set and `labelHidden` is true', async () => {
+      testComponent.labelText = 'label text';
+      testComponent.labelHidden = true;
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('');
+    });
+
+    it('should render the label if `labelText` is set', async () => {
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('label text');
+    });
+
+    it('should render the label element regardless of `labelHidden` value if `labelText` is not set', async () => {
+      testComponent.buttonLabel = 'label element';
+
+      fixture.detectChanges();
+
+      const label = getLabelElement(fixture);
+
+      expect(label?.textContent).toBe('label element');
+
+      testComponent.labelHidden = true;
+      fixture.detectChanges();
+
+      expect(label?.textContent).toBe('label element');
     });
 
     it('should pass accessibility with label element and no `ariaLabel`', async () => {

@@ -40,13 +40,15 @@
       [for]="toggle.id"
       [attr.id]="labelId"
       class="sky-toggle-switch-label"
-      ><ng-container *ngIf="labelText && !labelHidden; else labelContent">
-        <span skyTrim>{{ labelText }}</span>
+      ><ng-container *ngIf="labelText; else labelContent">
+        <span *ngIf="!labelHidden">{{ labelText }}</span>
       </ng-container></label
     ><span class="sky-control-help-container"
       ><ng-content select=".sky-control-help" /></span></span
 ></span>
 
 <ng-template #labelContent>
-  <ng-content select="sky-toggle-switch-label" />
+  <ng-container>
+    <ng-content select="sky-toggle-switch-label" />
+  </ng-container>
 </ng-template>
