@@ -40,4 +40,14 @@ export class SkyInputBoxHostService {
 
     this.#host.populate(args);
   }
+
+  public setHintText(hintText: string | undefined): void {
+    if (!this.#host) {
+      throw new Error(
+        'Cannot set hint text on the input box because `SkyInputBoxHostService` has not yet been initialized.',
+      );
+    }
+
+    this.#host.hostHintText = hintText;
+  }
 }

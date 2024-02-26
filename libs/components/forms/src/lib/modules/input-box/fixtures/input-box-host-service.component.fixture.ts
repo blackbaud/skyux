@@ -33,8 +33,8 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
     this.#inputBoxHostSvc.populate({
       inputTemplate: this.inputTemplate!,
       buttonsTemplate: this.buttonsTemplate,
-      hintText: this.hintText,
     });
+    this.#inputBoxHostSvc.setHintText(this.hintText);
 
     this.controlId = this.#inputBoxHostSvc.controlId;
   }

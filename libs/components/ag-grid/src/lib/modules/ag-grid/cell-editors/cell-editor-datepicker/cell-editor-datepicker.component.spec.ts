@@ -643,6 +643,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     datepickerEditorFixture.detectChanges();
     await datepickerEditorFixture.whenStable();
 
+    // TODO: Remove this override before SKY UX 10 publishes via AB#2833044
     await expectAsync(datepickerEditorNativeElement).toBeAccessible({
       rules: { label: { enabled: false } },
     });
