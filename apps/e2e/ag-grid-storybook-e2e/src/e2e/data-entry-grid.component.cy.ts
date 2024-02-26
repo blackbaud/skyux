@@ -92,15 +92,15 @@ describe('ag-grid-storybook', () => {
 
         // Focus on a cell in the middle of the grid.
         /* spell-checker:disable-next-line */
-        cy.get('#sideScroll .ag-cell-value[col-id="triplecrown"]')
+        cy.get('#sideScroll .ag-cell[col-id="triplecrown"] .ag-cell-value')
           .should('be.visible')
           .should('not.be.empty')
           .end()
-          .get('#sideScroll .ag-cell-value[col-id="mvp"]')
+          .get('#sideScroll .ag-cell[col-id="mvp"] .ag-cell-value')
           .should('be.visible')
           .should('not.be.empty')
           .end()
-          .get('#sideScroll .ag-cell-value[col-id="cya"]')
+          .get('#sideScroll .ag-cell[col-id="cya"] .ag-cell-value')
           .should('be.visible')
           .should('not.be.empty')
           .end()
