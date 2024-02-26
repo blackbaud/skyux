@@ -60,8 +60,8 @@ describe('Auth token provider', () => {
   });
 
   describe('getContextToken() method', () => {
-    describe("should call BBAuth.getToken() with the SPA's context parameters", () => {
-      it('include environment id', () => {
+    describe("when calling BBAuth.getToken() with the SPA's context parameters", () => {
+      it('should include environment id', () => {
         const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
         const provider = new SkyAuthTokenProvider({
           runtime: {
@@ -85,7 +85,7 @@ describe('Auth token provider', () => {
         });
       });
 
-      it('include legal entity id', () => {
+      it('should include legal entity id', () => {
         const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
         const provider = new SkyAuthTokenProvider({
           runtime: {
@@ -109,7 +109,7 @@ describe('Auth token provider', () => {
         });
       });
 
-      it('include service id', () => {
+      it('should include service id', () => {
         const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
         const provider = new SkyAuthTokenProvider({
           runtime: {
@@ -133,7 +133,7 @@ describe('Auth token provider', () => {
         });
       });
 
-      it('include full context', () => {
+      it('should include full context', () => {
         const getTokenSpy = spyOn(BBAuthClientFactory.BBAuth, 'getToken');
         const provider = new SkyAuthTokenProvider({
           runtime: {
