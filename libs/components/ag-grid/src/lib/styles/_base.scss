@@ -256,9 +256,7 @@ sky-ag-grid-wrapper ag-grid-angular.sky-ag-grid-editable {
   border-top: sky-ag-grid-variables.$sky-standard-border;
 }
 
-sky-ag-grid-wrapper
-  ag-grid-angular:not(.sky-ag-grid-editable)
-  .ag-root-wrapper {
+sky-ag-grid-wrapper .sky-ag-grid-text-selection .ag-root-wrapper {
   cursor: text;
 }
 
