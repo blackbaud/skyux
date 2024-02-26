@@ -703,6 +703,29 @@ describe('Timepicker', () => {
       fixture.destroy();
     });
 
+    it('should not change date when switching meridies', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      openTimepicker(fixture);
+      detectChangesAndTick(fixture);
+
+      const meridieButtons = getMeridieButtons();
+      const date = component.timepickerComponent.selectedTime?.iso8601.getDay;
+
+      meridieButtons.item(1).click();
+
+      expect(component.timepickerComponent.selectedTime?.meridie).toBe('PM');
+      expect(component.timepickerComponent.selectedTime?.iso8601.getDay).toBe(
+        date,
+      );
+
+      meridieButtons.item(0).click();
+
+      expect(component.timepickerComponent.selectedTime?.meridie).toBe('AM');
+      expect(component.timepickerComponent.selectedTime?.iso8601.getDay).toBe(
+        date,
+      );
+    }));
+
     it('should set the initial value correctly', fakeAsync(() => {
       detectChangesAndTick(fixture);
 

@@ -9,6 +9,8 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -21,7 +23,6 @@ let sortItemIdNumber = 0;
 
 @Component({
   selector: 'sky-sort-item',
-  styleUrls: ['./sort-item.component.scss'],
   templateUrl: './sort-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -41,6 +42,9 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   public isSelected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false,
   );
+
+  @ViewChild(TemplateRef<any>)
+  public itemTemplate?: TemplateRef<any> | null;
 
   #subscription: Subscription | undefined;
 
