@@ -8,17 +8,27 @@
     "add-compat-stylesheets": {
       "version": "10.0.0-0",
       "factory": "./update-10/add-compat-stylesheets/add-compat-stylesheet.schematic",
-      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 10."
+      "description": "Add a backward compatible stylesheet with styles that have been removed from components in SKY UX 10."
     },
     "ag-grid-30": {
       "version": "10.0.0-0",
       "factory": "./update-10/ag-grid-30/ag-grid-30.schematic",
       "description": "Apply code changes for AG Grid 30."
     },
+    "axe-core": {
+      "version": "10.0.0-0",
+      "factory": "./update-10/axe-core/axe-core.schematic",
+      "description": "Update axe-core if @skyux-sdk/testing installed."
+    },
     "i18n-resources-module": {
       "version": "10.0.0-0",
       "factory": "./update-10/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
+    },
+    "remove-old-compat-stylesheets": {
+      "version": "10.0.0-0",
+      "factory": "./update-10/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
+      "description": "Remove backward compatible stylesheets for older versions of SKY UX."
     }
   }
 }

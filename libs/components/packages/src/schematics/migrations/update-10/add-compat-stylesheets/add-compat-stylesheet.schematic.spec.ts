@@ -4,8 +4,16 @@ import { join } from 'path';
 
 import { createTestApp, createTestLibrary } from '../../../testing/scaffold';
 
+jest.mock('../../../../version', () => {
+  return {
+    VERSION: {
+      major: 'CURRENT_VERSION',
+    },
+  };
+});
+
 describe('Migrations > Add compat stylesheets', () => {
-  const compatStylesheetPath = 'src/app/skyux10-compat.css';
+  const compatStylesheetPath = 'src/app/skyuxCURRENT_VERSION-compat.css';
 
   const runner = new SchematicTestRunner(
     'migrations',
@@ -65,6 +73,11 @@ describe('Migrations > Add compat stylesheets', () => {
       ).toEqual(expectedStyles);
     }
   }
+
+  afterEach(() => {
+    jest.resetAllMocks();
+    jest.resetModules();
+  });
 
   it('should not add a compat stylesheet if a corresponding library is not installed', async () => {
     const { runSchematic, tree } = await setupTest();
@@ -155,7 +168,7 @@ describe('Migrations > Add compat stylesheets', () => {
     );
 
     const libShowcaseCompatStylesheetPath =
-      'projects/my-lib-showcase/src/app/skyux10-compat.css';
+      'projects/my-lib-showcase/src/app/skyuxCURRENT_VERSION-compat.css';
 
     angularJson = JSON.parse(updatedTree.readContent('/angular.json'));
 

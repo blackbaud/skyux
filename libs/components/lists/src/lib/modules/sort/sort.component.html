@@ -27,7 +27,11 @@
         #sortMenuHeading="skyId"
       ></sky-sort-menu-heading>
       <div *skyThemeIf="'default'" class="sky-sort-heading-divider"></div>
-      <ng-content />
+      <ng-container *ngFor="let item of sortItems">
+        <sky-dropdown-item>
+          <ng-container [ngTemplateOutlet]="item.itemTemplate!"></ng-container>
+        </sky-dropdown-item>
+      </ng-container>
     </sky-dropdown-menu>
   </sky-dropdown>
 </div>
