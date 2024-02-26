@@ -2,10 +2,10 @@
   [ariaLabel]="ariaLabel"
   [checked]="isChecked"
   [disabled]="isDisabled"
+  [labelHidden]="labelHidden"
+  [labelText]="labelText"
   [tabIndex]="customTabIndex"
   (toggleChange)="checkChanged($event)"
-  [labelText]="labelText"
-  [labelHidden]="labelHidden"
 >
   <sky-toggle-switch-label *ngIf="showLabel"
     >{{ buttonLabel }}</sky-toggle-switch-label

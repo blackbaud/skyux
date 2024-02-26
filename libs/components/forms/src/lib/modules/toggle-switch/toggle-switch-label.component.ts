@@ -5,7 +5,7 @@ import { SkyLogService } from '@skyux/core';
  * Specifies the label to display beside the toggle switch. To display a help button beside the label, include a help
  * button element, such as `sky-help-inline`, in the `sky-toggle-switch` element and a `sky-control-help` CSS class on
  * that help button element.
- * @deprecated use `labelText` input on `sky-toggle-switch` instead.
+ * @deprecated Use the `labelText` input on the toggle switch component instead.
  */
 @Component({
   selector: 'sky-toggle-switch-label',
@@ -17,7 +17,7 @@ export class SkyToggleSwitchLabelComponent {
     logger.deprecated('SkyToggleSwitchLabelComponent', {
       deprecationMajorVersion: 9,
       replacementRecommendation:
-        'To add label to toggle switch, use `labelText` input on the toggle switch component.',
+        'To add a label to toggle switch, use the `labelText` input on the toggle switch component instead.',
     });
   }
 }

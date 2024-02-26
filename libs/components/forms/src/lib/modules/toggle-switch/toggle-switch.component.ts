@@ -10,6 +10,7 @@ import {
   Output,
   QueryList,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -67,7 +68,7 @@ export class SkyToggleSwitchComponent
       this.#logger.deprecated('SkyToggleSwitchComponent.ariaLabel', {
         deprecationMajorVersion: 9,
         replacementRecommendation:
-          'To add aria label to toggle switch, use `labelText` input.',
+          'To add an aria label to the toggle switch, use the `labelText` input instead',
       });
     }
   }
@@ -143,21 +144,16 @@ export class SkyToggleSwitchComponent
   #control: AbstractControl | undefined;
   #isFirstChange = true;
   #ngUnsubscribe = new Subject<void>();
-  #logger: SkyLogService;
+  #logger = inject(SkyLogService);
 
   #_checked = false;
   #_ariaLabel: string | undefined;
 
   #changeDetector: ChangeDetectorRef;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    idService: SkyIdService,
-    logger: SkyLogService,
-  ) {
+  constructor(changeDetector: ChangeDetectorRef, idService: SkyIdService) {
     this.#changeDetector = changeDetector;
     this.labelId = idService.generateId();
-    this.#logger = logger;
   }
 
   public ngAfterContentInit(): void {
