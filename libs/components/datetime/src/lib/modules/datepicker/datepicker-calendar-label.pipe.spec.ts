@@ -4,13 +4,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerModule } from './datepicker.module';
+import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
 
 @Component({
   standalone: true,
   selector: 'sky-datepicker-calendar-label-pipe-test',
   template: '{{ value | skyDatepickerCalendarLabel : format }}',
-  imports: [SkyDatepickerModule],
+  imports: [SkyDatepickerCalendarLabelPipe],
 })
 export class SkyDatepickerCalendarLabelPipeTestComponent {
   @Input() public value: any;

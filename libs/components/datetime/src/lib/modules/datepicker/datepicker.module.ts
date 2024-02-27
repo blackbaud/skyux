@@ -34,13 +34,13 @@ import { SkyYearPickerComponent } from './yearpicker.component';
     SkyFuzzyDatepickerInputDirective,
     SkyDayPickerCellComponent,
     SkyDayPickerButtonComponent,
-    SkyDatepickerCalendarLabelPipe,
   ],
   imports: [
     A11yModule,
     CommonModule,
     FormsModule,
     SkyIconModule,
+    SkyDatepickerCalendarLabelPipe,
     SkyDatetimeResourcesModule,
     SkyAffixModule,
     SkyThemeModule,
@@ -52,7 +52,6 @@ import { SkyYearPickerComponent } from './yearpicker.component';
     SkyDatepickerComponent,
     SkyDatepickerInputDirective,
     SkyFuzzyDatepickerInputDirective,
-    SkyDatepickerCalendarLabelPipe,
   ],
   providers: [SkyDatepickerService],
 })
