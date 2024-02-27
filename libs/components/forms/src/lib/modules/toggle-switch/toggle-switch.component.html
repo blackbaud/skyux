@@ -1,7 +1,7 @@
 <span
   class="sky-toggle-switch"
   [ngClass]="{
-    'sky-toggle-switch-with-label': hasLabelComponent
+    'sky-toggle-switch-with-label': hasLabelComponent || labelText
   }"
 >
   <button
@@ -10,8 +10,10 @@
     type="button"
     skyId
     [attr.aria-checked]="checked"
-    [attr.aria-label]="ariaLabel"
-    [attr.aria-labelledby]="!ariaLabel && hasLabelComponent ? labelId : null"
+    [attr.aria-label]="labelText || ariaLabel || null"
+    [attr.aria-labelledby]="
+      !ariaLabel && (hasLabelComponent || labelText) ? labelId : null
+    "
     [disabled]="disabled"
     [ngClass]="{
       'sky-toggle-switch-checked': checked,
@@ -34,11 +36,13 @@
   </button>
   <span
     ><label
-      *ngIf="hasLabelComponent"
+      *ngIf="hasLabelComponent || labelText"
       [for]="toggle.id"
       [attr.id]="labelId"
       class="sky-toggle-switch-label"
-      ><ng-container *ngTemplateOutlet="labelContent"></ng-container></label
+      ><ng-container *ngIf="labelText; else labelContent">
+        <ng-container *ngIf="!labelHidden">{{ labelText }}</ng-container>
+      </ng-container></label
     ><span class="sky-control-help-container"
       ><ng-content select=".sky-control-help" /></span></span
 ></span>
