@@ -781,6 +781,27 @@ describe('Input box component', () => {
       expect(els.inputEl?.hasAttribute('aria-describedby')).toBeFalse();
     });
 
+    it('should allow a child to add hint text programmatically', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toHaveText('Host component hint text.');
+    });
+
+    it('should allow both child and consumer specified hint text', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.componentInstance.easyModeHintText = 'Consumer hint text.';
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toHaveText(
+        'Host component hint text. Consumer hint text.',
+      );
+    });
+
     it('should preserve existing aria-describedby attributes when adding hint text', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 

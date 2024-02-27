@@ -190,10 +190,10 @@
 
 <ng-template #hintTextTemplate>
   <div
-    *ngIf="hintText"
+    *ngIf="hintText || hostHintText"
     class="sky-font-deemphasized sky-input-box-hint-text"
     [id]="hintTextId"
   >
-    {{ hintText }}
+    {{ hintText | skyInputBoxHintText : hostHintText }}
   </div>
 </ng-template>

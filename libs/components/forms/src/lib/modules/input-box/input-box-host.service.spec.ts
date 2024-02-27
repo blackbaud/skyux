@@ -10,9 +10,13 @@ describe('Input box host service', () => {
   let mockInputBox: jasmine.SpyObj<SkyInputBoxComponent>;
 
   beforeEach(() => {
-    mockInputBox = jasmine.createSpyObj('SkyInputBoxComponent', ['populate'], {
-      ariaDescribedBy: new ReplaySubject<string>(1),
-    });
+    mockInputBox = jasmine.createSpyObj(
+      'SkyInputBoxComponent',
+      ['populate', 'setHostHintText'],
+      {
+        ariaDescribedBy: new ReplaySubject<string>(1),
+      },
+    );
 
     TestBed.configureTestingModule({
       providers: [SkyInputBoxHostService],
@@ -43,6 +47,18 @@ describe('Input box host service', () => {
     expect(mockInputBox.populate).toHaveBeenCalledWith({
       inputTemplate: mockTemplateRef,
     });
+  });
+
+  it('should throw an error if the `setHintText` method is called prior to initialization', () => {
+    expect(() => hostService.setHintText('Test')).toThrowError(
+      'Cannot set hint text on the input box because `SkyInputBoxHostService` has not yet been initialized.',
+    );
+  });
+
+  it('should populate the input box component if the populate method is called after initialization', () => {
+    hostService.init(mockInputBox);
+    hostService.setHintText('Test');
+    expect(mockInputBox.setHostHintText).toHaveBeenCalledWith('Test');
   });
 
   it('should return an observable for ariaDescribedBy after initialization', async () => {

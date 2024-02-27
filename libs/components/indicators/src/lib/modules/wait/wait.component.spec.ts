@@ -730,6 +730,7 @@ describe('Wait component', () => {
       fixture.componentInstance.isNonBlocking = false;
       fixture.detectChanges();
 
+      // TODO: Reenable rule once work for new format title is done and an a11y label is determined.
       await expectAsync(document.body).toBeAccessible({
         rules: {
           region: {

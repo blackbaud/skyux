@@ -9,6 +9,7 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
 import { SkyInputBoxHelpInlineComponent } from './input-box-help-inline.component';
+import { SkyInputBoxHintTextPipe } from './input-box-hint-text.pipe';
 import { SkyInputBoxComponent } from './input-box.component';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { SkyInputBoxComponent } from './input-box.component';
     SkyFormsResourcesModule,
     SkyInputBoxControlDirective,
     SkyInputBoxHelpInlineComponent,
+    SkyInputBoxHintTextPipe,
     SkyThemeModule,
   ],
   exports: [

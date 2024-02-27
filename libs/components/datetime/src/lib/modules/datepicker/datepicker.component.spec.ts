@@ -475,36 +475,6 @@ describe('datepicker', () => {
       expect(iconModern).toHaveCssClass('sky-i-calendar');
     }));
 
-    it('should show a default placeholder of the default date format', fakeAsync(() => {
-      component.selectedDate = undefined;
-      detectChanges(fixture);
-
-      expect(getInputElement(fixture)?.getAttribute('placeholder')).toEqual(
-        'MM/DD/YYYY',
-      );
-    }));
-
-    it('should show a placeholder of the consumer provided date format', fakeAsync(() => {
-      component.selectedDate = undefined;
-      component.dateFormat = 'DD/MM/YY';
-      detectChanges(fixture);
-      detectChanges(fixture);
-
-      expect(getInputElement(fixture)?.getAttribute('placeholder')).toBe(
-        'DD/MM/YY',
-      );
-    }));
-
-    it('should allow consumer to override the default placeholder', fakeAsync(() => {
-      component.selectedDate = undefined;
-      getInputElement(fixture)?.setAttribute('placeholder', 'DD/MM/YY');
-      detectChanges(fixture);
-
-      expect(getInputElement(fixture)?.getAttribute('placeholder')).toBe(
-        'DD/MM/YY',
-      );
-    }));
-
     describe('initialization', () => {
       it('should handle initializing with a Date object', fakeAsync(() => {
         setInputProperty(new Date('5/12/2017'), component, fixture);
@@ -1809,10 +1779,12 @@ describe('datepicker', () => {
   });
 
   describe('inside input box', () => {
+    let component: DatepickerInputBoxTestComponent;
     let fixture: ComponentFixture<DatepickerInputBoxTestComponent>;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(DatepickerInputBoxTestComponent);
+      component = fixture.componentInstance;
     });
     it('should render in the expected input box containers', fakeAsync(() => {
       detectChanges(fixture);
@@ -1850,6 +1822,43 @@ describe('datepicker', () => {
       );
 
       expect(calendarButton.getAttribute('aria-label')).toBe('Select date');
+    }));
+
+    it('should show hint text for the the default date format', fakeAsync(() => {
+      detectChanges(fixture);
+      tick();
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Use the format MM/DD/YYYY.');
+    }));
+
+    it('should show hint text for the the consumer provided date format', fakeAsync(() => {
+      component.dateFormat = 'DD/MM/YY';
+      detectChanges(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Use the format DD/MM/YY.');
+    }));
+
+    it('should allow consumer to provide hint text along with the format hint text', fakeAsync(() => {
+      component.dateFormat = 'DD/MM/YY';
+      component.inputBoxHintText = 'Select a date.';
+      detectChanges(fixture);
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const hintText = inputBoxEl
+        .querySelector('.sky-input-box-hint-text')
+        .textContent.trim();
+
+      expect(hintText).toEqual('Use the format DD/MM/YY. Select a date.');
     }));
   });
 });
