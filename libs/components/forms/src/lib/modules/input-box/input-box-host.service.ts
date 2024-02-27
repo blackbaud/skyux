@@ -48,6 +48,6 @@ export class SkyInputBoxHostService {
       );
     }
 
-    this.#host.hostHintText = hintText;
+    this.#host.setHostHintText(hintText);
   }
 }

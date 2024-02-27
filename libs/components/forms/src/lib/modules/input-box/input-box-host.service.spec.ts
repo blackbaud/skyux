@@ -52,7 +52,7 @@ describe('Input box host service', () => {
     );
   });
 
-  it('should should populate the input box component if the populate method is called after initialization', () => {
+  it('should populate the input box component if the populate method is called after initialization', () => {
     hostService.init(mockInputBox);
     hostService.setHintText('Test');
     expect(

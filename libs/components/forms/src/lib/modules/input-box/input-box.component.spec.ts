@@ -787,7 +787,7 @@ describe('Input box component', () => {
       expect(els.hintTextEl).toHaveText('Host component hint text.');
     });
 
-    it('should allow both child and consumer specified hint text.', () => {
+    it('should allow both child and consumer specified hint text', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.easyModeHintText = 'Consumer hint text.';
       fixture.detectChanges();
