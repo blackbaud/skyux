@@ -1,10 +1,11 @@
 import { ProjectDefinition } from '@angular-devkit/core/src/workspace';
 import { Rule, Tree, chain } from '@angular-devkit/schematics';
 
+import { VERSION } from '../../../../version';
 import { readRequiredFile } from '../../../utility/tree';
 import { getWorkspace, updateWorkspace } from '../../../utility/workspace';
 
-const COMPAT_CSS_FILE_NAME = 'skyux10-compat.css';
+const COMPAT_CSS_FILE_NAME = `skyux${VERSION.major}-compat.css`;
 
 interface CompatStyle {
   libraries: {
@@ -135,7 +136,11 @@ ${buildComponentCss(component)}`;
 
   return contents
     ? `${buildCommentBlock(
-        `TODO: The following component libraries introduced visual breaking changes in SKY UX 9. Each block of CSS reintroduces the styles that were changed or removed for backwards compatibility. You will need to do the following before migrating to the next major version of SKY UX:
+        `TODO: The following component libraries introduced visual breaking ` +
+          `changes in SKY UX ${VERSION.major}. Each block of CSS reintroduces ` +
+          `the styles that were changed or removed for backward compatibility. ` +
+          `You will need to do the following before migrating to the next major ` +
+          `version of SKY UX:
 - Address each of the changes by following the instructions
   in each block of CSS, then remove the block.
 - Delete this file after all blocks have been addressed.

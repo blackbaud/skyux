@@ -443,6 +443,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
               foundCountry =
                 dialCodeCountries.find((country) => country.priority === 0) ??
                 dialCodeCountries[0];
+              // TODO: Refactor the logic in this method for readability.
+              // eslint-disable-next-line max-depth
               if (
                 foundCountry &&
                 !this.#validateSupportedCountry(foundCountry)

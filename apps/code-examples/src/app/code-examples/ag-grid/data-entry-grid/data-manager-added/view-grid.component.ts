@@ -24,7 +24,7 @@ import {
   RowSelectedEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, of, takeUntil } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
 import { AgGridDemoRow } from './data';
@@ -54,6 +54,10 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
+      cellRendererParams: {
+        // Could be a SkyAppResourcesService.getString call that returns an observable.
+        label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
+      },
     },
     {
       colId: 'context',

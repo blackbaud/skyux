@@ -6,7 +6,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
@@ -569,7 +569,7 @@ describe('Radio group component (reactive)', function () {
       fixture.nativeElement.querySelector('.sky-radio-group');
 
     expect(radioGroupEl.getAttribute('aria-owns')).toEqual(
-      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
     );
   });
 
@@ -581,7 +581,7 @@ describe('Radio group component (reactive)', function () {
 
     const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(originalAriaOwns).toEqual(
-      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
     );
 
     // Change an existing ID to something else.
@@ -590,9 +590,84 @@ describe('Radio group component (reactive)', function () {
 
     const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(newAriaOwns).toEqual(
-      'sky-radio-foobar-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input',
+      'sky-radio-foobar-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
     );
   });
+
+  it('should display a label if `labelText` is set', () => {
+    const labelText = 'Label Text';
+    componentInstance.labelText = labelText;
+
+    fixture.detectChanges();
+
+    const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
+
+    expect(labelEl).toBeVisible();
+    expect(labelEl.textContent.trim()).toBe(labelText);
+  });
+
+  it('should not display `labelText` if `labelHidden` is true', () => {
+    const labelText = 'Label Text';
+    componentInstance.labelText = labelText;
+    componentInstance.labelHidden = true;
+
+    fixture.detectChanges();
+
+    const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
+
+    expect(labelEl).toBeNull();
+  });
+
+  it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
+    const labelText = 'Label Text';
+    componentInstance.labelText = labelText;
+    componentInstance.ariaLabel = 'some other label text';
+
+    fixture.detectChanges();
+
+    const radioGroup = fixture.nativeElement.querySelector('.sky-radio-group');
+
+    expect(radioGroup.getAttribute('aria-labelledBy')).toEqual('MOCK_ID_1');
+    expect(radioGroup.getAttribute('aria-label')).toEqual(labelText);
+  });
+
+  it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
+    const logService = TestBed.inject(SkyLogService);
+    const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+    fixture.componentInstance.ariaLabel = 'aria label';
+    fixture.detectChanges();
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyRadioGroupComponent.ariaLabel',
+      Object({
+        deprecationMajorVersion: 9,
+      }),
+    );
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyRadioGroupComponent.ariaLabelledBy',
+      Object({
+        deprecationMajorVersion: 9,
+      }),
+    );
+  });
+
+  it('should render custom form errors', fakeAsync(() => {
+    componentInstance.labelText = 'Label Text';
+
+    fixture.detectChanges();
+
+    clickCheckbox(fixture, 3);
+
+    expect(
+      fixture.nativeElement.querySelector('.sky-form-error'),
+    ).toBeVisible();
+    expect(
+      fixture.nativeElement.querySelector('.sky-status-indicator-message')
+        .textContent,
+    ).toEqual('This option is incorrect.');
+  }));
 });
 
 describe('Radio group component (template-driven)', () => {
