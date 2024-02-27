@@ -6,11 +6,7 @@
 >
   <div class="sky-form-group">
     <sky-input-box stacked="true" labelText="Text field" hintText="Enter text.">
-      <input
-        class="sky-form-control"
-        type="text"
-        formControlName="favoriteText"
-      />
+      <input type="text" formControlName="favoriteText" />
     </sky-input-box>
   </div>
   <div class="height-measure"></div>
@@ -71,15 +67,15 @@
   <div *skyThemeIf="'modern'" class="height-measure"></div>
 
   <div class="sky-form-group">
-    <sky-input-box
-      stacked="true"
-      labelText="Lookup field with multiple select"
-      hintText="Lookup items."
-    >
+    <sky-input-box stacked="true" hintText="Lookup items.">
+      <label class="sky-control-label" skyId #favoritePeopleLabel="skyId">
+        Lookup field with multiple select
+      </label>
       <sky-lookup
         formControlName="favoritePeople"
         selectMode="multiple"
         (addClick)="onAddButtonClicked()"
+        [ariaLabelledBy]="favoritePeopleLabel.id"
         [data]="people"
         [enableShowMore]="true"
         [showAddButton]="true"
@@ -107,11 +103,10 @@
   <div *skyThemeIf="'modern'" class="height-measure"></div>
 
   <div class="sky-form-group">
-    <sky-input-box
-      stacked="true"
-      labelText="Favorite word"
-      hintText="Enter favorite word."
-    >
+    <sky-input-box stacked="true" hintText="Enter favorite word."
+      ><label class="sky-control-label" [for]="favoriteWordInput.id">
+        Favorite word
+      </label>
       <sky-character-counter-indicator
         #characterCountIndicator
       ></sky-character-counter-indicator>
@@ -121,9 +116,11 @@
         formControlName="favoriteWord"
         type="text"
         skyCharacterCounter
+        skyId
         [skyCharacterCounterIndicator]="characterCountIndicator"
         [skyCharacterCounterLimit]="characterCounterLimit"
         [attr.aria-describedby]="characterCountError.id"
+        #favoriteWordInput="skyId"
       />
 
       <span
