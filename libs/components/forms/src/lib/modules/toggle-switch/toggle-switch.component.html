@@ -10,7 +10,7 @@
     type="button"
     skyId
     [attr.aria-checked]="checked"
-    [attr.aria-label]="labelText ? labelText : ariaLabel"
+    [attr.aria-label]="labelText || ariaLabel || null"
     [attr.aria-labelledby]="
       !ariaLabel && (hasLabelComponent || labelText) ? labelId : null
     "
@@ -41,7 +41,7 @@
       [attr.id]="labelId"
       class="sky-toggle-switch-label"
       ><ng-container *ngIf="labelText; else labelContent">
-        <span *ngIf="!labelHidden">{{ labelText }}</span>
+        <ng-container *ngIf="!labelHidden">{{ labelText }}</ng-container>
       </ng-container></label
     ><span class="sky-control-help-container"
       ><ng-content select=".sky-control-help" /></span></span

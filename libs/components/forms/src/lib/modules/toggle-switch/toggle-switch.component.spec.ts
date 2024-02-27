@@ -160,8 +160,17 @@ describe('Toggle switch component', () => {
       expect(spy).toHaveBeenCalledWith('SkyToggleSwitchComponent.ariaLabel', {
         deprecationMajorVersion: 9,
         replacementRecommendation:
-          'To add an aria label to the toggle switch, use the `labelText` input instead',
+          'To add an ARIA label to the toggle switch, use the `labelText` input instead',
       });
+    });
+
+    it('should not have `aria-label` if `ariaLabel` is empty', () => {
+      testComponent.ariaLabel = '';
+      fixture.detectChanges();
+
+      const button = getButtonElement(fixture);
+
+      expect(button?.getAttribute('aria-label')).toBeNull();
     });
 
     it('should make the host element a tab stop', () => {

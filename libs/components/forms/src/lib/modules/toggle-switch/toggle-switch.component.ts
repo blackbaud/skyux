@@ -68,7 +68,7 @@ export class SkyToggleSwitchComponent
       this.#logSvc.deprecated('SkyToggleSwitchComponent.ariaLabel', {
         deprecationMajorVersion: 9,
         replacementRecommendation:
-          'To add an aria label to the toggle switch, use the `labelText` input instead',
+          'To add an ARIA label to the toggle switch, use the `labelText` input instead',
       });
     }
   }
@@ -143,7 +143,7 @@ export class SkyToggleSwitchComponent
 
   #control: AbstractControl | undefined;
   #isFirstChange = true;
-  #logSvc = inject(SkyLogService);
+  readonly #logSvc = inject(SkyLogService);
   #ngUnsubscribe = new Subject<void>();
 
   #_ariaLabel: string | undefined;
