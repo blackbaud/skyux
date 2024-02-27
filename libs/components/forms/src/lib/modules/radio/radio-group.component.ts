@@ -9,12 +9,15 @@ import {
   Optional,
   QueryList,
   Self,
+  inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
@@ -32,7 +35,10 @@ let nextUniqueId = 0;
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
-  providers: [SkyRadioGroupIdService],
+  providers: [
+    SkyRadioGroupIdService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
 })
 export class SkyRadioGroupComponent
   implements AfterContentInit, AfterViewInit, OnDestroy
@@ -43,9 +49,22 @@ export class SkyRadioGroupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public ariaLabelledBy: string | undefined;
+  public set ariaLabelledBy(value: string | undefined) {
+    this.#_ariaLabelledBy = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioGroupComponent.ariaLabelledBy', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get ariaLabelledBy(): string | undefined {
+    return this.#_ariaLabelledBy;
+  }
 
   /**
    * The ARIA label for the radio button group. This sets the
@@ -53,9 +72,22 @@ export class SkyRadioGroupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public ariaLabel: string | undefined;
+  public set ariaLabel(value: string | undefined) {
+    this.#_ariaLabel = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioGroupComponent.ariaLabel', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get ariaLabel(): string | undefined {
+    return this.#_ariaLabel;
+  }
 
   /**
    * Whether to disable the input on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
@@ -142,6 +174,18 @@ export class SkyRadioGroupComponent
   }
 
   /**
+   * The text to display as the radio group's label.
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Indicates whether to hide the `labelText`.
+   */
+  @Input()
+  public labelHidden = false;
+
+  /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
    * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the
@@ -165,9 +209,19 @@ export class SkyRadioGroupComponent
 
   #_tabIndex: number | undefined;
 
+  #_ariaLabel: string | undefined;
+
+  #_ariaLabelledBy: string | undefined;
+
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
-  #ngControl: NgControl | undefined;
+
+  readonly #idService = inject(SkyIdService);
+  readonly #logger = inject(SkyLogService);
+
+  protected labelId = this.#idService.generateId();
+  protected errorId = this.#idService.generateId();
+  protected ngControl: NgControl | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -179,7 +233,7 @@ export class SkyRadioGroupComponent
     }
     this.#changeDetector = changeDetector;
     this.#radioGroupIdSvc = radioGroupIdSvc;
-    this.#ngControl = ngControl;
+    this.ngControl = ngControl;
     this.name = this.#defaultName;
 
     this.#radioGroupIdSvc.radioIds
@@ -214,10 +268,10 @@ export class SkyRadioGroupComponent
   }
 
   public ngAfterViewInit(): void {
-    if (this.#ngControl) {
+    if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
 
       // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
       this.#changeDetector.detectChanges();

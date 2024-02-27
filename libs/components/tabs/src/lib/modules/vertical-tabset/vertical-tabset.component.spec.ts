@@ -14,6 +14,7 @@ import { VerticalTabsetEmptyGroupTestComponent } from './fixtures/vertical-tabse
 import { VerticalTabsetWithNgForTestComponent } from './fixtures/vertical-tabset-ngfor.component.fixture';
 import { VerticalTabsetNoActiveTestComponent } from './fixtures/vertical-tabset-no-active.component.fixture';
 import { VerticalTabsetNoGroupTestComponent } from './fixtures/vertical-tabset-no-group.component.fixture';
+import { VerticalTabsetProgrammaticTestComponent } from './fixtures/vertical-tabset-programmatic.component';
 import { VerticalTabsetTestComponent } from './fixtures/vertical-tabset.component.fixture';
 import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
@@ -26,7 +27,7 @@ function getVisibleTabContentPane(
 ): HTMLElement[] {
   return Array.from(
     fixture.nativeElement.querySelectorAll(
-      '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)',
+      '.sky-vertical-tabset-content .sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)',
     ),
   );
 }
@@ -451,6 +452,37 @@ describe('Vertical tabset component', () => {
     SkyAppTestUtility.fireDomEvent(tabsContainer, 'focus');
 
     expect(elementHasFocus(tabButtons[0])).toBeTrue();
+  });
+
+  it('should set a tab active=false when set to undefined', () => {
+    const fixture = createTestComponent();
+
+    fixture.componentInstance.active = undefined;
+    fixture.detectChanges();
+
+    const tabButtons = getAllTabButtons(fixture);
+    expect(elementHasFocus(tabButtons[0])).toBeFalse();
+
+    const visibleTabs = getVisibleTabContentPane(fixture);
+    expect(visibleTabs.length).toBe(0);
+  });
+
+  it('should programmatically select tabs', () => {
+    const fixture = TestBed.createComponent(
+      VerticalTabsetProgrammaticTestComponent,
+    );
+
+    // Activate first tab.
+    fixture.componentInstance.activeIndex = 0;
+    fixture.detectChanges();
+
+    // Activate second tab.
+    fixture.componentInstance.activeIndex = 1;
+    fixture.detectChanges();
+
+    const visibleTabs = getVisibleTabContentPane(fixture);
+    expect(visibleTabs.length).toBe(1);
+    expect(visibleTabs[0]).toHaveText('Tab 2 content');
   });
 
   it("should focus the active tab's group when the tabs container is focused and the tab's group is collapsed", fakeAsync(() => {

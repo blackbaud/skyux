@@ -57,6 +57,12 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_datepicker_trigger_button_label_context: {
       message: 'Open calendar for {0}',
     },
+    skyux_datepicker_move_calendar_previous_day: { message: 'Previous month' },
+    skyux_datepicker_move_calendar_next_day: { message: 'Next month' },
+    skyux_datepicker_move_calendar_previous_month: { message: 'Previous year' },
+    skyux_datepicker_move_calendar_next_month: { message: 'Next year' },
+    skyux_datepicker_move_calendar_previous_year: { message: 'Previous page' },
+    skyux_datepicker_move_calendar_next_year: { message: 'Next page' },
     skyux_timepicker_button_label: { message: 'Choose time' },
     skyux_timepicker_button_label_context: {
       message: 'Open time picker for {0}',
