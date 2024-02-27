@@ -10,6 +10,7 @@ import {
   Output,
   QueryList,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -19,7 +20,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -57,9 +58,24 @@ export class SkyToggleSwitchComponent
    * Use a context-sensitive label, such as "Activate annual fundraiser" for a toggle switch that activates and deactivates an annual fundraiser. Context is especially important if multiple toggle switches are in close proximity.
    * When the `sky-toggle-switch-label` component displays a visible label, this property is only necessary if that label requires extra context.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use the `labelText` input instead.
    */
   @Input()
-  public ariaLabel: string | undefined;
+  public set ariaLabel(value: string | undefined) {
+    this.#_ariaLabel = value;
+
+    if (value !== undefined) {
+      this.#logSvc.deprecated('SkyToggleSwitchComponent.ariaLabel', {
+        deprecationMajorVersion: 9,
+        replacementRecommendation:
+          'To add an ARIA label to the toggle switch, use the `labelText` input instead',
+      });
+    }
+  }
+
+  public get ariaLabel(): string | undefined {
+    return this.#_ariaLabel;
+  }
 
   /**
    * Whether the toggle switch is selected.
@@ -100,6 +116,18 @@ export class SkyToggleSwitchComponent
   public tabIndex: number | undefined = 0;
 
   /**
+   * The text to display as the toggle switch's label.
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Whether to hide `labelText` from view.
+   */
+  @Input()
+  public labelHidden = false;
+
+  /**
    * Fires when the checked state of a toggle switch changes.
    */
   @Output()
@@ -115,8 +143,10 @@ export class SkyToggleSwitchComponent
 
   #control: AbstractControl | undefined;
   #isFirstChange = true;
+  readonly #logSvc = inject(SkyLogService);
   #ngUnsubscribe = new Subject<void>();
 
+  #_ariaLabel: string | undefined;
   #_checked = false;
 
   #changeDetector: ChangeDetectorRef;

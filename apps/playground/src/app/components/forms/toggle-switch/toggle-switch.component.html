@@ -9,8 +9,10 @@
 </div>
 
 <div class="sky-padding-even-large">
-  <sky-toggle-switch class="sky-margin-inline-lg">
-    <sky-toggle-switch-label>Toggle switch label</sky-toggle-switch-label>
+  <sky-toggle-switch labelText="label text" class="sky-margin-inline-lg">
+    <sky-toggle-switch-label
+      >Overridden label component</sky-toggle-switch-label
+    >
     <sky-help-inline
       *ngIf="showInlineHelp"
       class="sky-control-help"
@@ -19,8 +21,8 @@
   <span>Text after switch</span>
 </div>
 <div class="sky-padding-even-large">
-  <sky-toggle-switch [disabled]="true">
-    <sky-toggle-switch-label>Disabled switch</sky-toggle-switch-label>
+  <sky-toggle-switch labelText="Disabled switch" [disabled]="true">
+    <sky-toggle-switch-label>Overridden label</sky-toggle-switch-label>
     <sky-help-inline
       *ngIf="showInlineHelp"
       class="sky-control-help"
@@ -52,7 +54,8 @@
 <div class="sky-padding-even-large">
   <sky-toggle-switch
     [disabled]="true"
-    ariaLabel="Disabled switch without visible label"
+    labelText="Disabled switch without visible label"
+    labelHidden="true"
   >
     <sky-help-inline
       *ngIf="showInlineHelp"
