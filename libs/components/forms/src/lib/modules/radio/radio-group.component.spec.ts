@@ -569,7 +569,7 @@ describe('Radio group component (reactive)', function () {
       fixture.nativeElement.querySelector('.sky-radio-group');
 
     expect(radioGroupEl.getAttribute('aria-owns')).toEqual(
-      'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input',
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
     );
   });
 
@@ -581,7 +581,7 @@ describe('Radio group component (reactive)', function () {
 
     const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(originalAriaOwns).toEqual(
-      'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input',
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
     );
 
     // Change an existing ID to something else.
@@ -590,7 +590,7 @@ describe('Radio group component (reactive)', function () {
 
     const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(newAriaOwns).toEqual(
-      'sky-radio-foobar-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input',
+      'sky-radio-foobar-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
     );
   });
 
@@ -652,6 +652,22 @@ describe('Radio group component (reactive)', function () {
       }),
     );
   });
+
+  it('should render custom form errors', fakeAsync(() => {
+    componentInstance.labelText = 'Label Text';
+
+    fixture.detectChanges();
+
+    clickCheckbox(fixture, 3);
+
+    expect(
+      fixture.nativeElement.querySelector('.sky-form-error'),
+    ).toBeVisible();
+    expect(
+      fixture.nativeElement.querySelector('.sky-status-indicator-message')
+        .textContent,
+    ).toEqual('This option is incorrect.');
+  }));
 });
 
 describe('Radio group component (template-driven)', () => {
