@@ -111,6 +111,11 @@ describe('File attachment', () => {
     );
   }
 
+  function validateLabelText(expectedLabel: string) {
+    const label = getLabelWrapper();
+    expect(label?.textContent?.trim()).toBe(expectedLabel);
+  }
+
   function getImage(): DebugElement | null {
     return fixture.debugElement.query(
       By.css('.sky-file-attachment-preview-img'),
@@ -1395,9 +1400,7 @@ describe('File attachment', () => {
     fixture.componentInstance.labelText = 'label text';
     fixture.detectChanges();
 
-    const label = getLabelWrapper();
-
-    expect(label?.textContent?.trim()).toBe('label text');
+    validateLabelText('label text');
   });
 
   it('should not render `labelText` or label element if `labelHidden` is set to true', async () => {
@@ -1406,9 +1409,7 @@ describe('File attachment', () => {
     fixture.componentInstance.labelHidden = true;
     fixture.detectChanges();
 
-    const label = getLabelWrapper();
-
-    expect(label?.textContent?.trim()).toBe('');
+    validateLabelText('');
   });
 
   it('should render label if `labelText` is set', async () => {
@@ -1416,23 +1417,19 @@ describe('File attachment', () => {
     fixture.componentInstance.labelElementText = undefined;
     fixture.detectChanges();
 
-    const label = getLabelWrapper();
-
-    expect(label?.textContent?.trim()).toBe('label text');
+    validateLabelText('label text');
   });
 
   it('should render label element regardless of `labelHidden` value if `labelText` is not set', async () => {
     fixture.componentInstance.labelElementText = 'label element';
     fixture.detectChanges();
 
-    const label = getLabelWrapper();
-
-    expect(label?.textContent?.trim()).toBe('label element');
+    validateLabelText('label element');
 
     fixture.componentInstance.labelHidden = true;
     fixture.detectChanges();
 
-    expect(label?.textContent?.trim()).toBe('label element');
+    validateLabelText('label element');
   });
 });
 

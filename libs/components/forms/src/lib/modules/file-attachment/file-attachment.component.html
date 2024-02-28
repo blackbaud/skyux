@@ -7,9 +7,9 @@
     }"
   >
     <ng-container *ngIf="labelText; else labelContent">
-      <ng-container *ngIf="!labelHidden">
-        <span class="sky-control-label">{{ labelText }}</span></ng-container
-      >
+      <span *ngIf="!labelHidden" class="sky-control-label">{{
+        labelText
+      }}</span>
     </ng-container>
   </div>
   <div
