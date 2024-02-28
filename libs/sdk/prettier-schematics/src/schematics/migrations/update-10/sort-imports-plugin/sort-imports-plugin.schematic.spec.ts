@@ -41,15 +41,17 @@ describe('fixSortImportsPlugin', () => {
   });
 
   it('should add prettier-plugin-sort-imports to plugins if installed', async () => {
+    const packageJson: { devDependencies: Record<string, string> } = {
+      devDependencies: {},
+    };
+
+    packageJson.devDependencies[PLUGIN_NAME] = '*';
+
     const { runSchematic, tree } = await setupTest({
       prettierConfig: {
         singleQuote: true,
       },
-      packageJson: {
-        devDependencies: {
-          PLUGIN_NAME: '*',
-        },
-      },
+      packageJson,
     });
 
     await runSchematic();
@@ -76,16 +78,18 @@ describe('fixSortImportsPlugin', () => {
   });
 
   it('should not add prettier-plugin-sort-imports to plugins if already added', async () => {
+    const packageJson: { dependencies: Record<string, string> } = {
+      dependencies: {},
+    };
+
+    packageJson.dependencies[PLUGIN_NAME] = '*';
+
     const { runSchematic, tree } = await setupTest({
       prettierConfig: {
         singleQuote: true,
         plugins: [PLUGIN_NAME],
       },
-      packageJson: {
-        dependencies: {
-          PLUGIN_NAME: '*',
-        },
-      },
+      packageJson,
     });
 
     await runSchematic();
