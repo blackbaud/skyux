@@ -462,7 +462,7 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
 
       const label = checkboxNativeElement?.querySelector(
-        '.sky-checkbox-wrapper sky-checkbox-label',
+        '.sky-checkbox-wrapper sky-checkbox-label-text-label',
       );
 
       expect(label?.textContent?.trim()).toBe(labelText);
