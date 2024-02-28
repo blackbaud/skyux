@@ -11,6 +11,7 @@ import {
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridOptions } from 'ag-grid-community';
 
+import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
 
@@ -28,6 +29,9 @@ export const Editable = new InjectionToken<boolean>('Editable');
 export class SkyAgGridFixtureComponent implements OnInit {
   @ViewChild('agGrid', { static: true })
   public agGrid: AgGridAngular | undefined;
+
+  @ViewChild(SkyAgGridWrapperComponent, { static: true })
+  public agGridWrapper: SkyAgGridWrapperComponent | undefined;
 
   public gridData = SKY_AG_GRID_DATA;
   public columnDefs: ColDef[] = [

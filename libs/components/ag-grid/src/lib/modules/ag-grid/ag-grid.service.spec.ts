@@ -308,8 +308,10 @@ describe('SkyAgGridService', () => {
     beforeEach(() => {
       dateValueFormatter = defaultGridOptions.columnTypes?.[SkyCellType.Date]
         .valueFormatter as ValueFormatterFunc;
+      const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       dateValueFormatterParams = {
-        columnApi: new ColumnApi(),
+        api,
+        columnApi: new ColumnApi(api),
       } as ValueFormatterParams;
     });
 
@@ -377,11 +379,13 @@ describe('SkyAgGridService', () => {
       autocompleteValueFormatter = defaultGridOptions.columnTypes?.[
         SkyCellType.Autocomplete
       ].valueFormatter as ValueFormatterFunc;
+      const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       autocompleteValueFormatterParams = {
+        api,
         colDef: {
           cellEditorParams: {},
         },
-        columnApi: new ColumnApi(),
+        columnApi: new ColumnApi(api),
       } as ValueFormatterParams;
     });
 
@@ -571,8 +575,13 @@ describe('SkyAgGridService', () => {
         cellClassRuleEditableFunction = cellClassRuleEditable;
       }
 
+      const api = jasmine.createSpyObj('GridApi', [
+        'getColumn',
+        'refreshCells',
+      ]);
       cellClassParams = {
-        columnApi: new ColumnApi(),
+        api,
+        columnApi: new ColumnApi(api),
         colDef: {},
       } as CellClassParams;
     });
@@ -601,7 +610,6 @@ describe('SkyAgGridService', () => {
       cellClassParams.colDef.editable = (): boolean => {
         return true;
       };
-      spyOn(cellClassParams.columnApi, 'getColumn').and.returnValue(null);
       const editable = cellClassRuleEditableFunction(cellClassParams);
 
       expect(editable).toBeTruthy();
@@ -640,14 +648,16 @@ describe('SkyAgGridService', () => {
         cellClassRuleValidatorFunction = cellClassRuleValidator;
       }
 
+      const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       cellClassParams = {
-        columnApi: new ColumnApi(),
+        api,
+        columnApi: new ColumnApi(api),
         colDef: {},
       } as CellClassParams;
 
       cellRendererParams = {
         addRenderedRowListener(): void {},
-        api: undefined,
+        api,
         colDef: {},
         column: undefined,
         columnApi: undefined,
