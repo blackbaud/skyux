@@ -67,16 +67,17 @@
     </div>
     <div *skyThemeIf="'modern'" class="height-measure"></div>
 
+    <!-- TODO: Set this to easy mode when AB#2843045 is fixed -->
     <div class="sky-form-group">
-      <sky-input-box
-        stacked="true"
-        labelText="Lookup field with multiple select"
-        hintText="Lookup items."
-      >
+      <sky-input-box stacked="true" hintText="Lookup items.">
+        <label class="sky-control-label" skyId #favoritePeopleLabel="skyId">
+          Lookup field with multiple select
+        </label>
         <sky-lookup
           formControlName="favoritePeople"
           selectMode="multiple"
           (addClick)="onAddButtonClicked()"
+          [ariaLabelledBy]="favoritePeopleLabel.id"
           [data]="people"
           [enableShowMore]="true"
           [showAddButton]="true"
@@ -303,9 +304,13 @@
     </div>
     <div class="height-measure"></div>
 
+    <!-- NOTE: We do not provide an accessible hard mode way of setting the label for a country field -->
     <div class="sky-form-group">
-      <sky-input-box stacked="true" hintText="Select your favorite country.">
-        <span class="sky-control-label">Favorite country</span>
+      <sky-input-box
+        stacked="true"
+        labelText="Favorite country"
+        hintText="Select your favorite country."
+      >
         <sky-country-field formControlName="favoriteCountry" />
       </sky-input-box>
     </div>
