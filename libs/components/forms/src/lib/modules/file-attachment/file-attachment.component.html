@@ -56,7 +56,9 @@
         [attr.aria-labelledby]="
           attachButton.id +
           ' ' +
-          (hasLabelComponent
+          (labelText
+            ? labelElementId
+            : hasLabelComponent
             ? labelComponents?.get(0)?.labelContentId?.id
             : undefined)
         "

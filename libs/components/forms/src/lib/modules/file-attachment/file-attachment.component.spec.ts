@@ -1382,6 +1382,14 @@ describe('File attachment', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
+  fit('should pass accessibility when `labelText` is set', async () => {
+    fixture.componentInstance.labelText = 'Attach file';
+    fixture.componentInstance.labelElementText = undefined;
+    fixture.detectChanges();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
   it('should render `labelText` and not label element if `labelText` is set', async () => {
     fixture.componentInstance.labelElementText = 'label element';
     fixture.componentInstance.labelText = 'label text';
