@@ -485,15 +485,7 @@ export class SkyColorpickerComponent
   }
 
   public onApplyColorClick(): void {
-    if (this.selectedColor) {
-      this.selectedColorChanged.emit(this.selectedColor);
-      this.selectedColorApplied.emit({ color: this.selectedColor });
-      this.lastAppliedColor = this.selectedColor.rgbaText;
-      this.updatePickerValues(this.lastAppliedColor);
-      this.backgroundColorForDisplay = this.selectedColor.rgbaText;
-    }
-
-    this.closePicker();
+    this.#confirmSelectedColor();
   }
 
   public onCancelClick(): void {
@@ -516,6 +508,13 @@ export class SkyColorpickerComponent
       this.#hsva = hsva;
       this.#update();
     }
+  }
+
+  protected onContainerEnterKeyDown(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.#confirmSelectedColor();
   }
 
   #update(): void {
@@ -734,5 +733,17 @@ export class SkyColorpickerComponent
     }
     /* istanbul ignore next */
     return undefined;
+  }
+
+  #confirmSelectedColor(): void {
+    if (this.selectedColor) {
+      this.selectedColorChanged.emit(this.selectedColor);
+      this.selectedColorApplied.emit({ color: this.selectedColor });
+      this.lastAppliedColor = this.selectedColor.rgbaText;
+      this.updatePickerValues(this.lastAppliedColor);
+      this.backgroundColorForDisplay = this.selectedColor.rgbaText;
+    }
+
+    this.closePicker();
   }
 }
