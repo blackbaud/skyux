@@ -440,7 +440,7 @@ describe('File attachment', () => {
     );
   }));
 
-  fit('should handle removing the labelText', fakeAsync(() => {
+  it('should handle removing the labelText', fakeAsync(() => {
     fixture.componentInstance.required = true;
     fixture.componentInstance.labelText = 'label text';
     fixture.componentInstance.labelElementText = undefined;
