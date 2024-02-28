@@ -638,70 +638,80 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       jasmine.DEFAULT_TIMEOUT_INTERVAL * 2,
     );
 
-    it(`should be accessible in edit mode, lookup field single mode`, async () => {
-      TestBed.configureTestingModule({
-        imports: [SkyAgGridFixtureModule],
-        providers: [
-          {
-            provide: Editable,
-            useValue: true,
-          },
-          {
-            provide: EnableTopScroll,
-            useValue: false,
-          },
-        ],
-      });
-      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+    it(
+      `should be accessible in edit mode, lookup field single mode`,
+      async () => {
+        TestBed.configureTestingModule({
+          imports: [SkyAgGridFixtureModule],
+          providers: [
+            {
+              provide: Editable,
+              useValue: true,
+            },
+            {
+              provide: EnableTopScroll,
+              useValue: false,
+            },
+          ],
+        });
+        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
 
-      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-        rowIndex: 0,
-        colKey: 'lookupSingle',
-      });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
-      await expectAsync(gridWrapperNativeElement).toBeAccessible();
-    });
+        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+          rowIndex: 0,
+          colKey: 'lookupSingle',
+        });
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+        await expectAsync(gridWrapperNativeElement).toBeAccessible();
+      },
+      // This test can be slow because it's testing the entire grid.
+      jasmine.DEFAULT_TIMEOUT_INTERVAL * 2,
+    );
 
-    it(`should be accessible in edit mode, lookup field multiple mode`, async () => {
-      TestBed.configureTestingModule({
-        imports: [SkyAgGridFixtureModule],
-        providers: [
-          {
-            provide: Editable,
-            useValue: true,
+    it(
+      `should be accessible in edit mode, lookup field multiple mode`,
+      async () => {
+        TestBed.configureTestingModule({
+          imports: [SkyAgGridFixtureModule],
+          providers: [
+            {
+              provide: Editable,
+              useValue: true,
+            },
+            {
+              provide: EnableTopScroll,
+              useValue: false,
+            },
+          ],
+        });
+        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+
+        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+          rowIndex: 0,
+          colKey: 'lookupMultiple',
+        });
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+        await expectAsync(
+          gridWrapperNativeElement.ownerDocument.body,
+        ).toBeAccessible({
+          rules: {
+            region: {
+              enabled: false,
+            },
           },
-          {
-            provide: EnableTopScroll,
-            useValue: false,
-          },
-        ],
-      });
-      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
-
-      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-        rowIndex: 0,
-        colKey: 'lookupMultiple',
-      });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
-      await expectAsync(
-        gridWrapperNativeElement.ownerDocument.body,
-      ).toBeAccessible({
-        rules: {
-          region: {
-            enabled: false,
-          },
-        },
-      });
-    });
+        });
+      },
+      // This test can be slow because it's testing the entire grid.
+      jasmine.DEFAULT_TIMEOUT_INTERVAL * 2,
+    );
   });
 });
