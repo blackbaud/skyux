@@ -13,6 +13,7 @@ env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
+  PERCY_TARGET_BRANCH: ${{ github.base_ref || github.ref_name }}
   PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
