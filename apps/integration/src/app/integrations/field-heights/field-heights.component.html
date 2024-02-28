@@ -20,19 +20,13 @@
     <!-- TODO: Update to easy mode once easy mode supports help inline -->
     <!-- Inline help does not maintain uniform field height in default theme. -->
     <div *skyThemeIf="'modern'" class="sky-form-group">
-      <sky-input-box stacked="true" hintText="Enter text.">
-        <label class="sky-control-label" [for]="favoriteTextInputWithHelp.id">
-          Text field with help
-        </label>
-        <sky-help-inline class="sky-control-help"></sky-help-inline>
-        <input
-          formControlName="favoriteText"
-          type="text"
-          spellcheck="false"
-          class="sky-form-control"
-          skyId
-          #favoriteTextInputWithHelp="skyId"
-        />
+      <sky-input-box
+        stacked="true"
+        labelText="Text field with help"
+        helpPopoverContent="Help content"
+        hintText="Enter text."
+      >
+        <input formControlName="favoriteText" type="text" spellcheck="false" />
       </sky-input-box>
     </div>
     <div *skyThemeIf="'modern'" class="height-measure"></div>
@@ -110,40 +104,13 @@
     <div *skyThemeIf="'modern'" class="height-measure"></div>
 
     <div class="sky-form-group">
-      <sky-input-box stacked="true" hintText="Enter favorite word."
-        ><label class="sky-control-label" [for]="favoriteWordInput.id">
-          Favorite word
-        </label>
-        <sky-character-counter-indicator
-          #characterCountIndicator
-        ></sky-character-counter-indicator>
-
-        <input
-          class="sky-form-control"
-          formControlName="favoriteWord"
-          type="text"
-          skyCharacterCounter
-          skyId
-          [skyCharacterCounterIndicator]="characterCountIndicator"
-          [skyCharacterCounterLimit]="characterCounterLimit"
-          [attr.aria-describedby]="characterCountError.id"
-          #favoriteWordInput="skyId"
-        />
-
-        <span
-          class="sky-error-indicator"
-          skyId
-          #characterCountError="skyId"
-          data-sky-id="character-counter-error"
-        >
-          <sky-status-indicator
-            *ngIf="showCharacterCounterError | async"
-            indicatorType="danger"
-            descriptionType="error"
-          >
-            Limit favorite word to {{ characterCounterLimit }} characters.
-          </sky-status-indicator>
-        </span>
+      <sky-input-box
+        stacked="true"
+        [characterLimit]="characterCounterLimit"
+        labelText="Favorite word"
+        hintText="Enter favorite word."
+      >
+        <input formControlName="favoriteWord" type="text" />
       </sky-input-box>
     </div>
     <div class="height-measure"></div>
