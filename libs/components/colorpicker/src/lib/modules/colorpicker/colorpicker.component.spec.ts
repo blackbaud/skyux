@@ -3,6 +3,7 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
+  flush,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -1123,6 +1124,8 @@ describe('Colorpicker Component', () => {
       inputElements.alpha.dispatchEvent(enterEvent);
 
       verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+
+      flush();
     }));
 
     it('should hide siblings from screen readers', fakeAsync(() => {
