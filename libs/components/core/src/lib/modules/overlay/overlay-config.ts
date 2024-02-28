@@ -42,4 +42,10 @@ export interface SkyOverlayConfig {
    * The position of the overlay instance.
    */
   position?: SkyOverlayPosition;
+
+  /**
+   * Hides the overlay's siblings from screen readers so users can't interact
+   * with content behind the overlay with assistive technology.
+   */
+  hideOthersFromScreenReaders?: boolean;
 }
