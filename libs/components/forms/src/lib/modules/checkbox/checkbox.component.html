@@ -57,9 +57,10 @@
   </span>
 
   <ng-container *ngIf="labelText; else labelElement">
-    <sky-checkbox-label-text-label [labelHidden]="labelHidden">{{
-      labelText
-    }}</sky-checkbox-label-text-label>
+    <sky-checkbox-label-text-label
+      [labelText]="labelText"
+      [labelHidden]="labelHidden"
+    />
   </ng-container>
   <ng-template #labelElement>
     <ng-content select="sky-checkbox-label" />
