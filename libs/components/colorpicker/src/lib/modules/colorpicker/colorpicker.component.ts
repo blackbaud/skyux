@@ -645,6 +645,7 @@ export class SkyColorpickerComponent
         enablePointerEvents: false,
         enableScroll: true,
         environmentInjector: this.#environmentInjector,
+        hideOthersFromScreenReaders: true,
       });
 
       overlay.attachTemplate(this.colorpickerTemplateRef);

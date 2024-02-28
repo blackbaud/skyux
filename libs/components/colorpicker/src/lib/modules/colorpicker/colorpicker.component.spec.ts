@@ -1124,6 +1124,23 @@ describe('Colorpicker Component', () => {
 
       verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
+
+    it('should hide siblings from screen readers', fakeAsync(() => {
+      fixture.detectChanges();
+
+      const overlaySpy = spyOn(
+        TestBed.inject(SkyOverlayService),
+        'create',
+      ).and.callThrough();
+
+      openColorpicker(nativeElement);
+
+      expect(overlaySpy).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining({
+          hideOthersFromScreenReaders: true,
+        }),
+      );
+    }));
   });
 
   describe('reactive configuration', () => {
