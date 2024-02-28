@@ -15,6 +15,7 @@ export class CheckboxHarnessTestComponent {
   public myForm: UntypedFormGroup;
   public hideEmailLabel = false;
   public mailControl: UntypedFormControl;
+  public hidePhoneLabel = false;
 
   #formBuilder: UntypedFormBuilder;
 
