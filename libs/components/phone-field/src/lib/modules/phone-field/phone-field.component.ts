@@ -19,9 +19,12 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { SkyAppFormat } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import {
   SKY_COUNTRY_FIELD_CONTEXT,
   SkyCountryFieldCountry,
@@ -34,6 +37,7 @@ import {
   PhoneNumberUtil,
 } from 'google-libphonenumber';
 import 'intl-tel-input';
+import { Subject, takeUntil } from 'rxjs';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldCountry } from './types/country';
@@ -236,6 +240,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         );
       }
 
+      this.#populateInputBoxHelpText();
+
       this.selectedCountryChange.emit(this.#_selectedCountry);
     }
   }
@@ -266,6 +272,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #phoneInputAnimationTriggered = false;
 
+  #phoneNumberFormatHintTextTemplateString = '';
+
   #phoneUtils = PhoneNumberUtil.getInstance();
 
   #longestDialCodeLength = 0;
@@ -280,7 +288,10 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #formBuilder: FormBuilder;
   #adapterService: SkyPhoneFieldAdapterService;
+  readonly #appFormat = inject(SkyAppFormat);
   #changeDetector: ChangeDetectorRef;
+  #ngUnsubscribe = new Subject<void>();
+  readonly #resourceSvc = inject(SkyLibResourcesService);
 
   constructor(
     formBuilder: FormBuilder,
@@ -314,6 +325,14 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.countrySearchForm = this.#formBuilder.group({
       countrySearch: this.#countrySearchFormControl,
     });
+
+    this.#resourceSvc
+      .getString('skyux_phone_field_format_hint_text')
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((templateString) => {
+        this.#phoneNumberFormatHintTextTemplateString = templateString;
+        this.#populateInputBoxHelpText();
+      });
   }
 
   public ngOnInit(): void {
@@ -349,6 +368,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   public ngOnDestroy(): void {
     this.selectedCountryChange.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -375,6 +396,10 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this.countrySearchShown = false;
 
       this.#countrySearchFormControl.setValue(undefined);
+    }
+
+    if (this.inputBoxHostSvc && this.inputTemplateRef) {
+      this.inputBoxHostSvc.hideHintText(showSearch);
     }
 
     this.#changeDetector.markForCheck();
@@ -468,6 +493,17 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     return false;
+  }
+
+  #populateInputBoxHelpText(): void {
+    if (this.inputBoxHostSvc && this.inputTemplateRef) {
+      this.inputBoxHostSvc?.setHintText(
+        this.#appFormat.formatText(
+          this.#phoneNumberFormatHintTextTemplateString,
+          this.#_selectedCountry?.exampleNumber,
+        ),
+      );
+    }
   }
 
   #validateSupportedCountry(country: SkyPhoneFieldCountry): boolean {

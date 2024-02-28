@@ -31,6 +31,16 @@ export class SkyInputBoxHostService {
     this.#ariaDescribedBy = host.ariaDescribedBy.asObservable();
   }
 
+  public hideHintText(hide: boolean): void {
+    if (!this.#host) {
+      throw new Error(
+        'Cannot hide hint text on the input box because `SkyInputBoxHostService` has not yet been initialized.',
+      );
+    }
+
+    this.#host.hideHintText(hide);
+  }
+
   public populate(args: SkyInputBoxPopulateArgs): void {
     if (!this.#host) {
       throw new Error(

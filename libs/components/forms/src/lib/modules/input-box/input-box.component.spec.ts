@@ -802,6 +802,32 @@ describe('Input box component', () => {
       );
     });
 
+    it('should hide hint text when `hideHintText` is called with `true`', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.hideHintText(
+        true,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).not.toBeVisible({ checkCssVisibility: true });
+    });
+
+    it('should show hint text when `hideHintText` is called with `false`', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.hideHintText(
+        false,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toBeVisible({ checkCssVisibility: true });
+    });
+
     it('should preserve existing aria-describedby attributes when adding hint text', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 

@@ -5,5 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './phone-field-input-box.component.fixture.html',
 })
 export class PhoneFieldInputBoxTestComponent {
+  public hintText: string | undefined;
   public modelValue: string | undefined;
 }

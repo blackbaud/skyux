@@ -164,6 +164,8 @@ export class SkyInputBoxComponent
 
   public hostIconsInsetLeftTemplate: TemplateRef<unknown> | undefined;
 
+  protected hintTextHidden = false;
+
   protected hostHintText: string | undefined;
 
   public readonly controlId = this.#idSvc.generateId();
@@ -297,6 +299,11 @@ export class SkyInputBoxComponent
     this.hostButtonsInsetTemplate = args.buttonsInsetTemplate;
     this.hostIconsInsetTemplate = args.iconsInsetTemplate;
     this.hostIconsInsetLeftTemplate = args.iconsInsetLeftTemplate;
+    this.#changeRef.markForCheck();
+  }
+
+  public hideHintText(hide: boolean): void {
+    this.hintTextHidden = hide;
     this.#changeRef.markForCheck();
   }
 
