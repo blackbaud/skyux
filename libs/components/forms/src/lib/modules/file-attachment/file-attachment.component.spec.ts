@@ -440,6 +440,31 @@ describe('File attachment', () => {
     );
   }));
 
+  fit('should handle removing the labelText', fakeAsync(() => {
+    fixture.componentInstance.required = true;
+    fixture.componentInstance.labelText = 'label text';
+    fixture.componentInstance.labelElementText = undefined;
+    fixture.componentInstance.showLabel = false;
+
+    fileAttachmentInstance.ngAfterViewInit();
+    fileAttachmentInstance.ngAfterContentInit();
+    tick();
+    fixture.detectChanges();
+
+    const labelWrapper = getLabelWrapper();
+
+    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
+      true,
+    );
+
+    fixture.componentInstance.labelText = undefined;
+    fixture.detectChanges();
+
+    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
+      false,
+    );
+  }));
+
   it('should click the file input on choose file button click', () => {
     fixture.detectChanges();
 
