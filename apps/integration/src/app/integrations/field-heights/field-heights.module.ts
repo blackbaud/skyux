@@ -9,7 +9,6 @@ import {
   SkyHelpInlineModule,
   SkyStatusIndicatorModule,
 } from '@skyux/indicators';
-import { SkyFluidGridModule } from '@skyux/layout';
 import {
   SkyAutocompleteModule,
   SkyCountryFieldModule,
@@ -38,7 +37,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SkyAutocompleteModule,
     SkyCharacterCounterModule,
-    SkyFluidGridModule,
     SkyIdModule,
     SkyInputBoxModule,
     SkyLookupModule,
