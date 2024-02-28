@@ -4,6 +4,9 @@ import { resolve } from 'path';
 
 import { createTestLibrary } from '../../../testing/scaffold';
 
+// eslint-disable-next-line @cspell/spellchecker
+const PLUGIN_NAME = '@trivago/prettier-plugin-sort-imports';
+
 describe('fixSortImportsPlugin', () => {
   const runner = new SchematicTestRunner(
     'migrations',
@@ -37,14 +40,14 @@ describe('fixSortImportsPlugin', () => {
     jest.resetAllMocks();
   });
 
-  it('should add @trivago/prettier-plugin-sort-imports to plugins if installed', async () => {
+  it('should add prettier-plugin-sort-imports to plugins if installed', async () => {
     const { runSchematic, tree } = await setupTest({
       prettierConfig: {
         singleQuote: true,
       },
       packageJson: {
         devDependencies: {
-          '@trivago/prettier-plugin-sort-imports': '*',
+          PLUGIN_NAME: '*',
         },
       },
     });
@@ -53,11 +56,11 @@ describe('fixSortImportsPlugin', () => {
 
     expect(JSON.parse(tree.readText('/.prettierrc.json'))).toEqual({
       singleQuote: true,
-      plugins: ['@trivago/prettier-plugin-sort-imports'],
+      plugins: [PLUGIN_NAME],
     });
   });
 
-  it('should not add @trivago/prettier-plugin-sort-imports to plugins if uninstalled', async () => {
+  it('should not add prettier-plugin-sort-imports to plugins if uninstalled', async () => {
     const { runSchematic, tree } = await setupTest({
       prettierConfig: {
         singleQuote: true,
@@ -72,15 +75,15 @@ describe('fixSortImportsPlugin', () => {
     });
   });
 
-  it('should not add @trivago/prettier-plugin-sort-imports to plugins if already added', async () => {
+  it('should not add prettier-plugin-sort-imports to plugins if already added', async () => {
     const { runSchematic, tree } = await setupTest({
       prettierConfig: {
         singleQuote: true,
-        plugins: ['@trivago/prettier-plugin-sort-imports'],
+        plugins: [PLUGIN_NAME],
       },
       packageJson: {
         dependencies: {
-          '@trivago/prettier-plugin-sort-imports': '*',
+          PLUGIN_NAME: '*',
         },
       },
     });
@@ -89,7 +92,7 @@ describe('fixSortImportsPlugin', () => {
 
     expect(JSON.parse(tree.readText('/.prettierrc.json'))).toEqual({
       singleQuote: true,
-      plugins: ['@trivago/prettier-plugin-sort-imports'],
+      plugins: [PLUGIN_NAME],
     });
   });
 });

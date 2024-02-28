@@ -2,6 +2,7 @@ import { Rule } from '@angular-devkit/schematics';
 
 import { readJsonFile, writeJsonFile } from '../../../utility/tree';
 
+// eslint-disable-next-line @cspell/spellchecker
 const PLUGIN_NAME = '@trivago/prettier-plugin-sort-imports';
 
 export default function fixSortImportsPlugin(): Rule {
