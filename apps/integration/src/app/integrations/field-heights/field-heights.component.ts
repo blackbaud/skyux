@@ -110,7 +110,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
         .subscribe(() => {
           Array.from(
             this.#elementRef.nativeElement.querySelectorAll(
-              'form > div.sky-form-group',
+              'form .fields-column > div.sky-form-group',
             ),
           ).forEach((element: unknown) => {
             const heightElement = (element as HTMLElement)
