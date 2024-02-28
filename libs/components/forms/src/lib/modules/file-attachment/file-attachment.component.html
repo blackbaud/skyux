@@ -2,9 +2,13 @@
   <div
     class="sky-file-attachment-label-wrapper"
     [attr.id]="labelElementId"
-    [ngClass]="{ 'sky-control-label-required': required && hasLabelComponent }"
+    [ngClass]="{
+      'sky-control-label-required': required && (hasLabelComponent || labelText)
+    }"
   >
-    <ng-container *ngTemplateOutlet="labelContent"></ng-container>
+    <ng-container *ngIf="labelText; else labelContent">
+      <ng-container *ngIf="!labelHidden">{{ labelText }}</ng-container>
+    </ng-container>
   </div>
   <div
     class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"

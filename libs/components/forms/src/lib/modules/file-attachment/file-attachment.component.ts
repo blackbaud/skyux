@@ -78,6 +78,12 @@ export class SkyFileAttachmentComponent
     return this.#_disabled;
   }
 
+  @Input()
+  public labelText: string | undefined;
+
+  @Input()
+  public labelHidden = false;
+
   /**
    * The maximum size in bytes for valid files.
    * @default 500000

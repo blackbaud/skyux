@@ -1351,10 +1351,55 @@ describe('File attachment', () => {
   });
 
   it('should pass accessibility when label does not match the button text', async () => {
-    fixture.componentInstance.labelText = 'Something different';
+    fixture.componentInstance.labelElementText = 'Something different';
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should render `labelText` and not label element if `labelText` is set', async () => {
+    fixture.componentInstance.labelElementText = 'label element';
+    fixture.componentInstance.labelText = 'label text';
+    fixture.detectChanges();
+
+    const label = getLabelWrapper();
+
+    expect(label?.textContent?.trim()).toBe('label text');
+  });
+
+  it('should not render `labelText` or label element if `labelHidden` is set to true', async () => {
+    fixture.componentInstance.labelElementText = 'label element';
+    fixture.componentInstance.labelText = 'label text';
+    fixture.componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    const label = getLabelWrapper();
+
+    expect(label?.textContent?.trim()).toBe('');
+  });
+
+  it('should render label if `labelText` is set', async () => {
+    fixture.componentInstance.labelText = 'label text';
+    fixture.componentInstance.labelElementText = undefined;
+    fixture.detectChanges();
+
+    const label = getLabelWrapper();
+
+    expect(label?.textContent?.trim()).toBe('label text');
+  });
+
+  it('should render label element regardless of `labelHidden` value if `labelText` is not set', async () => {
+    fixture.componentInstance.labelElementText = 'label element';
+    fixture.detectChanges();
+
+    const label = getLabelWrapper();
+
+    expect(label?.textContent?.trim()).toBe('label element');
+
+    fixture.componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    expect(label?.textContent?.trim()).toBe('label element');
   });
 });
 
