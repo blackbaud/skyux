@@ -139,7 +139,14 @@ class CheckboxWithRequiredAttributeComponent {
   template: `
     <div>
       <form [formGroup]="checkboxForm">
-        <sky-checkbox name="cb" formControlName="checkbox1" #wut>
+        <sky-checkbox
+          [label]="ariaLabel"
+          [labelledBy]="ariaLabelledBy"
+          [labelText]="labelText"
+          name="cb"
+          formControlName="checkbox1"
+          #wut
+        >
           <sky-checkbox-label> Be good </sky-checkbox-label>
         </sky-checkbox>
       </form>
@@ -149,6 +156,9 @@ class CheckboxWithRequiredAttributeComponent {
 class CheckboxWithReactiveFormComponent {
   public checkbox1: UntypedFormControl = new UntypedFormControl(false);
   public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
+  public ariaLabel: string | undefined;
+  public ariaLabelledBy: string | undefined;
+  public labelText: string | undefined;
 }
 
 /** Simple component for testing a reactive form checkbox with required validator. */
@@ -452,7 +462,7 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
 
       const label = checkboxNativeElement?.querySelector(
-        '.sky-checkbox-wrapper sky-checkbox-label',
+        '.sky-checkbox-wrapper sky-checkbox-label-text-label',
       );
 
       expect(label?.textContent?.trim()).toBe(labelText);
@@ -1017,6 +1027,43 @@ describe('Checkbox component', () => {
       setTimeout(() => {
         subscription.unsubscribe();
       }, 20);
+    });
+
+    it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
+      fixture.componentInstance.ariaLabel = 'aria label';
+      fixture.componentInstance.ariaLabelledBy = '#aria-label';
+      fixture.detectChanges();
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyCheckboxComponent.label',
+        Object({
+          deprecationMajorVersion: 9,
+        }),
+      );
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyCheckboxComponent.labelledBy',
+        Object({
+          deprecationMajorVersion: 9,
+        }),
+      );
+    });
+
+    it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
+      const labelText = 'Label Text';
+      fixture.componentInstance.labelText = labelText;
+      fixture.componentInstance.ariaLabel = 'some other label text';
+      fixture.componentInstance.ariaLabelledBy = '#some-element';
+
+      fixture.detectChanges();
+
+      const checkboxInput = fixture.nativeElement.querySelector('input');
+
+      expect(checkboxInput.getAttribute('aria-labelledBy')).toBeNull();
+      expect(checkboxInput.getAttribute('aria-label')).toEqual(labelText);
     });
   });
 

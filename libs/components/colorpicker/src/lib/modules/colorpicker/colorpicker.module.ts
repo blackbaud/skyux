@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAffixModule } from '@skyux/core';
@@ -24,6 +25,7 @@ import { SkyColorpickerComponent } from './colorpicker.component';
     SkyColorpickerSliderDirective,
   ],
   imports: [
+    A11yModule,
     CommonModule,
     SkyAffixModule,
     SkyColorpickerResourcesModule,

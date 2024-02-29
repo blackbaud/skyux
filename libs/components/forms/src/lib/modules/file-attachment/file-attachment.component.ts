@@ -79,6 +79,18 @@ export class SkyFileAttachmentComponent
   }
 
   /**
+   * The text to display as the file attachment's label.
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Whether to hide `labelText` from view.
+   */
+  @Input()
+  public labelHidden = false;
+
+  /**
    * The maximum size in bytes for valid files.
    * @default 500000
    */
