@@ -1,5 +1,15 @@
 # Changelog
 
+## [9.27.0](https://github.com/blackbaud/skyux/compare/9.26.0...9.27.0) (2024-02-29)
+
+
+### Features
+
+* **components/forms:** add labelText input to toggle switch ([#2019](https://github.com/blackbaud/skyux/issues/2019)) ([107c6ee](https://github.com/blackbaud/skyux/commit/107c6eea69472a56fde22d94f4337da327b9490c))
+* **components/forms:** checkbox label deprecations ([#2055](https://github.com/blackbaud/skyux/issues/2055)) ([6f74e71](https://github.com/blackbaud/skyux/commit/6f74e71df7b985a69340b9b037660edf72d721e7))
+* **components/forms:** radio button form errors support ([#2044](https://github.com/blackbaud/skyux/issues/2044)) ([59dca59](https://github.com/blackbaud/skyux/commit/59dca5979056863d4db76397d41ba345e6a85705))
+* **components/modals:** add modal form errors code example ([#2065](https://github.com/blackbaud/skyux/issues/2065)) ([3cdd48b](https://github.com/blackbaud/skyux/commit/3cdd48b8b1192b0dddcbc199b3e42bed62fc5d7a))
+
 ## [10.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.1...10.0.0-alpha.2) (2024-02-23)
 
 

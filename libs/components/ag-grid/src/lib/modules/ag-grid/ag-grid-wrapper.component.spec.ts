@@ -51,6 +51,7 @@ describe('SkyAgGridWrapperComponent', () => {
         'getEditingCells',
         'refreshCells',
         'resetRowHeights',
+        'setEnableCellTextSelection',
         'setFocusedCell',
         'setHeaderHeight',
         'stopEditing',
@@ -409,10 +410,25 @@ describe('SkyAgGridWrapperComponent', () => {
 describe('SkyAgGridWrapperComponent via fixture', () => {
   let gridWrapperFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridWrapperNativeElement: HTMLElement;
-  const getChildrenClassNames = () =>
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+  };
+  const getChildrenClassNames = (): string[] =>
     Array.from(
       gridWrapperNativeElement.querySelector('.ag-root')?.children || [],
     ).map((el) => el.classList[0]);
+
+  beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light,
+        ),
+        previousSettings: undefined,
+      }),
+    };
+  });
 
   it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
     TestBed.configureTestingModule({
@@ -494,6 +510,59 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-body-horizontal-scroll',
       'ag-overlay',
     ]);
+  });
+
+  it('should have sky-ag-grid-text-selection class', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+      providers: [
+        {
+          provide: Editable,
+          useValue: false,
+        },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
+    });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+    ).toHaveCssClass('sky-ag-grid-text-selection');
+  });
+
+  it('should not have sky-ag-grid-text-selection class when editing', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+      providers: [
+        {
+          provide: Editable,
+          useValue: true,
+        },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
+    });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+    ).not.toHaveCssClass('sky-ag-grid-text-selection');
   });
 
   it('should show inline help', async () => {
