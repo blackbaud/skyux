@@ -107,5 +107,9 @@ export class SkyYearPickerComponent implements OnInit {
         1;
     }
     this.datepicker.activeDate.setFullYear(date);
+    this.datepicker.announceDate(
+      this.datepicker.activeDate,
+      this.datepicker.formatYearLabel,
+    );
   }
 }
