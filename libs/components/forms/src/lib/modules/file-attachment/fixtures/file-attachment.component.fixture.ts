@@ -16,7 +16,11 @@ export class FileAttachmentTestComponent {
 
   public fileForm: UntypedFormGroup;
 
-  public labelText = 'Choose file';
+  public labelElementText: string | undefined = 'Choose file';
+
+  public labelHidden = false;
+
+  public labelText: string | undefined;
 
   public required = false;
 

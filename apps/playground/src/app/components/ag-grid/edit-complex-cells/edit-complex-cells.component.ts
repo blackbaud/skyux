@@ -291,7 +291,6 @@ export class EditComplexCellsComponent implements OnInit {
     this.editMode = editable;
     this.setColumnDefs();
     this.gridApi.setColumnDefs(this.columnDefs);
-    this.gridApi.redrawRows();
   }
 
   public saveData(): void {
