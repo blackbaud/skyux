@@ -3,7 +3,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 const UPDATE_TO_VERSION = '30.0.0';
 
-describe('ag-grid-30.schematic', () => {
+describe('ag-grid.schematic', () => {
   const runner = new SchematicTestRunner(
     'schematics',
     require.resolve('../../migration-collection.json'),
@@ -37,12 +37,28 @@ describe('ag-grid-30.schematic', () => {
         'ag-grid-enterprise': UPDATE_TO_VERSION,
       },
     });
-    await runner.runSchematic('ag-grid-30', {}, tree);
+    await runner.runSchematic('ag-grid', {}, tree);
     expect(JSON.parse(tree.readText('/package.json'))).toEqual({
       dependencies: {
         'ag-grid-community': UPDATE_TO_VERSION,
         'ag-grid-angular': UPDATE_TO_VERSION,
         'ag-grid-enterprise': UPDATE_TO_VERSION,
+      },
+    });
+  });
+
+  it('should add missing peer', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    await runner.runSchematic('ag-grid', {}, tree);
+    expect(JSON.parse(tree.readText('/package.json'))).toEqual({
+      dependencies: {
+        'ag-grid-community': `^${UPDATE_TO_VERSION}`,
+        'ag-grid-angular': UPDATE_TO_VERSION,
       },
     });
   });
@@ -54,7 +70,7 @@ describe('ag-grid-30.schematic', () => {
         other: '27.1.1',
       },
     });
-    await runner.runSchematic('ag-grid-30', {}, tree);
+    await runner.runSchematic('ag-grid', {}, tree);
     expect(JSON.parse(tree.readText('/package.json'))).toEqual({
       dependencies: {
         other: '27.1.1',
@@ -100,7 +116,7 @@ describe('ag-grid-30.schematic', () => {
       'src/app/no-change.component.ts',
       `export class NoChangeComponent {}`,
     );
-    await runner.runSchematic('ag-grid-30', {}, tree);
+    await runner.runSchematic('ag-grid', {}, tree);
     expect(tree.readText('src/app/app.component.ts')).toMatchSnapshot();
     expect(tree.readText('src/app/grid.component.ts')).toMatchSnapshot();
   });
@@ -139,7 +155,7 @@ describe('ag-grid-30.schematic', () => {
       'src/app/no-change.component.ts',
       `export class NoChangeComponent {}`,
     );
-    await runner.runSchematic('ag-grid-30', {}, tree);
+    await runner.runSchematic('ag-grid', {}, tree);
     expect(tree.readText('src/app/app.component.ts')).toMatchSnapshot();
   });
 
@@ -177,7 +193,46 @@ describe('ag-grid-30.schematic', () => {
       'src/app/no-change.component.ts',
       `export class NoChangeComponent {}`,
     );
-    await runner.runSchematic('ag-grid-30', {}, tree);
+    await runner.runSchematic('ag-grid', {}, tree);
+    expect(tree.readText('src/app/app.component.ts')).toMatchSnapshot();
+  });
+
+  it('should update cellRendererFramework', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/app.component.ts',
+      `
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+          #agGridService: SkyAgGridService;
+
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
+            let customOptions: Partial<GridOptions> = {};
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              columnDefs: [
+                { cellRendererFramework: 'CustomRenderer' }
+              ]
+            });
+          }
+        }`,
+    );
+    tree.create(
+      'src/app/no-change.component.ts',
+      `export class NoChangeComponent {}`,
+    );
+    await runner.runSchematic('ag-grid', {}, tree);
     expect(tree.readText('src/app/app.component.ts')).toMatchSnapshot();
   });
 
@@ -203,7 +258,7 @@ describe('ag-grid-30.schematic', () => {
           }
         }`,
     );
-    await runner.runSchematic('ag-grid-30', {}, tree);
+    await runner.runSchematic('ag-grid', {}, tree);
     expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
   });
 
@@ -242,7 +297,7 @@ describe('ag-grid-30.schematic', () => {
       'src/app/other.component.ts',
       `import { ColDef } from '@ag-grid-community/core';`,
     );
-    await runner.runSchematic('ag-grid-30', {}, tree);
+    await runner.runSchematic('ag-grid', {}, tree);
     expect(tree.readText('src/app/other.component.ts')).toEqual(
       `import { ColDef } from '@ag-grid-community/core';`,
     );

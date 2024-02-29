@@ -1,6 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ag-grid-30.schematic should update charPress 1`] = `
+exports[`ag-grid.schematic should update cellRendererFramework 1`] = `
+"
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+          #agGridService: SkyAgGridService;
+
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
+            let customOptions: Partial<GridOptions> = {};
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              columnDefs: [
+                { cellRenderer: 'CustomRenderer' }
+              ]
+            });
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should update charPress 1`] = `
 "
         import { ICellEditorAngularComp, ICellEditorParams } from 'ag-grid-community';
 
@@ -13,7 +35,7 @@ exports[`ag-grid-30.schematic should update charPress 1`] = `
         }"
 `;
 
-exports[`ag-grid-30.schematic should update enterMovesDown 1`] = `
+exports[`ag-grid.schematic should update enterMovesDown 1`] = `
 "
         import { SkyAgGridService } from '@skyux/ag-grid';
         import { GridOptions } from 'ag-grid-community';
@@ -34,7 +56,7 @@ exports[`ag-grid-30.schematic should update enterMovesDown 1`] = `
         }"
 `;
 
-exports[`ag-grid-30.schematic should update getSecondaryColumns and setSecondaryColumns 1`] = `
+exports[`ag-grid.schematic should update getSecondaryColumns and setSecondaryColumns 1`] = `
 "
         import { ColumnApi } from 'ag-grid-community';
 
@@ -47,7 +69,7 @@ exports[`ag-grid-30.schematic should update getSecondaryColumns and setSecondary
         }"
 `;
 
-exports[`ag-grid-30.schematic should update getSecondaryColumns and setSecondaryColumns 2`] = `
+exports[`ag-grid.schematic should update getSecondaryColumns and setSecondaryColumns 2`] = `
 "
         import { ColumnApi } from 'ag-grid-community';
 
@@ -60,7 +82,7 @@ exports[`ag-grid-30.schematic should update getSecondaryColumns and setSecondary
         }"
 `;
 
-exports[`ag-grid-30.schematic should update suppressCellSelection 1`] = `
+exports[`ag-grid.schematic should update suppressCellSelection 1`] = `
 "
         import { SkyAgGridService } from '@skyux/ag-grid';
         import { GridOptions } from 'ag-grid-community';
