@@ -75,6 +75,8 @@
         'sky-shadow': 'default',
         'sky-elevation-4': 'modern'
       }"
+      [cdkTrapFocus]="true"
+      [cdkTrapFocusAutoCapture]="false"
       #colorpickerRef
     >
       <div class="sky-colorpicker">
@@ -132,7 +134,10 @@
           </div>
         </div>
 
-        <div class="rgba-text">
+        <div
+          class="rgba-text"
+          (keydown.enter)="onContainerEnterKeyDown($event)"
+        >
           <sky-input-box>
             <label
               class="sky-control-label"
