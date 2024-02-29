@@ -572,6 +572,9 @@ describe('Input box component', () => {
     it('should render the error status indicator in the expected location', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
+      fixture.componentInstance.errorField.markAsTouched();
+      fixture.componentInstance.errorField.updateValueAndValidity();
+
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(
