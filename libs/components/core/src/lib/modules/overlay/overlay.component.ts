@@ -123,14 +123,14 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #siblingAriaHiddenCache = new Map<Element, string | null>();
 
+  readonly #adapter = inject(SkyOverlayAdapterService);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #context = inject(SkyOverlayContext);
   readonly #coreAdapter = inject(SkyCoreAdapterService);
-  readonly #adapter = inject(SkyOverlayAdapterService);
+  readonly #elementRef = inject(ElementRef);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #idSvc = inject(SkyIdService);
   readonly #router = inject(Router, { optional: true });
-  readonly #elementRef = inject(ElementRef);
 
   constructor() {
     this.id = this.#idSvc.generateId();
