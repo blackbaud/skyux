@@ -64,8 +64,7 @@ export class SkyOverlayAdapterService {
 
     const siblingAriaHiddenCache = new Map<Element, string | null>();
 
-    for (let i = 0; i < hostSiblings.length; i++) {
-      const element = hostSiblings[i];
+    for (const element of hostSiblings) {
       if (
         element !== overlayElement &&
         !element.hasAttribute('aria-live') &&
