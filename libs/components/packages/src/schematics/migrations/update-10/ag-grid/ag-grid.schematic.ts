@@ -1,5 +1,10 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { getPackageJsonDependency } from '@schematics/angular/utility/dependencies';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import {
+  NodeDependencyType,
+  addPackageJsonDependency,
+  getPackageJsonDependency,
+} from '@schematics/angular/utility/dependencies';
 
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
@@ -8,15 +13,28 @@ const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
 const AG_GRID = 'ag-grid-community';
 const AG_GRID_ENT = 'ag-grid-enterprise';
+const AG_GRID_NG = 'ag-grid-angular';
 const AG_GRID_SKY = '@skyux/ag-grid';
+
+const AG_GRID_VERSION = '^30.0.0';
 
 /**
  * Check package.json for AG Grid dependencies.
  */
-function hasAgGridDependency(tree: Tree): boolean {
+function checkAgGridDependency(tree: Tree, context: SchematicContext): boolean {
   const agGridDependency = getPackageJsonDependency(tree, AG_GRID);
   const agGridDependencyEnt = getPackageJsonDependency(tree, AG_GRID_ENT);
-  if (agGridDependency || agGridDependencyEnt) {
+  const agGridDependencyNg = getPackageJsonDependency(tree, AG_GRID_NG);
+  if (agGridDependency || agGridDependencyEnt || agGridDependencyNg) {
+    if (!agGridDependency) {
+      // Missing peer dependency.
+      addPackageJsonDependency(tree, {
+        name: AG_GRID,
+        type: NodeDependencyType.Default,
+        version: AG_GRID_VERSION,
+      });
+      context.addTask(new NodePackageInstallTask());
+    }
     return true;
   }
 
@@ -52,10 +70,12 @@ function renameGridOptionsInCode(updatedContent: string): string {
   if (
     updatedContent.match(/gridOptions/i) &&
     (updatedContent.includes('suppressCellSelection') ||
+      updatedContent.includes('getRowNodeId') ||
       updatedContent.includes('enterMovesDown'))
   ) {
     updatedContent = updatedContent
       .replace(/\bsuppressCellSelection\b/g, 'suppressCellFocus')
+      .replace(/\bgetRowNodeId\b/g, 'getRowId')
       .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
   }
   return updatedContent;
@@ -69,6 +89,19 @@ function renameCharPress(updatedContent: string): string {
     updatedContent = updatedContent.replace(
       /\bcharPress\b(?!: undefined)/g,
       'eventKey',
+    );
+  }
+  return updatedContent;
+}
+
+/**
+ * Switch cellRendererFramework to cellRenderer.
+ */
+function renameCellRendererFramework(updatedContent: string): string {
+  if (updatedContent.includes('cellRendererFramework')) {
+    updatedContent = updatedContent.replace(
+      /\bcellRendererFramework\b/g,
+      'cellRenderer',
     );
   }
   return updatedContent;
@@ -128,6 +161,7 @@ async function updateSourceFiles(
         );
       }
 
+      updatedContent = renameCellRendererFramework(updatedContent);
       updatedContent = renameCharPress(updatedContent);
       updatedContent = renameColumnApiFunctionsInCode(updatedContent);
       updatedContent = renameGridOptionsInCode(updatedContent);
@@ -142,15 +176,18 @@ async function updateSourceFiles(
 /**
  * Upgrade to AG Grid 30 and address three breaking changes:
  *
+ * - Add missing peer dependency
  * - Warn about mixing modules and packages
  * - Column API renamed getSecondaryColumns / setSecondaryColumns
- * - Grid option renamed suppressCellSelection
+ * - Grid option renamed suppressCellSelection and getRowNodeId
+ * - Rename charPress to eventKey
+ * - Rename cellRendererFramework to cellRenderer
  *
  * Also advise against mixing modules and packages.
  */
 export default function (): Rule {
   return async (tree: Tree, context: SchematicContext): Promise<void> => {
-    const hasAgGrid = hasAgGridDependency(tree);
+    const hasAgGrid = checkAgGridDependency(tree, context);
 
     // AG Grid is not installed, so we don't need to do anything.
     if (!hasAgGrid) {
