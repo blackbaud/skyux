@@ -1,7 +1,12 @@
 <form novalidate [formGroup]="fileForm">
-  <sky-file-attachment formControlName="attachment" [required]="required">
+  <sky-file-attachment
+    formControlName="attachment"
+    [required]="required"
+    [labelHidden]="labelHidden"
+    [labelText]="labelText"
+  >
     <sky-file-attachment-label *ngIf="showLabel">
-      {{ labelText }}
+      {{ labelElementText }}
       <sky-help-inline
         *ngIf="showInlineHelp"
         class="sky-control-help"
