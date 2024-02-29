@@ -11,7 +11,7 @@
             'sky-btn-active': datepicker.isActive(date)
           }"
           [attr.aria-label]="
-            date.date | skyDatepickerCalendarLabel : datepicker.formatYearLabel
+            date.date | skyDatepickerCalendarLabel: datepicker.formatYearLabel
           "
           [disabled]="date.disabled"
           (click)="datepicker.selectCalendar($event, date.date)"
