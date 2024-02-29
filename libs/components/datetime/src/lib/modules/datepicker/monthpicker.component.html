@@ -15,6 +15,9 @@
             'sky-btn-disabled': date.disabled,
             'sky-btn-active': datepicker.isActive(date)
           }"
+          [attr.aria-label]="
+            date.date | skyDatepickerCalendarLabel: datepicker.formatMonthLabel
+          "
           [disabled]="date.disabled"
           (click)="datepicker.selectCalendar($event, date.date)"
           tabindex="-1"

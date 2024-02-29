@@ -10,6 +10,7 @@ import { SkyThemeModule } from '@skyux/theme';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
+import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
 import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
 import { SkyFuzzyDatepickerInputDirective } from './datepicker-input-fuzzy.directive';
 import { SkyDatepickerInputDirective } from './datepicker-input.directive';
@@ -39,6 +40,7 @@ import { SkyYearPickerComponent } from './yearpicker.component';
     CommonModule,
     FormsModule,
     SkyIconModule,
+    SkyDatepickerCalendarLabelPipe,
     SkyDatetimeResourcesModule,
     SkyAffixModule,
     SkyThemeModule,

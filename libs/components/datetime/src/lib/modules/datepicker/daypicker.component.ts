@@ -208,6 +208,10 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
       );
     }
     this.datepicker.activeDate.setDate(date);
+    this.datepicker.announceDate(
+      this.datepicker.activeDate,
+      this.datepicker.formatDayLabel,
+    );
   }
 
   #getDaysInMonth(year: number, month: number): number {
