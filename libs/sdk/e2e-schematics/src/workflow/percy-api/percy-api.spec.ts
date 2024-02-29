@@ -1,4 +1,8 @@
-import { checkPercyBuild, getLastGoodPercyBuild } from './percy-api';
+import {
+  checkPercyBuild,
+  getLastGoodPercyBuild,
+  getPercyTargetCommit,
+} from './percy-api';
 
 describe('percy-api', () => {
   afterEach(() => {
@@ -99,6 +103,41 @@ describe('percy-api', () => {
       'test-storybook-e2e',
       ['commitSha'],
       true,
+      fetchClient,
+    );
+    expect(result).toEqual('commitSha');
+  });
+
+  it('should get target commit', async () => {
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url.startsWith('https://percy.io/api/v1/projects')) {
+        return Promise.resolve({
+          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+        });
+      }
+      if (url.startsWith('https://percy.io/api/v1/builds')) {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [
+                {
+                  id: 'buildId',
+                  type: 'builds',
+                  attributes: {
+                    'review-state': 'approved',
+                    state: 'finished',
+                    'commit-html-url': 'https://.../commitSha',
+                  },
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await getPercyTargetCommit(
+      'test-storybook-e2e',
+      ['commitSha'],
       fetchClient,
     );
     expect(result).toEqual('commitSha');
