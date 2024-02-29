@@ -111,6 +111,11 @@ describe('File attachment', () => {
     );
   }
 
+  function validateLabelText(expectedLabel: string) {
+    const label = getLabelWrapper();
+    expect(label?.textContent?.trim()).toBe(expectedLabel);
+  }
+
   function getImage(): DebugElement | null {
     return fixture.debugElement.query(
       By.css('.sky-file-attachment-preview-img'),
@@ -433,6 +438,31 @@ describe('File attachment', () => {
     );
 
     fixture.componentInstance.showLabel = false;
+    fixture.detectChanges();
+
+    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
+      false,
+    );
+  }));
+
+  it('should handle removing the labelText', fakeAsync(() => {
+    fixture.componentInstance.required = true;
+    fixture.componentInstance.labelText = 'label text';
+    fixture.componentInstance.labelElementText = undefined;
+    fixture.componentInstance.showLabel = false;
+
+    fileAttachmentInstance.ngAfterViewInit();
+    fileAttachmentInstance.ngAfterContentInit();
+    tick();
+    fixture.detectChanges();
+
+    const labelWrapper = getLabelWrapper();
+
+    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
+      true,
+    );
+
+    fixture.componentInstance.labelText = undefined;
     fixture.detectChanges();
 
     expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
@@ -1351,10 +1381,55 @@ describe('File attachment', () => {
   });
 
   it('should pass accessibility when label does not match the button text', async () => {
-    fixture.componentInstance.labelText = 'Something different';
+    fixture.componentInstance.labelElementText = 'Something different';
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should pass accessibility when `labelText` is set', async () => {
+    fixture.componentInstance.labelText = 'Attach file';
+    fixture.componentInstance.labelElementText = undefined;
+    fixture.detectChanges();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should render `labelText` and not label element if `labelText` is set', async () => {
+    fixture.componentInstance.labelElementText = 'label element';
+    fixture.componentInstance.labelText = 'label text';
+    fixture.detectChanges();
+
+    validateLabelText('label text');
+  });
+
+  it('should not render `labelText` or label element if `labelHidden` is set to true', async () => {
+    fixture.componentInstance.labelElementText = 'label element';
+    fixture.componentInstance.labelText = 'label text';
+    fixture.componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    validateLabelText('');
+  });
+
+  it('should render label if `labelText` is set', async () => {
+    fixture.componentInstance.labelText = 'label text';
+    fixture.componentInstance.labelElementText = undefined;
+    fixture.detectChanges();
+
+    validateLabelText('label text');
+  });
+
+  it('should render label element regardless of `labelHidden` value if `labelText` is not set', async () => {
+    fixture.componentInstance.labelElementText = 'label element';
+    fixture.detectChanges();
+
+    validateLabelText('label element');
+
+    fixture.componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    validateLabelText('label element');
   });
 });
 
