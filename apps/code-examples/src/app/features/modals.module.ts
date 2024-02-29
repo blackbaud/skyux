@@ -23,6 +23,13 @@ const routes: Routes = [
         (c) => c.DemoComponent,
       ),
   },
+  {
+    path: 'modal-with-error',
+    loadComponent: () =>
+      import('../code-examples/modals/modal-with-error/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
 ];
 
 @NgModule({
