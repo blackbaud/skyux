@@ -20,12 +20,14 @@ import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
+  SkyAppFormat,
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
   SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
@@ -54,6 +56,15 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    */
   @Input()
   public pickerClass: string | undefined = '';
+
+  public set dateFormat(value: string | undefined) {
+    this.#_dateFormat = value;
+    this.#populateInputBoxHelpText();
+  }
+
+  public get dateFormat(): string | undefined {
+    return this.#_dateFormat;
+  }
 
   public get disabled(): boolean | undefined {
     return this.#_disabled;
@@ -183,14 +194,19 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   #_calendarRef: ElementRef | undefined;
 
+  #_dateFormat: string | undefined;
+
   #_disabled: boolean | undefined = false;
 
   #_selectedDate: Date | undefined;
 
   #affixService: SkyAffixService;
+  readonly #appFormatter = inject(SkyAppFormat);
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
+  #dateFormatHintTextTemplateString = '';
   readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #resourceSvc = inject(SkyLibResourcesService);
   #overlayService: SkyOverlayService;
   readonly #zIndex: Observable<number> | undefined;
 
@@ -228,6 +244,14 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         inputTemplate: this.inputTemplateRef,
         buttonsTemplate: this.triggerButtonTemplateRef,
       });
+
+      this.#resourceSvc
+        .getString('skyux_datepicker_format_hint_text')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((templateString) => {
+          this.#dateFormatHintTextTemplateString = templateString;
+          this.#populateInputBoxHelpText();
+        });
     }
   }
 
@@ -423,6 +447,23 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     if (this.#customDatesSubscription) {
       this.#customDatesSubscription.unsubscribe();
       this.#customDatesSubscription = undefined;
+    }
+  }
+
+  #populateInputBoxHelpText(): void {
+    if (this.inputBoxHostService && this.inputTemplateRef) {
+      /* safety check */
+      /* istanbul ignore else */
+      if (this.dateFormat) {
+        this.inputBoxHostService?.setHintText(
+          this.#appFormatter.formatText(
+            this.#dateFormatHintTextTemplateString,
+            this.dateFormat,
+          ),
+        );
+      } else {
+        this.inputBoxHostService?.setHintText('');
+      }
     }
   }
 }

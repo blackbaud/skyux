@@ -11,14 +11,14 @@ export function addPrettierDependencies(): Rule {
     addPackageJsonDependency(tree, {
       name: 'prettier',
       type: NodeDependencyType.Dev,
-      version: '2.8.4',
+      version: '3.2.5',
       overwrite: true,
     });
 
     addPackageJsonDependency(tree, {
       name: 'eslint-config-prettier',
       type: NodeDependencyType.Dev,
-      version: '8.7.0',
+      version: '9.1.0',
       overwrite: true,
     });
   };
