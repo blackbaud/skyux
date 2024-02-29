@@ -2,11 +2,9 @@
   <div style="margin-bottom: 20px">
     <sky-file-attachment
       formControlName="attachment"
+      labelText="Single file attachment"
       (fileChange)="reactiveFileUpdated($event)"
     >
-      <sky-file-attachment-label>
-        Single file attachment
-      </sky-file-attachment-label>
     </sky-file-attachment>
   </div>
 </form>
@@ -28,6 +26,7 @@
   <div style="margin-bottom: 20px">
     <sky-file-attachment
       formControlName="fileAttachment"
+      labelText="Single file attachment with text file"
       (fileChange)="reactiveFileUpdated($event)"
     >
       <sky-file-attachment-label>
