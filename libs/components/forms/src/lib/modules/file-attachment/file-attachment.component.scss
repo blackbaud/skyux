@@ -67,6 +67,11 @@
 }
 
 @include mixins.sky-theme-modern {
+  .sky-control-label {
+    color: $sky-theme-modern-font-deemphasized-color;
+    font-size: 13px;
+  }
+
   .sky-file-attachment-none {
     font-size: $sky-theme-modern-text-size-125;
   }
