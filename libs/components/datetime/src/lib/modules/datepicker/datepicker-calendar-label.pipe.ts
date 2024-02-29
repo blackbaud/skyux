@@ -18,9 +18,6 @@ import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner
 export class SkyDatepickerCalendarLabelPipe implements PipeTransform {
   #datepicker = inject(SkyDatepickerCalendarInnerComponent);
   #defaultFormat = this.#datepicker.formatDayLabel;
-  #format: string | undefined;
-  #formattedValue: string | undefined;
-  #value: any;
 
   /**
    * Transforms a date value using locale and format rules.
@@ -28,20 +25,16 @@ export class SkyDatepickerCalendarLabelPipe implements PipeTransform {
    * @param format Specifies the format to apply to the transform. The format string is
    * constructed by a series of symbols that represent date-time values.
    */
-  public transform(value: any, format?: string): string {
-    if (value && value instanceof Date) {
-      this.#value = value;
-      this.#format = format;
+  public transform(value: unknown, format?: string): string {
+    let formattedValue = '';
 
-      this.#updateFormattedValue();
+    if (value && value instanceof Date) {
+      formattedValue = this.#datepicker.dateFilter(
+        value,
+        format || this.#defaultFormat,
+      );
     }
 
-    return this.#formattedValue ?? '';
-  }
-
-  #updateFormattedValue(): void {
-    const format = this.#format || this.#defaultFormat;
-
-    this.#formattedValue = this.#datepicker.dateFilter(this.#value, format);
+    return formattedValue;
   }
 }
