@@ -55,9 +55,9 @@ describe('Overlay harness', () => {
   it('should query one child harness', async () => {
     const { overlayHarness } = await setupTest();
 
-    const harness = (await overlayHarness.queryHarness(
+    const harness = await overlayHarness.queryHarness(
       OverlayChildTestHarness,
-    )) as OverlayChildTestHarness;
+    );
 
     await expectAsync((await harness.host()).text()).toBeResolvedTo(
       'OVERLAY CHILD 1 CONTENT',
@@ -68,8 +68,16 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.queryHarness(NoneFoundTestHarness),
+      overlayHarness.queryHarnessForOptional(NoneFoundTestHarness),
     ).toBeResolvedTo(null);
+  });
+
+  it('should throw error if test harness cannot be found', async () => {
+    const { overlayHarness } = await setupTest();
+
+    await expectAsync(
+      overlayHarness.queryHarness(NoneFoundTestHarness),
+    ).toBeRejectedWithError();
   });
 
   it('should query child test elements', async () => {

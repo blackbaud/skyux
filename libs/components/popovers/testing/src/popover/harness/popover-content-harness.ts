@@ -35,12 +35,21 @@ export class SkyPopoverContentHarness extends ComponentHarness {
   }
 
   /**
-   * Returns a child harness.
+   * Returns a child harness or throws error if not found.
    */
   public async queryHarness<T extends ComponentHarness>(
     harness: HarnessQuery<T>,
-  ): Promise<T | null> {
+  ): Promise<T> {
     return (await this.#getBody()).queryHarness(harness);
+  }
+
+  /**
+   * Returns a child harness or null if not found.
+   */
+  public async queryHarnessForOptional<T extends ComponentHarness>(
+    harness: HarnessQuery<T>,
+  ): Promise<T | null> {
+    return (await this.#getBody()).queryHarnessForOptional(harness);
   }
 
   /**

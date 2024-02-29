@@ -8,6 +8,7 @@ import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.
 import { InputBoxHarnessTestModule } from './fixtures/input-box-harness-test.module';
 import { LastNameHarness } from './fixtures/last-name-harness';
 import { SkyInputBoxHarness } from './input-box-harness';
+import { NonexistentHarness } from './fixtures/nonexistent-harness';
 
 const DATA_SKY_ID_EASY_MODE = 'my-input-box-last-name-easy-mode';
 
@@ -41,6 +42,23 @@ describe('Input box harness', () => {
     const harness = await inputBoxHarness.queryHarness(LastNameHarness);
 
     await expectAsync(harness?.value()).toBeResolvedTo('Doe');
+  });
+
+  it('should throw error for query if child harness is not found', async () => {
+    const { inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name',
+    });
+
+    await expectAsync(inputBoxHarness.queryHarness(NonexistentHarness)).toBeRejectedWithError();
+  });
+
+
+  it('should return null for query if child harness is not found', async () => {
+    const { inputBoxHarness } = await setupTest({
+      dataSkyId: 'my-input-box-last-name',
+    });
+
+    await expectAsync(inputBoxHarness.queryHarnessForOptional(NonexistentHarness)).toBeResolvedTo(null);
   });
 
   it('should return disabled', async () => {

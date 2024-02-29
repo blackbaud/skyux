@@ -43,7 +43,7 @@ describe('ModalLookupComponent', () => {
         SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
       )
     ).queryHarness(SkyLookupHarness);
-    expect(await lookupHarness?.isFocused()).toBeTruthy();
+    expect(await lookupHarness.isFocused()).toBeTruthy();
     fixture.componentInstance.onSubmit();
     expect(consoleLog).toHaveBeenCalledWith({
       submitted: { favoriteNames: [] },

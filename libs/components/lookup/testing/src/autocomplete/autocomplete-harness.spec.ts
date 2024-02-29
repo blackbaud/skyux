@@ -6,6 +6,7 @@ import { AutocompleteHarnessTestComponent } from './fixtures/autocomplete-harnes
 import { AutocompleteHarnessTestModule } from './fixtures/autocomplete-harness-test.module';
 import { ColorIdHarness } from './fixtures/color-id-harness';
 import { MyExtendsAutocompleteHarness } from './fixtures/my-extends-harness';
+import { NonexistentHarness } from './fixtures/nonexistent-harness';
 
 describe('Autocomplete harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}) {
@@ -200,7 +201,31 @@ describe('Autocomplete harness', () => {
       const results = (await autocompleteHarness?.getSearchResults()) ?? [];
       const harness = await results[0].queryHarness(ColorIdHarness);
 
-      await expectAsync((await harness?.host())?.text()).toBeResolvedTo('1');
+      await expectAsync((await harness.host()).text()).toBeResolvedTo('1');
+    });
+
+    it('should throw error if query for child harness is not found', async () => {
+      const { autocompleteHarness } = await setupTest({
+        dataSkyId: 'my-autocomplete-2',
+      });
+
+      await autocompleteHarness?.enterText('d');
+
+      const results = (await autocompleteHarness?.getSearchResults()) ?? [];
+
+      await expectAsync(results[0].queryHarness(NonexistentHarness)).toBeRejectedWithError();
+    });
+
+    it('should return null if query for child harness is not found', async () => {
+      const { autocompleteHarness } = await setupTest({
+        dataSkyId: 'my-autocomplete-2',
+      });
+
+      await autocompleteHarness?.enterText('d');
+
+      const results = (await autocompleteHarness?.getSearchResults()) ?? [];
+
+      await expectAsync(results[0].queryHarnessForOptional(NonexistentHarness)).toBeResolvedTo(null);
     });
   });
 
