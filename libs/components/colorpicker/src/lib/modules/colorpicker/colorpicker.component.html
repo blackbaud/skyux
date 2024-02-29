@@ -75,6 +75,8 @@
         'sky-shadow': 'default',
         'sky-elevation-4': 'modern'
       }"
+      [cdkTrapFocus]="true"
+      [cdkTrapFocusAutoCapture]="false"
       #colorpickerRef
     >
       <div class="sky-colorpicker">
@@ -132,7 +134,10 @@
           </div>
         </div>
 
-        <div class="rgba-text">
+        <div
+          class="rgba-text"
+          (keydown.enter)="onContainerEnterKeyDown($event)"
+        >
           <sky-input-box>
             <label
               class="sky-control-label"
@@ -254,7 +259,7 @@
           class="sky-colorpicker-preset-color-area"
         >
           <button
-            *ngFor="let color of presetColors | slice : 0 : 12; let i = index"
+            *ngFor="let color of presetColors | slice: 0 : 12; let i = index"
             type="button"
             [attr.aria-label]="
               ('skyux_colorpicker_preset_color' | skyLibResources) + ' ' + color
