@@ -136,6 +136,15 @@
     "
     [src]="value.url"
   />
+
+  <sky-form-errors
+    *ngIf="labelText && ngControl?.errors"
+    [id]="errorId"
+    [errors]="ngControl?.errors"
+    [labelText]="labelText"
+    [showErrors]="ngControl?.touched || ngControl?.dirty"
+    ><ng-content select="sky-form-error"></ng-content
+  ></sky-form-errors>
 </div>
 
 <ng-template #labelContent>

@@ -92,6 +92,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_file_attachment_file_upload_link_removed: {
       message: 'Link to {0} removed.',
     },
+    skyux_file_attachment_form_error_label_text: { message: 'A file for {0}' },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_input_box_help_inline_aria_label: {
       message: 'Show help content for {0}',

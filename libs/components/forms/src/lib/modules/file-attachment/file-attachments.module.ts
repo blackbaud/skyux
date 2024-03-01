@@ -5,6 +5,8 @@ import { SkyIdModule, SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
+import { SkyFormErrorModule } from '../form-error/form-error.module';
+import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
@@ -26,6 +28,8 @@ import { SkyFileSizePipe } from './file-size.pipe';
     CommonModule,
     FormsModule,
     SkyFormsResourcesModule,
+    SkyFormErrorModule,
+    SkyFormErrorsModule,
     SkyIconModule,
     SkyIdModule,
     SkyThemeModule,
@@ -37,6 +41,7 @@ import { SkyFileSizePipe } from './file-size.pipe';
     SkyFileDropComponent,
     SkyFileItemComponent,
     SkyFileSizePipe,
+    SkyFormErrorModule,
   ],
   providers: [DecimalPipe, SkyFileItemService],
 })

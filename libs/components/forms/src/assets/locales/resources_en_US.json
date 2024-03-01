@@ -143,6 +143,10 @@
     "_description": "Screen reader text when a link is removed",
     "message": "Link to {0} removed."
   },
+  "skyux_file_attachment_form_error_label_text": {
+    "_description": "Text for file attachment form errors label text",
+    "message": "A file for {0}"
+  },
   "skyux_file_attachment_label_no_file_chosen": {
     "_description": "Label for single file attachment when no file is chosen",
     "message": "No file chosen."
