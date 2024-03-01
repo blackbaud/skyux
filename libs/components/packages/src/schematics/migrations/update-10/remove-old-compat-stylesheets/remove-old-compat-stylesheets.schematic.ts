@@ -39,7 +39,9 @@ export default function removeOldCompatStylesheets(): Rule {
       if (compatStylesheetPaths.length > 0) {
         const uniqueStylesheets = Array(...new Set(compatStylesheetPaths));
         for (const stylesheetPath of uniqueStylesheets) {
-          tree.delete(stylesheetPath);
+          if (tree.exists(stylesheetPath)) {
+            tree.delete(stylesheetPath);
+          }
         }
       }
     });
