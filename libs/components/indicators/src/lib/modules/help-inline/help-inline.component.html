@@ -2,7 +2,18 @@
   class="sky-help-inline"
   type="button"
   [attr.aria-label]="
-    ariaLabel || 'skyux_help_inline_button_title' | skyLibResources
+    ariaLabel ||
+    ((contentInfoObs | async)?.descriptor
+      ? (contentInfoObs | async)?.descriptor?.type === 'text'
+        ? ('skyux_help_inline_button_title_with_descriptor_text'
+          | skyLibResources : (contentInfoObs | async)?.descriptor?.value)
+        : undefined
+      : ('skyux_help_inline_button_title' | skyLibResources))
+  "
+  [attr.aria-labelledby]="
+    !ariaLabel && (contentInfoObs | async)?.descriptor?.type === 'elementId'
+      ? screenReaderLabel.id + ' ' + (contentInfoObs | async)?.descriptor?.value
+      : undefined
   "
   [attr.aria-controls]="ariaControls"
   [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded : ariaControls"
@@ -23,3 +34,12 @@
   >
   </sky-icon-stack>
 </button>
+
+<span
+  skyScreenReaderLabel
+  [createLabel]="!ariaLabel"
+  skyId
+  #screenReaderLabel="skyId"
+>
+  {{ 'skyux_help_inline_button_title_with_descriptor_el' | skyLibResources }}
+</span>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyIdModule, SkyScreenReaderLabelDirective } from '@skyux/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyIconModule } from '../icon/icon.module';
@@ -13,7 +14,9 @@ import { SkyHelpInlineComponent } from './help-inline.component';
   imports: [
     CommonModule,
     SkyIconModule,
+    SkyIdModule,
     SkyIndicatorsResourcesModule,
+    SkyScreenReaderLabelDirective,
     SkyThemeModule,
   ],
   exports: [SkyHelpInlineComponent],

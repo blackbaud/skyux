@@ -6,6 +6,7 @@ import {
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -21,6 +22,7 @@ import { SkyTilesModule } from '../tiles.module';
 
 import { MockSkyTileDashboardService } from './fixtures/mock-tile-dashboard.service';
 import { TileTestComponent } from './fixtures/tile.component.fixture';
+import { SKY_TILE_TITLE_ID } from './tile-title-id-token';
 import { SkyTileComponent } from './tile.component';
 
 describe('Tile component', () => {
@@ -46,6 +48,10 @@ describe('Tile component', () => {
     return fixture.nativeElement.querySelector('.sky-tile-settings');
   }
 
+  function getTileContent(fixture: ComponentFixture<any>): HTMLButtonElement {
+    return fixture.nativeElement.querySelector('.sky-tile-content');
+  }
+
   beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -65,6 +71,7 @@ describe('Tile component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        SkyContentInfoProvider,
       ],
     });
   });
@@ -192,6 +199,48 @@ describe('Tile component', () => {
       jasmine.any(SkyTileComponent),
       true,
     );
+  });
+
+  it('should provide tileName to content info provider', () => {
+    const mockContentProvider = { patchInfo: jasmine.createSpy() };
+    const tileName = 'Tile name';
+    const fixture = TestBed.overrideComponent(SkyTileComponent, {
+      set: {
+        providers: [
+          { provide: SkyContentInfoProvider, useValue: mockContentProvider },
+          { provide: SKY_TILE_TITLE_ID, useValue: 'title-id' },
+        ],
+      },
+    }).createComponent(TileTestComponent);
+
+    fixture.componentInstance.tileName = tileName;
+
+    fixture.detectChanges();
+
+    expect(mockContentProvider.patchInfo).toHaveBeenCalledWith({
+      descriptor: { type: 'text', value: tileName },
+    });
+  });
+
+  it('should provide the tile tile ID to content info provider when no tileName is set', () => {
+    const mockContentProvider = { patchInfo: jasmine.createSpy() };
+    const tileTitleId = 'title-id';
+    const fixture = TestBed.overrideComponent(SkyTileComponent, {
+      set: {
+        providers: [
+          { provide: SkyContentInfoProvider, useValue: mockContentProvider },
+          { provide: SKY_TILE_TITLE_ID, useValue: tileTitleId },
+        ],
+      },
+    }).createComponent(TileTestComponent);
+
+    fixture.componentInstance.tileName = undefined;
+
+    fixture.detectChanges();
+
+    expect(mockContentProvider.patchInfo).toHaveBeenCalledWith({
+      descriptor: { type: 'elementId', value: tileTitleId },
+    });
   });
 
   describe('settings button', () => {
@@ -347,8 +396,17 @@ describe('Tile component', () => {
     });
   });
 
-  it('should create default aria labels when tileName is not defined', fakeAsync(() => {
-    const fixture = TestBed.createComponent(TileTestComponent);
+  it('should create default aria labels or set aria-labelledby to title id when tileName is not defined', fakeAsync(() => {
+    const tileTitleId = 'title-id';
+    const fixture = TestBed.overrideComponent(SkyTileComponent, {
+      set: {
+        providers: [
+          SkyContentInfoProvider,
+          { provide: SKY_TILE_TITLE_ID, useValue: tileTitleId },
+        ],
+      },
+    }).createComponent(TileTestComponent);
+
     fixture.componentInstance.tileName = undefined;
     fixture.detectChanges();
     tick();
@@ -356,20 +414,25 @@ describe('Tile component', () => {
     // Force tile to render move button.
     fixture.componentInstance.tileComponent.isInDashboardColumn = true;
     fixture.detectChanges();
+
     const helpButton = getHelpButton(fixture);
     const expandButton = getExpandButton(fixture);
     const moveButton = getMoveButton(fixture);
     const settingsButton = getSettingsButton(fixture);
+    const tileContent = getTileContent(fixture);
+
     expect(helpButton.getAttribute('aria-label')).toEqual('Help');
     expect(expandButton.getAttribute('aria-label')).toEqual(
       'Expand or collapse',
     );
     expect(moveButton.getAttribute('aria-label')).toEqual('Move');
     expect(settingsButton.getAttribute('aria-label')).toEqual('Settings');
+    expect(tileContent.getAttribute('aria-labelledBy')).toEqual(tileTitleId);
   }));
 
   it('should create accessible aria labels when tileName is defined', fakeAsync(() => {
     const fixture = TestBed.createComponent(TileTestComponent);
+
     fixture.componentInstance.tileName = 'Users';
     fixture.detectChanges();
     tick();
@@ -377,16 +440,20 @@ describe('Tile component', () => {
     // Force tile to render move button.
     fixture.componentInstance.tileComponent.isInDashboardColumn = true;
     fixture.detectChanges();
+
     const helpButton = getHelpButton(fixture);
     const expandButton = getExpandButton(fixture);
     const moveButton = getMoveButton(fixture);
     const settingsButton = getSettingsButton(fixture);
+    const tileContent = getTileContent(fixture);
+
     expect(helpButton.getAttribute('aria-label')).toEqual('Users help');
     expect(expandButton.getAttribute('aria-label')).toEqual(
       'Expand or collapse Users',
     );
     expect(moveButton.getAttribute('aria-label')).toEqual('Move Users');
     expect(settingsButton.getAttribute('aria-label')).toEqual('Users settings');
+    expect(tileContent.getAttribute('aria-label')).toEqual('Users');
   }));
 
   it('should pass accessibility', async () => {

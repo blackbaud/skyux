@@ -43,6 +43,14 @@
     "_description": "The title for the help button.",
     "message": "Show help content"
   },
+  "skyux_help_inline_button_title_with_descriptor_text": {
+    "_description": "The title for the help button.",
+    "message": "Show help content for {0}"
+  },
+  "skyux_help_inline_button_title_with_descriptor_el": {
+    "_description": "The title for the help button.",
+    "message": "Show help content for"
+  },
   "skyux_label_sr_attention": {
     "_description": "Screen reader text when the label contains info that needs attention",
     "message": "Attention:"

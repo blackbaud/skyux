@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { SkyContentInfo, SkyContentInfoProvider } from '@skyux/core';
+
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sky-help-inline',
@@ -37,6 +40,16 @@ export class SkyHelpInlineComponent {
    */
   @Output()
   public actionClick = new EventEmitter<void>();
+
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider, {
+    optional: true,
+  });
+
+  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
+
+  constructor() {
+    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
+  }
 
   public onClick(): void {
     this.actionClick.emit();

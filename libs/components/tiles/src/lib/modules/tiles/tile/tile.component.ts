@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
@@ -9,9 +10,10 @@ import {
   Optional,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
-import { SkyIdModule } from '@skyux/core';
+import { SkyContentInfoProvider, SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -20,6 +22,9 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyTilesResourcesModule } from '../../shared/sky-tiles-resources.module';
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
+
+import { SKY_TILE_TITLE_ID } from './tile-title-id-token';
+import { SkyTileTitleComponent } from './tile-title.component';
 
 /**
  * Provides a common look-and-feel for tab content.
@@ -37,6 +42,16 @@ import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.servic
     SkyIdModule,
     SkyThemeModule,
     SkyTilesResourcesModule,
+  ],
+  providers: [
+    SkyContentInfoProvider,
+    {
+      provide: SKY_TILE_TITLE_ID,
+      useFactory(): string {
+        const idService = inject(SkyIdService);
+        return idService.generateId();
+      },
+    },
   ],
 })
 export class SkyTileComponent implements OnDestroy {
@@ -61,7 +76,15 @@ export class SkyTileComponent implements OnDestroy {
    * For example, if the tile name is "Constituents," the help input's `aria-label` is "Constituents help" and the drag handle's `aria-label` is "Move Constituents." For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
-  public tileName: string | undefined;
+  public set tileName(value: string | undefined) {
+    this.#_tileName = value;
+
+    this.#setContentInfo(value, !!this.titleRef);
+  }
+
+  public get tileName(): string | undefined {
+    return this.#_tileName;
+  }
 
   /**
    * Fires when users select the settings button in the tile header. The settings
@@ -124,10 +147,26 @@ export class SkyTileComponent implements OnDestroy {
   })
   public title: ElementRef | undefined;
 
+  @ContentChild(SkyTileTitleComponent, { read: ElementRef })
+  protected set titleRef(value: ElementRef | undefined) {
+    this.#_titleRef = value;
+
+    this.#setContentInfo(this.tileName, !!value);
+  }
+
+  protected get titleRef(): ElementRef | undefined {
+    return this.#_titleRef;
+  }
+
   #changeDetector: ChangeDetectorRef;
   #dashboardService: SkyTileDashboardService | undefined;
   #ngUnsubscribe = new Subject<void>();
   #_isCollapsed = false;
+  #_titleRef: ElementRef | undefined;
+  #_tileName: string | undefined;
+
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider);
+  protected tileTitleId = inject(SKY_TILE_TITLE_ID);
 
   constructor(
     public elementRef: ElementRef,
@@ -211,5 +250,17 @@ export class SkyTileComponent implements OnDestroy {
 
   #focusHandle(): void {
     this.grabHandle?.nativeElement.focus();
+  }
+
+  #setContentInfo(tileName: string | undefined, hasTitleEl: boolean) {
+    if (tileName) {
+      this.#contentInfoProvider.patchInfo({
+        descriptor: { type: 'text', value: tileName },
+      });
+    } else if (hasTitleEl) {
+      this.#contentInfoProvider.patchInfo({
+        descriptor: { type: 'elementId', value: this.tileTitleId },
+      });
+    }
   }
 }

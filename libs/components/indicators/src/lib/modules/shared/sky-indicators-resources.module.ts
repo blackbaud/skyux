@@ -30,6 +30,12 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_alert_sr_success: { message: 'Success:' },
     skyux_alert_sr_warning: { message: 'Warning:' },
     skyux_help_inline_button_title: { message: 'Show help content' },
+    skyux_help_inline_button_title_with_descriptor_text: {
+      message: 'Show help content for {0}',
+    },
+    skyux_help_inline_button_title_with_descriptor_el: {
+      message: 'Show help content for',
+    },
     skyux_label_sr_attention: { message: 'Attention:' },
     skyux_label_sr_caution: { message: 'Caution:' },
     skyux_label_sr_completed: { message: 'Completed:' },

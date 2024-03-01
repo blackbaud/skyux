@@ -9,6 +9,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
+  SkyContentInfoProvider,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
@@ -28,6 +29,7 @@ import { BehaviorSubject } from 'rxjs';
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
 import { SkyTileDashboardComponent } from '../tile-dashboard/tile-dashboard.component';
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
+import { SKY_TILE_TITLE_ID } from '../tile/tile-title-id-token';
 import { SkyTileComponent } from '../tile/tile.component';
 import { SkyTilesModule } from '../tiles.module';
 
@@ -81,6 +83,8 @@ describe('Tile dashboard service', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        SkyContentInfoProvider,
+        { provide: SKY_TILE_TITLE_ID, useValue: '1' },
       ],
     });
 
@@ -368,17 +372,19 @@ describe('Tile dashboard service', () => {
       .query(By.directive(SkyTileDashboardComponent))
       .injector.get(SkyTileDashboardService);
 
-    dashboardService.moveTileOnKeyDown(
-      new SkyTileComponent(
-        fixture.elementRef,
-        fixture.componentRef.changeDetectorRef,
-        {
-          configChange: new EventEmitter<SkyTileDashboardConfig>(),
-        } as SkyTileDashboardService,
-      ),
-      'left',
-      'Tile 1',
-    );
+    TestBed.runInInjectionContext(() => {
+      dashboardService.moveTileOnKeyDown(
+        new SkyTileComponent(
+          fixture.elementRef,
+          fixture.componentRef.changeDetectorRef,
+          {
+            configChange: new EventEmitter<SkyTileDashboardConfig>(),
+          } as SkyTileDashboardService,
+        ),
+        'left',
+        'Tile 1',
+      );
+    });
 
     // Make sure everything is still in the same spot
     const columnEls = fixture.nativeElement.querySelectorAll(
