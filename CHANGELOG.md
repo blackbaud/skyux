@@ -1,5 +1,20 @@
 # Changelog
 
+## [9.28.0](https://github.com/blackbaud/skyux/compare/9.27.0...9.28.0) (2024-02-29)
+
+
+### Features
+
+* **components/colorpicker:** add focus trap to colorpicker ([#2060](https://github.com/blackbaud/skyux/issues/2060)) ([76a76fd](https://github.com/blackbaud/skyux/commit/76a76fd60b3cff2254adb39f3761910a95302fc4))
+* **components/datetime:** improve screen reader labels for values on datepicker calendar ([#2051](https://github.com/blackbaud/skyux/issues/2051)) ([58ca714](https://github.com/blackbaud/skyux/commit/58ca714aa4304402705ec4a0523c2923896be778))
+* **components/forms:** add labelText to single file attachment ([#2059](https://github.com/blackbaud/skyux/issues/2059)) ([75e5b47](https://github.com/blackbaud/skyux/commit/75e5b4791574221f4318bb43d869365e29edc6f6))
+* **components/http:** provide svcid to auth-client ([#2038](https://github.com/blackbaud/skyux/issues/2038)) ([9268fe8](https://github.com/blackbaud/skyux/commit/9268fe8af7916cdae619cc112ecc715559fcc366))
+
+
+### Bug Fixes
+
+* **components/indicators:** address icon metadata issues ([#2069](https://github.com/blackbaud/skyux/issues/2069)) ([ae48904](https://github.com/blackbaud/skyux/commit/ae48904a8273fbe72d8b34d203b6b235804b58d5))
+
 ## [9.27.0](https://github.com/blackbaud/skyux/compare/9.26.0...9.27.0) (2024-02-29)
 
 
