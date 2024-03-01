@@ -143,9 +143,17 @@
     "_description": "Screen reader text when a link is removed",
     "message": "Link to {0} removed."
   },
-  "skyux_file_attachment_form_error_label_text": {
-    "_description": "Text for file attachment form errors label text",
-    "message": "A file for {0}"
+  "skyux_file_attachment_file_type_error_label_text": {
+    "_description": "The error message for file attachment incorrect file type error",
+    "message": "Please upload a file of type {0}"
+  },
+  "skyux_file_attachment_max_file_size_error_label_text": {
+    "_description": "The error message for file attachment max file size error",
+    "message": "Please upload a file under {0}Kbs"
+  },
+  "skyux_file_attachment_min_file_size_error_label_text": {
+    "_description": "The error message for file attachment min file size error",
+    "message": "Please upload a file over {0}Kbs"
   },
   "skyux_file_attachment_label_no_file_chosen": {
     "_description": "Label for single file attachment when no file is chosen",

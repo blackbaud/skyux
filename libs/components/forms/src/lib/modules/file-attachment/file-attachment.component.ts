@@ -31,6 +31,7 @@ import { SkyFormsUtility } from '../shared/forms-utility';
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
 import { SkyFileItem } from './file-item';
+import { SkyFileItemErrorType } from './file-item-error-type';
 import { SkyFileItemService } from './file-item.service';
 import { SkyFileValidateFn } from './file-validate-function';
 import { SkyFileAttachmentChange } from './types/file-attachment-change';
@@ -227,6 +228,8 @@ export class SkyFileAttachmentComponent
 
   protected ngControl: NgControl | undefined;
   protected errorId = this.#idSvc.generateId();
+  protected fileError: SkyFileItemErrorType | undefined;
+  protected fileParam: string | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -455,6 +458,11 @@ export class SkyFileAttachmentComponent
   #emitFileChangeEvent(currentFile?: SkyFileItem): void {
     if (currentFile && !currentFile.errorType) {
       this.writeValue(currentFile);
+      this.fileError = undefined;
+      this.fileParam = undefined;
+    } else {
+      this.fileError = currentFile?.errorType;
+      this.fileParam = currentFile?.errorParam;
     }
     this.fileChange.emit({
       file: currentFile,
