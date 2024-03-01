@@ -93,7 +93,7 @@ export class SkyAgGridWrapperComponent
     optional: true,
     skipSelf: true,
   });
-  #elementRef = inject(ElementRef);
+  #elementRef = inject(ElementRef<HTMLElement>);
   #document = inject(DOCUMENT);
   #mutationObserverService = inject(SkyMutationObserverService);
   #hasEditableClass = false;
@@ -198,12 +198,14 @@ export class SkyAgGridWrapperComponent
         'sky-ag-grid-editable',
       );
       this.#updateGridTheme(this.#currentTheme);
+      this.agGrid?.api.setEnableCellTextSelection(this.#getTextSelection());
     };
     if (agGridElement) {
       const agGridClassObserver =
         this.#mutationObserverService.create(callback);
       agGridClassObserver.observe(agGridElement, {
         attributes: true,
+        attributeFilter: ['class'],
       });
       this.#ngUnsubscribe.pipe(take(1)).subscribe(() => {
         agGridClassObserver.disconnect();
@@ -235,7 +237,7 @@ export class SkyAgGridWrapperComponent
   public onAnchorFocus(event: FocusEvent): void {
     const relatedTarget = event.relatedTarget as HTMLElement | undefined;
     const previousWasGrid =
-      relatedTarget && !!this.#elementRef.nativeElement.contains(relatedTarget);
+      relatedTarget && this.#elementRef.nativeElement.contains(relatedTarget);
 
     if (this.agGrid && !previousWasGrid) {
       const firstColumn = this.agGrid.columnApi.getAllDisplayedColumns()[0];
@@ -251,39 +253,32 @@ export class SkyAgGridWrapperComponent
   }
 
   #moveHorizontalScroll(): void {
-    if (this.agGrid && this.agGrid.api) {
-      const toTop = !!this.agGrid.gridOptions?.context?.enableTopScroll;
-      const root: HTMLElement =
-        this.#elementRef.nativeElement.querySelector('.ag-root');
-      const header: HTMLDivElement | null = root.querySelector('.ag-header');
-      const floatingBottom: HTMLDivElement | null = root.querySelector(
-        '.ag-floating-bottom',
-      );
-      const scrollbar: HTMLDivElement | null = root.querySelector(
-        '.ag-body-horizontal-scroll',
-      );
-      if (header && floatingBottom && scrollbar) {
-        if (
-          scrollbar.style.height !==
-          scrollbar.style.getPropertyValue(
-            '--sky-ag-body-horizontal-scroll-width',
-          )
-        ) {
-          scrollbar.style.setProperty(
-            '--sky-ag-body-horizontal-scroll-width',
-            scrollbar.style.height,
-          );
-        }
-        const isTop = !!root.children[1].matches('.ag-body-horizontal-scroll');
-        if (toTop && !isTop) {
-          const fragment = this.#document.createDocumentFragment();
-          fragment.appendChild(scrollbar);
-          header.after(fragment);
-        } else if (!toTop && isTop) {
-          const fragment = this.#document.createDocumentFragment();
-          fragment.appendChild(scrollbar);
-          floatingBottom.after(fragment);
-        }
+    const toTop = !!this.agGrid?.gridOptions?.context?.enableTopScroll;
+    const root = this.#elementRef.nativeElement.querySelector('.ag-root');
+    const header = root?.querySelector('.ag-header');
+    const floatingBottom = root?.querySelector('.ag-floating-bottom');
+    const scrollbar = root?.querySelector('.ag-body-horizontal-scroll');
+    if (root && header && floatingBottom && scrollbar) {
+      if (
+        scrollbar.style.height !==
+        scrollbar.style.getPropertyValue(
+          '--sky-ag-body-horizontal-scroll-width',
+        )
+      ) {
+        scrollbar.style.setProperty(
+          '--sky-ag-body-horizontal-scroll-width',
+          scrollbar.style.height,
+        );
+      }
+      const isTop = root.children[1].matches('.ag-body-horizontal-scroll');
+      if (toTop && !isTop) {
+        const fragment = this.#document.createDocumentFragment();
+        fragment.appendChild(scrollbar);
+        header.after(fragment);
+      } else if (!toTop && isTop) {
+        const fragment = this.#document.createDocumentFragment();
+        fragment.appendChild(scrollbar);
+        floatingBottom.after(fragment);
       }
     }
   }
@@ -298,11 +293,26 @@ export class SkyAgGridWrapperComponent
       agTheme = `default`;
     }
     const variation = this.#hasEditableClass ? 'data-entry-grid' : 'data-grid';
-    this.#wrapperClasses.next([
+    let value = [
       ...this.#wrapperClasses
         .getValue()
         .filter((c) => !c.startsWith('ag-theme-')),
       `ag-theme-sky-${variation}-${agTheme}`,
-    ]);
+    ];
+    const textSelectionClass = 'sky-ag-grid-text-selection';
+    if (this.#getTextSelection()) {
+      value.push(textSelectionClass);
+    } else {
+      value = value.filter((c) => c !== textSelectionClass);
+    }
+    this.#wrapperClasses.next([...new Set(value)]);
+  }
+
+  #getTextSelection(): boolean {
+    if (this.agGrid?.gridOptions?.context?.enableCellTextSelection) {
+      return !this.#hasEditableClass;
+    } else {
+      return false;
+    }
   }
 }

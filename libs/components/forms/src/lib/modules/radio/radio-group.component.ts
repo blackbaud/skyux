@@ -216,10 +216,9 @@ export class SkyRadioGroupComponent
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
 
-  readonly #idService = inject(SkyIdService);
   readonly #logger = inject(SkyLogService);
+  readonly #idService = inject(SkyIdService);
 
-  protected labelId = this.#idService.generateId();
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
 

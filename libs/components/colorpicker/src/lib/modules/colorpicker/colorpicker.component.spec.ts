@@ -3,6 +3,7 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
+  flush,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -26,6 +27,14 @@ import { ColorpickerTestComponent } from './fixtures/colorpicker-component.fixtu
 import { SkyColorpickerFixturesModule } from './fixtures/colorpicker-fixtures.module';
 import { ColorpickerReactiveTestComponent } from './fixtures/colorpicker-reactive-component.fixture';
 import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
+
+interface ColorpickerInputElements {
+  hex: HTMLInputElement;
+  red: HTMLInputElement;
+  green: HTMLInputElement;
+  blue: HTMLInputElement;
+  alpha: HTMLInputElement;
+}
 
 describe('Colorpicker Component', () => {
   let fixture: ComponentFixture<any>;
@@ -209,22 +218,30 @@ describe('Colorpicker Component', () => {
     };
   }
 
+  function getInputElements(): ColorpickerInputElements {
+    const inputElement: NodeListOf<Element> =
+      getColorpickerContainer().querySelectorAll('.rgba-text input');
+
+    const input = {
+      hex: inputElement[0] as HTMLInputElement,
+      red: inputElement[1] as HTMLInputElement,
+      green: inputElement[2] as HTMLInputElement,
+      blue: inputElement[3] as HTMLInputElement,
+      alpha: inputElement[4] as HTMLInputElement,
+    };
+
+    return input;
+  }
+
   function setInputElementValue(
     element: HTMLElement,
-    name: string,
+    name: keyof ColorpickerInputElements,
     value: string,
   ): void {
     fixture.detectChanges();
     fixture.whenStable();
-    const inputElement: NodeListOf<Element> =
-      getColorpickerContainer().querySelectorAll('.rgba-text input');
-    const input: any = {
-      hex: inputElement[0],
-      red: inputElement[1],
-      green: inputElement[2],
-      blue: inputElement[3],
-      alpha: inputElement[4],
-    };
+    const input = getInputElements();
+
     input[name].value = value;
     const params: any = {
       bubbles: false,
@@ -238,7 +255,6 @@ describe('Colorpicker Component', () => {
     input[name].dispatchEvent(changeEvent);
     fixture.detectChanges();
     fixture.whenStable();
-    return input[name];
   }
 
   function verifyColorpickerHidden(isHidden: boolean): void {
@@ -1088,6 +1104,46 @@ describe('Colorpicker Component', () => {
 
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
     });
+
+    it('should apply the selected color when Enter is pressed', fakeAsync(() => {
+      component.selectedOutputFormat = 'hex';
+      fixture.detectChanges();
+
+      openColorpicker(nativeElement);
+
+      setInputElementValue(nativeElement, 'hex', '#2B7230');
+
+      const inputElements = getInputElements();
+      inputElements.alpha.focus();
+
+      const enterEvent = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+      });
+
+      inputElements.alpha.dispatchEvent(enterEvent);
+
+      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+
+      flush();
+    }));
+
+    it('should hide siblings from screen readers', fakeAsync(() => {
+      fixture.detectChanges();
+
+      const overlaySpy = spyOn(
+        TestBed.inject(SkyOverlayService),
+        'create',
+      ).and.callThrough();
+
+      openColorpicker(nativeElement);
+
+      expect(overlaySpy).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining({
+          hideOthersFromScreenReaders: true,
+        }),
+      );
+    }));
   });
 
   describe('reactive configuration', () => {

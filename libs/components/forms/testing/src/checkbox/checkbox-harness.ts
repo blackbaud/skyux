@@ -5,6 +5,7 @@ import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
 import { SkyCheckboxHarnessFilters } from './checkbox-harness-filters';
 import { SkyCheckboxLabelHarness } from './checkbox-label-harness';
+import { SkyCheckboxLabelTextLabelHarness } from './checkbox-label-text-label.harness';
 
 /**
  * Harness for interacting with a checkbox component in tests.
@@ -19,6 +20,10 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   #getInput = this.locatorFor('input.sky-checkbox-input');
 
   #getLabel = this.locatorForOptional(SkyCheckboxLabelHarness);
+
+  #getLabelTextLabel = this.locatorForOptional(
+    SkyCheckboxLabelTextLabelHarness,
+  );
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {
     const harness = await this.locatorForOptional(SkyFormErrorsHarness)();
@@ -78,14 +83,38 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the checkbox's label text.
+   * Gets the checkbox's label text. If the label is set via `labelText` and `labelHidden` is true,
+   * the text will still be returned.
    */
   public async getLabelText(): Promise<string | undefined> {
+    const labelTextLabel = await this.#getLabelTextLabel();
     const label = await this.#getLabel();
-    if (label) {
-      return label.getText();
+
+    if (labelTextLabel) {
+      const text = await labelTextLabel.getText();
+      const ariaLabel = await this.getAriaLabel();
+
+      // if labelText is set, ariaLabel will never return null
+      return text || ariaLabel!;
+    } else {
+      return label?.getText();
     }
-    return;
+  }
+
+  /**
+   * Whether the label is hidden. Only supported when using the `labelText` input to set the label.
+   */
+  public async getLabelHidden(): Promise<boolean> {
+    const labelTextLabel = await this.#getLabelTextLabel();
+    const label = await this.#getLabel();
+
+    if (label) {
+      throw new Error(
+        '`labelIsHidden` is only supported when setting the checkbox label via the `labelText` input.',
+      );
+    } else {
+      return !(await labelTextLabel?.getText());
+    }
   }
 
   /**
