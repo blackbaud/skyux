@@ -107,13 +107,52 @@ describe('Checkbox harness', () => {
     await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo(undefined);
   });
 
-  it('should get the label when specified via labelText input', async () => {
+  it('should get the label text when specified via `labelText` input', async () => {
     const { checkboxHarness } = await setupTest({
       dataSkyId: 'my-phone-checkbox',
-      hideEmailLabel: true,
     });
 
     await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo('Phone');
+  });
+
+  it('should get the label text when specified via `labelText` input and label is hidden', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+
+    fixture.componentInstance.hidePhoneLabel = true;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo('Phone');
+  });
+
+  it('should indicate the label is not hidden when the label is specified via `labelText`', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.getLabelHidden()).toBeResolvedTo(false);
+  });
+
+  it('should indicate the label is hidden when the label is specified via `labelText`', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+
+    fixture.componentInstance.hidePhoneLabel = true;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxHarness.getLabelHidden()).toBeResolvedTo(true);
+  });
+
+  it('should throw an error when getting `labelIsHidden` for a checkbox using `sky-checkbox-label`', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-email-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.getLabelHidden()).toBeRejectedWithError(
+      '`labelIsHidden` is only supported when setting the checkbox label via the `labelText` input.',
+    );
   });
 
   it('should get the checkbox name and value', async () => {

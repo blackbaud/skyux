@@ -569,7 +569,7 @@ describe('Radio group component (reactive)', function () {
       fixture.nativeElement.querySelector('.sky-radio-group');
 
     expect(radioGroupEl.getAttribute('aria-owns')).toEqual(
-      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
+      'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input',
     );
   });
 
@@ -581,7 +581,7 @@ describe('Radio group component (reactive)', function () {
 
     const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(originalAriaOwns).toEqual(
-      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
+      'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input',
     );
 
     // Change an existing ID to something else.
@@ -590,7 +590,7 @@ describe('Radio group component (reactive)', function () {
 
     const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
     expect(newAriaOwns).toEqual(
-      'sky-radio-foobar-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_6-input',
+      'sky-radio-foobar-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input',
     );
   });
 
@@ -627,7 +627,7 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroup = fixture.nativeElement.querySelector('.sky-radio-group');
 
-    expect(radioGroup.getAttribute('aria-labelledBy')).toEqual('MOCK_ID_1');
+    expect(radioGroup.getAttribute('aria-labelledBy')).toBeNull();
     expect(radioGroup.getAttribute('aria-label')).toEqual(labelText);
   });
 

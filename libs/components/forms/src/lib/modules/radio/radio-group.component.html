@@ -1,15 +1,11 @@
-<label
-  *ngIf="labelText && !labelHidden"
-  [id]="labelId"
-  class="sky-control-label"
->
+<label *ngIf="labelText && !labelHidden" class="sky-control-label">
   {{ labelText }}
 </label>
 <div
   class="sky-radio-group"
   role="radiogroup"
-  [attr.aria-label]="labelText ? labelText : ariaLabel"
-  [attr.aria-labelledby]="labelText ? labelId : ariaLabelledBy"
+  [attr.aria-label]="labelText || ariaLabel"
+  [attr.aria-labelledby]="labelText ? undefined : ariaLabelledBy"
   [attr.aria-owns]="ariaOwns"
   [attr.aria-required]="required ? true : null"
   [attr.required]="required ? '' : null"

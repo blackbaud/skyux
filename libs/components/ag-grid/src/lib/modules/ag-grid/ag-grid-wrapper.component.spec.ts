@@ -32,7 +32,10 @@ import {
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
 
+const extendedTimeoutForA11yTests = jasmine.DEFAULT_TIMEOUT_INTERVAL * 4;
+
 describe('SkyAgGridWrapperComponent', () => {
+  let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridAdapterService: SkyAgGridAdapterService;
   let gridWrapperFixture: ComponentFixture<SkyAgGridWrapperComponent>;
   let gridWrapperComponent: SkyAgGridWrapperComponent;
@@ -43,25 +46,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
   let agGrid: AgGridAngular;
 
-  beforeEach(() => {
-    agGrid = {
-      api: jasmine.createSpyObj<GridApi>('api', [
-        'ensureColumnVisible',
-        'forEachDetailGridInfo',
-        'getEditingCells',
-        'refreshCells',
-        'resetRowHeights',
-        'setFocusedCell',
-        'setHeaderHeight',
-        'stopEditing',
-      ]),
-      columnApi: new ColumnApi(),
-      gridReady: new Subject<GridReadyEvent>(),
-      rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
-      firstDataRendered: new Subject<FirstDataRenderedEvent>(),
-      cellEditingStarted: new Subject<CellEditingStartedEvent>(),
-      cellEditingStopped: new Subject<CellEditingStartedEvent>(),
-    } as unknown as AgGridAngular;
+  beforeEach(async () => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -80,6 +65,37 @@ describe('SkyAgGridWrapperComponent', () => {
         },
       ],
     });
+    gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridFixture.detectChanges();
+    await gridFixture.whenStable();
+    gridFixture.detectChanges();
+    await gridFixture.whenStable();
+
+    expect(gridFixture.componentInstance.agGrid?.api).toBeDefined();
+    const agGridApi = gridFixture.componentInstance.agGrid?.api as GridApi;
+    const api = {
+      ensureColumnVisible: spyOn(agGridApi, 'ensureColumnVisible'),
+      forEachDetailGridInfo: spyOn(agGridApi, 'forEachDetailGridInfo'),
+      getEditingCells: spyOn(agGridApi, 'getEditingCells'),
+      refreshCells: spyOn(agGridApi, 'refreshCells'),
+      resetRowHeights: spyOn(agGridApi, 'resetRowHeights'),
+      setEnableCellTextSelection: spyOn(
+        agGridApi,
+        'setEnableCellTextSelection',
+      ),
+      setFocusedCell: spyOn(agGridApi, 'setFocusedCell'),
+      setHeaderHeight: spyOn(agGridApi, 'setHeaderHeight'),
+      stopEditing: spyOn(agGridApi, 'stopEditing'),
+    };
+    agGrid = {
+      api,
+      columnApi: new ColumnApi(agGridApi),
+      gridReady: new Subject<GridReadyEvent>(),
+      rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
+      firstDataRendered: new Subject<FirstDataRenderedEvent>(),
+      cellEditingStarted: new Subject<CellEditingStartedEvent>(),
+      cellEditingStopped: new Subject<CellEditingStartedEvent>(),
+    } as unknown as AgGridAngular;
 
     gridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
     gridAdapterService = TestBed.inject(SkyAgGridAdapterService);
@@ -409,10 +425,25 @@ describe('SkyAgGridWrapperComponent', () => {
 describe('SkyAgGridWrapperComponent via fixture', () => {
   let gridWrapperFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridWrapperNativeElement: HTMLElement;
-  const getChildrenClassNames = () =>
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+  };
+  const getChildrenClassNames = (): string[] =>
     Array.from(
       gridWrapperNativeElement.querySelector('.ag-root')?.children || [],
     ).map((el) => el.classList[0]);
+
+  beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light,
+        ),
+        previousSettings: undefined,
+      }),
+    };
+  });
 
   it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
     TestBed.configureTestingModule({
@@ -494,6 +525,59 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-body-horizontal-scroll',
       'ag-overlay',
     ]);
+  });
+
+  it('should have sky-ag-grid-text-selection class', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+      providers: [
+        {
+          provide: Editable,
+          useValue: false,
+        },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
+    });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+    ).toHaveCssClass('sky-ag-grid-text-selection');
+  });
+
+  it('should not have sky-ag-grid-text-selection class when editing', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+      providers: [
+        {
+          provide: Editable,
+          useValue: true,
+        },
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
+    });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    expect(
+      gridWrapperNativeElement.querySelector('.sky-ag-grid'),
+    ).not.toHaveCssClass('sky-ag-grid-text-selection');
   });
 
   it('should show inline help', async () => {
@@ -600,55 +684,108 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       });
     });
 
-    it(`should be accessible in edit mode`, async () => {
-      TestBed.configureTestingModule({
-        imports: [SkyAgGridFixtureModule],
-        providers: [
-          {
-            provide: Editable,
-            useValue: true,
+    it(
+      `should be accessible in edit mode`,
+      async () => {
+        TestBed.configureTestingModule({
+          imports: [SkyAgGridFixtureModule],
+          providers: [
+            {
+              provide: Editable,
+              useValue: true,
+            },
+            {
+              provide: EnableTopScroll,
+              useValue: false,
+            },
+          ],
+        });
+        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+
+        await expectAsync(gridWrapperNativeElement).toBeAccessible();
+      },
+      // This test can be slow because it's testing the entire grid.
+      extendedTimeoutForA11yTests,
+    );
+
+    it(
+      `should be accessible in edit mode, lookup field single mode`,
+      async () => {
+        TestBed.configureTestingModule({
+          imports: [SkyAgGridFixtureModule],
+          providers: [
+            {
+              provide: Editable,
+              useValue: true,
+            },
+            {
+              provide: EnableTopScroll,
+              useValue: false,
+            },
+          ],
+        });
+        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+
+        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+          rowIndex: 0,
+          colKey: 'lookupSingle',
+        });
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+        await expectAsync(gridWrapperNativeElement).toBeAccessible();
+      },
+      // This test can be slow because it's testing the entire grid.
+      extendedTimeoutForA11yTests,
+    );
+
+    it(
+      `should be accessible in edit mode, lookup field multiple mode`,
+      async () => {
+        TestBed.configureTestingModule({
+          imports: [SkyAgGridFixtureModule],
+          providers: [
+            {
+              provide: Editable,
+              useValue: true,
+            },
+            {
+              provide: EnableTopScroll,
+              useValue: false,
+            },
+          ],
+        });
+        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+
+        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+          rowIndex: 0,
+          colKey: 'lookupMultiple',
+        });
+        gridWrapperFixture.detectChanges();
+        await gridWrapperFixture.whenStable();
+        await expectAsync(
+          gridWrapperNativeElement.ownerDocument.body,
+        ).toBeAccessible({
+          rules: {
+            region: {
+              enabled: false,
+            },
           },
-          {
-            provide: EnableTopScroll,
-            useValue: false,
-          },
-        ],
-      });
-      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
-
-      await expectAsync(gridWrapperNativeElement).toBeAccessible();
-
-      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-        rowIndex: 0,
-        colKey: 'lookupSingle',
-      });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
-      await expectAsync(gridWrapperNativeElement).toBeAccessible();
-
-      gridWrapperFixture.componentInstance.agGrid?.api.stopEditing();
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
-
-      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-        rowIndex: 0,
-        colKey: 'lookupMultiple',
-      });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
-      await expectAsync(
-        gridWrapperNativeElement.ownerDocument.body,
-      ).toBeAccessible({
-        rules: {
-          region: {
-            enabled: false,
-          },
-        },
-      });
-    });
+        });
+      },
+      // This test can be slow because it's testing the entire grid.
+      extendedTimeoutForA11yTests,
+    );
   });
 });
