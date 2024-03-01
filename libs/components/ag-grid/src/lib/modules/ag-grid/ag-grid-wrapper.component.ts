@@ -198,7 +198,11 @@ export class SkyAgGridWrapperComponent
         'sky-ag-grid-editable',
       );
       this.#updateGridTheme(this.#currentTheme);
-      this.agGrid?.api.setEnableCellTextSelection(this.#getTextSelection());
+      if (this.agGrid && !this.agGrid.api.isDestroyed()) {
+        this.agGrid?.api.updateGridOptions({
+          enableCellTextSelection: this.#getTextSelection(),
+        });
+      }
     };
     if (agGridElement) {
       const agGridClassObserver =
