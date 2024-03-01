@@ -73,12 +73,6 @@ export class SingleFileAttachmentComponent implements OnInit {
   }
 
   private getErrorMessage(errorType: string, errorParam: string): string {
-    if (errorType === 'fileType') {
-      return `Please upload a file of type ${errorParam}.`;
-    } else if (errorType === 'maxFileSize') {
-      return `Please upload a file smaller than ${errorParam} KB.`;
-    } else {
-      return errorParam;
-    }
+    return errorParam;
   }
 }

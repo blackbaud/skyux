@@ -4,6 +4,7 @@
       formControlName="attachment"
       labelText="Attach a file"
       [maxFileSize]="maxFileSize"
+      [acceptedTypes]="'image/jpeg'"
       [validateFn]="validateFile"
       (fileChange)="reactiveFileUpdated($event)"
       (fileClick)="fileClick($event)"

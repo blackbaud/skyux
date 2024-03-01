@@ -461,6 +461,7 @@ export class SkyFileAttachmentComponent
       this.fileError = undefined;
       this.fileParam = undefined;
     } else {
+      this.#onChange(currentFile);
       this.fileError = currentFile?.errorType;
       this.fileParam = currentFile?.errorParam;
     }

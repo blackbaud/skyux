@@ -26,6 +26,12 @@ export class FileAttachmentTestComponent {
 
   public showLabel = true;
 
+  public maxFileSize: number | undefined;
+
+  public minFileSize: number | undefined;
+
+  public fileTypes: string | undefined;
+
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
   public showInlineHelp = false;

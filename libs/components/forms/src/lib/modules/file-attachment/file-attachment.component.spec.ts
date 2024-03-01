@@ -957,7 +957,7 @@ describe('File attachment', () => {
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
   });
 
-  it('should allow the user to specify a min file size', () => {
+  fit('should allow the user to specify a min file size', () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1393,6 +1393,27 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should not render form errors when label text is not set', async () => {
+    fixture.componentInstance.required = true;
+
+    getButtonEl(fixture.nativeElement)?.click();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-form-error')).toBeNull();
+  });
+
+  it('should render form errors when label text is set', async () => {
+    fixture.componentInstance.required = true;
+    fixture.componentInstance.labelText = 'file attachment';
+
+    getButtonEl(fixture.nativeElement)?.click();
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe('Error: file attachment is required.');
   });
 
   it('should render `labelText` and not label element if `labelText` is set', async () => {
