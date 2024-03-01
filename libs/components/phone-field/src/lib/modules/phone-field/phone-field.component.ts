@@ -399,7 +399,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
-      this.inputBoxHostSvc.hideHintText(showSearch);
+      this.inputBoxHostSvc.setHintTextHidden(showSearch);
     }
 
     this.#changeDetector.markForCheck();

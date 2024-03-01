@@ -802,10 +802,10 @@ describe('Input box component', () => {
       );
     });
 
-    it('should hide hint text when `hideHintText` is called with `true`', async () => {
+    it('should hide hint text when `setHintTextHidden` is called with `true`', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
-      fixture.componentInstance.inputBoxHostServiceComponent?.hideHintText(
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextHidden(
         true,
       );
       fixture.detectChanges();
@@ -816,10 +816,10 @@ describe('Input box component', () => {
       await expectAsync(els.inputBoxEl).toBeAccessible();
     });
 
-    it('should show hint text when `hideHintText` is called with `false`', async () => {
+    it('should show hint text when `setHintTextHidden` is called with `false`', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
-      fixture.componentInstance.inputBoxHostServiceComponent?.hideHintText(
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextHidden(
         false,
       );
       fixture.detectChanges();

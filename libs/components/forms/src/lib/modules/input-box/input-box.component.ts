@@ -302,7 +302,7 @@ export class SkyInputBoxComponent
     this.#changeRef.markForCheck();
   }
 
-  public hideHintText(hide: boolean): void {
+  public setHintTextHidden(hide: boolean): void {
     this.hintTextHidden = hide;
     this.#changeRef.markForCheck();
   }
