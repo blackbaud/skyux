@@ -77,15 +77,13 @@ describe('SkyAgGridWrapperComponent', () => {
       ensureColumnVisible: spyOn(agGridApi, 'ensureColumnVisible'),
       forEachDetailGridInfo: spyOn(agGridApi, 'forEachDetailGridInfo'),
       getEditingCells: spyOn(agGridApi, 'getEditingCells'),
+      isDestroyed: spyOn(agGridApi, 'isDestroyed'),
       refreshCells: spyOn(agGridApi, 'refreshCells'),
       resetRowHeights: spyOn(agGridApi, 'resetRowHeights'),
-      setEnableCellTextSelection: spyOn(
-        agGridApi,
-        'setEnableCellTextSelection',
-      ),
       setFocusedCell: spyOn(agGridApi, 'setFocusedCell'),
       setHeaderHeight: spyOn(agGridApi, 'setHeaderHeight'),
       stopEditing: spyOn(agGridApi, 'stopEditing'),
+      updateGridOptions: spyOn(agGridApi, 'updateGridOptions'),
     };
     agGrid = {
       api,
