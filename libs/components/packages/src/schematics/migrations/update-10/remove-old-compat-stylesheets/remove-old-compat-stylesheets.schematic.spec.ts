@@ -30,7 +30,7 @@ describe('Migrations > Remove old compat stylesheets', () => {
     });
 
     return {
-      runSchematic: () =>
+      runSchematic: (): Promise<UnitTestTree> =>
         runner.runSchematic('remove-old-compat-stylesheets', {}, tree),
       tree,
     };
@@ -140,5 +140,49 @@ describe('Migrations > Remove old compat stylesheets', () => {
     expect(tree.exists(stylesheets[1])).toEqual(false);
     expect(tree.exists(stylesheets[2])).toEqual(false);
     expect(tree.exists(stylesheets[3])).toEqual(true);
+  });
+
+  it("should skip removing stylesheets that don't exist", async () => {
+    const { runSchematic, tree } = await setup();
+
+    // Add the stylesheet to the config, but do not create it.
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          'foo-app': {
+            projectType: 'application',
+            root: 'src/app',
+            architect: {
+              build: {
+                options: {
+                  styles: ['src/app/skyux9-compat.css'],
+                },
+              },
+            },
+          },
+        },
+      }),
+    );
+
+    await runSchematic();
+
+    expect(tree.readJson('/angular.json')).toEqual({
+      version: 1,
+      projects: {
+        'foo-app': {
+          projectType: 'application',
+          root: 'src/app',
+          architect: {
+            build: {
+              options: {
+                styles: [],
+              },
+            },
+          },
+        },
+      },
+    });
   });
 });
