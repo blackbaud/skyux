@@ -23,6 +23,7 @@
     "@angular/forms": "^17.1.1",
     "@angular/platform-browser": "^17.1.1",
     "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
+    "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
     "@skyux/indicators": "0.0.0-PLACEHOLDER",

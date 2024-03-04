@@ -32,8 +32,6 @@ import {
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
 
-const extendedTimeoutForA11yTests = jasmine.DEFAULT_TIMEOUT_INTERVAL * 4;
-
 describe('SkyAgGridWrapperComponent', () => {
   let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridAdapterService: SkyAgGridAdapterService;
@@ -682,108 +680,137 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       });
     });
 
-    it(
-      `should be accessible in edit mode`,
-      async () => {
-        TestBed.configureTestingModule({
-          imports: [SkyAgGridFixtureModule],
-          providers: [
-            {
-              provide: Editable,
-              useValue: true,
-            },
-            {
-              provide: EnableTopScroll,
-              useValue: false,
-            },
-          ],
-        });
-        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-
-        await expectAsync(gridWrapperNativeElement).toBeAccessible();
-      },
-      // This test can be slow because it's testing the entire grid.
-      extendedTimeoutForA11yTests,
-    );
-
-    it(
-      `should be accessible in edit mode, lookup field single mode`,
-      async () => {
-        TestBed.configureTestingModule({
-          imports: [SkyAgGridFixtureModule],
-          providers: [
-            {
-              provide: Editable,
-              useValue: true,
-            },
-            {
-              provide: EnableTopScroll,
-              useValue: false,
-            },
-          ],
-        });
-        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-
-        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-          rowIndex: 0,
-          colKey: 'lookupSingle',
-        });
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-        await expectAsync(gridWrapperNativeElement).toBeAccessible();
-      },
-      // This test can be slow because it's testing the entire grid.
-      extendedTimeoutForA11yTests,
-    );
-
-    it(
-      `should be accessible in edit mode, lookup field multiple mode`,
-      async () => {
-        TestBed.configureTestingModule({
-          imports: [SkyAgGridFixtureModule],
-          providers: [
-            {
-              provide: Editable,
-              useValue: true,
-            },
-            {
-              provide: EnableTopScroll,
-              useValue: false,
-            },
-          ],
-        });
-        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-
-        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-          rowIndex: 0,
-          colKey: 'lookupMultiple',
-        });
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-        await expectAsync(
-          gridWrapperNativeElement.ownerDocument.body,
-        ).toBeAccessible({
-          rules: {
-            region: {
-              enabled: false,
-            },
+    it(`should be accessible in edit mode`, async () => {
+      TestBed.configureTestingModule({
+        imports: [SkyAgGridFixtureModule],
+        providers: [
+          {
+            provide: Editable,
+            useValue: true,
           },
-        });
-      },
-      // This test can be slow because it's testing the entire grid.
-      extendedTimeoutForA11yTests,
-    );
+          {
+            provide: EnableTopScroll,
+            useValue: false,
+          },
+        ],
+      });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      await expectAsync(gridWrapperNativeElement).toBeAccessible();
+    });
+
+    it(`should be accessible in edit mode, lookup field single mode`, async () => {
+      TestBed.configureTestingModule({
+        imports: [SkyAgGridFixtureModule],
+        providers: [
+          {
+            provide: Editable,
+            useValue: true,
+          },
+          {
+            provide: EnableTopScroll,
+            useValue: false,
+          },
+        ],
+      });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.isAnimationFrameQueueEmpty(),
+      ).toBeTrue();
+      gridWrapperFixture.componentInstance.agGrid?.api.setColumnsVisible(
+        gridWrapperFixture.componentInstance.columnDefs
+          .filter(
+            (col) =>
+              typeof col.field === 'string' &&
+              !['select', 'lookupSingle'].includes(col.field),
+          )
+          .map((col) => `${col.field}`),
+        false,
+      );
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'lookupSingle',
+      });
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
+      ).toHaveSize(1);
+      await expectAsync(
+        gridWrapperNativeElement.ownerDocument.body,
+      ).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
+      });
+    });
+
+    it(`should be accessible in edit mode, lookup field multiple mode`, async () => {
+      TestBed.configureTestingModule({
+        imports: [SkyAgGridFixtureModule],
+        providers: [
+          {
+            provide: Editable,
+            useValue: true,
+          },
+          {
+            provide: EnableTopScroll,
+            useValue: false,
+          },
+        ],
+      });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.isAnimationFrameQueueEmpty(),
+      ).toBeTrue();
+      gridWrapperFixture.componentInstance.agGrid?.api.setColumnsVisible(
+        gridWrapperFixture.componentInstance.columnDefs
+          .filter(
+            (col) =>
+              typeof col.field === 'string' &&
+              !['select', 'lookupMultiple'].includes(col.field),
+          )
+          .map((col) => `${col.field}`),
+        false,
+      );
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'lookupMultiple',
+      });
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
+      ).toHaveSize(1);
+      await expectAsync(
+        gridWrapperNativeElement.ownerDocument.body,
+      ).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
+      });
+    });
   });
 });
