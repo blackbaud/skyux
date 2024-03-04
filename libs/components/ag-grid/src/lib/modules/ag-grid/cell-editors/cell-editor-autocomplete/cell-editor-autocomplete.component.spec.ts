@@ -46,6 +46,10 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   });
 
   describe('agInit', () => {
+    const api = jasmine.createSpyObj<GridApi>('api', [
+      'getDisplayNameForColumn',
+      'stopEditing',
+    ]);
     let cellEditorParams: Partial<SkyCellEditorAutocompleteParams>;
     let column: Column;
     const selection = data[0];
@@ -63,7 +67,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       );
 
       cellEditorParams = {
-        api: jasmine.createSpyObj<GridApi>('api', ['stopEditing']),
+        api,
         value: selection,
         column,
         node: rowNode,
@@ -94,6 +98,43 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       component.onAutocompleteOpenChange(false);
       component.onBlur();
       expect(cellEditorParams.api?.stopEditing).toHaveBeenCalled();
+    });
+
+    it('should set the correct aria label when header text was provided to the column', () => {
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {
+          headerName: 'Testing',
+        },
+        rowIndex: 0,
+      });
+      fixture.detectChanges();
+      const input = nativeElement.querySelector('input') as HTMLInputElement;
+
+      fixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable autocomplete Testing for row 1',
+      );
+    });
+
+    it('should set the correct aria label when header text was not provided to the column and the header display name was used', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing display');
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: {
+          headerName: undefined,
+        },
+        rowIndex: 0,
+      });
+      fixture.detectChanges();
+      const input = nativeElement.querySelector('input') as HTMLInputElement;
+
+      fixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable autocomplete Testing display for row 1',
+      );
     });
 
     describe('cellStartedEdit is true', () => {
@@ -249,7 +290,14 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         true,
       );
 
+      const gridApi = new GridApi();
+
+      gridApi.getDisplayNameForColumn = (): string => {
+        return '';
+      };
+
       cellEditorParams = {
+        api: gridApi,
         value: selection,
         column,
         node: rowNode,

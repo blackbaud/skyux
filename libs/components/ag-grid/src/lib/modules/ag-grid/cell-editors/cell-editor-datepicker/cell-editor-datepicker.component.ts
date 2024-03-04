@@ -35,16 +35,20 @@ export class SkyAgGridCellEditorDatepickerComponent
   extends PopupComponent
   implements ICellEditorAngularComp
 {
+  public columnHeader: string | undefined;
   public columnWidth: number | undefined;
   public columnWidthWithoutBorders: number | undefined;
   public editorForm = new UntypedFormGroup({
     date: new UntypedFormControl(),
   });
   public rowHeightWithoutBorders: number | null | undefined;
+  public rowNumber: number | undefined;
   public skyComponentProperties: SkyAgGridDatepickerProperties = {};
 
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
   public datepickerInput: ElementRef | undefined;
+
+  protected resolvedDateFormat = '';
 
   #calendarOpen = false;
   #params: SkyCellEditorDatepickerParams | undefined;
@@ -68,6 +72,11 @@ export class SkyAgGridCellEditorDatepickerComponent
   public onCalendarOpenChange(isOpen: boolean): void {
     this.#calendarOpen = isOpen;
     this.#stopEditingOnBlur();
+  }
+
+  public onDateFormatChange(dateFormat: string): void {
+    this.resolvedDateFormat = dateFormat;
+    this.#changeDetector.markForCheck();
   }
 
   /**
@@ -101,9 +110,11 @@ export class SkyAgGridCellEditorDatepickerComponent
     this.#changeDetector.markForCheck();
 
     this.skyComponentProperties = this.#params.skyComponentProperties || {};
+    this.columnHeader = this.#params.colDef && this.#params.colDef.headerName || this.#params.api.getDisplayNameForColumn(this.#params.column, 'header');
     this.columnWidth = this.#params.column.getActualWidth();
     this.columnWidthWithoutBorders = this.columnWidth - 2;
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 3;
+    this.rowNumber = this.#params.rowIndex + 1;
     this.#themeSvc?.settingsChange.subscribe((themeSettings) => {
       if (themeSettings.currentSettings.theme.name === 'modern') {
         this.columnWidthWithoutBorders = this.columnWidth;
