@@ -1,6 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host {
+  display: inline-block;
+}
+
 .sky-switch-control:not(.sky-switch-control-icon) {
   sky-icon {
     font-size: 70%;
