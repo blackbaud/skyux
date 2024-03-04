@@ -105,7 +105,7 @@
     "ag-grid-community": "31.1.1",
     "autonumeric": "4.10.4",
     "axe-core": "4.8.3",
-    "cheerio": "0.22.0",
+    "cheerio": "1.0.0-rc.12",
     "comment-json": "4.2.3",
     "dom-autoscroller": "2.3.4",
     "dompurify": "3.0.8",

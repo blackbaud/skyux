@@ -1,12 +1,12 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
 
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 function replaceTabIndexAttr(
-  $elem: cheerio.Cheerio,
+  $elem: cheerio.Cheerio<cheerio.Element>,
   oldName: string,
   newName: string,
 ): void {
@@ -14,17 +14,19 @@ function replaceTabIndexAttr(
 
   if (value) {
     $elem.attr(newName, value);
-
     $elem.removeAttr(oldName);
   }
 }
 
 function renameTabIndex(html: string): string {
-  const $ = cheerio.load(html, {
-    decodeEntities: false,
-    lowerCaseTags: false,
-    lowerCaseAttributeNames: false,
-  });
+  const $ = cheerio.load(
+    html,
+    {
+      // Ensures attribute name casing is left intact.
+      xml: true,
+    },
+    false,
+  );
 
   const tabs = $('sky-tab');
 
@@ -34,7 +36,10 @@ function renameTabIndex(html: string): string {
     replaceTabIndexAttr($elem, '[tabIndex]', '[tabIndexValue]');
   });
 
-  return $.html().toString();
+  return $.html({
+    lowerCaseAttributeNames: false,
+    lowerCaseTags: false,
+  }).toString();
 }
 
 async function updateSourceFiles(tree: Tree): Promise<void> {
