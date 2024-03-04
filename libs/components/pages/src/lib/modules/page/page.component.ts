@@ -79,9 +79,7 @@ export class SkyPageComponent implements OnInit, OnDestroy {
       : LAYOUT_CLASS_DEFAULT;
 
     if (this.#layoutForChild) {
-      cssClass = `${cssClass} ${LAYOUT_FOR_CHILD_CLASS_PREFIX}${
-        this.#layoutForChild
-      }`;
+      cssClass = `${cssClass} ${LAYOUT_FOR_CHILD_CLASS_PREFIX}${this.#layoutForChild}`;
     }
 
     this.cssClass = cssClass;

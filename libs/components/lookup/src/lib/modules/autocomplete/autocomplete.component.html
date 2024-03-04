@@ -93,7 +93,7 @@
         *ngIf="
           !(
             searchAsync
-            | skyAutocompleteSearchAsyncDisabled : searchAsyncDisabled
+            | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled
           ) &&
           searchResults.length === 0 &&
           !searchText
@@ -104,13 +104,13 @@
       <ng-container
         *ngIf="
           (searchAsync
-            | skyAutocompleteSearchAsyncDisabled : searchAsyncDisabled) &&
+            | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled) &&
           !searchText
         "
       >
         {{
           'skyux_autocomplete_show_all_count'
-            | skyLibResources : (data.length | skyNumeric : { truncate: false })
+            | skyLibResources: (data.length | skyNumeric: { truncate: false })
         }}
       </ng-container>
       <ng-container *ngIf="searchText">
@@ -119,7 +119,7 @@
             | skyLibResources
               : (searchResultsCount === undefined
                   ? data.length
-                  : (searchResultsCount | skyNumeric : { truncate: false }))
+                  : (searchResultsCount | skyNumeric: { truncate: false }))
         }}
       </ng-container>
     </button>

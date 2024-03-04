@@ -9,7 +9,7 @@
     >
       <a
         *ngIf="
-          (item | linkAs : 'skyAppLink') &&
+          (item | linkAs: 'skyAppLink') &&
           item.permalink?.route as permalinkRoute
         "
         [skyAppLink]="permalinkRoute.commands"
@@ -25,23 +25,23 @@
       >
       <ng-container *ngIf="item.permalink as permalink">
         <a
-          *ngIf="item | linkAs : 'skyHref'"
+          *ngIf="item | linkAs: 'skyHref'"
           [skyHref]="permalink.url"
           class="sky-needs-attention-item"
           >{{ item.title }} {{ item.message }}</a
         >
         <a
-          *ngIf="item | linkAs : 'href'"
+          *ngIf="item | linkAs: 'href'"
           [href]="permalink.url"
           class="sky-needs-attention-item"
           >{{ item.title }} {{ item.message }}</a
         >
       </ng-container>
       <button
-        *ngIf="item | linkAs : 'button'"
+        *ngIf="item | linkAs: 'button'"
         class="sky-needs-attention-item sky-btn sky-btn-link-inline"
         type="button"
-        (click)="item?.click({item})"
+        (click)="item?.click({ item })"
       >
         {{ item.title }} {{ item.message }}
       </button>

@@ -2,7 +2,7 @@
   <sky-form-error
     *ngIf="errors['required']"
     errorName="required"
-    [errorText]="'skyux_form_error_required' | skyLibResources : labelText"
+    [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
   />
 
   <sky-form-error
@@ -10,7 +10,7 @@
     errorName="maxlength"
     [errorText]="
       'skyux_form_error_maxlength'
-        | skyLibResources : labelText : maxLengthError.requiredLength
+        | skyLibResources: labelText : maxLengthError.requiredLength
     "
   />
 
@@ -19,7 +19,7 @@
     errorName="minlength"
     [errorText]="
       'skyux_form_error_minlength'
-        | skyLibResources : labelText : minLengthError.requiredLength
+        | skyLibResources: labelText : minLengthError.requiredLength
     "
   />
 

@@ -35,7 +35,10 @@ export class ListViewTestComponent extends ListViewComponent {
 
   public items: ListItemModel[];
 
-  constructor(state: ListState, private dispatcher: ListStateDispatcher) {
+  constructor(
+    state: ListState,
+    private dispatcher: ListStateDispatcher,
+  ) {
     super(state, 'Test View');
 
     state

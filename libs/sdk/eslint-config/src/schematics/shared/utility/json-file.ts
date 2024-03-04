@@ -53,7 +53,10 @@ export class JsonFile {
 
   private _jsonAst: Node | undefined;
 
-  constructor(private readonly host: Tree, private readonly path: string) {
+  constructor(
+    private readonly host: Tree,
+    private readonly path: string,
+  ) {
     const buffer = this.host.read(this.path);
     if (buffer) {
       this.content = buffer.toString();

@@ -84,7 +84,7 @@
         ? labelText +
           ' ' +
           ('skyux_character_count_message'
-            | skyLibResources : characterCountScreenReader : characterLimit)
+            | skyLibResources: characterCountScreenReader : characterLimit)
         : null
     "
     [for]="controlId"
@@ -194,6 +194,6 @@
     class="sky-font-deemphasized sky-input-box-hint-text"
     [id]="hintTextId"
   >
-    {{ hintText | skyInputBoxHintText : hostHintText }}
+    {{ hintText | skyInputBoxHintText: hostHintText }}
   </div>
 </ng-template>

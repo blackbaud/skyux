@@ -148,7 +148,7 @@ export class SkyConfirmComponent {
           action: config.action,
           styleType: config.styleType || 'default',
           autofocus: config.autofocus || false,
-        } as SkyConfirmButton),
+        }) as SkyConfirmButton,
     );
   }
 }
