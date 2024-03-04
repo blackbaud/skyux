@@ -87,6 +87,7 @@ export class SkyFileAttachmentComponent
 
   /**
    * Whether to hide `labelText` from view.
+   * @preview
    */
   @Input()
   public labelHidden = false;

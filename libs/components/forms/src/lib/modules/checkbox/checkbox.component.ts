@@ -236,6 +236,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   /**
    * Indicates whether to hide the `labelText`.
+   * @preview
    */
   @Input()
   public labelHidden: boolean = false;
