@@ -680,102 +680,113 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       });
     });
 
-    it(
-      `should be accessible in edit mode`,
-      async () => {
-        TestBed.configureTestingModule({
-          imports: [SkyAgGridFixtureModule],
-          providers: [
-            {
-              provide: Editable,
-              useValue: true,
-            },
-            {
-              provide: EnableTopScroll,
-              useValue: false,
-            },
-          ],
-        });
-        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-
-        await expectAsync(gridWrapperNativeElement).toBeAccessible();
-      }
-    );
-
-    it(
-      `should be accessible in edit mode, lookup field single mode`,
-      async () => {
-        TestBed.configureTestingModule({
-          imports: [SkyAgGridFixtureModule],
-          providers: [
-            {
-              provide: Editable,
-              useValue: true,
-            },
-            {
-              provide: EnableTopScroll,
-              useValue: false,
-            },
-          ],
-        });
-        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-
-        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-          rowIndex: 0,
-          colKey: 'lookupSingle',
-        });
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-        await expectAsync(gridWrapperNativeElement).toBeAccessible();
-      }
-    );
-
-    it(
-      `should be accessible in edit mode, lookup field multiple mode`,
-      async () => {
-        TestBed.configureTestingModule({
-          imports: [SkyAgGridFixtureModule],
-          providers: [
-            {
-              provide: Editable,
-              useValue: true,
-            },
-            {
-              provide: EnableTopScroll,
-              useValue: false,
-            },
-          ],
-        });
-        gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-        gridWrapperNativeElement = gridWrapperFixture.nativeElement;
-
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-
-        gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
-          rowIndex: 0,
-          colKey: 'lookupMultiple',
-        });
-        gridWrapperFixture.detectChanges();
-        await gridWrapperFixture.whenStable();
-        await expectAsync(
-          gridWrapperNativeElement.ownerDocument.body,
-        ).toBeAccessible({
-          rules: {
-            region: {
-              enabled: false,
-            },
+    it(`should be accessible in edit mode`, async () => {
+      TestBed.configureTestingModule({
+        imports: [SkyAgGridFixtureModule],
+        providers: [
+          {
+            provide: Editable,
+            useValue: true,
           },
-        });
-      }
-    );
+          {
+            provide: EnableTopScroll,
+            useValue: false,
+          },
+        ],
+      });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      await expectAsync(gridWrapperNativeElement).toBeAccessible();
+    });
+
+    it(`should be accessible in edit mode, lookup field single mode`, async () => {
+      TestBed.configureTestingModule({
+        imports: [SkyAgGridFixtureModule],
+        providers: [
+          {
+            provide: Editable,
+            useValue: true,
+          },
+          {
+            provide: EnableTopScroll,
+            useValue: false,
+          },
+        ],
+      });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.isAnimationFrameQueueEmpty(),
+      ).toBeTrue();
+      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'lookupSingle',
+      });
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
+      ).toHaveSize(1);
+      await expectAsync(
+        gridWrapperNativeElement.ownerDocument.body,
+      ).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
+      });
+    });
+
+    it(`should be accessible in edit mode, lookup field multiple mode`, async () => {
+      TestBed.configureTestingModule({
+        imports: [SkyAgGridFixtureModule],
+        providers: [
+          {
+            provide: Editable,
+            useValue: true,
+          },
+          {
+            provide: EnableTopScroll,
+            useValue: false,
+          },
+        ],
+      });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.isAnimationFrameQueueEmpty(),
+      ).toBeTrue();
+      gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
+        rowIndex: 0,
+        colKey: 'lookupMultiple',
+      });
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+      expect(
+        gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
+      ).toHaveSize(1);
+      await expectAsync(
+        gridWrapperNativeElement.ownerDocument.body,
+      ).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
+      });
+    });
   });
 });
