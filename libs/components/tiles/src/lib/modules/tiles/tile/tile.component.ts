@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
@@ -9,9 +10,10 @@ import {
   Optional,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
-import { SkyIdModule } from '@skyux/core';
+import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -20,6 +22,9 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyTilesResourcesModule } from '../../shared/sky-tiles-resources.module';
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
+
+import { SKY_TILE_TITLE_ID } from './tile-title-id-token';
+import { SkyTileTitleComponent } from './tile-title.component';
 
 /**
  * Provides a common look-and-feel for tab content.
@@ -37,6 +42,15 @@ import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.servic
     SkyIdModule,
     SkyThemeModule,
     SkyTilesResourcesModule,
+  ],
+  providers: [
+    {
+      provide: SKY_TILE_TITLE_ID,
+      useFactory(): string {
+        const idService = inject(SkyIdService);
+        return idService.generateId();
+      },
+    },
   ],
 })
 export class SkyTileComponent implements OnDestroy {
@@ -124,10 +138,15 @@ export class SkyTileComponent implements OnDestroy {
   })
   public title: ElementRef | undefined;
 
+  @ContentChild(SkyTileTitleComponent, { read: ElementRef })
+  protected titleRef: ElementRef | undefined;
+
   #changeDetector: ChangeDetectorRef;
   #dashboardService: SkyTileDashboardService | undefined;
   #ngUnsubscribe = new Subject<void>();
   #_isCollapsed = false;
+
+  protected tileTitleId = inject(SKY_TILE_TITLE_ID);
 
   constructor(
     public elementRef: ElementRef,
