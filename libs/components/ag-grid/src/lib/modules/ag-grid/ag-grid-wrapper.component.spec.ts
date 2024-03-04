@@ -32,8 +32,6 @@ import {
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
 
-const extendedTimeoutForA11yTests = jasmine.DEFAULT_TIMEOUT_INTERVAL * 4;
-
 describe('SkyAgGridWrapperComponent', () => {
   let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridAdapterService: SkyAgGridAdapterService;
@@ -705,9 +703,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         await gridWrapperFixture.whenStable();
 
         await expectAsync(gridWrapperNativeElement).toBeAccessible();
-      },
-      // This test can be slow because it's testing the entire grid.
-      extendedTimeoutForA11yTests,
+      }
     );
 
     it(
@@ -739,9 +735,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         gridWrapperFixture.detectChanges();
         await gridWrapperFixture.whenStable();
         await expectAsync(gridWrapperNativeElement).toBeAccessible();
-      },
-      // This test can be slow because it's testing the entire grid.
-      extendedTimeoutForA11yTests,
+      }
     );
 
     it(
@@ -781,9 +775,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
             },
           },
         });
-      },
-      // This test can be slow because it's testing the entire grid.
-      extendedTimeoutForA11yTests,
+      }
     );
   });
 });
