@@ -1,7 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-$input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
+$input-box-transitions:
+  border-color 150ms,
+  box-shadow 150ms,
+  color 150ms;
 
 .sky-input-box {
   --sky-background-color-input-box-group: transparent;

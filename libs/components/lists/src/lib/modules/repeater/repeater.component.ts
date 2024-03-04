@@ -141,9 +141,7 @@ export class SkyRepeaterComponent
   #logSvc = inject(SkyLogService);
 
   constructor() {
-    this.dragulaGroupName = `sky-repeater-dragula-${
-      this.#repeaterService.repeaterGroupId
-    }`;
+    this.dragulaGroupName = `sky-repeater-dragula-${this.#repeaterService.repeaterGroupId}`;
 
     this.#repeaterService.itemCollapseStateChange
       .pipe(takeUntil(this.#ngUnsubscribe))
