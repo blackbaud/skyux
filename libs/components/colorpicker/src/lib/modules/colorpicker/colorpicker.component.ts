@@ -107,6 +107,7 @@ export class SkyColorpickerComponent
   /**
    * The text to display as the colorpicker's label. Use this instead of a `label` element when the label is text-only.
    * Specifying `labelText` also enables automatic error message handling for standard colorpicker errors.
+   * @preview
    */
   @Input()
   public set labelText(value: string | undefined) {
