@@ -117,6 +117,7 @@ export class SkyToggleSwitchComponent
 
   /**
    * The text to display as the toggle switch's label.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;

@@ -80,6 +80,7 @@ export class SkyFileAttachmentComponent
 
   /**
    * The text to display as the file attachment's label.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;
