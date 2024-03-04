@@ -1,4 +1,5 @@
 <form [formGroup]="phoneForm">
+  <label for="phone-field-reactive-input">Reactive phone field</label>
   <sky-phone-field
     *ngIf="showPhoneField"
     [allowExtensions]="allowExtensions"
@@ -8,6 +9,7 @@
     [(selectedCountry)]="selectedCountry"
   >
     <input
+      id="phone-field-reactive-input"
       formControlName="phone"
       skyPhoneFieldInput
       [skyPhoneFieldNoValidate]="noValidate"

@@ -26,7 +26,6 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
-import { SkyPhoneFieldCountry } from './types/country';
 
 const SKY_PHONE_FIELD_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -148,25 +147,13 @@ export class SkyPhoneFieldInputDirective
 
     this.#adapterService?.setElementType(this.#elRef);
     this.#adapterService?.addElementClass(this.#elRef, 'sky-form-control');
-    if (this.#phoneFieldComponent?.selectedCountry?.exampleNumber) {
-      this.#adapterService?.setElementPlaceholder(
-        this.#elRef,
-        this.#phoneFieldComponent.selectedCountry.exampleNumber,
-      );
-    }
   }
 
   public ngAfterViewInit(): void {
     this.#phoneFieldComponent?.selectedCountryChange
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((country: SkyPhoneFieldCountry) => {
+      .subscribe(() => {
         this.#modelValue = this.#elRef.nativeElement.value;
-        if (country?.exampleNumber) {
-          this.#adapterService?.setElementPlaceholder(
-            this.#elRef,
-            country.exampleNumber,
-          );
-        }
       });
 
     // This is needed to address a bug in Angular 4, where the value is not changed on the view.

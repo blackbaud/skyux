@@ -6,6 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { InputBoxHostServiceFixtureComponent } from './input-box-host-service.component.fixture';
+
 @Component({
   selector: 'sky-input-box-fixture',
   templateUrl: './input-box.component.fixture.html',
@@ -70,6 +72,11 @@ export class InputBoxFixtureComponent {
 
   @ViewChild('easyModePopoverTemplate', { read: TemplateRef })
   public easyModePopoverTemplate: TemplateRef<unknown> | undefined;
+
+  @ViewChild(InputBoxHostServiceFixtureComponent)
+  public inputBoxHostServiceComponent:
+    | InputBoxHostServiceFixtureComponent
+    | undefined;
 
   constructor() {
     this.errorField = new UntypedFormControl('', [Validators.required]);
