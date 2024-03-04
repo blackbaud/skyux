@@ -175,12 +175,14 @@ export class SkyRadioGroupComponent
 
   /**
    * The text to display as the radio group's label.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Indicates whether to hide the `labelText`.
+   * @preview
    */
   @Input()
   public labelHidden = false;

@@ -38,4 +38,8 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
 
     this.controlId = this.#inputBoxHostSvc.controlId;
   }
+
+  public setHintTextHidden(hide: boolean): void {
+    this.#inputBoxHostSvc.setHintTextHidden(hide);
+  }
 }

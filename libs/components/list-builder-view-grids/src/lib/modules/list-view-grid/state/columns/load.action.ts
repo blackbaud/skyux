@@ -5,5 +5,8 @@ import { SkyGridColumnModel } from '@skyux/grids';
  * @deprecated
  */
 export class ListViewGridColumnsLoadAction {
-  constructor(public columns: SkyGridColumnModel[], public refresh = false) {}
+  constructor(
+    public columns: SkyGridColumnModel[],
+    public refresh = false,
+  ) {}
 }

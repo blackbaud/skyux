@@ -22,7 +22,8 @@
   height: 10px;
   position: absolute;
   top: 10px;
-  transition: transform $sky-transition-time-medium,
+  transition:
+    transform $sky-transition-time-medium,
     left $sky-transition-time-medium;
   vertical-align: top;
   width: 10px;

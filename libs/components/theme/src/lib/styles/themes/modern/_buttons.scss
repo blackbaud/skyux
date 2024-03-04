@@ -51,7 +51,8 @@
     color: var(--sky-text-color-action-primary);
 
     &:focus-visible:not(:active) {
-      box-shadow: 0 0 0 2px var(--sky-background-color-primary-dark),
+      box-shadow:
+        0 0 0 2px var(--sky-background-color-primary-dark),
         0 1px 8px 2px $sky-theme-modern-elevation-3-shadow-color;
     }
 

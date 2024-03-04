@@ -158,9 +158,7 @@ export class SkyTileComponent implements OnDestroy {
     this.isInDashboardColumn = !!this.#dashboardService;
 
     if (this.#dashboardService) {
-      this.ariaDescribedBy = `${
-        this.#dashboardService.bagId
-      }-move-instructions`;
+      this.ariaDescribedBy = `${this.#dashboardService.bagId}-move-instructions`;
 
       /**
        * This subscription ensures that if any values which come in from the dashboard service are

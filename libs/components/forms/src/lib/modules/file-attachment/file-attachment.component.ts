@@ -80,12 +80,14 @@ export class SkyFileAttachmentComponent
 
   /**
    * The text to display as the file attachment's label.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Whether to hide `labelText` from view.
+   * @preview
    */
   @Input()
   public labelHidden = false;
@@ -235,9 +237,7 @@ export class SkyFileAttachmentComponent
     this.#themeSvc = themeSvc;
 
     this.labelElementId = `sky-file-attachment-label-${this.#fileAttachmentId}`;
-    this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${
-      this.#fileAttachmentId
-    }`;
+    this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${this.#fileAttachmentId}`;
     if (this.#ngControl) {
       this.#ngControl.valueAccessor = this;
     }
