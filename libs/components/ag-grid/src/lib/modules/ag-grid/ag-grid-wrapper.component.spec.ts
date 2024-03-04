@@ -726,6 +726,18 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       expect(
         gridWrapperFixture.componentInstance.agGrid?.api.isAnimationFrameQueueEmpty(),
       ).toBeTrue();
+      gridWrapperFixture.componentInstance.agGrid?.api.setColumnsVisible(
+        gridWrapperFixture.componentInstance.columnDefs
+          .filter(
+            (col) =>
+              typeof col.field === 'string' &&
+              !['select', 'lookupSingle'].includes(col.field),
+          )
+          .map((col) => `${col.field}`),
+        false,
+      );
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
       gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
         rowIndex: 0,
         colKey: 'lookupSingle',
@@ -769,6 +781,18 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       expect(
         gridWrapperFixture.componentInstance.agGrid?.api.isAnimationFrameQueueEmpty(),
       ).toBeTrue();
+      gridWrapperFixture.componentInstance.agGrid?.api.setColumnsVisible(
+        gridWrapperFixture.componentInstance.columnDefs
+          .filter(
+            (col) =>
+              typeof col.field === 'string' &&
+              !['select', 'lookupMultiple'].includes(col.field),
+          )
+          .map((col) => `${col.field}`),
+        false,
+      );
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
       gridWrapperFixture.componentInstance.agGrid?.api.startEditingCell({
         rowIndex: 0,
         colKey: 'lookupMultiple',
