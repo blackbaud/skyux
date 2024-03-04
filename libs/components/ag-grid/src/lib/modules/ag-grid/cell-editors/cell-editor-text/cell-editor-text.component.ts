@@ -68,7 +68,10 @@ export class SkyAgGridCellEditorTextComponent
     }
 
     this.maxlength = params.skyComponentProperties?.maxlength;
-    this.columnHeader = this.#params.colDef.headerName || this.#params.api.getDisplayNameForColumn(this.#params.column, 'header');
+    this.columnHeader = this.#params.api.getDisplayNameForColumn(
+      this.#params.column,
+      'header',
+    );
     this.rowNumber = this.#params.rowIndex + 1;
     this.columnWidth = this.#params.column.getActualWidth();
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 4;

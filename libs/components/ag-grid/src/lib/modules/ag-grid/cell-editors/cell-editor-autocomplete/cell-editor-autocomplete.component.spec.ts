@@ -100,12 +100,10 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       expect(cellEditorParams.api?.stopEditing).toHaveBeenCalled();
     });
 
-    it('should set the correct aria label when header text was provided to the column', () => {
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
       component.agInit({
         ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: 'Testing',
-        },
         rowIndex: 0,
       });
       fixture.detectChanges();
@@ -115,25 +113,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
       expect(input.getAttribute('aria-label')).toBe(
         'Editable autocomplete Testing for row 1',
-      );
-    });
-
-    it('should set the correct aria label when header text was not provided to the column and the header display name was used', () => {
-      api.getDisplayNameForColumn.and.returnValue('Testing display');
-      component.agInit({
-        ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: undefined,
-        },
-        rowIndex: 0,
-      });
-      fixture.detectChanges();
-      const input = nativeElement.querySelector('input') as HTMLInputElement;
-
-      fixture.detectChanges();
-
-      expect(input.getAttribute('aria-label')).toBe(
-        'Editable autocomplete Testing display for row 1',
       );
     });
 

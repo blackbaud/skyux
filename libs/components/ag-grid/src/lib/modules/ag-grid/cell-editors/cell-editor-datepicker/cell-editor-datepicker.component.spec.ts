@@ -239,12 +239,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
       expect(disableSpy).toHaveBeenCalled();
     });
 
-    it('should set the correct aria label when header text was provided to the column', () => {
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
       datepickerEditorComponent.agInit({
         ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: 'Testing',
-        },
         rowIndex: 0,
       });
       datepickerEditorFixture.detectChanges();
@@ -256,27 +254,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(input.getAttribute('aria-label')).toBe(
         'Editable date Testing for row 1',
-      );
-    });
-
-    it('should set the correct aria label when header text was not provided to the column and the header display name was used', () => {
-      api.getDisplayNameForColumn.and.returnValue('Testing display');
-      datepickerEditorComponent.agInit({
-        ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: undefined,
-        },
-        rowIndex: 0,
-      });
-      datepickerEditorFixture.detectChanges();
-      const input = datepickerEditorNativeElement.querySelector(
-        'input',
-      ) as HTMLInputElement;
-
-      datepickerEditorFixture.detectChanges();
-
-      expect(input.getAttribute('aria-label')).toBe(
-        'Editable date Testing display for row 1',
       );
     });
 

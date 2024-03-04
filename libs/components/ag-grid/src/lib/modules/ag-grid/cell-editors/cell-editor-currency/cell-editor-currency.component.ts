@@ -52,7 +52,10 @@ export class SkyAgGridCellEditorCurrencyComponent
    */
   public agInit(params: SkyCellEditorCurrencyParams): void {
     this.params = params;
-    this.columnHeader = this.params.colDef.headerName || this.params.api.getDisplayNameForColumn(this.params.column, 'header');
+    this.columnHeader = this.params.api.getDisplayNameForColumn(
+      this.params.column,
+      'header',
+    );
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
     this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(

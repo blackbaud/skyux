@@ -110,7 +110,10 @@ export class SkyAgGridCellEditorDatepickerComponent
     this.#changeDetector.markForCheck();
 
     this.skyComponentProperties = this.#params.skyComponentProperties || {};
-    this.columnHeader = this.#params.colDef && this.#params.colDef.headerName || this.#params.api.getDisplayNameForColumn(this.#params.column, 'header');
+    this.columnHeader = this.#params.api.getDisplayNameForColumn(
+      this.#params.column,
+      'header',
+    );
     this.columnWidth = this.#params.column.getActualWidth();
     this.columnWidthWithoutBorders = this.columnWidth - 2;
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 3;

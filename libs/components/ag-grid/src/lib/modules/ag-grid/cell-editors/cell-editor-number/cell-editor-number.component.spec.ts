@@ -104,12 +104,10 @@ describe('SkyCellEditorNumberComponent', () => {
       );
     });
 
-    it('should set the correct aria label when header text was provided to the column', () => {
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
       numberEditorComponent.agInit({
         ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: 'Testing',
-        },
         rowIndex: 0,
       });
       numberEditorFixture.detectChanges();
@@ -121,27 +119,6 @@ describe('SkyCellEditorNumberComponent', () => {
 
       expect(input.getAttribute('aria-label')).toBe(
         'Editable number Testing for row 1',
-      );
-    });
-
-    it('should set the correct aria label when header text was not provided to the column and the header display name was used', () => {
-      api.getDisplayNameForColumn.and.returnValue('Testing display');
-      numberEditorComponent.agInit({
-        ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: undefined,
-        },
-        rowIndex: 0,
-      });
-      numberEditorFixture.detectChanges();
-      const input = numberEditorNativeElement.querySelector(
-        'input',
-      ) as HTMLInputElement;
-
-      numberEditorFixture.detectChanges();
-
-      expect(input.getAttribute('aria-label')).toBe(
-        'Editable number Testing display for row 1',
       );
     });
 

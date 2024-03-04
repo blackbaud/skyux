@@ -100,12 +100,10 @@ describe('SkyCellEditorTextComponent', () => {
       expect(textEditorComponent.editorForm.get('text')?.value).toEqual(value);
     });
 
-    it('should set the correct aria label when header text was provided to the column', () => {
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
       textEditorComponent.agInit({
         ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: 'Testing',
-        },
         rowIndex: 0,
       });
       textEditorFixture.detectChanges();
@@ -117,27 +115,6 @@ describe('SkyCellEditorTextComponent', () => {
 
       expect(input.getAttribute('aria-label')).toBe(
         'Editable text Testing for row 1',
-      );
-    });
-
-    it('should set the correct aria label when header text was not provided to the column and the header display name was used', () => {
-      api.getDisplayNameForColumn.and.returnValue('Testing display');
-      textEditorComponent.agInit({
-        ...(cellEditorParams as ICellEditorParams),
-        colDef: {
-          headerName: undefined,
-        },
-        rowIndex: 0,
-      });
-      textEditorFixture.detectChanges();
-      const input = textEditorNativeElement.querySelector(
-        'input',
-      ) as HTMLInputElement;
-
-      textEditorFixture.detectChanges();
-
-      expect(input.getAttribute('aria-label')).toBe(
-        'Editable text Testing display for row 1',
       );
     });
 
