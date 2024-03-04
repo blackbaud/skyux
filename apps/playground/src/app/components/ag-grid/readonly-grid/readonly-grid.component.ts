@@ -177,8 +177,8 @@ export class ReadonlyGridComponent implements OnInit {
     if (cellRendererParams.value) {
       return `<div class="status ${cellRendererParams.value.toLowerCase()}">
               <i class="fa ${iconClassMap[cellRendererParams.value]}"></i> ${
-        cellRendererParams.value
-      }
+                cellRendererParams.value
+              }
             </div>`;
     } else {
       return '';

@@ -7,7 +7,7 @@
     ariaLabel ||
     ((contentInfoObs | async)?.descriptor?.type === 'text'
       ? ('skyux_filter_aria_label_descriptor'
-        | skyLibResources : (contentInfoObs | async)?.descriptor?.value)
+        | skyLibResources: (contentInfoObs | async)?.descriptor?.value)
       : ('skyux_filter_button_title' | skyLibResources))
   "
   [attr.title]="'skyux_filter_button_title' | skyLibResources"

@@ -16,7 +16,7 @@
     [attr.aria-label]="
       tabStyle === 'wizard'
         ? ('skyux_wizard_sr_step_' + wizardStepState
-          | skyLibResources : tabNumber : totalTabsCount : buttonText)
+          | skyLibResources: tabNumber : totalTabsCount : buttonText)
         : null
     "
     [attr.aria-labelledby]="tabStyle === 'wizard' ? null : tabHeading.id"
@@ -46,7 +46,7 @@
         *ngIf="closeable"
         class="sky-btn-tab-close"
         [tabindex]="closeBtnTabIndex"
-        [attr.aria-label]="'skyux_tab_close' | skyLibResources : buttonText"
+        [attr.aria-label]="'skyux_tab_close' | skyLibResources: buttonText"
         [ngClass]="{
           'sky-btn-tab-close-disabled': disabled
         }"

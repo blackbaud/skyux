@@ -94,8 +94,8 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
           this.#dataState?.onlyShowSelected
             ? 'only_selected'
             : itemsSelected
-            ? 'with_selections'
-            : 'without_selections'
+              ? 'with_selections'
+              : 'without_selections'
         }`;
 
         this.#announceState(
