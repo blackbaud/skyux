@@ -18,9 +18,9 @@ describe('forms-storybook', () => {
           .should('exist')
           .should('be.visible')
           .then((el) => {
-            el.get(0).ownerDocument.defaultView?.dispatchEvent(
-              new Event('resize'),
-            );
+            el
+              .get(0)
+              .ownerDocument.defaultView?.dispatchEvent(new Event('resize'));
           });
 
         cy.get('app-selection-box label.sky-selection-box')

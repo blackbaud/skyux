@@ -30,7 +30,7 @@
               *ngIf="context.showAddButton"
               [attr.aria-label]="
                 'skyux_lookup_show_more_add_button_aria_label'
-                  | skyLibResources : context.userConfig.selectionDescriptor
+                  | skyLibResources: context.userConfig.selectionDescriptor
               "
               type="button"
               class="sky-btn sky-btn-link sky-lookup-show-more-modal-add"
@@ -53,7 +53,7 @@
               type="button"
               [attr.aria-label]="
                 'skyux_lookup_show_more_select_all_button_aria_label'
-                  | skyLibResources : context.userConfig.selectionDescriptor
+                  | skyLibResources: context.userConfig.selectionDescriptor
               "
               (click)="selectAll()"
             >
@@ -69,7 +69,7 @@
               type="button"
               [attr.aria-label]="
                 'skyux_lookup_show_more_clear_all_button_aria_label'
-                  | skyLibResources : context.userConfig.selectionDescriptor
+                  | skyLibResources: context.userConfig.selectionDescriptor
               "
               (click)="clearAll()"
             >
@@ -84,7 +84,7 @@
               [(checked)]="onlyShowSelected"
               [label]="
                 'skyux_lookup_show_more_show_selected_option_aria_label'
-                  | skyLibResources : context.userConfig.selectionDescriptor
+                  | skyLibResources: context.userConfig.selectionDescriptor
               "
               (change)="updateDataState()"
             >
@@ -138,7 +138,7 @@
       type="button"
       [attr.aria-label]="
         'skyux_lookup_show_more_select_context'
-          | skyLibResources : context.userConfig.selectionDescriptor
+          | skyLibResources: context.userConfig.selectionDescriptor
       "
       (click)="modalInstance.save(selectedItems)"
     >
@@ -161,6 +161,6 @@
 <ng-template #defaultTitle>
   {{
     'skyux_lookup_show_more_modal_title'
-      | skyLibResources : context.userConfig.selectionDescriptor
+      | skyLibResources: context.userConfig.selectionDescriptor
   }}
 </ng-template>

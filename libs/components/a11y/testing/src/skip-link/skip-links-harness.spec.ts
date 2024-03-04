@@ -93,9 +93,8 @@ describe('Skip Links harness', () => {
     await fixture.whenStable();
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
-    const skipLinksHarness: SkySkipLinksHarness = await loader.getHarness(
-      SkySkipLinksHarness,
-    );
+    const skipLinksHarness: SkySkipLinksHarness =
+      await loader.getHarness(SkySkipLinksHarness);
 
     return { skipLinksHarness, fixture, loader };
   }

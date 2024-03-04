@@ -573,8 +573,8 @@ export class SkyGridComponent
             ? 'descending'
             : 'ascending'
           : column.isSortable
-          ? 'none'
-          : undefined;
+            ? 'none'
+            : undefined;
       }),
     );
   }

@@ -41,7 +41,11 @@
       />
 
       <div
-        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) && myValueModel.errors?.['required']"
+        *ngIf="
+          myValueModel.invalid &&
+          (myValueModel.dirty || myValueModel.touched) &&
+          myValueModel.errors?.['required']
+        "
         class="sky-error-indicator"
       >
         <sky-status-indicator descriptionType="error" indicatorType="danger">
@@ -50,7 +54,11 @@
       </div>
 
       <div
-        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) && myValueModel.errors?.['minlength'] as minLengthError"
+        *ngIf="
+          myValueModel.invalid &&
+          (myValueModel.dirty || myValueModel.touched) &&
+          myValueModel.errors?.['minlength'] as minLengthError
+        "
         class="sky-error-indicator"
       >
         <sky-status-indicator descriptionType="error" indicatorType="danger">
@@ -59,7 +67,9 @@
       </div>
 
       <div
-        *ngIf="myValueModel.invalid && (myValueModel.dirty || myValueModel.touched) &&
+        *ngIf="
+          myValueModel.invalid &&
+          (myValueModel.dirty || myValueModel.touched) &&
           myValueModel.errors?.['skyCharacterCounter'] as characterCounterError
         "
         class="sky-error-indicator"

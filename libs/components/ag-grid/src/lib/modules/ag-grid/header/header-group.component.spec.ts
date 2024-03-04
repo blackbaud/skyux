@@ -102,7 +102,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
         getColGroupDef: () =>
           ({
             headerGroupComponent: undefined,
-          } as unknown as ColGroupDef),
+          }) as unknown as ColGroupDef,
       } as unknown as ColumnGroup,
     });
   });
@@ -118,7 +118,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
             headerGroupComponentParams: {
               inlineHelpComponent: TestHelpComponent,
             },
-          } as ColGroupDef),
+          }) as ColGroupDef,
       } as unknown as ColumnGroup,
     });
     component.ngAfterViewInit();
