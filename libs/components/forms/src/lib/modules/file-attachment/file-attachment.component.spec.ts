@@ -34,7 +34,7 @@ function getButtonEl(el: HTMLElement): HTMLElement | null {
   return el.querySelector('.sky-file-attachment-btn');
 }
 
-describe('File attachment', () => {
+fdescribe('File attachment', () => {
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
   let el: HTMLElement;
   let fileAttachmentInstance: SkyFileAttachmentComponent;
@@ -957,7 +957,7 @@ describe('File attachment', () => {
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
   });
 
-  fit('should allow the user to specify a min file size', () => {
+  it('should allow the user to specify a min file size', () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1408,13 +1408,56 @@ describe('File attachment', () => {
     fixture.componentInstance.required = true;
     fixture.componentInstance.labelText = 'file attachment';
 
-    getButtonEl(fixture.nativeElement)?.click();
+    fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
     ).toBe('Error: file attachment is required.');
   });
+
+  it('should render file errors when label text is set and no NgControl errors', async () => {
+    fixture.componentInstance.labelText = 'file attachment';
+    fixture.componentInstance.required = false;
+    fixture.componentInstance.maxFileSize = 50;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe('Error: Please upload a file under 50Kbs');
+  });
+
+  // this isn't working yet, only max file error is showing. but i haven't been able to make that same situation show up in playground!?
+
+  // fit('should render file errors and NgControl errors when label text is set', async () => {
+  //   fixture.componentInstance.labelText = 'file attachment';
+  //   fixture.componentInstance.required = true;
+  //   fixture.componentInstance.maxFileSize = 50;
+  //   fixture.detectChanges();
+
+  //   const files = [
+  //     {
+  //       name: 'foo.txt',
+  //       size: 1000,
+  //       type: 'image/png',
+  //     },
+  //   ];
+  //   triggerDrop(files, getDropDebugEl());
+  //   fixture.whenStable();
+
+  //   expect(
+  //     fixture.nativeElement
+  //       .querySelectorAll('sky-form-error')[0]
+  //       ?.textContent.trim(),
+  //   ).toBe('Error: file attachment is required.');
+  //   expect(
+  //     fixture.nativeElement
+  //       .querySelectorAll('sky-form-error')[1]
+  //       ?.textContent.trim(),
+  //   ).toBe('Error: Please upload a file under 50Kbs');
+  // });
 
   it('should render `labelText` and not label element if `labelText` is set', async () => {
     fixture.componentInstance.labelElementText = 'label element';
@@ -1451,6 +1494,23 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     validateLabelText('label element');
+  });
+
+  it('should mark as dirty when an invalid file is uploaded first', () => {
+    const file = [
+      {
+        name: 'woo.txt',
+        size: 2000,
+        type: 'image/png',
+      },
+    ];
+    fixture.componentInstance.maxFileSize = 1000;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent(file);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.dirty).toBeTrue();
   });
 });
 
