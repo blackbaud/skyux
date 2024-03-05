@@ -96,10 +96,10 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Please upload a file of type {0}',
     },
     skyux_file_attachment_max_file_size_error_label_text: {
-      message: 'Please upload a file under {0}Kbs',
+      message: 'Please upload a file under {0}KB',
     },
     skyux_file_attachment_min_file_size_error_label_text: {
-      message: 'Please upload a file over {0}Kbs',
+      message: 'Please upload a file over {0}KB',
     },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_input_box_help_inline_aria_label: {
