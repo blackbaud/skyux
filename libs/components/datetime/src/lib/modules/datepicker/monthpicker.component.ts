@@ -96,5 +96,9 @@ export class SkyMonthPickerComponent implements OnInit {
       date = 11;
     }
     this.datepicker.activeDate.setMonth(date);
+    this.datepicker.announceDate(
+      this.datepicker.activeDate,
+      this.datepicker.formatMonthLabel,
+    );
   }
 }

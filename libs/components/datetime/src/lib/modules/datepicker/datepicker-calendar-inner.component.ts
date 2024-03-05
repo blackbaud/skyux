@@ -10,6 +10,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject, takeUntil } from 'rxjs';
@@ -95,6 +96,9 @@ export class SkyDatepickerCalendarInnerComponent
   public formatDayHeader = 'dd';
   public formatDayTitle = 'MMMM YYYY';
   public formatMonthTitle = 'YYYY';
+  public formatDayLabel = 'dddd, MMMM Do YYYY';
+  public formatMonthLabel = 'MMMM YYYY';
+  public formatYearLabel = 'YYYY';
 
   public previousLabel: string | undefined;
   public nextLabel: string | undefined;
@@ -145,6 +149,7 @@ export class SkyDatepickerCalendarInnerComponent
   #_startingDay = 0;
 
   readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
   public ngOnInit(): void {
     if (this.selectedDate) {
@@ -302,7 +307,7 @@ export class SkyDatepickerCalendarInnerComponent
   public onKeydown(event: KeyboardEvent): void {
     const key = event.key?.toLowerCase();
 
-    if (!this.keys.includes(key) || event.shiftKey || event.altKey) {
+    if (!this.keys.includes(key) || event.shiftKey) {
       return;
     }
 
@@ -455,6 +460,11 @@ export class SkyDatepickerCalendarInnerComponent
       this.calendarModeChange.emit(this.datepickerMode);
       this.refreshView();
     }
+  }
+
+  public announceDate(date: Date, format: string): void {
+    const caption = this.dateFilter(date, format);
+    this.#liveAnnouncerSvc.announce(caption);
   }
 
   /**

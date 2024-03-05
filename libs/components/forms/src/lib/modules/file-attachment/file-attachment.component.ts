@@ -85,12 +85,14 @@ export class SkyFileAttachmentComponent
 
   /**
    * The text to display as the file attachment's label.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Whether to hide `labelText` from view.
+   * @preview
    */
   @Input()
   public labelHidden = false;
