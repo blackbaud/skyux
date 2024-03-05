@@ -57,7 +57,7 @@
       var(--sky-alert-content-padding-left-right);
     width: 100%;
 
-    ::ng-deep a {
+    ::ng-deep a[href] {
       color: change-color($sky-text-color-default, $alpha: 0.8);
       text-decoration: underline;
 

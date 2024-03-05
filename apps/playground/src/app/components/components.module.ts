@@ -113,6 +113,10 @@ export const componentRoutes: Routes = [
       import('./split-view/split-view.module').then((m) => m.SplitViewModule),
   },
   {
+    path: 'router',
+    loadChildren: () => import('./router/router.module').then((m) => m.RouterModule),
+  },
+  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },
