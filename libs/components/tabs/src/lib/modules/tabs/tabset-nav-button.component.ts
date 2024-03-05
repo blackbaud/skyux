@@ -123,7 +123,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   public buttonClick() {
     /* istanbul ignore else */
     if (this.tabToSelect && !this.tabToSelect.disabled && this.tabset) {
-      this.tabset.active = this.tabToSelect.tabIndex;
+      this.tabset.active = this.tabToSelect.tabIndexValue;
     }
   }
 
@@ -160,7 +160,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
       // tab index can be a number or a string, but we need the actual number index
       this.#activeIndexNumber = tabs.findIndex(
-        (tab) => tab.tabIndex === this.#activeSkyTabIndex,
+        (tab) => tab.tabIndexValue === this.#activeSkyTabIndex,
       );
 
       /* istanbul ignore else */

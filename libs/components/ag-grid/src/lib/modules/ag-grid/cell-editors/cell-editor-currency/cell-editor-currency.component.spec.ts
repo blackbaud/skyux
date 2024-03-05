@@ -40,8 +40,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
     );
     currencyEditorNativeElement = currencyEditorFixture.nativeElement;
     currencyEditorComponent = currencyEditorFixture.componentInstance;
-
-    currencyEditorFixture.detectChanges();
   });
 
   it('renders a numeric input when editing a currency cell in an ag grid', () => {
@@ -59,6 +57,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
   describe('agInit', () => {
     const api = jasmine.createSpyObj<GridApi>('api', [
+      'getDisplayNameForColumn',
       'stopEditing',
       'setFocusedCell',
     ]);
@@ -85,7 +84,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         column,
         node: rowNode,
         colDef: {},
-        api: api,
+        api,
         cellStartedEdit: true,
       };
     });
@@ -106,6 +105,24 @@ describe('SkyCellEditorCurrencyComponent', () => {
       currencyEditorComponent.onPressEscape();
       expect(api.stopEditing).toHaveBeenCalled();
       expect(api.setFocusedCell).toHaveBeenCalled();
+    });
+
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
+      currencyEditorComponent.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        rowIndex: 0,
+      });
+      currencyEditorFixture.detectChanges();
+      const input = currencyEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      currencyEditorFixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable currency Testing for row 1',
+      );
     });
   });
 
@@ -145,7 +162,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
           true,
         );
 
+        const api = new GridApi();
+
+        api.getDisplayNameForColumn = (): string => {
+          return '';
+        };
+
         cellEditorParams = {
+          api,
           value: value,
           column,
           node: rowNode,
