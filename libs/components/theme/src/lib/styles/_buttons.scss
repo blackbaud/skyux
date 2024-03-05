@@ -111,7 +111,7 @@ a.sky-btn {
 .sky-btn-tab {
   @include mixins.sky-btn-tab();
 
-  &.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
+  &.sky-btn-tab-selected:not(.sky-btn-tab-disabled):not(.sky-btn-tab-wizard) {
     @include mixins.sky-btn-tab-selected;
 
     .sky-btn-tab-close,
