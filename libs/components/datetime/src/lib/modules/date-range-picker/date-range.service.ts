@@ -12,7 +12,9 @@ import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calcu
 /**
  * Creates and manages `SkyDateRangeCalculator` instances.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SkyDateRangeService {
   // Start the count higher than the number of available values
   // provided in the SkyDateRangeCalculatorId enum.
