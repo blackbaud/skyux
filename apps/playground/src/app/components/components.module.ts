@@ -114,7 +114,8 @@ export const componentRoutes: Routes = [
   },
   {
     path: 'router',
-    loadChildren: () => import('./router/router.module').then((m) => m.RouterModule),
+    loadChildren: () =>
+      import('./router/router.module').then((m) => m.RouterModule),
   },
   {
     path: 'tabs',

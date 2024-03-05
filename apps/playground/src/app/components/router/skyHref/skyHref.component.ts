@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAlertModule } from '@skyux/indicators';
-import { SkyHref, SkyHrefModule, SkyHrefResolverArgs, SkyHrefResolverService } from '@skyux/router';
+import {
+  SkyHref,
+  SkyHrefModule,
+  SkyHrefResolverArgs,
+  SkyHrefResolverService,
+} from '@skyux/router';
 
 @Component({
   standalone: true,

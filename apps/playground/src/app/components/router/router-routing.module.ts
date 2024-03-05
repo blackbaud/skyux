@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'skyHref',
-    loadComponent: () => import('./skyHref/skyHref.component').then((m) => m.SkyHrefComponent),
+    loadComponent: () =>
+      import('./skyHref/skyHref.component').then((m) => m.SkyHrefComponent),
     data: {
       name: 'SkyHref',
       icon: 'link',
