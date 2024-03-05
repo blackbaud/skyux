@@ -349,7 +349,7 @@ describe('Phone Field Component', () => {
       it('should initialize without given supported countries', fakeAsync(() => {
         detectChangesAndTick(fixture);
 
-        expect(searchCountry('Un', fixture).length).toBe(11);
+        expect(searchCountry('Un', fixture).length).toBe(9);
       }));
 
       it('should handle initializing with number', fakeAsync(() => {
@@ -1398,7 +1398,7 @@ describe('Phone Field Component', () => {
       it('should initialize without given supported countries', fakeAsync(() => {
         detectChangesAndTick(fixture);
 
-        expect(searchCountry('Un', fixture).length).toBe(11);
+        expect(searchCountry('Un', fixture).length).toBe(9);
       }));
 
       it('should handle initializing with number', fakeAsync(() => {
