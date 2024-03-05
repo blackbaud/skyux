@@ -24,6 +24,7 @@ describe(`tabs-storybook`, () => {
             `/iframe.html?globals=theme:${theme}&id=tabscomponent-tabs--tabs-dropdown`,
           ),
         );
+
         it('should render the component', () => {
           cy.get('app-tabs')
             .should('exist')
@@ -31,6 +32,11 @@ describe(`tabs-storybook`, () => {
             .get('sky-dropdown')
             .should('exist')
             .should('be.visible')
+            .as('tabs');
+
+          cy.get('@tabs').get('button.sky-dropdown-button').click();
+
+          cy.get('@tabs')
             .screenshot(`tabscomponent-tabs--tabs-dropdown-${theme}`)
             .percySnapshot(`tabscomponent-tabs--tabs-dropdown-${theme}`);
         });

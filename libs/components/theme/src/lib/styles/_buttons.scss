@@ -132,12 +132,14 @@ a.sky-btn {
   margin-left: $sky-margin-half;
 }
 
-.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-  @include mixins.sky-btn-tab-selected;
+.sky-tab-dropdown-item-selected {
+  .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
+    @include mixins.sky-btn-tab-selected;
 
-  .sky-btn-tab-close,
-  .sky-tab-header-count {
-    color: #fff;
+    .sky-btn-tab-close,
+    .sky-tab-header-count {
+      color: #fff;
+    }
   }
 }
 
