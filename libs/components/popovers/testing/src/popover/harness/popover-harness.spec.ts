@@ -123,7 +123,7 @@ describe('Popover harness', () => {
     await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
 
-    await expectAsync(contentHarness.queryHarnessForOptional(NonexistentHarness)).toBeResolvedTo(null);
+    await expectAsync(contentHarness.queryHarnessOrNull(NonexistentHarness)).toBeResolvedTo(null);
   });
 
   it('should close the popover if clicking out when dismissOnBlur is set to true', async () => {

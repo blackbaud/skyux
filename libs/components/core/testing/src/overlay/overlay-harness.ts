@@ -39,7 +39,7 @@ export class SkyOverlayHarness extends ComponentHarness {
   /**
    * Returns a child harness or returns null if not found.
    */
-  public async queryHarnessForOptional<T extends ComponentHarness>(
+  public async queryHarnessOrNull<T extends ComponentHarness>(
     harness: HarnessQuery<T>,
   ): Promise<T | null> {
     return this.locatorForOptional(harness)();

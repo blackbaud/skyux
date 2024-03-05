@@ -68,7 +68,7 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.queryHarnessForOptional(NoneFoundTestHarness),
+      overlayHarness.queryHarnessOrNull(NoneFoundTestHarness),
     ).toBeResolvedTo(null);
   });
 

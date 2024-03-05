@@ -225,7 +225,7 @@ describe('Autocomplete harness', () => {
 
       const results = (await autocompleteHarness?.getSearchResults()) ?? [];
 
-      await expectAsync(results[0].queryHarnessForOptional(NonexistentHarness)).toBeResolvedTo(null);
+      await expectAsync(results[0].queryHarnessOrNull(NonexistentHarness)).toBeResolvedTo(null);
     });
   });
 

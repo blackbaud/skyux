@@ -58,7 +58,7 @@ describe('Input box harness', () => {
       dataSkyId: 'my-input-box-last-name',
     });
 
-    await expectAsync(inputBoxHarness.queryHarnessForOptional(NonexistentHarness)).toBeResolvedTo(null);
+    await expectAsync(inputBoxHarness.queryHarnessOrNull(NonexistentHarness)).toBeResolvedTo(null);
   });
 
   it('should return disabled', async () => {

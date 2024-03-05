@@ -52,7 +52,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   /**
    * Returns a child harness or null if not found.
    */
-  public async queryHarnessForOptional<T extends ComponentHarness>(
+  public async queryHarnessOrNull<T extends ComponentHarness>(
     query: HarnessQuery<T>,
   ): Promise<T | null> {
     return this.locatorForOptional(query)();

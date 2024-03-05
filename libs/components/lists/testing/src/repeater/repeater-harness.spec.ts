@@ -252,7 +252,7 @@ describe('Repeater harness', () => {
 
     const items = await repeaterHarness.getRepeaterItems();
 
-    await expectAsync(items[0].queryHarnessForOptional(
+    await expectAsync(items[0].queryHarnessOrNull(
       NonexistentHarness,
     )).toBeResolvedTo(null);
   });
