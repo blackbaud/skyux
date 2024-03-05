@@ -464,7 +464,7 @@ export class SkyFileAttachmentComponent
       this.fileErrorParam = undefined;
       this.fileErrorValidation = undefined;
     } else {
-      this.#onChange(currentFile);
+      this.#onTouched();
       this.fileErrorValidation = { fileError: true };
       this.fileErrorName = currentFile?.errorType;
       this.fileErrorParam = currentFile?.errorParam;

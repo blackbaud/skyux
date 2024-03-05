@@ -1429,35 +1429,34 @@ fdescribe('File attachment', () => {
     ).toBe('Error: Please upload a file under 50Kbs');
   });
 
-  // this isn't working yet, only max file error is showing. but i haven't been able to make that same situation show up in playground!?
+  it('should render file errors and NgControl errors when label text is set', async () => {
+    fixture.componentInstance.labelText = 'file attachment';
+    fixture.componentInstance.required = true;
+    fixture.componentInstance.maxFileSize = 50;
+    fixture.detectChanges();
 
-  // fit('should render file errors and NgControl errors when label text is set', async () => {
-  //   fixture.componentInstance.labelText = 'file attachment';
-  //   fixture.componentInstance.required = true;
-  //   fixture.componentInstance.maxFileSize = 50;
-  //   fixture.detectChanges();
+    const files = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png',
+      },
+    ];
 
-  //   const files = [
-  //     {
-  //       name: 'foo.txt',
-  //       size: 1000,
-  //       type: 'image/png',
-  //     },
-  //   ];
-  //   triggerDrop(files, getDropDebugEl());
-  //   fixture.whenStable();
+    triggerDrop(files, getDropDebugEl());
+    fixture.detectChanges;
 
-  //   expect(
-  //     fixture.nativeElement
-  //       .querySelectorAll('sky-form-error')[0]
-  //       ?.textContent.trim(),
-  //   ).toBe('Error: file attachment is required.');
-  //   expect(
-  //     fixture.nativeElement
-  //       .querySelectorAll('sky-form-error')[1]
-  //       ?.textContent.trim(),
-  //   ).toBe('Error: Please upload a file under 50Kbs');
-  // });
+    expect(
+      fixture.nativeElement
+        .querySelectorAll('sky-form-error')[0]
+        ?.textContent.trim(),
+    ).toBe('Error: file attachment is required.');
+    expect(
+      fixture.nativeElement
+        .querySelectorAll('sky-form-error')[1]
+        ?.textContent.trim(),
+    ).toBe('Error: Please upload a file under 50Kbs');
+  });
 
   it('should render `labelText` and not label element if `labelText` is set', async () => {
     fixture.componentInstance.labelElementText = 'label element';
@@ -1497,7 +1496,7 @@ fdescribe('File attachment', () => {
   });
 
   it('should mark as dirty when an invalid file is uploaded first', () => {
-    const file = [
+    const files = [
       {
         name: 'woo.txt',
         size: 2000,
@@ -1507,10 +1506,10 @@ fdescribe('File attachment', () => {
     fixture.componentInstance.maxFileSize = 1000;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(file);
+    setupStandardFileChangeEvent(files);
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.attachment.dirty).toBeTrue();
+    expect(fixture.componentInstance.attachment.touched).toBeTrue();
   });
 });
 
