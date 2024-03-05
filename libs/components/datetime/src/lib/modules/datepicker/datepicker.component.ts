@@ -59,6 +59,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public set dateFormat(value: string | undefined) {
     this.#_dateFormat = value;
+    this.dateFormatChange.emit(value);
     this.#populateInputBoxHelpText();
   }
 
@@ -94,6 +95,12 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   @Output()
   public calendarDateRangeChange =
     new EventEmitter<SkyDatepickerCalendarChange>();
+
+  /**
+   * @internal
+   */
+  @Output()
+  public dateFormatChange = new EventEmitter<string>();
 
   /**
    * @internal

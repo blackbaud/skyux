@@ -3,6 +3,14 @@
     "_description": "aria label for the checkbox to select a row",
     "message": "Row selector for row {0}"
   },
+  "sky_ag_grid_cell_editor_datepicker_aria_label": {
+    "_description": "aria label for the autocomplete cell editor",
+    "message": "Editable date {0} for row {1}"
+  },
+  "sky_ag_grid_cell_editor_datepicker_hint_text": {
+    "_description": "Hint text for the date format currently set on the datepicker.",
+    "message": "Use the format {0}."
+  },
   "sky_ag_grid_cell_editor_number_aria_label": {
     "_description": "aria label for the number cell editor",
     "message": "Editable number {0} for row {1}"
