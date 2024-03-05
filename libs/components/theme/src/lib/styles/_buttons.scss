@@ -110,6 +110,15 @@ a.sky-btn {
 
 .sky-btn-tab {
   @include mixins.sky-btn-tab();
+
+  &.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
+    @include mixins.sky-btn-tab-selected;
+
+    .sky-btn-tab-close,
+    .sky-tab-header-count {
+      color: #fff;
+    }
+  }
 }
 
 .sky-btn-tab-close {
@@ -130,17 +139,6 @@ a.sky-btn {
   font-weight: 400;
   color: var(--sky-text-color-action-primary);
   margin-left: $sky-margin-half;
-}
-
-.sky-tab-dropdown-item-selected {
-  .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-    @include mixins.sky-btn-tab-selected;
-
-    .sky-btn-tab-close,
-    .sky-tab-header-count {
-      color: #fff;
-    }
-  }
 }
 
 .sky-btn-tab-wizard {
