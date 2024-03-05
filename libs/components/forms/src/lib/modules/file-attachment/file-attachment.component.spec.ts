@@ -34,7 +34,7 @@ function getButtonEl(el: HTMLElement): HTMLElement | null {
   return el.querySelector('.sky-file-attachment-btn');
 }
 
-fdescribe('File attachment', () => {
+describe('File attachment', () => {
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
   let el: HTMLElement;
   let fileAttachmentInstance: SkyFileAttachmentComponent;
@@ -1509,7 +1509,7 @@ fdescribe('File attachment', () => {
     setupStandardFileChangeEvent(files);
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.attachment.touched).toBeTrue();
+    expect(fixture.componentInstance.attachment.dirty).toBeTrue();
   });
 });
 
