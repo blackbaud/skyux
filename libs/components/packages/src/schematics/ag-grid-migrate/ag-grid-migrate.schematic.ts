@@ -1,7 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 import { spawnSync } from 'child_process';
-import * as process from 'process';
 
 import { Schema } from './schema';
 
@@ -36,7 +35,6 @@ export default function (options: Schema): Rule {
       'npm',
       ['install', '--no-save', `@ag-grid-community/cli@${AG_GRID_VERSION}`],
       {
-        cwd: process.cwd(),
         stdio: 'ignore',
         windowsVerbatimArguments: true,
       },
@@ -50,7 +48,6 @@ export default function (options: Schema): Rule {
         ...agGridFiles,
       ];
       spawnSync('node', cmdArgs, {
-        cwd: process.cwd(),
         shell: true,
         stdio: 'inherit',
         windowsVerbatimArguments: true,
@@ -58,7 +55,6 @@ export default function (options: Schema): Rule {
       });
     }
     spawnSync('npm', ['remove', `@ag-grid-community/cli`], {
-      cwd: process.cwd(),
       stdio: 'ignore',
     });
     context.logger.info(
