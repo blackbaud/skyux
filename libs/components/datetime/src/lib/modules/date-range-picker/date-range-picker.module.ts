@@ -9,7 +9,6 @@ import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.mod
 import { SkyDateRangePickerEndDateResourceKeyPipe } from './date-range-picker-end-date-resource-key.pipe';
 import { SkyDateRangePickerStartDateResourceKeyPipe } from './date-range-picker-start-date-resource-key.pipe';
 import { SkyDateRangePickerComponent } from './date-range-picker.component';
-import { SkyDateRangeService } from './date-range.service';
 
 @NgModule({
   declarations: [
@@ -26,6 +25,5 @@ import { SkyDateRangeService } from './date-range.service';
     SkyInputBoxModule,
   ],
   exports: [SkyDateRangePickerComponent],
-  providers: [SkyDateRangeService],
 })
 export class SkyDateRangePickerModule {}

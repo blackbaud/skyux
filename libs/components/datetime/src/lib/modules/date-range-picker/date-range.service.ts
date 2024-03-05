@@ -12,7 +12,9 @@ import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calcu
 /**
  * Creates and manages `SkyDateRangeCalculator` instances.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SkyDateRangeService {
   // Start the count higher than the number of available values
   // provided in the SkyDateRangeCalculatorId enum.
@@ -38,6 +40,7 @@ export class SkyDateRangeService {
   public createCalculator(
     config: SkyDateRangeCalculatorConfig,
   ): SkyDateRangeCalculator {
+    this.#calculatorExists(config);
     const newId = SkyDateRangeService.lastId++;
     const calculator = new SkyDateRangeCalculator(newId, config);
 
@@ -122,5 +125,16 @@ export class SkyDateRangeService {
         this.#calculators = calculators;
         this.#calculatorReadyStream.next(true);
       });
+  }
+
+  #calculatorExists(config: SkyDateRangeCalculatorConfig): boolean {
+    for (const calculator of this.#calculators) {
+      console.log(calculator.calculatorId);
+      console.log(calculator.shortDescription);
+      console.log(calculator.type);
+      console.log(calculator.getValue.toString());
+      // if (calculator.type === config.type && calculator.shortDescription === config.shortDescription)
+    }
+    return false;
   }
 }
