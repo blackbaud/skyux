@@ -46,7 +46,8 @@
   background-color: var(--sky-background-color-primary-dark);
   color: var(--sky-text-color-on-dark);
 
-  &:hover:not(.sky-btn-tab-disabled) {
+  &:hover:not(.sky-btn-tab-disabled),
+  &:focus-visible:not(.sky-btn-tab-disabled) {
     background-color: var(--sky-background-color-primary-dark);
     color: var(--sky-text-color-on-dark);
   }
