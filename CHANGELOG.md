@@ -1,5 +1,51 @@
 # Changelog
 
+## [10.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.2...10.0.0-alpha.3) (2024-03-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/datetime:** date range service provided in root ([#2096](https://github.com/blackbaud/skyux/issues/2096))
+* **components/tabs:** The `sky-tab` component's `tabIndex` input clashes with the native HTML `tabindex` attribute, so `tabIndex` has been renamed to `tabIndexValue`.
+* **components/ag-grid:** Add support for AG Grid 31.1.1 and remove support for AG Grid below 31.1.1.
+* **components/ag-grid:** Data Grids will now allow text selection by default when range selection is not enabled.
+* **sdk/prettier-schematics:** Prettier 3 requires manually setting plugins in its configuration. This change will automatically add known plugins to `.prettierrc.json`, but there is a chance a plugin will be missed after the update.
+* **components/datetime:** The placeholder text for the expected datepicker date format has moved to the hint text of wrapping input box components. This hint text will appear before any hint text specified on the wrapping input box. Consumers should ensure that all datepicker components are wrapped in an input box component and that the input box's labelText input is specified to ensure proper accessibility labels.
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31 ([#2054](https://github.com/blackbaud/skyux/issues/2054)) ([8132edd](https://github.com/blackbaud/skyux/commit/8132eddce710596c61105e6087a3d08b4a539256))
+* **components/ag-grid:** datepicker cell editor date format information moved to input tooltip ([#2091](https://github.com/blackbaud/skyux/issues/2091)) ([d58be5f](https://github.com/blackbaud/skyux/commit/d58be5fa26e792095969878289d784ef43ed29c6))
+* **components/ag-grid:** enable text selection for data grids ([#2035](https://github.com/blackbaud/skyux/issues/2035)) ([7a3ad29](https://github.com/blackbaud/skyux/commit/7a3ad29f5004acdb87d92ca54f682f46139e17f1))
+* **components/ag-grid:** update default theme background for uneditable cells ([#2047](https://github.com/blackbaud/skyux/issues/2047)) ([760bce7](https://github.com/blackbaud/skyux/commit/760bce7099f106a5b7ce872342b53ff7db195e81))
+* **components/colorpicker:** add focus trap to colorpicker ([#2060](https://github.com/blackbaud/skyux/issues/2060)) ([#2075](https://github.com/blackbaud/skyux/issues/2075)) ([acdb434](https://github.com/blackbaud/skyux/commit/acdb434d44e684103240d36079ffb3f91a682b1f))
+* **components/datetime:** date range service provided in root ([#2096](https://github.com/blackbaud/skyux/issues/2096)) ([486c502](https://github.com/blackbaud/skyux/commit/486c5028165b64004ac11334cb1f8ffc4c1b6848))
+* **components/datetime:** datepicker date format information moved to input box hint text ([#2028](https://github.com/blackbaud/skyux/issues/2028)) ([ac64105](https://github.com/blackbaud/skyux/commit/ac641050ef392cb686fd053dc200b5afb107937a))
+* **components/datetime:** improve screen reader labels for values on datepicker calendar ([#2051](https://github.com/blackbaud/skyux/issues/2051)) ([#2076](https://github.com/blackbaud/skyux/issues/2076)) ([bb7f956](https://github.com/blackbaud/skyux/commit/bb7f95631ff8b6b8b7de984286cbc7b46594ad45))
+* **components/forms:** add labelText input to toggle switch ([#2019](https://github.com/blackbaud/skyux/issues/2019)) ([#2052](https://github.com/blackbaud/skyux/issues/2052)) ([15c8de1](https://github.com/blackbaud/skyux/commit/15c8de195c06868976d9c8c7469e6d1c9dfd0f9e))
+* **components/forms:** add labelText to single file attachment ([#2059](https://github.com/blackbaud/skyux/issues/2059)) ([#2072](https://github.com/blackbaud/skyux/issues/2072)) ([bc64d2c](https://github.com/blackbaud/skyux/commit/bc64d2cf32c5046e74d85e2eaa715bf00acb6e50))
+* **components/forms:** checkbox label deprecations ([#2055](https://github.com/blackbaud/skyux/issues/2055)) ([#2062](https://github.com/blackbaud/skyux/issues/2062)) ([96bdd40](https://github.com/blackbaud/skyux/commit/96bdd407fdfb0b2e61fffa07cdd43f22da095e1d))
+* **components/http:** provide svcid to auth-client ([#2038](https://github.com/blackbaud/skyux/issues/2038)) ([#2074](https://github.com/blackbaud/skyux/issues/2074)) ([5c2c595](https://github.com/blackbaud/skyux/commit/5c2c595e1ece308f8c2c7ade8b595ea95cdc9356))
+* **components/lists:** repeater back to top button uses new `arrow-up` icon ([#2089](https://github.com/blackbaud/skyux/issues/2089)) ([8affcb7](https://github.com/blackbaud/skyux/commit/8affcb766775807d52271810caf7429706a412d3))
+* **components/modals:** add modal form errors code example ([#2065](https://github.com/blackbaud/skyux/issues/2065)) ([#2066](https://github.com/blackbaud/skyux/issues/2066)) ([ee3157f](https://github.com/blackbaud/skyux/commit/ee3157f29560e9678eff7041a7798f0453718c28))
+* **components/phone-field:** phone format information moved to input box hint text ([#2061](https://github.com/blackbaud/skyux/issues/2061)) ([a9cf856](https://github.com/blackbaud/skyux/commit/a9cf856630865fd2c7ffa01a23eb4bee8cff0655))
+* **components/theme:** update h4 and h5 styles in modern theme ([#2095](https://github.com/blackbaud/skyux/issues/2095)) ([eec1de3](https://github.com/blackbaud/skyux/commit/eec1de36c720f4d55ea7899080e5c6fe37a2574f))
+* **components/tiles:** set tile content aria label to tile title id ([#2081](https://github.com/blackbaud/skyux/issues/2081)) ([#2084](https://github.com/blackbaud/skyux/issues/2084)) ([b9890d0](https://github.com/blackbaud/skyux/commit/b9890d0df5d3f752d1de87a2befe186bca6ce1b6))
+* **sdk/prettier-schematics:** add support for `prettier@3` ([#2053](https://github.com/blackbaud/skyux/issues/2053)) ([0131e05](https://github.com/blackbaud/skyux/commit/0131e05b5bfe434e737079ba6ccde26a7ae84292))
+* update `intl-tel-input` and `google-libphonenumber` dependencies ([#2097](https://github.com/blackbaud/skyux/issues/2097)) ([accc87d](https://github.com/blackbaud/skyux/commit/accc87d97a95b29ca976cdb39a47f6ba2cdf5799))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** a11y test intermittently failing ([#2086](https://github.com/blackbaud/skyux/issues/2086)) ([203881f](https://github.com/blackbaud/skyux/commit/203881f1b8e268e1708aaab743ad5c2b1ef72dd9))
+* **components/ag-grid:** additional AG Grid schematic changes ([#2070](https://github.com/blackbaud/skyux/issues/2070)) ([2006190](https://github.com/blackbaud/skyux/commit/2006190a458010265cb90befb01dc32143d4dd2d))
+* **components/ag-grid:** check `isDestroyed` before grid api call ([#2080](https://github.com/blackbaud/skyux/issues/2080)) ([162c3c6](https://github.com/blackbaud/skyux/commit/162c3c61663ec3fcb3c31e9d800758ed4cd6297f))
+* **components/forms:** style `sky-radio` as an inline-block element ([#2082](https://github.com/blackbaud/skyux/issues/2082)) ([#2093](https://github.com/blackbaud/skyux/issues/2093)) ([05c356a](https://github.com/blackbaud/skyux/commit/05c356a58f43be1fdcffcc9ae08f9e4fa908253d))
+* **components/indicators:** address icon metadata issues ([#2069](https://github.com/blackbaud/skyux/issues/2069)) ([#2073](https://github.com/blackbaud/skyux/issues/2073)) ([0f2e541](https://github.com/blackbaud/skyux/commit/0f2e541022ab65ecde55b8da4cc2a69034a23adc))
+* **components/packages:** skip deleting compat stylesheets if they don't exist ([#2077](https://github.com/blackbaud/skyux/issues/2077)) ([664fa57](https://github.com/blackbaud/skyux/commit/664fa57d366c7c15719ce7b15d246cd88d3c130d))
+* **components/tabs:** rename tabIndex to tabIndexValue ([#2090](https://github.com/blackbaud/skyux/issues/2090)) ([ff1a2be](https://github.com/blackbaud/skyux/commit/ff1a2befd3daa778138aa8deeb5710a9d4d93d72))
+* mark new `labelText` inputs as preview features ([#2087](https://github.com/blackbaud/skyux/issues/2087)) ([#2088](https://github.com/blackbaud/skyux/issues/2088)) ([0439e29](https://github.com/blackbaud/skyux/commit/0439e29f6e446befa6efc8cd272d28cfe75e49b7))
+
 ## [9.29.0](https://github.com/blackbaud/skyux/compare/9.28.0...9.29.0) (2024-03-04)
 
 
