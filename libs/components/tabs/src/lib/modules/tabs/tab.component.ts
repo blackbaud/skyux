@@ -122,21 +122,21 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    * If not defined, the identifier is set to the position of the tab on load, starting with `0`.
    */
   @Input()
-  public set tabIndex(value: SkyTabIndex | undefined) {
+  public set tabIndexValue(value: SkyTabIndex | undefined) {
     if (
-      value !== this.#_tabIndex &&
+      value !== this.#_tabIndexValue &&
       value !== undefined &&
-      this.#_tabIndex !== undefined
+      this.#_tabIndexValue !== undefined
     ) {
-      this.#tabsetService.updateTabIndex(this.#_tabIndex, value);
+      this.#tabsetService.updateTabIndex(this.#_tabIndexValue, value);
       this.#tabIndexChange.next(value);
     }
 
-    this.#_tabIndex = value;
+    this.#_tabIndexValue = value;
   }
 
-  public get tabIndex(): SkyTabIndex | undefined {
-    return this.#_tabIndex;
+  public get tabIndexValue(): SkyTabIndex | undefined {
+    return this.#_tabIndexValue;
   }
 
   /**
@@ -214,7 +214,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   #_tabHeading: string | undefined;
 
-  #_tabIndex: SkyTabIndex | undefined;
+  #_tabIndexValue: SkyTabIndex | undefined;
 
   #_layout: SkyTabLayoutType = LAYOUT_DEFAULT;
 
@@ -262,14 +262,14 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#activeChange.complete();
     this.#stateChange.complete();
     this.#tabIndexChange.complete();
-    if (this.tabIndex !== undefined) {
-      this.#tabsetService.unregisterTab(this.tabIndex);
+    if (this.tabIndexValue !== undefined) {
+      this.#tabsetService.unregisterTab(this.tabIndexValue);
     }
     this.#mediaQueryService.unobserve();
   }
 
   public init(): void {
-    this.#_tabIndex = this.#tabsetService.registerTab(this.tabIndex);
+    this.#_tabIndexValue = this.#tabsetService.registerTab(this.tabIndexValue);
   }
 
   public activate(): void {
