@@ -105,7 +105,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
     });
 
     it('should respond to changes in focus', fakeAsync(() => {
-      const api = jasmine.createSpyObj<GridApi>('GridApi', ['stopEditing']);
+      const api = jasmine.createSpyObj<GridApi>('GridApi', [
+        'getDisplayNameForColumn',
+        'stopEditing',
+      ]);
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
@@ -130,9 +133,51 @@ describe('SkyCellEditorDatepickerComponent', () => {
       tick();
       expect(api.stopEditing).toHaveBeenCalled();
     }));
+
+    it('should set hint text in the element `title` popover based on the date format', fakeAsync(() => {
+      const api = jasmine.createSpyObj<GridApi>('GridApi', [
+        'getDisplayNameForColumn',
+        'stopEditing',
+      ]);
+      datepickerEditorComponent.agInit({
+        ...(datepickerEditorComponent as any).params,
+        api,
+        column: new Column<any>({}, null, 'col', true),
+        context: {
+          gridOptions: {
+            stopEditingWhenCellsLoseFocus: true,
+          },
+        },
+        node: {
+          rowHeight: 37,
+        },
+      });
+      datepickerEditorComponent.onDateFormatChange('MM/DD/YYYY');
+
+      datepickerEditorFixture.detectChanges();
+      tick();
+
+      const input = datepickerEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      expect(input.getAttribute('title')).toBe('Use the format MM/DD/YYYY.');
+
+      datepickerEditorComponent.onDateFormatChange('DD/MM/YYYY');
+
+      datepickerEditorFixture.detectChanges();
+      tick();
+
+      expect(input.getAttribute('title')).toBe('Use the format DD/MM/YYYY.');
+    }));
   });
 
   describe('agInit', () => {
+    const api = jasmine.createSpyObj<GridApi>('api', [
+      'getDisplayNameForColumn',
+      'stopEditing',
+      'setFocusedCell',
+    ]);
     let cellEditorParams: Partial<SkyCellEditorDatepickerParams>;
     let column: Column;
     const rowNode = new RowNode({} as Beans);
@@ -151,6 +196,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       );
 
       cellEditorParams = {
+        api,
         value: date,
         column,
         node: rowNode,
@@ -191,6 +237,24 @@ describe('SkyCellEditorDatepickerComponent', () => {
       });
 
       expect(disableSpy).toHaveBeenCalled();
+    });
+
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
+      datepickerEditorComponent.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        rowIndex: 0,
+      });
+      datepickerEditorFixture.detectChanges();
+      const input = datepickerEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      datepickerEditorFixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable date Testing for row 1',
+      );
     });
 
     describe('cellStartedEdit is true', () => {
@@ -390,6 +454,9 @@ describe('SkyCellEditorDatepickerComponent', () => {
   });
 
   describe('afterGuiAttached', () => {
+    const api = jasmine.createSpyObj<GridApi>('api', [
+      'getDisplayNameForColumn',
+    ]);
     let cellEditorParams: Partial<SkyCellEditorDatepickerParams>;
     let column: Column;
     const dateString = '01/01/2019';
@@ -408,6 +475,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       );
 
       cellEditorParams = {
+        api,
         value: date,
         column,
         node: rowNode,
@@ -642,11 +710,10 @@ describe('SkyCellEditorDatepickerComponent', () => {
   it('should pass accessibility', async () => {
     datepickerEditorFixture.detectChanges();
     await datepickerEditorFixture.whenStable();
+    datepickerEditorFixture.detectChanges();
+    await datepickerEditorFixture.whenStable();
 
-    // TODO: Remove this override before SKY UX 10 publishes via AB#2833044
-    await expectAsync(datepickerEditorNativeElement).toBeAccessible({
-      rules: { label: { enabled: false } },
-    });
+    await expectAsync(datepickerEditorNativeElement).toBeAccessible();
   });
 });
 

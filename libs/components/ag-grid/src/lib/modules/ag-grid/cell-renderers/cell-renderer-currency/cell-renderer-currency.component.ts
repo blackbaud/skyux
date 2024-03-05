@@ -23,10 +23,8 @@ export class SkyAgGridCellRendererCurrencyComponent
     this.agInit(value);
   }
 
-  public columnHeader: string | undefined;
   public columnWidth: number | undefined;
   public rowHeightWithoutBorders: number | undefined;
-  public rowNumber: number | undefined;
   public skyComponentProperties: SkyNumericOptions &
     SkyAgGridValidatorProperties = {};
   public numericOptions: SkyNumericOptions = {};
@@ -47,8 +45,6 @@ export class SkyAgGridCellRendererCurrencyComponent
 
   #updateProperties(params: SkyCellRendererCurrencyParams): void {
     this.value = params.value;
-    this.columnHeader = params.colDef?.headerName;
-    this.rowNumber = params.rowIndex + 1;
     this.columnWidth = params.column?.getActualWidth();
     this.rowHeightWithoutBorders =
       typeof params.node?.rowHeight === 'number'
