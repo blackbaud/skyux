@@ -1,5 +1,18 @@
 # Changelog
 
+## [9.29.0](https://github.com/blackbaud/skyux/compare/9.28.0...9.29.0) (2024-03-04)
+
+
+### Features
+
+* **components/tiles:** set tile content aria label to tile title id ([#2081](https://github.com/blackbaud/skyux/issues/2081)) ([0166919](https://github.com/blackbaud/skyux/commit/01669199e472b78a3e9ed1e34bfc62c1feb370e9))
+
+
+### Bug Fixes
+
+* **components/forms:** style `sky-radio` as an inline-block element ([#2082](https://github.com/blackbaud/skyux/issues/2082)) ([681996d](https://github.com/blackbaud/skyux/commit/681996d125165c1bd67faaa2d0a984f8c7151b2a))
+* mark new `labelText` inputs as preview features ([#2087](https://github.com/blackbaud/skyux/issues/2087)) ([292a83c](https://github.com/blackbaud/skyux/commit/292a83ce963b10cf357ed3d7c819cf20d9f594ea))
+
 ## [9.28.0](https://github.com/blackbaud/skyux/compare/9.27.0...9.28.0) (2024-02-29)
 
 
