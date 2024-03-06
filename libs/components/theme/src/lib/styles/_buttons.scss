@@ -111,7 +111,7 @@ a.sky-btn {
 .sky-btn-tab {
   @include mixins.sky-btn-tab();
 
-  &.sky-btn-tab-selected:not(.sky-btn-tab-disabled):not(.sky-btn-tab-wizard) {
+  &.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
     @include mixins.sky-btn-tab-selected;
 
     .sky-btn-tab-close,
@@ -159,7 +159,7 @@ a.sky-btn {
     background-color: var(--sky-background-color-neutral-light);
   }
 
-  &.sky-btn-tab-selected {
+  &.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
     background-color: var(--sky-background-color-info);
     border-color: var(--sky-background-color-info);
     color: var(--sky-text-color-default);
