@@ -1,5 +1,8 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import {
+  NodePackageInstallTask,
+  RunSchematicTask,
+} from '@angular-devkit/schematics/tasks';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
@@ -195,5 +198,13 @@ export default function (): Rule {
     }
 
     await updateSourceFiles(tree, context);
+    const { workspace } = await getWorkspace(tree);
+    for (const project of workspace.projects.values()) {
+      context.addTask(
+        new RunSchematicTask('@skyux/packages', 'ag-grid-migrate', {
+          sourceRoot: project.sourceRoot || `${project.root}/src`,
+        }),
+      );
+    }
   };
 }
