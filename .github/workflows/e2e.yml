@@ -33,12 +33,12 @@ jobs:
       base: ${{ steps.set-shas.outputs.base }}
       head: ${{ steps.set-shas.outputs.head }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         id: setup-node
         with:
           node-version-file: '.nvmrc'
@@ -46,7 +46,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
         id: cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -93,13 +93,13 @@ jobs:
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
@@ -107,7 +107,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -118,7 +118,7 @@ jobs:
         run: npx nx run ${{ matrix.project }}:build-storybook:ci
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.project }}
           path: ./dist/storybook/${{ matrix.project }}
@@ -147,13 +147,13 @@ jobs:
           - integration
           - playground
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
@@ -161,7 +161,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -176,7 +176,7 @@ jobs:
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app == 'dep-graph' }}
       - name: Upload app artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.app }}
           path: ./dist/apps/${{ matrix.app }}
@@ -198,25 +198,25 @@ jobs:
       - build-storybook
       - build-apps
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Move apps
@@ -239,7 +239,7 @@ jobs:
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ env.GH_PAGES_OWNER }}/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           ref: 'main'
@@ -267,13 +267,13 @@ jobs:
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
@@ -281,7 +281,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -302,7 +302,7 @@ jobs:
         run: npx cypress verify
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Percy ${{ matrix.project }}
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
@@ -331,7 +331,7 @@ jobs:
           TERM: 'xterm-256color'
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Upload error screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: cypress-screenshots-${{ matrix.project }}
@@ -364,13 +364,13 @@ jobs:
       - e2e
       - publish
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
@@ -378,7 +378,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -387,7 +387,7 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - name: Build e2e-schematics
         run: npx nx build e2e-schematics
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         name: Verify E2E Visual Review
         id: verify-e2e
         with:
