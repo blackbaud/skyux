@@ -3,7 +3,8 @@ import { Rule } from '@angular-devkit/schematics';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
-const NEEDLE_REGEX = /\.queryHarness\(/g;
+const OLD_METHOD_NAME_REGEX = /\.queryHarness\(/g;
+const NEW_METHOD_NAME = '.queryHarnessOrNull(';
 
 export default function renameHarnessQueryMethods(): Rule {
   return async (tree) => {
@@ -17,10 +18,10 @@ export default function renameHarnessQueryMethods(): Rule {
         if (filePath.endsWith('.harness.ts') || filePath.endsWith('.spec.ts')) {
           const contents = tree.readText(filePath);
 
-          if (NEEDLE_REGEX.test(contents)) {
+          if (OLD_METHOD_NAME_REGEX.test(contents)) {
             const modified = contents.replace(
-              NEEDLE_REGEX,
-              '.queryHarnessOrNull(',
+              OLD_METHOD_NAME_REGEX,
+              NEW_METHOD_NAME,
             );
 
             tree.overwrite(filePath, modified);
