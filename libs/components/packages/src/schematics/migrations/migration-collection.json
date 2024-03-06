@@ -34,6 +34,11 @@
       "version": "10.0.0-0",
       "factory": "./update-10/rename-tabset-tabindex/rename-tabset-tabindex.schematic",
       "description": "Rename the tabIndex input of sky-tab to tabIndexValue to avoid collision with HTML's native tabindex attribute."
+    },
+    "rename-harness-queries": {
+      "version": "10.0.0-0",
+      "factory": "./update-10/rename-harness-queries/rename-harness-queries.schematic",
+      "description": "Rename harnesses's queryHarness methods to queryHarnessOrNull."
     }
   }
 }
