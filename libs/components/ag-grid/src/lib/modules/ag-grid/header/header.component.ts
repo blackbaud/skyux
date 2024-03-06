@@ -17,7 +17,7 @@ import {
 } from '@skyux/core';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { Events } from 'ag-grid-community';
+import { ColumnMovedEvent, Events } from 'ag-grid-community';
 import { BehaviorSubject, Subscription, fromEventPattern } from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
@@ -130,6 +130,28 @@ export class SkyAgGridHeaderComponent
       this.#updateSort();
       this.#updateSortIndex();
     }
+
+    // When the column is moved left via the keyboard, the element is detached
+    // and reattached to the DOM to maintain DOM order, and its focus is lost.
+    this.#subscriptions.add(
+      fromEventPattern<ColumnMovedEvent>(
+        (handler) =>
+          params.api.addEventListener(Events.EVENT_COLUMN_MOVED, handler),
+        (handler) =>
+          params.api.removeEventListener(Events.EVENT_COLUMN_MOVED, handler),
+      ).subscribe((event) => {
+        const left = event.column?.getLeft() ?? 0;
+        const oldLeft = event.column?.getOldLeft() ?? 0;
+        if (
+          event.column === params.column &&
+          event.source === 'uiColumnMoved' &&
+          left < oldLeft
+        ) {
+          params.eGridHeader.focus();
+        }
+      }),
+    );
+
     this.#updateInlineHelp();
     this.#changeDetector.markForCheck();
   }
@@ -195,7 +217,7 @@ export class SkyAgGridHeaderComponent
 
   #updateSortIndex(): void {
     const sortIndex = this.params?.column.getSortIndex();
-    const otherSortColumns = this.params?.columnApi
+    const otherSortColumns = this.params?.api
       ?.getColumns()
       ?.some(
         (column) =>
