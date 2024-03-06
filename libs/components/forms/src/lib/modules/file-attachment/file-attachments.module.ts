@@ -41,7 +41,6 @@ import { SkyFileSizePipe } from './file-size.pipe';
     SkyFileDropComponent,
     SkyFileItemComponent,
     SkyFileSizePipe,
-    SkyFormErrorModule,
   ],
   providers: [DecimalPipe, SkyFileItemService],
 })

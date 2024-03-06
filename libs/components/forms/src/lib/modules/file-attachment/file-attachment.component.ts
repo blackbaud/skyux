@@ -476,7 +476,7 @@ export class SkyFileAttachmentComponent
       this.fileErrorValidation = undefined;
     } else {
       this.writeValue(undefined);
-      // Makes sure access controller is marked as dirty even if current file is undefined
+      // Makes sure value accessor is marked as dirty even if current file is undefined
       this.#onChange(undefined);
       this.fileErrorValidation = { fileError: true };
       this.fileErrorName = currentFile?.errorType;
