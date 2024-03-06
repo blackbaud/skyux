@@ -10,3 +10,4 @@ export {
 } from './resize-observer-mock';
 export { SkyComponentHarness } from './shared/component-harness';
 export { SkyHarnessFilters } from './shared/harness-filters';
+export { SkyQueryableComponentHarness } from './shared/queryable-component-harness';

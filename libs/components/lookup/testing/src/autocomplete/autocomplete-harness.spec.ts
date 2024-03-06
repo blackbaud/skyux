@@ -213,7 +213,9 @@ describe('Autocomplete harness', () => {
 
       const results = (await autocompleteHarness?.getSearchResults()) ?? [];
 
-      await expectAsync(results[0].queryHarness(NonexistentHarness)).toBeRejectedWithError();
+      await expectAsync(
+        results[0].queryHarness(NonexistentHarness),
+      ).toBeRejectedWithError();
     });
 
     it('should return null if query for child harness is not found', async () => {
@@ -225,7 +227,9 @@ describe('Autocomplete harness', () => {
 
       const results = (await autocompleteHarness?.getSearchResults()) ?? [];
 
-      await expectAsync(results[0].queryHarnessOrNull(NonexistentHarness)).toBeResolvedTo(null);
+      await expectAsync(
+        results[0].queryHarnessOrNull(NonexistentHarness),
+      ).toBeResolvedTo(null);
     });
   });
 

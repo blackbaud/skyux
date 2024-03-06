@@ -1,12 +1,12 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 
+import { NonexistentHarness } from './fixtures/nonexistent-harness';
 import { RepeaterHarnessTestItemHarness } from './fixtures/repeater-harness-test-item-harness';
 import { RepeaterHarnessTestComponent } from './fixtures/repeater-harness-test.component';
 import { RepeaterHarnessTestModule } from './fixtures/repeater-harness-test.module';
 import { SkyRepeaterHarness } from './repeater-harness';
 import { SkyRepeaterItemHarness } from './repeater-item-harness';
-import { NonexistentHarness } from './fixtures/nonexistent-harness';
 
 async function setupTest(options: { dataSkyId?: string } = {}) {
   await TestBed.configureTestingModule({
@@ -240,9 +240,9 @@ describe('Repeater harness', () => {
 
     const items = await repeaterHarness.getRepeaterItems();
 
-    await expectAsync(items[0].queryHarness(
-      NonexistentHarness,
-    )).toBeRejectedWithError();
+    await expectAsync(
+      items[0].queryHarness(NonexistentHarness),
+    ).toBeRejectedWithError();
   });
 
   it('should return null when querying harnesses inside an item that does not exist', async () => {
@@ -252,8 +252,8 @@ describe('Repeater harness', () => {
 
     const items = await repeaterHarness.getRepeaterItems();
 
-    await expectAsync(items[0].queryHarnessOrNull(
-      NonexistentHarness,
-    )).toBeResolvedTo(null);
+    await expectAsync(
+      items[0].queryHarnessOrNull(NonexistentHarness),
+    ).toBeResolvedTo(null);
   });
 });

@@ -12,7 +12,7 @@ class NoneFoundTestHarness extends ComponentHarness {
 }
 
 describe('Overlay harness', () => {
-  async function setupTest() {
+  async function setupTest(): Promise<{ overlayHarness: SkyOverlayHarness }> {
     await TestBed.configureTestingModule({
       imports: [OverlayHarnessTestModule],
     }).compileComponents();
@@ -55,9 +55,7 @@ describe('Overlay harness', () => {
   it('should query one child harness', async () => {
     const { overlayHarness } = await setupTest();
 
-    const harness = await overlayHarness.queryHarness(
-      OverlayChildTestHarness,
-    );
+    const harness = await overlayHarness.queryHarness(OverlayChildTestHarness);
 
     await expectAsync((await harness.host()).text()).toBeResolvedTo(
       'OVERLAY CHILD 1 CONTENT',

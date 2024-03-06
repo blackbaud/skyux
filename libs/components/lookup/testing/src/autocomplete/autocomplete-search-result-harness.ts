@@ -1,8 +1,5 @@
-import {
-  ComponentHarness,
-  HarnessPredicate,
-  HarnessQuery,
-} from '@angular/cdk/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
+import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 
 import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-harness-filters';
 
@@ -10,7 +7,7 @@ import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search
  * Harness for interacting with an autocomplete search results in tests.
  * @internal
  */
-export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
+export class SkyAutocompleteSearchResultHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
@@ -39,24 +36,6 @@ export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
     return (await (
       await this.host()
     ).getAttribute('data-descriptor-value')) as string;
-  }
-
-  /**
-   * Returns a child harness or throws error if not found.
-   */
-  public async queryHarness<T extends ComponentHarness>(
-    query: HarnessQuery<T>,
-  ): Promise<T> {
-    return this.locatorFor(query)();
-  }
-
-  /**
-   * Returns a child harness or null if not found.
-   */
-  public async queryHarnessOrNull<T extends ComponentHarness>(
-    query: HarnessQuery<T>,
-  ): Promise<T | null> {
-    return this.locatorForOptional(query)();
   }
 
   /**

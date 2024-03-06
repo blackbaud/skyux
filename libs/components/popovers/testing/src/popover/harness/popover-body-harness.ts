@@ -1,45 +1,15 @@
-import {
-  ComponentHarness,
-  HarnessQuery,
-  TestElement,
-} from '@angular/cdk/testing';
+import { TestElement } from '@angular/cdk/testing';
+import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 
 /**
  * Harness for interacting with a popover body in tests.
  * @internal
  */
-export class SkyPopoverBodyHarness extends ComponentHarness {
+export class SkyPopoverBodyHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
   public static hostSelector = '.sky-popover-body';
-
-  /**
-   * Returns a child harness or throws error if not found.
-   */
-  public async queryHarness<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
-  ): Promise<T> {
-    return this.locatorFor(harness)();
-  }
-
-  /**
-   * Returns a child harness or returns null if not found.
-   */
-  public async queryHarnessOrNull<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
-  ): Promise<T | null> {
-    return this.locatorForOptional(harness)();
-  }
-
-  /**
-   * Returns child harnesses.
-   */
-  public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
-  ): Promise<T[]> {
-    return this.locatorForAll(harness)();
-  }
 
   /**
    * Returns a child test element.

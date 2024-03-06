@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
 
+import { NonexistentHarness } from './fixtures/nonexistent-harness';
 import { PopoverHarnessTestItemHarness } from './fixtures/popover-harness-test-item-harness';
 import { PopoverHarnessTestComponent } from './fixtures/popover-harness-test.component';
 import { SkyPopoverHarness } from './popover-harness';
-import { NonexistentHarness } from './fixtures/nonexistent-harness';
 
 async function setupTest(options?: {
   dataSkyId?: string;
@@ -114,7 +114,9 @@ describe('Popover harness', () => {
     await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
 
-    await expectAsync(contentHarness.queryHarness(NonexistentHarness)).toBeRejectedWithError();
+    await expectAsync(
+      contentHarness.queryHarness(NonexistentHarness),
+    ).toBeRejectedWithError();
   });
 
   it('should return null when querying popover content for harnesses that do not exist', async () => {
@@ -123,7 +125,9 @@ describe('Popover harness', () => {
     await popoverHarness.clickPopoverButton();
     const contentHarness = await popoverHarness.getPopoverContent();
 
-    await expectAsync(contentHarness.queryHarnessOrNull(NonexistentHarness)).toBeResolvedTo(null);
+    await expectAsync(
+      contentHarness.queryHarnessOrNull(NonexistentHarness),
+    ).toBeResolvedTo(null);
   });
 
   it('should close the popover if clicking out when dismissOnBlur is set to true', async () => {

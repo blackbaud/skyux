@@ -1,10 +1,5 @@
-import {
-  ComponentHarness,
-  HarnessPredicate,
-  HarnessQuery,
-  TestElement,
-} from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 import { SkyChevronHarness } from '@skyux/indicators/testing';
 
@@ -13,7 +8,7 @@ import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
 /**
  * Harness for interacting with a repeater item component in tests.
  */
-export class SkyRepeaterItemHarness extends SkyComponentHarness {
+export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
@@ -51,33 +46,6 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
       .addOption('titleText', filters.titleText, async (harness, text) =>
         HarnessPredicate.stringMatches(await harness.getTitleText(), text),
       );
-  }
-
-  /**
-   * Returns a child harness or throws error if not found.
-   */
-  public async queryHarness<T extends ComponentHarness>(
-    query: HarnessQuery<T>,
-  ): Promise<T> {
-    return this.locatorFor(query)();
-  }
-
-  /**
-   * Returns a child harness or null if not found.
-   */
-  public async queryHarnessOrNull<T extends ComponentHarness>(
-    query: HarnessQuery<T>,
-  ): Promise<T | null> {
-    return this.locatorForOptional(query)();
-  }
-
-  /**
-   * Returns child harnesses.
-   */
-  public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
-  ): Promise<T[]> {
-    return this.locatorForAll(harness)();
   }
 
   /**
