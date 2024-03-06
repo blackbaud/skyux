@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`stories generator should generate folder path 1`] = `
-"import { NestedComponent } from './nested.component';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+"import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { NestedComponent } from './nested.component';
 const meta: Meta<NestedComponent> = {
   component: NestedComponent,
   id: 'nestedcomponent-nested',
@@ -26,8 +25,8 @@ describe('test', () => {
     describe(\`in \${theme} theme\`, () => {
       beforeEach(() =>
         cy.visit(
-          \`/iframe.html?globals=theme:\${theme}&id=nestedcomponent-nested--nested\`
-        )
+          \`/iframe.html?globals=theme:\${theme}&id=nestedcomponent-nested--nested\`,
+        ),
       );
 
       it('should render the component', () => {
@@ -46,9 +45,8 @@ describe('test', () => {
 `;
 
 exports[`stories generator should run successfully 1`] = `
-"import { NxWelcomeComponent } from './nx-welcome.component';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+"import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { NxWelcomeComponent } from './nx-welcome.component';
 const meta: Meta<NxWelcomeComponent> = {
   component: NxWelcomeComponent,
   id: 'nxwelcomecomponent-nxwelcome',
@@ -64,9 +62,8 @@ export const NxWelcome: Story = {
 `;
 
 exports[`stories generator should use -storybook project 1`] = `
-"import { NxWelcomeComponent } from './nx-welcome.component';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+"import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { NxWelcomeComponent } from './nx-welcome.component';
 const meta: Meta<NxWelcomeComponent> = {
   component: NxWelcomeComponent,
   id: 'nxwelcomecomponent-nxwelcome',
@@ -89,8 +86,8 @@ describe('test-storybook', () => {
     describe(\`in \${theme} theme\`, () => {
       beforeEach(() =>
         cy.visit(
-          \`/iframe.html?globals=theme:\${theme}&id=nxwelcomecomponent-nxwelcome--nx-welcome\`
-        )
+          \`/iframe.html?globals=theme:\${theme}&id=nxwelcomecomponent-nxwelcome--nx-welcome\`,
+        ),
       );
 
       it('should render the component', () => {
