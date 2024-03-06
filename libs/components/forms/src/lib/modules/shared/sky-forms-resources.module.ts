@@ -92,6 +92,15 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_file_attachment_file_upload_link_removed: {
       message: 'Link to {0} removed.',
     },
+    skyux_file_attachment_file_type_error_label_text: {
+      message: 'Please upload a file of type {0}.',
+    },
+    skyux_file_attachment_max_file_size_error_label_text: {
+      message: 'Please upload a file under {0}KB.',
+    },
+    skyux_file_attachment_min_file_size_error_label_text: {
+      message: 'Please upload a file over {0}KB.',
+    },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_input_box_help_inline_aria_label: {
       message: 'Show help content for {0}',
