@@ -5,6 +5,7 @@ import path from 'path';
 function copyFilesToDist() {
   const pathsToCopy = [
     ['collection.json'],
+    ['/src/schematics/ag-grid-migrate/schema.json'],
     ['/src/schematics/migrations/migration-collection.json'],
     ['/src/schematics/ng-generate/polyfills/schema.json'],
     ['/src/schematics/ng-add/schema.json'],
