@@ -106,7 +106,15 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.querySelector('.not-found-selector'),
+      overlayHarness.querySelectorOrNull('.not-found-selector'),
     ).toBeResolvedTo(null);
+  });
+
+  it('should throw if child test element cannot be found', async () => {
+    const { overlayHarness } = await setupTest();
+
+    await expectAsync(
+      overlayHarness.querySelector('.not-found-selector'),
+    ).toBeRejected();
   });
 });

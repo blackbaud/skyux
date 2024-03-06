@@ -1,4 +1,4 @@
-import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 import { SkyChevronHarness } from '@skyux/indicators/testing';
@@ -46,20 +46,6 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
       .addOption('titleText', filters.titleText, async (harness, text) =>
         HarnessPredicate.stringMatches(await harness.getTitleText(), text),
       );
-  }
-
-  /**
-   * Returns a child test element.
-   */
-  public async querySelector(selector: string): Promise<TestElement | null> {
-    return this.locatorForOptional(selector)();
-  }
-
-  /**
-   * Returns child test elements.
-   */
-  public async querySelectorAll(selector: string): Promise<TestElement[]> {
-    return this.locatorForAll(selector)();
   }
 
   /**

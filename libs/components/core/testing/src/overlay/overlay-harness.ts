@@ -1,4 +1,4 @@
-import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
 
 import { SkyQueryableComponentHarness } from '../shared/queryable-component-harness';
 
@@ -22,19 +22,5 @@ export class SkyOverlayHarness extends SkyQueryableComponentHarness {
     filters: SkyOverlayHarnessFilters,
   ): HarnessPredicate<SkyOverlayHarness> {
     return new HarnessPredicate(SkyOverlayHarness, filters);
-  }
-
-  /**
-   * Returns a child test element.
-   */
-  public async querySelector(selector: string): Promise<TestElement | null> {
-    return this.locatorForOptional(selector)();
-  }
-
-  /**
-   * Returns child test elements.
-   */
-  public async querySelectorAll(selector: string): Promise<TestElement[]> {
-    return this.locatorForAll(selector)();
   }
 }

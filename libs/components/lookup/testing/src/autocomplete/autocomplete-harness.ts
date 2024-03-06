@@ -165,7 +165,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
       );
     }
 
-    const button = await overlay.querySelector(
+    const button = await overlay.querySelectorOrNull(
       'button.sky-autocomplete-action-add',
     );
 
@@ -196,7 +196,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
       );
     }
 
-    const button = await overlay.querySelector(
+    const button = await overlay.querySelectorOrNull(
       'button.sky-autocomplete-action-more',
     );
 
