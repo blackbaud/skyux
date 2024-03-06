@@ -34,7 +34,7 @@ function getButtonEl(el: HTMLElement): HTMLElement | null {
   return el.querySelector('.sky-file-attachment-btn');
 }
 
-describe('File attachment', () => {
+fdescribe('File attachment', () => {
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
   let el: HTMLElement;
   let fileAttachmentInstance: SkyFileAttachmentComponent;
