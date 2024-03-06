@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component generator should run successfully 1`] = `
-"import { ExampleComponent } from './example.component';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+"import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { ExampleComponent } from './example.component';
 const meta: Meta<ExampleComponent> = {
   component: ExampleComponent,
   id: 'examplecomponent-example',
@@ -19,10 +18,9 @@ export const Example: Story = {
 `;
 
 exports[`component generator should run successfully with --module 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
+"import { ExampleModule } from './example.module';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+import { ExampleComponent } from './example.component';
 const meta: Meta<ExampleComponent> = {
   component: ExampleComponent,
   id: 'examplecomponent-example',
@@ -38,9 +36,8 @@ export const Example: Story = {
 `;
 
 exports[`component generator should run successfully with sub directory 1`] = `
-"import { SubExampleComponent } from './sub-example.component';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+"import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { SubExampleComponent } from './sub-example.component';
 const meta: Meta<SubExampleComponent> = {
   component: SubExampleComponent,
   id: 'subexamplecomponent-subexample',
@@ -56,10 +53,9 @@ export const SubExample: Story = {
 `;
 
 exports[`component generator should run successfully, finding a module 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
+"import { ExampleModule } from './example.module';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+import { ExampleComponent } from './example.component';
 const meta: Meta<ExampleComponent> = {
   component: ExampleComponent,
   id: 'examplecomponent-example',
@@ -92,17 +88,11 @@ import { CommonModule } from '@angular/common';
 import { ExampleRoutingModule } from './example-routing.module';
 import { ExampleComponent } from './example.component';
 @NgModule({
-    declarations: [
-        ExampleComponent
-    ],
-    imports: [
-        CommonModule,
-        ExampleRoutingModule
-    ],
-    exports: [ExampleComponent]
+  declarations: [ExampleComponent],
+  imports: [CommonModule, ExampleRoutingModule],
+  exports: [ExampleComponent],
 })
-export class ExampleModule {
-}
+export class ExampleModule {}
 "
 `;
 
@@ -112,22 +102,19 @@ import { CommonModule } from '@angular/common';
 
 import { TestRouterRoutingModule } from './test-router-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    TestRouterRoutingModule
-  ]
+  imports: [CommonModule, TestRouterRoutingModule],
 })
-export class TestRouterModule { }
+export class TestRouterModule {}
 "
 `;
 
 exports[`component generator should run successfully, finding a module 5`] = `
-"import { ExampleComponent } from './example.component';
+"import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ExampleComponent } from './example.component';
 import { ExampleModule } from './example.module';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('ExampleComponent', () => {
   let component: ExampleComponent;
@@ -150,10 +137,9 @@ describe('ExampleComponent', () => {
 `;
 
 exports[`component generator should run successfully, not standalone 1`] = `
-"import { ExampleComponent } from './example.component';
-import { ExampleModule } from './example.module';
+"import { ExampleModule } from './example.module';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+import { ExampleComponent } from './example.component';
 const meta: Meta<ExampleComponent> = {
   component: ExampleComponent,
   id: 'examplecomponent-example',
@@ -169,10 +155,9 @@ export const Example: Story = {
 `;
 
 exports[`component generator should run successfully, when not including tests 1`] = `
-"import { SubExampleComponent } from './sub-example.component';
-import { SubExampleModule } from './sub-example.module';
+"import { SubExampleModule } from './sub-example.module';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+import { SubExampleComponent } from './sub-example.component';
 const meta: Meta<SubExampleComponent> = {
   component: SubExampleComponent,
   id: 'subexamplecomponent-subexample',
@@ -205,22 +190,17 @@ import { CommonModule } from '@angular/common';
 
 import { TestRouterRoutingModule } from './test-router-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    TestRouterRoutingModule
-  ]
+  imports: [CommonModule, TestRouterRoutingModule],
 })
-export class TestRouterModule { }
+export class TestRouterModule {}
 "
 `;
 
 exports[`component generator should use -storybook project 1`] = `
-"import { ExampleComponent } from './example.component';
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-
+"import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { ExampleComponent } from './example.component';
 const meta: Meta<ExampleComponent> = {
   component: ExampleComponent,
   id: 'examplecomponent-example',
@@ -243,8 +223,8 @@ describe('test-storybook', () => {
     describe(\`in \${theme} theme\`, () => {
       beforeEach(() =>
         cy.visit(
-          \`/iframe.html?globals=theme:\${theme}&id=examplecomponent-example--example\`
-        )
+          \`/iframe.html?globals=theme:\${theme}&id=examplecomponent-example--example\`,
+        ),
       );
 
       it('should render the component', () => {
