@@ -145,15 +145,15 @@
   },
   "skyux_file_attachment_file_type_error_label_text": {
     "_description": "The error message for file attachment incorrect file type error",
-    "message": "Please upload a file of type {0}"
+    "message": "Please upload a file of type {0}."
   },
   "skyux_file_attachment_max_file_size_error_label_text": {
     "_description": "The error message for file attachment max file size error",
-    "message": "Please upload a file under {0}KB"
+    "message": "Please upload a file under {0}KB."
   },
   "skyux_file_attachment_min_file_size_error_label_text": {
     "_description": "The error message for file attachment min file size error",
-    "message": "Please upload a file over {0}KB"
+    "message": "Please upload a file over {0}KB."
   },
   "skyux_file_attachment_label_no_file_chosen": {
     "_description": "Label for single file attachment when no file is chosen",
