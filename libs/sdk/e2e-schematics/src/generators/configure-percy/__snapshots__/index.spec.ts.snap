@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`configure-percy should generate cypress.config.ts 1`] = `
-"import { skyE2ePreset } from '@skyux-sdk/e2e-schematics/cypress-preset';
-import { defineConfig } from 'cypress';
+"import { defineConfig } from 'cypress';
+import { skyE2ePreset } from '@skyux-sdk/e2e-schematics/cypress-preset';
 
 export default defineConfig({
   e2e: {

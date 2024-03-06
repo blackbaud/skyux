@@ -3,7 +3,13 @@ export default {
   displayName: 'tools',
   preset: '../../../jest.preset.js',
   transform: {
-    '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
+    '^.+\\.[tj]s$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        useESM: true,
+      },
+    ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   testEnvironment: 'node',
