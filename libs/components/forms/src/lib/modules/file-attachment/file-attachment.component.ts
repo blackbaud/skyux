@@ -1,3 +1,4 @@
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -95,7 +96,13 @@ export class SkyFileAttachmentComponent
    * @preview
    */
   @Input()
-  public labelHidden = false;
+  public set labelHidden(value: BooleanInput) {
+    this.#_labelHidden = coerceBooleanProperty(value);
+  }
+
+  public get labelHidden(): boolean {
+    return this.#_labelHidden;
+  }
 
   /**
    * The maximum size in bytes for valid files.
@@ -212,6 +219,8 @@ export class SkyFileAttachmentComponent
   #ngUnsubscribe = new Subject<void>();
 
   #_disabled = false;
+
+  #_labelHidden = false;
 
   #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
 
