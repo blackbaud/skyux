@@ -1,11 +1,12 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 import { spawnSync } from 'child_process';
+import { platform } from 'os';
 
 import { Schema } from './schema';
 
-const AG_GRID_VERSION = '31.1.0';
 const AG_GRID_MIGRATIONS = ['31.0.0', '31.1.0'];
+const AG_GRID_VERSION = AG_GRID_MIGRATIONS.slice().pop();
 
 export default function (options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -31,8 +32,9 @@ export default function (options: Schema): Rule {
       context.logger.info(`No AG Grid files found in ${sourceRoot}`);
       return;
     }
+    const npm = platform() === 'win32' ? 'npm.cmd' : 'npm';
     spawnSync(
-      'npm',
+      npm,
       ['install', '--no-save', `@ag-grid-community/cli@${AG_GRID_VERSION}`],
       {
         stdio: 'ignore',
@@ -54,7 +56,7 @@ export default function (options: Schema): Rule {
         argv0: 'npx',
       });
     }
-    spawnSync('npm', ['remove', `@ag-grid-community/cli`], {
+    spawnSync(npm, ['remove', `@ag-grid-community/cli`], {
       stdio: 'ignore',
     });
     context.logger.info(
