@@ -10,9 +10,9 @@
       "factory": "./update-10/add-compat-stylesheets/add-compat-stylesheet.schematic",
       "description": "Add a backward compatible stylesheet with styles that have been removed from components in SKY UX 10."
     },
-    "ag-grid-30": {
+    "ag-grid": {
       "version": "10.0.0-0",
-      "factory": "./update-10/ag-grid-30/ag-grid-30.schematic",
+      "factory": "./update-10/ag-grid/ag-grid.schematic",
       "description": "Apply code changes for AG Grid 30."
     },
     "axe-core": {
@@ -29,6 +29,11 @@
       "version": "10.0.0-0",
       "factory": "./update-10/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
       "description": "Remove backward compatible stylesheets for older versions of SKY UX."
+    },
+    "rename-tabset-tabindex": {
+      "version": "10.0.0-0",
+      "factory": "./update-10/rename-tabset-tabindex/rename-tabset-tabindex.schematic",
+      "description": "Rename the tabIndex input of sky-tab to tabIndexValue to avoid collision with HTML's native tabindex attribute."
     }
   }
 }

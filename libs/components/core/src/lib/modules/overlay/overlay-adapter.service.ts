@@ -1,4 +1,9 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import {
+  ElementRef,
+  Injectable,
+  Renderer2,
+  RendererFactory2,
+} from '@angular/core';
 
 /**
  * @internal
@@ -49,5 +54,49 @@ export class SkyOverlayAdapterService {
     ) {
       this.#renderer.removeChild(document.head, this.#styleElement);
     }
+  }
+
+  public addAriaHiddenToSiblings(
+    overlayElementRef: ElementRef,
+  ): Map<Element, string | null> {
+    const overlayElement = overlayElementRef.nativeElement;
+    const hostSiblings = overlayElement.parentElement.children;
+
+    const siblingAriaHiddenCache = new Map<Element, string | null>();
+
+    for (const element of hostSiblings) {
+      if (
+        element !== overlayElement &&
+        !element.hasAttribute('aria-live') &&
+        element.nodeName.toLowerCase() !== 'script' &&
+        element.nodeName.toLowerCase() !== 'style'
+      ) {
+        // preserve previous aria-hidden status of elements outside of modal host
+        siblingAriaHiddenCache.set(
+          element,
+          element.getAttribute('aria-hidden'),
+        );
+        element.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    return siblingAriaHiddenCache;
+  }
+
+  public restoreAriaHiddenForSiblings(
+    siblingAriaHiddenCache: Map<Element, string | null>,
+  ): void {
+    siblingAriaHiddenCache.forEach((previousValue, element) => {
+      // if element had aria-hidden status prior, restore status
+      if (element.parentElement) {
+        if (previousValue) {
+          element.setAttribute('aria-hidden', previousValue);
+        } else {
+          element.removeAttribute('aria-hidden');
+        }
+      }
+    });
+
+    siblingAriaHiddenCache.clear();
   }
 }

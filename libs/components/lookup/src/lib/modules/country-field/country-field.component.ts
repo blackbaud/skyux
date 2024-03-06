@@ -466,7 +466,12 @@ export class SkyCountryFieldComponent
     this.countries = JSON.parse(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       JSON.stringify((window as any).intlTelInputGlobals.getCountryData()),
-    );
+    ).map((country: SkyCountryFieldCountry & { nodeById: unknown }) => {
+      // `intl-tel-input` version 19.2.6 added a `nodeById` property that is used internally to that library to this object.
+      // We need to remove it as it is not useful to our consumers and would muddle the object type.
+      delete country.nodeById;
+      return country;
+    });
 
     // Ignoring coverage here as this will be removed in the next release.
     // istanbul ignore next

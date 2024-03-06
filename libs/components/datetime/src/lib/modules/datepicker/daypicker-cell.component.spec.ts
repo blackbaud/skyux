@@ -39,6 +39,10 @@ class MockSkyCalendarInnerComponent {
   public isActive(value: any): boolean {
     return false;
   }
+
+  public dateFilter(value: Date, format: string): string {
+    return 'Formatted date';
+  }
 }
 
 describe('daypicker cell', () => {

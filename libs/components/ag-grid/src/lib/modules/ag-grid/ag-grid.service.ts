@@ -230,6 +230,17 @@ export class SkyAgGridService implements OnDestroy {
       },
     };
 
+    // Enable text selection unless explicitly disabled or conflicting with another setting.
+    if (
+      !('enableCellTextSelection' in mergedGridOptions) &&
+      !mergedGridOptions.enableRangeSelection &&
+      !mergedGridOptions.columnDefs?.some((col: ColDef) => col.editable)
+    ) {
+      mergedGridOptions.context ||= {};
+      mergedGridOptions.context.enableCellTextSelection = true;
+      mergedGridOptions.enableCellTextSelection = true;
+    }
+
     return mergedGridOptions;
   }
 
@@ -244,7 +255,7 @@ export class SkyAgGridService implements OnDestroy {
         let isEditable = params.colDef.editable;
 
         if (typeof isEditable === 'function') {
-          const column = params.columnApi.getColumn(params.colDef.field);
+          const column = params.api.getColumn(params.colDef);
           isEditable = isEditable({
             ...params,
             column,
@@ -405,8 +416,6 @@ export class SkyAgGridService implements OnDestroy {
         cellClassRules: editableCellClassRules,
         headerComponent: SkyAgGridHeaderComponent,
         minWidth: 100,
-        resizable: true,
-        sortable: true,
         suppressHeaderKeyboardEvent: (
           keypress: SuppressHeaderKeyboardEventParams,
         ) => keypress.event.code === 'Tab',

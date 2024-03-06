@@ -33,7 +33,10 @@ export class SkyDefinitionListComponent {
     this.service.defaultValue.next(value);
   }
 
-  constructor(public service: SkyDefinitionListService, logger: SkyLogService) {
+  constructor(
+    public service: SkyDefinitionListService,
+    logger: SkyLogService,
+  ) {
     logger.deprecated('SkyDefinitionListComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:

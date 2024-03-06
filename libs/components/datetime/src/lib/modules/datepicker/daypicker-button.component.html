@@ -11,6 +11,7 @@
     'sky-datepicker-btn-disabled': date.disabled,
     'sky-datepicker-btn-key-date': date.keyDate
   }"
+  [attr.aria-label]="date.date | skyDatepickerCalendarLabel"
   (click)="datepicker.selectCalendar($event, date.date, true)"
 >
   <span [ngClass]="{ 'sky-datepicker-secondary': date.secondary }">

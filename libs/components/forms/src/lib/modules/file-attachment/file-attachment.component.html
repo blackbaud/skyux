@@ -2,9 +2,15 @@
   <div
     class="sky-file-attachment-label-wrapper"
     [attr.id]="labelElementId"
-    [ngClass]="{ 'sky-control-label-required': required && hasLabelComponent }"
+    [ngClass]="{
+      'sky-control-label-required': required && (hasLabelComponent || labelText)
+    }"
   >
-    <ng-container *ngTemplateOutlet="labelContent"></ng-container>
+    <ng-container *ngIf="labelText; else labelContent">
+      <span *ngIf="!labelHidden" class="sky-control-label">{{
+        labelText
+      }}</span>
+    </ng-container>
   </div>
   <div
     class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"
@@ -45,16 +51,18 @@
         [attr.aria-label]="
           value
             ? ('skyux_file_attachment_button_label_replace_file_label'
-              | skyLibResources : fileName)
+              | skyLibResources: fileName)
             : ('skyux_file_attachment_button_label_choose_file_label'
               | skyLibResources)
         "
         [attr.aria-labelledby]="
           attachButton.id +
           ' ' +
-          (hasLabelComponent
-            ? labelComponents?.get(0)?.labelContentId?.id
-            : undefined)
+          (labelText
+            ? labelElementId
+            : hasLabelComponent
+              ? labelComponents?.get(0)?.labelContentId?.id
+              : undefined)
         "
         [disabled]="disabled"
         (click)="onDropClicked()"
@@ -99,7 +107,7 @@
       skyId
       type="button"
       [attr.aria-label]="
-        'skyux_file_attachment_file_item_remove' | skyLibResources : fileName
+        'skyux_file_attachment_file_item_remove' | skyLibResources: fileName
       "
       [attr.aria-labelledby]="
         deleteButton.id +

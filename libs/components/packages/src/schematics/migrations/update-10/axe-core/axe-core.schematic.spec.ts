@@ -46,15 +46,13 @@ describe('axe-core.schematic', () => {
 
     await runSchematic();
 
-    expect(tree.readText('package.json')).toMatchInlineSnapshot(`
-      "{
-        "dependencies": {},
-        "devDependencies": {
-          "@skyux-sdk/testing": "*",
-          "axe-core": "~4.8.3"
-        }
-      }"
-    `);
+    expect(JSON.parse(tree.readText('package.json'))).toEqual({
+      dependencies: {},
+      devDependencies: {
+        '@skyux-sdk/testing': '*',
+        'axe-core': '~4.8.3',
+      },
+    });
   });
 
   it('should abort if @skyux-sdk/testing not installed', async () => {
@@ -68,9 +66,9 @@ describe('axe-core.schematic', () => {
 
     await runSchematic();
 
-    expect(tree.readText('package.json')).toMatchInlineSnapshot(
-      `"{"devDependencies":{"axe-core":"*"}}"`,
-    );
+    expect(JSON.parse(tree.readText('package.json'))).toEqual({
+      devDependencies: { 'axe-core': '*' },
+    });
   });
 
   it('should install axe-core if @skyux-sdk/testing installed without', async () => {
@@ -84,13 +82,11 @@ describe('axe-core.schematic', () => {
 
     await runSchematic();
 
-    expect(tree.readText('package.json')).toMatchInlineSnapshot(`
-      "{
-        "devDependencies": {
-          "@skyux-sdk/testing": "*",
-          "axe-core": "~4.8.3"
-        }
-      }"
-    `);
+    expect(JSON.parse(tree.readText('package.json'))).toEqual({
+      devDependencies: {
+        '@skyux-sdk/testing': '*',
+        'axe-core': '~4.8.3',
+      },
+    });
   });
 });

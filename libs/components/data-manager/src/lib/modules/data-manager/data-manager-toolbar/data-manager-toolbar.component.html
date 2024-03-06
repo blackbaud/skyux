@@ -30,7 +30,7 @@
           [attr.aria-label]="
             dataManagerConfig?.listDescriptor
               ? ('skyux_data_manager_columns_button_aria_label'
-                | skyLibResources : dataManagerConfig?.listDescriptor)
+                | skyLibResources: dataManagerConfig?.listDescriptor)
               : ('skyux_data_manager_columns_button_title' | skyLibResources)
           "
           [attr.title]="
@@ -92,7 +92,7 @@
           [attr.aria-label]="
             dataManagerConfig?.listDescriptor
               ? ('skyux_data_manager_select_all_button_aria_label'
-                | skyLibResources : dataManagerConfig?.listDescriptor)
+                | skyLibResources: dataManagerConfig?.listDescriptor)
               : undefined
           "
           (click)="selectAll()"
@@ -107,7 +107,7 @@
           [attr.aria-label]="
             dataManagerConfig?.listDescriptor
               ? ('skyux_data_manager_clear_all_button_aria_label'
-                | skyLibResources : dataManagerConfig?.listDescriptor)
+                | skyLibResources: dataManagerConfig?.listDescriptor)
               : undefined
           "
           (click)="clearAll()"
@@ -121,7 +121,7 @@
           [label]="
             dataManagerConfig?.listDescriptor
               ? ('skyux_data_manager_show_selected_option_aria_label'
-                | skyLibResources : dataManagerConfig?.listDescriptor)
+                | skyLibResources: dataManagerConfig?.listDescriptor)
               : undefined
           "
           (change)="onOnlyShowSelected($event)"

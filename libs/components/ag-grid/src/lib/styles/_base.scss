@@ -175,6 +175,11 @@ $modernDarkThemeBase: map.merge(
   .ag-cell.ag-cell-focus {
     z-index: 1;
 
+    &.ag-cell-inline-editing {
+      border-left-width: 0;
+      border-right-width: 0;
+    }
+
     &.ag-cell-inline-editing,
     &.ag-cell-popup-editing {
       outline-offset: -2px;
@@ -249,6 +254,10 @@ ag-grid-angular {
 
 sky-ag-grid-wrapper ag-grid-angular.sky-ag-grid-editable {
   border-top: sky-ag-grid-variables.$sky-standard-border;
+}
+
+sky-ag-grid-wrapper .sky-ag-grid-text-selection .ag-root-wrapper {
+  cursor: text;
 }
 
 .sky-theme-default .sky-ag-grid-row-delete .sky-btn {

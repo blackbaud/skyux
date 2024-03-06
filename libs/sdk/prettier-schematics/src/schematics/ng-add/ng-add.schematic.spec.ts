@@ -70,8 +70,8 @@ describe('ng-add.schematic', () => {
       'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
-          prettier: '2.8.4',
-          'eslint-config-prettier': '8.7.0',
+          prettier: '3.2.5',
+          'eslint-config-prettier': '9.1.0',
         }),
       }),
     );

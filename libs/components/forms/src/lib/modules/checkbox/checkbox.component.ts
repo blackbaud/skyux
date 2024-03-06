@@ -35,18 +35,44 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the checkbox does not include a visible label. You must set this property for icon
    * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyCheckboxComponent.label', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
 
   /**
    * The HTML element ID of the element that labels the
    * checkbox. This sets the checkbox's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility).
    * If the checkbox does not include a visible label, use `label` instead.
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public labelledBy: string | undefined;
+  public set labelledBy(value: string | undefined) {
+    this.#_labelledBy = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyCheckboxComponent.labelledBy', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get labelledBy(): string | undefined {
+    return this.#_labelledBy;
+  }
 
   /**
    * The ID for the checkbox.
@@ -203,9 +229,17 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
    * Specifying `labelText` also enables automatic error message handling for checkbox.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;
+
+  /**
+   * Indicates whether to hide the `labelText`.
+   * @preview
+   */
+  @Input()
+  public labelHidden = false;
 
   /**
    * Fires when users select or deselect the checkbox.
@@ -260,6 +294,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_inputEl: ElementRef | undefined;
   #_name = '';
   #_required = false;
+  #_label: string | undefined;
+  #_labelledBy: string | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
   #idSvc = inject(SkyIdService);

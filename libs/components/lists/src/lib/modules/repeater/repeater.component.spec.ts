@@ -109,7 +109,7 @@ describe('Repeater item component', () => {
     expected: boolean,
   ): void {
     if (expected) {
-      expect(deprecatedSpy).toHaveBeenCalledOnceWith(
+      expect(deprecatedSpy).toHaveBeenCalledWith(
         'SkyRepeaterItemComponent without `itemName`',
         {
           deprecationMajorVersion: 8,
@@ -117,7 +117,13 @@ describe('Repeater item component', () => {
         },
       );
     } else {
-      expect(deprecatedSpy).not.toHaveBeenCalled();
+      expect(deprecatedSpy).not.toHaveBeenCalledWith(
+        'SkyRepeaterItemComponent without `itemName`',
+        {
+          deprecationMajorVersion: 8,
+          replacementRecommendation: 'Always specify an `itemName` property.',
+        },
+      );
     }
   }
 

@@ -47,7 +47,8 @@
   background-color: $sky-color-white;
   margin-left: $sky-margin-half;
   @include mixins.sky-border(light, top, right, bottom, left);
-  box-shadow: inset 0 0 0 2px $sky-color-white,
+  box-shadow:
+    inset 0 0 0 2px $sky-color-white,
     inset 0 0 0 3px $sky-border-color-neutral-medium;
   width: 30px;
   height: 30px;
@@ -138,7 +139,8 @@
       margin: 4px;
       width: 34px;
       height: 34px;
-      box-shadow: 0 0 0 1px $sky-border-color-neutral-medium,
+      box-shadow:
+        0 0 0 1px $sky-border-color-neutral-medium,
         0 0 0 2px $sky-border-color-neutral-light;
     }
   }
@@ -265,7 +267,8 @@
   z-index: -1;
   height: 30px;
   width: 30px;
-  background: -webkit-linear-gradient(
+  background:
+    -webkit-linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.0980392) 25%,
       transparent 25%,
@@ -276,7 +279,8 @@
     -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.0980392) 25%, transparent 25%, transparent
           75%, rgba(0, 0, 0, 0.0980392) 75%, rgba(0, 0, 0, 0.0980392) 0),
     white;
-  background: -moz-linear-gradient(
+  background:
+    -moz-linear-gradient(
       45deg,
       rgba(0, 0, 0, 0.0980392) 25%,
       transparent 25%,
@@ -305,15 +309,21 @@
     ),
     white;
   background-repeat: repeat, repeat;
-  background-position: 0px 0, 5px 5px;
+  background-position:
+    0px 0,
+    5px 5px;
   -webkit-transform-origin: 0 0 0;
   transform-origin: 0 0 0;
   -webkit-background-origin: padding-box, padding-box;
   background-origin: padding-box, padding-box;
   -webkit-background-clip: border-box, border-box;
   background-clip: border-box, border-box;
-  -webkit-background-size: 10px 10px, 10px 10px;
-  background-size: 10px 10px, 10px 10px;
+  -webkit-background-size:
+    10px 10px,
+    10px 10px;
+  background-size:
+    10px 10px,
+    10px 10px;
   -webkit-box-shadow: none;
   box-shadow: none;
   text-shadow: none;
@@ -357,7 +367,8 @@
   }
 
   .sky-colorpicker-button:focus {
-    box-shadow: inset 0 0 0 2px $sky-theme-modern-color-blue-74,
+    box-shadow:
+      inset 0 0 0 2px $sky-theme-modern-color-blue-74,
       0px 1px 8px 0px rgba(0, 0, 0, 0.3);
     outline: none;
     text-decoration: none;

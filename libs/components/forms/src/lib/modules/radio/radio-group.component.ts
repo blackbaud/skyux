@@ -175,12 +175,14 @@ export class SkyRadioGroupComponent
 
   /**
    * The text to display as the radio group's label.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Indicates whether to hide the `labelText`.
+   * @preview
    */
   @Input()
   public labelHidden = false;
@@ -216,10 +218,9 @@ export class SkyRadioGroupComponent
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
 
-  readonly #idService = inject(SkyIdService);
   readonly #logger = inject(SkyLogService);
+  readonly #idService = inject(SkyIdService);
 
-  protected labelId = this.#idService.generateId();
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
 

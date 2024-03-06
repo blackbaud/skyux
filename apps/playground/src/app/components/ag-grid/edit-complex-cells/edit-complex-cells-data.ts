@@ -94,8 +94,8 @@ export const EDITABLE_GRID_DATA_FACTORY = function (
         i % 3 === 0
           ? parseFloat((1.23 * i).toFixed(2))
           : i % 3 === 2
-          ? 'other value'
-          : '',
+            ? 'other value'
+            : '',
       validationDate: getDay(i + 1),
       lookupSingle: EDITABLE_GRID_LOOKUP.filter((value) => {
         return `record_${lookupKey * 3 + 1}` === value.id;

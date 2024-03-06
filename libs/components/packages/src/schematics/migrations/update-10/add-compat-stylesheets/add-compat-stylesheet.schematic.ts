@@ -28,11 +28,17 @@ const compatStyles: CompatStyle = {
             {
               css: `
 :root {
-  --sky-compat-example: 0;
+  --sky-compat-theme-modern-heading-4-text-transform: uppercase;
+  --sky-compat-theme-modern-heading-5-text-transform: uppercase;
+  --sky-compat-theme-modern-heading-4-font-weight: 400;
+  --sky-compat-theme-modern-heading-5-font-weight: 400;
+  --sky-compat-theme-modern-heading-4-font-color: #686c73;
+  --sky-compat-theme-modern-heading-5-font-color: #686c73;
+
 }
 `,
               instructions: `
-This is an example and should be removed.`,
+H4 and H5 elements should be sentence case in modern theme. To address this change, remove this block of code and ensure your headers are not written with all caps.`,
             },
           ],
         },

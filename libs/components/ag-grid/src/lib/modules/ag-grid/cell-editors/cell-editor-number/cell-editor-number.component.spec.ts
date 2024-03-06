@@ -4,6 +4,7 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   Beans,
   Column,
+  GridApi,
   ICellEditorParams,
   KeyCode,
   RowNode,
@@ -33,8 +34,6 @@ describe('SkyCellEditorNumberComponent', () => {
     );
     numberEditorNativeElement = numberEditorFixture.nativeElement;
     numberEditorComponent = numberEditorFixture.componentInstance;
-
-    numberEditorFixture.detectChanges();
   });
 
   it('renders a numeric input when editing a number cell in an ag grid', () => {
@@ -61,6 +60,9 @@ describe('SkyCellEditorNumberComponent', () => {
   });
 
   describe('agInit', () => {
+    const api = jasmine.createSpyObj<GridApi>('api', [
+      'getDisplayNameForColumn',
+    ]);
     let cellEditorParams: Partial<SkyCellEditorNumberParams>;
     let column: Column;
     const rowNode = new RowNode({} as Beans);
@@ -78,6 +80,7 @@ describe('SkyCellEditorNumberComponent', () => {
       );
 
       cellEditorParams = {
+        api,
         value: value,
         column,
         node: rowNode,
@@ -98,6 +101,24 @@ describe('SkyCellEditorNumberComponent', () => {
 
       expect(numberEditorComponent.editorForm.get('number')?.value).toEqual(
         value,
+      );
+    });
+
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
+      numberEditorComponent.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        rowIndex: 0,
+      });
+      numberEditorFixture.detectChanges();
+      const input = numberEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      numberEditorFixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable number Testing for row 1',
       );
     });
 
@@ -324,7 +345,14 @@ describe('SkyCellEditorNumberComponent', () => {
           true,
         );
 
+        const gridApi = new GridApi();
+
+        gridApi.getDisplayNameForColumn = (): string => {
+          return '';
+        };
+
         cellEditorParams = {
+          api: gridApi,
           value: value,
           column,
           node: rowNode,

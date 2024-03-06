@@ -305,7 +305,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -345,7 +345,7 @@ describe('Country Field Component', () => {
         expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
-        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -875,7 +875,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -960,7 +960,7 @@ describe('Country Field Component', () => {
         expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
-        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -1344,7 +1344,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -1386,7 +1386,7 @@ describe('Country Field Component', () => {
         expect(results[0]).toHaveText('Australia');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__au');
-        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));

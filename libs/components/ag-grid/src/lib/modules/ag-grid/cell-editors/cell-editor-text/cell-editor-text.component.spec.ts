@@ -4,6 +4,7 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   Beans,
   Column,
+  GridApi,
   ICellEditorParams,
   KeyCode,
   RowNode,
@@ -34,8 +35,6 @@ describe('SkyCellEditorTextComponent', () => {
     );
     textEditorNativeElement = textEditorFixture.nativeElement;
     textEditorComponent = textEditorFixture.componentInstance;
-
-    textEditorFixture.detectChanges();
   });
 
   it('renders a text input when editing a text cell in an ag grid', () => {
@@ -60,6 +59,9 @@ describe('SkyCellEditorTextComponent', () => {
   });
 
   describe('agInit', () => {
+    const api = jasmine.createSpyObj<GridApi>('api', [
+      'getDisplayNameForColumn',
+    ]);
     let cellEditorParams: Partial<SkyCellEditorTextParams>;
     let column: Column;
     const rowNode = new RowNode({} as Beans);
@@ -77,6 +79,7 @@ describe('SkyCellEditorTextComponent', () => {
       );
 
       cellEditorParams = {
+        api,
         value: value,
         column,
         node: rowNode,
@@ -95,6 +98,24 @@ describe('SkyCellEditorTextComponent', () => {
       textEditorComponent.agInit(cellEditorParams as ICellEditorParams);
 
       expect(textEditorComponent.editorForm.get('text')?.value).toEqual(value);
+    });
+
+    it('should set the correct aria label', () => {
+      api.getDisplayNameForColumn.and.returnValue('Testing');
+      textEditorComponent.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        rowIndex: 0,
+      });
+      textEditorFixture.detectChanges();
+      const input = textEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+
+      textEditorFixture.detectChanges();
+
+      expect(input.getAttribute('aria-label')).toBe(
+        'Editable text Testing for row 1',
+      );
     });
 
     describe('cellStartedEdit is true', () => {
@@ -251,7 +272,14 @@ describe('SkyCellEditorTextComponent', () => {
           true,
         );
 
+        const gridApi = new GridApi();
+
+        gridApi.getDisplayNameForColumn = (): string => {
+          return '';
+        };
+
         cellEditorParams = {
+          api: gridApi,
           value: value,
           column,
           node: rowNode,
