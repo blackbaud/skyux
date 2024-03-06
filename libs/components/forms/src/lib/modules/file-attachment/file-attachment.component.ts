@@ -1,4 +1,3 @@
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -16,6 +15,7 @@ import {
   QueryList,
   Self,
   ViewChild,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { NgControl, ValidationErrors } from '@angular/forms';
@@ -95,14 +95,8 @@ export class SkyFileAttachmentComponent
    * Whether to hide `labelText` from view.
    * @preview
    */
-  @Input()
-  public set labelHidden(value: BooleanInput) {
-    this.#_labelHidden = coerceBooleanProperty(value);
-  }
-
-  public get labelHidden(): boolean {
-    return this.#_labelHidden;
-  }
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
 
   /**
    * The maximum size in bytes for valid files.
@@ -219,8 +213,6 @@ export class SkyFileAttachmentComponent
   #ngUnsubscribe = new Subject<void>();
 
   #_disabled = false;
-
-  #_labelHidden = false;
 
   #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
 
