@@ -5,6 +5,7 @@ import { SkyConfirmTestSubject } from './confirm-test-subject';
 
 export abstract class SkyConfirmTestingController {
   public abstract cancel(): void;
+  public abstract expectClosed(): void;
   public abstract expectOpen(): SkyConfirmTestSubject;
   public abstract close(args: SkyConfirmCloseEventArgs): void;
   public abstract ok(): void;
