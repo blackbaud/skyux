@@ -8,7 +8,7 @@ import { DemoComponent } from './demo.component';
 
 describe('Lookup multi-select demo', () => {
   async function setupTest(): Promise<{
-    lookupHarness: SkyLookupHarness | null;
+    lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<DemoComponent>;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
@@ -32,7 +32,7 @@ describe('Lookup multi-select demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -40,8 +40,8 @@ describe('Lookup multi-select demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness?.enterText('be');
-    await lookupHarness?.selectSearchResult({
+    await lookupHarness.enterText('be');
+    await lookupHarness.selectSearchResult({
       text: 'Ben',
     });
 
@@ -53,14 +53,14 @@ describe('Lookup multi-select demo', () => {
   it('should respect the selection descriptor', async () => {
     const { lookupHarness } = await setupTest();
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
 
-    await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
       'Search names',
     );
-    await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
+    await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
       'Select names',
     );
   });

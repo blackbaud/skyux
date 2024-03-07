@@ -13,7 +13,7 @@ export abstract class SkyComponentHarness extends ComponentHarness {
   protected static getDataSkyIdPredicate<T extends SkyComponentHarness>(
     this: ComponentHarnessConstructor<T>,
     filters: SkyHarnessFilters,
-  ) {
+  ): HarnessPredicate<T> {
     return new HarnessPredicate(this, filters).addOption(
       'dataSkyId',
       filters.dataSkyId,

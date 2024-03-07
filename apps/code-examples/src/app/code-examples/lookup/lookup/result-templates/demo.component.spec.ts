@@ -9,7 +9,7 @@ import { ItemHarness } from './item-harness';
 
 describe('Lookup result templates demo', () => {
   async function setupTest(): Promise<{
-    lookupHarness: SkyLookupHarness | null;
+    lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<DemoComponent>;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
@@ -33,7 +33,7 @@ describe('Lookup result templates demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -41,14 +41,14 @@ describe('Lookup result templates demo', () => {
   it('should use the expected dropdown item template', async () => {
     const { lookupHarness } = await setupTest();
 
-    await lookupHarness?.enterText('be');
+    await lookupHarness.enterText('be');
 
-    const results = await lookupHarness?.getSearchResults();
+    const results = await lookupHarness.getSearchResults();
     const templateItemHarness =
       results && (await results[0].queryHarness(ItemHarness));
 
-    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
-    await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
+    await expectAsync(templateItemHarness.getName()).toBeResolvedTo('Abed');
+    await expectAsync(templateItemHarness.getFormalName()).toBeResolvedTo(
       'Mr. Nadir',
     );
   });
@@ -56,17 +56,17 @@ describe('Lookup result templates demo', () => {
   it('should use the expected modal item template', async () => {
     const { lookupHarness } = await setupTest();
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const pickerHarness = await lookupHarness?.getShowMorePicker();
-    await pickerHarness?.enterSearchText('be');
+    const pickerHarness = await lookupHarness.getShowMorePicker();
+    await pickerHarness.enterSearchText('be');
 
-    const results = await pickerHarness?.getSearchResults();
+    const results = await pickerHarness.getSearchResults();
     const templateItemHarness =
       results && (await results[0].queryHarness(ItemHarness));
 
-    await expectAsync(templateItemHarness?.getName()).toBeResolvedTo('Abed');
-    await expectAsync(templateItemHarness?.getFormalName()).toBeResolvedTo(
+    await expectAsync(templateItemHarness.getName()).toBeResolvedTo('Abed');
+    await expectAsync(templateItemHarness.getFormalName()).toBeResolvedTo(
       'Mr. Nadir',
     );
   });
@@ -74,11 +74,11 @@ describe('Lookup result templates demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness?.enterText('be');
+    await lookupHarness.enterText('be');
 
-    const allResultHarnesses = await lookupHarness?.getSearchResults();
+    const allResultHarnesses = await lookupHarness.getSearchResults();
     const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
-    await firstResultHarness?.select();
+    await firstResultHarness.select();
 
     expect(
       fixture.componentInstance.favoritesForm.controls.favoriteNames.value,
@@ -91,14 +91,14 @@ describe('Lookup result templates demo', () => {
   it('should respect the selection descriptor', async () => {
     const { lookupHarness } = await setupTest();
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
 
-    await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
       'Search names',
     );
-    await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
+    await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
       'Select names',
     );
   });
