@@ -5,6 +5,9 @@
   "sourceRoot": "libs/components/core/testing/src",
   "prefix": "sky",
   "targets": {
+    "build": {
+      "command": "echo build"
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -36,5 +39,6 @@
         }
       }
     }
-  }
+  },
+  "tags": ["testing"]
 }
