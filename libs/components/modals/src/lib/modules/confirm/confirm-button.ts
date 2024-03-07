@@ -6,8 +6,8 @@ import { SkyConfirmButtonStyleType } from './confirm-button-style-type';
  * @internal
  */
 export interface SkyConfirmButton {
-  action: SkyConfirmButtonAction;
-  styleType: SkyConfirmButtonStyleType;
+  action: SkyConfirmButtonAction | string;
+  styleType: SkyConfirmButtonStyleType | string;
   text: string;
   autofocus?: boolean;
 }

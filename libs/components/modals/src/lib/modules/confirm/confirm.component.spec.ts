@@ -7,6 +7,7 @@ import { SkyModalInstance } from '../modal/modal-instance';
 
 import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
+import { SkyConfirmInstance } from './confirm-instance';
 import { SkyConfirmType } from './confirm-type';
 import { SkyConfirmComponent } from './confirm.component';
 import {
@@ -38,6 +39,7 @@ describe('Confirm component', () => {
       providers: [
         { provide: SkyModalHostService, useValue: modalHost },
         { provide: SkyModalConfiguration, useValue: {} },
+        SkyConfirmInstance,
       ],
     });
   });
@@ -298,7 +300,6 @@ describe('Confirm component', () => {
       '.sky-confirm-buttons .sky-btn',
     );
 
-    expect(fixture.componentInstance.preserveWhiteSpace).toEqual(false);
     expect(messageElem.classList).not.toContain(
       'sky-confirm-preserve-white-space',
     );
@@ -327,7 +328,6 @@ describe('Confirm component', () => {
       '.sky-confirm-buttons .sky-btn',
     );
 
-    expect(fixture.componentInstance.preserveWhiteSpace).toEqual(true);
     expect(messageElem.classList).toContain('sky-confirm-preserve-white-space');
     expect(bodyElem.classList).toContain('sky-confirm-preserve-white-space');
 

@@ -20,7 +20,7 @@ export class DemoComponent {
   readonly #confirmSvc = inject(SkyConfirmService);
 
   protected openOKConfirm(): void {
-    const dialog: SkyConfirmInstance = this.#confirmSvc.open({
+    const dialog = this.#confirmSvc.open({
       message:
         'Cannot delete invoice because it has vendor, credit memo, or purchase order activity.',
       type: SkyConfirmType.OK,
