@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { VerticalTabsetModalComponent } from './vertical-tabset-modal.component';
+import { VerticalTabsetModalWithColumnsComponent } from './vertical-tabset-modal-with-columns.component';
 
 let nextTabId = 4;
 
@@ -67,6 +68,10 @@ export class VerticalTabsetComponent {
   }
 
   public openVerticalTabsetModal() {
-    this.#modalService.open(VerticalTabsetModalComponent);
+    this.#modalService.open(VerticalTabsetModalComponent, { size: 'large' });
+  }
+
+  public openVerticalTabsetModalWithColumns() {
+    this.#modalService.open(VerticalTabsetModalWithColumnsComponent, { size: 'large' });
   }
 }
