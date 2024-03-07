@@ -13,7 +13,7 @@ describe('Lookup asynchronous search demo', () => {
   let mockSvc!: jasmine.SpyObj<DemoService>;
 
   async function setupTest(): Promise<{
-    lookupHarness: SkyLookupHarness | null;
+    lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<DemoComponent>;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
@@ -47,7 +47,7 @@ describe('Lookup asynchronous search demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -71,8 +71,8 @@ describe('Lookup asynchronous search demo', () => {
       }),
     );
 
-    await lookupHarness?.enterText('b');
-    await lookupHarness?.selectSearchResult({
+    await lookupHarness.enterText('b');
+    await lookupHarness.selectSearchResult({
       text: 'Bernard',
     });
 
@@ -100,14 +100,14 @@ describe('Lookup asynchronous search demo', () => {
       }),
     );
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
 
-    await expectAsync(picker?.getSearchAriaLabel()).toBeResolvedTo(
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
       'Search names',
     );
-    await expectAsync(picker?.getSaveButtonAriaLabel()).toBeResolvedTo(
+    await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
       'Select names',
     );
   });

@@ -12,7 +12,7 @@ class NoneFoundTestHarness extends ComponentHarness {
 }
 
 describe('Overlay harness', () => {
-  async function setupTest() {
+  async function setupTest(): Promise<{ overlayHarness: SkyOverlayHarness }> {
     await TestBed.configureTestingModule({
       imports: [OverlayHarnessTestModule],
     }).compileComponents();
@@ -55,9 +55,7 @@ describe('Overlay harness', () => {
   it('should query one child harness', async () => {
     const { overlayHarness } = await setupTest();
 
-    const harness = (await overlayHarness.queryHarness(
-      OverlayChildTestHarness,
-    )) as OverlayChildTestHarness;
+    const harness = await overlayHarness.queryHarness(OverlayChildTestHarness);
 
     await expectAsync((await harness.host()).text()).toBeResolvedTo(
       'OVERLAY CHILD 1 CONTENT',
@@ -68,8 +66,16 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.queryHarness(NoneFoundTestHarness),
+      overlayHarness.queryHarnessOrNull(NoneFoundTestHarness),
     ).toBeResolvedTo(null);
+  });
+
+  it('should throw error if test harness cannot be found', async () => {
+    const { overlayHarness } = await setupTest();
+
+    await expectAsync(
+      overlayHarness.queryHarness(NoneFoundTestHarness),
+    ).toBeRejectedWithError();
   });
 
   it('should query child test elements', async () => {
@@ -100,7 +106,15 @@ describe('Overlay harness', () => {
     const { overlayHarness } = await setupTest();
 
     await expectAsync(
-      overlayHarness.querySelector('.not-found-selector'),
+      overlayHarness.querySelectorOrNull('.not-found-selector'),
     ).toBeResolvedTo(null);
+  });
+
+  it('should throw if child test element cannot be found', async () => {
+    const { overlayHarness } = await setupTest();
+
+    await expectAsync(
+      overlayHarness.querySelector('.not-found-selector'),
+    ).toBeRejected();
   });
 });

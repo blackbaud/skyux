@@ -1,10 +1,5 @@
-import {
-  ComponentHarness,
-  HarnessPredicate,
-  HarnessQuery,
-  TestElement,
-} from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
@@ -16,7 +11,7 @@ import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
 /**
  * Harness for interacting with an input box component in tests.
  */
-export class SkyInputBoxHarness extends SkyComponentHarness {
+export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
@@ -38,15 +33,6 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     filters: SkyInputBoxHarnessFilters,
   ): HarnessPredicate<SkyInputBoxHarness> {
     return SkyInputBoxHarness.getDataSkyIdPredicate(filters);
-  }
-
-  /**
-   * Returns a child harness.
-   */
-  public async queryHarness<T extends ComponentHarness>(
-    query: HarnessQuery<T>,
-  ): Promise<T | null> {
-    return this.locatorForOptional(query)();
   }
 
   /**

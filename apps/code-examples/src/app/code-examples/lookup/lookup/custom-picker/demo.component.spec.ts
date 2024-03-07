@@ -9,7 +9,7 @@ import { PickerHarness } from './picker-harness';
 
 describe('Lookup custom picker demo', () => {
   async function setupTest(): Promise<{
-    lookupHarness: SkyLookupHarness | null;
+    lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<DemoComponent>;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
@@ -33,7 +33,7 @@ describe('Lookup custom picker demo', () => {
   it('should set the expected initial value', async () => {
     const { lookupHarness } = await setupTest();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -41,9 +41,9 @@ describe('Lookup custom picker demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness?.enterText('Be');
+    await lookupHarness.enterText('Be');
 
-    const allResultHarnesses = await lookupHarness?.getSearchResults();
+    const allResultHarnesses = await lookupHarness.getSearchResults();
     const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
 
     if (firstResultHarness) {
@@ -62,7 +62,7 @@ describe('Lookup custom picker demo', () => {
     const { lookupHarness, fixture } = await setupTest();
 
     // Show the custom picker.
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
     // Use the custom picker harness to validate that selecting/deselecting items
     // updates the lookup form field.
