@@ -6,7 +6,7 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { Column, ColumnApi } from 'ag-grid-community';
+import { Column, GridApi } from 'ag-grid-community';
 
 import { SkyAgGridHeaderParams } from '../types/header-params';
 
@@ -25,7 +25,7 @@ class OtherTestHelpComponent {}
 describe('HeaderComponent', () => {
   let component: SkyAgGridHeaderComponent;
   let fixture: ComponentFixture<SkyAgGridHeaderComponent>;
-  let apiEvents: Record<string, (() => void)[]>;
+  let apiEvents: Record<string, ((a?: object) => void)[]>;
   let columnEvents: Record<string, (() => void)[]>;
   let params: SkyAgGridHeaderParams;
 
@@ -55,6 +55,7 @@ describe('HeaderComponent', () => {
             (l) => l !== listener,
           );
         },
+        getColumns: () => [],
       },
       column: {
         addEventListener: (eventType: string, listener: () => void) => {
@@ -75,11 +76,13 @@ describe('HeaderComponent', () => {
         getSort: (): 'asc' | 'desc' | null | undefined => undefined,
         getSortIndex: () => undefined,
         getColId: () => 'test',
+        getLeft: () => 0,
+        getOldLeft: () => 1,
       } as Column,
+      eGridHeader: {
+        focus: () => undefined,
+      } as HTMLElement,
       enableSorting: false,
-      columnApi: {
-        getColumns: () => [],
-      } as Partial<ColumnApi>,
     } as unknown as SkyAgGridHeaderParams;
 
     fixture = TestBed.createComponent(SkyAgGridHeaderComponent);
@@ -127,8 +130,8 @@ describe('HeaderComponent', () => {
         isSortDescending: () => useSort === 'desc',
         isSortNone: () => !useSort,
       } as unknown as Column,
-      columnApi: {
-        ...params.columnApi,
+      api: {
+        ...params.api,
         getColumns() {
           return [
             {
@@ -141,7 +144,7 @@ describe('HeaderComponent', () => {
             },
           ];
         },
-      } as unknown as ColumnApi,
+      } as unknown as GridApi,
     };
     component.agInit(params);
     fixture.detectChanges();
@@ -205,6 +208,21 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(By.css('.other-help-component')),
     ).toBeTruthy();
+  });
+
+  it('should re-focus the header cell when the column is arrowed to the left', async () => {
+    component.agInit(params);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(apiEvents['columnMoved'].length).toBeGreaterThanOrEqual(1);
+    const columnMovedSpy = spyOn(params.eGridHeader, 'focus');
+    apiEvents['columnMoved'].forEach((listener) =>
+      listener({
+        column: params.column,
+        source: 'uiColumnMoved',
+      }),
+    );
+    expect(columnMovedSpy).toHaveBeenCalled();
   });
 
   describe('accessibility', () => {
