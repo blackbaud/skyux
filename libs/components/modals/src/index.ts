@@ -4,6 +4,7 @@ export { SkyConfirmButtonStyleType } from './lib/modules/confirm/confirm-button-
 export { SkyConfirmCloseEventArgs } from './lib/modules/confirm/confirm-closed-event-args';
 export { SkyConfirmConfig } from './lib/modules/confirm/confirm-config';
 export { SkyConfirmInstance } from './lib/modules/confirm/confirm-instance';
+export { SkyConfirmServiceInterface } from './lib/modules/confirm/confirm-service-interface';
 export { SkyConfirmType } from './lib/modules/confirm/confirm-type';
 export { SkyConfirmModule } from './lib/modules/confirm/confirm.module';
 export { SkyConfirmService } from './lib/modules/confirm/confirm.service';
