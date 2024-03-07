@@ -47,10 +47,40 @@
   }
 }
 
+:host-context(sky-modal) {
+  .sky-sectioned-form {
+    min-height: 460px;
+  }
+}
+
+:host-context(sky-modal-content) > {
+  :host .sky-sectioned-form {
+    margin: -$sky-margin-plus-half;
+  }
+
+  form :host .sky-sectioned-form {
+    margin: -$sky-margin-plus-half;
+  }
+}
+
 .sky-sectioned-form-tabs-hidden {
   display: none;
 }
 
 .sky-sectioned-form-content-hidden {
   display: none;
+}
+
+@include mixins.sky-theme-modern {
+  :host-context(sky-modal-content) > {
+    :host .sky-sectioned-form {
+      margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
+        (-$sky-theme-modern-space-xl) (-$sky-theme-modern-space-xl);
+    }
+
+    form :host .sky-sectioned-form {
+      margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
+        (-$sky-theme-modern-space-xl) (-$sky-theme-modern-space-xl);
+    }
+  }
 }
