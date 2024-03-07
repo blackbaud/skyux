@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
 
+import { NonexistentHarness } from './fixtures/nonexistent-harness';
 import { PopoverHarnessTestItemHarness } from './fixtures/popover-harness-test-item-harness';
 import { PopoverHarnessTestComponent } from './fixtures/popover-harness-test.component';
 import { SkyPopoverHarness } from './popover-harness';
@@ -89,8 +90,7 @@ describe('Popover harness', () => {
       PopoverHarnessTestItemHarness,
     );
 
-    expect(bodyHarness).not.toBeNull();
-    await expectAsync((await bodyHarness!.host()).text()).toBeResolvedTo(
+    await expectAsync((await bodyHarness.host()).text()).toBeResolvedTo(
       'popover body',
     );
 
@@ -98,14 +98,36 @@ describe('Popover harness', () => {
       PopoverHarnessTestItemHarness,
     );
     expect(bodyHarnesses).not.toBeNull();
-    expect(bodyHarnesses!.length).toBe(1);
+    expect(bodyHarnesses.length).toBe(1);
 
     const bodyElement = await contentHarness.querySelector('.popover-body');
     expect(bodyElement).not.toBeNull();
 
     const noteElements = await contentHarness.querySelectorAll('.popover-body');
     expect(noteElements).not.toBeNull();
-    expect(noteElements!.length).toBe(1);
+    expect(noteElements.length).toBe(1);
+  });
+
+  it('should throw error when querying popover content for harnesses that do not exist', async () => {
+    const { popoverHarness } = await setupTest();
+
+    await popoverHarness.clickPopoverButton();
+    const contentHarness = await popoverHarness.getPopoverContent();
+
+    await expectAsync(
+      contentHarness.queryHarness(NonexistentHarness),
+    ).toBeRejectedWithError();
+  });
+
+  it('should return null when querying popover content for harnesses that do not exist', async () => {
+    const { popoverHarness } = await setupTest();
+
+    await popoverHarness.clickPopoverButton();
+    const contentHarness = await popoverHarness.getPopoverContent();
+
+    await expectAsync(
+      contentHarness.queryHarnessOrNull(NonexistentHarness),
+    ).toBeResolvedTo(null);
   });
 
   it('should close the popover if clicking out when dismissOnBlur is set to true', async () => {

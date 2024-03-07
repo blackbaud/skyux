@@ -2,8 +2,9 @@
   <div style="margin-bottom: 50px">
     <sky-file-attachment
       formControlName="attachment"
-      labelText="label text"
+      labelText="Attach a file"
       [maxFileSize]="maxFileSize"
+      [acceptedTypes]="'image/jpeg'"
       [validateFn]="validateFile"
       (fileChange)="reactiveFileUpdated($event)"
       (fileClick)="fileClick($event)"

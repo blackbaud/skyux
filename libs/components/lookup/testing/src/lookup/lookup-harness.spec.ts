@@ -40,7 +40,7 @@ async function setupTest(options: {
     const inputBoxHarness = await loader.getHarness(
       SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),
     );
-    lookupHarness = (await inputBoxHarness.queryHarness(SkyLookupHarness))!;
+    lookupHarness = await inputBoxHarness.queryHarness(SkyLookupHarness);
   }
 
   return { fixture, lookupHarness };
@@ -100,9 +100,9 @@ function testSingleSelect(dataSkyId: string) {
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.enterSearchText('rachel');
-    await picker?.selectSearchResult({ contentText: 'Rachel' });
-    await picker?.saveAndClose();
+    await picker.enterSearchText('rachel');
+    await picker.selectSearchResult({ contentText: 'Rachel' });
+    await picker.saveAndClose();
 
     await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Rachel');
   });
@@ -116,7 +116,7 @@ function testSingleSelect(dataSkyId: string) {
 
     const picker = await lookupHarness.getShowMorePicker();
 
-    await expectAsync(picker?.selectAll()).toBeRejectedWithError(
+    await expectAsync(picker.selectAll()).toBeRejectedWithError(
       'Could not select all selections because the "Select all" button could not be found.',
     );
   });
@@ -130,7 +130,7 @@ function testSingleSelect(dataSkyId: string) {
 
     const picker = await lookupHarness.getShowMorePicker();
 
-    await expectAsync(picker?.clearAll()).toBeRejectedWithError(
+    await expectAsync(picker.clearAll()).toBeRejectedWithError(
       'Could not clear all selections because the "Clear all" button could not be found.',
     );
   });
@@ -180,13 +180,13 @@ function testMultiselect(dataSkyId: string) {
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.enterSearchText('abed');
-    await picker?.selectSearchResult({ contentText: 'Abed' });
-    await picker?.saveAndClose();
+    await picker.enterSearchText('abed');
+    await picker.selectSearchResult({ contentText: 'Abed' });
+    await picker.saveAndClose();
 
     const selections = (await lookupHarness.getSelections()) ?? [];
 
-    expect(selections?.length).toBe(1);
+    expect(selections.length).toBe(1);
     await expectAsync(selections[0].getText()).toBeResolvedTo('Abed');
   });
 
@@ -200,9 +200,9 @@ function testMultiselect(dataSkyId: string) {
 
     await lookupHarness.clickShowMoreButton();
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.enterSearchText('ra');
-    await picker?.selectSearchResult({ contentText: /Craig|Rachel/ });
-    await picker?.saveAndClose();
+    await picker.enterSearchText('ra');
+    await picker.selectSearchResult({ contentText: /Craig|Rachel/ });
+    await picker.saveAndClose();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Craig',
@@ -220,9 +220,9 @@ function testMultiselect(dataSkyId: string) {
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.enterSearchText('ra');
-    await picker?.selectAll();
-    await picker?.saveAndClose();
+    await picker.enterSearchText('ra');
+    await picker.selectAll();
+    await picker.saveAndClose();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Craig',
@@ -242,9 +242,9 @@ function testMultiselect(dataSkyId: string) {
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.loadMore(); // <-- make sure existing selection is present in the search results.
-    await picker?.clearAll();
-    await picker?.saveAndClose();
+    await picker.loadMore(); // <-- make sure existing selection is present in the search results.
+    await picker.clearAll();
+    await picker.saveAndClose();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
   });
@@ -257,15 +257,15 @@ function testMultiselect(dataSkyId: string) {
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.enterSearchText('rachel');
-    let searchResults = await picker?.getSearchResults();
+    await picker.enterSearchText('rachel');
+    let searchResults = await picker.getSearchResults();
 
-    expect(searchResults?.length).toEqual(1);
+    expect(searchResults.length).toEqual(1);
 
-    await picker?.clearSearchText();
-    searchResults = await picker?.getSearchResults();
+    await picker.clearSearchText();
+    searchResults = await picker.getSearchResults();
 
-    expect(searchResults?.length).toEqual(10);
+    expect(searchResults.length).toEqual(10);
   });
 
   it('should cancel the "Show more" picker', async () => {
@@ -280,9 +280,9 @@ function testMultiselect(dataSkyId: string) {
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.enterSearchText('ra');
-    await picker?.selectAll();
-    await picker?.cancel();
+    await picker.enterSearchText('ra');
+    await picker.selectAll();
+    await picker.cancel();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
@@ -301,9 +301,9 @@ function testMultiselect(dataSkyId: string) {
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
-    await picker?.loadMore();
-    await picker?.selectSearchResult({ contentText: 'Vicki' });
-    await picker?.saveAndClose();
+    await picker.loadMore();
+    await picker.selectSearchResult({ contentText: 'Vicki' });
+    await picker.saveAndClose();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Vicki',
@@ -319,7 +319,7 @@ function testMultiselect(dataSkyId: string) {
     const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(
-      picker?.selectSearchResult({ contentText: 'Invalid search' }),
+      picker.selectSearchResult({ contentText: 'Invalid search' }),
     ).toBeRejectedWithError(
       'Could not find search results in the picker matching filter(s): {"contentText":"Invalid search"}',
     );
@@ -398,9 +398,9 @@ describe('Lookup harness', () => {
       await lookupHarness.clickShowMoreButton();
 
       const picker = await lookupHarness.getShowMorePicker();
-      await picker?.enterSearchText('d');
+      await picker.enterSearchText('d');
 
-      const results = (await picker?.getSearchResults()) ?? [];
+      const results = (await picker.getSearchResults()) ?? [];
       await expectAsync(results[0].getContentText()).toBeResolvedTo(
         'Abed (Mr. Nadir)',
       );

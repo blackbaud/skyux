@@ -15,21 +15,24 @@ import {
   QueryList,
   Self,
   ViewChild,
+  booleanAttribute,
   inject,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import { NgControl, ValidationErrors } from '@angular/forms';
+import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
 import { SkyFileItem } from './file-item';
+import { SkyFileItemErrorType } from './file-item-error-type';
 import { SkyFileItemService } from './file-item.service';
 import { SkyFileValidateFn } from './file-validate-function';
 import { SkyFileAttachmentChange } from './types/file-attachment-change';
@@ -47,7 +50,10 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   selector: 'sky-file-attachment',
   templateUrl: './file-attachment.component.html',
   styleUrls: ['./file-attachment.component.scss'],
-  providers: [SkyFileAttachmentService],
+  providers: [
+    SkyFileAttachmentService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFileAttachmentComponent
@@ -89,7 +95,7 @@ export class SkyFileAttachmentComponent
    * Whether to hide `labelText` from view.
    * @preview
    */
-  @Input()
+  @Input({ transform: booleanAttribute })
   public labelHidden = false;
 
   /**
@@ -217,11 +223,18 @@ export class SkyFileAttachmentComponent
   #changeDetector: ChangeDetectorRef;
   #fileAttachmentService: SkyFileAttachmentService;
   #fileItemService: SkyFileItemService;
-  #ngControl: NgControl | undefined;
   #themeSvc: SkyThemeService | undefined;
 
+  readonly #idSvc = inject(SkyIdService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
+
+  protected ngControl: NgControl | undefined;
+  protected errorId = this.#idSvc.generateId();
+
+  protected fileErrorName: SkyFileItemErrorType | undefined;
+  protected fileErrorParam: string | undefined;
+  protected fileErrorValidation: ValidationErrors | null | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -233,13 +246,13 @@ export class SkyFileAttachmentComponent
     this.#changeDetector = changeDetector;
     this.#fileAttachmentService = fileAttachmentService;
     this.#fileItemService = fileItemService;
-    this.#ngControl = ngControl;
+    this.ngControl = ngControl;
     this.#themeSvc = themeSvc;
 
     this.labelElementId = `sky-file-attachment-label-${this.#fileAttachmentId}`;
     this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${this.#fileAttachmentId}`;
-    if (this.#ngControl) {
-      this.#ngControl.valueAccessor = this;
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
     }
   }
 
@@ -261,9 +274,9 @@ export class SkyFileAttachmentComponent
     // Of note is the parent check which allows us to determine if the form is reactive.
     // Without this check there is a changed before checked error
     /* istanbul ignore else */
-    if (this.#ngControl) {
+    if (this.ngControl) {
       setTimeout(() => {
-        this.#ngControl!.control!.setValue(this.value, {
+        this.ngControl!.control!.setValue(this.value, {
           emitEvent: false,
         });
         this.#changeDetector.markForCheck();
@@ -271,7 +284,7 @@ export class SkyFileAttachmentComponent
 
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
+        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
@@ -446,6 +459,16 @@ export class SkyFileAttachmentComponent
   #emitFileChangeEvent(currentFile?: SkyFileItem): void {
     if (currentFile && !currentFile.errorType) {
       this.writeValue(currentFile);
+      this.fileErrorName = undefined;
+      this.fileErrorParam = undefined;
+      this.fileErrorValidation = undefined;
+    } else {
+      this.writeValue(undefined);
+      // Makes sure value accessor is marked as dirty even if current file is undefined
+      this.#onChange(undefined);
+      this.fileErrorValidation = { fileError: true };
+      this.fileErrorName = currentFile?.errorType;
+      this.fileErrorParam = currentFile?.errorParam;
     }
     this.fileChange.emit({
       file: currentFile,
