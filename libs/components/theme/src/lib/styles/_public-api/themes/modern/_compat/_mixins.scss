@@ -154,6 +154,7 @@
     background-color: transparent;
     box-shadow: vars.$sky-theme-modern-elevation-3-shadow-size
       vars.$sky-theme-modern-elevation-3-shadow-color;
+    color: var(--sky-text-color-default);
     outline: solid 2px var(--sky-background-color-primary-dark);
     outline-offset: -2px;
   }
