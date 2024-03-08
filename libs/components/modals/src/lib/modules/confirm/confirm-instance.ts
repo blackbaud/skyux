@@ -29,11 +29,7 @@ export class SkyConfirmInstance {
    * of the confirm instance.
    */
   public close(args: SkyConfirmCloseEventArgs): void {
-    this.#notifyClosed(args);
-  }
-
-  #notifyClosed(result: SkyConfirmCloseEventArgs): void {
-    this.#closed.next(result);
+    this.#closed.next(args);
     this.#closed.complete();
   }
 }
