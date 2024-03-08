@@ -55,6 +55,11 @@ export class Tabset3Component {}
       `<sky-alert>I have no tab.</sky-alert>`,
     );
 
+    tree.create(
+      '/not-a-template.txt',
+      `<sky-tabset><sky-tab [tabIndex]="0">Tab 1 content</sky-tab></sky-tabset>`,
+    );
+
     tree.create('/angular.json', JSON.stringify(angularJson));
 
     await runner.runSchematic('rename-tabset-tabindex', {}, tree);
@@ -102,6 +107,14 @@ export class Tabset3Component {}
 
     expect(tree.readText('/no-tabset.component.html')).toBe(
       `<sky-alert>I have no tab.</sky-alert>`,
+    );
+  });
+
+  it('should ignore files that do not contain Angular templates', async () => {
+    const { tree } = await setupTest();
+
+    expect(tree.readText('/not-a-template.txt')).toBe(
+      `<sky-tabset><sky-tab [tabIndex]="0">Tab 1 content</sky-tab></sky-tabset>`,
     );
   });
 });

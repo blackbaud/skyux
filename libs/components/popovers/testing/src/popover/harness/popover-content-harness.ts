@@ -1,10 +1,8 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
 import {
-  ComponentHarness,
-  HarnessPredicate,
-  HarnessQuery,
-  TestElement,
-} from '@angular/cdk/testing';
-import { SkyOverlayHarness } from '@skyux/core/testing';
+  SkyOverlayHarness,
+  SkyQueryableComponentHarness,
+} from '@skyux/core/testing';
 
 import { SkyPopoverBodyHarness } from './popover-body-harness';
 import { SkyPopoverContentHarnessFilters } from './popover-content-harness-filters';
@@ -12,7 +10,7 @@ import { SkyPopoverContentHarnessFilters } from './popover-content-harness-filte
 /**
  * Harness for interacting with a popover content component in tests.
  */
-export class SkyPopoverContentHarness extends ComponentHarness {
+export class SkyPopoverContentHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
@@ -32,38 +30,6 @@ export class SkyPopoverContentHarness extends ComponentHarness {
     filters: SkyPopoverContentHarnessFilters,
   ): HarnessPredicate<SkyPopoverContentHarness> {
     return new HarnessPredicate(SkyPopoverContentHarness, filters);
-  }
-
-  /**
-   * Returns a child harness.
-   */
-  public async queryHarness<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
-  ): Promise<T | null> {
-    return (await this.#getBody()).queryHarness(harness);
-  }
-
-  /**
-   * Returns child harnesses.
-   */
-  public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>,
-  ): Promise<T[]> {
-    return (await this.#getBody()).queryHarnesses(harness);
-  }
-
-  /**
-   * Returns a child test element.
-   */
-  public async querySelector(selector: string): Promise<TestElement | null> {
-    return (await this.#getBody()).querySelector(selector);
-  }
-
-  /**
-   * Returns child test elements.
-   */
-  public async querySelectorAll(selector: string): Promise<TestElement[]> {
-    return (await this.#getBody()).querySelectorAll(selector);
   }
 
   /**

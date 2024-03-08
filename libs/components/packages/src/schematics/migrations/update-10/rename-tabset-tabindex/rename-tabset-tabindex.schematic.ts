@@ -22,13 +22,16 @@ function renameTabIndex(html: string): string {
 
 async function updateSourceFiles(tree: Tree): Promise<void> {
   const { workspace } = await getWorkspace(tree);
+
   workspace.projects.forEach((project) => {
     visitProjectFiles(tree, project.sourceRoot || project.root, (filePath) => {
-      const content = tree.readText(filePath);
-      const updatedContent = renameTabIndex(content);
+      if (filePath.endsWith('.html') || filePath.endsWith('.ts')) {
+        const content = tree.readText(filePath);
+        const updatedContent = renameTabIndex(content);
 
-      if (updatedContent !== content) {
-        tree.overwrite(filePath, updatedContent);
+        if (updatedContent !== content) {
+          tree.overwrite(filePath, updatedContent);
+        }
       }
     });
   });
