@@ -27,6 +27,7 @@ describe('Confirm component', () => {
         providers: [
           { provide: SKY_CONFIRM_CONFIG, useValue: config },
           { provide: SkyModalInstance, useValue: modalInstance },
+          SkyConfirmInstance,
         ],
       },
     });

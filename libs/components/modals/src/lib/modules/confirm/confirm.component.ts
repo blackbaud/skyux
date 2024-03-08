@@ -79,8 +79,9 @@ export class SkyConfirmComponent implements OnDestroy {
       this.#modalInstance.close(args);
     });
 
-    // Handles ESC key being pressed (since this is native behavior of the modal).
     this.#modalInstance.closed.subscribe((args) => {
+      // Close the confirm when the ESC key is pressed (passes 'undefined')
+      // (since this behavior is handled by the modal).
       if (args.data === undefined) {
         this.#confirmInstance.close({
           action: 'cancel',
@@ -138,7 +139,6 @@ export class SkyConfirmComponent implements OnDestroy {
               action: 'cancel',
             });
             break;
-
           default:
             confirmButtons.push({
               text: values.ok,
@@ -164,7 +164,7 @@ export class SkyConfirmComponent implements OnDestroy {
           action: config.action,
           styleType: config.styleType || 'default',
           autofocus: config.autofocus || false,
-        }) satisfies SkyConfirmButton,
+        }) as SkyConfirmButton,
     );
   }
 }

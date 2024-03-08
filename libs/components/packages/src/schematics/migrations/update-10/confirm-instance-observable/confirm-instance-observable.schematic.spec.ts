@@ -46,7 +46,7 @@ describe('confirm-instance-observable.schematic', () => {
         action: 'ok'
       })
       getConfirmInstance().closed.next()
-			// Ignore modal instance:
+      // Ignore modal instance:
       modalInstance.closed.next(
       `,
     );
@@ -61,7 +61,7 @@ describe('confirm-instance-observable.schematic', () => {
         action: 'ok'
       })
       getConfirmInstance().close()
-			// Ignore modal instance:
+      // Ignore modal instance:
       modalInstance.closed.next(
       `);
   });
@@ -78,7 +78,7 @@ describe('confirm-instance-observable.schematic', () => {
         action: 'ok'
       })
       getConfirmInstance().closed.emit()
-			// Ignore modal instance:
+      // Ignore modal instance:
       modalInstance.closed.emit(
       `,
     );
@@ -93,7 +93,7 @@ describe('confirm-instance-observable.schematic', () => {
         action: 'ok'
       })
       getConfirmInstance().close()
-			// Ignore modal instance:
+      // Ignore modal instance:
       modalInstance.closed.emit(
       `);
   });

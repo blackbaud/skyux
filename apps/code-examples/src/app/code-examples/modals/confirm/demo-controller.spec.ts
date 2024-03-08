@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyConfirmInstance, SkyConfirmService } from '@skyux/modals';
