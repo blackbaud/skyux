@@ -49,12 +49,11 @@ class TestComponent {
   }
 }
 
-function clickDeleteButton(
+function launchDeleteConfirmation(
   fixture: ComponentFixture<TestComponent>,
-  index: number,
 ): void {
   const buttons = fixture.debugElement.queryAll(By.css('.test-btn'));
-  buttons.at(index)?.nativeElement.click();
+  buttons.at(0)?.nativeElement.click();
   fixture.detectChanges();
 }
 
@@ -62,27 +61,40 @@ function getUserCount(fixture: ComponentFixture<TestComponent>): number {
   return fixture.debugElement.queryAll(By.css('.test-btn')).length;
 }
 
-describe('SkyConfirmTestingController', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let confirmController: SkyConfirmTestingController;
+describe('Confirm demo using testing controller', () => {
+  function setupTest(): {
+    confirmController: SkyConfirmTestingController;
+    fixture: ComponentFixture<TestComponent>;
+  } {
+    const confirmController = TestBed.inject(SkyConfirmTestingController);
+    const fixture = TestBed.createComponent(TestComponent);
+
+    return { confirmController, fixture };
+  }
+
+  function verifyAction(action: string): void {
+    const { confirmController, fixture } = setupTest();
+
+    fixture.detectChanges();
+    launchDeleteConfirmation(fixture);
+
+    confirmController.close({ action });
+    confirmController.expectNone();
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyConfirmTestingModule, TestComponent],
     });
-
-    confirmController = TestBed.inject(SkyConfirmTestingController);
-    fixture = TestBed.createComponent(TestComponent);
   });
 
-  it('should get the opened instance and its config', () => {
+  it('should assert confirm is open', () => {
+    const { confirmController, fixture } = setupTest();
+
     fixture.detectChanges();
+    launchDeleteConfirmation(fixture);
 
-    clickDeleteButton(fixture, 0);
-
-    const confirm = confirmController.expectOpen();
-
-    expect(confirm.config).toEqual({
+    confirmController.expectOpen({
       message: 'Are you sure? This cannot be undone.',
     });
 
@@ -91,15 +103,6 @@ describe('SkyConfirmTestingController', () => {
     fixture.detectChanges();
     expect(getUserCount(fixture)).toEqual(1);
   });
-
-  function verifyAction(action: string): void {
-    fixture.detectChanges();
-
-    clickDeleteButton(fixture, 0);
-
-    confirmController.close({ action });
-    confirmController.expectClosed();
-  }
 
   it('should close the confirm with "ok" action', () => {
     verifyAction('ok');
@@ -114,12 +117,13 @@ describe('SkyConfirmTestingController', () => {
   });
 
   it('should throw if closing a non-existent confirm', () => {
+    const { confirmController, fixture } = setupTest();
+
     const errorMessage =
       'A confirm instance is expected to be open but cannot be found.';
 
     fixture.detectChanges();
 
-    expect(() => confirmController.expectOpen()).toThrowError(errorMessage);
     expect(() => confirmController.ok()).toThrowError(errorMessage);
     expect(() => confirmController.cancel()).toThrowError(errorMessage);
     expect(() => confirmController.close({ action: 'foobar' })).toThrowError(
@@ -127,12 +131,32 @@ describe('SkyConfirmTestingController', () => {
     );
   });
 
-  it('should throw if expecting an open confirm to be closed', () => {
+  it('should throw if expecting a confirm to be open with differing config', async () => {
+    const { confirmController, fixture } = setupTest();
+
     fixture.detectChanges();
+    launchDeleteConfirmation(fixture);
 
-    clickDeleteButton(fixture, 0);
+    expect(() => confirmController.expectOpen({ message: 'invalid' }))
+      .toThrowError(`Expected a confirm instance to be open with a specific configuration.
+Expected:
+{
+  "message": "invalid"
+}
+Actual:
+{
+  "message": "Are you sure? This cannot be undone."
+}
+`);
+  });
 
-    expect(() => confirmController.expectClosed()).toThrowError(
+  it('should throw if expecting an open confirm to be closed', () => {
+    const { confirmController, fixture } = setupTest();
+
+    fixture.detectChanges();
+    launchDeleteConfirmation(fixture);
+
+    expect(() => confirmController.expectNone()).toThrowError(
       'A confirm is open but is expected to be closed.',
     );
   });

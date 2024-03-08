@@ -6,8 +6,12 @@ import {
   SkyConfirmServiceInterface,
 } from '@skyux/modals';
 
-import { SkyConfirmTestSubject } from './confirm-test-subject';
 import { SkyConfirmTestingController } from './confirm-testing.controller';
+
+interface TestSubject {
+  config: SkyConfirmConfig;
+  instance: SkyConfirmInstance;
+}
 
 /**
  * @internal
@@ -15,7 +19,7 @@ import { SkyConfirmTestingController } from './confirm-testing.controller';
 export class SkyConfirmTestingService
   implements SkyConfirmServiceInterface, SkyConfirmTestingController
 {
-  #testSubject: SkyConfirmTestSubject | undefined;
+  #testSubject: TestSubject | undefined;
 
   public cancel(): void {
     this.close({ action: 'cancel' });
@@ -31,13 +35,27 @@ export class SkyConfirmTestingService
     this.#testSubject = undefined;
   }
 
-  public expectClosed(): void {
+  public expectNone(): void {
     this.#assertConfirmClosed(this.#testSubject);
   }
 
-  public expectOpen(): SkyConfirmTestSubject {
+  public expectOpen(expectedConfig: SkyConfirmConfig): void {
     this.#assertConfirmOpen(this.#testSubject);
-    return this.#testSubject;
+
+    const actualConfig = this.#testSubject.config;
+
+    for (const [key, value] of Object.entries(expectedConfig)) {
+      const k = key as keyof typeof expectedConfig;
+
+      if (actualConfig[k] !== value) {
+        throw new Error(`Expected a confirm instance to be open with a specific configuration.
+Expected:
+${JSON.stringify(expectedConfig, undefined, 2)}
+Actual:
+${JSON.stringify(actualConfig, undefined, 2)}
+`);
+      }
+    }
   }
 
   public open(config: SkyConfirmConfig): SkyConfirmInstance {
@@ -49,7 +67,7 @@ export class SkyConfirmTestingService
   }
 
   #assertConfirmClosed(
-    value: SkyConfirmTestSubject | undefined,
+    value: TestSubject | undefined,
   ): asserts value is undefined {
     if (value !== undefined) {
       throw new Error('A confirm is open but is expected to be closed.');
@@ -59,8 +77,8 @@ export class SkyConfirmTestingService
   }
 
   #assertConfirmOpen(
-    value: SkyConfirmTestSubject | undefined,
-  ): asserts value is SkyConfirmTestSubject {
+    value: TestSubject | undefined,
+  ): asserts value is TestSubject {
     if (value === undefined) {
       throw new Error(
         'A confirm instance is expected to be open but cannot be found.',

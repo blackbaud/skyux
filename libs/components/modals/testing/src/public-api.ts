@@ -3,7 +3,6 @@ export { SkyModalFixture } from './modal-fixture';
 export { SkyConfirmButtonHarness } from './confirm/confirm-button-harness';
 export { SkyConfirmButtonHarnessFilters } from './confirm/confirm-button-harness-filters';
 export { SkyConfirmHarness } from './confirm/confirm-harness';
-export { SkyConfirmTestSubject } from './confirm/confirm-test-subject';
 export { SkyConfirmTestingController } from './confirm/confirm-testing.controller';
 export { SkyConfirmTestingModule } from './confirm/confirm-testing.module';
 
