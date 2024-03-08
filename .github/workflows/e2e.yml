@@ -306,7 +306,7 @@ jobs:
         with:
           script: |
             // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --skip-nx-cache';
+            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci';
             await exec.getExecOutput('bash', ['-c', percyCommand], { ignoreReturnCode: true })
               .then((result) => {
                 if (result.exitCode !== 0) {
