@@ -82,7 +82,6 @@
 }
 
 @include mixins.sky-theme-modern {
-
   :host-context(sky-modal-content) {
     :host .sky-sectioned-form {
       margin: var(--sky-compat-sectioned-form-theme-modern-modal-margin);
@@ -90,7 +89,6 @@
 
     form :host .sky-sectioned-form {
       margin: var(--sky-compat-sectioned-form-theme-modern-modal-margin);
-
     }
   }
 
