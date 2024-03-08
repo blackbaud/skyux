@@ -30,6 +30,7 @@ describe('update dependencies generator', () => {
       importOrderSortSpecifiers: true,
       importOrderParserPlugins: ['typescript', 'decorators-legacy'],
     });
+    appTree.write('.prettierignore', 'jest.preset.js');
   });
 
   it('should run successfully', async () => {

@@ -29,7 +29,7 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^17.1.1"
+    "@angular/cli": "^17.2.3"
   },
   "dependencies": {
     "comment-json": "4.2.3"
