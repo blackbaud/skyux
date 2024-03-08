@@ -53,6 +53,16 @@
   }
 }
 
+:host-context(sky-modal-content) {
+  :host .sky-sectioned-form {
+    margin: var(--sky-compat-sectioned-form-modal-margin);
+  }
+
+  form :host .sky-sectioned-form {
+    margin: var(--sky-compat-sectioned-form-modal-margin);
+  }
+}
+
 :host-context(sky-modal-content) > {
   :host .sky-sectioned-form {
     margin: -$sky-margin-plus-half;
@@ -72,6 +82,18 @@
 }
 
 @include mixins.sky-theme-modern {
+
+  :host-context(sky-modal-content) {
+    :host .sky-sectioned-form {
+      margin: var(--sky-compat-sectioned-form-theme-modern-modal-margin);
+    }
+
+    form :host .sky-sectioned-form {
+      margin: var(--sky-compat-sectioned-form-theme-modern-modal-margin);
+
+    }
+  }
+
   :host-context(sky-modal-content) > {
     :host .sky-sectioned-form {
       margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
