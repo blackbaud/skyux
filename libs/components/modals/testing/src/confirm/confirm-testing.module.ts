@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { provideConfirmTesting } from './provider';
+import { provideConfirmTesting } from './provide-confirm-testing';
 
 /**
  * Configures the `SkyConfirmTestingController` as the backend for the `SkyConfirmService`.
