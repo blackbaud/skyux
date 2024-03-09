@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 
@@ -15,11 +15,11 @@ export class SkyConfirmInstance {
     return this.#closedObs;
   }
 
-  #closed: Subject<SkyConfirmCloseEventArgs>;
+  #closed: ReplaySubject<SkyConfirmCloseEventArgs>;
   #closedObs: Observable<SkyConfirmCloseEventArgs>;
 
   constructor() {
-    this.#closed = new Subject<SkyConfirmCloseEventArgs>();
+    this.#closed = new ReplaySubject<SkyConfirmCloseEventArgs>();
     this.#closedObs = this.#closed.asObservable();
   }
 
