@@ -33,11 +33,23 @@ describe('phone-field-storybook', () => {
           .should('be.visible')
           .click();
 
+        cy.get(
+          '.phone-field-demo:nth-child(5) button[title="Dismiss country search"]',
+        )
+          .should('exist')
+          .should('be.visible');
+
         cy.get('.sky-phone-field-country-btn')
           .eq(5)
           .should('exist')
           .should('be.visible')
           .type('Ar');
+
+        cy.get(
+          '.phone-field-demo:nth-child(6) button[title="Dismiss country search"]',
+        )
+          .should('exist')
+          .should('be.visible');
 
         cy.get('app-phone-field')
           .should('exist')

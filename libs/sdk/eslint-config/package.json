@@ -27,13 +27,13 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^17.1.1",
+    "@angular/cli": "^17.2.3",
     "eslint-plugin-deprecation": "^2.0.0"
   },
   "dependencies": {
     "comment-json": "4.2.3",
     "fs-extra": "11.2.0",
-    "jsonc-parser": "3.2.0",
+    "jsonc-parser": "3.2.1",
     "package-json": "7.0.0"
   }
 }
