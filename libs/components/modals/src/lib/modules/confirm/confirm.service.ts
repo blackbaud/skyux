@@ -5,7 +5,6 @@ import { SkyModalService } from '../modal/modal.service';
 import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmInstance } from './confirm-instance';
-import { SkyConfirmServiceInterface } from './confirm-service-interface';
 import { SkyConfirmComponent } from './confirm.component';
 
 /**
@@ -14,7 +13,7 @@ import { SkyConfirmComponent } from './confirm.component';
 @Injectable({
   providedIn: 'root',
 })
-export class SkyConfirmService implements SkyConfirmServiceInterface {
+export class SkyConfirmService {
   #modalService: SkyModalService;
 
   constructor(modalService: SkyModalService) {
