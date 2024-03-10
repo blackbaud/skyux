@@ -6,7 +6,13 @@
   "prefix": "sky",
   "targets": {
     "build": {
-      "command": "echo build"
+      "command": "echo ' 🏗️  build datetime-testing'",
+      "dependsOn": [
+        {
+          "projects": ["datetime"],
+          "target": "build"
+        }
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -40,5 +46,6 @@
       }
     }
   },
-  "tags": ["testing"]
+  "tags": ["testing"],
+  "implicitDependencies": ["datetime", "popovers", "testing"]
 }

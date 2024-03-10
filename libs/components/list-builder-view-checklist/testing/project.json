@@ -6,7 +6,13 @@
   "prefix": "sky",
   "targets": {
     "build": {
-      "command": "echo build"
+      "command": "echo ' 🏗️  build list-builder-view-checklist-testing'",
+      "dependsOn": [
+        {
+          "projects": ["list-builder-view-checklist"],
+          "target": "build"
+        }
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -40,5 +46,10 @@
       }
     }
   },
-  "tags": ["testing"]
+  "tags": ["testing"],
+  "implicitDependencies": [
+    "list-builder",
+    "list-builder-view-checklist",
+    "testing"
+  ]
 }

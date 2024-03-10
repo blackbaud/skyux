@@ -6,7 +6,13 @@
   "prefix": "sky",
   "targets": {
     "build": {
-      "command": "echo build"
+      "command": "echo ' 🏗️  build errors-testing'",
+      "dependsOn": [
+        {
+          "projects": ["errors"],
+          "target": "build"
+        }
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -40,5 +46,6 @@
       }
     }
   },
-  "tags": ["testing"]
+  "tags": ["testing"],
+  "implicitDependencies": ["errors", "testing"]
 }
