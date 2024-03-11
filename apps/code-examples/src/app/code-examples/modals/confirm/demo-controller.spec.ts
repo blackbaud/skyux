@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyConfirmInstance, SkyConfirmService } from '@skyux/modals';
 import {
@@ -6,20 +6,17 @@ import {
   SkyConfirmTestingModule,
 } from '@skyux/modals/testing';
 
-/**
- * Launches a confirm on init.
- */
 @Component({
   imports: [],
   standalone: true,
   template: ``,
 })
-class TestComponent implements OnInit, OnDestroy {
+class TestComponent implements OnDestroy {
   readonly #confirmSvc = inject(SkyConfirmService);
 
   #confirmInstance: SkyConfirmInstance | undefined;
 
-  public ngOnInit(): void {
+  public launchConfirm(): void {
     this.#confirmInstance = this.#confirmSvc.open({
       message: 'Are you sure?',
     });
@@ -56,6 +53,7 @@ describe('Confirm demo using testing controller', () => {
   it('should show the correct text when OK is clicked on an OK confirm', async () => {
     const { confirmController, fixture } = await setupTest();
 
+    fixture.componentInstance.launchConfirm();
     fixture.detectChanges();
 
     confirmController.expectOpen({
