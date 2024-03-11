@@ -14,6 +14,7 @@ import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module'
 
 import { SkyConfirmButton } from './confirm-button';
 import { SkyConfirmButtonConfig } from './confirm-button-config';
+import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmInstance } from './confirm-instance';
 import { SkyConfirmType } from './confirm-type';
@@ -80,8 +81,8 @@ export class SkyConfirmComponent implements OnDestroy {
     });
 
     this.#modalInstance.closed.subscribe((args) => {
-      // Close the confirm when the ESC key is pressed (passes 'undefined')
-      // (since this behavior is handled by the modal).
+      // Close the confirm when the "escape" key is pressed (passes 'undefined')
+      // since this behavior is handled by the underlying modal component.
       if (args.data === undefined) {
         this.#confirmInstance.close({
           action: 'cancel',
@@ -96,9 +97,11 @@ export class SkyConfirmComponent implements OnDestroy {
   }
 
   protected close(button: SkyConfirmButton): void {
-    this.#confirmInstance.close({
+    const result: SkyConfirmCloseEventArgs = {
       action: button.action,
-    });
+    };
+
+    this.#confirmInstance.close(result);
   }
 
   #getPresetButtons(): Observable<SkyConfirmButton[]> {

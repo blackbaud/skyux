@@ -1,3 +1,5 @@
+import { TestBed } from '@angular/core/testing';
+
 import { SkyModalService } from '../modal/modal.service';
 
 import { SkyConfirmConfig } from './confirm-config';
@@ -13,9 +15,18 @@ describe('Confirm service', () => {
 
   beforeEach(() => {
     modalService = new MockSkyModalService();
-    confirmService = new SkyConfirmService(
-      modalService as unknown as SkyModalService,
-    );
+
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: SkyModalService,
+          useValue: modalService,
+        },
+        SkyConfirmService,
+      ],
+    });
+
+    confirmService = TestBed.inject(SkyConfirmService);
   });
 
   it('should open confirmation dialog with correct parameters', () => {

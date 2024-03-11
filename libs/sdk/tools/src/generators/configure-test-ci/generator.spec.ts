@@ -14,7 +14,12 @@ describe('configure-test-ci generator', () => {
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '');
-    await applicationGenerator(tree, { name: 'test', skipFormat: true });
+    await applicationGenerator(tree, {
+      name: 'test',
+      skipFormat: true,
+      directory: 'test',
+      projectNameAndRootFormat: 'as-provided',
+    });
   });
 
   it('should update karma project', async () => {

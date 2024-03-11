@@ -15,13 +15,8 @@ export class SkyConfirmInstance {
     return this.#closedObs;
   }
 
-  #closed: ReplaySubject<SkyConfirmCloseEventArgs>;
-  #closedObs: Observable<SkyConfirmCloseEventArgs>;
-
-  constructor() {
-    this.#closed = new ReplaySubject<SkyConfirmCloseEventArgs>();
-    this.#closedObs = this.#closed.asObservable();
-  }
+  readonly #closed = new ReplaySubject<SkyConfirmCloseEventArgs>();
+  readonly #closedObs = this.#closed.asObservable();
 
   /**
    * Closes the confirm instance.
