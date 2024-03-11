@@ -120,7 +120,7 @@ describe('Confirm demo using testing controller', () => {
     const { confirmController, fixture } = setupTest();
 
     const errorMessage =
-      'A confirm instance is expected to be open but cannot be found.';
+      'A confirm dialog is expected to be open but is closed.';
 
     fixture.detectChanges();
 
@@ -157,7 +157,7 @@ Actual:
     launchDeleteConfirmation(fixture);
 
     expect(() => confirmController.expectNone()).toThrowError(
-      'A confirm is open but is expected to be closed.',
+      'A confirm dialog is expected to be closed but is open.',
     );
   });
 });

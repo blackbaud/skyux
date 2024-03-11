@@ -13,6 +13,26 @@ interface TestSubject {
   instance: SkyConfirmInstance;
 }
 
+function assertConfirmOpen(
+  value: TestSubject | undefined,
+): asserts value is TestSubject {
+  if (value === undefined) {
+    throw new Error('A confirm dialog is expected to be open but is closed.');
+  }
+
+  return;
+}
+
+function assertConfirmClosed(
+  value: TestSubject | undefined,
+): asserts value is undefined {
+  if (value !== undefined) {
+    throw new Error('A confirm dialog is expected to be closed but is open.');
+  }
+
+  return;
+}
+
 /**
  * @internal
  */
@@ -30,17 +50,17 @@ export class SkyConfirmTestingService
   }
 
   public close(args: SkyConfirmCloseEventArgs): void {
-    this.#assertConfirmOpen(this.#testSubject);
+    assertConfirmOpen(this.#testSubject);
     this.#testSubject.instance.close(args);
     this.#testSubject = undefined;
   }
 
   public expectNone(): void {
-    this.#assertConfirmClosed(this.#testSubject);
+    assertConfirmClosed(this.#testSubject);
   }
 
   public expectOpen(expectedConfig: SkyConfirmConfig): void {
-    this.#assertConfirmOpen(this.#testSubject);
+    assertConfirmOpen(this.#testSubject);
 
     const actualConfig = this.#testSubject.config;
 
@@ -59,32 +79,9 @@ ${JSON.stringify(actualConfig, undefined, 2)}
   }
 
   public open(config: SkyConfirmConfig): SkyConfirmInstance {
-    this.#assertConfirmClosed(this.#testSubject);
-
+    assertConfirmClosed(this.#testSubject);
     const instance = new SkyConfirmInstance();
     this.#testSubject = { config, instance };
     return instance;
-  }
-
-  #assertConfirmClosed(
-    value: TestSubject | undefined,
-  ): asserts value is undefined {
-    if (value !== undefined) {
-      throw new Error('A confirm is open but is expected to be closed.');
-    }
-
-    return;
-  }
-
-  #assertConfirmOpen(
-    value: TestSubject | undefined,
-  ): asserts value is TestSubject {
-    if (value === undefined) {
-      throw new Error(
-        'A confirm instance is expected to be open but cannot be found.',
-      );
-    }
-
-    return;
   }
 }
