@@ -9,6 +9,7 @@ import {
   Optional,
   QueryList,
   Self,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
@@ -184,7 +185,7 @@ export class SkyRadioGroupComponent
    * Indicates whether to hide the `labelText`.
    * @preview
    */
-  @Input()
+  @Input({ transform: booleanAttribute })
   public labelHidden = false;
 
   /**
