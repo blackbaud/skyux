@@ -4,6 +4,7 @@ import {
   Tree,
   readJson,
   readProjectConfiguration,
+  stripIndents,
   updateJson,
   writeJson,
 } from '@nrwl/devkit';
@@ -39,6 +40,8 @@ describe('update dependencies generator', () => {
       buildable: true,
       publishable: true,
       importPath: '@proj/test',
+      directory: 'test',
+      projectNameAndRootFormat: 'as-provided',
     });
     await generator(appTree);
     const config = readProjectConfiguration(appTree, 'test');
@@ -51,6 +54,8 @@ describe('update dependencies generator', () => {
       buildable: true,
       publishable: true,
       importPath: '@proj/test',
+      directory: 'test',
+      projectNameAndRootFormat: 'as-provided',
     });
     const originalConfig = readProjectConfiguration(appTree, 'test');
     expect(originalConfig).toBeDefined();
@@ -95,6 +100,8 @@ describe('update dependencies generator', () => {
       buildable: true,
       publishable: true,
       importPath: '@proj/test',
+      directory: 'test',
+      projectNameAndRootFormat: 'as-provided',
     });
     const originalConfig = readProjectConfiguration(appTree, 'test');
     expect(originalConfig).toBeDefined();
@@ -117,5 +124,50 @@ describe('update dependencies generator', () => {
         `The version of @proj/one in test (^1.0.0) is not compatible with the version 2.0.0 from the root package.json.`,
       ),
     );
+  });
+
+  it('should capture testing dependencies', async () => {
+    await libraryGenerator(appTree, {
+      name: 'test',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/test',
+      directory: 'lib/test',
+      projectNameAndRootFormat: 'as-provided',
+    });
+    await libraryGenerator(appTree, {
+      name: 'other',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/other',
+      directory: 'lib/other',
+      projectNameAndRootFormat: 'as-provided',
+    });
+    const testProject = readProjectConfiguration(appTree, 'test');
+    writeJson(appTree, `${testProject.root}/testing/project.json`, {
+      name: 'test-testing',
+      projectType: 'library',
+      sourceRoot: `${testProject.root}/testing/src`,
+      targets: {
+        test: {
+          commands: ['echo test'],
+        },
+      },
+    });
+    appTree.write(`${testProject.root}/testing/src/empty.ts`, '');
+    appTree.write(
+      `${testProject.root}/testing/src/test.ts`,
+      stripIndents`
+      import { thirdParty } from '@third-party/core';
+      import { test } from '@proj/test';
+      import { other } from '@proj/other';
+
+      test();
+      other();
+      `,
+    );
+    await generator(appTree);
+    expect(readProjectConfiguration(appTree, 'test')).toMatchSnapshot();
+    expect(readProjectConfiguration(appTree, 'test-testing')).toMatchSnapshot();
   });
 });

@@ -5,6 +5,15 @@
   "sourceRoot": "libs/components/layout/testing/src",
   "prefix": "sky",
   "targets": {
+    "build": {
+      "command": "echo ' 🏗️  build layout-testing'",
+      "dependsOn": [
+        {
+          "projects": ["layout"],
+          "target": "build"
+        }
+      ]
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -36,5 +45,7 @@
         }
       }
     }
-  }
+  },
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "layout", "testing"]
 }

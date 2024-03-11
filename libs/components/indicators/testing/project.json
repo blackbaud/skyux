@@ -5,6 +5,15 @@
   "sourceRoot": "libs/components/indicators/testing/src",
   "prefix": "sky",
   "targets": {
+    "build": {
+      "command": "echo ' 🏗️  build indicators-testing'",
+      "dependsOn": [
+        {
+          "projects": ["indicators"],
+          "target": "build"
+        }
+      ]
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -36,5 +45,7 @@
         }
       }
     }
-  }
+  },
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "indicators", "testing", "theme"]
 }
