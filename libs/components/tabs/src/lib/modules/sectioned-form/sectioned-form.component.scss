@@ -54,20 +54,14 @@
 }
 
 :host-context(sky-modal-content) {
-  :host .sky-sectioned-form {
-    margin: var(--sky-compat-sectioned-form-modal-margin);
-  }
-
+  :host .sky-sectioned-form,
   form :host .sky-sectioned-form {
     margin: var(--sky-compat-sectioned-form-modal-margin);
   }
 }
 
 :host-context(sky-modal-content) > {
-  :host .sky-sectioned-form {
-    margin: -$sky-margin-plus-half;
-  }
-
+  :host .sky-sectioned-form,
   form :host .sky-sectioned-form {
     margin: -$sky-margin-plus-half;
   }
