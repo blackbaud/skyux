@@ -5,6 +5,15 @@
   "sourceRoot": "libs/components/http/testing/src",
   "prefix": "sky",
   "targets": {
+    "build": {
+      "command": "echo ' 🏗️  build http-testing'",
+      "dependsOn": [
+        {
+          "projects": ["http"],
+          "target": "build"
+        }
+      ]
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -36,5 +45,7 @@
         }
       }
     }
-  }
+  },
+  "tags": ["testing"],
+  "implicitDependencies": ["config", "http"]
 }

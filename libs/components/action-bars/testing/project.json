@@ -5,6 +5,15 @@
   "sourceRoot": "libs/components/action-bars/testing/src",
   "prefix": "sky",
   "targets": {
+    "build": {
+      "command": "echo ' 🏗️  build action-bars-testing'",
+      "dependsOn": [
+        {
+          "projects": ["action-bars"],
+          "target": "build"
+        }
+      ]
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -36,5 +45,13 @@
         }
       }
     }
-  }
+  },
+  "tags": ["testing"],
+  "implicitDependencies": [
+    "action-bars",
+    "core",
+    "core-testing",
+    "indicators",
+    "testing"
+  ]
 }

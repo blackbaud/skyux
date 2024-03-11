@@ -5,6 +5,15 @@
   "sourceRoot": "libs/components/forms/testing/src",
   "prefix": "sky",
   "targets": {
+    "build": {
+      "command": "echo ' 🏗️  build forms-testing'",
+      "dependsOn": [
+        {
+          "projects": ["forms"],
+          "target": "build"
+        }
+      ]
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -36,5 +45,18 @@
         }
       }
     }
-  }
+  },
+  "tags": ["testing"],
+  "implicitDependencies": [
+    "core",
+    "core-testing",
+    "datetime",
+    "forms",
+    "indicators",
+    "indicators-testing",
+    "phone-field",
+    "popovers-testing",
+    "testing",
+    "validation"
+  ]
 }

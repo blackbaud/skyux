@@ -5,6 +5,15 @@
   "sourceRoot": "libs/components/modals/testing/src",
   "prefix": "sky",
   "targets": {
+    "build": {
+      "command": "echo ' 🏗️  build modals-testing'",
+      "dependsOn": [
+        {
+          "projects": ["modals"],
+          "target": "build"
+        }
+      ]
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -36,5 +45,7 @@
         }
       }
     }
-  }
+  },
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "modals", "testing", "theme"]
 }

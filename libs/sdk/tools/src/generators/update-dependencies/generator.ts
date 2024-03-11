@@ -4,9 +4,13 @@ import {
   getProjects,
   readJson,
   updateJson,
+  visitNotIgnoredFiles,
 } from '@nrwl/devkit';
+import { updateProjectConfiguration } from '@nx/devkit';
+import { getSourceNodes } from '@nx/js';
 
 import * as semver from 'semver';
+import * as ts from 'typescript';
 
 function hardenRootDependencies(tree: Tree) {
   updateJson(tree, 'package.json', (json) => {
@@ -61,8 +65,85 @@ function updatePeerDependencies(tree: Tree) {
   });
 }
 
+/**
+ * Testing projects do not have a separate package.json to track dependencies.
+ */
+function updateTestingImplicitDependencies(tree: Tree) {
+  const projects = getProjects(tree);
+  const testingProjects = new Map(
+    Array.from(projects.entries()).filter(([name]) =>
+      name.endsWith('-testing'),
+    ),
+  );
+  const packagesToProjects = new Map<string, string>();
+  projects.forEach((projectConfig) => {
+    const packageJsonFile = `${projectConfig.root}/package.json`;
+    if (projectConfig.name && tree.exists(packageJsonFile)) {
+      const packageJson = readJson(tree, packageJsonFile);
+      if (packageJson.name) {
+        if (testingProjects.has(`${projectConfig.name}-testing`)) {
+          packagesToProjects.set(
+            `${packageJson.name}/testing`,
+            `${projectConfig.name}-testing`,
+          );
+        }
+        packagesToProjects.set(packageJson.name, projectConfig.name);
+      }
+    }
+  });
+  const packages = Array.from(packagesToProjects.keys());
+  testingProjects.forEach((projectConfig) => {
+    const importedProjects: string[] = [];
+    visitNotIgnoredFiles(tree, `${projectConfig.root}/src`, (file) => {
+      if (file.endsWith('.ts')) {
+        const source = ts.createSourceFile(
+          file,
+          tree.read(file, 'utf-8') || '',
+          ts.ScriptTarget.Latest,
+          true,
+        );
+        const sourceNodes = getSourceNodes(source);
+        const importDeclarations = sourceNodes.filter((node) =>
+          ts.isImportDeclaration(node),
+        ) as ts.ImportDeclaration[];
+        importDeclarations.forEach((importDeclaration) => {
+          const importPath = importDeclaration.moduleSpecifier.getText();
+          const importProject = packages.find(
+            (packageName) =>
+              importPath === `'${packageName}'` ||
+              importPath.startsWith(`'${packageName}/`),
+          );
+          const projectName = packagesToProjects.get(importProject ?? '');
+          if (importProject && projectName) {
+            importedProjects.push(projectName);
+          }
+        });
+      }
+    });
+    if (projectConfig.name) {
+      projectConfig.targets ??= {};
+      projectConfig.targets['build'] = {
+        command: `echo ' 🏗️  build ${projectConfig.name}'`,
+        dependsOn: [
+          {
+            projects: [projectConfig.name.replace('-testing', '')],
+            target: 'build',
+          },
+        ],
+      };
+      if (importedProjects.length > 0) {
+        projectConfig.implicitDependencies = [
+          ...new Set(importedProjects),
+        ].sort((a, b) => a.localeCompare(b));
+      }
+      updateProjectConfiguration(tree, projectConfig.name, projectConfig);
+    }
+  });
+}
+
 export default async function (tree: Tree) {
   hardenRootDependencies(tree);
   updatePeerDependencies(tree);
+  updateTestingImplicitDependencies(tree);
   await formatFiles(tree);
 }
