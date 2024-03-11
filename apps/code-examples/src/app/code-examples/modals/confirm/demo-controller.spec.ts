@@ -14,7 +14,7 @@ import {
   standalone: true,
   template: ``,
 })
-class LaunchConfirmComponent implements OnInit, OnDestroy {
+class TestComponent implements OnInit, OnDestroy {
   readonly #confirmSvc = inject(SkyConfirmService);
 
   #confirmInstance: SkyConfirmInstance | undefined;
@@ -39,17 +39,17 @@ class LaunchConfirmComponent implements OnInit, OnDestroy {
 describe('Confirm demo using testing controller', () => {
   async function setupTest(): Promise<{
     confirmController: SkyConfirmTestingController;
-    fixture: ComponentFixture<LaunchConfirmComponent>;
+    fixture: ComponentFixture<TestComponent>;
   }> {
     const confirmController = TestBed.inject(SkyConfirmTestingController);
-    const fixture = TestBed.createComponent(LaunchConfirmComponent);
+    const fixture = TestBed.createComponent(TestComponent);
 
     return { confirmController, fixture };
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LaunchConfirmComponent, SkyConfirmTestingModule],
+      imports: [SkyConfirmTestingModule, TestComponent],
     });
   });
 
