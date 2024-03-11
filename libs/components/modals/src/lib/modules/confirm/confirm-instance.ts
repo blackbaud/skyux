@@ -9,17 +9,19 @@ export class SkyConfirmInstance {
    * users select. It returns the `'cancel'` action when users press the <kbd>Escape</kbd> key.
    */
   public get closed(): Observable<SkyConfirmCloseEventArgs> {
-    return this.#closed.asObservable();
+    return this.#closedObs;
   }
 
   readonly #closed = new ReplaySubject<SkyConfirmCloseEventArgs>();
+  readonly #closedObs = this.#closed.asObservable();
 
   /**
-   * Triggers the closed event with the given result.
-   * @internal
+   * Closes the confirm instance.
+   * @param args Specifies an object to emit to subscribers of the `closed` event
+   * of the confirm instance.
    */
-  public notifyClosed(result: SkyConfirmCloseEventArgs): void {
-    this.#closed.next(result);
+  public close(args: SkyConfirmCloseEventArgs): void {
+    this.#closed.next(args);
     this.#closed.complete();
   }
 }

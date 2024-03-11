@@ -7,6 +7,7 @@ import { SkyModalInstance } from '../modal/modal-instance';
 
 import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
+import { SkyConfirmInstance } from './confirm-instance';
 import { SkyConfirmType } from './confirm-type';
 import { SkyConfirmComponent } from './confirm.component';
 import {
@@ -18,13 +19,18 @@ describe('Confirm component', () => {
   const modalInstance = new MockSkyModalInstance();
   const modalHost = new MockSkyModalHostService();
 
+  let confirmInstance: SkyConfirmInstance;
+
   function createConfirm(
     config: SkyConfirmConfig,
   ): ComponentFixture<SkyConfirmComponent> {
+    confirmInstance = new SkyConfirmInstance();
+
     TestBed.overrideComponent(SkyConfirmComponent, {
       set: {
         providers: [
           { provide: SKY_CONFIRM_CONFIG, useValue: config },
+          { provide: SkyConfirmInstance, useValue: confirmInstance },
           { provide: SkyModalInstance, useValue: modalInstance },
         ],
       },
@@ -34,9 +40,12 @@ describe('Confirm component', () => {
   }
 
   beforeEach(() => {
+    confirmInstance = new SkyConfirmInstance();
+
     TestBed.configureTestingModule({
       providers: [
         { provide: SkyModalHostService, useValue: modalHost },
+        { provide: SkyConfirmInstance, useValue: confirmInstance },
         { provide: SkyModalConfiguration, useValue: {} },
       ],
     });
@@ -298,7 +307,6 @@ describe('Confirm component', () => {
       '.sky-confirm-buttons .sky-btn',
     );
 
-    expect(fixture.componentInstance.preserveWhiteSpace).toEqual(false);
     expect(messageElem.classList).not.toContain(
       'sky-confirm-preserve-white-space',
     );
@@ -327,7 +335,6 @@ describe('Confirm component', () => {
       '.sky-confirm-buttons .sky-btn',
     );
 
-    expect(fixture.componentInstance.preserveWhiteSpace).toEqual(true);
     expect(messageElem.classList).toContain('sky-confirm-preserve-white-space');
     expect(bodyElem.classList).toContain('sky-confirm-preserve-white-space');
 
@@ -337,6 +344,21 @@ describe('Confirm component', () => {
     expect(bodyElem.innerHTML).toBe('additional text');
 
     buttons[0].click();
+  });
+
+  it('should close when the escape key is pressed', () => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+    });
+
+    fixture.detectChanges();
+
+    const closeSpy = spyOn(confirmInstance, 'close');
+    modalInstance.close();
+
+    fixture.detectChanges();
+
+    expect(closeSpy).toHaveBeenCalledWith({ action: 'cancel' });
   });
 
   describe('accessibility', () => {
