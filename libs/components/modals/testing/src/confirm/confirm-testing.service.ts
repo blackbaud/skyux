@@ -37,7 +37,8 @@ function assertConfirmClosed(
  * @internal
  */
 export class SkyConfirmTestingService
-  implements SkyConfirmServiceInterface, SkyConfirmTestingController
+  extends SkyConfirmTestingController
+  implements SkyConfirmServiceInterface
 {
   #testSubject: TestSubject | undefined;
 
