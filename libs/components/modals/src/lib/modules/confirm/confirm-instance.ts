@@ -1,10 +1,7 @@
-import { Injectable } from '@angular/core';
-
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 
-@Injectable()
 export class SkyConfirmInstance {
   /**
    * Fires when users select an action to close the dialog. This event
