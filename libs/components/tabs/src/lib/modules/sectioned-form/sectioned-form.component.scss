@@ -83,21 +83,14 @@
 
 @include mixins.sky-theme-modern {
   :host-context(sky-modal-content) {
-    :host .sky-sectioned-form {
-      margin: var(--sky-compat-sectioned-form-theme-modern-modal-margin);
-    }
-
+    :host .sky-sectioned-form,
     form :host .sky-sectioned-form {
       margin: var(--sky-compat-sectioned-form-theme-modern-modal-margin);
     }
   }
 
   :host-context(sky-modal-content) > {
-    :host .sky-sectioned-form {
-      margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
-        (-$sky-theme-modern-space-xl) (-$sky-theme-modern-space-xl);
-    }
-
+    :host .sky-sectioned-form,
     form :host .sky-sectioned-form {
       margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
         (-$sky-theme-modern-space-xl) (-$sky-theme-modern-space-xl);
