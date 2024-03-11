@@ -1,5 +1,10 @@
+import { TestBed } from '@angular/core/testing';
+
+import { SkyModalService } from '../modal/modal.service';
+
 import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
+import { SkyConfirmInstance } from './confirm-instance';
 import { SkyConfirmComponent } from './confirm.component';
 import { SkyConfirmService } from './confirm.service';
 import { MockSkyModalService } from './fixtures/mocks';
@@ -10,7 +15,18 @@ describe('Confirm service', () => {
 
   beforeEach(() => {
     modalService = new MockSkyModalService();
-    confirmService = new SkyConfirmService(modalService as any);
+
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: SkyModalService,
+          useValue: modalService,
+        },
+        SkyConfirmService,
+      ],
+    });
+
+    confirmService = TestBed.inject(SkyConfirmService);
   });
 
   it('should open confirmation dialog with correct parameters', () => {
@@ -18,16 +34,20 @@ describe('Confirm service', () => {
       message: 'dialog description',
     };
 
+    const instance = confirmService.open(config);
+
     const expectedConfig = {
       providers: [
         {
           provide: SKY_CONFIRM_CONFIG,
           useValue: config,
         },
+        {
+          provide: SkyConfirmInstance,
+          useValue: instance,
+        },
       ],
     };
-
-    confirmService.open(config);
 
     expect(modalService.openCalls.length).toBe(1);
     expect(modalService.openCalls[0].component).toBe(SkyConfirmComponent);
@@ -41,7 +61,7 @@ describe('Confirm service', () => {
 
     const instance = confirmService.open(config);
 
-    instance.closed.subscribe((result: any) => {
+    instance.closed.subscribe((result) => {
       expect(result.action).toEqual('ok');
     });
 
@@ -57,7 +77,7 @@ describe('Confirm service', () => {
 
     const instance = confirmService.open(config);
 
-    instance.closed.subscribe((result: any) => {
+    instance.closed.subscribe((result) => {
       expect(result.action).toEqual('cancel');
     });
 
