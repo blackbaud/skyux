@@ -138,7 +138,7 @@ describe('Confirm demo using testing controller', () => {
     launchDeleteConfirmation(fixture);
 
     expect(() => confirmController.expectOpen({ message: 'invalid' }))
-      .toThrowError(`Expected a confirm instance to be open with a specific configuration.
+      .toThrowError(`Expected a confirm dialog to be open with a specific configuration.
 Expected:
 {
   "message": "invalid"

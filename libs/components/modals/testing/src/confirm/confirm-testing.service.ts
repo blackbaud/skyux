@@ -68,7 +68,7 @@ export class SkyConfirmTestingService
       const k = key as keyof typeof expectedConfig;
 
       if (actualConfig[k] !== value) {
-        throw new Error(`Expected a confirm instance to be open with a specific configuration.
+        throw new Error(`Expected a confirm dialog to be open with a specific configuration.
 Expected:
 ${JSON.stringify(expectedConfig, undefined, 2)}
 Actual:
