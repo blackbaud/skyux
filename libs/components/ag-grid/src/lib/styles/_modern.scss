@@ -1,0 +1,34 @@
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark,
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-dark {
+  --ag-header-column-resize-handle-color: var(
+    --sky-border-color-neutral-medium
+  );
+  --ag-header-column-resize-handle-height: 15px;
+
+  .ag-header-cell > .ag-header-cell-resize:hover {
+    --ag-header-column-resize-handle-color: var(
+      --sky-text-color-action-primary
+    );
+    --ag-header-column-resize-handle-height: 100%;
+    --ag-header-column-resize-handle-width: 3px;
+
+    &::after {
+      position: relative;
+      left: 2px;
+    }
+  }
+
+  @for $i from 1 through 100 {
+    .ag-root:has(
+        .ag-header-cell:nth-of-type(#{$i}) > .ag-header-cell-resize:hover
+      ) {
+      .ag-cell:nth-of-type(#{$i}) {
+        --ag-cell-horizontal-border: 1px
+          solid
+          var(--sky-text-color-action-primary);
+      }
+    }
+  }
+}
