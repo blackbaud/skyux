@@ -40,7 +40,9 @@ describe('File drop component', () => {
       'announce',
     );
     let uniqueId = 0;
-    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
+    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
+      () => `MOCK_ID_${++uniqueId}`,
+    );
   });
 
   //#region helper functions
@@ -1073,8 +1075,10 @@ describe('File drop component', () => {
 
     const linkInput = getLinkInput();
 
-    expect(linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value).toBe('MOCK_ID_1');
-  })
+    expect(
+      linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value,
+    ).toBe('MOCK_ID_1');
+  });
 
   it('should pass accessibility', async () => {
     fixture.detectChanges();
