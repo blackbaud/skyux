@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-// import moment from 'moment';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -541,10 +541,7 @@ export class SkyDatepickerInputDirective
       return true;
     }
 
-    // If not, does it conform to the standard ISO format?
-    // const isValidIso = moment(value, moment.ISO_8601).isValid();
-
-    return new Date(value).toString() !== 'Invalid Date';
+    return moment(value).isValid();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

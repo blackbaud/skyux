@@ -178,7 +178,7 @@ function getSelectedCalendarItem(): HTMLElement | null {
 }
 // #endregion
 
-fdescribe('datepicker', () => {
+describe('datepicker', () => {
   beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -850,13 +850,18 @@ fdescribe('datepicker', () => {
         expect(ngModel.valid).toBe(true);
       }));
 
-      fit('should handle non numerical months', fakeAsync(() => {
+      it('should handle date formats with text months', fakeAsync(() => {
+        component.dateFormat = 'MMM DD YYYY';
         detectChanges(fixture);
 
-        setInputElementValue(fixture.nativeElement, 'January 1, 2024', fixture);
+        setInputElementValue(
+          fixture.nativeElement,
+          'January 15, 2024',
+          fixture,
+        );
 
-        expect(getInputElementValue(fixture)).toBe('1/1/24');
-        expect(component.selectedDate).toEqual(new Date('1/1/24'));
+        expect(getInputElementValue(fixture)).toBe('Jan 15 2024');
+        expect(component.selectedDate).toEqual(new Date('Jan 15 2024'));
         expect(ngModel.valid).toBe(true);
       }));
     });

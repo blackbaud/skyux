@@ -19,7 +19,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './datepicker.component.html',
 })
 export class DatepickerComponent {
-  public dateFormat: string | undefined = undefined;
+  public dateFormat: string | undefined = 'MMM DD YYYY';
   public disabled = false;
   public minDate: Date | undefined;
   public maxDate: Date | undefined;
