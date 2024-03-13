@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import {
-  ColumnApi,
   Events,
   GridApi,
   GridOptions,
@@ -72,7 +71,6 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     },
   ];
 
-  public columnApi: ColumnApi | undefined;
   public gridApi: GridApi | undefined;
   public gridData = SKY_AG_GRID_DATA;
 
@@ -162,7 +160,6 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
-    this.columnApi = gridReadyEvent.columnApi;
   }
 
   public removeFirstItem(): void {
@@ -181,7 +178,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
         map(() => undefined),
       )
       .toPromise();
-    this.columnApi?.applyColumnState({
+    this.gridApi?.applyColumnState({
       state: [
         {
           colId: 'name',

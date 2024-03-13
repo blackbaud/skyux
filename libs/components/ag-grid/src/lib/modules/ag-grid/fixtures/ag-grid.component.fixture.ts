@@ -56,12 +56,18 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
       },
+      minWidth: undefined,
+      maxWidth: undefined,
+      resizable: true,
     },
     {
       field: 'nickname',
       headerName: 'Nickname',
       editable: this.editable,
       type: SkyCellType.Text,
+      minWidth: undefined,
+      maxWidth: undefined,
+      resizable: true,
     },
     {
       field: 'value',
@@ -71,6 +77,9 @@ export class SkyAgGridFixtureComponent implements OnInit {
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
       },
+      minWidth: undefined,
+      maxWidth: undefined,
+      resizable: true,
     },
     {
       field: 'target',
@@ -190,6 +199,9 @@ export class SkyAgGridFixtureComponent implements OnInit {
     suppressColumnVirtualisation: true,
     context: {
       enableTopScroll: this.enableTopScroll,
+    },
+    defaultColDef: {
+      minWidth: undefined,
     },
   };
 

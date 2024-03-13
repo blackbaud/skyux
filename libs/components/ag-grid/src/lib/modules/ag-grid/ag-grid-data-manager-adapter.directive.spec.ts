@@ -10,7 +10,6 @@ import {
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   Beans,
-  ColumnApi,
   ColumnMovedEvent,
   ColumnState,
   DragStartedEvent,
@@ -82,7 +81,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowIndex: 0,
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as ColumnApi,
+      columnApi: {} as never,
       rowPinned: null,
     } as RowSelectedEvent;
 
@@ -120,7 +119,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowIndex: 0,
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as ColumnApi,
+      columnApi: {} as never,
       rowPinned: null,
     } as RowSelectedEvent;
 
@@ -138,7 +137,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should set columns visible based on the data state changes', async () => {
-    spyOn(agGridComponent.columnApi, 'setColumnsVisible');
+    spyOn(agGridComponent.api, 'setColumnsVisible');
 
     const newDataState = new SkyDataManagerState({
       views: [
@@ -154,7 +153,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(agGridComponent.columnApi.setColumnsVisible).toHaveBeenCalled();
+    expect(agGridComponent.api.setColumnsVisible).toHaveBeenCalled();
   });
 
   it('should update the data state when a column is moved', async () => {
@@ -166,14 +165,12 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       hide: false,
     };
 
-    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue([
-      columnState,
-    ]);
+    spyOn(agGridComponent.api, 'getColumnState').and.returnValue([columnState]);
     spyOn(dataManagerService, 'updateDataState');
 
     const columnMoved = {
       source: 'uiColumnMoved',
-      columnApi: agGridComponent.columnApi,
+      api: agGridComponent.api,
     } as ColumnMovedEvent;
 
     const viewState = dataState.views[0];
@@ -191,7 +188,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     await agGridDataManagerFixture.whenStable();
 
     const colIds = ['col1', 'col2'];
-    const columnApi = {
+    const api = {
       getColumnState: (): ColumnState[] => {
         return colIds.map((colId): ColumnState => {
           return {
@@ -205,7 +202,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     spyOn(dataManagerService, 'updateDataState');
 
     const columnDragged = {
-      columnApi,
+      api,
     } as DragStartedEvent & DragStoppedEvent;
 
     agGridComponent.dragStarted.emit(columnDragged);
@@ -219,7 +216,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     await agGridDataManagerFixture.whenStable();
 
     const colIds = ['col1', 'col2'];
-    const columnApi = {
+    const api = {
       getColumnState: (): ColumnState[] => {
         return colIds.map((colId): ColumnState => {
           return {
@@ -230,7 +227,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       },
     };
     const columnDragged = {
-      columnApi,
+      api,
     } as DragStartedEvent & DragStoppedEvent;
     agGridComponent.dragStopped.emit(columnDragged);
     spyOn(dataManagerService, 'updateDataState');
@@ -258,7 +255,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       },
     ];
 
-    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue(
+    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
       gridColumnStates,
     );
     spyOn(dataManagerService, 'updateDataState');
@@ -298,7 +295,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       },
     ];
 
-    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue(
+    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
       gridColumnStates,
     );
     spyOn(dataManagerService, 'updateDataState');
@@ -338,7 +335,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       },
     ];
 
-    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue(
+    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
       gridColumnStates,
     );
     spyOn(dataManagerService, 'updateDataState');
@@ -426,10 +423,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should apply descending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const applyColStateSpy = spyOn(
-      agGridComponent.columnApi,
-      'applyColumnState',
-    );
+    const applyColStateSpy = spyOn(agGridComponent.api, 'applyColumnState');
 
     const newDataState = new SkyDataManagerState({ ...dataState });
     newDataState.activeSortOption = {
@@ -455,10 +449,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should apply ascending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const applyColStateSpy = spyOn(
-      agGridComponent.columnApi,
-      'applyColumnState',
-    );
+    const applyColStateSpy = spyOn(agGridComponent.api, 'applyColumnState');
 
     const newDataState = new SkyDataManagerState({ ...dataState });
     newDataState.activeSortOption = {

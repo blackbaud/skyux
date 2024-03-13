@@ -15,10 +15,10 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  ColumnApi,
   ColumnMovedEvent,
   ColumnState,
   DragStoppedEvent,
+  GridApi,
   RowSelectedEvent,
 } from 'ag-grid-community';
 import { Subject, Subscription } from 'rxjs';
@@ -195,13 +195,13 @@ export class SkyAgGridDataManagerAdapterDirective
           ),
         )
         .subscribe((value: ColumnMovedEvent) => {
-          this.#updateColumnsInCurrentDataState(value.columnApi);
+          this.#updateColumnsInCurrentDataState(value.api);
         });
 
       agGrid.dragStopped
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value: DragStoppedEvent) => {
-          this.#updateColumnsInCurrentDataState(value.columnApi);
+          this.#updateColumnsInCurrentDataState(value.api);
         });
 
       agGrid.rowSelected
@@ -229,8 +229,7 @@ export class SkyAgGridDataManagerAdapterDirective
         });
 
       agGrid.sortChanged.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
-        const gridColumnStates: ColumnState[] =
-          agGrid.columnApi.getColumnState();
+        const gridColumnStates: ColumnState[] = agGrid.api.getColumnState();
 
         const activeSortColumnState = gridColumnStates?.find(
           (aGridColumnState) => aGridColumnState.sortIndex === 0,
@@ -259,9 +258,9 @@ export class SkyAgGridDataManagerAdapterDirective
     }
   }
 
-  #updateColumnsInCurrentDataState(columnApi: ColumnApi): void {
+  #updateColumnsInCurrentDataState(api: GridApi): void {
     if (this.#viewConfig && this.#currentDataState) {
-      const columnOrder = this.#getColumnOrder(columnApi);
+      const columnOrder = this.#getColumnOrder(api);
 
       const viewState = this.#currentDataState.getViewStateById(
         this.#viewConfig.id,
@@ -285,8 +284,8 @@ export class SkyAgGridDataManagerAdapterDirective
     }
   }
 
-  #getColumnOrder(columnApi: ColumnApi): string[] {
-    return columnApi
+  #getColumnOrder(api: GridApi): string[] {
+    return api
       .getColumnState()
       .filter((state) => !state.hide)
       .map((state) => state.colId);
@@ -304,20 +303,20 @@ export class SkyAgGridDataManagerAdapterDirective
         displayedColumnIds = viewState.displayedColumnIds;
       }
 
-      const columnOrder = this.#getColumnOrder(agGrid.columnApi);
+      const columnOrder = this.#getColumnOrder(agGrid.api);
 
       if (
         displayedColumnIds.length !== columnOrder.length ||
         displayedColumnIds.some((col, i) => col !== columnOrder[i])
       ) {
-        const hideColumns = agGrid.columnApi
+        const hideColumns = agGrid.api
           .getColumnState()
           .map((col) => col.colId)
           .filter((colId) => !displayedColumnIds.includes(colId));
 
-        agGrid.columnApi.setColumnsVisible(hideColumns, false);
-        agGrid.columnApi.setColumnsVisible(displayedColumnIds, true);
-        agGrid.columnApi.moveColumns(displayedColumnIds, 0);
+        agGrid.api.setColumnsVisible(hideColumns, false);
+        agGrid.api.setColumnsVisible(displayedColumnIds, true);
+        agGrid.api.moveColumns(displayedColumnIds, 0);
       }
     }
   }
@@ -327,7 +326,7 @@ export class SkyAgGridDataManagerAdapterDirective
     const activeSort = dataState.activeSortOption;
 
     if (activeSort) {
-      agGrid?.columnApi.applyColumnState({
+      agGrid?.api.applyColumnState({
         state: [
           {
             colId: activeSort.id,
