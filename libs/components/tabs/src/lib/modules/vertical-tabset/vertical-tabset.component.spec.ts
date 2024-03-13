@@ -5,6 +5,7 @@ import {
   flush,
   tick,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
@@ -18,6 +19,7 @@ import { VerticalTabsetProgrammaticTestComponent } from './fixtures/vertical-tab
 import { VerticalTabsetTestComponent } from './fixtures/vertical-tabset.component.fixture';
 import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
+import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 // #region helpers
 let mockQueryService: MockSkyMediaQueryService;
@@ -232,14 +234,7 @@ describe('Vertical tabset component', () => {
   });
 
   function createTestComponent(): ComponentFixture<VerticalTabsetTestComponent> {
-    const fixture = TestBed.overrideComponent(SkyVerticalTabsetComponent, {
-      add: {
-        providers: [
-          { provide: SkyMediaQueryService, useValue: mockQueryService },
-        ],
-      },
-    }).createComponent(VerticalTabsetTestComponent);
-    return fixture;
+    return TestBed.createComponent(VerticalTabsetTestComponent);
   }
 
   it('first tab in open group should be selected', () => {
@@ -457,6 +452,15 @@ describe('Vertical tabset component', () => {
   it('should set a tab active=false when set to undefined', () => {
     const fixture = createTestComponent();
 
+    const verticalTabsetSvc = fixture.debugElement
+      .query(By.directive(SkyVerticalTabsetComponent))
+      .injector.get(SkyVerticalTabsetService);
+
+    const activateSpy = spyOn(
+      verticalTabsetSvc,
+      'activateTab',
+    ).and.callThrough();
+
     fixture.componentInstance.active = undefined;
     fixture.detectChanges();
 
@@ -465,6 +469,8 @@ describe('Vertical tabset component', () => {
 
     const visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(0);
+
+    expect(activateSpy).not.toHaveBeenCalled();
   });
 
   it('should programmatically select tabs', () => {

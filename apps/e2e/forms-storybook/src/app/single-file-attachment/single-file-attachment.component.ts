@@ -51,6 +51,7 @@ export class SingleFileAttachmentComponent {
       imageAttachment: this.imageAttachment,
       fileAttachment: this.fileAttachment,
     });
+    this.attachment.markAsTouched();
   }
 
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {

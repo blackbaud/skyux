@@ -26,6 +26,8 @@ export class FileAttachmentTestComponent {
 
   public showLabel = true;
 
+  public maxFileSize: number | undefined;
+
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
   public showInlineHelp = false;
