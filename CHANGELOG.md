@@ -1,5 +1,19 @@
 # Changelog
 
+## [9.30.0](https://github.com/blackbaud/skyux/compare/9.29.0...9.30.0) (2024-03-12)
+
+
+### Features
+
+* **components/forms:** add form errors to single file attachment ([#2094](https://github.com/blackbaud/skyux/issues/2094)) ([0b84ed4](https://github.com/blackbaud/skyux/commit/0b84ed48b30574a8bd7a43f407e9ed6e75442adf))
+
+
+### Bug Fixes
+
+* **components/forms:** add booleanAttribute transform to labelHidden inputs ([#2115](https://github.com/blackbaud/skyux/issues/2115)) ([26ed02c](https://github.com/blackbaud/skyux/commit/26ed02c80bee5fc2d68d0336e9f1184f073aef4a))
+* **components/tabs:** add stacked to wizard code example input boxes ([#2117](https://github.com/blackbaud/skyux/issues/2117)) ([fe237f5](https://github.com/blackbaud/skyux/commit/fe237f5bd5bb4f52d48c3bfd34de244c00262d26))
+* **components/tabs:** set appropriate `:focus-visible` styles for selected tab buttons ([#2092](https://github.com/blackbaud/skyux/issues/2092)) ([93fb385](https://github.com/blackbaud/skyux/commit/93fb38530498fa8aad2722c59e86e134ef98bb84))
+
 ## [10.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.2...10.0.0-alpha.3) (2024-03-05)
 
 
