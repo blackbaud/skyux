@@ -1,5 +1,14 @@
 # Changelog
 
+## [9.30.1](https://github.com/blackbaud/skyux/compare/9.30.0...9.30.1) (2024-03-13)
+
+
+### Bug Fixes
+
+* **components/datetime:** accept manual input for month name date formats ([#2124](https://github.com/blackbaud/skyux/issues/2124)) ([a000c12](https://github.com/blackbaud/skyux/commit/a000c1205bc066b37046273e4f4fc877692166f4))
+* **components/router:** unlinked skyHref instances do not style as links when in an alert ([#2125](https://github.com/blackbaud/skyux/issues/2125)) ([e36a478](https://github.com/blackbaud/skyux/commit/e36a478f7baf08c8fa0715b56056585e21fbac32))
+* **components/tabs:** activate vertical tab only when active=true ([#2121](https://github.com/blackbaud/skyux/issues/2121)) ([c6e798c](https://github.com/blackbaud/skyux/commit/c6e798c2ad5fea90320c37da2859e5b2d3b94c24))
+
 ## [10.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.3...10.0.0-alpha.4) (2024-03-13)
 
 
