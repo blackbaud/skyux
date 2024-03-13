@@ -44,6 +44,40 @@ H4 and H5 elements should be sentence case in modern theme. To address this chan
         },
       ],
     },
+    {
+      name: '@skyux/tabs',
+      components: [
+        {
+          name: 'vertical tabs',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-vertical-tabs-modal-margin: -15px;
+}
+`,
+              instructions: `
+Vertical tabsets that are in modals but are not direct children of sky-modal-content no longer have negative margins. To address this change, remove this block of code and remove any additional styling that may have been added to correct these margins.`,
+            },
+          ],
+        },
+        {
+          name: 'Sectioned form',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-sectioned-form-modal-margin: -15px;
+  --sky-compat-sectioned-form-theme-modern-modal-margin: -10px -30px -30px -30px;
+}
+`,
+              instructions: `
+Vertical tabsets that are in modals but are not direct children of sky-modal-content no longer have negative margins. To address this change, remove this block of code and remove any additional styling that may have been added to correct these margins.`,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 
