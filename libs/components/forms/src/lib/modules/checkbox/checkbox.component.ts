@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl, Validators } from '@angular/forms';
@@ -238,8 +239,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Indicates whether to hide the `labelText`.
    * @preview
    */
-  @Input()
-  public labelHidden: boolean = false;
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
 
   /**
    * Fires when users select or deselect the checkbox.
