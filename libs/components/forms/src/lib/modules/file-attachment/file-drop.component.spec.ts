@@ -2,7 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
@@ -38,6 +38,10 @@ describe('File drop component', () => {
     liveAnnouncerSpy = spyOn(
       TestBed.inject(SkyLiveAnnouncerService),
       'announce',
+    );
+    let uniqueId = 0;
+    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
+      () => `MOCK_ID_${++uniqueId}`,
     );
   });
 
@@ -1063,6 +1067,17 @@ describe('File drop component', () => {
     expect(dropEl?.attributes.getNamedItem('aria-label')?.value).toBe(
       'Test 12',
     );
+  });
+
+  it('should set aria-describedby for the link input', () => {
+    componentInstance.allowLinks = true;
+    fixture.detectChanges();
+
+    const linkInput = getLinkInput();
+
+    expect(
+      linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value,
+    ).toBe('MOCK_ID_1');
   });
 
   it('should pass accessibility', async () => {

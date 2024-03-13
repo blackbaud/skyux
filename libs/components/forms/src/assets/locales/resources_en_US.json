@@ -125,7 +125,7 @@
   },
   "skyux_file_attachment_file_upload_link_placeholder": {
     "_description": "",
-    "message": "http://www.something.com/file"
+    "message": "Start with http:// or https://"
   },
   "skyux_file_attachment_file_upload_or_click_to_browse": {
     "_description": "",
