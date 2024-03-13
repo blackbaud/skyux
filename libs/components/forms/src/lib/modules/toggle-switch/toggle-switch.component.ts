@@ -9,6 +9,7 @@ import {
   OnDestroy,
   Output,
   QueryList,
+  booleanAttribute,
   forwardRef,
   inject,
 } from '@angular/core';
@@ -117,14 +118,16 @@ export class SkyToggleSwitchComponent
 
   /**
    * The text to display as the toggle switch's label.
+   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Whether to hide `labelText` from view.
+   * @preview
    */
-  @Input()
+  @Input({ transform: booleanAttribute })
   public labelHidden = false;
 
   /**

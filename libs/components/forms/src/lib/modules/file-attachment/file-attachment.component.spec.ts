@@ -1395,7 +1395,70 @@ describe('File attachment', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
-  it('should render `labelText` and not label element if `labelText` is set', async () => {
+  it('should not render form errors when label text is not set', () => {
+    fixture.componentInstance.required = true;
+
+    getButtonEl(fixture.nativeElement)?.click();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-form-error')).toBeNull();
+  });
+
+  it('should render form errors when label text is set', () => {
+    fixture.componentInstance.required = true;
+    fixture.componentInstance.labelText = 'file attachment';
+
+    fixture.componentInstance.attachment.markAsTouched();
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe('Error: file attachment is required.');
+  });
+
+  it('should render file errors when label text is set and no NgControl errors', () => {
+    fixture.componentInstance.labelText = 'file attachment';
+    fixture.componentInstance.required = false;
+    fixture.componentInstance.maxFileSize = 50;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe('Error: Please upload a file under 50KB.');
+  });
+
+  it('should render file errors and NgControl errors when label text is set', () => {
+    fixture.componentInstance.labelText = 'file attachment';
+    fixture.componentInstance.required = true;
+    fixture.componentInstance.maxFileSize = 50;
+    fixture.detectChanges();
+
+    const files = [
+      {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png',
+      },
+    ];
+
+    triggerDrop(files, getDropDebugEl());
+    fixture.detectChanges;
+
+    expect(
+      fixture.nativeElement
+        .querySelectorAll('sky-form-error')[0]
+        ?.textContent.trim(),
+    ).toBe('Error: file attachment is required.');
+    expect(
+      fixture.nativeElement
+        .querySelectorAll('sky-form-error')[1]
+        ?.textContent.trim(),
+    ).toBe('Error: Please upload a file under 50KB.');
+  });
+
+  it('should render `labelText` and not label element if `labelText` is set', () => {
     fixture.componentInstance.labelElementText = 'label element';
     fixture.componentInstance.labelText = 'label text';
     fixture.detectChanges();
@@ -1403,7 +1466,7 @@ describe('File attachment', () => {
     validateLabelText('label text');
   });
 
-  it('should not render `labelText` or label element if `labelHidden` is set to true', async () => {
+  it('should not render `labelText` or label element if `labelHidden` is set to true', () => {
     fixture.componentInstance.labelElementText = 'label element';
     fixture.componentInstance.labelText = 'label text';
     fixture.componentInstance.labelHidden = true;
@@ -1412,7 +1475,7 @@ describe('File attachment', () => {
     validateLabelText('');
   });
 
-  it('should render label if `labelText` is set', async () => {
+  it('should render label if `labelText` is set', () => {
     fixture.componentInstance.labelText = 'label text';
     fixture.componentInstance.labelElementText = undefined;
     fixture.detectChanges();
@@ -1420,7 +1483,7 @@ describe('File attachment', () => {
     validateLabelText('label text');
   });
 
-  it('should render label element regardless of `labelHidden` value if `labelText` is not set', async () => {
+  it('should render label element regardless of `labelHidden` value if `labelText` is not set', () => {
     fixture.componentInstance.labelElementText = 'label element';
     fixture.detectChanges();
 
@@ -1430,6 +1493,23 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     validateLabelText('label element');
+  });
+
+  it('should mark as dirty when an invalid file is uploaded first', () => {
+    const files = [
+      {
+        name: 'woo.txt',
+        size: 2000,
+        type: 'image/png',
+      },
+    ];
+    fixture.componentInstance.maxFileSize = 1000;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent(files);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.dirty).toBeTrue();
   });
 });
 

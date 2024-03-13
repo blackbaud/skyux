@@ -1,5 +1,47 @@
 # Changelog
 
+## [9.30.0](https://github.com/blackbaud/skyux/compare/9.29.0...9.30.0) (2024-03-12)
+
+
+### Features
+
+* **components/forms:** add form errors to single file attachment ([#2094](https://github.com/blackbaud/skyux/issues/2094)) ([0b84ed4](https://github.com/blackbaud/skyux/commit/0b84ed48b30574a8bd7a43f407e9ed6e75442adf))
+
+
+### Bug Fixes
+
+* **components/forms:** add booleanAttribute transform to labelHidden inputs ([#2115](https://github.com/blackbaud/skyux/issues/2115)) ([26ed02c](https://github.com/blackbaud/skyux/commit/26ed02c80bee5fc2d68d0336e9f1184f073aef4a))
+* **components/tabs:** add stacked to wizard code example input boxes ([#2117](https://github.com/blackbaud/skyux/issues/2117)) ([fe237f5](https://github.com/blackbaud/skyux/commit/fe237f5bd5bb4f52d48c3bfd34de244c00262d26))
+* **components/tabs:** set appropriate `:focus-visible` styles for selected tab buttons ([#2092](https://github.com/blackbaud/skyux/issues/2092)) ([93fb385](https://github.com/blackbaud/skyux/commit/93fb38530498fa8aad2722c59e86e134ef98bb84))
+
+## [9.29.0](https://github.com/blackbaud/skyux/compare/9.28.0...9.29.0) (2024-03-04)
+
+
+### Features
+
+* **components/tiles:** set tile content aria label to tile title id ([#2081](https://github.com/blackbaud/skyux/issues/2081)) ([0166919](https://github.com/blackbaud/skyux/commit/01669199e472b78a3e9ed1e34bfc62c1feb370e9))
+
+
+### Bug Fixes
+
+* **components/forms:** style `sky-radio` as an inline-block element ([#2082](https://github.com/blackbaud/skyux/issues/2082)) ([681996d](https://github.com/blackbaud/skyux/commit/681996d125165c1bd67faaa2d0a984f8c7151b2a))
+* mark new `labelText` inputs as preview features ([#2087](https://github.com/blackbaud/skyux/issues/2087)) ([292a83c](https://github.com/blackbaud/skyux/commit/292a83ce963b10cf357ed3d7c819cf20d9f594ea))
+
+## [9.28.0](https://github.com/blackbaud/skyux/compare/9.27.0...9.28.0) (2024-02-29)
+
+
+### Features
+
+* **components/colorpicker:** add focus trap to colorpicker ([#2060](https://github.com/blackbaud/skyux/issues/2060)) ([76a76fd](https://github.com/blackbaud/skyux/commit/76a76fd60b3cff2254adb39f3761910a95302fc4))
+* **components/datetime:** improve screen reader labels for values on datepicker calendar ([#2051](https://github.com/blackbaud/skyux/issues/2051)) ([58ca714](https://github.com/blackbaud/skyux/commit/58ca714aa4304402705ec4a0523c2923896be778))
+* **components/forms:** add labelText to single file attachment ([#2059](https://github.com/blackbaud/skyux/issues/2059)) ([75e5b47](https://github.com/blackbaud/skyux/commit/75e5b4791574221f4318bb43d869365e29edc6f6))
+* **components/http:** provide svcid to auth-client ([#2038](https://github.com/blackbaud/skyux/issues/2038)) ([9268fe8](https://github.com/blackbaud/skyux/commit/9268fe8af7916cdae619cc112ecc715559fcc366))
+
+
+### Bug Fixes
+
+* **components/indicators:** address icon metadata issues ([#2069](https://github.com/blackbaud/skyux/issues/2069)) ([ae48904](https://github.com/blackbaud/skyux/commit/ae48904a8273fbe72d8b34d203b6b235804b58d5))
+
 ## [9.27.0](https://github.com/blackbaud/skyux/compare/9.26.0...9.27.0) (2024-02-29)
 
 
