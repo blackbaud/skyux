@@ -1,5 +1,29 @@
 # Changelog
 
+## [10.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.3...10.0.0-alpha.4) (2024-03-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** Calls to `SkyInputBoxHarness.queryHarness`, `SkyRepeaterItemHarness.queryHarness`, `SkyLookupHarness.queryHarness`, and `SkyPopoverContentHarness.queryHarness` will now throw an error if a child harness cannot be found. An `update` schematic will replace existing `queryHarness` calls with `queryHarnessOrNull` to avoid breaking existing tests. Thanks @isaacaggrey!
+
+### Features
+
+* **components/ag-grid:** move and resize column header via keyboard ([#2107](https://github.com/blackbaud/skyux/issues/2107)) ([e2af7c2](https://github.com/blackbaud/skyux/commit/e2af7c2cd26318672df05983c4490b6c13d61438))
+* **components/ag-grid:** schematic for AG Grid 31 changes ([#2100](https://github.com/blackbaud/skyux/issues/2100)) ([aaad68e](https://github.com/blackbaud/skyux/commit/aaad68ef8235382ffe3a48fb8bcc66b72dd51aec))
+* **components/forms:** `SkyComponentHarness.queryHarness` throws if child harness not found ([#2103](https://github.com/blackbaud/skyux/issues/2103)) ([c9fceb2](https://github.com/blackbaud/skyux/commit/c9fceb24f8c36475e0fb1cfbf03787f38da01147))
+* **components/forms:** add form errors to single file attachment ([#2094](https://github.com/blackbaud/skyux/issues/2094)) ([#2106](https://github.com/blackbaud/skyux/issues/2106)) ([d54020e](https://github.com/blackbaud/skyux/commit/d54020e079f0981b76bbc6a8d4187e5a8843e03c))
+* **components/forms:** move file attachment url placeholder text to hint text ([#2113](https://github.com/blackbaud/skyux/issues/2113)) ([ba36660](https://github.com/blackbaud/skyux/commit/ba366606bb6a6d71386944e4a4b66525a9954608))
+* **components/modals:** add `close` method to `SkyConfirmInstance` ([#2112](https://github.com/blackbaud/skyux/issues/2112)) ([4b792e3](https://github.com/blackbaud/skyux/commit/4b792e370fc1b8a24c22b33137cf70b676312dff))
+* **components/modals:** add `SkyConfirmTestingController` to mock confirm dialogs in tests ([#2114](https://github.com/blackbaud/skyux/issues/2114)) ([2a0d514](https://github.com/blackbaud/skyux/commit/2a0d514d027cadd3c2ce8dd046325241dee806fe))
+
+
+### Bug Fixes
+
+* **components/forms:** add booleanAttribute transform to labelHidden inputs ([#2115](https://github.com/blackbaud/skyux/issues/2115)) ([#2116](https://github.com/blackbaud/skyux/issues/2116)) ([14eb473](https://github.com/blackbaud/skyux/commit/14eb473d1df328cb8f5766a405c6f8cf13487a94))
+* **components/tabs:** add stacked to wizard code example input boxes ([#2117](https://github.com/blackbaud/skyux/issues/2117)) ([#2118](https://github.com/blackbaud/skyux/issues/2118)) ([8071ebc](https://github.com/blackbaud/skyux/commit/8071ebcfc81bbd45178d29d56ef304a35d46e669))
+* **components/tabs:** don't apply negative margins to vertical tabsets and sectioned forms that do not use full modal ([#2110](https://github.com/blackbaud/skyux/issues/2110)) ([cff428e](https://github.com/blackbaud/skyux/commit/cff428ef20ee94110aacced27458723673b35562))
+
 ## [9.30.0](https://github.com/blackbaud/skyux/compare/9.29.0...9.30.0) (2024-03-12)
 
 
