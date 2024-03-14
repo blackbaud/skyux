@@ -8,13 +8,15 @@
     <sky-icon icon="ellipsis" />
   </span>
   <ng-template #notSortingHeader>
-    <span class="ag-header-cell-text">{{ params?.displayName }}</span>
+    <span class="ag-header-cell-text sky-font-heading-4">{{
+      params?.displayName
+    }}</span>
   </ng-template>
   <div class="ag-header-cell-label" role="presentation">
     <span class="ag-header-cell-label-and-icons">
       <button
         *ngIf="params?.enableSorting; else notSortingHeader"
-        class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
+        class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline sky-font-heading-4"
         type="button"
         [innerText]="params?.displayName"
         (click)="onSortRequested($event)"
