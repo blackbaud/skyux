@@ -13,7 +13,6 @@ import {
   CellEditingStartedEvent,
   CellEditingStoppedEvent,
   Column,
-  ColumnApi,
   DetailGridInfo,
   FirstDataRenderedEvent,
   GridApi,
@@ -74,6 +73,7 @@ describe('SkyAgGridWrapperComponent', () => {
     const api = {
       ensureColumnVisible: spyOn(agGridApi, 'ensureColumnVisible'),
       forEachDetailGridInfo: spyOn(agGridApi, 'forEachDetailGridInfo'),
+      getAllDisplayedColumns: spyOn(agGridApi, 'getAllDisplayedColumns'),
       getEditingCells: spyOn(agGridApi, 'getEditingCells'),
       isDestroyed: spyOn(agGridApi, 'isDestroyed'),
       refreshCells: spyOn(agGridApi, 'refreshCells'),
@@ -85,7 +85,7 @@ describe('SkyAgGridWrapperComponent', () => {
     };
     agGrid = {
       api,
-      columnApi: new ColumnApi(agGridApi),
+      columnApi: {} as never,
       gridReady: new Subject<GridReadyEvent>(),
       rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
       firstDataRendered: new Subject<FirstDataRenderedEvent>(),
@@ -374,7 +374,7 @@ describe('SkyAgGridWrapperComponent', () => {
       ) as HTMLElement;
       const column = new Column({}, {}, 'name', true);
 
-      spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
+      (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
         column,
       ]);
       (agGrid.api.ensureColumnVisible as jasmine.Spy).and.stub();
@@ -393,7 +393,7 @@ describe('SkyAgGridWrapperComponent', () => {
       ) as HTMLElement;
       const column = new Column({}, {}, 'name', true);
 
-      spyOn(agGrid.columnApi, 'getAllDisplayedColumns').and.returnValue([
+      (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
         column,
       ]);
 
@@ -602,8 +602,8 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         ?.getAttribute('title'),
     ).toEqual('Current Value help');
 
-    gridWrapperFixture.componentInstance.agGrid?.api.setColumnDefs([
-      ...gridWrapperFixture.componentInstance.columnDefs.map((col) => {
+    gridWrapperFixture.componentInstance.agGrid?.api.updateGridOptions({
+      columnDefs: gridWrapperFixture.componentInstance.columnDefs.map((col) => {
         switch (col.field) {
           case 'name':
             return {
@@ -630,7 +630,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
             return col;
         }
       }),
-    ]);
+    });
     gridWrapperFixture.detectChanges();
     await gridWrapperFixture.whenStable();
     await new Promise((resolve) => setTimeout(resolve, 1000));
