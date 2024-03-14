@@ -308,20 +308,21 @@ jobs:
       - name: Percy ${{ matrix.project }}
         shell: bash
         run: |
-          # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-          set -x
           set +e
 
+          echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
 
-          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --skip-nx-cache 2>&1 | tee ${{ runner.temp }}/percy.log
-          if [ $? -ne 0 ]; then
-            echo "Percy failed with exit code $?"
+          # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
+          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci 2>&1 | tee ${{ runner.temp }}/percy.log
+          RESULT=$?
+          if [ $RESULT -ne 0 ]; then
+            echo "Percy failed with exit code $RESULT"
             RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds)' ${{ runner.temp }}/percy.log)
             if [ $RETRY -gt 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
-              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --skip-nx-cache
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci
             else
               exit 1
             fi
