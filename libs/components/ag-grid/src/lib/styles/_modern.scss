@@ -1,0 +1,68 @@
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-grid-modern-dark,
+.ag-theme-sky-data-entry-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-dark {
+  .ag-header-cell.sky-ag-grid-header-resizable:not(
+      .ag-column-resizing,
+      :has(> .ag-header-cell-resize:hover)
+    ) {
+    --ag-header-column-resize-handle-color: var(
+      --sky-border-color-neutral-medium-dark
+    );
+    --ag-header-column-resize-handle-height: 15px;
+
+    .ag-header-cell-resize::after {
+      mask-size: 1px 2px;
+      -webkit-mask-size: 1px 2px;
+      mask-image: url('data:image/gif;base64,R0lGODlhAQACAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAIAAAICDAoAOw==');
+      -webkit-mask-image: url('data:image/gif;base64,R0lGODlhAQACAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAIAAAICDAoAOw==');
+      mask-repeat: repeat;
+      -webkit-mask-repeat: repeat;
+      mask-position: top;
+      -webkit-mask-position: top;
+    }
+  }
+
+  .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing,
+  .ag-header-cell.sky-ag-grid-header-resizable > .ag-header-cell-resize:hover {
+    --ag-header-column-resize-handle-color: var(
+      --sky-text-color-action-primary
+    );
+    --ag-header-column-resize-handle-height: 100%;
+    --ag-header-column-resize-handle-width: 3px;
+  }
+
+  .ag-header-cell.sky-ag-grid-header-resizable:not(.ag-column-resizing)
+    > .ag-header-cell-resize:hover {
+    &::after {
+      position: relative;
+      left: 2px;
+    }
+  }
+
+  @for $i from 1 through 100 {
+    .ag-root:has(
+        .ag-header-cell.sky-ag-grid-header-resizable:nth-child(#{$i})
+          > .ag-header-cell-resize:hover
+      ) {
+      .ag-cell:nth-child(#{$i}) {
+        --ag-cell-horizontal-border: 1px
+          solid
+          var(--sky-text-color-action-primary);
+      }
+    }
+
+    .ag-root:has(
+        .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing:nth-child(
+            #{$i}
+          )
+      ) {
+      .ag-cell:nth-child(#{$i}) {
+        --ag-cell-horizontal-border: 3px
+          solid
+          var(--sky-text-color-action-primary);
+        border-right-width: 3px;
+      }
+    }
+  }
+}

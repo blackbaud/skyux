@@ -1,8 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
 
 $sky-standard-border: 1px solid var(--sky-border-color-neutral-medium);
-$sky-standard-border-theme-modern: 1px solid
-  var(--sky-border-color-neutral-medium);
 
 $sky-cell-wrap-text-padding-default: 7px;
 $sky-cell-wrap-text-line-height-default: variables.$sky-line-height-base;

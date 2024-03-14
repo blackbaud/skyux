@@ -64,7 +64,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       column,
       node: new RowNode({} as Beans),
       colDef: {},
-      columnApi: undefined,
+      columnApi: {} as never,
       data: undefined,
       rowIndex: undefined,
       api: gridApi,

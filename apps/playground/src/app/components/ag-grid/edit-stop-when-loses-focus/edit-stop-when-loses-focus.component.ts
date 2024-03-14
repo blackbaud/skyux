@@ -167,7 +167,9 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
   public setEditMode(editable: boolean): void {
     this.editMode = editable;
     this.setColumnDefs();
-    this.gridApi.setColumnDefs(this.columnDefs);
+    this.gridApi.updateGridOptions({
+      columnDefs: this.columnDefs,
+    });
     this.gridApi.redrawRows();
   }
 

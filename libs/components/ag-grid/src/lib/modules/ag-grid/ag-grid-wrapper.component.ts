@@ -244,7 +244,7 @@ export class SkyAgGridWrapperComponent
       relatedTarget && this.#elementRef.nativeElement.contains(relatedTarget);
 
     if (this.agGrid && !previousWasGrid) {
-      const firstColumn = this.agGrid.columnApi.getAllDisplayedColumns()[0];
+      const firstColumn = this.agGrid.api.getAllDisplayedColumns()[0];
 
       if (firstColumn) {
         this.agGrid.api.ensureColumnVisible(firstColumn);

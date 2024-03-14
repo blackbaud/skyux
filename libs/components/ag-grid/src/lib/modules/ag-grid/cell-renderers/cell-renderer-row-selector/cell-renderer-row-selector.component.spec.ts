@@ -236,7 +236,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
         rowPinned: undefined,
         context: undefined,
         api: undefined,
-        columnApi: undefined,
+        columnApi: {} as never,
         type: undefined,
       };
 

@@ -13,7 +13,6 @@ import {
   Beans,
   CellClassParams,
   CellFocusedEvent,
-  ColumnApi,
   GetRowIdParams,
   GridApi,
   GridOptions,
@@ -311,8 +310,8 @@ describe('SkyAgGridService', () => {
       const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       dateValueFormatterParams = {
         api,
-        columnApi: new ColumnApi(api),
-      } as ValueFormatterParams;
+        columnApi: {} as never,
+      } as unknown as ValueFormatterParams;
     });
 
     it('should return the formatted date string created by the date service', () => {
@@ -385,8 +384,8 @@ describe('SkyAgGridService', () => {
         colDef: {
           cellEditorParams: {},
         },
-        columnApi: new ColumnApi(api),
-      } as ValueFormatterParams;
+        columnApi: {} as never,
+      } as unknown as ValueFormatterParams;
     });
 
     it('should return the name property of the value', () => {
@@ -581,9 +580,9 @@ describe('SkyAgGridService', () => {
       ]);
       cellClassParams = {
         api,
-        columnApi: new ColumnApi(api),
+        columnApi: {} as never,
         colDef: {},
-      } as CellClassParams;
+      } as unknown as CellClassParams;
     });
 
     it("should return true when the columnDefinition's editable property is true and checking for editable", () => {
@@ -651,16 +650,16 @@ describe('SkyAgGridService', () => {
       const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       cellClassParams = {
         api,
-        columnApi: new ColumnApi(api),
+        columnApi: {} as never,
         colDef: {},
-      } as CellClassParams;
+      } as unknown as CellClassParams;
 
       cellRendererParams = {
         addRenderedRowListener(): void {},
         api,
         colDef: {},
         column: undefined,
-        columnApi: undefined,
+        columnApi: {} as never,
         context: undefined,
         data: undefined,
         eGridCell: undefined,
@@ -893,7 +892,7 @@ describe('SkyAgGridService', () => {
       type: 'rowSelected',
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as ColumnApi,
+      columnApi: {} as never,
       rowPinned: null,
     } as RowClassParams;
 

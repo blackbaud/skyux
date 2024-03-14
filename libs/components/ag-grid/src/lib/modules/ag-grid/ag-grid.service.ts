@@ -15,6 +15,7 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
+import { HeaderClassParams } from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -219,10 +220,12 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.defaultColDef,
         // allow consumers to override all defaultColDef properties except cellClassRules, which we reserve for styling
         cellClassRules: defaultGridOptions.defaultColDef?.cellClassRules,
+        headerClass: defaultGridOptions.defaultColDef?.headerClass,
       },
       defaultColGroupDef: {
         ...defaultGridOptions.defaultColGroupDef,
         ...providedGridOptions.defaultColGroupDef,
+        headerClass: defaultGridOptions.defaultColGroupDef?.headerClass,
       },
       icons: {
         ...defaultGridOptions.icons,
@@ -292,6 +295,21 @@ export class SkyAgGridService implements OnDestroy {
       [SkyCellClass.Invalid]: getValidatorFn(),
     };
 
+    function getHeaderClass(
+      ...classNames: string[]
+    ): (params: HeaderClassParams) => string | string[] | undefined {
+      return (params: HeaderClassParams): string | string[] | undefined => {
+        // istanbul ignore next
+        const minWidth = params.column?.getMinWidth() ?? 0;
+        // istanbul ignore next
+        const maxWidth = params.column?.getMaxWidth() ?? Infinity;
+        if (params.column?.isResizable() && minWidth < maxWidth) {
+          return [...classNames, SkyHeaderClass.Resizable];
+        }
+        return classNames;
+      };
+    }
+
     const defaultSkyGridOptions: GridOptions = {
       columnTypes: {
         [SkyCellType.Autocomplete]: {
@@ -315,7 +333,7 @@ export class SkyAgGridService implements OnDestroy {
             { component: 'sky-ag-grid-cell-renderer-currency' },
           ),
           cellEditor: SkyAgGridCellEditorCurrencyComponent,
-          headerClass: SkyHeaderClass.RightAligned,
+          headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
           minWidth: 185,
         },
         [SkyCellType.Date]: {
@@ -374,7 +392,7 @@ export class SkyAgGridService implements OnDestroy {
             'sky-ag-grid-cell-renderer-validator-tooltip',
           ),
           cellEditor: SkyAgGridCellEditorNumberComponent,
-          headerClass: SkyHeaderClass.RightAligned,
+          headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
@@ -385,6 +403,7 @@ export class SkyAgGridService implements OnDestroy {
           headerName: '',
           minWidth: 55,
           maxWidth: 55,
+          resizable: false,
           sortable: false,
           width: 55,
         },
@@ -414,6 +433,7 @@ export class SkyAgGridService implements OnDestroy {
       },
       defaultColDef: {
         cellClassRules: editableCellClassRules,
+        headerClass: getHeaderClass(),
         headerComponent: SkyAgGridHeaderComponent,
         minWidth: 100,
         suppressHeaderKeyboardEvent: (

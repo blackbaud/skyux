@@ -88,6 +88,8 @@ export class SkyAgGridCellEditorLookupComponent
 
       if (this.#params.skyComponentProperties?.disabled) {
         control.disable();
+      } else {
+        control.enable();
       }
     }
 
