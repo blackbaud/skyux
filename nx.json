@@ -36,7 +36,7 @@
     },
     "e2e": {
       "inputs": ["e2eInputs", "^storybookInputs", "^buildInputs"],
-      "cache": true
+      "cache": false
     },
     "lint": {
       "inputs": ["lintInputs"],
@@ -85,7 +85,10 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/tsconfig.storybook.json"
     ],
-    "e2eInputs": ["storybookInputs", "{workspaceRoot}/.percy.json"],
+    "e2eInputs": [
+      "{workspaceRoot}/.github/workflows/e2e.yml",
+      "{workspaceRoot}/.percy.json"
+    ],
     "lintInputs": [
       "{projectRoot}/**/*",
       "{workspaceRoot}/.eslintrc-overrides.json",

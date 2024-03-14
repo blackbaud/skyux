@@ -12,8 +12,10 @@ on:
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
+  PERCY_BRANCH: ${{ github.ref_name }}
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
-  PERCY_TARGET_BRANCH: ${{ github.base_ref || github.ref_name }}
+  PERCY_COMMIT: ${{ github.sha }}
+  PERCY_SKIP_UPDATE_CHECK: 'true'
   PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
@@ -32,14 +34,15 @@ jobs:
       pr-number: ${{ steps.set-shas.outputs.pr-number }}
       pr-labels: ${{ steps.set-shas.outputs.pr-labels }}
       base: ${{ steps.set-shas.outputs.base }}
+      base-branch: ${{ steps.set-shas.outputs.base-branch }}
       head: ${{ steps.set-shas.outputs.head }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         id: setup-node
         with:
           node-version-file: '.nvmrc'
@@ -47,7 +50,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
         id: cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -94,13 +97,13 @@ jobs:
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
@@ -108,7 +111,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -119,7 +122,7 @@ jobs:
         run: npx nx run ${{ matrix.project }}:build-storybook:ci
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.project }}
           path: ./dist/storybook/${{ matrix.project }}
@@ -148,13 +151,13 @@ jobs:
           - integration
           - playground
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
@@ -162,7 +165,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -177,7 +180,7 @@ jobs:
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app == 'dep-graph' }}
       - name: Upload app artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.app }}
           path: ./dist/apps/${{ matrix.app }}
@@ -199,25 +202,25 @@ jobs:
       - build-storybook
       - build-apps
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Move apps
@@ -240,7 +243,7 @@ jobs:
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ env.GH_PAGES_OWNER }}/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           ref: 'main'
@@ -268,13 +271,13 @@ jobs:
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
@@ -282,7 +285,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -303,36 +306,35 @@ jobs:
         run: npx cypress verify
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Percy ${{ matrix.project }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-            // Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-            const percyCommand = 'npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --skip-nx-cache';
-            await exec.getExecOutput('bash', ['-c', percyCommand], { ignoreReturnCode: true })
-              .then((result) => {
-                if (result.exitCode !== 0) {
-                  if (
-                    result.stderr.includes('This is likely a client error') ||
-                    result.stderr.includes('Error: Can only finalize pending builds')
-                  ) {
-                    console.info('Percy client error. Retrying...');
-                    return exec.exec('bash', ['-c', percyCommand]);
-                  } else if (
-                    result.stderr.includes('AssertionError: Timed out retrying')
-                  ) {
-                    console.info('Cypress timeout error. Retrying...');
-                    return exec.exec('bash', ['-c', percyCommand]);
-                  } else {
-                    core.setFailed(`Percy failed with exit code ${result.exitCode}`);
-                  }
-                }
-              });
+        shell: bash
+        run: |
+          set +e
+
+          echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
+          echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
+
+          # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
+          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci 2>&1 | tee ${{ runner.temp }}/percy.log
+          RESULT=$?
+          if [ $RESULT -ne 0 ]; then
+            echo "Percy failed with exit code $RESULT"
+            RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds)' ${{ runner.temp }}/percy.log)
+            if [ $RETRY -gt 0 ]; then
+              echo "Percy client error. Retrying..."
+              set -eo pipefail
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci
+            else
+              exit 1
+            fi
+          fi
         env:
+          PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
+          PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
           TERM: 'xterm-256color'
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Upload error screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: cypress-screenshots-${{ matrix.project }}
@@ -365,13 +367,13 @@ jobs:
       - e2e
       - publish
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
         if: ${{ matrix.project != 'skip' }}
@@ -379,7 +381,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -388,38 +390,45 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - name: Build e2e-schematics
         run: npx nx build e2e-schematics
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         name: Verify E2E Visual Review
         id: verify-e2e
+        if: ${{ always() }}
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
 
-            const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
-            const { verifyE2e } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
+            const anyFailures = ${{ contains(needs.*.outcome, 'failure') }};
+            if (anyFailures) {
+              core.setFailed(`Job failed. Skipping visual review.`);
+            } else {
+              const e2eProjects = ${{ needs.install-deps.outputs.parameters }}.e2eTargets.map(project => project.project);
+              const { verifyE2e } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
 
-            const options = {
-              method: 'GET',
-              headers: {
-                Authorization: 'Token ${{ secrets.PERCY_API }}'
-              }
-            };
+              const options = {
+                method: 'GET',
+                headers: {
+                  Authorization: 'Token ${{ secrets.PERCY_API }}'
+                }
+              };
 
-            await verifyE2e(
-              e2eProjects,
-              context.repo.owner,
-              context.repo.repo,
-              '${{ needs.install-deps.outputs.head }}',
-              '${{ github.run_id }}',
-              core,
-              {
-                listCommitStatusesForRef: github.rest.repos.listCommitStatusesForRef,
-                listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
-              },
-              ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
-              (url) => fetch(url, options),
-              (number) => process.exit(number)
-            );
+              await verifyE2e(
+                e2eProjects,
+                context.repo.owner,
+                context.repo.repo,
+                '${{ needs.install-deps.outputs.head }}',
+                '${{ github.run_id }}',
+                core,
+                {
+                  listCommitStatusesForRef: github.rest.repos.listCommitStatusesForRef,
+                  listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
+                },
+                ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
+                (url) => fetch(url, options),
+                (number) => process.exit(number)
+              );
+            }
+
       - name: Notify Slack (missing screenshots)
         if: ${{ failure() && steps.verify-e2e.outputs.missingScreenshots }}
         uses: rtCamp/action-slack-notify@v2
