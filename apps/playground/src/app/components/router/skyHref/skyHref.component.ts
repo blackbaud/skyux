@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAlertModule } from '@skyux/indicators';
 import {
   SkyHref,
@@ -9,18 +7,13 @@ import {
   SkyHrefResolverService,
 } from '@skyux/router';
 
-import { AlertComponent } from './alert.component';
-
-const routes: Routes = [{ path: '', component: AlertComponent }];
-@NgModule({
-  declarations: [AlertComponent],
-  exports: [AlertComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    SkyAlertModule,
-    SkyHrefModule,
-  ],
+@Component({
+  standalone: true,
+  selector: 'app-sky-href',
+  templateUrl: './skyHref.component.html',
+  styleUrls: ['./skyHref.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyAlertModule, SkyHrefModule],
   providers: [
     {
       provide: SkyHrefResolverService,
@@ -34,4 +27,4 @@ const routes: Routes = [{ path: '', component: AlertComponent }];
     },
   ],
 })
-export class AlertModule {}
+export class SkyHrefComponent {}
