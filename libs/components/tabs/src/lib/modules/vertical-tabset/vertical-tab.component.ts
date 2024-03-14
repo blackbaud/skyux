@@ -47,7 +47,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   public set active(value: boolean | undefined) {
     if (value !== this.#_active) {
       this.#_active = value ?? false;
-      this.#tabsetService.activateTab(this);
+
+      if (this.#_active) {
+        this.#tabsetService.activateTab(this);
+      }
     }
   }
 
