@@ -185,8 +185,8 @@ export async function getPercyTargetCommit(
 
   const shaArrayBatchesOf25 = chunk(shaArray, 25);
   try {
+    const projectId = await getProjectId(project, fetchJson);
     for (const shaArrayBatch of shaArrayBatchesOf25) {
-      const projectId = await getProjectId(project, fetchJson);
       const build = await getBuilds(
         projectId,
         shaArrayBatch,
