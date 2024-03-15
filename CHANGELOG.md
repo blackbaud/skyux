@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.30.2](https://github.com/blackbaud/skyux/compare/9.30.1...9.30.2) (2024-03-14)
+
+
+### Bug Fixes
+
+* **components/theme:** address clipboard icon metadata issue ([#2129](https://github.com/blackbaud/skyux/issues/2129)) ([f2c9041](https://github.com/blackbaud/skyux/commit/f2c90410809b8c699cf381dae947cacf5972a3a1))
+
 ## [9.30.1](https://github.com/blackbaud/skyux/compare/9.30.0...9.30.1) (2024-03-13)
 
 
