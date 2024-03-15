@@ -1,4 +1,12 @@
-<div class="sky-text-editor">
+<div
+  class="sky-text-editor"
+  [ngClass]="{
+    'sky-text-editor-disabled': disabled
+  }"
+>
+  <div class="sky-text-editor-label-wrapper">
+    <label *ngIf="labelText" class="sky-control-label">{{ labelText }}</label>
+  </div>
   <sky-toolbar
     *ngIf="
       (menus && menus.length) > 0 ||
@@ -43,7 +51,8 @@
     src="about:blank"
     title="Text Editor"
     [ngClass]="{
-      'sky-text-editor-wrapper-disabled': disabled
+      'sky-text-editor-wrapper-disabled': disabled,
+      'sky-text-editor-wrapper-focused': editorFocused
     }"
     (load)="onIframeLoad()"
     #iframe

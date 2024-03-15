@@ -417,6 +417,8 @@ export class SkyTextEditorAdapterService {
     const pasteListener = this.#getPasteOverride();
     const blurObservable = new Subject<void>();
     const blurListener = (): void => blurObservable.next();
+    const focusObservable = new Subject<void>();
+    const focusListener = (): void => focusObservable.next();
     const inputObservable = new Subject<void>();
     const inputListener = (): void => inputObservable.next();
 
@@ -425,14 +427,17 @@ export class SkyTextEditorAdapterService {
     documentEl.addEventListener('mousedown', clickListener);
     documentEl.body.addEventListener('paste', pasteListener);
     documentEl.body.addEventListener('blur', blurListener);
+    documentEl.body.addEventListener('focusin', focusListener);
     return {
       blurObservable,
       clickObservable,
+      focusObservable,
       commandChangeObservable: new Subject(),
       iframeElementRef: element,
       inputObservable,
       selectionChangeObservable: selectionObservable,
       blurListener,
+      focusListener,
       clickListener,
       inputListener,
       pasteListener,

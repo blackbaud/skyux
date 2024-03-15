@@ -21,6 +21,8 @@ import {
 export class TextEditorComponent implements OnInit {
   public displayValue: SafeHtml;
 
+  public labelText = 'Playground text editor';
+
   public menus: SkyTextEditorMenuType[] = ['edit', 'format', 'merge-field'];
 
   public mergeFields = [
@@ -46,17 +48,7 @@ export class TextEditorComponent implements OnInit {
     return this.myForm.get('textEditor');
   }
 
-  public toolbarActions: SkyTextEditorToolbarActionType[] = [
-    'font-family',
-    'font-size',
-    'font-style',
-    'color',
-    'list',
-    'alignment',
-    'indentation',
-    'undo-redo',
-    'link',
-  ];
+  public toolbarActions: SkyTextEditorToolbarActionType[] = [];
 
   public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = ['new'];
 

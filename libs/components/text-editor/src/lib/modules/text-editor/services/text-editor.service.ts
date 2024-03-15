@@ -52,6 +52,13 @@ export class SkyTextEditorService {
   }
 
   /**
+   * Returns the focus observable from the editor with the corresponding id.
+   */
+  public focusListener(): Observable<unknown> {
+    return this.editor.focusObservable;
+  }
+
+  /**
    * Returns the input change observable from the editor with the corresponding id.
    */
   public inputListener(): Observable<unknown> {
