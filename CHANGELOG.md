@@ -1,5 +1,20 @@
 # Changelog
 
+## [10.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.4...10.0.0-alpha.5) (2024-03-15)
+
+
+### Features
+
+* **components/ag-grid:** add hover style for header resize ([#2119](https://github.com/blackbaud/skyux/issues/2119)) ([03afd40](https://github.com/blackbaud/skyux/commit/03afd4007a987588c0eb547a431dff1af0381a0a))
+
+
+### Bug Fixes
+
+* **components/datetime:** accept manual input for month name date formats ([#2124](https://github.com/blackbaud/skyux/issues/2124)) ([#2126](https://github.com/blackbaud/skyux/issues/2126)) ([d270d04](https://github.com/blackbaud/skyux/commit/d270d045bce847e08cb30adf11a98695d3b51112))
+* **components/router:** unlinked skyHref instances do not style as links when in an alert ([#2125](https://github.com/blackbaud/skyux/issues/2125)) ([#2127](https://github.com/blackbaud/skyux/issues/2127)) ([bf04b2a](https://github.com/blackbaud/skyux/commit/bf04b2acfa8f4d6d33bd60d3e93295934a968bbb))
+* **components/tabs:** activate vertical tab only when active=true ([#2121](https://github.com/blackbaud/skyux/issues/2121)) ([#2122](https://github.com/blackbaud/skyux/issues/2122)) ([0057194](https://github.com/blackbaud/skyux/commit/00571946db1cdd4a090212f2ec605441a03ec770))
+* **components/theme:** address clipboard icon metadata issue ([#2129](https://github.com/blackbaud/skyux/issues/2129)) ([#2132](https://github.com/blackbaud/skyux/issues/2132)) ([ee69193](https://github.com/blackbaud/skyux/commit/ee69193dc8b2d70e0e5a6cee8971f0eaffb629da))
+
 ## [9.30.2](https://github.com/blackbaud/skyux/compare/9.30.1...9.30.2) (2024-03-14)
 
 
