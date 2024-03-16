@@ -8,6 +8,9 @@ outputs:
   base:
     description: 'The base sha to use for nx affected commands.'
     value: ${{ steps.nx-set-shas.outputs.base || steps.set-shas.outputs.base }}
+  base-branch:
+    description: 'The base branch to use for nx affected commands.'
+    value: ${{ steps.read-default-base.outputs.main-branch-name }}
   head:
     description: 'The head sha to use for nx affected commands.'
     value: ${{ steps.nx-set-shas.outputs.head || steps.set-shas.outputs.head }}

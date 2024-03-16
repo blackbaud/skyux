@@ -88,9 +88,13 @@ export async function checkPercyBuild(
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, fetchJson);
-    const build = await getBuilds(projectId, [commitSha], [], fetchJson).then(
-      (builds) => builds.pop(),
-    );
+    const build = await getBuilds(
+      projectId,
+      [commitSha],
+      [],
+      100,
+      fetchJson,
+    ).then((builds) => builds.pop());
     if (build?.id) {
       const finished = build.attributes.state === 'finished';
       const approved =
@@ -135,6 +139,7 @@ export async function getLastGoodPercyBuild(
       projectId,
       shaArray,
       ['finished'],
+      100,
       fetchJson,
     );
     const lastApprovedBuild = builds.find(
@@ -155,6 +160,45 @@ export async function getLastGoodPercyBuild(
           .split('/')
           .pop() as string)
       : '';
+  } catch (error) {
+    throw new Error(`Error checking Percy: ${error}`, {
+      cause: error,
+    });
+  }
+}
+
+export async function getPercyTargetCommit(
+  project: string,
+  shaArray: string[],
+  /* istanbul ignore next */
+  fetchClient: Fetch = fetch,
+): Promise<string> {
+  const fetchJson = getFetchJson(fetchClient);
+
+  function chunk(shaArray: string[], number: number) {
+    const result = [];
+    for (let i = 0; i < shaArray.length; i += number) {
+      result.push(shaArray.slice(i, i + number));
+    }
+    return result;
+  }
+
+  const shaArrayBatchesOf25 = chunk(shaArray, 25);
+  try {
+    const projectId = await getProjectId(project, fetchJson);
+    for (const shaArrayBatch of shaArrayBatchesOf25) {
+      const build = await getBuilds(
+        projectId,
+        shaArrayBatch,
+        ['finished'],
+        1,
+        fetchJson,
+      ).then((builds) => builds.pop());
+      if (build?.id) {
+        return build.attributes['commit-html-url'].split('/').pop() as string;
+      }
+    }
+    return '';
   } catch (error) {
     throw new Error(`Error checking Percy: ${error}`, {
       cause: error,
@@ -184,6 +228,7 @@ async function getBuilds(
   projectId: string,
   shas: string[],
   states: string[],
+  limit: number,
   fetchJson: FetchJson,
 ): Promise<Build[]> {
   const shaFilter = shas.map((sha) => `&filter[shas][]=${sha}`).join('');
@@ -191,7 +236,7 @@ async function getBuilds(
     .map((state) => `&filter[state][]=${state}`)
     .join('');
   return fetchJson<Build[]>(
-    `https://percy.io/api/v1/builds?project_id=${projectId}${shaFilter}${stateFilter}&page[limit]=100`,
+    `https://percy.io/api/v1/builds?project_id=${projectId}${shaFilter}${stateFilter}&page[limit]=${limit}`,
     'Percy builds',
   ).then((builds) => builds.filter((build) => build.type === 'builds'));
 }
