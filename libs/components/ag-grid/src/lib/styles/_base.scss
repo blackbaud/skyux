@@ -277,10 +277,10 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
 }
 
 .ag-header .ag-header-cell .ag-header-cell-label-sortable {
-  color: var(--sky-text-color-deemphasized);
+  color: var(--sky-text-color-default);
 
   &:hover {
-    color: var(--sky-text-color-default);
+    color: var(--sky-text-color-deemphasized);
   }
 }
 

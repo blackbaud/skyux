@@ -22,7 +22,7 @@ import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 class TestHelpComponent {}
 
 interface mockEventParam {
-  columnGroup: ProvidedColumnGroup;
+  columnGroups: ProvidedColumnGroup[];
 }
 
 describe('SkyAgGridHeaderGroupComponent', () => {
@@ -59,7 +59,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     setExpanded: (open: boolean) => {
       expanded = open;
       (events[Events.EVENT_COLUMN_GROUP_OPENED] || []).forEach((l) =>
-        l({ columnGroup: providedColumnGroup }),
+        l({ columnGroups: [providedColumnGroup] }),
       );
     },
   } as unknown as SkyAgGridHeaderGroupParams;

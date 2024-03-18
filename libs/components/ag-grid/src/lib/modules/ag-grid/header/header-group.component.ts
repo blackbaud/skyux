@@ -95,7 +95,10 @@ export class SkyAgGridHeaderGroupComponent
               handler,
             ),
         ).subscribe((event) => {
-          if (this.#columnGroup && event.columnGroup === this.#columnGroup) {
+          if (
+            this.#columnGroup &&
+            event.columnGroups.includes(this.#columnGroup)
+          ) {
             this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
           }
         }),
