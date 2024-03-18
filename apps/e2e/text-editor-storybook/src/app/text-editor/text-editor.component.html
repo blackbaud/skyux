@@ -1,12 +1,8 @@
 <form novalidate [formGroup]="myForm">
-  <label class="sky-control-label">Text editor</label>
-  <sky-help-inline
-    *ngIf="inlineHelpFlag"
-    class="sky-control-help"
-  ></sky-help-inline>
   <sky-text-editor
     formControlName="myText"
     [placeholder]="placeholder"
+    [labelText]="labelText"
     [menus]="menus"
     [mergeFields]="mergeFields"
     [toolbarActions]="toolbarActions"

@@ -35,6 +35,8 @@ export class TextEditorComponent {
     return this.#_disabledFlag;
   }
 
+  public labelText = 'Text editor';
+
   public myForm: UntypedFormGroup;
 
   public placeholder = 'This is what placeholder text looks like';
