@@ -112,6 +112,7 @@
 
       .sky-toolbar-section {
         padding: $sky-theme-modern-space-sm !important;
+        border-top: none !important;
       }
 
       sky-toolbar-section:not(:last-of-type) .sky-toolbar-section {
