@@ -104,8 +104,6 @@
   }
 
   .sky-ag-grid-cell-editable {
-    background-color: var(--sky-background-color-page-default);
-
     .ag-select {
       .ag-picker-field-display {
         margin-top: 2px;
@@ -114,7 +112,7 @@
     }
   }
 
-  .sky-ag-grid-cell-uneditable {
+  .sky-ag-grid-cell-uneditable:not(.sky-ag-grid-cell-row-selector) {
     background-color: variables.$sky-theme-modern-mode-dark-background-color-elevation-24;
   }
 
