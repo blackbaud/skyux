@@ -9,6 +9,7 @@ import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyRadioGroupComponent } from './radio-group.component';
+import { SkyRadioLabelTextLabelComponent } from './radio-label-text-label.component';
 import { SkyRadioLabelComponent } from './radio-label.component';
 import { SkyRadioComponent } from './radio.component';
 
@@ -17,6 +18,7 @@ import { SkyRadioComponent } from './radio.component';
     SkyRadioComponent,
     SkyRadioGroupComponent,
     SkyRadioLabelComponent,
+    SkyRadioLabelTextLabelComponent,
   ],
   imports: [
     CommonModule,

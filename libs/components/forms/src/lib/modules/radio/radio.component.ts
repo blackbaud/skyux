@@ -7,6 +7,7 @@ import {
   OnDestroy,
   Output,
   Provider,
+  booleanAttribute,
   forwardRef,
   inject,
 } from '@angular/core';
@@ -112,9 +113,22 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * when the radio button does not include a visible label. You must set this property for icon
    * radio buttons. If the radio button includes a visible label, use `labelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioComponent.label', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
 
   /**
    * The HTML element ID of the element that labels
@@ -122,9 +136,22 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button does not include a visible label, use `label` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use `labelText` instead.
    */
   @Input()
-  public labelledBy: string | undefined;
+  public set labelledBy(value: string | undefined) {
+    this.#_labelledBy = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyRadioComponent.labelledBy', {
+        deprecationMajorVersion: 9,
+      });
+    }
+  }
+
+  public get labelledBy(): string | undefined {
+    return this.#_labelledBy;
+  }
 
   /**
    * This property is deprecated in favor of the `name` property on the `sky-radio-group element`.
@@ -233,6 +260,21 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   }
 
   /**
+   * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
+   * Specifying `labelText` also enables automatic error message handling for checkbox.
+   * @preview
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Indicates whether to hide the `labelText`.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
+
+  /**
    * Fires when users select a radio button.
    */
   @Output()
@@ -271,6 +313,8 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   #_selectedValue: unknown;
   #_tabindex = 0;
   #_value: any;
+  #_label: string | undefined;
+  #_labelledBy: string | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
   #defaultId = inject(SkyIdService).generateId();
