@@ -1,7 +1,8 @@
 <div
   class="sky-text-editor"
   [ngClass]="{
-    'sky-text-editor-disabled': disabled
+    'sky-text-editor-disabled': disabled,
+    'sky-text-editor-wrapper-focused': editorFocused
   }"
 >
   <div class="sky-text-editor-label-wrapper">
@@ -51,8 +52,7 @@
     src="about:blank"
     title="Text Editor"
     [ngClass]="{
-      'sky-text-editor-wrapper-disabled': disabled,
-      'sky-text-editor-wrapper-focused': editorFocused
+      'sky-text-editor-wrapper-disabled': disabled
     }"
     (load)="onIframeLoad()"
     #iframe

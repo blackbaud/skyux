@@ -64,6 +64,7 @@
 
     &.sky-text-editor-disabled {
       background-color: var(--sky-background-color-disabled);
+      cursor: not-allowed;
     }
 
     .sky-text-editor-label-wrapper:not(:empty) {
@@ -72,6 +73,7 @@
         $sky-theme-modern-space-sm;
       width: 100%;
       color: $sky-theme-modern-font-data-label-color;
+      transition: $sky-form-border-and-color-transitions;
 
       label {
         font-size: 13px;
@@ -79,15 +81,28 @@
       }
     }
 
+    &.sky-text-editor-wrapper-focused {
+      .sky-text-editor-label-wrapper {
+        color: $sky-theme-modern-background-color-primary-dark;
+      }
+
+      .sky-text-editor-wrapper {
+        @include mixins.sky-theme-modern-border-focus;
+      }
+    }
+
+    &:not(.sky-text-editor-wrapper-focused) {
+      .sky-text-editor-wrapper:hover {
+        @include mixins.sky-theme-modern-border-hover;
+      }
+    }
+
     .sky-text-editor-wrapper {
+      transition: $sky-form-border-and-color-transitions;
       @include mixins.sky-theme-modern-border;
       border-bottom-left-radius: $sky-theme-modern-box-border-radius-default;
       border-bottom-right-radius: $sky-theme-modern-box-border-radius-default;
       border: none;
-
-      &.sky-text-editor-wrapper-focused {
-        @include mixins.sky-theme-modern-border-focus;
-      }
     }
 
     .sky-text-editor-toolbar {
