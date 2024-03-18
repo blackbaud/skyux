@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "10.0.0-alpha.4",
+  "version": "10.0.0-alpha.5",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -100,7 +100,7 @@
     "@blackbaud/skyux-design-tokens": "0.0.28",
     "@nx/angular": "18.0.7",
     "@skyux/auth-client-factory": "1.2.0",
-    "@skyux/icons": "6.10.1",
+    "@skyux/icons": "6.10.2",
     "ag-grid-angular": "31.1.1",
     "ag-grid-community": "31.1.1",
     "autonumeric": "4.10.4",
@@ -182,7 +182,7 @@
     "@typescript-eslint/parser": "6.20.0",
     "autoprefixer": "10.4.0",
     "cross-spawn": "7.0.3",
-    "cypress": "13.6.6",
+    "cypress": "13.7.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-cypress": "2.15.1",

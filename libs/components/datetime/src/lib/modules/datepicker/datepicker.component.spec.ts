@@ -819,6 +819,21 @@ describe('datepicker', () => {
         expect(component.selectedDate).toBe('abcdef');
         expect(ngModel.valid).toBe(true);
       }));
+
+      it('should handle date formats with text months', fakeAsync(() => {
+        component.dateFormat = 'MMM DD YYYY';
+        detectChanges(fixture);
+
+        setInputElementValue(
+          fixture.nativeElement,
+          'January 15, 2024',
+          fixture,
+        );
+
+        expect(getInputElementValue(fixture)).toBe('Jan 15 2024');
+        expect(component.selectedDate).toEqual(new Date('Jan 15 2024'));
+        expect(ngModel.valid).toBe(true);
+      }));
     });
 
     describe('shortcut functionality', () => {

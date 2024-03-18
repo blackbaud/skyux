@@ -1,4 +1,8 @@
-import { checkPercyBuild, getLastGoodPercyBuild } from './percy-api';
+import {
+  checkPercyBuild,
+  getLastGoodPercyBuild,
+  getPercyTargetCommit,
+} from './percy-api';
 
 describe('percy-api', () => {
   afterEach(() => {
@@ -102,6 +106,80 @@ describe('percy-api', () => {
       fetchClient,
     );
     expect(result).toEqual('commitSha');
+  });
+
+  it('should get target commit', async () => {
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url.startsWith('https://percy.io/api/v1/projects')) {
+        return Promise.resolve({
+          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+        });
+      }
+      if (url.startsWith('https://percy.io/api/v1/builds')) {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [
+                {
+                  id: 'buildId',
+                  type: 'builds',
+                  attributes: {
+                    'review-state': 'approved',
+                    state: 'finished',
+                    'commit-html-url': 'https://.../commitSha',
+                  },
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await getPercyTargetCommit(
+      'test-storybook-e2e',
+      ['commitSha'],
+      fetchClient,
+    );
+    expect(result).toEqual('commitSha');
+  });
+
+  it('should handle no matching target commit', async () => {
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url.startsWith('https://percy.io/api/v1/projects')) {
+        return Promise.resolve({
+          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+        });
+      }
+      if (url.startsWith('https://percy.io/api/v1/builds')) {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [],
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await getPercyTargetCommit(
+      'test-storybook-e2e',
+      ['commitSha'],
+      fetchClient,
+    );
+    expect(result).toEqual('');
+  });
+
+  it('should handle errors with target commit', async () => {
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url.startsWith('https://percy.io/api/v1/projects')) {
+        return Promise.reject(new Error('Nope.'));
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    await expect(() =>
+      getPercyTargetCommit('test-storybook-e2e', ['commitSha'], fetchClient),
+    ).rejects.toThrowError(
+      'Error checking Percy: Error: Error fetching Percy project ID',
+    );
   });
 
   it('should not return a build with missing screenshots', async () => {

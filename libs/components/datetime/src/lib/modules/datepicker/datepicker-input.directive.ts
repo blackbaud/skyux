@@ -531,10 +531,7 @@ export class SkyDatepickerInputDirective
       return true;
     }
 
-    // If not, does it conform to the standard ISO format?
-    const isValidIso = moment(value, moment.ISO_8601).isValid();
-
-    return isValidIso;
+    return moment(value).isValid();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
