@@ -188,22 +188,79 @@ describe('Radio component', function () {
       expect(radios.item(2).id).toEqual('sky-radio-MOCK_ID_3-input');
     }));
 
-    it('should pass a label when specified', fakeAsync(function () {
+    it('should pass a label when specified and warn of its deprecation', fakeAsync(function () {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
       componentInstance.label1 = 'My label';
       fixture.detectChanges();
       tick();
 
       const radios = fixture.nativeElement.querySelectorAll('input');
       expect(radios.item(0).getAttribute('aria-label')).toBe('My label');
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyRadioComponent.label',
+        Object({ deprecationMajorVersion: 9 }),
+      );
     }));
 
-    it('should pass a labelled by id properly when specified', fakeAsync(function () {
+    it('should pass a labelled by id properly when specified and warn of its deprecation', fakeAsync(function () {
+      const logService = TestBed.inject(SkyLogService);
+      const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
+
       componentInstance.labelledBy3 = 'label-id';
       fixture.detectChanges();
       tick();
 
       const radios = fixture.nativeElement.querySelectorAll('input');
       expect(radios.item(2).getAttribute('aria-labelledby')).toBe('label-id');
+
+      expect(deprecatedLogSpy).toHaveBeenCalledWith(
+        'SkyRadioComponent.labelledBy',
+        Object({ deprecationMajorVersion: 9 }),
+      );
+    }));
+
+    it('should render the labelText when provided', fakeAsync(function () {
+      const label1 = 'Label 1';
+      const label2 = 'Label 2';
+      const label3 = 'Label 3';
+      componentInstance.label1 = 'Other label';
+      componentInstance.labelledBy3 = '#some-element';
+      componentInstance.labelText1 = label1;
+      componentInstance.labelText2 = label2;
+      componentInstance.labelText3 = label3;
+      fixture.detectChanges();
+      tick();
+
+      const radioLabels = fixture.nativeElement.querySelectorAll(
+        '.sky-radio-wrapper sky-radio-label-text-label',
+      );
+      expect(radioLabels.item(0).textContent?.trim()).toBe(label1);
+      expect(radioLabels.item(1).textContent?.trim()).toBe(label2);
+      expect(radioLabels.item(2).textContent?.trim()).toBe(label3);
+    }));
+
+    it('should use labelText as an accessible label over label and labelledBy', fakeAsync(function () {
+      const label1 = 'Label 1';
+      const label2 = 'Label 2';
+      const label3 = 'Label 3';
+      componentInstance.label1 = 'Other label';
+      componentInstance.labelledBy3 = '#some-element';
+      componentInstance.labelText1 = label1;
+      componentInstance.labelText2 = label2;
+      componentInstance.labelText3 = label3;
+      fixture.detectChanges();
+      tick();
+
+      const radios = fixture.nativeElement.querySelectorAll('input');
+      expect(radios.item(0).getAttribute('aria-label')).toBe(label1);
+      expect(radios.item(1).getAttribute('aria-label')).toBe(label2);
+      expect(radios.item(2).getAttribute('aria-label')).toBe(label3);
+      expect(radios.item(0).getAttribute('aria-labelledby')).toBeNull();
+      expect(radios.item(1).getAttribute('aria-labelledby')).toBeNull();
+      expect(radios.item(2).getAttribute('aria-labelledby')).toBeNull();
     }));
 
     it('should use 0 when a tabindex is not specified', fakeAsync(function () {
