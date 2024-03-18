@@ -48,7 +48,17 @@ export class TextEditorComponent implements OnInit {
     return this.myForm.get('textEditor');
   }
 
-  public toolbarActions: SkyTextEditorToolbarActionType[] = [];
+  public toolbarActions: SkyTextEditorToolbarActionType[] = [
+    'font-family',
+    'font-size',
+    'font-style',
+    'color',
+    'list',
+    'alignment',
+    'indentation',
+    'undo-redo',
+    'link',
+  ];
 
   public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = ['new'];
 
