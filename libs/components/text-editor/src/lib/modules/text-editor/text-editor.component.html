@@ -1,4 +1,14 @@
-<div class="sky-text-editor">
+<div
+  class="sky-text-editor"
+  [attr.aria-label]="labelText"
+  [ngClass]="{
+    'sky-text-editor-disabled': disabled,
+    'sky-text-editor-wrapper-focused': editorFocused
+  }"
+>
+  <div class="sky-text-editor-label-wrapper">
+    <label *ngIf="labelText" class="sky-control-label">{{ labelText }}</label>
+  </div>
   <sky-toolbar
     *ngIf="
       (menus && menus.length) > 0 ||

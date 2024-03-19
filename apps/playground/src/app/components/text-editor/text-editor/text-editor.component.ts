@@ -21,6 +21,8 @@ import {
 export class TextEditorComponent implements OnInit {
   public displayValue: SafeHtml;
 
+  public labelText = 'Playground text editor';
+
   public menus: SkyTextEditorMenuType[] = ['edit', 'format', 'merge-field'];
 
   public mergeFields = [

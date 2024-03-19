@@ -3,7 +3,8 @@ import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 describe('text-editor-storybook', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      ['basic', 'disabled', 'inline-help'].forEach((mode) => {
+      // TODO: Add inline help tests back when inline help functionality is added to label.
+      ['basic', 'disabled'].forEach((mode) => {
         describe(`the ${mode} text editor component`, () => {
           beforeEach(() =>
             cy.visit(

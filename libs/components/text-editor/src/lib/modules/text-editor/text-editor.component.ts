@@ -176,6 +176,13 @@ export class SkyTextEditorComponent
   }
 
   /**
+   * The text to display as the text editor's label.
+   * @preview
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
    * The menus to include in the menu bar.
    * @default [ 'edit', 'format' ]
    */
@@ -288,15 +295,9 @@ export class SkyTextEditorComponent
         });
       }
 
-      // Autofocus isn't testable in Firefox and IE.
-      // Don't set focus on the editor now if the iframe isn't initialized.
       // #initIframe() will do another check later to see if the editor should
-      // receive focus.
-      /* istanbul ignore next */
-      if (this.autofocus && this.#initialized && !this.#focusInitialized) {
-        this.#adapterService.focusEditor();
-        this.#focusInitialized = true;
-      }
+      // receive focus if not initialized before this is called.
+      this.#checkAutofocusAndFocus();
     }
   }
 
@@ -316,6 +317,8 @@ export class SkyTextEditorComponent
   public formControlClass = !!inject(SkyInputBoxHostService, {
     optional: true,
   });
+
+  protected editorFocused = false;
 
   #defaultId: string;
   #id: string;
@@ -402,6 +405,16 @@ export class SkyTextEditorComponent
     this.disabled = isDisabled;
   }
 
+  #checkAutofocusAndFocus(): void {
+    // Don't set focus on the editor if the iframe isn't initialized.
+    // Autofocus isn't testable in Firefox and IE.
+    /* istanbul ignore next */
+    if (this.autofocus && this.#initialized && !this.#focusInitialized) {
+      this.#adapterService.focusEditor();
+      this.#focusInitialized = true;
+    }
+  }
+
   #updateStyle(): void {
     this.#_initialStyleState = {
       ...this.#_initialStyleState,
@@ -451,6 +464,8 @@ export class SkyTextEditorComponent
         // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
         this.#zone.run(() => {
           this.#_onTouched();
+          this.editorFocused = false;
+          this.#changeDetector.markForCheck();
         });
       });
 
@@ -462,6 +477,18 @@ export class SkyTextEditorComponent
         this.#viewToModelUpdate();
       });
 
+    this.#editorService
+      .focusListener()
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        // Angular doesn't run change detection for changes originating inside an iframe,
+        // so we have to run markForCheck() inside the NgZone to force change propagation to consuming components.
+        this.#zone.run(() => {
+          this.editorFocused = true;
+          this.#changeDetector.markForCheck();
+        });
+      });
+
     this.#adapterService.setEditorInnerHtml(this.#_value);
 
     /* istanbul ignore next */
@@ -470,6 +497,9 @@ export class SkyTextEditorComponent
     }
 
     this.#initialized = true;
+    this.#focusInitialized = false;
+
+    this.#checkAutofocusAndFocus();
   }
 
   #viewToModelUpdate(emitChange = true): void {

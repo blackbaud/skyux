@@ -1,6 +1,19 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-text-editor {
+  &.sky-text-editor-disabled {
+    .sky-toolbar *,
+    .sky-text-editor-wrapper * {
+      color: var(--sky-text-color-deemphasized) !important;
+    }
+  }
+
+  .sky-text-editor-label-wrapper {
+    display: flex;
+    width: 100%;
+  }
+
   .sky-text-editor-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -9,11 +22,12 @@
     height: 300px;
     padding: 1rem;
     font-size: 1.2rem;
-    border: 1px solid #c0c0c0;
+    border: 1px solid $sky-border-color-neutral-medium;
+    border-top: none;
     overflow-y: auto;
     outline: none;
     &.sky-text-editor-wrapper-disabled {
-      background-color: #ededee;
+      background-color: var(--sky-background-color-disabled);
     }
   }
 
@@ -23,9 +37,8 @@
     }
 
     .sky-toolbar-sectioned {
-      // !important is needed to override specificity from modern stylesheet in theme.
-      border-left: 1px solid $sky-border-color-neutral-medium !important;
-      border-right: 1px solid $sky-border-color-neutral-medium !important;
+      border-left: 1px solid $sky-border-color-neutral-medium;
+      border-right: 1px solid $sky-border-color-neutral-medium;
     }
 
     .sky-toolbar-item {
@@ -46,11 +59,50 @@
 
 .sky-theme-modern {
   .sky-text-editor {
-    .sky-text-editor-wrapper {
-      border: 1px solid $sky-theme-modern-border-color-neutral-medium;
-      &.sky-text-editor-wrapper-disabled {
-        background-color: #ececed;
+    @include mixins.sky-theme-modern-border;
+    border-radius: $sky-theme-modern-box-border-radius-default;
+
+    &.sky-text-editor-disabled {
+      background-color: var(--sky-background-color-disabled);
+      cursor: not-allowed;
+    }
+
+    .sky-text-editor-label-wrapper:not(:empty) {
+      display: flex;
+      padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm 0
+        $sky-theme-modern-space-sm;
+      width: 100%;
+      color: $sky-theme-modern-font-data-label-color;
+      transition: $sky-form-border-and-color-transitions;
+
+      label {
+        font-size: 13px;
+        margin-bottom: 0;
       }
+    }
+
+    &.sky-text-editor-wrapper-focused {
+      .sky-text-editor-label-wrapper {
+        color: $sky-theme-modern-background-color-primary-dark;
+      }
+
+      .sky-text-editor-wrapper {
+        @include mixins.sky-theme-modern-border-focus;
+      }
+    }
+
+    &:not(.sky-text-editor-wrapper-focused) {
+      .sky-text-editor-wrapper:hover {
+        @include mixins.sky-theme-modern-border-hover;
+      }
+    }
+
+    .sky-text-editor-wrapper {
+      transition: $sky-form-border-and-color-transitions;
+      @include mixins.sky-theme-modern-border;
+      border-bottom-left-radius: $sky-theme-modern-box-border-radius-default;
+      border-bottom-right-radius: $sky-theme-modern-box-border-radius-default;
+      border: none;
     }
 
     .sky-text-editor-toolbar {
@@ -59,14 +111,18 @@
       }
 
       .sky-toolbar-section {
-        padding: 10px !important;
+        padding: $sky-theme-modern-space-sm !important;
+        border-top: none !important;
+      }
+
+      sky-toolbar-section:not(:last-of-type) .sky-toolbar-section {
+        padding-bottom: 0 !important;
       }
 
       .sky-toolbar-sectioned {
-        // !important is needed to override specificity from modern stylesheet in theme.
-        border-top: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
-        border-left: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
-        border-right: 1px solid $sky-theme-modern-border-color-neutral-medium !important;
+        // !important is needed to override `!important` from the default rule.
+        border-left: none !important;
+        border-right: none !important;
       }
 
       .sky-toolbar-item {
