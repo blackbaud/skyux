@@ -278,10 +278,6 @@ sky-ag-grid-wrapper + sky-infinite-scroll {
 
 .ag-header .ag-header-cell .ag-header-cell-label-sortable {
   color: var(--sky-text-color-default);
-
-  &:hover {
-    color: var(--sky-text-color-deemphasized);
-  }
 }
 
 .ag-theme-sky-data-grid-default,
