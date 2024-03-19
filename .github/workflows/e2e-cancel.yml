@@ -12,7 +12,7 @@ jobs:
       - name: Pause
         run: sleep 10
       - name: Cancel
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const { data: runs } = await github.request('GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs', {
