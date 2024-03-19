@@ -2,6 +2,10 @@
 .ag-theme-sky-data-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-entry-grid-modern-dark {
+  .ag-header .ag-header-cell .ag-header-cell-label-sortable {
+    color: var(--sky-text-color-default);
+  }
+
   .ag-header-cell.sky-ag-grid-header-resizable:not(
       .ag-column-resizing,
       :has(> .ag-header-cell-resize:hover)

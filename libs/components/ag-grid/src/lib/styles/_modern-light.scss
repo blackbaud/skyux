@@ -8,11 +8,6 @@
     background-color: transparent;
   }
 
-  .ag-header-cell,
-  .ag-dnd-ghost-label {
-    text-transform: uppercase;
-  }
-
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
     align-items: flex-start;
   }
@@ -51,10 +46,6 @@
 
 .ag-theme-sky-data-entry-grid-modern-light {
   border-top: sky-ag-grid-variables.$sky-standard-border;
-
-  .ag-header .ag-header-cell .ag-header-cell-text {
-    font-weight: 700;
-  }
 
   .ag-popup {
     .ag-popup-editor {

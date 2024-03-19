@@ -1,6 +1,9 @@
-<span class="header-group-text" role="presentation">{{
-  params?.displayName
-}}</span>
+<span
+  class="header-group-text"
+  role="presentation"
+  [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
+  >{{ params?.displayName }}</span
+>
 <button
   *ngIf="isExpanded$ | async; else openIcons"
   class="sky-btn sky-btn-icon-borderless"
