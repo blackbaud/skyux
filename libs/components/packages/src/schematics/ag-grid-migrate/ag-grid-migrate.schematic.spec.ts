@@ -2,6 +2,10 @@ import { logging } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
 
+import fs from 'fs-extra';
+import { joinPathFragments } from 'nx/src/utils/path';
+import { workspaceRoot } from 'nx/src/utils/workspace-root';
+
 import { Schema } from './schema';
 
 interface TestSetup {
@@ -14,6 +18,10 @@ interface TestSetup {
   context: SchematicContext;
   schematic: (options: Schema) => Rule;
 }
+
+const UPDATE_TO_VERSION = fs.readJsonSync(
+  joinPathFragments(workspaceRoot, 'package.json'),
+).dependencies['ag-grid-community'];
 
 describe('ag-grid-migrate.schematic', () => {
   async function setupTest(): Promise<TestSetup> {
@@ -90,7 +98,7 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).toHaveBeenCalled();
     expect(childProcess.spawnSync).toHaveBeenCalledWith(
       'npm.cmd',
-      ['install', '--no-save', '@ag-grid-community/cli@31.1.0'],
+      ['install', '--no-save', `@ag-grid-community/cli@${UPDATE_TO_VERSION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
@@ -122,7 +130,7 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).toHaveBeenCalled();
     expect(childProcess.spawnSync).toHaveBeenCalledWith(
       'npm',
-      ['install', '--no-save', '@ag-grid-community/cli@31.1.0'],
+      ['install', '--no-save', `@ag-grid-community/cli@${UPDATE_TO_VERSION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,

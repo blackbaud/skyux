@@ -9,13 +9,13 @@ import {
   ColDef,
   EditableCallbackParams,
   GridOptions,
+  HeaderClassParams,
   ICellRendererParams,
   RowClassParams,
   SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { HeaderClassParams } from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
