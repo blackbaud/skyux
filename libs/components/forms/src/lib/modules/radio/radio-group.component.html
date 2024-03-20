@@ -1,10 +1,7 @@
-<label *ngIf="labelText && !labelHidden" class="sky-control-label">
-  {{ labelText }}
-</label>
-<div
+<fieldset
   class="sky-radio-group"
   role="radiogroup"
-  [attr.aria-label]="labelText || ariaLabel"
+  [attr.aria-label]="labelText ? undefined : ariaLabel"
   [attr.aria-labelledby]="labelText ? undefined : ariaLabelledBy"
   [attr.aria-owns]="ariaOwns"
   [attr.aria-required]="required ? true : null"
@@ -14,8 +11,15 @@
     labelText && ngControl?.errors ? errorId : undefined
   "
 >
+  <legend
+    *ngIf="labelText"
+    class="sky-control-label"
+    [ngClass]="{ 'sky-screen-reader-only': labelHidden }"
+  >
+    {{ labelText }}
+  </legend>
   <ng-content />
-</div>
+</fieldset>
 <sky-form-errors
   *ngIf="labelText && ngControl?.errors"
   [id]="errorId"

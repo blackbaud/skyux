@@ -38,7 +38,7 @@
       ariaLabelledBy="favorite-id"
       formControlName="favoriteSeason"
       [required]="required"
-      labelText="What is your favorite season?"
+      labelText="What is your favorite season? (reactive)"
     >
       <ul class="sky-list-unstyled">
         <li *ngFor="let value of seasons">
@@ -93,7 +93,8 @@
     [disabled]="disabled"
     [required]="required"
     [(ngModel)]="radioValue"
-    labelText="What is your favorite season?"
+    labelText="What is your favorite season? (template)"
+    [labelHidden]="true"
     #foo="ngModel"
   >
     <ul class="sky-list-unstyled">

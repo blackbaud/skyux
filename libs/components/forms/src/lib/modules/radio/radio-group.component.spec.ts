@@ -606,7 +606,7 @@ describe('Radio group component (reactive)', function () {
     expect(labelEl.textContent.trim()).toBe(labelText);
   });
 
-  it('should not display `labelText` if `labelHidden` is true', () => {
+  it('should not display `labelText` if `labelHidden` is true', async () => {
     const labelText = 'Label Text';
     componentInstance.labelText = labelText;
     componentInstance.labelHidden = true;
@@ -615,7 +615,8 @@ describe('Radio group component (reactive)', function () {
 
     const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
 
-    expect(labelEl).toBeNull();
+    expect(labelEl).not.toBeNull();
+    expect(labelEl).toHaveCssClass('sky-screen-reader-only');
   });
 
   it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
@@ -625,10 +626,12 @@ describe('Radio group component (reactive)', function () {
 
     fixture.detectChanges();
 
+    const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
     const radioGroup = fixture.nativeElement.querySelector('.sky-radio-group');
 
+    expect(labelEl).not.toBeNull();
     expect(radioGroup.getAttribute('aria-labelledBy')).toBeNull();
-    expect(radioGroup.getAttribute('aria-label')).toEqual(labelText);
+    expect(radioGroup.getAttribute('aria-label')).toBeNull();
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
