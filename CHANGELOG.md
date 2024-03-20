@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.5...10.0.0-alpha.6) (2024-03-20)
+
+
+### Features
+
+* **components/ag-grid:** update header styles in modern to match `h4` ([#2133](https://github.com/blackbaud/skyux/issues/2133)) ([3b98638](https://github.com/blackbaud/skyux/commit/3b986382eaf93fb5682e31ae8e405e0ef607764b))
+* **components/text-editor:** add `labelText` input to text editor component ([#2139](https://github.com/blackbaud/skyux/issues/2139)) ([638f537](https://github.com/blackbaud/skyux/commit/638f5375ec7e942a9853de607a32020ab5300c9d))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** make row selector keyboard accessible ([#2134](https://github.com/blackbaud/skyux/issues/2134)) ([0881ce9](https://github.com/blackbaud/skyux/commit/0881ce9aca465c1a4b73be7d14531deabc155b4a))
+
 ## [10.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.4...10.0.0-alpha.5) (2024-03-15)
 
 
