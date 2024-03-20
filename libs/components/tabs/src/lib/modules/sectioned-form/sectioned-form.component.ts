@@ -15,7 +15,7 @@ import {
 import { SkyLogService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
@@ -125,7 +125,7 @@ export class SkySectionedFormComponent
     this.tabService.maintainTabContent = this.maintainSectionContent;
 
     this.tabService.indexChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((index) => {
         this.indexChanged.emit(index);
         this.#changeRef.markForCheck();
