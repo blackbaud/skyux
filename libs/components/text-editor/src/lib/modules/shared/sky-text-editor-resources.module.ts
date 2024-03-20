@@ -64,6 +64,10 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_text_editor_menubar_dropdown_button_insert_label: {
       message: 'Insert merge field',
     },
+    skyux_text_editor_paste_incompatibility_error: {
+      message:
+        'Direct clipboard access is not supported by this browser. Use the Ctrl+X/C/V keyboard shortcuts instead.',
+    },
     skyux_text_editor_url_modal_header_label: { message: 'Create link' },
     skyux_text_editor_url_modal_url_label: {
       message: 'Enter a URL to link to:',
