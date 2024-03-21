@@ -461,6 +461,25 @@ describe('Date range picker', function () {
     });
   }));
 
+  it('should update validation errors from selected calculator', fakeAsync(function () {
+    detectChanges();
+    selectCalculator(SkyDateRangeCalculatorId.Before);
+    detectChanges();
+    enterStartDate('bogus value');
+    detectChanges();
+
+    const control = component.dateRange;
+
+    expect(control?.errors).toEqual({
+      skyDate: { invalid: true },
+    });
+
+    selectCalculator(SkyDateRangeCalculatorId.Today);
+    detectChanges();
+
+    expect(control?.errors).toBeFalsy();
+  }));
+
   it('should catch validation errors from date picker', fakeAsync(function () {
     detectChanges();
 
