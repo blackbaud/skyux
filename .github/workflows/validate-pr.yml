@@ -58,7 +58,6 @@ jobs:
             components/flyout
             components/forms
             components/grids
-            components/http
             components/i18n
             components/indicators
             components/inline-form
