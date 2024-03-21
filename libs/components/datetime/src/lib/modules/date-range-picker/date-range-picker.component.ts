@@ -525,7 +525,7 @@ export class SkyDateRangePickerComponent
   #addEventListeners(): void {
     // Watch for selected calculator change.
     this.#calculatorIdControl?.valueChanges
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
         if (value !== this.#valueOrDefault?.calculatorId) {
           const id = parseInt(value, 10);
@@ -542,6 +542,7 @@ export class SkyDateRangePickerComponent
             this.#showRelevantFormFields();
           }
         }
+        this.#control?.updateValueAndValidity({ emitEvent: false });
       });
 
     // Watch for start date value changes.
