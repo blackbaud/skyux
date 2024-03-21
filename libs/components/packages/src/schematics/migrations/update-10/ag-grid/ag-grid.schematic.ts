@@ -19,7 +19,7 @@ const AG_GRID_ENT = 'ag-grid-enterprise';
 const AG_GRID_NG = 'ag-grid-angular';
 const AG_GRID_SKY = '@skyux/ag-grid';
 
-const AG_GRID_VERSION = '^30.0.0';
+const AG_GRID_VERSION = '~31.2.0';
 
 /**
  * Check package.json for AG Grid dependencies.
@@ -98,6 +98,19 @@ function renameCharPress(updatedContent: string): string {
 }
 
 /**
+ * Switch RowDataChangedEvent to RowDataUpdatedEvent.
+ */
+function renameEvents(updatedContent: string): string {
+  if (updatedContent.includes('RowDataChangedEvent')) {
+    updatedContent = updatedContent.replace(
+      /\bRowDataChangedEvent\b/g,
+      'RowDataUpdatedEvent',
+    );
+  }
+  return updatedContent;
+}
+
+/**
  * Switch cellRendererFramework to cellRenderer.
  */
 function renameCellRendererFramework(updatedContent: string): string {
@@ -167,6 +180,7 @@ async function updateSourceFiles(
       updatedContent = renameCellRendererFramework(updatedContent);
       updatedContent = renameCharPress(updatedContent);
       updatedContent = renameColumnApiFunctionsInCode(updatedContent);
+      updatedContent = renameEvents(updatedContent);
       updatedContent = renameGridOptionsInCode(updatedContent);
 
       if (updatedContent !== content) {

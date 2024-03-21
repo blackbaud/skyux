@@ -1,7 +1,11 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
-const UPDATE_TO_VERSION = '30.0.0';
+import fs from 'fs-extra';
+import { joinPathFragments } from 'nx/src/utils/path';
+import { workspaceRoot } from 'nx/src/utils/workspace-root';
+
+const UPDATE_TO_VERSION = '31.2.0';
 
 describe('ag-grid.schematic', () => {
   const runner = new SchematicTestRunner(
@@ -27,6 +31,15 @@ describe('ag-grid.schematic', () => {
     tree.create('/package.json', JSON.stringify(packageJson));
     return { tree };
   }
+
+  it('should test the current version', () => {
+    const packageJson = fs.readJSONSync(
+      joinPathFragments(workspaceRoot, 'package.json'),
+    );
+    expect(packageJson.dependencies['ag-grid-community']).toBe(
+      UPDATE_TO_VERSION,
+    );
+  });
 
   it('should work', async () => {
     expect.assertions(1);
@@ -57,7 +70,7 @@ describe('ag-grid.schematic', () => {
     await runner.runSchematic('ag-grid', {}, tree);
     expect(JSON.parse(tree.readText('/package.json'))).toEqual({
       dependencies: {
-        'ag-grid-community': `^${UPDATE_TO_VERSION}`,
+        'ag-grid-community': `~${UPDATE_TO_VERSION}`,
         'ag-grid-angular': UPDATE_TO_VERSION,
       },
     });
@@ -255,6 +268,32 @@ describe('ag-grid.schematic', () => {
             if (params.charPress === 'Enter') {
               // do something
             }
+          }
+        }`,
+    );
+    await runner.runSchematic('ag-grid', {}, tree);
+    expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
+  });
+
+  it('should update RowDataChangedEvent', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/editor.component.ts',
+      `
+        import { RowDataChangedEvent, ICellEditorAngularComp } from 'ag-grid-community';
+
+        export class EditorComponent implements ICellEditorAngularComp {
+          public agInit(params: ICellEditorParams) {
+            params.api.addEventListener('rowDataChanged', (event: RowDataChangedEvent) => {
+              // do something
+            });
           }
         }`,
     );
