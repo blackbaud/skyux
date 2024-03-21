@@ -1,5 +1,24 @@
 # Changelog
 
+## [10.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.6...10.0.0-alpha.7) (2024-03-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* The @skyux/http library was only used by internal Blackbaud developers and has been removed from the public repo.
+
+### Features
+
+* **components/ag-grid:** support AG Grid 31.2.0 ([#2150](https://github.com/blackbaud/skyux/issues/2150)) ([a0112f5](https://github.com/blackbaud/skyux/commit/a0112f5f24e047cdab156262f77bae7d155edcfe))
+* remove `@skyux/http` ([#2154](https://github.com/blackbaud/skyux/issues/2154)) ([d0d7d4c](https://github.com/blackbaud/skyux/commit/d0d7d4c72e47923310fe98856b1dc01477e36e98))
+
+
+### Bug Fixes
+
+* **components/datetime:** update date-range-picker status when calculator changes ([#2153](https://github.com/blackbaud/skyux/issues/2153)) ([#2156](https://github.com/blackbaud/skyux/issues/2156)) ([05264c0](https://github.com/blackbaud/skyux/commit/05264c09a5f53948d10e66f356ff2728eb65d67b))
+* **components/forms:** radio group uses a fieldset for accessibility grouping ([#2142](https://github.com/blackbaud/skyux/issues/2142)) ([#2145](https://github.com/blackbaud/skyux/issues/2145)) ([3752fe9](https://github.com/blackbaud/skyux/commit/3752fe9e64c744f32723f7a4d818402a511f0740))
+* **components/tabs:** suppress indistinct values from sectioned form `indexChange` event ([#2147](https://github.com/blackbaud/skyux/issues/2147)) ([#2148](https://github.com/blackbaud/skyux/issues/2148)) ([7b2736c](https://github.com/blackbaud/skyux/commit/7b2736c9aca07f2dc16cf694f6e32716c0cb4f8a))
+
 ## [9.30.3](https://github.com/blackbaud/skyux/compare/9.30.2...9.30.3) (2024-03-20)
 
 
