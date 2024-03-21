@@ -16,12 +16,14 @@ export { SkyModalError } from './lib/modules/modal/modal-error';
 export { SkyModalErrorsService } from './lib/modules/modal/modal-errors.service';
 export { SkyModalHostService } from './lib/modules/modal/modal-host.service';
 export { SkyModalInstance } from './lib/modules/modal/modal-instance';
+export { SkyModalServiceInterface } from './lib/modules/modal/modal-service-interface';
 export { SkyModalConfigurationInterface } from './lib/modules/modal/modal.interface';
 export { SkyModalModule } from './lib/modules/modal/modal.module';
 export {
   SkyModalLegacyService,
   SkyModalService,
 } from './lib/modules/modal/modal.service';
+export { applyDefaultOptions } from './lib/modules/modal/apply-default-options';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

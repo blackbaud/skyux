@@ -78,8 +78,8 @@ export class SkyModalInstance {
    * @param reason Specifies the reason for the modal closing, with the default reason of `"close"`.
    * @param ignoreBeforeClose Indicates whether to ignore the modal instance's `beforeClose` event.
    */
-  public close(
-    result?: any,
+  public close<T = any>(
+    result?: T,
     reason?: string,
     ignoreBeforeClose?: boolean,
   ): void {
@@ -96,7 +96,7 @@ export class SkyModalInstance {
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this cancel function can be called from a button in the `sky-modal-footer`.
    */
-  public cancel(result?: any): void {
+  public cancel<T = any>(result?: T): void {
     this.#closeModal('cancel', result);
   }
 
@@ -106,7 +106,7 @@ export class SkyModalInstance {
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this `save` function can be called from a button in `the sky-modal-footer`.
    */
-  public save(result?: any): void {
+  public save<T = any>(result?: T): void {
     this.#closeModal('save', result);
   }
 
@@ -130,7 +130,11 @@ export class SkyModalInstance {
     this.#_helpOpened.next(helpKey);
   }
 
-  #closeModal(type: string, result?: any, ignoreBeforeClose = false): void {
+  #closeModal<T = any>(
+    type: string,
+    result?: T,
+    ignoreBeforeClose = false,
+  ): void {
     const args = new SkyModalCloseArgs();
 
     args.reason = type;
