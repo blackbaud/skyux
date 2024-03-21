@@ -424,7 +424,7 @@ jobs:
                   listCommitStatusesForRef: github.rest.repos.listCommitStatusesForRef,
                   listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
                 },
-                ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
+                ${{ github.event_name == 'push' || contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
                 (url) => fetch(url, options),
                 (number) => process.exit(number)
               );
