@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.30.3](https://github.com/blackbaud/skyux/compare/9.30.2...9.30.3) (2024-03-20)
+
+
+### Bug Fixes
+
+* **components/forms:** radio group uses a fieldset for accessibility grouping ([#2142](https://github.com/blackbaud/skyux/issues/2142)) ([09ec652](https://github.com/blackbaud/skyux/commit/09ec6524d22dba76b63f944f8da1e4bc1c44ad8c))
+* **components/tabs:** suppress indistinct values from sectioned form `indexChange` event ([#2147](https://github.com/blackbaud/skyux/issues/2147)) ([a2db930](https://github.com/blackbaud/skyux/commit/a2db93092298675eae09e947ab73a3e15d1d06ea))
+
 ## [10.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.5...10.0.0-alpha.6) (2024-03-20)
 
 
