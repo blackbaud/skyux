@@ -19,9 +19,7 @@ interface TestSetup {
   schematic: (options: Schema) => Rule;
 }
 
-const UPDATE_TO_VERSION = fs.readJsonSync(
-  joinPathFragments(workspaceRoot, 'package.json'),
-).dependencies['ag-grid-community'];
+const UPDATE_TO_VERSION = '31.2.0';
 
 describe('ag-grid-migrate.schematic', () => {
   async function setupTest(): Promise<TestSetup> {
@@ -48,6 +46,15 @@ describe('ag-grid-migrate.schematic', () => {
   afterEach(() => {
     jest.clearAllMocks();
     jest.resetModules();
+  });
+
+  it('should test the current version', () => {
+    const packageJson = fs.readJSONSync(
+      joinPathFragments(workspaceRoot, 'package.json'),
+    );
+    expect(packageJson.dependencies['ag-grid-community']).toBe(
+      UPDATE_TO_VERSION,
+    );
   });
 
   it('should run successfully', async () => {

@@ -5,9 +5,7 @@ import fs from 'fs-extra';
 import { joinPathFragments } from 'nx/src/utils/path';
 import { workspaceRoot } from 'nx/src/utils/workspace-root';
 
-const UPDATE_TO_VERSION = fs.readJsonSync(
-  joinPathFragments(workspaceRoot, 'package.json'),
-).dependencies['ag-grid-community'];
+const UPDATE_TO_VERSION = '31.2.0';
 
 describe('ag-grid.schematic', () => {
   const runner = new SchematicTestRunner(
@@ -33,6 +31,15 @@ describe('ag-grid.schematic', () => {
     tree.create('/package.json', JSON.stringify(packageJson));
     return { tree };
   }
+
+  it('should test the current version', () => {
+    const packageJson = fs.readJSONSync(
+      joinPathFragments(workspaceRoot, 'package.json'),
+    );
+    expect(packageJson.dependencies['ag-grid-community']).toBe(
+      UPDATE_TO_VERSION,
+    );
+  });
 
   it('should work', async () => {
     expect.assertions(1);
@@ -63,7 +70,7 @@ describe('ag-grid.schematic', () => {
     await runner.runSchematic('ag-grid', {}, tree);
     expect(JSON.parse(tree.readText('/package.json'))).toEqual({
       dependencies: {
-        'ag-grid-community': `^${UPDATE_TO_VERSION}`,
+        'ag-grid-community': `~${UPDATE_TO_VERSION}`,
         'ag-grid-angular': UPDATE_TO_VERSION,
       },
     });
