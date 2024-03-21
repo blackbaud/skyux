@@ -1576,13 +1576,36 @@ describe('Text editor', () => {
       }));
 
       it('should execute paste', fakeAsync(() => {
+        spyOn(navigator.clipboard, 'readText').and.returnValue(
+          Promise.resolve('test content'),
+        );
         fixture.detectChanges();
-        const expectedCommand = 'paste';
+        const expectedCommand = 'insertHTML';
         const optionNumber = 4;
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
           expectedCommand,
+          'test content',
+        );
+      }));
+
+      it('should fire a browser alert if pasting is not supported (Firefox)', fakeAsync(() => {
+        spyOnProperty(navigator, 'clipboard').and.returnValue({} as Clipboard);
+        spyOn(window, 'alert').and.stub();
+        fixture.detectChanges();
+        const optionNumber = 4;
+        openDropdown('.sky-text-editor-menu-edit');
+
+        const optionButtons = document.querySelectorAll(
+          '.sky-dropdown-item button',
+        );
+        SkyAppTestUtility.fireDomEvent(optionButtons[optionNumber], 'click');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(window.alert).toHaveBeenCalledWith(
+          'Direct clipboard access is not supported by this browser. Use the Ctrl+X/C/V keyboard shortcuts instead.',
         );
       }));
 
