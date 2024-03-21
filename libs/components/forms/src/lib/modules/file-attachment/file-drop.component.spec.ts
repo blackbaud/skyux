@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 
+import { _ } from 'ag-grid-community';
+
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
 import { SkyFileItem } from './file-item';
@@ -44,6 +46,10 @@ describe('File drop component', () => {
   //#region helper functions
   function getInputDebugEl(): DebugElement {
     return fixture.debugElement.query(By.css('input.sky-file-input-hidden'));
+  }
+
+  function getLabelEl(): HTMLElement | null {
+    return el.querySelector('legend.sky-control-label');
   }
 
   function getDropEl(): HTMLElement | null {
@@ -295,6 +301,33 @@ describe('File drop component', () => {
 
     const inputEl = getInputDebugEl();
     expect(inputEl.references['fileInput']).toBeTruthy();
+  });
+
+  it('should render the labelText when provided', () => {
+    fixture.detectChanges();
+    let labelEl = getLabelEl();
+    expect(labelEl).toBeNull();
+
+    const labelText = 'Label text';
+    componentInstance.labelText = labelText;
+    fixture.detectChanges();
+
+    labelEl = getLabelEl();
+
+    expect(labelEl).not.toBeNull();
+    expect(labelEl?.innerText.trim()).toBe(labelText);
+  });
+
+  it('should not display labelText if labelHidden is true', () => {
+    const labelText = 'Label text';
+    componentInstance.labelText = labelText;
+    componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    const labelEl = getLabelEl();
+
+    expect(labelEl).not.toBeNull();
+    expect(labelEl).toHaveCssClass('sky-screen-reader-only');
   });
 
   it('should click the file input on file drop click', () => {
