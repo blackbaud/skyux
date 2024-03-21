@@ -31,7 +31,7 @@ describe('update dependencies generator', () => {
       importOrderSortSpecifiers: true,
       importOrderParserPlugins: ['typescript', 'decorators-legacy'],
     });
-    appTree.write('.prettierignore', 'jest.preset.js');
+    appTree.write('.prettierignore', `.prettierrc\njest.preset.js\n`);
   });
 
   it('should run successfully', async () => {
@@ -91,6 +91,44 @@ describe('update dependencies generator', () => {
       '@angular/common': `^${ANGULAR_VERSION}`,
       '@angular/core': `^${ANGULAR_VERSION}`,
       '@proj/two': '^2.0.0',
+    });
+  });
+
+  it('should update ng-update package group', async () => {
+    appTree.write(
+      'package.json',
+      JSON.stringify({
+        dependencies: {
+          '@proj/one': '1.1.0',
+        },
+        devDependencies: {
+          '@proj/two': '2.2.0',
+        },
+      }),
+    );
+    appTree.write(
+      'libs/components/packages/package.json',
+      JSON.stringify({
+        'ng-update': {
+          packageGroup: {
+            '@proj/one': '1.0.0',
+            '@proj/two': '^2.0.0',
+          },
+        },
+      }),
+    );
+    await generator(appTree);
+    const projectPackageJson = readJson(
+      appTree,
+      `libs/components/packages/package.json`,
+    );
+    expect(projectPackageJson).toEqual({
+      'ng-update': {
+        packageGroup: {
+          '@proj/one': '1.1.0',
+          '@proj/two': '^2.2.0',
+        },
+      },
     });
   });
 

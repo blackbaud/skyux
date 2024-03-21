@@ -11,7 +11,6 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ColumnResizedEvent, Events } from 'ag-grid-community';
-import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
@@ -29,7 +28,7 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridCellEditorLookupComponent
-  implements ICellEditorAngularComp, IPopupComponent<unknown>
+  implements ICellEditorAngularComp
 {
   @HostBinding('style.width.px')
   public width: number | undefined;
