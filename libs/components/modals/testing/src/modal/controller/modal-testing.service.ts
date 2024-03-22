@@ -94,48 +94,50 @@ export class SkyModalTestingService
   extends SkyModalTestingController
   implements OnDestroy, SkyModalServiceInterface
 {
-  readonly #modals: TestSubject[] = [];
   readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #modals = new Map<SkyModalInstance, TestSubject>();
 
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   public ngOnDestroy(): void {
-    this.#modals.forEach(() => {
-      this.closeTopmost();
-    });
+    for (const [instance] of this.#modals.entries()) {
+      instance.close();
+    }
   }
 
   public closeTopmost(args?: SkyModalCloseArgs): void {
     const modal = this.#getTopmostModal();
-
     if (!modal) {
-      throw new Error('Expected to close the topmost modal, but none exist.');
+      throw new Error(
+        'Expected to close the topmost modal, but no modals are open.',
+      );
     }
 
     modal.instance.close(args);
-
-    this.#modals.pop();
   }
 
   public count(): number {
-    return this.#modals.length;
+    return this.#modals.size;
   }
 
   public expectNone(): void {
-    if (this.#modals.length > 0) {
-      throw new Error('Modals exist.');
+    const count = this.count();
+    if (count > 0) {
+      throw new Error(
+        `Expected no modals to be open, but there ${count === 1 ? 'is' : 'are'} ${count} open.`,
+      );
     }
   }
 
   public expectTopmostOpen<T>(component: Type<T>): void {
-    const topmostModal = this.#getTopmostModal();
-
-    if (!topmostModal) {
-      throw new Error('A modal was expected to be open but there are none.');
+    const modal = this.#getTopmostModal();
+    if (!modal) {
+      throw new Error(
+        'A modal is expected to be open, but no modals are open.',
+      );
     }
 
-    if (topmostModal.component !== component) {
+    if (modal.component !== component) {
       throw new Error(
-        `Expected the topmost modal to include the component ${component.name}, but it uses ${topmostModal.component.name}.`,
+        `Expected the topmost modal to be of type ${component.name}, but it is of type ${modal.component.name}.`,
       );
     }
   }
@@ -165,18 +167,16 @@ export class SkyModalTestingService
     instance.componentRef = componentRef;
     instance.componentInstance = componentRef.instance;
 
-    const modal: TestSubject = {
-      component,
-      config,
-      instance,
-    };
+    instance.closed.subscribe(() => {
+      this.#modals.delete(instance);
+    });
 
-    this.#modals.push(modal);
+    this.#modals.set(instance, { component, config, instance });
 
     return instance;
   }
 
   #getTopmostModal(): TestSubject | undefined {
-    return this.#modals.at(this.#modals.length - 1);
+    return Array.from(this.#modals.values()).pop();
   }
 }
