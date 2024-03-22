@@ -73,11 +73,19 @@ function renameGridOptionsInCode(updatedContent: string): string {
   if (
     updatedContent.match(/gridOptions/i) &&
     (updatedContent.includes('suppressCellSelection') ||
+      updatedContent.includes('headerComponentFramework') ||
+      updatedContent.includes('componentFramework') ||
+      updatedContent.includes('cellEditorFramework') ||
+      updatedContent.includes('filterFramework') ||
       updatedContent.includes('getRowNodeId') ||
       updatedContent.includes('enterMovesDown'))
   ) {
     updatedContent = updatedContent
       .replace(/\bsuppressCellSelection\b/g, 'suppressCellFocus')
+      .replace(/\bheaderComponentFramework\b/g, 'headerComponent')
+      .replace(/\bcomponentFramework\b/g, 'component')
+      .replace(/\bcellEditorFramework\b/g, 'cellEditor')
+      .replace(/\bfilterFramework\b/g, 'filter')
       .replace(/\bgetRowNodeId\b/g, 'getRowId')
       .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
   }

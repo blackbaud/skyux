@@ -134,7 +134,7 @@ describe('ag-grid.schematic', () => {
     expect(tree.readText('src/app/grid.component.ts')).toMatchSnapshot();
   });
 
-  it('should update suppressCellSelection', async () => {
+  it('should update options', async () => {
     expect.assertions(1);
     const { tree } = setupTest({
       dependencies: {
@@ -148,6 +148,7 @@ describe('ag-grid.schematic', () => {
       `
         import { SkyAgGridService } from '@skyux/ag-grid';
         import { GridOptions } from 'ag-grid-community';
+        import { LocalComponent } from './local.component';
 
         export class AppComponent {
           public options: GridOptions;
@@ -159,6 +160,15 @@ describe('ag-grid.schematic', () => {
             customOptions.suppressCellSelection = true;
             this.options = this.agGridService.getGridOptions({
               ...customOptions,
+              columnDefs: [
+                {
+                  headerName: 'Local',
+                  headerComponentFramework: LocalComponent,
+                  filterFramework: LocalComponent,
+                  componentFramework: LocalComponent,
+                  cellEditorFramework: LocalComponent
+                }
+              ],
               suppressCellSelection: true
             });
           }
@@ -196,7 +206,7 @@ describe('ag-grid.schematic', () => {
             let customOptions: Partial<GridOptions> = {};
             this.options = this.agGridService.getGridOptions({
               ...customOptions,
-              enterMovesDown: true
+              enterMovesDown: true,
               enterMovesDownAfterEdit: true
             });
           }
