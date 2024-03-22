@@ -6,7 +6,7 @@ import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalCloseArgs } from './modal-close-args';
 
-export class SkyModalInstance<TComponent = any> {
+export class SkyModalInstance {
   /**
    * An event that the modal instance emits when it is about to close.
    * It emits a `SkyModalBeforeCloseHandler` object with a `closeModal` method
@@ -41,7 +41,8 @@ export class SkyModalInstance<TComponent = any> {
   /**
    * A direct reference to the provided component's class.
    */
-  public componentInstance!: TComponent;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public componentInstance: any;
 
   /**
    * Sets the component adapter for the instance. This is used internally for actions such as scrolling the content.

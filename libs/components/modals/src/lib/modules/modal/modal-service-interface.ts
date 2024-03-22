@@ -1,5 +1,3 @@
-import { Type } from '@angular/core';
-
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalConfigurationInterface } from './modal.interface';
 
@@ -7,8 +5,8 @@ import { SkyModalConfigurationInterface } from './modal.interface';
  * @internal
  */
 export interface SkyModalServiceInterface {
-  open<TComponent = any>(
-    component: Type<TComponent>,
+  open(
+    component: any,
     config?: SkyModalConfigurationInterface | any[],
-  ): SkyModalInstance<TComponent>;
+  ): SkyModalInstance;
 }

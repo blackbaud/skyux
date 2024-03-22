@@ -2,7 +2,6 @@ import {
   ComponentRef,
   EnvironmentInjector,
   Injectable,
-  Type,
   inject,
 } from '@angular/core';
 import {
@@ -49,11 +48,11 @@ export class SkyModalService implements SkyModalServiceInterface {
    * @param component Determines the component to render.
    * @param {SkyModalConfigurationInterface} config Specifies configuration options for the modal.
    */
-  public open<TComponent = any>(
-    component: Type<TComponent>,
+  public open(
+    component: any,
     config?: SkyModalConfigurationInterface | any[],
-  ): SkyModalInstance<TComponent> {
-    const modalInstance = new SkyModalInstance<TComponent>();
+  ): SkyModalInstance {
+    const modalInstance = new SkyModalInstance();
 
     if (!SkyModalService.host) {
       SkyModalService.host = this.#createHostComponent();
