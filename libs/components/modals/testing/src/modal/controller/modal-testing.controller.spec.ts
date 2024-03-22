@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Component, Injectable, OnDestroy, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -64,10 +63,6 @@ class ModalTestComponent {
   protected saveForm(): void {
     this.#instance.save({});
   }
-
-  public sayHello(): void {
-    console.log('Hello, world.');
-  }
 }
 
 @Component({
@@ -77,26 +72,11 @@ class ModalTestComponent {
 })
 class TestComponent implements OnDestroy {
   public hasErrors = false;
+
   protected errors: SkyModalError[] = [];
-  readonly #modalSvc = inject(SkyModalService);
+
   readonly #instances: SkyModalInstance[] = [];
-
-  // public ngOnInit(): void {
-  //   const instance = this.#modalSvc.open(ModalTestComponent, {
-  //     providers: [
-  //       {
-  //         provide: ModalTestContext,
-  //         useValue: { value1: 'Hello!' },
-  //       },
-  //     ],
-  //   });
-
-  //   instance.componentInstance.sayHello();
-
-  //   instance.closed.subscribe((x) => {
-  //     console.log('closed:', x);
-  //   });
-  // }
+  readonly #modalSvc = inject(SkyModalService);
 
   public ngOnDestroy(): void {
     this.#instances.forEach((i) => i.close());
@@ -116,10 +96,8 @@ class TestComponent implements OnDestroy {
       if (this.hasErrors && handler.closeArgs.reason !== 'cancel') {
         this.errors = [
           {
-            message:
-              "Sample error that's really long so it takes up two lines. More text just to ensure text wrap.",
+            message: 'Something bad happened.',
           },
-          { message: 'Sample error 2' },
         ];
       } else {
         handler.closeModal();
@@ -129,6 +107,12 @@ class TestComponent implements OnDestroy {
     this.#instances.push(instance);
   }
 }
+
+@Component({
+  standalone: true,
+  template: '',
+})
+class AnotherComponent {}
 
 function setupTest(): {
   fixture: ComponentFixture<TestComponent>;
@@ -153,11 +137,33 @@ describe('modal-testing.controller', () => {
     fixture.componentInstance.openModal();
     fixture.detectChanges();
 
-    expect(modalController.count()).toEqual(1);
-
+    modalController.expectCount(1);
     modalController.expectTopmostOpen(ModalTestComponent);
     modalController.closeTopmost();
     modalController.expectNone();
+  });
+
+  it('should throw if topmost modal does not match criteria', () => {
+    const { fixture, modalController } = setupTest();
+
+    fixture.componentInstance.openModal();
+    fixture.detectChanges();
+
+    expect(() =>
+      modalController.expectTopmostOpen(AnotherComponent),
+    ).toThrowError(
+      'Expected the topmost modal to be of type AnotherComponent, but it is of type ModalTestComponent.',
+    );
+  });
+
+  it('should throw if expecting a modal open but none are open', () => {
+    const { fixture, modalController } = setupTest();
+
+    fixture.detectChanges();
+
+    expect(() =>
+      modalController.expectTopmostOpen(ModalTestComponent),
+    ).toThrowError('A modal is expected to be open, but no modals are open.');
   });
 
   it('should throw if closing a non-existent modal', () => {
@@ -167,6 +173,24 @@ describe('modal-testing.controller', () => {
 
     expect(() => modalController.closeTopmost()).toThrowError(
       'Expected to close the topmost modal, but no modals are open.',
+    );
+  });
+
+  it('should throw if expecting the wrong number of open modals', () => {
+    const { fixture, modalController } = setupTest();
+
+    fixture.componentInstance.openModal();
+    fixture.detectChanges();
+
+    expect(() => modalController.expectCount(5)).toThrowError(
+      'Expected 5 open modals, but 1 is open.',
+    );
+
+    fixture.componentInstance.openModal();
+    fixture.detectChanges();
+
+    expect(() => modalController.expectCount(1)).toThrowError(
+      'Expected 1 open modal, but 2 are open.',
     );
   });
 

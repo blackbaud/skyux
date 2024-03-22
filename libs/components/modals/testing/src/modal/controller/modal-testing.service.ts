@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import {
   EnvironmentInjector,
   Injectable,
@@ -9,6 +8,7 @@ import {
   createEnvironmentInjector,
   inject,
 } from '@angular/core';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
@@ -17,7 +17,6 @@ import {
   applyDefaultOptions,
 } from '@skyux/modals';
 
-// import { SkyModalTestInstance } from './modal-test-instance';
 import { SkyModalTestingController } from './modal-testing.controller';
 
 interface TestSubject<T = unknown> {
@@ -25,66 +24,6 @@ interface TestSubject<T = unknown> {
   config: SkyModalConfigurationInterface | Provider[] | undefined;
   instance: SkyModalInstance;
 }
-
-// function isSkyModalConfigurationInterface(
-//   value: unknown,
-// ): value is SkyModalConfigurationInterface {
-//   return (
-//     value !== undefined && typeof value === 'object' && !Array.isArray(value)
-//   );
-// }
-
-// function hasEqualProviders(
-//   configA: SkyModalConfigurationInterface | Provider[] | undefined,
-//   configB: SkyModalConfigurationInterface | Provider[] | undefined,
-// ): boolean {
-//   return (
-//     Array.isArray(configA) &&
-//     Array.isArray(configB) &&
-//     configA.length === configB.length
-//   );
-// }
-
-// function hasEqualConfiguration(
-//   configA: SkyModalConfigurationInterface | Provider[] | undefined,
-//   configB: SkyModalConfigurationInterface | Provider[] | undefined,
-// ): boolean {
-//   return (
-//     isSkyModalConfigurationInterface(configA) &&
-//     isSkyModalConfigurationInterface(configB) &&
-//     Object.keys(configA).length === Object.keys(configB).length
-//   );
-// }
-
-// function getMatches<T>(
-//   modals: TestSubject[],
-//   component: Type<T>,
-//   config: SkyModalConfigurationInterface | Provider[] | undefined,
-// ): TestSubject[] {
-//   const matches: TestSubject[] = [];
-
-//   for (const modal of modals) {
-//     if (modal.component !== component) {
-//       continue;
-//     }
-
-//     if (config === undefined && modal.config === undefined) {
-//       matches.push(modal);
-//       continue;
-//     }
-
-//     if (hasEqualProviders(modal.config, config)) {
-//       matches.push(modal);
-//       continue;
-//     }
-
-//     if (hasEqualConfiguration(modal.config, config)) {
-//       matches.push(modal);
-//     }
-//   }
-
-//   return matches;
-// }
 
 /**
  * @internal
@@ -114,12 +53,17 @@ export class SkyModalTestingService
     modal.instance.close(args);
   }
 
-  public count(): number {
-    return this.#modals.size;
+  public expectCount(value: number): void {
+    const count = this.#modals.size;
+    if (count !== value) {
+      throw new Error(
+        `Expected ${value} open ${value === 1 ? 'modal' : 'modals'}, but ${count} ${count === 1 ? 'is' : 'are'} open.`,
+      );
+    }
   }
 
   public expectNone(): void {
-    const count = this.count();
+    const count = this.#modals.size;
     if (count > 0) {
       throw new Error(
         `Expected no modals to be open, but there ${count === 1 ? 'is' : 'are'} ${count} open.`,
@@ -147,8 +91,8 @@ export class SkyModalTestingService
     config?: SkyModalConfigurationInterface | Provider[],
   ): SkyModalInstance {
     const instance = new SkyModalInstance();
-
     const options = applyDefaultOptions(config);
+
     options.providers ||= [];
     options.providers.push({
       provide: SkyModalInstance,
@@ -156,7 +100,7 @@ export class SkyModalTestingService
     });
 
     const environmentInjector = createEnvironmentInjector(
-      options.providers ?? [],
+      options.providers,
       this.#environmentInjector,
     );
 
