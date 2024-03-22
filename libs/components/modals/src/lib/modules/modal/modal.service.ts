@@ -50,11 +50,11 @@ export class SkyModalService implements SkyModalServiceInterface {
    * @param component Determines the component to render.
    * @param {SkyModalConfigurationInterface} config Specifies configuration options for the modal.
    */
-  public open<T>(
+  public open<T = any>(
     component: Type<T>,
     config?: SkyModalConfigurationInterface | Provider[],
-  ): SkyModalInstance {
-    const modalInstance = new SkyModalInstance();
+  ): SkyModalInstance<T> {
+    const modalInstance = new SkyModalInstance<T>();
 
     if (!SkyModalService.host) {
       SkyModalService.host = this.#createHostComponent();

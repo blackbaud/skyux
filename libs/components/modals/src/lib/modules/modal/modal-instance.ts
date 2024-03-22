@@ -6,7 +6,8 @@ import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalCloseArgs } from './modal-close-args';
 
-export class SkyModalInstance {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class SkyModalInstance<TComponent = any> {
   /**
    * An event that the modal instance emits when it is about to close.
    * It emits a `SkyModalBeforeCloseHandler` object with a `closeModal` method
@@ -41,8 +42,7 @@ export class SkyModalInstance {
   /**
    * A direct reference to the provided component's class.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public componentInstance: any;
+  public componentInstance!: TComponent;
 
   /**
    * Sets the component adapter for the instance. This is used internally for actions such as scrolling the content.
@@ -56,7 +56,7 @@ export class SkyModalInstance {
    * Sets the component ref for the instance. This is used to extract the component instance for the public API and the element ref for internal use.
    * @internal
    */
-  public set componentRef(value: ComponentRef<any>) {
+  public set componentRef(value: ComponentRef<TComponent>) {
     this.componentInstance = value.instance;
     this.#elementRef = value.location;
   }
@@ -78,8 +78,9 @@ export class SkyModalInstance {
    * @param reason Specifies the reason for the modal closing, with the default reason of `"close"`.
    * @param ignoreBeforeClose Indicates whether to ignore the modal instance's `beforeClose` event.
    */
-  public close<T = any>(
-    result?: T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public close<TCloseResult = Record<string, unknown>>(
+    result?: TCloseResult,
     reason?: string,
     ignoreBeforeClose?: boolean,
   ): void {
@@ -96,7 +97,7 @@ export class SkyModalInstance {
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this cancel function can be called from a button in the `sky-modal-footer`.
    */
-  public cancel<T = any>(result?: T): void {
+  public cancel<TCloseResult>(result?: TCloseResult): void {
     this.#closeModal('cancel', result);
   }
 
@@ -106,7 +107,7 @@ export class SkyModalInstance {
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this `save` function can be called from a button in `the sky-modal-footer`.
    */
-  public save<T = any>(result?: T): void {
+  public save<TCloseResult>(result?: TCloseResult): void {
     this.#closeModal('save', result);
   }
 
@@ -130,9 +131,9 @@ export class SkyModalInstance {
     this.#_helpOpened.next(helpKey);
   }
 
-  #closeModal<T = any>(
+  #closeModal<TCloseResult>(
     type: string,
-    result?: T,
+    result?: TCloseResult,
     ignoreBeforeClose = false,
   ): void {
     const args = new SkyModalCloseArgs();
