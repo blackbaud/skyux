@@ -3,6 +3,7 @@ import {
   EnvironmentInjector,
   Injectable,
   Provider,
+  StaticProvider,
   Type,
   inject,
 } from '@angular/core';
@@ -25,7 +26,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   providedIn: 'root',
 })
 export class SkyModalService implements SkyModalServiceInterface {
-  private static host: ComponentRef<SkyModalHostComponent> | undefined; // <-- how do we handle only having one of these?
+  private static host: ComponentRef<SkyModalHostComponent> | undefined;
 
   #dynamicComponentService: SkyDynamicComponentService;
   #environmentInjector = inject(EnvironmentInjector);
@@ -53,7 +54,7 @@ export class SkyModalService implements SkyModalServiceInterface {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public open<TComponent = any>(
     component: Type<TComponent>,
-    config?: SkyModalConfigurationInterface | Provider[],
+    config?: SkyModalConfigurationInterface | StaticProvider[],
   ): SkyModalInstance<TComponent> {
     const modalInstance = new SkyModalInstance<TComponent>();
 

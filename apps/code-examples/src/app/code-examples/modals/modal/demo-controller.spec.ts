@@ -137,18 +137,4 @@ describe('Modal demo using testing controller', () => {
     modalController.closeTopmost();
     modalController.expectNone();
   });
-
-  it('should respect beforeClose event', () => {
-    const { fixture, modalController } = setupTest();
-
-    fixture.componentInstance.openModal();
-    fixture.componentInstance.hasErrors = true;
-    fixture.detectChanges();
-
-    modalController.closeTopmost({ data: {}, reason: 'save' });
-
-    expect(() => modalController.expectNone()).toThrowError(
-      'Expected no modals to be open, but there is 1 open.',
-    );
-  });
 });

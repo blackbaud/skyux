@@ -2,7 +2,7 @@ import {
   EnvironmentInjector,
   Injectable,
   OnDestroy,
-  Provider,
+  StaticProvider,
   Type,
   createComponent,
   createEnvironmentInjector,
@@ -21,7 +21,7 @@ import { SkyModalTestingController } from './modal-testing.controller';
 
 interface TestSubject<T = unknown> {
   component: Type<T>;
-  config: SkyModalConfigurationInterface | Provider[] | undefined;
+  config: SkyModalConfigurationInterface | StaticProvider[] | undefined;
   instance: SkyModalInstance;
 }
 
@@ -88,7 +88,7 @@ export class SkyModalTestingService
 
   public open<TComponent>(
     component: Type<TComponent>,
-    config?: SkyModalConfigurationInterface | Provider[],
+    config?: SkyModalConfigurationInterface | StaticProvider[],
   ): SkyModalInstance {
     const instance = new SkyModalInstance();
     const options = applyDefaultOptions(config);

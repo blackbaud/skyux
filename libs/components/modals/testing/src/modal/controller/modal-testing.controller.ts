@@ -1,5 +1,5 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Type } from '@angular/core';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyModalCloseArgs } from '@skyux/modals';
 
 /**
@@ -12,15 +12,17 @@ export abstract class SkyModalTestingController {
    * @param args Arguments to pass to the modal's close event.
    */
   public abstract closeTopmost(args?: SkyModalCloseArgs): void;
+
   /**
    * Throws if the provided value does not match the number of open modals.
    */
   public abstract expectCount(value: number): void;
-  // public abstract count(): number;
+
   /**
    * Throws if modals are open.
    */
   public abstract expectNone(): void;
+
   /**
    * Throws if the given criteria does not match the topmost open modal.
    */
