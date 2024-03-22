@@ -9,7 +9,6 @@ import { SkyModalCloseArgs } from '@skyux/modals';
 export abstract class SkyModalTestingController {
   /**
    * Closes the topmost modal with the provided arguments.
-   * @param index The index of the modal's open order.
    * @param args Arguments to pass to the modal's close event.
    */
   public abstract closeTopmost(args?: SkyModalCloseArgs): void;
@@ -25,5 +24,7 @@ export abstract class SkyModalTestingController {
   /**
    * Throws if the given criteria does not match the topmost open modal.
    */
-  public abstract expectTopmostOpen<T>(component: Type<T>): void;
+  public abstract expectTopmostOpen<TComponent>(
+    component: Type<TComponent>,
+  ): void;
 }

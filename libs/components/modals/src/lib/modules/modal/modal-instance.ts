@@ -78,9 +78,8 @@ export class SkyModalInstance<TComponent = any> {
    * @param reason Specifies the reason for the modal closing, with the default reason of `"close"`.
    * @param ignoreBeforeClose Indicates whether to ignore the modal instance's `beforeClose` event.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public close<TCloseResult = Record<string, unknown>>(
-    result?: TCloseResult,
+  public close(
+    result?: any,
     reason?: string,
     ignoreBeforeClose?: boolean,
   ): void {
@@ -97,7 +96,7 @@ export class SkyModalInstance<TComponent = any> {
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this cancel function can be called from a button in the `sky-modal-footer`.
    */
-  public cancel<TCloseResult>(result?: TCloseResult): void {
+  public cancel(result?: any): void {
     this.#closeModal('cancel', result);
   }
 
@@ -107,7 +106,7 @@ export class SkyModalInstance<TComponent = any> {
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this `save` function can be called from a button in `the sky-modal-footer`.
    */
-  public save<TCloseResult>(result?: TCloseResult): void {
+  public save(result?: any): void {
     this.#closeModal('save', result);
   }
 
@@ -131,11 +130,7 @@ export class SkyModalInstance<TComponent = any> {
     this.#_helpOpened.next(helpKey);
   }
 
-  #closeModal<TCloseResult>(
-    type: string,
-    result?: TCloseResult,
-    ignoreBeforeClose = false,
-  ): void {
+  #closeModal(type: string, result?: any, ignoreBeforeClose = false): void {
     const args = new SkyModalCloseArgs();
 
     args.reason = type;

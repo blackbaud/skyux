@@ -50,17 +50,19 @@ export class SkyModalService implements SkyModalServiceInterface {
    * @param component Determines the component to render.
    * @param {SkyModalConfigurationInterface} config Specifies configuration options for the modal.
    */
-  public open<T = any>(
-    component: Type<T>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public open<TComponent = any>(
+    component: Type<TComponent>,
     config?: SkyModalConfigurationInterface | Provider[],
-  ): SkyModalInstance<T> {
-    const modalInstance = new SkyModalInstance<T>();
+  ): SkyModalInstance<TComponent> {
+    const modalInstance = new SkyModalInstance<TComponent>();
 
     if (!SkyModalService.host) {
       SkyModalService.host = this.#createHostComponent();
     }
 
     const params = applyDefaultOptions(config);
+
     params.providers ||= [];
     params.providers.push({
       provide: SkyModalInstance,

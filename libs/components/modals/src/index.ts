@@ -9,6 +9,7 @@ export { SkyConfirmType } from './lib/modules/confirm/confirm-type';
 export { SkyConfirmModule } from './lib/modules/confirm/confirm.module';
 export { SkyConfirmService } from './lib/modules/confirm/confirm.service';
 
+export { applyDefaultOptions } from './lib/modules/modal/apply-default-options';
 export { SkyModalBeforeCloseHandler } from './lib/modules/modal/modal-before-close-handler';
 export { SkyModalCloseArgs } from './lib/modules/modal/modal-close-args';
 export { SkyModalConfiguration } from './lib/modules/modal/modal-configuration';
@@ -23,7 +24,6 @@ export {
   SkyModalLegacyService,
   SkyModalService,
 } from './lib/modules/modal/modal.service';
-export { applyDefaultOptions } from './lib/modules/modal/apply-default-options';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

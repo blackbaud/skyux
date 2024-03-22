@@ -2,6 +2,10 @@ import { Provider } from '@angular/core';
 
 import { SkyModalConfigurationInterface } from './modal.interface';
 
+/**
+ * Returns modal options with defaults applied.
+ * @internal
+ */
 export function applyDefaultOptions(
   providersOrConfig: SkyModalConfigurationInterface | Provider[] | undefined,
 ): SkyModalConfigurationInterface {

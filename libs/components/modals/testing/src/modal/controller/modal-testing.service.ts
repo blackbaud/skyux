@@ -71,7 +71,7 @@ export class SkyModalTestingService
     }
   }
 
-  public expectTopmostOpen<T>(component: Type<T>): void {
+  public expectTopmostOpen<TComponent>(component: Type<TComponent>): void {
     const modal = this.#getTopmostModal();
     if (!modal) {
       throw new Error(
@@ -86,8 +86,8 @@ export class SkyModalTestingService
     }
   }
 
-  public open<T>(
-    component: Type<T>,
+  public open<TComponent>(
+    component: Type<TComponent>,
     config?: SkyModalConfigurationInterface | Provider[],
   ): SkyModalInstance {
     const instance = new SkyModalInstance();
@@ -109,8 +109,6 @@ export class SkyModalTestingService
     });
 
     instance.componentRef = componentRef;
-    instance.componentInstance = componentRef.instance;
-
     instance.closed.subscribe(() => {
       this.#modals.delete(instance);
     });

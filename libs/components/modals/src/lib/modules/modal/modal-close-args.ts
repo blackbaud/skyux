@@ -2,7 +2,7 @@
  * Contains an object with the data passed from users when
  * a modal is closed and the reason that the modal was closed.
  */
-export class SkyModalCloseArgs<T = any> {
+export class SkyModalCloseArgs {
   /**
    * The reason the modal was closed.
    * Options include `"close"`, `"save"`, and `"cancel"`.
@@ -11,5 +11,5 @@ export class SkyModalCloseArgs<T = any> {
   /**
    * The data passed from users when the modal is closed.
    */
-  public data: T | undefined;
+  public data: any;
 }

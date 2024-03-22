@@ -6,7 +6,6 @@ export { SkyConfirmHarness } from './confirm/confirm-harness';
 export { SkyConfirmTestingController } from './confirm/confirm-testing.controller';
 export { SkyConfirmTestingModule } from './confirm/confirm-testing.module';
 
-export { SkyModalTestInstance } from './modal/controller/modal-test-instance';
 export { SkyModalTestingController } from './modal/controller/modal-testing.controller';
 export { SkyModalTestingModule } from './modal/controller/modal-testing.module';
 
