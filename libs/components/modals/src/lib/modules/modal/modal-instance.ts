@@ -6,7 +6,6 @@ import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalCloseArgs } from './modal-close-args';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class SkyModalInstance<TComponent = any> {
   /**
    * An event that the modal instance emits when it is about to close.
@@ -56,7 +55,7 @@ export class SkyModalInstance<TComponent = any> {
    * Sets the component ref for the instance. This is used to extract the component instance for the public API and the element ref for internal use.
    * @internal
    */
-  public set componentRef(value: ComponentRef<TComponent>) {
+  public set componentRef(value: ComponentRef<any>) {
     this.componentInstance = value.instance;
     this.#elementRef = value.location;
   }

@@ -37,7 +37,7 @@ export class SkyModalTestingService
   readonly #modals = new Map<SkyModalInstance, TestSubject>();
 
   public ngOnDestroy(): void {
-    for (const [instance] of this.#modals.entries()) {
+    for (const instance of this.#modals.keys()) {
       instance.close();
     }
   }

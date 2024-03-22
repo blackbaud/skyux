@@ -1,5 +1,3 @@
-import { StaticProvider } from '@angular/core';
-
 import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**
@@ -7,10 +5,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
  * @internal
  */
 export function applyDefaultOptions(
-  providersOrConfig:
-    | SkyModalConfigurationInterface
-    | StaticProvider[]
-    | undefined,
+  providersOrConfig: SkyModalConfigurationInterface | any[] | undefined,
 ): SkyModalConfigurationInterface {
   const defaultParams: SkyModalConfigurationInterface = {
     providers: [],
