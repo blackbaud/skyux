@@ -1,5 +1,13 @@
 # Changelog
 
+## [9.30.4](https://github.com/blackbaud/skyux/compare/9.30.3...9.30.4) (2024-03-22)
+
+
+### Bug Fixes
+
+* **components/datetime:** update date-range-picker status when calculator changes ([#2153](https://github.com/blackbaud/skyux/issues/2153)) ([1a33b3c](https://github.com/blackbaud/skyux/commit/1a33b3cc3f5da15e8510efac3552fb30e0d3bf20))
+* **components/text-editor:** paste menu button works on browsers supporting the Clipboard API ([#2152](https://github.com/blackbaud/skyux/issues/2152)) ([f653872](https://github.com/blackbaud/skyux/commit/f653872f7e30ae2c7ac63f85feaa6ba69a9670e7))
+
 ## [9.30.3](https://github.com/blackbaud/skyux/compare/9.30.2...9.30.3) (2024-03-20)
 
 
