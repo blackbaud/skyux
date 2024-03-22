@@ -2,8 +2,6 @@ import {
   ComponentRef,
   EnvironmentInjector,
   Injectable,
-  Provider,
-  StaticProvider,
   Type,
   inject,
 } from '@angular/core';
@@ -51,10 +49,9 @@ export class SkyModalService implements SkyModalServiceInterface {
    * @param component Determines the component to render.
    * @param {SkyModalConfigurationInterface} config Specifies configuration options for the modal.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public open<TComponent = any>(
     component: Type<TComponent>,
-    config?: SkyModalConfigurationInterface | StaticProvider[],
+    config?: SkyModalConfigurationInterface | any[],
   ): SkyModalInstance<TComponent> {
     const modalInstance = new SkyModalInstance<TComponent>();
 
