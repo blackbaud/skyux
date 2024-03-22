@@ -164,6 +164,7 @@ describe('ag-grid.schematic', () => {
                 {
                   headerName: 'Local',
                   headerComponentFramework: LocalComponent,
+                  filterFramework: LocalComponent,
                   componentFramework: LocalComponent,
                   cellEditorFramework: LocalComponent
                 }

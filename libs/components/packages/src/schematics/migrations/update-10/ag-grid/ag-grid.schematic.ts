@@ -76,6 +76,7 @@ function renameGridOptionsInCode(updatedContent: string): string {
       updatedContent.includes('headerComponentFramework') ||
       updatedContent.includes('componentFramework') ||
       updatedContent.includes('cellEditorFramework') ||
+      updatedContent.includes('filterFramework') ||
       updatedContent.includes('getRowNodeId') ||
       updatedContent.includes('enterMovesDown'))
   ) {
@@ -84,6 +85,7 @@ function renameGridOptionsInCode(updatedContent: string): string {
       .replace(/\bheaderComponentFramework\b/g, 'headerComponent')
       .replace(/\bcomponentFramework\b/g, 'component')
       .replace(/\bcellEditorFramework\b/g, 'cellEditor')
+      .replace(/\bfilterFramework\b/g, 'filter')
       .replace(/\bgetRowNodeId\b/g, 'getRowId')
       .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
   }

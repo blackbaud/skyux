@@ -115,6 +115,7 @@ exports[`ag-grid.schematic should update options 1`] = `
                 {
                   headerName: 'Local',
                   headerComponent: LocalComponent,
+                  filter: LocalComponent,
                   component: LocalComponent,
                   cellEditor: LocalComponent
                 }
