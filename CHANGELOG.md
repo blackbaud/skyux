@@ -1,5 +1,22 @@
 # Changelog
 
+## [10.0.0-rc.0](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.7...10.0.0-rc.0) (2024-03-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/theme:** The new skyux-icons library contains an update to the file icon metadata that occludes a Font Awesome fallback icon in order to better align with design guidelines for icon use. This FA icon is no longer available for use when using a sky-icon component.
+
+### Features
+
+* **components/ag-grid:** additional schematics ([#2163](https://github.com/blackbaud/skyux/issues/2163)) ([85ff4fd](https://github.com/blackbaud/skyux/commit/85ff4fdbe00bd3534dadb3f740a368c6dc1b511c))
+* **components/theme:** update to icons library version 7 ([#2164](https://github.com/blackbaud/skyux/issues/2164)) ([701c70b](https://github.com/blackbaud/skyux/commit/701c70bcd4b2d9dd5b0cf6e80a70a8550d160559))
+
+
+### Bug Fixes
+
+* **components/text-editor:** paste menu button works on browsers supporting the Clipboard API ([#2152](https://github.com/blackbaud/skyux/issues/2152)) ([#2159](https://github.com/blackbaud/skyux/issues/2159)) ([41c5d0e](https://github.com/blackbaud/skyux/commit/41c5d0e48b16b75e2b35f449285b64a4d8460b13))
+
 ## [9.30.4](https://github.com/blackbaud/skyux/compare/9.30.3...9.30.4) (2024-03-22)
 
 
