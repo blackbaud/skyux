@@ -125,3 +125,17 @@ exports[`ag-grid.schematic should update options 1`] = `
           }
         }"
 `;
+
+exports[`ag-grid.schematic should use this.gridApi if possible 1`] = `
+"
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridApi.deselectAll();
+          }
+        }"
+`;
