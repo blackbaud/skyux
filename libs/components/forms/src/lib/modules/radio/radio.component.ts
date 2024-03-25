@@ -121,7 +121,8 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
     if (value) {
       this.#logger.deprecated('SkyRadioComponent.label', {
-        deprecationMajorVersion: 9,
+        deprecationMajorVersion: 10,
+        replacementRecommendation: 'Use the `labelText` input instead.',
       });
     }
   }
@@ -144,7 +145,8 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
     if (value) {
       this.#logger.deprecated('SkyRadioComponent.labelledBy', {
-        deprecationMajorVersion: 9,
+        deprecationMajorVersion: 10,
+        replacementRecommendation: 'Use the `labelText` input instead.',
       });
     }
   }
@@ -260,8 +262,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   }
 
   /**
-   * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
-   * Specifying `labelText` also enables automatic error message handling for checkbox.
+   * The text to display as the radio button's label. Use this instead of the `sky-radio-label` when the label is text-only.
    * @preview
    */
   @Input()
