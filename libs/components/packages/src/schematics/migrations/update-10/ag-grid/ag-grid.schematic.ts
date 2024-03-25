@@ -132,6 +132,23 @@ function renameCellRendererFramework(updatedContent: string): string {
 }
 
 /**
+ * Switch cellRendererFramework to cellRenderer.
+ */
+function swapGridOptionsApiToGridApi(updatedContent: string): string {
+  if (
+    updatedContent.includes('this.gridApi.') &&
+    (updatedContent.includes('this.gridOptions.api.') ||
+      updatedContent.includes('this.gridOptions.columnApi.'))
+  ) {
+    updatedContent = updatedContent.replace(
+      /\bthis\.gridOptions\.(api|columnApi)\./g,
+      'this.gridApi.',
+    );
+  }
+  return updatedContent;
+}
+
+/**
  * Check if the file includes any AG Grid imports.
  */
 function includesAgGrid(updatedContent: string): boolean {
@@ -190,6 +207,7 @@ async function updateSourceFiles(
       updatedContent = renameColumnApiFunctionsInCode(updatedContent);
       updatedContent = renameEvents(updatedContent);
       updatedContent = renameGridOptionsInCode(updatedContent);
+      updatedContent = swapGridOptionsApiToGridApi(updatedContent);
 
       if (updatedContent !== content) {
         tree.overwrite(filePath, updatedContent);
