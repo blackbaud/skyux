@@ -1,18 +1,18 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <label class="sky-control-label"> Contact method </label>
-  <div class="sky-margin-stacked-xl">
-    <ul class="sky-list-unstyled">
-      <li>
-        <sky-checkbox formControlName="email" labelText="Email" />
-      </li>
-      <li>
-        <sky-checkbox formControlName="phone" labelText="Phone" />
-      </li>
-      <li>
-        <sky-checkbox formControlName="text" labelText="Text" />
-      </li>
-    </ul>
-  </div>
+  <sky-checkbox-group
+    [formGroup]="contactMethod"
+    labelText="Contact method"
+    class="sky-margin-stacked-xl"
+  >
+    <sky-checkbox formControlName="email" labelText="Email" />
+    <sky-checkbox formControlName="phone" labelText="Phone" />
+    <sky-checkbox formControlName="text" labelText="Text" />
+    <sky-form-error
+      *ngIf="contactMethod.errors?.['contactMethodRequired']"
+      errorName="contactMethodRequired"
+      errorText="A contact method is required."
+    ></sky-form-error>
+  </sky-checkbox-group>
   <div class="sky-margin-stacked-xl">
     <sky-checkbox
       formControlName="terms"

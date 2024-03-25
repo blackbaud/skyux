@@ -1,5 +1,11 @@
 <form [formGroup]="myForm">
-  <div class="sky-margin-stacked-xl">
+  <sky-checkbox-group
+    [formGroup]="myForm"
+    [labelHidden]="hideGroupLabel"
+    labelText="Contact method"
+    class="sky-margin-stacked-xl"
+    data-sky-id="checkbox-group"
+  >
     <ul class="sky-list-unstyled">
       <li>
         <sky-checkbox
@@ -36,5 +42,10 @@
         </sky-checkbox>
       </li>
     </ul>
-  </div>
+    <sky-form-error
+      *ngIf="myForm.errors?.['contactMethodRequired']"
+      errorName="contactMethodRequired"
+      errorText="A contact method must be selected."
+    />
+  </sky-checkbox-group>
 </form>

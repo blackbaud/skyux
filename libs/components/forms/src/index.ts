@@ -30,6 +30,8 @@ export { SkySelectionBoxGridAlignItemsType } from './lib/modules/selection-box/t
 export { SkyToggleSwitchModule } from './lib/modules/toggle-switch/toggle-switch.module';
 export { SkyToggleSwitchChange } from './lib/modules/toggle-switch/types/toggle-switch-change';
 
+export { SkyCheckboxGroupComponent } from './lib/modules/checkbox/checkbox-group.component';
+
 export { SKY_FORM_ERRORS_ENABLED } from './lib/modules/form-error/form-errors-enabled-token';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
