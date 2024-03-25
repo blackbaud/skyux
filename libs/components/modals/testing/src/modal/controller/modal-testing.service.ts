@@ -42,7 +42,7 @@ export class SkyModalTestingService
     }
   }
 
-  public closeTopmost(args?: SkyModalCloseArgs): void {
+  public closeTopModal(args?: SkyModalCloseArgs): void {
     const modal = this.#getTopmostModal();
     if (!modal) {
       throw new Error(
@@ -71,7 +71,7 @@ export class SkyModalTestingService
     }
   }
 
-  public expectTopmostOpen<TComponent>(component: Type<TComponent>): void {
+  public expectOpen<TComponent>(component: Type<TComponent>): void {
     const modal = this.#getTopmostModal();
     if (!modal) {
       throw new Error(

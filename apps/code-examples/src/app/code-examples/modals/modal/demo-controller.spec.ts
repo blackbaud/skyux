@@ -133,8 +133,8 @@ describe('Modal demo using testing controller', () => {
     fixture.detectChanges();
 
     modalController.expectCount(1);
-    modalController.expectTopmostOpen(ModalTestComponent);
-    modalController.closeTopmost();
+    modalController.expectOpen(ModalTestComponent);
+    modalController.closeTopModal();
     modalController.expectNone();
   });
 });

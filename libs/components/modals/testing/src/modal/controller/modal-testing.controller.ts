@@ -11,7 +11,7 @@ export abstract class SkyModalTestingController {
    * Closes the topmost modal with the provided arguments.
    * @param args Arguments to pass to the modal's close event.
    */
-  public abstract closeTopmost(args?: SkyModalCloseArgs): void;
+  public abstract closeTopModal(args?: SkyModalCloseArgs): void;
 
   /**
    * Throws if the provided value does not match the number of open modals.
@@ -26,7 +26,5 @@ export abstract class SkyModalTestingController {
   /**
    * Throws if the given criteria does not match the topmost open modal.
    */
-  public abstract expectTopmostOpen<TComponent>(
-    component: Type<TComponent>,
-  ): void;
+  public abstract expectOpen<TComponent>(component: Type<TComponent>): void;
 }

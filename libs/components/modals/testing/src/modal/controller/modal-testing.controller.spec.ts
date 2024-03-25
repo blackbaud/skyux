@@ -138,8 +138,8 @@ describe('modal-testing.controller', () => {
     fixture.detectChanges();
 
     modalController.expectCount(1);
-    modalController.expectTopmostOpen(ModalTestComponent);
-    modalController.closeTopmost();
+    modalController.expectOpen(ModalTestComponent);
+    modalController.closeTopModal();
     modalController.expectNone();
   });
 
@@ -149,9 +149,7 @@ describe('modal-testing.controller', () => {
     fixture.componentInstance.openModal();
     fixture.detectChanges();
 
-    expect(() =>
-      modalController.expectTopmostOpen(AnotherComponent),
-    ).toThrowError(
+    expect(() => modalController.expectOpen(AnotherComponent)).toThrowError(
       'Expected the topmost modal to be of type AnotherComponent, but it is of type ModalTestComponent.',
     );
   });
@@ -161,9 +159,9 @@ describe('modal-testing.controller', () => {
 
     fixture.detectChanges();
 
-    expect(() =>
-      modalController.expectTopmostOpen(ModalTestComponent),
-    ).toThrowError('A modal is expected to be open, but no modals are open.');
+    expect(() => modalController.expectOpen(ModalTestComponent)).toThrowError(
+      'A modal is expected to be open, but no modals are open.',
+    );
   });
 
   it('should throw if closing a non-existent modal', () => {
@@ -171,7 +169,7 @@ describe('modal-testing.controller', () => {
 
     fixture.detectChanges();
 
-    expect(() => modalController.closeTopmost()).toThrowError(
+    expect(() => modalController.closeTopModal()).toThrowError(
       'Expected to close the topmost modal, but no modals are open.',
     );
   });
@@ -205,7 +203,7 @@ describe('modal-testing.controller', () => {
       'Expected no modals to be open, but there are 2 open.',
     );
 
-    modalController.closeTopmost();
+    modalController.closeTopModal();
     fixture.detectChanges();
 
     expect(() => modalController.expectNone()).toThrowError(
@@ -220,7 +218,7 @@ describe('modal-testing.controller', () => {
     fixture.componentInstance.hasErrors = true;
     fixture.detectChanges();
 
-    modalController.closeTopmost({ data: {}, reason: 'save' });
+    modalController.closeTopModal({ data: {}, reason: 'save' });
 
     expect(() => modalController.expectNone()).toThrowError(
       'Expected no modals to be open, but there is 1 open.',
