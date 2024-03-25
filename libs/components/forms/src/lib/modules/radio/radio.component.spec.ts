@@ -201,7 +201,10 @@ describe('Radio component', function () {
 
       expect(deprecatedLogSpy).toHaveBeenCalledWith(
         'SkyRadioComponent.label',
-        Object({ deprecationMajorVersion: 9 }),
+        Object({
+          deprecationMajorVersion: 10,
+          replacementRecommendation: 'Use the `labelText` input instead.',
+        }),
       );
     }));
 
@@ -218,7 +221,10 @@ describe('Radio component', function () {
 
       expect(deprecatedLogSpy).toHaveBeenCalledWith(
         'SkyRadioComponent.labelledBy',
-        Object({ deprecationMajorVersion: 9 }),
+        Object({
+          deprecationMajorVersion: 10,
+          replacementRecommendation: 'Use the `labelText` input instead.',
+        }),
       );
     }));
 
