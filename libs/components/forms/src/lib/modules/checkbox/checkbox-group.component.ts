@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, booleanAttribute, inject } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  booleanAttribute,
+  inject,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { SkyIdService } from '@skyux/core';
 
@@ -39,13 +45,25 @@ export class SkyCheckboxGroupComponent {
   public labelHidden = false;
 
   /**
+   * Whether the checkbox group is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the checkbox group.
+   */
+  @Input({ transform: booleanAttribute })
+  public set stacked(value: boolean) {
+    this.cssClass = value ? 'sky-margin-stacked-lg' : '';
+  }
+
+  /**
    * The form group that contains the group of checkboxes.
    * @preview
    */
   @Input({ required: true })
   public formGroup!: FormGroup;
 
+  @HostBinding('class')
+  public cssClass = '';
+
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
-  protected dataId = 'checkbox-group-form-errors';
+  protected formErrorsDataId = 'checkbox-group-form-errors';
 }

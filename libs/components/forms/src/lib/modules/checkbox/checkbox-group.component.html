@@ -19,7 +19,7 @@
 <sky-form-errors
   *ngIf="labelText && formGroup.errors"
   [id]="errorId"
-  [attr.data-sky-id]="dataId"
+  [attr.data-sky-id]="formErrorsDataId"
   [errors]="formGroup.errors"
   [labelText]="labelText"
   [showErrors]="formGroup.touched || formGroup.dirty"

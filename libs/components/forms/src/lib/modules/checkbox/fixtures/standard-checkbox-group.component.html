@@ -1,7 +1,8 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <sky-checkbox-group
     [formGroup]="contactMethod"
-    [stacked]="true"
+    [stacked]="stacked"
+    [labelHidden]="labelHidden"
     labelText="Contact method"
   >
     <sky-checkbox formControlName="email" labelText="Email" />
@@ -13,12 +14,5 @@
       errorText="A contact method is required."
     ></sky-form-error>
   </sky-checkbox-group>
-  <div class="sky-margin-stacked-xl">
-    <sky-checkbox
-      formControlName="terms"
-      [required]="true"
-      labelText="I agree to the terms and conditions"
-    />
-  </div>
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
 </form>

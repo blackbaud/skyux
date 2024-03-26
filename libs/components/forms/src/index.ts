@@ -30,8 +30,6 @@ export { SkySelectionBoxGridAlignItemsType } from './lib/modules/selection-box/t
 export { SkyToggleSwitchModule } from './lib/modules/toggle-switch/toggle-switch.module';
 export { SkyToggleSwitchChange } from './lib/modules/toggle-switch/types/toggle-switch-change';
 
-export { SkyCheckboxGroupComponent } from './lib/modules/checkbox/checkbox-group.component';
-
 export { SKY_FORM_ERRORS_ENABLED } from './lib/modules/form-error/form-errors-enabled-token';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
@@ -59,3 +57,4 @@ export { SkySelectionBoxHeaderComponent as λ16 } from './lib/modules/selection-
 export { SkySelectionBoxComponent as λ17 } from './lib/modules/selection-box/selection-box.component';
 export { SkyToggleSwitchLabelComponent as λ18 } from './lib/modules/toggle-switch/toggle-switch-label.component';
 export { SkyToggleSwitchComponent as λ19 } from './lib/modules/toggle-switch/toggle-switch.component';
+export { SkyCheckboxGroupComponent as λ24 } from './lib/modules/checkbox/checkbox-group.component';
