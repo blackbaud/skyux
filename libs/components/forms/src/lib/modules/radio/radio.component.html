@@ -31,10 +31,7 @@
     <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon" />
   </span>
   <ng-container *ngIf="labelText; else labelElement">
-    <sky-radio-label-text-label
-      [labelText]="labelText"
-      [labelHidden]="labelHidden"
-    />
+    <span *ngIf="!labelHidden" class="sky-switch-label">{{ labelText }}</span>
   </ng-container>
   <ng-template #labelElement>
     <ng-content select="sky-radio-label" />
