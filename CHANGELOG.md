@@ -1,5 +1,19 @@
 # Changelog
 
+## [10.0.0-rc.1](https://github.com/blackbaud/skyux/compare/10.0.0-rc.0...10.0.0-rc.1) (2024-03-26)
+
+
+### Features
+
+* add support for @angular/core@17.3.1 and axe-core@4.9.0 ([#2175](https://github.com/blackbaud/skyux/issues/2175)) ([a7bf9cc](https://github.com/blackbaud/skyux/commit/a7bf9cce2eb3f65b6feb493feae9ba3d1017a0e8))
+* **components/ag-grid:** update grid api references ([#2170](https://github.com/blackbaud/skyux/issues/2170)) ([e793f8b](https://github.com/blackbaud/skyux/commit/e793f8bda71243356dc55d1dc79eb99afc34ead0))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** modify schematics after testing ([#2176](https://github.com/blackbaud/skyux/issues/2176)) ([a9fb61f](https://github.com/blackbaud/skyux/commit/a9fb61f981aa3302d4135b2bd261dde8b898fcde))
+* **components/phone-field:** add change detection for input only events ([#2166](https://github.com/blackbaud/skyux/issues/2166)) ([#2173](https://github.com/blackbaud/skyux/issues/2173)) ([0c3463a](https://github.com/blackbaud/skyux/commit/0c3463a81a3abb1af6e06980c25a63a58aa0a537))
+
 ## [10.0.0-rc.0](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.7...10.0.0-rc.0) (2024-03-25)
 
 
