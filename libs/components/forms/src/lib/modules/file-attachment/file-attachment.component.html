@@ -7,9 +7,9 @@
     }"
   >
     <ng-container *ngIf="labelText; else labelContent">
-      <span *ngIf="!labelHidden" class="sky-control-label">{{
-        labelText
-      }}</span>
+      <span *ngIf="!labelHidden" class="sky-control-label"
+        >{{ labelText }} </span
+      ><ng-container *ngTemplateOutlet="inlineHelp" />
     </ng-container>
   </div>
   <div
@@ -176,4 +176,22 @@
 
 <ng-template #labelContent>
   <ng-content select="sky-file-attachment-label" />
+</ng-template>
+
+<ng-template #inlineHelp>
+  <sky-help-inline
+    class="sky-control-help-container"
+    *ngIf="helpPopoverContent"
+    [skyPopover]="inlineHelpPopover"
+  />
+</ng-template>
+
+<sky-popover #inlineHelpPopover [popoverTitle]="helpPopoverTitle">
+  <ng-container *ngIf="popoverTemplate; else popoverContext">
+    <ng-container *ngTemplateOutlet="popoverTemplate" />
+  </ng-container>
+</sky-popover>
+
+<ng-template #popoverContext>
+  {{ helpPopoverContent }}
 </ng-template>
