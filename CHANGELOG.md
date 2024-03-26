@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.0.0](https://github.com/blackbaud/skyux/compare/10.0.0-rc.1...10.0.0) (2024-03-26)
+
+
+### Features
+
+* release 10.0.0 ([#2178](https://github.com/blackbaud/skyux/issues/2178)) ([87d37f6](https://github.com/blackbaud/skyux/commit/87d37f6dac31de6650a120659a53f9c9635436bb))
+
 ## [10.0.0-rc.1](https://github.com/blackbaud/skyux/compare/10.0.0-rc.0...10.0.0-rc.1) (2024-03-26)
 
 

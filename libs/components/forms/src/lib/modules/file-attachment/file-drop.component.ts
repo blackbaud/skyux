@@ -6,6 +6,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { SkyLiveAnnouncerService } from '@skyux/core';
@@ -133,6 +134,20 @@ export class SkyFileDropComponent implements OnDestroy {
    */
   @Input()
   public allowLinks: boolean | undefined = false;
+
+  /**
+   * The text to display as the file attachment's label.
+   * @preview
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Whether to hide `labelText` from view.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
 
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
