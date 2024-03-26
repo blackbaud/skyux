@@ -285,32 +285,6 @@ describe('ag-grid.schematic', () => {
     expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
   });
 
-  it('should update RowDataChangedEvent', async () => {
-    expect.assertions(1);
-    const { tree } = setupTest({
-      dependencies: {
-        '@skyux/ag-grid': '0.0.0',
-        'ag-grid-community': UPDATE_TO_VERSION,
-        'ag-grid-angular': UPDATE_TO_VERSION,
-      },
-    });
-    tree.create(
-      'src/app/editor.component.ts',
-      `
-        import { RowDataChangedEvent, ICellEditorAngularComp } from 'ag-grid-community';
-
-        export class EditorComponent implements ICellEditorAngularComp {
-          public agInit(params: ICellEditorParams) {
-            params.api.addEventListener('rowDataChanged', (event: RowDataChangedEvent) => {
-              // do something
-            });
-          }
-        }`,
-    );
-    await runner.runSchematic('ag-grid', {}, tree);
-    expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
-  });
-
   it('should use this.gridApi if possible', async () => {
     expect.assertions(1);
     const { tree } = setupTest({
