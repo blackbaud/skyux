@@ -241,7 +241,7 @@ describe('Radio component', function () {
       tick();
 
       const radioLabels = fixture.nativeElement.querySelectorAll(
-        '.sky-radio-wrapper sky-radio-label-text-label',
+        '.sky-radio-wrapper .sky-switch-label',
       );
       expect(radioLabels.item(0).textContent?.trim()).toBe(label1);
       expect(radioLabels.item(1).textContent?.trim()).toBe(label2);
