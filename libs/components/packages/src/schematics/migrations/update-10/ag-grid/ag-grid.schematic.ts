@@ -70,22 +70,18 @@ function renameColumnApiFunctionsInCode(updatedContent: string): string {
  * Update renamed grid options in code.
  */
 function renameGridOptionsInCode(updatedContent: string): string {
+  const componentReferenceExp =
+    /\b((header|loadingOverlay|noRowsOverlay)Component|component|cell(Editor|Renderer)|filter)Framework\b/g;
   if (
     updatedContent.match(/gridOptions/i) &&
     (updatedContent.includes('suppressCellSelection') ||
-      updatedContent.includes('headerComponentFramework') ||
-      updatedContent.includes('componentFramework') ||
-      updatedContent.includes('cellEditorFramework') ||
-      updatedContent.includes('filterFramework') ||
       updatedContent.includes('getRowNodeId') ||
-      updatedContent.includes('enterMovesDown'))
+      updatedContent.includes('enterMovesDown') ||
+      componentReferenceExp.test(updatedContent))
   ) {
     updatedContent = updatedContent
       .replace(/\bsuppressCellSelection\b/g, 'suppressCellFocus')
-      .replace(/\bheaderComponentFramework\b/g, 'headerComponent')
-      .replace(/\bcomponentFramework\b/g, 'component')
-      .replace(/\bcellEditorFramework\b/g, 'cellEditor')
-      .replace(/\bfilterFramework\b/g, 'filter')
+      .replace(componentReferenceExp, '$1')
       .replace(/\bgetRowNodeId\b/g, 'getRowId')
       .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
   }
@@ -106,26 +102,17 @@ function renameCharPress(updatedContent: string): string {
 }
 
 /**
- * Switch RowDataChangedEvent to RowDataUpdatedEvent.
+ * If available, switch gridOptions.api and gridOptions.columnApi to gridApi.
  */
-function renameEvents(updatedContent: string): string {
-  if (updatedContent.includes('RowDataChangedEvent')) {
+function swapGridOptionsApiToGridApi(updatedContent: string): string {
+  if (
+    updatedContent.includes('this.gridApi.') &&
+    (updatedContent.includes('this.gridOptions.api.') ||
+      updatedContent.includes('this.gridOptions.columnApi.'))
+  ) {
     updatedContent = updatedContent.replace(
-      /\bRowDataChangedEvent\b/g,
-      'RowDataUpdatedEvent',
-    );
-  }
-  return updatedContent;
-}
-
-/**
- * Switch cellRendererFramework to cellRenderer.
- */
-function renameCellRendererFramework(updatedContent: string): string {
-  if (updatedContent.includes('cellRendererFramework')) {
-    updatedContent = updatedContent.replace(
-      /\bcellRendererFramework\b/g,
-      'cellRenderer',
+      /\bthis\.gridOptions\.(api|columnApi)\./g,
+      'this.gridApi.',
     );
   }
   return updatedContent;
@@ -185,11 +172,10 @@ async function updateSourceFiles(
         );
       }
 
-      updatedContent = renameCellRendererFramework(updatedContent);
       updatedContent = renameCharPress(updatedContent);
       updatedContent = renameColumnApiFunctionsInCode(updatedContent);
-      updatedContent = renameEvents(updatedContent);
       updatedContent = renameGridOptionsInCode(updatedContent);
+      updatedContent = swapGridOptionsApiToGridApi(updatedContent);
 
       if (updatedContent !== content) {
         tree.overwrite(filePath, updatedContent);
