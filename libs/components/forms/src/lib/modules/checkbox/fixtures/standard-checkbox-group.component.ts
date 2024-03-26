@@ -9,6 +9,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
+
 import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({
@@ -31,25 +32,26 @@ export class SkyStandardCheckboxGroupComponent {
       email: new FormControl(false),
       phone: new FormControl(false),
       text: new FormControl(false),
-      });
+    });
 
     this.formGroup = this.#formBuilder.group({
       contactMethod: this.contactMethod,
     });
 
-    this.contactMethod.setValidators((control: AbstractControl): ValidationErrors | null => {
-      const group = control as FormGroup;
-      const email = group.controls['email'];
-      const phone = group.controls['phone'];
-      const text = group.controls['text'];
+    this.contactMethod.setValidators(
+      (control: AbstractControl): ValidationErrors | null => {
+        const group = control as FormGroup;
+        const email = group.controls['email'];
+        const phone = group.controls['phone'];
+        const text = group.controls['text'];
 
-      if (!email.value && !phone.value && !text.value) {
-        return {contactMethodRequired: true}
-      } else {
-        return null;
-      }
-    })
-
+        if (!email.value && !phone.value && !text.value) {
+          return { contactMethodRequired: true };
+        } else {
+          return null;
+        }
+      },
+    );
   }
 
   protected onSubmit(): void {

@@ -6,6 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+
 import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({

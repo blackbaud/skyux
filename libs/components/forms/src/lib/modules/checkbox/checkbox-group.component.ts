@@ -31,7 +31,7 @@ import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 })
 export class SkyCheckboxGroupComponent {
   /**
-   * The text to display as the radio group's label.
+   * The text to display as the checkbox group's label.
    * @preview
    */
   @Input({ required: true })
