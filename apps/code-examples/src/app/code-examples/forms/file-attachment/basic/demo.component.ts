@@ -17,6 +17,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
 export class DemoComponent {
   protected acceptedTypes = 'image/png,image/jpeg';
   protected allItems: (SkyFileItem | SkyFileLink)[] = [];
+  protected labelText = 'File attachment';
   protected maxFileSize = 4000000;
   protected rejectedFiles: SkyFileItem[] = [];
 
