@@ -30,7 +30,7 @@ describe('test', () => {
       );
 
       it('should render the component', () => {
-        cy.get('proj-nested')
+        cy.get('app-nested')
           .should('exist')
           .should('be.visible')
           .screenshot(\`nestedcomponent-nested--nested-\${theme}\`)
@@ -91,7 +91,7 @@ describe('test-storybook', () => {
       );
 
       it('should render the component', () => {
-        cy.get('proj-nx-welcome')
+        cy.get('app-nx-welcome')
           .should('exist')
           .should('be.visible')
           .screenshot(\`nxwelcomecomponent-nxwelcome--nx-welcome-\${theme}\`)
