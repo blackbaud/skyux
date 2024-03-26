@@ -74,7 +74,7 @@ exports[`component generator should run successfully, finding a module 2`] = `
 "import { Component } from '@angular/core';
 
 @Component({
-  selector: 'proj-example',
+  selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
 })
@@ -176,7 +176,7 @@ exports[`component generator should run successfully, when not including tests 2
 "import { Component } from '@angular/core';
 
 @Component({
-  selector: 'proj-sub-example',
+  selector: 'app-sub-example',
   templateUrl: './sub-example.component.html',
   styleUrls: ['./sub-example.component.scss'],
 })
@@ -228,7 +228,7 @@ describe('test-storybook', () => {
       );
 
       it('should render the component', () => {
-        cy.get('proj-example')
+        cy.get('app-example')
           .should('exist')
           .should('be.visible')
           .screenshot(\`examplecomponent-example--example-\${theme}\`)
