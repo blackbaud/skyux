@@ -1,18 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ag-grid.schematic should update RowDataChangedEvent 1`] = `
-"
-        import { RowDataUpdatedEvent, ICellEditorAngularComp } from 'ag-grid-community';
-
-        export class EditorComponent implements ICellEditorAngularComp {
-          public agInit(params: ICellEditorParams) {
-            params.api.addEventListener('rowDataChanged', (event: RowDataUpdatedEvent) => {
-              // do something
-            });
-          }
-        }"
-`;
-
 exports[`ag-grid.schematic should update cellRendererFramework 1`] = `
 "
         import { SkyAgGridService } from '@skyux/ag-grid';
@@ -122,6 +109,20 @@ exports[`ag-grid.schematic should update options 1`] = `
               ],
               suppressCellFocus: true
             });
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should use this.gridApi if possible 1`] = `
+"
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridApi.deselectAll();
           }
         }"
 `;
