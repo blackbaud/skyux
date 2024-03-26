@@ -290,6 +290,7 @@ export class SkyPhoneFieldInputDirective
       .pipe(debounceTime(500), takeUntil(this.#ngUnsubscribe))
       .subscribe((newValue) => {
         this.writeValue(newValue);
+        this.#changeDetector.markForCheck();
       });
   }
 
