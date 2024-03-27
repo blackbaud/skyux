@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.30.5](https://github.com/blackbaud/skyux/compare/9.30.4...9.30.5) (2024-03-26)
+
+
+### Bug Fixes
+
+* **components/phone-field:** add change detection for input only events ([#2166](https://github.com/blackbaud/skyux/issues/2166)) ([784b641](https://github.com/blackbaud/skyux/commit/784b641e998cdb5e285e7a5d3e6bcfcfc6000c8f))
+
 ## [9.30.4](https://github.com/blackbaud/skyux/compare/9.30.3...9.30.4) (2024-03-22)
 
 
