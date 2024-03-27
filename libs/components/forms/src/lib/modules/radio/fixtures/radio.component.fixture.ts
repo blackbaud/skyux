@@ -16,6 +16,10 @@ export class SkyRadioTestComponent {
   public label1: string | undefined;
   public labelledBy3: string | undefined;
 
+  public labelText1: string | undefined;
+  public labelText2: string | undefined;
+  public labelText3: string | undefined;
+
   public provideIds = true;
 
   public tabindex2: number | undefined;

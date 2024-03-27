@@ -1,9 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 /**
  * Specifies a label for the radio button. To display a help button beside the label, include a help button element,
  * such as `sky-help-inline`, in the `sky-radio-label` element and a `sky-control-help` CSS class on that help button
  * element.
+ * @deprecated Use `labelText` input on `sky-radio-component` instead.
  */
 @Component({
   selector: 'sky-radio-label',
@@ -17,5 +19,13 @@ export class SkyRadioLabelComponent {
   @HostListener('click', ['$event'])
   public onClick(event: MouseEvent): void {
     event.stopPropagation();
+  }
+
+  constructor() {
+    inject(SkyLogService).deprecated('SkyToggleSwitchLabelComponent', {
+      deprecationMajorVersion: 10,
+      replacementRecommendation:
+        'To add a label to radio button, use the `labelText` input on the radio button component instead.',
+    });
   }
 }
