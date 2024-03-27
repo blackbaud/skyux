@@ -153,3 +153,10 @@ button.sky-file-drop {
 .sky-file-input-hidden {
   display: none;
 }
+
+@include mixins.sky-theme-modern {
+  .sky-control-label {
+    color: var(--sky-text-color-deemphasized);
+    font-size: 13px;
+  }
+}
