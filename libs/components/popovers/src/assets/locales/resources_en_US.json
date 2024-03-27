@@ -10,5 +10,9 @@
   "skyux_dropdown_context_menu_with_content_descriptor_el_default_label": {
     "_description": "The label on the context menu button used for screen readers when the consumer has not specified a label and the component has a content descriptor element id provided",
     "message": "Context menu for "
+  },
+  "skyux_help_inline_popover_aria_label": {
+    "_description": "Aria label for help inline popover button",
+    "message": "Show help content for {0}"
   }
 }

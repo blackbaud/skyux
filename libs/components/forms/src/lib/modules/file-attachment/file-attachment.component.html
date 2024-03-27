@@ -1,13 +1,13 @@
 <div class="sky-file-attachment-wrapper">
-  <div
-    class="sky-file-attachment-label-wrapper"
-    [attr.id]="labelElementId"
-    [ngClass]="{
-      'sky-control-label-required': required && (hasLabelComponent || labelText)
-    }"
-  >
+  <div class="sky-file-attachment-label-wrapper" [attr.id]="labelElementId">
     <ng-container *ngIf="labelText; else labelContent">
-      <span *ngIf="!labelHidden" class="sky-control-label"
+      <span
+        *ngIf="!labelHidden"
+        [ngClass]="{
+          'sky-control-label-required':
+            required && (hasLabelComponent || labelText)
+        }"
+        class="sky-control-label"
         >{{ labelText }} </span
       ><ng-container *ngTemplateOutlet="inlineHelp" />
     </ng-container>
@@ -179,19 +179,10 @@
 </ng-template>
 
 <ng-template #inlineHelp>
-  <sky-help-inline
-    class="sky-control-help-container"
+  <sky-help-inline-popover
     *ngIf="helpPopoverContent"
-    [skyPopover]="inlineHelpPopover"
+    [labelText]="labelText"
+    [helpPopoverContent]="helpPopoverContent"
+    [helpPopoverTitle]="helpPopoverTitle"
   />
-</ng-template>
-
-<sky-popover #inlineHelpPopover [popoverTitle]="helpPopoverTitle">
-  <ng-container *ngIf="popoverTemplate; else popoverContext">
-    <ng-container *ngTemplateOutlet="popoverTemplate" />
-  </ng-container>
-</sky-popover>
-
-<ng-template #popoverContext>
-  {{ helpPopoverContent }}
 </ng-template>

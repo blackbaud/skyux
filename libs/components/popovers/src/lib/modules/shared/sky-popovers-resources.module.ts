@@ -26,6 +26,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_dropdown_context_menu_with_content_descriptor_el_default_label: {
       message: 'Context menu for ',
     },
+    skyux_help_inline_popover_aria_label: {
+      message: 'Show help content for {0}',
+    },
   },
 };
 

@@ -60,23 +60,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
 export class SkyFileAttachmentComponent
   implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
 {
+  // TODO add documentation here
   @Input()
   public helpPopoverTitle: string | undefined;
 
   @Input()
-  public get helpPopoverContent(): string | TemplateRef<unknown> | undefined {
-    return this.#_popoverContent;
-  }
-
-  public set helpPopoverContent(
-    value: string | TemplateRef<unknown> | undefined,
-  ) {
-    this.#_popoverContent = value;
-    this.popoverTemplate = value instanceof TemplateRef ? value : undefined;
-  }
-
-  protected popoverTemplate: TemplateRef<unknown> | undefined;
-  #_popoverContent: string | TemplateRef<unknown> | undefined;
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
 
   /**
    * The comma-delimited string literal of MIME types that users can attach.
