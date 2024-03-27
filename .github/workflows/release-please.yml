@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: npm-logs
-          path: ${{ runner.home }}/.npm/_logs
+          path: /home/runner/.npm/_logs
           retention-days: 3
       - name: Notify Slack (success)
         if: ${{ steps.release.outputs.release_created }}
