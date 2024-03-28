@@ -500,7 +500,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this.inputBoxHostSvc?.setHintText(
         this.#appFormat.formatText(
           this.#phoneNumberFormatHintTextTemplateString,
-          this.#_selectedCountry?.exampleNumber,
+          this.#_selectedCountry?.exampleNumber?.replace(/\d/g, '#'),
         ),
       );
     }

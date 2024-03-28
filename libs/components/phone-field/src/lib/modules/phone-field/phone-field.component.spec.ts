@@ -2245,20 +2245,20 @@ describe('Phone Field Component', () => {
         .querySelector('.sky-input-box-hint-text')
         .textContent.trim();
 
-      expect(hintText).toEqual('Use the format (201) 555-0123.');
+      expect(hintText).toEqual('Use the format (###) ###-####.');
     }));
 
     it('should show hint text for the the consumer provided date format', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
-      setCountry('Canada', fixture);
+      setCountry('United Kingdom', fixture);
 
       const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
       const hintText = inputBoxEl
         .querySelector('.sky-input-box-hint-text')
         .textContent.trim();
 
-      expect(hintText).toEqual('Use the format (506) 234-5678.');
+      expect(hintText).toEqual('Use the format #### ### ####.');
     }));
 
     it('should allow consumer to provide hint text along with the format hint text', fakeAsync(() => {
@@ -2271,7 +2271,7 @@ describe('Phone Field Component', () => {
         .textContent.trim();
 
       expect(hintText).toEqual(
-        'Use the format (201) 555-0123. Enter a phone number.',
+        'Use the format (###) ###-####. Enter a phone number.',
       );
     }));
 
