@@ -72,7 +72,7 @@ function filterViolationNodeResults(
     return (node: axe.NodeResult) => !node.html.includes('class="ag-');
   } else if (result.id === 'aria-allowed-role') {
     const fieldsetRadiogroupRegex = new RegExp(
-      /<fieldset.*(role="radiogroup")/g,
+      /<fieldset[^>]+role="radiogroup"/,
     );
     return (node: axe.NodeResult) => !fieldsetRadiogroupRegex.test(node.html);
   } else {
