@@ -109,7 +109,7 @@ describe('Checkbox group component', function () {
       fixture.detectChanges();
     });
 
-    it('should render the checkboxes in the stacked group', () => {
+    it('should render the checkboxes in the inline group', () => {
       const checkboxes = getCheckboxes(fixture, false);
 
       expect(checkboxes.length).toBe(3);
