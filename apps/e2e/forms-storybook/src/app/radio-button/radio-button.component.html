@@ -41,11 +41,11 @@
         </label>
         <ul class="sky-list-unstyled">
           <li *ngFor="let option of radioButtonOptions">
-            <sky-radio [disabled]="option.disabled" [value]="option.value">
-              <sky-radio-label>
-                {{ option.name }}
-              </sky-radio-label>
-            </sky-radio>
+            <sky-radio
+              [disabled]="option.disabled"
+              [value]="option.value"
+              [labelText]="option.name"
+            />
           </li>
         </ul>
       </sky-radio-group>
@@ -77,11 +77,11 @@
         </label>
         <ul class="sky-list-unstyled">
           <li *ngFor="let option of radioButtonOptions">
-            <sky-radio [disabled]="option.disabled" [value]="option.value">
-              <sky-radio-label>
-                {{ option.name }}
-              </sky-radio-label>
-            </sky-radio>
+            <sky-radio
+              [disabled]="option.disabled"
+              [value]="option.value"
+              [labelText]="option.name"
+            />
           </li>
         </ul>
       </sky-radio-group>

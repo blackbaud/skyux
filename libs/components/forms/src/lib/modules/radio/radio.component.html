@@ -5,8 +5,8 @@
   <input
     class="sky-radio-input sky-switch-input"
     type="radio"
-    [attr.aria-label]="label"
-    [attr.aria-labelledby]="labelledBy"
+    [attr.aria-label]="labelText || label"
+    [attr.aria-labelledby]="labelText ? undefined : labelledBy"
     [checked]="checked"
     [disabled]="disabled || radioGroupDisabled"
     [id]="inputId"
@@ -30,5 +30,10 @@
   >
     <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon" />
   </span>
-  <ng-content select="sky-radio-label" />
+  <ng-container *ngIf="labelText; else labelElement">
+    <span *ngIf="!labelHidden" class="sky-switch-label">{{ labelText }}</span>
+  </ng-container>
+  <ng-template #labelElement>
+    <ng-content select="sky-radio-label" />
+  </ng-template>
 </label>

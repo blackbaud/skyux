@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { RadioButtonComponent } from './radio-button.component';
 import { RadioButtonModule } from './radio-button.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<RadioButtonComponent>;
-const Template: Story<RadioButtonComponent> = (args: RadioButtonComponent) => ({
-  props: args,
-});
-export const RadioButton = Template.bind({});
+type Story = StoryObj<RadioButtonComponent>;
+export const RadioButton: Story = {};
 RadioButton.args = {};

@@ -37,27 +37,30 @@ describe('File size pipe', () => {
   });
 
   it('should format kilobytes', function () {
-    validateFormatted(1000, '1 KB');
-    validateFormatted(100000, '100 KB');
-    validateFormatted(999999, '999 KB');
+    validateFormatted(1000, '1,000 bytes');
+    validateFormatted(1024, '1 KB');
+    validateFormatted(102400, '100 KB');
+    validateFormatted(1022976, '999 KB');
   });
 
   it('should format megabytes', function () {
-    validateFormatted(1000000, '1 MB');
-    validateFormatted(1900000, '1.9 MB');
-    validateFormatted(100000000, '100 MB');
-    validateFormatted(999999999, '999.9 MB');
+    validateFormatted(1048575, '1,023 KB');
+    validateFormatted(1048576, '1 MB');
+    validateFormatted(1992300, '1.9 MB');
+    validateFormatted(104857600, '100 MB');
+    validateFormatted(1048471150, '999.9 MB');
   });
 
   it('should format gigabytes', function () {
-    validateFormatted(1000000000, '1 GB');
-    validateFormatted(100000000000, '100 GB');
-    validateFormatted(999999999999, '999.9 GB');
+    validateFormatted(1073741823, '1,023.9 MB');
+    validateFormatted(1073741824, '1 GB');
+    validateFormatted(107374182400, '100 GB');
+    validateFormatted(1073634449818, '999.9 GB');
   });
 
   it('should format values over 1,000 gigabytes as gigabytes', function () {
-    validateFormatted(1000000000000, '1,000 GB');
-    validateFormatted(9999999999999, '9,999.9 GB');
+    validateFormatted(1073741824000, '1,000 GB');
+    validateFormatted(10737310865818, '9,999.9 GB');
   });
 
   it('should return an empty string when the input is null or undefined', function () {

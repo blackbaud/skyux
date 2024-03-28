@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { ConfirmComponent } from './confirm.component';
 import { ConfirmModule } from './confirm.module';
@@ -14,9 +15,7 @@ export default {
   ],
 } as Meta<ConfirmComponent>;
 
-const Template: Story<ConfirmComponent> = (args: ConfirmComponent) => ({
-  props: args,
-});
+type Story = StoryObj<ConfirmComponent>;
 
-export const Confirm = Template.bind({});
+export const Confirm: Story = {};
 Confirm.args = {};

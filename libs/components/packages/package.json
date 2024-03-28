@@ -86,12 +86,12 @@
       "ag-grid-angular": "~31.2.0",
       "ag-grid-community": "~31.2.0",
       "ag-grid-enterprise": "~31.2.0",
-      "autonumeric": "^4.10.4"
+      "autonumeric": "^4.10.5"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^17.2.3",
-    "@angular/core": "^17.2.4"
+    "@angular/cli": "^17.3.2",
+    "@angular/core": "^17.3.1"
   },
   "dependencies": {
     "fs-extra": "11.2.0",

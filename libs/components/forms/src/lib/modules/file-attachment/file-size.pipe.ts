@@ -31,18 +31,18 @@ export class SkyFileSizePipe implements PipeTransform {
 
     if (Math.abs(input) === 1) {
       template = 'skyux_file_attachment_file_size_b_singular';
-    } else if (input < 1000) {
+    } else if (input < 1024) {
       template = 'skyux_file_attachment_file_size_b_plural';
-    } else if (input < 1e6) {
+    } else if (input < Math.pow(1024, 2)) {
       template = 'skyux_file_attachment_file_size_kb';
-      dividend = 1000;
-    } else if (input < 1e9) {
+      dividend = 1024;
+    } else if (input < Math.pow(1024, 3)) {
       template = 'skyux_file_attachment_file_size_mb';
-      dividend = 1e6;
+      dividend = Math.pow(1024, 2);
       decimalPlaces = 1;
     } else {
       template = 'skyux_file_attachment_file_size_gb';
-      dividend = 1e9;
+      dividend = Math.pow(1024, 3);
       decimalPlaces = 1;
     }
 

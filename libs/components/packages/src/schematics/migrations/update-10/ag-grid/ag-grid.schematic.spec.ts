@@ -285,7 +285,7 @@ describe('ag-grid.schematic', () => {
     expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
   });
 
-  it('should update RowDataChangedEvent', async () => {
+  it('should use this.gridApi if possible', async () => {
     expect.assertions(1);
     const { tree } = setupTest({
       dependencies: {
@@ -295,20 +295,35 @@ describe('ag-grid.schematic', () => {
       },
     });
     tree.create(
-      'src/app/editor.component.ts',
+      'src/app/grid.component.ts',
       `
-        import { RowDataChangedEvent, ICellEditorAngularComp } from 'ag-grid-community';
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
 
-        export class EditorComponent implements ICellEditorAngularComp {
-          public agInit(params: ICellEditorParams) {
-            params.api.addEventListener('rowDataChanged', (event: RowDataChangedEvent) => {
-              // do something
-            });
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridOptions.api.deselectAll();
+          }
+        }`,
+    );
+    tree.create(
+      'src/app/grid-with-column-api.component.ts',
+      `
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridOptions.columnApi.deselectAll();
           }
         }`,
     );
     await runner.runSchematic('ag-grid', {}, tree);
-    expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
+    expect(tree.readText('src/app/grid.component.ts')).toMatchSnapshot();
   });
 
   it('should warn about mixing modules and packages', async () => {

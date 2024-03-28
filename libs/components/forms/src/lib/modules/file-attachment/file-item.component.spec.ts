@@ -124,7 +124,7 @@ describe('File item component', () => {
     componentInstance.fileItem = {
       file: {
         name: 'myFile.txt',
-        size: 1000,
+        size: 1024,
       },
     } as SkyFileItem;
     fixture.detectChanges();

@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { WaitComponent } from './wait.component';
 import { WaitModule } from './wait.module';
@@ -13,11 +14,9 @@ export default {
     }),
   ],
 } as Meta<WaitComponent>;
-const Template: Story<WaitComponent> = (args: WaitComponent) => ({
-  props: args,
-});
-export const Wait = Template.bind({});
+type Story = StoryObj<WaitComponent>;
+export const Wait: Story = {};
 Wait.args = {};
 
-export const WaitPageBlocking = Template.bind({});
+export const WaitPageBlocking: Story = {};
 WaitPageBlocking.args = { showFullPageWait: true };

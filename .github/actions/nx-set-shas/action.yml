@@ -27,7 +27,7 @@ runs:
       id: read-default-base
       shell: bash
       run: |
-        echo "main-branch-name=$(jq -r '.affected.defaultBase' nx.json)" >> $GITHUB_OUTPUT
+        echo "main-branch-name=$(jq -r '.baseBranch' .skyuxdev.json)" >> $GITHUB_OUTPUT
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands (using nrwl/nx-set-shas).
       id: nx-set-shas

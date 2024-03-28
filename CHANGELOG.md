@@ -1,5 +1,84 @@
 # Changelog
 
+## [9.30.5](https://github.com/blackbaud/skyux/compare/9.30.4...9.30.5) (2024-03-26)
+
+
+### Bug Fixes
+
+* **components/phone-field:** add change detection for input only events ([#2166](https://github.com/blackbaud/skyux/issues/2166)) ([784b641](https://github.com/blackbaud/skyux/commit/784b641e998cdb5e285e7a5d3e6bcfcfc6000c8f))
+
+## [10.0.0](https://github.com/blackbaud/skyux/compare/10.0.0-rc.1...10.0.0) (2024-03-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added support for Angular 17 and removed support for Angular 16
+* The @skyux/http library was only used by internal Blackbaud developers and has been removed from the public repo.
+* **components/ag-grid:** Add support for AG Grid 31.1.1 and remove support for AG Grid below 31.1.1.
+* **components/ag-grid:** Data Grids will now allow text selection by default when range selection is not enabled.
+* **components/datetime:** date range service provided in root ([#2096](https://github.com/blackbaud/skyux/issues/2096))
+* **components/datetime:** The placeholder text for the expected datepicker date format has moved to the hint text of wrapping input box components. This hint text will appear before any hint text specified on the wrapping input box. Consumers should ensure that all datepicker components are wrapped in an input box component and that the input box's labelText input is specified to ensure proper accessibility labels.
+* **components/forms:** Calls to `SkyInputBoxHarness.queryHarness`, `SkyRepeaterItemHarness.queryHarness`, `SkyLookupHarness.queryHarness`, and `SkyPopoverContentHarness.queryHarness` will now throw an error if a child harness cannot be found. An `update` schematic will replace existing `queryHarness` calls with `queryHarnessOrNull` to avoid breaking existing tests. Thanks @isaacaggrey!
+* **components/modals:** The `SkyConfirmInstance`'s `closed` property has been changed to an `Observable<SkyConfirmCloseEventArgs>`. This change drives consistency throughout the SKY UX libraries and allows consumers to chain observables together when appropriate. Consumers who are constructing `SkyConfirmInstance` objects or call the `closed` property's `emit` function will need to update their code to no longer trigger the `closed` event directly.
+* **components/tabs:** The `sky-tab` component's `tabIndex` input clashes with the native HTML `tabindex` attribute, so `tabIndex` has been renamed to `tabIndexValue`.
+* **components/theme:** The new skyux-icons library contains an update to the file icon metadata that occludes a Font Awesome fallback icon in order to better align with design guidelines for icon use. This FA icon is no longer available for use when using a sky-icon component.
+* **sdk/prettier-schematics:** Prettier 3 requires manually setting plugins in its configuration. This change will automatically add known plugins to `.prettierrc.json`, but there is a chance a plugin will be missed after the update.
+
+### Features
+
+* add Angular 17 support ([#1949](https://github.com/blackbaud/skyux/issues/1949)) ([6c6af7b](https://github.com/blackbaud/skyux/commit/6c6af7bbd72266cc8a7ded47301b66fa3faeffd8))
+* update `intl-tel-input` and `google-libphonenumber` dependencies ([#2097](https://github.com/blackbaud/skyux/issues/2097)) ([accc87d](https://github.com/blackbaud/skyux/commit/accc87d97a95b29ca976cdb39a47f6ba2cdf5799))
+* remove `@skyux/http` ([#2154](https://github.com/blackbaud/skyux/issues/2154)) ([d0d7d4c](https://github.com/blackbaud/skyux/commit/d0d7d4c72e47923310fe98856b1dc01477e36e98))
+* add support for @angular/core@17.3.1 and axe-core@4.9.0 ([#2175](https://github.com/blackbaud/skyux/issues/2175)) ([a7bf9cc](https://github.com/blackbaud/skyux/commit/a7bf9cce2eb3f65b6feb493feae9ba3d1017a0e8))
+* **components/ag-grid:** add support for AG Grid 30 ([#1993](https://github.com/blackbaud/skyux/issues/1993)) ([fcf47af](https://github.com/blackbaud/skyux/commit/fcf47af483e6c8d09e4454efa2fa3083b7ebb42f))
+* **components/ag-grid:** add support for AG Grid 31 ([#2054](https://github.com/blackbaud/skyux/issues/2054)) ([8132edd](https://github.com/blackbaud/skyux/commit/8132eddce710596c61105e6087a3d08b4a539256))
+* **components/ag-grid:** schematic for AG Grid 31 changes ([#2100](https://github.com/blackbaud/skyux/issues/2100)) ([aaad68e](https://github.com/blackbaud/skyux/commit/aaad68ef8235382ffe3a48fb8bcc66b72dd51aec))
+* **components/ag-grid:** add hover style for header resize ([#2119](https://github.com/blackbaud/skyux/issues/2119)) ([03afd40](https://github.com/blackbaud/skyux/commit/03afd4007a987588c0eb547a431dff1af0381a0a))
+* **components/ag-grid:** update header styles in modern to match `h4` ([#2133](https://github.com/blackbaud/skyux/issues/2133)) ([3b98638](https://github.com/blackbaud/skyux/commit/3b986382eaf93fb5682e31ae8e405e0ef607764b))
+* **components/ag-grid:** support AG Grid 31.2.0 ([#2150](https://github.com/blackbaud/skyux/issues/2150)) ([a0112f5](https://github.com/blackbaud/skyux/commit/a0112f5f24e047cdab156262f77bae7d155edcfe))
+* **components/ag-grid:** update grid api references ([#2170](https://github.com/blackbaud/skyux/issues/2170)) ([e793f8b](https://github.com/blackbaud/skyux/commit/e793f8bda71243356dc55d1dc79eb99afc34ead0))
+* **components/autonumeric:** update `autonumeric` to `4.10.4` ([#1974](https://github.com/blackbaud/skyux/issues/1974)) ([06afbcf](https://github.com/blackbaud/skyux/commit/06afbcf120732db11688799ccb930d397b77d8f3))
+* **components/datetime:** update `moment` to `2.30.1` ([#1975](https://github.com/blackbaud/skyux/issues/1975)) ([5fe13c8](https://github.com/blackbaud/skyux/commit/5fe13c881f2e6e64f9e823d52ebed604d57222ed))
+* **components/forms:** `SkyComponentHarness.queryHarness` throws if child harness not found ([#2103](https://github.com/blackbaud/skyux/issues/2103)) ([c9fceb2](https://github.com/blackbaud/skyux/commit/c9fceb24f8c36475e0fb1cfbf03787f38da01147))
+* **components/modals:** confirm instance uses an observable for the closed notification ([#2031](https://github.com/blackbaud/skyux/issues/2031)) ([3b8f975](https://github.com/blackbaud/skyux/commit/3b8f9757b8750cb65f5d3c507f11d3a6b5bb1d7d))
+* **components/modals:** add `close` method to `SkyConfirmInstance` ([#2112](https://github.com/blackbaud/skyux/issues/2112)) ([4b792e3](https://github.com/blackbaud/skyux/commit/4b792e370fc1b8a24c22b33137cf70b676312dff))
+* **components/modals:** add `SkyConfirmTestingController` to mock confirm dialogs in tests ([#2114](https://github.com/blackbaud/skyux/issues/2114)) ([2a0d514](https://github.com/blackbaud/skyux/commit/2a0d514d027cadd3c2ce8dd046325241dee806fe))
+* **components/packages:** remove backward compatible stylesheets from prior migrations ([#2041](https://github.com/blackbaud/skyux/issues/2041)) ([a55abe7](https://github.com/blackbaud/skyux/commit/a55abe7bd68b3ecde404c85f534b97390b4083b2))
+* **components/packages:** update axe-core if @skyux-sdk/testing installed ([#2030](https://github.com/blackbaud/skyux/issues/2030)) ([6ed4b7d](https://github.com/blackbaud/skyux/commit/6ed4b7d61c6d98ae5c38f80211660a3b8103320d))
+* **components/phone-field:** phone format information moved to input box hint text ([#2061](https://github.com/blackbaud/skyux/issues/2061)) ([a9cf856](https://github.com/blackbaud/skyux/commit/a9cf856630865fd2c7ffa01a23eb4bee8cff0655))
+* **components/text-editor:** update `dompurify` to `3.0.8` ([#1973](https://github.com/blackbaud/skyux/issues/1973)) ([81ff0bc](https://github.com/blackbaud/skyux/commit/81ff0bc67ee55a56b034bb3b4f41422ed2d91152))
+* **components/text-editor:** add `labelText` input to text editor component ([#2139](https://github.com/blackbaud/skyux/issues/2139)) ([638f537](https://github.com/blackbaud/skyux/commit/638f5375ec7e942a9853de607a32020ab5300c9d))
+* **components/theme:** update h4 and h5 styles in modern theme ([#2095](https://github.com/blackbaud/skyux/issues/2095)) ([eec1de3](https://github.com/blackbaud/skyux/commit/eec1de36c720f4d55ea7899080e5c6fe37a2574f))
+* **components/theme:** update to icons library version 7 ([#2164](https://github.com/blackbaud/skyux/issues/2164)) ([701c70b](https://github.com/blackbaud/skyux/commit/701c70bcd4b2d9dd5b0cf6e80a70a8550d160559))
+* **sdk/prettier-schematics:** add support for `prettier@3` ([#2053](https://github.com/blackbaud/skyux/issues/2053)) ([0131e05](https://github.com/blackbaud/skyux/commit/0131e05b5bfe434e737079ba6ccde26a7ae84292))
+
+### Bug Fixes
+
+* **components/ag-grid:** a11y test intermittently failing ([#2086](https://github.com/blackbaud/skyux/issues/2086)) ([203881f](https://github.com/blackbaud/skyux/commit/203881f1b8e268e1708aaab743ad5c2b1ef72dd9))
+* **components/ag-grid:** additional AG Grid schematic changes ([#2070](https://github.com/blackbaud/skyux/issues/2070)) ([2006190](https://github.com/blackbaud/skyux/commit/2006190a458010265cb90befb01dc32143d4dd2d))
+* **components/ag-grid:** check `isDestroyed` before grid api call ([#2080](https://github.com/blackbaud/skyux/issues/2080)) ([162c3c6](https://github.com/blackbaud/skyux/commit/162c3c61663ec3fcb3c31e9d800758ed4cd6297f))
+* **components/ag-grid:** make row selector keyboard accessible ([#2134](https://github.com/blackbaud/skyux/issues/2134)) ([0881ce9](https://github.com/blackbaud/skyux/commit/0881ce9aca465c1a4b73be7d14531deabc155b4a))
+* **components/packages:** standardize how schematics visit project files ([#1967](https://github.com/blackbaud/skyux/issues/1967)) ([#1970](https://github.com/blackbaud/skyux/issues/1970)) ([24d9190](https://github.com/blackbaud/skyux/commit/24d91903f34c5b83f107fbc454d071880be0849d))
+* **components/packages:** skip deleting compat stylesheets if they don't exist ([#2077](https://github.com/blackbaud/skyux/issues/2077)) ([664fa57](https://github.com/blackbaud/skyux/commit/664fa57d366c7c15719ce7b15d246
+* **components/phone-field:** add change detection for input only events ([#2166](https://github.com/blackbaud/skyux/issues/2166)) ([#2173](https://github.com/blackbaud/skyux/issues/2173)) ([0c3463a](https://github.com/blackbaud/skyux/commit/0c3463a81a3abb1af6e06980c25a63a58aa0a537))
+* **components/tabs:** rename tabIndex to tabIndexValue ([#2090](https://github.com/blackbaud/skyux/issues/2090)) ([ff1a2be](https://github.com/blackbaud/skyux/commit/ff1a2befd3daa778138aa8deeb5710a9d4d93d72))
+* **components/tabs:** don't apply negative margins to vertical tabsets and sectioned forms that do not use full modal ([#2110](https://github.com/blackbaud/skyux/issues/2110)) ([cff428e](https://github.com/blackbaud/skyux/commit/cff428ef20ee94110aacced27458723673b35562))
+* **sdk/eslint-config:** downgrade `package-json` to `7.0.0` since it only works with ES modules ([#1985](https://github.com/blackbaud/skyux/issues/1985)) ([8b25942](https://github.com/blackbaud/skyux/commit/8b25942d1774d1f089ee5774f748c464facddb0d))
+
+## [10.0.0-rc.1](https://github.com/blackbaud/skyux/compare/10.0.0-rc.0...10.0.0-rc.1) (2024-03-26)
+
+
+### Features
+
+* add support for @angular/core@17.3.1 and axe-core@4.9.0 ([#2175](https://github.com/blackbaud/skyux/issues/2175)) ([a7bf9cc](https://github.com/blackbaud/skyux/commit/a7bf9cce2eb3f65b6feb493feae9ba3d1017a0e8))
+* **components/ag-grid:** update grid api references ([#2170](https://github.com/blackbaud/skyux/issues/2170)) ([e793f8b](https://github.com/blackbaud/skyux/commit/e793f8bda71243356dc55d1dc79eb99afc34ead0))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** modify schematics after testing ([#2176](https://github.com/blackbaud/skyux/issues/2176)) ([a9fb61f](https://github.com/blackbaud/skyux/commit/a9fb61f981aa3302d4135b2bd261dde8b898fcde))
+* **components/phone-field:** add change detection for input only events ([#2166](https://github.com/blackbaud/skyux/issues/2166)) ([#2173](https://github.com/blackbaud/skyux/issues/2173)) ([0c3463a](https://github.com/blackbaud/skyux/commit/0c3463a81a3abb1af6e06980c25a63a58aa0a537))
+
 ## [10.0.0-rc.0](https://github.com/blackbaud/skyux/compare/10.0.0-alpha.7...10.0.0-rc.0) (2024-03-25)
 
 
