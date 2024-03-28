@@ -1,12 +1,8 @@
 import { importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { SkyDataManagerModule } from '@skyux/data-manager';
-import {
-  Meta,
-  Story,
-  applicationConfig,
-  moduleMetadata,
-} from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';
@@ -26,29 +22,27 @@ export default {
     }),
   ],
 } as Meta<DataManagerComponent>;
-const Template: Story<DataManagerComponent> = (args: DataManagerComponent) => ({
-  props: args,
-});
+type Story = StoryObj<DataManagerComponent>;
 
-export const DataManagerNormal = Template.bind({});
+export const DataManagerNormal: Story = {};
 DataManagerNormal.args = {
   domLayout: 'normal',
   enableTopScroll: false,
 };
 
-export const DataManagerNormalWithTopScroll = Template.bind({});
+export const DataManagerNormalWithTopScroll: Story = {};
 DataManagerNormalWithTopScroll.args = {
   domLayout: 'normal',
   enableTopScroll: true,
 };
 
-export const DataManagerAutoHeight = Template.bind({});
+export const DataManagerAutoHeight: Story = {};
 DataManagerAutoHeight.args = {
   domLayout: 'autoHeight',
   enableTopScroll: false,
 };
 
-export const DataManagerAutoHeightWithTopScroll = Template.bind({});
+export const DataManagerAutoHeightWithTopScroll: Story = {};
 DataManagerAutoHeightWithTopScroll.args = {
   domLayout: 'autoHeight',
   enableTopScroll: true,

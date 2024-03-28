@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { IconComponent } from './icon.component';
 import { IconModule } from './icon.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<IconComponent>;
-const Template: Story<IconComponent> = (args: IconComponent) => ({
-  props: args,
-});
-export const Icon = Template.bind({});
+type Story = StoryObj<IconComponent>;
+export const Icon: Story = {};
 Icon.args = {};

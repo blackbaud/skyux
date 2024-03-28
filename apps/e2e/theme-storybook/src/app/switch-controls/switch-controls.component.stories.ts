@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { SwitchControlsComponent } from './switch-controls.component';
 import { SwitchControlsModule } from './switch-controls.module';
@@ -13,10 +14,6 @@ export default {
     }),
   ],
 } as Meta<SwitchControlsComponent>;
-const Template: Story<SwitchControlsComponent> = (
-  args: SwitchControlsComponent,
-) => ({
-  props: args,
-});
-export const SwitchControls = Template.bind({});
+type Story = StoryObj<SwitchControlsComponent>;
+export const SwitchControls: Story = {};
 SwitchControls.args = {};

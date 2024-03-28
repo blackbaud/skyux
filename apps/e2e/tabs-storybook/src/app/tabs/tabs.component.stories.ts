@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { TabsComponent } from './tabs.component';
 import { TabsModule } from './tabs.module';
@@ -14,10 +15,8 @@ export default {
   ],
 } as Meta<TabsComponent>;
 
-const Template: Story<TabsComponent> = (args: TabsComponent) => ({
-  props: args,
-});
-export const Tabs = Template.bind({});
+type Story = StoryObj<TabsComponent>;
+export const Tabs: Story = {};
 Tabs.args = {
   active: 1,
   tabs: [
@@ -38,7 +37,7 @@ Tabs.args = {
   ],
 };
 
-export const TabsDropdown = Template.bind({});
+export const TabsDropdown: Story = {};
 TabsDropdown.args = {
   active: 0,
   tabs: [

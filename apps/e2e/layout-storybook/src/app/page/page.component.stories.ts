@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { PageComponent } from './page.component';
 import { PageModule } from './page.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<PageComponent>;
-const Template: Story<PageComponent> = (args: PageComponent) => ({
-  props: args,
-});
-export const Page = Template.bind({});
+type Story = StoryObj<PageComponent>;
+export const Page: Story = {};
 Page.args = {};

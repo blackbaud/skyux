@@ -1,9 +1,7 @@
-import type { StorybookConfig } from '@storybook/angular';
-import type { DocsOptions } from '@storybook/types';
+import { DocsOptions, Preset, StorybookConfig } from '@storybook/types';
 
-const frameworkName: '@storybook/angular' = '@storybook/angular';
-export const framework = {
-  name: frameworkName,
+export const framework: Preset = {
+  name: '@storybook/angular',
   options: {},
 };
 export const docs: DocsOptions = {
@@ -24,15 +22,14 @@ export const rootMain: StorybookConfig = {
   ],
   docs: docs,
   framework: framework,
-  features: {
-    buildStoriesJson: true,
-  },
+  features: {},
   // Workaround for https://github.com/storybookjs/storybook/issues/23883
-  previewHead: (head: string) => `
-    ${head}
-    <script>
-      window.beforeEach = window.beforeEach || (() => {});
-      window.afterEach = window.afterEach || (() => {});
-    </script>
-  `,
+  previewHead: (head, _options) =>
+    Promise.resolve(`
+      ${head}
+      <script>
+        window.beforeEach = window.beforeEach || (() => {});
+        window.afterEach = window.afterEach || (() => {});
+      </script>
+    `),
 };

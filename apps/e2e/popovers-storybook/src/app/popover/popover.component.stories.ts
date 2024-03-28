@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { PopoverComponent } from './popover.component';
 import { PopoverModule } from './popover.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<PopoverComponent>;
-const Template: Story<PopoverComponent> = (args: PopoverComponent) => ({
-  props: args,
-});
-export const Popover = Template.bind({});
+type Story = StoryObj<PopoverComponent>;
+export const Popover: Story = {};
 Popover.args = {};
