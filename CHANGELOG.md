@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.1.0](https://github.com/blackbaud/skyux/compare/10.0.0...10.1.0) (2024-03-28)
+
+
+### Features
+
+* **components/forms:** add labelText and labelHidden preview inputs to multi file attachment component ([#2169](https://github.com/blackbaud/skyux/issues/2169)) ([6e46475](https://github.com/blackbaud/skyux/commit/6e464757a6e7742c4470030d97b7026df0f31902))
+* **components/forms:** add radio labelText input and deprecate old labels ([#2168](https://github.com/blackbaud/skyux/issues/2168)) ([9e4e211](https://github.com/blackbaud/skyux/commit/9e4e21153164ae0d519e8e78966a6e3a54ec5831))
+
+
+### Bug Fixes
+
+* **components/forms:** file sizes use powers of two to calculate KB, MB, and GB ([#2189](https://github.com/blackbaud/skyux/issues/2189)) ([e83aaea](https://github.com/blackbaud/skyux/commit/e83aaea7d4a0e7111e5d26989694a8eafdfc20c1))
+
 ## [9.30.5](https://github.com/blackbaud/skyux/compare/9.30.4...9.30.5) (2024-03-26)
 
 
