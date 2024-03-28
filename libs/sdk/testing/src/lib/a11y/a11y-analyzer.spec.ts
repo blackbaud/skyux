@@ -134,9 +134,7 @@ describe('A11y analyzer', () => {
         fail('Other: Expected error to be thrown');
       })
       .catch((result) => {
-        expect(result).toMatch(
-          /<p role="radiogroup">/,
-        );
+        expect(result).toMatch(/<p role="radiogroup">/);
       });
   }));
 
@@ -174,9 +172,7 @@ describe('A11y analyzer', () => {
         fail('Other: Expected error to be thrown');
       })
       .catch((result) => {
-        expect(result).toMatch(
-          /<fieldset role="alert">/,
-        );
+        expect(result).toMatch(/<fieldset role="alert">/);
       });
   }));
 
