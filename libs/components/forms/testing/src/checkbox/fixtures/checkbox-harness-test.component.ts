@@ -16,6 +16,7 @@ export class CheckboxHarnessTestComponent {
   public hideEmailLabel = false;
   public mailControl: UntypedFormControl;
   public hidePhoneLabel = false;
+  public hideGroupLabel = false;
 
   #formBuilder: UntypedFormBuilder;
 
@@ -37,6 +38,21 @@ export class CheckboxHarnessTestComponent {
       phone: new UntypedFormControl(false),
       mail: this.mailControl,
     });
+
+    this.myForm.setValidators(
+      (control: AbstractControl): ValidationErrors | null => {
+        const group = control as UntypedFormGroup;
+        const email = group.controls['email'];
+        const phone = group.controls['phone'];
+        const mail = group.controls['mail'];
+
+        if (!email.value && !phone.value && !mail.value) {
+          return { contactMethodRequired: true };
+        } else {
+          return null;
+        }
+      },
+    );
   }
 
   public disableForm(): void {

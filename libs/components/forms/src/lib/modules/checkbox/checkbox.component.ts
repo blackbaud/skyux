@@ -142,8 +142,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   /**
    * The icon to display in place of the checkbox. To group icon checkboxes
-   * like in the demo, place the `sky-switch-icon-group` class on the direct parent
-   * element of the checkboxes.
+   * like in the demo, place the checkboxes within a `sky-checkbox-group`.
    */
   @Input()
   public icon: string | undefined;
