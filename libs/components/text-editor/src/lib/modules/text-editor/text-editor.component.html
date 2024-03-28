@@ -5,7 +5,8 @@
   [attr.aria-errormessage]="labelText && ngControl.errors ? errorId : undefined"
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
-    'sky-text-editor-wrapper-focused': editorFocused
+    'sky-text-editor-wrapper-focused': editorFocused,
+    'sky-text-editor-invalid': ngControl.errors
   }"
 >
   <div class="sky-text-editor-label-wrapper">

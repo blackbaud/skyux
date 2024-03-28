@@ -81,6 +81,17 @@
       }
     }
 
+    &.sky-text-editor-invalid {
+      .sky-text-editor-label-wrapper {
+        color: var(--sky-highlight-color-danger);
+      }
+
+      .sky-text-editor-wrapper {
+        @include mixins.sky-theme-modern-border-invalid;
+        border-top: 1px solid $sky-border-color-neutral-medium;
+      }
+    }
+
     &.sky-text-editor-wrapper-focused {
       .sky-text-editor-label-wrapper {
         color: $sky-theme-modern-background-color-primary-dark;

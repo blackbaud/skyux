@@ -220,6 +220,7 @@ export class SkyInputBoxComponent
     this.#inputBoxHostSvc.init(this);
   }
 
+  // eslint-disable-next-line complexity
   public ngAfterContentChecked(): void {
     this.controlDir =
       this.formControl || this.formControlByName || this.ngModel;
