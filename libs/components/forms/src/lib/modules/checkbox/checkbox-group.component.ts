@@ -49,8 +49,13 @@ export class SkyCheckboxGroupComponent {
    * vertical spacing is automatically added to the checkbox group.
    */
   @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
   public set stacked(value: boolean) {
-    this.cssClass = value ? 'sky-margin-stacked-lg' : '';
+    this.#_stacked = value;
+  }
+
+  public get stacked(): boolean {
+    return this.#_stacked;
   }
 
   /**
@@ -60,9 +65,7 @@ export class SkyCheckboxGroupComponent {
   @Input({ required: true })
   public formGroup!: FormGroup;
 
-  @HostBinding('class')
-  public cssClass = '';
-
+  #_stacked = false;
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
   protected formErrorsDataId = 'checkbox-group-form-errors';
