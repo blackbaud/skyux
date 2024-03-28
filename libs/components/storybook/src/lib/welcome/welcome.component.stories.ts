@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { WelcomeComponent } from './welcome.component';
 import { WelcomeModule } from './welcome.module';
@@ -13,9 +14,7 @@ export default {
   ],
 } as Meta<WelcomeComponent>;
 
-const Template: Story<WelcomeComponent> = (args: WelcomeComponent) => ({
-  props: args,
-});
+type Story = StoryObj<WelcomeComponent>;
 
-export const SkyUXStorybook = Template.bind({});
+export const SkyUXStorybook: Story = {};
 SkyUXStorybook.args = {};

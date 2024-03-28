@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { ButtonsComponent } from './buttons.component';
 import { ButtonsModule } from './buttons.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<ButtonsComponent>;
-const Template: Story<ButtonsComponent> = (args: ButtonsComponent) => ({
-  props: args,
-});
-export const Buttons = Template.bind({});
+type Story = StoryObj<ButtonsComponent>;
+export const Buttons: Story = {};
 Buttons.args = {};

@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { BoxComponent } from './box.component';
 import { BoxModule } from './box.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<BoxComponent>;
-const Template: Story<BoxComponent> = (args: BoxComponent) => ({
-  props: args,
-});
-export const Box = Template.bind({});
+type Story = StoryObj<BoxComponent>;
+export const Box: Story = {};
 Box.args = {};

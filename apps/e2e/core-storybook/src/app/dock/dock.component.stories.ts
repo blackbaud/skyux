@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { DockComponent } from './dock.component';
 import { DockModule } from './dock.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<DockComponent>;
-const Template: Story<DockComponent> = (args: DockComponent) => ({
-  props: args,
-});
-export const Dock = Template.bind({});
+type Story = StoryObj<DockComponent>;
+export const Dock: Story = {};
 Dock.args = {};

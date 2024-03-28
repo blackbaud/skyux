@@ -1,4 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryFn } from '@storybook/angular';
 
 import { InlineFormComponent } from './inline-form.component';
 import { InlineFormModule } from './inline-form.module';

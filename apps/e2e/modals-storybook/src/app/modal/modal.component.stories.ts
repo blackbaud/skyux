@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { ModalComponent } from './modal.component';
 import { ModalModule } from './modal.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<ModalComponent>;
-const Template: Story<ModalComponent> = (args: ModalComponent) => ({
-  props: args,
-});
-export const Modal = Template.bind({});
+type Story = StoryObj<ModalComponent>;
+export const Modal: Story = {};
 Modal.args = {};
