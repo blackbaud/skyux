@@ -1,6 +1,8 @@
 <div
   class="sky-text-editor"
   [attr.aria-label]="labelText"
+  [attr.aria-invalid]="!!ngControl.errors"
+  [attr.aria-errormessage]="labelText && ngControl.errors ? errorId : undefined"
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused
@@ -61,3 +63,12 @@
   >
   </iframe>
 </div>
+<sky-form-errors
+  *ngIf="labelText && ngControl?.errors"
+  [id]="errorId"
+  [errors]="ngControl.errors"
+  [labelText]="labelText"
+  [showErrors]="ngControl.touched || ngControl.dirty"
+>
+  <ng-content select="sky-form-error" />
+</sky-form-errors>
