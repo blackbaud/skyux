@@ -31,6 +31,18 @@
     }
   }
 
+  &.sky-text-editor-invalid {
+    .sky-text-editor-wrapper {
+      @include mixins.sky-field-status('invalid');
+    }
+  }
+
+  &.sky-text-editor-wrapper-focused {
+    .sky-text-editor-wrapper {
+      @include mixins.sky-field-status('active');
+    }
+  }
+
   .sky-text-editor-toolbar {
     .sky-toolbar-section {
       padding: 10px 10px 0 10px;
@@ -88,7 +100,6 @@
 
       .sky-text-editor-wrapper {
         @include mixins.sky-theme-modern-border-invalid;
-        border-top: 1px solid $sky-border-color-neutral-medium;
       }
     }
 
