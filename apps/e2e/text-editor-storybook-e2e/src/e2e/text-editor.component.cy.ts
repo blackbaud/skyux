@@ -67,10 +67,10 @@ describe('text-editor-storybook', () => {
               cy.wrap($bodyWrapper).blur();
             })
             .screenshot(
-              `texteditorcomponent-texteditor--text-editor-with-text-${theme}`,
+              `texteditorcomponent-texteditor--text-editor-with-error-${theme}`,
             );
           cy.get('app-text-editor').percySnapshot(
-            `texteditorcomponent-texteditor--text-editor-with-text-${theme}`,
+            `texteditorcomponent-texteditor--text-editor-with-error-${theme}`,
             {
               widths: E2eVariations.DISPLAY_WIDTHS,
             },
@@ -109,6 +109,16 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open create link dialog', () => {
+          cy.get('app-text-editor')
+            .should('exist')
+            .should('be.visible')
+            .get('iframe')
+            .then(($iframe) => {
+              const $bodyWrapper = $iframe.contents().find('body');
+              cy.wrap($bodyWrapper).click();
+              cy.wrap($bodyWrapper).type('Some text');
+            });
+
           cy.get('app-text-editor')
             .should('exist')
             .should('be.visible')
