@@ -27,6 +27,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
+import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
@@ -69,6 +70,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorToolbarComponent,
     SkyToolbarModule,
     SkyFormErrorsModule,
+    SkyTextEditorResourcesModule,
   ],
 })
 export class SkyTextEditorComponent

@@ -54,7 +54,9 @@
   <iframe
     class="sky-text-editor-wrapper"
     src="about:blank"
-    title="Text Editor"
+    [attr.title]="
+      labelText || ('skyux_text_editor_iframe_title_default' | skyLibResources)
+    "
     [ngClass]="{
       'sky-text-editor-wrapper-disabled': disabled
     }"
