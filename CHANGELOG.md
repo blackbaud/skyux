@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.30.6](https://github.com/blackbaud/skyux/compare/9.30.5...9.30.6) (2024-03-28)
+
+
+### Bug Fixes
+
+* **sdk/testing:** allow fieldsets with radiogroup role during accessibility testing ([#2192](https://github.com/blackbaud/skyux/issues/2192)) ([6cdc23f](https://github.com/blackbaud/skyux/commit/6cdc23fcfa55fb7635a3a870c0a5cf14952b36c5))
+
 ## [9.30.5](https://github.com/blackbaud/skyux/compare/9.30.4...9.30.5) (2024-03-26)
 
 
