@@ -9,19 +9,23 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import { SkyCheckboxModule } from '@skyux/forms';
+
+import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({
   standalone: true,
-  selector: 'app-demo',
-  templateUrl: './demo.component.html',
+  selector: 'sky-standard-checkbox-group',
+  templateUrl: './standard-checkbox-group.component.html',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
-export class DemoComponent {
+export class SkyStandardCheckboxGroupComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);
 
   protected formGroup: FormGroup;
   protected contactMethod: FormGroup;
+
+  public stacked = true;
+  public labelHidden = false;
 
   constructor() {
     this.contactMethod = this.#formBuilder.group({
@@ -32,7 +36,6 @@ export class DemoComponent {
 
     this.formGroup = this.#formBuilder.group({
       contactMethod: this.contactMethod,
-      terms: new FormControl(false),
     });
 
     this.contactMethod.setValidators(
