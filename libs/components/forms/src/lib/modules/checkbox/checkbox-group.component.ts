@@ -47,6 +47,7 @@ export class SkyCheckboxGroupComponent {
   /**
    * Whether the checkbox group is stacked on another form component. When specified, the appropriate
    * vertical spacing is automatically added to the checkbox group.
+   * @preview
    */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
