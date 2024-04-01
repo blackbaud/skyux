@@ -20,6 +20,8 @@ export class SkyDatepickerConfigService {
    */
   public minDate: Date | undefined;
 
+  public startAtDate: Date | undefined;
+
   /**
    * The starting day of the week in the calendar,
    * where `0` sets the starting day to Sunday.
