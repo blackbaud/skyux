@@ -1,1 +1,1 @@
-export * from './lib/modules/help-inline/help-inline.component';
+export { SkyHelpInlineModule } from './lib/modules/help-inline/help-inline.module';

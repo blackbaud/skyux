@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HelpInlineComponent } from './help-inline.component';
+import { SkyHelpInlineComponent } from './help-inline.component';
 
-describe('HelpInlineComponent', () => {
-  let component: HelpInlineComponent;
-  let fixture: ComponentFixture<HelpInlineComponent>;
+describe('SkyHelpInlineComponent', () => {
+  let component: SkyHelpInlineComponent;
+  let fixture: ComponentFixture<SkyHelpInlineComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HelpInlineComponent],
+      imports: [SkyHelpInlineComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HelpInlineComponent);
+    fixture = TestBed.createComponent(SkyHelpInlineComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
