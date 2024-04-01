@@ -2,11 +2,14 @@
   class="sky-help-inline"
   type="button"
   [attr.aria-label]="
-    ariaLabel || 'skyux_help_inline_button_title' | skyLibResources
+    ariaLabel || labelText
+      ? ('skyux_help_inline_aria_label' | skyLibResources : labelText)
+      : ('skyux_help_inline_button_title' | skyLibResources)
   "
   [attr.aria-controls]="ariaControls"
   [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded : ariaControls"
   (click)="onClick()"
+  [skyPopover]="labelText && helpPopoverContent ? inlineHelpPopover : undefined"
 >
   <sky-icon *skyThemeIf="'default'" icon="info-circle" />
   <sky-icon-stack
@@ -23,3 +26,13 @@
   >
   </sky-icon-stack>
 </button>
+
+<sky-popover #inlineHelpPopover [popoverTitle]="helpPopoverTitle">
+  <ng-container *ngIf="popoverTemplate; else popoverContext">
+    <ng-container *ngTemplateOutlet="popoverTemplate" />
+  </ng-container>
+</sky-popover>
+
+<ng-template #popoverContext>
+  {{ helpPopoverContent }}
+</ng-template>
