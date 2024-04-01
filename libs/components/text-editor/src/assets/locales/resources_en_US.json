@@ -79,6 +79,10 @@
     "_description": "Text for the 'Select all' key shortcut in the edit menu",
     "message": "Ctrl+A"
   },
+  "skyux_text_editor_iframe_title_default": {
+    "_description": "Text for the title attribute of the text editor iFrame",
+    "message": "Text editor"
+  },
   "skyux_text_editor_menubar_dropdown_button_edit_label": {
     "_description": "Text for the 'Edit' dropdown button in the menubar",
     "message": "Edit"

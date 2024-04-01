@@ -12,6 +12,7 @@ import {
   NgModel,
   ReactiveFormsModule,
   UntypedFormControl,
+  Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -60,10 +61,16 @@ describe('Text editor', () => {
   }
 
   @Component({
-    template: `<sky-text-editor [formControl]="formControl"></sky-text-editor>`,
+    template: `<sky-text-editor
+      [formControl]="formControl"
+      [labelText]="labelText"
+    ></sky-text-editor>`,
   })
   class TextEditorWithFormControl {
-    public formControl = new UntypedFormControl();
+    public formControl = new UntypedFormControl(undefined, [
+      Validators.required,
+    ]);
+    public labelText = 'Text editor';
   }
   //#endregion
 
@@ -506,6 +513,16 @@ describe('Text editor', () => {
       validateToolbarActions(testComponent.toolbarActions);
     });
 
+    it('renders label text', () => {
+      const labelText = 'Label text';
+      testComponent.labelText = labelText;
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+
+      expect(label.textContent).toEqual(labelText);
+    });
+
     [
       {
         desc: 'new window',
@@ -592,7 +609,7 @@ describe('Text editor', () => {
         FONT_SIZE_LIST_DEFAULTS.map((item) => item + 'px'),
       );
       expect(fonts).toEqual(FONT_LIST_DEFAULTS.map((item) => item.name));
-      validateIframeDocumentAttribute('id', ID_DEFAULT + '1');
+      validateIframeDocumentAttribute('id', ID_DEFAULT + '2');
       validateMenus(MENU_DEFAULTS);
       validateMergeFields([]);
       validateToolbarActions(TOOLBAR_ACTION_DEFAULTS);
@@ -1851,6 +1868,14 @@ describe('Text editor', () => {
       expect(iframeElement).not.toHaveCssClass(
         'sky-text-editor-wrapper-disabled',
       );
+    });
+
+    it('should render a sky-form-error when the field is required and has been touched', () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      const error = fixture.nativeElement.querySelector('sky-form-error');
+      expect(error).toBeVisible();
     });
   });
 
