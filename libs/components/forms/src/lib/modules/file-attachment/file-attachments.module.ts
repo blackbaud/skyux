@@ -2,8 +2,8 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule, SkyTrimModule } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/indicators';
-import { SkyHelpInlinePopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyFormErrorModule } from '../form-error/form-error.module';
@@ -35,7 +35,7 @@ import { SkyFileSizePipe } from './file-size.pipe';
     SkyIdModule,
     SkyThemeModule,
     SkyTrimModule,
-    SkyHelpInlinePopoverModule,
+    SkyHelpInlineModule,
   ],
   exports: [
     SkyFileAttachmentComponent,

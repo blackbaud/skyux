@@ -8,8 +8,10 @@
             required && (hasLabelComponent || labelText)
         }"
         class="sky-control-label"
-        >{{ labelText }} </span
-      ><ng-container *ngTemplateOutlet="inlineHelp" />
+      >
+        {{ labelText }}
+      </span>
+      <ng-container *ngTemplateOutlet="inlineHelp" />
     </ng-container>
   </div>
   <div
@@ -51,7 +53,7 @@
         [attr.aria-label]="
           value
             ? ('skyux_file_attachment_button_label_replace_file_label'
-              | skyLibResources: fileName)
+              | skyLibResources : fileName)
             : ('skyux_file_attachment_button_label_choose_file_label'
               | skyLibResources)
         "
@@ -61,8 +63,8 @@
           (labelText
             ? labelElementId
             : hasLabelComponent
-              ? labelComponents?.get(0)?.labelContentId?.id
-              : undefined)
+            ? labelComponents?.get(0)?.labelContentId?.id
+            : undefined)
         "
         [disabled]="disabled"
         (click)="onDropClicked()"
@@ -107,7 +109,7 @@
       skyId
       type="button"
       [attr.aria-label]="
-        'skyux_file_attachment_file_item_remove' | skyLibResources: fileName
+        'skyux_file_attachment_file_item_remove' | skyLibResources : fileName
       "
       [attr.aria-labelledby]="
         deleteButton.id +
@@ -153,7 +155,7 @@
     [errorName]="'fileType'"
     [errorText]="
       'skyux_file_attachment_file_type_error_label_text'
-        | skyLibResources: fileErrorParam
+        | skyLibResources : fileErrorParam
     "
   />
   <sky-form-error
@@ -161,7 +163,7 @@
     [errorName]="'maxFileSize'"
     [errorText]="
       'skyux_file_attachment_max_file_size_error_label_text'
-        | skyLibResources: fileErrorParam
+        | skyLibResources : fileErrorParam
     "
   />
   <sky-form-error
@@ -169,7 +171,7 @@
     [errorName]="'minFileSize'"
     [errorText]="
       'skyux_file_attachment_min_file_size_error_label_text'
-        | skyLibResources: fileErrorParam
+        | skyLibResources : fileErrorParam
     "
   />
 </sky-form-errors>
@@ -178,11 +180,4 @@
   <ng-content select="sky-file-attachment-label" />
 </ng-template>
 
-<ng-template #inlineHelp>
-  <sky-help-inline-popover
-    *ngIf="helpPopoverContent"
-    [labelText]="labelText"
-    [helpPopoverContent]="helpPopoverContent"
-    [helpPopoverTitle]="helpPopoverTitle"
-  />
-</ng-template>
+<ng-template #inlineHelp> </ng-template>
