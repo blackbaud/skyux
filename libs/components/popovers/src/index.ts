@@ -15,8 +15,6 @@ export { SkyPopoverPosition } from './lib/modules/popover/types/popover-position
 export { SkyPopoverTrigger } from './lib/modules/popover/types/popover-trigger';
 export { SkyPopoverType } from './lib/modules/popover/types/popover-type';
 
-export { SkyHelpInlinePopoverModule } from './lib/modules/help-inline-popover/help-inline-popover.module';
-
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyDropdownButtonComponent as λ2 } from './lib/modules/dropdown/dropdown-button.component';
