@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { HelpInlineComponent } from './help-inline.component';
 import { HelpInlineModule } from './help-inline.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<HelpInlineComponent>;
-const Template: Story<HelpInlineComponent> = (args: HelpInlineComponent) => ({
-  props: args,
-});
-export const HelpInline = Template.bind({});
+type Story = StoryObj<HelpInlineComponent>;
+export const HelpInline: Story = {};
 HelpInline.args = {};

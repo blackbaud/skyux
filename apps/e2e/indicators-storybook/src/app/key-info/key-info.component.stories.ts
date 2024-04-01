@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { KeyInfoComponent } from './key-info.component';
 import { KeyInfoModule } from './key-info.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<KeyInfoComponent>;
-const Template: Story<KeyInfoComponent> = (args: KeyInfoComponent) => ({
-  props: args,
-});
-export const KeyInfo = Template.bind({});
+type Story = StoryObj<KeyInfoComponent>;
+export const KeyInfo: Story = {};
 KeyInfo.args = {};

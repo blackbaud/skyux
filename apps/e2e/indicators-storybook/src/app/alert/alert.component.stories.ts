@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { AlertComponent } from './alert.component';
 import { AlertModule } from './alert.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<AlertComponent>;
-const Template: Story<AlertComponent> = (args: AlertComponent) => ({
-  props: args,
-});
-export const Alert = Template.bind({});
+type Story = StoryObj<AlertComponent>;
+export const Alert: Story = {};
 Alert.args = {};

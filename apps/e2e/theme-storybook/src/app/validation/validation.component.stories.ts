@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { ValidationComponent } from './validation.component';
 import { ValidationModule } from './validation.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<ValidationComponent>;
-const Template: Story<ValidationComponent> = (args: ValidationComponent) => ({
-  props: args,
-});
-export const Validation = Template.bind({});
+type Story = StoryObj<ValidationComponent>;
+export const Validation: Story = {};
 Validation.args = {};

@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { LabelComponent } from './label.component';
 import { LabelModule } from './label.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<LabelComponent>;
-const Template: Story<LabelComponent> = (args: LabelComponent) => ({
-  props: args,
-});
-export const Label = Template.bind({});
+type Story = StoryObj<LabelComponent>;
+export const Label: Story = {};
 Label.args = {};

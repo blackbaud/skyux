@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { TokensComponent } from './tokens.component';
 import { TokensModule } from './tokens.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<TokensComponent>;
-const Template: Story<TokensComponent> = (args: TokensComponent) => ({
-  props: args,
-});
-export const Tokens = Template.bind({});
+type Story = StoryObj<TokensComponent>;
+export const Tokens: Story = {};
 Tokens.args = {};
