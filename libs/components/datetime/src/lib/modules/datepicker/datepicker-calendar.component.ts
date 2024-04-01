@@ -113,8 +113,8 @@ export class SkyDatepickerCalendarComponent {
       this.selectedDate = value;
       this.datepicker?.select(value, false);
     } else {
-      this.selectedDate = new Date();
-      this.datepicker?.select(new Date(), false);
+      this.selectedDate = this.startAtDate ?? new Date();
+      this.datepicker?.select(this.startAtDate ?? new Date(), false);
     }
   }
 }
