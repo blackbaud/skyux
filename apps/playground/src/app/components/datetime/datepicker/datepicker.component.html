@@ -35,6 +35,7 @@
       [disabled]="disabled"
       [maxDate]="maxDate"
       [minDate]="minDate"
+      [startAtDate]="startAtDate"
       [skyDatepickerNoValidate]="noValidate"
       [startingDay]="startingDay"
       [strict]="strict"
@@ -92,6 +93,7 @@
         type="text"
         [maxDate]="maxDate"
         [minDate]="minDate"
+        [startAtDate]="startAtDate"
         [dateFormat]="dateFormat"
         [skyDatepickerNoValidate]="noValidate"
         [startingDay]="startingDay"
@@ -167,9 +169,9 @@
 <button
   class="sky-btn sky-btn-primary"
   type="button"
-  (click)="setMinMaxDates()"
+  (click)="setMinMaxStartAtDates()"
 >
-  Set min and max dates
+  Set min, max, and startAt dates
 </button>
 <button
   class="sky-btn sky-btn-primary"
