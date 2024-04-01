@@ -33,6 +33,9 @@ export class SkyDatepickerCalendarComponent {
   @Input()
   public maxDate: Date | undefined;
 
+  @Input()
+  public startAtDate: Date | undefined;
+
   /** currently selected date */
   @Input()
   public selectedDate: Date | undefined;
