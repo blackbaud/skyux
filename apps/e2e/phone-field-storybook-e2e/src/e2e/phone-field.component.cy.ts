@@ -51,6 +51,8 @@ describe('phone-field-storybook', () => {
           .should('exist')
           .should('be.visible');
 
+        cy.get('#ready').should('exist');
+
         cy.get('app-phone-field')
           .should('exist')
           .should('be.visible')
