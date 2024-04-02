@@ -38,6 +38,9 @@ export class SkyHelpInlineComponent {
   @Input()
   public ariaExpanded: boolean | undefined;
 
+  /**
+   * @deprecated TODO add the deprecation log
+   */
   @Input()
   public ariaLabel: string | undefined;
 

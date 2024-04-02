@@ -9,7 +9,7 @@
   [attr.aria-controls]="ariaControls"
   [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded: ariaControls"
   (click)="onClick()"
-  [skyPopover]="labelText && popoverContent ? popover : undefined"
+  [skyPopover]="popoverContent ? popover : undefined"
 >
   <sky-icon *skyThemeIf="'default'" icon="info-circle" />
   <sky-icon-stack
