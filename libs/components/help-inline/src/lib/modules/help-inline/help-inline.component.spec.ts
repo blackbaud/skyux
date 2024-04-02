@@ -1,7 +1,10 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserModule, By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyPopoverHarness } from '@skyux/popovers/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -30,6 +33,15 @@ describe('Help inline component', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   }
 
+  async function getPopoverTestHarness(): Promise<{
+    popoverHarness: SkyPopoverHarness;
+  }> {
+    const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const popoverHarness = await loader.getHarness(SkyPopoverHarness);
+
+    return { popoverHarness };
+  }
+
   let fixture: ComponentFixture<HelpInlineTestComponent>;
   let component: HelpInlineTestComponent;
   let debugElement: DebugElement;
@@ -48,7 +60,7 @@ describe('Help inline component', () => {
 
     TestBed.configureTestingModule({
       declarations: [HelpInlineTestComponent],
-      imports: [BrowserModule, SkyHelpInlineModule],
+      imports: [BrowserModule, SkyHelpInlineModule, NoopAnimationsModule],
       providers: [{ provide: SkyThemeService, useValue: mockThemeSvc }],
     });
 
@@ -217,11 +229,43 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should set help popover when popoverContent input is set');
+  it('should set help popover when popoverContent input is set', async () => {
+    component.popoverContent = 'content';
+    fixture.detectChanges();
 
-  it(
-    'should not render help popover if popoverTitle is set without popoverContent',
-  );
+    const { popoverHarness } = await getPopoverTestHarness();
+    await popoverHarness.clickPopoverButton();
 
-  it('should render help popover if helpContext is a template');
+    await expect(
+      await (await popoverHarness.getPopoverContent()).getBodyText(),
+    ).toBe('content');
+  });
+
+  it('should render help popover title', async () => {
+    component.popoverTitle = 'title';
+    component.popoverContent = 'content';
+    fixture.detectChanges();
+
+    const { popoverHarness } = await getPopoverTestHarness();
+    await popoverHarness.clickPopoverButton();
+
+    await expect(
+      await (await popoverHarness.getPopoverContent()).getBodyText(),
+    ).toBe('content');
+    await expect(
+      await (await popoverHarness.getPopoverContent()).getTitleText(),
+    ).toBe('title');
+  });
+
+  it('should render help popover if helpContext is a templateRef', async () => {
+    component.popoverContent = component.popoverTemplate;
+    fixture.detectChanges();
+
+    const { popoverHarness } = await getPopoverTestHarness();
+    await popoverHarness.clickPopoverButton();
+
+    await expect(
+      await (await popoverHarness.getPopoverContent()).getBodyText(),
+    ).toBe('this is a template');
+  });
 });
