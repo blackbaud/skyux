@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-phone-field',
   templateUrl: './phone-field.component.html',
   styleUrls: ['./phone-field.component.scss'],
 })
-export class PhoneFieldComponent {
+export class PhoneFieldComponent implements AfterViewInit {
   public phoneControl: UntypedFormControl;
   public phoneControlError: UntypedFormControl;
   public phoneControlInput: UntypedFormControl;
@@ -14,6 +16,8 @@ export class PhoneFieldComponent {
   public phoneForm: UntypedFormGroup;
   public phoneFormError: UntypedFormGroup;
   public phoneFormInput: UntypedFormGroup;
+
+  protected readonly ready = new BehaviorSubject(false);
 
   constructor() {
     this.phoneControl = new UntypedFormControl();
@@ -32,5 +36,9 @@ export class PhoneFieldComponent {
       phoneControlInput: this.phoneControlInput,
     });
     this.phoneControlInput.setValue('2015550123');
+  }
+
+  public ngAfterViewInit(): void {
+    setTimeout(() => this.ready.next(true), 400);
   }
 }
