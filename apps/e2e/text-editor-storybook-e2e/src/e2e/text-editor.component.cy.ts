@@ -56,7 +56,38 @@ describe('text-editor-storybook', () => {
           );
         });
 
+        it('should display an error state', () => {
+          cy.get('app-text-editor')
+            .should('exist')
+            .should('be.visible')
+            .get('iframe')
+            .then(($iframe) => {
+              const $bodyWrapper = $iframe.contents().find('body');
+              cy.wrap($bodyWrapper).click();
+              cy.wrap($bodyWrapper).blur();
+            })
+            .screenshot(
+              `texteditorcomponent-texteditor--text-editor-with-error-${theme}`,
+            );
+          cy.get('app-text-editor').percySnapshot(
+            `texteditorcomponent-texteditor--text-editor-with-error-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
+        });
+
         it('should open all the menus', () => {
+          cy.get('app-text-editor')
+            .should('exist')
+            .should('be.visible')
+            .get('iframe')
+            .then(($iframe) => {
+              const $bodyWrapper = $iframe.contents().find('body');
+              cy.wrap($bodyWrapper).click();
+              cy.wrap($bodyWrapper).type('Some text');
+            });
+
           ['Edit menu', 'Format menu', 'Insert merge field'].forEach(
             (button) => {
               cy.get('app-text-editor')
@@ -78,6 +109,16 @@ describe('text-editor-storybook', () => {
         });
 
         it('should open create link dialog', () => {
+          cy.get('app-text-editor')
+            .should('exist')
+            .should('be.visible')
+            .get('iframe')
+            .then(($iframe) => {
+              const $bodyWrapper = $iframe.contents().find('body');
+              cy.wrap($bodyWrapper).click();
+              cy.wrap($bodyWrapper).type('Some text');
+            });
+
           cy.get('app-text-editor')
             .should('exist')
             .should('be.visible')

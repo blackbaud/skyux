@@ -40,6 +40,7 @@ export { SkyCharacterCounterInputDirective as λ2 } from './lib/modules/characte
 export { SkyCharacterCounterScreenReaderPipe as λ23 } from './lib/modules/character-counter/character-counter-screen-reader.pipe';
 export { SkyCheckboxLabelComponent as λ4 } from './lib/modules/checkbox/checkbox-label.component';
 export { SkyCheckboxComponent as λ3 } from './lib/modules/checkbox/checkbox.component';
+export { SkyCheckboxGroupComponent as λ24 } from './lib/modules/checkbox/checkbox-group.component';
 export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachment/file-attachment-label.component';
 export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment/file-attachment.component';
 export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachment/file-drop.component';

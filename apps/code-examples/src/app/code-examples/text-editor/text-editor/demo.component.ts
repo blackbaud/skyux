@@ -5,15 +5,15 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { SkyIdModule } from '@skyux/core';
 import { SkyTextEditorModule } from '@skyux/text-editor';
 
 @Component({
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [FormsModule, ReactiveFormsModule, SkyIdModule, SkyTextEditorModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyTextEditorModule],
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
@@ -22,7 +22,7 @@ export class DemoComponent {
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
-      myText: new FormControl(this.#richText),
+      myText: new FormControl(this.#richText, [Validators.required]),
     });
   }
 }

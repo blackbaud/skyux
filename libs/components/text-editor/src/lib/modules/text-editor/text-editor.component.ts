@@ -16,13 +16,18 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
-import { SkyInputBoxHostService } from '@skyux/forms';
+import {
+  SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorsModule,
+  SkyInputBoxHostService,
+} from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
+import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
@@ -57,12 +62,15 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorService,
     SkyTextEditorSelectionService,
     SkyTextEditorAdapterService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   imports: [
     CommonModule,
     SkyTextEditorMenubarComponent,
     SkyTextEditorToolbarComponent,
     SkyToolbarModule,
+    SkyFormErrorsModule,
+    SkyTextEditorResourcesModule,
   ],
 })
 export class SkyTextEditorComponent
@@ -287,10 +295,10 @@ export class SkyTextEditorComponent
       // Update angular form control if model has been normalized.
       /* istanbul ignore else */
       if (
-        this.#ngControl?.control &&
-        normalizedValue !== this.#ngControl.control.value
+        this.ngControl?.control &&
+        normalizedValue !== this.ngControl.control.value
       ) {
-        this.#ngControl.control.setValue(normalizedValue, {
+        this.ngControl.control.setValue(normalizedValue, {
           emitModelToViewChange: false,
         });
       }
@@ -342,13 +350,15 @@ export class SkyTextEditorComponent
   readonly #coreAdapterService = inject(SkyCoreAdapterService);
   readonly #editorService = inject(SkyTextEditorService);
   readonly #idSvc = inject(SkyIdService);
-  readonly #ngControl = inject(NgControl);
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
+  protected readonly errorId = this.#idSvc.generateId();
+  protected readonly ngControl = inject(NgControl);
+
   constructor() {
     this.#id = this.#defaultId = this.#idSvc.generateId();
-    this.#ngControl.valueAccessor = this;
+    this.ngControl.valueAccessor = this;
   }
 
   public ngAfterViewInit(): void {

@@ -22,3 +22,11 @@
     border-radius: $sky-theme-modern-box-border-radius-default;
   }
 }
+
+:host-context(sky-checkbox-group .sky-checkbox-group-stacked) :host {
+  display: block;
+
+  &:not(:last-child) {
+    margin-bottom: var(--sky-margin-stacked-sm);
+  }
+}

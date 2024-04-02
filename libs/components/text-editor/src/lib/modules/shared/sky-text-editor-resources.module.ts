@@ -57,6 +57,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_text_editor_edit_menu_action_select_all_key_shortcut: {
       message: 'Ctrl+A',
     },
+    skyux_text_editor_iframe_title_default: { message: 'Text editor' },
     skyux_text_editor_menubar_dropdown_button_edit_label: { message: 'Edit' },
     skyux_text_editor_menubar_dropdown_button_format_label: {
       message: 'Format',
