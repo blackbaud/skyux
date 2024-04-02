@@ -2,6 +2,15 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
 
@@ -24,11 +33,23 @@ describe('Help inline component', () => {
   let fixture: ComponentFixture<HelpInlineTestComponent>;
   let component: HelpInlineTestComponent;
   let debugElement: DebugElement;
+  let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light,
+        ),
+        previousSettings: undefined,
+      }),
+    };
+
     TestBed.configureTestingModule({
       declarations: [HelpInlineTestComponent],
       imports: [BrowserModule, SkyHelpInlineModule],
+      providers: [{ provide: SkyThemeService, useValue: mockThemeSvc }],
     });
 
     fixture = TestBed.createComponent(HelpInlineTestComponent);
@@ -149,13 +170,52 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should use sky-icon in default theme');
+  it('should use sky-icon in default theme', async () => {
+    fixture.detectChanges();
 
-  it('should use sky-icon-stack in modern');
+    expect(fixture.nativeElement.querySelector('sky-icon')).toExist();
+    expect(fixture.nativeElement.querySelector('sky-icon-stack')).toBe(null);
+  });
 
-  it('should set aria label with labelText');
+  it('should use sky-icon-stack in modern', async () => {
+    mockThemeSvc.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+      ),
+      previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-  it('should use aria label with labelText over deprecated ariaLabel input');
+    expect(fixture.nativeElement.querySelector('sky-icon')).toBeNull();
+    expect(fixture.nativeElement.querySelector('sky-icon-stack')).toExist();
+  });
+
+  it('should set aria label with labelText', async () => {
+    component.labelText = 'test component';
+
+    fixture.detectChanges();
+
+    await checkAriaPropertiesAndAccessibility(
+      'Show help content for test component',
+      null,
+      null,
+    );
+  });
+
+  it('should use aria label with labelText over deprecated ariaLabel input', async () => {
+    component.labelText = 'test component';
+    component.ariaLabel = 'deprecated';
+
+    fixture.detectChanges();
+
+    await checkAriaPropertiesAndAccessibility(
+      'Show help content for test component',
+      null,
+      null,
+    );
+  });
 
   it('should set help popover when popoverContent input is set');
 

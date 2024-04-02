@@ -7,5 +7,5 @@
     "inlineSources": true
   },
   "exclude": ["**/*.spec.ts", "src/test.ts", "src/**/*.test.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "karma.conf.js"]
 }

@@ -2,9 +2,11 @@
   class="sky-help-inline"
   type="button"
   [attr.aria-label]="
-    ariaLabel || labelText
+    labelText
       ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-      : ('skyux_help_inline_button_title' | skyLibResources)
+      : ariaLabel
+        ? ariaLabel
+        : ('skyux_help_inline_button_title' | skyLibResources)
   "
   [attr.aria-controls]="ariaControls"
   [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded: ariaControls"
