@@ -22,7 +22,7 @@ describe('Help inline component', () => {
   }
 
   let fixture: ComponentFixture<HelpInlineTestComponent>;
-  let cmp: HelpInlineTestComponent;
+  let component: HelpInlineTestComponent;
   let debugElement: DebugElement;
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('Help inline component', () => {
     });
 
     fixture = TestBed.createComponent(HelpInlineTestComponent);
-    cmp = fixture.componentInstance as HelpInlineTestComponent;
+    component = fixture.componentInstance as HelpInlineTestComponent;
     debugElement = fixture.debugElement;
 
     fixture.detectChanges();
@@ -42,19 +42,22 @@ describe('Help inline component', () => {
     debugElement
       .query(By.css('.sky-help-inline'))
       .triggerEventHandler('click', undefined);
+
     fixture.detectChanges();
-    expect(cmp.showHelpText).toBe(true);
+
+    expect(component.showHelpText).toBe(true);
   });
 
-  it('should pass accessibility (ariaLabel: undefined, ariaControls: undefined, ariaExpanded: undefined)', async () => {
+  it('should pass accessibility with default inputs', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
     await checkAriaPropertiesAndAccessibility('Show help content', null, null);
   });
 
-  it('should pass accessibility (ariaLabel: undefined, ariaControls: "help-text", ariaExpanded: undefined)', async () => {
-    cmp.ariaControls = 'help-text';
+  it('should pass accessibility when ariaControls input is set', async () => {
+    component.ariaControls = 'help-text';
+
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -65,9 +68,10 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility (ariaLabel: undefined, ariaControls: "help-text", ariaExpanded: false)', async () => {
-    cmp.ariaControls = 'help-text';
-    cmp.ariaExpanded = false;
+  it('should pass accessibility when ariaControls is set, ariaExpanded is false', async () => {
+    component.ariaControls = 'help-text';
+    component.ariaExpanded = false;
+
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -78,9 +82,10 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility (ariaLabel: undefined, ariaControls: "help-text", ariaExpanded: true)', async () => {
-    cmp.ariaControls = 'help-text';
-    cmp.ariaExpanded = true;
+  it('should pass accessibility ariaControls is set, ariaExpanded is true', async () => {
+    component.ariaControls = 'help-text';
+    component.ariaExpanded = true;
+
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -91,17 +96,19 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility (ariaLabel: "Test label", ariaControls: undefined, ariaExpanded: undefined)', async () => {
-    cmp.ariaLabel = 'Test label';
+  it('should pass accessibility ariaLabel is set', async () => {
+    component.ariaLabel = 'Test label';
+
     fixture.detectChanges();
     await fixture.whenStable();
 
     await checkAriaPropertiesAndAccessibility('Test label', null, null);
   });
 
-  it('should pass accessibility (ariaLabel: "Test label", ariaControls: "help-text", ariaExpanded: undefined)', async () => {
-    cmp.ariaLabel = 'Test label';
-    cmp.ariaControls = 'help-text';
+  it('should pass accessibility ariaLabel and ariaControls is set', async () => {
+    component.ariaLabel = 'Test label';
+    component.ariaControls = 'help-text';
+
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -112,10 +119,11 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility (ariaLabel: "Test label", ariaControls: "help-text", ariaExpanded: false)', async () => {
-    cmp.ariaLabel = 'Test label';
-    cmp.ariaControls = 'help-text';
-    cmp.ariaExpanded = false;
+  it('should pass accessibility when ariaLabel and ariaControls is set, ariaExpanded is set to false', async () => {
+    component.ariaLabel = 'Test label';
+    component.ariaControls = 'help-text';
+    component.ariaExpanded = false;
+
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -126,10 +134,11 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility (ariaLabel: "Test label", ariaControls: "help-text", ariaExpanded: true)', async () => {
-    cmp.ariaLabel = 'Test label';
-    cmp.ariaControls = 'help-text';
-    cmp.ariaExpanded = true;
+  it('should pass accessibility ariaLabel and ariaControls is set, ariaExpanded is set to true', async () => {
+    component.ariaLabel = 'Test label';
+    component.ariaControls = 'help-text';
+    component.ariaExpanded = true;
+
     fixture.detectChanges();
     await fixture.whenStable();
 
