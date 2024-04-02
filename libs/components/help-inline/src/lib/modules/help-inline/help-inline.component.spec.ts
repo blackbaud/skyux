@@ -148,4 +148,20 @@ describe('Help inline component', () => {
       'true',
     );
   });
+
+  it('should use sky-icon in default theme');
+
+  it('should use sky-icon-stack in modern');
+
+  it('should set aria label with labelText');
+
+  it('should use aria label with labelText over deprecated ariaLabel input');
+
+  it('should set help popover when popoverContent input is set');
+
+  it(
+    'should not render help popover if popoverTitle is set without popoverContent',
+  );
+
+  it('should render help popover if helpContext is a template');
 });

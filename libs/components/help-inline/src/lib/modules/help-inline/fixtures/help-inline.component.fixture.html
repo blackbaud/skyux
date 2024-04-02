@@ -1,0 +1,12 @@
+<sky-help-inline
+  [ariaControls]="ariaControls"
+  [ariaExpanded]="ariaExpanded"
+  [ariaLabel]="ariaLabel"
+  [popoverTitle]="popoverTitle"
+  [popoverContent]="popoverContent"
+  [labelText]="labelText"
+  (actionClick)="buttonClicked()"
+>
+</sky-help-inline>
+<!-- This isn't real world - but a11y testing requires a real element -->
+<p id="help-text" [hidden]="showHelpText">Show text</p>
