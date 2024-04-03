@@ -18,4 +18,8 @@ export interface SkyFileItem {
    * Additional parameters about the error that caused the file to be rejected.
    */
   errorParam?: string;
+  /**
+   * The error message to display.
+   */
+  errorMessage?: string;
 }

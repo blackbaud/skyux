@@ -332,6 +332,46 @@ describe('File drop component', () => {
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
   });
 
+  it('should display built in validation errors automatically when labelText is set', () => {
+    componentInstance.labelText = 'Label';
+
+    componentInstance.minFileSize = 1500;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent();
+
+    const formError = fixture.nativeElement.querySelector('sky-form-error');
+
+    expect(formError).toBeVisible();
+    expect(formError.textContent).toContain(
+      'foo.txt: Please upload a file over 1500KB.',
+    );
+  });
+
+  it('should display custom validation errors automatically when labelText is set', () => {
+    componentInstance.labelText = 'Label';
+    const errorMessage =
+      'You may not upload a file that begins with the letter "w."';
+
+    componentInstance.validateFn = function (
+      file: SkyFileItem,
+    ): string | undefined {
+      if (file.file.name.indexOf('w') === 0) {
+        return errorMessage;
+      }
+      return;
+    };
+
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent();
+
+    const formError = fixture.nativeElement.querySelector('sky-form-error');
+
+    expect(formError).toBeVisible();
+    expect(formError.textContent).toContain('woo.txt: ' + errorMessage);
+  });
+
   it('should click the file input on file drop click', () => {
     testClick(true);
   });
