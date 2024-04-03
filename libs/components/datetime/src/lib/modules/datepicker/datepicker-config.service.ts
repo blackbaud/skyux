@@ -20,6 +20,10 @@ export class SkyDatepickerConfigService {
    */
   public minDate: Date | undefined;
 
+  /**
+   * The date to open the calendar to initially if there isn't a date currently selected.
+   * @default the current date
+   */
   public startAtDate: Date | undefined;
 
   /**
