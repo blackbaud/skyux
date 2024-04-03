@@ -83,6 +83,27 @@
   </p>
 </div>
 
+<div
+  class="app-screenshot"
+  style="max-width: 50%; height: 500px"
+>
+  <p>Fuzzy datepicker template form</p>
+  <sky-datepicker>
+    <input
+      skyFuzzyDatepickerInput
+      [disabled]="disabled"
+      [maxDate]="fuzzyMaxDate"
+      [minDate]="fuzzyMinDate"
+      [startAtDate]="fuzzyStartAtDate"
+      [skyDatepickerNoValidate]="noValidate"
+      [startingDay]="startingDay"
+      [dateFormat]="dateFormat"
+      [(ngModel)]="selectedDate"
+      #date="ngModel"
+    />
+  </sky-datepicker>
+</div>
+
 <div class="app-screenshot" style="max-width: 50%; height: 500px">
   <p>Reactive form</p>
   <form novalidate [formGroup]="reactiveForm">
@@ -172,6 +193,13 @@
   (click)="setMinMaxStartAtDates()"
 >
   Set min, max, and startAt dates
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="setFuzzyMinMaxStartAtDates()"
+>
+  Set fuzzy min, max, and startAt dates
 </button>
 <button
   class="sky-btn sky-btn-primary"
