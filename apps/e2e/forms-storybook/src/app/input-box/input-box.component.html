@@ -229,6 +229,22 @@ Value</textarea
   </sky-input-box>
 </div>
 
+<div class="sky-padding-even-md" id="input-box-element-disabled">
+  <sky-input-box stacked="true">
+    <label class="sky-control-label" [for]="inputBoxDisabled.id">
+      Disabled (element)
+    </label>
+    <input
+      class="sky-form-control"
+      disabled
+      skyId
+      type="text"
+      value="Disabled value"
+      #inputBoxDisabled="skyId"
+    />
+  </sky-input-box>
+</div>
+
 <div class="sky-padding-even-md" id="input-box-button-disabled">
   <sky-input-box stacked="true" [disabled]="true">
     <label class="sky-control-label" [for]="inputBoxButtonDisabled.id">
