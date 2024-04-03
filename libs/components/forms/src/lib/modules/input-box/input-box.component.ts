@@ -82,8 +82,8 @@ export class SkyInputBoxComponent
    * property. If the input element is mapped to an Angular form control
    * (e.g. `formControlName`, `ngModel`, etc.), "disabled" styles are applied automatically;
    * if, however, the input element is not associated with an Angular form control, the
-   * `disabled` property on the input box must be set to `true` to apply "disabled" styles
-   * to the input box.
+   * `disabled` property on the input box must be set to `true` to visually indicate
+   * the disabled state on the input box.
    * @default false
    */
   @Input()
