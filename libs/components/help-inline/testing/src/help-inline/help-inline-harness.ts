@@ -9,6 +9,8 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-help-inline';
 
+  #getInlineHelpButton = this.locatorFor('.sky-help-inline');
+
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyHelpInlineHarness` that meets certain criteria
@@ -17,5 +19,12 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
     filters: SkyHelpInlineHarnessFilters,
   ): HarnessPredicate<SkyHelpInlineHarness> {
     return SkyHelpInlineHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks the help inline icon button
+   */
+  public async click(): Promise<void> {
+    await (await this.#getInlineHelpButton()).click();
   }
 }
