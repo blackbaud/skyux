@@ -79,8 +79,10 @@ export class SkyInputBoxComponent
   /**
    * Whether to visually highlight the input box as disabled. To disable the input box's
    * input element, use the HTML `disabled` attribute or the Angular `FormControl.disabled`
-   * property. You must set both properties to disable an input element and visually indicate
-   * the disabled state on the input box.
+   * property. If the input element is mapped to an Angular form control
+   * (e.g. `formControlName` or `ngModel`), "disabled" styles are applied automatically;
+   * if, however, the input element is not associated with an Angular form control, you must
+   * set the `disabled` property on the input box to `true` to apply "disabled" styles to the input box.
    * @default false
    */
   @Input()
