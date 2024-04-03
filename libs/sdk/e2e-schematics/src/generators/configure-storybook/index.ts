@@ -148,7 +148,10 @@ export default async function (tree: Tree, schema: Schema) {
     }
 
     const projectRoot = project.root;
-    const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`);
+    const relativeToRoot = offsetFromRoot(`/${projectRoot}/.storybook`).replace(
+      /\/$/,
+      '',
+    );
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
     const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;

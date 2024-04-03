@@ -38,13 +38,18 @@ describe('component generator', () => {
     };
     await applicationGenerator(appTree, {
       name: 'test',
+      directory: 'apps/test',
+      projectNameAndRootFormat: 'as-provided',
     });
     await applicationGenerator(appTree, {
       name: 'test-storybook',
+      directory: 'apps/test-storybook',
+      projectNameAndRootFormat: 'as-provided',
     });
     await libraryGenerator(appTree, {
       name: 'storybook',
-      directory: 'components',
+      directory: 'components/storybook',
+      projectNameAndRootFormat: 'as-provided',
     });
     await storybookConfigurationGenerator(appTree, {
       project: 'test-storybook',

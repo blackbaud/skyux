@@ -3,17 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Route, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { appRoutes } from './app.routes';
 
-const routes: Route[] = [];
-if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
-  routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
+if (appRoutes.length > 0 && appRoutes.findIndex((r) => r.path === '')) {
+  appRoutes.push({
+    path: '',
+    redirectTo: `${appRoutes[0].path}`,
+    pathMatch: 'full',
+  });
 }
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
+    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
   ],
   bootstrap: [AppComponent],
 })

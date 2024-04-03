@@ -17,12 +17,11 @@ import {
 } from '@nx/devkit';
 import { addDependenciesToPackageJson } from '@nx/devkit/src/utils/package-json';
 import { Linter } from '@nx/eslint';
-import { configurationGenerator } from '@nx/storybook';
+import { configurationGenerator as storybookConfigurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
 
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
-import storiesGenerator from '../stories';
 
 import { NormalizedSchema, Schema } from './schema';
 
@@ -174,11 +173,13 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       routing: options.routing,
       strict: options.strict,
       prefix: options.prefix,
-      directory: BASE_PATH,
+      directory: `apps/${BASE_PATH}/${options.storybookAppName}`,
+      projectNameAndRootFormat: 'as-provided',
       skipPackageJson: true,
       skipTests: !options.includeTests,
       standaloneConfig: true,
       standalone: false,
+      bundler: 'webpack',
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
     simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
@@ -234,18 +235,13 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       tree.isFile(`${projectConfig.root}/.storybook/main.ts`)
     )
   ) {
-    await configurationGenerator(tree, {
+    await storybookConfigurationGenerator(tree, {
       project: options.storybookAppName,
       uiFramework: '@storybook/angular',
-      configureCypress: true,
+      interactionTests: false,
+      configureCypress: false,
       linter: Linter.EsLint,
       configureStaticServe: true,
-    });
-  } else if (!moveProject) {
-    await storiesGenerator(tree, {
-      project: options.storybookAppName,
-      cypressProject: `${options.storybookAppName}-e2e`,
-      generateCypressSpecs: true,
     });
   }
   if (!moveProject) {

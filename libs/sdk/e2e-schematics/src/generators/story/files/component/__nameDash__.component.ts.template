@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+<% if(standalone) {%>import { CommonModule } from '@angular/common';
+<%}%>import { Component } from '@angular/core';
 
 @Component({<% if(standalone) {%>
   standalone: true,
