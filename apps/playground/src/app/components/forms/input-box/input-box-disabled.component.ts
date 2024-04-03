@@ -45,6 +45,17 @@ import { SkyInputBoxModule } from '@skyux/forms';
         >
           <input disabled formControlName="formControl2" type="text" />
         </sky-input-box>
+
+        <sky-input-box stacked="true">
+          <label class="sky-control-label"> Disabled (not "easy" mode) </label>
+          <input
+            class="sky-form-control"
+            formControlName="formControl3"
+            skyId
+            type="text"
+            value="Disabled value"
+          />
+        </sky-input-box>
       </div>
     </form>
   `,
@@ -53,5 +64,6 @@ export class InputBoxDisabledComponent {
   protected formGroup = inject(FormBuilder).group({
     formControl1: new FormControl({ disabled: true, value: 'Some value' }),
     formControl2: new FormControl({ disabled: true, value: 'Some value' }),
+    formControl3: new FormControl({ disabled: true, value: 'Some value' }),
   });
 }
