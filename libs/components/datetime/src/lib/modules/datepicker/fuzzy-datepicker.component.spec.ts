@@ -1810,6 +1810,8 @@ describe('fuzzy datepicker input', () => {
 
           expect(getSelectedCalendarItem()).toHaveText('01');
           expect(getCalendarTitle()).toHaveText('January 1995');
+
+          flush();
         }));
       });
     });
