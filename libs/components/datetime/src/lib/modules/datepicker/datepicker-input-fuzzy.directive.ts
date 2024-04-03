@@ -159,6 +159,23 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
+   * The fuzzy date to open the calendar to initially if there isn't a date currently selected. Place this attribute on the `input` element to set a date to open the calendar to.
+   * This property accepts a `SkyFuzzyDate` value that includes numeric month, day, and year values.
+   * For example: `{ month: 1, day: 1, year: 2007 }`.
+   * @default The current date
+   */
+  @Input()
+  public set startAtDate(value: SkyFuzzyDate | undefined) {
+    this.#_startAtDate = value;
+    this.#datepickerComponent.startAtDate = this.#getStartAtDate();
+  }
+
+  // TODO: Refactor to not have getter logic
+  public get startAtDate(): SkyFuzzyDate | undefined {
+    return this.#_startAtDate;
+  }
+
+  /**
    * Whether to disable date validation on the fuzzy datepicker input.
    * @default false
    */
@@ -225,6 +242,8 @@ export class SkyFuzzyDatepickerInputDirective
   #_maxDate: SkyFuzzyDate | undefined;
 
   #_minDate: SkyFuzzyDate | undefined;
+
+  #_startAtDate: SkyFuzzyDate | undefined;
 
   #_startingDay: number | undefined;
 
@@ -506,6 +525,18 @@ export class SkyFuzzyDatepickerInputDirective
       }
     }
     return this.#configService.minDate;
+  }
+
+  #getStartAtDate(): Date | undefined {
+    if (this.startAtDate) {
+      const startAtDate = this.#fuzzyDateService.getMomentFromFuzzyDate(
+        this.startAtDate,
+      );
+      if (startAtDate.isValid()) {
+        return startAtDate.toDate();
+      }
+    }
+    return this.#configService.startAtDate;
   }
 
   /* istanbul ignore next */

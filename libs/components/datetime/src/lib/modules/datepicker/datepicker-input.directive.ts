@@ -140,8 +140,6 @@ export class SkyDatepickerInputDirective
   public set startAtDate(value: Date | undefined) {
     this.#_startAtDate = value;
     this.#datepickerComponent.startAtDate = this.startAtDate;
-
-    this.#onValidatorChange();
   }
 
   // TODO: Refactor to not have getter logic
