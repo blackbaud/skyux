@@ -194,12 +194,10 @@ export class SkyInputBoxComponent
   protected helpPopoverOpen: boolean | undefined;
 
   protected get isDisabled(): boolean {
-    const el = this.inputRef?.nativeElement as HTMLInputElement | undefined;
-
     return !!(
       this.disabled ||
       this.controlDir?.control?.disabled ||
-      el?.disabled
+      this.inputRef?.nativeElement?.disabled
     );
   }
 
