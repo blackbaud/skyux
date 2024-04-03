@@ -1,4 +1,7 @@
 {
   "import": "node_modules/@skyux/dev-infra-private/.cspell-shared.json",
-  "words": ["tabindex"]
+  "words": [
+    "novalidate",
+    "tabindex"
+  ]
 }

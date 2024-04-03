@@ -193,6 +193,16 @@ export class SkyInputBoxComponent
   protected controlDir: AbstractControlDirective | undefined;
   protected helpPopoverOpen: boolean | undefined;
 
+  protected get isDisabled(): boolean {
+    const el = this.inputRef?.nativeElement as HTMLInputElement | undefined;
+
+    return !!(
+      this.disabled ||
+      this.controlDir?.control?.disabled ||
+      el?.disabled
+    );
+  }
+
   protected get hasErrorsComputed(): boolean {
     if (this.hasErrors === undefined) {
       return this.#controlHasErrors(this.controlDir);
@@ -228,44 +238,7 @@ export class SkyInputBoxComponent
       this.characterCountScreenReader = this.controlDir?.value?.length || 0;
     }
 
-    if (this.inputRef) {
-      const inputEl = this.inputRef.nativeElement as HTMLElement;
-
-      // Check for the Angular required validator and add an aria-required attribute
-      // to match. For template-driven forms, the input will have a `required` attribute
-      // so the aria-required attribute is unnecessary.
-      const hasRequiredValidator = this.#hasRequiredValidator();
-      const ariaRequired = inputEl.ariaRequired;
-
-      if (hasRequiredValidator && ariaRequired !== 'true') {
-        inputEl.ariaRequired = 'true';
-      } else if (!hasRequiredValidator && ariaRequired === 'true') {
-        inputEl.ariaRequired = null;
-      }
-
-      if (this.hasErrorsComputed) {
-        this.#renderer.setAttribute(inputEl, 'aria-invalid', 'true');
-        this.#renderer.setAttribute(inputEl, 'aria-errormessage', this.errorId);
-      } else {
-        this.#renderer.removeAttribute(inputEl, 'aria-invalid');
-        this.#renderer.removeAttribute(inputEl, 'aria-errormessage');
-      }
-
-      this.#adapterService.updateDescribedBy(
-        this.inputRef,
-        this.hintTextId,
-        this.hintText,
-      );
-
-      if (this.inputRef !== this.#previousInputRef) {
-        this.#renderer.addClass(inputEl, 'sky-form-control');
-        this.#renderer.setAttribute(inputEl, 'id', this.controlId);
-
-        this.#updateMaxLengthValidator();
-
-        this.#previousInputRef = this.inputRef;
-      }
-    }
+    this.#updateInputRef();
   }
 
   public ngOnDestroy(): void {
@@ -328,6 +301,49 @@ export class SkyInputBoxComponent
 
   #controlHasErrors(control: AbstractControlDirective | undefined): boolean {
     return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+
+  #updateInputRef(): void {
+    if (!this.inputRef) {
+      return;
+    }
+
+    const inputEl = this.inputRef.nativeElement as HTMLElement;
+
+    // Check for the Angular required validator and add an aria-required attribute
+    // to match. For template-driven forms, the input will have a `required` attribute
+    // so the aria-required attribute is unnecessary.
+    const hasRequiredValidator = this.#hasRequiredValidator();
+    const ariaRequired = inputEl.ariaRequired;
+
+    if (hasRequiredValidator && ariaRequired !== 'true') {
+      inputEl.ariaRequired = 'true';
+    } else if (!hasRequiredValidator && ariaRequired === 'true') {
+      inputEl.ariaRequired = null;
+    }
+
+    if (this.hasErrorsComputed) {
+      this.#renderer.setAttribute(inputEl, 'aria-invalid', 'true');
+      this.#renderer.setAttribute(inputEl, 'aria-errormessage', this.errorId);
+    } else {
+      this.#renderer.removeAttribute(inputEl, 'aria-invalid');
+      this.#renderer.removeAttribute(inputEl, 'aria-errormessage');
+    }
+
+    this.#adapterService.updateDescribedBy(
+      this.inputRef,
+      this.hintTextId,
+      this.hintText,
+    );
+
+    if (this.inputRef !== this.#previousInputRef) {
+      this.#renderer.addClass(inputEl, 'sky-form-control');
+      this.#renderer.setAttribute(inputEl, 'id', this.controlId);
+
+      this.#updateMaxLengthValidator();
+
+      this.#previousInputRef = this.inputRef;
+    }
   }
 
   #updateMaxLengthValidator(): void {
