@@ -628,6 +628,25 @@ describe('Input box component', () => {
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
     });
 
+    it('should add a disabled CSS class when the form control is disabled', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-box-form-control-name-error',
+      );
+      const inputBoxWrapperEl = inputBoxEl?.querySelector('.sky-input-box');
+
+      expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
+
+      fixture.componentInstance.errorForm.get('errorFormField')?.disable();
+      fixture.detectChanges();
+
+      expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
+    });
+
     it('should display labelText as label', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
