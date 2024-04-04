@@ -1,4 +1,4 @@
-import { capitalizeWords, dirname } from './utils';
+import { basename, capitalizeWords, dirname } from './utils';
 
 describe('utils', () => {
   it('should capitalize words', () => {
@@ -6,6 +6,12 @@ describe('utils', () => {
     expect(capitalizeWords('one-two')).toEqual('One Two');
     expect(capitalizeWords('one_two_three')).toEqual('One Two Three');
     expect(capitalizeWords('one two')).toEqual('One Two');
+  });
+
+  it('should basename', () => {
+    expect(basename('one/two/three')).toEqual('three');
+    expect(basename('one/two')).toEqual('two');
+    expect(basename('one')).toEqual('one');
   });
 
   it('should dirname', () => {

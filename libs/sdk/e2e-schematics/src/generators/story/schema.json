@@ -39,11 +39,6 @@
       "type": "boolean",
       "description": "Include tests in the library.",
       "default": false
-    },
-    "standalone": {
-      "type": "boolean",
-      "description": "Use standalone components.",
-      "default": true
     }
   },
   "additionalProperties": false,

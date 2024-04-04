@@ -26,8 +26,9 @@ Array [
   "apps/test/src/app/app.config.ts",
   "apps/test/src/app/app.routes.ts",
   "apps/test/src/app/nx-welcome.component.ts",
-  "apps/test/src/app/test/test.component.css",
+  "apps/test/src/app/other/other.module.ts",
   "apps/test/src/app/test/test.component.html",
+  "apps/test/src/app/test/test.component.scss",
   "apps/test/src/app/test/test.component.spec.ts",
   "apps/test/src/app/test/test.component.ts",
   "apps/test/src/app/test/test.module.ts",
@@ -53,15 +54,74 @@ Array [
 exports[`find-module should find module 2`] = `
 "import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TestComponent } from './test.component';
 
+@NgModule({
+  declarations: [TestComponent],
+  imports: [CommonModule],
+})
+export class TestModule {}
+"
+`;
 
+exports[`find-module should find standalone component 1`] = `
+Array [
+  ".eslintignore",
+  ".eslintrc.json",
+  ".prettierignore",
+  ".prettierrc",
+  "apps/.gitignore",
+  "apps/test-e2e/.eslintrc.json",
+  "apps/test-e2e/cypress.config.ts",
+  "apps/test-e2e/project.json",
+  "apps/test-e2e/src/e2e/app.cy.ts",
+  "apps/test-e2e/src/fixtures/example.json",
+  "apps/test-e2e/src/support/app.po.ts",
+  "apps/test-e2e/src/support/commands.ts",
+  "apps/test-e2e/src/support/e2e.ts",
+  "apps/test-e2e/tsconfig.json",
+  "apps/test/.eslintrc.json",
+  "apps/test/jest.config.ts",
+  "apps/test/project.json",
+  "apps/test/src/app/app.component.css",
+  "apps/test/src/app/app.component.html",
+  "apps/test/src/app/app.component.spec.ts",
+  "apps/test/src/app/app.component.ts",
+  "apps/test/src/app/app.config.ts",
+  "apps/test/src/app/app.routes.ts",
+  "apps/test/src/app/nx-welcome.component.ts",
+  "apps/test/src/app/test/test.component.html",
+  "apps/test/src/app/test/test.component.scss",
+  "apps/test/src/app/test/test.component.spec.ts",
+  "apps/test/src/app/test/test.component.ts",
+  "apps/test/src/app/test/test.module.ts",
+  "apps/test/src/assets/.gitkeep",
+  "apps/test/src/favicon.ico",
+  "apps/test/src/index.html",
+  "apps/test/src/main.ts",
+  "apps/test/src/styles.css",
+  "apps/test/src/test-setup.ts",
+  "apps/test/tsconfig.app.json",
+  "apps/test/tsconfig.editor.json",
+  "apps/test/tsconfig.json",
+  "apps/test/tsconfig.spec.json",
+  "jest.config.ts",
+  "jest.preset.js",
+  "libs/.gitignore",
+  "nx.json",
+  "package.json",
+  "tsconfig.base.json",
+]
+`;
+
+exports[`find-module should find standalone component 2`] = `
+"import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class TestModule { }
+export class TestModule {}
 "
 `;
