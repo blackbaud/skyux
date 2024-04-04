@@ -1074,7 +1074,7 @@ describe('fuzzy datepicker input', () => {
     describe('startAtDate', () => {
       it('should be passed to calendar', fakeAsync(() => {
         setInputProperty(undefined, component, fixture);
-        component.startAtDate = { year: 1995 }
+        component.startAtDate = { year: 1995 };
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1803,7 +1803,7 @@ describe('fuzzy datepicker input', () => {
         it('should be passed to calendar', fakeAsync(() => {
           fixture.detectChanges();
           setFormControlProperty(undefined, component, fixture);
-          component.startAtDate = { year: 1995 }
+          component.startAtDate = { year: 1995 };
           detectChanges(fixture);
 
           clickDatepickerButton(fixture);
