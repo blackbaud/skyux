@@ -116,8 +116,6 @@
     "ng2-dragula": "5.0.1",
     "normalize-scss": "7.0.1",
     "package-json": "7.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",
     "validator": "13.11.0",
