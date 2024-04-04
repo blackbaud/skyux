@@ -156,30 +156,24 @@
       *ngIf="rejectedFile.errorType === 'fileType'"
       errorName="fileType"
       [errorText]="
-        rejectedFile.file.name +
-        ': ' +
-        ('skyux_file_attachment_file_type_error_label_text'
-          | skyLibResources: rejectedFile.errorParam)
+        'skyux_file_attachment_file_type_error_label_text_with_name'
+          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
       "
     />
     <sky-form-error
       *ngIf="rejectedFile.errorType === 'maxFileSize'"
       errorName="maxFileSize"
       [errorText]="
-        rejectedFile.file.name +
-        ': ' +
-        ('skyux_file_attachment_max_file_size_error_label_text'
-          | skyLibResources: rejectedFile.errorParam)
+        'skyux_file_attachment_max_file_size_error_label_text_with_name'
+          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
       "
     />
     <sky-form-error
       *ngIf="rejectedFile.errorType === 'minFileSize'"
       errorName="minFileSize"
       [errorText]="
-        rejectedFile.file.name +
-        ': ' +
-        ('skyux_file_attachment_min_file_size_error_label_text'
-          | skyLibResources: rejectedFile.errorParam)
+        'skyux_file_attachment_min_file_size_error_label_text_with_name'
+          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
       "
     />
     <sky-form-error
