@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.2.0](https://github.com/blackbaud/skyux/compare/10.1.0...10.2.0) (2024-04-04)
+
+
+### Features
+
+* **components/datetime:** add startAtDate to specify a date when the calendar initially opens ([#2207](https://github.com/blackbaud/skyux/issues/2207)) Thanks @Blackbaud-JamesZhang ([2645d98](https://github.com/blackbaud/skyux/commit/2645d9831d5cda8d209e8a861fbc65f3c9df7380))
+* **components/forms:** add form errors to file drop ([#2201](https://github.com/blackbaud/skyux/issues/2201)) ([7626c23](https://github.com/blackbaud/skyux/commit/7626c23ceda9b812cb60f64f7d66e83dbc502093))
+
+
+### Bug Fixes
+
+* **components/indicators:** adjust stacked icon position ([#2200](https://github.com/blackbaud/skyux/issues/2200)) ([aaa56ec](https://github.com/blackbaud/skyux/commit/aaa56ec1e4565b53b865167b1a8025705cf2aaec))
+
 ## [10.1.0](https://github.com/blackbaud/skyux/compare/10.0.0...10.1.0) (2024-04-01)
 
 
