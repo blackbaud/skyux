@@ -1071,6 +1071,21 @@ describe('fuzzy datepicker input', () => {
       }));
     });
 
+    describe('startAtDate', () => {
+      it('should be passed to calendar', fakeAsync(() => {
+        setInputProperty(undefined, component, fixture);
+        component.startAtDate = { year: 1995 };
+        detectChanges(fixture);
+
+        clickDatepickerButton(fixture);
+
+        expect(getSelectedCalendarItem()).toHaveText('01');
+        expect(getCalendarTitle()).toHaveText('January 1995');
+
+        flush();
+      }));
+    });
+
     describe('detectInputValueChange', () => {
       it('updates selectedDate without a change event', fakeAsync(() => {
         const inputEl = getInputElement(fixture);
@@ -1783,6 +1798,22 @@ describe('fuzzy datepicker input', () => {
 
         flush();
       }));
+
+      describe('startAtDate', () => {
+        it('should be passed to calendar', fakeAsync(() => {
+          fixture.detectChanges();
+          setFormControlProperty(undefined, component, fixture);
+          component.startAtDate = { year: 1995 };
+          detectChanges(fixture);
+
+          clickDatepickerButton(fixture);
+
+          expect(getSelectedCalendarItem()).toHaveText('01');
+          expect(getCalendarTitle()).toHaveText('January 1995');
+
+          flush();
+        }));
+      });
     });
 
     describe('disabled state', () => {
