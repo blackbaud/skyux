@@ -5,8 +5,9 @@ import {
   Input,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
-import { SkyIdModule, SkyTrimModule } from '@skyux/core';
+import { SkyIdModule, SkyIdService, SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
@@ -32,6 +33,10 @@ import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe'
   ],
 })
 export class SkyHelpInlineComponent {
+  readonly #idSvc = inject(SkyIdService);
+
+  protected popoverId: string | undefined;
+
   @Input()
   public ariaControls: string | undefined;
 
@@ -66,10 +71,20 @@ export class SkyHelpInlineComponent {
 
   public set popoverContent(value: string | TemplateRef<unknown> | undefined) {
     this.#_popoverContent = value;
+    if (value) {
+      this.popoverId = this.#idSvc.generateId();
+      this._popoverOpened = false;
+    }
     this.popoverTemplate = value instanceof TemplateRef ? value : undefined;
   }
 
   protected popoverTemplate: TemplateRef<unknown> | undefined;
 
   #_popoverContent: string | TemplateRef<unknown> | undefined;
+
+  protected popoverOpened(flag: boolean): void {
+    this._popoverOpened = flag;
+  }
+
+  protected _popoverOpened: boolean | undefined;
 }

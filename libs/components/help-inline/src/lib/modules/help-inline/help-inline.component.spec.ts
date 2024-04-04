@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyIdService } from '@skyux/core';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 import {
   SkyTheme,
@@ -67,6 +68,11 @@ describe('Help inline component', () => {
     fixture = TestBed.createComponent(HelpInlineTestComponent);
     component = fixture.componentInstance as HelpInlineTestComponent;
     debugElement = fixture.debugElement;
+
+    // Mock the ID service.
+    let uniqueId = 0;
+    const idSvc = TestBed.inject(SkyIdService);
+    spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
 
     fixture.detectChanges();
   });
@@ -267,5 +273,47 @@ describe('Help inline component', () => {
     await expect(
       await (await popoverHarness.getPopoverContent()).getBodyText(),
     ).toBe('this is a template');
+  });
+
+  it('should set ariaControls to popover id if popover content is set', async () => {
+    component.popoverContent = 'content';
+    fixture.detectChanges();
+
+    const { popoverHarness } = await getPopoverTestHarness();
+    await popoverHarness.clickPopoverButton();
+    fixture.detectChanges();
+
+    const popoverElementId =
+      debugElement.nativeElement.querySelector('sky-popover').id;
+
+    await checkAriaPropertiesAndAccessibility(
+      'Show help content',
+      popoverElementId,
+      'true',
+    );
+  });
+
+  it('should set toggle ariaExpanded value with opening and closing popover', async () => {
+    component.popoverContent = 'content';
+    fixture.detectChanges();
+
+    const { popoverHarness } = await getPopoverTestHarness();
+    await popoverHarness.clickPopoverButton();
+
+    const popoverElementId =
+      debugElement.nativeElement.querySelector('sky-popover').id;
+
+    await checkAriaPropertiesAndAccessibility(
+      'Show help content',
+      popoverElementId,
+      'true',
+    );
+
+    await popoverHarness.clickPopoverButton();
+    await checkAriaPropertiesAndAccessibility(
+      'Show help content',
+      popoverElementId,
+      'false',
+    );
   });
 });

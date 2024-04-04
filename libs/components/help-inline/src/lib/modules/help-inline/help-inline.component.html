@@ -8,8 +8,10 @@
         ? ariaLabel
         : ('skyux_help_inline_button_title' | skyLibResources)
   "
-  [attr.aria-controls]="ariaControls"
-  [attr.aria-expanded]="ariaExpanded | skyHelpInlineAriaExpanded: ariaControls"
+  [attr.aria-controls]="popoverId || ariaControls"
+  [attr.aria-expanded]="
+    _popoverOpened || ariaExpanded | skyHelpInlineAriaExpanded: ariaControls
+  "
   (click)="onClick()"
   [skyPopover]="popoverContent ? popover : undefined"
 >
@@ -29,7 +31,13 @@
   </sky-icon-stack>
 </button>
 
-<sky-popover #popover [popoverTitle]="popoverTitle">
+<sky-popover
+  #popover
+  [popoverTitle]="popoverTitle"
+  [id]="popoverId"
+  (popoverOpened)="popoverOpened(true)"
+  (popoverClosed)="popoverOpened(false)"
+>
   <ng-container *ngIf="popoverTemplate; else popoverContext">
     <ng-container *ngTemplateOutlet="popoverTemplate" />
   </ng-container>
