@@ -19,7 +19,11 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl, ValidationErrors } from '@angular/forms';
-import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyFormsUtility,
+  SkyIdService,
+  SkyLiveAnnouncerService,
+} from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -27,7 +31,6 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';

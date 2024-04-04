@@ -11,12 +11,11 @@ import {
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl, Validators } from '@angular/forms';
-import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyCheckboxChange } from './checkbox-change';
 

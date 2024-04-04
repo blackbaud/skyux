@@ -13,13 +13,12 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';

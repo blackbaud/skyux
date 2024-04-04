@@ -35,6 +35,8 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+yalc.lock
+/.yalc
 
 # System Files
 .DS_Store

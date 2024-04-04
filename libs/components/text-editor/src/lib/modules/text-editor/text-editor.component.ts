@@ -15,7 +15,11 @@ import {
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
+import {
+  SkyCoreAdapterService,
+  SkyFormsUtility,
+  SkyIdService,
+} from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
@@ -26,7 +30,6 @@ import { SkyToolbarModule } from '@skyux/layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../shared/forms-utility';
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
 import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
@@ -188,7 +191,14 @@ export class SkyTextEditorComponent
    * @preview
    */
   @Input()
-  public labelText: string | undefined;
+  public set labelText(value: string | undefined) {
+    this.#_labelText = value;
+    this.#updateA11yAttributes();
+  }
+
+  public get labelText(): string | undefined {
+    return this.#_labelText;
+  }
 
   /**
    * The menus to include in the menu bar.
@@ -336,6 +346,7 @@ export class SkyTextEditorComponent
 
   #_fontList = FONT_LIST_DEFAULTS;
   #_fontSizeList = FONT_SIZE_LIST_DEFAULTS;
+  #_labelText: string | undefined;
   #_mergeFields: SkyTextEditorMergeField[] = [];
   #_menus = MENU_DEFAULTS;
   #_toolbarActions: SkyTextEditorToolbarActionType[] = TOOLBAR_ACTION_DEFAULTS;
@@ -440,6 +451,12 @@ export class SkyTextEditorComponent
       this.placeholder,
     );
 
+    this.ngControl.statusChanges
+      ?.pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#updateA11yAttributes();
+      });
+
     this.#editorService
       .inputListener()
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -500,6 +517,7 @@ export class SkyTextEditorComponent
       });
 
     this.#adapterService.setEditorInnerHtml(this.#_value);
+    this.#updateA11yAttributes();
 
     /* istanbul ignore next */
     if (this.autofocus) {
@@ -510,6 +528,19 @@ export class SkyTextEditorComponent
     this.#focusInitialized = false;
 
     this.#checkAutofocusAndFocus();
+  }
+
+  #updateA11yAttributes(): void {
+    if (this.#editorService.isInitialized) {
+      this.#adapterService.setLabelAttribute(this.labelText);
+      this.#adapterService.setErrorAttributes(
+        this.labelText ? this.errorId : '',
+        this.ngControl.errors,
+      );
+      this.#adapterService.setRequiredAttribute(
+        SkyFormsUtility.hasRequiredValidation(this.ngControl),
+      );
+    }
   }
 
   #viewToModelUpdate(emitChange = true): void {
