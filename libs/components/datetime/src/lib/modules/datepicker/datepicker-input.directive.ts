@@ -133,6 +133,21 @@ export class SkyDatepickerInputDirective
   }
 
   /**
+   * The date to open the calendar to initially. Place this attribute on the `input` element to override the default in `SkyDatepickerConfigService`.
+   * @default The current date
+   */
+  @Input()
+  public set startAtDate(value: Date | undefined) {
+    this.#_startAtDate = value;
+    this.#datepickerComponent.startAtDate = this.startAtDate;
+  }
+
+  // TODO: Refactor to not have getter logic
+  public get startAtDate(): Date | undefined {
+    return this.#_startAtDate || this.#configService.startAtDate;
+  }
+
+  /**
    * Creates the datepicker input and calendar. Place this directive on an `input` element,
    * and wrap the input in a `sky-datepicker` component. The value that users select is driven
    * through the `ngModel` attribute specified on the `input` element.
@@ -213,6 +228,7 @@ export class SkyDatepickerInputDirective
   #_disabled = false;
   #_maxDate: Date | undefined;
   #_minDate: Date | undefined;
+  #_startAtDate: Date | undefined;
   #_startingDay: number | undefined;
   #_strict = false;
   #_value: any;

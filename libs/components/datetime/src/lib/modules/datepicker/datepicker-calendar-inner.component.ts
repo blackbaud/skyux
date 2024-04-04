@@ -55,6 +55,9 @@ export class SkyDatepickerCalendarInnerComponent
   public maxDate: Date | undefined;
 
   @Input()
+  public startAtDate: Date | undefined;
+
+  @Input()
   public set selectedDate(value: Date | undefined) {
     if (value && this.dateFormatter.dateIsValid(value)) {
       this.#_selectedDate = value;
@@ -155,7 +158,7 @@ export class SkyDatepickerCalendarInnerComponent
     if (this.selectedDate) {
       this.activeDate = new Date(this.selectedDate);
     } else {
-      this.activeDate = new Date();
+      this.activeDate = this.startAtDate ?? new Date();
     }
 
     this.#resourcesSvc

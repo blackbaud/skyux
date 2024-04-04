@@ -14,6 +14,8 @@ export class DatepickerCalendarTestComponent {
 
   public maxDate: Date | undefined;
 
+  public startAtDate: Date | undefined;
+
   public selectedDate: any;
 
   public startingDay: number | undefined;
