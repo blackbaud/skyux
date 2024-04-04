@@ -26,13 +26,12 @@
 .fa-stack-1x {
   &.sky-i-check:before {
     position: relative;
-    top: 1px;
+    top: 0.5px;
   }
 
   &.sky-i-exclamation:before {
     position: relative;
-    top: 2px;
-    left: -0.5px;
+    top: 1.5px;
   }
 }
 
