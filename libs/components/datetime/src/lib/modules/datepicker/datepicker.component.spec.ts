@@ -969,6 +969,20 @@ describe('datepicker', () => {
       }));
     });
 
+    describe('startAtDate', () => {
+      it('should be passed to calendar', fakeAsync(() => {
+        fixture.detectChanges();
+        setInputProperty(undefined, component, fixture);
+        component.startAtDate = new Date('3/10/1995');
+        detectChanges(fixture);
+
+        clickTrigger(fixture);
+
+        expect(getSelectedCalendarItem()).toHaveText('10');
+        expect(getCalendarTitle(fixture)).toHaveText('March 1995');
+      }));
+    });
+
     describe('custom dates', () => {
       const initialDate = '11/5/1955';
       beforeEach(fakeAsync(() => {
@@ -1714,6 +1728,20 @@ describe('datepicker', () => {
 
         const firstDayCol = getCalendarColumn(0, fixture);
         expect(firstDayCol).toHaveText('Fr');
+      }));
+    });
+
+    describe('startAtDate', () => {
+      it('should be passed to calendar', fakeAsync(() => {
+        fixture.detectChanges();
+        setFormControlProperty(undefined, component, fixture);
+        component.startAtDate = new Date('3/10/1995');
+        detectChanges(fixture);
+
+        clickTrigger(fixture);
+
+        expect(getSelectedCalendarItem()).toHaveText('10');
+        expect(getCalendarTitle(fixture)).toHaveText('March 1995');
       }));
     });
 

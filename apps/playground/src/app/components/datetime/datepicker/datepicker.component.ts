@@ -9,6 +9,7 @@ import {
 import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
+  SkyFuzzyDate,
 } from '@skyux/datetime';
 
 import { of } from 'rxjs';
@@ -23,6 +24,10 @@ export class DatepickerComponent {
   public disabled = false;
   public minDate: Date | undefined;
   public maxDate: Date | undefined;
+  public startAtDate: Date | undefined;
+  public fuzzyMinDate: SkyFuzzyDate | undefined;
+  public fuzzyMaxDate: SkyFuzzyDate | undefined;
+  public fuzzyStartAtDate: SkyFuzzyDate | undefined;
   public noValidate = false;
   public reactiveForm: UntypedFormGroup;
   public showCustomDates = false;
@@ -54,9 +59,16 @@ export class DatepickerComponent {
     });
   }
 
-  public setMinMaxDates(): void {
+  public setMinMaxStartAtDates(): void {
     this.minDate = new Date('01/01/2018');
     this.maxDate = new Date('01/01/2020');
+    this.startAtDate = new Date('01/01/2018');
+  }
+
+  public setFuzzyMinMaxStartAtDates(): void {
+    this.fuzzyMinDate = { year: 2018, month: 1 };
+    this.fuzzyMaxDate = { year: 2020, month: 1 };
+    this.fuzzyStartAtDate = { year: 2018 };
   }
 
   public setStartingDay(): void {
