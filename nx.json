@@ -6,10 +6,10 @@
   "defaultProject": "playground",
   "generators": {
     "@nx/angular:application": {
-      "e2eTestRunner": "cypress",
-      "linter": "eslint",
       "style": "scss",
+      "linter": "eslint",
       "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress",
       "strict": false
     },
     "@nx/angular:library": {
@@ -36,12 +36,7 @@
       "cache": false
     },
     "build-storybook": {
-      "inputs": [
-        "storybookInputs",
-        "^buildInputs",
-        "{projectRoot}/.storybook/**/*",
-        "{projectRoot}/tsconfig.storybook.json"
-      ],
+      "inputs": ["storybookInputs", "^buildInputs"],
       "cache": true
     },
     "posttest": {
@@ -69,11 +64,6 @@
     "@nx/eslint:lint": {
       "inputs": ["lintInputs"],
       "cache": true
-    },
-    "@angular-devkit/build-angular:application": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
     }
   },
   "namedInputs": {
@@ -128,12 +118,5 @@
     ]
   },
   "nxCloudAccessToken": "NzE5ZWYwYzUtMGU0OC00OTU3LTk4ZDYtOTc1Zjk3MTExMzY5fHJlYWQtd3JpdGU=",
-  "defaultBase": "main",
-  "tasksRunnerOptions": {
-    "default": {
-      "options": {
-        "cacheableOperations": ["build-storybook"]
-      }
-    }
-  }
+  "defaultBase": "main"
 }
