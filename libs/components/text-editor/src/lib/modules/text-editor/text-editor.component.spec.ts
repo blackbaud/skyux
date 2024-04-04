@@ -1912,6 +1912,20 @@ describe('Text editor', () => {
       validateIframeDocumentAttribute('aria-required', 'false');
     });
 
+    it('sets the aria-required correctly when the validators are updated', () => {
+      testComponent.formControl.removeValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'false');
+
+      testComponent.formControl.addValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'true');
+    });
+
     it('sets the aria-invalid attribute to true and aria-errormessage to the error message when an error is present', fakeAsync(() => {
       testComponent.formControl.markAsTouched();
       fixture.detectChanges();
