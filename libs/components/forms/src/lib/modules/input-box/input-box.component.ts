@@ -81,8 +81,8 @@ export class SkyInputBoxComponent
    * input element, use the HTML `disabled` attribute or the Angular `FormControl.disabled`
    * property. If the input element is mapped to an Angular form control
    * (e.g. `formControlName`, `ngModel`, etc.), "disabled" styles are applied automatically;
-   * if, however, the input element is not associated with an Angular form control, the
-   * `disabled` property on the input box must be set to `true` to visually indicate
+   * if the input element is not associated with an Angular form control, the `disabled`
+   * property on the input box must be set to `true` to visually indicate
    * the disabled state on the input box.
    * @default false
    */
@@ -261,7 +261,7 @@ export class SkyInputBoxComponent
   }
 
   public onInsetIconClick(): void {
-    if (!this.disabled) {
+    if (!this.isDisabled) {
       this.#adapterService.focusControl(this.#elementRef);
     }
   }
