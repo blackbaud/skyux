@@ -29,6 +29,10 @@
           fileUploadAriaLabel ||
           ('skyux_file_attachment_file_upload_drag_or_click' | skyLibResources)
         "
+        [attr.aria-invalid]="!!rejectedFiles.length"
+        [attr.aria-errormessage]="
+          labelText && rejectedFiles.length ? errorId : undefined
+        "
       ></button>
 
       <input
@@ -108,6 +112,10 @@
                   | skyLibResources)
               "
               [attr.aria-describedby]="hintText.id"
+              [attr.aria-invalid]="!!rejectedFiles.length"
+              [attr.aria-errormessage]="
+                labelText && rejectedFiles.length ? errorId : undefined
+              "
               [(ngModel)]="linkUrl"
               (blur)="onLinkBlur()"
               (keyup)="addLinkEnter($event)"
@@ -138,3 +146,40 @@
     </div>
   </div>
 </fieldset>
+<sky-form-errors
+  [id]="errorId"
+  [labelText]="labelText"
+  [showErrors]="rejectedFiles.length"
+>
+  <div *ngFor="let rejectedFile of rejectedFiles">
+    <sky-form-error
+      *ngIf="rejectedFile.errorType === 'fileType'"
+      errorName="fileType"
+      [errorText]="
+        'skyux_file_attachment_file_type_error_label_text_with_name'
+          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
+      "
+    />
+    <sky-form-error
+      *ngIf="rejectedFile.errorType === 'maxFileSize'"
+      errorName="maxFileSize"
+      [errorText]="
+        'skyux_file_attachment_max_file_size_error_label_text_with_name'
+          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
+      "
+    />
+    <sky-form-error
+      *ngIf="rejectedFile.errorType === 'minFileSize'"
+      errorName="minFileSize"
+      [errorText]="
+        'skyux_file_attachment_min_file_size_error_label_text_with_name'
+          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
+      "
+    />
+    <sky-form-error
+      *ngIf="rejectedFile.errorType === 'validate' && rejectedFile.errorParam"
+      errorName="validate"
+      [errorText]="rejectedFile.file.name + ': ' + rejectedFile.errorParam"
+    />
+  </div>
+</sky-form-errors>

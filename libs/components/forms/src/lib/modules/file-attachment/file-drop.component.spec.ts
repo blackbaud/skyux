@@ -206,6 +206,60 @@ describe('File drop component', () => {
     return fileReaderSpyData.fileReaderSpy;
   }
 
+  function setupErrorFileChangeEvent(
+    files?: any[],
+    existingSpy?: jasmine.Spy,
+  ): jasmine.Spy {
+    const fileReaderSpyData = setupFileReaderSpy(existingSpy);
+
+    if (!files) {
+      files = [
+        {
+          name: 'foo.txt',
+          size: 1000,
+          type: 'image/png',
+        },
+        {
+          name: 'woo.txt',
+          size: 2000,
+          type: 'image/jpeg',
+        },
+        {
+          name: 'bar.jpeg',
+          size: 4000,
+          type: 'image/jpeg',
+        },
+        {
+          name: 'bat.pdf',
+          size: 2000,
+          type: 'pdf',
+        },
+      ];
+    }
+    triggerChangeEvent(files);
+
+    fixture.detectChanges();
+
+    if (fileReaderSpyData.loadCallbacks[0]) {
+      fileReaderSpyData.loadCallbacks[0]({
+        target: {
+          result: 'url',
+        },
+      });
+    }
+
+    if (fileReaderSpyData.loadCallbacks[1]) {
+      fileReaderSpyData.loadCallbacks[1]({
+        target: {
+          result: 'newUrl',
+        },
+      });
+    }
+
+    fixture.detectChanges();
+    return fileReaderSpyData.fileReaderSpy;
+  }
+
   function triggerDragEnter(enterTarget: any, dropDebugEl: DebugElement): void {
     let dragEnterPropStopped = false;
     let dragEnterPreventDefault = false;
@@ -330,6 +384,65 @@ describe('File drop component', () => {
 
     expect(labelEl).not.toBeNull();
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
+  });
+
+  it('should display built in validation errors automatically when labelText is set', () => {
+    componentInstance.labelText = 'Label';
+
+    componentInstance.minFileSize = 1500;
+    componentInstance.maxFileSize = 3000;
+    componentInstance.acceptedTypes = 'image/png, image/jpeg';
+    fixture.detectChanges();
+
+    setupErrorFileChangeEvent();
+
+    const minSizeError = fixture.nativeElement.querySelector(
+      "sky-form-error[errorName='minFileSize']",
+    );
+    const maxSizeError = fixture.nativeElement.querySelector(
+      "sky-form-error[errorName='maxFileSize']",
+    );
+    const typeError = fixture.nativeElement.querySelector(
+      "sky-form-error[errorName='fileType']",
+    );
+
+    expect(minSizeError).toBeVisible();
+    expect(minSizeError.textContent).toContain(
+      'foo.txt: Please upload a file over 1500KB.',
+    );
+    expect(maxSizeError).toBeVisible();
+    expect(maxSizeError.textContent).toContain(
+      'bar.jpeg: Please upload a file under 3000KB.',
+    );
+
+    expect(typeError).toBeVisible();
+    expect(typeError.textContent).toContain(
+      'Please upload a file of type image/png, image/jpeg.',
+    );
+  });
+
+  it('should display custom validation errors automatically when labelText is set', () => {
+    componentInstance.labelText = 'Label';
+    const errorMessage =
+      'You may not upload a file that begins with the letter "w."';
+
+    componentInstance.validateFn = function (
+      file: SkyFileItem,
+    ): string | undefined {
+      if (file.file.name.indexOf('w') === 0) {
+        return errorMessage;
+      }
+      return;
+    };
+
+    fixture.detectChanges();
+
+    setupErrorFileChangeEvent();
+
+    const formError = fixture.nativeElement.querySelector('sky-form-error');
+
+    expect(formError).toBeVisible();
+    expect(formError.textContent).toContain('woo.txt: ' + errorMessage);
   });
 
   it('should click the file input on file drop click', () => {
