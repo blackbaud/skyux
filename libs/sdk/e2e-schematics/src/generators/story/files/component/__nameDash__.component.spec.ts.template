@@ -1,16 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { <%= nameClass %>Component } from './<%= nameDash %>.component';<% if(!standalone) {%>
-import { <%= nameClass %>Module } from './<%= nameDash %>.module';<% } %>
+import { <%= nameClass %>Component } from './<%= nameDash %>.component';
 
 describe('<%= nameClass %>Component', () => {
   let component: <%= nameClass %>Component;
   let fixture: ComponentFixture<<%= nameClass %>Component>;
 
-  beforeEach(() => {<% if(!standalone) {%>
-    TestBed.configureTestingModule({
-      imports: [<%= nameClass %>Module],
-    });<% } %>
+  beforeEach(() => {
     fixture = TestBed.createComponent(<%= nameClass %>Component);
     component = fixture.componentInstance;
     fixture.detectChanges();

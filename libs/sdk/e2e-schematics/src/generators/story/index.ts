@@ -11,17 +11,10 @@ import {
 } from '@nx/devkit';
 
 import {
-  angularModuleGenerator,
   basename,
   capitalizeWords,
-  dirname,
-  findClosestModule,
-  findModulePaths,
-  findNgModuleClass,
   getProjectTypeBase,
   getStorybookProject,
-  isRoutingModule,
-  readSourceFile,
 } from '../../utils';
 
 import { ComponentGeneratorSchema } from './schema';
@@ -44,7 +37,6 @@ function normalizeOptions(
   }
 
   options.name = normalizePath(options.name);
-  options.standalone ??= !options.module;
   const projects = getProjects(tree);
   const projectConfig = getStorybookProject(tree, options);
   const projectDirectory =
@@ -59,7 +51,12 @@ function normalizeOptions(
     options.name,
   );
   if (
-    tree.exists(joinPathFragments(basePath, `${options.name}.component.ts`))
+    tree.exists(
+      joinPathFragments(
+        basePath,
+        `${strings.dasherize(basename(options.name))}.component.ts`,
+      ),
+    )
   ) {
     throw new Error(`${options.name} already exists for ${projectName}`);
   }
@@ -74,40 +71,9 @@ function normalizeOptions(
   const e2eSourceRoot =
     e2eProjectConfig.sourceRoot ??
     joinPathFragments(e2eProjectConfig.root, 'src');
-  let module: string | undefined;
-  if (options.module) {
-    module = options.module;
-  } else if (!options.standalone) {
-    const moduleOptions = findModulePaths(tree, projectDirectory, (path) => {
-      const sourceFile = readSourceFile(tree, path);
-      const module = findNgModuleClass(sourceFile);
-      return !!module && isRoutingModule(module, sourceFile);
-    });
-    if (moduleOptions.length === 0) {
-      throw new Error(
-        `Could not find a router module to add the component to. Please specify a module using the --module option.`,
-      );
-    } else if (moduleOptions.length === 1) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      module = moduleOptions[0]
-        .split('/')
-        .pop()!
-        .replace(/\.module\.ts$/, '');
-    } else {
-      const componentDirectory = `${projectTypeBase}${
-        options.name.includes('/') ? `/${dirname(options.name)}` : ''
-      }`;
-      module = findClosestModule(
-        moduleOptions,
-        projectDirectory,
-        componentDirectory,
-      );
-    }
-  }
 
   return {
     ...options,
-    module,
     projectName,
     projectRoot,
     projectDirectory,
@@ -119,18 +85,7 @@ function normalizeOptions(
 
 export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
-
-  if (!options.standalone) {
-    // nx g @schematics/angular:module
-    await angularModuleGenerator(tree, {
-      name: normalizedOptions.name,
-      route: normalizedOptions.name,
-      module: normalizedOptions.module,
-      project: `${normalizedOptions.project}`,
-    });
-  }
   const baseName = basename(normalizedOptions.name);
-
   const componentPath = joinPathFragments(
     normalizedOptions.projectDirectory,
     'app',
@@ -148,7 +103,6 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       project: normalizedOptions.project,
       componentPath,
       prefix: normalizedOptions.projectConfig.prefix,
-      standalone: options.standalone,
     },
   );
   if (!normalizedOptions.includeTests) {
@@ -174,7 +128,6 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       project: normalizedOptions.project,
       componentPath,
       prefix: normalizedOptions.projectConfig.prefix,
-      standalone: options.standalone,
     },
   );
 

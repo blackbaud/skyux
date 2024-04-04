@@ -30,6 +30,40 @@ describe('find-module', () => {
       'apps/test/src',
     );
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
+    await angularModuleGenerator(tree, { name: 'other', project: 'test' });
+    await angularComponentGenerator(tree, {
+      name: 'test',
+      project: 'test',
+      module: 'test',
+      standalone: false,
+    });
+    expect(
+      tree
+        .listChanges()
+        .map((c) => c.path)
+        .sort(),
+    ).toMatchSnapshot();
+    expect(
+      tree.read('apps/test/src/app/test/test.module.ts', 'utf-8'),
+    ).toMatchSnapshot();
+    const module = findDeclaringModule(
+      tree,
+      'apps/test/src',
+      'apps/test/src/app/test/test.component.ts',
+    );
+    expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
+    expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
+  });
+
+  it('should find standalone component', async () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    await applicationGenerator(tree, {
+      name: 'test',
+    });
+    expect(readProjectConfiguration(tree, 'test').sourceRoot).toBe(
+      'apps/test/src',
+    );
+    await angularModuleGenerator(tree, { name: 'test', project: 'test' });
     await angularComponentGenerator(tree, {
       name: 'test',
       project: 'test',
@@ -71,14 +105,15 @@ describe('find-module', () => {
       name: 'test',
       project: 'test',
       module: 'test',
+      standalone: false,
     });
     const module = findDeclaringModule(
       tree,
       'apps/test/src',
       'apps/test/src/app/test/test.component.ts',
     );
-    expect(module?.filepath).toBe('apps/test/src/app/test/test.component.ts');
-    expect(module?.module.classDeclaration.name?.text).toBe('TestComponent');
+    expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
+    expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
   });
 
   it('should find routing module', async () => {
@@ -96,6 +131,7 @@ describe('find-module', () => {
       name: 'test',
       project: 'test',
       module: 'test',
+      standalone: false,
     });
     const modules = findModulePaths(
       tree,
@@ -135,6 +171,7 @@ describe('find-module', () => {
       name: 'test',
       project: 'test',
       module: 'test',
+      standalone: false,
     });
     const modules = findModulePaths(tree, 'apps/test/src', (path) => {
       const source = readSourceFile(tree, path);

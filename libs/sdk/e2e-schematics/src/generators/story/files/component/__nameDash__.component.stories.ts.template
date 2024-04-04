@@ -1,18 +1,11 @@
-<% if(!standalone) {%>import { moduleMetadata } from '@storybook/angular';
-<% } %>import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
-import { <%= nameClass %>Component } from './<%= nameDash %>.component';<% if(!standalone) {%>
-import { <%= nameClass %>Module } from './<%= nameDash %>.module';<% } %>
+import { <%= nameClass %>Component } from './<%= nameDash %>.component';
 
 export default {
   id: '<%= nameDash %>component',
   title: 'Components/<%= nameCapitalized %>',
-  component: <%= nameClass %>Component,<% if(!standalone) {%>
-  decorators: [
-    moduleMetadata({
-      imports: [<%= nameClass %>Module],
-    }),
-  ],<% } %>
+  component: <%= nameClass %>Component,
 } as Meta<<%= nameClass %>Component>;
 type Story = StoryObj<<%= nameClass %>Component>;
 export const <%= nameClass %>: Story = {};
