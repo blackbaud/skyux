@@ -1,7 +1,10 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyPopoverHarness } from '@skyux/popovers/testing';
+import {
+  SkyPopoverContentHarness,
+  SkyPopoverHarness,
+} from '@skyux/popovers/testing';
 
 import { SkyHelpInlineHarnessFilters } from './help-inline-harness.filters';
 
@@ -35,28 +38,48 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   public async getAriaExpanded(): Promise<boolean> {
-    return false;
+    if ((await this.getAriaControls()) === null) {
+      throw new Error('aria-expanded is only set when `ariaControls` is set.');
+    }
+
+    return (await (
+      await this.#getInlineHelpButton()
+    ).getAttribute('aria-expanded')) === 'true'
+      ? true
+      : false;
   }
 
-  public async getAriaLabel(): Promise<string | undefined> {
-    return 'return';
+  public async getAriaLabel(): Promise<string | null> {
+    return (await this.#getInlineHelpButton()).getAttribute('aria-label');
   }
 
   public async getLabelText(): Promise<string | undefined> {
-    return 'return';
+    const ariaLabel = await (
+      await this.#getInlineHelpButton()
+    ).getAttribute('aria-label');
+
+    if (ariaLabel?.startsWith('Show help content ')) {
+      return ariaLabel.replace('Show help content for ', '');
+    }
+
+    return undefined;
   }
 
-  public async getPopover(): Promise<SkyPopoverHarness | null> {
-    return await this.locatorForOptional(SkyPopoverHarness)();
+  private async getPopoverHarnessContent(): Promise<
+    SkyPopoverContentHarness | undefined
+  > {
+    return (
+      await this.locatorForOptional(SkyPopoverHarness)()
+    )?.getPopoverContent();
   }
 
   public async getPopoverTitle(): Promise<string | undefined> {
-    return 'return';
+    return (await await this.getPopoverHarnessContent())?.getTitleText();
   }
 
   public async getPopoverContent(): Promise<
     TemplateRef<unknown> | string | undefined
   > {
-    return 'return';
+    return (await this.getPopoverHarnessContent())?.getBodyText();
   }
 }

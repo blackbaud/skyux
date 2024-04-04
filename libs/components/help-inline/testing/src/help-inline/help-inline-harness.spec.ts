@@ -2,6 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SkyHelpInlineHarness } from './help-inline-harness';
@@ -10,7 +11,15 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
 @Component({
   selector: 'sky-help-inline-test',
   template: `
-    <sky-help-inline (actionClick)="onActionClick()"></sky-help-inline>
+    <sky-help-inline
+      [ariaControls]="ariaControls"
+      [ariaExpanded]="ariaExpanded"
+      [ariaLabel]="ariaLabel"
+      [labelText]="labelText"
+      [popoverContent]="popoverContent"
+      [popoverTitle]="popoverTitle"
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
     <sky-help-inline
       data-sky-id="help-inline"
       (actionClick)="otherClick()"
@@ -18,6 +27,13 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
   `,
 })
 class TestComponent {
+  public ariaControls: string | undefined;
+  public ariaLabel: string | undefined;
+  public ariaExpanded: boolean | undefined;
+  public labelText: string | undefined;
+  public popoverContent: string | undefined;
+  public popoverTitle: string | undefined;
+
   public onActionClick(): void {
     // This function is for the spy
   }
@@ -35,7 +51,7 @@ describe('Inline help harness', () => {
   }> {
     await TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [SkyHelpInlineModule],
+      imports: [SkyHelpInlineModule, NoopAnimationsModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -54,14 +70,145 @@ describe('Inline help harness', () => {
       dataSkyId: 'help-inline',
     });
     const clickSpy = spyOn(fixture.componentInstance, 'otherClick');
+
     await helpInlineHarness.click();
+
     expect(clickSpy).toHaveBeenCalled();
   });
 
   it('should click help inline button', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
     const actionClickSpy = spyOn(fixture.componentInstance, 'onActionClick');
+
     await helpInlineHarness.click();
+
     expect(actionClickSpy).toHaveBeenCalled();
+  });
+
+  it('should return the default values', async () => {
+    const { helpInlineHarness } = await setupTest();
+
+    await expectAsync(helpInlineHarness.getAriaControls()).toBeResolvedTo(null);
+    await expectAsync(helpInlineHarness.getAriaLabel()).toBeResolvedTo(
+      'Show help content',
+    );
+    await expectAsync(helpInlineHarness.getLabelText()).toBeResolvedTo(
+      undefined,
+    );
+  });
+
+  it('should get aria controls value', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.ariaControls = 'aria controls';
+    fixture.detectChanges();
+
+    await expectAsync(helpInlineHarness.getAriaControls()).toBeResolvedTo(
+      'aria controls',
+    );
+  });
+
+  it('should throw an error trying to get aria expanded if aria controls is not set', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.ariaExpanded = true;
+    fixture.detectChanges();
+
+    await expectAsync(
+      helpInlineHarness.getAriaExpanded(),
+    ).toBeRejectedWithError(
+      'aria-expanded is only set when `ariaControls` is set.',
+    );
+  });
+
+  it('should get aria expanded values when aria controls is set', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+    fixture.componentInstance.ariaControls = 'aria controls';
+
+    fixture.componentInstance.ariaExpanded = true;
+    fixture.detectChanges();
+
+    await expectAsync(helpInlineHarness.getAriaExpanded()).toBeResolvedTo(true);
+
+    fixture.componentInstance.ariaExpanded = false;
+    fixture.detectChanges();
+
+    await expectAsync(helpInlineHarness.getAriaExpanded()).toBeResolvedTo(
+      false,
+    );
+  });
+
+  it('should get aria label', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.ariaLabel = 'aria label';
+    fixture.detectChanges();
+
+    await expectAsync(helpInlineHarness.getAriaLabel()).toBeResolvedTo(
+      'aria label',
+    );
+  });
+
+  it('should get labelText', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'label';
+    fixture.detectChanges();
+
+    await expectAsync(helpInlineHarness.getLabelText()).toBeResolvedTo('label');
+  });
+
+  it('should throw an error trying to get popover content if popover is closed', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.detectChanges();
+
+    await expectAsync(
+      helpInlineHarness.getPopoverContent(),
+    ).toBeRejectedWithError(
+      'Unable to retrieve the popover content because the popover is not open.',
+    );
+  });
+
+  it('should get popover content if popover is open', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.detectChanges();
+    helpInlineHarness.click();
+    fixture.whenStable();
+
+    await expectAsync(helpInlineHarness.getPopoverContent()).toBeResolvedTo(
+      'popover content',
+    );
+  });
+
+  it('should throw an error trying to get popover title if popover is closed', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.componentInstance.popoverTitle = 'popover title';
+    fixture.detectChanges();
+
+    await expectAsync(
+      helpInlineHarness.getPopoverTitle(),
+    ).toBeRejectedWithError(
+      'Unable to retrieve the popover content because the popover is not open.',
+    );
+  });
+
+  it('should get popover title if popover is open', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.componentInstance.popoverTitle = 'popover title';
+    fixture.detectChanges();
+    helpInlineHarness.click();
+    fixture.whenStable();
+
+    await expectAsync(helpInlineHarness.getPopoverTitle()).toBeResolvedTo(
+      'popover title',
+    );
   });
 });
