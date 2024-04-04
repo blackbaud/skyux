@@ -159,7 +159,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   /**
-   * The fuzzy date to open the calendar to initially if there isn't a date currently selected. Place this attribute on the `input` element to set a date to open the calendar to.
+   * The fuzzy date to open the calendar to initially.
    * This property accepts a `SkyFuzzyDate` value that includes numeric month, day, and year values.
    * For example: `{ month: 1, day: 1, year: 2007 }`.
    * @default The current date

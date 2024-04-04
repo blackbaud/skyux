@@ -133,7 +133,7 @@ export class SkyDatepickerInputDirective
   }
 
   /**
-   * The date to open the calendar to initially if there isn't a date currently selected. Place this attribute on the `input` element to override the default in `SkyDatepickerConfigService`.
+   * The date to open the calendar to initially. Place this attribute on the `input` element to override the default in `SkyDatepickerConfigService`.
    * @default The current date
    */
   @Input()
