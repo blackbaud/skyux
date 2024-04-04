@@ -14,6 +14,7 @@ import {
   SkyColorpickerModule,
   SkyColorpickerOutput,
 } from '@skyux/colorpicker';
+import { SkyFormsUtility } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -28,7 +29,6 @@ import { SkyThemeModule } from '@skyux/theme';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../../shared/forms-utility';
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorFont } from '../types/font-state';
