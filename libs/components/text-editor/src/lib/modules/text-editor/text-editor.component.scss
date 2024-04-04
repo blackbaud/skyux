@@ -31,6 +31,18 @@
     }
   }
 
+  &.sky-text-editor-invalid {
+    .sky-text-editor-wrapper {
+      @include mixins.sky-field-status('invalid');
+    }
+  }
+
+  &.sky-text-editor-wrapper-focused {
+    .sky-text-editor-wrapper {
+      @include mixins.sky-field-status('active');
+    }
+  }
+
   .sky-text-editor-toolbar {
     .sky-toolbar-section {
       padding: 10px 10px 0 10px;
@@ -78,6 +90,16 @@
       label {
         font-size: 13px;
         margin-bottom: 0;
+      }
+    }
+
+    &.sky-text-editor-invalid {
+      .sky-text-editor-label-wrapper {
+        color: var(--sky-highlight-color-danger);
+      }
+
+      .sky-text-editor-wrapper {
+        @include mixins.sky-theme-modern-border-invalid;
       }
     }
 

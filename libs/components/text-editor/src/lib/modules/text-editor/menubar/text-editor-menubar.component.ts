@@ -8,6 +8,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
+import { SkyFormsUtility } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyToolbarModule } from '@skyux/layout';
 import {
@@ -21,7 +22,6 @@ import he from 'he';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { SkyFormsUtility } from '../../shared/forms-utility';
 import { SkyTextEditorResourcesModule } from '../../shared/sky-text-editor-resources.module';
 import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
 import { SkyTextEditorMenuType } from '../types/menu-type';

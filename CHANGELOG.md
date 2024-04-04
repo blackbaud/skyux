@@ -1,5 +1,35 @@
 # Changelog
 
+## [10.2.0](https://github.com/blackbaud/skyux/compare/10.1.0...10.2.0) (2024-04-04)
+
+
+### Features
+
+* **components/datetime:** add startAtDate to specify a date when the calendar initially opens ([#2207](https://github.com/blackbaud/skyux/issues/2207)) Thanks @Blackbaud-JamesZhang ([2645d98](https://github.com/blackbaud/skyux/commit/2645d9831d5cda8d209e8a861fbc65f3c9df7380))
+* **components/forms:** add form errors to file drop ([#2201](https://github.com/blackbaud/skyux/issues/2201)) ([7626c23](https://github.com/blackbaud/skyux/commit/7626c23ceda9b812cb60f64f7d66e83dbc502093))
+
+
+### Bug Fixes
+
+* **components/indicators:** adjust stacked icon position ([#2200](https://github.com/blackbaud/skyux/issues/2200)) ([aaa56ec](https://github.com/blackbaud/skyux/commit/aaa56ec1e4565b53b865167b1a8025705cf2aaec))
+
+## [10.1.0](https://github.com/blackbaud/skyux/compare/10.0.0...10.1.0) (2024-04-01)
+
+
+### Features
+
+* **components/forms:** add checkbox group component ([#2177](https://github.com/blackbaud/skyux/issues/2177)) ([b634dbd](https://github.com/blackbaud/skyux/commit/b634dbd6e405b7dfcc1022a9ed975c514afa5581))
+* **components/forms:** add labelText and labelHidden preview inputs to multi file attachment component ([#2169](https://github.com/blackbaud/skyux/issues/2169)) ([6e46475](https://github.com/blackbaud/skyux/commit/6e464757a6e7742c4470030d97b7026df0f31902))
+* **components/forms:** add radio labelText input and deprecate old labels ([#2168](https://github.com/blackbaud/skyux/issues/2168)) ([9e4e211](https://github.com/blackbaud/skyux/commit/9e4e21153164ae0d519e8e78966a6e3a54ec5831))
+* **components/text-editor:** text editor form errors and error styling ([#2193](https://github.com/blackbaud/skyux/issues/2193)) ([30b20cd](https://github.com/blackbaud/skyux/commit/30b20cdf9a2fb2bc08e9a74846df7c4aa8256e81))
+
+
+### Bug Fixes
+
+* **components/forms:** file sizes use powers of two to calculate KB, MB, and GB ([#2189](https://github.com/blackbaud/skyux/issues/2189)) ([e83aaea](https://github.com/blackbaud/skyux/commit/e83aaea7d4a0e7111e5d26989694a8eafdfc20c1))
+* **components/phone-field:** phone field hint text uses generic characters to display the phone number format ([#2190](https://github.com/blackbaud/skyux/issues/2190)) ([4b0efb6](https://github.com/blackbaud/skyux/commit/4b0efb63fe3f489efffb2a7387b1d0c05ee77153))
+* **sdk/testing:** allow fieldsets with radiogroup role during accessibility testing ([#2192](https://github.com/blackbaud/skyux/issues/2192)) ([#2195](https://github.com/blackbaud/skyux/issues/2195)) ([9402154](https://github.com/blackbaud/skyux/commit/9402154504dd954aa711ddc7809d8b369cf3bcc2))
+
 ## [9.30.6](https://github.com/blackbaud/skyux/compare/9.30.5...9.30.6) (2024-03-28)
 
 

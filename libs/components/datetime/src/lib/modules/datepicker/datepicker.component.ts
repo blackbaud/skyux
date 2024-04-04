@@ -124,6 +124,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public minDate: Date | undefined;
 
+  public startAtDate: Date | undefined;
+
   public startingDay: number | undefined;
 
   public triggerButtonId: string;

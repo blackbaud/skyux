@@ -1,8 +1,6 @@
-<form novalidate [formGroup]="formGroup">
-  <h3 skyId #textEditorLabel="skyId">Text editor demo</h3>
-  <sky-text-editor
-    formControlName="myText"
-    [attr.aria-labelledby]="textEditorLabel.id"
-  >
-  </sky-text-editor>
-</form>
+<div class="sky-padding-even-xl">
+  <form novalidate [formGroup]="formGroup">
+    <sky-text-editor formControlName="myText" labelText="Text editor demo">
+    </sky-text-editor>
+  </form>
+</div>
