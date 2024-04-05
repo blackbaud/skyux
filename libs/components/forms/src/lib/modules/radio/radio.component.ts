@@ -12,11 +12,9 @@ import {
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
-import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
