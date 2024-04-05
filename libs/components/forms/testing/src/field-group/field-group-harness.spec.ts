@@ -76,4 +76,36 @@ describe('Field group harness', () => {
 
     await expectAsync(fieldGroupHarness.getStacked()).toBeResolvedTo(false);
   });
+
+  it('should return the heading level', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.headingLevel = 3;
+    fixture.detectChanges();
+
+    await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
+
+    fixture.componentInstance.headingLevel = 4;
+    fixture.detectChanges();
+
+    await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
+  });
+
+  it('should return the heading style', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.headingLevel = 3;
+    fixture.componentInstance.headingStyle = 4;
+    fixture.detectChanges();
+
+    await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
+    await expectAsync(fieldGroupHarness.getHeadingStyle()).toBeResolvedTo(4);
+
+    fixture.componentInstance.headingLevel = 4;
+    fixture.componentInstance.headingStyle = 3;
+    fixture.detectChanges();
+
+    await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
+    await expectAsync(fieldGroupHarness.getHeadingStyle()).toBeResolvedTo(3);
+  });
 });

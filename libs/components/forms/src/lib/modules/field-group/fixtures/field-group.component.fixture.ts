@@ -26,6 +26,8 @@ export class FieldGroupComponent {
   public stacked = false;
   public labelText = 'Label text';
   public labelHidden = false;
+  public headingStyle = 3;
+  public headingLevel = 3;
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({

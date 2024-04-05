@@ -1,10 +1,29 @@
 <div class="sky-padding-even-xl">
   <form [formGroup]="formGroup">
     <sky-field-group labelText="Field group" stacked="true">
-      <sky-input-box labelText="Name">
-        <input type="text" formControlName="name" />
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
       </sky-input-box>
     </sky-field-group>
-    <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+    <sky-field-group labelText="Field group" stacked="true" [headingLevel]="4">
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
+      </sky-input-box>
+    </sky-field-group>
+    <sky-field-group
+      labelText="Field group"
+      stacked="true"
+      [headingLevel]="3"
+      [headingStyle]="4"
+    >
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
+      </sky-input-box>
+    </sky-field-group>
+    <sky-field-group labelText="Field group" [headingStyle]="4">
+      <sky-input-box labelText="Input">
+        <input type="text" formControlName="input" />
+      </sky-input-box>
+    </sky-field-group>
   </form>
 </div>
