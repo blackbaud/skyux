@@ -46,12 +46,14 @@ export class SkyFieldGroupComponent {
 
   /**
    * The heading level in the document structure.
+   * @preview
    */
   @Input({ transform: numberAttribute })
   public headingLevel: SkyFieldGroupHeadingLevel = 3;
 
   /**
    * The heading font style.
+   * @preview
    */
   @Input({ transform: numberAttribute })
   public set headingStyle(value: SkyFieldGroupHeadingStyle) {
