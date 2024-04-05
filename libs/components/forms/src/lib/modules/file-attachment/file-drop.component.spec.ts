@@ -31,6 +31,11 @@ describe('File drop component', () => {
       declarations: [FileDropContentComponent],
     });
 
+    let uniqueId = 0;
+    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
+      () => `MOCK_ID_${++uniqueId}`,
+    );
+
     fixture = TestBed.createComponent(SkyFileDropComponent);
     el = fixture.nativeElement;
     componentInstance = fixture.componentInstance;
@@ -38,10 +43,6 @@ describe('File drop component', () => {
     liveAnnouncerSpy = spyOn(
       TestBed.inject(SkyLiveAnnouncerService),
       'announce',
-    );
-    let uniqueId = 0;
-    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
-      () => `MOCK_ID_${++uniqueId}`,
     );
   });
 
@@ -64,6 +65,10 @@ describe('File drop component', () => {
 
   function getDropElWrapper(): HTMLElement | null {
     return el.querySelector('.sky-file-drop-col');
+  }
+
+  function getHintEl(): HTMLElement | null {
+    return el.querySelector('.sky-file-drop-hint-text');
   }
 
   function validateDropClasses(
@@ -384,6 +389,21 @@ describe('File drop component', () => {
 
     expect(labelEl).not.toBeNull();
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
+  });
+
+  it('should render the hintText when provided', () => {
+    const hintText = 'Hint text';
+    componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    const hintEl = getHintEl();
+    const dropEl = getDropDebugEl();
+
+    expect(hintEl).not.toBeNull();
+    expect(hintEl?.innerText.trim()).toBe(hintText);
+    expect(
+      dropEl?.nativeElement.attributes.getNamedItem('aria-describedby').value,
+    ).toBe('MOCK_ID_3');
   });
 
   it('should display built in validation errors automatically when labelText is set', () => {
@@ -1221,7 +1241,7 @@ describe('File drop component', () => {
 
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value,
-    ).toBe('MOCK_ID_1');
+    ).toBe('MOCK_ID_4');
   });
 
   it('should pass accessibility', async () => {

@@ -29,6 +29,7 @@
           fileUploadAriaLabel ||
           ('skyux_file_attachment_file_upload_drag_or_click' | skyLibResources)
         "
+        [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
         [attr.aria-invalid]="!!rejectedFiles.length"
         [attr.aria-errormessage]="
           labelText && rejectedFiles.length ? errorId : undefined
@@ -111,7 +112,7 @@
                 ('skyux_file_attachment_file_upload_link_label'
                   | skyLibResources)
               "
-              [attr.aria-describedby]="hintText.id"
+              [attr.aria-describedby]="uploadHintText.id"
               [attr.aria-invalid]="!!rejectedFiles.length"
               [attr.aria-errormessage]="
                 labelText && rejectedFiles.length ? errorId : undefined
@@ -123,7 +124,7 @@
           </div>
           <div
             skyId
-            #hintText="skyId"
+            #uploadHintText="skyId"
             class="sky-font-deemphasized sky-file-drop-hint-text sky-margin-stacked-sm"
           >
             {{
@@ -145,8 +146,14 @@
       </div>
     </div>
   </div>
+  <div skyId #hintTextEl="skyId">
+    <div *ngIf="hintText" class="sky-font-deemphasized sky-file-drop-hint-text">
+      {{ hintText }}
+    </div>
+  </div>
 </fieldset>
 <sky-form-errors
+  class="sky-file-drop-errors"
   [id]="errorId"
   [labelText]="labelText"
   [showErrors]="rejectedFiles.length"
