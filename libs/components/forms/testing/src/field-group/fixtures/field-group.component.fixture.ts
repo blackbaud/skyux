@@ -6,9 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-
-import { SkyInputBoxModule } from '../../input-box/input-box.module';
-import { SkyFieldGroupModule } from '../field-group.module';
+import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
 
 @Component({
   standalone: true,

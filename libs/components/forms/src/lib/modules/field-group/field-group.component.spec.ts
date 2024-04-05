@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyFieldGroupComponent } from './fixtures/field-group.component.fixture';
+import { FieldGroupComponent } from './fixtures/field-group.component.fixture';
 
 describe('Field group component', function () {
   function getLegend(fieldGroupFixture: ComponentFixture<any>): HTMLElement {
@@ -14,15 +14,15 @@ describe('Field group component', function () {
     return fieldGroupFixture.nativeElement.querySelector('sky-field-group');
   }
 
-  let fixture: ComponentFixture<SkyFieldGroupComponent>;
-  let componentInstance: SkyFieldGroupComponent;
+  let fixture: ComponentFixture<FieldGroupComponent>;
+  let componentInstance: FieldGroupComponent;
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [SkyFieldGroupComponent],
+      imports: [FieldGroupComponent],
     });
 
-    fixture = TestBed.createComponent(SkyFieldGroupComponent);
+    fixture = TestBed.createComponent(FieldGroupComponent);
     componentInstance = fixture.componentInstance;
 
     fixture.detectChanges();

@@ -45,7 +45,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the checkbox's label text. If the label is set via `labelText` and `labelHidden` is true,
+   * Gets the checkbox group's label text. If `labelHidden` is true
    * the text will still be returned.
    */
   public async getLabelText(): Promise<string | undefined> {
@@ -53,7 +53,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the label is hidden. Only supported when using the `labelText` input to set the label.
+   * Whether the label is hidden.
    */
   public async getLabelHidden(): Promise<boolean> {
     return (await this.#getLabel()).hasClass('sky-screen-reader-only');
