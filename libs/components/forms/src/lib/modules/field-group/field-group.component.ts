@@ -12,6 +12,10 @@ import { Component, HostBinding, Input, booleanAttribute } from '@angular/core';
       :host {
         display: block;
       }
+
+      .sky-field-group-content {
+        margin-top: var(--sky-margin-stacked-sm);
+      }
     `,
   ],
   standalone: true,

@@ -32,6 +32,13 @@ const routes: Routes = [
       import('./checkbox/checkbox.module').then((m) => m.CheckboxModule),
   },
   {
+    path: 'field-group',
+    loadChildren: () =>
+      import('./field-group/field-group.module').then(
+        (m) => m.FieldGroupModule,
+      ),
+  },
+  {
     path: 'file-attachment',
     loadChildren: () =>
       import('./file-attachment/file-attachment.module').then(
