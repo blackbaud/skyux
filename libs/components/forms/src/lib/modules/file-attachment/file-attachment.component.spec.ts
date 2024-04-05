@@ -1525,6 +1525,24 @@ describe('File attachment', () => {
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(1);
   });
+
+  it('should not render help inline for popover unless popover content is set', () => {
+    fixture.componentInstance.popoverTitle = 'popover title';
+    fixture.componentInstance.showLabel = false;
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
+  });
 });
 
 describe('File attachment (template-driven)', () => {

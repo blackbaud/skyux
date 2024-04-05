@@ -30,6 +30,8 @@ export class FileAttachmentTestComponent {
 
   public popoverContent: string | undefined;
 
+  public popoverTitle: string | undefined;
+
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
   public showInlineHelp = false;

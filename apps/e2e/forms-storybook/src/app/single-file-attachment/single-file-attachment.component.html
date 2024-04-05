@@ -59,7 +59,19 @@
 
 <sky-file-attachment
   formControlName="attachment"
-  labelText="Single file attachment with help inline popover"
+  labelText="Single file attachment with help inline popover open"
   helpPopoverContent="Popover content"
 >
 </sky-file-attachment>
+
+<form [formGroup]="fileForm">
+  <div style="margin-bottom: 20px">
+    <sky-file-attachment
+      formControlName="attachment"
+      labelText="Single file attachment with help inline popover"
+      helpPopoverContent="Popover content"
+      (fileChange)="reactiveFileUpdated($event)"
+    >
+    </sky-file-attachment>
+  </div>
+</form>

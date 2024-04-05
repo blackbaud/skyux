@@ -17,7 +17,9 @@
       >
         {{ labelText }}
       </span>
-      <ng-container *ngTemplateOutlet="inlineHelp" />
+      <ng-container *ngIf="helpPopoverContent">
+        <ng-container *ngTemplateOutlet="inlineHelp" />
+      </ng-container>
     </ng-container>
   </div>
   <div

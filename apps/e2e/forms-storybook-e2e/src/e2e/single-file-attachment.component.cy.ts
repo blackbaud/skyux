@@ -13,7 +13,7 @@ describe('forms-storybook - single file attachment', () => {
           .should('exist')
           .should('be.visible');
         cy.get('sky-help-inline')
-          .last()
+          .eq(1)
           .should('exist')
           .should('be.visible')
           .click();
