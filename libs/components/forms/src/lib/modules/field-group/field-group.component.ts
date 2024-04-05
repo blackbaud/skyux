@@ -37,19 +37,11 @@ export class SkyFieldGroupComponent {
   public labelHidden = false;
 
   /**
-   * Whether the field group is stacked on another component. When specified, the appropriate
+   * Whether the field group is stacked on another field group. When specified, the appropriate
    * vertical spacing is automatically added to the field group.
    * @preview
    */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-xl')
-  public set stacked(value: boolean) {
-    this.#_stacked = value;
-  }
-
-  public get stacked(): boolean {
-    return this.#_stacked;
-  }
-
-  #_stacked = false;
+  public stacked = false;
 }
