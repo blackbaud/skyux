@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { FieldGroupComponent } from './fixtures/field-group.component.fixture';
 
@@ -58,5 +58,11 @@ describe('Field group component', function () {
     const group = getFieldGroup(fixture);
 
     expect(group).not.toHaveClass('sky-margin-stacked-xl');
+  });
+
+  it('should pass accessibility', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 });
