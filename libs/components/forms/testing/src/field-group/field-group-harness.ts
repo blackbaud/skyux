@@ -57,7 +57,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * The semantic heading level used in the legend.
+   * The semantic heading level used for the field group.
    */
   public async getHeadingLevel(): Promise<SkyFieldGroupHeadingLevel> {
     const h3 = await this.#getH3();
@@ -66,7 +66,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * The heading style used in the legend.
+   * The heading style used for the field group.
    */
   public async getHeadingStyle(): Promise<SkyFieldGroupHeadingStyle> {
     const heading = (await this.#getH3()) || (await this.#getH4());
