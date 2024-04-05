@@ -63,13 +63,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
 export class SkyFileAttachmentComponent
   implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
 {
-  // TODO add documentation here
-  @Input()
-  public helpPopoverTitle: string | undefined;
-
-  @Input()
-  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
-
   /**
    * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
@@ -94,6 +87,21 @@ export class SkyFileAttachmentComponent
   public get disabled(): boolean {
     return this.#_disabled;
   }
+
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the input box label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
 
   /**
    * The text to display as the file attachment's label.
