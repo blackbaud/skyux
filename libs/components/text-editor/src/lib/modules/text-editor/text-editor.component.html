@@ -1,8 +1,5 @@
 <div
   class="sky-text-editor"
-  [attr.aria-label]="labelText"
-  [attr.aria-invalid]="!!ngControl.errors"
-  [attr.aria-errormessage]="labelText && ngControl.errors ? errorId : undefined"
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused,

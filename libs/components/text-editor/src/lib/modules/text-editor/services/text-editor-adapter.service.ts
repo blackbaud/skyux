@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { ValidationErrors } from '@angular/forms';
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -291,9 +292,34 @@ export class SkyTextEditorAdapterService {
     );
   }
 
+  public setErrorAttributes(
+    errorId: string,
+    errors: ValidationErrors | null,
+  ): void {
+    const documentEl = this.#getIframeDocumentEl();
+    documentEl.body.setAttribute('aria-invalid', (!!errors).toString());
+    if (errors && errorId) {
+      documentEl.body.setAttribute('aria-errormessage', errorId);
+    } else {
+      documentEl.body.removeAttribute('aria-errormessage');
+    }
+  }
+
+  public setLabelAttribute(label: string | undefined): void {
+    if (label) {
+      const documentEl = this.#getIframeDocumentEl();
+      documentEl.body.setAttribute('aria-label', label);
+    }
+  }
+
   public setPlaceholder(placeholder?: string): void {
     const documentEl = this.#getIframeDocumentEl();
     documentEl.body.setAttribute('data-placeholder', placeholder || '');
+  }
+
+  public setRequiredAttribute(required: boolean): void {
+    const documentEl = this.#getIframeDocumentEl();
+    documentEl.body.setAttribute('aria-required', required.toString());
   }
 
   public setFontSize(fontSize: number): void {
