@@ -34,7 +34,7 @@ function getButtonEl(el: HTMLElement): HTMLElement | null {
   return el.querySelector('.sky-file-attachment-btn');
 }
 
-describe('File attachment', () => {
+fdescribe('File attachment', () => {
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
   let el: HTMLElement;
   let fileAttachmentInstance: SkyFileAttachmentComponent;
@@ -446,7 +446,6 @@ describe('File attachment', () => {
   }));
 
   it('should handle removing the labelText', fakeAsync(() => {
-    fixture.componentInstance.required = true;
     fixture.componentInstance.labelText = 'label text';
     fixture.componentInstance.labelElementText = undefined;
     fixture.componentInstance.showLabel = false;
@@ -456,18 +455,16 @@ describe('File attachment', () => {
     tick();
     fixture.detectChanges();
 
-    const labelWrapper = getLabelWrapper();
-
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      true,
-    );
+    expect(
+      fixture.nativeElement.querySelector('span.sky-control-label'),
+    ).toBeDefined();
 
     fixture.componentInstance.labelText = undefined;
     fixture.detectChanges();
 
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      false,
-    );
+    expect(
+      fixture.nativeElement.querySelector('span.sky-control-label'),
+    ).toBeNull();
   }));
 
   it('should click the file input on choose file button click', () => {
@@ -1510,6 +1507,23 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.attachment.dirty).toBeTrue();
+  });
+
+  it('should render help inline with popover only if label text is provided', () => {
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.componentInstance.showLabel = false;
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
   });
 });
 

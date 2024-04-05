@@ -1,13 +1,18 @@
 <div class="sky-file-attachment-wrapper">
-  <div class="sky-file-attachment-label-wrapper" [attr.id]="labelElementId">
+  <div
+    class="sky-file-attachment-label-wrapper"
+    [attr.id]="labelElementId"
+    [ngClass]="{
+      'sky-control-label-required': !labelText && required && hasLabelComponent
+    }"
+  >
     <ng-container *ngIf="labelText; else labelContent">
       <span
         skyTrim
-        *ngIf="!labelHidden"
         [ngClass]="{
-          'sky-control-label-required':
-            required && (hasLabelComponent || labelText)
+          'sky-control-label-required': required
         }"
+        *ngIf="!labelHidden"
         class="sky-control-label"
       >
         {{ labelText }}

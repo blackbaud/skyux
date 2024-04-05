@@ -28,6 +28,8 @@ export class FileAttachmentTestComponent {
 
   public maxFileSize: number | undefined;
 
+  public popoverContent: string | undefined;
+
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
   public showInlineHelp = false;
