@@ -1,5 +1,19 @@
 # Changelog
 
+## [10.3.0](https://github.com/blackbaud/skyux/compare/10.2.0...10.3.0) (2024-04-05)
+
+
+### Features
+
+* **components/forms:** add field group component ([#2212](https://github.com/blackbaud/skyux/issues/2212)) ([7382cd2](https://github.com/blackbaud/skyux/commit/7382cd27655d754010ca0ca044a67aa36397c8fa))
+
+
+### Bug Fixes
+
+* **components/forms:** input box uses "disabled" styles when child form control is disabled ([#2203](https://github.com/blackbaud/skyux/issues/2203)) ([2562083](https://github.com/blackbaud/skyux/commit/2562083d23f741ce3e1bcfc9061dd90b3f512a8c))
+* **components/text-editor:** accessibility attributes are properly set on the editor element ([#2208](https://github.com/blackbaud/skyux/issues/2208)) ([2795493](https://github.com/blackbaud/skyux/commit/27954933f590c829889096513e574218756c87d3))
+* documentation for inputs with argument objects is generated correctly ([#2209](https://github.com/blackbaud/skyux/issues/2209)) ([8c3706b](https://github.com/blackbaud/skyux/commit/8c3706bc6cb2ce5d2c0812601c1c3dddf92b72bc))
+
 ## [10.2.0](https://github.com/blackbaud/skyux/compare/10.1.0...10.2.0) (2024-04-04)
 
 

@@ -7,6 +7,11 @@ import { UntypedFormControl, Validators } from '@angular/forms';
   styleUrls: ['./input-box.component.scss'],
 })
 export class InputBoxComponent implements OnInit {
+  protected disabledField = new UntypedFormControl({
+    disabled: true,
+    value: 'Disabled value',
+  });
+
   public errorField = new UntypedFormControl('', [Validators.required]);
 
   public ngOnInit(): void {
