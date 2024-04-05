@@ -148,18 +148,17 @@
   padding-left: compatVars.$sky-padding-half;
 }
 
+// Recommendations from WebAIM.
+// @see https://webaim.org/techniques/css/invisiblecontent/
 @mixin sky-screen-reader-only {
-  width: 0;
-  height: 0;
-  padding: 0;
-  opacity: 0;
-  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
   margin: -1px;
-  border: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  outline: none;
-  white-space: nowrap;
+  padding: 0;
+  position: absolute;
 }
 
 @mixin sky-subsection-heading {
