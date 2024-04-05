@@ -10,17 +10,7 @@ import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
 @Component({
   selector: 'sky-field-group',
   templateUrl: './field-group.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .sky-field-group-content {
-        margin-top: var(--sky-margin-stacked-sm);
-      }
-    `,
-  ],
+  styleUrl: './field-group.component.scss',
   standalone: true,
   imports: [CommonModule],
 })
