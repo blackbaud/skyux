@@ -6,7 +6,12 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
+import {
+  SkyFieldGroupHeadingLevel,
+  SkyFieldGroupHeadingStyle,
+  SkyFieldGroupModule,
+  SkyInputBoxModule,
+} from '@skyux/forms';
 
 @Component({
   standalone: true,
@@ -24,6 +29,8 @@ export class FieldGroupComponent {
   public stacked = false;
   public labelText = 'Label text';
   public labelHidden = false;
+  public headingLevel: SkyFieldGroupHeadingLevel = 3;
+  public headingStyle: SkyFieldGroupHeadingStyle = 3;
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
