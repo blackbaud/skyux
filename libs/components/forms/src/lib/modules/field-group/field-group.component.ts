@@ -39,13 +39,13 @@ export class SkyFieldGroupComponent {
   public stacked = false;
 
   /**
-   * The semantic heading used for the field group.
+   * The heading level in the document structure.
    */
   @Input()
   public headingLevel: SkyFieldGroupHeadingLevel = 3;
 
   /**
-   * The heading styling used for the field group.
+   * The heading font style.
    */
   @Input()
   public set headingStyle(value: SkyFieldGroupHeadingStyle) {
