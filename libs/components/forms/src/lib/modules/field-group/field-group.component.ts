@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding, Input, booleanAttribute } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  booleanAttribute,
+  numberAttribute,
+} from '@angular/core';
 
 import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
 import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
@@ -41,13 +47,13 @@ export class SkyFieldGroupComponent {
   /**
    * The heading level in the document structure.
    */
-  @Input()
+  @Input({ transform: numberAttribute })
   public headingLevel: SkyFieldGroupHeadingLevel = 3;
 
   /**
    * The heading font style.
    */
-  @Input()
+  @Input({ transform: numberAttribute })
   public set headingStyle(value: SkyFieldGroupHeadingStyle) {
     this.headingClass = `sky-font-heading-${value}`;
   }
