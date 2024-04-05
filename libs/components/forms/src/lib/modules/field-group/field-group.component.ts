@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input, booleanAttribute } from '@angular/core';
 
+import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
+import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
+
 /**
  * Organizes form fields into a group.
  */
@@ -44,4 +47,20 @@ export class SkyFieldGroupComponent {
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-xl')
   public stacked = false;
+
+  /**
+   * The semantic heading used for the field group label.
+   */
+  @Input()
+  public headingLevel: SkyFieldGroupHeadingLevel = 3;
+
+  /**
+   * The heading styling used for the field group label.
+   */
+  @Input()
+  public set headingStyle(value: SkyFieldGroupHeadingStyle) {
+    this.headingClass = `sky-font-heading-${value}`;
+  }
+
+  protected headingClass = 'sky-font-heading-3';
 }

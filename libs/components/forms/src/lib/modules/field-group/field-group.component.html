@@ -1,9 +1,11 @@
 <fieldset class="sky-field-group">
-  <legend
-    class="sky-font-heading-3"
-    [ngClass]="{ 'sky-screen-reader-only': labelHidden }"
-  >
-    {{ labelText }}
+  <legend [ngClass]="{ 'sky-screen-reader-only': labelHidden }">
+    <h3 *ngIf="headingLevel === 3" [class]="headingClass">
+      {{ labelText }}
+    </h3>
+    <h4 *ngIf="headingLevel === 4" [class]="headingClass">
+      {{ labelText }}
+    </h4>
   </legend>
   <div class="sky-field-group-content">
     <ng-content />

@@ -4,6 +4,8 @@ export { SkyCheckboxChange } from './lib/modules/checkbox/checkbox-change';
 export { SkyCheckboxModule } from './lib/modules/checkbox/checkbox.module';
 
 export { SkyFieldGroupModule } from './lib/modules/field-group/field-group.module';
+export { SkyFieldGroupHeadingLevel } from './lib/modules/field-group/field-group-heading-level';
+export { SkyFieldGroupHeadingStyle } from './lib/modules/field-group/field-group-heading-style';
 
 export { SkyFileAttachmentsModule } from './lib/modules/file-attachment/file-attachments.module';
 export { SkyFileItem } from './lib/modules/file-attachment/file-item';
