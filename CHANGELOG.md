@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.4.0](https://github.com/blackbaud/skyux/compare/10.3.0...10.4.0) (2024-04-05)
+
+
+### Features
+
+* **components/forms:** add `hintText` input to multi file attachment component ([#2211](https://github.com/blackbaud/skyux/issues/2211)) ([e4a7ae4](https://github.com/blackbaud/skyux/commit/e4a7ae45f1d368ae9105905015d65730e71119cc))
+* **components/forms:** add heading semantic and styling inputs to field group ([#2214](https://github.com/blackbaud/skyux/issues/2214)) ([ee882bc](https://github.com/blackbaud/skyux/commit/ee882bc7376c373bc76858fa3c9fc234bea30e97))
+
 ## [10.3.0](https://github.com/blackbaud/skyux/compare/10.2.0...10.3.0) (2024-04-05)
 
 
