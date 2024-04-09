@@ -4,7 +4,8 @@ import { SkyModalCloseArgs } from '@skyux/modals';
 
 /**
  * A controller to be injected into tests, which mocks the modal service
- * and handles interactions with modal instances.
+ * and handles interactions with modal instances. For testing interactions
+ * with the modal component itself, use the `SkyModalHarness`.
  */
 export abstract class SkyModalTestingController {
   /**

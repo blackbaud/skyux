@@ -134,7 +134,10 @@ describe('Modal demo using testing controller', () => {
 
     modalController.expectCount(1);
     modalController.expectOpen(ModalTestComponent);
-    modalController.closeTopModal();
+    modalController.closeTopModal({
+      data: {},
+      reason: 'save',
+    });
     modalController.expectNone();
   });
 });

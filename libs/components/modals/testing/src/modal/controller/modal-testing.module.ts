@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { provideModalTesting } from './provide-modal-testing';
 
 /**
- * Configures the `SkyModalTestingController` as the backend for the `SkyModalService`.
+ * Configures the `SkyModalTestingController` as the implementation for the `SkyModalService`.
  */
 @NgModule({
   providers: [provideModalTesting()],

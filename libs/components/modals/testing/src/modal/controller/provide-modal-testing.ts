@@ -1,5 +1,6 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Provider } from '@angular/core';
+
+/* eslint-disable-next-line @nx/enforce-module-boundaries */
 import { SkyModalService } from '@skyux/modals';
 
 import { SkyModalTestingController } from './modal-testing.controller';

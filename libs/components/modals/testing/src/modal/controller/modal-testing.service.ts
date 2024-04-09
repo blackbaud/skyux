@@ -1,20 +1,11 @@
-import {
-  EnvironmentInjector,
-  Injectable,
-  OnDestroy,
-  StaticProvider,
-  Type,
-  createComponent,
-  createEnvironmentInjector,
-  inject,
-} from '@angular/core';
-// eslint-disable-next-line @nx/enforce-module-boundaries
+import { Injectable, OnDestroy, StaticProvider, Type } from '@angular/core';
+
+/* eslint-disable-next-line @nx/enforce-module-boundaries */
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,
   SkyModalInstance,
   SkyModalServiceInterface,
-  applyDefaultOptions,
 } from '@skyux/modals';
 
 import { SkyModalTestingController } from './modal-testing.controller';
@@ -33,7 +24,6 @@ export class SkyModalTestingService
   extends SkyModalTestingController
   implements OnDestroy, SkyModalServiceInterface
 {
-  readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #modals = new Map<SkyModalInstance, TestSubject>();
 
   public ngOnDestroy(): void {
@@ -91,24 +81,7 @@ export class SkyModalTestingService
     config?: SkyModalConfigurationInterface | StaticProvider[],
   ): SkyModalInstance {
     const instance = new SkyModalInstance();
-    const options = applyDefaultOptions(config);
 
-    options.providers ||= [];
-    options.providers.push({
-      provide: SkyModalInstance,
-      useValue: instance,
-    });
-
-    const environmentInjector = createEnvironmentInjector(
-      options.providers,
-      this.#environmentInjector,
-    );
-
-    const componentRef = createComponent(component, {
-      environmentInjector,
-    });
-
-    instance.componentRef = componentRef;
     instance.closed.subscribe(() => {
       this.#modals.delete(instance);
     });

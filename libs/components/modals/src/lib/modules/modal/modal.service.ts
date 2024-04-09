@@ -9,7 +9,6 @@ import {
   SkyDynamicComponentService,
 } from '@skyux/core';
 
-import { applyDefaultOptions } from './apply-default-options';
 import { SkyModalHostContext } from './modal-host-context';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalInstance } from './modal-instance';
@@ -23,7 +22,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   providedIn: 'root',
 })
 export class SkyModalService implements SkyModalServiceInterface {
-  private static host: ComponentRef<SkyModalHostComponent> | undefined;
+  private static host: ComponentRef<SkyModalHostComponent> | undefined; // <-- how do we handle only having one of these?
 
   #dynamicComponentService: SkyDynamicComponentService;
   #environmentInjector = inject(EnvironmentInjector);
@@ -58,7 +57,7 @@ export class SkyModalService implements SkyModalServiceInterface {
       SkyModalService.host = this.#createHostComponent();
     }
 
-    const params = applyDefaultOptions(config);
+    const params = this.#getConfigFromParameter(config);
 
     params.providers ||= [];
     params.providers.push({
@@ -76,6 +75,35 @@ export class SkyModalService implements SkyModalServiceInterface {
     }
 
     return modalInstance;
+  }
+
+  #getConfigFromParameter(
+    providersOrConfig: any,
+  ): SkyModalConfigurationInterface {
+    const defaultParams: SkyModalConfigurationInterface = {
+      providers: [],
+      fullPage: false,
+      size: 'medium',
+      tiledBody: false,
+    };
+    let params: SkyModalConfigurationInterface = {};
+    let method: any = undefined;
+
+    // Object Literal Lookup for backwards compatibility.
+    method = {
+      'providers?': Object.assign({}, defaultParams, {
+        providers: providersOrConfig,
+      }),
+      config: Object.assign({}, defaultParams, providersOrConfig),
+    };
+
+    if (Array.isArray(providersOrConfig) === true) {
+      params = method['providers?'];
+    } else {
+      params = method['config'];
+    }
+
+    return params;
   }
 
   #createHostComponent(): ComponentRef<SkyModalHostComponent> {

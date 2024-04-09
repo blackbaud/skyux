@@ -9,7 +9,6 @@ export { SkyConfirmType } from './lib/modules/confirm/confirm-type';
 export { SkyConfirmModule } from './lib/modules/confirm/confirm.module';
 export { SkyConfirmService } from './lib/modules/confirm/confirm.service';
 
-export { applyDefaultOptions } from './lib/modules/modal/apply-default-options';
 export { SkyModalBeforeCloseHandler } from './lib/modules/modal/modal-before-close-handler';
 export { SkyModalCloseArgs } from './lib/modules/modal/modal-close-args';
 export { SkyModalConfiguration } from './lib/modules/modal/modal-configuration';
