@@ -12,7 +12,7 @@ import { getSourceNodes } from '@nx/js';
 import * as semver from 'semver';
 import * as ts from 'typescript';
 
-function hardenRootDependencies(tree: Tree) {
+function hardenRootDependencies(tree: Tree): void {
   updateJson(tree, 'package.json', (json) => {
     ['dependencies', 'devDependencies'].forEach((dependencyType) => {
       if (dependencyType in json) {
@@ -28,7 +28,7 @@ function hardenRootDependencies(tree: Tree) {
   });
 }
 
-function updatePeerDependencies(tree: Tree) {
+function updatePeerDependencies(tree: Tree): void {
   const rootPackageJson = readJson(tree, 'package.json');
   const rootPackageJsonDependencies: Record<string, string> = {
     ...rootPackageJson.dependencies,
@@ -65,10 +65,35 @@ function updatePeerDependencies(tree: Tree) {
   });
 }
 
+function updateNgUpdatePackageGroup(tree: Tree): void {
+  const rootPackageJson = readJson(tree, 'package.json');
+  const rootPackageJsonDependencies: Record<string, string> = {
+    ...rootPackageJson.dependencies,
+    ...rootPackageJson.devDependencies,
+  };
+  if (tree.exists('libs/components/packages/package.json')) {
+    updateJson(tree, 'libs/components/packages/package.json', (json) => {
+      const packageGroup = Object.entries<string>(
+        json['ng-update']['packageGroup'],
+      );
+      packageGroup.forEach(([name, version]) => {
+        if (version !== '0.0.0-PLACEHOLDER') {
+          const rootVersion = rootPackageJsonDependencies[name];
+          const prefix = version.match(`^[~^]`) ? version.charAt(0) : '';
+          if (rootVersion) {
+            json['ng-update']['packageGroup'][name] = `${prefix}${rootVersion}`;
+          }
+        }
+      });
+      return json;
+    });
+  }
+}
+
 /**
  * Testing projects do not have a separate package.json to track dependencies.
  */
-function updateTestingImplicitDependencies(tree: Tree) {
+function updateTestingImplicitDependencies(tree: Tree): void {
   const projects = getProjects(tree);
   const testingProjects = new Map(
     Array.from(projects.entries()).filter(([name]) =>
@@ -144,6 +169,7 @@ function updateTestingImplicitDependencies(tree: Tree) {
 export default async function (tree: Tree) {
   hardenRootDependencies(tree);
   updatePeerDependencies(tree);
+  updateNgUpdatePackageGroup(tree);
   updateTestingImplicitDependencies(tree);
   await formatFiles(tree);
 }

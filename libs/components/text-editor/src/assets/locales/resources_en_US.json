@@ -79,6 +79,10 @@
     "_description": "Text for the 'Select all' key shortcut in the edit menu",
     "message": "Ctrl+A"
   },
+  "skyux_text_editor_iframe_title_default": {
+    "_description": "Text for the title attribute of the text editor iFrame",
+    "message": "Text editor"
+  },
   "skyux_text_editor_menubar_dropdown_button_edit_label": {
     "_description": "Text for the 'Edit' dropdown button in the menubar",
     "message": "Edit"
@@ -90,6 +94,10 @@
   "skyux_text_editor_menubar_dropdown_button_insert_label": {
     "_description": "Text for the 'Insert merge field' dropdown button in the menubar",
     "message": "Insert merge field"
+  },
+  "skyux_text_editor_paste_incompatibility_error": {
+    "_description": "Text for alert when attempting to paste via the menu bar in Firefox",
+    "message": "Direct clipboard access is not supported by this browser. Use the Ctrl+X/C/V keyboard shortcuts instead."
   },
   "skyux_text_editor_url_modal_header_label": {
     "_description": "Text for the 'Create link' header of the url modal",

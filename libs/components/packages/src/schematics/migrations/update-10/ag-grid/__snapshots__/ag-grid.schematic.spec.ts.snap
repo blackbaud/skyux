@@ -49,7 +49,7 @@ exports[`ag-grid.schematic should update enterMovesDown 1`] = `
             let customOptions: Partial<GridOptions> = {};
             this.options = this.agGridService.getGridOptions({
               ...customOptions,
-              enterNavigatesVertically: true
+              enterNavigatesVertically: true,
               enterNavigatesVerticallyAfterEdit: true
             });
           }
@@ -82,10 +82,11 @@ exports[`ag-grid.schematic should update getSecondaryColumns and setSecondaryCol
         }"
 `;
 
-exports[`ag-grid.schematic should update suppressCellSelection 1`] = `
+exports[`ag-grid.schematic should update options 1`] = `
 "
         import { SkyAgGridService } from '@skyux/ag-grid';
         import { GridOptions } from 'ag-grid-community';
+        import { LocalComponent } from './local.component';
 
         export class AppComponent {
           public options: GridOptions;
@@ -97,8 +98,31 @@ exports[`ag-grid.schematic should update suppressCellSelection 1`] = `
             customOptions.suppressCellFocus = true;
             this.options = this.agGridService.getGridOptions({
               ...customOptions,
+              columnDefs: [
+                {
+                  headerName: 'Local',
+                  headerComponent: LocalComponent,
+                  filter: LocalComponent,
+                  component: LocalComponent,
+                  cellEditor: LocalComponent
+                }
+              ],
               suppressCellFocus: true
             });
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should use this.gridApi if possible 1`] = `
+"
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridApi.deselectAll();
           }
         }"
 `;

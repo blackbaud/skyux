@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import BlocksPageComponent from './blocks-page.component';
 
@@ -12,8 +13,6 @@ export default {
     }),
   ],
 } as Meta<BlocksPageComponent>;
-const Template: Story<BlocksPageComponent> = (args: BlocksPageComponent) => ({
-  props: args,
-});
-export const BlocksPage = Template.bind({});
+type Story = StoryObj<BlocksPageComponent>;
+export const BlocksPage: Story = {};
 BlocksPage.args = {};

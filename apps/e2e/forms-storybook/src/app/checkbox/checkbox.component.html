@@ -80,6 +80,27 @@
       </sky-checkbox>
     </sky-column>
   </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <form [formGroup]="standardCheckboxGroupFormGroup">
+        <sky-checkbox-group
+          [formGroup]="standardCheckboxGroupFormGroup"
+          labelText="Contact method"
+        >
+          <sky-checkbox formControlName="email" labelText="Email" />
+          <sky-checkbox formControlName="phone" labelText="Phone" />
+          <sky-checkbox formControlName="text" labelText="Text" />
+          <sky-form-error
+            *ngIf="
+              standardCheckboxGroupFormGroup.errors?.['contactMethodRequired']
+            "
+            errorName="contactMethodRequired"
+            errorText="A contact method is required."
+          ></sky-form-error>
+        </sky-checkbox-group>
+      </form>
+    </sky-column>
+  </sky-row>
 </sky-fluid-grid>
 <sky-fluid-grid id="icon-checkboxes">
   <sky-row class="sky-padding-even-md">
@@ -249,6 +270,25 @@
         [checked]="false"
       >
       </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <form [formGroup]="iconCheckboxGroupFormGroup">
+        <sky-checkbox-group
+          [formGroup]="iconCheckboxGroupFormGroup"
+          labelText="Text formatting"
+          [labelHidden]="true"
+        >
+          <sky-checkbox formControlName="bold" icon="bold" label="Bold" />
+          <sky-checkbox formControlName="italic" icon="italic" label="Italic" />
+          <sky-checkbox
+            formControlName="underline"
+            icon="underline"
+            label="Underline"
+          />
+        </sky-checkbox-group>
+      </form>
     </sky-column>
   </sky-row>
 </sky-fluid-grid>

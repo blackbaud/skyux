@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup">
+  <sky-field-group
+    [stacked]="stacked"
+    [labelText]="labelText"
+    [labelHidden]="labelHidden"
+    [headingStyle]="headingStyle"
+    [headingLevel]="headingLevel"
+  >
+    <sky-input-box labelText="Name">
+      <input type="text" formControlName="name" />
+    </sky-input-box>
+  </sky-field-group>
+</form>

@@ -56,9 +56,8 @@
       "@skyux/flyout": "0.0.0-PLACEHOLDER",
       "@skyux/forms": "0.0.0-PLACEHOLDER",
       "@skyux/grids": "0.0.0-PLACEHOLDER",
-      "@skyux/http": "0.0.0-PLACEHOLDER",
       "@skyux/i18n": "0.0.0-PLACEHOLDER",
-      "@skyux/icons": "^6.0.0",
+      "@skyux/icons": "^7.0.0",
       "@skyux/indicators": "0.0.0-PLACEHOLDER",
       "@skyux/inline-form": "0.0.0-PLACEHOLDER",
       "@skyux/layout": "0.0.0-PLACEHOLDER",
@@ -84,15 +83,15 @@
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
       "@skyux/validation": "0.0.0-PLACEHOLDER",
-      "ag-grid-angular": "^31.1.1",
-      "ag-grid-community": "^31.1.1",
-      "ag-grid-enterprise": "^31.1.1",
-      "autonumeric": "^4.10.4"
+      "ag-grid-angular": "~31.2.0",
+      "ag-grid-community": "~31.2.0",
+      "ag-grid-enterprise": "~31.2.0",
+      "autonumeric": "^4.10.5"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^17.2.3",
-    "@angular/core": "^17.2.4"
+    "@angular/cli": "^17.3.2",
+    "@angular/core": "^17.3.1"
   },
   "dependencies": {
     "fs-extra": "11.2.0",

@@ -31,6 +31,11 @@ describe('File drop component', () => {
       declarations: [FileDropContentComponent],
     });
 
+    let uniqueId = 0;
+    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
+      () => `MOCK_ID_${++uniqueId}`,
+    );
+
     fixture = TestBed.createComponent(SkyFileDropComponent);
     el = fixture.nativeElement;
     componentInstance = fixture.componentInstance;
@@ -39,15 +44,15 @@ describe('File drop component', () => {
       TestBed.inject(SkyLiveAnnouncerService),
       'announce',
     );
-    let uniqueId = 0;
-    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
-      () => `MOCK_ID_${++uniqueId}`,
-    );
   });
 
   //#region helper functions
   function getInputDebugEl(): DebugElement {
     return fixture.debugElement.query(By.css('input.sky-file-input-hidden'));
+  }
+
+  function getLabelEl(): HTMLElement | null {
+    return el.querySelector('legend.sky-control-label');
   }
 
   function getDropEl(): HTMLElement | null {
@@ -60,6 +65,10 @@ describe('File drop component', () => {
 
   function getDropElWrapper(): HTMLElement | null {
     return el.querySelector('.sky-file-drop-col');
+  }
+
+  function getHintEl(): HTMLElement | null {
+    return el.querySelector('.sky-file-drop-hint-text');
   }
 
   function validateDropClasses(
@@ -202,6 +211,60 @@ describe('File drop component', () => {
     return fileReaderSpyData.fileReaderSpy;
   }
 
+  function setupErrorFileChangeEvent(
+    files?: any[],
+    existingSpy?: jasmine.Spy,
+  ): jasmine.Spy {
+    const fileReaderSpyData = setupFileReaderSpy(existingSpy);
+
+    if (!files) {
+      files = [
+        {
+          name: 'foo.txt',
+          size: 1000,
+          type: 'image/png',
+        },
+        {
+          name: 'woo.txt',
+          size: 2000,
+          type: 'image/jpeg',
+        },
+        {
+          name: 'bar.jpeg',
+          size: 4000,
+          type: 'image/jpeg',
+        },
+        {
+          name: 'bat.pdf',
+          size: 2000,
+          type: 'pdf',
+        },
+      ];
+    }
+    triggerChangeEvent(files);
+
+    fixture.detectChanges();
+
+    if (fileReaderSpyData.loadCallbacks[0]) {
+      fileReaderSpyData.loadCallbacks[0]({
+        target: {
+          result: 'url',
+        },
+      });
+    }
+
+    if (fileReaderSpyData.loadCallbacks[1]) {
+      fileReaderSpyData.loadCallbacks[1]({
+        target: {
+          result: 'newUrl',
+        },
+      });
+    }
+
+    fixture.detectChanges();
+    return fileReaderSpyData.fileReaderSpy;
+  }
+
   function triggerDragEnter(enterTarget: any, dropDebugEl: DebugElement): void {
     let dragEnterPropStopped = false;
     let dragEnterPreventDefault = false;
@@ -299,6 +362,107 @@ describe('File drop component', () => {
 
     const inputEl = getInputDebugEl();
     expect(inputEl.references['fileInput']).toBeTruthy();
+  });
+
+  it('should render the labelText when provided', () => {
+    fixture.detectChanges();
+    let labelEl = getLabelEl();
+    expect(labelEl).toBeNull();
+
+    const labelText = 'Label text';
+    componentInstance.labelText = labelText;
+    fixture.detectChanges();
+
+    labelEl = getLabelEl();
+
+    expect(labelEl).not.toBeNull();
+    expect(labelEl?.innerText.trim()).toBe(labelText);
+  });
+
+  it('should not display labelText if labelHidden is true', () => {
+    const labelText = 'Label text';
+    componentInstance.labelText = labelText;
+    componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    const labelEl = getLabelEl();
+
+    expect(labelEl).not.toBeNull();
+    expect(labelEl).toHaveCssClass('sky-screen-reader-only');
+  });
+
+  it('should render the hintText when provided', () => {
+    const hintText = 'Hint text';
+    componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    const hintEl = getHintEl();
+    const dropEl = getDropDebugEl();
+
+    expect(hintEl).not.toBeNull();
+    expect(hintEl?.innerText.trim()).toBe(hintText);
+    expect(
+      dropEl?.nativeElement.attributes.getNamedItem('aria-describedby').value,
+    ).toBe('MOCK_ID_3');
+  });
+
+  it('should display built in validation errors automatically when labelText is set', () => {
+    componentInstance.labelText = 'Label';
+
+    componentInstance.minFileSize = 1500;
+    componentInstance.maxFileSize = 3000;
+    componentInstance.acceptedTypes = 'image/png, image/jpeg';
+    fixture.detectChanges();
+
+    setupErrorFileChangeEvent();
+
+    const minSizeError = fixture.nativeElement.querySelector(
+      "sky-form-error[errorName='minFileSize']",
+    );
+    const maxSizeError = fixture.nativeElement.querySelector(
+      "sky-form-error[errorName='maxFileSize']",
+    );
+    const typeError = fixture.nativeElement.querySelector(
+      "sky-form-error[errorName='fileType']",
+    );
+
+    expect(minSizeError).toBeVisible();
+    expect(minSizeError.textContent).toContain(
+      'foo.txt: Please upload a file over 1500KB.',
+    );
+    expect(maxSizeError).toBeVisible();
+    expect(maxSizeError.textContent).toContain(
+      'bar.jpeg: Please upload a file under 3000KB.',
+    );
+
+    expect(typeError).toBeVisible();
+    expect(typeError.textContent).toContain(
+      'Please upload a file of type image/png, image/jpeg.',
+    );
+  });
+
+  it('should display custom validation errors automatically when labelText is set', () => {
+    componentInstance.labelText = 'Label';
+    const errorMessage =
+      'You may not upload a file that begins with the letter "w."';
+
+    componentInstance.validateFn = function (
+      file: SkyFileItem,
+    ): string | undefined {
+      if (file.file.name.indexOf('w') === 0) {
+        return errorMessage;
+      }
+      return;
+    };
+
+    fixture.detectChanges();
+
+    setupErrorFileChangeEvent();
+
+    const formError = fixture.nativeElement.querySelector('sky-form-error');
+
+    expect(formError).toBeVisible();
+    expect(formError.textContent).toContain('woo.txt: ' + errorMessage);
   });
 
   it('should click the file input on file drop click', () => {
@@ -1077,7 +1241,7 @@ describe('File drop component', () => {
 
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value,
-    ).toBe('MOCK_ID_1');
+    ).toBe('MOCK_ID_4');
   });
 
   it('should pass accessibility', async () => {

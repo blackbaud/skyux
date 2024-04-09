@@ -33,7 +33,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    * @internal
    */
   // TODO: replace this with relevant ARIA attributes
-  @HostBinding('[attr.data-popover-id]')
+  @HostBinding('attr.data-popover-id')
   protected popoverId: string | undefined;
 
   /**

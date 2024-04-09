@@ -1,9 +1,9 @@
 <div
   class="sky-text-editor"
-  [attr.aria-label]="labelText"
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
-    'sky-text-editor-wrapper-focused': editorFocused
+    'sky-text-editor-wrapper-focused': editorFocused,
+    'sky-text-editor-invalid': ngControl.errors
   }"
 >
   <div class="sky-text-editor-label-wrapper">
@@ -51,12 +51,24 @@
   <iframe
     class="sky-text-editor-wrapper"
     src="about:blank"
-    title="Text Editor"
+    [attr.title]="
+      labelText || ('skyux_text_editor_iframe_title_default' | skyLibResources)
+    "
     [ngClass]="{
       'sky-text-editor-wrapper-disabled': disabled
     }"
     (load)="onIframeLoad()"
     #iframe
+    allow="clipboard-read *; clipboard-write *"
   >
   </iframe>
 </div>
+<sky-form-errors
+  *ngIf="labelText && ngControl?.errors"
+  [id]="errorId"
+  [errors]="ngControl.errors"
+  [labelText]="labelText"
+  [showErrors]="ngControl.touched || ngControl.dirty"
+>
+  <ng-content select="sky-form-error" />
+</sky-form-errors>

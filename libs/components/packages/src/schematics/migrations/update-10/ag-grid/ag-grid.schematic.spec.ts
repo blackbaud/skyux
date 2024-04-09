@@ -1,7 +1,11 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
-const UPDATE_TO_VERSION = '30.0.0';
+import fs from 'fs-extra';
+import { joinPathFragments } from 'nx/src/utils/path';
+import { workspaceRoot } from 'nx/src/utils/workspace-root';
+
+const UPDATE_TO_VERSION = '31.2.0';
 
 describe('ag-grid.schematic', () => {
   const runner = new SchematicTestRunner(
@@ -27,6 +31,15 @@ describe('ag-grid.schematic', () => {
     tree.create('/package.json', JSON.stringify(packageJson));
     return { tree };
   }
+
+  it('should test the current version', () => {
+    const packageJson = fs.readJSONSync(
+      joinPathFragments(workspaceRoot, 'package.json'),
+    );
+    expect(packageJson.dependencies['ag-grid-community']).toBe(
+      UPDATE_TO_VERSION,
+    );
+  });
 
   it('should work', async () => {
     expect.assertions(1);
@@ -57,7 +70,7 @@ describe('ag-grid.schematic', () => {
     await runner.runSchematic('ag-grid', {}, tree);
     expect(JSON.parse(tree.readText('/package.json'))).toEqual({
       dependencies: {
-        'ag-grid-community': `^${UPDATE_TO_VERSION}`,
+        'ag-grid-community': `~${UPDATE_TO_VERSION}`,
         'ag-grid-angular': UPDATE_TO_VERSION,
       },
     });
@@ -121,7 +134,7 @@ describe('ag-grid.schematic', () => {
     expect(tree.readText('src/app/grid.component.ts')).toMatchSnapshot();
   });
 
-  it('should update suppressCellSelection', async () => {
+  it('should update options', async () => {
     expect.assertions(1);
     const { tree } = setupTest({
       dependencies: {
@@ -135,6 +148,7 @@ describe('ag-grid.schematic', () => {
       `
         import { SkyAgGridService } from '@skyux/ag-grid';
         import { GridOptions } from 'ag-grid-community';
+        import { LocalComponent } from './local.component';
 
         export class AppComponent {
           public options: GridOptions;
@@ -146,6 +160,15 @@ describe('ag-grid.schematic', () => {
             customOptions.suppressCellSelection = true;
             this.options = this.agGridService.getGridOptions({
               ...customOptions,
+              columnDefs: [
+                {
+                  headerName: 'Local',
+                  headerComponentFramework: LocalComponent,
+                  filterFramework: LocalComponent,
+                  componentFramework: LocalComponent,
+                  cellEditorFramework: LocalComponent
+                }
+              ],
               suppressCellSelection: true
             });
           }
@@ -183,7 +206,7 @@ describe('ag-grid.schematic', () => {
             let customOptions: Partial<GridOptions> = {};
             this.options = this.agGridService.getGridOptions({
               ...customOptions,
-              enterMovesDown: true
+              enterMovesDown: true,
               enterMovesDownAfterEdit: true
             });
           }
@@ -260,6 +283,47 @@ describe('ag-grid.schematic', () => {
     );
     await runner.runSchematic('ag-grid', {}, tree);
     expect(tree.readText('src/app/editor.component.ts')).toMatchSnapshot();
+  });
+
+  it('should use this.gridApi if possible', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/grid.component.ts',
+      `
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridOptions.api.deselectAll();
+          }
+        }`,
+    );
+    tree.create(
+      'src/app/grid-with-column-api.component.ts',
+      `
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridOptions.columnApi.deselectAll();
+          }
+        }`,
+    );
+    await runner.runSchematic('ag-grid', {}, tree);
+    expect(tree.readText('src/app/grid.component.ts')).toMatchSnapshot();
   });
 
   it('should warn about mixing modules and packages', async () => {

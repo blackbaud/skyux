@@ -1,4 +1,5 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { BordersComponent } from './borders.component';
 import { BordersModule } from './borders.module';
@@ -13,8 +14,6 @@ export default {
     }),
   ],
 } as Meta<BordersComponent>;
-const Template: Story<BordersComponent> = (args: BordersComponent) => ({
-  props: args,
-});
-export const Borders = Template.bind({});
+type Story = StoryObj<BordersComponent>;
+export const Borders: Story = {};
 Borders.args = {};

@@ -1,6 +1,7 @@
 <div style="width: 60%">
-  <label class="sky-control-label"> File attachment </label>
   <sky-file-drop
+    labelText="File attachment"
+    hintText="File attachment hint text"
     [acceptedTypes]="acceptedTypes"
     (filesChanged)="filesUpdated($event)"
     [allowLinks]="true"
@@ -28,8 +29,8 @@
 </div>
 
 <div style="width: 60%" *ngIf="basic">
-  <label class="sky-control-label"> File attachment links removed</label>
   <sky-file-drop
+    labelText="File attachment links removed"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="false"
     (filesChanged)="filesUpdated($event)"

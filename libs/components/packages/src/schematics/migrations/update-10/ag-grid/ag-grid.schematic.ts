@@ -19,7 +19,7 @@ const AG_GRID_ENT = 'ag-grid-enterprise';
 const AG_GRID_NG = 'ag-grid-angular';
 const AG_GRID_SKY = '@skyux/ag-grid';
 
-const AG_GRID_VERSION = '^30.0.0';
+const AG_GRID_VERSION = '~31.2.0';
 
 /**
  * Check package.json for AG Grid dependencies.
@@ -70,14 +70,18 @@ function renameColumnApiFunctionsInCode(updatedContent: string): string {
  * Update renamed grid options in code.
  */
 function renameGridOptionsInCode(updatedContent: string): string {
+  const componentReferenceExp =
+    /\b((header|loadingOverlay|noRowsOverlay)Component|component|cell(Editor|Renderer)|filter)Framework\b/g;
   if (
     updatedContent.match(/gridOptions/i) &&
     (updatedContent.includes('suppressCellSelection') ||
       updatedContent.includes('getRowNodeId') ||
-      updatedContent.includes('enterMovesDown'))
+      updatedContent.includes('enterMovesDown') ||
+      componentReferenceExp.test(updatedContent))
   ) {
     updatedContent = updatedContent
       .replace(/\bsuppressCellSelection\b/g, 'suppressCellFocus')
+      .replace(componentReferenceExp, '$1')
       .replace(/\bgetRowNodeId\b/g, 'getRowId')
       .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
   }
@@ -98,13 +102,17 @@ function renameCharPress(updatedContent: string): string {
 }
 
 /**
- * Switch cellRendererFramework to cellRenderer.
+ * If available, switch gridOptions.api and gridOptions.columnApi to gridApi.
  */
-function renameCellRendererFramework(updatedContent: string): string {
-  if (updatedContent.includes('cellRendererFramework')) {
+function swapGridOptionsApiToGridApi(updatedContent: string): string {
+  if (
+    updatedContent.includes('this.gridApi.') &&
+    (updatedContent.includes('this.gridOptions.api.') ||
+      updatedContent.includes('this.gridOptions.columnApi.'))
+  ) {
     updatedContent = updatedContent.replace(
-      /\bcellRendererFramework\b/g,
-      'cellRenderer',
+      /\bthis\.gridOptions\.(api|columnApi)\./g,
+      'this.gridApi.',
     );
   }
   return updatedContent;
@@ -164,10 +172,10 @@ async function updateSourceFiles(
         );
       }
 
-      updatedContent = renameCellRendererFramework(updatedContent);
       updatedContent = renameCharPress(updatedContent);
       updatedContent = renameColumnApiFunctionsInCode(updatedContent);
       updatedContent = renameGridOptionsInCode(updatedContent);
+      updatedContent = swapGridOptionsApiToGridApi(updatedContent);
 
       if (updatedContent !== content) {
         tree.overwrite(filePath, updatedContent);

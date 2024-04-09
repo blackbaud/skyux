@@ -62,7 +62,7 @@ describe('component-e2e', () => {
       nxJson.namedInputs['production'] = nxJson.namedInputs['production'] || [];
       nxJson.namedInputs['production'].push(
         '!{projectRoot}/.storybook/**/*',
-        '!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+        '!{projectRoot}/**/*.stories.@(js|ts)',
       );
       return nxJson;
     });

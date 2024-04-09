@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
@@ -259,6 +260,22 @@ describe('Sectioned form component', () => {
 
     const activeIndexEl = el.querySelector('#activeIndexDiv');
     expect(activeIndexEl.textContent.trim()).toBe('active index = 0');
+  });
+
+  it('should only fire indexChanged event once when value changes', () => {
+    const fixture = createTestComponent();
+
+    fixture.detectChanges();
+
+    const indexChangedSpy = spyOn(fixture.componentInstance, 'updateIndex');
+
+    fixture.debugElement
+      .queryAll(By.css('.sky-vertical-tab'))
+      .at(0)
+      ?.nativeElement.click();
+
+    expect(indexChangedSpy).toHaveBeenCalledWith(0);
+    expect(indexChangedSpy.calls.count()).toEqual(1);
   });
 
   it('should have a visible animation state on load in mobile', () => {

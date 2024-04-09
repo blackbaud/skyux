@@ -368,7 +368,7 @@ describe('datepicker calendar', () => {
     verifyDatepicker(element, dayPickerLabel, selectedLabel, dayLabel, '');
   }
 
-  it('should open current month in daypicker when no selected date is provided', () => {
+  it('should open current month in daypicker when no selected date and no startAtDate is provided', () => {
     fixture.detectChanges();
 
     verifyTodayDayPicker(nativeElement);
@@ -793,6 +793,26 @@ describe('datepicker calendar', () => {
         verifyDatepicker(nativeElement, 'May 2017', '01', '01', '');
         expect(component.selectedDate).toEqual(new Date('5/1/2017'));
       });
+    });
+  });
+
+  describe('startAtDate', () => {
+    it('should select correct date when provided', () => {
+      component.startAtDate = new Date('3/10/1995');
+      fixture.detectChanges();
+
+      component.datepicker.writeValue(undefined);
+      fixture.detectChanges();
+
+      verifyDatepicker(nativeElement, 'March 1995', '10', '10', '');
+    });
+
+    it('should display selectedDate instead of startAtDate if selectedDate is provided', () => {
+      component.startAtDate = new Date('3/10/1995');
+      component.selectedDate = new Date('12/21/1991');
+      fixture.detectChanges();
+
+      verifyDatepicker(nativeElement, 'December 1991', '21', '21', '');
     });
   });
 });

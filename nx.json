@@ -1,8 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "affected": {
-    "defaultBase": "main"
-  },
   "cli": {
     "packageManager": "npm"
   },
@@ -75,7 +72,7 @@
       "{workspaceRoot}/scripts/postbuild-{projectName}.ts",
       "{workspaceRoot}/scripts/utils/**",
       "!{projectRoot}/**/*.spec.[jt]s",
-      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/**/*.stories.@(js|ts)",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
@@ -114,11 +111,12 @@
       "{workspaceRoot}/karma.conf.js",
       "{workspaceRoot}/scripts/posttest-{projectName}.ts",
       "{workspaceRoot}/scripts/utils/**",
-      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/**/*.stories.@(js|ts)",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "nxCloudAccessToken": "NzE5ZWYwYzUtMGU0OC00OTU3LTk4ZDYtOTc1Zjk3MTExMzY5fHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "NzE5ZWYwYzUtMGU0OC00OTU3LTk4ZDYtOTc1Zjk3MTExMzY5fHJlYWQtd3JpdGU=",
+  "defaultBase": "main"
 }

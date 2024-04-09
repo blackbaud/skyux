@@ -6,12 +6,16 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { take } from 'rxjs/operators';
+
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 
 import { SkyFileAttachmentService } from './file-attachment.service';
 import { SkyFileItem } from './file-item';
@@ -36,7 +40,10 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   selector: 'sky-file-drop',
   templateUrl: './file-drop.component.html',
   styleUrls: ['./file-drop.component.scss'],
-  providers: [SkyFileAttachmentService],
+  providers: [
+    SkyFileAttachmentService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
 })
 export class SkyFileDropComponent implements OnDestroy {
   /**
@@ -110,6 +117,7 @@ export class SkyFileDropComponent implements OnDestroy {
   /**
    * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
+   * The string returned is used as the error message in multi-file attachment.
    */
   @Input()
   public validateFn: SkyFileValidateFn | undefined;
@@ -134,6 +142,28 @@ export class SkyFileDropComponent implements OnDestroy {
   @Input()
   public allowLinks: boolean | undefined = false;
 
+  /**
+   * The text to display as the file attachment's label.
+   * @preview
+   */
+  @Input()
+  public labelText: string | undefined;
+
+  /**
+   * Whether to hide `labelText` from view.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
+
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
 
@@ -150,6 +180,10 @@ export class SkyFileDropComponent implements OnDestroy {
   readonly #fileAttachmentService = inject(SkyFileAttachmentService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #idSvc = inject(SkyIdService);
+
+  protected errorId = this.#idSvc.generateId();
+  protected rejectedFiles: SkyFileItem[] = [];
 
   public ngOnDestroy(): void {
     this.filesChanged.complete();
@@ -376,6 +410,8 @@ export class SkyFileDropComponent implements OnDestroy {
           );
         }
       }
+
+      this.rejectedFiles = rejectedFileArray;
     }
   }
 }

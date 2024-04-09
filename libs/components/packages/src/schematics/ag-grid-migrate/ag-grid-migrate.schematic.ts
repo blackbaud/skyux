@@ -5,7 +5,7 @@ import { platform } from 'os';
 
 import { Schema } from './schema';
 
-const AG_GRID_MIGRATIONS = ['31.0.0', '31.1.0'];
+const AG_GRID_MIGRATIONS = ['31.0.0', '31.1.0', '31.2.0'];
 const AG_GRID_VERSION = AG_GRID_MIGRATIONS.slice().pop();
 
 export default function (options: Schema): Rule {
@@ -49,6 +49,9 @@ export default function (options: Schema): Rule {
         '--allow-dirty',
         ...agGridFiles,
       ];
+      context.logger.info(``);
+      context.logger.info(`⏳ Migrating to AG Grid ${migration}`);
+      context.logger.info(``);
       spawnSync('node', cmdArgs, {
         shell: true,
         stdio: 'inherit',

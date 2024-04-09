@@ -3,8 +3,9 @@ export { SkyCharacterCounterModule } from './lib/modules/character-counter/chara
 export { SkyCheckboxChange } from './lib/modules/checkbox/checkbox-change';
 export { SkyCheckboxModule } from './lib/modules/checkbox/checkbox.module';
 
-export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
-export { SkyFormErrorModule } from './lib/modules/form-error/form-error.module';
+export { SkyFieldGroupModule } from './lib/modules/field-group/field-group.module';
+export { SkyFieldGroupHeadingLevel } from './lib/modules/field-group/field-group-heading-level';
+export { SkyFieldGroupHeadingStyle } from './lib/modules/field-group/field-group-heading-style';
 
 export { SkyFileAttachmentsModule } from './lib/modules/file-attachment/file-attachments.module';
 export { SkyFileItem } from './lib/modules/file-attachment/file-item';
@@ -14,6 +15,9 @@ export { SkyFileSizePipe } from './lib/modules/file-attachment/file-size.pipe';
 export { SkyFileAttachmentChange } from './lib/modules/file-attachment/types/file-attachment-change';
 export { SkyFileAttachmentClick } from './lib/modules/file-attachment/types/file-attachment-click';
 export { SkyFileDropChange } from './lib/modules/file-attachment/types/file-drop-change';
+
+export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
+export { SkyFormErrorModule } from './lib/modules/form-error/form-error.module';
 
 export { SkyInputBoxHostService } from './lib/modules/input-box/input-box-host.service';
 export { SkyInputBoxPopulateArgs } from './lib/modules/input-box/input-box-populate-args';
@@ -40,6 +44,8 @@ export { SkyCharacterCounterInputDirective as λ2 } from './lib/modules/characte
 export { SkyCharacterCounterScreenReaderPipe as λ23 } from './lib/modules/character-counter/character-counter-screen-reader.pipe';
 export { SkyCheckboxLabelComponent as λ4 } from './lib/modules/checkbox/checkbox-label.component';
 export { SkyCheckboxComponent as λ3 } from './lib/modules/checkbox/checkbox.component';
+export { SkyCheckboxGroupComponent as λ24 } from './lib/modules/checkbox/checkbox-group.component';
+export { SkyFieldGroupComponent as λ25 } from './lib/modules/field-group/field-group.component';
 export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachment/file-attachment-label.component';
 export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment/file-attachment.component';
 export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachment/file-drop.component';

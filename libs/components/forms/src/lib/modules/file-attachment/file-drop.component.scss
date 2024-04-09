@@ -2,7 +2,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-file-drop-col {
-  margin-bottom: $sky-margin;
   padding-left: $sky-margin-half;
   padding-right: $sky-margin-half;
   position: relative;
@@ -71,6 +70,7 @@ button.sky-file-drop {
 
 .sky-file-drop-hint-text {
   text-align: left;
+  margin-top: var(--sky-margin-stacked-xs);
 }
 
 .sky-file-drop-accept,
@@ -152,4 +152,15 @@ button.sky-file-drop {
 
 .sky-file-input-hidden {
   display: none;
+}
+
+.sky-file-drop-errors {
+  margin-bottom: var(--sky-margin-stacked-lg);
+}
+
+@include mixins.sky-theme-modern {
+  .sky-control-label {
+    color: var(--sky-text-color-deemphasized);
+    font-size: 13px;
+  }
 }

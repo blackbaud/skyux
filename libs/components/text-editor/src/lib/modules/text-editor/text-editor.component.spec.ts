@@ -12,6 +12,7 @@ import {
   NgModel,
   ReactiveFormsModule,
   UntypedFormControl,
+  Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -60,10 +61,16 @@ describe('Text editor', () => {
   }
 
   @Component({
-    template: `<sky-text-editor [formControl]="formControl"></sky-text-editor>`,
+    template: `<sky-text-editor
+      [formControl]="formControl"
+      [labelText]="labelText"
+    ></sky-text-editor>`,
   })
   class TextEditorWithFormControl {
-    public formControl = new UntypedFormControl();
+    public formControl = new UntypedFormControl(undefined, [
+      Validators.required,
+    ]);
+    public labelText = 'Text editor';
   }
   //#endregion
 
@@ -413,9 +420,13 @@ describe('Text editor', () => {
 
   function validateIframeDocumentAttribute(
     name: string,
-    expectedValue: string,
+    expectedValue: string | undefined,
   ): void {
-    expect(iframeDocument.body.getAttribute(name)).toBe(expectedValue);
+    if (expectedValue) {
+      expect(getIframeDocument().body.getAttribute(name)).toBe(expectedValue);
+    } else {
+      expect(getIframeDocument().body.getAttribute(name)).toBeNull();
+    }
   }
 
   function validateMenus(expected: string[]): void {
@@ -506,6 +517,31 @@ describe('Text editor', () => {
       validateToolbarActions(testComponent.toolbarActions);
     });
 
+    it('renders label text', () => {
+      const labelText = 'Label text';
+      testComponent.labelText = labelText;
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+
+      expect(label.textContent).toEqual(labelText);
+    });
+
+    it('sets the aria-label on the iframe to the label text', () => {
+      const labelText = 'Label text';
+      testComponent.labelText = labelText;
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-label', labelText);
+    });
+
+    it('does not set the aria-label on the iframe if there is no label text', () => {
+      testComponent.labelText = undefined;
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-label', undefined);
+    });
+
     [
       {
         desc: 'new window',
@@ -592,7 +628,7 @@ describe('Text editor', () => {
         FONT_SIZE_LIST_DEFAULTS.map((item) => item + 'px'),
       );
       expect(fonts).toEqual(FONT_LIST_DEFAULTS.map((item) => item.name));
-      validateIframeDocumentAttribute('id', ID_DEFAULT + '1');
+      validateIframeDocumentAttribute('id', ID_DEFAULT + '2');
       validateMenus(MENU_DEFAULTS);
       validateMergeFields([]);
       validateToolbarActions(TOOLBAR_ACTION_DEFAULTS);
@@ -1576,13 +1612,36 @@ describe('Text editor', () => {
       }));
 
       it('should execute paste', fakeAsync(() => {
+        spyOn(navigator.clipboard, 'readText').and.returnValue(
+          Promise.resolve('test content'),
+        );
         fixture.detectChanges();
-        const expectedCommand = 'paste';
+        const expectedCommand = 'insertHTML';
         const optionNumber = 4;
         dropdownButtonExecCommandTest(
           '.sky-text-editor-menu-edit',
           optionNumber,
           expectedCommand,
+          'test content',
+        );
+      }));
+
+      it('should fire a browser alert if pasting is not supported (Firefox)', fakeAsync(() => {
+        spyOnProperty(navigator, 'clipboard').and.returnValue({} as Clipboard);
+        spyOn(window, 'alert').and.stub();
+        fixture.detectChanges();
+        const optionNumber = 4;
+        openDropdown('.sky-text-editor-menu-edit');
+
+        const optionButtons = document.querySelectorAll(
+          '.sky-dropdown-item button',
+        );
+        SkyAppTestUtility.fireDomEvent(optionButtons[optionNumber], 'click');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        expect(window.alert).toHaveBeenCalledWith(
+          'Direct clipboard access is not supported by this browser. Use the Ctrl+X/C/V keyboard shortcuts instead.',
         );
       }));
 
@@ -1828,6 +1887,64 @@ describe('Text editor', () => {
       expect(iframeElement).not.toHaveCssClass(
         'sky-text-editor-wrapper-disabled',
       );
+    });
+
+    it('should render a sky-form-error when the field is required and has been touched', () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      const error = fixture.nativeElement.querySelector('sky-form-error');
+      expect(error).toBeVisible();
+    });
+
+    it('sets the aria-required on the iframe to true if the required validator is given', () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'true');
+    });
+
+    it('sets the aria-required on the iframe to false if the required validator is not given', () => {
+      testComponent.formControl.removeValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'false');
+    });
+
+    it('sets the aria-required correctly when the validators are updated', () => {
+      testComponent.formControl.removeValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'false');
+
+      testComponent.formControl.addValidators(Validators.required);
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-required', 'true');
+    });
+
+    it('sets the aria-invalid attribute to true and aria-errormessage to the error message when an error is present', fakeAsync(() => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-invalid', 'true');
+      validateIframeDocumentAttribute(
+        'aria-errormessage',
+        fixture.nativeElement.querySelector('sky-form-errors').id,
+      );
+    }));
+
+    it('sets the aria-invalid attribute to false and aria-errormessage should not exist when no error is present', () => {
+      testComponent.formControl.setValue('Testing');
+      testComponent.formControl.updateValueAndValidity();
+
+      validateIframeDocumentAttribute('aria-invalid', 'false');
+      validateIframeDocumentAttribute('aria-errormessage', undefined);
     });
   });
 

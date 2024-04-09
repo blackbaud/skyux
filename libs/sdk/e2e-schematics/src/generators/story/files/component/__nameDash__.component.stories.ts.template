@@ -1,0 +1,12 @@
+import type { Meta, StoryObj } from '@storybook/angular';
+
+import { <%= nameClass %>Component } from './<%= nameDash %>.component';
+
+export default {
+  id: '<%= nameDash %>component',
+  title: 'Components/<%= nameCapitalized %>',
+  component: <%= nameClass %>Component,
+} as Meta<<%= nameClass %>Component>;
+type Story = StoryObj<<%= nameClass %>Component>;
+export const <%= nameClass %>: Story = {};
+<%= nameClass %>.args = {};

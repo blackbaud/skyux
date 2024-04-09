@@ -6,23 +6,18 @@ import {
   formatFiles,
   generateFiles,
   getProjects,
-  installPackagesTask,
   joinPathFragments,
   logger,
-  readJson,
   readProjectConfiguration,
-  removeDependenciesFromPackageJson,
   updateJson,
   updateProjectConfiguration,
 } from '@nx/devkit';
-import { addDependenciesToPackageJson } from '@nx/devkit/src/utils/package-json';
 import { Linter } from '@nx/eslint';
-import { configurationGenerator } from '@nx/storybook';
+import { configurationGenerator as storybookConfigurationGenerator } from '@nx/storybook';
 import { moveGenerator } from '@nx/workspace';
 
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
-import storiesGenerator from '../stories';
 
 import { NormalizedSchema, Schema } from './schema';
 
@@ -117,6 +112,8 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
  * - Generates stories and tests if there are demonstration components in the -storybook project.
  */
 export default async function (tree: Tree, schema: Partial<Schema>) {
+  const initialNxJson = tree.read('nx.json', 'utf-8');
+  const initialPackageJson = tree.read('package.json', 'utf-8');
   const options = normalizeOptions(schema);
 
   let createProject = false;
@@ -174,11 +171,13 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       routing: options.routing,
       strict: options.strict,
       prefix: options.prefix,
-      directory: BASE_PATH,
+      directory: `apps/${BASE_PATH}/${options.storybookAppName}`,
+      projectNameAndRootFormat: 'as-provided',
       skipPackageJson: true,
       skipTests: !options.includeTests,
       standaloneConfig: true,
       standalone: false,
+      bundler: 'webpack',
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
     simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
@@ -206,6 +205,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       'favicon.ico',
       'assets/.gitkeep',
       'app/app.module.ts',
+      'app/app.routes.ts',
       'app/app.component.scss',
       'app/app.component.html',
       'app/app.component.spec.ts',
@@ -234,54 +234,19 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       tree.isFile(`${projectConfig.root}/.storybook/main.ts`)
     )
   ) {
-    await configurationGenerator(tree, {
+    await storybookConfigurationGenerator(tree, {
       project: options.storybookAppName,
       uiFramework: '@storybook/angular',
-      configureCypress: true,
+      interactionTests: false,
+      configureCypress: false,
       linter: Linter.EsLint,
       configureStaticServe: true,
-    });
-  } else if (!moveProject) {
-    await storiesGenerator(tree, {
-      project: options.storybookAppName,
-      cypressProject: `${options.storybookAppName}-e2e`,
-      generateCypressSpecs: true,
     });
   }
   if (!moveProject) {
     await configureStorybook(tree, { name: options.storybookAppName });
     await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
   }
-
-  // @storybook/addon-essentials includes docs, which requires several other dependencies.
-  // We install only the dependencies we need, and the storybook version is different from the one
-  // that NX forces.
-  const packageJson = readJson(tree, 'package.json');
-  const storybookVersion =
-    packageJson.devDependencies['@storybook/addon-toolbars'];
-  if (storybookVersion) {
-    // The `addDependenciesToPackageJson` will not set the right version if the version is lower than the version than what the `storiesGenerator`
-    // installs (even if this version uses a caret). Remove the entries first so that the addition will go through with the right version.
-    removeDependenciesFromPackageJson(
-      tree,
-      [],
-      ['@storybook/angular', '@storybook/core-server'],
-    );
-    addDependenciesToPackageJson(
-      tree,
-      {},
-      {
-        '@storybook/angular': storybookVersion,
-        '@storybook/core-server': storybookVersion,
-      },
-    );
-  }
-  // Do not add explicit dependencies for @storybook/addon-essentials or webpack.
-  removeDependenciesFromPackageJson(
-    tree,
-    [],
-    ['@storybook/addon-essentials', 'html-webpack-plugin', 'webpack'],
-  );
 
   // Clean up duplicate entries in nx.json
   updateJson(tree, 'nx.json', (json) => {
@@ -308,8 +273,9 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     return json;
   });
 
-  await formatFiles(tree);
+  // Adding a project should not make changes to the nx.json or package.json files.
+  tree.write('nx.json', `${initialNxJson}`);
+  tree.write('package.json', `${initialPackageJson}`);
 
-  /* istanbul ignore next */
-  return () => installPackagesTask(tree);
+  await formatFiles(tree);
 }

@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { ValidationErrors } from '@angular/forms';
 import { SkyAppWindowRef } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
 import { EditorCommand } from '../types/editor-command';
@@ -18,6 +20,7 @@ import { SkyTextEditorService } from './text-editor.service';
  */
 @Injectable()
 export class SkyTextEditorAdapterService {
+  readonly #resourceSvc = inject(SkyLibResourcesService);
   #selectionService: SkyTextEditorSelectionService;
   #textEditorService: SkyTextEditorService;
   #windowRef: SkyAppWindowRef;
@@ -95,16 +98,36 @@ export class SkyTextEditorAdapterService {
     if (this.#textEditorService.editor) {
       const documentEl = this.#getIframeDocumentEl();
 
-      /* istanbul ignore else */
-      if (this.editorSelected()) {
-        documentEl.execCommand(
-          editorCommand.command,
-          false,
-          editorCommand.value,
-        );
+      if (editorCommand.command === 'paste') {
+        // Firefox does not support the clipboard API's `readText` as of 3/24. We are ok with just firing an alert when the paste button is used in Firefox.
+        if (!navigator.clipboard.readText) {
+          this.#resourceSvc
+            .getString('skyux_text_editor_paste_incompatibility_error')
+            .pipe(take(1))
+            .subscribe((errorString) => alert(errorString));
+        } else {
+          navigator.clipboard.readText().then((clipText) => {
+            /* istanbul ignore else */
+            if (this.editorSelected()) {
+              documentEl.execCommand('insertHTML', false, clipText);
 
-        this.focusEditor();
-        this.#textEditorService.editor.commandChangeObservable.next();
+              this.focusEditor();
+              this.#textEditorService.editor.commandChangeObservable.next();
+            }
+          });
+        }
+      } else {
+        /* istanbul ignore else */
+        if (this.editorSelected()) {
+          documentEl.execCommand(
+            editorCommand.command,
+            false,
+            editorCommand.value,
+          );
+
+          this.focusEditor();
+          this.#textEditorService.editor.commandChangeObservable.next();
+        }
       }
     }
   }
@@ -269,9 +292,34 @@ export class SkyTextEditorAdapterService {
     );
   }
 
+  public setErrorAttributes(
+    errorId: string,
+    errors: ValidationErrors | null,
+  ): void {
+    const documentEl = this.#getIframeDocumentEl();
+    documentEl.body.setAttribute('aria-invalid', (!!errors).toString());
+    if (errors && errorId) {
+      documentEl.body.setAttribute('aria-errormessage', errorId);
+    } else {
+      documentEl.body.removeAttribute('aria-errormessage');
+    }
+  }
+
+  public setLabelAttribute(label: string | undefined): void {
+    if (label) {
+      const documentEl = this.#getIframeDocumentEl();
+      documentEl.body.setAttribute('aria-label', label);
+    }
+  }
+
   public setPlaceholder(placeholder?: string): void {
     const documentEl = this.#getIframeDocumentEl();
     documentEl.body.setAttribute('data-placeholder', placeholder || '');
+  }
+
+  public setRequiredAttribute(required: boolean): void {
+    const documentEl = this.#getIframeDocumentEl();
+    documentEl.body.setAttribute('aria-required', required.toString());
   }
 
   public setFontSize(fontSize: number): void {

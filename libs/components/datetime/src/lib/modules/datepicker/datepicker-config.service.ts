@@ -21,6 +21,12 @@ export class SkyDatepickerConfigService {
   public minDate: Date | undefined;
 
   /**
+   * The date to open the calendar to initially.
+   * @default the current date
+   */
+  public startAtDate: Date | undefined;
+
+  /**
    * The starting day of the week in the calendar,
    * where `0` sets the starting day to Sunday.
    * @default 0
