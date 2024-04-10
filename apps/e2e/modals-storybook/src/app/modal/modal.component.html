@@ -46,3 +46,13 @@
 >
   Open error modal
 </button>
+<button
+  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
+  class="sky-btn sky-btn-default open-positioned-background-modal-btn"
+  type="button"
+  (click)="onOpenModalWithPositionedElClick()"
+>
+  Open modal with absolutely-positioned background
+</button>
+
+<div *ngIf="showPositionedEl" class="modal-screenshot-positioned"></div>
