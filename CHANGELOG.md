@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.5.0](https://github.com/blackbaud/skyux/compare/10.4.0...10.5.0) (2024-04-10)
+
+
+### Features
+
+* **components/modals:** add `SkyModalTestingController` to mock modals in tests ([#2162](https://github.com/blackbaud/skyux/issues/2162)) ([11a750c](https://github.com/blackbaud/skyux/commit/11a750cdfd74fc0f9dcf033dfb8969d27cef0ed6))
+
 ## [10.4.0](https://github.com/blackbaud/skyux/compare/10.3.0...10.4.0) (2024-04-05)
 
 
