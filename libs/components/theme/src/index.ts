@@ -13,7 +13,7 @@ export { SkyAppViewportReserveArgs } from './lib/viewport/viewport-reserve-args'
 export { SkyAppViewportReservedPositionType } from './lib/viewport/viewport-reserve-position-type';
 export { SkyAppViewportService } from './lib/viewport/viewport.service';
 
-export { provideModernTheme } from './lib/providers/provide-modern-theme';
+export { provideInitialTheme } from './lib/providers/provide-initial-theme';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

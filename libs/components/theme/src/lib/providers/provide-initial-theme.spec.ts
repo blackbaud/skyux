@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyThemeService, provideModernTheme } from '@skyux/theme';
 
 import { firstValueFrom, map } from 'rxjs';
 
-describe('provideModernTheme', () => {
+import { SkyThemeService } from '../theming/theme.service';
+
+import { provideInitialTheme } from './provide-initial-theme';
+
+describe('provideInitialTheme', () => {
   it('should provide modern theme', async () => {
     TestBed.configureTestingModule({
-      providers: [provideModernTheme()],
+      providers: [provideInitialTheme()],
     });
     const service = TestBed.inject(SkyThemeService);
     expect(service).toBeTruthy();
@@ -21,7 +24,7 @@ describe('provideModernTheme', () => {
         ),
       ),
     ).toEqual({
-      theme: 'modern',
+      theme: 'default',
       mode: 'light',
       spacing: 'standard',
     });
@@ -30,7 +33,7 @@ describe('provideModernTheme', () => {
   it('should provide modern theme with overrides', async () => {
     TestBed.configureTestingModule({
       providers: [
-        provideModernTheme({
+        provideInitialTheme('modern', {
           mode: 'dark',
           spacing: 'compact',
         }),

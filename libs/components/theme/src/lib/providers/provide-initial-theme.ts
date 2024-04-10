@@ -12,10 +12,13 @@ import { SkyThemeSettings } from '../theming/theme-settings';
 import { SkyThemeSpacing } from '../theming/theme-spacing';
 import { SkyThemeService } from '../theming/theme.service';
 
-export function provideModernTheme(options?: {
-  mode?: keyof typeof SkyThemeMode.presets;
-  spacing?: keyof typeof SkyThemeSpacing.presets;
-}): EnvironmentProviders {
+export function provideInitialTheme(
+  name: keyof typeof SkyTheme.presets = 'default',
+  options?: {
+    mode?: keyof typeof SkyThemeMode.presets;
+    spacing?: keyof typeof SkyThemeSpacing.presets;
+  },
+): EnvironmentProviders {
   return makeEnvironmentProviders([
     SkyThemeService,
     {
@@ -31,7 +34,7 @@ export function provideModernTheme(options?: {
             doc.body,
             rendererFactory.createRenderer(null, null),
             new SkyThemeSettings(
-              SkyTheme.presets.modern,
+              SkyTheme.presets[name],
               SkyThemeMode.presets[options?.mode ?? 'light'],
               SkyThemeSpacing.presets[options?.spacing ?? 'standard'],
             ),
