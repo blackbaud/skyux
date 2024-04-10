@@ -5,3 +5,12 @@
 .modal-screenshot-buttons-hidden {
   visibility: hidden;
 }
+
+.modal-screenshot-positioned {
+  background-color: #f00;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
