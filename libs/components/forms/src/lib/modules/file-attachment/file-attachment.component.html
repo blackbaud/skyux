@@ -7,13 +7,15 @@
     }"
   >
     <ng-container *ngIf="labelText; else labelContent">
-      <span *ngIf="!labelHidden" class="sky-control-label">{{ labelText }}</span
-      ><span
-        class="sky-screen-reader-only"
-        *ngIf="required && (hasLabelComponent || labelText)"
-        >{{ 'skyux_file_attachment_required' | skyLibResources }}</span
-      >
+      <span *ngIf="!labelHidden" class="sky-control-label">{{
+        labelText
+      }}</span>
     </ng-container>
+    <span
+      class="sky-screen-reader-only"
+      *ngIf="required && (hasLabelComponent || labelText)"
+      >{{ 'skyux_file_attachment_required' | skyLibResources }}</span
+    >
   </div>
   <div
     class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"
