@@ -46,7 +46,7 @@ export class SkyCheckboxGroupComponent {
   public labelHidden = false;
 
   /**
-   * Indicates whether the checkbox group is required.
+   * Whether the checkbox group is required.
    * @preview
    */
   @Input({ transform: booleanAttribute })
