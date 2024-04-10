@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, inject } from '@angular/core';
 import {
   SkyModalConfigurationInterface,
   SkyModalInstance,
@@ -14,6 +14,9 @@ import { ModalBasicComponent } from './modals/modal-basic.component';
 })
 export class ModalComponent {
   public buttonsHidden = false;
+  public showPositionedEl = false;
+
+  #renderer = inject(Renderer2);
 
   constructor(private modal: SkyModalService) {}
 
@@ -61,6 +64,15 @@ export class ModalComponent {
     ];
   }
 
+  protected onOpenModalWithPositionedElClick(): void {
+    // This test verifies that absolutely-positioned elements don't disappear
+    // when a modal is displayed. Before the fix that accompanies this test,
+    // absolutely-positioned elements would be positioned relative to the margins
+    // and size of the body element and would be pushed off the screen.
+    this.#showPositionedEl();
+    this.openModal(ModalBasicComponent, { size: 'medium' });
+  }
+
   private openModal(
     modalInstance: any,
     options?: SkyModalConfigurationInterface,
@@ -71,8 +83,19 @@ export class ModalComponent {
 
     instance.closed.subscribe(() => {
       this.showButtons();
+      this.#hidePositionedEl();
     });
 
     return instance;
+  }
+
+  #showPositionedEl(): void {
+    this.showPositionedEl = true;
+    this.#renderer.addClass(document.body, 'modal-body-margin-test');
+  }
+
+  #hidePositionedEl(): void {
+    this.showPositionedEl = false;
+    this.#renderer.removeClass(document.body, 'modal-body-margin-test');
   }
 }

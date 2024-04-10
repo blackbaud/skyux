@@ -16,6 +16,7 @@ describe('modals-storybook', () => {
         'full-page',
         'help-inline',
         'error',
+        'positioned-background',
       ]) {
         it(`should render the ${modalType} modal on desktop`, () => {
           cy.get('app-modal').should('exist').should('be.visible');
