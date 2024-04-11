@@ -131,6 +131,7 @@ describe('Confirm demo using testing controller', () => {
 
     confirmSvc.open({
       message: 'Are you sure?',
+      type: SkyConfirmType.OK,
     });
 
     const confirmController = TestBed.inject(SkyConfirmTestingController);
