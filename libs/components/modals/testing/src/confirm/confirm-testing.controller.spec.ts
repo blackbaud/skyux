@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SkyConfirmService } from '@skyux/modals';
+import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
 
 import { SkyConfirmTestingController } from './confirm-testing.controller';
 import { SkyConfirmTestingModule } from './confirm-testing.module';
@@ -113,7 +113,31 @@ describe('Confirm demo using testing controller', () => {
   });
 
   it('should close the confirm with custom action', () => {
-    verifyAction('custom-foobar');
+    const confirmSvc = TestBed.inject(SkyConfirmService);
+
+    confirmSvc.open({
+      message: 'Are you sure?',
+      type: SkyConfirmType.Custom,
+      buttons: [{ action: 'foobar', text: 'Foobar!' }],
+    });
+
+    const confirmController = TestBed.inject(SkyConfirmTestingController);
+    confirmController.close({ action: 'foobar' });
+    confirmController.expectNone();
+  });
+
+  it('should throw when closing a confirm with an invalid action', () => {
+    const confirmSvc = TestBed.inject(SkyConfirmService);
+
+    confirmSvc.open({
+      message: 'Are you sure?',
+      type: SkyConfirmType.OK,
+    });
+
+    const confirmController = TestBed.inject(SkyConfirmTestingController);
+    expect(() => confirmController.close({ action: 'foobar' })).toThrowError(
+      'The confirm dialog does not have a button configured for the "foobar" action.',
+    );
   });
 
   it('should throw if closing a non-existent confirm', () => {

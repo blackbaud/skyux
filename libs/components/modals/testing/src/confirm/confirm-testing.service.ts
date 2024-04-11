@@ -4,11 +4,13 @@ import {
   SkyConfirmConfig,
   SkyConfirmInstance,
   SkyConfirmServiceInterface,
+  SkyConfirmType,
 } from '@skyux/modals';
 
 import { SkyConfirmTestingController } from './confirm-testing.controller';
 
 interface TestSubject {
+  buttons: { action: string }[];
   config: SkyConfirmConfig;
   instance: SkyConfirmInstance;
 }
@@ -52,8 +54,19 @@ export class SkyConfirmTestingService
 
   public close(args: SkyConfirmCloseEventArgs): void {
     assertConfirmOpen(this.#testSubject);
-    this.#testSubject.instance.close(args);
-    this.#testSubject = undefined;
+
+    const isActionPermitted = this.#testSubject?.buttons.some(
+      (b) => b.action === args.action,
+    );
+
+    if (isActionPermitted) {
+      this.#testSubject.instance.close(args);
+      this.#testSubject = undefined;
+    } else {
+      throw new Error(
+        `The confirm dialog does not have a button configured for the "${args.action}" action.`,
+      );
+    }
   }
 
   public expectNone(): void {
@@ -81,8 +94,29 @@ ${JSON.stringify(actualConfig, undefined, 2)}
 
   public open(config: SkyConfirmConfig): SkyConfirmInstance {
     assertConfirmClosed(this.#testSubject);
+
     const instance = new SkyConfirmInstance();
-    this.#testSubject = { config, instance };
+    const testSubject: TestSubject = {
+      buttons: [{ action: 'cancel' }],
+      config,
+      instance,
+    };
+
+    switch (config.type) {
+      case SkyConfirmType.Custom:
+        config.buttons?.forEach((b) => {
+          testSubject.buttons.push({ action: b.action });
+        });
+        break;
+
+      case SkyConfirmType.OK:
+      default:
+        testSubject.buttons.push({ action: 'ok' });
+        break;
+    }
+
+    this.#testSubject = testSubject;
+
     return instance;
   }
 }
