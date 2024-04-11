@@ -1,8 +1,8 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmConfig,
@@ -12,9 +12,8 @@ import {
 
 import { SkyConfirmHarness } from './confirm-harness';
 
-const DEFAULT_CONFIRM_CONFIG = {
+const DEFAULT_CONFIRM_CONFIG: SkyConfirmConfig = {
   message: 'Confirm header',
-  type: SkyConfirmType.OK,
 };
 
 //#region Test component
@@ -61,7 +60,6 @@ describe('Confirm harness', () => {
   }> {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [RouterTestingModule],
     });
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -115,8 +113,20 @@ describe('Confirm harness', () => {
   });
 
   describe('getType', () => {
-    it('should return `OK` when the confirm type is set to `OK`', async () => {
+    it('should return type "OK" by default', async () => {
       const { confirmHarness } = await setupTest();
+
+      await expectAsync(confirmHarness.getType()).toBeResolvedTo(
+        SkyConfirmType.OK,
+      );
+    });
+
+    it('should return `OK` when the confirm type is set to `OK`', async () => {
+      const { confirmHarness } = await setupTest({
+        ...DEFAULT_CONFIRM_CONFIG,
+        type: SkyConfirmType.OK,
+      });
+
       const type = await confirmHarness.getType();
 
       expect(type).toEqual(SkyConfirmType.OK);
