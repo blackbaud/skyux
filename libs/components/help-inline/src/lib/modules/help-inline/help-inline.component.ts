@@ -17,6 +17,7 @@ import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resource
 import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
 
 /**
+ * The help inline button beside a field or other item that lets users display more information about that item.
  * @internal
  */
 @Component({
@@ -26,13 +27,13 @@ import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe'
   styleUrls: ['./help-inline.component.scss'],
   imports: [
     CommonModule,
-    SkyIdModule,
-    SkyTrimModule,
-    SkyPopoverModule,
-    SkyIconModule,
-    SkyThemeModule,
     SkyHelpInlineAriaExpandedPipe,
     SkyHelpInlineResourcesModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyPopoverModule,
+    SkyThemeModule,
+    SkyTrimModule,
   ],
 })
 export class SkyHelpInlineComponent {
@@ -40,7 +41,7 @@ export class SkyHelpInlineComponent {
 
   protected popoverId: string | undefined;
   protected popoverTemplate: TemplateRef<unknown> | undefined;
-  protected popoverOpenedFlag: boolean | undefined;
+  protected isPopoverOpened: boolean | undefined;
 
   #_popoverContent: string | TemplateRef<unknown> | undefined;
 
@@ -85,7 +86,7 @@ export class SkyHelpInlineComponent {
     this.#_popoverContent = value;
     if (value) {
       this.popoverId = this.#idSvc.generateId();
-      this.popoverOpenedFlag = false;
+      this.isPopoverOpened = false;
     }
     this.popoverTemplate = value instanceof TemplateRef ? value : undefined;
   }
@@ -108,6 +109,6 @@ export class SkyHelpInlineComponent {
   }
 
   protected popoverOpened(flag: boolean): void {
-    this.popoverOpenedFlag = flag;
+    this.isPopoverOpened = flag;
   }
 }

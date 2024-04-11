@@ -10,8 +10,8 @@
   "
   [attr.aria-controls]="popoverId || ariaControls"
   [attr.aria-expanded]="
-    popoverOpenedFlag !== undefined
-      ? popoverOpenedFlag
+    isPopoverOpened !== undefined
+      ? isPopoverOpened
       : (ariaExpanded | skyHelpInlineAriaExpanded: ariaControls)
   "
   (click)="onClick()"

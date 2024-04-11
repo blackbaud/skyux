@@ -1,3 +1,5 @@
+<!-- a11y testing fails without an element on the page -->
+<p id="help-text" [hidden]="showHelpText">Show text</p>
 <sky-help-inline
   [ariaControls]="ariaControls"
   [ariaExpanded]="ariaExpanded"
@@ -6,9 +8,6 @@
   [popoverContent]="popoverContent"
   [labelText]="labelText"
   (actionClick)="buttonClicked()"
->
-</sky-help-inline>
-<!-- This isn't real world - but a11y testing requires a real element -->
-<p id="help-text" [hidden]="showHelpText">Show text</p>
+/>
 
 <ng-template #popoverTemplate> this is a template </ng-template>

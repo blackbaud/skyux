@@ -111,7 +111,7 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility when ariaControls is set, ariaExpanded is false', async () => {
+  it('should pass accessibility when ariaControls is set, and ariaExpanded is false', async () => {
     component.ariaControls = 'help-text';
     component.ariaExpanded = false;
 
@@ -125,7 +125,7 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility ariaControls is set, ariaExpanded is true', async () => {
+  it('should pass accessibility when ariaControls is set, and ariaExpanded is true', async () => {
     component.ariaControls = 'help-text';
     component.ariaExpanded = true;
 
@@ -139,7 +139,7 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility ariaLabel is set', async () => {
+  it('should pass accessibility when ariaLabel is set', async () => {
     component.ariaLabel = 'Test label';
 
     fixture.detectChanges();
@@ -148,7 +148,7 @@ describe('Help inline component', () => {
     await checkAriaPropertiesAndAccessibility('Test label', null, null);
   });
 
-  it('should pass accessibility ariaLabel and ariaControls is set', async () => {
+  it('should pass accessibility when ariaLabel and ariaControls are set', async () => {
     component.ariaLabel = 'Test label';
     component.ariaControls = 'help-text';
 
@@ -162,7 +162,7 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility when ariaLabel and ariaControls is set, ariaExpanded is set to false', async () => {
+  it('should pass accessibility when ariaLabel and ariaControls is set, and ariaExpanded is set to false', async () => {
     component.ariaLabel = 'Test label';
     component.ariaControls = 'help-text';
     component.ariaExpanded = false;
@@ -177,7 +177,7 @@ describe('Help inline component', () => {
     );
   });
 
-  it('should pass accessibility ariaLabel and ariaControls is set, ariaExpanded is set to true', async () => {
+  it('should pass accessibility when ariaLabel and ariaControls are set, and ariaExpanded is set to true', async () => {
     component.ariaLabel = 'Test label';
     component.ariaControls = 'help-text';
     component.ariaExpanded = true;

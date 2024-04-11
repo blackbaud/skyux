@@ -4,8 +4,7 @@
       formControlName="attachment"
       labelText="Single file attachment with label text"
       (fileChange)="reactiveFileUpdated($event)"
-    >
-    </sky-file-attachment>
+    />
   </div>
 </form>
 
@@ -41,8 +40,9 @@
     <sky-file-attachment formControlName="attachment">
       <sky-file-attachment-label>
         Single file attachment with inline help
-        <sky-help-inline class="sky-control-help"></sky-help-inline
-      ></sky-file-attachment-label>
+        <sky-help-inline class="sky-control-help" />
+        ></sky-file-attachment-label
+      >
     </sky-file-attachment>
   </div>
 </form>
@@ -61,8 +61,7 @@
   formControlName="attachment"
   labelText="Single file attachment with help inline popover open"
   helpPopoverContent="Popover content"
->
-</sky-file-attachment>
+/>
 
 <form [formGroup]="fileForm">
   <div style="margin-bottom: 20px">
@@ -71,7 +70,6 @@
       labelText="Single file attachment with help inline popover"
       helpPopoverContent="Popover content"
       (fileChange)="reactiveFileUpdated($event)"
-    >
-    </sky-file-attachment>
+    />
   </div>
 </form>
