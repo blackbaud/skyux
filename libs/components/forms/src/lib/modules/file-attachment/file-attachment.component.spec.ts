@@ -343,7 +343,7 @@ describe('File attachment', () => {
   }
   //#endregion
 
-  it('should not have required class and aria-required attribute when not required', fakeAsync(() => {
+  it('should not have required class and aria-required attribute and label should not have screen reader text when not required', fakeAsync(() => {
     fileAttachmentInstance.ngAfterViewInit();
     tick();
     fixture.detectChanges();
@@ -355,9 +355,10 @@ describe('File attachment', () => {
       false,
     );
     expect(labelWrapper?.getAttribute('aria-required')).toBeNull();
+    expect(labelWrapper?.querySelector('.sky-screen-reader-only')).toBeNull();
   }));
 
-  it('should have appropriate classes when file is required', fakeAsync(() => {
+  it('should have appropriate classes and label should have screen reader text when file is required', fakeAsync(() => {
     fixture.componentInstance.required = true;
     fileAttachmentInstance.ngAfterViewInit();
     tick();
@@ -369,6 +370,27 @@ describe('File attachment', () => {
     expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
       true,
     );
+    expect(
+      labelWrapper?.querySelector('.sky-screen-reader-only')?.textContent,
+    ).toBe('Required');
+  }));
+
+  it('should have appropriate classes and label should have screen reader text when file is required and label text is used', fakeAsync(() => {
+    fixture.componentInstance.required = true;
+    fixture.componentInstance.labelText = 'Testing';
+    fileAttachmentInstance.ngAfterViewInit();
+    tick();
+    fixture.detectChanges();
+    const labelWrapper = getLabelWrapper();
+    const input = getInputDebugEl(fixture);
+
+    expect(input.nativeElement.getAttribute('required')).not.toBeNull();
+    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
+      true,
+    );
+    expect(
+      labelWrapper?.querySelector('.sky-screen-reader-only')?.textContent,
+    ).toBe('Required');
   }));
 
   it('should have appropriate classes when file is required and initialized with file', fakeAsync(() => {

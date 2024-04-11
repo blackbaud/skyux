@@ -112,6 +112,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: '{0}: Please upload a file over {1}KB.',
     },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
+    skyux_file_attachment_required: { message: 'Required' },
     skyux_input_box_help_inline_aria_label: {
       message: 'Show help content for {0}',
     },

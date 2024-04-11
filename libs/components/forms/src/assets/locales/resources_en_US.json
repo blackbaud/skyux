@@ -175,6 +175,10 @@
     "_description": "Label for single file attachment when no file is chosen",
     "message": "No file chosen."
   },
+  "skyux_file_attachment_required": {
+    "_description": "Screen reader text after the file attachment label when the file attachment is required",
+    "message": "Required"
+  },
   "skyux_input_box_help_inline_aria_label": {
     "_description": "The accessible label for an input box help inline button",
     "message": "Show help content for {0}"
