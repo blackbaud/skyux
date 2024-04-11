@@ -24,8 +24,9 @@ export class SkyStandardCheckboxGroupComponent {
   protected formGroup: FormGroup;
   protected contactMethod: FormGroup;
 
-  public stacked = true;
   public labelHidden = false;
+  public required = false;
+  public stacked = true;
 
   constructor() {
     this.contactMethod = this.#formBuilder.group({

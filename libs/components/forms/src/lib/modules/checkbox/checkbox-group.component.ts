@@ -11,6 +11,7 @@ import { SkyIdService } from '@skyux/core';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
+import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 /**
  * Organizes checkboxes into a group.
@@ -26,7 +27,7 @@ import { SkyFormErrorsModule } from '../form-error/form-errors.module';
     `,
   ],
   standalone: true,
-  imports: [CommonModule, SkyFormErrorsModule],
+  imports: [CommonModule, SkyFormErrorsModule, SkyFormsResourcesModule],
   providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
 })
 export class SkyCheckboxGroupComponent {
@@ -43,6 +44,13 @@ export class SkyCheckboxGroupComponent {
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
+
+  /**
+   * Whether the checkbox group is required.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public required = false;
 
   /**
    * Whether the checkbox group is stacked on another form component. When specified, the appropriate

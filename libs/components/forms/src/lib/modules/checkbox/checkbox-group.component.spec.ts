@@ -17,6 +17,14 @@ describe('Checkbox group component', function () {
     return checkboxGroupFixture.nativeElement.querySelector('legend');
   }
 
+  function getLegendScreenReaderText(
+    checkboxGroupFixture: ComponentFixture<any>,
+  ): string | undefined | null {
+    return getLegend(checkboxGroupFixture).querySelector(
+      '.sky-screen-reader-only',
+    )?.textContent;
+  }
+
   function getCheckboxGroup(
     checkboxGroupFixture: ComponentFixture<any>,
   ): HTMLElement {
@@ -78,6 +86,25 @@ describe('Checkbox group component', function () {
       const group = getCheckboxGroup(fixture);
 
       expect(group).not.toHaveClass('sky-margin-stacked-lg');
+    });
+
+    it('should include the asterisk and screen reader text when required', () => {
+      componentInstance.required = true;
+      fixture.detectChanges();
+
+      const legend = getLegend(fixture);
+
+      expect(legend).toHaveClass('sky-control-label-required');
+      expect(getLegendScreenReaderText(fixture)).toBe('Required');
+    });
+
+    it('should not include the asterisk and screen reader text when not required', () => {
+      fixture.detectChanges();
+
+      const legend = getLegend(fixture);
+
+      expect(legend).not.toHaveClass('sky-control-label-required');
+      expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 
     it('should render custom form errors', () => {

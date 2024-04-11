@@ -7,6 +7,10 @@
     "_description": "Screen reader only label for character count over limit symbol",
     "message": "You are over the character limit."
   },
+  "skyux_checkbox_group_required": {
+    "_description": "Screen reader text after the checkbox group label when the checkbox group is required",
+    "message": "Required"
+  },
   "skyux_form_error_character_count": {
     "_description": "Error message for a field with a value that exceeds the character count limit",
     "message": "Limit {0} to {1} character(s)."
