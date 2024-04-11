@@ -1,5 +1,12 @@
 # Changelog
 
+## [9.30.7](https://github.com/blackbaud/skyux/compare/9.30.6...9.30.7) (2024-04-10)
+
+
+### Bug Fixes
+
+* **components/modals:** keep absolutely positioned background elements visible ([#2219](https://github.com/blackbaud/skyux/issues/2219)) ([a2bddfb](https://github.com/blackbaud/skyux/commit/a2bddfbddaa1200a1aa9ecb301ddd3a6bacf0028))
+
 ## [9.30.6](https://github.com/blackbaud/skyux/compare/9.30.5...9.30.6) (2024-03-28)
 
 
