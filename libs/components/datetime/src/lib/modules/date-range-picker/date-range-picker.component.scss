@@ -7,6 +7,12 @@
 
 .sky-date-range-picker {
   display: flex;
+  flex-wrap: wrap;
+}
+
+.sky-date-range-picker-hint-text {
+  flex-basis: 100%;
+  margin-top: var(--sky-margin-stacked-xs);
 }
 
 @media (max-width: $sky-screen-sm-min) {
@@ -51,6 +57,10 @@
       padding-right: $sky-padding-half;
     }
   }
+
+  .sky-date-range-picker-hint-text {
+    order: 1;
+  }
 }
 
 // Because of how inline filters use flex for their layout -
@@ -79,7 +89,7 @@
   @media (min-width: $sky-screen-sm-min) {
     .sky-date-range-picker-form-group {
       &:not(.sky-date-range-picker-last-input) {
-        margin-right: $sky-theme-modern-margin-inline-lg;
+        padding-right: $sky-theme-modern-margin-inline-lg;
       }
     }
   }

@@ -12,7 +12,12 @@ describe('Input box host service', () => {
   beforeEach(() => {
     mockInputBox = jasmine.createSpyObj(
       'SkyInputBoxComponent',
-      ['populate', 'setHostHintText', 'setHintTextHidden'],
+      [
+        'populate',
+        'setHostHintText',
+        'setHintTextHidden',
+        'setHintTextScreenReaderOnly',
+      ],
       {
         ariaDescribedBy: new ReplaySubject<string>(1),
       },
@@ -71,6 +76,18 @@ describe('Input box host service', () => {
     hostService.init(mockInputBox);
     hostService.setHintText('Test');
     expect(mockInputBox.setHostHintText).toHaveBeenCalledWith('Test');
+  });
+
+  it('should throw an error if the `setHintTextRemoved` method is called prior to initialization', () => {
+    expect(() => hostService.setHintTextRemoved(true)).toThrowError(
+      'Cannot remove hint text on the input box because `SkyInputBoxHostService` has not yet been initialized.',
+    );
+  });
+
+  it('should populate the input box component if the `setHintTextRemoved` method is called after initialization', () => {
+    hostService.init(mockInputBox);
+    hostService.setHintTextRemoved(true);
+    expect(mockInputBox.setHintTextScreenReaderOnly).toHaveBeenCalledWith(true);
   });
 
   it('should return an observable for ariaDescribedBy after initialization', async () => {

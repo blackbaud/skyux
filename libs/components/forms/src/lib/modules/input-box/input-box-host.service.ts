@@ -60,4 +60,14 @@ export class SkyInputBoxHostService {
 
     this.#host.setHintTextHidden(hide);
   }
+
+  public setHintTextRemoved(hide: boolean): void {
+    if (!this.#host) {
+      throw new Error(
+        'Cannot remove hint text on the input box because `SkyInputBoxHostService` has not yet been initialized.',
+      );
+    }
+
+    this.#host.setHintTextScreenReaderOnly(hide);
+  }
 }

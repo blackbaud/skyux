@@ -817,7 +817,7 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-host-service');
 
       expect(els.hintTextEl).toHaveText(
-        'Host component hint text. Consumer hint text.',
+        'Consumer hint text. Host component hint text.',
       );
     });
 
@@ -846,6 +846,34 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-host-service');
 
       expect(els.hintTextEl).toBeVisible({ checkCssVisibility: true });
+      await expectAsync(els.inputBoxEl).toBeAccessible();
+    });
+
+    it('should hide hint text when `setHintTextRemoved` is called with `true`', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextRemoved(
+        true,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).toHaveClass('sky-screen-reader-only');
+      await expectAsync(els.inputBoxEl).toBeAccessible();
+    });
+
+    it('should show hint text when `setHintTextRemoved` is called with `false`', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextRemoved(
+        false,
+      );
+      fixture.detectChanges();
+
+      const els = getDefaultEls(fixture, 'input-host-service');
+
+      expect(els.hintTextEl).not.toHaveClass('sky-screen-reader-only');
       await expectAsync(els.inputBoxEl).toBeAccessible();
     });
 

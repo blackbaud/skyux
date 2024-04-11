@@ -23,6 +23,7 @@
         class="sky-form-control"
         formControlName="calculatorId"
         [attr.id]="dateRangePickerId + '-select-calculator'"
+        [attr.aria-describedby]="hintTextEl.id"
         (blur)="onFieldBlur()"
       >
         <option
@@ -33,6 +34,13 @@
         </option>
       </select>
     </sky-input-box>
+  </div>
+  <div
+    skyId
+    #hintTextEl="skyId"
+    class="sky-date-range-picker-hint-text sky-font-deemphasized"
+  >
+    {{ hintText | skyInputBoxHintText: hostHintText }}
   </div>
 
   <div

@@ -10,6 +10,7 @@ import {
   Optional,
   SimpleChanges,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -22,13 +23,15 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyAppLocaleProvider } from '@skyux/i18n';
+import { SkyAppFormat } from '@skyux/core';
+import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from '../datepicker/date-formatter';
+import { SKY_DATEPICKER_HINT_CONFIG } from '../datepicker/datepicker-hint-token';
 
 import { SkyDateRangeService } from './date-range.service';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
@@ -67,6 +70,7 @@ let uniqueId = 0;
   providers: [
     SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR,
     SKY_DATE_RANGE_PICKER_VALIDATOR,
+    { provide: SKY_DATEPICKER_HINT_CONFIG, useValue: true },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -159,6 +163,13 @@ export class SkyDateRangePickerComponent
   public label: string | undefined;
 
   /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
    * Whether to require users to specify a start date.
    * @default false
    */
@@ -182,6 +193,8 @@ export class SkyDateRangePickerComponent
   public isReady = false;
   public showEndDatePicker = false;
   public showStartDatePicker = false;
+
+  protected hostHintText: string | undefined;
 
   get #calculatorIdControl(): AbstractControl | undefined | null {
     return this.formGroup?.get('calculatorId');
@@ -214,9 +227,11 @@ export class SkyDateRangePickerComponent
     return this.#_valueOrDefault;
   }
 
+  readonly #appFormatter = inject(SkyAppFormat);
   #control: AbstractControl | undefined;
   #preferredShortDateFormat: string | undefined;
   #ngUnsubscribe = new Subject<void>();
+  readonly #resourceSvc = inject(SkyLibResourcesService);
 
   #_calculatorIds: SkyDateRangeCalculatorId[] = [
     SkyDateRangeCalculatorId.AnyTime,
@@ -328,6 +343,16 @@ export class SkyDateRangePickerComponent
         }
       });
     });
+
+    this.#resourceSvc
+      .getString('skyux_datepicker_format_hint_text')
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((templateString) => {
+        this.hostHintText = this.#appFormatter.formatText(
+          templateString,
+          this.dateFormatOrDefault,
+        );
+      });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
