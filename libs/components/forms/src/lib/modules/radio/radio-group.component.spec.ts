@@ -20,8 +20,16 @@ function getRadios(
   return radioFixture.nativeElement.querySelectorAll('.sky-radio-input');
 }
 
-function getRadioGroup(radioFixture: ComponentFixture<any>): HTMLElement {
+function getRadioGroup(
+  radioFixture: ComponentFixture<any>,
+): HTMLElement | null {
   return radioFixture.nativeElement.querySelector('.sky-radio-group');
+}
+
+function getRadioGroupLabel(
+  radioFixture: ComponentFixture<any>,
+): HTMLElement | null {
+  return radioFixture.nativeElement.querySelector('.sky-control-label');
 }
 
 function getRadioLabels(
@@ -170,23 +178,29 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should not show a required state when not required', fakeAsync(() => {
+    componentInstance.labelText = 'Test';
     fixture.detectChanges();
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('required')).toBeNull();
-    expect(radioGroupDiv.getAttribute('aria-required')).toBeNull();
+    const radioGroupLabel = getRadioGroupLabel(fixture);
+    expect(radioGroupDiv?.getAttribute('required')).toBeNull();
+    expect(radioGroupDiv?.getAttribute('aria-required')).toBeNull();
+    expect(radioGroupLabel).not.toHaveCssClass('sky-control-label-required');
   }));
 
   it('should show a required state when required input is set to true', fakeAsync(() => {
+    componentInstance.labelText = 'Test';
     componentInstance.required = true;
 
     fixture.detectChanges();
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('required')).not.toBeNull();
-    expect(radioGroupDiv.getAttribute('aria-required')).toBe('true');
+    const radioGroupLabel = getRadioGroupLabel(fixture);
+    expect(radioGroupDiv?.getAttribute('required')).not.toBeNull();
+    expect(radioGroupDiv?.getAttribute('aria-required')).toBe('true');
+    expect(radioGroupLabel).toHaveCssClass('sky-control-label-required');
   }));
 
   it('should update the form properly when radio button is required and changed', fakeAsync(() => {
@@ -335,7 +349,7 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('aria-labelledby')).toBe(
+    expect(radioGroupDiv?.getAttribute('aria-labelledby')).toBe(
       'radio-group-label',
     );
   }));
@@ -348,7 +362,7 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    expect(radioGroupDiv.getAttribute('aria-label')).toBe(
+    expect(radioGroupDiv?.getAttribute('aria-label')).toBe(
       'radio-group-label-manual',
     );
   }));
@@ -565,10 +579,9 @@ describe('Radio group component (reactive)', function () {
   it('should set aria-owns as a space-separated list of radio ids', () => {
     fixture.detectChanges();
 
-    const radioGroupEl: HTMLDivElement =
-      fixture.nativeElement.querySelector('.sky-radio-group');
+    const radioGroupEl = getRadioGroup(fixture);
 
-    expect(radioGroupEl.getAttribute('aria-owns')).toEqual(
+    expect(radioGroupEl?.getAttribute('aria-owns')).toEqual(
       'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input',
     );
   });
@@ -576,10 +589,9 @@ describe('Radio group component (reactive)', function () {
   it('should update aria-owns if a child radio modifies its ID', () => {
     fixture.detectChanges();
 
-    const radioGroupEl: HTMLDivElement =
-      fixture.nativeElement.querySelector('.sky-radio-group');
+    const radioGroupEl = getRadioGroup(fixture);
 
-    const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
+    const originalAriaOwns = radioGroupEl?.getAttribute('aria-owns');
     expect(originalAriaOwns).toEqual(
       'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input',
     );
@@ -588,7 +600,7 @@ describe('Radio group component (reactive)', function () {
     fixture.componentInstance.options[0].id = 'foobar';
     fixture.detectChanges();
 
-    const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
+    const newAriaOwns = radioGroupEl?.getAttribute('aria-owns');
     expect(newAriaOwns).toEqual(
       'sky-radio-foobar-input sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_5-input',
     );
@@ -600,10 +612,10 @@ describe('Radio group component (reactive)', function () {
 
     fixture.detectChanges();
 
-    const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
+    const labelEl = getRadioGroupLabel(fixture);
 
     expect(labelEl).toBeVisible();
-    expect(labelEl.textContent.trim()).toBe(labelText);
+    expect(labelEl?.textContent?.trim()).toBe(labelText);
   });
 
   it('should not display `labelText` if `labelHidden` is true', async () => {
@@ -613,7 +625,7 @@ describe('Radio group component (reactive)', function () {
 
     fixture.detectChanges();
 
-    const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
+    const labelEl = getRadioGroupLabel(fixture);
 
     expect(labelEl).not.toBeNull();
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
@@ -626,12 +638,12 @@ describe('Radio group component (reactive)', function () {
 
     fixture.detectChanges();
 
-    const labelEl = fixture.nativeElement.querySelector('.sky-control-label');
-    const radioGroup = fixture.nativeElement.querySelector('.sky-radio-group');
+    const labelEl = getRadioGroupLabel(fixture);
+    const radioGroup = getRadioGroup(fixture);
 
     expect(labelEl).not.toBeNull();
-    expect(radioGroup.getAttribute('aria-labelledBy')).toBeNull();
-    expect(radioGroup.getAttribute('aria-label')).toBeNull();
+    expect(radioGroup?.getAttribute('aria-labelledBy')).toBeNull();
+    expect(radioGroup?.getAttribute('aria-label')).toBeNull();
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {

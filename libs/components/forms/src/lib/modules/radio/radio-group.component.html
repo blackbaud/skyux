@@ -14,7 +14,10 @@
   <legend
     *ngIf="labelText"
     class="sky-control-label"
-    [ngClass]="{ 'sky-screen-reader-only': labelHidden }"
+    [ngClass]="{
+      'sky-screen-reader-only': labelHidden,
+      'sky-control-label-required': required
+    }"
   >
     {{ labelText }}
   </legend>
