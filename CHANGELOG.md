@@ -1,5 +1,20 @@
 # Changelog
 
+## [10.6.0](https://github.com/blackbaud/skyux/compare/10.5.0...10.6.0) (2024-04-11)
+
+
+### Features
+
+* **components/theme:** environment provider for modern theme ([#2217](https://github.com/blackbaud/skyux/issues/2217)) ([d028fd0](https://github.com/blackbaud/skyux/commit/d028fd02a68f10a3d6b76adbafe4a7543ab4c053))
+
+
+### Bug Fixes
+
+* **components/forms:** checkbox group announces required state to screen readers ([#2220](https://github.com/blackbaud/skyux/issues/2220)) ([c580260](https://github.com/blackbaud/skyux/commit/c5802604c069a94c924c74128f1448a9be9d80a0))
+* **components/forms:** single file attachment announces required state to screen readers ([#2218](https://github.com/blackbaud/skyux/issues/2218)) ([71a549e](https://github.com/blackbaud/skyux/commit/71a549ee6c31c9b5c8d10a7e73d73b7beaad26f5))
+* **components/modals:** keep absolutely positioned background elements visible ([#2219](https://github.com/blackbaud/skyux/issues/2219)) ([#2223](https://github.com/blackbaud/skyux/issues/2223)) ([17e8b87](https://github.com/blackbaud/skyux/commit/17e8b8756eb2a308d0ec566e193730473d36dc34))
+* **components/modals:** set confirm type to "OK" by default ([#2224](https://github.com/blackbaud/skyux/issues/2224)) ([d63f3e9](https://github.com/blackbaud/skyux/commit/d63f3e9600a4a256b23f0d1cd79c7e78c4cf8bb5))
+
 ## [9.30.7](https://github.com/blackbaud/skyux/compare/9.30.6...9.30.7) (2024-04-10)
 
 
