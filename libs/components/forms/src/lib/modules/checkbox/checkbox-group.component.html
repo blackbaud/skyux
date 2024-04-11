@@ -5,9 +5,15 @@
 >
   <legend
     class="sky-control-label"
-    [ngClass]="{ 'sky-screen-reader-only': labelHidden }"
+    [ngClass]="{
+      'sky-screen-reader-only': labelHidden,
+      'sky-control-label-required': required
+    }"
   >
-    {{ labelText }}
+    {{ labelText
+    }}<span class="sky-screen-reader-only" *ngIf="required">{{
+      'skyux_checkbox_group_required' | skyLibResources
+    }}</span>
   </legend>
   <span class="sky-checkbox-group-inline sky-switch-icon-group">
     <ng-content select="sky-checkbox[icon]" />

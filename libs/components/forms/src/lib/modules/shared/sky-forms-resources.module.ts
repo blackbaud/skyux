@@ -23,6 +23,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_character_count_over_limit: {
       message: 'You are over the character limit.',
     },
+    skyux_checkbox_group_required: { message: 'Required' },
     skyux_form_error_character_count: {
       message: 'Limit {0} to {1} character(s).',
     },
