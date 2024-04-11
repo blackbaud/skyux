@@ -8,10 +8,10 @@ import {
 } from '@skyux/modals';
 
 @Component({
-  standalone: true,
-  selector: 'app-demo',
-  templateUrl: './demo.component.html',
   imports: [CommonModule],
+  selector: 'app-demo',
+  standalone: true,
+  templateUrl: './demo.component.html',
 })
 export class DemoComponent {
   protected selectedAction: string | undefined;
@@ -23,7 +23,6 @@ export class DemoComponent {
     const dialog: SkyConfirmInstance = this.#confirmSvc.open({
       message:
         'Cannot delete invoice because it has vendor, credit memo, or purchase order activity.',
-      type: SkyConfirmType.OK,
     });
 
     dialog.closed.subscribe((result) => {
@@ -64,7 +63,7 @@ export class DemoComponent {
       { text: 'Keep working', action: 'cancel', styleType: 'link' },
     ];
 
-    const dialog: SkyConfirmInstance = this.#confirmSvc.open({
+    const dialog = this.#confirmSvc.open({
       message: 'Save your changes before leaving?',
       type: SkyConfirmType.Custom,
       buttons,
@@ -88,7 +87,7 @@ export class DemoComponent {
       { text: 'Cancel', action: 'cancel', styleType: 'link' },
     ];
 
-    const dialog: SkyConfirmInstance = this.#confirmSvc.open({
+    const dialog = this.#confirmSvc.open({
       message: 'Delete this account?',
       body: 'Deleting this account may affect processes that are currently running.',
       type: SkyConfirmType.Custom,
