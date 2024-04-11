@@ -1,5 +1,15 @@
 # Changelog
 
+## [10.6.1](https://github.com/blackbaud/skyux/compare/10.6.0...10.6.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* **code-examples:** move spec that uses SkyConfirmTestingController to another code example ([#2227](https://github.com/blackbaud/skyux/issues/2227)) ([2ba3bff](https://github.com/blackbaud/skyux/commit/2ba3bff628076234eab2833d8bc5f05416bd26c8))
+* **code-examples:** move spec that uses SkyModalTestingController to another code example ([#2230](https://github.com/blackbaud/skyux/issues/2230)) ([f9954a6](https://github.com/blackbaud/skyux/commit/f9954a67274278e6daa6dd3d352dff75ba2ffbb9))
+* **components/forms:** radio group labels include an asterisk when the radio group is required ([#2228](https://github.com/blackbaud/skyux/issues/2228)) ([94fdf14](https://github.com/blackbaud/skyux/commit/94fdf14df7ab0a38f864fe939f6cbb3ada39052d))
+* **components/modals:** throw when calling `SkyConfirmTestingController.close` with an invalid action ([#2226](https://github.com/blackbaud/skyux/issues/2226)) ([b0b554f](https://github.com/blackbaud/skyux/commit/b0b554facb11f8bcba1b29081b6cc024ddf91a43))
+
 ## [10.6.0](https://github.com/blackbaud/skyux/compare/10.5.0...10.6.0) (2024-04-11)
 
 
