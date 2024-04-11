@@ -3,11 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'confirm',
+    path: 'confirm-with-controller',
     loadComponent: () =>
-      import('../code-examples/modals/confirm/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
+      import(
+        '../code-examples/modals/confirm/basic-with-controller/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
+    path: 'confirm-with-harness',
+    loadComponent: () =>
+      import(
+        '../code-examples/modals/confirm/basic-with-harness/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'modal',
