@@ -65,7 +65,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
     return undefined;
   }
 
-  private async getPopoverHarnessContent(): Promise<
+  async #getPopoverHarnessContent(): Promise<
     SkyPopoverContentHarness | undefined
   > {
     return (
@@ -74,12 +74,12 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   public async getPopoverTitle(): Promise<string | undefined> {
-    return (await await this.getPopoverHarnessContent())?.getTitleText();
+    return (await await this.#getPopoverHarnessContent())?.getTitleText();
   }
 
   public async getPopoverContent(): Promise<
     TemplateRef<unknown> | string | undefined
   > {
-    return (await this.getPopoverHarnessContent())?.getBodyText();
+    return (await this.#getPopoverHarnessContent())?.getBodyText();
   }
 }

@@ -1,8 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
+
+import { SkyHelpInlineModule } from '../help-inline.module';
 
 @Component({
   selector: 'sky-test-cmp',
+  standalone: true,
   templateUrl: './help-inline.component.fixture.html',
+  imports: [CommonModule, SkyHelpInlineModule],
 })
 export class HelpInlineTestComponent {
   public ariaControls: string | undefined;

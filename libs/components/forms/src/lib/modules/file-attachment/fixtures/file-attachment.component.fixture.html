@@ -2,11 +2,11 @@
   <sky-file-attachment
     formControlName="attachment"
     [required]="required"
+    [helpPopoverContent]="popoverContent"
+    [helpPopoverTitle]="popoverTitle"
     [labelHidden]="labelHidden"
     [labelText]="labelText"
     [maxFileSize]="maxFileSize"
-    [helpPopoverContent]="popoverContent"
-    [helpPopoverTitle]="popoverTitle"
   >
     <sky-file-attachment-label *ngIf="showLabel">
       {{ labelElementText }}

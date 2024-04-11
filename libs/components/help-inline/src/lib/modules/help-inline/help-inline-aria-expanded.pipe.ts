@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * @internal
+ */
 @Pipe({
   name: 'skyHelpInlineAriaExpanded',
   standalone: true,

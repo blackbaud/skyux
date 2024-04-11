@@ -29,16 +29,15 @@
       icon: 'help-i',
       iconType: 'skyux'
     }"
-  >
-  </sky-icon-stack>
+  />
 </button>
 
 <sky-popover
   #popover
-  [popoverTitle]="popoverTitle"
   [id]="popoverId"
-  (popoverOpened)="popoverOpened(true)"
+  [popoverTitle]="popoverTitle"
   (popoverClosed)="popoverOpened(false)"
+  (popoverOpened)="popoverOpened(true)"
 >
   <ng-container *ngIf="popoverTemplate; else popoverContext">
     <ng-container *ngTemplateOutlet="popoverTemplate" />

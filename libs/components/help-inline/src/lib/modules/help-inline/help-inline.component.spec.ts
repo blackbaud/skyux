@@ -60,8 +60,12 @@ describe('Help inline component', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [HelpInlineTestComponent],
-      imports: [BrowserModule, SkyHelpInlineModule, NoopAnimationsModule],
+      imports: [
+        BrowserModule,
+        SkyHelpInlineModule,
+        NoopAnimationsModule,
+        HelpInlineTestComponent,
+      ],
       providers: [{ provide: SkyThemeService, useValue: mockThemeSvc }],
     });
 

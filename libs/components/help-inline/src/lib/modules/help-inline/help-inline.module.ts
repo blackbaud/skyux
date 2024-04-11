@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
 import { SkyHelpInlineComponent } from './help-inline.component';
 
 @NgModule({
-  imports: [SkyHelpInlineComponent, SkyHelpInlineAriaExpandedPipe],
+  imports: [SkyHelpInlineComponent],
   exports: [SkyHelpInlineComponent],
 })
 export class SkyHelpInlineModule {}
