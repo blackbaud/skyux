@@ -11,7 +11,8 @@ export class SkyHelpInlineAriaExpandedPipe implements PipeTransform {
   public transform(
     ariaExpanded: boolean | undefined,
     ariaControls: string | undefined,
+    isPopoverOpened: boolean | undefined,
   ): boolean | null {
-    return ariaControls ? !!ariaExpanded : null;
+    return isPopoverOpened ?? (ariaControls ? !!ariaExpanded : null);
   }
 }
