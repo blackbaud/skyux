@@ -165,7 +165,7 @@ export class SkyFileDropComponent implements OnDestroy {
   public hintText: string | undefined;
 
   /**
-   * Whether the input is required for form validation.
+   * Whether uploading a file or link is required.
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input elements so that screen readers announce an invalid state until the input element
    * is complete.
