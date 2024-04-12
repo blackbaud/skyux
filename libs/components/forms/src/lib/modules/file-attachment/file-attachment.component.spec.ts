@@ -385,9 +385,11 @@ describe('File attachment', () => {
     const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).not.toBeNull();
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      true,
-    );
+    expect(
+      fixture.nativeElement
+        .querySelector('span.sky-control-label')
+        .classList.contains('sky-control-label-required'),
+    ).toBe(true);
     expect(
       labelWrapper?.querySelector('.sky-screen-reader-only')?.textContent,
     ).toBe('Required');
