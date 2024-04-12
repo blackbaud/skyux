@@ -16,18 +16,18 @@
   color: $sky-text-color-default;
 }
 
-.sky-theme-modern {
-  &.sky-filter-btn-active,
-  &.sky-filter-btn-active:hover,
-  &.sky-filter-btn-active:focus {
+@include mixins.sky-theme-modern {
+  .sky-filter-btn-active,
+  .sky-filter-btn-active:hover,
+  .sky-filter-btn-active:focus {
     color: initial;
     border: none;
 
     @include modernMixins.sky-theme-modern-button-variant(
-      $sky-text-color-default,
-      $sky-background-color-info-light,
-      $sky-background-color-primary-dark,
-      $sky-background-color-primary-dark,
+      var(--sky-text-color-action-primary),
+      var(--sky-background-color-input-selected),
+      var(--sky-background-color-primary-dark),
+      var(--sky-background-color-primary-dark),
       $sky-theme-modern-padding-button-standard
     );
   }
