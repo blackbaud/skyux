@@ -13,7 +13,7 @@ export class SkyInputBoxHintTextPipe implements PipeTransform {
     hostHintText?: string,
   ): string | undefined {
     if (hintText && hostHintText) {
-      return `${hostHintText} ${hintText}`;
+      return `${hintText} ${hostHintText}`;
     }
 
     return hintText || hostHintText;

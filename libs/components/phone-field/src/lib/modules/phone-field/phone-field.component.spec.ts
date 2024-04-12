@@ -2271,7 +2271,7 @@ describe('Phone Field Component', () => {
         .textContent.trim();
 
       expect(hintText).toEqual(
-        'Use the format (###) ###-####. Enter a phone number.',
+        'Enter a phone number. Use the format (###) ###-####.',
       );
     }));
 
