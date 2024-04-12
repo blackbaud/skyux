@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.6.2](https://github.com/blackbaud/skyux/compare/10.6.1...10.6.2) (2024-04-12)
+
+
+### Bug Fixes
+
+* **code-examples:** set component selector for modal and confirm controller demos ([#2232](https://github.com/blackbaud/skyux/issues/2232)) ([2e3fd22](https://github.com/blackbaud/skyux/commit/2e3fd220fb016b8d33ca7aaa1eed658df84525cf))
+
 ## [10.6.1](https://github.com/blackbaud/skyux/compare/10.6.0...10.6.1) (2024-04-11)
 
 
