@@ -169,7 +169,7 @@ export class SkyInputBoxComponent
 
   protected hintTextHidden = false;
 
-  protected hintTextRemoved = false;
+  protected hintTextScreenReaderOnly = false;
 
   protected hostHintText: string | undefined;
 
@@ -289,7 +289,7 @@ export class SkyInputBoxComponent
   }
 
   public setHintTextScreenReaderOnly(hide: boolean): void {
-    this.hintTextRemoved = hide;
+    this.hintTextScreenReaderOnly = hide;
     this.#changeRef.markForCheck();
   }
 
