@@ -3,6 +3,7 @@ import { SkyConfirmService } from '@skyux/modals';
 
 @Component({
   imports: [],
+  selector: 'app-demo',
   standalone: true,
   template: `<button
     aria-haspopup="dialog"
