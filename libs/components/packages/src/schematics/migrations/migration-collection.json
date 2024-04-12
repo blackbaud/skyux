@@ -42,8 +42,13 @@
     },
     "confirm-instance-observable": {
       "version": "10.0.0-0",
-      "factory": "./update-10/confirm-instance-observable/confirm-instance-observable.schematic",
+      "factory": "./update-10/add-help-inline-peer-dependency/add-help-inline-peer-dependency.schematic",
       "description": "Rename SkyConfirmInstance.closed.next calls to SkyConfirmInstance.close in unit tests."
+    },
+    "add-help-inline-peer-dependency": {
+      "version": "10.2.0-1",
+      "factory": "./update-10/confirm-instance-observable/confirm-instance-observable.schematic",
+      "description": "Add @skyux/help-inline peer dependency for @skyux/forms."
     }
   }
 }
