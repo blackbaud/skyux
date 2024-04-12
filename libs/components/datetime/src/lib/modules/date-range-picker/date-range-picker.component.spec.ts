@@ -260,6 +260,40 @@ describe('Date range picker', function () {
     expect(inputElement.value).toEqual('2000-01-02');
   }));
 
+  it('should show hint text for the the default date format', fakeAsync(() => {
+    detectChanges();
+    tick();
+
+    const hintText = fixture.nativeElement
+      .querySelector('.sky-date-range-picker-hint-text')
+      .textContent.trim();
+
+    expect(hintText).toEqual('Use the format MM/DD/YYYY.');
+  }));
+
+  it('should show hint text for the the consumer provided date format', fakeAsync(() => {
+    component.dateFormat = 'DD/MM/YY';
+    detectChanges();
+
+    const hintText = fixture.nativeElement
+      .querySelector('.sky-date-range-picker-hint-text')
+      .textContent.trim();
+
+    expect(hintText).toEqual('Use the format DD/MM/YY.');
+  }));
+
+  it('should allow consumer to provide hint text along with the format hint text', fakeAsync(() => {
+    component.dateFormat = 'DD/MM/YY';
+    component.hintText = 'Select a date.';
+    detectChanges();
+
+    const hintText = fixture.nativeElement
+      .querySelector('.sky-date-range-picker-hint-text')
+      .textContent.trim();
+
+    expect(hintText).toEqual('Select a date. Use the format DD/MM/YY.');
+  }));
+
   it('should only show end date picker for Before type', fakeAsync(function () {
     verifyVisiblePickers(
       SkyDateRangeCalculatorId.Before,
@@ -717,7 +751,7 @@ describe('Date range picker', function () {
       expect(input?.getAttribute('aria-label')).toBe('After date');
     }));
 
-    it('should use default datepicker aria labels when using the "Specific Range" calculator with no labe;', fakeAsync(() => {
+    it('should use default datepicker aria labels when using the "Specific Range" calculator with no label', fakeAsync(() => {
       detectChanges();
       const control = component.dateRange;
       control?.setValue({

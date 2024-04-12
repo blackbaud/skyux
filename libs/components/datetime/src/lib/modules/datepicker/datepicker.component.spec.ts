@@ -1901,7 +1901,7 @@ describe('datepicker', () => {
         .querySelector('.sky-input-box-hint-text')
         .textContent.trim();
 
-      expect(hintText).toEqual('Use the format DD/MM/YY. Select a date.');
+      expect(hintText).toEqual('Select a date. Use the format DD/MM/YY.');
     }));
   });
 });

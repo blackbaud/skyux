@@ -169,6 +169,8 @@ export class SkyInputBoxComponent
 
   protected hintTextHidden = false;
 
+  protected hintTextScreenReaderOnly = false;
+
   protected hostHintText: string | undefined;
 
   public readonly controlId = this.#idSvc.generateId();
@@ -286,6 +288,11 @@ export class SkyInputBoxComponent
     this.#changeRef.markForCheck();
   }
 
+  public setHintTextScreenReaderOnly(hide: boolean): void {
+    this.hintTextScreenReaderOnly = hide;
+    this.#changeRef.markForCheck();
+  }
+
   #hasRequiredValidator(): boolean {
     return !!this.controlDir?.control?.hasValidator(Validators.required);
   }
@@ -334,7 +341,7 @@ export class SkyInputBoxComponent
     this.#adapterService.updateDescribedBy(
       this.inputRef,
       this.hintTextId,
-      this.hintText,
+      this.hintText ?? this.hostHintText,
     );
 
     if (this.inputRef !== this.#previousInputRef) {
