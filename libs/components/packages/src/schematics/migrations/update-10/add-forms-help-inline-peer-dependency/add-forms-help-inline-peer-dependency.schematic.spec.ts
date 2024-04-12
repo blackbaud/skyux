@@ -4,7 +4,7 @@ import { join } from 'path';
 
 import { createTestApp } from '../../../testing/scaffold';
 
-describe('Migrations > add help-inline peer dependency', () => {
+describe('Migrations > add forms/popovers peer dependency', () => {
   const runner = new SchematicTestRunner(
     'migrations',
     join(__dirname, '../../migration-collection.json'),
@@ -17,7 +17,7 @@ describe('Migrations > add help-inline peer dependency', () => {
 
     return {
       runSchematic: () =>
-        runner.runSchematic('add-help-inline-peer-dependency', {}, tree),
+        runner.runSchematic('add-forms-help-inline-peer-dependency', {}, tree),
       tree,
     };
   }
@@ -60,7 +60,7 @@ describe('Migrations > add help-inline peer dependency', () => {
     });
   });
 
-  it('should not add @skyux/help-inline if @skyux/help-inline is not installed', async () => {
+  it('should not add @skyux/help-inline if @skyux/forms is not installed', async () => {
     const { runSchematic, tree } = await setupTest();
 
     tree.overwrite('/package.json', '{"dependencies": {}}');
