@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
+  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
@@ -44,6 +45,8 @@ interface DataSet {
 export class AgGridStoriesComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  @Input() public compact = false;
+
   public dataSets: DataSet[] = [
     {
       id: 'back-to-top',
@@ -173,6 +176,7 @@ export class AgGridStoriesComponent
               }),
           ],
           context: {
+            compactLayout: this.compact,
             rowDeleteIds: [],
           },
           suppressColumnVirtualisation: true,

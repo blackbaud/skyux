@@ -194,8 +194,17 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  public getHeaderHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
+  public getHeaderHeight(
+    themeSettings?: SkyThemeSettings,
+    context?: { compactLayout?: boolean },
+  ): number {
+    if ((themeSettings ?? this.#currentTheme)?.theme?.name === 'modern') {
+      if (context?.compactLayout) {
+        return 32;
+      }
+      return 60;
+    }
+    return 37;
   }
 
   #mergeGridOptions(
@@ -243,6 +252,10 @@ export class SkyAgGridService implements OnDestroy {
       mergedGridOptions.context.enableCellTextSelection = true;
       mergedGridOptions.enableCellTextSelection = true;
     }
+    mergedGridOptions.headerHeight ??= this.getHeaderHeight(
+      this.#currentTheme,
+      mergedGridOptions.context,
+    );
 
     return mergedGridOptions;
   }
@@ -473,7 +486,6 @@ export class SkyAgGridService implements OnDestroy {
           return undefined;
         }
       },
-      headerHeight: this.getHeaderHeight(),
       icons: {
         sortDescending: this.#getIconTemplate('sortDescending'),
         sortAscending: this.#getIconTemplate('sortAscending'),
@@ -484,8 +496,7 @@ export class SkyAgGridService implements OnDestroy {
         columnMovePin: this.#getIconTemplate('columnMovePin'),
       },
       onCellFocused: () => this.#onCellFocused(),
-      rowHeight: this.#getRowHeight(),
-      getRowHeight: () => this.#getRowHeight(),
+      getRowHeight: (params) => this.#getRowHeight(params.context),
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
@@ -605,7 +616,20 @@ export class SkyAgGridService implements OnDestroy {
     return false;
   }
 
-  #getRowHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 38;
+  #isCompactLayout(context: { compactLayout?: boolean } | undefined): boolean {
+    return (
+      !!context?.compactLayout ||
+      this.#currentTheme?.spacing?.name === 'compact'
+    );
+  }
+
+  #getRowHeight(context: { compactLayout?: boolean } | undefined): number {
+    if (this.#currentTheme?.theme?.name === 'modern') {
+      if (this.#isCompactLayout(context)) {
+        return 32;
+      }
+      return 60;
+    }
+    return 38;
   }
 }

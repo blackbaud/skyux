@@ -7,6 +7,7 @@ import {
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSettingsChange,
+  SkyThemeSpacing,
 } from '@skyux/theme';
 
 import {
@@ -29,7 +30,10 @@ import { BehaviorSubject } from 'rxjs';
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridModule } from './ag-grid.module';
 import { SkyAgGridService } from './ag-grid.service';
-import { SkyAgGridFixtureComponent } from './fixtures/ag-grid.component.fixture';
+import {
+  DomLayout,
+  SkyAgGridFixtureComponent,
+} from './fixtures/ag-grid.component.fixture';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 
@@ -95,9 +99,7 @@ describe('SkyAgGridService', () => {
         gridOptions: overrideGridOptions,
       });
 
-      expect(defaultGridOptions.headerHeight).not.toEqual(newHeight);
       expect(defaultGridOptions.rowHeight).not.toEqual(newHeight);
-      expect(mergedGridOptions.headerHeight).toEqual(newHeight);
       expect(mergedGridOptions.rowHeight).toEqual(newHeight);
     });
 
@@ -209,7 +211,7 @@ describe('SkyAgGridService', () => {
       expect(mergedCellClassRules?.[SkyCellClass.Uneditable]).toBeDefined();
     });
 
-    it('should set rowHeight and headerHeight for modern theme', () => {
+    it('should set rowHeight for modern theme', () => {
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -224,8 +226,8 @@ describe('SkyAgGridService', () => {
         gridOptions: {},
       });
 
-      expect(modernThemeGridOptions.rowHeight).toBe(60);
-      expect(modernThemeGridOptions.headerHeight).toBe(60);
+      expect(modernThemeGridOptions.getRowHeight).toBeDefined();
+      expect((modernThemeGridOptions.getRowHeight as Function)({})).toBe(60);
       expect(typeof modernThemeGridOptions.icons?.['sortDescending']).toBe(
         'function',
       );
@@ -235,10 +237,7 @@ describe('SkyAgGridService', () => {
     });
 
     it('should unsubscribe from the theme service when destroyed', () => {
-      const overrideOptions = { gridOptions: {} };
-      let gridOptions = agGridService.getGridOptions(overrideOptions);
-
-      expect(gridOptions.rowHeight).toBe(38);
+      expect(agGridService.getHeaderHeight()).toBe(37);
 
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
@@ -251,8 +250,7 @@ describe('SkyAgGridService', () => {
       });
 
       // Get new grid options after theme change
-      gridOptions = agGridService.getGridOptions(overrideOptions);
-      expect(gridOptions.rowHeight).toBe(60);
+      expect(agGridService.getHeaderHeight()).toBe(60);
 
       // Destroy subscription
       agGridService.ngOnDestroy();
@@ -268,8 +266,7 @@ describe('SkyAgGridService', () => {
       });
 
       // Get new grid options after theme change, but expect heights have not changed
-      gridOptions = agGridService.getGridOptions(overrideOptions);
-      expect(gridOptions.rowHeight).toBe(60);
+      expect(agGridService.getHeaderHeight()).toBe(60);
     });
 
     it('should not overwrite default component definitions', () => {
@@ -939,6 +936,10 @@ describe('SkyAgGridService via fixture', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        {
+          provide: DomLayout,
+          useValue: 'normal',
+        },
       ],
     });
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
@@ -946,7 +947,6 @@ describe('SkyAgGridService via fixture', () => {
     await gridWrapperFixture.whenStable();
 
     const api = gridWrapperFixture?.componentInstance?.agGrid?.api as GridApi;
-    const headerHeightSpy = spyOn(api, 'setHeaderHeight');
     const rowHeightSpy = spyOn(api, 'resetRowHeights');
     expect(api).toBeDefined();
     expect(api.getSizesForCurrentTheme().headerHeight).toEqual(37);
@@ -961,8 +961,8 @@ describe('SkyAgGridService via fixture', () => {
     });
     gridWrapperFixture.detectChanges();
     await gridWrapperFixture.whenStable();
-    expect(headerHeightSpy).toHaveBeenCalledWith(60);
     expect(rowHeightSpy).toHaveBeenCalled();
+    rowHeightSpy.calls.reset();
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
@@ -973,6 +973,19 @@ describe('SkyAgGridService via fixture', () => {
     });
     gridWrapperFixture.detectChanges();
     await gridWrapperFixture.whenStable();
-    expect(headerHeightSpy).toHaveBeenCalledWith(37);
+    expect(rowHeightSpy).toHaveBeenCalled();
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+      ),
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+    expect(rowHeightSpy).toHaveBeenCalled();
+    expect(api.getSizesForCurrentTheme().rowHeight).toEqual(32);
   });
 });

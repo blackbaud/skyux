@@ -37,6 +37,9 @@ interface DataSet {
 export class DataEntryGridComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
+  @Input()
+  public compact = false;
+
   public variationId: 'date-and-lookup' | 'edit-lookup' | undefined;
 
   /**
@@ -190,6 +193,9 @@ export class DataEntryGridComponent
       this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
         gridOptions: {
           columnDefs,
+          context: {
+            compactLayout: this.compact,
+          },
           stopEditingWhenCellsLoseFocus: false,
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,
@@ -199,7 +205,7 @@ export class DataEntryGridComponent
               true,
             );
           },
-          rowData: (() => {
+          rowData: ((): any[] => {
             if (dataSet.id.startsWith('editLookup')) {
               return dataSet.data.map((player) => {
                 return {

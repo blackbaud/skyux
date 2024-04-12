@@ -44,6 +44,9 @@ export class DataManagerComponent implements OnInit {
   }
 
   @Input()
+  public compact = false;
+
+  @Input()
   public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
 
   @Input()
@@ -178,6 +181,7 @@ export class DataManagerComponent implements OnInit {
           ...columnDefinitions,
         ],
         context: {
+          compactLayout: this.compact,
           enableTopScroll: this.enableTopScroll,
         },
         domLayout: this.domLayout,
