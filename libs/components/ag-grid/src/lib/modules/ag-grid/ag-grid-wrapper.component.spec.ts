@@ -189,10 +189,6 @@ describe('SkyAgGridWrapperComponent', () => {
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
   });
 
-  it('should initialize with compact mode', () => {
-    // Set options with compact in context.
-  });
-
   it('should get compact mode from theme', async () => {
     (agGrid.api.redrawRows as jasmine.Spy).and.returnValue(undefined);
     (agGrid.api.refreshHeader as jasmine.Spy).and.returnValue(undefined);

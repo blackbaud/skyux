@@ -50,7 +50,7 @@ export class AgGridStoriesComponent
   public dataSets: DataSet[] = [
     {
       id: 'back-to-top',
-      data: data.slice(40, 48),
+      data: data.slice(40, 78),
     },
     {
       id: 'row-delete',
