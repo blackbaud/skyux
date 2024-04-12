@@ -16,8 +16,9 @@
 }
 
 @media (max-width: $sky-screen-sm-min) {
-  .sky-date-range-picker-form-group {
-    &:not(.sky-date-range-picker-last-input) {
+  .sky-date-range-picker-form-group,
+  .sky-date-range-picker-hint-text {
+    &.sky-date-range-picker-stacked {
       margin-bottom: var(--sky-margin-stacked-lg);
     }
   }
@@ -78,17 +79,9 @@
     padding: 0;
   }
 
-  @media (max-width: $sky-screen-sm-min) {
-    .sky-date-range-picker-form-group {
-      &:not(.sky-date-range-picker-last-input) {
-        margin-bottom: var(--sky-margin-stacked-lg);
-      }
-    }
-  }
-
   @media (min-width: $sky-screen-sm-min) {
     .sky-date-range-picker-form-group {
-      &:not(.sky-date-range-picker-last-input) {
+      &:not(:last-of-type) {
         padding-right: $sky-theme-modern-margin-inline-lg;
       }
     }
