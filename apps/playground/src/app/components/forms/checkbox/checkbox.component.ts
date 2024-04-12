@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
+  FormGroup,
   UntypedFormBuilder,
   UntypedFormGroup,
+  ValidationErrors,
 } from '@angular/forms';
 
 @Component({
@@ -24,10 +27,39 @@ export class CheckboxComponent implements OnInit {
 
   public showInlineHelp = false;
 
+  protected formGroup: FormGroup;
+  protected contactMethod: FormGroup;
+
   #formBuilder: UntypedFormBuilder;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
+
+    this.contactMethod = this.#formBuilder.group({
+      email: new FormControl(false),
+      phone: new FormControl(false),
+      text: new FormControl(false),
+    });
+
+    this.formGroup = this.#formBuilder.group({
+      contactMethod: this.contactMethod,
+      terms: new FormControl(false),
+    });
+
+    this.contactMethod.setValidators(
+      (control: AbstractControl): ValidationErrors | null => {
+        const group = control as FormGroup;
+        const email = group.controls['email'];
+        const phone = group.controls['phone'];
+        const text = group.controls['text'];
+
+        if (!email.value && !phone.value && !text.value) {
+          return { contactMethodRequired: true };
+        } else {
+          return null;
+        }
+      },
+    );
   }
 
   public ngOnInit(): void {

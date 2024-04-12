@@ -3,30 +3,44 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'confirm',
+    path: 'confirm-with-controller',
     loadComponent: () =>
-      import('../code-examples/modals/confirm/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
+      import(
+        '../code-examples/modals/confirm/basic-with-controller/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
-    path: 'modal',
+    path: 'confirm-with-harness',
     loadComponent: () =>
-      import('../code-examples/modals/modal/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
+      import(
+        '../code-examples/modals/confirm/basic-with-harness/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
+    path: 'modal-with-controller',
+    loadComponent: () =>
+      import(
+        '../code-examples/modals/modal/basic-with-controller/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
+    path: 'modal-with-harness',
+    loadComponent: () =>
+      import(
+        '../code-examples/modals/modal/basic-with-harness/demo.component'
+      ).then((c) => c.DemoComponent),
   },
   {
     path: 'inline-help',
     loadComponent: () =>
-      import('../code-examples/modals/inline-help/demo.component').then(
+      import('../code-examples/modals/modal/inline-help/demo.component').then(
         (c) => c.DemoComponent,
       ),
   },
   {
     path: 'modal-with-error',
     loadComponent: () =>
-      import('../code-examples/modals/modal-with-error/demo.component').then(
+      import('../code-examples/modals/modal/with-error/demo.component').then(
         (c) => c.DemoComponent,
       ),
   },

@@ -1,5 +1,10 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  SkyFieldGroupHeadingLevel,
+  SkyFieldGroupHeadingStyle,
+} from '@skyux/forms';
 
 import { SkyFieldGroupHarnessFilters } from './field-group-harness-filters';
 
@@ -14,6 +19,8 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-field-group';
 
   #getLegend = this.locatorFor('legend');
+  #getH3 = this.locatorForOptional('legend h3');
+  #getH4 = this.locatorForOptional('legend h4');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -47,5 +54,23 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
     const host = await this.host();
 
     return host.hasClass('sky-margin-stacked-xl');
+  }
+
+  /**
+   * The semantic heading level used for the field group.
+   */
+  public async getHeadingLevel(): Promise<SkyFieldGroupHeadingLevel> {
+    const h3 = await this.#getH3();
+
+    return h3 ? 3 : 4;
+  }
+
+  /**
+   * The heading style used for the field group.
+   */
+  public async getHeadingStyle(): Promise<SkyFieldGroupHeadingStyle> {
+    const heading = (await this.#getH3()) || (await this.#getH4());
+
+    return (await heading?.hasClass('sky-font-heading-3')) ? 3 : 4;
   }
 }

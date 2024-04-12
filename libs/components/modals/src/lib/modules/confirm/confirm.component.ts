@@ -50,6 +50,8 @@ export class SkyConfirmComponent implements OnDestroy {
   readonly #idSvc = inject(SkyIdService);
 
   constructor() {
+    this.#config.type ??= SkyConfirmType.OK;
+
     if (
       this.#config.type === SkyConfirmType.Custom &&
       this.#config.buttons &&

@@ -16,6 +16,7 @@ export { SkyModalError } from './lib/modules/modal/modal-error';
 export { SkyModalErrorsService } from './lib/modules/modal/modal-errors.service';
 export { SkyModalHostService } from './lib/modules/modal/modal-host.service';
 export { SkyModalInstance } from './lib/modules/modal/modal-instance';
+export { SkyModalServiceInterface } from './lib/modules/modal/modal-service-interface';
 export { SkyModalConfigurationInterface } from './lib/modules/modal/modal.interface';
 export { SkyModalModule } from './lib/modules/modal/modal.module';
 export {

@@ -1,5 +1,66 @@
 # Changelog
 
+## [10.6.1](https://github.com/blackbaud/skyux/compare/10.6.0...10.6.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* **code-examples:** move spec that uses SkyConfirmTestingController to another code example ([#2227](https://github.com/blackbaud/skyux/issues/2227)) ([2ba3bff](https://github.com/blackbaud/skyux/commit/2ba3bff628076234eab2833d8bc5f05416bd26c8))
+* **code-examples:** move spec that uses SkyModalTestingController to another code example ([#2230](https://github.com/blackbaud/skyux/issues/2230)) ([f9954a6](https://github.com/blackbaud/skyux/commit/f9954a67274278e6daa6dd3d352dff75ba2ffbb9))
+* **components/forms:** radio group labels include an asterisk when the radio group is required ([#2228](https://github.com/blackbaud/skyux/issues/2228)) ([94fdf14](https://github.com/blackbaud/skyux/commit/94fdf14df7ab0a38f864fe939f6cbb3ada39052d))
+* **components/modals:** throw when calling `SkyConfirmTestingController.close` with an invalid action ([#2226](https://github.com/blackbaud/skyux/issues/2226)) ([b0b554f](https://github.com/blackbaud/skyux/commit/b0b554facb11f8bcba1b29081b6cc024ddf91a43))
+
+## [10.6.0](https://github.com/blackbaud/skyux/compare/10.5.0...10.6.0) (2024-04-11)
+
+
+### Features
+
+* **components/theme:** environment provider for modern theme ([#2217](https://github.com/blackbaud/skyux/issues/2217)) ([d028fd0](https://github.com/blackbaud/skyux/commit/d028fd02a68f10a3d6b76adbafe4a7543ab4c053))
+
+
+### Bug Fixes
+
+* **components/forms:** checkbox group announces required state to screen readers ([#2220](https://github.com/blackbaud/skyux/issues/2220)) ([c580260](https://github.com/blackbaud/skyux/commit/c5802604c069a94c924c74128f1448a9be9d80a0))
+* **components/forms:** single file attachment announces required state to screen readers ([#2218](https://github.com/blackbaud/skyux/issues/2218)) ([71a549e](https://github.com/blackbaud/skyux/commit/71a549ee6c31c9b5c8d10a7e73d73b7beaad26f5))
+* **components/modals:** keep absolutely positioned background elements visible ([#2219](https://github.com/blackbaud/skyux/issues/2219)) ([#2223](https://github.com/blackbaud/skyux/issues/2223)) ([17e8b87](https://github.com/blackbaud/skyux/commit/17e8b8756eb2a308d0ec566e193730473d36dc34))
+* **components/modals:** set confirm type to "OK" by default ([#2224](https://github.com/blackbaud/skyux/issues/2224)) ([d63f3e9](https://github.com/blackbaud/skyux/commit/d63f3e9600a4a256b23f0d1cd79c7e78c4cf8bb5))
+
+## [9.30.7](https://github.com/blackbaud/skyux/compare/9.30.6...9.30.7) (2024-04-10)
+
+
+### Bug Fixes
+
+* **components/modals:** keep absolutely positioned background elements visible ([#2219](https://github.com/blackbaud/skyux/issues/2219)) ([a2bddfb](https://github.com/blackbaud/skyux/commit/a2bddfbddaa1200a1aa9ecb301ddd3a6bacf0028))
+
+## [10.5.0](https://github.com/blackbaud/skyux/compare/10.4.0...10.5.0) (2024-04-10)
+
+
+### Features
+
+* **components/modals:** add `SkyModalTestingController` to mock modals in tests ([#2162](https://github.com/blackbaud/skyux/issues/2162)) ([11a750c](https://github.com/blackbaud/skyux/commit/11a750cdfd74fc0f9dcf033dfb8969d27cef0ed6))
+
+## [10.4.0](https://github.com/blackbaud/skyux/compare/10.3.0...10.4.0) (2024-04-05)
+
+
+### Features
+
+* **components/forms:** add `hintText` input to multi file attachment component ([#2211](https://github.com/blackbaud/skyux/issues/2211)) ([e4a7ae4](https://github.com/blackbaud/skyux/commit/e4a7ae45f1d368ae9105905015d65730e71119cc))
+* **components/forms:** add heading semantic and styling inputs to field group ([#2214](https://github.com/blackbaud/skyux/issues/2214)) ([ee882bc](https://github.com/blackbaud/skyux/commit/ee882bc7376c373bc76858fa3c9fc234bea30e97))
+
+## [10.3.0](https://github.com/blackbaud/skyux/compare/10.2.0...10.3.0) (2024-04-05)
+
+
+### Features
+
+* **components/forms:** add field group component ([#2212](https://github.com/blackbaud/skyux/issues/2212)) ([7382cd2](https://github.com/blackbaud/skyux/commit/7382cd27655d754010ca0ca044a67aa36397c8fa))
+
+
+### Bug Fixes
+
+* **components/forms:** input box uses "disabled" styles when child form control is disabled ([#2203](https://github.com/blackbaud/skyux/issues/2203)) ([2562083](https://github.com/blackbaud/skyux/commit/2562083d23f741ce3e1bcfc9061dd90b3f512a8c))
+* **components/text-editor:** accessibility attributes are properly set on the editor element ([#2208](https://github.com/blackbaud/skyux/issues/2208)) ([2795493](https://github.com/blackbaud/skyux/commit/27954933f590c829889096513e574218756c87d3))
+* documentation for inputs with argument objects is generated correctly ([#2209](https://github.com/blackbaud/skyux/issues/2209)) ([8c3706b](https://github.com/blackbaud/skyux/commit/8c3706bc6cb2ce5d2c0812601c1c3dddf92b72bc))
+
 ## [10.2.0](https://github.com/blackbaud/skyux/compare/10.1.0...10.2.0) (2024-04-04)
 
 

@@ -60,6 +60,21 @@ describe('Field group component', function () {
     expect(group).not.toHaveClass('sky-margin-stacked-xl');
   });
 
+  it('should render the correct heading level and styles', () => {
+    [3, 4].forEach((headingLevel) => {
+      [3, 4].forEach((headingStyle) => {
+        componentInstance.headingLevel = headingLevel;
+        componentInstance.headingStyle = headingStyle;
+        fixture.detectChanges();
+
+        const heading = fixture.nativeElement.querySelector(
+          `h${headingLevel}.sky-font-heading-${headingStyle}`,
+        );
+
+        expect(heading).toExist();
+      });
+    });
+  });
   it('should pass accessibility', async () => {
     fixture.detectChanges();
     await fixture.whenStable();

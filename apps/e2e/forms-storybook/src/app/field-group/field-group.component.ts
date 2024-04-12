@@ -26,7 +26,7 @@ export class FieldGroupComponent {
 
   constructor() {
     this.formGroup = this.#formBuilder.group({
-      name: new FormControl(undefined),
+      input: new FormControl(undefined),
     });
   }
 }
