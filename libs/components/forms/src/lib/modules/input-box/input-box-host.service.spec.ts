@@ -78,15 +78,15 @@ describe('Input box host service', () => {
     expect(mockInputBox.setHostHintText).toHaveBeenCalledWith('Test');
   });
 
-  it('should throw an error if the `setHintTextRemoved` method is called prior to initialization', () => {
-    expect(() => hostService.setHintTextRemoved(true)).toThrowError(
+  it('should throw an error if the `setHintTextScreenReaderOnly` method is called prior to initialization', () => {
+    expect(() => hostService.setHintTextScreenReaderOnly(true)).toThrowError(
       'Cannot remove hint text on the input box because `SkyInputBoxHostService` has not yet been initialized.',
     );
   });
 
-  it('should populate the input box component if the `setHintTextRemoved` method is called after initialization', () => {
+  it('should populate the input box component if the `setHintTextScreenReaderOnly` method is called after initialization', () => {
     hostService.init(mockInputBox);
-    hostService.setHintTextRemoved(true);
+    hostService.setHintTextScreenReaderOnly(true);
     expect(mockInputBox.setHintTextScreenReaderOnly).toHaveBeenCalledWith(true);
   });
 

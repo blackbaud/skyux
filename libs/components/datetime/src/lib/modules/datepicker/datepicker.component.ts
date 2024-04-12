@@ -36,7 +36,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
-import { SKY_DATEPICKER_HINT_CONFIG } from './datepicker-hint-token';
+import { SKY_DATEPICKER_HINT_TEXT_HIDDEN } from './datepicker-hint-token';
 
 let nextId = 0;
 
@@ -215,7 +215,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   #changeDetector: ChangeDetectorRef;
   #coreAdapter: SkyCoreAdapterService;
   #dateFormatHintTextTemplateString = '';
-  readonly #datepickerHintConfig = inject(SKY_DATEPICKER_HINT_CONFIG);
+  readonly #datepickerHintConfig = inject(SKY_DATEPICKER_HINT_TEXT_HIDDEN);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #resourceSvc = inject(SkyLibResourcesService);
   #overlayService: SkyOverlayService;
@@ -256,7 +256,9 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         buttonsTemplate: this.triggerButtonTemplateRef,
       });
 
-      this.inputBoxHostService.setHintTextRemoved(this.#datepickerHintConfig);
+      this.inputBoxHostService.setHintTextScreenReaderOnly(
+        this.#datepickerHintConfig,
+      );
 
       this.#resourceSvc
         .getString('skyux_datepicker_format_hint_text')

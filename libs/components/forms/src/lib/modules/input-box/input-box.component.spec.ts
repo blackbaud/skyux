@@ -849,10 +849,10 @@ describe('Input box component', () => {
       await expectAsync(els.inputBoxEl).toBeAccessible();
     });
 
-    it('should hide hint text when `setHintTextRemoved` is called with `true`', async () => {
+    it('should hide hint text when `setHintTextScreenReaderOnly` is called with `true`', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
-      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextRemoved(
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextScreenReaderOnly(
         true,
       );
       fixture.detectChanges();
@@ -863,10 +863,10 @@ describe('Input box component', () => {
       await expectAsync(els.inputBoxEl).toBeAccessible();
     });
 
-    it('should show hint text when `setHintTextRemoved` is called with `false`', async () => {
+    it('should show hint text when `setHintTextScreenReaderOnly` is called with `false`', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
-      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextRemoved(
+      fixture.componentInstance.inputBoxHostServiceComponent?.setHintTextScreenReaderOnly(
         false,
       );
       fixture.detectChanges();

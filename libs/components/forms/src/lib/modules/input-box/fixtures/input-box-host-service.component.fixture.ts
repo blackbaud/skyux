@@ -43,7 +43,7 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
     this.#inputBoxHostSvc.setHintTextHidden(hide);
   }
 
-  public setHintTextRemoved(hide: boolean): void {
-    this.#inputBoxHostSvc.setHintTextRemoved(hide);
+  public setHintTextScreenReaderOnly(hide: boolean): void {
+    this.#inputBoxHostSvc.setHintTextScreenReaderOnly(hide);
   }
 }

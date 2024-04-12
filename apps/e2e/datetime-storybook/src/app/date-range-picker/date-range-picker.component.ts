@@ -15,8 +15,8 @@ export class DateRangePickerComponent {
   public scenarios: {
     name: string;
     label: string;
-    hintText?: string;
     calculatorIds: SkyDateRangeCalculatorId[];
+    hintText?: string;
   }[] = [
     {
       name: 'anyDate',
