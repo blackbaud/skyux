@@ -19,6 +19,7 @@ export { SkyFileDropChange } from './lib/modules/file-attachment/types/file-drop
 export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
 export { SkyFormErrorModule } from './lib/modules/form-error/form-error.module';
 
+export { SkyInputBoxHintTextPipe } from './lib/modules/input-box/input-box-hint-text.pipe';
 export { SkyInputBoxHostService } from './lib/modules/input-box/input-box-host.service';
 export { SkyInputBoxPopulateArgs } from './lib/modules/input-box/input-box-populate-args';
 export { SkyInputBoxModule } from './lib/modules/input-box/input-box.module';
