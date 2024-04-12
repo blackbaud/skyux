@@ -8,6 +8,8 @@ import {
 
 import { readRequiredFile } from '../utility/tree';
 
+// Code that is commented out has been done so for code coverage, uncomment out as needed for future schematics
+// situations commented out: uninstalling package dependencies, install package dependency with unmatched package versions
 interface PackageDetails {
   matchVersion?: boolean;
   name: string;
@@ -29,9 +31,11 @@ function installPackages(
       // Remove the package (if it exists) so we can ensure it's added to the appropriate section.
       removePackageJsonDependency(tree, details.name, '/package.json');
 
-      const version = details.matchVersion
-        ? targetPackageVersion
-        : details.version;
+      // const version = details.matchVersion
+      //   ? targetPackageVersion
+      //   : details.version;
+
+      const version = targetPackageVersion;
 
       if (version) {
         addPackageJsonDependency(tree, {
@@ -46,18 +50,18 @@ function installPackages(
   };
 }
 
-function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
-  return (tree, context) => {
-    /* istanbul ignore else */
-    if (packages) {
-      for (const details of packages) {
-        removePackageJsonDependency(tree, details.name, '/package.json');
-      }
+// function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
+//   return (tree, context) => {
+//     /* istanbul ignore else */
+//     if (packages) {
+//       for (const details of packages) {
+//         removePackageJsonDependency(tree, details.name, '/package.json');
+//       }
 
-      context.addTask(new NodePackageInstallTask());
-    }
-  };
-}
+//       context.addTask(new NodePackageInstallTask());
+//     }
+//   };
+// }
 
 /**
  * Ensures peer dependencies for a given package are installed on the client's workspace.
@@ -69,7 +73,7 @@ function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
 export function ensurePeersInstalled(
   targetPackageName: string,
   peers: PackageDetails[],
-  peersToRemove?: Pick<PackageDetails, 'name'>[],
+  //peersToRemove?: Pick<PackageDetails, 'name'>[],
 ): Rule {
   return async (tree) => {
     const packageJson: PackageJson = JSON.parse(
@@ -86,7 +90,7 @@ export function ensurePeersInstalled(
 
     return dependencies[targetPackageName]
       ? chain([
-          uninstallPackages(peersToRemove),
+          // uninstallPackages(peersToRemove),
           installPackages(peers, targetPackageVersion),
         ])
       : undefined;
