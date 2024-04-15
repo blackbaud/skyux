@@ -173,7 +173,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  public required: boolean | undefined = false;
+  public required = false;
 
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
