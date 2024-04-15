@@ -1244,6 +1244,31 @@ describe('File drop component', () => {
     ).toBe('MOCK_ID_4');
   });
 
+  it('should not have required class and aria-required attribute and label should not have screen reader text when not required', () => {
+    componentInstance.labelText = 'Testing';
+    fixture.detectChanges();
+    const labelWrapper = getLabelEl();
+
+    expect(
+      labelWrapper?.classList.contains('sky-control-label-required'),
+    ).toBeFalse();
+    expect(labelWrapper?.querySelector('.sky-screen-reader-only')).toBeNull();
+  });
+
+  it('should have appropriate classes and label should have screen reader text when file is required', fakeAsync(() => {
+    componentInstance.labelText = 'Testing';
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
+    const labelWrapper = getLabelEl();
+
+    expect(
+      labelWrapper?.classList.contains('sky-control-label-required'),
+    ).toBeTrue();
+    expect(
+      labelWrapper?.querySelector('.sky-screen-reader-only')?.textContent,
+    ).toBe('Required');
+  }));
+
   it('should pass accessibility', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
