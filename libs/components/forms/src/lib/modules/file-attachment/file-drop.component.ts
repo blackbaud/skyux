@@ -164,6 +164,17 @@ export class SkyFileDropComponent implements OnDestroy {
   @Input()
   public hintText: string | undefined;
 
+  /**
+   * Whether uploading a file or link is required.
+   * When you set this property to `true`, the component adds `aria-required` and `required`
+   * attributes to the input elements so that screen readers announce an invalid state until the input element
+   * is complete.
+   * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public required = false;
+
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
 
