@@ -18,6 +18,7 @@ export class FileAttachmentComponent {
   public minFileSize = 300000;
 
   public rejectedFiles: SkyFileItem[];
+  protected required = true;
 
   constructor() {
     this.filesToUpload = [];
