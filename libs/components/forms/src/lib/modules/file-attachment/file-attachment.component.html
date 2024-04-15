@@ -15,11 +15,10 @@
         *ngIf="!labelHidden"
         class="sky-control-label"
       >
-        {{ labelText }}
-      </span>
-      <ng-container *ngIf="helpPopoverContent">
-        <ng-container *ngTemplateOutlet="inlineHelp" />
-      </ng-container>
+        {{ labelText }} </span
+      ><ng-container *ngIf="helpPopoverContent"
+        ><ng-container *ngTemplateOutlet="inlineHelp"
+      /></ng-container>
     </ng-container>
     <span
       class="sky-screen-reader-only"

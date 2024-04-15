@@ -8,6 +8,9 @@ import {
 
 import { SkyHelpInlineHarnessFilters } from './help-inline-harness.filters';
 
+/**
+ * Harness for interacting with a help inline component in tests.
+ */
 export class SkyHelpInlineHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -18,7 +21,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyHelpInlineHarness` that meets certain criteria
+   * `SkyHelpInlineHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyHelpInlineHarnessFilters,
@@ -27,16 +30,22 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the help inline icon button
+   * Clicks the help inline button.
    */
   public async click(): Promise<void> {
     await (await this.#getInlineHelpButton()).click();
   }
 
+  /**
+   * Gets the `aria-controls` value.
+   */
   public async getAriaControls(): Promise<string | null> {
     return (await this.#getInlineHelpButton()).getAttribute('aria-controls');
   }
 
+  /**
+   * Gets the `aria-expanded` value.
+   */
   public async getAriaExpanded(): Promise<boolean> {
     if ((await this.getAriaControls()) === null) {
       throw new Error('aria-expanded is only set when `ariaControls` is set.');
@@ -49,10 +58,16 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
       : false;
   }
 
+  /**
+   * Gets the `aria-label` value.
+   */
   public async getAriaLabel(): Promise<string | null> {
     return (await this.#getInlineHelpButton()).getAttribute('aria-label');
   }
 
+  /**
+   * Gets the label text.
+   */
   public async getLabelText(): Promise<string | undefined> {
     const ariaLabel = await (
       await this.#getInlineHelpButton()
@@ -65,21 +80,27 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
     return undefined;
   }
 
+  /**
+   * Gets the help inline popover content.
+   */
+  public async getPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return (await this.#getPopoverHarnessContent())?.getBodyText();
+  }
+
+  /**
+   * Gets the help inline popover title.
+   */
+  public async getPopoverTitle(): Promise<string | undefined> {
+    return (await this.#getPopoverHarnessContent())?.getTitleText();
+  }
+
   async #getPopoverHarnessContent(): Promise<
     SkyPopoverContentHarness | undefined
   > {
     return (
       await this.locatorForOptional(SkyPopoverHarness)()
     )?.getPopoverContent();
-  }
-
-  public async getPopoverTitle(): Promise<string | undefined> {
-    return (await await this.#getPopoverHarnessContent())?.getTitleText();
-  }
-
-  public async getPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
-    return (await this.#getPopoverHarnessContent())?.getBodyText();
   }
 }

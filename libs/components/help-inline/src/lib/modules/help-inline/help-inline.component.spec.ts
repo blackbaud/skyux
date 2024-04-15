@@ -1,6 +1,11 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -34,6 +39,12 @@ describe('Help inline component', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   }
 
+  function getHelpButton(
+    fixture: ComponentFixture<HelpInlineTestComponent>,
+  ): HTMLButtonElement {
+    return fixture.nativeElement.querySelector('.sky-help-inline');
+  }
+
   async function getPopoverTestHarness(): Promise<{
     popoverHarness: SkyPopoverHarness;
   }> {
@@ -47,6 +58,9 @@ describe('Help inline component', () => {
   let component: HelpInlineTestComponent;
   let debugElement: DebugElement;
   let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
+
+  // Mock the ID service.
+  let uniqueId = 0;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -73,8 +87,6 @@ describe('Help inline component', () => {
     component = fixture.componentInstance as HelpInlineTestComponent;
     debugElement = fixture.debugElement;
 
-    // Mock the ID service.
-    let uniqueId = 0;
     const idSvc = TestBed.inject(SkyIdService);
     spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
 
@@ -246,9 +258,9 @@ describe('Help inline component', () => {
     const { popoverHarness } = await getPopoverTestHarness();
     await popoverHarness.clickPopoverButton();
 
-    await expect(
-      await (await popoverHarness.getPopoverContent()).getBodyText(),
-    ).toBe('content');
+    expect(await (await popoverHarness.getPopoverContent()).getBodyText()).toBe(
+      'content',
+    );
   });
 
   it('should render help popover title', async () => {
@@ -259,10 +271,10 @@ describe('Help inline component', () => {
     const { popoverHarness } = await getPopoverTestHarness();
     await popoverHarness.clickPopoverButton();
 
-    await expect(
-      await (await popoverHarness.getPopoverContent()).getBodyText(),
-    ).toBe('content');
-    await expect(
+    expect(await (await popoverHarness.getPopoverContent()).getBodyText()).toBe(
+      'content',
+    );
+    expect(
       await (await popoverHarness.getPopoverContent()).getTitleText(),
     ).toBe('title');
   });
@@ -274,45 +286,42 @@ describe('Help inline component', () => {
     const { popoverHarness } = await getPopoverTestHarness();
     await popoverHarness.clickPopoverButton();
 
-    await expect(
-      await (await popoverHarness.getPopoverContent()).getBodyText(),
-    ).toBe('this is a template');
-  });
-
-  it('should set ariaControls to popover id if popover content is set', async () => {
-    component.popoverContent = 'content';
-    fixture.detectChanges();
-
-    const { popoverHarness } = await getPopoverTestHarness();
-    await popoverHarness.clickPopoverButton();
-
-    // without this call, the test fails, unsure why
-    await popoverHarness.isOpen();
-
-    const popoverElementId =
-      debugElement.nativeElement.querySelector('sky-popover').id;
-
-    await checkAriaPropertiesAndAccessibility(
-      'Show help content',
-      popoverElementId,
-      'true',
+    expect(await (await popoverHarness.getPopoverContent()).getBodyText()).toBe(
+      'this is a template',
     );
   });
 
-  it('should set toggle ariaExpanded value with opening and closing popover', async () => {
+  it('should set ariaControls to popover id if popover content is set', fakeAsync(() => {
     component.popoverContent = 'content';
     fixture.detectChanges();
 
-    const helpButton = fixture.nativeElement.querySelector('button');
-    const { popoverHarness } = await getPopoverTestHarness();
+    const helpButton = getHelpButton(fixture);
+    helpButton.click();
+    tick();
+    fixture.detectChanges();
+
+    const popoverElementId =
+      debugElement.nativeElement.querySelector('sky-popover').id;
+    const helpInlineElement =
+      fixture.nativeElement.querySelector('.sky-help-inline');
+
+    expect(helpInlineElement?.getAttribute('aria-controls')).toBe(
+      popoverElementId,
+    );
+  }));
+
+  it('should switch the ariaExpanded value with the help inline popover opening and closing', fakeAsync(() => {
+    component.popoverContent = 'content';
+    fixture.detectChanges();
+
+    const helpButton = getHelpButton(fixture);
 
     expect(helpButton.getAttribute('aria-expanded')).toBe('false');
 
-    await popoverHarness.clickPopoverButton();
-
-    // without this call, the test fails, unsure why
-    await popoverHarness.isOpen();
+    helpButton.click();
+    tick();
+    fixture.detectChanges();
 
     expect(helpButton.getAttribute('aria-expanded')).toBe('true');
-  });
+  }));
 });

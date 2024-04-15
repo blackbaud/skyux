@@ -17,7 +17,7 @@ import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resource
 import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
 
 /**
- * The help inline button beside a field or other item that lets users display more information about that item.
+ * Inserts a help button beside an element, such as a field, to display contextual information about the element.
  * @internal
  */
 @Component({
@@ -61,7 +61,7 @@ export class SkyHelpInlineComponent {
   public ariaExpanded: boolean | undefined;
 
   /**
-   * The ARIA label for help inline button. This sets the button's `aria-label` to provide a text equivalent for screen readers.
+   * The ARIA label for the help inline button. This sets the button's `aria-label` to provide a text equivalent for screen readers.
    * Will be overridden if label text is set.
    * @default "Show help content"
    */

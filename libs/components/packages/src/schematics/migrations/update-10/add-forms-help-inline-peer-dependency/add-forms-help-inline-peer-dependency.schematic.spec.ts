@@ -27,15 +27,15 @@ describe('Migrations > add forms/popovers peer dependency', () => {
 
     tree.overwrite(
       '/package.json',
-      '{"dependencies": {"@skyux/forms": "10.2.0"}}',
+      '{"dependencies": {"@skyux/forms": "10.7.0"}}',
     );
 
     await runSchematic();
 
     expect(tree.readJson('/package.json')).toEqual({
       dependencies: {
-        '@skyux/forms': '10.2.0',
-        '@skyux/help-inline': '10.2.0',
+        '@skyux/forms': '10.7.0',
+        '@skyux/help-inline': '10.7.0',
       },
     });
   });
@@ -45,17 +45,17 @@ describe('Migrations > add forms/popovers peer dependency', () => {
 
     tree.overwrite(
       '/package.json',
-      '{"devDependencies": {"@skyux/forms": "10.2.0"}}',
+      '{"devDependencies": {"@skyux/forms": "10.7.0"}}',
     );
 
     await runSchematic();
 
     expect(tree.readJson('/package.json')).toEqual({
       dependencies: {
-        '@skyux/help-inline': '10.2.0',
+        '@skyux/help-inline': '10.7.0',
       },
       devDependencies: {
-        '@skyux/forms': '10.2.0',
+        '@skyux/forms': '10.7.0',
       },
     });
   });

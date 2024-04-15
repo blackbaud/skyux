@@ -8,8 +8,6 @@ import {
 
 import { readRequiredFile } from '../utility/tree';
 
-// Code that is commented out has been done so for code coverage, uncomment out as needed for future schematics
-// situations commented out: uninstalling package dependencies, install package dependency with unmatched package versions
 interface PackageDetails {
   matchVersion?: boolean;
   name: string;
@@ -31,10 +29,6 @@ function installPackages(
       // Remove the package (if it exists) so we can ensure it's added to the appropriate section.
       removePackageJsonDependency(tree, details.name, '/package.json');
 
-      // const version = details.matchVersion
-      //   ? targetPackageVersion
-      //   : details.version;
-
       const version = targetPackageVersion;
 
       if (version) {
@@ -49,19 +43,6 @@ function installPackages(
     context.addTask(new NodePackageInstallTask());
   };
 }
-
-// function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
-//   return (tree, context) => {
-//     /* istanbul ignore else */
-//     if (packages) {
-//       for (const details of packages) {
-//         removePackageJsonDependency(tree, details.name, '/package.json');
-//       }
-
-//       context.addTask(new NodePackageInstallTask());
-//     }
-//   };
-// }
 
 /**
  * Ensures peer dependencies for a given package are installed on the client's workspace.
@@ -89,10 +70,7 @@ export function ensurePeersInstalled(
     };
 
     return dependencies[targetPackageName]
-      ? chain([
-          // uninstallPackages(peersToRemove),
-          installPackages(peers, targetPackageVersion),
-        ])
+      ? chain([installPackages(peers, targetPackageVersion)])
       : undefined;
   };
 }
