@@ -21,8 +21,6 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
-
 import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
 
 describe('Help inline component', () => {
@@ -74,12 +72,7 @@ describe('Help inline component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        BrowserModule,
-        SkyHelpInlineModule,
-        NoopAnimationsModule,
-        HelpInlineTestComponent,
-      ],
+      imports: [BrowserModule, NoopAnimationsModule, HelpInlineTestComponent],
       providers: [{ provide: SkyThemeService, useValue: mockThemeSvc }],
     });
 
