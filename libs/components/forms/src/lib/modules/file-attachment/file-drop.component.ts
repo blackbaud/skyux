@@ -172,7 +172,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    * @preview
    */
-  @Input()
+  @Input({ transform: booleanAttribute })
   public required: boolean | undefined = false;
 
   @ViewChild('fileInput')
