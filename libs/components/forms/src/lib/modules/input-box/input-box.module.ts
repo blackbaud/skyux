@@ -26,6 +26,7 @@ import { SkyInputBoxComponent } from './input-box.component';
     SkyThemeModule,
   ],
   exports: [
+    SkyInputBoxHintTextPipe,
     SkyInputBoxComponent,
     SkyInputBoxControlDirective,
     SkyFormErrorModule,

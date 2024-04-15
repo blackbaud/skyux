@@ -10,6 +10,7 @@ import { ModalComponent } from './modal.component';
 
 @Component({
   imports: [],
+  selector: 'app-demo',
   standalone: true,
   template: `<button
     class="sky-btn sky-btn-default"

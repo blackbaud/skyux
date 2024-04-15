@@ -16,10 +16,12 @@ export class DateRangePickerComponent {
     name: string;
     label: string;
     calculatorIds: SkyDateRangeCalculatorId[];
+    hintText?: string;
   }[] = [
     {
       name: 'anyDate',
       label: 'Any date example',
+      hintText: 'Hint Text.',
       calculatorIds: [SkyDateRangeCalculatorId.AnyTime],
     },
     {

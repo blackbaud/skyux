@@ -192,7 +192,10 @@
   <div
     *ngIf="hintText || hostHintText"
     class="sky-font-deemphasized sky-input-box-hint-text"
-    [ngClass]="{ 'sky-input-box-hint-text-hidden': hintTextHidden }"
+    [ngClass]="{
+      'sky-input-box-hint-text-hidden': hintTextHidden,
+      'sky-screen-reader-only': hintTextScreenReaderOnly
+    }"
     [id]="hintTextId"
   >
     {{ hintText | skyInputBoxHintText: hostHintText }}
