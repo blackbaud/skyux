@@ -33,9 +33,9 @@
 <sky-popover
   #popover
   [id]="popoverId"
-  [popoverTitle]="popoverTitle"
   (popoverClosed)="popoverOpened(false)"
   (popoverOpened)="popoverOpened(true)"
+  [popoverTitle]="popoverTitle"
 >
   <ng-container *ngIf="popoverTemplate; else popoverContext">
     <ng-container *ngTemplateOutlet="popoverTemplate" />
