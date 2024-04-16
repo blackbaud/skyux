@@ -31,6 +31,9 @@ import { SkyDataViewState } from './models/data-view-state';
  */
 @Injectable()
 export class SkyDataManagerService implements OnDestroy {
+  /**
+   * @internal
+   */
   public viewkeeperClasses = new BehaviorSubject<Record<string, string[]>>({});
 
   readonly #activeViewId = new ReplaySubject<string>(1);
