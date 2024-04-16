@@ -1,5 +1,22 @@
 # Changelog
 
+## [10.7.0](https://github.com/blackbaud/skyux/compare/10.6.2...10.7.0) (2024-04-16)
+
+
+### Features
+
+* add support for @angular/core@17.3.4 and ng2-dragula@5.1.0 ([#2239](https://github.com/blackbaud/skyux/issues/2239)) ([be45098](https://github.com/blackbaud/skyux/commit/be45098c9655784c7645192db7b6da58890a28ed))
+* **components/datetime:** add hint text input to date range picker ([#2231](https://github.com/blackbaud/skyux/issues/2231)) ([644fc48](https://github.com/blackbaud/skyux/commit/644fc48f954c4b0efe09f34ce272877fc56e0246))
+* **components/forms:** add help inline popover to single file attachment ([#2205](https://github.com/blackbaud/skyux/issues/2205)) ([1fee6aa](https://github.com/blackbaud/skyux/commit/1fee6aa9bf6d3e2de971451e2840b8c7d9da1f1f))
+* **components/theme:** upgrade icons library to 7.1.0 ([#2238](https://github.com/blackbaud/skyux/issues/2238)) ([f0fd6d4](https://github.com/blackbaud/skyux/commit/f0fd6d47bd6246b0bc7c4e9b86f598dc158d5331))
+
+
+### Bug Fixes
+
+* **components/data-manager:** mark property `viewkeeperClasses` on the `SkyDataManagerService` as internal ([#2240](https://github.com/blackbaud/skyux/issues/2240)) ([e96a650](https://github.com/blackbaud/skyux/commit/e96a6507fa960a14b661e4c83a4bf800efbefca5))
+* **components/forms:** multi file attachment announces required state to screen readers ([#2235](https://github.com/blackbaud/skyux/issues/2235)) ([26ec91c](https://github.com/blackbaud/skyux/commit/26ec91ce2e215ec9e877f8e29057cdb4db2480d0))
+* **components/lists:** update modern active filter button colors to match design guidelines ([#2234](https://github.com/blackbaud/skyux/issues/2234)) ([47fe7a4](https://github.com/blackbaud/skyux/commit/47fe7a4933b9361a3e5dab4e34cf2d4f51c3144d))
+
 ## [10.6.2](https://github.com/blackbaud/skyux/compare/10.6.1...10.6.2) (2024-04-12)
 
 
