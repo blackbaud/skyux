@@ -3,6 +3,7 @@
     <sky-file-attachment
       formControlName="attachment"
       labelText="Single file attachment with label text"
+      hintText="Hint text"
       (fileChange)="reactiveFileUpdated($event)"
     />
   </div>
@@ -26,6 +27,7 @@
     <sky-file-attachment
       formControlName="fileAttachment"
       labelText="Single file attachment with text file"
+      hintText="Hint text"
       (fileChange)="reactiveFileUpdated($event)"
     >
       <sky-file-attachment-label>
@@ -59,6 +61,7 @@
 <sky-file-attachment
   formControlName="attachment"
   labelText="Single file attachment with help inline popover open"
+  hintText="Hint text"
   helpPopoverContent="Popover content"
 />
 
@@ -67,6 +70,7 @@
     <sky-file-attachment
       formControlName="attachment"
       labelText="Single file attachment with help inline popover"
+      hintText="Hint text"
       helpPopoverContent="Popover content"
       (fileChange)="reactiveFileUpdated($event)"
     />
