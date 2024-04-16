@@ -73,6 +73,7 @@
         "libs/components/forms/testing/src/public-api.ts"
       ],
       "@skyux/grids": ["libs/components/grids/src/index.ts"],
+      "@skyux/help-inline": ["libs/components/help-inline/src/index.ts"],
       "@skyux/i18n": ["libs/components/i18n/src/index.ts"],
       "@skyux/indicators": ["libs/components/indicators/src/index.ts"],
       "@skyux/indicators/testing": [

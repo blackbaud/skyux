@@ -29,9 +29,7 @@ function installPackages(
       // Remove the package (if it exists) so we can ensure it's added to the appropriate section.
       removePackageJsonDependency(tree, details.name, '/package.json');
 
-      const version = details.matchVersion
-        ? targetPackageVersion
-        : details.version;
+      const version = targetPackageVersion;
 
       if (version) {
         addPackageJsonDependency(tree, {
@@ -46,19 +44,6 @@ function installPackages(
   };
 }
 
-function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
-  return (tree, context) => {
-    /* istanbul ignore else */
-    if (packages) {
-      for (const details of packages) {
-        removePackageJsonDependency(tree, details.name, '/package.json');
-      }
-
-      context.addTask(new NodePackageInstallTask());
-    }
-  };
-}
-
 /**
  * Ensures peer dependencies for a given package are installed on the client's workspace.
  * If the client does not use the target package, this function is skipped.
@@ -69,7 +54,6 @@ function uninstallPackages(packages?: Pick<PackageDetails, 'name'>[]): Rule {
 export function ensurePeersInstalled(
   targetPackageName: string,
   peers: PackageDetails[],
-  peersToRemove?: Pick<PackageDetails, 'name'>[],
 ): Rule {
   return async (tree) => {
     const packageJson: PackageJson = JSON.parse(
@@ -85,10 +69,7 @@ export function ensurePeersInstalled(
     };
 
     return dependencies[targetPackageName]
-      ? chain([
-          uninstallPackages(peersToRemove),
-          installPackages(peers, targetPackageVersion),
-        ])
+      ? chain([installPackages(peers, targetPackageVersion)])
       : undefined;
   };
 }

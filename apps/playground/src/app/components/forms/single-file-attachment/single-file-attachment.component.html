@@ -1,10 +1,12 @@
 <form novalidate [formGroup]="fileForm">
   <div style="margin-bottom: 50px">
     <sky-file-attachment
+      [acceptedTypes]="'image/jpeg'"
       formControlName="attachment"
+      helpPopoverContent="content"
+      helpPopoverTitle="title"
       labelText="Attach a file"
       [maxFileSize]="maxFileSize"
-      [acceptedTypes]="'image/jpeg'"
       [validateFn]="validateFile"
       (fileChange)="reactiveFileUpdated($event)"
       (fileClick)="fileClick($event)"

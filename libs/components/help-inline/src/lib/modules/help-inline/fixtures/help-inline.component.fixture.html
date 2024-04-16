@@ -1,0 +1,13 @@
+<!-- a11y testing fails without an element on the page -->
+<p id="help-text" [hidden]="showHelpText">Show text</p>
+<sky-help-inline
+  [ariaControls]="ariaControls"
+  [ariaExpanded]="ariaExpanded"
+  [ariaLabel]="ariaLabel"
+  [popoverTitle]="popoverTitle"
+  [popoverContent]="popoverContent"
+  [labelText]="labelText"
+  (actionClick)="buttonClicked()"
+/>
+
+<ng-template #popoverTemplate> this is a template </ng-template>

@@ -385,9 +385,11 @@ describe('File attachment', () => {
     const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).not.toBeNull();
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      true,
-    );
+    expect(
+      fixture.nativeElement
+        .querySelector('span.sky-control-label')
+        .classList.contains('sky-control-label-required'),
+    ).toBe(true);
     expect(
       labelWrapper?.querySelector('.sky-screen-reader-only')?.textContent,
     ).toBe('Required');
@@ -468,7 +470,6 @@ describe('File attachment', () => {
   }));
 
   it('should handle removing the labelText', fakeAsync(() => {
-    fixture.componentInstance.required = true;
     fixture.componentInstance.labelText = 'label text';
     fixture.componentInstance.labelElementText = undefined;
     fixture.componentInstance.showLabel = false;
@@ -478,18 +479,16 @@ describe('File attachment', () => {
     tick();
     fixture.detectChanges();
 
-    const labelWrapper = getLabelWrapper();
-
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      true,
-    );
+    expect(
+      fixture.nativeElement.querySelector('span.sky-control-label'),
+    ).toBeDefined();
 
     fixture.componentInstance.labelText = undefined;
     fixture.detectChanges();
 
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      false,
-    );
+    expect(
+      fixture.nativeElement.querySelector('span.sky-control-label'),
+    ).toBeNull();
   }));
 
   it('should click the file input on choose file button click', () => {
@@ -1532,6 +1531,41 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.attachment.dirty).toBeTrue();
+  });
+
+  it('should render help inline with popover only if label text is provided', () => {
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.componentInstance.showLabel = false;
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
+  });
+
+  it('should not render help inline for popover unless popover content is set', () => {
+    fixture.componentInstance.popoverTitle = 'popover title';
+    fixture.componentInstance.showLabel = false;
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
   });
 });
 
