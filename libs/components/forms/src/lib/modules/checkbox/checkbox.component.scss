@@ -1,6 +1,14 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+.sky-checkbox-outer-wrapper {
+  display: inline-flex;
+}
+
+.sky-checkbox-help-inline {
+  display: inline-flex;
+}
+
 .sky-checkbox-icon-indeterminate {
   font-size: 14px;
 }

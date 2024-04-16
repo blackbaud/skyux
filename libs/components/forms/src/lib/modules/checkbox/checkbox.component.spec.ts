@@ -1225,31 +1225,41 @@ describe('Checkbox component', () => {
     it('should set span class based on checkbox type input', () => {
       fixture.detectChanges();
 
-      let span = debugElement.query(By.css('span')).nativeElement;
+      let span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.checkboxType = 'info';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.checkboxType = 'success';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-success');
 
       fixture.componentInstance.checkboxType = 'warning';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-warning');
 
       fixture.componentInstance.checkboxType = 'danger';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-danger');
     });
 
