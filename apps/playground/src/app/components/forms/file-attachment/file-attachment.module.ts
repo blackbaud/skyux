@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyFileAttachmentsModule } from '@skyux/forms';
 import {
   SkyHelpInlineModule,
@@ -16,6 +16,8 @@ import { FileAttachmentComponent } from './file-attachment.component';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     FileAttachmentRoutingModule,
     FormsModule,
     SkyFileAttachmentsModule,

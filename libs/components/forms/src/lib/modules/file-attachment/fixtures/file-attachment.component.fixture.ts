@@ -16,6 +16,8 @@ export class FileAttachmentTestComponent {
 
   public fileForm: UntypedFormGroup;
 
+  public hintText: string | undefined;
+
   public labelElementText: string | undefined = 'Choose file';
 
   public labelHidden = false;

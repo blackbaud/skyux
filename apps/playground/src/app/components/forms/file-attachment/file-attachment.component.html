@@ -16,3 +16,15 @@
     </sky-file-item>
   </div>
 </div>
+
+<form [formGroup]="formGroup">
+  <sky-file-attachment
+    required="true"
+    labelText="Single file attachment"
+    hintText="Sample hint text"
+    [acceptedTypes]="acceptedTypes"
+    [maxFileSize]="maxFileSize"
+    [validateFn]="validateFile"
+    (fileChange)="onFileChange($event)"
+  ></sky-file-attachment>
+</form>
