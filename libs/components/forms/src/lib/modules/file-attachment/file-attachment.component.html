@@ -8,13 +8,12 @@
   >
     <ng-container *ngIf="labelText; else labelContent">
       <span
+        *ngIf="!labelHidden"
+        class="sky-control-label"
         [ngClass]="{
           'sky-control-label-required': required
         }"
-        *ngIf="!labelHidden"
-        class="sky-control-label"
-      >
-        {{ labelText }} </span
+        >{{ labelText }}</span
       ><sky-help-inline
         *ngIf="helpPopoverContent"
         [labelText]="labelText"
