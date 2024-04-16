@@ -8,7 +8,6 @@
   >
     <ng-container *ngIf="labelText; else labelContent">
       <span
-        skyTrim
         [ngClass]="{
           'sky-control-label-required': required
         }"
@@ -16,9 +15,12 @@
         class="sky-control-label"
       >
         {{ labelText }} </span
-      ><ng-container *ngIf="helpPopoverContent"
-        ><ng-container *ngTemplateOutlet="inlineHelp"
-      /></ng-container>
+      ><sky-help-inline
+        *ngIf="helpPopoverContent"
+        [labelText]="labelText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
     </ng-container>
     <span
       class="sky-screen-reader-only"
@@ -190,12 +192,4 @@
 
 <ng-template #labelContent>
   <ng-content select="sky-file-attachment-label" />
-</ng-template>
-
-<ng-template #inlineHelp>
-  <sky-help-inline
-    [labelText]="labelText"
-    [popoverTitle]="helpPopoverTitle"
-    [popoverContent]="helpPopoverContent"
-  />
 </ng-template>
