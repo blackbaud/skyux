@@ -54,7 +54,6 @@ function installPackages(
 export function ensurePeersInstalled(
   targetPackageName: string,
   peers: PackageDetails[],
-  //peersToRemove?: Pick<PackageDetails, 'name'>[],
 ): Rule {
   return async (tree) => {
     const packageJson: PackageJson = JSON.parse(

@@ -51,11 +51,11 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
       throw new Error('aria-expanded is only set when `ariaControls` is set.');
     }
 
-    return (await (
-      await this.#getInlineHelpButton()
-    ).getAttribute('aria-expanded')) === 'true'
-      ? true
-      : false;
+    return (
+      (await (
+        await this.#getInlineHelpButton()
+      ).getAttribute('aria-expanded')) === 'true'
+    );
   }
 
   /**
@@ -69,9 +69,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
    * Gets the label text.
    */
   public async getLabelText(): Promise<string | undefined> {
-    const ariaLabel = await (
-      await this.#getInlineHelpButton()
-    ).getAttribute('aria-label');
+    const ariaLabel = await this.getAriaLabel();
 
     if (ariaLabel?.startsWith('Show help content ')) {
       return ariaLabel.replace('Show help content for ', '');

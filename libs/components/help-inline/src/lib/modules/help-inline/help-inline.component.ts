@@ -104,7 +104,7 @@ export class SkyHelpInlineComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
-  public onClick(): void {
+  protected onClick(): void {
     this.actionClick.emit();
   }
 

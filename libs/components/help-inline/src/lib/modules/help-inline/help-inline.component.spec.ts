@@ -56,8 +56,6 @@ describe('Help inline component', () => {
   let component: HelpInlineTestComponent;
   let debugElement: DebugElement;
   let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
-
-  // Mock the ID service.
   let uniqueId = 0;
 
   beforeEach(() => {
@@ -80,6 +78,7 @@ describe('Help inline component', () => {
     component = fixture.componentInstance as HelpInlineTestComponent;
     debugElement = fixture.debugElement;
 
+    // Mock the ID service.
     const idSvc = TestBed.inject(SkyIdService);
     spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
 
@@ -303,7 +302,7 @@ describe('Help inline component', () => {
     );
   }));
 
-  it('should switch the ariaExpanded value with the help inline popover opening and closing', fakeAsync(() => {
+  it('should toggle the ariaExpanded value when the popover opens and closes', fakeAsync(() => {
     component.popoverContent = 'content';
     fixture.detectChanges();
 
