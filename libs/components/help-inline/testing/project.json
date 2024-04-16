@@ -47,14 +47,5 @@
     }
   },
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core",
-    "testing",
-    "theme",
-    "core-testing",
-    "indicators",
-    "indicators-testing",
-    "popovers",
-    "popovers-testing"
-  ]
+  "implicitDependencies": ["core-testing", "help-inline", "popovers-testing"]
 }
