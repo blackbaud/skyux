@@ -66,6 +66,14 @@
     <ng-content select="sky-checkbox-label" />
   </ng-template>
 </label>
+
+<sky-help-inline
+  *ngIf="helpPopoverContent"
+  [labelText]="labelText"
+  [popoverTitle]="helpPopoverTitle"
+  [popoverContent]="helpPopoverContent"
+/>
+
 <sky-form-errors
   *ngIf="labelText && ngControl?.errors"
   [id]="errorId"
