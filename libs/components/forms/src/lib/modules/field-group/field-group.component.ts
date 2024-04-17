@@ -6,10 +6,10 @@ import {
   booleanAttribute,
   numberAttribute,
 } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 
 import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
 import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
-import { SkyIdModule } from '@skyux/core';
 
 /**
  * Organizes form fields into a group.
