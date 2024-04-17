@@ -155,7 +155,13 @@ button.sky-file-drop {
 }
 
 .sky-file-drop-errors {
-  margin-bottom: var(--sky-margin-stacked-lg);
+  margin-bottom: $sky-margin;
+}
+
+@media (max-width: $sky-screen-sm-min) {
+  .sky-file-drop-col:not(:last-of-type) {
+    margin-bottom: $sky-margin;
+  }
 }
 
 @include mixins.sky-theme-modern {
