@@ -29,10 +29,10 @@ export class FileAttachmentComponent {
   public minFileSize = 300000;
 
   public rejectedFiles: SkyFileItem[];
-  protected required = true;
 
   protected attachment: FormControl;
   protected formGroup: FormGroup;
+  protected required = true;
 
   get #reactiveFile(): AbstractControl | null {
     return this.formGroup.get('attachment');
@@ -76,13 +76,8 @@ export class FileAttachmentComponent {
 
     if (file && file.errorType) {
       this.#reactiveFile?.setValue(undefined);
-      // this.reactiveUploadError = this.#getErrorMessage(
-      //   file.errorType,
-      //   file.errorParam,
-      // );
     } else {
       this.#reactiveFile?.setValue(file);
-      // this.reactiveUploadError = undefined;
     }
   }
 

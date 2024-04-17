@@ -16,10 +16,9 @@ import { FileAttachmentComponent } from './file-attachment.component';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     FileAttachmentRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     SkyFileAttachmentsModule,
     SkyHelpInlineModule,
     SkyStatusIndicatorModule,

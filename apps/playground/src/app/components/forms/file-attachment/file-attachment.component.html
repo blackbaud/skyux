@@ -19,12 +19,12 @@
 
 <form [formGroup]="formGroup">
   <sky-file-attachment
-    required="true"
     labelText="Single file attachment"
     hintText="Sample hint text"
+    required="true"
     [acceptedTypes]="acceptedTypes"
     [maxFileSize]="maxFileSize"
     [validateFn]="validateFile"
     (fileChange)="onFileChange($event)"
-  ></sky-file-attachment>
+  />
 </form>
