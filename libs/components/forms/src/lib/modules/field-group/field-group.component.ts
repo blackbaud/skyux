@@ -6,6 +6,7 @@ import {
   booleanAttribute,
   numberAttribute,
 } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 
 import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
 import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
@@ -18,7 +19,7 @@ import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
   templateUrl: './field-group.component.html',
   styleUrl: './field-group.component.scss',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SkyIdModule],
 })
 export class SkyFieldGroupComponent {
   /**
@@ -27,6 +28,13 @@ export class SkyFieldGroupComponent {
    */
   @Input({ required: true })
   public labelText!: string;
+
+  /**
+   * The text to display as the field group's label.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * Indicates whether to hide the `labelText`.

@@ -75,6 +75,20 @@ describe('Field group component', function () {
       });
     });
   });
+
+  it('should display the hint text if `hintText` is set', () => {
+    const hintText = 'Hint text for the section.';
+
+    fixture.componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    const hintEl = fixture.nativeElement.querySelector(
+      '.sky-field-group-hint-text',
+    );
+
+    expect(hintEl).not.toBeNull();
+    expect(hintEl?.textContent.trim()).toBe(hintText);
+  });
   it('should pass accessibility', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
