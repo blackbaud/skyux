@@ -120,6 +120,14 @@ export class SkyFileAttachmentComponent
   public labelHidden = false;
 
   /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
    * The maximum size in bytes for valid files.
    * @default 500000
    */
