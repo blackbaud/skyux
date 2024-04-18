@@ -24,6 +24,7 @@ export class SkyRichTextDisplayComponent {
         this.sanitizedText = this.#sanitizer.bypassSecurityTrustHtml(cleaned);
       }
     } else {
+      this.#_richText = '';
       this.sanitizedText = '';
     }
   }
