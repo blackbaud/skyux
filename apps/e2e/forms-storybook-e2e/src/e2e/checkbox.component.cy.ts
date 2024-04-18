@@ -15,6 +15,11 @@ describe('forms-storybook - checkbox', () => {
           .should('be.visible')
           .get('#touched-required-checkbox')
           .dblclick();
+        cy.get('sky-help-inline')
+          .eq(1)
+          .should('exist')
+          .should('be.visible')
+          .click();
 
         cy.get('app-checkbox')
           .get('#standard-checkboxes')

@@ -82,6 +82,34 @@
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
+      <sky-checkbox
+        labelText="Checkbox with open easy mode help inline"
+        helpPopoverContent="popover Content"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        labelText="Checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        labelText="Required checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+        [required]="true"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
           [formGroup]="standardCheckboxGroupFormGroup"
