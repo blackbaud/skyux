@@ -1,5 +1,16 @@
-import { Component } from '@angular/core';
-import { SkyFileDropChange, SkyFileItem, SkyFileLink } from '@skyux/forms';
+import { Component, inject } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
+import {
+  SkyFileAttachmentChange,
+  SkyFileDropChange,
+  SkyFileItem,
+  SkyFileLink,
+} from '@skyux/forms';
 
 @Component({
   selector: 'app-file-attachment-demo',
@@ -18,13 +29,23 @@ export class FileAttachmentComponent {
   public minFileSize = 300000;
 
   public rejectedFiles: SkyFileItem[];
+
+  protected attachment: FormControl;
+  protected formGroup: FormGroup;
   protected required = true;
+
+  get #reactiveFile(): AbstractControl | null {
+    return this.formGroup.get('attachment');
+  }
 
   constructor() {
     this.filesToUpload = [];
     this.rejectedFiles = [];
     this.allItems = [];
     this.linksToUpload = [];
+    this.formGroup = inject(FormBuilder).group({
+      attachment: this.attachment,
+    });
   }
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
@@ -47,6 +68,16 @@ export class FileAttachmentComponent {
   public validateFile(file: SkyFileItem): string {
     if (file.file.name.indexOf('a') === 0) {
       return 'You may not upload a file that begins with the letter "a."';
+    }
+  }
+
+  protected onFileChange(result: SkyFileAttachmentChange): void {
+    const file = result.file;
+
+    if (file && file.errorType) {
+      this.#reactiveFile?.setValue(undefined);
+    } else {
+      this.#reactiveFile?.setValue(file);
     }
   }
 

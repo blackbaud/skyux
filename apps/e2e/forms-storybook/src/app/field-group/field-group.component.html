@@ -1,6 +1,10 @@
 <div class="sky-padding-even-xl">
   <form [formGroup]="formGroup">
-    <sky-field-group labelText="Field group" stacked="true">
+    <sky-field-group
+      labelText="Field group"
+      hintText="Hint text for the section"
+      stacked="true"
+    >
       <sky-input-box labelText="Input">
         <input type="text" formControlName="input" />
       </sky-input-box>

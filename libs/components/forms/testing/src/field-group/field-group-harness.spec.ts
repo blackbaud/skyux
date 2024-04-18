@@ -63,6 +63,18 @@ describe('Field group harness', () => {
     await expectAsync(fieldGroupHarness.getLabelHidden()).toBeResolvedTo(true);
   });
 
+  it('should get the hint text', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+    const hintText = 'Hint text for the section.';
+
+    await expectAsync(fieldGroupHarness.getHintText()).toBeResolvedTo('');
+
+    fixture.componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    await expectAsync(fieldGroupHarness.getHintText()).toBeResolvedTo(hintText);
+  });
+
   it('should indicate the component is stacked', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
