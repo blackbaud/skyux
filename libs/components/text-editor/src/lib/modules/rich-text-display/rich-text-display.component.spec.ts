@@ -7,7 +7,7 @@ import { expect } from '@skyux-sdk/testing';
 import { RichTextDisplayFixtureComponent } from './fixtures/rich-text-display-fixture.component';
 import { SkyRichTextDisplayModule } from './rich-text-display.module';
 
-describe('Rich text display', () => {
+describe('rich text display', () => {
   let fixture: ComponentFixture<RichTextDisplayFixtureComponent>;
 
   function validate(
@@ -37,14 +37,14 @@ describe('Rich text display', () => {
     fixture = TestBed.createComponent(RichTextDisplayFixtureComponent);
   });
 
-  it('Should display inline', () => {
+  it('should display inline', () => {
     validate(
       '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
       'Super styled text',
     );
   });
 
-  it('Should remove malicious content', () => {
+  it('should remove malicious content', () => {
     validate('<a id="hyperlink" href="javascript:alert(1)">foo</a>', 'foo');
 
     expect(
@@ -54,5 +54,17 @@ describe('Rich text display', () => {
 
   it('should handle undefined rich text', () => {
     validate(undefined, '');
+  });
+
+  it('should clear and reset correctly', () => {
+    validate(
+      '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
+      'Super styled text',
+    );
+    validate(undefined, '');
+    validate(
+      '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
+      'Super styled text',
+    );
   });
 });

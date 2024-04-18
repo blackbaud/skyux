@@ -1,4 +1,7 @@
-<fieldset class="sky-field-group">
+<fieldset
+  class="sky-field-group"
+  [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
+>
   <legend [ngClass]="{ 'sky-screen-reader-only': labelHidden }">
     <h3 *ngIf="headingLevel === 3" [class]="headingClass">
       {{ labelText }}
@@ -7,6 +10,14 @@
       {{ labelText }}
     </h4>
   </legend>
+  <div skyId #hintTextEl="skyId">
+    <div
+      *ngIf="hintText"
+      class="sky-field-group-hint-text sky-font-deemphasized"
+    >
+      {{ hintText }}
+    </div>
+  </div>
   <div class="sky-field-group-content">
     <ng-content />
   </div>

@@ -25,6 +25,7 @@ export class FieldGroupComponent {
   protected formGroup: FormGroup;
   public stacked = false;
   public labelText = 'Label text';
+  public hintText: string | undefined;
   public labelHidden = false;
   public headingStyle = 3;
   public headingLevel = 3;

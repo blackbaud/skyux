@@ -21,6 +21,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   #getLegend = this.locatorFor('legend');
   #getH3 = this.locatorForOptional('legend h3');
   #getH4 = this.locatorForOptional('legend h4');
+  #getHintText = this.locatorForOptional('.sky-field-group-hint-text');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -38,6 +39,15 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    */
   public async getLabelText(): Promise<string | undefined> {
     return (await this.#getLegend()).text();
+  }
+
+  /**
+   * Gets the field group's hint text.
+   */
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
+
+    return (await hintText?.text())?.trim() ?? '';
   }
 
   /**
