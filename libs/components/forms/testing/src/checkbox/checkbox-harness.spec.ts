@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyCheckboxHarness } from './checkbox-harness';
 import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.component';
@@ -9,7 +10,7 @@ async function setupTest(
   options: { dataSkyId?: string; hideEmailLabel?: boolean } = {},
 ) {
   await TestBed.configureTestingModule({
-    imports: [CheckboxHarnessTestModule],
+    imports: [CheckboxHarnessTestModule, NoopAnimationsModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);
@@ -212,6 +213,53 @@ describe('Checkbox harness', () => {
 
     await expectAsync(checkboxHarness.hasRequiredError()).toBeRejectedWithError(
       'No form errors found.',
+    );
+  });
+
+  it('should throw an error if no help inline is found', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-mail-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.clickHelpInline()).toBeRejectedWithError(
+      'No help inline found.',
+    );
+  });
+
+  it('should open help inline popover', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should get help popover content', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolvedTo(
+      '(xxx)xxx-xxxx',
+    );
+  });
+
+  it('should get help popover title', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(checkboxHarness.getHelpPopoverTitle()).toBeResolvedTo(
+      'Format',
     );
   });
 });

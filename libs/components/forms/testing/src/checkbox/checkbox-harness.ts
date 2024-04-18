@@ -1,5 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
@@ -35,6 +37,16 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     throw Error('No form errors found.');
   }
 
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
+  }
+
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyCheckboxHarness` that meets certain criteria.
@@ -50,6 +62,13 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    */
   public async blur(): Promise<void> {
     return (await this.#getInput()).blur();
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    (await this.#getHelpInline()).click();
   }
 
   /**
@@ -122,6 +141,22 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    */
   public async getName(): Promise<string | null> {
     return (await this.#getInput()).getAttribute('name');
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**
