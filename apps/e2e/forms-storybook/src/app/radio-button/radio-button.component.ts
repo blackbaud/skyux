@@ -18,9 +18,9 @@ export class RadioButtonComponent {
   public invalidRadioButtonOption: FormControl;
 
   public radioButtonOptions = [
-    { name: 'Option 1', value: '1', disabled: false },
-    { name: 'Option 2', value: '2', disabled: false },
-    { name: 'Option 3', value: '3', disabled: true },
+    { name: 'Option 1', hint: 'Hint text 1', value: '1', disabled: false },
+    { name: 'Option 2', hint: 'Hint text 2', value: '2', disabled: false },
+    { name: 'Option 3', hint: 'Hint text 3', value: '3', disabled: true },
   ];
 
   public radioIconOptions = [
