@@ -151,6 +151,21 @@ describe('Date range picker', function () {
     expect(inputs.item(1).disabled).toEqual(expectation);
   }
 
+  function verifyFormFieldsAriaRequired(expectation: boolean): void {
+    const selectElement = fixture.nativeElement.querySelector('select');
+    const inputs = fixture.nativeElement.querySelectorAll('input');
+
+    expect(selectElement.getAttribute('aria-required')).toEqual(
+      expectation.toString(),
+    );
+    expect(inputs.item(0).getAttribute('aria-required')).toEqual(
+      expectation.toString(),
+    );
+    expect(inputs.item(1).getAttribute('aria-required')).toEqual(
+      expectation.toString(),
+    );
+  }
+
   beforeEach(function () {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -777,5 +792,18 @@ describe('Date range picker', function () {
       await fixture.whenStable();
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
     });
+
+    it('should set aria-required on the inputs when the outer parent form control is required', fakeAsync(() => {
+      detectChanges();
+      verifyFormFieldsAriaRequired(false);
+
+      component.setRequired(true);
+      detectChanges();
+      verifyFormFieldsAriaRequired(true);
+
+      component.setRequired(false);
+      detectChanges();
+      verifyFormFieldsAriaRequired(false);
+    }));
   });
 });

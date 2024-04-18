@@ -4,6 +4,7 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 
 import { Subject } from 'rxjs';
@@ -66,5 +67,14 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.calculatorIds = [SkyDateRangeCalculatorId.After];
     });
+  }
+
+  public setRequired(required = false): void {
+    if (required) {
+      this.dateRange?.addValidators(Validators.required);
+    } else {
+      this.dateRange?.removeValidators(Validators.required);
+    }
+    this.dateRange?.updateValueAndValidity();
   }
 }

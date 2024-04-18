@@ -23,7 +23,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyAppFormat } from '@skyux/core';
+import { SkyAppFormat, SkyFormsUtility } from '@skyux/core';
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -172,6 +172,7 @@ export class SkyDateRangePickerComponent
   /**
    * Whether to require users to specify a start date.
    * @default false
+   * @deprecated Use standard form field validation to make the entire control as required instead.
    */
   @Input()
   public startDateRequired: boolean | undefined = false;
@@ -179,6 +180,7 @@ export class SkyDateRangePickerComponent
   /**
    * Whether to require users to specify a end date.
    * @default false
+   * @deprecated Use standard form field validation to make the entire control as required instead.
    */
   @Input()
   public endDateRequired: boolean | undefined = false;
@@ -195,6 +197,7 @@ export class SkyDateRangePickerComponent
   public showStartDatePicker = false;
 
   protected hostHintText: string | undefined;
+  protected required = false;
 
   get #calculatorIdControl(): AbstractControl | undefined | null {
     return this.formGroup?.get('calculatorId');
@@ -411,6 +414,14 @@ export class SkyDateRangePickerComponent
   public validate(control: AbstractControl): ValidationErrors | null {
     if (!this.#control) {
       this.#control = control;
+
+      this.#updateRequiredStates();
+
+      this.#control.statusChanges
+        ?.pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateRequiredStates();
+        });
     }
 
     if (!this.isReady) {
@@ -629,6 +640,29 @@ export class SkyDateRangePickerComponent
         this.#updateSelectedCalculator();
         this.#changeDetector.markForCheck();
       });
+  }
+
+  #updateRequiredStates(): void {
+    /* safety check */
+    /* istanbul ignore else */
+    if (this.#control) {
+      const originalValue = this.required;
+      // Due to the way the validator handles errors in the child components. We need to turn off direct wiring of required validation on these children before determining
+      // if the parent form control is required.
+      this.required = false;
+      this.#changeDetector.detectChanges();
+
+      this.required = SkyFormsUtility.hasRequiredValidation(this.#control);
+      // Without this line - the outer form control is not updated in the parent. `markForCheck` does not update these either.
+      this.#changeDetector.detectChanges();
+      if (this.required !== originalValue) {
+        this.#calculatorIdControl?.updateValueAndValidity({ emitEvent: false });
+        this.#startDateControl?.updateValueAndValidity({ emitEvent: false });
+        this.#endDateControl?.updateValueAndValidity({ emitEvent: false });
+        this.#control?.updateValueAndValidity();
+        this.#changeDetector.markForCheck();
+      }
+    }
   }
 
   #getCalculatorById(

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import {
   AbstractControl,
+  FormControl,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
@@ -23,12 +25,15 @@ export class DateRangePickerComponent {
   public reactiveForm: UntypedFormGroup;
   public startDateRequired = false;
 
+  #required = false;
+
   public get pickerFormControl(): AbstractControl {
     return this.reactiveForm.get('lastDonation');
   }
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.reactiveForm = formBuilder.group({
+      firstName: new FormControl<string>(''),
       lastDonation: new UntypedFormControl(),
     });
     this.pickerFormControl.statusChanges.subscribe((status) => {
@@ -51,6 +56,16 @@ export class DateRangePickerComponent {
     } else {
       this.reactiveForm.disable();
     }
+  }
+
+  public toggleRequiredDate(): void {
+    if (this.#required) {
+      this.pickerFormControl.removeValidators(Validators.required);
+    } else {
+      this.pickerFormControl.addValidators(Validators.required);
+    }
+    this.pickerFormControl.updateValueAndValidity();
+    this.#required = !this.#required;
   }
 
   public resetForm(): void {

@@ -1,4 +1,4 @@
-import { AbstractControl, NgControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 // Need to add the following to classes which contain static methods.
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
@@ -18,8 +18,9 @@ export class SkyFormsUtility {
    * control using the current validator to see if it throws a `required` validation error.
    * https://github.com/angular/angular/issues/13461#issuecomment-340368046
    */
-  public static hasRequiredValidation(ngControl: NgControl): boolean {
-    const abstractControl = ngControl.control as AbstractControl;
+  public static hasRequiredValidation(
+    abstractControl?: AbstractControl | null,
+  ): boolean {
     if (abstractControl && abstractControl.validator) {
       const validator = abstractControl.validator({} as AbstractControl);
       if (validator && validator['required']) {

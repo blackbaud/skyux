@@ -272,7 +272,8 @@ export class SkyRadioGroupComponent
     if (this.ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+        this.required ||
+        SkyFormsUtility.hasRequiredValidation(this.ngControl.control);
 
       // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
       this.#changeDetector.detectChanges();
