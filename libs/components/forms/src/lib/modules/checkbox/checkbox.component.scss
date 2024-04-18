@@ -5,6 +5,10 @@
   font-size: 14px;
 }
 
+.sky-checkbox-hint-text {
+  margin-top: var(--sky-margin-stacked-xs);
+}
+
 @include mixins.sky-theme-modern {
   .sky-checkbox-icon-modern-checked,
   .sky-checkbox-icon-modern-indeterminate {

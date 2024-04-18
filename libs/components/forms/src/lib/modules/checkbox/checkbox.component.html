@@ -16,6 +16,7 @@
     [tabIndex]="tabindex"
     [attr.aria-label]="labelText || label"
     [attr.aria-labelledby]="labelText ? undefined : labelledBy"
+    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
     [attr.aria-required]="required ? true : null"
     [attr.aria-invalid]="!!ngControl?.errors"
     [attr.aria-errormessage]="
@@ -66,6 +67,11 @@
     <ng-content select="sky-checkbox-label" />
   </ng-template>
 </label>
+<div skyId #hintTextEl="skyId">
+  <div *ngIf="hintText" class="sky-font-deemphasized sky-checkbox-hint-text">
+    {{ hintText }}
+  </div>
+</div>
 <sky-form-errors
   *ngIf="labelText && ngControl?.errors"
   [id]="errorId"
