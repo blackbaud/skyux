@@ -69,7 +69,7 @@
   </label>
 
   <sky-help-inline
-    *ngIf="helpPopoverContent"
+    *ngIf="helpPopoverContent && labelText"
     class="sky-checkbox-help-inline"
     [labelText]="labelText"
     [popoverTitle]="helpPopoverTitle"

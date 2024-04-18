@@ -36,6 +36,8 @@ import { SkyCheckboxModule } from './checkbox.module';
       [disabled]="isDisabled"
       [icon]="icon"
       [id]="id"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
       [labelText]="labelText"
       [(indeterminate)]="indeterminate"
       (change)="checkboxChange($event)"
@@ -54,8 +56,10 @@ class SingleCheckboxComponent implements AfterViewInit {
   public indeterminate = false;
   public isChecked: boolean | undefined = false;
   public isDisabled = false;
-  public showInlineHelp = false;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
   public labelText: string | undefined;
+  public showInlineHelp = false;
 
   @ViewChild(SkyCheckboxComponent)
   public checkboxComponent: SkyCheckboxComponent | undefined;
@@ -466,6 +470,39 @@ describe('Checkbox component', () => {
       );
 
       expect(label?.textContent?.trim()).toBe(labelText);
+    });
+
+    it('should render help inline popover only if label text is provided', () => {
+      testComponent.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      testComponent.labelText = 'label text';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
+    });
+
+    it('should not render help inline popover if title is provided without content', () => {
+      testComponent.labelText = 'label text';
+      testComponent.helpPopoverTitle = 'popover title';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      testComponent.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
     });
 
     it('should make the host element a tab stop', () => {
