@@ -27,9 +27,9 @@ import { SkyCheckboxComponent } from './checkbox.component';
     SkyFormErrorModule,
     SkyFormErrorsModule,
     SkyFormsResourcesModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyTrimModule,
-    SkyHelpInlineModule,
   ],
   exports: [
     SkyCheckboxComponent,
