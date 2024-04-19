@@ -1,9 +1,10 @@
 <span class="sky-checkbox-outer-wrapper">
   <label
-    class="sky-checkbox-wrapper sky-switch sky-margin-inline-xs"
+    class="sky-checkbox-wrapper sky-switch"
     [ngClass]="{
       'sky-control-label-required': required,
-      'sky-switch-disabled': disabled
+      'sky-switch-disabled': disabled,
+      ' sky-margin-inline-xs': !icon
     }"
   >
     <input
