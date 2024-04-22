@@ -147,14 +147,14 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether checkbox has custom error active.
+   * Whether the checkbox displays custom error.
    */
   public async hasCustomError(errorName: string): Promise<boolean> {
     return (await this.#getFormErrors()).hasError(errorName);
   }
 
   /**
-   * Whether checkbox has required error active.
+   * Whether the checkbox displays an error that it is required.
    */
   public async hasRequiredError(): Promise<boolean> {
     return (await this.#getFormErrors()).hasError('required');
