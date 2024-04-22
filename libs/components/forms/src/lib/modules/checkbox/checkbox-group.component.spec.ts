@@ -4,7 +4,7 @@ import { expect } from '@skyux-sdk/testing';
 import { SkyIconCheckboxGroupComponent } from './fixtures/icon-checkbox-group.component';
 import { SkyStandardCheckboxGroupComponent } from './fixtures/standard-checkbox-group.component';
 
-fdescribe('Checkbox group component', function () {
+describe('Checkbox group component', function () {
   function getCheckboxes(
     checkboxGroupFixture: ComponentFixture<any>,
     standard = true,

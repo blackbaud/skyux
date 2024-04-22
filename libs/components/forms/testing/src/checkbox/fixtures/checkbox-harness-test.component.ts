@@ -17,6 +17,8 @@ export class CheckboxHarnessTestComponent {
   public mailControl: UntypedFormControl;
   public hidePhoneLabel = false;
   public hideGroupLabel = false;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
 
   #formBuilder: UntypedFormBuilder;
 
