@@ -15,10 +15,10 @@ export class CheckboxHarnessTestComponent {
   public myForm: UntypedFormGroup;
   public hideEmailLabel = false;
   public mailControl: UntypedFormControl;
-  public hidePhoneLabel = false;
-  public hideGroupLabel = false;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
+  public hidePhoneLabel = false;
+  public hideGroupLabel = false;
 
   #formBuilder: UntypedFormBuilder;
 
