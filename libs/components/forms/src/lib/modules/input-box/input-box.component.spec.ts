@@ -17,6 +17,8 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
+import { SkyFieldGroupLabelTextRequiredService } from '../field-group/field-group-label-text-required.service';
+
 import { InputBoxFixtureComponent } from './fixtures/input-box.component.fixture';
 import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
@@ -656,6 +658,27 @@ describe('Input box component', () => {
       expect(els.labelEl).toHaveText('Easy mode');
       expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
       validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
+    });
+
+    it('should not render if a parent component requires label text and it is not provided', () => {
+      TestBed.configureTestingModule({
+        imports: [InputBoxFixturesModule],
+        providers: [
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc,
+          },
+          SkyFieldGroupLabelTextRequiredService,
+        ],
+      });
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      const els = getDefaultEls(fixture, 'input-basic');
+
+      expect(els.inputBoxEl).toExist();
+      expect(els.inputEl).toBeNull();
+      expect(() => fixture.detectChanges()).toThrowError(
+        'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+      );
     });
 
     it('should add stacked CSS class', () => {

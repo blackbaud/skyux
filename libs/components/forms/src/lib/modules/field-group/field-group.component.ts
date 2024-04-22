@@ -10,6 +10,7 @@ import { SkyIdModule } from '@skyux/core';
 
 import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
 import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
+import { SkyFieldGroupLabelTextRequiredService } from './field-group-label-text-required.service';
 
 /**
  * Organizes form fields into a group.
@@ -20,6 +21,7 @@ import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
   styleUrl: './field-group.component.scss',
   standalone: true,
   imports: [CommonModule, SkyIdModule],
+  providers: [SkyFieldGroupLabelTextRequiredService],
 })
 export class SkyFieldGroupComponent {
   /**

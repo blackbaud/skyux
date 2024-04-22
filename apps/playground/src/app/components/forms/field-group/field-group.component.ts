@@ -6,6 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
 import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
 
 @Component({
@@ -16,6 +17,7 @@ import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
     FormsModule,
     ReactiveFormsModule,
     SkyFieldGroupModule,
+    SkyIdModule,
     SkyInputBoxModule,
   ],
 })
@@ -27,6 +29,7 @@ export class FieldGroupComponent {
   constructor() {
     this.formGroup = this.#formBuilder.group({
       name: new FormControl(undefined),
+      hometown: new FormControl(undefined),
     });
   }
 }

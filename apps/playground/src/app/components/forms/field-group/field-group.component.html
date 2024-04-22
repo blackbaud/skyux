@@ -8,6 +8,19 @@
       <sky-input-box labelText="Name">
         <input type="text" formControlName="name" />
       </sky-input-box>
+
+      <sky-input-box class="sky-margin-stacked-lg">
+        <label class="sky-control-label" [for]="hometownInput.id">
+          Hometown
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="hometown"
+          skyId
+          type="text"
+          #hometownInput="skyId"
+        />
+      </sky-input-box>
     </sky-field-group>
   </form>
 </div>
