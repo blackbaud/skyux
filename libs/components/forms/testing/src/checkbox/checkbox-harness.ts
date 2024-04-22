@@ -27,26 +27,6 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     SkyCheckboxLabelTextLabelHarness,
   );
 
-  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    const harness = await this.locatorForOptional(SkyFormErrorsHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No form errors found.');
-  }
-
-  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
-    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No help inline found.');
-  }
-
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyCheckboxHarness` that meets certain criteria.
@@ -102,6 +82,22 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  /**
    * Gets the checkbox's label text. If the label is set via `labelText` and `labelHidden` is true,
    * the text will still be returned.
    */
@@ -144,26 +140,24 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the help popover content.
-   */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
-  }
-
-  /**
    * Gets the checkbox's value.
    */
   public async getValue(): Promise<string | null> {
     return (await this.#getInput()).getProperty<string | null>('value');
+  }
+
+  /**
+   * Whether checkbox has custom error active.
+   */
+  public async hasCustomError(errorName: string): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError(errorName);
+  }
+
+  /**
+   * Whether checkbox has required error active.
+   */
+  public async hasRequiredError(): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError('required');
   }
 
   /**
@@ -205,12 +199,24 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     }
   }
 
-  public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError('required');
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    const harness = await this.locatorForOptional(SkyFormErrorsHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No form errors found.');
   }
 
-  public async hasCustomError(errorName: string): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError(errorName);
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 
   async #toggle(): Promise<void> {

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyCheckboxHarness } from './checkbox-harness';
 import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.component';
@@ -10,7 +9,7 @@ async function setupTest(
   options: { dataSkyId?: string; hideEmailLabel?: boolean } = {},
 ) {
   await TestBed.configureTestingModule({
-    imports: [CheckboxHarnessTestModule, NoopAnimationsModule],
+    imports: [CheckboxHarnessTestModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);
