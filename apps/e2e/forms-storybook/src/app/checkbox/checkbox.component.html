@@ -116,6 +116,8 @@
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
           [formGroup]="standardCheckboxGroupFormGroup"
+          helpPopoverContent="Select up to three."
+          helpPopoverTitle="Make a selection"
           labelText="Contact method"
         >
           <sky-checkbox formControlName="email" labelText="Email" />
@@ -308,6 +310,8 @@
       <form [formGroup]="iconCheckboxGroupFormGroup">
         <sky-checkbox-group
           [formGroup]="iconCheckboxGroupFormGroup"
+          helpPopoverContent="This should not show up"
+          helpPopoverTitle="This should not show up"
           labelText="Text formatting"
           [labelHidden]="true"
         >

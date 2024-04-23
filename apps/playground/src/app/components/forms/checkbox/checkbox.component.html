@@ -226,10 +226,12 @@
 
 <form [formGroup]="formGroup">
   <sky-checkbox-group
+    helpPopoverContent="content"
+    helpPopoverTitle="title"
+    labelText="Contact method"
     [formGroup]="contactMethod"
     [required]="true"
     [stacked]="true"
-    labelText="Contact method"
   >
     <sky-checkbox
       formControlName="email"
