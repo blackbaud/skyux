@@ -162,7 +162,7 @@ export class SkyToggleSwitchComponent
 
   #changeDetector: ChangeDetectorRef;
 
-  protected labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+  protected readonly labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
 

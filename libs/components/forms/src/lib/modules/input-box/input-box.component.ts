@@ -69,7 +69,7 @@ export class SkyInputBoxComponent
   #elementRef = inject(ElementRef);
   #renderer = inject(Renderer2);
 
-  protected labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+  protected readonly labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
 

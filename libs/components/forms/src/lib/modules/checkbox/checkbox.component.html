@@ -1,4 +1,5 @@
 <label
+  *ngIf="!labelTextRequired || labelText"
   class="sky-checkbox-wrapper sky-switch"
   [ngClass]="{
     'sky-control-label-required': required,
