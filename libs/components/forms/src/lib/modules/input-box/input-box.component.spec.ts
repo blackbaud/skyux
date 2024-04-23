@@ -17,7 +17,7 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyFieldGroupLabelTextRequiredService } from '../field-group/field-group-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { InputBoxFixtureComponent } from './fixtures/input-box.component.fixture';
 import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
@@ -668,7 +668,7 @@ describe('Input box component', () => {
             provide: SkyThemeService,
             useValue: mockThemeSvc,
           },
-          SkyFieldGroupLabelTextRequiredService,
+          SkyFormFieldLabelTextRequiredService,
         ],
       });
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);

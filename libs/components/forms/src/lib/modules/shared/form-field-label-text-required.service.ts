@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
  * @internal
  */
 @Injectable()
-export class SkyFieldGroupLabelTextRequiredService {
+export class SkyFormFieldLabelTextRequiredService {
   public validateLabelText(text: string | undefined): void {
     if (!text) {
       throw new Error(

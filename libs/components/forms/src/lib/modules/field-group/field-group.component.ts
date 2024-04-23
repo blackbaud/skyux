@@ -8,9 +8,10 @@ import {
 } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
 import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
-import { SkyFieldGroupLabelTextRequiredService } from './field-group-label-text-required.service';
 
 /**
  * Organizes form fields into a group.
@@ -21,7 +22,7 @@ import { SkyFieldGroupLabelTextRequiredService } from './field-group-label-text-
   styleUrl: './field-group.component.scss',
   standalone: true,
   imports: [CommonModule, SkyIdModule],
-  providers: [SkyFieldGroupLabelTextRequiredService],
+  providers: [SkyFormFieldLabelTextRequiredService],
 })
 export class SkyFieldGroupComponent {
   /**

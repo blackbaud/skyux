@@ -31,8 +31,8 @@ import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 
 import { ReplaySubject } from 'rxjs';
 
-import { SkyFieldGroupLabelTextRequiredService } from '../field-group/field-group-label-text-required.service';
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -69,7 +69,7 @@ export class SkyInputBoxComponent
   #elementRef = inject(ElementRef);
   #renderer = inject(Renderer2);
 
-  protected labelTextRequired = inject(SkyFieldGroupLabelTextRequiredService, {
+  protected labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
 
