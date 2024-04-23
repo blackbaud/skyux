@@ -8,6 +8,8 @@ import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
 import { SkyRadioGroupReactiveFixtureComponent } from './fixtures/radio-group-reactive.component.fixture';
@@ -644,6 +646,24 @@ describe('Radio group component (reactive)', function () {
     expect(labelEl).not.toBeNull();
     expect(radioGroup?.getAttribute('aria-labelledBy')).toBeNull();
     expect(radioGroup?.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('should not render if a parent component requires label text and it is not provided', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [SkyRadioFixturesModule],
+      providers: [SkyFormFieldLabelTextRequiredService],
+    });
+
+    const fixture = TestBed.createComponent(
+      SkyRadioGroupReactiveFixtureComponent,
+    );
+    const radioGroup = fixture.nativeElement.querySelector('.sky-radio-group');
+
+    expect(radioGroup).not.toExist();
+    expect(() => fixture.detectChanges()).toThrowError(
+      'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+    );
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {

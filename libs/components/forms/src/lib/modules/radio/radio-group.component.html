@@ -1,4 +1,5 @@
 <fieldset
+  *ngIf="!labelTextRequired || labelText"
   class="sky-radio-group"
   role="radiogroup"
   [attr.aria-label]="labelText ? undefined : ariaLabel"

@@ -6,6 +6,7 @@ import {
   ContentChildren,
   Input,
   OnDestroy,
+  OnInit,
   Optional,
   QueryList,
   Self,
@@ -19,6 +20,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
@@ -41,7 +43,7 @@ let nextUniqueId = 0;
   ],
 })
 export class SkyRadioGroupComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy
+  implements AfterContentInit, AfterViewInit, OnInit, OnDestroy
 {
   /**
    * The HTML element ID of the element that labels
@@ -221,6 +223,13 @@ export class SkyRadioGroupComponent
   readonly #logger = inject(SkyLogService);
   readonly #idService = inject(SkyIdService);
 
+  protected readonly labelTextRequired = inject(
+    SkyFormFieldLabelTextRequiredService,
+    {
+      optional: true,
+    },
+  );
+
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
 
@@ -295,6 +304,10 @@ export class SkyRadioGroupComponent
         });
       });
     }
+  }
+
+  public ngOnInit(): void {
+    this.labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {
