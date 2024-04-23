@@ -1,8 +1,6 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
-$sky-switch-size: 22px !default;
-
 .sky-switch {
   cursor: pointer;
   display: inline-flex;
@@ -66,11 +64,11 @@ $sky-switch-size: 22px !default;
 }
 
 .sky-switch-control {
-  width: $sky-switch-size;
-  max-width: $sky-switch-size;
-  height: $sky-switch-size;
-  flex: 1 0 $sky-switch-size;
-  margin: 0 5px auto auto;
+  width: var(--sky-switch-size);
+  max-width: var(--sky-switch-size);
+  height: var(--sky-switch-size);
+  flex: 1 0 var(--sky-switch-size);
+  margin: 0 var(--sky-switch-margin) auto auto;
   display: inline-flex;
   position: relative;
   border: 1px solid $sky-background-color-disabled;
@@ -95,7 +93,7 @@ $sky-switch-size: 22px !default;
 }
 
 .sky-switch-label {
-  line-height: $sky-switch-size;
+  line-height: var(--sky-switch-size);
   flex: 1 1 auto;
   width: 100%;
   margin-right: $sky-margin;

@@ -67,12 +67,16 @@
     <ng-content select="sky-checkbox-label" />
   </ng-template>
 </label>
-<div skyId #hintTextEl="skyId">
-  <div *ngIf="hintText" class="sky-font-deemphasized sky-checkbox-hint-text">
+<span skyId #hintTextEl="skyId">
+  <div
+    *ngIf="hintText"
+    class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-extensions"
+  >
     {{ hintText }}
   </div>
-</div>
+</span>
 <sky-form-errors
+  class="sky-checkbox-form-extensions"
   *ngIf="labelText && ngControl?.errors"
   [id]="errorId"
   [errors]="ngControl?.errors"

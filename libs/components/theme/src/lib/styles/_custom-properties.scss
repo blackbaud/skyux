@@ -69,4 +69,8 @@
   /* headings */
   --sky-theme-modern-font-heading-4-weight: 600;
   --sky-theme-modern-font-heading-5-weight: 600;
+
+  /* switch */
+  --sky-switch-size: #{$sky-switch-size};
+  --sky-switch-margin: #{$sky-switch-margin};
 }
