@@ -7,6 +7,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   QueryList,
   booleanAttribute,
@@ -25,6 +26,8 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
@@ -51,7 +54,12 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyToggleSwitchComponent
-  implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator
+  implements
+    AfterContentInit,
+    OnInit,
+    OnDestroy,
+    ControlValueAccessor,
+    Validator
 {
   /**
    * The ARIA label for the toggle switch. This sets the `aria-label`
@@ -154,6 +162,10 @@ export class SkyToggleSwitchComponent
 
   #changeDetector: ChangeDetectorRef;
 
+  protected labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
+
   constructor(changeDetector: ChangeDetectorRef, idService: SkyIdService) {
     this.#changeDetector = changeDetector;
     this.labelId = idService.generateId();
@@ -179,6 +191,10 @@ export class SkyToggleSwitchComponent
     setTimeout(() => {
       this.enableIndicatorAnimation = true;
     });
+  }
+
+  public ngOnInit(): void {
+    this.labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

@@ -10,6 +10,8 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyToggleSwitchChangeEventFixtureComponent } from './fixtures/toggle-switch-change-event.component.fixture';
 import { SkyToggleSwitchFormDirectivesFixtureComponent } from './fixtures/toggle-switch-form-directives.component.fixture';
 import { SkyToggleSwitchOnPushFixtureComponent } from './fixtures/toggle-switch-on-push.component.fixture';
@@ -262,6 +264,23 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(label?.textContent).toBe('label element');
+    });
+
+    it('should not render if a parent component requires label text and it is not provided', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [SkyToggleSwitchFixturesModule],
+        providers: [SkyFormFieldLabelTextRequiredService],
+      });
+      
+      const fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
+      const switchEl =
+        fixture.nativeElement.querySelector('.sky-toggle-switch');
+
+      expect(switchEl).not.toExist();
+      expect(() => fixture.detectChanges()).toThrowError(
+        'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+      );
     });
 
     it('should pass accessibility with label element and no `ariaLabel`', async () => {
