@@ -1,4 +1,7 @@
-<div class="sky-file-attachment-wrapper">
+<div
+  *ngIf="!labelTextRequired || labelText"
+  class="sky-file-attachment-wrapper"
+>
   <div
     class="sky-file-attachment-label-wrapper"
     [attr.id]="labelElementId"

@@ -19,6 +19,8 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyFileAttachmentComponent } from './file-attachment.component';
 import { SkyFileItem } from './file-item';
 import { FileAttachmentTestComponent } from './fixtures/file-attachment.component.fixture';
@@ -1514,6 +1516,30 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     validateLabelText('label element');
+  });
+
+  it('should not render if a parent component requires label text and it is not provided', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [FileAttachmentTestModule, SkyThemeModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+        SkyFormFieldLabelTextRequiredService,
+      ],
+    });
+
+    const fixture = TestBed.createComponent(FileAttachmentTestComponent);
+    const fileAttachment = fixture.nativeElement.querySelector(
+      '.sky-file-attachment-wrapper',
+    );
+
+    expect(fileAttachment).not.toExist();
+    expect(() => fixture.detectChanges()).toThrowError(
+      'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+    );
   });
 
   it('should mark as dirty when an invalid file is uploaded first', () => {

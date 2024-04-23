@@ -41,6 +41,7 @@ import { SkyFileItemService } from './file-item.service';
 import { SkyFileValidateFn } from './file-validate-function';
 import { SkyFileAttachmentChange } from './types/file-attachment-change';
 import { SkyFileAttachmentClick } from './types/file-attachment-click';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 let uniqueId = 0;
 
@@ -250,6 +251,13 @@ export class SkyFileAttachmentComponent
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
+  protected readonly labelTextRequired = inject(
+    SkyFormFieldLabelTextRequiredService,
+    {
+      optional: true,
+    },
+  );
+
   protected ngControl: NgControl | undefined;
   protected errorId = this.#idSvc.generateId();
 
@@ -286,6 +294,8 @@ export class SkyFileAttachmentComponent
           this.#updateFileAttachmentButton();
         });
     }
+
+    this.labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngAfterViewInit(): void {
