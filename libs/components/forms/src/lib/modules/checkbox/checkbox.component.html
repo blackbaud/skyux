@@ -70,13 +70,13 @@
 <span skyId #hintTextEl="skyId">
   <div
     *ngIf="hintText"
-    class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-extensions"
+    class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin"
   >
     {{ hintText }}
   </div>
 </span>
 <sky-form-errors
-  class="sky-checkbox-form-extensions"
+  class="sky-checkbox-form-margin"
   *ngIf="labelText && ngControl?.errors"
   [id]="errorId"
   [errors]="ngControl?.errors"
