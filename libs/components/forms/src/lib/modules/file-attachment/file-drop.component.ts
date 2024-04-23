@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
   booleanAttribute,
@@ -22,6 +23,7 @@ import { SkyFileItem } from './file-item';
 import { SkyFileLink } from './file-link';
 import { SkyFileValidateFn } from './file-validate-function';
 import { SkyFileDropChange } from './types/file-drop-change';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 const MAX_FILE_SIZE_DEFAULT = 500000;
 const MIN_FILE_SIZE_DEFAULT = 0;
@@ -45,7 +47,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
 })
-export class SkyFileDropComponent implements OnDestroy {
+export class SkyFileDropComponent implements OnInit, OnDestroy {
   /**
    * Fires when users add or remove files.
    */
@@ -193,8 +195,19 @@ export class SkyFileDropComponent implements OnDestroy {
   readonly #resourcesSvc = inject(SkyLibResourcesService);
   readonly #idSvc = inject(SkyIdService);
 
+  protected readonly labelTextRequired = inject(
+    SkyFormFieldLabelTextRequiredService,
+    {
+      optional: true,
+    },
+  );
+
   protected errorId = this.#idSvc.generateId();
   protected rejectedFiles: SkyFileItem[] = [];
+
+  public ngOnInit(): void {
+    this.labelTextRequired?.validateLabelText(this.labelText);
+  }
 
   public ngOnDestroy(): void {
     this.filesChanged.complete();

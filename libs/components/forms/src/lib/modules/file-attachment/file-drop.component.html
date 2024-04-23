@@ -1,4 +1,4 @@
-<fieldset>
+<fieldset *ngIf="!labelTextRequired || labelText">
   <legend
     *ngIf="labelText"
     class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
