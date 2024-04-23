@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -293,6 +294,31 @@ describe('Date range picker', function () {
 
     expect(hintText).toEqual('Select a date. Use the format DD/MM/YY.');
   }));
+
+  it('should not render if a parent component requires label text and it is not provided', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [DateRangePickerTestModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+        SkyFormFieldLabelTextRequiredService,
+      ],
+    });
+
+    const fixture = TestBed.createComponent(DateRangePickerTestComponent);
+
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      '.sky-date-range-picker',
+    );
+
+    expect(dateRangePicker).not.toExist();
+    expect(() => fixture.detectChanges()).toThrowError(
+      'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+    );
+  });
 
   it('should only show end date picker for Before type', fakeAsync(function () {
     verifyVisiblePickers(
