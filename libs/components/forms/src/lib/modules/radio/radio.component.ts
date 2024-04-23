@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   Provider,
   booleanAttribute,
@@ -15,6 +16,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
+
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
@@ -42,7 +45,9 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
+export class SkyRadioComponent
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
   /**
    * Fires when users focus off a radio button.
    */
@@ -320,8 +325,19 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   #radioGroupIdSvc = inject(SkyRadioGroupIdService, { optional: true });
   #logger = inject(SkyLogService);
 
+  protected readonly labelTextRequired = inject(
+    SkyFormFieldLabelTextRequiredService,
+    {
+      optional: true,
+    },
+  );
+
   constructor() {
     this.id = this.#defaultId;
+  }
+
+  public ngOnInit(): void {
+    this.labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

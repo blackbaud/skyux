@@ -10,6 +10,8 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
 import { SkySingleRadioComponent } from './fixtures/radio-single.component.fixture';
@@ -247,6 +249,22 @@ describe('Radio component', function () {
       expect(radioLabels.item(1).textContent?.trim()).toBe(label2);
       expect(radioLabels.item(2).textContent?.trim()).toBe(label3);
     }));
+
+    it('should not render if a parent component requires label text and it is not provided', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [SkyRadioFixturesModule],
+        providers: [SkyFormFieldLabelTextRequiredService],
+      });
+
+      const fixture = TestBed.createComponent(SkyRadioTestComponent);
+      const radio = fixture.nativeElement.querySelector('.sky-radio-wrapper');
+
+      expect(radio).not.toExist();
+      expect(() => fixture.detectChanges()).toThrowError(
+        'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+      );
+    });
 
     it('should use labelText as an accessible label over label and labelledBy', fakeAsync(function () {
       const label1 = 'Label 1';
