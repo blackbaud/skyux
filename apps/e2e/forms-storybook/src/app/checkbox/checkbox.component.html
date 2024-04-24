@@ -55,6 +55,7 @@
         [checked]="false"
         [required]="true"
         labelText="Required Checkbox"
+        hintText="Hint text"
         id="touched-required-checkbox"
       />
     </sky-column>
@@ -89,9 +90,21 @@
           helpPopoverTitle="Make a selection"
           labelText="Contact method"
         >
-          <sky-checkbox formControlName="email" labelText="Email" />
-          <sky-checkbox formControlName="phone" labelText="Phone" />
-          <sky-checkbox formControlName="text" labelText="Text" />
+          <sky-checkbox
+            formControlName="email"
+            labelText="Email"
+            hintText="Hint text"
+          />
+          <sky-checkbox
+            formControlName="phone"
+            labelText="Phone"
+            hintText="Hint text"
+          />
+          <sky-checkbox
+            formControlName="text"
+            labelText="Text"
+            hintText="Hint text"
+          />
           <sky-form-error
             *ngIf="
               standardCheckboxGroupFormGroup.errors?.['contactMethodRequired']

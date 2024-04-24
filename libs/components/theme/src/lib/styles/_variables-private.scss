@@ -51,3 +51,8 @@ $sky-experimental-support-for-opera: true !default;
 $sky-experimental-support-for-microsoft: true !default;
 // Support for khtml in experimental css3 properties (-khtml).
 $sky-experimental-support-for-khtml: false !default;
+
+// form control styling
+$sky-switch-size: 22px !default;
+$sky-switch-size-modern: 26px !default;
+$sky-switch-margin: 5px !default;
