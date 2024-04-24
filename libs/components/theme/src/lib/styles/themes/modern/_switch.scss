@@ -1,7 +1,5 @@
 @use '../../variables' as *;
 
-$sky-switch-size-modern: 26px !default;
-
 .sky-theme-modern {
   .sky-switch-input:not(:disabled) {
     &:checked + .sky-switch-control,
@@ -25,17 +23,6 @@ $sky-switch-size-modern: 26px !default;
   .sky-switch-control {
     transition: box-shadow $sky-transition-time-short;
     border: 1px solid var(--sky-border-color-neutral-medium-dark);
-
-    &:not(.sky-switch-control-icon) {
-      width: $sky-switch-size-modern;
-      max-width: $sky-switch-size-modern;
-      height: $sky-switch-size-modern;
-      flex: 1 0 $sky-switch-size-modern;
-    }
-  }
-
-  .sky-switch-label {
-    line-height: $sky-switch-size-modern;
   }
 
   .sky-switch-input:disabled + .sky-switch-control {
