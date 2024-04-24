@@ -1,5 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
@@ -20,20 +22,6 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
 
   #getLabel = this.locatorFor('.sky-control-label');
 
-  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    const harness = await this.locatorForOptional(
-      SkyFormErrorsHarness.with({
-        dataSkyId: 'checkbox-group-form-errors',
-      }),
-    )();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No form errors found.');
-  }
-
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyCheckboxGroupHarness` that meets certain criteria.
@@ -42,6 +30,36 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
     filters: SkyCheckboxGroupHarnessFilters,
   ): HarnessPredicate<SkyCheckboxGroupHarness> {
     return SkyCheckboxGroupHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets an array of harnesses for the checkboxes in the checkbox group.
+   */
+  public async getCheckboxes(): Promise<SkyCheckboxHarness[]> {
+    return await this.#getCheckboxes();
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**
@@ -59,11 +77,34 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
     return (await this.#getLabel()).hasClass('sky-screen-reader-only');
   }
 
-  public async getCheckboxes(): Promise<SkyCheckboxHarness[]> {
-    return await this.#getCheckboxes();
-  }
-
+  /**
+   * Whether the checkbox group has errors.
+   */
   public async hasError(errorName: string): Promise<boolean> {
     return (await this.#getFormErrors()).hasError(errorName);
+  }
+
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    const harness = await this.locatorForOptional(
+      SkyFormErrorsHarness.with({
+        dataSkyId: 'checkbox-group-form-errors',
+      }),
+    )();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No form errors found.');
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 }
