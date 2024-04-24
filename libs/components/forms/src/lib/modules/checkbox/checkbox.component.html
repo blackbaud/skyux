@@ -1,33 +1,6 @@
-<label
-  class="sky-checkbox-wrapper sky-switch"
-  [ngClass]="{
-    'sky-control-label-required': required,
-    'sky-switch-disabled': disabled
-  }"
->
-  <input
-    class="sky-checkbox-input sky-switch-input"
-    type="checkbox"
-    [id]="inputId"
-    [checked]="checked"
-    [disabled]="disabled"
-    [name]="name"
-    [required]="required"
-    [tabIndex]="tabindex"
-    [attr.aria-label]="labelText || label"
-    [attr.aria-labelledby]="labelText ? undefined : labelledBy"
-    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
-    [attr.aria-required]="required ? true : null"
-    [attr.aria-invalid]="!!ngControl?.errors"
-    [attr.aria-errormessage]="
-      labelText && ngControl?.errors ? errorId : undefined
-    "
-    (blur)="onInputBlur()"
-    (change)="onInteractionEvent($event)"
-    #inputEl
-  />
-  <span
-    class="sky-switch-control sky-rounded-corners"
+<span class="sky-checkbox-outer-wrapper">
+  <label
+    class="sky-checkbox-wrapper sky-switch"
     [ngClass]="{
       'sky-control-label-required': required,
       'sky-switch-disabled': disabled,
@@ -45,6 +18,7 @@
       [tabIndex]="tabindex"
       [attr.aria-label]="labelText || label"
       [attr.aria-labelledby]="labelText ? undefined : labelledBy"
+      [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
       [attr.aria-required]="required ? true : null"
       [attr.aria-invalid]="!!ngControl?.errors"
       [attr.aria-errormessage]="
@@ -95,7 +69,6 @@
       <ng-content select="sky-checkbox-label" />
     </ng-template>
   </label>
-
   <sky-help-inline
     *ngIf="helpPopoverContent && labelText"
     class="sky-checkbox-help-inline"
@@ -104,17 +77,6 @@
     [popoverContent]="helpPopoverContent"
   />
 </span>
-
-  <ng-container *ngIf="labelText; else labelElement">
-    <sky-checkbox-label-text-label
-      [labelText]="labelText"
-      [labelHidden]="labelHidden"
-    />
-  </ng-container>
-  <ng-template #labelElement>
-    <ng-content select="sky-checkbox-label" />
-  </ng-template>
-</label>
 <span skyId #hintTextEl="skyId">
   <div
     *ngIf="hintText"
