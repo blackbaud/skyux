@@ -1,6 +1,8 @@
 <form [formGroup]="myForm">
   <sky-checkbox-group
     [formGroup]="myForm"
+    [helpPopoverContent]="helpPopoverContent"
+    [helpPopoverTitle]="helpPopoverTitle"
     [labelHidden]="hideGroupLabel"
     labelText="Contact method"
     class="sky-margin-stacked-xl"
@@ -17,6 +19,7 @@
 
     <sky-checkbox
       [required]="true"
+      [hintText]="phoneHintText"
       [labelHidden]="hidePhoneLabel"
       data-sky-id="my-phone-checkbox"
       formControlName="phone"

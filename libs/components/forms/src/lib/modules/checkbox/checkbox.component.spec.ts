@@ -36,6 +36,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       [disabled]="isDisabled"
       [icon]="icon"
       [id]="id"
+      [hintText]="hintText"
       [labelText]="labelText"
       [(indeterminate)]="indeterminate"
       (change)="checkboxChange($event)"
@@ -56,6 +57,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   public isDisabled = false;
   public showInlineHelp = false;
   public labelText: string | undefined;
+  public hintText: string | undefined;
 
   @ViewChild(SkyCheckboxComponent)
   public checkboxComponent: SkyCheckboxComponent | undefined;
@@ -95,6 +97,7 @@ class CheckboxWithFormDirectivesComponent {
     <div>
       <form>
         <sky-checkbox
+          [hintText]="hintText"
           [labelText]="labelText"
           name="cb"
           ngModel
@@ -113,6 +116,7 @@ class CheckboxWithRequiredInputComponent {
   public required = true;
   public showInlineHelp = false;
   public labelText: string | undefined;
+  public hintText: string | undefined;
 }
 
 /** Simple component for testing a required template-driven checkbox. */
@@ -140,6 +144,7 @@ class CheckboxWithRequiredAttributeComponent {
     <div>
       <form [formGroup]="checkboxForm">
         <sky-checkbox
+          [hintText]="hintText"
           [label]="ariaLabel"
           [labelledBy]="ariaLabelledBy"
           [labelText]="labelText"
@@ -159,6 +164,7 @@ class CheckboxWithReactiveFormComponent {
   public ariaLabel: string | undefined;
   public ariaLabelledBy: string | undefined;
   public labelText: string | undefined;
+  public hintText: string | undefined;
 }
 
 /** Simple component for testing a reactive form checkbox with required validator. */
@@ -466,6 +472,19 @@ describe('Checkbox component', () => {
       );
 
       expect(label?.textContent?.trim()).toBe(labelText);
+    });
+
+    it('should render the hintText when provided', () => {
+      const hintText = 'hint text';
+      fixture.componentInstance.hintText = hintText;
+      fixture.detectChanges();
+
+      const hintEl = checkboxNativeElement?.querySelector(
+        '.sky-checkbox-hint-text',
+      );
+
+      expect(hintEl).not.toBeNull();
+      expect(hintEl?.textContent?.trim()).toBe(hintText);
     });
 
     it('should make the host element a tab stop', () => {
