@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyTrimModule } from '@skyux/core';
+import { SkyIdModule, SkyTrimModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/indicators';
 
@@ -29,6 +29,7 @@ import { SkyCheckboxComponent } from './checkbox.component';
     SkyFormsResourcesModule,
     SkyHelpInlineModule,
     SkyIconModule,
+    SkyIdModule,
     SkyTrimModule,
   ],
   exports: [

@@ -19,6 +19,8 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-checkbox';
 
+  #getHintText = this.locatorForOptional('.sky-checkbox-hint-text');
+
   #getInput = this.locatorFor('input.sky-checkbox-input');
 
   #getLabel = this.locatorForOptional(SkyCheckboxLabelHarness);
@@ -130,6 +132,15 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     } else {
       return !(await labelTextLabel?.getText());
     }
+  }
+
+  /**
+   * Gets the checkbox's hint text.
+   */
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
+
+    return (await hintText?.text())?.trim() ?? '';
   }
 
   /**

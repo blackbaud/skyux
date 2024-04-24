@@ -155,6 +155,20 @@ describe('Checkbox harness', () => {
     );
   });
 
+  it('should get the hint text', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    const hintText = 'Hint text for the checkbox.';
+
+    await expectAsync(checkboxHarness.getHintText()).toBeResolvedTo('');
+
+    fixture.componentInstance.phoneHintText = hintText;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxHarness.getHintText()).toBeResolvedTo(hintText);
+  });
+
   it('should get the checkbox name and value', async () => {
     const { checkboxHarness } = await setupTest({
       dataSkyId: 'my-email-checkbox',
