@@ -369,12 +369,9 @@ export class SkyTextEditorComponent
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
-  protected readonly labelTextRequired = inject(
-    SkyFormFieldLabelTextRequiredService,
-    {
-      optional: true,
-    },
-  );
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
 
   protected readonly errorId = this.#idSvc.generateId();
   protected readonly ngControl = inject(NgControl);
@@ -389,10 +386,10 @@ export class SkyTextEditorComponent
   }
 
   public ngOnInit(): void {
-    if (this.labelTextRequired && !this.labelText) {
+    if (this.#labelTextRequired && !this.labelText) {
       this.display = 'none';
     }
-    this.labelTextRequired?.validateLabelText(this.labelText);
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
   public ngOnDestroy(): void {
     this.#adapterService.removeObservers(this.#editorService.editor);
