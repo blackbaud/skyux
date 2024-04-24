@@ -21,6 +21,14 @@
   >
     {{ labelText }}
   </legend>
+  <div skyId #hintTextEl="skyId">
+    <div
+      *ngIf="hintText"
+      class="sky-font-deemphasized sky-radio-group-hint-text"
+    >
+      {{ hintText }}
+    </div>
+  </div>
   <ng-content />
 </fieldset>
 <sky-form-errors
