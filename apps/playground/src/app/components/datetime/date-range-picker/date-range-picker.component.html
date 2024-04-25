@@ -18,6 +18,18 @@
         [dateFormat]="dateFormat"
         [endDateRequired]="endDateRequired"
         [startDateRequired]="startDateRequired"
+        helpPopoverContent="content"
+      >
+      </sky-date-range-picker>
+      <sky-date-range-picker
+        class="sky-margin-stacked-lg"
+        formControlName="lastDonation"
+        hintText="Really long hint text that should wrap and be confined to below the date range picker element. We set the text to have a small margin below the selection and datepicker controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
+        label="Last donation"
+        [calculatorIds]="calculatorIds"
+        [dateFormat]="dateFormat"
+        [endDateRequired]="endDateRequired"
+        [startDateRequired]="startDateRequired"
       >
       </sky-date-range-picker>
     </div>
