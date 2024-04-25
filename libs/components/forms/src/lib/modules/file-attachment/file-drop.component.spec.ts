@@ -405,7 +405,6 @@ describe('File drop component', () => {
     });
 
     const fixture = TestBed.createComponent(SkyFileDropComponent);
-    const fileDrop = fixture.nativeElement.querySelector('sky-file-drop');
     const labelTextRequiredSvc = TestBed.inject(
       SkyFormFieldLabelTextRequiredService,
     );
@@ -413,7 +412,7 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(labelTextSpy).toHaveBeenCalled();
-    expect(fileDrop).not.toExist();
+    expect(fixture.nativeElement).not.toBeVisible();
   });
 
   it('should render the hintText when provided', () => {

@@ -309,17 +309,18 @@ describe('Date range picker', function () {
     });
 
     const fixture = TestBed.createComponent(DateRangePickerTestComponent);
-    const dateRangePicker = fixture.nativeElement.querySelector(
-      'sky-date-range-picker',
-    );
     const labelTextRequiredSvc = TestBed.inject(
       SkyFormFieldLabelTextRequiredService,
     );
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
 
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
+
     expect(labelTextSpy).toHaveBeenCalled();
-    expect(dateRangePicker).not.toExist();
+    expect(dateRangePicker).not.toBeVisible();
   });
 
   it('should only show end date picker for Before type', fakeAsync(function () {

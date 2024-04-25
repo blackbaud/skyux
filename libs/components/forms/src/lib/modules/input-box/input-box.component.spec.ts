@@ -671,14 +671,19 @@ describe('Input box component', () => {
           SkyFormFieldLabelTextRequiredService,
         ],
       });
+
+      const labelTextRequiredSvc = TestBed.inject(
+        SkyFormFieldLabelTextRequiredService,
+      );
+      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       const els = getDefaultEls(fixture, 'input-basic');
 
+      fixture.detectChanges();
+
+      expect(labelTextSpy).toHaveBeenCalled();
       expect(els.inputBoxEl).toExist();
       expect(els.inputEl).toBeNull();
-      expect(() => fixture.detectChanges()).toThrowError(
-        'All form fields within <sky-field-group> must have `labelText` set on initialization.',
-      );
     });
 
     it('should add stacked CSS class', () => {

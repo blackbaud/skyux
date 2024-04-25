@@ -5,7 +5,7 @@
       hintText="Hint text for the section."
       headingLevel="4"
     >
-      <sky-input-box labelText="Name">
+      <sky-input-box labelText="Name" [stacked]="true">
         <input type="text" formControlName="name" />
       </sky-input-box>
 
@@ -27,6 +27,18 @@
       >
         <sky-toggle-switch-label> Active </sky-toggle-switch-label>
       </sky-toggle-switch>
+      <sky-radio-group
+        class="sky-switch-icon-group"
+        formControlName="radio"
+        labelText="View"
+      >
+        <sky-radio
+          *ngFor="let view of views"
+          [icon]="view.icon"
+          [label]="view.label"
+          [value]="view.name"
+        />
+      </sky-radio-group>
     </sky-field-group>
   </form>
 </div>

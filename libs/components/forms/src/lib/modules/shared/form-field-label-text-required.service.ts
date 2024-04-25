@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class SkyFormFieldLabelTextRequiredService {
   public validateLabelText(text: string | undefined): void {
     if (!text) {
-      throw new Error(
+      console.error(
         'All form fields within <sky-field-group> must have `labelText` set on initialization.',
       );
     }

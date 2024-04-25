@@ -658,15 +658,16 @@ describe('Radio group component (reactive)', function () {
     const fixture = TestBed.createComponent(
       SkyRadioGroupReactiveFixtureComponent,
     );
-    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
     const labelTextRequiredSvc = TestBed.inject(
       SkyFormFieldLabelTextRequiredService,
     );
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
 
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
     expect(labelTextSpy).toHaveBeenCalled();
-    expect(radioGroup).not.toExist();
+    expect(radioGroup).not.toBeVisible();
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
