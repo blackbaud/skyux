@@ -54,7 +54,9 @@
         ngModel
         [checked]="false"
         [required]="true"
-        labelText="Required Checkbox"
+        helpPopoverContent="content"
+        labelText="Checkbox with all easy mode inputs"
+        hintText="Hint text"
         id="touched-required-checkbox"
       />
     </sky-column>
@@ -82,14 +84,59 @@
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
+      <sky-checkbox
+        labelText="Checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        labelText="Required checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+        [required]="true"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        ngModel
+        labelText="Checkbox with easy mode errors and help inline"
+        helpPopoverContent="popover Content"
+        [required]="true"
+        id="touched-easy-mode-checkbox"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
           [formGroup]="standardCheckboxGroupFormGroup"
+          helpPopoverContent="Select up to three."
+          helpPopoverTitle="Make a selection"
           labelText="Contact method"
         >
-          <sky-checkbox formControlName="email" labelText="Email" />
-          <sky-checkbox formControlName="phone" labelText="Phone" />
-          <sky-checkbox formControlName="text" labelText="Text" />
+          <sky-checkbox
+            formControlName="email"
+            labelText="Email"
+            hintText="Hint text"
+          />
+          <sky-checkbox
+            formControlName="phone"
+            labelText="Phone"
+            hintText="Hint text"
+          />
+          <sky-checkbox
+            formControlName="text"
+            labelText="Text"
+            hintText="Hint text"
+          />
           <sky-form-error
             *ngIf="
               standardCheckboxGroupFormGroup.errors?.['contactMethodRequired']
@@ -277,6 +324,8 @@
       <form [formGroup]="iconCheckboxGroupFormGroup">
         <sky-checkbox-group
           [formGroup]="iconCheckboxGroupFormGroup"
+          helpPopoverContent="This should not show up"
+          helpPopoverTitle="This should not show up"
           labelText="Text formatting"
           [labelHidden]="true"
         >

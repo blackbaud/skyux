@@ -1567,6 +1567,19 @@ describe('File attachment', () => {
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(1);
   });
+
+  it('should render hint if `hintText` is set', () => {
+    const hintText = 'hint text';
+    fixture.componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    const hintEl = fixture.nativeElement.querySelector(
+      '.sky-file-attachment-hint-text',
+    );
+
+    expect(hintEl).not.toBeNull();
+    expect(hintEl?.textContent.trim()).toBe(hintText);
+  });
 });
 
 describe('File attachment (template-driven)', () => {

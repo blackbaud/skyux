@@ -1,5 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
@@ -17,6 +19,8 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-checkbox';
 
+  #getHintText = this.locatorForOptional('.sky-checkbox-hint-text');
+
   #getInput = this.locatorFor('input.sky-checkbox-input');
 
   #getLabel = this.locatorForOptional(SkyCheckboxLabelHarness);
@@ -24,16 +28,6 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   #getLabelTextLabel = this.locatorForOptional(
     SkyCheckboxLabelTextLabelHarness,
   );
-
-  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    const harness = await this.locatorForOptional(SkyFormErrorsHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No form errors found.');
-  }
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -50,6 +44,13 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    */
   public async blur(): Promise<void> {
     return (await this.#getInput()).blur();
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    (await this.#getHelpInline()).click();
   }
 
   /**
@@ -80,6 +81,22 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    */
   public async getAriaLabelledby(): Promise<string | null> {
     return (await this.#getInput()).getAttribute('aria-labelledby');
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**
@@ -118,6 +135,15 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the checkbox's hint text.
+   */
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
+
+    return (await hintText?.text())?.trim() ?? '';
+  }
+
+  /**
    * Gets the checkbox's name.
    */
   public async getName(): Promise<string | null> {
@@ -129,6 +155,20 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    */
   public async getValue(): Promise<string | null> {
     return (await this.#getInput()).getProperty<string | null>('value');
+  }
+
+  /**
+   * Whether the checkbox displays custom error.
+   */
+  public async hasCustomError(errorName: string): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError(errorName);
+  }
+
+  /**
+   * Whether the checkbox displays an error that it is required.
+   */
+  public async hasRequiredError(): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError('required');
   }
 
   /**
@@ -170,12 +210,24 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     }
   }
 
-  public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError('required');
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    const harness = await this.locatorForOptional(SkyFormErrorsHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No form errors found.');
   }
 
-  public async hasCustomError(errorName: string): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError(errorName);
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 
   async #toggle(): Promise<void> {

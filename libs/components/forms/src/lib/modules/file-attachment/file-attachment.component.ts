@@ -90,7 +90,7 @@ export class SkyFileAttachmentComponent
 
   /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
-   * button is added to the input box label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * button is added to the single file attachment label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
    * @preview
    */
@@ -118,6 +118,14 @@ export class SkyFileAttachmentComponent
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * The maximum size in bytes for valid files.

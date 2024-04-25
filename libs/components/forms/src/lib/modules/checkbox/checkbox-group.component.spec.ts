@@ -92,18 +92,22 @@ describe('Checkbox group component', function () {
       componentInstance.required = true;
       fixture.detectChanges();
 
-      const legend = getLegend(fixture);
+      const label = fixture.nativeElement.querySelector(
+        'span.sky-margin-inline-xs',
+      );
 
-      expect(legend).toHaveClass('sky-control-label-required');
+      expect(label).toHaveClass('sky-control-label-required');
       expect(getLegendScreenReaderText(fixture)).toBe('Required');
     });
 
     it('should not include the asterisk and screen reader text when not required', () => {
       fixture.detectChanges();
 
-      const legend = getLegend(fixture);
+      const label = fixture.nativeElement.querySelector(
+        'span.sky-margin-inline-xs',
+      );
 
-      expect(legend).not.toHaveClass('sky-control-label-required');
+      expect(label).not.toHaveClass('sky-control-label-required');
       expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 

@@ -226,13 +226,24 @@
 
 <form [formGroup]="formGroup">
   <sky-checkbox-group
+    helpPopoverContent="content"
+    helpPopoverTitle="title"
+    labelText="Contact method"
     [formGroup]="contactMethod"
     [required]="true"
     [stacked]="true"
-    labelText="Contact method"
   >
-    <sky-checkbox formControlName="email" labelText="Email" />
-    <sky-checkbox formControlName="phone" labelText="Phone" />
+    <sky-checkbox
+      formControlName="email"
+      labelText="Email"
+      helpPopoverContent="content"
+      required="true"
+    />
+    <sky-checkbox
+      formControlName="phone"
+      labelText="Phone"
+      helpPopoverContent="content"
+    />
     <sky-checkbox formControlName="text" labelText="Text" />
     <sky-form-error
       *ngIf="contactMethod.errors?.['contactMethodRequired']"

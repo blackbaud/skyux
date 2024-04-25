@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   Output,
+  TemplateRef,
   ViewChild,
   booleanAttribute,
   inject,
@@ -133,6 +134,23 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the checkbox label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
    * Fires when the selected value changes.
    */
   @Output()
@@ -239,6 +257,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * Fires when users select or deselect the checkbox.
