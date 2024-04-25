@@ -274,6 +274,14 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   public labelHidden = false;
 
   /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
    * Fires when users select a radio button.
    */
   @Output()

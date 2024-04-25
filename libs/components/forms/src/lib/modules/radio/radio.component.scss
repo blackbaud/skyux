@@ -22,6 +22,11 @@
   border-radius: 50%;
 }
 
+.sky-radio-hint-text {
+  margin: var(--sky-margin-stacked-xs) 0 0
+    calc(var(--sky-switch-size) + var(--sky-switch-margin));
+}
+
 @include mixins.sky-theme-modern {
   .sky-switch-input:checked
     + .sky-switch-control:not(.sky-switch-control-icon)::after {
