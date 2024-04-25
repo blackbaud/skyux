@@ -25,6 +25,11 @@
       "factory": "./update-10/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
+    "remove-nx-cache": {
+      "version": "10.8.0",
+      "factory": "./update-10/remove-nx-cache/remove-nx-cache.schematic",
+      "description": "Remove `.nx/cache` from git and add `.gitignore` entry."
+    },
     "remove-old-compat-stylesheets": {
       "version": "10.0.0",
       "factory": "./update-10/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
