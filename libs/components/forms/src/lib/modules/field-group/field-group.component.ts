@@ -33,7 +33,8 @@ export class SkyFieldGroupComponent {
   public labelText!: string;
 
   /**
-   * The text to display as the field group's label.
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
    * @preview
    */
   @Input()
