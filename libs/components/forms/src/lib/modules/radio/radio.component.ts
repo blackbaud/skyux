@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -297,6 +298,9 @@ export class SkyRadioComponent
   @Output()
   public disabledChange = new EventEmitter<boolean>();
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   public set selectedValue(value: any) {
     if (value !== this.#_selectedValue) {
       this.#_selectedValue = value;
@@ -325,19 +329,19 @@ export class SkyRadioComponent
   #radioGroupIdSvc = inject(SkyRadioGroupIdService, { optional: true });
   #logger = inject(SkyLogService);
 
-  protected readonly labelTextRequired = inject(
-    SkyFormFieldLabelTextRequiredService,
-    {
-      optional: true,
-    },
-  );
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
 
   constructor() {
     this.id = this.#defaultId;
   }
 
   public ngOnInit(): void {
-    this.labelTextRequired?.validateLabelText(this.labelText);
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

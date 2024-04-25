@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Output,
@@ -16,9 +17,9 @@ import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyCheckboxChange } from './checkbox-change';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 /**
  * Replaces the HTML input element with `type="checkbox"`. When users select a checkbox, its value
@@ -278,6 +279,9 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_inputEl;
   }
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   protected inputId = '';
 
   #checkedChange: BehaviorSubject<boolean>;
@@ -307,7 +311,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     self: true,
   });
 
-  protected readonly labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
 
@@ -337,7 +341,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
         this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
 
-    this.labelTextRequired?.validateLabelText(this.labelText);
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   /**

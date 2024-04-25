@@ -7,7 +7,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
+import {
+  SkyFieldGroupModule,
+  SkyInputBoxModule,
+  SkyToggleSwitchModule,
+} from '@skyux/forms';
 
 @Component({
   selector: 'app-field-group',
@@ -19,6 +23,7 @@ import { SkyFieldGroupModule, SkyInputBoxModule } from '@skyux/forms';
     SkyFieldGroupModule,
     SkyIdModule,
     SkyInputBoxModule,
+    SkyToggleSwitchModule,
   ],
 })
 export class FieldGroupComponent {
@@ -30,6 +35,7 @@ export class FieldGroupComponent {
     this.formGroup = this.#formBuilder.group({
       name: new FormControl(undefined),
       hometown: new FormControl(undefined),
+      toggle: new FormControl(false),
     });
   }
 }

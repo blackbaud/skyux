@@ -5,6 +5,7 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -152,6 +153,9 @@ export class SkyToggleSwitchComponent
   @ContentChildren(SkyToggleSwitchLabelComponent)
   public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   #control: AbstractControl | undefined;
   #isFirstChange = true;
   readonly #logSvc = inject(SkyLogService);
@@ -162,7 +166,7 @@ export class SkyToggleSwitchComponent
 
   #changeDetector: ChangeDetectorRef;
 
-  protected readonly labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
 
@@ -194,7 +198,10 @@ export class SkyToggleSwitchComponent
   }
 
   public ngOnInit(): void {
-    this.labelTextRequired?.validateLabelText(this.labelText);
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

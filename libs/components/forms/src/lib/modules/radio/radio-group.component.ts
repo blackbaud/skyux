@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -189,6 +190,9 @@ export class SkyRadioGroupComponent
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
@@ -223,12 +227,9 @@ export class SkyRadioGroupComponent
   readonly #logger = inject(SkyLogService);
   readonly #idService = inject(SkyIdService);
 
-  protected readonly labelTextRequired = inject(
-    SkyFormFieldLabelTextRequiredService,
-    {
-      optional: true,
-    },
-  );
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
 
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
@@ -307,7 +308,10 @@ export class SkyRadioGroupComponent
   }
 
   public ngOnInit(): void {
-    this.labelTextRequired?.validateLabelText(this.labelText);
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

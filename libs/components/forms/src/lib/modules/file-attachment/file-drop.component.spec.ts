@@ -405,13 +405,15 @@ describe('File drop component', () => {
     });
 
     const fixture = TestBed.createComponent(SkyFileDropComponent);
-
-    const fileDrop = fixture.nativeElement.querySelector('.sky-file-drop');
-
-    expect(fileDrop).not.toExist();
-    expect(() => fixture.detectChanges()).toThrowError(
-      'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+    const fileDrop = fixture.nativeElement.querySelector('sky-file-drop');
+    const labelTextRequiredSvc = TestBed.inject(
+      SkyFormFieldLabelTextRequiredService,
     );
+    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    fixture.detectChanges();
+
+    expect(labelTextSpy).toHaveBeenCalled();
+    expect(fileDrop).not.toExist();
   });
 
   it('should render the hintText when provided', () => {

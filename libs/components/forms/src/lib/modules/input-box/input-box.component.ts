@@ -69,7 +69,7 @@ export class SkyInputBoxComponent
   #elementRef = inject(ElementRef);
   #renderer = inject(Renderer2);
 
-  protected readonly labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
 
@@ -186,6 +186,9 @@ export class SkyInputBoxComponent
   @HostBinding('class')
   public cssClass = '';
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective | undefined;
 
@@ -237,7 +240,10 @@ export class SkyInputBoxComponent
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
 
-    this.labelTextRequired?.validateLabelText(this.labelText);
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngAfterContentChecked(): void {

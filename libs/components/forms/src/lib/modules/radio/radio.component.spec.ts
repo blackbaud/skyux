@@ -258,12 +258,15 @@ describe('Radio component', function () {
       });
 
       const fixture = TestBed.createComponent(SkyRadioTestComponent);
-      const radio = fixture.nativeElement.querySelector('.sky-radio-wrapper');
-
-      expect(radio).not.toExist();
-      expect(() => fixture.detectChanges()).toThrowError(
-        'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+      const radio = fixture.nativeElement.querySelector('sky-radio');
+      const labelTextRequiredSvc = TestBed.inject(
+        SkyFormFieldLabelTextRequiredService,
       );
+      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+      fixture.detectChanges();
+
+      expect(labelTextSpy).toHaveBeenCalled();
+      expect(radio).not.toBeVisible();
     });
 
     it('should use labelText as an accessible label over label and labelledBy', fakeAsync(function () {

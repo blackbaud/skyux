@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -17,13 +18,13 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { take } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyFileAttachmentService } from './file-attachment.service';
 import { SkyFileItem } from './file-item';
 import { SkyFileLink } from './file-link';
 import { SkyFileValidateFn } from './file-validate-function';
 import { SkyFileDropChange } from './types/file-drop-change';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 const MAX_FILE_SIZE_DEFAULT = 500000;
 const MIN_FILE_SIZE_DEFAULT = 0;
@@ -180,6 +181,9 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   public rejectedOver = false;
   public acceptedOver = false;
   public linkUrl: string | undefined;
@@ -195,18 +199,18 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   readonly #resourcesSvc = inject(SkyLibResourcesService);
   readonly #idSvc = inject(SkyIdService);
 
-  protected readonly labelTextRequired = inject(
-    SkyFormFieldLabelTextRequiredService,
-    {
-      optional: true,
-    },
-  );
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
 
   protected errorId = this.#idSvc.generateId();
   protected rejectedFiles: SkyFileItem[] = [];
 
   public ngOnInit(): void {
-    this.labelTextRequired?.validateLabelText(this.labelText);
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

@@ -660,7 +660,7 @@ describe('Input box component', () => {
       validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
     });
 
-    it('should not render if a parent component requires label text and it is not provided', () => {
+    it('should not display if a parent component requires label text and it is not provided', () => {
       TestBed.configureTestingModule({
         imports: [InputBoxFixturesModule],
         providers: [

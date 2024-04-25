@@ -1,54 +1,52 @@
-<ng-container *ngIf="!labelTextRequired || labelText">
-  <span
-    class="sky-toggle-switch"
+<span
+  class="sky-toggle-switch"
+  [ngClass]="{
+    'sky-toggle-switch-with-label': hasLabelComponent || labelText
+  }"
+>
+  <button
+    class="sky-toggle-switch-button"
+    role="switch"
+    type="button"
+    skyId
+    [attr.aria-checked]="checked"
+    [attr.aria-label]="labelText || ariaLabel || null"
+    [attr.aria-labelledby]="
+      !ariaLabel && (hasLabelComponent || labelText) ? labelId : null
+    "
+    [disabled]="disabled"
     [ngClass]="{
-      'sky-toggle-switch-with-label': hasLabelComponent || labelText
+      'sky-toggle-switch-checked': checked,
+      'sky-toggle-switch-disabled': disabled
     }"
+    [tabIndex]="tabIndex"
+    (blur)="onButtonBlur()"
+    (click)="onButtonClick($event)"
+    #toggle="skyId"
   >
-    <button
-      class="sky-toggle-switch-button"
-      role="switch"
-      type="button"
-      skyId
-      [attr.aria-checked]="checked"
-      [attr.aria-label]="labelText || ariaLabel || null"
-      [attr.aria-labelledby]="
-        !ariaLabel && (hasLabelComponent || labelText) ? labelId : null
-      "
-      [disabled]="disabled"
-      [ngClass]="{
-        'sky-toggle-switch-checked': checked,
-        'sky-toggle-switch-disabled': disabled
-      }"
-      [tabIndex]="tabIndex"
-      (blur)="onButtonBlur()"
-      (click)="onButtonClick($event)"
-      #toggle="skyId"
-    >
-      <div aria-hidden="true" class="sky-toggle-switch-switch">
-        <i
-          class="sky-toggle-switch-indicator"
-          [ngClass]="{
-            'sky-toggle-switch-transition': enableIndicatorAnimation
-          }"
-          >&nbsp;</i
-        >
-      </div>
-    </button>
-    <span
-      ><label
-        *ngIf="hasLabelComponent || labelText"
-        [for]="toggle.id"
-        [attr.id]="labelId"
-        class="sky-toggle-switch-label"
-        ><ng-container *ngIf="labelText; else labelContent">
-          <ng-container *ngIf="!labelHidden">{{ labelText }}</ng-container>
-        </ng-container></label
-      ><span class="sky-control-help-container"
-        ><ng-content select=".sky-control-help" /></span></span
-  ></span>
+    <div aria-hidden="true" class="sky-toggle-switch-switch">
+      <i
+        class="sky-toggle-switch-indicator"
+        [ngClass]="{
+          'sky-toggle-switch-transition': enableIndicatorAnimation
+        }"
+        >&nbsp;</i
+      >
+    </div>
+  </button>
+  <span
+    ><label
+      *ngIf="hasLabelComponent || labelText"
+      [for]="toggle.id"
+      [attr.id]="labelId"
+      class="sky-toggle-switch-label"
+      ><ng-container *ngIf="labelText; else labelContent">
+        <ng-container *ngIf="!labelHidden">{{ labelText }}</ng-container>
+      </ng-container></label
+    ><span class="sky-control-help-container"
+      ><ng-content select=".sky-control-help" /></span></span
+></span>
 
-  <ng-template #labelContent>
-    <ng-content select="sky-toggle-switch-label" />
-  </ng-template>
-</ng-container>
+<ng-template #labelContent>
+  <ng-content select="sky-toggle-switch-label" />
+</ng-template>

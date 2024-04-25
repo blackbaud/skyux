@@ -320,7 +320,6 @@ describe('Checkbox component', () => {
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
-      fixture.detectChanges();
 
       await fixture.whenStable();
       checkboxDebugElement = fixture.debugElement.query(
@@ -411,6 +410,33 @@ describe('Checkbox component', () => {
       expect(checkboxInstance.checked).toBe(false);
     });
 
+    it('should handle the indeterminate state not being set', () => {
+      fixture.detectChanges();
+
+      expect(inputElement?.indeterminate).toBeFalse();
+    });
+
+    it('should handle the indeterminate state being set', () => {
+      testComponent.indeterminate = true;
+      fixture.detectChanges();
+
+      expect(inputElement?.indeterminate).toBeTrue();
+    });
+
+    it('should turn off the indeterminate state if the checkbox is clicked after it is set', () => {
+      testComponent.indeterminate = true;
+      fixture.detectChanges();
+
+      expect(inputElement?.checked).toBeFalse();
+      expect(inputElement?.indeterminate).toBeTrue();
+      inputElement?.click();
+      fixture.detectChanges();
+
+      expect(inputElement?.checked).toBeTrue();
+      expect(inputElement?.indeterminate).toBeFalse();
+      expect(testComponent.indeterminate).toBeFalse();
+    });
+
     it('should handle a user-provided id', () => {
       fixture.detectChanges();
       expect(inputElement?.id).toBe('sky-checkbox-simple-check-input');
@@ -453,14 +479,15 @@ describe('Checkbox component', () => {
       });
 
       const fixture = TestBed.createComponent(SingleCheckboxComponent);
-      const checkbox = fixture.nativeElement.querySelector(
-        '.sky-checkbox-wrapper',
+      const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
+      const labelTextRequiredSvc = TestBed.inject(
+        SkyFormFieldLabelTextRequiredService,
       );
+      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+      fixture.detectChanges();
 
-      expect(checkbox).not.toExist();
-      expect(() => fixture.detectChanges()).toThrowError(
-        'All form fields within <sky-field-group> must have `labelText` set on initialization.',
-      );
+      expect(labelTextSpy).toHaveBeenCalled();
+      expect(checkbox).not.toBeVisible();
     });
 
     it('should make the host element a tab stop', () => {
@@ -479,55 +506,6 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-  });
-
-  describe('indeterminate state', () => {
-    let checkboxDebugElement: DebugElement;
-    let checkboxNativeElement: HTMLElement | null;
-    let testComponent: SingleCheckboxComponent;
-
-    beforeEach(async () => {
-      fixture = TestBed.createComponent(SingleCheckboxComponent);
-
-      await fixture.whenStable();
-      checkboxDebugElement = fixture.debugElement.query(
-        By.directive(SkyCheckboxComponent),
-      );
-      checkboxNativeElement = checkboxDebugElement.nativeElement;
-      testComponent = fixture.debugElement.componentInstance;
-    });
-
-    it('should handle the indeterminate state not being set', () => {
-      fixture.detectChanges();
-
-      const inputEl = checkboxNativeElement?.querySelector('input');
-
-      expect(inputEl?.indeterminate).toBeFalse();
-    });
-
-    it('should handle the indeterminate state being set', () => {
-      testComponent.indeterminate = true;
-      fixture.detectChanges();
-
-      const inputEl = checkboxNativeElement?.querySelector('input');
-      expect(inputEl?.indeterminate).toBeTrue();
-    });
-
-    it('should turn off the indeterminate state if the checkbox is clicked after it is set', () => {
-      testComponent.indeterminate = true;
-      fixture.detectChanges();
-
-      const inputEl = checkboxNativeElement?.querySelector('input');
-
-      expect(inputEl?.checked).toBeFalse();
-      expect(inputEl?.indeterminate).toBeTrue();
-      inputEl?.click();
-      fixture.detectChanges();
-
-      expect(inputEl?.checked).toBeTrue();
-      expect(inputEl?.indeterminate).toBeFalse();
-      expect(testComponent.indeterminate).toBeFalse();
     });
   });
 
@@ -582,14 +560,13 @@ describe('Checkbox component', () => {
     });
   });
 
-  describe('with provided label attribute', () => {
+  describe('with provided label attribute ', () => {
     let checkboxDebugElement: DebugElement;
     let checkboxNativeElement: HTMLElement | null;
     let inputElement: HTMLInputElement | null | undefined;
 
     it('should use the provided label as the input aria-label', async () => {
       fixture = TestBed.createComponent(CheckboxWithAriaLabelComponent);
-      fixture.detectChanges();
 
       checkboxDebugElement = fixture.debugElement.query(
         By.directive(SkyCheckboxComponent),
@@ -604,14 +581,13 @@ describe('Checkbox component', () => {
     });
   });
 
-  describe('with provided labelledBy attribute', () => {
+  describe('with provided labelledBy attribute ', () => {
     let checkboxDebugElement: DebugElement;
     let checkboxNativeElement: HTMLElement | null;
     let inputElement: HTMLInputElement | null | undefined;
 
     it('should use the provided labeledBy as the input aria-labelledby', async () => {
       fixture = TestBed.createComponent(CheckboxWithAriaLabelledbyComponent);
-      fixture.detectChanges();
 
       checkboxDebugElement = fixture.debugElement.query(
         By.directive(SkyCheckboxComponent),
@@ -627,7 +603,6 @@ describe('Checkbox component', () => {
 
     it('should not assign aria-labelledby if no labeledBy is provided', async () => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
-      fixture.detectChanges();
 
       checkboxDebugElement = fixture.debugElement.query(
         By.directive(SkyCheckboxComponent),

@@ -272,15 +272,17 @@ describe('Toggle switch component', () => {
         imports: [SkyToggleSwitchFixturesModule],
         providers: [SkyFormFieldLabelTextRequiredService],
       });
-      
-      const fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
-      const switchEl =
-        fixture.nativeElement.querySelector('.sky-toggle-switch');
 
-      expect(switchEl).not.toExist();
-      expect(() => fixture.detectChanges()).toThrowError(
-        'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+      const fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
+      const switchEl = fixture.nativeElement.querySelector('sky-toggle-switch');
+      const labelTextRequiredSvc = TestBed.inject(
+        SkyFormFieldLabelTextRequiredService,
       );
+      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+      fixture.detectChanges();
+
+      expect(labelTextSpy).toHaveBeenCalled();
+      expect(switchEl).not.toBeVisible();
     });
 
     it('should pass accessibility with label element and no `ariaLabel`', async () => {

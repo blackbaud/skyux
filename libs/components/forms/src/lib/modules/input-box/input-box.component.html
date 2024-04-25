@@ -1,80 +1,78 @@
-<ng-container *ngIf="!labelTextRequired || labelText">
-  <div
-    *skyThemeIf="'default'"
-    class="sky-input-box"
-    [ngClass]="{
-      'sky-input-box-disabled': isDisabled
-    }"
-  >
-    <div class="sky-form-group">
-      <div class="sky-input-box-label-wrapper">
-        <ng-container *ngTemplateOutlet="labelTemplate" /><ng-container
-          *ngTemplateOutlet="inlineHelpTemplate"
-        />
-        <ng-container *ngTemplateOutlet="characterCountTemplate" />
-      </div>
-      <div class="sky-input-group">
-        <ng-container *ngTemplateOutlet="buttonsLeftTemplate" />
-        <div
-          class="sky-input-box-input-group-inner"
-          [ngClass]="{
-            'sky-field-status-active': formControlHasFocus,
-            'sky-field-status-invalid': hasErrorsComputed
-          }"
-          (focusin)="formControlFocusIn()"
-          (focusout)="formControlFocusOut()"
-        >
-          <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate" />
-          <ng-container *ngTemplateOutlet="inputTemplate" />
-          <ng-container *ngTemplateOutlet="buttonsInsetTemplate" />
-          <ng-container *ngTemplateOutlet="iconsInsetTemplate" />
-        </div>
-        <ng-container *ngTemplateOutlet="buttonsTemplate" />
-      </div>
-      <ng-container *ngTemplateOutlet="hintTextTemplate" />
-      <ng-container *ngTemplateOutlet="errorLabelTemplate" />
+<div
+  *skyThemeIf="'default'"
+  class="sky-input-box"
+  [ngClass]="{
+    'sky-input-box-disabled': isDisabled
+  }"
+>
+  <div class="sky-form-group">
+    <div class="sky-input-box-label-wrapper">
+      <ng-container *ngTemplateOutlet="labelTemplate" /><ng-container
+        *ngTemplateOutlet="inlineHelpTemplate"
+      />
+      <ng-container *ngTemplateOutlet="characterCountTemplate" />
     </div>
-  </div>
-
-  <div
-    *skyThemeIf="'modern'"
-    class="sky-input-box"
-    [ngClass]="{
-      'sky-input-box-disabled': isDisabled
-    }"
-  >
-    <div class="sky-input-box-group">
+    <div class="sky-input-group">
       <ng-container *ngTemplateOutlet="buttonsLeftTemplate" />
       <div
-        class="sky-input-box-group-form-control"
+        class="sky-input-box-input-group-inner"
         [ngClass]="{
-          'sky-input-box-group-form-control-focus': formControlHasFocus,
-          'sky-input-box-group-form-control-invalid': hasErrorsComputed
+          'sky-field-status-active': formControlHasFocus,
+          'sky-field-status-invalid': hasErrorsComputed
         }"
         (focusin)="formControlFocusIn()"
         (focusout)="formControlFocusOut()"
       >
-        <div class="sky-form-group">
-          <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate" />
-          <div class="sky-input-box-form-group-inner">
-            <div class="sky-input-box-label-wrapper">
-              <ng-container *ngTemplateOutlet="labelTemplate" /><ng-container
-                *ngTemplateOutlet="inlineHelpTemplate"
-              />
-              <ng-container *ngTemplateOutlet="characterCountTemplate" />
-            </div>
-            <ng-container *ngTemplateOutlet="inputTemplate" />
-          </div>
-          <ng-container *ngTemplateOutlet="buttonsInsetTemplate" />
-          <ng-container *ngTemplateOutlet="iconsInsetTemplate" />
-        </div>
+        <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate" />
+        <ng-container *ngTemplateOutlet="inputTemplate" />
+        <ng-container *ngTemplateOutlet="buttonsInsetTemplate" />
+        <ng-container *ngTemplateOutlet="iconsInsetTemplate" />
       </div>
       <ng-container *ngTemplateOutlet="buttonsTemplate" />
     </div>
     <ng-container *ngTemplateOutlet="hintTextTemplate" />
     <ng-container *ngTemplateOutlet="errorLabelTemplate" />
   </div>
-</ng-container>
+</div>
+
+<div
+  *skyThemeIf="'modern'"
+  class="sky-input-box"
+  [ngClass]="{
+    'sky-input-box-disabled': isDisabled
+  }"
+>
+  <div class="sky-input-box-group">
+    <ng-container *ngTemplateOutlet="buttonsLeftTemplate" />
+    <div
+      class="sky-input-box-group-form-control"
+      [ngClass]="{
+        'sky-input-box-group-form-control-focus': formControlHasFocus,
+        'sky-input-box-group-form-control-invalid': hasErrorsComputed
+      }"
+      (focusin)="formControlFocusIn()"
+      (focusout)="formControlFocusOut()"
+    >
+      <div class="sky-form-group">
+        <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate" />
+        <div class="sky-input-box-form-group-inner">
+          <div class="sky-input-box-label-wrapper">
+            <ng-container *ngTemplateOutlet="labelTemplate" /><ng-container
+              *ngTemplateOutlet="inlineHelpTemplate"
+            />
+            <ng-container *ngTemplateOutlet="characterCountTemplate" />
+          </div>
+          <ng-container *ngTemplateOutlet="inputTemplate" />
+        </div>
+        <ng-container *ngTemplateOutlet="buttonsInsetTemplate" />
+        <ng-container *ngTemplateOutlet="iconsInsetTemplate" />
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="buttonsTemplate" />
+  </div>
+  <ng-container *ngTemplateOutlet="hintTextTemplate" />
+  <ng-container *ngTemplateOutlet="errorLabelTemplate" />
+</div>
 
 <ng-template #labelTemplate>
   <ng-content select=".sky-control-label" />

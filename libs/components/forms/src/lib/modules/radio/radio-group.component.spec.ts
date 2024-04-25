@@ -658,12 +658,15 @@ describe('Radio group component (reactive)', function () {
     const fixture = TestBed.createComponent(
       SkyRadioGroupReactiveFixtureComponent,
     );
-    const radioGroup = fixture.nativeElement.querySelector('.sky-radio-group');
-
-    expect(radioGroup).not.toExist();
-    expect(() => fixture.detectChanges()).toThrowError(
-      'All form fields within <sky-field-group> must have `labelText` set on initialization.',
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+    const labelTextRequiredSvc = TestBed.inject(
+      SkyFormFieldLabelTextRequiredService,
     );
+    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    fixture.detectChanges();
+
+    expect(labelTextSpy).toHaveBeenCalled();
+    expect(radioGroup).not.toExist();
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {

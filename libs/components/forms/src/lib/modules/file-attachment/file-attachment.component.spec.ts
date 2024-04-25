@@ -1533,13 +1533,16 @@ describe('File attachment', () => {
 
     const fixture = TestBed.createComponent(FileAttachmentTestComponent);
     const fileAttachment = fixture.nativeElement.querySelector(
-      '.sky-file-attachment-wrapper',
+      'sky-file-attachment',
     );
+    const labelTextRequiredSvc = TestBed.inject(
+      SkyFormFieldLabelTextRequiredService,
+    );
+    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    fixture.detectChanges();
 
-    expect(fileAttachment).not.toExist();
-    expect(() => fixture.detectChanges()).toThrowError(
-      'All form fields within <sky-field-group> must have `labelText` set on initialization.',
-    );
+    expect(labelTextSpy).toHaveBeenCalled();
+    expect(fileAttachment).not.toBeVisible();
   });
 
   it('should mark as dirty when an invalid file is uploaded first', () => {
