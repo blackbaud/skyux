@@ -7,7 +7,6 @@ describe('removeNxCache', () => {
     tree: UnitTestTree;
     mocks: {
       spawnSync: jest.Mock;
-      existsSync: jest.Mock;
       getPackageJsonDependency: jest.Mock;
       isHostTree: jest.Mock;
     };
@@ -15,7 +14,6 @@ describe('removeNxCache', () => {
   }> {
     const mocks = {
       spawnSync: jest.fn(),
-      existsSync: jest.fn().mockReturnValue(false),
       getPackageJsonDependency: jest.fn(),
       isHostTree: jest.fn().mockReturnValue(false),
     };
@@ -24,9 +22,6 @@ describe('removeNxCache', () => {
     }));
     jest.doMock('child_process', () => ({
       spawnSync: mocks.spawnSync,
-    }));
-    jest.doMock('fs', () => ({
-      existsSync: mocks.existsSync,
     }));
     jest.doMock('@angular-devkit/schematics', () => ({
       HostTree: {
@@ -58,6 +53,19 @@ describe('removeNxCache', () => {
     expect(mocks.spawnSync).not.toHaveBeenCalled();
   });
 
+  it('should do nothing if not in a git repo', async () => {
+    const { tree, mocks, removeNxCache } = await setup();
+    mocks.isHostTree.mockReturnValueOnce(true);
+    mocks.spawnSync.mockImplementationOnce(() => {
+      throw new Error();
+    });
+    removeNxCache({ rootDir: '.' })(tree, {
+      logger: { info: jest.fn() },
+    } as any);
+    expect(tree.exists('.nx/cache')).toBe(false);
+    expect(mocks.spawnSync).toHaveBeenCalledTimes(1);
+  });
+
   it('should ignore .nx/cache directory', async () => {
     const { tree, mocks, removeNxCache } = await setup();
     mocks.getPackageJsonDependency.mockReturnValueOnce({
@@ -65,7 +73,6 @@ describe('removeNxCache', () => {
       name: '@angular-eslint/builder',
       version: '1.0.0',
     });
-    mocks.existsSync.mockReturnValueOnce(true);
     mocks.isHostTree.mockReturnValueOnce(true);
     removeNxCache({ rootDir: '.' })(tree, {} as any);
     expect(tree.exists('.nx/cache')).toBe(false);

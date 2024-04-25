@@ -2,19 +2,25 @@ import { HostTree, Rule, Tree } from '@angular-devkit/schematics';
 import { getPackageJsonDependency } from '@schematics/angular/utility/dependencies';
 
 import { spawnSync } from 'child_process';
-import { existsSync } from 'fs';
-import { join } from 'path';
 
 interface RemoveNxCacheOptions {
   rootDir: string;
 }
 
+function isGitPath(path: string): boolean {
+  try {
+    spawnSync('git', ['-C', path, 'rev-parse', '--quiet', '--verify', 'HEAD'], {
+      stdio: 'ignore',
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export function removeNxCache(options: RemoveNxCacheOptions): Rule {
   return (tree: Tree) => {
-    if (
-      HostTree.isHostTree(tree) &&
-      existsSync(join(options.rootDir, '.git/HEAD'))
-    ) {
+    if (HostTree.isHostTree(tree) && isGitPath(options.rootDir)) {
       spawnSync(
         'git',
         [
