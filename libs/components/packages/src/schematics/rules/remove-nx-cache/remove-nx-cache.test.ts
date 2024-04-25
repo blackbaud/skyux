@@ -64,6 +64,13 @@ describe('removeNxCache', () => {
     } as any);
     expect(tree.exists('.nx/cache')).toBe(false);
     expect(mocks.spawnSync).toHaveBeenCalledTimes(1);
+    expect(mocks.spawnSync).toHaveBeenCalledWith(
+      'git',
+      ['-C', '.', 'rev-parse', '--quiet', '--verify', 'HEAD'],
+      {
+        stdio: 'ignore',
+      },
+    );
   });
 
   it('should ignore .nx/cache directory', async () => {
@@ -76,7 +83,14 @@ describe('removeNxCache', () => {
     mocks.isHostTree.mockReturnValueOnce(true);
     removeNxCache({ rootDir: '.' })(tree, {} as any);
     expect(tree.exists('.nx/cache')).toBe(false);
-    expect(mocks.spawnSync).toHaveBeenCalled();
+    expect(mocks.spawnSync).toHaveBeenCalledTimes(2);
+    expect(mocks.spawnSync).toHaveBeenCalledWith(
+      'git',
+      ['-C', '.', 'rm', '-rf', '--cached', '--quiet', '.nx/cache'],
+      {
+        stdio: 'ignore',
+      },
+    );
     expect(tree.readContent('.gitignore')).toContain('.nx/cache');
   });
 });

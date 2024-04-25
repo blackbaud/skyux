@@ -15,6 +15,6 @@ describe('remove-nx-cache.schematic', () => {
     tree.create('.gitignore', '');
     tree.create('package.json', '{}');
     await runner.runSchematic('remove-nx-cache', {}, tree);
-    expect(tree.readText('.gitignore')).not.toContain('.nx/cache');
+    expect(tree.readText('.gitignore')).toContain('.nx/cache');
   });
 });
