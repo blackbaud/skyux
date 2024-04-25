@@ -7,6 +7,7 @@
     type="radio"
     [attr.aria-label]="labelText || label"
     [attr.aria-labelledby]="labelText ? undefined : labelledBy"
+    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
     [checked]="checked"
     [disabled]="disabled || radioGroupDisabled"
     [id]="inputId"
@@ -37,3 +38,8 @@
     <ng-content select="sky-radio-label" />
   </ng-template>
 </label>
+<div skyId #hintTextEl="skyId">
+  <div *ngIf="hintText" class="sky-font-deemphasized sky-radio-hint-text">
+    {{ hintText }}
+  </div>
+</div>
