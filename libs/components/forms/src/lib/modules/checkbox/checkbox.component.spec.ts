@@ -1278,7 +1278,7 @@ describe('Checkbox component', () => {
       expect(checkboxIcon).toHaveCssClass('fa-umbrella');
     });
 
-    it('should set span class based on checkbox type input', () => {
+    it('should set the switch control class based on the checkbox type input', () => {
       fixture.detectChanges();
 
       let span = debugElement.query(
