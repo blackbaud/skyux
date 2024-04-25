@@ -99,7 +99,11 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
-    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+    const harness = await this.locatorForOptional(
+      SkyHelpInlineHarness.with({
+        ancestor: '.sky-checkbox-group > .sky-control-label',
+      }),
+    )();
 
     if (harness) {
       return harness;

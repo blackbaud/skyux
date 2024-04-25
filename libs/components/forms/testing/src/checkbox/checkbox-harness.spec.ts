@@ -228,4 +228,51 @@ describe('Checkbox harness', () => {
       'No form errors found.',
     );
   });
+
+  it('should throw an error if no help inline is found', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-mail-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.clickHelpInline()).toBeRejectedWithError(
+      'No help inline found.',
+    );
+  });
+
+  it('should open help inline popover', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should get help popover content', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolvedTo(
+      '(xxx)xxx-xxxx',
+    );
+  });
+
+  it('should get help popover title', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(checkboxHarness.getHelpPopoverTitle()).toBeResolvedTo(
+      'Format',
+    );
+  });
 });
