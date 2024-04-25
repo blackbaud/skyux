@@ -233,8 +233,17 @@
     [required]="true"
     [stacked]="true"
   >
-    <sky-checkbox formControlName="email" labelText="Email" />
-    <sky-checkbox formControlName="phone" labelText="Phone" />
+    <sky-checkbox
+      formControlName="email"
+      labelText="Email"
+      helpPopoverContent="content"
+      required="true"
+    />
+    <sky-checkbox
+      formControlName="phone"
+      labelText="Phone"
+      helpPopoverContent="content"
+    />
     <sky-checkbox formControlName="text" labelText="Text" />
     <sky-form-error
       *ngIf="contactMethod.errors?.['contactMethodRequired']"
