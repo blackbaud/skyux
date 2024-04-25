@@ -43,6 +43,8 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public labelHidden = false;
 
+  public hintText: string | undefined;
+
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
 
