@@ -36,6 +36,8 @@ export { SkyToggleSwitchChange } from './lib/modules/toggle-switch/types/toggle-
 
 export { SKY_FORM_ERRORS_ENABLED } from './lib/modules/form-error/form-errors-enabled-token';
 
+export { SkyFormFieldLabelTextRequiredService } from './lib/modules/shared/form-field-label-text-required.service';
+
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 
