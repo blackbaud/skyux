@@ -3,6 +3,7 @@
   role="radiogroup"
   [attr.aria-label]="labelText ? undefined : ariaLabel"
   [attr.aria-labelledby]="labelText ? undefined : ariaLabelledBy"
+  [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
   [attr.aria-owns]="ariaOwns"
   [attr.aria-required]="required ? true : null"
   [attr.required]="required ? '' : null"
@@ -16,11 +17,20 @@
     class="sky-control-label"
     [ngClass]="{
       'sky-screen-reader-only': labelHidden,
+      'sky-margin-stacked-sm': !hintText,
       'sky-control-label-required': required
     }"
   >
     {{ labelText }}
   </legend>
+  <div skyId #hintTextEl="skyId">
+    <div
+      *ngIf="hintText"
+      class="sky-font-deemphasized sky-radio-group-hint-text"
+    >
+      {{ hintText }}
+    </div>
+  </div>
   <ng-content />
 </fieldset>
 <sky-form-errors

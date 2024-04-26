@@ -38,6 +38,7 @@ let nextUniqueId = 0;
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
+  styleUrls: ['./radio-group.component.scss'],
   providers: [
     SkyRadioGroupIdService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
@@ -192,6 +193,14 @@ export class SkyRadioGroupComponent
 
   @HostBinding('style.display')
   public display: string | undefined;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * Our radio components are usually implemented using an unordered list. This is an

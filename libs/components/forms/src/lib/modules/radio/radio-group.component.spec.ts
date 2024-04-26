@@ -584,7 +584,7 @@ describe('Radio group component (reactive)', function () {
     const radioGroupEl = getRadioGroup(fixture);
 
     expect(radioGroupEl?.getAttribute('aria-owns')).toEqual(
-      'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_6-input sky-radio-MOCK_ID_8-input',
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_7-input sky-radio-MOCK_ID_9-input',
     );
   });
 
@@ -595,7 +595,7 @@ describe('Radio group component (reactive)', function () {
 
     const originalAriaOwns = radioGroupEl?.getAttribute('aria-owns');
     expect(originalAriaOwns).toEqual(
-      'sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_6-input sky-radio-MOCK_ID_8-input',
+      'sky-radio-MOCK_ID_3-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_7-input sky-radio-MOCK_ID_9-input',
     );
 
     // Change an existing ID to something else.
@@ -604,7 +604,7 @@ describe('Radio group component (reactive)', function () {
 
     const newAriaOwns = radioGroupEl?.getAttribute('aria-owns');
     expect(newAriaOwns).toEqual(
-      'sky-radio-foobar-input sky-radio-MOCK_ID_4-input sky-radio-MOCK_ID_6-input sky-radio-MOCK_ID_8-input',
+      'sky-radio-foobar-input sky-radio-MOCK_ID_5-input sky-radio-MOCK_ID_7-input sky-radio-MOCK_ID_9-input',
     );
   });
 
@@ -646,6 +646,20 @@ describe('Radio group component (reactive)', function () {
     expect(labelEl).not.toBeNull();
     expect(radioGroup?.getAttribute('aria-labelledBy')).toBeNull();
     expect(radioGroup?.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('should display the hint text if `hintText` is set', () => {
+    const hintText = 'Hint text for the group.';
+
+    fixture.componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    const hintEl = fixture.nativeElement.querySelector(
+      '.sky-radio-group-hint-text',
+    );
+
+    expect(hintEl).not.toBeNull();
+    expect(hintEl?.textContent.trim()).toBe(hintText);
   });
 
   it('should not render if a parent component requires label text and it is not provided', () => {
