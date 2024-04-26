@@ -61,4 +61,5 @@ export class TextEditorFixtureComponent {
   ];
   public value = '<p>Some text</p>';
   public labelText: string | undefined;
+  public hintText: string | undefined;
 }

@@ -547,6 +547,20 @@ describe('Text editor', () => {
       validateIframeDocumentAttribute('aria-label', undefined);
     });
 
+    it('renders hint text', () => {
+      const hintText = 'Hint text for the group.';
+
+      testComponent.hintText = hintText;
+      fixture.detectChanges();
+
+      const hintEl = fixture.nativeElement.querySelector(
+        '.sky-text-editor-hint-text',
+      );
+
+      expect(hintEl).not.toBeNull();
+      expect(hintEl?.textContent.trim()).toBe(hintText);
+    });
+
     [
       {
         desc: 'new window',
