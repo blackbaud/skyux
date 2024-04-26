@@ -38,6 +38,8 @@ export class TextEditorComponent {
 
   public labelText = 'Text editor';
 
+  public hintText = 'Hint text';
+
   public myForm: UntypedFormGroup;
 
   public placeholder = 'This is what placeholder text looks like';

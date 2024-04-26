@@ -54,6 +54,7 @@
     [attr.title]="
       labelText || ('skyux_text_editor_iframe_title_default' | skyLibResources)
     "
+    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
     [ngClass]="{
       'sky-text-editor-wrapper-disabled': disabled
     }"
@@ -62,6 +63,11 @@
     allow="clipboard-read *; clipboard-write *"
   >
   </iframe>
+</div>
+<div skyId #hintTextEl="skyId">
+  <div *ngIf="hintText" class="sky-font-deemphasized sky-text-editor-hint-text">
+    {{ hintText }}
+  </div>
 </div>
 <sky-form-errors
   *ngIf="labelText && ngControl?.errors"
