@@ -55,10 +55,6 @@
   margin: 10px;
 }
 
-.sky-file-attachment-hint-text {
-  margin-top: var(--sky-margin-stacked-xs);
-}
-
 @include mixins.sky-theme-modern {
   .sky-control-label {
     color: $sky-theme-modern-font-deemphasized-color;

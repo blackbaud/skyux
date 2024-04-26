@@ -1,6 +1,9 @@
 <label
   class="sky-radio-wrapper sky-switch"
-  [ngClass]="{ 'sky-switch-disabled': disabled || radioGroupDisabled }"
+  [ngClass]="{
+    'sky-switch-disabled': disabled || radioGroupDisabled,
+    'sky-margin-stacked-xs': !!hintText
+  }"
 >
   <input
     class="sky-radio-input sky-switch-input"
@@ -38,8 +41,10 @@
     <ng-content select="sky-radio-label" />
   </ng-template>
 </label>
-<div skyId #hintTextEl="skyId">
-  <div *ngIf="hintText" class="sky-font-deemphasized sky-radio-hint-text">
-    {{ hintText }}
-  </div>
+<div
+  skyId
+  [ngClass]="{ 'sky-font-deemphasized sky-radio-hint-text': !!hintText }"
+  #hintTextEl="skyId"
+>
+  {{ hintText }}
 </div>

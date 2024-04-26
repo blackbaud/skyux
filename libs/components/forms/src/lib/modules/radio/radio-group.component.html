@@ -23,13 +23,15 @@
   >
     {{ labelText }}
   </legend>
-  <div skyId #hintTextEl="skyId">
-    <div
-      *ngIf="hintText"
-      class="sky-font-deemphasized sky-radio-group-hint-text"
-    >
-      {{ hintText }}
-    </div>
+  <div
+    skyId
+    [ngClass]="{
+      'sky-font-deemphasized sky-margin-stacked-lg sky-radio-group-hint-text':
+        !!hintText
+    }"
+    #hintTextEl="skyId"
+  >
+    {{ hintText }}
   </div>
   <ng-content />
 </fieldset>

@@ -1,4 +1,7 @@
-<span class="sky-checkbox-outer-wrapper">
+<span
+  class="sky-checkbox-outer-wrapper"
+  [class.sky-margin-stacked-xs]="!!hintText"
+>
   <label
     class="sky-checkbox-wrapper sky-switch"
     [ngClass]="{
@@ -77,13 +80,15 @@
     [popoverContent]="helpPopoverContent"
   />
 </span>
-<span skyId #hintTextEl="skyId">
-  <div
-    *ngIf="hintText"
-    class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin"
-  >
-    {{ hintText }}
-  </div>
+<span
+  skyId
+  [ngClass]="{
+    'sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin':
+      !!hintText
+  }"
+  #hintTextEl="skyId"
+>
+  {{ hintText }}
 </span>
 <sky-form-errors
   class="sky-checkbox-form-margin"

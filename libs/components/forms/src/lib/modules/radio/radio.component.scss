@@ -23,8 +23,7 @@
 }
 
 .sky-radio-hint-text {
-  margin: var(--sky-margin-stacked-xs) 0 0
-    calc(var(--sky-switch-size) + var(--sky-switch-margin));
+  margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
 }
 
 @include mixins.sky-theme-modern {

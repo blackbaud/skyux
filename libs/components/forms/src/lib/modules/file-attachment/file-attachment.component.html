@@ -1,4 +1,7 @@
-<div class="sky-file-attachment-wrapper">
+<div
+  class="sky-file-attachment-wrapper"
+  [class.sky-margin-stacked-xs]="!!hintText"
+>
   <div
     class="sky-file-attachment-label-wrapper"
     [attr.id]="labelElementId"
@@ -154,13 +157,14 @@
     [src]="value.url"
   />
 </div>
-<div skyId #hintTextEl="skyId">
-  <div
-    *ngIf="hintText"
-    class="sky-font-deemphasized sky-file-attachment-hint-text"
-  >
-    {{ hintText }}
-  </div>
+<div
+  skyId
+  [ngClass]="{
+    'sky-font-deemphasized sky-file-attachment-hint-text': !!hintText
+  }"
+  #hintTextEl="skyId"
+>
+  {{ hintText }}
 </div>
 
 <sky-form-errors

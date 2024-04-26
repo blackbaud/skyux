@@ -2,7 +2,13 @@
   class="sky-field-group"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
 >
-  <legend [ngClass]="{ 'sky-screen-reader-only': labelHidden }">
+  <legend
+    [ngClass]="{
+      'sky-screen-reader-only': labelHidden,
+      'sky-margin-stacked-xs': !!hintText,
+      'sky-margin-stacked-sm': !hintText
+    }"
+  >
     <h3 *ngIf="headingLevel === 3" [class]="headingClass">
       {{ labelText }}
     </h3>
@@ -10,13 +16,15 @@
       {{ labelText }}
     </h4>
   </legend>
-  <div skyId #hintTextEl="skyId">
-    <div
-      *ngIf="hintText"
-      class="sky-field-group-hint-text sky-font-deemphasized"
-    >
-      {{ hintText }}
-    </div>
+  <div
+    skyId
+    [ngClass]="{
+      'sky-font-deemphasized sky-margin-stacked-lg sky-field-group-hint-text':
+        !!hintText
+    }"
+    #hintTextEl="skyId"
+  >
+    {{ hintText }}
   </div>
   <div class="sky-field-group-content">
     <ng-content />

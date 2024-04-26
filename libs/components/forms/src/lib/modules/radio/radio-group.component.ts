@@ -38,7 +38,6 @@ let nextUniqueId = 0;
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
-  styleUrls: ['./radio-group.component.scss'],
   providers: [
     SkyRadioGroupIdService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },

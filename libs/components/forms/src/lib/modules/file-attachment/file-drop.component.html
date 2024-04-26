@@ -14,7 +14,10 @@
   </legend>
   <div
     class="sky-file-drop-row"
-    [ngClass]="{ 'sky-file-drop-allow-links': allowLinks }"
+    [ngClass]="{
+      'sky-file-drop-allow-links': allowLinks,
+      'sky-margin-stacked-xs': !!hintText
+    }"
   >
     <div
       class="sky-file-drop-col"
@@ -152,10 +155,12 @@
       </div>
     </div>
   </div>
-  <div skyId #hintTextEl="skyId">
-    <div *ngIf="hintText" class="sky-font-deemphasized sky-file-drop-hint-text">
-      {{ hintText }}
-    </div>
+  <div
+    skyId
+    [ngClass]="{ 'sky-font-deemphasized sky-file-drop-hint-text': !!hintText }"
+    #hintTextEl="skyId"
+  >
+    {{ hintText }}
   </div>
 </fieldset>
 <sky-form-errors
