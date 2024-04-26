@@ -69,10 +69,6 @@
   }
 }
 
-.sky-text-editor-hint-text {
-  margin-top: var(--sky-margin-stacked-xs);
-}
-
 .sky-theme-modern {
   .sky-text-editor {
     @include mixins.sky-theme-modern-border;

@@ -3,7 +3,8 @@
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused,
-    'sky-text-editor-invalid': ngControl.errors
+    'sky-text-editor-invalid': ngControl.errors,
+    'sky-margin-stacked-xs': !!hintText
   }"
 >
   <div class="sky-text-editor-label-wrapper">
@@ -64,10 +65,15 @@
   >
   </iframe>
 </div>
-<div skyId #hintTextEl="skyId">
-  <div *ngIf="hintText" class="sky-font-deemphasized sky-text-editor-hint-text">
-    {{ hintText }}
-  </div>
+<div
+  skyId
+  [ngClass]="{
+    'sky-font-deemphasized sky-margin-stacked-lg sky-text-editor-hint-text':
+      !!hintText
+  }"
+  #hintTextEl="skyId"
+>
+  {{ hintText }}
 </div>
 <sky-form-errors
   *ngIf="labelText && ngControl?.errors"
