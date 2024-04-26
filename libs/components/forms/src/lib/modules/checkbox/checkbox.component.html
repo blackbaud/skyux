@@ -1,6 +1,6 @@
 <span
   class="sky-checkbox-outer-wrapper"
-  [class.sky-margin-stacked-xs]="!!hintText"
+  [ngClass]="{ 'sky-margin-stacked-xs': !!hintText }"
 >
   <label
     class="sky-checkbox-wrapper sky-switch"

@@ -1,6 +1,6 @@
 <div
   class="sky-file-attachment-wrapper"
-  [class.sky-margin-stacked-xs]="!!hintText"
+  [ngClass]="{ 'sky-margin-stacked-xs': !!hintText }"
 >
   <div
     class="sky-file-attachment-label-wrapper"
