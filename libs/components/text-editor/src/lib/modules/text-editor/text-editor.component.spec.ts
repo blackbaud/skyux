@@ -1756,7 +1756,7 @@ describe('Text editor', () => {
     });
   });
 
-  it('does not display if a parent component requires label text and it is not provided', () => {
+  it('should not display if a parent component requires label text and it is not provided', () => {
     fixture = createComponent(TextEditorFixtureComponent, [
       SkyFormFieldLabelTextRequiredService,
     ]);
@@ -1767,7 +1767,10 @@ describe('Text editor', () => {
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
 
+    const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
     expect(labelTextSpy).toHaveBeenCalled();
+    expect(textEditor).not.toBeVisible();
   });
 
   describe('with ngModel', () => {
