@@ -37,8 +37,9 @@
     <sky-radio-group
       ariaLabelledBy="favorite-id"
       formControlName="favoriteSeason"
-      [required]="required"
+      hintText="Group hint text"
       labelText="What is your favorite season? (reactive)"
+      [required]="required"
     >
       <ul class="sky-list-unstyled">
         <li *ngFor="let value of seasons">
