@@ -1,6 +1,7 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <sky-checkbox-group
     [formGroup]="contactMethod"
+    [hintText]="hintText"
     [labelHidden]="labelHidden"
     [required]="required"
     [stacked]="stacked"

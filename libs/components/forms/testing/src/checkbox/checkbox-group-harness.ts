@@ -19,7 +19,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-checkbox-group';
 
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
-
+  #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
   #getLabel = this.locatorFor('.sky-control-label');
 
   /**
@@ -68,6 +68,15 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    */
   public async getLabelText(): Promise<string | undefined> {
     return (await this.#getLabel()).text();
+  }
+
+  /**
+   * Gets the checkbox group's hint text.
+   */
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
+
+    return (await hintText?.text())?.trim() ?? '';
   }
 
   /**

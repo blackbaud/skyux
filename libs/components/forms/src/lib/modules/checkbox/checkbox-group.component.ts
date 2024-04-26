@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
@@ -34,6 +34,7 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
     SkyFormErrorsModule,
     SkyFormsResourcesModule,
     SkyHelpInlineModule,
+    SkyIdModule,
   ],
   providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
 })
@@ -68,6 +69,14 @@ export class SkyCheckboxGroupComponent {
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * Whether the checkbox group is required.

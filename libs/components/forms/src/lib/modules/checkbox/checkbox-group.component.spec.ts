@@ -73,6 +73,20 @@ describe('Checkbox group component', function () {
       expect(legend).toHaveClass('sky-screen-reader-only');
     });
 
+    it('should display the hint text if `hintText` is set', () => {
+      const hintText = 'Hint text for the group.';
+
+      fixture.componentInstance.hintText = hintText;
+      fixture.detectChanges();
+
+      const hintEl = fixture.nativeElement.querySelector(
+        '.sky-checkbox-group-hint-text',
+      );
+
+      expect(hintEl).not.toBeNull();
+      expect(hintEl?.textContent.trim()).toBe(hintText);
+    });
+
     it('should have the lg margin class if stacked is true', () => {
       const group = getCheckboxGroup(fixture);
 
