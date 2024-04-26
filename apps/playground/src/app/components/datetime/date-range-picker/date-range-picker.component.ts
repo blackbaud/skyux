@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -25,6 +25,7 @@ export class DateRangePickerComponent {
   public reactiveForm: UntypedFormGroup;
   public startDateRequired = false;
 
+  readonly #changeDetector = inject(ChangeDetectorRef);
   #required = false;
 
   public get pickerFormControl(): AbstractControl {
@@ -42,10 +43,12 @@ export class DateRangePickerComponent {
         status,
         this.pickerFormControl.errors,
       );
+      this.#changeDetector.detectChanges();
     });
 
     this.pickerFormControl.valueChanges.subscribe((value) => {
       console.log('Date range value change:', value);
+      this.#changeDetector.detectChanges();
     });
   }
 

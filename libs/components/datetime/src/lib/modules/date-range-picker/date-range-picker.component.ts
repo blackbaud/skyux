@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   HostBinding,
+  Injector,
   Input,
   NgZone,
   OnChanges,
@@ -17,7 +19,7 @@ import {
   AbstractControl,
   ControlValueAccessor,
   NG_VALIDATORS,
-  NG_VALUE_ACCESSOR,
+  NgControl,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
@@ -40,12 +42,6 @@ import { SkyDateRangeCalculation } from './types/date-range-calculation';
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
-
-const SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SkyDateRangePickerComponent),
-  multi: true,
-};
 
 const SKY_DATE_RANGE_PICKER_VALIDATOR = {
   provide: NG_VALIDATORS,
@@ -70,14 +66,19 @@ let uniqueId = 0;
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss'],
   providers: [
-    SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR,
     SKY_DATE_RANGE_PICKER_VALIDATOR,
     { provide: SKY_DATEPICKER_HINT_TEXT_HIDDEN, useValue: true },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDateRangePickerComponent
-  implements OnInit, OnChanges, OnDestroy, ControlValueAccessor, Validator
+  implements
+    AfterViewInit,
+    OnInit,
+    OnChanges,
+    OnDestroy,
+    ControlValueAccessor,
+    Validator
 {
   /**
    * IDs for the date range options to include in the picker's dropdown.
@@ -175,7 +176,7 @@ export class SkyDateRangePickerComponent
   /**
    * Whether to require users to specify a start date.
    * @default false
-   * @deprecated Use standard form field validation to make the entire control as required instead.
+   * @deprecated Use Angular's `Validators.required` on the form control to mark the date range picker as required.
    */
   @Input()
   public startDateRequired: boolean | undefined = false;
@@ -183,7 +184,7 @@ export class SkyDateRangePickerComponent
   /**
    * Whether to require users to specify a end date.
    * @default false
-   * @deprecated Use standard form field validation to make the entire control as required instead.
+   * @deprecated Use Angular's `Validators.required` on the form control to mark the date range picker as required.
    */
   @Input()
   public endDateRequired: boolean | undefined = false;
@@ -242,7 +243,9 @@ export class SkyDateRangePickerComponent
 
   readonly #appFormatter = inject(SkyAppFormat);
   #control: AbstractControl | undefined;
+  readonly #injector = inject(Injector);
   #preferredShortDateFormat: string | undefined;
+  #ngControl: NgControl | null | undefined;
   #ngUnsubscribe = new Subject<void>();
   readonly #resourceSvc = inject(SkyLibResourcesService);
 
@@ -317,6 +320,13 @@ export class SkyDateRangePickerComponent
   }
 
   public ngOnInit(): void {
+    this.#ngControl = this.#injector.get(NgControl, null, {
+      optional: true,
+    });
+    if (this.#ngControl) {
+      this.#ngControl.valueAccessor = this;
+    }
+
     this.#createForm();
 
     this.#updateCalculators().then(() => {
@@ -373,6 +383,23 @@ export class SkyDateRangePickerComponent
     this.#labelTextRequired?.validateLabelText(this.label);
   }
 
+  public ngAfterViewInit(): void {
+    /* safety check */
+    /* istanbul ignore else */
+    if (this.#ngControl) {
+      this.#ngControl.statusChanges
+        ?.pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateRequiredStates();
+        });
+      this.#updateRequiredStates();
+      this.#control = SkyFormsUtility.getAbstractControl(
+        this.#ngControl,
+        this.#injector,
+      );
+    }
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (
       changes['calculatorIds'] &&
@@ -427,18 +454,6 @@ export class SkyDateRangePickerComponent
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.#control) {
-      this.#control = control;
-
-      this.#updateRequiredStates();
-
-      this.#control.statusChanges
-        ?.pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateRequiredStates();
-        });
-    }
-
     if (!this.isReady) {
       return null;
     }
@@ -480,7 +495,7 @@ export class SkyDateRangePickerComponent
     idControl?.markAsDirty();
 
     // Need to mark the control as touched for the error messages to appear.
-    this.#control.markAsTouched();
+    this.#control?.markAsTouched();
 
     // Notify the view to display any errors.
     this.#changeDetector.markForCheck();
@@ -658,25 +673,21 @@ export class SkyDateRangePickerComponent
   }
 
   #updateRequiredStates(): void {
-    /* safety check */
-    /* istanbul ignore else */
-    if (this.#control) {
-      const originalValue = this.required;
-      // Due to the way the validator handles errors in the child components. We need to turn off direct wiring of required validation on these children before determining
-      // if the parent form control is required.
-      this.required = false;
-      this.#changeDetector.detectChanges();
+    const originalValue = this.required;
+    this.required = SkyFormsUtility.hasRequiredValidation(
+      this.#ngControl,
+      this.#injector,
+    );
 
-      this.required = SkyFormsUtility.hasRequiredValidation(this.#control);
-      // Without this line - the outer form control is not updated in the parent. `markForCheck` does not update these either.
-      this.#changeDetector.detectChanges();
-      if (this.required !== originalValue) {
-        this.#calculatorIdControl?.updateValueAndValidity({ emitEvent: false });
-        this.#startDateControl?.updateValueAndValidity({ emitEvent: false });
-        this.#endDateControl?.updateValueAndValidity({ emitEvent: false });
+    this.#calculatorIdControl?.updateValueAndValidity();
+    this.#startDateControl?.updateValueAndValidity();
+    this.#endDateControl?.updateValueAndValidity();
+
+    // We need to update the outer control - but only if the required state has changed. Otherwise - we would enter an infinite loop.
+    if (originalValue !== this.required) {
+      this.#ngZone.onStable.pipe(first()).subscribe(() => {
         this.#control?.updateValueAndValidity();
-        this.#changeDetector.markForCheck();
-      }
+      });
     }
   }
 

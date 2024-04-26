@@ -8,6 +8,7 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -260,6 +261,7 @@ export class SkyFileAttachmentComponent
   #themeSvc: SkyThemeService | undefined;
 
   readonly #idSvc = inject(SkyIdService);
+  readonly #injector = inject(Injector);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
@@ -328,7 +330,7 @@ export class SkyFileAttachmentComponent
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
         this.required ||
-        SkyFormsUtility.hasRequiredValidation(this.ngControl.control);
+        SkyFormsUtility.hasRequiredValidation(this.ngControl, this.#injector);
     }
   }
 

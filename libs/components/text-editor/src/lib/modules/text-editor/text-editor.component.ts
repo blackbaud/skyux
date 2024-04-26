@@ -6,6 +6,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  Injector,
   Input,
   NgZone,
   OnDestroy,
@@ -366,6 +367,7 @@ export class SkyTextEditorComponent
   readonly #coreAdapterService = inject(SkyCoreAdapterService);
   readonly #editorService = inject(SkyTextEditorService);
   readonly #idSvc = inject(SkyIdService);
+  readonly #injector = inject(Injector);
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
@@ -553,7 +555,7 @@ export class SkyTextEditorComponent
         this.ngControl.errors,
       );
       this.#adapterService.setRequiredAttribute(
-        SkyFormsUtility.hasRequiredValidation(this.ngControl.control),
+        SkyFormsUtility.hasRequiredValidation(this.ngControl, this.#injector),
       );
     }
   }

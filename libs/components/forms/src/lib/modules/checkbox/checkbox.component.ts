@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  Injector,
   Input,
   OnInit,
   Output,
@@ -329,6 +330,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   #changeDetector = inject(ChangeDetectorRef);
   #idSvc = inject(SkyIdService);
+  #injector = inject(Injector);
   #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
 
@@ -365,7 +367,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
         this.required ||
-        SkyFormsUtility.hasRequiredValidation(this.ngControl.control);
+        SkyFormsUtility.hasRequiredValidation(this.ngControl, this.#injector);
     }
 
     if (this.#labelTextRequired && !this.labelText) {
