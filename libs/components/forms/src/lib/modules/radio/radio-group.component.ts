@@ -4,8 +4,10 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  HostBinding,
   Input,
   OnDestroy,
+  OnInit,
   Optional,
   QueryList,
   Self,
@@ -19,6 +21,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
@@ -35,13 +38,14 @@ let nextUniqueId = 0;
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
+  styleUrls: ['./radio-group.component.scss'],
   providers: [
     SkyRadioGroupIdService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
 })
 export class SkyRadioGroupComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy
+  implements AfterContentInit, AfterViewInit, OnInit, OnDestroy
 {
   /**
    * The HTML element ID of the element that labels
@@ -187,6 +191,17 @@ export class SkyRadioGroupComponent
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
+
   /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
@@ -220,6 +235,10 @@ export class SkyRadioGroupComponent
 
   readonly #logger = inject(SkyLogService);
   readonly #idService = inject(SkyIdService);
+
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
 
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
@@ -296,6 +315,13 @@ export class SkyRadioGroupComponent
         });
       });
     }
+  }
+
+  public ngOnInit(): void {
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

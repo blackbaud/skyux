@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   Input,
   NgZone,
   OnChanges,
@@ -24,6 +25,7 @@ import {
   Validator,
 } from '@angular/forms';
 import { SkyAppFormat, SkyFormsUtility } from '@skyux/core';
+import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -186,6 +188,9 @@ export class SkyDateRangePickerComponent
   @Input()
   public endDateRequired: boolean | undefined = false;
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   public selectedCalculator: SkyDateRangeCalculator | undefined;
 
   public readonly dateRangePickerId = `sky-date-range-picker-${uniqueId++}`;
@@ -230,6 +235,10 @@ export class SkyDateRangePickerComponent
   get #valueOrDefault(): SkyDateRangeCalculation | undefined {
     return this.#_valueOrDefault;
   }
+
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
 
   readonly #appFormatter = inject(SkyAppFormat);
   #control: AbstractControl | undefined;
@@ -357,6 +366,11 @@ export class SkyDateRangePickerComponent
           this.dateFormatOrDefault,
         );
       });
+
+    if (this.#labelTextRequired && !this.label) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.label);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

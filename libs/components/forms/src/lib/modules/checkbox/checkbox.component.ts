@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Output,
@@ -17,6 +18,7 @@ import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyCheckboxChange } from './checkbox-change';
 
@@ -303,6 +305,9 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_inputEl;
   }
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   protected inputId = '';
 
   #checkedChange: BehaviorSubject<boolean>;
@@ -331,6 +336,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     optional: true,
     self: true,
   });
+
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
+
   protected readonly errorId = this.#idSvc.generateId();
 
   constructor() {
@@ -357,6 +367,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
         this.required ||
         SkyFormsUtility.hasRequiredValidation(this.ngControl.control);
     }
+
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   /**
