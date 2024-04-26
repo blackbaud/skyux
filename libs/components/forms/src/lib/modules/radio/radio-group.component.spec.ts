@@ -8,6 +8,8 @@ import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
 import { SkyRadioGroupReactiveFixtureComponent } from './fixtures/radio-group-reactive.component.fixture';
@@ -658,6 +660,28 @@ describe('Radio group component (reactive)', function () {
 
     expect(hintEl).not.toBeNull();
     expect(hintEl?.textContent.trim()).toBe(hintText);
+  });
+
+  it('should not render if a parent component requires label text and it is not provided', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [SkyRadioFixturesModule],
+      providers: [SkyFormFieldLabelTextRequiredService],
+    });
+
+    const fixture = TestBed.createComponent(
+      SkyRadioGroupReactiveFixtureComponent,
+    );
+    const labelTextRequiredSvc = TestBed.inject(
+      SkyFormFieldLabelTextRequiredService,
+    );
+    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    fixture.detectChanges();
+
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
+    expect(labelTextSpy).toHaveBeenCalled();
+    expect(radioGroup).not.toBeVisible();
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
