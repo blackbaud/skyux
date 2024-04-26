@@ -21,7 +21,6 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 @Component({
   selector: 'sky-checkbox-group',
   templateUrl: './checkbox-group.component.html',
-  styleUrls: ['./checkbox-group.component.scss'],
   styles: [
     `
       :host {
