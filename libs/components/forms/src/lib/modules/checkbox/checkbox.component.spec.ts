@@ -22,6 +22,8 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { sampleTime } from 'rxjs/operators';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyCheckboxChange } from './checkbox-change';
 import { SkyCheckboxComponent } from './checkbox.component';
 import { SkyCheckboxModule } from './checkbox.module';
@@ -36,6 +38,8 @@ import { SkyCheckboxModule } from './checkbox.module';
       [disabled]="isDisabled"
       [icon]="icon"
       [id]="id"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
       [hintText]="hintText"
       [labelText]="labelText"
       [(indeterminate)]="indeterminate"
@@ -55,8 +59,10 @@ class SingleCheckboxComponent implements AfterViewInit {
   public indeterminate = false;
   public isChecked: boolean | undefined = false;
   public isDisabled = false;
-  public showInlineHelp = false;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
   public labelText: string | undefined;
+  public showInlineHelp = false;
   public hintText: string | undefined;
 
   @ViewChild(SkyCheckboxComponent)
@@ -472,6 +478,59 @@ describe('Checkbox component', () => {
       );
 
       expect(label?.textContent?.trim()).toBe(labelText);
+    });
+
+    it('should not render if a parent component requires label text and it is not provided', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        declarations: [SingleCheckboxComponent],
+        imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
+        providers: [SkyFormFieldLabelTextRequiredService],
+      });
+
+      const fixture = TestBed.createComponent(SingleCheckboxComponent);
+      const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
+      const labelTextRequiredSvc = TestBed.inject(
+        SkyFormFieldLabelTextRequiredService,
+      );
+      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+      fixture.detectChanges();
+
+      expect(labelTextSpy).toHaveBeenCalled();
+      expect(checkbox).not.toBeVisible();
+    });
+
+    it('should render help inline popover only if label text is provided', () => {
+      testComponent.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      testComponent.labelText = 'label text';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
+    });
+
+    it('should not render help inline popover if title is provided without content', () => {
+      testComponent.labelText = 'label text';
+      testComponent.helpPopoverTitle = 'popover title';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      testComponent.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
     });
 
     it('should render the hintText when provided', () => {
@@ -1241,34 +1300,44 @@ describe('Checkbox component', () => {
       expect(checkboxIcon).toHaveCssClass('fa-umbrella');
     });
 
-    it('should set span class based on checkbox type input', () => {
+    it('should set the switch control class based on the checkbox type input', () => {
       fixture.detectChanges();
 
-      let span = debugElement.query(By.css('span')).nativeElement;
+      let span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.checkboxType = 'info';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.checkboxType = 'success';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-success');
 
       fixture.componentInstance.checkboxType = 'warning';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-warning');
 
       fixture.componentInstance.checkboxType = 'danger';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(
+        By.css('span.sky-switch-control'),
+      ).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-danger');
     });
 

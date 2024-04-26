@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement, Type } from '@angular/core';
+import { Component, DebugElement, Provider, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -18,6 +18,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
+import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
@@ -75,7 +76,10 @@ describe('Text editor', () => {
   //#endregion
 
   //#region helper functions
-  function createComponent<T>(componentType: Type<T>): ComponentFixture<T> {
+  function createComponent<T>(
+    componentType: Type<T>,
+    additionalProviders: Provider[] = [],
+  ): ComponentFixture<T> {
     id = 0;
     TestBed.configureTestingModule({
       imports: [
@@ -94,6 +98,7 @@ describe('Text editor', () => {
             generateId: () => ID_DEFAULT + (++id).toString(),
           },
         },
+        ...additionalProviders,
       ],
     }).compileComponents();
 
@@ -1749,6 +1754,23 @@ describe('Text editor', () => {
         );
       }));
     });
+  });
+
+  it('should not display if a parent component requires label text and it is not provided', () => {
+    fixture = createComponent(TextEditorFixtureComponent, [
+      SkyFormFieldLabelTextRequiredService,
+    ]);
+
+    const labelTextRequiredSvc = TestBed.inject(
+      SkyFormFieldLabelTextRequiredService,
+    );
+    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    fixture.detectChanges();
+
+    const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
+    expect(labelTextSpy).toHaveBeenCalled();
+    expect(textEditor).not.toBeVisible();
   });
 
   describe('with ngModel', () => {

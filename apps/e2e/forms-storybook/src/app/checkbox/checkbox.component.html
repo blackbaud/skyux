@@ -54,7 +54,8 @@
         ngModel
         [checked]="false"
         [required]="true"
-        labelText="Required Checkbox"
+        helpPopoverContent="content"
+        labelText="Checkbox with all easy mode inputs"
         hintText="Hint text"
         id="touched-required-checkbox"
       />
@@ -78,6 +79,37 @@
     <sky-column>
       <sky-checkbox [checked]="true" [disabled]="true">
         <sky-checkbox-label> Disabled Checked Checkbox </sky-checkbox-label>
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        labelText="Checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        labelText="Required checkbox with easy mode help inline"
+        helpPopoverContent="popover Content"
+        [required]="true"
+      >
+      </sky-checkbox>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <sky-checkbox
+        ngModel
+        labelText="Checkbox with easy mode errors and help inline"
+        helpPopoverContent="popover Content"
+        [required]="true"
+        id="touched-easy-mode-checkbox"
+      >
       </sky-checkbox>
     </sky-column>
   </sky-row>

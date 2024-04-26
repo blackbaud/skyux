@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
 import { SkyFileItem } from './file-item';
@@ -37,6 +39,8 @@ describe('File drop component', () => {
     );
 
     fixture = TestBed.createComponent(SkyFileDropComponent);
+    fixture.detectChanges();
+
     el = fixture.nativeElement;
     componentInstance = fixture.componentInstance;
 
@@ -389,6 +393,26 @@ describe('File drop component', () => {
 
     expect(labelEl).not.toBeNull();
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
+  });
+
+  it('should not render if a parent component requires label text and it is not provided', () => {
+    TestBed.resetTestingModule();
+
+    TestBed.configureTestingModule({
+      imports: [SkyFileAttachmentsModule],
+      declarations: [FileDropContentComponent],
+      providers: [SkyFormFieldLabelTextRequiredService],
+    });
+
+    const fixture = TestBed.createComponent(SkyFileDropComponent);
+    const labelTextRequiredSvc = TestBed.inject(
+      SkyFormFieldLabelTextRequiredService,
+    );
+    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    fixture.detectChanges();
+
+    expect(labelTextSpy).toHaveBeenCalled();
+    expect(fixture.nativeElement).not.toBeVisible();
   });
 
   it('should render the hintText when provided', () => {

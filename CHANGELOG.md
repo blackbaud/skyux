@@ -1,5 +1,25 @@
 # Changelog
 
+## [10.8.0](https://github.com/blackbaud/skyux/compare/10.7.0...10.8.0) (2024-04-26)
+
+
+### Features
+
+* **components/forms:** add `hintText` to checkbox component ([#2248](https://github.com/blackbaud/skyux/issues/2248)) ([3f11064](https://github.com/blackbaud/skyux/commit/3f11064af150dbef6f3bc327a377841fa58beda3))
+* **components/forms:** add `hintText` to radio button component ([#2249](https://github.com/blackbaud/skyux/issues/2249)) ([4a6dc2f](https://github.com/blackbaud/skyux/commit/4a6dc2f45ace2a5698af4c0b0aa7cd90b788483f))
+* **components/forms:** add help inline inputs to checkbox ([#2247](https://github.com/blackbaud/skyux/issues/2247)) ([417b713](https://github.com/blackbaud/skyux/commit/417b713a2420ecb7e6cdf92cc68b8608fb4bec4d))
+* **components/forms:** add help inline inputs to checkbox group ([#2251](https://github.com/blackbaud/skyux/issues/2251)) ([dec6bdb](https://github.com/blackbaud/skyux/commit/dec6bdb4272643c1b9b243fffb7c1d7b8cae4985))
+* **components/forms:** add hint text to field group component ([#2242](https://github.com/blackbaud/skyux/issues/2242)) ([fdd56d9](https://github.com/blackbaud/skyux/commit/fdd56d9e26cdaaa47762728d28fa2306116d7e38))
+* **components/forms:** add hintText to file attachment ([c375bec](https://github.com/blackbaud/skyux/commit/c375bec14ed47cba149919bc8ce2c438ba275656))
+
+
+### Bug Fixes
+
+* **components/forms:** fix hint text preview tag ([#2250](https://github.com/blackbaud/skyux/issues/2250)) ([1b9d200](https://github.com/blackbaud/skyux/commit/1b9d200de8fc2a80bf0483c93f343591ce63792e))
+* **components/forms:** restore spacing between file attachment action buttons in mobile size ([#2244](https://github.com/blackbaud/skyux/issues/2244)) ([700fb48](https://github.com/blackbaud/skyux/commit/700fb48f7abd5b6f26a688e95c88f631e990a497))
+* **components/packages:** ignore `.nx/cache` directory ([#2254](https://github.com/blackbaud/skyux/issues/2254)) ([bef97c5](https://github.com/blackbaud/skyux/commit/bef97c5f2ec3d1ef609574e3b7fae3dac5b847c1))
+* **components/text-editor:** rich text display handles being cleared and then set back to the original text ([#2245](https://github.com/blackbaud/skyux/issues/2245)) ([52e2ee9](https://github.com/blackbaud/skyux/commit/52e2ee92af90e2878c9717fd1a759d4aa4d14945))
+
 ## [10.7.0](https://github.com/blackbaud/skyux/compare/10.6.2...10.7.0) (2024-04-16)
 
 
