@@ -290,6 +290,23 @@ describe('Radio component', function () {
       expect(radios.item(2).getAttribute('aria-labelledby')).toBeNull();
     }));
 
+    it('should render the hintText when provided', () => {
+      const hintText1 = 'hint text 1';
+      const hintText2 = 'hint text 2';
+      const hintText3 = 'hint text 3';
+      fixture.componentInstance.hintText1 = hintText1;
+      fixture.componentInstance.hintText2 = hintText2;
+      fixture.componentInstance.hintText3 = hintText3;
+      fixture.detectChanges();
+
+      const radios = fixture.nativeElement.querySelectorAll(
+        '.sky-radio-hint-text',
+      );
+      expect(radios.item(0).textContent?.trim()).toBe(hintText1);
+      expect(radios.item(1).textContent?.trim()).toBe(hintText2);
+      expect(radios.item(2).textContent?.trim()).toBe(hintText3);
+    });
+
     it('should use 0 when a tabindex is not specified', fakeAsync(function () {
       fixture.detectChanges();
       tick();
