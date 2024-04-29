@@ -1,10 +1,12 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyFieldGroupHeadingLevel,
   SkyFieldGroupHeadingStyle,
 } from '@skyux/forms';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyFieldGroupHarnessFilters } from './field-group-harness-filters';
 
@@ -82,5 +84,41 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
     const heading = (await this.#getH3()) || (await this.#getH4());
 
     return (await heading?.hasClass('sky-font-heading-3')) ? 3 : 4;
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(
+      SkyHelpInlineHarness.with({
+        ancestor: '.sky-field-group > .sky-field-group-legend-wrapper',
+      }),
+    )();
+
+    if (harness) {
+      return harness;
+    }
+    throw Error('No help inline found.');
   }
 }
