@@ -10,6 +10,7 @@
     [tabIndex]="tabIndex"
     [labelText]="labelText"
     [labelHidden]="labelHidden"
+    [hintText]="hintText"
   >
     <legend id="radio-group-label">Reactive Radio button options:</legend>
     <ul class="sky-list-unstyled">
@@ -20,7 +21,7 @@
       </li>
     </ul>
     <sky-form-error
-      *ngIf="radioControl.errors?.['incorrectOption']"
+      *ngIf="radioControl?.errors?.['incorrectOption']"
       errorName="incorrectOption"
       errorText="This option is incorrect."
     />

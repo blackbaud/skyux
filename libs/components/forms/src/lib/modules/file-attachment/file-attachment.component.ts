@@ -7,6 +7,7 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -14,6 +15,7 @@ import {
   Output,
   QueryList,
   Self,
+  TemplateRef,
   ViewChild,
   booleanAttribute,
   inject,
@@ -31,6 +33,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
@@ -88,6 +91,23 @@ export class SkyFileAttachmentComponent
   }
 
   /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the single file attachment label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
    * The text to display as the file attachment's label.
    * @preview
    */
@@ -100,6 +120,14 @@ export class SkyFileAttachmentComponent
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * The maximum size in bytes for valid files.
@@ -167,6 +195,9 @@ export class SkyFileAttachmentComponent
   @Input()
   public required: boolean | undefined = false;
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   public set value(value: SkyFileItem | undefined | null) {
     // The null check is needed to address a bug in Angular 4.
     // writeValue is being called twice, first time with a phantom null value
@@ -232,6 +263,10 @@ export class SkyFileAttachmentComponent
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
+
   protected ngControl: NgControl | undefined;
   protected errorId = this.#idSvc.generateId();
 
@@ -268,6 +303,11 @@ export class SkyFileAttachmentComponent
           this.#updateFileAttachmentButton();
         });
     }
+
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngAfterViewInit(): void {

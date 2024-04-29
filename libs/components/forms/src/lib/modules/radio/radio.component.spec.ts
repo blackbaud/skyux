@@ -10,6 +10,8 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
 import { SkySingleRadioComponent } from './fixtures/radio-single.component.fixture';
@@ -248,6 +250,25 @@ describe('Radio component', function () {
       expect(radioLabels.item(2).textContent?.trim()).toBe(label3);
     }));
 
+    it('should not render if a parent component requires label text and it is not provided', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [SkyRadioFixturesModule],
+        providers: [SkyFormFieldLabelTextRequiredService],
+      });
+
+      const fixture = TestBed.createComponent(SkyRadioTestComponent);
+      const radio = fixture.nativeElement.querySelector('sky-radio');
+      const labelTextRequiredSvc = TestBed.inject(
+        SkyFormFieldLabelTextRequiredService,
+      );
+      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+      fixture.detectChanges();
+
+      expect(labelTextSpy).toHaveBeenCalled();
+      expect(radio).not.toBeVisible();
+    });
+
     it('should use labelText as an accessible label over label and labelledBy', fakeAsync(function () {
       const label1 = 'Label 1';
       const label2 = 'Label 2';
@@ -268,6 +289,23 @@ describe('Radio component', function () {
       expect(radios.item(1).getAttribute('aria-labelledby')).toBeNull();
       expect(radios.item(2).getAttribute('aria-labelledby')).toBeNull();
     }));
+
+    it('should render the hintText when provided', () => {
+      const hintText1 = 'hint text 1';
+      const hintText2 = 'hint text 2';
+      const hintText3 = 'hint text 3';
+      fixture.componentInstance.hintText1 = hintText1;
+      fixture.componentInstance.hintText2 = hintText2;
+      fixture.componentInstance.hintText3 = hintText3;
+      fixture.detectChanges();
+
+      const radios = fixture.nativeElement.querySelectorAll(
+        '.sky-radio-hint-text',
+      );
+      expect(radios.item(0).textContent?.trim()).toBe(hintText1);
+      expect(radios.item(1).textContent?.trim()).toBe(hintText2);
+      expect(radios.item(2).textContent?.trim()).toBe(hintText3);
+    });
 
     it('should use 0 when a tabindex is not specified', fakeAsync(function () {
       fixture.detectChanges();

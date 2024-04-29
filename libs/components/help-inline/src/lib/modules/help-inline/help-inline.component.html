@@ -1,0 +1,47 @@
+<button
+  class="sky-help-inline"
+  type="button"
+  [attr.aria-label]="
+    labelText
+      ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+      : ariaLabel
+        ? ariaLabel
+        : ('skyux_help_inline_button_title' | skyLibResources)
+  "
+  [attr.aria-controls]="popoverId || ariaControls"
+  [attr.aria-expanded]="
+    ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
+  "
+  (click)="onClick()"
+  [skyPopover]="popoverContent ? popover : undefined"
+>
+  <sky-icon *skyThemeIf="'default'" icon="info-circle" />
+  <sky-icon-stack
+    *skyThemeIf="'modern'"
+    size="xs"
+    [baseIcon]="{
+      icon: 'circle-solid',
+      iconType: 'skyux'
+    }"
+    [topIcon]="{
+      icon: 'help-i',
+      iconType: 'skyux'
+    }"
+  />
+</button>
+
+<sky-popover
+  #popover
+  [id]="popoverId"
+  (popoverClosed)="popoverOpened(false)"
+  (popoverOpened)="popoverOpened(true)"
+  [popoverTitle]="popoverTitle"
+>
+  <ng-container *ngIf="popoverTemplate; else popoverContext">
+    <ng-container *ngTemplateOutlet="popoverTemplate" />
+  </ng-container>
+</sky-popover>
+
+<ng-template #popoverContext>
+  {{ popoverContent }}
+</ng-template>

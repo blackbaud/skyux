@@ -3,7 +3,8 @@
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused,
-    'sky-text-editor-invalid': ngControl.errors
+    'sky-text-editor-invalid': ngControl.errors,
+    'sky-margin-stacked-xs': !!hintText
   }"
 >
   <div class="sky-text-editor-label-wrapper">
@@ -54,6 +55,7 @@
     [attr.title]="
       labelText || ('skyux_text_editor_iframe_title_default' | skyLibResources)
     "
+    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
     [ngClass]="{
       'sky-text-editor-wrapper-disabled': disabled
     }"
@@ -62,6 +64,15 @@
     allow="clipboard-read *; clipboard-write *"
   >
   </iframe>
+</div>
+<div
+  skyId
+  [ngClass]="{
+    'sky-font-deemphasized sky-text-editor-hint-text': !!hintText
+  }"
+  #hintTextEl="skyId"
+>
+  {{ hintText }}
 </div>
 <sky-form-errors
   *ngIf="labelText && ngControl?.errors"

@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true
+  },
+  "exclude": ["**/*.spec.ts", "src/test.ts", "src/**/*.test.ts"],
+  "include": ["**/*.ts", "karma.conf.js"]
+}

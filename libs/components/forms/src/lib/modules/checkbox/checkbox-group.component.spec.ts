@@ -73,6 +73,20 @@ describe('Checkbox group component', function () {
       expect(legend).toHaveClass('sky-screen-reader-only');
     });
 
+    it('should display the hint text if `hintText` is set', () => {
+      const hintText = 'Hint text for the group.';
+
+      fixture.componentInstance.hintText = hintText;
+      fixture.detectChanges();
+
+      const hintEl = fixture.nativeElement.querySelector(
+        '.sky-checkbox-group-hint-text',
+      );
+
+      expect(hintEl).not.toBeNull();
+      expect(hintEl?.textContent.trim()).toBe(hintText);
+    });
+
     it('should have the lg margin class if stacked is true', () => {
       const group = getCheckboxGroup(fixture);
 
@@ -92,18 +106,22 @@ describe('Checkbox group component', function () {
       componentInstance.required = true;
       fixture.detectChanges();
 
-      const legend = getLegend(fixture);
+      const label = fixture.nativeElement.querySelector(
+        'span.sky-margin-inline-xs',
+      );
 
-      expect(legend).toHaveClass('sky-control-label-required');
+      expect(label).toHaveClass('sky-control-label-required');
       expect(getLegendScreenReaderText(fixture)).toBe('Required');
     });
 
     it('should not include the asterisk and screen reader text when not required', () => {
       fixture.detectChanges();
 
-      const legend = getLegend(fixture);
+      const label = fixture.nativeElement.querySelector(
+        'span.sky-margin-inline-xs',
+      );
 
-      expect(legend).not.toHaveClass('sky-control-label-required');
+      expect(label).not.toHaveClass('sky-control-label-required');
       expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 

@@ -3,13 +3,23 @@
     class="sky-file-attachment-label-wrapper"
     [attr.id]="labelElementId"
     [ngClass]="{
-      'sky-control-label-required': required && (hasLabelComponent || labelText)
+      'sky-control-label-required': !labelText && required && hasLabelComponent
     }"
   >
     <ng-container *ngIf="labelText; else labelContent">
-      <span *ngIf="!labelHidden" class="sky-control-label">{{
-        labelText
-      }}</span>
+      <span
+        *ngIf="!labelHidden"
+        class="sky-control-label sky-margin-inline-xs"
+        [ngClass]="{
+          'sky-control-label-required': required
+        }"
+        >{{ labelText }}</span
+      ><sky-help-inline
+        *ngIf="helpPopoverContent"
+        [labelText]="labelText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
     </ng-container>
     <span
       class="sky-screen-reader-only"
@@ -30,7 +40,7 @@
   >
     <div
       aria-hidden="true"
-      class="sky-file-attachment-drop-description"
+      class="sky-screen-reader-only"
       role="tooltip"
       [attr.id]="fileDropDescriptionElementId"
     >
@@ -52,7 +62,9 @@
         class="sky-file-attachment-btn sky-btn sky-btn-default"
         type="button"
         skyId
-        [attr.aria-describedby]="fileDropDescriptionElementId"
+        [attr.aria-describedby]="
+          (hintText ? hintTextEl.id + ' ' : '') + fileDropDescriptionElementId
+        "
         [attr.aria-label]="
           value
             ? ('skyux_file_attachment_button_label_replace_file_label'
@@ -141,6 +153,14 @@
     "
     [src]="value.url"
   />
+</div>
+<div skyId #hintTextEl="skyId">
+  <div
+    *ngIf="hintText"
+    class="sky-font-deemphasized sky-file-attachment-hint-text"
+  >
+    {{ hintText }}
+  </div>
 </div>
 
 <sky-form-errors

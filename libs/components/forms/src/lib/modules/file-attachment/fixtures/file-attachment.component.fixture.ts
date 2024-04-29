@@ -16,6 +16,8 @@ export class FileAttachmentTestComponent {
 
   public fileForm: UntypedFormGroup;
 
+  public hintText: string | undefined;
+
   public labelElementText: string | undefined = 'Choose file';
 
   public labelHidden = false;
@@ -27,6 +29,10 @@ export class FileAttachmentTestComponent {
   public showLabel = true;
 
   public maxFileSize: number | undefined;
+
+  public popoverContent: string | undefined;
+
+  public popoverTitle: string | undefined;
 
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;

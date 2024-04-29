@@ -1,5 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
@@ -17,8 +19,79 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-checkbox-group';
 
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
-
+  #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
   #getLabel = this.locatorFor('.sky-control-label');
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyCheckboxGroupHarness` that meets certain criteria.
+   */
+  public static with(
+    filters: SkyCheckboxGroupHarnessFilters,
+  ): HarnessPredicate<SkyCheckboxGroupHarness> {
+    return SkyCheckboxGroupHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets an array of harnesses for the checkboxes in the checkbox group.
+   */
+  public async getCheckboxes(): Promise<SkyCheckboxHarness[]> {
+    return await this.#getCheckboxes();
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  /**
+   * Gets the checkbox group's label text. If `labelHidden` is true,
+   * the text will still be returned.
+   */
+  public async getLabelText(): Promise<string | undefined> {
+    return (await this.#getLabel()).text();
+  }
+
+  /**
+   * Gets the checkbox group's hint text.
+   */
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
+
+    return (await hintText?.text())?.trim() ?? '';
+  }
+
+  /**
+   * Whether the label is hidden.
+   */
+  public async getLabelHidden(): Promise<boolean> {
+    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
+  }
+
+  /**
+   * Whether the checkbox group has errors.
+   */
+  public async hasError(errorName: string): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError(errorName);
+  }
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {
     const harness = await this.locatorForOptional(
@@ -34,36 +107,17 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
     throw Error('No form errors found.');
   }
 
-  /**
-   * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyCheckboxGroupHarness` that meets certain criteria.
-   */
-  public static with(
-    filters: SkyCheckboxGroupHarnessFilters,
-  ): HarnessPredicate<SkyCheckboxGroupHarness> {
-    return SkyCheckboxGroupHarness.getDataSkyIdPredicate(filters);
-  }
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(
+      SkyHelpInlineHarness.with({
+        ancestor: '.sky-checkbox-group > .sky-control-label',
+      }),
+    )();
 
-  /**
-   * Gets the checkbox group's label text. If `labelHidden` is true,
-   * the text will still be returned.
-   */
-  public async getLabelText(): Promise<string | undefined> {
-    return (await this.#getLabel()).text();
-  }
+    if (harness) {
+      return harness;
+    }
 
-  /**
-   * Whether the label is hidden.
-   */
-  public async getLabelHidden(): Promise<boolean> {
-    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
-  }
-
-  public async getCheckboxes(): Promise<SkyCheckboxHarness[]> {
-    return await this.#getCheckboxes();
-  }
-
-  public async hasError(errorName: string): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError(errorName);
+    throw Error('No help inline found.');
   }
 }

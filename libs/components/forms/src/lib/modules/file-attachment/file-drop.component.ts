@@ -2,8 +2,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
   booleanAttribute,
@@ -16,6 +18,7 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { take } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyFileAttachmentService } from './file-attachment.service';
 import { SkyFileItem } from './file-item';
@@ -45,7 +48,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
 })
-export class SkyFileDropComponent implements OnDestroy {
+export class SkyFileDropComponent implements OnInit, OnDestroy {
   /**
    * Fires when users add or remove files.
    */
@@ -164,8 +167,22 @@ export class SkyFileDropComponent implements OnDestroy {
   @Input()
   public hintText: string | undefined;
 
+  /**
+   * Whether uploading a file or link is required.
+   * When you set this property to `true`, the component adds `aria-required` and `required`
+   * attributes to the input elements so that screen readers announce an invalid state until the input element
+   * is complete.
+   * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public required = false;
+
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
+
+  @HostBinding('style.display')
+  public display: string | undefined;
 
   public rejectedOver = false;
   public acceptedOver = false;
@@ -182,8 +199,19 @@ export class SkyFileDropComponent implements OnDestroy {
   readonly #resourcesSvc = inject(SkyLibResourcesService);
   readonly #idSvc = inject(SkyIdService);
 
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
+
   protected errorId = this.#idSvc.generateId();
   protected rejectedFiles: SkyFileItem[] = [];
+
+  public ngOnInit(): void {
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
+  }
 
   public ngOnDestroy(): void {
     this.filesChanged.complete();

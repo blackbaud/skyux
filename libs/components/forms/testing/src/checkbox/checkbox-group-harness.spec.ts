@@ -68,6 +68,20 @@ describe('Checkbox group harness', () => {
     );
   });
 
+  it('should get the hint text', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+    const hintText = 'Hint text for the section.';
+
+    await expectAsync(checkboxGroupHarness.getHintText()).toBeResolvedTo('');
+
+    fixture.componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHintText()).toBeResolvedTo(
+      hintText,
+    );
+  });
+
   it('should display an error message when there is a custom validation error', async () => {
     const { checkboxGroupHarness } = await setupTest();
     const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[0];
@@ -89,5 +103,56 @@ describe('Checkbox group harness', () => {
     await expectAsync(
       checkboxGroupHarness.hasError('test'),
     ).toBeRejectedWithError('No form errors found.');
+  });
+
+  it('should throw an error if no help inline is found', async () => {
+    const { checkboxGroupHarness } = await setupTest();
+
+    await expectAsync(
+      checkboxGroupHarness.clickHelpInline(),
+    ).toBeRejectedWithError('No help inline found.');
+  });
+
+  it('should open help inline popover', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    await checkboxGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(
+      checkboxGroupHarness.getHelpPopoverContent(),
+    ).toBeResolved();
+  });
+
+  it('should get help popover content', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    await checkboxGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(
+      checkboxGroupHarness.getHelpPopoverContent(),
+    ).toBeResolvedTo('popover content');
+  });
+
+  it('should get help popover title', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentInstance.helpPopoverTitle = 'popover title';
+    fixture.detectChanges();
+
+    await checkboxGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(
+      checkboxGroupHarness.getHelpPopoverTitle(),
+    ).toBeResolvedTo('popover title');
   });
 });

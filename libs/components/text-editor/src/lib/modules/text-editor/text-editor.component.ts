@@ -9,6 +9,7 @@ import {
   Input,
   NgZone,
   OnDestroy,
+  OnInit,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
@@ -18,11 +19,13 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import {
   SkyCoreAdapterService,
   SkyFormsUtility,
+  SkyIdModule,
   SkyIdService,
 } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
+  SkyFormFieldLabelTextRequiredService,
   SkyInputBoxHostService,
 } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -69,6 +72,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
   ],
   imports: [
     CommonModule,
+    SkyIdModule,
     SkyTextEditorMenubarComponent,
     SkyTextEditorToolbarComponent,
     SkyToolbarModule,
@@ -77,7 +81,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
   ],
 })
 export class SkyTextEditorComponent
-  implements AfterViewInit, OnDestroy, ControlValueAccessor
+  implements AfterViewInit, OnInit, OnDestroy, ControlValueAccessor
 {
   /**
    * Whether to put focus on the editor after it renders.
@@ -153,6 +157,14 @@ export class SkyTextEditorComponent
   public get fontSizeList(): number[] {
     return this.#_fontSizeList;
   }
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * The unique ID attribute for the text editor.
@@ -336,6 +348,9 @@ export class SkyTextEditorComponent
     optional: true,
   });
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   protected editorFocused = false;
 
   #defaultId: string;
@@ -364,6 +379,10 @@ export class SkyTextEditorComponent
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
+
   protected readonly errorId = this.#idSvc.generateId();
   protected readonly ngControl = inject(NgControl);
 
@@ -376,6 +395,12 @@ export class SkyTextEditorComponent
     this.#initIframe();
   }
 
+  public ngOnInit(): void {
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
+  }
   public ngOnDestroy(): void {
     this.#adapterService.removeObservers(this.#editorService.editor);
     this.#ngUnsubscribe.next();

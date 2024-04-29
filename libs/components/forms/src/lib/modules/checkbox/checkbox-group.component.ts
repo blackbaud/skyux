@@ -3,11 +3,13 @@ import {
   Component,
   HostBinding,
   Input,
+  TemplateRef,
   booleanAttribute,
   inject,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdModule, SkyIdService } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
@@ -27,10 +29,33 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
     `,
   ],
   standalone: true,
-  imports: [CommonModule, SkyFormErrorsModule, SkyFormsResourcesModule],
+  imports: [
+    CommonModule,
+    SkyFormErrorsModule,
+    SkyFormsResourcesModule,
+    SkyHelpInlineModule,
+    SkyIdModule,
+  ],
   providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
 })
 export class SkyCheckboxGroupComponent {
+  /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the checkbox group fieldset legend. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
   /**
    * The text to display as the checkbox group's label.
    * @preview
@@ -44,6 +69,14 @@ export class SkyCheckboxGroupComponent {
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * Whether the checkbox group is required.

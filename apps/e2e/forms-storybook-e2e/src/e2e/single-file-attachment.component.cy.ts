@@ -11,10 +11,15 @@ describe('forms-storybook - single file attachment', () => {
       it('should render the single file attachment component', () => {
         cy.get('app-single-file-attachment')
           .should('exist')
+          .should('be.visible');
+        cy.get('sky-help-inline')
+          .eq(1)
+          .should('exist')
           .should('be.visible')
-          .screenshot(
-            `singlefileattachmentcomponent-singlefileattachment--single-file-attachment-${theme}`,
-          );
+          .click();
+        cy.get('app-single-file-attachment').screenshot(
+          `singlefileattachmentcomponent-singlefileattachment--single-file-attachment-${theme}`,
+        );
         cy.get('app-single-file-attachment').percySnapshot(
           `singlefileattachmentcomponent-singlefileattachment--single-file-attachment-${theme}`,
           {

@@ -3,6 +3,7 @@
     <div class="sky-margin-stacked-xl">
       <sky-radio-group
         formControlName="radioButtonOption"
+        hintText="Radio group hint text"
         labelText="Radio button options"
       >
         <ul class="sky-list-unstyled">
@@ -45,6 +46,7 @@
               [disabled]="option.disabled"
               [value]="option.value"
               [labelText]="option.name"
+              [hintText]="option.hint"
             />
           </li>
         </ul>

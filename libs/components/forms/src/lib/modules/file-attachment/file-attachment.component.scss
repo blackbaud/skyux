@@ -55,15 +55,8 @@
   margin: 10px;
 }
 
-// Styles taken from:
-// https://webaim.org/techniques/css/invisiblecontent/
-.sky-file-attachment-drop-description {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+.sky-file-attachment-hint-text {
+  margin-top: var(--sky-margin-stacked-xs);
 }
 
 @include mixins.sky-theme-modern {

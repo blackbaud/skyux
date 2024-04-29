@@ -27,7 +27,7 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^17.3.2",
+    "@angular/cli": "^17.3.4",
     "eslint-plugin-deprecation": "^2.0.0"
   },
   "dependencies": {

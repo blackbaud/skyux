@@ -1,0 +1,10 @@
+{
+  "skyux_help_inline_button_title": {
+    "_description": "The title for the help button.",
+    "message": "Show help content"
+  },
+  "skyux_help_inline_aria_label": {
+    "_description": "The aria label for help inline button.",
+    "message": "Show help content for {0}"
+  }
+}

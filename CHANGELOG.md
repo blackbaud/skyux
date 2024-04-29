@@ -1,5 +1,42 @@
 # Changelog
 
+## [10.8.0](https://github.com/blackbaud/skyux/compare/10.7.0...10.8.0) (2024-04-26)
+
+
+### Features
+
+* **components/forms:** add `hintText` to checkbox component ([#2248](https://github.com/blackbaud/skyux/issues/2248)) ([3f11064](https://github.com/blackbaud/skyux/commit/3f11064af150dbef6f3bc327a377841fa58beda3))
+* **components/forms:** add `hintText` to radio button component ([#2249](https://github.com/blackbaud/skyux/issues/2249)) ([4a6dc2f](https://github.com/blackbaud/skyux/commit/4a6dc2f45ace2a5698af4c0b0aa7cd90b788483f))
+* **components/forms:** add help inline inputs to checkbox ([#2247](https://github.com/blackbaud/skyux/issues/2247)) ([417b713](https://github.com/blackbaud/skyux/commit/417b713a2420ecb7e6cdf92cc68b8608fb4bec4d))
+* **components/forms:** add help inline inputs to checkbox group ([#2251](https://github.com/blackbaud/skyux/issues/2251)) ([dec6bdb](https://github.com/blackbaud/skyux/commit/dec6bdb4272643c1b9b243fffb7c1d7b8cae4985))
+* **components/forms:** add hint text to field group component ([#2242](https://github.com/blackbaud/skyux/issues/2242)) ([fdd56d9](https://github.com/blackbaud/skyux/commit/fdd56d9e26cdaaa47762728d28fa2306116d7e38))
+* **components/forms:** add hintText to file attachment ([c375bec](https://github.com/blackbaud/skyux/commit/c375bec14ed47cba149919bc8ce2c438ba275656))
+
+
+### Bug Fixes
+
+* **components/forms:** fix hint text preview tag ([#2250](https://github.com/blackbaud/skyux/issues/2250)) ([1b9d200](https://github.com/blackbaud/skyux/commit/1b9d200de8fc2a80bf0483c93f343591ce63792e))
+* **components/forms:** restore spacing between file attachment action buttons in mobile size ([#2244](https://github.com/blackbaud/skyux/issues/2244)) ([700fb48](https://github.com/blackbaud/skyux/commit/700fb48f7abd5b6f26a688e95c88f631e990a497))
+* **components/packages:** ignore `.nx/cache` directory ([#2254](https://github.com/blackbaud/skyux/issues/2254)) ([bef97c5](https://github.com/blackbaud/skyux/commit/bef97c5f2ec3d1ef609574e3b7fae3dac5b847c1))
+* **components/text-editor:** rich text display handles being cleared and then set back to the original text ([#2245](https://github.com/blackbaud/skyux/issues/2245)) ([52e2ee9](https://github.com/blackbaud/skyux/commit/52e2ee92af90e2878c9717fd1a759d4aa4d14945))
+
+## [10.7.0](https://github.com/blackbaud/skyux/compare/10.6.2...10.7.0) (2024-04-16)
+
+
+### Features
+
+* add support for @angular/core@17.3.4 and ng2-dragula@5.1.0 ([#2239](https://github.com/blackbaud/skyux/issues/2239)) ([be45098](https://github.com/blackbaud/skyux/commit/be45098c9655784c7645192db7b6da58890a28ed))
+* **components/datetime:** add hint text input to date range picker ([#2231](https://github.com/blackbaud/skyux/issues/2231)) ([644fc48](https://github.com/blackbaud/skyux/commit/644fc48f954c4b0efe09f34ce272877fc56e0246))
+* **components/forms:** add help inline popover to single file attachment ([#2205](https://github.com/blackbaud/skyux/issues/2205)) ([1fee6aa](https://github.com/blackbaud/skyux/commit/1fee6aa9bf6d3e2de971451e2840b8c7d9da1f1f))
+* **components/theme:** upgrade icons library to 7.1.0 ([#2238](https://github.com/blackbaud/skyux/issues/2238)) ([f0fd6d4](https://github.com/blackbaud/skyux/commit/f0fd6d47bd6246b0bc7c4e9b86f598dc158d5331))
+
+
+### Bug Fixes
+
+* **components/data-manager:** mark property `viewkeeperClasses` on the `SkyDataManagerService` as internal ([#2240](https://github.com/blackbaud/skyux/issues/2240)) ([e96a650](https://github.com/blackbaud/skyux/commit/e96a6507fa960a14b661e4c83a4bf800efbefca5))
+* **components/forms:** multi file attachment announces required state to screen readers ([#2235](https://github.com/blackbaud/skyux/issues/2235)) ([26ec91c](https://github.com/blackbaud/skyux/commit/26ec91ce2e215ec9e877f8e29057cdb4db2480d0))
+* **components/lists:** update modern active filter button colors to match design guidelines ([#2234](https://github.com/blackbaud/skyux/issues/2234)) ([47fe7a4](https://github.com/blackbaud/skyux/commit/47fe7a4933b9361a3e5dab4e34cf2d4f51c3144d))
+
 ## [10.6.2](https://github.com/blackbaud/skyux/compare/10.6.1...10.6.2) (2024-04-12)
 
 

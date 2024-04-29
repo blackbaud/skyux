@@ -176,7 +176,11 @@
 <div id="reactive-checkbox">
   <h3>Reactive checkbox</h3>
 
-  <form [formGroup]="reactiveFormGroup" novalidate>
+  <form
+    [formGroup]="reactiveFormGroup"
+    novalidate
+    class="sky-margin-stacked-xl"
+  >
     <sky-checkbox
       [indeterminate]="indeterminate"
       [required]="required"
@@ -226,13 +230,25 @@
 
 <form [formGroup]="formGroup">
   <sky-checkbox-group
+    helpPopoverContent="content"
+    helpPopoverTitle="title"
+    hintText="Group hint text"
+    labelText="Contact method"
     [formGroup]="contactMethod"
     [required]="true"
     [stacked]="true"
-    labelText="Contact method"
   >
-    <sky-checkbox formControlName="email" labelText="Email" />
-    <sky-checkbox formControlName="phone" labelText="Phone" />
+    <sky-checkbox
+      formControlName="email"
+      labelText="Email"
+      helpPopoverContent="content"
+      required="true"
+    />
+    <sky-checkbox
+      formControlName="phone"
+      labelText="Phone"
+      helpPopoverContent="content"
+    />
     <sky-checkbox formControlName="text" labelText="Text" />
     <sky-form-error
       *ngIf="contactMethod.errors?.['contactMethodRequired']"

@@ -1,20 +1,43 @@
 <fieldset
   class="sky-checkbox-group"
   [attr.aria-invalid]="!!formGroup.errors"
+  [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
   [attr.aria-errormessage]="labelText && formGroup.errors ? errorId : undefined"
 >
   <legend
     class="sky-control-label"
     [ngClass]="{
       'sky-screen-reader-only': labelHidden,
-      'sky-control-label-required': required
+      'sky-margin-stacked-xs': !!hintText,
+      'sky-margin-stacked-sm': !hintText
     }"
   >
-    {{ labelText
-    }}<span class="sky-screen-reader-only" *ngIf="required">{{
+    <span
+      class="sky-margin-inline-xs"
+      [ngClass]="{
+        'sky-control-label-required': required
+      }"
+      >{{ labelText }}</span
+    ><span class="sky-screen-reader-only" *ngIf="required">{{
       'skyux_checkbox_group_required' | skyLibResources
-    }}</span>
+    }}</span
+    ><sky-help-inline
+      *ngIf="helpPopoverContent && labelText"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
   </legend>
+  <div
+    skyId
+    [ngClass]="{
+      'sky-font-deemphasized sky-margin-stacked-lg sky-checkbox-group-hint-text':
+        !!hintText
+    }"
+    #hintTextEl="skyId"
+  >
+    {{ hintText }}
+  </div>
   <span class="sky-checkbox-group-inline sky-switch-icon-group">
     <ng-content select="sky-checkbox[icon]" />
   </span>
