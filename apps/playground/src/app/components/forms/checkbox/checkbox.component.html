@@ -176,7 +176,11 @@
 <div id="reactive-checkbox">
   <h3>Reactive checkbox</h3>
 
-  <form [formGroup]="reactiveFormGroup" novalidate>
+  <form
+    [formGroup]="reactiveFormGroup"
+    novalidate
+    class="sky-margin-stacked-xl"
+  >
     <sky-checkbox
       [indeterminate]="indeterminate"
       [required]="required"
@@ -228,6 +232,7 @@
   <sky-checkbox-group
     helpPopoverContent="content"
     helpPopoverTitle="title"
+    hintText="Group hint text"
     labelText="Contact method"
     [formGroup]="contactMethod"
     [required]="true"

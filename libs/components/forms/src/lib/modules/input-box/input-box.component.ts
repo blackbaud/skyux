@@ -32,6 +32,7 @@ import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 import { ReplaySubject } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -67,6 +68,10 @@ export class SkyInputBoxComponent
   #idSvc = inject(SkyIdService);
   #elementRef = inject(ElementRef);
   #renderer = inject(Renderer2);
+
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
 
   /**
    * Whether to visually highlight the input box in an error state. If not specified, the input box
@@ -181,6 +186,9 @@ export class SkyInputBoxComponent
   @HostBinding('class')
   public cssClass = '';
 
+  @HostBinding('style.display')
+  public display: string | undefined;
+
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective | undefined;
 
@@ -231,6 +239,11 @@ export class SkyInputBoxComponent
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
+
+    if (this.#labelTextRequired && !this.labelText) {
+      this.display = 'none';
+    }
+    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngAfterContentChecked(): void {
