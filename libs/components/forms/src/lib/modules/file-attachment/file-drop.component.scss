@@ -14,6 +14,10 @@
 
   .sky-file-drop-col {
     flex-basis: auto;
+
+    &:not(:last-of-type) {
+      margin-bottom: $sky-margin;
+    }
   }
 
   .sky-file-drop-allow-links .sky-file-drop-col {
@@ -28,6 +32,10 @@
 
   .sky-file-drop-col {
     flex-basis: 100%;
+
+    &:not(:last-of-type) {
+      margin-bottom: 0;
+    }
   }
 
   .sky-file-drop-allow-links .sky-file-drop-col {
@@ -156,12 +164,6 @@ button.sky-file-drop {
 
 .sky-file-drop-errors {
   margin-bottom: $sky-margin;
-}
-
-@media (max-width: $sky-screen-sm-min) {
-  .sky-file-drop-col:not(:last-of-type) {
-    margin-bottom: $sky-margin;
-  }
 }
 
 @include mixins.sky-theme-modern {
