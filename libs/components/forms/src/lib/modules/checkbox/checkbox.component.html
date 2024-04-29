@@ -77,7 +77,7 @@
     [popoverContent]="helpPopoverContent"
   />
 </span>
-<span
+<div
   skyId
   [ngClass]="{
     'sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin':
@@ -86,7 +86,7 @@
   #hintTextEl="skyId"
 >
   {{ hintText }}
-</span>
+</div>
 <sky-form-errors
   class="sky-checkbox-form-margin"
   *ngIf="labelText && ngControl?.errors"
