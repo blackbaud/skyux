@@ -89,6 +89,32 @@ describe('Field group component', function () {
     expect(hintEl).not.toBeNull();
     expect(hintEl?.textContent.trim()).toBe(hintText);
   });
+
+  it('should render help inline popover', () => {
+    componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
+  });
+
+  it('should not render help inline popover if title is provided without content', () => {
+    componentInstance.helpPopoverTitle = 'popover title';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
+  });
+
   it('should pass accessibility', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
