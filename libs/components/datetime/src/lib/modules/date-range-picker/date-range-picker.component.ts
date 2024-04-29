@@ -187,7 +187,7 @@ export class SkyDateRangePickerComponent
 
   /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
-   * button is added to the checkbox group fieldset legend. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
    * @preview
    */
