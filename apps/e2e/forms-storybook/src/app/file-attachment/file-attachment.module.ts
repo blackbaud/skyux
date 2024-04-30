@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyFileAttachmentsModule } from '@skyux/forms';
-import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import {
+  SkyHelpInlineModule,
+  SkyStatusIndicatorModule,
+} from '@skyux/indicators';
 
 import { FileAttachmentComponent } from './file-attachment.component';
 
@@ -16,6 +19,7 @@ const routes: Routes = [{ path: '', component: FileAttachmentComponent }];
     FormsModule,
     SkyFileAttachmentsModule,
     SkyStatusIndicatorModule,
+    SkyHelpInlineModule,
   ],
   exports: [FileAttachmentComponent],
 })

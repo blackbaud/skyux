@@ -16,11 +16,9 @@
 </div>
 
 <div style="width: 60%" *ngIf="basic">
-  <label class="sky-control-label"> File attachment with inline help</label>
+  <label class="sky-control-label"> File attachment with old inline help</label>
   <sky-help-inline class="sky-control-help"></sky-help-inline>
   <sky-file-drop
-    helpPopoverContent="This should not show up"
-    helpPopoverTitle="This should not show up"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
     (filesChanged)="filesUpdated($event)"
@@ -34,6 +32,7 @@
 
 <div style="width: 60%" *ngIf="basic">
   <sky-file-drop
+    helpPopoverContent="This should not show up"
     helpPopoverTitle="This should not show up"
     labelText="File attachment links removed"
     [acceptedTypes]="acceptedTypes"
