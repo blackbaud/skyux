@@ -20,6 +20,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import {
   SkyCoreAdapterService,
   SkyFormsUtility,
+  SkyIdModule,
   SkyIdService,
 } from '@skyux/core';
 import {
@@ -72,6 +73,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
   ],
   imports: [
     CommonModule,
+    SkyIdModule,
     SkyTextEditorMenubarComponent,
     SkyTextEditorToolbarComponent,
     SkyToolbarModule,
@@ -156,6 +158,14 @@ export class SkyTextEditorComponent
   public get fontSizeList(): number[] {
     return this.#_fontSizeList;
   }
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
 
   /**
    * The unique ID attribute for the text editor.

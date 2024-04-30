@@ -68,6 +68,20 @@ describe('Checkbox group harness', () => {
     );
   });
 
+  it('should get the hint text', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+    const hintText = 'Hint text for the section.';
+
+    await expectAsync(checkboxGroupHarness.getHintText()).toBeResolvedTo('');
+
+    fixture.componentInstance.hintText = hintText;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHintText()).toBeResolvedTo(
+      hintText,
+    );
+  });
+
   it('should display an error message when there is a custom validation error', async () => {
     const { checkboxGroupHarness } = await setupTest();
     const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[0];

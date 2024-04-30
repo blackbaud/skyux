@@ -24,6 +24,7 @@ export class SkyStandardCheckboxGroupComponent {
   protected formGroup: FormGroup;
   protected contactMethod: FormGroup;
 
+  public hintText: string | undefined;
   public labelHidden = false;
   public required = false;
   public stacked = true;

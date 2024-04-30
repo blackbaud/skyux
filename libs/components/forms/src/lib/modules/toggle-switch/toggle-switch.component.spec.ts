@@ -342,6 +342,37 @@ describe('Toggle switch component', () => {
       );
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should render help inline popover', () => {
+      testComponent.helpPopoverContent = 'popover content';
+      testComponent.labelText = 'label text';
+      testComponent.showInlineHelp = false;
+      testComponent.showLabel = false;
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should not render help inline popover if title is provided without content', () => {
+      testComponent.helpPopoverContent = undefined;
+      testComponent.helpPopoverTitle = 'popover title';
+      testComponent.labelText = 'label text';
+      testComponent.showInlineHelp = false;
+      testComponent.showLabel = false;
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(0);
+    });
   });
 
   describe('with change event and no initial value', () => {

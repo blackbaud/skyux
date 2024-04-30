@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyFieldGroupHarness } from './field-group-harness';
 import { FieldGroupComponent } from './fixtures/field-group.component.fixture';
@@ -9,7 +10,7 @@ async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   fixture: ComponentFixture<FieldGroupComponent>;
 }> {
   await TestBed.configureTestingModule({
-    imports: [FieldGroupComponent],
+    imports: [FieldGroupComponent, NoopAnimationsModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(FieldGroupComponent);
@@ -119,5 +120,47 @@ describe('Field group harness', () => {
 
     await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
     await expectAsync(fieldGroupHarness.getHeadingStyle()).toBeResolvedTo(3);
+  });
+
+  it('should throw an error if no help inline is found', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.helpPopoverContent = undefined;
+    fixture.detectChanges();
+
+    await expectAsync(
+      fieldGroupHarness.clickHelpInline(),
+    ).toBeRejectedWithError('No help inline found.');
+  });
+
+  it('should open help inline popover', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+    await fieldGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should get help popover content', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+    await fieldGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolvedTo(
+      'Popover content',
+    );
+  });
+
+  it('should get help popover title', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+    await fieldGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(fieldGroupHarness.getHelpPopoverTitle()).toBeResolvedTo(
+      'Popover title',
+    );
   });
 });
