@@ -34,18 +34,28 @@
       >
     </div>
   </button>
-  <span
-    ><label
+  <span>
+    <label
       *ngIf="hasLabelComponent || labelText"
       [for]="toggle.id"
       [attr.id]="labelId"
       class="sky-toggle-switch-label"
-      ><ng-container *ngIf="labelText; else labelContent">
+    >
+      <ng-container *ngIf="labelText; else labelContent">
         <ng-container *ngIf="!labelHidden">{{ labelText }}</ng-container>
-      </ng-container></label
-    ><span class="sky-control-help-container"
-      ><ng-content select=".sky-control-help" /></span></span
-></span>
+      </ng-container>
+    </label>
+    <span class="sky-control-help-container">
+      <sky-help-inline
+        *ngIf="labelText && helpPopoverContent"
+        [labelText]="labelText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+      <ng-content select=".sky-control-help" />
+    </span>
+  </span>
+</span>
 
 <ng-template #labelContent>
   <ng-content select="sky-toggle-switch-label" />
