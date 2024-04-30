@@ -1,5 +1,21 @@
 # Changelog
 
+## [10.9.0](https://github.com/blackbaud/skyux/compare/10.8.0...10.9.0) (2024-04-29)
+
+
+### Features
+
+* **components/forms:** add `hintText` to radio group component ([#2255](https://github.com/blackbaud/skyux/issues/2255)) ([39a2cf7](https://github.com/blackbaud/skyux/commit/39a2cf750a9ba657b1c6c9b50ef5e0a0dd95e3f0))
+* **components/forms:** add help inline to field group ([#2259](https://github.com/blackbaud/skyux/issues/2259)) ([ba09d9f](https://github.com/blackbaud/skyux/commit/ba09d9f0fa73cc350af905fc934d9aecc6490f23))
+* **components/forms:** add hint text to checkbox group component ([#2252](https://github.com/blackbaud/skyux/issues/2252)) ([3ec98a0](https://github.com/blackbaud/skyux/commit/3ec98a0573db352ee6cf96d75629d85331511ddd))
+* **components/forms:** require labelText for form field components in field group ([#2253](https://github.com/blackbaud/skyux/issues/2253)) ([713ece7](https://github.com/blackbaud/skyux/commit/713ece729a09e18f1e3f2210f03663b8c990e410))
+* **components/text-editor:** add hint text to text editor component ([#2257](https://github.com/blackbaud/skyux/issues/2257)) ([16a6ffd](https://github.com/blackbaud/skyux/commit/16a6ffd3ca568fc8e2eab0a2b52ac5cea0acac50))
+
+
+### Bug Fixes
+
+* **components/forms:** apply file drop margin fix to responsive containers ([#2260](https://github.com/blackbaud/skyux/issues/2260)) ([2e4fe36](https://github.com/blackbaud/skyux/commit/2e4fe36c4628abbd9377380fbbff47f4fed66c4d))
+
 ## [10.8.0](https://github.com/blackbaud/skyux/compare/10.7.0...10.8.0) (2024-04-26)
 
 

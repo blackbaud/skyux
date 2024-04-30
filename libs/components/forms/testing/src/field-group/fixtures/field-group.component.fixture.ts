@@ -32,6 +32,8 @@ export class FieldGroupComponent {
   public labelHidden = false;
   public headingLevel: SkyFieldGroupHeadingLevel = 3;
   public headingStyle: SkyFieldGroupHeadingStyle = 3;
+  public helpPopoverContent: string | undefined = 'Popover content';
+  public helpPopoverTitle = 'Popover title';
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
