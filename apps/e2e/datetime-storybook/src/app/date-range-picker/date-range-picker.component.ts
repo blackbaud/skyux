@@ -17,11 +17,18 @@ export class DateRangePickerComponent {
     label: string;
     calculatorIds: SkyDateRangeCalculatorId[];
     hintText?: string;
+    helpInlineContent?: string;
   }[] = [
     {
       name: 'anyDate',
       label: 'Any date example',
       hintText: 'Hint Text.',
+      calculatorIds: [SkyDateRangeCalculatorId.AnyTime],
+    },
+    {
+      name: 'helpInline',
+      label: 'Help Inline Example',
+      helpInlineContent: 'content',
       calculatorIds: [SkyDateRangeCalculatorId.AnyTime],
     },
     {
