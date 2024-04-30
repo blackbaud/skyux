@@ -2,14 +2,28 @@
   class="sky-field-group"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
 >
-  <legend [ngClass]="{ 'sky-screen-reader-only': labelHidden }">
-    <h3 *ngIf="headingLevel === 3" [class]="headingClass">
-      {{ labelText }}
-    </h3>
-    <h4 *ngIf="headingLevel === 4" [class]="headingClass">
-      {{ labelText }}
-    </h4>
-  </legend>
+  <span class="sky-field-group-legend-wrapper">
+    <legend
+      [ngClass]="{
+        'sky-screen-reader-only': labelHidden,
+        'sky-margin-inline-xs': helpPopoverContent
+      }"
+    >
+      <h3 *ngIf="headingLevel === 3" [class]="headingClass">
+        {{ labelText }}
+      </h3>
+      <h4 *ngIf="headingLevel === 4" [class]="headingClass">
+        {{ labelText }}
+      </h4>
+    </legend>
+    <sky-help-inline
+      *ngIf="helpPopoverContent && labelText"
+      class="sky-field-group-help-inline"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
+  </span>
   <div skyId #hintTextEl="skyId">
     <div
       *ngIf="hintText"

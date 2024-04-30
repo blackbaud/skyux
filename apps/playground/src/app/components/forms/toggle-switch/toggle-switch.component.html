@@ -20,6 +20,7 @@
   </sky-toggle-switch>
   <span>Text after switch</span>
 </div>
+
 <div class="sky-padding-even-large">
   <sky-toggle-switch labelText="Disabled switch" [disabled]="true">
     <sky-toggle-switch-label>Overridden label</sky-toggle-switch-label>
@@ -74,4 +75,14 @@
       class="sky-control-help"
     ></sky-help-inline>
   </sky-toggle-switch>
+</div>
+
+<div class="sky-padding-even-large">
+  <sky-toggle-switch
+    ariaLabel="Switch using help popover content"
+    labelText="Unsubscribe from all"
+    [helpPopoverContent]="
+      showInlineHelp ? 'You will stop receiving emails from us.' : ''
+    "
+  />
 </div>

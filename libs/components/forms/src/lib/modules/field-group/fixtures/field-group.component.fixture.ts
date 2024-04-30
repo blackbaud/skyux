@@ -29,6 +29,8 @@ export class FieldGroupComponent {
   public labelHidden = false;
   public headingStyle = 3;
   public headingLevel = 3;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
