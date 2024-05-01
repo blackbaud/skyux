@@ -67,9 +67,7 @@ describe('Date range picker', function () {
   }
 
   function getCalculatorSelect(): HTMLSelectElement {
-    return fixture.nativeElement.querySelector(
-      `#` + component.dateRangePicker.dateRangePickerId + `-select-calculator`,
-    );
+    return fixture.nativeElement.querySelector(`select`);
   }
 
   function getHelpInlinePopover(): HTMLSelectElement {
