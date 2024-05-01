@@ -6,7 +6,6 @@ import {
   FormGroupDirective,
   NgControl,
   NgModel,
-  Validators,
 } from '@angular/forms';
 
 // Need to add the following to classes which contain static methods.
@@ -52,22 +51,14 @@ export class SkyFormsUtility {
    * https://github.com/angular/angular/issues/13461#issuecomment-340368046
    */
   public static hasRequiredValidation(
-    control?: NgControl | AbstractControl | null,
-    injector?: Injector,
+    abstractControl?: AbstractControl | null,
   ): boolean {
-    if (!control) {
-      return false;
+    if (abstractControl && abstractControl.validator) {
+      const validator = abstractControl.validator({} as AbstractControl);
+      if (validator && validator['required']) {
+        return true;
+      }
     }
-
-    if (!injector && control instanceof NgControl) {
-      throw new Error('Injector must be specified when an NgControl is given');
-    }
-
-    const abstractControl =
-      control instanceof NgControl
-        ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          SkyFormsUtility.getAbstractControl(control, injector!)
-        : control;
-    return !!abstractControl?.hasValidator(Validators.required);
+    return false;
   }
 }

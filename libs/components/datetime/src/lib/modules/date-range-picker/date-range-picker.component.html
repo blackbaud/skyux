@@ -9,7 +9,7 @@
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-select-calculator'"
         [ngClass]="{
-          'sky-control-label-required': required
+          'sky-control-label-required': outerControlRequired
         }"
       >
         {{
@@ -21,7 +21,7 @@
         formControlName="calculatorId"
         [attr.id]="dateRangePickerId + '-select-calculator'"
         [attr.aria-describedby]="hintTextEl.id"
-        [attr.aria-required]="required"
+        [attr.aria-required]="outerControlRequired"
         (blur)="onFieldBlur()"
       >
         <option
@@ -55,7 +55,8 @@
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-start-date'"
         [ngClass]="{
-          'sky-control-label-required': startDateRequired || required
+          'sky-control-label-required':
+            startDateRequired || outerControlRequired
         }"
       >
         {{
@@ -82,10 +83,10 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-start-date'"
-          [attr.aria-required]="required"
+          [attr.aria-required]="outerControlRequired"
           [attr.placeholder]="dateFormatOrDefault"
           [dateFormat]="dateFormatOrDefault"
-          [required]="!!startDateRequired || required"
+          [required]="!!startDateRequired || outerControlRequired"
           (blur)="onFieldBlur()"
           skyDatepickerInput
         />
@@ -99,7 +100,7 @@
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-end-date'"
         [ngClass]="{
-          'sky-control-label-required': endDateRequired || required
+          'sky-control-label-required': endDateRequired || outerControlRequired
         }"
       >
         {{
@@ -127,10 +128,10 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-end-date'"
-          [attr.aria-required]="required"
+          [attr.aria-required]="outerControlRequired"
           [attr.placeholder]="dateFormatOrDefault"
           [dateFormat]="dateFormatOrDefault"
-          [required]="!!endDateRequired || required"
+          [required]="!!endDateRequired || outerControlRequired"
           (blur)="onFieldBlur()"
         />
       </sky-datepicker>

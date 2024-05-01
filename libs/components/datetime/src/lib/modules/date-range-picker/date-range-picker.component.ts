@@ -25,6 +25,7 @@ import {
   UntypedFormGroup,
   ValidationErrors,
   Validator,
+  Validators,
 } from '@angular/forms';
 import { SkyAppFormat, SkyFormsUtility } from '@skyux/core';
 import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
@@ -192,6 +193,20 @@ export class SkyDateRangePickerComponent
   @HostBinding('style.display')
   public display: string | undefined;
 
+  /**
+   * The template driven required input. We need to watch for this - but do not want to document it outside of the typical Angular template driven form documentation.
+   * @internal
+   */
+  @Input()
+  public set required(value: boolean | undefined) {
+    this.#_required = value;
+    this.#updateRequiredStates();
+  }
+
+  public get required(): boolean | undefined {
+    return this.#_required;
+  }
+
   public selectedCalculator: SkyDateRangeCalculator | undefined;
 
   public readonly dateRangePickerId = `sky-date-range-picker-${uniqueId++}`;
@@ -204,7 +219,8 @@ export class SkyDateRangePickerComponent
   public showStartDatePicker = false;
 
   protected hostHintText: string | undefined;
-  protected required = false;
+  // Track separately to combine the template and reactive manners of setting required
+  protected outerControlRequired = false;
 
   get #calculatorIdControl(): AbstractControl | undefined | null {
     return this.formGroup?.get('calculatorId');
@@ -275,6 +291,7 @@ export class SkyDateRangePickerComponent
   ];
   #_dateFormat: string | undefined;
   #_disabled: boolean | undefined = false;
+  #_required: boolean | undefined = false;
   #_valueOrDefault: SkyDateRangeCalculation | undefined;
 
   #changeDetector: ChangeDetectorRef;
@@ -673,18 +690,17 @@ export class SkyDateRangePickerComponent
   }
 
   #updateRequiredStates(): void {
-    const originalValue = this.required;
-    this.required = SkyFormsUtility.hasRequiredValidation(
-      this.#ngControl,
-      this.#injector,
-    );
+    const originalValue = this.outerControlRequired;
+    this.outerControlRequired =
+      this.required ||
+      !!this.#ngControl?.control?.hasValidator(Validators.required);
 
     this.#calculatorIdControl?.updateValueAndValidity();
     this.#startDateControl?.updateValueAndValidity();
     this.#endDateControl?.updateValueAndValidity();
 
     // We need to update the outer control - but only if the required state has changed. Otherwise - we would enter an infinite loop.
-    if (originalValue !== this.required) {
+    if (originalValue !== this.outerControlRequired) {
       this.#ngZone.onStable.pipe(first()).subscribe(() => {
         this.#control?.updateValueAndValidity();
       });
