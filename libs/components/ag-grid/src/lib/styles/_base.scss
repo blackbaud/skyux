@@ -233,6 +233,11 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
       min-height: var(--ag-row-height);
     }
   }
+
+  .sky-input-group .sky-btn {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
