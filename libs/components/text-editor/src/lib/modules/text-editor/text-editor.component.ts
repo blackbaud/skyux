@@ -563,7 +563,7 @@ export class SkyTextEditorComponent
         this.ngControl.errors,
       );
       this.#adapterService.setRequiredAttribute(
-        SkyFormsUtility.hasRequiredValidation(this.ngControl.control),
+        SkyFormsUtility.hasRequiredValidation(this.ngControl),
       );
     }
   }
