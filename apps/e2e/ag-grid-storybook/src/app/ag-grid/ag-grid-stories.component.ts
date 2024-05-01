@@ -176,7 +176,6 @@ export class AgGridStoriesComponent
               }),
           ],
           context: {
-            compactLayout: this.compact,
             rowDeleteIds: [],
           },
           suppressColumnVirtualisation: true,

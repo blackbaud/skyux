@@ -193,9 +193,6 @@ export class DataEntryGridComponent
       this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
         gridOptions: {
           columnDefs,
-          context: {
-            compactLayout: this.compact,
-          },
           stopEditingWhenCellsLoseFocus: false,
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,

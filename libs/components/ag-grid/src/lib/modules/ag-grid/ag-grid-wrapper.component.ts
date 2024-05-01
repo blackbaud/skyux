@@ -8,8 +8,10 @@ import {
   ContentChild,
   ElementRef,
   HostBinding,
+  Input,
   OnDestroy,
   OnInit,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { SkyMutationObserverService } from '@skyux/core';
@@ -32,8 +34,9 @@ import {
 } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { agGridTheme, agGridThemeIsCompact } from '../../styles/ag-grid-theme';
+
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-import { SkyAgGridService } from './ag-grid.service';
 
 let idIndex = 0;
 
@@ -52,6 +55,9 @@ export class SkyAgGridWrapperComponent
 
   @HostBinding('class.sky-ag-grid-layout-normal')
   public isNormalLayout = false;
+
+  @Input({ transform: booleanAttribute })
+  public compact = false;
 
   public afterAnchorId: string;
   public beforeAnchorId: string;
@@ -89,8 +95,6 @@ export class SkyAgGridWrapperComponent
   }
 
   #_viewkeeperClasses: string[] = [];
-
-  #agGridService = inject(SkyAgGridService);
   #ngUnsubscribe = new Subject<void>();
   #themeSvc = inject(SkyThemeService, {
     optional: true,
@@ -252,13 +256,6 @@ export class SkyAgGridWrapperComponent
     }
   }
 
-  #isCompactLayout(themeSettings?: SkyThemeSettings): boolean {
-    return (
-      !!this.agGrid?.context?.compactLayout ||
-      themeSettings?.spacing?.name === 'compact'
-    );
-  }
-
   #moveHorizontalScroll(): void {
     const toTop = !!this.agGrid?.gridOptions?.context?.enableTopScroll;
     const root = this.#elementRef.nativeElement.querySelector('.ag-root');
@@ -294,31 +291,12 @@ export class SkyAgGridWrapperComponent
     hasEditableClass: boolean,
     themeSettings?: SkyThemeSettings,
   ): void {
-    let agTheme:
-      | 'default'
-      | 'modern-light'
-      | 'modern-dark'
-      | 'modern-light-compact'
-      | 'modern-dark-compact';
-    if (themeSettings?.theme.name === 'modern') {
-      if (this.#isCompactLayout(themeSettings)) {
-        agTheme = `modern-${themeSettings.mode.name}-compact` as
-          | 'modern-light-compact'
-          | 'modern-dark-compact';
-      } else {
-        agTheme = `modern-${themeSettings.mode.name}` as
-          | 'modern-light'
-          | 'modern-dark';
-      }
-    } else {
-      agTheme = `default`;
-    }
-    const variation = hasEditableClass ? 'data-entry-grid' : 'data-grid';
+    const agTheme = agGridTheme(hasEditableClass, themeSettings, this.compact);
     const previousValue = this.#wrapperClasses.getValue();
     const previousTheme = previousValue.find((c) => c.startsWith('ag-theme-'));
     let value = [
       ...previousValue.filter((c) => !c.startsWith('ag-theme-')),
-      `ag-theme-sky-${variation}-${agTheme}`,
+      agTheme,
     ];
     const textSelectionClass = 'sky-ag-grid-text-selection';
     if (this.#getTextSelection(hasEditableClass)) {
@@ -328,19 +306,13 @@ export class SkyAgGridWrapperComponent
     }
     this.#wrapperClasses.next([...new Set(value)]);
     if (this.agGrid?.api && !this.agGrid.api.isDestroyed()) {
-      this.agGrid?.api.updateGridOptions({
-        enableCellTextSelection: this.#getTextSelection(hasEditableClass),
-        headerHeight: this.#agGridService.getHeaderHeight(themeSettings, {
-          compactLayout: this.#isCompactLayout(themeSettings),
-        }),
-      });
       if (this.agGrid?.api?.getGridOption('domLayout') !== 'autoHeight') {
         this.agGrid?.api?.resetRowHeights();
       }
       this.agGrid?.api?.refreshHeader();
       if (
         previousTheme?.endsWith('-compact') !==
-        this.#isCompactLayout(themeSettings)
+        agGridThemeIsCompact(themeSettings, this.compact)
       ) {
         this.agGrid?.api?.redrawRows();
       }

@@ -181,7 +181,6 @@ export class DataManagerComponent implements OnInit {
           ...columnDefinitions,
         ],
         context: {
-          compactLayout: this.compact,
           enableTopScroll: this.enableTopScroll,
         },
         domLayout: this.domLayout,

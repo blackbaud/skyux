@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDateService } from '@skyux/datetime';
 import {
@@ -7,7 +7,6 @@ import {
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSettingsChange,
-  SkyThemeSpacing,
 } from '@skyux/theme';
 
 import {
@@ -28,12 +27,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-import { SkyAgGridModule } from './ag-grid.module';
 import { SkyAgGridService } from './ag-grid.service';
-import {
-  DomLayout,
-  SkyAgGridFixtureComponent,
-} from './fixtures/ag-grid.component.fixture';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 
@@ -211,7 +205,7 @@ describe('SkyAgGridService', () => {
       expect(mergedCellClassRules?.[SkyCellClass.Uneditable]).toBeDefined();
     });
 
-    it('should set rowHeight for modern theme', () => {
+    it('should set icons for modern theme', () => {
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -226,8 +220,6 @@ describe('SkyAgGridService', () => {
         gridOptions: {},
       });
 
-      expect(modernThemeGridOptions.getRowHeight).toBeDefined();
-      expect((modernThemeGridOptions.getRowHeight as Function)({})).toBe(60);
       expect(typeof modernThemeGridOptions.icons?.['sortDescending']).toBe(
         'function',
       );
@@ -907,85 +899,5 @@ describe('SkyAgGridService', () => {
     it('should not generate a class without an id', () => {
       expect(defaultGridOptions.getRowClass?.(params)).toBeFalsy();
     });
-  });
-});
-
-describe('SkyAgGridService via fixture', () => {
-  let gridWrapperFixture: ComponentFixture<SkyAgGridFixtureComponent>;
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
-  };
-
-  beforeEach(() => {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
-  });
-
-  it('should update header and row height via api', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridModule],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-        {
-          provide: DomLayout,
-          useValue: 'normal',
-        },
-      ],
-    });
-    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-    gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-
-    const api = gridWrapperFixture?.componentInstance?.agGrid?.api as GridApi;
-    const rowHeightSpy = spyOn(api, 'resetRowHeights');
-    expect(api).toBeDefined();
-    expect(api.getSizesForCurrentTheme().headerHeight).toEqual(37);
-    expect(api.getSizesForCurrentTheme().rowHeight).toEqual(38);
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: undefined,
-    });
-    gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-    expect(rowHeightSpy).toHaveBeenCalled();
-    rowHeightSpy.calls.reset();
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: undefined,
-    });
-    gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-    expect(rowHeightSpy).toHaveBeenCalled();
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-        SkyThemeSpacing.presets.compact,
-      ),
-      previousSettings: undefined,
-    });
-    gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-    expect(rowHeightSpy).toHaveBeenCalled();
-    expect(api.getSizesForCurrentTheme().rowHeight).toEqual(32);
   });
 });
