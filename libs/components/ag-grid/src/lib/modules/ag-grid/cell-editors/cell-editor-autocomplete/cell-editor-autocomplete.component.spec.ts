@@ -48,8 +48,10 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   describe('agInit', () => {
     const api = jasmine.createSpyObj<GridApi>('api', [
       'getDisplayNameForColumn',
+      'getGridOption',
       'stopEditing',
     ]);
+    api.getGridOption.and.returnValue(true);
     let cellEditorParams: Partial<SkyCellEditorAutocompleteParams>;
     let column: Column;
     const selection = data[0];
@@ -73,11 +75,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         node: rowNode,
         colDef: {},
         cellStartedEdit: true,
-        context: {
-          gridOptions: {
-            stopEditingWhenCellsLoseFocus: true,
-          },
-        },
       };
     });
 
