@@ -27,11 +27,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import {
-  SkyContentInfoProvider,
-  SkyFormsUtility,
-  SkyIdService,
-} from '@skyux/core';
+import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -311,7 +307,7 @@ export class SkyInputBoxComponent
   }
 
   #hasRequiredValidator(): boolean {
-    return SkyFormsUtility.hasRequiredValidation(this.controlDir?.control);
+    return !!this.controlDir?.control?.hasValidator(Validators.required);
   }
 
   #updateHasFocus(hasFocus: boolean): void {
