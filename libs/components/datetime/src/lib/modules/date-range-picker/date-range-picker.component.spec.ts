@@ -72,6 +72,10 @@ describe('Date range picker', function () {
     );
   }
 
+  function getHelpInlinePopover(): HTMLSelectElement {
+    return fixture.nativeElement.querySelectorAll('sky-input-box-help-inline');
+  }
+
   function selectCalculator(id: SkyDateRangeCalculatorId): void {
     const selectElement = getCalculatorSelect();
 
@@ -833,6 +837,17 @@ describe('Date range picker', function () {
       component.setRequired(false);
       detectChanges();
       verifyFormFieldsAriaRequired(false);
+    }));
+
+    it('it should render help inline if helpPopoverContent is provided', fakeAsync(() => {
+      detectChanges();
+
+      expect(getHelpInlinePopover().length).toBe(0);
+
+      component.helpPopoverContent = 'content';
+      fixture.detectChanges();
+
+      expect(getHelpInlinePopover().length).toBe(1);
     }));
   });
 });

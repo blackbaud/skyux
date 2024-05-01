@@ -37,6 +37,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public startDateRequired = false;
   public templateDisable: boolean | undefined;
   public hintText: string | undefined;
+  public helpPopoverContent: string | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 

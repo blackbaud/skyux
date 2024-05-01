@@ -4,24 +4,19 @@
   [formGroup]="formGroup"
 >
   <div class="sky-date-range-picker-form-group">
-    <sky-input-box [disabled]="disabled">
-      <label
-        class="sky-control-label"
-        [attr.for]="dateRangePickerId + '-select-calculator'"
-        [ngClass]="{
-          'sky-control-label-required': outerControlRequired
-        }"
-      >
-        {{
-          label || ('skyux_date_range_picker_default_label' | skyLibResources)
-        }}
-      </label>
+    <sky-input-box
+      [disabled]="disabled"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
+      [labelText]="
+        label || ('skyux_date_range_picker_default_label' | skyLibResources)
+      "
+    >
       <select
         class="sky-form-control"
         formControlName="calculatorId"
         [attr.id]="dateRangePickerId + '-select-calculator'"
         [attr.aria-describedby]="hintTextEl.id"
-        [attr.aria-required]="outerControlRequired"
         (blur)="onFieldBlur()"
       >
         <option
@@ -86,7 +81,9 @@
           [attr.aria-required]="outerControlRequired"
           [attr.placeholder]="dateFormatOrDefault"
           [dateFormat]="dateFormatOrDefault"
-          [required]="!!startDateRequired || outerControlRequired"
+          [required]="
+            showStartDatePicker && (!!startDateRequired || outerControlRequired)
+          "
           (blur)="onFieldBlur()"
           skyDatepickerInput
         />
@@ -131,7 +128,9 @@
           [attr.aria-required]="outerControlRequired"
           [attr.placeholder]="dateFormatOrDefault"
           [dateFormat]="dateFormatOrDefault"
-          [required]="!!endDateRequired || outerControlRequired"
+          [required]="
+            showEndDatePicker && (!!endDateRequired || outerControlRequired)
+          "
           (blur)="onFieldBlur()"
         />
       </sky-datepicker>
