@@ -4,15 +4,14 @@
   [formGroup]="formGroup"
 >
   <div class="sky-date-range-picker-form-group">
-    <sky-input-box [disabled]="disabled">
-      <label
-        class="sky-control-label"
-        [attr.for]="dateRangePickerId + '-select-calculator'"
-      >
-        {{
-          label || ('skyux_date_range_picker_default_label' | skyLibResources)
-        }}
-      </label>
+    <sky-input-box
+      [disabled]="disabled"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
+      [labelText]="
+        label || ('skyux_date_range_picker_default_label' | skyLibResources)
+      "
+    >
       <select
         class="sky-form-control"
         formControlName="calculatorId"
