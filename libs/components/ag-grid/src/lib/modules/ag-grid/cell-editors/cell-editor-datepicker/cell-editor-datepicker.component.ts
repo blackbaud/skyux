@@ -187,7 +187,7 @@ export class SkyAgGridCellEditorDatepickerComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#calendarOpen &&
-      this.#params?.context.gridOptions.stopEditingWhenCellsLoseFocus &&
+      this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus') &&
       !this.#elementRef.nativeElement.matches(':focus-within')
     ) {
       this.#params?.api.stopEditing();
