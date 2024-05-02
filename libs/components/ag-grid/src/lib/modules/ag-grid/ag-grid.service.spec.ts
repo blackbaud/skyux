@@ -460,6 +460,9 @@ describe('SkyAgGridService', () => {
     let suppressKeypressFunction: (
       params: SuppressKeyboardEventParams<any>,
     ) => boolean;
+    let suppressKeypressFunctionCurrency:
+      | ((params: SuppressKeyboardEventParams<any>) => boolean)
+      | undefined;
 
     beforeEach(() => {
       suppressHeaderKeypressFunction = defaultGridOptions.defaultColDef
@@ -470,6 +473,13 @@ describe('SkyAgGridService', () => {
         ?.suppressKeyboardEvent as (
         params: SuppressKeyboardEventParams<any>,
       ) => boolean;
+      suppressKeypressFunctionCurrency =
+        defaultGridOptions.columnTypes &&
+        defaultGridOptions.columnTypes[SkyCellType.Currency] &&
+        (defaultGridOptions.columnTypes[SkyCellType.Currency]
+          ?.suppressKeyboardEvent as (
+          params: SuppressKeyboardEventParams<any>,
+        ) => boolean);
     });
 
     it('should return true to suppress the event when the tab key is pressed on a header cell', () => {
@@ -482,6 +492,29 @@ describe('SkyAgGridService', () => {
     it('should return true to suppress the event when the tab key is pressed and cells are not being edited', () => {
       const params = { event: { code: 'Tab' } } as SuppressKeyboardEventParams;
       expect(suppressKeypressFunction(params)).toBe(true);
+    });
+
+    it('should return true to suppress the event when the enter key is pressed and currency cell is being edited', () => {
+      const params = {
+        event: { code: 'Enter' },
+        editing: true,
+      } as SuppressKeyboardEventParams;
+      expect(
+        suppressKeypressFunctionCurrency &&
+          suppressKeypressFunctionCurrency(params),
+      ).toBe(true);
+    });
+
+    it('should return false to suppress the event when a key is pressed and currency cell is being edited', () => {
+      // Not Enter or Tab.
+      const params = {
+        event: { code: ' ' },
+        editing: true,
+      } as SuppressKeyboardEventParams;
+      expect(
+        suppressKeypressFunctionCurrency &&
+          suppressKeypressFunctionCurrency(params),
+      ).toBe(false);
     });
 
     it('should return true to suppress the event when the tab key is pressed, an inline cell is being edited, and there is other cell content to tab to', () => {

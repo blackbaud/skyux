@@ -1,6 +1,6 @@
 <ng-container [formGroup]="editorForm">
   <input
-    formControlName="currency"
+    [formControl]="currency"
     type="text"
     [attr.aria-label]="
       'sky_ag_grid_cell_editor_currency_aria_label'
@@ -10,6 +10,7 @@
     [style.height.px]="rowHeightWithoutBorders"
     [skyAutonumeric]="skyComponentProperties"
     [skyAutonumericFormChangesUnformatted]="params?.eventKey?.length === 1"
+    (keyup.enter)="onPressEnter()"
     (keyup.escape)="onPressEscape()"
     #skyCellEditorCurrency
   />
