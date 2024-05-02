@@ -97,10 +97,10 @@
           <li *ngFor="let option of radioButtonOptions">
             <sky-radio
               [disabled]="option.disabled"
-              [value]="option.value"
-              [labelText]="option.name"
               helpPopoverContent="content"
               [hintText]="option.hint"
+              [labelText]="option.name"
+              [value]="option.value"
             />
           </li>
         </ul>
