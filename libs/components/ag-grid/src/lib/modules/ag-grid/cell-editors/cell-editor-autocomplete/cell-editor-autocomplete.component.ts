@@ -107,7 +107,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#autocompleteOpen &&
-      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus') &&
       !this.#elementRef.nativeElement.matches(':focus-within')
     ) {
       this.#params?.api.stopEditing();

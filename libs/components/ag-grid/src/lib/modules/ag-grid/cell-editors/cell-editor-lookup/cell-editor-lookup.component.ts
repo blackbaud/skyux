@@ -167,7 +167,7 @@ export class SkyAgGridCellEditorLookupComponent
   #stopEditingOnBlur(): void {
     if (
       !this.#lookupOpen &&
-      this.#params?.context?.gridOptions?.stopEditingWhenCellsLoseFocus &&
+      this.#params?.api.getGridOption('stopEditingWhenCellsLoseFocus') &&
       !this.#elementRef.nativeElement.matches(':focus-within')
     ) {
       this.#params?.api.stopEditing();
