@@ -383,6 +383,9 @@ export class SkyTextEditorComponent
 
   protected editorFocused = false;
 
+  // Value used in the template to set required state.
+  protected isEditorRequired = false;
+
   #defaultId: string;
   #id: string;
   #focusInitialized = false;
@@ -429,10 +432,8 @@ export class SkyTextEditorComponent
     if (this.#labelTextRequired && !this.labelText) {
       this.display = 'none';
     }
-
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
-
   public ngOnDestroy(): void {
     this.#adapterService.removeObservers(this.#editorService.editor);
     this.#ngUnsubscribe.next();
@@ -596,12 +597,12 @@ export class SkyTextEditorComponent
         this.labelText ? this.errorId : '',
         this.ngControl.errors,
       );
-      this.#adapterService.setRequiredAttribute(!!this.required);
+      this.#adapterService.setRequiredAttribute(this.isEditorRequired);
     }
   }
 
   #updateRequiredState(): void {
-    this.required =
+    this.isEditorRequired =
       this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
   }
 

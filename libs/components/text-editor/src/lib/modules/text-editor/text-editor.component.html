@@ -13,7 +13,7 @@
       <label
         class="sky-control-label"
         [ngClass]="{
-          'sky-control-label-required': required,
+          'sky-control-label-required': isEditorRequired,
           'sky-margin-inline-xs': helpPopoverContent
         }"
         >{{ labelText }}</label
@@ -26,7 +26,6 @@
       />
     </ng-container>
   </div>
-
   <sky-toolbar
     *ngIf="
       (menus && menus.length) > 0 ||
