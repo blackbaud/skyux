@@ -23,6 +23,13 @@
   >
     {{ labelText }}
   </legend>
+  <sky-help-inline
+    *ngIf="helpPopoverContent"
+    class="sky-radio-help-inline"
+    [labelText]="labelText"
+    [popoverTitle]="helpPopoverTitle"
+    [popoverContent]="helpPopoverContent"
+  />
   <div skyId #hintTextEl="skyId">
     <div
       *ngIf="hintText"
