@@ -9,6 +9,10 @@
   display: inline-flex;
 }
 
+.sky-switch-control sky-margin-inline-xs {
+  margin-right: var(--sky-margin-inline-xs);
+}
+
 .sky-switch-control:not(.sky-switch-control-icon) {
   sky-icon {
     font-size: 70%;

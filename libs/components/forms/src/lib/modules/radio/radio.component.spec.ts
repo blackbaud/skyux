@@ -375,7 +375,7 @@ describe('Radio component', function () {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    fit('should render help inline only if label text is provided', fakeAsync(() => {
+    it('should render help inline only if label text is provided', fakeAsync(() => {
       fixture.detectChanges();
       tick();
 

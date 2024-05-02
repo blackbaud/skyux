@@ -3,7 +3,6 @@
     <div class="sky-margin-stacked-xl">
       <sky-radio-group
         formControlName="radioButtonOption"
-        hintText="Radio group hint text"
         labelText="Radio button options"
       >
         <ul class="sky-list-unstyled">
@@ -46,7 +45,6 @@
               [disabled]="option.disabled"
               [value]="option.value"
               [labelText]="option.name"
-              [hintText]="option.hint"
             />
           </li>
         </ul>
@@ -83,6 +81,26 @@
               [disabled]="option.disabled"
               [value]="option.value"
               [labelText]="option.name"
+            />
+          </li>
+        </ul>
+      </sky-radio-group>
+    </div>
+    <div class="sky-margin-stacked-xl">
+      <sky-radio-group
+        formControlName="noDefaultRadioButtonOption"
+        hintText="Radio group hint text"
+        labelText="Easy mode radio group and radio button"
+        [required]="true"
+      >
+        <ul class="sky-list-unstyled">
+          <li *ngFor="let option of radioButtonOptions">
+            <sky-radio
+              [disabled]="option.disabled"
+              [value]="option.value"
+              [labelText]="option.name"
+              helpPopoverContent="content"
+              [hintText]="option.hint"
             />
           </li>
         </ul>
