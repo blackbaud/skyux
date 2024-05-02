@@ -1,6 +1,17 @@
-<label *ngIf="labelText" class="sky-control-label" [for]="inputId">{{
-  labelText
-}}</label>
+<span class="sky-color-picker-label-wrapper">
+  <label
+    *ngIf="labelText"
+    class="sky-control-label sky-margin-inline-xs"
+    [for]="inputId"
+    >{{ labelText }}</label
+  >
+  <sky-help-inline
+    *ngIf="helpPopoverContent && labelText"
+    [labelText]="labelText"
+    [popoverTitle]="helpPopoverTitle"
+    [popoverContent]="helpPopoverContent"
+  />
+</span>
 
 <div
   class="sky-input-group"
