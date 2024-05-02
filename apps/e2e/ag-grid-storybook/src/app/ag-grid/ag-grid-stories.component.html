@@ -24,7 +24,7 @@
   </div>
 
   <div class="scrollable" id="validation">
-    <sky-ag-grid-wrapper *ngIf="isActive$ | async">
+    <sky-ag-grid-wrapper *ngIf="isActive$ | async" [compact]="compact">
       <ag-grid-angular [gridOptions]="gridOptions['validation']" />
     </sky-ag-grid-wrapper>
   </div>
