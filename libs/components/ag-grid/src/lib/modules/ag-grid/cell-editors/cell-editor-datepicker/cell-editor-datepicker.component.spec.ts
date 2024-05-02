@@ -107,17 +107,14 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('should respond to changes in focus', fakeAsync(() => {
       const api = jasmine.createSpyObj<GridApi>('GridApi', [
         'getDisplayNameForColumn',
+        'getGridOption',
         'stopEditing',
       ]);
+      api.getGridOption.and.returnValue(true);
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
         column: new Column<any>({}, null, 'col', true),
-        context: {
-          gridOptions: {
-            stopEditingWhenCellsLoseFocus: true,
-          },
-        },
         node: {
           rowHeight: 37,
         },
@@ -143,11 +140,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
         ...(datepickerEditorComponent as any).params,
         api,
         column: new Column<any>({}, null, 'col', true),
-        context: {
-          gridOptions: {
-            stopEditingWhenCellsLoseFocus: true,
-          },
-        },
         node: {
           rowHeight: 37,
         },

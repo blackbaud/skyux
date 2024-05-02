@@ -186,10 +186,6 @@ export class SkyAgGridService implements OnDestroy {
       defaultGridOptions,
       args.gridOptions,
     );
-    mergedGridOptions.context ||= {};
-    mergedGridOptions.context.gridOptions = {
-      ...mergedGridOptions,
-    };
 
     return mergedGridOptions;
   }
@@ -335,6 +331,8 @@ export class SkyAgGridService implements OnDestroy {
           cellEditor: SkyAgGridCellEditorCurrencyComponent,
           headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
           minWidth: 185,
+          suppressKeyboardEvent: (params) =>
+            this.#suppressEnter(params) || this.#suppressTab(params),
         },
         [SkyCellType.Date]: {
           cellClassRules: {
@@ -601,6 +599,13 @@ export class SkyAgGridService implements OnDestroy {
         return !!nextFocusableElementInCell;
       }
       return true;
+    }
+    return false;
+  }
+
+  #suppressEnter(params: SuppressKeyboardEventParams): boolean {
+    if (params.event.code === 'Enter') {
+      return params.editing;
     }
     return false;
   }

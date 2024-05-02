@@ -68,6 +68,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           callback = listener;
           [event].pop();
         },
+        getGridOption: jasmine.createSpy('getGridOption').and.returnValue(true),
         stopEditing: jasmine.createSpy('stopEditing'),
       } as unknown as GridApi,
       cellStartedEdit: true,
@@ -298,9 +299,6 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       });
 
       it('should respond to focus changes', fakeAsync(() => {
-        cellEditorParams.context.gridOptions = {
-          stopEditingWhenCellsLoseFocus: true,
-        };
         (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
           false,
         );
@@ -315,6 +313,15 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         (cellEditorParams.api?.stopEditing as jasmine.Spy).calls.reset();
         component.onBlur();
         tick();
+        expect(cellEditorParams.api?.getGridOption).toHaveBeenCalledTimes(2);
+        expect(
+          (cellEditorParams.api?.getGridOption as jasmine.Spy).calls
+            .all()
+            .map((call) => call.args[0]),
+        ).toEqual([
+          'stopEditingWhenCellsLoseFocus',
+          'stopEditingWhenCellsLoseFocus',
+        ]);
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
       }));
     });
