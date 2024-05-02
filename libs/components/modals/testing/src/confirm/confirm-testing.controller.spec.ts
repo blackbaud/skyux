@@ -21,6 +21,13 @@ interface User {
       <button class="test-btn" type="button" (click)="onClick(user)">
         Delete
       </button>
+      <button
+        class="test-btn-custom"
+        type="button"
+        (click)="onClickCustom(user)"
+      >
+        Delete (Custom)
+      </button>
     </div>
   `,
 })
@@ -47,12 +54,43 @@ class TestComponent {
       }
     });
   }
+
+  protected onClickCustom(user: User): void {
+    const dialog = this.#confirmSvc.open({
+      message: 'Are you sure? This cannot be undone.',
+      type: SkyConfirmType.Custom,
+      buttons: [
+        {
+          action: 'yes',
+          text: 'Yes',
+        },
+        {
+          action: 'no',
+          text: 'No',
+        },
+      ],
+    });
+
+    dialog.closed.subscribe((args) => {
+      if (args.action === 'yes') {
+        this.users.splice(this.users.indexOf(user), 1);
+      }
+    });
+  }
 }
 
 function launchDeleteConfirmation(
   fixture: ComponentFixture<TestComponent>,
 ): void {
   const buttons = fixture.debugElement.queryAll(By.css('.test-btn'));
+  buttons.at(0)?.nativeElement.click();
+  fixture.detectChanges();
+}
+
+function launchCustomDeleteConfirmation(
+  fixture: ComponentFixture<TestComponent>,
+): void {
+  const buttons = fixture.debugElement.queryAll(By.css('.test-btn-custom'));
   buttons.at(0)?.nativeElement.click();
   fixture.detectChanges();
 }
@@ -100,6 +138,33 @@ describe('Confirm demo using testing controller', () => {
 
     expect(getUserCount(fixture)).toEqual(2);
     confirmController.ok();
+    fixture.detectChanges();
+    expect(getUserCount(fixture)).toEqual(1);
+  });
+
+  it('should assert confirm is open with custom buttons', () => {
+    const { confirmController, fixture } = setupTest();
+
+    fixture.detectChanges();
+    launchCustomDeleteConfirmation(fixture);
+
+    confirmController.expectOpen({
+      message: 'Are you sure? This cannot be undone.',
+      type: SkyConfirmType.Custom,
+      buttons: [
+        {
+          action: 'yes',
+          text: 'Yes',
+        },
+        {
+          action: 'no',
+          text: 'No',
+        },
+      ],
+    });
+
+    expect(getUserCount(fixture)).toEqual(2);
+    confirmController.close({ action: 'yes' });
     fixture.detectChanges();
     expect(getUserCount(fixture)).toEqual(1);
   });
@@ -170,6 +235,110 @@ Expected:
 Actual:
 {
   "message": "Are you sure? This cannot be undone."
+}
+`);
+  });
+
+  it('should throw if expecting a confirm to be open with a different button ordering', async () => {
+    const { confirmController, fixture } = setupTest();
+
+    fixture.detectChanges();
+    launchCustomDeleteConfirmation(fixture);
+
+    expect(() =>
+      confirmController.expectOpen({
+        message: 'Are you sure? This cannot be undone.',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            action: 'no', // Wrong order
+            text: 'No',
+          },
+          {
+            action: 'yes',
+            text: 'Yes',
+          },
+        ],
+      }),
+    )
+      .toThrowError(`Expected a confirm dialog to be open with a specific configuration.
+Expected:
+{
+  "message": "Are you sure? This cannot be undone.",
+  "type": 0,
+  "buttons": [
+    {
+      "action": "no",
+      "text": "No"
+    },
+    {
+      "action": "yes",
+      "text": "Yes"
+    }
+  ]
+}
+Actual:
+{
+  "message": "Are you sure? This cannot be undone.",
+  "type": 0,
+  "buttons": [
+    {
+      "action": "yes",
+      "text": "Yes"
+    },
+    {
+      "action": "no",
+      "text": "No"
+    }
+  ]
+}
+`);
+  });
+
+  it('should throw if expecting a confirm to be open with more buttons than expected', async () => {
+    const { confirmController, fixture } = setupTest();
+
+    fixture.detectChanges();
+    launchCustomDeleteConfirmation(fixture);
+
+    expect(() =>
+      confirmController.expectOpen({
+        message: 'Are you sure? This cannot be undone.',
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            action: 'yes',
+            text: 'Yes',
+          },
+        ],
+      }),
+    )
+      .toThrowError(`Expected a confirm dialog to be open with a specific configuration.
+Expected:
+{
+  "message": "Are you sure? This cannot be undone.",
+  "type": 0,
+  "buttons": [
+    {
+      "action": "yes",
+      "text": "Yes"
+    }
+  ]
+}
+Actual:
+{
+  "message": "Are you sure? This cannot be undone.",
+  "type": 0,
+  "buttons": [
+    {
+      "action": "yes",
+      "text": "Yes"
+    },
+    {
+      "action": "no",
+      "text": "No"
+    }
+  ]
 }
 `);
   });
