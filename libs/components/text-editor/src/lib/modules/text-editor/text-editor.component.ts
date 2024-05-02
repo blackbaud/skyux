@@ -28,6 +28,7 @@ import {
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxHostService,
 } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { Subject } from 'rxjs';
@@ -72,6 +73,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
   ],
   imports: [
     CommonModule,
+    SkyHelpInlineModule,
     SkyIdModule,
     SkyTextEditorMenubarComponent,
     SkyTextEditorToolbarComponent,
@@ -160,7 +162,7 @@ export class SkyTextEditorComponent
 
   /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
-   * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * button is added to the text editor. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
    * @preview
    */
@@ -271,6 +273,17 @@ export class SkyTextEditorComponent
   public get placeholder(): string {
     return this.#_placeholder;
   }
+
+  /**
+   * Whether the input is required for form validation.
+   * When you set this property to `true`, the component adds `aria-required` and `required`
+   * attributes to the input element so that forms display an invalid state until the input element
+   * is complete.
+   * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
+   * @default false
+   */
+  @Input()
+  public required: boolean | undefined = false;
 
   /**
    * The actions to include in the toolbar in the specified order.
@@ -416,8 +429,10 @@ export class SkyTextEditorComponent
     if (this.#labelTextRequired && !this.labelText) {
       this.display = 'none';
     }
+
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
+
   public ngOnDestroy(): void {
     this.#adapterService.removeObservers(this.#editorService.editor);
     this.#ngUnsubscribe.next();
@@ -496,6 +511,7 @@ export class SkyTextEditorComponent
     this.ngControl.statusChanges
       ?.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
+        this.#updateRequiredState();
         this.#updateA11yAttributes();
       });
 
@@ -559,6 +575,7 @@ export class SkyTextEditorComponent
       });
 
     this.#adapterService.setEditorInnerHtml(this.#_value);
+    this.#updateRequiredState();
     this.#updateA11yAttributes();
 
     /* istanbul ignore next */
@@ -579,10 +596,13 @@ export class SkyTextEditorComponent
         this.labelText ? this.errorId : '',
         this.ngControl.errors,
       );
-      this.#adapterService.setRequiredAttribute(
-        SkyFormsUtility.hasRequiredValidation(this.ngControl),
-      );
+      this.#adapterService.setRequiredAttribute(!!this.required);
     }
+  }
+
+  #updateRequiredState(): void {
+    this.required =
+      this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
   }
 
   #viewToModelUpdate(emitChange = true): void {

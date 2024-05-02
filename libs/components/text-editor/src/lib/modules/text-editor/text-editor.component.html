@@ -3,13 +3,30 @@
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused,
-    'sky-text-editor-invalid': ngControl.errors,
+    'sky-text-editor-invalid':
+      (ngControl.touched || ngControl.dirty) && ngControl.errors,
     'sky-margin-stacked-xs': !!hintText
   }"
 >
   <div class="sky-text-editor-label-wrapper">
-    <label *ngIf="labelText" class="sky-control-label">{{ labelText }}</label>
+    <ng-container *ngIf="labelText">
+      <label
+        class="sky-control-label"
+        [ngClass]="{
+          'sky-control-label-required': required,
+          'sky-margin-inline-xs': helpPopoverContent
+        }"
+        >{{ labelText }}</label
+      >
+      <sky-help-inline
+        *ngIf="helpPopoverContent"
+        [labelText]="labelText"
+        [popoverContent]="helpPopoverContent"
+        [popoverTitle]="helpPopoverTitle"
+      />
+    </ng-container>
   </div>
+
   <sky-toolbar
     *ngIf="
       (menus && menus.length) > 0 ||

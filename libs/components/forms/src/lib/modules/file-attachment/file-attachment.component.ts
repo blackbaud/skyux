@@ -325,7 +325,6 @@ export class SkyFileAttachmentComponent
         this.#changeDetector.markForCheck();
       });
 
-      // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
         this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
