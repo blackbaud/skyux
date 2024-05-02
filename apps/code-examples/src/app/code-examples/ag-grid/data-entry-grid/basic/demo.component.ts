@@ -130,7 +130,7 @@ export class DemoComponent {
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
 
-    this.gridOptions = this.#agGridSvc.getGridOptions({
+    this.gridOptions = this.#agGridSvc.getEditableGridOptions({
       gridOptions,
     });
 
