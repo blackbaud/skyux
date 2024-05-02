@@ -154,19 +154,31 @@ describe('Date range picker', function () {
     expect(inputs.item(1).disabled).toEqual(expectation);
   }
 
-  function verifyFormFieldsAriaRequired(expectation: boolean): void {
+  function verifyFormFieldsRequired(expectation: boolean): void {
+    const inputBoxes = fixture.nativeElement.querySelectorAll('sky-input-box');
     const selectElement = fixture.nativeElement.querySelector('select');
     const inputs = fixture.nativeElement.querySelectorAll('input');
 
     expect(selectElement.getAttribute('aria-required')).toEqual(
-      expectation.toString(),
+      expectation ? 'true' : null,
     );
+    expect(
+      inputBoxes.item(0).querySelector('.sky-control-label-required'),
+    ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+
     expect(inputs.item(0).getAttribute('aria-required')).toEqual(
-      expectation.toString(),
+      expectation ? 'true' : null,
     );
+    expect(
+      inputBoxes.item(1).querySelector('.sky-control-label-required'),
+    ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+
     expect(inputs.item(1).getAttribute('aria-required')).toEqual(
-      expectation.toString(),
+      expectation ? 'true' : null,
     );
+    expect(
+      inputBoxes.item(2).querySelector('.sky-control-label-required'),
+    ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
   }
 
   beforeEach(function () {
@@ -826,15 +838,31 @@ describe('Date range picker', function () {
 
     it('should set aria-required on the inputs when the outer parent form control is required', fakeAsync(() => {
       detectChanges();
-      verifyFormFieldsAriaRequired(false);
+      verifyFormFieldsRequired(false);
 
       component.setRequired(true);
       detectChanges();
-      verifyFormFieldsAriaRequired(true);
+      verifyFormFieldsRequired(true);
 
       component.setRequired(false);
       detectChanges();
-      verifyFormFieldsAriaRequired(false);
+      verifyFormFieldsRequired(false);
+    }));
+
+    it('should set aria-required on the inputs when a template form is required', fakeAsync(() => {
+      component.templateModel = {
+        calculatorId: SkyDateRangeCalculatorId.AnyTime,
+      };
+      detectChanges();
+      verifyFormFieldsRequired(false);
+
+      component.setRequired(true);
+      detectChanges();
+      verifyFormFieldsRequired(true);
+
+      component.setRequired(false);
+      detectChanges();
+      verifyFormFieldsRequired(false);
     }));
 
     it('it should render help inline if helpPopoverContent is provided', fakeAsync(() => {

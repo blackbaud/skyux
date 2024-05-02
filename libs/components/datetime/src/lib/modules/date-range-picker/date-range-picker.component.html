@@ -76,7 +76,7 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-start-date'"
-          [attr.aria-required]="outerControlRequired"
+          [attr.aria-required]="outerControlRequired ? true : null"
           [attr.placeholder]="dateFormatOrDefault"
           [dateFormat]="dateFormatOrDefault"
           [required]="
@@ -123,7 +123,7 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-end-date'"
-          [attr.aria-required]="outerControlRequired"
+          [attr.aria-required]="outerControlRequired ? true : null"
           [attr.placeholder]="dateFormatOrDefault"
           [dateFormat]="dateFormatOrDefault"
           [required]="

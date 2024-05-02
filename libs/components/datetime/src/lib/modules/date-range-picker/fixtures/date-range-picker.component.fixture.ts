@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDateRangePickerComponent } from '../date-range-picker.component';
+import { SkyDateRangeCalculation } from '../types/date-range-calculation';
 import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 
 @Component({
@@ -34,6 +35,8 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public label: string | undefined;
   public numValueChangeNotifications = 0;
   public reactiveForm: UntypedFormGroup;
+  public templateModel: SkyDateRangeCalculation | undefined = undefined;
+  public templateRequired = false;
   public startDateRequired = false;
   public templateDisable: boolean | undefined;
   public hintText: string | undefined;
@@ -73,8 +76,10 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public setRequired(required = false): void {
     if (required) {
       this.dateRange?.addValidators(Validators.required);
+      this.templateRequired = true;
     } else {
       this.dateRange?.removeValidators(Validators.required);
+      this.templateRequired = false;
     }
     this.dateRange?.updateValueAndValidity();
   }
