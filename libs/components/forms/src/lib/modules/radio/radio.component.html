@@ -32,7 +32,18 @@
     <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon" />
   </span>
   <ng-container *ngIf="labelText; else labelElement">
-    <span *ngIf="!labelHidden" class="sky-switch-label">{{ labelText }}</span>
+    <span
+      *ngIf="!labelHidden"
+      class="sky-switch-label"
+      [ngClass]="{ 'sky-margin-inline-xs': labelText }"
+      >{{ labelText }}</span
+    ><sky-help-inline
+      *ngIf="helpPopoverContent"
+      class="sky-radio-help-inline"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
   </ng-container>
   <ng-template #labelElement>
     <ng-content select="sky-radio-label" />
