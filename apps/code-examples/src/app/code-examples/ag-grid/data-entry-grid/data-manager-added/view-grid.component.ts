@@ -194,7 +194,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   readonly #dataManagerSvc = inject(SkyDataManagerService);
 
   constructor() {
-    this.gridOptions = this.#agGridSvc.getGridOptions({
+    this.gridOptions = this.#agGridSvc.getEditableGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
         onGridReady: this.onGridReady.bind(this),

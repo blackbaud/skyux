@@ -56,12 +56,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
   });
 
   describe('agInit', () => {
-    const api = jasmine.createSpyObj<GridApi>('api', [
-      'getDisplayNameForColumn',
-      'stopEditing',
-      'setFocusedCell',
-    ]);
-
+    let api: jasmine.SpyObj<GridApi>;
     let cellEditorParams: Partial<SkyCellEditorCurrencyParams>;
     let column: Column;
     const columnWidth = 200;
@@ -79,6 +74,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
         true,
       );
 
+      api = jasmine.createSpyObj<GridApi>('api', [
+        'getDisplayNameForColumn',
+        'stopEditing',
+        'setFocusedCell',
+      ]);
+
       cellEditorParams = {
         value: value,
         column,
@@ -86,6 +87,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         colDef: {},
         api,
         cellStartedEdit: true,
+        stopEditing: jasmine.createSpy('cellEditorParams.stopEditing'),
       };
     });
 
@@ -97,7 +99,10 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       spyOn(column, 'getActualWidth').and.returnValue(columnWidth);
       spyOn(column, 'fireColumnWidthChangedEvent').and.returnValue();
-      currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+      currencyEditorComponent.refresh({
+        ...cellEditorParams,
+        value: null,
+      } as ICellEditorParams);
 
       expect(currencyEditorComponent.columnWidth).toEqual(columnWidth);
       expect(currencyEditorComponent.rowHeightWithoutBorders).toEqual(96);
@@ -105,6 +110,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
       currencyEditorComponent.onPressEscape();
       expect(api.stopEditing).toHaveBeenCalled();
       expect(api.setFocusedCell).toHaveBeenCalled();
+
+      currencyEditorComponent.onPressEnter();
+      currencyEditorComponent.afterGuiAttached();
+      expect(cellEditorParams.stopEditing).not.toHaveBeenCalled();
+      currencyEditorComponent.onPressEnter();
+      expect(cellEditorParams.stopEditing).toHaveBeenCalled();
     });
 
     it('should set the correct aria label', () => {
