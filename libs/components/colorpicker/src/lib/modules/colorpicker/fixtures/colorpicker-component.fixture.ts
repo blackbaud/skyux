@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { SkyIconType } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
 
@@ -13,7 +14,9 @@ import { SkyColorpickerResult } from '../types/colorpicker-result';
 })
 export class ColorpickerTestComponent {
   public pickerButtonIcon: string | undefined;
-  public pickerButtonIconType: string | undefined;
+  public pickerButtonIconType: SkyIconType = 'fa';
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
   public label: string | undefined;
   public labelledBy: string | undefined;
   public labelText: string | undefined;
