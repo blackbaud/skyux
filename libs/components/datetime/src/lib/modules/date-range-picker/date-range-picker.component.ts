@@ -13,6 +13,7 @@ import {
   Optional,
   SimpleChanges,
   TemplateRef,
+  booleanAttribute,
   forwardRef,
   inject,
 } from '@angular/core';
@@ -212,16 +213,17 @@ export class SkyDateRangePickerComponent
   public display: string | undefined;
 
   /**
-   * The template driven required input. We need to watch for this - but do not want to document it outside of the typical Angular template driven form documentation.
-   * @internal
+   * Whether the date range picker requires a value.
    */
-  @Input()
-  public set required(value: boolean | undefined) {
-    this.#_required = value;
-    this.#updateRequiredStates();
+  @Input({ transform: booleanAttribute })
+  public set required(value: boolean) {
+    if (value !== this.#_required) {
+      this.#_required = value;
+      this.#updateRequiredStates();
+    }
   }
 
-  public get required(): boolean | undefined {
+  public get required(): boolean {
     return this.#_required;
   }
 
@@ -309,7 +311,7 @@ export class SkyDateRangePickerComponent
   ];
   #_dateFormat: string | undefined;
   #_disabled: boolean | undefined = false;
-  #_required: boolean | undefined = false;
+  #_required = false;
   #_valueOrDefault: SkyDateRangeCalculation | undefined;
 
   #changeDetector: ChangeDetectorRef;
@@ -710,8 +712,7 @@ export class SkyDateRangePickerComponent
   #updateRequiredStates(): void {
     const originalValue = this.outerControlRequired;
     this.outerControlRequired =
-      this.required ||
-      !!this.#ngControl?.control?.hasValidator(Validators.required);
+      this.required || !!this.#control?.hasValidator(Validators.required);
 
     if (this.outerControlRequired) {
       this.#calculatorIdControl?.addValidators(Validators.required);
@@ -725,6 +726,8 @@ export class SkyDateRangePickerComponent
 
     // We need to update the outer control - but only if the required state has changed. Otherwise - we would enter an infinite loop.
     if (originalValue !== this.outerControlRequired) {
+      // Ensure that child control validation is complete prior to updating the outer control. Without this - the inner controls may not have validated and may lead
+      // to an incorrect outer control state until something else re-runs validation.
       this.#ngZone.onStable.pipe(first()).subscribe(() => {
         this.#control?.updateValueAndValidity();
       });
