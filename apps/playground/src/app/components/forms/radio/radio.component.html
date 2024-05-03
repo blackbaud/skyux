@@ -118,10 +118,10 @@
 <div>
   <sky-radio-group
     [disabled]="disabled"
-    [required]="required"
+    [required]="true"
     [(ngModel)]="radioValue"
-    labelText="What is your favorite season? (template)"
-    [labelHidden]="true"
+    helpPopoverContent="content"
+    labelText="What is your favorite season?"
     #foo="ngModel"
   >
     <ul class="sky-list-unstyled">
