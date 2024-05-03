@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -15,6 +16,7 @@ import { BoxComponent } from './box.component';
     FormsModule,
     SkyHelpInlineModule,
     SkyBoxModule,
+    SkyCheckboxModule,
     SkyDropdownModule,
   ],
   declarations: [BoxComponent],
