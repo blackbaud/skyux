@@ -13,6 +13,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -282,8 +283,8 @@ export class SkyTextEditorComponent
    * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    * @default false
    */
-  @Input()
-  public required: boolean | undefined = false;
+  @Input({ transform: booleanAttribute })
+  public required = false;
 
   /**
    * The actions to include in the toolbar in the specified order.
