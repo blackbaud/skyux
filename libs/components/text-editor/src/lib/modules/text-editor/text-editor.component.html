@@ -3,12 +3,20 @@
   [ngClass]="{
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused,
-    'sky-text-editor-invalid': ngControl.errors,
+    'sky-text-editor-invalid':
+      ngControl.errors && (ngControl.touched || ngControl.dirty),
     'sky-margin-stacked-xs': !!hintText
   }"
 >
   <div class="sky-text-editor-label-wrapper">
-    <label *ngIf="labelText" class="sky-control-label">{{ labelText }}</label>
+    <label
+      *ngIf="labelText"
+      class="sky-control-label"
+      [ngClass]="{
+        'sky-control-label-required': isEditorRequired
+      }"
+      >{{ labelText }}</label
+    >
   </div>
   <sky-toolbar
     *ngIf="
