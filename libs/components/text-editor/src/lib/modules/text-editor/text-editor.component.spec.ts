@@ -1952,6 +1952,24 @@ describe('Text editor', () => {
       );
     });
 
+    it('should add an asterisk to the label when field is required', async () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      let label = fixture.nativeElement.querySelector('.sky-control-label');
+      expect(label).toHaveCssClass('sky-control-label-required');
+
+      testComponent.formControl.clearValidators();
+      testComponent.formControl.updateValueAndValidity();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      label = fixture.nativeElement.querySelector('.sky-control-label');
+      console.log(label);
+      expect(label).not.toHaveCssClass('sky-control-label-required');
+    });
+
     it('should render a sky-form-error when the field is required and has been touched', () => {
       testComponent.formControl.markAsTouched();
       fixture.detectChanges();
