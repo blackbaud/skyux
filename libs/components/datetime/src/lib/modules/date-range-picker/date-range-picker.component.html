@@ -72,7 +72,6 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-start-date'"
-          [attr.placeholder]="dateFormatOrDefault"
           [required]="!!startDateRequired"
           [dateFormat]="dateFormatOrDefault"
           (blur)="onFieldBlur()"
@@ -118,7 +117,6 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-end-date'"
-          [attr.placeholder]="dateFormatOrDefault"
           [dateFormat]="dateFormatOrDefault"
           [required]="!!endDateRequired"
           (blur)="onFieldBlur()"
