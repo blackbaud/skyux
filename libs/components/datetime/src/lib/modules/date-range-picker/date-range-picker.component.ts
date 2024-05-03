@@ -357,12 +357,8 @@ export class SkyDateRangePickerComponent
   }
 
   public ngOnInit(): void {
-    this.#ngControl = this.#injector.get(NgControl, null, {
-      optional: true,
-    });
-    if (this.#ngControl) {
-      this.#ngControl.valueAccessor = this;
-    }
+    this.#ngControl = this.#injector.get(NgControl);
+    this.#ngControl.valueAccessor = this;
 
     this.#createForm();
 

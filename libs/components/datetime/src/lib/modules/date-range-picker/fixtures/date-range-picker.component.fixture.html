@@ -1,6 +1,9 @@
-<form [formGroup]="reactiveForm" novalidate>
+<form
+  [formGroup]="reactiveForm"
+  novalidate
+  *ngIf="templateDisable === undefined && templateModel === undefined"
+>
   <sky-date-range-picker
-    *ngIf="templateDisable === undefined && templateModel === undefined"
     [hintText]="hintText"
     formControlName="dateRange"
     [calculatorIds]="calculatorIds"
@@ -13,7 +16,6 @@
   >
   </sky-date-range-picker>
 </form>
-
 <sky-date-range-picker
   *ngIf="templateDisable !== undefined"
   [calculatorIds]="calculatorIds"
@@ -22,10 +24,10 @@
   [endDateRequired]="endDateRequired"
   [label]="label"
   [startDateRequired]="startDateRequired"
+  [(ngModel)]="templateModel"
   #dateRangePicker
 >
 </sky-date-range-picker>
-
 <sky-date-range-picker
   *ngIf="templateModel !== undefined"
   [calculatorIds]="calculatorIds"
