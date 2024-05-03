@@ -2,6 +2,11 @@
 
 .sky-theme-modern {
   .sky-switch-input:not(:disabled) {
+    &.sky-switch-invalid + .sky-switch-control {
+      border: solid 2px var(--sky-highlight-color-danger);
+      box-shadow: none;
+    }
+
     &:checked + .sky-switch-control,
     &[type='checkbox']:indeterminate + .sky-switch-control,
     &:hover + .sky-switch-control {
@@ -21,7 +26,7 @@
   }
 
   .sky-switch-control {
-    transition: box-shadow $sky-transition-time-short;
+    transition: $sky-form-border-and-color-transitions;
     border: 1px solid var(--sky-border-color-neutral-medium-dark);
   }
 
