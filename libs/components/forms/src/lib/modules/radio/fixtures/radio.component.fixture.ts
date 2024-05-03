@@ -24,6 +24,9 @@ export class SkyRadioTestComponent {
   public hintText2: string | undefined;
   public hintText3: string | undefined;
 
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
+
   public provideIds = true;
 
   public tabindex2: number | undefined;
