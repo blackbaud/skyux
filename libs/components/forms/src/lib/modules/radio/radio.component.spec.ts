@@ -374,6 +374,23 @@ describe('Radio component', function () {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should render help inline only if label text is provided', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      componentInstance.labelText1 = 'label';
+      componentInstance.helpPopoverContent = 'content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
+    }));
   });
 
   describe('Radio icon component', () => {

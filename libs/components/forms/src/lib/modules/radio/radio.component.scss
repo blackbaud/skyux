@@ -5,6 +5,14 @@
   display: inline-block;
 }
 
+.sky-radio-help-inline {
+  display: inline-flex;
+}
+
+.sky-switch-label {
+  margin-right: var(--sky-margin-inline-xs);
+}
+
 .sky-switch-control:not(.sky-switch-control-icon) {
   sky-icon {
     font-size: 70%;
