@@ -34,7 +34,6 @@ import { Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from '../datepicker/date-formatter';
-import { SKY_DATEPICKER_HINT_TEXT_HIDDEN } from '../datepicker/datepicker-hint-token';
 
 import { SkyDateRangeService } from './date-range.service';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
@@ -73,7 +72,6 @@ let uniqueId = 0;
   providers: [
     SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR,
     SKY_DATE_RANGE_PICKER_VALIDATOR,
-    { provide: SKY_DATEPICKER_HINT_TEXT_HIDDEN, useValue: true },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -12,7 +12,7 @@
     <div class="sky-margin-stacked-lg">
       <sky-date-range-picker
         formControlName="lastDonation"
-        hintText="Really long hint text that should wrap and be confined to below the date range picker element. We set the text to have a small margin below the selection and datepicker controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
+        [hintText]="hintText"
         label="Last donation"
         [calculatorIds]="calculatorIds"
         [dateFormat]="dateFormat"
@@ -122,5 +122,12 @@
     (click)="setDateFormat()"
   >
     Set date format
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleHintText()"
+  >
+    Toggle hint text
   </button>
 </div>
