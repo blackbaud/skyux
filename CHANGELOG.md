@@ -1,5 +1,22 @@
 # Changelog
 
+## [10.10.0](https://github.com/blackbaud/skyux/compare/10.9.0...10.10.0) (2024-05-03)
+
+
+### Features
+
+* **components/colorpicker:** add help inline inputs to colorpicker ([#2272](https://github.com/blackbaud/skyux/issues/2272)) ([7587d98](https://github.com/blackbaud/skyux/commit/7587d98e6a72bcb1bca6edaaba00c39daac93101))
+* **components/datetime:** add help inline inputs to date range picker ([#2261](https://github.com/blackbaud/skyux/issues/2261)) ([3ee13f1](https://github.com/blackbaud/skyux/commit/3ee13f182d6e560e2a6101f4806f2898bc76ec42))
+* **components/forms:** add help inline popover to file attachment ([#2263](https://github.com/blackbaud/skyux/issues/2263)) ([409c9e3](https://github.com/blackbaud/skyux/commit/409c9e3337aa832d7ec8bd7a60ade7ca0fcf70ae))
+* **components/forms:** add help inline to toggle switch ([#2262](https://github.com/blackbaud/skyux/issues/2262)) ([45a26d9](https://github.com/blackbaud/skyux/commit/45a26d9978b348390f49dcde143d460e7af14855))
+
+
+### Bug Fixes
+
+* **code-examples:** update single fite attachment examples to only allow data urls ([#2264](https://github.com/blackbaud/skyux/issues/2264)) ([1267c50](https://github.com/blackbaud/skyux/commit/1267c50c8067284ee0a6c1bffe3e139e72163f07))
+* **components/ag-grid:** unable to edit currency cell ([#2266](https://github.com/blackbaud/skyux/issues/2266)) ([0a18b58](https://github.com/blackbaud/skyux/commit/0a18b58fdb04d0af0f30f40e33717a44c6cdab50))
+* **components/modals:** skyConfirmTestingService verify custom button configurations ([#2267](https://github.com/blackbaud/skyux/issues/2267)) ([8047f58](https://github.com/blackbaud/skyux/commit/8047f587ead08adbf50397aa6d5da16c66462833))
+
 ## [10.9.0](https://github.com/blackbaud/skyux/compare/10.8.0...10.9.0) (2024-04-29)
 
 
