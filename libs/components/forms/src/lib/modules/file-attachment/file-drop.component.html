@@ -3,14 +3,24 @@
     *ngIf="labelText"
     class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
     [ngClass]="{
-      'sky-screen-reader-only': labelHidden,
-      'sky-control-label-required': required
+      'sky-screen-reader-only': labelHidden
     }"
   >
-    {{ labelText
-    }}<span class="sky-screen-reader-only" *ngIf="required">{{
+    <span
+      class="sky-margin-inline-xs"
+      [ngClass]="{
+        'sky-control-label-required': required
+      }"
+      >{{ labelText }}</span
+    ><span class="sky-screen-reader-only" *ngIf="required">{{
       'skyux_file_attachment_required' | skyLibResources
-    }}</span>
+    }}</span
+    ><sky-help-inline
+      *ngIf="helpPopoverContent && labelText"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
   </legend>
   <div
     class="sky-file-drop-row"

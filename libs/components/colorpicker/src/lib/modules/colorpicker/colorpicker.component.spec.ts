@@ -429,6 +429,39 @@ describe('Colorpicker Component', () => {
       expect(fixture.nativeElement.querySelector(`#${id}`)).toExist();
     });
 
+    it('should render help inline with popover only if label text is provided', () => {
+      component.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      component.labelText = 'labelText';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
+    });
+
+    it('should not render help inline for popover unless popover content is set', () => {
+      component.helpPopoverTitle = 'popover title';
+      component.labelText = 'labelText';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      component.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
+    });
+
     it('should add icon overlay', fakeAsync(() => {
       const icon = getColorpickerIcon();
       expect(icon).toBeNull();

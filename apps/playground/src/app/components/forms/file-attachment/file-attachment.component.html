@@ -1,7 +1,9 @@
 <div style="width: 60%">
   <sky-file-drop
-    labelText="File attachment field"
+    helpPopoverContent="Sample help content"
+    helpPopoverTitle="Inline help"
     hintText="Really long hint text that should wrap and be confined to below the file drop element. We set the text to have a small margin below the drop and link controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
+    labelText="File attachment field"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
     [maxFileSize]="maxFileSize"
@@ -19,8 +21,10 @@
 
 <form [formGroup]="formGroup">
   <sky-file-attachment
-    labelText="Single file attachment"
+    helpPopoverContent="Sample help content"
+    helpPopoverTitle="Inline help"
     hintText="Sample hint text"
+    labelText="Single file attachment"
     required="true"
     [acceptedTypes]="acceptedTypes"
     [maxFileSize]="maxFileSize"
