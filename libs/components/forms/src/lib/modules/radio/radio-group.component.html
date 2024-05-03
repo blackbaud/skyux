@@ -19,13 +19,14 @@
       [ngClass]="{
         'sky-screen-reader-only': labelHidden,
         'sky-margin-stacked-sm': !hintText,
-        'sky-control-label-required': required
+        'sky-control-label-required': required,
+        'sky-margin-inline-xs': helpPopoverContent
       }"
     >
       {{ labelText }}
     </legend>
     <sky-help-inline
-      *ngIf="helpPopoverContent"
+      *ngIf="helpPopoverContent && labelText"
       [labelText]="labelText"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"

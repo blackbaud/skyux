@@ -721,6 +721,22 @@ describe('Radio group component (reactive)', function () {
         .textContent,
     ).toEqual('This option is incorrect.');
   }));
+
+  it('should render help inline only if label text and help popover content is provided', async () => {
+    componentInstance.labelText = 'Label Text';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
+  });
 });
 
 describe('Radio group component (template-driven)', () => {
