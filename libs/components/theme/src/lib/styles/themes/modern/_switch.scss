@@ -1,10 +1,8 @@
 @use '../../variables' as *;
-@use '../../mixins' as mixins;
 
 .sky-theme-modern {
   .sky-switch-input:not(:disabled) {
     &.sky-switch-invalid + .sky-switch-control {
-      // @include mixins.sky-theme-modern-border-invalid;
       border: solid 2px var(--sky-highlight-color-danger);
       box-shadow: none;
     }
