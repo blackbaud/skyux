@@ -13,10 +13,9 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  booleanAttribute,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl, Validators } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import {
   SkyCoreAdapterService,
   SkyFormsUtility,
@@ -28,6 +27,7 @@ import {
   SkyFormErrorsModule,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxHostService,
+  SkyRequiredStateDirective,
 } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 
@@ -70,6 +70,12 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorSelectionService,
     SkyTextEditorAdapterService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
+  hostDirectives: [
+    {
+      directive: SkyRequiredStateDirective,
+      inputs: ['required'],
+    },
   ],
   imports: [
     CommonModule,
@@ -257,12 +263,6 @@ export class SkyTextEditorComponent
   }
 
   /**
-   * Whether the text editor requires a value.
-   */
-  @Input({ transform: booleanAttribute })
-  public required = false;
-
-  /**
    * The actions to include in the toolbar in the specified order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
@@ -359,10 +359,7 @@ export class SkyTextEditorComponent
   public display: string | undefined;
 
   protected get isEditorRequired(): boolean {
-    return (
-      this.required ||
-      !!this.ngControl.control?.hasValidator(Validators.required)
-    );
+    return this.#requiredState.hasRequiredValidator();
   }
 
   protected editorFocused = false;
@@ -390,6 +387,7 @@ export class SkyTextEditorComponent
   readonly #coreAdapterService = inject(SkyCoreAdapterService);
   readonly #editorService = inject(SkyTextEditorService);
   readonly #idSvc = inject(SkyIdService);
+  readonly #requiredState = inject(SkyRequiredStateDirective);
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
@@ -495,7 +493,7 @@ export class SkyTextEditorComponent
       .subscribe(() => {
         this.#updateA11yAttributes();
 
-        // Trigger change detection since the field status has been modified programmatically.
+        // Trigger change detection when the field status is modified programmatically.
         this.#changeDetector.markForCheck();
       });
 
@@ -579,7 +577,9 @@ export class SkyTextEditorComponent
         this.labelText ? this.errorId : '',
         this.ngControl.errors,
       );
-      this.#adapterService.setRequiredAttribute(this.isEditorRequired);
+      this.#adapterService.setRequiredAttribute(
+        this.#requiredState.hasRequiredValidator(),
+      );
     }
   }
 
