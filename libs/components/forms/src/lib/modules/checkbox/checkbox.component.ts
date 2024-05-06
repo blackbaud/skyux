@@ -269,6 +269,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public hintText: string | undefined;
 
   /**
+   * Whether the checkbox is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the checkbox.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public stacked = false;
+
+  /**
    * Fires when users select or deselect the checkbox.
    */
   @Output()
