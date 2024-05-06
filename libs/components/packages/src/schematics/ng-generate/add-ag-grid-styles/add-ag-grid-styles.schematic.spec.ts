@@ -10,7 +10,7 @@ describe('add-ag-grid-styles', () => {
   );
 
   it('should add ag-grid styles to the project', async () => {
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    jest.spyOn(console, 'log').mockImplementation(() => undefined);
     const tree = await createTestLibrary(runner, { projectName: 'my-lib' });
     await runner.runSchematic('add-ag-grid-styles', { project: 'other' }, tree);
     expect(console.log).toHaveBeenCalledWith('Could not find project: other');
