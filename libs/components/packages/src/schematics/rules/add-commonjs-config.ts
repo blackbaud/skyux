@@ -14,7 +14,7 @@ const allowedCommonJsDependenciesBuilders = [
  */
 export function addCommonJsConfig(projectName: string): Rule {
   const targetNames = ['build'];
-  return (_tree, context) =>
+  return () =>
     updateWorkspace((workspace) => {
       const project = workspace.projects.get(projectName);
 
