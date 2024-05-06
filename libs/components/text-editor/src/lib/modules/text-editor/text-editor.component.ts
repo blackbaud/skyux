@@ -258,7 +258,6 @@ export class SkyTextEditorComponent
 
   /**
    * Whether the text editor requires a value.
-   * @default false
    */
   @Input({ transform: booleanAttribute })
   public required = false;
