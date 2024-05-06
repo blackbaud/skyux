@@ -6,8 +6,9 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
+import { SkyIdService } from '@skyux/core';
 
+import { SkyBoxControlsComponent } from './box-controls.component';
 import { SKY_BOX_HEADER_ID } from './box-header-id-token';
 import { SkyBoxHeaderComponent } from './box-header.component';
 
@@ -20,7 +21,6 @@ import { SkyBoxHeaderComponent } from './box-header.component';
   styleUrls: ['./box.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
-    SkyContentInfoProvider,
     {
       provide: SKY_BOX_HEADER_ID,
       useFactory(): string {
@@ -62,11 +62,21 @@ export class SkyBoxComponent {
 
   @ContentChild(SkyBoxHeaderComponent, { read: ElementRef })
   public set boxHeaderRef(value: ElementRef | undefined) {
-    this.#contentInfoProvider.patchInfo({
-      descriptor: { type: 'elementId', value: this.#boxTitleId },
-    });
+    this.#boxHeaderRef = value;
+    if (this.#boxControls) {
+      this.#boxControls.boxHasHeader(!!value);
+    }
   }
 
-  readonly #contentInfoProvider = inject(SkyContentInfoProvider);
-  readonly #boxTitleId = inject(SKY_BOX_HEADER_ID);
+  @ContentChild(SkyBoxControlsComponent)
+  public set boxControls(value: SkyBoxControlsComponent | undefined) {
+    this.#boxControls = value;
+
+    if (value) {
+      value.boxHasHeader(!!this.#boxHeaderRef);
+    }
+  }
+
+  #boxControls: SkyBoxControlsComponent | undefined;
+  #boxHeaderRef: ElementRef | undefined;
 }

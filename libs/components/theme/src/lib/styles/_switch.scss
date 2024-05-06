@@ -32,6 +32,10 @@
   outline: 0;
   -webkit-appearance: none;
 
+  &.sky-switch-invalid + .sky-switch-control {
+    @include mixins.sky-field-status('invalid');
+  }
+
   &:checked:not(:disabled) + .sky-switch-control,
   &[type='checkbox']:indeterminate:not(:disabled) + .sky-switch-control {
     background-color: var(--sky-background-color-input-selected);
