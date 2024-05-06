@@ -359,7 +359,7 @@ export class SkyTextEditorComponent
   public display: string | undefined;
 
   protected get isEditorRequired(): boolean {
-    return this.#requiredState.hasRequiredValidator();
+    return this.#requiredState.isRequired();
   }
 
   protected editorFocused = false;
@@ -578,7 +578,7 @@ export class SkyTextEditorComponent
         this.ngControl.errors,
       );
       this.#adapterService.setRequiredAttribute(
-        this.#requiredState.hasRequiredValidator(),
+        this.#requiredState.isRequired(),
       );
     }
   }

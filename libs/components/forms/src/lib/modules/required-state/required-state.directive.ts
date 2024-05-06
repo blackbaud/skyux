@@ -2,20 +2,21 @@ import { Directive, Input, booleanAttribute, inject } from '@angular/core';
 import { NgControl, Validators } from '@angular/forms';
 
 /**
- * Applies an input named "required" to a host component.
+ * Apply to a host component to capture the "required" state of its form control.
  * @internal
  */
 @Directive({
   standalone: true,
 })
 export class SkyRequiredStateDirective {
-  /**
-   * @internal
-   */
   @Input({ transform: booleanAttribute })
   public required = false;
 
-  public hasRequiredValidator(): boolean {
+  /**
+   * Whether the `required` attribute is set to `true`, or the control includes
+   * the `Validators.required` validator.
+   */
+  public isRequired(): boolean {
     return (
       this.required ||
       !!this.#ngControl?.control?.hasValidator(Validators.required)
