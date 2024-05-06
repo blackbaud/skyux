@@ -12,14 +12,10 @@ import { SkyRequiredStateDirective } from '../required-state.directive';
   ],
   selector: 'sky-test-control',
   standalone: true,
-  template: `required: {{ isRequired }}`,
+  template: `required: {{ requiredState.isRequired() }}`,
 })
 export class TestControlComponent implements ControlValueAccessor {
-  protected get isRequired(): boolean {
-    return this.#requiredState.isRequired();
-  }
-
-  readonly #requiredState = inject(SkyRequiredStateDirective);
+  protected readonly requiredState = inject(SkyRequiredStateDirective);
 
   constructor() {
     const ngControl = inject(NgControl, { optional: true });

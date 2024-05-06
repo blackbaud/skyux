@@ -13,7 +13,7 @@
       *ngIf="labelText"
       class="sky-control-label"
       [ngClass]="{
-        'sky-control-label-required': isEditorRequired
+        'sky-control-label-required': requiredState.isRequired()
       }"
       >{{ labelText }}</label
     >

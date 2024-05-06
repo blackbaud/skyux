@@ -358,10 +358,6 @@ export class SkyTextEditorComponent
   @HostBinding('style.display')
   public display: string | undefined;
 
-  protected get isEditorRequired(): boolean {
-    return this.#requiredState.isRequired();
-  }
-
   protected editorFocused = false;
 
   #defaultId: string;
@@ -387,7 +383,6 @@ export class SkyTextEditorComponent
   readonly #coreAdapterService = inject(SkyCoreAdapterService);
   readonly #editorService = inject(SkyTextEditorService);
   readonly #idSvc = inject(SkyIdService);
-  readonly #requiredState = inject(SkyRequiredStateDirective);
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
@@ -397,6 +392,7 @@ export class SkyTextEditorComponent
 
   protected readonly errorId = this.#idSvc.generateId();
   protected readonly ngControl = inject(NgControl);
+  protected readonly requiredState = inject(SkyRequiredStateDirective);
 
   constructor() {
     this.#id = this.#defaultId = this.#idSvc.generateId();
@@ -578,7 +574,7 @@ export class SkyTextEditorComponent
         this.ngControl.errors,
       );
       this.#adapterService.setRequiredAttribute(
-        this.#requiredState.isRequired(),
+        this.requiredState.isRequired(),
       );
     }
   }
