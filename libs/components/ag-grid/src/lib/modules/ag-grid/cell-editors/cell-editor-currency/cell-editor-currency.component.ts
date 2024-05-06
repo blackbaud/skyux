@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
@@ -26,11 +27,16 @@ import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
 export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp
 {
-  public skyComponentProperties: SkyAgGridCurrencyProperties = {};
+  public skyComponentProperties: SkyAgGridCurrencyProperties & {
+    isCancellable: boolean;
+  } = {
+    isCancellable: false,
+  };
   public columnHeader: string | undefined;
   public columnWidth: number | undefined;
+  public currency = new UntypedFormControl();
   public editorForm = new UntypedFormGroup({
-    currency: new UntypedFormControl(),
+    currency: this.currency,
   });
   public params: SkyCellEditorCurrencyParams | undefined;
   public rowHeightWithoutBorders: number | undefined;
@@ -40,11 +46,8 @@ export class SkyAgGridCellEditorCurrencyComponent
   public input: ElementRef | undefined;
 
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  #initialized = false;
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
@@ -62,10 +65,17 @@ export class SkyAgGridCellEditorCurrencyComponent
       this.params.node?.rowHeight,
       4,
     );
-    this.skyComponentProperties = this.params.skyComponentProperties || {
-      decimalPlaces: 2,
-      currencySymbol: '$',
+    this.skyComponentProperties = {
+      ...(this.params.skyComponentProperties || {
+        decimalPlaces: 2,
+        currencySymbol: '$',
+      }),
+      isCancellable: false,
     };
+  }
+
+  public refresh(params: SkyCellEditorCurrencyParams): void {
+    this.agInit(params);
   }
 
   /**
@@ -79,7 +89,7 @@ export class SkyAgGridCellEditorCurrencyComponent
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(
       this.params,
     );
-    const control = this.editorForm.get('currency');
+    const control = this.currency;
 
     if (control) {
       switch (this.#triggerType) {
@@ -101,20 +111,22 @@ export class SkyAgGridCellEditorCurrencyComponent
 
     this.#changeDetector.markForCheck();
 
-    // Without the `setTimeout` there is inconsistent behavior with the highlighting when no initial value is present.
-    setTimeout(() => {
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        this.input?.nativeElement.select();
-      }
-    }, 100);
+    if (
+      this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted &&
+      (this.params?.value ?? '') !== ''
+    ) {
+      this.input?.nativeElement.select();
+    }
+
+    // When the cell is initialized with the Enter key, we need to suppress the first `onPressEnter`.
+    this.#initialized = this.params?.eventKey !== 'Enter';
   }
 
   /**
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): number | undefined {
-    const val = this.editorForm.get('currency')?.value;
-    return val !== undefined && val !== null ? val : undefined;
+    return this.currency.value ?? undefined;
   }
 
   /**
@@ -125,5 +137,12 @@ export class SkyAgGridCellEditorCurrencyComponent
       this.params.api.stopEditing(true);
       this.params.api.setFocusedCell(this.params.rowIndex, this.params.column);
     }
+  }
+
+  public onPressEnter(): void {
+    if (this.params && this.#initialized) {
+      this.params.stopEditing();
+    }
+    this.#initialized = true;
   }
 }

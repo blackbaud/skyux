@@ -7,6 +7,7 @@ import {
   SkyFormErrorsModule,
   SkyInputBoxModule,
 } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -31,6 +32,7 @@ import { SkyColorpickerComponent } from './colorpicker.component';
     SkyColorpickerResourcesModule,
     SkyFormErrorModule,
     SkyFormErrorsModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyInputBoxModule,
     SkyThemeModule,

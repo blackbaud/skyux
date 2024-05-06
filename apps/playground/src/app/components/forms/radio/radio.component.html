@@ -114,6 +114,29 @@
   </sky-radio-group>
 </div>
 
+<h1>Radio button and group easy mode</h1>
+<div>
+  <sky-radio-group
+    [disabled]="disabled"
+    [required]="required"
+    [(ngModel)]="radioValue"
+    labelText="What is your favorite season? (template)"
+    [labelHidden]="true"
+    #foo="ngModel"
+  >
+    <ul class="sky-list-unstyled">
+      <li *ngFor="let item of seasons">
+        <sky-radio
+          [value]="item.name"
+          [disabled]="item.disabled"
+          [labelText]="item.name"
+          [helpPopoverContent]="showInlineHelp ? 'help content' : undefined"
+        />
+      </li>
+    </ul>
+  </sky-radio-group>
+</div>
+
 <table>
   <tr>
     <th>Touched</th>

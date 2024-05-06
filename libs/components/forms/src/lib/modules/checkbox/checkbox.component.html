@@ -24,6 +24,10 @@
       [attr.aria-errormessage]="
         labelText && ngControl?.errors ? errorId : undefined
       "
+      [ngClass]="{
+        'sky-switch-invalid':
+          (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
+      }"
       (blur)="onInputBlur()"
       (change)="onInteractionEvent($event)"
       #inputEl
