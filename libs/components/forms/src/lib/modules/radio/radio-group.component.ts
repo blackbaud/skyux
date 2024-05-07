@@ -142,6 +142,15 @@ export class SkyRadioGroupComponent
   public required: boolean | undefined = false;
 
   /**
+   * Whether the radio button group is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the radio button group.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
+
+  /**
    * The value of the radio button to select by default when the group loads.
    * The value corresponds to the `value` property of an individual `sky-radio` element within the
    * group.
