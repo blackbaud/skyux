@@ -7,6 +7,7 @@ function copyFilesToDist() {
     ['collection.json'],
     ['/src/schematics/ag-grid-migrate/schema.json'],
     ['/src/schematics/migrations/migration-collection.json'],
+    ['/src/schematics/ng-generate/add-ag-grid-styles/schema.json'],
     ['/src/schematics/ng-generate/polyfills/schema.json'],
     ['/src/schematics/ng-generate/remove-nx-cache/schema.json'],
     ['/src/schematics/ng-add/schema.json'],
