@@ -12,17 +12,27 @@
     labelText && ngControl?.errors ? errorId : undefined
   "
 >
-  <legend
-    *ngIf="labelText"
-    class="sky-control-label"
-    [ngClass]="{
-      'sky-screen-reader-only': labelHidden,
-      'sky-margin-stacked-sm': !hintText,
-      'sky-control-label-required': required
-    }"
-  >
-    {{ labelText }}
-  </legend>
+  <span class="sky-radio-group-label-wrapper">
+    <legend
+      *ngIf="labelText"
+      class="sky-control-label"
+      [ngClass]="{
+        'sky-screen-reader-only': labelHidden,
+        'sky-margin-stacked-sm': !hintText,
+        'sky-control-label-required': required,
+        'sky-margin-inline-xs': helpPopoverContent
+      }"
+    >
+      {{ labelText }}
+    </legend>
+    <sky-help-inline
+      *ngIf="helpPopoverContent && labelText"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
+  </span>
+
   <div skyId #hintTextEl="skyId">
     <div
       *ngIf="hintText"
