@@ -13,7 +13,6 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -283,13 +282,6 @@ export class SkyTextEditorComponent
   }
 
   /**
-   * Whether the text editor requires a value.
-   * @default false
-   */
-  @Input({ transform: booleanAttribute })
-  public required = false;
-
-  /**
    * The actions to include in the toolbar in the specified order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
@@ -386,9 +378,6 @@ export class SkyTextEditorComponent
   public display: string | undefined;
 
   protected editorFocused = false;
-
-  // Value used in the template to set required state.
-  protected isEditorRequired = false;
 
   #defaultId: string;
   #id: string;
@@ -517,7 +506,6 @@ export class SkyTextEditorComponent
     this.ngControl.statusChanges
       ?.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.#updateRequiredState();
         this.#updateA11yAttributes();
 
         // Trigger change detection when the field status is modified programmatically.
@@ -584,7 +572,6 @@ export class SkyTextEditorComponent
       });
 
     this.#adapterService.setEditorInnerHtml(this.#_value);
-    this.#updateRequiredState();
     this.#updateA11yAttributes();
 
     /* istanbul ignore next */
@@ -609,11 +596,6 @@ export class SkyTextEditorComponent
         this.requiredState.isRequired(),
       );
     }
-  }
-
-  #updateRequiredState(): void {
-    this.isEditorRequired =
-      this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
   }
 
   #viewToModelUpdate(emitChange = true): void {
