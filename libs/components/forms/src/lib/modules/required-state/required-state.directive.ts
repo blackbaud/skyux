@@ -2,7 +2,7 @@ import { Directive, Input, booleanAttribute, inject } from '@angular/core';
 import { NgControl, Validators } from '@angular/forms';
 
 /**
- * Apply to a host component to capture the "required" state of its form control.
+ * A host directive used to capture the "required" state of the host's form control.
  * @internal
  */
 @Directive({
