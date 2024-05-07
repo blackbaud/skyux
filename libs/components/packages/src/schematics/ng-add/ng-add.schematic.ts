@@ -8,6 +8,7 @@ import {
 import fs from 'fs-extra';
 import path from 'path';
 
+import { addCommonJsConfig } from '../rules/add-commonjs-config';
 import { addPolyfillsConfig } from '../rules/add-polyfills-config';
 import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
 import { installAngularCdk } from '../rules/install-angular-cdk';
@@ -50,6 +51,7 @@ export default function ngAdd(options: Schema): Rule {
     return chain([
       installEssentialSkyUxPackages(skyuxVersion),
       installAngularCdk(),
+      addCommonJsConfig(projectName),
       addPolyfillsConfig(projectName, ['build', 'test']),
       applySkyuxStylesheetsToWorkspace(projectName),
       modifyTsConfig(),
