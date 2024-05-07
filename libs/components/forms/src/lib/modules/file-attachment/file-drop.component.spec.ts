@@ -497,15 +497,11 @@ describe('File drop component', () => {
     fixture.componentInstance.stacked = true;
     fixture.detectChanges();
 
-    const fieldset = fixture.nativeElement.querySelector('fieldset');
-
-    expect(fieldset).toHaveClass('sky-margin-stacked-lg');
+    expect(fixture.nativeElement).toHaveClass('sky-margin-stacked-lg');
   });
 
   it('should not have the lg margin class if stacked is false', () => {
-    const fieldset = fixture.nativeElement.querySelector('fieldset');
-
-    expect(fieldset).not.toHaveClass('sky-margin-stacked-lg');
+    expect(fixture.nativeElement).not.toHaveClass('sky-margin-stacked-lg');
   });
 
   it('should click the file input on file drop click', () => {

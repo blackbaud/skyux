@@ -202,6 +202,7 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
    * @preview
    */
   @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
   public stacked = false;
 
   @ViewChild('fileInput')
