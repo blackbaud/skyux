@@ -1,13 +1,14 @@
 import { AbstractControl, NgControl } from '@angular/forms';
 
-// Need to add the following to classes which contain static methods.
-// See: https://github.com/ng-packagr/ng-packagr/issues/641
-// @dynamic
 /**
+ * @deprecated
  * @internal
  */
 export class SkyFormsUtility {
-  /** Coerces a data-bound value (typically a string) to a boolean. */
+  /**
+   * Coerces a data-bound value (typically a string) to a boolean.
+   * @deprecated Use the `booleanAttribute` transform instead.
+   */
   public static coerceBooleanProperty(value: any): boolean {
     return value !== undefined && `${value}` !== 'false';
   }
@@ -17,6 +18,7 @@ export class SkyFormsUtility {
    * Currently, Angular doesn't offer a way to get this easily, so we have to create an empty
    * control using the current validator to see if it throws a `required` validation error.
    * https://github.com/angular/angular/issues/13461#issuecomment-340368046
+   * @deprecated Use the host directive `SkyRequiredStateDirective` instead.
    */
   public static hasRequiredValidation(ngControl: NgControl): boolean {
     const abstractControl = ngControl.control as AbstractControl;

@@ -4,7 +4,7 @@
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused,
     'sky-text-editor-invalid':
-      (ngControl.touched || ngControl.dirty) && ngControl.errors,
+      ngControl.errors && (ngControl.touched || ngControl.dirty),
     'sky-margin-stacked-xs': !!hintText
   }"
 >
@@ -13,7 +13,7 @@
       <label
         class="sky-control-label"
         [ngClass]="{
-          'sky-control-label-required': isEditorRequired,
+          'sky-control-label-required': requiredState.isRequired(),
           'sky-margin-inline-xs': helpPopoverContent
         }"
         >{{ labelText }}</label

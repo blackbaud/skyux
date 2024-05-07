@@ -374,6 +374,23 @@ describe('Radio component', function () {
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should render help inline only if label text is provided', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(0);
+
+      componentInstance.labelText1 = 'label';
+      componentInstance.helpPopoverContent = 'content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+      ).toBe(1);
+    }));
   });
 
   describe('Radio icon component', () => {
@@ -401,31 +418,31 @@ describe('Radio component', function () {
     it('should set span class based on radio type input', () => {
       fixture.detectChanges();
 
-      let span = debugElement.query(By.css('span')).nativeElement;
+      let span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.radioType = 'info';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
       fixture.componentInstance.radioType = 'success';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-success');
 
       fixture.componentInstance.radioType = 'warning';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-warning');
 
       fixture.componentInstance.radioType = 'danger';
       fixture.detectChanges();
 
-      span = debugElement.query(By.css('span')).nativeElement;
+      span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-danger');
     });
 

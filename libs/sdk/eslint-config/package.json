@@ -23,7 +23,7 @@
   "ng-update": {
     "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
-      "eslint-plugin-deprecation": "^1.4.1"
+      "eslint-plugin-deprecation": "^2.0.0"
     }
   },
   "peerDependencies": {

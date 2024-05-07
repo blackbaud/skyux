@@ -33,11 +33,14 @@ export class FileAttachmentComponent {
 
   public filesToUpload: SkyFileItem[];
 
+  public required = false;
+
   @Input()
   public basic = false;
 
   @Input()
   public set noPreview(value: boolean) {
+    this.required = value;
     if (value) {
       const testUpload = {
         files: [

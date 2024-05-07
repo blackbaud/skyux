@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyContentInfoProvider } from '@skyux/core';
 
-import { SkyBoxComponent } from './box.component';
+import { SkyBoxControlsComponent } from './box-controls.component';
 import { BoxTestComponent } from './fixtures/box.component.fixture';
 import { SkyBoxFixturesModule } from './fixtures/box.module.fixture';
 
@@ -9,35 +9,45 @@ function getBoxEl(fixture: ComponentFixture<any>): HTMLElement {
   return fixture.nativeElement.querySelector('.sky-box');
 }
 
+function getControlsDropdownButton(
+  fixture: ComponentFixture<any>,
+): HTMLElement {
+  return fixture.nativeElement.querySelector(
+    '#controls-dropdown .sky-dropdown-button',
+  );
+}
+
+function getContentDropdownButton(fixture: ComponentFixture<any>): HTMLElement {
+  return fixture.nativeElement.querySelector(
+    '#content-dropdown .sky-dropdown-button',
+  );
+}
+
 describe('BoxComponent', () => {
   let component: BoxTestComponent;
   let fixture: ComponentFixture<BoxTestComponent>;
-  let mockContentInfoProvider: SkyContentInfoProvider;
+  let contentInfoProvider: SkyContentInfoProvider;
 
   beforeEach(() => {
-    mockContentInfoProvider = jasmine.createSpyObj('SkyContentInfoProvider', [
-      'patchInfo',
-      'getInfo',
-    ]);
+    contentInfoProvider = new SkyContentInfoProvider();
 
     TestBed.configureTestingModule({
       declarations: [BoxTestComponent],
       imports: [SkyBoxFixturesModule],
     });
 
-    fixture = TestBed.overrideComponent(SkyBoxComponent, {
+    fixture = TestBed.overrideComponent(SkyBoxControlsComponent, {
       add: {
         providers: [
           {
             provide: SkyContentInfoProvider,
-            useValue: mockContentInfoProvider,
+            useValue: contentInfoProvider,
           },
         ],
       },
     }).createComponent(BoxTestComponent);
 
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should assign role attribute when ariaRole is set', () => {
@@ -63,15 +73,57 @@ describe('BoxComponent', () => {
     );
   });
 
-  it('should set an id on the header and provide it via contentInfoProvider', () => {
-    const header = getBoxEl(fixture).querySelector('sky-box-header span');
-
+  it('should set an id on the header and provide it via contentInfoProvider', async () => {
+    const contentInfoSpy = spyOn(
+      contentInfoProvider,
+      'patchInfo',
+    ).and.callThrough();
     fixture.detectChanges();
+    let header = getBoxEl(fixture).querySelector('sky-box-header span');
     expect(header).not.toBeNull();
+
     if (header) {
-      expect(mockContentInfoProvider.patchInfo).toHaveBeenCalledWith({
+      expect(contentInfoProvider.patchInfo).toHaveBeenCalledWith({
         descriptor: { type: 'elementId', value: header.id },
       });
+      expect(
+        getControlsDropdownButton(fixture).getAttribute('aria-label'),
+      ).toBeNull();
+      expect(getContentDropdownButton(fixture).getAttribute('aria-label')).toBe(
+        'Context menu',
+      );
+      expect(
+        getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
+      ).toEqual(
+        jasmine.stringMatching(
+          /sky-id-gen__[0-9]+__[0-9]+ sky-id-gen__[0-9]+__[0-9]+/,
+        ),
+      );
+      expect(
+        getContentDropdownButton(fixture).getAttribute('aria-labelledby'),
+      ).toBeNull();
     }
+
+    contentInfoSpy.calls.reset();
+    component.showHeader = false;
+    fixture.detectChanges();
+    header = getBoxEl(fixture).querySelector('sky-box-header span');
+    expect(header).toBeNull();
+
+    expect(contentInfoProvider.patchInfo).toHaveBeenCalledWith({
+      descriptor: undefined,
+    });
+    expect(getContentDropdownButton(fixture).getAttribute('aria-label')).toBe(
+      'Context menu',
+    );
+    expect(getControlsDropdownButton(fixture).getAttribute('aria-label')).toBe(
+      'Context menu',
+    );
+    expect(
+      getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
+    ).toBeNull();
+    expect(
+      getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
+    ).toBeNull();
   });
 });

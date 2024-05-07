@@ -299,6 +299,27 @@ describe('Date range picker', function () {
     expect(hintText).toEqual('Select a date. Use the format DD/MM/YY.');
   }));
 
+  it('should have the lg margin class if stacked is true', fakeAsync(() => {
+    component.stacked = true;
+    detectChanges();
+
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
+
+    expect(dateRangePicker).toHaveClass('sky-margin-stacked-lg');
+  }));
+
+  it('should not have the lg margin class if stacked is false', fakeAsync(() => {
+    detectChanges();
+
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
+
+    expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
+  }));
+
   it('should not render if a parent component requires label text and it is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({

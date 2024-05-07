@@ -92,13 +92,7 @@ export class SkyCheckboxGroupComponent {
    */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
-  public set stacked(value: boolean) {
-    this.#_stacked = value;
-  }
-
-  public get stacked(): boolean {
-    return this.#_stacked;
-  }
+  public stacked = false;
 
   /**
    * The form group that contains the group of checkboxes.
@@ -107,7 +101,6 @@ export class SkyCheckboxGroupComponent {
   @Input({ required: true })
   public formGroup!: FormGroup;
 
-  #_stacked = false;
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
   protected formErrorsDataId = 'checkbox-group-form-errors';

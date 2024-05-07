@@ -28,6 +28,7 @@ import {
   SkyFormErrorsModule,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxHostService,
+  SkyRequiredStateDirective,
 } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -71,6 +72,12 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorSelectionService,
     SkyTextEditorAdapterService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
+  hostDirectives: [
+    {
+      directive: SkyRequiredStateDirective,
+      inputs: ['required'],
+    },
   ],
   imports: [
     CommonModule,
@@ -415,6 +422,7 @@ export class SkyTextEditorComponent
 
   protected readonly errorId = this.#idSvc.generateId();
   protected readonly ngControl = inject(NgControl);
+  protected readonly requiredState = inject(SkyRequiredStateDirective);
 
   constructor() {
     this.#id = this.#defaultId = this.#idSvc.generateId();
@@ -511,6 +519,9 @@ export class SkyTextEditorComponent
       .subscribe(() => {
         this.#updateRequiredState();
         this.#updateA11yAttributes();
+
+        // Trigger change detection when the field status is modified programmatically.
+        this.#changeDetector.markForCheck();
       });
 
     this.#editorService
@@ -594,7 +605,9 @@ export class SkyTextEditorComponent
         this.labelText ? this.errorId : '',
         this.ngControl.errors,
       );
-      this.#adapterService.setRequiredAttribute(this.isEditorRequired);
+      this.#adapterService.setRequiredAttribute(
+        this.requiredState.isRequired(),
+      );
     }
   }
 
