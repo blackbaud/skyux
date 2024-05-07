@@ -552,19 +552,15 @@ describe('Checkbox component', () => {
       fixture.componentInstance.stacked = true;
       fixture.detectChanges();
 
-      const wrapper = fixture.nativeElement.querySelector(
-        '.sky-checkbox-outer-wrapper',
-      );
+      const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
 
-      expect(wrapper).toHaveClass('sky-margin-stacked-lg');
+      expect(checkbox).toHaveClass('sky-margin-stacked-lg');
     });
 
     it('should not have the lg margin class if stacked is false', () => {
-      const wrapper = fixture.nativeElement.querySelector(
-        '.sky-checkbox-outer-wrapper',
-      );
+      const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
 
-      expect(wrapper).not.toHaveClass('sky-margin-stacked-lg');
+      expect(checkbox).not.toHaveClass('sky-margin-stacked-lg');
     });
 
     it('should make the host element a tab stop', () => {
