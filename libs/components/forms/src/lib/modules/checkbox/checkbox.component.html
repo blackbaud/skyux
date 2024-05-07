@@ -1,106 +1,108 @@
 <span
-  class="sky-checkbox-outer-wrapper"
+  class="sky-checkbox-container"
   [ngClass]="{
-    'sky-margin-stacked-lg': stacked
+    'sky-checkbox-stacked': stacked
   }"
 >
-  <label
-    class="sky-checkbox-wrapper sky-switch"
-    [ngClass]="{
-      'sky-control-label-required': required,
-      'sky-switch-disabled': disabled,
-      'sky-margin-inline-xs': labelText && !icon
-    }"
-  >
-    <input
-      class="sky-checkbox-input sky-switch-input"
-      type="checkbox"
-      [id]="inputId"
-      [checked]="checked"
-      [disabled]="disabled"
-      [name]="name"
-      [required]="required"
-      [tabIndex]="tabindex"
-      [attr.aria-label]="labelText || label"
-      [attr.aria-labelledby]="labelText ? undefined : labelledBy"
-      [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
-      [attr.aria-required]="required ? true : null"
-      [attr.aria-invalid]="!!ngControl?.errors"
-      [attr.aria-errormessage]="
-        labelText && ngControl?.errors ? errorId : undefined
-      "
+  <span class="sky-checkbox-outer-wrapper">
+    <label
+      class="sky-checkbox-wrapper sky-switch"
       [ngClass]="{
-        'sky-switch-invalid':
-          (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
-      }"
-      (blur)="onInputBlur()"
-      (change)="onInteractionEvent($event)"
-      #inputEl
-    />
-    <span
-      class="sky-switch-control sky-rounded-corners"
-      [ngClass]="{
-        'sky-switch-control-icon': icon,
-        'sky-switch-control-info': checkboxType === 'info',
-        'sky-switch-control-success': checkboxType === 'success',
-        'sky-switch-control-warning': checkboxType === 'warning',
-        'sky-switch-control-danger': checkboxType === 'danger'
+        'sky-control-label-required': required,
+        'sky-switch-disabled': disabled,
+        'sky-margin-inline-xs': labelText && !icon
       }"
     >
-      <sky-icon
-        *ngIf="icon; else checkedOrIndeterminateTemplate"
-        [fixedWidth]="true"
-        [icon]="icon"
+      <input
+        class="sky-checkbox-input sky-switch-input"
+        type="checkbox"
+        [id]="inputId"
+        [checked]="checked"
+        [disabled]="disabled"
+        [name]="name"
+        [required]="required"
+        [tabIndex]="tabindex"
+        [attr.aria-label]="labelText || label"
+        [attr.aria-labelledby]="labelText ? undefined : labelledBy"
+        [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
+        [attr.aria-required]="required ? true : null"
+        [attr.aria-invalid]="!!ngControl?.errors"
+        [attr.aria-errormessage]="
+          labelText && ngControl?.errors ? errorId : undefined
+        "
+        [ngClass]="{
+          'sky-switch-invalid':
+            (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
+        }"
+        (blur)="onInputBlur()"
+        (change)="onInteractionEvent($event)"
+        #inputEl
       />
-      <ng-template #checkedOrIndeterminateTemplate>
+      <span
+        class="sky-switch-control sky-rounded-corners"
+        [ngClass]="{
+          'sky-switch-control-icon': icon,
+          'sky-switch-control-info': checkboxType === 'info',
+          'sky-switch-control-success': checkboxType === 'success',
+          'sky-switch-control-warning': checkboxType === 'warning',
+          'sky-switch-control-danger': checkboxType === 'danger'
+        }"
+      >
         <sky-icon
-          *ngIf="!indeterminate && checked"
-          class="sky-checkbox-icon-modern-checked"
+          *ngIf="icon; else checkedOrIndeterminateTemplate"
           [fixedWidth]="true"
-          icon="check"
+          [icon]="icon"
         />
-        <sky-icon
-          *ngIf="indeterminate"
-          class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
-          [fixedWidth]="true"
-          icon="square"
-        />
-      </ng-template>
-    </span>
+        <ng-template #checkedOrIndeterminateTemplate>
+          <sky-icon
+            *ngIf="!indeterminate && checked"
+            class="sky-checkbox-icon-modern-checked"
+            [fixedWidth]="true"
+            icon="check"
+          />
+          <sky-icon
+            *ngIf="indeterminate"
+            class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
+            [fixedWidth]="true"
+            icon="square"
+          />
+        </ng-template>
+      </span>
 
-    <ng-container *ngIf="labelText; else labelElement">
-      <sky-checkbox-label-text-label
-        [labelText]="labelText"
-        [labelHidden]="labelHidden"
-      />
-    </ng-container>
-    <ng-template #labelElement>
-      <ng-content select="sky-checkbox-label" />
-    </ng-template>
-  </label>
-  <sky-help-inline
-    *ngIf="helpPopoverContent && labelText"
-    class="sky-checkbox-help-inline"
-    [labelText]="labelText"
-    [popoverTitle]="helpPopoverTitle"
-    [popoverContent]="helpPopoverContent"
-  />
-</span>
-<span skyId #hintTextEl="skyId">
-  <div
-    *ngIf="hintText"
-    class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin"
+      <ng-container *ngIf="labelText; else labelElement">
+        <sky-checkbox-label-text-label
+          [labelText]="labelText"
+          [labelHidden]="labelHidden"
+        />
+      </ng-container>
+      <ng-template #labelElement>
+        <ng-content select="sky-checkbox-label" />
+      </ng-template>
+    </label>
+    <sky-help-inline
+      *ngIf="helpPopoverContent && labelText"
+      class="sky-checkbox-help-inline"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
+  </span>
+  <span skyId #hintTextEl="skyId">
+    <div
+      *ngIf="hintText"
+      class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin"
+    >
+      {{ hintText }}
+    </div>
+  </span>
+  <sky-form-errors
+    class="sky-checkbox-form-margin"
+    *ngIf="labelText && ngControl?.errors"
+    [id]="errorId"
+    [errors]="ngControl?.errors"
+    [labelText]="'skyux_checkbox_required_label_text' | skyLibResources"
+    [showErrors]="ngControl?.touched || ngControl?.dirty"
   >
-    {{ hintText }}
-  </div>
+    <ng-content select="sky-form-error" />
+  </sky-form-errors>
 </span>
-<sky-form-errors
-  class="sky-checkbox-form-margin"
-  *ngIf="labelText && ngControl?.errors"
-  [id]="errorId"
-  [errors]="ngControl?.errors"
-  [labelText]="'skyux_checkbox_required_label_text' | skyLibResources"
-  [showErrors]="ngControl?.touched || ngControl?.dirty"
->
-  <ng-content select="sky-form-error" />
-</sky-form-errors>

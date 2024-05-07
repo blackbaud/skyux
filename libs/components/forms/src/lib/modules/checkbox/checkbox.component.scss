@@ -5,6 +5,11 @@
   display: inline-flex;
 }
 
+.sky-checkbox-container.sky-checkbox-stacked {
+  display: block;
+  margin-bottom: var(--sky-margin-stacked-lg);
+}
+
 .sky-checkbox-help-inline {
   display: inline-flex;
 }
