@@ -77,7 +77,7 @@ describe('ng-add.schematic', () => {
       'package.json',
       expect.objectContaining({
         devDependencies: expect.objectContaining({
-          'eslint-plugin-deprecation': 'LATEST_^1.4.1',
+          'eslint-plugin-deprecation': 'LATEST_^2.0.0',
         }),
       }),
     );
