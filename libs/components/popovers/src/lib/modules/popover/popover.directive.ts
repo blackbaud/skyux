@@ -5,9 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
 
 import { Subject, Subscription, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -76,8 +74,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #_skyPopoverMessageStream = new Subject<SkyPopoverMessage>();
 
   #messageStreamSub: Subscription | undefined;
-
-  readonly #skyAdapterService = inject(SkyCoreAdapterService);
 
   /**
    * The placement of the popover in relation to the trigger element.
@@ -160,33 +156,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
         const key = event.key.toLowerCase();
 
-        // switch (key) {
-        //   case 'escape':
-
-        //     break;
-
-        //   case 'tab':
-
-        //     break;
-
-        //   // todo look up angular strategies
-        //   // remove arrow key functionality - when there is inter actable elements (figure out how to know) tab once it is open should go into popover
-        //   // use function from core - getFocusableChildren
-
-        //   // reaching the end and closing the popover should go back to the triggering item
-
-        //   // case 'down':
-        //   // case 'left':
-        //   // case 'right':
-        //   // case 'up':
-        // }
-
-        console.log(
-          this.#skyAdapterService.getFocusableChildren(
-            this.skyPopover.templateRef?.elementRef.nativeElement,
-          ).length,
-        );
-
         switch (key) {
           case 'escape':
             this.#sendMessage(SkyPopoverMessageType.Close);
@@ -195,17 +164,12 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
             break;
 
           case 'tab':
-            if (this.skyPopover.dismissOnBlur) {
-              this.#sendMessage(SkyPopoverMessageType.Close);
-            } else if (
-              !this.skyPopover.dismissOnBlur ||
-              this.#skyAdapterService.getFocusableChildren(
-                this.skyPopover.templateRef?.elementRef.nativeElement,
-              ).length > 0
-            ) {
+            if (this.skyPopover.hasFocusableContent()) {
               this.#sendMessage(SkyPopoverMessageType.Focus);
               event.stopPropagation();
               event.preventDefault();
+            } else if (this.skyPopover.dismissOnBlur) {
+              this.#sendMessage(SkyPopoverMessageType.Close);
             }
             break;
         }
