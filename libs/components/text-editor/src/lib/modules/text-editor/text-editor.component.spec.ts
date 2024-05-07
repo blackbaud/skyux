@@ -52,6 +52,7 @@ describe('Text editor', () => {
   //#region test classes
   @Component({
     template: `<sky-text-editor
+      [labelText]="labelText"
       [required]="isRequired"
       [(ngModel)]="value"
     ></sky-text-editor>`,
@@ -59,6 +60,7 @@ describe('Text editor', () => {
   class TextEditorWithNgModel {
     public value: string | undefined;
     public isRequired = true;
+    public labelText: string | undefined;
   }
 
   @Component({
@@ -1886,6 +1888,20 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(ngModel.valid).toBe(false);
+    });
+
+    it('should add an asterisk to the label when field is required', () => {
+      testComponent.labelText = 'My label';
+      testComponent.isRequired = true;
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+      expect(label).toHaveCssClass('sky-control-label-required');
+
+      testComponent.isRequired = false;
+      fixture.detectChanges();
+
+      expect(label).not.toHaveCssClass('sky-control-label-required');
     });
   });
 
