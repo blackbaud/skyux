@@ -1,50 +1,52 @@
-<label
-  class="sky-radio-wrapper sky-switch"
-  [ngClass]="{ 'sky-switch-disabled': disabled || radioGroupDisabled }"
->
-  <input
-    class="sky-radio-input sky-switch-input"
-    type="radio"
-    [attr.aria-label]="labelText || label"
-    [attr.aria-labelledby]="labelText ? undefined : labelledBy"
-    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
-    [checked]="checked"
-    [disabled]="disabled || radioGroupDisabled"
-    [id]="inputId"
-    [name]="name"
-    [tabIndex]="tabindex"
-    [value]="value"
-    (blur)="onInputFocusChange()"
-    (change)="onInputChange($event)"
-  />
-  <span
-    class="sky-switch-control"
-    [ngClass]="{
-      'sky-switch-control-icon': icon,
-      'sky-rounded-corners': icon,
-      'sky-rounded-circle': !icon,
-      'sky-switch-control-info': icon && radioType === 'info',
-      'sky-switch-control-success': icon && radioType === 'success',
-      'sky-switch-control-warning': icon && radioType === 'warning',
-      'sky-switch-control-danger': icon && radioType === 'danger'
-    }"
+<span class="sky-radio-outer-wrapper">
+  <label
+    class="sky-radio-wrapper sky-switch"
+    [ngClass]="{ 'sky-switch-disabled': disabled || radioGroupDisabled }"
   >
-    <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon" />
-  </span>
-  <ng-container *ngIf="labelText; else labelElement">
-    <span *ngIf="!labelHidden" class="sky-switch-label">{{ labelText }}</span
-    ><sky-help-inline
-      *ngIf="helpPopoverContent"
-      class="sky-radio-help-inline"
-      [labelText]="labelText"
-      [popoverTitle]="helpPopoverTitle"
-      [popoverContent]="helpPopoverContent"
+    <input
+      class="sky-radio-input sky-switch-input"
+      type="radio"
+      [attr.aria-label]="labelText || label"
+      [attr.aria-labelledby]="labelText ? undefined : labelledBy"
+      [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
+      [checked]="checked"
+      [disabled]="disabled || radioGroupDisabled"
+      [id]="inputId"
+      [name]="name"
+      [tabIndex]="tabindex"
+      [value]="value"
+      (blur)="onInputFocusChange()"
+      (change)="onInputChange($event)"
     />
-  </ng-container>
-  <ng-template #labelElement>
-    <ng-content select="sky-radio-label" />
-  </ng-template>
-</label>
+    <span
+      class="sky-switch-control"
+      [ngClass]="{
+        'sky-switch-control-icon': icon,
+        'sky-rounded-corners': icon,
+        'sky-rounded-circle': !icon,
+        'sky-switch-control-info': icon && radioType === 'info',
+        'sky-switch-control-success': icon && radioType === 'success',
+        'sky-switch-control-warning': icon && radioType === 'warning',
+        'sky-switch-control-danger': icon && radioType === 'danger'
+      }"
+    >
+      <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon" />
+    </span>
+    <ng-container *ngIf="labelText; else labelElement">
+      <span *ngIf="!labelHidden" class="sky-switch-label">{{ labelText }}</span>
+    </ng-container>
+    <ng-template #labelElement>
+      <ng-content select="sky-radio-label" />
+    </ng-template>
+  </label>
+  <sky-help-inline
+    *ngIf="helpPopoverContent && labelText"
+    class="sky-radio-help-inline"
+    [labelText]="labelText"
+    [popoverTitle]="helpPopoverTitle"
+    [popoverContent]="helpPopoverContent"
+  />
+</span>
 <div skyId #hintTextEl="skyId">
   <div *ngIf="hintText" class="sky-font-deemphasized sky-radio-hint-text">
     {{ hintText }}

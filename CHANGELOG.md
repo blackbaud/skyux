@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.11.0](https://github.com/blackbaud/skyux/compare/10.10.0...10.11.0) (2024-05-06)
+
+
+### Features
+
+* **components/forms:** add help inline inputs to radio button ([#2271](https://github.com/blackbaud/skyux/issues/2271)) ([9329f9a](https://github.com/blackbaud/skyux/commit/9329f9abf30c0eeee0d81df6471c54bb17607d05))
+
+
+### Bug Fixes
+
+* **components/forms:** add error styling to checkboxes ([#2277](https://github.com/blackbaud/skyux/issues/2277)) ([c67219a](https://github.com/blackbaud/skyux/commit/c67219ad9dcb489855fc4fa39b83bd066540cb83))
+* **components/layout:** box sets the internal content info provider only on the box controls ([#2273](https://github.com/blackbaud/skyux/issues/2273)) ([76fe83a](https://github.com/blackbaud/skyux/commit/76fe83a59cecdab2e261c8da81258fc8c900e64c))
+
 ## [10.10.0](https://github.com/blackbaud/skyux/compare/10.9.0...10.10.0) (2024-05-03)
 
 
