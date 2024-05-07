@@ -11,6 +11,7 @@ import {
   Optional,
   SimpleChanges,
   TemplateRef,
+  booleanAttribute,
   forwardRef,
   inject,
 } from '@angular/core';
@@ -203,6 +204,15 @@ export class SkyDateRangePickerComponent
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Whether the date range picker is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the date range picker.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
 
   @HostBinding('style.display')
   public display: string | undefined;
