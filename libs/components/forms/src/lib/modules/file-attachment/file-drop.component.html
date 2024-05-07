@@ -1,4 +1,4 @@
-<fieldset>
+<fieldset [ngClass]="{ 'sky-margin-stacked-lg': stacked }">
   <legend
     *ngIf="labelText"
     class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
@@ -169,6 +169,7 @@
   </div>
 </fieldset>
 <sky-form-errors
+  *ngIf="labelText && rejectedFiles.length"
   class="sky-file-drop-errors"
   [id]="errorId"
   [labelText]="labelText"

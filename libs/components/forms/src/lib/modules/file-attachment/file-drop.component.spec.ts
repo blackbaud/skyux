@@ -493,6 +493,21 @@ describe('File drop component', () => {
     expect(formError.textContent).toContain('woo.txt: ' + errorMessage);
   });
 
+  it('should have the lg margin class if stacked is true', () => {
+    fixture.componentInstance.stacked = true;
+    fixture.detectChanges();
+
+    const fieldset = fixture.nativeElement.querySelector('fieldset');
+
+    expect(fieldset).toHaveClass('sky-margin-stacked-lg');
+  });
+
+  it('should not have the lg margin class if stacked is false', () => {
+    const fieldset = fixture.nativeElement.querySelector('fieldset');
+
+    expect(fieldset).not.toHaveClass('sky-margin-stacked-lg');
+  });
+
   it('should click the file input on file drop click', () => {
     testClick(true);
   });
