@@ -5,9 +5,8 @@
   display: inline-flex;
 }
 
-.sky-checkbox-container.sky-checkbox-stacked {
+:host.sky-margin-stacked-lg {
   display: block;
-  margin-bottom: var(--sky-margin-stacked-lg);
 }
 
 .sky-checkbox-help-inline {

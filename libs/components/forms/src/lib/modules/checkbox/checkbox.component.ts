@@ -275,6 +275,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * @preview
    */
   @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
   public stacked = false;
 
   /**
