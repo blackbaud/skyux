@@ -187,23 +187,27 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
           ).length,
         );
 
-        if (key === 'escape') {
-          this.#sendMessage(SkyPopoverMessageType.Close);
-          event.preventDefault();
-          event.stopPropagation();
-        } else if (key === 'tab') {
-          if (
-            !this.skyPopover.dismissOnBlur ||
-            this.#skyAdapterService.getFocusableChildren(
-              this.skyPopover.templateRef?.elementRef.nativeElement,
-            ).length > 0
-          ) {
-            this.#sendMessage(SkyPopoverMessageType.Focus);
-            event.stopPropagation();
-            event.preventDefault();
-          } else if (this.skyPopover.dismissOnBlur) {
+        switch (key) {
+          case 'escape':
             this.#sendMessage(SkyPopoverMessageType.Close);
-          }
+            event.preventDefault();
+            event.stopPropagation();
+            break;
+
+          case 'tab':
+            if (this.skyPopover.dismissOnBlur) {
+              this.#sendMessage(SkyPopoverMessageType.Close);
+            } else if (
+              !this.skyPopover.dismissOnBlur ||
+              this.#skyAdapterService.getFocusableChildren(
+                this.skyPopover.templateRef?.elementRef.nativeElement,
+              ).length > 0
+            ) {
+              this.#sendMessage(SkyPopoverMessageType.Focus);
+              event.stopPropagation();
+              event.preventDefault();
+            }
+            break;
         }
       });
 
