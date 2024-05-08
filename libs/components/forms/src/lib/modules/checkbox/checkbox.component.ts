@@ -372,7 +372,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   public ngOnInit(): void {
     if (this.ngControl) {
-      // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
         this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
@@ -380,6 +379,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     if (this.#labelTextRequired && !this.labelText) {
       this.display = 'none';
     }
+
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
