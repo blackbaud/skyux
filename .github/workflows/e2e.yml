@@ -362,25 +362,23 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-      cancel-in-progress: true
+      cancel-in-progress: false
     needs:
       - install-deps
       - e2e
       - publish
+    if: ${{ always() }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-        if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-        if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
-        if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache@v4
         with:
@@ -388,13 +386,11 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-        if: ${{ matrix.project != 'skip' }}
       - name: Build e2e-schematics
         run: npx nx build e2e-schematics
       - uses: actions/github-script@v7
         name: Verify E2E Visual Review
         id: verify-e2e
-        if: ${{ always() }}
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
