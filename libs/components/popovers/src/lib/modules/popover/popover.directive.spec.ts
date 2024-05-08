@@ -617,65 +617,7 @@ describe('Popover directive', () => {
       expect(isElementFocused(button)).toEqual(true);
     }));
 
-    // it('should focus popover with arrow keys', fakeAsync(() => {
-    //   detectChangesFakeAsync();
-
-    //   const button = getCallerElement();
-
-    //   // Open the popover.
-    //   button?.click();
-    //   detectChangesFakeAsync();
-
-    //   SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-    //     keyboardEventInit: {
-    //       key: 'arrowdown',
-    //     },
-    //   });
-
-    //   detectChangesFakeAsync();
-
-    //   const popover = getPopoverElement()?.querySelector('.sky-popover');
-
-    //   expect(isElementFocused(popover)).toEqual(true);
-
-    //   // Move focus to the button.
-    //   button?.focus();
-
-    //   expect(isElementFocused(popover)).toEqual(false);
-
-    //   // Test IE11-specific key names.
-    //   SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-    //     keyboardEventInit: {
-    //       key: 'down',
-    //     },
-    //   });
-
-    //   detectChangesFakeAsync();
-
-    //   expect(isElementFocused(popover)).toEqual(true);
-
-    //   // Close the popover.
-    //   button?.click();
-    //   detectChangesFakeAsync();
-
-    //   const messageSpy = spyOn(
-    //     fixture.componentInstance.messageStream as Subject<SkyPopoverMessage>,
-    //     'next',
-    //   ).and.callThrough();
-
-    //   SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-    //     keyboardEventInit: {
-    //       key: 'arrowleft',
-    //     },
-    //   });
-
-    //   detectChangesFakeAsync();
-
-    //   // The arrow key event listeners should have no effect when the popover is closed.
-    //   expect(messageSpy).not.toHaveBeenCalled();
-    // }));
-
-    it('should close the popover after popover loses focus', fakeAsync(() => {
+    it('should close the popover with interactable elements after popover loses focus', fakeAsync(() => {
       fixture.componentInstance.showFocusableChildren = true;
       detectChangesFakeAsync();
 
@@ -688,10 +630,9 @@ describe('Popover directive', () => {
       let popover = getPopoverElement();
       const focusableItems = getFocusableItems();
 
-      // TODO change this to the new interaction
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowup',
+          key: 'tab',
         },
       });
       // Also confirm focusin event fires correctly.
@@ -724,7 +665,7 @@ describe('Popover directive', () => {
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
         keyboardEventInit: {
-          key: 'arrowright',
+          key: 'tab',
         },
       });
 
