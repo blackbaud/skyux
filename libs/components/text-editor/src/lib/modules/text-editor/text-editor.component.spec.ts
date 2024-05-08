@@ -1602,6 +1602,33 @@ describe('Text editor', () => {
       );
     }));
 
+    it('should render help inline popover', () => {
+      testComponent.helpPopoverContent = 'popover content';
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should not render help inline popover if title is provided without content', () => {
+      testComponent.helpPopoverContent = undefined;
+      testComponent.helpPopoverTitle = 'popover title';
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(0);
+    });
+
     describe('Menubar commands', () => {
       it('should execute undo', fakeAsync(() => {
         fixture.detectChanges();

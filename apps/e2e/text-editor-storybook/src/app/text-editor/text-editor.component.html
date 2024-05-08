@@ -1,15 +1,16 @@
 <form novalidate [formGroup]="myForm">
   <sky-text-editor
     formControlName="myText"
-    [placeholder]="placeholder"
-    [labelText]="labelText"
+    helpPopoverContent="This is help content for the text editor."
+    helpPopoverTitle="Did you know?"
+    [autofocus]="true"
     [hintText]="hintText"
+    [labelText]="labelText"
     [menus]="menus"
     [mergeFields]="mergeFields"
-    [toolbarActions]="toolbarActions"
-    [autofocus]="true"
+    [placeholder]="placeholder"
     [stacked]="true"
-  >
-  </sky-text-editor>
+    [toolbarActions]="toolbarActions"
+  />
   <span>Additional content below text editor.</span>
 </form>
