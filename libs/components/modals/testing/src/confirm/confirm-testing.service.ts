@@ -1,5 +1,6 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import {
+  SkyConfirmButtonConfig,
   SkyConfirmCloseEventArgs,
   SkyConfirmConfig,
   SkyConfirmInstance,
@@ -10,7 +11,7 @@ import {
 import { SkyConfirmTestingController } from './confirm-testing.controller';
 
 interface TestSubject {
-  buttons: { action: string }[];
+  buttons: SkyConfirmButtonConfig[];
   config: SkyConfirmConfig;
   instance: SkyConfirmInstance;
 }
@@ -33,6 +34,23 @@ function assertConfirmClosed(
   }
 
   return;
+}
+
+function isButtonConfigArray(val: unknown): val is SkyConfirmButtonConfig[] {
+  return (
+    Array.isArray(val) && (val.length === 0 || val[0].action !== undefined)
+  );
+}
+
+function buttonConfigMatches(
+  actual: SkyConfirmButtonConfig,
+  expected: SkyConfirmButtonConfig,
+): boolean {
+  return (
+    expected.action === actual.action &&
+    expected.text === actual.text &&
+    expected.styleType === actual.styleType
+  );
 }
 
 /**
@@ -78,17 +96,33 @@ export class SkyConfirmTestingService
 
     const actualConfig = this.#testSubject.config;
 
-    for (const [key, value] of Object.entries(expectedConfig)) {
+    for (const [key, expectedValue] of Object.entries(expectedConfig)) {
       const k = key as keyof typeof expectedConfig;
+      const actualValue = actualConfig[k];
 
-      if (actualConfig[k] !== value) {
-        throw new Error(`Expected a confirm dialog to be open with a specific configuration.
+      if (
+        isButtonConfigArray(expectedValue) &&
+        isButtonConfigArray(actualValue)
+      ) {
+        if (expectedValue.length !== actualValue.length) throwDetailedError();
+
+        expectedValue.forEach((expectedButton, index) => {
+          if (!buttonConfigMatches(expectedButton, actualValue[index])) {
+            throwDetailedError();
+          }
+        });
+      } else if (actualValue !== expectedValue) {
+        throwDetailedError();
+      }
+    }
+
+    function throwDetailedError(): never {
+      throw new Error(`Expected a confirm dialog to be open with a specific configuration.
 Expected:
 ${JSON.stringify(expectedConfig, undefined, 2)}
 Actual:
 ${JSON.stringify(actualConfig, undefined, 2)}
 `);
-      }
     }
   }
 
@@ -97,7 +131,7 @@ ${JSON.stringify(actualConfig, undefined, 2)}
 
     const instance = new SkyConfirmInstance();
     const testSubject: TestSubject = {
-      buttons: [{ action: 'cancel' }],
+      buttons: [],
       config,
       instance,
     };
@@ -105,13 +139,14 @@ ${JSON.stringify(actualConfig, undefined, 2)}
     switch (config.type) {
       case SkyConfirmType.Custom:
         config.buttons?.forEach((b) => {
-          testSubject.buttons.push({ action: b.action });
+          testSubject.buttons.push({ action: b.action, text: b.text });
         });
         break;
 
       case SkyConfirmType.OK:
       default:
-        testSubject.buttons.push({ action: 'ok' });
+        testSubject.buttons.push({ action: 'ok', text: 'Ok' });
+        testSubject.buttons.push({ action: 'cancel', text: 'Cancel' });
         break;
     }
 

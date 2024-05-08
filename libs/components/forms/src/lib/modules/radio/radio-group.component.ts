@@ -11,6 +11,7 @@ import {
   Optional,
   QueryList,
   Self,
+  TemplateRef,
   booleanAttribute,
   inject,
 } from '@angular/core';
@@ -142,6 +143,15 @@ export class SkyRadioGroupComponent
   public required: boolean | undefined = false;
 
   /**
+   * Whether the radio button group is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the radio button group.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
+
+  /**
    * The value of the radio button to select by default when the group loads.
    * The value corresponds to the `value` property of an individual `sky-radio` element within the
    * group.
@@ -201,6 +211,23 @@ export class SkyRadioGroupComponent
    */
   @Input()
   public hintText: string | undefined;
+
+  /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to radio group. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
 
   /**
    * Our radio components are usually implemented using an unordered list. This is an
@@ -289,7 +316,6 @@ export class SkyRadioGroupComponent
 
   public ngAfterViewInit(): void {
     if (this.ngControl) {
-      // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
         this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
 

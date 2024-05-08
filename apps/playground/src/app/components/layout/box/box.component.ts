@@ -13,6 +13,8 @@ import { Component } from '@angular/core';
   ],
 })
 export class BoxComponent {
+  public showControls = true;
+  public showHeader = true;
   public showHelp = true;
 
   public onHelpClick() {

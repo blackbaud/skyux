@@ -1,5 +1,57 @@
 # Changelog
 
+## [10.12.0](https://github.com/blackbaud/skyux/compare/10.11.0...10.12.0) (2024-05-07)
+
+
+### Features
+
+* **components/datetime:** add stacked input to date range picker ([#2285](https://github.com/blackbaud/skyux/issues/2285)) ([8fe2a45](https://github.com/blackbaud/skyux/commit/8fe2a45ea43056d65d1989568356d16d72d26a4e))
+* **components/forms:** add help inline inputs to radio group ([#2276](https://github.com/blackbaud/skyux/issues/2276)) ([f7d860d](https://github.com/blackbaud/skyux/commit/f7d860d80393b439dbe06845acb99d1662501087))
+* **components/forms:** add stacked input to checkbox ([#2283](https://github.com/blackbaud/skyux/issues/2283)) ([cfffda2](https://github.com/blackbaud/skyux/commit/cfffda209e1a478357560cc3adcec9cb96935c14))
+* **components/forms:** add stacked input to file attachment component ([#2286](https://github.com/blackbaud/skyux/issues/2286)) ([de82ddd](https://github.com/blackbaud/skyux/commit/de82ddd61ab97c08dc0aa4b91a8dd3e8068a48cf))
+* **components/forms:** add stacked input to radio group ([#2288](https://github.com/blackbaud/skyux/issues/2288)) ([b39f26e](https://github.com/blackbaud/skyux/commit/b39f26e2299da4de8233cdecc4926c013898c6e4))
+* **components/forms:** add stacked input to single file attachment ([#2287](https://github.com/blackbaud/skyux/issues/2287)) ([aed7b8c](https://github.com/blackbaud/skyux/commit/aed7b8c7abc449063d2bdd5fb334db5374ad0cde))
+* **components/packages:** configure commonjs dependencies ([#2280](https://github.com/blackbaud/skyux/issues/2280)) ([1fd31ff](https://github.com/blackbaud/skyux/commit/1fd31ff2691a977d1a953870b9b4f91617f16aa4))
+* **components/packages:** schematic for ag-grid styles ([#2281](https://github.com/blackbaud/skyux/issues/2281)) ([5b3110c](https://github.com/blackbaud/skyux/commit/5b3110c1da05a4270dad197885cbef9b5532ce63))
+* **components/text-editor:** add stacked input to text editor ([#2289](https://github.com/blackbaud/skyux/issues/2289)) ([fc0f740](https://github.com/blackbaud/skyux/commit/fc0f740811af1f381d12d2e26d9e26037dfe847c))
+
+
+### Bug Fixes
+
+* **components/forms:** move radio help key outside label ([#2282](https://github.com/blackbaud/skyux/issues/2282)) ([a7b5941](https://github.com/blackbaud/skyux/commit/a7b594164d09e73195df8fd0d411854cdfecdecf))
+* **components/text-editor:** add asterisk to label when field is required ([#2275](https://github.com/blackbaud/skyux/issues/2275)) ([0143a56](https://github.com/blackbaud/skyux/commit/0143a560463cb3541d44d86e0c4e91c79a2880d6))
+* **sdk/eslint-config:** update `eslint-plugin-deprecation` dependency ([#2279](https://github.com/blackbaud/skyux/issues/2279)) ([bf75976](https://github.com/blackbaud/skyux/commit/bf75976a37b0d15e71bed2ac72519fbf9fdd9e13))
+
+## [10.11.0](https://github.com/blackbaud/skyux/compare/10.10.0...10.11.0) (2024-05-06)
+
+
+### Features
+
+* **components/forms:** add help inline inputs to radio button ([#2271](https://github.com/blackbaud/skyux/issues/2271)) ([9329f9a](https://github.com/blackbaud/skyux/commit/9329f9abf30c0eeee0d81df6471c54bb17607d05))
+
+
+### Bug Fixes
+
+* **components/forms:** add error styling to checkboxes ([#2277](https://github.com/blackbaud/skyux/issues/2277)) ([c67219a](https://github.com/blackbaud/skyux/commit/c67219ad9dcb489855fc4fa39b83bd066540cb83))
+* **components/layout:** box sets the internal content info provider only on the box controls ([#2273](https://github.com/blackbaud/skyux/issues/2273)) ([76fe83a](https://github.com/blackbaud/skyux/commit/76fe83a59cecdab2e261c8da81258fc8c900e64c))
+
+## [10.10.0](https://github.com/blackbaud/skyux/compare/10.9.0...10.10.0) (2024-05-03)
+
+
+### Features
+
+* **components/colorpicker:** add help inline inputs to colorpicker ([#2272](https://github.com/blackbaud/skyux/issues/2272)) ([7587d98](https://github.com/blackbaud/skyux/commit/7587d98e6a72bcb1bca6edaaba00c39daac93101))
+* **components/datetime:** add help inline inputs to date range picker ([#2261](https://github.com/blackbaud/skyux/issues/2261)) ([3ee13f1](https://github.com/blackbaud/skyux/commit/3ee13f182d6e560e2a6101f4806f2898bc76ec42))
+* **components/forms:** add help inline popover to file attachment ([#2263](https://github.com/blackbaud/skyux/issues/2263)) ([409c9e3](https://github.com/blackbaud/skyux/commit/409c9e3337aa832d7ec8bd7a60ade7ca0fcf70ae))
+* **components/forms:** add help inline to toggle switch ([#2262](https://github.com/blackbaud/skyux/issues/2262)) ([45a26d9](https://github.com/blackbaud/skyux/commit/45a26d9978b348390f49dcde143d460e7af14855))
+
+
+### Bug Fixes
+
+* **code-examples:** update single fite attachment examples to only allow data urls ([#2264](https://github.com/blackbaud/skyux/issues/2264)) ([1267c50](https://github.com/blackbaud/skyux/commit/1267c50c8067284ee0a6c1bffe3e139e72163f07))
+* **components/ag-grid:** unable to edit currency cell ([#2266](https://github.com/blackbaud/skyux/issues/2266)) ([0a18b58](https://github.com/blackbaud/skyux/commit/0a18b58fdb04d0af0f30f40e33717a44c6cdab50))
+* **components/modals:** skyConfirmTestingService verify custom button configurations ([#2267](https://github.com/blackbaud/skyux/issues/2267)) ([8047f58](https://github.com/blackbaud/skyux/commit/8047f587ead08adbf50397aa6d5da16c66462833))
+
 ## [10.9.0](https://github.com/blackbaud/skyux/compare/10.8.0...10.9.0) (2024-04-29)
 
 

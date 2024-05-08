@@ -354,6 +354,10 @@ describe('File drop component', () => {
     linkInput.triggerEventHandler('input', { target: { value: value } });
     fixture.detectChanges();
   }
+
+  function getHelpInlinePopover(): HTMLSelectElement {
+    return el.querySelectorAll('sky-help-inline');
+  }
   //#endregion
 
   it('should create the file drop control', () => {
@@ -487,6 +491,17 @@ describe('File drop component', () => {
 
     expect(formError).toBeVisible();
     expect(formError.textContent).toContain('woo.txt: ' + errorMessage);
+  });
+
+  it('should have the lg margin class if stacked is true', () => {
+    fixture.componentInstance.stacked = true;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement).toHaveClass('sky-margin-stacked-lg');
+  });
+
+  it('should not have the lg margin class if stacked is false', () => {
+    expect(fixture.nativeElement).not.toHaveClass('sky-margin-stacked-lg');
   });
 
   it('should click the file input on file drop click', () => {
@@ -1271,25 +1286,27 @@ describe('File drop component', () => {
   it('should not have required class and aria-required attribute and label should not have screen reader text when not required', () => {
     componentInstance.labelText = 'Testing';
     fixture.detectChanges();
-    const labelWrapper = getLabelEl();
+    const legendEl = getLabelEl();
+    const labelWrapper = legendEl?.querySelector('span.sky-margin-inline-xs');
 
     expect(
       labelWrapper?.classList.contains('sky-control-label-required'),
     ).toBeFalse();
-    expect(labelWrapper?.querySelector('.sky-screen-reader-only')).toBeNull();
+    expect(legendEl?.querySelector('.sky-screen-reader-only')).toBeNull();
   });
 
   it('should have appropriate classes and label should have screen reader text when file is required', fakeAsync(() => {
     componentInstance.labelText = 'Testing';
     fixture.componentInstance.required = true;
     fixture.detectChanges();
-    const labelWrapper = getLabelEl();
+    const legendEl = getLabelEl();
+    const labelWrapper = legendEl?.querySelector('span.sky-margin-inline-xs');
 
     expect(
       labelWrapper?.classList.contains('sky-control-label-required'),
     ).toBeTrue();
     expect(
-      labelWrapper?.querySelector('.sky-screen-reader-only')?.textContent,
+      legendEl?.querySelector('.sky-screen-reader-only')?.textContent,
     ).toBe('Required');
   }));
 
@@ -1297,5 +1314,30 @@ describe('File drop component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should render help inline with popover only if label text is provided', () => {
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(getHelpInlinePopover().length).toBe(0);
+
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.detectChanges();
+
+    expect(getHelpInlinePopover().length).toBe(1);
+  });
+
+  it('should not render help inline for popover unless popover content is set', () => {
+    componentInstance.helpPopoverTitle = 'popover title';
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.detectChanges();
+
+    expect(getHelpInlinePopover().length).toBe(0);
+
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    expect(getHelpInlinePopover().length).toBe(1);
   });
 });

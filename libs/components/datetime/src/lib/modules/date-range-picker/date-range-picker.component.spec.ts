@@ -290,38 +290,25 @@ describe('Date range picker', function () {
     expect(inputElement.value).toEqual('2000-01-02');
   }));
 
-  it('should show hint text for the the default date format', fakeAsync(() => {
+  it('should have the lg margin class if stacked is true', fakeAsync(() => {
+    component.stacked = true;
     detectChanges();
-    tick();
 
-    const hintText = fixture.nativeElement
-      .querySelector('.sky-date-range-picker-hint-text')
-      .textContent.trim();
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
 
-    expect(hintText).toEqual('Use the format MM/DD/YYYY.');
+    expect(dateRangePicker).toHaveClass('sky-margin-stacked-lg');
   }));
 
-  it('should show hint text for the the consumer provided date format', fakeAsync(() => {
-    component.dateFormat = 'DD/MM/YY';
+  it('should not have the lg margin class if stacked is false', fakeAsync(() => {
     detectChanges();
 
-    const hintText = fixture.nativeElement
-      .querySelector('.sky-date-range-picker-hint-text')
-      .textContent.trim();
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
 
-    expect(hintText).toEqual('Use the format DD/MM/YY.');
-  }));
-
-  it('should allow consumer to provide hint text along with the format hint text', fakeAsync(() => {
-    component.dateFormat = 'DD/MM/YY';
-    component.hintText = 'Select a date.';
-    detectChanges();
-
-    const hintText = fixture.nativeElement
-      .querySelector('.sky-date-range-picker-hint-text')
-      .textContent.trim();
-
-    expect(hintText).toEqual('Select a date. Use the format DD/MM/YY.');
+    expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
   }));
 
   it('should not render if a parent component requires label text and it is not provided', () => {

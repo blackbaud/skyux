@@ -22,6 +22,7 @@ export class DateRangePickerComponent {
   public dateFormat: string;
   public disabled = false;
   public endDateRequired = false;
+  public hintText: string | undefined;
   public reactiveForm: UntypedFormGroup;
   public startDateRequired = false;
 
@@ -122,5 +123,14 @@ export class DateRangePickerComponent {
 
   public toggleStartDateRequired(): void {
     this.startDateRequired = !this.startDateRequired;
+  }
+
+  public toggleHintText(): void {
+    if (this.hintText) {
+      this.hintText = undefined;
+    } else {
+      this.hintText =
+        'Really long hint text that should wrap and be confined to below the date range picker element. We set the text to have a small margin below the selection and datepicker controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors.';
+    }
   }
 }

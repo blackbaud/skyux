@@ -21,6 +21,8 @@ export class TextEditorFixtureComponent {
   public disabled = false;
   public fontList: SkyTextEditorFont[] | undefined = FONT_LIST_DEFAULTS;
   public fontSizeList: number[] | undefined = FONT_SIZE_LIST_DEFAULTS;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
   public id: string | undefined = 'id-from-fixture';
   public initialStyleState: SkyTextEditorStyleState =
     {} as SkyTextEditorStyleState;
@@ -62,4 +64,5 @@ export class TextEditorFixtureComponent {
   public value = '<p>Some text</p>';
   public labelText: string | undefined;
   public hintText: string | undefined;
+  public stacked: boolean | undefined;
 }

@@ -52,6 +52,7 @@ describe('Text editor', () => {
   //#region test classes
   @Component({
     template: `<sky-text-editor
+      [labelText]="labelText"
       [required]="isRequired"
       [(ngModel)]="value"
     ></sky-text-editor>`,
@@ -59,6 +60,7 @@ describe('Text editor', () => {
   class TextEditorWithNgModel {
     public value: string | undefined;
     public isRequired = true;
+    public labelText: string | undefined;
   }
 
   @Component({
@@ -559,6 +561,21 @@ describe('Text editor', () => {
 
       expect(hintEl).not.toBeNull();
       expect(hintEl?.textContent.trim()).toBe(hintText);
+    });
+
+    it('should have the lg margin class if stacked is true', () => {
+      testComponent.stacked = true;
+      fixture.detectChanges();
+
+      const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
+      expect(textEditor).toHaveClass('sky-margin-stacked-lg');
+    });
+
+    it('should not have the lg margin class if stacked is false', () => {
+      const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
+      expect(textEditor).not.toHaveClass('sky-margin-stacked-lg');
     });
 
     [
@@ -1585,6 +1602,33 @@ describe('Text editor', () => {
       );
     }));
 
+    it('should render help inline popover', () => {
+      testComponent.helpPopoverContent = 'popover content';
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should not render help inline popover if title is provided without content', () => {
+      testComponent.helpPopoverContent = undefined;
+      testComponent.helpPopoverTitle = 'popover title';
+      testComponent.labelText = 'label text';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(0);
+    });
+
     describe('Menubar commands', () => {
       it('should execute undo', fakeAsync(() => {
         fixture.detectChanges();
@@ -1887,6 +1931,20 @@ describe('Text editor', () => {
 
       expect(ngModel.valid).toBe(false);
     });
+
+    it('should add an asterisk to the label when field is required', () => {
+      testComponent.labelText = 'My label';
+      testComponent.isRequired = true;
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+      expect(label).toHaveCssClass('sky-control-label-required');
+
+      testComponent.isRequired = false;
+      fixture.detectChanges();
+
+      expect(label).not.toHaveCssClass('sky-control-label-required');
+    });
   });
 
   describe('with form control', () => {
@@ -1923,6 +1981,20 @@ describe('Text editor', () => {
       expect(iframeElement).not.toHaveCssClass(
         'sky-text-editor-wrapper-disabled',
       );
+    });
+
+    it('should add an asterisk to the label when field is required', () => {
+      testComponent.formControl.markAsTouched();
+      fixture.detectChanges();
+
+      const label = fixture.nativeElement.querySelector('.sky-control-label');
+      expect(label).toHaveCssClass('sky-control-label-required');
+
+      testComponent.formControl.clearValidators();
+      testComponent.formControl.updateValueAndValidity();
+      fixture.detectChanges();
+
+      expect(label).not.toHaveCssClass('sky-control-label-required');
     });
 
     it('should render a sky-form-error when the field is required and has been touched', () => {

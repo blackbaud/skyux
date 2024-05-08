@@ -8,4 +8,5 @@ export class BoxTestComponent {
   public ariaLabel: string | undefined;
   public ariaLabelledBy: string | undefined;
   public ariaRole: string | undefined;
+  public showHeader = true;
 }

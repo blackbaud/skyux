@@ -38,7 +38,6 @@ import { Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from '../datepicker/date-formatter';
-import { SKY_DATEPICKER_HINT_TEXT_HIDDEN } from '../datepicker/datepicker-hint-token';
 
 import { SkyDateRangeService } from './date-range.service';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
@@ -70,7 +69,6 @@ let uniqueId = 0;
   styleUrls: ['./date-range-picker.component.scss'],
   providers: [
     SKY_DATE_RANGE_PICKER_VALIDATOR,
-    { provide: SKY_DATEPICKER_HINT_TEXT_HIDDEN, useValue: true },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -208,6 +206,15 @@ export class SkyDateRangePickerComponent
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Whether the date range picker is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the date range picker.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
 
   @HostBinding('style.display')
   public display: string | undefined;
