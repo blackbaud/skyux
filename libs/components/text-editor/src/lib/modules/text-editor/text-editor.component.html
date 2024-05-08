@@ -9,14 +9,22 @@
   }"
 >
   <div class="sky-text-editor-label-wrapper">
-    <label
-      *ngIf="labelText"
-      class="sky-control-label"
-      [ngClass]="{
-        'sky-control-label-required': requiredState.isRequired()
-      }"
-      >{{ labelText }}</label
-    >
+    <ng-container *ngIf="labelText">
+      <label
+        class="sky-control-label"
+        [ngClass]="{
+          'sky-control-label-required': requiredState.isRequired(),
+          'sky-margin-inline-xs': helpPopoverContent
+        }"
+        >{{ labelText }}</label
+      >
+      <sky-help-inline
+        *ngIf="helpPopoverContent"
+        [labelText]="labelText"
+        [popoverContent]="helpPopoverContent"
+        [popoverTitle]="helpPopoverTitle"
+      />
+    </ng-container>
   </div>
   <sky-toolbar
     *ngIf="
