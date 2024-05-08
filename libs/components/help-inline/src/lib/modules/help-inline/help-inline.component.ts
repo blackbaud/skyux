@@ -46,13 +46,12 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
   ],
 })
 export class SkyHelpInlineComponent {
+  readonly #helpSvc = inject(SkyHelpService);
   readonly #idSvc = inject(SkyIdService);
 
   protected popoverId: string | undefined;
   protected popoverTemplate: TemplateRef<unknown> | undefined;
   protected isPopoverOpened: boolean | undefined;
-
-  #helpSvc = inject(SkyHelpService);
 
   /**
    * The ID of the element that the help inline button controls.
