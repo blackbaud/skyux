@@ -684,6 +684,22 @@ describe('Radio group component (reactive)', function () {
     expect(radioGroup).not.toBeVisible();
   });
 
+  it('should have the lg margin class if stacked is true', () => {
+    fixture.componentInstance.stacked = true;
+    fixture.detectChanges();
+
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
+    expect(radioGroup).toHaveClass('sky-margin-stacked-lg');
+  });
+
+  it('should not have the lg margin class if stacked is false', () => {
+    fixture.detectChanges();
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
+    expect(radioGroup).not.toHaveClass('sky-margin-stacked-lg');
+  });
+
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
     const logService = TestBed.inject(SkyLogService);
     const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();

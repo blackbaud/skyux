@@ -196,6 +196,15 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   @Input()
   public helpPopoverTitle: string | undefined;
 
+  /**
+   * Whether the file attachment is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the file attachment.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
+
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
 

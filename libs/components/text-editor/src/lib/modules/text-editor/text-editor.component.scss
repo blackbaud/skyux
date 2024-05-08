@@ -1,6 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+sky-text-editor.sky-margin-stacked-lg {
+  display: block;
+}
+
 .sky-text-editor {
   &.sky-text-editor-disabled {
     .sky-toolbar *,
