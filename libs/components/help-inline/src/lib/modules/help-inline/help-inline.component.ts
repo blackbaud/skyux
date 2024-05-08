@@ -7,14 +7,21 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import { SkyIdModule, SkyIdService, SkyTrimModule } from '@skyux/core';
+import {
+  SkyHelpService,
+  SkyIdModule,
+  SkyIdService,
+  SkyTrimModule,
+} from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
 
+import { SkyHelpInlineAriaControlsPipe } from './help-inline-aria-controls.pipe';
 import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
+import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe';
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
@@ -27,7 +34,9 @@ import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe'
   styleUrls: ['./help-inline.component.scss'],
   imports: [
     CommonModule,
+    SkyHelpInlineAriaControlsPipe,
     SkyHelpInlineAriaExpandedPipe,
+    SkyHelpInlineAriaHaspopupPipe,
     SkyHelpInlineResourcesModule,
     SkyIconModule,
     SkyIdModule,
@@ -43,7 +52,7 @@ export class SkyHelpInlineComponent {
   protected popoverTemplate: TemplateRef<unknown> | undefined;
   protected isPopoverOpened: boolean | undefined;
 
-  #_popoverContent: string | TemplateRef<unknown> | undefined;
+  #helpSvc = inject(SkyHelpService);
 
   /**
    * The ID of the element that the help inline button controls.
@@ -99,6 +108,14 @@ export class SkyHelpInlineComponent {
   public popoverTitle: string | undefined;
 
   /**
+   * A unique key that identifies the global help content to display when the button is clicked.
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  #_popoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
    * Fires when the user clicks the help inline button.
    */
   @Output()
@@ -106,6 +123,12 @@ export class SkyHelpInlineComponent {
 
   protected onClick(): void {
     this.actionClick.emit();
+
+    if (this.helpKey) {
+      this.#helpSvc.openHelp({
+        helpKey: this.helpKey,
+      });
+    }
   }
 
   protected popoverOpened(flag: boolean): void {
