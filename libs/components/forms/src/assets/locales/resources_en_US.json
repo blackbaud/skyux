@@ -20,12 +20,12 @@
     "message": "Select or enter a valid date."
   },
   "skyux_form_error_date_max": {
-    "_description": "Error message for a field with an invalid date value",
-    "message": "Select or enter a date prior to maximum date range."
+    "_description": "Error message for a field with a date after max date",
+    "message": "Select or enter a date before max date."
   },
   "skyux_form_error_date_min": {
-    "_description": "Error message for a field with an invalid date value",
-    "message": "Select or enter a date after minimum date range."
+    "_description": "Error message for a field with a date before min date",
+    "message": "Select or enter a date after min date."
   },
   "skyux_form_error_email": {
     "_description": "Error message for a field with an invalid email value",

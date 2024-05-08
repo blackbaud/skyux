@@ -27,6 +27,8 @@ export class InputBoxHarnessTestComponent {
   public easyModelValue = 'test';
   public easyModeCharacterLimit: number | undefined;
   public easyModeHintText: string | undefined;
+  public maxDate = new Date('01/01/2100');
+  public minDate = new Date('01/01/2000');
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({
