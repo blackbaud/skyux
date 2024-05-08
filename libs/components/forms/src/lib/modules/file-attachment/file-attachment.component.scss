@@ -1,6 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host.sky-margin-stacked-lg {
+  display: block;
+}
+
 .sky-file-attachment-wrapper {
   display: inline-block;
 }

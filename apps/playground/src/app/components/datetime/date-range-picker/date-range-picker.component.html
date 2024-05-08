@@ -9,18 +9,17 @@
         class="sky-form-control"
       />
     </sky-input-box>
-    <div class="sky-margin-stacked-lg">
-      <sky-date-range-picker
-        formControlName="lastDonation"
-        [hintText]="hintText"
-        label="Last donation"
-        [calculatorIds]="calculatorIds"
-        [dateFormat]="dateFormat"
-        [endDateRequired]="endDateRequired"
-        [startDateRequired]="startDateRequired"
-      >
-      </sky-date-range-picker>
-    </div>
+    <sky-date-range-picker
+      formControlName="lastDonation"
+      [hintText]="hintText"
+      label="Last donation"
+      [calculatorIds]="calculatorIds"
+      [dateFormat]="dateFormat"
+      [endDateRequired]="endDateRequired"
+      [startDateRequired]="startDateRequired"
+      [stacked]="true"
+    >
+    </sky-date-range-picker>
     <sky-input-box stacked="true">
       <label class="sky-control-label"> First name </label>
       <input

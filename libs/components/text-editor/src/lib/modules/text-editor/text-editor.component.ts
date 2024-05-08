@@ -13,6 +13,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -27,6 +28,7 @@ import {
   SkyFormErrorsModule,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxHostService,
+  SkyRequiredStateDirective,
 } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 
@@ -69,6 +71,12 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyTextEditorSelectionService,
     SkyTextEditorAdapterService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
+  hostDirectives: [
+    {
+      directive: SkyRequiredStateDirective,
+      inputs: ['required'],
+    },
   ],
   imports: [
     CommonModule,
@@ -256,6 +264,15 @@ export class SkyTextEditorComponent
   }
 
   /**
+   * Whether the text editor is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the text editor.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
+
+  /**
    * The actions to include in the toolbar in the specified order.
    * @default [ 'font-family', 'font-size', 'font-style', 'color', 'list', 'link ]
    */
@@ -385,6 +402,7 @@ export class SkyTextEditorComponent
 
   protected readonly errorId = this.#idSvc.generateId();
   protected readonly ngControl = inject(NgControl);
+  protected readonly requiredState = inject(SkyRequiredStateDirective);
 
   constructor() {
     this.#id = this.#defaultId = this.#idSvc.generateId();
@@ -480,6 +498,9 @@ export class SkyTextEditorComponent
       ?.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#updateA11yAttributes();
+
+        // Trigger change detection when the field status is modified programmatically.
+        this.#changeDetector.markForCheck();
       });
 
     this.#editorService
@@ -563,7 +584,7 @@ export class SkyTextEditorComponent
         this.ngControl.errors,
       );
       this.#adapterService.setRequiredAttribute(
-        SkyFormsUtility.hasRequiredValidation(this.ngControl),
+        this.requiredState.isRequired(),
       );
     }
   }

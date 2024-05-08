@@ -265,6 +265,27 @@ describe('Date range picker', function () {
     expect(inputElement.value).toEqual('2000-01-02');
   }));
 
+  it('should have the lg margin class if stacked is true', fakeAsync(() => {
+    component.stacked = true;
+    detectChanges();
+
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
+
+    expect(dateRangePicker).toHaveClass('sky-margin-stacked-lg');
+  }));
+
+  it('should not have the lg margin class if stacked is false', fakeAsync(() => {
+    detectChanges();
+
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
+
+    expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
+  }));
+
   it('should not render if a parent component requires label text and it is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
@@ -298,7 +319,6 @@ describe('Date range picker', function () {
       SkyDateRangeCalculatorId.Before,
       SkyDateRangeCalculatorType.Before,
     );
-  }));
 
   it('should only show start date picker for After type', fakeAsync(function () {
     verifyVisiblePickers(
