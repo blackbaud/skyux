@@ -1,3 +1,11 @@
+:host.sky-margin-stacked-lg {
+  display: block;
+}
+
 .sky-radio-group-hint-text {
   margin-bottom: var(--sky-margin-stacked-lg);
+}
+
+.sky-radio-group-label-wrapper {
+  display: flex;
 }

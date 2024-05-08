@@ -1609,6 +1609,25 @@ describe('File attachment', () => {
     expect(hintEl).not.toBeNull();
     expect(hintEl?.textContent.trim()).toBe(hintText);
   });
+
+  it('should have the lg margin class if stacked is true', () => {
+    fixture.componentInstance.stacked = true;
+    fixture.detectChanges();
+
+    const fileAttachment = fixture.nativeElement.querySelector(
+      'sky-file-attachment',
+    );
+
+    expect(fileAttachment).toHaveClass('sky-margin-stacked-lg');
+  });
+
+  it('should not have the lg margin class if stacked is false', () => {
+    const fileAttachment = fixture.nativeElement.querySelector(
+      'sky-file-attachment',
+    );
+
+    expect(fileAttachment).not.toHaveClass('sky-margin-stacked-lg');
+  });
 });
 
 describe('File attachment (template-driven)', () => {
