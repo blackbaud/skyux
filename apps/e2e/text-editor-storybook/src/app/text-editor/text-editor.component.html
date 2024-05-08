@@ -3,12 +3,14 @@
     formControlName="myText"
     helpPopoverContent="This is help content for the text editor."
     helpPopoverTitle="Did you know?"
-    [placeholder]="placeholder"
-    [labelText]="labelText"
+    [autofocus]="true"
     [hintText]="hintText"
+    [labelText]="labelText"
     [menus]="menus"
     [mergeFields]="mergeFields"
+    [placeholder]="placeholder"
+    [stacked]="true"
     [toolbarActions]="toolbarActions"
-    [autofocus]="true"
   />
+  <span>Additional content below text editor.</span>
 </form>

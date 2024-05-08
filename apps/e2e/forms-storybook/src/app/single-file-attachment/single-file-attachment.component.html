@@ -1,61 +1,58 @@
 <form [formGroup]="fileForm">
-  <div style="margin-bottom: 20px">
-    <sky-file-attachment
-      formControlName="attachment"
-      labelText="Single file attachment with label text"
-      hintText="Hint text"
-      (fileChange)="reactiveFileUpdated($event)"
-    />
-  </div>
+  <sky-file-attachment
+    formControlName="attachment"
+    labelText="Single file attachment with label text"
+    hintText="Hint text"
+    stacked="true"
+    (fileChange)="reactiveFileUpdated($event)"
+  />
 </form>
 
 <form [formGroup]="fileForm">
-  <div style="margin-bottom: 20px">
-    <sky-file-attachment
-      formControlName="imageAttachment"
-      (fileChange)="reactiveFileUpdated($event)"
-    >
-      <sky-file-attachment-label>
-        Single file attachment with image
-      </sky-file-attachment-label>
-    </sky-file-attachment>
-  </div>
+  <sky-file-attachment
+    formControlName="imageAttachment"
+    (fileChange)="reactiveFileUpdated($event)"
+    stacked="true"
+  >
+    <sky-file-attachment-label>
+      Single file attachment with image
+    </sky-file-attachment-label>
+  </sky-file-attachment>
 </form>
 
 <form [formGroup]="fileForm">
-  <div style="margin-bottom: 20px">
-    <sky-file-attachment
-      formControlName="fileAttachment"
-      labelText="Single file attachment with text file"
-      hintText="Hint text"
-      (fileChange)="reactiveFileUpdated($event)"
-    >
-      <sky-file-attachment-label>
-        Single file attachment with text file
-      </sky-file-attachment-label>
-    </sky-file-attachment>
-  </div>
+  <sky-file-attachment
+    formControlName="fileAttachment"
+    labelText="Single file attachment with text file"
+    hintText="Hint text"
+    stacked="true"
+    (fileChange)="reactiveFileUpdated($event)"
+  >
+    <sky-file-attachment-label>
+      Single file attachment with text file
+    </sky-file-attachment-label>
+  </sky-file-attachment>
 </form>
 
 <form [formGroup]="fileForm">
-  <div style="margin-bottom: 20px">
-    <sky-file-attachment formControlName="attachment">
-      <sky-file-attachment-label>
-        Single file attachment with inline help
-        <sky-help-inline class="sky-control-help" />
-      </sky-file-attachment-label>
-    </sky-file-attachment>
-  </div>
+  <sky-file-attachment formControlName="attachment" stacked="true">
+    <sky-file-attachment-label>
+      Single file attachment with inline help
+      <sky-help-inline class="sky-control-help" />
+    </sky-file-attachment-label>
+  </sky-file-attachment>
 </form>
 
 <form [formGroup]="fileForm">
-  <div style="margin-bottom: 20px">
-    <sky-file-attachment formControlName="disabled" [disabled]="true">
-      <sky-file-attachment-label>
-        Disabled single file attachment
-      </sky-file-attachment-label>
-    </sky-file-attachment>
-  </div>
+  <sky-file-attachment
+    formControlName="disabled"
+    [disabled]="true"
+    [stacked]="true"
+  >
+    <sky-file-attachment-label>
+      Disabled single file attachment
+    </sky-file-attachment-label>
+  </sky-file-attachment>
 </form>
 
 <sky-file-attachment
@@ -63,16 +60,15 @@
   labelText="Single file attachment with help inline popover open"
   hintText="Hint text"
   helpPopoverContent="Popover content"
+  stacked="true"
 />
 
 <form [formGroup]="fileForm">
-  <div style="margin-bottom: 20px">
-    <sky-file-attachment
-      formControlName="attachment"
-      labelText="Single file attachment with help inline popover"
-      hintText="Hint text"
-      helpPopoverContent="Popover content"
-      (fileChange)="reactiveFileUpdated($event)"
-    />
-  </div>
+  <sky-file-attachment
+    formControlName="attachment"
+    labelText="Single file attachment with help inline popover"
+    hintText="Hint text"
+    helpPopoverContent="Popover content"
+    (fileChange)="reactiveFileUpdated($event)"
+  />
 </form>

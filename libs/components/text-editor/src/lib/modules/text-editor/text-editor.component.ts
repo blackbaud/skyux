@@ -13,6 +13,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -280,6 +281,15 @@ export class SkyTextEditorComponent
   public get placeholder(): string {
     return this.#_placeholder;
   }
+
+  /**
+   * Whether the text editor is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the text editor.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
 
   /**
    * The actions to include in the toolbar in the specified order.

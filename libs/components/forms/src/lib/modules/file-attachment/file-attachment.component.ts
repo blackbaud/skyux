@@ -156,6 +156,15 @@ export class SkyFileAttachmentComponent
   }
 
   /**
+   * Whether the single file attachment is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the single file attachment.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
+
+  /**
    * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */

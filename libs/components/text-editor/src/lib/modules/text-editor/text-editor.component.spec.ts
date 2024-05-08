@@ -563,6 +563,21 @@ describe('Text editor', () => {
       expect(hintEl?.textContent.trim()).toBe(hintText);
     });
 
+    it('should have the lg margin class if stacked is true', () => {
+      testComponent.stacked = true;
+      fixture.detectChanges();
+
+      const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
+      expect(textEditor).toHaveClass('sky-margin-stacked-lg');
+    });
+
+    it('should not have the lg margin class if stacked is false', () => {
+      const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
+
+      expect(textEditor).not.toHaveClass('sky-margin-stacked-lg');
+    });
+
     [
       {
         desc: 'new window',
