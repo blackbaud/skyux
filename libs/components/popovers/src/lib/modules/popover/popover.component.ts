@@ -232,7 +232,7 @@ export class SkyPopoverComponent implements OnDestroy {
   }
 
   /**
-   * Whether the popover body has interactable content riz
+   * Whether the popover body has interactable content
    * @internal
    */
   public hasFocusableContent(): boolean {
