@@ -1,5 +1,5 @@
 /**
- * Options that should be applied to all components that invoke global help.
+ * Options to apply to all components that invoke global help.
  */
 export interface SkyHelpGlobalOptions {
   /**
