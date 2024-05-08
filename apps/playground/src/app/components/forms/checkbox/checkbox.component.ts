@@ -28,7 +28,6 @@ export class CheckboxComponent implements OnInit {
 
   public showInlineHelp = false;
 
-  protected agreeToTerms = false;
   protected formGroup: FormGroup;
   protected contactMethod: FormGroup;
 
@@ -66,7 +65,7 @@ export class CheckboxComponent implements OnInit {
 
   public ngOnInit(): void {
     this.reactiveFormGroup = this.#formBuilder.group({
-      reactiveCheckbox: new FormControl(undefined),
+      reactiveCheckbox: new FormControl(undefined, [Validators.requiredTrue]),
     });
   }
 
@@ -82,7 +81,7 @@ export class CheckboxComponent implements OnInit {
     this.showInlineHelp = !this.showInlineHelp;
   }
 
-  protected onSubmit(): void {
+  protected onSubmitContactMethod(): void {
     this.contactMethod.markAsDirty();
     this.contactMethod.markAsTouched();
   }

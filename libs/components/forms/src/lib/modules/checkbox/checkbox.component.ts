@@ -35,6 +35,9 @@ import { SkyCheckboxChange } from './checkbox-change';
  * is driven through an `ngModel` attribute that you specify on the `sky-checkbox` element.
  */
 @Component({
+  selector: 'sky-checkbox',
+  templateUrl: './checkbox.component.html',
+  styleUrls: ['./checkbox.component.scss'],
   providers: [
     { provide: NG_VALIDATORS, useExisting: SkyCheckboxComponent, multi: true },
     {
@@ -44,9 +47,6 @@ import { SkyCheckboxChange } from './checkbox-change';
     },
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
-  selector: 'sky-checkbox',
-  styleUrls: ['./checkbox.component.scss'],
-  templateUrl: './checkbox.component.html',
 })
 export class SkyCheckboxComponent
   implements ControlValueAccessor, OnInit, Validator
@@ -247,6 +247,16 @@ export class SkyCheckboxComponent
   }
 
   /**
+   * Whether the input is required for form validation.
+   * When you set this property to `true`, the component adds `aria-required` and `required`
+   * attributes to the input element so that forms display an invalid state until the input element
+   * is complete.
+   * @default false
+   */
+  @Input({ transform: booleanAttribute })
+  public required = false;
+
+  /**
    * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
    * Specifying `labelText` also enables automatic error message handling for checkbox.
    * @preview
@@ -268,12 +278,6 @@ export class SkyCheckboxComponent
    */
   @Input()
   public hintText: string | undefined;
-
-  /**
-   * @internal
-   */
-  @Input({ transform: booleanAttribute })
-  public required = false;
 
   /**
    * Whether the checkbox is stacked on another form component. When specified, the appropriate
@@ -327,8 +331,8 @@ export class SkyCheckboxComponent
 
   protected get isCheckboxRequired(): boolean {
     return !!(
-      this.required ??
-      this.control?.hasValidator(Validators.requiredTrue) ??
+      this.required ||
+      this.control?.hasValidator(Validators.requiredTrue) ||
       this.control?.hasValidator(Validators.required)
     );
   }
@@ -391,7 +395,11 @@ export class SkyCheckboxComponent
 
     // In template-driven forms, Angular's native 'required' attribute directive only works
     // on `input[type="checkbox"]` selectors, so we need to write the validation logic ourselves.
-    return this.required && control.value !== true ? { required: true } : null;
+    // Also, we're treating Validators.required the same as Validators.requiredTrue internally, so
+    // we need to account for that decision in our custom validator.
+    return this.isCheckboxRequired && control.value !== true
+      ? { required: true }
+      : null;
   }
 
   /**

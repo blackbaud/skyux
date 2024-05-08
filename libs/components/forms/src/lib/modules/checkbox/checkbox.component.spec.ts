@@ -285,7 +285,7 @@ class CheckboxWithOnPushChangeDetectionComponent {
 }
 // #endregion
 
-fdescribe('Checkbox component', () => {
+describe('Checkbox component', () => {
   let fixture: ComponentFixture<any>;
 
   function createEvent(eventName: string) {
@@ -1257,7 +1257,7 @@ fdescribe('Checkbox component', () => {
       expect(formControl.valid).toBe(false);
     });
 
-    fit('should mark form as invalid when required checkbox is not checked', async () => {
+    it('should mark form as invalid when required checkbox is not checked', async () => {
       fixture.detectChanges();
       expect(formControl.valid).toBe(false);
       labelElement?.click();
