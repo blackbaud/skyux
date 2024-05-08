@@ -369,6 +369,8 @@ export class SkyDateRangePickerComponent
           this.#calculatorIdControl?.updateValueAndValidity({
             emitEvent: false,
           });
+          // We have to do a hard `detectChanges` here because we need the inner controls to be marked required prior to the outer control re-running its validation.
+          // `markForCheck` would cause the validation to re-run prior to the inner controls being marked as required.
           this.#changeDetector.detectChanges();
           this.#control?.updateValueAndValidity();
         }
