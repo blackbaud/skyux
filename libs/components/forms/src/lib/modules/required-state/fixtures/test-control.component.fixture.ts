@@ -15,7 +15,7 @@ import { SkyRequiredStateDirective } from '../required-state.directive';
   template: `required: {{ requiredState.isRequired() }}`,
 })
 export class TestControlComponent implements ControlValueAccessor {
-  protected readonly requiredState = inject(SkyRequiredStateDirective);
+  public readonly requiredState = inject(SkyRequiredStateDirective);
 
   constructor() {
     const ngControl = inject(NgControl, { optional: true });

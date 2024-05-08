@@ -30,7 +30,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { SkyAppFormat, SkyFormsUtility } from '@skyux/core';
-import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
+import {
+  SkyFormFieldLabelTextRequiredService,
+  SkyRequiredStateDirective,
+} from '@skyux/forms';
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -67,8 +70,12 @@ let uniqueId = 0;
   selector: 'sky-date-range-picker',
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss'],
-  providers: [
-    SKY_DATE_RANGE_PICKER_VALIDATOR,
+  providers: [SKY_DATE_RANGE_PICKER_VALIDATOR],
+  hostDirectives: [
+    {
+      directive: SkyRequiredStateDirective,
+      inputs: ['required'],
+    },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -219,21 +226,6 @@ export class SkyDateRangePickerComponent
   @HostBinding('style.display')
   public display: string | undefined;
 
-  /**
-   * Whether the date range picker requires a value.
-   */
-  @Input({ transform: booleanAttribute })
-  public set required(value: boolean) {
-    if (value !== this.#_required) {
-      this.#_required = value;
-      this.#updateRequiredStates();
-    }
-  }
-
-  public get required(): boolean {
-    return this.#_required;
-  }
-
   public selectedCalculator: SkyDateRangeCalculator | undefined;
 
   public readonly dateRangePickerId = `sky-date-range-picker-${uniqueId++}`;
@@ -246,8 +238,9 @@ export class SkyDateRangePickerComponent
   public showStartDatePicker = false;
 
   protected hostHintText: string | undefined;
-  // Track separately to combine the template and reactive manners of setting required
   protected outerControlRequired = false;
+  // Track separately to combine the template and reactive manners of setting required
+  protected readonly requiredState = inject(SkyRequiredStateDirective);
 
   get #calculatorIdControl(): AbstractControl | undefined | null {
     return this.formGroup?.get('calculatorId');
@@ -318,7 +311,6 @@ export class SkyDateRangePickerComponent
   ];
   #_dateFormat: string | undefined;
   #_disabled: boolean | undefined = false;
-  #_required = false;
   #_valueOrDefault: SkyDateRangeCalculation | undefined;
 
   #changeDetector: ChangeDetectorRef;
@@ -360,6 +352,26 @@ export class SkyDateRangePickerComponent
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
+      });
+
+    this.requiredState.requiredStateChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((required) => {
+        if (required !== this.outerControlRequired) {
+          this.outerControlRequired = required;
+
+          if (this.outerControlRequired) {
+            this.#calculatorIdControl?.addValidators(Validators.required);
+          } else {
+            this.#calculatorIdControl?.removeValidators(Validators.required);
+          }
+
+          this.#calculatorIdControl?.updateValueAndValidity({
+            emitEvent: false,
+          });
+          this.#changeDetector.detectChanges();
+          this.#control?.updateValueAndValidity();
+        }
       });
   }
 
@@ -427,12 +439,6 @@ export class SkyDateRangePickerComponent
     /* safety check */
     /* istanbul ignore else */
     if (this.#ngControl) {
-      this.#ngControl.statusChanges
-        ?.pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateRequiredStates();
-        });
-      this.#updateRequiredStates();
       this.#control = SkyFormsUtility.getAbstractControl(
         this.#ngControl,
         this.#injector,
@@ -710,31 +716,6 @@ export class SkyDateRangePickerComponent
         this.#updateSelectedCalculator();
         this.#changeDetector.markForCheck();
       });
-  }
-
-  #updateRequiredStates(): void {
-    const originalValue = this.outerControlRequired;
-    this.outerControlRequired =
-      this.required || !!this.#control?.hasValidator(Validators.required);
-
-    if (this.outerControlRequired) {
-      this.#calculatorIdControl?.addValidators(Validators.required);
-    } else {
-      this.#calculatorIdControl?.removeValidators(Validators.required);
-    }
-
-    this.#calculatorIdControl?.updateValueAndValidity();
-    this.#startDateControl?.updateValueAndValidity();
-    this.#endDateControl?.updateValueAndValidity();
-
-    // We need to update the outer control - but only if the required state has changed. Otherwise - we would enter an infinite loop.
-    if (originalValue !== this.outerControlRequired) {
-      // Ensure that child control validation is complete prior to updating the outer control. Without this - the inner controls may not have validated and may lead
-      // to an incorrect outer control state until something else re-runs validation.
-      this.#ngZone.onStable.pipe(first()).subscribe(() => {
-        this.#control?.updateValueAndValidity();
-      });
-    }
   }
 
   #getCalculatorById(

@@ -44,12 +44,12 @@ export class DateRangePickerComponent {
         status,
         this.pickerFormControl.errors,
       );
-      this.#changeDetector.detectChanges();
+      this.#changeDetector.markForCheck();
     });
 
     this.pickerFormControl.valueChanges.subscribe((value) => {
       console.log('Date range value change:', value);
-      this.#changeDetector.detectChanges();
+      this.#changeDetector.markForCheck();
     });
   }
 
@@ -69,6 +69,7 @@ export class DateRangePickerComponent {
       this.pickerFormControl.addValidators(Validators.required);
     }
     this.pickerFormControl.updateValueAndValidity();
+    this.#changeDetector.markForCheck();
     this.#required = !this.#required;
   }
 

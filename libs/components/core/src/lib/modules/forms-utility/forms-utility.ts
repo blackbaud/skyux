@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 
 /**
- * @deprecated
  * @internal
  */
 export class SkyFormsUtility {

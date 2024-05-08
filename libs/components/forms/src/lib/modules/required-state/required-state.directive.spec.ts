@@ -31,4 +31,40 @@ describe('required-state directive', () => {
 
     expect(fixture.nativeElement.textContent).toEqual('required: true');
   });
+
+  it('should fire an event when the reactive form required state changes', () => {
+    const fixture = TestBed.createComponent(ReactiveTestComponent);
+    const requiredChangedSpy = spyOn(
+      fixture.componentInstance,
+      'requiredChanged',
+    );
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toEqual('required: false');
+    expect(requiredChangedSpy).not.toHaveBeenCalled();
+
+    fixture.componentInstance.makeRequired();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toEqual('required: true');
+    expect(requiredChangedSpy).toHaveBeenCalledWith(true);
+  });
+
+  it('should fire an event when the template form required state changes', () => {
+    const fixture = TestBed.createComponent(TemplateDrivenTestComponent);
+    const requiredChangedSpy = spyOn(
+      fixture.componentInstance,
+      'requiredChanged',
+    );
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toEqual('required: false');
+    expect(requiredChangedSpy).not.toHaveBeenCalled();
+
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toEqual('required: true');
+    expect(requiredChangedSpy).toHaveBeenCalledWith(true);
+  });
 });
