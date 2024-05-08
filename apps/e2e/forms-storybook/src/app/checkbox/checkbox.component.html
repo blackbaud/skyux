@@ -87,8 +87,7 @@
       <sky-checkbox
         labelText="Checkbox with easy mode help inline"
         helpPopoverContent="popover Content"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -97,8 +96,7 @@
         labelText="Required checkbox with easy mode help inline"
         helpPopoverContent="popover Content"
         [required]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -109,8 +107,15 @@
         helpPopoverContent="popover Content"
         [required]="true"
         id="touched-easy-mode-checkbox"
-      >
-      </sky-checkbox>
+      />
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <div>
+        <sky-checkbox ngModel [stacked]="true" labelText="Stacked checkbox" />
+      </div>
+      <button type="button" class="sky-btn sky-btn-primary">Save</button>
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">

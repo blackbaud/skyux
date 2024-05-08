@@ -153,16 +153,14 @@
 
   <div id="template-driven-checkbox">
     <h3>Template-driven checkbox</h3>
-    <p>
-      <sky-checkbox
-        ngModel
-        [indeterminate]="indeterminate"
-        [required]="required"
-        labelText="Check me"
-        #templateDrivenCheckbox="ngModel"
-      />
-    </p>
-
+    <sky-checkbox
+      ngModel
+      [indeterminate]="indeterminate"
+      [required]="required"
+      [stacked]="true"
+      labelText="Check me"
+      #templateDrivenCheckbox="ngModel"
+    />
     <table>
       <tr>
         <th>Touched</th>
