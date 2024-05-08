@@ -367,7 +367,7 @@ jobs:
       - install-deps
       - e2e
       - publish
-    if: ${{ always() }}
+    if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
     steps:
       - uses: actions/checkout@v4
         with:
