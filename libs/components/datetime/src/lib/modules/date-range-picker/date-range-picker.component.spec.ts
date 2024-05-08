@@ -319,6 +319,7 @@ describe('Date range picker', function () {
       SkyDateRangeCalculatorId.Before,
       SkyDateRangeCalculatorType.Before,
     );
+  }));
 
   it('should only show start date picker for After type', fakeAsync(function () {
     verifyVisiblePickers(
