@@ -2,7 +2,7 @@
   <label
     class="sky-checkbox-wrapper sky-switch"
     [ngClass]="{
-      'sky-control-label-required': required,
+      'sky-control-label-required': requiredState.isRequired(),
       'sky-switch-disabled': disabled,
       'sky-margin-inline-xs': labelText && !icon
     }"
@@ -14,12 +14,12 @@
       [checked]="checked"
       [disabled]="disabled"
       [name]="name"
-      [required]="required"
+      [required]="requiredState.isRequired()"
       [tabIndex]="tabindex"
       [attr.aria-label]="labelText || label"
       [attr.aria-labelledby]="labelText ? undefined : labelledBy"
       [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
-      [attr.aria-required]="required ? true : null"
+      [attr.aria-required]="requiredState.isRequired() ? true : null"
       [attr.aria-invalid]="!!ngControl?.errors"
       [attr.aria-errormessage]="
         labelText && ngControl?.errors ? errorId : undefined
