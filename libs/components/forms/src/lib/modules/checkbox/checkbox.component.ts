@@ -12,13 +12,20 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators,
+} from '@angular/forms';
 import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyRequiredStateDirective } from '../required-state/required-state.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyCheckboxChange } from './checkbox-change';
@@ -28,18 +35,22 @@ import { SkyCheckboxChange } from './checkbox-change';
  * is driven through an `ngModel` attribute that you specify on the `sky-checkbox` element.
  */
 @Component({
-  hostDirectives: [
+  providers: [
+    { provide: NG_VALIDATORS, useExisting: SkyCheckboxComponent, multi: true },
     {
-      directive: SkyRequiredStateDirective,
-      inputs: ['required'],
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: SkyCheckboxComponent,
+      multi: true,
     },
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
-  providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
   selector: 'sky-checkbox',
   styleUrls: ['./checkbox.component.scss'],
   templateUrl: './checkbox.component.html',
 })
-export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
+export class SkyCheckboxComponent
+  implements ControlValueAccessor, OnInit, Validator
+{
   /**
    * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
@@ -259,6 +270,12 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public hintText: string | undefined;
 
   /**
+   * @internal
+   */
+  @Input({ transform: booleanAttribute })
+  public required = false;
+
+  /**
    * Whether the checkbox is stacked on another form component. When specified, the appropriate
    * vertical spacing is automatically added to the checkbox. If the checkbox is within a checkbox group,
    * set `stacked` on the checkbox group component instead.
@@ -308,10 +325,22 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   @HostBinding('style.display')
   public display: string | undefined;
 
+  protected get isCheckboxRequired(): boolean {
+    return !!(
+      this.required ??
+      this.control?.hasValidator(Validators.requiredTrue) ??
+      this.control?.hasValidator(Validators.required)
+    );
+  }
+
+  protected control: AbstractControl | undefined;
   protected inputId = '';
+
+  protected readonly errorId: string;
 
   #checkedChange: BehaviorSubject<boolean>;
   #checkedChangeObs: Observable<boolean>;
+  #defaultId: string;
   #disabledChange: BehaviorSubject<boolean>;
   #disabledChangeObs: Observable<boolean>;
   #indeterminateChange: BehaviorSubject<boolean>;
@@ -326,27 +355,15 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_label: string | undefined;
   #_labelledBy: string | undefined;
 
-  #changeDetector = inject(ChangeDetectorRef);
-  #idSvc = inject(SkyIdService);
-  #defaultId = this.#idSvc.generateId();
-  #logger = inject(SkyLogService);
-
-  protected readonly ngControl = inject(NgControl, {
-    optional: true,
-    self: true,
-  });
-
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #idSvc = inject(SkyIdService);
   readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
-
-  protected readonly errorId = this.#idSvc.generateId();
-  protected readonly requiredState = inject(SkyRequiredStateDirective);
+  readonly #logger = inject(SkyLogService);
 
   constructor() {
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
-    }
+    this.#defaultId = this.#idSvc.generateId();
 
     this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
     this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
@@ -356,6 +373,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     this.#disabledChangeObs = this.#disabledChange.asObservable();
     this.#indeterminateChangeObs = this.#indeterminateChange.asObservable();
 
+    this.errorId = this.#idSvc.generateId();
     this.id = this.#defaultId;
     this.name = this.#defaultId;
   }
@@ -366,6 +384,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     }
 
     this.#labelTextRequired?.validateLabelText(this.labelText);
+  }
+
+  public validate(control: AbstractControl<boolean>): ValidationErrors | null {
+    this.control ||= control;
+
+    // In template-driven forms, Angular's native 'required' attribute directive only works
+    // on `input[type="checkbox"]` selectors, so we need to write the validation logic ourselves.
+    return this.required && control.value !== true ? { required: true } : null;
   }
 
   /**

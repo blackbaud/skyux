@@ -232,7 +232,9 @@
     Toggle inline help
   </button>
 
-  <form [formGroup]="formGroup">
+  <h2>Reactive Form</h2>
+
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <sky-checkbox-group
       helpPopoverContent="content"
       helpPopoverTitle="title"
@@ -246,7 +248,6 @@
         formControlName="email"
         labelText="Email"
         helpPopoverContent="content"
-        required="true"
       />
       <sky-checkbox
         formControlName="phone"
@@ -258,15 +259,27 @@
         *ngIf="contactMethod.errors?.['contactMethodRequired']"
         errorName="contactMethodRequired"
         errorText="A contact method is required."
-      ></sky-form-error>
-    </sky-checkbox-group>
-    <div class="sky-margin-stacked-xl">
-      <sky-checkbox
-        formControlName="terms"
-        [required]="true"
-        labelText="I agree to the terms and conditions"
       />
-    </div>
+    </sky-checkbox-group>
+
     <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
   </form>
+
+  <h2>Template-driven Form</h2>
+
+  <div class="sky-margin-stacked-xl">
+    <sky-checkbox
+      name="terms"
+      labelText="I agree to the terms and conditions"
+      required="true"
+      [(ngModel)]="agreeToTerms"
+      #termsControl="ngModel"
+    />
+    <pre>
+ERRORS: {{ termsControl.errors | json }}
+VALID: {{ termsControl.valid }}
+DIRTY: {{ termsControl.dirty }}
+TOUCHED: {{ termsControl.touched }}
+    </pre>
+  </div>
 </div>

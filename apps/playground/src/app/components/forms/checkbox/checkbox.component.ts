@@ -6,6 +6,7 @@ import {
   UntypedFormBuilder,
   UntypedFormGroup,
   ValidationErrors,
+  Validators,
 } from '@angular/forms';
 
 @Component({
@@ -27,6 +28,7 @@ export class CheckboxComponent implements OnInit {
 
   public showInlineHelp = false;
 
+  protected agreeToTerms = false;
   protected formGroup: FormGroup;
   protected contactMethod: FormGroup;
 
@@ -37,7 +39,7 @@ export class CheckboxComponent implements OnInit {
 
     this.contactMethod = this.#formBuilder.group({
       email: new FormControl(false),
-      phone: new FormControl(false),
+      phone: new FormControl(false, [Validators.requiredTrue]),
       text: new FormControl(false),
     });
 
@@ -78,5 +80,10 @@ export class CheckboxComponent implements OnInit {
 
   public toggleInlineHelp(): void {
     this.showInlineHelp = !this.showInlineHelp;
+  }
+
+  protected onSubmit(): void {
+    this.contactMethod.markAsDirty();
+    this.contactMethod.markAsTouched();
   }
 }
