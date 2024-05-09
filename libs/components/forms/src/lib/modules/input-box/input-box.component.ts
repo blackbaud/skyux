@@ -144,8 +144,8 @@ export class SkyInputBoxComponent
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
 
   /**
-   * Unique key specifying the page the help panel opens to. When specified a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * added to the single file attachment label. Clicking the help inline button opens the help panel widget.
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * placed beside the input box label. Clicking the button invokes global help as configured by the application.
    * @preview
    */
   @Input()

@@ -725,13 +725,11 @@ describe('Input box component', () => {
       fixture.componentInstance.easyModeHelpPopoverContent = undefined;
       fixture.componentInstance.easyModeHelpKey = 'index.html';
 
-      const els = getDefaultEls(fixture, 'input-easy-mode');
+      const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
 
-      const inlineHelpBtnEl = els.inlineHelpEl?.querySelector(
-        '.sky-help-inline',
-      ) as HTMLButtonElement;
-
-      expect(inlineHelpBtnEl).toBeDefined();
+      expect(
+        easyModeInput.inlineHelpEl?.querySelector('.sky-help-inline'),
+      ).toBeTruthy();
     });
 
     it('should add character count', async () => {
