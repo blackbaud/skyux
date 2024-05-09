@@ -108,8 +108,8 @@ export class SkyFileAttachmentComponent
   public helpPopoverTitle: string | undefined;
 
   /**
-   * Unique key specifying the page the help panel opens to. When specified a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * added to the single file attachment label. Clicking the help inline button opens the help panel widget.
+   * A unique key that identifies the global help content to display. When specified a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * added to the single file attachment label. Clicking the help inline button will invoke global help as configured by the application.
    * @preview
    */
   @Input()

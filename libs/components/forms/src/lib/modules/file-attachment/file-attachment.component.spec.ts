@@ -1602,16 +1602,12 @@ describe('File attachment', () => {
     fixture.componentInstance.labelText = 'labelText';
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
-    ).toBe(0);
+    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeFalsy();
 
     fixture.componentInstance.helpKey = 'helpKey.html';
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
-    ).toBe(1);
+    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeTruthy();
   });
 
   it('should render hint if `hintText` is set', () => {
