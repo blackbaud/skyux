@@ -28,6 +28,12 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Limit {0} to {1} character(s).',
     },
     skyux_form_error_date: { message: 'Select or enter a valid date.' },
+    skyux_form_error_date_max: {
+      message: 'Select or enter a date before max date.',
+    },
+    skyux_form_error_date_min: {
+      message: 'Select or enter a date after min date.',
+    },
     skyux_form_error_email: {
       message: 'Enter an email address with a valid format.',
     },
