@@ -1,6 +1,5 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   ChangeDetectorRef,
   Directive,
   ElementRef,
@@ -50,7 +49,6 @@ export class SkyDatepickerInputDirective
   implements
     OnInit,
     OnDestroy,
-    AfterViewInit,
     AfterContentInit,
     ControlValueAccessor,
     Validator
@@ -287,24 +285,6 @@ export class SkyDatepickerInputDirective
         this.#value = value;
         this.#onTouched();
       });
-  }
-
-  public ngAfterViewInit(): void {
-    // This is needed to address a bug in Angular 4.
-    // When a control value is set initially, its value is not represented on the view.
-    // See: https://github.com/angular/angular/issues/13792
-    // Of note is the parent check which allows us to determine if the form is reactive.
-    // Without this check there is a changed before checked error
-    /* istanbul ignore else */
-    if (this.#control && this.#control.parent) {
-      setTimeout(() => {
-        this.#control?.setValue(this.#value, {
-          emitEvent: false,
-        });
-
-        this.#changeDetector.markForCheck();
-      });
-    }
   }
 
   public ngOnDestroy(): void {

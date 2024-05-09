@@ -72,7 +72,6 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-start-date'"
-          [required]="!!startDateRequired"
           [dateFormat]="dateFormatOrDefault"
           (blur)="onFieldBlur()"
           skyDatepickerInput
@@ -118,7 +117,6 @@
           "
           [attr.id]="dateRangePickerId + '-end-date'"
           [dateFormat]="dateFormatOrDefault"
-          [required]="!!endDateRequired"
           (blur)="onFieldBlur()"
         />
       </sky-datepicker>

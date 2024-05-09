@@ -286,7 +286,7 @@ describe('Date range picker', function () {
     expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
   }));
 
-  it('should not render if a parent component requires label text and it is not provided', () => {
+  it('should not render if a parent component requires label text and it is not provided', async () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       imports: [DateRangePickerTestModule],
@@ -304,6 +304,8 @@ describe('Date range picker', function () {
       SkyFormFieldLabelTextRequiredService,
     );
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    fixture.detectChanges();
+    await fixture.whenStable();
     fixture.detectChanges();
 
     const dateRangePicker = fixture.nativeElement.querySelector(
