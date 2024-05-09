@@ -96,9 +96,10 @@
 </ng-template>
 
 <ng-template #inlineHelpTemplate>
-  <sky-input-box-help-inline
-    *ngIf="helpPopoverContent"
+  <sky-help-inline
+    *ngIf="helpPopoverContent || helpKey"
     class="sky-control-help"
+    [helpKey]="helpKey"
     [labelText]="labelText"
     [popoverContent]="helpPopoverContent"
     [popoverTitle]="helpPopoverTitle"

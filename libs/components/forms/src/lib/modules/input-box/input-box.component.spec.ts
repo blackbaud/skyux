@@ -718,6 +718,22 @@ describe('Input box component', () => {
       await validateHelpInline(fixture, 'Help content from template');
     });
 
+    it('should render help inline with help key', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
+      fixture.componentInstance.easyModeHelpKey = 'index.html';
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      const inlineHelpBtnEl = els.inlineHelpEl?.querySelector(
+        '.sky-help-inline',
+      ) as HTMLButtonElement;
+
+      expect(inlineHelpBtnEl).toBeDefined();
+    });
+
     it('should add character count', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
