@@ -340,11 +340,8 @@ export class SkyCheckboxComponent
   protected control: AbstractControl | undefined;
   protected inputId = '';
 
-  protected readonly errorId: string;
-
   #checkedChange: BehaviorSubject<boolean>;
   #checkedChangeObs: Observable<boolean>;
-  #defaultId: string;
   #disabledChange: BehaviorSubject<boolean>;
   #disabledChangeObs: Observable<boolean>;
   #indeterminateChange: BehaviorSubject<boolean>;
@@ -359,16 +356,17 @@ export class SkyCheckboxComponent
   #_label: string | undefined;
   #_labelledBy: string | undefined;
 
-  readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #idSvc = inject(SkyIdService);
+  #changeDetector = inject(ChangeDetectorRef);
+  #idSvc = inject(SkyIdService);
+  #defaultId = this.#idSvc.generateId();
+  #logger = inject(SkyLogService);
   readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
-  readonly #logger = inject(SkyLogService);
+
+  protected readonly errorId = this.#idSvc.generateId();
 
   constructor() {
-    this.#defaultId = this.#idSvc.generateId();
-
     this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
     this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
     this.#indeterminateChange = new BehaviorSubject<boolean>(this.disabled);
@@ -377,7 +375,6 @@ export class SkyCheckboxComponent
     this.#disabledChangeObs = this.#disabledChange.asObservable();
     this.#indeterminateChangeObs = this.#indeterminateChange.asObservable();
 
-    this.errorId = this.#idSvc.generateId();
     this.id = this.#defaultId;
     this.name = this.#defaultId;
   }
