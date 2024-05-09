@@ -668,6 +668,12 @@ describe('Date range picker', function () {
 
     expect(control?.errors).toEqual(expectedError);
     expect(calculatorIdControl?.errors).toEqual(expectedError);
+
+    fixture.componentInstance.startDateRequired = false;
+    detectChanges();
+
+    expect(control?.errors).toBeNull();
+    expect(calculatorIdControl?.errors).toBeNull();
   }));
 
   it('should show validation errors when end date is required but not provided', fakeAsync(function () {
