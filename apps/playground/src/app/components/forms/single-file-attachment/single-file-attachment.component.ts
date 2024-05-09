@@ -29,7 +29,7 @@ export class SingleFileAttachmentComponent implements OnInit {
 
   public reactiveUploadError: string;
 
-  public helpKey = 'test.html';
+  public helpKey: string | undefined;
 
   constructor(private formBuilder: UntypedFormBuilder) {}
 
