@@ -28,22 +28,23 @@
   id="screenshot-datepicker"
   style="max-width: 50%; height: 500px"
 >
-  <p>Template form</p>
-  <sky-datepicker #picker>
-    <input
-      skyDatepickerInput
-      [disabled]="disabled"
-      [maxDate]="maxDate"
-      [minDate]="minDate"
-      [startAtDate]="startAtDate"
-      [skyDatepickerNoValidate]="noValidate"
-      [startingDay]="startingDay"
-      [strict]="strict"
-      [dateFormat]="dateFormat"
-      [(ngModel)]="selectedDate"
-      #date="ngModel"
-    />
-  </sky-datepicker>
+  <sky-input-box labelText="Easy mode input box" stacked="true">
+    <sky-datepicker #picker>
+      <input
+        skyDatepickerInput
+        [disabled]="disabled"
+        [maxDate]="maxDate"
+        [minDate]="minDate"
+        [startAtDate]="startAtDate"
+        [skyDatepickerNoValidate]="noValidate"
+        [startingDay]="startingDay"
+        [strict]="strict"
+        [dateFormat]="dateFormat"
+        [(ngModel)]="selectedDate"
+        #date="ngModel"
+      />
+    </sky-datepicker>
+  </sky-input-box>
 
   <table>
     <tr>

@@ -25,9 +25,21 @@
     />
 
     <sky-form-error
-      *ngIf="errors['skyDate']"
-      errorName="date"
+      *ngIf="errors['skyDate'] && errors['skyDate']['invalid']"
+      errorName="invalidDate"
       [errorText]="'skyux_form_error_date' | skyLibResources"
+    />
+
+    <sky-form-error
+      *ngIf="errors['skyDate'] && errors['skyDate']['minDate']"
+      errorName="minDate"
+      [errorText]="'skyux_form_error_date_min' | skyLibResources"
+    />
+
+    <sky-form-error
+      *ngIf="errors['skyDate'] && errors['skyDate']['maxDate']"
+      errorName="maxDate"
+      [errorText]="'skyux_form_error_date_max' | skyLibResources"
     />
 
     <sky-form-error

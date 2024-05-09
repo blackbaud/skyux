@@ -245,14 +245,44 @@ describe('Input box harness', () => {
     await expectAsync(inputBoxHarness.hasUrlError()).toBeResolvedTo(true);
   });
 
-  it('should return whether date picker validator error has fired', async () => {
+  it('should return whether invalid date error has fired', async () => {
     const { fixture, inputBoxHarness } = await setupTest({
       dataSkyId: 'datepicker-easy-mode',
     });
 
     fixture.detectChanges();
 
-    await expectAsync(inputBoxHarness.hasDateError()).toBeResolvedTo(true);
+    await expectAsync(inputBoxHarness.hasInvalidDateError()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should return whether max date error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'datepicker-easy-mode',
+    });
+
+    const control = component.directiveErrorForm.controls['easyModeDatepicker'];
+    control.setValue('01/01/2990');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasMaxDateError()).toBeResolvedTo(true);
+  });
+
+  it('should return whether min date error has fired', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'datepicker-easy-mode',
+    });
+
+    const control = component.directiveErrorForm.controls['easyModeDatepicker'];
+    control.setValue('01/01/1990');
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.hasMinDateError()).toBeResolvedTo(true);
   });
 
   it('should return whether time picker validator error has fired', async () => {
