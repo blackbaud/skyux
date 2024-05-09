@@ -2,7 +2,7 @@
   <sky-file-attachment
     [acceptedTypes]="'image/jpeg'"
     formControlName="attachment"
-    helpPopoverContent="content"
+    [helpPopoverContent]="popoverContent"
     helpPopoverTitle="title"
     labelText="Attach a file"
     [maxFileSize]="maxFileSize"
@@ -27,3 +27,9 @@
     {{ reactiveUploadError }}
   </div>
 </form>
+
+<ng-template #popoverContent>
+  <sky-paging pageSize="5" itemCount="15"
+    ><sky-paging-content>hello</sky-paging-content></sky-paging
+  >
+</ng-template>

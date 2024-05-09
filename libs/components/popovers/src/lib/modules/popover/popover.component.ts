@@ -231,6 +231,10 @@ export class SkyPopoverComponent implements OnDestroy {
     this.#isMarkedForCloseOnMouseLeave = true;
   }
 
+  public hasFocusableContent(): boolean {
+    return this.#contentRef.hasFocusableContent();
+  }
+
   #setupOverlay(): void {
     if (this.templateRef) {
       const overlay = this.#overlayService.create({
