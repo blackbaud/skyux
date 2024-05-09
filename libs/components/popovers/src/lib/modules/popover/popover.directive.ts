@@ -164,22 +164,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
             break;
 
           case 'tab':
-            if (this.skyPopover.dismissOnBlur) {
+            if (this.skyPopover.hasFocusableContent()) {
+              this.#sendMessage(SkyPopoverMessageType.Focus);
+              event.stopPropagation();
+              event.preventDefault();
+            } else if (this.skyPopover.dismissOnBlur) {
               this.#sendMessage(SkyPopoverMessageType.Close);
             }
-            break;
-
-          case 'arrowdown':
-          case 'arrowleft':
-          case 'arrowright':
-          case 'arrowup':
-          case 'down':
-          case 'left':
-          case 'right':
-          case 'up':
-            this.#sendMessage(SkyPopoverMessageType.Focus);
-            event.stopPropagation();
-            event.preventDefault();
             break;
         }
       });

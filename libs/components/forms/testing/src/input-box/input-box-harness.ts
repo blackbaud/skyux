@@ -115,8 +115,22 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   /**
    * Whether the field is set to an invalid date.
    */
-  public async hasDateError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('date');
+  public async hasInvalidDateError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('invalidDate');
+  }
+
+  /**
+   * Whether the field is set to an invalid minimum date.
+   */
+  public async hasMinDateError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('minDate');
+  }
+
+  /**
+   * Whether the field is set to an invalid maximum date.
+   */
+  public async hasMaxDateError(): Promise<boolean> {
+    return (await this.#getFormError()).hasError('maxDate');
   }
 
   /**

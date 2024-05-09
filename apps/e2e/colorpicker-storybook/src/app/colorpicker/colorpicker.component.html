@@ -1,10 +1,12 @@
 <div class="sky-padding-even-large">
   <form novalidate [formGroup]="colorForm">
     <div class="sky-margin-stacked-xl" id="colorpicker-12-presets-fa-icon">
-      <label class="sky-control-label">
-        Colorpicker with 12 presets and FA icon
-      </label>
-      <sky-colorpicker #colorPickerPresets pickerButtonIcon="pencil">
+      <sky-colorpicker
+        #colorPickerPresets
+        pickerButtonIcon="pencil"
+        labelText="Colorpicker with 12 presets and FA icon"
+        helpPopoverTitle="This should not appear"
+      >
         <input
           formControlName="colorOne"
           skyId
@@ -23,6 +25,7 @@
         #colorPickerTransparent
         pickerButtonIcon="text-color"
         pickerButtonIconType="skyux"
+        helpPopoverContent="This should not appear"
       >
         <input
           formControlName="colorTwo"
@@ -35,8 +38,11 @@
       </sky-colorpicker>
     </div>
     <div class="sky-margin-stacked-xl" id="colorpicker-disabled">
-      <label class="sky-control-label"> Disabled colorpicker </label>
-      <sky-colorpicker #colorPickerDisabled>
+      <sky-colorpicker
+        #colorPickerDisabled
+        labelText="Disabled colorpicker with inline help"
+        helpPopoverContent="content"
+      >
         <input
           formControlName="colorThree"
           skyId

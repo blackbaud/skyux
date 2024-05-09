@@ -234,13 +234,15 @@ export class SkyAgGridService implements OnDestroy {
 
     // Enable text selection unless explicitly disabled or conflicting with another setting.
     if (
-      !('enableCellTextSelection' in mergedGridOptions) &&
-      !mergedGridOptions.enableRangeSelection &&
-      !mergedGridOptions.columnDefs?.some((col: ColDef) => col.editable)
+      mergedGridOptions.enableCellTextSelection ||
+      (!('enableCellTextSelection' in mergedGridOptions) &&
+        !mergedGridOptions.enableRangeSelection &&
+        !mergedGridOptions.columnDefs?.some((col: ColDef) => col.editable))
     ) {
       mergedGridOptions.context ||= {};
-      mergedGridOptions.context.enableCellTextSelection = true;
-      mergedGridOptions.enableCellTextSelection = true;
+      mergedGridOptions.enableCellTextSelection ??= true;
+      mergedGridOptions.context.enableCellTextSelection =
+        mergedGridOptions.enableCellTextSelection;
     }
 
     return mergedGridOptions;

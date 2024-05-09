@@ -151,6 +151,14 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.#themeSvc = themeSvc;
   }
 
+  public hasFocusableContent(): boolean {
+    return (
+      this.#coreAdapterService.getFocusableChildren(
+        this.popoverRef?.nativeElement,
+      ).length > 0
+    );
+  }
+
   public ngOnInit(): void {
     this.#addEventListeners();
 

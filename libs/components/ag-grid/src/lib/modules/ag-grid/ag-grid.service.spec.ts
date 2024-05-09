@@ -277,6 +277,39 @@ describe('SkyAgGridService', () => {
         'sky-ag-grid-cell-renderer-validator-tooltip',
       ]);
     });
+
+    it('should capture enableCellTextSelection in context', () => {
+      const optionsWithoutSettingEnableCellTextSelection =
+        agGridService.getGridOptions({
+          gridOptions: {},
+        });
+      expect(
+        optionsWithoutSettingEnableCellTextSelection.context
+          ?.enableCellTextSelection,
+      ).toBeTrue();
+
+      const optionsWhenSettingEnableCellTextSelectionTrue =
+        agGridService.getGridOptions({
+          gridOptions: {
+            enableCellTextSelection: true,
+          },
+        });
+      expect(
+        optionsWhenSettingEnableCellTextSelectionTrue.context
+          ?.enableCellTextSelection,
+      ).toBeTrue();
+
+      const optionsWhenSettingEnableCellTextSelectionFalse =
+        agGridService.getGridOptions({
+          gridOptions: {
+            enableCellTextSelection: false,
+          },
+        });
+      expect(
+        optionsWhenSettingEnableCellTextSelectionFalse.context
+          ?.enableCellTextSelection,
+      ).toBeFalsy();
+    });
   });
 
   describe('getEditableGridOptions', () => {

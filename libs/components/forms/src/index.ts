@@ -27,6 +27,8 @@ export { SkyRadioModule } from './lib/modules/radio/radio.module';
 export { SkyRadioChange } from './lib/modules/radio/types/radio-change';
 export { SkyRadioType } from './lib/modules/radio/types/radio-type';
 
+export { SkyRequiredStateDirective } from './lib/modules/required-state/required-state.directive';
+
 export { SkySelectionBoxModule } from './lib/modules/selection-box/selection-box.module';
 export { SkySelectionBoxGridAlignItems } from './lib/modules/selection-box/types/selection-box-grid-align-items';
 export { SkySelectionBoxGridAlignItemsType } from './lib/modules/selection-box/types/selection-box-grid-align-items-type';

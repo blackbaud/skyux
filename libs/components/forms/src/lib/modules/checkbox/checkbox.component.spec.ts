@@ -42,6 +42,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       [helpPopoverTitle]="helpPopoverTitle"
       [hintText]="hintText"
       [labelText]="labelText"
+      [stacked]="stacked"
       [(indeterminate)]="indeterminate"
       (change)="checkboxChange($event)"
     >
@@ -64,6 +65,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   public labelText: string | undefined;
   public showInlineHelp = false;
   public hintText: string | undefined;
+  public stacked: boolean | undefined;
 
   @ViewChild(SkyCheckboxComponent)
   public checkboxComponent: SkyCheckboxComponent | undefined;
@@ -544,6 +546,21 @@ describe('Checkbox component', () => {
 
       expect(hintEl).not.toBeNull();
       expect(hintEl?.textContent?.trim()).toBe(hintText);
+    });
+
+    it('should have the lg margin class if stacked is true', () => {
+      fixture.componentInstance.stacked = true;
+      fixture.detectChanges();
+
+      const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
+
+      expect(checkbox).toHaveClass('sky-margin-stacked-lg');
+    });
+
+    it('should not have the lg margin class if stacked is false', () => {
+      const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
+
+      expect(checkbox).not.toHaveClass('sky-margin-stacked-lg');
     });
 
     it('should make the host element a tab stop', () => {

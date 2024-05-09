@@ -269,6 +269,16 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public hintText: string | undefined;
 
   /**
+   * Whether the checkbox is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the checkbox. If the checkbox is within a checkbox group,
+   * set `stacked` on the checkbox group component instead.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
+
+  /**
    * Fires when users select or deselect the checkbox.
    */
   @Output()
@@ -362,7 +372,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   public ngOnInit(): void {
     if (this.ngControl) {
-      // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
         this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
@@ -370,6 +379,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     if (this.#labelTextRequired && !this.labelText) {
       this.display = 'none';
     }
+
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
