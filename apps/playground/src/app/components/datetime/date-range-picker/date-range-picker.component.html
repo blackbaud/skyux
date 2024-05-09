@@ -1,14 +1,5 @@
 <div class="date-range-demo">
   <form id="screenshot-date-range-picker" novalidate [formGroup]="reactiveForm">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label"> First name </label>
-      <input
-        formControlName="firstName"
-        type="text"
-        spellcheck="false"
-        class="sky-form-control"
-      />
-    </sky-input-box>
     <sky-date-range-picker
       formControlName="lastDonation"
       [hintText]="hintText"
@@ -18,17 +9,27 @@
       [endDateRequired]="endDateRequired"
       [startDateRequired]="startDateRequired"
       [stacked]="true"
+    />
+
+    <ng-container
+      *ngIf="pickerFormControl?.errors && pickerFormControl?.touched"
     >
-    </sky-date-range-picker>
-    <sky-input-box stacked="true">
-      <label class="sky-control-label"> First name </label>
-      <input
-        formControlName="firstName"
-        type="text"
-        spellcheck="false"
-        class="sky-form-control"
-      />
-    </sky-input-box>
+      <div
+        *ngIf="
+          pickerFormControl?.errors?.['skyDateRange']?.errors
+            .endDateBeforeStartDate
+        "
+        class="sky-error-label"
+      >
+        Change the date range so that the from date is on or before the to date.
+      </div>
+      <div
+        *ngIf="pickerFormControl?.errors?.['skyDate']"
+        class="sky-error-label"
+      >
+        Enter valid dates.
+      </div>
+    </ng-container>
 
     <div class="sky-form-group">
       <button class="sky-btn sky-btn-default" type="button" (click)="submit()">
@@ -40,6 +41,10 @@
   <h3>&lt;sky-date-range-picker&gt; statuses</h3>
 
   <table>
+    <tr>
+      <th>Errors</th>
+      <td>{{ pickerFormControl.errors | json }}</td>
+    </tr>
     <tr>
       <th>Touched</th>
       <td>{{ pickerFormControl.touched }}</td>
@@ -128,5 +133,8 @@
     (click)="toggleHintText()"
   >
     Toggle hint text
+  </button>
+  <button type="button" (click)="toggleRequired()">
+    Toggle control required
   </button>
 </div>

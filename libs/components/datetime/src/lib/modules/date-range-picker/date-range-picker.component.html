@@ -3,6 +3,7 @@
   class="sky-date-range-picker"
   [formGroup]="formGroup"
 >
+  {{ isRequired() }}
   <div
     class="sky-date-range-picker-form-group"
     [ngClass]="{
@@ -20,9 +21,8 @@
       [hintText]="hintText"
     >
       <select
-        class="sky-form-control"
         formControlName="calculatorId"
-        [attr.id]="dateRangePickerId + '-select-calculator'"
+        [required]="isRequired()"
         (blur)="onFieldBlur()"
       >
         <option
@@ -46,7 +46,9 @@
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-start-date'"
-        [ngClass]="{ 'sky-control-label-required': startDateRequired }"
+        [ngClass]="{
+          'sky-control-label-required': isRequired() || startDateRequired
+        }"
       >
         {{
           selectedCalculator?.type
@@ -72,7 +74,7 @@
                 | skyLibResources)
           "
           [attr.id]="dateRangePickerId + '-start-date'"
-          [required]="!!startDateRequired"
+          [required]="isRequired() || !!startDateRequired"
           [dateFormat]="dateFormatOrDefault"
           (blur)="onFieldBlur()"
           skyDatepickerInput
@@ -90,7 +92,9 @@
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-end-date'"
-        [ngClass]="{ 'sky-control-label-required': endDateRequired }"
+        [ngClass]="{
+          'sky-control-label-required': isRequired() || endDateRequired
+        }"
       >
         {{
           selectedCalculator?.type
@@ -118,7 +122,7 @@
           "
           [attr.id]="dateRangePickerId + '-end-date'"
           [dateFormat]="dateFormatOrDefault"
-          [required]="!!endDateRequired"
+          [required]="isRequired() || !!endDateRequired"
           (blur)="onFieldBlur()"
         />
       </sky-datepicker>

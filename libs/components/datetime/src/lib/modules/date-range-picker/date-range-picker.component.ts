@@ -4,11 +4,9 @@ import {
   Component,
   HostBinding,
   Input,
-  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
-  Optional,
   SimpleChanges,
   TemplateRef,
   booleanAttribute,
@@ -25,14 +23,15 @@ import {
   UntypedFormGroup,
   ValidationErrors,
   Validator,
+  Validators,
 } from '@angular/forms';
 import { SkyAppFormat } from '@skyux/core';
 import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from '../datepicker/date-formatter';
 
@@ -175,6 +174,7 @@ export class SkyDateRangePickerComponent
   /**
    * Whether to require users to specify a start date.
    * @default false
+   * @deprecated Use the 'required' directive or the Validators.required validator instead.
    */
   @Input()
   public startDateRequired: boolean | undefined = false;
@@ -182,6 +182,7 @@ export class SkyDateRangePickerComponent
   /**
    * Whether to require users to specify a end date.
    * @default false
+   * @deprecated Use the 'required' directive or the Validators.required validator instead.
    */
   @Input()
   public endDateRequired: boolean | undefined = false;
@@ -202,6 +203,12 @@ export class SkyDateRangePickerComponent
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * @internal
+   */
+  @Input({ transform: booleanAttribute })
+  public required = false;
 
   /**
    * Whether the date range picker is stacked on another form component. When specified, the appropriate
@@ -259,15 +266,9 @@ export class SkyDateRangePickerComponent
     return this.#_valueOrDefault;
   }
 
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
-
-  readonly #appFormatter = inject(SkyAppFormat);
   #control: AbstractControl | undefined;
   #preferredShortDateFormat: string | undefined;
   #ngUnsubscribe = new Subject<void>();
-  readonly #resourceSvc = inject(SkyLibResourcesService);
 
   #_calculatorIds: SkyDateRangeCalculatorId[] = [
     SkyDateRangeCalculatorId.AnyTime,
@@ -297,26 +298,18 @@ export class SkyDateRangePickerComponent
   #_disabled: boolean | undefined = false;
   #_valueOrDefault: SkyDateRangeCalculation | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-  #dateRangeService: SkyDateRangeService;
-  #formBuilder: UntypedFormBuilder;
-  #localeProvider: SkyAppLocaleProvider;
-  #ngZone: NgZone;
+  readonly #appFormatter = inject(SkyAppFormat);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dateRangeSvc = inject(SkyDateRangeService);
+  readonly #formBuilder = inject(UntypedFormBuilder);
+  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+    optional: true,
+  });
+  readonly #localeProvider = inject(SkyAppLocaleProvider);
+  readonly #resourceSvc = inject(SkyLibResourcesService);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    dateRangeService: SkyDateRangeService,
-    formBuilder: UntypedFormBuilder,
-    localeProvider: SkyAppLocaleProvider,
-    ngZone: NgZone,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dateRangeService = dateRangeService;
-    this.#formBuilder = formBuilder;
-    this.#localeProvider = localeProvider;
-    this.#ngZone = ngZone;
-
+  constructor() {
     this.dateFormatOrDefault = this.dateFormat;
 
     this.#localeProvider
@@ -332,53 +325,52 @@ export class SkyDateRangePickerComponent
 
     // Update icons when theme changes.
     /* istanbul ignore next */
-    themeSvc?.settingsChange
+    this.#themeSvc?.settingsChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });
   }
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.#createForm();
 
-    this.#updateCalculators().then(() => {
-      if (!this.#value || !this.#value.calculatorId) {
-        this.#valueOrDefault = this.#defaultValue;
-      }
+    await this.#updateCalculators();
 
-      this.#addEventListeners();
+    if (!this.#value || !this.#value.calculatorId) {
+      this.#valueOrDefault = this.#defaultValue;
+    }
 
-      this.isReady = true;
+    this.#addEventListeners();
+    this.isReady = true;
+    this.#showRelevantFormFields();
 
-      this.#showRelevantFormFields();
+    // Fill in any unprovided values after the calculators have been initialized.
+    // For example, if the control is initialized with only the `calculatorId`,
+    // allow the calculator to fill in the missing start and end dates.
+    const defaultValue = this.selectedCalculator?.getValue(
+      this.#valueOrDefault?.startDate,
+      this.#valueOrDefault?.endDate,
+    );
 
-      // We need to let Angular be stable and have rendered the components prior to setting the values and form controls. This ensures all initial validation will be ran correctly.
-      this.#ngZone.onStable.pipe(first()).subscribe(() => {
-        // Fill in any unprovided values after the calculators have been initialized.
-        // For example, if the control is initialized with only the `calculatorId`,
-        // allow the calculator to fill in the missing start and end dates.
-        const defaultValue = this.selectedCalculator?.getValue(
-          this.#valueOrDefault?.startDate,
-          this.#valueOrDefault?.endDate,
-        );
-        const newValue = Object.assign({}, defaultValue, this.#valueOrDefault);
+    const newValue = Object.assign({}, defaultValue, this.#valueOrDefault);
 
-        this.#setValue(newValue, false);
+    this.#setValue(newValue, false);
 
-        this.#resetFormGroupValue();
+    this.#resetFormGroupValue();
 
-        // This is needed to address a bug in Angular 4.
-        // When a control value is set initially, its value is not represented on the view.
-        // See: https://github.com/angular/angular/issues/13792
-        /* istanbul ignore else */
-        if (this.#control) {
-          this.#control.setValue(this.#valueOrDefault, {
-            emitEvent: false,
-          });
-        }
-      });
+    this.#control?.setValue(this.#valueOrDefault, {
+      emitEvent: false,
     });
+
+    this.#control?.statusChanges
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        console.log('status changes');
+        // Update the view when the status changes.
+        this.#control?.updateValueAndValidity({ emitEvent: false });
+        this.#changeDetector.markForCheck();
+      });
 
     this.#resourceSvc
       .getString('skyux_datepicker_format_hint_text')
@@ -393,6 +385,7 @@ export class SkyDateRangePickerComponent
     if (this.#labelTextRequired && !this.label) {
       this.display = 'none';
     }
+
     this.#labelTextRequired?.validateLabelText(this.label);
   }
 
@@ -450,9 +443,7 @@ export class SkyDateRangePickerComponent
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.#control) {
-      this.#control = control;
-    }
+    this.#control ||= control;
 
     if (!this.isReady) {
       return null;
@@ -474,9 +465,11 @@ export class SkyDateRangePickerComponent
     } else {
       let startErrors: ValidationErrors | null = null;
       let endErrors: ValidationErrors | null = null;
+
       if (this.#startDateControl) {
         startErrors = this.#startDateControl.errors;
       }
+
       if (this.#endDateControl) {
         endErrors = this.#endDateControl.errors;
       }
@@ -515,6 +508,12 @@ export class SkyDateRangePickerComponent
 
   public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
+  }
+
+  protected isRequired(): boolean {
+    return !!(
+      this.required || this.#control?.hasValidator(Validators.required)
+    );
   }
 
   #setValue(
@@ -624,52 +623,18 @@ export class SkyDateRangePickerComponent
       .subscribe((endDate) => {
         this.#patchValue({ endDate });
       });
-
-    // Safety check
-    /* istanbul ignore else */
-    if (this.#startDateControl && this.#endDateControl) {
-      // Detect errors from the date inputs and update ng- classes on picker.
-      combineLatest([
-        this.#startDateControl.statusChanges,
-        this.#endDateControl.statusChanges,
-      ])
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateBasedOnControls();
-        });
-    } else if (this.#startDateControl) {
-      this.#startDateControl.statusChanges
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateBasedOnControls();
-        });
-    } else if (this.#endDateControl) {
-      this.#endDateControl.statusChanges
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateBasedOnControls();
-        });
-    }
   }
 
-  #updateBasedOnControls(): void {
+  async #updateCalculators(): Promise<void> {
+    const calculators = await this.#dateRangeSvc.getCalculators(
+      this.calculatorIds,
+    );
+
+    this.calculators = calculators;
+
+    // Ensure that any previously set value is used to determine the selected calculator
+    this.#updateSelectedCalculator();
     this.#changeDetector.markForCheck();
-
-    // Wait for initial validation to complete.
-    this.#ngZone.onStable.pipe(first()).subscribe(() => {
-      this.#control?.updateValueAndValidity({ emitEvent: false });
-    });
-  }
-
-  #updateCalculators(): Promise<void> {
-    return this.#dateRangeService
-      .getCalculators(this.calculatorIds)
-      .then((calculators) => {
-        this.calculators = calculators;
-        // Ensure that any previously set value is used to determine the selected calculator
-        this.#updateSelectedCalculator();
-        this.#changeDetector.markForCheck();
-      });
   }
 
   #getCalculatorById(

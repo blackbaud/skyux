@@ -4,6 +4,7 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
@@ -24,14 +25,23 @@ export class DateRangePickerComponent {
   public reactiveForm: UntypedFormGroup;
   public startDateRequired = false;
 
+  protected required = false;
+
   public get pickerFormControl(): AbstractControl {
     return this.reactiveForm.get('lastDonation');
   }
 
   constructor(formBuilder: UntypedFormBuilder) {
+    // const range: SkyDateRangeCalculation = {
+    //   calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+    //   startDate: new Date('1/1/2013'),
+    //   endDate: new Date('1/1/2012'),
+    // };
+
     this.reactiveForm = formBuilder.group({
-      lastDonation: new UntypedFormControl(),
+      lastDonation: new UntypedFormControl(undefined, [Validators.required]),
     });
+
     this.pickerFormControl.statusChanges.subscribe((status) => {
       console.log(
         'Date range status change:',
@@ -114,5 +124,15 @@ export class DateRangePickerComponent {
       this.hintText =
         'Really long hint text that should wrap and be confined to below the date range picker element. We set the text to have a small margin below the selection and datepicker controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors.';
     }
+  }
+
+  protected toggleRequired(): void {
+    // this.required = !this.required;
+    if (this.pickerFormControl.hasValidator(Validators.required)) {
+      this.pickerFormControl.removeValidators(Validators.required);
+    } else {
+      this.pickerFormControl.addValidators(Validators.required);
+    }
+    this.pickerFormControl.updateValueAndValidity();
   }
 }
