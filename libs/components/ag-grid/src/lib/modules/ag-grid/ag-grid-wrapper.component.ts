@@ -31,10 +31,15 @@ import {
   combineLatest,
   distinctUntilChanged,
   of,
+  take,
+  takeUntil,
 } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
 
-import { agGridTheme, agGridThemeIsCompact } from '../../styles/ag-grid-theme';
+import {
+  agGridTheme,
+  agGridThemeIsCompact,
+  agGridThemeNameIsCompact,
+} from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 
@@ -56,8 +61,14 @@ export class SkyAgGridWrapperComponent
   @HostBinding('class.sky-ag-grid-layout-normal')
   public isNormalLayout = false;
 
+  /**
+   * Enable a compact layout for the grid when using modern theme. Compact layout uses
+   * a smaller font size and row height to display more data in a smaller space.
+   */
   @Input({ transform: booleanAttribute })
-  public compact = false;
+  public set compact(value: boolean) {
+    this.#isCompact.next(value);
+  }
 
   public afterAnchorId: string;
   public beforeAnchorId: string;
@@ -95,23 +106,24 @@ export class SkyAgGridWrapperComponent
   }
 
   #_viewkeeperClasses: string[] = [];
-  #ngUnsubscribe = new Subject<void>();
-  #themeSvc = inject(SkyThemeService, {
+  readonly #ngUnsubscribe = new Subject<void>();
+  readonly #themeSvc = inject(SkyThemeService, {
     optional: true,
   });
-  #wrapperClasses = new BehaviorSubject<string[]>([
+  readonly #wrapperClasses = new BehaviorSubject<string[]>([
     `ag-theme-sky-data-grid-default`,
   ]);
-  #adapterService = inject(SkyAgGridAdapterService);
-  #changeDetector = inject(ChangeDetectorRef);
-  #parentChangeDetector = inject(ChangeDetectorRef, {
+  readonly #adapterService = inject(SkyAgGridAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #parentChangeDetector = inject(ChangeDetectorRef, {
     optional: true,
     skipSelf: true,
   });
-  #elementRef = inject(ElementRef<HTMLElement>);
-  #document = inject(DOCUMENT);
-  #mutationObserverService = inject(SkyMutationObserverService);
-  #hasEditableClass = new ReplaySubject<boolean>(1);
+  readonly #elementRef = inject(ElementRef<HTMLElement>);
+  readonly #document = inject(DOCUMENT);
+  readonly #mutationObserverService = inject(SkyMutationObserverService);
+  readonly #isCompact = new BehaviorSubject<boolean>(false);
+  readonly #hasEditableClass = new ReplaySubject<boolean>(1);
 
   constructor() {
     idIndex++;
@@ -174,7 +186,7 @@ export class SkyAgGridWrapperComponent
           this.#wrapperClasses.next(
             this.#wrapperClasses
               .getValue()
-              .filter((c) => c.startsWith('ag-theme-')),
+              .filter((c) => !c.startsWith('sky-ag-grid-cell-editing-')),
           );
         });
     }
@@ -183,16 +195,24 @@ export class SkyAgGridWrapperComponent
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.#hasEditableClass.complete();
+    this.#isCompact.complete();
+    this.#wrapperClasses.complete();
   }
 
   public ngOnInit(): void {
-    combineLatest<[boolean, SkyThemeSettingsChange | undefined]>([
+    combineLatest<[boolean, boolean, SkyThemeSettingsChange | undefined]>([
       this.#hasEditableClass.pipe(distinctUntilChanged()),
+      this.#isCompact.pipe(distinctUntilChanged()),
       this.#themeSvc?.settingsChange ?? of(undefined),
     ])
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(([hasEditableClass, settings]) => {
-        this.#updateGridTheme(hasEditableClass, settings?.currentSettings);
+      .subscribe(([hasEditableClass, isCompact, settings]) => {
+        this.#updateGridTheme(
+          hasEditableClass,
+          isCompact,
+          settings?.currentSettings,
+        );
       });
   }
 
@@ -289,9 +309,10 @@ export class SkyAgGridWrapperComponent
 
   #updateGridTheme(
     hasEditableClass: boolean,
+    isCompact: boolean,
     themeSettings?: SkyThemeSettings,
   ): void {
-    const agTheme = agGridTheme(hasEditableClass, themeSettings, this.compact);
+    const agTheme = agGridTheme(hasEditableClass, themeSettings, isCompact);
     const previousValue = this.#wrapperClasses.getValue();
     const previousTheme = previousValue.find((c) => c.startsWith('ag-theme-'));
     let value = [
@@ -307,12 +328,13 @@ export class SkyAgGridWrapperComponent
     this.#wrapperClasses.next([...new Set(value)]);
     if (this.agGrid?.api && !this.agGrid.api.isDestroyed()) {
       if (this.agGrid?.api?.getGridOption('domLayout') !== 'autoHeight') {
+        // AG Grid shows a console warning when calling resetRowHeights() with autoHeight.
         this.agGrid?.api?.resetRowHeights();
       }
       this.agGrid?.api?.refreshHeader();
       if (
-        previousTheme?.endsWith('-compact') !==
-        agGridThemeIsCompact(themeSettings, this.compact)
+        agGridThemeNameIsCompact(previousTheme) !==
+        agGridThemeIsCompact(themeSettings, isCompact)
       ) {
         this.agGrid?.api?.redrawRows();
       }

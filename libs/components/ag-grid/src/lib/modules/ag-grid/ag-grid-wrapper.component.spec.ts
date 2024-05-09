@@ -211,6 +211,34 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(agGrid.api.redrawRows).toHaveBeenCalled();
   });
 
+  it('should get compact mode from input', async () => {
+    (agGrid.api.redrawRows as jasmine.Spy).and.returnValue(undefined);
+    (agGrid.api.refreshHeader as jasmine.Spy).and.returnValue(undefined);
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-default']),
+    );
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.standard,
+      ),
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light']),
+    );
+    gridWrapperFixture.componentInstance.compact = true;
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light-compact']),
+    );
+    expect(agGrid.api.redrawRows).toHaveBeenCalled();
+  });
+
   it('should add and remove the cell editing class', () => {
     agGrid.cellEditingStarted.next({ colDef: {} } as CellEditingStartedEvent);
     agGrid.cellEditingStopped.next({} as CellEditingStoppedEvent);
