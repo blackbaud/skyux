@@ -6,11 +6,13 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { SKY_FORM_ERRORS_ENABLED } from '@skyux/forms';
 
 @Component({
   selector: 'app-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
+  providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
 })
 export class InputBoxComponent implements OnInit, AfterViewInit {
   public errorAutofillForm: UntypedFormGroup;
