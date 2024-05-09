@@ -29,6 +29,8 @@ export class SingleFileAttachmentComponent implements OnInit {
 
   public reactiveUploadError: string;
 
+  public helpKey = 'test.html';
+
   constructor(private formBuilder: UntypedFormBuilder) {}
 
   public fileClick($event: SkyFileAttachmentClick): void {
