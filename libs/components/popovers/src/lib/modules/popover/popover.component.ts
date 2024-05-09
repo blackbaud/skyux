@@ -231,10 +231,6 @@ export class SkyPopoverComponent implements OnDestroy {
     this.#isMarkedForCloseOnMouseLeave = true;
   }
 
-  /**
-   * Whether the popover body has interactable content
-   * @internal
-   */
   public hasFocusableContent(): boolean {
     return this.#contentRef.hasFocusableContent();
   }

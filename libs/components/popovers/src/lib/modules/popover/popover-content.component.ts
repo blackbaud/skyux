@@ -9,7 +9,6 @@ import {
   Optional,
   ViewChild,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import {
   SkyAffixAutoFitContext,
@@ -134,8 +133,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   #context: SkyPopoverContext;
   #themeSvc: SkyThemeService | undefined;
 
-  #skyAdapterService = inject(SkyCoreAdapterService);
-
   constructor(
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
@@ -156,7 +153,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public hasFocusableContent(): boolean {
     return (
-      this.#skyAdapterService.getFocusableChildren(
+      this.#coreAdapterService.getFocusableChildren(
         this.popoverRef?.nativeElement,
       ).length > 0
     );
