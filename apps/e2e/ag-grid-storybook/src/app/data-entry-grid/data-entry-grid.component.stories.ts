@@ -29,7 +29,19 @@ DataEntryGridDateAndLookup.args = {
   variation: 'date-and-lookup',
 };
 
+export const DataEntryGridDateAndLookupCompact: Story = {};
+DataEntryGridDateAndLookupCompact.args = {
+  compact: true,
+  variation: 'date-and-lookup',
+};
+
 export const DataEntryGridEditLookup: Story = {};
 DataEntryGridEditLookup.args = {
+  variation: 'edit-lookup',
+};
+
+export const DataEntryGridEditLookupCompact: Story = {};
+DataEntryGridEditLookupCompact.args = {
+  compact: true,
   variation: 'edit-lookup',
 };

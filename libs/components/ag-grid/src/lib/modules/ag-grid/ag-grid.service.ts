@@ -190,6 +190,9 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
+  /**
+   * @deprecated The `getHeaderHeight` method is no longer needed. Header height is managed in CSS.
+   */
   public getHeaderHeight(): number {
     return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
   }
@@ -473,7 +476,6 @@ export class SkyAgGridService implements OnDestroy {
           return undefined;
         }
       },
-      headerHeight: this.getHeaderHeight(),
       icons: {
         sortDescending: this.#getIconTemplate('sortDescending'),
         sortAscending: this.#getIconTemplate('sortAscending'),
@@ -484,8 +486,6 @@ export class SkyAgGridService implements OnDestroy {
         columnMovePin: this.#getIconTemplate('columnMovePin'),
       },
       onCellFocused: () => this.#onCellFocused(),
-      rowHeight: this.#getRowHeight(),
-      getRowHeight: () => this.#getRowHeight(),
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
@@ -610,9 +610,5 @@ export class SkyAgGridService implements OnDestroy {
       return params.editing;
     }
     return false;
-  }
-
-  #getRowHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 38;
   }
 }
