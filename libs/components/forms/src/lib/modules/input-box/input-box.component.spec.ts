@@ -8,6 +8,10 @@ import { AbstractControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
+import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
@@ -478,7 +482,7 @@ describe('Input box component', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [InputBoxFixturesModule],
+        imports: [InputBoxFixturesModule, SkyHelpTestingModule],
         providers: [
           {
             provide: SkyThemeService,
@@ -730,6 +734,29 @@ describe('Input box component', () => {
       expect(
         easyModeInput.inlineHelpEl?.querySelector('.sky-help-inline'),
       ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      const helpController = TestBed.inject(SkyHelpTestingController);
+
+      fixture.detectChanges();
+
+      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
+      fixture.componentInstance.easyModeHelpKey = 'index.html';
+
+      fixture.detectChanges();
+
+      const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
+      const helpInlineButton = easyModeInput.inlineHelpEl?.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      helpInlineButton?.click();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      helpController.expectCurrentHelpKey('index.html');
     });
 
     it('should add character count', async () => {

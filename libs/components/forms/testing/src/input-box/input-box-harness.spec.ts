@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyHelpService } from '@skyux/core';
 import { SkyValidators } from '@skyux/validation';
 
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
@@ -105,16 +106,20 @@ describe('Input box harness', () => {
     );
   });
 
-  it('should open help inline popover', async () => {
+  it('should open help popover and widget', async () => {
     const { fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
+
+    const helpSvc = TestBed.inject(SkyHelpService);
+    const helpSpy = spyOn(helpSvc, 'openHelp');
 
     await inputBoxHarness.clickHelpInline();
     fixture.detectChanges();
     fixture.whenStable();
 
     await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolved();
+    expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 
   it('should get help popover content', async () => {
