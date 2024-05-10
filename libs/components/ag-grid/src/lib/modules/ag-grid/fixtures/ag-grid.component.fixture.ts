@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, GridOptions } from 'ag-grid-community';
+import { ColDef, DomLayoutType, GridOptions } from 'ag-grid-community';
 
 import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';
@@ -24,6 +24,10 @@ export const EnableTopScroll = new InjectionToken<boolean>('EnableTopScroll', {
 export const Editable = new InjectionToken<boolean>('Editable', {
   providedIn: 'root',
   factory: (): boolean => true,
+});
+export const DomLayout = new InjectionToken<DomLayoutType>('DomLayout', {
+  providedIn: 'root',
+  factory: (): DomLayoutType => 'autoHeight',
 });
 
 @Component({
@@ -196,6 +200,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
 
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
+    domLayout: inject(DomLayout),
     suppressColumnVirtualisation: true,
     context: {
       enableTopScroll: this.enableTopScroll,

@@ -5,7 +5,7 @@ import { AgGridStoriesComponent } from './ag-grid-stories.component';
 import { AgGridStoriesModule } from './ag-grid-stories.module';
 
 export default {
-  id: 'aggridstoriescomponent-aggridstories',
+  id: 'ag-grid',
   title: 'Components/Ag Grid',
   component: AgGridStoriesComponent,
   decorators: [
@@ -17,3 +17,9 @@ export default {
 type Story = StoryObj<AgGridStoriesComponent>;
 
 export const AgGrid: Story = {};
+AgGrid.args = {};
+
+export const AgGridCompact: Story = {};
+AgGridCompact.args = {
+  compact: true,
+};

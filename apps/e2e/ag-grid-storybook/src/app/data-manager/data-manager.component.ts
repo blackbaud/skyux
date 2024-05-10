@@ -44,6 +44,9 @@ export class DataManagerComponent implements OnInit {
   }
 
   @Input()
+  public compact = false;
+
+  @Input()
   public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
 
   @Input()
