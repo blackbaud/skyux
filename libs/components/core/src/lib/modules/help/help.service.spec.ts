@@ -3,17 +3,19 @@ import { TestBed } from '@angular/core/testing';
 import { SkyHelpService } from './help.service';
 
 describe('Help service', () => {
-  it('should log a warning to the console if no global help implementation is provided', () => {
-    const consoleSpy = spyOn(console, 'warn');
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [SkyHelpService],
+    });
+  });
 
+  it('should throw an error if injected directly', () => {
     const helpService = TestBed.inject(SkyHelpService);
 
-    helpService.openHelp({
-      helpKey: 'test',
-    });
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Global help is not implemented for this application.',
-    );
+    expect(() =>
+      helpService.openHelp({
+        helpKey: 'test',
+      }),
+    ).toThrowError();
   });
 });

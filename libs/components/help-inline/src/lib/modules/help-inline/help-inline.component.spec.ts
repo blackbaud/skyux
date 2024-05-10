@@ -71,7 +71,10 @@ describe('Help inline component', () => {
   let uniqueId = 0;
   let mockHelpSvc: jasmine.SpyObj<SkyHelpService>;
 
-  function setupTest(globalOptions?: SkyHelpGlobalOptions): void {
+  function setupTest(
+    provideHelpSvc?: boolean,
+    globalOptions?: SkyHelpGlobalOptions,
+  ): void {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -86,8 +89,11 @@ describe('Help inline component', () => {
 
     const providers: Provider[] = [
       { provide: SkyThemeService, useValue: mockThemeSvc },
-      { provide: SkyHelpService, useValue: mockHelpSvc },
     ];
+
+    if (provideHelpSvc) {
+      providers.push({ provide: SkyHelpService, useValue: mockHelpSvc });
+    }
 
     if (globalOptions) {
       providers.push({
@@ -342,18 +348,6 @@ describe('Help inline component', () => {
       expect(helpButton.getAttribute('aria-expanded')).toBe('true');
     }));
 
-    it('should open global help when helpKey is set and the help button is clicked', () => {
-      component.helpKey = 'test.html';
-      fixture.detectChanges();
-
-      const helpButton = getHelpButton(fixture);
-      helpButton.click();
-
-      expect(mockHelpSvc.openHelp).toHaveBeenCalledWith({
-        helpKey: 'test.html',
-      });
-    });
-
     it('should not set ARIA attributes when helpKey is set', async () => {
       component.helpKey = 'test.html';
 
@@ -376,18 +370,32 @@ describe('Help inline component', () => {
       helpPanelTestEl.id = 'help-panel-test';
 
       document.body.appendChild(helpPanelTestEl);
-
-      setupTest({
-        ariaControls: helpPanelTestEl.id,
-        ariaHaspopup: 'dialog',
-      });
     });
 
     afterEach(() => {
       helpPanelTestEl.remove();
     });
 
+    it('should open global help when helpKey is set and the help button is clicked', () => {
+      setupTest(true);
+
+      component.helpKey = 'test.html';
+      fixture.detectChanges();
+
+      const helpButton = getHelpButton(fixture);
+      helpButton.click();
+
+      expect(mockHelpSvc.openHelp).toHaveBeenCalledWith({
+        helpKey: 'test.html',
+      });
+    });
+
     it('should use global ARIA attributes when helpKey is set', async () => {
+      setupTest(true, {
+        ariaControls: helpPanelTestEl.id,
+        ariaHaspopup: 'dialog',
+      });
+
       component.helpKey = 'test.html';
 
       fixture.detectChanges();
@@ -398,6 +406,45 @@ describe('Help inline component', () => {
         null,
         'dialog',
       );
+    });
+
+    describe('and help service is not provided but helpKey is specified', () => {
+      it('should hide the help button', () => {
+        setupTest(false);
+
+        component.helpKey = 'test.html';
+
+        fixture.detectChanges();
+
+        const helpButton = getHelpButton(fixture);
+        expect(helpButton).toHaveCssClass('sky-help-inline-hidden');
+
+        helpButton.click();
+
+        expect(mockHelpSvc.openHelp).not.toHaveBeenCalled();
+      });
+
+      it('should fall back to popover when popoverContent is also specified', async () => {
+        setupTest(false);
+
+        component.helpKey = 'test.html';
+        component.popoverContent = 'Hello';
+
+        fixture.detectChanges();
+
+        const helpButton = getHelpButton(fixture);
+        expect(helpButton).not.toHaveCssClass('sky-help-inline-hidden');
+
+        helpButton.click();
+
+        const { popoverHarness } = await getPopoverTestHarness();
+
+        expect(
+          await (await popoverHarness.getPopoverContent()).getBodyText(),
+        ).toBe('Hello');
+
+        expect(mockHelpSvc.openHelp).not.toHaveBeenCalled();
+      });
     });
   });
 });

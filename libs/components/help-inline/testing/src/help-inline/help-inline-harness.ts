@@ -33,7 +33,15 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async click(): Promise<void> {
-    await (await this.#getInlineHelpButton()).click();
+    const button = await this.#getInlineHelpButton();
+
+    if (await button.hasClass('sky-help-inline-hidden')) {
+      throw new Error(
+        'Unable to click the help inline button because it is hidden.',
+      );
+    }
+
+    await button.click();
   }
 
   /**

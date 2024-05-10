@@ -15,6 +15,7 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
       [ariaControls]="ariaControls"
       [ariaExpanded]="ariaExpanded"
       [ariaLabel]="ariaLabel"
+      [helpKey]="helpKey"
       [labelText]="labelText"
       [popoverContent]="popoverContent"
       [popoverTitle]="popoverTitle"
@@ -28,8 +29,9 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
 })
 class TestComponent {
   public ariaControls: string | undefined;
-  public ariaLabel: string | undefined;
   public ariaExpanded: boolean | undefined;
+  public ariaLabel: string | undefined;
+  public helpKey: string | undefined;
   public labelText: string | undefined;
   public popoverContent: string | undefined;
   public popoverTitle: string | undefined;
@@ -209,6 +211,17 @@ describe('Inline help harness', () => {
 
     await expectAsync(helpInlineHarness.getPopoverTitle()).toBeResolvedTo(
       'popover title',
+    );
+  });
+
+  it('should throw an error when clicking the button while the button is hidden', async () => {
+    const { helpInlineHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.helpKey = 'test.html';
+    fixture.detectChanges();
+
+    await expectAsync(helpInlineHarness.click()).toBeRejectedWithError(
+      'Unable to click the help inline button because it is hidden.',
     );
   });
 });
