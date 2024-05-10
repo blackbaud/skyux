@@ -6,6 +6,7 @@ import {
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSettingsChange,
+  SkyThemeSpacing,
 } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -19,7 +20,7 @@ import {
   GridReadyEvent,
   RowDataUpdatedEvent,
 } from 'ag-grid-community';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
@@ -75,11 +76,13 @@ describe('SkyAgGridWrapperComponent', () => {
       forEachDetailGridInfo: spyOn(agGridApi, 'forEachDetailGridInfo'),
       getAllDisplayedColumns: spyOn(agGridApi, 'getAllDisplayedColumns'),
       getEditingCells: spyOn(agGridApi, 'getEditingCells'),
+      getGridOption: spyOn(agGridApi, 'getGridOption'),
       isDestroyed: spyOn(agGridApi, 'isDestroyed'),
+      redrawRows: spyOn(agGridApi, 'redrawRows'),
       refreshCells: spyOn(agGridApi, 'refreshCells'),
+      refreshHeader: spyOn(agGridApi, 'refreshHeader'),
       resetRowHeights: spyOn(agGridApi, 'resetRowHeights'),
       setFocusedCell: spyOn(agGridApi, 'setFocusedCell'),
-      setHeaderHeight: spyOn(agGridApi, 'setHeaderHeight'),
       stopEditing: spyOn(agGridApi, 'stopEditing'),
       updateGridOptions: spyOn(agGridApi, 'updateGridOptions'),
     };
@@ -143,9 +146,6 @@ describe('SkyAgGridWrapperComponent', () => {
   });
 
   it('should apply ag-theme', async () => {
-    (agGrid.api.setHeaderHeight as jasmine.Spy).and.returnValue(undefined);
-    (agGrid.api.resetRowHeights as jasmine.Spy).and.returnValue(undefined);
-    (agGrid.api.refreshCells as jasmine.Spy).and.returnValue(undefined);
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid'),
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
@@ -166,13 +166,14 @@ describe('SkyAgGridWrapperComponent', () => {
       currentSettings: new SkyThemeSettings(
         SkyTheme.presets.modern,
         SkyThemeMode.presets.dark,
+        SkyThemeSpacing.presets.compact,
       ),
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid'),
-    ).toHaveCssClass('ag-theme-sky-data-grid-modern-dark');
+    ).toHaveCssClass('ag-theme-sky-data-grid-modern-dark-compact');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
@@ -185,6 +186,50 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid'),
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
+  });
+
+  it('should get compact mode from theme', async () => {
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-default']),
+    );
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.compact,
+      ),
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light-compact']),
+    );
+  });
+
+  it('should get compact mode from input', async () => {
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-default']),
+    );
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+        SkyThemeSpacing.presets.standard,
+      ),
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light']),
+    );
+    gridWrapperFixture.componentInstance.compact = true;
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+      jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light-compact']),
+    );
   });
 
   it('should add and remove the cell editing class', () => {

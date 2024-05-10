@@ -15,8 +15,11 @@
     ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
   "
   [attr.aria-haspopup]="helpKey | skyHelpInlineAriaHaspopup"
-  (click)="onClick()"
+  [ngClass]="{
+    'sky-help-inline-hidden': helpKey && !helpSvc && !popoverContent
+  }"
   [skyPopover]="popoverContent ? popover : undefined"
+  (click)="onClick()"
 >
   <sky-icon *skyThemeIf="'default'" icon="info-circle" />
   <sky-icon-stack

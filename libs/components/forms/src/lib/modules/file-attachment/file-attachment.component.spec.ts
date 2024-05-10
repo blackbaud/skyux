@@ -1597,6 +1597,19 @@ describe('File attachment', () => {
     ).toBe(1);
   });
 
+  it('should not render help inline if help key is set', () => {
+    fixture.componentInstance.showLabel = false;
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeFalsy();
+
+    fixture.componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeTruthy();
+  });
+
   it('should render hint if `hintText` is set', () => {
     const hintText = 'hint text';
     fixture.componentInstance.hintText = hintText;

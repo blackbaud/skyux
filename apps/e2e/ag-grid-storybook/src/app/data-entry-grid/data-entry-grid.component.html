@@ -6,6 +6,7 @@
       <sky-ag-grid-wrapper
         [attr.id]="dataSet.id"
         [ngStyle]="{ gridArea: dataSet.id }"
+        [compact]="compact"
       >
         <ag-grid-angular
           class="sky-ag-grid-editable"
@@ -18,13 +19,11 @@
 
 <ng-template #themeWrap>
   <div *ngIf="skyTheme" [skyTheme]="skyTheme">
-    <ng-container *ngTemplateOutlet="gridTemplate"></ng-container>
+    <ng-container *ngTemplateOutlet="gridTemplate" />
   </div>
 </ng-template>
 
-<ng-container
-  *ngIf="isActive$ | async; then gridTemplate; else themeWrap"
-></ng-container>
+<ng-container *ngIf="isActive$ | async; then gridTemplate; else themeWrap" />
 
 <br />
 
