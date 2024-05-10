@@ -35,11 +35,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import {
-  agGridTheme,
-  agGridThemeIsCompact,
-  agGridThemeNameIsCompact,
-} from '../../styles/ag-grid-theme';
+import { agGridTheme } from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 
@@ -314,7 +310,6 @@ export class SkyAgGridWrapperComponent
   ): void {
     const agTheme = agGridTheme(hasEditableClass, themeSettings, isCompact);
     const previousValue = this.#wrapperClasses.getValue();
-    const previousTheme = previousValue.find((c) => c.startsWith('ag-theme-'));
     let value = [
       ...previousValue.filter((c) => !c.startsWith('ag-theme-')),
       agTheme,
@@ -326,19 +321,6 @@ export class SkyAgGridWrapperComponent
       value = value.filter((c) => c !== textSelectionClass);
     }
     this.#wrapperClasses.next([...new Set(value)]);
-    if (this.agGrid?.api && !this.agGrid.api.isDestroyed()) {
-      if (this.agGrid?.api?.getGridOption('domLayout') !== 'autoHeight') {
-        // AG Grid shows a console warning when calling resetRowHeights() with autoHeight.
-        this.agGrid?.api?.resetRowHeights();
-      }
-      this.agGrid?.api?.refreshHeader();
-      if (
-        agGridThemeNameIsCompact(previousTheme) !==
-        agGridThemeIsCompact(themeSettings, isCompact)
-      ) {
-        this.agGrid?.api?.redrawRows();
-      }
-    }
   }
 
   #getTextSelection(hasEditableClass: boolean): boolean {

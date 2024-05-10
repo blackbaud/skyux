@@ -13,12 +13,6 @@ export function agGridThemeIsCompact(
   );
 }
 
-export function agGridThemeNameIsCompact(
-  themeName: string | undefined,
-): boolean {
-  return !!themeName?.endsWith('-compact');
-}
-
 export function agGridTheme(
   editable: boolean,
   themeSettings: SkyThemeSettings | undefined,
