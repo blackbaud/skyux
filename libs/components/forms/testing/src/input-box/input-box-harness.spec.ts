@@ -92,34 +92,56 @@ describe('Input box harness', () => {
     await expectAsync(inputBoxHarness.getLabelText()).toBeResolvedTo('');
   });
 
-  it('should return help popover harness', async () => {
-    const { component, fixture, inputBoxHarness } = await setupTest({
+  it('should throw an error if no help inline is found', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
-    // String content
-    const helpPopover = await inputBoxHarness.getHelpPopover();
-    await helpPopover.clickPopoverButton();
-
-    const helpContent = await helpPopover.getPopoverContent();
-
-    await expectAsync(helpContent.getBodyText()).toBeResolvedTo('Help content');
-    await expectAsync(helpContent.getTitleText()).toBeResolvedTo('Help title');
-
-    // Template content
-    component.easyModeHelpContent = component.helpContentTemplate;
+    fixture.componentInstance.easyModeHelpContent = undefined;
     fixture.detectChanges();
 
-    await expectAsync(helpContent.getBodyText()).toBeResolvedTo(
-      'Help content from template',
+    await expectAsync(inputBoxHarness.clickHelpInline()).toBeRejectedWithError(
+      'No help inline found.',
     );
+  });
 
-    // No content
-    component.easyModeHelpContent = undefined;
+  it('should open help inline popover', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await inputBoxHarness.clickHelpInline();
     fixture.detectChanges();
+    fixture.whenStable();
 
-    await expectAsync(inputBoxHarness.getHelpPopover()).toBeRejectedWithError(
-      'The input box does not have a help popover configured.',
+    await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should get help popover content', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await inputBoxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolvedTo(
+      'Help content',
+    );
+  });
+
+  it('should get help popover title', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await inputBoxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(inputBoxHarness.getHelpPopoverTitle()).toBeResolvedTo(
+      'Help title',
     );
   });
 
