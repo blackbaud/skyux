@@ -106,7 +106,7 @@ describe('Input box harness', () => {
     );
   });
 
-  it('should open help popover and widget', async () => {
+  it('should open help popover and widget when clicked', async () => {
     const { fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
