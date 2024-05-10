@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.15.0](https://github.com/blackbaud/skyux/compare/10.14.0...10.15.0) (2024-05-10)
+
+
+### Features
+
+* **components/core:** make `SkyHelpService` optional ([#2302](https://github.com/blackbaud/skyux/issues/2302)) ([57bd7ea](https://github.com/blackbaud/skyux/commit/57bd7eae055ea9ea8f8d41daab4a2942a3331b38))
+
 ## [10.14.0](https://github.com/blackbaud/skyux/compare/10.13.0...10.14.0) (2024-05-10)
 
 
