@@ -35,3 +35,6 @@ export { SkyDatepickerInputDirective as λ3 } from './lib/modules/datepicker/dat
 export { SkyDatepickerComponent as λ2 } from './lib/modules/datepicker/datepicker.component';
 export { SkyTimepickerComponent as λ6 } from './lib/modules/timepicker/timepicker.component';
 export { SkyTimepickerInputDirective as λ7 } from './lib/modules/timepicker/timepicker.directive';
+
+export { SkyDateRangePickerComponent as SkyDateRangePickerComponent2 } from './lib/modules/date-range-picker-2/date-range-picker.component';
+export { SkyDateRangePickerModule as SkyDateRangePickerModule2 } from './lib/modules/date-range-picker-2/date-range-picker.module';
