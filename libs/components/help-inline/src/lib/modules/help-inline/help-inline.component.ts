@@ -46,9 +46,9 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
   ],
 })
 export class SkyHelpInlineComponent {
-  readonly #helpSvc = inject(SkyHelpService);
   readonly #idSvc = inject(SkyIdService);
 
+  protected readonly helpSvc = inject(SkyHelpService, { optional: true });
   protected popoverId: string | undefined;
   protected popoverTemplate: TemplateRef<unknown> | undefined;
   protected isPopoverOpened: boolean | undefined;
@@ -124,7 +124,7 @@ export class SkyHelpInlineComponent {
     this.actionClick.emit();
 
     if (this.helpKey) {
-      this.#helpSvc.openHelp({
+      this.helpSvc?.openHelp({
         helpKey: this.helpKey,
       });
     }
