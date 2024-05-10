@@ -1,5 +1,19 @@
 # Changelog
 
+## [10.13.0](https://github.com/blackbaud/skyux/compare/10.12.0...10.13.0) (2024-05-08)
+
+
+### Features
+
+* **components/core:** add `SkyHelpService` for displaying global help ([#2291](https://github.com/blackbaud/skyux/issues/2291)) ([1af0565](https://github.com/blackbaud/skyux/commit/1af056534003714272220a243cf9eedebd5e4c2e))
+* **components/text-editor:** add help inline to text editor ([#2270](https://github.com/blackbaud/skyux/issues/2270)) ([97e989b](https://github.com/blackbaud/skyux/commit/97e989ba9661eea90e2c7368f355fa11e184d104))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** enable `enableCellTextSelection` option ([#2292](https://github.com/blackbaud/skyux/issues/2292)) ([92d3184](https://github.com/blackbaud/skyux/commit/92d318481b021b36e6413164f7cb64c45b79556d))
+* **components/datetime:** date range picker only shows datepicker hint text when appropriate ([#2278](https://github.com/blackbaud/skyux/issues/2278)) ([fe12227](https://github.com/blackbaud/skyux/commit/fe122276f4e01ae6d609966affb8ff2ce8c7bc64))
+
 ## [10.12.0](https://github.com/blackbaud/skyux/compare/10.11.0...10.12.0) (2024-05-07)
 
 

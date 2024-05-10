@@ -8,10 +8,13 @@
         ? ariaLabel
         : ('skyux_help_inline_button_title' | skyLibResources)
   "
-  [attr.aria-controls]="popoverId || ariaControls"
+  [attr.aria-controls]="
+    ariaControls | skyHelpInlineAriaControls: popoverId : helpKey
+  "
   [attr.aria-expanded]="
     ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
   "
+  [attr.aria-haspopup]="helpKey | skyHelpInlineAriaHaspopup"
   (click)="onClick()"
   [skyPopover]="popoverContent ? popover : undefined"
 >
