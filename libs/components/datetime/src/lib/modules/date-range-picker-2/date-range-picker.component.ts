@@ -132,7 +132,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
   </div>`,
 })
 export class SkyDateRangePickerComponent
-  implements AfterViewInit, ControlValueAccessor, OnInit, Validator
+  implements AfterViewInit, ControlValueAccessor, Validator
 {
   @Input()
   public set calculatorIds(value: SkyDateRangeCalculatorId[] | undefined) {
@@ -174,7 +174,6 @@ export class SkyDateRangePickerComponent
     this.#_value = value ?? this.#getDefaultValue();
 
     if (!value) {
-      console.log('set default value in setter');
       this.#setDefaultValue();
     }
   }
@@ -187,6 +186,7 @@ export class SkyDateRangePickerComponent
 
   #_calculatorIds = DEFAULT_CALCULATOR_IDS;
   #_value: SkyDateRangeCalculation;
+  #control: AbstractControl | undefined;
   #isInitialized = false;
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
@@ -194,15 +194,9 @@ export class SkyDateRangePickerComponent
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dateRangeSvc = inject(SkyDateRangePickerService);
 
-  #control: AbstractControl | undefined;
-
   constructor() {
     this.#_value = this.#getDefaultValue();
     this.calculators = this.#dateRangeSvc.calculators;
-  }
-
-  public ngOnInit(): void {
-    console.log('ngOnInit()');
   }
 
   public ngAfterViewInit(): void {
@@ -213,32 +207,29 @@ export class SkyDateRangePickerComponent
     });
   }
 
-  // TODO: how to set the default value of the control on init?
-  // Should we be doing that?
-  // What if we set the default only if it's undefined when the form is submitted?
-  // How is Paul doing it for UIModel?
-  // writeValue is getting called twice when the value changes. Why?
-
+  // Implemented as part of ControlValueAccessor.
   public registerOnChange(fn: (_: unknown) => void): void {
     this.#notifyChange = fn;
   }
 
+  // Implemented as part of ControlValueAccessor.
   public registerOnTouched(fn: () => void): void {
     this.#notifyTouched = fn;
   }
 
+  // Implemented as part of ControlValueAccessor.
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
+  // Implemented as part of Validator.
   public validate(control: AbstractControl): ValidationErrors | null {
-    console.log('validate()');
-
     this.#control ||= control;
 
     // Set a default value on init.
+    // This is the first time we can safely set the control's default value
+    // if it's undefined to avoid changed after checked error or the circular DI error.
     if (!this.#isInitialized && !control.value) {
-      console.log('set default value on init');
       this.#setDefaultValue();
       return null;
     }
@@ -246,11 +237,9 @@ export class SkyDateRangePickerComponent
     return null;
   }
 
+  // Implemented as part of ControlValueAccessor.
   public writeValue(value: SkyDateRangeCalculation | undefined): void {
-    console.log('writeValue() value/control:', value, this.#control);
     this.value = value;
-
-    // this.#changeDetector.markForCheck();
   }
 
   protected isRequired(): boolean {
@@ -264,10 +253,8 @@ export class SkyDateRangePickerComponent
   }
 
   protected onCalculatorSelected(): void {
-    console.log('onCalculatorSelected()');
     const value = this.value;
     value.calculatorId = +value.calculatorId;
-
     this.#notifyChange?.(value);
   }
 
@@ -280,12 +267,9 @@ export class SkyDateRangePickerComponent
   #setDefaultValue(): void {
     this.#control?.setValue(this.value, { emitEvent: false, onlySelf: true });
   }
-
-  // async #updateCalculators(): Promise<void> {
-  //   this.calculators = await this.#dateRangeSvc.getCalculators(
-  //     this.calculatorIds,
-  //   );
-
-  //   this.#changeDetector.markForCheck();
-  // }
 }
+
+// TODO: how to set the default value of the control on init?
+// Should we be doing that?
+// What if we set the default only if it's undefined when the form is submitted?
+// How is Paul doing it for UIModel?
