@@ -11,6 +11,8 @@ export interface SkyDateRangeCalculatorConfig {
    */
   shortDescription: string;
 
+  shortDescriptionResourceKey?: string;
+
   /**
    * The type of calculator to create.
    */

@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
+  SkyDateRangeCalculatorId,
   SkyDateRangePickerModule2,
 } from '@skyux/datetime';
 
@@ -23,7 +24,12 @@ import {
   selector: 'app-date-range-picker-2',
   standalone: true,
   template: `<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <sky-date-range-picker formControlName="pto" />
+      <sky-date-range-picker
+        formControlName="pto"
+        stacked="true"
+        [calculatorIds]="calculatorIds"
+      />
+
       <button class="sky-btn sky-btn-default" type="submit">Submit</button>
     </form>
 
@@ -42,17 +48,48 @@ Touched? {{ ptoControl.touched }}
 
     <div>
       <button type="button" (click)="changeValue()">Change value</button>
+      <button type="button" (click)="changeCalculators()">
+        Change calculators
+      </button>
       <button type="button" (click)="toggleDisabled()">Toggle disabled</button>
       <button type="button" (click)="toggleRequired()">Toggle required</button>
+      <button type="button" (click)="resetForm()">Reset form</button>
     </div> `,
 })
 export class DateRangePickerComponent {
+  protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
+
   protected formGroup = inject(FormBuilder).group({
-    pto: new FormControl<SkyDateRangeCalculation>({ calculatorId: 2 }, []),
+    pto: new FormControl<SkyDateRangeCalculation>(undefined, []),
   });
 
   protected get ptoControl(): AbstractControl {
     return this.formGroup.get('pto') as AbstractControl;
+  }
+
+  constructor() {
+    this.ptoControl.statusChanges.subscribe((x) => {
+      console.log('HOST STATUS CHANGE:', x);
+    });
+    this.ptoControl.valueChanges.subscribe((x) => {
+      console.log('HOST VALUE CHANGE:', x);
+    });
+  }
+
+  protected changeCalculators(): void {
+    this.calculatorIds = [
+      SkyDateRangeCalculatorId.LastCalendarYear,
+      SkyDateRangeCalculatorId.ThisCalendarYear,
+      SkyDateRangeCalculatorId.NextCalendarYear,
+      SkyDateRangeCalculatorId.LastFiscalYear,
+      SkyDateRangeCalculatorId.ThisFiscalYear,
+      SkyDateRangeCalculatorId.NextFiscalYear,
+    ];
+  }
+
+  protected changeValue(): void {
+    this.ptoControl.setValue({ calculatorId: 5 });
+    this.ptoControl.updateValueAndValidity();
   }
 
   protected onSubmit(): void {
@@ -60,9 +97,8 @@ export class DateRangePickerComponent {
     this.formGroup.markAsDirty();
   }
 
-  protected changeValue(): void {
-    this.ptoControl.setValue({ calculatorId: 5 });
-    this.ptoControl.updateValueAndValidity();
+  protected resetForm(): void {
+    this.formGroup.reset();
   }
 
   protected toggleDisabled(): void {

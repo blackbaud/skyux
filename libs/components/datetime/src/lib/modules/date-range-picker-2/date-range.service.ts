@@ -11,6 +11,7 @@ import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calcu
 
 /**
  * Creates and manages `SkyDateRangeCalculator` instances.
+ * @deprecated Use SkyDateRangePickerService instead.
  */
 @Injectable({
   providedIn: 'root',
