@@ -174,6 +174,7 @@ export class SkyDateRangePickerComponent
     this.#_value = value ?? this.#getDefaultValue();
 
     if (!value) {
+      console.log('set default value in setter');
       this.#setDefaultValue();
     }
   }
@@ -192,60 +193,16 @@ export class SkyDateRangePickerComponent
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dateRangeSvc = inject(SkyDateRangePickerService);
-  // readonly #injector = inject(Injector);
 
   #control: AbstractControl | undefined;
-  // #ngControl: NgControl | null | undefined;
 
   constructor() {
-    // this.#ngControl = this.#injector.get(NgControl, undefined, {
-    //   optional: true,
-    //   self: true,
-    // });
-
-    // if (this.#ngControl) {
-    //   this.#ngControl.valueAccessor = this;
-    // }
-
     this.#_value = this.#getDefaultValue();
     this.calculators = this.#dateRangeSvc.calculators;
   }
 
   public ngOnInit(): void {
     console.log('ngOnInit()');
-    // We need the date input to provide itself as a `ControlValueAccessor` and a `Validator`, while
-    // injecting its `NgControl` so that the error state is handled correctly. This introduces a
-    // circular dependency, because both `ControlValueAccessor` and `Validator` depend on the input
-    // itself. Usually we can work around it for the CVA, but there's no API to do it for the
-    // validator. We work around it here by injecting the `NgControl` in `ngOnInit`, after
-    // everything has been resolved.
-    // @see: https://github.com/angular/components/blob/02c668cdb196bec0a1ce09e0ab817fd371a4fb8b/src/material/datepicker/date-range-input-parts.ts#L23
-    // const ngControl = this.#injector.get(NgControl, null, {
-    //   optional: true,
-    //   self: true,
-    // });
-
-    // console.log('ngOnInit ngControl.control', ngControl?.control);
-
-    // if (ngControl) {
-    //   this.#ngControl = ngControl;
-    //   // this._errorStateTracker.ngControl = ngControl;
-    // }
-
-    // TODO, move, because this won't work here.
-    // if (this.#ngControl?.control) {
-    //   // TODO: Instead of doing this, write a custom validator instead.
-    //   // See: https://angular.io/api/forms/NG_VALIDATORS
-    //   // this.#ngControl.control.addValidators(this.validate);
-
-    //   if (!this.#ngControl.control.value) {
-    //     this.#ngControl.control.setValue(this.value, { emitEvent: false });
-    //   }
-
-    //   this.#ngControl.control.statusChanges.subscribe(() => {
-    //     this.#changeDetector.markForCheck();
-    //   });
-    // }
   }
 
   public ngAfterViewInit(): void {
@@ -275,11 +232,13 @@ export class SkyDateRangePickerComponent
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    console.log('validate:', control);
+    console.log('validate()');
+
     this.#control ||= control;
 
     // Set a default value on init.
     if (!this.#isInitialized && !control.value) {
+      console.log('set default value on init');
       this.#setDefaultValue();
       return null;
     }
@@ -288,10 +247,10 @@ export class SkyDateRangePickerComponent
   }
 
   public writeValue(value: SkyDateRangeCalculation | undefined): void {
-    console.log('writeValue control', this.#control);
+    console.log('writeValue() value/control:', value, this.#control);
     this.value = value;
 
-    this.#changeDetector.markForCheck();
+    // this.#changeDetector.markForCheck();
   }
 
   protected isRequired(): boolean {
@@ -305,6 +264,7 @@ export class SkyDateRangePickerComponent
   }
 
   protected onCalculatorSelected(): void {
+    console.log('onCalculatorSelected()');
     const value = this.value;
     value.calculatorId = +value.calculatorId;
 

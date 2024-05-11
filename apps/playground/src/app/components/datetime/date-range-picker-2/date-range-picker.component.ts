@@ -89,7 +89,6 @@ export class DateRangePickerComponent {
 
   protected changeValue(): void {
     this.ptoControl.setValue({ calculatorId: 5 });
-    this.ptoControl.updateValueAndValidity();
   }
 
   protected onSubmit(): void {
