@@ -90,6 +90,9 @@ Touched? {{ ptoControl.touched }}
       <button type="button" (click)="changeCalculators()">
         Change calculators
       </button>
+      <button type="button" (click)="setInvalidRange()">
+        Set invalid range
+      </button>
       <button type="button" (click)="toggleDisabled()">Toggle disabled</button>
       <button type="button" (click)="toggleRequired()">Toggle required</button>
       <button type="button" (click)="changeDateFormat()">
@@ -104,7 +107,7 @@ export class DateRangePickerComponent {
   protected dateFormat: string | undefined;
 
   protected formGroup = inject(FormBuilder).group({
-    pto: new FormControl<SkyDateRangeCalculation>({ calculatorId: 2 }, []),
+    pto: new FormControl<SkyDateRangeCalculation>({ calculatorId: 3 }, []),
   });
 
   protected get ptoControl(): AbstractControl {
@@ -154,6 +157,14 @@ export class DateRangePickerComponent {
   protected resetForm(): void {
     this.calculatorIds = undefined;
     this.formGroup.reset();
+  }
+
+  protected setInvalidRange(): void {
+    this.ptoControl.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/1/2013'),
+      endDate: new Date('1/1/2012'),
+    });
   }
 
   protected toggleDisabled(): void {
