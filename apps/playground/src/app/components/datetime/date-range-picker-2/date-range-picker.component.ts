@@ -97,6 +97,7 @@ export class DateRangePickerComponent {
   }
 
   protected resetForm(): void {
+    this.calculatorIds = undefined;
     this.formGroup.reset();
   }
 

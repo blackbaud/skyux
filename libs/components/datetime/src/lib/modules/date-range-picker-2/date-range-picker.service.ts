@@ -11,52 +11,6 @@ import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calcu
   providedIn: 'root',
 })
 export class SkyDateRangePickerService {
-  // public calculators$ = signal<SkyDateRangeCalculator[]>([]);
-
-  // #calculators: SkyDateRangeCalculator[] = [];
-
-  // readonly #resourcesSvc = inject(SkyLibResourcesService);
-
-  // constructor() {
-  //   this.#createDefaultCalculators();
-  // }
-
-  // public filterByIds(calculatorIds: string): void {}
-
-  // #createDefaultCalculators(): void {
-  //   const resourceStrings: Record<number, string> = {};
-
-  //   for (const defaultConfig of SKY_DEFAULT_CALCULATOR_CONFIGS) {
-  //     resourceStrings[defaultConfig.calculatorId] =
-  //       defaultConfig.shortDescriptionResourceKey;
-
-  //     this.#calculators.push(
-  //       new SkyDateRangeCalculator(defaultConfig.calculatorId, {
-  //         getValue: defaultConfig.getValue,
-  //         shortDescription: '',
-  //         type: defaultConfig.type,
-  //         validate: defaultConfig.validate,
-  //       }),
-  //     );
-  //   }
-
-  //   this.#resourcesSvc.getStrings(resourceStrings).subscribe((v) => {
-  //     this.#updateCalculatorDescriptions(v);
-  //   });
-  // }
-
-  // #updateCalculatorDescriptions(values: Record<number, string>): void {
-  //   this.#calculators.forEach((calculator) => {
-  //     const newDescription = values[calculator.calculatorId];
-
-  //     if (newDescription) {
-  //       calculator.shortDescription = newDescription;
-  //     }
-  //   });
-
-  //   this.calculators$.set(this.#calculators);
-  // }
-
   public get calculators(): SkyDateRangeCalculator[] {
     return this.#calculators;
   }
@@ -70,9 +24,19 @@ export class SkyDateRangePickerService {
   public filterCalculators(
     calculatorIds: SkyDateRangeCalculatorId[],
   ): SkyDateRangeCalculator[] {
-    return this.#calculators.filter((calculator) =>
-      calculatorIds.includes(calculator.calculatorId),
-    );
+    const filtered: SkyDateRangeCalculator[] = [];
+
+    for (const calculatorId of calculatorIds) {
+      const found = this.#calculators.find(
+        (c) => c.calculatorId === calculatorId,
+      );
+
+      if (found) {
+        filtered.push(found);
+      }
+    }
+
+    return filtered;
   }
 
   #createDefaultCalculators(): SkyDateRangeCalculator[] {

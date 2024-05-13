@@ -28,7 +28,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
+import {
+  SkyFormFieldLabelTextRequiredService,
+  SkyInputBoxModule,
+} from '@skyux/forms';
 
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
@@ -105,7 +108,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
           [disabled]="disabled"
           [required]="isRequired()"
           [(ngModel)]="value.calculatorId"
-          (change)="onCalculatorSelected()"
+          (change)="onCalculatorChange()"
         >
           <option
             *ngFor="let calculator of calculators"
@@ -137,11 +140,15 @@ export class SkyDateRangePickerComponent
   @Input()
   public set calculatorIds(value: SkyDateRangeCalculatorId[] | undefined) {
     this.#_calculatorIds = value ?? DEFAULT_CALCULATOR_IDS;
-    // this.calculators = this.#dateRangeSvc.filterCalculators(
-    //   this.#_calculatorIds,
-    // );
-    // this.value = this.#getDefaultValue();
-    // this.#changeDetector.markForCheck();
+
+    this.calculators = this.#dateRangeSvc.filterCalculators(
+      this.#_calculatorIds,
+    );
+
+    if (!this.#_calculatorIds.includes(this.value.calculatorId)) {
+      this.value = this.#getDefaultValue();
+      this.#notifyChange?.(this.value);
+    }
   }
 
   public get calculatorIds(): SkyDateRangeCalculatorId[] {
@@ -170,11 +177,14 @@ export class SkyDateRangePickerComponent
   @HostBinding('class.sky-margin-stacked-lg')
   public stacked = false;
 
+  @HostBinding('style.display')
+  protected display: string | undefined;
+
   protected set value(value: SkyDateRangeCalculation | null | undefined) {
     this.#_value = value ?? this.#getDefaultValue();
 
     if (!value) {
-      this.#setDefaultValue();
+      this.#setDefaultValueOnControl();
     }
   }
 
@@ -193,6 +203,12 @@ export class SkyDateRangePickerComponent
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dateRangeSvc = inject(SkyDateRangePickerService);
+  readonly #labelTextRequiredSvc = inject(
+    SkyFormFieldLabelTextRequiredService,
+    {
+      optional: true,
+    },
+  );
 
   constructor() {
     this.#_value = this.#getDefaultValue();
@@ -200,11 +216,18 @@ export class SkyDateRangePickerComponent
   }
 
   public ngAfterViewInit(): void {
-    this.#isInitialized = true;
+    if (this.#labelTextRequiredSvc) {
+      this.#labelTextRequiredSvc.validateLabelText(this.label);
+      if (!this.label) {
+        this.display = 'none';
+      }
+    }
 
     this.#control?.statusChanges.subscribe(() => {
       this.#changeDetector.markForCheck();
     });
+
+    this.#isInitialized = true;
   }
 
   // Implemented as part of ControlValueAccessor.
@@ -230,7 +253,7 @@ export class SkyDateRangePickerComponent
     // This is the first time we can safely set the control's default value
     // if it's undefined to avoid changed after checked error or the circular DI error.
     if (!this.#isInitialized && !control.value) {
-      this.#setDefaultValue();
+      this.#setDefaultValueOnControl();
       return null;
     }
 
@@ -252,7 +275,7 @@ export class SkyDateRangePickerComponent
     this.#notifyTouched?.();
   }
 
-  protected onCalculatorSelected(): void {
+  protected onCalculatorChange(): void {
     const value = this.value;
     value.calculatorId = +value.calculatorId;
     this.#notifyChange?.(value);
@@ -264,7 +287,7 @@ export class SkyDateRangePickerComponent
     };
   }
 
-  #setDefaultValue(): void {
+  #setDefaultValueOnControl(): void {
     this.#control?.setValue(this.value, { emitEvent: false, onlySelf: true });
   }
 }
@@ -273,3 +296,4 @@ export class SkyDateRangePickerComponent
 // Should we be doing that?
 // What if we set the default only if it's undefined when the form is submitted?
 // How is Paul doing it for UIModel?
+// What about the date picker?
