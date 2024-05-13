@@ -281,8 +281,7 @@ export class SkyDatepickerInputDirective
   public ngAfterContentInit(): void {
     this.#datepickerComponent.dateFormat = this.dateFormat;
     this.#datepickerComponent.dateChange
-      .pipe(distinctUntilChanged())
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((value: Date) => {
         this.#value = value;
         this.#onTouched();
