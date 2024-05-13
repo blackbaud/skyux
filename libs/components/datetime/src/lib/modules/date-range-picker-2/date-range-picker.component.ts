@@ -224,6 +224,11 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
 export class SkyDateRangePickerComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy, Validator
 {
+  /**
+   * IDs for the date range options to include in the picker's dropdown.
+   * The options specify calculator objects that return two `Date` objects to represent date ranges.
+   * By default, this property includes all `SkyDateRangeCalculatorId` values.
+   */
   @Input()
   public set calculatorIds(value: SkyDateRangeCalculatorId[] | undefined) {
     console.log('set calculatorIds', value);
@@ -244,27 +249,65 @@ export class SkyDateRangePickerComponent
     return this.#_calculatorIds;
   }
 
+  /**
+   * The date format for
+   * [the `sky-datepicker` components](https://developer.blackbaud.com/skyux/components/datepicker)
+   * that make up the date range picker.
+   * @default "MM/DD/YYYY"
+   */
   @Input()
   public dateFormat: string | undefined;
 
+  /**
+   * Whether to disable the date range picker on template-driven forms. Don't use
+   * this input on reactive forms because they may overwrite the input or leave
+   * the control out of sync. To set the disabled state on reactive forms,
+   * use the `FormControl` instead.
+   * @default false
+   */
   @Input({ transform: booleanAttribute })
   public disabled = false;
 
+  /**
+   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
 
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
   @Input()
   public helpPopoverTitle: string | undefined;
 
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
   @Input()
   public hintText: string | undefined;
 
+  /**
+   * The label for the date range picker.
+   * @required
+   */
   @Input()
   public label: string | undefined;
 
   @Input({ transform: booleanAttribute })
   public required = false;
 
+  /**
+   * Whether the date range picker is stacked on another form component. When specified, the appropriate
+   * vertical spacing is automatically added to the date range picker.
+   * @preview
+   */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
   public stacked = false;
