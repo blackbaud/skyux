@@ -10,6 +10,7 @@ import {
   HostBinding,
   Injector,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   booleanAttribute,
@@ -32,7 +33,11 @@ import {
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxModule,
 } from '@skyux/forms';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
+import { Subject, takeUntil, tap } from 'rxjs';
+
+import { SkyDateFormatter } from '../datepicker/date-formatter';
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
@@ -170,6 +175,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
                   | skyDateRangePickerStartDateResourceKey
                   | skyLibResources)
             "
+            [dateFormat]="dateFormat"
             [disabled]="disabled"
             [required]="isRequired()"
             [(ngModel)]="value.startDate"
@@ -205,6 +211,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
                   | skyDateRangePickerEndDateResourceKey
                   | skyLibResources)
             "
+            [dateFormat]="dateFormat"
             [disabled]="disabled"
             [required]="isRequired()"
             [(ngModel)]="value.endDate"
@@ -215,7 +222,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
   </div>`,
 })
 export class SkyDateRangePickerComponent
-  implements AfterViewInit, ControlValueAccessor, Validator
+  implements AfterViewInit, ControlValueAccessor, OnDestroy, Validator
 {
   @Input()
   public set calculatorIds(value: SkyDateRangeCalculatorId[] | undefined) {
@@ -236,6 +243,9 @@ export class SkyDateRangePickerComponent
   public get calculatorIds(): SkyDateRangeCalculatorId[] {
     return this.#_calculatorIds;
   }
+
+  @Input()
+  public dateFormat: string | undefined;
 
   @Input({ transform: booleanAttribute })
   public disabled = false;
@@ -284,6 +294,7 @@ export class SkyDateRangePickerComponent
   #_value: SkyDateRangeCalculation;
   #control: AbstractControl | undefined;
   #isInitialized = false;
+  #ngUnsubscribe = new Subject<void>();
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
@@ -313,12 +324,19 @@ export class SkyDateRangePickerComponent
       }
     }
 
-    this.#control?.statusChanges.subscribe(() => {
-      this.#changeDetector.markForCheck();
-    });
+    this.#control?.statusChanges
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#changeDetector.markForCheck();
+      });
 
     this.#isInitialized = true;
     this.#updatePickerVisibility();
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   // Implemented as part of ControlValueAccessor.
@@ -378,10 +396,8 @@ export class SkyDateRangePickerComponent
     console.log('onCalculatorChange()');
     const value = this.value;
     value.calculatorId = +value.calculatorId;
-
     this.selectedCalculator = this.#getSelectedCalculator();
     this.#updatePickerVisibility();
-
     this.#notifyChange?.(value);
   }
 

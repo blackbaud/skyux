@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Injectable,
+  inject,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,6 +18,33 @@ import {
   SkyDateRangeCalculatorId,
   SkyDateRangePickerModule2,
 } from '@skyux/datetime';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
+
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
+@Injectable()
+class MyLocaleProvider extends SkyAppLocaleProvider {
+  #locale: BehaviorSubject<SkyAppLocaleInfo>;
+  #localeObs: Observable<SkyAppLocaleInfo>;
+
+  constructor() {
+    super();
+
+    this.#locale = new BehaviorSubject<SkyAppLocaleInfo>({
+      locale: 'en-US',
+    });
+
+    this.#localeObs = this.#locale.asObservable();
+  }
+
+  public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+    return this.#localeObs;
+  }
+
+  public setLocale(locale: string): void {
+    this.#locale.next({ locale });
+  }
+}
 
 @Component({
   imports: [
@@ -21,6 +53,12 @@ import {
     ReactiveFormsModule,
     SkyDateRangePickerModule2,
   ],
+  providers: [
+    {
+      provide: SkyAppLocaleProvider,
+      useClass: MyLocaleProvider,
+    },
+  ],
   selector: 'app-date-range-picker-2',
   standalone: true,
   template: `<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
@@ -28,6 +66,7 @@ import {
         formControlName="pto"
         stacked="true"
         [calculatorIds]="calculatorIds"
+        [dateFormat]="dateFormat"
       />
 
       <button class="sky-btn sky-btn-default" type="submit">Submit</button>
@@ -53,24 +92,32 @@ Touched? {{ ptoControl.touched }}
       </button>
       <button type="button" (click)="toggleDisabled()">Toggle disabled</button>
       <button type="button" (click)="toggleRequired()">Toggle required</button>
+      <button type="button" (click)="changeDateFormat()">
+        Change date format
+      </button>
+      <button type="button" (click)="changeLocale()">Change locale</button>
       <button type="button" (click)="resetForm()">Reset form</button>
     </div> `,
 })
 export class DateRangePickerComponent {
   protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
+  protected dateFormat: string | undefined;
 
   protected formGroup = inject(FormBuilder).group({
-    pto: new FormControl<SkyDateRangeCalculation>(undefined, []),
+    pto: new FormControl<SkyDateRangeCalculation>({ calculatorId: 2 }, []),
   });
 
   protected get ptoControl(): AbstractControl {
     return this.formGroup.get('pto') as AbstractControl;
   }
 
+  readonly #localeProvider = inject(SkyAppLocaleProvider) as MyLocaleProvider;
+
   constructor() {
     this.ptoControl.statusChanges.subscribe((x) => {
       console.log('HOST STATUS CHANGE:', x);
     });
+
     this.ptoControl.valueChanges.subscribe((x) => {
       console.log('HOST VALUE CHANGE:', x);
     });
@@ -85,6 +132,14 @@ export class DateRangePickerComponent {
       SkyDateRangeCalculatorId.ThisFiscalYear,
       SkyDateRangeCalculatorId.NextFiscalYear,
     ];
+  }
+
+  protected changeDateFormat(): void {
+    this.dateFormat = 'YYYY/MM/DD';
+  }
+
+  protected changeLocale(): void {
+    this.#localeProvider.setLocale('en-GB');
   }
 
   protected changeValue(): void {
