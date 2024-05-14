@@ -48,6 +48,7 @@ import {
   combineLatest,
   distinctUntilChanged,
   forkJoin,
+  startWith,
   take,
   takeUntil,
   tap,
@@ -140,7 +141,11 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
           label || ('skyux_date_range_picker_default_label' | skyLibResources)
         "
       >
-        <select formControlName="calculatorId" [required]="isRequired()">
+        <select
+          formControlName="calculatorId"
+          [required]="isRequired()"
+          (change)="onCalculatorIdSelectChange($event)"
+        >
           <option
             *ngFor="let calculator of calculators"
             [value]="calculator.calculatorId"
@@ -195,7 +200,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
                   | skyLibResources)
             "
             [dateFormat]="dateFormat"
-            [required]="isRequired()"
+            [required]="isRequired() && showStartDatePicker"
           />
         </sky-datepicker>
       </sky-input-box>
@@ -231,7 +236,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
                   | skyLibResources)
             "
             [dateFormat]="dateFormat"
-            [required]="isRequired()"
+            [required]="isRequired() && showEndDatePicker"
           />
         </sky-datepicker>
       </sky-input-box>
@@ -257,7 +262,8 @@ export class SkyDateRangePickerComponent
 
     if (!this.#_calculatorIds.includes(this.value.calculatorId)) {
       this.value = this.#getDefaultValue();
-      this.#updatePickerVisibility();
+      this.selectedCalculator = this.#getCalculator(this.value.calculatorId);
+      this.#updatePickerVisibility(this.selectedCalculator);
       this.#notifyChange?.(this.value);
     }
   }
@@ -346,14 +352,28 @@ export class SkyDateRangePickerComponent
   // }
 
   protected set value(value: SkyDateRangeCalculation | null | undefined) {
-    this.#_value = value ?? this.#getDefaultValue();
-    this.selectedCalculator = this.#getSelectedCalculator();
+    console.log('set value', value);
+    const oldValue = { ...this.value };
 
-    this.#_value.endDate ||= null;
-    this.#_value.startDate ||= null;
+    const valueOrDefault = value ?? this.#getDefaultValue();
+    valueOrDefault.calculatorId = +valueOrDefault.calculatorId;
+    valueOrDefault.endDate ||= null;
+    valueOrDefault.startDate ||= null;
 
-    if (!value) {
-      this.#setDefaultValueOnControl();
+    if (!this.#dateRangesEqual(oldValue, valueOrDefault)) {
+      this.selectedCalculator = this.#getCalculator(
+        valueOrDefault.calculatorId,
+      );
+
+      if (oldValue.calculatorId !== valueOrDefault.calculatorId) {
+        this.#updatePickerVisibility(this.selectedCalculator);
+      }
+
+      this.#_value = valueOrDefault;
+      console.log('formGroup.setValue', valueOrDefault);
+      this.formGroup.setValue(valueOrDefault, {
+        emitEvent: false,
+      });
     }
   }
 
@@ -397,50 +417,94 @@ export class SkyDateRangePickerComponent
       startDate: new FormControl<Date | undefined>(undefined),
     });
 
-    // const ngZone = inject(NgZone);
-
-    this.formGroup.valueChanges.subscribe((value) => {
-      console.log('formGroup value change', value);
-      this.#control?.setValue(value, { emitEvent: false });
-    });
-
-    this.formGroup.statusChanges.subscribe((status) => {
-      console.log('formGroup status change', status, this.#control?.status);
-
-      // If child fields' statuses change, we want to retrigger the parent control's validation so that the child errors are passed to the parent.
-      // Use a setTimeout to avoid an ExpressionChangedAfterChecked error, since the calls to updateValueAndValidity may collide with one another.
-      setTimeout(() => {
-        this.#notifyValidatorChange?.();
-        // this.#control?.updateValueAndValidity({
-        //   onlySelf: true,
-        //   emitEvent: false,
-        // });
+    this.formGroup
+      .get('endDate')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((endDate) => {
+        this.value = { ...this.value, ...{ endDate } };
+        setTimeout(() => {
+          this.#notifyChange?.(this.value);
+        });
       });
-      // }
 
-      // this.#changeDetector.markForCheck();
+    this.formGroup
+      .get('startDate')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((startDate) => {
+        this.value = { ...this.value, ...{ startDate } };
+        setTimeout(() => {
+          this.#notifyChange?.(this.value);
+        });
+      });
 
-      // yield to current tick's validation change before triggering validation again. ?keep
-      // setTimeout(() => {
-      // this.#notifyValidatorChange?.();
-      // this.#control?.updateValueAndValidity({
-      //   onlySelf: true,
-      //   emitEvent: false,
-      // });
-      // });
+    // combineLatest([
+    //   this.formGroup
+    //     .get('endDate')!
+    //     .valueChanges.pipe(startWith(this.value.endDate)),
+    //   this.formGroup
+    //     .get('startDate')!
+    //     .valueChanges.pipe(startWith(this.value.startDate)),
+    // ])
+    //   // this.formGroup
+    //   //   .get('endDate')
+    //   //   ?.valueChanges // .pipe(distinctUntilChanged((a, b) => this.#dateRangesEqual(a, b)))
+    //   // .pipe(distinctUntilChanged())
+    //   .subscribe(([endDate, startDate]) => {
+    //     console.log(
+    //       'formGroup.endDate|startDate.valueChanges',
+    //       endDate,
+    //       startDate,
+    //     );
 
-      // this.formGroup.updateValueAndValidity({
-      //   onlySelf: true,
-      //   emitEvent: false,
-      // });
-    });
+    //     this.value = { ...this.value, ...{ endDate, startDate } };
 
-    // this.formGroup.valueChanges.subscribe((x) => {
-    //   console.log('formGroup value changes:', x);
+    //     setTimeout(() => {
+    //       this.#notifyChange?.(this.value);
+    //     });
+    //   });
+
+    this.formGroup.statusChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((status) => {
+        console.log('formGroup.statusChanges', status);
+      });
+
+    // this.formGroup
+    //   .get('calculatorId')
+    //   ?.valueChanges.subscribe((calculatorId) => {
+    //     console.log('calculatorId value change:', calculatorId);
+    //     const value = this.value;
+    //     value.calculatorId = +calculatorId;
+    //     this.value = value;
+
+    //     // this.formGroup.patchValue(
+    //     //   { calculatorId: +value },
+    //     //   { emitEvent: false, onlySelf: true },
+    //     // );
+
+    //     // this.selectedCalculator = this.#getSelectedCalculator();
+    //     // this.#updatePickerVisibility();
+    //     // this.#changeDetector.markForCheck();
+    //   });
+
+    // this.formGroup.valueChanges.subscribe((value) => {
+    //   console.log('formGroup value change', value);
+    //   // this.#control?.setValue(value);
     // });
 
-    // this.formGroup.get('startDate')?.statusChanges.subscribe((x) => {
-    //   console.log('start date status:', x);
+    // this.formGroup.statusChanges.subscribe((status) => {
+    //   console.log('formGroup status change', status, this.#control?.status);
+
+    //   // If child fields' statuses change, we want to retrigger the parent control's validation so that the child errors are passed to the parent.
+    //   // Use a setTimeout to avoid an ExpressionChangedAfterChecked error, since the calls to updateValueAndValidity may collide with one another.
+    //   setTimeout(() => {
+    //     // TODO: This, coupled with formGroup.valueChanges above is causing a ExpressionChangedAfterChecked error
+    //     // this.#notifyValidatorChange?.();
+    //     // this.#control?.updateValueAndValidity({
+    //     //   onlySelf: true,
+    //     //   emitEvent: false,
+    //     // });
+    //   });
     // });
   }
 
@@ -455,10 +519,6 @@ export class SkyDateRangePickerComponent
       }
     }
 
-    this.#control?.valueChanges.subscribe((value) => {
-      console.log('#control value change', value);
-    });
-
     this.#control?.statusChanges
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((x) => {
@@ -467,16 +527,8 @@ export class SkyDateRangePickerComponent
         this.#changeDetector.markForCheck();
       });
 
-    // this.endDateControl?.statusChanges?.subscribe((x) => {
-    //   console.log('endDateControl.statusChanges', x);
-    // });
-
-    // this.startDateControl?.statusChanges?.subscribe((x) => {
-    //   console.log('startDateControl.statusChanges', x);
-    // });
-
     this.#isInitialized = true;
-    this.#updatePickerVisibility();
+    this.#updatePickerVisibility(this.selectedCalculator);
   }
 
   // We have to do this so we can respond to the parent control being marked as dirty/touched.
@@ -540,12 +592,7 @@ export class SkyDateRangePickerComponent
     const value = this.value;
     const result = this.selectedCalculator.validate(control.value);
 
-    console.log(
-      'validate',
-      result,
-      this.formGroup.get('startDate')?.errors,
-      this.formGroup.get('endDate')?.errors,
-    );
+    console.log('validate()');
 
     return {
       ...(result
@@ -565,16 +612,8 @@ export class SkyDateRangePickerComponent
   public writeValue(value: SkyDateRangeCalculation | undefined): void {
     console.log('writeValue()', value);
 
-    const oldValue = this.value;
-
+    // TODO: Setting the value here should NOT invoke notifyChange!
     this.value = value;
-
-    // TODO: Why am I doing this?
-    this.formGroup.setValue(this.value, { emitEvent: false });
-
-    if (oldValue !== value) {
-      this.#updatePickerVisibility();
-    }
   }
 
   protected isRequired(): boolean {
@@ -585,6 +624,21 @@ export class SkyDateRangePickerComponent
 
   protected onBlur(): void {
     this.#notifyTouched?.();
+  }
+
+  protected onCalculatorIdSelectChange(evt: Event): void {
+    const calculatorId = +(evt.target as HTMLSelectElement).value;
+
+    console.log('formGroup.calculatorId.valueChanges', calculatorId);
+
+    // TODO: calculatorId changes, then zero out the startDate and endDate for the formGroup and the parent control.
+    this.value = {
+      calculatorId,
+      endDate: null,
+      startDate: null,
+    };
+
+    this.#notifyChange?.(this.value);
   }
 
   // TODO: why not do this stuff in the valueChange event?
@@ -620,13 +674,13 @@ export class SkyDateRangePickerComponent
   #getDefaultValue(): SkyDateRangeCalculation {
     return {
       calculatorId: this.calculatorIds[0],
+      endDate: null,
+      startDate: null,
     };
   }
 
-  #getSelectedCalculator(): SkyDateRangeCalculator {
-    const found = this.calculators.find(
-      (c) => c.calculatorId === this.value.calculatorId,
-    );
+  #getCalculator(calculatorId: number): SkyDateRangeCalculator {
+    const found = this.calculators.find((c) => c.calculatorId === calculatorId);
 
     /*safety check: should not happen*/
     /*istanbul ignore if*/
@@ -640,15 +694,16 @@ export class SkyDateRangePickerComponent
   }
 
   #setDefaultValueOnControl(): void {
+    console.log('#setDefaultValueOnControl()');
     this.#control?.setValue(this.value, { emitEvent: false, onlySelf: true });
   }
 
-  #updatePickerVisibility(): void {
+  #updatePickerVisibility(calculator: SkyDateRangeCalculator): void {
     if (this.#isInitialized) {
       let showEndDatePicker = false;
       let showStartDatePicker = false;
 
-      switch (this.selectedCalculator.type) {
+      switch (calculator.type) {
         case SkyDateRangeCalculatorType.Before:
           showEndDatePicker = true;
           break;
@@ -670,6 +725,20 @@ export class SkyDateRangePickerComponent
       this.showStartDatePicker = showStartDatePicker;
     }
   }
+
+  #dateRangesEqual(
+    rangeA: SkyDateRangeCalculation | undefined,
+    rangeB: SkyDateRangeCalculation | undefined,
+  ): boolean {
+    return (
+      !!rangeA && !!rangeB && JSON.stringify(rangeA) === JSON.stringify(rangeB)
+
+      // ((rangeA.endDate === rangeB.endDate &&
+      //   rangeA.startDate === rangeB.startDate) ||
+      //   (rangeA.endDate?.getTime() === rangeB.endDate?.getTime() &&
+      //     rangeA.startDate?.getTime() === rangeB.startDate?.getTime()))
+    );
+  }
 }
 
 /**
@@ -678,6 +747,6 @@ export class SkyDateRangePickerComponent
  * - respond to date pickers errors.
  * - setting a value programmatically makes all three fields fire change events.
  * - show error styles: what determines hasErrors?
- *
+ * - set disabled state
  *
  */
