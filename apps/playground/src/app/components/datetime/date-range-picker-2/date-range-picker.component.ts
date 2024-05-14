@@ -165,6 +165,7 @@ export class DateRangePickerComponent {
       startDate: new Date('1/1/2013'),
       endDate: new Date('1/1/2012'),
     });
+    this.ptoControl.markAsDirty();
   }
 
   protected toggleDisabled(): void {
