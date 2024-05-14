@@ -93,6 +93,33 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
   SkyDateRangeCalculatorId.NextFiscalYear,
 ];
 
+function areDatesEqual(
+  a: Date | null | undefined,
+  b: Date | null | undefined,
+): boolean {
+  const typeofA = typeof a;
+  const typeofB = typeof b;
+
+  if (typeofA !== typeofB) {
+    return false;
+  }
+
+  return a instanceof Date && b instanceof Date && a.getTime() === b.getTime();
+}
+
+function areDateRangesEqual(
+  rangeA: SkyDateRangeCalculation | undefined,
+  rangeB: SkyDateRangeCalculation | undefined,
+): boolean {
+  return (
+    !!rangeA &&
+    !!rangeB &&
+    rangeA.calculatorId === rangeB.calculatorId &&
+    areDatesEqual(rangeA.startDate, rangeB.startDate) &&
+    areDatesEqual(rangeA.endDate, rangeB.endDate)
+  );
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -204,6 +231,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
           />
         </sky-datepicker>
       </sky-input-box>
+      <pre>{{ startDateControl.errors | json }}</pre>
     </div>
     <div
       class="sky-date-range-picker-form-group"
@@ -240,6 +268,7 @@ const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
           />
         </sky-datepicker>
       </sky-input-box>
+      <pre>{{ endDateControl.errors | json }}</pre>
     </div>
   </div>`,
 })
@@ -338,18 +367,13 @@ export class SkyDateRangePickerComponent
   @HostBinding('style.display')
   protected display: string | undefined;
 
-  // @ViewChild('startDateControl', { read: NgModel })
-  // protected startDateControl: NgModel | undefined;
+  protected get endDateControl(): AbstractControl {
+    return this.formGroup.get('endDate')!;
+  }
 
-  // @ViewChild('endDateControl', { read: NgModel })
-  // protected endDateControl: NgModel | undefined;
-
-  // protected get hasErrors(): boolean {
-  //   return !!(
-  //     this.#control?.errors &&
-  //     (this.#control?.touched || this.#control?.dirty)
-  //   );
-  // }
+  protected get startDateControl(): AbstractControl {
+    return this.formGroup.get('startDate')!;
+  }
 
   protected set value(value: SkyDateRangeCalculation | null | undefined) {
     console.log('set value', value);
@@ -360,7 +384,7 @@ export class SkyDateRangePickerComponent
     valueOrDefault.endDate ||= null;
     valueOrDefault.startDate ||= null;
 
-    if (!this.#dateRangesEqual(oldValue, valueOrDefault)) {
+    if (!areDateRangesEqual(oldValue, valueOrDefault)) {
       this.selectedCalculator = this.#getCalculator(
         valueOrDefault.calculatorId,
       );
@@ -374,6 +398,8 @@ export class SkyDateRangePickerComponent
       this.formGroup.setValue(valueOrDefault, {
         emitEvent: false,
       });
+    } else {
+      console.log('THEY ARE EQUAL, SKIP UPDATING!');
     }
   }
 
@@ -416,58 +442,6 @@ export class SkyDateRangePickerComponent
       endDate: new FormControl<Date | undefined>(undefined),
       startDate: new FormControl<Date | undefined>(undefined),
     });
-
-    this.formGroup
-      .get('endDate')
-      ?.valueChanges.pipe(distinctUntilChanged())
-      .subscribe((endDate) => {
-        this.value = { ...this.value, ...{ endDate } };
-        setTimeout(() => {
-          this.#notifyChange?.(this.value);
-        });
-      });
-
-    this.formGroup
-      .get('startDate')
-      ?.valueChanges.pipe(distinctUntilChanged())
-      .subscribe((startDate) => {
-        this.value = { ...this.value, ...{ startDate } };
-        setTimeout(() => {
-          this.#notifyChange?.(this.value);
-        });
-      });
-
-    // combineLatest([
-    //   this.formGroup
-    //     .get('endDate')!
-    //     .valueChanges.pipe(startWith(this.value.endDate)),
-    //   this.formGroup
-    //     .get('startDate')!
-    //     .valueChanges.pipe(startWith(this.value.startDate)),
-    // ])
-    //   // this.formGroup
-    //   //   .get('endDate')
-    //   //   ?.valueChanges // .pipe(distinctUntilChanged((a, b) => this.#dateRangesEqual(a, b)))
-    //   // .pipe(distinctUntilChanged())
-    //   .subscribe(([endDate, startDate]) => {
-    //     console.log(
-    //       'formGroup.endDate|startDate.valueChanges',
-    //       endDate,
-    //       startDate,
-    //     );
-
-    //     this.value = { ...this.value, ...{ endDate, startDate } };
-
-    //     setTimeout(() => {
-    //       this.#notifyChange?.(this.value);
-    //     });
-    //   });
-
-    this.formGroup.statusChanges
-      .pipe(distinctUntilChanged())
-      .subscribe((status) => {
-        console.log('formGroup.statusChanges', status);
-      });
 
     // this.formGroup
     //   .get('calculatorId')
@@ -527,6 +501,93 @@ export class SkyDateRangePickerComponent
         this.#changeDetector.markForCheck();
       });
 
+    // Wait a tick before subscribing.
+    // TODO: Find a way to remove this.
+    setTimeout(() => {
+      this.formGroup
+        .get('endDate')
+        ?.valueChanges.pipe(distinctUntilChanged(areDatesEqual))
+        .subscribe((endDate) => {
+          // TODO: Is this check needed?
+          if (this.value) {
+            console.log('formGroup.endDate.valueChanges', endDate);
+            this.value = { ...this.value, ...{ endDate } };
+            setTimeout(() => {
+              this.#notifyChange?.(this.value);
+            });
+          }
+        });
+
+      this.formGroup
+        .get('startDate')
+        ?.valueChanges.pipe(distinctUntilChanged(areDatesEqual))
+        .subscribe((startDate) => {
+          // TODO: is this check needed?
+          if (this.value) {
+            console.log('formGroup.startDate.valueChanges', startDate);
+            this.value = { ...this.value, ...{ startDate } };
+            setTimeout(() => {
+              this.#notifyChange?.(this.value);
+            });
+          }
+        });
+    });
+
+    this.formGroup
+      .get('startDate')
+      ?.statusChanges.pipe(distinctUntilChanged())
+      .subscribe((status) => {
+        if (
+          !areDatesEqual(
+            this.formGroup.get('startDate')?.value,
+            this.value.startDate,
+          )
+        ) {
+          setTimeout(() => {
+            console.log('formGroup.startDate.statusChanges', status);
+            // this.#notifyValidatorChange?.();
+
+            this.formGroup
+              .get('startDate')
+              ?.updateValueAndValidity({ emitEvent: false, onlySelf: true });
+          });
+        }
+      });
+
+    this.formGroup
+      .get('endDate')
+      ?.statusChanges.pipe(distinctUntilChanged())
+      .subscribe((status) => {
+        if (
+          !areDatesEqual(
+            this.formGroup.get('endDate')?.value,
+            this.value.endDate,
+          )
+        ) {
+          setTimeout(() => {
+            console.log('formGroup.endDate.statusChanges', status);
+            // this.#notifyValidatorChange?.();
+            this.formGroup
+              .get('endDate')
+              ?.updateValueAndValidity({ emitEvent: false, onlySelf: true });
+          });
+        }
+      });
+
+    // this.formGroup.statusChanges
+    //   .pipe(distinctUntilChanged())
+    //   .subscribe((status) => {
+    //     console.log('formGroup.statusChanges', status);
+    //     setTimeout(() => {
+    //       // TODO: This seems to work, but it's firing two valueChange events.
+    //       this.#notifyValidatorChange?.();
+    //       // this.formGroup.updateValueAndValidity({ emitEvent: false });
+    //     });
+
+    //     // this.formGroup.updateValueAndValidity({ emitEvent: false });
+    //     // this.#changeDetector.markForCheck();
+    //   });
+
     this.#isInitialized = true;
     this.#updatePickerVisibility(this.selectedCalculator);
   }
@@ -585,20 +646,19 @@ export class SkyDateRangePickerComponent
     // This is the first time we can safely set the control's default value
     // if it's undefined to avoid changed after checked error or the circular DI error.
     if (!this.#isInitialized && !control.value) {
+      console.log('validate() ABORT, first change');
       this.#setDefaultValueOnControl();
       return null;
     }
 
-    const value = this.value;
+    const currentValue = this.value;
     const result = this.selectedCalculator.validate(control.value);
 
-    console.log('validate()');
-
-    return {
+    const errors = {
       ...(result
         ? {
             skyDateRange: {
-              calculatorId: value.calculatorId,
+              calculatorId: currentValue.calculatorId,
               errors: result,
             },
           }
@@ -606,6 +666,10 @@ export class SkyDateRangePickerComponent
       ...(this.formGroup.get('startDate')?.errors ?? {}),
       ...(this.formGroup.get('endDate')?.errors ?? {}),
     };
+
+    console.log('validate() errors:', JSON.stringify(errors, undefined, 2));
+
+    return errors;
   }
 
   // Implemented as part of ControlValueAccessor.
@@ -623,6 +687,7 @@ export class SkyDateRangePickerComponent
   }
 
   protected onBlur(): void {
+    console.log('onBlur()');
     this.#notifyTouched?.();
   }
 
@@ -723,21 +788,8 @@ export class SkyDateRangePickerComponent
 
       this.showEndDatePicker = showEndDatePicker;
       this.showStartDatePicker = showStartDatePicker;
+      this.#changeDetector.markForCheck();
     }
-  }
-
-  #dateRangesEqual(
-    rangeA: SkyDateRangeCalculation | undefined,
-    rangeB: SkyDateRangeCalculation | undefined,
-  ): boolean {
-    return (
-      !!rangeA && !!rangeB && JSON.stringify(rangeA) === JSON.stringify(rangeB)
-
-      // ((rangeA.endDate === rangeB.endDate &&
-      //   rangeA.startDate === rangeB.startDate) ||
-      //   (rangeA.endDate?.getTime() === rangeB.endDate?.getTime() &&
-      //     rangeA.startDate?.getTime() === rangeB.startDate?.getTime()))
-    );
   }
 }
 
