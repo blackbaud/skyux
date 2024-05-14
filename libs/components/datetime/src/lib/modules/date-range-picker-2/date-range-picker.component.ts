@@ -1,23 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CommonModule } from '@angular/common';
 import {
-  AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Directive,
   DoCheck,
   HostBinding,
-  Injector,
   Input,
-  NgZone,
   OnDestroy,
-  OnInit,
   TemplateRef,
-  ViewChild,
   booleanAttribute,
-  forwardRef,
   inject,
 } from '@angular/core';
 import {
@@ -29,39 +22,24 @@ import {
   FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  NgControl,
-  NgModel,
   ReactiveFormsModule,
   ValidationErrors,
   Validator,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import {
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxModule,
 } from '@skyux/forms';
-import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import {
-  Subject,
-  combineLatest,
-  distinctUntilChanged,
-  forkJoin,
-  startWith,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 
-import { SkyDateFormatter } from '../datepicker/date-formatter';
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
 import { SkyDateRangePickerEndDateResourceKeyPipe } from './date-range-picker-end-date-resource-key.pipe';
 import { SkyDateRangePickerStartDateResourceKeyPipe } from './date-range-picker-start-date-resource-key.pipe';
 import { SkyDateRangePickerService } from './date-range-picker.service';
-import { SkyDateRangeService } from './date-range.service';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
@@ -442,44 +420,6 @@ export class SkyDateRangePickerComponent
       endDate: new FormControl<Date | undefined>(undefined),
       startDate: new FormControl<Date | undefined>(undefined),
     });
-
-    // this.formGroup
-    //   .get('calculatorId')
-    //   ?.valueChanges.subscribe((calculatorId) => {
-    //     console.log('calculatorId value change:', calculatorId);
-    //     const value = this.value;
-    //     value.calculatorId = +calculatorId;
-    //     this.value = value;
-
-    //     // this.formGroup.patchValue(
-    //     //   { calculatorId: +value },
-    //     //   { emitEvent: false, onlySelf: true },
-    //     // );
-
-    //     // this.selectedCalculator = this.#getSelectedCalculator();
-    //     // this.#updatePickerVisibility();
-    //     // this.#changeDetector.markForCheck();
-    //   });
-
-    // this.formGroup.valueChanges.subscribe((value) => {
-    //   console.log('formGroup value change', value);
-    //   // this.#control?.setValue(value);
-    // });
-
-    // this.formGroup.statusChanges.subscribe((status) => {
-    //   console.log('formGroup status change', status, this.#control?.status);
-
-    //   // If child fields' statuses change, we want to retrigger the parent control's validation so that the child errors are passed to the parent.
-    //   // Use a setTimeout to avoid an ExpressionChangedAfterChecked error, since the calls to updateValueAndValidity may collide with one another.
-    //   setTimeout(() => {
-    //     // TODO: This, coupled with formGroup.valueChanges above is causing a ExpressionChangedAfterChecked error
-    //     // this.#notifyValidatorChange?.();
-    //     // this.#control?.updateValueAndValidity({
-    //     //   onlySelf: true,
-    //     //   emitEvent: false,
-    //     // });
-    //   });
-    // });
   }
 
   public ngAfterViewInit(): void {
@@ -533,6 +473,9 @@ export class SkyDateRangePickerComponent
         });
     });
 
+    // If child fields' statuses change, we want to retrigger the parent control's validation so that the child errors are passed to the parent.
+    // Use a setTimeout to avoid an ExpressionChangedAfterChecked error, since the calls to updateValueAndValidity may collide with one another.
+
     this.formGroup
       .get('startDate')
       ?.statusChanges.pipe(distinctUntilChanged())
@@ -574,20 +517,6 @@ export class SkyDateRangePickerComponent
         }
       });
 
-    // this.formGroup.statusChanges
-    //   .pipe(distinctUntilChanged())
-    //   .subscribe((status) => {
-    //     console.log('formGroup.statusChanges', status);
-    //     setTimeout(() => {
-    //       // TODO: This seems to work, but it's firing two valueChange events.
-    //       this.#notifyValidatorChange?.();
-    //       // this.formGroup.updateValueAndValidity({ emitEvent: false });
-    //     });
-
-    //     // this.formGroup.updateValueAndValidity({ emitEvent: false });
-    //     // this.#changeDetector.markForCheck();
-    //   });
-
     this.#isInitialized = true;
     this.#updatePickerVisibility(this.selectedCalculator);
   }
@@ -597,8 +526,6 @@ export class SkyDateRangePickerComponent
   // TODO: Angular 18 will introduce a new API to respond to status changes.
   // @see https://github.com/angular/angular/issues/10887#issuecomment-2035267400
   public ngDoCheck(): void {
-    console.log('ngDoCheck()');
-
     const touched = this.formGroup.touched;
     if (this.#control?.touched && !touched) {
       this.formGroup.markAllAsTouched();
@@ -705,36 +632,6 @@ export class SkyDateRangePickerComponent
 
     this.#notifyChange?.(this.value);
   }
-
-  // TODO: why not do this stuff in the valueChange event?
-  // protected onCalculatorChange(evt: Event): void {
-  //   this.value = {
-  //     calculatorId: +(evt.target as HTMLSelectElement).value,
-  //   };
-
-  //   console.log('onCalculatorChange()');
-  //   this.selectedCalculator = this.#getSelectedCalculator();
-  //   this.#updatePickerVisibility();
-  //   this.#control?.updateValueAndValidity();
-  // }
-
-  // protected onDatepickerBlur(): void {
-  //   // this.#control?.updateValueAndValidity();
-  // }
-
-  // TODO: why not do this stuff in the valueChange event?
-  // protected onEndDateChange(change: Date | undefined): void {
-  //   console.log('onEndDateChange()');
-  //   this.value.endDate = change;
-  //   this.#notifyValidatorChange?.();
-  // }
-
-  // // TODO: why not do this stuff in the valueChange event?
-  // protected onStartDateChange(change: Date | undefined): void {
-  //   console.log('onStartDateChange()');
-  //   this.value.startDate = change;
-  //   this.#notifyValidatorChange?.();
-  // }
 
   #getDefaultValue(): SkyDateRangeCalculation {
     return {
