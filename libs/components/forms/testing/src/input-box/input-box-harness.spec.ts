@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 import { SkyValidators } from '@skyux/validation';
 
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
@@ -20,7 +21,11 @@ describe('Input box harness', () => {
     inputBoxHarness: SkyInputBoxHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, InputBoxHarnessTestModule],
+      imports: [
+        NoopAnimationsModule,
+        InputBoxHarnessTestModule,
+        SkyHelpTestingModule,
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(InputBoxHarnessTestComponent);
@@ -99,6 +104,7 @@ describe('Input box harness', () => {
     });
 
     fixture.componentInstance.easyModeHelpContent = undefined;
+    fixture.componentInstance.easyModeHelpKey = undefined;
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.clickHelpInline()).toBeRejectedWithError(
