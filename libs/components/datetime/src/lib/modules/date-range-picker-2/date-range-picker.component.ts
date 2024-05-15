@@ -9,6 +9,7 @@ import {
   HostBinding,
   Input,
   OnDestroy,
+  OnInit,
   TemplateRef,
   booleanAttribute,
   inject,
@@ -254,7 +255,13 @@ function areDateRangesEqual(
   </div>`,
 })
 export class SkyDateRangePickerComponent
-  implements AfterViewInit, ControlValueAccessor, DoCheck, OnDestroy, Validator
+  implements
+    AfterViewInit,
+    ControlValueAccessor,
+    DoCheck,
+    OnDestroy,
+    OnInit,
+    Validator
 {
   /**
    * IDs for the date range options to include in the picker's dropdown.
@@ -452,9 +459,7 @@ export class SkyDateRangePickerComponent
     });
   }
 
-  public ngAfterViewInit(): void {
-    console.log('ngAfterViewInit()');
-
+  public ngOnInit(): void {
     if (this.#labelTextRequiredSvc) {
       this.#labelTextRequiredSvc.validateLabelText(this.label);
 
@@ -462,6 +467,10 @@ export class SkyDateRangePickerComponent
         this.display = 'none';
       }
     }
+  }
+
+  public ngAfterViewInit(): void {
+    console.log('ngAfterViewInit()');
 
     this.#control?.statusChanges
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -722,8 +731,6 @@ export class SkyDateRangePickerComponent
       this.#changeDetector.markForCheck();
     }
   }
-
-  #initializeControl(): void {}
 }
 
 /**
