@@ -4,11 +4,13 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  Output,
   Renderer2,
   forwardRef,
 } from '@angular/core';
@@ -278,12 +280,19 @@ export class SkyDatepickerInputDirective
     this.#renderer.addClass(element, 'sky-form-control');
   }
 
+  /**
+   * @internal
+   */
+  @Output()
+  public dateSelected = new EventEmitter<Date | null>();
+
   public ngAfterContentInit(): void {
     this.#datepickerComponent.dateFormat = this.dateFormat;
     this.#datepickerComponent.dateChange
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((value: Date) => {
         this.#value = value;
+        this.dateSelected.next(this.#value);
         this.#onTouched();
       });
   }
