@@ -17,7 +17,7 @@
       </h4>
     </legend>
     <sky-help-inline
-      *ngIf="helpPopoverContent && labelText"
+      *ngIf="helpPopoverContent || helpKey"
       class="sky-field-group-help-inline"
       [helpKey]="helpKey"
       [labelText]="labelText"

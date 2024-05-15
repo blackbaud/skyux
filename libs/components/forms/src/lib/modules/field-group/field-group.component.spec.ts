@@ -115,6 +115,18 @@ describe('Field group component', function () {
     ).toBe(1);
   });
 
+  fit('should render help inline if help key is provided', () => {
+    componentInstance.helpPopoverContent = undefined;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeFalsy();
+
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeTruthy();
+  });
+
   it('should pass accessibility', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
