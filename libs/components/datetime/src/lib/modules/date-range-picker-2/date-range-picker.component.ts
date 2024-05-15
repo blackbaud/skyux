@@ -42,7 +42,7 @@ import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.mod
 
 import { SkyDateRangePickerEndDateResourceKeyPipe } from './date-range-picker-end-date-resource-key.pipe';
 import { SkyDateRangePickerStartDateResourceKeyPipe } from './date-range-picker-start-date-resource-key.pipe';
-import { SkyDateRangePickerService } from './date-range-picker.service';
+import { SkyDateRangeService } from './date-range.service';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
@@ -391,7 +391,7 @@ export class SkyDateRangePickerComponent
   #notifyTouched: (() => void) | undefined;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #dateRangeSvc = inject(SkyDateRangePickerService);
+  readonly #dateRangeSvc = inject(SkyDateRangeService);
   readonly #injector = inject(Injector);
   readonly #labelTextRequiredSvc = inject(
     SkyFormFieldLabelTextRequiredService,

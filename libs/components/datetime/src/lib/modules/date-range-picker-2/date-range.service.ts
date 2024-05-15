@@ -11,12 +11,15 @@ import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calcu
 
 /**
  * Creates and manages `SkyDateRangeCalculator` instances.
- * @deprecated Use SkyDateRangePickerService instead.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class SkyDateRangeService {
+  public get calculators(): SkyDateRangeCalculator[] {
+    return this.#calculators;
+  }
+
   // Start the count higher than the number of available values
   // provided in the SkyDateRangeCalculatorId enum.
   private static lastId = 1000;
@@ -31,7 +34,8 @@ export class SkyDateRangeService {
 
   constructor(resourcesService: SkyLibResourcesService) {
     this.#resourcesService = resourcesService;
-    this.#createDefaultCalculators();
+    this.#calculators = this.#createDefaultCalculators();
+    this.#createDefaultCalculatorsWithResolvedResources();
   }
 
   /**
@@ -51,7 +55,30 @@ export class SkyDateRangeService {
 
   /**
    * Returns calculators from an array of calculator IDs.
+   * @param calculatorIds The array of calculator IDs.
+   */
+  public filterCalculators(
+    calculatorIds: SkyDateRangeCalculatorId[],
+  ): SkyDateRangeCalculator[] {
+    const filtered: SkyDateRangeCalculator[] = [];
+
+    for (const calculatorId of calculatorIds) {
+      const found = this.#calculators.find(
+        (c) => c.calculatorId === calculatorId,
+      );
+
+      if (found) {
+        filtered.push(found);
+      }
+    }
+
+    return filtered;
+  }
+
+  /**
+   * Returns calculators from an array of calculator IDs.
    * @param ids The array of calculator IDs.
+   * @deprecated Call `filterCalculators()` instead.
    */
   public getCalculators(
     ids: SkyDateRangeCalculatorId[],
@@ -66,6 +93,7 @@ export class SkyDateRangeService {
   /**
    * Returns a calculator from a calculator ID.
    * @param id The calculator ID.
+   * @deprecated Call `getCalculator()` instead.
    */
   public getCalculatorById(
     id: SkyDateRangeCalculatorId,
@@ -87,7 +115,30 @@ export class SkyDateRangeService {
     });
   }
 
-  #createDefaultCalculators(): void {
+  #createDefaultCalculators(): SkyDateRangeCalculator[] {
+    const calculators: SkyDateRangeCalculator[] = [];
+
+    for (const defaultConfig of SKY_DEFAULT_CALCULATOR_CONFIGS) {
+      calculators.push(
+        new SkyDateRangeCalculator(defaultConfig.calculatorId, {
+          getValue: defaultConfig.getValue,
+          validate: defaultConfig.validate,
+          shortDescription: '',
+          shortDescriptionResourceKey:
+            defaultConfig.shortDescriptionResourceKey,
+          type: defaultConfig.type,
+        }),
+      );
+    }
+
+    return calculators;
+  }
+
+  /**
+   * Returns calculators with resolved locale resources strings.
+   * @deprecated
+   */
+  #createDefaultCalculatorsWithResolvedResources(): void {
     const tasks: Observable<void>[] = [];
 
     // Get resource strings for short descriptions.
