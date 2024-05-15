@@ -213,7 +213,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     if (this.#searchShouldCollapse()) {
       this.breakpointSubscription = this.#mediaQueryService.subscribe(
         (args: SkyMediaBreakpoints) => {
@@ -226,7 +226,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#setupSearchChangedEvent();
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (this.#expandModeBindingChanged(changes)) {
       switch (this.expandMode) {
         case EXPAND_MODE_NONE:
@@ -253,25 +253,28 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#changeRef.detectChanges();
   }
 
-  public clearSearchText() {
+  public clearSearchText(): void {
     this.searchText = '';
     this.clearButtonShown = false;
 
     this.#searchAdapter.focusInput(this.#elRef);
-    this.searchChange.emit(this.searchText);
+    this.#searchUpdated.next(this.searchText);
 
     this.searchApply.emit(this.searchText);
 
     this.searchClear.emit();
   }
 
-  public enterPress(event: KeyboardEvent, searchText: string | undefined) {
+  public enterPress(
+    event: KeyboardEvent,
+    searchText: string | undefined,
+  ): void {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
       this.applySearchText(searchText);
     }
   }
 
-  public applySearchText(searchText: string | undefined) {
+  public applySearchText(searchText: string | undefined): void {
     // Double check that search text is defined before attempting to trim off whitespace
     if (searchText) {
       searchText = searchText.trim();
@@ -288,12 +291,12 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.searchApply.emit(searchText);
   }
 
-  public searchTextChanged(searchText: string) {
+  public searchTextChanged(searchText: string): void {
     this.searchText = searchText;
     this.#searchUpdated.next(searchText);
   }
 
-  public toggleSearchInput(showInput: boolean) {
+  public toggleSearchInput(showInput: boolean): void {
     if (this.#searchShouldCollapse()) {
       if (showInput) {
         this.inputAnimate = INPUT_SHOWN_STATE;
@@ -303,7 +306,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
   }
 
-  public inputAnimationStart(event: AnimationEvent) {
+  public inputAnimationStart(event: AnimationEvent): void {
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.startInputAnimation(this.#elRef);
 
@@ -317,7 +320,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
   }
 
-  public inputAnimationEnd(event: AnimationEvent) {
+  public inputAnimationEnd(event: AnimationEvent): void {
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.endInputAnimation(this.#elRef);
 
@@ -335,7 +338,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.breakpointSubscription) {
       this.breakpointSubscription.unsubscribe();
     }
@@ -343,14 +346,14 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#searchUpdated.complete();
     this.#searchUpdatedSub?.unsubscribe();
   }
-  #searchBindingChanged(changes: SimpleChanges) {
+  #searchBindingChanged(changes: SimpleChanges): boolean {
     return (
       changes['searchText'] &&
       changes['searchText'].previousValue !== changes['searchText'].currentValue
     );
   }
 
-  #expandModeBindingChanged(changes: SimpleChanges) {
+  #expandModeBindingChanged(changes: SimpleChanges): boolean {
     return (
       changes['expandMode'] &&
       changes['expandMode'].previousValue !== changes['expandMode'].currentValue
