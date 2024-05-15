@@ -149,6 +149,7 @@ function areDateRangesEqual(
         <select
           formControlName="calculatorId"
           [required]="isRequired()"
+          (blur)="onBlur()"
           (change)="onCalculatorIdSelectChange($event)"
         >
           <option
@@ -205,7 +206,9 @@ function areDateRangesEqual(
                   | skyLibResources)
             "
             [dateFormat]="dateFormat"
-            [required]="isRequired() && showStartDatePicker"
+            [required]="
+              showStartDatePicker && (startDateRequired || isRequired())
+            "
           />
         </sky-datepicker>
       </sky-input-box>
@@ -242,7 +245,7 @@ function areDateRangesEqual(
                   | skyLibResources)
             "
             [dateFormat]="dateFormat"
-            [required]="isRequired() && showEndDatePicker"
+            [required]="showEndDatePicker && (endDateRequired || isRequired())"
           />
         </sky-datepicker>
       </sky-input-box>
@@ -296,7 +299,26 @@ export class SkyDateRangePickerComponent
    * @default false
    */
   @Input({ transform: booleanAttribute })
-  public disabled = false;
+  public set disabled(value: boolean) {
+    this.#_disabled = value;
+
+    if (value) {
+      this.formGroup.disable();
+    } else {
+      this.formGroup.enable();
+    }
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
+
+  /**
+   * Whether to require users to specify a end date.
+   * @deprecated Use the "required" directive or Angular's `Validators.required` on the form control to mark the date range picker as required.
+   */
+  @Input({ transform: booleanAttribute })
+  public endDateRequired = false;
 
   /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
@@ -341,6 +363,13 @@ export class SkyDateRangePickerComponent
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
   public stacked = false;
+
+  /**
+   * Whether to require users to specify a start date.
+   * @deprecated Use the "required" directive or Angular's `Validators.required` on the form control to mark the date range picker as required.
+   */
+  @Input({ transform: booleanAttribute })
+  public startDateRequired = false;
 
   @HostBinding('style.display')
   protected display: string | undefined;
@@ -393,6 +422,7 @@ export class SkyDateRangePickerComponent
   protected showStartDatePicker = false;
 
   #_calculatorIds = DEFAULT_CALCULATOR_IDS;
+  #_disabled = false;
   #_value: SkyDateRangeCalculation;
   #control: AbstractControl | undefined;
   #isInitialized = false;
