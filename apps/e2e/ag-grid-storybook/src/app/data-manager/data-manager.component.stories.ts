@@ -75,3 +75,43 @@ DataManagerAutoHeightWithTopScrollCompact.args = {
   domLayout: 'autoHeight',
   enableTopScroll: true,
 };
+
+export const DataManagerWrapText: Story = {};
+DataManagerWrapText.args = {
+  compact: false,
+  domLayout: 'normal',
+  enableTopScroll: false,
+  showSelect: true,
+  wrapText: true,
+  autoHeightColumns: true,
+};
+
+export const DataManagerWrapTextCompact: Story = {};
+DataManagerWrapTextCompact.args = {
+  compact: true,
+  domLayout: 'normal',
+  enableTopScroll: false,
+  showSelect: true,
+  wrapText: true,
+  autoHeightColumns: true,
+};
+
+export const DataManagerWrapTextNoSelect: Story = {};
+DataManagerWrapTextNoSelect.args = {
+  compact: false,
+  domLayout: 'normal',
+  enableTopScroll: false,
+  showSelect: false,
+  wrapText: true,
+  autoHeightColumns: true,
+};
+
+export const DataManagerWrapTextNoSelectCompact: Story = {};
+DataManagerWrapTextNoSelectCompact.args = {
+  compact: true,
+  domLayout: 'normal',
+  enableTopScroll: false,
+  showSelect: false,
+  wrapText: true,
+  autoHeightColumns: true,
+};
