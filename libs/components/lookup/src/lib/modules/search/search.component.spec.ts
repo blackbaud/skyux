@@ -89,7 +89,7 @@ describe('Search component', () => {
     return element.query(By.css('input'));
   }
 
-  function setInput(text: string) {
+  function setInput(text: string): void {
     const inputEvent = document.createEvent('Event');
     const params = {
       bubbles: false,
@@ -109,7 +109,7 @@ describe('Search component', () => {
     fixture.detectChanges();
   }
 
-  function setNgModel(text: string) {
+  function setNgModel(text: string): void {
     const inputEvent = document.createEvent('Event');
     const params = {
       bubbles: false,
@@ -124,51 +124,51 @@ describe('Search component', () => {
     fixture.detectChanges();
   }
 
-  function triggerInputEnter() {
+  function triggerInputEnter(): void {
     const inputEl = element.query(By.css('input'));
     inputEl.triggerEventHandler('keyup', { which: 13, code: 'Enter' });
     fixture.detectChanges();
   }
 
-  function triggerApplyButton() {
+  function triggerApplyButton(): void {
     const applyEl = element.query(By.css('.sky-search-btn-apply'));
     applyEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
   }
 
-  function triggerClearButton() {
+  function triggerClearButton(): void {
     const clearEl = element.query(By.css('.sky-search-btn-clear'));
     clearEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
   }
 
-  function triggerOpenButton() {
+  function triggerOpenButton(): Promise<void> {
     const openEl = element.query(By.css('.sky-search-btn-open'));
     openEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
-  function triggerDismissButton() {
+  function triggerDismissButton(): Promise<void> {
     const dismissEl = element.query(By.css('.sky-search-btn-dismiss'));
     dismissEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
-  function triggerXsBreakpoint() {
+  function triggerXsBreakpoint(): Promise<void> {
     mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
-  function triggerLgBreakpoint() {
+  function triggerLgBreakpoint(): Promise<void> {
     mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
-  function verifySearchOpenMobile() {
+  function verifySearchOpenMobile(): void {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container'),
@@ -183,7 +183,7 @@ describe('Search component', () => {
     expect(element.query(By.css('.sky-search-btn-dismiss'))).not.toBeNull();
   }
 
-  function verifySearchOpenFullScreen() {
+  function verifySearchOpenFullScreen(): void {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container'),
@@ -198,7 +198,7 @@ describe('Search component', () => {
     expect(element.query(By.css('.sky-search-btn-dismiss'))).toBeNull();
   }
 
-  function verifySearchOpenFullScreenFullWidth() {
+  function verifySearchOpenFullScreenFullWidth(): void {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container'),
@@ -213,7 +213,7 @@ describe('Search component', () => {
     expect(element.query(By.css('.sky-search-btn-dismiss'))).toBeNull();
   }
 
-  function verifySearchClosed() {
+  function verifySearchClosed(): void {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container'),
@@ -299,17 +299,38 @@ describe('Search component', () => {
       ).toBeVisible();
     });
 
-    it('should emit the apply event when clear button is clicked', () => {
+    it('should emit the apply event when clear button is clicked', fakeAsync(() => {
       setInput('applied text');
       triggerApplyButton();
       triggerClearButton();
+      tick(10);
 
       expect(
         element.query(By.css('.sky-input-group-clear')).nativeElement,
       ).not.toBeVisible();
       expect(component.lastSearchTextApplied).toBe('');
       expect(component.lastSearchTextChanged).toBe('');
-    });
+    }));
+
+    it('should emit the change event when text is given, then cleared, and then reset to the same value', fakeAsync(() => {
+      setNgModel('applied text');
+      fixture.detectChanges();
+      tick();
+
+      expect(component.lastSearchTextChanged).toBe('applied text');
+
+      triggerClearButton();
+      fixture.detectChanges();
+      tick(10);
+
+      expect(component.lastSearchTextChanged).toBe('');
+
+      setNgModel('applied text');
+      fixture.detectChanges();
+      tick(10);
+
+      expect(component.lastSearchTextChanged).toBe('applied text');
+    }));
 
     it('should emit the cleared event when clear button is clicked', () => {
       spyOn(component.searchComponent.searchClear, 'emit').and.callThrough();
