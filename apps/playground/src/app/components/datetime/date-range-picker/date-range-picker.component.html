@@ -1,132 +1,36 @@
-<div class="date-range-demo">
-  <form id="screenshot-date-range-picker" novalidate [formGroup]="reactiveForm">
-    <sky-input-box stacked="true">
-      <label class="sky-control-label"> First name </label>
-      <input
-        formControlName="firstName"
-        type="text"
-        spellcheck="false"
-        class="sky-form-control"
-      />
-    </sky-input-box>
-    <sky-date-range-picker
-      formControlName="lastDonation"
-      [hintText]="hintText"
-      label="Last donation"
-      [calculatorIds]="calculatorIds"
-      [dateFormat]="dateFormat"
-      [endDateRequired]="endDateRequired"
-      [startDateRequired]="startDateRequired"
-      [stacked]="true"
-    >
-    </sky-date-range-picker>
-    <sky-input-box stacked="true">
-      <label class="sky-control-label"> First name </label>
-      <input
-        formControlName="firstName"
-        type="text"
-        spellcheck="false"
-        class="sky-form-control"
-      />
-    </sky-input-box>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <sky-date-range-picker
+    formControlName="pto"
+    stacked="true"
+    [calculatorIds]="calculatorIds"
+    [dateFormat]="dateFormat"
+  />
 
-    <div class="sky-form-group">
-      <button class="sky-btn sky-btn-default" type="button" (click)="submit()">
-        Submit
-      </button>
-    </div>
-  </form>
+  <button class="sky-btn sky-btn-default" type="submit">Submit</button>
+</form>
 
-  <h3>&lt;sky-date-range-picker&gt; statuses</h3>
+<h3>Value</h3>
+<pre>{{ ptoControl.value | json }}</pre>
 
-  <table>
-    <tr>
-      <th>Touched</th>
-      <td>{{ pickerFormControl.touched }}</td>
-    </tr>
-    <tr>
-      <th>Pristine</th>
-      <td>{{ pickerFormControl.pristine }}</td>
-    </tr>
-    <tr>
-      <th>Valid</th>
-      <td>{{ pickerFormControl.valid }}</td>
-    </tr>
-  </table>
+<h3>Errors</h3>
+<pre>{{ ptoControl.errors | json }}</pre>
 
-  <div *ngIf="pickerFormControl.errors" class="sky-error-label">
-    {{ pickerFormControl.errors | json }}
-  </div>
+<h3>Statuses</h3>
+<pre>
+Dirty?   {{ ptoControl.dirty }}
+Valid?   {{ ptoControl.valid }}
+Touched? {{ ptoControl.touched }}
+</pre>
 
-  <h3>&lt;sky-date-range-picker&gt; value</h3>
-
-  <pre *ngIf="reactiveForm.valid">
-    <code style="display:block">
-      calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
-      startDate: {{ reactiveForm.value.lastDonation?.startDate | skyDate }}
-      endDate: {{ reactiveForm.value.lastDonation?.endDate | skyDate }}
-    </code>
-  </pre>
-
-  <pre *ngIf="!reactiveForm.valid">
-    Invalid - fix validity to show value
-  </pre>
-
-  <h3>Manipulate value and state</h3>
-
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="toggleDisabled()"
-  >
-    Toggle disabled
+<div>
+  <button type="button" (click)="changeValue()">Change value</button>
+  <button type="button" (click)="changeCalculators()">
+    Change calculators
   </button>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="toggleStartDateRequired()"
-  >
-    Toggle start date required
-  </button>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="toggleEndDateRequired()"
-  >
-    Toggle end date required
-  </button>
-  <button class="sky-btn sky-btn-default" type="button" (click)="resetForm()">
-    Reset form
-  </button>
-  <button class="sky-btn sky-btn-default" type="button" (click)="setRange()">
-    Set specific range
-  </button>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="setInvalidRange()"
-  >
-    Set invalid range
-  </button>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="setInvalidDates()"
-  >
-    Set invalid dates
-  </button>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="setDateFormat()"
-  >
-    Set date format
-  </button>
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="toggleHintText()"
-  >
-    Toggle hint text
-  </button>
+  <button type="button" (click)="setInvalidRange()">Set invalid range</button>
+  <button type="button" (click)="toggleDisabled()">Toggle disabled</button>
+  <button type="button" (click)="toggleRequired()">Toggle required</button>
+  <button type="button" (click)="changeDateFormat()">Change date format</button>
+  <button type="button" (click)="changeLocale()">Change locale</button>
+  <button type="button" (click)="resetForm()">Reset form</button>
 </div>

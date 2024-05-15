@@ -1,118 +1,153 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Injectable, inject } from '@angular/core';
 import {
   AbstractControl,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
+  SkyDateRangePickerModule,
 } from '@skyux/datetime';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
+
+import { BehaviorSubject, Observable } from 'rxjs';
+
+@Injectable()
+class MyLocaleProvider extends SkyAppLocaleProvider {
+  #locale: BehaviorSubject<SkyAppLocaleInfo>;
+  #localeObs: Observable<SkyAppLocaleInfo>;
+
+  constructor() {
+    super();
+
+    this.#locale = new BehaviorSubject<SkyAppLocaleInfo>({
+      locale: 'en-US',
+    });
+
+    this.#localeObs = this.#locale.asObservable();
+  }
+
+  public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+    return this.#localeObs;
+  }
+
+  public setLocale(locale: string): void {
+    this.#locale.next({ locale });
+  }
+}
 
 @Component({
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDateRangePickerModule,
+  ],
+  providers: [
+    {
+      provide: SkyAppLocaleProvider,
+      useClass: MyLocaleProvider,
+    },
+  ],
   selector: 'app-date-range-picker',
+  standalone: true,
   templateUrl: './date-range-picker.component.html',
-  styleUrls: ['./date-range-picker.component.scss'],
 })
 export class DateRangePickerComponent {
-  public calculatorIds: SkyDateRangeCalculatorId[];
-  public dateFormat: string;
-  public disabled = false;
-  public endDateRequired = false;
-  public hintText: string | undefined;
-  public reactiveForm: UntypedFormGroup;
-  public startDateRequired = false;
+  protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
+  protected dateFormat: string | undefined;
 
-  public get pickerFormControl(): AbstractControl {
-    return this.reactiveForm.get('lastDonation');
+  protected formGroup = inject(FormBuilder).group({
+    pto: new FormControl<SkyDateRangeCalculation>(undefined, [
+      Validators.required,
+    ]),
+  });
+
+  protected get ptoControl(): AbstractControl {
+    return this.formGroup.get('pto') as AbstractControl;
   }
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.reactiveForm = formBuilder.group({
-      lastDonation: new UntypedFormControl(),
+  readonly #localeProvider = inject(SkyAppLocaleProvider) as MyLocaleProvider;
+
+  constructor() {
+    // this.ptoControl.setValue({
+    //   calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+    //   startDate: new Date('1/2/2000'),
+    //   endDate: new Date('1/1/2000'),
+    // });
+
+    this.ptoControl.statusChanges.subscribe((x) => {
+      console.log('HOST STATUS CHANGE:', x);
     });
-    this.pickerFormControl.statusChanges.subscribe((status) => {
-      console.log(
-        'Date range status change:',
-        status,
-        this.pickerFormControl.errors,
-      );
-    });
 
-    this.pickerFormControl.valueChanges.subscribe((value) => {
-      console.log('Date range value change:', value);
+    this.ptoControl.valueChanges.subscribe((x) => {
+      console.log('HOST VALUE CHANGE:', x);
     });
   }
 
-  public toggleDisabled(): void {
-    this.disabled = !this.disabled;
-    if (this.reactiveForm.disabled) {
-      this.reactiveForm.enable();
-    } else {
-      this.reactiveForm.disable();
-    }
+  protected changeCalculators(): void {
+    this.calculatorIds = [
+      SkyDateRangeCalculatorId.LastCalendarYear,
+      SkyDateRangeCalculatorId.ThisCalendarYear,
+      SkyDateRangeCalculatorId.NextCalendarYear,
+      SkyDateRangeCalculatorId.LastFiscalYear,
+      SkyDateRangeCalculatorId.ThisFiscalYear,
+      SkyDateRangeCalculatorId.NextFiscalYear,
+    ];
   }
 
-  public resetForm(): void {
-    this.reactiveForm.reset();
-    this.reactiveForm.markAsPristine();
-    this.reactiveForm.markAsUntouched();
+  protected changeDateFormat(): void {
+    this.dateFormat = 'YYYY/MM/DD';
   }
 
-  public setRange(): void {
-    const range: SkyDateRangeCalculation = {
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: new Date('1/1/2012'),
-      endDate: new Date('1/1/2013'),
-    };
-
-    this.pickerFormControl.setValue(range);
+  protected changeLocale(): void {
+    this.#localeProvider.setLocale('en-GB');
   }
 
-  public setInvalidRange(): void {
-    const range: SkyDateRangeCalculation = {
+  protected changeValue(): void {
+    // this.ptoControl.setValue({ calculatorId: 5 }, { emitEvent: false });
+    this.ptoControl.patchValue({ endDate: new Date() });
+    // this.ptoControl.patchValue({ calculatorId: 5 });
+  }
+
+  protected onSubmit(): void {
+    this.formGroup.markAllAsTouched();
+    this.formGroup.markAsDirty();
+  }
+
+  protected resetForm(): void {
+    this.calculatorIds = undefined;
+    this.formGroup.reset();
+  }
+
+  protected setInvalidRange(): void {
+    this.ptoControl.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: new Date('1/1/2013'),
       endDate: new Date('1/1/2012'),
-    };
-
-    this.pickerFormControl.setValue(range);
+    });
+    this.ptoControl.markAsDirty();
   }
 
-  public setInvalidDates(): void {
-    const range: SkyDateRangeCalculation = {
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: 'asdf' as any,
-      endDate: 'asdf' as any,
-    };
-
-    this.pickerFormControl.setValue(range);
-  }
-
-  public submit(): void {
-    const value = this.reactiveForm.value;
-    console.log('Form submitted with:', value);
-  }
-
-  public setDateFormat(): void {
-    this.dateFormat = 'YYYY-MM-DD';
-  }
-
-  public toggleEndDateRequired(): void {
-    this.endDateRequired = !this.endDateRequired;
-  }
-
-  public toggleStartDateRequired(): void {
-    this.startDateRequired = !this.startDateRequired;
-  }
-
-  public toggleHintText(): void {
-    if (this.hintText) {
-      this.hintText = undefined;
+  protected toggleDisabled(): void {
+    if (this.ptoControl.disabled) {
+      this.ptoControl.enable();
     } else {
-      this.hintText =
-        'Really long hint text that should wrap and be confined to below the date range picker element. We set the text to have a small margin below the selection and datepicker controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors.';
+      this.ptoControl.disable();
     }
+  }
+
+  protected toggleRequired(): void {
+    if (this.ptoControl.hasValidator(Validators.required)) {
+      this.ptoControl.removeValidators(Validators.required);
+    } else {
+      this.ptoControl.addValidators(Validators.required);
+    }
+    this.ptoControl.updateValueAndValidity();
   }
 }

@@ -5,6 +5,31 @@ import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
 import { SkyDateRangeDefaultCalculatorConfig } from './date-range-default-calculator-config';
 import { SkyDateRangeRelativeValue } from './date-range-relative-value';
 
+export const SKY_DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
+  SkyDateRangeCalculatorId.AnyTime,
+  SkyDateRangeCalculatorId.Before,
+  SkyDateRangeCalculatorId.After,
+  SkyDateRangeCalculatorId.SpecificRange,
+  SkyDateRangeCalculatorId.Yesterday,
+  SkyDateRangeCalculatorId.Today,
+  SkyDateRangeCalculatorId.Tomorrow,
+  SkyDateRangeCalculatorId.LastWeek,
+  SkyDateRangeCalculatorId.ThisWeek,
+  SkyDateRangeCalculatorId.NextWeek,
+  SkyDateRangeCalculatorId.LastMonth,
+  SkyDateRangeCalculatorId.ThisMonth,
+  SkyDateRangeCalculatorId.NextMonth,
+  SkyDateRangeCalculatorId.LastQuarter,
+  SkyDateRangeCalculatorId.ThisQuarter,
+  SkyDateRangeCalculatorId.NextQuarter,
+  SkyDateRangeCalculatorId.LastCalendarYear,
+  SkyDateRangeCalculatorId.ThisCalendarYear,
+  SkyDateRangeCalculatorId.NextCalendarYear,
+  SkyDateRangeCalculatorId.LastFiscalYear,
+  SkyDateRangeCalculatorId.ThisFiscalYear,
+  SkyDateRangeCalculatorId.NextFiscalYear,
+];
+
 export const SKY_DEFAULT_CALCULATOR_CONFIGS: SkyDateRangeDefaultCalculatorConfig[] =
   [
     {
