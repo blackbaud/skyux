@@ -385,14 +385,14 @@ export class SkyDateRangePickerComponent
 
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
   #_disabled = false;
-  #control: AbstractControl | undefined;
-  #isInitialized = false;
+  #control: AbstractControl | null | undefined;
   #ngUnsubscribe = new Subject<void>();
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dateRangeSvc = inject(SkyDateRangePickerService);
+  readonly #injector = inject(Injector);
   readonly #labelTextRequiredSvc = inject(
     SkyFormFieldLabelTextRequiredService,
     {
@@ -426,18 +426,28 @@ export class SkyDateRangePickerComponent
   }
 
   public ngAfterViewInit(): void {
+    this.#control = this.#injector.get(NgControl, null, {
+      optional: true,
+      self: true,
+    })?.control;
+
+    // Set a default value on the control if undefined.
+    // We need to use setTimeout to avoid interfering with the first
+    // validation check.
+    if (!this.#control?.value) {
+      setTimeout(() => {
+        this.#control?.setValue(this.#getValue(), {
+          emitEvent: false,
+        });
+      });
+    }
+
     // Update the view when required or disabled states are changed.
     this.#control?.statusChanges
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });
-
-    // setTimeout(() => {
-    //   if (!this.#control?.value) {
-    //     this.#control?.setErrors(this.validate(this.formGroup));
-    //   }
-    // });
 
     // If child fields' statuses change, we want to retrigger the parent
     // control's validation so that the child errors are passed to the parent.
@@ -453,8 +463,6 @@ export class SkyDateRangePickerComponent
         this.#updateValueAndValidity();
       });
 
-    this.#isInitialized = true;
-    console.log(1);
     this.#updatePickerVisibility(this.selectedCalculator);
   }
 
@@ -466,18 +474,20 @@ export class SkyDateRangePickerComponent
    * @see https://github.com/angular/angular/issues/10887#issuecomment-2035267400
    */
   public ngDoCheck(): void {
+    const control = this.#control;
     const touched = this.formGroup.touched;
-    if (this.#control?.touched && !touched) {
-      this.formGroup.markAllAsTouched();
-      this.#changeDetector.markForCheck();
-    } else if (this.#control?.untouched && touched) {
-      this.formGroup.markAsUntouched();
-      this.#changeDetector.markForCheck();
-    }
 
-    this.hasErrors =
-      !!this.#control?.errors &&
-      (this.#control?.touched || this.#control?.dirty);
+    if (control) {
+      if (control.touched && !touched) {
+        this.formGroup.markAllAsTouched();
+        this.#changeDetector.markForCheck();
+      } else if (control.untouched && touched) {
+        this.formGroup.markAsUntouched();
+        this.#changeDetector.markForCheck();
+      }
+
+      this.hasErrors = !!control.errors && (control.touched || control.dirty);
+    }
   }
 
   public ngOnDestroy(): void {
@@ -500,46 +510,8 @@ export class SkyDateRangePickerComponent
     this.disabled = isDisabled;
   }
 
-  #notifyValidatorChange: (() => void) | undefined;
-  public registerOnValidatorChange(fn: () => void): void {
-    this.#notifyChange = fn;
-  }
-
   // Implemented as part of Validator.
   public validate(control: AbstractControl): ValidationErrors | null {
-    this.#control ||= control;
-
-    console.log('validate()', control.value);
-
-    // This is the first time we can safely set the control's default value to
-    // avoid an ExpressionChangedAfterChecked error or a circular DI error.
-    if (!this.#isInitialized && !control.value) {
-      setTimeout(() => {
-        control.setValue(this.#getValue(), {
-          emitEvent: false,
-        });
-      });
-
-      // this.#patchValue({ calculatorId: this.selectedCalculator.calculatorId });
-      // this.#control?.setValue(this.#getValue(), {
-      //   emitEvent: false,
-      //   onlySelf: true,
-      // });
-      // this.#notifyChange?.(this.#getValue());
-
-      // setTimeout(() => {
-      //   this.#control?.setErrors(this.validate(this.#control));
-      // });
-
-      // this.#notifyValidatorChange?.();
-      // this.#changeDetector.markForCheck();
-      // this.#control?.setValue(this.#getValue());
-      // this.#control?.updateValueAndValidity({});
-      // this.#control?.setValue(this.#getValue());
-      // this.#notifyChange?.(this.#getValue());
-      return null;
-    }
-
     let errors: ValidationErrors | null = null;
 
     const calculatorErrors = this.selectedCalculator.validate(control.value);
@@ -565,8 +537,6 @@ export class SkyDateRangePickerComponent
       errors = { ...errors, ...endDateErrors };
     }
 
-    console.log('validate() ERRORS', JSON.stringify(errors));
-
     return errors;
   }
 
@@ -581,15 +551,14 @@ export class SkyDateRangePickerComponent
 
     // Checks if the value is null or the calculatorId is undefined or the
     // value is incomplete (e.g. the consumer used `patchValue`).
-    const doUpdateHostControlValue =
-      this.#isInitialized &&
+    const doUpdateHostControl =
       (!value ||
         isNullOrUndefined(value.calculatorId) ||
         !('endDate' in value) ||
         !('startDate' in value)) &&
       !areDateRangesEqual(oldValue, newValue);
 
-    if (doUpdateHostControlValue) {
+    if (doUpdateHostControl) {
       this.#control?.setValue(newValue, {
         emitEvent: false,
       });
@@ -623,12 +592,6 @@ export class SkyDateRangePickerComponent
     this.#notifyChange?.(this.#getValue());
   }
 
-  #getDefaultValue(
-    calculator: SkyDateRangeCalculator,
-  ): SkyDateRangeCalculation {
-    return calculator.getValue();
-  }
-
   #getCalculator(calculatorId: number): SkyDateRangeCalculator {
     const found = this.calculators.find((c) => c.calculatorId === calculatorId);
 
@@ -643,37 +606,24 @@ export class SkyDateRangePickerComponent
     return found;
   }
 
-  #updatePickerVisibility(calculator: SkyDateRangeCalculator): void {
-    if (this.#isInitialized) {
-      let showEndDatePicker = false;
-      let showStartDatePicker = false;
-
-      switch (calculator.type) {
-        case SkyDateRangeCalculatorType.Before:
-          showEndDatePicker = true;
-          break;
-
-        case SkyDateRangeCalculatorType.After:
-          showStartDatePicker = true;
-          break;
-
-        case SkyDateRangeCalculatorType.Range:
-          showEndDatePicker = true;
-          showStartDatePicker = true;
-          break;
-
-        default:
-          break;
-      }
-
-      this.showEndDatePicker = showEndDatePicker;
-      this.showStartDatePicker = showStartDatePicker;
-      this.#changeDetector.markForCheck();
-    }
+  #getDefaultValue(
+    calculator: SkyDateRangeCalculator,
+  ): SkyDateRangeCalculation {
+    return calculator.getValue();
   }
 
   #getValue(): SkyDateRangeCalculation {
     return this.formGroup.value;
+  }
+
+  #patchValue(
+    partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
+  ): void {
+    this.#setValue(
+      isNullOrUndefined(partialValue)
+        ? null
+        : { ...this.#getValue(), ...(partialValue ?? {}) },
+    );
   }
 
   #setValue(value: SkyDateRangeCalculation | null | undefined): void {
@@ -703,14 +653,31 @@ export class SkyDateRangePickerComponent
     }
   }
 
-  #patchValue(
-    partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
-  ): void {
-    this.#setValue(
-      isNullOrUndefined(partialValue)
-        ? null
-        : { ...this.#getValue(), ...(partialValue ?? {}) },
-    );
+  #updatePickerVisibility(calculator: SkyDateRangeCalculator): void {
+    let showEndDatePicker = false;
+    let showStartDatePicker = false;
+
+    switch (calculator.type) {
+      case SkyDateRangeCalculatorType.Before:
+        showEndDatePicker = true;
+        break;
+
+      case SkyDateRangeCalculatorType.After:
+        showStartDatePicker = true;
+        break;
+
+      case SkyDateRangeCalculatorType.Range:
+        showEndDatePicker = true;
+        showStartDatePicker = true;
+        break;
+
+      default:
+        break;
+    }
+
+    this.showEndDatePicker = showEndDatePicker;
+    this.showStartDatePicker = showStartDatePicker;
+    this.#changeDetector.markForCheck();
   }
 
   #updateValueAndValidity(): void {
@@ -734,10 +701,5 @@ export class SkyDateRangePickerComponent
 
 /**
  * TODO:
- * - reset validators when calculators change.
- * - respond to date pickers errors.
- * - setting a value programmatically makes all three fields fire change events.
- * - show error styles: what determines hasErrors?
- * - set disabled state
  * - async changes to date-picker service...
  */
