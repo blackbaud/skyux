@@ -471,6 +471,12 @@ export class SkyDateRangePickerComponent
         this.#changeDetector.markForCheck();
       });
 
+    // Set initial errors after the first change.
+    setTimeout(() => {
+      const errors = this.validate(this.formGroup);
+      this.#control?.setErrors(errors, { emitEvent: false });
+    });
+
     // Wait a tick before subscribing.
     // TODO: Find a way to remove this.
     setTimeout(() => {
@@ -510,6 +516,7 @@ export class SkyDateRangePickerComponent
       .get('startDate')
       ?.statusChanges.pipe(distinctUntilChanged())
       .subscribe((status) => {
+        console.log('startDate status change', status);
         if (
           !areDatesEqual(
             this.formGroup.get('startDate')?.value,
@@ -518,8 +525,6 @@ export class SkyDateRangePickerComponent
         ) {
           setTimeout(() => {
             console.log('formGroup.startDate.statusChanges', status);
-            // this.#notifyValidatorChange?.();
-
             this.formGroup
               .get('startDate')
               ?.updateValueAndValidity({ emitEvent: false, onlySelf: true });
@@ -539,7 +544,6 @@ export class SkyDateRangePickerComponent
         ) {
           setTimeout(() => {
             console.log('formGroup.endDate.statusChanges', status);
-            // this.#notifyValidatorChange?.();
             this.formGroup
               .get('endDate')
               ?.updateValueAndValidity({ emitEvent: false, onlySelf: true });
@@ -718,6 +722,8 @@ export class SkyDateRangePickerComponent
       this.#changeDetector.markForCheck();
     }
   }
+
+  #initializeControl(): void {}
 }
 
 /**
