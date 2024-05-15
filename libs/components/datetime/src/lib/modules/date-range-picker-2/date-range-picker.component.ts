@@ -7,6 +7,7 @@ import {
   Component,
   DoCheck,
   HostBinding,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -23,6 +24,7 @@ import {
   FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  NgControl,
   ReactiveFormsModule,
   ValidationErrors,
   Validator,
@@ -99,6 +101,10 @@ function areDateRangesEqual(
   );
 }
 
+function isNullOrUndefined(value: unknown): boolean {
+  return value === undefined || value === null;
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -127,136 +133,146 @@ function areDateRangesEqual(
   standalone: true,
   styleUrl: './date-range-picker.component.scss',
   template: `<div
-    class="sky-date-range-picker"
-    [formGroup]="formGroup"
-    (focusout)="onBlur()"
-  >
-    <div
-      class="sky-date-range-picker-form-group"
-      [ngClass]="{
-        'sky-date-range-picker-last-input':
-          !showStartDatePicker && !showEndDatePicker
-      }"
+      class="sky-date-range-picker"
+      [formGroup]="formGroup"
+      (focusout)="onBlur()"
     >
-      <sky-input-box
-        [hasErrors]="hasErrors"
-        [helpPopoverContent]="helpPopoverContent"
-        [helpPopoverTitle]="helpPopoverTitle"
-        [hintText]="hintText"
-        [labelText]="
-          label || ('skyux_date_range_picker_default_label' | skyLibResources)
-        "
+      <div
+        class="sky-date-range-picker-form-group"
+        [ngClass]="{
+          'sky-date-range-picker-last-input':
+            !showStartDatePicker && !showEndDatePicker
+        }"
       >
-        <select
-          formControlName="calculatorId"
-          [required]="isRequired()"
-          (blur)="onBlur()"
-          (change)="onCalculatorIdSelectChange($event)"
+        <sky-input-box
+          [hasErrors]="hasErrors"
+          [helpPopoverContent]="helpPopoverContent"
+          [helpPopoverTitle]="helpPopoverTitle"
+          [hintText]="hintText"
+          [labelText]="
+            label || ('skyux_date_range_picker_default_label' | skyLibResources)
+          "
         >
-          <option
-            *ngFor="let calculator of calculators"
-            [value]="calculator.calculatorId"
+          <select
+            formControlName="calculatorId"
+            [required]="isRequired()"
+            (blur)="onBlur()"
+            (change)="onCalculatorIdSelectChange($event)"
           >
-            <ng-container
-              *ngIf="
-                calculator.shortDescriptionResourceKey;
-                else shortDescription
-              "
-              >{{
-                calculator.shortDescriptionResourceKey | skyLibResources
-              }}</ng-container
+            <option
+              *ngFor="let calculator of calculators"
+              [value]="calculator.calculatorId"
             >
-            <ng-template #shortDescription>{{
-              calculator.shortDescription
-            }}</ng-template>
-          </option>
-        </select>
-      </sky-input-box>
-    </div>
-    <div
-      class="sky-date-range-picker-form-group"
-      [hidden]="!showStartDatePicker"
-      [ngClass]="{
-        'sky-date-range-picker-last-input':
-          showStartDatePicker && !showEndDatePicker
-      }"
-    >
-      <sky-input-box
-        [hasErrors]="hasErrors"
-        [labelText]="
-          selectedCalculator.type
-            | skyDateRangePickerStartDateResourceKey
-            | skyLibResources
-        "
+              <ng-container
+                *ngIf="
+                  calculator.shortDescriptionResourceKey;
+                  else shortDescription
+                "
+                >{{
+                  calculator.shortDescriptionResourceKey | skyLibResources
+                }}</ng-container
+              >
+              <ng-template #shortDescription>{{
+                calculator.shortDescription
+              }}</ng-template>
+            </option>
+          </select>
+        </sky-input-box>
+      </div>
+      <div
+        class="sky-date-range-picker-form-group"
+        [hidden]="!showStartDatePicker"
+        [ngClass]="{
+          'sky-date-range-picker-last-input':
+            showStartDatePicker && !showEndDatePicker
+        }"
       >
-        <sky-datepicker>
-          <input
-            formControlName="startDate"
-            name="startDate"
-            skyDatepickerInput
-            type="text"
-            [attr.aria-label]="
-              label
-                ? ('skyux_date_range_picker_default_aria_label'
-                  | skyLibResources
-                    : (selectedCalculator.type
-                        | skyDateRangePickerStartDateResourceKey
-                        | skyLibResources)
-                    : label)
-                : (selectedCalculator.type
-                  | skyDateRangePickerStartDateResourceKey
-                  | skyLibResources)
-            "
-            [dateFormat]="dateFormat"
-            [required]="
-              showStartDatePicker && (startDateRequired || isRequired())
-            "
-            (dateSelected)="onStartDateSelected($event)"
-          />
-        </sky-datepicker>
-      </sky-input-box>
-      <pre>{{ startDateControl.errors | json }}</pre>
-    </div>
-    <div
-      class="sky-date-range-picker-form-group"
-      [hidden]="!showEndDatePicker"
-      [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
-    >
-      <sky-input-box
-        [hasErrors]="hasErrors"
-        [labelText]="
-          selectedCalculator.type
-            | skyDateRangePickerEndDateResourceKey
-            | skyLibResources
-        "
+        <sky-input-box
+          [hasErrors]="hasErrors"
+          [labelText]="
+            selectedCalculator.type
+              | skyDateRangePickerStartDateResourceKey
+              | skyLibResources
+          "
+        >
+          <sky-datepicker>
+            <input
+              formControlName="startDate"
+              name="startDate"
+              skyDatepickerInput
+              type="text"
+              [attr.aria-label]="
+                label
+                  ? ('skyux_date_range_picker_default_aria_label'
+                    | skyLibResources
+                      : (selectedCalculator.type
+                          | skyDateRangePickerStartDateResourceKey
+                          | skyLibResources)
+                      : label)
+                  : (selectedCalculator.type
+                    | skyDateRangePickerStartDateResourceKey
+                    | skyLibResources)
+              "
+              [dateFormat]="dateFormat"
+              [required]="
+                showStartDatePicker && (startDateRequired || isRequired())
+              "
+              (change)="onDateChange()"
+              (dateSelected)="onDateChange()"
+            />
+          </sky-datepicker>
+        </sky-input-box>
+        <pre>{{ startDateControl.errors | json }}</pre>
+      </div>
+      <div
+        class="sky-date-range-picker-form-group"
+        [hidden]="!showEndDatePicker"
+        [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
       >
-        <sky-datepicker>
-          <input
-            formControlName="endDate"
-            name="endDate"
-            skyDatepickerInput
-            type="text"
-            [attr.aria-label]="
-              label
-                ? ('skyux_date_range_picker_default_aria_label'
-                  | skyLibResources
-                    : (selectedCalculator.type
-                        | skyDateRangePickerEndDateResourceKey
-                        | skyLibResources)
-                    : label)
-                : (selectedCalculator.type
-                  | skyDateRangePickerEndDateResourceKey
-                  | skyLibResources)
-            "
-            [dateFormat]="dateFormat"
-            [required]="showEndDatePicker && (endDateRequired || isRequired())"
-            (dateSelected)="onEndDateSelected($event)"
-          />
-        </sky-datepicker>
-      </sky-input-box>
-      <pre>{{ endDateControl.errors | json }}</pre>
+        <sky-input-box
+          [hasErrors]="hasErrors"
+          [labelText]="
+            selectedCalculator.type
+              | skyDateRangePickerEndDateResourceKey
+              | skyLibResources
+          "
+        >
+          <sky-datepicker>
+            <input
+              formControlName="endDate"
+              name="endDate"
+              skyDatepickerInput
+              type="text"
+              [attr.aria-label]="
+                label
+                  ? ('skyux_date_range_picker_default_aria_label'
+                    | skyLibResources
+                      : (selectedCalculator.type
+                          | skyDateRangePickerEndDateResourceKey
+                          | skyLibResources)
+                      : label)
+                  : (selectedCalculator.type
+                    | skyDateRangePickerEndDateResourceKey
+                    | skyLibResources)
+              "
+              [dateFormat]="dateFormat"
+              [required]="
+                showEndDatePicker && (endDateRequired || isRequired())
+              "
+              (change)="onDateChange()"
+              (dateSelected)="onDateChange()"
+            />
+          </sky-datepicker>
+        </sky-input-box>
+        <pre>{{ endDateControl.errors | json }}</pre>
+      </div>
     </div>
-  </div>`,
+    <div>
+      Form group value:
+      <pre>{{ formGroup.value | json }}</pre>
+      Form group errors:
+      <pre>{{ formGroup.errors | json }}</pre>
+    </div> `,
 })
 export class SkyDateRangePickerComponent
   implements
@@ -273,19 +289,25 @@ export class SkyDateRangePickerComponent
    * By default, this property includes all `SkyDateRangeCalculatorId` values.
    */
   @Input()
-  public set calculatorIds(value: SkyDateRangeCalculatorId[] | undefined) {
-    console.log('set calculatorIds', value);
-    this.#_calculatorIds = value ?? DEFAULT_CALCULATOR_IDS;
+  public set calculatorIds(
+    calculatorIds: SkyDateRangeCalculatorId[] | undefined,
+  ) {
+    console.log('set calculatorIds', calculatorIds);
+    this.#_calculatorIds = calculatorIds ?? DEFAULT_CALCULATOR_IDS;
 
     this.calculators = this.#dateRangeSvc.filterCalculators(
       this.#_calculatorIds,
     );
 
-    if (!this.#_calculatorIds.includes(this.value.calculatorId)) {
-      this.value = this.#getDefaultValue();
-      this.selectedCalculator = this.#getCalculator(this.value.calculatorId);
+    const currentValue = this.#getValue();
+
+    if (!this.#_calculatorIds.includes(currentValue.calculatorId)) {
+      this.selectedCalculator = this.#getCalculator(this.calculatorIds[0]);
+
+      const newValue = this.#getDefaultValue(this.selectedCalculator);
+
+      this.#setValue(newValue);
       this.#updatePickerVisibility(this.selectedCalculator);
-      this.#notifyChange?.(this.value);
     }
   }
 
@@ -393,36 +415,6 @@ export class SkyDateRangePickerComponent
     return this.formGroup.get('startDate')!;
   }
 
-  protected set value(value: SkyDateRangeCalculation | null | undefined) {
-    console.log('set value (before)', value);
-    const oldValue = { ...this.value };
-
-    const valueOrDefault = value ?? this.#getDefaultValue();
-    valueOrDefault.calculatorId = +valueOrDefault.calculatorId;
-    valueOrDefault.endDate ||= null;
-    valueOrDefault.startDate ||= null;
-
-    if (!areDateRangesEqual(oldValue, valueOrDefault)) {
-      this.selectedCalculator = this.#getCalculator(
-        valueOrDefault.calculatorId,
-      );
-
-      if (oldValue.calculatorId !== valueOrDefault.calculatorId) {
-        this.#updatePickerVisibility(this.selectedCalculator);
-      }
-
-      this.#_value = valueOrDefault;
-      console.log('set value (after)', valueOrDefault);
-      this.formGroup.setValue(valueOrDefault, {
-        emitEvent: false,
-      });
-    }
-  }
-
-  protected get value(): SkyDateRangeCalculation {
-    return this.#_value;
-  }
-
   protected calculators: SkyDateRangeCalculator[] = [];
   protected formGroup: FormGroup;
   protected hasErrors = false;
@@ -432,7 +424,6 @@ export class SkyDateRangePickerComponent
 
   #_calculatorIds = DEFAULT_CALCULATOR_IDS;
   #_disabled = false;
-  #_value: SkyDateRangeCalculation;
   #control: AbstractControl | undefined;
   #isInitialized = false;
   #ngUnsubscribe = new Subject<void>();
@@ -452,12 +443,15 @@ export class SkyDateRangePickerComponent
   constructor() {
     this.calculators = this.#dateRangeSvc.calculators;
     this.selectedCalculator = this.calculators[0];
-    this.#_value = this.#getDefaultValue();
+
+    const initialValue = this.#getDefaultValue(this.selectedCalculator);
 
     this.formGroup = inject(FormBuilder).group({
-      calculatorId: new FormControl(this.value.calculatorId),
-      endDate: new FormControl<Date | undefined>(undefined),
-      startDate: new FormControl<Date | undefined>(undefined),
+      calculatorId: new FormControl<number>(initialValue.calculatorId),
+      endDate: new FormControl<Date | null | undefined>(initialValue.endDate),
+      startDate: new FormControl<Date | null | undefined>(
+        initialValue.startDate,
+      ),
     });
   }
 
@@ -477,7 +471,6 @@ export class SkyDateRangePickerComponent
     this.#control?.statusChanges
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((x) => {
-        console.log('#control status change', x);
         // Needed to show required states.
         this.#changeDetector.markForCheck();
       });
@@ -581,47 +574,76 @@ export class SkyDateRangePickerComponent
 
     // Set a default value on init.
     // This is the first time we can safely set the control's default value
-    // if it's undefined to avoid changed after checked error or the circular DI error.
+    // if it's undefined to avoid an ExpressionChangedAfterChecked error or a
+    // circular DI error.
     if (!this.#isInitialized) {
       console.log('validate() ABORT, first change');
       this.#isInitialized = true;
-      this.#setDefaultValueOnControl();
+
+      this.#setValue(this.#getDefaultValue(this.selectedCalculator));
+      this.#control?.setValue(this.#getValue(), {
+        emitEvent: false,
+        onlySelf: true,
+      });
+
       return null;
     }
 
-    const currentValue = this.value;
-    const result = this.selectedCalculator.validate(control.value);
+    let errors: ValidationErrors | null = null;
 
-    const errors = {
-      ...(result
-        ? {
-            skyDateRange: {
-              calculatorId: currentValue.calculatorId,
-              errors: result,
-            },
-          }
-        : {}),
-      ...(this.formGroup.get('startDate')?.errors ?? {}),
-      ...(this.formGroup.get('endDate')?.errors ?? {}),
-    };
+    const calculatorErrors = this.selectedCalculator.validate(control.value);
+    const startDateErrors = this.formGroup.get('startDate')?.errors;
+    const endDateErrors = this.formGroup.get('endDate')?.errors;
 
-    console.log('validate() errors:', JSON.stringify(errors, undefined, 2));
+    if (calculatorErrors) {
+      errors = {
+        skyDateRange: {
+          calculatorId: this.#getValue().calculatorId,
+          errors: calculatorErrors,
+        },
+      };
+    }
+
+    if (startDateErrors) {
+      errors ||= {};
+      errors = { ...errors, ...startDateErrors };
+    }
+
+    if (endDateErrors) {
+      errors ||= {};
+      errors = { ...errors, ...endDateErrors };
+    }
 
     return errors;
   }
 
   // Implemented as part of ControlValueAccessor.
-  public writeValue(value: SkyDateRangeCalculation | undefined): void {
-    // TODO: implementing patchValue... I don't like this.
-    // const newValue = { ...this.value, ...value };
-    // console.log('writeValue()', value, newValue);
-    // TODO: Consumers using patchValue send partial values; we need to support it.
-    // this.value = newValue;
-
+  // The date range picker always has a value, so if the consumer passes in a
+  // partial value (via `patchValue`) or null, we need to update the host control's
+  // value with the complete value after it's been modified.
+  public writeValue(value: Partial<SkyDateRangeCalculation> | undefined): void {
     console.log('writeValue()', value);
 
-    // TODO: Setting the value here should NOT invoke notifyChange!
-    this.value = value;
+    const oldValue = this.#getValue();
+    this.#patchValue(value);
+    const newValue = this.#getValue();
+
+    console.log('writeValue() newValue', newValue);
+
+    // If the value is null or the calculatorId is undefined, update the value
+    // of the consumer's control.
+    const doUpdateHostControlValue =
+      this.#isInitialized &&
+      (!value || isNullOrUndefined(value.calculatorId)) &&
+      !areDateRangesEqual(oldValue, newValue);
+
+    if (doUpdateHostControlValue) {
+      console.log('writeValue() set value on control');
+      this.#control?.setValue(newValue, {
+        emitEvent: false,
+        onlySelf: true,
+      });
+    }
   }
 
   protected isRequired(): boolean {
@@ -636,40 +658,27 @@ export class SkyDateRangePickerComponent
   }
 
   protected onCalculatorIdSelectChange(evt: Event): void {
+    // The calculatorId comes through as a string, but it needs to be a number.
     const calculatorId = +(evt.target as HTMLSelectElement).value;
+    this.#patchValue({ calculatorId });
 
     console.log('formGroup.calculatorId.valueChanges', calculatorId);
 
-    // TODO: calculatorId changes, then zero out the startDate and endDate for the formGroup and the parent control.
-    this.value = {
-      calculatorId,
-      endDate: null,
-      startDate: null,
-    };
-
-    // TODO: clear existing errors?
-
-    this.#notifyChange?.(this.value);
+    this.#notifyChange?.(this.#getValue());
   }
 
-  protected onStartDateSelected(startDate: Date | null): void {
-    console.log('onStartDateSelected', startDate);
-    this.value = { ...this.value, ...{ startDate } };
-    this.#notifyChange?.(this.value);
+  /**
+   * Notify the host control when the user changes the date in the picker.
+   */
+  protected onDateChange(): void {
+    console.log('onDateChange()');
+    this.#notifyChange?.(this.#getValue());
   }
 
-  protected onEndDateSelected(endDate: Date | null): void {
-    console.log('onEndDateSelected', endDate);
-    this.value = { ...this.value, ...{ endDate } };
-    this.#notifyChange?.(this.value);
-  }
-
-  #getDefaultValue(): SkyDateRangeCalculation {
-    return {
-      calculatorId: this.calculatorIds[0],
-      endDate: null,
-      startDate: null,
-    };
+  #getDefaultValue(
+    calculator: SkyDateRangeCalculator,
+  ): SkyDateRangeCalculation {
+    return calculator.getValue();
   }
 
   #getCalculator(calculatorId: number): SkyDateRangeCalculator {
@@ -684,11 +693,6 @@ export class SkyDateRangePickerComponent
     }
 
     return found;
-  }
-
-  #setDefaultValueOnControl(): void {
-    console.log('setDefaultValueOnControl()');
-    this.#control?.setValue(this.value, { emitEvent: false, onlySelf: true });
   }
 
   #updatePickerVisibility(calculator: SkyDateRangeCalculator): void {
@@ -719,6 +723,48 @@ export class SkyDateRangePickerComponent
       this.#changeDetector.markForCheck();
     }
   }
+
+  #setValue(value: SkyDateRangeCalculation | null | undefined): void {
+    const oldValue = this.#getValue();
+
+    const valueOrDefault =
+      !value || isNullOrUndefined(value.calculatorId)
+        ? this.#getDefaultValue(this.selectedCalculator)
+        : value;
+
+    console.log('#setValue()', valueOrDefault);
+
+    if (!areDateRangesEqual(oldValue, valueOrDefault)) {
+      this.formGroup.setValue(valueOrDefault, {
+        emitEvent: false,
+        onlySelf: true,
+      });
+
+      this.selectedCalculator = this.#getCalculator(
+        valueOrDefault.calculatorId,
+      );
+
+      if (oldValue.calculatorId !== valueOrDefault.calculatorId) {
+        this.#updatePickerVisibility(this.selectedCalculator);
+      }
+    }
+  }
+
+  #getValue(): SkyDateRangeCalculation {
+    return this.formGroup.value;
+  }
+
+  #patchValue(
+    partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
+  ): void {
+    if (isNullOrUndefined(partialValue)) {
+      this.#setValue(null);
+    } else {
+      const completeValue = { ...this.#getValue(), ...(partialValue ?? {}) };
+
+      this.#setValue(completeValue);
+    }
+  }
 }
 
 /**
@@ -728,5 +774,5 @@ export class SkyDateRangePickerComponent
  * - setting a value programmatically makes all three fields fire change events.
  * - show error styles: what determines hasErrors?
  * - set disabled state
- *
+ * - async changes to date-picker service...
  */
