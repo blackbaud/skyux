@@ -11,31 +11,7 @@ import { DateRangePickerTestComponent } from './fixtures/date-range-picker.compo
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
-
-const defaultCalculatorIds = [
-  SkyDateRangeCalculatorId.AnyTime,
-  SkyDateRangeCalculatorId.Before,
-  SkyDateRangeCalculatorId.After,
-  SkyDateRangeCalculatorId.SpecificRange,
-  SkyDateRangeCalculatorId.Yesterday,
-  SkyDateRangeCalculatorId.Today,
-  SkyDateRangeCalculatorId.Tomorrow,
-  SkyDateRangeCalculatorId.LastWeek,
-  SkyDateRangeCalculatorId.ThisWeek,
-  SkyDateRangeCalculatorId.NextWeek,
-  SkyDateRangeCalculatorId.LastMonth,
-  SkyDateRangeCalculatorId.ThisMonth,
-  SkyDateRangeCalculatorId.NextMonth,
-  SkyDateRangeCalculatorId.LastQuarter,
-  SkyDateRangeCalculatorId.ThisQuarter,
-  SkyDateRangeCalculatorId.NextQuarter,
-  SkyDateRangeCalculatorId.LastCalendarYear,
-  SkyDateRangeCalculatorId.ThisCalendarYear,
-  SkyDateRangeCalculatorId.NextCalendarYear,
-  SkyDateRangeCalculatorId.LastFiscalYear,
-  SkyDateRangeCalculatorId.ThisFiscalYear,
-  SkyDateRangeCalculatorId.NextFiscalYear,
-];
+import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
 fdescribe('Date range picker 2', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
@@ -163,7 +139,7 @@ fdescribe('Date range picker 2', function () {
 
     const picker = component.dateRangePicker;
     expect(picker.label).toEqual(undefined);
-    expect(picker.calculatorIds).toEqual(defaultCalculatorIds);
+    expect(picker.calculatorIds).toEqual(SKY_DEFAULT_CALCULATOR_IDS);
   }));
 
   it('should allow setting specific calculators', fakeAsync(function () {
@@ -187,7 +163,7 @@ fdescribe('Date range picker 2', function () {
     detectChanges();
 
     expect(component.dateRangePicker.calculatorIds).toEqual(
-      defaultCalculatorIds,
+      SKY_DEFAULT_CALCULATOR_IDS,
     );
   }));
 

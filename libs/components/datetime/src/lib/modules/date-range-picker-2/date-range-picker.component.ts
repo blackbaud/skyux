@@ -47,32 +47,7 @@ import { SkyDateRangeCalculation } from './types/date-range-calculation';
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
-import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calculator-configs';
-
-const DEFAULT_CALCULATOR_IDS: SkyDateRangeCalculatorId[] = [
-  SkyDateRangeCalculatorId.AnyTime,
-  SkyDateRangeCalculatorId.Before,
-  SkyDateRangeCalculatorId.After,
-  SkyDateRangeCalculatorId.SpecificRange,
-  SkyDateRangeCalculatorId.Yesterday,
-  SkyDateRangeCalculatorId.Today,
-  SkyDateRangeCalculatorId.Tomorrow,
-  SkyDateRangeCalculatorId.LastWeek,
-  SkyDateRangeCalculatorId.ThisWeek,
-  SkyDateRangeCalculatorId.NextWeek,
-  SkyDateRangeCalculatorId.LastMonth,
-  SkyDateRangeCalculatorId.ThisMonth,
-  SkyDateRangeCalculatorId.NextMonth,
-  SkyDateRangeCalculatorId.LastQuarter,
-  SkyDateRangeCalculatorId.ThisQuarter,
-  SkyDateRangeCalculatorId.NextQuarter,
-  SkyDateRangeCalculatorId.LastCalendarYear,
-  SkyDateRangeCalculatorId.ThisCalendarYear,
-  SkyDateRangeCalculatorId.NextCalendarYear,
-  SkyDateRangeCalculatorId.LastFiscalYear,
-  SkyDateRangeCalculatorId.ThisFiscalYear,
-  SkyDateRangeCalculatorId.NextFiscalYear,
-];
+import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
 function areDatesEqual(
   a: Date | null | undefined,
@@ -293,7 +268,7 @@ export class SkyDateRangePickerComponent
     calculatorIds: SkyDateRangeCalculatorId[] | undefined,
   ) {
     console.log('set calculatorIds', calculatorIds);
-    this.#_calculatorIds = calculatorIds ?? DEFAULT_CALCULATOR_IDS;
+    this.#_calculatorIds = calculatorIds ?? SKY_DEFAULT_CALCULATOR_IDS;
 
     this.calculators = this.#dateRangeSvc.filterCalculators(
       this.#_calculatorIds,
@@ -422,7 +397,7 @@ export class SkyDateRangePickerComponent
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
 
-  #_calculatorIds = DEFAULT_CALCULATOR_IDS;
+  #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
   #_disabled = false;
   #control: AbstractControl | undefined;
   #isInitialized = false;

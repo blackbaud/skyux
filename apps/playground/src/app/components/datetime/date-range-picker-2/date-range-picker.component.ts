@@ -119,6 +119,12 @@ export class DateRangePickerComponent {
   readonly #localeProvider = inject(SkyAppLocaleProvider) as MyLocaleProvider;
 
   constructor() {
+    this.ptoControl.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/2/2000'),
+      endDate: new Date('1/1/2000'),
+    });
+
     this.ptoControl.statusChanges.subscribe((x) => {
       console.log('HOST STATUS CHANGE:', x);
     });
@@ -148,7 +154,9 @@ export class DateRangePickerComponent {
   }
 
   protected changeValue(): void {
-    this.ptoControl.setValue({ calculatorId: 5 }, { emitEvent: false });
+    // this.ptoControl.setValue({ calculatorId: 5 }, { emitEvent: false });
+    // this.ptoControl.patchValue({ endDate: new Date() });
+    this.ptoControl.patchValue({ calculatorId: 5 });
   }
 
   protected onSubmit(): void {
