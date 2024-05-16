@@ -63,9 +63,10 @@ export class DateRangePickerComponent {
   protected dateFormat: string | undefined;
 
   protected formGroup = inject(FormBuilder).group({
-    pto: new FormControl<SkyDateRangeCalculation>(undefined, [
-      Validators.required,
-    ]),
+    pto: new FormControl<SkyDateRangeCalculation>(
+      { calculatorId: SkyDateRangeCalculatorId.After },
+      [Validators.required],
+    ),
   });
 
   protected get ptoControl(): AbstractControl {

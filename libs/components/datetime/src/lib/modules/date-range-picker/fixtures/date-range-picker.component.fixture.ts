@@ -44,6 +44,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public label: string | undefined;
   public numValueChangeNotifications = 0;
   public reactiveForm: UntypedFormGroup;
+  public required = false;
   public startDateRequired = false;
   public templateDisable: boolean | undefined;
   public hintText: string | undefined;

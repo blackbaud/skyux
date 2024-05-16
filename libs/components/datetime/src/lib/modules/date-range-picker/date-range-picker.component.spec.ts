@@ -4,6 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { Validators } from '@angular/forms';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 
@@ -487,6 +488,27 @@ describe('Date range picker 2', function () {
 
     expect(control?.errors).toBeFalsy();
   }));
+
+  it('should clear "required" errors when switching to a calculator without datepickers', () => {
+    component.required = true;
+    fixture.detectChanges();
+
+    selectCalculator(SkyDateRangeCalculatorId.After);
+    fixture.detectChanges();
+
+    const control = component.dateRange;
+    control?.updateValueAndValidity();
+
+    expect(control?.errors).toEqual({
+      required: true,
+    });
+
+    selectCalculator(SkyDateRangeCalculatorId.Today);
+
+    fixture.detectChanges();
+
+    expect(control?.errors).toBeFalsy();
+  });
 
   it('should catch validation errors from date picker', fakeAsync(function () {
     detectChanges();
