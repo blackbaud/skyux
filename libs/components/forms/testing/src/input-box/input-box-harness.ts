@@ -3,6 +3,7 @@ import { TemplateRef } from '@angular/core';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
+import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
 import { SkyCharacterCounterIndicatorHarness } from '../character-counter/character-counter-indicator-harness';
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
@@ -174,6 +175,24 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   }
 
   /**
+   * Gets the help popover for the input box or throws an error if
+   * the help popover is not configured.
+   */
+  public async getHelpPopover(): Promise<SkyPopoverHarness> {
+    const helpPopover = await this.locatorForOptional(
+      new HarnessPredicate(SkyPopoverHarness, {
+        ancestor: '.sky-control-help',
+      }),
+    )();
+
+    if (!helpPopover) {
+      throw new Error('The input box does not have a help popover configured.');
+    }
+
+    return helpPopover;
+  }
+
+  /**2
    * Gets the help popover content.
    */
   public async getHelpPopoverContent(): Promise<
