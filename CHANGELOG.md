@@ -1,5 +1,17 @@
 # Changelog
 
+## [10.16.0](https://github.com/blackbaud/skyux/compare/10.15.0...10.16.0) (2024-05-16)
+
+
+### Features
+
+* **components/forms:** update single file attachment code examples to use preview features ([#2307](https://github.com/blackbaud/skyux/issues/2307)) ([c6cab25](https://github.com/blackbaud/skyux/commit/c6cab258b5db6430cfaff96ad8814dbdb1588821))
+
+
+### Bug Fixes
+
+* **components/lookup:** search emits a change event when set back to previous text after the clear button is clicked ([#2305](https://github.com/blackbaud/skyux/issues/2305)) ([83a217f](https://github.com/blackbaud/skyux/commit/83a217f00ffc586a14772af95054e01a66ee9f99))
+
 ## [10.15.0](https://github.com/blackbaud/skyux/compare/10.14.0...10.15.0) (2024-05-10)
 
 
