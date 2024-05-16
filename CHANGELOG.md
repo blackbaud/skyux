@@ -1,5 +1,46 @@
 # Changelog
 
+## [10.17.0](https://github.com/blackbaud/skyux/compare/10.16.0...10.17.0) (2024-05-16)
+
+
+### Features
+
+* **components/forms:** remove preview tags from single file attachment inputs ([#2309](https://github.com/blackbaud/skyux/issues/2309)) ([5569157](https://github.com/blackbaud/skyux/commit/55691579843d0cd7c9af4ad63d8308423eea5919))
+
+## [10.16.0](https://github.com/blackbaud/skyux/compare/10.15.0...10.16.0) (2024-05-16)
+
+
+### Features
+
+* **components/forms:** update single file attachment code examples to use preview features ([#2307](https://github.com/blackbaud/skyux/issues/2307)) ([c6cab25](https://github.com/blackbaud/skyux/commit/c6cab258b5db6430cfaff96ad8814dbdb1588821))
+
+
+### Bug Fixes
+
+* **components/lookup:** search emits a change event when set back to previous text after the clear button is clicked ([#2305](https://github.com/blackbaud/skyux/issues/2305)) ([83a217f](https://github.com/blackbaud/skyux/commit/83a217f00ffc586a14772af95054e01a66ee9f99))
+
+## [10.15.0](https://github.com/blackbaud/skyux/compare/10.14.0...10.15.0) (2024-05-10)
+
+
+### Features
+
+* **components/core:** make `SkyHelpService` optional ([#2302](https://github.com/blackbaud/skyux/issues/2302)) ([57bd7ea](https://github.com/blackbaud/skyux/commit/57bd7eae055ea9ea8f8d41daab4a2942a3331b38))
+
+## [10.14.0](https://github.com/blackbaud/skyux/compare/10.13.0...10.14.0) (2024-05-10)
+
+
+### Features
+
+* **components/ag-grid:** compact option ([#2237](https://github.com/blackbaud/skyux/issues/2237)) ([b85f217](https://github.com/blackbaud/skyux/commit/b85f2178ddd12d2dac5c71305d813560930d9fe8))
+* **components/forms:** add `helpKey` input to single file attachment ([#2300](https://github.com/blackbaud/skyux/issues/2300)) ([1226c6a](https://github.com/blackbaud/skyux/commit/1226c6a10bfb70b0357c1b3609ff650d2666b441))
+* **components/popovers:** keyboard navigation for popovers with interactable content ([#2294](https://github.com/blackbaud/skyux/issues/2294)) ([ecf744f](https://github.com/blackbaud/skyux/commit/ecf744f92e5d7237a505e2d5d27d6d37e98ce120))
+
+
+### Bug Fixes
+
+* **components/forms:** add separate messages for different datepicker errors ([#2296](https://github.com/blackbaud/skyux/issues/2296)) ([c88d754](https://github.com/blackbaud/skyux/commit/c88d7547115a6af7f9eb405ead884b6224a0715e))
+* **components/forms:** implement `Validator` in the checkbox component to check required state ([#2297](https://github.com/blackbaud/skyux/issues/2297)) ([28145c2](https://github.com/blackbaud/skyux/commit/28145c23835892add19be31b0a4887ddb730a7f8))
+
 ## [10.13.0](https://github.com/blackbaud/skyux/compare/10.12.0...10.13.0) (2024-05-08)
 
 

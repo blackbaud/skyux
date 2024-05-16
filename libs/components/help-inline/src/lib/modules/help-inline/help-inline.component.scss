@@ -15,6 +15,10 @@
     transition: color $sky-transition-time-short;
     cursor: pointer;
   }
+
+  &-hidden {
+    display: none;
+  }
 }
 
 @include mixins.sky-theme-modern {

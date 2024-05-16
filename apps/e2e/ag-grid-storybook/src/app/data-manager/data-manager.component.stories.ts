@@ -30,8 +30,22 @@ DataManagerNormal.args = {
   enableTopScroll: false,
 };
 
+export const DataManagerNormalCompact: Story = {};
+DataManagerNormalCompact.args = {
+  compact: true,
+  domLayout: 'normal',
+  enableTopScroll: false,
+};
+
 export const DataManagerNormalWithTopScroll: Story = {};
 DataManagerNormalWithTopScroll.args = {
+  domLayout: 'normal',
+  enableTopScroll: true,
+};
+
+export const DataManagerNormalWithTopScrollCompact: Story = {};
+DataManagerNormalWithTopScrollCompact.args = {
+  compact: true,
   domLayout: 'normal',
   enableTopScroll: true,
 };
@@ -42,8 +56,22 @@ DataManagerAutoHeight.args = {
   enableTopScroll: false,
 };
 
+export const DataManagerAutoHeightCompact: Story = {};
+DataManagerAutoHeightCompact.args = {
+  compact: true,
+  domLayout: 'autoHeight',
+  enableTopScroll: false,
+};
+
 export const DataManagerAutoHeightWithTopScroll: Story = {};
 DataManagerAutoHeightWithTopScroll.args = {
+  domLayout: 'autoHeight',
+  enableTopScroll: true,
+};
+
+export const DataManagerAutoHeightWithTopScrollCompact: Story = {};
+DataManagerAutoHeightWithTopScrollCompact.args = {
+  compact: true,
   domLayout: 'autoHeight',
   enableTopScroll: true,
 };

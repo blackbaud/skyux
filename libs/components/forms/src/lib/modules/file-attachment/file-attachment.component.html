@@ -15,8 +15,9 @@
         }"
         >{{ labelText }}</span
       ><sky-help-inline
-        *ngIf="helpPopoverContent"
+        *ngIf="helpPopoverContent || helpKey"
         [labelText]="labelText"
+        [helpKey]="helpKey"
         [popoverTitle]="helpPopoverTitle"
         [popoverContent]="helpPopoverContent"
       />

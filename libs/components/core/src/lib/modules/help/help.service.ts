@@ -6,15 +6,11 @@ import { SkyHelpOpenArgs } from './help-open-args';
 /**
  * Provides methods for opening a globally accessible help dialog.
  */
-@Injectable({
-  providedIn: 'root',
-})
-export class SkyHelpService {
+@Injectable()
+export abstract class SkyHelpService {
   /**
    * Opens a globally accessible help dialog.
    * @param args The options for opening the help dialog.
    */
-  public openHelp(args: SkyHelpOpenArgs): void {
-    console.warn('Global help is not implemented for this application.');
-  }
+  public abstract openHelp(args: SkyHelpOpenArgs): void;
 }
