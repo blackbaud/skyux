@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.17.0](https://github.com/blackbaud/skyux/compare/10.16.0...10.17.0) (2024-05-16)
+
+
+### Features
+
+* **components/forms:** remove preview tags from single file attachment inputs ([#2309](https://github.com/blackbaud/skyux/issues/2309)) ([5569157](https://github.com/blackbaud/skyux/commit/55691579843d0cd7c9af4ad63d8308423eea5919))
+
 ## [10.16.0](https://github.com/blackbaud/skyux/compare/10.15.0...10.16.0) (2024-05-16)
 
 
