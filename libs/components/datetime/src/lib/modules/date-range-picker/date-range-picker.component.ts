@@ -248,6 +248,12 @@ export class SkyDateRangePickerComponent
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
 
+  get #calculatorIdControl(): AbstractControl<SkyDateRangeCalculatorId> {
+    return this.formGroup.get(
+      'calculatorId',
+    ) as AbstractControl<SkyDateRangeCalculatorId>;
+  }
+
   get #endDateControl(): AbstractControl<DateValue> {
     return this.formGroup.get('endDate') as AbstractControl<DateValue>;
   }
@@ -411,6 +417,10 @@ export class SkyDateRangePickerComponent
       errors ||= {};
       errors = { ...errors, ...endDateErrors };
     }
+
+    // Set errors on the calculator select so that they appear beneath it.
+    this.#calculatorIdControl.setErrors(errors);
+    this.#changeDetector.markForCheck();
 
     return errors;
   }

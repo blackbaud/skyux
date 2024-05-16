@@ -42,9 +42,10 @@ export class DateRangePickerComponent {
   protected startDateRequired = false;
 
   protected formGroup = inject(FormBuilder).group({
-    lastDonation: new FormControl<SkyDateRangeCalculation>(null, [
-      Validators.required,
-    ]),
+    lastDonation: new FormControl<SkyDateRangeCalculation>(
+      { calculatorId: SkyDateRangeCalculatorId.SpecificRange },
+      [Validators.required],
+    ),
   });
 
   protected get pickerFormControl(): AbstractControl<SkyDateRangeCalculation> {
