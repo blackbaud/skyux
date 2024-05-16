@@ -161,17 +161,11 @@ export class SkyDateRangePickerComponent
    */
   @Input({ transform: booleanAttribute })
   public set disabled(value: boolean) {
-    this.#_disabled = value;
-
     if (value) {
       this.formGroup.disable();
     } else {
       this.formGroup.enable();
     }
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
   }
 
   /**
@@ -253,7 +247,6 @@ export class SkyDateRangePickerComponent
   }
 
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
-  #_disabled = false;
   #control: AbstractControl | null | undefined;
   #ngUnsubscribe = new Subject<void>();
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
@@ -490,7 +483,7 @@ export class SkyDateRangePickerComponent
     this.#setValue(
       isNullOrUndefined(partialValue)
         ? null
-        : { ...this.#getValue(), ...(partialValue ?? {}) },
+        : { ...this.#getValue(), ...partialValue },
     );
   }
 

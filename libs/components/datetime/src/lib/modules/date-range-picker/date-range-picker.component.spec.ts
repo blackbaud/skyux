@@ -366,6 +366,18 @@ describe('Date range picker 2', function () {
     expect(component.reactiveForm?.touched).toEqual(true);
   }));
 
+  it('should mark the underlying control touched if the host control calls markAllAsTouched', () => {
+    fixture.detectChanges();
+
+    component.reactiveForm?.markAllAsTouched();
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-date-range-picker'),
+    ).toHaveCssClass('ng-touched');
+  });
+
   it('should maintain selected value when calculators change', fakeAsync(function () {
     fixture.detectChanges();
 

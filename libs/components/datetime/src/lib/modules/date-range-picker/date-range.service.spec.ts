@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
@@ -13,8 +12,7 @@ describe('Date range service', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [SkyI18nModule, SkyDatetimeResourcesModule],
-      providers: [SkyDateRangeService],
+      imports: [SkyDatetimeResourcesModule],
     });
 
     service = TestBed.inject(SkyDateRangeService);
@@ -94,5 +92,24 @@ describe('Date range service', function () {
     expect(calculator1.calculatorId).toEqual(1000 as any);
     expect(calculator2.calculatorId).toEqual(1001 as any);
     /* eslint-enable @typescript-eslint/no-explicit-any */
+  });
+
+  describe('synchronous methods', () => {
+    it('should filter calculators given an array of IDs', () => {
+      const calculators = service.filterCalculators([
+        SkyDateRangeCalculatorId.After,
+        SkyDateRangeCalculatorId.Before,
+      ]);
+
+      expect(calculators[0].shortDescriptionResourceKey).toEqual(
+        'skyux_date_range_picker_format_label_after',
+      );
+
+      expect(calculators[1].shortDescriptionResourceKey).toEqual(
+        'skyux_date_range_picker_format_label_before',
+      );
+
+      expect(service.calculators.length).toEqual(22);
+    });
   });
 });
