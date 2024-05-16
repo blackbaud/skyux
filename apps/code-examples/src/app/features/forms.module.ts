@@ -101,13 +101,6 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
-    path: 'single-file-attachment/inline-help',
-    loadComponent: () =>
-      import(
-        '../code-examples/forms/single-file-attachment/inline-help/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
-  {
     path: 'toggle-switch/basic',
     loadComponent: () =>
       import('../code-examples/forms/toggle-switch/basic/demo.component').then(
