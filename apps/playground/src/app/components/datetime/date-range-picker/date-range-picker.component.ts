@@ -61,12 +61,11 @@ class MyLocaleProvider extends SkyAppLocaleProvider {
 export class DateRangePickerComponent {
   protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
   protected dateFormat: string | undefined;
+  protected endDateRequired = false;
+  protected startDateRequired = false;
 
   protected formGroup = inject(FormBuilder).group({
-    pto: new FormControl<SkyDateRangeCalculation>(
-      { calculatorId: SkyDateRangeCalculatorId.After },
-      [Validators.required],
-    ),
+    pto: new FormControl<SkyDateRangeCalculation>(null, [Validators.required]),
   });
 
   protected get ptoControl(): AbstractControl {
@@ -76,12 +75,6 @@ export class DateRangePickerComponent {
   readonly #localeProvider = inject(SkyAppLocaleProvider) as MyLocaleProvider;
 
   constructor() {
-    // this.ptoControl.setValue({
-    //   calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-    //   startDate: new Date('1/2/2000'),
-    //   endDate: new Date('1/1/2000'),
-    // });
-
     this.ptoControl.statusChanges.subscribe((x) => {
       console.log('HOST STATUS CHANGE:', x);
     });
@@ -111,9 +104,7 @@ export class DateRangePickerComponent {
   }
 
   protected changeValue(): void {
-    // this.ptoControl.setValue({ calculatorId: 5 }, { emitEvent: false });
-    this.ptoControl.patchValue({ endDate: new Date() });
-    // this.ptoControl.patchValue({ calculatorId: 5 });
+    this.ptoControl.patchValue({ calculatorId: 5 });
   }
 
   protected onSubmit(): void {
@@ -147,6 +138,10 @@ export class DateRangePickerComponent {
     }
   }
 
+  protected toggleEndDateRequired(): void {
+    this.endDateRequired = !this.endDateRequired;
+  }
+
   protected toggleRequired(): void {
     if (this.ptoControl.hasValidator(Validators.required)) {
       this.ptoControl.removeValidators(Validators.required);
@@ -154,5 +149,9 @@ export class DateRangePickerComponent {
       this.ptoControl.addValidators(Validators.required);
     }
     this.ptoControl.updateValueAndValidity();
+  }
+
+  protected toggleStartDateRequired(): void {
+    this.startDateRequired = !this.startDateRequired;
   }
 }

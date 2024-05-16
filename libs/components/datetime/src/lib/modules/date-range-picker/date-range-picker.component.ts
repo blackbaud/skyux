@@ -48,7 +48,7 @@ import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
-type DateValue = Date | null | undefined;
+type DateValue = Date | string | null | undefined;
 
 function areDatesEqual(a: DateValue, b: DateValue): boolean {
   if (typeof a !== typeof b) {
@@ -56,6 +56,10 @@ function areDatesEqual(a: DateValue, b: DateValue): boolean {
   }
 
   if (!a && !b) {
+    return true;
+  }
+
+  if (typeof a === 'string' && a === b) {
     return true;
   }
 
@@ -297,12 +301,11 @@ export class SkyDateRangePickerComponent
       self: true,
     })?.control;
 
-    // Set a default value on the control if undefined.
+    // Set a default value on the control if undefined on init.
     // We need to use setTimeout to avoid interfering with the first
     // validation check.
     if (!this.#control?.value) {
       setTimeout(() => {
-        // TODO: Should this be emitted?
         this.#control?.setValue(this.#getValue(), {
           emitEvent: false,
         });
@@ -316,7 +319,7 @@ export class SkyDateRangePickerComponent
         this.#changeDetector.markForCheck();
       });
 
-    // If child fields' statuses change, we want to retrigger the parent
+    // If the datepickers' statuses change, we want to retrigger the parent
     // control's validation so that the child errors are passed to the parent.
     merge(
       this.#startDateControl.statusChanges,
@@ -325,20 +328,15 @@ export class SkyDateRangePickerComponent
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         // Use a setTimeout to avoid an ExpressionChangedAfterChecked error,
-        // since several calls to updateValueAndValidity may collide with one
-        // another.
+        // since multiple calls to updateValueAndValidity in the same
+        // validation cycle may collide with one another.
         setTimeout(() => {
-          this.formGroup.updateValueAndValidity({
-            emitEvent: false,
-            onlySelf: true,
-          });
-
           this.#control?.updateValueAndValidity({
             emitEvent: false,
             onlySelf: true,
           });
 
-          this.#changeDetector.markForCheck();
+          // this.#changeDetector.markForCheck();
         });
       });
 

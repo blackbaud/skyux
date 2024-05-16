@@ -4,6 +4,8 @@
     stacked="true"
     [calculatorIds]="calculatorIds"
     [dateFormat]="dateFormat"
+    [endDateRequired]="endDateRequired"
+    [startDateRequired]="startDateRequired"
   />
 
   <button class="sky-btn sky-btn-default" type="submit">Submit</button>
@@ -30,6 +32,13 @@ Touched? {{ ptoControl.touched }}
   <button type="button" (click)="setInvalidRange()">Set invalid range</button>
   <button type="button" (click)="toggleDisabled()">Toggle disabled</button>
   <button type="button" (click)="toggleRequired()">Toggle required</button>
+  <button type="button" (click)="toggleStartDateRequired()">
+    Toggle start date required
+  </button>
+  <button type="button" (click)="toggleEndDateRequired()">
+    Toggle end date required
+  </button>
+
   <button type="button" (click)="changeDateFormat()">Change date format</button>
   <button type="button" (click)="changeLocale()">Change locale</button>
   <button type="button" (click)="resetForm()">Reset form</button>
