@@ -98,7 +98,7 @@ describe('Input box harness', () => {
     await expectAsync(inputBoxHarness.getLabelText()).toBeResolvedTo('');
   });
 
-  fit('should return help popover harness', async () => {
+  it('should return help popover harness', async () => {
     const { component, fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
