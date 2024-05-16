@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { FieldGroupComponent } from './fixtures/field-group.component.fixture';
 
@@ -19,7 +20,7 @@ describe('Field group component', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [FieldGroupComponent],
+      imports: [FieldGroupComponent, SkyHelpTestingModule],
     });
 
     fixture = TestBed.createComponent(FieldGroupComponent);
@@ -119,12 +120,14 @@ describe('Field group component', function () {
     componentInstance.helpPopoverContent = undefined;
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeFalsy();
+    expect(fixture.nativeElement.querySelector('.sky-help-inline')).toBeFalsy();
 
     componentInstance.helpKey = 'helpKey.html';
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeTruthy();
+    expect(
+      fixture.nativeElement.querySelector('.sky-help-inline'),
+    ).toBeTruthy();
   });
 
   it('should pass accessibility', async () => {
