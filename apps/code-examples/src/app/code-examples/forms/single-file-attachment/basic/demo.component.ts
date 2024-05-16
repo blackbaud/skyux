@@ -31,7 +31,7 @@ export class DemoComponent {
   protected attachment: FormControl;
   protected formGroup: FormGroup;
   protected maxFileSize = 4000000;
-  protected reactiveUploadError: string | undefined;
+  protected customValidationError: string | undefined;
 
   get #reactiveFile(): AbstractControl | null {
     return this.formGroup.get('attachment');
@@ -49,13 +49,14 @@ export class DemoComponent {
 
     if (file && file.errorType) {
       this.#reactiveFile?.setValue(undefined);
-      this.reactiveUploadError = this.#getErrorMessage(
-        file.errorType,
-        file.errorParam,
-      );
     } else {
       this.#reactiveFile?.setValue(file);
-      this.reactiveUploadError = undefined;
+    }
+
+    if (file && file.errorType === 'validate') {
+      this.customValidationError = file.errorParam;
+    } else {
+      this.customValidationError = undefined;
     }
   }
 
@@ -70,18 +71,6 @@ export class DemoComponent {
   }
 
   protected validateFile(file: SkyFileItem): string {
-    return file.file.name.indexOf('a') === 0
-      ? 'You may not upload a file that begins with the letter "a."'
-      : '';
-  }
-
-  #getErrorMessage(errorType: string, errorParam?: string): string | undefined {
-    if (errorType === 'fileType') {
-      return `Please upload a file of type ${errorParam}.`;
-    } else if (errorType === 'maxFileSize') {
-      return `Please upload a file smaller than ${errorParam} KB.`;
-    } else {
-      return errorParam;
-    }
+    return file.file.name.indexOf('a') === 0 ? 'invalidStartingLetter' : '';
   }
 }

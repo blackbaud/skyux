@@ -27,10 +27,10 @@ export class SearchTestComponent {
   public lastSearchTextApplied: string | undefined;
   public lastSearchTextChanged: string | undefined;
 
-  public searchApplied(searchText: string) {
+  public searchApplied(searchText: string): void {
     this.lastSearchTextApplied = searchText;
   }
-  public searchChanged(searchText: string) {
+  public searchChanged(searchText: string): void {
     this.lastSearchTextChanged = searchText;
   }
 }
