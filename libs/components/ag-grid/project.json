@@ -69,5 +69,6 @@
       }
     }
   },
+  "implicitDependencies": ["phone-field", "validation"],
   "tags": ["component", "npm"]
 }
