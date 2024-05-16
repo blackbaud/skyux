@@ -54,7 +54,6 @@ describe('Date range picker 2', function () {
     if (inputElement) {
       inputElement.value = date;
       fixture.detectChanges();
-
       SkyAppTestUtility.fireDomEvent(inputElement, 'change');
       fixture.detectChanges();
       tick();
@@ -122,6 +121,9 @@ describe('Date range picker 2', function () {
   beforeEach(function () {
     TestBed.configureTestingModule({
       imports: [DateRangePickerTestComponent],
+      teardown: {
+        destroyAfterEach: false,
+      },
     });
 
     fixture = TestBed.createComponent(DateRangePickerTestComponent);
@@ -469,7 +471,7 @@ describe('Date range picker 2', function () {
 
   it('should update validation errors from selected calculator', fakeAsync(function () {
     detectChanges();
-    selectCalculator(SkyDateRangeCalculatorId.Before);
+    selectCalculator(SkyDateRangeCalculatorId.After);
     detectChanges();
     enterStartDate('bogus value');
     detectChanges();

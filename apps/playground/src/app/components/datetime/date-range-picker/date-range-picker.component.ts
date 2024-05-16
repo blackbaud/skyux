@@ -86,7 +86,7 @@ export class DateRangePickerComponent {
     });
 
     this.ptoControl.valueChanges.subscribe((x) => {
-      console.log('HOST VALUE CHANGE:', x);
+      console.log('HOST VALUE CHANGE:', JSON.stringify(x));
     });
   }
 
@@ -128,10 +128,14 @@ export class DateRangePickerComponent {
   protected setInvalidRange(): void {
     this.ptoControl.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: new Date('1/1/2013'),
+      startDate: new Date('1/2/2012'),
       endDate: new Date('1/1/2012'),
     });
     this.ptoControl.markAsDirty();
+  }
+
+  protected setUndefined(): void {
+    this.ptoControl.setValue(undefined);
   }
 
   protected toggleDisabled(): void {
