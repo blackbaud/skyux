@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { Validators } from '@angular/forms';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 

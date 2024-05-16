@@ -32,7 +32,9 @@ export class SkyDateRangeCalculator {
      * The calculator ID that specifies calculator objects that represent date ranges.
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
-    config: SkyDateRangeCalculatorConfig,
+    config: SkyDateRangeCalculatorConfig & {
+      shortDescriptionResourceKey?: string;
+    },
   ) {
     this.#config = config;
     this.type = config.type;

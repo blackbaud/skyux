@@ -29,18 +29,11 @@
           *ngFor="let calculator of calculators"
           [value]="calculator.calculatorId"
         >
-          <ng-container
-            *ngIf="
-              calculator.shortDescriptionResourceKey;
-              else shortDescription
-            "
-            >{{
-              calculator.shortDescriptionResourceKey | skyLibResources
-            }}</ng-container
-          >
-          <ng-template #shortDescription>{{
-            calculator.shortDescription
-          }}</ng-template>
+          {{
+            calculator.shortDescriptionResourceKey
+              ? (calculator.shortDescriptionResourceKey | skyLibResources)
+              : calculator.shortDescription
+          }}
         </option>
       </select>
     </sky-input-box>
@@ -129,5 +122,3 @@
     </sky-input-box>
   </div>
 </div>
-<pre>VALUE: {{ formGroup.value | json }}</pre>
-<pre>ERRORS: {{ formGroup.errors | json }}</pre>

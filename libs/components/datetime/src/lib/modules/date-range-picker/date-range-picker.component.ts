@@ -335,8 +335,6 @@ export class SkyDateRangePickerComponent
             emitEvent: false,
             onlySelf: true,
           });
-
-          // this.#changeDetector.markForCheck();
         });
       });
 
@@ -461,10 +459,10 @@ export class SkyDateRangePickerComponent
 
   /**
    * Notify the host control when the user changes the date in the picker.
-   * A setTimeout is needed because the form control's value is updated after
-   * this event fires.
    */
   protected onDateChange(): void {
+    // A setTimeout is needed because the form control's value is updated
+    // after this event fires.
     setTimeout(() => {
       this.#notifyChange?.(this.#getValue());
     });
@@ -505,7 +503,7 @@ export class SkyDateRangePickerComponent
   }
 
   /**
-   * Sets the value of this component's form control.
+   * Sets the value of the date range picker form control.
    */
   #setValue(value: SkyDateRangeCalculation | null | undefined): void {
     const oldValue = this.#getValue();

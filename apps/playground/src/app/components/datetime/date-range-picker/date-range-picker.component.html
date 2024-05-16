@@ -1,10 +1,12 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <sky-date-range-picker
-    formControlName="pto"
+    formControlName="lastDonation"
+    label="Last donation"
     stacked="true"
     [calculatorIds]="calculatorIds"
     [dateFormat]="dateFormat"
     [endDateRequired]="endDateRequired"
+    [hintText]="hintText"
     [startDateRequired]="startDateRequired"
   />
 
@@ -12,16 +14,16 @@
 </form>
 
 <h3>Value</h3>
-<pre>{{ ptoControl.value | json }}</pre>
+<pre>{{ pickerFormControl.value | json }}</pre>
 
 <h3>Errors</h3>
-<pre>{{ ptoControl.errors | json }}</pre>
+<pre>{{ pickerFormControl.errors | json }}</pre>
 
 <h3>Statuses</h3>
 <pre>
-Dirty?   {{ ptoControl.dirty }}
-Valid?   {{ ptoControl.valid }}
-Touched? {{ ptoControl.touched }}
+Dirty?   {{ pickerFormControl.dirty }}
+Valid?   {{ pickerFormControl.valid }}
+Touched? {{ pickerFormControl.touched }}
 </pre>
 
 <div>
@@ -31,6 +33,7 @@ Touched? {{ ptoControl.touched }}
   </button>
   <button type="button" (click)="setInvalidRange()">Set invalid range</button>
   <button type="button" (click)="toggleDisabled()">Toggle disabled</button>
+  <button type="button" (click)="toggleHintText()">Toggle hint text</button>
   <button type="button" (click)="toggleRequired()">Toggle required</button>
   <button type="button" (click)="toggleStartDateRequired()">
     Toggle start date required

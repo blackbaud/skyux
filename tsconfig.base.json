@@ -11,7 +11,7 @@
     "declaration": false,
     "moduleResolution": "node",
     "noImplicitOverride": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
