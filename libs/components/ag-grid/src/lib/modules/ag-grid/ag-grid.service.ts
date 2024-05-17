@@ -322,8 +322,6 @@ export class SkyAgGridService implements OnDestroy {
           valueFormatter: autocompleteFormatter,
           comparator: autocompleteComparator,
           minWidth: 185,
-          autoHeight: false,
-          wrapText: false,
         },
         [SkyCellType.Currency]: {
           cellClassRules: {
@@ -340,8 +338,6 @@ export class SkyAgGridService implements OnDestroy {
           minWidth: 185,
           suppressKeyboardEvent: (params) =>
             this.#suppressEnter(params) || this.#suppressTab(params),
-          autoHeight: false,
-          wrapText: false,
         },
         [SkyCellType.Date]: {
           cellClassRules: {
@@ -370,8 +366,6 @@ export class SkyAgGridService implements OnDestroy {
               return '';
             }
           },
-          autoHeight: false,
-          wrapText: false,
         },
         [SkyCellType.Lookup]: {
           cellClassRules: {
@@ -390,8 +384,6 @@ export class SkyAgGridService implements OnDestroy {
               .join('; ');
           },
           minWidth: 185,
-          autoHeight: false,
-          wrapText: false,
         },
         [SkyCellType.Number]: {
           cellClassRules: {
@@ -404,8 +396,6 @@ export class SkyAgGridService implements OnDestroy {
           ),
           cellEditor: SkyAgGridCellEditorNumberComponent,
           headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
-          autoHeight: false,
-          wrapText: false,
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
@@ -419,8 +409,6 @@ export class SkyAgGridService implements OnDestroy {
           resizable: false,
           sortable: false,
           width: 55,
-          autoHeight: false,
-          wrapText: false,
         },
         [SkyCellType.Template]: {
           cellRenderer: SkyAgGridCellRendererTemplateComponent,
