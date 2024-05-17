@@ -120,9 +120,6 @@ describe('Date range picker 2', function () {
   beforeEach(function () {
     TestBed.configureTestingModule({
       imports: [DateRangePickerTestComponent],
-      teardown: {
-        destroyAfterEach: false,
-      },
     });
 
     fixture = TestBed.createComponent(DateRangePickerTestComponent);
@@ -771,6 +768,41 @@ describe('Date range picker 2', function () {
       await fixture.whenStable();
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
     });
+
+    function verifyFormFieldsRequired(expectation: boolean): void {
+      const inputBoxes =
+        fixture.nativeElement.querySelectorAll('sky-input-box');
+      const selectElement = fixture.nativeElement.querySelector('select');
+      const inputs = fixture.nativeElement.querySelectorAll('input');
+
+      expect(
+        inputBoxes.item(0).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+      expect(
+        inputBoxes.item(1).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+      expect(
+        inputBoxes.item(2).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+
+      expect(selectElement.hasAttribute('required')).toEqual(expectation);
+      expect(inputs.item(0).hasAttribute('required')).toEqual(expectation);
+      expect(inputs.item(1).hasAttribute('required')).toEqual(expectation);
+    }
+
+    it('should set "required" attributes when the host control is required', fakeAsync(() => {
+      detectChanges();
+      selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+      verifyFormFieldsRequired(false);
+
+      component.setFormControlRequired(true);
+      detectChanges();
+      verifyFormFieldsRequired(true);
+
+      component.setFormControlRequired(false);
+      detectChanges();
+      verifyFormFieldsRequired(false);
+    }));
 
     it('it should render help inline if helpPopoverContent is provided', fakeAsync(() => {
       detectChanges();
