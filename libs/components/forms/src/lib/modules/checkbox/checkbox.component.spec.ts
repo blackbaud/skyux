@@ -17,8 +17,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { sampleTime } from 'rxjs/operators';
 
@@ -38,6 +43,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       [disabled]="isDisabled"
       [icon]="icon"
       [id]="id"
+      [helpKey]="helpKey"
       [helpPopoverContent]="helpPopoverContent"
       [helpPopoverTitle]="helpPopoverTitle"
       [hintText]="hintText"
@@ -60,6 +66,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   public indeterminate = false;
   public isChecked: boolean | undefined = false;
   public isDisabled = false;
+  public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public labelText: string | undefined;
@@ -312,7 +319,13 @@ describe('Checkbox component', () => {
         MultipleCheckboxesComponent,
         SingleCheckboxComponent,
       ],
-      imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        SkyCheckboxModule,
+        NoopAnimationsModule,
+        SkyHelpTestingModule,
+      ],
       providers: [NgForm],
     });
 
@@ -546,6 +559,39 @@ describe('Checkbox component', () => {
 
       expect(hintEl).not.toBeNull();
       expect(hintEl?.textContent?.trim()).toBe(hintText);
+    });
+
+    it('should render the help inline button if helpKey and labelText is provided', () => {
+      fixture.componentInstance.labelText = 'Label';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector('sky-help-inline'),
+      ).toBeFalsy();
+
+      fixture.componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector('sky-help-inline'),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      fixture.componentInstance.labelText = 'label';
+      fixture.componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      helpInlineButton?.click();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
     });
 
     it('should have the lg margin class if stacked is true', () => {
