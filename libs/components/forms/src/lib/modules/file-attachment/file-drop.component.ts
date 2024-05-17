@@ -205,6 +205,14 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   @HostBinding('class.sky-margin-stacked-lg')
   public stacked = false;
 
+  /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * placed beside the file attachment label. Clicking the button invokes global help as configured by the application.
+   * @preview
+   */
+  @Input()
+  public helpKey: string | undefined;
+
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
 

@@ -1,27 +1,30 @@
 <fieldset>
-  <legend
-    *ngIf="labelText"
-    class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
-    [ngClass]="{
-      'sky-screen-reader-only': labelHidden
-    }"
-  >
-    <span
-      class="sky-margin-inline-xs"
+  <span class="file-drop-label-wrapper sky-margin-stacked-xs">
+    <legend
+      *ngIf="labelText"
+      class="sky-font-body-default sky-control-label"
       [ngClass]="{
-        'sky-control-label-required': required
+        'sky-screen-reader-only': labelHidden
       }"
-      >{{ labelText }}</span
-    ><span class="sky-screen-reader-only" *ngIf="required">{{
-      'skyux_file_attachment_required' | skyLibResources
-    }}</span
-    ><sky-help-inline
-      *ngIf="helpPopoverContent && labelText"
+    >
+      <span
+        class="sky-margin-inline-xs sky-file-drop-label-text"
+        [ngClass]="{
+          'sky-control-label-required': required
+        }"
+        >{{ labelText }}</span
+      ><span class="sky-screen-reader-only" *ngIf="required">{{
+        'skyux_file_attachment_required' | skyLibResources
+      }}</span>
+    </legend>
+    <sky-help-inline
+      *ngIf="(helpPopoverContent || helpKey) && labelText"
       [labelText]="labelText"
+      [helpKey]="helpKey"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"
     />
-  </legend>
+  </span>
   <div
     class="sky-file-drop-row"
     [ngClass]="{ 'sky-file-drop-allow-links': allowLinks }"

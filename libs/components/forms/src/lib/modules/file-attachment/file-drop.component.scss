@@ -61,6 +61,10 @@ button.sky-file-drop {
   }
 }
 
+.file-drop-label-wrapper {
+  display: inline-flex;
+}
+
 .sky-file-drop-contents {
   @include mixins.sky-border(dark, top, bottom, left, right);
   background-color: $sky-background-color-neutral-light;
@@ -170,8 +174,12 @@ button.sky-file-drop {
   margin-bottom: $sky-margin;
 }
 
+.sky-file-drop-label-text {
+  vertical-align: middle;
+}
+
 @include mixins.sky-theme-modern {
-  .sky-control-label {
+  .sky-font-body-default {
     color: var(--sky-text-color-deemphasized);
     font-size: 13px;
   }
