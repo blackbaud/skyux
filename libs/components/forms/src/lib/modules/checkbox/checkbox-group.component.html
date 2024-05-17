@@ -22,8 +22,9 @@
       'skyux_checkbox_group_required' | skyLibResources
     }}</span
     ><sky-help-inline
-      *ngIf="helpPopoverContent && labelText"
+      *ngIf="helpPopoverContent || helpKey"
       [labelText]="labelText"
+      [helpKey]="helpKey"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"
     />

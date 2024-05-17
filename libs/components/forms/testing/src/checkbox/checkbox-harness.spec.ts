@@ -246,7 +246,7 @@ describe('Checkbox harness', () => {
     );
   });
 
-  fit('should open help inline popover and help widget when clicked', async () => {
+  it('should open help inline popover and help widget when clicked', async () => {
     const { checkboxHarness, fixture } = await setupTest({
       dataSkyId: 'my-phone-checkbox',
     });
