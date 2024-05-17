@@ -1,5 +1,8 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyHelpService } from '@skyux/core';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { SkyCheckboxHarness } from './checkbox-harness';
 import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.component';
@@ -9,7 +12,11 @@ async function setupTest(
   options: { dataSkyId?: string; hideEmailLabel?: boolean } = {},
 ) {
   await TestBed.configureTestingModule({
-    imports: [CheckboxHarnessTestModule],
+    imports: [
+      CheckboxHarnessTestModule,
+      NoopAnimationsModule,
+      SkyHelpTestingModule,
+    ],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);
@@ -239,15 +246,19 @@ describe('Checkbox harness', () => {
     );
   });
 
-  it('should open help inline popover', async () => {
+  fit('should open help inline popover and help widget when clicked', async () => {
     const { checkboxHarness, fixture } = await setupTest({
       dataSkyId: 'my-phone-checkbox',
     });
+    const helpSvc = TestBed.inject(SkyHelpService);
+    const helpSpy = spyOn(helpSvc, 'openHelp');
+
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
     fixture.whenStable();
 
     await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
+    expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 
   it('should get help popover content', async () => {
