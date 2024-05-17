@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { FieldGroupComponent } from './fixtures/field-group.component.fixture';
 
@@ -19,7 +23,7 @@ describe('Field group component', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [FieldGroupComponent],
+      imports: [FieldGroupComponent, SkyHelpTestingModule],
     });
 
     fixture = TestBed.createComponent(FieldGroupComponent);
@@ -113,6 +117,37 @@ describe('Field group component', function () {
     expect(
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(1);
+  });
+
+  it('should render help inline if help key is provided', () => {
+    componentInstance.helpPopoverContent = undefined;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.sky-help-inline')).toBeFalsy();
+
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('.sky-help-inline'),
+    ).toBeTruthy();
+  });
+
+  it('should set global help config with help key', async () => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+    componentInstance.helpKey = 'helpKey.html';
+
+    fixture.detectChanges();
+
+    const helpInlineButton = fixture.nativeElement.querySelector(
+      '.sky-help-inline',
+    ) as HTMLElement | undefined;
+    helpInlineButton?.click();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    helpController.expectCurrentHelpKey('helpKey.html');
   });
 
   it('should pass accessibility', async () => {
