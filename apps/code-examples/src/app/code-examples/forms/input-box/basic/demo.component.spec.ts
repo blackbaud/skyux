@@ -76,12 +76,11 @@ describe('Basic input box demo', () => {
         dataSkyId: 'input-box-bio',
       });
 
-      const helpPopover = await harness.getHelpPopover();
-      await helpPopover.clickPopoverButton();
+      await harness.clickHelpInline();
 
-      const helpPopoverContent = await helpPopover.getPopoverContent();
+      const helpPopoverContent = await harness.getHelpPopoverContent();
 
-      await expectAsync(helpPopoverContent.getBodyText()).toBeResolvedTo(
+      expect(helpPopoverContent).toBe(
         `A brief description of the member's background, such as hometown, school, hobbies, etc.`,
       );
     });

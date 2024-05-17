@@ -91,5 +91,13 @@ export class SkyFieldGroupComponent {
   @Input()
   public helpPopoverTitle: string | undefined;
 
+  /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * placed beside the field group label. Clicking the button invokes global help as configured by the application.
+   * @preview
+   */
+  @Input()
+  public helpKey: string | undefined;
+
   protected headingClass = 'sky-font-heading-3';
 }

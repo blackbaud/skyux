@@ -9,6 +9,10 @@ import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
+import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeModule,
@@ -57,7 +61,7 @@ describe('File attachment', () => {
       }),
     };
     TestBed.configureTestingModule({
-      imports: [FileAttachmentTestModule, SkyThemeModule],
+      imports: [FileAttachmentTestModule, SkyThemeModule, SkyHelpTestingModule],
       providers: [
         {
           provide: SkyThemeService,
@@ -1597,7 +1601,7 @@ describe('File attachment', () => {
     ).toBe(1);
   });
 
-  it('should not render help inline if help key is set', () => {
+  it('should render help inline if help key is set', () => {
     fixture.componentInstance.showLabel = false;
     fixture.componentInstance.labelText = 'labelText';
     fixture.detectChanges();
@@ -1608,6 +1612,26 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeTruthy();
+  });
+
+  it('should set global help config with help key', async () => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+    fixture.componentInstance.showLabel = false;
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.componentInstance.popoverContent = undefined;
+    fixture.componentInstance.helpKey = 'index.html';
+
+    fixture.detectChanges();
+
+    const helpInlineButton = fixture.nativeElement.querySelector(
+      '.sky-help-inline',
+    ) as HTMLElement | undefined;
+    helpInlineButton?.click();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    helpController.expectCurrentHelpKey('index.html');
   });
 
   it('should render hint if `hintText` is set', () => {

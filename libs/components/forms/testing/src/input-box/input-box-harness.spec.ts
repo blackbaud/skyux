@@ -2,6 +2,8 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyHelpService } from '@skyux/core';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 import { SkyValidators } from '@skyux/validation';
 
 import { InputBoxHarnessTestComponent } from './fixtures/input-box-harness-test.component';
@@ -19,7 +21,11 @@ describe('Input box harness', () => {
     inputBoxHarness: SkyInputBoxHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, InputBoxHarnessTestModule],
+      imports: [
+        NoopAnimationsModule,
+        InputBoxHarnessTestModule,
+        SkyHelpTestingModule,
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(InputBoxHarnessTestComponent);
@@ -116,10 +122,69 @@ describe('Input box harness', () => {
 
     // No content
     component.easyModeHelpContent = undefined;
+    component.easyModeHelpKey = undefined;
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getHelpPopover()).toBeRejectedWithError(
       'The input box does not have a help popover configured.',
+    );
+  });
+
+  it('should throw an error if no help inline is found', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    fixture.componentInstance.easyModeHelpContent = undefined;
+    fixture.componentInstance.easyModeHelpKey = undefined;
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.clickHelpInline()).toBeRejectedWithError(
+      'No help inline found.',
+    );
+  });
+
+  it('should open help popover and widget when clicked', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    const helpSvc = TestBed.inject(SkyHelpService);
+    const helpSpy = spyOn(helpSvc, 'openHelp');
+
+    await inputBoxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolved();
+    expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
+  });
+
+  it('should get help popover content', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await inputBoxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolvedTo(
+      'Help content',
+    );
+  });
+
+  it('should get help popover title', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    await inputBoxHarness.clickHelpInline();
+    fixture.detectChanges();
+    fixture.whenStable();
+
+    await expectAsync(inputBoxHarness.getHelpPopoverTitle()).toBeResolvedTo(
+      'Help title',
     );
   });
 
