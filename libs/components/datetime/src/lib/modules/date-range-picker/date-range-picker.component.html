@@ -23,15 +23,14 @@
         formControlName="calculatorId"
         [required]="isRequired()"
         (blur)="onBlur()"
-        (change)="onCalculatorIdSelectChange($event)"
       >
         <option
           *ngFor="let calculator of calculators"
           [value]="calculator.calculatorId"
         >
           {{
-            calculator.shortDescriptionResourceKey
-              ? (calculator.shortDescriptionResourceKey | skyLibResources)
+            calculator._shortDescriptionResourceKey
+              ? (calculator._shortDescriptionResourceKey | skyLibResources)
               : calculator.shortDescription
           }}
         </option>
@@ -76,8 +75,6 @@
           [required]="
             showStartDatePicker && (startDateRequired || isRequired())
           "
-          (change)="onDateChange()"
-          (dateSelected)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>
@@ -115,8 +112,6 @@
           "
           [dateFormat]="dateFormat"
           [required]="showEndDatePicker && (endDateRequired || isRequired())"
-          (change)="onDateChange()"
-          (dateSelected)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>

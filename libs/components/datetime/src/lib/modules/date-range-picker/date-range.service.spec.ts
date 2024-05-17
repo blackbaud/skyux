@@ -101,11 +101,11 @@ describe('Date range service', function () {
         SkyDateRangeCalculatorId.Before,
       ]);
 
-      expect(calculators[0].shortDescriptionResourceKey).toEqual(
+      expect(calculators[0]._shortDescriptionResourceKey).toEqual(
         'skyux_date_range_picker_format_label_after',
       );
 
-      expect(calculators[1].shortDescriptionResourceKey).toEqual(
+      expect(calculators[1]._shortDescriptionResourceKey).toEqual(
         'skyux_date_range_picker_format_label_before',
       );
 

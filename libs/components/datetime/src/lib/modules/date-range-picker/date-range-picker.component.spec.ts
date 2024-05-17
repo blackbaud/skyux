@@ -474,6 +474,7 @@ describe('Date range picker 2', function () {
     detectChanges();
     enterStartDate('bogus value');
     detectChanges();
+    detectChanges();
 
     const control = component.dateRange;
 
@@ -487,12 +488,12 @@ describe('Date range picker 2', function () {
     expect(control?.errors).toBeFalsy();
   }));
 
-  it('should clear "required" errors when switching to a calculator without datepickers', () => {
+  it('should clear "required" errors when switching to a calculator without datepickers', fakeAsync(() => {
     component.required = true;
-    fixture.detectChanges();
+    detectChanges();
 
     selectCalculator(SkyDateRangeCalculatorId.After);
-    fixture.detectChanges();
+    detectChanges();
 
     const control = component.dateRange;
     control?.updateValueAndValidity();
@@ -503,10 +504,10 @@ describe('Date range picker 2', function () {
 
     selectCalculator(SkyDateRangeCalculatorId.Today);
 
-    fixture.detectChanges();
+    detectChanges();
 
     expect(control?.errors).toBeFalsy();
-  });
+  }));
 
   it('should catch validation errors from date picker', fakeAsync(function () {
     detectChanges();

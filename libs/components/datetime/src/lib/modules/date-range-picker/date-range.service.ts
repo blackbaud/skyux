@@ -133,7 +133,7 @@ export class SkyDateRangeService implements OnDestroy {
           getValue: defaultConfig.getValue,
           validate: defaultConfig.validate,
           shortDescription: '',
-          shortDescriptionResourceKey:
+          _shortDescriptionResourceKey:
             defaultConfig.shortDescriptionResourceKey,
           type: defaultConfig.type,
         }),
@@ -152,10 +152,10 @@ export class SkyDateRangeService implements OnDestroy {
     const tasks: Observable<void>[] = [];
 
     calculators.forEach((calculator) => {
-      if (calculator.shortDescriptionResourceKey) {
+      if (calculator._shortDescriptionResourceKey) {
         tasks.push(
           this.#resourcesService
-            .getString(calculator.shortDescriptionResourceKey)
+            .getString(calculator._shortDescriptionResourceKey)
             .pipe(
               takeUntil(this.#ngUnsubscribe),
               map((value) => {

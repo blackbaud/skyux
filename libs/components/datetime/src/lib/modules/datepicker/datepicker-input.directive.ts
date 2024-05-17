@@ -4,13 +4,11 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  EventEmitter,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
-  Output,
   Renderer2,
   forwardRef,
 } from '@angular/core';
@@ -213,13 +211,6 @@ export class SkyDatepickerInputDirective
     return this.#_strict;
   }
 
-  /**
-   * Fires when the user selects a new date on the calendar picker.
-   * @internal
-   */
-  @Output()
-  public dateSelected = new EventEmitter<Date | null>();
-
   get #value(): any {
     return this.#_value;
   }
@@ -290,12 +281,9 @@ export class SkyDatepickerInputDirective
   public ngAfterContentInit(): void {
     this.#datepickerComponent.dateFormat = this.dateFormat;
     this.#datepickerComponent.dateChange
-      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
+      .pipe(distinctUntilChanged())
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value: Date) => {
-        if (value !== this.#value) {
-          this.dateSelected.next(this.#value);
-        }
-
         this.#value = value;
         this.#onTouched();
       });

@@ -18,7 +18,7 @@ export class SkyDateRangeCalculator {
   /**
    * @internal
    */
-  public readonly shortDescriptionResourceKey: string | undefined;
+  public readonly _shortDescriptionResourceKey: string | undefined;
 
   /**
    * The type of calculations available for the date range.
@@ -33,13 +33,13 @@ export class SkyDateRangeCalculator {
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
     config: SkyDateRangeCalculatorConfig & {
-      shortDescriptionResourceKey?: string;
+      _shortDescriptionResourceKey?: string;
     },
   ) {
     this.#config = config;
     this.type = config.type;
     this.shortDescription = config.shortDescription;
-    this.shortDescriptionResourceKey = config.shortDescriptionResourceKey;
+    this._shortDescriptionResourceKey = config._shortDescriptionResourceKey;
   }
 
   /**
