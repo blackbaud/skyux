@@ -322,9 +322,9 @@ export class SkyDateRangePickerComponent
       self: true,
     })?.control;
 
-    // Set a default value on the control if undefined on init.
+    // Set a default value on the control if it's undefined on init.
     // We need to use setTimeout to avoid interfering with the first
-    // validation check.
+    // validation cycle.
     if (isPartialValue(this.#hostControl?.value)) {
       setTimeout(() => {
         this.#hostControl?.setValue(this.#getValue(), {
@@ -334,9 +334,10 @@ export class SkyDateRangePickerComponent
       });
     }
 
-    // Update the view when required or disabled states are changed on the host.
+    // Update the view when "required" or "disabled" states are changed on the
+    // host control.
     this.#hostControl?.statusChanges
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });
@@ -350,18 +351,19 @@ export class SkyDateRangePickerComponent
         )
         .subscribe((value) => {
           if (!isNullOrUndefined(value?.calculatorId)) {
-            // The select field sets the calculator ID to a string, but we
+            // The select element sets the calculator ID to a string, but we
             // need it to be a number.
             value.calculatorId = +value.calculatorId;
 
             // If the calculator ID is changed, we need to reset the start and
-            // end date values, and wait until the next value change event to
+            // end date values and wait until the next valueChanges event to
             // notify the host control.
             if (value.calculatorId !== this.#getValue().calculatorId) {
               this.#setValue(
                 { calculatorId: value.calculatorId },
                 { emitEvent: true },
               );
+
               return;
             }
           }
@@ -483,11 +485,9 @@ export class SkyDateRangePickerComponent
   public writeValue(value: Partial<SkyDateRangeCalculation> | undefined): void {
     this.#patchValue(value);
 
-    const newValue = this.#getValue();
-
     // Update the host control if it is set to a partial or null value.
     if (isPartialValue(value)) {
-      this.#hostControl?.setValue(newValue, {
+      this.#hostControl?.setValue(this.#getValue(), {
         emitEvent: false,
         onlySelf: true,
       });
@@ -540,7 +540,7 @@ export class SkyDateRangePickerComponent
   }
 
   /**
-   * Sets the value of the date range picker form control.
+   * Sets the value to be used by the date range picker form control.
    */
   #setValue(
     value: SkyDateRangeCalculation | null | undefined,

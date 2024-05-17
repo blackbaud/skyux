@@ -9,7 +9,7 @@
   display: flex;
 }
 
-/* Hide errors for the datepickers since they're shown under the ID select. */
+/* Hide errors for the datepickers since they're now shown under the ID select. */
 .sky-date-range-datepicker-wrapper {
   ::ng-deep sky-form-errors {
     @include mixins.sky-screen-reader-only();

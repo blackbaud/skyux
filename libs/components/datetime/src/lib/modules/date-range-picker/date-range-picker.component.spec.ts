@@ -474,7 +474,6 @@ describe('Date range picker 2', function () {
     detectChanges();
     enterStartDate('bogus value');
     detectChanges();
-    detectChanges();
 
     const control = component.dateRange;
 
