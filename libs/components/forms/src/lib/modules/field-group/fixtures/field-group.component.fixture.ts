@@ -29,6 +29,7 @@ export class FieldGroupComponent {
   public labelHidden = false;
   public headingStyle = 3;
   public headingLevel = 3;
+  public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
 

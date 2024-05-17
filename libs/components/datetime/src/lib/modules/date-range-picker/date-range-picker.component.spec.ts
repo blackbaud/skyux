@@ -29,7 +29,7 @@ describe('Date range picker 2', function () {
   }
 
   function getHelpInlinePopover(): HTMLSelectElement {
-    return fixture.nativeElement.querySelectorAll('sky-input-box-help-inline');
+    return fixture.nativeElement.querySelectorAll('sky-help-inline');
   }
 
   function selectCalculator(id: SkyDateRangeCalculatorId): void {

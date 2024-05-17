@@ -1,6 +1,8 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyHelpService } from '@skyux/core';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { SkyFieldGroupHarness } from './field-group-harness';
 import { FieldGroupComponent } from './fixtures/field-group.component.fixture';
@@ -10,7 +12,7 @@ async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   fixture: ComponentFixture<FieldGroupComponent>;
 }> {
   await TestBed.configureTestingModule({
-    imports: [FieldGroupComponent, NoopAnimationsModule],
+    imports: [FieldGroupComponent, NoopAnimationsModule, SkyHelpTestingModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(FieldGroupComponent);
@@ -126,6 +128,7 @@ describe('Field group harness', () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
     fixture.componentInstance.helpPopoverContent = undefined;
+    fixture.componentInstance.helpKey = undefined;
     fixture.detectChanges();
 
     await expectAsync(
@@ -133,13 +136,17 @@ describe('Field group harness', () => {
     ).toBeRejectedWithError('No help inline found.');
   });
 
-  it('should open help inline popover', async () => {
+  it('should open help inline popover and help widget when clicked', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
+    const helpSvc = TestBed.inject(SkyHelpService);
+    const helpSpy = spyOn(helpSvc, 'openHelp');
+
     await fieldGroupHarness.clickHelpInline();
     fixture.detectChanges();
     await fixture.whenStable();
 
     await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolved();
+    expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 
   it('should get help popover content', async () => {
