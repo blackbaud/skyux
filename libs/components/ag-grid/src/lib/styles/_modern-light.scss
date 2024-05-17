@@ -13,11 +13,6 @@
     align-items: flex-start;
   }
 
-  @include sky-ag-grid-variables.skyux-cell-wrap-text(
-    sky-ag-grid-variables.$sky-cell-wrap-text-padding-modern,
-    sky-ag-grid-variables.$sky-cell-wrap-text-line-height-modern
-  );
-
   .ag-root-wrapper {
     border: none;
   }
@@ -78,11 +73,6 @@
     align-items: flex-start;
   }
 
-  @include sky-ag-grid-variables.skyux-cell-wrap-text(
-    sky-ag-grid-variables.$sky-cell-wrap-text-padding-modern,
-    sky-ag-grid-variables.$sky-cell-wrap-text-line-height-modern
-  );
-
   .ag-cell:hover {
     border: 1px solid variables.$sky-theme-modern-border-color-primary-dark;
   }
@@ -122,4 +112,20 @@
       }
     }
   }
+}
+
+.ag-theme-sky-data-grid-modern-light,
+.ag-theme-sky-data-entry-grid-modern-light {
+  @include sky-ag-grid-variables.skyux-cell-wrap-text(
+    sky-ag-grid-variables.$sky-cell-wrap-text-padding-modern,
+    sky-ag-grid-variables.$sky-cell-wrap-text-line-height-modern
+  );
+}
+
+.ag-theme-sky-data-grid-modern-light-compact,
+.ag-theme-sky-data-entry-grid-modern-light-compact {
+  @include sky-ag-grid-variables.skyux-cell-wrap-text(
+    sky-ag-grid-variables.$sky-cell-wrap-text-padding-modern-compact,
+    sky-ag-grid-variables.$sky-cell-wrap-text-line-height-modern
+  );
 }

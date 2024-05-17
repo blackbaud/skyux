@@ -21,6 +21,8 @@ describe(`ag-grid-storybook data manager`, () => {
           ['normal-with-top-scroll', 'normal with top scroll'],
           ['auto-height', 'auto height'],
           ['auto-height-with-top-scroll', 'auto height with top scroll'],
+          ['wrap-text', 'wrap text'],
+          ['wrap-text-no-select', 'wrap text, no select checkbox'],
         ].forEach(([domLayout, label]) => {
           describe(`${label} layout${compact ? ', compact' : ''}`, () => {
             beforeEach(() => {
@@ -32,31 +34,30 @@ describe(`ag-grid-storybook data manager`, () => {
 
             it(`should render ag-grid with data manager, ${label} layout${compact ? ', compact' : ''}`, () => {
               // eslint-disable-next-line cypress/no-unnecessary-waiting
-              cy.get('#ready')
+              cy.get('#ready', { timeout: 10000 })
                 .should('exist')
                 .end()
 
                 .get('#storybook-root')
                 .should('exist')
-                .should('be.visible')
-                .end()
+                .should('be.visible');
+
+              if (!domLayout.includes('no-select')) {
                 // Verify that the checkboxes are visible.
-                .get('[name="center"] .sky-ag-grid-cell-row-selector')
-                .should('have.length.gt', 14)
-                .should('have.descendants', '.sky-switch-control')
-                .end()
-                // Necessary to wait for the grid to render.
-                .wait(1000)
-                .get('#storybook-root')
-                .skyVisualTest(
-                  /* spell-checker:disable-next-line */
-                  `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}${compact ? '-compact' : ''}`,
-                  {
-                    clip: { x: 0, y: 0, width: 1280, height: 600 },
-                    overwrite: true,
-                    disableTimersAndAnimations: true,
-                  },
-                );
+                cy.get('[name="center"] .sky-ag-grid-cell-row-selector')
+                  .should('have.length.gt', 14)
+                  .should('have.descendants', '.sky-switch-control');
+              }
+
+              cy.get('#storybook-root').skyVisualTest(
+                /* spell-checker:disable-next-line */
+                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}${compact ? '-compact' : ''}`,
+                {
+                  clip: { x: 0, y: 0, width: 1280, height: 600 },
+                  overwrite: true,
+                  disableTimersAndAnimations: true,
+                },
+              );
             });
           });
         });
