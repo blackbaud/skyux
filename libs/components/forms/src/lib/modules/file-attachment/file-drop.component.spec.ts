@@ -1,6 +1,7 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import {
@@ -33,7 +34,11 @@ describe('File drop component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyFileAttachmentsModule, SkyHelpTestingModule],
+      imports: [
+        SkyFileAttachmentsModule,
+        SkyHelpTestingModule,
+        NoopAnimationsModule,
+      ],
       declarations: [FileDropContentComponent],
     });
 
@@ -1345,7 +1350,7 @@ describe('File drop component', () => {
     expect(getHelpInlinePopover().length).toBe(1);
   });
 
-  fit('should render help inline if help key is provided', () => {
+  it('should render help inline if help key is provided', () => {
     componentInstance.helpPopoverContent = undefined;
     fixture.detectChanges();
 
@@ -1357,7 +1362,7 @@ describe('File drop component', () => {
     expect(getHelpInlinePopover()).toBeTruthy();
   });
 
-  fit('should set global help config with help key', async () => {
+  it('should set global help config with help key', async () => {
     const helpController = TestBed.inject(SkyHelpTestingController);
     componentInstance.labelText = 'label';
     componentInstance.helpKey = 'helpKey.html';
@@ -1365,7 +1370,7 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     const helpInlineButton = fixture.nativeElement.querySelector(
-      'sky-help-inline',
+      '.sky-help-inline',
     ) as HTMLElement | undefined;
     helpInlineButton?.click();
 
