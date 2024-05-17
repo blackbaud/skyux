@@ -23,6 +23,10 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
 
   public errorNgModelValue: string;
 
+  public helpPopoverContent: string | undefined = "I'm some help content.";
+
+  public helpKey: string | undefined = 'helpKey.html';
+
   public myValue = '';
 
   @ViewChild('errorNgModel')
