@@ -81,7 +81,7 @@ describe('Illustration', () => {
 
       detectUrlChanges();
 
-      expect(getImgEl()?.getAttribute('src')).toBe('');
+      validateImageAttr('src', '');
     }));
 
     it('should show a broken image if retrieving the URL fails', fakeAsync(() => {
@@ -89,7 +89,7 @@ describe('Illustration', () => {
 
       detectUrlChanges();
 
-      expect(getImgEl()?.getAttribute('src')).toBe('');
+      validateImageAttr('src', '');
     }));
   });
 
@@ -99,7 +99,7 @@ describe('Illustration', () => {
 
       detectUrlChanges();
 
-      expect(getImgEl()?.getAttribute('src')).toBe('');
+      validateImageAttr('src', '');
     }));
   });
 });
