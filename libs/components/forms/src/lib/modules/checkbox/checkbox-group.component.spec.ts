@@ -44,11 +44,7 @@ describe('Checkbox group component', function () {
 
     beforeEach(function () {
       TestBed.configureTestingModule({
-        imports: [
-          SkyStandardCheckboxGroupComponent,
-          SkyHelpTestingModule,
-          NoopAnimationsModule,
-        ],
+        imports: [SkyStandardCheckboxGroupComponent, SkyHelpTestingModule],
       });
 
       fixture = TestBed.createComponent(SkyStandardCheckboxGroupComponent);
