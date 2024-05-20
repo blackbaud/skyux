@@ -41,7 +41,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    await (await this.#getHelpInline()).click();
+    return (await this.#getHelpInline()).click();
   }
 
   /**
