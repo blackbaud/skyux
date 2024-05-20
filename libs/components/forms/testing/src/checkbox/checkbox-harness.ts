@@ -43,14 +43,14 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Blurs the checkbox.
    */
   public async blur(): Promise<void> {
-    return (await this.#getInput()).blur();
+    return await (await this.#getInput()).blur();
   }
 
   /**
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**

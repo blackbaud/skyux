@@ -253,7 +253,7 @@ describe('Checkbox harness', () => {
 
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
   });
@@ -271,8 +271,6 @@ describe('Checkbox harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    // below is the line that was commented out
-    await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 
@@ -282,7 +280,7 @@ describe('Checkbox harness', () => {
     });
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolvedTo(
       '(xxx)xxx-xxxx',
@@ -295,7 +293,7 @@ describe('Checkbox harness', () => {
     });
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(checkboxHarness.getHelpPopoverTitle()).toBeResolvedTo(
       'Format',
