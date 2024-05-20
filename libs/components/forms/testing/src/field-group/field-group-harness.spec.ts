@@ -136,7 +136,17 @@ describe('Field group harness', () => {
     ).toBeRejectedWithError('No help inline found.');
   });
 
-  it('should open help inline popover and help widget when clicked', async () => {
+  it('should open help inline popover when clicked', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+
+    await fieldGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should open global help widget when clicked', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
@@ -145,7 +155,6 @@ describe('Field group harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolved();
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 

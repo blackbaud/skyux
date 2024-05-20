@@ -115,22 +115,34 @@ describe('Checkbox group harness', () => {
     ).toBeRejectedWithError('No help inline found.');
   });
 
-  it('should open help inline popover and help widget when clicked', async () => {
+  it('should open help inline popover when clicked', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    await checkboxGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(
+      checkboxGroupHarness.getHelpPopoverContent(),
+    ).toBeResolved();
+  });
+
+  it('should open global help widget when clicked', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
 
-    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentInstance.helpPopoverContent = undefined;
     fixture.componentInstance.helpKey = 'helpKey.html';
     fixture.detectChanges();
 
     await checkboxGroupHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
-    await expectAsync(
-      checkboxGroupHarness.getHelpPopoverContent(),
-    ).toBeResolved();
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 
@@ -141,7 +153,7 @@ describe('Checkbox group harness', () => {
 
     await checkboxGroupHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(
       checkboxGroupHarness.getHelpPopoverContent(),
@@ -156,7 +168,7 @@ describe('Checkbox group harness', () => {
 
     await checkboxGroupHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(
       checkboxGroupHarness.getHelpPopoverTitle(),
