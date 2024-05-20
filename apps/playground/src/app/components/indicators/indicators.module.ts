@@ -15,6 +15,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'illustration',
+    loadChildren: () =>
+      import('./illustration/illustration.module').then(
+        (m) => m.IllustrationModule,
+      ),
+  },
+  {
     path: 'key-info',
     loadChildren: () =>
       import('./key-info/key-info.module').then((m) => m.KeyInfoModule),
