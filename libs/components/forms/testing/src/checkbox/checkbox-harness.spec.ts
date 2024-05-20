@@ -246,17 +246,32 @@ describe('Checkbox harness', () => {
     );
   });
 
-  it('should open help inline popover and help widget when clicked', async () => {
+  it('should open help inline popover when clicked', async () => {
     const { checkboxHarness, fixture } = await setupTest({
       dataSkyId: 'my-phone-checkbox',
     });
-    const helpSvc = TestBed.inject(SkyHelpService);
-    const helpSpy = spyOn(helpSvc, 'openHelp');
 
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
     fixture.whenStable();
 
+    await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should open help widget when clicked', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    const helpSvc = TestBed.inject(SkyHelpService);
+    const helpSpy = spyOn(helpSvc, 'openHelp');
+    fixture.componentInstance.helpPopoverContent = undefined;
+    fixture.detectChanges();
+
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // below is the line that was commented out
     await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });

@@ -38,6 +38,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   public async getPopoverContent(): Promise<SkyPopoverContentHarness> {
     const content = await this.#getContent();
     if (!content) {
+      // I would expect that line that's commented out to throw this error but it doesn't and gets resolved
       throw new Error(
         'Unable to retrieve the popover content because the popover is not open.',
       );
