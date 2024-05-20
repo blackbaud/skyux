@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 
 import { SkyHelpTestingController } from './help-testing-controller';
@@ -15,5 +16,6 @@ import { SkyHelpTestingService } from './help-testing.service';
     },
     SkyHelpTestingController,
   ],
+  exports: [NoopAnimationsModule],
 })
 export class SkyHelpTestingModule {}
