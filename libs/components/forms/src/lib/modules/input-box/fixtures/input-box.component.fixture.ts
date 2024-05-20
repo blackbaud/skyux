@@ -63,6 +63,8 @@ export class InputBoxFixtureComponent {
   public easyModeHelpPopoverContent: TemplateRef<unknown> | string | undefined =
     'Help content from text';
 
+  public easyModeHelpKey: string | undefined;
+
   public easyModeHintText: string | undefined;
 
   public easyModeAriaDescribedBy: string | undefined;

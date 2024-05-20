@@ -1,5 +1,7 @@
 import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
@@ -33,6 +35,13 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
     filters: SkyInputBoxHarnessFilters,
   ): HarnessPredicate<SkyInputBoxHarness> {
     return SkyInputBoxHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    (await this.#getHelpInline()).click();
   }
 
   /**
@@ -183,6 +192,22 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
     return helpPopover;
   }
 
+  /**2
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
   /**
    * Gets the hint text for the input box.
    */
@@ -203,5 +228,15 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
 
   async #getElementTextOrDefault(el: TestElement | null): Promise<string> {
     return (await el?.text())?.trim() ?? '';
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 }
