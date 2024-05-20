@@ -1,8 +1,13 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
@@ -29,7 +34,11 @@ describe('File drop component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyFileAttachmentsModule],
+      imports: [
+        SkyFileAttachmentsModule,
+        SkyHelpTestingModule,
+        NoopAnimationsModule,
+      ],
       declarations: [FileDropContentComponent],
     });
 
@@ -1339,5 +1348,35 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(getHelpInlinePopover().length).toBe(1);
+  });
+
+  it('should render help inline if help key is provided', () => {
+    componentInstance.helpPopoverContent = undefined;
+    fixture.detectChanges();
+
+    expect(getHelpInlinePopover().length).toBe(0);
+
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    expect(getHelpInlinePopover()).toBeTruthy();
+  });
+
+  it('should set global help config with help key', async () => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+    componentInstance.labelText = 'label';
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    const helpInlineButton = fixture.nativeElement.querySelector(
+      '.sky-help-inline',
+    ) as HTMLElement | undefined;
+    helpInlineButton?.click();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    helpController.expectCurrentHelpKey('helpKey.html');
   });
 });
