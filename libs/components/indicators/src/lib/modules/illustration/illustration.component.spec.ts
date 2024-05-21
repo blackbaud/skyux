@@ -5,6 +5,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { expectAsync } from '@skyux-sdk/testing';
 
 import { SkyIllustrationTestResolverService } from './fixtures/illustration-test-resolver.service';
 import { SkyIllustrationResolverService } from './illustration-resolver.service';
@@ -63,7 +64,9 @@ describe('Illustration', () => {
 
       fixture.detectChanges();
 
-      expect((fixture.nativeElement as HTMLElement).ariaHidden).toBe('true');
+      // Blank alt attributes hide images from screen readers.
+      // https://www.w3.org/WAI/tutorials/images/decorative/
+      validateImageAttr('alt', '');
     });
 
     it('should set the expected attributes', fakeAsync(() => {
@@ -71,7 +74,6 @@ describe('Illustration', () => {
 
       detectUrlChanges();
 
-      validateImageAttr('fetchpriority', 'auto');
       validateImageAttr('loading', 'lazy');
       validateImageAttr('src', 'https://example.com/success.svg');
     }));
@@ -91,6 +93,14 @@ describe('Illustration', () => {
 
       validateImageAttr('src', '');
     }));
+
+    it('should be accessible', async () => {
+      setupTest(true, 'success', 'sm');
+
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('without resolver provided', () => {

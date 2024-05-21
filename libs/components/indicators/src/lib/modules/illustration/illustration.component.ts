@@ -2,7 +2,6 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   computed,
   inject,
   input,
@@ -46,9 +45,6 @@ export class SkyIllustrationComponent {
    * The size of the illustration.
    */
   public readonly size = input.required<SkyIllustrationSize>();
-
-  @HostBinding('attr.aria-hidden')
-  protected readonly ariaHidden = true;
 
   protected readonly url = toSignal(
     toObservable(this.name).pipe(
