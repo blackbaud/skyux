@@ -1620,7 +1620,7 @@ describe('Text editor', () => {
       ).toBe(1);
     });
 
-    it('should render help help inline if help key is provided', () => {
+    it('should render help inline if help key is provided', () => {
       testComponent.labelText = 'Text Editor';
       testComponent.helpKey = undefined;
       fixture.detectChanges();
