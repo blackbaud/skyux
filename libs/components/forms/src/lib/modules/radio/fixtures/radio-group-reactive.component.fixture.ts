@@ -49,6 +49,10 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public helpPopoverContent: string | undefined;
 
+  public headingLevel = 3;
+
+  public headingStyle = 3;
+
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
 

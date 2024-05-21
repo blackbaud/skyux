@@ -14,6 +14,7 @@ import {
   TemplateRef,
   booleanAttribute,
   inject,
+  numberAttribute,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
@@ -27,6 +28,8 @@ import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
 import { SkyRadioChange } from './types/radio-change';
+import { SkyRadioGroupHeadingLevel } from './types/radio-group-heading-level';
+import { SkyRadioGroupHeadingStyle } from './types/radio-group-heading-style';
 
 let nextUniqueId = 0;
 
@@ -110,6 +113,22 @@ export class SkyRadioGroupComponent
 
   public get disabled(): boolean {
     return this.#_disabled;
+  }
+
+  /**
+   * The heading level in the document structure.
+   * @preview
+   */
+  @Input({ transform: numberAttribute })
+  public headingLevel: SkyRadioGroupHeadingLevel = 3;
+
+  /**
+   * The heading font style.
+   * @preview
+   */
+  @Input({ transform: numberAttribute })
+  public set headingStyle(value: SkyRadioGroupHeadingStyle) {
+    this.headingClass = `sky-font-heading-${value}`;
   }
 
   /**
@@ -269,6 +288,7 @@ export class SkyRadioGroupComponent
 
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
+  protected headingClass = 'sky-font-heading-3';
 
   constructor(
     changeDetector: ChangeDetectorRef,
