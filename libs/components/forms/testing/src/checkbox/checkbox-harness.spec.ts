@@ -1,5 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
+import { SkyHelpService } from '@skyux/core';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { SkyCheckboxHarness } from './checkbox-harness';
 import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.component';
@@ -9,7 +11,7 @@ async function setupTest(
   options: { dataSkyId?: string; hideEmailLabel?: boolean } = {},
 ) {
   await TestBed.configureTestingModule({
-    imports: [CheckboxHarnessTestModule],
+    imports: [CheckboxHarnessTestModule, SkyHelpTestingModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);
@@ -239,15 +241,32 @@ describe('Checkbox harness', () => {
     );
   });
 
-  it('should open help inline popover', async () => {
+  it('should open help inline popover when clicked', async () => {
     const { checkboxHarness, fixture } = await setupTest({
       dataSkyId: 'my-phone-checkbox',
     });
+
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should open help widget when clicked', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-phone-checkbox',
+    });
+    const helpSvc = TestBed.inject(SkyHelpService);
+    const helpSpy = spyOn(helpSvc, 'openHelp');
+    fixture.componentInstance.helpPopoverContent = undefined;
+    fixture.detectChanges();
+
+    await checkboxHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 
   it('should get help popover content', async () => {
@@ -256,7 +275,7 @@ describe('Checkbox harness', () => {
     });
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(checkboxHarness.getHelpPopoverContent()).toBeResolvedTo(
       '(xxx)xxx-xxxx',
@@ -269,7 +288,7 @@ describe('Checkbox harness', () => {
     });
     await checkboxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(checkboxHarness.getHelpPopoverTitle()).toBeResolvedTo(
       'Format',

@@ -16,7 +16,8 @@
       'skyux_file_attachment_required' | skyLibResources
     }}</span
     ><sky-help-inline
-      *ngIf="helpPopoverContent && labelText"
+      *ngIf="helpPopoverContent || helpKey"
+      [helpKey]="helpKey"
       [labelText]="labelText"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"

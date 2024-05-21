@@ -154,7 +154,7 @@ describe('Input box harness', () => {
 
     await inputBoxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolved();
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
@@ -167,7 +167,7 @@ describe('Input box harness', () => {
 
     await inputBoxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolvedTo(
       'Help content',
@@ -181,7 +181,7 @@ describe('Input box harness', () => {
 
     await inputBoxHarness.clickHelpInline();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
 
     await expectAsync(inputBoxHarness.getHelpPopoverTitle()).toBeResolvedTo(
       'Help title',

@@ -1,6 +1,7 @@
 <form [formGroup]="myForm">
   <sky-checkbox-group
     [formGroup]="myForm"
+    [helpKey]="helpKey"
     [helpPopoverContent]="helpPopoverContent"
     [helpPopoverTitle]="helpPopoverTitle"
     [hintText]="hintText"
@@ -24,6 +25,7 @@
       [labelHidden]="hidePhoneLabel"
       data-sky-id="my-phone-checkbox"
       formControlName="phone"
+      helpKey="helpKey.html"
       helpPopoverContent="(xxx)xxx-xxxx"
       helpPopoverTitle="Format"
       labelText="Phone"
