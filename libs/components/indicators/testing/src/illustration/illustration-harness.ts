@@ -17,7 +17,7 @@ export class SkyIllustrationHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyLookupHarness` that meets certain criteria.
+   * `SkyIllustrationHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyIllustrationHarnessFilters,
