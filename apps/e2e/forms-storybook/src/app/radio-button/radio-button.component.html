@@ -2,7 +2,7 @@
   <form novalidate [formGroup]="radioForm">
     <sky-radio-group
       formControlName="radioButtonOption"
-      labelText="Radio button options"
+      headingText="Radio button options"
       stacked="true"
       headingLevel="3"
       headingStyle="4"
@@ -20,7 +20,7 @@
     </sky-radio-group>
     <sky-radio-group
       formControlName="radioIconOption"
-      labelText="Radio icon options"
+      headingText="Radio icon options"
       stacked="true"
       headingLevel="4"
       headingStyle="5"
@@ -85,7 +85,7 @@
       formControlName="noDefaultRadioButtonOption"
       hintText="Radio group hint text"
       helpPopoverContent="This is a popover"
-      labelText="Easy mode radio group and radio button"
+      headingText="Easy mode radio group and radio button"
       headingLevel="5"
       headingStyle="3"
       [required]="true"
@@ -125,7 +125,7 @@
     <div class="invalid-radio-button-group">
       <sky-radio-group
         formControlName="invalidRadioButtonOption"
-        labelText="Radio button options with validation"
+        headingText="Radio button options with validation"
       >
         <ul class="sky-list-unstyled">
           <li *ngFor="let option of radioButtonOptions">

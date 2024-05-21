@@ -57,7 +57,7 @@ export class SkyRadioGroupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
-   * @deprecated Use `labelText` instead.
+   * @deprecated Use `headingText` instead.
    */
   @Input()
   public set ariaLabelledBy(value: string | undefined) {
@@ -80,7 +80,7 @@ export class SkyRadioGroupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
-   * @deprecated Use `labelText` instead.
+   * @deprecated Use `headingText` instead.
    */
   @Input()
   public set ariaLabel(value: string | undefined) {
@@ -207,18 +207,18 @@ export class SkyRadioGroupComponent
   }
 
   /**
-   * The text to display as the radio group's label.
+   * The text to display as the radio group's heading.
    * @preview
    */
   @Input()
-  public labelText: string | undefined;
+  public headingText: string | undefined;
 
   /**
-   * Indicates whether to hide the `labelText`.
+   * Indicates whether to hide the `headingText`.
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  public labelHidden = false;
+  public headingHidden = false;
 
   @HostBinding('style.display')
   public display: string | undefined;
@@ -232,7 +232,7 @@ export class SkyRadioGroupComponent
   public hintText: string | undefined;
 
   /**
-   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * The content of the help popover. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to radio group. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
    * @preview
@@ -282,7 +282,7 @@ export class SkyRadioGroupComponent
   readonly #logger = inject(SkyLogService);
   readonly #idService = inject(SkyIdService);
 
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
+  readonly #headingTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
     optional: true,
   });
 
@@ -363,10 +363,10 @@ export class SkyRadioGroupComponent
   }
 
   public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
+    if (this.#headingTextRequired && !this.headingText) {
       this.display = 'none';
     }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
+    this.#headingTextRequired?.validateLabelText(this.headingText);
   }
 
   public ngOnDestroy(): void {
