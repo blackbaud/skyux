@@ -633,6 +633,23 @@ describe('Radio group component (reactive)', function () {
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
   });
 
+  it('should render the correct heading level and styles', () => {
+    [3, 4, 5].forEach((headingLevel) => {
+      [3, 4, 5].forEach((headingStyle) => {
+        componentInstance.labelText = 'Label text';
+        componentInstance.headingLevel = headingLevel;
+        componentInstance.headingStyle = headingStyle;
+        fixture.detectChanges();
+
+        const heading = fixture.nativeElement.querySelector(
+          `h${headingLevel}.sky-font-heading-${headingStyle}`,
+        );
+
+        expect(heading).toExist();
+      });
+    });
+  });
+
   it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
     const labelText = 'Label Text';
     componentInstance.labelText = labelText;
