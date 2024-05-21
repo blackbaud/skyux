@@ -2,12 +2,12 @@
   class="sky-checkbox-group"
   [attr.aria-invalid]="!!formGroup.errors"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
-  [attr.aria-errormessage]="labelText && formGroup.errors ? errorId : undefined"
+  [attr.aria-errormessage]="headingText && formGroup.errors ? errorId : undefined"
 >
   <legend
     class="sky-control-label"
     [ngClass]="{
-      'sky-screen-reader-only': labelHidden,
+      'sky-screen-reader-only': headingHidden,
       'sky-margin-stacked-xs': !!hintText,
       'sky-margin-stacked-sm': !hintText
     }"
@@ -17,14 +17,14 @@
       [ngClass]="{
         'sky-control-label-required': required
       }"
-      >{{ labelText }}</span
+      >{{ headingText }}</span
     ><span class="sky-screen-reader-only" *ngIf="required">{{
       'skyux_checkbox_group_required' | skyLibResources
     }}</span
     ><sky-help-inline
       *ngIf="helpPopoverContent || helpKey"
       [helpKey]="helpKey"
-      [labelText]="labelText"
+      [labelText]="headingText"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"
     />
@@ -47,11 +47,11 @@
   </span>
 </fieldset>
 <sky-form-errors
-  *ngIf="labelText && formGroup.errors"
+  *ngIf="headingText && formGroup.errors"
   [id]="errorId"
   [attr.data-sky-id]="formErrorsDataId"
   [errors]="formGroup.errors"
-  [labelText]="labelText"
+  [labelText]="headingText"
   [showErrors]="formGroup.touched || formGroup.dirty"
 >
   <ng-content select="sky-form-error" />
