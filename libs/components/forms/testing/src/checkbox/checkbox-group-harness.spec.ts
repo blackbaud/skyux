@@ -30,42 +30,42 @@ async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
 }
 
 describe('Checkbox group harness', () => {
-  it('should get the label text', async () => {
+  it('should get the heading text', async () => {
     const { checkboxGroupHarness } = await setupTest();
 
-    await expectAsync(checkboxGroupHarness.getLabelText()).toBeResolvedTo(
+    await expectAsync(checkboxGroupHarness.getHeadingText()).toBeResolvedTo(
       'Contact method',
     );
   });
 
-  it('should get the label text when label text is hidden', async () => {
+  it('should get the heading text when heading text is hidden', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest({
       dataSkyId: 'checkbox-group',
     });
 
-    fixture.componentInstance.hideGroupLabel = true;
+    fixture.componentInstance.hideGroupHeading = true;
     fixture.detectChanges();
 
-    await expectAsync(checkboxGroupHarness.getLabelText()).toBeResolvedTo(
+    await expectAsync(checkboxGroupHarness.getHeadingText()).toBeResolvedTo(
       'Contact method',
     );
   });
 
-  it('should indicate the label is not hidden', async () => {
+  it('should indicate the heading is not hidden', async () => {
     const { checkboxGroupHarness } = await setupTest();
 
-    await expectAsync(checkboxGroupHarness.getLabelHidden()).toBeResolvedTo(
+    await expectAsync(checkboxGroupHarness.getHeadingHidden()).toBeResolvedTo(
       false,
     );
   });
 
-  it('should indicate the label is hidden', async () => {
+  it('should indicate the heading is hidden', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.hideGroupLabel = true;
+    fixture.componentInstance.hideGroupHeading = true;
     fixture.detectChanges();
 
-    await expectAsync(checkboxGroupHarness.getLabelHidden()).toBeResolvedTo(
+    await expectAsync(checkboxGroupHarness.getHeadingHidden()).toBeResolvedTo(
       true,
     );
   });
