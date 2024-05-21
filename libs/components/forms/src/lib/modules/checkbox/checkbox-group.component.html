@@ -2,7 +2,9 @@
   class="sky-checkbox-group"
   [attr.aria-invalid]="!!formGroup.errors"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
-  [attr.aria-errormessage]="headingText && formGroup.errors ? errorId : undefined"
+  [attr.aria-errormessage]="
+    headingText && formGroup.errors ? errorId : undefined
+  "
 >
   <legend
     class="sky-control-label"
