@@ -29,7 +29,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
    * Toggles a popover open or closed.
    */
   public async clickPopoverButton(): Promise<void> {
-    (await this.host()).click();
+    return (await this.host()).click();
   }
 
   /**

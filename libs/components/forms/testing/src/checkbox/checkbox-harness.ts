@@ -50,7 +50,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    (await this.#getHelpInline()).click();
+    return (await this.#getHelpInline()).click();
   }
 
   /**

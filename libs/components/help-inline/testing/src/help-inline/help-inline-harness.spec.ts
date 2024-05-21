@@ -178,8 +178,8 @@ describe('Inline help harness', () => {
 
     fixture.componentInstance.popoverContent = 'popover content';
     fixture.detectChanges();
-    helpInlineHarness.click();
-    fixture.whenStable();
+    await helpInlineHarness.click();
+    await fixture.whenStable();
 
     await expectAsync(helpInlineHarness.getPopoverContent()).toBeResolvedTo(
       'popover content',
@@ -206,8 +206,8 @@ describe('Inline help harness', () => {
     fixture.componentInstance.popoverContent = 'popover content';
     fixture.componentInstance.popoverTitle = 'popover title';
     fixture.detectChanges();
-    helpInlineHarness.click();
-    fixture.whenStable();
+    await helpInlineHarness.click();
+    await fixture.whenStable();
 
     await expectAsync(helpInlineHarness.getPopoverTitle()).toBeResolvedTo(
       'popover title',
