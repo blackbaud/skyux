@@ -23,7 +23,15 @@
         'sky-margin-inline-xs': helpPopoverContent
       }"
     >
-      {{ labelText }}
+      <h3 *ngIf="headingLevel === 3" [class]="headingClass">
+        {{ labelText }}
+      </h3>
+      <h4 *ngIf="headingLevel === 4" [class]="headingClass">
+        {{ labelText }}
+      </h4>
+      <h5 *ngIf="headingLevel === 5" [class]="headingClass">
+        {{ labelText }}
+      </h5>
     </legend>
     <sky-help-inline
       *ngIf="helpPopoverContent && labelText"
