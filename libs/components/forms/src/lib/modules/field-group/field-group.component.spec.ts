@@ -32,20 +32,20 @@ describe('Field group component', function () {
     fixture.detectChanges();
   });
 
-  it('should render the field group label text', () => {
+  it('should render the field group heading text', () => {
     const legend = getLegend(fixture);
 
     expect(legend).toBeVisible();
-    expect(legend.textContent?.trim()).toBe('Label text');
+    expect(legend.textContent?.trim()).toBe('Heading text');
   });
 
-  it('should visually hide the label text by only displaying it for screen readers when labelHidden is true', () => {
-    componentInstance.labelHidden = true;
+  it('should visually hide the heading text by only displaying it for screen readers when headingHidden is true', () => {
+    componentInstance.headingHidden = true;
     fixture.detectChanges();
 
     const legend = getLegend(fixture);
 
-    expect(legend.textContent?.trim()).toBe('Label text');
+    expect(legend.textContent?.trim()).toBe('Heading text');
     expect(legend).toHaveClass('sky-screen-reader-only');
   });
 
