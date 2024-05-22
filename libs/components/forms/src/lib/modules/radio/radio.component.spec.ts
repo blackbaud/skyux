@@ -9,6 +9,10 @@ import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
@@ -22,7 +26,7 @@ import { SkyRadioComponent } from './radio.component';
 describe('Radio component', function () {
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [SkyRadioFixturesModule],
+      imports: [SkyRadioFixturesModule, SkyHelpTestingModule],
     });
 
     // Mock the ID service.
@@ -375,7 +379,7 @@ describe('Radio component', function () {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should render help inline only if label text is provided', fakeAsync(() => {
+    it('should render help inline if label text and help popover content is provided', fakeAsync(() => {
       fixture.detectChanges();
       tick();
 
@@ -391,6 +395,43 @@ describe('Radio component', function () {
         fixture.nativeElement.querySelectorAll('sky-help-inline').length,
       ).toBe(1);
     }));
+
+    it('should render help inline if help key and label text is provided', async () => {
+      componentInstance.labelText1 = 'label';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeFalsy();
+
+      componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      componentInstance.labelText1 = 'Radio button';
+      componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      await helpInlineButton?.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
+    });
   });
 
   describe('Radio icon component', () => {

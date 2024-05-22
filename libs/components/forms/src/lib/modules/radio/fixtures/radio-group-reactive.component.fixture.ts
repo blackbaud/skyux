@@ -47,6 +47,8 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public stacked: boolean | undefined;
 
+  public helpKey: string | undefined;
+
   public helpPopoverContent: string | undefined;
 
   public headingLevel = 3;

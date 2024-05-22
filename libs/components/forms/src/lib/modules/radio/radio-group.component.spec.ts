@@ -7,6 +7,10 @@ import {
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
@@ -54,7 +58,7 @@ describe('Radio group component (reactive)', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [SkyRadioFixturesModule],
+      imports: [SkyRadioFixturesModule, SkyHelpTestingModule],
     });
 
     // Mock the ID service.
@@ -755,7 +759,7 @@ describe('Radio group component (reactive)', function () {
     ).toEqual('This option is incorrect.');
   }));
 
-  it('should render help inline only if label text and help popover content is provided', async () => {
+  it('should render help inline if label text and help popover content is provided', async () => {
     componentInstance.headingText = 'Label Text';
     fixture.detectChanges();
 
@@ -769,6 +773,43 @@ describe('Radio group component (reactive)', function () {
     expect(
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(1);
+  });
+
+  it('should render help inline if heading text and help key is provided ', async () => {
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector(
+        '.sky-help-inline:not(.sky-control-help)',
+      ),
+    ).toBeFalsy();
+
+    componentInstance.headingText = 'Heading text';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector(
+        '.sky-help-inline:not(.sky-control-help)',
+      ),
+    ).toBeTruthy();
+  });
+
+  it('should set global help config with help key', async () => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+    componentInstance.headingText = 'Heading text';
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    const helpInlineButton = fixture.nativeElement.querySelector(
+      '.sky-help-inline',
+    ) as HTMLElement | undefined;
+    await helpInlineButton?.click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    helpController.expectCurrentHelpKey('helpKey.html');
   });
 });
 
