@@ -46,6 +46,7 @@
     }"
   >
     <sky-input-box
+      [errorsScreenReaderOnly]="true"
       [hasErrors]="hasErrors"
       [labelText]="
         selectedCalculator.type
@@ -85,6 +86,7 @@
     [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
   >
     <sky-input-box
+      [errorsScreenReaderOnly]="true"
       [hasErrors]="hasErrors"
       [labelText]="
         selectedCalculator.type

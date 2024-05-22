@@ -9,13 +9,6 @@
   display: flex;
 }
 
-/* Hide errors for the datepickers since they're now shown under the ID select. */
-.sky-date-range-datepicker-wrapper {
-  ::ng-deep sky-form-errors {
-    @include mixins.sky-screen-reader-only();
-  }
-}
-
 @media (max-width: $sky-screen-sm-min) {
   .sky-date-range-picker-form-group {
     &:not(.sky-date-range-picker-last-input) {

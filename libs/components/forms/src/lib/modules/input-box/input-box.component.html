@@ -182,6 +182,7 @@
     [id]="errorId"
     [errors]="controlDir?.errors"
     [labelText]="labelText"
+    [ngClass]="{ 'sky-screen-reader-only': errorsScreenReaderOnly }"
     [showErrors]="controlDir?.touched || controlDir?.dirty"
   >
     <ng-content select="sky-form-error" />
