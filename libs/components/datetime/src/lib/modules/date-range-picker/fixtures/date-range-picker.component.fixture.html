@@ -1,18 +1,18 @@
 <form [formGroup]="reactiveForm" novalidate>
   <sky-date-range-picker
     *ngIf="templateDisable === undefined"
-    [hintText]="hintText"
     formControlName="dateRange"
     [calculatorIds]="calculatorIds"
     [dateFormat]="dateFormat"
     [endDateRequired]="endDateRequired"
     [helpPopoverContent]="helpPopoverContent"
+    [hintText]="hintText"
     [label]="label"
-    [startDateRequired]="startDateRequired"
+    [required]="required"
     [stacked]="stacked"
+    [startDateRequired]="startDateRequired"
     #dateRangePicker
-  >
-  </sky-date-range-picker>
+  />
 </form>
 
 <sky-date-range-picker
@@ -24,5 +24,4 @@
   [label]="label"
   [startDateRequired]="startDateRequired"
   #dateRangePicker
->
-</sky-date-range-picker>
+/>

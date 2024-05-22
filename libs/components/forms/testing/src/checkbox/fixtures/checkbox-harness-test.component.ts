@@ -16,7 +16,7 @@ export class CheckboxHarnessTestComponent {
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public hideEmailLabel = false;
-  public hideGroupLabel = false;
+  public hideGroupHeading = false;
   public hidePhoneLabel = false;
   public hintText: string | undefined;
   public phoneHintText: string | undefined;

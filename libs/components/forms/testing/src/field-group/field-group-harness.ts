@@ -36,10 +36,10 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the field group's label text. If the label is set via `labelText` and `labelHidden` is true,
+   * Gets the field group's heading text. If `headingHidden` is true,
    * the text will still be returned.
    */
-  public async getLabelText(): Promise<string | undefined> {
+  public async getHeadingText(): Promise<string | undefined> {
     return (await this.#getLegend()).text();
   }
 
@@ -53,9 +53,9 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the label is hidden.
+   * Whether the heading is hidden.
    */
-  public async getLabelHidden(): Promise<boolean> {
+  public async getHeadingHidden(): Promise<boolean> {
     return (await this.#getLegend()).hasClass('sky-screen-reader-only');
   }
 
