@@ -19,7 +19,8 @@
         >{{ labelText }}</label
       >
       <sky-help-inline
-        *ngIf="helpPopoverContent"
+        *ngIf="helpPopoverContent || helpKey"
+        [helpKey]="helpKey"
         [labelText]="labelText"
         [popoverContent]="helpPopoverContent"
         [popoverTitle]="helpPopoverTitle"

@@ -1,5 +1,21 @@
 # Changelog
 
+## [10.19.0](https://github.com/blackbaud/skyux/compare/10.18.0...10.19.0) (2024-05-22)
+
+
+### Features
+
+* **components/forms:** add `helpKey` input to checkbox and checkbox group ([#2315](https://github.com/blackbaud/skyux/issues/2315)) ([a5eb6a0](https://github.com/blackbaud/skyux/commit/a5eb6a07af66166f769e24ea51ba4545e4a9b5bc))
+* **components/forms:** add `helpKey` input to file attachment ([#2313](https://github.com/blackbaud/skyux/issues/2313)) ([22d6c20](https://github.com/blackbaud/skyux/commit/22d6c207fdf822a1270597cd411989bdf74feb84))
+* **components/forms:** add semantic and styling header inputs to radio group ([#2319](https://github.com/blackbaud/skyux/issues/2319)) ([14c1952](https://github.com/blackbaud/skyux/commit/14c1952e23db1dd69311b768e472b4e2b13985a8))
+* **components/text-editor:** add `helpKey` to text editor  ([#2320](https://github.com/blackbaud/skyux/issues/2320)) ([bc60335](https://github.com/blackbaud/skyux/commit/bc60335a452916110cd099a2aa3d9d5f7a8461dd))
+
+
+### Bug Fixes
+
+* **components/autonumeric:** cleanup autonumeric instance ([#2318](https://github.com/blackbaud/skyux/issues/2318)) ([4efd361](https://github.com/blackbaud/skyux/commit/4efd3618c1d427a13da53d8faee1f64039259874))
+* **components/forms:** change field group, checkbox group, and radio group label inputs to heading inputs ([#2321](https://github.com/blackbaud/skyux/issues/2321)) ([0543b70](https://github.com/blackbaud/skyux/commit/0543b7070c162501b370ab2e74f997ecffd3c65b))
+
 ## [10.18.0](https://github.com/blackbaud/skyux/compare/10.17.0...10.18.0) (2024-05-17)
 
 
