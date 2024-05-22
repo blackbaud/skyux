@@ -1,19 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDateRangePickerComponent } from '../date-range-picker.component';
+import { SkyDateRangePickerModule } from '../date-range-picker.module';
 import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 
 @Component({
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDateRangePickerModule,
+  ],
   selector: 'sky-date-range-picker-test',
+  standalone: true,
   templateUrl: './date-range-picker.component.fixture.html',
 })
 export class DateRangePickerTestComponent implements OnInit, OnDestroy {
@@ -33,6 +45,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public label: string | undefined;
   public numValueChangeNotifications = 0;
   public reactiveForm: UntypedFormGroup;
+  public required = false;
   public startDateRequired = false;
   public templateDisable: boolean | undefined;
   public hintText: string | undefined;
@@ -68,5 +81,15 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.calculatorIds = [SkyDateRangeCalculatorId.After];
     });
+  }
+
+  public setFormControlRequired(required: boolean): void {
+    if (required) {
+      this.dateRange?.addValidators(Validators.required);
+    } else {
+      this.dateRange?.removeValidators(Validators.required);
+    }
+
+    this.dateRange?.updateValueAndValidity();
   }
 }
