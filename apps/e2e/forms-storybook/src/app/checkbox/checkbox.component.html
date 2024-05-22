@@ -123,10 +123,13 @@
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
           [formGroup]="standardCheckboxGroupFormGroup"
+          [required]="true"
           helpPopoverContent="Select up to three."
           helpPopoverTitle="Make a selection"
           hintText="Group hint text"
           headingText="Contact method"
+          headingLevel="3"
+          headingStyle="4"
         >
           <sky-checkbox
             formControlName="email"
@@ -150,6 +153,42 @@
             errorName="contactMethodRequired"
             errorText="A contact method is required."
           ></sky-form-error>
+        </sky-checkbox-group>
+      </form>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <form [formGroup]="standardCheckboxGroupFormGroup">
+        <sky-checkbox-group
+          [formGroup]="standardCheckboxGroupFormGroup"
+          helpPopoverContent="Select up to three."
+          helpPopoverTitle="Make a selection"
+          headingText="Contact method"
+          headingLevel="4"
+          headingStyle="5"
+        >
+          <sky-checkbox formControlName="email" labelText="Email" />
+          <sky-checkbox formControlName="phone" labelText="Phone" />
+          <sky-checkbox formControlName="text" labelText="Text" />
+        </sky-checkbox-group>
+      </form>
+    </sky-column>
+  </sky-row>
+  <sky-row class="sky-padding-even-md">
+    <sky-column>
+      <form [formGroup]="standardCheckboxGroupFormGroup">
+        <sky-checkbox-group
+          [formGroup]="standardCheckboxGroupFormGroup"
+          helpPopoverContent="Select up to three."
+          helpPopoverTitle="Make a selection"
+          headingText="Contact method"
+          headingLevel="5"
+          headingStyle="3"
+        >
+          <sky-checkbox formControlName="email" labelText="Email" />
+          <sky-checkbox formControlName="phone" labelText="Phone" />
+          <sky-checkbox formControlName="text" labelText="Text" />
         </sky-checkbox-group>
       </form>
     </sky-column>

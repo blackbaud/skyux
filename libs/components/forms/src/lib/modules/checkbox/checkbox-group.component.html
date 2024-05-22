@@ -19,7 +19,17 @@
       [ngClass]="{
         'sky-control-label-required': required
       }"
-      >{{ headingText }}</span
+      >
+      <h3 *ngIf="headingLevel === 3" [class]="headingClass">
+        {{ headingText }}
+      </h3>
+      <h4 *ngIf="headingLevel === 4" [class]="headingClass">
+        {{ headingText }}
+      </h4>
+      <h5 *ngIf="headingLevel === 5" [class]="headingClass">
+        {{ headingText }}
+      </h5>
+      </span
     ><span class="sky-screen-reader-only" *ngIf="required">{{
       'skyux_checkbox_group_required' | skyLibResources
     }}</span
