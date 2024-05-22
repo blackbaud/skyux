@@ -30,40 +30,44 @@ async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
 }
 
 describe('Field group harness', () => {
-  it('should get the label text', async () => {
+  it('should get the heading text', async () => {
     const { fieldGroupHarness } = await setupTest();
 
-    await expectAsync(fieldGroupHarness.getLabelText()).toBeResolvedTo(
-      'Label text',
+    await expectAsync(fieldGroupHarness.getHeadingText()).toBeResolvedTo(
+      'Heading text',
     );
   });
 
-  it('should get the label text when label text is hidden', async () => {
+  it('should get the heading text when heading text is hidden', async () => {
     const { fieldGroupHarness, fixture } = await setupTest({
       dataSkyId: 'field-group',
     });
 
-    fixture.componentInstance.labelHidden = true;
+    fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 
-    await expectAsync(fieldGroupHarness.getLabelText()).toBeResolvedTo(
-      'Label text',
+    await expectAsync(fieldGroupHarness.getHeadingText()).toBeResolvedTo(
+      'Heading text',
     );
   });
 
-  it('should indicate the label is not hidden', async () => {
+  it('should indicate the heading is not hidden', async () => {
     const { fieldGroupHarness } = await setupTest();
 
-    await expectAsync(fieldGroupHarness.getLabelHidden()).toBeResolvedTo(false);
+    await expectAsync(fieldGroupHarness.getHeadingHidden()).toBeResolvedTo(
+      false,
+    );
   });
 
-  it('should indicate the label is hidden', async () => {
+  it('should indicate the heading is hidden', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelHidden = true;
+    fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 
-    await expectAsync(fieldGroupHarness.getLabelHidden()).toBeResolvedTo(true);
+    await expectAsync(fieldGroupHarness.getHeadingHidden()).toBeResolvedTo(
+      true,
+    );
   });
 
   it('should get the hint text', async () => {
@@ -136,7 +140,17 @@ describe('Field group harness', () => {
     ).toBeRejectedWithError('No help inline found.');
   });
 
-  it('should open help inline popover and help widget when clicked', async () => {
+  it('should open help inline popover when clicked', async () => {
+    const { fieldGroupHarness, fixture } = await setupTest();
+
+    await fieldGroupHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should open global help widget when clicked', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
@@ -145,7 +159,6 @@ describe('Field group harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await expectAsync(fieldGroupHarness.getHelpPopoverContent()).toBeResolved();
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 

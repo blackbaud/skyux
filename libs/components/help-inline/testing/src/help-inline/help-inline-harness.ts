@@ -41,7 +41,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
       );
     }
 
-    await button.click();
+    return button.click();
   }
 
   /**

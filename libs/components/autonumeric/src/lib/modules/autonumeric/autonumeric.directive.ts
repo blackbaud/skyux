@@ -118,6 +118,7 @@ export class SkyAutonumericDirective
   }
 
   public ngOnDestroy(): void {
+    this.#autonumericInstance.remove();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }

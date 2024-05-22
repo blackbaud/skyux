@@ -27,9 +27,9 @@ import {
 export class FieldGroupComponent {
   protected formGroup: FormGroup;
   public stacked = false;
-  public labelText = 'Label text';
+  public headingText = 'Heading text';
   public hintText: string | undefined;
-  public labelHidden = false;
+  public headingHidden = false;
   public headingLevel: SkyFieldGroupHeadingLevel = 3;
   public headingStyle: SkyFieldGroupHeadingStyle = 3;
   public helpKey: string | undefined = 'helpKey.html';

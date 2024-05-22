@@ -244,15 +244,15 @@
       helpPopoverContent="content"
       helpPopoverTitle="title"
       hintText="Group hint text"
-      labelText="Contact method"
+      headingText="Contact method"
       [formGroup]="contactMethod"
       [required]="true"
       [stacked]="true"
     >
       <sky-checkbox
         formControlName="email"
+        helpKey="helpKey.html"
         labelText="Email"
-        helpPopoverContent="content"
         required="true"
       />
       <sky-checkbox

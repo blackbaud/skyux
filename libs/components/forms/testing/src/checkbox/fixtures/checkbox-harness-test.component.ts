@@ -12,15 +12,16 @@ import {
   templateUrl: './checkbox-harness-test.component.html',
 })
 export class CheckboxHarnessTestComponent {
-  public myForm: UntypedFormGroup;
-  public hideEmailLabel = false;
-  public mailControl: UntypedFormControl;
+  public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
+  public hideEmailLabel = false;
+  public hideGroupHeading = false;
   public hidePhoneLabel = false;
-  public hideGroupLabel = false;
   public hintText: string | undefined;
   public phoneHintText: string | undefined;
+  public mailControl: UntypedFormControl;
+  public myForm: UntypedFormGroup;
 
   #formBuilder: UntypedFormBuilder;
 

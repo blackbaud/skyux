@@ -5,22 +5,22 @@
   <span class="sky-field-group-legend-wrapper">
     <legend
       [ngClass]="{
-        'sky-screen-reader-only': labelHidden,
+        'sky-screen-reader-only': headingHidden,
         'sky-margin-inline-xs': helpPopoverContent
       }"
     >
       <h3 *ngIf="headingLevel === 3" [class]="headingClass">
-        {{ labelText }}
+        {{ headingText }}
       </h3>
       <h4 *ngIf="headingLevel === 4" [class]="headingClass">
-        {{ labelText }}
+        {{ headingText }}
       </h4>
     </legend>
     <sky-help-inline
       *ngIf="helpPopoverContent || helpKey"
       class="sky-field-group-help-inline"
       [helpKey]="helpKey"
-      [labelText]="labelText"
+      [labelText]="headingText"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"
     />

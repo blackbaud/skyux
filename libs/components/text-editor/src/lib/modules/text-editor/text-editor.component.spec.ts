@@ -18,6 +18,10 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService, SkyIdService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
@@ -90,6 +94,7 @@ describe('Text editor', () => {
         ReactiveFormsModule,
         SkyTextEditorResourcesModule,
         SkyTextEditorModule,
+        SkyHelpTestingModule,
         RouterTestingModule,
       ],
       declarations: [componentType],
@@ -1602,7 +1607,7 @@ describe('Text editor', () => {
       );
     }));
 
-    it('should render help inline popover', () => {
+    it('should render help inline popover if helpPopoverContent is provided', () => {
       testComponent.helpPopoverContent = 'popover content';
       testComponent.labelText = 'label text';
 
@@ -1613,6 +1618,44 @@ describe('Text editor', () => {
           'sky-help-inline:not(.sky-control-help)',
         ).length,
       ).toBe(1);
+    });
+
+    it('should render help inline if help key is provided', () => {
+      testComponent.labelText = 'Text Editor';
+      testComponent.helpKey = undefined;
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeFalsy();
+
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      testComponent.labelText = 'Text Editor';
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      await helpInlineButton?.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
     });
 
     it('should not render help inline popover if title is provided without content', () => {

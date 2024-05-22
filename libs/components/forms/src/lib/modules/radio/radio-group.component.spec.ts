@@ -180,7 +180,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should not show a required state when not required', fakeAsync(() => {
-    componentInstance.labelText = 'Test';
+    componentInstance.headingText = 'Test';
     fixture.detectChanges();
     tick();
 
@@ -192,7 +192,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should show a required state when required input is set to true', fakeAsync(() => {
-    componentInstance.labelText = 'Test';
+    componentInstance.headingText = 'Test';
     componentInstance.required = true;
 
     fixture.detectChanges();
@@ -608,22 +608,22 @@ describe('Radio group component (reactive)', function () {
     );
   });
 
-  it('should display a label if `labelText` is set', () => {
-    const labelText = 'Label Text';
-    componentInstance.labelText = labelText;
+  it('should display a label if `headingText` is set', () => {
+    const headingText = 'Heading Text';
+    componentInstance.headingText = headingText;
 
     fixture.detectChanges();
 
-    const labelEl = getRadioGroupLabel(fixture);
+    const headingEl = getRadioGroupLabel(fixture);
 
-    expect(labelEl).toBeVisible();
-    expect(labelEl?.textContent?.trim()).toBe(labelText);
+    expect(headingEl).toBeVisible();
+    expect(headingEl?.textContent?.trim()).toBe(headingText);
   });
 
-  it('should not display `labelText` if `labelHidden` is true', async () => {
-    const labelText = 'Label Text';
-    componentInstance.labelText = labelText;
-    componentInstance.labelHidden = true;
+  it('should not display `headingText` if `headingHidden` is true', async () => {
+    const headingText = 'Heading Text';
+    componentInstance.headingText = headingText;
+    componentInstance.headingHidden = true;
 
     fixture.detectChanges();
 
@@ -633,9 +633,26 @@ describe('Radio group component (reactive)', function () {
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
   });
 
-  it('should use `labelText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
-    const labelText = 'Label Text';
-    componentInstance.labelText = labelText;
+  it('should render the correct heading level and styles', () => {
+    [3, 4, 5].forEach((headingLevel) => {
+      [3, 4, 5].forEach((headingStyle) => {
+        componentInstance.headingText = 'Label text';
+        componentInstance.headingLevel = headingLevel;
+        componentInstance.headingStyle = headingStyle;
+        fixture.detectChanges();
+
+        const heading = fixture.nativeElement.querySelector(
+          `h${headingLevel}.sky-font-heading-${headingStyle}`,
+        );
+
+        expect(heading).toExist();
+      });
+    });
+  });
+
+  it('should use `headingText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
+    const headingText = 'Heading Text';
+    componentInstance.headingText = headingText;
     componentInstance.ariaLabel = 'some other label text';
 
     fixture.detectChanges();
@@ -672,15 +689,15 @@ describe('Radio group component (reactive)', function () {
     const fixture = TestBed.createComponent(
       SkyRadioGroupReactiveFixtureComponent,
     );
-    const labelTextRequiredSvc = TestBed.inject(
+    const headingTextRequiredSvc = TestBed.inject(
       SkyFormFieldLabelTextRequiredService,
     );
-    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
+    const validationSpy = spyOn(headingTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
-    expect(labelTextSpy).toHaveBeenCalled();
+    expect(validationSpy).toHaveBeenCalled();
     expect(radioGroup).not.toBeVisible();
   });
 
@@ -723,7 +740,7 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should render custom form errors', fakeAsync(() => {
-    componentInstance.labelText = 'Label Text';
+    componentInstance.headingText = 'Label Text';
 
     fixture.detectChanges();
 
@@ -739,7 +756,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should render help inline only if label text and help popover content is provided', async () => {
-    componentInstance.labelText = 'Label Text';
+    componentInstance.headingText = 'Label Text';
     fixture.detectChanges();
 
     expect(

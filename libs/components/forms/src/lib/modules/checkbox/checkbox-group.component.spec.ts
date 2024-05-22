@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyIconCheckboxGroupComponent } from './fixtures/icon-checkbox-group.component';
 import { SkyStandardCheckboxGroupComponent } from './fixtures/standard-checkbox-group.component';
@@ -39,7 +43,7 @@ describe('Checkbox group component', function () {
 
     beforeEach(function () {
       TestBed.configureTestingModule({
-        imports: [SkyStandardCheckboxGroupComponent],
+        imports: [SkyStandardCheckboxGroupComponent, SkyHelpTestingModule],
       });
 
       fixture = TestBed.createComponent(SkyStandardCheckboxGroupComponent);
@@ -56,15 +60,15 @@ describe('Checkbox group component', function () {
       checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible());
     });
 
-    it('should display label text', () => {
+    it('should display heading text', () => {
       const legend = getLegend(fixture);
 
       expect(legend).toBeVisible();
       expect(legend.textContent?.trim()).toBe('Contact method');
     });
 
-    it('should visually hide the label text by only displaying it for screen readers when labelHidden is true', () => {
-      componentInstance.labelHidden = true;
+    it('should visually hide the heading text by only displaying it for screen readers when headingHidden is true', () => {
+      componentInstance.headingHidden = true;
       fixture.detectChanges();
 
       const legend = getLegend(fixture);
@@ -106,22 +110,22 @@ describe('Checkbox group component', function () {
       componentInstance.required = true;
       fixture.detectChanges();
 
-      const label = fixture.nativeElement.querySelector(
+      const heading = fixture.nativeElement.querySelector(
         'span.sky-margin-inline-xs',
       );
 
-      expect(label).toHaveClass('sky-control-label-required');
+      expect(heading).toHaveClass('sky-control-label-required');
       expect(getLegendScreenReaderText(fixture)).toBe('Required');
     });
 
     it('should not include the asterisk and screen reader text when not required', () => {
       fixture.detectChanges();
 
-      const label = fixture.nativeElement.querySelector(
+      const heading = fixture.nativeElement.querySelector(
         'span.sky-margin-inline-xs',
       );
 
-      expect(label).not.toHaveClass('sky-control-label-required');
+      expect(heading).not.toHaveClass('sky-control-label-required');
       expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 
@@ -138,6 +142,40 @@ describe('Checkbox group component', function () {
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');
       expect(formError).toBeVisible();
+    });
+
+    it('should render help inline popover if helpPopoverContent is provided', () => {
+      componentInstance.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector('sky-help-inline'),
+      ).toBeTruthy();
+    });
+
+    it('should render the help inline button if helpKey is provided', () => {
+      componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector('sky-help-inline'),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      fixture.componentInstance.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      helpInlineButton?.click();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
     });
   });
 
