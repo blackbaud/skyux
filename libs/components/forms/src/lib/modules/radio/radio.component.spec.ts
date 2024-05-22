@@ -418,7 +418,7 @@ describe('Radio component', function () {
 
     it('should set global help config with help key', async () => {
       const helpController = TestBed.inject(SkyHelpTestingController);
-      componentInstance.labelText1 = 'Text Editor';
+      componentInstance.labelText1 = 'Radio button';
       componentInstance.helpKey = 'helpKey.html';
       fixture.detectChanges();
 
