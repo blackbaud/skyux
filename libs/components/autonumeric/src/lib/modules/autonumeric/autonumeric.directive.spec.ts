@@ -138,6 +138,29 @@ describe('Autonumeric directive', () => {
     expect(formattedValue).toEqual('1,000.00');
   }));
 
+  it('should destroy autoNumeric instance on completion', fakeAsync(() => {
+    setValue(1000);
+    const reactiveInput: HTMLInputElement = fixture.nativeElement.querySelector(
+      '.app-reactive-form-input',
+    );
+    const templateDrivenInput: HTMLInputElement =
+      fixture.nativeElement.querySelector('.app-template-driven-input');
+
+    expect(
+      (window as any).autoNumericGlobalList.get(reactiveInput),
+    ).toBeDefined();
+    expect(
+      (window as any).autoNumericGlobalList.get(templateDrivenInput),
+    ).toBeDefined();
+    fixture.destroy();
+    expect(
+      (window as any).autoNumericGlobalList.get(reactiveInput),
+    ).toBeUndefined();
+    expect(
+      (window as any).autoNumericGlobalList.get(templateDrivenInput),
+    ).toBeUndefined();
+  }));
+
   it('should properly format 0 values', fakeAsync(() => {
     setValue(0);
 
