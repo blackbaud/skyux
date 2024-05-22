@@ -40,8 +40,9 @@
     </ng-template>
   </label>
   <sky-help-inline
-    *ngIf="helpPopoverContent && labelText"
+    *ngIf="(helpPopoverContent || helpKey) && labelText"
     class="sky-radio-help-inline"
+    [helpKey]="helpKey"
     [labelText]="labelText"
     [popoverTitle]="helpPopoverTitle"
     [popoverContent]="helpPopoverContent"

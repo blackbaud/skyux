@@ -20,6 +20,8 @@ export class SkyRadioTestComponent {
   public labelText2: string | undefined;
   public labelText3: string | undefined;
 
+  public helpKey: string | undefined;
+
   public hintText1: string | undefined;
   public hintText2: string | undefined;
   public hintText3: string | undefined;

@@ -249,6 +249,14 @@ export class SkyRadioGroupComponent
   public helpPopoverTitle: string | undefined;
 
   /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * placed beside the radio group heading. Clicking the button invokes global help as configured by the application.
+   * @preview
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
    * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the

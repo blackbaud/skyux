@@ -34,7 +34,8 @@
       </h5>
     </legend>
     <sky-help-inline
-      *ngIf="helpPopoverContent && headingText"
+      *ngIf="(helpPopoverContent || helpKey) && headingText"
+      [helpKey]="helpKey"
       [labelText]="headingText"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"
