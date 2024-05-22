@@ -38,7 +38,7 @@
       ariaLabelledBy="favorite-id"
       formControlName="favoriteSeason"
       hintText="Group hint text"
-      labelText="What is your favorite season? (reactive)"
+      headingText="What is your favorite season? (reactive)"
       [required]="required"
       [stacked]="true"
       headingLevel="3"
@@ -97,8 +97,8 @@
     [disabled]="disabled"
     [required]="required"
     [(ngModel)]="radioValue"
-    labelText="What is your favorite season? (template)"
-    [labelHidden]="true"
+    headingText="What is your favorite season? (template)"
+    [headingHidden]="true"
     #foo="ngModel"
   >
     <ul class="sky-list-unstyled">
@@ -124,7 +124,7 @@
     [required]="required"
     [(ngModel)]="radioValue"
     helpPopoverContent="content"
-    labelText="What is your favorite season?"
+    headingText="What is your favorite season?"
     #foo="ngModel"
   >
     <ul class="sky-list-unstyled">

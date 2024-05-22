@@ -1,41 +1,41 @@
 <fieldset
   class="sky-radio-group"
   role="radiogroup"
-  [attr.aria-label]="labelText ? undefined : ariaLabel"
-  [attr.aria-labelledby]="labelText ? undefined : ariaLabelledBy"
+  [attr.aria-label]="headingText ? undefined : ariaLabel"
+  [attr.aria-labelledby]="headingText ? undefined : ariaLabelledBy"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
   [attr.aria-owns]="ariaOwns"
   [attr.aria-required]="required ? true : null"
   [attr.required]="required ? '' : null"
   [attr.aria-invalid]="!!ngControl?.errors"
   [attr.aria-errormessage]="
-    labelText && ngControl?.errors ? errorId : undefined
+    headingText && ngControl?.errors ? errorId : undefined
   "
 >
   <span class="sky-radio-group-label-wrapper">
     <legend
-      *ngIf="labelText"
+      *ngIf="headingText"
       class="sky-control-label"
       [ngClass]="{
-        'sky-screen-reader-only': labelHidden,
+        'sky-screen-reader-only': headingHidden,
         'sky-margin-stacked-sm': !hintText,
         'sky-control-label-required': required,
         'sky-margin-inline-xs': helpPopoverContent
       }"
     >
       <h3 *ngIf="headingLevel === 3" [class]="headingClass">
-        {{ labelText }}
+        {{ headingText }}
       </h3>
       <h4 *ngIf="headingLevel === 4" [class]="headingClass">
-        {{ labelText }}
+        {{ headingText }}
       </h4>
       <h5 *ngIf="headingLevel === 5" [class]="headingClass">
-        {{ labelText }}
+        {{ headingText }}
       </h5>
     </legend>
     <sky-help-inline
-      *ngIf="helpPopoverContent && labelText"
-      [labelText]="labelText"
+      *ngIf="helpPopoverContent && headingText"
+      [labelText]="headingText"
       [popoverTitle]="helpPopoverTitle"
       [popoverContent]="helpPopoverContent"
     />
@@ -52,7 +52,7 @@
   <ng-content />
 </fieldset>
 <sky-form-errors
-  *ngIf="labelText && ngControl?.errors"
+  *ngIf="headingText && ngControl?.errors"
   [id]="errorId"
   [errors]="ngControl?.errors"
   [labelText]="'skyux_radio_group_required_label_text' | skyLibResources"

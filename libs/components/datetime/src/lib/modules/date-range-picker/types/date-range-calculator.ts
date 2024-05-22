@@ -13,7 +13,12 @@ export class SkyDateRangeCalculator {
   /**
    * The text to display in the calculator select menu.
    */
-  public readonly shortDescription: string;
+  public shortDescription: string;
+
+  /**
+   * @internal
+   */
+  public readonly _shortDescriptionResourceKey: string | undefined;
 
   /**
    * The type of calculations available for the date range.
@@ -27,11 +32,14 @@ export class SkyDateRangeCalculator {
      * The calculator ID that specifies calculator objects that represent date ranges.
      */
     public readonly calculatorId: SkyDateRangeCalculatorId,
-    config: SkyDateRangeCalculatorConfig,
+    config: SkyDateRangeCalculatorConfig & {
+      _shortDescriptionResourceKey?: string;
+    },
   ) {
     this.#config = config;
     this.type = config.type;
     this.shortDescription = config.shortDescription;
+    this._shortDescriptionResourceKey = config._shortDescriptionResourceKey;
   }
 
   /**

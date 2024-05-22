@@ -20,7 +20,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
 
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
-  #getLabel = this.locatorFor('.sky-control-label');
+  #getHeading = this.locatorFor('.sky-control-label');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -63,11 +63,11 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the checkbox group's label text. If `labelHidden` is true,
+   * Gets the checkbox group's heading text. If `headingHidden` is true,
    * the text will still be returned.
    */
-  public async getLabelText(): Promise<string | undefined> {
-    return (await this.#getLabel()).text();
+  public async getHeadingText(): Promise<string | undefined> {
+    return (await this.#getHeading()).text();
   }
 
   /**
@@ -80,10 +80,10 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the label is hidden.
+   * Whether the heading is hidden.
    */
-  public async getLabelHidden(): Promise<boolean> {
-    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
+  public async getHeadingHidden(): Promise<boolean> {
+    return (await this.#getHeading()).hasClass('sky-screen-reader-only');
   }
 
   /**
