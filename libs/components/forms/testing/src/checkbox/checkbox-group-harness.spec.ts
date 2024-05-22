@@ -70,6 +70,50 @@ describe('Checkbox group harness', () => {
     );
   });
 
+  it('should return the heading level', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.headingLevel = 3;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
+
+    fixture.componentInstance.headingLevel = 4;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
+
+    fixture.componentInstance.headingLevel = 5;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(5);
+  });
+
+  it('should return the heading style', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.headingLevel = 3;
+    fixture.componentInstance.headingStyle = 4;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
+    await expectAsync(checkboxGroupHarness.getHeadingStyle()).toBeResolvedTo(4);
+
+    fixture.componentInstance.headingLevel = 4;
+    fixture.componentInstance.headingStyle = 5;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
+    await expectAsync(checkboxGroupHarness.getHeadingStyle()).toBeResolvedTo(5);
+
+    fixture.componentInstance.headingLevel = 5;
+    fixture.componentInstance.headingStyle = 3;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(5);
+    await expectAsync(checkboxGroupHarness.getHeadingStyle()).toBeResolvedTo(3);
+  });
+
   it('should get the hint text', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
     const hintText = 'Hint text for the section.';

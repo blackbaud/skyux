@@ -77,6 +77,22 @@ describe('Checkbox group component', function () {
       expect(legend).toHaveClass('sky-screen-reader-only');
     });
 
+    it('should render the correct heading level and styles', () => {
+      [3, 4, 5].forEach((headingLevel) => {
+        [3, 4, 5].forEach((headingStyle) => {
+          componentInstance.headingLevel = headingLevel;
+          componentInstance.headingStyle = headingStyle;
+          fixture.detectChanges();
+
+          const heading = fixture.nativeElement.querySelector(
+            `h${headingLevel}.sky-font-heading-${headingStyle}`,
+          );
+
+          expect(heading).toExist();
+        });
+      });
+    });
+
     it('should display the hint text if `hintText` is set', () => {
       const hintText = 'Hint text for the group.';
 

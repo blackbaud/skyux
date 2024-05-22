@@ -6,12 +6,18 @@ import {
   UntypedFormGroup,
   ValidationErrors,
 } from '@angular/forms';
+import {
+  SkyCheckboxGroupHeadingLevel,
+  SkyCheckboxGroupHeadingStyle,
+} from '@skyux/forms';
 
 @Component({
   selector: 'test-checkbox-harness',
   templateUrl: './checkbox-harness-test.component.html',
 })
 export class CheckboxHarnessTestComponent {
+  public headingLevel: SkyCheckboxGroupHeadingLevel = 3;
+  public headingStyle: SkyCheckboxGroupHeadingStyle = 3;
   public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
