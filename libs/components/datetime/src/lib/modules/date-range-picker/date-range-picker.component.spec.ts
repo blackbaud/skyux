@@ -6,54 +6,16 @@ import {
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import moment from 'moment';
-import { BehaviorSubject } from 'rxjs';
 
 import { DateRangePickerTestComponent } from './fixtures/date-range-picker.component.fixture';
-import { DateRangePickerTestModule } from './fixtures/date-range-picker.module.fixture';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
-
-const defaultCalculatorIds = [
-  SkyDateRangeCalculatorId.AnyTime,
-  SkyDateRangeCalculatorId.Before,
-  SkyDateRangeCalculatorId.After,
-  SkyDateRangeCalculatorId.SpecificRange,
-  SkyDateRangeCalculatorId.Yesterday,
-  SkyDateRangeCalculatorId.Today,
-  SkyDateRangeCalculatorId.Tomorrow,
-  SkyDateRangeCalculatorId.LastWeek,
-  SkyDateRangeCalculatorId.ThisWeek,
-  SkyDateRangeCalculatorId.NextWeek,
-  SkyDateRangeCalculatorId.LastMonth,
-  SkyDateRangeCalculatorId.ThisMonth,
-  SkyDateRangeCalculatorId.NextMonth,
-  SkyDateRangeCalculatorId.LastQuarter,
-  SkyDateRangeCalculatorId.ThisQuarter,
-  SkyDateRangeCalculatorId.NextQuarter,
-  SkyDateRangeCalculatorId.LastCalendarYear,
-  SkyDateRangeCalculatorId.ThisCalendarYear,
-  SkyDateRangeCalculatorId.NextCalendarYear,
-  SkyDateRangeCalculatorId.LastFiscalYear,
-  SkyDateRangeCalculatorId.ThisFiscalYear,
-  SkyDateRangeCalculatorId.NextFiscalYear,
-];
+import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
 describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
-  let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
-  };
 
   function detectChanges(): void {
     fixture.detectChanges();
@@ -62,14 +24,8 @@ describe('Date range picker', function () {
     tick();
   }
 
-  function getLocaleLongDateFormat(): string {
-    return moment.localeData().longDateFormat('L');
-  }
-
   function getCalculatorSelect(): HTMLSelectElement {
-    return fixture.nativeElement.querySelector(
-      `#` + component.dateRangePicker.dateRangePickerId + `-select-calculator`,
-    );
+    return fixture.nativeElement.querySelector('select');
   }
 
   function getHelpInlinePopover(): HTMLSelectElement {
@@ -85,15 +41,11 @@ describe('Date range picker', function () {
   }
 
   function getEndDateInput(): HTMLInputElement | undefined {
-    return fixture.nativeElement.querySelector(
-      `#${component.dateRangePicker.dateRangePickerId}-end-date`,
-    );
+    return fixture.nativeElement.querySelector('input[name="endDate"]');
   }
 
   function getStartDateInput(): HTMLInputElement | undefined {
-    return fixture.nativeElement.querySelector(
-      `#${component.dateRangePicker.dateRangePickerId}-start-date`,
-    );
+    return fixture.nativeElement.querySelector('input[name="startDate"]');
   }
 
   function enterStartDate(date: string): void {
@@ -119,8 +71,17 @@ describe('Date range picker', function () {
 
     detectChanges();
 
-    const showStartDatePicker = component.dateRangePicker.showStartDatePicker;
-    const showEndDatePicker = component.dateRangePicker.showEndDatePicker;
+    const formGroups = fixture.nativeElement.querySelectorAll(
+      '.sky-date-range-picker-form-group',
+    ) as NodeListOf<HTMLDivElement>;
+
+    const showStartDatePicker = !(
+      formGroups.item(1).getAttribute('hidden') !== null
+    );
+
+    const showEndDatePicker = !(
+      formGroups.item(2).getAttribute('hidden') !== null
+    );
 
     // Check if element is hidden.
     switch (type) {
@@ -157,32 +118,12 @@ describe('Date range picker', function () {
   }
 
   beforeEach(function () {
-    mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
-
     TestBed.configureTestingModule({
-      imports: [DateRangePickerTestModule],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-      ],
+      imports: [DateRangePickerTestComponent],
     });
 
     fixture = TestBed.createComponent(DateRangePickerTestComponent);
     component = fixture.componentInstance;
-  });
-
-  afterEach(function () {
-    fixture.destroy();
   });
 
   it('should set defaults', fakeAsync(function () {
@@ -195,10 +136,8 @@ describe('Date range picker', function () {
     expect(labelElement.textContent).toContain('Select a date range');
 
     const picker = component.dateRangePicker;
-    const defaultFormat = getLocaleLongDateFormat();
-    expect(picker.dateFormatOrDefault).toEqual(defaultFormat);
     expect(picker.label).toEqual(undefined);
-    expect(picker.calculatorIds).toEqual(defaultCalculatorIds);
+    expect(picker.calculatorIds).toEqual(SKY_DEFAULT_CALCULATOR_IDS);
   }));
 
   it('should allow setting specific calculators', fakeAsync(function () {
@@ -222,7 +161,7 @@ describe('Date range picker', function () {
     detectChanges();
 
     expect(component.dateRangePicker.calculatorIds).toEqual(
-      defaultCalculatorIds,
+      SKY_DEFAULT_CALCULATOR_IDS,
     );
   }));
 
@@ -289,14 +228,8 @@ describe('Date range picker', function () {
   it('should not render if a parent component requires label text and it is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      imports: [DateRangePickerTestModule],
-      providers: [
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-        SkyFormFieldLabelTextRequiredService,
-      ],
+      imports: [DateRangePickerTestComponent],
+      providers: [SkyFormFieldLabelTextRequiredService],
     });
 
     const fixture = TestBed.createComponent(DateRangePickerTestComponent);
@@ -431,6 +364,18 @@ describe('Date range picker', function () {
     expect(component.reactiveForm?.touched).toEqual(true);
   }));
 
+  it('should mark the underlying control touched if the host control calls markAllAsTouched', () => {
+    fixture.detectChanges();
+
+    component.reactiveForm?.markAllAsTouched();
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-date-range-picker'),
+    ).toHaveCssClass('ng-touched');
+  });
+
   it('should maintain selected value when calculators change', fakeAsync(function () {
     fixture.detectChanges();
 
@@ -483,7 +428,12 @@ describe('Date range picker', function () {
     control?.reset();
     detectChanges();
 
-    const defaultValue = component.dateRangePicker.calculators[0].getValue();
+    const defaultValue = {
+      calculatorId: 0,
+      endDate: null,
+      startDate: null,
+    };
+
     expect(control?.value).toEqual(defaultValue);
 
     // Finally, test it after the control value has been set once before.
@@ -517,7 +467,7 @@ describe('Date range picker', function () {
 
   it('should update validation errors from selected calculator', fakeAsync(function () {
     detectChanges();
-    selectCalculator(SkyDateRangeCalculatorId.Before);
+    selectCalculator(SkyDateRangeCalculatorId.After);
     detectChanges();
     enterStartDate('bogus value');
     detectChanges();
@@ -534,12 +484,33 @@ describe('Date range picker', function () {
     expect(control?.errors).toBeFalsy();
   }));
 
+  it('should clear "required" errors when switching to a calculator without datepickers', fakeAsync(() => {
+    component.required = true;
+    detectChanges();
+
+    selectCalculator(SkyDateRangeCalculatorId.After);
+    detectChanges();
+
+    const control = component.dateRange;
+    control?.updateValueAndValidity();
+
+    expect(control?.errors).toEqual({
+      required: true,
+    });
+
+    selectCalculator(SkyDateRangeCalculatorId.Today);
+
+    detectChanges();
+
+    expect(control?.errors).toBeFalsy();
+  }));
+
   it('should catch validation errors from date picker', fakeAsync(function () {
     detectChanges();
 
     const control = component.dateRange;
 
-    let value: any = {
+    let value: unknown = {
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: 'invalid',
       endDate: 'invalid',
@@ -600,7 +571,7 @@ describe('Date range picker', function () {
 
     const control = component.dateRange;
     const calculatorIdControl =
-      component.dateRangePicker.formGroup?.get('calculatorId');
+      component.dateRangePicker['formGroup']?.get('calculatorId');
 
     control?.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
@@ -649,7 +620,7 @@ describe('Date range picker', function () {
     detectChanges();
     const control = component.dateRange;
     const calculatorIdControl =
-      component.dateRangePicker.formGroup?.get('calculatorId');
+      component.dateRangePicker['formGroup']?.get('calculatorId');
     control?.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
     });
@@ -673,7 +644,7 @@ describe('Date range picker', function () {
     detectChanges();
     const control = component.dateRange;
     const calculatorIdControl =
-      component.dateRangePicker.formGroup?.get('calculatorId');
+      component.dateRangePicker['formGroup']?.get('calculatorId');
     control?.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
     });
@@ -797,6 +768,41 @@ describe('Date range picker', function () {
       await fixture.whenStable();
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
     });
+
+    function verifyFormFieldsRequired(expectation: boolean): void {
+      const inputBoxes =
+        fixture.nativeElement.querySelectorAll('sky-input-box');
+      const selectElement = fixture.nativeElement.querySelector('select');
+      const inputs = fixture.nativeElement.querySelectorAll('input');
+
+      expect(
+        inputBoxes.item(0).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+      expect(
+        inputBoxes.item(1).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+      expect(
+        inputBoxes.item(2).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+
+      expect(selectElement.hasAttribute('required')).toEqual(expectation);
+      expect(inputs.item(0).hasAttribute('required')).toEqual(expectation);
+      expect(inputs.item(1).hasAttribute('required')).toEqual(expectation);
+    }
+
+    it('should set "required" attributes when the host control is required', fakeAsync(() => {
+      detectChanges();
+      selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+      verifyFormFieldsRequired(false);
+
+      component.setFormControlRequired(true);
+      detectChanges();
+      verifyFormFieldsRequired(true);
+
+      component.setFormControlRequired(false);
+      detectChanges();
+      verifyFormFieldsRequired(false);
+    }));
 
     it('it should render help inline if helpPopoverContent is provided', fakeAsync(() => {
       detectChanges();

@@ -1,118 +1,148 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
+  SkyDateRangePickerModule,
 } from '@skyux/datetime';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
+
+import { LocaleProvider } from './locale-provider';
 
 @Component({
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDateRangePickerModule,
+  ],
+  providers: [
+    {
+      provide: SkyAppLocaleProvider,
+      useClass: LocaleProvider,
+    },
+  ],
   selector: 'app-date-range-picker',
+  standalone: true,
   templateUrl: './date-range-picker.component.html',
-  styleUrls: ['./date-range-picker.component.scss'],
 })
 export class DateRangePickerComponent {
-  public calculatorIds: SkyDateRangeCalculatorId[];
-  public dateFormat: string;
-  public disabled = false;
-  public endDateRequired = false;
-  public hintText: string | undefined;
-  public reactiveForm: UntypedFormGroup;
-  public startDateRequired = false;
+  protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
+  protected dateFormat: string | undefined;
+  protected endDateRequired = false;
+  protected hintText: string | undefined;
+  protected startDateRequired = false;
 
-  public get pickerFormControl(): AbstractControl {
-    return this.reactiveForm.get('lastDonation');
+  protected formGroup = inject(FormBuilder).group({
+    lastDonation: new FormControl<SkyDateRangeCalculation>(
+      { calculatorId: SkyDateRangeCalculatorId.SpecificRange },
+      [Validators.required],
+    ),
+  });
+
+  protected get pickerFormControl(): AbstractControl<SkyDateRangeCalculation> {
+    return this.formGroup.get(
+      'lastDonation',
+    ) as AbstractControl<SkyDateRangeCalculation>;
   }
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.reactiveForm = formBuilder.group({
-      lastDonation: new UntypedFormControl(),
-    });
-    this.pickerFormControl.statusChanges.subscribe((status) => {
-      console.log(
-        'Date range status change:',
-        status,
-        this.pickerFormControl.errors,
-      );
+  readonly #localeProvider = inject(SkyAppLocaleProvider) as LocaleProvider;
+
+  constructor() {
+    this.pickerFormControl.statusChanges.subscribe((x) => {
+      console.log('HOST STATUS CHANGE:', x);
     });
 
-    this.pickerFormControl.valueChanges.subscribe((value) => {
-      console.log('Date range value change:', value);
+    this.pickerFormControl.valueChanges.subscribe((x) => {
+      console.log('HOST VALUE CHANGE:', JSON.stringify(x));
     });
   }
 
-  public toggleDisabled(): void {
-    this.disabled = !this.disabled;
-    if (this.reactiveForm.disabled) {
-      this.reactiveForm.enable();
+  protected changeCalculators(): void {
+    this.calculatorIds = [
+      SkyDateRangeCalculatorId.LastCalendarYear,
+      SkyDateRangeCalculatorId.ThisCalendarYear,
+      SkyDateRangeCalculatorId.NextCalendarYear,
+      SkyDateRangeCalculatorId.LastFiscalYear,
+      SkyDateRangeCalculatorId.ThisFiscalYear,
+      SkyDateRangeCalculatorId.NextFiscalYear,
+    ];
+  }
+
+  protected changeDateFormat(): void {
+    this.dateFormat = 'YYYY/MM/DD';
+  }
+
+  protected changeLocale(): void {
+    this.#localeProvider.setLocale('en-GB');
+  }
+
+  protected changeValue(): void {
+    this.pickerFormControl.patchValue({ calculatorId: 5 });
+  }
+
+  protected onSubmit(): void {
+    this.formGroup.markAllAsTouched();
+    this.formGroup.markAsDirty();
+  }
+
+  protected resetForm(): void {
+    this.calculatorIds = undefined;
+    this.formGroup.reset();
+  }
+
+  protected setInvalidRange(): void {
+    this.pickerFormControl.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/2/2012'),
+      endDate: new Date('1/1/2012'),
+    });
+    this.pickerFormControl.markAsDirty();
+  }
+
+  protected setUndefined(): void {
+    this.pickerFormControl.setValue(undefined);
+  }
+
+  protected toggleDisabled(): void {
+    if (this.pickerFormControl.disabled) {
+      this.pickerFormControl.enable();
     } else {
-      this.reactiveForm.disable();
+      this.pickerFormControl.disable();
     }
   }
 
-  public resetForm(): void {
-    this.reactiveForm.reset();
-    this.reactiveForm.markAsPristine();
-    this.reactiveForm.markAsUntouched();
-  }
-
-  public setRange(): void {
-    const range: SkyDateRangeCalculation = {
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: new Date('1/1/2012'),
-      endDate: new Date('1/1/2013'),
-    };
-
-    this.pickerFormControl.setValue(range);
-  }
-
-  public setInvalidRange(): void {
-    const range: SkyDateRangeCalculation = {
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: new Date('1/1/2013'),
-      endDate: new Date('1/1/2012'),
-    };
-
-    this.pickerFormControl.setValue(range);
-  }
-
-  public setInvalidDates(): void {
-    const range: SkyDateRangeCalculation = {
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: 'asdf' as any,
-      endDate: 'asdf' as any,
-    };
-
-    this.pickerFormControl.setValue(range);
-  }
-
-  public submit(): void {
-    const value = this.reactiveForm.value;
-    console.log('Form submitted with:', value);
-  }
-
-  public setDateFormat(): void {
-    this.dateFormat = 'YYYY-MM-DD';
-  }
-
-  public toggleEndDateRequired(): void {
+  protected toggleEndDateRequired(): void {
     this.endDateRequired = !this.endDateRequired;
   }
 
-  public toggleStartDateRequired(): void {
-    this.startDateRequired = !this.startDateRequired;
-  }
-
-  public toggleHintText(): void {
+  protected toggleHintText(): void {
     if (this.hintText) {
       this.hintText = undefined;
     } else {
       this.hintText =
         'Really long hint text that should wrap and be confined to below the date range picker element. We set the text to have a small margin below the selection and datepicker controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors.';
     }
+  }
+
+  protected toggleRequired(): void {
+    if (this.pickerFormControl.hasValidator(Validators.required)) {
+      this.pickerFormControl.removeValidators(Validators.required);
+    } else {
+      this.pickerFormControl.addValidators(Validators.required);
+    }
+    this.pickerFormControl.updateValueAndValidity();
+  }
+
+  protected toggleStartDateRequired(): void {
+    this.startDateRequired = !this.startDateRequired;
   }
 }
