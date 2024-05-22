@@ -1,5 +1,14 @@
 # Changelog
 
+## [10.20.0](https://github.com/blackbaud/skyux/compare/10.19.0...10.20.0) (2024-05-22)
+
+
+### Features
+
+* **components/datetime:** date range picker announces required state to screen readers ([#2311](https://github.com/blackbaud/skyux/issues/2311)) ([fad3a48](https://github.com/blackbaud/skyux/commit/fad3a48400fc2940acb32fb43f5bde84e5edbd70))
+* **components/forms:** add `helpKey` input to radio button and group ([#2324](https://github.com/blackbaud/skyux/issues/2324)) ([35af91d](https://github.com/blackbaud/skyux/commit/35af91df8ec10e226ea6646813963cdc6b69608d))
+* **components/forms:** add headingLevel and headingStyle inputs to checkbox group ([#2322](https://github.com/blackbaud/skyux/issues/2322)) ([6e61b0d](https://github.com/blackbaud/skyux/commit/6e61b0de3af825d8f439f47e8faacc1612eacd27))
+
 ## [10.19.0](https://github.com/blackbaud/skyux/compare/10.18.0...10.19.0) (2024-05-22)
 
 
