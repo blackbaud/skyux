@@ -31,6 +31,13 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
+    path: 'illustration/basic',
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/illustration/basic/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'key-info/basic',
     loadComponent: () =>
       import('../code-examples/indicators/key-info/basic/demo.component').then(
