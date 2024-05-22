@@ -1,5 +1,5 @@
 <form novalidate [formGroup]="formGroup">
-  <sky-radio-group formControlName="myOption" labelText="Options">
+  <sky-radio-group formControlName="myOption" headingText="Options">
     <ul class="sky-list-unstyled">
       <li *ngFor="let option of options">
         <sky-radio [disabled]="option.disabled" [value]="option.name">

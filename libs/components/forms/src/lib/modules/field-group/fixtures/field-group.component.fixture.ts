@@ -24,9 +24,9 @@ import { SkyFieldGroupModule } from '../field-group.module';
 export class FieldGroupComponent {
   protected formGroup: FormGroup;
   public stacked = false;
-  public labelText = 'Label text';
+  public headingText = 'Heading text';
   public hintText: string | undefined;
-  public labelHidden = false;
+  public headingHidden = false;
   public headingStyle = 3;
   public headingLevel = 3;
   public helpKey: string | undefined;

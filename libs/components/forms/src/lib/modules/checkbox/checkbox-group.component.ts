@@ -40,7 +40,7 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 })
 export class SkyCheckboxGroupComponent {
   /**
-   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the checkbox group fieldset legend. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
    * @preview
@@ -57,18 +57,18 @@ export class SkyCheckboxGroupComponent {
   public helpPopoverTitle: string | undefined;
 
   /**
-   * The text to display as the checkbox group's label.
+   * The text to display as the checkbox group's heading.
    * @preview
    */
   @Input({ required: true })
-  public labelText!: string;
+  public headingText!: string;
 
   /**
-   * Indicates whether to hide the `labelText`.
+   * Indicates whether to hide the `headingText`.
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  public labelHidden = false;
+  public headingHidden = false;
 
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
@@ -103,7 +103,7 @@ export class SkyCheckboxGroupComponent {
 
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * placed beside the checkbox group label. Clicking the button invokes global help as configured by the application.
+   * placed beside the checkbox group heading. Clicking the button invokes global help as configured by the application.
    * @preview
    */
   @Input()

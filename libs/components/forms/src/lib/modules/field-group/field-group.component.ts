@@ -28,11 +28,11 @@ import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
 })
 export class SkyFieldGroupComponent {
   /**
-   * The text to display as the field group's label.
+   * The text to display as the field group's heading.
    * @preview
    */
   @Input({ required: true })
-  public labelText!: string;
+  public headingText!: string;
 
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
@@ -43,11 +43,11 @@ export class SkyFieldGroupComponent {
   public hintText: string | undefined;
 
   /**
-   * Indicates whether to hide the `labelText`.
+   * Indicates whether to hide the `headingText`.
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  public labelHidden = false;
+  public headingHidden = false;
 
   /**
    * Whether the field group is stacked on another field group. When specified, the appropriate
@@ -75,8 +75,8 @@ export class SkyFieldGroupComponent {
   }
 
   /**
-   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
-   * button is added to the field group label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the field group heading. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
    * @preview
    */
@@ -93,7 +93,7 @@ export class SkyFieldGroupComponent {
 
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * placed beside the field group label. Clicking the button invokes global help as configured by the application.
+   * placed beside the field group heading. Clicking the button invokes global help as configured by the application.
    * @preview
    */
   @Input()

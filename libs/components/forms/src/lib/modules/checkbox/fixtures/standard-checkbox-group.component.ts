@@ -27,7 +27,7 @@ export class SkyStandardCheckboxGroupComponent {
   public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public hintText: string | undefined;
-  public labelHidden = false;
+  public headingHidden = false;
   public required = false;
   public stacked = true;
 

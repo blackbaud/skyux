@@ -39,9 +39,9 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public tabIndex: number | undefined;
 
-  public labelText: string | undefined;
+  public headingText: string | undefined;
 
-  public labelHidden = false;
+  public headingHidden = false;
 
   public hintText: string | undefined;
 
