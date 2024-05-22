@@ -122,14 +122,14 @@
     <sky-column>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
-          [formGroup]="standardCheckboxGroupFormGroup"
-          [required]="true"
+          headingLevel="3"
+          headingStyle="4"
+          headingText="Contact method"
           helpPopoverContent="Select up to three."
           helpPopoverTitle="Make a selection"
           hintText="Group hint text"
-          headingText="Contact method"
-          headingLevel="3"
-          headingStyle="4"
+          [formGroup]="standardCheckboxGroupFormGroup"
+          [required]="true"
         >
           <sky-checkbox
             formControlName="email"
@@ -161,12 +161,13 @@
     <sky-column>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
-          [formGroup]="standardCheckboxGroupFormGroup"
-          helpPopoverContent="Select up to three."
-          helpPopoverTitle="Make a selection"
-          headingText="Contact method"
           headingLevel="4"
           headingStyle="5"
+          headingText="Contact method"
+          helpPopoverContent="Select up to three."
+          helpPopoverTitle="Make a selection"
+          [formGroup]="standardCheckboxGroupFormGroup"
+
         >
           <sky-checkbox formControlName="email" labelText="Email" />
           <sky-checkbox formControlName="phone" labelText="Phone" />
@@ -179,12 +180,12 @@
     <sky-column>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
-          [formGroup]="standardCheckboxGroupFormGroup"
-          helpPopoverContent="Select up to three."
-          helpPopoverTitle="Make a selection"
-          headingText="Contact method"
           headingLevel="5"
           headingStyle="3"
+          headingText="Contact method"
+          helpPopoverContent="Select up to three."
+          helpPopoverTitle="Make a selection"
+          [formGroup]="standardCheckboxGroupFormGroup"
         >
           <sky-checkbox formControlName="email" labelText="Email" />
           <sky-checkbox formControlName="phone" labelText="Phone" />
@@ -368,10 +369,10 @@
     <sky-column>
       <form [formGroup]="iconCheckboxGroupFormGroup">
         <sky-checkbox-group
-          [formGroup]="iconCheckboxGroupFormGroup"
+          headingText="Text formatting"
           helpPopoverContent="This should not show up"
           helpPopoverTitle="This should not show up"
-          headingText="Text formatting"
+          [formGroup]="iconCheckboxGroupFormGroup"
           [headingHidden]="true"
         >
           <sky-checkbox formControlName="bold" icon="bold" label="Bold" />

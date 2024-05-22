@@ -69,15 +69,17 @@ export class SkyCheckboxGroupComponent {
   public headingHidden = false;
 
   /**
-   * The heading level in the document structure.
+   * The semantic heading level in the document structure.
    * @preview
+   * @default 3
    */
   @Input({ transform: numberAttribute })
   public headingLevel: SkyCheckboxGroupHeadingLevel = 3;
 
   /**
-   * The heading font style.
+   * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @preview
+   * @default 3
    */
   @Input({ transform: numberAttribute })
   public set headingStyle(value: SkyCheckboxGroupHeadingStyle) {
