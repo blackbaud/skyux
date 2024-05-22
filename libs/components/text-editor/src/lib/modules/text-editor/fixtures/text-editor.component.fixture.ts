@@ -21,6 +21,7 @@ export class TextEditorFixtureComponent {
   public disabled = false;
   public fontList: SkyTextEditorFont[] | undefined = FONT_LIST_DEFAULTS;
   public fontSizeList: number[] | undefined = FONT_SIZE_LIST_DEFAULTS;
+  public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public id: string | undefined = 'id-from-fixture';
