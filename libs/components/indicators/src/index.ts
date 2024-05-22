@@ -11,6 +11,10 @@ export { SkyIconModule } from './lib/modules/icon/icon.module';
 export { SkyIconType } from './lib/modules/icon/types/icon-type';
 export { SkyIconVariantType } from './lib/modules/icon/types/icon-variant-type';
 
+export { SkyIllustrationResolverService } from './lib/modules/illustration/illustration-resolver.service';
+export { SkyIllustrationSize } from './lib/modules/illustration/illustration-size';
+export { SkyIllustrationModule } from './lib/modules/illustration/illustration.module';
+
 export { SkyKeyInfoLayoutType } from './lib/modules/key-info/key-info-layout-type';
 export { SkyKeyInfoModule } from './lib/modules/key-info/key-info.module';
 
@@ -51,3 +55,4 @@ export { SkyTokenComponent as λ12 } from './lib/modules/tokens/token.component'
 export { SkyTokensComponent as λ13 } from './lib/modules/tokens/tokens.component';
 export { SkyWaitComponent as λ14 } from './lib/modules/wait/wait.component';
 export { SkyTextHighlightDirective } from './lib/modules/text-highlight/text-highlight.directive';
+export { SkyIllustrationComponent as λ16 } from './lib/modules/illustration/illustration.component';

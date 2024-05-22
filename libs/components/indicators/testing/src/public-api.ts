@@ -9,6 +9,9 @@ export { SkyHelpInlineHarnessFilters } from './help-inline/help-inline-harness-f
 export { SkyIconHarness } from './icon/icon-harness';
 export { SkyIconHarnessFilters } from './icon/icon-harness-filters';
 
+export { SkyIllustrationHarness } from './illustration/illustration-harness';
+export { SkyIllustrationHarnessFilters } from './illustration/illustration-harness-filters';
+
 export { SkyKeyInfoHarness } from './key-info/key-info-harness';
 export { SkyKeyInfoHarnessFilters } from './key-info/key-info-harness-filters';
 
