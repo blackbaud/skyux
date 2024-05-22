@@ -38,11 +38,13 @@ export class SkyIllustrationComponent {
 
   /**
    * The name of the illustration to display.
+   * @required
    */
   public readonly name = input.required<string>();
 
   /**
    * The size of the illustration.
+   * @required
    */
   public readonly size = input.required<SkyIllustrationSize>();
 
