@@ -6,6 +6,7 @@ import {
   TemplateRef,
   booleanAttribute,
   inject,
+  numberAttribute,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
@@ -15,19 +16,16 @@ import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
+import { SkyCheckboxGroupHeadingLevel } from './checkbox-group-heading-level';
+import { SkyCheckboxGroupHeadingStyle } from './checkbox-group-heading-style';
+
 /**
  * Organizes checkboxes into a group.
  */
 @Component({
   selector: 'sky-checkbox-group',
   templateUrl: './checkbox-group.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
+  styleUrl: './checkbox-group.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -71,6 +69,24 @@ export class SkyCheckboxGroupComponent {
   public headingHidden = false;
 
   /**
+   * The semantic heading level in the document structure.
+   * @preview
+   * @default 3
+   */
+  @Input({ transform: numberAttribute })
+  public headingLevel: SkyCheckboxGroupHeadingLevel = 3;
+
+  /**
+   * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
+   * @preview
+   * @default 3
+   */
+  @Input({ transform: numberAttribute })
+  public set headingStyle(value: SkyCheckboxGroupHeadingStyle) {
+    this.headingClass = `sky-font-heading-${value}`;
+  }
+
+  /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
    * additional context to the user.
    * @preview
@@ -112,4 +128,5 @@ export class SkyCheckboxGroupComponent {
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
   protected formErrorsDataId = 'checkbox-group-form-errors';
+  protected headingClass = 'sky-font-heading-3';
 }

@@ -1,6 +1,11 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  SkyCheckboxGroupHeadingLevel,
+  SkyCheckboxGroupHeadingStyle,
+} from '@skyux/forms';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
@@ -21,6 +26,9 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
   #getHeading = this.locatorFor('.sky-control-label');
+  #getH3 = this.locatorForOptional('legend h3');
+  #getH4 = this.locatorForOptional('legend h4');
+  #getH5 = this.locatorForOptional('legend h5');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -84,6 +92,41 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    */
   public async getHeadingHidden(): Promise<boolean> {
     return (await this.#getHeading()).hasClass('sky-screen-reader-only');
+  }
+
+  /**
+   * The semantic heading level used for the checkbox group.
+   */
+  public async getHeadingLevel(): Promise<SkyCheckboxGroupHeadingLevel> {
+    const h3 = await this.#getH3();
+    const h4 = await this.#getH4();
+
+    if (h3) {
+      return 3;
+    } else if (h4) {
+      return 4;
+    } else {
+      return 5;
+    }
+  }
+
+  /**
+   * The heading style used for the checkbox group.
+   */
+  public async getHeadingStyle(): Promise<SkyCheckboxGroupHeadingStyle> {
+    const heading =
+      (await this.#getH3()) || (await this.#getH4()) || (await this.#getH5());
+
+    const isHeadingStyle3 = await heading?.hasClass('sky-font-heading-3');
+    const isHeadingStyle4 = await heading?.hasClass('sky-font-heading-4');
+
+    if (isHeadingStyle3) {
+      return 3;
+    } else if (isHeadingStyle4) {
+      return 4;
+    } else {
+      return 5;
+    }
   }
 
   /**

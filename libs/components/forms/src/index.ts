@@ -1,6 +1,8 @@
 export { SkyCharacterCounterModule } from './lib/modules/character-counter/character-counter.module';
 
 export { SkyCheckboxChange } from './lib/modules/checkbox/checkbox-change';
+export { SkyCheckboxGroupHeadingLevel } from './lib/modules/checkbox/checkbox-group-heading-level';
+export { SkyCheckboxGroupHeadingStyle } from './lib/modules/checkbox/checkbox-group-heading-style';
 export { SkyCheckboxModule } from './lib/modules/checkbox/checkbox.module';
 
 export { SkyFieldGroupModule } from './lib/modules/field-group/field-group.module';
@@ -23,8 +25,10 @@ export { SkyInputBoxHostService } from './lib/modules/input-box/input-box-host.s
 export { SkyInputBoxPopulateArgs } from './lib/modules/input-box/input-box-populate-args';
 export { SkyInputBoxModule } from './lib/modules/input-box/input-box.module';
 
-export { SkyRadioModule } from './lib/modules/radio/radio.module';
 export { SkyRadioChange } from './lib/modules/radio/types/radio-change';
+export { SkyRadioGroupHeadingLevel } from './lib/modules/radio/types/radio-group-heading-level';
+export { SkyRadioGroupHeadingStyle } from './lib/modules/radio/types/radio-group-heading-style';
+export { SkyRadioModule } from './lib/modules/radio/radio.module';
 export { SkyRadioType } from './lib/modules/radio/types/radio-type';
 
 export { SkyRequiredStateDirective } from './lib/modules/required-state/required-state.directive';
