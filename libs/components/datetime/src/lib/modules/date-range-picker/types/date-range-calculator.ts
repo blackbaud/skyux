@@ -13,7 +13,7 @@ export class SkyDateRangeCalculator {
   /**
    * The text to display in the calculator select menu.
    */
-  public shortDescription: string;
+  public readonly shortDescription: string;
 
   /**
    * @internal

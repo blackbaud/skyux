@@ -159,7 +159,12 @@ export class SkyDateRangeService implements OnDestroy {
             .pipe(
               takeUntil(this.#ngUnsubscribe),
               map((value) => {
-                calculator.shortDescription = value;
+                // The calculators are instantiated on init, but we need to
+                // update the short descriptions after their resources strings
+                // are resolved. Currently, the `shortDescription` property is
+                // readonly, so we need to use `any` to update the value.
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (calculator as any).shortDescription = value;
               }),
             ),
         );
