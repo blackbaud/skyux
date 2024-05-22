@@ -775,7 +775,7 @@ describe('Radio group component (reactive)', function () {
     ).toBe(1);
   });
 
-  it('should render help inline if label text and help key is provided ', async () => {
+  it('should render help inline if heading text and help key is provided ', async () => {
     componentInstance.helpKey = 'helpKey.html';
     fixture.detectChanges();
 
@@ -785,7 +785,7 @@ describe('Radio group component (reactive)', function () {
       ),
     ).toBeFalsy();
 
-    componentInstance.headingText = 'Label text';
+    componentInstance.headingText = 'Heading text';
     fixture.detectChanges();
 
     expect(
@@ -797,7 +797,7 @@ describe('Radio group component (reactive)', function () {
 
   it('should set global help config with help key', async () => {
     const helpController = TestBed.inject(SkyHelpTestingController);
-    componentInstance.headingText = 'Label text';
+    componentInstance.headingText = 'Heading text';
     componentInstance.helpKey = 'helpKey.html';
     fixture.detectChanges();
 

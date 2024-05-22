@@ -250,7 +250,7 @@ export class SkyRadioGroupComponent
 
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * placed beside the  label. Clicking the button invokes global help as configured by the application.
+   * placed beside the radio group heading. Clicking the button invokes global help as configured by the application.
    * @preview
    */
   @Input()
