@@ -1,13 +1,15 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <sky-checkbox-group
+    headingText="Contact method"
     [formGroup]="contactMethod"
     [helpKey]="helpKey"
     [helpPopoverContent]="helpPopoverContent"
     [hintText]="hintText"
     [headingHidden]="headingHidden"
+    [headingLevel]="headingLevel"
+    [headingStyle]="headingStyle"
     [required]="required"
     [stacked]="stacked"
-    headingText="Contact method"
   >
     <sky-checkbox formControlName="email" labelText="Email" />
     <sky-checkbox formControlName="phone" labelText="Phone" />
