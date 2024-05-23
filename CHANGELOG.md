@@ -1,5 +1,14 @@
 # Changelog
 
+## [10.21.0](https://github.com/blackbaud/skyux/compare/10.20.0...10.21.0) (2024-05-23)
+
+
+### Features
+
+* **components/datetime:** add `helpKey` input to date range picker ([#2327](https://github.com/blackbaud/skyux/issues/2327)) ([92e45ab](https://github.com/blackbaud/skyux/commit/92e45abd53bde88ab48f358d175d6ca52e6bf161))
+* **components/forms:** add `helpKey` input to toggle switch ([#2325](https://github.com/blackbaud/skyux/issues/2325)) ([2147350](https://github.com/blackbaud/skyux/commit/2147350fe949cebb06d50f84a2ba6a5c0b1eb7d1))
+* **components/indicators:** add illustration component ([#2316](https://github.com/blackbaud/skyux/issues/2316)) ([2c3aa59](https://github.com/blackbaud/skyux/commit/2c3aa597f4d384af7a8b0f905f748728e8abac60))
+
 ## [10.20.0](https://github.com/blackbaud/skyux/compare/10.19.0...10.20.0) (2024-05-22)
 
 
