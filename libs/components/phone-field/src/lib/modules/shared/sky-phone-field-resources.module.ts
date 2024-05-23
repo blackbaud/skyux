@@ -32,7 +32,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_phone_field_country_selected_label: {
       message: '{0} is currently selected.',
     },
-    skyux_phone_field_format_hint_text: { message: 'Use the format {0}.' },
+    skyux_phone_field_format_hint_text: { message: 'Example: {0}.' },
   },
 };
 

@@ -2245,7 +2245,7 @@ describe('Phone Field Component', () => {
         .querySelector('.sky-input-box-hint-text')
         .textContent.trim();
 
-      expect(hintText).toEqual('Use the format (###) ###-####.');
+      expect(hintText).toEqual('Example: (201) 555-0123.');
     }));
 
     it('should show hint text for the the consumer provided date format', fakeAsync(() => {
@@ -2258,7 +2258,7 @@ describe('Phone Field Component', () => {
         .querySelector('.sky-input-box-hint-text')
         .textContent.trim();
 
-      expect(hintText).toEqual('Use the format #### ### ####.');
+      expect(hintText).toEqual('Example: 0121 234 5678.');
     }));
 
     it('should allow consumer to provide hint text along with the format hint text', fakeAsync(() => {
@@ -2271,7 +2271,7 @@ describe('Phone Field Component', () => {
         .textContent.trim();
 
       expect(hintText).toEqual(
-        'Enter a phone number. Use the format (###) ###-####.',
+        'Enter a phone number. Example: (201) 555-0123.',
       );
     }));
 
