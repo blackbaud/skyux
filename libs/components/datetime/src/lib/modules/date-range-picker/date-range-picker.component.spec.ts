@@ -5,6 +5,10 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 
 import { DateRangePickerTestComponent } from './fixtures/date-range-picker.component.fixture';
@@ -119,7 +123,7 @@ describe('Date range picker', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [DateRangePickerTestComponent],
+      imports: [DateRangePickerTestComponent, SkyHelpTestingModule],
     });
 
     fixture = TestBed.createComponent(DateRangePickerTestComponent);
@@ -814,5 +818,40 @@ describe('Date range picker', function () {
 
       expect(getHelpInlinePopover().length).toBe(1);
     }));
+
+    it('should render help inline if helpKey is provided', async () => {
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeFalsy();
+
+      component.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      component.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      await helpInlineButton?.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
+    });
   });
 });

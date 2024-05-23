@@ -48,6 +48,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public required = false;
   public startDateRequired = false;
   public templateDisable: boolean | undefined;
+  public helpKey: string | undefined;
   public hintText: string | undefined;
   public helpPopoverContent: string | undefined;
   public stacked: boolean | undefined;
