@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.21.1](https://github.com/blackbaud/skyux/compare/10.21.0...10.21.1) (2024-05-23)
+
+
+### Bug Fixes
+
+* **components/lookup:** search emits a change event when set back to previous text after the value is cleared via the input binding ([#2330](https://github.com/blackbaud/skyux/issues/2330)) ([18ec7aa](https://github.com/blackbaud/skyux/commit/18ec7aaf616759f26885c14bbe0725aab3de5161))
+* **components/phone-field:** phone field hint text uses an example number instead of an example format ([#2328](https://github.com/blackbaud/skyux/issues/2328)) ([a291f47](https://github.com/blackbaud/skyux/commit/a291f47c82385983ca603b6335b119f33be3b003))
+
 ## [10.21.0](https://github.com/blackbaud/skyux/compare/10.20.0...10.21.0) (2024-05-23)
 
 
