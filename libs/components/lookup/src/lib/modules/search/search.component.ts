@@ -245,6 +245,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
 
     if (this.#searchBindingChanged(changes)) {
+      this.#searchUpdated.next(this.searchText ?? '');
       this.clearButtonShown = !!(this.searchText && this.searchText !== '');
       if (this.#shouldOpenInput()) {
         this.inputAnimate = INPUT_SHOWN_STATE;

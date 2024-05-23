@@ -312,6 +312,46 @@ describe('Search component', () => {
       expect(component.lastSearchTextChanged).toBe('');
     }));
 
+    it('should emit the apply event when search text is cleared via the `searchText` binding to an empty string', fakeAsync(() => {
+      setNgModel('applied text');
+      fixture.detectChanges();
+      tick();
+
+      expect(component.lastSearchTextChanged).toBe('applied text');
+
+      component.searchText = '';
+      fixture.detectChanges();
+      tick(10);
+
+      expect(component.lastSearchTextChanged).toBe('');
+
+      setNgModel('applied text');
+      fixture.detectChanges();
+      tick(10);
+
+      expect(component.lastSearchTextChanged).toBe('applied text');
+    }));
+
+    it('should emit the apply event when search text is cleared via the `searchText` binding to undefined', async () => {
+      component.searchText = 'applied text';
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(component.lastSearchTextChanged).toBe('applied text');
+
+      component.searchText = undefined;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(component.lastSearchTextChanged).toBe('');
+
+      component.searchText = 'applied text';
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(component.lastSearchTextChanged).toBe('applied text');
+    });
+
     it('should emit the change event when text is given, then cleared, and then reset to the same value', fakeAsync(() => {
       setNgModel('applied text');
       fixture.detectChanges();
