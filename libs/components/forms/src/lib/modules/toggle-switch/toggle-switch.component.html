@@ -47,7 +47,8 @@
     </label>
     <span class="sky-control-help-container">
       <sky-help-inline
-        *ngIf="labelText && helpPopoverContent"
+        *ngIf="labelText && (helpPopoverContent || helpKey)"
+        [helpKey]="helpKey"
         [labelText]="labelText"
         [popoverTitle]="helpPopoverTitle"
         [popoverContent]="helpPopoverContent"

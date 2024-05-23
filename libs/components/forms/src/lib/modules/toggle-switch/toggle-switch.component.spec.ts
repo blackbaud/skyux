@@ -9,6 +9,10 @@ import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
@@ -37,7 +41,7 @@ describe('Toggle switch component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyToggleSwitchFixturesModule],
+      imports: [SkyToggleSwitchFixturesModule, SkyHelpTestingModule],
     });
   });
 
@@ -343,7 +347,7 @@ describe('Toggle switch component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should render help inline popover', () => {
+    it('should render help inline button if help popover content is provided', () => {
       testComponent.helpPopoverContent = 'popover content';
       testComponent.labelText = 'label text';
       testComponent.showInlineHelp = false;
@@ -358,7 +362,7 @@ describe('Toggle switch component', () => {
       ).toBe(1);
     });
 
-    it('should not render help inline popover if title is provided without content', () => {
+    it('should not render help inline button if title is provided without content', () => {
       testComponent.helpPopoverContent = undefined;
       testComponent.helpPopoverTitle = 'popover title';
       testComponent.labelText = 'label text';
@@ -372,6 +376,43 @@ describe('Toggle switch component', () => {
           'sky-help-inline:not(.sky-control-help)',
         ).length,
       ).toBe(0);
+    });
+
+    it('should render help inline button if help key and label text is provided', async () => {
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeFalsy();
+
+      testComponent.labelText = 'Toggle switch';
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-help-inline:not(.sky-control-help)',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      testComponent.labelText = 'Text Editor';
+      testComponent.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      const helpInlineButton = fixture.nativeElement.querySelector(
+        '.sky-help-inline',
+      ) as HTMLElement | undefined;
+      await helpInlineButton?.click();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
     });
   });
 
