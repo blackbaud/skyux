@@ -21,6 +21,6 @@
   },
   "skyux_phone_field_format_hint_text": {
     "_description": "Hint text for the phone number format currently set on the phone field.",
-    "message": "Use the format {0}."
+    "message": "Example: {0}."
   }
 }
