@@ -9,8 +9,7 @@ import {
 import { SkyToggleSwitchModule } from '@skyux/forms';
 
 interface ToggleSwitchFormType {
-  controlToggle: FormControl<boolean | null>;
-  dynamicToggle: FormControl<boolean | null>;
+  registration: FormControl<boolean | null>;
 }
 
 @Component({
@@ -24,16 +23,7 @@ export class DemoComponent {
 
   constructor() {
     this.formGroup = inject(FormBuilder).group<ToggleSwitchFormType>({
-      controlToggle: new FormControl(false),
-      dynamicToggle: new FormControl({ value: true, disabled: true }),
-    });
-
-    this.formGroup.get('controlToggle')?.valueChanges.subscribe((value) => {
-      if (value) {
-        this.formGroup.get('dynamicToggle')?.enable();
-      } else {
-        this.formGroup.get('dynamicToggle')?.disable();
-      }
+      registration: new FormControl(false),
     });
   }
 }
