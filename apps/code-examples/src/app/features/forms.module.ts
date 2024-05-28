@@ -31,6 +31,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'field-group/basic',
+    loadComponent: () =>
+      import('../code-examples/forms/field-group/basic/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
     path: 'file-attachment/basic',
     loadComponent: () =>
       import(
