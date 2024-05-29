@@ -483,6 +483,21 @@ describe('SkyAgGridService', () => {
         }),
       ).toBe('expected');
     });
+
+    it('should use descriptorProperty', () => {
+      expect(
+        lookupValueFormatter({
+          colDef: {
+            cellEditorParams: {
+              skyComponentProperties: {
+                descriptorProperty: 'other',
+              },
+            },
+          },
+          value: [{ name: 'not-expected', other: 'expected' }],
+        } as ValueFormatterParams),
+      ).toBe('expected');
+    });
   });
 
   describe('suppressKeyboardEvent', () => {

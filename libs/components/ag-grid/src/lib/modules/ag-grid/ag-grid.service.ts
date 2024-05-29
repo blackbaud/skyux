@@ -375,7 +375,11 @@ export class SkyAgGridService implements OnDestroy {
           cellEditor: SkyAgGridCellEditorLookupComponent,
           cellRenderer: SkyAgGridCellRendererLookupComponent,
           valueFormatter: (params) => {
-            const lookupProperties = applySkyLookupPropertiesDefaults(params);
+            const lookupProperties = applySkyLookupPropertiesDefaults(
+              params.colDef?.cellRendererParams?.skyComponentProperties ??
+                params.colDef?.cellEditorParams?.skyComponentProperties ??
+                {},
+            );
             return (params.value || [])
               .map((value: Record<string, unknown>) => {
                 return value[lookupProperties.descriptorProperty as string];
