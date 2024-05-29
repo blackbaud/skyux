@@ -219,7 +219,7 @@ export class EditComplexCellsComponent implements OnInit {
         },
         cellRendererParams: {
           skyComponentProperties: {
-            descriptorProperty: 'name',
+            descriptorProperty: 'interestingFact',
           },
         },
       },
