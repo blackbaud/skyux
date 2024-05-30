@@ -1,12 +1,19 @@
 <div class="sky-padding-even-xl">
   <form novalidate [formGroup]="formGroup">
     <sky-text-editor
-      helpPopoverContent="Help popover content."
-      helpPopoverTitle="Help Popover Title"
       formControlName="myText"
-      hintText="This is hint text."
-      labelText="Text editor demo"
+      helpPopoverTitle="Ensure deliverability"
+      helpPopoverContent="High quality, relevant email content and calls to action drive
+      engagement and avoid being marked as junk mail. For details, see writing
+      for engagement and deliverability."
+      hintText="Include details about how to opt out of future email."
+      labelText="Message"
     >
+      <sky-form-error
+        *ngIf="myText.errors?.['companyName']"
+        errorName="companyName"
+        errorText="Message must include company name."
+      />
     </sky-text-editor>
   </form>
 </div>
