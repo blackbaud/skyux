@@ -20,6 +20,8 @@ interface ToggleSwitchFormType {
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
+  protected helpPopoverContent =
+    'When you open an event, a registration page becomes available online, and admins are able to register people to attend.';
 
   constructor() {
     this.formGroup = inject(FormBuilder).group<ToggleSwitchFormType>({

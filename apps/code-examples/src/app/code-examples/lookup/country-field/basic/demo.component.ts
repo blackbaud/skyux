@@ -27,6 +27,8 @@ import { SkyCountryFieldModule } from '@skyux/lookup';
 export class DemoComponent {
   protected countryControl: FormControl;
   protected countryForm: FormGroup;
+  protected helpPopoverContent =
+    'We use the country to validate your passport within 10 business days. You can update it at any time.';
 
   constructor() {
     this.countryControl = new FormControl(undefined, {

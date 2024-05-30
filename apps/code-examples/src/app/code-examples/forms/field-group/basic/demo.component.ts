@@ -26,8 +26,10 @@ export class DemoComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);
 
   protected formGroup: FormGroup;
+  protected helpPopoverContent =
+    'We use your address to validate your application with regulatory agencies and to send correspondence related to your application.';
 
-  public states = [
+  protected states = [
     'AK',
     'AZ',
     'AL',
