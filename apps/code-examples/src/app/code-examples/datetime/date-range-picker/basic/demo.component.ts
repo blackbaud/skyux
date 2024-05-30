@@ -108,6 +108,7 @@ export class DemoComponent implements OnInit, OnDestroy {
     };
 
     this.reactiveRange?.setValue(range);
+    this.reactiveRange?.markAsTouched();
   }
 
   protected setInvalidDates(): void {
