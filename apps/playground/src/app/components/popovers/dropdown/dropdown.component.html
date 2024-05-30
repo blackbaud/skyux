@@ -1,100 +1,32 @@
-<div style="margin: 15px">
-  <form novalidate class="sky-padding-even-xl">
-    <label>
-      <input type="checkbox" name="moveToBottom" [(ngModel)]="moveToBottom" />
-      Move dropdown to bottom
-    </label>
-  </form>
-  <div *ngIf="!moveToBottom" class="sky-padding-even-xl">
-    <sky-dropdown>
-      <sky-dropdown-button> Show dropdown </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let item of items">
-          <button
-            type="button"
-            [attr.disabled]="item.disabled ? '' : null"
-            (click)="actionClicked(item.name)"
-          >
-            {{ item.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-    <br />
+<div class="dropdown-grid">
+  <div class="dropdown-grid-inline sky-padding-even-md">
+    <form novalidate class="sky-padding-even-xl">
+      <sky-checkbox
+        labelText="Move dropdown to bottom"
+        [(checked)]="moveToBottom"
+      />
+    </form>
+    @if (!moveToBottom()) {
+      <div class="sky-padding-even-xl">
+        <app-dropdown-example [disabledState]="disabledState()" />
+        <br />
 
-    <sky-dropdown buttonType="context-menu">
-      <sky-dropdown-button> Show dropdown </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let item of items">
-          <button
-            type="button"
-            [attr.disabled]="item.disabled ? '' : null"
-            (click)="actionClicked(item.name)"
-          >
-            {{ item.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-    <br />
-
-    <sky-dropdown label="Filter">
-      <sky-dropdown-button
-        ><sky-icon icon="filter"></sky-icon
-      ></sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let item of items">
-          <button
-            type="button"
-            [attr.disabled]="item.disabled ? '' : null"
-            (click)="actionClicked(item.name)"
-          >
-            {{ item.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-    <br />
-
-    <button
-      class="sky-btn sky-btn-primary"
-      type="button"
-      (click)="toggleOptions()"
-    >
-      Toggle disabled states
-    </button>
+        <button
+          class="sky-btn sky-btn-primary"
+          type="button"
+          (click)="disabledState.set(!disabledState())"
+        >
+          Toggle disabled states
+        </button>
+      </div>
+    } @else {
+      <div class="space"></div>
+      <span class="sky-padding-even-sm">
+        <app-dropdown-example [disabledState]="disabledState()" />
+      </span>
+    }
   </div>
-  <div *ngIf="moveToBottom" class="space"></div>
-  <span *ngIf="moveToBottom" class="sky-padding-even-sm">
-    <sky-dropdown data-sky-id="dropdown-demo" label="Test dropdown">
-      <sky-dropdown-button> Show dropdown </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let item of items">
-          <button
-            type="button"
-            [attr.disabled]="item.disabled ? '' : null"
-            (click)="actionClicked(item.name)"
-          >
-            {{ item.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-    <br />
-    <br />
-    <br />
-    <sky-dropdown buttonType="context-menu" label="Code example context menu">
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let item of items">
-          <button
-            type="button"
-            [attr.disabled]="item.disabled ? '' : null"
-            (click)="actionClicked(item.name)"
-          >
-            {{ item.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </span>
+  <div class="dropdown-grid-iframe sky-padding-even-md">
+    <iframe src="#/components/popovers/dropdown/iframe"></iframe>
+  </div>
 </div>
