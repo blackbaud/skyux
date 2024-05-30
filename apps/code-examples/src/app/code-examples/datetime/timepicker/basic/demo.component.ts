@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { SkyTimepickerModule } from '@skyux/datetime';
@@ -15,6 +18,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,
