@@ -30,7 +30,7 @@ export class DemoComponent {
 
   constructor() {
     this.countryControl = new FormControl(undefined, {
-      validators: [this.#validateCountry, Validators.required]
+      validators: [this.#validateCountry, Validators.required],
     });
 
     this.countryControl.setValue({
