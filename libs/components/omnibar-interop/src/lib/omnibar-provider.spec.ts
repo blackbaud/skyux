@@ -15,7 +15,7 @@ class MockOmnibarProviderDisabled extends SkyAppOmnibarProvider {
     return Promise.resolve({
       envId: 'foo',
       svcId: 'bar',
-      disabled: true
+      disabled: true,
     });
   }
 }
@@ -35,7 +35,7 @@ describe('Omnibar provider', () => {
     expect(result).toEqual({
       envId: 'foo',
       svcId: 'bar',
-      disabled: true
+      disabled: true,
     });
   });
 });
