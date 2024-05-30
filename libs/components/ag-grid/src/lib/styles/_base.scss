@@ -172,6 +172,18 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
   .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
     padding-top: var(--ag-row-height);
   }
+
+  /* Remove border added by https://github.com/ag-grid/ag-grid/blob/latest/community-modules/styles/src/internal/base/parts/_grid-borders.scss#L80 */
+  .ag-ltr,
+  .ag-rtl {
+    .ag-cell-focus:not(.ag-cell-range-selected):focus-within,
+    .ag-context-menu-open .ag-cell-focus:not(.ag-cell-range-selected),
+    .ag-full-width-row.ag-row-focus:focus .ag-cell-wrapper.ag-row-group,
+    .ag-cell-range-single-cell,
+    .ag-cell-range-single-cell.ag-cell-range-handle {
+      border-top-width: 0;
+    }
+  }
 }
 
 .ag-theme-sky-data-grid-modern-light,
