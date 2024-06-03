@@ -118,85 +118,83 @@
       <button type="button" class="sky-btn sky-btn-primary">Save</button>
     </sky-column>
   </sky-row>
-      <form [formGroup]="standardCheckboxGroupFormGroup">
-        <sky-checkbox-group
-          headingStyle="3"
-          headingText="Contact method"
-          helpPopoverContent="Select up to three."
-          helpPopoverTitle="Make a selection"
-          hintText="Group hint text"
-          stacked="true"
-          [formGroup]="standardCheckboxGroupFormGroup"
-          [required]="true"
-        >
-          <sky-checkbox
-            formControlName="email"
-            labelText="Email"
-            hintText="Hint text"
-          />
-          <sky-checkbox
-            formControlName="phone"
-            labelText="Phone"
-            hintText="Hint text"
-          />
-          <sky-checkbox
-            formControlName="text"
-            labelText="Text"
-            hintText="Hint text"
-          />
-          <sky-form-error
-            *ngIf="
-              standardCheckboxGroupFormGroup.errors?.['contactMethodRequired']
-            "
-            errorName="contactMethodRequired"
-            errorText="A contact method is required."
-          ></sky-form-error>
-        </sky-checkbox-group>
-      </form>
-      <form [formGroup]="standardCheckboxGroupFormGroup">
-        <sky-checkbox-group
-          headingLevel="3"
-          headingStyle="4"
-          headingText="Contact method"
-          helpPopoverContent="Select up to three."
-          helpPopoverTitle="Make a selection"
-          stacked="true"
-          [formGroup]="standardCheckboxGroupFormGroup"
-        >
-          <sky-checkbox formControlName="email" labelText="Email" />
-          <sky-checkbox formControlName="phone" labelText="Phone" />
-          <sky-checkbox formControlName="text" labelText="Text" />
-        </sky-checkbox-group>
-      </form>
-      <form [formGroup]="standardCheckboxGroupFormGroup">
-        <sky-checkbox-group
-          headingLevel="4"
-          headingStyle="5"
-          headingText="Contact method"
-          helpPopoverContent="Select up to three."
-          helpPopoverTitle="Make a selection"
-          stacked="true"
-          [formGroup]="standardCheckboxGroupFormGroup"
-        >
-          <sky-checkbox formControlName="email" labelText="Email" />
-          <sky-checkbox formControlName="phone" labelText="Phone" />
-          <sky-checkbox formControlName="text" labelText="Text" />
-        </sky-checkbox-group>
-      </form>
-      <form [formGroup]="standardCheckboxGroupFormGroup">
-        <sky-checkbox-group
-          headingLevel="5"
-          headingText="Contact method"
-          helpPopoverContent="Select up to three."
-          helpPopoverTitle="Make a selection"
-          stacked="true"
-          [formGroup]="standardCheckboxGroupFormGroup"
-        >
-          <sky-checkbox formControlName="email" labelText="Email" />
-          <sky-checkbox formControlName="phone" labelText="Phone" />
-          <sky-checkbox formControlName="text" labelText="Text" />
-        </sky-checkbox-group>
-      </form>
+  <form [formGroup]="standardCheckboxGroupFormGroup">
+    <sky-checkbox-group
+      headingStyle="3"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      hintText="Group hint text"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup"
+      [required]="true"
+    >
+      <sky-checkbox
+        formControlName="email"
+        labelText="Email"
+        hintText="Hint text"
+      />
+      <sky-checkbox
+        formControlName="phone"
+        labelText="Phone"
+        hintText="Hint text"
+      />
+      <sky-checkbox
+        formControlName="text"
+        labelText="Text"
+        hintText="Hint text"
+      />
+      <sky-form-error
+        *ngIf="standardCheckboxGroupFormGroup.errors?.['contactMethodRequired']"
+        errorName="contactMethodRequired"
+        errorText="A contact method is required."
+      ></sky-form-error>
+    </sky-checkbox-group>
+  </form>
+  <form [formGroup]="standardCheckboxGroupFormGroup">
+    <sky-checkbox-group
+      headingLevel="3"
+      headingStyle="4"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup"
+    >
+      <sky-checkbox formControlName="email" labelText="Email" />
+      <sky-checkbox formControlName="phone" labelText="Phone" />
+      <sky-checkbox formControlName="text" labelText="Text" />
+    </sky-checkbox-group>
+  </form>
+  <form [formGroup]="standardCheckboxGroupFormGroup">
+    <sky-checkbox-group
+      headingLevel="4"
+      headingStyle="5"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup"
+    >
+      <sky-checkbox formControlName="email" labelText="Email" />
+      <sky-checkbox formControlName="phone" labelText="Phone" />
+      <sky-checkbox formControlName="text" labelText="Text" />
+    </sky-checkbox-group>
+  </form>
+  <form [formGroup]="standardCheckboxGroupFormGroup">
+    <sky-checkbox-group
+      headingLevel="5"
+      headingText="Contact method"
+      helpPopoverContent="Select up to three."
+      helpPopoverTitle="Make a selection"
+      stacked="true"
+      [formGroup]="standardCheckboxGroupFormGroup"
+    >
+      <sky-checkbox formControlName="email" labelText="Email" />
+      <sky-checkbox formControlName="phone" labelText="Phone" />
+      <sky-checkbox formControlName="text" labelText="Text" />
+    </sky-checkbox-group>
+  </form>
 </sky-fluid-grid>
 <sky-fluid-grid id="icon-checkboxes">
   <sky-row class="sky-padding-even-md">
@@ -368,21 +366,21 @@
       </sky-checkbox>
     </sky-column>
   </sky-row>
-      <form [formGroup]="iconCheckboxGroupFormGroup">
-        <sky-checkbox-group
-          headingText="Text formatting"
-          helpPopoverContent="This should not show up"
-          helpPopoverTitle="This should not show up"
-          [formGroup]="iconCheckboxGroupFormGroup"
-          [headingHidden]="true"
-        >
-          <sky-checkbox formControlName="bold" icon="bold" label="Bold" />
-          <sky-checkbox formControlName="italic" icon="italic" label="Italic" />
-          <sky-checkbox
-            formControlName="underline"
-            icon="underline"
-            label="Underline"
-          />
-        </sky-checkbox-group>
-      </form>
+  <form [formGroup]="iconCheckboxGroupFormGroup">
+    <sky-checkbox-group
+      headingText="Text formatting"
+      helpPopoverContent="This should not show up"
+      helpPopoverTitle="This should not show up"
+      [formGroup]="iconCheckboxGroupFormGroup"
+      [headingHidden]="true"
+    >
+      <sky-checkbox formControlName="bold" icon="bold" label="Bold" />
+      <sky-checkbox formControlName="italic" icon="italic" label="Italic" />
+      <sky-checkbox
+        formControlName="underline"
+        icon="underline"
+        label="Underline"
+      />
+    </sky-checkbox-group>
+  </form>
 </sky-fluid-grid>

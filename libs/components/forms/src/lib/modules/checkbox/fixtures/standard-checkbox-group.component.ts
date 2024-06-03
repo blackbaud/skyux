@@ -10,9 +10,9 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
-import { SkyCheckboxModule } from '../checkbox.module';
 import { SkyCheckboxGroupHeadingLevel } from '../checkbox-group-heading-level';
 import { SkyCheckboxGroupHeadingStyle } from '../checkbox-group-heading-style';
+import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({
   standalone: true,
