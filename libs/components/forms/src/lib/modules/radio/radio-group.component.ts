@@ -119,10 +119,9 @@ export class SkyRadioGroupComponent
    * The semantic heading level in the document structure. By default, the heading text is not wrapped in a heading element.
    * @preview
    */
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input({ transform: (value: unknown) => numberAttribute(value, 0) })
+  @Input({ transform: numberAttribute })
   public set headingLevel(value: SkyRadioGroupHeadingLevel | undefined) {
-    this.#_headingLevel = value || undefined;
+    this.#_headingLevel = value && !isNaN(value) ? value : undefined;
     this.#updateStackedClasses();
   }
 

@@ -735,11 +735,12 @@ describe('Radio group component (reactive)', function () {
     expect(radioGroup).toHaveClass('sky-margin-stacked-xl');
   });
 
-  it('should not have the lg margin class if stacked is false', () => {
+  it('should not have the lg or xl margin class if stacked is false', () => {
     fixture.detectChanges();
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
     expect(radioGroup).not.toHaveClass('sky-margin-stacked-lg');
+    expect(radioGroup).not.toHaveClass('sky-margin-stacked-xl');
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {

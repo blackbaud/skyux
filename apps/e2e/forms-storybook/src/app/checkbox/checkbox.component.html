@@ -118,16 +118,14 @@
       <button type="button" class="sky-btn sky-btn-primary">Save</button>
     </sky-column>
   </sky-row>
-  <sky-row class="sky-padding-even-md">
-    <sky-column>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
-          headingLevel="3"
-          headingStyle="4"
+          headingStyle="3"
           headingText="Contact method"
           helpPopoverContent="Select up to three."
           helpPopoverTitle="Make a selection"
           hintText="Group hint text"
+          stacked="true"
           [formGroup]="standardCheckboxGroupFormGroup"
           [required]="true"
         >
@@ -155,10 +153,21 @@
           ></sky-form-error>
         </sky-checkbox-group>
       </form>
-    </sky-column>
-  </sky-row>
-  <sky-row class="sky-padding-even-md">
-    <sky-column>
+      <form [formGroup]="standardCheckboxGroupFormGroup">
+        <sky-checkbox-group
+          headingLevel="3"
+          headingStyle="4"
+          headingText="Contact method"
+          helpPopoverContent="Select up to three."
+          helpPopoverTitle="Make a selection"
+          stacked="true"
+          [formGroup]="standardCheckboxGroupFormGroup"
+        >
+          <sky-checkbox formControlName="email" labelText="Email" />
+          <sky-checkbox formControlName="phone" labelText="Phone" />
+          <sky-checkbox formControlName="text" labelText="Text" />
+        </sky-checkbox-group>
+      </form>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
           headingLevel="4"
@@ -166,6 +175,7 @@
           headingText="Contact method"
           helpPopoverContent="Select up to three."
           helpPopoverTitle="Make a selection"
+          stacked="true"
           [formGroup]="standardCheckboxGroupFormGroup"
         >
           <sky-checkbox formControlName="email" labelText="Email" />
@@ -173,17 +183,13 @@
           <sky-checkbox formControlName="text" labelText="Text" />
         </sky-checkbox-group>
       </form>
-    </sky-column>
-  </sky-row>
-  <sky-row class="sky-padding-even-md">
-    <sky-column>
       <form [formGroup]="standardCheckboxGroupFormGroup">
         <sky-checkbox-group
           headingLevel="5"
-          headingStyle="3"
           headingText="Contact method"
           helpPopoverContent="Select up to three."
           helpPopoverTitle="Make a selection"
+          stacked="true"
           [formGroup]="standardCheckboxGroupFormGroup"
         >
           <sky-checkbox formControlName="email" labelText="Email" />
@@ -191,8 +197,6 @@
           <sky-checkbox formControlName="text" labelText="Text" />
         </sky-checkbox-group>
       </form>
-    </sky-column>
-  </sky-row>
 </sky-fluid-grid>
 <sky-fluid-grid id="icon-checkboxes">
   <sky-row class="sky-padding-even-md">
@@ -364,8 +368,6 @@
       </sky-checkbox>
     </sky-column>
   </sky-row>
-  <sky-row class="sky-padding-even-md">
-    <sky-column>
       <form [formGroup]="iconCheckboxGroupFormGroup">
         <sky-checkbox-group
           headingText="Text formatting"
@@ -383,6 +385,4 @@
           />
         </sky-checkbox-group>
       </form>
-    </sky-column>
-  </sky-row>
 </sky-fluid-grid>
