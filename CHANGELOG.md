@@ -1,5 +1,24 @@
 # Changelog
 
+## [10.22.0](https://github.com/blackbaud/skyux/compare/10.21.1...10.22.0) (2024-06-03)
+
+
+### Features
+
+* **components/datetime:** update date range picker code example ([#2336](https://github.com/blackbaud/skyux/issues/2336)) ([de7a443](https://github.com/blackbaud/skyux/commit/de7a443b143f9c1b8704b8b6be6815a6e952665c))
+* **components/forms:** add field group code example ([#2331](https://github.com/blackbaud/skyux/issues/2331)) ([782e43e](https://github.com/blackbaud/skyux/commit/782e43eb7c0286ab744af0679c3f57f6b46bf1bc))
+* **components/forms:** update toggle switch code example ([#2333](https://github.com/blackbaud/skyux/issues/2333)) ([29d0c83](https://github.com/blackbaud/skyux/commit/29d0c8385543dc28e9b00e9b623a9b83879deb43))
+* **components/lookup:** update country field code example ([#2340](https://github.com/blackbaud/skyux/issues/2340)) ([470c254](https://github.com/blackbaud/skyux/commit/470c254ce7421257cf560461651a22ced379a4ac))
+* **components/omnibar-interop:** add disabled to omnibar ready args ([#2339](https://github.com/blackbaud/skyux/issues/2339)) ([df7c746](https://github.com/blackbaud/skyux/commit/df7c746e631bebf7003835c8c54fd9726e7b8d3e))
+* **components/text-editor:** update code examples with new form field features ([#2337](https://github.com/blackbaud/skyux/issues/2337)) ([4fffc70](https://github.com/blackbaud/skyux/commit/4fffc7026a9c1e2b6a08edaf4b296ead9ff80871))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** lookup renderer should use `descriptorProperty` ([#2335](https://github.com/blackbaud/skyux/issues/2335)) ([8780ae2](https://github.com/blackbaud/skyux/commit/8780ae2bdc93e81ee7edce4ca66ebdffd85ca2ac))
+* **components/ag-grid:** prevent data-grid layout shift when focusing on a cell ([#2334](https://github.com/blackbaud/skyux/issues/2334)) ([cd69f77](https://github.com/blackbaud/skyux/commit/cd69f770bcda1ed671b2a60e4d529b6096dc901d))
+* **components/popovers:** allow taller dropdowns in small viewports ([#2341](https://github.com/blackbaud/skyux/issues/2341)) ([48d0c31](https://github.com/blackbaud/skyux/commit/48d0c3114818f24f55155b4a18626e0b7f42041a))
+
 ## [10.21.1](https://github.com/blackbaud/skyux/compare/10.21.0...10.21.1) (2024-05-23)
 
 
