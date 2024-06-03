@@ -116,22 +116,27 @@ export class SkyRadioGroupComponent
   }
 
   /**
-   * The semantic heading level in the document structure.
+   * The semantic heading level in the document structure. By default, the heading text is not wrapped in a heading element.
    * @preview
-   * @default 3
    */
-  @Input({ transform: numberAttribute })
-  public headingLevel: SkyRadioGroupHeadingLevel = 3;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input({ transform: (value: unknown) => numberAttribute(value, 0) })
+  public set headingLevel(value: SkyRadioGroupHeadingLevel | undefined) {
+    this.#_headingLevel = value || undefined;
+    this.#updateStackedClasses();
+  }
+
+  public get headingLevel(): SkyRadioGroupHeadingLevel | undefined {
+    return this.#_headingLevel;
+  }
 
   /**
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @preview
-   * @default 3
+   * @default 4
    */
   @Input({ transform: numberAttribute })
-  public set headingStyle(value: SkyRadioGroupHeadingStyle) {
-    this.headingClass = `sky-font-heading-${value}`;
-  }
+  public headingStyle: SkyRadioGroupHeadingStyle = 4;
 
   /**
    * The name for the collection of radio buttons that the component groups together.
@@ -169,8 +174,14 @@ export class SkyRadioGroupComponent
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
-  public stacked = false;
+  public set stacked(value: boolean) {
+    this.#_stacked = value;
+    this.#updateStackedClasses();
+  }
+
+  public get stacked(): boolean {
+    return this.#_stacked;
+  }
 
   /**
    * The value of the radio button to select by default when the group loads.
@@ -222,9 +233,6 @@ export class SkyRadioGroupComponent
   @Input({ transform: booleanAttribute })
   public headingHidden = false;
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
    * additional context to the user.
@@ -258,6 +266,10 @@ export class SkyRadioGroupComponent
   @Input()
   public helpKey: string | undefined;
 
+  public get headingClass(): string {
+    return `sky-font-heading-${this.headingStyle}`;
+  }
+
   /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
@@ -269,6 +281,15 @@ export class SkyRadioGroupComponent
 
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
+
+  @HostBinding('style.display')
+  public display: string | undefined;
+
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stackedLg = false;
+
+  @HostBinding('class.sky-margin-stacked-xl')
+  public stackedXL = false;
 
   #controlValue: any;
 
@@ -286,6 +307,10 @@ export class SkyRadioGroupComponent
 
   #_ariaLabelledBy: string | undefined;
 
+  #_headingLevel: SkyRadioGroupHeadingLevel | undefined;
+
+  #_stacked = false;
+
   #changeDetector: ChangeDetectorRef;
   #radioGroupIdSvc: SkyRadioGroupIdService;
 
@@ -298,7 +323,6 @@ export class SkyRadioGroupComponent
 
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
-  protected headingClass = 'sky-font-heading-3';
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -457,5 +481,10 @@ export class SkyRadioGroupComponent
     this.#updateRadioButtonNames();
     this.#updateRadioButtonTabIndexes();
     this.#updateRadioButtonDisabled();
+  }
+
+  #updateStackedClasses(): void {
+    this.stackedLg = !this.headingLevel && this.stacked;
+    this.stackedXL = !!this.headingLevel && this.stacked;
   }
 }
