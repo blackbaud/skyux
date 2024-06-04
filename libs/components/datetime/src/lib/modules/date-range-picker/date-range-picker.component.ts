@@ -29,7 +29,9 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
+import { SkyLogService } from '@skyux/core';
 import {
+  SKY_FORM_ERRORS_ENABLED,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxModule,
 } from '@skyux/forms';
@@ -117,6 +119,7 @@ function isPartialValue(
       useExisting: SkyDateRangePickerComponent,
       multi: true,
     },
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   selector: 'sky-date-range-picker',
   standalone: true,
@@ -223,10 +226,30 @@ export class SkyDateRangePickerComponent
 
   /**
    * The label for the date range picker.
-   * @required
+   * TODO: should we keep the required tag?
+   * @deprecated Use the `labelText` input instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyDateRangePickerComponent.label', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation: 'Use `labelText` input instead.',
+      });
+    }
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
+
+  /**
+   * The text to display as the date range picker's label.
+   */
+  @Input()
+  public labelText: string | undefined;
 
   /**
    * Whether the date range picker requires a value.
@@ -284,6 +307,7 @@ export class SkyDateRangePickerComponent
   }
 
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
+  #_label: string | undefined;
   #_value: SkyDateRangeCalculation;
   #hostControl: AbstractControl | null | undefined;
   #ngUnsubscribe = new Subject<void>();
@@ -299,6 +323,7 @@ export class SkyDateRangePickerComponent
       optional: true,
     },
   );
+  readonly #logger = inject(SkyLogService);
 
   constructor() {
     this.calculators = this.#dateRangeSvc.calculators;
@@ -316,9 +341,11 @@ export class SkyDateRangePickerComponent
 
   public ngOnInit(): void {
     if (this.#labelTextRequiredSvc) {
-      this.#labelTextRequiredSvc.validateLabelText(this.label);
+      this.#labelTextRequiredSvc.validateLabelText(
+        this.label || this.labelText,
+      );
 
-      if (!this.label) {
+      if (!this.label && !this.labelText) {
         this.display = 'none';
       }
     }
