@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { SkyTextEditorModule } from '@skyux/text-editor';
@@ -13,16 +16,34 @@ import { SkyTextEditorModule } from '@skyux/text-editor';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [FormsModule, ReactiveFormsModule, SkyTextEditorModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyTextEditorModule,
+    CommonModule,
+  ],
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
+  public myText: FormControl;
 
-  #richText = `<font style="font-size: 18px" face="Arial" color="#a25353"><b>Exclusively committed to your impact</b></font><p>Since day one, Blackbaud has been 100% focused on driving impact for social good organizations.</p><p>We equip change agents with <b>cloud software</b>, <i>services</i>, <u>expertise</u>, and <font color="#a25353">data intelligence</font> designed with unmatched insight and supported with unparalleled commitment. Every day, our <b>customers</b> achieve unmatched impact as they advance their missions.</p><ul><li><a href="#">Build a better world</a></li><li><a href="#">Explore our solutions</a></li></ul>`;
+  #richText = `<font style="font-size: 18px" face="Arial" color="#a25353"><b>Exclusively committed to your impact</b></font><p>Since day one, Blackbaud has been 100% focused on driving impact for social good organizations.</p><p>We equip change agents with <b>cloud software</b>, <i>services</i>, <u>expertise</u>, and <font color="#a25353">data intelligence</font> designed with unmatched insight and supported with unparalleled commitment. Every day, our <b>customers</b> achieve unmatched impact as they advance their missions.</p>`;
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      myText: new FormControl(this.#richText, [Validators.required]),
+    this.myText = new FormControl(this.#richText, {
+      nonNullable: true,
+      validators: [Validators.required, this.#validateText],
     });
+    this.formGroup = inject(FormBuilder).group({
+      myText: this.myText,
+    });
+  }
+
+  #validateText(control: AbstractControl): ValidationErrors | null {
+    if (!control.value || !control.value.includes('Blackbaud')) {
+      return { companyName: true };
+    } else {
+      return null;
+    }
   }
 }
