@@ -1,19 +1,22 @@
-<form novalidate [formGroup]="formGroup">
-  <sky-input-box labelText="Start time">
-    <sky-timepicker #timepicker>
-      <input
-        formControlName="time"
-        type="text"
-        [skyTimepickerInput]="timepicker"
+<div class="sky-padding-even-lg">
+  <form novalidate [formGroup]="formGroup">
+    <sky-input-box
+      labelText="Start time"
+      [helpPopoverContent]="helpPopoverContent"
+      [hintText]="hintText"
+    >
+      <sky-timepicker #timepicker>
+        <input
+          formControlName="time"
+          timeFormat="hh"
+          [skyTimepickerInput]="timepicker"
+        />
+      </sky-timepicker>
+      <sky-form-error
+        *ngIf="time.errors?.['invalidMinute']"
+        errorName="invalidMinute"
+        errorText="Start time must be a 15-minute increment."
       />
-    </sky-timepicker>
-  </sky-input-box>
-</form>
-
-<button
-  class="sky-btn sky-btn-secondary"
-  type="button"
-  (click)="clearSelectedTime()"
->
-  Clear selection
-</button>
+    </sky-input-box>
+  </form>
+</div>
