@@ -10,6 +10,8 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
+import { SkyCheckboxGroupHeadingLevel } from '../checkbox-group-heading-level';
+import { SkyCheckboxGroupHeadingStyle } from '../checkbox-group-heading-style';
 import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({
@@ -28,8 +30,8 @@ export class SkyStandardCheckboxGroupComponent {
   public helpPopoverContent: string | undefined;
   public hintText: string | undefined;
   public headingHidden = false;
-  public headingLevel = 3;
-  public headingStyle = 3;
+  public headingLevel: SkyCheckboxGroupHeadingLevel | undefined = 3;
+  public headingStyle: SkyCheckboxGroupHeadingStyle = 3;
   public required = false;
   public stacked = true;
 

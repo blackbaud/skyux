@@ -1,5 +1,8 @@
-:host.sky-margin-stacked-lg {
-  display: block;
+:host {
+  &.sky-margin-stacked-lg,
+  &.sky-margin-stacked-xl {
+    display: block;
+  }
 }
 
 .sky-radio-group-hint-text {

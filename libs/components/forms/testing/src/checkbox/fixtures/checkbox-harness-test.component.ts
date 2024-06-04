@@ -16,7 +16,8 @@ import {
   templateUrl: './checkbox-harness-test.component.html',
 })
 export class CheckboxHarnessTestComponent {
-  public headingLevel: SkyCheckboxGroupHeadingLevel = 3;
+  public class = '';
+  public headingLevel: SkyCheckboxGroupHeadingLevel | undefined = 3;
   public headingStyle: SkyCheckboxGroupHeadingStyle = 3;
   public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
@@ -28,6 +29,7 @@ export class CheckboxHarnessTestComponent {
   public phoneHintText: string | undefined;
   public mailControl: UntypedFormControl;
   public myForm: UntypedFormGroup;
+  public stacked = false;
 
   #formBuilder: UntypedFormBuilder;
 

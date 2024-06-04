@@ -69,22 +69,26 @@ export class SkyCheckboxGroupComponent {
   public headingHidden = false;
 
   /**
-   * The semantic heading level in the document structure.
+   * The semantic heading level in the document structure. By default, the heading text is not wrapped in a heading element.
    * @preview
-   * @default 3
    */
   @Input({ transform: numberAttribute })
-  public headingLevel: SkyCheckboxGroupHeadingLevel = 3;
+  public set headingLevel(value: SkyCheckboxGroupHeadingLevel | undefined) {
+    this.#_headingLevel = value && !isNaN(value) ? value : undefined;
+    this.#updateStackedClasses();
+  }
+
+  public get headingLevel(): SkyCheckboxGroupHeadingLevel | undefined {
+    return this.#_headingLevel;
+  }
 
   /**
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @preview
-   * @default 3
+   * @default 4
    */
   @Input({ transform: numberAttribute })
-  public set headingStyle(value: SkyCheckboxGroupHeadingStyle) {
-    this.headingClass = `sky-font-heading-${value}`;
-  }
+  public headingStyle: SkyCheckboxGroupHeadingStyle = 4;
 
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
@@ -107,8 +111,14 @@ export class SkyCheckboxGroupComponent {
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
-  public stacked = false;
+  public set stacked(value: boolean) {
+    this.#_stacked = value;
+    this.#updateStackedClasses();
+  }
+
+  public get stacked(): boolean {
+    return this.#_stacked;
+  }
 
   /**
    * The form group that contains the group of checkboxes.
@@ -125,8 +135,25 @@ export class SkyCheckboxGroupComponent {
   @Input()
   public helpKey: string | undefined;
 
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stackedLg = false;
+
+  @HostBinding('class.sky-margin-stacked-xl')
+  public stackedXL = false;
+
+  public get headingClass(): string {
+    return `sky-font-heading-${this.headingStyle}`;
+  }
+
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
   protected formErrorsDataId = 'checkbox-group-form-errors';
-  protected headingClass = 'sky-font-heading-3';
+
+  #_headingLevel: SkyCheckboxGroupHeadingLevel | undefined;
+  #_stacked = false;
+
+  #updateStackedClasses(): void {
+    this.stackedLg = !this.headingLevel && this.stacked;
+    this.stackedXL = !!this.headingLevel && this.stacked;
+  }
 }

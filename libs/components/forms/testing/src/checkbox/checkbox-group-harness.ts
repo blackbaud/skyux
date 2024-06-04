@@ -29,6 +29,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   #getH3 = this.locatorForOptional('legend h3');
   #getH4 = this.locatorForOptional('legend h4');
   #getH5 = this.locatorForOptional('legend h5');
+  #getHeadingText = this.locatorForOptional('legend .sky-heading-text');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -95,18 +96,23 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * The semantic heading level used for the checkbox group.
+   * The semantic heading level used for the checkbox group. Returns undefined if heading level is not set.
    */
-  public async getHeadingLevel(): Promise<SkyCheckboxGroupHeadingLevel> {
+  public async getHeadingLevel(): Promise<
+    SkyCheckboxGroupHeadingLevel | undefined
+  > {
     const h3 = await this.#getH3();
     const h4 = await this.#getH4();
+    const h5 = await this.#getH5();
 
     if (h3) {
       return 3;
     } else if (h4) {
       return 4;
-    } else {
+    } else if (h5) {
       return 5;
+    } else {
+      return undefined;
     }
   }
 
@@ -114,11 +120,16 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * The heading style used for the checkbox group.
    */
   public async getHeadingStyle(): Promise<SkyCheckboxGroupHeadingStyle> {
-    const heading =
-      (await this.#getH3()) || (await this.#getH4()) || (await this.#getH5());
+    const headingOrLabel =
+      (await this.#getH3()) ||
+      (await this.#getH4()) ||
+      (await this.#getH5()) ||
+      (await this.#getHeadingText());
 
-    const isHeadingStyle3 = await heading?.hasClass('sky-font-heading-3');
-    const isHeadingStyle4 = await heading?.hasClass('sky-font-heading-4');
+    const isHeadingStyle3 =
+      await headingOrLabel?.hasClass('sky-font-heading-3');
+    const isHeadingStyle4 =
+      await headingOrLabel?.hasClass('sky-font-heading-4');
 
     if (isHeadingStyle3) {
       return 3;
@@ -127,6 +138,21 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
     } else {
       return 5;
     }
+  }
+
+  /**
+   * Whether the checkbox group is stacked.
+   */
+  public async getStacked(): Promise<boolean> {
+    const host = await this.host();
+    const heading =
+      (await this.#getH3()) || (await this.#getH4()) || (await this.#getH5());
+    const label = await this.#getHeadingText();
+
+    return (
+      ((await host.hasClass('sky-margin-stacked-lg')) && !!label) ||
+      ((await host.hasClass('sky-margin-stacked-xl')) && !!heading)
+    );
   }
 
   /**

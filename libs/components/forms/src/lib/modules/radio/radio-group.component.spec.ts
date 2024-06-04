@@ -18,6 +18,8 @@ import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
 import { SkyRadioGroupReactiveFixtureComponent } from './fixtures/radio-group-reactive.component.fixture';
 import { SkyRadioGroupFixtureComponent } from './fixtures/radio-group.component.fixture';
+import { SkyRadioGroupHeadingLevel } from './types/radio-group-heading-level';
+import { SkyRadioGroupHeadingStyle } from './types/radio-group-heading-style';
 
 //#region helpers
 function getRadios(
@@ -612,7 +614,7 @@ describe('Radio group component (reactive)', function () {
     );
   });
 
-  it('should display a label if `headingText` is set', () => {
+  it('should display a heading if `headingText` is set', () => {
     const headingText = 'Heading Text';
     componentInstance.headingText = headingText;
 
@@ -638,16 +640,24 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should render the correct heading level and styles', () => {
-    [3, 4, 5].forEach((headingLevel) => {
-      [3, 4, 5].forEach((headingStyle) => {
+    const headingLevels: (SkyRadioGroupHeadingLevel | undefined)[] = [
+      undefined,
+      3,
+      4,
+      5,
+    ];
+    const headingStyles: SkyRadioGroupHeadingStyle[] = [3, 4, 5];
+    headingLevels.forEach((headingLevel) => {
+      headingStyles.forEach((headingStyle) => {
         componentInstance.headingText = 'Label text';
         componentInstance.headingLevel = headingLevel;
         componentInstance.headingStyle = headingStyle;
         fixture.detectChanges();
 
-        const heading = fixture.nativeElement.querySelector(
-          `h${headingLevel}.sky-font-heading-${headingStyle}`,
-        );
+        const selector = headingLevel
+          ? `h${headingLevel}.sky-font-heading-${headingStyle}`
+          : `span.sky-font-heading-${headingStyle}`;
+        const heading = fixture.nativeElement.querySelector(selector);
 
         expect(heading).toExist();
       });
@@ -705,8 +715,9 @@ describe('Radio group component (reactive)', function () {
     expect(radioGroup).not.toBeVisible();
   });
 
-  it('should have the lg margin class if stacked is true', () => {
+  it('should have the lg margin class if stacked is true and headingLevel is unset', () => {
     fixture.componentInstance.stacked = true;
+    fixture.componentInstance.headingLevel = undefined;
     fixture.detectChanges();
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
@@ -714,11 +725,22 @@ describe('Radio group component (reactive)', function () {
     expect(radioGroup).toHaveClass('sky-margin-stacked-lg');
   });
 
-  it('should not have the lg margin class if stacked is false', () => {
+  it('should have the xl margin class if stacked is true and headingLevel is set', () => {
+    fixture.componentInstance.stacked = true;
+    fixture.componentInstance.headingLevel = 3;
+    fixture.detectChanges();
+
+    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
+
+    expect(radioGroup).toHaveClass('sky-margin-stacked-xl');
+  });
+
+  it('should not have the lg or xl margin class if stacked is false', () => {
     fixture.detectChanges();
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
     expect(radioGroup).not.toHaveClass('sky-margin-stacked-lg');
+    expect(radioGroup).not.toHaveClass('sky-margin-stacked-xl');
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
