@@ -2,7 +2,5 @@
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 35px;
-  max-height: -webkit-calc(50vh - 50px);
-  max-height: -moz-calc(50vh - 50px);
-  max-height: calc(50vh - 50px);
+  max-height: calc(100vh - min(50px, 5vh));
 }
