@@ -2,7 +2,7 @@
   <sky-input-box
     hintText="If you have multiple countries, choose your primary country."
     labelText="Country"
-    [helpPopoverContent]="inlineHelpPopover"
+    [helpPopoverContent]="helpPopoverContent"
   >
     <sky-country-field formControlName="countryControl" />
     <sky-form-error
@@ -12,7 +12,3 @@
     />
   </sky-input-box>
 </form>
-<ng-template #inlineHelpPopover>
-  We use the country to validate your passport within 10 business days. You can
-  update it at any time.
-</ng-template>
