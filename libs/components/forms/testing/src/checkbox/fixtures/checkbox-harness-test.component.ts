@@ -16,6 +16,7 @@ import {
   templateUrl: './checkbox-harness-test.component.html',
 })
 export class CheckboxHarnessTestComponent {
+  public class = '';
   public headingLevel: SkyCheckboxGroupHeadingLevel | undefined = 3;
   public headingStyle: SkyCheckboxGroupHeadingStyle = 3;
   public helpKey: string | undefined;

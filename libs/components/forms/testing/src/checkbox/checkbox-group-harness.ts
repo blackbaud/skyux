@@ -120,14 +120,16 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * The heading style used for the checkbox group.
    */
   public async getHeadingStyle(): Promise<SkyCheckboxGroupHeadingStyle> {
-    const heading =
+    const headingOrLabel =
       (await this.#getH3()) ||
       (await this.#getH4()) ||
       (await this.#getH5()) ||
       (await this.#getHeadingText());
 
-    const isHeadingStyle3 = await heading?.hasClass('sky-font-heading-3');
-    const isHeadingStyle4 = await heading?.hasClass('sky-font-heading-4');
+    const isHeadingStyle3 =
+      await headingOrLabel?.hasClass('sky-font-heading-3');
+    const isHeadingStyle4 =
+      await headingOrLabel?.hasClass('sky-font-heading-4');
 
     if (isHeadingStyle3) {
       return 3;
@@ -143,10 +145,13 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    */
   public async getStacked(): Promise<boolean> {
     const host = await this.host();
+    const heading =
+      (await this.#getH3()) || (await this.#getH4()) || (await this.#getH5());
+    const label = await this.#getHeadingText();
 
     return (
-      (await host.hasClass('sky-margin-stacked-lg')) ||
-      (await host.hasClass('sky-margin-stacked-xl'))
+      ((await host.hasClass('sky-margin-stacked-lg')) && !!label) ||
+      ((await host.hasClass('sky-margin-stacked-xl')) && !!heading)
     );
   }
 

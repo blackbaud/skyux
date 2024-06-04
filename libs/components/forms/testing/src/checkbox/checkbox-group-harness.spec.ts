@@ -144,7 +144,7 @@ describe('Checkbox group harness', () => {
     );
   });
 
-  it('should indicate the component is stacked when margin is lg', async () => {
+  it('should indicate the component is stacked when margin is lg and headingLevel is not set', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
     fixture.componentInstance.stacked = true;
@@ -154,13 +154,33 @@ describe('Checkbox group harness', () => {
     await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(true);
   });
 
-  it('should indicate the component is stacked when margin is xl', async () => {
+  it('should indicate the component is not stacked when margin is lg and headingLevel is set', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.class = 'sky-margin-stacked-lg';
+    fixture.componentInstance.headingLevel = 4;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(false);
+  });
+
+  it('should indicate the component is stacked when margin is xl and headingLevel is set', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
     fixture.componentInstance.stacked = true;
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(true);
+  });
+
+  it('should indicate the component is not stacked when margin is xl and headingLevel is not set', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.class = 'sky-margin-stacked-xl';
+    fixture.componentInstance.headingLevel = undefined;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(false);
   });
 
   it('should indicate the component is not stacked', async () => {
