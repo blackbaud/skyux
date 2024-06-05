@@ -23,6 +23,9 @@
         'sky-margin-inline-xs': helpPopoverContent
       }"
     >
+      <span *ngIf="!headingLevel" [class]="headingClass">
+        {{ headingText }}
+      </span>
       <h3 *ngIf="headingLevel === 3" [class]="headingClass">
         {{ headingText }}
       </h3>

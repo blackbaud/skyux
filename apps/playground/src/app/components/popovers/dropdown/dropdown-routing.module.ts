@@ -18,7 +18,18 @@ const routes: ComponentRouteInfo[] = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild([
+      ...routes,
+      {
+        path: 'iframe',
+        loadComponent: () =>
+          import('./dropdown-example.component').then(
+            (m) => m.DropdownExampleComponent,
+          ),
+      },
+    ]),
+  ],
   exports: [RouterModule],
 })
 export class DropdownRoutingModule {

@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { SkyTimepickerModule } from '@skyux/datetime';
@@ -15,6 +18,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,
@@ -23,18 +27,27 @@ import { SkyInputBoxModule } from '@skyux/forms';
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
+  protected time: FormControl;
+  protected hintText = 'Choose a time that allows for late arrivals.';
+  protected helpPopoverContent =
+    'Allow time to complete all activities that your team signed up for. All activities take about 30 minutes, except the ropes course, which takes 60 minutes.';
 
-  get #timeControl(): FormControl {
-    return this.formGroup.get('time') as FormControl;
-  }
+  #formBuilder = inject(FormBuilder);
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      time: new FormControl('2:45', Validators.required),
+    this.time = this.#formBuilder.control('2:45', {
+      validators: [Validators.required, this.#validateTime],
+    });
+    this.formGroup = this.#formBuilder.group({
+      time: this.time,
     });
   }
 
-  protected clearSelectedTime(): void {
-    this.#timeControl.setValue(undefined);
+  #validateTime(control: AbstractControl): ValidationErrors | null {
+    const minute = control.value?.minute;
+    if (minute && minute % 15 !== 0) {
+      return { invalidMinute: true };
+    }
+    return null;
   }
 }

@@ -16,13 +16,6 @@ const routes: Routes = [
         (c) => c.DemoComponent,
       ),
   },
-  {
-    path: 'text-editor-inline-help',
-    loadComponent: () =>
-      import(
-        '../code-examples/text-editor/text-editor-inline-help/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
 ];
 
 @NgModule({

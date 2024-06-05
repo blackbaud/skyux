@@ -1,5 +1,6 @@
 <form [formGroup]="myForm">
   <sky-checkbox-group
+    [attr.class]="class"
     [formGroup]="myForm"
     [helpKey]="helpKey"
     [helpPopoverContent]="helpPopoverContent"
@@ -8,8 +9,8 @@
     [headingHidden]="hideGroupHeading"
     [headingLevel]="headingLevel"
     [headingStyle]="headingStyle"
+    [stacked]="stacked"
     headingText="Contact method"
-    class="sky-margin-stacked-xl"
     data-sky-id="checkbox-group"
   >
     <sky-checkbox

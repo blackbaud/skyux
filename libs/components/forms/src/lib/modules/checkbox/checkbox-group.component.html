@@ -20,6 +20,9 @@
         'sky-control-label-required': required
       }"
     >
+      <span *ngIf="!headingLevel" [class]="'sky-heading-text ' + headingClass">
+        {{ headingText }}
+      </span>
       <h3 *ngIf="headingLevel === 3" [class]="headingClass">
         {{ headingText }}
       </h3>
