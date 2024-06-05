@@ -32,6 +32,7 @@ import {
 import { SkyLogService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorsModule,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxModule,
 } from '@skyux/forms';
@@ -107,6 +108,7 @@ function isPartialValue(
     SkyDateRangePickerStartDateResourceKeyPipe,
     SkyDatetimeResourcesModule,
     SkyInputBoxModule,
+    SkyFormErrorsModule,
   ],
   providers: [
     {
@@ -226,7 +228,6 @@ export class SkyDateRangePickerComponent
 
   /**
    * The label for the date range picker.
-   * TODO: should we keep the required tag?
    * @deprecated Use the `labelText` input instead.
    */
   @Input()
@@ -309,7 +310,6 @@ export class SkyDateRangePickerComponent
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
   #_label: string | undefined;
   #_value: SkyDateRangeCalculation;
-  #hostControl: AbstractControl | null | undefined;
   #ngUnsubscribe = new Subject<void>();
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
@@ -324,6 +324,8 @@ export class SkyDateRangePickerComponent
     },
   );
   readonly #logger = inject(SkyLogService);
+
+  protected hostControl: AbstractControl | null | undefined;
 
   constructor() {
     this.calculators = this.#dateRangeSvc.calculators;
@@ -352,7 +354,7 @@ export class SkyDateRangePickerComponent
   }
 
   public ngAfterViewInit(): void {
-    this.#hostControl = this.#injector.get(NgControl, null, {
+    this.hostControl = this.#injector.get(NgControl, null, {
       optional: true,
       self: true,
     })?.control;
@@ -360,9 +362,9 @@ export class SkyDateRangePickerComponent
     // Set a default value on the control if it's undefined on init.
     // We need to use setTimeout to avoid interfering with the first
     // validation cycle.
-    if (isPartialValue(this.#hostControl?.value)) {
+    if (isPartialValue(this.hostControl?.value)) {
       setTimeout(() => {
-        this.#hostControl?.setValue(this.#getValue(), {
+        this.hostControl?.setValue(this.#getValue(), {
           emitEvent: false,
           onlySelf: true,
         });
@@ -371,7 +373,7 @@ export class SkyDateRangePickerComponent
 
     // Update the view when "required" or "disabled" states are changed on the
     // host control.
-    this.#hostControl?.statusChanges
+    this.hostControl?.statusChanges
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
@@ -407,7 +409,7 @@ export class SkyDateRangePickerComponent
           const newValue = this.#getValue();
 
           // Update the host control if the value is different.
-          if (!areDateRangesEqual(this.#hostControl?.value, newValue)) {
+          if (!areDateRangesEqual(this.hostControl?.value, newValue)) {
             this.#notifyChange?.(newValue);
           }
         });
@@ -425,7 +427,7 @@ export class SkyDateRangePickerComponent
         // since multiple calls to updateValueAndValidity in the same
         // cycle may collide with one another.
         setTimeout(() => {
-          this.#hostControl?.updateValueAndValidity({
+          this.hostControl?.updateValueAndValidity({
             emitEvent: false,
             onlySelf: true,
           });
@@ -443,7 +445,7 @@ export class SkyDateRangePickerComponent
    * @see https://github.com/angular/angular/issues/10887#issuecomment-2035267400
    */
   public ngDoCheck(): void {
-    const control = this.#hostControl;
+    const control = this.hostControl;
     const touched = this.formGroup.touched;
 
     if (control) {
@@ -522,7 +524,7 @@ export class SkyDateRangePickerComponent
 
     // Update the host control if it is set to a partial or null value.
     if (isPartialValue(value)) {
-      this.#hostControl?.setValue(this.#getValue(), {
+      this.hostControl?.setValue(this.#getValue(), {
         emitEvent: false,
         onlySelf: true,
       });
@@ -531,7 +533,7 @@ export class SkyDateRangePickerComponent
 
   protected isRequired(): boolean {
     return !!(
-      this.required || this.#hostControl?.hasValidator(Validators.required)
+      this.required || this.hostControl?.hasValidator(Validators.required)
     );
   }
 
