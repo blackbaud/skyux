@@ -694,6 +694,24 @@ describe('Date range picker', function () {
     });
   }));
 
+  it('should render date range specific errors only when labelText is provided', fakeAsync(() => {
+    component.dateRange?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/2/2000'),
+      endDate: new Date('1/1/2000'),
+    });
+    detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-form-error')).toBeNull();
+
+    component.labelText = 'Date range picker';
+    detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe('Error: Change date range so that end date is before start date.');
+  }));
+
   describe('accessibility', () => {
     function verifyFormFieldsRequired(expectation: boolean): void {
       const inputBoxes =

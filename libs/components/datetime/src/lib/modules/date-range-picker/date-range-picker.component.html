@@ -39,9 +39,8 @@
         </option>
       </select>
     </sky-input-box>
-
     <sky-form-errors
-      *ngIf="labelText && hasErrors && hostControl?.errors?.['skyDateRange']"
+      *ngIf="labelText && hostControl?.errors?.['skyDateRange']"
       [labelText]="labelText"
     >
       <sky-form-error
