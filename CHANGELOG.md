@@ -1,5 +1,14 @@
 # Changelog
 
+## [10.23.0](https://github.com/blackbaud/skyux/compare/10.22.0...10.23.0) (2024-06-06)
+
+
+### Features
+
+* **components/datetime:** update timepicker code example ([#2342](https://github.com/blackbaud/skyux/issues/2342)) ([9904892](https://github.com/blackbaud/skyux/commit/990489268aeda6df75b60b5325ebc9cd1b4a59a8))
+* **components/forms:** make `headingLevel` optional for checkbox and radio group components ([#2344](https://github.com/blackbaud/skyux/issues/2344)) ([9da98c2](https://github.com/blackbaud/skyux/commit/9da98c202225fefcb4ca65065396c8e15f797e96))
+* **components/phone-field:** update phone field code example ([#2343](https://github.com/blackbaud/skyux/issues/2343)) ([f30a2ea](https://github.com/blackbaud/skyux/commit/f30a2ead5ec2ba979a1e897b02d35848e2b4758d))
+
 ## [10.22.0](https://github.com/blackbaud/skyux/compare/10.21.1...10.22.0) (2024-06-03)
 
 
