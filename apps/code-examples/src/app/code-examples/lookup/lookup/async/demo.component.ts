@@ -6,8 +6,9 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
 } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyFormErrorModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
 import {
   SkyAutocompleteSearchAsyncArgs,
@@ -25,11 +26,11 @@ import { Person } from './person';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  styleUrls: ['./demo.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyFormErrorModule,
     SkyInputBoxModule,
     SkyLookupModule,
   ],
@@ -49,7 +50,19 @@ export class DemoComponent implements OnInit {
   readonly #waitSvc = inject(SkyWaitService);
 
   constructor() {
-    const names = new FormControl<Person[]>([{ name: 'Shirley' }]);
+    const names = new FormControl<Person[]>([{ name: 'Shirley' }], {
+      validators: [
+        (control): ValidationErrors => {
+          if (
+            control.value?.some((person: Person) => !person.name.match(/e/i))
+          ) {
+            return { letterE: true };
+          }
+
+          return {};
+        },
+      ],
+    });
 
     this.favoritesForm = inject(FormBuilder).group({
       favoriteNames: names,
