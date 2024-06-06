@@ -23,7 +23,6 @@ import { PickerModalComponent } from './picker-modal.component';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  styleUrls: ['./demo.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
