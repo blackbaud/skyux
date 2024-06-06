@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/tabs/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["tabs", "testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build tabs-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["tabs", "testing"]
+  }
 }

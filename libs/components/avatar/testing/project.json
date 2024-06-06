@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/avatar/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["avatar", "testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build avatar-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["avatar", "testing"]
+  }
 }
