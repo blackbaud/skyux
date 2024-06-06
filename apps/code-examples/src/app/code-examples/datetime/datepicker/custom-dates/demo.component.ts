@@ -30,9 +30,11 @@ import { delay } from 'rxjs/operators';
 export class DemoComponent {
   protected formGroup: FormGroup;
 
+  #formBuilder = inject(FormBuilder);
+
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      myDate: new FormControl(new Date(1999, 10, 5)),
+    this.formGroup = this.#formBuilder.group({
+      startDate: new FormControl(),
     });
   }
 
@@ -64,28 +66,28 @@ export class DemoComponent {
       date: event.startDate,
       disabled: false,
       keyDate: true,
-      keyDateText: ['First date'],
+      keyDateText: ['Onboarding meeting'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 8),
       disabled: false,
       keyDate: true,
-      keyDateText: ['Important'],
+      keyDateText: ['Department all hands'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 9),
       disabled: false,
       keyDate: true,
-      keyDateText: ['Also Important'],
+      keyDateText: ['Company retreat'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 10),
       disabled: true,
       keyDate: true,
-      keyDateText: ['Disabled'],
+      keyDateText: ['Federal holiday'],
     });
 
     customDates.push({
@@ -99,21 +101,21 @@ export class DemoComponent {
       date: getNextDate(event.startDate, 12),
       disabled: false,
       keyDate: true,
-      keyDateText: [],
+      keyDateText: ['New hire review due'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 13),
       disabled: false,
       keyDate: true,
-      keyDateText: ['Multiple', 'Messages'],
+      keyDateText: ['Key note speaker', 'Focus group'],
     });
 
     customDates.push({
       date: event.endDate,
       disabled: false,
       keyDate: true,
-      keyDateText: ['Last date'],
+      keyDateText: ['Customer lunch and learn'],
     });
 
     return of(customDates);
