@@ -1067,7 +1067,7 @@ describe('Text editor', () => {
 
     it('should set background color', fakeAsync(() => {
       const expectedCommand = 'backColor';
-      const expectedValue = '#ba4949';
+      const expectedValue = 'rgba(255, 255, 60, 0.5)';
 
       fixture.detectChanges();
       tick();
@@ -1082,6 +1082,7 @@ describe('Text editor', () => {
       SkyAppTestUtility.fireDomEvent(colorField, 'selectedColorChanged', {
         customEventInit: {
           hex: '#ba4949',
+          rgbaText: 'rgba(255, 255, 60, 0.5)',
         },
       });
       fixture.detectChanges();
