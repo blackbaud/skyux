@@ -2,10 +2,9 @@
   <form novalidate [formGroup]="radioForm">
     <sky-radio-group
       formControlName="radioButtonOption"
+      headingStyle="3"
       headingText="Radio button options"
       stacked="true"
-      headingLevel="3"
-      headingStyle="4"
     >
       <ul class="sky-list-unstyled">
         <li *ngFor="let option of radioButtonOptions">
@@ -20,10 +19,10 @@
     </sky-radio-group>
     <sky-radio-group
       formControlName="radioIconOption"
+      headingLevel="3"
+      headingStyle="4"
       headingText="Radio icon options"
       stacked="true"
-      headingLevel="4"
-      headingStyle="5"
     >
       <div class="sky-switch-icon-group">
         <sky-radio
@@ -36,10 +35,13 @@
         </sky-radio>
       </div>
     </sky-radio-group>
-    <sky-radio-group formControlName="disabledRadioButtonOption" stacked="true">
-      <label class="sky-control-label">
-        All disabled radio button options
-      </label>
+    <sky-radio-group
+      formControlName="disabledRadioButtonOption"
+      headingLevel="4"
+      headingStyle="5"
+      headingText="All disabled radio button options"
+      stacked="true"
+    >
       <ul class="sky-list-unstyled">
         <li *ngFor="let option of radioButtonOptions">
           <sky-radio
@@ -50,8 +52,12 @@
         </li>
       </ul>
     </sky-radio-group>
-    <sky-radio-group formControlName="disabledIconButtonOption" stacked="true">
-      <label class="sky-control-label"> All disabled radio icon options </label>
+    <sky-radio-group
+      formControlName="disabledIconButtonOption"
+      headingLevel="5"
+      headingText="All disabled radio icon options"
+      stacked="true"
+    >
       <div class="sky-switch-icon-group">
         <sky-radio
           *ngFor="let option of radioIconOptions"
@@ -86,8 +92,6 @@
       hintText="Radio group hint text"
       helpPopoverContent="This is a popover"
       headingText="Easy mode radio group and radio button"
-      headingLevel="5"
-      headingStyle="3"
       [required]="true"
       [stacked]="true"
     >

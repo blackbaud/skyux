@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 
 import { SkyRadioGroupComponent } from '../radio-group.component';
+import { SkyRadioGroupHeadingLevel } from '../types/radio-group-heading-level';
+import { SkyRadioGroupHeadingStyle } from '../types/radio-group-heading-style';
 
 @Component({
   templateUrl: './radio-group-reactive.component.fixture.html',
@@ -51,9 +53,9 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public helpPopoverContent: string | undefined;
 
-  public headingLevel = 3;
+  public headingLevel: SkyRadioGroupHeadingLevel | undefined = 3;
 
-  public headingStyle = 3;
+  public headingStyle: SkyRadioGroupHeadingStyle = 3;
 
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
