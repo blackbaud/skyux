@@ -225,10 +225,12 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       colDefinition: ColDef | undefined,
       isSelectedValues: boolean[],
       dataPropertySet = false,
+      selectable = true,
     ): void {
       let rowClickListener: ((event: RowClickedEvent) => void) | undefined;
       const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
       rowNode.data = {};
+      rowNode.selectable = selectable;
       const rowClickedEvent: Partial<RowClickedEvent> = {
         node: rowNode,
         data: undefined,
@@ -267,12 +269,14 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       rowSelectorCellComponent.agInit(
         cellRendererParams as ICellRendererParams,
       );
+      rowSelectorCellFixture.detectChanges();
 
       expect(rowSelectorCellComponent.checked).toBeFalsy();
       expect(checkbox.selected).toBe(false);
+      expect(checkbox.disabled).toBe(!selectable);
 
       // trigger the rowClickEventListener
-      if (rowClickListener) {
+      if (rowClickListener && selectable) {
         rowClickListener(rowClickedEvent as RowClickedEvent);
       }
 
@@ -280,12 +284,14 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       tick();
       rowSelectorCellFixture.detectChanges();
 
-      expect(rowNode.addEventListener).toHaveBeenCalledWith(
-        RowNode.EVENT_ROW_SELECTED,
-        jasmine.any(Function),
-      );
-      expect(rowSelectorCellComponent.checked).toBe(true);
-      expect(checkbox.selected).toBe(true);
+      if (selectable) {
+        expect(rowNode.addEventListener).toHaveBeenCalledWith(
+          RowNode.EVENT_ROW_SELECTED,
+          jasmine.any(Function),
+        );
+        expect(rowSelectorCellComponent.checked).toBe(true);
+        expect(checkbox.selected).toBe(true);
+      }
 
       if (dataPropertySet) {
         expect(
@@ -303,6 +309,16 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
     it(`should set the checkbox's selected value to the component's checked property value if the data field is provided or the default is used`, fakeAsync(() => {
       const columnWithoutDataField = {};
       testRowSelected(columnWithoutDataField, [false, true, true]);
+    }));
+
+    it(`should disable the checkbox`, fakeAsync(() => {
+      const columnWithoutDataField = {};
+      testRowSelected(
+        columnWithoutDataField,
+        [false, false, false],
+        false,
+        false,
+      );
     }));
   });
 
