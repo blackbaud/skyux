@@ -53,7 +53,7 @@
   },
   "skyux_date_range_picker_end_date_before_start_date_error_label_text": {
     "_description": "The error message for date range picker end date before start date error.",
-    "message": "Change date range so that end date is before start date."
+    "message": "Change the date range so that the end date is before the start date."
   },
   "skyux_date_range_picker_format_label_specific_range": {
     "_description": "The label for the date range picker component's select field Specific Range format type.",

@@ -709,7 +709,9 @@ describe('Date range picker', function () {
 
     expect(
       fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
-    ).toBe('Error: Change date range so that end date is before start date.');
+    ).toBe(
+      'Error: Change the date range so that the end date is before the start date.',
+    );
   }));
 
   describe('accessibility', () => {

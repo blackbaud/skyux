@@ -237,7 +237,7 @@ export class SkyDateRangePickerComponent
     if (value) {
       this.#logger.deprecated('SkyDateRangePickerComponent.label', {
         deprecationMajorVersion: 10,
-        replacementRecommendation: 'Use `labelText` input instead.',
+        replacementRecommendation: 'Use the `labelText` input instead.',
       });
     }
   }
@@ -289,6 +289,7 @@ export class SkyDateRangePickerComponent
   protected calculators: SkyDateRangeCalculator[] = [];
   protected formGroup: FormGroup;
   protected hasErrors = false;
+  protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
@@ -325,8 +326,6 @@ export class SkyDateRangePickerComponent
   );
   readonly #logger = inject(SkyLogService);
 
-  protected hostControl: AbstractControl | null | undefined;
-
   constructor() {
     this.calculators = this.#dateRangeSvc.calculators;
     this.selectedCalculator = this.calculators[0];
@@ -344,7 +343,7 @@ export class SkyDateRangePickerComponent
   public ngOnInit(): void {
     if (this.#labelTextRequiredSvc) {
       this.#labelTextRequiredSvc.validateLabelText(
-        this.label || this.labelText,
+        this.labelText || this.label,
       );
 
       if (!this.label && !this.labelText) {
