@@ -690,7 +690,7 @@ describe('Date range picker', function () {
 
     expect(spy).toHaveBeenCalledWith('SkyDateRangePickerComponent.label', {
       deprecationMajorVersion: 10,
-      replacementRecommendation: 'Use `labelText` input instead.',
+      replacementRecommendation: 'Use the `labelText` input instead.',
     });
   }));
 
