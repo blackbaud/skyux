@@ -1,11 +1,22 @@
-<form novalidate [formGroup]="formGroup">
-  <sky-input-box labelText="Date">
-    <sky-datepicker>
-      <input formControlName="myDate" skyDatepickerInput type="text" />
-    </sky-datepicker>
-  </sky-input-box>
-</form>
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-input-box
+      labelText="Start date"
+      [helpPopoverContent]="helpPopoverContent"
+      [hintText]="hintText"
+    >
+      <sky-datepicker>
+        <input formControlName="startDate" skyDatepickerInput type="text" />
+      </sky-datepicker>
+      <sky-form-error
+        *ngIf="startDate.errors?.['invalidWeekend']"
+        errorName="invalidWeekend"
+        errorText="Start date must not be on a weekend."
+      />
+    </sky-input-box>
+  </form>
 
-<p>
-  Selected date: <code>{{ formGroup.value.myDate }}</code>
-</p>
+  <p>
+    Selected date: <code>{{ formGroup.value.myDate }}</code>
+  </p>
+</div>

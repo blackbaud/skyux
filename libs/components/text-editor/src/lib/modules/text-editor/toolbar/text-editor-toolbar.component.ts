@@ -226,7 +226,11 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     color: SkyColorpickerOutput,
     isBackground = false,
   ): void {
-    this.execCommand(isBackground ? 'backColor' : 'foreColor', color.hex);
+    if (isBackground) {
+      this.execCommand('backColor', color.rgbaText);
+    } else {
+      this.execCommand('foreColor', color.hex);
+    }
   }
 
   #subscribeEditorFocus(): void {
