@@ -20,6 +20,11 @@
       [showMoreConfig]="showMoreConfig"
       (addClick)="addClick($event)"
     />
+    <sky-form-error
+      *ngIf="favoritesForm.controls.favoriteNames.errors?.['letterE']"
+      errorName="letterE"
+      errorText="Please only choose names that contain the letter E"
+    />
   </sky-input-box>
   <div
     class="sky-border-dark sky-rounded-corners sky-padding-even-md sky-margin-stacked-lg"
