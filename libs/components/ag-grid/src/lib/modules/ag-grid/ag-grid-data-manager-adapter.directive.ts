@@ -235,20 +235,20 @@ export class SkyAgGridDataManagerAdapterDirective
           (aGridColumnState) => aGridColumnState.sortIndex === 0,
         );
 
-        if (
-          this.#viewConfig &&
-          this.#currentDataState &&
-          activeSortColumnState
-        ) {
-          const activeSortColumnDef = agGrid.api.getColumnDef(
-            activeSortColumnState.colId,
-          );
-          this.#currentDataState.activeSortOption = {
-            descending: activeSortColumnState.sort === 'desc',
-            id: activeSortColumnState.colId,
-            propertyName: activeSortColumnDef?.field || '',
-            label: activeSortColumnDef?.headerName || '',
-          };
+        if (this.#viewConfig && this.#currentDataState) {
+          if (activeSortColumnState) {
+            const activeSortColumnDef = agGrid.api.getColumnDef(
+              activeSortColumnState.colId,
+            );
+            this.#currentDataState.activeSortOption = {
+              descending: activeSortColumnState.sort === 'desc',
+              id: activeSortColumnState.colId,
+              propertyName: activeSortColumnDef?.field || '',
+              label: activeSortColumnDef?.headerName || '',
+            };
+          } else {
+            this.#currentDataState.activeSortOption = undefined;
+          }
           this.#dataManagerSvc.updateDataState(
             this.#currentDataState,
             this.#viewConfig.id,
