@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/toast/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["testing", "toast"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build toast-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["testing", "toast"]
+  }
 }

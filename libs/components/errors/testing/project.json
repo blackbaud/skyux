@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/errors/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["errors", "testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build errors-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["errors", "testing"]
+  }
 }

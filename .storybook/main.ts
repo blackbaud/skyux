@@ -5,7 +5,6 @@ export const framework: Preset = {
   options: {},
 };
 export const docs: DocsOptions = {
-  autodocs: false,
   docsMode: false,
   defaultName: 'Documentation',
 };
@@ -32,4 +31,7 @@ export const rootMain: StorybookConfig = {
         window.afterEach = window.afterEach || (() => {});
       </script>
     `),
+  core: {
+    disableTelemetry: true, // 👈 Disables telemetry
+  },
 };

@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/popovers/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "popovers", "testing", "theme"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build popovers-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "popovers", "testing", "theme"]
+  }
 }
