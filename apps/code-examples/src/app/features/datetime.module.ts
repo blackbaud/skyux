@@ -17,6 +17,13 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
+    path: 'date-range-picker/custom-calculator',
+    loadComponent: () =>
+      import(
+        '../code-examples/datetime/date-range-picker/custom-calculator/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'datepicker/basic',
     loadComponent: () =>
       import('../code-examples/datetime/datepicker/basic/demo.component').then(
