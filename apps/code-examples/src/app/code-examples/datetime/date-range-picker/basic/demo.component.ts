@@ -7,6 +7,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
@@ -138,6 +139,28 @@ export class DemoComponent implements OnInit, OnDestroy {
       SkyDateRangeCalculatorId.SpecificRange,
       SkyDateRangeCalculatorId.LastFiscalYear,
     ];
+  }
+
+  protected setCustomError(): void {
+    const calculator = this.#dateRangeSvc.createCalculator({
+      shortDescription: 'Date before today',
+      type: SkyDateRangeCalculatorType.Before,
+      validate: (value): ValidationErrors | null => {
+        if (value && value.endDate && value.endDate > new Date()) {
+          return {
+            dateIsAfterToday: true,
+          };
+        }
+        return null;
+      },
+      getValue: () => {
+        return {
+          endDate: new Date('1/2/2050'),
+        };
+      },
+    });
+
+    this.calculatorIds = [calculator.calculatorId];
   }
 
   protected setDateFormat(): void {

@@ -4,27 +4,19 @@
       <sky-date-range-picker
         formControlName="lastDonation"
         hintText="Donations received today are updated at the top of each hour."
-        label="Last donation date"
+        labelText="Last donation date"
         [calculatorIds]="calculatorIds"
         [dateFormat]="dateFormat"
         [helpPopoverContent]="inlineHelpPopover"
-      />
-
-      <ng-container *ngIf="reactiveRange?.errors && reactiveRange?.touched">
-        <div
+      >
+        <sky-form-error
           *ngIf="
-            reactiveRange?.errors?.['skyDateRange']?.errors
-              .endDateBeforeStartDate
+            reactiveRange?.errors?.['skyDateRange'].errors?.['dateIsAfterToday']
           "
-          class="sky-error-label"
-        >
-          Change the date range so that the from date is on or before the to
-          date.
-        </div>
-        <div *ngIf="reactiveRange?.errors?.['skyDate']" class="sky-error-label">
-          Enter valid dates.
-        </div>
-      </ng-container>
+          errorName="dateIsAfterToday"
+          errorText="Enter a date before today."
+        />
+      </sky-date-range-picker>
     </div>
   </form>
 
@@ -67,6 +59,14 @@ endDate: {{ formGroup.value.lastDonation?.endDate | date }}</code></pre>
     (click)="resetForm()"
   >
     Reset form
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
+    type="button"
+    (click)="setCustomError()"
+  >
+    Custom error
   </button>
 
   <button
