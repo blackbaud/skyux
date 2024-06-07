@@ -3,15 +3,16 @@
     <div class="sky-margin-stacked-lg">
       <sky-date-range-picker
         formControlName="lastDonation"
-        hintText="Donations received today are updated at the top of each hour."
-        labelText="Last donation date"
-        [calculatorIds]="calculatorIds"
+        [calculatorIds]="customCalculators"
         [dateFormat]="dateFormat"
         [helpPopoverContent]="inlineHelpPopover"
+        [hintText]="hintText"
+        [labelText]="labelText"
+        [required]="required"
       >
         <sky-form-error
           *ngIf="
-            reactiveRange?.errors?.['skyDateRange'].errors?.['dateIsAfterToday']
+            lastDonation.errors?.['skyDateRange']?.errors?.['dateIsAfterToday']
           "
           errorName="dateIsAfterToday"
           errorText="Enter a date before today."
@@ -19,95 +20,6 @@
       </sky-date-range-picker>
     </div>
   </form>
-
-  <h3>Form control statuses</h3>
-
-  <table>
-    <tr>
-      <th>Touched</th>
-      <td>{{ reactiveRange?.touched }}</td>
-    </tr>
-    <tr>
-      <th>Pristine</th>
-      <td>{{ reactiveRange?.pristine }}</td>
-    </tr>
-    <tr>
-      <th>Valid</th>
-      <td>{{ reactiveRange?.valid }}</td>
-    </tr>
-  </table>
-
-  <h3>Form control value</h3>
-
-  <pre><code style="display:block;">calculatorId: {{ formGroup.value.lastDonation?.calculatorId }}
-startDate: {{ formGroup.value.lastDonation?.startDate | date }}
-endDate: {{ formGroup.value.lastDonation?.endDate | date }}</code></pre>
-
-  <h3>Manipulate value and state</h3>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm"
-    type="button"
-    (click)="toggleDisabled()"
-  >
-    {{ formGroup.disabled ? 'Enable' : 'Disable' }} picker
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm"
-    type="button"
-    (click)="resetForm()"
-  >
-    Reset form
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm"
-    type="button"
-    (click)="setCustomError()"
-  >
-    Custom error
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm"
-    type="button"
-    (click)="setRange()"
-  >
-    Set specific range
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm"
-    type="button"
-    (click)="setInvalidRange()"
-  >
-    Set invalid range
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm"
-    type="button"
-    (click)="setInvalidDates()"
-  >
-    Set invalid dates
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm"
-    type="button"
-    (click)="setCalculatorIds()"
-  >
-    Set custom calculators
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="setDateFormat()"
-  >
-    Set date format (YYYY-MM-DD)
-  </button>
 </div>
 
 <ng-template #inlineHelpPopover>
