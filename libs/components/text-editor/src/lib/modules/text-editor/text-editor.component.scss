@@ -84,7 +84,7 @@ sky-text-editor.sky-margin-stacked-lg {
     }
 
     .sky-text-editor-label-wrapper:not(:empty) {
-      display: inline-flex;
+      display: inline-block;
       padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm 0
         $sky-theme-modern-space-sm;
       width: 100%;
