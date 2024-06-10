@@ -4,6 +4,12 @@
   "projectType": "library",
   "sourceRoot": "libs/components/list-builder-view-checklist/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": [
+    "list-builder",
+    "list-builder-view-checklist",
+    "testing"
+  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build list-builder-view-checklist-testing'",
@@ -45,11 +51,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": [
-    "list-builder",
-    "list-builder-view-checklist",
-    "testing"
-  ]
+  }
 }

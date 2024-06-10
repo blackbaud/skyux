@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/pages/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "pages"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build pages-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "pages"]
+  }
 }

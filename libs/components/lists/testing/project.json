@@ -4,6 +4,15 @@
   "projectType": "library",
   "sourceRoot": "libs/components/lists/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": [
+    "core-testing",
+    "forms-testing",
+    "indicators-testing",
+    "layout",
+    "lists",
+    "testing"
+  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build lists-testing'",
@@ -45,14 +54,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": [
-    "core-testing",
-    "forms-testing",
-    "indicators-testing",
-    "layout",
-    "lists",
-    "testing"
-  ]
+  }
 }

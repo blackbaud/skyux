@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/modals/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "modals", "testing", "theme"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build modals-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "modals", "testing", "theme"]
+  }
 }

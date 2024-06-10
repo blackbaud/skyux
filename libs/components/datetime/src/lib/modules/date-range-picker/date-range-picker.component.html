@@ -17,7 +17,9 @@
       [helpPopoverTitle]="helpPopoverTitle"
       [hintText]="hintText"
       [labelText]="
-        label || ('skyux_date_range_picker_default_label' | skyLibResources)
+        labelText ||
+        label ||
+        ('skyux_date_range_picker_default_label' | skyLibResources)
       "
     >
       <select
@@ -37,6 +39,22 @@
         </option>
       </select>
     </sky-input-box>
+    <sky-form-errors
+      *ngIf="labelText && hostControl?.errors?.['skyDateRange']"
+      [labelText]="labelText"
+    >
+      <sky-form-error
+        *ngIf="
+          hostControl?.errors?.['skyDateRange']?.errors.endDateBeforeStartDate
+        "
+        [errorName]="'endDateBeforeStartDate'"
+        [errorText]="
+          'skyux_date_range_picker_end_date_before_start_date_error_label_text'
+            | skyLibResources
+        "
+      />
+      <ng-content select="sky-form-error" />
+    </sky-form-errors>
   </div>
   <div
     class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
@@ -62,13 +80,13 @@
           skyDatepickerInput
           type="text"
           [attr.aria-label]="
-            label
+            labelText || label
               ? ('skyux_date_range_picker_default_aria_label'
                 | skyLibResources
                   : (selectedCalculator.type
                       | skyDateRangePickerStartDateResourceKey
                       | skyLibResources)
-                  : label)
+                  : (labelText ? labelText : label))
               : (selectedCalculator.type
                 | skyDateRangePickerStartDateResourceKey
                 | skyLibResources)
@@ -102,13 +120,13 @@
           skyDatepickerInput
           type="text"
           [attr.aria-label]="
-            label
+            labelText || label
               ? ('skyux_date_range_picker_default_aria_label'
                 | skyLibResources
                   : (selectedCalculator.type
                       | skyDateRangePickerEndDateResourceKey
                       | skyLibResources)
-                  : label)
+                  : (labelText ? labelText : label))
               : (selectedCalculator.type
                 | skyDateRangePickerEndDateResourceKey
                 | skyLibResources)

@@ -1,18 +1,17 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FontLoadingService } from '@skyux/storybook';
 
-import { BehaviorSubject } from 'rxjs';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
 })
-export class AvatarComponent implements AfterViewInit {
+export class AvatarComponent {
   public name = 'Robert C. Hernandez';
 
-  protected readonly ready = new BehaviorSubject(false);
-
-  public ngAfterViewInit(): void {
-    setTimeout(() => this.ready.next(true), 400);
-  }
+  protected readonly ready = inject(FontLoadingService)
+    .ready()
+    .pipe(delay(400));
 }
