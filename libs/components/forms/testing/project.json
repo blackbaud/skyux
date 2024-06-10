@@ -4,6 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/components/forms/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": [
+    "core",
+    "core-testing",
+    "datetime",
+    "forms",
+    "help-inline-testing",
+    "indicators",
+    "indicators-testing",
+    "phone-field",
+    "popovers-testing",
+    "testing",
+    "validation"
+  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build forms-testing'",
@@ -45,19 +59,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": [
-    "core",
-    "core-testing",
-    "datetime",
-    "forms",
-    "help-inline-testing",
-    "indicators",
-    "indicators-testing",
-    "phone-field",
-    "popovers-testing",
-    "testing",
-    "validation"
-  ]
+  }
 }

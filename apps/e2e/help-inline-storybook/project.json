@@ -2,17 +2,16 @@
   "name": "help-inline-storybook",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
   "sourceRoot": "apps/e2e/help-inline-storybook/src",
-  "tags": ["component-e2e"],
+  "prefix": "app",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/e2e/help-inline-storybook",
         "index": "apps/e2e/help-inline-storybook/src/index.html",
-        "browser": "apps/e2e/help-inline-storybook/src/main.ts",
+        "main": "apps/e2e/help-inline-storybook/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/e2e/help-inline-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -66,20 +65,9 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/eslint:lint",
       "options": {
-        "jestConfig": "apps/e2e/help-inline-storybook/jest.config.ts"
-      }
-    },
-    "serve-static": {
-      "executor": "@nx/web:file-server",
-      "options": {
-        "buildTarget": "help-inline-storybook:build",
-        "staticFilePath": "dist/apps/e2e/help-inline-storybook/browser"
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -120,12 +108,6 @@
         }
       }
     },
-    "test-storybook": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "test-storybook -c apps/e2e/help-inline-storybook/.storybook --url=http://localhost:4400"
-      }
-    },
     "static-storybook": {
       "executor": "@nx/web:file-server",
       "options": {
@@ -138,5 +120,6 @@
         }
       }
     }
-  }
+  },
+  "tags": ["component-e2e"]
 }

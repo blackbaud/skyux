@@ -35,6 +35,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
   public rowNode: IRowNode | undefined;
   public rowNumber: number | undefined;
 
+  protected readonly disabled = new BehaviorSubject(false);
   protected readonly label = new BehaviorSubject('');
 
   readonly #changeDetector = inject(ChangeDetectorRef);
@@ -93,6 +94,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
 
   #setParameters(params: ICellRendererParams): void {
     this.#params = params;
+    this.disabled.next(this.#params?.node?.selectable === false);
     this.dataField = this.#params.colDef?.field;
     this.rowNode = this.#params?.node as IRowNode | undefined;
     this.rowNumber = this.#params.rowIndex + 1;

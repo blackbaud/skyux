@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/layout/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "layout", "testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build layout-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "layout", "testing"]
+  }
 }

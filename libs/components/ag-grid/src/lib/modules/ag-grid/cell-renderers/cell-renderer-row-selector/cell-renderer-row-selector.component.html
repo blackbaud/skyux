@@ -1,5 +1,6 @@
 <sky-checkbox
   data-sky-id="row-checkbox"
+  [disabled]="(disabled | async) || false"
   [tabindex]="0"
   [labelHidden]="true"
   [labelText]="(label | async) || ''"

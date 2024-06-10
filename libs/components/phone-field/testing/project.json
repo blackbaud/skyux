@@ -4,6 +4,14 @@
   "projectType": "library",
   "sourceRoot": "libs/components/phone-field/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": [
+    "indicators",
+    "lookup-testing",
+    "phone-field",
+    "testing",
+    "theme"
+  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build phone-field-testing'",
@@ -45,13 +53,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": [
-    "indicators",
-    "lookup-testing",
-    "phone-field",
-    "testing",
-    "theme"
-  ]
+  }
 }

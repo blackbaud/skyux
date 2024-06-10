@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/colorpicker/testing/src",
   "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["colorpicker", "testing", "theme"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build colorpicker-testing'",
@@ -45,7 +47,5 @@
         }
       }
     }
-  },
-  "tags": ["testing"],
-  "implicitDependencies": ["colorpicker", "testing", "theme"]
+  }
 }
