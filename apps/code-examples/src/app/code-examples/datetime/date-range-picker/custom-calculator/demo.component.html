@@ -3,12 +3,20 @@
     <div class="sky-margin-stacked-lg">
       <sky-date-range-picker
         formControlName="lastDonation"
+        [calculatorIds]="customCalculators"
         [dateFormat]="dateFormat"
         [helpPopoverContent]="inlineHelpPopover"
         [hintText]="hintText"
         [labelText]="labelText"
         [required]="required"
       >
+        <sky-form-error
+          *ngIf="
+            lastDonation.errors?.['skyDateRange']?.errors?.['dateIsAfterToday']
+          "
+          errorName="dateIsAfterToday"
+          errorText="Enter a date before today."
+        />
       </sky-date-range-picker>
     </div>
   </form>

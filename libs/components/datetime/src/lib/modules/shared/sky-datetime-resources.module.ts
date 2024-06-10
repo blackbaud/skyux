@@ -69,6 +69,10 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_timepicker_close: { message: 'Done' },
     skyux_date_range_picker_default_label: { message: 'Select a date range' },
+    skyux_date_range_picker_end_date_before_start_date_error_label_text: {
+      message:
+        'Change the date range so that the end date is before the start date.',
+    },
     skyux_date_range_picker_format_label_specific_range: {
       message: 'Specific range',
     },
