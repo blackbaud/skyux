@@ -275,6 +275,39 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
   });
 
+  it('should update the data state when the sort changes to null', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    const gridColumnStates: ColumnState[] = [
+      {
+        colId: 'selected',
+      },
+      {
+        colId: 'name',
+      },
+      {
+        colId: 'target',
+      },
+      {
+        colId: 'noHeader',
+      },
+    ];
+
+    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
+      gridColumnStates,
+    );
+    spyOn(dataManagerService, 'updateDataState');
+
+    dataState.activeSortOption = undefined;
+
+    agGridComponent.sortChanged.emit();
+
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
   it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
     await agGridDataManagerFixture.whenStable();
 
