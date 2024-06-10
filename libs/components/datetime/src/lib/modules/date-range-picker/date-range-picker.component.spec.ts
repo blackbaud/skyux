@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -192,6 +193,19 @@ describe('Date range picker', function () {
     expect(labelElement.textContent).toContain('My label');
   }));
 
+  it('should allow setting the field labelText', fakeAsync(function () {
+    component.labelText = 'My label';
+
+    detectChanges();
+
+    const labelElement = fixture.nativeElement
+      .querySelectorAll('label')
+      .item(0);
+
+    expect(component.dateRangePicker.labelText).toEqual('My label');
+    expect(labelElement.textContent).toContain('My label');
+  }));
+
   it('should allow setting the date format', fakeAsync(function () {
     component.dateFormat = 'YYYY-MM-DD';
 
@@ -229,7 +243,7 @@ describe('Date range picker', function () {
     expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
   }));
 
-  it('should not render if a parent component requires label text and it is not provided', () => {
+  it('should not render if a parent component requires label text and label and labelText input is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       imports: [DateRangePickerTestComponent],
@@ -667,7 +681,61 @@ describe('Date range picker', function () {
     expect(calculatorIdControl?.errors).toEqual(expectedError);
   }));
 
+  it('should log a deprecation warning when label input is used', fakeAsync(() => {
+    const logService = TestBed.inject(SkyLogService);
+    const spy = spyOn(logService, 'deprecated');
+
+    fixture.componentInstance.label = 'deprecated label';
+    detectChanges();
+
+    expect(spy).toHaveBeenCalledWith('SkyDateRangePickerComponent.label', {
+      deprecationMajorVersion: 10,
+      replacementRecommendation: 'Use the `labelText` input instead.',
+    });
+  }));
+
+  it('should render date range specific errors only when labelText is provided', fakeAsync(() => {
+    component.dateRange?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/2/2000'),
+      endDate: new Date('1/1/2000'),
+    });
+    detectChanges();
+
+    expect(fixture.nativeElement.querySelector('sky-form-error')).toBeNull();
+
+    component.labelText = 'Date range picker';
+    detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe(
+      'Error: Change the date range so that the end date is before the start date.',
+    );
+  }));
+
   describe('accessibility', () => {
+    function verifyFormFieldsRequired(expectation: boolean): void {
+      const inputBoxes =
+        fixture.nativeElement.querySelectorAll('sky-input-box');
+      const selectElement = fixture.nativeElement.querySelector('select');
+      const inputs = fixture.nativeElement.querySelectorAll('input');
+
+      expect(
+        inputBoxes.item(0).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+      expect(
+        inputBoxes.item(1).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+      expect(
+        inputBoxes.item(2).querySelector('.sky-control-label-required'),
+      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
+
+      expect(selectElement.hasAttribute('required')).toEqual(expectation);
+      expect(inputs.item(0).hasAttribute('required')).toEqual(expectation);
+      expect(inputs.item(1).hasAttribute('required')).toEqual(expectation);
+    }
+
     it('should use a context specific datepicker aria label when using the "Before" calculator', fakeAsync(() => {
       detectChanges();
 
@@ -681,6 +749,13 @@ describe('Date range picker', function () {
       const input = getEndDateInput();
       expect(input?.getAttribute('aria-label')).toBe(
         'Before date for Last donation',
+      );
+
+      component.labelText = 'Latest donation';
+      detectChanges();
+
+      expect(input?.getAttribute('aria-label')).toBe(
+        'Before date for Latest donation',
       );
     }));
 
@@ -697,6 +772,13 @@ describe('Date range picker', function () {
       const input = getStartDateInput();
       expect(input?.getAttribute('aria-label')).toBe(
         'After date for Last donation',
+      );
+
+      component.labelText = 'Latest donation';
+      detectChanges();
+
+      expect(input?.getAttribute('aria-label')).toBe(
+        'After date for Latest donation',
       );
     }));
 
@@ -717,6 +799,16 @@ describe('Date range picker', function () {
       );
       expect(toInput?.getAttribute('aria-label')).toBe(
         'To date for Last donation',
+      );
+
+      component.labelText = 'Latest donation';
+      detectChanges();
+
+      expect(fromInput?.getAttribute('aria-label')).toBe(
+        'From date for Latest donation',
+      );
+      expect(toInput?.getAttribute('aria-label')).toBe(
+        'To date for Latest donation',
       );
     }));
 
@@ -773,26 +865,12 @@ describe('Date range picker', function () {
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
     });
 
-    function verifyFormFieldsRequired(expectation: boolean): void {
-      const inputBoxes =
-        fixture.nativeElement.querySelectorAll('sky-input-box');
-      const selectElement = fixture.nativeElement.querySelector('select');
-      const inputs = fixture.nativeElement.querySelectorAll('input');
-
-      expect(
-        inputBoxes.item(0).querySelector('.sky-control-label-required'),
-      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
-      expect(
-        inputBoxes.item(1).querySelector('.sky-control-label-required'),
-      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
-      expect(
-        inputBoxes.item(2).querySelector('.sky-control-label-required'),
-      ).toEqual(expectation ? jasmine.any(HTMLLabelElement) : null);
-
-      expect(selectElement.hasAttribute('required')).toEqual(expectation);
-      expect(inputs.item(0).hasAttribute('required')).toEqual(expectation);
-      expect(inputs.item(1).hasAttribute('required')).toEqual(expectation);
-    }
+    it('should be accessible with a labelText', async () => {
+      component.labelText = 'Last donation';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
+    });
 
     it('should set "required" attributes when the host control is required', fakeAsync(() => {
       detectChanges();
