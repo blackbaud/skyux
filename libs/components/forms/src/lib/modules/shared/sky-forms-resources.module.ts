@@ -29,22 +29,22 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_form_error_date: { message: 'Select or enter a valid date.' },
     skyux_form_error_date_max: {
-      message: 'Select or enter a date before max date.',
+      message: 'Select or enter a date before the max date.',
     },
     skyux_form_error_date_min: {
-      message: 'Select or enter a date after min date.',
+      message: 'Select or enter a date after the min date.',
     },
     skyux_form_error_fuzzy_date_future_disabled: {
-      message: 'Future dates are disabled.',
+      message: 'Future dates are disabled, select or enter a date in the past.',
     },
     skyux_form_error_fuzzy_date_invalid: {
       message: 'Select or enter a valid date.',
     },
     skyux_form_error_fuzzy_date_max_date: {
-      message: 'Select or enter a date before max date.',
+      message: 'Select or enter a date before the max date.',
     },
     skyux_form_error_fuzzy_date_min_date: {
-      message: 'Select or enter a date after min date.',
+      message: 'Select or enter a date after the min date.',
     },
     skyux_form_error_fuzzy_date_year_required: { message: 'Year is required.' },
     skyux_form_error_email: {

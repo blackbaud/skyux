@@ -21,15 +21,15 @@
   },
   "skyux_form_error_date_max": {
     "_description": "Error message for a field with a date after max date",
-    "message": "Select or enter a date before max date."
+    "message": "Select or enter a date before the max date."
   },
   "skyux_form_error_date_min": {
     "_description": "Error message for a field with a date before min date",
-    "message": "Select or enter a date after min date."
+    "message": "Select or enter a date after the min date."
   },
   "skyux_form_error_fuzzy_date_future_disabled": {
     "_description": "Error message for a field with a in invalid fuzzy date in the future",
-    "message": "Future dates are disabled."
+    "message": "Future dates are disabled, select or enter a date in the past."
   },
   "skyux_form_error_fuzzy_date_invalid": {
     "_description": "Error message for a field with an invalid fuzzy date",
@@ -37,11 +37,11 @@
   },
   "skyux_form_error_fuzzy_date_max_date": {
     "_description": "Error message for a field with a date after max fuzzy date",
-    "message": "Select or enter a date before max date."
+    "message": "Select or enter a date before the max date."
   },
   "skyux_form_error_fuzzy_date_min_date": {
     "_description": "Error message for a field with a date before min fuzzy date",
-    "message": "Select or enter a date after min date."
+    "message": "Select or enter a date after the min date."
   },
   "skyux_form_error_fuzzy_date_year_required": {
     "_description": "Error message for a field with a date without a year",
