@@ -43,6 +43,40 @@
     />
 
     <sky-form-error
+      *ngIf="errors['skyFuzzyDate'] && errors['skyFuzzyDate']['futureDisabled']"
+      errorName="fuzzyFutureDisabled"
+      [errorText]="
+        'skyux_form_error_fuzzy_date_future_disabled' | skyLibResources
+      "
+    />
+
+    <sky-form-error
+      *ngIf="errors['skyFuzzyDate'] && errors['skyFuzzyDate']['invalidDate']"
+      errorName="fuzzyInvalidDate"
+      [errorText]="'skyux_form_error_fuzzy_date_invalid' | skyLibResources"
+    />
+
+    <sky-form-error
+      *ngIf="errors['skyFuzzyDate'] && errors['skyFuzzyDate']['maxDate']"
+      errorName="fuzzyMaxDate"
+      [errorText]="'skyux_form_error_fuzzy_date_max_date' | skyLibResources"
+    />
+
+    <sky-form-error
+      *ngIf="errors['skyFuzzyDate'] && errors['skyFuzzyDate']['minDate']"
+      errorName="fuzzyMinDate"
+      [errorText]="'skyux_form_error_fuzzy_date_min_date' | skyLibResources"
+    />
+
+    <sky-form-error
+      *ngIf="errors['skyFuzzyDate'] && errors['skyFuzzyDate']['yearRequired']"
+      errorName="fuzzyYearRequired"
+      [errorText]="
+        'skyux_form_error_fuzzy_date_year_required' | skyLibResources
+      "
+    />
+
+    <sky-form-error
       *ngIf="errors['skyEmail']"
       errorName="email"
       [errorText]="'skyux_form_error_email' | skyLibResources"
