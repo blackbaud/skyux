@@ -8,10 +8,9 @@ describe('AffixComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AffixComponent]
-    })
-    .compileComponents();
-    
+      declarations: [AffixComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AffixComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
