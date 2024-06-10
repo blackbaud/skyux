@@ -128,7 +128,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Upload a file over {0}KB.',
     },
     skyux_file_attachment_min_file_size_error_label_text_with_name: {
-      message: '{0}: Please upload a file over {1}KB.',
+      message: '{0}: Upload a file over {1}KB.',
     },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_file_attachment_required: { message: 'Required' },
