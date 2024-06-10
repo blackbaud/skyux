@@ -29,7 +29,10 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
+import { SkyLogService } from '@skyux/core';
 import {
+  SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorsModule,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxModule,
 } from '@skyux/forms';
@@ -105,6 +108,7 @@ function isPartialValue(
     SkyDateRangePickerStartDateResourceKeyPipe,
     SkyDatetimeResourcesModule,
     SkyInputBoxModule,
+    SkyFormErrorsModule,
   ],
   providers: [
     {
@@ -117,6 +121,7 @@ function isPartialValue(
       useExisting: SkyDateRangePickerComponent,
       multi: true,
     },
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   selector: 'sky-date-range-picker',
   standalone: true,
@@ -223,10 +228,29 @@ export class SkyDateRangePickerComponent
 
   /**
    * The label for the date range picker.
-   * @required
+   * @deprecated Use the `labelText` input instead.
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+
+    if (value) {
+      this.#logger.deprecated('SkyDateRangePickerComponent.label', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation: 'Use the `labelText` input instead.',
+      });
+    }
+  }
+
+  public get label(): string | undefined {
+    return this.#_label;
+  }
+
+  /**
+   * The text to display as the date range picker's label.
+   */
+  @Input()
+  public labelText: string | undefined;
 
   /**
    * Whether the date range picker requires a value.
@@ -265,6 +289,7 @@ export class SkyDateRangePickerComponent
   protected calculators: SkyDateRangeCalculator[] = [];
   protected formGroup: FormGroup;
   protected hasErrors = false;
+  protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
@@ -284,8 +309,8 @@ export class SkyDateRangePickerComponent
   }
 
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
+  #_label: string | undefined;
   #_value: SkyDateRangeCalculation;
-  #hostControl: AbstractControl | null | undefined;
   #ngUnsubscribe = new Subject<void>();
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
@@ -299,6 +324,7 @@ export class SkyDateRangePickerComponent
       optional: true,
     },
   );
+  readonly #logger = inject(SkyLogService);
 
   constructor() {
     this.calculators = this.#dateRangeSvc.calculators;
@@ -316,16 +342,18 @@ export class SkyDateRangePickerComponent
 
   public ngOnInit(): void {
     if (this.#labelTextRequiredSvc) {
-      this.#labelTextRequiredSvc.validateLabelText(this.label);
+      this.#labelTextRequiredSvc.validateLabelText(
+        this.labelText || this.label,
+      );
 
-      if (!this.label) {
+      if (!this.label && !this.labelText) {
         this.display = 'none';
       }
     }
   }
 
   public ngAfterViewInit(): void {
-    this.#hostControl = this.#injector.get(NgControl, null, {
+    this.hostControl = this.#injector.get(NgControl, null, {
       optional: true,
       self: true,
     })?.control;
@@ -333,9 +361,9 @@ export class SkyDateRangePickerComponent
     // Set a default value on the control if it's undefined on init.
     // We need to use setTimeout to avoid interfering with the first
     // validation cycle.
-    if (isPartialValue(this.#hostControl?.value)) {
+    if (isPartialValue(this.hostControl?.value)) {
       setTimeout(() => {
-        this.#hostControl?.setValue(this.#getValue(), {
+        this.hostControl?.setValue(this.#getValue(), {
           emitEvent: false,
           onlySelf: true,
         });
@@ -344,7 +372,7 @@ export class SkyDateRangePickerComponent
 
     // Update the view when "required" or "disabled" states are changed on the
     // host control.
-    this.#hostControl?.statusChanges
+    this.hostControl?.statusChanges
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
@@ -380,7 +408,7 @@ export class SkyDateRangePickerComponent
           const newValue = this.#getValue();
 
           // Update the host control if the value is different.
-          if (!areDateRangesEqual(this.#hostControl?.value, newValue)) {
+          if (!areDateRangesEqual(this.hostControl?.value, newValue)) {
             this.#notifyChange?.(newValue);
           }
         });
@@ -398,7 +426,7 @@ export class SkyDateRangePickerComponent
         // since multiple calls to updateValueAndValidity in the same
         // cycle may collide with one another.
         setTimeout(() => {
-          this.#hostControl?.updateValueAndValidity({
+          this.hostControl?.updateValueAndValidity({
             emitEvent: false,
             onlySelf: true,
           });
@@ -416,7 +444,7 @@ export class SkyDateRangePickerComponent
    * @see https://github.com/angular/angular/issues/10887#issuecomment-2035267400
    */
   public ngDoCheck(): void {
-    const control = this.#hostControl;
+    const control = this.hostControl;
     const touched = this.formGroup.touched;
 
     if (control) {
@@ -495,7 +523,7 @@ export class SkyDateRangePickerComponent
 
     // Update the host control if it is set to a partial or null value.
     if (isPartialValue(value)) {
-      this.#hostControl?.setValue(this.#getValue(), {
+      this.hostControl?.setValue(this.#getValue(), {
         emitEvent: false,
         onlySelf: true,
       });
@@ -504,7 +532,7 @@ export class SkyDateRangePickerComponent
 
   protected isRequired(): boolean {
     return !!(
-      this.required || this.#hostControl?.hasValidator(Validators.required)
+      this.required || this.hostControl?.hasValidator(Validators.required)
     );
   }
 

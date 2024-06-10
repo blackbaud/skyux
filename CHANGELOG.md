@@ -1,5 +1,21 @@
 # Changelog
 
+## [10.24.0](https://github.com/blackbaud/skyux/compare/10.23.0...10.24.0) (2024-06-10)
+
+
+### Features
+
+* **components/datetime:** add form errors to date range picker ([#2347](https://github.com/blackbaud/skyux/issues/2347)) ([c15d6af](https://github.com/blackbaud/skyux/commit/c15d6af4db45c8c501eb20eda9eccaa8a039e5f4))
+* **components/datetime:** update datepicker code examples ([#2349](https://github.com/blackbaud/skyux/issues/2349)) ([d42a5cd](https://github.com/blackbaud/skyux/commit/d42a5cd454ad441e7b8d523a4060e67b42564b0b))
+* **components/lookup:** update lookup code examples ([#2345](https://github.com/blackbaud/skyux/issues/2345)) ([c5b78b0](https://github.com/blackbaud/skyux/commit/c5b78b0e0b96056d785ff45b9a41167c251f27a1))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** data manager should capture when sort is removed ([#2351](https://github.com/blackbaud/skyux/issues/2351)) ([f70b156](https://github.com/blackbaud/skyux/commit/f70b156858dbb25763113e18472c4d2ee80890eb))
+* **components/ag-grid:** disable row selection checkbox ([#2348](https://github.com/blackbaud/skyux/issues/2348)) ([3ab699a](https://github.com/blackbaud/skyux/commit/3ab699a71ff9fe032c37627a4eb4a41d9bd9530f))
+* **components/text-editor:** support transparency on text background color ([#2350](https://github.com/blackbaud/skyux/issues/2350)) ([643f58d](https://github.com/blackbaud/skyux/commit/643f58d2882366144a2a3b7316d68f59e2d08dc8))
+
 ## [10.23.0](https://github.com/blackbaud/skyux/compare/10.22.0...10.23.0) (2024-06-06)
 
 
