@@ -73,13 +73,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'radio/inline-help',
-    loadComponent: () =>
-      import('../code-examples/forms/radio/inline-help/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
-  {
     path: 'radio/standard',
     loadComponent: () =>
       import('../code-examples/forms/radio/standard/demo.component').then(
