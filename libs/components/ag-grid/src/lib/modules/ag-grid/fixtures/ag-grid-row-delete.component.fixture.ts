@@ -6,7 +6,7 @@ import {
   GridOptions,
   GridReadyEvent,
 } from 'ag-grid-community';
-import { fromEventPattern } from 'rxjs';
+import { firstValueFrom, fromEventPattern } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 import { SkyAgGridService } from '../ag-grid.service';
@@ -26,8 +26,9 @@ import {
 })
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public allColumnWidth = 0;
+  public hideFirstColumn = false;
 
-  public columnDefs = [
+  public columnDefs = () => [
     {
       field: 'selected',
       headerName: '',
@@ -35,6 +36,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       sortable: false,
       type: SkyCellType.RowSelector,
       width: this.allColumnWidth,
+      hide: this.hideFirstColumn,
     },
     {
       field: 'name',
@@ -74,10 +76,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public gridApi: GridApi | undefined;
   public gridData = SKY_AG_GRID_DATA;
 
-  public gridOptions: GridOptions = {
-    columnDefs: this.columnDefs,
-    onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
-  };
+  public gridOptions: GridOptions | undefined;
 
   public rowDeleteIds: string[] | undefined;
 
@@ -89,7 +88,10 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
 
   public ngOnInit(): void {
     this.gridOptions = this.#gridService.getEditableGridOptions({
-      gridOptions: this.gridOptions,
+      gridOptions: {
+        columnDefs: this.columnDefs(),
+        onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      },
     });
   }
 
@@ -116,17 +118,20 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   }
 
   public filterName(): Promise<void> {
-    const filterChangedPromise = fromEventPattern(
-      (handler) =>
-        this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
-      (handler) =>
-        this.gridApi?.removeEventListener(Events.EVENT_FILTER_CHANGED, handler),
-    )
-      .pipe(
+    const filterChangedPromise = firstValueFrom(
+      fromEventPattern(
+        (handler) =>
+          this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
+        (handler) =>
+          this.gridApi?.removeEventListener(
+            Events.EVENT_FILTER_CHANGED,
+            handler,
+          ),
+      ).pipe(
         first(),
         map(() => undefined),
-      )
-      .toPromise();
+      ),
+    );
     this.gridApi?.setFilterModel({
       name: {
         filterType: 'text',
@@ -138,17 +143,20 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   }
 
   public clearFilter(): Promise<void> {
-    const filterChangedPromise = fromEventPattern(
-      (handler) =>
-        this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
-      (handler) =>
-        this.gridApi?.removeEventListener(Events.EVENT_FILTER_CHANGED, handler),
-    )
-      .pipe(
+    const filterChangedPromise = firstValueFrom(
+      fromEventPattern(
+        (handler) =>
+          this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
+        (handler) =>
+          this.gridApi?.removeEventListener(
+            Events.EVENT_FILTER_CHANGED,
+            handler,
+          ),
+      ).pipe(
         first(),
         map(() => undefined),
-      )
-      .toPromise();
+      ),
+    );
     this.gridApi?.destroyFilter('name');
     return filterChangedPromise;
   }
@@ -167,17 +175,17 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   }
 
   public sortName(): Promise<void> {
-    const sortChangedPromise = fromEventPattern(
-      (handler) =>
-        this.gridApi?.addEventListener(Events.EVENT_SORT_CHANGED, handler),
-      (handler) =>
-        this.gridApi?.removeEventListener(Events.EVENT_SORT_CHANGED, handler),
-    )
-      .pipe(
+    const sortChangedPromise = firstValueFrom(
+      fromEventPattern(
+        (handler) =>
+          this.gridApi?.addEventListener(Events.EVENT_SORT_CHANGED, handler),
+        (handler) =>
+          this.gridApi?.removeEventListener(Events.EVENT_SORT_CHANGED, handler),
+      ).pipe(
         first(),
         map(() => undefined),
-      )
-      .toPromise();
+      ),
+    );
     this.gridApi?.applyColumnState({
       state: [
         {
