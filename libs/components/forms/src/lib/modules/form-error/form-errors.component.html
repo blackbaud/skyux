@@ -51,7 +51,7 @@
     />
 
     <sky-form-error
-      *ngIf="errors['skyFuzzyDate'] && errors['skyFuzzyDate']['invalidDate']"
+      *ngIf="errors['skyFuzzyDate'] && errors['skyFuzzyDate']['invalid']"
       errorName="fuzzyInvalidDate"
       [errorText]="'skyux_form_error_fuzzy_date_invalid' | skyLibResources"
     />

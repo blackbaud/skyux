@@ -45,7 +45,7 @@ describe('Form errors component', () => {
       skyDate: { invalid: true, minDate: true, maxDate: true },
       skyFuzzyDate: {
         futureDisabled: true,
-        invalidDate: true,
+        invalid: true,
         maxDate: true,
         minDate: true,
         yearRequired: true,
