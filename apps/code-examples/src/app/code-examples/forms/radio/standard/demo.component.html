@@ -1,15 +1,29 @@
-<form [formGroup]="formGroup">
-  <sky-radio-group formControlName="myOption" headingText="Options">
-    <ul class="sky-list-unstyled">
-      <li *ngFor="let option of options">
-        <sky-radio
-          [disabled]="option.disabled"
-          [value]="option.name"
-          [labelText]="option.name"
-        />
-      </li>
-    </ul>
-  </sky-radio-group>
-</form>
-
-<p>{{ formGroup.value.myOption }} is selected</p>
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-radio-group
+      formControlName="paymentMethod"
+      headingLevel="4"
+      headingText="Payment method"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
+      [hintText]="hintText"
+    >
+      <ul class="sky-list-unstyled">
+        <li *ngFor="let option of paymentOptions">
+          <sky-radio
+            [disabled]="option.disabled"
+            [value]="option.value"
+            [labelText]="option.name"
+            [helpPopoverContent]="option.helpContent"
+            [hintText]="option.hintText"
+          />
+        </li>
+      </ul>
+      <sky-form-error
+        *ngIf="paymentMethod.errors?.['processingIssue']"
+        errorName="processingIssue"
+        errorText="An error occurred with this payment method. Please contact us to resolve."
+      />
+    </sky-radio-group>
+  </form>
+</div>
