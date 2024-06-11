@@ -1,5 +1,19 @@
 # Changelog
 
+## [10.25.0](https://github.com/blackbaud/skyux/compare/10.24.0...10.25.0) (2024-06-11)
+
+
+### Features
+
+* **components/datetime:** add form errors to fuzzy datepicker ([#2357](https://github.com/blackbaud/skyux/issues/2357)) ([ee42c7f](https://github.com/blackbaud/skyux/commit/ee42c7f0ddf97a81340cd838735abf1af306ed43))
+* **components/forms:** update radio button code examples ([#2360](https://github.com/blackbaud/skyux/issues/2360)) ([31495cf](https://github.com/blackbaud/skyux/commit/31495cff6b7b634c61d40fb760832212c1dad2f7))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** row delete confirmation should still show when first column is hidden ([#2358](https://github.com/blackbaud/skyux/issues/2358)) ([cc3ec7b](https://github.com/blackbaud/skyux/commit/cc3ec7b054aa17ee8b640c19f83a3d34308d2667))
+* **components/text-editor:** label and help inline misalign ([#2354](https://github.com/blackbaud/skyux/issues/2354)) ([4df3be4](https://github.com/blackbaud/skyux/commit/4df3be4e3cf28268af9675c8c0b30fede6a4b904))
+
 ## [10.24.0](https://github.com/blackbaud/skyux/compare/10.23.0...10.24.0) (2024-06-10)
 
 
