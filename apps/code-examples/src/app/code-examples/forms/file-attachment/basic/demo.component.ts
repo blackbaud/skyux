@@ -17,9 +17,14 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
 export class DemoComponent {
   protected acceptedTypes = 'image/png,image/jpeg';
   protected allItems: (SkyFileItem | SkyFileLink)[] = [];
-  protected labelText = 'File attachment';
-  protected maxFileSize = 4000000;
+  protected hintText = '5 MB maximum';
+  protected inlineHelpContent =
+    'Your logo appears in places such as authentication pages, student and parent portals, and extracurricular home pages.';
+  protected labelText = 'Logo image';
+  protected maxFileSize = 5242880;
   protected rejectedFiles: SkyFileItem[] = [];
+  protected required = true;
+  protected stacked = 'true';
 
   #filesToUpload: SkyFileItem[] = [];
   #linksToUpload: SkyFileLink[] = [];
@@ -43,7 +48,7 @@ export class DemoComponent {
 
   protected validateFile(file: SkyFileItem): string | undefined {
     return file.file.name.indexOf('a') === 0
-      ? 'You may not upload a file that begins with the letter "a."'
+      ? 'Upload a file that does not begin with the letter "a"'
       : undefined;
   }
 
