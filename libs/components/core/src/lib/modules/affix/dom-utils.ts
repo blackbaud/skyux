@@ -100,15 +100,13 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
     const computedStyle = window.getComputedStyle(parentElement, undefined);
     const overflowY = computedStyle.overflowY.toLowerCase();
 
-    const largerThanTheViewport =
-      (window.visualViewport?.width ?? bodyElement.scrollWidth) <
-        parentElement.scrollWidth ||
-      (window.visualViewport?.height ?? bodyElement.scrollHeight) <
-        parentElement.scrollHeight;
+    const largerThanTheDocumentElement =
+      window.document.documentElement.scrollWidth < parentElement.scrollWidth ||
+      window.document.documentElement.scrollHeight < parentElement.scrollHeight;
     const hasOverflowRules =
       overflowY === 'auto' || overflowY === 'hidden' || overflowY === 'scroll';
 
-    if (largerThanTheViewport || hasOverflowRules) {
+    if (largerThanTheDocumentElement || hasOverflowRules) {
       results.push(parentElement);
     }
     if (computedStyle.position === 'fixed') {
