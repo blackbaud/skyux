@@ -29,11 +29,24 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_form_error_date: { message: 'Select or enter a valid date.' },
     skyux_form_error_date_max: {
-      message: 'Select or enter a date before max date.',
+      message: 'Select or enter a date before the max date.',
     },
     skyux_form_error_date_min: {
-      message: 'Select or enter a date after min date.',
+      message: 'Select or enter a date after the min date.',
     },
+    skyux_form_error_fuzzy_date_future_disabled: {
+      message: 'Future dates are disabled, select or enter a date in the past.',
+    },
+    skyux_form_error_fuzzy_date_invalid: {
+      message: 'Select or enter a valid date.',
+    },
+    skyux_form_error_fuzzy_date_max_date: {
+      message: 'Select or enter a date before the max date.',
+    },
+    skyux_form_error_fuzzy_date_min_date: {
+      message: 'Select or enter a date after the min date.',
+    },
+    skyux_form_error_fuzzy_date_year_required: { message: 'Year is required.' },
     skyux_form_error_email: {
       message: 'Enter an email address with a valid format.',
     },
@@ -100,22 +113,22 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Link to {0} removed.',
     },
     skyux_file_attachment_file_type_error_label_text: {
-      message: 'Please upload a file of type {0}.',
+      message: 'Upload a file of type {0}.',
     },
     skyux_file_attachment_file_type_error_label_text_with_name: {
-      message: '{0}: Please upload a file of type {1}.',
+      message: '{0}: Upload a file of type {1}.',
     },
     skyux_file_attachment_max_file_size_error_label_text: {
-      message: 'Please upload a file under {0}KB.',
+      message: 'Upload a file under {0}KB.',
     },
     skyux_file_attachment_max_file_size_error_label_text_with_name: {
-      message: '{0}: Please upload a file under {1}KB.',
+      message: '{0}: Upload a file under {1}KB.',
     },
     skyux_file_attachment_min_file_size_error_label_text: {
-      message: 'Please upload a file over {0}KB.',
+      message: 'Upload a file over {0}KB.',
     },
     skyux_file_attachment_min_file_size_error_label_text_with_name: {
-      message: '{0}: Please upload a file over {1}KB.',
+      message: '{0}: Upload a file over {1}KB.',
     },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_file_attachment_required: { message: 'Required' },

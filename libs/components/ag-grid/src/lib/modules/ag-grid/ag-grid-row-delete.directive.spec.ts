@@ -9,7 +9,10 @@ import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 describe('SkyAgGridRowDeleteDirective', () => {
   let fixture: ComponentFixture<SkyAgGridRowDeleteFixtureComponent>;
 
-  function setupTest(options?: { stackingContextZIndex?: number }) {
+  function setupTest(options?: {
+    stackingContextZIndex?: number;
+    hideFirstColumn?: boolean;
+  }): void {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
       providers: [
@@ -36,6 +39,8 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     fixture = TestBed.createComponent(SkyAgGridRowDeleteFixtureComponent);
+    fixture.componentInstance.hideFirstColumn =
+      options?.hideFirstColumn ?? false;
     fixture.detectChanges();
   }
 
@@ -487,6 +492,39 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
   it('should place the row delete overlay on top of the row correctly', async () => {
     setupTest();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const row1Rect = fixture.nativeElement
+      .querySelector('[row-id="0"] div')
+      .getBoundingClientRect();
+    const row2Rect = fixture.nativeElement
+      .querySelector('[row-id="1"] div')
+      .getBoundingClientRect();
+    const inlineDelete1 = document.querySelector(
+      '#row-delete-ref-0',
+    ) as HTMLElement;
+    const inlineDelete2 = document.querySelector(
+      '#row-delete-ref-1',
+    ) as HTMLElement;
+    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(inlineDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
+    expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
+    expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
+    expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
+  });
+
+  it('should place the row delete overlay on top of the row correctly', async () => {
+    setupTest({
+      hideFirstColumn: true,
+    });
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();

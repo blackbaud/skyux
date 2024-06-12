@@ -176,7 +176,7 @@ export class SkyAgGridRowDeleteDirective
   readonly #affixService = inject(SkyAffixService);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
-  readonly #elementRef = inject(ElementRef);
+  readonly #elementRef = inject(ElementRef<HTMLElement>);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #overlayService = inject(SkyOverlayService);
   readonly #scrollableHostService = inject(SkyScrollableHostService);
@@ -274,26 +274,10 @@ export class SkyAgGridRowDeleteDirective
   }
 
   #affixToRow(affixer: SkyAffixer, id: string): void {
-    let rowElement: HTMLElement = this.#elementRef.nativeElement.querySelector(`
-      [row-id="${id}"] div[aria-colindex="1"],
-      .ag-row.sky-ag-grid-row-${id} div[aria-colindex="1"]
+    const rowElement = this.#elementRef.nativeElement.querySelector(`
+      [row-id="${id}"] div[aria-colindex],
+      .ag-row.sky-ag-grid-row-${id} div[aria-colindex]
     `);
-
-    // This covers cases where AG Grid places the column index on an inner element (such as with the `enableCellTextSelection` option)
-    // This appears to have been fixed by AG Grid in version 24 and so it is not testable after that version.
-    /* istanbul ignore if */
-    if (!rowElement) {
-      const columns = this.#elementRef.nativeElement.querySelectorAll(
-        '[row-id="' + id + '"] > div',
-      );
-
-      for (const column of Array.from<HTMLElement>(columns)) {
-        if (column.querySelector('[aria-colindex="1"]')) {
-          rowElement = column;
-          break;
-        }
-      }
-    }
 
     affixer.affixTo(rowElement, {
       autoFitContext: SkyAffixAutoFitContext.Viewport,

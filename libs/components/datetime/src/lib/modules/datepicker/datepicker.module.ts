@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAffixModule } from '@skyux/core';
+import { SkyFormErrorModule } from '@skyux/forms';
 import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
@@ -46,6 +47,7 @@ import { SkyYearPickerComponent } from './yearpicker.component';
     SkyThemeModule,
     SkyPopoverModule,
     SkyWaitModule,
+    SkyFormErrorModule,
   ],
   exports: [
     SkyDatepickerCalendarComponent,

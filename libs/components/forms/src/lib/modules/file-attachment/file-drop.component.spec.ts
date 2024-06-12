@@ -465,16 +465,16 @@ describe('File drop component', () => {
 
     expect(minSizeError).toBeVisible();
     expect(minSizeError.textContent).toContain(
-      'foo.txt: Please upload a file over 1500KB.',
+      'foo.txt: Upload a file over 1500KB.',
     );
     expect(maxSizeError).toBeVisible();
     expect(maxSizeError.textContent).toContain(
-      'bar.jpeg: Please upload a file under 3000KB.',
+      'bar.jpeg: Upload a file under 3000KB.',
     );
 
     expect(typeError).toBeVisible();
     expect(typeError.textContent).toContain(
-      'Please upload a file of type image/png, image/jpeg.',
+      'Upload a file of type image/png, image/jpeg.',
     );
   });
 
