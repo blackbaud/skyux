@@ -42,8 +42,8 @@ export class DemoComponent {
         const phone = group.controls['phone'];
         const text = group.controls['text'];
 
-        if (!email.value && !phone.value && !text.value) {
-          return { contactMethodRequired: true };
+        if (email.value && !phone.value && !text.value) {
+          return { emailOnly: true };
         } else {
           return null;
         }
