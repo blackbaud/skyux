@@ -4,8 +4,13 @@ body {
 }
 
 app-affix {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   min-height: 1200px;
+}
+
+.blank-space {
+  width: 100vw;
 }
 
 .affixed-examples {
