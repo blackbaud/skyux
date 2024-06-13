@@ -93,17 +93,20 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   let parentElement = child?.parentNode;
 
   while (parentElement !== undefined && parentElement instanceof HTMLElement) {
-    const computedStyle = window.getComputedStyle(parentElement, undefined);
-    const overflowY = computedStyle.overflowY.toLowerCase();
-
     if (parentElement.matches('body')) {
       break;
     }
-    if (
-      overflowY === 'auto' ||
-      overflowY === 'hidden' ||
-      overflowY === 'scroll'
-    ) {
+
+    const computedStyle = window.getComputedStyle(parentElement, undefined);
+    const overflowY = computedStyle.overflowY.toLowerCase();
+
+    const largerThanTheDocumentElement =
+      window.document.documentElement.scrollWidth < parentElement.scrollWidth ||
+      window.document.documentElement.scrollHeight < parentElement.scrollHeight;
+    const hasOverflowRules =
+      overflowY === 'auto' || overflowY === 'hidden' || overflowY === 'scroll';
+
+    if (largerThanTheDocumentElement || hasOverflowRules) {
       results.push(parentElement);
     }
     if (computedStyle.position === 'fixed') {

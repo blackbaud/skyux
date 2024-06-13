@@ -1,4 +1,10 @@
-import { Component, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  inject,
+  input,
+} from '@angular/core';
 import {
   SkyAffixAutoFitContext,
   SkyAffixHorizontalAlignment,
@@ -15,6 +21,13 @@ import { FontLoadingService } from '@skyux/storybook';
   encapsulation: ViewEncapsulation.None,
 })
 export class AffixComponent {
+  public readonly wide = input<boolean>(true);
+
+  @HostBinding('style.width')
+  public get wideStyle(): string {
+    return this.wide() ? '200vw' : 'auto';
+  }
+
   protected readonly contexts = ['none', 'overflow-hidden', 'positioned'];
   protected readonly horizontalAlignments: SkyAffixHorizontalAlignment[] = [
     'left',
