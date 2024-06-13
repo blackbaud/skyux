@@ -189,21 +189,53 @@ describe('Checkbox group harness', () => {
     await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(false);
   });
 
-  it('should display an error message when there is a custom validation error', async () => {
+  it('should indicate the component is required', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
+
+    await expectAsync(checkboxGroupHarness.getRequired()).toBeResolvedTo(true);
+  });
+
+  it('should indicate the component is not required', async () => {
     const { checkboxGroupHarness } = await setupTest();
+
+    await expectAsync(checkboxGroupHarness.getRequired()).toBeResolvedTo(false);
+  });
+
+  it('should display an error message when the checkbox group is required and no checkboxes are checked', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
+
     const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[0];
 
     await checkboxHarness.check();
     await checkboxHarness.uncheck();
 
+    await expectAsync(checkboxGroupHarness.hasRequiredError()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should display an error message when there is a custom validation error', async () => {
+    const { checkboxGroupHarness, fixture } = await setupTest();
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
+
+    const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[0];
+
+    await checkboxHarness.check();
+
     await expectAsync(
-      checkboxGroupHarness.hasError('contactMethodRequired'),
+      checkboxGroupHarness.hasError('emailOnly'),
     ).toBeResolvedTo(true);
   });
 
   it('should throw an error if no form error is found', async () => {
     const { checkboxGroupHarness } = await setupTest();
-    const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[0];
+    const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[1];
 
     await checkboxHarness.check();
 
