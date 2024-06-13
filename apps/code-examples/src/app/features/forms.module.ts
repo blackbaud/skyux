@@ -24,13 +24,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'checkbox/inline-help',
-    loadComponent: () =>
-      import('../code-examples/forms/checkbox/inline-help/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
-  {
     path: 'field-group/basic',
     loadComponent: () =>
       import('../code-examples/forms/field-group/basic/demo.component').then(
