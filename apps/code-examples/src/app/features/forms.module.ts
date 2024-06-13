@@ -45,13 +45,6 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
-    path: 'file-attachment/inline-help',
-    loadComponent: () =>
-      import(
-        '../code-examples/forms/file-attachment/inline-help/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
-  {
     path: 'input-box/basic',
     loadComponent: () =>
       import('../code-examples/forms/input-box/basic/demo.component').then(
