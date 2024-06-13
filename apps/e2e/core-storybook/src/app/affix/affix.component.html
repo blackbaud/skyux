@@ -1,3 +1,6 @@
+@if (wide()) {
+  <div class="blank-space">(blank space)</div>
+}
 <div class="sky-padding-even-lg">
   <div *ngFor="let context of contexts">
     <h1>context: {{ context }}</h1>

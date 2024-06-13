@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./viewkeeper/viewkeeper.module').then((m) => m.ViewkeeperModule),
   },
+  {
+    path: 'affix',
+    loadChildren: () =>
+      import('./affix/affix.module').then((m) => m.AffixModule),
+  },
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, type StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { AffixComponent } from './affix.component';
 import { AffixModule } from './affix.module';
@@ -13,9 +13,14 @@ export default {
     }),
   ],
 } as Meta<AffixComponent>;
-export const Affix = {
-  render: (args: AffixComponent) => ({
-    props: args,
-  }),
-  args: {},
+type Story = StoryObj<AffixComponent>;
+
+export const Affix: Story = {};
+Affix.args = {
+  wide: false,
+};
+
+export const AffixOverflow: Story = {};
+AffixOverflow.args = {
+  wide: true,
 };
