@@ -46,6 +46,10 @@
     &:not(:last-of-type) {
       padding-right: $sky-padding-half;
     }
+
+    &:not(.sky-date-range-picker-last-input) {
+      margin-bottom: 0;
+    }
   }
 }
 
