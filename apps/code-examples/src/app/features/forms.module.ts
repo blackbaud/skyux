@@ -52,13 +52,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'input-box/inline-help',
-    loadComponent: () =>
-      import(
-        '../code-examples/forms/input-box/inline-help/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
-  {
     path: 'radio/icon',
     loadComponent: () =>
       import('../code-examples/forms/radio/icon/demo.component').then(
