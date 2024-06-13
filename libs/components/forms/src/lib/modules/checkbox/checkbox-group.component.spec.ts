@@ -154,7 +154,7 @@ describe('Checkbox group component', function () {
       expect(getLegendScreenReaderText(fixture)).toBe('Required');
     });
 
-    it('should not include the asterisk and screen reader text when not required', () => {
+    it('should not include the asterisk and screen reader text when required is false', () => {
       fixture.detectChanges();
 
       const heading = fixture.nativeElement.querySelector(
@@ -165,7 +165,10 @@ describe('Checkbox group component', function () {
       expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 
-    it('should render custom form errors', () => {
+    it('should validate that a checkbox is selected when required', () => {
+      componentInstance.required = true;
+      fixture.detectChanges();
+
       const checkbox = getCheckboxes(fixture)?.[0];
       const checkboxInput = checkbox?.querySelector('input');
 
@@ -178,6 +181,43 @@ describe('Checkbox group component', function () {
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');
       expect(formError).toBeVisible();
+      expect(formError.textContent).toContain('Contact method is required.');
+    });
+
+    it('should validate that a checkbox is selected if checkbox group is no longer required', () => {
+      componentInstance.required = true;
+      fixture.detectChanges();
+
+      componentInstance.required = false;
+      fixture.detectChanges();
+
+      const checkbox = getCheckboxes(fixture)?.[0];
+      const checkboxInput = checkbox?.querySelector('input');
+
+      // check and uncheck the checkbox to trigger the validation error
+      checkboxInput?.click();
+      fixture.detectChanges();
+
+      checkboxInput?.click();
+      fixture.detectChanges();
+
+      const formError = fixture.nativeElement.querySelector('sky-form-error');
+      expect(formError).toBeNull();
+    });
+
+    it('should render custom form errors', () => {
+      const checkbox = getCheckboxes(fixture)?.[0];
+      const checkboxInput = checkbox?.querySelector('input');
+
+      // check the email checkbox to trigger the validation error
+      checkboxInput?.click();
+      fixture.detectChanges();
+
+      const formError = fixture.nativeElement.querySelector('sky-form-error');
+      expect(formError).toBeVisible();
+      expect(formError.textContent).toContain(
+        'Email cannot be the only contact method.',
+      );
     });
 
     it('should render help inline popover if helpPopoverContent is provided', () => {

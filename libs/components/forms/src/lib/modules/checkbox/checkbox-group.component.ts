@@ -8,7 +8,7 @@ import {
   inject,
   numberAttribute,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -103,7 +103,15 @@ export class SkyCheckboxGroupComponent {
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  public required = false;
+  public set required(value: boolean) {
+    this.#_required = value;
+
+    this.#updateValidators();
+  }
+
+  public get required(): boolean {
+    return this.#_required;
+  }
 
   /**
    * Whether the checkbox group is stacked on another form component. When specified, the appropriate
@@ -125,7 +133,15 @@ export class SkyCheckboxGroupComponent {
    * @preview
    */
   @Input({ required: true })
-  public formGroup!: FormGroup;
+  public set formGroup(value: FormGroup) {
+    this.#_formGroup = value;
+    this.#updateValidators();
+  }
+
+  public get formGroup(): FormGroup {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.#_formGroup!;
+  }
 
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
@@ -149,11 +165,46 @@ export class SkyCheckboxGroupComponent {
   protected errorId = this.#idSvc.generateId();
   protected formErrorsDataId = 'checkbox-group-form-errors';
 
+  #_formGroup: FormGroup | undefined;
   #_headingLevel: SkyCheckboxGroupHeadingLevel | undefined;
+  #_required = false;
   #_stacked = false;
 
   #updateStackedClasses(): void {
     this.stackedLg = !this.headingLevel && this.stacked;
     this.stackedXL = !!this.headingLevel && this.stacked;
+  }
+
+  #requiredValidator(control: AbstractControl): ValidationErrors | null {
+    const formGroup = control as FormGroup;
+    const controlNames = Object.keys(formGroup.controls);
+    let atLeastOneSelected = false;
+
+    controlNames.forEach((controlName) => {
+      const control = formGroup.get(controlName);
+      if (control?.value) {
+        atLeastOneSelected = true;
+      }
+    });
+
+    if (!atLeastOneSelected) {
+      return { required: true };
+    } else {
+      return null;
+    }
+  }
+
+  #updateValidators(): void {
+    if (
+      this.required &&
+      !this.formGroup.hasValidator(this.#requiredValidator)
+    ) {
+      this.formGroup.addValidators(this.#requiredValidator);
+    } else if (
+      !this.required &&
+      this.formGroup.hasValidator(this.#requiredValidator)
+    ) {
+      this.formGroup.removeValidators(this.#requiredValidator);
+    }
   }
 }

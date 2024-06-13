@@ -32,8 +32,8 @@ export class SkyStandardCheckboxGroupComponent {
   public headingHidden = false;
   public headingLevel: SkyCheckboxGroupHeadingLevel | undefined = 3;
   public headingStyle: SkyCheckboxGroupHeadingStyle = 3;
-  public required = false;
-  public stacked = true;
+  public required: boolean | undefined = false;
+  public stacked: boolean | undefined = true;
 
   constructor() {
     this.contactMethod = this.#formBuilder.group({
@@ -53,8 +53,8 @@ export class SkyStandardCheckboxGroupComponent {
         const phone = group.controls['phone'];
         const text = group.controls['text'];
 
-        if (!email.value && !phone.value && !text.value) {
-          return { contactMethodRequired: true };
+        if (email.value && !phone.value && !text.value) {
+          return { emailOnly: true };
         } else {
           return null;
         }
@@ -64,7 +64,5 @@ export class SkyStandardCheckboxGroupComponent {
 
   protected onSubmit(): void {
     this.formGroup.markAllAsTouched();
-
-    console.log(this.formGroup.value);
   }
 }
