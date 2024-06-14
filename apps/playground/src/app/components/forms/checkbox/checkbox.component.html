@@ -277,3 +277,17 @@
     <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
   </form>
 </div>
+
+<form (ngSubmit)="onSubmitContactMethod()">
+  <sky-checkbox-group
+    headingText="Contact method"
+    ngModelGroup="model"
+    required="true"
+    #templateFormGroup="ngModelGroup"
+  >
+    <sky-checkbox labelText="Email" name="email" ngModel />
+    <sky-checkbox labelText="Phone" name="phone" ngModel />
+    <sky-checkbox labelText="Text" name="text" ngModel />
+  </sky-checkbox-group>
+  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+</form>
