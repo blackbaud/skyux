@@ -94,7 +94,6 @@ export class CheckboxComponent implements OnInit {
   protected onSubmitContactMethod(): void {
     this.contactMethod.markAsDirty();
     this.contactMethod.markAsTouched();
-    this.contactMethod.updateValueAndValidity();
 
     this.templateFormGroup.control.markAsDirty();
     this.templateFormGroup.control.markAsTouched();
