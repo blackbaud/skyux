@@ -1,24 +1,30 @@
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <sky-checkbox-group
-    [formGroup]="contactMethod"
-    [stacked]="true"
-    headingText="Contact method"
-  >
-    <sky-checkbox formControlName="email" labelText="Email" />
-    <sky-checkbox formControlName="phone" labelText="Phone" />
-    <sky-checkbox formControlName="text" labelText="Text" />
-    <sky-form-error
-      *ngIf="contactMethod.errors?.['contactMethodRequired']"
-      errorName="contactMethodRequired"
-      errorText="A contact method is required."
-    ></sky-form-error>
-  </sky-checkbox-group>
-  <div class="sky-margin-stacked-xl">
-    <sky-checkbox
-      formControlName="terms"
+<div class="sky-padding-even-large">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <sky-checkbox-group
+      headingText="Contact method"
+      headingStyle="5"
+      helpPopoverContent="We use your contact info to keep you informed on current events. We will not sell your information."
+      hintText="Please select at least one phone-based method."
+      [formGroup]="contactMethod"
       [required]="true"
-      labelText="I agree to the terms and conditions"
-    />
-  </div>
-  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
-</form>
+      [stacked]="true"
+    >
+      <sky-checkbox formControlName="email" labelText="Email" />
+      <sky-checkbox formControlName="phone" labelText="Phone" />
+      <sky-checkbox formControlName="text" labelText="Text" />
+      <sky-form-error
+        *ngIf="contactMethod.errors?.['emailOnly']"
+        errorName="emailOnly"
+        errorText="Email cannot be the only contact method."
+      ></sky-form-error>
+    </sky-checkbox-group>
+    <div class="sky-margin-stacked-xl">
+      <sky-checkbox
+        formControlName="terms"
+        [required]="true"
+        labelText="I agree to the terms and conditions"
+      />
+    </div>
+    <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+  </form>
+</div>
