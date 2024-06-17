@@ -8,6 +8,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
+  Validators,
 } from '@angular/forms';
 
 import { SkyCheckboxGroupHeadingLevel } from '../checkbox-group-heading-level';
@@ -60,6 +61,10 @@ export class SkyStandardCheckboxGroupComponent {
         }
       },
     );
+  }
+
+  public setValidatorOnTextControl(): void {
+    this.contactMethod.get('text')?.addValidators(Validators.requiredTrue);
   }
 
   protected onSubmit(): void {

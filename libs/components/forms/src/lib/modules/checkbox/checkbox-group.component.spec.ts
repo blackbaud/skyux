@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyHelpTestingController,
@@ -9,6 +10,7 @@ import { SkyCheckboxGroupHeadingLevel } from './checkbox-group-heading-level';
 import { SkyCheckboxGroupHeadingStyle } from './checkbox-group-heading-style';
 import { SkyIconCheckboxGroupComponent } from './fixtures/icon-checkbox-group.component';
 import { SkyStandardCheckboxGroupComponent } from './fixtures/standard-checkbox-group.component';
+import { SkyTemplateDrivenCheckboxGroupComponent } from './fixtures/template-driven-checkbox-group.component';
 
 describe('Checkbox group component', function () {
   function getCheckboxes(
@@ -252,6 +254,37 @@ describe('Checkbox group component', function () {
       fixture.detectChanges();
 
       helpController.expectCurrentHelpKey('helpKey.html');
+    });
+  });
+
+  describe('template-driven forms', () => {
+    let fixture: ComponentFixture<SkyTemplateDrivenCheckboxGroupComponent>;
+
+    beforeEach(function () {
+      TestBed.configureTestingModule({
+        imports: [SkyTemplateDrivenCheckboxGroupComponent],
+      });
+
+      fixture = TestBed.createComponent(
+        SkyTemplateDrivenCheckboxGroupComponent,
+      );
+    });
+
+    it('should validate that a checkbox is selected when required', async () => {
+      fixture.componentInstance.required = true;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      fixture.componentInstance.submitForm();
+      fixture.detectChanges();
+
+      const formError = fixture.debugElement.query(
+        By.css('sky-form-error'),
+      ).nativeElement;
+
+      expect(formError).toBeVisible();
+      expect(formError.textContent).toContain('Contact method is required.');
     });
   });
 

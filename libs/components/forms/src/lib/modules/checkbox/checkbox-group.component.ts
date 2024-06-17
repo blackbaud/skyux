@@ -8,7 +8,12 @@ import {
   inject,
   numberAttribute,
 } from '@angular/core';
-import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  FormGroup,
+  NG_VALIDATORS,
+  ValidationErrors,
+  Validator,
+} from '@angular/forms';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -34,9 +39,16 @@ import { SkyCheckboxGroupHeadingStyle } from './checkbox-group-heading-style';
     SkyHelpInlineModule,
     SkyIdModule,
   ],
-  providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: SkyCheckboxGroupComponent,
+      multi: true,
+    },
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
 })
-export class SkyCheckboxGroupComponent {
+export class SkyCheckboxGroupComponent implements Validator {
   /**
    * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the checkbox group fieldset legend. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
@@ -103,15 +115,7 @@ export class SkyCheckboxGroupComponent {
    * @preview
    */
   @Input({ transform: booleanAttribute })
-  public set required(value: boolean) {
-    this.#_required = value;
-
-    this.#updateValidators();
-  }
-
-  public get required(): boolean {
-    return this.#_required;
-  }
+  public required = false;
 
   /**
    * Whether the checkbox group is stacked on another form component. When specified, the appropriate
@@ -126,21 +130,6 @@ export class SkyCheckboxGroupComponent {
 
   public get stacked(): boolean {
     return this.#_stacked;
-  }
-
-  /**
-   * The form group that contains the group of checkboxes.
-   * @preview
-   */
-  @Input({ required: true })
-  public set formGroup(value: FormGroup) {
-    this.#_formGroup = value;
-    this.#updateValidators();
-  }
-
-  public get formGroup(): FormGroup {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.#_formGroup!;
   }
 
   /**
@@ -164,19 +153,18 @@ export class SkyCheckboxGroupComponent {
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
   protected formErrorsDataId = 'checkbox-group-form-errors';
+  protected formGroup: FormGroup | null | undefined;
 
-  #_formGroup: FormGroup | undefined;
   #_headingLevel: SkyCheckboxGroupHeadingLevel | undefined;
-  #_required = false;
   #_stacked = false;
 
-  #updateStackedClasses(): void {
-    this.stackedLg = !this.headingLevel && this.stacked;
-    this.stackedXL = !!this.headingLevel && this.stacked;
-  }
+  public validate(formGroup: FormGroup): ValidationErrors | null {
+    this.formGroup ??= formGroup;
 
-  #requiredValidator(control: AbstractControl): ValidationErrors | null {
-    const formGroup = control as FormGroup;
+    if (!this.required) {
+      return null;
+    }
+
     const controlNames = Object.keys(formGroup.controls);
     let atLeastOneSelected = false;
 
@@ -194,17 +182,8 @@ export class SkyCheckboxGroupComponent {
     }
   }
 
-  #updateValidators(): void {
-    if (
-      this.required &&
-      !this.formGroup.hasValidator(this.#requiredValidator)
-    ) {
-      this.formGroup.addValidators(this.#requiredValidator);
-    } else if (
-      !this.required &&
-      this.formGroup.hasValidator(this.#requiredValidator)
-    ) {
-      this.formGroup.removeValidators(this.#requiredValidator);
-    }
+  #updateStackedClasses(): void {
+    this.stackedLg = !this.headingLevel && this.stacked;
+    this.stackedXL = !!this.headingLevel && this.stacked;
   }
 }
