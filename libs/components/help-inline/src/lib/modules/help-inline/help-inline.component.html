@@ -21,19 +21,16 @@
   [skyPopover]="popoverContent ? popover : undefined"
   (click)="onClick()"
 >
-  <sky-icon *skyThemeIf="'default'" icon="info-circle" />
-  <sky-icon-stack
+  <i *skyThemeIf="'default'" class="sky-icon fa fa-info-circle"></i>
+  <span
     *skyThemeIf="'modern'"
-    size="xs"
-    [baseIcon]="{
-      icon: 'circle-solid',
-      iconType: 'skyux'
-    }"
-    [topIcon]="{
-      icon: 'help-i',
-      iconType: 'skyux'
-    }"
-  />
+    aria-hidden="true"
+    class="sky-icon-stack fa-stack fa-xs sky-icon-stack-size-xs"
+    ><i class="sky-icon fa-stack-2x sky-i-circle-solid"></i
+    ><i
+      class="sky-icon fa-stack-1x fa-inverse sky-icon-inverse sky-i-help-i"
+    ></i
+  ></span>
 </button>
 
 <sky-popover
