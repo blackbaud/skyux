@@ -42,8 +42,7 @@
     }
   }
   .sky-help-inline {
-    position: relative;
-    top: 0.15em;
+    vertical-align: middle;
 
     // The button mixin sets the border radius to 6px but we only want 3px on help inline buttons.
     border-radius: 3px;
