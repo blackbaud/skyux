@@ -22,14 +22,12 @@
   (click)="onClick()"
 >
   <i *skyThemeIf="'default'" class="sky-icon fa fa-info-circle"></i>
-  <span
-    *skyThemeIf="'modern'"
-    aria-hidden="true"
-    class="sky-icon-stack fa-stack fa-xs sky-icon-stack-size-xs"
-    ><i class="sky-icon fa-stack-2x sky-i-circle-solid"></i
-    ><i
-      class="sky-icon fa-stack-1x fa-inverse sky-icon-inverse sky-i-help-i"
-    ></i
+  <span *skyThemeIf="'modern'" aria-hidden="true" class="help-inline-icon"
+    ><span class="sky-icon-stack fa-stack fa-xs sky-icon-stack-size-xs"
+      ><i class="sky-icon fa-stack-2x sky-i-circle-solid"></i
+      ><i
+        class="sky-icon fa-stack-1x fa-inverse sky-icon-inverse sky-i-help-i"
+      ></i></span
   ></span>
 </button>
 
