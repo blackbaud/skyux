@@ -118,7 +118,7 @@
       <button type="button" class="sky-btn sky-btn-primary">Save</button>
     </sky-column>
   </sky-row>
-  <form [formGroup]="standardCheckboxGroupFormGroup">
+  <form [formGroup]="checkboxGroupFormGroup">
     <sky-checkbox-group
       headingStyle="3"
       headingText="Contact method"
@@ -126,7 +126,7 @@
       helpPopoverTitle="Make a selection"
       hintText="Group hint text"
       stacked="true"
-      [formGroup]="standardCheckboxGroupFormGroup"
+      [formGroup]="standardCheckboxGroupFormGroup1"
       [required]="true"
     >
       <sky-checkbox
@@ -145,13 +145,11 @@
         hintText="Hint text"
       />
       <sky-form-error
-        *ngIf="standardCheckboxGroupFormGroup.errors?.['contactMethodRequired']"
-        errorName="contactMethodRequired"
-        errorText="A contact method is required."
+        *ngIf="standardCheckboxGroupFormGroup1.errors?.['emailOnly']"
+        errorName="emailOnly"
+        errorText="Email cannot be the only contact method."
       ></sky-form-error>
     </sky-checkbox-group>
-  </form>
-  <form [formGroup]="standardCheckboxGroupFormGroup">
     <sky-checkbox-group
       headingLevel="3"
       headingStyle="4"
@@ -159,14 +157,13 @@
       helpPopoverContent="Select up to three."
       helpPopoverTitle="Make a selection"
       stacked="true"
-      [formGroup]="standardCheckboxGroupFormGroup"
+      [formGroup]="standardCheckboxGroupFormGroup2"
+      [required]="true"
     >
       <sky-checkbox formControlName="email" labelText="Email" />
       <sky-checkbox formControlName="phone" labelText="Phone" />
       <sky-checkbox formControlName="text" labelText="Text" />
     </sky-checkbox-group>
-  </form>
-  <form [formGroup]="standardCheckboxGroupFormGroup">
     <sky-checkbox-group
       headingLevel="4"
       headingStyle="5"
@@ -174,21 +171,19 @@
       helpPopoverContent="Select up to three."
       helpPopoverTitle="Make a selection"
       stacked="true"
-      [formGroup]="standardCheckboxGroupFormGroup"
+      [formGroup]="standardCheckboxGroupFormGroup3"
     >
       <sky-checkbox formControlName="email" labelText="Email" />
       <sky-checkbox formControlName="phone" labelText="Phone" />
       <sky-checkbox formControlName="text" labelText="Text" />
     </sky-checkbox-group>
-  </form>
-  <form [formGroup]="standardCheckboxGroupFormGroup">
     <sky-checkbox-group
       headingLevel="5"
       headingText="Contact method"
       helpPopoverContent="Select up to three."
       helpPopoverTitle="Make a selection"
       stacked="true"
-      [formGroup]="standardCheckboxGroupFormGroup"
+      [formGroup]="standardCheckboxGroupFormGroup4"
     >
       <sky-checkbox formControlName="email" labelText="Email" />
       <sky-checkbox formControlName="phone" labelText="Phone" />
