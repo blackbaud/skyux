@@ -6,6 +6,7 @@ import {
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -14,6 +15,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import {
@@ -120,6 +122,21 @@ export class SkyColorpickerComponent
   }
 
   /**
+   * Whether to hide `labelText` from view.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public labelHidden = false;
+
+  /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * placed beside the colorpicker label. Clicking the button invokes global help as configured by the application.
+   * @preview
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the colorpicker label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
@@ -135,6 +152,23 @@ export class SkyColorpickerComponent
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
+   * additional context to the user.
+   * @preview
+   */
+  @Input()
+  public hintText: string | undefined;
+
+  /**
+   * Whether the colorpicker is stacked on another form component. When specified,
+   * the appropriate vertical spacing is automatically added to the text editor.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  @HostBinding('class.sky-margin-stacked-lg')
+  public stacked = false;
 
   /**
    * Fires when users select a color in the colorpicker.

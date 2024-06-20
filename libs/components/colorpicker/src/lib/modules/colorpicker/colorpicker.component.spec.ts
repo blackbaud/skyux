@@ -9,7 +9,8 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyAffixer, SkyOverlayService } from '@skyux/core';
+import { SkyAffixer, SkyIdService, SkyOverlayService } from '@skyux/core';
+import { SkyHelpTestingController } from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -69,8 +70,16 @@ describe('Colorpicker Component', () => {
     verifyMenuVisibility();
   }
 
+  function getAlphaBar(): HTMLElement | null {
+    return getColorpickerContainer().querySelector('.alpha');
+  }
+
   function getColorpickerButton(element: HTMLElement): HTMLElement {
     return element.querySelector('.sky-colorpicker-button') as HTMLElement;
+  }
+
+  function getColorPickerHost(element: HTMLElement): HTMLElement | null {
+    return element.querySelector('sky-colorpicker');
   }
 
   function getColorpickerIcon(): HTMLElement | null {
@@ -80,6 +89,42 @@ describe('Colorpicker Component', () => {
   function getColorpickerButtonBackgroundColor(element: HTMLElement): string {
     const buttonElem = getColorpickerButton(element);
     return buttonElem.style.backgroundColor;
+  }
+
+  function getFormError(element: HTMLElement): HTMLElement | null {
+    return element.querySelector('sky-form-error');
+  }
+
+  function getHelpInlineHostEl(element: HTMLElement): HTMLElement | null {
+    return element.querySelector('sky-help-inline');
+  }
+
+  function getHelpInlineButton(element: HTMLElement): HTMLElement | null {
+    return element.querySelector('.sky-help-inline');
+  }
+
+  function getHintText(element: HTMLElement): HTMLElement | null {
+    return element.querySelector('.sky-colorpicker-hint-text');
+  }
+
+  function getHueBar(): HTMLElement | null {
+    return getColorpickerContainer().querySelector('.hue');
+  }
+
+  function getInputElement(element: HTMLElement): HTMLInputElement | null {
+    return element.querySelector('input');
+  }
+
+  function getLabel(element: HTMLElement): HTMLLabelElement | null {
+    return element.querySelector('.sky-control-label');
+  }
+
+  function getPresetColors(): NodeListOf<HTMLElement> {
+    return getColorpickerContainer()?.querySelectorAll('.sky-preset-color');
+  }
+
+  function getSaturationLightnessBar(): HTMLElement | null {
+    return getColorpickerContainer().querySelector('.saturation-lightness');
   }
 
   function applyColorpicker(): void {
@@ -185,8 +230,7 @@ describe('Colorpicker Component', () => {
   ): void {
     fixture.detectChanges();
     fixture.whenStable();
-    const inputElement: HTMLInputElement | null =
-      element.querySelector('input');
+    const inputElement: HTMLInputElement | null = getInputElement(element);
     expect(inputElement?.value).toBe(spaColor);
     const selectedColor: HTMLDivElement | null = element.querySelector(
       '.sky-colorpicker-input',
@@ -268,7 +312,11 @@ describe('Colorpicker Component', () => {
     }
   }
 
-  function getResetButton(): NodeListOf<HTMLElement> {
+  function getResetButton(): HTMLElement | null {
+    return nativeElement.querySelector('.sky-colorpicker-reset-button');
+  }
+
+  function getResetButtons(): NodeListOf<HTMLElement> {
     return nativeElement.querySelectorAll('.sky-colorpicker-reset-button');
   }
   //#endregion
@@ -303,6 +351,9 @@ describe('Colorpicker Component', () => {
     let component: ColorpickerTestComponent;
 
     beforeEach(() => {
+      spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(
+        () => `MOCK_ID`,
+      );
       fixture = TestBed.createComponent(ColorpickerTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
       component = fixture.componentInstance;
@@ -414,10 +465,21 @@ describe('Colorpicker Component', () => {
 
       fixture.detectChanges();
 
-      const label = fixture.nativeElement.querySelector('.sky-control-label');
+      const label = getLabel(nativeElement);
 
       expect(label).toBeVisible();
-      expect(label.textContent).toBe(labelText);
+      expect(label?.textContent).toBe(labelText);
+    });
+
+    it('should not display labelText if labelHidden is true', () => {
+      component.labelText = 'label text';
+      component.labelHidden = true;
+      fixture.detectChanges();
+
+      const label = getLabel(nativeElement);
+
+      expect(label).not.toBeNull();
+      expect(label).toHaveCssClass('sky-screen-reader-only');
     });
 
     it('should allow setting ID if labelText is not set', () => {
@@ -429,20 +491,31 @@ describe('Colorpicker Component', () => {
       expect(fixture.nativeElement.querySelector(`#${id}`)).toExist();
     });
 
+    it('should have the lg margin class if stacked is true', () => {
+      component.stacked = true;
+      fixture.detectChanges();
+
+      const colorpicker = getColorPickerHost(nativeElement);
+
+      expect(colorpicker).toHaveClass('sky-margin-stacked-lg');
+    });
+
+    it('should not have the lg margin class if stacked is false', () => {
+      const colorpicker = getColorPickerHost(nativeElement);
+
+      expect(colorpicker).not.toHaveClass('sky-margin-stacked-lg');
+    });
+
     it('should render help inline with popover only if label text is provided', () => {
       component.helpPopoverContent = 'popover content';
       fixture.detectChanges();
 
-      expect(
-        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
-      ).toBe(0);
+      expect(getHelpInlineHostEl(nativeElement)).toBeNull();
 
       component.labelText = 'labelText';
       fixture.detectChanges();
 
-      expect(
-        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
-      ).toBe(1);
+      expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
     });
 
     it('should not render help inline for popover unless popover content is set', () => {
@@ -450,16 +523,56 @@ describe('Colorpicker Component', () => {
       component.labelText = 'labelText';
       fixture.detectChanges();
 
-      expect(
-        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
-      ).toBe(0);
+      expect(getHelpInlineHostEl(nativeElement)).toBeNull();
 
       component.helpPopoverContent = 'popover content';
       fixture.detectChanges();
 
+      expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
+    });
+
+    it('should render help inline if help key is provided', () => {
+      component.helpPopoverContent = undefined;
+      component.labelText = 'labelText';
+      fixture.detectChanges();
+
+      expect(getHelpInlineHostEl(nativeElement)).toBeNull();
+
+      component.helpKey = 'helpKey.html';
+      fixture.detectChanges();
+
+      expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
+    });
+
+    it('should set global help config with help key', async () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      component.labelText = 'label';
+      component.helpKey = 'helpKey.html';
+      fixture.componentInstance.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      const helpInlineButton = getHelpInlineButton(nativeElement);
+      helpInlineButton?.click();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      helpController.expectCurrentHelpKey('helpKey.html');
+    });
+
+    it('should render the hintText when provided', () => {
+      const hintText = 'Hint text';
+      component.hintText = hintText;
+      fixture.detectChanges();
+
+      const hintEl = getHintText(nativeElement);
+      const colorpickerButtonEl = getColorpickerButton(fixture.nativeElement);
+
+      expect(hintEl).not.toBeNull();
+      expect(hintEl?.innerText.trim()).toBe(hintText);
       expect(
-        fixture.nativeElement.querySelectorAll('sky-help-inline').length,
-      ).toBe(1);
+        colorpickerButtonEl?.attributes.getNamedItem('aria-describedby')?.value,
+      ).toBe('MOCK_ID');
     });
 
     it('should add icon overlay', fakeAsync(() => {
@@ -628,10 +741,7 @@ describe('Colorpicker Component', () => {
       expect(initialBackgroundColor).toBeDefined();
 
       openColorpicker(nativeElement);
-      const container = getColorpickerContainer();
-      const presetColors = container?.querySelectorAll(
-        '.sky-preset-color',
-      ) as NodeListOf<HTMLElement>;
+      const presetColors = getPresetColors();
       presetColors[0].click();
       fixture.detectChanges();
       closeColorpicker(nativeElement, fixture);
@@ -652,7 +762,7 @@ describe('Colorpicker Component', () => {
 
       expect(initialBackgroundColor).toBeDefined();
       openColorpicker(nativeElement);
-      const hueBar = getColorpickerContainer().querySelector('.hue');
+      const hueBar = getHueBar();
       const axis = getElementCoords(hueBar);
       SkyAppTestUtility.fireDomEvent(hueBar, 'mousedown', {
         customEventInit: { pageX: axis.x - 50, pageY: axis.y },
@@ -718,7 +828,7 @@ describe('Colorpicker Component', () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
 
-      let hueBar = getColorpickerContainer().querySelector('.hue');
+      let hueBar = getHueBar();
       let axis = getElementCoords(hueBar);
 
       SkyAppTestUtility.fireDomEvent(hueBar, 'mousedown', {
@@ -730,7 +840,7 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#28e5e5', '40, 229, 229');
 
       openColorpicker(nativeElement);
-      hueBar = getColorpickerContainer().querySelector('.hue');
+      hueBar = getHueBar();
       axis = getElementCoords(hueBar);
       SkyAppTestUtility.fireDomEvent(hueBar, 'mousedown', {
         customEventInit: { pageX: axis.x - 50, pageY: axis.y },
@@ -741,7 +851,7 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#a3e528', '163, 229, 40');
 
       openColorpicker(nativeElement);
-      hueBar = getColorpickerContainer().querySelector('.hue');
+      hueBar = getHueBar();
       axis = getElementCoords(hueBar);
       SkyAppTestUtility.fireDomEvent(hueBar, 'mousedown', {
         customEventInit: { pageX: axis.x + 50, pageY: axis.y },
@@ -756,7 +866,7 @@ describe('Colorpicker Component', () => {
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement);
 
-      let alphaBar = getColorpickerContainer().querySelector('.alpha');
+      let alphaBar = getAlphaBar();
       let axis = getElementCoords(alphaBar);
 
       SkyAppTestUtility.fireDomEvent(alphaBar, 'mousedown', {
@@ -771,7 +881,7 @@ describe('Colorpicker Component', () => {
       );
 
       openColorpicker(nativeElement);
-      alphaBar = getColorpickerContainer().querySelector('.alpha');
+      alphaBar = getAlphaBar();
       axis = getElementCoords(alphaBar);
       SkyAppTestUtility.fireDomEvent(alphaBar, 'mousedown', {
         customEventInit: { pageX: axis.x - 50, pageY: axis.y },
@@ -785,7 +895,7 @@ describe('Colorpicker Component', () => {
       );
 
       openColorpicker(nativeElement);
-      alphaBar = getColorpickerContainer().querySelector('.alpha');
+      alphaBar = getAlphaBar();
       axis = getElementCoords(alphaBar);
       SkyAppTestUtility.fireDomEvent(alphaBar, 'mousedown', {
         customEventInit: { pageX: axis.x + 50, pageY: axis.y },
@@ -803,9 +913,7 @@ describe('Colorpicker Component', () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
 
-      const slBar = getColorpickerContainer().querySelector(
-        '.saturation-lightness',
-      );
+      const slBar = getSaturationLightnessBar();
       const axis = getElementCoords(slBar);
 
       SkyAppTestUtility.fireDomEvent(slBar, 'mousedown', {
@@ -819,9 +927,7 @@ describe('Colorpicker Component', () => {
     it('should accept mouse dragging on saturation and lightness.', fakeAsync(() => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      let slBar = getColorpickerContainer().querySelector(
-        '.saturation-lightness',
-      );
+      let slBar = getSaturationLightnessBar();
       let axis = getElementCoords(slBar);
       SkyAppTestUtility.fireDomEvent(slBar, 'mousedown', {
         customEventInit: {
@@ -836,7 +942,7 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#8babcb', '139, 171, 203');
 
       openColorpicker(nativeElement);
-      slBar = getColorpickerContainer().querySelector('.saturation-lightness');
+      slBar = getSaturationLightnessBar();
       axis = getElementCoords(slBar);
       SkyAppTestUtility.fireDomEvent(slBar, 'mousedown', {
         customEventInit: {
@@ -849,7 +955,7 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#285480', '40, 84, 128');
 
       openColorpicker(nativeElement);
-      slBar = getColorpickerContainer().querySelector('.saturation-lightness');
+      slBar = getSaturationLightnessBar();
       axis = getElementCoords(slBar);
       SkyAppTestUtility.fireDomEvent(slBar, 'mousedown', {
         customEventInit: {
@@ -901,13 +1007,14 @@ describe('Colorpicker Component', () => {
     it('should accept color change through directive host listener', fakeAsync(() => {
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement);
-      nativeElement.querySelector('input')!.value = '#4523FC';
+      const inputElement = getInputElement(nativeElement);
+      inputElement!.value = '#4523FC';
       const inputEvent = document.createEvent('Event');
       inputEvent.initEvent('input', true, false);
       const changeEvent = document.createEvent('Event');
       changeEvent.initEvent('change', true, false);
-      nativeElement.querySelector('input')?.dispatchEvent(inputEvent);
-      nativeElement.querySelector('input')?.dispatchEvent(changeEvent);
+      inputElement?.dispatchEvent(inputEvent);
+      inputElement?.dispatchEvent(changeEvent);
       fixture.detectChanges();
       applyColorpicker();
       verifyColorpicker(nativeElement, 'rgba(69,35,252,1)', '69, 35, 252');
@@ -987,12 +1094,12 @@ describe('Colorpicker Component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(0);
+      expect(getResetButton()).toBeNull();
       colorpickerComponent.showResetButton = true;
       tick();
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(1);
+      expect(getResetButton()).not.toBeNull();
     }));
 
     it('should reset colorpicker via reset button.', fakeAsync(() => {
@@ -1006,10 +1113,8 @@ describe('Colorpicker Component', () => {
       setPresetColor(nativeElement, fixture, 4);
       fixture.detectChanges();
       tick();
-      const buttonElem = nativeElement.querySelector(
-        '.sky-colorpicker-reset-button',
-      ) as HTMLElement;
-      buttonElem.click();
+      const buttonElem = getResetButton();
+      buttonElem?.click();
       tick();
       fixture.detectChanges();
       expect(spyOnResetColorPicker).toHaveBeenCalled();
@@ -1059,17 +1164,17 @@ describe('Colorpicker Component', () => {
     it('should toggle reset button via messageStream.', fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(1);
+      expect(getResetButton()).not.toBeNull();
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(0);
+      expect(getResetButton()).toBeNull();
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(1);
+      expect(getResetButton()).not.toBeNull();
     }));
 
     it('should display alpha related elements by default', fakeAsync(() => {
@@ -1078,7 +1183,7 @@ describe('Colorpicker Component', () => {
 
       openColorpicker(nativeElement);
 
-      const alphaBar = getColorpickerContainer().querySelector('.alpha');
+      const alphaBar = getAlphaBar();
       const alphaChannelBackground = fixture.debugElement.query(
         By.css('.sky-colorpicker-checkered-background'),
       );
@@ -1099,7 +1204,7 @@ describe('Colorpicker Component', () => {
 
       openColorpicker(nativeElement);
 
-      const alphaBar = getColorpickerContainer().querySelector('.alpha');
+      const alphaBar = getAlphaBar();
       const alphaChannelBackground = fixture.debugElement.query(
         By.css('.sky-colorpicker-checkered-background'),
       );
@@ -1264,10 +1369,8 @@ describe('Colorpicker Component', () => {
       setPresetColor(nativeElement, fixture, 4);
       fixture.detectChanges();
       tick();
-      const buttonElem = nativeElement.querySelector(
-        '.sky-colorpicker-reset-button',
-      ) as HTMLElement;
-      buttonElem.click();
+      const buttonElem = getResetButton();
+      buttonElem?.click();
       tick();
       fixture.detectChanges();
       expect(spyOnResetColorPicker).toHaveBeenCalled();
@@ -1304,18 +1407,18 @@ describe('Colorpicker Component', () => {
     it('should toggle reset button via messageStream', fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(2);
+      expect(getResetButtons().length).toEqual(2);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
       // There are 2 colorpicker components and only one is using the message stream
-      expect(getResetButton().length).toEqual(1);
+      expect(getResetButtons().length).toEqual(1);
       component.sendMessage(SkyColorpickerMessageType.ToggleResetButton);
       tick();
       fixture.detectChanges();
       tick();
-      expect(getResetButton().length).toEqual(2);
+      expect(getResetButtons().length).toEqual(2);
     }));
 
     it('should only emit the form control valueChanged event once per change', (done) => {
@@ -1417,7 +1520,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
 
       let inputElement: HTMLInputElement | null =
-        nativeElement.querySelector('input');
+        getInputElement(nativeElement);
 
       expect(inputElement?.getAttribute('aria-invalid')).toBeNull();
       expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
@@ -1431,12 +1534,12 @@ describe('Colorpicker Component', () => {
 
       fixture.detectChanges();
 
-      inputElement = nativeElement.querySelector('input');
+      inputElement = getInputElement(nativeElement);
 
       expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
       expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();
 
-      const errorMessage = nativeElement.querySelector('sky-form-error');
+      const errorMessage = getFormError(nativeElement);
 
       expect(errorMessage).toBeVisible();
     }));
@@ -1444,32 +1547,37 @@ describe('Colorpicker Component', () => {
     it('should render an error message if the form control has an error set via form control', fakeAsync(() => {
       fixture.detectChanges();
 
-      let inputElement: HTMLInputElement | null = nativeElement.querySelector(
-        '.colorpicker-form-control input',
+      const colorPickerTest2: HTMLElement | null = nativeElement.querySelector(
+        '.colorpicker-form-control',
       );
 
-      expect(inputElement?.getAttribute('aria-invalid')).toBeNull();
-      expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
+      if (colorPickerTest2) {
+        let inputElement: HTMLInputElement | null =
+          getInputElement(colorPickerTest2);
 
-      openColorpicker(nativeElement, 'colorpicker-form-control');
-      setInputElementValue(nativeElement, 'red', '163');
-      setInputElementValue(nativeElement, 'green', '19');
-      setInputElementValue(nativeElement, 'blue', '84');
-      setInputElementValue(nativeElement, 'alpha', '0.5');
-      applyColorpicker();
+        expect(inputElement?.getAttribute('aria-invalid')).toBeNull();
+        expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
 
-      fixture.detectChanges();
+        openColorpicker(nativeElement, 'colorpicker-form-control');
+        setInputElementValue(nativeElement, 'red', '163');
+        setInputElementValue(nativeElement, 'green', '19');
+        setInputElementValue(nativeElement, 'blue', '84');
+        setInputElementValue(nativeElement, 'alpha', '0.5');
+        applyColorpicker();
 
-      inputElement = nativeElement.querySelector(
-        '.colorpicker-form-control input',
-      );
+        fixture.detectChanges();
 
-      expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
-      expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();
+        inputElement = getInputElement(colorPickerTest2);
 
-      const errorMessage = nativeElement.querySelector('sky-form-error');
+        expect(inputElement?.getAttribute('aria-invalid')).toBe('true');
+        expect(inputElement?.getAttribute('aria-errormessage')).toBeDefined();
 
-      expect(errorMessage).toBeVisible();
+        const errorMessage = getFormError(nativeElement);
+
+        expect(errorMessage).toBeVisible();
+      } else {
+        fail('Did not find colorpicker under test');
+      }
     }));
   });
 
@@ -1484,6 +1592,7 @@ describe('Colorpicker Component', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(ColorpickerTestComponent);
+      nativeElement = fixture.nativeElement;
     });
 
     it('should update foreground icon color to have proper color contrast', async () => {
@@ -1560,7 +1669,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      const colorpicker = document.querySelector('sky-colorpicker');
+      const colorpicker = getColorPickerHost(nativeElement);
 
       await expectAsync(colorpicker).toBeAccessible(axeConfig);
     });
