@@ -29,6 +29,7 @@ export class CheckboxHarnessTestComponent {
   public phoneHintText: string | undefined;
   public mailControl: UntypedFormControl;
   public myForm: UntypedFormGroup;
+  public required = false;
   public stacked = false;
 
   #formBuilder: UntypedFormBuilder;
@@ -59,8 +60,8 @@ export class CheckboxHarnessTestComponent {
         const phone = group.controls['phone'];
         const mail = group.controls['mail'];
 
-        if (!email.value && !phone.value && !mail.value) {
-          return { contactMethodRequired: true };
+        if (email.value && !phone.value && !mail.value) {
+          return { emailOnly: true };
         } else {
           return null;
         }

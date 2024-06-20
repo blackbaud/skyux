@@ -1,9 +1,9 @@
 <fieldset
   class="sky-checkbox-group"
-  [attr.aria-invalid]="!!formGroup.errors"
+  [attr.aria-invalid]="!!formGroup?.errors"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
   [attr.aria-errormessage]="
-    headingText && formGroup.errors ? errorId : undefined
+    headingText && formGroup?.errors ? errorId : undefined
   "
 >
   <legend
@@ -61,12 +61,12 @@
   </span>
 </fieldset>
 <sky-form-errors
-  *ngIf="headingText && formGroup.errors"
+  *ngIf="headingText && formGroup?.errors"
   [id]="errorId"
   [attr.data-sky-id]="formErrorsDataId"
-  [errors]="formGroup.errors"
+  [errors]="formGroup?.errors"
   [labelText]="headingText"
-  [showErrors]="formGroup.touched || formGroup.dirty"
+  [showErrors]="formGroup?.touched || formGroup?.dirty"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>
