@@ -142,7 +142,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the checkbox group is stacked.
+   * Whether the checkbox group is required.
    */
   public async getRequired(): Promise<boolean> {
     const headingWrapper = await this.#getHeadingWrapper();
