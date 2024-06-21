@@ -71,17 +71,33 @@ describe('Basic input box demo', () => {
       ).toBeResolvedTo(250);
     });
 
-    it('should show a help popover with the expected text', async () => {
+    it('should show hint text', async () => {
       const harness = await setupTest({
         dataSkyId: 'input-box-bio',
       });
 
+      const hintText = await harness.getHintText();
+
+      expect(hintText).toBe(
+        `A brief description of the member's background, such as hometown, school, hobbies, etc.`,
+      );
+    });
+  });
+
+  describe('email field', () => {
+    it('should show a help popover with the expected text', async () => {
+      const harness = await setupTest({
+        dataSkyId: 'input-box-email',
+      });
+
       await harness.clickHelpInline();
 
-      const helpPopoverContent = await harness.getHelpPopoverContent();
+      const helpPopoverTitle = await harness.getHelpPopoverTitle();
+      expect(helpPopoverTitle).toBe('Privacy notice');
 
+      const helpPopoverContent = await harness.getHelpPopoverContent();
       expect(helpPopoverContent).toBe(
-        `A brief description of the member's background, such as hometown, school, hobbies, etc.`,
+        `We do not share this information with any third parties.`,
       );
     });
   });
