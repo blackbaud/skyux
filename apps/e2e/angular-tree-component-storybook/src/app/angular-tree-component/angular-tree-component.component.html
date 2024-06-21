@@ -62,14 +62,13 @@
         #treeNodeFullTemplate
       >
         <sky-angular-tree-node
+          [helpPopoverContent]="
+            node.data.showHelp ? 'Example help inline content.' : undefined
+          "
           [index]="index"
           [node]="node"
           [templates]="templates"
         >
-          <sky-help-inline
-            *ngIf="node.data.showHelp"
-            class="sky-control-help"
-          ></sky-help-inline>
           <sky-dropdown buttonType="context-menu"></sky-dropdown>
         </sky-angular-tree-node>
       </ng-template>
