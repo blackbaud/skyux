@@ -259,6 +259,31 @@ describe('tree view', () => {
         'fa-chevron-right',
       );
     });
+
+    it('should render help inline popover', () => {
+      component.nodes[0].helpPopoverContent = 'Example popover content.';
+      component.nodes[0].helpPopoverTitle = 'Example popover title';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should render help inline when helpKey is provided', () => {
+      component.nodes[0].helpKey = 'foo.html';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
   });
 
   describe('toolbar', () => {

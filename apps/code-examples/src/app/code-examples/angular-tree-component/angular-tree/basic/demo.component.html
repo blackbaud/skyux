@@ -7,11 +7,8 @@
       #treeNodeFullTemplate
     >
       <sky-angular-tree-node
-        [helpPopoverContent]="
-          node.data.showHelp
-            ? 'Example help content for ' + node.data.name + '.'
-            : undefined
-        "
+        [helpPopoverContent]="node.data.helpPopoverContent"
+        [helpPopoverTitle]="node.data.helpPopoverTitle"
         [index]="index"
         [node]="node"
         [templates]="templates"
