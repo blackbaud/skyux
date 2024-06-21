@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.28.0](https://github.com/blackbaud/skyux/compare/10.27.0...10.28.0) (2024-06-21)
+
+
+### Features
+
+* **components/forms:** update input box code examples ([#2364](https://github.com/blackbaud/skyux/issues/2364)) ([45d7c4f](https://github.com/blackbaud/skyux/commit/45d7c4f4a05e03e6c0c24fc88bcb6165e929f8b3))
+
 ## [10.27.0](https://github.com/blackbaud/skyux/compare/10.26.0...10.27.0) (2024-06-20)
 
 
