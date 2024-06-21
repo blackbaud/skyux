@@ -6,6 +6,10 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 
 import { SkyTreeViewFixtureComponent } from './fixtures/tree-view.fixture.component';
 import { SkyTreeViewFixturesModule } from './fixtures/tree-view.fixture.module';
@@ -190,7 +194,7 @@ describe('tree view', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyTreeViewFixturesModule],
+      imports: [SkyHelpTestingModule, SkyTreeViewFixturesModule],
     });
 
     fixture = TestBed.createComponent(
@@ -258,6 +262,30 @@ describe('tree view', () => {
       expect(toggleChildrenButtons[0].querySelector('i')).toHaveCssClass(
         'fa-chevron-right',
       );
+    });
+
+    it('should render help inline popover', () => {
+      component.nodes[0].helpPopoverContent = 'Example popover content.';
+      component.nodes[0].helpPopoverTitle = 'Example popover title';
+
+      fixture.detectChanges();
+
+      expect(
+        fixture.nativeElement.querySelectorAll(
+          'sky-help-inline:not(.sky-control-help)',
+        ).length,
+      ).toBe(1);
+    });
+
+    it('should render help inline when helpKey is provided', () => {
+      const helpController = TestBed.inject(SkyHelpTestingController);
+      component.nodes[0].helpKey = 'foo.html';
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('.sky-help-inline')?.click();
+      fixture.detectChanges();
+
+      helpController.expectCurrentHelpKey('foo.html');
     });
   });
 

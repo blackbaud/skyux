@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyCoreAdapterService } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 
@@ -24,6 +25,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
     CommonModule,
     SkyAngularTreeComponentResourcesModule,
     SkyCheckboxModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyToolbarModule,
     TreeModule,
