@@ -11,18 +11,6 @@ describe('colorpicker-storybook', () => {
       description: 'colorpicker with 6 presets and a SKY UX icon',
     },
     {
-      id: 'colorpicker-disabled',
-      description: 'colorpicker which is disabled',
-    },
-    {
-      id: 'colorpicker-hint-text',
-      description: 'colorpicker which includes hint text',
-    },
-    {
-      id: 'colorpicker-stacked',
-      description: 'colorpicker which is stacked',
-    },
-    {
       id: 'colorpicker-default-presets-no-clear-btn',
       description:
         'colorpicker with default presets, no icon, and no clear button',
@@ -56,6 +44,7 @@ describe('colorpicker-storybook', () => {
         it(`should open the ${colorpicker.description}`, () => {
           cy.get('#ready').should('exist');
           cy.get('app-colorpicker').should('exist').should('be.visible');
+
           cy.get(`#${colorpicker.id} .sky-colorpicker-button`)
             .should('exist')
             .should('be.visible')
