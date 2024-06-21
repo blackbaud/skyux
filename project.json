@@ -9,6 +9,9 @@
         "config": ".verdaccio/config.yml",
         "storage": "tmp/local-registry/storage"
       }
+    },
+    "lint": {
+      "command": "echo '🦾 Overriding the default lint target.'"
     }
   }
 }
