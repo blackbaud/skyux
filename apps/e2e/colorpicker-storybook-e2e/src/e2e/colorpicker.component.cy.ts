@@ -11,6 +11,18 @@ describe('colorpicker-storybook', () => {
       description: 'colorpicker with 6 presets and a SKY UX icon',
     },
     {
+      id: 'colorpicker-disabled',
+      description: 'colorpicker which is disabled',
+    },
+    {
+      id: 'colorpicker-hint-text',
+      description: 'colorpicker which includes hint text',
+    },
+    {
+      id: 'colorpicker-stacked',
+      description: 'colorpicker which is stacked',
+    },
+    {
       id: 'colorpicker-default-presets-no-clear-btn',
       description:
         'colorpicker with default presets, no icon, and no clear button',

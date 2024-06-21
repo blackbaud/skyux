@@ -44,6 +44,8 @@ export class ColorpickerComponent {
       colorTwo: new FormControl('#ff0'),
       colorThree: new FormControl({ value: '#000', disabled: true }),
       colorFour: new FormControl('#00f'),
+      colorFive: new FormControl('#00f'),
+      colorSix: new FormControl('#00f'),
     });
   }
 }
