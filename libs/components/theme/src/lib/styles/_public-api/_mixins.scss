@@ -100,6 +100,24 @@
   }
 }
 
+@mixin sky-component($theme, $selector, $encapsulate: true) {
+  @if $theme == 'default' {
+    #{$selector}:not(.sky-theme-modern *) {
+      @content;
+    }
+  } @else {
+    @if $encapsulate {
+      :host-context(.sky-theme-modern) #{$selector} {
+        @content;
+      }
+    } @else {
+      .sky-theme-modern #{$selector} {
+        @content;
+      }
+    }
+  }
+}
+
 @mixin sky-theme-modern {
   :host-context(.sky-theme-modern) {
     @content;

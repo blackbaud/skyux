@@ -1,0 +1,128 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('default', '.sky-alert') {
+  padding: 0 $sky-padding;
+  border-left: solid 30px;
+  color: var(--sky-text-color-default);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .sky-alert-content {
+    padding: $sky-padding 0;
+    width: 100%;
+
+    ::ng-deep a {
+      color: change-color($sky-text-color-default, $alpha: 0.8);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--sky-text-color-default);
+      }
+    }
+  }
+
+  button {
+    margin-left: auto;
+    width: 32px;
+    height: 32px;
+  }
+
+  &.sky-alert-info,
+  &.sky-alert-success,
+  &.sky-alert-warning,
+  &.sky-alert-danger {
+    &:before {
+      font-family: FontAwesome;
+      margin-left: -32px;
+      margin-right: 19px;
+      color: $sky-color-white;
+    }
+  }
+
+  &:not(.sky-alert-danger) {
+    --sky-icon-stack-top-icon-color-override: #{$sky-text-color-default};
+  }
+
+  &.sky-alert-info {
+    background-color: var(--sky-background-color-info);
+    border-color: var(--sky-highlight-color-info);
+
+    &:before {
+      content: '\f06a';
+      margin-left: -31px;
+      margin-right: 20px;
+    }
+  }
+
+  &.sky-alert-success {
+    background-color: var(--sky-background-color-success);
+    border-color: var(--sky-highlight-color-success);
+
+    &:before {
+      content: '\f00c';
+    }
+  }
+
+  &.sky-alert-warning {
+    background-color: var(--sky-background-color-warning);
+    border-color: var(--sky-highlight-color-warning);
+
+    &:before {
+      content: '\f071';
+    }
+  }
+
+  &.sky-alert-danger {
+    background-color: var(--sky-background-color-danger);
+    border-color: var(--sky-highlight-color-danger);
+
+    &:before {
+      content: '\f071';
+    }
+  }
+
+  .sky-alert-close {
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    color: var(--sky-text-color-default);
+    opacity: 0.8;
+    border: none;
+    border-radius: $sky-border-radius;
+    background-color: transparent;
+    display: none;
+    flex-shrink: 0;
+
+    &:hover {
+      opacity: 1;
+      border: none;
+    }
+
+    &:focus-visible {
+      border: var(--sky-background-color-primary-dark) solid 2px;
+      outline: none;
+    }
+
+    &:active {
+      border: none;
+    }
+
+    &:focus-visible:not(:active) {
+      box-shadow: none;
+    }
+  }
+
+  .sky-alert-closeable {
+    .sky-alert-close {
+      display: block;
+    }
+  }
+
+  .sky-alert-icon-theme-modern {
+    display: none;
+  }
+}

@@ -22,7 +22,17 @@ const ALERT_TYPE_DEFAULT = 'warning';
 
 @Component({
   selector: 'sky-alert',
-  styleUrls: ['./alert.component.scss'],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
+  styleUrls: [
+    './alert.default.component.scss',
+    './alert.modern.component.scss',
+  ],
   templateUrl: './alert.component.html',
 })
 export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
