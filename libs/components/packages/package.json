@@ -88,7 +88,8 @@
       "ag-grid-community": "~31.2.0",
       "ag-grid-enterprise": "~31.2.0",
       "autonumeric": "^4.10.5"
-    }
+    },
+    "packageGroupName": "@skyux/packages"
   },
   "peerDependencies": {
     "@angular/cli": "^17.3.4",
