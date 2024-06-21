@@ -9,6 +9,7 @@
     [headingHidden]="hideGroupHeading"
     [headingLevel]="headingLevel"
     [headingStyle]="headingStyle"
+    [required]="required"
     [stacked]="stacked"
     headingText="Contact method"
     data-sky-id="checkbox-group"
@@ -47,9 +48,9 @@
     </sky-checkbox>
 
     <sky-form-error
-      *ngIf="myForm.errors?.['contactMethodRequired']"
-      errorName="contactMethodRequired"
-      errorText="A contact method must be selected."
+      *ngIf="myForm.errors?.['emailOnly']"
+      errorName="emailOnly"
+      errorText="Email cannot be the only contact method."
     />
   </sky-checkbox-group>
 </form>

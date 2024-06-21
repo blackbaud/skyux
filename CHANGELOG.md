@@ -1,5 +1,32 @@
 # Changelog
 
+## [10.27.0](https://github.com/blackbaud/skyux/compare/10.26.0...10.27.0) (2024-06-20)
+
+
+### Features
+
+* **components/forms:** automatically add required validator to checkbox group ([#2366](https://github.com/blackbaud/skyux/issues/2366)) ([105256c](https://github.com/blackbaud/skyux/commit/105256c177f5f0dcbbc92e7302ec2baed5252e3f))
+
+
+### Bug Fixes
+
+* **components/help-inline:** add `@skyux/help-inline` to the `ng update` group ([#2372](https://github.com/blackbaud/skyux/issues/2372)) ([266d8f4](https://github.com/blackbaud/skyux/commit/266d8f49fc22c5e8730e524575ed2a43634d399f))
+* **components/help-inline:** remove dependency on indicators package ([#2370](https://github.com/blackbaud/skyux/issues/2370)) ([e368416](https://github.com/blackbaud/skyux/commit/e3684168aec7a7ff3836405ceae76f14e8736f90))
+
+## [10.26.0](https://github.com/blackbaud/skyux/compare/10.25.0...10.26.0) (2024-06-17)
+
+
+### Features
+
+* **components/forms:** update checkbox code examples ([#2367](https://github.com/blackbaud/skyux/issues/2367)) ([8fb73c9](https://github.com/blackbaud/skyux/commit/8fb73c9b988854cdf238fa7e7badfe6a576cef5e))
+* **components/forms:** update file attachment code example ([#2361](https://github.com/blackbaud/skyux/issues/2361)) ([1abb44a](https://github.com/blackbaud/skyux/commit/1abb44ae2addba2ee8ef28da8e4aed21ba37e2b2))
+
+
+### Bug Fixes
+
+* **components/datetime:** adjust date range picker component vertical spacing in responsive containers ([#2365](https://github.com/blackbaud/skyux/issues/2365)) ([a4faf0d](https://github.com/blackbaud/skyux/commit/a4faf0d95e1a600b4276e49f8237e192c3161b43))
+* **components/popovers:** support popover in horizontal scrolling elements ([#2356](https://github.com/blackbaud/skyux/issues/2356)) ([3d2a063](https://github.com/blackbaud/skyux/commit/3d2a06375413a48abbb7171df2508cd1b4f2d442))
+
 ## [10.25.0](https://github.com/blackbaud/skyux/compare/10.24.0...10.25.0) (2024-06-11)
 
 

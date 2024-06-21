@@ -26,6 +26,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
   #getHeading = this.locatorFor('.sky-control-label');
+  #getHeadingWrapper = this.locatorFor('.sky-control-label span');
   #getH3 = this.locatorForOptional('legend h3');
   #getH4 = this.locatorForOptional('legend h4');
   #getH5 = this.locatorForOptional('legend h5');
@@ -141,6 +142,15 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   /**
+   * Whether the checkbox group is required.
+   */
+  public async getRequired(): Promise<boolean> {
+    const headingWrapper = await this.#getHeadingWrapper();
+
+    return await headingWrapper.hasClass('sky-control-label-required');
+  }
+
+  /**
    * Whether the checkbox group is stacked.
    */
   public async getStacked(): Promise<boolean> {
@@ -153,6 +163,13 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
       ((await host.hasClass('sky-margin-stacked-lg')) && !!label) ||
       ((await host.hasClass('sky-margin-stacked-xl')) && !!heading)
     );
+  }
+
+  /**
+   * Whether all the checkboxes in a required group are unchecked.
+   */
+  public async hasRequiredError(): Promise<boolean> {
+    return (await this.#getFormErrors()).hasError('required');
   }
 
   /**

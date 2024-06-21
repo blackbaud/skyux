@@ -57,6 +57,13 @@ export const componentRoutes: Routes = [
       import('./forms/forms.module').then((m) => m.FormsModule),
   },
   {
+    path: 'help-inline',
+    loadChildren: () =>
+      import('./help-inline/help-inline.module').then(
+        (m) => m.HelpInlineModule,
+      ),
+  },
+  {
     path: 'indicators',
     loadChildren: () =>
       import('./indicators/indicators.module').then((m) => m.IndicatorsModule),
