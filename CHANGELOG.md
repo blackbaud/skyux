@@ -1,5 +1,25 @@
 # Changelog
 
+## [10.28.0](https://github.com/blackbaud/skyux/compare/10.27.0...10.28.0) (2024-06-21)
+
+
+### Features
+
+* **components/forms:** update input box code examples ([#2364](https://github.com/blackbaud/skyux/issues/2364)) ([45d7c4f](https://github.com/blackbaud/skyux/commit/45d7c4f4a05e03e6c0c24fc88bcb6165e929f8b3))
+
+## [10.27.0](https://github.com/blackbaud/skyux/compare/10.26.0...10.27.0) (2024-06-20)
+
+
+### Features
+
+* **components/forms:** automatically add required validator to checkbox group ([#2366](https://github.com/blackbaud/skyux/issues/2366)) ([105256c](https://github.com/blackbaud/skyux/commit/105256c177f5f0dcbbc92e7302ec2baed5252e3f))
+
+
+### Bug Fixes
+
+* **components/help-inline:** add `@skyux/help-inline` to the `ng update` group ([#2372](https://github.com/blackbaud/skyux/issues/2372)) ([266d8f4](https://github.com/blackbaud/skyux/commit/266d8f49fc22c5e8730e524575ed2a43634d399f))
+* **components/help-inline:** remove dependency on indicators package ([#2370](https://github.com/blackbaud/skyux/issues/2370)) ([e368416](https://github.com/blackbaud/skyux/commit/e3684168aec7a7ff3836405ceae76f14e8736f90))
+
 ## [10.26.0](https://github.com/blackbaud/skyux/compare/10.25.0...10.26.0) (2024-06-17)
 
 

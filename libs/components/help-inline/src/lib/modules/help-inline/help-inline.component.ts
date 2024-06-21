@@ -13,7 +13,6 @@ import {
   SkyIdService,
   SkyTrimModule,
 } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -38,7 +37,6 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
     SkyHelpInlineAriaExpandedPipe,
     SkyHelpInlineAriaHaspopupPipe,
     SkyHelpInlineResourcesModule,
-    SkyIconModule,
     SkyIdModule,
     SkyPopoverModule,
     SkyThemeModule,

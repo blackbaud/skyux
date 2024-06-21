@@ -27,13 +27,14 @@
         "tsConfig": "libs/components/packages/tsconfig.lib.json",
         "packageJson": "libs/components/packages/package.json",
         "main": "libs/components/packages/src/index.ts",
-        "assets": ["libs/components/packages/*.md"]
-      }
-    },
-    "postbuild": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-packages.ts"
+        "assets": [
+          "libs/components/packages/collection.json",
+          "libs/components/packages/src/polyfills.js",
+          "libs/components/packages/src/schematics/migrations/migration-collection.json",
+          "libs/components/packages/src/schematics/**/schema.json",
+          "libs/components/packages/src/schematics/**/*.template",
+          "libs/components/packages/*.md"
+        ]
       }
     }
   },

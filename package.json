@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "10.26.0",
+  "version": "10.28.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -98,7 +98,7 @@
     "@blackbaud/angular-tree-component": "1.0.0",
     "@blackbaud/skyux-design-tokens": "0.0.28",
     "@nx/angular": "18.3.5",
-    "@skyux/icons": "7.1.0",
+    "@skyux/icons": "7.2.0",
     "ag-grid-angular": "31.2.0",
     "ag-grid-community": "31.2.0",
     "autonumeric": "4.10.5",
