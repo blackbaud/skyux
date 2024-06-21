@@ -7,17 +7,15 @@
       #treeNodeFullTemplate
     >
       <sky-angular-tree-node
+        [helpPopoverContent]="
+          node.data.showHelp
+            ? 'Example help content for ' + node.data.name + '.'
+            : undefined
+        "
         [index]="index"
         [node]="node"
         [templates]="templates"
-      >
-        <sky-help-inline
-          *ngIf="node.data.showHelp"
-          class="sky-control-help"
-          ariaLabel="Information about {{ node.data.name }}"
-          (actionClick)="onActionClick()"
-        />
-      </sky-angular-tree-node>
+      />
     </ng-template>
   </tree-root>
 </sky-angular-tree-wrapper>

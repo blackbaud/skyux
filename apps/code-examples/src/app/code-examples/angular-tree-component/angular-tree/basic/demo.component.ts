@@ -48,8 +48,4 @@ export class DemoComponent {
       ],
     },
   ];
-
-  protected onActionClick(): void {
-    alert('Help inline button clicked!');
-  }
 }
