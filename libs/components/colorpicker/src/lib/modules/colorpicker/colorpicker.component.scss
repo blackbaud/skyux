@@ -2,6 +2,10 @@
 
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+sky-colorpicker.sky-margin-stacked-lg {
+  display: block;
+}
+
 .sky-colorpicker-container {
   position: fixed;
   max-height: 100vh;
@@ -41,6 +45,10 @@
   width: 0px;
   height: 0px;
   overflow: hidden;
+}
+
+.sky-colorpicker-hint-text {
+  margin-top: var(--sky-margin-stacked-xs);
 }
 
 .sky-colorpicker-reset-button {

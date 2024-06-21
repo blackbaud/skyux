@@ -2,11 +2,15 @@
   <label
     *ngIf="labelText"
     class="sky-control-label sky-margin-inline-xs"
+    [ngClass]="{
+      'sky-screen-reader-only': labelHidden
+    }"
     [for]="inputId"
     >{{ labelText }}</label
   >
   <sky-help-inline
-    *ngIf="helpPopoverContent && labelText"
+    *ngIf="(helpPopoverContent || helpKey) && labelText && !labelHidden"
+    [helpKey]="helpKey"
     [labelText]="labelText"
     [popoverTitle]="helpPopoverTitle"
     [popoverContent]="helpPopoverContent"
@@ -30,6 +34,7 @@
     type="button"
     [attr.aria-controls]="isOpen ? colorpickerId : null"
     [attr.aria-expanded]="isOpen"
+    [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
     [attr.aria-label]="
       label ||
       (labelledBy
@@ -338,6 +343,12 @@
     <sky-icon *skyThemeIf="'default'" icon="times" size="sm" />
     <sky-icon *skyThemeIf="'modern'" icon="trash" size="lg" />
   </button>
+</div>
+
+<div skyId #hintTextEl="skyId">
+  <div *ngIf="hintText" class="sky-font-deemphasized sky-colorpicker-hint-text">
+    {{ hintText }}
+  </div>
 </div>
 
 <sky-form-errors
