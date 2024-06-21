@@ -15,14 +15,18 @@ import { SkyColorpickerResult } from '../types/colorpicker-result';
 export class ColorpickerTestComponent {
   public pickerButtonIcon: string | undefined;
   public pickerButtonIconType: SkyIconType = 'fa';
+  public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
+  public hintText: string | undefined;
   public label: string | undefined;
   public labelledBy: string | undefined;
+  public labelHidden = false;
   public labelText: string | undefined;
   public selectedHexType = 'hex6';
   public selectedColor: string | undefined = '#2889e5';
   public selectedOutputFormat = 'rgba';
+  public stacked = false;
   public presetColors = [
     '#333333',
     '#888888',

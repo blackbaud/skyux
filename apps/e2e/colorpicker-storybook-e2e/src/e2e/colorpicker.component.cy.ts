@@ -44,6 +44,7 @@ describe('colorpicker-storybook', () => {
         it(`should open the ${colorpicker.description}`, () => {
           cy.get('#ready').should('exist');
           cy.get('app-colorpicker').should('exist').should('be.visible');
+
           cy.get(`#${colorpicker.id} .sky-colorpicker-button`)
             .should('exist')
             .should('be.visible')
