@@ -518,6 +518,19 @@ describe('Colorpicker Component', () => {
       expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
     });
 
+    it('should not render help inline with popover if `labelHidden` is set', () => {
+      component.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      expect(getHelpInlineHostEl(nativeElement)).toBeNull();
+
+      component.labelText = 'labelText';
+      component.labelHidden = true;
+      fixture.detectChanges();
+
+      expect(getHelpInlineHostEl(nativeElement)).toBeNull();
+    });
+
     it('should not render help inline for popover unless popover content is set', () => {
       component.helpPopoverTitle = 'popover title';
       component.labelText = 'labelText';
@@ -542,6 +555,20 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
+    });
+
+    it('should not render help inline if help key is provided and `labelHidden` is set', () => {
+      component.helpPopoverContent = undefined;
+      component.labelText = 'labelText';
+      fixture.detectChanges();
+
+      expect(getHelpInlineHostEl(nativeElement)).toBeNull();
+
+      component.helpKey = 'helpKey.html';
+      component.labelHidden = true;
+      fixture.detectChanges();
+
+      expect(getHelpInlineHostEl(nativeElement)).toBeNull();
     });
 
     it('should set global help config with help key', async () => {
