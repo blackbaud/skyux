@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';

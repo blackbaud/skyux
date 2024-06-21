@@ -14,7 +14,8 @@ import {
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
-import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyChevronModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';

@@ -4,7 +4,7 @@ import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyCoreAdapterService } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { SkyAngularTreeComponentResourcesModule } from '../shared/sky-angular-tree-component-resources.module';
