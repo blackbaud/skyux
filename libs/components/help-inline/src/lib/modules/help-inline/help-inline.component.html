@@ -6,8 +6,11 @@
       ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
       : ariaLabel
         ? ariaLabel
-        : ('skyux_help_inline_button_title' | skyLibResources)
+        : ariaLabelledby
+          ? undefined
+          : ('skyux_help_inline_button_title' | skyLibResources)
   "
+  [attr.aria-labelledby]="labelText || ariaLabel ? undefined : ariaLabelledby"
   [attr.aria-controls]="
     ariaControls | skyHelpInlineAriaControls: popoverId : helpKey
   "

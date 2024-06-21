@@ -75,6 +75,13 @@ export class SkyHelpInlineComponent {
   public ariaLabel: string | undefined;
 
   /**
+   * The ID of an element whose text describes the help inline button. This sets the button's `aria-labelledby` to provide a text equivalent for screen readers.
+   * Will be overridden if label text or aria-label is set.
+   */
+  @Input()
+  public ariaLabelledby: string | undefined;
+
+  /**
    * The label of the component help inline is attached to.
    */
   @Input()
