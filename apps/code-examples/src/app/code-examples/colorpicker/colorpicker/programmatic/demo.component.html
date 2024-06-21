@@ -1,18 +1,23 @@
 <form class="sky-margin-stacked-xxl" [formGroup]="formGroup">
-  <div class="sky-margin-stacked-lg">
-    <sky-colorpicker
-      labelText="What is your favorite color?"
-      [messageStream]="colorpickerController"
-      [showResetButton]="showResetButton"
-      #colorPicker
-    >
-      <input
-        formControlName="favoriteColor"
-        type="text"
-        [skyColorpickerInput]="colorPicker"
-      />
-    </sky-colorpicker>
-  </div>
+  <sky-colorpicker
+    labelText="What is your favorite color?"
+    hintText="Pick a color with at least 80% opacity."
+    [messageStream]="colorpickerController"
+    [showResetButton]="showResetButton"
+    [stacked]="true"
+    #colorPicker
+  >
+    <input
+      formControlName="favoriteColor"
+      type="text"
+      [skyColorpickerInput]="colorPicker"
+    />
+    <sky-form-error
+      *ngIf="favoriteColor.errors?.['opaque']"
+      errorName="opaque"
+      errorText="Color must have at least 80% opacity."
+    />
+  </sky-colorpicker>
 </form>
 
 <button
