@@ -11,7 +11,9 @@
       }
     },
     "lint": {
-      "command": "echo '🦾 Overriding the default lint target.'"
+      "command": "echo '🦾 Overriding the default lint target.'",
+      "outputs": [],
+      "cache": true
     }
   }
 }
