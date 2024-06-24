@@ -9,11 +9,13 @@ import {
   OnDestroy,
   Optional,
   Output,
+  TemplateRef,
   ViewChild,
   inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -38,6 +40,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
   imports: [
     CommonModule,
     SkyChevronModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
     SkyThemeModule,
@@ -55,6 +58,31 @@ import { SkyTileTitleComponent } from './tile-title.component';
 })
 export class SkyTileComponent implements OnDestroy {
   /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * added to the tile header. Clicking the button invokes global help as configured by the application.
+   * @preview
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the tile header. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
    * Whether to display a settings button in the tile header. To display the
    * button, you must also listen for the `settingsClick` event.
    * @default true
@@ -66,6 +94,7 @@ export class SkyTileComponent implements OnDestroy {
    * Whether to display a help button in the tile header. To display the
    * button, you must also listen for the `helpClick` event.
    * @default true
+   * @deprecated Set the `helpKey` or `helpPopoverContent` inputs instead.
    */
   @Input()
   public showHelp = true;
@@ -94,6 +123,7 @@ export class SkyTileComponent implements OnDestroy {
   /**
    * Fires when users select the help button in the tile header. The help
    * button only appears when the `showHelp` property is set to `true`.
+   * @deprecated Set the `helpKey` or `helpPopoverContent` inputs instead.
    */
   @Output()
   public helpClick = new EventEmitter();
@@ -182,6 +212,9 @@ export class SkyTileComponent implements OnDestroy {
     this.settingsClick.emit(undefined);
   }
 
+  /**
+   * @deprecated
+   */
   public helpButtonClicked(): void {
     this.helpClick.emit(undefined);
   }
@@ -190,6 +223,9 @@ export class SkyTileComponent implements OnDestroy {
     return this.settingsClick.observers.length > 0 && this.showSettings;
   }
 
+  /**
+   * @deprecated
+   */
   public get hasHelp(): boolean {
     return this.helpClick.observers.length > 0 && this.showHelp;
   }

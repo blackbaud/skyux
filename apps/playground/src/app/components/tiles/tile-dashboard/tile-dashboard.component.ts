@@ -3,6 +3,7 @@ import { SkyTileDashboardConfig } from '@skyux/tiles';
 
 import { GreetingService } from './greeting/greeting.service';
 import { Tile1Component } from './tile1.component';
+import { Tile2Component } from './tile2.component';
 
 @Component({
   selector: 'app-tile-dashboard',
@@ -13,19 +14,27 @@ export class TileDashboardComponent {
     console.log(this.greeting.sayHello());
   }
 
-  public dashboardConfig: SkyTileDashboardConfig = {
+  protected dashboardConfig: SkyTileDashboardConfig = {
     tiles: [
       {
-        id: 'tile',
+        id: 'tile1',
         componentType: Tile1Component,
+      },
+      {
+        id: 'tile2',
+        componentType: Tile2Component,
       },
     ],
     layout: {
       singleColumn: {
         tiles: [
           {
-            id: 'tile',
+            id: 'tile2',
             isCollapsed: false,
+          },
+          {
+            id: 'tile1',
+            isCollapsed: true,
           },
         ],
       },
@@ -33,7 +42,15 @@ export class TileDashboardComponent {
         {
           tiles: [
             {
-              id: 'tile',
+              id: 'tile1',
+              isCollapsed: true,
+            },
+          ],
+        },
+        {
+          tiles: [
+            {
+              id: 'tile2',
               isCollapsed: false,
             },
           ],
