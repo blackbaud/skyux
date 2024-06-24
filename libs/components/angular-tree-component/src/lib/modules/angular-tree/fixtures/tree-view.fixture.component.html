@@ -18,6 +18,9 @@
       #treeNodeFullTemplate
     >
       <sky-angular-tree-node
+        [helpKey]="node.data.helpKey"
+        [helpPopoverContent]="node.data.helpPopoverContent"
+        [helpPopoverTitle]="node.data.helpPopoverTitle"
         [index]="index"
         [node]="node"
         [templates]="templates"

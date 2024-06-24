@@ -21,12 +21,13 @@ export class DemoComponent {
     {
       name: 'Animals',
       isExpanded: true,
-      showHelp: true,
+      helpPopoverContent: 'Example help content for animals.',
       children: [
         {
           name: 'Cats',
           isExpanded: true,
-          showHelp: true,
+          helpPopoverContent: 'Example help content for cats.',
+          helpPopoverTitle: 'What is a cat?',
           children: [
             { name: 'Burmese' },
             { name: 'Persian' },
@@ -39,7 +40,7 @@ export class DemoComponent {
           children: [
             {
               name: 'Beagle',
-              showHelp: true,
+              helpPopoverContent: 'Example help content for beagles.',
             },
             { name: 'German shepherd' },
             { name: 'Labrador retriever' },
@@ -48,8 +49,4 @@ export class DemoComponent {
       ],
     },
   ];
-
-  protected onActionClick(): void {
-    alert('Help inline button clicked!');
-  }
 }

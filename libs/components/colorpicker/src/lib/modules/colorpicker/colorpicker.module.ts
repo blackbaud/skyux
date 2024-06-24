@@ -1,7 +1,7 @@
 import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyAffixModule } from '@skyux/core';
+import { SkyAffixModule, SkyIdModule } from '@skyux/core';
 import {
   SkyFormErrorModule,
   SkyFormErrorsModule,
@@ -30,6 +30,7 @@ import { SkyColorpickerComponent } from './colorpicker.component';
     CommonModule,
     SkyAffixModule,
     SkyColorpickerResourcesModule,
+    SkyIdModule,
     SkyFormErrorModule,
     SkyFormErrorsModule,
     SkyHelpInlineModule,
