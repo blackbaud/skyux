@@ -276,8 +276,9 @@ export class SkyDateRangePickerComponent
   public startDateRequired = false;
 
   /**
-   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * placed beside the date range picker label. Clicking the button invokes global help as configured by the application.
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the date range picker label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application.
    * @preview
    */
   @Input()
