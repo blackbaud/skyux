@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.30.0](https://github.com/blackbaud/skyux/compare/10.29.0...10.30.0) (2024-06-24)
+
+
+### Features
+
+* **components/forms:** update helpKey docs ([#2385](https://github.com/blackbaud/skyux/issues/2385)) ([2670a52](https://github.com/blackbaud/skyux/commit/2670a521844401e2a35af73a5a25ce9d5daaba65))
+
 ## [10.29.0](https://github.com/blackbaud/skyux/compare/10.28.0...10.29.0) (2024-06-24)
 
 
