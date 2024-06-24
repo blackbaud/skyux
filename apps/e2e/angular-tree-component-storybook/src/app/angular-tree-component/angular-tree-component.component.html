@@ -75,4 +75,24 @@
       </ng-template>
     </tree-root>
   </sky-angular-tree-wrapper>
+  <h3>Basic with easy mode inline help</h3>
+  <sky-angular-tree-wrapper>
+    <tree-root [nodes]="modeNodes" [options]="basicOptions" #treeBasic>
+      <ng-template
+        let-index="index"
+        let-node
+        let-templates="templates"
+        #treeNodeFullTemplate
+      >
+        <sky-angular-tree-node
+          [helpPopoverContent]="
+            node.data.showHelp ? 'Example help inline content.' : undefined
+          "
+          [index]="index"
+          [node]="node"
+          [templates]="templates"
+        />
+      </ng-template>
+    </tree-root>
+  </sky-angular-tree-wrapper>
 </div>

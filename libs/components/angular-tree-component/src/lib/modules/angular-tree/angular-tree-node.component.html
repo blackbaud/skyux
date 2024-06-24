@@ -89,9 +89,18 @@
         (click)="node.mouseAction('click', $event)"
       >
       </tree-node-content
-      ><span class="sky-control-help-container"
-        ><ng-content select=".sky-control-help"></ng-content
-      ></span>
+      ><span class="sky-control-help-container">
+        @if (helpKey || helpPopoverContent) {
+          <sky-help-inline
+            [helpKey]="helpKey"
+            [labelText]="nodeName"
+            [popoverContent]="helpPopoverContent"
+            [popoverTitle]="helpPopoverTitle"
+          />
+        } @else {
+          <ng-content select=".sky-control-help" />
+        }
+      </span>
     </div>
   </div>
 
