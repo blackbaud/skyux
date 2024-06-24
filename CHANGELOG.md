@@ -1,5 +1,20 @@
 # Changelog
 
+## [10.29.0](https://github.com/blackbaud/skyux/compare/10.28.0...10.29.0) (2024-06-24)
+
+
+### Features
+
+* **components/angular-tree-component:** add help key and inline help to tree nodes ([#2379](https://github.com/blackbaud/skyux/issues/2379)) ([f9b2197](https://github.com/blackbaud/skyux/commit/f9b2197561e3848203f6a55687ca39c830837951))
+* **components/colorpicker:** add `hintText`, `helpKey`, `labelHidden`, and `stacked` inputs to colorpicker ([#2374](https://github.com/blackbaud/skyux/issues/2374)) ([f013ca5](https://github.com/blackbaud/skyux/commit/f013ca5e4bcb491a112caba8a4399f6aa939b74c))
+* **components/colorpicker:** update colorpicker code examples ([#2382](https://github.com/blackbaud/skyux/issues/2382)) ([b8d9a66](https://github.com/blackbaud/skyux/commit/b8d9a66372e69ae185fc6a40d2707e681229c03c))
+* **components/theme:** add new-tab icon ([#2380](https://github.com/blackbaud/skyux/issues/2380)) ([3b9ec05](https://github.com/blackbaud/skyux/commit/3b9ec05ba322584755b556fd7fa6ba47c416b93d))
+
+
+### Bug Fixes
+
+* **components/packages:** update package group name to `@skyux/packages` ([#2375](https://github.com/blackbaud/skyux/issues/2375)) ([ebe51fd](https://github.com/blackbaud/skyux/commit/ebe51fd47b2c4828a5791fbdd75bc8d371a23e14))
+
 ## [10.28.0](https://github.com/blackbaud/skyux/compare/10.27.0...10.28.0) (2024-06-21)
 
 
