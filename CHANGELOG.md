@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.31.1](https://github.com/blackbaud/skyux/compare/10.31.0...10.31.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* **components/indicators:** re-add lambda component exports for legacy icons ([#2397](https://github.com/blackbaud/skyux/issues/2397)) ([37f6094](https://github.com/blackbaud/skyux/commit/37f60946cb496cf3049c7b4575d86c62409e92d8))
+
 ## [10.31.0](https://github.com/blackbaud/skyux/compare/10.30.1...10.31.0) (2024-06-25)
 
 
