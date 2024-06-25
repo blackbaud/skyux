@@ -3,11 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAffixModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
-import {
-  SkyHelpInlineModule,
-  SkyIconModule,
-  SkyTextHighlightModule,
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyHelpInlineModule, SkyTextHighlightModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyPopoverModule } from '@skyux/popovers';
 

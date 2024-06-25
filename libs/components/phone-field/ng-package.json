@@ -5,6 +5,10 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["google-libphonenumber", "intl-tel-input"],
+  "allowedNonPeerDependencies": [
+    "@skyux/icon",
+    "google-libphonenumber",
+    "intl-tel-input"
+  ],
   "inlineStyleLanguage": "scss"
 }

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyDatePipeModule } from '@skyux/datetime';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
 
