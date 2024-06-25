@@ -9,6 +9,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -21,6 +22,7 @@ import {
   SkyLiveAnnouncerService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
 
 import { Subject } from 'rxjs';
@@ -32,6 +34,7 @@ import { SkyModalComponentAdapterService } from './modal-component-adapter.servi
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalError } from './modal-error';
 import { SkyModalErrorsService } from './modal-errors.service';
+import { SkyModalHeaderComponent } from './modal-header.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
 import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
@@ -55,8 +58,10 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   ],
   imports: [
     CommonModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
+    SkyModalHeaderComponent,
     SkyModalScrollShadowDirective,
     SkyModalsResourcesModule,
   ],
@@ -72,6 +77,38 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   public set formErrors(value: SkyModalError[] | undefined) {
     this.#errorsSvc.updateErrors(value);
   }
+
+  /**
+   * The text to display as the modal's heading.
+   * @preview
+   */
+  @Input()
+  public headingText: string | undefined;
+
+  /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
+   * added to the modal header. Clicking the button invokes global help as configured by the application.
+   * @preview
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the modal header. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
 
   /**
    * @internal
@@ -115,7 +152,10 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
   public ariaOwns: string | null = null;
 
-  public helpKey: string | undefined;
+  /**
+   * @deprecated
+   */
+  protected legacyHelpKey: string | undefined;
 
   public modalState = 'in';
 
@@ -160,7 +200,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     this.ariaDescribedBy = this.#config.ariaDescribedBy;
     this.ariaLabelledBy = this.#config.ariaLabelledBy;
     this.ariaRole = this.#config.ariaRole;
-    this.helpKey = this.#config.helpKey;
+    this.legacyHelpKey = this.#config.helpKey;
     this.tiledBody = this.#config.tiledBody;
     this.wrapperClass = this.#config.wrapperClass;
 
@@ -273,8 +313,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   public helpButtonClick(): void {
-    if (this.helpKey) {
-      this.#hostService.onOpenHelp(this.helpKey);
+    if (this.legacyHelpKey) {
+      this.#hostService.onOpenHelp(this.legacyHelpKey);
     }
   }
 

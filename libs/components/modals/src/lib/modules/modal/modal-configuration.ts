@@ -11,6 +11,9 @@ export class SkyModalConfiguration {
   public ariaLabelledBy?: string;
   public ariaRole?: string;
   public tiledBody?: boolean;
+  /**
+   * @deprecated
+   */
   public helpKey?: string;
   public wrapperClass?: string;
 

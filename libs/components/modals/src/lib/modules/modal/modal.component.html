@@ -20,7 +20,11 @@
   >
     <div
       class="sky-modal-header"
-      [hidden]="!headerContent || !headerContent.children || headerContent.children.length &lt; 1"
+      [hidden]="
+        !headerContent ||
+        !headerContent.children ||
+        headerContent.children.length > 1
+      "
       [ngStyle]="{
         'box-shadow': scrollShadow?.topShadow
       }"
@@ -34,11 +38,25 @@
         #headerContent
         #headerId="skyId"
       >
-        <ng-content select="sky-modal-header" />
+        @if (headingText !== undefined) {
+          <sky-modal-header>
+            {{ headingText }}
+            @if (helpKey || helpPopoverContent) {
+              <sky-help-inline
+                [labelText]="headingText"
+                [helpKey]="helpKey"
+                [popoverContent]="helpPopoverContent"
+                [popoverTitle]="helpPopoverTitle"
+              />
+            }
+          </sky-modal-header>
+        } @else {
+          <ng-content select="sky-modal-header" />
+        }
       </div>
       <div class="sky-modal-header-buttons">
         <button
-          *ngIf="helpKey"
+          *ngIf="legacyHelpKey"
           class="sky-btn sky-modal-btn-help"
           name="help-button"
           type="button"

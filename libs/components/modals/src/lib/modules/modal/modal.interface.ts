@@ -67,12 +67,12 @@ export interface SkyModalConfigurationInterface {
   tiledBody?: boolean;
 
   /**
-   * @deprecated To display a help button in the modal header, include a help button element, such as `sky-help-inline`, in the `sky-modal-header` element and a `sky-control-help` CSS class on that help button element
    * The `helpKey` string. This property displays
    * the <i class="fa fa-question-circle" aria-hidden="true"></i> button in the modal header.
    * When users click this button, the `helpOpened` event broadcasts the `helpKey` parameter.
    * Blackbaud developers can use the Help Widget, which is for internal Blackbaud use only, to
    * [display help content in a flyout panel](https://docs.blackbaud.com/bb-help-docs/components/modal-header).
+   * @deprecated To display a help button in the modal header, set either the `helpKey` or `helpPopoverContent` inputs on the modal component.
    */
   helpKey?: string;
 
