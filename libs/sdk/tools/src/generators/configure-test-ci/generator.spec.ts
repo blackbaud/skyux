@@ -1,10 +1,15 @@
-import { applicationGenerator } from '@nx/angular/generators';
+import {
+  E2eTestRunner,
+  UnitTestRunner,
+  applicationGenerator,
+} from '@nx/angular/generators';
 import {
   Tree,
   readProjectConfiguration,
   updateProjectConfiguration,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { Linter } from '@nx/eslint';
 
 import { configureTestCiGenerator } from './generator';
 
@@ -19,6 +24,10 @@ describe('configure-test-ci generator', () => {
       skipFormat: true,
       directory: 'test',
       projectNameAndRootFormat: 'as-provided',
+      skipPackageJson: true,
+      linter: Linter.None,
+      e2eTestRunner: E2eTestRunner.None,
+      unitTestRunner: UnitTestRunner.Jest,
     });
   });
 
