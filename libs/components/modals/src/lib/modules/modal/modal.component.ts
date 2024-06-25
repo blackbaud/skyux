@@ -111,6 +111,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   public helpPopoverTitle: string | undefined;
 
   /**
+   * Used by the confirm component to set a different role for the modal.
    * @internal
    */
   @Input()
@@ -122,33 +123,24 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
   /**
    * @internal
+   * @deprecated
    */
   @Input()
   public tiledBody: boolean | undefined;
 
   /**
+   * Used by the confirm component to set descriptive text without a heading.
    * @internal
    */
   @Input()
-  public set ariaDescribedBy(id: string | undefined) {
-    this.#_ariaDescribedBy = id;
-  }
-
-  public get ariaDescribedBy(): string | undefined {
-    return this.#_ariaDescribedBy;
-  }
+  public ariaDescribedBy: string | undefined;
 
   /**
+   * Used by the confirm component to set descriptive text without a heading.
    * @internal
    */
   @Input()
-  public set ariaLabelledBy(id: string | undefined) {
-    this.#_ariaLabelledBy = id;
-  }
-
-  public get ariaLabelledBy(): string | undefined {
-    return this.#_ariaLabelledBy;
-  }
+  public ariaLabelledBy: string | undefined;
 
   public ariaOwns: string | null = null;
 
@@ -169,9 +161,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   public modalContentWrapperElement: ElementRef | undefined;
 
   #ngUnsubscribe = new Subject<void>();
-
-  #_ariaDescribedBy: string | undefined;
-  #_ariaLabelledBy: string | undefined;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #componentAdapter = inject(SkyModalComponentAdapterService);

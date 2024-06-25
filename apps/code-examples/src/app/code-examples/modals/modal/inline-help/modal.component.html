@@ -1,13 +1,5 @@
 <form [formGroup]="demoForm" (submit)="saveForm()">
-  <sky-modal>
-    <sky-modal-header>
-      Modal title
-      <sky-help-inline
-        class="sky-control-help"
-        ariaLabel="Information about Modal"
-        (actionClick)="onActionClick()"
-      />
-    </sky-modal-header>
+  <sky-modal headingText="Modal title" helpKey="help.html">
     <sky-modal-content>
       <sky-input-box labelText="An input inside a modal">
         <input formControlName="value1" type="text" />

@@ -38,13 +38,14 @@
         #headerContent
         #headerId="skyId"
       >
-        @if (headingText !== undefined) {
+        @if (headingText) {
           <sky-modal-header>
             {{ headingText }}
             @if (helpKey || helpPopoverContent) {
               <sky-help-inline
-                [labelText]="headingText"
+                class="sky-control-help"
                 [helpKey]="helpKey"
+                [labelText]="headingText"
                 [popoverContent]="helpPopoverContent"
                 [popoverTitle]="helpPopoverTitle"
               />

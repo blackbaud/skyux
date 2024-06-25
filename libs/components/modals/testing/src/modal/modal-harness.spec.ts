@@ -44,7 +44,7 @@ class TestSkyIdComponent {}
 
 @Component({
   selector: 'sky-modal-test-modal',
-  template: `<button (click)="openModal()"></button>`,
+  template: `<button type="button" (click)="openModal()"></button>`,
 })
 class TestButtonComponent {
   #modalSvc = inject(SkyModalService);

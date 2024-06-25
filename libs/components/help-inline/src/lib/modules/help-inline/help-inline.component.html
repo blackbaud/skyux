@@ -31,18 +31,20 @@
   ></span>
 </button>
 
-<sky-popover
-  #popover
-  [id]="popoverId"
-  (popoverClosed)="popoverOpened(false)"
-  (popoverOpened)="popoverOpened(true)"
-  [popoverTitle]="popoverTitle"
->
-  <ng-container *ngIf="popoverTemplate; else popoverContext">
-    <ng-container *ngTemplateOutlet="popoverTemplate" />
-  </ng-container>
-</sky-popover>
+@if (popoverContent) {
+  <sky-popover
+    #popover
+    [id]="popoverId"
+    (popoverClosed)="popoverOpened(false)"
+    (popoverOpened)="popoverOpened(true)"
+    [popoverTitle]="popoverTitle"
+  >
+    <ng-container *ngIf="popoverTemplate; else popoverContext">
+      <ng-container *ngTemplateOutlet="popoverTemplate" />
+    </ng-container>
+  </sky-popover>
 
-<ng-template #popoverContext>
-  {{ popoverContent }}
-</ng-template>
+  <ng-template #popoverContext>
+    {{ popoverContent }}
+  </ng-template>
+}

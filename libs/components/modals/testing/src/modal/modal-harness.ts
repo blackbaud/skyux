@@ -26,14 +26,16 @@ export class SkyModalHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the aria-describedBy property of the modal
+   * Gets the aria-describedBy property of the modal.
+   * @deprecated
    */
   public async getAriaDescribedBy(): Promise<string | null> {
     return (await this.#getModalDialog()).getAttribute('aria-describedby');
   }
 
   /**
-   * Gets the aria-labelledBy property of the modal
+   * Gets the aria-labelledBy property of the modal.
+   * @deprecated
    */
   public async getAriaLabelledBy(): Promise<string | null> {
     return (await this.#getModalDialog()).getAttribute('aria-labelledby');
