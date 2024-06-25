@@ -58,18 +58,6 @@ jobs:
             6,
             7,
             8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
           ]
     steps:
       - uses: actions/checkout@v4
@@ -183,7 +171,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
         run: |
-          npx nx affected --target=build --parallel=10 --exclude '*,!tag:npm'
+          npx nx affected --target=build --parallel=5 --exclude '*,!tag:npm'
 
   build-dist:
     name: Build packages distribution
