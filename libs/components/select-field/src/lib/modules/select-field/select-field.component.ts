@@ -13,7 +13,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconModule, SkyToken, SkyTokensModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyToken, SkyTokensModule } from '@skyux/indicators';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { Observable, of as observableOf } from 'rxjs';

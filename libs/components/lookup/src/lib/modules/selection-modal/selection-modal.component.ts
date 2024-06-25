@@ -15,7 +15,8 @@ import {
 } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyWaitModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';

@@ -33,6 +33,7 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
+    "@skyux/icon": "0.0.0-PLACEHOLDER",
     "intl-tel-input": "19.5.5",
     "tslib": "^2.6.2"
   }

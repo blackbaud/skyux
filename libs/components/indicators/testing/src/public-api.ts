@@ -6,8 +6,7 @@ export { SkyChevronHarness } from './chevron/chevron-harness';
 export { SkyHelpInlineHarness } from './help-inline/help-inline-harness';
 export { SkyHelpInlineHarnessFilters } from './help-inline/help-inline-harness-filters';
 
-export { SkyIconHarness } from './icon/icon-harness';
-export { SkyIconHarnessFilters } from './icon/icon-harness-filters';
+export { SkyIconHarness, SkyIconHarnessFilters } from '@skyux/icon/testing';
 
 export { SkyIllustrationHarness } from './illustration/illustration-harness';
 export { SkyIllustrationHarnessFilters } from './illustration/illustration-harness-filters';

@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 
+import { SkyTilesModule } from '../../tiles.module';
 import { SkyTileComponent } from '../tile.component';
 
 @Component({
+  imports: [CommonModule, SkyTilesModule],
   selector: 'sky-test-cmp',
+  standalone: true,
   templateUrl: './tile.component.fixture.html',
 })
 export class TileTestComponent {
@@ -11,6 +15,10 @@ export class TileTestComponent {
   public tileComponent!: SkyTileComponent;
 
   public collapsedOutputCalled = false;
+
+  public helpKey: string | undefined;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
 
   public tileIsCollapsed = false;
 

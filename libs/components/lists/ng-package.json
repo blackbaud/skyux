@@ -5,6 +5,11 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["dom-autoscroller", "dragula", "ng2-dragula"],
+  "allowedNonPeerDependencies": [
+    "@skyux/icon",
+    "dom-autoscroller",
+    "dragula",
+    "ng2-dragula"
+  ],
   "inlineStyleLanguage": "scss"
 }

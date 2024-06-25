@@ -10,10 +10,10 @@ import {
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconStackItem } from '@skyux/icon';
 
 import { Subscription } from 'rxjs';
 
-import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';

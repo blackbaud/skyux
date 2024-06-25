@@ -5,7 +5,7 @@ import {
   SkyIdModule,
   SkyScreenReaderLabelDirective,
 } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyPopoversResourcesModule } from '../shared/sky-popovers-resources.module';

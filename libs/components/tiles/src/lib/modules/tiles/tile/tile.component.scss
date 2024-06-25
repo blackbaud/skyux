@@ -22,13 +22,18 @@
 
 .sky-tile-header-title {
   display: inline-flex;
+  align-items: baseline;
+  padding: $sky-padding $sky-tile-header-tool-padding;
+
+  > sky-help-inline {
+    margin-left: var(--sky-margin-inline-xs);
+  }
 }
 
 .sky-tile-summary {
   color: $sky-text-color-action-primary;
   display: none;
   padding-right: $sky-tile-header-tool-padding;
-  transition: opacity $sky-transition-time-medium;
   max-height: 30px;
   overflow: hidden;
 }
@@ -79,6 +84,11 @@
   .sky-tile-header,
   .sky-tile-content {
     border: none;
+  }
+
+  .sky-tile-header-title {
+    padding: 0;
+    margin: 0 $sky-theme-modern-margin-inline-xl 0 0;
   }
 
   .sky-tile-header-column-tools {

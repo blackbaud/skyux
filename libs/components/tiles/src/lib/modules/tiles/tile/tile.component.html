@@ -11,6 +11,14 @@
     <div class="sky-tile-header-content" (click)="titleClick()">
       <div class="sky-tile-header-title" #titleContainer>
         <ng-content select="sky-tile-title" />
+        @if (tileName && (helpKey || helpPopoverContent)) {
+          <sky-help-inline
+            [helpKey]="helpKey"
+            [labelText]="tileName"
+            [popoverContent]="helpPopoverContent"
+            [popoverTitle]="helpPopoverTitle"
+          />
+        }
       </div>
       <div class="sky-tile-summary sky-font-display-3">
         <ng-content select="sky-tile-summary" />
