@@ -9,13 +9,6 @@ const routes: Routes = [
         (c) => c.DemoComponent,
       ),
   },
-  {
-    path: 'inline-help',
-    loadComponent: () =>
-      import('../code-examples/tiles/tiles/inline-help/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
 ];
 
 @NgModule({
