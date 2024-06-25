@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyIconModule } from '@skyux/indicators';
 
 @Component({
   standalone: true,

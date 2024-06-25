@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
 @Component({

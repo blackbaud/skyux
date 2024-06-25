@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyCheckboxModule, SkySelectionBoxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyLookupShowMoreCustomPickerContext } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 

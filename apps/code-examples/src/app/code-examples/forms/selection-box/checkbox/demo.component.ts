@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkySelectionBoxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyIconModule } from '@skyux/indicators';
 
 import { Subject, takeUntil } from 'rxjs';
 

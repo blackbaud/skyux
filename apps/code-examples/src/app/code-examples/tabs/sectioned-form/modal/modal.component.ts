@@ -6,7 +6,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
