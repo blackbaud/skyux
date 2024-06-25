@@ -200,7 +200,6 @@
     "karma-jasmine-html-reporter": "2.1.0",
     "ng-packagr": "17.3.0",
     "nx": "18.3.5",
-    "nx-cloud": "18.0.1",
     "nyc": "15.1.0",
     "postcss": "8.4.35",
     "postcss-import": "16.0.1",
