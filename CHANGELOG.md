@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.30.1](https://github.com/blackbaud/skyux/compare/10.30.0...10.30.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* **components/core:** adjust viewkeeper element size when parent element's size changes ([#2388](https://github.com/blackbaud/skyux/issues/2388)) ([0dd85c8](https://github.com/blackbaud/skyux/commit/0dd85c80970e263c54928d53ae90d39c19aaa1fc))
+* **components/theme:** update icon metadata ([#2387](https://github.com/blackbaud/skyux/issues/2387)) ([54e3fb3](https://github.com/blackbaud/skyux/commit/54e3fb39882312335dd8ab15f030641511c1b786))
+
 ## [10.30.0](https://github.com/blackbaud/skyux/compare/10.29.0...10.30.0) (2024-06-24)
 
 
