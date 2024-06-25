@@ -1,4 +1,3 @@
-import { applicationGenerator } from '@nx/angular/generators';
 import { readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { RoutingScope } from '@schematics/angular/module/schema';
@@ -19,11 +18,12 @@ import {
   findModulePaths,
   isRoutingModule,
 } from './find-module';
+import { createTestApplication } from './testing';
 
 describe('find-module', () => {
   it('should find module', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: 'test',
     });
     expect(readProjectConfiguration(tree, 'test').sourceRoot).toBe(
@@ -57,9 +57,7 @@ describe('find-module', () => {
 
   it('should find standalone component', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
-      name: 'test',
-    });
+    await createTestApplication(tree, { name: 'test' });
     expect(readProjectConfiguration(tree, 'test').sourceRoot).toBe(
       'apps/test/src',
     );
@@ -89,7 +87,7 @@ describe('find-module', () => {
 
   it('should find module, skip non-declaring reference', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: 'test',
     });
     await angularModuleGenerator(tree, {
@@ -118,7 +116,7 @@ describe('find-module', () => {
 
   it('should find routing module', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: 'test',
     });
     await angularModuleGenerator(tree, {
@@ -150,7 +148,7 @@ describe('find-module', () => {
 
   it('should isRoutingModule', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: 'test',
     });
     await angularModuleGenerator(tree, {
