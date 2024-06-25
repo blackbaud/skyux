@@ -1,11 +1,10 @@
-<sky-tile
-  tileName="Tile 1"
-  [helpPopoverContent]="
-    tileParameters.showInlineHelp ? 'Sample help content' : undefined
-  "
->
+<sky-tile>
   <sky-tile-title>
     {{ tileParameters.tileName }}
+    <sky-help-inline
+      *ngIf="tileParameters.showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
   </sky-tile-title>
   <sky-tile-content>
     <sky-tile-content-section> Section 1 </sky-tile-content-section>

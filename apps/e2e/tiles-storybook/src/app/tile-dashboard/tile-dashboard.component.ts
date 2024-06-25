@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Tile1Component } from './tile1/tile1.component';
 import { Tile2Component } from './tile2/tile2.component';
+import { Tile3Component } from './tile3/tile3.component';
 import { TileParameters } from './tile-parameters.token';
 
 @Component({
@@ -62,6 +63,19 @@ export class TileDashboardComponent implements AfterViewInit {
             provide: TileParameters,
             useValue: {
               tileName: 'Tile 4',
+              showInlineHelp: true,
+            },
+          },
+        ],
+      },
+      {
+        id: 'tile5',
+        componentType: Tile3Component,
+        providers: [
+          {
+            provide: TileParameters,
+            useValue: {
+              tileName: 'Tile 5',
               showInlineHelp: true,
             },
           },
