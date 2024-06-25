@@ -5,6 +5,6 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["dompurify", "he"],
+  "allowedNonPeerDependencies": ["@skyux/icon", "dompurify", "he"],
   "inlineStyleLanguage": "scss"
 }

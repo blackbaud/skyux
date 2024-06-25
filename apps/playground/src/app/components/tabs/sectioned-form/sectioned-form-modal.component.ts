@@ -5,7 +5,7 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 

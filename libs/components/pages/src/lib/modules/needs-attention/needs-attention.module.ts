@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyTrimModule } from '@skyux/core';
-import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyWaitModule } from '@skyux/indicators';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';

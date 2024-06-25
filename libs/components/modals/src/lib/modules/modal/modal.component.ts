@@ -21,7 +21,7 @@ import {
   SkyLiveAnnouncerService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

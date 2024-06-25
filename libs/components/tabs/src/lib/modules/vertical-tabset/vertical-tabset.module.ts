@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyExpansionIndicatorModule,
-  SkyIconModule,
   SkyStatusIndicatorModule,
 } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';

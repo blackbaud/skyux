@@ -26,6 +26,7 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
+    "@skyux/icon": "0.0.0-PLACEHOLDER",
     "@types/dragula": "2.1.36",
     "dragula": "3.7.3",
     "ng2-dragula": "5.1.0",

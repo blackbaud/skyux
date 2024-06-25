@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 
 import { SkyCheckboxModule } from '../../checkbox/checkbox.module';
 import { SkyRadioModule } from '../../radio/radio.module';

@@ -60,6 +60,7 @@ jobs:
             components/grids
             components/help-inline
             components/i18n
+            components/icon
             components/indicators
             components/inline-form
             components/layout

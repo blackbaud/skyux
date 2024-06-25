@@ -32,7 +32,7 @@ import {
   SkyUIConfigService,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
