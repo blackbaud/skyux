@@ -8,12 +8,12 @@ describe('Viewkeeper', () => {
   let scrollableHostEl: HTMLElement;
   let vks: SkyViewkeeper[];
 
-  function scrollWindowTo(x: number, y: number) {
+  function scrollWindowTo(x: number, y: number): void {
     window.scrollTo(x, y);
     SkyAppTestUtility.fireDomEvent(window, 'scroll');
   }
 
-  function scrollScrollableHost(x: number, y: number) {
+  function scrollScrollableHost(x: number, y: number): void {
     scrollableHostEl.scrollTo(x, y);
     SkyAppTestUtility.fireDomEvent(scrollableHostEl, 'scroll');
   }
@@ -21,8 +21,8 @@ describe('Viewkeeper', () => {
   function validateElStyle(
     elToValidate: HTMLElement,
     styleProperty: keyof CSSStyleDeclaration,
-    expectedValue: any,
-  ) {
+    expectedValue: string,
+  ): void {
     expect(getComputedStyle(elToValidate)[styleProperty]).toBe(expectedValue);
   }
 
@@ -31,7 +31,7 @@ describe('Viewkeeper', () => {
     pinned: boolean,
     pinnedTop?: number,
     marginTop = 0,
-  ) {
+  ): void {
     if (pinned) {
       validateElStyle(elToValidate, 'position', 'fixed');
       validateElStyle(elToValidate, 'top', pinnedTop + 'px');
@@ -42,7 +42,7 @@ describe('Viewkeeper', () => {
     }
   }
 
-  function contentEl(
+  function createContentEl(
     height: string,
     width: string,
     color: string,
@@ -212,6 +212,98 @@ describe('Viewkeeper', () => {
         '[SkyViewkeeper] The option `boundaryEl` is required.',
       );
     });
+
+    describe('ResizeObserver', () => {
+      const NativeResizeObserver = ResizeObserver;
+
+      let observer: ResizeObserver | undefined;
+      let observerCallback: ResizeObserverCallback | undefined;
+
+      beforeEach(() => {
+        window.ResizeObserver = class {
+          constructor(callback: ResizeObserverCallback) {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
+            observer = this;
+            observerCallback = callback;
+          }
+
+          public disconnect(): void {
+            /**/
+          }
+
+          public observe(): void {
+            /**/
+          }
+
+          public unobserve(): void {
+            /**/
+          }
+        };
+      });
+
+      afterEach(() => {
+        window.ResizeObserver = NativeResizeObserver;
+        observer = observerCallback = undefined;
+      });
+
+      it("should update the viewkeeper element's width when the spacer element's width changes", () => {
+        vks.push(
+          new SkyViewkeeper({
+            el,
+            boundaryEl,
+            setWidth: true,
+          }),
+        );
+
+        scrollWindowTo(0, 20);
+
+        validatePinned(el, true, 0);
+
+        expect(getComputedStyle(el).width).toBe(
+          getComputedStyle(boundaryEl).width,
+        );
+
+        boundaryEl.style.width = '10px';
+
+        expect(getComputedStyle(el).width).not.toBe('10px');
+
+        // Resizing the boundary element doesn't cause a reflow of the
+        // document in the unit test, and manually causing a reflow
+        // like with requestAnimationFrame() causes the element to
+        // resize to the width of the spacer element even without the
+        // ResizeObserver. Call the mock ResizeObserver's callback
+        // explicitly here to test that the element is resized.
+        if (observer && observerCallback) {
+          observerCallback([], observer);
+        }
+
+        expect(getComputedStyle(el).width).toBe('10px');
+      });
+
+      it('should destroy the ResizeObserver when the viewkeeper is destroyed', () => {
+        const vk = new SkyViewkeeper({
+          el,
+          boundaryEl,
+          setWidth: true,
+        });
+
+        // The ResizeObserver should only be created the first time the viewkeeper
+        // element is pinned.
+        expect(observer).toBeUndefined();
+
+        scrollWindowTo(0, 20);
+
+        validatePinned(el, true, 0);
+
+        const disconnectSpy = observer && spyOn(observer, 'disconnect');
+
+        expect(disconnectSpy).not.toHaveBeenCalled();
+
+        vk.destroy();
+
+        expect(disconnectSpy).toHaveBeenCalledOnceWith();
+      });
+    });
   });
 
   describe('scrollable parent viewkeepers', () => {
@@ -237,11 +329,11 @@ describe('Viewkeeper', () => {
       scrollableHostEl.appendChild(boundaryEl);
       boundaryEl.appendChild(el);
       scrollableHostEl.appendChild(
-        contentEl('800px', 'auto', '#b847ee', 'Scroll me'),
+        createContentEl('800px', 'auto', '#b847ee', 'Scroll me'),
       );
 
       document.body.insertBefore(
-        contentEl(window.outerHeight + 800 + 'px', 'auto', 'white', ' '),
+        createContentEl(window.outerHeight + 800 + 'px', 'auto', 'white', ' '),
         document.body.firstChild,
       );
       document.body.insertBefore(scrollableHostEl, document.body.firstChild);
@@ -395,7 +487,7 @@ describe('Viewkeeper', () => {
 
     it('should clip the viewkeeper element when partially out of view', () => {
       scrollableHostEl.appendChild(
-        contentEl('800px', '600px', '#d3d3d3', 'Below'),
+        createContentEl('800px', '600px', '#d3d3d3', 'Below'),
       );
 
       vks.push(

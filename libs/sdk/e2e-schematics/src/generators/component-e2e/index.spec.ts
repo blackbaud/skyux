@@ -1,9 +1,4 @@
 import {
-  UnitTestRunner,
-  applicationGenerator,
-  libraryGenerator,
-} from '@nx/angular/generators';
-import {
   NxJsonConfiguration,
   ProjectConfiguration,
   readJson,
@@ -12,9 +7,9 @@ import {
   updateNxJson,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Linter } from '@nx/eslint';
 
 import { updateJson } from '../../utils';
+import { createTestApplication, createTestLibrary } from '../../utils/testing';
 
 import componentE2eGenerator from './index';
 
@@ -35,20 +30,8 @@ describe('component-e2e', () => {
 
   it('should create e2e infrastructure for a component', async () => {
     const { tree } = setupTest();
-    await libraryGenerator(tree, {
-      name: 'storybook',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
-    await libraryGenerator(tree, {
-      name: 'test-component',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
+    await createTestLibrary(tree, { name: 'storybook' });
+    await createTestLibrary(tree, { name: 'test-component' });
     updateJson(tree, 'nx.json', (nxJson: NxJsonConfiguration) => {
       nxJson.targetDefaults = nxJson.targetDefaults || {};
       nxJson.targetDefaults['build-storybook'] =
@@ -125,20 +108,8 @@ describe('component-e2e', () => {
 
   it('should handle tagging', async () => {
     const { tree } = setupTest();
-    await libraryGenerator(tree, {
-      name: 'storybook',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
-    await libraryGenerator(tree, {
-      name: 'test-component',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
+    await createTestLibrary(tree, { name: 'storybook' });
+    await createTestLibrary(tree, { name: 'test-component' });
     await componentE2eGenerator(tree, { name: 'test', tags: 'one, two' });
     const config = readProjectConfiguration(tree, 'test-storybook');
     expect(config.tags).toContain('one');
@@ -147,20 +118,8 @@ describe('component-e2e', () => {
   it('should allow being called twice', async () => {
     const spy = jest.spyOn(console, 'warn');
     const { tree } = setupTest();
-    await libraryGenerator(tree, {
-      name: 'storybook',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
-    await libraryGenerator(tree, {
-      name: 'test-component',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
+    await createTestLibrary(tree, { name: 'storybook' });
+    await createTestLibrary(tree, { name: 'test-component' });
     await componentE2eGenerator(tree, { name: 'test' });
     await componentE2eGenerator(tree, { name: 'test' });
     await componentE2eGenerator(tree, { name: 'test', ansiColor: false });
@@ -174,22 +133,12 @@ describe('component-e2e', () => {
   it('should move the projects to a subdirectory', async () => {
     const { tree } = setupTest();
 
-    await libraryGenerator(tree, {
-      name: 'storybook',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
-    await libraryGenerator(tree, {
-      name: 'test-component',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
-    await applicationGenerator(tree, {
+    await createTestLibrary(tree, { name: 'storybook' });
+    await createTestLibrary(tree, { name: 'test-component' });
+    await createTestApplication(tree, {
       name: 'test-component-storybook',
+      e2eTestRunner: true,
+      unitTestRunner: true,
     });
     await componentE2eGenerator(tree, { name: 'test-component' });
     const config = readProjectConfiguration(tree, 'test-component-storybook');
@@ -213,13 +162,7 @@ describe('component-e2e', () => {
         },
       }),
     );
-    await libraryGenerator(tree, {
-      name: 'storybook',
-      routing: false,
-      unitTestRunner: UnitTestRunner.None,
-      linter: Linter.None,
-      skipPackageJson: true,
-    });
+    await createTestLibrary(tree, { name: 'storybook' });
     await componentE2eGenerator(tree, { name: 'test-component' });
     const packageJson = readJson(tree, 'package.json');
     expect(packageJson.devDependencies['@storybook/angular']).toEqual(

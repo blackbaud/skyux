@@ -1,4 +1,4 @@
-import { applicationGenerator, libraryGenerator } from '@nx/angular/generators';
+import { libraryGenerator } from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   Tree,
@@ -13,6 +13,7 @@ import assert from 'node:assert';
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
 import { angularModuleGenerator } from '../../utils';
+import { createTestApplication, createTestLibrary } from '../../utils/testing';
 import componentE2e from '../component-e2e';
 
 import storyGenerator from './index';
@@ -36,14 +37,8 @@ describe('story generator', () => {
       generateCypressSpecs: true,
       includeTests: true,
     };
-    await libraryGenerator(appTree, {
-      name: 'test',
-      directory: 'libs/test',
-      projectNameAndRootFormat: 'as-provided',
-    });
-    await componentE2e(appTree, {
-      name: 'test',
-    });
+    await createTestLibrary(appTree, { name: 'test' });
+    await componentE2e(appTree, { name: 'test' });
     await angularModuleGenerator(appTree, {
       name: 'test-router',
       routing: true,
@@ -228,9 +223,7 @@ describe('story generator', () => {
         'Unable to find project wrong-storybook',
       );
     }
-    await applicationGenerator(appTree, {
-      name: 'wrong-storybook',
-    });
+    await createTestApplication(appTree, { name: 'wrong-storybook' });
     try {
       await storyGenerator(appTree, {
         ...options,

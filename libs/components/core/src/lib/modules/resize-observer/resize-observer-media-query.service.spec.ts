@@ -7,6 +7,7 @@ import {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
+  stopMockResizeObserver,
 } from './fixtures/resize-observer-mock';
 import { SkyResizeObserverMediaQueryService } from './resize-observer-media-query.service';
 import { SkyResizeObserverService } from './resize-observer.service';
@@ -14,6 +15,10 @@ import { SkyResizeObserverService } from './resize-observer.service';
 describe('SkyResizeObserverMediaQueryService service', async () => {
   beforeAll(() => {
     mockResizeObserver();
+  });
+
+  afterAll(() => {
+    stopMockResizeObserver();
   });
 
   beforeEach(() => {
