@@ -66,6 +66,20 @@
         />
       </sky-colorpicker>
     </div>
+    <div class="sky-margin-stacked-xl" id="colorpicker-required">
+      <sky-colorpicker
+        #colorPickerRequired
+        labelText="Colorpicker which is required"
+        helpPopoverContent="content"
+      >
+        <input
+          formControlName="colorFive"
+          skyId
+          type="text"
+          [skyColorpickerInput]="colorPickerRequired"
+        />
+      </sky-colorpicker>
+    </div>
     <div id="colorpicker-stacked">
       <sky-colorpicker
         #colorPickerStacked
@@ -74,10 +88,20 @@
         stacked="true"
       >
         <input
-          formControlName="colorFive"
+          formControlName="colorSix"
           skyId
           type="text"
           [skyColorpickerInput]="colorPickerStacked"
+        />
+      </sky-colorpicker>
+    </div>
+    <div class="sky-margin-stacked-xl" id="colorpicker-error">
+      <sky-colorpicker #colorPickerError labelText="Colorpicker with error">
+        <input
+          formControlName="colorSeven"
+          skyId
+          type="text"
+          [skyColorpickerInput]="colorPickerError"
         />
       </sky-colorpicker>
     </div>
@@ -90,7 +114,7 @@
       </label>
       <sky-colorpicker [showResetButton]="false" #colorPickerDefault>
         <input
-          formControlName="colorSix"
+          formControlName="colorEight"
           skyId
           type="text"
           [allowTransparency]="true"
