@@ -23,6 +23,7 @@ export class ColorpickerTestComponent {
   public labelledBy: string | undefined;
   public labelHidden = false;
   public labelText: string | undefined;
+  public required = false;
   public selectedHexType = 'hex6';
   public selectedColor: string | undefined = '#2889e5';
   public selectedOutputFormat = 'rgba';

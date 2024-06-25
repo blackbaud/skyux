@@ -482,6 +482,19 @@ describe('Colorpicker Component', () => {
       expect(label).toHaveCssClass('sky-screen-reader-only');
     });
 
+    it('should add the required asterisk if labelText is given and the input is required', () => {
+      const labelText = 'Label Text';
+      component.labelText = labelText;
+      component.required = true;
+
+      fixture.detectChanges();
+
+      const label = getLabel(nativeElement);
+
+      expect(label).toBeVisible();
+      expect(label).toHaveCssClass('sky-control-label-required');
+    });
+
     it('should allow setting ID if labelText is not set', () => {
       const id = 'test-id';
       component.id = id;
@@ -1606,6 +1619,19 @@ describe('Colorpicker Component', () => {
         fail('Did not find colorpicker under test');
       }
     }));
+
+    it('should add the required asterisk if labelText is given and the input is required', () => {
+      const labelText = 'Label Text';
+      component.labelText = labelText;
+      component.required = true;
+
+      fixture.detectChanges();
+
+      const label = getLabel(nativeElement);
+
+      expect(label).toBeVisible();
+      expect(label).toHaveCssClass('sky-control-label-required');
+    });
   });
 
   describe('accessibility', () => {

@@ -20,6 +20,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { SkyRequiredStateDirective } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject, Subscription, distinctUntilChanged, takeUntil } from 'rxjs';
@@ -49,6 +50,12 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
 @Directive({
   selector: '[skyColorpickerInput]',
   providers: [SKY_COLORPICKER_VALUE_ACCESSOR, SKY_COLORPICKER_VALIDATOR],
+  hostDirectives: [
+    {
+      directive: SkyRequiredStateDirective,
+      inputs: ['required'],
+    },
+  ],
 })
 export class SkyColorpickerInputDirective
   implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy
