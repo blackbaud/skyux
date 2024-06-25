@@ -4,6 +4,7 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
+  Validators,
 } from '@angular/forms';
 
 import { Subject } from 'rxjs';
@@ -36,6 +37,15 @@ export class ColorpickerReactiveTestComponent {
   ];
   public inputType = 'text';
   public labelText: string | undefined;
+
+  public set required(value: boolean) {
+    if (value) {
+      this.colorControl.addValidators([Validators.required]);
+    } else {
+      this.colorControl.removeValidators([Validators.required]);
+    }
+    this.colorControl.updateValueAndValidity();
+  }
 
   @ViewChild('colorPickerTest', {
     static: true,

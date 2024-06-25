@@ -1,5 +1,26 @@
 # Changelog
 
+## [10.31.1](https://github.com/blackbaud/skyux/compare/10.31.0...10.31.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* **components/indicators:** re-add lambda component exports for legacy icons ([#2397](https://github.com/blackbaud/skyux/issues/2397)) ([37f6094](https://github.com/blackbaud/skyux/commit/37f60946cb496cf3049c7b4575d86c62409e92d8))
+
+## [10.31.0](https://github.com/blackbaud/skyux/compare/10.30.1...10.31.0) (2024-06-25)
+
+
+### Features
+
+* **components/indicators:** move `@skyux/icon` components to separate package ([#2383](https://github.com/blackbaud/skyux/issues/2383)) ([075c24a](https://github.com/blackbaud/skyux/commit/075c24a1b97013ab9cebc363c7fed9201df9fe3d))
+* **components/tiles:** add help key and inline help to the tile component ([#2390](https://github.com/blackbaud/skyux/issues/2390)) ([69ece27](https://github.com/blackbaud/skyux/commit/69ece27e7ce2670e3d86743205721d5351b7a344))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** colorpicker shows appropriate error styles and required indicator ([#2395](https://github.com/blackbaud/skyux/issues/2395)) ([ea23f69](https://github.com/blackbaud/skyux/commit/ea23f69c68190cdf537012e0c8e758f3accdd3d9))
+* **components/datetime:** date range picker elements horizontal spacing rules applied to responsive containers ([#2393](https://github.com/blackbaud/skyux/issues/2393)) ([4c8475d](https://github.com/blackbaud/skyux/commit/4c8475d2c10cdb59a81e053fca253f7db0bba99d))
+
 ## [10.30.1](https://github.com/blackbaud/skyux/compare/10.30.0...10.30.1) (2024-06-25)
 
 

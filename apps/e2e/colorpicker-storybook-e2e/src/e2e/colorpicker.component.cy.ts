@@ -28,6 +28,14 @@ describe('colorpicker-storybook', () => {
       );
       it('should render the components', () => {
         cy.get('#ready').should('exist');
+        cy.get('#colorpicker-error .sky-colorpicker-button')
+          .should('exist')
+          .should('be.visible')
+          .click();
+        cy.get('.sky-btn-colorpicker-apply')
+          .should('exist')
+          .should('be.visible')
+          .click();
         cy.get('app-colorpicker')
           .should('exist')
           .should('be.visible')
