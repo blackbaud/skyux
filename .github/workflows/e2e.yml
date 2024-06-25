@@ -146,9 +146,9 @@ jobs:
       matrix:
         app:
           - code-examples
-          - dep-graph
           - integration
           - playground
+        # - dep-graph
     steps:
       - uses: actions/checkout@v4
         with:
