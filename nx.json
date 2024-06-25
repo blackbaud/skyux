@@ -64,6 +64,11 @@
     "@nx/eslint:lint": {
       "inputs": ["lintInputs"],
       "cache": true
+    },
+    "@nx/angular:package": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
     }
   },
   "namedInputs": {

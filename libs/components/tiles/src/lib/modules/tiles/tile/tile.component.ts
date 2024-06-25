@@ -18,7 +18,8 @@ import {
 import { skyAnimationSlide } from '@skyux/animations';
 import { SkyIdModule, SkyIdService, SkyLogService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
-import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyChevronModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';

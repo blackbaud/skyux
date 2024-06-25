@@ -8,7 +8,8 @@ import {
   SkyDataManagerService,
 } from '@skyux/data-manager';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
-import { SkyHelpInlineModule, SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';

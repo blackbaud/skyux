@@ -6,7 +6,7 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';

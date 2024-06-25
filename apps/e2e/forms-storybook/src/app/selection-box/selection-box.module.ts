@@ -8,7 +8,7 @@ import {
   SkyRadioModule,
   SkySelectionBoxModule,
 } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 
 import { SelectionBoxComponent } from './selection-box.component';
 

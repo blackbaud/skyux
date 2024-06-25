@@ -1,6 +1,6 @@
 import { NgForOf } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyIdModule, SkyScreenReaderLabelDirective } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
 
-import { SkyIconModule } from '../icon/icon.module';
 import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
 import { SkyTokenComponent } from './token.component';

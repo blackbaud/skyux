@@ -1,0 +1,51 @@
+{
+  "name": "icon-testing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/components/icon/testing/src",
+  "prefix": "sky",
+  "tags": ["testing"],
+  "implicitDependencies": ["core-testing", "theme"],
+  "targets": {
+    "build": {
+      "command": "echo ' 🏗️  build icon-testing'",
+      "dependsOn": [
+        {
+          "projects": ["icon"],
+          "target": "build"
+        }
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "libs/components/icon/testing/tsconfig.spec.json",
+        "karmaConfig": "libs/components/icon/testing/karma.conf.js",
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+          "libs/components/packages/src/polyfills.js"
+        ],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
+      }
+    }
+  }
+}

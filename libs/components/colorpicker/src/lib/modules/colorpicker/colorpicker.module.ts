@@ -8,7 +8,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyColorpickerResourcesModule } from '../shared/sky-colorpicker-resources.module';
