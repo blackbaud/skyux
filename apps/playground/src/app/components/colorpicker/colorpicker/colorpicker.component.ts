@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
+  Validators,
 } from '@angular/forms';
 import { SkyColorpickerOutput } from '@skyux/colorpicker';
 
 @Component({
   selector: 'app-colorpicker-demo',
   templateUrl: './colorpicker.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorpickerComponent {
   public reactiveForm: UntypedFormGroup;
@@ -24,6 +26,8 @@ export class ColorpickerComponent {
     '#E87134',
     '#DA9C9C',
   ];
+
+  #required = false;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.favoriteColor = new UntypedFormControl('#f00', [
@@ -50,5 +54,16 @@ export class ColorpickerComponent {
     const controlValue = this.reactiveForm.get('favoriteColor')?.value;
     const favoriteColor: string = controlValue.hex || controlValue;
     alert('Your favorite color is: \n' + favoriteColor);
+  }
+
+  public toggleRequired(): void {
+    this.#required = !this.#required;
+
+    if (this.#required) {
+      this.favoriteColor.addValidators([Validators.required]);
+    } else {
+      this.favoriteColor.removeValidators([Validators.required]);
+    }
+    this.favoriteColor.updateValueAndValidity();
   }
 }

@@ -3,7 +3,6 @@
     <sky-colorpicker
       helpKey="help-key.html"
       hintText="Hint text content."
-      labelHidden="true"
       labelText="What is your favorite color?"
       pickerButtonIcon="calendar"
       pickerButtonIconType="skyux"
@@ -42,4 +41,11 @@
   </table>
 
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+  <button
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="toggleRequired()"
+  >
+    Toggle required
+  </button>
 </form>

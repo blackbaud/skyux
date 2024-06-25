@@ -33,7 +33,10 @@ import {
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-import { SKY_FORM_ERRORS_ENABLED } from '@skyux/forms';
+import {
+  SKY_FORM_ERRORS_ENABLED,
+  SkyRequiredStateDirective,
+} from '@skyux/forms';
 import { SkyIconType } from '@skyux/indicators';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -210,6 +213,7 @@ export class SkyColorpickerComponent
     if (this.pickerButtonIcon) {
       this.iconColor = this.#getAccessibleIconColor(this.selectedColor);
     }
+    this.#changeDetector.markForCheck();
   }
 
   public get backgroundColorForDisplay(): string {
@@ -372,6 +376,9 @@ export class SkyColorpickerComponent
       this.#changeDetector.markForCheck();
     }
   }
+
+  @ContentChild(SkyRequiredStateDirective)
+  protected requiredState: SkyRequiredStateDirective | undefined;
 
   protected inputId: string | undefined;
   protected colorpickerId: string;

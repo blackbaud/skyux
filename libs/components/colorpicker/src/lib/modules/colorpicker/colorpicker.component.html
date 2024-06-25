@@ -3,7 +3,8 @@
     *ngIf="labelText"
     class="sky-control-label sky-margin-inline-xs"
     [ngClass]="{
-      'sky-screen-reader-only': labelHidden
+      'sky-screen-reader-only': labelHidden,
+      'sky-control-label-required': requiredState?.isRequired()
     }"
     [for]="inputId"
     >{{ labelText }}</label
@@ -51,7 +52,9 @@
     "
     [disabled]="disabled"
     [ngClass]="{
-      'sky-colorpicker-button-disabled': disabled
+      'sky-colorpicker-button-disabled': disabled,
+      'sky-colorpicker-error':
+        (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
     }"
     [skyThemeClass]="{
       'sky-margin-inline-sm': 'modern'
