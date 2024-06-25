@@ -42,6 +42,7 @@ describe('update dependencies generator', () => {
       importPath: '@proj/test',
       directory: 'test',
       projectNameAndRootFormat: 'as-provided',
+      skipPackageJson: true,
     });
     await generator(appTree);
     const config = readProjectConfiguration(appTree, 'test');

@@ -21,6 +21,10 @@ const defaultCallback: ResizeObserverCallback = (
   observer: ResizeObserver,
 ) => {};
 
+const oldRequestAnimationFrame = requestAnimationFrame;
+const oldCancelAnimationFrame = cancelAnimationFrame;
+const oldResizeObserver = ResizeObserver;
+
 export const mockResizeObserverHandle = {
   callback: defaultCallback,
   emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver) => {
@@ -45,4 +49,10 @@ export function mockResizeObserver() {
 
     public unobserve(element: HTMLElement) {}
   };
+}
+
+export function stopMockResizeObserver(): void {
+  (window as any).requestAnimationFrame = oldRequestAnimationFrame;
+  (window as any).cancelAnimationFrame = oldCancelAnimationFrame;
+  window.ResizeObserver = oldResizeObserver;
 }

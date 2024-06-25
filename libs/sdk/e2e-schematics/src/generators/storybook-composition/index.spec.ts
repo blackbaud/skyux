@@ -1,11 +1,9 @@
-import {
-  applicationGenerator,
-  storybookConfigurationGenerator,
-} from '@nx/angular/generators';
+import { storybookConfigurationGenerator } from '@nx/angular/generators';
 import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Linter } from '@nx/eslint';
 
+import { createTestApplication } from '../../utils/testing';
 import configureStorybook from '../configure-storybook';
 
 import generateStorybookComposition from './index';
@@ -29,7 +27,7 @@ describe('storybook-composition', () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
-      await applicationGenerator(tree, { name });
+      await createTestApplication(tree, { name, e2eTestRunner: true });
       await storybookConfigurationGenerator(tree, {
         configureCypress: false,
         generateCypressSpecs: false,
@@ -53,7 +51,7 @@ describe('storybook-composition', () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
-      await applicationGenerator(tree, { name });
+      await createTestApplication(tree, { name, e2eTestRunner: true });
       if (name === 'storybook') {
         await storybookConfigurationGenerator(tree, {
           configureCypress: false,
@@ -91,7 +89,10 @@ describe('storybook-composition', () => {
     expect(spy).toHaveBeenCalledWith(
       `Unable to load a project named "storybook"`,
     );
-    await applicationGenerator(tree, { name: 'storybook' });
+    await createTestApplication(tree, {
+      name: 'storybook',
+      e2eTestRunner: true,
+    });
     await storybookConfigurationGenerator(tree, {
       configureCypress: false,
       generateCypressSpecs: false,
@@ -123,7 +124,7 @@ describe('storybook-composition', () => {
       'test-app-two',
       'test-app-three',
     ]) {
-      await applicationGenerator(tree, { name });
+      await createTestApplication(tree, { name, e2eTestRunner: true });
       await storybookConfigurationGenerator(tree, {
         configureCypress: false,
         generateCypressSpecs: false,

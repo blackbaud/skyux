@@ -1,11 +1,13 @@
-import { cypressProjectGenerator } from '@nx/cypress';
+import { configurationGenerator } from '@nx/cypress';
 import { NxJsonConfiguration, readNxJson, updateNxJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+
+import { createTestApplication } from '../../utils/testing';
 
 import configurePercy from './index';
 
 describe('configure-percy', () => {
-  function setupTest() {
+  async function setupTest() {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
     nxJson.workspaceLayout = {
@@ -16,13 +18,14 @@ describe('configure-percy', () => {
 
     tree.write('.gitignore', '');
 
+    await createTestApplication(tree, { name: 'cypress' });
     return { tree };
   }
 
   it('should import percy', async () => {
-    const { tree } = setupTest();
-    await cypressProjectGenerator(tree, {
-      name: `cypress`,
+    const { tree } = await setupTest();
+    await configurationGenerator(tree, {
+      project: 'cypress',
       baseUrl: 'https://example.com',
     });
     expect(tree.exists('apps/cypress/src/support/e2e.ts')).toBeTruthy();
@@ -38,9 +41,9 @@ describe('configure-percy', () => {
   });
 
   it('should generate cypress.config.ts', async () => {
-    const { tree } = setupTest();
-    await cypressProjectGenerator(tree, {
-      name: `cypress`,
+    const { tree } = await setupTest();
+    await configurationGenerator(tree, {
+      project: `cypress`,
       baseUrl: 'https://example.com',
     });
     await configurePercy(tree, { name: 'cypress' });
@@ -51,9 +54,9 @@ describe('configure-percy', () => {
   });
 
   it('should handle missing supportFile', async () => {
-    const { tree } = setupTest();
-    await cypressProjectGenerator(tree, {
-      name: `cypress`,
+    const { tree } = await setupTest();
+    await configurationGenerator(tree, {
+      project: `cypress`,
       baseUrl: 'https://example.com',
     });
     tree.delete(`apps/cypress/src/support/e2e.ts`);

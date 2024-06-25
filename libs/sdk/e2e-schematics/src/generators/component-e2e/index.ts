@@ -1,5 +1,9 @@
 import { SchematicsAngularApplicationStyle } from '@angular/cli/lib/config/workspace-schema';
-import { applicationGenerator } from '@nx/angular/generators';
+import {
+  E2eTestRunner,
+  UnitTestRunner,
+  applicationGenerator,
+} from '@nx/angular/generators';
 import {
   ProjectConfiguration,
   Tree,
@@ -88,6 +92,7 @@ function addPackagesPolyfills(tree: Tree, projectName: string) {
     let hasChanged = false;
     ['build', 'test'].forEach((target) => {
       if (
+        projectConfig.targets?.[target] &&
         polyfillsBuilders.includes(
           `${projectConfig.targets?.[target].executor}`,
         ) &&
@@ -178,6 +183,8 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       standaloneConfig: true,
       standalone: false,
       bundler: 'webpack',
+      unitTestRunner: UnitTestRunner.None,
+      e2eTestRunner: E2eTestRunner.Cypress,
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
     simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
@@ -238,7 +245,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       project: options.storybookAppName,
       uiFramework: '@storybook/angular',
       interactionTests: false,
-      configureCypress: false,
       linter: Linter.EsLint,
       configureStaticServe: true,
     });

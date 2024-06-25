@@ -1,7 +1,4 @@
-import {
-  applicationGenerator,
-  componentGenerator,
-} from '@nx/angular/generators';
+import { componentGenerator } from '@nx/angular/generators';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
@@ -27,6 +24,7 @@ import {
   readSourceFile,
   writeSourceFile,
 } from './ast-utils';
+import { createTestApplication } from './testing';
 
 describe('ast-utils', () => {
   it('should handle trying to read from an unknown file', () => {
@@ -273,7 +271,7 @@ describe('ast-utils', () => {
 
   it('should findComponentClass', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
+    await createTestApplication(tree, { name: 'test' });
     await componentGenerator(tree, { name: 'test', project: 'test' });
     const componentClass = findComponentClass(
       readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
@@ -289,7 +287,7 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, not component', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
+    await createTestApplication(tree, { name: 'test' });
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
     await wrapAngularDevkitSchematic('@schematics/angular', 'pipe')(tree, {
       name: 'test/test',
@@ -308,7 +306,7 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, component options not object', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
+    await createTestApplication(tree, { name: 'test' });
     await componentGenerator(tree, { name: 'test', project: 'test' });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
@@ -329,7 +327,7 @@ describe('ast-utils', () => {
 
   it('should findComponentClass, no decorated class', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    await applicationGenerator(tree, { name: 'test' });
+    await createTestApplication(tree, { name: 'test' });
     await componentGenerator(tree, { name: 'test', project: 'test' });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
