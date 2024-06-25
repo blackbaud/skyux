@@ -1,8 +1,4 @@
-import {
-  E2eTestRunner,
-  applicationGenerator,
-  storybookConfigurationGenerator,
-} from '@nx/angular/generators';
+import { storybookConfigurationGenerator } from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   readNxJson,
@@ -16,6 +12,7 @@ import { TsConfig } from '@nx/storybook/src/utils/utilities';
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
 import { updateJson } from '../../utils';
+import { createTestApplication } from '../../utils/testing';
 
 import configureStorybook from './index';
 
@@ -40,7 +37,10 @@ describe('configure-storybook', () => {
   it('should configure storybook', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: `test-app` });
+    await createTestApplication(tree, {
+      name: `test-app`,
+      e2eTestRunner: true,
+    });
     await storybookConfigurationGenerator(tree, {
       configureCypress: false,
       generateCypressSpecs: false,
@@ -90,7 +90,10 @@ describe('configure-storybook', () => {
   it('should configure storybook tsconfig', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: `test-app` });
+    await createTestApplication(tree, {
+      name: `test-app`,
+      e2eTestRunner: true,
+    });
     await storybookConfigurationGenerator(tree, {
       configureCypress: false,
       generateCypressSpecs: false,
@@ -118,7 +121,10 @@ describe('configure-storybook', () => {
   it('should configure storybook tsconfig, add include and exclude', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, { name: `test-app` });
+    await createTestApplication(tree, {
+      name: `test-app`,
+      e2eTestRunner: true,
+    });
     await storybookConfigurationGenerator(tree, {
       configureCypress: false,
       generateCypressSpecs: false,
@@ -150,9 +156,8 @@ describe('configure-storybook', () => {
   it('should error for missing e2e project', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: `test-app`,
-      e2eTestRunner: E2eTestRunner.None,
     });
     await storybookConfigurationGenerator(tree, {
       configureCypress: false,
@@ -170,13 +175,13 @@ describe('configure-storybook', () => {
   it('should error for e2e project without cypress', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: `test-app`,
-      e2eTestRunner: E2eTestRunner.None,
+      e2eTestRunner: false,
     });
-    await applicationGenerator(tree, {
+    await createTestApplication(tree, {
       name: `test-app-e2e`,
-      e2eTestRunner: E2eTestRunner.None,
+      e2eTestRunner: false,
     });
     await storybookConfigurationGenerator(tree, {
       configureCypress: false,

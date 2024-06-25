@@ -1,4 +1,3 @@
-import { applicationGenerator } from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
   Tree,
@@ -8,6 +7,8 @@ import {
   updateNxJson,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+
+import { createTestApplication } from '../../utils/testing';
 
 import generator from './generator';
 import { SwitchToVariationsGeneratorSchema } from './schema';
@@ -25,9 +26,7 @@ describe('switch-to-variations generator', () => {
     };
     updateNxJson(appTree, nxJson);
     appTree.write('.gitignore', '# test');
-    await applicationGenerator(appTree, {
-      name: 'test',
-    });
+    await createTestApplication(appTree, { name: 'test', e2eTestRunner: true });
   });
 
   it('should run successfully', async () => {
