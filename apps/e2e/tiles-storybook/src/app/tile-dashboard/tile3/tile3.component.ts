@@ -19,9 +19,7 @@ import { TileParameters } from '../tile-parameters.token';
         {{ tileParameters.tileName }}
       </sky-tile-title>
       <sky-tile-content>
-        <sky-tile-content-section> Section 1 </sky-tile-content-section>
-        <sky-tile-content-section> Section 2 </sky-tile-content-section>
-        <sky-tile-content-section> Section 3 </sky-tile-content-section>
+        <sky-tile-content-section> Content here. </sky-tile-content-section>
       </sky-tile-content>
     </sky-tile>
   `,

@@ -101,6 +101,10 @@ export class TileDashboardComponent implements AfterViewInit {
             id: 'tile4',
             isCollapsed: true,
           },
+          {
+            id: 'tile5',
+            isCollapsed: true,
+          },
         ],
       },
       multiColumn: [
@@ -125,6 +129,10 @@ export class TileDashboardComponent implements AfterViewInit {
             {
               id: 'tile2',
               isCollapsed: false,
+            },
+            {
+              id: 'tile5',
+              isCollapsed: true,
             },
           ],
         },

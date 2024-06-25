@@ -6,15 +6,17 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Optional,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
   inject,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
-import { SkyIdModule, SkyIdService } from '@skyux/core';
+import { SkyIdModule, SkyIdService, SkyLogService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
@@ -56,7 +58,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
     },
   ],
 })
-export class SkyTileComponent implements OnDestroy {
+export class SkyTileComponent implements OnChanges, OnDestroy {
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
    * added to the tile header. Clicking the button invokes global help as configured by the application.
@@ -178,6 +180,8 @@ export class SkyTileComponent implements OnDestroy {
 
   protected tileTitleId = inject(SKY_TILE_TITLE_ID);
 
+  readonly #logSvc = inject(SkyLogService);
+
   constructor(
     public elementRef: ElementRef,
     changeDetector: ChangeDetectorRef,
@@ -200,6 +204,16 @@ export class SkyTileComponent implements OnDestroy {
         .subscribe(() => {
           this.#changeDetector.markForCheck();
         });
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['showHelp']?.firstChange) {
+      this.#logSvc.deprecated('SkyTileComponent.showHelp', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation:
+          'Set the `helpKey` or `helpPopoverContent` inputs instead.',
+      });
     }
   }
 

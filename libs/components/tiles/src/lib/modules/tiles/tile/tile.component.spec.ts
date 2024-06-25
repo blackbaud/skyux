@@ -6,6 +6,7 @@ import {
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -362,6 +363,20 @@ describe('Tile component', () => {
 
       expect(contentAttrs['hidden']).toBe(undefined);
     });
+
+    it('should log a deprecation message', () => {
+      const fixture = TestBed.createComponent(TileTestComponent);
+      const logSvc = TestBed.inject(SkyLogService);
+      const logSpy = spyOn(logSvc, 'deprecated');
+
+      fixture.detectChanges();
+
+      expect(logSpy).toHaveBeenCalledWith('SkyTileComponent.showHelp', {
+        deprecationMajorVersion: 10,
+        replacementRecommendation:
+          'Set the `helpKey` or `helpPopoverContent` inputs instead.',
+      });
+    });
   });
 
   it('should create default aria labels or set aria-labelledby to title id when tileName is not defined', fakeAsync(() => {
@@ -440,7 +455,7 @@ describe('Tile component', () => {
     expect(getHelpInlineButton(fixture)).toBeDefined();
   });
 
-  it('should not render help inline if tile name undefined', () => {
+  it('should not render help inline if popover content provided but tile name undefined', () => {
     const fixture = TestBed.createComponent(TileTestComponent);
 
     fixture.componentInstance.tileName = undefined;
@@ -463,5 +478,15 @@ describe('Tile component', () => {
     fixture.detectChanges();
 
     helpController.expectCurrentHelpKey('foo.html');
+  });
+
+  it('should not render help inline if helpKey provided but tile name undefined', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+
+    fixture.componentInstance.tileName = undefined;
+    fixture.componentInstance.helpKey = 'foo.html';
+    fixture.detectChanges();
+
+    expect(getHelpInlineButton(fixture)).toBeNull();
   });
 });
