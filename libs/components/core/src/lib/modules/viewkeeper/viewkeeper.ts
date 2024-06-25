@@ -135,6 +135,8 @@ export class SkyViewkeeper {
 
   #intersectionObserver: IntersectionObserver | undefined;
 
+  #spacerResizeObserver: ResizeObserver | undefined;
+
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
 
@@ -163,7 +165,8 @@ export class SkyViewkeeper {
       this.#viewportMarginTop = options.viewportMarginTop ?? 0;
     }
 
-    this.#syncElPositionHandler = () => this.syncElPosition(el, boundaryEl);
+    this.#syncElPositionHandler = (): void =>
+      this.syncElPosition(el, boundaryEl);
 
     if (this.#verticalOffsetEl) {
       this.#verticalOffsetEl.addEventListener(
@@ -228,7 +231,13 @@ export class SkyViewkeeper {
         );
       }
 
-      this.#el = this.#boundaryEl = this.#verticalOffsetEl = undefined;
+      this.#spacerResizeObserver?.disconnect();
+
+      this.#el =
+        this.#boundaryEl =
+        this.#verticalOffsetEl =
+        this.#spacerResizeObserver =
+          undefined;
 
       this.#isDestroyed = true;
     }
@@ -241,9 +250,13 @@ export class SkyViewkeeper {
   #unfixEl(el: HTMLElement): void {
     const spacerEl = document.getElementById(this.#getSpacerId());
 
-    /*istanbul ignore else*/
-    if (spacerEl?.parentElement) {
-      spacerEl.parentElement.removeChild(spacerEl);
+    if (spacerEl) {
+      this.#spacerResizeObserver?.unobserve(spacerEl);
+
+      /*istanbul ignore else*/
+      if (spacerEl.parentElement) {
+        spacerEl.parentElement.removeChild(spacerEl);
+      }
     }
 
     el.classList.remove(CLS_VIEWKEEPER_FIXED);
@@ -370,6 +383,14 @@ export class SkyViewkeeper {
       if (el.parentNode) {
         el.parentNode.insertBefore(spacerEl, el.nextSibling);
       }
+
+      if (!this.#spacerResizeObserver) {
+        this.#spacerResizeObserver = new ResizeObserver(() =>
+          this.#syncElPositionHandler(),
+        );
+      }
+
+      this.#spacerResizeObserver.observe(spacerEl);
     }
 
     el.classList.add(CLS_VIEWKEEPER_FIXED);
