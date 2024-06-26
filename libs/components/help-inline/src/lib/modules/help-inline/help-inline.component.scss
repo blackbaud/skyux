@@ -22,28 +22,18 @@
 }
 
 @include mixins.sky-theme-modern {
+  sky-icon-stack {
+    display: inline-flex;
+  }
   .sky-help-inline {
     // The button mixin sets the border radius to 6px but we only want 3px on help inline buttons.
     border-radius: 3px;
+    ::ng-deep .fa-stack-2x {
+      font-size: 16px;
+    }
 
-    .help-inline-icon {
-      display: inline-flex;
-      vertical-align: top;
-
-      .sky-icon-stack {
-        display: inline-flex;
-        width: 1.25em;
-        height: 1.25em;
-        line-height: 1.25em;
-
-        .fa-stack-2x {
-          font-size: 16px;
-        }
-
-        .fa-stack-1x {
-          font-size: 10px;
-        }
-      }
+    ::ng-deep .fa-stack-1x {
+      font-size: 10px;
     }
 
     // The 0px and 5px padding is because we want 1px top/bottom and 6px left/right but the mixin
