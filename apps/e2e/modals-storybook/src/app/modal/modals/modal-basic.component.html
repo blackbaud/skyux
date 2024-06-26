@@ -1,4 +1,8 @@
-<sky-modal [formErrors]="errors">
+<sky-modal
+  [formErrors]="errors"
+  [headingText]="context?.headingText"
+  [helpPopoverContent]="context?.helpPopoverContent"
+>
   <sky-modal-header>
     {{ title
     }}<sky-help-inline
