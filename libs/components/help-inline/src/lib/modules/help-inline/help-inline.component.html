@@ -1,20 +1,4 @@
 @if (popoverContent) {
-  <!-- <sky-help-inline-popover-button
-    [ariaControls]="ariaControls"
-    [ariaLabel]="
-      labelText
-        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-        : ariaLabel
-          ? ariaLabel
-          : ('skyux_help_inline_button_title' | skyLibResources)
-    "
-    [labelText]="labelText"
-    [popoverContent]="popoverContent"
-    [popoverTitle]="popoverTitle"
-    (click)="actionClick.emit()"
-  >
-    <ng-container [ngTemplateOutlet]="iconTemplate" />
-  </sky-help-inline-popover-button> -->
   <button
     class="sky-help-inline"
     type="button"
@@ -46,21 +30,6 @@
     }
   </sky-popover>
 } @else if (helpKey) {
-  <!-- <sky-help-inline-help-key-button
-    [ariaControls]="ariaControls"
-    [ariaLabel]="
-      labelText
-        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-        : ariaLabel
-          ? ariaLabel
-          : ('skyux_help_inline_button_title' | skyLibResources)
-    "
-    [helpKey]="helpKey"
-    [labelText]="labelText"
-    (click)="actionClick.emit()"
-  >
-    <ng-container [ngTemplateOutlet]="iconTemplate" />
-  </sky-help-inline-help-key-button> -->
   <button
     class="sky-help-inline"
     type="button"
