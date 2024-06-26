@@ -40,6 +40,10 @@ import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resource
 export class SkyHelpInlineComponent {
   readonly #idSvc = inject(SkyIdService);
 
+  protected readonly globalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
+    optional: true,
+  });
+
   protected readonly helpSvc = inject(SkyHelpService, { optional: true });
   protected popoverId: string | undefined;
   protected popoverTemplate: TemplateRef<unknown> | undefined;
@@ -105,10 +109,6 @@ export class SkyHelpInlineComponent {
   public helpKey: string | undefined;
 
   #_popoverContent: string | TemplateRef<unknown> | undefined;
-
-  protected readonly globalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
-    optional: true,
-  });
 
   /**
    * Fires when the user clicks the help inline button.
