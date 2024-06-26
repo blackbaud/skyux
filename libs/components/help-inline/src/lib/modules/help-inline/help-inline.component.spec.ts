@@ -403,7 +403,7 @@ describe('Help inline component', () => {
       await checkAriaPropertiesAndAccessibility(
         'Show help content',
         helpPanelTestEl.id,
-        null,
+        'false',
         'dialog',
       );
     });

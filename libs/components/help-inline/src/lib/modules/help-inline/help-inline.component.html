@@ -1,26 +1,108 @@
-<button
-  class="sky-help-inline"
-  type="button"
-  [attr.aria-label]="
-    labelText
-      ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-      : ariaLabel
-        ? ariaLabel
-        : ('skyux_help_inline_button_title' | skyLibResources)
-  "
-  [attr.aria-controls]="
-    ariaControls | skyHelpInlineAriaControls: popoverId : helpKey
-  "
-  [attr.aria-expanded]="
-    ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
-  "
-  [attr.aria-haspopup]="helpKey | skyHelpInlineAriaHaspopup"
-  [ngClass]="{
-    'sky-help-inline-hidden': helpKey && !helpSvc && !popoverContent
-  }"
-  [skyPopover]="popoverContent ? popover : undefined"
-  (click)="onClick()"
->
+@if (popoverContent) {
+  <!-- <sky-help-inline-popover-button
+    [ariaControls]="ariaControls"
+    [ariaLabel]="
+      labelText
+        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+        : ariaLabel
+          ? ariaLabel
+          : ('skyux_help_inline_button_title' | skyLibResources)
+    "
+    [labelText]="labelText"
+    [popoverContent]="popoverContent"
+    [popoverTitle]="popoverTitle"
+    (click)="actionClick.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="iconTemplate" />
+  </sky-help-inline-popover-button> -->
+  <button
+    class="sky-help-inline"
+    type="button"
+    [attr.aria-controls]="popoverId || ariaControls"
+    [attr.aria-expanded]="isPopoverOpened"
+    [attr.aria-label]="
+      labelText
+        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+        : ariaLabel
+          ? ariaLabel
+          : ('skyux_help_inline_button_title' | skyLibResources)
+    "
+    [skyPopover]="popoverRef"
+    (click)="onClick()"
+  >
+    <ng-container [ngTemplateOutlet]="iconTemplate" />
+  </button>
+  <sky-popover
+    [id]="popoverId"
+    [popoverTitle]="popoverTitle"
+    (popoverClosed)="popoverOpened(false)"
+    (popoverOpened)="popoverOpened(true)"
+    #popoverRef
+  >
+    @if (popoverTemplate) {
+      <ng-container *ngTemplateOutlet="popoverTemplate" />
+    } @else {
+      {{ popoverContent }}
+    }
+  </sky-popover>
+} @else if (helpKey) {
+  <!-- <sky-help-inline-help-key-button
+    [ariaControls]="ariaControls"
+    [ariaLabel]="
+      labelText
+        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+        : ariaLabel
+          ? ariaLabel
+          : ('skyux_help_inline_button_title' | skyLibResources)
+    "
+    [helpKey]="helpKey"
+    [labelText]="labelText"
+    (click)="actionClick.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="iconTemplate" />
+  </sky-help-inline-help-key-button> -->
+  <button
+    class="sky-help-inline"
+    type="button"
+    [attr.aria-controls]="globalOptions?.ariaControls || ariaControls"
+    [attr.aria-expanded]="
+      globalOptions?.ariaControls || ariaControls ? !!ariaExpanded : null
+    "
+    [attr.aria-label]="
+      labelText
+        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+        : ariaLabel
+          ? ariaLabel
+          : ('skyux_help_inline_button_title' | skyLibResources)
+    "
+    [attr.aria-haspopup]="globalOptions?.ariaHaspopup"
+    [ngClass]="{
+      'sky-help-inline-hidden': !helpSvc
+    }"
+    (click)="onClick()"
+  >
+    <ng-container [ngTemplateOutlet]="iconTemplate" />
+  </button>
+} @else {
+  <button
+    class="sky-help-inline"
+    type="button"
+    [attr.aria-controls]="ariaControls"
+    [attr.aria-expanded]="ariaControls ? !!ariaExpanded : null"
+    [attr.aria-label]="
+      labelText
+        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+        : ariaLabel
+          ? ariaLabel
+          : ('skyux_help_inline_button_title' | skyLibResources)
+    "
+    (click)="onClick()"
+  >
+    <ng-container [ngTemplateOutlet]="iconTemplate" />
+  </button>
+}
+
+<ng-template #iconTemplate>
   <sky-icon *skyThemeIf="'default'" icon="info-circle" />
   <sky-icon-stack
     *skyThemeIf="'modern'"
@@ -34,20 +116,4 @@
       iconType: 'skyux'
     }"
   />
-</button>
-
-<sky-popover
-  #popover
-  [id]="popoverId"
-  (popoverClosed)="popoverOpened(false)"
-  (popoverOpened)="popoverOpened(true)"
-  [popoverTitle]="popoverTitle"
->
-  <ng-container *ngIf="popoverTemplate; else popoverContext">
-    <ng-container *ngTemplateOutlet="popoverTemplate" />
-  </ng-container>
-</sky-popover>
-
-<ng-template #popoverContext>
-  {{ popoverContent }}
 </ng-template>
