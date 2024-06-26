@@ -37,8 +37,15 @@ describe('Help inline component', () => {
   ): Promise<void> {
     const helpInlineEl =
       fixture.nativeElement.querySelector('.sky-help-inline');
+    const labelEl = fixture.nativeElement.querySelector(
+      '.sky-screen-reader-only[aria-hidden="true"]',
+    );
+    const labelElId = labelEl?.getAttribute('id');
 
-    expect(helpInlineEl?.getAttribute('aria-label')).toBe(ariaLabel);
+    expect(labelEl).toBeTruthy();
+    expect(labelElId).toBeTruthy();
+    expect(helpInlineEl?.getAttribute('aria-labelledby')).toContain(labelElId);
+    expect(labelEl).toHaveText(ariaLabel);
     expect(helpInlineEl?.getAttribute('aria-controls')).toBe(ariaControls);
     expect(helpInlineEl?.getAttribute('aria-expanded')).toBe(ariaExpanded);
 
@@ -360,6 +367,13 @@ describe('Help inline component', () => {
         null,
       );
     });
+
+    it('should not create the popover component if popover content is undefined', () => {
+      component.popoverContent = undefined;
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('sky-popover'))).toBeNull();
+    });
   });
 
   describe('with global options', () => {
@@ -403,7 +417,7 @@ describe('Help inline component', () => {
       await checkAriaPropertiesAndAccessibility(
         'Show help content',
         helpPanelTestEl.id,
-        null,
+        'false',
         'dialog',
       );
     });

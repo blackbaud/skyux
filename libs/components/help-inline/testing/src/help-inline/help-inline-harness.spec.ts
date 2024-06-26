@@ -20,11 +20,15 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
       [popoverContent]="popoverContent"
       [popoverTitle]="popoverTitle"
       (actionClick)="onActionClick()"
-    ></sky-help-inline>
+    />
+    <sky-help-inline data-sky-id="help-inline" (actionClick)="otherClick()" />
     <sky-help-inline
-      data-sky-id="help-inline"
+      data-sky-id="help-inline-using-labelled-by"
+      labelledBy="label1 label2"
       (actionClick)="otherClick()"
-    ></sky-help-inline>
+    />
+    <span id="label1">An explanation</span>
+    <span id="label2">that spans multiple elements</span>
   `,
 })
 class TestComponent {
@@ -51,10 +55,10 @@ describe('Inline help harness', () => {
     fixture: ComponentFixture<TestComponent>;
     loader: HarnessLoader;
   }> {
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [SkyHelpInlineModule, NoopAnimationsModule],
-    }).compileComponents();
+    });
 
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -148,6 +152,15 @@ describe('Inline help harness', () => {
 
     await expectAsync(helpInlineHarness.getAriaLabel()).toBeResolvedTo(
       'aria label',
+    );
+  });
+
+  it('should get aria labelled by', async () => {
+    const { helpInlineHarness } = await setupTest({
+      dataSkyId: 'help-inline-using-labelled-by',
+    });
+    await expectAsync(helpInlineHarness.getLabelText()).toBeResolvedTo(
+      'An explanation that spans multiple elements',
     );
   });
 

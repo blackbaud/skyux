@@ -7,16 +7,17 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import { SkyHelpService, SkyIdModule, SkyIdService } from '@skyux/core';
+import {
+  SKY_HELP_GLOBAL_OPTIONS,
+  SkyHelpService,
+  SkyIdModule,
+  SkyIdService,
+} from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
-
-import { SkyHelpInlineAriaControlsPipe } from './help-inline-aria-controls.pipe';
-import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
-import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe';
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
@@ -29,9 +30,6 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
   styleUrls: ['./help-inline.component.scss'],
   imports: [
     CommonModule,
-    SkyHelpInlineAriaControlsPipe,
-    SkyHelpInlineAriaExpandedPipe,
-    SkyHelpInlineAriaHaspopupPipe,
     SkyHelpInlineResourcesModule,
     SkyIconModule,
     SkyIdModule,
@@ -41,6 +39,10 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
 })
 export class SkyHelpInlineComponent {
   readonly #idSvc = inject(SkyIdService);
+
+  protected readonly globalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
+    optional: true,
+  });
 
   protected readonly helpSvc = inject(SkyHelpService, { optional: true });
   protected popoverId: string | undefined;
@@ -64,11 +66,19 @@ export class SkyHelpInlineComponent {
 
   /**
    * The ARIA label for the help inline button. This sets the button's `aria-label` to provide a text equivalent for screen readers.
-   * Will be overridden if label text is set.
+   * Will be overridden if `labelText` or `labelledBy` is set.
    * @default "Show help content"
    */
   @Input()
   public ariaLabel: string | undefined;
+
+  /**
+   * The ID of the element associated with the help inline button. This is used to set the button's `aria-labelledby`,
+   * which provide a text equivalent for screen readers. Will be overridden if `labelText` is set.
+   * @internal
+   */
+  @Input()
+  public labelledBy: string | undefined;
 
   /**
    * The label of the component help inline is attached to.

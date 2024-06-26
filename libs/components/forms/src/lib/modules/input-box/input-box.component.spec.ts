@@ -1,3 +1,4 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
   ComponentFixture,
   TestBed,
@@ -11,6 +12,7 @@ import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -428,15 +430,18 @@ describe('Input box component', () => {
       fixture: ComponentFixture<InputBoxFixtureComponent>,
       expectedText: string,
     ): Promise<void> {
-      const els = getDefaultEls(fixture, 'input-easy-mode');
+      const loader = TestbedHarnessEnvironment.loader(fixture);
+      const helpInlineHarness = await loader.getHarness(
+        SkyHelpInlineHarness.with({
+          selector: '.input-easy-mode sky-help-inline',
+        }),
+      );
 
-      const inlineHelpBtnEl = els.inlineHelpEl?.querySelector(
-        '.sky-help-inline',
-      ) as HTMLButtonElement;
+      expect(await helpInlineHarness.getAriaLabel()).toBe(
+        'Show help content for Easy mode',
+      );
 
-      expect(inlineHelpBtnEl.ariaLabel).toBe('Show help content for Easy mode');
-
-      inlineHelpBtnEl.click();
+      await helpInlineHarness.click();
 
       // Allow the popover open event to fire.
       fixture.detectChanges();
@@ -450,7 +455,7 @@ describe('Input box component', () => {
       );
 
       expect(popoverBodyEl).toHaveText(expectedText);
-      expect(inlineHelpBtnEl.getAttribute('aria-expanded')).toBe('true');
+      expect(await helpInlineHarness.getAriaExpanded()).toBeTrue();
 
       document.body.click();
 
@@ -460,7 +465,7 @@ describe('Input box component', () => {
       // Allow the aria-expanded attribute to update.
       fixture.detectChanges();
 
-      expect(inlineHelpBtnEl.getAttribute('aria-expanded')).toBe('false');
+      expect(await helpInlineHarness.getAriaExpanded()).toBeFalse();
 
       fixture.componentInstance.easyModeHelpPopoverContent = undefined;
       fixture.detectChanges();
