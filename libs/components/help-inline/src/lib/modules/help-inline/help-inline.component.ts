@@ -8,17 +8,19 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SKY_HELP_GLOBAL_OPTIONS,
   SkyHelpService,
   SkyIdModule,
   SkyIdService,
   SkyTrimModule,
 } from '@skyux/core';
-import { SkyIconModule } from '@skyux/icon';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
+
+import { SkyHelpInlineAriaControlsPipe } from './help-inline-aria-controls.pipe';
+import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
+import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe';
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
@@ -31,8 +33,10 @@ import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resource
   styleUrls: ['./help-inline.component.scss'],
   imports: [
     CommonModule,
+    SkyHelpInlineAriaControlsPipe,
+    SkyHelpInlineAriaExpandedPipe,
+    SkyHelpInlineAriaHaspopupPipe,
     SkyHelpInlineResourcesModule,
-    SkyIconModule,
     SkyIdModule,
     SkyPopoverModule,
     SkyThemeModule,
@@ -107,10 +111,6 @@ export class SkyHelpInlineComponent {
   public helpKey: string | undefined;
 
   #_popoverContent: string | TemplateRef<unknown> | undefined;
-
-  protected readonly globalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
-    optional: true,
-  });
 
   /**
    * Fires when the user clicks the help inline button.
