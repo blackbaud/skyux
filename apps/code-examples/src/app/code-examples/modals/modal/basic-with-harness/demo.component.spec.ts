@@ -54,5 +54,7 @@ describe('Basic modal', () => {
     await expectAsync(modalHarness.getAriaRole()).toBeResolvedTo('dialog');
     await expectAsync(modalHarness.getSize()).toBeResolvedTo('medium');
     await expectAsync(modalHarness.isFullPage()).toBeResolvedTo(false);
+
+    // TODO: Add help inline harness example.
   });
 });
