@@ -129,14 +129,16 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   public tiledBody: boolean | undefined;
 
   /**
-   * Used by the confirm component to set descriptive text without a heading.
+   * Used by the confirm component to set descriptive text without using a
+   * modal header.
    * @internal
    */
   @Input()
   public ariaDescribedBy: string | undefined;
 
   /**
-   * Used by the confirm component to set descriptive text without a heading.
+   * Used by the confirm component to set descriptive text without using a
+   * modal header.
    * @internal
    */
   @Input()
@@ -301,6 +303,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     this.#ngUnsubscribe.complete();
   }
 
+  /**
+   * @deprecated
+   */
   public helpButtonClick(): void {
     if (this.legacyHelpKey) {
       this.#hostService.onOpenHelp(this.legacyHelpKey);
