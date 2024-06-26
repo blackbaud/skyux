@@ -14,12 +14,20 @@
       "command": "echo '🦾 Overriding the default build target.'",
       "cache": true
     },
+    "postbuild": {
+      "command": "echo '🦾 Overriding the default postbuild target.'",
+      "cache": true
+    },
     "lint": {
       "command": "echo '🦾 Overriding the default lint target.'",
       "cache": true
     },
     "test": {
       "command": "echo '🦾 Overriding the default test target.'",
+      "cache": true
+    },
+    "posttest": {
+      "command": "echo '🦾 Overriding the default posttest target.'",
       "cache": true
     }
   }
