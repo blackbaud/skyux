@@ -7,12 +7,8 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import {
-  SkyHelpService,
-  SkyIdModule,
-  SkyIdService,
-  SkyTrimModule,
-} from '@skyux/core';
+import { SkyHelpService, SkyIdModule, SkyIdService } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -37,10 +33,10 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
     SkyHelpInlineAriaExpandedPipe,
     SkyHelpInlineAriaHaspopupPipe,
     SkyHelpInlineResourcesModule,
+    SkyIconModule,
     SkyIdModule,
     SkyPopoverModule,
     SkyThemeModule,
-    SkyTrimModule,
   ],
 })
 export class SkyHelpInlineComponent {
