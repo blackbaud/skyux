@@ -118,6 +118,24 @@
   }
 }
 
+@mixin sky-component-host($theme, $selector: ':host', $encapsulate: true) {
+  @if $theme == 'default' {
+    #{$selector}.sky-cmp-theme-default {
+      @content;
+    }
+  } @else {
+    @if $encapsulate {
+      :host-context(.sky-theme-modern) #{$selector}.sky-cmp-theme-modern {
+        @content;
+      }
+    } @else {
+      .sky-theme-modern #{$selector}.sky-cmp-theme-modern {
+        @content;
+      }
+    }
+  }
+}
+
 @mixin sky-theme-modern {
   :host-context(.sky-theme-modern) {
     @content;

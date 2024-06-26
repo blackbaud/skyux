@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subscription } from 'rxjs';
 
@@ -22,18 +23,12 @@ const ALERT_TYPE_DEFAULT = 'warning';
 
 @Component({
   selector: 'sky-alert',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
   styleUrls: [
     './alert.default.component.scss',
     './alert.modern.component.scss',
   ],
   templateUrl: './alert.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   /**
