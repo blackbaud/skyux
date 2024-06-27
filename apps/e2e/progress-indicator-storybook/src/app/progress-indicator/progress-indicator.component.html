@@ -11,7 +11,10 @@
   <sky-progress-indicator-item title="Current step">
     <sky-help-inline class="sky-control-help"></sky-help-inline>
   </sky-progress-indicator-item>
-  <sky-progress-indicator-item title="Unfinished step">
+  <sky-progress-indicator-item
+    helpPopoverContent="help"
+    title="Unfinished step"
+  >
   </sky-progress-indicator-item>
 </sky-progress-indicator>
 <sky-progress-indicator-nav-button
@@ -31,8 +34,10 @@
 ></sky-progress-indicator-nav-button>
 
 <sky-progress-indicator [startingIndex]="1" #demo2>
-  <sky-progress-indicator-item title="Finished step"
+  <sky-progress-indicator-item title="Finished step" helpPopoverContent="help"
     >Optional details about this step
+    <sky-help-inline class="sky-control-help" />
+    <!-- this help inline component should not appear -->
   </sky-progress-indicator-item>
   <sky-progress-indicator-item title="Current step">
   </sky-progress-indicator-item>

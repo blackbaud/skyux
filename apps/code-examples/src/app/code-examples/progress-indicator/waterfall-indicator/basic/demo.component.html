@@ -8,7 +8,10 @@
     Set up my connection
   </sky-progress-indicator-title>
 
-  <sky-progress-indicator-item title="Configure connection">
+  <sky-progress-indicator-item
+    helpPopoverContent="Example help for configure connection"
+    title="Configure connection"
+  >
     <div>
       <button
         *ngIf="activeIndex === 0"
@@ -29,7 +32,11 @@
     </div>
   </sky-progress-indicator-item>
 
-  <sky-progress-indicator-item title="Select remote server">
+  <sky-progress-indicator-item
+    helpPopoverContent="Example help for select remote server"
+    helpPopoverTitle="Which server is right for me?"
+    title="Select remote server"
+  >
     <div *ngIf="activeIndex && activeIndex >= 1">
       <button
         *ngIf="activeIndex === 1"
