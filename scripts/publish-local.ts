@@ -5,6 +5,7 @@ import { updateJsonFile } from '@nx/workspace';
 import { SpawnOptions } from 'child_process';
 import { readFileSync, writeFileSync } from 'fs';
 import { format } from 'prettier';
+import { parse } from 'semver';
 
 import { runCommand } from './utils/spawn';
 
@@ -20,7 +21,14 @@ async function skyuxDevCommand(
   const startVersion = getPackageJson(packageJsonFile).version;
   try {
     updateJsonFile(packageJsonFile, (json) => {
-      json.version = `${startVersion.split('-').shift()}-local.${Date.now()}`;
+      const version = parse(json.version);
+      if (version) {
+        // Create a similar version number that is not already published, with the same prerelease value.
+        json.version = `${version.major}.${version.minor}.${version.patch + 1000}`;
+        if (version.prerelease.length) {
+          json.version += `-${version.prerelease.join('.')}`;
+        }
+      }
       return json;
     });
     await skyuxDevCommand([`create-packages-dist`], {
