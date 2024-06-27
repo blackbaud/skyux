@@ -52,7 +52,7 @@ export async function verifyE2e(
   buildIdFilesPath: string,
   core: Core,
   githubApi: {
-    listJobsForWorkflowRun: () => Promise<{ data: { jobs: WorkflowJob[] } }>;
+    listJobsForWorkflowRun: () => Promise<WorkflowJob[]>;
   },
   allowMissingScreenshots: boolean,
   /* istanbul ignore next */
@@ -205,8 +205,8 @@ export async function verifyE2e(
   }
 
   async function listJobsForWorkflowRun(): Promise<WorkflowJob[]> {
-    const { data } = await githubApi.listJobsForWorkflowRun();
-    return data.jobs.filter((job: WorkflowJob) =>
+    const jobs = await githubApi.listJobsForWorkflowRun();
+    return jobs.filter((job: WorkflowJob) =>
       job.name.startsWith('End to end tests'),
     );
   }

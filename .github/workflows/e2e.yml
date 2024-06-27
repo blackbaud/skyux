@@ -240,7 +240,7 @@ jobs:
             fi
           done
           # Do not include any percy logs.
-          rm -f ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/percy-*
+          rm -rf ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}percy-*
       - name: Generate Storybook Composition
         shell: bash
         run: |

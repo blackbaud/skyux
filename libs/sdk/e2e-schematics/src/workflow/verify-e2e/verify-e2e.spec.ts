@@ -46,11 +46,7 @@ describe('verify-e2e', () => {
       fetch: jest.fn(),
       fs,
       jobs,
-      listJobsForWorkflowRun: jest.fn().mockReturnValue({
-        data: {
-          jobs,
-        },
-      }),
+      listJobsForWorkflowRun: jest.fn().mockResolvedValue(jobs),
       exit: jest.fn(),
     };
   }
@@ -96,21 +92,17 @@ describe('verify-e2e', () => {
 
   it('should handle skipped job', async () => {
     const { verifyE2e, core, listJobsForWorkflowRun } = await setupTest();
-    listJobsForWorkflowRun.mockReturnValue({
-      data: {
-        jobs: [
+    listJobsForWorkflowRun.mockResolvedValue([
+      {
+        name: 'End to end tests (project1)',
+        steps: [
           {
-            name: 'End to end tests (project1)',
-            steps: [
-              {
-                name: 'Percy project1',
-                conclusion: 'skipped',
-              },
-            ],
+            name: 'Percy project1',
+            conclusion: 'skipped',
           },
         ],
       },
-    });
+    ]);
     await verifyE2e(
       ['project1'],
       '/tmp/path',
@@ -128,21 +120,17 @@ describe('verify-e2e', () => {
 
   it('should handle missing job', async () => {
     const { verifyE2e, core, listJobsForWorkflowRun, exit } = await setupTest();
-    listJobsForWorkflowRun.mockReturnValue({
-      data: {
-        jobs: [
+    listJobsForWorkflowRun.mockResolvedValue([
+      {
+        name: 'End to end tests (project1)',
+        steps: [
           {
-            name: 'End to end tests (project1)',
-            steps: [
-              {
-                name: 'Percy project1',
-                conclusion: 'skipped',
-              },
-            ],
+            name: 'Percy project1',
+            conclusion: 'skipped',
           },
         ],
       },
-    });
+    ]);
     await verifyE2e(
       ['project1', 'project2'],
       '/tmp/path',
@@ -163,30 +151,26 @@ describe('verify-e2e', () => {
   it('should handle missing build', async () => {
     const { verifyE2e, core, listJobsForWorkflowRun, checkPercyBuild, exit } =
       await setupTest();
-    listJobsForWorkflowRun.mockReturnValue({
-      data: {
-        jobs: [
+    listJobsForWorkflowRun.mockResolvedValue([
+      {
+        name: 'End to end tests (project1)',
+        steps: [
           {
-            name: 'End to end tests (project1)',
-            steps: [
-              {
-                name: 'Percy project1',
-                conclusion: 'success',
-              },
-            ],
-          },
-          {
-            name: 'End to end tests (project2)',
-            steps: [
-              {
-                name: 'Percy project2',
-                conclusion: 'success',
-              },
-            ],
+            name: 'Percy project1',
+            conclusion: 'success',
           },
         ],
       },
-    });
+      {
+        name: 'End to end tests (project2)',
+        steps: [
+          {
+            name: 'Percy project2',
+            conclusion: 'success',
+          },
+        ],
+      },
+    ]);
     checkPercyBuild.mockImplementation((project) =>
       Promise.resolve({
         project,
@@ -220,21 +204,17 @@ describe('verify-e2e', () => {
 
   it('should handle failed job', async () => {
     const { verifyE2e, core, listJobsForWorkflowRun, exit } = await setupTest();
-    listJobsForWorkflowRun.mockReturnValue({
-      data: {
-        jobs: [
+    listJobsForWorkflowRun.mockResolvedValue([
+      {
+        name: 'End to end tests (project1)',
+        steps: [
           {
-            name: 'End to end tests (project1)',
-            steps: [
-              {
-                name: 'Percy project1',
-                conclusion: 'failed',
-              },
-            ],
+            name: 'Percy project1',
+            conclusion: 'failed',
           },
         ],
       },
-    });
+    ]);
     await verifyE2e(
       ['project1'],
       '/tmp/path',
@@ -291,19 +271,17 @@ describe('verify-e2e', () => {
         state: `${args[0]}`.replace(/^skyux-project-/, ''),
       } as BuildSummary),
     );
-    listJobsForWorkflowRun.mockReturnValue({
-      data: {
-        jobs: e2eProjects.map((project) => ({
-          name: `End to end tests (${project})`,
-          steps: [
-            {
-              name: `Percy ${project}`,
-              conclusion: 'success',
-            },
-          ],
-        })),
-      },
-    });
+    listJobsForWorkflowRun.mockResolvedValue(
+      e2eProjects.map((project) => ({
+        name: `End to end tests (${project})`,
+        steps: [
+          {
+            name: `Percy ${project}`,
+            conclusion: 'success',
+          },
+        ],
+      })),
+    );
     await verifyE2e(
       e2eProjects,
       '/tmp/path',
