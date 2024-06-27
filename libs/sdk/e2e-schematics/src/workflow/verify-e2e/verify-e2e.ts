@@ -1,3 +1,6 @@
+import { existsSync, readFileSync } from 'fs';
+import { join } from 'path';
+
 import { Fetch, checkPercyBuild } from '../percy-api/percy-api';
 
 interface WorkflowJob {
@@ -14,44 +17,42 @@ interface WorkflowStepSummary {
   succeeded: boolean;
 }
 
+type Core = {
+  debug: (message: string) => void;
+  error: (message: string) => void;
+  warning: (message: string) => void;
+  notice: (message: string) => void;
+  info: (message: string) => void;
+  setFailed: (message: string) => void;
+  setOutput: (name: string, value: string) => void;
+};
+
+export type Logger = Pick<
+  Core,
+  'debug' | 'error' | 'info' | 'notice' | 'warning'
+>;
+
 /**
  * Call from GitHub Actions workflow:
  *
  * await verifyE2e(
  *   e2eProjects,
- *   context.repo.owner,
- *   context.repo.repo,
- *   '${{ needs.install-deps.outputs.head }}',
- *   '${{ github.run_id }}',
+ *   '${{ runner.temp }}/percy-builds',
  *   core,
  *   {
  *     listJobsForWorkflowRun: github.rest.actions.listJobsForWorkflowRun
  *   },
  *   allowMissingScreenshots,
- *   percyFetchOptions,
- *   fetch,
- *   exit
+ *   (url) => fetch(url, options),
+ *   (number) => process.exit(number)
  * );
  */
 export async function verifyE2e(
   e2eProjects: string[],
-  owner: string,
-  repo: string,
-  headSha: string,
-  run_id: string,
-  core: {
-    info: (message: string) => void;
-    setFailed: (message: string) => void;
-    setOutput: (name: string, value: string) => void;
-  },
+  buildIdFilesPath: string,
+  core: Core,
   githubApi: {
-    listJobsForWorkflowRun: (params: {
-      owner: string;
-      repo: string;
-      run_id: string;
-      per_page: number;
-      page: number;
-    }) => Promise<{ data: { jobs: WorkflowJob[] } }>;
+    listJobsForWorkflowRun: () => Promise<WorkflowJob[]>;
   },
   allowMissingScreenshots: boolean,
   /* istanbul ignore next */
@@ -81,12 +82,29 @@ export async function verifyE2e(
       let icon: string;
       let summary: string;
       if (e2eStep.succeeded) {
+        const buildIdFile = join(
+          buildIdFilesPath,
+          `percy-build-${e2eStep.project}.txt`,
+        );
+        if (!existsSync(buildIdFile)) {
+          reviewComplete = false;
+          core.warning(`🚫 ${e2eStep.project} (missing percy build ID file)`);
+          continue;
+        }
+        const buildId = readFileSync(buildIdFile, 'utf-8').trim();
+        if (!buildId) {
+          reviewComplete = false;
+          core.warning(`🚫 ${e2eStep.project} (empty percy build ID file)`);
+          continue;
+        }
+
         const projectStatus = await checkPercyBuild(
           `skyux-${e2eStep.project}`,
-          headSha,
+          buildId,
+          core,
           fetchClient,
         );
-        if (projectStatus.state !== 'finished' || !projectStatus.approved) {
+        if (projectStatus?.state !== 'finished' || !projectStatus?.approved) {
           reviewComplete = false;
         }
         if (
@@ -124,12 +142,16 @@ export async function verifyE2e(
             icon = '❌';
             summary = 'failed';
             break;
+          case typeof projectStatus.state === 'undefined':
+            icon = '🚫';
+            summary = 'no Percy build found';
+            break;
           default:
             icon = '❓';
             summary = `Percy state: "${projectStatus.state}"`;
         }
       } else {
-        icon = '❓';
+        icon = '❌';
         summary = 'workflow step failed';
         reviewComplete = false;
       }
@@ -182,27 +204,11 @@ export async function verifyE2e(
     core.info('No E2E Visual Review to verify.');
   }
 
-  async function listJobsForWorkflowRun(page = 1) {
-    const params = {
-      owner,
-      repo,
-      run_id,
-      per_page: 100,
-    };
-    const { data } = await githubApi.listJobsForWorkflowRun({
-      ...params,
-      page,
-    });
-    const workflowE2eJobs: WorkflowJob[] = [];
-    workflowE2eJobs.push(
-      ...data.jobs.filter((job: WorkflowJob) =>
-        job.name.startsWith('End to end tests'),
-      ),
+  async function listJobsForWorkflowRun(): Promise<WorkflowJob[]> {
+    const jobs = await githubApi.listJobsForWorkflowRun();
+    return jobs.filter((job: WorkflowJob) =>
+      job.name.startsWith('End to end tests'),
     );
-    if (data.jobs.length === params.per_page) {
-      workflowE2eJobs.push(...(await listJobsForWorkflowRun(page + 1)));
-    }
-    return workflowE2eJobs;
   }
 
   async function listPercyWorkflowSteps(): Promise<WorkflowStepSummary[]> {
@@ -218,11 +224,11 @@ export async function verifyE2e(
             step.name.startsWith('Percy'),
           ),
         )
-        .filter((step) => step)
+        .filter((step): step is WorkflowJobStep => !!step)
         .map((step) => ({
-          project: (step as WorkflowJobStep).name.replace(/^Percy /, ''),
-          skipped: (step as WorkflowJobStep).conclusion === 'skipped',
-          succeeded: (step as WorkflowJobStep).conclusion === 'success',
+          project: step.name.replace(/^Percy /, ''),
+          skipped: step.conclusion === 'skipped',
+          succeeded: step.conclusion === 'success',
         })),
     );
   }
