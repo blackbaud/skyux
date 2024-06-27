@@ -40,22 +40,17 @@
     &:checked:not(:disabled) + .sky-switch-control,
     &[type='checkbox']:indeterminate:not(:disabled) + .sky-switch-control {
       background-color: var(--sky-background-color-input-selected);
-      border-color: var(--sky-highlight-color-info);
-      border-width: 2px;
 
       &.sky-switch-control-success {
         background-color: lighten($sky-background-color-success, 10%);
-        border-color: var(--sky-highlight-color-success);
       }
 
       &.sky-switch-control-warning {
         background-color: lighten($sky-background-color-warning, 10%);
-        border-color: var(--sky-highlight-color-warning);
       }
 
       &.sky-switch-control-danger {
         background-color: lighten($sky-background-color-danger, 10%);
-        border-color: var(--sky-highlight-color-danger);
       }
     }
 
@@ -65,6 +60,30 @@
 
     &:focus + .sky-switch-control {
       @include mixins.sky-focus-outline;
+    }
+
+    &:not(:disabled) {
+      &.sky-switch-invalid + .sky-switch-control {
+        border: solid 2px var(--sky-highlight-color-danger);
+        box-shadow: none;
+      }
+
+      &:checked + .sky-switch-control,
+      &[type='checkbox']:indeterminate + .sky-switch-control,
+      &:hover + .sky-switch-control {
+        border: solid 1px var(--sky-background-color-primary-dark);
+      }
+
+      &:focus + .sky-switch-control,
+      &:active + .sky-switch-control {
+        border: solid 2px var(--sky-background-color-primary-dark);
+      }
+
+      &:focus:not(:active) + .sky-switch-control {
+        box-shadow: $sky-theme-modern-elevation-3-shadow-size
+          $sky-theme-modern-elevation-3-shadow-color;
+        outline: none;
+      }
     }
   }
 
@@ -128,92 +147,64 @@
     border-top-right-radius: $sky-border-radius;
     border-bottom-right-radius: $sky-border-radius;
   }
-}
 
-.sky-theme-modern {
-  .sky-switch-input:not(:disabled) {
-    &.sky-switch-invalid + .sky-switch-control {
-      border: solid 2px var(--sky-highlight-color-danger);
-      box-shadow: none;
+  .sky-switch-control {
+    background-color: transparent;
+  }
+
+  .sky-switch-input {
+    &:checked + .sky-switch-control,
+    &[type='checkbox']:indeterminate + .sky-switch-control {
+      background-color: var(--sky-background-color-input-selected);
+    }
+
+    &:disabled + .sky-switch-control {
+      background-color: $sky-theme-modern-background-color-neutral-medium;
+      border: none;
+      color: var(--sky-text-color-deemphasized);
     }
 
     &:checked + .sky-switch-control,
+    &:disabled:checked + .sky-switch-control,
     &[type='checkbox']:indeterminate + .sky-switch-control,
-    &:hover + .sky-switch-control {
-      border: solid 1px var(--sky-background-color-primary-dark);
-    }
-
-    &:focus + .sky-switch-control,
-    &:active + .sky-switch-control {
-      border: solid 2px var(--sky-background-color-primary-dark);
-    }
-
-    &:focus:not(:active) + .sky-switch-control {
-      box-shadow: $sky-theme-modern-elevation-3-shadow-size
-        $sky-theme-modern-elevation-3-shadow-color;
-      outline: none;
+    &[type='checkbox']:disabled:indeterminate + .sky-switch-control {
+      color: var(--sky-background-color-primary-dark);
     }
   }
 
+  .sky-switch-control {
+    border: none;
+    border-radius: $sky-theme-modern-box-border-radius-default;
+
+    &.sky-switch-control-icon {
+      font-size: 20px;
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  sky-checkbox .sky-switch-control-icon {
+    margin-right: $sky-theme-modern-space-sm;
+  }
+
+  sky-checkbox:last-of-type .sky-switch-control-icon {
+    margin-right: 0;
+  }
+
+  sky-radio .sky-switch-control-icon {
+    border-radius: $sky-theme-modern-box-border-radius-default;
+  }
+}
+
+.sky-theme-modern.sky-theme-mode-dark {
+  .sky-switch-input:disabled + .sky-switch-control {
+    background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
+    border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+    color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+  }
   .sky-switch-icon-group {
     .sky-switch-control {
-      background-color: transparent;
-    }
-
-    .sky-switch-input {
-      &:checked + .sky-switch-control,
-      &[type='checkbox']:indeterminate + .sky-switch-control {
-        background-color: var(--sky-background-color-input-selected);
-      }
-
-      &:disabled + .sky-switch-control {
-        background-color: $sky-theme-modern-background-color-neutral-medium;
-        border: none;
-        color: var(--sky-text-color-deemphasized);
-      }
-
-      &:checked + .sky-switch-control,
-      &:disabled:checked + .sky-switch-control,
-      &[type='checkbox']:indeterminate + .sky-switch-control,
-      &[type='checkbox']:disabled:indeterminate + .sky-switch-control {
-        color: var(--sky-background-color-primary-dark);
-      }
-    }
-
-    .sky-switch-control {
-      border: none;
-      border-radius: $sky-theme-modern-box-border-radius-default;
-
-      &.sky-switch-control-icon {
-        font-size: 20px;
-        height: 40px;
-        width: 40px;
-      }
-    }
-
-    sky-checkbox .sky-switch-control-icon {
-      margin-right: $sky-theme-modern-space-sm;
-    }
-
-    sky-checkbox:last-of-type .sky-switch-control-icon {
-      margin-right: 0;
-    }
-
-    sky-radio .sky-switch-control-icon {
-      border-radius: $sky-theme-modern-box-border-radius-default;
-    }
-  }
-
-  &.sky-theme-mode-dark {
-    .sky-switch-input:disabled + .sky-switch-control {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
-      border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
-      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
-    }
-    .sky-switch-icon-group {
-      .sky-switch-control {
-        color: $sky-theme-modern-mode-dark-font-body-default-color;
-      }
+      color: $sky-theme-modern-mode-dark-font-body-default-color;
     }
   }
 }
