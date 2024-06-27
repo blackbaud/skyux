@@ -7,17 +7,16 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
-import {
-  SKY_HELP_GLOBAL_OPTIONS,
-  SkyHelpService,
-  SkyIdModule,
-  SkyIdService,
-} from '@skyux/core';
+import { SkyHelpService, SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
+
+import { SkyHelpInlineAriaControlsPipe } from './help-inline-aria-controls.pipe';
+import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
+import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe';
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
@@ -30,6 +29,9 @@ import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resource
   styleUrls: ['./help-inline.component.scss'],
   imports: [
     CommonModule,
+    SkyHelpInlineAriaControlsPipe,
+    SkyHelpInlineAriaExpandedPipe,
+    SkyHelpInlineAriaHaspopupPipe,
     SkyHelpInlineResourcesModule,
     SkyIconModule,
     SkyIdModule,
@@ -39,10 +41,6 @@ import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resource
 })
 export class SkyHelpInlineComponent {
   readonly #idSvc = inject(SkyIdService);
-
-  protected readonly globalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
-    optional: true,
-  });
 
   protected readonly helpSvc = inject(SkyHelpService, { optional: true });
   protected popoverId: string | undefined;

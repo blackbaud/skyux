@@ -367,13 +367,6 @@ describe('Help inline component', () => {
         null,
       );
     });
-
-    it('should not create the popover component if popover content is undefined', () => {
-      component.popoverContent = undefined;
-      fixture.detectChanges();
-
-      expect(fixture.debugElement.query(By.css('sky-popover'))).toBeNull();
-    });
   });
 
   describe('with global options', () => {
@@ -417,7 +410,7 @@ describe('Help inline component', () => {
       await checkAriaPropertiesAndAccessibility(
         'Show help content',
         helpPanelTestEl.id,
-        'false',
+        null,
         'dialog',
       );
     });
