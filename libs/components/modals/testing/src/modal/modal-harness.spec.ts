@@ -134,6 +134,17 @@ describe('Modal test harness', () => {
     return { modalHarness, fixture, service, loader };
   }
 
+  function getContextProviders(
+    context: Partial<ModalTestContext>,
+  ): StaticProvider[] {
+    return [
+      {
+        provide: ModalTestContext,
+        useValue: context,
+      },
+    ];
+  }
+
   afterEach(() => {
     service.dispose();
     fixture.destroy();
@@ -295,17 +306,6 @@ describe('Modal test harness', () => {
   it('should get correct value for isDirty when true', async () => {
     await testIsDirtyDirective(true);
   });
-
-  function getContextProviders(
-    context: Partial<ModalTestContext>,
-  ): StaticProvider[] {
-    return [
-      {
-        provide: ModalTestContext,
-        useValue: context,
-      },
-    ];
-  }
 
   it('should get the heading text', async () => {
     const { modalHarness } = await setupTest({

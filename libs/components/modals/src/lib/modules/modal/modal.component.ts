@@ -149,7 +149,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   /**
    * @deprecated
    */
-  protected legacyHelpKey: string | undefined;
+  public legacyHelpKey: string | undefined;
 
   public modalState = 'in';
 

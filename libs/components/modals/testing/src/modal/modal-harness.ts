@@ -16,7 +16,7 @@ export class SkyModalHarness extends SkyComponentHarness {
 
   #getModal = this.locatorFor('.sky-modal');
   #getModalDialog = this.locatorFor('.sky-modal-dialog');
-  #getModalHeading = this.locatorFor('h2.sky-modal-heading');
+  #getModalHeading = this.locatorFor('.sky-modal-heading');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -71,14 +71,14 @@ export class SkyModalHarness extends SkyComponentHarness {
   public async getHelpPopoverContent(): Promise<
     TemplateRef<unknown> | string | undefined
   > {
-    return await (await this.#getHelpInline()).getPopoverContent();
+    return (await this.#getHelpInline()).getPopoverContent();
   }
 
   /**
    * Gets the help popover title.
    */
   public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
+    return (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**

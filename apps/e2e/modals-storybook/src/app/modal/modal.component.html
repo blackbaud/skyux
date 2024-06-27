@@ -55,9 +55,11 @@
   Open modal with absolutely-positioned background
 </button>
 <button
-  [ngClass]="buttonsHidden ? 'modal-screenshot-buttons-hidden' : ''"
   class="sky-btn sky-btn-default open-heading-text-help-inline-modal-btn"
   type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
   (click)="onOpenHeadingTextHelpInlineModalClick()"
 >
   Open help inline modal (heading text)

@@ -18,9 +18,6 @@ export class ModalComponent {
     value1: FormControl<string | null | undefined>;
   }>;
 
-  protected helpPopoverContent =
-    'Use the help inline component to invoke contextual user assistance.';
-
   readonly #context = inject(ModalDemoContext);
   readonly #dataSvc = inject(ModalDemoDataService);
   readonly #instance = inject(SkyModalInstance);

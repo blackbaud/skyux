@@ -76,7 +76,7 @@ class TestComponent {
 
   public fullPage: boolean | undefined;
 
-  public legacyHelpKey: string | undefined;
+  public helpKey: string | undefined;
 
   public size: string | undefined;
 
@@ -95,7 +95,7 @@ class TestComponent {
       ariaDescribedBy: this.ariaDescribedBy,
       ariaLabelledBy: this.ariaLabelledBy,
       ariaRole: this.ariaRole,
-      helpKey: this.legacyHelpKey,
+      helpKey: this.helpKey,
       size: this.size,
       fullPage: this.fullPage,
       tiledBody: this.tiledBody,
@@ -302,7 +302,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should click the help button correctly when it is triggered', fakeAsync(() => {
-    fixture.componentInstance.legacyHelpKey = 'test-key';
+    fixture.componentInstance.helpKey = 'test-key';
     const modal = launchTestModal();
 
     spyOn(fixture.componentInstance, 'helpTriggered').and.callThrough();
@@ -317,7 +317,7 @@ describe('Modal fixture', () => {
   }));
 
   it('should error if the modal has been closed when `clickHelpButton` is called', fakeAsync(() => {
-    fixture.componentInstance.legacyHelpKey = 'test-key';
+    fixture.componentInstance.helpKey = 'test-key';
     const modal = launchTestModal();
 
     fixture.componentInstance.closeModal();
@@ -337,7 +337,7 @@ describe('Modal fixture', () => {
 
   it('should error if the help button does not exist (modern theme) when `clickHelpButton` is called', fakeAsync(() => {
     fixture.componentInstance.fakeModern = true;
-    fixture.componentInstance.legacyHelpKey = 'test-key';
+    fixture.componentInstance.helpKey = 'test-key';
     const modal = launchTestModal();
 
     expect(() => modal.clickHelpButton()).toThrowError(
