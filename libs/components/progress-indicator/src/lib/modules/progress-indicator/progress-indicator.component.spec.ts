@@ -4,7 +4,12 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -35,6 +40,7 @@ describe('Progress indicator component', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
+  // #region helpers
   function detectChanges(): void {
     fixture.detectChanges();
     tick();
@@ -103,6 +109,8 @@ describe('Progress indicator component', () => {
     );
   }
 
+  // #endregion
+
   beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -115,7 +123,11 @@ describe('Progress indicator component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [SkyProgressIndicatorFixtureModule],
+      imports: [
+        SkyProgressIndicatorFixtureModule,
+        SkyHelpTestingModule,
+        NoopAnimationsModule,
+      ],
       providers: [
         {
           provide: SkyThemeService,
@@ -302,6 +314,56 @@ describe('Progress indicator component', () => {
       SkyProgressIndicatorItemStatus.Complete,
       SkyProgressIndicatorItemStatus.Active,
     ]);
+  });
+
+  it('should not render help inline for progress indicator item unless popover content is set', fakeAsync(() => {
+    componentInstance.startingIndex = 3;
+    detectChanges();
+
+    componentInstance.helpPopoverTitle = 'popover title';
+    detectChanges();
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    componentInstance.updateHelpContent('popover content');
+    detectChanges();
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(1);
+  }));
+
+  it('should render help inline if help key is provided', () => {
+    componentInstance.helpPopoverContent = undefined;
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline').length,
+    ).toBe(0);
+
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-help-inline'),
+    ).toBeTruthy();
+  });
+
+  it('should set global help config with help key', async () => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+    componentInstance.helpKey = 'helpKey.html';
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    const helpInlineButton = fixture.nativeElement.querySelector(
+      '.sky-help-inline',
+    ) as HTMLElement | undefined;
+    helpInlineButton?.click();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    helpController.expectCurrentHelpKey('helpKey.html');
   });
 
   describe('Passive mode', () => {

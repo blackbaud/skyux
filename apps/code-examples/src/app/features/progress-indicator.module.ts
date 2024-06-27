@@ -23,20 +23,6 @@ const routes: Routes = [
         '../code-examples/progress-indicator/wizard/basic/demo.component'
       ).then((c) => c.DemoComponent),
   },
-  {
-    path: 'passive/inline-help',
-    loadComponent: () =>
-      import(
-        '../code-examples/progress-indicator/passive-indicator/inline-help/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
-  {
-    path: 'waterfall/inline-help',
-    loadComponent: () =>
-      import(
-        '../code-examples/progress-indicator/waterfall-indicator/inline-help/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
 ];
 
 @NgModule({

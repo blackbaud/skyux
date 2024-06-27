@@ -12,21 +12,36 @@
   <div class="sky-progress-indicator-item-content">
     <div
       *ngIf="showTitle"
-      aria-level="2"
-      class="sky-progress-indicator-item-heading"
-      role="heading"
-      [ngClass]="{
-        'sky-deemphasized': statusName === 'pending'
-      }"
-      [skyThemeClass]="{
-        'sky-font-display-3': 'modern'
-      }"
+      class="sky-progress-indicator-item-heading-wrapper"
       skyTrim
     >
-      {{ formattedTitle }}
-      <span class="sky-control-help-container" skyTrim
-        ><ng-content select=".sky-control-help"></ng-content
-      ></span>
+      <span
+        aria-level="2"
+        class="sky-progress-indicator-item-heading"
+        role="heading"
+        [ngClass]="{
+          'sky-deemphasized': statusName === 'pending',
+          'sky-margin-inline-xs': !!helpPopoverContent
+        }"
+        [skyThemeClass]="{
+          'sky-font-display-3': 'modern'
+        }"
+      >
+        {{ formattedTitle }}
+        @if (!helpKey && !helpPopoverContent) {
+          <span class="sky-control-help-container" skyTrim
+            ><ng-content select=".sky-control-help"></ng-content
+          ></span>
+        }
+      </span>
+      @if (helpKey || helpPopoverContent) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="title"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
     </div>
     <div class="sky-progress-indicator-item-body">
       <ng-template [ngIf]="statusName !== 'incomplete'">
