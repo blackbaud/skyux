@@ -17,6 +17,7 @@ export class HelpInlineTestComponent {
   public popoverContent: TemplateRef<unknown> | string | undefined;
   public popoverTitle: string | undefined;
   public labelText: string | undefined;
+  public labelledBy: string | undefined;
   public helpKey: string | undefined;
 
   @ViewChild('popoverTemplate', { read: TemplateRef })

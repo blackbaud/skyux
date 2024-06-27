@@ -153,14 +153,17 @@ describe('Inline help harness', () => {
     await expectAsync(helpInlineHarness.getAriaLabel()).toBeResolvedTo(
       'aria label',
     );
+    await expectAsync(helpInlineHarness.getAriaLabelledBy()).toBeResolvedTo(
+      null,
+    );
   });
 
   it('should get aria labelled by', async () => {
     const { helpInlineHarness } = await setupTest({
       dataSkyId: 'help-inline-using-labelled-by',
     });
-    await expectAsync(helpInlineHarness.getLabelText()).toBeResolvedTo(
-      'An explanation that spans multiple elements',
+    await expectAsync(helpInlineHarness.getAriaLabelledBy()).toBeResolvedTo(
+      'label1 label2',
     );
   });
 

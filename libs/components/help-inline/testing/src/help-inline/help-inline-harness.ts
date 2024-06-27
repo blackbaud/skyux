@@ -70,24 +70,22 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
    * Gets the `aria-label` value.
    */
   public async getAriaLabel(): Promise<string | null> {
-    const labelIds = await this.getAriaLabelledBy().then((ids) =>
-      `${ids}`
-        .split(' ')
-        .map((id) => id.trim())
-        .filter((id) => !!id),
-    );
-    const locator = this.documentRootLocatorFactory();
-    const labelElements = await locator.locatorForAll(
-      `#${labelIds.join(', #')}`,
-    )();
-    return (await Promise.all(labelElements.map((el) => el.text()))).join(' ');
+    return (await this.#getInlineHelpButton()).getAttribute('aria-label');
   }
 
   /**
    * Gets the `aria-labelledby` value.
    */
   public async getAriaLabelledBy(): Promise<string | null> {
-    return (await this.#getInlineHelpButton()).getAttribute('aria-labelledby');
+    return await (await this.#getInlineHelpButton())
+      .getAttribute('aria-labelledby')
+      .then((ref) => {
+        if (ref) {
+          // Remove the 'aria-labelledby' prefix id.
+          return ref.substring(ref.indexOf(' ') + 1);
+        }
+        return null;
+      });
   }
 
   /**
