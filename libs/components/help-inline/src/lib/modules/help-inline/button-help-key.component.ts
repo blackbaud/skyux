@@ -14,6 +14,7 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
   imports: [CommonModule],
   selector: 'sky-help-inline-help-key-button',
   standalone: true,
+  styleUrls: ['./shared.scss'],
   template: `
     <button
       class="sky-help-inline"

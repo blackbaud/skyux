@@ -360,6 +360,13 @@ describe('Help inline component', () => {
         null,
       );
     });
+
+    it('should not create the popover component if popover content is undefined', () => {
+      component.popoverContent = undefined;
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('sky-popover'))).toBeNull();
+    });
   });
 
   describe('with global options', () => {

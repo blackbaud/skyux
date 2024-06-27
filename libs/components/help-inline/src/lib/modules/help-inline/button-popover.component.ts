@@ -16,6 +16,7 @@ import { SkyPopoverModule } from '@skyux/popovers';
   imports: [CommonModule, SkyPopoverModule],
   selector: 'sky-help-inline-popover-button',
   standalone: true,
+  styleUrls: ['./shared.scss'],
   template: `
     <button
       class="sky-help-inline"

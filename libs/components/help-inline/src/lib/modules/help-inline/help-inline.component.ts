@@ -5,19 +5,14 @@ import {
   Input,
   Output,
   TemplateRef,
-  inject,
 } from '@angular/core';
-import {
-  SKY_HELP_GLOBAL_OPTIONS,
-  SkyHelpService,
-  SkyIdModule,
-  SkyIdService,
-} from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
+
+import { SkyHelpInlineHelpKeyButtonComponent } from './button-help-key.component';
+import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component';
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
@@ -27,24 +22,17 @@ import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resource
   selector: 'sky-help-inline',
   standalone: true,
   templateUrl: './help-inline.component.html',
-  styleUrls: ['./help-inline.component.scss'],
+  styleUrls: ['./help-inline.component.scss', './shared.scss'],
   imports: [
     CommonModule,
+    SkyHelpInlineHelpKeyButtonComponent,
+    SkyHelpInlinePopoverButtonComponent,
     SkyHelpInlineResourcesModule,
     SkyIconModule,
-    SkyIdModule,
-    SkyPopoverModule,
     SkyThemeModule,
   ],
 })
 export class SkyHelpInlineComponent {
-  readonly #idSvc = inject(SkyIdService);
-
-  protected readonly helpSvc = inject(SkyHelpService, { optional: true });
-  protected popoverId: string | undefined;
-  protected popoverTemplate: TemplateRef<unknown> | undefined;
-  protected isPopoverOpened: boolean | undefined;
-
   /**
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
@@ -78,18 +66,7 @@ export class SkyHelpInlineComponent {
    * The content of the popover. When specified, clicking the help inline button opens a popover with this content and optional title.
    */
   @Input()
-  public get popoverContent(): string | TemplateRef<unknown> | undefined {
-    return this.#_popoverContent;
-  }
-
-  public set popoverContent(value: string | TemplateRef<unknown> | undefined) {
-    this.#_popoverContent = value;
-    if (value) {
-      this.popoverId = this.#idSvc.generateId();
-      this.isPopoverOpened = false;
-    }
-    this.popoverTemplate = value instanceof TemplateRef ? value : undefined;
-  }
+  public popoverContent: string | TemplateRef<unknown> | undefined;
 
   /**
    * The title of the help popover. This property only applies when `popoverContent` is
@@ -104,29 +81,9 @@ export class SkyHelpInlineComponent {
   @Input()
   public helpKey: string | undefined;
 
-  #_popoverContent: string | TemplateRef<unknown> | undefined;
-
-  protected readonly globalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
-    optional: true,
-  });
-
   /**
    * Fires when the user clicks the help inline button.
    */
   @Output()
   public actionClick = new EventEmitter<void>();
-
-  protected onClick(): void {
-    this.actionClick.emit();
-
-    if (this.helpKey) {
-      this.helpSvc?.openHelp({
-        helpKey: this.helpKey,
-      });
-    }
-  }
-
-  protected popoverOpened(flag: boolean): void {
-    this.isPopoverOpened = flag;
-  }
 }
