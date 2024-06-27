@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterContentChecked,
   AfterViewInit,
   ChangeDetectorRef,
   Component,
@@ -66,7 +67,9 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyModalsResourcesModule,
   ],
 })
-export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
+export class SkyModalComponent
+  implements AfterContentChecked, AfterViewInit, OnDestroy, OnInit
+{
   @HostBinding('class')
   public wrapperClass: string | undefined;
 
@@ -134,7 +137,13 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
    * @internal
    */
   @Input()
-  public ariaDescribedBy: string | undefined;
+  public set ariaDescribedBy(id: string | undefined) {
+    this.#_ariaDescribedBy = id;
+  }
+
+  public get ariaDescribedBy(): string | undefined {
+    return this.#_ariaDescribedBy;
+  }
 
   /**
    * Used by the confirm component to set descriptive text without using a
@@ -142,7 +151,13 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
    * @internal
    */
   @Input()
-  public ariaLabelledBy: string | undefined;
+  public set ariaLabelledBy(id: string | undefined) {
+    this.#_ariaLabelledBy = id;
+  }
+
+  public get ariaLabelledBy(): string | undefined {
+    return this.#_ariaLabelledBy;
+  }
 
   public ariaOwns: string | null = null;
 
@@ -162,7 +177,14 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild('modalContentWrapper', { read: ElementRef })
   public modalContentWrapperElement: ElementRef | undefined;
 
+  @ViewChild('headerContent', { static: true })
+  protected headerContent: ElementRef | undefined;
+  protected isHeaderEmpty = true;
+
   #ngUnsubscribe = new Subject<void>();
+
+  #_ariaDescribedBy: string | undefined;
+  #_ariaLabelledBy: string | undefined;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #componentAdapter = inject(SkyModalComponentAdapterService);
@@ -292,6 +314,11 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
         updateResponsiveClasses: true,
       });
     }
+  }
+
+  public ngAfterContentChecked(): void {
+    this.isHeaderEmpty =
+      !this.headingText && !this.headerContent?.nativeElement.children.length;
   }
 
   public ngOnDestroy(): void {

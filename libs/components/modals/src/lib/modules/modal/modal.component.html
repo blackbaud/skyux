@@ -20,7 +20,7 @@
   >
     <div
       class="sky-modal-header"
-      [hidden]="!headerContent || !headerContent.children || headerContent.children.length &lt; 1"
+      [hidden]="isHeaderEmpty"
       [ngStyle]="{
         'box-shadow': scrollShadow?.topShadow
       }"
