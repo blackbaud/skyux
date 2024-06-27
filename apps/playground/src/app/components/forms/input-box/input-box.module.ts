@@ -7,9 +7,9 @@ import {
   SkyFormErrorsModule,
   SkyInputBoxModule,
 } from '@skyux/forms';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyHelpInlineModule,
-  SkyIconModule,
   SkyStatusIndicatorModule,
 } from '@skyux/indicators';
 

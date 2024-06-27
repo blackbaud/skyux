@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyTrimModule } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyProgressIndicatorResourcesModule } from '../shared/sky-progress-indicator-resources.module';
@@ -30,6 +31,7 @@ import { SkyProgressIndicatorComponent } from './progress-indicator.component';
   ],
   imports: [
     CommonModule,
+    SkyHelpInlineModule,
     SkyIconModule,
     SkyProgressIndicatorResourcesModule,
     SkyThemeModule,

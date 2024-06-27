@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -44,6 +49,16 @@ export class ColorpickerComponent {
       colorTwo: new FormControl('#ff0'),
       colorThree: new FormControl({ value: '#000', disabled: true }),
       colorFour: new FormControl('#00f'),
+      colorFive: new FormControl('#00f', { validators: [Validators.required] }),
+      colorSix: new FormControl('#00f'),
+      colorSeven: new FormControl('#00f', {
+        validators: [
+          () => {
+            return { intentionalError: true };
+          },
+        ],
+      }),
+      colorEight: new FormControl('#00f'),
     });
   }
 }

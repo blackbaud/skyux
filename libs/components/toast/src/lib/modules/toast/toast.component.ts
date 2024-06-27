@@ -14,7 +14,8 @@ import {
 } from '@angular/core';
 import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIdModule } from '@skyux/core';
-import { SkyIconModule, SkyIconStackItem } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyIconStackItem } from '@skyux/indicators';
 
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

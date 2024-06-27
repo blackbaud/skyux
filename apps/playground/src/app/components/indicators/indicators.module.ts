@@ -8,13 +8,6 @@ const routes: Routes = [
       import('./alert/alert.module').then((m) => m.AlertModule),
   },
   {
-    path: 'help-inline',
-    loadChildren: () =>
-      import('./help-inline/help-inline.module').then(
-        (m) => m.HelpInlineModule,
-      ),
-  },
-  {
     path: 'illustration',
     loadChildren: () =>
       import('./illustration/illustration.module').then(

@@ -116,6 +116,10 @@ export class SkyProgressIndicatorFixtureComponent {
     | undefined;
   public showFourthItem = false;
 
+  public helpKey: string | undefined;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
+
   #changeDetector: ChangeDetectorRef;
 
   constructor(changeDetector: ChangeDetectorRef) {
@@ -180,6 +184,11 @@ export class SkyProgressIndicatorFixtureComponent {
 
   public hideFourthItem(): void {
     this.showFourthItem = false;
+    this.#changeDetector.markForCheck();
+  }
+
+  public updateHelpContent(content?: string): void {
+    this.helpPopoverContent = content;
     this.#changeDetector.markForCheck();
   }
 }

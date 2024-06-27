@@ -1,4 +1,4 @@
-import { SkyIconStackItem } from '../icon/icon-stack-item';
+import { SkyIconStackItem } from '@skyux/icon';
 
 /**
  * @internal

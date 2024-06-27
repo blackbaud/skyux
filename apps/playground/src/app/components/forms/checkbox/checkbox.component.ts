@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
+  NgModelGroup,
   UntypedFormBuilder,
   UntypedFormGroup,
   ValidationErrors,
@@ -28,8 +29,17 @@ export class CheckboxComponent implements OnInit {
 
   public showInlineHelp = false;
 
+  @ViewChild('templateFormGroup', { static: true })
+  protected templateFormGroup: NgModelGroup | undefined;
+
   protected formGroup: FormGroup;
   protected contactMethod: FormGroup;
+
+  protected model = {
+    email: false,
+    phone: false,
+    text: false,
+  };
 
   #formBuilder: UntypedFormBuilder;
 
@@ -84,5 +94,8 @@ export class CheckboxComponent implements OnInit {
   protected onSubmitContactMethod(): void {
     this.contactMethod.markAsDirty();
     this.contactMethod.markAsTouched();
+
+    this.templateFormGroup.control.markAsDirty();
+    this.templateFormGroup.control.markAsTouched();
   }
 }

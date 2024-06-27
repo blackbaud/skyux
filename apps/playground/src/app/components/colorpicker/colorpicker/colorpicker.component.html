@@ -1,10 +1,12 @@
 <form novalidate [formGroup]="reactiveForm" (ngSubmit)="submit()">
   <div class="sky-form-group">
     <sky-colorpicker
-      helpPopoverContent="help content"
+      helpKey="help-key.html"
+      hintText="Hint text content."
       labelText="What is your favorite color?"
       pickerButtonIcon="calendar"
       pickerButtonIconType="skyux"
+      stacked="true"
       (selectedColorChanged)="onSelectedColorChanged($event)"
       #colorPicker
     >
@@ -39,4 +41,11 @@
   </table>
 
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+  <button
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="toggleRequired()"
+  >
+    Toggle required
+  </button>
 </form>

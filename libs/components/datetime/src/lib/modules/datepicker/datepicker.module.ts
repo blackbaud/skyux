@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAffixModule } from '@skyux/core';
 import { SkyFormErrorModule } from '@skyux/forms';
-import { SkyIconModule, SkyWaitModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyWaitModule } from '@skyux/indicators';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 

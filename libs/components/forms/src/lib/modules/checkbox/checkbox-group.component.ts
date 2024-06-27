@@ -8,7 +8,12 @@ import {
   inject,
   numberAttribute,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {
+  FormGroup,
+  NG_VALIDATORS,
+  ValidationErrors,
+  Validator,
+} from '@angular/forms';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -34,9 +39,16 @@ import { SkyCheckboxGroupHeadingStyle } from './checkbox-group-heading-style';
     SkyHelpInlineModule,
     SkyIdModule,
   ],
-  providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: SkyCheckboxGroupComponent,
+      multi: true,
+    },
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
 })
-export class SkyCheckboxGroupComponent {
+export class SkyCheckboxGroupComponent implements Validator {
   /**
    * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the checkbox group fieldset legend. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
@@ -121,15 +133,9 @@ export class SkyCheckboxGroupComponent {
   }
 
   /**
-   * The form group that contains the group of checkboxes.
-   * @preview
-   */
-  @Input({ required: true })
-  public formGroup!: FormGroup;
-
-  /**
-   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * placed beside the checkbox group heading. Clicking the button invokes global help as configured by the application.
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the checkbox group heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application.
    * @preview
    */
   @Input()
@@ -148,9 +154,34 @@ export class SkyCheckboxGroupComponent {
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
   protected formErrorsDataId = 'checkbox-group-form-errors';
+  protected formGroup: FormGroup | null | undefined;
 
   #_headingLevel: SkyCheckboxGroupHeadingLevel | undefined;
   #_stacked = false;
+
+  public validate(formGroup: FormGroup): ValidationErrors | null {
+    this.formGroup ??= formGroup;
+
+    if (!this.required) {
+      return null;
+    }
+
+    const controlNames = Object.keys(formGroup.controls);
+    let atLeastOneSelected = false;
+
+    controlNames.forEach((controlName) => {
+      const control = formGroup.get(controlName);
+      if (control?.value) {
+        atLeastOneSelected = true;
+      }
+    });
+
+    if (!atLeastOneSelected) {
+      return { required: true };
+    } else {
+      return null;
+    }
+  }
 
   #updateStackedClasses(): void {
     this.stackedLg = !this.headingLevel && this.stacked;

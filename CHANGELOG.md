@@ -1,5 +1,76 @@
 # Changelog
 
+## [10.31.1](https://github.com/blackbaud/skyux/compare/10.31.0...10.31.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* **components/indicators:** re-add lambda component exports for legacy icons ([#2397](https://github.com/blackbaud/skyux/issues/2397)) ([37f6094](https://github.com/blackbaud/skyux/commit/37f60946cb496cf3049c7b4575d86c62409e92d8))
+
+## [10.31.0](https://github.com/blackbaud/skyux/compare/10.30.1...10.31.0) (2024-06-25)
+
+
+### Features
+
+* **components/indicators:** move `@skyux/icon` components to separate package ([#2383](https://github.com/blackbaud/skyux/issues/2383)) ([075c24a](https://github.com/blackbaud/skyux/commit/075c24a1b97013ab9cebc363c7fed9201df9fe3d))
+* **components/tiles:** add help key and inline help to the tile component ([#2390](https://github.com/blackbaud/skyux/issues/2390)) ([69ece27](https://github.com/blackbaud/skyux/commit/69ece27e7ce2670e3d86743205721d5351b7a344))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** colorpicker shows appropriate error styles and required indicator ([#2395](https://github.com/blackbaud/skyux/issues/2395)) ([ea23f69](https://github.com/blackbaud/skyux/commit/ea23f69c68190cdf537012e0c8e758f3accdd3d9))
+* **components/datetime:** date range picker elements horizontal spacing rules applied to responsive containers ([#2393](https://github.com/blackbaud/skyux/issues/2393)) ([4c8475d](https://github.com/blackbaud/skyux/commit/4c8475d2c10cdb59a81e053fca253f7db0bba99d))
+
+## [10.30.1](https://github.com/blackbaud/skyux/compare/10.30.0...10.30.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* **components/core:** adjust viewkeeper element size when parent element's size changes ([#2388](https://github.com/blackbaud/skyux/issues/2388)) ([0dd85c8](https://github.com/blackbaud/skyux/commit/0dd85c80970e263c54928d53ae90d39c19aaa1fc))
+* **components/theme:** update icon metadata ([#2387](https://github.com/blackbaud/skyux/issues/2387)) ([54e3fb3](https://github.com/blackbaud/skyux/commit/54e3fb39882312335dd8ab15f030641511c1b786))
+
+## [10.30.0](https://github.com/blackbaud/skyux/compare/10.29.0...10.30.0) (2024-06-24)
+
+
+### Features
+
+* **components/forms:** update helpKey docs ([#2385](https://github.com/blackbaud/skyux/issues/2385)) ([2670a52](https://github.com/blackbaud/skyux/commit/2670a521844401e2a35af73a5a25ce9d5daaba65))
+
+## [10.29.0](https://github.com/blackbaud/skyux/compare/10.28.0...10.29.0) (2024-06-24)
+
+
+### Features
+
+* **components/angular-tree-component:** add help key and inline help to tree nodes ([#2379](https://github.com/blackbaud/skyux/issues/2379)) ([f9b2197](https://github.com/blackbaud/skyux/commit/f9b2197561e3848203f6a55687ca39c830837951))
+* **components/colorpicker:** add `hintText`, `helpKey`, `labelHidden`, and `stacked` inputs to colorpicker ([#2374](https://github.com/blackbaud/skyux/issues/2374)) ([f013ca5](https://github.com/blackbaud/skyux/commit/f013ca5e4bcb491a112caba8a4399f6aa939b74c))
+* **components/colorpicker:** update colorpicker code examples ([#2382](https://github.com/blackbaud/skyux/issues/2382)) ([b8d9a66](https://github.com/blackbaud/skyux/commit/b8d9a66372e69ae185fc6a40d2707e681229c03c))
+* **components/theme:** add new-tab icon ([#2380](https://github.com/blackbaud/skyux/issues/2380)) ([3b9ec05](https://github.com/blackbaud/skyux/commit/3b9ec05ba322584755b556fd7fa6ba47c416b93d))
+
+
+### Bug Fixes
+
+* **components/packages:** update package group name to `@skyux/packages` ([#2375](https://github.com/blackbaud/skyux/issues/2375)) ([ebe51fd](https://github.com/blackbaud/skyux/commit/ebe51fd47b2c4828a5791fbdd75bc8d371a23e14))
+
+## [10.28.0](https://github.com/blackbaud/skyux/compare/10.27.0...10.28.0) (2024-06-21)
+
+
+### Features
+
+* **components/forms:** update input box code examples ([#2364](https://github.com/blackbaud/skyux/issues/2364)) ([45d7c4f](https://github.com/blackbaud/skyux/commit/45d7c4f4a05e03e6c0c24fc88bcb6165e929f8b3))
+
+## [10.27.0](https://github.com/blackbaud/skyux/compare/10.26.0...10.27.0) (2024-06-20)
+
+
+### Features
+
+* **components/forms:** automatically add required validator to checkbox group ([#2366](https://github.com/blackbaud/skyux/issues/2366)) ([105256c](https://github.com/blackbaud/skyux/commit/105256c177f5f0dcbbc92e7302ec2baed5252e3f))
+
+
+### Bug Fixes
+
+* **components/help-inline:** add `@skyux/help-inline` to the `ng update` group ([#2372](https://github.com/blackbaud/skyux/issues/2372)) ([266d8f4](https://github.com/blackbaud/skyux/commit/266d8f49fc22c5e8730e524575ed2a43634d399f))
+* **components/help-inline:** remove dependency on indicators package ([#2370](https://github.com/blackbaud/skyux/issues/2370)) ([e368416](https://github.com/blackbaud/skyux/commit/e3684168aec7a7ff3836405ceae76f14e8736f90))
+
 ## [10.26.0](https://github.com/blackbaud/skyux/compare/10.25.0...10.26.0) (2024-06-17)
 
 

@@ -2,6 +2,10 @@
 
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+sky-colorpicker.sky-margin-stacked-lg {
+  display: block;
+}
+
 .sky-colorpicker-container {
   position: fixed;
   max-height: 100vh;
@@ -41,6 +45,15 @@
   width: 0px;
   height: 0px;
   overflow: hidden;
+}
+
+.sky-colorpicker-hint-text {
+  margin-top: var(--sky-margin-stacked-xs);
+}
+
+.sky-colorpicker-error {
+  @include mixins.sky-field-status('invalid');
+  background-origin: border-box;
 }
 
 .sky-colorpicker-reset-button {
@@ -355,6 +368,13 @@
     .sky-colorpicker-button-icon {
       bottom: 1px;
       font-size: 16px;
+    }
+
+    &.sky-colorpicker-error {
+      @include mixins.sky-theme-modern-border-invalid;
+      // NOTE: The mixin turns off the border - this style ensures it stays on while still using the mixin.
+      border: 1px solid #d2d2d2;
+      background-origin: initial;
     }
   }
 

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule, SkyTrimModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 
 import { SkyFormErrorModule } from '../form-error/form-error.module';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';

@@ -16,7 +16,7 @@ import {
 } from '@skyux/colorpicker';
 import { SkyFormsUtility } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import {
