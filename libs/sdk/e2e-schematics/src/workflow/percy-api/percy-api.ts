@@ -1,3 +1,5 @@
+import { Logger } from '../verify-e2e/verify-e2e';
+
 interface Build {
   id: string;
   type: 'builds';
@@ -81,21 +83,15 @@ function getFetchJson(
 
 export async function checkPercyBuild(
   project: string,
-  commitSha: string,
+  buildId: string,
+  logger: Logger,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
 ): Promise<BuildSummary> {
   const fetchJson = getFetchJson(fetchClient);
   try {
-    const projectId = await getProjectId(project, fetchJson);
-    const build = await getBuilds(
-      projectId,
-      [commitSha],
-      [],
-      100,
-      fetchJson,
-    ).then((builds) => builds.pop());
-    if (build?.id) {
+    const build = await getBuild(buildId, fetchJson);
+    if (build?.id && `${build.id}` === `${buildId}`) {
       const finished = build.attributes.state === 'finished';
       const approved =
         finished && build.attributes['review-state'] === 'approved';
@@ -109,6 +105,7 @@ export async function checkPercyBuild(
         removedSnapshots,
       };
     } else {
+      logger.warning(`No Percy build found for ${project} build ${buildId}`);
       return {
         project,
         state: undefined,
@@ -117,6 +114,7 @@ export async function checkPercyBuild(
       };
     }
   } catch (error) {
+    logger.error(`Error checking Percy build\n\n${(error as Error).stack}`);
     return Promise.reject(
       new Error(`Error checking Percy build: ${error}`, {
         cause: error,
@@ -125,16 +123,20 @@ export async function checkPercyBuild(
   }
 }
 
+/**
+ * Called from .github/actions/e2e-affected/action.yml
+ */
 export async function getLastGoodPercyBuild(
   project: string,
   shaArray: string[],
   allowDeletedScreenshots: boolean,
+  logger: Logger,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
 ): Promise<string> {
   const fetchJson = getFetchJson(fetchClient);
   try {
-    const projectId = await getProjectId(project, fetchJson);
+    const projectId = await getProjectId(project, logger, fetchJson);
     const builds = await getBuilds(
       projectId,
       shaArray,
@@ -167,9 +169,13 @@ export async function getLastGoodPercyBuild(
   }
 }
 
+/**
+ * Called from .github/actions/e2e-affected/action.yml
+ */
 export async function getPercyTargetCommit(
   project: string,
   shaArray: string[],
+  logger: Logger,
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
 ): Promise<string> {
@@ -185,7 +191,7 @@ export async function getPercyTargetCommit(
 
   const shaArrayBatchesOf25 = chunk(shaArray, 25);
   try {
-    const projectId = await getProjectId(project, fetchJson);
+    const projectId = await getProjectId(project, logger, fetchJson);
     for (const shaArrayBatch of shaArrayBatchesOf25) {
       const build = await getBuilds(
         projectId,
@@ -208,6 +214,7 @@ export async function getPercyTargetCommit(
 
 async function getProjectId(
   slug: string,
+  logger: Logger,
   fetchJson: FetchJson,
 ): Promise<string> {
   return fetchJson<{ id: string }>(
@@ -217,6 +224,9 @@ async function getProjectId(
     if (response.id) {
       return response.id;
     } else {
+      logger.error(
+        `Percy project ID response for ${slug}: ${JSON.stringify(response)}`,
+      );
       return Promise.reject(
         `Percy project ID response for ${slug}: ${JSON.stringify(response)}`,
       );
@@ -239,6 +249,21 @@ async function getBuilds(
     `https://percy.io/api/v1/builds?project_id=${projectId}${shaFilter}${stateFilter}&page[limit]=${limit}`,
     'Percy builds',
   ).then((builds) => builds.filter((build) => build.type === 'builds'));
+}
+
+async function getBuild(
+  buildId: string,
+  fetchJson: FetchJson,
+): Promise<Build | undefined> {
+  return fetchJson<Build>(
+    `https://percy.io/api/v1/builds/${buildId}`,
+    `Percy build ${buildId}`,
+  ).then((build) => {
+    if (build.type === 'builds') {
+      return build;
+    }
+    return undefined;
+  });
 }
 
 async function getRemovedSnapshots(
