@@ -53,6 +53,7 @@ runs:
           const targetCommit = await getPercyTargetCommit(
             'skyux-${{ inputs.project }}',
             targetBranchCommits,
+            core,
             (url) => fetch(url, options)
           );
           core.setOutput('percy_target_commit', targetCommit);
@@ -60,6 +61,7 @@ runs:
             'skyux-${{ inputs.project }}',
             prBranchCommits,
             '${{ inputs.allow-deleted-screenshots }}' !== 'false',
+            core,
             (url) => fetch(url, options)
           );
 
