@@ -5,7 +5,10 @@ import { Component, Input } from '@angular/core';
  */
 @Component({
   selector: 'sky-checkbox-label-text-label',
-  styleUrl: './checkbox-label-text-label.component.scss',
+  styleUrls: [
+    './checkbox-label-text-label.default.component.scss',
+    './checkbox-label-text-label.modern.component.scss',
+  ],
   templateUrl: './checkbox-label-text-label.component.html',
 })
 export class SkyCheckboxLabelTextLabelComponent {

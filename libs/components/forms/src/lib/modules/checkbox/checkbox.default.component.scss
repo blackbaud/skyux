@@ -11,14 +11,14 @@
   .sky-checkbox-icon-indeterminate {
     font-size: 14px;
   }
+}
 
-  .sky-checkbox-hint-text {
-    margin-top: var(--sky-margin-stacked-xs);
-  }
+@include mixins.sky-component('default', '.sky-checkbox-hint-text') {
+  margin-top: var(--sky-margin-stacked-xs);
+}
 
-  .sky-checkbox-form-margin {
-    margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
-  }
+@include mixins.sky-component('default', '.sky-checkbox-form-margin') {
+  margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
 }
 
 @include mixins.sky-component-host('default', ':host.sky-margin-stacked-lg') {
