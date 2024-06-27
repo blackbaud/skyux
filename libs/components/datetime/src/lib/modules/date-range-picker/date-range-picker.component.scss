@@ -68,18 +68,18 @@
     padding: 0;
   }
 
-  @include mixins.sky-host-responsive-container-xs-min(false) {
-    .sky-date-range-picker-form-group {
-      &:not(.sky-date-range-picker-last-input) {
-        margin-right: 0;
-      }
-    }
-  }
-
   @include mixins.sky-host-responsive-container-sm-min(false) {
     .sky-date-range-picker-form-group {
       &:not(.sky-date-range-picker-last-input) {
         margin-right: $sky-theme-modern-margin-inline-lg;
+      }
+    }
+  }
+
+  @include mixins.sky-host-responsive-container-xs-min(false) {
+    .sky-date-range-picker-form-group {
+      &:not(.sky-date-range-picker-last-input) {
+        margin-right: 0;
       }
     }
   }
