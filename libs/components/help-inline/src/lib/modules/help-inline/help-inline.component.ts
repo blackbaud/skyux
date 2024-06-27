@@ -64,15 +64,15 @@ export class SkyHelpInlineComponent {
 
   /**
    * The ARIA label for the help inline button. This sets the button's `aria-label` to provide a text equivalent for screen readers.
-   * Will be overridden if `labelText` or `labelledBy` is set.
+   * Will be overridden if label text is set.
    * @default "Show help content"
    */
   @Input()
   public ariaLabel: string | undefined;
 
   /**
-   * The ID of the element associated with the help inline button. This is used to set the button's `aria-labelledby`,
-   * which provide a text equivalent for screen readers. Will be overridden if `labelText` is set.
+   * The ID of the element associated with the help inline button. This is used to set the button's `aria-labelledby`
+   * to provides a text equivalent for screen readers. Takes precedence over `ariaLabel` and `labelText` inputs.
    * @internal
    */
   @Input()
