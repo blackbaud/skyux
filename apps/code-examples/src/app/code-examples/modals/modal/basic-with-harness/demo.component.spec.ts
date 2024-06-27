@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
@@ -35,7 +36,7 @@ describe('Basic modal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DemoComponent],
+      imports: [DemoComponent, NoopAnimationsModule],
       providers: [
         {
           provide: SkyWaitService,
@@ -54,7 +55,14 @@ describe('Basic modal', () => {
     await expectAsync(modalHarness.getAriaRole()).toBeResolvedTo('dialog');
     await expectAsync(modalHarness.getSize()).toBeResolvedTo('medium');
     await expectAsync(modalHarness.isFullPage()).toBeResolvedTo(false);
+    await expectAsync(modalHarness.getHeadingText()).toBeResolvedTo(
+      'Modal title',
+    );
 
-    // TODO: Add help inline harness example.
+    await modalHarness.clickHelpInline();
+
+    await expectAsync(modalHarness.getHelpPopoverContent()).toBeResolvedTo(
+      'Use the help inline component to invoke contextual user assistance.',
+    );
   });
 });

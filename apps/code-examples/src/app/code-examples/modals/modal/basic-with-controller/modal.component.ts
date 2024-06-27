@@ -21,8 +21,7 @@ import { ModalContext } from './modal-context';
   standalone: true,
   template: `
     <form [formGroup]="demoForm" (submit)="saveForm()">
-      <sky-modal [helpPopoverContent]="helpPopoverContent">
-        <sky-modal-header> Modal title </sky-modal-header>
+      <sky-modal headingText="Modal title" helpKey="help.html">
         <sky-modal-content>
           <sky-input-box>
             <input formControlName="value1" type="text" />
@@ -46,9 +45,6 @@ export class ModalComponent {
   protected demoForm: FormGroup<{
     value1: FormControl<string | null | undefined>;
   }>;
-
-  protected helpPopoverContent =
-    'Use the help inline component to invoke contextual user assistance.';
 
   readonly #context = inject(ModalContext);
   readonly #instance = inject(SkyModalInstance);

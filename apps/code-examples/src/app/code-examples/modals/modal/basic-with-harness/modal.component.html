@@ -1,10 +1,10 @@
 <form [formGroup]="demoForm" (submit)="saveForm()">
   <sky-modal
     data-sky-id="modal-demo"
+    headingText="Modal title"
     [helpPopoverContent]="helpPopoverContent"
     [isDirty]="demoForm.dirty"
   >
-    <sky-modal-header> Modal title </sky-modal-header>
     <sky-modal-content>
       <sky-input-box labelText="An input inside a modal">
         <input formControlName="value1" type="text" />
