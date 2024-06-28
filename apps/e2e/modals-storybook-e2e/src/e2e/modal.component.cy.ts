@@ -14,6 +14,7 @@ describe('modals-storybook', () => {
         'medium',
         'large',
         'full-page',
+        'heading-text-help-inline',
         'help-inline',
         'error',
         'positioned-background',
