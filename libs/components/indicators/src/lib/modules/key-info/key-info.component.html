@@ -1,3 +1,6 @@
+<ng-template #helpContent
+  ><ng-content select=".sky-control-help"
+/></ng-template>
 <div
   class="sky-key-info"
   [ngClass]="{
@@ -8,9 +11,15 @@
     <ng-content select="sky-key-info-value" />
   </div>
   <div class="sky-key-info-label sky-field-label sky-font-data-label">
-    <span skyTrim><ng-content select="sky-key-info-label" /></span
+    <span skyTrim skyId #label="skyId"
+      ><ng-content select="sky-key-info-label" /></span
     ><span class="sky-control-help-container"
-      ><ng-content select=".sky-control-help"></ng-content
-    ></span>
+      ><sky-help-inline
+        *ngIf="helpPopoverContent || helpKey; else helpContent"
+        [labelledBy]="label.id"
+        [helpKey]="helpKey"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+    /></span>
   </div>
 </div>

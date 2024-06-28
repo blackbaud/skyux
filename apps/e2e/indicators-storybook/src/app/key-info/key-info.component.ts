@@ -7,5 +7,9 @@ import { SkyKeyInfoLayoutType } from '@skyux/indicators';
   styleUrls: ['./key-info.component.scss'],
 })
 export class KeyInfoComponent {
-  public layouts: SkyKeyInfoLayoutType[] = ['vertical', 'horizontal'];
+  protected readonly helpEnabled = [false, true];
+  protected readonly layouts: SkyKeyInfoLayoutType[] = [
+    'vertical',
+    'horizontal',
+  ];
 }
