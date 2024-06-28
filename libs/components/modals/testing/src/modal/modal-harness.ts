@@ -1,5 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyModalHarnessFilters } from './modal-harness-filters';
 
@@ -14,6 +16,7 @@ export class SkyModalHarness extends SkyComponentHarness {
 
   #getModal = this.locatorFor('.sky-modal');
   #getModalDialog = this.locatorFor('.sky-modal-dialog');
+  #getModalHeading = this.locatorFor('.sky-modal-heading');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -26,14 +29,23 @@ export class SkyModalHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the aria-describedBy property of the modal
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets the aria-describedBy property of the modal.
+   * @deprecated
    */
   public async getAriaDescribedBy(): Promise<string | null> {
     return (await this.#getModalDialog()).getAttribute('aria-describedby');
   }
 
   /**
-   * Gets the aria-labelledBy property of the modal
+   * Gets the aria-labelledBy property of the modal.
+   * @deprecated
    */
   public async getAriaLabelledBy(): Promise<string | null> {
     return (await this.#getModalDialog()).getAttribute('aria-labelledby');
@@ -44,6 +56,29 @@ export class SkyModalHarness extends SkyComponentHarness {
    */
   public async getAriaRole(): Promise<string | null> {
     return (await this.#getModalDialog()).getAttribute('role');
+  }
+
+  /**
+   * Gets the modal's heading text.
+   */
+  public async getHeadingText(): Promise<string | undefined> {
+    return (await this.#getModalHeading()).text();
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**
@@ -93,5 +128,15 @@ export class SkyModalHarness extends SkyComponentHarness {
       'data-sky-modal-is-dirty',
     );
     return isDirtyAttribute === 'true';
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 }

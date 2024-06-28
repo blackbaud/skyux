@@ -1,4 +1,9 @@
-<sky-modal>
+<sky-modal
+  [headingText]="context?.headingText"
+  [helpKey]="context?.helpKey"
+  [helpPopoverContent]="context?.helpPopoverContent"
+  [helpPopoverTitle]="context?.helpPopoverTitle"
+>
   <sky-modal-header>Test</sky-modal-header>
   <sky-modal-content>
     <div class="modal-fixture-content">

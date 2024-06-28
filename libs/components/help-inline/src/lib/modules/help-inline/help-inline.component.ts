@@ -122,7 +122,9 @@ export class SkyHelpInlineComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
-  protected onClick(): void {
+  protected onClick(evt: Event): void {
+    evt.stopPropagation();
+
     this.actionClick.emit();
 
     if (this.helpKey) {
