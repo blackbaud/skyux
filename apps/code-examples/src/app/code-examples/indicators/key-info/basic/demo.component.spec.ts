@@ -1,5 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyKeyInfoHarness } from '@skyux/indicators/testing';
 
 import { DemoComponent } from './demo.component';
@@ -7,6 +9,7 @@ import { DemoComponent } from './demo.component';
 describe('Basic key info', () => {
   async function setupTest(options?: { value?: number }): Promise<{
     keyInfoHarness: SkyKeyInfoHarness;
+    helpInlineHarness: SkyHelpInlineHarness;
     fixture: ComponentFixture<DemoComponent>;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
@@ -20,13 +23,15 @@ describe('Basic key info', () => {
     const keyInfoHarness = await loader.getHarness(
       SkyKeyInfoHarness.with({ dataSkyId: 'key-info-demo' }),
     );
+    const helpInlineHarness = await loader.getHarness(SkyHelpInlineHarness);
 
-    return { keyInfoHarness, fixture };
+    return { keyInfoHarness, helpInlineHarness, fixture };
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [DemoComponent],
+      providers: [provideNoopAnimations()],
     });
   });
 
@@ -47,6 +52,19 @@ describe('Basic key info', () => {
     await expectAsync(keyInfoHarness.getValueText()).toBeResolvedTo('50');
     await expectAsync(keyInfoHarness.getLabelText()).toBeResolvedTo(
       'New members',
+    );
+  });
+
+  it('should include inline help', async () => {
+    const { helpInlineHarness } = await setupTest({ value: 50 });
+
+    await expectAsync(helpInlineHarness.getAriaExpanded()).toBeResolvedTo(
+      false,
+    );
+    await helpInlineHarness.click();
+    await expectAsync(helpInlineHarness.getAriaExpanded()).toBeResolvedTo(true);
+    expect(await helpInlineHarness.getPopoverContent()).toContain(
+      'help content can add clarity',
     );
   });
 });
