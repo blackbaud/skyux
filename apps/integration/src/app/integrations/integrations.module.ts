@@ -75,6 +75,13 @@ const routes: Routes = [
         './modal-split-view-tile-dashboard/modal-split-view-tile-dashboard.module'
       ).then((m) => m.ModalSplitViewTileDashboardModule),
   },
+  {
+    path: 'modal-date-range-picker',
+    loadChildren: () =>
+      import('./modal-date-range-picker/modal-date-range-picker.module').then(
+        (m) => m.ModalDateRangePickerModule,
+      ),
+  },
 ];
 
 @NgModule({
