@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
 import { SkyTheme } from '../theme';
+import { SkyThemeComponentClassDirective } from '../theme-component-class.directive';
 import { SkyThemeMode } from '../theme-mode';
 import { SkyThemeSettings } from '../theme-settings';
-import { SkyThemeComponentClassDirective } from '../theme-component-class.directive';
 
 @Component({
   selector: 'app-theme-component-class-test',
   templateUrl: './theme-component-class-test.component.html',
   standalone: true,
-  hostDirectives: [SkyThemeComponentClassDirective]
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyThemeComponentClassTestComponent {
   public themeSettings: SkyThemeSettings | undefined;
