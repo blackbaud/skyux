@@ -23,7 +23,11 @@ export class HelpInlineTestComponent {
   @ViewChild('popoverTemplate', { read: TemplateRef })
   public popoverTemplate: TemplateRef<unknown> | undefined;
 
-  public buttonClicked(): void {
+  public onActionClick(): void {
     this.showHelpText = !this.showHelpText;
+  }
+
+  public onClick(): void {
+    /* */
   }
 }

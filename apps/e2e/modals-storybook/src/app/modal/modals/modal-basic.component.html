@@ -1,10 +1,11 @@
-<sky-modal [formErrors]="errors">
+<sky-modal
+  [formErrors]="errors"
+  [headingText]="context?.headingText"
+  [helpPopoverContent]="context?.helpPopoverContent"
+>
   <sky-modal-header>
-    {{ title
-    }}<sky-help-inline
-      *ngIf="showHelp"
-      class="sky-control-help"
-    ></sky-help-inline>
+    {{ title }}
+    <sky-help-inline *ngIf="showHelp" class="sky-control-help" />
   </sky-modal-header>
   <sky-modal-content> </sky-modal-content>
   <sky-modal-footer>

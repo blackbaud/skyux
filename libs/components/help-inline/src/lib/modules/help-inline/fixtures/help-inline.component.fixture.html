@@ -9,7 +9,8 @@
   [popoverContent]="popoverContent"
   [labelText]="labelText"
   [labelledBy]="labelledBy"
-  (actionClick)="buttonClicked()"
+  (actionClick)="onActionClick()"
+  (click)="onClick()"
 />
 
 <ng-template #popoverTemplate> this is a template </ng-template>
