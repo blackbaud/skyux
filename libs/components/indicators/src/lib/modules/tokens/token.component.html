@@ -6,7 +6,7 @@
     'sky-token-disabled': disabled,
     'sky-token-dismissible': dismissible,
     'sky-token-active': tokenActive && !closeActive,
-    'sky-token-focused': isFocused
+    'sky-token-focused': isFocused,
   }"
   (document:mouseup)="setTokenActive(false)"
   (focusin)="onFocusIn()"
@@ -23,7 +23,7 @@
       [attr.tabindex]="tabIndex"
       [disabled]="disabled"
       [ngClass]="{
-        'sky-btn-disabled': disabled
+        'sky-btn-disabled': disabled,
       }"
       #actionButton="skyId"
       skyId
@@ -52,7 +52,7 @@
       [disabled]="disabled"
       [ngClass]="{
         'sky-btn-disabled': disabled,
-        'sky-token-btn-close-active': closeActive
+        'sky-token-btn-close-active': closeActive,
       }"
       (click)="dismissToken($event)"
       (document:mouseup)="setCloseActive(false)"

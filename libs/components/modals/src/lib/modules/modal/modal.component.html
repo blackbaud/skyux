@@ -12,24 +12,24 @@
     tabindex="-1"
     [ngClass]="{
       'sky-modal-tiled': tiledBody,
-      'sky-modal-viewkeeper': viewkeeperEnabled()
+      'sky-modal-viewkeeper': viewkeeperEnabled(),
     }"
     [ngStyle]="{
-      zIndex: modalZIndex
+      zIndex: modalZIndex,
     }"
   >
     <div
       class="sky-modal-header"
       [hidden]="!headerContent || !headerContent.children || headerContent.children.length &lt; 1"
       [ngStyle]="{
-        'box-shadow': scrollShadow?.topShadow
+        'box-shadow': scrollShadow?.topShadow,
       }"
     >
       <div
         class="sky-modal-header-content"
         skyId
         [ngClass]="{
-          'sky-font-heading-2': size === 'full-page'
+          'sky-font-heading-2': size === 'full-page',
         }"
         #headerContent
         #headerId="skyId"
@@ -73,7 +73,7 @@
     <div
       class="sky-modal-footer"
       [ngStyle]="{
-        'box-shadow': scrollShadow?.bottomShadow
+        'box-shadow': scrollShadow?.bottomShadow,
       }"
     >
       <ng-content select="sky-modal-footer" />

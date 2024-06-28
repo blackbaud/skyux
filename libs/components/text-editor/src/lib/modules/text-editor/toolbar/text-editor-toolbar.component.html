@@ -13,7 +13,7 @@
       >
         <sky-dropdown-button
           [ngStyle]="{
-            'font-family': styleState.font
+            'font-family': styleState.font,
           }"
         >
           {{ styleStateFontName }}
@@ -23,7 +23,7 @@
             <button
               type="button"
               [ngStyle]="{
-                'font-family': fontModel.value
+                'font-family': fontModel.value,
               }"
               (click)="execCommand('fontname', fontModel.name)"
             >
@@ -42,7 +42,7 @@
       >
         <sky-dropdown-button
           [ngStyle]="{
-            'font-family': styleState.fontSize
+            'font-family': styleState.fontSize,
           }"
         >
           {{ styleState.fontSize + 'px' }}
@@ -254,7 +254,7 @@
           type="button"
           [disabled]="disabled"
           [ngClass]="{
-            'icon-btn-active': styleState.linkState
+            'icon-btn-active': styleState.linkState,
           }"
           (click)="link()"
         >

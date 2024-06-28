@@ -9,8 +9,8 @@
             *ngFor="let component of displayedItems"
             [permalink]="{
               route: {
-                commands: component.path
-              }
+                commands: component.path,
+              },
             }"
           >
             <sky-action-button-icon [iconType]="component.icon" />

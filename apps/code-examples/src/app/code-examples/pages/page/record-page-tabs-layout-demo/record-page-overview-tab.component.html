@@ -41,7 +41,7 @@
               <h3 class="sky-font-heading-4">Actuals</h3>
               <sky-key-info
                 [ngClass]="{
-                  'sky-margin-stacked-lg': i < actualPayments.length - 1
+                  'sky-margin-stacked-lg': i < actualPayments.length - 1,
                 }"
                 *ngFor="let actual of actualPayments; let i = index"
               >
@@ -55,7 +55,7 @@
               <h3 class="sky-font-heading-4">Projected</h3>
               <sky-key-info
                 [ngClass]="{
-                  'sky-margin-stacked-lg': i < projectedPayments.length - 1
+                  'sky-margin-stacked-lg': i < projectedPayments.length - 1,
                 }"
                 *ngFor="let projected of projectedPayments; let i = index"
               >

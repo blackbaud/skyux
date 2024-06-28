@@ -3,11 +3,11 @@
   [attr.disabled]="disabled ? true : null"
   [ngClass]="{
     'sky-selection-box-selected': checked,
-    'sky-selection-box-disabled': disabled
+    'sky-selection-box-disabled': disabled,
   }"
   [skyThemeClass]="{
     'sky-shadow': 'default',
-    'sky-box sky-elevation-1': 'modern'
+    'sky-box sky-elevation-1': 'modern',
   }"
   (keydown)="onKeydown($event)"
   #selectionBox
@@ -15,7 +15,7 @@
   <div
     class="sky-selection-box-icon"
     [ngStyle]="{
-      display: !icon.innerHTML.trim() ? 'none' : ''
+      display: !icon.innerHTML.trim() ? 'none' : '',
     }"
     #icon
   >
@@ -27,7 +27,7 @@
       class="sky-selection-box-header"
       [ngClass]="{
         'sky-font-heading-2': icon.innerHTML.trim(),
-        'sky-font-heading-3': !icon.innerHTML.trim()
+        'sky-font-heading-3': !icon.innerHTML.trim(),
       }"
     >
       <ng-content select="sky-selection-box-header" />
@@ -36,7 +36,7 @@
       class="sky-selection-box-description"
       [skyThemeClass]="{
         'sky-font-deemphasized': 'modern',
-        'sky-deemphasized': 'default'
+        'sky-deemphasized': 'default',
       }"
     >
       <ng-content select="sky-selection-box-description" />

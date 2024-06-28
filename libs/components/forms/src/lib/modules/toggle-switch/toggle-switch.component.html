@@ -1,7 +1,7 @@
 <span
   class="sky-toggle-switch"
   [ngClass]="{
-    'sky-toggle-switch-with-label': hasLabelComponent || labelText
+    'sky-toggle-switch-with-label': hasLabelComponent || labelText,
   }"
 >
   <button
@@ -17,7 +17,7 @@
     [disabled]="disabled"
     [ngClass]="{
       'sky-toggle-switch-checked': checked,
-      'sky-toggle-switch-disabled': disabled
+      'sky-toggle-switch-disabled': disabled,
     }"
     [tabIndex]="tabIndex"
     (blur)="onButtonBlur()"
@@ -28,7 +28,7 @@
       <i
         class="sky-toggle-switch-indicator"
         [ngClass]="{
-          'sky-toggle-switch-transition': enableIndicatorAnimation
+          'sky-toggle-switch-transition': enableIndicatorAnimation,
         }"
         >&nbsp;</i
       >

@@ -8,8 +8,8 @@
         *ngFor="let integration of displayedItems"
         [permalink]="{
           route: {
-            commands: integration.path
-          }
+            commands: integration.path,
+          },
         }"
       >
         <sky-action-button-icon

@@ -6,7 +6,7 @@
   <span
     class="sky-country-field-container"
     [ngClass]="{
-      'sky-country-field-disabled': disabled
+      'sky-country-field-disabled': disabled,
     }"
   >
     <sky-autocomplete
@@ -21,7 +21,7 @@
         class="sky-country-field-input"
         [ngClass]="{
           'sky-country-field-input-with-flag':
-            selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
+            selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag,
         }"
       >
         <div

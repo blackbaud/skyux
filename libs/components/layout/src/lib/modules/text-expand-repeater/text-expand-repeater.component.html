@@ -4,12 +4,12 @@
     class="sky-text-expand-repeater-container"
     [@expansionAnimation]="{
       value: isExpanded,
-      params: { transitionHeight: transitionHeight }
+      params: { transitionHeight: transitionHeight },
     }"
     (@expansionAnimation.done)="animationEnd()"
     [id]="contentSectionId"
     [ngClass]="{
-      'sky-text-expand-repeater-list-style-none': listStyle === 'unstyled'
+      'sky-text-expand-repeater-list-style-none': listStyle === 'unstyled',
     }"
     #container
   >
@@ -20,7 +20,7 @@
     class="sky-text-expand-repeater-container"
     [@expansionAnimation]="{
       value: isExpanded,
-      params: { transitionHeight: transitionHeight }
+      params: { transitionHeight: transitionHeight },
     }"
     (@expansionAnimation.done)="animationEnd()"
     [id]="contentSectionId"
@@ -37,7 +37,7 @@
     (click)="repeaterExpand()"
     [ngClass]="{
       'sky-text-expand-repeater-see-more-list-style-none':
-        listStyle === 'unstyled'
+        listStyle === 'unstyled',
     }"
   >
     {{ buttonText }}

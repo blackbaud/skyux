@@ -39,7 +39,7 @@
     *ngIf="maintainTabContent || tabService.contentVisible()"
     class="sky-vertical-tabset-content"
     [ngClass]="{
-      'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
+      'sky-vertical-tabset-content-hidden': !tabService.contentVisible(),
     }"
     [@contentEnter]="tabService.animationContentVisibleState"
     #contentContainerWrapper

@@ -5,7 +5,7 @@
     tabindex="0"
     [fragment]="permalink?.route?.extras?.fragment"
     [skyThemeClass]="{
-      'sky-btn sky-box': 'modern'
+      'sky-btn sky-box': 'modern',
     }"
     [queryParams]="permalink?.route?.extras?.queryParams"
     [queryParamsHandling]="permalink?.route?.extras?.queryParamsHandling"
@@ -25,7 +25,7 @@
     tabindex="0"
     [href]="permalink?.url"
     [skyThemeClass]="{
-      'sky-btn sky-box': 'modern'
+      'sky-btn sky-box': 'modern',
     }"
   >
     <ng-container *ngTemplateOutlet="actionButtonContent"></ng-container>
@@ -43,7 +43,7 @@
     [skyHref]="permalink?.url"
     (skyHrefChange)="onSkyHrefDisplayChange($event)"
     [skyThemeClass]="{
-      'sky-btn sky-box': 'modern'
+      'sky-btn sky-box': 'modern',
     }"
   >
     <ng-container *ngTemplateOutlet="actionButtonContent"></ng-container>
@@ -55,7 +55,7 @@
     tabindex="0"
     role="button"
     [skyThemeClass]="{
-      'sky-btn sky-box': 'modern'
+      'sky-btn sky-box': 'modern',
     }"
     (click)="buttonClicked()"
     (keydown.enter)="enterPress()"
@@ -80,7 +80,7 @@
       <div
         class="sky-action-button-details"
         [skyThemeClass]="{
-          'sky-font-deemphasized': 'modern'
+          'sky-font-deemphasized': 'modern',
         }"
       >
         <ng-container *ngTemplateOutlet="details"></ng-container>

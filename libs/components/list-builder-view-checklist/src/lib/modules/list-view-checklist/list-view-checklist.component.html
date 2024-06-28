@@ -14,7 +14,7 @@
             [attr.aria-checked]="(itemSelected(item.id) | async) || false"
             [ngClass]="{
               'sky-list-view-checklist-row-selected':
-                (itemSelected(item.id) | async)
+                (itemSelected(item.id) | async),
             }"
             (click)="singleSelectRowClick(item)"
           >

@@ -15,7 +15,7 @@
     class="sky-search-dismiss-container"
     [hidden]="searchButtonShown"
     [ngClass]="{
-      'sky-search-dismiss-absolute': mobileSearchShown || isFullWidth
+      'sky-search-dismiss-absolute': mobileSearchShown || isFullWidth,
     }"
   >
     <div class="sky-search-item-input">
@@ -25,7 +25,7 @@
         (@inputState.start)="inputAnimationStart($event)"
         (@inputState.done)="inputAnimationEnd($event)"
         [ngClass]="{
-          'sky-search-input-container-has-value': searchText?.trim()
+          'sky-search-input-container-has-value': searchText?.trim(),
         }"
       >
         <sky-input-box [disabled]="disabled">

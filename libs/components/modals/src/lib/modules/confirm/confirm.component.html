@@ -15,11 +15,11 @@
       <div
         class="sky-confirm-message"
         [ngClass]="{
-          'sky-confirm-preserve-white-space': preserveWhiteSpace
+          'sky-confirm-preserve-white-space': preserveWhiteSpace,
         }"
         [skyThemeClass]="{
           'sky-font-display-4': 'default',
-          'sky-font-heading-1 sky-font-display-3': 'modern'
+          'sky-font-heading-1 sky-font-display-3': 'modern',
         }"
         skyId
         #confirmMessage="skyId"
@@ -38,7 +38,7 @@
         class="sky-confirm-body"
         [id]="bodyId"
         [ngClass]="{
-          'sky-confirm-preserve-white-space': preserveWhiteSpace
+          'sky-confirm-preserve-white-space': preserveWhiteSpace,
         }"
         >{{ body }}</div
       >
@@ -51,7 +51,7 @@
           [ngClass]="'sky-btn-' + button.styleType"
           [skyThemeClass]="{
             'sky-margin-inline-sm': 'modern',
-            'sky-margin-inline-compact': 'default'
+            'sky-margin-inline-compact': 'default',
           }"
           (click)="close(button)"
           [attr.autofocus]="button.autofocus ? 'autofocus' : null"

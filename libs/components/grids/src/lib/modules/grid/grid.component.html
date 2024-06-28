@@ -78,7 +78,7 @@
                 *ngIf="column.inlineHelpPopover"
                 [ngClass]="{
                   'sky-grid-help-inline-sort-hidden':
-                    getHelpInlineClass(column.field) | async
+                    getHelpInlineClass(column.field) | async,
                 }"
                 [skyPopover]="column.inlineHelpPopover"
                 (keydown.enter)="$event.stopPropagation()"
@@ -130,7 +130,7 @@
           [ngClass]="{
             'sky-grid-multiselect-selected-row': item.isSelected,
             'sky-grid-multiselect-row': enableMultiselect,
-            'sky-grid-row-highlight': isRowHighlighted(item.id)
+            'sky-grid-row-highlight': isRowHighlighted(item.id),
           }"
           (click)="onRowClick($event, item)"
         >
@@ -196,7 +196,7 @@
     [ngStyle]="{
       height: getRowHeight(0),
       position: 'fixed',
-      width: tableWidth + 'px'
+      width: tableWidth + 'px',
     }"
     #inlineDeleteRef
   >

@@ -12,12 +12,12 @@
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
-    'sky-flyout-fullscreen': isFullscreen
+    'sky-flyout-fullscreen': isFullscreen,
   }"
   [style.z-index]="zIndex$ | async"
   [skyThemeClass]="{
     'sky-shadow': 'default',
-    'sky-elevation-8': 'modern'
+    'sky-elevation-8': 'modern',
   }"
   (@flyoutState.done)="animationDone($event)"
   [@flyoutState]="getAnimationState()"
@@ -29,7 +29,7 @@
   <div
     class="sky-flyout-header"
     [skyThemeClass]="{
-      'sky-padding-squish-large': 'default'
+      'sky-padding-squish-large': 'default',
     }"
     [style.z-index]="zIndex$ | async"
     #flyoutHeader
@@ -64,7 +64,7 @@
         [attr.aria-label]="'skyux_flyout_close' | skyLibResources"
         [skyThemeClass]="{
           'sky-btn-default': 'default',
-          'sky-btn-icon-borderless': 'modern'
+          'sky-btn-icon-borderless': 'modern',
         }"
         (click)="close()"
       >
@@ -99,7 +99,7 @@
         [skyHref]="permalink.url"
         [skyThemeClass]="{
           'sky-btn-default': 'default',
-          'sky-btn-borderless': 'modern'
+          'sky-btn-borderless': 'modern',
         }"
         (click)="close()"
       >
@@ -113,7 +113,7 @@
         [fragment]="permalink.route.extras?.fragment"
         [skyThemeClass]="{
           'sky-btn-default': 'default',
-          'sky-btn-borderless': 'modern'
+          'sky-btn-borderless': 'modern',
         }"
         [queryParams]="permalink.route.extras?.queryParams"
         [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"

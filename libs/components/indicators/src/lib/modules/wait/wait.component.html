@@ -2,7 +2,7 @@
   class="sky-wait-container"
   [ngClass]="{
     'sky-wait-full-page': isFullPage,
-    'sky-wait-non-blocking': isNonBlocking
+    'sky-wait-non-blocking': isNonBlocking,
   }"
 >
   <div
@@ -13,7 +13,7 @@
     [ngClass]="{
       'sky-wait-mask-loading-fixed': isFullPage,
       'sky-wait-mask-loading-non-blocking': isNonBlocking,
-      'sky-wait-mask-loading-blocking': !isNonBlocking
+      'sky-wait-mask-loading-blocking': !isNonBlocking,
     }"
   >
     <div class="sky-wait">

@@ -4,7 +4,7 @@
     [ngClass]="{
       'sky-control-label-required': isCheckboxRequired,
       'sky-switch-disabled': disabled,
-      'sky-margin-inline-xs': labelText && !icon
+      'sky-margin-inline-xs': labelText && !icon,
     }"
   >
     <input
@@ -26,7 +26,7 @@
       "
       [ngClass]="{
         'sky-switch-invalid':
-          (control?.touched || control?.dirty) && control?.errors
+          (control?.touched || control?.dirty) && control?.errors,
       }"
       (blur)="onInputBlur()"
       (change)="onInteractionEvent($event)"
@@ -39,7 +39,7 @@
         'sky-switch-control-info': checkboxType === 'info',
         'sky-switch-control-success': checkboxType === 'success',
         'sky-switch-control-warning': checkboxType === 'warning',
-        'sky-switch-control-danger': checkboxType === 'danger'
+        'sky-switch-control-danger': checkboxType === 'danger',
       }"
     >
       <sky-icon

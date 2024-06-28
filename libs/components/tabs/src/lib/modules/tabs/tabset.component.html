@@ -25,14 +25,14 @@
           <div
             class="sky-tab-dropdown-item"
             [ngClass]="{
-              'sky-tab-dropdown-item-selected': tabButton.active
+              'sky-tab-dropdown-item-selected': tabButton.active,
             }"
           >
             <ng-container
               *ngTemplateOutlet="
                 tabButtonTemplate;
                 context: {
-                  $implicit: tabButton
+                  $implicit: tabButton,
                 }
               "
             ></ng-container>
@@ -47,7 +47,7 @@
         *ngTemplateOutlet="
           tabButtonTemplate;
           context: {
-            $implicit: tabButton
+            $implicit: tabButton,
           }
         "
       ></ng-container>
@@ -60,7 +60,7 @@
       type="button"
       [attr.aria-label]="'skyux_tab_add' | skyLibResources"
       [skyThemeClass]="{
-        'sky-margin-inline-sm': 'modern'
+        'sky-margin-inline-sm': 'modern',
       }"
       (click)="onNewTabClick()"
     >
@@ -72,7 +72,7 @@
       type="button"
       [attr.aria-label]="'skyux_tab_open' | skyLibResources"
       [skyThemeClass]="{
-        'sky-margin-inline-sm': 'modern'
+        'sky-margin-inline-sm': 'modern',
       }"
       (click)="onOpenTabClick()"
     >

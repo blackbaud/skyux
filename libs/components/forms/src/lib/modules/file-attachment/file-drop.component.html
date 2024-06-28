@@ -3,13 +3,13 @@
     *ngIf="labelText"
     class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
     [ngClass]="{
-      'sky-screen-reader-only': labelHidden
+      'sky-screen-reader-only': labelHidden,
     }"
   >
     <span
       class="sky-margin-inline-xs"
       [ngClass]="{
-        'sky-control-label-required': required
+        'sky-control-label-required': required,
       }"
       >{{ labelText }}</span
     ><span class="sky-screen-reader-only" *ngIf="required">{{
@@ -31,7 +31,7 @@
       class="sky-file-drop-col"
       [ngClass]="{
         'sky-file-drop-accept': acceptedOver,
-        'sky-file-drop-reject': rejectedOver
+        'sky-file-drop-reject': rejectedOver,
       }"
     >
       <button

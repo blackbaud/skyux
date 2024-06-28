@@ -6,7 +6,7 @@
       'sky-vertical-tabset-group-header-active sky-font-emphasized': isActive(),
       'sky-vertical-tabset-group-header-sub-open': open,
       'sky-font-deemphasized': disabled,
-      'sky-deemphasized': disabled
+      'sky-deemphasized': disabled,
     }"
   >
     <button
@@ -18,7 +18,7 @@
       [attr.aria-expanded]="!disabled && open"
       [id]="groupId"
       [ngClass]="{
-        'sky-vertical-tabset-button-disabled': disabled
+        'sky-vertical-tabset-button-disabled': disabled,
       }"
       [tabIndex]="-1"
       (click)="toggleMenuOpen()"

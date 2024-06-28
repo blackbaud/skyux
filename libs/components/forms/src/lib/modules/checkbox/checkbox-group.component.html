@@ -11,13 +11,13 @@
     [ngClass]="{
       'sky-screen-reader-only': headingHidden,
       'sky-margin-stacked-xs': !!hintText,
-      'sky-margin-stacked-sm': !hintText
+      'sky-margin-stacked-sm': !hintText,
     }"
   >
     <span
       class="sky-margin-inline-xs"
       [ngClass]="{
-        'sky-control-label-required': required
+        'sky-control-label-required': required,
       }"
     >
       <span *ngIf="!headingLevel" [class]="'sky-heading-text ' + headingClass">
@@ -47,7 +47,7 @@
     skyId
     [ngClass]="{
       'sky-font-deemphasized sky-margin-stacked-lg sky-checkbox-group-hint-text':
-        !!hintText
+        !!hintText,
     }"
     #hintTextEl="skyId"
   >

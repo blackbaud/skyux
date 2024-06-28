@@ -2,7 +2,7 @@
   class="sky-btn-tab-wrapper"
   [ngClass]="{
     'sky-btn-tab-wrapper-selected': active,
-    'sky-btn-tab-wrapper-disabled': disabled
+    'sky-btn-tab-wrapper-disabled': disabled,
   }"
 >
   <a
@@ -25,7 +25,7 @@
       'sky-btn-tab-wizard': tabStyle === 'wizard',
       'sky-btn-tab-selected': active,
       'sky-btn-tab-disabled': disabled,
-      'sky-tab-btn-closeable': closeable
+      'sky-tab-btn-closeable': closeable,
     }"
     [tabindex]="active ? '0' : '-1'"
     (click)="onButtonClick($event)"
@@ -48,7 +48,7 @@
         [tabindex]="closeBtnTabIndex"
         [attr.aria-label]="'skyux_tab_close' | skyLibResources: buttonText"
         [ngClass]="{
-          'sky-btn-tab-close-disabled': disabled
+          'sky-btn-tab-close-disabled': disabled,
         }"
         (click)="onCloseClick($event)"
         (keydown.enter)="onCloseClick($event)"

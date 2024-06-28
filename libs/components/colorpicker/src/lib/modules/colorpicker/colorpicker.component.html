@@ -4,7 +4,7 @@
     class="sky-control-label sky-margin-inline-xs"
     [ngClass]="{
       'sky-screen-reader-only': labelHidden,
-      'sky-control-label-required': requiredState?.isRequired()
+      'sky-control-label-required': requiredState?.isRequired(),
     }"
     [for]="inputId"
     >{{ labelText }}</label
@@ -22,7 +22,7 @@
   class="sky-input-group"
   [ngClass]="{
     'sky-colorpicker-hidden': !isVisible,
-    'sky-colorpicker-disabled': disabled
+    'sky-colorpicker-disabled': disabled,
   }"
 >
   <div [hidden]="true">
@@ -54,10 +54,10 @@
     [ngClass]="{
       'sky-colorpicker-button-disabled': disabled,
       'sky-colorpicker-error':
-        (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
+        (ngControl?.touched || ngControl?.dirty) && ngControl?.errors,
     }"
     [skyThemeClass]="{
-      'sky-margin-inline-sm': 'modern'
+      'sky-margin-inline-sm': 'modern',
     }"
     [style.background-color]="backgroundColorForDisplay"
     (click)="onTriggerButtonClick()"
@@ -77,7 +77,7 @@
         icon="chevron-down"
         size="xs"
         [ngClass]="{
-          'sky-colorpicker-button-modern-chevron-disabled': disabled
+          'sky-colorpicker-button-modern-chevron-disabled': disabled,
         }"
       />
     </ng-container>
@@ -92,7 +92,7 @@
       [hidden]="!isPickerVisible"
       [skyThemeClass]="{
         'sky-shadow': 'default',
-        'sky-elevation-4': 'modern'
+        'sky-elevation-4': 'modern',
       }"
       [cdkTrapFocus]="true"
       [cdkTrapFocusAutoCapture]="false"
@@ -285,7 +285,7 @@
             "
             [skyThemeClass]="{
               'sky-preset-color': 'default',
-              'sky-btn sky-btn-link': 'modern'
+              'sky-btn sky-btn-link': 'modern',
             }"
             [style.backgroundColor]="color"
             (click)="onPresetClick(color)"
@@ -296,7 +296,7 @@
       <div
         class="sky-colorpicker-footer"
         [skyThemeClass]="{
-          'sky-padding-even-large': 'default'
+          'sky-padding-even-large': 'default',
         }"
       >
         <section class="sky-colorpicker-column">
@@ -334,12 +334,12 @@
     [attr.aria-label]="'skyux_colorpicker_reset' | skyLibResources"
     [disabled]="disabled"
     [ngClass]="{
-      'sky-colorpicker-reset-button-disabled': disabled
+      'sky-colorpicker-reset-button-disabled': disabled,
     }"
     [skyThemeClass]="{
       'sky-colorpicker-reset-button': 'default',
       'sky-btn sky-btn-icon-borderless sky-colorpicker-reset-button-modern':
-        'modern'
+        'modern',
     }"
     (click)="onResetClick()"
   >
