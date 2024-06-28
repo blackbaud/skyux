@@ -15,6 +15,11 @@
     font-weight: 400;
     margin: 0 0 $sky-space-xxs;
     padding: 0;
+    text-wrap: nowrap;
+
+    > span {
+      text-wrap: nowrap;
+    }
   }
 
   dd {

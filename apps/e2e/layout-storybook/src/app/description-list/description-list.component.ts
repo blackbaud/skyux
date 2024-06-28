@@ -22,10 +22,15 @@ export class DescriptionListComponent {
     },
   ];
 
-  public personalInfo: { label: string; value?: string }[] = [
+  public personalInfo: {
+    label: string;
+    value?: string;
+    helpContent?: string;
+  }[] = [
     {
       label: 'College',
       value: 'Humanities and Social Sciences',
+      helpContent: 'The college in which the student is enrolled.',
     },
     {
       label: 'Department',
@@ -33,6 +38,7 @@ export class DescriptionListComponent {
     },
     {
       label: 'Advisor',
+      helpContent: 'The faculty member who advises the student.',
     },
     {
       label: 'Class Year',

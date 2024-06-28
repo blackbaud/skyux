@@ -1,7 +1,10 @@
 <h3>Vertical mode</h3>
 <div class="sky-padding-even-md" id="screenshot-description-list-vertical-mode">
   <sky-description-list mode="vertical">
-    <sky-description-list-content *ngFor="let item of personalInfo">
+    <sky-description-list-content
+      *ngFor="let item of personalInfo"
+      [helpPopoverContent]="item.helpContent"
+    >
       <sky-description-list-term>
         {{ item.label }}
       </sky-description-list-term>
@@ -18,7 +21,10 @@
   id="screenshot-description-list-horizontal-mode"
 >
   <sky-description-list mode="horizontal">
-    <sky-description-list-content *ngFor="let item of personalInfo">
+    <sky-description-list-content
+      *ngFor="let item of personalInfo"
+      [helpPopoverContent]="item.helpContent"
+    >
       <sky-description-list-term>
         {{ item.label }}
       </sky-description-list-term>
@@ -32,10 +38,13 @@
 <h3>Horizontal mode (fixed width)</h3>
 <div
   class="sky-padding-even-md"
-  id="screenshot-description-list-horizontal-mode"
+  id="screenshot-description-list-horizontal-mode-fixed"
 >
   <sky-description-list listItemWidth="50px" mode="horizontal">
-    <sky-description-list-content *ngFor="let item of personalInfo">
+    <sky-description-list-content
+      *ngFor="let item of personalInfo"
+      [helpPopoverContent]="item.helpContent"
+    >
       <sky-description-list-term>
         {{ item.label }}
       </sky-description-list-term>
