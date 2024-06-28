@@ -10,8 +10,7 @@
   [validateFn]="validateFile"
   (filesChanged)="onFilesChanged($event)"
   (linkChanged)="onLinkChanged($event)"
->
-  <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
-  </div>
-</sky-file-drop>
+/>
+<div *ngFor="let file of allItems">
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+</div>
