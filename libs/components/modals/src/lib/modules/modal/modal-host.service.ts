@@ -32,6 +32,9 @@ export class SkyModalHostService {
 
   public close = new Subject<void>();
   public fullPage = false;
+  /**
+   * @deprecated
+   */
   public openHelp = new Subject<string>();
   public zIndex: number;
 
@@ -48,7 +51,10 @@ export class SkyModalHostService {
     this.close.next();
   }
 
-  public onOpenHelp(helpKey: string) {
+  /**
+   * @deprecated
+   */
+  public onOpenHelp(helpKey: string): void {
     this.openHelp.next(helpKey);
   }
 

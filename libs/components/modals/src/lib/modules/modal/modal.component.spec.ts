@@ -10,6 +10,10 @@ import {
   SkyMutationObserverService,
 } from '@skyux/core';
 import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
+import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
@@ -18,6 +22,7 @@ import {
 
 import { ModalMockThemeService } from './fixtures/mock-theme.service';
 import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
+import { ModalTestContext } from './fixtures/modal-context';
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
 import { ModalIsDirtyTestContext } from './fixtures/modal-is-dirty-test-context.fixture';
@@ -36,6 +41,7 @@ import { SkyModalError } from './modal-error';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
+import { SkyModalConfigurationInterface } from './modal.interface';
 import { SkyModalModule } from './modal.module';
 import { SkyModalService } from './modal.service';
 
@@ -126,6 +132,10 @@ describe('Modal component', () => {
     return TestBed.inject(Router);
   }
 
+  function getHelpInlineButton(): HTMLButtonElement | null {
+    return getModalElement()?.querySelector('sky-help-inline button') ?? null;
+  }
+
   async function testLiveAnnouncer(
     changeElementAfterLoad = false,
   ): Promise<void> {
@@ -167,7 +177,7 @@ describe('Modal component', () => {
 
   function openModal<T>(
     modalType: T,
-    config?: Record<string, any>,
+    config?: SkyModalConfigurationInterface,
     async = false,
   ): SkyModalInstance {
     const modalInstance = getModalService().open(modalType, config);
@@ -193,7 +203,7 @@ describe('Modal component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyModalFixturesModule],
+      imports: [SkyModalFixturesModule, SkyHelpTestingModule],
     });
 
     // Confirm all modals are closed before another test is executed.
@@ -694,6 +704,83 @@ describe('Modal component', () => {
     expect(modalInstance.openHelp).toHaveBeenCalledWith('default.html');
 
     getApplicationRef().tick();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should render help inline popover', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: 'My modal',
+            helpPopoverContent: 'Popover content here.',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    expect(getHelpInlineButton()).toExist();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should not render help inline if popover content provided but headingText undefined', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: undefined,
+            helpPopoverContent: 'Popover content here.',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    expect(getHelpInlineButton()).toBeNull();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should render help inline when helpKey is provided', fakeAsync(() => {
+    const helpController = TestBed.inject(SkyHelpTestingController);
+
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: 'My modal',
+            helpKey: 'foo.html',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    getHelpInlineButton()?.click();
+    getApplicationRef().tick();
+
+    helpController.expectCurrentHelpKey('foo.html');
+
+    closeModal(modalInstance);
+  }));
+
+  it('should not render help inline if helpKey provided but heading text undefined', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: undefined,
+            helpKey: 'foo.html',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    expect(getHelpInlineButton()).toBeNull();
 
     closeModal(modalInstance);
   }));

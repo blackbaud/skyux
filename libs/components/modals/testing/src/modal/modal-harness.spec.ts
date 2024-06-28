@@ -1,7 +1,8 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, inject } from '@angular/core';
+import { Component, Injectable, StaticProvider, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyModalConfigurationInterface,
   SkyModalModule,
@@ -10,12 +11,27 @@ import {
 
 import { SkyModalHarness } from './modal-harness';
 
+@Injectable()
+export class ModalTestContext {
+  public headingText: string | undefined;
+  public helpKey: string | undefined;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
+}
+
 //#region Test component
 @Component({
   selector: 'sky-modal-modal-test',
-  template: `<sky-modal></sky-modal>`,
+  template: `<sky-modal
+    [headingText]="context?.headingText"
+    [helpKey]="context?.helpKey"
+    [helpPopoverContent]="context?.helpPopoverContent"
+    [helpPopoverTitle]="context?.helpPopoverTitle"
+  ></sky-modal>`,
 })
-class TestComponent {}
+class TestComponent {
+  protected context = inject(ModalTestContext, { optional: true });
+}
 
 class ModalWithKeepWorkingPromptTestContext {
   public isDirty = false;
@@ -44,7 +60,7 @@ class TestSkyIdComponent {}
 
 @Component({
   selector: 'sky-modal-test-modal',
-  template: `<button (click)="openModal()"></button>`,
+  template: `<button type="button" (click)="openModal()"></button>`,
 })
 class TestButtonComponent {
   #modalSvc = inject(SkyModalService);
@@ -73,6 +89,7 @@ class TestButtonComponent {
 describe('Modal test harness', () => {
   let fixture: ComponentFixture<TestButtonComponent>;
   let service: SkyModalService;
+
   async function setupTest(
     config?: SkyModalConfigurationInterface,
     options: {
@@ -90,7 +107,7 @@ describe('Modal test harness', () => {
         TestKeepWaitingPromptComponent,
         TestSkyIdComponent,
       ],
-      imports: [SkyModalModule],
+      imports: [NoopAnimationsModule, SkyModalModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestButtonComponent);
@@ -115,6 +132,17 @@ describe('Modal test harness', () => {
     }
 
     return { modalHarness, fixture, service, loader };
+  }
+
+  function getContextProviders(
+    context: Partial<ModalTestContext>,
+  ): StaticProvider[] {
+    return [
+      {
+        provide: ModalTestContext,
+        useValue: context,
+      },
+    ];
   }
 
   afterEach(() => {
@@ -277,5 +305,76 @@ describe('Modal test harness', () => {
 
   it('should get correct value for isDirty when true', async () => {
     await testIsDirtyDirective(true);
+  });
+
+  it('should get the heading text', async () => {
+    const { modalHarness } = await setupTest({
+      providers: getContextProviders({
+        headingText: 'My modal heading',
+      }),
+    });
+
+    await expectAsync(modalHarness.getHeadingText()).toBeResolvedTo(
+      'My modal heading',
+    );
+  });
+
+  it('should get the popover content', async () => {
+    const { modalHarness } = await setupTest({
+      providers: getContextProviders({
+        headingText: 'My modal heading',
+        helpPopoverContent: 'My popover content',
+      }),
+    });
+
+    await modalHarness.clickHelpInline();
+
+    await expectAsync(modalHarness.getHelpPopoverContent()).toBeResolvedTo(
+      'My popover content',
+    );
+  });
+
+  it('should get the popover title', async () => {
+    const { modalHarness } = await setupTest({
+      providers: getContextProviders({
+        headingText: 'My modal heading',
+        helpPopoverContent: 'My popover content',
+        helpPopoverTitle: 'My popover title',
+      }),
+    });
+
+    await modalHarness.clickHelpInline();
+
+    await expectAsync(modalHarness.getHelpPopoverTitle()).toBeResolvedTo(
+      'My popover title',
+    );
+  });
+
+  it('should throw when getting content from a closed popover', async () => {
+    const { modalHarness } = await setupTest({
+      providers: getContextProviders({
+        headingText: 'My modal heading',
+        helpPopoverContent: 'My popover content',
+      }),
+    });
+
+    await expectAsync(
+      modalHarness.getHelpPopoverContent(),
+    ).toBeRejectedWithError(
+      'Unable to retrieve the popover content because the popover is not open.',
+    );
+  });
+
+  it('should throw when clicking on a nonexistent help button', async () => {
+    const { modalHarness } = await setupTest({
+      providers: getContextProviders({
+        headingText: undefined,
+        helpPopoverContent: 'My popover content',
+      }),
+    });
+
+    await expectAsync(modalHarness.clickHelpInline()).toBeRejectedWithError(
+      'No help inline found.',
+    );
   });
 });

@@ -6,6 +6,7 @@ import {
 } from '@skyux/modals';
 
 import { ModalBasicComponent } from './modals/modal-basic.component';
+import { ModalTestContext } from './modals/modal-context';
 
 @Component({
   selector: 'app-modal',
@@ -62,6 +63,20 @@ export class ModalComponent {
       },
       { message: 'Additional error message to ensure the max height is hit' },
     ];
+  }
+
+  protected onOpenHeadingTextHelpInlineModalClick(): void {
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: 'My heading',
+            helpPopoverContent: 'My help popover content.',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
   }
 
   protected onOpenModalWithPositionedElClick(): void {
