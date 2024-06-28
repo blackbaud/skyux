@@ -22,7 +22,7 @@
     "dev:commit": "npx cz",
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
     "dev:create-library-resources": "skyux-dev create-lib-resources",
-    "dev:format": "npx prettier --write .",
+    "dev:format": "nx format:write",
     "dev:pristine": "skyux-dev pristine-commit"
   },
   "engines": {

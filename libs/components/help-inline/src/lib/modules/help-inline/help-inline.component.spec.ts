@@ -29,21 +29,41 @@ import { BehaviorSubject } from 'rxjs';
 import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
 
 describe('Help inline component', () => {
-  async function checkAriaPropertiesAndAccessibility(
-    ariaLabel: string,
-    ariaControls: string | null,
-    ariaExpanded: string | null,
-    ariaHaspopup?: string | null,
-  ): Promise<void> {
+  async function checkAriaPropertiesAndAccessibility(options: {
+    ariaLabel?: string | null;
+    ariaControls?: string | null;
+    ariaExpanded?: string | null;
+    ariaHaspopup?: string | null;
+    ariaLabelledBy?: string | null;
+  }): Promise<void> {
     const helpInlineEl =
       fixture.nativeElement.querySelector('.sky-help-inline');
+    const labelEl = fixture.nativeElement.querySelector('span[hidden]');
+    const labelElId = labelEl?.getAttribute('id');
 
-    expect(helpInlineEl?.getAttribute('aria-label')).toBe(ariaLabel);
-    expect(helpInlineEl?.getAttribute('aria-controls')).toBe(ariaControls);
-    expect(helpInlineEl?.getAttribute('aria-expanded')).toBe(ariaExpanded);
+    expect(labelEl).toBeTruthy();
+    expect(labelElId).toBeTruthy();
+    expect(helpInlineEl?.getAttribute('aria-label')).toBe(options.ariaLabel);
+    if (options.ariaLabel || !options.ariaLabelledBy) {
+      expect(helpInlineEl?.getAttribute('aria-labelledby')).toBeNull();
+    } else {
+      expect(helpInlineEl?.getAttribute('aria-labelledby')).toContain(
+        labelElId,
+      );
+    }
+    // The resource string is trimmed.
+    expect(labelEl).toHaveText('Show help content for');
+    expect(helpInlineEl?.getAttribute('aria-controls')).toBe(
+      options.ariaControls,
+    );
+    expect(helpInlineEl?.getAttribute('aria-expanded')).toBe(
+      options.ariaExpanded,
+    );
 
-    if (ariaHaspopup !== undefined) {
-      expect(helpInlineEl?.getAttribute('aria-haspopup')).toBe(ariaHaspopup);
+    if (options.ariaHaspopup) {
+      expect(helpInlineEl?.getAttribute('aria-haspopup')).toBe(
+        options.ariaHaspopup,
+      );
     }
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -134,11 +154,11 @@ describe('Help inline component', () => {
     it('should pass accessibility with default inputs', async () => {
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content',
-        null,
-        null,
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls: null,
+        ariaExpanded: null,
+      });
     });
 
     it('should pass accessibility when ariaControls input is set', async () => {
@@ -146,11 +166,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content',
-        'help-text',
-        'false',
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls: 'help-text',
+        ariaExpanded: 'false',
+      });
     });
 
     it('should pass accessibility when ariaControls is set, and ariaExpanded is false', async () => {
@@ -159,11 +179,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content',
-        'help-text',
-        'false',
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls: 'help-text',
+        ariaExpanded: 'false',
+      });
     });
 
     it('should pass accessibility when ariaControls is set, and ariaExpanded is true', async () => {
@@ -172,11 +192,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content',
-        'help-text',
-        'true',
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls: 'help-text',
+        ariaExpanded: 'true',
+      });
     });
 
     it('should pass accessibility when ariaLabel is set', async () => {
@@ -184,7 +204,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility('Test label', null, null);
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Test label',
+        ariaControls: null,
+        ariaExpanded: null,
+      });
     });
 
     it('should pass accessibility when ariaLabel and ariaControls are set', async () => {
@@ -193,11 +217,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Test label',
-        'help-text',
-        'false',
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Test label',
+        ariaControls: 'help-text',
+        ariaExpanded: 'false',
+      });
     });
 
     it('should pass accessibility when ariaLabel and ariaControls is set, and ariaExpanded is set to false', async () => {
@@ -207,11 +231,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Test label',
-        'help-text',
-        'false',
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Test label',
+        ariaControls: 'help-text',
+        ariaExpanded: 'false',
+      });
     });
 
     it('should pass accessibility when ariaLabel and ariaControls are set, and ariaExpanded is set to true', async () => {
@@ -221,11 +245,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Test label',
-        'help-text',
-        'true',
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Test label',
+        ariaControls: 'help-text',
+        ariaExpanded: 'true',
+      });
     });
 
     it('should use sky-icon in default theme', async () => {
@@ -254,11 +278,11 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content for test component',
-        null,
-        null,
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content for test component',
+        ariaControls: null,
+        ariaExpanded: null,
+      });
     });
 
     it('should use aria label with labelText over deprecated ariaLabel input', async () => {
@@ -267,11 +291,26 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content for test component',
-        null,
-        null,
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content for test component',
+        ariaControls: null,
+        ariaExpanded: null,
+      });
+    });
+
+    it('should use labelledBy over labelText or deprecated ariaLabel inputs', async () => {
+      component.labelText = 'test component';
+      component.ariaLabel = 'deprecated';
+      component.labelledBy = 'label-id';
+
+      fixture.detectChanges();
+
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: null,
+        ariaControls: null,
+        ariaExpanded: null,
+        ariaLabelledBy: 'label-id',
+      });
     });
 
     it('should set help popover when popoverContent input is set', async () => {
@@ -353,12 +392,12 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content',
-        null,
-        null,
-        null,
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls: null,
+        ariaExpanded: null,
+        ariaHaspopup: null,
+      });
     });
   });
 
@@ -400,12 +439,12 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      await checkAriaPropertiesAndAccessibility(
-        'Show help content',
-        helpPanelTestEl.id,
-        null,
-        'dialog',
-      );
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls: helpPanelTestEl.id,
+        ariaExpanded: null,
+        ariaHaspopup: 'dialog',
+      });
     });
 
     describe('and help service is not provided but helpKey is specified', () => {
