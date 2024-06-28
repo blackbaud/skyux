@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterContentChecked,
   AfterViewInit,
   ChangeDetectorRef,
   Component,
@@ -67,9 +66,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyModalsResourcesModule,
   ],
 })
-export class SkyModalComponent
-  implements AfterContentChecked, AfterViewInit, OnDestroy, OnInit
-{
+export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   @HostBinding('class')
   public wrapperClass: string | undefined;
 
@@ -176,10 +173,6 @@ export class SkyModalComponent
 
   @ViewChild('modalContentWrapper', { read: ElementRef })
   public modalContentWrapperElement: ElementRef | undefined;
-
-  @ViewChild('headerContent', { static: true })
-  protected headerContent: ElementRef | undefined;
-  protected isHeaderEmpty = true;
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -314,11 +307,6 @@ export class SkyModalComponent
         updateResponsiveClasses: true,
       });
     }
-  }
-
-  public ngAfterContentChecked(): void {
-    this.isHeaderEmpty =
-      !this.headingText && !this.headerContent?.nativeElement.children.length;
   }
 
   public ngOnDestroy(): void {

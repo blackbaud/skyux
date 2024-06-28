@@ -20,7 +20,6 @@
   >
     <div
       class="sky-modal-header"
-      [hidden]="isHeaderEmpty"
       [ngStyle]="{
         'box-shadow': scrollShadow?.topShadow
       }"
@@ -31,7 +30,6 @@
         [ngClass]="{
           'sky-font-heading-2': size === 'full-page'
         }"
-        #headerContent
         #headerId="skyId"
       >
         @if (headingText) {
