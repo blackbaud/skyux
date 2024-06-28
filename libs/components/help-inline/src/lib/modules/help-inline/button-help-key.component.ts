@@ -20,10 +20,8 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
       class="sky-help-inline"
       type="button"
       [attr.aria-controls]="globalOptions?.ariaControls || ariaControls"
-      [attr.aria-expanded]="
-        globalOptions?.ariaControls || ariaControls ? !!ariaExpanded : null
-      "
       [attr.aria-label]="ariaLabel"
+      [attr.aria-labelledby]="ariaLabelledBy"
       [attr.aria-haspopup]="globalOptions?.ariaHaspopup"
       [ngClass]="{
         'sky-help-inline-hidden': !helpSvc
@@ -39,10 +37,10 @@ export class SkyHelpInlineHelpKeyButtonComponent {
   public ariaControls: string | undefined;
 
   @Input()
-  public ariaExpanded: boolean | undefined;
+  public ariaLabel: string | undefined;
 
   @Input()
-  public ariaLabel: string | undefined;
+  public ariaLabelledBy: string | undefined;
 
   @Input()
   public labelText: string | undefined;

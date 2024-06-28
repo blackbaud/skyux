@@ -24,6 +24,7 @@ import { SkyPopoverModule } from '@skyux/popovers';
       [attr.aria-controls]="popoverId || ariaControls"
       [attr.aria-expanded]="isPopoverOpened"
       [attr.aria-label]="ariaLabel"
+      [attr.aria-labelledby]="ariaLabelledBy"
       [skyPopover]="popoverRef"
     >
       <ng-content />
@@ -49,6 +50,9 @@ export class SkyHelpInlinePopoverButtonComponent {
 
   @Input()
   public ariaLabel: string | undefined;
+
+  @Input()
+  public ariaLabelledBy: string | undefined;
 
   @Input()
   public labelText: string | undefined;

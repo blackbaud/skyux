@@ -2,11 +2,18 @@
   <sky-help-inline-popover-button
     [ariaControls]="ariaControls"
     [ariaLabel]="
-      labelText
-        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-        : ariaLabel
+      !labelText && !labelledBy
+        ? ariaLabel
           ? ariaLabel
           : ('skyux_help_inline_button_title' | skyLibResources)
+        : undefined
+    "
+    [ariaLabelledBy]="
+      labelledBy
+        ? labelledByEl.id + ' ' + labelledBy
+        : labelText
+          ? labelTextEl.id
+          : undefined
     "
     [labelText]="labelText"
     [popoverContent]="popoverContent"
@@ -19,11 +26,18 @@
   <sky-help-inline-help-key-button
     [ariaControls]="ariaControls"
     [ariaLabel]="
-      labelText
-        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-        : ariaLabel
+      !labelText && !labelledBy
+        ? ariaLabel
           ? ariaLabel
           : ('skyux_help_inline_button_title' | skyLibResources)
+        : undefined
+    "
+    [ariaLabelledBy]="
+      labelledBy
+        ? labelledByEl.id + ' ' + labelledBy
+        : labelText
+          ? labelTextEl.id
+          : undefined
     "
     [helpKey]="helpKey"
     [labelText]="labelText"
@@ -38,11 +52,18 @@
     [attr.aria-controls]="ariaControls"
     [attr.aria-expanded]="ariaControls ? !!ariaExpanded : null"
     [attr.aria-label]="
-      labelText
-        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+      labelText || labelledBy
+        ? undefined
         : ariaLabel
           ? ariaLabel
           : ('skyux_help_inline_button_title' | skyLibResources)
+    "
+    [attr.aria-labelledby]="
+      labelledBy
+        ? labelledByEl.id + ' ' + labelledBy
+        : labelText
+          ? labelTextEl.id
+          : undefined
     "
     (click)="actionClick.emit()"
   >
@@ -65,3 +86,11 @@
     }"
   />
 </ng-template>
+
+<span hidden skyId #labelTextEl="skyId">
+  {{ 'skyux_help_inline_aria_label' | skyLibResources: labelText }}
+</span>
+
+<span hidden skyId #labelledByEl="skyId">
+  {{ 'skyux_help_inline_aria_label' | skyLibResources: '' }}
+</span>

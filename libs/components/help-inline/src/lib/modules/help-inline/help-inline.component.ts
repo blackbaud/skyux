@@ -6,6 +6,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -29,6 +30,7 @@ import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component'
     SkyHelpInlinePopoverButtonComponent,
     SkyHelpInlineResourcesModule,
     SkyIconModule,
+    SkyIdModule,
     SkyThemeModule,
   ],
 })
@@ -55,6 +57,9 @@ export class SkyHelpInlineComponent {
    */
   @Input()
   public ariaLabel: string | undefined;
+
+  @Input()
+  public labelledBy: string | undefined;
 
   /**
    * The label of the component help inline is attached to.
@@ -86,4 +91,34 @@ export class SkyHelpInlineComponent {
    */
   @Output()
   public actionClick = new EventEmitter<void>();
+
+  // protected labelTextId: string;
+  // protected labelledById: string;
+
+  // protected ariaLabelForDisplay: string | undefined;
+
+  // protected get ariaLabelledByForDisplay(): string | undefined {
+  //   return this.labelledBy
+  //     ? `${this.labelledById} ${this.labelledBy}`
+  //     : this.labelText
+  //       ? this.labelTextId
+  //       : undefined;
+  // }
+
+  // constructor() {
+  //   const idSvc = inject(SkyIdService);
+  //   const resourcesSvc = inject(SkyLibResourcesService);
+
+  //   this.labelTextId = idSvc.generateId();
+  //   this.labelledById = idSvc.generateId();
+
+  //   resourcesSvc.getString('skyux_help_inline_button_title').subscribe((x) => {
+  //     this.ariaLabelForDisplay =
+  //       !this.labelText && !this.labelledBy
+  //         ? this.ariaLabel
+  //           ? this.ariaLabel
+  //           : x
+  //         : undefined;
+  //   });
+  // }
 }
