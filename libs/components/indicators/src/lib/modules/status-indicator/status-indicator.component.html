@@ -1,3 +1,6 @@
+<ng-template #helpContent
+  ><ng-content select=".sky-control-help"
+/></ng-template>
 <div *ngIf="descriptionType" class="sky-status-indicator">
   <div
     aria-hidden="true"
@@ -16,9 +19,15 @@
     <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
       {{ descriptionComputed }}
     </span>
-    <span class="sky-status-indicator-message" skyTrim><ng-content /></span
+    <span skyId #message="skyId" class="sky-status-indicator-message" skyTrim
+      ><ng-content /></span
     ><span class="sky-control-help-container"
-      ><ng-content select=".sky-control-help"></ng-content
-    ></span>
+      ><sky-help-inline
+        *ngIf="helpPopoverContent || helpKey; else helpContent"
+        [labelledBy]="message.id"
+        [helpKey]="helpKey"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+    /></span>
   </div>
 </div>

@@ -74,6 +74,21 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the `aria-labelledby` value.
+   */
+  public async getAriaLabelledBy(): Promise<string | null> {
+    return await (await this.#getInlineHelpButton())
+      .getAttribute('aria-labelledby')
+      .then((ref) => {
+        if (ref) {
+          // Remove the 'aria-labelledby' prefix id.
+          return ref.substring(ref.indexOf(' ') + 1);
+        }
+        return null;
+      });
+  }
+
+  /**
    * Gets the label text.
    */
   public async getLabelText(): Promise<string | undefined> {

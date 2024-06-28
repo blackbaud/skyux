@@ -54,6 +54,11 @@
       "version": "10.7.0",
       "factory": "./update-10/add-forms-help-inline-peer-dependency/add-forms-help-inline-peer-dependency.schematic",
       "description": "Add @skyux/help-inline peer dependency for @skyux/forms."
+    },
+    "add-indicators-help-inline-peer-dependency": {
+      "version": "10.32.0",
+      "factory": "./update-10/add-indicators-help-inline-peer-dependency/add-indicators-help-inline-peer-dependency.schematic",
+      "description": "Add @skyux/help-inline peer dependency for @skyux/indicators."
     }
   }
 }
