@@ -6,7 +6,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { BrowserModule, By } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
@@ -142,9 +142,7 @@ describe('Help inline component', () => {
     beforeEach(() => setupTest());
 
     it('should emit a click event on button click', () => {
-      debugEl
-        .query(By.css('.sky-help-inline'))
-        .triggerEventHandler('click', undefined);
+      getHelpButton(fixture).click();
 
       fixture.detectChanges();
 
@@ -398,6 +396,25 @@ describe('Help inline component', () => {
         ariaExpanded: null,
         ariaHaspopup: null,
       });
+    });
+
+    it('should suppress click events', () => {
+      const clickSpy = spyOn(component, 'onClick');
+
+      const actionClickSpy = spyOn(
+        component,
+        'onActionClick',
+      ).and.callThrough();
+
+      fixture.detectChanges();
+
+      const helpButton = getHelpButton(fixture);
+      helpButton.click();
+
+      fixture.detectChanges();
+
+      expect(clickSpy).not.toHaveBeenCalled();
+      expect(actionClickSpy).toHaveBeenCalled();
     });
   });
 
