@@ -2,11 +2,16 @@
   class="sky-help-inline"
   type="button"
   [attr.aria-label]="
-    labelText
-      ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-      : ariaLabel
-        ? ariaLabel
-        : ('skyux_help_inline_button_title' | skyLibResources)
+    labelledBy
+      ? undefined
+      : labelText
+        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
+        : ariaLabel
+          ? ariaLabel
+          : ('skyux_help_inline_button_title' | skyLibResources)
+  "
+  [attr.aria-labelledby]="
+    !labelledBy ? undefined : labelTextElement.id + ' ' + labelledBy
   "
   [attr.aria-controls]="
     ariaControls | skyHelpInlineAriaControls: popoverId : helpKey
@@ -51,3 +56,7 @@
 <ng-template #popoverContext>
   {{ popoverContent }}
 </ng-template>
+
+<span hidden skyId #labelTextElement="skyId">{{
+  'skyux_help_inline_aria_label' | skyLibResources: ''
+}}</span>
