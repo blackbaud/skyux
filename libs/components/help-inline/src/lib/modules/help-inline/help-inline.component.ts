@@ -79,7 +79,7 @@ export class SkyHelpInlineComponent {
   public labelledBy: string | undefined;
 
   /**
-   * The label of the component help inline is attached to.
+   * The label of the component the help inline button is attached to.
    */
   @Input()
   public labelText: string | undefined;

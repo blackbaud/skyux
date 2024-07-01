@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 /**
- * @deprecated Use the new help inline component in the `@skyux/help-inline` library instead.
+ * @deprecated Use the new help inline button in the `@skyux/help-inline` library instead.
  */
 @Component({
   selector: 'sky-help-inline',
@@ -46,7 +46,7 @@ export class SkyHelpInlineComponent {
     inject(SkyLogService).deprecated('SkyHelpInlineComponent', {
       deprecationMajorVersion: 10,
       replacementRecommendation:
-        'Use the new help inline component in the `@skyux/help-inline` library instead',
+        'Use the new help inline button in the `@skyux/help-inline` library instead',
     });
   }
 
