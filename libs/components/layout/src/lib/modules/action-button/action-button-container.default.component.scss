@@ -19,43 +19,6 @@
       margin-right: $sky-margin;
     }
   }
-
-  // @include mixins.sky-host-responsive-container-xs-min(false) {
-  //   .sky-action-button-flex {
-  //     display: block;
-  //     padding: 0;
-  //     margin: calc(
-  //         var(--sky-compat-action-button-flex-margin, $sky-margin-double) * -1
-  //       )
-  //       0;
-
-  //     sky-action-button {
-  //       margin: $sky-margin-double 0;
-  //     }
-  //   }
-  // }
-
-  // @include mixins.sky-host-responsive-container-sm-min(false) {
-  //   .sky-action-button-flex {
-  //     display: flex;
-  //     flex-flow: row wrap;
-  //     padding: var(--sky-compat-action-button-flex-sm-padding, 0) 0;
-  //     margin: calc(var(--sky-compat-action-button-flex-margin, $sky-margin) * -1)
-  //       0;
-
-  //     &.sky-action-button-flex-align-center {
-  //       justify-content: center;
-  //     }
-
-  //     &.sky-action-button-flex-align-left {
-  //       justify-content: flex-start;
-  //     }
-
-  //     sky-action-button {
-  //       margin: $sky-margin 0;
-  //     }
-  //   }
-  // }
 }
 
 @include mixins.sky-component(
