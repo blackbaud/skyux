@@ -75,6 +75,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
 
   /**
    * Gets the `aria-labelledby` value.
+   * @internal
    */
   public async getAriaLabelledBy(): Promise<string | null> {
     return await (await this.#getInlineHelpButton())
