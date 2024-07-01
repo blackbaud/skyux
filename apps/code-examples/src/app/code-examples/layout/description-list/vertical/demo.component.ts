@@ -9,22 +9,24 @@ import { SkyDescriptionListModule } from '@skyux/layout';
   imports: [CommonModule, SkyDescriptionListModule],
 })
 export class DemoComponent {
-  protected items: { term: string; description: string }[] = [
-    {
-      term: 'College',
-      description: 'Humanities and Social Sciences',
-    },
-    {
-      term: 'Department',
-      description: 'Anthropology',
-    },
-    {
-      term: 'Advisor',
-      description: 'Cathy Green',
-    },
-    {
-      term: 'Class year',
-      description: '2024',
-    },
-  ];
+  protected items: { term: string; description: string; helpText?: string }[] =
+    [
+      {
+        term: 'College',
+        description: 'Humanities and Social Sciences',
+      },
+      {
+        term: 'Department',
+        description: 'Anthropology',
+      },
+      {
+        term: 'Advisor',
+        description: 'Cathy Green',
+        helpText: 'The faculty member who advises the student.',
+      },
+      {
+        term: 'Class year',
+        description: '2024',
+      },
+    ];
 }
