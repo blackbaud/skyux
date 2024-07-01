@@ -43,6 +43,7 @@ export class DescriptionListComponent {
     {
       label: 'Class Year',
       value: '2024',
+      helpContent: 'The year in which the student is expected to graduate.',
     },
   ];
 }

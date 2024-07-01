@@ -16,6 +16,7 @@ import { SkyDescriptionListContentComponent } from './description-list-content.c
 @Component({
   selector: 'sky-description-list-term',
   templateUrl: './description-list-term.component.html',
+  styleUrl: './description-list-term.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDescriptionListTermComponent {

@@ -1,5 +1,6 @@
 <ng-template #termTemplateRef
-  ><span skyTrim skyId #term="skyId"><ng-content /></span
+  ><span skyTrim skyId #term="skyId" class="description-list-term"
+    ><ng-content /></span
   ><span class="sky-control-help-container"
     ><sky-help-inline
       *ngIf="content?.helpPopoverContent || content?.helpKey; else helpContent"
