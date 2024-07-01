@@ -123,7 +123,6 @@ export class SkyToggleSwitchComponent
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the toggle switch. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
-   * @preview
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -131,7 +130,6 @@ export class SkyToggleSwitchComponent
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
    * also specified.
-   * @preview
    */
   @Input()
   public helpPopoverTitle: string | undefined;
@@ -145,14 +143,12 @@ export class SkyToggleSwitchComponent
 
   /**
    * The text to display as the toggle switch's label.
-   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Whether to hide `labelText` from view.
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
@@ -161,7 +157,6 @@ export class SkyToggleSwitchComponent
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the toggle switch label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
-   * @preview
    */
   @Input()
   public helpKey: string | undefined;
