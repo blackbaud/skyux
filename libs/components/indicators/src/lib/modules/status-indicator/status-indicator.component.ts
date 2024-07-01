@@ -73,7 +73,6 @@ export class SkyStatusIndicatorComponent implements OnInit {
    * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the status indicator. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
-   * @preview
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -81,7 +80,6 @@ export class SkyStatusIndicatorComponent implements OnInit {
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
    * also specified.
-   * @preview
    */
   @Input()
   public helpPopoverTitle: string | undefined;
@@ -89,7 +87,6 @@ export class SkyStatusIndicatorComponent implements OnInit {
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
    * placed beside the status indicator label. Clicking the button invokes global help as configured by the application.
-   * @preview
    */
   @Input()
   public helpKey: string | undefined;
