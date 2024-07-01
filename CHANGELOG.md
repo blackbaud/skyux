@@ -1,5 +1,24 @@
 # Changelog
 
+## [10.32.0](https://github.com/blackbaud/skyux/compare/10.31.1...10.32.0) (2024-07-01)
+
+
+### Features
+
+* **components/indicators:** add `helpKey`, `helpPopoverContent`, and `helpPopoverTitle` inputs to the key info component ([#2410](https://github.com/blackbaud/skyux/issues/2410)) ([b87c21f](https://github.com/blackbaud/skyux/commit/b87c21fe55d25368c6acc223f66873093ff953b0))
+* **components/indicators:** add help-inline button inputs to status indicator ([#2394](https://github.com/blackbaud/skyux/issues/2394)) ([f3fc72a](https://github.com/blackbaud/skyux/commit/f3fc72accab6290f9ff788be32040485aeeec773))
+* **components/modals:** add `helpKey`, `helpPopoverContent`, and `helpPopoverTitle` inputs to the modal component ([#2402](https://github.com/blackbaud/skyux/issues/2402)) ([1cb842a](https://github.com/blackbaud/skyux/commit/1cb842ad83dc4e628ebf9a0d536d42a4813d89a7))
+* **components/progress-indicator:** add help inline to progress indicator component ([#2268](https://github.com/blackbaud/skyux/issues/2268)) ([860889b](https://github.com/blackbaud/skyux/commit/860889b3cbc0f4065f5c0847b06a97205bae33bd))
+
+
+### Bug Fixes
+
+* **components/datetime:** refine modal date range picker horizontal spacing ([#2404](https://github.com/blackbaud/skyux/issues/2404)) ([3c70c6b](https://github.com/blackbaud/skyux/commit/3c70c6b85caa914f72c4ecf43452bbf7607f57d4))
+* **components/forms:** fix file drop code example ([#2411](https://github.com/blackbaud/skyux/issues/2411)) ([3426096](https://github.com/blackbaud/skyux/commit/342609602728780e2edc215a23224f059be13935))
+* **components/help-inline:** help inline test content is appropriately styled ([#2407](https://github.com/blackbaud/skyux/issues/2407)) ([d6b945d](https://github.com/blackbaud/skyux/commit/d6b945da82fbdb7ed82039bf0bd21266e89a9213))
+* **components/help-inline:** implement `@skyux/icon` instead of FontAwesome ([#2399](https://github.com/blackbaud/skyux/issues/2399)) ([366e9c0](https://github.com/blackbaud/skyux/commit/366e9c02a2d4c374b4c405818aa4b9b5b5984beb))
+* **components/help-inline:** stop propagation of click events ([#2412](https://github.com/blackbaud/skyux/issues/2412)) ([e47b357](https://github.com/blackbaud/skyux/commit/e47b35739e76839c29f38648bf031ad2dbe4acec))
+
 ## [10.31.1](https://github.com/blackbaud/skyux/compare/10.31.0...10.31.1) (2024-06-25)
 
 
