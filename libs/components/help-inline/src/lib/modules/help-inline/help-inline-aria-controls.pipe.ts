@@ -9,7 +9,9 @@ import { SKY_HELP_GLOBAL_OPTIONS } from '@skyux/core';
   standalone: true,
 })
 export class SkyHelpInlineAriaControlsPipe implements PipeTransform {
-  #helpGlobalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, { optional: true });
+  readonly #helpGlobalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
+    optional: true,
+  });
 
   public transform(
     ariaControls: string | undefined,
