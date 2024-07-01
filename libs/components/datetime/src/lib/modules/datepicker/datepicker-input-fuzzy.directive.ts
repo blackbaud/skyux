@@ -117,6 +117,7 @@ export class SkyFuzzyDatepickerInputDirective
   @Input()
   public set futureDisabled(value: boolean | undefined) {
     this.#_futureDisabled = value;
+    this.#datepickerComponent.maxDate = this.#getMaxDate();
     this.#onValidatorChange();
   }
 
