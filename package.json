@@ -23,6 +23,8 @@
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
     "dev:create-library-resources": "skyux-dev create-lib-resources",
     "dev:format": "nx format:write",
+    "dev:local-registry": "nx run tools:local-registry",
+    "dev:publish-to-local-registry": "ts-node ./scripts/publish-local.ts",
     "dev:pristine": "skyux-dev pristine-commit"
   },
   "engines": {
@@ -209,6 +211,7 @@
     "resize-observer-polyfill": "1.5.1",
     "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "verdaccio": "5.31.1"
   }
 }
