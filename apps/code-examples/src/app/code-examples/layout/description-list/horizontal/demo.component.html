@@ -1,5 +1,8 @@
 <sky-description-list mode="horizontal">
-  <sky-description-list-content *ngFor="let item of items">
+  <sky-description-list-content
+    *ngFor="let item of items"
+    [helpPopoverContent]="item.helpText"
+  >
     <sky-description-list-term>
       {{ item.term }}
     </sky-description-list-term>

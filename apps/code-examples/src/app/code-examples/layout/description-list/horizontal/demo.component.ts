@@ -9,7 +9,7 @@ import { SkyDescriptionListModule } from '@skyux/layout';
   imports: [CommonModule, SkyDescriptionListModule],
 })
 export class DemoComponent {
-  protected items: { term: string; description: string; showHelp?: boolean }[] =
+  protected items: { term: string; description: string; helpText?: string }[] =
     [
       {
         term: 'College',
@@ -22,7 +22,7 @@ export class DemoComponent {
       {
         term: 'Advisor',
         description: 'Cathy Green',
-        showHelp: true,
+        helpText: 'The faculty member who advises the student.',
       },
       {
         term: 'Class year',
