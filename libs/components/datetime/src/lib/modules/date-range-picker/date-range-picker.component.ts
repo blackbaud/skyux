@@ -205,7 +205,6 @@ export class SkyDateRangePickerComponent
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
-   * @preview
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -213,7 +212,6 @@ export class SkyDateRangePickerComponent
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
    * also specified.
-   * @preview
    */
   @Input()
   public helpPopoverTitle: string | undefined;
@@ -221,7 +219,6 @@ export class SkyDateRangePickerComponent
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
    * additional context to the user.
-   * @preview
    */
   @Input()
   public hintText: string | undefined;
@@ -261,7 +258,6 @@ export class SkyDateRangePickerComponent
   /**
    * Whether the date range picker is stacked on another form component. When specified, the appropriate
    * vertical spacing is automatically added to the date range picker.
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
@@ -279,7 +275,6 @@ export class SkyDateRangePickerComponent
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the date range picker label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
-   * @preview
    */
   @Input()
   public helpKey: string | undefined;
