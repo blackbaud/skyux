@@ -21,13 +21,20 @@
   }
 }
 
+::ng-deep .sky-help-inline-popover-text {
+  overflow-wrap: break-word;
+  margin: 0;
+}
+
 @include mixins.sky-theme-modern {
   sky-icon-stack {
     display: inline-flex;
   }
+
   .sky-help-inline {
     // The button mixin sets the border radius to 6px but we only want 3px on help inline buttons.
     border-radius: 3px;
+
     ::ng-deep .fa-stack-2x {
       font-size: 16px;
     }

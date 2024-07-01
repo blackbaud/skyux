@@ -3,7 +3,10 @@ import {
   Component,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
+
+import { SkyDescriptionListContentComponent } from './description-list-content.component';
 
 /**
  * Specifies the term in a term-description pair. To display a help button beside
@@ -13,6 +16,7 @@ import {
 @Component({
   selector: 'sky-description-list-term',
   templateUrl: './description-list-term.component.html',
+  styleUrl: './description-list-term.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDescriptionListTermComponent {
@@ -21,4 +25,8 @@ export class SkyDescriptionListTermComponent {
     static: true,
   })
   public templateRef: TemplateRef<unknown> | undefined;
+
+  protected readonly content = inject(SkyDescriptionListContentComponent, {
+    optional: true,
+  });
 }

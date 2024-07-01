@@ -1,6 +1,13 @@
 <button
   class="sky-help-inline"
   type="button"
+  [attr.aria-controls]="
+    ariaControls | skyHelpInlineAriaControls: popoverId : helpKey
+  "
+  [attr.aria-expanded]="
+    ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
+  "
+  [attr.aria-haspopup]="helpKey | skyHelpInlineAriaHaspopup"
   [attr.aria-label]="
     labelledBy
       ? undefined
@@ -13,18 +20,11 @@
   [attr.aria-labelledby]="
     !labelledBy ? undefined : labelTextElement.id + ' ' + labelledBy
   "
-  [attr.aria-controls]="
-    ariaControls | skyHelpInlineAriaControls: popoverId : helpKey
-  "
-  [attr.aria-expanded]="
-    ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
-  "
-  [attr.aria-haspopup]="helpKey | skyHelpInlineAriaHaspopup"
   [ngClass]="{
     'sky-help-inline-hidden': helpKey && !helpSvc && !popoverContent
   }"
-  [skyPopover]="popoverContent ? popover : undefined"
-  (click)="onClick()"
+  [skyPopover]="popoverContent ? popoverRef : undefined"
+  (click)="onClick($event)"
 >
   <sky-icon *skyThemeIf="'default'" icon="info-circle" />
   <sky-icon-stack
@@ -42,20 +42,18 @@
 </button>
 
 <sky-popover
-  #popover
   [id]="popoverId"
+  [popoverTitle]="popoverTitle"
   (popoverClosed)="popoverOpened(false)"
   (popoverOpened)="popoverOpened(true)"
-  [popoverTitle]="popoverTitle"
+  #popoverRef
 >
-  <ng-container *ngIf="popoverTemplate; else popoverContext">
+  @if (popoverTemplate) {
     <ng-container *ngTemplateOutlet="popoverTemplate" />
-  </ng-container>
+  } @else {
+    <p class="sky-help-inline-popover-text">{{ popoverContent }}</p>
+  }
 </sky-popover>
-
-<ng-template #popoverContext>
-  {{ popoverContent }}
-</ng-template>
 
 <span hidden skyId #labelTextElement="skyId">{{
   'skyux_help_inline_aria_label' | skyLibResources: ''

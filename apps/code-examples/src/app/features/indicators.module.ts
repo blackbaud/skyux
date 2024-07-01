@@ -45,13 +45,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'key-info/inline-help',
-    loadComponent: () =>
-      import(
-        '../code-examples/indicators/key-info/inline-help/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
-  {
     path: 'label/basic',
     loadComponent: () =>
       import('../code-examples/indicators/label/basic/demo.component').then(

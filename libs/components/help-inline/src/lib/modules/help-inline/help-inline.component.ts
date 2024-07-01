@@ -40,17 +40,11 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
   ],
 })
 export class SkyHelpInlineComponent {
-  readonly #idSvc = inject(SkyIdService);
-
-  protected readonly helpSvc = inject(SkyHelpService, { optional: true });
-  protected popoverId: string | undefined;
-  protected popoverTemplate: TemplateRef<unknown> | undefined;
-  protected isPopoverOpened: boolean | undefined;
-
   /**
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
    * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
+   * @internal
    */
   @Input()
   public ariaControls: string | undefined;
@@ -71,6 +65,12 @@ export class SkyHelpInlineComponent {
   public ariaLabel: string | undefined;
 
   /**
+   * A unique key that identifies the global help content to display when the button is clicked.
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
    * The ID of the element associated with the help inline button. This is used to set the button's `aria-labelledby`
    * to provides a text equivalent for screen readers. Takes precedence over `ariaLabel` and `labelText` inputs.
    * @internal
@@ -88,17 +88,19 @@ export class SkyHelpInlineComponent {
    * The content of the popover. When specified, clicking the help inline button opens a popover with this content and optional title.
    */
   @Input()
-  public get popoverContent(): string | TemplateRef<unknown> | undefined {
-    return this.#_popoverContent;
-  }
-
   public set popoverContent(value: string | TemplateRef<unknown> | undefined) {
     this.#_popoverContent = value;
+
     if (value) {
       this.popoverId = this.#idSvc.generateId();
       this.isPopoverOpened = false;
     }
+
     this.popoverTemplate = value instanceof TemplateRef ? value : undefined;
+  }
+
+  public get popoverContent(): string | TemplateRef<unknown> | undefined {
+    return this.#_popoverContent;
   }
 
   /**
@@ -109,20 +111,24 @@ export class SkyHelpInlineComponent {
   public popoverTitle: string | undefined;
 
   /**
-   * A unique key that identifies the global help content to display when the button is clicked.
-   */
-  @Input()
-  public helpKey: string | undefined;
-
-  #_popoverContent: string | TemplateRef<unknown> | undefined;
-
-  /**
    * Fires when the user clicks the help inline button.
    */
   @Output()
   public actionClick = new EventEmitter<void>();
 
-  protected onClick(): void {
+  protected isPopoverOpened: boolean | undefined;
+  protected popoverId: string | undefined;
+  protected popoverTemplate: TemplateRef<unknown> | undefined;
+
+  protected readonly helpSvc = inject(SkyHelpService, { optional: true });
+
+  #_popoverContent: string | TemplateRef<unknown> | undefined;
+
+  readonly #idSvc = inject(SkyIdService);
+
+  protected onClick(evt: Event): void {
+    evt.stopPropagation();
+
     this.actionClick.emit();
 
     if (this.helpKey) {

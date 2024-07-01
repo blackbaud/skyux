@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+
+import { ModalTestContext } from './modal-context';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class ModalTestComponent {
   public longContent = false;
+
+  protected context = inject(ModalTestContext, { optional: true });
 }

@@ -31,13 +31,6 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
-    path: 'inline-help',
-    loadComponent: () =>
-      import('../code-examples/modals/modal/inline-help/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
-  {
     path: 'modal-with-error',
     loadComponent: () =>
       import('../code-examples/modals/modal/with-error/demo.component').then(

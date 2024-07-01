@@ -19,26 +19,27 @@ import { ModalContext } from './modal-context';
     SkyModalModule,
   ],
   standalone: true,
-  template: `<form [formGroup]="demoForm" (submit)="saveForm()">
-    <sky-modal>
-      <sky-modal-header> Modal title </sky-modal-header>
-      <sky-modal-content>
-        <sky-input-box>
-          <input formControlName="value1" type="text" />
-        </sky-input-box>
-      </sky-modal-content>
-      <sky-modal-footer>
-        <button class="sky-btn sky-btn-primary" type="submit">Save</button>
-        <button
-          class="sky-btn sky-btn-link"
-          type="button"
-          (click)="cancelForm()"
-        >
-          Cancel
-        </button>
-      </sky-modal-footer>
-    </sky-modal>
-  </form> `,
+  template: `
+    <form [formGroup]="demoForm" (submit)="saveForm()">
+      <sky-modal headingText="Modal title" helpKey="help.html">
+        <sky-modal-content>
+          <sky-input-box>
+            <input formControlName="value1" type="text" />
+          </sky-input-box>
+        </sky-modal-content>
+        <sky-modal-footer>
+          <button class="sky-btn sky-btn-primary" type="submit">Save</button>
+          <button
+            class="sky-btn sky-btn-link"
+            type="button"
+            (click)="cancelForm()"
+          >
+            Cancel
+          </button>
+        </sky-modal-footer>
+      </sky-modal>
+    </form>
+  `,
 })
 export class ModalComponent {
   protected demoForm: FormGroup<{
