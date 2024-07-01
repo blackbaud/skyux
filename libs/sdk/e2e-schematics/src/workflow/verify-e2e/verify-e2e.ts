@@ -209,6 +209,8 @@ export async function verifyE2e(
     const stepFailed = (step: WorkflowJobStep): boolean =>
       !['skipped', 'success'].includes(step.conclusion);
     jobs
+      // The job that calls this script.
+      .filter((job) => job.name !== 'E2E Visual Review')
       .filter((job) => job.steps.some(stepFailed))
       .forEach((job) => {
         allJobsPassed = false;
