@@ -33,6 +33,6 @@
     "@skyux/icon": "0.0.0-PLACEHOLDER",
     "google-libphonenumber": "3.2.34",
     "intl-tel-input": "19.5.5",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.3"
   }
 }

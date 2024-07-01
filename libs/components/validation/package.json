@@ -21,7 +21,7 @@
     "@angular/forms": "^18.0.5"
   },
   "dependencies": {
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "validator": "13.11.0"
   }
 }

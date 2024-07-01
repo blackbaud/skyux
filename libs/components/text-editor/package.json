@@ -36,6 +36,6 @@
     "@skyux/icon": "0.0.0-PLACEHOLDER",
     "dompurify": "3.0.11",
     "he": "1.2.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.3"
   }
 }

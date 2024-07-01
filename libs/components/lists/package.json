@@ -36,7 +36,7 @@
     "dom-autoscroller": "2.3.4",
     "dragula": "3.7.3",
     "ng2-dragula": "5.1.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.3"
   },
   "overrides": {
     "ng2-dragula@5.1.0": {
