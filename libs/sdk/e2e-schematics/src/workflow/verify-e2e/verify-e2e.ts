@@ -64,7 +64,13 @@ export async function verifyE2e(
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
 
     core.info('Fetching workflow jobs...');
-    const e2eSteps = await listPercyWorkflowSteps();
+    const jobs = await githubApi.listJobsForWorkflowRun();
+    // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
+    if (!allWorkflowJobsPassed(jobs)) {
+      core.setFailed('E2E workflow failed.');
+      return exit(1);
+    }
+    const e2eSteps = await listPercyWorkflowSteps(jobs);
     const e2eStepsThatWereRun = e2eSteps.filter((step) => !step.skipped);
     const percyProjects = e2eStepsThatWereRun.map((step) => step.project);
     const skippedPercyProjects = e2eSteps
@@ -81,79 +87,73 @@ export async function verifyE2e(
     for (const e2eStep of e2eStepsThatWereRun) {
       let icon: string;
       let summary: string;
-      if (e2eStep.succeeded) {
-        const buildIdFile = join(
-          buildIdFilesPath,
-          `percy-build-${e2eStep.project}.txt`,
-        );
-        if (!existsSync(buildIdFile)) {
-          reviewComplete = false;
-          core.warning(`🚫 ${e2eStep.project} (missing percy build ID file)`);
-          continue;
-        }
-        const buildId = readFileSync(buildIdFile, 'utf-8').trim();
-        if (!buildId) {
-          reviewComplete = false;
-          core.warning(`🚫 ${e2eStep.project} (empty percy build ID file)`);
-          continue;
-        }
-
-        const projectStatus = await checkPercyBuild(
-          `skyux-${e2eStep.project}`,
-          buildId,
-          core,
-          fetchClient,
-        );
-        if (projectStatus?.state !== 'finished' || !projectStatus?.approved) {
-          reviewComplete = false;
-        }
-        if (
-          !allowMissingScreenshots &&
-          projectStatus.removedSnapshots.length > 0
-        ) {
-          missingScreenshots.push({
-            project: e2eStep.project,
-            removedSnapshots: projectStatus.removedSnapshots,
-          });
-        }
-        switch (true) {
-          case !allowMissingScreenshots &&
-            projectStatus.removedSnapshots.length > 0:
-            icon = '❌';
-            summary = `missing screenshots: ${projectStatus.removedSnapshots.join(
-              ', ',
-            )}`;
-            break;
-          case projectStatus.state === 'finished' && projectStatus.approved:
-            icon = '✅';
-            summary = 'approved';
-            break;
-          case projectStatus.state === 'finished' && !projectStatus.approved:
-            icon = '⚠️';
-            summary = 'needs approval';
-            break;
-          case projectStatus.state === 'waiting' ||
-            projectStatus.state === 'pending' ||
-            projectStatus.state === 'processing':
-            icon = '⏳';
-            summary = 'in progress';
-            break;
-          case projectStatus.state === 'failed':
-            icon = '❌';
-            summary = 'failed';
-            break;
-          case typeof projectStatus.state === 'undefined':
-            icon = '🚫';
-            summary = 'no Percy build found';
-            break;
-          default:
-            icon = '❓';
-            summary = `Percy state: "${projectStatus.state}"`;
-        }
-      } else {
-        icon = '❌';
-        summary = 'workflow step failed';
+      const buildIdFile = join(
+        buildIdFilesPath,
+        `percy-build-${e2eStep.project}.txt`,
+      );
+      if (!existsSync(buildIdFile)) {
         reviewComplete = false;
+        core.warning(`🚫 ${e2eStep.project} (missing percy build ID file)`);
+        continue;
+      }
+      const buildId = readFileSync(buildIdFile, 'utf-8').trim();
+      if (!buildId) {
+        reviewComplete = false;
+        core.warning(`🚫 ${e2eStep.project} (empty percy build ID file)`);
+        continue;
+      }
+
+      const projectStatus = await checkPercyBuild(
+        `skyux-${e2eStep.project}`,
+        buildId,
+        core,
+        fetchClient,
+      );
+      if (projectStatus?.state !== 'finished' || !projectStatus?.approved) {
+        reviewComplete = false;
+      }
+      if (
+        !allowMissingScreenshots &&
+        projectStatus.removedSnapshots.length > 0
+      ) {
+        missingScreenshots.push({
+          project: e2eStep.project,
+          removedSnapshots: projectStatus.removedSnapshots,
+        });
+      }
+      switch (true) {
+        case !allowMissingScreenshots &&
+          projectStatus.removedSnapshots.length > 0:
+          icon = '❌';
+          summary = `missing screenshots: ${projectStatus.removedSnapshots.join(
+            ', ',
+          )}`;
+          break;
+        case projectStatus.state === 'finished' && projectStatus.approved:
+          icon = '✅';
+          summary = 'approved';
+          break;
+        case projectStatus.state === 'finished' && !projectStatus.approved:
+          icon = '⚠️';
+          summary = 'needs approval';
+          break;
+        case projectStatus.state === 'waiting' ||
+          projectStatus.state === 'pending' ||
+          projectStatus.state === 'processing':
+          icon = '⏳';
+          summary = 'in progress';
+          break;
+        case projectStatus.state === 'failed':
+          icon = '❌';
+          summary = 'failed';
+          break;
+        case typeof projectStatus.state === 'undefined':
+          icon = '🚫';
+          summary = 'no Percy build found';
+          break;
+        default:
+          icon = '❓';
+          summary = `Percy state: "${projectStatus.state}"`;
       }
       core.info(`${icon} ${e2eStep.project} (${summary})`);
     }
@@ -204,15 +204,34 @@ export async function verifyE2e(
     core.info('No E2E Visual Review to verify.');
   }
 
-  async function listJobsForWorkflowRun(): Promise<WorkflowJob[]> {
-    const jobs = await githubApi.listJobsForWorkflowRun();
+  function allWorkflowJobsPassed(jobs: WorkflowJob[]) {
+    let allJobsPassed = true;
+    const stepFailed = (step: WorkflowJobStep): boolean =>
+      !['skipped', 'success'].includes(step.conclusion);
+    jobs
+      // The job that calls this script.
+      .filter((job) => job.name !== 'E2E Visual Review')
+      .filter((job) => job.steps.some(stepFailed))
+      .forEach((job) => {
+        allJobsPassed = false;
+        const failStep = job.steps.find(stepFailed);
+        core.info(`${job.name}: ${failStep?.name} ${failStep?.conclusion}`);
+      });
+    return allJobsPassed;
+  }
+
+  async function listE2eJobsForWorkflowRun(
+    jobs: WorkflowJob[],
+  ): Promise<WorkflowJob[]> {
     return jobs.filter((job: WorkflowJob) =>
       job.name.startsWith('End to end tests'),
     );
   }
 
-  async function listPercyWorkflowSteps(): Promise<WorkflowStepSummary[]> {
-    return await listJobsForWorkflowRun().then((workflowE2eJobs) =>
+  async function listPercyWorkflowSteps(
+    jobs: WorkflowJob[],
+  ): Promise<WorkflowStepSummary[]> {
+    return await listE2eJobsForWorkflowRun(jobs).then((workflowE2eJobs) =>
       workflowE2eJobs
         .filter((job) =>
           job.steps.some((step: WorkflowJobStep) =>
