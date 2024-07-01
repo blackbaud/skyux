@@ -17,7 +17,7 @@ import { SkyActionButtonPermalink } from './action-button-permalink';
  */
 @Component({
   selector: 'sky-action-button',
-  styleUrls: ['./action-button.component.scss'],
+  styleUrls: ['./action-button.default.component.scss', './action-button.modern.component.scss'],
   templateUrl: './action-button.component.html',
   encapsulation: ViewEncapsulation.None,
 })
