@@ -2,12 +2,13 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
 
 import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
 
-describe('Help inline component', () => {
+fdescribe('Help inline component', () => {
   async function checkAriaPropertiesAndAccessibility(
     ariaLabel: string,
     ariaControls: string | null,
@@ -35,7 +36,17 @@ describe('Help inline component', () => {
     cmp = fixture.componentInstance as HelpInlineTestComponent;
     debugElement = fixture.debugElement;
 
+    const logService = TestBed.inject(SkyLogService);
+    const deprecatedLogSpy = spyOn(logService, 'deprecated');
+
     fixture.detectChanges();
+
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyHelpInlineComponent',
+      Object({
+        deprecationMajorVersion: 10,
+      }),
+    );
   });
 
   it('should emit a click event on button click', () => {
