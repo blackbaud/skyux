@@ -5,13 +5,7 @@
   "sourceRoot": "libs/components/indicators/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core-testing",
-    "icon",
-    "indicators",
-    "testing",
-    "theme"
-  ],
+  "implicitDependencies": ["core-testing", "indicators", "testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build indicators-testing'",
