@@ -89,6 +89,7 @@
   <sky-datepicker>
     <input
       skyFuzzyDatepickerInput
+      [futureDisabled]="futureDisabled"
       [disabled]="disabled"
       [maxDate]="fuzzyMaxDate"
       [minDate]="fuzzyMinDate"
@@ -198,6 +199,13 @@
   (click)="setFuzzyMinMaxStartAtDates()"
 >
   Set fuzzy min, max, and startAt dates
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="toggleFutureDisabled()"
+>
+  Toggle fuzzy future disabled
 </button>
 <button
   class="sky-btn sky-btn-primary"
