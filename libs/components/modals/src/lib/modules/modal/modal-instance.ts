@@ -33,6 +33,7 @@ export class SkyModalInstance {
    * An event that the modal instance emits when users click
    * the <i class="fa fa-question-circle" aria-hidden="true"></i> button.
    * If a `helpKey` parameter was specified, the `helpOpened` event broadcasts the `helpKey`.
+   * @deprecated
    */
   public get helpOpened(): Observable<string> {
     return this.#_helpOpened;
@@ -65,6 +66,9 @@ export class SkyModalInstance {
 
   #_closed = new Subject<SkyModalCloseArgs>();
 
+  /**
+   * @deprecated
+   */
   #_helpOpened = new Subject<string>();
 
   #adapter: SkyModalAdapterService | undefined;
@@ -125,6 +129,7 @@ export class SkyModalInstance {
    * @param helpKey Specifies a string to emit to subscribers of
    * the modal instance's `helpOpened` event. Consumers can inject the `SkyModalInstance` provider
    * into a component's constructor to call the `openHelp` function in the modal template.
+   * @deprecated
    */
   public openHelp(helpKey: string): void {
     this.#_helpOpened.next(helpKey);

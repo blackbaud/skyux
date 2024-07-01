@@ -141,10 +141,13 @@ function getDatepicker(): HTMLElement | null {
 // #endregion
 
 describe('fuzzy datepicker input', () => {
+  let configService: SkyDatepickerConfigService;
+
   beforeEach(function () {
     TestBed.configureTestingModule({
       imports: [FuzzyDatepickerTestModule],
     });
+    configService = new SkyDatepickerConfigService();
   });
 
   describe('nonstandard configuration', () => {
@@ -153,14 +156,14 @@ describe('fuzzy datepicker input', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(function () {
+      configService.dateFormat = 'DD/MM/YYYY';
+
       fixture = TestBed.overrideComponent(SkyDatepickerComponent, {
         add: {
           providers: [
             {
               provide: SkyDatepickerConfigService,
-              useValue: {
-                dateFormat: 'DD/MM/YYYY',
-              },
+              useValue: configService,
             },
           ],
         },
@@ -189,16 +192,16 @@ describe('fuzzy datepicker input', () => {
     // elements to render, which is why `fakeAsync()` and the call to the custom `detectChanges()`
     // function are used here.
     beforeEach(fakeAsync(() => {
+      configService.dateFormat = 'MM/DD/YYYY';
+      configService.maxDate = new Date('5/28/2017');
+      configService.minDate = new Date('5/2/2017');
+
       fixture = TestBed.overrideComponent(SkyDatepickerComponent, {
         add: {
           providers: [
             {
               provide: SkyDatepickerConfigService,
-              useValue: {
-                dateFormat: 'MM/DD/YYYY',
-                maxDate: new Date('5/28/2017'),
-                minDate: new Date('5/2/2017'),
-              },
+              useValue: configService,
             },
           ],
         },
@@ -922,6 +925,50 @@ describe('fuzzy datepicker input', () => {
       }));
     });
 
+    describe('future disabled fuzzy date', () => {
+      beforeEach(fakeAsync(() => {
+        configService.maxDate = undefined;
+        fixture = TestBed.createComponent(FuzzyDatepickerTestComponent);
+
+        nativeElement = fixture.nativeElement as HTMLElement;
+        component = fixture.componentInstance;
+
+        // Default to US long date format to avoid any test runners that are using a different locale.
+        component.dateFormat = 'MM/DD/YYYY';
+
+        detectChanges(fixture);
+      }));
+
+      it('should pass max date to calendar when using future disabled', fakeAsync(() => {
+        const currentDateModified = new Date();
+        currentDateModified.setDate(1);
+        jasmine.clock().install();
+        jasmine.clock().mockDate(currentDateModified);
+        setInputProperty(currentDateModified, component, fixture);
+        component.futureDisabled = false;
+        detectChanges(fixture);
+
+        clickDatepickerButton(fixture);
+
+        let dateButtonEl = getCalendarDayButton(25, fixture);
+        expect(dateButtonEl).not.toHaveCssClass('sky-btn-disabled');
+
+        clickDatepickerButton(fixture);
+        detectChanges(fixture);
+
+        component.futureDisabled = true;
+        detectChanges(fixture);
+
+        clickDatepickerButton(fixture);
+
+        dateButtonEl = getCalendarDayButton(25, fixture);
+        expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
+
+        jasmine.clock().uninstall();
+        flush();
+      }));
+    });
+
     describe('min max fuzzy date', () => {
       let ngModel: NgModel;
       beforeEach(() => {
@@ -1152,16 +1199,16 @@ describe('fuzzy datepicker input', () => {
     let nativeElement: HTMLElement;
 
     beforeEach(() => {
+      configService.dateFormat = 'MM/DD/YYYY';
+      configService.maxDate = new Date('5/28/2017');
+      configService.minDate = new Date('5/2/2017');
+
       fixture = TestBed.overrideComponent(SkyDatepickerComponent, {
         add: {
           providers: [
             {
               provide: SkyDatepickerConfigService,
-              useValue: {
-                dateFormat: 'MM/DD/YYYY',
-                maxDate: new Date('5/28/2017'),
-                minDate: new Date('5/2/2017'),
-              },
+              useValue: configService,
             },
           ],
         },

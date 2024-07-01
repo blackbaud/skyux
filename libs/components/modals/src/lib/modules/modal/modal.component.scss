@@ -18,6 +18,10 @@
   outline: none;
 }
 
+.sky-modal-header:has(.sky-modal-header-content:empty) {
+  display: none;
+}
+
 @media (min-width: $sky-screen-sm-min) {
   .sky-modal:not(.sky-modal-large) {
     margin: 0 auto;

@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "10.31.1",
+  "version": "10.32.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -22,7 +22,7 @@
     "dev:commit": "npx cz",
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
     "dev:create-library-resources": "skyux-dev create-lib-resources",
-    "dev:format": "npx prettier --write .",
+    "dev:format": "nx format:write",
     "dev:local-registry": "nx run tools:local-registry",
     "dev:publish-to-local-registry": "ts-node ./scripts/publish-local.ts",
     "dev:pristine": "skyux-dev pristine-commit"
