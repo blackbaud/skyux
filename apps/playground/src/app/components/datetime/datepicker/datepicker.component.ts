@@ -20,6 +20,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './datepicker.component.html',
 })
 export class DatepickerComponent {
+  public futureDisabled = true;
   public dateFormat: string | undefined = 'MMM DD YYYY';
   public disabled = false;
   public minDate: Date | undefined;
@@ -184,5 +185,9 @@ export class DatepickerComponent {
     const newDate = new Date(startDate);
     newDate.setDate(newDate.getDate() + daysToAdd);
     return newDate;
+  }
+
+  public toggleFutureDisabled(): void {
+    this.futureDisabled = !this.futureDisabled;
   }
 }
