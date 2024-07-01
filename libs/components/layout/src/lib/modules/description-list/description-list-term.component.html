@@ -2,11 +2,11 @@
   ><span skyTrim skyId #term="skyId"><ng-content /></span
   ><span class="sky-control-help-container"
     ><sky-help-inline
-      *ngIf="content.helpPopoverContent || content.helpKey; else helpContent"
+      *ngIf="content?.helpPopoverContent || content?.helpKey; else helpContent"
       [labelledBy]="term.id"
-      [helpKey]="content.helpKey"
-      [popoverTitle]="content.helpPopoverTitle"
-      [popoverContent]="content.helpPopoverContent" /></span
+      [helpKey]="content?.helpKey"
+      [popoverTitle]="content?.helpPopoverTitle"
+      [popoverContent]="content?.helpPopoverContent" /></span
 ></ng-template>
 <ng-template #helpContent
   ><ng-content select=".sky-control-help"

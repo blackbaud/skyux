@@ -25,5 +25,7 @@ export class SkyDescriptionListTermComponent {
   })
   public templateRef: TemplateRef<unknown> | undefined;
 
-  protected readonly content = inject(SkyDescriptionListContentComponent);
+  protected readonly content = inject(SkyDescriptionListContentComponent, {
+    optional: true,
+  });
 }
