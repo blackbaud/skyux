@@ -1,10 +1,12 @@
 import { Component, OnDestroy, inject } from '@angular/core';
+import { SkyHelpService } from '@skyux/core';
 import {
   SkyModalError,
   SkyModalInstance,
   SkyModalService,
 } from '@skyux/modals';
 
+import { MyHelpService } from './help.service';
 import { ModalContext } from './modal-context';
 import { ModalComponent } from './modal.component';
 
@@ -38,6 +40,13 @@ export class DemoComponent implements OnDestroy {
         {
           provide: ModalContext,
           useValue: { value1: 'Hello!' },
+        },
+        // NOTE: The help service is normally provided at the application root, but
+        // it is added here purely for demonstration purposes.
+        // See: https://developer.blackbaud.com/skyux/learn/develop/global-help
+        {
+          provide: SkyHelpService,
+          useExisting: MyHelpService,
         },
       ],
     });
