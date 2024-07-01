@@ -65,14 +65,8 @@ export async function verifyE2e(
 
     core.info('Fetching workflow jobs...');
     const jobs = await githubApi.listJobsForWorkflowRun();
-    // This job always runs, so check if any previous jobs failed.
-    if (
-      jobs.some((job) =>
-        job.steps.some(
-          (step) => !['skipped', 'success'].includes(step.conclusion),
-        ),
-      )
-    ) {
+    // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
+    if (!allWorkflowJobsPassed(jobs)) {
       core.setFailed('E2E workflow failed.');
       return exit(1);
     }
@@ -208,6 +202,20 @@ export async function verifyE2e(
     }
   } else {
     core.info('No E2E Visual Review to verify.');
+  }
+
+  function allWorkflowJobsPassed(jobs: WorkflowJob[]) {
+    let allJobsPassed = true;
+    const stepFailed = (step: WorkflowJobStep): boolean =>
+      !['skipped', 'success'].includes(step.conclusion);
+    jobs
+      .filter((job) => job.steps.some(stepFailed))
+      .forEach((job) => {
+        allJobsPassed = false;
+        const failStep = job.steps.find(stepFailed);
+        core.info(`${job.name}: ${failStep?.name} ${failStep?.conclusion}`);
+      });
+    return allJobsPassed;
   }
 
   async function listE2eJobsForWorkflowRun(

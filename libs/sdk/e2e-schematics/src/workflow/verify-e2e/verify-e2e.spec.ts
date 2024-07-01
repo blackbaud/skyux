@@ -57,7 +57,7 @@ describe('verify-e2e', () => {
   });
 
   it('should pass', async () => {
-    const { verifyE2e, core, fetch, listJobsForWorkflowRun } =
+    const { verifyE2e, core, fetch, listJobsForWorkflowRun, exit } =
       await setupTest();
     await verifyE2e(
       ['project1'],
@@ -68,6 +68,7 @@ describe('verify-e2e', () => {
       },
       true, // allowMissingScreenshots
       fetch,
+      exit,
     );
     expect(core.setFailed).not.toHaveBeenCalled();
     expect(core.info).toHaveBeenCalledWith('E2E Visual Review passed!');
