@@ -103,7 +103,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the help inline button popover content.
+   * Gets the help popover content.
    */
   public async getPopoverContent(): Promise<
     TemplateRef<unknown> | string | undefined
@@ -112,7 +112,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the help inline button popover title.
+   * Gets the help popover title.
    */
   public async getPopoverTitle(): Promise<string | undefined> {
     return (await this.#getPopoverHarnessContent())?.getTitleText();

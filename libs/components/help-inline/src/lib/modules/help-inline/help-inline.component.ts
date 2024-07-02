@@ -85,7 +85,7 @@ export class SkyHelpInlineComponent {
   public labelText: string | undefined;
 
   /**
-   * The content of the popover. When specified, clicking the help inline button opens a popover with this content and optional title.
+   * The content of the help popover. When specified, clicking the help inline button opens a popover with this content and optional title.
    */
   @Input()
   public set popoverContent(value: string | TemplateRef<unknown> | undefined) {
