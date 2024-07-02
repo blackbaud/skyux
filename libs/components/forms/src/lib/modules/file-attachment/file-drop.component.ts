@@ -148,14 +148,12 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
 
   /**
    * The text to display as the file attachment's label.
-   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Whether to hide `labelText` from view.
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
@@ -163,7 +161,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
    * additional context to the user.
-   * @preview
    */
   @Input()
   public hintText: string | undefined;
@@ -174,7 +171,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
    * attributes to the input elements so that screen readers announce an invalid state until the input element
    * is complete.
    * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   public required = false;
@@ -183,7 +179,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the file attachment label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
-   * @preview
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -191,7 +186,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
    * also specified.
-   * @preview
    */
   @Input()
   public helpPopoverTitle: string | undefined;
@@ -199,7 +193,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   /**
    * Whether the file attachment is stacked on another form component. When specified, the appropriate
    * vertical spacing is automatically added to the file attachment.
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
@@ -209,7 +202,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the file attachment label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
-   * @preview
    */
   @Input()
   public helpKey: string | undefined;

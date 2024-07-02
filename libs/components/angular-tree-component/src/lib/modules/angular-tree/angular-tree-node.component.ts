@@ -57,7 +57,6 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the tree node label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
-   * @preview
    */
   @Input()
   public helpKey: string | undefined;
@@ -66,7 +65,6 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
    * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the tree node. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
-   * @preview
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -74,7 +72,6 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
    * also specified.
-   * @preview
    */
   @Input()
   public helpPopoverTitle: string | undefined;

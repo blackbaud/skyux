@@ -162,7 +162,6 @@ export class SkyCheckboxComponent
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the checkbox label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
-   * @preview
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -170,7 +169,6 @@ export class SkyCheckboxComponent
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
    * also specified.
-   * @preview
    */
   @Input()
   public helpPopoverTitle: string | undefined;
@@ -264,14 +262,12 @@ export class SkyCheckboxComponent
   /**
    * The text to display as the checkbox's label. Use this instead of the `sky-checkbox-label` when the label is text-only.
    * Specifying `labelText` also enables automatic error message handling for checkbox.
-   * @preview
    */
   @Input()
   public labelText: string | undefined;
 
   /**
    * Indicates whether to hide the `labelText`.
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   public labelHidden = false;
@@ -279,7 +275,6 @@ export class SkyCheckboxComponent
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
    * additional context to the user.
-   * @preview
    */
   @Input()
   public hintText: string | undefined;
@@ -288,7 +283,6 @@ export class SkyCheckboxComponent
    * Whether the checkbox is stacked on another form component. When specified, the appropriate
    * vertical spacing is automatically added to the checkbox. If the checkbox is within a checkbox group,
    * set `stacked` on the checkbox group component instead.
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
@@ -298,7 +292,6 @@ export class SkyCheckboxComponent
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the checkbox label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
-   * @preview
    */
   @Input()
   public helpKey: string | undefined;
