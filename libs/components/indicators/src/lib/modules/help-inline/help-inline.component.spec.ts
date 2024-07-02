@@ -8,7 +8,7 @@ import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
 
 import { HelpInlineTestComponent } from './fixtures/help-inline.component.fixture';
 
-fdescribe('Help inline component', () => {
+describe('Help inline component', () => {
   async function checkAriaPropertiesAndAccessibility(
     ariaLabel: string,
     ariaControls: string | null,
