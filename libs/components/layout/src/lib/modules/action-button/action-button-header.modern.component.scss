@@ -1,0 +1,6 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('modern', '.sky-action-button-header') {
+  margin: 0 0 $sky-theme-modern-space-sm 0;
+}

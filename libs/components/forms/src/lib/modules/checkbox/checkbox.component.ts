@@ -22,6 +22,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -37,7 +38,11 @@ import { SkyCheckboxChange } from './checkbox-change';
 @Component({
   selector: 'sky-checkbox',
   templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
+  styleUrls: [
+    './checkbox.default.component.scss',
+    './checkbox.modern.component.scss',
+  ],
+  hostDirectives: [SkyThemeComponentClassDirective],
   providers: [
     { provide: NG_VALIDATORS, useExisting: SkyCheckboxComponent, multi: true },
     {
