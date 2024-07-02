@@ -11,7 +11,10 @@ const FONTSIZECLASS_LARGE = '3x';
  */
 @Component({
   selector: 'sky-action-button-icon',
-  styleUrls: ['./action-button-icon.component.scss'],
+  styleUrls: [
+    './action-button-icon.default.component.scss',
+    './action-button-icon.modern.component.scss',
+  ],
   templateUrl: './action-button-icon.component.html',
 })
 export class SkyActionButtonIconComponent implements OnDestroy {
