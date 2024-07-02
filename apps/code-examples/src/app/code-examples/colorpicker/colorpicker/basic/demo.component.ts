@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -10,6 +9,14 @@ import {
 } from '@angular/forms';
 import { SkyColorpickerModule, SkyColorpickerOutput } from '@skyux/colorpicker';
 
+interface DemoForm {
+  favoriteColor: FormControl<SkyColorpickerOutput | string>;
+}
+
+function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
+  return !!(value && typeof value === 'object' && 'rgba' in value);
+}
+
 @Component({
   standalone: true,
   selector: 'app-demo',
@@ -17,8 +24,8 @@ import { SkyColorpickerModule, SkyColorpickerOutput } from '@skyux/colorpicker';
   imports: [CommonModule, ReactiveFormsModule, SkyColorpickerModule],
 })
 export class DemoComponent {
-  protected formGroup: FormGroup;
-  protected favoriteColor: FormControl<string | null>;
+  protected favoriteColor: FormControl<SkyColorpickerOutput | string>;
+  protected formGroup: FormGroup<DemoForm>;
 
   protected swatches: string[] = [
     '#BD4040',
@@ -30,17 +37,19 @@ export class DemoComponent {
   ];
 
   constructor() {
-    this.favoriteColor = new FormControl('#f00', [
-      (control: AbstractControl): ValidationErrors | null => {
-        if (control.value?.rgba?.alpha < 0.8) {
-          return { opaque: true };
-        }
+    this.favoriteColor = new FormControl('#f00', {
+      nonNullable: true,
+      validators: [
+        (control): ValidationErrors | null => {
+          return isColorpickerOutput(control.value) &&
+            control.value.rgba.alpha < 0.8
+            ? { opaque: true }
+            : null;
+        },
+      ],
+    });
 
-        return null;
-      },
-    ]);
-
-    this.formGroup = inject(FormBuilder).group({
+    this.formGroup = inject(FormBuilder).group<DemoForm>({
       favoriteColor: this.favoriteColor,
     });
   }
@@ -50,8 +59,11 @@ export class DemoComponent {
   }
 
   protected submit(): void {
-    const controlValue = this.formGroup.get('favoriteColor')?.value;
-    const favoriteColor: string = controlValue.hex || controlValue;
+    const controlValue = this.favoriteColor.value;
+    const favoriteColor = isColorpickerOutput(controlValue)
+      ? controlValue.hex
+      : controlValue;
+
     alert('Your favorite color is: \n' + favoriteColor);
   }
 }
