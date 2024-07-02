@@ -15,6 +15,10 @@ import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label
 import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
 import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
 
+function numberAttribute3(value: unknown): number {
+  return numberAttribute(value, 3);
+}
+
 /**
  * Organizes form fields into a group.
  */
@@ -58,14 +62,14 @@ export class SkyFieldGroupComponent {
    * The semantic heading level in the document structure.
    * @default 3
    */
-  @Input({ transform: numberAttribute })
+  @Input({ transform: numberAttribute3 })
   public headingLevel: SkyFieldGroupHeadingLevel = 3;
 
   /**
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @default 3
    */
-  @Input({ transform: numberAttribute })
+  @Input({ transform: numberAttribute3 })
   public set headingStyle(value: SkyFieldGroupHeadingStyle) {
     this.headingClass = `sky-font-heading-${value}`;
   }

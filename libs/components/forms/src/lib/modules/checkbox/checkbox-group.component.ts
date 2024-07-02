@@ -24,6 +24,10 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 import { SkyCheckboxGroupHeadingLevel } from './checkbox-group-heading-level';
 import { SkyCheckboxGroupHeadingStyle } from './checkbox-group-heading-style';
 
+function numberAttribute4(value: unknown): number {
+  return numberAttribute(value, 4);
+}
+
 /**
  * Organizes checkboxes into a group.
  */
@@ -93,7 +97,7 @@ export class SkyCheckboxGroupComponent implements Validator {
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @default 4
    */
-  @Input({ transform: numberAttribute })
+  @Input({ transform: numberAttribute4 })
   public headingStyle: SkyCheckboxGroupHeadingStyle = 4;
 
   /**

@@ -33,6 +33,10 @@ import { SkyRadioGroupHeadingStyle } from './types/radio-group-heading-style';
 
 let nextUniqueId = 0;
 
+function numberAttribute4(value: unknown): number {
+  return numberAttribute(value, 4);
+}
+
 /**
  * Organizes radio buttons into a group. It is required for radio
  * buttons on Angular reactive forms, and we recommend using it with all radio buttons.
@@ -132,7 +136,7 @@ export class SkyRadioGroupComponent
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @default 4
    */
-  @Input({ transform: numberAttribute })
+  @Input({ transform: numberAttribute4 })
   public headingStyle: SkyRadioGroupHeadingStyle = 4;
 
   /**
