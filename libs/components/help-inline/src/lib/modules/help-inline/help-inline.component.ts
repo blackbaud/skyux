@@ -65,7 +65,7 @@ export class SkyHelpInlineComponent {
   public ariaLabel: string | undefined;
 
   /**
-   * A unique key that identifies the global help content to display when the button is clicked.
+   * A unique key that identifies the [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) content to display when the button is clicked.
    */
   @Input()
   public helpKey: string | undefined;
