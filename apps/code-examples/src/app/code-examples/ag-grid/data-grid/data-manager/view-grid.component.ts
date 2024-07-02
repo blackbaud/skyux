@@ -30,6 +30,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
 import { AgGridDemoRow } from './data';
+import { Filters } from './filters';
 
 @Component({
   standalone: true,
@@ -76,7 +77,8 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.#endDateFormatter,
+      valueFormatter: (params: ValueFormatterParams<AgGridDemoRow, Date>) =>
+        this.#endDateFormatter(params),
     },
     {
       field: 'department',
@@ -193,8 +195,10 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     this.#updateDisplayedItems();
   }
 
-  protected onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
-    if (!rowSelectedEvent.data.selected) {
+  protected onRowSelected(
+    rowSelectedEvent: RowSelectedEvent<AgGridDemoRow>,
+  ): void {
+    if (!rowSelectedEvent.data?.selected) {
       this.#updateDisplayedItems();
     }
   }
@@ -204,7 +208,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     const searchText = this.#dataState && this.#dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: AgGridDemoRow) {
+      searchedItems = items.filter((item: AgGridDemoRow) => {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -214,7 +218,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
           ) {
             const propertyText = item[property].toLowerCase();
 
-            if (propertyText.indexOf(searchText) > -1) {
+            if (propertyText.includes(searchText)) {
               return true;
             }
           }
@@ -231,11 +235,12 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     let filteredItems = items;
     const filterData = this.#dataState && this.#dataState.filterData;
 
-    if (filterData && filterData.filters) {
-      const filters = filterData.filters;
+    if (filterData?.filters) {
+      const filters = filterData.filters as Filters;
+
       filteredItems = items.filter((item: AgGridDemoRow) => {
         return (
-          ((filters.hideSales && item.department.name !== 'Sales') ||
+          ((filters.hideSales && item.department.name !== 'Sales') ??
             !filters.hideSales) &&
           ((filters.jobTitle !== 'any' &&
             item.jobTitle?.name === filters.jobTitle) ||
@@ -248,10 +253,13 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     return filteredItems;
   }
 
-  #endDateFormatter(params: ValueFormatterParams): string {
-    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {
     return params.value
-      ? params.value.toLocaleDateString('en-us', dateConfig)
+      ? params.value.toLocaleDateString('en-us', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
       : 'N/A';
   }
 
