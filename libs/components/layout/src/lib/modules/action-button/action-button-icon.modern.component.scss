@@ -1,0 +1,22 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('modern', '.sky-action-button-icon-container') {
+  color: $sky-text-color-action-primary;
+  background: $sky-color-blue-05;
+  margin: 0 $sky-space-xl 0 0;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ::ng-deep .sky-icon {
+    font-size: 24px !important;
+  }
+
+  .sky-action-button-icon {
+    color: $sky-text-color-action-primary;
+  }
+}

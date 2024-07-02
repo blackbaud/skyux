@@ -1,0 +1,38 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('default', '.sky-action-button', false, 'xs') {
+  --sky-action-button-padding: #{$sky-padding-double $sky-padding-double
+    $sky-padding-triple};
+  --sky-action-button-max-width: none;
+  --sky-action-button-margin-bottom: #{$sky-margin-double};
+  --sky-action-button-icon-header-container-flex-direction: unset;
+
+  @include mixins.sky-border(dark, top, bottom, left, right);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none !important;
+  display: block;
+  padding: var(--sky-action-button-padding);
+  max-width: var(--sky-action-button-max-width);
+
+  &:hover {
+    border-color: darken($sky-border-color-neutral-light, 12%);
+  }
+
+  .sky-action-button-icon-header-container {
+    display: flex;
+    flex-direction: var(
+      --sky-action-button-icon-header-container-flex-direction
+    );
+    justify-content: center;
+    margin-bottom: var(--sky-action-button-margin-bottom);
+  }
+}
+
+@include mixins.sky-component('default', '.sky-action-button', false, 'sm') {
+  --sky-action-button-padding: #{$sky-padding-triple $sky-padding-double};
+  --sky-action-button-max-width: 236px;
+  --sky-action-button-margin-bottom: 0;
+  --sky-action-button-icon-header-container-flex-direction: column;
+}
