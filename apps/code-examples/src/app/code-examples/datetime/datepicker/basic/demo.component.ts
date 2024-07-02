@@ -13,6 +13,19 @@ import {
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 
+function validateDate(
+  control: AbstractControl<Date | null>,
+): ValidationErrors | null {
+  const date = control.value;
+  const day = date?.getDay();
+
+  return day !== undefined && (day === 0 || day === 6)
+    ? {
+        invalidWeekend: true,
+      }
+    : null;
+}
+
 @Component({
   standalone: true,
   selector: 'app-demo',
@@ -27,30 +40,17 @@ import { SkyInputBoxModule } from '@skyux/forms';
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
-  protected startDate: FormControl;
+
   protected helpPopoverContent =
     'If you need help with registration, choose a date at least 8 business days after you arrive. The process takes up to 7 business days from the start date.';
+
   protected hintText = 'Must be before your 1 year anniversary.';
 
-  #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.startDate = this.#formBuilder.control(undefined, {
-      validators: [Validators.required, this.#validateDate],
-    });
     this.formGroup = inject(FormBuilder).group({
-      startDate: this.startDate,
+      startDate: new FormControl<Date | null>(null, {
+        validators: [Validators.required, validateDate],
+      }),
     });
-  }
-
-  #validateDate(control: AbstractControl): ValidationErrors | null {
-    const date: Date = control.value;
-    const day = date?.getDay();
-    if (day !== undefined && (day === 0 || day === 6)) {
-      return {
-        invalidWeekend: true,
-      };
-    }
-    return null;
   }
 }

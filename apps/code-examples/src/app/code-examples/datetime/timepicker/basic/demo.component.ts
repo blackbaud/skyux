@@ -10,8 +10,26 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { SkyTimepickerModule } from '@skyux/datetime';
+import { SkyTimepickerModule, SkyTimepickerTimeOutput } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
+
+interface DemoForm {
+  time: FormControl<SkyTimepickerTimeOutput | string>;
+}
+
+function isTimepickerOutput(value: unknown): value is SkyTimepickerTimeOutput {
+  return !!(value && typeof value === 'object' && 'minute' in value);
+}
+
+function validateTime(
+  control: AbstractControl<SkyTimepickerTimeOutput | string>,
+): ValidationErrors | null {
+  const minute = isTimepickerOutput(control.value)
+    ? control.value.minute
+    : undefined;
+
+  return minute && minute % 15 !== 0 ? { invalidMinute: true } : null;
+}
 
 @Component({
   standalone: true,
@@ -26,28 +44,19 @@ import { SkyInputBoxModule } from '@skyux/forms';
   ],
 })
 export class DemoComponent {
-  protected formGroup: FormGroup;
-  protected time: FormControl;
+  protected formGroup: FormGroup<DemoForm>;
+
   protected hintText = 'Choose a time that allows for late arrivals.';
+
   protected helpPopoverContent =
     'Allow time to complete all activities that your team signed up for. All activities take about 30 minutes, except the ropes course, which takes 60 minutes.';
 
-  #formBuilder = inject(FormBuilder);
-
   constructor() {
-    this.time = this.#formBuilder.control('2:45', {
-      validators: [Validators.required, this.#validateTime],
+    this.formGroup = inject(FormBuilder).group<DemoForm>({
+      time: new FormControl<SkyTimepickerTimeOutput | string>('2:45', {
+        nonNullable: true,
+        validators: [Validators.required, validateTime],
+      }),
     });
-    this.formGroup = this.#formBuilder.group({
-      time: this.time,
-    });
-  }
-
-  #validateTime(control: AbstractControl): ValidationErrors | null {
-    const minute = control.value?.minute;
-    if (minute && minute % 15 !== 0) {
-      return { invalidMinute: true };
-    }
-    return null;
   }
 }
