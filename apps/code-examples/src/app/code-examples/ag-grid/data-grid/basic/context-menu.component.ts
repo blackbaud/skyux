@@ -4,6 +4,8 @@ import { SkyDropdownModule } from '@skyux/popovers';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { AgGridDemoRow } from './data';
+
 @Component({
   standalone: true,
   selector: 'app-context-menu',
@@ -17,10 +19,10 @@ export class ContextMenuComponent implements ICellRendererAngularComp {
   public markInactiveAriaLabel = '';
   public moreInfoAriaLabel = '';
 
-  #name = '';
+  #name: string | undefined;
 
-  public agInit(params: ICellRendererParams): void {
-    this.#name = params.data && params.data.name;
+  public agInit(params: ICellRendererParams<AgGridDemoRow>): void {
+    this.#name = params.data?.name;
     this.contextMenuAriaLabel = `Context menu for ${this.#name}`;
     this.deleteAriaLabel = `Delete ${this.#name}`;
     this.markInactiveAriaLabel = `Mark ${this.#name} inactive`;
