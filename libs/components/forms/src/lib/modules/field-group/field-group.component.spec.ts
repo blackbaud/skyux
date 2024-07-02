@@ -5,6 +5,8 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 
+import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
+import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
 import { FieldGroupComponent } from './fixtures/field-group.component.fixture';
 
 describe('Field group component', function () {
@@ -65,14 +67,24 @@ describe('Field group component', function () {
   });
 
   it('should render the correct heading level and styles', () => {
-    [3, 4].forEach((headingLevel) => {
-      [3, 4].forEach((headingStyle) => {
+    const headingLevels: (SkyFieldGroupHeadingLevel | undefined)[] = [
+      undefined,
+      3,
+      4,
+    ];
+    const headingStyles: (SkyFieldGroupHeadingStyle | undefined)[] = [
+      undefined,
+      3,
+      4,
+    ];
+    headingLevels.forEach((headingLevel) => {
+      headingStyles.forEach((headingStyle) => {
         componentInstance.headingLevel = headingLevel;
         componentInstance.headingStyle = headingStyle;
         fixture.detectChanges();
 
         const heading = fixture.nativeElement.querySelector(
-          `h${headingLevel}.sky-font-heading-${headingStyle}`,
+          `h${headingLevel ?? 3}.sky-font-heading-${headingStyle ?? 3}`,
         );
 
         expect(heading).toExist();
