@@ -137,7 +137,7 @@ export class SkyRadioGroupComponent
    * @default 4
    */
   @Input({ transform: numberAttribute4 })
-  public headingStyle!: SkyRadioGroupHeadingStyle;
+  public headingStyle: SkyRadioGroupHeadingStyle = 4;
 
   /**
    * The name for the collection of radio buttons that the component groups together.

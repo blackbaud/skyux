@@ -63,7 +63,7 @@ export class SkyFieldGroupComponent {
    * @default 3
    */
   @Input({ transform: numberAttribute3 })
-  public headingLevel!: SkyFieldGroupHeadingLevel;
+  public headingLevel: SkyFieldGroupHeadingLevel = 3;
 
   /**
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
