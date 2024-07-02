@@ -13,6 +13,10 @@ import {
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 
+interface DemoForm {
+  startDate: FormControl<Date | null>;
+}
+
 function validateDate(
   control: AbstractControl<Date | null>,
 ): ValidationErrors | null {
@@ -39,7 +43,8 @@ function validateDate(
   ],
 })
 export class DemoComponent {
-  protected formGroup: FormGroup;
+  protected formGroup: FormGroup<DemoForm>;
+  protected startDate: FormControl<Date | null>;
 
   protected helpPopoverContent =
     'If you need help with registration, choose a date at least 8 business days after you arrive. The process takes up to 7 business days from the start date.';
@@ -47,10 +52,12 @@ export class DemoComponent {
   protected hintText = 'Must be before your 1 year anniversary.';
 
   constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      startDate: new FormControl<Date | null>(null, {
-        validators: [Validators.required, validateDate],
-      }),
+    this.startDate = new FormControl<Date | null>(null, {
+      validators: [Validators.required, validateDate],
+    });
+
+    this.formGroup = inject(FormBuilder).group<DemoForm>({
+      startDate: this.startDate,
     });
   }
 }

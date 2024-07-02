@@ -45,6 +45,7 @@ function validateTime(
 })
 export class DemoComponent {
   protected formGroup: FormGroup<DemoForm>;
+  protected time: FormControl<SkyTimepickerTimeOutput | string>;
 
   protected hintText = 'Choose a time that allows for late arrivals.';
 
@@ -52,11 +53,13 @@ export class DemoComponent {
     'Allow time to complete all activities that your team signed up for. All activities take about 30 minutes, except the ropes course, which takes 60 minutes.';
 
   constructor() {
+    this.time = new FormControl('2:45', {
+      nonNullable: true,
+      validators: [Validators.required, validateTime],
+    });
+
     this.formGroup = inject(FormBuilder).group<DemoForm>({
-      time: new FormControl<SkyTimepickerTimeOutput | string>('2:45', {
-        nonNullable: true,
-        validators: [Validators.required, validateTime],
-      }),
+      time: this.time,
     });
   }
 }
