@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { ContextMenuComponent } from './context-menu.component';
-import { AG_GRID_DEMO_DATA } from './data';
+import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
 @Component({
   standalone: true,
@@ -65,7 +65,8 @@ export class DemoComponent implements OnInit, OnDestroy {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.#endDateFormatter,
+      valueFormatter: (params: ValueFormatterParams<AgGridDemoRow, Date>) =>
+        this.#endDateFormatter(params),
     },
     {
       field: 'department',
@@ -93,7 +94,9 @@ export class DemoComponent implements OnInit, OnDestroy {
   constructor() {
     const gridOptions: GridOptions = {
       columnDefs: this.#columnDefs,
-      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => {
+        this.onGridReady(gridReadyEvent);
+      },
       rowSelection: 'single',
       pagination: true,
       suppressPaginationPanel: true,
@@ -108,7 +111,7 @@ export class DemoComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.#subscriptions.add(
       this.#activatedRoute.queryParamMap
-        .pipe(map((params) => params.get('page') || '1'))
+        .pipe(map((params) => params.get('page') ?? '1'))
         .subscribe((page) => {
           this.currentPage = Number(page);
           this.#gridApi?.paginationGoToPage(this.currentPage - 1);
@@ -142,20 +145,21 @@ export class DemoComponent implements OnInit, OnDestroy {
     this.#gridApi.paginationGoToPage(this.currentPage - 1);
   }
 
-  protected onPageChange(page: number): void {
-    this.#router
-      .navigate(['.'], {
-        relativeTo: this.#activatedRoute,
-        queryParams: { page: page.toString(10) },
-        queryParamsHandling: 'merge',
-      })
-      .then();
+  protected async onPageChange(page: number): Promise<void> {
+    await this.#router.navigate(['.'], {
+      relativeTo: this.#activatedRoute,
+      queryParams: { page: page.toString(10) },
+      queryParamsHandling: 'merge',
+    });
   }
 
-  #endDateFormatter(params: ValueFormatterParams): string {
-    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {
     return params.value
-      ? params.value.toLocaleDateString('en-us', dateConfig)
+      ? params.value.toLocaleDateString('en-us', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
       : 'N/A';
   }
 }

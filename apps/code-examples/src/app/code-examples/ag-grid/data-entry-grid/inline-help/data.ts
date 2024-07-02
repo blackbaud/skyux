@@ -95,7 +95,7 @@ export interface AgGridDemoRow {
   jobTitle?: AutocompleteOption;
 }
 
-export const AG_GRID_DEMO_DATA = [
+export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [
   {
     selected: true,
     name: 'Billy Bob',
