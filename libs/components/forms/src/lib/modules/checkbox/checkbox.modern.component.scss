@@ -1,0 +1,53 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('modern', '.sky-checkbox-outer-wrapper') {
+  display: inline-flex;
+
+  .sky-checkbox-help-inline {
+    display: inline-flex;
+  }
+
+  .sky-checkbox-icon-indeterminate {
+    font-size: 14px;
+  }
+
+  .sky-checkbox-icon-modern-checked,
+  .sky-checkbox-icon-modern-indeterminate {
+    color: $sky-theme-modern-background-color-primary-dark;
+  }
+
+  .sky-checkbox-input:disabled + .sky-switch-control {
+    .sky-checkbox-icon-modern-checked,
+    .sky-checkbox-icon-modern-indeterminate {
+      color: $sky-text-color-default;
+    }
+  }
+
+  .sky-switch-control {
+    border-radius: $sky-theme-modern-box-border-radius-default;
+  }
+}
+
+@include mixins.sky-component('modern', '.sky-checkbox-hint-text') {
+  margin-top: var(--sky-margin-stacked-xs);
+}
+
+@include mixins.sky-component('modern', '.sky-checkbox-form-margin') {
+  margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
+}
+
+@include mixins.sky-component-host('modern', ':host.sky-margin-stacked-lg') {
+  display: block;
+}
+
+@include mixins.sky-component-host(
+  'modern',
+  ':host-context(sky-checkbox-group .sky-checkbox-group-stacked) :host'
+) {
+  display: block;
+
+  &:not(:last-child) {
+    margin-bottom: var(--sky-margin-stacked-sm);
+  }
+}

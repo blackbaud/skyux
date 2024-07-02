@@ -13,7 +13,12 @@
   display: inline-flex;
 }
 
-.sky-switch-label {
+@include mixins.sky-component('default', '.sky-switch-label') {
+  margin-right: var(--sky-margin-inline-xs);
+}
+
+// TODO: move to the modern stylesheet when splitting out radio button
+@include mixins.sky-component('modern', '.sky-switch-label') {
   margin-right: var(--sky-margin-inline-xs);
 }
 
