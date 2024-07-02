@@ -25,26 +25,31 @@ fdescribe('Help inline component', () => {
   let fixture: ComponentFixture<HelpInlineTestComponent>;
   let cmp: HelpInlineTestComponent;
   let debugElement: DebugElement;
+  let logService: SkyLogService;
+  let deprecatedLogSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HelpInlineTestComponent],
       imports: [BrowserModule, SkyHelpInlineModule],
     });
-
+    logService = TestBed.inject(SkyLogService);
+    deprecatedLogSpy = spyOn(logService, 'deprecated');
     fixture = TestBed.createComponent(HelpInlineTestComponent);
     cmp = fixture.componentInstance as HelpInlineTestComponent;
     debugElement = fixture.debugElement;
 
-    const logService = TestBed.inject(SkyLogService);
-    const deprecatedLogSpy = spyOn(logService, 'deprecated');
-
     fixture.detectChanges();
+  });
 
+  it('do a thing', () => {
+    fixture.detectChanges();
     expect(deprecatedLogSpy).toHaveBeenCalledWith(
       'SkyHelpInlineComponent',
       Object({
         deprecationMajorVersion: 10,
+        replacementRecommendation:
+          'Use the new help inline button in the `@skyux/help-inline` library instead',
       }),
     );
   });
