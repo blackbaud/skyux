@@ -81,7 +81,8 @@ export class DemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.#endDateFormatter,
+      valueFormatter: (params: ValueFormatterParams<AgGridDemoRow, Date>) =>
+        this.#endDateFormatter(params),
       headerComponentParams: {
         inlineHelpComponent: InlineHelpComponent,
       },
@@ -146,10 +147,13 @@ export class DemoComponent {
     }
   }
 
-  #endDateFormatter(params: ValueFormatterParams): string {
-    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {
     return params.value
-      ? params.value.toLocaleDateString('en-us', dateConfig)
+      ? params.value.toLocaleDateString('en-us', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
       : 'N/A';
   }
 }

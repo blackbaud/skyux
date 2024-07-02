@@ -7,6 +7,8 @@ import {
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { Filters } from './filters';
+
 @Component({
   standalone: true,
   selector: 'app-filter-modal',
@@ -28,9 +30,10 @@ export class FilterModalComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.#context.filterData?.filters) {
-      const filters = this.#context.filterData.filters;
-      this.fruitType = filters.type || 'any';
-      this.hideOrange = filters.hideOrange || false;
+      const filters = this.#context.filterData.filters as Filters;
+
+      this.fruitType = filters.type ?? 'any';
+      this.hideOrange = filters.hideOrange ?? false;
     }
   }
 
@@ -41,7 +44,7 @@ export class FilterModalComponent implements OnInit {
     result.filters = {
       type: this.fruitType,
       hideOrange: this.hideOrange,
-    };
+    } satisfies Filters;
 
     this.#instance.save(result);
   }

@@ -13,6 +13,8 @@ import {
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
+import { Filters } from './filters';
+
 @Component({
   standalone: true,
   selector: 'app-filter-modal',
@@ -30,10 +32,10 @@ export class FilterModalComponent {
 
   constructor() {
     if (this.#context.filterData && this.#context.filterData.filters) {
-      const filters = this.#context.filterData.filters;
+      const filters = this.#context.filterData.filters as Filters;
 
-      this.jobTitle = filters.jobTitle || 'any';
-      this.hideSales = filters.hideSales || false;
+      this.jobTitle = filters.jobTitle ?? 'any';
+      this.hideSales = filters.hideSales ?? false;
     }
 
     this.#changeDetectorRef.markForCheck();
@@ -46,7 +48,7 @@ export class FilterModalComponent {
     result.filters = {
       jobTitle: this.jobTitle,
       hideSales: this.hideSales,
-    };
+    } satisfies Filters;
 
     this.#changeDetectorRef.markForCheck();
     this.#instance.save(result);

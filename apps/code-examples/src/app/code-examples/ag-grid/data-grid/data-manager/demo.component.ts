@@ -16,6 +16,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { AG_GRID_DEMO_DATA } from './data';
 import { FilterModalComponent } from './filter-modal.component';
+import { Filters } from './filters';
 import { ViewGridComponent } from './view-grid.component';
 
 @Component({
@@ -55,7 +56,7 @@ export class DemoComponent implements OnInit, OnDestroy {
       filters: {
         hideSales: false,
         jobTitle: 'any',
-      },
+      } satisfies Filters,
     },
     views: [
       {

@@ -62,7 +62,8 @@ export class DemoComponent {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
-      valueFormatter: this.#endDateFormatter,
+      valueFormatter: (params: ValueFormatterParams<AgGridDemoRow, Date>) =>
+        this.#endDateFormatter(params),
     },
     {
       field: 'department',
@@ -83,7 +84,9 @@ export class DemoComponent {
   constructor() {
     const gridOptions: GridOptions = {
       columnDefs: this.#columnDefs,
-      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => {
+        this.onGridReady(gridReadyEvent);
+      },
       rowSelection: 'multiple',
     };
 
@@ -97,10 +100,13 @@ export class DemoComponent {
     this.#gridApi.sizeColumnsToFit();
   }
 
-  #endDateFormatter(params: ValueFormatterParams): string {
-    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {
     return params.value
-      ? params.value.toLocaleDateString('en-us', dateConfig)
+      ? params.value.toLocaleDateString('en-us', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
       : 'N/A';
   }
 }

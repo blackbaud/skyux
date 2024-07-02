@@ -20,6 +20,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
+import { Filters } from './filters';
 
 @Component({
   standalone: true,
@@ -48,8 +49,12 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
     sortEnabled: true,
     filterButtonEnabled: true,
     multiselectToolbarEnabled: true,
-    onClearAllClick: () => this.#clearAll(),
-    onSelectAllClick: () => this.#selectAll(),
+    onClearAllClick: () => {
+      this.#clearAll();
+    },
+    onSelectAllClick: () => {
+      this.#selectAll();
+    },
   };
 
   readonly #changeDetector = inject(ChangeDetectorRef);
@@ -83,7 +88,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
   }
 
   protected onItemSelect(isSelected: boolean, item: DataManagerDemoRow): void {
-    const selectedItems = this.#dataState.selectedIds || [];
+    const selectedItems = this.#dataState.selectedIds ?? [];
     const itemIndex = selectedItems.indexOf(item.id);
 
     if (isSelected && itemIndex === -1) {
@@ -102,10 +107,10 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
   }
 
   #updateData(): void {
-    const selectedIds = this.#dataState.selectedIds || [];
+    const selectedIds = this.#dataState.selectedIds ?? [];
 
     this.items.forEach((item) => {
-      item.selected = selectedIds.indexOf(item.id) !== -1;
+      item.selected = selectedIds.includes(item.id);
     });
 
     this.displayedItems = this.#filterItems(this.#searchItems(this.items));
@@ -131,7 +136,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
       this.#dataState && this.#dataState.searchText?.toUpperCase();
 
     if (searchText) {
-      searchedItems = items.filter(function (item: DataManagerDemoRow) {
+      searchedItems = items.filter((item: DataManagerDemoRow) => {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -140,7 +145,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
             (property === 'name' || property === 'description')
           ) {
             const propertyText = item[property].toUpperCase();
-            if (propertyText.indexOf(searchText) > -1) {
+            if (propertyText.includes(searchText)) {
               return true;
             }
           }
@@ -157,11 +162,12 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
     let filteredItems = items;
     const filterData = this.#dataState && this.#dataState.filterData;
 
-    if (filterData && filterData.filters) {
-      const filters = filterData.filters;
+    if (filterData?.filters) {
+      const filters = filterData.filters as Filters;
+
       filteredItems = items.filter((item: DataManagerDemoRow) => {
         if (
-          ((filters.hideOrange && item.color !== 'orange') ||
+          ((filters.hideOrange && item.color !== 'orange') ??
             !filters.hideOrange) &&
           ((filters.type !== 'any' && item.type === filters.type) ||
             !filters.type ||
@@ -178,7 +184,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
   }
 
   #selectAll(): void {
-    const selectedIds = this.#dataState.selectedIds || [];
+    const selectedIds = this.#dataState.selectedIds ?? [];
 
     this.displayedItems.forEach((item) => {
       if (!item.selected) {
@@ -193,7 +199,7 @@ export class ViewRepeaterComponent implements OnInit, OnDestroy {
   }
 
   #clearAll(): void {
-    const selectedIds = this.#dataState.selectedIds || [];
+    const selectedIds = this.#dataState.selectedIds ?? [];
 
     this.displayedItems.forEach((item) => {
       if (item.selected) {

@@ -27,6 +27,7 @@ import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { DataManagerDemoRow } from './data';
+import { Filters } from './filters';
 
 @Component({
   standalone: true,
@@ -150,8 +151,10 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  protected onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
-    if (!rowSelectedEvent.data.selected) {
+  protected onRowSelected(
+    rowSelectedEvent: RowSelectedEvent<DataManagerDemoRow>,
+  ): void {
+    if (!rowSelectedEvent.data?.selected) {
       this.#updateData();
     }
   }
@@ -161,12 +164,12 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
     const filterData = this.#dataState && this.#dataState.filterData;
 
-    if (filterData && filterData.filters) {
-      const filters = filterData.filters;
+    if (filterData?.filters) {
+      const filters = filterData.filters as Filters;
 
       filteredItems = items.filter((item) => {
         return (
-          ((filters.hideOrange && item.color !== 'orange') ||
+          ((filters.hideOrange && item.color !== 'orange') ??
             !filters.hideOrange) &&
           ((filters.type !== 'any' && item.type === filters.type) ||
             !filters.type ||
@@ -189,7 +192,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     const searchText = this.#dataState && this.#dataState.searchText;
 
     if (searchText) {
-      searchedItems = items.filter(function (item: DataManagerDemoRow) {
+      searchedItems = items.filter((item: DataManagerDemoRow) => {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -198,7 +201,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
             (property === 'name' || property === 'description')
           ) {
             const propertyText = item[property].toLowerCase();
-            if (propertyText.indexOf(searchText) > -1) {
+            if (propertyText.includes(searchText)) {
               return true;
             }
           }
@@ -212,7 +215,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   #setInitialColumnOrder(): void {
     const viewState = this.#dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState?.displayedColumnIds || [];
+    const visibleColumns = viewState?.displayedColumnIds ?? [];
 
     this.#columnDefs.sort((col1, col2) => {
       const col1Index = visibleColumns.findIndex(
