@@ -256,7 +256,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
       filteredItems = items.filter((item) => {
         return (
-          ((filters.hideSales && item.department.name !== 'Sales') ??
+          (!!(filters.hideSales && item.department.name !== 'Sales') ||
             !filters.hideSales) &&
           ((filters.jobTitle !== 'any' &&
             item.jobTitle?.name === filters.jobTitle) ||
