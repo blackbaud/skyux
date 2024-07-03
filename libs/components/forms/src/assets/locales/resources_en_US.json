@@ -185,19 +185,19 @@
   },
   "skyux_file_attachment_max_file_size_error_label_text": {
     "_description": "The error message for file attachment max file size error",
-    "message": "Upload a file under {0}KB."
+    "message": "Upload a file under {0}."
   },
   "skyux_file_attachment_max_file_size_error_label_text_with_name": {
     "_description": "The error message for file attachment max file size error",
-    "message": "{0}: Upload a file under {1}KB."
+    "message": "{0}: Upload a file under {1}."
   },
   "skyux_file_attachment_min_file_size_error_label_text": {
     "_description": "The error message for file attachment min file size error",
-    "message": "Upload a file over {0}KB."
+    "message": "Upload a file over {0}."
   },
   "skyux_file_attachment_min_file_size_error_label_text_with_name": {
     "_description": "The error message for file attachment min file size error",
-    "message": "{0}: Upload a file over {1}KB."
+    "message": "{0}: Upload a file over {1}."
   },
   "skyux_file_attachment_label_no_file_chosen": {
     "_description": "Label for single file attachment when no file is chosen",
