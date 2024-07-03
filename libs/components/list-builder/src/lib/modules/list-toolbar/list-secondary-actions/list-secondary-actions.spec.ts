@@ -1,9 +1,9 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
@@ -48,7 +48,7 @@ describe('List Secondary Actions Component', () => {
     fixture.destroy();
   });
 
-  it('should show secondary actions when specified', async(() => {
+  it('should show secondary actions when specified', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

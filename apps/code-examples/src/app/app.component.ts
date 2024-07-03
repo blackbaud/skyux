@@ -29,7 +29,7 @@ export class AppComponent {
     });
 
     const themeSettings = new SkyThemeSettings(
-      SkyTheme.presets['modern'],
+      SkyTheme.presets.modern,
       SkyThemeMode.presets.light,
     );
 

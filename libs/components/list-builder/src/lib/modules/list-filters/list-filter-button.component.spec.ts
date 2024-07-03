@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { skip, take } from 'rxjs/operators';
@@ -16,7 +16,7 @@ describe('List filter button', () => {
     fixture: ComponentFixture<ListFilterButtonTestComponent>,
     nativeElement: HTMLElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
     state = new ListState(dispatcher);
 
@@ -39,7 +39,7 @@ describe('List filter button', () => {
     state.pipe(skip(1), take(1)).subscribe(() => fixture.detectChanges());
   }));
 
-  it('should place content in the appropriate area for the filter button', async(() => {
+  it('should place content in the appropriate area for the filter button', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

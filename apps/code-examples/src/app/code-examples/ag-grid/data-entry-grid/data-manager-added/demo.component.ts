@@ -15,7 +15,7 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { AG_GRID_DEMO_DATA } from './data';
+import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 import { EditModalContext } from './edit-modal-context';
 import { EditModalComponent } from './edit-modal.component';
 import { FilterModalComponent } from './filter-modal.component';
@@ -130,7 +130,7 @@ export class DemoComponent implements OnInit, OnDestroy {
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
-        this.items = result.data;
+        this.items = result.data as AgGridDemoRow[];
         alert('Saving data!');
       }
 

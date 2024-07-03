@@ -1,5 +1,16 @@
 # Changelog
 
+## [11.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/10.33.0...11.0.0-alpha.0) (2024-07-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added support for Angular 18 and removed support for Angular 17
+
+### Features
+
+* add support for Angular 18 ([#2419](https://github.com/blackbaud/skyux/issues/2419)) ([7a53bb5](https://github.com/blackbaud/skyux/commit/7a53bb5939eb96b8447c2dc2bc933e89969241f7))
+
 ## [10.33.0](https://github.com/blackbaud/skyux/compare/10.32.0...10.33.0) (2024-07-01)
 
 
