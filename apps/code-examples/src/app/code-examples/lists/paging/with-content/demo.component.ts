@@ -32,9 +32,11 @@ export class DemoComponent {
 
   protected pagedData = this.contentChange.pipe(
     switchMap((args) =>
-      this.#demoDataSvc
-        .getPagedData(args.currentPage, this.pageSize)
-        .pipe(tap(() => args.loadingComplete())),
+      this.#demoDataSvc.getPagedData(args.currentPage, this.pageSize).pipe(
+        tap(() => {
+          args.loadingComplete();
+        }),
+      ),
     ),
     shareReplay(1),
   );

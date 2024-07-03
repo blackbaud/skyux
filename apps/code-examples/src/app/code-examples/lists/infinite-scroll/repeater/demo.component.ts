@@ -27,12 +27,14 @@ export class DemoComponent implements OnInit {
   }
 
   #addData(): void {
-    this.#mockRemote().then(
-      (result: { data: InfiniteScrollDemoItem[]; hasMore: boolean }) => {
+    this.#mockRemote()
+      .then((result: { data: InfiniteScrollDemoItem[]; hasMore: boolean }) => {
         this.items = this.items.concat(result.data);
         this.itemsHaveMore = result.hasMore;
-      },
-    );
+      })
+      .catch(() => {
+        /* */
+      });
   }
 
   #mockRemote(): Promise<{

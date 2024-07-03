@@ -145,7 +145,7 @@ export class DemoComponent implements OnInit {
     });
 
     this.searchFilters = [
-      (_, item): boolean => {
+      (_, item: Person): boolean => {
         const names = this.favoritesForm.value.favoriteNames;
 
         // Only show people in the search results that have not been chosen already.
