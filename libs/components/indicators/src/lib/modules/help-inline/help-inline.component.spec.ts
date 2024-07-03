@@ -49,7 +49,7 @@ describe('Help inline component', () => {
       Object({
         deprecationMajorVersion: 10,
         replacementRecommendation:
-          'Use the new help inline button in the `@skyux/help-inline` library instead',
+          'Use the help inline button component in the `@skyux/help-inline` library instead.',
       }),
     );
   });
