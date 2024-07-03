@@ -13,6 +13,7 @@ import {
 
 import { DATA_MANAGER_DEMO_DATA, DataManagerDemoRow } from './data';
 import { FilterModalComponent } from './filter-modal.component';
+import { Filters } from './filters';
 import { ViewGridComponent } from './view-grid.component';
 import { ViewRepeaterComponent } from './view-repeater.component';
 
@@ -54,7 +55,7 @@ export class DemoComponent implements OnInit {
           filtersApplied: true,
           filters: {
             hideOrange: true,
-          },
+          } satisfies Filters,
         },
         views: [
           {

@@ -71,7 +71,7 @@ export class EditModalComponent {
         type: SkyCellType.Date,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams,
+          params: ICellEditorParams<AgGridDemoRow>,
         ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
           return {
             skyComponentProperties: {
@@ -86,7 +86,7 @@ export class EditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams,
+          params: ICellEditorParams<AgGridDemoRow>,
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
@@ -109,12 +109,9 @@ export class EditModalComponent {
         type: SkyCellType.Autocomplete,
         editable: true,
         cellEditorParams: (
-          params: ICellEditorParams,
+          params: ICellEditorParams<AgGridDemoRow>,
         ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
-          const selectedDepartment: string =
-            params.data &&
-            params.data.department &&
-            params.data.department.name;
+          const selectedDepartment = params.data?.department?.name;
 
           const editParams: {
             skyComponentProperties: SkyAgGridAutocompleteProperties;
@@ -155,7 +152,9 @@ export class EditModalComponent {
 
     const gridOptions: GridOptions = {
       columnDefs: this.#columnDefs,
-      onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
+      onGridReady: (gridReadyEvent): void => {
+        this.onGridReady(gridReadyEvent);
+      },
     };
 
     this.gridOptions = this.#agGridService.getEditableGridOptions({
@@ -173,15 +172,15 @@ export class EditModalComponent {
 
   #departmentSelectionChange(
     change: SkyAutocompleteSelectionChange,
-    node: IRowNode,
+    node: IRowNode<AgGridDemoRow>,
   ): void {
-    if (change.selectedItem && change.selectedItem !== node.data.department) {
+    if (change.selectedItem && change.selectedItem !== node.data?.department) {
       this.#clearJobTitle(node);
     }
   }
 
-  #clearJobTitle(node: IRowNode | null): void {
-    if (node) {
+  #clearJobTitle(node: IRowNode<AgGridDemoRow> | null): void {
+    if (node?.data) {
       node.data.jobTitle = undefined;
 
       if (this.#gridApi) {
