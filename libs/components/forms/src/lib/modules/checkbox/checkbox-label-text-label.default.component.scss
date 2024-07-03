@@ -1,0 +1,6 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component('default', '.sky-switch-label') {
+  margin-right: 0;
+}

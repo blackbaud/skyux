@@ -2,10 +2,10 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   flush,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -129,7 +129,7 @@ describe('List column selector action', () => {
       fixture.destroy();
     });
 
-    it('should not appear if not in grid view', async(() => {
+    it('should not appear if not in grid view', waitForAsync(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         dispatcher.viewsSetActive('other');
@@ -143,7 +143,7 @@ describe('List column selector action', () => {
       });
     }));
 
-    it('should not clear the search text when new columns are set', async(() => {
+    it('should not clear the search text when new columns are set', waitForAsync(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -176,7 +176,7 @@ describe('List column selector action', () => {
       });
     }));
 
-    it('should show help button in modal header', async(() => {
+    it('should show help button in modal header', waitForAsync(() => {
       fixture.componentInstance.helpKey = 'foo.html';
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -201,7 +201,7 @@ describe('List column selector action', () => {
       });
     }));
 
-    it('should emit help key when help button clicked', async(() => {
+    it('should emit help key when help button clicked', waitForAsync(() => {
       const spy = spyOn(
         fixture.componentInstance,
         'onHelpOpened',

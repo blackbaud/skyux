@@ -1,4 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { SkyAppConfig } from '@skyux/config';
 import {
@@ -53,8 +57,13 @@ function createFailingElement(params?: {
 describe('Jasmine matchers', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, SkyI18nModule],
-      providers: [SkyAppResourcesService, SkyLibResourcesService],
+      imports: [SkyI18nModule],
+      providers: [
+        SkyAppResourcesService,
+        SkyLibResourcesService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
     });
     document.body.innerHTML = '';
   });
