@@ -23,10 +23,10 @@ export class DemoComponent implements OnDestroy {
         this.#waitSvc.beginNonBlockingPageWait();
       }
     } else if (isBlocking) {
-        this.#waitSvc.endBlockingPageWait();
-      } else {
-        this.#waitSvc.endNonBlockingPageWait();
-      }
+      this.#waitSvc.endBlockingPageWait();
+    } else {
+      this.#waitSvc.endNonBlockingPageWait();
+    }
 
     this.isWaiting = !this.isWaiting;
   }
