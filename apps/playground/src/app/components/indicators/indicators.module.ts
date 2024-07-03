@@ -8,6 +8,10 @@ const routes: Routes = [
       import('./alert/alert.module').then((m) => m.AlertModule),
   },
   {
+    path: 'icon',
+    loadChildren: () => import('./icon/icon.module').then((m) => m.IconModule),
+  },
+  {
     path: 'illustration',
     loadChildren: () =>
       import('./illustration/illustration.module').then(
