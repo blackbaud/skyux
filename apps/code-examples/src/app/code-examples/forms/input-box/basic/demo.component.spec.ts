@@ -46,12 +46,16 @@ describe('Basic input box demo', () => {
       const harness = await setupTest({
         dataSkyId: 'input-box-last-name',
       });
-      const inputEl = document.querySelector(
+
+      const inputEl = document.querySelector<HTMLInputElement>(
         'input.last-name-input-box',
-      ) as HTMLInputElement;
-      inputEl.value = '';
-      SkyAppTestUtility.fireDomEvent(inputEl, 'input');
-      SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+      );
+
+      if (inputEl) {
+        inputEl.value = '';
+        SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+        SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+      }
 
       await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
     });
@@ -108,12 +112,14 @@ describe('Basic input box demo', () => {
         dataSkyId: 'input-box-favorite-color',
       });
 
-      const selectEl = document.querySelector(
+      const selectEl = document.querySelector<HTMLInputElement>(
         '.input-box-favorite-color-select',
-      ) as HTMLSelectElement;
+      );
 
-      selectEl.value = 'invalid';
-      selectEl.dispatchEvent(new Event('change'));
+      if (selectEl) {
+        selectEl.value = 'invalid';
+        selectEl.dispatchEvent(new Event('change'));
+      }
 
       await expectAsync(harness.hasCustomFormError('invalid')).toBeResolvedTo(
         true,

@@ -42,12 +42,13 @@ describe('Character count demo', () => {
     await expectAsync(harness.isOverLimit()).toBeResolvedTo(false);
 
     // Update the value to exceed the limit and validate.
-    const inputEl = document.querySelector(
-      '.description-input',
-    ) as HTMLInputElement;
+    const inputEl =
+      document.querySelector<HTMLInputElement>('.description-input');
 
-    inputEl.value += ' scholarship fund';
-    inputEl.dispatchEvent(new Event('input'));
+    if (inputEl) {
+      inputEl.value += ' scholarship fund';
+      inputEl.dispatchEvent(new Event('input'));
+    }
 
     await expectAsync(harness.getCharacterCount()).toBeResolvedTo(63);
     await expectAsync(harness.isOverLimit()).toBeResolvedTo(true);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,8 +9,6 @@ import {
 import { SkyIdModule } from '@skyux/core';
 import { SkyRadioModule, SkySelectionBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
-
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -26,7 +24,7 @@ import { Subject, takeUntil } from 'rxjs';
     SkySelectionBoxModule,
   ],
 })
-export class DemoComponent implements OnInit, OnDestroy {
+export class DemoComponent {
   protected items: Record<string, string>[] = [
     {
       name: 'Save time and effort',
@@ -52,22 +50,9 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   protected formGroup: FormGroup;
 
-  #ngUnsubscribe = new Subject<void>();
-
   constructor() {
     this.formGroup = inject(FormBuilder).group({
       myOption: this.items[2]['value'],
     });
-  }
-
-  public ngOnInit(): void {
-    this.formGroup.valueChanges
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((value) => console.log(value));
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 }

@@ -22,13 +22,11 @@ export class DemoComponent implements OnDestroy {
       } else {
         this.#waitSvc.beginNonBlockingPageWait();
       }
-    } else {
-      if (isBlocking) {
+    } else if (isBlocking) {
         this.#waitSvc.endBlockingPageWait();
       } else {
         this.#waitSvc.endNonBlockingPageWait();
       }
-    }
 
     this.isWaiting = !this.isWaiting;
   }
