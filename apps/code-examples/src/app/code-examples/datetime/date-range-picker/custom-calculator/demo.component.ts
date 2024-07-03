@@ -55,7 +55,7 @@ export class DemoComponent {
       shortDescription: 'Date before today',
       type: SkyDateRangeCalculatorType.Before,
       validate: (value): ValidationErrors | null => {
-        if (value && value.endDate && value.endDate > new Date()) {
+        if (value?.endDate && value.endDate > new Date()) {
           return {
             dateIsAfterToday: true,
           };
