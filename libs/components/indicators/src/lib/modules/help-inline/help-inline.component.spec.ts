@@ -42,7 +42,7 @@ describe('Help inline component', () => {
     fixture.detectChanges();
   });
 
-  it('do a thing', () => {
+  it('should log that the component is deprecated', () => {
     fixture.detectChanges();
     expect(deprecatedLogSpy).toHaveBeenCalledWith(
       'SkyHelpInlineComponent',
