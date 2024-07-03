@@ -1453,7 +1453,7 @@ describe('File attachment', () => {
 
     expect(
       fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
-    ).toBe('Error: Upload a file under 50KB.');
+    ).toBe('Error: Upload a file under 50 bytes.');
   });
 
   it('should render file errors and NgControl errors when label text is set', () => {
@@ -1482,7 +1482,7 @@ describe('File attachment', () => {
       fixture.nativeElement
         .querySelectorAll('sky-form-error')[1]
         ?.textContent.trim(),
-    ).toBe('Error: Upload a file under 50KB.');
+    ).toBe('Error: Upload a file under 50 bytes.');
   });
 
   it('should render `labelText` and not label element if `labelText` is set', () => {
