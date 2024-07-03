@@ -36,10 +36,10 @@ describe('Icon SVG component', () => {
   beforeEach(() => {
     resolverSvc = jasmine.createSpyObj<SkyIconSvgResolverService>(
       'SkyIconSvgResolverService',
-      ['resolveId'],
+      ['resolveHref'],
     );
 
-    resolverSvc.resolveId.and.callFake((src, size, variant) => {
+    resolverSvc.resolveHref.and.callFake((src, size, variant) => {
       return of(`#${src}-${size}-${variant ?? 'line'}`);
     });
 
@@ -57,14 +57,14 @@ describe('Icon SVG component', () => {
   });
 
   it('should display the resolved icon by ID', fakeAsync(() => {
-    fixture.componentRef.setInput('iconSrc', 'test');
+    fixture.componentRef.setInput('iconName', 'test');
     detectUrlChanges();
 
     validateIconId('#test-16-line');
   }));
 
   it('should display the resolved icon by ID and size', fakeAsync(() => {
-    fixture.componentRef.setInput('iconSrc', 'test');
+    fixture.componentRef.setInput('iconName', 'test');
     fixture.componentRef.setInput('iconSize', '2x');
     detectUrlChanges();
 
@@ -72,7 +72,7 @@ describe('Icon SVG component', () => {
   }));
 
   it('should display the resolved icon by ID and variant', fakeAsync(() => {
-    fixture.componentRef.setInput('iconSrc', 'test');
+    fixture.componentRef.setInput('iconName', 'test');
     fixture.componentRef.setInput('iconVariant', 'solid');
     detectUrlChanges();
 
@@ -82,16 +82,16 @@ describe('Icon SVG component', () => {
   it("should use the host element's text color as its fill color", fakeAsync(() => {
     fixture.nativeElement.style.color = '#0f0';
 
-    fixture.componentRef.setInput('iconSrc', 'test');
+    fixture.componentRef.setInput('iconName', 'test');
     detectUrlChanges();
 
     expect(getComputedStyle(getSvgEl()).fill).toBe('rgb(0, 255, 0)');
   }));
 
   it('should handle errors', fakeAsync(() => {
-    resolverSvc.resolveId.and.throwError('Icon could not be resolved');
+    resolverSvc.resolveHref.and.throwError('Icon could not be resolved');
 
-    fixture.componentRef.setInput('iconSrc', 'test');
+    fixture.componentRef.setInput('iconName', 'test');
     detectUrlChanges();
 
     validateIconId('');

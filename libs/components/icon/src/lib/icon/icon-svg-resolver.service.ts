@@ -45,39 +45,34 @@ function getIconsSizes(): Map<string, number[]> {
 function getNearestSize(
   iconsSizes: Map<string, number[]>,
   name: string,
-  size: number,
+  pixelSize: number,
 ): number | undefined {
-  let nearestSize: number | undefined;
-
   const sizes = iconsSizes.get(name);
 
   if (sizes) {
-    if (sizes.includes(size)) {
-      nearestSize = size;
-    } else {
-      let nearestSizeUnder = -Infinity;
-      let nearestSizeOver = Infinity;
+    let nearestSizeUnder = -Infinity;
+    let nearestSizeOver = Infinity;
 
-      for (const availableSize of sizes) {
-        if (availableSize < size) {
-          nearestSizeUnder = availableSize;
-        } else {
-          nearestSizeOver = availableSize;
-          break;
-        }
+    for (const availableSize of sizes) {
+      if (availableSize === pixelSize) {
+        return pixelSize;
+      } else if (availableSize < pixelSize) {
+        nearestSizeUnder = availableSize;
+      } else {
+        nearestSizeOver = availableSize;
+        break;
       }
-
-      const underDiff = Math.abs(size - nearestSizeUnder);
-      const overDiff = Math.abs(size - nearestSizeOver);
-
-      nearestSize =
-        underDiff < overDiff || isNaN(overDiff)
-          ? nearestSizeUnder
-          : nearestSizeOver;
     }
+
+    const underDiff = Math.abs(pixelSize - nearestSizeUnder);
+    const overDiff = Math.abs(pixelSize - nearestSizeOver);
+
+    return isNaN(overDiff) || underDiff < overDiff
+      ? nearestSizeUnder
+      : nearestSizeOver;
   }
 
-  return nearestSize;
+  return undefined;
 }
 
 /**
@@ -85,40 +80,36 @@ function getNearestSize(
  */
 @Injectable()
 export class SkyIconSvgResolverService {
-  #http = inject(HttpClient);
+  readonly #http = inject(HttpClient);
 
-  #spriteObs: Observable<Map<string, number[]>> | undefined;
+  readonly #spriteObs = this.#http
+    .get(
+      `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
+      {
+        responseType: 'text',
+      },
+    )
+    .pipe(tap(insertSprite), map(getIconsSizes), shareReplay(1));
 
-  public resolveId(
+  public resolveHref(
     name: string,
-    size = 16,
+    pixelSize = 16,
     variant: SkyIconVariantType = 'line',
   ): Observable<string> {
-    if (!this.#spriteObs) {
-      this.#spriteObs = this.#http
-        .get(
-          `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
-          {
-            responseType: 'text',
-          },
-        )
-        .pipe(tap(insertSprite), map(getIconsSizes), shareReplay(1));
-    }
-
     return this.#spriteObs.pipe(
       map((iconsSizes) => {
-        let url = `#sky-i-${name}`;
+        let href = `#sky-i-${name}`;
 
         // Find the icon with the optimal size nearest to the requested size.
-        const nearestSize = getNearestSize(iconsSizes, name, size);
+        const nearestSize = getNearestSize(iconsSizes, name, pixelSize);
 
-        if (nearestSize) {
-          url = `${url}-${nearestSize}`;
+        if (!nearestSize) {
+          throw new Error(`Icon with name '${name}' was not found.`);
         }
 
-        url = `${url}-${variant}`;
+        href = `${href}-${nearestSize}-${variant}`;
 
-        return url;
+        return href;
       }),
     );
   }

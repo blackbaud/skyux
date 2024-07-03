@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -27,12 +27,13 @@ describe('Icon SVG resolver service', () => {
 
   async function validate(
     name: string,
-    expectedUrl: string,
+    expectedHref?: string,
     size?: number,
     variant?: SkyIconVariantType,
+    expectedError?: string,
   ): Promise<void> {
-    const urlPromise = firstValueFrom(
-      resolverSvc.resolveId(name, size, variant),
+    const hrefPromise = firstValueFrom(
+      resolverSvc.resolveHref(name, size, variant),
     );
 
     if (!spriteLoaded) {
@@ -49,24 +50,25 @@ describe('Icon SVG resolver service', () => {
   ${buildSymbolHtml('multi-size', 24, 'solid')}
   ${buildSymbolHtml('multi-size', 48, 'line')}
   ${buildSymbolHtml('multi-size', 48, 'solid')}
-  ${buildSymbolHtml('multi-size-exact', 12, 'line')}
-  ${buildSymbolHtml('multi-size-exact', 12, 'solid')}
-  ${buildSymbolHtml('multi-size-exact', 16, 'line')}
-  ${buildSymbolHtml('multi-size-exact', 16, 'solid')}
-  ${buildSymbolHtml('multi-size-exact', 24, 'line')}
-  ${buildSymbolHtml('multi-size-exact', 24, 'solid')}
   </svg>`);
 
       spriteLoaded = true;
     }
 
-    await expectAsync(urlPromise).toBeResolvedTo(expectedUrl);
+    if (expectedError) {
+      await expectAsync(hrefPromise).toBeRejectedWithError(expectedError);
+    } else if (expectedHref) {
+      await expectAsync(hrefPromise).toBeResolvedTo(expectedHref);
+    }
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [provideHttpClientTesting(), SkyIconSvgResolverService],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        SkyIconSvgResolverService,
+      ],
     });
 
     resolverSvc = TestBed.inject(SkyIconSvgResolverService);
@@ -76,6 +78,21 @@ describe('Icon SVG resolver service', () => {
   afterEach(() => {
     document.getElementById('sky-icon-svg-sprite')?.remove();
     spriteLoaded = false;
+  });
+
+  it('should resolve the expected variant', async () => {
+    await validate('single-size', '#sky-i-single-size-12-line', 12, 'line');
+    await validate('single-size', '#sky-i-single-size-12-solid', 12, 'solid');
+  });
+
+  it('should throw an error when a matching icon is not found', async () => {
+    await validate(
+      'invalid',
+      undefined,
+      undefined,
+      undefined,
+      `Icon with name 'invalid' was not found.`,
+    );
   });
 
   describe('with single size icons', () => {
@@ -88,7 +105,7 @@ describe('Icon SVG resolver service', () => {
 
   describe('with multiple size icons', () => {
     it('should resolve to the icon size that is an exact match of the specified size', async () => {
-      await validate('multi-size-exact', '#sky-i-multi-size-exact-12-line', 12);
+      await validate('multi-size', '#sky-i-multi-size-12-line', 12);
     });
 
     it('should resolve to the icon size closest to the specified size when no exact match exists', async () => {

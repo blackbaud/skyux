@@ -32,24 +32,24 @@ const SIZES = new Map([
   ],
 })
 export class SkyIconSvgComponent {
-  #resolverSvc = inject(SkyIconSvgResolverService);
+  readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
-  public readonly iconSrc = input.required<string>();
+  public readonly iconName = input.required<string>();
   public readonly iconSize = input<string>();
   public readonly iconVariant = input<SkyIconVariantType>();
 
-  #iconInfo = computed(() => {
+  readonly #iconInfo = computed(() => {
     return {
-      src: this.iconSrc(),
+      src: this.iconName(),
       size: this.iconSize(),
       variant: this.iconVariant(),
     };
   });
 
-  protected readonly iconId = toSignal(
+  protected readonly iconHref = toSignal(
     toObservable(this.#iconInfo).pipe(
       switchMap((info) =>
-        this.#resolverSvc.resolveId(
+        this.#resolverSvc.resolveHref(
           info.src,
           SIZES.get(info.size ?? ''),
           info.variant,

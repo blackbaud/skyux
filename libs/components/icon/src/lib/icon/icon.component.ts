@@ -26,11 +26,11 @@ export class SkyIconComponent {
   public icon: string | undefined;
 
   /**
-   * The icon source
-   * @preview
+   * The name of the Blackbaud SVG icon to display. For internal use only.
+   * @internal
    */
   @Input()
-  public iconSrc: string | undefined;
+  public iconName: string | undefined;
 
   /**
    * The type of icon to display. Specifying `"fa"` displays a Font Awesome icon,

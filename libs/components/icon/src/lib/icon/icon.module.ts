@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { SkyIconClassListPipe } from './icon-class-list.pipe';
@@ -10,8 +10,8 @@ import { SkyIconComponent } from './icon.component';
 
 @NgModule({
   declarations: [SkyIconClassListPipe, SkyIconComponent, SkyIconStackComponent],
-  imports: [CommonModule, SkyIconSvgComponent, HttpClientModule],
+  imports: [CommonModule, SkyIconSvgComponent],
   exports: [SkyIconComponent, SkyIconStackComponent],
-  providers: [SkyIconSvgResolverService],
+  providers: [provideHttpClient(withFetch()), SkyIconSvgResolverService],
 })
 export class SkyIconModule {}
