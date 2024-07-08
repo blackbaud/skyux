@@ -43,7 +43,6 @@ export class SkyHelpInlineComponent {
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
    * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
-   * @internal
    */
   @Input()
   public ariaControls: string | undefined;
