@@ -33,6 +33,7 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
       return (el as HTMLInputElement).value;
     }
 
+    /* istanbul ignore next: safety check */
     return undefined;
   }
 

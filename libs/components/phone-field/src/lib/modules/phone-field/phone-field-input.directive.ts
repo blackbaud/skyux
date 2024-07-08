@@ -195,7 +195,7 @@ export class SkyPhoneFieldInputDirective
     this.#phoneFieldComponent?.setCountryByDialCode(value);
   }
 
-  #formatPhoneNumber(value = ''): string | undefined {
+  #formatPhoneNumber(value: string | undefined): string | undefined {
     if (!value) {
       return;
     }
@@ -277,8 +277,11 @@ export class SkyPhoneFieldInputDirective
     }
   }
 
-  #setValue(value = ''): void {
-    const formatted = this.#formatPhoneNumber(value);
-    this.#_value = formatted ?? value;
+  #setValue(value: string | undefined): void {
+    /* istanbul ignore else */
+    if (value !== undefined) {
+      const formatted = this.#formatPhoneNumber(value);
+      this.#_value = formatted ?? value;
+    }
   }
 }
