@@ -1,4 +1,12 @@
-import { Directive, HostListener, inject } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnInit,
+  booleanAttribute,
+  inject,
+} from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -9,7 +17,9 @@ import {
 } from '@angular/forms';
 
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
+import { distinctUntilChanged, takeUntil } from 'rxjs';
 
+import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
 
 @Directive({
@@ -28,26 +38,37 @@ import { SkyPhoneFieldComponent } from './phone-field.component';
   ],
 })
 export class SkyPhoneFieldInputDirective
-  implements ControlValueAccessor, Validator
+  implements ControlValueAccessor, OnInit, Validator
 {
-  @HostListener('change', ['$event'])
-  protected onChange(evt: Event): void {
-    const value = (evt.target as HTMLInputElement).value;
-    console.log('notify change, change evt', value);
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (this.#hostComponent) {
+      this.#hostComponent.countrySelectDisabled = value;
+      this.#adapterSvc?.setElementDisabledState(this.#elementRef, value);
+    }
 
-    const formatted = this.#formatPhoneNumber(value);
-
-    this.#notifyChange?.(formatted ?? value);
+    this.#_disabled = value;
   }
 
-  @HostListener('blur')
-  protected onBlur(): void {
-    this.#notifyTouched?.();
+  public get disabled(): boolean {
+    return this.#_disabled;
   }
 
+  @Input({ transform: booleanAttribute })
+  public skyPhoneFieldNoValidate = false;
+
+  #_disabled = false;
   #hostControl: AbstractControl | undefined;
   #notifyChange: ((value: string) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
+
+  readonly #adapterSvc = inject(SkyPhoneFieldAdapterService, {
+    host: true,
+    optional: true,
+    skipSelf: true,
+  });
+
+  readonly #elementRef = inject(ElementRef);
 
   readonly #hostComponent = inject(SkyPhoneFieldComponent, {
     host: true,
@@ -55,6 +76,24 @@ export class SkyPhoneFieldInputDirective
   });
 
   readonly #phoneUtils = PhoneNumberUtil.getInstance();
+
+  public ngOnInit(): void {
+    if (!this.#hostComponent) {
+      throw new Error(
+        'You must wrap the `skyPhoneFieldInput` directive within a ' +
+          '`<sky-phone-field>` component!',
+      );
+    }
+
+    this.#adapterSvc?.setElementType(this.#elementRef);
+    this.#adapterSvc?.addElementClass(this.#elementRef, 'sky-form-control');
+
+    this.#hostComponent?.selectedCountryChange
+      .pipe(distinctUntilChanged())
+      .subscribe((x) => {
+        console.log('eh?', x);
+      });
+  }
 
   public registerOnChange(fn: (value: string) => void): void {
     this.#notifyChange = fn;
@@ -64,12 +103,16 @@ export class SkyPhoneFieldInputDirective
     this.#notifyTouched = fn;
   }
 
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
   public validate(control: AbstractControl): ValidationErrors | null {
     this.#hostControl ??= control;
 
     const value = control.value;
 
-    if (!value) {
+    if (!value || this.skyPhoneFieldNoValidate) {
       return null;
     }
 
@@ -93,6 +136,21 @@ export class SkyPhoneFieldInputDirective
 
     // Update the input with formatted value.
     // If value !== formattedValue, notifyChange()
+  }
+
+  @HostListener('change')
+  protected onChange(): void {
+    const value = this.#adapterSvc?.getInputValue(this.#elementRef) ?? '';
+    const formatted = this.#formatPhoneNumber(value);
+
+    console.log('notify change, change evt', formatted ?? value);
+
+    this.#notifyChange?.(formatted ?? value);
+  }
+
+  @HostListener('blur')
+  protected onBlur(): void {
+    this.#notifyTouched?.();
   }
 
   #formatPhoneNumber(value: string): string | undefined {

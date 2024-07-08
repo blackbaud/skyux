@@ -26,6 +26,16 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
     this.#renderer.addClass(elementRef.nativeElement, className);
   }
 
+  public getInputValue(elementRef: ElementRef): string | undefined {
+    const el = elementRef.nativeElement as HTMLElement | null;
+
+    if (el && 'value' in el) {
+      return (el as HTMLInputElement).value;
+    }
+
+    return undefined;
+  }
+
   public setElementDisabledState(
     elementRef: ElementRef,
     disabled: boolean,
