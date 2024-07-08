@@ -199,7 +199,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * Emits a `SkyPhoneFieldCountry` object when the selected country in the country search
    * input changes.
    */
-
   @Output()
   public selectedCountryChange = new EventEmitter<SkyPhoneFieldCountry>();
 
@@ -241,8 +240,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       }
 
       this.#populateInputBoxHelpText();
-
-      this.selectedCountryChange.emit(this.#_selectedCountry);
     }
   }
 
@@ -361,6 +358,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       (newValue: SkyCountryFieldCountry | undefined | null) => {
         if (newValue?.iso2 !== this.selectedCountry?.iso2) {
           this.selectedCountry = newValue || undefined;
+          this.selectedCountryChange.emit(this.selectedCountry);
         }
       },
     );

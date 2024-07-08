@@ -17,7 +17,6 @@ import {
 } from '@angular/forms';
 
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
-import { distinctUntilChanged, takeUntil } from 'rxjs';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
@@ -57,10 +56,12 @@ export class SkyPhoneFieldInputDirective
   @Input({ transform: booleanAttribute })
   public skyPhoneFieldNoValidate = false;
 
+  #_controlValue = '';
   #_disabled = false;
   #hostControl: AbstractControl | undefined;
   #notifyChange: ((value: string) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
+  #rerunValidation: (() => void) | undefined;
 
   readonly #adapterSvc = inject(SkyPhoneFieldAdapterService, {
     host: true,
@@ -69,7 +70,6 @@ export class SkyPhoneFieldInputDirective
   });
 
   readonly #elementRef = inject(ElementRef);
-
   readonly #hostComponent = inject(SkyPhoneFieldComponent, {
     host: true,
     optional: true,
@@ -88,11 +88,9 @@ export class SkyPhoneFieldInputDirective
     this.#adapterSvc?.setElementType(this.#elementRef);
     this.#adapterSvc?.addElementClass(this.#elementRef, 'sky-form-control');
 
-    this.#hostComponent?.selectedCountryChange
-      .pipe(distinctUntilChanged())
-      .subscribe((x) => {
-        console.log('eh?', x);
-      });
+    this.#hostComponent?.selectedCountryChange.subscribe((x) => {
+      this.#rerunValidation?.();
+    });
   }
 
   public registerOnChange(fn: (value: string) => void): void {
@@ -101,6 +99,10 @@ export class SkyPhoneFieldInputDirective
 
   public registerOnTouched(fn: () => void): void {
     this.#notifyTouched = fn;
+  }
+
+  public registerOnValidatorChange(fn: () => void): void {
+    this.#rerunValidation = fn;
   }
 
   public setDisabledState(isDisabled: boolean): void {
@@ -115,8 +117,6 @@ export class SkyPhoneFieldInputDirective
     if (!value || this.skyPhoneFieldNoValidate) {
       return null;
     }
-
-    console.log('validate()', value);
 
     if (!this.#isValidPhoneNumber(value)) {
       return {
@@ -140,12 +140,18 @@ export class SkyPhoneFieldInputDirective
 
   @HostListener('change')
   protected onChange(): void {
-    const value = this.#adapterSvc?.getInputValue(this.#elementRef) ?? '';
-    const formatted = this.#formatPhoneNumber(value);
+    const value = this.#adapterSvc?.getInputValue(this.#elementRef);
+    this.#setValue(value);
+    this.#notifyChange?.(this.#getValue());
+  }
 
-    console.log('notify change, change evt', formatted ?? value);
+  @HostListener('input')
+  protected onInput(): void {
+    const value = this.#adapterSvc?.getInputValue(this.#elementRef);
 
-    this.#notifyChange?.(formatted ?? value);
+    if (value !== undefined) {
+      this.#hostComponent?.setCountryByDialCode(value);
+    }
   }
 
   @HostListener('blur')
@@ -210,5 +216,14 @@ export class SkyPhoneFieldInputDirective
     } catch (e) {
       return false;
     }
+  }
+
+  #setValue(value = ''): void {
+    const formatted = this.#formatPhoneNumber(value);
+    this.#_controlValue = formatted ?? value;
+  }
+
+  #getValue(): string {
+    return this.#_controlValue;
   }
 }
