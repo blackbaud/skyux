@@ -112,7 +112,7 @@ describe('Basic input box demo', () => {
         dataSkyId: 'input-box-favorite-color',
       });
 
-      const selectEl = document.querySelector<HTMLInputElement>(
+      const selectEl = document.querySelector<HTMLSelectElement>(
         '.input-box-favorite-color-select',
       );
 
