@@ -55,7 +55,7 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public headingLevel: SkyRadioGroupHeadingLevel | undefined = 3;
 
-  public headingStyle: SkyRadioGroupHeadingStyle = 3;
+  public headingStyle: SkyRadioGroupHeadingStyle | undefined = 3;
 
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
