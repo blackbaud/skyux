@@ -1,5 +1,10 @@
 <ng-container *ngFor="let boxType of boxTypes">
-  <sky-box>
+  <sky-box
+    [headingText]="boxType.useHeader ? boxType.name : undefined"
+    [headingLevel]="boxType.heading"
+    [headingStyle]="boxType.heading"
+    [helpPopoverContent]="boxType.helpContent"
+  >
     <sky-box-header>
       <h2 class="sky-font-heading-2">{{ boxType.name }}</h2>
       <sky-help-inline
