@@ -29,6 +29,13 @@
 >
   Mark all fields as touched
 </button>
+<button
+  type="button"
+  class="sky-btn sky-btn-primary sky-test-label"
+  (click)="toggleHeadingStyle()"
+>
+  Toggle heading style: {{ headingStyle ?? 'undefined' }}
+</button>
 
 <h1>Radio buttons (reactive)</h1>
 
@@ -41,8 +48,7 @@
       headingText="What is your favorite season? (reactive)"
       [required]="required"
       [stacked]="true"
-      headingLevel="3"
-      headingStyle="3"
+      [headingStyle]="headingStyle"
     >
       <ul class="sky-list-unstyled">
         <li *ngFor="let value of seasons">
