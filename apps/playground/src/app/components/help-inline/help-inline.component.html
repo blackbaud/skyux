@@ -3,18 +3,9 @@
     Giving
     <sky-help-inline
       ariaControls="popover"
-      [ariaExpanded]="popoverOpen"
-      [skyPopover]="myPopover"
+      popoverContent="This is a popover"
+      popoverTitle="Did you knowccc?"
     >
     </sky-help-inline>
-    <sky-popover
-      id="popover"
-      popoverTitle="Did you know?"
-      (popoverClosed)="popoverChange(false)"
-      (popoverOpened)="popoverChange(true)"
-      #myPopover
-    >
-      This is a popover.
-    </sky-popover>
   </h2>
 </div>
