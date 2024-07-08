@@ -89,7 +89,11 @@ export class SkyPhoneFieldInputDirective
     this.#adapterSvc?.addElementClass(this.#elementRef, 'sky-form-control');
 
     this.#hostComponent?.selectedCountryChange.subscribe(() => {
-      this.#rerunValidation?.();
+      // this.#rerunValidation?.();
+      const value = this.#adapterSvc?.getInputValue(this.#elementRef);
+      this.#setValue(value);
+      this.#notifyChange?.(this.#getValue());
+      this.#notifyTouched?.();
     });
   }
 
@@ -132,14 +136,16 @@ export class SkyPhoneFieldInputDirective
   public writeValue(value: unknown): void {
     const rawValue = typeof value === 'string' ? value : '';
 
+    this.#hostComponent?.setCountryByDialCode(rawValue);
+    this.#adapterSvc?.setElementValue(this.#elementRef, rawValue);
+
     this.#setValue(rawValue);
     const newValue = this.#getValue();
 
-    this.#hostComponent?.setCountryByDialCode(newValue);
-    this.#adapterSvc?.setElementValue(this.#elementRef, rawValue);
-
     if (rawValue !== newValue) {
-      this.#notifyChange?.(newValue);
+      setTimeout(() => {
+        this.#notifyChange?.(newValue);
+      });
     }
   }
 
@@ -161,13 +167,20 @@ export class SkyPhoneFieldInputDirective
     this.#hostComponent?.setCountryByDialCode(value);
   }
 
-  #formatPhoneNumber(value: string): string | undefined {
-    const defaultCountry = this.#hostComponent?.defaultCountry;
-    const iso2 = this.#hostComponent?.selectedCountry?.iso2 ?? defaultCountry;
+  #formatPhoneNumber(value = ''): string | undefined {
+    if (!value) {
+      return;
+    }
+
+    const defaultCountry = this.#getDefaultCountry();
+    const regionCode = this.#getRegionCode();
     const returnFormat = this.#hostComponent?.returnFormat;
 
     try {
-      const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(value, iso2);
+      const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(
+        value,
+        regionCode ?? defaultCountry,
+      );
 
       if (this.#phoneUtils.isPossibleNumber(phoneNumber)) {
         switch (returnFormat) {
@@ -185,7 +198,7 @@ export class SkyPhoneFieldInputDirective
 
           case 'default':
           default:
-            return iso2 !== defaultCountry
+            return regionCode && regionCode !== defaultCountry
               ? this.#phoneUtils.format(
                   phoneNumber,
                   PhoneNumberFormat.INTERNATIONAL,
@@ -195,26 +208,42 @@ export class SkyPhoneFieldInputDirective
                   PhoneNumberFormat.NATIONAL,
                 );
         }
-      } else {
-        return undefined;
       }
     } catch (err) {
-      return undefined;
+      /* */
     }
+
+    return;
+  }
+
+  #getDefaultCountry(): string {
+    return this.#hostComponent?.defaultCountry ?? 'us';
+  }
+
+  #getRegionCode(): string | undefined {
+    return this.#hostComponent?.selectedCountry?.iso2;
+  }
+
+  #getValue(): string {
+    return this.#_value;
   }
 
   #isValidPhoneNumber(value: string): boolean {
-    const iso2 = this.#hostComponent?.selectedCountry?.iso2;
+    const defaultCountry = this.#getDefaultCountry();
+    const regionCode = this.#getRegionCode() ?? defaultCountry;
     const allowExtensions = !!this.#hostComponent?.allowExtensions;
 
     try {
-      const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(value, iso2);
+      const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(
+        value,
+        regionCode,
+      );
 
       if (!allowExtensions && phoneNumber.getExtension()) {
         return false;
       }
 
-      return this.#phoneUtils.isValidNumberForRegion(phoneNumber, iso2);
+      return this.#phoneUtils.isValidNumberForRegion(phoneNumber, regionCode);
     } catch (e) {
       return false;
     }
@@ -223,9 +252,5 @@ export class SkyPhoneFieldInputDirective
   #setValue(value = ''): void {
     const formatted = this.#formatPhoneNumber(value);
     this.#_value = formatted ?? value;
-  }
-
-  #getValue(): string {
-    return this.#_value;
   }
 }

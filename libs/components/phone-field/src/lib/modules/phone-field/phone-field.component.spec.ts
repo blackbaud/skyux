@@ -210,8 +210,8 @@ describe('Phone Field Component', () => {
   }
 
   function validateInputAndModel(
-    modelValue: string,
-    formattedValue: string,
+    inputValue: string,
+    modelValue: string | undefined,
     isValid: boolean,
     isTouched: boolean,
     model: NgModel | UntypedFormControl | undefined,
@@ -222,9 +222,9 @@ describe('Phone Field Component', () => {
     >,
   ): void {
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('input').value).toBe(modelValue);
+    expect(fixture.nativeElement.querySelector('input').value).toBe(inputValue);
 
-    expect(model?.value).toBe(formattedValue);
+    expect(model?.value).toBe(modelValue);
 
     expect(model?.valid).toBe(isValid);
 
@@ -233,7 +233,7 @@ describe('Phone Field Component', () => {
     } else {
       expect(model?.errors).toEqual({
         skyPhoneField: {
-          invalid: formattedValue,
+          invalid: modelValue,
         },
       });
     }
@@ -539,7 +539,7 @@ describe('Phone Field Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        validateInputAndModel('1234', '1234', false, true, ngModel, fixture);
+        validateInputAndModel('1234', '1234', false, false, ngModel, fixture);
 
         blurInput(fixture.nativeElement, fixture, true);
 
@@ -558,7 +558,7 @@ describe('Phone Field Component', () => {
           '667-555-530',
           '667-555-530',
           false,
-          true,
+          false,
           ngModel,
           fixture,
         );
@@ -615,7 +615,7 @@ describe('Phone Field Component', () => {
 
         fixture.detectChanges();
         await fixture.whenStable();
-        validateInputAndModel('1234', '1234', false, true, ngModel, fixture);
+        validateInputAndModel('1234', '1234', false, false, ngModel, fixture);
       });
 
       it('should validate properly when input changed to empty string', async () => {
@@ -702,7 +702,7 @@ describe('Phone Field Component', () => {
           '667-555-5309ext3',
           '(667) 555-5309 ext. 3',
           false,
-          true,
+          false,
           ngModel,
           fixture,
         );
@@ -867,7 +867,7 @@ describe('Phone Field Component', () => {
           '+3556675555309',
           '+3556675555309',
           false,
-          true,
+          false,
           ngModel,
           fixture,
         );
@@ -1238,7 +1238,7 @@ describe('Phone Field Component', () => {
           '+12045555555',
           '+1 204-555-5555',
           true,
-          true,
+          false,
           ngModel,
           fixture,
         );
@@ -1297,7 +1297,7 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        validateInputAndModel('', '', true, false, ngModel, fixture);
+        validateInputAndModel('', undefined, true, false, ngModel, fixture);
 
         setCountry('Albania', fixture);
 
@@ -1308,7 +1308,7 @@ describe('Phone Field Component', () => {
           '024569874',
           '+355 24 569 874',
           true,
-          false,
+          true,
           ngModel,
           fixture,
         );
@@ -1606,7 +1606,7 @@ describe('Phone Field Component', () => {
           '1234',
           '1234',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1632,7 +1632,7 @@ describe('Phone Field Component', () => {
           '667-555-530',
           '667-555-530',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1686,7 +1686,7 @@ describe('Phone Field Component', () => {
           '1234',
           '1234',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1778,7 +1778,7 @@ describe('Phone Field Component', () => {
           '667-555-5309ext3',
           '(667) 555-5309 ext. 3',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1793,7 +1793,7 @@ describe('Phone Field Component', () => {
           '8675558309',
           '(867) 555-8309',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -1974,7 +1974,7 @@ describe('Phone Field Component', () => {
           '+3556675555309',
           '+3556675555309',
           false,
-          true,
+          false,
           component.phoneControl,
           fixture,
         );
@@ -2178,7 +2178,7 @@ describe('Phone Field Component', () => {
           '024569874',
           '+355 24 569 874',
           true,
-          false,
+          true,
           component.phoneControl,
           fixture,
         );
