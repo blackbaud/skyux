@@ -171,9 +171,18 @@ export class SkyPhoneFieldInputDirective
     const newValue = this.#getValue();
 
     if (rawValue !== newValue) {
-      setTimeout(() => {
+      // If the value is set before the control is initialized, wait for the
+      // first cycle to complete before triggering a value change event.
+      // (This occurs when the control is initialized with an unformatted value
+      // but is formatted into a new value immediately in the `writeValue`
+      // method.)
+      if (!this.#control) {
+        setTimeout(() => {
+          this.#notifyChange?.(newValue);
+        });
+      } else {
         this.#notifyChange?.(newValue);
-      });
+      }
     }
   }
 
