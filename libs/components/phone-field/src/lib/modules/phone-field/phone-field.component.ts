@@ -426,7 +426,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public setCountryByDialCode(phoneNumberRaw: string): boolean {
+  public setCountryByDialCode(phoneNumberRaw: string | undefined): boolean {
     if (!phoneNumberRaw || !phoneNumberRaw.startsWith('+')) {
       return false;
     }

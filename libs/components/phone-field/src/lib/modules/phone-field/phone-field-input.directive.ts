@@ -56,8 +56,8 @@ export class SkyPhoneFieldInputDirective
   @Input({ transform: booleanAttribute })
   public skyPhoneFieldNoValidate = false;
 
-  #_controlValue = '';
   #_disabled = false;
+  #_value = '';
   #hostControl: AbstractControl | undefined;
   #notifyChange: ((value: string) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
@@ -88,7 +88,7 @@ export class SkyPhoneFieldInputDirective
     this.#adapterSvc?.setElementType(this.#elementRef);
     this.#adapterSvc?.addElementClass(this.#elementRef, 'sky-form-control');
 
-    this.#hostComponent?.selectedCountryChange.subscribe((x) => {
+    this.#hostComponent?.selectedCountryChange.subscribe(() => {
       this.#rerunValidation?.();
     });
   }
@@ -130,12 +130,22 @@ export class SkyPhoneFieldInputDirective
   }
 
   public writeValue(value: unknown): void {
-    value = typeof value === 'string' ? value : '';
+    const rawValue = typeof value === 'string' ? value : '';
 
-    console.log('writeValue:', value);
+    this.#setValue(rawValue);
+    const newValue = this.#getValue();
 
-    // Update the input with formatted value.
-    // If value !== formattedValue, notifyChange()
+    this.#hostComponent?.setCountryByDialCode(newValue);
+    this.#adapterSvc?.setElementValue(this.#elementRef, rawValue);
+
+    if (rawValue !== newValue) {
+      this.#notifyChange?.(newValue);
+    }
+  }
+
+  @HostListener('blur')
+  protected onBlur(): void {
+    this.#notifyTouched?.();
   }
 
   @HostListener('change')
@@ -148,20 +158,12 @@ export class SkyPhoneFieldInputDirective
   @HostListener('input')
   protected onInput(): void {
     const value = this.#adapterSvc?.getInputValue(this.#elementRef);
-
-    if (value !== undefined) {
-      this.#hostComponent?.setCountryByDialCode(value);
-    }
-  }
-
-  @HostListener('blur')
-  protected onBlur(): void {
-    this.#notifyTouched?.();
+    this.#hostComponent?.setCountryByDialCode(value);
   }
 
   #formatPhoneNumber(value: string): string | undefined {
     const defaultCountry = this.#hostComponent?.defaultCountry;
-    const iso2 = this.#hostComponent?.selectedCountry?.iso2;
+    const iso2 = this.#hostComponent?.selectedCountry?.iso2 ?? defaultCountry;
     const returnFormat = this.#hostComponent?.returnFormat;
 
     try {
@@ -220,10 +222,10 @@ export class SkyPhoneFieldInputDirective
 
   #setValue(value = ''): void {
     const formatted = this.#formatPhoneNumber(value);
-    this.#_controlValue = formatted ?? value;
+    this.#_value = formatted ?? value;
   }
 
   #getValue(): string {
-    return this.#_controlValue;
+    return this.#_value;
   }
 }
