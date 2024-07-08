@@ -38,13 +38,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'box/inline-help',
-    loadComponent: () =>
-      import('../code-examples/layout/box/inline-help/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
-  {
     path: 'card/basic',
     loadComponent: () =>
       import('../code-examples/layout/card/basic/demo.component').then(
