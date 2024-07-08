@@ -1,7 +1,7 @@
 <section
   class="sky-box"
-  [attr.aria-label]="ariaLabel"
-  [attr.aria-labelledby]="ariaLabelledBy"
+  [attr.aria-label]="headingText ? undefined : ariaLabel"
+  [attr.aria-labelledby]="headingText ? headerId : ariaLabelledBy"
   [attr.role]="ariaRole"
   [skyThemeClass]="{
     'sky-shadow sky-border-dark': 'default',
@@ -9,7 +9,55 @@
   }"
 >
   <div class="sky-box-header-content">
-    <ng-content select="sky-box-header" />
+    @if (headingText) {
+      @switch (headingLevel) {
+        @case (3) {
+          <h3
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
+            {{ headingText }}
+          </h3>
+        }
+        @case (4) {
+          <h4
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
+            {{ headingText }}
+          </h4>
+        }
+        @case (5) {
+          <h5
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
+            {{ headingText }}
+          </h5>
+        }
+        @default {
+          <h2
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
+            {{ headingText }}
+          </h2>
+        }
+      }
+      <sky-help-inline
+        *ngIf="helpPopoverContent || helpKey"
+        [helpKey]="helpKey"
+        [labelText]="headingText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+    } @else {
+      <ng-content select="sky-box-header" />
+    }
     <ng-content select="sky-box-controls" />
   </div>
   <ng-content />
