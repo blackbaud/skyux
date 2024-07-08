@@ -20,7 +20,6 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
- * @internal
  */
 @Component({
   selector: 'sky-help-inline',
@@ -44,7 +43,6 @@ export class SkyHelpInlineComponent {
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
    * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
-   * @internal
    */
   @Input()
   public ariaControls: string | undefined;
@@ -73,7 +71,6 @@ export class SkyHelpInlineComponent {
   /**
    * The ID of the element associated with the help inline button. This is used to set the button's `aria-labelledby`
    * to provides a text equivalent for screen readers. Takes precedence over `ariaLabel` and `labelText` inputs.
-   * @internal
    */
   @Input()
   public labelledBy: string | undefined;
