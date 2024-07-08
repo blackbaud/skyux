@@ -9,7 +9,7 @@ import {
 import { SkyHelpInlineHarnessFilters } from './help-inline-harness.filters';
 
 /**
- * Harness for interacting with a help inline component in tests.
+ * Harness for interacting with a help inline button component in tests.
  */
 export class SkyHelpInlineHarness extends SkyComponentHarness {
   /**
@@ -103,7 +103,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the help inline popover content.
+   * Gets the help popover content.
    */
   public async getPopoverContent(): Promise<
     TemplateRef<unknown> | string | undefined
@@ -112,7 +112,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the help inline popover title.
+   * Gets the help popover title.
    */
   public async getPopoverTitle(): Promise<string | undefined> {
     return (await this.#getPopoverHarnessContent())?.getTitleText();

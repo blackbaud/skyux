@@ -32,7 +32,7 @@ export class SkyStandardCheckboxGroupComponent {
   public hintText: string | undefined;
   public headingHidden = false;
   public headingLevel: SkyCheckboxGroupHeadingLevel | undefined = 3;
-  public headingStyle: SkyCheckboxGroupHeadingStyle = 3;
+  public headingStyle: SkyCheckboxGroupHeadingStyle | undefined = 3;
   public required: boolean | undefined = false;
   public stacked: boolean | undefined = true;
 
