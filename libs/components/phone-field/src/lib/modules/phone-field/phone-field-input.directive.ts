@@ -253,8 +253,8 @@ export class SkyPhoneFieldInputDirective
     return;
   }
 
-  #getDefaultCountry(): string {
-    return this.#phoneFieldComponent?.defaultCountry ?? 'us';
+  #getDefaultCountry(): string | undefined {
+    return this.#phoneFieldComponent?.defaultCountry;
   }
 
   #getRegionCode(): string | undefined {
