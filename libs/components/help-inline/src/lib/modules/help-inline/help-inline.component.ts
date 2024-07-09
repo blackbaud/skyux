@@ -20,7 +20,6 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
- * @internal
  */
 @Component({
   selector: 'sky-help-inline',
@@ -44,7 +43,6 @@ export class SkyHelpInlineComponent {
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
    * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
-   * @internal
    */
   @Input()
   public ariaControls: string | undefined;
@@ -65,7 +63,7 @@ export class SkyHelpInlineComponent {
   public ariaLabel: string | undefined;
 
   /**
-   * A unique key that identifies the global help content to display when the button is clicked.
+   * A unique key that identifies the [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) content to display when the button is clicked.
    */
   @Input()
   public helpKey: string | undefined;
@@ -79,13 +77,13 @@ export class SkyHelpInlineComponent {
   public labelledBy: string | undefined;
 
   /**
-   * The label of the component help inline is attached to.
+   * The label of the component the help inline button is attached to.
    */
   @Input()
   public labelText: string | undefined;
 
   /**
-   * The content of the popover. When specified, clicking the help inline button opens a popover with this content and optional title.
+   * The content of the help popover. When specified, clicking the help inline button opens a popover with this content and optional title.
    */
   @Input()
   public set popoverContent(value: string | TemplateRef<unknown> | undefined) {
