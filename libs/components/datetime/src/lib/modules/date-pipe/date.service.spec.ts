@@ -114,12 +114,31 @@ describe('Date service', () => {
   });
 
   it('should support Angular DatePipe formats', () => {
-    const value = service.format(new Date(2000, 0, 1), undefined, 'fullDate');
-    const expectedValues = [
-      'Saturday, January 1, 2000',
-      'Saturday, January 01, 2000', // IE 11
-    ];
-    expect(expectedValues).toContain(value);
+    const date = new Date(Date.UTC(2000, 0, 1, 5, 0, 0));
+    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'EST' }));
+
+    const formats = new Map([
+      ['short', '1/1/2000, 12:00 AM'],
+      ['medium', 'Jan 1, 2000, 12:00:00 AM'],
+      ['long', 'January 1, 2000, 12:00:00 AM EST'],
+      ['full', 'Saturday, January 1, 2000, 12:00:00 AM Eastern Standard Time'],
+      ['shortDate', '1/1/2000'],
+      ['mediumDate', 'Jan 1, 2000'],
+      ['longDate', 'January 1, 2000'],
+      ['fullDate', 'Saturday, January 1, 2000'],
+      ['shortTime', '12:00 AM'],
+      ['mediumTime', '12:00:00 AM'],
+      ['longTime', '12:00:00 AM EST'],
+      ['fullTime', '12:00:00 AM Eastern Standard Time'],
+    ]);
+
+    for (const [format, result] of formats) {
+      expect(service.format(utcDate, undefined, format))
+        .withContext(
+          `Expected ${utcDate} with format '${format}' to output '${result}'`,
+        )
+        .toEqual(result);
+    }
   });
 
   it('should default to mediumDate format', () => {
