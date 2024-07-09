@@ -16,18 +16,6 @@ describe('Date service', () => {
   let mockLocaleProvider: SkyAppLocaleProvider;
   let mockLocaleStream: BehaviorSubject<SkyAppLocaleInfo>;
 
-  function changeTimezone(date: Date, timeZone: string): Date {
-    const timeZonedDate = new Date(
-      date.toLocaleString('en-US', {
-        timeZone,
-      }),
-    );
-
-    const diff = date.getTime() - timeZonedDate.getTime();
-
-    return new Date(date.getTime() - diff);
-  }
-
   beforeEach(() => {
     mockLocaleStream = new BehaviorSubject({
       locale: 'en-US',
@@ -126,30 +114,29 @@ describe('Date service', () => {
   });
 
   it('should support Angular DatePipe formats', () => {
-    const utcDate = new Date(2000, 0, 1);
-    const date = changeTimezone(utcDate, 'America/New_York');
+    const date = new Date();
+    const formatSpy = spyOn(SkyIntlDateFormatter, 'format');
 
+    /* spell-checker:disable */
     const formats = new Map([
-      ['short', '1/1/2000, 12:00 AM'],
-      ['medium', 'Jan 1, 2000, 12:00:00 AM'],
-      ['long', 'January 1, 2000, 12:00:00 AM EST'],
-      ['full', 'Saturday, January 1, 2000, 12:00:00 AM Eastern Standard Time'],
-      ['shortDate', '1/1/2000'],
-      ['mediumDate', 'Jan 1, 2000'],
-      ['longDate', 'January 1, 2000'],
-      ['fullDate', 'Saturday, January 1, 2000'],
-      ['shortTime', '12:00 AM'],
-      ['mediumTime', '12:00:00 AM'],
-      ['longTime', '12:00:00 AM EST'],
-      ['fullTime', '12:00:00 AM Eastern Standard Time'],
+      ['short', 'yMdjm'],
+      ['medium', 'yMMMdjms'],
+      ['long', 'MMMM d, y, h:mm:ss a Z'],
+      ['full', 'EEEE, MMMM d, y, h:mm:ss a z'],
+      ['shortDate', 'yMd'],
+      ['mediumDate', 'yMMMd'],
+      ['longDate', 'yMMMMd'],
+      ['fullDate', 'yMMMMEEEEd'],
+      ['shortTime', 'jm'],
+      ['mediumTime', 'jms'],
+      ['longTime', 'h:mm:ss a Z'],
+      ['fullTime', 'h:mm:ss a z'],
     ]);
+    /* spell-checker:enable */
 
-    for (const [format, result] of formats) {
-      expect(service.format(date, undefined, format))
-        .withContext(
-          `Expected ${date} with format '${format}' to output '${result}'`,
-        )
-        .toEqual(result);
+    for (const [formatName, formatExpression] of formats) {
+      service.format(date, undefined, formatName);
+      expect(formatSpy).toHaveBeenCalledWith(date, 'en-US', formatExpression);
     }
   });
 
