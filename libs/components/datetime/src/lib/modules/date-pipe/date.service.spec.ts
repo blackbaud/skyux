@@ -16,6 +16,18 @@ describe('Date service', () => {
   let mockLocaleProvider: SkyAppLocaleProvider;
   let mockLocaleStream: BehaviorSubject<SkyAppLocaleInfo>;
 
+  function changeTimezone(date: Date, timeZone: string): Date {
+    const timeZonedDate = new Date(
+      date.toLocaleString('en-US', {
+        timeZone,
+      }),
+    );
+
+    const diff = date.getTime() - timeZonedDate.getTime();
+
+    return new Date(date.getTime() - diff);
+  }
+
   beforeEach(() => {
     mockLocaleStream = new BehaviorSubject({
       locale: 'en-US',
@@ -114,10 +126,8 @@ describe('Date service', () => {
   });
 
   it('should support Angular DatePipe formats', () => {
-    const utcDate = new Date(Date.UTC(2000, 0, 1, 5, 0, 0));
-    const date = new Date(
-      utcDate.toLocaleString('en-US', { timeZone: 'America/New_York' }),
-    );
+    const utcDate = new Date(2000, 0, 1);
+    const date = changeTimezone(utcDate, 'America/New_York');
 
     const formats = new Map([
       ['short', '1/1/2000, 12:00 AM'],
