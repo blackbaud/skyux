@@ -1,5 +1,21 @@
 # Changelog
 
+## [11.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.0...11.0.0-alpha.1) (2024-07-08)
+
+
+### Features
+
+* **components/icon:** add internal support for SVG-based icons ([#2433](https://github.com/blackbaud/skyux/issues/2433)) ([#2436](https://github.com/blackbaud/skyux/issues/2436)) ([e459949](https://github.com/blackbaud/skyux/commit/e459949f64ecf8a4b5446e6fe3b7af8eac8bce65))
+
+
+### Bug Fixes
+
+* **code-examples:** satisfy ESLint rules for action button and AG Grid code examples ([#2423](https://github.com/blackbaud/skyux/issues/2423)) ([#2425](https://github.com/blackbaud/skyux/issues/2425)) ([a53dd0e](https://github.com/blackbaud/skyux/commit/a53dd0eb4ecf75c3b4d2bbcfb0cfbd7ea1d2bb9d))
+* **code-examples:** satisfy ESLint rules for colorpicker code examples ([#2424](https://github.com/blackbaud/skyux/issues/2424)) ([#2429](https://github.com/blackbaud/skyux/issues/2429)) ([6d0457b](https://github.com/blackbaud/skyux/commit/6d0457bfbe23248f677a7f551c4cddb171ab8188))
+* **code-examples:** satisfy ESLint rules for datetime code examples ([#2427](https://github.com/blackbaud/skyux/issues/2427)) ([#2434](https://github.com/blackbaud/skyux/issues/2434)) ([af4e92c](https://github.com/blackbaud/skyux/commit/af4e92cea8242f711e528da59b2cddf7991eef42))
+* **components/forms:** file attachment components report file size errors with appropriate orders of magnitude ([#2437](https://github.com/blackbaud/skyux/issues/2437)) ([#2438](https://github.com/blackbaud/skyux/issues/2438)) ([7795565](https://github.com/blackbaud/skyux/commit/77955651a02a5e8acc5efc1a088be6814828b1e2))
+* **components/forms:** improve default value handling for heading styles on form group components ([#2420](https://github.com/blackbaud/skyux/issues/2420)) ([#2440](https://github.com/blackbaud/skyux/issues/2440)) ([acd92a2](https://github.com/blackbaud/skyux/commit/acd92a22201a49a8228e7e7f6761cddd5ded7641))
+
 ## [10.34.0](https://github.com/blackbaud/skyux/compare/10.33.0...10.34.0) (2024-07-08)
 
 

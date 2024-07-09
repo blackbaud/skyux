@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { SkyNumericOptions } from '@skyux/core';
 
 import { DemoComponent } from './demo.component';
@@ -25,9 +24,20 @@ describe('Basic numeric options', () => {
     }
 
     fixture.detectChanges();
-    await fixture.whenStable().then();
+    await fixture.whenStable();
 
     return { fixture };
+  }
+
+  function getTextContent(
+    fixture: ComponentFixture<DemoComponent>,
+    selector: string,
+  ): string {
+    const el = (
+      fixture.nativeElement as HTMLElement
+    ).querySelector<HTMLSpanElement>(selector);
+
+    return el?.textContent?.trim() ?? '';
   }
 
   beforeEach(() => {
@@ -41,11 +51,7 @@ describe('Basic numeric options', () => {
 
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement
-        .query(By.css('.default-value'))
-        .nativeElement.innerText.trim(),
-    ).toBe('123.5K');
+    expect(getTextContent(fixture, '.default-value')).toEqual('123.5K');
   });
 
   it('should show the expected number in a specified format', async () => {
@@ -54,10 +60,6 @@ describe('Basic numeric options', () => {
       config: { truncate: false },
     });
 
-    expect(
-      fixture.debugElement
-        .query(By.css('.configured-value'))
-        .nativeElement.innerText.trim(),
-    ).toBe('5,000,000');
+    expect(getTextContent(fixture, '.configured-value')).toEqual('5,000,000');
   });
 });

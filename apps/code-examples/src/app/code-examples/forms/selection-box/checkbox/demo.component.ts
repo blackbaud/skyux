@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -11,8 +11,6 @@ import {
 import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkySelectionBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
-
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -28,7 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
     SkySelectionBoxModule,
   ],
 })
-export class DemoComponent implements OnInit, OnDestroy {
+export class DemoComponent {
   protected checkboxControls: FormControl[] | undefined;
 
   protected selectionBoxes: {
@@ -58,8 +56,6 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   protected formGroup: FormGroup;
 
-  #ngUnsubscribe = new Subject<void>();
-
   readonly #formBuilder = inject(FormBuilder);
 
   constructor() {
@@ -69,17 +65,6 @@ export class DemoComponent implements OnInit, OnDestroy {
     this.formGroup = this.#formBuilder.group({
       checkboxes: checkboxArray,
     });
-  }
-
-  public ngOnInit(): void {
-    this.formGroup.valueChanges
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((value) => console.log(value));
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 
   #buildCheckboxes(): FormArray {
