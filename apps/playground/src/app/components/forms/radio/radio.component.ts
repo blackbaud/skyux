@@ -36,6 +36,8 @@ export class RadioComponent {
 
   public selectedValue = '3';
 
+  public headingStyle: number | undefined;
+
   constructor(formBuilder: UntypedFormBuilder) {
     this.favoriteSeason = new UntypedFormControl(
       {
@@ -76,5 +78,14 @@ export class RadioComponent {
 
     model.control.markAsTouched();
     model.control.updateValueAndValidity();
+  }
+
+  public toggleHeadingStyle(): void {
+    const newStyle = (this.headingStyle ?? 2) + 1;
+    if (newStyle > 5) {
+      this.headingStyle = undefined;
+    } else {
+      this.headingStyle = newStyle;
+    }
   }
 }

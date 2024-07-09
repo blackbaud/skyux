@@ -190,7 +190,9 @@
       errorName="maxFileSize"
       [errorText]="
         'skyux_file_attachment_max_file_size_error_label_text_with_name'
-          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
+          | skyLibResources
+            : rejectedFile.file.name
+            : (rejectedFile.errorParam | skyFileSize)
       "
     />
     <sky-form-error
@@ -198,7 +200,9 @@
       errorName="minFileSize"
       [errorText]="
         'skyux_file_attachment_min_file_size_error_label_text_with_name'
-          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
+          | skyLibResources
+            : rejectedFile.file.name
+            : (rejectedFile.errorParam | skyFileSize)
       "
     />
     <sky-form-error

@@ -24,6 +24,10 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 import { SkyCheckboxGroupHeadingLevel } from './checkbox-group-heading-level';
 import { SkyCheckboxGroupHeadingStyle } from './checkbox-group-heading-style';
 
+function numberAttribute4(value: unknown): number {
+  return numberAttribute(value, 4);
+}
+
 /**
  * Organizes checkboxes into a group.
  */
@@ -93,8 +97,10 @@ export class SkyCheckboxGroupComponent implements Validator {
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @default 4
    */
-  @Input({ transform: numberAttribute })
-  public headingStyle: SkyCheckboxGroupHeadingStyle = 4;
+  @Input({ transform: numberAttribute4 })
+  public set headingStyle(value: SkyCheckboxGroupHeadingStyle) {
+    this.headingClass = `sky-font-heading-${value}`;
+  }
 
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
@@ -137,12 +143,9 @@ export class SkyCheckboxGroupComponent implements Validator {
   @HostBinding('class.sky-margin-stacked-xl')
   public stackedXL = false;
 
-  public get headingClass(): string {
-    return `sky-font-heading-${this.headingStyle}`;
-  }
-
   readonly #idSvc = inject(SkyIdService);
   protected errorId = this.#idSvc.generateId();
+  protected headingClass = 'sky-font-heading-4';
   protected formErrorsDataId = 'checkbox-group-form-errors';
   protected formGroup: FormGroup | null | undefined;
 

@@ -20,13 +20,17 @@ export class SkyFileSizePipe implements PipeTransform {
     this.#resourcesService = resourcesService;
   }
 
-  public transform(input?: number | null): string {
+  public transform(input?: number | string | null): string {
     let decimalPlaces = 0,
       dividend = 1,
       template: string;
 
     if (input === null || input === undefined) {
       return '';
+    }
+
+    if (typeof input === 'string') {
+      input = Number.parseInt(input);
     }
 
     if (Math.abs(input) === 1) {

@@ -119,16 +119,16 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: '{0}: Upload a file of type {1}.',
     },
     skyux_file_attachment_max_file_size_error_label_text: {
-      message: 'Upload a file under {0}KB.',
+      message: 'Upload a file under {0}.',
     },
     skyux_file_attachment_max_file_size_error_label_text_with_name: {
-      message: '{0}: Upload a file under {1}KB.',
+      message: '{0}: Upload a file under {1}.',
     },
     skyux_file_attachment_min_file_size_error_label_text: {
-      message: 'Upload a file over {0}KB.',
+      message: 'Upload a file over {0}.',
     },
     skyux_file_attachment_min_file_size_error_label_text_with_name: {
-      message: '{0}: Upload a file over {1}KB.',
+      message: '{0}: Upload a file over {1}.',
     },
     skyux_file_attachment_label_no_file_chosen: { message: 'No file chosen.' },
     skyux_file_attachment_required: { message: 'Required' },

@@ -33,6 +33,10 @@ import { SkyRadioGroupHeadingStyle } from './types/radio-group-heading-style';
 
 let nextUniqueId = 0;
 
+function numberAttribute4(value: unknown): number {
+  return numberAttribute(value, 4);
+}
+
 /**
  * Organizes radio buttons into a group. It is required for radio
  * buttons on Angular reactive forms, and we recommend using it with all radio buttons.
@@ -132,8 +136,10 @@ export class SkyRadioGroupComponent
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @default 4
    */
-  @Input({ transform: numberAttribute })
-  public headingStyle: SkyRadioGroupHeadingStyle = 4;
+  @Input({ transform: numberAttribute4 })
+  public set headingStyle(value: SkyRadioGroupHeadingStyle) {
+    this.headingClass = `sky-font-heading-${value}`;
+  }
 
   /**
    * The name for the collection of radio buttons that the component groups together.
@@ -257,10 +263,6 @@ export class SkyRadioGroupComponent
   @Input()
   public helpKey: string | undefined;
 
-  public get headingClass(): string {
-    return `sky-font-heading-${this.headingStyle}`;
-  }
-
   /**
    * Our radio components are usually implemented using an unordered list. This is an
    * accessibility violation because the unordered list has an implicit role which
@@ -281,6 +283,8 @@ export class SkyRadioGroupComponent
 
   @HostBinding('class.sky-margin-stacked-xl')
   public stackedXL = false;
+
+  protected headingClass = 'sky-font-heading-4';
 
   #controlValue: any;
 
