@@ -25,11 +25,9 @@
 </sky-inline-form>
 
 <ng-template #inlineFormTemplate>
-  <form novalidate [formGroup]="formGroup">
-    <div>
-      <sky-input-box stacked="true" labelText="First name">
-        <input formControlName="myFirstName" type="text" />
-      </sky-input-box>
-    </div>
+  <form [formGroup]="formGroup">
+    <sky-input-box labelText="First name">
+      <input formControlName="firstName" type="text" />
+    </sky-input-box>
   </form>
 </ng-template>

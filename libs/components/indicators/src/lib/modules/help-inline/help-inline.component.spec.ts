@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyHelpInlineModule } from '../help-inline/help-inline.module';
 
@@ -24,18 +25,33 @@ describe('Help inline component', () => {
   let fixture: ComponentFixture<HelpInlineTestComponent>;
   let cmp: HelpInlineTestComponent;
   let debugElement: DebugElement;
+  let logService: SkyLogService;
+  let deprecatedLogSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HelpInlineTestComponent],
       imports: [BrowserModule, SkyHelpInlineModule],
     });
-
+    logService = TestBed.inject(SkyLogService);
+    deprecatedLogSpy = spyOn(logService, 'deprecated');
     fixture = TestBed.createComponent(HelpInlineTestComponent);
     cmp = fixture.componentInstance as HelpInlineTestComponent;
     debugElement = fixture.debugElement;
 
     fixture.detectChanges();
+  });
+
+  it('should log that the component is deprecated', () => {
+    fixture.detectChanges();
+    expect(deprecatedLogSpy).toHaveBeenCalledWith(
+      'SkyHelpInlineComponent',
+      Object({
+        deprecationMajorVersion: 10,
+        replacementRecommendation:
+          'Use the help inline button component in the `@skyux/help-inline` library instead.',
+      }),
+    );
   });
 
   it('should emit a click event on button click', () => {

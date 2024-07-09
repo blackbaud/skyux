@@ -447,7 +447,7 @@ describe('File drop component', () => {
     componentInstance.labelText = 'Label';
 
     componentInstance.minFileSize = 1500;
-    componentInstance.maxFileSize = 3000;
+    componentInstance.maxFileSize = 3073;
     componentInstance.acceptedTypes = 'image/png, image/jpeg';
     fixture.detectChanges();
 
@@ -465,11 +465,11 @@ describe('File drop component', () => {
 
     expect(minSizeError).toBeVisible();
     expect(minSizeError.textContent).toContain(
-      'foo.txt: Upload a file over 1500KB.',
+      'foo.txt: Upload a file over 1 KB.',
     );
     expect(maxSizeError).toBeVisible();
     expect(maxSizeError.textContent).toContain(
-      'bar.jpeg: Upload a file under 3000KB.',
+      'bar.jpeg: Upload a file under 3 KB.',
     );
 
     expect(typeError).toBeVisible();

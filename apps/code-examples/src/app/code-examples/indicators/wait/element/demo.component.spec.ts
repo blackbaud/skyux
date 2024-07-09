@@ -27,7 +27,10 @@ describe('Basic wait', () => {
   it('should show the wait component when the user performs an action', async () => {
     const { waitHarness, fixture } = await setupTest();
 
-    fixture.nativeElement.querySelector('.sky-btn').click();
+    (fixture.nativeElement as HTMLElement)
+      .querySelector<HTMLButtonElement>('.sky-btn')
+      ?.click();
+
     fixture.detectChanges();
 
     await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);

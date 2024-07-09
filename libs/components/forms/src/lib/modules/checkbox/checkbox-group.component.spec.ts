@@ -88,7 +88,12 @@ describe('Checkbox group component', function () {
         4,
         5,
       ];
-      const headingStyles: SkyCheckboxGroupHeadingStyle[] = [3, 4, 5];
+      const headingStyles: (SkyCheckboxGroupHeadingStyle | undefined)[] = [
+        undefined,
+        3,
+        4,
+        5,
+      ];
       headingLevels.forEach((headingLevel) => {
         headingStyles.forEach((headingStyle) => {
           componentInstance.headingLevel = headingLevel;
@@ -96,8 +101,8 @@ describe('Checkbox group component', function () {
           fixture.detectChanges();
 
           const selector = headingLevel
-            ? `h${headingLevel}.sky-font-heading-${headingStyle}`
-            : `span.sky-font-heading-${headingStyle}`;
+            ? `h${headingLevel}.sky-font-heading-${headingStyle ?? 4}`
+            : `span.sky-font-heading-${headingStyle ?? 4}`;
           const heading = fixture.nativeElement.querySelector(selector);
 
           expect(heading).toExist();
