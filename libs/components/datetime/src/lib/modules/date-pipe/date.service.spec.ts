@@ -114,8 +114,10 @@ describe('Date service', () => {
   });
 
   it('should support Angular DatePipe formats', () => {
-    const date = new Date(Date.UTC(2000, 0, 1, 5, 0, 0));
-    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'EST' }));
+    const utcDate = new Date(Date.UTC(2000, 0, 1, 5, 0, 0));
+    const date = new Date(
+      utcDate.toLocaleString('en-US', { timeZone: 'America/New_York' }),
+    );
 
     const formats = new Map([
       ['short', '1/1/2000, 12:00 AM'],
@@ -133,9 +135,9 @@ describe('Date service', () => {
     ]);
 
     for (const [format, result] of formats) {
-      expect(service.format(utcDate, undefined, format))
+      expect(service.format(date, undefined, format))
         .withContext(
-          `Expected ${utcDate} with format '${format}' to output '${result}'`,
+          `Expected ${date} with format '${format}' to output '${result}'`,
         )
         .toEqual(result);
     }
