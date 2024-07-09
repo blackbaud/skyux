@@ -38,14 +38,13 @@ describe('CustomSkyHrefResolverService', () => {
     expect(href.userHasAccess).toEqual(false);
   });
 
-  it('should return a link with slow protocol', fakeAsync((done: DoneFn) => {
+  it('should return a link with slow protocol', fakeAsync(() => {
     const url = 'slow://www.blackbaud.com';
     const result = service.resolveHref({ url });
     result
       .then((href) => {
         expect(href.url).toEqual('https://www.blackbaud.com');
         expect(href.userHasAccess).toEqual(true);
-        done();
       })
       .catch(() => {
         fail('expected test to resolve');
