@@ -16,6 +16,23 @@
 * **components/forms:** file attachment components report file size errors with appropriate orders of magnitude ([#2437](https://github.com/blackbaud/skyux/issues/2437)) ([#2438](https://github.com/blackbaud/skyux/issues/2438)) ([7795565](https://github.com/blackbaud/skyux/commit/77955651a02a5e8acc5efc1a088be6814828b1e2))
 * **components/forms:** improve default value handling for heading styles on form group components ([#2420](https://github.com/blackbaud/skyux/issues/2420)) ([#2440](https://github.com/blackbaud/skyux/issues/2440)) ([acd92a2](https://github.com/blackbaud/skyux/commit/acd92a22201a49a8228e7e7f6761cddd5ded7641))
 
+## [10.34.0](https://github.com/blackbaud/skyux/compare/10.33.0...10.34.0) (2024-07-08)
+
+
+### Features
+
+* **components/help-inline:** update documentation and deprecate `indicators/help-inline` ([#2428](https://github.com/blackbaud/skyux/issues/2428)) ([8927671](https://github.com/blackbaud/skyux/commit/89276711d0b4a19a54e9cd1f00e72df3c0ee1596))
+* **components/icon:** add internal support for SVG-based icons ([#2433](https://github.com/blackbaud/skyux/issues/2433)) ([3d61fe0](https://github.com/blackbaud/skyux/commit/3d61fe0c635209111a8a7b2de09492f48475d82f))
+
+
+### Bug Fixes
+
+* **code-examples:** satisfy ESLint rules for action button and AG Grid code examples ([#2423](https://github.com/blackbaud/skyux/issues/2423)) ([26c36f5](https://github.com/blackbaud/skyux/commit/26c36f5d745315fcd79c8a1392455fdf5735e1a4))
+* **code-examples:** satisfy ESLint rules for colorpicker code examples ([#2424](https://github.com/blackbaud/skyux/issues/2424)) ([7d0d79b](https://github.com/blackbaud/skyux/commit/7d0d79b3ed0cc3b333f24672b7e2cd2a816f3a24))
+* **code-examples:** satisfy ESLint rules for datetime code examples ([#2427](https://github.com/blackbaud/skyux/issues/2427)) ([e222a73](https://github.com/blackbaud/skyux/commit/e222a736564509baee593daa877d80bd42d8f966))
+* **components/forms:** file attachment components report file size errors with appropriate orders of magnitude ([#2437](https://github.com/blackbaud/skyux/issues/2437)) ([8768cf9](https://github.com/blackbaud/skyux/commit/8768cf9ecbadaa7845d9093f3c2ed1516487095a))
+* **components/forms:** improve default value handling for heading styles on form group components ([#2420](https://github.com/blackbaud/skyux/issues/2420)) ([ffa7946](https://github.com/blackbaud/skyux/commit/ffa79466cfa356db4495ec4b5116d9668b0cb54f))
+
 ## [11.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/10.33.0...11.0.0-alpha.0) (2024-07-03)
 
 
