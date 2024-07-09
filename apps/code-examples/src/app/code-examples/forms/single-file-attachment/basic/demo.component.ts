@@ -47,7 +47,7 @@ export class DemoComponent {
   protected onFileChange(result: SkyFileAttachmentChange): void {
     const file = result.file;
 
-    if (file && file.errorType) {
+    if (file?.errorType) {
       this.#reactiveFile?.setValue(undefined);
     } else {
       this.#reactiveFile?.setValue(file);
@@ -71,6 +71,6 @@ export class DemoComponent {
   }
 
   protected validateFile(file: SkyFileItem): string {
-    return file.file.name.indexOf('a') === 0 ? 'invalidStartingLetter' : '';
+    return file.file.name.startsWith('a') ? 'invalidStartingLetter' : '';
   }
 }
