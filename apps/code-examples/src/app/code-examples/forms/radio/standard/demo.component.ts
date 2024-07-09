@@ -11,12 +11,22 @@ import {
 } from '@angular/forms';
 import { SkyRadioModule } from '@skyux/forms';
 
+interface DemoForm {
+  paymentMethod: FormControl<string | null>;
+}
+
 interface Item {
   name: string;
   value: string;
   disabled?: boolean;
   hintText?: string;
   helpContent?: string;
+}
+
+function validatePaymentMethod(
+  control: AbstractControl,
+): ValidationErrors | null {
+  return control.value === 'check' ? { processingIssue: true } : null;
 }
 
 @Component({
@@ -26,7 +36,7 @@ interface Item {
   imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class DemoComponent {
-  protected formGroup: FormGroup<{ paymentMethod: FormControl<string | null> }>;
+  protected formGroup: FormGroup<DemoForm>;
   protected helpPopoverContent =
     "We don't charge fees for any payment method. The only exception is when credit card payments are late, which incurs a 2% fee.";
   protected helpPopoverTitle = 'Are there fees?';
@@ -50,24 +60,18 @@ export class DemoComponent {
     { name: 'Debit', value: 'debit' },
   ];
 
-  #formBuilder = inject(FormBuilder);
+  readonly #formBuilder = inject(FormBuilder);
 
   constructor() {
     this.paymentMethod = this.#formBuilder.control(
       this.paymentOptions[0].name,
       {
-        validators: this.#validatePaymentMethod,
+        validators: [validatePaymentMethod],
       },
     );
-    this.formGroup = inject(FormBuilder).group({
+
+    this.formGroup = this.#formBuilder.group({
       paymentMethod: this.paymentMethod,
     });
-  }
-
-  #validatePaymentMethod(control: AbstractControl): ValidationErrors | null {
-    if (control.value === 'check') {
-      return { processingIssue: true };
-    }
-    return null;
   }
 }

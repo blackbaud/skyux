@@ -8,12 +8,14 @@ import { DemoComponent } from './demo.component';
 describe('Page wait', () => {
   function setupTest(): {
     rootLoader: HarnessLoader;
+    el: HTMLElement;
     fixture: ComponentFixture<DemoComponent>;
   } {
     const fixture = TestBed.createComponent(DemoComponent);
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    const el = fixture.nativeElement as HTMLElement;
 
-    return { rootLoader, fixture };
+    return { rootLoader, el, fixture };
   }
 
   beforeEach(() => {
@@ -23,8 +25,9 @@ describe('Page wait', () => {
   });
 
   it('should show the page wait component when the user performs an action', async () => {
-    const { rootLoader, fixture } = setupTest();
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-btn');
+    const { rootLoader, el } = setupTest();
+
+    const buttons = el.querySelectorAll<HTMLButtonElement>('.sky-btn');
 
     buttons[0].click();
 
@@ -38,8 +41,9 @@ describe('Page wait', () => {
   });
 
   it('should show the non-blocking page wait component when the user performs an action', async () => {
-    const { rootLoader, fixture } = setupTest();
-    const buttons = fixture.nativeElement.querySelectorAll('.sky-btn');
+    const { rootLoader, el } = setupTest();
+
+    const buttons = el.querySelectorAll<HTMLButtonElement>('.sky-btn');
 
     buttons[1].click();
 

@@ -15,6 +15,10 @@ import {
   SkyInlineFormModule,
 } from '@skyux/inline-form';
 
+interface DemoForm {
+  firstName: FormControl<string>;
+}
+
 @Component({
   standalone: true,
   selector: 'app-demo',
@@ -29,7 +33,7 @@ import {
 })
 export class DemoComponent {
   protected firstName = 'Jane';
-  protected formGroup: FormGroup;
+  protected formGroup: FormGroup<DemoForm>;
 
   protected inlineFormConfig: SkyInlineFormConfig = {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
@@ -39,25 +43,25 @@ export class DemoComponent {
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
-      myFirstName: new FormControl(),
+      firstName: new FormControl<string>('', { nonNullable: true }),
     });
   }
 
   protected onInlineFormClose(args: SkyInlineFormCloseArgs): void {
     if (args.reason === 'save') {
-      this.firstName = this.formGroup.get('myFirstName')?.value;
+      this.firstName = this.formGroup.value.firstName ?? '';
     }
 
     this.showForm = false;
     this.formGroup.patchValue({
-      myFirstName: undefined,
+      firstName: undefined,
     });
   }
 
   protected onInlineFormOpen(): void {
     this.showForm = true;
     this.formGroup.patchValue({
-      myFirstName: this.firstName,
+      firstName: this.firstName,
     });
   }
 }

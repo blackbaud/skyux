@@ -47,7 +47,7 @@ export class DemoComponent {
   }
 
   protected validateFile(file: SkyFileItem): string | undefined {
-    return file.file.name.indexOf('a') === 0
+    return file.file.name.startsWith('a')
       ? 'Upload a file that does not begin with the letter "a"'
       : undefined;
   }

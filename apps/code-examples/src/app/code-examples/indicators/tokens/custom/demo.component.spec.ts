@@ -26,9 +26,11 @@ describe('Tokens basic demo', () => {
     fixture: ComponentFixture<DemoComponent>,
     buttonName: 'change' | 'destroy' | 'focus-last' | 'reset',
   ): void {
-    fixture.nativeElement
-      .querySelector(`.tokens-demo-${buttonName}-btn`)
-      .click();
+    const btn = (
+      fixture.nativeElement as HTMLElement
+    ).querySelector<HTMLButtonElement>(`.tokens-demo-${buttonName}-btn`);
+
+    btn?.click();
   }
 
   beforeEach(() => {
@@ -59,8 +61,10 @@ describe('Tokens basic demo', () => {
     await employedToken.select();
 
     expect(
-      fixture.nativeElement.querySelector('.tokens-demo-selected').innerText,
-    ).toBe('Employed');
+      (fixture.nativeElement as HTMLElement).querySelector(
+        '.tokens-demo-selected',
+      )?.textContent,
+    ).toEqual('Employed');
   });
 
   it('should change tokens when the user clicks the "Change tokens" button', async () => {
