@@ -129,23 +129,18 @@ export class DemoComponent implements OnInit {
   ];
 
   public ngOnInit(): void {
-    this.#addData(0, 5);
+    void this.#addData(0, 5);
   }
 
   public onScrollEnd(): void {
-    this.#addData(this.personList.length, 5);
+    void this.#addData(this.personList.length, 5);
   }
 
-  #addData(start: number, rowSize: number): void {
+  async #addData(start: number, rowSize: number): Promise<void> {
     if (this.hasMore) {
-      this.mockRemote(start, rowSize)
-        .then((result) => {
-          this.personList = this.personList.concat(result.data);
-          this.hasMore = result.hasMore;
-        })
-        .catch(() => {
-          /* */
-        });
+      const result = await this.mockRemote(start, rowSize);
+      this.personList = this.personList.concat(result.data);
+      this.hasMore = result.hasMore;
     }
   }
 

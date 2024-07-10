@@ -17,24 +17,19 @@ export class DemoComponent implements OnInit {
   protected itemsHaveMore = true;
 
   public ngOnInit(): void {
-    this.#addData();
+    void this.#addData();
   }
 
   protected onScrollEnd(): void {
     if (this.itemsHaveMore) {
-      this.#addData();
+      void this.#addData();
     }
   }
 
-  #addData(): void {
-    this.#mockRemote()
-      .then((result: { data: InfiniteScrollDemoItem[]; hasMore: boolean }) => {
-        this.items = this.items.concat(result.data);
-        this.itemsHaveMore = result.hasMore;
-      })
-      .catch(() => {
-        /* */
-      });
+  async #addData(): Promise<void> {
+    const result = await this.#mockRemote();
+    this.items = this.items.concat(result.data);
+    this.itemsHaveMore = result.hasMore;
   }
 
   #mockRemote(): Promise<{
