@@ -16,7 +16,7 @@ import {
   SkyLookupModule,
   SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -52,7 +52,6 @@ export class DemoComponent implements OnInit, OnDestroy {
   #subscriptions = new Subscription();
 
   readonly #svc = inject(DemoService);
-
   readonly #modalSvc = inject(SkyModalService);
   readonly #waitSvc = inject(SkyWaitService);
 
@@ -96,16 +95,19 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   public addClick(args: SkyLookupAddClickEventArgs): void {
     const modal = this.#modalSvc.open(AddItemModalComponent);
+
     this.#subscriptions.add(
-      modal.closed.subscribe((close: SkyModalCloseArgs) => {
+      modal.closed.subscribe((close) => {
         if (close.reason === 'save') {
+          const person = close.data as Person;
+
           this.#subscriptions.add(
             this.#waitSvc
-              .blockingWrap(this.#svc.addPerson(close.data))
+              .blockingWrap(this.#svc.addPerson(person))
               .subscribe((data) => {
                 args.itemAdded({
-                  item: close.data,
-                  data: data,
+                  item: person,
+                  data,
                 });
               }),
           );

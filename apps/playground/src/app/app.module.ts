@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SkyHelpService } from '@skyux/core';
+import { SKY_LOG_LEVEL, SkyHelpService, SkyLogLevel } from '@skyux/core';
 import { SkyFluidGridModule } from '@skyux/layout';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -25,6 +25,7 @@ import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selecto
   providers: [
     SkyThemeService,
     { provide: SkyHelpService, useClass: PlaygroundHelpService },
+    { provide: SKY_LOG_LEVEL, useValue: SkyLogLevel.Info },
   ],
   bootstrap: [AppComponent],
 })

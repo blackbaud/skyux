@@ -1,18 +1,15 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  SkyRepeaterHarness,
-  SkyRepeaterItemHarness,
-} from '@skyux/lists/testing';
+import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
 import { DemoComponent } from './demo.component';
 
 describe('Repeater add remove demo', () => {
   async function setupTest(): Promise<{
-    repeaterHarness: SkyRepeaterHarness | null;
-    repeaterItems: SkyRepeaterItemHarness[] | null;
+    el: HTMLElement;
     fixture: ComponentFixture<DemoComponent>;
+    repeaterHarness: SkyRepeaterHarness;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -21,9 +18,9 @@ describe('Repeater add remove demo', () => {
       SkyRepeaterHarness.with({ dataSkyId: 'repeater-demo' }),
     );
 
-    const repeaterItems = await repeaterHarness.getRepeaterItems();
+    const el = fixture.nativeElement as HTMLElement;
 
-    return { repeaterHarness, repeaterItems, fixture };
+    return { el, fixture, repeaterHarness };
   }
 
   beforeEach(() => {
@@ -33,11 +30,13 @@ describe('Repeater add remove demo', () => {
   });
 
   it('should allow items to be expanded and collapsed', async () => {
-    const { repeaterItems } = await setupTest();
+    const { repeaterHarness } = await setupTest();
+
+    const repeaterItems = await repeaterHarness.getRepeaterItems();
 
     let first = true;
 
-    for (const item of repeaterItems!) {
+    for (const item of repeaterItems) {
       await expectAsync(item.isCollapsible()).toBeResolvedTo(true);
 
       // in single expand mode, the first item is expanded by default
@@ -75,72 +74,68 @@ describe('Repeater add remove demo', () => {
       },
     ];
 
-    let repeaterItems = await repeaterHarness?.getRepeaterItems();
+    let repeaterItems = await repeaterHarness.getRepeaterItems();
 
     expect(repeaterItems).toBeDefined();
-    expect(repeaterItems?.length).toBe(expectedContent.length);
+    expect(repeaterItems.length).toBe(expectedContent.length);
 
-    if (repeaterItems) {
-      for (const item of repeaterItems) {
-        await expectAsync(item.isReorderable()).toBeResolvedTo(true);
-      }
-
-      await expectAsync(repeaterItems?.[1].getTitleText()).toBeResolvedTo(
-        expectedContent[1].title,
-      );
-
-      await repeaterItems?.[1].sendToTop();
-      repeaterItems = await repeaterHarness?.getRepeaterItems();
-
-      await expectAsync(repeaterItems?.[1].getTitleText()).toBeResolvedTo(
-        expectedContent[0].title,
-      );
+    for (const item of repeaterItems) {
+      await expectAsync(item.isReorderable()).toBeResolvedTo(true);
     }
+
+    await expectAsync(repeaterItems[1].getTitleText()).toBeResolvedTo(
+      expectedContent[1].title,
+    );
+
+    await repeaterItems[1].sendToTop();
+    repeaterItems = await repeaterHarness.getRepeaterItems();
+
+    await expectAsync(repeaterItems[1].getTitleText()).toBeResolvedTo(
+      expectedContent[0].title,
+    );
   });
 
   it('should allow items to be added and removed', async () => {
-    const { repeaterHarness, fixture } = await setupTest();
+    const { repeaterHarness, el, fixture } = await setupTest();
 
-    let repeaterItems = await repeaterHarness?.getRepeaterItems();
+    let repeaterItems = await repeaterHarness.getRepeaterItems();
 
     expect(repeaterItems).toBeDefined();
-    expect(repeaterItems?.length).toBe(4);
+    expect(repeaterItems.length).toBe(4);
 
-    if (repeaterItems) {
-      for (const item of repeaterItems) {
-        await expectAsync(item.isSelectable()).toBeResolvedTo(true);
-      }
-
-      const addButton = fixture.nativeElement.querySelector(
-        '[data-sky-id="add-button"]',
-      );
-
-      const removeButton = fixture.nativeElement.querySelector(
-        '[data-sky-id="remove-button"]',
-      );
-
-      addButton.click();
-      fixture.detectChanges();
-
-      repeaterItems = await repeaterHarness?.getRepeaterItems();
-      expect(repeaterItems).toBeDefined();
-      expect(repeaterItems?.length).toBe(5);
-
-      await expectAsync(repeaterItems?.[0].isSelected()).toBeResolvedTo(false);
-      await repeaterItems?.[0].select();
-
-      await expectAsync(repeaterItems?.[0].isSelected()).toBeResolvedTo(true);
-      await expectAsync(repeaterItems?.[1].isSelected()).toBeResolvedTo(false);
-
-      await repeaterItems?.[1].select();
-      await expectAsync(repeaterItems?.[1].isSelected()).toBeResolvedTo(true);
-
-      removeButton.click();
-      fixture.detectChanges();
-
-      repeaterItems = await repeaterHarness?.getRepeaterItems();
-      expect(repeaterItems).toBeDefined();
-      expect(repeaterItems?.length).toBe(3);
+    for (const item of repeaterItems) {
+      await expectAsync(item.isSelectable()).toBeResolvedTo(true);
     }
+
+    const addButton = el.querySelector<HTMLButtonElement>(
+      '[data-sky-id="add-button"]',
+    );
+
+    const removeButton = el.querySelector<HTMLButtonElement>(
+      '[data-sky-id="remove-button"]',
+    );
+
+    addButton?.click();
+    fixture.detectChanges();
+
+    repeaterItems = await repeaterHarness.getRepeaterItems();
+    expect(repeaterItems).toBeDefined();
+    expect(repeaterItems.length).toBe(5);
+
+    await expectAsync(repeaterItems[0].isSelected()).toBeResolvedTo(false);
+    await repeaterItems[0].select();
+
+    await expectAsync(repeaterItems[0].isSelected()).toBeResolvedTo(true);
+    await expectAsync(repeaterItems[1].isSelected()).toBeResolvedTo(false);
+
+    await repeaterItems[1].select();
+    await expectAsync(repeaterItems[1].isSelected()).toBeResolvedTo(true);
+
+    removeButton?.click();
+    fixture.detectChanges();
+
+    repeaterItems = await repeaterHarness.getRepeaterItems();
+    expect(repeaterItems).toBeDefined();
+    expect(repeaterItems.length).toBe(3);
   });
 });

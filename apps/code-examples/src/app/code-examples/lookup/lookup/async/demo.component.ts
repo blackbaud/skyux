@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -52,7 +53,7 @@ export class DemoComponent implements OnInit {
   constructor() {
     const names = new FormControl<Person[]>([{ name: 'Shirley' }], {
       validators: [
-        (control): ValidationErrors => {
+        (control: AbstractControl<Person[] | null>): ValidationErrors => {
           if (
             control.value?.some((person: Person) => !person.name.match(/e/i))
           ) {

@@ -54,8 +54,7 @@ export class DemoComponent implements OnDestroy {
         instance.closed.subscribe((result) => {
           if (result.reason === 'save') {
             // Display the updated value.
-            const data = result.data as ModalDemoData;
-            this.demoValue = data.value1;
+            this.demoValue = (result.data as ModalDemoData).value1;
           }
         });
       });

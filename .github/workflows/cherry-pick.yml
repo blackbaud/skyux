@@ -72,6 +72,8 @@ jobs:
             echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
             exit 0
           fi
+
+          echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
@@ -91,7 +93,7 @@ jobs:
               repo: context.repo.repo,
               head: process.env.CHERRY_PICK_BRANCH,
               base: process.env.TARGET_BRANCH,
-              title: `${pr.title} (#${pr.number})`,
+              title: process.env.COMMIT_MESSAGE,
               body
             }).then(result => {
               console.log(`Created PR #${result.data.number}: ${result.data.html_url}`);

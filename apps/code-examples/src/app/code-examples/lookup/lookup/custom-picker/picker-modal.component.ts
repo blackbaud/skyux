@@ -42,13 +42,16 @@ export class PickerModalComponent {
 
   constructor() {
     // This list of people will be rendered as selection boxes.
-    this.people = this.context.items;
+    this.people = this.context.items as Person[];
 
     // Create a control for each selection box.
     this.peopleForm = this.#formBuilder.group({
       people: this.#formBuilder.array(
-        this.context.items.map((item) =>
-          this.#formBuilder.control(this.context.initialValue?.includes(item)),
+        this.context.items.map((item: Person) =>
+          this.#formBuilder.control(
+            (this.context.initialValue as Person[]).includes(item),
+            { nonNullable: true },
+          ),
         ),
       ),
     });
