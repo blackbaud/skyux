@@ -1,6 +1,6 @@
 <section
   class="sky-box"
-  [attr.aria-label]="headingText ? undefined : ariaLabel"
+  [attr.aria-label]="headingText || ariaLabel"
   [attr.aria-labelledby]="headingText ? headerId : ariaLabelledBy"
   [attr.role]="ariaRole"
   [skyThemeClass]="{
@@ -8,42 +8,31 @@
     'sky-elevation-1-bordered': 'modern'
   }"
 >
-  <div class="sky-box-header-content">
+  <div
+    class="sky-box-header-content"
+    [ngClass]="{
+      'sky-screen-reader-only': headingHidden
+    }"
+  >
     @if (headingText) {
       @switch (headingLevel) {
         @case (3) {
-          <h3
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
+          <h3 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
             {{ headingText }}
           </h3>
         }
         @case (4) {
-          <h4
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
+          <h4 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
             {{ headingText }}
           </h4>
         }
         @case (5) {
-          <h5
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
+          <h5 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
             {{ headingText }}
           </h5>
         }
         @default {
-          <h2
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
+          <h2 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
             {{ headingText }}
           </h2>
         }

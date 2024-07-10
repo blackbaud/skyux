@@ -31,6 +31,6 @@ describe('Basic box', async () => {
 
     fixture.detectChanges();
 
-    await expectAsync(boxHarness.getAriaLabel()).toBeResolvedTo('boxDemo');
+    await expectAsync(boxHarness.getAriaLabel()).toBeResolvedTo('Box header');
   });
 });
