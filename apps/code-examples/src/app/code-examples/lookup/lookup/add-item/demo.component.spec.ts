@@ -31,7 +31,7 @@ describe('Lookup asynchronous search demo', () => {
   beforeEach(() => {
     // Create a mock search service. In a real-world application, the search
     // service would make a web request which should be avoided in unit tests.
-    mockSvc = jasmine.createSpyObj('DemoService', ['search']);
+    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],

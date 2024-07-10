@@ -78,7 +78,7 @@ export class DemoComponent implements OnInit {
     });
 
     this.searchFilters = [
-      (_, item, args): boolean => {
+      (_, item: Person, args): boolean => {
         // When in the modal view, show all people in the search results, regardless if they have been chosen already.
         if (args?.context === 'modal') {
           return true;

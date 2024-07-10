@@ -31,7 +31,14 @@
     },
     {
       "files": ["./src/app/code-examples/**/*.ts"],
+      "extends": ["../../libs/sdk/eslint-config/recommended"],
+      "parserOptions": {
+        "project": ["apps/code-examples/tsconfig.editor.json"],
+        "tsconfigRootDir": "."
+      },
       "rules": {
+        "no-alert": "warn",
+        "no-console": "warn",
         "no-restricted-imports": [
           "error",
           {

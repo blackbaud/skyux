@@ -7,10 +7,10 @@ import {
 import { DemoComponent } from './demo.component';
 
 describe('Testing with SkyConfirmTestingController', () => {
-  async function setupTest(): Promise<{
+  function setupTest(): {
     confirmController: SkyConfirmTestingController;
     fixture: ComponentFixture<DemoComponent>;
-  }> {
+  } {
     const confirmController = TestBed.inject(SkyConfirmTestingController);
     const fixture = TestBed.createComponent(DemoComponent);
 
@@ -23,8 +23,8 @@ describe('Testing with SkyConfirmTestingController', () => {
     });
   });
 
-  it('should click "OK" on a confirmation dialog', async () => {
-    const { confirmController, fixture } = await setupTest();
+  it('should click "OK" on a confirmation dialog', () => {
+    const { confirmController, fixture } = setupTest();
 
     fixture.componentInstance.launchConfirm();
     fixture.detectChanges();
@@ -39,8 +39,8 @@ describe('Testing with SkyConfirmTestingController', () => {
     expect(fixture.componentInstance.selectedAction).toEqual('ok');
   });
 
-  it('should cancel the confirmation dialog', async () => {
-    const { confirmController, fixture } = await setupTest();
+  it('should cancel the confirmation dialog', () => {
+    const { confirmController, fixture } = setupTest();
 
     fixture.componentInstance.launchConfirm();
     fixture.detectChanges();

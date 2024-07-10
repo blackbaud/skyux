@@ -68,6 +68,6 @@ export class DemoComponent {
   }
 
   protected onPlanetSelection(args: SkyAutocompleteSelectionChange): void {
-    alert(`You selected ${args.selectedItem.name}`);
+    alert(`You selected ${(args.selectedItem as Planet).name}`);
   }
 }
