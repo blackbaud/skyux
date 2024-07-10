@@ -73,7 +73,7 @@ jobs:
             exit 0
           fi
 
-          echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+          echo "COMMIT_MESSAGE='$(git log -1 --pretty=%s | sed -e "s/'/\\\\'/g")'" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
