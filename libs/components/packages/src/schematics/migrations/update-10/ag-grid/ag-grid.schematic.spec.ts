@@ -70,7 +70,7 @@ describe('ag-grid.schematic', () => {
     await runner.runSchematic('ag-grid', {}, tree);
     expect(JSON.parse(tree.readText('/package.json'))).toEqual({
       dependencies: {
-        'ag-grid-community': `~${UPDATE_TO_VERSION}`,
+        'ag-grid-community': `^${UPDATE_TO_VERSION}`,
         'ag-grid-angular': UPDATE_TO_VERSION,
       },
     });
