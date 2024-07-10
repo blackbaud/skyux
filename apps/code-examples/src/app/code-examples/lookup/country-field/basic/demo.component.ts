@@ -10,7 +10,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyCountryFieldModule } from '@skyux/lookup';
+import { SkyCountryFieldCountry, SkyCountryFieldModule } from '@skyux/lookup';
+
+interface DemoForm {
+  country: FormControl<SkyCountryFieldCountry | undefined>;
+}
+
+function validateCountry(
+  control: AbstractControl<SkyCountryFieldCountry | undefined>,
+): ValidationErrors | null {
+  return control.value?.name === 'Mexico' ? { invalidCountry: true } : null;
+}
 
 @Component({
   standalone: true,
@@ -25,30 +35,26 @@ import { SkyCountryFieldModule } from '@skyux/lookup';
   ],
 })
 export class DemoComponent {
-  protected countryControl: FormControl;
-  protected countryForm: FormGroup;
+  protected countryControl: FormControl<SkyCountryFieldCountry | undefined>;
+  protected countryForm: FormGroup<DemoForm>;
+
   protected helpPopoverContent =
     'We use the country to validate your passport within 10 business days. You can update it at any time.';
 
   constructor() {
-    this.countryControl = new FormControl(undefined, {
-      validators: [this.#validateCountry, Validators.required],
-    });
-
-    this.countryControl.setValue({
-      name: 'Australia',
-      iso2: 'au',
-    });
+    this.countryControl = new FormControl(
+      {
+        name: 'Australia',
+        iso2: 'au',
+      },
+      {
+        nonNullable: true,
+        validators: [validateCountry, Validators.required],
+      },
+    );
 
     this.countryForm = new FormGroup({
-      countryControl: this.countryControl,
+      country: this.countryControl,
     });
-  }
-
-  #validateCountry(control: AbstractControl): ValidationErrors | null {
-    if (control.value?.name === 'Mexico') {
-      return { invalidCountry: true };
-    }
-    return null;
   }
 }

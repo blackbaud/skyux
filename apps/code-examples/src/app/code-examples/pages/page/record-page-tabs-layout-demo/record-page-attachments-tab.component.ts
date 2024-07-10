@@ -12,6 +12,7 @@ import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
 import { AgGridModule } from 'ag-grid-angular';
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
+import { Attachment } from './attachment';
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 
 @Component({
@@ -29,7 +30,7 @@ import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-
   ],
 })
 export class RecordPageAttachmentsTabComponent implements OnInit {
-  protected items = [
+  protected items: Attachment[] = [
     {
       name: 'Agreement.pdf',
       description: 'Cardholder agreement',

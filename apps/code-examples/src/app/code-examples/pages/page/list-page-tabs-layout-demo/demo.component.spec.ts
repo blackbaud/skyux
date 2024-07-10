@@ -6,7 +6,7 @@ import { SkyPageHarness } from '@skyux/pages/testing';
 
 import { DemoComponent } from './demo.component';
 
-describe('List page tabs layout demo', async () => {
+describe('List page tabs layout demo', () => {
   async function setupTest(): Promise<{
     pageHarness: SkyPageHarness;
     fixture: ComponentFixture<DemoComponent>;

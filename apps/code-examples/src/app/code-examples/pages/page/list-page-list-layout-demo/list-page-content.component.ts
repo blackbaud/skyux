@@ -12,6 +12,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
 
 import { DashboardGridContextMenuComponent } from './dashboards-grid-context-menu.component';
+import { Item } from './item';
 
 @Component({
   standalone: true,
@@ -27,7 +28,7 @@ import { DashboardGridContextMenuComponent } from './dashboards-grid-context-men
   ],
 })
 export class ListPageContentComponent implements OnInit {
-  protected items = [
+  protected items: Item[] = [
     {
       dashboard: 'Cash Flow Tracker',
       name: 'Kanesha Hutto',
