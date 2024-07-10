@@ -124,9 +124,7 @@ export class SkyHelpInlineComponent {
 
   readonly #idSvc = inject(SkyIdService);
 
-  protected onClick(evt: Event): void {
-    evt.stopPropagation();
-
+  protected onClick(): void {
     this.actionClick.emit();
 
     if (this.helpKey) {
