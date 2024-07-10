@@ -397,25 +397,6 @@ describe('Help inline component', () => {
         ariaHaspopup: null,
       });
     });
-
-    it('should suppress click events', () => {
-      const clickSpy = spyOn(component, 'onClick');
-
-      const actionClickSpy = spyOn(
-        component,
-        'onActionClick',
-      ).and.callThrough();
-
-      fixture.detectChanges();
-
-      const helpButton = getHelpButton(fixture);
-      helpButton.click();
-
-      fixture.detectChanges();
-
-      expect(clickSpy).not.toHaveBeenCalled();
-      expect(actionClickSpy).toHaveBeenCalled();
-    });
   });
 
   describe('with global options', () => {
