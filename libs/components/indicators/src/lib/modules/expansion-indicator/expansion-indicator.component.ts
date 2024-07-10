@@ -6,7 +6,10 @@ import { Component, Input } from '@angular/core';
  */
 @Component({
   selector: 'sky-expansion-indicator',
-  styleUrls: ['./expansion-indicator.component.scss'],
+  styleUrls: [
+    './expansion-indicator.default.component.scss',
+    './expansion-indicator.modern.component.scss',
+  ],
   templateUrl: './expansion-indicator.component.html',
 })
 export class SkyExpansionIndicatorComponent {
