@@ -5,7 +5,7 @@ import { platform } from 'os';
 
 import { Schema } from './schema';
 
-const AG_GRID_MIGRATIONS = ['31.0.0', '31.1.0', '31.2.0'];
+const AG_GRID_MIGRATIONS = ['31.0.0', '31.1.0', '31.2.1', '31.3.2'];
 const AG_GRID_VERSION = AG_GRID_MIGRATIONS.slice().pop();
 
 export default function (options: Schema): Rule {
@@ -42,10 +42,12 @@ export default function (options: Schema): Rule {
       },
     );
     for (const migration of AG_GRID_MIGRATIONS) {
+      const patchVersionZero =
+        migration.split('.').slice(0, 2).join('.') + '.0';
       const cmdArgs = [
         'node_modules/@ag-grid-community/cli/index.cjs',
         'migrate',
-        `--to=${migration}`,
+        `--to=${patchVersionZero}`,
         '--allow-dirty',
         ...agGridFiles,
       ];

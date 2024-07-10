@@ -509,6 +509,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-floating-top',
       'ag-body',
       'ag-sticky-top',
+      'ag-sticky-bottom',
       'ag-floating-bottom',
       'ag-overlay',
     ]);
@@ -530,6 +531,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-floating-top',
       'ag-body',
       'ag-sticky-top',
+      'ag-sticky-bottom',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
       'ag-overlay',
@@ -547,6 +549,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-floating-top',
       'ag-body',
       'ag-sticky-top',
+      'ag-sticky-bottom',
       'ag-floating-bottom',
       'ag-overlay',
     ]);
@@ -562,6 +565,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-floating-top',
       'ag-body',
       'ag-sticky-top',
+      'ag-sticky-bottom',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
       'ag-overlay',
