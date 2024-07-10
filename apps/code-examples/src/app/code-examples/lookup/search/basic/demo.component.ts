@@ -50,7 +50,7 @@ export class DemoComponent {
     this.searchText = searchText;
 
     if (searchText) {
-      filteredItems = this.items.filter(function (item: Item) {
+      filteredItems = this.items.filter((item: Item) => {
         let property: keyof typeof item;
 
         for (property in item) {
@@ -58,7 +58,7 @@ export class DemoComponent {
             Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'title' || property === 'note')
           ) {
-            if (item[property].indexOf(searchText) > -1) {
+            if (item[property].includes(searchText)) {
               return true;
             }
           }

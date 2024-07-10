@@ -12,23 +12,30 @@ import { SkyHref, SkyHrefResolver } from '@skyux/router';
 export class CustomSkyHrefResolverService implements SkyHrefResolver {
   public resolveHref(param: { url: string }): Promise<SkyHref> {
     const url = param.url;
+
     if (url.startsWith('http:') || url.startsWith('https:')) {
-      return Promise.resolve<SkyHref>({
-        url: url,
+      return Promise.resolve({
+        url,
         userHasAccess: true,
       });
-    } else if (url.startsWith('allow:')) {
-      return Promise.resolve<SkyHref>({
+    }
+
+    if (url.startsWith('allow:')) {
+      return Promise.resolve({
         url: url.replace('allow:', 'https:'),
         userHasAccess: true,
       });
-    } else if (url.startsWith('deny:')) {
-      return Promise.resolve<SkyHref>({
-        url: url,
+    }
+
+    if (url.startsWith('deny:')) {
+      return Promise.resolve({
+        url,
         userHasAccess: false,
       });
-    } else if (url.startsWith('slow:')) {
-      return new Promise<SkyHref>((resolve) => {
+    }
+
+    if (url.startsWith('slow:')) {
+      return new Promise((resolve) => {
         setTimeout(() => {
           resolve({
             url: url.replace('slow:', 'https:'),
@@ -36,16 +43,18 @@ export class CustomSkyHrefResolverService implements SkyHrefResolver {
           });
         }, 3000);
       });
-    } else if (url.startsWith('1bb-nav:')) {
-      return Promise.resolve<SkyHref>({
+    }
+
+    if (url.startsWith('1bb-nav:')) {
+      return Promise.resolve({
         url: `https://docs.blackbaud.com/engineering-system-docs/learn/spa/spa-navigation/spa-to-spa-navigation`,
         userHasAccess: true,
       });
-    } else {
-      return Promise.resolve({
-        url: url,
-        userHasAccess: false,
-      });
     }
+
+    return Promise.resolve({
+      url,
+      userHasAccess: false,
+    });
   }
 }
