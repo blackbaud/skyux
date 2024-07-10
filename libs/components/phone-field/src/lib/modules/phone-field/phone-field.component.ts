@@ -43,6 +43,8 @@ import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldCountry } from './types/country';
 import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
 
+const DEFAULT_COUNTRY_CODE = 'us';
+
 // NOTE: The no-op animation is here in order to block the input's "fade in" animation
 // from firing on initial load. For more information on this technique you can see
 // https://www.bennadel.com/blog/3417-using-no-op-transitions-to-prevent-animation-during-the-initial-render-of-ngfor-in-angular-5-2-6.htm
@@ -159,16 +161,14 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    */
   @Input()
   public set defaultCountry(value: string | undefined) {
-    if (value && value !== this.#_defaultCountry) {
-      this.#_defaultCountry = value.toLowerCase();
-
-      this.#defaultCountryData = this.countries.find(
-        (country) => country.iso2 === this.#_defaultCountry,
-      );
+    if (value !== this.#_defaultCountry) {
+      value ??= DEFAULT_COUNTRY_CODE;
+      this.#_defaultCountry = value.toLocaleLowerCase();
+      this.#defaultCountryData = this.#getDefaultCountryData();
     }
   }
 
-  public get defaultCountry(): string | undefined {
+  public get defaultCountry(): string {
     return this.#_defaultCountry;
   }
 
@@ -199,7 +199,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * Emits a `SkyPhoneFieldCountry` object when the selected country in the country search
    * input changes.
    */
-
   @Output()
   public selectedCountryChange = new EventEmitter<SkyPhoneFieldCountry>();
 
@@ -234,6 +233,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
           newCountry.iso2,
           PhoneNumberType.FIXED_LINE,
         );
+
         this.#_selectedCountry.exampleNumber = this.#phoneUtils.format(
           numberObj,
           PhoneNumberFormat.NATIONAL,
@@ -241,8 +241,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       }
 
       this.#populateInputBoxHelpText();
-
-      this.selectedCountryChange.emit(this.#_selectedCountry);
     }
   }
 
@@ -278,7 +276,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #longestDialCodeLength = 0;
 
-  #_defaultCountry: string | undefined;
+  #_defaultCountry = DEFAULT_COUNTRY_CODE;
 
   #_selectedCountry: SkyPhoneFieldCountry | undefined;
 
@@ -314,6 +312,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       JSON.stringify((window as any).intlTelInputGlobals.getCountryData()),
     );
+
     for (const country of this.countries) {
       country.dialCode = '+' + country.dialCode;
 
@@ -321,6 +320,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.#longestDialCodeLength = country.dialCode.length;
       }
     }
+
+    this.#defaultCountryData = this.#getDefaultCountryData();
 
     this.countrySearchForm = this.#formBuilder.group({
       countrySearch: this.#countrySearchFormControl,
@@ -347,13 +348,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         });
       }
 
-      if (!this.defaultCountry) {
-        this.defaultCountry = 'us';
-      }
+      this.selectedCountry ??= this.#defaultCountryData;
 
-      if (!this.selectedCountry) {
-        this.selectedCountry = this.#defaultCountryData;
-      }
       this.#changeDetector.markForCheck();
     }, 0);
 
@@ -361,6 +357,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       (newValue: SkyCountryFieldCountry | undefined | null) => {
         if (newValue?.iso2 !== this.selectedCountry?.iso2) {
           this.selectedCountry = newValue || undefined;
+          this.selectedCountryChange.emit(this.selectedCountry);
         }
       },
     );
@@ -428,7 +425,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public setCountryByDialCode(phoneNumberRaw: string): boolean {
+  public setCountryByDialCode(phoneNumberRaw: string | undefined): boolean {
     if (!phoneNumberRaw || !phoneNumberRaw.startsWith('+')) {
       return false;
     }
@@ -493,6 +490,12 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     return false;
+  }
+
+  #getDefaultCountryData(): SkyPhoneFieldCountry | undefined {
+    return this.countries.find(
+      (country) => country.iso2 === this.#_defaultCountry,
+    );
   }
 
   #populateInputBoxHelpText(): void {
