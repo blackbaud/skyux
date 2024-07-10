@@ -93,7 +93,7 @@ jobs:
               repo: context.repo.repo,
               head: process.env.CHERRY_PICK_BRANCH,
               base: process.env.TARGET_BRANCH,
-              title: `${process.env.COMMIT_MESSAGE} (#${pr.number})`,
+              title: process.env.COMMIT_MESSAGE,
               body
             }).then(result => {
               console.log(`Created PR #${result.data.number}: ${result.data.html_url}`);

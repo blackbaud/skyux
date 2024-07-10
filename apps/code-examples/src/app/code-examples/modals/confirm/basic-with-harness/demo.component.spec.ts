@@ -10,9 +10,10 @@ describe('Testing with SkyConfirmHarness', () => {
     fixture: ComponentFixture<DemoComponent>;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
-    const openBtn = fixture.nativeElement.querySelector(confirmBtnClass);
+    const el = fixture.nativeElement as HTMLElement;
+    const openBtn = el.querySelector<HTMLButtonElement>(confirmBtnClass);
 
-    openBtn.click();
+    openBtn?.click();
 
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const confirmHarness = await rootLoader.getHarness(SkyConfirmHarness);
@@ -25,7 +26,9 @@ describe('Testing with SkyConfirmHarness', () => {
     expectedText: string,
   ): void {
     expect(
-      fixture.nativeElement.querySelector('.displayed-text')?.innerText,
+      (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+        '.displayed-text',
+      )?.innerText,
     ).toEqual(expectedText);
   }
 

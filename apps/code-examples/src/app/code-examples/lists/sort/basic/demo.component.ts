@@ -102,7 +102,7 @@ export class DemoComponent implements OnInit {
   }
 
   protected sortItems(option: SortOption): void {
-    this.sortedItems = this.sortedItems.sort(function (a: Item, b: Item) {
+    this.sortedItems = this.sortedItems.sort((a, b) => {
       const descending = option.descending ? -1 : 1;
       const sortProperty: keyof typeof a = option.name;
 

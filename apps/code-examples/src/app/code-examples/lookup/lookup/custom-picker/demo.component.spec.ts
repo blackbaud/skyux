@@ -44,7 +44,7 @@ describe('Lookup custom picker demo', () => {
     await lookupHarness.enterText('Be');
 
     const allResultHarnesses = await lookupHarness.getSearchResults();
-    const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
+    const firstResultHarness = allResultHarnesses[0];
 
     if (firstResultHarness) {
       await firstResultHarness.select();

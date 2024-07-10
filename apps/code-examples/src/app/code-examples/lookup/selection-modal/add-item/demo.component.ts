@@ -6,7 +6,7 @@ import {
   SkySelectionModalSearchResult,
   SkySelectionModalService,
 } from '@skyux/lookup';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -55,10 +55,11 @@ export class DemoComponent implements OnDestroy {
         const modal = this.#modalSvc.open(AddItemModalComponent);
 
         this.#subscriptions.add(
-          modal.closed.subscribe((close: SkyModalCloseArgs) => {
+          modal.closed.subscribe((close) => {
             if (close.reason === 'save') {
-              this.#searchSvc.addItem(close.data);
-              args.itemAdded({ item: close.data });
+              const person = close.data as Person;
+              this.#searchSvc.addItem(person);
+              args.itemAdded({ item: person });
             }
           }),
         );

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
+import { Contact } from './contact';
 import { ListPageContactsGridComponent } from './list-page-contacts-grid.component';
 
 @Component({
@@ -13,7 +14,7 @@ import { ListPageContactsGridComponent } from './list-page-contacts-grid.compone
 export class ListPageContentComponent {
   protected activeTabIndex: SkyTabIndex = 0;
 
-  protected myContacts = [
+  protected myContacts: Contact[] = [
     {
       name: 'Wonda Lumpkin',
       organization: 'Riverfront College of the Arts',

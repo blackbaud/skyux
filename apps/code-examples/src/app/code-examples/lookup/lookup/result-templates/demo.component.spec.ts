@@ -77,7 +77,7 @@ describe('Lookup result templates demo', () => {
     await lookupHarness.enterText('be');
 
     const allResultHarnesses = await lookupHarness.getSearchResults();
-    const firstResultHarness = allResultHarnesses && allResultHarnesses[0];
+    const firstResultHarness = allResultHarnesses[0];
     await firstResultHarness.select();
 
     expect(
