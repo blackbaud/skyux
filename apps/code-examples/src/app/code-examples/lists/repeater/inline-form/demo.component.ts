@@ -16,6 +16,12 @@ import {
 } from '@skyux/inline-form';
 import { SkyRepeaterModule } from '@skyux/lists';
 
+interface DemoForm {
+  id: FormControl<string>;
+  note: FormControl<string>;
+  title: FormControl<string>;
+}
+
 interface Item {
   id: string;
   title: string | undefined;
@@ -37,6 +43,7 @@ interface Item {
 })
 export class DemoComponent {
   protected activeInlineFormId: string | undefined;
+  protected formGroup: FormGroup<DemoForm>;
 
   protected inlineFormConfig: SkyInlineFormConfig = {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
@@ -65,13 +72,11 @@ export class DemoComponent {
     },
   ];
 
-  protected formGroup: FormGroup;
-
   constructor() {
     this.formGroup = inject(FormBuilder).group({
-      id: new FormControl(),
-      title: new FormControl(),
-      note: new FormControl(),
+      id: new FormControl('', { nonNullable: true }),
+      title: new FormControl('', { nonNullable: true }),
+      note: new FormControl('', { nonNullable: true }),
     });
   }
 
@@ -89,8 +94,8 @@ export class DemoComponent {
         (item) => item.id === this.activeInlineFormId,
       );
       if (found) {
-        found.note = this.formGroup.get('note')?.value;
-        found.title = this.formGroup.get('title')?.value;
+        found.note = this.formGroup.value.note;
+        found.title = this.formGroup.value.title;
       }
     }
 

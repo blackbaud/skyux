@@ -26,6 +26,11 @@ import { Subject } from 'rxjs';
 
 import { Record } from './record';
 
+interface DemoForm {
+  approvedAmount: FormControl<number>;
+  comments: FormControl<string>;
+}
+
 @Component({
   standalone: true,
   selector: 'app-demo',
@@ -141,7 +146,7 @@ export class DemoComponent {
   ];
 
   protected activeRecord: Record;
-  protected splitViewDemoForm: FormGroup;
+  protected splitViewDemoForm: FormGroup<DemoForm>;
   protected splitViewStream = new Subject<SkySplitViewMessage>();
   protected unapprovedTransaction = true;
 
@@ -155,8 +160,12 @@ export class DemoComponent {
     this.activeRecord = this.items[this.activeIndex];
 
     this.splitViewDemoForm = new FormGroup({
-      approvedAmount: new FormControl(this.activeRecord.approvedAmount),
-      comments: new FormControl(this.activeRecord.comments),
+      approvedAmount: new FormControl(this.activeRecord.approvedAmount, {
+        nonNullable: true,
+      }),
+      comments: new FormControl(this.activeRecord.comments, {
+        nonNullable: true,
+      }),
     });
   }
 
@@ -180,8 +189,10 @@ export class DemoComponent {
 
   #loadFormGroup(record: Record): void {
     this.splitViewDemoForm = new FormGroup({
-      approvedAmount: new FormControl(record.approvedAmount),
-      comments: new FormControl(record.comments),
+      approvedAmount: new FormControl(record.approvedAmount, {
+        nonNullable: true,
+      }),
+      comments: new FormControl(record.comments, { nonNullable: true }),
     });
   }
 
@@ -220,9 +231,10 @@ export class DemoComponent {
 
   #saveForm(): void {
     this.activeRecord.approvedAmount = parseFloat(
-      this.splitViewDemoForm.value.approvedAmount,
+      `${this.splitViewDemoForm.value.approvedAmount ?? 0}`,
     );
-    this.activeRecord.comments = this.splitViewDemoForm.value.comments;
+
+    this.activeRecord.comments = this.splitViewDemoForm.value.comments ?? '';
 
     this.unapprovedTransaction =
       this.items.findIndex((item) => item.amount !== item.approvedAmount) >= 0;

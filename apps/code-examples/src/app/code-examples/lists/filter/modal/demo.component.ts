@@ -82,7 +82,7 @@ export class DemoComponent {
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'save') {
-        this.appliedFilters = result.data.slice();
+        this.appliedFilters = (result.data as Filter[]).slice();
         this.filteredItems = this.#filterItems(this.items, this.appliedFilters);
         this.#changeDetectorRef.markForCheck();
       }

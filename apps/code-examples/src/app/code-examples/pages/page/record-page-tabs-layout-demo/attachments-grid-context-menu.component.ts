@@ -4,6 +4,8 @@ import { SkyDropdownModule } from '@skyux/popovers';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { Attachment } from './attachment';
+
 @Component({
   standalone: true,
   selector: 'app-attachments-grid-context-menu',
@@ -15,8 +17,8 @@ export class AttachmentsGridContextMenuComponent
 {
   protected attachmentName = '';
 
-  public agInit(params: ICellRendererParams): void {
-    this.attachmentName = params.data && params.data.name;
+  public agInit(params: ICellRendererParams<Attachment>): void {
+    this.attachmentName = params.data?.name ?? '';
   }
 
   public refresh(): boolean {

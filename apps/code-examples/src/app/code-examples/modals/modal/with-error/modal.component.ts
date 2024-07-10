@@ -47,7 +47,7 @@ export class ModalComponent {
 
     this.#waitSvc
       .blockingWrap(this.#dataSvc.save(this.demoForm.value, true))
-      .subscribe((data) => {
+      .subscribe(() => {
         this.errors = [{ message: 'There was an error saving the form.' }];
       });
   }

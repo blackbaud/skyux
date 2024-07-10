@@ -4,6 +4,8 @@ import { SkyDropdownModule } from '@skyux/popovers';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { Item } from './item';
+
 @Component({
   standalone: true,
   selector: 'app-dashboards-grid-context-menu',
@@ -15,8 +17,8 @@ export class DashboardGridContextMenuComponent
 {
   protected dashboardName = '';
 
-  public agInit(params: ICellRendererParams): void {
-    this.dashboardName = params.data && params.data.dashboard;
+  public agInit(params: ICellRendererParams<Item>): void {
+    this.dashboardName = params.data?.dashboard ?? '';
   }
 
   public refresh(): boolean {
