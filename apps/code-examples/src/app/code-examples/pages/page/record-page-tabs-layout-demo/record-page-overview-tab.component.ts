@@ -8,6 +8,8 @@ import {
 } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 
+import { Detail } from './detail';
+
 @Component({
   standalone: true,
   selector: 'app-record-page-overview-tab',
@@ -24,7 +26,7 @@ import { SkyRepeaterModule } from '@skyux/lists';
   ],
 })
 export class RecordPageOverviewTabComponent {
-  protected recordDetails = [
+  protected recordDetails: Detail[] = [
     {
       detail: 'Designation',
       info: 'General operating',

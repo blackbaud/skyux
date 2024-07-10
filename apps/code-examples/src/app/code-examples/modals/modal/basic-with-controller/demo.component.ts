@@ -31,7 +31,9 @@ export class DemoComponent implements OnDestroy {
   readonly #modalSvc = inject(SkyModalService);
 
   public ngOnDestroy(): void {
-    this.#instances.forEach((i) => i.close());
+    this.#instances.forEach((i) => {
+      i.close();
+    });
   }
 
   public openModal(): void {

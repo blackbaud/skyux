@@ -61,7 +61,7 @@ export class DemoComponent {
         const results = oceans.filter((ocean: Ocean) => {
           const val = ocean.title;
           const isMatch =
-            val && val.toString().toLowerCase().indexOf(searchTextLower) > -1;
+            val && val.toString().toLowerCase().includes(searchTextLower);
           return isMatch;
         });
 
