@@ -13,7 +13,7 @@
     #lookupWrapper
   >
     <sky-autocomplete
-      [ariaLabelledBy]="ariaLabelledBy || controlId"
+      [ariaLabelledBy]="ariaLabelledBy || inputBoxHostSvc?.labelId"
       [attr.data-sky-lookup-show-more-picker-id]="showMorePickerId"
       [data]="data"
       [debounceTime]="debounceTime"
