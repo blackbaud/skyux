@@ -604,7 +604,7 @@ export class SkyDateRangePickerComponent
       }
 
       if (options?.emitEvent) {
-        this.formGroup.setValue(valueOrDefault);
+        this.formGroup.patchValue(valueOrDefault);
       }
     }
   }
