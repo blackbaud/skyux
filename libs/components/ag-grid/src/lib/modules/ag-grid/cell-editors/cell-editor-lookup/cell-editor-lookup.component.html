@@ -4,8 +4,9 @@
   [formGroup]="editorForm"
 >
   <sky-lookup
-    [ariaLabel]="ariaLabel"
-    [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
+    [ariaLabelledBy]="
+      skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
+    "
     [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
     [data]="skyComponentProperties?.data"
     [debounceTime]="skyComponentProperties?.debounceTime"
@@ -37,8 +38,9 @@
   [formGroup]="editorForm"
 >
   <sky-lookup
-    [ariaLabel]="ariaLabel"
-    [ariaLabelledBy]="skyComponentProperties?.ariaLabelledBy"
+    [ariaLabelledBy]="
+      skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
+    "
     [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
     [data]="skyComponentProperties?.data"
     [debounceTime]="skyComponentProperties?.debounceTime"
@@ -63,3 +65,6 @@
     (openChange)="onLookupOpenChange($event)"
   />
 </sky-input-box>
+<div class="sky-screen-reader-only" skyId #screenReaderLabel="skyId">
+  {{ labelText }}
+</div>

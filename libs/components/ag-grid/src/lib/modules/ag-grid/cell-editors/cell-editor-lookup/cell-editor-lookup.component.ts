@@ -43,7 +43,7 @@ export class SkyAgGridCellEditorLookupComponent
   });
   public useAsyncSearch = false;
 
-  protected ariaLabel: string | undefined = undefined;
+  protected labelText: string | undefined = undefined;
 
   #lookupOpen = false;
   #params: SkyCellEditorLookupParams | undefined;
@@ -64,7 +64,7 @@ export class SkyAgGridCellEditorLookupComponent
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
-    this.ariaLabel = params.skyComponentProperties?.ariaLabelledBy
+    this.labelText = params.skyComponentProperties?.ariaLabelledBy
       ? undefined
       : params.skyComponentProperties?.ariaLabel ||
         params.colDef.headerName ||
