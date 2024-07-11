@@ -7,6 +7,7 @@ import {
   input,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { catchError, from, of, switchMap } from 'rxjs';
 
@@ -28,7 +29,11 @@ const pixelSizes: Record<SkyIllustrationSize, number> = {
   standalone: true,
   imports: [CommonModule, NgOptimizedImage],
   templateUrl: './illustration.component.html',
-  styleUrls: ['./illustration.component.scss'],
+  styleUrls: [
+    './illustration.default.component.scss',
+    './illustration.modern.component.scss',
+  ],
+  hostDirectives: [SkyThemeComponentClassDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyIllustrationComponent {
