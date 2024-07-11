@@ -65,8 +65,6 @@
     (openChange)="onLookupOpenChange($event)"
   />
 </sky-input-box>
-@if (!skyComponentProperties?.ariaLabelledBy) {
-  <div class="sky-screen-reader-only" skyId #screenReaderLabel="skyId">
-    {{ labelText }}
-  </div>
-}
+<div class="sky-screen-reader-only" skyId #screenReaderLabel="skyId">
+  {{ labelText }}
+</div>
