@@ -66,6 +66,7 @@ export class SkyLookupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use the input box `labelText` input instead.
    */
   @Input()
   public ariaLabel: string | undefined;
@@ -76,6 +77,7 @@ export class SkyLookupComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the input does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use the input box `labelText` input instead.
    */
   @Input()
   public ariaLabelledBy: string | undefined;
