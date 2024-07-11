@@ -21,7 +21,7 @@
     !labelledBy ? undefined : labelTextElement.id + ' ' + labelledBy
   "
   [ngClass]="{
-    'sky-help-inline-hidden': helpKey && !helpSvc && !popoverContent
+    'sky-help-inline-hidden': helpKey && !helpSvc && !popoverContent,
   }"
   [skyPopover]="popoverContent ? popoverRef : undefined"
   (click)="onClick()"
@@ -32,11 +32,11 @@
     size="xs"
     [baseIcon]="{
       icon: 'circle-solid',
-      iconType: 'skyux'
+      iconType: 'skyux',
     }"
     [topIcon]="{
       icon: 'help-i',
-      iconType: 'skyux'
+      iconType: 'skyux',
     }"
   />
 </button>

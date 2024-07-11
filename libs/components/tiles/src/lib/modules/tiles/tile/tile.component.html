@@ -1,10 +1,10 @@
 <section
   class="sky-tile"
   [ngClass]="{
-    'sky-tile-collapsed': isCollapsed
+    'sky-tile-collapsed': isCollapsed,
   }"
   [skyThemeClass]="{
-    'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern'
+    'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern',
   }"
 >
   <header class="sky-tile-header">
@@ -37,7 +37,7 @@
                 : ('skyux_tile_help_default' | skyLibResources)
             "
             [skyThemeClass]="{
-              'sky-btn-icon-borderless': 'modern'
+              'sky-btn-icon-borderless': 'modern',
             }"
             (click)="helpButtonClicked()"
           >
@@ -54,7 +54,7 @@
           [direction]="isCollapsed ? 'down' : 'up'"
           [skyThemeClass]="{
             'sky-tile-tools-control': 'default',
-            'sky-margin-inline-default': 'modern'
+            'sky-margin-inline-default': 'modern',
           }"
           (directionChange)="chevronDirectionChange($event)"
         >
@@ -70,7 +70,7 @@
           "
           [skyThemeClass]="{
             'sky-tile-tools-control': 'default',
-            'sky-btn-icon-borderless sky-margin-inline-default': 'modern'
+            'sky-btn-icon-borderless sky-margin-inline-default': 'modern',
           }"
           (click)="settingsButtonClicked()"
         >
@@ -88,7 +88,7 @@
           [attr.aria-describedby]="ariaDescribedBy"
           [skyThemeClass]="{
             'sky-tile-tools-control': 'default',
-            'sky-btn-icon-borderless': 'modern'
+            'sky-btn-icon-borderless': 'modern',
           }"
           (click)="$event.stopPropagation()"
           (keydown)="moveTile($event)"
