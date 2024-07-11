@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -32,7 +33,11 @@ import { SkySectionedFormService } from '@skyux/tabs';
 })
 export class InformationFormComponent implements OnInit {
   protected id = '5324901';
-  protected formGroup: FormGroup;
+  protected formGroup: FormGroup<{
+    name: FormControl<string>;
+    nameRequired: FormControl<boolean>;
+    id: FormControl<string>;
+  }>;
   protected name = '';
   protected nameRequired = false;
 
@@ -41,18 +46,20 @@ export class InformationFormComponent implements OnInit {
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
-      name: [this.name],
-      nameRequired: [this.nameRequired],
-      id: [this.id, Validators.pattern('^[0-9]+$')],
+      name: new FormControl(this.name, { nonNullable: true }),
+      nameRequired: new FormControl(this.nameRequired, { nonNullable: true }),
+      id: new FormControl(this.id, {
+        nonNullable: true,
+        validators: [Validators.pattern('^[0-9]+$')],
+      }),
     });
   }
 
   public ngOnInit(): void {
     this.formGroup.valueChanges.subscribe((changes) => {
-      console.log(changes);
-      this.id = changes.id;
-      this.name = changes.name;
-      this.nameRequired = changes.nameRequired;
+      this.id = changes.id ?? '';
+      this.name = changes.name ?? '';
+      this.nameRequired = !!changes.nameRequired;
       this.#checkValidity();
     });
 

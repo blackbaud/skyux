@@ -12,6 +12,12 @@ import {
 } from '@angular/forms';
 import { SkyTextEditorModule } from '@skyux/text-editor';
 
+function validateText(
+  control: AbstractControl<string>,
+): ValidationErrors | null {
+  return !control.value?.includes('Blackbaud') ? { companyName: true } : null;
+}
+
 @Component({
   standalone: true,
   selector: 'app-demo',
@@ -32,18 +38,11 @@ export class DemoComponent {
   constructor() {
     this.myText = new FormControl(this.#richText, {
       nonNullable: true,
-      validators: [Validators.required, this.#validateText],
+      validators: [Validators.required, validateText],
     });
+
     this.formGroup = inject(FormBuilder).group({
       myText: this.myText,
     });
-  }
-
-  #validateText(control: AbstractControl): ValidationErrors | null {
-    if (!control.value || !control.value.includes('Blackbaud')) {
-      return { companyName: true };
-    } else {
-      return null;
-    }
   }
 }

@@ -4,6 +4,8 @@ import { SkyDropdownModule } from '@skyux/popovers';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { Contact } from './contact';
+
 @Component({
   standalone: true,
   selector: 'app-contacts-grid-context-menu',
@@ -13,8 +15,8 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class ContactContextMenuComponent implements ICellRendererAngularComp {
   protected contactName = '';
 
-  public agInit(params: ICellRendererParams): void {
-    this.contactName = params.data && params.data.name;
+  public agInit(params: ICellRendererParams<Contact>): void {
+    this.contactName = params.data?.name ?? '';
   }
 
   public refresh(): boolean {

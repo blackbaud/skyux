@@ -25,7 +25,10 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
   selector: 'sky-help-inline',
   standalone: true,
   templateUrl: './help-inline.component.html',
-  styleUrls: ['./help-inline.component.scss'],
+  styleUrls: [
+    './help-inline.default.component.scss',
+    './help-inline.modern.component.scss',
+  ],
   imports: [
     CommonModule,
     SkyHelpInlineAriaControlsPipe,
@@ -124,9 +127,7 @@ export class SkyHelpInlineComponent {
 
   readonly #idSvc = inject(SkyIdService);
 
-  protected onClick(evt: Event): void {
-    evt.stopPropagation();
-
+  protected onClick(): void {
     this.actionClick.emit();
 
     if (this.helpKey) {
