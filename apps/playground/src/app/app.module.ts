@@ -1,3 +1,4 @@
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -26,6 +27,7 @@ import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selecto
     SkyThemeService,
     { provide: SkyHelpService, useClass: PlaygroundHelpService },
     { provide: SKY_LOG_LEVEL, useValue: SkyLogLevel.Info },
+    provideHttpClient(withFetch()),
   ],
   bootstrap: [AppComponent],
 })

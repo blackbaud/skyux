@@ -1,4 +1,8 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withFetch,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +37,7 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
         getUrl: (path: string): string => `/assets/${path}`,
       },
     },
+    provideHttpClient(withFetch()),
   ],
   bootstrap: [AppComponent],
 })

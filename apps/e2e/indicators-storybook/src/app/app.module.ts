@@ -1,3 +1,4 @@
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Route, RouterModule } from '@angular/router';
@@ -84,6 +85,7 @@ if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
     BrowserModule,
     RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
   ],
+  providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
