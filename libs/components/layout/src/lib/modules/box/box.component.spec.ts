@@ -82,6 +82,61 @@ describe('BoxComponent', () => {
     );
   });
 
+  it('should set an id on the headingText element and provide it via contentInfoProvider', async () => {
+    const contentInfoSpy = spyOn(
+      contentInfoProvider,
+      'patchInfo',
+    ).and.callThrough();
+    fixture.detectChanges();
+    let header = getBoxEl(fixture).querySelector('.sky-box-header-content h2');
+    expect(header).not.toBeNull();
+
+    if (header) {
+      expect(contentInfoProvider.patchInfo).toHaveBeenCalledWith({
+        descriptor: { type: 'elementId', value: header.id },
+      });
+      expect(
+        getControlsDropdownButton(fixture).getAttribute('aria-label'),
+      ).toBeNull();
+      expect(getContentDropdownButton(fixture).getAttribute('aria-label')).toBe(
+        'Context menu',
+      );
+      expect(
+        getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
+      ).toEqual(
+        jasmine.stringMatching(
+          /sky-id-gen__[0-9]+__[0-9]+ sky-id-gen__[0-9]+__[0-9]+/,
+        ),
+      );
+      expect(
+        getContentDropdownButton(fixture).getAttribute('aria-labelledby'),
+      ).toBeNull();
+    }
+
+    contentInfoSpy.calls.reset();
+    component.showHeader = false;
+    component.headingText = undefined;
+    fixture.detectChanges();
+    header = getBoxEl(fixture).querySelector('.sky-box-header-content h2');
+    expect(header).toBeNull();
+
+    expect(contentInfoProvider.patchInfo).toHaveBeenCalledWith({
+      descriptor: undefined,
+    });
+    expect(getContentDropdownButton(fixture).getAttribute('aria-label')).toBe(
+      'Context menu',
+    );
+    expect(getControlsDropdownButton(fixture).getAttribute('aria-label')).toBe(
+      'Context menu',
+    );
+    expect(
+      getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
+    ).toBeNull();
+    expect(
+      getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
+    ).toBeNull();
+  });
+
   it('should set an id on the header and provide it via contentInfoProvider', async () => {
     component.headingText = undefined;
     const contentInfoSpy = spyOn(
