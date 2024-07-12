@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   provideHttpClient,
-  withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -17,7 +16,7 @@ import { SkyIconComponent } from './icon.component';
   imports: [CommonModule, SkyIconSvgComponent],
   exports: [SkyIconComponent, SkyIconStackComponent],
   providers: [
-    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi()),
     SkyIconSvgResolverService,
   ],
 })
