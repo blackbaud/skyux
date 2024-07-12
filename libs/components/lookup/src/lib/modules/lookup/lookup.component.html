@@ -8,12 +8,12 @@
     [ngClass]="{
       'sky-lookup-focused': isInputFocused,
       'sky-lookup-disabled': disabled,
-      'sky-lookup-single': selectMode === 'single'
+      'sky-lookup-single': selectMode === 'single',
     }"
     #lookupWrapper
   >
     <sky-autocomplete
-      [ariaLabelledBy]="ariaLabelledBy || controlId"
+      [ariaLabelledBy]="ariaLabelledBy || inputBoxHostSvc?.labelId"
       [attr.data-sky-lookup-show-more-picker-id]="showMorePickerId"
       [data]="data"
       [debounceTime]="debounceTime"
@@ -39,7 +39,7 @@
         <div
           class="sky-lookup-search"
           [ngClass]="{
-            'sky-field-status-active': isInputFocused && !disabled
+            'sky-field-status-active': isInputFocused && !disabled,
           }"
         >
           <sky-tokens

@@ -18,6 +18,10 @@ export class SkyLookupInputBoxTestComponent {
   })
   public lookupComponent!: SkyLookupComponent;
 
+  public ariaLabel: string | undefined;
+
+  public ariaLabelledBy: string | undefined;
+
   public autocompleteAttribute: string | undefined;
 
   public data: any[] = [];
@@ -54,5 +58,25 @@ export class SkyLookupInputBoxTestComponent {
     this.form = formBuilder.group({
       friends: new UntypedFormControl(this.friends),
     });
+  }
+
+  public resetForm(): void {
+    this.form.reset();
+  }
+
+  public setMultiSelect(): void {
+    this.selectMode = 'multiple';
+  }
+
+  public setSingleSelect(): void {
+    this.selectMode = 'single';
+  }
+
+  public setValue(index: number | undefined): void {
+    if (this.data && index) {
+      this.form.controls['friends'].setValue([this.data[index]]);
+    } else {
+      this.form.controls['friends'].setValue(undefined);
+    }
   }
 }

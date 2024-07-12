@@ -16,6 +16,10 @@ export class SkyInputBoxHostService {
     return this.#host?.controlId ?? '';
   }
 
+  public get labelId(): string {
+    return this.#host?.labelText ? this.#host.labelId : '';
+  }
+
   public get labelText(): string {
     return this.#host?.labelText ?? '';
   }
