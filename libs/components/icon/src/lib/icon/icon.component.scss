@@ -1,7 +1,10 @@
-:host {
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component-host('default') {
   display: inline-block;
 }
 
-i {
+@include mixins.sky-component('deafult', 'i') {
   display: inherit;
 }
