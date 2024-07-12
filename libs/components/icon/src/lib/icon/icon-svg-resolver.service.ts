@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 
-import { Observable, map, shareReplay, tap } from 'rxjs';
+import { Observable, map, of, shareReplay, tap } from 'rxjs';
 
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -80,10 +80,10 @@ function getNearestSize(
  */
 @Injectable()
 export class SkyIconSvgResolverService {
-  readonly #http = inject(HttpClient);
+  readonly #http = inject(HttpClient, { optional: true });
 
   readonly #spriteObs = this.#http
-    .get(
+    ?.get(
       `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
       {
         responseType: 'text',
@@ -96,21 +96,23 @@ export class SkyIconSvgResolverService {
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
   ): Observable<string> {
-    return this.#spriteObs.pipe(
-      map((iconsSizes) => {
-        let href = `#sky-i-${name}`;
+    return (
+      this.#spriteObs?.pipe(
+        map((iconsSizes) => {
+          let href = `#sky-i-${name}`;
 
-        // Find the icon with the optimal size nearest to the requested size.
-        const nearestSize = getNearestSize(iconsSizes, name, pixelSize);
+          // Find the icon with the optimal size nearest to the requested size.
+          const nearestSize = getNearestSize(iconsSizes, name, pixelSize);
 
-        if (!nearestSize) {
-          throw new Error(`Icon with name '${name}' was not found.`);
-        }
+          if (!nearestSize) {
+            throw new Error(`Icon with name '${name}' was not found.`);
+          }
 
-        href = `${href}-${nearestSize}-${variant}`;
+          href = `${href}-${nearestSize}-${variant}`;
 
-        return href;
-      }),
+          return href;
+        }),
+      ) ?? of('')
     );
   }
 }

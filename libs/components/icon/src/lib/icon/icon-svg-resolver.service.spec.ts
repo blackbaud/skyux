@@ -62,68 +62,86 @@ describe('Icon SVG resolver service', () => {
     }
   }
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        SkyIconSvgResolverService,
-      ],
+  describe('with HTTP provided', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideHttpClient(),
+          provideHttpClientTesting(),
+          SkyIconSvgResolverService,
+        ],
+      });
+
+      resolverSvc = TestBed.inject(SkyIconSvgResolverService);
+      httpTestingController = TestBed.inject(HttpTestingController);
     });
 
-    resolverSvc = TestBed.inject(SkyIconSvgResolverService);
-    httpTestingController = TestBed.inject(HttpTestingController);
-  });
+    afterEach(() => {
+      document.getElementById('sky-icon-svg-sprite')?.remove();
+      spriteLoaded = false;
+    });
 
-  afterEach(() => {
-    document.getElementById('sky-icon-svg-sprite')?.remove();
-    spriteLoaded = false;
-  });
+    it('should resolve the expected variant', async () => {
+      await validate('single-size', '#sky-i-single-size-12-line', 12, 'line');
+      await validate('single-size', '#sky-i-single-size-12-solid', 12, 'solid');
+    });
 
-  it('should resolve the expected variant', async () => {
-    await validate('single-size', '#sky-i-single-size-12-line', 12, 'line');
-    await validate('single-size', '#sky-i-single-size-12-solid', 12, 'solid');
-  });
+    it('should throw an error when a matching icon is not found', async () => {
+      await validate(
+        'invalid',
+        undefined,
+        undefined,
+        undefined,
+        `Icon with name 'invalid' was not found.`,
+      );
+    });
 
-  it('should throw an error when a matching icon is not found', async () => {
-    await validate(
-      'invalid',
-      undefined,
-      undefined,
-      undefined,
-      `Icon with name 'invalid' was not found.`,
-    );
-  });
+    describe('with single size icons', () => {
+      it('should resolve the expected icon regardless of specified size', async () => {
+        await validate('single-size', '#sky-i-single-size-12-line');
+        await validate('single-size', '#sky-i-single-size-12-line', 1);
+        await validate('single-size', '#sky-i-single-size-12-line', 100);
+      });
+    });
 
-  describe('with single size icons', () => {
-    it('should resolve the expected icon regardless of specified size', async () => {
-      await validate('single-size', '#sky-i-single-size-12-line');
-      await validate('single-size', '#sky-i-single-size-12-line', 1);
-      await validate('single-size', '#sky-i-single-size-12-line', 100);
+    describe('with multiple size icons', () => {
+      it('should resolve to the icon size that is an exact match of the specified size', async () => {
+        await validate('multi-size', '#sky-i-multi-size-12-line', 12);
+      });
+
+      it('should resolve to the icon size closest to the specified size when no exact match exists', async () => {
+        await validate('multi-size', '#sky-i-multi-size-12-line', -Infinity);
+        await validate('multi-size', '#sky-i-multi-size-12-line', -1);
+        await validate('multi-size', '#sky-i-multi-size-12-line', 0);
+        await validate('multi-size', '#sky-i-multi-size-12-line', 11);
+        await validate('multi-size', '#sky-i-multi-size-12-line', 13);
+        await validate('multi-size', '#sky-i-multi-size-12-line', 17);
+        await validate('multi-size', '#sky-i-multi-size-24-line', 18);
+        await validate('multi-size', '#sky-i-multi-size-24-line', 20);
+        await validate('multi-size', '#sky-i-multi-size-48-line', 37);
+        await validate('multi-size', '#sky-i-multi-size-48-line', 100);
+        await validate('multi-size', '#sky-i-multi-size-48-line', Infinity);
+      });
+
+      it('should resolve to the icon size closest to the default size when size is not specified', async () => {
+        await validate('multi-size', '#sky-i-multi-size-12-line');
+      });
     });
   });
 
-  describe('with multiple size icons', () => {
-    it('should resolve to the icon size that is an exact match of the specified size', async () => {
-      await validate('multi-size', '#sky-i-multi-size-12-line', 12);
+  describe('without HTTP provided', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [SkyIconSvgResolverService],
+      });
     });
 
-    it('should resolve to the icon size closest to the specified size when no exact match exists', async () => {
-      await validate('multi-size', '#sky-i-multi-size-12-line', -Infinity);
-      await validate('multi-size', '#sky-i-multi-size-12-line', -1);
-      await validate('multi-size', '#sky-i-multi-size-12-line', 0);
-      await validate('multi-size', '#sky-i-multi-size-12-line', 11);
-      await validate('multi-size', '#sky-i-multi-size-12-line', 13);
-      await validate('multi-size', '#sky-i-multi-size-12-line', 17);
-      await validate('multi-size', '#sky-i-multi-size-24-line', 18);
-      await validate('multi-size', '#sky-i-multi-size-24-line', 20);
-      await validate('multi-size', '#sky-i-multi-size-48-line', 37);
-      await validate('multi-size', '#sky-i-multi-size-48-line', 100);
-      await validate('multi-size', '#sky-i-multi-size-48-line', Infinity);
-    });
+    it('should return an empty string', async () => {
+      resolverSvc = TestBed.inject(SkyIconSvgResolverService);
 
-    it('should resolve to the icon size closest to the default size when size is not specified', async () => {
-      await validate('multi-size', '#sky-i-multi-size-12-line');
+      await expectAsync(
+        firstValueFrom(resolverSvc.resolveHref('multi-size')),
+      ).toBeResolvedTo('');
     });
   });
 });

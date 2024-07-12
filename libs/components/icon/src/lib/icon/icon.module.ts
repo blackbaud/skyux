@@ -1,8 +1,4 @@
 import { CommonModule } from '@angular/common';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { SkyIconClassListPipe } from './icon-class-list.pipe';
@@ -15,9 +11,6 @@ import { SkyIconComponent } from './icon.component';
   declarations: [SkyIconClassListPipe, SkyIconComponent, SkyIconStackComponent],
   imports: [CommonModule, SkyIconSvgComponent],
   exports: [SkyIconComponent, SkyIconStackComponent],
-  providers: [
-    provideHttpClient(withInterceptorsFromDi()),
-    SkyIconSvgResolverService,
-  ],
+  providers: [SkyIconSvgResolverService],
 })
 export class SkyIconModule {}
