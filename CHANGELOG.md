@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.35.1](https://github.com/blackbaud/skyux/compare/10.35.0...10.35.1) (2024-07-12)
+
+
+### Bug Fixes
+
+* **components/icon:** provide HTTP with interceptors ([#2474](https://github.com/blackbaud/skyux/issues/2474)) ([8607208](https://github.com/blackbaud/skyux/commit/86072086e4133750817b9862ba9868e2690b33ea))
+
 ## [10.35.0](https://github.com/blackbaud/skyux/compare/10.34.0...10.35.0) (2024-07-11)
 
 
