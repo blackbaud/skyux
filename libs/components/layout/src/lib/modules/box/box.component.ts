@@ -45,7 +45,17 @@ export class SkyBoxComponent {
    * @preview
    */
   @Input()
-  public headingText: string | undefined;
+  public set headingText(value: string | undefined) {
+    this.#_headingText = value;
+
+    if (this.#boxControls) {
+      this.#boxControls.boxHasHeader(!!value);
+    }
+  }
+
+  public get headingText(): string | undefined {
+    return this.#_headingText;
+  }
 
   /**
    * Indicates whether to hide the `headingText`.
@@ -149,6 +159,8 @@ export class SkyBoxComponent {
   public headerId = inject(SKY_BOX_HEADER_ID);
 
   protected headingClass = 'sky-font-heading-2';
+
+  #_headingText: string | undefined;
 
   #boxControls: SkyBoxControlsComponent | undefined;
   #boxHeaderRef: ElementRef | undefined;
