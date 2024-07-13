@@ -5,8 +5,6 @@ import {
   tick,
 } from '@angular/core/testing';
 
-import { of } from 'rxjs';
-
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
 import { SkyIconSvgComponent } from './icon-svg.component';
 import { SkyIconModule } from './icon.module';
@@ -40,7 +38,7 @@ describe('Icon SVG component', () => {
     );
 
     resolverSvc.resolveHref.and.callFake((src, size, variant) => {
-      return of(`#${src}-${size}-${variant ?? 'line'}`);
+      return Promise.resolve(`#${src}-${size}-${variant ?? 'line'}`);
     });
 
     TestBed.configureTestingModule({

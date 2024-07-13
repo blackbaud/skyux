@@ -1,16 +1,21 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-
-import { Observable, map, shareReplay, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 import { SkyIconVariantType } from './types/icon-variant-type';
 
-function insertSprite(markup: string): void {
-  document.body.insertAdjacentHTML('afterbegin', markup);
-}
+async function getIconMap(): Promise<Map<string, number[]>> {
+  const response = await fetch(
+    `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
+  );
 
-function getIconsSizes(): Map<string, number[]> {
-  const iconsSizes = Array.from<SVGSymbolElement>(
+  if (!response.ok) {
+    throw new Error('Icon sprite could not be loaded.');
+  }
+
+  const markup = await response.text();
+
+  document.body.insertAdjacentHTML('afterbegin', markup);
+
+  const iconMap = Array.from<SVGSymbolElement>(
     document.querySelectorAll('#sky-icon-svg-sprite symbol'),
   ).reduce((map, el) => {
     const idParts = el.id.split('-');
@@ -34,20 +39,20 @@ function getIconsSizes(): Map<string, number[]> {
   }, new Map<string, number[]>());
 
   // Sort all the sizes for later comparison.
-  for (const id of iconsSizes.keys()) {
+  for (const id of iconMap.keys()) {
     // Dedupe and sort the icon sizes.
-    iconsSizes.set(id, [...new Set(iconsSizes.get(id))].sort());
+    iconMap.set(id, [...new Set(iconMap.get(id))].sort());
   }
 
-  return iconsSizes;
+  return iconMap;
 }
 
 function getNearestSize(
-  iconsSizes: Map<string, number[]>,
+  iconMap: Map<string, number[]>,
   name: string,
   pixelSize: number,
 ): number | undefined {
-  const sizes = iconsSizes.get(name);
+  const sizes = iconMap.get(name);
 
   if (sizes) {
     let nearestSizeUnder = -Infinity;
@@ -78,39 +83,34 @@ function getNearestSize(
 /**
  * @internal
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SkyIconSvgResolverService {
-  readonly #http = inject(HttpClient);
+  #iconMapPromise: Promise<Map<string, number[]>> | undefined;
 
-  readonly #spriteObs = this.#http
-    .get(
-      `https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg`,
-      {
-        responseType: 'text',
-      },
-    )
-    .pipe(tap(insertSprite), map(getIconsSizes), shareReplay(1));
-
-  public resolveHref(
+  public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
-  ): Observable<string> {
-    return this.#spriteObs.pipe(
-      map((iconsSizes) => {
-        let href = `#sky-i-${name}`;
+  ): Promise<string> {
+    if (!this.#iconMapPromise) {
+      this.#iconMapPromise = getIconMap();
+    }
 
-        // Find the icon with the optimal size nearest to the requested size.
-        const nearestSize = getNearestSize(iconsSizes, name, pixelSize);
+    const iconMap = await this.#iconMapPromise;
 
-        if (!nearestSize) {
-          throw new Error(`Icon with name '${name}' was not found.`);
-        }
+    let href = `#sky-i-${name}`;
 
-        href = `${href}-${nearestSize}-${variant}`;
+    // Find the icon with the optimal size nearest to the requested size.
+    const nearestSize = getNearestSize(iconMap, name, pixelSize);
 
-        return href;
-      }),
-    );
+    if (!nearestSize) {
+      throw new Error(`Icon with name '${name}' was not found.`);
+    }
+
+    href = `${href}-${nearestSize}-${variant}`;
+
+    return href;
   }
 }
