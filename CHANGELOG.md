@@ -1,5 +1,37 @@
 # Changelog
 
+## [11.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.1...11.0.0-alpha.2) (2024-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lookup:** The lookup component has been updated to no longer set an incorrect `aria-labelledby` property on an internal element. This change may result in existing accessibility unit tests to fail; however, they were succeeding in error previously. Consumers should utilize the automatic accessibility provided by the `labelText` input on a wrapping input box. The `ariaLabel` and `ariaLabelledBy` inputs on the lookup component have been deprecated.
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31.3.2 ([#2450](https://github.com/blackbaud/skyux/issues/2450)) ([#2484](https://github.com/blackbaud/skyux/issues/2484)) ([d16bffe](https://github.com/blackbaud/skyux/commit/d16bffec159563a960dbcc6e7f2a01cfe2a516e1))
+* **components/datetime:** add support for additional date formats to `SkyDatePipe` ([#2447](https://github.com/blackbaud/skyux/issues/2447)) ([#2469](https://github.com/blackbaud/skyux/issues/2469)) ([4564fcf](https://github.com/blackbaud/skyux/commit/4564fcfee1a2575529c59c4400c8aa175a841762))
+* **components/help-inline:** update documentation and deprecate `indicators/help-inline` ([#2428](https://github.com/blackbaud/skyux/issues/2428)) ([#2441](https://github.com/blackbaud/skyux/issues/2441)) ([7a48433](https://github.com/blackbaud/skyux/commit/7a4843373077810356ed833f327c28b7a6a4776b))
+* **components/icon:** use native fetch() for retrieving icon sprite ([#2478](https://github.com/blackbaud/skyux/issues/2478)) ([#2485](https://github.com/blackbaud/skyux/issues/2485)) ([7ac4062](https://github.com/blackbaud/skyux/commit/7ac406257d221b04dbc5609449edcdf4399d6d66))
+* **components/layout:** add heading and inline help inputs to box component ([#2439](https://github.com/blackbaud/skyux/issues/2439)) ([#2482](https://github.com/blackbaud/skyux/issues/2482)) ([e6f3a78](https://github.com/blackbaud/skyux/commit/e6f3a78d5b330161de1f6abada5f1079d6fc784a))
+
+
+### Bug Fixes
+
+* **code-examples:** satisfy ESLint rules for core, forms, indicators, and inline form code examples ([#2432](https://github.com/blackbaud/skyux/issues/2432)) ([#2444](https://github.com/blackbaud/skyux/issues/2444)) ([04f10d7](https://github.com/blackbaud/skyux/commit/04f10d79427ce7a4b64b70c215f4f2c89807a9af))
+* **code-examples:** satisfy ESLint rules for layout, lists, lookup, modals, pages, and others ([#2435](https://github.com/blackbaud/skyux/issues/2435)) ([#2457](https://github.com/blackbaud/skyux/issues/2457)) ([fa99742](https://github.com/blackbaud/skyux/commit/fa99742868ec32c5be4fc78059f7e6e60de45c9a))
+* **components/datetime:** ignore extraneous properties when setting calculator value ([#2459](https://github.com/blackbaud/skyux/issues/2459)) ([#2460](https://github.com/blackbaud/skyux/issues/2460)) ([44654f1](https://github.com/blackbaud/skyux/commit/44654f12b0681b5f619e233c8a84ebb1f89c9ca7))
+* **components/icon:** provide HTTP with interceptors ([#2474](https://github.com/blackbaud/skyux/issues/2474)) ([#2475](https://github.com/blackbaud/skyux/issues/2475)) ([e79d294](https://github.com/blackbaud/skyux/commit/e79d2943d77c401cf16f317b5b7cf67f944639a6))
+* **components/lookup:** lookup aria labels are now set appropriately when using the input box labelText input ([#2465](https://github.com/blackbaud/skyux/issues/2465)) ([2cf7f90](https://github.com/blackbaud/skyux/commit/2cf7f90591fea56f23083b5430e9eee67289936e))
+* **components/packages:** switch to `@ag-grid-devtools/cli` for AG Grid codemods ([#2483](https://github.com/blackbaud/skyux/issues/2483)) ([#2487](https://github.com/blackbaud/skyux/issues/2487)) ([4849e52](https://github.com/blackbaud/skyux/commit/4849e52667541c2a0a1a391d5cfa4991a7f035c9))
+* **components/phone-field:** required phone field controls are not "touched" on initialization ([#2443](https://github.com/blackbaud/skyux/issues/2443)) ([#2448](https://github.com/blackbaud/skyux/issues/2448)) ([edeb684](https://github.com/blackbaud/skyux/commit/edeb6845f037afb816b96362abf50d65609400bd))
+* **components/tiles:** do not expand/collapse content when help inline clicked ([#2468](https://github.com/blackbaud/skyux/issues/2468)) ([#2471](https://github.com/blackbaud/skyux/issues/2471)) ([7d10650](https://github.com/blackbaud/skyux/commit/7d10650c0eb82af6112c1b7f4953594d8d66a3aa))
+
+
+### Reverts
+
+* **components/help-inline:** stop propagation of click events ([#2458](https://github.com/blackbaud/skyux/issues/2458)) ([#2462](https://github.com/blackbaud/skyux/issues/2462)) ([ae58426](https://github.com/blackbaud/skyux/commit/ae584266c0d40205c508695cc7203e5a36f5c6c0))
+
 ## [10.36.0](https://github.com/blackbaud/skyux/compare/10.35.1...10.36.0) (2024-07-15)
 
 
