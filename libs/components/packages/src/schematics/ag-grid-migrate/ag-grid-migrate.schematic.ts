@@ -5,15 +5,35 @@ import { platform } from 'os';
 
 import { Schema } from './schema';
 
-const AG_GRID_MIGRATIONS = ['31.0.0', '31.1.0', '31.2.1', '31.3.2'];
-const AG_GRID_VERSION = AG_GRID_MIGRATIONS.slice().pop();
+const AG_GRID_VERSION = '31.3.2';
+const AG_GRID_MIGRATION = '31.3.0';
+
+function getStartingVersion(sourceRoot: string): string {
+  const content = spawnSync(
+    'git',
+    ['cat-file', `HEAD:${sourceRoot}/package-lock.json`],
+    {
+      encoding: 'utf-8',
+      stdio: 'pipe',
+    },
+  );
+  const packageJson = JSON.parse(content.stdout);
+  return packageJson['node_modules/ag-grid-community'].version;
+}
 
 export default function (options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     let { sourceRoot } = options;
     sourceRoot ||= '.';
-    context.logger.info(`🏁 Migrating AG Grid code in ${sourceRoot}...`);
+    const startingVersion = options.from ?? getStartingVersion(sourceRoot);
+    if (startingVersion === AG_GRID_VERSION) {
+      context.logger.info(
+        `✅ Already on AG Grid ${AG_GRID_VERSION}. No migration needed.`,
+      );
+      return;
+    }
 
+    context.logger.info(`🏁 Migrating AG Grid code in ${sourceRoot}...`);
     const files = spawnSync('git', ['ls-files', `${sourceRoot}/**/*.ts`])
       .stdout.toString()
       .split('\n')
@@ -35,32 +55,28 @@ export default function (options: Schema): Rule {
     const npm = platform() === 'win32' ? 'npm.cmd' : 'npm';
     spawnSync(
       npm,
-      ['install', '--no-save', `@ag-grid-community/cli@${AG_GRID_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@${AG_GRID_VERSION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
       },
     );
-    for (const migration of AG_GRID_MIGRATIONS) {
-      const patchVersionZero =
-        migration.split('.').slice(0, 2).join('.') + '.0';
-      const cmdArgs = [
-        'node_modules/@ag-grid-community/cli/index.cjs',
-        'migrate',
-        `--to=${patchVersionZero}`,
-        '--allow-dirty',
-        ...agGridFiles,
-      ];
-      context.logger.info(``);
-      context.logger.info(`⏳ Migrating to AG Grid ${migration}`);
-      context.logger.info(``);
-      spawnSync('node', cmdArgs, {
-        shell: true,
-        stdio: 'inherit',
-        windowsVerbatimArguments: true,
-        argv0: 'npx',
-      });
-    }
+    const cmdArgs = [
+      'node_modules/@ag-grid-devtools/cli/index.cjs',
+      'migrate',
+      `--from=${startingVersion}`,
+      `--to=${AG_GRID_MIGRATION}`,
+      '--allow-dirty',
+      ...agGridFiles,
+    ];
+    context.logger.info(`⏳ Migrating to AG Grid ${AG_GRID_VERSION}...`);
+    const output = context.debug ? 'inherit' : 'ignore';
+    spawnSync('node', cmdArgs, {
+      shell: true,
+      stdio: ['ignore', output, output],
+      windowsVerbatimArguments: true,
+      argv0: 'npx',
+    });
     spawnSync(npm, ['remove', `@ag-grid-community/cli`], {
       stdio: 'ignore',
     });

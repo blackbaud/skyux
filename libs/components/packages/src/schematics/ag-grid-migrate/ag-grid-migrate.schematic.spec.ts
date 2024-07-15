@@ -22,17 +22,56 @@ interface TestSetup {
 const UPDATE_TO_VERSION = '31.3.2';
 
 describe('ag-grid-migrate.schematic', () => {
-  async function setupTest(): Promise<TestSetup> {
+  const defaultSetup = {
+    fileList: '',
+    sourceRoot: '.',
+    startingVersion: '31.3.2',
+    debug: false,
+  };
+  type Setup = typeof defaultSetup;
+  async function setupTest(setupOptions?: Partial<Setup>): Promise<TestSetup> {
+    const setup: Required<Setup> = { ...defaultSetup, ...setupOptions };
     const os = {
       platform: jest.fn().mockReturnValue('test'),
     };
     const childProcess = {
-      spawnSync: jest.fn().mockReturnValue({ stdout: { toString: () => '' } }),
+      spawnSync: jest
+        .fn()
+        .mockImplementation((cmd: string, args?: string[]) => {
+          if (
+            cmd === 'git' &&
+            args?.join(' ') ===
+              `cat-file HEAD:${setup.sourceRoot}/package-lock.json`
+          ) {
+            return {
+              stdout: JSON.stringify({
+                'node_modules/ag-grid-community': {
+                  version: setup.startingVersion,
+                },
+              }),
+            };
+          }
+          if (
+            cmd === 'git' &&
+            args?.join(' ') === `ls-files ${setup.sourceRoot}/**/*.ts`
+          ) {
+            return {
+              stdout: setup.fileList,
+            };
+          }
+          if (cmd.startsWith('npm') || cmd === 'node') {
+            return {
+              stdout: '',
+            };
+          }
+          throw new Error(`Unexpected command: ${cmd} ${args?.join(' ')}`);
+        }),
     };
     const context = {
       logger: {
         info: jest.fn(),
       } as unknown as logging.LoggerApi,
+      debug: setup.debug,
     } as SchematicContext;
 
     jest.doMock('os', () => os);
@@ -58,10 +97,13 @@ describe('ag-grid-migrate.schematic', () => {
   });
 
   it('should run successfully', async () => {
-    const { os, childProcess, context, schematic } = await setupTest();
+    const { os, childProcess, context, schematic } = await setupTest({
+      sourceRoot: 'sourceRoot',
+    });
 
     const tree = new UnitTestTree(Tree.empty());
     const options = {
+      from: '29.1.0',
       sourceRoot: 'sourceRoot',
     };
 
@@ -80,10 +122,20 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).not.toHaveBeenCalled();
   });
 
+  it('should noop if the current version is current', async () => {
+    const { context, schematic } = await setupTest();
+    const tree = new UnitTestTree(Tree.empty());
+    await schematic({})(tree, context);
+    expect(context.logger.info).toHaveBeenCalledWith(
+      `✅ Already on AG Grid ${UPDATE_TO_VERSION}. No migration needed.`,
+    );
+  });
+
   it('should run migrate command on win32', async () => {
-    const { os, childProcess, context, schematic } = await setupTest();
-    childProcess.spawnSync.mockReturnValueOnce({
-      stdout: { toString: () => 'file.ts' },
+    const { os, childProcess, context, schematic } = await setupTest({
+      fileList: 'file.ts',
+      sourceRoot: 'sourceRoot',
+      startingVersion: '29.1.0',
     });
     os.platform.mockReturnValue('win32');
 
@@ -105,7 +157,7 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).toHaveBeenCalled();
     expect(childProcess.spawnSync).toHaveBeenCalledWith(
       'npm.cmd',
-      ['install', '--no-save', `@ag-grid-community/cli@${UPDATE_TO_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@${UPDATE_TO_VERSION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
@@ -114,9 +166,10 @@ describe('ag-grid-migrate.schematic', () => {
   });
 
   it('should run migrate command on non-win32 machines', async () => {
-    const { os, childProcess, context, schematic } = await setupTest();
-    childProcess.spawnSync.mockReturnValueOnce({
-      stdout: { toString: () => 'file.ts' },
+    const { os, childProcess, context, schematic } = await setupTest({
+      fileList: 'file.ts',
+      sourceRoot: 'sourceRoot',
+      startingVersion: '29.1.0',
     });
 
     const tree = new UnitTestTree(Tree.empty());
@@ -137,7 +190,41 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).toHaveBeenCalled();
     expect(childProcess.spawnSync).toHaveBeenCalledWith(
       'npm',
-      ['install', '--no-save', `@ag-grid-community/cli@${UPDATE_TO_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@${UPDATE_TO_VERSION}`],
+      {
+        stdio: 'ignore',
+        windowsVerbatimArguments: true,
+      },
+    );
+  });
+
+  it('should run migrate command with debug', async () => {
+    const { os, childProcess, context, schematic } = await setupTest({
+      fileList: 'file.ts',
+      sourceRoot: 'sourceRoot',
+      startingVersion: '29.1.0',
+      debug: true,
+    });
+
+    const tree = new UnitTestTree(Tree.empty());
+    tree.create('file.ts', 'content ag-grid');
+    const options = {
+      sourceRoot: 'sourceRoot',
+    };
+
+    await schematic(options)(tree, context);
+
+    expect(context.logger.info).toHaveBeenCalledWith(
+      '🏁 Migrating AG Grid code in sourceRoot...',
+    );
+    expect(childProcess.spawnSync).toHaveBeenCalledWith('git', [
+      'ls-files',
+      'sourceRoot/**/*.ts',
+    ]);
+    expect(os.platform).toHaveBeenCalled();
+    expect(childProcess.spawnSync).toHaveBeenCalledWith(
+      'npm',
+      ['install', '--no-save', `@ag-grid-devtools/cli@${UPDATE_TO_VERSION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
@@ -146,9 +233,10 @@ describe('ag-grid-migrate.schematic', () => {
   });
 
   it('should not run if no files match', async () => {
-    const { os, childProcess, context, schematic } = await setupTest();
-    childProcess.spawnSync.mockReturnValueOnce({
-      stdout: { toString: () => 'file.ts' },
+    const { os, childProcess, context, schematic } = await setupTest({
+      fileList: 'file.ts',
+      sourceRoot: 'sourceRoot',
+      startingVersion: '29.1.0',
     });
 
     const tree = new UnitTestTree(Tree.empty());
