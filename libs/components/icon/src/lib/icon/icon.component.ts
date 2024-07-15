@@ -12,7 +12,7 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 @Component({
   selector: 'sky-icon',
   templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss'],
+  styleUrls: ['./icon.default.component.scss', './icon.modern.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyIconComponent {
