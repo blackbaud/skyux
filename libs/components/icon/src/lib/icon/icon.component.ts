@@ -4,7 +4,7 @@ import {
   Input,
   inject,
 } from '@angular/core';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyThemeComponentClassDirective, SkyThemeService } from '@skyux/theme';
 
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
@@ -14,6 +14,7 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.default.component.scss', './icon.modern.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyIconComponent {
   /**
