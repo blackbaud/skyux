@@ -38,6 +38,7 @@ jobs:
         run: npm ci
 
       - name: Cherry pick
+        id: cherry-pick
         run: |
           # Set the git user to the author of the merge commit.
           git config user.name "$(git log -1 --pretty=format:'%an' ${{ github.event.pull_request.merge_commit_sha }})"
@@ -73,7 +74,7 @@ jobs:
             exit 0
           fi
 
-          echo "COMMIT_MESSAGE='$(git log -1 --pretty=%s | sed -e "s/'/\\\\'/g")'" >> $GITHUB_ENV
+          echo "commit_message=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
@@ -83,6 +84,7 @@ jobs:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
             const pr = context.payload.pull_request;
+            const title = ${{ toJson(steps.cherry-pick.outputs.commit_message) }};
             let body = `:cherries: Cherry picked from #${pr.number} [${pr.title}](${pr.html_url})`
             const prAzureBoardLink = pr.body?.match(/(?<=\[)AB#\d+(?=])/g);
             if (prAzureBoardLink) {
@@ -93,7 +95,7 @@ jobs:
               repo: context.repo.repo,
               head: process.env.CHERRY_PICK_BRANCH,
               base: process.env.TARGET_BRANCH,
-              title: process.env.COMMIT_MESSAGE,
+              title,
               body
             }).then(result => {
               console.log(`Created PR #${result.data.number}: ${result.data.html_url}`);

@@ -8,7 +8,7 @@
   }"
 >
   <header class="sky-tile-header">
-    <div class="sky-tile-header-content" (click)="titleClick()">
+    <div class="sky-tile-header-content" (click)="titleClick($event)">
       <div class="sky-tile-header-title" #titleContainer>
         <ng-content select="sky-tile-title" />
         @if (tileName && (helpKey || helpPopoverContent)) {

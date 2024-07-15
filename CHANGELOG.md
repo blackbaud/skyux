@@ -1,5 +1,34 @@
 # Changelog
 
+## [10.35.1](https://github.com/blackbaud/skyux/compare/10.35.0...10.35.1) (2024-07-12)
+
+
+### Bug Fixes
+
+* **components/icon:** provide HTTP with interceptors ([#2474](https://github.com/blackbaud/skyux/issues/2474)) ([8607208](https://github.com/blackbaud/skyux/commit/86072086e4133750817b9862ba9868e2690b33ea))
+
+## [10.35.0](https://github.com/blackbaud/skyux/compare/10.34.0...10.35.0) (2024-07-11)
+
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31.3.2 ([#2450](https://github.com/blackbaud/skyux/issues/2450)) ([cea996d](https://github.com/blackbaud/skyux/commit/cea996db6216e223c9998916e50ba7a4b78aa08f))
+* **components/datetime:** add support for additional date formats to `SkyDatePipe` ([#2447](https://github.com/blackbaud/skyux/issues/2447)) ([bbfb330](https://github.com/blackbaud/skyux/commit/bbfb330a8bed125063098ffde6c99c0f1a3deea6))
+
+
+### Bug Fixes
+
+* **code-examples:** satisfy ESLint rules for core, forms, indicators, and inline form code examples ([#2432](https://github.com/blackbaud/skyux/issues/2432)) ([6bd1182](https://github.com/blackbaud/skyux/commit/6bd118283fbccbab4c67764d061a51da2b0c80cd))
+* **code-examples:** satisfy ESLint rules for layout, lists, lookup, modals, pages, and others ([#2435](https://github.com/blackbaud/skyux/issues/2435)) ([73a4763](https://github.com/blackbaud/skyux/commit/73a47639b6349818b42de5c8d4dcbbf402c13884))
+* **components/datetime:** ignore extraneous properties when setting calculator value ([#2459](https://github.com/blackbaud/skyux/issues/2459)) ([4d2d70a](https://github.com/blackbaud/skyux/commit/4d2d70a378d69af7b30370ed44641b036703ce47))
+* **components/phone-field:** required phone field controls are not "touched" on initialization ([#2443](https://github.com/blackbaud/skyux/issues/2443)) ([84e1382](https://github.com/blackbaud/skyux/commit/84e1382a2233b381c8c8c859b38bd8f743ef672f))
+* **components/tiles:** do not expand/collapse content when help inline clicked ([#2468](https://github.com/blackbaud/skyux/issues/2468)) ([8a173ce](https://github.com/blackbaud/skyux/commit/8a173ce0fbe5660806f17ede06323f590f944c1c))
+
+
+### Reverts
+
+* **components/help-inline:** stop propagation of click events ([#2458](https://github.com/blackbaud/skyux/issues/2458)) ([e08d883](https://github.com/blackbaud/skyux/commit/e08d88366c391455df53922ddc1719a6c66d0021))
+
 ## [10.34.0](https://github.com/blackbaud/skyux/compare/10.33.0...10.34.0) (2024-07-08)
 
 

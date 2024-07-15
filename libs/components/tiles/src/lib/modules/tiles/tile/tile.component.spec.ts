@@ -286,7 +286,7 @@ describe('Tile component', () => {
     });
   });
 
-  describe('help button', () => {
+  describe('help button (legacy)', () => {
     it('should be absent if a callback is not provided', () => {
       const html = `
         <sky-tile tileName="test" [isCollapsed]="tileIsCollapsed">
@@ -488,5 +488,22 @@ describe('Tile component', () => {
     fixture.detectChanges();
 
     expect(getHelpInlineButton(fixture)).toBeNull();
+  });
+
+  it('should not expand/collapse the content when the help inline button is clicked', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const el = fixture.nativeElement;
+
+    fixture.componentInstance.tileName = 'Tile 1';
+    fixture.componentInstance.helpPopoverContent = 'Example popover content.';
+    fixture.detectChanges();
+
+    const contentAttrs = el.querySelector('.sky-tile-content').attributes;
+
+    expect(contentAttrs['hidden']).toBeUndefined();
+
+    getHelpInlineButton(fixture)?.click();
+
+    expect(contentAttrs['hidden']).toBeUndefined();
   });
 });

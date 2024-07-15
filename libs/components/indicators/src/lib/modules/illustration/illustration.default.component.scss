@@ -1,0 +1,9 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+@include mixins.sky-component-host('default') {
+  display: block;
+}
+
+@include mixins.sky-component('default', '.sky-illustration-img') {
+  display: block;
+}
