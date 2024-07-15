@@ -3,14 +3,23 @@ import {
   ContentChild,
   ElementRef,
   Input,
+  TemplateRef,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
+  numberAttribute,
 } from '@angular/core';
 import { SkyIdService } from '@skyux/core';
 
 import { SkyBoxControlsComponent } from './box-controls.component';
 import { SKY_BOX_HEADER_ID } from './box-header-id-token';
 import { SkyBoxHeaderComponent } from './box-header.component';
+import { SkyBoxHeadingLevel } from './box-heading-level';
+import { SkyBoxHeadingStyle } from './box-heading-style';
+
+function numberAttribute2(value: unknown): number {
+  return numberAttribute(value, 2);
+}
 
 /**
  * Provides a common look-and-feel for box content with options to display a common box header, specify body content, and display common box controls.
@@ -32,10 +41,79 @@ import { SkyBoxHeaderComponent } from './box-header.component';
 })
 export class SkyBoxComponent {
   /**
+   * The text to display as the box's heading.
+   * @preview
+   */
+  @Input()
+  public set headingText(value: string | undefined) {
+    this.#_headingText = value;
+
+    if (this.#boxControls) {
+      this.#boxControls.boxHasHeader(!!value);
+    }
+  }
+
+  public get headingText(): string | undefined {
+    return this.#_headingText;
+  }
+
+  /**
+   * Indicates whether to hide the `headingText`.
+   * @preview
+   */
+  @Input({ transform: booleanAttribute })
+  public headingHidden = false;
+
+  /**
+   * The semantic heading level in the document structure. The default is 2.
+   * @preview
+   * @default 2
+   */
+  @Input({ transform: numberAttribute2 })
+  public headingLevel: SkyBoxHeadingLevel = 2;
+
+  /**
+   * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
+   * @preview
+   * @default 2
+   */
+  @Input({ transform: numberAttribute2 })
+  public set headingStyle(value: SkyBoxHeadingStyle) {
+    this.headingClass = `sky-font-heading-${value}`;
+  }
+
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the box heading. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   * @preview
+   */
+  @Input()
+  public helpPopoverContent: string | TemplateRef<unknown> | undefined;
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is
+   * also specified.
+   * @preview
+   */
+  @Input()
+  public helpPopoverTitle: string | undefined;
+
+  /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the box heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application.
+   * @preview
+   */
+  @Input()
+  public helpKey: string | undefined;
+
+  /**
    * The ARIA label for the box. This sets the box's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
+   * @deprecated Use `headingText` instead.
    */
   @Input()
   public ariaLabel: string | undefined;
@@ -46,6 +124,7 @@ export class SkyBoxComponent {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * If the box does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
+   * @deprecated Use `headingText` instead.
    */
   @Input()
   public ariaLabelledBy: string | undefined;
@@ -73,9 +152,15 @@ export class SkyBoxComponent {
     this.#boxControls = value;
 
     if (value) {
-      value.boxHasHeader(!!this.#boxHeaderRef);
+      value.boxHasHeader(!!this.headingText || !!this.#boxHeaderRef);
     }
   }
+
+  public headerId = inject(SKY_BOX_HEADER_ID);
+
+  protected headingClass = 'sky-font-heading-2';
+
+  #_headingText: string | undefined;
 
   #boxControls: SkyBoxControlsComponent | undefined;
   #boxHeaderRef: ElementRef | undefined;

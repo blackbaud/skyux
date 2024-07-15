@@ -8,6 +8,8 @@ export { SkyBackToTopMessage } from './lib/modules/back-to-top/models/back-to-to
 export { SkyBackToTopMessageType } from './lib/modules/back-to-top/models/back-to-top-message-type';
 export { SkyBackToTopOptions } from './lib/modules/back-to-top/models/back-to-top-options';
 
+export { SkyBoxHeadingLevel } from './lib/modules/box/box-heading-level';
+export { SkyBoxHeadingStyle } from './lib/modules/box/box-heading-style';
 export { SkyBoxModule } from './lib/modules/box/box.module';
 
 export { SkyCardModule } from './lib/modules/card/card.module';
