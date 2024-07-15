@@ -714,6 +714,15 @@ describe('Date range picker', function () {
     );
   }));
 
+  it('should ignore extraneous properties when setting the value', () => {
+    component.dateRange?.setValue({
+      foo: 'bar',
+      calculatorId: SkyDateRangeCalculatorId.LastWeek,
+    });
+
+    expect(() => fixture.detectChanges()).not.toThrow();
+  });
+
   describe('accessibility', () => {
     function verifyFormFieldsRequired(expectation: boolean): void {
       const inputBoxes =

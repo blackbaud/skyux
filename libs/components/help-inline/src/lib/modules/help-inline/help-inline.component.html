@@ -24,7 +24,7 @@
     'sky-help-inline-hidden': helpKey && !helpSvc && !popoverContent
   }"
   [skyPopover]="popoverContent ? popoverRef : undefined"
-  (click)="onClick($event)"
+  (click)="onClick()"
 >
   <sky-icon *skyThemeIf="'default'" icon="info-circle" />
   <sky-icon-stack

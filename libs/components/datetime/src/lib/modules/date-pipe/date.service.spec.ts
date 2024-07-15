@@ -114,12 +114,30 @@ describe('Date service', () => {
   });
 
   it('should support Angular DatePipe formats', () => {
-    const value = service.format(new Date(2000, 0, 1), undefined, 'fullDate');
-    const expectedValues = [
-      'Saturday, January 1, 2000',
-      'Saturday, January 01, 2000', // IE 11
-    ];
-    expect(expectedValues).toContain(value);
+    const date = new Date();
+    const formatSpy = spyOn(SkyIntlDateFormatter, 'format');
+
+    /* spell-checker:disable */
+    const formats = new Map([
+      ['short', 'yMdjm'],
+      ['medium', 'yMMMdjms'],
+      ['long', 'MMMM d, y, h:mm:ss a Z'],
+      ['full', 'EEEE, MMMM d, y, h:mm:ss a z'],
+      ['shortDate', 'yMd'],
+      ['mediumDate', 'yMMMd'],
+      ['longDate', 'yMMMMd'],
+      ['fullDate', 'yMMMMEEEEd'],
+      ['shortTime', 'jm'],
+      ['mediumTime', 'jms'],
+      ['longTime', 'h:mm:ss a Z'],
+      ['fullTime', 'h:mm:ss a z'],
+    ]);
+    /* spell-checker:enable */
+
+    for (const [formatName, formatExpression] of formats) {
+      service.format(date, undefined, formatName);
+      expect(formatSpy).toHaveBeenCalledWith(date, 'en-US', formatExpression);
+    }
   });
 
   it('should default to mediumDate format', () => {

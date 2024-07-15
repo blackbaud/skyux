@@ -242,8 +242,13 @@ export class SkyTileComponent implements OnChanges, OnDestroy {
     return this.helpClick.observers.length > 0 && this.showHelp;
   }
 
-  public titleClick(): void {
-    this.isCollapsed = !this.isCollapsed;
+  public titleClick(evt: MouseEvent): void {
+    const targetEl = evt.target as HTMLElement | null;
+
+    // Don't expand/collapse if the help inline button is clicked.
+    if (targetEl?.closest('sky-help-inline') === null) {
+      this.isCollapsed = !this.isCollapsed;
+    }
   }
 
   public chevronDirectionChange(direction: string): void {

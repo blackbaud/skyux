@@ -1,0 +1,16 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+@include mixins.sky-component('default', '.sky-key-info') {
+  display: inline-block;
+
+  &.sky-key-info-horizontal {
+    .sky-key-info-value,
+    .sky-key-info-label {
+      display: inline-block;
+    }
+
+    .sky-key-info-label {
+      padding: 0 0 0 var(--sky-margin-inline-xs);
+    }
+  }
+}
