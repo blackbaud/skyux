@@ -532,6 +532,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     'ag-floating-top',
     'ag-body',
     'ag-sticky-top',
+    'ag-sticky-bottom',
     'ag-floating-bottom',
     'ag-overlay',
   ]);
