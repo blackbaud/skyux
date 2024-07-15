@@ -69,6 +69,39 @@
   </sky-box-content>
 </sky-box>
 
+<sky-box
+  [headingHidden]="!showHeader"
+  headingText="Easy-mode header"
+  [headingStyle]="headingStyle"
+  [headingLevel]="headingStyle"
+  [helpPopoverContent]="showHelp ? helpContent : undefined"
+  helpPopoverTitle="Easy-mode help"
+>
+  <sky-box-controls *ngIf="showControls">
+    <sky-dropdown buttonType="context-menu">
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button type="button">Action 1</button>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <button type="button">Action 2</button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown> </sky-box-controls
+  ><sky-box-content>
+    <sky-dropdown buttonType="context-menu" style="display: inline-block">
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button type="button">Action 1</button>
+        </sky-dropdown-item>
+        <sky-dropdown-item>
+          <button type="button">Action 2</button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu> </sky-dropdown
+    >Box 3 content
+  </sky-box-content>
+</sky-box>
+
 <div style="margin-top: 4em">
   <sky-checkbox [(ngModel)]="showHeader" labelText="Show header" />
   <sky-checkbox [(ngModel)]="showControls" labelText="Show controls" />
@@ -77,4 +110,13 @@
     [disabled]="!showHeader"
     labelText="Show inline help"
   />
+  <button
+    type="button"
+    class="sky-btn sky-btn-default"
+    (click)="toggleHeadingStyle()"
+  >
+    Toggle heading style {{ headingStyle ?? 'undefined' }}
+  </button>
 </div>
+
+<ng-template #helpContent>Help content</ng-template>

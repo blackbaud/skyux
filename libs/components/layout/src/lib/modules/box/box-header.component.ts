@@ -1,9 +1,11 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { SKY_BOX_HEADER_ID } from './box-header-id-token';
 
 /**
  * Specifies a header for the box.
+ * @deprecated Use `headingText` input on the `sky-box` component instead.
  */
 @Component({
   selector: 'sky-box-header',
@@ -13,4 +15,12 @@ import { SKY_BOX_HEADER_ID } from './box-header-id-token';
 })
 export class SkyBoxHeaderComponent {
   protected readonly boxHeaderId = inject(SKY_BOX_HEADER_ID);
+
+  constructor() {
+    inject(SkyLogService).deprecated('SkyToggleSwitchLabelComponent', {
+      deprecationMajorVersion: 10,
+      replacementRecommendation:
+        'To add a header to box, use the `headerText` input on the box component instead.',
+    });
+  }
 }
