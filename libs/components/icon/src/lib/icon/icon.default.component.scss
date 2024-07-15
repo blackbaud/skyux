@@ -5,6 +5,6 @@
   display: inline-block;
 }
 
-@include mixins.sky-component('deafult', 'i') {
+@include mixins.sky-component('default', 'i') {
   display: inherit;
 }
