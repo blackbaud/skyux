@@ -1,19 +1,11 @@
-import { provideHttpClient } from '@angular/common/http';
-import {
-  HttpTestingController,
-  provideHttpClientTesting,
-} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
-import { firstValueFrom } from 'rxjs';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
 describe('Icon SVG resolver service', () => {
+  let fetchMock: jasmine.Spy<typeof fetch>;
   let resolverSvc: SkyIconSvgResolverService;
-  let httpTestingController: HttpTestingController;
-  let spriteLoaded = false;
 
   function buildSymbolHtml(
     name: string,
@@ -32,52 +24,46 @@ describe('Icon SVG resolver service', () => {
     variant?: SkyIconVariantType,
     expectedError?: string,
   ): Promise<void> {
-    const hrefPromise = firstValueFrom(
-      resolverSvc.resolveHref(name, size, variant),
-    );
-
-    if (!spriteLoaded) {
-      const testRequest = httpTestingController.expectOne(
-        'https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg',
-      );
-
-      testRequest.flush(`<svg id="sky-icon-svg-sprite" width="0" height="0" style="position:absolute">
-  ${buildSymbolHtml('single-size', 12, 'line')}
-  ${buildSymbolHtml('single-size', 12, 'solid')}
-  ${buildSymbolHtml('multi-size', 12, 'line')}
-  ${buildSymbolHtml('multi-size', 12, 'solid')}
-  ${buildSymbolHtml('multi-size', 24, 'line')}
-  ${buildSymbolHtml('multi-size', 24, 'solid')}
-  ${buildSymbolHtml('multi-size', 48, 'line')}
-  ${buildSymbolHtml('multi-size', 48, 'solid')}
-  </svg>`);
-
-      spriteLoaded = true;
-    }
+    const hrefPromise = resolverSvc.resolveHref(name, size, variant);
 
     if (expectedError) {
       await expectAsync(hrefPromise).toBeRejectedWithError(expectedError);
     } else if (expectedHref) {
       await expectAsync(hrefPromise).toBeResolvedTo(expectedHref);
     }
+
+    // Fetch should only be called once per instance of the resolver service
+    // and the result shared across subsequent calls to resolveHref().
+    expect(fetchMock).toHaveBeenCalledOnceWith(
+      'https://sky.blackbaudcdn.net/static/skyux-icons/7/assets/svg/skyux-icons.svg',
+    );
   }
 
   beforeEach(() => {
+    fetchMock = spyOn(window, 'fetch').and.resolveTo(
+      new Response(
+        `<svg id="sky-icon-svg-sprite" width="0" height="0" style="position:absolute">
+    ${buildSymbolHtml('single-size', 12, 'line')}
+    ${buildSymbolHtml('single-size', 12, 'solid')}
+    ${buildSymbolHtml('multi-size', 12, 'line')}
+    ${buildSymbolHtml('multi-size', 12, 'solid')}
+    ${buildSymbolHtml('multi-size', 24, 'line')}
+    ${buildSymbolHtml('multi-size', 24, 'solid')}
+    ${buildSymbolHtml('multi-size', 48, 'line')}
+    ${buildSymbolHtml('multi-size', 48, 'solid')}
+  </svg>`,
+      ),
+    );
+
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        SkyIconSvgResolverService,
-      ],
+      providers: [SkyIconSvgResolverService],
     });
 
     resolverSvc = TestBed.inject(SkyIconSvgResolverService);
-    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
     document.getElementById('sky-icon-svg-sprite')?.remove();
-    spriteLoaded = false;
   });
 
   it('should resolve the expected variant', async () => {
@@ -92,6 +78,22 @@ describe('Icon SVG resolver service', () => {
       undefined,
       undefined,
       `Icon with name 'invalid' was not found.`,
+    );
+  });
+
+  it('should throw an error when the request fails', async () => {
+    fetchMock.and.resolveTo(
+      new Response('Internal Server Error', {
+        status: 500,
+      }),
+    );
+
+    await validate(
+      'single-size',
+      undefined,
+      undefined,
+      undefined,
+      `Icon sprite could not be loaded.`,
     );
   });
 
