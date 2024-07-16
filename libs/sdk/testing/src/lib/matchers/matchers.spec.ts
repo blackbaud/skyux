@@ -68,6 +68,11 @@ describe('Jasmine matchers', () => {
     document.body.innerHTML = '';
   });
 
+  it('should allow use of main jasmine matchers', waitForAsync(() => {
+    expect(2).toBe(2);
+    expectAsync(Promise.resolve(2)).toBeResolved();
+  }));
+
   describe('toBeVisible', () => {
     let child: HTMLDivElement;
     let parent: HTMLDivElement;
