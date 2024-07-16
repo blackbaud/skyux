@@ -389,10 +389,9 @@ export class SkyRepeaterComponent
   }
 
   #everyItemHasTag(): boolean {
-    /* sanity check */
-    /* istanbul ignore if */
+    /* safety check */
     if (!this.items || this.items.length === 0) {
-      return false;
+      return true;
     }
     return this.items.toArray().every((item) => {
       return item.tag !== undefined;
@@ -470,7 +469,7 @@ export class SkyRepeaterComponent
 
   #validateTags(): void {
     if (this.reorderable && !this.#everyItemHasTag()) {
-      console.warn(
+      this.#logSvc.warn(
         'Please supply tag properties for each repeater item when reordering functionality is enabled.',
       );
     }
