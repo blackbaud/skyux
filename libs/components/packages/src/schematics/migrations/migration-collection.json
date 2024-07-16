@@ -5,60 +5,20 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
-    "add-compat-stylesheets": {
-      "version": "10.0.0",
-      "factory": "./update-10/add-compat-stylesheets/add-compat-stylesheet.schematic",
-      "description": "Add a backward compatible stylesheet with styles that have been removed from components in SKY UX 10."
-    },
     "ag-grid": {
-      "version": "10.0.0",
-      "factory": "./update-10/ag-grid/ag-grid.schematic",
-      "description": "Apply code changes for AG Grid 30."
-    },
-    "axe-core": {
-      "version": "10.0.0",
-      "factory": "./update-10/axe-core/axe-core.schematic",
-      "description": "Update axe-core if @skyux-sdk/testing installed."
+      "version": "11.0.0",
+      "factory": "./update-11/ag-grid/ag-grid.schematic",
+      "description": "Apply code changes for AG Grid 32."
     },
     "i18n-resources-module": {
-      "version": "10.0.0",
-      "factory": "./update-10/i18n-resources-module/i18n-resources-module.schematic",
+      "version": "11.0.0",
+      "factory": "./update-11/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
-    "remove-nx-cache": {
-      "version": "10.8.0",
-      "factory": "./update-10/remove-nx-cache/remove-nx-cache.schematic",
-      "description": "Remove `.nx/cache` from git and add `.gitignore` entry."
-    },
     "remove-old-compat-stylesheets": {
-      "version": "10.0.0",
-      "factory": "./update-10/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
+      "version": "11.0.0",
+      "factory": "./update-11/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
       "description": "Remove backward compatible stylesheets for older versions of SKY UX."
-    },
-    "rename-tabset-tabindex": {
-      "version": "10.0.0",
-      "factory": "./update-10/rename-tabset-tabindex/rename-tabset-tabindex.schematic",
-      "description": "Rename the tabIndex input of sky-tab to tabIndexValue to avoid collision with HTML's native tabindex attribute."
-    },
-    "rename-harness-queries": {
-      "version": "10.0.0",
-      "factory": "./update-10/rename-harness-queries/rename-harness-queries.schematic",
-      "description": "Rename harnesses's queryHarness methods to queryHarnessOrNull."
-    },
-    "confirm-instance-observable": {
-      "version": "10.0.0",
-      "factory": "./update-10/confirm-instance-observable/confirm-instance-observable.schematic",
-      "description": "Rename SkyConfirmInstance.closed.next calls to SkyConfirmInstance.close in unit tests."
-    },
-    "add-forms-help-inline-peer-dependency": {
-      "version": "10.7.0",
-      "factory": "./update-10/add-forms-help-inline-peer-dependency/add-forms-help-inline-peer-dependency.schematic",
-      "description": "Add @skyux/help-inline peer dependency for @skyux/forms."
-    },
-    "add-indicators-help-inline-peer-dependency": {
-      "version": "10.32.0",
-      "factory": "./update-10/add-indicators-help-inline-peer-dependency/add-indicators-help-inline-peer-dependency.schematic",
-      "description": "Add @skyux/help-inline peer dependency for @skyux/indicators."
     }
   }
 }
