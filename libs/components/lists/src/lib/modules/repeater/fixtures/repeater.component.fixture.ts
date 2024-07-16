@@ -22,7 +22,7 @@ export class RepeaterTestComponent {
 
   public expandMode: SkyRepeaterExpandModeType | undefined = 'single';
 
-  public items: { id?: string; title: string }[] = [
+  public items: { id?: string; title: string }[] | undefined = [
     {
       id: 'item1',
       title: 'Title 1',
@@ -82,7 +82,7 @@ export class RepeaterTestComponent {
       id: `item${nextItemId++}`,
       title: 'New record ' + nextItemId,
     };
-    this.items.push(newItem);
+    this.items?.push(newItem);
   }
 
   public onOrderChange(tags: any[]): void {
