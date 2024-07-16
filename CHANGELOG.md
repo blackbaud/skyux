@@ -1,5 +1,20 @@
 # Changelog
 
+## [11.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.2...11.0.0-alpha.3) (2024-07-16)
+
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31.3.4 ([#2491](https://github.com/blackbaud/skyux/issues/2491)) ([#2499](https://github.com/blackbaud/skyux/issues/2499)) ([b432ef1](https://github.com/blackbaud/skyux/commit/b432ef1b425211253497a82852eaa49fc3b054e0))
+* **components/packages:** schematic to update `async()` tests to use `waitForAsync()` ([#2489](https://github.com/blackbaud/skyux/issues/2489)) ([26a7036](https://github.com/blackbaud/skyux/commit/26a70362e534d4d4814d9388412b00c25c17d575))
+
+
+### Bug Fixes
+
+* **components/layout:** box headingHidden input shouldn't hide controls component ([#2505](https://github.com/blackbaud/skyux/issues/2505)) ([#2507](https://github.com/blackbaud/skyux/issues/2507)) ([e954de0](https://github.com/blackbaud/skyux/commit/e954de0e0162a4e5dff7a3b46ea8c19b59433dcf))
+* **components/lists:** reorderable repeater will not throw a warning when no repeater items exist ([#2492](https://github.com/blackbaud/skyux/issues/2492)) ([#2501](https://github.com/blackbaud/skyux/issues/2501)) ([b438bda](https://github.com/blackbaud/skyux/commit/b438bdaf266fe2488f20d4490003a63578640f69))
+* **sdk/testing:** `expectAsync` type includes async matchers from Jasmine ([#2503](https://github.com/blackbaud/skyux/issues/2503)) ([#2504](https://github.com/blackbaud/skyux/issues/2504)) ([fe19620](https://github.com/blackbaud/skyux/commit/fe196203122c46a7ef66fdc86f6cf8f9da9dc52a))
+
 ## [10.37.1](https://github.com/blackbaud/skyux/compare/10.37.0...10.37.1) (2024-07-16)
 
 
