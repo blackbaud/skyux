@@ -10,27 +10,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'help-inline/basic',
-    loadComponent: () =>
-      import(
-        '../code-examples/indicators/help-inline/basic/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
-  {
-    path: 'icon/basic',
-    loadComponent: () =>
-      import('../code-examples/indicators/icon/basic/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
-  {
-    path: 'icon/button',
-    loadComponent: () =>
-      import(
-        '../code-examples/indicators/icon/icon-button/demo.component'
-      ).then((c) => c.DemoComponent),
-  },
-  {
     path: 'illustration/basic',
     loadComponent: () =>
       import(
