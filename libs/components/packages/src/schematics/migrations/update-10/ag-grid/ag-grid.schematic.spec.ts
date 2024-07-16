@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 import { joinPathFragments } from 'nx/src/utils/path';
 import { workspaceRoot } from 'nx/src/utils/workspace-root';
 
-const UPDATE_TO_VERSION = '31.3.2';
+const UPDATE_TO_VERSION = '31.3.4';
 
 describe('ag-grid.schematic', () => {
   const runner = new SchematicTestRunner(
