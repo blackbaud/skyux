@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ag-grid.schematic should update cellRendererFramework 1`] = `
+"
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+          #agGridService: SkyAgGridService;
+
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
+            let customOptions: Partial<GridOptions> = {};
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              columnDefs: [
+                { cellRenderer: 'CustomRenderer' }
+              ]
+            });
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should update charPress 1`] = `
+"
+        import { ICellEditorAngularComp, ICellEditorParams } from 'ag-grid-community';
+
+        export class EditorComponent implements ICellEditorAngularComp {
+          public agInit(params: ICellEditorParams) {
+            if (params.eventKey === 'Enter') {
+              // do something
+            }
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should update enterMovesDown 1`] = `
+"
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+
+        export class AppComponent {
+          public options: GridOptions;
+          #agGridService: SkyAgGridService;
+
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
+            let customOptions: Partial<GridOptions> = {};
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              enterNavigatesVertically: true,
+              enterNavigatesVerticallyAfterEdit: true
+            });
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should update getSecondaryColumns and setSecondaryColumns 1`] = `
+"
+        import { ColumnApi } from 'ag-grid-community';
+
+        export class AppComponent {
+          #columnApi: ColumnApi;
+
+          public getSecondaryColumns() {
+            return this.#columnApi.getPivotResultColumns();
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should update getSecondaryColumns and setSecondaryColumns 2`] = `
+"
+        import { ColumnApi } from 'ag-grid-community';
+
+        export class GridComponent {
+          #columnApi: ColumnApi;
+
+          public setSecondaryColumns() {
+            this.#columnApi.setPivotResultColumns([]);
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should update options 1`] = `
+"
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { GridOptions } from 'ag-grid-community';
+        import { LocalComponent } from './local.component';
+
+        export class AppComponent {
+          public options: GridOptions;
+          #agGridService: SkyAgGridService;
+
+          constructor(agGridService: SkyAgGridService) {
+            this.#agGridService = agGridService;
+            let customOptions: Partial<GridOptions> = {};
+            customOptions.suppressCellFocus = true;
+            this.options = this.agGridService.getGridOptions({
+              ...customOptions,
+              columnDefs: [
+                {
+                  headerName: 'Local',
+                  headerComponent: LocalComponent,
+                  filter: LocalComponent,
+                  component: LocalComponent,
+                  cellEditor: LocalComponent
+                }
+              ],
+              suppressCellFocus: true
+            });
+          }
+        }"
+`;
+
+exports[`ag-grid.schematic should use this.gridApi if possible 1`] = `
+"
+        import { Component } from '@angular/core';
+        import { GridApi, GridOptions } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          public onClick(): void {
+            this.gridApi.deselectAll();
+            this.gridApi.deselectAll();
+          }
+        }"
+`;
