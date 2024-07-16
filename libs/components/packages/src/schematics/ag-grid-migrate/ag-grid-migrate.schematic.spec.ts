@@ -230,6 +230,11 @@ describe('ag-grid-migrate.schematic', () => {
         windowsVerbatimArguments: true,
       },
     );
+    expect(childProcess.spawnSync).toHaveBeenCalledWith(
+      'npm',
+      ['remove', `@ag-grid-devtools/cli@${UPDATE_TO_VERSION}`],
+      { stdio: 'ignore' },
+    );
   });
 
   it('should not run if no files match', async () => {
