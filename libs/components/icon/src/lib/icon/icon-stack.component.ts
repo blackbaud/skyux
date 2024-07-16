@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyThemeComponentClassDirective, SkyThemeService } from '@skyux/theme';
 
 import { SkyIconStackItem } from './icon-stack-item';
 
@@ -10,6 +10,7 @@ import { SkyIconStackItem } from './icon-stack-item';
   selector: 'sky-icon-stack',
   templateUrl: './icon-stack.component.html',
   styleUrls: ['./icon-stack.component.scss'],
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyIconStackComponent {
   /**
