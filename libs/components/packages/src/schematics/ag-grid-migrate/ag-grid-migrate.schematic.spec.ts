@@ -19,13 +19,14 @@ interface TestSetup {
   schematic: (options: Schema) => Rule;
 }
 
-const UPDATE_TO_VERSION = '31.3.2';
+const UPDATE_TO_VERSION = '31.3.4';
+const UPDATE_TO_MIGRATION = '31.3.0';
 
 describe('ag-grid-migrate.schematic', () => {
   const defaultSetup = {
     fileList: '',
     sourceRoot: '.',
-    startingVersion: '31.3.2',
+    startingVersion: UPDATE_TO_VERSION,
     debug: false,
   };
   type Setup = typeof defaultSetup;
@@ -157,11 +158,16 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).toHaveBeenCalled();
     expect(childProcess.spawnSync).toHaveBeenCalledWith(
       'npm.cmd',
-      ['install', '--no-save', `@ag-grid-devtools/cli@${UPDATE_TO_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@~${UPDATE_TO_MIGRATION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
       },
+    );
+    expect(childProcess.spawnSync).toHaveBeenCalledWith(
+      'npm.cmd',
+      ['remove', `@ag-grid-devtools/cli`],
+      { stdio: 'ignore' },
     );
   });
 
@@ -190,11 +196,16 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).toHaveBeenCalled();
     expect(childProcess.spawnSync).toHaveBeenCalledWith(
       'npm',
-      ['install', '--no-save', `@ag-grid-devtools/cli@${UPDATE_TO_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@~${UPDATE_TO_MIGRATION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
       },
+    );
+    expect(childProcess.spawnSync).toHaveBeenCalledWith(
+      'npm',
+      ['remove', `@ag-grid-devtools/cli`],
+      { stdio: 'ignore' },
     );
   });
 
@@ -224,11 +235,16 @@ describe('ag-grid-migrate.schematic', () => {
     expect(os.platform).toHaveBeenCalled();
     expect(childProcess.spawnSync).toHaveBeenCalledWith(
       'npm',
-      ['install', '--no-save', `@ag-grid-devtools/cli@${UPDATE_TO_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@~${UPDATE_TO_MIGRATION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
       },
+    );
+    expect(childProcess.spawnSync).toHaveBeenCalledWith(
+      'npm',
+      ['remove', `@ag-grid-devtools/cli`],
+      { stdio: 'ignore' },
     );
   });
 
