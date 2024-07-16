@@ -38,9 +38,3 @@
 @include mixins.sky-component('default', '.sky-icon-inverse') {
   color: var(--sky-icon-stack-top-icon-color-override, $sky-text-color-on-dark);
 }
-
-@include mixins.sky-theme-modern-dark {
-  .sky-icon-inverse {
-    color: $sky-theme-modern-mode-dark-background-color-page-default;
-  }
-}

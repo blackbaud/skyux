@@ -9,7 +9,10 @@ import { SkyIconStackItem } from './icon-stack-item';
 @Component({
   selector: 'sky-icon-stack',
   templateUrl: './icon-stack.component.html',
-  styleUrls: ['./icon-stack.component.scss'],
+  styleUrls: [
+    './icon-stack.default.component.scss',
+    './icon-stack.modern.component.scss',
+  ],
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyIconStackComponent {
