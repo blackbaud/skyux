@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.37.0](https://github.com/blackbaud/skyux/compare/10.36.0...10.37.0) (2024-07-16)
+
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31.3.4 ([#2491](https://github.com/blackbaud/skyux/issues/2491)) ([9a720f2](https://github.com/blackbaud/skyux/commit/9a720f2e7306a59134ee5b0fdb59eea4db0a222b))
+
 ## [11.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.1...11.0.0-alpha.2) (2024-07-15)
 
 
