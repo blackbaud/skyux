@@ -1,6 +1,7 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { catchError, of, switchMap } from 'rxjs';
 
@@ -30,6 +31,7 @@ const SIZES = new Map([
     './icon-svg.default.component.scss',
     './icon-svg.modern.component.scss',
   ],
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);

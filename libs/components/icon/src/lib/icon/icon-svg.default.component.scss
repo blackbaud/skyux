@@ -1,10 +1,13 @@
-:host {
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include mixins.sky-component-host('default') {
   display: inline-block;
   --sky-icon-svg-img-size: 1em;
   --sky-icon-svg-img-top: 0.15em;
 }
 
-.sky-icon-svg-img {
+@include mixins.sky-component('default', '.sky-icon-svg-img') {
   display: inline-block;
   fill: var(--sky-icon-svg-color-input, currentColor);
   height: var(--sky-icon-svg-img-size);
@@ -13,27 +16,27 @@
   position: relative;
   top: var(--sky-icon-svg-img-top);
 
-  &-lg {
+  &.sky-icon-svg-img-lg {
     --sky-icon-svg-img-size: 1.333em;
     --sky-icon-svg-img-top: 0.2em;
   }
 
-  &-2x {
+  &.sky-icon-svg-img-2x {
     --sky-icon-svg-img-size: 2em;
     --sky-icon-svg-img-top: 0.3em;
   }
 
-  &-3x {
+  &.sky-icon-svg-img-3x {
     --sky-icon-svg-img-size: 3em;
     --sky-icon-svg-img-top: 0.45em;
   }
 
-  &-4x {
+  &.sky-icon-svg-img-4x {
     --sky-icon-svg-img-size: 4em;
     --sky-icon-svg-img-top: 0.6em;
   }
 
-  &-5x {
+  &.sky-icon-svg-img-5x {
     --sky-icon-svg-img-size: 5em;
     --sky-icon-svg-img-top: 0.75em;
   }
