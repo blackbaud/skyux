@@ -58,6 +58,18 @@ const routes: Routes = [
       import('./features/forms.module').then((m) => m.FormsModule),
   },
   {
+    path: 'help-inline',
+    loadChildren: () =>
+      import('./features/help-inline.module').then(
+        (m) => m.HelpInlineFeatureModule,
+      ),
+  },
+  {
+    path: 'icon',
+    loadChildren: () =>
+      import('./features/icon.module').then((m) => m.IconFeatureModule),
+  },
+  {
     path: 'indicators',
     loadChildren: () =>
       import('./features/indicators.module').then(
