@@ -72,6 +72,7 @@ describe('Box test harness', () => {
   it('should indicate the heading is hidden', async () => {
     const { boxHarness, fixture } = await setupTest();
 
+    fixture.componentInstance.headingText = 'Box header';
     fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 

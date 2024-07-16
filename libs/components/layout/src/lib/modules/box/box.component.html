@@ -8,37 +8,48 @@
     'sky-elevation-1-bordered': 'modern',
   }"
 >
-  <div
-    class="sky-box-header-content"
-    [ngClass]="{
-      'sky-screen-reader-only': headingHidden,
-    }"
-  >
+  <div class="sky-box-header-content">
     @if (headingText) {
       @switch (headingLevel) {
         @case (3) {
-          <h3 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
+          <h3
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
             {{ headingText }}
           </h3>
         }
         @case (4) {
-          <h4 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
+          <h4
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
             {{ headingText }}
           </h4>
         }
         @case (5) {
-          <h5 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
+          <h5
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
             {{ headingText }}
           </h5>
         }
         @default {
-          <h2 [id]="headerId" [class]="headingClass + ' sky-margin-inline-xs'">
+          <h2
+            [id]="headerId"
+            [class]="headingClass + ' sky-margin-inline-xs'"
+            [class.sky-screen-reader-only]="headingHidden"
+          >
             {{ headingText }}
           </h2>
         }
       }
       <sky-help-inline
-        *ngIf="helpPopoverContent || helpKey"
+        *ngIf="(helpPopoverContent || helpKey) && !headingHidden"
         [helpKey]="helpKey"
         [labelText]="headingText"
         [popoverTitle]="helpPopoverTitle"

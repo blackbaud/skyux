@@ -65,7 +65,12 @@ export class SkyBoxHarness extends SkyComponentHarness {
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    return (await this.#getHeading()).hasClass('sky-screen-reader-only');
+    const heading =
+      (await this.#getH2()) ||
+      (await this.#getH3()) ||
+      (await this.#getH4()) ||
+      (await this.#getH5());
+    return (await heading?.hasClass('sky-screen-reader-only')) ?? false;
   }
 
   /**
