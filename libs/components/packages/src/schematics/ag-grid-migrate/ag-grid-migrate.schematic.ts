@@ -55,7 +55,7 @@ export default function (options: Schema): Rule {
     const npm = platform() === 'win32' ? 'npm.cmd' : 'npm';
     spawnSync(
       npm,
-      ['install', '--no-save', `@ag-grid-devtools/cli@${AG_GRID_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@~${AG_GRID_MIGRATION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
