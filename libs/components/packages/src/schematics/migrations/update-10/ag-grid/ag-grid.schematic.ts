@@ -19,7 +19,7 @@ const AG_GRID_ENT = 'ag-grid-enterprise';
 const AG_GRID_NG = 'ag-grid-angular';
 const AG_GRID_SKY = '@skyux/ag-grid';
 
-const AG_GRID_VERSION = '^31.3.2';
+const AG_GRID_VERSION = '^31.3.4';
 
 /**
  * Check package.json for AG Grid dependencies.
