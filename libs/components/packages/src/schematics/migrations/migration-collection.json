@@ -15,6 +15,11 @@
       "factory": "./update-11/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
+    "ng-wait-for-async-test": {
+      "version": "11.0.0",
+      "factory": "./update-11/ng-wait-for-async-test/ng-wait-for-async-test.schematic",
+      "description": "Replace 'async()' with 'waitForAsync()' in tests."
+    },
     "remove-old-compat-stylesheets": {
       "version": "11.0.0",
       "factory": "./update-11/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
