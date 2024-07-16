@@ -1,5 +1,25 @@
 # Changelog
 
+## [10.37.0](https://github.com/blackbaud/skyux/compare/10.36.0...10.37.0) (2024-07-16)
+
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31.3.4 ([#2491](https://github.com/blackbaud/skyux/issues/2491)) ([9a720f2](https://github.com/blackbaud/skyux/commit/9a720f2e7306a59134ee5b0fdb59eea4db0a222b))
+
+## [10.36.0](https://github.com/blackbaud/skyux/compare/10.35.1...10.36.0) (2024-07-15)
+
+
+### Features
+
+* **components/icon:** use native fetch() for retrieving icon sprite ([#2478](https://github.com/blackbaud/skyux/issues/2478)) ([198d895](https://github.com/blackbaud/skyux/commit/198d89588ab7d758587aa12e3be1a9df634c7cbb))
+* **components/layout:** add heading and inline help inputs to box component ([#2439](https://github.com/blackbaud/skyux/issues/2439)) ([c50280b](https://github.com/blackbaud/skyux/commit/c50280b250ca49bcfe2635c4dbc1bfe3207e5704))
+
+
+### Bug Fixes
+
+* **components/packages:** switch to `@ag-grid-devtools/cli` for AG Grid codemods ([#2483](https://github.com/blackbaud/skyux/issues/2483)) ([2fbfbef](https://github.com/blackbaud/skyux/commit/2fbfbefc15bf9f68ddefd2dbc8b9c5eebd9d2aca))
+
 ## [10.35.1](https://github.com/blackbaud/skyux/compare/10.35.0...10.35.1) (2024-07-12)
 
 

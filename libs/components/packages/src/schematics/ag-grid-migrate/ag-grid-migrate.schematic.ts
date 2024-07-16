@@ -5,8 +5,8 @@ import { platform } from 'os';
 
 import { Schema } from './schema';
 
-const AG_GRID_VERSION = '31.3.2';
 const AG_GRID_MIGRATION = '31.3.0';
+const AG_GRID_VERSION = '31.3.4';
 
 function getStartingVersion(sourceRoot: string): string {
   const content = spawnSync(
@@ -55,7 +55,7 @@ export default function (options: Schema): Rule {
     const npm = platform() === 'win32' ? 'npm.cmd' : 'npm';
     spawnSync(
       npm,
-      ['install', '--no-save', `@ag-grid-devtools/cli@${AG_GRID_VERSION}`],
+      ['install', '--no-save', `@ag-grid-devtools/cli@~${AG_GRID_MIGRATION}`],
       {
         stdio: 'ignore',
         windowsVerbatimArguments: true,
@@ -77,7 +77,7 @@ export default function (options: Schema): Rule {
       windowsVerbatimArguments: true,
       argv0: 'npx',
     });
-    spawnSync(npm, ['remove', `@ag-grid-community/cli`], {
+    spawnSync(npm, ['remove', `@ag-grid-devtools/cli`], {
       stdio: 'ignore',
     });
     context.logger.info(

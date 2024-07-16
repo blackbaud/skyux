@@ -23,6 +23,7 @@
 }
 
 // Temporary overrides until the proportions of stackable SKY UX icons have been corrected.
+// TODO: correct the proportions of stackable SKY UX icons
 @include mixins.sky-component('modern', '.fa-stack-1x') {
   &.sky-i-check:before {
     position: relative;
