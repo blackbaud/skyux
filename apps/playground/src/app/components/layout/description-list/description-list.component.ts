@@ -24,4 +24,10 @@ export class DescriptionListComponent {
       description: '2024',
     },
   ];
+
+  public showHelp = false;
+
+  public toggleHelp(): void {
+    this.showHelp = !this.showHelp;
+  }
 }
