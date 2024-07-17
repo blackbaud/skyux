@@ -8,17 +8,22 @@ import { Schema } from './schema';
 const AG_GRID_MIGRATION = '31.3.0';
 const AG_GRID_VERSION = '31.3.4';
 
-function getStartingVersion(sourceRoot: string): string {
+function getStartingVersion(sourceRoot: string): string | undefined {
   const content = spawnSync(
     'git',
-    ['cat-file', `HEAD:${sourceRoot}/package-lock.json`],
+    // eslint-disable-next-line @cspell/spellchecker
+    ['cat-file', '--textconv', `HEAD:${sourceRoot}/package-lock.json`],
     {
       encoding: 'utf-8',
       stdio: 'pipe',
     },
   );
-  const packageJson = JSON.parse(content.stdout);
-  return packageJson['node_modules/ag-grid-community'].version;
+  try {
+    const packageJson = JSON.parse(content.stdout);
+    return packageJson.packages?.['node_modules/ag-grid-community']?.version;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 export default function (options: Schema): Rule {
@@ -26,6 +31,9 @@ export default function (options: Schema): Rule {
     let { sourceRoot } = options;
     sourceRoot ||= '.';
     const startingVersion = options.from ?? getStartingVersion(sourceRoot);
+    if (!startingVersion) {
+      return;
+    }
     if (startingVersion === AG_GRID_VERSION) {
       context.logger.info(
         `✅ Already on AG Grid ${AG_GRID_VERSION}. No migration needed.`,

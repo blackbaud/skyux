@@ -42,12 +42,15 @@ describe('ag-grid-migrate.schematic', () => {
           if (
             cmd === 'git' &&
             args?.join(' ') ===
-              `cat-file HEAD:${setup.sourceRoot}/package-lock.json`
+              // eslint-disable-next-line @cspell/spellchecker
+              `cat-file --textconv HEAD:${setup.sourceRoot}/package-lock.json`
           ) {
             return {
               stdout: JSON.stringify({
-                'node_modules/ag-grid-community': {
-                  version: setup.startingVersion,
+                packages: {
+                  'node_modules/ag-grid-community': {
+                    version: setup.startingVersion,
+                  },
                 },
               }),
             };
