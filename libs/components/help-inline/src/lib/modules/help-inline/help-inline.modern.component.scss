@@ -47,3 +47,10 @@
 @include mixins.sky-component('modern', 'sky-icon-stack') {
   display: inline-flex;
 }
+
+// this is just so i have a storybook with a baseline
+@include mixins.sky-theme-modern-dark {
+  .sky-icon-inverse {
+    color: $sky-theme-modern-mode-dark-background-color-page-default;
+  }
+}
