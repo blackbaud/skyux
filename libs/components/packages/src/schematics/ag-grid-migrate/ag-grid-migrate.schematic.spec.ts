@@ -42,12 +42,15 @@ describe('ag-grid-migrate.schematic', () => {
           if (
             cmd === 'git' &&
             args?.join(' ') ===
-              `cat-file HEAD:${setup.sourceRoot}/package-lock.json`
+              // eslint-disable-next-line @cspell/spellchecker
+              `cat-file --textconv HEAD:${setup.sourceRoot}/package-lock.json`
           ) {
             return {
               stdout: JSON.stringify({
-                'node_modules/ag-grid-community': {
-                  version: setup.startingVersion,
+                packages: {
+                  'node_modules/ag-grid-community': {
+                    version: setup.startingVersion,
+                  },
                 },
               }),
             };
@@ -273,5 +276,21 @@ describe('ag-grid-migrate.schematic', () => {
       'No AG Grid files found in sourceRoot',
     );
     expect(os.platform).not.toHaveBeenCalled();
+  });
+
+  it('should not run if unable to read previous version', async () => {
+    const { childProcess, context, schematic } = await setupTest();
+
+    const tree = new UnitTestTree(Tree.empty());
+    const options = {
+      sourceRoot: 'sourceRoot',
+    };
+    childProcess.spawnSync.mockImplementation(() => {
+      throw new Error('error');
+    });
+
+    await schematic(options)(tree, context);
+
+    expect(context.logger.info).not.toHaveBeenCalled();
   });
 });
