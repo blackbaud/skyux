@@ -9,16 +9,16 @@ const AG_GRID_MIGRATION = '31.3.0';
 const AG_GRID_VERSION = '31.3.4';
 
 function getStartingVersion(sourceRoot: string): string | undefined {
-  const content = spawnSync(
-    'git',
-    // eslint-disable-next-line @cspell/spellchecker
-    ['cat-file', '--textconv', `HEAD:${sourceRoot}/package-lock.json`],
-    {
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    },
-  );
   try {
+    const content = spawnSync(
+      'git',
+      // eslint-disable-next-line @cspell/spellchecker
+      ['cat-file', '--textconv', `HEAD:${sourceRoot}/package-lock.json`],
+      {
+        encoding: 'utf-8',
+        stdio: 'pipe',
+      },
+    );
     const packageJson = JSON.parse(content.stdout);
     return packageJson.packages?.['node_modules/ag-grid-community']?.version;
   } catch (e) {

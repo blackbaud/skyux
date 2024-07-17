@@ -277,4 +277,20 @@ describe('ag-grid-migrate.schematic', () => {
     );
     expect(os.platform).not.toHaveBeenCalled();
   });
+
+  it('should not run if unable to read previous version', async () => {
+    const { childProcess, context, schematic } = await setupTest();
+
+    const tree = new UnitTestTree(Tree.empty());
+    const options = {
+      sourceRoot: 'sourceRoot',
+    };
+    childProcess.spawnSync.mockImplementation(() => {
+      throw new Error('error');
+    });
+
+    await schematic(options)(tree, context);
+
+    expect(context.logger.info).not.toHaveBeenCalled();
+  });
 });
