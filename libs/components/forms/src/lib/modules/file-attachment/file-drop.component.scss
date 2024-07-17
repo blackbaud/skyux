@@ -73,6 +73,13 @@ button.sky-file-drop {
   .sky-file-drop-link-header {
     margin-bottom: $sky-margin-half;
   }
+
+  sky-icon.sky-file-upload-icon {
+    display: block;
+    font-size: 40px;
+    max-height: 40px;
+    margin-top: $sky-margin;
+  }
 }
 .sky-file-drop-no-click {
   .sky-file-drop-contents {
@@ -120,13 +127,6 @@ button.sky-file-drop {
 .sky-file-drop-contents-accept,
 .sky-file-drop-contents-reject {
   display: none;
-}
-
-sky-icon.sky-file-upload-icon {
-  display: block;
-  font-size: 40px;
-  max-height: 40px;
-  margin-top: $sky-margin;
 }
 
 .sky-file-drop-link {
