@@ -576,11 +576,11 @@ windowRef.beforeEach(() => {
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
  */
-export interface SkyAsyncMatchers<T> {
+export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
   /**
    * Invert the matcher following this `expect`
    */
-  not: SkyAsyncMatchers<T>;
+  not: SkyAsyncMatchers<T, U>;
 
   /**
    * `expect` an element to be accessible based on Web Content Accessibility
@@ -769,6 +769,6 @@ export function expect<T>(actual: T): SkyMatchers<T> {
  * Create an async expectation for a spec.
  * @param actual Actual computed value to test expectations against.
  */
-export function expectAsync<T>(actual: T): SkyAsyncMatchers<T> {
+export function expectAsync<T, U>(actual: T): SkyAsyncMatchers<T, U> {
   return windowRef.expectAsync(actual);
 }

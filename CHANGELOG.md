@@ -1,5 +1,22 @@
 # Changelog
 
+## [10.37.2](https://github.com/blackbaud/skyux/compare/10.37.1...10.37.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* **components/packages:** additional error handling for AG Grid schematic ([#2509](https://github.com/blackbaud/skyux/issues/2509)) ([27498a2](https://github.com/blackbaud/skyux/commit/27498a2ba227cf8ff98026c1f3990a0eb5f756ac))
+
+## [10.37.1](https://github.com/blackbaud/skyux/compare/10.37.0...10.37.1) (2024-07-16)
+
+
+### Bug Fixes
+
+* **components/help-inline:** add schematic for missing popovers peer which may be missing due to the package being added by schematic ([#2506](https://github.com/blackbaud/skyux/issues/2506)) ([6212fa7](https://github.com/blackbaud/skyux/commit/6212fa7af5b71e35f05526e5c0cc2145d02e2e4e))
+* **components/layout:** box headingHidden input shouldn't hide controls component ([#2505](https://github.com/blackbaud/skyux/issues/2505)) ([dbdeb0d](https://github.com/blackbaud/skyux/commit/dbdeb0d72d3e119074caf2cf22f8ae555a479009))
+* **components/lists:** reorderable repeater will not throw a warning when no repeater items exist ([#2492](https://github.com/blackbaud/skyux/issues/2492)) ([a01a108](https://github.com/blackbaud/skyux/commit/a01a108cc8cb95ff245dad6f9e472ba60ef1c350))
+* **sdk/testing:** `expectAsync` type includes async matchers from Jasmine ([#2503](https://github.com/blackbaud/skyux/issues/2503)) ([b34086f](https://github.com/blackbaud/skyux/commit/b34086f230df8b7e9b2eb9a46ec2181c8bb64b19))
+
 ## [10.37.0](https://github.com/blackbaud/skyux/compare/10.36.0...10.37.0) (2024-07-16)
 
 

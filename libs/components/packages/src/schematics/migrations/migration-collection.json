@@ -59,6 +59,11 @@
       "version": "10.32.0",
       "factory": "./update-10/add-indicators-help-inline-peer-dependency/add-indicators-help-inline-peer-dependency.schematic",
       "description": "Add @skyux/help-inline peer dependency for @skyux/indicators."
+    },
+    "add-help-inline-popovers-peer-dependency": {
+      "version": "10.37.1",
+      "factory": "./update-10/add-help-inline-popovers-peer-dependency/add-help-inline-popovers-peer-dependency.schematic",
+      "description": "Add @skyux/popovers peer dependency for @skyux/help-inline."
     }
   }
 }
