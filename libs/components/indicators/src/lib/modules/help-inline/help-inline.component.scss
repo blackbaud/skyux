@@ -21,12 +21,16 @@
   .sky-help-inline {
     // The button mixin sets the border radius to 6px but we only want 3px on help inline buttons.
     border-radius: 3px;
-    ::ng-deep .fa-stack-2x {
-      font-size: 16px;
-    }
+    ::ng-deep {
+      .sky-icon-stack-size-xs {
+        .fa-stack-2x.sky-i-circle-solid {
+          font-size: 16px;
+        }
 
-    ::ng-deep .fa-stack-1x {
-      font-size: 10px;
+        .fa-stack-1x.sky-i-help-i {
+          font-size: 10px;
+        }
+      }
     }
 
     // The 0px and 5px padding is because we want 1px top/bottom and 6px left/right but the mixin
