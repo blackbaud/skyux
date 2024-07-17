@@ -1,5 +1,19 @@
 # Changelog
 
+## [10.37.3](https://github.com/blackbaud/skyux/compare/10.37.2...10.37.3) (2024-07-17)
+
+
+### Bug Fixes
+
+* **components/layout:** remove onpush change detection from description list term to dynamically detect inline help inputs from description list content ([#2515](https://github.com/blackbaud/skyux/issues/2515)) ([2a5a1d1](https://github.com/blackbaud/skyux/commit/2a5a1d153eb801fe196d85ea359bb6ba144f8a2d))
+
+## [10.37.2](https://github.com/blackbaud/skyux/compare/10.37.1...10.37.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* **components/packages:** additional error handling for AG Grid schematic ([#2509](https://github.com/blackbaud/skyux/issues/2509)) ([27498a2](https://github.com/blackbaud/skyux/commit/27498a2ba227cf8ff98026c1f3990a0eb5f756ac))
+
 ## [10.37.1](https://github.com/blackbaud/skyux/compare/10.37.0...10.37.1) (2024-07-16)
 
 
