@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.3...11.0.0-alpha.4) (2024-07-18)
+
+
+### Features
+
+* support Angular 18.1.1 ([#2521](https://github.com/blackbaud/skyux/issues/2521)) ([e9826c8](https://github.com/blackbaud/skyux/commit/e9826c89c77790d1586457a73d33f9cda8b9877e))
+
+
+### Bug Fixes
+
+* **components/i18n:** switch to string union type ([#2523](https://github.com/blackbaud/skyux/issues/2523)) ([7393ae9](https://github.com/blackbaud/skyux/commit/7393ae9e73be83fe42a1878c393640e380be0919))
+* **components/layout:** remove onpush change detection from description list term to dynamically detect inline help inputs from description list content ([#2515](https://github.com/blackbaud/skyux/issues/2515)) ([#2516](https://github.com/blackbaud/skyux/issues/2516)) ([7d9f558](https://github.com/blackbaud/skyux/commit/7d9f558642334dcbb46cc6b594a1b55f546efb1a))
+* **components/packages:** additional error handling for AG Grid schematic ([#2509](https://github.com/blackbaud/skyux/issues/2509)) ([#2512](https://github.com/blackbaud/skyux/issues/2512)) ([e200593](https://github.com/blackbaud/skyux/commit/e200593e35c31d1f4f66602412e16470d52cf612))
+
 ## [10.37.3](https://github.com/blackbaud/skyux/compare/10.37.2...10.37.3) (2024-07-17)
 
 
