@@ -8,8 +8,8 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 @Component({
   selector: 'sky-chevron',
   styleUrls: [
-    './chevron.modern.component.scss',
     './chevron.default.component.scss',
+    './chevron.modern.component.scss',
   ],
   templateUrl: './chevron.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
