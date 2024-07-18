@@ -1,10 +1,7 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-button {
-  background: lightblue;
-}
-
-.sky-chevron {
+@include mixins.sky-component('modern', '.sky-chevron') {
   border: none;
   background-color: transparent;
   flex-shrink: 0;
