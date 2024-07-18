@@ -43,17 +43,18 @@ export class SkyI18nCurrencyFormatService {
     const currencyCode = resolvedOptions.currency!;
     const parts = this.#formatToParts(formatter);
 
-    const format: SkyI18nCurrencyFormat = {
+    /* istanbul ignore next */
+    const precision = resolvedOptions.maximumFractionDigits ?? 0;
+
+    return {
       decimalCharacter: parts.decimalCharacter,
       groupCharacter: parts.groupCharacter,
       isoCurrencyCode: currencyCode,
       locale,
-      precision: resolvedOptions.maximumFractionDigits,
+      precision,
       symbol: parts.symbol,
       symbolLocation: parts.symbolLocation,
     };
-
-    return format;
   }
 
   #formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
