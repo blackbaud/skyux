@@ -71,4 +71,28 @@ describe('Angular waitForAsync updates', () => {
       `it('should create the app', waitForAsync(() => {`,
     );
   });
+
+  it('should update async imports when waitForAsync is already imported', async () => {
+    tree.create(
+      '/projects/my-app/src/app/test.component.spec.ts',
+      `import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+      import { AppComponent } from './app.component';
+
+      it('should create the app', async(() => {
+        const fixture = TestBed.createComponent(AppComponent);
+        const app = fixture.componentInstance;
+        expect(app).toBeTruthy();
+      }));`,
+    );
+    await runner.runSchematic('ng-wait-for-async-test', {}, tree);
+    const content = tree.readContent(
+      '/projects/my-app/src/app/test.component.spec.ts',
+    );
+    expect(content).toContain(
+      `import {  ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';`,
+    );
+    expect(content).toContain(
+      `it('should create the app', waitForAsync(() => {`,
+    );
+  });
 });

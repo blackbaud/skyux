@@ -60,9 +60,7 @@ export class DemoComponent {
 
         const results = oceans.filter((ocean: Ocean) => {
           const val = ocean.title;
-          const isMatch =
-            val && val.toString().toLowerCase().includes(searchTextLower);
-          return isMatch;
+          return !!val?.toString().toLowerCase().includes(searchTextLower);
         });
 
         // Simulate an async request.
