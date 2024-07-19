@@ -39,7 +39,23 @@ export default function () {
         importSpecifier.getStart(sourceFile),
         importSpecifier.getWidth(sourceFile),
       );
-      recorder.insertLeft(importSpecifier.getStart(sourceFile), 'waitForAsync');
+      if (!isImported(sourceFile, 'waitForAsync', '@angular/core/testing')) {
+        recorder.insertLeft(
+          importSpecifier.getStart(sourceFile),
+          'waitForAsync',
+        );
+      } else if (
+        content.charAt(
+          importSpecifier.getStart(sourceFile) +
+            importSpecifier.getWidth(sourceFile),
+        ) === ','
+      ) {
+        recorder.remove(
+          importSpecifier.getStart(sourceFile) +
+            importSpecifier.getWidth(sourceFile),
+          1,
+        );
+      }
 
       const asyncCalls = findNodes(
         sourceFile,
