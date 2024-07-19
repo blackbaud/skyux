@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.4...11.0.0-alpha.5) (2024-07-19)
+
+
+### Bug Fixes
+
+* **components/packages:** check for existing `waitForAsync` import ([#2524](https://github.com/blackbaud/skyux/issues/2524)) ([ecaf9b8](https://github.com/blackbaud/skyux/commit/ecaf9b873b17efc63022bf4e017744dce8174ed5))
+
 ## [11.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.3...11.0.0-alpha.4) (2024-07-18)
 
 
