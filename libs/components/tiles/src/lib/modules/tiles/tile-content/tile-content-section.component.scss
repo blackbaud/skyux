@@ -1,8 +1,32 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host:not(:last-child) .sky-tile-content-section {
+  @include mixins.sky-border(light);
+}
+
+:host-context(.sky-theme-modern sky-tile-content) {
+  .sky-tile-content-section {
+    border-bottom: 1px dotted $sky-theme-modern-color-gray-30;
+  }
+
+  :host:first-child {
+    .sky-tile-content-section {
+      margin-top: $sky-space-lg;
+    }
+  }
+
+  :host:last-child {
+    .sky-tile-content-section {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+}
+
 @include mixins.sky-theme-modern {
   .sky-tile-content-section {
+    border-bottom: 1px dotted $sky-theme-modern-color-gray-30;
     padding: $sky-space-lg 0;
   }
 }
