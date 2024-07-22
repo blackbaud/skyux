@@ -73,7 +73,7 @@ describe('removeNxCache', () => {
     );
   });
 
-  it('should ignore .nx/cache directory', async () => {
+  it('should ignore .nx directory', async () => {
     const { tree, mocks, removeNxCache } = await setup();
     mocks.getPackageJsonDependency.mockReturnValueOnce({
       type: NodeDependencyType.Default,
@@ -86,11 +86,34 @@ describe('removeNxCache', () => {
     expect(mocks.spawnSync).toHaveBeenCalledTimes(2);
     expect(mocks.spawnSync).toHaveBeenCalledWith(
       'git',
-      ['-C', '.', 'rm', '-rf', '--cached', '--quiet', '.nx/cache'],
+      ['-C', '.', 'rm', '-rf', '--cached', '--quiet', '.nx'],
       {
         stdio: 'ignore',
       },
     );
-    expect(tree.readContent('.gitignore')).toContain('.nx/cache');
+    expect(tree.readContent('.gitignore')).toContain('/.nx');
+  });
+
+  it('should update ignore from .nx/cache directory', async () => {
+    const { tree, mocks, removeNxCache } = await setup();
+    mocks.getPackageJsonDependency.mockReturnValueOnce({
+      type: NodeDependencyType.Default,
+      name: '@angular-eslint/builder',
+      version: '1.0.0',
+    });
+    mocks.isHostTree.mockReturnValueOnce(true);
+    tree.overwrite('.gitignore', `/.nx/cache`);
+    removeNxCache({ rootDir: '.' })(tree, {} as any);
+    expect(tree.exists('.nx/cache')).toBe(false);
+    expect(mocks.spawnSync).toHaveBeenCalledTimes(2);
+    expect(mocks.spawnSync).toHaveBeenCalledWith(
+      'git',
+      ['-C', '.', 'rm', '-rf', '--cached', '--quiet', '.nx'],
+      {
+        stdio: 'ignore',
+      },
+    );
+    expect(tree.readContent('.gitignore')).toContain('/.nx');
+    expect(tree.readContent('.gitignore')).not.toContain('.nx/cache');
   });
 });
