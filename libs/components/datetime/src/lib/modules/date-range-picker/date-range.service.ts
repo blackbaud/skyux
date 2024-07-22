@@ -1,13 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { SkyLibResourcesService } from '@skyux/i18n';
-
-import { BehaviorSubject, Observable, Subject, forkJoin } from 'rxjs';
-import { first, map, takeUntil } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorConfig } from './types/date-range-calculator-config';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calculator-configs';
+
+// Start the count higher than the number of available values
+// provided in the SkyDateRangeCalculatorId enum.
+let lastId = 1000;
 
 /**
  * Creates and manages `SkyDateRangeCalculator` instances.
@@ -15,32 +15,15 @@ import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calcu
 @Injectable({
   providedIn: 'root',
 })
-export class SkyDateRangeService implements OnDestroy {
+export class SkyDateRangeService {
   public get calculators(): SkyDateRangeCalculator[] {
     return this.#calculators;
   }
 
-  // Start the count higher than the number of available values
-  // provided in the SkyDateRangeCalculatorId enum.
-  private static lastId = 1000;
+  #calculators: SkyDateRangeCalculator[];
 
-  #calculatorReadyStream = new BehaviorSubject<boolean>(false);
-
-  #calculators: SkyDateRangeCalculator[] = [];
-
-  #ngUnsubscribe = new Subject<void>();
-
-  #resourcesService: SkyLibResourcesService;
-
-  constructor(resourcesService: SkyLibResourcesService) {
-    this.#resourcesService = resourcesService;
+  constructor() {
     this.#calculators = this.#createDefaultCalculators();
-    this.#resolveResourcesStrings(this.#calculators);
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -50,7 +33,7 @@ export class SkyDateRangeService implements OnDestroy {
   public createCalculator(
     config: SkyDateRangeCalculatorConfig,
   ): SkyDateRangeCalculator {
-    const newId = SkyDateRangeService.lastId++;
+    const newId = lastId++;
     const calculator = new SkyDateRangeCalculator(newId, config);
 
     this.#calculators.push(calculator);
@@ -115,9 +98,7 @@ export class SkyDateRangeService implements OnDestroy {
         return;
       }
 
-      this.#calculatorReadyStream.pipe(first()).subscribe(() => {
-        resolve(found);
-      });
+      resolve(found);
     });
   }
 
@@ -141,35 +122,5 @@ export class SkyDateRangeService implements OnDestroy {
     }
 
     return calculators;
-  }
-
-  /**
-   * Resolves locale resources strings for the provided calculators.
-   * @deprecated The resources strings are resolved in the template, so we'll
-   * remove this functionality in a later major version of SKY UX.
-   */
-  #resolveResourcesStrings(calculators: SkyDateRangeCalculator[]): void {
-    const tasks: Observable<void>[] = [];
-
-    calculators.forEach((calculator) => {
-      if (calculator._shortDescriptionResourceKey) {
-        tasks.push(
-          this.#resourcesService
-            .getString(calculator._shortDescriptionResourceKey)
-            .pipe(
-              takeUntil(this.#ngUnsubscribe),
-              map((value) => {
-                calculator.shortDescription = value;
-              }),
-            ),
-        );
-      }
-    });
-
-    forkJoin(tasks)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#calculatorReadyStream.next(true);
-      });
   }
 }
