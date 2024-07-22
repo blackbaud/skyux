@@ -1,5 +1,5 @@
 {
-  "baseBranch": "10.x.x",
+  "baseBranch": "main",
   "documentationExcludeProjects": [
     "animations",
     "assets",

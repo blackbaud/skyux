@@ -4,7 +4,7 @@ on:
     types:
       - closed
     branches:
-      - 10.x.x
+      - 7.x.x
 
 env:
   TARGET_BRANCH: main
@@ -38,7 +38,6 @@ jobs:
         run: npm ci
 
       - name: Cherry pick
-        id: cherry-pick
         run: |
           # Set the git user to the author of the merge commit.
           git config user.name "$(git log -1 --pretty=format:'%an' ${{ github.event.pull_request.merge_commit_sha }})"
@@ -84,7 +83,6 @@ jobs:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
             const pr = context.payload.pull_request;
-            const title = ${{ toJson(steps.cherry-pick.outputs.commit_message) }};
             let body = `:cherries: Cherry picked from #${pr.number} [${pr.title}](${pr.html_url})`
             const prAzureBoardLink = pr.body?.match(/(?<=\[)AB#\d+(?=])/g);
             if (prAzureBoardLink) {

@@ -6,7 +6,7 @@ on:
   pull_request:
   push:
     branches:
-      - 10.x.x
+      - main
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
