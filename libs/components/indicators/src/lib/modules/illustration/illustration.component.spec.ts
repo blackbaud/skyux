@@ -20,13 +20,16 @@ describe('Illustration', () => {
     provideResolver: boolean,
     name: string,
     size: SkyIllustrationSize,
+    resolver?: {
+      resolveUrl: (url: string) => Promise<string>;
+    },
   ): void {
     const providers: Provider[] = [];
 
     if (provideResolver) {
       providers.push({
         provide: SkyIllustrationResolverService,
-        useClass: SkyIllustrationTestResolverService,
+        useFactory: () => resolver ?? new SkyIllustrationTestResolverService(),
       });
     }
 
@@ -48,6 +51,17 @@ describe('Illustration', () => {
 
   function validateImageAttr(name: string, expectedValue: string): void {
     expect(getImgEl()?.getAttribute(name)).toBe(expectedValue);
+  }
+
+  function validateImageVisibility(expectedVisible: boolean): void {
+    const imgEl = getImgEl();
+    let visibility: string | undefined;
+
+    if (imgEl) {
+      visibility = getComputedStyle(imgEl).visibility;
+    }
+
+    expect(visibility).toBe(expectedVisible ? 'visible' : 'hidden');
   }
 
   function detectUrlChanges(): void {
@@ -101,6 +115,33 @@ describe('Illustration', () => {
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should be hidden until the URL is resolved', fakeAsync(async () => {
+      // TODO: Use the more concise Promise.withResolvers() when it's available in TypeScript
+      // to avoid this awkward workaround for strict type checking.
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
+      let resolveUrl = (_: string): void => void _;
+
+      const resolvePromise = new Promise<string>(
+        (resolve) => (resolveUrl = resolve),
+      );
+
+      setupTest(true, 'test', 'sm', {
+        resolveUrl: () => resolvePromise,
+      });
+
+      detectUrlChanges();
+
+      validateImageVisibility(false);
+
+      resolveUrl('https://example.com/success.svg');
+
+      detectUrlChanges();
+
+      validateImageVisibility(true);
+
+      await resolvePromise;
+    }));
   });
 
   describe('without resolver provided', () => {
