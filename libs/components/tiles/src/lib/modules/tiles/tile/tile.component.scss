@@ -6,6 +6,28 @@
   margin-bottom: $sky-margin-double;
 }
 
+/* NOTE: This style is here as we only want it when inside a tile dashboard */
+:host-context(
+    .sky-tile-dashboard-layout-single,
+    .sky-tile-dashboard-layout-multi
+  )
+  .sky-tile {
+  margin-bottom: 0;
+}
+
+:host-context(.sky-tile-dashboard-gt-xs) {
+  :host-context(.sky-tile-dashboard-layout-single),
+  :host-context(.sky-tile-dashboard-layout-multi) {
+    .sky-tile {
+      margin-bottom: $sky-margin-double;
+    }
+  }
+
+  :host-context(.sky-theme-default) {
+    padding-top: $sky-padding-double;
+  }
+}
+
 .sky-tile-header {
   border-color: $sky-border-color-neutral-medium;
   border-style: solid solid none;
@@ -108,25 +130,6 @@
     font-size: 16px;
   }
 
-  .sky-tile-content {
-    ::ng-deep .sky-tile-content-section {
-      border-bottom: 1px dotted $sky-theme-modern-color-gray-30;
-    }
-
-    ::ng-deep sky-tile-content-section:first-child {
-      .sky-tile-content-section {
-        margin-top: $sky-space-lg;
-      }
-    }
-
-    ::ng-deep sky-tile-content-section:last-child {
-      .sky-tile-content-section {
-        padding-bottom: 0;
-        border-bottom: none;
-      }
-    }
-  }
-
   @include mixins.sky-host-responsive-container-xs-min() {
     .sky-tile {
       border-radius: 0px;
@@ -136,6 +139,15 @@
   @include mixins.sky-host-responsive-container-sm-min() {
     .sky-tile {
       border-radius: $sky-theme-modern-box-border-radius-default;
+    }
+  }
+}
+
+:host-context(.sky-theme-modern .sky-tile-dashboard-gt-xs) {
+  :host-context(.sky-tile-dashboard-layout-single),
+  :host-context(.sky-tile-dashboard-layout-multi) {
+    .sky-tile {
+      margin-bottom: $sky-theme-modern-space-xl;
     }
   }
 }
