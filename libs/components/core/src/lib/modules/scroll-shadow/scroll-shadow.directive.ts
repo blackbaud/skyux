@@ -9,29 +9,29 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { SkyMutationObserverService } from '@skyux/core';
 import { SkyTheme, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
+
+import { SkyScrollShadowEventArgs } from './scroll-shadow-event-args';
 
 /**
- * Raises an event when the box shadow for the modal header or footer should be adjusted
+ * Raises an event when the box shadow for a component's header or footer should be adjusted
  * based on the scroll position of the host element.
  * @internal
  */
 @Directive({
   standalone: true,
-  selector: '[skyModalScrollShadow]',
+  selector: '[skyScrollShadow]',
 })
-export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
+export class SkyScrollShadowDirective implements OnInit, OnDestroy {
   @Output()
-  public skyModalScrollShadow =
-    new EventEmitter<SkyModalScrollShadowEventArgs>();
+  public skyScrollShadow = new EventEmitter<SkyScrollShadowEventArgs>();
 
-  #currentShadow: SkyModalScrollShadowEventArgs | undefined;
+  #currentShadow: SkyScrollShadowEventArgs | undefined;
 
   #currentTheme: SkyTheme | undefined;
 
@@ -113,7 +113,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
 
   #checkForShadow(): void {
     if (this.#currentTheme === SkyTheme.presets.modern) {
-      const el = this.#elRef.nativeElement;
+      const el: Element = this.#elRef.nativeElement;
 
       const topShadow = this.#buildShadowStyle(el.scrollTop);
 
@@ -136,13 +136,13 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
     return opacity > 0 ? `0px 1px 8px 0px rgba(0, 0, 0, ${opacity})` : 'none';
   }
 
-  #emitShadow(shadow: SkyModalScrollShadowEventArgs): void {
+  #emitShadow(shadow: SkyScrollShadowEventArgs): void {
     if (
       !this.#currentShadow ||
       this.#currentShadow.bottomShadow !== shadow.bottomShadow ||
       this.#currentShadow.topShadow !== shadow.topShadow
     ) {
-      this.skyModalScrollShadow.emit(shadow);
+      this.skyScrollShadow.emit(shadow);
       this.#currentShadow = shadow;
     }
   }

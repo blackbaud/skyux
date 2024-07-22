@@ -21,6 +21,8 @@ import {
   SkyIdModule,
   SkyLiveAnnouncerService,
   SkyResizeObserverMediaQueryService,
+  SkyScrollShadowDirective,
+  SkyScrollShadowEventArgs,
 } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
@@ -36,8 +38,6 @@ import { SkyModalError } from './modal-error';
 import { SkyModalErrorsService } from './modal-errors.service';
 import { SkyModalHeaderComponent } from './modal-header.component';
 import { SkyModalHostService } from './modal-host.service';
-import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
-import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
 
 const ARIA_ROLE_DEFAULT = 'dialog';
 
@@ -62,7 +62,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyIconModule,
     SkyIdModule,
     SkyModalHeaderComponent,
-    SkyModalScrollShadowDirective,
+    SkyScrollShadowDirective,
     SkyModalsResourcesModule,
   ],
 })
@@ -163,7 +163,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
   public modalZIndex: number | undefined;
 
-  public scrollShadow: SkyModalScrollShadowEventArgs | undefined;
+  public scrollShadow: SkyScrollShadowEventArgs | undefined;
 
   public size: string;
 
@@ -331,7 +331,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
     this.#componentAdapter.handleWindowChange(this.#elRef);
   }
 
-  public scrollShadowChange(args: SkyModalScrollShadowEventArgs): void {
+  public scrollShadowChange(args: SkyScrollShadowEventArgs): void {
     this.scrollShadow = args;
   }
 
