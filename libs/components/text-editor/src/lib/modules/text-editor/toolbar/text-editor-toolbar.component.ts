@@ -5,6 +5,7 @@ import {
   Component,
   Input,
   OnInit,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +15,6 @@ import {
   SkyColorpickerModule,
   SkyColorpickerOutput,
 } from '@skyux/colorpicker';
-import { SkyFormsUtility } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -98,18 +98,8 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     return this.#_styleState;
   }
 
-  @Input()
-  public set disabled(value: boolean) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this.#_disabled = coercedValue;
-      this.#changeDetector.markForCheck();
-    }
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
+  @Input({ transform: booleanAttribute })
+  public disabled = false;
 
   public backColorpickerStream = new Subject<SkyColorpickerMessage>();
   public colorpickerStream = new Subject<SkyColorpickerMessage>();
@@ -121,7 +111,6 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   #ngUnsubscribe = new Subject<void>();
 
   #_editorFocusStream = new Subject<void>();
-  #_disabled = false;
   #_styleState = STYLE_STATE_DEFAULTS;
 
   readonly #adapterService = inject(SkyTextEditorAdapterService);

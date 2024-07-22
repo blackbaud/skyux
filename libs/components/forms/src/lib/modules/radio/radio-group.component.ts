@@ -106,11 +106,10 @@ export class SkyRadioGroupComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
-    if (this.#_disabled !== newDisabledState) {
-      this.#_disabled = newDisabledState;
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (this.#_disabled !== value) {
+      this.#_disabled = value;
       this.#updateRadioButtonDisabled();
     }
   }

@@ -15,7 +15,7 @@ import {
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -84,12 +84,11 @@ export class SkyRadioComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this.#_disabled = coercedValue;
-      this.disabledChange.next(coercedValue);
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (value !== this.disabled) {
+      this.#_disabled = value;
+      this.disabledChange.next(value);
       this.#changeDetector.markForCheck();
     }
   }
