@@ -2,9 +2,9 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -65,7 +65,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -153,7 +153,7 @@ describe('List Component', () => {
       }
 
       describe('basic actions', () => {
-        beforeEach(async(() => {
+        beforeEach(waitForAsync(() => {
           initializeList();
         }));
 
@@ -215,7 +215,7 @@ describe('List Component', () => {
           validateRowCount(element, 2);
         });
 
-        it('should search based on input text', async(() => {
+        it('should search based on input text', waitForAsync(() => {
           fixture.detectChanges();
           applySearch('banana').then(() => {
             fixture.detectChanges();
@@ -375,7 +375,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -800,7 +800,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -992,7 +992,7 @@ describe('List Component', () => {
         fixture: any,
         element: DebugElement;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1068,7 +1068,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1116,7 +1116,7 @@ describe('List Component', () => {
         expect(element.queryAll(By.css('tr.sky-grid-row')).length).toBe(0);
       });
 
-      it('displayed items returns without error', async(() => {
+      it('displayed items returns without error', waitForAsync(() => {
         const list = fixture.componentInstance.list;
 
         list.displayedItems.subscribe((d: any) => {
@@ -1127,7 +1127,7 @@ describe('List Component', () => {
         expect(list.displayedItems).not.toBe(null);
       }));
 
-      it('displayed items returns with generated ids', async(() => {
+      it('displayed items returns with generated ids', waitForAsync(() => {
         const list = fixture.componentInstance.list;
 
         bs.next([
@@ -1185,7 +1185,7 @@ describe('List Component', () => {
         fixture: any,
         dataProvider: SkyListInMemoryDataProvider;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
         dataProvider = new SkyListInMemoryDataProvider();
@@ -1238,7 +1238,7 @@ describe('List Component', () => {
     describe('List Component with no data and no data provider', () => {
       let state: ListState, dispatcher: ListStateDispatcher, fixture: any;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1295,7 +1295,7 @@ describe('List Component', () => {
         items: Observable<any>,
         bs: BehaviorSubject<any>;
 
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
@@ -1432,7 +1432,7 @@ describe('List Component', () => {
       expect(model.id).toBeUndefined();
     });
 
-    it('should construct ListToolbarItemsLoadAction action', async(() => {
+    it('should construct ListToolbarItemsLoadAction action', waitForAsync(() => {
       const action = new ListToolbarItemsLoadAction([
         new ListToolbarItemModel(),
       ]);

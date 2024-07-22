@@ -4026,60 +4026,6 @@ describe('Lookup component', function () {
       }));
     });
 
-    describe('a11y', function () {
-      const axeConfig = {
-        rules: {
-          region: {
-            enabled: false,
-          },
-        },
-      };
-
-      it('should be accessible', async () => {
-        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
-        fixture.componentInstance.setSingleSelect();
-        fixture.componentInstance.setValue(2);
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        fixture.componentInstance.ariaLabel = 'My lookup label';
-        fixture.componentInstance.ariaLabelledBy = undefined;
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        fixture.componentInstance.setMultiSelect();
-        fixture.componentInstance.setValue(1);
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        fixture.componentInstance.setSingleSelect();
-        fixture.componentInstance.resetForm();
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-
-        const inputElement = getInputElement(
-          fixture.componentInstance.lookupComponent,
-        );
-        inputElement.value = 'r';
-        inputElement.focus();
-        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
-          keyboardEventInit: { key: '' },
-        });
-
-        fixture.detectChanges();
-        await fixture.whenStable();
-        await expectAsync(document.body).toBeAccessible(axeConfig);
-      });
-    });
-
     // for testing non-async search args being passed around correctly
     describe('search args (non-async)', () => {
       // to test the passing of the 'context' arg
@@ -7572,6 +7518,168 @@ describe('Lookup component', function () {
 
         expect(document.activeElement).not.toEqual(input);
       }));
+    });
+
+    describe('a11y', function () {
+      const axeConfig = {
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
+      };
+
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
+      it('should be accessible [mode: single, value: set, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: set, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(2);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: set, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: undefined, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: undefined, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(undefined);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: undefined, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: set, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: set, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(2);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: set, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(2);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: undefined, ariaLabel: undefined, ariaLabelledBy: set]', async () => {
+        fixture.componentInstance.ariaLabelledBy = 'my-lookup-label';
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: undefined, ariaLabel: set, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(undefined);
+        fixture.componentInstance.ariaLabel = 'My lookup label';
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: undefined, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        fixture.componentInstance.setValue(undefined);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: single, value: input typed, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setSingleSelect();
+        const inputElement = getInputElement(
+          fixture.componentInstance.lookupComponent,
+        );
+        inputElement.value = 'r';
+        inputElement.focus();
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
+          keyboardEventInit: { key: '' },
+        });
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+
+      it('should be accessible [mode: multiple, value: input typed, ariaLabel: undefined, ariaLabelledBy: undefined]', async () => {
+        fixture.componentInstance.setMultiSelect();
+        const inputElement = getInputElement(
+          fixture.componentInstance.lookupComponent,
+        );
+        inputElement.value = 'r';
+        inputElement.focus();
+        SkyAppTestUtility.fireDomEvent(inputElement, 'keyup', {
+          keyboardEventInit: { key: '' },
+        });
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
     });
   });
 });

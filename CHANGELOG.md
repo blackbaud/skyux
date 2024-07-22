@@ -1,5 +1,26 @@
 # Changelog
 
+## [11.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.4...11.0.0-alpha.5) (2024-07-19)
+
+
+### Bug Fixes
+
+* **components/packages:** check for existing `waitForAsync` import ([#2524](https://github.com/blackbaud/skyux/issues/2524)) ([ecaf9b8](https://github.com/blackbaud/skyux/commit/ecaf9b873b17efc63022bf4e017744dce8174ed5))
+
+## [11.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.3...11.0.0-alpha.4) (2024-07-18)
+
+
+### Features
+
+* support Angular 18.1.1 ([#2521](https://github.com/blackbaud/skyux/issues/2521)) ([e9826c8](https://github.com/blackbaud/skyux/commit/e9826c89c77790d1586457a73d33f9cda8b9877e))
+
+
+### Bug Fixes
+
+* **components/i18n:** switch to string union type ([#2523](https://github.com/blackbaud/skyux/issues/2523)) ([7393ae9](https://github.com/blackbaud/skyux/commit/7393ae9e73be83fe42a1878c393640e380be0919))
+* **components/layout:** remove onpush change detection from description list term to dynamically detect inline help inputs from description list content ([#2515](https://github.com/blackbaud/skyux/issues/2515)) ([#2516](https://github.com/blackbaud/skyux/issues/2516)) ([7d9f558](https://github.com/blackbaud/skyux/commit/7d9f558642334dcbb46cc6b594a1b55f546efb1a))
+* **components/packages:** additional error handling for AG Grid schematic ([#2509](https://github.com/blackbaud/skyux/issues/2509)) ([#2512](https://github.com/blackbaud/skyux/issues/2512)) ([e200593](https://github.com/blackbaud/skyux/commit/e200593e35c31d1f4f66602412e16470d52cf612))
+
 ## [10.37.3](https://github.com/blackbaud/skyux/compare/10.37.2...10.37.3) (2024-07-17)
 
 
@@ -13,6 +34,21 @@
 ### Bug Fixes
 
 * **components/packages:** additional error handling for AG Grid schematic ([#2509](https://github.com/blackbaud/skyux/issues/2509)) ([27498a2](https://github.com/blackbaud/skyux/commit/27498a2ba227cf8ff98026c1f3990a0eb5f756ac))
+
+## [11.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.2...11.0.0-alpha.3) (2024-07-16)
+
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31.3.4 ([#2491](https://github.com/blackbaud/skyux/issues/2491)) ([#2499](https://github.com/blackbaud/skyux/issues/2499)) ([b432ef1](https://github.com/blackbaud/skyux/commit/b432ef1b425211253497a82852eaa49fc3b054e0))
+* **components/packages:** schematic to update `async()` tests to use `waitForAsync()` ([#2489](https://github.com/blackbaud/skyux/issues/2489)) ([26a7036](https://github.com/blackbaud/skyux/commit/26a70362e534d4d4814d9388412b00c25c17d575))
+
+
+### Bug Fixes
+
+* **components/layout:** box headingHidden input shouldn't hide controls component ([#2505](https://github.com/blackbaud/skyux/issues/2505)) ([#2507](https://github.com/blackbaud/skyux/issues/2507)) ([e954de0](https://github.com/blackbaud/skyux/commit/e954de0e0162a4e5dff7a3b46ea8c19b59433dcf))
+* **components/lists:** reorderable repeater will not throw a warning when no repeater items exist ([#2492](https://github.com/blackbaud/skyux/issues/2492)) ([#2501](https://github.com/blackbaud/skyux/issues/2501)) ([b438bda](https://github.com/blackbaud/skyux/commit/b438bdaf266fe2488f20d4490003a63578640f69))
+* **sdk/testing:** `expectAsync` type includes async matchers from Jasmine ([#2503](https://github.com/blackbaud/skyux/issues/2503)) ([#2504](https://github.com/blackbaud/skyux/issues/2504)) ([fe19620](https://github.com/blackbaud/skyux/commit/fe196203122c46a7ef66fdc86f6cf8f9da9dc52a))
 
 ## [10.37.1](https://github.com/blackbaud/skyux/compare/10.37.0...10.37.1) (2024-07-16)
 
@@ -30,6 +66,38 @@
 ### Features
 
 * **components/ag-grid:** add support for AG Grid 31.3.4 ([#2491](https://github.com/blackbaud/skyux/issues/2491)) ([9a720f2](https://github.com/blackbaud/skyux/commit/9a720f2e7306a59134ee5b0fdb59eea4db0a222b))
+
+## [11.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.1...11.0.0-alpha.2) (2024-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lookup:** The lookup component has been updated to no longer set an incorrect `aria-labelledby` property on an internal element. This change may result in existing accessibility unit tests to fail; however, they were succeeding in error previously. Consumers should utilize the automatic accessibility provided by the `labelText` input on a wrapping input box. The `ariaLabel` and `ariaLabelledBy` inputs on the lookup component have been deprecated.
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 31.3.2 ([#2450](https://github.com/blackbaud/skyux/issues/2450)) ([#2484](https://github.com/blackbaud/skyux/issues/2484)) ([d16bffe](https://github.com/blackbaud/skyux/commit/d16bffec159563a960dbcc6e7f2a01cfe2a516e1))
+* **components/datetime:** add support for additional date formats to `SkyDatePipe` ([#2447](https://github.com/blackbaud/skyux/issues/2447)) ([#2469](https://github.com/blackbaud/skyux/issues/2469)) ([4564fcf](https://github.com/blackbaud/skyux/commit/4564fcfee1a2575529c59c4400c8aa175a841762))
+* **components/help-inline:** update documentation and deprecate `indicators/help-inline` ([#2428](https://github.com/blackbaud/skyux/issues/2428)) ([#2441](https://github.com/blackbaud/skyux/issues/2441)) ([7a48433](https://github.com/blackbaud/skyux/commit/7a4843373077810356ed833f327c28b7a6a4776b))
+* **components/icon:** use native fetch() for retrieving icon sprite ([#2478](https://github.com/blackbaud/skyux/issues/2478)) ([#2485](https://github.com/blackbaud/skyux/issues/2485)) ([7ac4062](https://github.com/blackbaud/skyux/commit/7ac406257d221b04dbc5609449edcdf4399d6d66))
+* **components/layout:** add heading and inline help inputs to box component ([#2439](https://github.com/blackbaud/skyux/issues/2439)) ([#2482](https://github.com/blackbaud/skyux/issues/2482)) ([e6f3a78](https://github.com/blackbaud/skyux/commit/e6f3a78d5b330161de1f6abada5f1079d6fc784a))
+
+
+### Bug Fixes
+
+* **code-examples:** satisfy ESLint rules for core, forms, indicators, and inline form code examples ([#2432](https://github.com/blackbaud/skyux/issues/2432)) ([#2444](https://github.com/blackbaud/skyux/issues/2444)) ([04f10d7](https://github.com/blackbaud/skyux/commit/04f10d79427ce7a4b64b70c215f4f2c89807a9af))
+* **code-examples:** satisfy ESLint rules for layout, lists, lookup, modals, pages, and others ([#2435](https://github.com/blackbaud/skyux/issues/2435)) ([#2457](https://github.com/blackbaud/skyux/issues/2457)) ([fa99742](https://github.com/blackbaud/skyux/commit/fa99742868ec32c5be4fc78059f7e6e60de45c9a))
+* **components/datetime:** ignore extraneous properties when setting calculator value ([#2459](https://github.com/blackbaud/skyux/issues/2459)) ([#2460](https://github.com/blackbaud/skyux/issues/2460)) ([44654f1](https://github.com/blackbaud/skyux/commit/44654f12b0681b5f619e233c8a84ebb1f89c9ca7))
+* **components/icon:** provide HTTP with interceptors ([#2474](https://github.com/blackbaud/skyux/issues/2474)) ([#2475](https://github.com/blackbaud/skyux/issues/2475)) ([e79d294](https://github.com/blackbaud/skyux/commit/e79d2943d77c401cf16f317b5b7cf67f944639a6))
+* **components/lookup:** lookup aria labels are now set appropriately when using the input box labelText input ([#2465](https://github.com/blackbaud/skyux/issues/2465)) ([2cf7f90](https://github.com/blackbaud/skyux/commit/2cf7f90591fea56f23083b5430e9eee67289936e))
+* **components/packages:** switch to `@ag-grid-devtools/cli` for AG Grid codemods ([#2483](https://github.com/blackbaud/skyux/issues/2483)) ([#2487](https://github.com/blackbaud/skyux/issues/2487)) ([4849e52](https://github.com/blackbaud/skyux/commit/4849e52667541c2a0a1a391d5cfa4991a7f035c9))
+* **components/phone-field:** required phone field controls are not "touched" on initialization ([#2443](https://github.com/blackbaud/skyux/issues/2443)) ([#2448](https://github.com/blackbaud/skyux/issues/2448)) ([edeb684](https://github.com/blackbaud/skyux/commit/edeb6845f037afb816b96362abf50d65609400bd))
+* **components/tiles:** do not expand/collapse content when help inline clicked ([#2468](https://github.com/blackbaud/skyux/issues/2468)) ([#2471](https://github.com/blackbaud/skyux/issues/2471)) ([7d10650](https://github.com/blackbaud/skyux/commit/7d10650c0eb82af6112c1b7f4953594d8d66a3aa))
+
+
+### Reverts
+
+* **components/help-inline:** stop propagation of click events ([#2458](https://github.com/blackbaud/skyux/issues/2458)) ([#2462](https://github.com/blackbaud/skyux/issues/2462)) ([ae58426](https://github.com/blackbaud/skyux/commit/ae584266c0d40205c508695cc7203e5a36f5c6c0))
 
 ## [10.36.0](https://github.com/blackbaud/skyux/compare/10.35.1...10.36.0) (2024-07-15)
 
@@ -73,6 +141,22 @@
 
 * **components/help-inline:** stop propagation of click events ([#2458](https://github.com/blackbaud/skyux/issues/2458)) ([e08d883](https://github.com/blackbaud/skyux/commit/e08d88366c391455df53922ddc1719a6c66d0021))
 
+## [11.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.0...11.0.0-alpha.1) (2024-07-08)
+
+
+### Features
+
+* **components/icon:** add internal support for SVG-based icons ([#2433](https://github.com/blackbaud/skyux/issues/2433)) ([#2436](https://github.com/blackbaud/skyux/issues/2436)) ([e459949](https://github.com/blackbaud/skyux/commit/e459949f64ecf8a4b5446e6fe3b7af8eac8bce65))
+
+
+### Bug Fixes
+
+* **code-examples:** satisfy ESLint rules for action button and AG Grid code examples ([#2423](https://github.com/blackbaud/skyux/issues/2423)) ([#2425](https://github.com/blackbaud/skyux/issues/2425)) ([a53dd0e](https://github.com/blackbaud/skyux/commit/a53dd0eb4ecf75c3b4d2bbcfb0cfbd7ea1d2bb9d))
+* **code-examples:** satisfy ESLint rules for colorpicker code examples ([#2424](https://github.com/blackbaud/skyux/issues/2424)) ([#2429](https://github.com/blackbaud/skyux/issues/2429)) ([6d0457b](https://github.com/blackbaud/skyux/commit/6d0457bfbe23248f677a7f551c4cddb171ab8188))
+* **code-examples:** satisfy ESLint rules for datetime code examples ([#2427](https://github.com/blackbaud/skyux/issues/2427)) ([#2434](https://github.com/blackbaud/skyux/issues/2434)) ([af4e92c](https://github.com/blackbaud/skyux/commit/af4e92cea8242f711e528da59b2cddf7991eef42))
+* **components/forms:** file attachment components report file size errors with appropriate orders of magnitude ([#2437](https://github.com/blackbaud/skyux/issues/2437)) ([#2438](https://github.com/blackbaud/skyux/issues/2438)) ([7795565](https://github.com/blackbaud/skyux/commit/77955651a02a5e8acc5efc1a088be6814828b1e2))
+* **components/forms:** improve default value handling for heading styles on form group components ([#2420](https://github.com/blackbaud/skyux/issues/2420)) ([#2440](https://github.com/blackbaud/skyux/issues/2440)) ([acd92a2](https://github.com/blackbaud/skyux/commit/acd92a22201a49a8228e7e7f6761cddd5ded7641))
+
 ## [10.34.0](https://github.com/blackbaud/skyux/compare/10.33.0...10.34.0) (2024-07-08)
 
 
@@ -89,6 +173,17 @@
 * **code-examples:** satisfy ESLint rules for datetime code examples ([#2427](https://github.com/blackbaud/skyux/issues/2427)) ([e222a73](https://github.com/blackbaud/skyux/commit/e222a736564509baee593daa877d80bd42d8f966))
 * **components/forms:** file attachment components report file size errors with appropriate orders of magnitude ([#2437](https://github.com/blackbaud/skyux/issues/2437)) ([8768cf9](https://github.com/blackbaud/skyux/commit/8768cf9ecbadaa7845d9093f3c2ed1516487095a))
 * **components/forms:** improve default value handling for heading styles on form group components ([#2420](https://github.com/blackbaud/skyux/issues/2420)) ([ffa7946](https://github.com/blackbaud/skyux/commit/ffa79466cfa356db4495ec4b5116d9668b0cb54f))
+
+## [11.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/10.33.0...11.0.0-alpha.0) (2024-07-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added support for Angular 18 and removed support for Angular 17
+
+### Features
+
+* add support for Angular 18 ([#2419](https://github.com/blackbaud/skyux/issues/2419)) ([7a53bb5](https://github.com/blackbaud/skyux/commit/7a53bb5939eb96b8447c2dc2bc933e89969241f7))
 
 ## [10.33.0](https://github.com/blackbaud/skyux/compare/10.32.0...10.33.0) (2024-07-01)
 

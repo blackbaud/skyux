@@ -2,9 +2,9 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -134,7 +134,7 @@ describe('List Toolbar Component', () => {
   // #endregion
 
   describe('search', () => {
-    it('should be visible by default', async(() => {
+    it('should be visible by default', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -142,7 +142,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should be able to disable search on initialization', async(() => {
+    it('should be able to disable search on initialization', waitForAsync(() => {
       component.searchEnabled = false;
       initializeToolbar();
       fixture.whenStable().then(() => {
@@ -151,7 +151,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should set search text on initialization', async(() => {
+    it('should set search text on initialization', waitForAsync(() => {
       component.searchText = 'searchText';
       initializeToolbar();
       fixture.whenStable().then(() => {
@@ -160,7 +160,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should update list state search text on component apply', async(() => {
+    it('should update list state search text on component apply', waitForAsync(() => {
       let stateChecked = false;
       initializeToolbar();
       fixture.whenStable().then(() => {
@@ -177,7 +177,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should set pagination to first page when when searching', async(() => {
+    it('should set pagination to first page when when searching', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -196,7 +196,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should not set pagination to first page when pagination is undefined on search', async(() => {
+    it('should not set pagination to first page when pagination is undefined on search', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -214,7 +214,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should emit a value on the searchApplied property when a search is applied', async(() => {
+    it('should emit a value on the searchApplied property when a search is applied', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -231,7 +231,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should call list state dispatcher when inMemorySearchEnabled is undefined', async(() => {
+    it('should call list state dispatcher when inMemorySearchEnabled is undefined', waitForAsync(() => {
       component.inMemorySearchEnabled = undefined;
       initializeToolbar();
       const setTextSpy = spyOn(dispatcher, 'searchSetText').and.callThrough();
@@ -245,7 +245,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should call list state dispatcher when inMemorySearchEnabled is true', async(() => {
+    it('should call list state dispatcher when inMemorySearchEnabled is true', waitForAsync(() => {
       component.inMemorySearchEnabled = true;
       initializeToolbar();
       const setTextSpy = spyOn(dispatcher, 'searchSetText').and.callThrough();
@@ -259,7 +259,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should not call list state dispatcher when inMemorySearchEnabled is false', async(() => {
+    it('should not call list state dispatcher when inMemorySearchEnabled is false', waitForAsync(() => {
       component.inMemorySearchEnabled = false;
       initializeToolbar();
       const setTextSpy = spyOn(dispatcher, 'searchSetText').and.callThrough();
@@ -275,7 +275,7 @@ describe('List Toolbar Component', () => {
   });
 
   describe('sort selector', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       dispatcher.sortSetAvailable([
         new ListSortLabelModel({
           text: 'Status (A - Z)',
@@ -322,7 +322,7 @@ describe('List Toolbar Component', () => {
       ]);
     }));
 
-    it('should display when sort provided', async(() => {
+    it('should display when sort provided', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -361,7 +361,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should not display when sortSelectorEnabled is false', async(() => {
+    it('should not display when sortSelectorEnabled is false', waitForAsync(() => {
       component.sortEnabled = false;
       initializeToolbar();
       fixture.whenStable().then(() => {
@@ -447,7 +447,7 @@ describe('List Toolbar Component', () => {
       expect(sortItems.item(0)).toHaveCssClass('sky-sort-item-selected');
     }));
 
-    it('should set pagination to first page when when sorting', async(() => {
+    it('should set pagination to first page when when sorting', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -483,7 +483,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should not set pagination to first page when pagination is undefined on sort', async(() => {
+    it('should not set pagination to first page when pagination is undefined on sort', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -518,7 +518,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should load custom items', async(() => {
+    it('should load custom items', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -530,7 +530,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should load custom items when toggled via an ngIf', async(() => {
+    it('should load custom items when toggled via an ngIf', waitForAsync(() => {
       initializeToolbar();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
@@ -566,7 +566,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should load custom items with toolbarType = search initialized', async(() => {
+    it('should load custom items with toolbarType = search initialized', waitForAsync(() => {
       component.toolbarType = 'search';
       fixture.detectChanges();
       initializeToolbar();
@@ -575,7 +575,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should load custom items with toolbarType = search set by the state', async(() => {
+    it('should load custom items with toolbarType = search set by the state', waitForAsync(() => {
       initializeToolbar();
       dispatcher.next(new ListToolbarSetTypeAction('search'));
       fixture.whenStable().then(() => {
@@ -583,7 +583,7 @@ describe('List Toolbar Component', () => {
       });
     }));
 
-    it('should load custom items with toolbarType = search when search is not enabled', async(() => {
+    it('should load custom items with toolbarType = search when search is not enabled', waitForAsync(() => {
       component.toolbarType = 'search';
       component.searchEnabled = false;
       fixture.detectChanges();
@@ -794,7 +794,7 @@ describe('List Toolbar Component', () => {
     });
   });
 
-  it('should not display items not in the current view', async(() => {
+  it('should not display items not in the current view', waitForAsync(() => {
     initializeToolbar();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

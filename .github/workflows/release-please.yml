@@ -8,8 +8,8 @@ on:
       - 10.x.x
 env:
   # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
-  PRERELEASE: 'false'
-  MAJOR_VERSION: 10
+  PRERELEASE: 'alpha'
+  MAJOR_VERSION: 11
 jobs:
   release:
     runs-on: ubuntu-latest

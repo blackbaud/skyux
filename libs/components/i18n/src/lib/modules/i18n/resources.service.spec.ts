@@ -1,6 +1,10 @@
 import {
-  HttpClientTestingModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { SkyAppAssetsService } from '@skyux/assets';
@@ -50,7 +54,7 @@ describe('Resources service', () => {
       mockAssetsService = undefined;
     } else {
       mockAssetsService = {
-        getUrl: (path: string) => {
+        getUrl: (path: string): string | undefined => {
           if (
             // These represent unavailable locales.
             path.indexOf('fr.json') >= 0 ||
@@ -95,8 +99,11 @@ describe('Resources service', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: providers,
+      providers: [
+        ...providers,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
     });
   }
 

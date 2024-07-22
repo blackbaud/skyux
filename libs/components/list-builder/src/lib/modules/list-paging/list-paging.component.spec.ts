@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AsyncList, ListItemModel } from '@skyux/list-builder-common';
@@ -23,7 +23,7 @@ describe('List Paging Component', () => {
     fixture: any,
     element: DebugElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
     state = new ListState(dispatcher);
 
@@ -54,7 +54,7 @@ describe('List Paging Component', () => {
   }
 
   describe('with 8 items', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       // add some base items to be paged
       dispatcher.next(
         new ListItemsLoadAction(

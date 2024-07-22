@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -19,7 +19,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
 })
-export class DatepickerComponent {
+export class DatepickerComponent implements OnInit {
   public futureDisabled = true;
   public dateFormat: string | undefined = 'MMM DD YYYY';
   public disabled = false;

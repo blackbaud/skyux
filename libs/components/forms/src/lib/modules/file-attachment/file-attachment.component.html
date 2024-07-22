@@ -3,7 +3,7 @@
     class="sky-file-attachment-label-wrapper"
     [attr.id]="labelElementId"
     [ngClass]="{
-      'sky-control-label-required': !labelText && required && hasLabelComponent
+      'sky-control-label-required': !labelText && required && hasLabelComponent,
     }"
   >
     <ng-container *ngIf="labelText; else labelContent">
@@ -11,7 +11,7 @@
         *ngIf="!labelHidden"
         class="sky-control-label sky-margin-inline-xs"
         [ngClass]="{
-          'sky-control-label-required': required
+          'sky-control-label-required': required,
         }"
         >{{ labelText }}</span
       ><sky-help-inline
@@ -32,7 +32,7 @@
     class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"
     [ngClass]="{
       'sky-file-attachment-accept': acceptedOver,
-      'sky-file-attachment-reject': rejectedOver
+      'sky-file-attachment-reject': rejectedOver,
     }"
     (dragenter)="fileDragEnter($event)"
     (dragover)="fileDragOver($event)"
@@ -136,7 +136,7 @@
       "
       [disabled]="disabled"
       [skyThemeClass]="{
-        'sky-btn-icon-borderless': 'modern'
+        'sky-btn-icon-borderless': 'modern',
       }"
       (click)="deleteFileAttachment()"
       #deleteButton="skyId"

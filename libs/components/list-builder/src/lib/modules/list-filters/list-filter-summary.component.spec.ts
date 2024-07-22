@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 
@@ -46,7 +46,7 @@ describe('List filter summary', () => {
       }),
     ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
     state = new ListState(dispatcher);
 
@@ -78,7 +78,7 @@ describe('List filter summary', () => {
     );
   }
 
-  it('should show filter summary in the appropriate area when filters exist', async(() => {
+  it('should show filter summary in the appropriate area when filters exist', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -95,7 +95,7 @@ describe('List filter summary', () => {
     });
   }));
 
-  it('should show filter summary in the appropriate area when filters which have no effect exist', async(() => {
+  it('should show filter summary in the appropriate area when filters which have no effect exist', waitForAsync(() => {
     filters = filters.concat([
       new ListFilterModel({
         name: 'name',
@@ -149,7 +149,7 @@ describe('List filter summary', () => {
     });
   }));
 
-  it('should emit a click event with the filter', async(() => {
+  it('should emit a click event with the filter', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -164,7 +164,7 @@ describe('List filter summary', () => {
     });
   }));
 
-  it('should dismiss individual filters properly', async(() => {
+  it('should dismiss individual filters properly', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

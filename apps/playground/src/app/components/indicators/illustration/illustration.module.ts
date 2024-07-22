@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { SkyIllustrationResolverService } from '@skyux/indicators';
 
@@ -8,17 +11,13 @@ import { IllustrationRoutingModule } from './illustration-routing.module';
 import { IllustrationComponent } from './illustration.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    IllustrationComponent,
-    IllustrationRoutingModule,
-  ],
+  imports: [CommonModule, IllustrationComponent, IllustrationRoutingModule],
   providers: [
     {
       provide: SkyIllustrationResolverService,
       useClass: IllustrationResolverService,
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class IllustrationModule {

@@ -1,4 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,12 +17,12 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule,
     ReactiveFormsModule,
     SkyFluidGridModule,
     SkyI18nModule,
@@ -33,7 +36,7 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
         getUrl: (path: string): string => `/assets/${path}`,
       },
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}
