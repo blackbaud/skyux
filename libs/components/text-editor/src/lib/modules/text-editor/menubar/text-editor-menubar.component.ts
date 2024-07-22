@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
   OnInit,
+  booleanAttribute,
   inject,
 } from '@angular/core';
-import { SkyFormsUtility } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyToolbarModule } from '@skyux/layout';
 import {
@@ -57,20 +56,8 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   @Input()
   public mergeFields: SkyTextEditorMergeField[] = [];
 
-  @Input()
-  public set disabled(value: boolean) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this.#_disabled = coercedValue;
-      this.#changeDetector.markForCheck();
-    }
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
-
-  #_disabled = false;
+  @Input({ transform: booleanAttribute })
+  public disabled = false;
 
   public editDropdownStream = new Subject<SkyDropdownMessage>();
 
@@ -99,7 +86,6 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   #ngUnsubscribe = new Subject<void>();
 
   readonly #adapterService = inject(SkyTextEditorAdapterService);
-  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #resources = inject(SkyLibResourcesService);
 
   public ngOnInit(): void {
