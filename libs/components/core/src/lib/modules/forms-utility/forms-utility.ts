@@ -6,14 +6,6 @@ import { AbstractControl, NgControl } from '@angular/forms';
  */
 export class SkyFormsUtility {
   /**
-   * Coerces a data-bound value (typically a string) to a boolean.
-   * @deprecated Use the `booleanAttribute` transform instead.
-   */
-  public static coerceBooleanProperty(value: any): boolean {
-    return value !== undefined && `${value}` !== 'false';
-  }
-
-  /**
    * Gets the required state of the checkbox.
    * Currently, Angular doesn't offer a way to get this easily, so we have to create an empty
    * control using the current validator to see if it throws a `required` validation error.

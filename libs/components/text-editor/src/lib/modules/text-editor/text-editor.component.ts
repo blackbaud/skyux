@@ -17,12 +17,7 @@ import {
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import {
-  SkyCoreAdapterService,
-  SkyFormsUtility,
-  SkyIdModule,
-  SkyIdService,
-} from '@skyux/core';
+import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
@@ -104,11 +99,10 @@ export class SkyTextEditorComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this.#_disabled = coercedValue;
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (value !== this.disabled) {
+      this.#_disabled = value;
 
       // Update focusableChildren inside the iframe.
       let focusableChildren: HTMLElement[];

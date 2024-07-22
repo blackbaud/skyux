@@ -20,6 +20,11 @@
       "factory": "./update-11/ng-wait-for-async-test/ng-wait-for-async-test.schematic",
       "description": "Replace 'async()' with 'waitForAsync()' in tests."
     },
+    "remove-nx-cache": {
+      "version": "11.0.0",
+      "factory": "./update-11/remove-nx-cache/remove-nx-cache.schematic",
+      "description": "Remove `.nx/cache` from git and add `.gitignore` entry."
+    },
     "remove-old-compat-stylesheets": {
       "version": "11.0.0",
       "factory": "./update-11/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",

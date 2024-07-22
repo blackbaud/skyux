@@ -22,28 +22,23 @@ export function removeNxCache(options: RemoveNxCacheOptions): Rule {
     if (HostTree.isHostTree(tree) && isGitPath(options.rootDir)) {
       spawnSync(
         'git',
-        [
-          '-C',
-          options.rootDir,
-          'rm',
-          '-rf',
-          '--cached',
-          '--quiet',
-          '.nx/cache',
-        ],
+        ['-C', options.rootDir, 'rm', '-rf', '--cached', '--quiet', '.nx'],
         {
           stdio: 'ignore',
         },
       );
     }
     const gitIgnore = tree.readText('.gitignore');
-    if (!gitIgnore?.includes('.nx/cache')) {
-      const recorder = tree.beginUpdate('.gitignore');
+    const ignoreStatement = gitIgnore?.match(/^(\/?\.nx)\/cache$/m);
+    const recorder = tree.beginUpdate('.gitignore');
+    if (ignoreStatement?.index !== undefined) {
+      recorder.remove(ignoreStatement.index + ignoreStatement[1].length, 6);
+    } else if (!gitIgnore?.match(/^\/?\.nx$/m)) {
       recorder.insertLeft(
         0,
-        `# Ignore cache directory used by @angular-eslint/builder\n/.nx/cache\n\n`,
+        `# Ignore cache directory used by @angular-eslint/builder\n/.nx\n\n`,
       );
-      tree.commitUpdate(recorder);
     }
+    tree.commitUpdate(recorder);
   };
 }
