@@ -21,7 +21,7 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
-import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -118,12 +118,11 @@ export class SkyCheckboxComponent
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.#_disabled) {
-      this.#_disabled = coercedValue;
-      this.#disabledChange.next(coercedValue);
+  @Input({ transform: booleanAttribute })
+  public set disabled(value: boolean) {
+    if (value !== this.#_disabled) {
+      this.#_disabled = value;
+      this.#disabledChange.next(value);
     }
   }
 
