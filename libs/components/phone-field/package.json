@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@skyux/icon": "0.0.0-PLACEHOLDER",
-    "google-libphonenumber": "3.2.34",
-    "intl-tel-input": "19.5.5",
+    "google-libphonenumber": "3.2.37",
+    "intl-tel-input": "23.6.1",
     "tslib": "^2.6.3"
   }
 }

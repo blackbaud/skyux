@@ -36,7 +36,7 @@ import {
   PhoneNumberType,
   PhoneNumberUtil,
 } from 'google-libphonenumber';
-import 'intl-tel-input';
+import intlTelInput from 'intl-tel-input';
 import { Subject, takeUntil } from 'rxjs';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
@@ -304,14 +304,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     /**
      * The json functions here ensures that we get a copy of the array and not the global original.
      * This ensures that multiple instances of the component don't overwrite the original data.
-     *
-     * We must type the window object as any here as the intl-tel-input library adds its object
-     * to the main window object.
      */
-    this.countries = JSON.parse(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      JSON.stringify((window as any).intlTelInputGlobals.getCountryData()),
-    );
+    this.countries = JSON.parse(JSON.stringify(intlTelInput.getCountryData()));
 
     for (const country of this.countries) {
       country.dialCode = '+' + country.dialCode;
