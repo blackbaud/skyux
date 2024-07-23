@@ -60,7 +60,7 @@ describe('Help inline component', () => {
       options.ariaExpanded,
     );
 
-    if (options.ariaHaspopup) {
+    if (options.ariaHaspopup !== undefined) {
       expect(helpInlineEl?.getAttribute('aria-haspopup')).toBe(
         options.ariaHaspopup,
       );
@@ -466,8 +466,6 @@ describe('Help inline component', () => {
         ariaHaspopup: 'dialog',
       });
 
-      // The element does not exist.
-      // readyStateChange.next(false);
       component.helpKey = 'foo.html';
       fixture.detectChanges();
 
@@ -475,13 +473,15 @@ describe('Help inline component', () => {
         ariaLabel: 'Show help content',
         ariaControls: null,
         ariaExpanded: null,
-        ariaHaspopup: null,
+        ariaHaspopup: 'dialog',
       });
 
-      // Create the element and fire the ready state change event.
+      // Create the ariaControls element.
       const div = document.createElement('div');
       div.id = ariaControls;
       document.body.appendChild(div);
+
+      // Fire the ready state change event.
       readyStateChange.next(true);
       fixture.detectChanges();
 
@@ -489,7 +489,7 @@ describe('Help inline component', () => {
         ariaLabel: 'Show help content',
         ariaControls,
         ariaExpanded: null,
-        ariaHaspopup: null,
+        ariaHaspopup: 'dialog',
       });
 
       div.remove();
