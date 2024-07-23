@@ -2,7 +2,7 @@
   *skyThemeIf="'default'"
   class="sky-input-box"
   [ngClass]="{
-    'sky-input-box-disabled': isDisabled,
+    'sky-input-box-disabled': isDisabled
   }"
 >
   <div class="sky-form-group">
@@ -18,7 +18,7 @@
         class="sky-input-box-input-group-inner"
         [ngClass]="{
           'sky-field-status-active': formControlHasFocus,
-          'sky-field-status-invalid': hasErrorsComputed,
+          'sky-field-status-invalid': hasErrorsComputed
         }"
         (focusin)="formControlFocusIn()"
         (focusout)="formControlFocusOut()"
@@ -39,7 +39,7 @@
   *skyThemeIf="'modern'"
   class="sky-input-box"
   [ngClass]="{
-    'sky-input-box-disabled': isDisabled,
+    'sky-input-box-disabled': isDisabled
   }"
 >
   <div class="sky-input-box-group">
@@ -48,7 +48,7 @@
       class="sky-input-box-group-form-control"
       [ngClass]="{
         'sky-input-box-group-form-control-focus': formControlHasFocus,
-        'sky-input-box-group-form-control-invalid': hasErrorsComputed,
+        'sky-input-box-group-form-control-invalid': hasErrorsComputed
       }"
       (focusin)="formControlFocusIn()"
       (focusout)="formControlFocusOut()"
@@ -90,7 +90,7 @@
     [for]="controlId"
     [id]="labelId"
     [ngClass]="{
-      'sky-control-label-required': required,
+      'sky-control-label-required': required
     }"
     >{{ labelText }}</label
   >
@@ -197,7 +197,7 @@
     class="sky-font-deemphasized sky-input-box-hint-text"
     [ngClass]="{
       'sky-input-box-hint-text-hidden': hintTextHidden,
-      'sky-screen-reader-only': hintTextScreenReaderOnly,
+      'sky-screen-reader-only': hintTextScreenReaderOnly
     }"
     [id]="hintTextId"
   >
