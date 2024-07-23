@@ -6,7 +6,7 @@ import {
 
 describe('remove-nx-cache.schematic', () => {
   it('should run successfully', async () => {
-    const collectionPath = require.resolve('../../../../collection.json');
+    const collectionPath = require.resolve('../../migration-collection.json');
     jest.mock('child_process', () => ({
       execSync: jest.fn(),
     }));

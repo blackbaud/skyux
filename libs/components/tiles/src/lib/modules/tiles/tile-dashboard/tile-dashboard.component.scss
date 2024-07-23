@@ -12,20 +12,9 @@
   .sky-tile-dashboard-layout-single {
     display: block;
   }
-
-  /* NOTE: This style is here as we only want it when inside a tile dashboard */
-  .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
-  .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
-    margin-bottom: 0;
-  }
 }
 
 :host-context(.sky-tile-dashboard-gt-xs) {
-  .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
-  .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
-    margin-bottom: $sky-margin-double;
-  }
-
   :host-context(.sky-theme-default) {
     padding-top: $sky-padding-double;
   }
@@ -52,13 +41,4 @@
 
 :host-context(.sky-theme-default) {
   background-color: $sky-background-color-neutral-light;
-}
-
-@include mixins.sky-theme-modern {
-  :host-context(.sky-tile-dashboard-gt-xs) {
-    .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
-    .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
-      margin-bottom: $sky-theme-modern-space-xl;
-    }
-  }
 }

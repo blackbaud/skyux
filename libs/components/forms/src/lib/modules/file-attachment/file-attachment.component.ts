@@ -76,19 +76,9 @@ export class SkyFileAttachmentComponent
   /**
    * Whether to disable the input on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
    * To set the disabled state on reactive forms, use the `FormControl` instead.
-   * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
-    if (this.#_disabled !== newDisabledState) {
-      this.#_disabled = newDisabledState;
-    }
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
+  @Input({ transform: booleanAttribute })
+  public disabled = false;
 
   /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
@@ -256,8 +246,6 @@ export class SkyFileAttachmentComponent
   #fileAttachmentId = uniqueId++;
 
   #ngUnsubscribe = new Subject<void>();
-
-  #_disabled = false;
 
   #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
 

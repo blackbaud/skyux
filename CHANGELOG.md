@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.37.4](https://github.com/blackbaud/skyux/compare/10.37.3...10.37.4) (2024-07-22)
+
+
+### Bug Fixes
+
+* **components/indicators:** hide illustration while loading ([#2526](https://github.com/blackbaud/skyux/issues/2526)) ([bc029bd](https://github.com/blackbaud/skyux/commit/bc029bd098e98d62123295b5c82ab15fe780ff9d))
+* **components/tiles:** remove `::ng-deep` from tile styles ([#2527](https://github.com/blackbaud/skyux/issues/2527)) ([09092d7](https://github.com/blackbaud/skyux/commit/09092d7b8d7eae39950cbc3209ff8dae5727251e))
+
 ## [11.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.4...11.0.0-alpha.5) (2024-07-19)
 
 
