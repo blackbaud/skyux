@@ -77,7 +77,8 @@
       tabindex="0"
       skyId
       [attr.aria-labelledby]="headerId.id"
-      (skyModalScrollShadow)="scrollShadowChange($event)"
+      (skyScrollShadow)="scrollShadowChange($event)"
+      [skyScrollShadowEnabled]="scrollShadowEnabled"
       #modalContentId="skyId"
       #modalContentWrapper
     >

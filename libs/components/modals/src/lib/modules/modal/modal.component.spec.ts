@@ -1058,7 +1058,7 @@ describe('Modal component', () => {
     await expectAsync(getModalElement()).toBeAccessible();
   });
 
-  describe('when modern theme', () => {
+  describe('scroll shadow', () => {
     function scrollContent(contentEl: HTMLElement, top: number): void {
       contentEl.scrollTop = top;
 
@@ -1113,129 +1113,221 @@ describe('Modal component', () => {
       }
     }
 
-    it('should progressively show a drop shadow as the modal content scrolls', fakeAsync(() => {
-      setModernTheme();
+    describe('when default theme', () => {
+      it('should not show a drop shadow as the modal content scrolls', fakeAsync(() => {
+        const modalInstance1 = openModal(ModalTestComponent);
 
-      const modalInstance1 = openModal(ModalTestComponent);
+        const modalHeaderEl = document.querySelector(
+          '.sky-modal-header',
+        ) as HTMLElement;
+        const modalContentEl = document.querySelector(
+          '.sky-modal-content',
+        ) as HTMLElement;
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
 
-      const modalHeaderEl = document.querySelector(
-        '.sky-modal-header',
-      ) as HTMLElement;
-      const modalContentEl = document.querySelector(
-        '.sky-modal-content',
-      ) as HTMLElement;
-      const modalFooterEl = document.querySelector(
-        '.sky-modal-footer',
-      ) as HTMLElement;
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
+        fixtureContentEl.style.height = `${window.innerHeight + 100}px`;
 
-      const fixtureContentEl = document.querySelector(
-        '.modal-fixture-content',
-      ) as HTMLElement;
-      fixtureContentEl.style.height = `${window.innerHeight + 100}px`;
+        scrollContent(modalContentEl, 0);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 0);
-      validateShadow(modalHeaderEl);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(modalContentEl, 15);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 15);
-      validateShadow(modalHeaderEl, 0.15);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(modalContentEl, 30);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 30);
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(modalContentEl, 31);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(modalContentEl, 31);
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl, 0.3);
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - 15 - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(
-        modalContentEl,
-        modalContentEl.scrollHeight - 15 - modalContentEl.clientHeight,
-      );
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl, 0.15);
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl);
 
-      scrollContent(
-        modalContentEl,
-        modalContentEl.scrollHeight - modalContentEl.clientHeight,
-      );
-      validateShadow(modalHeaderEl, 0.3);
-      validateShadow(modalFooterEl);
+        closeModal(modalInstance1);
+      }));
 
-      closeModal(modalInstance1);
-    }));
+      it('should not check for shadow when elements are added to the modal content', fakeAsync(() => {
+        let mutateCallback: MutationCallback | undefined;
 
-    it('should check for shadow when elements are added to the modal content', fakeAsync(() => {
-      let mutateCallback: MutationCallback | undefined;
+        const fakeMutationObserver: MutationObserver = {
+          observe: jasmine.createSpy('observe'),
+          disconnect: jasmine.createSpy('disconnect'),
+          takeRecords: jasmine.createSpy('takeRecords'),
+        };
 
-      const fakeMutationObserver: MutationObserver = {
-        observe: jasmine.createSpy('observe'),
-        disconnect: jasmine.createSpy('disconnect'),
-        takeRecords: jasmine.createSpy('takeRecords'),
-      };
-
-      spyOn(TestBed.inject(SkyMutationObserverService), 'create').and.callFake(
-        (cb) => {
+        spyOn(
+          TestBed.inject(SkyMutationObserverService),
+          'create',
+        ).and.callFake((cb) => {
           mutateCallback = cb;
 
           return fakeMutationObserver;
-        },
-      );
+        });
 
-      setModernTheme();
+        const modalInstance1 = openModal(ModalTestComponent);
 
-      const modalInstance1 = openModal(ModalTestComponent);
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
 
-      const modalFooterEl = document.querySelector(
-        '.sky-modal-footer',
-      ) as HTMLElement;
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
 
-      const fixtureContentEl = document.querySelector(
-        '.modal-fixture-content',
-      ) as HTMLElement;
+        const childEl = document.createElement('div');
+        childEl.style.height = `${window.innerHeight + 100}px`;
+        childEl.style.backgroundColor = 'red';
 
-      const childEl = document.createElement('div');
-      childEl.style.height = `${window.innerHeight + 100}px`;
-      childEl.style.backgroundColor = 'red';
+        fixtureContentEl.appendChild(childEl);
 
-      fixtureContentEl.appendChild(childEl);
+        triggerMutation(mutateCallback, fakeMutationObserver);
 
-      triggerMutation(mutateCallback, fakeMutationObserver);
+        tick();
+        getApplicationRef().tick();
 
-      tick();
-      getApplicationRef().tick();
+        validateShadow(modalFooterEl);
 
-      validateShadow(modalFooterEl, 0.3);
+        fixtureContentEl.removeChild(childEl);
 
-      fixtureContentEl.removeChild(childEl);
+        triggerMutation(mutateCallback, fakeMutationObserver);
 
-      triggerMutation(mutateCallback, fakeMutationObserver);
+        tick();
+        getApplicationRef().tick();
 
-      tick();
-      getApplicationRef().tick();
+        validateShadow(modalFooterEl);
 
-      validateShadow(modalFooterEl);
+        closeModal(modalInstance1);
+      }));
+    });
 
-      closeModal(modalInstance1);
-    }));
+    describe('when modern theme', () => {
+      it('should progressively show a drop shadow as the modal content scrolls', fakeAsync(() => {
+        setModernTheme();
 
-    it('should not create multiple mutation observers', fakeAsync(() => {
-      const modalInstance1 = openModal(ModalTestComponent);
+        const modalInstance1 = openModal(ModalTestComponent);
 
-      const mutationObserverCreateSpy = spyOn(
-        TestBed.inject(SkyMutationObserverService),
-        'create',
-      ).and.callThrough();
+        const modalHeaderEl = document.querySelector(
+          '.sky-modal-header',
+        ) as HTMLElement;
+        const modalContentEl = document.querySelector(
+          '.sky-modal-content',
+        ) as HTMLElement;
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
 
-      setModernTheme();
-      setModernTheme();
-      setModernTheme();
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
+        fixtureContentEl.style.height = `${window.innerHeight + 100}px`;
 
-      expect(mutationObserverCreateSpy.calls.count()).toBe(1);
+        scrollContent(modalContentEl, 0);
+        validateShadow(modalHeaderEl);
+        validateShadow(modalFooterEl, 0.3);
 
-      closeModal(modalInstance1);
-    }));
+        scrollContent(modalContentEl, 15);
+        validateShadow(modalHeaderEl, 0.15);
+        validateShadow(modalFooterEl, 0.3);
+
+        scrollContent(modalContentEl, 30);
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl, 0.3);
+
+        scrollContent(modalContentEl, 31);
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl, 0.3);
+
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - 15 - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl, 0.15);
+
+        scrollContent(
+          modalContentEl,
+          modalContentEl.scrollHeight - modalContentEl.clientHeight,
+        );
+        validateShadow(modalHeaderEl, 0.3);
+        validateShadow(modalFooterEl);
+
+        closeModal(modalInstance1);
+      }));
+
+      it('should check for shadow when elements are added to the modal content', fakeAsync(() => {
+        let mutateCallback: MutationCallback | undefined;
+
+        const fakeMutationObserver: MutationObserver = {
+          observe: jasmine.createSpy('observe'),
+          disconnect: jasmine.createSpy('disconnect'),
+          takeRecords: jasmine.createSpy('takeRecords'),
+        };
+
+        spyOn(
+          TestBed.inject(SkyMutationObserverService),
+          'create',
+        ).and.callFake((cb) => {
+          mutateCallback = cb;
+
+          return fakeMutationObserver;
+        });
+
+        setModernTheme();
+
+        const modalInstance1 = openModal(ModalTestComponent);
+
+        const modalFooterEl = document.querySelector(
+          '.sky-modal-footer',
+        ) as HTMLElement;
+
+        const fixtureContentEl = document.querySelector(
+          '.modal-fixture-content',
+        ) as HTMLElement;
+
+        const childEl = document.createElement('div');
+        childEl.style.height = `${window.innerHeight + 100}px`;
+        childEl.style.backgroundColor = 'red';
+
+        fixtureContentEl.appendChild(childEl);
+
+        triggerMutation(mutateCallback, fakeMutationObserver);
+
+        tick();
+        getApplicationRef().tick();
+
+        validateShadow(modalFooterEl, 0.3);
+
+        fixtureContentEl.removeChild(childEl);
+
+        triggerMutation(mutateCallback, fakeMutationObserver);
+
+        tick();
+        getApplicationRef().tick();
+
+        validateShadow(modalFooterEl);
+
+        closeModal(modalInstance1);
+      }));
+    });
   });
 
   it('should pass accessibility with scrolling content', async () => {
