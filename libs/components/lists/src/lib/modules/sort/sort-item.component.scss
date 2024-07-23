@@ -4,7 +4,7 @@
   as modernMixins;
 
 .sky-sort-item {
-  @include mixins.sky-dropdown-item();
+  @include mixins.sky-dropdown-item(false);
 }
 
 .sky-sort-item-selected {
@@ -13,7 +13,7 @@
   margin: 0;
 }
 
-@include mixins.sky-theme-modern {
+.sky-theme-modern {
   .sky-sort-item {
     margin: 0;
     @include modernMixins.sky-theme-modern-btn-tab;
@@ -49,7 +49,7 @@
   }
 }
 
-@include mixins.sky-theme-modern-dark {
+.sky-theme-modern.sky-theme-modern-dark {
   .sky-sort-item button {
     color: $sky-theme-modern-mode-dark-font-deemphasized-color;
   }
