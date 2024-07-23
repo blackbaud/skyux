@@ -17,21 +17,21 @@ import { SkyAffixer } from './affixer';
       class="affixer-layer"
       [ngClass]="{
         'affix-layer-fixed': fixedLayer1,
-        'affix-layer-overflow': overflowLayer1
+        'affix-layer-overflow': overflowLayer1,
       }"
     >
       <div
         class="affixer-layer"
         [ngClass]="{
           'affix-layer-fixed': fixedLayer2,
-          'affix-layer-overflow': overflowLayer2
+          'affix-layer-overflow': overflowLayer2,
         }"
       >
         <div
           class="affixer-layer"
           [ngClass]="{
             'affix-layer-fixed': fixedLayer3,
-            'affix-layer-overflow': overflowLayer3
+            'affix-layer-overflow': overflowLayer3,
           }"
         >
           <div class="affixer-container">

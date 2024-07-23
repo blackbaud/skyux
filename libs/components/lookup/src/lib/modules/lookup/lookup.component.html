@@ -8,7 +8,7 @@
     [ngClass]="{
       'sky-lookup-focused': isInputFocused,
       'sky-lookup-disabled': disabled,
-      'sky-lookup-single': selectMode === 'single',
+      'sky-lookup-single': selectMode === 'single'
     }"
     #lookupWrapper
   >
@@ -39,7 +39,7 @@
         <div
           class="sky-lookup-search"
           [ngClass]="{
-            'sky-field-status-active': isInputFocused && !disabled,
+            'sky-field-status-active': isInputFocused && !disabled
           }"
         >
           <sky-tokens

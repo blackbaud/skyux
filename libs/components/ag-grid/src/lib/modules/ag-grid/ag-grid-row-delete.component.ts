@@ -31,7 +31,7 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
         [ngStyle]="{
           height: row.rowHeight + 'px',
           position: 'fixed',
-          width: tableWidth + 'px'
+          width: tableWidth + 'px',
         }"
         #inlineDeleteRef
       >
