@@ -94,6 +94,9 @@ export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-o
 
 export { SkyScreenReaderLabelDirective } from './lib/modules/screen-reader-label/screen-reader-label.directive';
 
+export { SkyScrollShadowDirective } from './lib/modules/scroll-shadow/scroll-shadow.directive';
+export { SkyScrollShadowEventArgs } from './lib/modules/scroll-shadow/scroll-shadow-event-args';
+
 export { SkyScrollableHostService } from './lib/modules/scrollable-host/scrollable-host.service';
 
 export { SkyStackingContext } from './lib/modules/stacking-context/stacking-context';
