@@ -90,11 +90,14 @@ describe('Help inline component', () => {
   let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
   let uniqueId = 0;
   let mockHelpSvc: jasmine.SpyObj<SkyHelpService>;
+  let readyStateChange: BehaviorSubject<boolean>;
 
   function setupTest(
     provideHelpSvc?: boolean,
     globalOptions?: SkyHelpGlobalOptions,
   ): void {
+    readyStateChange = new BehaviorSubject<boolean>(false);
+
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -105,7 +108,16 @@ describe('Help inline component', () => {
       }),
     };
 
-    mockHelpSvc = jasmine.createSpyObj('SkyHelpService', ['openHelp']);
+    mockHelpSvc = jasmine.createSpyObj(
+      'SkyHelpService',
+      ['openHelp'],
+      ['widgetReadyStateChange'],
+    );
+
+    (
+      Object.getOwnPropertyDescriptor(mockHelpSvc, 'widgetReadyStateChange')
+        ?.get as unknown as jasmine.Spy
+    ).and.returnValue(readyStateChange);
 
     const providers: Provider[] = [
       { provide: SkyThemeService, useValue: mockThemeSvc },
@@ -434,6 +446,7 @@ describe('Help inline component', () => {
       });
 
       component.helpKey = 'test.html';
+      readyStateChange.next(true);
 
       fixture.detectChanges();
 
@@ -443,6 +456,43 @@ describe('Help inline component', () => {
         ariaExpanded: null,
         ariaHaspopup: 'dialog',
       });
+    });
+
+    it('should pass accessibility when a non-existent element is provided to the global ariaControls', async () => {
+      const ariaControls = 'lazy-element';
+
+      setupTest(true, {
+        ariaControls,
+        ariaHaspopup: 'dialog',
+      });
+
+      // The element does not exist.
+      // readyStateChange.next(false);
+      component.helpKey = 'foo.html';
+      fixture.detectChanges();
+
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls: null,
+        ariaExpanded: null,
+        ariaHaspopup: null,
+      });
+
+      // Create the element and fire the ready state change event.
+      const div = document.createElement('div');
+      div.id = ariaControls;
+      document.body.appendChild(div);
+      readyStateChange.next(true);
+      fixture.detectChanges();
+
+      await checkAriaPropertiesAndAccessibility({
+        ariaLabel: 'Show help content',
+        ariaControls,
+        ariaExpanded: null,
+        ariaHaspopup: null,
+      });
+
+      div.remove();
     });
 
     describe('and help service is not provided but helpKey is specified', () => {
