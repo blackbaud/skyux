@@ -5,15 +5,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
-import { BehaviorSubject } from 'rxjs';
 
 import { ScrollShadowFixtureComponent } from './fixtures/scroll-shadow.component.fixture';
 
@@ -36,6 +27,14 @@ describe('Scroll shadow directive', () => {
 
   function getScrollHeader(): HTMLElement | null {
     return document.querySelector<HTMLElement>('.scroll-shadow-test-header');
+  }
+
+  function scrollElement(element: HTMLElement | null, yDistance: number): void {
+    if (element) {
+      element.scrollTop = yDistance;
+      SkyAppTestUtility.fireDomEvent(element, 'scroll');
+      fixture.detectChanges();
+    }
   }
 
   function validateShadow(
@@ -69,191 +68,113 @@ describe('Scroll shadow directive', () => {
   let fixture: ComponentFixture<ScrollShadowFixtureComponent>;
   let cmp: ScrollShadowFixtureComponent;
 
-  describe('no theme service', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [ScrollShadowFixtureComponent],
-      });
-
-      fixture = TestBed.createComponent(ScrollShadowFixtureComponent);
-      cmp = fixture.componentInstance;
-      fixture.detectChanges();
+  beforeEach(fakeAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ScrollShadowFixtureComponent],
     });
 
-    it('should not show a shadow when the body is not scrollable', async () => {
-      validateShadow(getScrollFooter());
-      validateShadow(getScrollHeader());
-    });
+    fixture = TestBed.createComponent(ScrollShadowFixtureComponent);
+    cmp = fixture.componentInstance;
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+  }));
 
-    it('should not show a shadow when the body is scrollable', async () => {
-      cmp.height = 800;
-      fixture.detectChanges();
-      await waitForMutationObserver();
-      fixture.detectChanges();
+  it('should not show a shadow when the body is not scrollable when disabled', async () => {
+    cmp.enabled = false;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
 
-      validateShadow(getScrollFooter());
-      validateShadow(getScrollHeader());
-    });
+    validateShadow(getScrollFooter());
+    validateShadow(getScrollHeader());
   });
 
-  describe('default theme', () => {
-    const mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.default,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
+  it('should not show a shadow when the body is scrollable when disabled', async () => {
+    cmp.height = 800;
+    cmp.enabled = false;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
 
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [ScrollShadowFixtureComponent],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
-      });
-
-      fixture = TestBed.createComponent(ScrollShadowFixtureComponent);
-      cmp = fixture.componentInstance;
-      fixture.detectChanges();
-    });
-
-    it('should not show a shadow when the body is not scrollable', async () => {
-      validateShadow(getScrollFooter());
-      validateShadow(getScrollHeader());
-    });
-
-    it('should not show a shadow when the body is scrollable', async () => {
-      cmp.height = 800;
-      fixture.detectChanges();
-      await waitForMutationObserver();
-      fixture.detectChanges();
-
-      validateShadow(getScrollFooter());
-      validateShadow(getScrollHeader());
-    });
+    validateShadow(getScrollFooter());
+    validateShadow(getScrollHeader());
   });
 
-  describe('modern theme', () => {
-    function scrollElement(
-      element: HTMLElement | null,
-      yDistance: number,
-    ): void {
-      if (element) {
-        element.scrollTop = yDistance;
-        SkyAppTestUtility.fireDomEvent(element, 'scroll');
-        fixture.detectChanges();
-      }
+  it('should not show a shadow when the body is not scrollable', async () => {
+    await waitForMutationObserver();
+    fixture.detectChanges();
+
+    validateShadow(getScrollFooter());
+    validateShadow(getScrollHeader());
+  });
+
+  it('should progressively show a drop shadow as the modal content scrolls', async () => {
+    const headerEl = getScrollHeader();
+    const contentEl = getScrollBody();
+    const footerEl = getScrollFooter();
+
+    if (!contentEl) {
+      fail('Content element not found');
+      return;
     }
 
-    const mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-        currentSettings: new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-        ),
-        previousSettings: undefined,
-      }),
-    };
+    cmp.height = 800;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
 
-    beforeEach(fakeAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ScrollShadowFixtureComponent],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
-      });
+    scrollElement(contentEl, 0);
+    validateShadow(headerEl);
+    validateShadow(footerEl, 0.3);
 
-      fixture = TestBed.createComponent(ScrollShadowFixtureComponent);
-      cmp = fixture.componentInstance;
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-    }));
+    scrollElement(contentEl, 15);
+    validateShadow(headerEl, 0.15);
+    validateShadow(footerEl, 0.3);
 
-    it('should not show a shadow when the body is not scrollable', async () => {
-      await waitForMutationObserver();
-      fixture.detectChanges();
+    scrollElement(contentEl, 30);
+    validateShadow(headerEl, 0.3);
+    validateShadow(footerEl, 0.3);
 
-      validateShadow(getScrollFooter());
-      validateShadow(getScrollHeader());
-    });
+    scrollElement(contentEl, 31);
+    validateShadow(headerEl, 0.3);
+    validateShadow(footerEl, 0.3);
 
-    it('should progressively show a drop shadow as the modal content scrolls', async () => {
-      const headerEl = getScrollHeader();
-      const contentEl = getScrollBody();
-      const footerEl = getScrollFooter();
+    scrollElement(
+      contentEl,
+      contentEl.scrollHeight - 15 - contentEl.clientHeight,
+    );
+    validateShadow(headerEl, 0.3);
+    validateShadow(footerEl, 0.15);
 
-      if (!contentEl) {
-        fail('Content element not found');
-        return;
-      }
+    scrollElement(contentEl, contentEl.scrollHeight - contentEl.clientHeight);
+    validateShadow(headerEl, 0.3);
+    validateShadow(footerEl);
+  });
 
-      cmp.height = 800;
-      fixture.detectChanges();
-      await waitForMutationObserver();
-      fixture.detectChanges();
+  it('should update the shadow on window resize', async () => {
+    const headerEl = getScrollHeader();
+    const contentEl = getScrollBody();
+    const footerEl = getScrollFooter();
 
-      scrollElement(contentEl, 0);
-      validateShadow(headerEl);
-      validateShadow(footerEl, 0.3);
+    if (!contentEl) {
+      fail('Content element not found');
+      return;
+    }
 
-      scrollElement(contentEl, 15);
-      validateShadow(headerEl, 0.15);
-      validateShadow(footerEl, 0.3);
+    cmp.height = 800;
+    fixture.detectChanges();
+    await waitForMutationObserver();
+    fixture.detectChanges();
 
-      scrollElement(contentEl, 30);
-      validateShadow(headerEl, 0.3);
-      validateShadow(footerEl, 0.3);
+    validateShadow(headerEl);
+    validateShadow(footerEl, 0.3);
 
-      scrollElement(contentEl, 31);
-      validateShadow(headerEl, 0.3);
-      validateShadow(footerEl, 0.3);
+    spyOnProperty(Element.prototype, 'scrollTop').and.returnValue(15);
+    SkyAppTestUtility.fireDomEvent(window, 'resize');
+    fixture.detectChanges();
 
-      scrollElement(
-        contentEl,
-        contentEl.scrollHeight - 15 - contentEl.clientHeight,
-      );
-      validateShadow(headerEl, 0.3);
-      validateShadow(footerEl, 0.15);
-
-      scrollElement(contentEl, contentEl.scrollHeight - contentEl.clientHeight);
-      validateShadow(headerEl, 0.3);
-      validateShadow(footerEl);
-    });
-
-    it('should update the shadow on window resize', async () => {
-      const headerEl = getScrollHeader();
-      const contentEl = getScrollBody();
-      const footerEl = getScrollFooter();
-
-      if (!contentEl) {
-        fail('Content element not found');
-        return;
-      }
-
-      cmp.height = 800;
-      fixture.detectChanges();
-      await waitForMutationObserver();
-      fixture.detectChanges();
-
-      validateShadow(headerEl);
-      validateShadow(footerEl, 0.3);
-
-      spyOnProperty(Element.prototype, 'scrollTop').and.returnValue(15);
-      SkyAppTestUtility.fireDomEvent(window, 'resize');
-      fixture.detectChanges();
-
-      validateShadow(headerEl, 0.15);
-      validateShadow(footerEl, 0.3);
-    });
+    validateShadow(headerEl, 0.15);
+    validateShadow(footerEl, 0.3);
   });
 });

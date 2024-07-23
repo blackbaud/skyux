@@ -3,16 +3,14 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   NgZone,
   OnDestroy,
-  OnInit,
   Output,
   inject,
 } from '@angular/core';
-import { SkyTheme, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
@@ -27,13 +25,31 @@ import { SkyScrollShadowEventArgs } from './scroll-shadow-event-args';
   standalone: true,
   selector: '[skyScrollShadow]',
 })
-export class SkyScrollShadowDirective implements OnInit, OnDestroy {
+export class SkyScrollShadowDirective implements OnDestroy {
+  @Input()
+  public set skyScrollShadowEnabled(value: boolean) {
+    this.#_enabled = value;
+
+    if (value) {
+      this.#initMutationObserver();
+    } else {
+      this.#emitShadow({
+        bottomShadow: 'none',
+        topShadow: 'none',
+      });
+
+      this.#destroyMutationObserver();
+    }
+  }
+
+  public get skyScrollShadowEnabled(): boolean {
+    return this.#_enabled;
+  }
+
   @Output()
   public skyScrollShadow = new EventEmitter<SkyScrollShadowEventArgs>();
 
   #currentShadow: SkyScrollShadowEventArgs | undefined;
-
-  #currentTheme: SkyTheme | undefined;
 
   #mutationObserver: MutationObserver | undefined;
 
@@ -42,7 +58,8 @@ export class SkyScrollShadowDirective implements OnInit, OnDestroy {
   readonly #elRef = inject(ElementRef);
   readonly #mutationObserverSvc = inject(SkyMutationObserverService);
   readonly #ngZone = inject(NgZone);
-  readonly #themeSvc = inject(SkyThemeService, { optional: true });
+
+  #_enabled = false;
 
   @HostListener('window:resize')
   public windowResize(): void {
@@ -52,27 +69,6 @@ export class SkyScrollShadowDirective implements OnInit, OnDestroy {
   @HostListener('scroll')
   public scroll(): void {
     this.#checkForShadow();
-  }
-
-  public ngOnInit(): void {
-    if (this.#themeSvc) {
-      this.#themeSvc.settingsChange
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((themeSettings) => {
-          this.#currentTheme = themeSettings.currentSettings.theme;
-
-          if (this.#currentTheme === SkyTheme.presets.modern) {
-            this.#initMutationObserver();
-          } else {
-            this.#emitShadow({
-              bottomShadow: 'none',
-              topShadow: 'none',
-            });
-
-            this.#destroyMutationObserver();
-          }
-        });
-    }
   }
 
   public ngOnDestroy(): void {
@@ -112,7 +108,7 @@ export class SkyScrollShadowDirective implements OnInit, OnDestroy {
   }
 
   #checkForShadow(): void {
-    if (this.#currentTheme === SkyTheme.presets.modern) {
+    if (this.skyScrollShadowEnabled) {
       const el: Element = this.#elRef.nativeElement;
 
       const topShadow = this.#buildShadowStyle(el.scrollTop);

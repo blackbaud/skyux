@@ -12,6 +12,7 @@ import { SkyScrollShadowDirective } from '../scroll-shadow.directive';
   standalone: true,
 })
 export class ScrollShadowFixtureComponent {
+  public enabled = true;
   public height = 400;
   public scrollShadow: SkyScrollShadowEventArgs | undefined;
 
