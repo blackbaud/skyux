@@ -6,4 +6,8 @@
 
 @include mixins.sky-component('modern', '.sky-illustration-img') {
   display: block;
+
+  &[src=''] {
+    visibility: hidden;
+  }
 }
