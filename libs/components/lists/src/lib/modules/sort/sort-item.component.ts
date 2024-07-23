@@ -24,6 +24,7 @@ let sortItemIdNumber = 0;
 @Component({
   selector: 'sky-sort-item',
   templateUrl: './sort-item.component.html',
+  styleUrls: ['./sort-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
