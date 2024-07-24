@@ -13,9 +13,7 @@ export abstract class SkyHelpService {
   /**
    * Emits when the help widget's ready state changes.
    */
-  public get widgetReadyStateChange(): Observable<boolean> {
-    return of(false);
-  }
+  public abstract get widgetReadyStateChange(): Observable<boolean>;
 
   /**
    * Opens a globally accessible help dialog.
