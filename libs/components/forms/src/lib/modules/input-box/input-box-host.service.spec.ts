@@ -20,6 +20,9 @@ describe('Input box host service', () => {
       ],
       {
         ariaDescribedBy: new ReplaySubject<string>(1),
+        controlId: 'controlId',
+        labelId: 'labelId',
+        labelText: 'labelText',
       },
     );
 
@@ -104,8 +107,37 @@ describe('Input box host service', () => {
     expect(hostService.controlId).toBe('');
   });
 
+  it('should return control ID when host is defined', () => {
+    hostService.init(mockInputBox);
+
+    expect(hostService.controlId).toBe('controlId');
+  });
+
+  it('should return an empty string for label ID when host is undefined', () => {
+    expect(hostService.labelId).toBe('');
+  });
+
+  it('should return label ID when host is defined', () => {
+    hostService.init(mockInputBox);
+
+    expect(hostService.labelId).toBe('labelId');
+  });
+
+  it('should return label ID when host is defined but label text is undefined', () => {
+    mockInputBox.labelText = undefined;
+    hostService.init(mockInputBox);
+
+    expect(hostService.labelId).toBe('labelId');
+  });
+
   it('should return an empty string for label text when host is undefined', () => {
     expect(hostService.labelText).toBe('');
+  });
+
+  it('should return label text when host is defined', () => {
+    hostService.init(mockInputBox);
+
+    expect(hostService.labelText).toBe('labelText');
   });
 
   it('should undefined for ariaDescribedBy when host is undefined', () => {
