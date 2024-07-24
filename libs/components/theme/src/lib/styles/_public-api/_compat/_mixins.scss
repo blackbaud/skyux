@@ -59,7 +59,26 @@
   color: var(--sky-highlight-color-danger);
 }
 
-@mixin sky-dropdown-item() {
+@mixin sky-dropdown-item-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--sky-text-color-default);
+  cursor: pointer;
+  display: block;
+  padding: 3px compatVars.$sky-padding-double;
+  text-align: left;
+  width: 100%;
+
+  &[disabled] {
+    color: var(--sky-text-color-deemphasized);
+
+    &:hover {
+      cursor: default;
+    }
+  }
+}
+
+@mixin sky-dropdown-item($encapsulate: true) {
   background-color: transparent;
   border: none;
   display: block;
@@ -84,22 +103,13 @@
     }
   }
 
-  ::ng-deep > button {
-    background-color: transparent;
-    border: none;
-    color: var(--sky-text-color-default);
-    cursor: pointer;
-    display: block;
-    padding: 3px compatVars.$sky-padding-double;
-    text-align: left;
-    width: 100%;
-
-    &[disabled] {
-      color: var(--sky-text-color-deemphasized);
-
-      &:hover {
-        cursor: default;
-      }
+  @if ($encapsulate == true) {
+    ::ng-deep > button {
+      @include sky-dropdown-item-btn();
+    }
+  } @else {
+    & > button {
+      @include sky-dropdown-item-btn();
     }
   }
 }

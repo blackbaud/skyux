@@ -11,6 +11,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -24,7 +25,9 @@ let sortItemIdNumber = 0;
 @Component({
   selector: 'sky-sort-item',
   templateUrl: './sort-item.component.html',
+  styleUrls: ['./sort-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   /**
