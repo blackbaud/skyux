@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { SkyHelpOpenArgs } from './help-open-args';
 
