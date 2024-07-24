@@ -30,7 +30,7 @@ import {
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
-import 'intl-tel-input';
+import intlTelInput from 'intl-tel-input';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -459,13 +459,9 @@ export class SkyCountryFieldComponent
     /**
      * The json functions here ensures that we get a copy of the array and not the global original.
      * This ensures that multiple instances of the component don't overwrite the original data.
-     *
-     * We must type the window object as any here as the intl-tel-input library adds its object
-     * to the main window object.
      */
     this.countries = JSON.parse(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      JSON.stringify((window as any).intlTelInputGlobals.getCountryData()),
+      JSON.stringify(intlTelInput.getCountryData()),
     ).map((country: SkyCountryFieldCountry & { nodeById: unknown }) => {
       // `intl-tel-input` version 19.2.6 added a `nodeById` property that is used internally to that library to this object.
       // We need to remove it as it is not useful to our consumers and would muddle the object type.
