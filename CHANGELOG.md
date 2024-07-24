@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.38.0](https://github.com/blackbaud/skyux/compare/10.37.4...10.38.0) (2024-07-23)
+
+
+### Features
+
+* **components/core:** add scroll shadow directive ([#2537](https://github.com/blackbaud/skyux/issues/2537)) ([db223ad](https://github.com/blackbaud/skyux/commit/db223adfcb20767ffc48f9392c2a7722ce109c79))
+
 ## [10.37.4](https://github.com/blackbaud/skyux/compare/10.37.3...10.37.4) (2024-07-22)
 
 
