@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyHelpService } from '@skyux/core';
 
-import { lastValueFrom } from 'rxjs';
-
 import { SkyHelpTestingController } from './help-testing-controller';
 import { SkyHelpTestingModule } from './help-testing.module';
 
@@ -53,9 +51,13 @@ describe('Help testing controller', () => {
     );
   });
 
-  it('should initialize the widget "ready state" to true', async () => {
+  it('should assert the widget ready state', async () => {
+    await helpController.expectWidgetReadyState(false);
+
     await expectAsync(
-      lastValueFrom(helpSvc.widgetReadyStateChange),
-    ).toBeResolvedTo(true);
+      helpController.expectWidgetReadyState(true),
+    ).toBeRejectedWithError(
+      'Expected a widget ready state of "true", but received "false".',
+    );
   });
 });

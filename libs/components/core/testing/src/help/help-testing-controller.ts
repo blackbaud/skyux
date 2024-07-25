@@ -1,5 +1,8 @@
 import { inject } from '@angular/core';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyHelpService } from '@skyux/core';
+
+import { firstValueFrom } from 'rxjs';
 
 import { SkyHelpTestingService } from './help-testing.service';
 
@@ -23,6 +26,18 @@ export class SkyHelpTestingController {
     if (currentHelpKey !== expectedHelpKey) {
       throw new Error(
         `Expected current help key to be ${formatHelpKeyForError(expectedHelpKey)}, but the current help key is ${formatHelpKeyForError(currentHelpKey)}.`,
+      );
+    }
+  }
+
+  public async expectWidgetReadyState(readyState: boolean): Promise<void> {
+    const actualReadyState = await firstValueFrom(
+      this.#helpSvc.widgetReadyStateChange,
+    );
+
+    if (readyState !== actualReadyState) {
+      throw new Error(
+        `Expected a widget ready state of "${readyState}", but received "${actualReadyState}".`,
       );
     }
   }

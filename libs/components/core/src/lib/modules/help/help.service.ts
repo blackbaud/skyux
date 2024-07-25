@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { SkyHelpOpenArgs } from './help-open-args';
 
@@ -13,7 +13,9 @@ export abstract class SkyHelpService {
   /**
    * Emits when the help widget's ready state changes.
    */
-  public abstract get widgetReadyStateChange(): Observable<boolean>;
+  public get widgetReadyStateChange(): Observable<boolean> {
+    return of(false);
+  }
 
   /**
    * Opens a globally accessible help dialog.
