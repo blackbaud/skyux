@@ -1,5 +1,19 @@
 # Changelog
 
+## [10.39.0](https://github.com/blackbaud/skyux/compare/10.38.0...10.39.0) (2024-07-25)
+
+
+### Features
+
+* **components/icon:** upgrade icons library to 7.5.0 ([#2549](https://github.com/blackbaud/skyux/issues/2549)) ([3c8b6b7](https://github.com/blackbaud/skyux/commit/3c8b6b7eacd69c95ed8e1d33c28ccdad6a82c266))
+
+
+### Bug Fixes
+
+* **components/help-inline:** set `aria-controls` on help inline button when widget element exists ([#2541](https://github.com/blackbaud/skyux/issues/2541)) ([55e7030](https://github.com/blackbaud/skyux/commit/55e7030cbd5dc7fd19e69917ab9ba7ef6f06de22))
+* **components/lists:** remove `::ng-deep` from sort styles ([#2538](https://github.com/blackbaud/skyux/issues/2538)) ([deab22a](https://github.com/blackbaud/skyux/commit/deab22a1352bdb10e813087c3e2129926acd4695))
+* **components/lookup:** lookup aria labels are now set appropriately when using the input box `labelText` input ([#2548](https://github.com/blackbaud/skyux/issues/2548)) ([73f9e68](https://github.com/blackbaud/skyux/commit/73f9e68d5a0804651df76349618c0c0b17e36bfb))
+
 ## [10.38.0](https://github.com/blackbaud/skyux/compare/10.37.4...10.38.0) (2024-07-23)
 
 
