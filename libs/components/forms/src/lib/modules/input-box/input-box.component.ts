@@ -196,6 +196,7 @@ export class SkyInputBoxComponent
   protected hostHintText: string | undefined;
 
   public readonly controlId = this.#idSvc.generateId();
+  public readonly labelId = this.#idSvc.generateId();
   public readonly errorId = this.#idSvc.generateId();
   public readonly hintTextId = this.#idSvc.generateId();
   public readonly ariaDescribedBy = new ReplaySubject<string | undefined>(1);
