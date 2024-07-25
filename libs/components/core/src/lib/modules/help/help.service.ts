@@ -11,7 +11,7 @@ import { SkyHelpOpenArgs } from './help-open-args';
 @Injectable()
 export abstract class SkyHelpService {
   /**
-   * Emits when the help widget's ready state changes.
+   * Emits when the help widget ready state changes.
    */
   public get widgetReadyStateChange(): Observable<boolean> {
     return of(false);
