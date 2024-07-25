@@ -17,9 +17,16 @@ export class SkyHelpInlineAriaControlsPipe implements PipeTransform {
     ariaControls: string | undefined,
     popoverId: string | undefined,
     helpKey: string | undefined,
+    widgetReadyState: boolean | null,
   ): string | undefined {
-    if (helpKey && this.#helpGlobalOptions) {
-      return this.#helpGlobalOptions.ariaControls;
+    if (helpKey) {
+      if (!widgetReadyState) {
+        return;
+      }
+
+      if (this.#helpGlobalOptions) {
+        return this.#helpGlobalOptions.ariaControls;
+      }
     }
 
     return popoverId || ariaControls;
