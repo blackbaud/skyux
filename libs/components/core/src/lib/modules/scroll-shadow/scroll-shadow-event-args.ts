@@ -1,7 +1,7 @@
 /**
  * @internal
  */
-export interface SkyModalScrollShadowEventArgs {
+export interface SkyScrollShadowEventArgs {
   bottomShadow: string;
 
   topShadow: string;
