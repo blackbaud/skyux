@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   Output,
   TemplateRef,
   inject,
@@ -12,8 +11,6 @@ import { SkyHelpService, SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
-
-import { Subject, takeUntil } from 'rxjs';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
 
@@ -44,7 +41,7 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
     SkyThemeModule,
   ],
 })
-export class SkyHelpInlineComponent implements OnDestroy {
+export class SkyHelpInlineComponent {
   /**
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
@@ -123,27 +120,12 @@ export class SkyHelpInlineComponent implements OnDestroy {
   protected isPopoverOpened: boolean | undefined;
   protected popoverId: string | undefined;
   protected popoverTemplate: TemplateRef<unknown> | undefined;
-  protected widgetReadyState = false;
 
   protected readonly helpSvc = inject(SkyHelpService, { optional: true });
 
   #_popoverContent: string | TemplateRef<unknown> | undefined;
 
   readonly #idSvc = inject(SkyIdService);
-  readonly #ngUnsubscribe = new Subject<void>();
-
-  constructor() {
-    this.helpSvc?.widgetReadyStateChange
-      ?.pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((readyState) => {
-        this.widgetReadyState = readyState;
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
 
   protected onClick(): void {
     this.actionClick.emit();

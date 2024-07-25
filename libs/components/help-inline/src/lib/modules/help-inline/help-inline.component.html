@@ -3,7 +3,10 @@
   type="button"
   [attr.aria-controls]="
     ariaControls
-      | skyHelpInlineAriaControls: popoverId : helpKey : widgetReadyState
+      | skyHelpInlineAriaControls
+        : popoverId
+        : helpKey
+        : (helpSvc?.widgetReadyStateChange | async)
   "
   [attr.aria-expanded]="
     ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
