@@ -113,10 +113,10 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Link to {0} removed.',
     },
     skyux_file_attachment_file_type_error_label_text: {
-      message: 'Upload a file of type {0}.',
+      message: 'Upload a file of one of the following types: {0}.',
     },
     skyux_file_attachment_file_type_error_label_text_with_name: {
-      message: '{0}: Upload a file of type {1}.',
+      message: '{0}: Upload a file of one of the following types: {1}.',
     },
     skyux_file_attachment_max_file_size_error_label_text: {
       message: 'Upload a file under {0}.',

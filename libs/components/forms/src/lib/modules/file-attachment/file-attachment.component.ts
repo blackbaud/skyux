@@ -74,6 +74,12 @@ export class SkyFileAttachmentComponent
   public acceptedTypes: string | undefined;
 
   /**
+   * A custom error message to be displayed in the event that a file does not match the accepted types.
+   */
+  @Input()
+  public acceptedTypesErrorMessage: string | undefined;
+
+  /**
    * Whether to disable the input on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false

@@ -135,6 +135,12 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   public acceptedTypes: string | undefined;
 
   /**
+   * A custom error message to be displayed in the event that a file does not match the accepted types.
+   */
+  @Input()
+  public acceptedTypesErrorMessage: string | undefined;
+
+  /**
    * Whether to disable the option to browse for files to attach.
    */
   @Input()
