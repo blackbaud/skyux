@@ -2,7 +2,11 @@
   class="sky-help-inline"
   type="button"
   [attr.aria-controls]="
-    ariaControls | skyHelpInlineAriaControls: popoverId : helpKey
+    ariaControls
+      | skyHelpInlineAriaControls
+        : popoverId
+        : helpKey
+        : (helpSvc?.widgetReadyStateChange | async)
   "
   [attr.aria-expanded]="
     ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened

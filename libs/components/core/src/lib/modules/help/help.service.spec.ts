@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
+import { firstValueFrom } from 'rxjs';
+
 import { SkyHelpService } from './help.service';
 
 describe('Help service', () => {
@@ -17,5 +19,13 @@ describe('Help service', () => {
         helpKey: 'test',
       }),
     ).toThrowError();
+  });
+
+  it('should default widget ready state to false', async () => {
+    const helpService = TestBed.inject(SkyHelpService);
+
+    await expectAsync(
+      firstValueFrom(helpService.widgetReadyStateChange),
+    ).toBeResolvedTo(false);
   });
 });
