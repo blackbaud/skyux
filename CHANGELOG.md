@@ -1,5 +1,25 @@
 # Changelog
 
+## [11.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.6...11.0.0-alpha.7) (2024-07-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove @skyux/omnibar-interop ([#2555](https://github.com/blackbaud/skyux/issues/2555))
+
+### Features
+
+* add support for `normalize-scss@8` ([#2558](https://github.com/blackbaud/skyux/issues/2558)) ([6648df1](https://github.com/blackbaud/skyux/commit/6648df1524619b3c82c79cd3b16daeec38fad587))
+* **components/forms:** improve file attachments error messaging for incorrect file types ([#2553](https://github.com/blackbaud/skyux/issues/2553)) ([#2562](https://github.com/blackbaud/skyux/issues/2562)) ([85677d2](https://github.com/blackbaud/skyux/commit/85677d2dac1c1c6eb09665b0b2dbc76ac02f0ea9))
+* remove @skyux/omnibar-interop ([#2555](https://github.com/blackbaud/skyux/issues/2555)) ([d1a5240](https://github.com/blackbaud/skyux/commit/d1a5240e31c20069cfd8069dd2faa1dad40ef65a))
+* update Angular, `dompurify`, `eslint-plugin-deprecation`, `intl-tel-input`, and `validator` ([#2557](https://github.com/blackbaud/skyux/issues/2557)) ([1dd6b9b](https://github.com/blackbaud/skyux/commit/1dd6b9bcc4a820be02ff654e620d98935c93fe4e))
+
+
+### Bug Fixes
+
+* **components/help-inline:** set `aria-controls` on help inline button when widget element exists ([#2541](https://github.com/blackbaud/skyux/issues/2541)) ([#2551](https://github.com/blackbaud/skyux/issues/2551)) ([7db3f06](https://github.com/blackbaud/skyux/commit/7db3f0634bae7988b43cd9f80a173c5bfe342f7f))
+* **components/lists:** repeater focus styles show on focus-visible in modern theme ([#2554](https://github.com/blackbaud/skyux/issues/2554)) ([#2560](https://github.com/blackbaud/skyux/issues/2560)) ([f2d1de2](https://github.com/blackbaud/skyux/commit/f2d1de20c8976489e073e9615a80cdd67245f32a))
+
 ## [10.40.0](https://github.com/blackbaud/skyux/compare/10.39.0...10.40.0) (2024-07-26)
 
 
