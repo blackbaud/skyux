@@ -72,7 +72,6 @@ jobs:
             components/lookup
             components/modals
             components/navbar
-            components/omnibar-interop
             components/packages
             components/pages
             components/phone-field

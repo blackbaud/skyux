@@ -6,7 +6,6 @@
     "config",
     "e2e-schematics",
     "eslint-config",
-    "omnibar-interop",
     "packages",
     "prettier-schematics",
     "router",
