@@ -1,5 +1,45 @@
 # Changelog
 
+## [11.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.5...11.0.0-alpha.6) (2024-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* use `booleanAttribute` transform instead of `SkyFormsUtility.coerceBooleanProperty` on boolean inputs ([#2533](https://github.com/blackbaud/skyux/issues/2533))
+
+### Features
+
+* **components/core:** add scroll shadow directive ([#2537](https://github.com/blackbaud/skyux/issues/2537)) ([#2543](https://github.com/blackbaud/skyux/issues/2543)) ([e173771](https://github.com/blackbaud/skyux/commit/e173771e462856b3fe0c6446f4769eee5b508b8d))
+* **components/icon:** upgrade icons library to 7.5.0 ([#2550](https://github.com/blackbaud/skyux/issues/2550)) ([53c9a4d](https://github.com/blackbaud/skyux/commit/53c9a4ddfcb0a4f58324fc806cb14d54b77c6eb0))
+* update `intl-tel-input` and `google-libphonenumber` dependencies ([#2542](https://github.com/blackbaud/skyux/issues/2542)) ([434d886](https://github.com/blackbaud/skyux/commit/434d886e10051c2b3fc1052feef8440a0e4dbe4c))
+
+
+### Bug Fixes
+
+* **components/datetime:** resources strings for default calculators are not resolved in the service ([#2536](https://github.com/blackbaud/skyux/issues/2536)) ([9ac8cd1](https://github.com/blackbaud/skyux/commit/9ac8cd1bd6b22adb85d3ebe236bc8f410ba4014f))
+* **components/indicators:** hide illustration while loading ([#2526](https://github.com/blackbaud/skyux/issues/2526)) ([#2530](https://github.com/blackbaud/skyux/issues/2530)) ([b384178](https://github.com/blackbaud/skyux/commit/b3841783f3d430b2df78c69a11257ad1b3c746c4))
+* **components/lists:** remove `::ng-deep` from sort styles ([#2538](https://github.com/blackbaud/skyux/issues/2538)) ([#2547](https://github.com/blackbaud/skyux/issues/2547)) ([280cb96](https://github.com/blackbaud/skyux/commit/280cb96ad4147b4f9819c0d3d40aa5ee09d5face))
+* **components/packages:** ignore `.nx` directory ([#2528](https://github.com/blackbaud/skyux/issues/2528)) ([72aa845](https://github.com/blackbaud/skyux/commit/72aa845099e15fd7d4c303ae8221ef6d12320300))
+* **components/tiles:** remove `::ng-deep` from tile styles ([#2527](https://github.com/blackbaud/skyux/issues/2527)) ([#2532](https://github.com/blackbaud/skyux/issues/2532)) ([7b6b87a](https://github.com/blackbaud/skyux/commit/7b6b87ab72791d9b4b34ea1aaf8e45acfcc8cddd))
+* use `booleanAttribute` transform instead of `SkyFormsUtility.coerceBooleanProperty` on boolean inputs ([#2533](https://github.com/blackbaud/skyux/issues/2533)) ([7531697](https://github.com/blackbaud/skyux/commit/7531697d701b1a99b93d2d5d6d2b92f6ee09529e))
+* **components/help-inline:** set `aria-controls` on help inline button when widget element exists ([#2541](https://github.com/blackbaud/skyux/issues/2541)) ([55e7030](https://github.com/blackbaud/skyux/commit/55e7030cbd5dc7fd19e69917ab9ba7ef6f06de22))
+* **components/lists:** remove `::ng-deep` from sort styles ([#2538](https://github.com/blackbaud/skyux/issues/2538)) ([deab22a](https://github.com/blackbaud/skyux/commit/deab22a1352bdb10e813087c3e2129926acd4695))
+* **components/lookup:** lookup aria labels are now set appropriately when using the input box `labelText` input ([#2548](https://github.com/blackbaud/skyux/issues/2548)) ([73f9e68](https://github.com/blackbaud/skyux/commit/73f9e68d5a0804651df76349618c0c0b17e36bfb))
+
+## [10.39.0](https://github.com/blackbaud/skyux/compare/10.38.0...10.39.0) (2024-07-25)
+
+
+### Features
+
+* **components/icon:** upgrade icons library to 7.5.0 ([#2549](https://github.com/blackbaud/skyux/issues/2549)) ([3c8b6b7](https://github.com/blackbaud/skyux/commit/3c8b6b7eacd69c95ed8e1d33c28ccdad6a82c266))
+
+
+### Bug Fixes
+
+* **components/help-inline:** set `aria-controls` on help inline button when widget element exists ([#2541](https://github.com/blackbaud/skyux/issues/2541)) ([55e7030](https://github.com/blackbaud/skyux/commit/55e7030cbd5dc7fd19e69917ab9ba7ef6f06de22))
+* **components/lists:** remove `::ng-deep` from sort styles ([#2538](https://github.com/blackbaud/skyux/issues/2538)) ([deab22a](https://github.com/blackbaud/skyux/commit/deab22a1352bdb10e813087c3e2129926acd4695))
+* **components/lookup:** lookup aria labels are now set appropriately when using the input box `labelText` input ([#2548](https://github.com/blackbaud/skyux/issues/2548)) ([73f9e68](https://github.com/blackbaud/skyux/commit/73f9e68d5a0804651df76349618c0c0b17e36bfb))
+
 ## [10.38.0](https://github.com/blackbaud/skyux/compare/10.37.4...10.38.0) (2024-07-23)
 
 
