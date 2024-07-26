@@ -184,13 +184,13 @@ sky-repeater-item {
         border-left-color: $sky-theme-modern-background-color-primary-dark;
       }
 
-      &:focus,
-      &:active:focus {
+      &:focus-visible,
+      &:focus-visible:active {
         outline: solid 2px $sky-theme-modern-background-color-primary-dark;
         outline-offset: -2px;
       }
 
-      &:focus:not(:active) {
+      &:focus-visible:not(:active) {
         box-shadow: $sky-theme-modern-elevation-3-shadow-size
           $sky-theme-modern-elevation-3-shadow-color;
       }
