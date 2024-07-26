@@ -75,7 +75,7 @@ export class SkyFileAttachmentComponent
 
   /**
    * A custom error message to display when a file doesn't match the accepted types.
-   * This replaces a default error message that lists all accepted types.d
+   * This replaces a default error message that lists all accepted types.
    */
   @Input()
   public acceptedTypesErrorMessage: string | undefined;
