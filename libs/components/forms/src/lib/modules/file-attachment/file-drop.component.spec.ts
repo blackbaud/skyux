@@ -474,7 +474,7 @@ describe('File drop component', () => {
 
     expect(typeError).toBeVisible();
     expect(typeError.textContent).toContain(
-      'Upload a file of one of the following types: PNG, JPEG.',
+      'Upload one of these file types: PNG, JPEG.',
     );
   });
 
