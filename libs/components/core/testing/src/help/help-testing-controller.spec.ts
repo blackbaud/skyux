@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyHelpService } from '@skyux/core';
 
+import { firstValueFrom } from 'rxjs';
+
 import { SkyHelpTestingController } from './help-testing-controller';
 import { SkyHelpTestingModule } from './help-testing.module';
 
@@ -49,5 +51,11 @@ describe('Help testing controller', () => {
     expect(() => helpController.expectCurrentHelpKey('test')).toThrowError(
       `Expected current help key to be 'test', but the current help key is undefined.`,
     );
+  });
+
+  it('should set widget ready state to "true" on init', async () => {
+    await expectAsync(
+      firstValueFrom(helpSvc.widgetReadyStateChange),
+    ).toBeResolvedTo(true);
   });
 });
