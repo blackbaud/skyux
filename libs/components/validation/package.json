@@ -16,12 +16,12 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^18.1.1",
-    "@angular/core": "^18.1.1",
-    "@angular/forms": "^18.1.1"
+    "@angular/common": "^18.1.2",
+    "@angular/core": "^18.1.2",
+    "@angular/forms": "^18.1.2"
   },
   "dependencies": {
     "tslib": "^2.6.3",
-    "validator": "13.11.0"
+    "validator": "13.12.0"
   }
 }

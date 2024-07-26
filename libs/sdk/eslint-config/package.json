@@ -24,12 +24,12 @@
     "migrations": "./src/schematics/migrations/migration-collection.json",
     "packageGroup": {
       "@skyux-sdk/eslint-config": "0.0.0-PLACEHOLDER",
-      "eslint-plugin-deprecation": "^2.0.0"
+      "eslint-plugin-deprecation": "^3.0.0"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^18.1.0",
-    "eslint-plugin-deprecation": "^2.0.0"
+    "@angular/cli": "^18.1.2",
+    "eslint-plugin-deprecation": "^3.0.0"
   },
   "dependencies": {
     "comment-json": "4.2.4",
