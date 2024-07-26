@@ -32,7 +32,7 @@ export class SkyFileAttachmentService {
         fileResults.push(fileItem);
       } else if (this.fileTypeRejected(fileItem.file.type, acceptedTypes)) {
         fileItem.errorType = 'fileType';
-        fileItem.errorParam = acceptedTypes;
+        fileItem.errorParam = this.#getAcceptedTypesList(acceptedTypes);
         fileResults.push(fileItem);
       } else if (validateFn) {
         const errorParam = validateFn(fileItem);
@@ -98,6 +98,17 @@ export class SkyFileAttachmentService {
     }
 
     return false;
+  }
+
+  #getAcceptedTypesList(rawTypes: string | undefined): string | undefined {
+    return rawTypes
+      ?.toUpperCase()
+      .split(',')
+      .map((type) => {
+        const subType = this.#getMimeSubtype(type);
+        return subType.startsWith('X-') ? subType.substr(2) : subType;
+      })
+      .join(', ');
   }
 
   #getMimeSubtype(type: string): string {

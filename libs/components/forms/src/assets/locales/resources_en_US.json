@@ -177,11 +177,11 @@
   },
   "skyux_file_attachment_file_type_error_label_text": {
     "_description": "The error message for file attachment incorrect file type error",
-    "message": "Upload a file of type {0}."
+    "message": "Upload one of these file types: {0}."
   },
   "skyux_file_attachment_file_type_error_label_text_with_name": {
     "_description": "The error message for file attachment incorrect file type error",
-    "message": "{0}: Upload a file of type {1}."
+    "message": "{0}: Upload one of these file types: {1}."
   },
   "skyux_file_attachment_max_file_size_error_label_text": {
     "_description": "The error message for file attachment max file size error",

@@ -189,7 +189,8 @@
       *ngIf="rejectedFile.errorType === 'maxFileSize'"
       errorName="maxFileSize"
       [errorText]="
-        'skyux_file_attachment_max_file_size_error_label_text_with_name'
+        acceptedTypesErrorMessage ??
+          'skyux_file_attachment_max_file_size_error_label_text_with_name'
           | skyLibResources
             : rejectedFile.file.name
             : (rejectedFile.errorParam | skyFileSize)

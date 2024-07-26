@@ -474,7 +474,7 @@ describe('File drop component', () => {
 
     expect(typeError).toBeVisible();
     expect(typeError.textContent).toContain(
-      'Upload a file of type image/png, image/jpeg.',
+      'Upload one of these file types: PNG, JPEG.',
     );
   });
 
@@ -859,7 +859,7 @@ describe('File drop component', () => {
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged),
     );
 
-    componentInstance.acceptedTypes = 'image/png,image/tiff';
+    componentInstance.acceptedTypes = 'image/png,audio/x-midi';
 
     fixture.detectChanges();
 
@@ -869,9 +869,7 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('woo.txt');
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('fileType');
-    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
-      componentInstance.acceptedTypes,
-    );
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('PNG, MIDI');
 
     expect(filesChangedActual?.files.length).toBe(1);
     expect(filesChangedActual?.files[0].url).toBe('url');
@@ -911,16 +909,12 @@ describe('File drop component', () => {
     expect(filesChangedActual?.rejectedFiles[1].file.name).toBe('woo.txt');
     expect(filesChangedActual?.rejectedFiles[1].file.size).toBe(2000);
     expect(filesChangedActual?.rejectedFiles[1].errorType).toBe('fileType');
-    expect(filesChangedActual?.rejectedFiles[1].errorParam).toBe(
-      componentInstance.acceptedTypes,
-    );
+    expect(filesChangedActual?.rejectedFiles[1].errorParam).toBe('PNG, TIFF');
 
     expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
     expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
     expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('fileType');
-    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
-      componentInstance.acceptedTypes,
-    );
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('PNG, TIFF');
 
     expect(liveAnnouncerSpy.calls.count()).toBe(0);
   });
