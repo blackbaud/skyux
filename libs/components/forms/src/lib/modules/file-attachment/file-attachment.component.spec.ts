@@ -1243,9 +1243,7 @@ describe('File attachment', () => {
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(2000);
     expect(fileChangeActual?.file?.errorType).toBe('fileType');
-    expect(fileChangeActual?.file?.errorParam).toBe(
-      fileAttachmentInstance.acceptedTypes,
-    );
+    expect(fileChangeActual?.file?.errorParam).toBe('PNG, TIFF');
   });
 
   it('should reject a file with no type when accepted types are defined', () => {
@@ -1271,9 +1269,7 @@ describe('File attachment', () => {
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
     expect(fileChangeActual?.file?.errorType).toBe('fileType');
-    expect(fileChangeActual?.file?.errorParam).toBe(
-      fileAttachmentInstance.acceptedTypes,
-    );
+    expect(fileChangeActual?.file?.errorParam).toBe('PNG, TIFF');
   });
 
   it('should allow the user to specify accepted type with wildcards', () => {
