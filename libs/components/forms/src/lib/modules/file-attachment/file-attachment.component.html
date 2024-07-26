@@ -178,7 +178,8 @@
     *ngIf="fileErrorName === 'fileType'"
     [errorName]="'fileType'"
     [errorText]="
-      'skyux_file_attachment_file_type_error_label_text'
+      acceptedTypesErrorMessage ??
+        'skyux_file_attachment_file_type_error_label_text'
         | skyLibResources: fileErrorParam
     "
   />
