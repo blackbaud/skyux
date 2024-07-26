@@ -1,5 +1,17 @@
 # Changelog
 
+## [10.40.0](https://github.com/blackbaud/skyux/compare/10.39.0...10.40.0) (2024-07-26)
+
+
+### Features
+
+* **components/forms:** improve file attachments error messaging for incorrect file types ([#2553](https://github.com/blackbaud/skyux/issues/2553)) ([93404bf](https://github.com/blackbaud/skyux/commit/93404bf9a97eddcc9955139d374d7218d1f678ea))
+
+
+### Bug Fixes
+
+* **components/lists:** repeater focus styles show on focus-visible in modern theme ([#2554](https://github.com/blackbaud/skyux/issues/2554)) ([4c6e357](https://github.com/blackbaud/skyux/commit/4c6e357d3f9d8d426b7f08d93e6d982c59789f31))
+
 ## [11.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.5...11.0.0-alpha.6) (2024-07-25)
 
 
