@@ -5,8 +5,8 @@
   [attr.aria-labelledby]="headingText ? undefined : ariaLabelledBy"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
   [attr.aria-owns]="ariaOwns"
-  [attr.aria-required]="required ? true : null"
-  [attr.required]="required ? '' : null"
+  [attr.aria-required]="isRequired ? true : null"
+  [attr.required]="isRequired ? '' : null"
   [attr.aria-invalid]="!!ngControl?.errors"
   [attr.aria-errormessage]="
     headingText && ngControl?.errors ? errorId : undefined
@@ -19,7 +19,7 @@
       [ngClass]="{
         'sky-screen-reader-only': headingHidden,
         'sky-margin-stacked-sm': !hintText,
-        'sky-control-label-required': required,
+        'sky-control-label-required': isRequired,
         'sky-margin-inline-xs': helpPopoverContent
       }"
     >

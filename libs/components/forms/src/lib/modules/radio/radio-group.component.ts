@@ -1,6 +1,5 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -16,8 +15,8 @@ import {
   inject,
   numberAttribute,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
-import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
+import { NgControl, Validators } from '@angular/forms';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -53,7 +52,7 @@ function numberAttribute4(value: unknown): number {
   ],
 })
 export class SkyRadioGroupComponent
-  implements AfterContentInit, AfterViewInit, OnInit, OnDestroy
+  implements AfterContentInit, OnInit, OnDestroy
 {
   /**
    * The HTML element ID of the element that labels
@@ -167,8 +166,8 @@ export class SkyRadioGroupComponent
    * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    * @default false
    */
-  @Input()
-  public required: boolean | undefined = false;
+  @Input({ transform: booleanAttribute })
+  public required = false;
 
   /**
    * Whether the radio button group is stacked on another form component. When specified,
@@ -318,6 +317,13 @@ export class SkyRadioGroupComponent
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
 
+  protected get isRequired(): boolean {
+    return (
+      this.required ||
+      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
+    );
+  }
+
   constructor(
     changeDetector: ChangeDetectorRef,
     radioGroupIdSvc: SkyRadioGroupIdService,
@@ -362,15 +368,12 @@ export class SkyRadioGroupComponent
     }
   }
 
-  public ngAfterViewInit(): void {
-    if (this.ngControl) {
-      this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
-
-      // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
-      this.#changeDetector.detectChanges();
-    }
-  }
+  // public ngAfterViewInit(): void {
+  //   if (this.ngControl) {
+  //     // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
+  //     this.#changeDetector.detectChanges();
+  //   }
+  // }
 
   public watchForSelections(): void {
     /* istanbul ignore else */
