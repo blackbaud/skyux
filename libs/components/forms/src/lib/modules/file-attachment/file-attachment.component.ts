@@ -244,6 +244,13 @@ export class SkyFileAttachmentComponent
 
   public isImage = false;
 
+  protected get isRequired(): boolean {
+    return (
+      this.required ||
+      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
+    );
+  }
+
   #enterEventTarget: EventTarget | undefined | null;
 
   #fileAttachmentId = uniqueId++;
@@ -275,13 +282,6 @@ export class SkyFileAttachmentComponent
   protected fileErrorName: SkyFileItemErrorType | undefined;
   protected fileErrorParam: string | undefined;
   protected fileErrorValidation: ValidationErrors | null | undefined;
-
-  protected get isRequired(): boolean {
-    return (
-      this.required ||
-      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
-    );
-  }
 
   constructor(
     changeDetector: ChangeDetectorRef,

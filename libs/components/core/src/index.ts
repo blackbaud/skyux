@@ -37,8 +37,6 @@ export {
   SkyDynamicComponentService,
 } from './lib/modules/dynamic-component/dynamic-component.service';
 
-// export { SkyFormsUtility } from './lib/modules/forms-utility/forms-utility';
-
 export { SkyAppFormat } from './lib/modules/format/app-format';
 
 export { SkyHelpGlobalOptions } from './lib/modules/help/help-global-options';

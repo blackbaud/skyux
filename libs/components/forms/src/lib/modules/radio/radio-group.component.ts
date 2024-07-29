@@ -282,6 +282,13 @@ export class SkyRadioGroupComponent
   @HostBinding('class.sky-margin-stacked-xl')
   public stackedXL = false;
 
+  protected get isRequired(): boolean {
+    return (
+      this.required ||
+      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
+    );
+  }
+
   protected headingClass = 'sky-font-heading-4';
 
   #controlValue: any;
@@ -316,13 +323,6 @@ export class SkyRadioGroupComponent
 
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
-
-  protected get isRequired(): boolean {
-    return (
-      this.required ||
-      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
-    );
-  }
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -367,13 +367,6 @@ export class SkyRadioGroupComponent
       });
     }
   }
-
-  // public ngAfterViewInit(): void {
-  //   if (this.ngControl) {
-  //     // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
-  //     this.#changeDetector.detectChanges();
-  //   }
-  // }
 
   public watchForSelections(): void {
     /* istanbul ignore else */
