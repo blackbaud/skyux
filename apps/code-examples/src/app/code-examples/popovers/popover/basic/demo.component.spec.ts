@@ -11,7 +11,6 @@ describe('Basic popover', () => {
     titleText?: string;
     alignment?: SkyPopoverAlignment;
     placement?: SkyPopoverPlacement;
-    dismissOnBlur?: boolean;
   }): Promise<{
     popoverHarness: SkyPopoverHarness;
     fixture: ComponentFixture<DemoComponent>;
@@ -23,7 +22,6 @@ describe('Basic popover', () => {
       fixture.componentInstance.popoverAlignment = options.alignment;
       fixture.componentInstance.popoverPlacement = options.placement;
       fixture.componentInstance.popoverTitle = options.titleText;
-      fixture.componentInstance.dismissOnBlur = options.dismissOnBlur;
     }
 
     fixture.detectChanges();
