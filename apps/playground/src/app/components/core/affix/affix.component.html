@@ -85,11 +85,7 @@
     H: Open popover on hover
   </button>
 
-  <sky-popover
-    [dismissOnBlur]="dismissOnBlur"
-    [popoverTitle]="popoverTitle"
-    #myPopover
-  >
+  <sky-popover [popoverTitle]="popoverTitle" #myPopover>
     {{ popoverBody }}
   </sky-popover>
 </div>

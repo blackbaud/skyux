@@ -7,7 +7,6 @@ import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
   styleUrl: './affix.component.css',
 })
 export class AffixComponent {
-  public dismissOnBlur: boolean | undefined;
   public popoverAlignment: SkyPopoverAlignment | undefined;
   public popoverBody = 'This is a popover.';
   public popoverPlacement: SkyPopoverPlacement | undefined;

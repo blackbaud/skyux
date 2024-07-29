@@ -13,7 +13,6 @@ import {
   imports: [CommonModule, SkyPopoverModule],
 })
 export class PopoverHarnessTestComponent {
-  public dismissOnBlur: boolean | undefined;
   public popoverAlignment: SkyPopoverAlignment | undefined;
   public popoverBody = 'popover body';
   public popoverPlacement: SkyPopoverPlacement | undefined;
