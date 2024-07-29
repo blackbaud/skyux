@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { ModalTestContext } from './modal-context';

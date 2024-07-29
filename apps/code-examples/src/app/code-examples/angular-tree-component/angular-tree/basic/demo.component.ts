@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 @Component({
   standalone: true,

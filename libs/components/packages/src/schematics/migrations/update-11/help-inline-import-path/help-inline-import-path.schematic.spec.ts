@@ -22,7 +22,7 @@ describe('Help inline module updates', () => {
     tree.create(
       '/projects/my-app/src/app/test.module.ts',
       `import { NgModule } from '@angular/core';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyThemeService } from '@skyux/theme';
@@ -150,7 +150,7 @@ export class AppModule {}`,
     tree.create(
       '/__skyux/projects/my-app/src/app/test.module.ts',
       `import { NgModule } from '@angular/core';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyThemeService } from '@skyux/theme';
@@ -171,7 +171,7 @@ export class AppModule {}`,
       '/__skyux/projects/my-app/src/app/test.module.ts',
     );
     expect(content).toEqual(`import { NgModule } from '@angular/core';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyThemeService } from '@skyux/theme';

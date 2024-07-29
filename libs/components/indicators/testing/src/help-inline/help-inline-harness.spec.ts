@@ -3,7 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SkyHelpInlineHarness } from './help-inline-harness';
 

@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyToggleSwitchModule } from '@skyux/forms';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { Subject, takeUntil } from 'rxjs';
 
