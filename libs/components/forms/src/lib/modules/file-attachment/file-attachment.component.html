@@ -3,7 +3,8 @@
     class="sky-file-attachment-label-wrapper"
     [attr.id]="labelElementId"
     [ngClass]="{
-      'sky-control-label-required': !labelText && required && hasLabelComponent
+      'sky-control-label-required':
+        !labelText && isRequired && hasLabelComponent
     }"
   >
     <ng-container *ngIf="labelText; else labelContent">
@@ -11,7 +12,7 @@
         *ngIf="!labelHidden"
         class="sky-control-label sky-margin-inline-xs"
         [ngClass]="{
-          'sky-control-label-required': required
+          'sky-control-label-required': isRequired
         }"
         >{{ labelText }}</span
       ><sky-help-inline
@@ -24,7 +25,7 @@
     </ng-container>
     <span
       class="sky-screen-reader-only"
-      *ngIf="required && (hasLabelComponent || labelText)"
+      *ngIf="isRequired && (hasLabelComponent || labelText)"
       >{{ 'skyux_file_attachment_required' | skyLibResources }}</span
     >
   </div>
@@ -53,7 +54,7 @@
       type="file"
       [attr.accept]="acceptedTypes || null"
       [disabled]="disabled"
-      [required]="required"
+      [required]="isRequired"
       (change)="fileChangeEvent($event)"
       #fileInput
     />

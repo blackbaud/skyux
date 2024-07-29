@@ -20,12 +20,8 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { NgControl, ValidationErrors } from '@angular/forms';
-import {
-  SkyFormsUtility,
-  SkyIdService,
-  SkyLiveAnnouncerService,
-} from '@skyux/core';
+import { NgControl, ValidationErrors, Validators } from '@angular/forms';
+import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -200,8 +196,8 @@ export class SkyFileAttachmentComponent
    * is complete.
    * For more information about the `aria-required` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-required).
    */
-  @Input()
-  public required: boolean | undefined = false;
+  @Input({ transform: booleanAttribute })
+  public required = false;
 
   @HostBinding('style.display')
   public display: string | undefined;
@@ -247,6 +243,13 @@ export class SkyFileAttachmentComponent
     | undefined;
 
   public isImage = false;
+
+  protected get isRequired(): boolean {
+    return (
+      this.required ||
+      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
+    );
+  }
 
   #enterEventTarget: EventTarget | undefined | null;
 
@@ -325,14 +328,11 @@ export class SkyFileAttachmentComponent
     /* istanbul ignore else */
     if (this.ngControl) {
       setTimeout(() => {
-        this.ngControl!.control!.setValue(this.value, {
+        this.ngControl?.control?.setValue(this.value, {
           emitEvent: false,
         });
         this.#changeDetector.markForCheck();
       });
-
-      this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
     }
   }
 
