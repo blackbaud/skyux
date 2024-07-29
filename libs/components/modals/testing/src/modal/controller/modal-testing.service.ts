@@ -40,7 +40,7 @@ export class SkyModalTestingService
       );
     }
 
-    modal.instance.close(args);
+    modal.instance.close(args?.data, args?.reason);
   }
 
   public expectCount(value: number): void {
