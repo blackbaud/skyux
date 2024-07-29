@@ -161,8 +161,6 @@ describe('Popover harness', () => {
     const fixture = TestBed.createComponent(PopoverHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    // fixture.componentInstance.dismissOnBlur = false;
-
     const popoverHarness1 = await loader.getHarness(SkyPopoverHarness);
 
     const popoverHarness2 = await loader.getHarness(
