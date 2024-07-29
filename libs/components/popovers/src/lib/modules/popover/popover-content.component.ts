@@ -68,8 +68,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public arrowTop: number | undefined;
 
-  public dismissOnBlur = true;
-
   public enableAnimations = true;
 
   public horizontalAlignment: SkyPopoverAlignment = 'center';
@@ -205,7 +203,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   public open(
     caller: ElementRef,
     config: {
-      dismissOnBlur: boolean;
       enableAnimations: boolean;
       horizontalAlignment: SkyPopoverAlignment;
       id: string;
@@ -216,7 +213,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     },
   ): void {
     this.#caller = caller;
-    this.dismissOnBlur = config.dismissOnBlur;
     this.enableAnimations = config.enableAnimations;
     this.horizontalAlignment = config.horizontalAlignment;
     this.popoverId = config.id;
@@ -377,10 +373,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
           // to handle the tab key ourselves. Otherwise, focus would be moved to the browser's
           // search bar.
           case 'tab':
-            if (!this.dismissOnBlur) {
-              return;
-            }
-
             /*istanbul ignore else*/
             if (this.#isFocusLeavingElement(event)) {
               this.close();

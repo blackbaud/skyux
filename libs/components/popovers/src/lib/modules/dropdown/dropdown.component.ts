@@ -89,19 +89,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public disabled: boolean | undefined = false;
 
   /**
-   * Whether to close the dropdown when users click away from the menu.
-   * @default true
-   */
-  @Input()
-  public set dismissOnBlur(value: boolean | undefined) {
-    this.#_dismissOnBlur = value ?? true;
-  }
-
-  public get dismissOnBlur(): boolean {
-    return this.#_dismissOnBlur;
-  }
-
-  /**
    * The ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility). If multiple dropdowns with no label or the same label appear on the same page,
    * they must have unique ARIA labels that provide context, such as "Context menu for Robert Hernandez" or "Edit Robert Hernandez."
@@ -227,7 +214,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
-  #_dismissOnBlur = true;
   #_horizontalAlignment = DEFAULT_HORIZONTAL_ALIGNMENT;
   #_isOpen = false;
   #_trigger = DEFAULT_TRIGGER_TYPE;
@@ -297,7 +283,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
               break;
 
             case 'tab':
-              if (this.isOpen && this.dismissOnBlur) {
+              if (this.isOpen) {
                 this.#sendMessage(SkyDropdownMessageType.Close);
               }
               break;
@@ -378,9 +364,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       overlay.backdropClick
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          if (this.dismissOnBlur) {
-            this.#sendMessage(SkyDropdownMessageType.Close);
-          }
+          this.#sendMessage(SkyDropdownMessageType.Close);
         });
 
       this.#overlay = overlay;
