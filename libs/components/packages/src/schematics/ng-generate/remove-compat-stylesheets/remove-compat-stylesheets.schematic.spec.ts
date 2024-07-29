@@ -24,7 +24,7 @@ describe('Generate > Remove compat stylesheets', () => {
   );
 
   async function setup(): Promise<{
-    runSchematic: (options: Schema) => Promise<UnitTestTree>;
+    runSchematic: (options?: Partial<Schema>) => Promise<UnitTestTree>;
     tree: UnitTestTree;
   }> {
     const tree = await createTestLibrary(runner, {
@@ -32,7 +32,7 @@ describe('Generate > Remove compat stylesheets', () => {
     });
 
     return {
-      runSchematic: (options: Schema): Promise<UnitTestTree> =>
+      runSchematic: (options?: Partial<Schema>): Promise<UnitTestTree> =>
         runner.runSchematic('remove-compat-stylesheets', options, tree),
       tree,
     };
@@ -95,7 +95,7 @@ describe('Generate > Remove compat stylesheets', () => {
     }
 
     await runSchematic({
-      version: '9',
+      belowVersion: 9,
     });
 
     expect(tree.readJson('/angular.json')).toEqual({
@@ -170,9 +170,7 @@ describe('Generate > Remove compat stylesheets', () => {
       }),
     );
 
-    await runSchematic({
-      version: 'current',
-    });
+    await runSchematic();
 
     expect(tree.readJson('/angular.json')).toEqual({
       version: 1,

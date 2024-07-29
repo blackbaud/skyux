@@ -5,6 +5,6 @@ import { VERSION } from '../../../../version';
 
 export default function removeOldCompatStylesheets(): Rule {
   return externalSchematic('@skyux/packages', 'remove-compat-stylesheets', {
-    version: `${parseInt(VERSION.major) - 1}`,
+    belowVersion: parseInt(VERSION.major) - 1,
   });
 }

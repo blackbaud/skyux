@@ -2,11 +2,9 @@
   "$schema": "http://json-schema.org/schema",
   "type": "object",
   "properties": {
-    "version": {
-      "type": "string",
-      "description": "Remove the compatibility stylesheets at or below the specified version.",
-      "default": "current",
-      "pattern": "^\\d+|current$"
+    "below-version": {
+      "type": "number",
+      "description": "Remove the compat stylesheets for SKY UX versions less than this number."
     }
   }
 }

@@ -1,17 +1,16 @@
 import { Rule } from '@angular-devkit/schematics';
 
-import { VERSION } from '../../../version';
 import { updateWorkspace } from '../../utility/workspace';
 
 import { Schema } from './schema';
 
 const COMPAT_STYLESHEET_REGEX = /skyux(\d+)-compat\.css$/;
 
-export default function removeCompatStylesheets(options: Schema): Rule {
+export default function removeCompatStylesheets(
+  options: Partial<Schema>,
+): Rule {
   return (tree) => {
-    const version = parseInt(
-      options.version === 'current' ? VERSION.major : options.version,
-    );
+    const belowVersion = options.belowVersion ?? Number.MAX_SAFE_INTEGER;
     return updateWorkspace((workspace) => {
       const compatStylesheetPaths: string[] = [];
 
@@ -27,7 +26,7 @@ export default function removeCompatStylesheets(options: Schema): Rule {
               const stylesheet = stylesheets[i];
 
               const check = stylesheet.match(COMPAT_STYLESHEET_REGEX);
-              if (check && parseInt(check[1]) <= version) {
+              if (check && parseInt(check[1]) <= belowVersion) {
                 compatStylesheetPaths.push(stylesheet);
                 stylesheets.splice(i, 1);
               }
