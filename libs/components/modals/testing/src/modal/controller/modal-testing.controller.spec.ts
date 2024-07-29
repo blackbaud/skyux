@@ -82,6 +82,10 @@ class TestComponent implements OnDestroy {
     this.#instances.forEach((i) => i.close());
   }
 
+  public getInstanceAt(index: number): SkyModalInstance | undefined {
+    return this.#instances.at(index);
+  }
+
   public openModal(): void {
     const instance = this.#modalSvc.open(ModalTestComponent, {
       providers: [
@@ -141,6 +145,24 @@ describe('modal-testing.controller', () => {
     modalController.expectOpen(ModalTestComponent);
     modalController.closeTopModal();
     modalController.expectNone();
+  });
+
+  it('should close a modal with args', () => {
+    const { fixture, modalController } = setupTest();
+
+    fixture.componentInstance.openModal();
+    fixture.detectChanges();
+
+    const closeSpy = spyOn(
+      fixture.componentInstance.getInstanceAt(0)!,
+      'close',
+    ).and.callThrough();
+
+    modalController.closeTopModal({ reason: 'save', data: { foo: 'bar' } });
+
+    fixture.detectChanges();
+
+    expect(closeSpy).toHaveBeenCalledWith({ foo: 'bar' }, 'save');
   });
 
   it('should throw if topmost modal does not match criteria', () => {
