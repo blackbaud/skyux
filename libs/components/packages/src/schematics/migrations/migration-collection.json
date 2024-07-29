@@ -10,6 +10,11 @@
       "factory": "./update-11/ag-grid/ag-grid.schematic",
       "description": "Apply code changes for AG Grid 32."
     },
+    "help-inline-import-path": {
+      "version": "11.0.0",
+      "factory": "./update-11/help-inline-import-path/help-inline-import-path.schematic",
+      "description": "Update help inline import paths to help inline library."
+    },
     "i18n-resources-module": {
       "version": "11.0.0",
       "factory": "./update-11/i18n-resources-module/i18n-resources-module.schematic",
