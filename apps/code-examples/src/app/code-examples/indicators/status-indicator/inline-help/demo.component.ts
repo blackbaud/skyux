@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  SkyHelpInlineModule,
-  SkyStatusIndicatorModule,
-} from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 @Component({
   standalone: true,

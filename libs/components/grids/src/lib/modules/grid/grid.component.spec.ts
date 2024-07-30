@@ -33,6 +33,12 @@ function getColumnHeader(id: string, element: DebugElement): DebugElement {
   return element.query(By.css('th[sky-cmp-id="' + id + '"]'));
 }
 
+function getColumnHeaderText(id: string, element: DebugElement): string {
+  return getColumnHeader(id, element)
+    .query(By.css('.sky-grid-header-text'))
+    .nativeElement.textContent.trim();
+}
+
 function getCell(
   rowId: string,
   columnId: string,
@@ -331,39 +337,19 @@ describe('Grid Component', () => {
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(
         headerCount,
       );
-      expect(
-        getColumnHeader('column1', element).nativeElement.textContent.trim(),
-      ).toBe('Column1');
-      expect(
-        getColumnHeader('column2', element).nativeElement.textContent.trim(),
-      ).toBe('Column2');
-      expect(
-        getColumnHeader('column3', element).nativeElement.textContent.trim(),
-      ).toBe('Column3');
+      expect(getColumnHeaderText('column1', element)).toBe('Column1');
+      expect(getColumnHeaderText('column2', element)).toBe('Column2');
+      expect(getColumnHeaderText('column3', element)).toBe('Column3');
 
       if (!hiddenCol) {
-        expect(
-          getColumnHeader('column4', element).nativeElement.textContent.trim(),
-        ).toBe('Column4');
+        expect(getColumnHeaderText('column4', element)).toBe('Column4');
       }
 
-      expect(
-        getColumnHeader('column5', element).nativeElement.textContent.trim(),
-      ).toBe('Column5');
+      expect(getColumnHeaderText('column5', element)).toBe('Column5');
 
       if (useAllHeaders) {
-        expect(
-          getColumnHeader(
-            'hiddenCol1',
-            element,
-          ).nativeElement.textContent.trim(),
-        ).toBe('Column6');
-        expect(
-          getColumnHeader(
-            'hiddenCol2',
-            element,
-          ).nativeElement.textContent.trim(),
-        ).toBe('Column7');
+        expect(getColumnHeaderText('hiddenCol1', element)).toBe('Column6');
+        expect(getColumnHeaderText('hiddenCol2', element)).toBe('Column7');
       }
     }
 
@@ -2716,22 +2702,16 @@ describe('Grid Component', () => {
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(
         headerCount,
       );
-      expect(
-        getColumnHeader('column1', element).nativeElement.textContent.trim(),
-      ).toBe('Column 1');
+      expect(getColumnHeaderText('column1', element)).toBe('Column 1');
 
       if (!hideColumn) {
-        expect(
-          getColumnHeader('column2', element).nativeElement.textContent.trim(),
-        ).toBe('Column 2');
+        expect(getColumnHeaderText('column2', element)).toBe('Column 2');
       } else {
         expect(getColumnHeader('column2', element)).toBeNull();
       }
 
       if (thirdColumn) {
-        expect(
-          getColumnHeader('column3', element).nativeElement.textContent.trim(),
-        ).toBe('Column 3');
+        expect(getColumnHeaderText('column3', element)).toBe('Column 3');
       } else {
         expect(getColumnHeader('column3', element)).toBeNull();
       }
@@ -2973,12 +2953,8 @@ describe('Grid Component', () => {
       fixture.detectChanges();
 
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
-      expect(
-        getColumnHeader('name', element).nativeElement.textContent.trim(),
-      ).toBe('Name Initial');
-      expect(
-        getColumnHeader('email', element).nativeElement.textContent.trim(),
-      ).toBe('Email Initial');
+      expect(getColumnHeaderText('name', element)).toBe('Name Initial');
+      expect(getColumnHeaderText('email', element)).toBe('Email Initial');
       const initialWidths = getColumnWidths(fixture);
       resizeColumn(fixture, 50, 0);
 
@@ -2989,12 +2965,8 @@ describe('Grid Component', () => {
       fixture.detectChanges();
 
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
-      expect(
-        getColumnHeader('name', element).nativeElement.textContent.trim(),
-      ).toBe('Name');
-      expect(
-        getColumnHeader('email', element).nativeElement.textContent.trim(),
-      ).toBe('Email');
+      expect(getColumnHeaderText('name', element)).toBe('Name');
+      expect(getColumnHeaderText('email', element)).toBe('Email');
 
       const changedWidths = getColumnWidths(fixture);
       expect(changedWidths[0]).toBe(resizedWidths[0]);
@@ -3017,17 +2989,13 @@ describe('Grid Component', () => {
     });
 
     function verifyColumnHeaders(id: string): void {
-      expect(
-        getColumnHeader(id, element).nativeElement.textContent.trim(),
-      ).toBe('');
+      expect(getColumnHeaderText(id, element)).toBe('');
 
       tick(110); // wait for setTimeout
       fixture.detectChanges();
       tick();
 
-      expect(
-        getColumnHeader(id, element).nativeElement.textContent.trim(),
-      ).toBe('Column1');
+      expect(getColumnHeaderText(id, element)).toBe('Column1');
     }
 
     it('should handle async column headings', fakeAsync(() => {
@@ -3094,12 +3062,7 @@ describe('Grid Component', () => {
       fixture.detectChanges();
 
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(3);
-      expect(
-        getColumnHeader(
-          'columnNoHeader',
-          element,
-        ).nativeElement.textContent.trim(),
-      ).toBe('');
+      expect(getColumnHeaderText('columnNoHeader', element)).toBe('');
     });
   });
 
@@ -3184,12 +3147,8 @@ describe('Grid Component', () => {
 
       // Expect only the two good columns to show on the grid.
       expect(element.queryAll(By.css('th.sky-grid-heading')).length).toBe(2);
-      expect(
-        getColumnHeader('column1', element).nativeElement.textContent.trim(),
-      ).toBe('Column 1');
-      expect(
-        getColumnHeader('column2', element).nativeElement.textContent.trim(),
-      ).toBe('Column 2');
+      expect(getColumnHeaderText('column1', element)).toBe('Column 1');
+      expect(getColumnHeaderText('column2', element)).toBe('Column 2');
     });
 
     it('should handle errors when setting config', () => {

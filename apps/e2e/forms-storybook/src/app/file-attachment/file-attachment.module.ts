@@ -3,10 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyFileAttachmentsModule } from '@skyux/forms';
-import {
-  SkyHelpInlineModule,
-  SkyStatusIndicatorModule,
-} from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { FileAttachmentComponent } from './file-attachment.component';
 

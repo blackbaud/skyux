@@ -7,11 +7,9 @@ import {
   SkyFormErrorsModule,
   SkyInputBoxModule,
 } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
-import {
-  SkyHelpInlineModule,
-  SkyStatusIndicatorModule,
-} from '@skyux/indicators';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { InputBoxRoutingModule } from './input-box-routing.module';
 import { InputBoxVisualHostComponent } from './input-box-visual-host.component';
