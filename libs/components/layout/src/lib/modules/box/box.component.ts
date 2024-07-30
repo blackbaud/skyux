@@ -42,7 +42,6 @@ function numberAttribute2(value: unknown): number {
 export class SkyBoxComponent {
   /**
    * The text to display as the box's heading.
-   * @preview
    */
   @Input()
   public set headingText(value: string | undefined) {
@@ -59,14 +58,12 @@ export class SkyBoxComponent {
 
   /**
    * Indicates whether to hide the `headingText`.
-   * @preview
    */
   @Input({ transform: booleanAttribute })
   public headingHidden = false;
 
   /**
    * The semantic heading level in the document structure. The default is 2.
-   * @preview
    * @default 2
    */
   @Input({ transform: numberAttribute2 })
@@ -74,7 +71,6 @@ export class SkyBoxComponent {
 
   /**
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
-   * @preview
    * @default 2
    */
   @Input({ transform: numberAttribute2 })
@@ -86,7 +82,6 @@ export class SkyBoxComponent {
    * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the box heading. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
-   * @preview
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -94,7 +89,6 @@ export class SkyBoxComponent {
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
    * also specified.
-   * @preview
    */
   @Input()
   public helpPopoverTitle: string | undefined;
@@ -103,7 +97,6 @@ export class SkyBoxComponent {
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the box heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
-   * @preview
    */
   @Input()
   public helpKey: string | undefined;
