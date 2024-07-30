@@ -15,11 +15,6 @@
       "factory": "./update-11/help-inline-import-path/help-inline-import-path.schematic",
       "description": "Update help inline import paths to help inline library."
     },
-    "icons-migration": {
-      "version": "11.0.0",
-      "factory": "./update-11/icons-migration/icons-migration.schematic",
-      "description": "Update icon types import paths to icon library."
-    },
     "i18n-resources-module": {
       "version": "11.0.0",
       "factory": "./update-11/i18n-resources-module/i18n-resources-module.schematic",
