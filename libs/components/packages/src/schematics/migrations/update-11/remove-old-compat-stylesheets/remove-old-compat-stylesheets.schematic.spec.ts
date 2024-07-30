@@ -7,13 +7,11 @@ import path from 'node:path';
 
 import { createTestLibrary } from '../../../testing/scaffold';
 
-jest.mock('../../../../version', () => {
-  return {
-    VERSION: {
-      major: 'CURRENT_VERSION',
-    },
-  };
-});
+jest.mock('../../../../version', () => ({
+  VERSION: {
+    major: '10',
+  },
+}));
 
 describe('Migrations > Remove old compat stylesheets', () => {
   const runner = new SchematicTestRunner(
@@ -41,148 +39,8 @@ describe('Migrations > Remove old compat stylesheets', () => {
     jest.resetModules();
   });
 
-  it('should remove older compat stylesheets', async () => {
-    const { runSchematic, tree } = await setup();
-
-    const stylesheets = [
-      'projects/foobar-showcase/src/app/styles.css',
-      'projects/foobar-showcase/src/app/skyux8-compat.css',
-      'projects/foobar-showcase/src/app/skyux9-compat.css',
-      'projects/foobar-showcase/src/app/skyuxCURRENT_VERSION-compat.css',
-    ];
-
-    tree.overwrite(
-      '/angular.json',
-      JSON.stringify({
-        version: 1,
-        projects: {
-          foobar: {
-            projectType: 'library',
-            root: 'projects/foobar',
-            architect: {
-              build: {},
-              test: {
-                options: {
-                  styles: ['@skyux/theme/css/sky.css'],
-                },
-              },
-            },
-          },
-          'foobar-showcase': {
-            projectType: 'application',
-            root: 'projects/foobar-showcase',
-            architect: {
-              build: {
-                options: {
-                  styles: ['@skyux/theme/css/sky.css', ...stylesheets],
-                },
-              },
-              test: {
-                options: {
-                  styles: ['@skyux/theme/css/sky.css', ...stylesheets],
-                },
-              },
-            },
-          },
-        },
-      }),
-    );
-
-    for (const stylesheet of stylesheets) {
-      tree.create(stylesheet, 'CSS_CONTENT');
-    }
-
-    await runSchematic();
-
-    expect(tree.readJson('/angular.json')).toEqual({
-      version: 1,
-      projects: {
-        foobar: {
-          projectType: 'library',
-          root: 'projects/foobar',
-          architect: {
-            build: {},
-            test: {
-              options: {
-                styles: ['@skyux/theme/css/sky.css'],
-              },
-            },
-          },
-        },
-        'foobar-showcase': {
-          projectType: 'application',
-          root: 'projects/foobar-showcase',
-          architect: {
-            build: {
-              options: {
-                styles: [
-                  '@skyux/theme/css/sky.css',
-                  'projects/foobar-showcase/src/app/styles.css',
-                  'projects/foobar-showcase/src/app/skyuxCURRENT_VERSION-compat.css',
-                ],
-              },
-            },
-            test: {
-              options: {
-                styles: [
-                  '@skyux/theme/css/sky.css',
-                  'projects/foobar-showcase/src/app/styles.css',
-                  'projects/foobar-showcase/src/app/skyuxCURRENT_VERSION-compat.css',
-                ],
-              },
-            },
-          },
-        },
-      },
-    });
-
-    expect(tree.exists(stylesheets[0])).toEqual(true);
-    expect(tree.exists(stylesheets[1])).toEqual(false);
-    expect(tree.exists(stylesheets[2])).toEqual(false);
-    expect(tree.exists(stylesheets[3])).toEqual(true);
-  });
-
-  it("should skip removing stylesheets that don't exist", async () => {
-    const { runSchematic, tree } = await setup();
-
-    // Add the stylesheet to the config, but do not create it.
-    tree.overwrite(
-      '/angular.json',
-      JSON.stringify({
-        version: 1,
-        projects: {
-          'foo-app': {
-            projectType: 'application',
-            root: 'src/app',
-            architect: {
-              build: {
-                options: {
-                  styles: ['src/app/skyux9-compat.css'],
-                },
-              },
-            },
-          },
-        },
-      }),
-    );
-
-    await runSchematic();
-
-    expect(tree.readJson('/angular.json')).toEqual({
-      version: 1,
-      projects: {
-        'foo-app': {
-          projectType: 'application',
-          root: 'src/app',
-          architect: {
-            build: {
-              options: {
-                styles: [],
-              },
-            },
-          },
-        },
-      },
-    });
+  it('should run', async () => {
+    const { runSchematic } = await setup();
+    expect(() => runSchematic()).not.toThrow();
   });
 });

@@ -21,6 +21,11 @@
       "factory": "./src/schematics/ng-generate/polyfills/polyfills.schematic",
       "schema": "./src/schematics/ng-generate/polyfills/schema.json"
     },
+    "remove-compat-stylesheets": {
+      "description": "Remove SKY UX compatibility stylesheets.",
+      "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
+      "schema": "./src/schematics/ng-generate/remove-compat-stylesheets/schema.json"
+    },
     "remove-nx-cache": {
       "description": "Remove the Nx cache directory from git.",
       "factory": "./src/schematics/ng-generate/remove-nx-cache/remove-nx-cache.schematic",
