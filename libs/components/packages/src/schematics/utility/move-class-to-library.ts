@@ -1,7 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
 import { findNodes } from '@angular/cdk/schematics';
-
-import ts from 'typescript';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 export interface MoveClassToLibraryOptions {
   classNames: string[];
