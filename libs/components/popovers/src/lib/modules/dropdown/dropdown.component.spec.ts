@@ -157,7 +157,6 @@ describe('Dropdown component', function () {
     expect(dropdownRef?.buttonStyle).toEqual('default');
     expect(dropdownRef?.buttonType).toEqual('select');
     expect(dropdownRef?.disabled).toBeUndefined();
-    expect(dropdownRef?.dismissOnBlur).toEqual(true);
     expect(dropdownRef?.horizontalAlignment).toEqual('left');
     expect(dropdownRef?.label).toBeUndefined();
     expect(dropdownRef?.title).toBeUndefined();
@@ -459,27 +458,6 @@ describe('Dropdown component', function () {
       container = getMenuContainerElement();
 
       expect(container).toBeNull();
-    }));
-
-    it('should allow preventing menu close on window click', fakeAsync(() => {
-      fixture.componentInstance.dismissOnBlur = false;
-      detectChangesFakeAsync();
-
-      const button = getButtonElement();
-      button?.click();
-      detectChangesFakeAsync();
-
-      let container = getMenuContainerElement();
-
-      expect(isElementVisible(container)).toEqual(true);
-
-      SkyAppTestUtility.fireDomEvent(window.document.body, 'click');
-      detectChangesFakeAsync();
-
-      container = getMenuContainerElement();
-
-      // Menu should still be open.
-      expect(isElementVisible(container)).toEqual(true);
     }));
 
     it('should focus on first menu item when clicked', fakeAsync(() => {
@@ -893,74 +871,6 @@ describe('Dropdown component', function () {
 
       // Tab key should progress to next item after the trigger button.
       expect(container).toBeNull();
-    }));
-
-    it('should not close the menu if dismissOnBlur is false (trigger has focus)', fakeAsync(() => {
-      fixture.componentInstance.dismissOnBlur = false;
-      detectChangesFakeAsync();
-
-      const button = getButtonElement();
-
-      SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-        keyboardEventInit: {
-          key: 'enter',
-        },
-      });
-
-      detectChangesFakeAsync();
-
-      let container = getMenuContainerElement();
-
-      expect(isElementVisible(container)).toEqual(true);
-
-      // Run 'tab' on trigger button.
-      SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-        keyboardEventInit: {
-          key: 'tab',
-        },
-      });
-      button?.blur();
-
-      detectChangesFakeAsync();
-
-      container = getMenuContainerElement();
-
-      expect(isElementVisible(container)).toEqual(true);
-    }));
-
-    it('should not close the menu if dismissOnBlur is false (menu has focus)', fakeAsync(() => {
-      fixture.componentInstance.dismissOnBlur = false;
-      detectChangesFakeAsync();
-
-      const button = getButtonElement();
-
-      SkyAppTestUtility.fireDomEvent(button, 'keydown', {
-        keyboardEventInit: {
-          key: 'enter',
-        },
-      });
-
-      detectChangesFakeAsync();
-
-      let container = getMenuContainerElement();
-
-      expect(isElementVisible(container)).toEqual(true);
-
-      const firstButton = getMenuItems()?.item(0)?.querySelector('button');
-
-      // Run 'tab' on first item.
-      SkyAppTestUtility.fireDomEvent(firstButton, 'keydown', {
-        keyboardEventInit: {
-          key: 'tab',
-        },
-      });
-      firstButton?.blur();
-
-      detectChangesFakeAsync();
-
-      container = getMenuContainerElement();
-
-      expect(isElementVisible(container)).toEqual(true);
     }));
 
     it('should close the menu when tab key is pressed within the menu', fakeAsync(() => {

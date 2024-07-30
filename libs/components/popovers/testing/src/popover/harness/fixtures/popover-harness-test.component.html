@@ -9,11 +9,7 @@
 >
   Open popover on click
 </button>
-<sky-popover
-  [dismissOnBlur]="dismissOnBlur"
-  [popoverTitle]="popoverTitle"
-  #myPopover
->
+<sky-popover [popoverTitle]="popoverTitle" #myPopover>
   <span class="popover-body">
     {{ popoverBody }}
   </span>
@@ -29,10 +25,6 @@
 >
   Another popover trigger
 </button>
-<sky-popover
-  [dismissOnBlur]="dismissOnBlur"
-  popoverTitle="Another popover"
-  #myOtherPopover
->
+<sky-popover popoverTitle="Another popover" #myOtherPopover>
   <span class="popover-body">I have different content</span>
 </sky-popover>

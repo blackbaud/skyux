@@ -168,7 +168,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
               this.#sendMessage(SkyPopoverMessageType.Focus);
               event.stopPropagation();
               event.preventDefault();
-            } else if (this.skyPopover.dismissOnBlur) {
+            } else {
               this.#sendMessage(SkyPopoverMessageType.Close);
             }
             break;

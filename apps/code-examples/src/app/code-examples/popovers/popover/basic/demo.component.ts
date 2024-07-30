@@ -12,7 +12,6 @@ import {
   imports: [SkyPopoverModule],
 })
 export class DemoComponent {
-  public dismissOnBlur: boolean | undefined;
   public popoverAlignment: SkyPopoverAlignment | undefined;
   public popoverBody = 'This is a popover.';
   public popoverPlacement: SkyPopoverPlacement | undefined;

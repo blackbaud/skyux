@@ -346,9 +346,8 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
             break;
 
           case 'tab':
-            if (this.#dropdownComponent?.dismissOnBlur) {
-              this.#sendMessage(SkyDropdownMessageType.Close);
-            }
+            this.#sendMessage(SkyDropdownMessageType.Close);
+
             this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
             break;
         }
