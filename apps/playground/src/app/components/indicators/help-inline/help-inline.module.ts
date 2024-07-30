@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyPopoverModule } from '@skyux/popovers';
 
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';

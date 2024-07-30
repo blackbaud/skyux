@@ -4,8 +4,6 @@ export { SkyChevronModule } from './lib/modules/chevron/chevron.module';
 
 export { SkyExpansionIndicatorModule } from './lib/modules/expansion-indicator/expansion-indicator.module';
 
-export { SkyHelpInlineModule } from './lib/modules/help-inline/help-inline.module';
-
 export { SkyIllustrationResolverService } from './lib/modules/illustration/illustration-resolver.service';
 export { SkyIllustrationSize } from './lib/modules/illustration/illustration-size';
 export { SkyIllustrationModule } from './lib/modules/illustration/illustration.module';
@@ -44,7 +42,6 @@ export {
 export { SkyAlertComponent as λ1 } from './lib/modules/alert/alert.component';
 export { SkyChevronComponent as λ2 } from './lib/modules/chevron/chevron.component';
 export { SkyExpansionIndicatorComponent as λ15 } from './lib/modules/expansion-indicator/expansion-indicator.component';
-export { SkyHelpInlineComponent as λ3 } from './lib/modules/help-inline/help-inline.component';
 export { λ1 as λ4, λ2 as λ5 } from '@skyux/icon';
 export { SkyKeyInfoLabelComponent as λ6 } from './lib/modules/key-info/key-info-label.component';
 export { SkyKeyInfoValueComponent as λ7 } from './lib/modules/key-info/key-info-value.component';
