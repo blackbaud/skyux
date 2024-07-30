@@ -20,6 +20,11 @@
       "factory": "./update-11/i18n-resources-module/i18n-resources-module.schematic",
       "description": "Regenerate i18n resources modules for libraries."
     },
+    "icons-migration": {
+      "version": "11.0.0",
+      "factory": "./update-11/icons-migration/icons-migration.schematic",
+      "description": "Update icons import paths to icons library and add new peer."
+    },
     "ng-wait-for-async-test": {
       "version": "11.0.0",
       "factory": "./update-11/ng-wait-for-async-test/ng-wait-for-async-test.schematic",

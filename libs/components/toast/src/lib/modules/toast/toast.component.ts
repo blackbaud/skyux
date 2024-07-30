@@ -15,7 +15,7 @@ import {
 import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyIconStackItem } from '@skyux/indicators';
+import { SkyIconStackItem } from '@skyux/icon';
 
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

@@ -37,7 +37,7 @@ import {
   SKY_FORM_ERRORS_ENABLED,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
-import { SkyIconType } from '@skyux/indicators';
+import { SkyIconType } from '@skyux/icon';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';

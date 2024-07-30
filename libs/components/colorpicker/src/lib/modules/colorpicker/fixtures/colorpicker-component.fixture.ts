@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { SkyIconType } from '@skyux/indicators';
+import { SkyIconType } from '@skyux/icon';
 
 import { Subject } from 'rxjs';
 

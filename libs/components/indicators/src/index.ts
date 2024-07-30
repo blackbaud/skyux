@@ -30,19 +30,11 @@ export { SkyTokensMessageType } from './lib/modules/tokens/types/tokens-message-
 export { SkyWaitModule } from './lib/modules/wait/wait.module';
 export { SkyWaitService } from './lib/modules/wait/wait.service';
 
-export {
-  SkyIconStackItem,
-  SkyIconModule,
-  SkyIconType,
-  SkyIconVariantType,
-} from '@skyux/icon';
-
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyAlertComponent as λ1 } from './lib/modules/alert/alert.component';
 export { SkyChevronComponent as λ2 } from './lib/modules/chevron/chevron.component';
 export { SkyExpansionIndicatorComponent as λ15 } from './lib/modules/expansion-indicator/expansion-indicator.component';
-export { λ1 as λ4, λ2 as λ5 } from '@skyux/icon';
 export { SkyKeyInfoLabelComponent as λ6 } from './lib/modules/key-info/key-info-label.component';
 export { SkyKeyInfoValueComponent as λ7 } from './lib/modules/key-info/key-info-value.component';
 export { SkyKeyInfoComponent as λ8 } from './lib/modules/key-info/key-info.component';
