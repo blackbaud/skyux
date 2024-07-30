@@ -62,13 +62,8 @@ export function moveClassToLibrary(
 
           recorder.remove(namedImportStart, namedImportWidth);
 
-          if (
-            content.substring(
-              namedImportStart + namedImportWidth,
-              namedImportStart + namedImportWidth + 2,
-            ) === ', '
-          ) {
-            recorder.remove(namedImportStart + namedImportWidth, 2);
+          if (content.charAt(namedImportStart + namedImportWidth) === ',') {
+            recorder.remove(namedImportStart + namedImportWidth, 1);
           }
         });
       } else {

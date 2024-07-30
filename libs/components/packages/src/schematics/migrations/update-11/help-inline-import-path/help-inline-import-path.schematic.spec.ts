@@ -86,7 +86,7 @@ export class AppModule {}`,
     expect(content).toEqual(
       `import { NgModule } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
-import { SkyChevronModule, SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyChevronModule,  SkyKeyInfoModule } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyThemeService } from '@skyux/theme';
