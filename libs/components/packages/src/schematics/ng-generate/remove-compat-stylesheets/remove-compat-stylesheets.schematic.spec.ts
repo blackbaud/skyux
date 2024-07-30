@@ -95,7 +95,7 @@ describe('Generate > Remove compat stylesheets', () => {
     }
 
     await runSchematic({
-      belowVersion: 9,
+      belowVersion: 10,
     });
 
     expect(tree.readJson('/angular.json')).toEqual({

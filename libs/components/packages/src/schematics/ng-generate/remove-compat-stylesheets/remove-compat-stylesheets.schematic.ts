@@ -26,7 +26,7 @@ export default function removeCompatStylesheets(
               const stylesheet = stylesheets[i];
 
               const check = stylesheet.match(COMPAT_STYLESHEET_REGEX);
-              if (check && parseInt(check[1]) <= belowVersion) {
+              if (check && parseInt(check[1]) < belowVersion) {
                 compatStylesheetPaths.push(stylesheet);
                 stylesheets.splice(i, 1);
               }
