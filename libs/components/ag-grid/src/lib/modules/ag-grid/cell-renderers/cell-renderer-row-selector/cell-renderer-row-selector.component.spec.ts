@@ -1,3 +1,4 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
   ComponentFixture,
   TestBed,
@@ -5,14 +6,12 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { SkyCheckboxFixture } from '@skyux/forms/testing';
+import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
 import {
-  Beans,
+  BeanCollection as Beans,
   ColDef,
   ICellRendererParams,
-  RowClickedEvent,
   RowNode,
 } from 'ag-grid-community';
 import { Observable, of } from 'rxjs';
@@ -74,13 +73,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       cellRendererParams.node = rowNode;
       spyOn(rowNode, 'setSelected');
 
-      const checkbox = new SkyCheckboxFixture(
-        rowSelectorCellFixture,
-        'row-checkbox',
-      );
-
       expect(rowSelectorCellComponent.checked).toBeUndefined();
-      expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
 
       rowSelectorCellComponent.agInit(
@@ -92,7 +85,6 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       rowSelectorCellFixture.detectChanges();
 
       expect(rowSelectorCellComponent.checked).toBe(checked);
-      expect(checkbox.selected).toBe(true);
       expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
       expect(
         rowSelectorCellComponent.rowNode?.setSelected,
@@ -107,13 +99,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       (cellRendererParams.colDef as ColDef).field = undefined;
       spyOn(rowNode, 'setSelected');
 
-      const checkbox = new SkyCheckboxFixture(
-        rowSelectorCellFixture,
-        'row-checkbox',
-      );
-
       expect(rowSelectorCellComponent.checked).toBeUndefined();
-      expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toBeUndefined();
 
       rowSelectorCellComponent.agInit({
@@ -130,7 +116,6 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       rowSelectorCellFixture.detectChanges();
 
       expect(rowSelectorCellComponent.checked).toBe(false);
-      expect(checkbox.selected).toBe(false);
       expect(rowSelectorCellComponent.rowNode).toEqual(rowNode);
       expect(
         rowSelectorCellComponent.rowNode?.setSelected,
@@ -221,26 +206,15 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
   });
 
   describe('row selection', () => {
-    function testRowSelected(
+    async function testRowSelected(
       colDefinition: ColDef | undefined,
       isSelectedValues: boolean[],
       dataPropertySet = false,
       selectable = true,
-    ): void {
-      let rowClickListener: ((event: RowClickedEvent) => void) | undefined;
+    ): Promise<void> {
       const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
       rowNode.data = {};
       rowNode.selectable = selectable;
-      const rowClickedEvent: Partial<RowClickedEvent> = {
-        node: rowNode,
-        data: undefined,
-        rowIndex: undefined,
-        rowPinned: undefined,
-        context: undefined,
-        api: undefined,
-        columnApi: {} as never,
-        type: undefined,
-      };
 
       cellRendererParams.value = false;
       cellRendererParams.colDef = colDefinition;
@@ -248,49 +222,35 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
 
       spyOn(rowNode, 'setSelected');
       spyOn(rowNode, 'isSelected').and.returnValues(...isSelectedValues);
-
-      rowNode.addEventListener = (
-        event: unknown,
-        listener: (event: RowClickedEvent) => void,
-      ): void => {
-        // set event listener
-        rowClickListener = listener;
-      };
-
-      spyOn(rowNode, 'addEventListener').and.callThrough();
+      spyOn(rowNode, 'addEventListener').and.stub();
 
       rowSelectorCellFixture.detectChanges();
-
-      const checkbox = new SkyCheckboxFixture(
-        rowSelectorCellFixture,
-        'row-checkbox',
-      );
 
       rowSelectorCellComponent.agInit(
         cellRendererParams as ICellRendererParams,
       );
       rowSelectorCellFixture.detectChanges();
+      expect(rowNode.addEventListener).toHaveBeenCalledWith(
+        'rowSelected',
+        jasmine.any(Function),
+      );
 
-      expect(rowSelectorCellComponent.checked).toBeFalsy();
-      expect(checkbox.selected).toBe(false);
-      expect(checkbox.disabled).toBe(!selectable);
-
-      // trigger the rowClickEventListener
-      if (rowClickListener && selectable) {
-        rowClickListener(rowClickedEvent as RowClickedEvent);
+      const loader = TestbedHarnessEnvironment.loader(rowSelectorCellFixture);
+      const harness = await loader.getHarness(
+        SkyCheckboxHarness.with({ dataSkyId: 'row-checkbox' }),
+      );
+      expect(await harness.isChecked()).toBe(false);
+      expect(await harness.isDisabled()).toBe(!selectable);
+      if (selectable) {
+        await harness.check();
       }
 
       rowSelectorCellFixture.detectChanges();
-      tick();
-      rowSelectorCellFixture.detectChanges();
+      await rowSelectorCellFixture.whenStable();
 
       if (selectable) {
-        expect(rowNode.addEventListener).toHaveBeenCalledWith(
-          RowNode.EVENT_ROW_SELECTED,
-          jasmine.any(Function),
-        );
         expect(rowSelectorCellComponent.checked).toBe(true);
-        expect(checkbox.selected).toBe(true);
+        expect(await harness.isChecked()).toBe(true);
       }
 
       if (dataPropertySet) {
@@ -302,24 +262,24 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
     }
 
     it(`should set the checkbox's selected value and the row data's column-defined field property
-      to the component's checked property value if the data field is provided`, fakeAsync(() => {
-      testRowSelected(cellRendererParams.colDef, [true, true], true);
-    }));
+      to the component's checked property value if the data field is provided`, async () => {
+      await testRowSelected(cellRendererParams.colDef, [true, true], true);
+    });
 
-    it(`should set the checkbox's selected value to the component's checked property value if the data field is provided or the default is used`, fakeAsync(() => {
+    it(`should set the checkbox's selected value to the component's checked property value if the data field is provided or the default is used`, async () => {
       const columnWithoutDataField = {};
-      testRowSelected(columnWithoutDataField, [false, true, true]);
-    }));
+      await testRowSelected(columnWithoutDataField, [false, true, true]);
+    });
 
-    it(`should disable the checkbox`, fakeAsync(() => {
+    it(`should disable the checkbox`, async () => {
       const columnWithoutDataField = {};
-      testRowSelected(
+      await testRowSelected(
         columnWithoutDataField,
         [false, false, false],
         false,
         false,
       );
-    }));
+    });
   });
 
   it('should pass accessibility', async () => {

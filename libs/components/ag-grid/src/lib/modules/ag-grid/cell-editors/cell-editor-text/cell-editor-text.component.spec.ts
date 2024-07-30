@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  Beans,
-  Column,
+  BeanCollection as Beans,
+  AgColumn as Column,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -272,7 +272,7 @@ describe('SkyCellEditorTextComponent', () => {
           true,
         );
 
-        const gridApi = new GridApi();
+        const gridApi = {} as GridApi;
 
         gridApi.getDisplayNameForColumn = (): string => {
           return '';

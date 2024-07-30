@@ -15,11 +15,7 @@ import {
 } from '@skyux/core';
 
 import { IHeaderGroupAngularComp } from 'ag-grid-angular';
-import {
-  ColumnGroupOpenedEvent,
-  Events,
-  ProvidedColumnGroup,
-} from 'ag-grid-community';
+import { ColumnGroupOpenedEvent, ProvidedColumnGroup } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
@@ -85,15 +81,9 @@ export class SkyAgGridHeaderGroupComponent
       this.#subscriptions.add(
         fromEventPattern<ColumnGroupOpenedEvent>(
           (handler) =>
-            params.api.addEventListener(
-              Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
-            ),
+            params.api.addEventListener('columnGroupOpened', handler),
           (handler) =>
-            params.api.removeEventListener(
-              Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
-            ),
+            params.api.removeEventListener('columnGroupOpened', handler),
         ).subscribe((event) => {
           if (
             this.#columnGroup &&

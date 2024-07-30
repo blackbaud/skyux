@@ -6,7 +6,7 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { Column, GridApi } from 'ag-grid-community';
+import { AgColumn as Column, GridApi } from 'ag-grid-community';
 
 import { SkyAgGridHeaderParams } from '../types/header-params';
 
@@ -28,6 +28,7 @@ describe('HeaderComponent', () => {
   let apiEvents: Record<string, ((a?: object) => void)[]>;
   let columnEvents: Record<string, (() => void)[]>;
   let params: SkyAgGridHeaderParams;
+  let columnLeft: number | undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,6 +41,7 @@ describe('HeaderComponent', () => {
     });
     apiEvents = {};
     columnEvents = {};
+    columnLeft = 100;
     params = {
       displayName: 'Test Column',
       showColumnMenu: () => undefined,
@@ -70,19 +72,19 @@ describe('HeaderComponent', () => {
         },
         isFilterActive: () => false,
         isFilterAllowed: () => false,
-        isSortAscending: () => false,
-        isSortDescending: () => false,
-        isSortNone: () => true,
         getSort: (): 'asc' | 'desc' | null | undefined => undefined,
         getSortIndex: () => undefined,
         getColId: () => 'test',
-        getLeft: () => 0,
-        getOldLeft: () => 1,
+        getLeft: () => columnLeft,
       } as Column,
       eGridHeader: {
         focus: () => undefined,
       } as HTMLElement,
       enableSorting: false,
+      node: {
+        isSelected: () => false,
+        rowIndex: 0,
+      },
     } as unknown as SkyAgGridHeaderParams;
 
     fixture = TestBed.createComponent(SkyAgGridHeaderComponent);
@@ -126,9 +128,6 @@ describe('HeaderComponent', () => {
         getSortIndex: () => useSort && 0,
         isFilterActive: () => true,
         isFilterAllowed: () => true,
-        isSortAscending: () => useSort === 'asc',
-        isSortDescending: () => useSort === 'desc',
-        isSortNone: () => !useSort,
       } as unknown as Column,
       api: {
         ...params.api,
@@ -216,6 +215,7 @@ describe('HeaderComponent', () => {
     await fixture.whenStable();
     expect(apiEvents['columnMoved'].length).toBeGreaterThanOrEqual(1);
     const columnMovedSpy = spyOn(params.eGridHeader, 'focus');
+    columnLeft = 50;
     apiEvents['columnMoved'].forEach((listener) =>
       listener({
         column: params.column,
@@ -223,6 +223,14 @@ describe('HeaderComponent', () => {
       }),
     );
     expect(columnMovedSpy).toHaveBeenCalled();
+  });
+
+  it('should load when left is undefined', async () => {
+    columnLeft = undefined;
+    component.agInit(params);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component).toBeTruthy();
   });
 
   describe('accessibility', () => {

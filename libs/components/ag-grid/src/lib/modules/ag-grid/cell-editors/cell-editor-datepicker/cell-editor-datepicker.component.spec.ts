@@ -17,8 +17,8 @@ import {
 } from '@skyux/theme';
 
 import {
-  Beans,
-  Column,
+  BeanCollection as Beans,
+  AgColumn as Column,
   GridApi,
   ICellEditorParams,
   KeyCode,

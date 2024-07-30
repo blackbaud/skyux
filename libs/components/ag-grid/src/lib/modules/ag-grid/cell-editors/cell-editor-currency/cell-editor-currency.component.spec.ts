@@ -7,8 +7,8 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  Beans,
-  Column,
+  BeanCollection as Beans,
+  AgColumn as Column,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -173,7 +173,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           true,
         );
 
-        const api = new GridApi();
+        const api = {} as GridApi;
 
         api.getDisplayNameForColumn = (): string => {
           return '';

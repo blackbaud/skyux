@@ -9,7 +9,7 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  Beans,
+  BeanCollection as Beans,
   ColumnMovedEvent,
   ColumnState,
   DragStartedEvent,
@@ -81,7 +81,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowIndex: 0,
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as never,
+
       rowPinned: null,
     } as RowSelectedEvent;
 
@@ -119,7 +119,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowIndex: 0,
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as never,
+
       rowPinned: null,
     } as RowSelectedEvent;
 
@@ -137,8 +137,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should set columns visible based on the data state changes', async () => {
-    spyOn(agGridComponent.api, 'setColumnsVisible');
-
     const newDataState = new SkyDataManagerState({
       views: [
         {
@@ -153,19 +151,33 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(agGridComponent.api.setColumnsVisible).toHaveBeenCalled();
+    expect(agGridComponent.api.getColumn('name')?.isVisible()).toBeTruthy();
   });
 
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const colId = 'testCol';
-    const columnState: ColumnState = {
-      colId,
-      hide: false,
-    };
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue([columnState]);
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+          hide: false,
+        },
+        {
+          colId: 'target',
+          hide: false,
+        },
+        {
+          colId: 'name',
+          hide: false,
+        },
+        {
+          colId: 'noHeader',
+          hide: false,
+        },
+      ],
+      applyOrder: true,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     const columnMoved = {
@@ -174,8 +186,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     } as ColumnMovedEvent;
 
     const viewState = dataState.views[0];
-    viewState.displayedColumnIds = [colId];
-
+    viewState.displayedColumnIds = ['selected', 'target', 'name', 'noHeader'];
     agGridComponent.columnMoved.emit(columnMoved);
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
@@ -238,26 +249,25 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-        sort: 'desc',
-        sortIndex: 0,
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+          sort: 'desc',
+          sortIndex: 0,
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = {
@@ -278,24 +288,23 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes to null', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = undefined;
@@ -311,26 +320,25 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-        sort: 'desc',
-        sortIndex: 0,
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+          sort: 'desc',
+          sortIndex: 0,
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = {
@@ -351,26 +359,25 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-        sort: 'desc',
-        sortIndex: 0,
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+          sort: 'desc',
+          sortIndex: 0,
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = {
@@ -390,8 +397,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   describe('selecting rows', () => {
     it('should use the ag grid API to select all rows when onSelectAllClick is called', async () => {
-      spyOn(agGridComponent.api, 'selectAll');
-
       agGridDataManagerFixture.detectChanges();
       await agGridDataManagerFixture.whenStable();
 
@@ -400,12 +405,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       );
       viewConfig?.onSelectAllClick?.();
 
-      expect(agGridComponent.api.selectAll).toHaveBeenCalled();
+      expect(agGridComponent.api.getSelectedRows()).not.toEqual([]);
     });
 
     it('should use the ag grid API to deselect all rows when onClearAllClick is called', async () => {
-      spyOn(agGridComponent.api, 'deselectAll');
-
       agGridDataManagerFixture.detectChanges();
       await agGridDataManagerFixture.whenStable();
 
@@ -413,8 +416,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         agGridDataManagerFixtureComponent.viewConfig.id,
       );
       viewConfig?.onClearAllClick?.();
+      agGridDataManagerFixture.detectChanges();
+      await agGridDataManagerFixture.whenStable();
 
-      expect(agGridComponent.api.deselectAll).toHaveBeenCalled();
+      expect(agGridComponent.api.getSelectedRows()).toEqual([]);
     });
   });
 
@@ -456,7 +461,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should apply descending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const applyColStateSpy = spyOn(agGridComponent.api, 'applyColumnState');
 
     const newDataState = new SkyDataManagerState({ ...dataState });
     newDataState.activeSortOption = {
@@ -469,20 +473,28 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(applyColStateSpy).toHaveBeenCalledWith({
-      state: [
-        {
-          colId,
-          sort: 'desc',
-        },
-      ],
-      defaultState: { sort: null },
-    });
+    expect(agGridComponent.api.getColumnState()).toEqual([
+      jasmine.objectContaining({
+        colId: 'selected',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'name',
+        sort: 'desc',
+      }),
+      jasmine.objectContaining({
+        colId: 'target',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'noHeader',
+        sort: null,
+      }),
+    ]);
   });
 
   it('should apply ascending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const applyColStateSpy = spyOn(agGridComponent.api, 'applyColumnState');
 
     const newDataState = new SkyDataManagerState({ ...dataState });
     newDataState.activeSortOption = {
@@ -495,15 +507,24 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(applyColStateSpy).toHaveBeenCalledWith({
-      state: [
-        {
-          colId,
-          sort: 'asc',
-        },
-      ],
-      defaultState: { sort: null },
-    });
+    expect(agGridComponent.api.getColumnState()).toEqual([
+      jasmine.objectContaining({
+        colId: 'selected',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'name',
+        sort: 'asc',
+      }),
+      jasmine.objectContaining({
+        colId: 'target',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'noHeader',
+        sort: null,
+      }),
+    ]);
   });
 });
 

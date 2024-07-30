@@ -24,7 +24,6 @@ import {
   GridOptions,
   GridReadyEvent,
   IGetRowsParams,
-  RowNode,
   RowSelectedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, of } from 'rxjs';
@@ -305,18 +304,15 @@ export class EditComplexCellsComponent implements OnInit {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
 
-    this.gridApi.addEventListener(
-      RowNode.EVENT_ROW_SELECTED,
-      ($event: RowSelectedEvent) => {
-        if (this.editMode && $event.node.isSelected()) {
-          this.rowDeleteIds = this.rowDeleteIds.concat([$event.node.id]);
-        } else {
-          this.rowDeleteIds = this.rowDeleteIds.filter(
-            (id) => id !== $event.node.id,
-          );
-        }
-      },
-    );
+    this.gridApi.addEventListener('rowSelected', ($event: RowSelectedEvent) => {
+      if (this.editMode && $event.node.isSelected()) {
+        this.rowDeleteIds = this.rowDeleteIds.concat([$event.node.id]);
+      } else {
+        this.rowDeleteIds = this.rowDeleteIds.filter(
+          (id) => id !== $event.node.id,
+        );
+      }
+    });
 
     this.sizeGrid();
   }

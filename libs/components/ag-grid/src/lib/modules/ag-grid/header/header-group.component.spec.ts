@@ -8,7 +8,6 @@ import { SkyThemeModule } from '@skyux/theme';
 import {
   ColGroupDef,
   ColumnGroup,
-  Events,
   ProvidedColumnGroup,
 } from 'ag-grid-community';
 
@@ -58,7 +57,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     },
     setExpanded: (open: boolean) => {
       expanded = open;
-      (events[Events.EVENT_COLUMN_GROUP_OPENED] || []).forEach((l) =>
+      (events['columnGroupOpened'] || []).forEach((l) =>
         l({ columnGroups: [providedColumnGroup] }),
       );
     },

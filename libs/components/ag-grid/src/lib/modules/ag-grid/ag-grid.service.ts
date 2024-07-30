@@ -104,7 +104,7 @@ function getValidatorCellRendererSelector(component: string, fallback?: any) {
         !params.colDef.cellRendererParams.skyComponentProperties.validator(
           params.value,
           params.data,
-          params.rowIndex,
+          params?.node?.rowIndex,
         )
       ) {
         return {
@@ -285,7 +285,7 @@ export class SkyAgGridService implements OnDestroy {
           return !param.colDef.cellRendererParams.skyComponentProperties.validator(
             param.value,
             param.data,
-            param.rowIndex,
+            param.node?.rowIndex,
           );
         }
         return false;

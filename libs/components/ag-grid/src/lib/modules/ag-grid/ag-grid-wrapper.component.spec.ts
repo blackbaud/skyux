@@ -13,7 +13,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import {
   CellEditingStartedEvent,
   CellEditingStoppedEvent,
-  Column,
+  AgColumn as Column,
   DetailGridInfo,
   FirstDataRenderedEvent,
   GridApi,
@@ -88,7 +88,7 @@ describe('SkyAgGridWrapperComponent', () => {
     };
     agGrid = {
       api,
-      columnApi: {} as never,
+
       gridReady: new Subject<GridReadyEvent>(),
       rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
       firstDataRendered: new Subject<FirstDataRenderedEvent>(),

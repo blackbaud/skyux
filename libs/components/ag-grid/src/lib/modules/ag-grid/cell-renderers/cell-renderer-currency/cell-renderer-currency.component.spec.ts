@@ -8,8 +8,8 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
 import {
-  Beans,
-  Column,
+  BeanCollection as Beans,
+  AgColumn as Column,
   GridApi,
   ICellRenderer,
   ICellRendererParams,
@@ -53,7 +53,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       true,
     );
 
-    const gridApi = new GridApi();
+    const gridApi = {} as GridApi;
 
     gridApi.getCellRendererInstances = (): ICellRenderer[] => {
       return [];
@@ -64,9 +64,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       column,
       node: new RowNode({} as Beans),
       colDef: {},
-      columnApi: {} as never,
       data: undefined,
-      rowIndex: undefined,
       api: gridApi,
       context: undefined,
       eGridCell: undefined,

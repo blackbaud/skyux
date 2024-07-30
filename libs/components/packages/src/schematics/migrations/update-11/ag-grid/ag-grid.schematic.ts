@@ -1,4 +1,9 @@
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  UpdateRecorder,
+} from '@angular-devkit/schematics';
 import {
   NodePackageInstallTask,
   RunSchematicTask,
@@ -12,6 +17,8 @@ import {
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
+import { eventTypeStrings } from './event-type-strings/event-type-strings';
+
 const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
 const AG_GRID = 'ag-grid-community';
@@ -19,7 +26,7 @@ const AG_GRID_ENT = 'ag-grid-enterprise';
 const AG_GRID_NG = 'ag-grid-angular';
 const AG_GRID_SKY = '@skyux/ag-grid';
 
-const AG_GRID_VERSION = '^31.3.4';
+const AG_GRID_VERSION = '^32.0.2';
 
 /**
  * Check package.json for AG Grid dependencies.
@@ -54,68 +61,27 @@ function checkAgGridDependency(tree: Tree, context: SchematicContext): boolean {
 }
 
 /**
- * Column API renamed getSecondaryColumns / setSecondaryColumns to getSecondaryPivotColumns / setSecondaryPivotColumns.
- */
-function renameColumnApiFunctionsInCode(updatedContent: string): string {
-  if (updatedContent.includes('etSecondaryColumns(')) {
-    updatedContent = updatedContent.replace(
-      /(?<=columnApi\s*)\.(get|set)SecondaryColumns\(/g,
-      (_, x) => `.${x}PivotResultColumns(`,
-    );
-  }
-  return updatedContent;
-}
-
-/**
- * Update renamed grid options in code.
- */
-function renameGridOptionsInCode(updatedContent: string): string {
-  const componentReferenceExp =
-    /\b((header|loadingOverlay|noRowsOverlay)Component|component|cell(Editor|Renderer)|filter)Framework\b/g;
-  if (
-    updatedContent.match(/gridOptions/i) &&
-    (updatedContent.includes('suppressCellSelection') ||
-      updatedContent.includes('getRowNodeId') ||
-      updatedContent.includes('enterMovesDown') ||
-      componentReferenceExp.test(updatedContent))
-  ) {
-    updatedContent = updatedContent
-      .replace(/\bsuppressCellSelection\b/g, 'suppressCellFocus')
-      .replace(componentReferenceExp, '$1')
-      .replace(/\bgetRowNodeId\b/g, 'getRowId')
-      .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
-  }
-  return updatedContent;
-}
-
-/**
- * Switch charPress to eventKey.
- */
-function renameCharPress(updatedContent: string): string {
-  if (updatedContent.match(/\bcharPress\b(?!: undefined)/)) {
-    updatedContent = updatedContent.replace(
-      /\bcharPress\b(?!: undefined)/g,
-      'eventKey',
-    );
-  }
-  return updatedContent;
-}
-
-/**
  * If available, switch gridOptions.api and gridOptions.columnApi to gridApi.
  */
-function swapGridOptionsApiToGridApi(updatedContent: string): string {
+function swapGridOptionsApiToGridApi(
+  tree: Tree,
+  path: string,
+  recorder: Pick<UpdateRecorder, 'remove' | 'insertRight'>,
+): void {
+  const content = tree.readText(path);
   if (
-    updatedContent.includes('this.gridApi.') &&
-    (updatedContent.includes('this.gridOptions.api.') ||
-      updatedContent.includes('this.gridOptions.columnApi.'))
+    content.includes('this.gridApi.') &&
+    (content.includes('this.gridOptions.api.') ||
+      content.includes('this.gridOptions.columnApi.'))
   ) {
-    updatedContent = updatedContent.replace(
+    const instances = content.matchAll(
       /\bthis\.gridOptions\.(api|columnApi)\./g,
-      'this.gridApi.',
     );
+    for (const instance of instances) {
+      recorder.remove(instance.index, instance[0].length);
+      recorder.insertRight(instance.index, 'this.gridApi.');
+    }
   }
-  return updatedContent;
 }
 
 /**
@@ -125,9 +91,7 @@ function includesAgGrid(updatedContent: string): boolean {
   return (
     updatedContent.includes(AG_GRID) ||
     updatedContent.includes(AG_GRID_ENT) ||
-    updatedContent.includes(AG_GRID_SKY) ||
-    updatedContent.includes(ANY_MODULE) ||
-    updatedContent.includes(ENT_MODULE)
+    updatedContent.includes(AG_GRID_SKY)
   );
 }
 
@@ -151,20 +115,16 @@ async function updateSourceFiles(
   workspace.projects.forEach((project) => {
     visitProjectFiles(tree, project.sourceRoot || project.root, (filePath) => {
       // If the file is not a TypeScript file, we can skip it.
-      if (!filePath.endsWith('.ts')) {
+      if (!filePath.endsWith('.ts') || filePath.includes('schematics')) {
         return;
       }
       const content = tree.readText(filePath);
       if (!content || !includesAgGrid(content)) {
         return;
       }
-      let updatedContent = content;
 
       // Prompt the user to moderate the use of AG Grid modules
-      if (
-        updatedContent.includes(ANY_MODULE) ||
-        updatedContent.includes(ENT_MODULE)
-      ) {
+      if (content.includes(ANY_MODULE) || content.includes(ENT_MODULE)) {
         warnOnce(
           `\n
           AG Grid recommends not mixing module and package imports.
@@ -172,14 +132,10 @@ async function updateSourceFiles(
         );
       }
 
-      updatedContent = renameCharPress(updatedContent);
-      updatedContent = renameColumnApiFunctionsInCode(updatedContent);
-      updatedContent = renameGridOptionsInCode(updatedContent);
-      updatedContent = swapGridOptionsApiToGridApi(updatedContent);
-
-      if (updatedContent !== content) {
-        tree.overwrite(filePath, updatedContent);
-      }
+      const recorder = tree.beginUpdate(filePath);
+      eventTypeStrings(tree, filePath, recorder);
+      swapGridOptionsApiToGridApi(tree, filePath, recorder);
+      tree.commitUpdate(recorder);
     });
   });
 }

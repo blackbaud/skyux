@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
 import {
   SkyTheme,
@@ -10,7 +11,7 @@ import {
 } from '@skyux/theme';
 
 import {
-  Beans,
+  BeanCollection as Beans,
   CellClassParams,
   CellFocusedEvent,
   GetRowIdParams,
@@ -332,7 +333,6 @@ describe('SkyAgGridService', () => {
       const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       dateValueFormatterParams = {
         api,
-        columnApi: {} as never,
       } as unknown as ValueFormatterParams;
     });
 
@@ -353,9 +353,14 @@ describe('SkyAgGridService', () => {
       (dateService.format as jasmine.Spy).and.throwError(
         'SkyDateService error message.',
       );
+      const logService = TestBed.inject(SkyLogService);
+      const errorLogSpy = spyOn(logService, 'error').and.stub();
 
       const formattedDate = dateValueFormatter(dateValueFormatterParams);
       expect(formattedDate).toBe('');
+      expect(errorLogSpy).toHaveBeenCalledWith(
+        jasmine.stringContaining('Error: SkyDateService error message.'),
+      );
     });
   });
 
@@ -406,7 +411,6 @@ describe('SkyAgGridService', () => {
         colDef: {
           cellEditorParams: {},
         },
-        columnApi: {} as never,
       } as unknown as ValueFormatterParams;
     });
 
@@ -650,7 +654,7 @@ describe('SkyAgGridService', () => {
       ]);
       cellClassParams = {
         api,
-        columnApi: {} as never,
+
         colDef: {},
       } as unknown as CellClassParams;
     });
@@ -720,7 +724,7 @@ describe('SkyAgGridService', () => {
       const api = jasmine.createSpyObj('GridApi', ['refreshCells']);
       cellClassParams = {
         api,
-        columnApi: {} as never,
+
         colDef: {},
       } as unknown as CellClassParams;
 
@@ -729,17 +733,16 @@ describe('SkyAgGridService', () => {
         api,
         colDef: {},
         column: undefined,
-        columnApi: {} as never,
+
         context: undefined,
         data: undefined,
         eGridCell: undefined,
         eParentOfValue: undefined,
         formatValue(): any {},
         getValue(): any {},
-        node: undefined,
+        node: { rowIndex: 0 },
         refreshCell(): void {},
         registerRowDragger(): void {},
-        rowIndex: 0,
         setValue(): void {},
         value: 1.23,
         valueFormatted: undefined,
@@ -930,7 +933,9 @@ describe('SkyAgGridService', () => {
       const paramsValid = {
         ...paramsInvalid,
         data: true,
-        rowIndex: 1,
+        node: {
+          rowIndex: 1,
+        },
         value: 'valuable',
       } as ICellRendererParams;
       expect(cellRendererSelector?.(paramsValid)?.component).toBe(
@@ -962,7 +967,7 @@ describe('SkyAgGridService', () => {
       type: 'rowSelected',
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as never,
+
       rowPinned: null,
     } as RowClassParams;
 

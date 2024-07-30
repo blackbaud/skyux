@@ -127,9 +127,9 @@ export class SkyAgGridDemoComponent implements OnInit {
     });
   }
 
-  public searchApplied(searchText: string) {
+  public searchApplied(searchText: string): void {
     this.searchText = searchText;
-    this.gridApi.setQuickFilter(searchText);
+    this.gridApi.updateGridOptions({ quickFilterText: searchText });
   }
 
   private endDateFormatter(params: ValueFormatterParams) {
