@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyAutocompleteModule,
   SkyAutocompleteSearchFunction,

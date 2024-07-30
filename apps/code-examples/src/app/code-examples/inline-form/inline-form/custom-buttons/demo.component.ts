@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormCloseArgs,

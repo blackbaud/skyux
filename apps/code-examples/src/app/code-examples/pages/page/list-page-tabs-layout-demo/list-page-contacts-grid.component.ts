@@ -6,7 +6,8 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import { SkyIconModule, SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { AgGridModule } from 'ag-grid-angular';
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';

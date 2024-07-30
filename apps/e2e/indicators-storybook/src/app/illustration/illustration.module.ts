@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  SkyIconModule,
-  SkyIllustrationResolverService,
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyIllustrationResolverService } from '@skyux/indicators';
 
 import { IllustrationResolverService } from './illustration-resolver.service';
 import { IllustrationComponent } from './illustration.component';
