@@ -30,8 +30,6 @@ export class DropdownFixtureComponent {
 
   public disabled: boolean | undefined;
 
-  public dismissOnBlur: boolean | undefined;
-
   public horizontalAlignment: SkyDropdownHorizontalAlignment | undefined;
 
   public itemAriaRole: string | undefined;

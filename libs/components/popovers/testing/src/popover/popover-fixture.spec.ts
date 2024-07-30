@@ -20,17 +20,12 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
       Open popover on click
     </button>
 
-    <sky-popover
-      [dismissOnBlur]="dismissOnBlur"
-      [popoverTitle]="popoverTitle"
-      #myPopover
-    >
+    <sky-popover [popoverTitle]="popoverTitle" #myPopover>
       {{ popoverBody }}
     </sky-popover>
   `,
 })
 class PopoverTestComponent {
-  public dismissOnBlur: boolean | undefined;
   public popoverAlignment: string | undefined;
   public popoverBody = 'popover body';
   public popoverPlacement: string | undefined;
@@ -113,21 +108,5 @@ describe('Popover fixture', () => {
 
     // expect the popover to be dismissed
     expect(popoverFixture.popoverIsVisible).toEqual(false);
-  });
-
-  it('should honor dismissOnBlur flag', async () => {
-    // override the dismissOnBlur default
-    testComponent.dismissOnBlur = false;
-    fixture.detectChanges();
-
-    // open the popover
-    await openPopover();
-
-    // blur
-    await popoverFixture.blur();
-    fixture.detectChanges();
-
-    // expect the popover to remain open
-    expect(popoverFixture.popoverIsVisible).toEqual(true);
   });
 });

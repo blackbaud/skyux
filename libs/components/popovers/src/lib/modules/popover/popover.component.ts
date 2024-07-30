@@ -50,20 +50,6 @@ export class SkyPopoverComponent implements OnDestroy {
   }
 
   /**
-   * Whether to close the popover when it loses focus.
-   * To require users to click a trigger button to close the popover, set this input to false.
-   * @default true
-   */
-  @Input()
-  public set dismissOnBlur(value: boolean | undefined) {
-    this.#_dismissOnBlur = value ?? true;
-  }
-
-  public get dismissOnBlur(): boolean {
-    return this.#_dismissOnBlur;
-  }
-
-  /**
    * The placement of the popover in relation to the trigger element.
    * The `skyPopoverPlacement` property on the popover directive takes precedence over this property when specified.
    * @default "above"
@@ -141,8 +127,6 @@ export class SkyPopoverComponent implements OnDestroy {
 
   #_alignment: SkyPopoverAlignment = 'center';
 
-  #_dismissOnBlur = true;
-
   #_placement: SkyPopoverPlacement = 'above';
 
   #_popoverType: SkyPopoverType = 'info';
@@ -194,7 +178,6 @@ export class SkyPopoverComponent implements OnDestroy {
     this.isActive = true;
 
     this.#contentRef.open(caller, {
-      dismissOnBlur: this.dismissOnBlur,
       enableAnimations: this.enableAnimations,
       horizontalAlignment: this.alignment,
       id: this.popoverId,
@@ -254,9 +237,7 @@ export class SkyPopoverComponent implements OnDestroy {
       overlay.backdropClick
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          if (this.dismissOnBlur) {
-            this.close();
-          }
+          this.close();
         });
 
       const contentRef = overlay.attachComponent(SkyPopoverContentComponent, [
