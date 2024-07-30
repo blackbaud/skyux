@@ -26,8 +26,6 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
 
   public alignment: SkyPopoverAlignment | undefined;
 
-  public dismissOnBlur: boolean | undefined;
-
   public messageStream: Subject<SkyPopoverMessage> | undefined =
     new Subject<SkyPopoverMessage>();
 

@@ -81,7 +81,7 @@ export class SkyPopoverContentHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Clicks out of the popover. If `dismissOnBlur` property is set to false, then the popover does not close.
+   * Clicks out of the popover.
    */
   public async clickOut(): Promise<void> {
     (await (await this.#getOverlay())?.host())?.click();

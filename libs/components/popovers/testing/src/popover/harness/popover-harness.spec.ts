@@ -13,7 +13,6 @@ async function setupTest(options?: {
   titleText?: string;
   alignment?: SkyPopoverAlignment;
   placement?: SkyPopoverPlacement;
-  dismissOnBlur?: boolean;
 }): Promise<{
   popoverHarness: SkyPopoverHarness;
   fixture: ComponentFixture<PopoverHarnessTestComponent>;
@@ -25,7 +24,6 @@ async function setupTest(options?: {
     fixture.componentInstance.popoverAlignment = options.alignment;
     fixture.componentInstance.popoverPlacement = options.placement;
     fixture.componentInstance.popoverTitle = options.titleText;
-    fixture.componentInstance.dismissOnBlur = options.dismissOnBlur;
   }
 
   fixture.detectChanges();
@@ -130,11 +128,9 @@ describe('Popover harness', () => {
     ).toBeResolvedTo(null);
   });
 
-  it('should close the popover if clicking out when dismissOnBlur is set to true', async () => {
+  it('should close the popover if clicking out', async () => {
     const { popoverHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.dismissOnBlur = true;
-
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -142,27 +138,6 @@ describe('Popover harness', () => {
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
 
     await (await popoverHarness.getPopoverContent()).clickOut();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
-  });
-
-  it('should not close the popover if clicking out when dismissOnBlur is set to false', async () => {
-    const { popoverHarness, fixture } = await setupTest({
-      dismissOnBlur: false,
-    });
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    // click on the trigger to open it
-    await popoverHarness.clickPopoverButton();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
-
-    // clicking away from the trigger does not close it
-    await (await popoverHarness.getPopoverContent()).clickOut();
-    await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(true);
-
-    // clicking on the trigger again will force close it
-    await popoverHarness.clickPopoverButton();
     await expectAsync(popoverHarness.isOpen()).toBeResolvedTo(false);
   });
 
@@ -186,8 +161,6 @@ describe('Popover harness', () => {
     const fixture = TestBed.createComponent(PopoverHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    fixture.componentInstance.dismissOnBlur = false;
-
     const popoverHarness1 = await loader.getHarness(SkyPopoverHarness);
 
     const popoverHarness2 = await loader.getHarness(
@@ -197,16 +170,28 @@ describe('Popover harness', () => {
     );
 
     await popoverHarness1.clickPopoverButton();
-    await popoverHarness2.clickPopoverButton();
 
     const contentHarness1 = await popoverHarness1.getPopoverContent();
-    const contentHarness2 = await popoverHarness2.getPopoverContent();
+    await expectAsync(
+      popoverHarness2.getPopoverContent(),
+    ).toBeRejectedWithError(
+      'Unable to retrieve the popover content because the popover is not open.',
+    );
 
     await expectAsync(contentHarness1.getTitleText()).toBeResolvedTo(
       'popover title',
     );
     await expectAsync(contentHarness1.getBodyText()).toBeResolvedTo(
       'popover body',
+    );
+
+    await popoverHarness2.clickPopoverButton();
+
+    const contentHarness2 = await popoverHarness2.getPopoverContent();
+    await expectAsync(
+      popoverHarness1.getPopoverContent(),
+    ).toBeRejectedWithError(
+      'Unable to retrieve the popover content because the popover is not open.',
     );
 
     await expectAsync(contentHarness2.getTitleText()).toBeResolvedTo(
