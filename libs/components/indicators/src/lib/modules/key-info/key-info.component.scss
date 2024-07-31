@@ -1,7 +1,5 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-
-@include mixins.sky-component('modern', '.sky-key-info') {
-  display: inline-block;
+.sky-key-info {
+  display: var(--sky-host-key-info-display, inline-block);
 
   &.sky-key-info-horizontal {
     .sky-key-info-value,
