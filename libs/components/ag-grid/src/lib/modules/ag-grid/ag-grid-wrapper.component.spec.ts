@@ -18,6 +18,7 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
+  ModuleRegistry,
   RowDataUpdatedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
@@ -299,6 +300,7 @@ describe('SkyAgGridWrapperComponent', () => {
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
       const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
+      spyOn(ModuleRegistry, '__isRegistered').and.returnValue(true);
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
       (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(

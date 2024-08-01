@@ -153,16 +153,16 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
 .ag-theme-sky-data-entry-grid-modern-dark-compact {
   @include ag-grid-extra.ag-grid-extra();
 
-  .ag-active-item {
-    background-color: var(--sky-background-color-selected);
-  }
-
   .ag-header-cell-sortable .ag-header-cell-label {
     cursor: initial;
   }
 
   .ag-scrollbar-invisible.sky-viewkeeper-fixed {
     box-shadow: none;
+  }
+
+  .ag-sticky-bottom::after {
+    border-color: transparent;
   }
 }
 
