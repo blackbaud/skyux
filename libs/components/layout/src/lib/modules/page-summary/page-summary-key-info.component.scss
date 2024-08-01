@@ -13,6 +13,6 @@
   }
 }
 
-.sky-page-summary-key-info ::ng-deep .sky-key-info {
-  display: block;
+.sky-page-summary-key-info {
+  --sky-host-key-info-display: block;
 }
