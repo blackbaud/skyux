@@ -188,6 +188,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     const viewState = dataState.views[0];
     viewState.displayedColumnIds = ['selected', 'target', 'name', 'noHeader'];
     agGridComponent.columnMoved.emit(columnMoved);
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
