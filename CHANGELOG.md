@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.41.0](https://github.com/blackbaud/skyux/compare/10.40.0...10.41.0) (2024-07-31)
+
+
+### Features
+
+* move help inline features out of developer preview for key info, box, and description list ([#2574](https://github.com/blackbaud/skyux/issues/2574)) ([1cd7b1e](https://github.com/blackbaud/skyux/commit/1cd7b1e2052f23a0a88b5bfdace41b36c852330a))
+
+
+### Bug Fixes
+
+* **components/layout:** fix key info display in page summary ([#2576](https://github.com/blackbaud/skyux/issues/2576)) ([944c329](https://github.com/blackbaud/skyux/commit/944c3299c608e616475c4b1c0e3bd4ce6694311c))
+* **components/modals:** `SkyModalTestingController.closeTopModal` passes `reason` and `result` to the modal instance ([#2565](https://github.com/blackbaud/skyux/issues/2565)) ([0337f78](https://github.com/blackbaud/skyux/commit/0337f7825431699609f668d3408d353b59ba6896))
+
 ## [11.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.6...11.0.0-alpha.7) (2024-07-26)
 
 
