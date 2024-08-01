@@ -11,7 +11,7 @@ import {
 } from '@skyux/theme';
 
 import {
-  BeanCollection as Beans,
+  BeanCollection,
   CellClassParams,
   CellFocusedEvent,
   GetRowIdParams,
@@ -960,7 +960,7 @@ describe('SkyAgGridService', () => {
 
   describe('getRowClass', () => {
     const params = {
-      node: new RowNode({} as Beans),
+      node: new RowNode({} as BeanCollection),
       rowIndex: 0,
       source: 'api',
       context: {},

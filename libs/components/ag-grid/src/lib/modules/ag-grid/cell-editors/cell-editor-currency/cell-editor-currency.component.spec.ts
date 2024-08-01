@@ -7,8 +7,8 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  BeanCollection as Beans,
-  AgColumn as Column,
+  AgColumn,
+  BeanCollection,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -58,14 +58,14 @@ describe('SkyCellEditorCurrencyComponent', () => {
   describe('agInit', () => {
     let api: jasmine.SpyObj<GridApi>;
     let cellEditorParams: Partial<SkyCellEditorCurrencyParams>;
-    let column: Column;
+    let column: AgColumn;
     const columnWidth = 200;
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
     const value = 15;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -94,7 +94,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
     it('initializes the SkyAgGridCellEditorCurrencyComponent properties', () => {
       expect(currencyEditorComponent.columnWidth).toBeUndefined();
 
-      cellEditorParams.node = new RowNode({} as Beans);
+      cellEditorParams.node = new RowNode({} as BeanCollection);
       cellEditorParams.node.rowHeight = 100;
 
       spyOn(column, 'getActualWidth').and.returnValue(columnWidth);
@@ -158,13 +158,13 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
     describe('afterGuiAttached', () => {
       let cellEditorParams: Partial<SkyCellEditorCurrencyParams>;
-      let column: Column;
-      const rowNode = new RowNode({} as Beans);
+      let column: AgColumn;
+      const rowNode = new RowNode({} as BeanCollection);
       rowNode.rowHeight = 37;
       const value = 15;
 
       beforeEach(() => {
-        column = new Column(
+        column = new AgColumn(
           {
             colId: 'col',
           },

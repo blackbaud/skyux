@@ -8,8 +8,8 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
 import {
-  BeanCollection as Beans,
-  AgColumn as Column,
+  AgColumn,
+  BeanCollection,
   GridApi,
   ICellRenderer,
   ICellRendererParams,
@@ -44,7 +44,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     );
     currencyNativeElement = currencyFixture.nativeElement;
     currencyComponent = currencyFixture.componentInstance;
-    const column: Column = new Column(
+    const column: AgColumn = new AgColumn(
       {
         colId: 'col',
       },
@@ -62,7 +62,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     cellRendererParams = {
       value: 123,
       column,
-      node: new RowNode({} as Beans),
+      node: new RowNode({} as BeanCollection),
       colDef: {},
       data: undefined,
       api: gridApi,

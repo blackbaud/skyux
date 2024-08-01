@@ -11,9 +11,9 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
+  AgColumn,
   CellEditingStartedEvent,
   CellEditingStoppedEvent,
-  AgColumn as Column,
   DetailGridInfo,
   FirstDataRenderedEvent,
   GridApi,
@@ -286,7 +286,7 @@ describe('SkyAgGridWrapperComponent', () => {
     }
 
     it('should not move focus when tab is pressed but cells are being edited', () => {
-      const col = {} as Column;
+      const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([
         { rowIndex: 0, column: col, rowPinned: undefined },
@@ -298,7 +298,7 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
-      const col = {} as Column;
+      const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(ModuleRegistry, '__isRegistered').and.returnValue(true);
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
@@ -419,7 +419,7 @@ describe('SkyAgGridWrapperComponent', () => {
       const afterButtonEl = gridWrapperNativeElement.querySelector(
         '#button-after-grid',
       ) as HTMLElement;
-      const column = new Column({}, {}, 'name', true);
+      const column = new AgColumn({}, {}, 'name', true);
 
       (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
         column,
@@ -438,7 +438,7 @@ describe('SkyAgGridWrapperComponent', () => {
       const afterButtonEl = gridWrapperNativeElement.querySelector(
         '#button-after-grid',
       ) as HTMLElement;
-      const column = new Column({}, {}, 'name', true);
+      const column = new AgColumn({}, {}, 'name', true);
 
       (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
         column,

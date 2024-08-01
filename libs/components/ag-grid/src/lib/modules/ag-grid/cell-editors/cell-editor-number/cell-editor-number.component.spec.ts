@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  BeanCollection as Beans,
-  AgColumn as Column,
+  AgColumn,
+  BeanCollection,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -64,13 +64,13 @@ describe('SkyCellEditorNumberComponent', () => {
       'getDisplayNameForColumn',
     ]);
     let cellEditorParams: Partial<SkyCellEditorNumberParams>;
-    let column: Column;
-    const rowNode = new RowNode({} as Beans);
+    let column: AgColumn;
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
     const value = 15;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -330,13 +330,13 @@ describe('SkyCellEditorNumberComponent', () => {
 
     describe('afterGuiAttached', () => {
       let cellEditorParams: Partial<SkyCellEditorNumberParams>;
-      let column: Column;
-      const rowNode = new RowNode({} as Beans);
+      let column: AgColumn;
+      const rowNode = new RowNode({} as BeanCollection);
       rowNode.rowHeight = 37;
       const value = 15;
 
       beforeEach(() => {
-        column = new Column(
+        column = new AgColumn(
           {
             colId: 'col',
           },

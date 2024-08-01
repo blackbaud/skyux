@@ -6,7 +6,7 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { AgColumn as Column, GridApi } from 'ag-grid-community';
+import { AgColumn, GridApi } from 'ag-grid-community';
 
 import { SkyAgGridHeaderParams } from '../types/header-params';
 
@@ -76,7 +76,7 @@ describe('HeaderComponent', () => {
         getSortIndex: () => undefined,
         getColId: () => 'test',
         getLeft: () => columnLeft,
-      } as Column,
+      } as AgColumn,
       eGridHeader: {
         focus: () => undefined,
       } as HTMLElement,
@@ -128,7 +128,7 @@ describe('HeaderComponent', () => {
         getSortIndex: () => useSort && 0,
         isFilterActive: () => true,
         isFilterAllowed: () => true,
-      } as unknown as Column,
+      } as AgColumn,
       api: {
         ...params.api,
         getColumns() {

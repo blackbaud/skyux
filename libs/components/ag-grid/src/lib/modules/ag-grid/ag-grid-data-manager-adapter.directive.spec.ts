@@ -9,7 +9,7 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  BeanCollection as Beans,
+  BeanCollection,
   ColumnMovedEvent,
   ColumnState,
   DragStartedEvent,
@@ -68,7 +68,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     agGridDataManagerFixture.detectChanges();
 
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.data = { id: '1' };
     spyOn(rowNode, 'isSelected').and.returnValue(true);
     spyOn(dataManagerService, 'updateDataState');
@@ -106,7 +106,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     dataManagerService.updateDataState(dataState, 'unitTest');
     agGridDataManagerFixture.detectChanges();
 
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.data = { id: '3' };
     spyOn(rowNode, 'isSelected').and.returnValue(false);
     spyOn(dataManagerService, 'updateDataState');

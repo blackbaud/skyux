@@ -9,7 +9,7 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
 import {
-  BeanCollection as Beans,
+  BeanCollection,
   ColDef,
   ICellRendererParams,
   RowNode,
@@ -68,7 +68,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
     it(`initializes the SkyuxCheckboxGridCellComponent
       properties and sets the checkbox to the value of the column field provided`, fakeAsync(() => {
       const checked = true;
-      const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       cellRendererParams.value = checked;
       cellRendererParams.node = rowNode;
       spyOn(rowNode, 'setSelected');
@@ -93,7 +93,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
 
     it(`initializes the SkyuxCheckboxGridCellComponent properties and sets the checkbox to the node's selected
       value since no column field provided`, fakeAsync(() => {
-      const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       cellRendererParams.value = true;
       cellRendererParams.node = rowNode;
       (cellRendererParams.colDef as ColDef).field = undefined;
@@ -126,7 +126,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
   describe('updateRow', () => {
     it(`should set the rowNode selected property and the row data's column-defined field property
       to the component's checked property value if column field provided`, () => {
-      const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       rowNode.data = {};
       cellRendererParams.value = true;
       cellRendererParams.node = rowNode;
@@ -147,7 +147,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
     });
 
     it(`should set the rowNode selected property to the component's checked property value if no column field provided`, () => {
-      const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       rowNode.data = {};
       cellRendererParams.node = rowNode;
       cellRendererParams.colDef = {
@@ -170,7 +170,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
     });
 
     it(`should not set the rowNode selected property to the component's checked property value if no column field provided and value is not changed`, () => {
-      const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       rowNode.data = {};
       cellRendererParams.node = rowNode;
       cellRendererParams.colDef = {
@@ -212,7 +212,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
       dataPropertySet = false,
       selectable = true,
     ): Promise<void> {
-      const rowNode = new RowNode({ frameworkOverrides: {} } as Beans);
+      const rowNode = new RowNode({ frameworkOverrides: {} } as BeanCollection);
       rowNode.data = {};
       rowNode.selectable = selectable;
 
