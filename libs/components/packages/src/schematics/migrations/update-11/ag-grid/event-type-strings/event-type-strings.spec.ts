@@ -14,13 +14,9 @@ describe('event-type-strings', () => {
     const tree = await createTestApp(runner, {
       projectName: 'migration-test',
     });
-    const recorder = {
-      remove: jest.fn(),
-      insertRight: jest.fn(),
-    };
-    eventTypeStrings(tree, '/src/app/app.component.ts', recorder);
-    expect(recorder.remove).not.toHaveBeenCalled();
-    expect(recorder.insertRight).not.toHaveBeenCalled();
+    const before = tree.readText('/src/app/app.component.ts');
+    eventTypeStrings(tree, '/src/app/app.component.ts');
+    expect(tree.readText('/src/app/app.component.ts')).toEqual(before);
   });
 
   it('should remove Events imports', async () => {
@@ -36,22 +32,13 @@ describe('event-type-strings', () => {
       `import { Events, GridOptions } from 'ag-grid-community';`,
     );
 
-    const recorderOne = {
-      remove: jest.fn(),
-      insertRight: jest.fn(),
-    };
-    eventTypeStrings(tree, '/src/app/one.component.ts', recorderOne);
-    expect(recorderOne.remove).toHaveBeenCalledWith(9, 6);
-    expect(recorderOne.insertRight).not.toHaveBeenCalled();
+    eventTypeStrings(tree, '/src/app/one.component.ts');
+    expect(tree.readText('/src/app/one.component.ts')).toEqual(``);
 
-    const recorderTwo = {
-      remove: jest.fn(),
-      insertRight: jest.fn(),
-    };
-    eventTypeStrings(tree, '/src/app/two.component.ts', recorderTwo);
-    expect(recorderTwo.remove).toHaveBeenCalledWith(9, 6);
-    expect(recorderTwo.remove).toHaveBeenCalledWith(15, 1);
-    expect(recorderTwo.insertRight).not.toHaveBeenCalled();
+    eventTypeStrings(tree, '/src/app/two.component.ts');
+    expect(tree.readText('/src/app/two.component.ts')).toEqual(
+      `import {  GridOptions } from 'ag-grid-community';`,
+    );
   });
 
   it('should replace Events with string', async () => {
@@ -77,14 +64,66 @@ describe('event-type-strings', () => {
       `,
     );
 
-    const recorder = {
-      remove: jest.fn(),
-      insertRight: jest.fn(),
-    };
-    eventTypeStrings(tree, '/src/app/test.component.ts', recorder);
-    expect(recorder.remove).toHaveBeenCalledWith(169, 27);
-    expect(recorder.insertRight).toHaveBeenCalledWith(169, `'filterChanged'`);
-    expect(recorder.remove).toHaveBeenCalledWith(320, 27);
-    expect(recorder.insertRight).toHaveBeenCalledWith(320, `'filterChanged'`);
+    eventTypeStrings(tree, '/src/app/test.component.ts');
+    expect(tree.readText('/src/app/test.component.ts')).toEqual(
+      `
+      import {  GridOptions } from 'ag-grid-community';
+      fromEventPattern(
+          (handler) =>
+            params.column.addEventListener(
+              'filterChanged',
+              handler,
+            ),
+          (handler) =>
+            params.column.removeEventListener(
+              'filterChanged',
+              handler,
+            ),
+        );
+      `,
+    );
+  });
+
+  it('should replace RowNode events with string', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'migration-test',
+    });
+    tree.create(
+      '/src/app/test.component.ts',
+      `
+      import { RowNode, GridOptions } from 'ag-grid-community';
+      fromEventPattern(
+          (handler) =>
+            params.column.addEventListener(
+              RowNode.EVENT_ROW_SELECTED,
+              handler,
+            ),
+          (handler) =>
+            params.column.removeEventListener(
+              RowNode.EVENT_ROW_SELECTED,
+              handler,
+            ),
+        );
+      `,
+    );
+
+    eventTypeStrings(tree, '/src/app/test.component.ts');
+    expect(tree.readText('/src/app/test.component.ts')).toEqual(
+      `
+      import { RowNode, GridOptions } from 'ag-grid-community';
+      fromEventPattern(
+          (handler) =>
+            params.column.addEventListener(
+              'rowSelected',
+              handler,
+            ),
+          (handler) =>
+            params.column.removeEventListener(
+              'rowSelected',
+              handler,
+            ),
+        );
+      `,
+    );
   });
 });

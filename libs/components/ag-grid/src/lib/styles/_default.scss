@@ -53,6 +53,7 @@
           height: 35px;
         }
 
+        &:focus-visible,
         &:hover {
           background-color: variables.$sky-background-color-selected;
         }

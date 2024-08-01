@@ -1,10 +1,8 @@
-import { Tree, UpdateRecorder } from '@angular-devkit/schematics';
+import { Tree } from '@angular-devkit/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import {
-  findNode,
-  findNodes,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
+import { findNodes, isImported } from '@schematics/angular/utility/ast-utils';
+
+import { removeImport } from '../../../../utility/typescript/remove-import';
 
 const EVENT_NAMES: Record<string, string> = {
   EVENT_COLUMN_EVERYTHING_CHANGED: 'columnEverythingChanged',
@@ -139,11 +137,32 @@ const EVENT_NAMES: Record<string, string> = {
   EVENT_SIDE_BAR_UPDATED: 'sideBarUpdated',
 };
 
-export function eventTypeStrings(
-  tree: Tree,
-  path: string,
-  recorder: Pick<UpdateRecorder, 'remove' | 'insertRight'>,
-): void {
+const ROW_NODE_EVENTS: Record<string, string> = {
+  EVENT_ALL_CHILDREN_COUNT_CHANGED: 'allChildrenCountChanged',
+  EVENT_CELL_CHANGED: 'cellChanged',
+  EVENT_CHILD_INDEX_CHANGED: 'childIndexChanged',
+  EVENT_DATA_CHANGED: 'dataChanged',
+  EVENT_DISPLAYED_CHANGED: 'displayedChanged',
+  EVENT_DRAGGING_CHANGED: 'draggingChanged',
+  EVENT_EXPANDED_CHANGED: 'expandedChanged',
+  EVENT_FIRST_CHILD_CHANGED: 'firstChildChanged',
+  EVENT_GROUP_CHANGED: 'groupChanged',
+  EVENT_HAS_CHILDREN_CHANGED: 'hasChildrenChanged',
+  EVENT_HEIGHT_CHANGED: 'heightChanged',
+  EVENT_HIGHLIGHT_CHANGED: 'rowHighlightChanged',
+  EVENT_LAST_CHILD_CHANGED: 'lastChildChanged',
+  EVENT_MASTER_CHANGED: 'masterChanged',
+  EVENT_MOUSE_ENTER: 'mouseEnter',
+  EVENT_MOUSE_LEAVE: 'mouseLeave',
+  EVENT_ROW_INDEX_CHANGED: 'rowIndexChanged',
+  EVENT_ROW_SELECTED: 'rowSelected',
+  EVENT_SELECTABLE_CHANGED: 'selectableChanged',
+  EVENT_TOP_CHANGED: 'topChanged',
+  EVENT_UI_LEVEL_CHANGED: 'uiLevelChanged',
+};
+
+export function eventTypeStrings(tree: Tree, path: string): void {
+  const recorder = tree.beginUpdate(path);
   const content = tree.readText(path);
   const sourceFile = ts.createSourceFile(
     path,
@@ -151,48 +170,35 @@ export function eventTypeStrings(
     ts.ScriptTarget.Latest,
     true,
   );
-  if (isImported(sourceFile, 'Events', 'ag-grid-community')) {
-    const importStatements = findNodes<ts.ImportDeclaration>(
-      sourceFile,
-      ts.isImportDeclaration,
-    ).filter(
-      (node) =>
-        ts.isStringLiteral(node.moduleSpecifier) &&
-        node.moduleSpecifier.text === 'ag-grid-community',
-    );
-    for (const importStatement of importStatements) {
-      const eventsImport = findNode(
-        importStatement,
-        ts.SyntaxKind.Identifier,
-        'Events',
+  [
+    { classifiedName: 'Events', eventProperties: EVENT_NAMES },
+    { classifiedName: 'RowNode', eventProperties: ROW_NODE_EVENTS },
+  ].forEach(({ classifiedName, eventProperties }) => {
+    if (isImported(sourceFile, classifiedName, 'ag-grid-community')) {
+      const eventReferences = findNodes<ts.PropertyAccessExpression>(
+        sourceFile,
+        ts.isPropertyAccessExpression,
+        undefined,
+        true,
+      ).filter(
+        (node) =>
+          node.expression.getText() === classifiedName &&
+          node.name.text in eventProperties,
       );
-      if (eventsImport) {
-        recorder.remove(eventsImport.getStart(), eventsImport.getWidth());
-        if (
-          content.charAt(eventsImport.getStart() + eventsImport.getWidth()) ===
-          ','
-        ) {
-          recorder.remove(eventsImport.getStart() + eventsImport.getWidth(), 1);
-        }
+      for (const eventReference of eventReferences) {
+        const eventName = eventReference.name
+          .text as keyof typeof eventProperties;
+        recorder.remove(eventReference.getStart(), eventReference.getWidth());
+        recorder.insertRight(
+          eventReference.getStart(),
+          `'${eventProperties[eventName]}'`,
+        );
       }
     }
-
-    const eventReferences = findNodes<ts.PropertyAccessExpression>(
-      sourceFile,
-      ts.isPropertyAccessExpression,
-      undefined,
-      true,
-    ).filter(
-      (node) =>
-        node.expression.getText() === 'Events' && node.name.text in EVENT_NAMES,
-    );
-    for (const eventReference of eventReferences) {
-      const eventName = eventReference.name.text as keyof typeof EVENT_NAMES;
-      recorder.remove(eventReference.getStart(), eventReference.getWidth());
-      recorder.insertRight(
-        eventReference.getStart(),
-        `'${EVENT_NAMES[eventName]}'`,
-      );
-    }
-  }
+  });
+  tree.commitUpdate(recorder);
+  removeImport(tree, path, sourceFile, content, {
+    classNames: ['Events'],
+    moduleName: 'ag-grid-community',
+  });
 }

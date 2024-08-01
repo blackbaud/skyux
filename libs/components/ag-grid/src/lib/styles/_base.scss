@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'node_modules/ag-grid-community/styles' as ag;
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './ag-grid-extra' as ag-grid-extra;
 @use './variables' as sky-ag-grid-variables;
 
 $defaultsForAllThemes: (
@@ -17,9 +18,9 @@ $defaultsForAllThemes: (
   input-disabled-background-color: transparent,
   input-focus-border-color: transparent,
   input-focus-box-shadow: none,
+  invalid-color: variables.$sky-background-color-danger-dark,
   popup-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3),
   selected-row-background-color: var(--sky-background-color-selected),
-  toggle-button-width: calc(var(--ag-toggle-button-height) * 2),
   tooltip-background-color: var(--sky-background-color-neutral-light),
 );
 
@@ -150,6 +151,12 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
 .ag-theme-sky-data-entry-grid-modern-light-compact,
 .ag-theme-sky-data-grid-modern-dark-compact,
 .ag-theme-sky-data-entry-grid-modern-dark-compact {
+  @include ag-grid-extra.ag-grid-extra();
+
+  .ag-active-item {
+    background-color: var(--sky-background-color-selected);
+  }
+
   .ag-header-cell-sortable .ag-header-cell-label {
     cursor: initial;
   }

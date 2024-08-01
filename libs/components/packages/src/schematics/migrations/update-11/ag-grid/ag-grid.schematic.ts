@@ -1,23 +1,21 @@
-import {
-  Rule,
-  SchematicContext,
-  Tree,
-  UpdateRecorder,
-} from '@angular-devkit/schematics';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   NodePackageInstallTask,
   RunSchematicTask,
 } from '@angular-devkit/schematics/tasks';
+import { parseSourceFile } from '@angular/cdk/schematics';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
   getPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
+import { swapImportedClass } from '../../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 import { eventTypeStrings } from './event-type-strings/event-type-strings';
+import { switchToUpdateGridOptions } from './switch-to-update-grid-options/switch-to-update-grid-options';
 
 const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
@@ -63,24 +61,22 @@ function checkAgGridDependency(tree: Tree, context: SchematicContext): boolean {
 /**
  * If available, switch gridOptions.api and gridOptions.columnApi to gridApi.
  */
-function swapGridOptionsApiToGridApi(
-  tree: Tree,
-  path: string,
-  recorder: Pick<UpdateRecorder, 'remove' | 'insertRight'>,
-): void {
+function swapGridOptionsApiToGridApi(tree: Tree, path: string): void {
   const content = tree.readText(path);
   if (
-    content.includes('this.gridApi.') &&
-    (content.includes('this.gridOptions.api.') ||
-      content.includes('this.gridOptions.columnApi.'))
+    content.includes('this.gridApi') &&
+    (content.includes('this.gridOptions.api') ||
+      content.includes('this.gridOptions.columnApi'))
   ) {
+    const recorder = tree.beginUpdate(path);
     const instances = content.matchAll(
-      /\bthis\.gridOptions\.(api|columnApi)\./g,
+      /\bthis\.gridOptions\.(api|columnApi)\b/g,
     );
     for (const instance of instances) {
       recorder.remove(instance.index, instance[0].length);
-      recorder.insertRight(instance.index, 'this.gridApi.');
+      recorder.insertRight(instance.index, 'this.gridApi');
     }
+    tree.commitUpdate(recorder);
   }
 }
 
@@ -93,6 +89,19 @@ function includesAgGrid(updatedContent: string): boolean {
     updatedContent.includes(AG_GRID_ENT) ||
     updatedContent.includes(AG_GRID_SKY)
   );
+}
+
+function swapClasses(tree: Tree, filePath: string) {
+  const sourceFile = parseSourceFile(tree, filePath);
+  swapImportedClass(tree, filePath, sourceFile, [
+    {
+      classNames: {
+        Column: 'AgColumn',
+        Beans: 'BeanCollection',
+      },
+      moduleName: 'ag-grid-community',
+    },
+  ]);
 }
 
 /**
@@ -132,23 +141,22 @@ async function updateSourceFiles(
         );
       }
 
-      const recorder = tree.beginUpdate(filePath);
-      eventTypeStrings(tree, filePath, recorder);
-      swapGridOptionsApiToGridApi(tree, filePath, recorder);
-      tree.commitUpdate(recorder);
+      eventTypeStrings(tree, filePath);
+      swapClasses(tree, filePath);
+      swapGridOptionsApiToGridApi(tree, filePath);
+      switchToUpdateGridOptions(tree, filePath);
     });
   });
 }
 
 /**
- * Upgrade to AG Grid 30 and address three breaking changes:
+ * Upgrade to AG Grid 32 and address three breaking changes:
  *
- * - Add missing peer dependency
- * - Warn about mixing modules and packages
- * - Column API renamed getSecondaryColumns / setSecondaryColumns
- * - Grid option renamed suppressCellSelection and getRowNodeId
- * - Rename charPress to eventKey
- * - Rename cellRendererFramework to cellRenderer
+ * - Switch Event Types to Strings
+ * - Switch gridOptions.api and gridOptions.columnApi to gridApi
+ * - Switch setQuickFilter to updateGridOptions
+ * - Switch Beans references to use BeanCollection
+ * - Switch Column references to use AgColumn
  *
  * Also advise against mixing modules and packages.
  */

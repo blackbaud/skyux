@@ -157,6 +157,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
+    spyOn(dataManagerService, 'updateDataState');
     agGridComponent.api.applyColumnState({
       state: [
         {
@@ -178,7 +179,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       ],
       applyOrder: true,
     });
-    spyOn(dataManagerService, 'updateDataState');
 
     const columnMoved = {
       source: 'uiColumnMoved',
