@@ -1,5 +1,23 @@
 # Changelog
 
+## [11.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.7...11.0.0-alpha.8) (2024-08-01)
+
+
+### Features
+
+* **components/packages:** schematic to remove compat stylesheets ([#2564](https://github.com/blackbaud/skyux/issues/2564)) ([27dd361](https://github.com/blackbaud/skyux/commit/27dd361d32d1104298199966065e33d5f98c5556))
+* **components/packages:** schematic to update `SkyHelpInlineModule` import from the indicators library to the help-inline library ([#2570](https://github.com/blackbaud/skyux/issues/2570)) ([1822746](https://github.com/blackbaud/skyux/commit/1822746eab32a1a5cf840b4fd3cfb88f93ed5b33))
+* **components/packages:** schematic to update icon type imports from the indicators library to the icon library ([#2572](https://github.com/blackbaud/skyux/issues/2572)) ([dbeaf5b](https://github.com/blackbaud/skyux/commit/dbeaf5bee770656c0fffb6530c1e8689eff0c7a3))
+* **components/popovers:** remove `dismissOnBlur` input from popover and dropdown ([#2571](https://github.com/blackbaud/skyux/issues/2571)) ([ad63818](https://github.com/blackbaud/skyux/commit/ad63818c473d07e36618b02811a3a80acc2ae269))
+* move help inline features out of developer preview for key info, box, and description list ([#2574](https://github.com/blackbaud/skyux/issues/2574)) ([#2575](https://github.com/blackbaud/skyux/issues/2575)) ([a857f15](https://github.com/blackbaud/skyux/commit/a857f15f76b6f250287516617d263ec15ddf36ba))
+
+
+### Bug Fixes
+
+* **components/core:** remove @angular/forms peer dependency ([#2566](https://github.com/blackbaud/skyux/issues/2566)) ([e61f1d4](https://github.com/blackbaud/skyux/commit/e61f1d4e50c0d10c8e0d49f2eba1ca02cfeeeb51))
+* **components/layout:** fix key info display in page summary ([#2576](https://github.com/blackbaud/skyux/issues/2576)) ([#2577](https://github.com/blackbaud/skyux/issues/2577)) ([59dd585](https://github.com/blackbaud/skyux/commit/59dd5851bca3ff247238ed616ce74c0d34f7a9a2))
+* **components/modals:** `SkyModalTestingController.closeTopModal` passes `reason` and `result` to the modal instance ([#2565](https://github.com/blackbaud/skyux/issues/2565)) ([#2567](https://github.com/blackbaud/skyux/issues/2567)) ([38c2778](https://github.com/blackbaud/skyux/commit/38c2778317d1f46f20cc53f61414d1fc438fe781))
+
 ## [10.41.0](https://github.com/blackbaud/skyux/compare/10.40.0...10.41.0) (2024-07-31)
 
 
