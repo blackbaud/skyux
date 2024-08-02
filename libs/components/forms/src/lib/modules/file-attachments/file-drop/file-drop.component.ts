@@ -1,4 +1,4 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -61,7 +61,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyIdModule,
   ],
   providers: [
-    DecimalPipe,
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],

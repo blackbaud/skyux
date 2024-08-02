@@ -1,4 +1,4 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   DoCheck,
@@ -29,7 +29,6 @@ import { SkyFileLink } from './file-link';
     SkyFormsResourcesModule,
     SkyIconModule,
   ],
-  providers: [DecimalPipe],
   selector: 'sky-file-item',
   standalone: true,
   styleUrl: './file-item.component.scss',

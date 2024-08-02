@@ -1,4 +1,3 @@
-import { DecimalPipe } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -6,7 +5,6 @@ import { SkyFileSizePipe } from './file-size.pipe';
 
 describe('File size pipe', () => {
   let fileSizePipe: SkyFileSizePipe;
-  let decimalPipe: DecimalPipe;
 
   function validateFormatted(
     value: number | string | undefined | null,
@@ -22,11 +20,7 @@ describe('File size pipe', () => {
       imports: [SkyFileSizePipe],
     });
 
-    decimalPipe = new DecimalPipe('en');
-    fileSizePipe = new SkyFileSizePipe(
-      decimalPipe,
-      TestBed.get(SkyLibResourcesService),
-    );
+    fileSizePipe = new SkyFileSizePipe(TestBed.get(SkyLibResourcesService));
   });
 
   it('should format bytes', function () {
