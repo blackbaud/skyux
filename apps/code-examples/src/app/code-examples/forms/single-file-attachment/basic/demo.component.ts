@@ -12,7 +12,7 @@ import {
 import {
   SkyFileAttachmentChange,
   SkyFileAttachmentClick,
-  SkyFileAttachmentsModule,
+  SkyFileAttachmentModule,
   SkyFileItem,
 } from '@skyux/forms';
 
@@ -24,7 +24,7 @@ import {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyFileAttachmentsModule,
+    SkyFileAttachmentModule,
   ],
 })
 export class DemoComponent {
