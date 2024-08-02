@@ -11,8 +11,10 @@ export { SkyFieldGroupModule } from './lib/modules/field-group/field-group.modul
 
 export { SkyFileAttachmentChange } from './lib/modules/file-attachments/file-attachment/file-attachment-change';
 export { SkyFileAttachmentClick } from './lib/modules/file-attachments/file-attachment/file-attachment-click';
+export { SkyFileAttachmentModule } from './lib/modules/file-attachments/file-attachment/file-attachment.module';
 export { SkyFileAttachmentsModule } from './lib/modules/file-attachments/file-attachments.module';
 export { SkyFileDropChange } from './lib/modules/file-attachments/file-drop/file-drop-change';
+export { SkyFileDropModule } from './lib/modules/file-attachments/file-drop/file-drop.module';
 export { SkyFileLink } from './lib/modules/file-attachments/file-drop/file-link';
 export { SkyFileItem } from './lib/modules/file-attachments/shared/file-item';
 export { SkyFileItemErrorType } from './lib/modules/file-attachments/shared/file-item-error-type';

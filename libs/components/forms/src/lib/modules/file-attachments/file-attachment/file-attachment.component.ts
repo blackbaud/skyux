@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -73,6 +73,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyThemeModule,
   ],
   providers: [
+    DecimalPipe,
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],

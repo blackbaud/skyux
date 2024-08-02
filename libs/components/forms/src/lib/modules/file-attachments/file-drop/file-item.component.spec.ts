@@ -4,10 +4,11 @@ import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 
-import { SkyFileAttachmentsModule } from './file-attachments.module';
+import { SkyFileItem } from '../shared/file-item';
+
+import { SkyFileDropModule } from './file-drop.module';
 import { SkyFileItemComponent } from './file-item.component';
 import { SkyFileLink } from './file-link';
-import { SkyFileItem } from './types/file-linke-item';
 
 describe('File item component', () => {
   let fixture: ComponentFixture<SkyFileItemComponent>;
@@ -15,7 +16,7 @@ describe('File item component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyFileAttachmentsModule],
+      imports: [SkyFileDropModule],
     });
   });
 

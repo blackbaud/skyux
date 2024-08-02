@@ -15,7 +15,6 @@ import {
 import {
   SkyTheme,
   SkyThemeMode,
-  SkyThemeModule,
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSettingsChange,
@@ -24,12 +23,12 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
-import { FileAttachmentTestComponent } from '../fixtures/file-attachment.component.fixture';
-import { TemplateDrivenFileAttachmentTestComponent } from '../fixtures/template-driven-file-attachment.component.fixture';
 import { SkyFileItem } from '../shared/file-item';
 
 import { SkyFileAttachmentChange } from './file-attachment-change';
 import { SkyFileAttachmentComponent } from './file-attachment.component';
+import { FileAttachmentTestComponent } from './fixtures/file-attachment.component.fixture';
+import { TemplateDrivenFileAttachmentTestComponent } from './fixtures/template-driven-file-attachment.component.fixture';
 
 function getInputDebugEl(fixture: ComponentFixture<any>): DebugElement {
   return fixture.debugElement.query(By.css('input'));
@@ -61,11 +60,7 @@ describe('File attachment', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        FileAttachmentTestComponent,
-        SkyThemeModule,
-        SkyHelpTestingModule,
-      ],
+      imports: [FileAttachmentTestComponent, SkyHelpTestingModule],
       providers: [
         {
           provide: SkyThemeService,
@@ -1525,7 +1520,7 @@ describe('File attachment', () => {
   it('should not render if a parent component requires label text and it is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      imports: [FileAttachmentTestComponent, SkyThemeModule],
+      imports: [FileAttachmentTestComponent],
       providers: [
         {
           provide: SkyThemeService,

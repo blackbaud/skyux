@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-  SkyFileAttachmentsModule,
+  SkyFileAttachmentModule,
   SkyFileDropChange,
   SkyFileItem,
   SkyFileLink,
@@ -12,7 +12,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyFileAttachmentsModule, SkyStatusIndicatorModule],
+  imports: [CommonModule, SkyFileAttachmentModule, SkyStatusIndicatorModule],
 })
 export class DemoComponent {
   protected acceptedTypes = 'image/png,image/jpeg';

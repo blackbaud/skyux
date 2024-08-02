@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { SkyFileItem } from '../types/file-item';
-import { SkyFileValidateFn } from '../types/file-validate-function';
+import { SkyFileItem } from '../shared/file-item';
+import { SkyFileValidateFn } from '../shared/file-validate-function';
 
 /**
  * @internal

@@ -5,7 +5,7 @@ import { SkyFileItem } from './file-item';
 /**
  * @internal
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SkyFileItemService {
   public isFile(fileItem: SkyFileItem): boolean {
     const file = fileItem.file;

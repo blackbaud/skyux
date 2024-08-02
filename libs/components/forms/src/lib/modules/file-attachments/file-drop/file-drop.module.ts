@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 
+import { SkyFileDropComponent } from './file-drop.component';
+
 @NgModule({
-  exports: [],
-  imports: [],
+  exports: [SkyFileDropComponent],
+  imports: [SkyFileDropComponent],
 })
 export class SkyFileDropModule {}
