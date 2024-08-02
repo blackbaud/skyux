@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.41.1](https://github.com/blackbaud/skyux/compare/10.41.0...10.41.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* **components/router:** fix `SkyHrefHarness` to find elements when `skyHref` is bound to a template variable ([#2580](https://github.com/blackbaud/skyux/issues/2580)) ([79ed2d0](https://github.com/blackbaud/skyux/commit/79ed2d0ed802a23a2f2089e1e3944240f39a16d9))
+
 ## [10.41.0](https://github.com/blackbaud/skyux/compare/10.40.0...10.41.0) (2024-07-31)
 
 
