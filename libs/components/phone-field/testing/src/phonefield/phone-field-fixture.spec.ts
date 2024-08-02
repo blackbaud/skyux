@@ -164,7 +164,8 @@ describe('PhoneField fixture', () => {
     expect(testComponent.phoneControl?.value).toEqual('(867) 555-5309');
   });
 
-  it('should use newly selected country', async () => {
+  fit('should use newly selected country', async () => {
+    await fixture.whenStable();
     fixture.componentInstance.selectedCountryChange.calls.reset();
 
     if (COUNTRY_AU.name) {

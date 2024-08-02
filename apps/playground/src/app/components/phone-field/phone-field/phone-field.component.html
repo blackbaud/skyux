@@ -58,10 +58,14 @@
     labelText="Input box (easy)"
     mode="detect"
   >
-    <sky-phone-field>
-      <input [(ngModel)]="phoneNumberInputBox" skyPhoneFieldInput />
+    <sky-phone-field [selectedCountry]="country">
+      <input [(ngModel)]="phoneNumberInputBoxEasy" skyPhoneFieldInput />
     </sky-phone-field>
   </sky-input-box>
 </div>
+
+<button class="sky-btn sky-btn-primary" type="button" (click)="setCountry()">
+  Set country
+</button>
 
 <input type="text" />

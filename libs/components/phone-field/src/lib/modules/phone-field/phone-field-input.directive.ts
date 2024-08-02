@@ -16,6 +16,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { SkyCountryFieldCountry } from '@skyux/lookup';
 
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import { Subject, takeUntil } from 'rxjs';
@@ -119,8 +120,18 @@ export class SkyPhoneFieldInputDirective
       .subscribe(() => {
         const value = this.#adapterSvc?.getInputValue(this.#elRef);
         this.#setValue(value);
-        this.#notifyChange?.(this.#getValue());
-        this.#notifyTouched?.();
+        this.#control?.updateValueAndValidity();
+      });
+
+    // While we want to update the value and validity on all country changes - we only want to make the form as dirty/touched when the user is the one to initiate this through he country search.
+    this.#phoneFieldComponent.countrySearchForm
+      .get('countrySearch')
+      ?.valueChanges.pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((newValue: SkyCountryFieldCountry | undefined | null) => {
+        if (newValue) {
+          this.#notifyChange?.(this.#getValue());
+          this.#notifyTouched?.();
+        }
       });
   }
 
