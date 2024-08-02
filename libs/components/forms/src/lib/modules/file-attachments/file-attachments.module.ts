@@ -4,7 +4,7 @@ import { SkyFileAttachmentModule } from './file-attachment/file-attachment.modul
 import { SkyFileDropModule } from './file-drop/file-drop.module';
 
 /**
- * @deprecated Import either `SkyFileAttachmentModule` or `SkyFileDropModule`.
+ * @deprecated Import either `SkyFileAttachmentModule` or `SkySingleFileAttachmentModule`.
  */
 @NgModule({
   exports: [SkyFileAttachmentModule, SkyFileDropModule],
