@@ -80,4 +80,15 @@ describe('SkyHrefHarness', () => {
     await expectAsync(hrefHarness.getText()).toBeResolvedTo('');
     await expectAsync(hrefHarness.isVisible()).toBeResolvedTo(false);
   });
+
+  it('should find elements when skyHref is bound to a variable', async () => {
+    const { hrefHarness } = await setupTest({
+      dataSkyId: 'my-href-3',
+      userHasAccess: true,
+    });
+
+    await expectAsync(hrefHarness.getHref()).toBeResolvedTo(
+      'https://example.com/my-base-href',
+    );
+  });
 });
