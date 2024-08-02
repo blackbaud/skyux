@@ -23,14 +23,13 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
+import { FileAttachmentTestComponent } from '../fixtures/file-attachment.component.fixture';
+import { TemplateDrivenFileAttachmentTestComponent } from '../fixtures/template-driven-file-attachment.component.fixture';
+import { SkyFileItem } from '../shared/file-item';
 
+import { SkyFileAttachmentChange } from './file-attachment-change';
 import { SkyFileAttachmentComponent } from './file-attachment.component';
-import { SkyFileItem } from './file-item';
-import { FileAttachmentTestComponent } from './fixtures/file-attachment.component.fixture';
-import { FileAttachmentTestModule } from './fixtures/file-attachment.module.fixture';
-import { TemplateDrivenFileAttachmentTestComponent } from './fixtures/template-driven-file-attachment.component.fixture';
-import { SkyFileAttachmentChange } from './types/file-attachment-change';
 
 function getInputDebugEl(fixture: ComponentFixture<any>): DebugElement {
   return fixture.debugElement.query(By.css('input'));
@@ -60,8 +59,13 @@ describe('File attachment', () => {
         previousSettings: undefined,
       }),
     };
+
     TestBed.configureTestingModule({
-      imports: [FileAttachmentTestModule, SkyThemeModule, SkyHelpTestingModule],
+      imports: [
+        FileAttachmentTestComponent,
+        SkyThemeModule,
+        SkyHelpTestingModule,
+      ],
       providers: [
         {
           provide: SkyThemeService,
@@ -1521,7 +1525,7 @@ describe('File attachment', () => {
   it('should not render if a parent component requires label text and it is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      imports: [FileAttachmentTestModule, SkyThemeModule],
+      imports: [FileAttachmentTestComponent, SkyThemeModule],
       providers: [
         {
           provide: SkyThemeService,
@@ -1681,8 +1685,9 @@ describe('File attachment (template-driven)', () => {
         previousSettings: undefined,
       }),
     };
+
     TestBed.configureTestingModule({
-      imports: [FileAttachmentTestModule],
+      imports: [FileAttachmentTestComponent],
       providers: [
         {
           provide: SkyThemeService,
@@ -1690,10 +1695,13 @@ describe('File attachment (template-driven)', () => {
         },
       ],
     });
+
     fixture = TestBed.createComponent(
       TemplateDrivenFileAttachmentTestComponent,
     );
+
     fixture.detectChanges();
+
     el = fixture.nativeElement;
     fileAttachmentInstance = fixture.componentInstance.fileAttachmentComponent;
   });

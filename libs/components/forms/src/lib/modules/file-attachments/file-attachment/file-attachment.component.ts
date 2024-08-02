@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -21,24 +22,34 @@ import {
   inject,
 } from '@angular/core';
 import { NgControl, ValidationErrors, Validators } from '@angular/forms';
-import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyIdModule,
+  SkyIdService,
+  SkyLiveAnnouncerService,
+} from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormErrorComponent } from '../../form-error/form-error.component';
+import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
+import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
+import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
+import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
+import { SkyFileItem } from '../shared/file-item';
+import { SkyFileItemErrorType } from '../shared/file-item-error-type';
+import { SkyFileItemService } from '../shared/file-item.service';
+import { SkyFileSizePipe } from '../shared/file-size.pipe';
+import { SkyFileValidateFn } from '../shared/file-validate-function';
 
+import { SkyFileAttachmentChange } from './file-attachment-change';
+import { SkyFileAttachmentClick } from './file-attachment-click';
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
-import { SkyFileItem } from './file-item';
-import { SkyFileItemErrorType } from './file-item-error-type';
-import { SkyFileItemService } from './file-item.service';
-import { SkyFileValidateFn } from './file-validate-function';
-import { SkyFileAttachmentChange } from './types/file-attachment-change';
-import { SkyFileAttachmentClick } from './types/file-attachment-click';
 
 let uniqueId = 0;
 
@@ -49,14 +60,26 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  * Provides an element to attach a single local file.
  */
 @Component({
-  selector: 'sky-file-attachment',
-  templateUrl: './file-attachment.component.html',
-  styleUrls: ['./file-attachment.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyFileSizePipe,
+    SkyFormErrorComponent,
+    SkyFormErrorsComponent,
+    SkyFormsResourcesModule,
+    SkyHelpInlineModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyThemeModule,
+  ],
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'sky-file-attachment',
+  standalone: true,
+  styleUrl: './file-attachment.component.scss',
+  templateUrl: './file-attachment.component.html',
 })
 export class SkyFileAttachmentComponent
   implements AfterViewInit, AfterContentInit, OnInit, OnDestroy

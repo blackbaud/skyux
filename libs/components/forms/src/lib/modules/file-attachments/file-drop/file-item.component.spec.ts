@@ -5,9 +5,9 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
-import { SkyFileItem } from './file-item';
 import { SkyFileItemComponent } from './file-item.component';
 import { SkyFileLink } from './file-link';
+import { SkyFileItem } from './types/file-linke-item';
 
 describe('File item component', () => {
   let fixture: ComponentFixture<SkyFileItemComponent>;

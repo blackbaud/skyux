@@ -1,14 +1,27 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
+import { SkyFileAttachmentModule } from '../file-attachment.module';
 
 @Component({
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyFileAttachmentModule,
+    SkyHelpInlineModule,
+  ],
   selector: 'sky-file-attachment-test',
+  standalone: true,
   templateUrl: './file-attachment.component.fixture.html',
 })
 export class FileAttachmentTestComponent {
@@ -36,11 +49,12 @@ export class FileAttachmentTestComponent {
 
   public helpKey: string | undefined;
 
+  public showInlineHelp = false;
+
   public stacked: boolean | undefined;
 
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
-  public showInlineHelp = false;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.attachment = new UntypedFormControl(undefined);

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,20 +13,27 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import { FormsModule } from '@angular/forms';
+import { SkyIdModule, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyIdService } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 
 import { take } from 'rxjs/operators';
 
-import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormErrorComponent } from '../../form-error/form-error.component';
+import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
+import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
+import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
+import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
+import { SkyFileAttachmentService } from '../file-attachment/file-attachment.service';
+import { SkyFileItem } from '../shared/file-item';
+import { SkyFileSizePipe } from '../shared/file-size.pipe';
+import { SkyFileValidateFn } from '../shared/file-validate-function';
 
-import { SkyFileAttachmentService } from './file-attachment.service';
-import { SkyFileItem } from './file-item';
+import { SkyFileDropChange } from './file-drop-change';
 import { SkyFileLink } from './file-link';
-import { SkyFileValidateFn } from './file-validate-function';
-import { SkyFileDropChange } from './types/file-drop-change';
 
 const MAX_FILE_SIZE_DEFAULT = 500000;
 const MIN_FILE_SIZE_DEFAULT = 0;
@@ -41,13 +49,25 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  * on the element that receives drop events to exempt it from the drop exclusion rule.
  */
 @Component({
-  selector: 'sky-file-drop',
-  templateUrl: './file-drop.component.html',
-  styleUrls: ['./file-drop.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SkyFileSizePipe,
+    SkyFormErrorComponent,
+    SkyFormErrorsComponent,
+    SkyFormsResourcesModule,
+    SkyHelpInlineModule,
+    SkyIconModule,
+    SkyIdModule,
+  ],
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  selector: 'sky-file-drop',
+  standalone: true,
+  styleUrl: './file-drop.component.scss',
+  templateUrl: './file-drop.component.html',
 })
 export class SkyFileDropComponent implements OnInit, OnDestroy {
   /**

@@ -1,4 +1,4 @@
-import { SkyFileItem } from '../file-item';
+import { SkyFileItem } from '../shared/file-item';
 
 export interface SkyFileDropChange {
   /**

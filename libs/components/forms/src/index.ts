@@ -5,30 +5,30 @@ export { SkyCheckboxGroupHeadingLevel } from './lib/modules/checkbox/checkbox-gr
 export { SkyCheckboxGroupHeadingStyle } from './lib/modules/checkbox/checkbox-group-heading-style';
 export { SkyCheckboxModule } from './lib/modules/checkbox/checkbox.module';
 
-export { SkyFieldGroupModule } from './lib/modules/field-group/field-group.module';
 export { SkyFieldGroupHeadingLevel } from './lib/modules/field-group/field-group-heading-level';
 export { SkyFieldGroupHeadingStyle } from './lib/modules/field-group/field-group-heading-style';
+export { SkyFieldGroupModule } from './lib/modules/field-group/field-group.module';
 
-export { SkyFileAttachmentsModule } from './lib/modules/file-attachment/file-attachments.module';
-export { SkyFileItem } from './lib/modules/file-attachment/file-item';
-export { SkyFileItemErrorType } from './lib/modules/file-attachment/file-item-error-type';
-export { SkyFileLink } from './lib/modules/file-attachment/file-link';
-export { SkyFileSizePipe } from './lib/modules/file-attachment/file-size.pipe';
-export { SkyFileAttachmentChange } from './lib/modules/file-attachment/types/file-attachment-change';
-export { SkyFileAttachmentClick } from './lib/modules/file-attachment/types/file-attachment-click';
-export { SkyFileDropChange } from './lib/modules/file-attachment/types/file-drop-change';
+export { SkyFileAttachmentChange } from './lib/modules/file-attachments/file-attachment/file-attachment-change';
+export { SkyFileAttachmentClick } from './lib/modules/file-attachments/file-attachment/file-attachment-click';
+export { SkyFileAttachmentsModule } from './lib/modules/file-attachments/file-attachments.module';
+export { SkyFileDropChange } from './lib/modules/file-attachments/file-drop/file-drop-change';
+export { SkyFileLink } from './lib/modules/file-attachments/file-drop/file-link';
+export { SkyFileItem } from './lib/modules/file-attachments/shared/file-item';
+export { SkyFileItemErrorType } from './lib/modules/file-attachments/shared/file-item-error-type';
+export { SkyFileSizePipe } from './lib/modules/file-attachments/shared/file-size.pipe';
 
-export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
 export { SkyFormErrorModule } from './lib/modules/form-error/form-error.module';
+export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
 
 export { SkyInputBoxHostService } from './lib/modules/input-box/input-box-host.service';
 export { SkyInputBoxPopulateArgs } from './lib/modules/input-box/input-box-populate-args';
 export { SkyInputBoxModule } from './lib/modules/input-box/input-box.module';
 
+export { SkyRadioModule } from './lib/modules/radio/radio.module';
 export { SkyRadioChange } from './lib/modules/radio/types/radio-change';
 export { SkyRadioGroupHeadingLevel } from './lib/modules/radio/types/radio-group-heading-level';
 export { SkyRadioGroupHeadingStyle } from './lib/modules/radio/types/radio-group-heading-style';
-export { SkyRadioModule } from './lib/modules/radio/radio.module';
 export { SkyRadioType } from './lib/modules/radio/types/radio-type';
 
 export { SkyRequiredStateDirective } from './lib/modules/required-state/required-state.directive';
@@ -48,21 +48,21 @@ export { SkyFormFieldLabelTextRequiredService } from './lib/modules/shared/form-
 // Obscure names are used to indicate types are not part of the public API.
 
 export { SkyCharacterCounterIndicatorComponent as λ1 } from './lib/modules/character-counter/character-counter-indicator.component';
-export { SkyCharacterCounterInputDirective as λ2 } from './lib/modules/character-counter/character-counter.directive';
 export { SkyCharacterCounterScreenReaderPipe as λ23 } from './lib/modules/character-counter/character-counter-screen-reader.pipe';
+export { SkyCharacterCounterInputDirective as λ2 } from './lib/modules/character-counter/character-counter.directive';
+export { SkyCheckboxGroupComponent as λ24 } from './lib/modules/checkbox/checkbox-group.component';
 export { SkyCheckboxLabelComponent as λ4 } from './lib/modules/checkbox/checkbox-label.component';
 export { SkyCheckboxComponent as λ3 } from './lib/modules/checkbox/checkbox.component';
-export { SkyCheckboxGroupComponent as λ24 } from './lib/modules/checkbox/checkbox-group.component';
 export { SkyFieldGroupComponent as λ25 } from './lib/modules/field-group/field-group.component';
-export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachment/file-attachment-label.component';
-export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment/file-attachment.component';
-export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachment/file-drop.component';
-export { SkyFileItemComponent as λ9 } from './lib/modules/file-attachment/file-item.component';
-export { SkyFormErrorsComponent as λ21 } from './lib/modules/form-error/form-errors.component';
+export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachments/file-attachment/file-attachment-label.component';
+export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachments/file-attachment/file-attachment.component';
+export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachments/file-drop/file-drop.component';
+export { SkyFileItemComponent as λ9 } from './lib/modules/file-attachments/file-drop/file-item.component';
 export { SkyFormErrorComponent as λ22 } from './lib/modules/form-error/form-error.component';
+export { SkyFormErrorsComponent as λ21 } from './lib/modules/form-error/form-errors.component';
 export { SkyInputBoxControlDirective as λ20 } from './lib/modules/input-box/input-box-control.directive';
-export { SkyInputBoxComponent as λ10 } from './lib/modules/input-box/input-box.component';
 export { SkyInputBoxHintTextPipe as λ26 } from './lib/modules/input-box/input-box-hint-text.pipe';
+export { SkyInputBoxComponent as λ10 } from './lib/modules/input-box/input-box.component';
 export { SkyRadioGroupComponent as λ11 } from './lib/modules/radio/radio-group.component';
 export { SkyRadioLabelComponent as λ12 } from './lib/modules/radio/radio-label.component';
 export { SkyRadioComponent as λ13 } from './lib/modules/radio/radio.component';

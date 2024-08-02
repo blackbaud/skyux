@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyFileSizePipe } from './file-size.pipe';
-import { FileAttachmentTestModule } from './fixtures/file-attachment.module.fixture';
 
 describe('File size pipe', () => {
   let fileSizePipe: SkyFileSizePipe;
@@ -20,7 +19,7 @@ describe('File size pipe', () => {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [FileAttachmentTestModule],
+      imports: [SkyFileSizePipe],
     });
 
     decimalPipe = new DecimalPipe('en');

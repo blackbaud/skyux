@@ -9,13 +9,13 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
 
-import { SkyFileAttachmentsModule } from './file-attachments.module';
+import { SkyFileAttachmentsModule } from '../file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
-import { SkyFileItem } from './file-item';
 import { SkyFileLink } from './file-link';
-import { SkyFileDropChange } from './types/file-drop-change';
+import { SkyFileDropChange } ./types/file-linkes/file-drop-change';
+import { SkyFileItem } from '../types/file-item';
 
 describe('File drop component', () => {
   /** Simple test component with tabIndex */

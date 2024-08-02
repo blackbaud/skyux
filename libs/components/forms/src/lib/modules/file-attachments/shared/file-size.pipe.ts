@@ -7,6 +7,7 @@ import { SkyLibResourcesService } from '@skyux/i18n';
  */
 @Pipe({
   name: 'skyFileSize',
+  standalone: true,
 })
 export class SkyFileSizePipe implements PipeTransform {
   #decimalPipe: DecimalPipe;
@@ -59,7 +60,7 @@ export class SkyFileSizePipe implements PipeTransform {
     return this.#getString(template, formattedSize);
   }
 
-  #getString(key: string, ...args: any[]): string {
+  #getString(key: string, ...args: unknown[]): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
     return this.#resourcesService.getStringForLocale(
       { locale: 'en-US' },
