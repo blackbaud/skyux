@@ -4,4 +4,6 @@ import { Component } from '@angular/core';
   selector: 'sky-href-harness-test',
   templateUrl: './href-harness-test.component.html',
 })
-export class HrefHarnessTestComponent {}
+export class HrefHarnessTestComponent {
+  protected baseHref = 'my-base-href';
+}
