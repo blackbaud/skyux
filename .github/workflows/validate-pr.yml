@@ -89,6 +89,7 @@ jobs:
             components/validation
             sdk/e2e-schematics
             sdk/eslint-config
+            sdk/eslint-plugin
             sdk/prettier-schematics
             sdk/testing
           validateSingleCommit: true

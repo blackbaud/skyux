@@ -1,0 +1,13 @@
+{
+  "name": "@skyux-sdk/eslint-plugin",
+  "version": "0.0.0-PLACEHOLDER",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
+}
