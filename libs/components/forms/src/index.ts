@@ -9,16 +9,16 @@ export { SkyFieldGroupHeadingLevel } from './lib/modules/field-group/field-group
 export { SkyFieldGroupHeadingStyle } from './lib/modules/field-group/field-group-heading-style';
 export { SkyFieldGroupModule } from './lib/modules/field-group/field-group.module';
 
-export { SkyFileAttachmentChange } from './lib/modules/file-attachments/file-attachment/file-attachment-change';
-export { SkyFileAttachmentClick } from './lib/modules/file-attachments/file-attachment/file-attachment-click';
-export { SkyFileAttachmentModule } from './lib/modules/file-attachments/file-attachment/file-attachment.module';
-export { SkyFileAttachmentsModule } from './lib/modules/file-attachments/file-attachments.module';
-export { SkyFileDropChange } from './lib/modules/file-attachments/file-drop/file-drop-change';
-export { SkyFileDropModule } from './lib/modules/file-attachments/file-drop/file-drop.module';
-export { SkyFileLink } from './lib/modules/file-attachments/file-drop/file-link';
-export { SkyFileItem } from './lib/modules/file-attachments/shared/file-item';
-export { SkyFileItemErrorType } from './lib/modules/file-attachments/shared/file-item-error-type';
-export { SkyFileSizePipe } from './lib/modules/file-attachments/shared/file-size.pipe';
+export { SkyFileAttachmentChange } from './lib/modules/file-attachment/file-attachment/file-attachment-change';
+export { SkyFileAttachmentClick } from './lib/modules/file-attachment/file-attachment/file-attachment-click';
+export { SkyFileAttachmentModule } from './lib/modules/file-attachment/file-attachment/file-attachment.module';
+export { SkyFileAttachmentsModule } from './lib/modules/file-attachment/file-attachments.module';
+export { SkyFileDropChange } from './lib/modules/file-attachment/file-drop/file-drop-change';
+export { SkyFileDropModule } from './lib/modules/file-attachment/file-drop/file-drop.module';
+export { SkyFileLink } from './lib/modules/file-attachment/file-drop/file-link';
+export { SkyFileItem } from './lib/modules/file-attachment/shared/file-item';
+export { SkyFileItemErrorType } from './lib/modules/file-attachment/shared/file-item-error-type';
+export { SkyFileSizePipe } from './lib/modules/file-attachment/shared/file-size.pipe';
 
 export { SkyFormErrorModule } from './lib/modules/form-error/form-error.module';
 export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
@@ -56,10 +56,10 @@ export { SkyCheckboxGroupComponent as λ24 } from './lib/modules/checkbox/checkb
 export { SkyCheckboxLabelComponent as λ4 } from './lib/modules/checkbox/checkbox-label.component';
 export { SkyCheckboxComponent as λ3 } from './lib/modules/checkbox/checkbox.component';
 export { SkyFieldGroupComponent as λ25 } from './lib/modules/field-group/field-group.component';
-export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachments/file-attachment/file-attachment-label.component';
-export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachments/file-attachment/file-attachment.component';
-export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachments/file-drop/file-drop.component';
-export { SkyFileItemComponent as λ9 } from './lib/modules/file-attachments/file-drop/file-item.component';
+export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachment/file-attachment/file-attachment-label.component';
+export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment/file-attachment/file-attachment.component';
+export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachment/file-drop/file-drop.component';
+export { SkyFileItemComponent as λ9 } from './lib/modules/file-attachment/file-drop/file-item.component';
 export { SkyFormErrorComponent as λ22 } from './lib/modules/form-error/form-error.component';
 export { SkyFormErrorsComponent as λ21 } from './lib/modules/form-error/form-errors.component';
 export { SkyInputBoxControlDirective as λ20 } from './lib/modules/input-box/input-box-control.directive';

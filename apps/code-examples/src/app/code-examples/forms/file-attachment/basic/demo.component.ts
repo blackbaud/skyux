@@ -29,9 +29,9 @@ import {
 })
 export class DemoComponent {
   protected attachment: FormControl;
+  protected customValidationError: string | undefined;
   protected formGroup: FormGroup;
   protected maxFileSize = 4000000;
-  protected customValidationError: string | undefined;
 
   get #reactiveFile(): AbstractControl | null {
     return this.formGroup.get('attachment');
