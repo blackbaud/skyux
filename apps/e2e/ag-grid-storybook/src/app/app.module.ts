@@ -7,6 +7,13 @@ import { AppComponent } from './app.component';
 
 const routes: Route[] = [
   {
+    path: 'ag-grid-widgets',
+    loadComponent: () =>
+      import('./ag-grid-widgets/ag-grid-widgets.component').then(
+        (m) => m.AgGridWidgetsComponent,
+      ),
+  },
+  {
     path: 'data-manager',
     loadChildren: () =>
       import('./data-manager/data-manager.module').then(

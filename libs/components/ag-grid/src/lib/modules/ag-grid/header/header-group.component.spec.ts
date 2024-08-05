@@ -30,7 +30,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
   let events: Record<string, ((value: mockEventParam) => void)[]>;
   let expanded: boolean;
   let providedColumnGroup: ProvidedColumnGroup;
-  const baseProvidedColumnGroup = {
+  const baseProvidedColumnGroup: Partial<ProvidedColumnGroup> = {
     isExpanded: (): boolean => expanded,
     isExpandable: (): boolean => true,
   };
@@ -61,7 +61,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
         l({ columnGroups: [providedColumnGroup] }),
       );
     },
-  } as unknown as SkyAgGridHeaderGroupParams;
+  } as SkyAgGridHeaderGroupParams;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,7 +73,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     expanded = false;
     providedColumnGroup = {
       ...baseProvidedColumnGroup,
-    } as unknown as ProvidedColumnGroup;
+    } as ProvidedColumnGroup;
 
     fixture = TestBed.createComponent(SkyAgGridHeaderGroupComponent);
     component = fixture.componentInstance;
@@ -86,14 +86,12 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
-      fixture.debugElement.query(By.css('.header-group-text')).properties[
-        'innerText'
-      ],
+      fixture.debugElement.query(By.css('.header-group-text')),
     ).toBeFalsy();
     providedColumnGroup = {
       ...baseProvidedColumnGroup,
       isExpandable: () => false,
-    } as unknown as ProvidedColumnGroup;
+    } as ProvidedColumnGroup;
     component.agInit({
       ...baseParams,
       columnGroup: {
@@ -101,8 +99,8 @@ describe('SkyAgGridHeaderGroupComponent', () => {
         getColGroupDef: () =>
           ({
             headerGroupComponent: undefined,
-          }) as unknown as ColGroupDef,
-      } as unknown as ColumnGroup,
+          }) as ColGroupDef,
+      } as ColumnGroup,
     });
   });
 
@@ -118,7 +116,7 @@ describe('SkyAgGridHeaderGroupComponent', () => {
               inlineHelpComponent: TestHelpComponent,
             },
           }) as ColGroupDef,
-      } as unknown as ColumnGroup,
+      } as ColumnGroup,
     });
     component.ngAfterViewInit();
     fixture.detectChanges();

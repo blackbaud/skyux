@@ -36,6 +36,7 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
 import { IconMapType, iconMap } from './icons/icon-map';
+import { SkyAgGridLoadingComponent } from './loading/loading.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
@@ -489,6 +490,7 @@ export class SkyAgGridService implements OnDestroy {
         columnMoveRight: this.#getIconTemplate('columnMoveRight'),
         columnMovePin: this.#getIconTemplate('columnMovePin'),
       },
+      loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',

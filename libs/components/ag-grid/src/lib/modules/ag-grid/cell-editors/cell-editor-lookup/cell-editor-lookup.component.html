@@ -1,70 +1,72 @@
-<sky-input-box
-  *ngIf="isAlive && useAsyncSearch"
-  [disabled]="skyComponentProperties?.disabled"
-  [formGroup]="editorForm"
->
-  <sky-lookup
+@if (isAlive && useAsyncSearch) {
+  <sky-input-box
+    [disabled]="skyComponentProperties?.disabled"
+    [formGroup]="editorForm"
+    >
+    <sky-lookup
     [ariaLabelledBy]="
       skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
     "
-    [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
-    [data]="skyComponentProperties?.data"
-    [debounceTime]="skyComponentProperties?.debounceTime"
-    [descriptorProperty]="skyComponentProperties?.descriptorProperty"
-    [enableShowMore]="skyComponentProperties?.enableShowMore"
-    formControlName="selection"
-    [idProperty]="skyComponentProperties?.idProperty"
-    [placeholderText]="skyComponentProperties?.placeholderText"
-    [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
-    [search]="skyComponentProperties?.search"
-    [searchFilters]="skyComponentProperties?.searchFilters"
-    [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
-    [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
+      [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
+      [data]="skyComponentProperties?.data"
+      [debounceTime]="skyComponentProperties?.debounceTime"
+      [descriptorProperty]="skyComponentProperties?.descriptorProperty"
+      [enableShowMore]="skyComponentProperties?.enableShowMore"
+      formControlName="selection"
+      [idProperty]="skyComponentProperties?.idProperty"
+      [placeholderText]="skyComponentProperties?.placeholderText"
+      [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
+      [search]="skyComponentProperties?.search"
+      [searchFilters]="skyComponentProperties?.searchFilters"
+      [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
+      [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
     [searchTextMinimumCharacters]="
       skyComponentProperties?.searchTextMinimumCharacters
     "
-    (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
-    [selectMode]="skyComponentProperties?.selectMode"
-    [showAddButton]="skyComponentProperties?.showAddButton"
-    [showMoreConfig]="skyComponentProperties?.showMoreConfig"
-    [wrapperClass]="skyComponentProperties?.wrapperClass"
-    (addClick)="skyComponentProperties?.addClick?.($event)"
-    (openChange)="onLookupOpenChange($event)"
-  />
-</sky-input-box>
-<sky-input-box
-  *ngIf="isAlive && !useAsyncSearch"
-  [disabled]="skyComponentProperties?.disabled"
-  [formGroup]="editorForm"
->
-  <sky-lookup
+      (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
+      [selectMode]="skyComponentProperties?.selectMode"
+      [showAddButton]="skyComponentProperties?.showAddButton"
+      [showMoreConfig]="skyComponentProperties?.showMoreConfig"
+      [wrapperClass]="skyComponentProperties?.wrapperClass"
+      (addClick)="skyComponentProperties?.addClick?.($event)"
+      (openChange)="onLookupOpenChange($event)"
+      />
+  </sky-input-box>
+}
+@if (isAlive && !useAsyncSearch) {
+  <sky-input-box
+    [disabled]="skyComponentProperties?.disabled"
+    [formGroup]="editorForm"
+    >
+    <sky-lookup
     [ariaLabelledBy]="
       skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
     "
-    [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
-    [data]="skyComponentProperties?.data"
-    [debounceTime]="skyComponentProperties?.debounceTime"
-    [descriptorProperty]="skyComponentProperties?.descriptorProperty"
-    [enableShowMore]="skyComponentProperties?.enableShowMore"
-    formControlName="selection"
-    [idProperty]="skyComponentProperties?.idProperty"
-    [placeholderText]="skyComponentProperties?.placeholderText"
-    [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
-    [search]="skyComponentProperties?.search"
-    [searchFilters]="skyComponentProperties?.searchFilters"
-    [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
-    [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
+      [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
+      [data]="skyComponentProperties?.data"
+      [debounceTime]="skyComponentProperties?.debounceTime"
+      [descriptorProperty]="skyComponentProperties?.descriptorProperty"
+      [enableShowMore]="skyComponentProperties?.enableShowMore"
+      formControlName="selection"
+      [idProperty]="skyComponentProperties?.idProperty"
+      [placeholderText]="skyComponentProperties?.placeholderText"
+      [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
+      [search]="skyComponentProperties?.search"
+      [searchFilters]="skyComponentProperties?.searchFilters"
+      [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
+      [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
     [searchTextMinimumCharacters]="
       skyComponentProperties?.searchTextMinimumCharacters
     "
-    [selectMode]="skyComponentProperties?.selectMode"
-    [showAddButton]="skyComponentProperties?.showAddButton"
-    [showMoreConfig]="skyComponentProperties?.showMoreConfig"
-    [wrapperClass]="skyComponentProperties?.wrapperClass"
-    (addClick)="skyComponentProperties?.addClick?.($event)"
-    (openChange)="onLookupOpenChange($event)"
-  />
-</sky-input-box>
+      [selectMode]="skyComponentProperties?.selectMode"
+      [showAddButton]="skyComponentProperties?.showAddButton"
+      [showMoreConfig]="skyComponentProperties?.showMoreConfig"
+      [wrapperClass]="skyComponentProperties?.wrapperClass"
+      (addClick)="skyComponentProperties?.addClick?.($event)"
+      (openChange)="onLookupOpenChange($event)"
+      />
+  </sky-input-box>
+}
 <div class="sky-screen-reader-only" skyId #screenReaderLabel="skyId">
   {{ labelText }}
 </div>

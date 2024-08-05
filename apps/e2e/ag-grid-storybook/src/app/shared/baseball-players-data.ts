@@ -80,7 +80,25 @@ export const columnDefinitions: ColDef[] = [
 
 // Data derived from https://github.com/andrew-cui-zz/mlb-players-hof
 
-export const data = [
+export interface DataType {
+  id: string;
+  name: string;
+  birthday: string;
+  seasons_played: number;
+  'all-star': number;
+  triplecrown: number;
+  mvp: number;
+  cya: number;
+  '3000h': boolean;
+  '500hr': boolean;
+  '1500rbi': boolean;
+  '3000k': boolean;
+  '300w': boolean;
+  '300sv': boolean;
+  'vote%': number;
+}
+
+export const data: DataType[] = [
   {
     id: 'aaronha01',
     name: 'Hank Aaron',

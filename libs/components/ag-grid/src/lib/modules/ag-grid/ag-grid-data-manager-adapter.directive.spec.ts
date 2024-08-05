@@ -157,7 +157,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    spyOn(dataManagerService, 'updateDataState');
+    const updateDataState = spyOn(dataManagerService, 'updateDataState');
     agGridComponent.api.applyColumnState({
       state: [
         {
@@ -192,7 +192,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     await agGridDataManagerFixture.whenStable();
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+    expect(updateDataState).toHaveBeenCalledWith(
       dataState,
       agGridDataManagerFixtureComponent.viewConfig.id,
     );
