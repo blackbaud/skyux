@@ -57,9 +57,12 @@
       "extends": [
         "plugin:@nx/angular-template",
         "../../.eslintrc-overrides.json",
-        "prettier"
+        "prettier",
+        "plugin:../../libs/sdk/eslint-plugin"
       ],
-      "rules": {}
+      "rules": {
+        "no-hardcoded-ids": "warn"
+      }
     },
     {
       "files": ["*.spec.ts", "**/fixtures/**/*.ts"],

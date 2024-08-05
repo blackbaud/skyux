@@ -7,5 +7,9 @@
     "types": ["node"]
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts", "peers.ts"],
-  "include": ["**/*.ts", "../eslint-plugin/src/lib/skyux-plugin.ts"]
+  "include": [
+    "**/*.ts",
+    "../eslint-plugin/src/lib/skyux-plugin.ts",
+    "**/*.json"
+  ]
 }

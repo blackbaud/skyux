@@ -1,0 +1,7 @@
+{
+  "parser": "@angular-eslint/template-parser",
+  "plugins": ["@skyux-sdk"],
+  "rules": {
+    "@skyux-sdk/sky-no-id": "error"
+  }
+}

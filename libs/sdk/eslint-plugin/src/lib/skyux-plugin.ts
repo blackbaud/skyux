@@ -1,15 +1,18 @@
+import all from './configs/all.json';
+import skyNoId, { RULE_NAME as skyNoIdRuleName } from './rules/sky-no-id';
+
 const skyuxPlugin = {
   meta: {
-    name: '@skyux-sdk/eslint-config',
+    name: '@skyux-sdk/eslint-plugin',
     version: '0.0.0-PLACEHOLDER',
   },
-  // configs: {},
-  rules: {},
+  configs: {
+    all,
+  },
+  rules: {
+    [skyNoIdRuleName]: skyNoId,
+  },
   // processors: {},
 };
 
-// for ESM
 export default skyuxPlugin;
-
-// OR for CommonJS
-module.exports = skyuxPlugin;
