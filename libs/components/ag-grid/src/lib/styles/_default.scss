@@ -34,10 +34,6 @@
   border-top: sky-ag-grid-variables.$sky-standard-border;
   border-left: sky-ag-grid-variables.$sky-standard-border;
 
-  .ag-list-item.ag-active-item {
-    background-color: var(--sky-background-color-selected);
-  }
-
   .ag-popup {
     .ag-popup-editor {
       background-color: transparent;
@@ -58,7 +54,8 @@
         }
 
         &:focus-visible,
-        &:hover {
+        &:hover,
+        &.ag-active-item {
           background-color: var(--sky-background-color-selected);
         }
       }

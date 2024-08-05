@@ -47,11 +47,6 @@
 
   border-top: sky-ag-grid-variables.$sky-standard-border;
 
-  .ag-list-item.ag-active-item {
-    background-color: transparent;
-    border-color: variables.$sky-theme-modern-border-color-primary-dark;
-  }
-
   .ag-popup {
     .ag-popup-editor {
       background-color: transparent;
@@ -67,7 +62,8 @@
         border: 1px solid transparent;
 
         &:focus-visible,
-        &:hover {
+        &:hover,
+        &.ag-active-item {
           background-color: transparent;
           border-color: variables.$sky-theme-modern-border-color-primary-dark;
         }
