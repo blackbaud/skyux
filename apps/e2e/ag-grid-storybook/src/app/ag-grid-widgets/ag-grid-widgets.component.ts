@@ -88,6 +88,11 @@ export class AgGridWidgetsComponent
     overlay: {
       filter: {
         filterModel: {
+          name: {
+            filterType: 'text',
+            type: 'contains',
+            filter: 'andre',
+          },
           birthday: {
             filterType: 'date',
             type: 'equals',
