@@ -1,7 +1,5 @@
 @if (cellRendererParams) {
-  <sky-ag-grid-cell-validator-tooltip
-    [params]="cellRendererParams"
-    >
+  <sky-ag-grid-cell-validator-tooltip [params]="cellRendererParams">
     @if (isNumeric(cellRendererParams.value)) {
       <sky-ag-grid-cell-renderer-currency
         [params]="cellRendererParams"

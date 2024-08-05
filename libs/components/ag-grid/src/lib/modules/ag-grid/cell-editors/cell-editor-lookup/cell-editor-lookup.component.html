@@ -2,11 +2,11 @@
   <sky-input-box
     [disabled]="skyComponentProperties?.disabled"
     [formGroup]="editorForm"
-    >
+  >
     <sky-lookup
-    [ariaLabelledBy]="
-      skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
-    "
+      [ariaLabelledBy]="
+        skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
+      "
       [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
       [data]="skyComponentProperties?.data"
       [debounceTime]="skyComponentProperties?.debounceTime"
@@ -20,9 +20,9 @@
       [searchFilters]="skyComponentProperties?.searchFilters"
       [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
       [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
-    [searchTextMinimumCharacters]="
-      skyComponentProperties?.searchTextMinimumCharacters
-    "
+      [searchTextMinimumCharacters]="
+        skyComponentProperties?.searchTextMinimumCharacters
+      "
       (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
       [selectMode]="skyComponentProperties?.selectMode"
       [showAddButton]="skyComponentProperties?.showAddButton"
@@ -30,18 +30,18 @@
       [wrapperClass]="skyComponentProperties?.wrapperClass"
       (addClick)="skyComponentProperties?.addClick?.($event)"
       (openChange)="onLookupOpenChange($event)"
-      />
+    />
   </sky-input-box>
 }
 @if (isAlive && !useAsyncSearch) {
   <sky-input-box
     [disabled]="skyComponentProperties?.disabled"
     [formGroup]="editorForm"
-    >
+  >
     <sky-lookup
-    [ariaLabelledBy]="
-      skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
-    "
+      [ariaLabelledBy]="
+        skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
+      "
       [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
       [data]="skyComponentProperties?.data"
       [debounceTime]="skyComponentProperties?.debounceTime"
@@ -55,16 +55,16 @@
       [searchFilters]="skyComponentProperties?.searchFilters"
       [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
       [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
-    [searchTextMinimumCharacters]="
-      skyComponentProperties?.searchTextMinimumCharacters
-    "
+      [searchTextMinimumCharacters]="
+        skyComponentProperties?.searchTextMinimumCharacters
+      "
       [selectMode]="skyComponentProperties?.selectMode"
       [showAddButton]="skyComponentProperties?.showAddButton"
       [showMoreConfig]="skyComponentProperties?.showMoreConfig"
       [wrapperClass]="skyComponentProperties?.wrapperClass"
       (addClick)="skyComponentProperties?.addClick?.($event)"
       (openChange)="onLookupOpenChange($event)"
-      />
+    />
   </sky-input-box>
 }
 <div class="sky-screen-reader-only" skyId #screenReaderLabel="skyId">
