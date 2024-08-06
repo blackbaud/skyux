@@ -388,7 +388,9 @@ export class SkyTextEditorComponent
   });
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
+  }
 
   protected editorFocused = false;
 
@@ -436,9 +438,6 @@ export class SkyTextEditorComponent
   }
 
   public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
   public ngOnDestroy(): void {

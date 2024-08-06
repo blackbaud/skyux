@@ -214,7 +214,9 @@ export class SkyFileAttachmentComponent
   public required: boolean | undefined = false;
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
+  }
 
   public set value(value: SkyFileItem | undefined | null) {
     // The null check is needed to address a bug in Angular 4.
@@ -322,9 +324,6 @@ export class SkyFileAttachmentComponent
         });
     }
 
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 

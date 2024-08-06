@@ -328,7 +328,9 @@ export class SkyRadioComponent
   public disabledChange = new EventEmitter<boolean>();
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
+  }
 
   public set selectedValue(value: any) {
     if (value !== this.#_selectedValue) {
@@ -367,9 +369,6 @@ export class SkyRadioComponent
   }
 
   public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 

@@ -276,7 +276,9 @@ export class SkyRadioGroupComponent
   public radios: QueryList<SkyRadioComponent> | undefined;
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#headingTextRequired && !this.headingText ? 'none' : undefined;
+  }
 
   @HostBinding('class.sky-margin-stacked-lg')
   public stackedLg = false;
@@ -392,9 +394,6 @@ export class SkyRadioGroupComponent
   }
 
   public ngOnInit(): void {
-    if (this.#headingTextRequired && !this.headingText) {
-      this.display = 'none';
-    }
     this.#headingTextRequired?.validateLabelText(this.headingText);
   }
 

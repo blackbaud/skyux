@@ -176,7 +176,9 @@ export class SkyToggleSwitchComponent
   public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
+  }
 
   #control: AbstractControl | undefined;
   #isFirstChange = true;
@@ -220,9 +222,6 @@ export class SkyToggleSwitchComponent
   }
 
   public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 

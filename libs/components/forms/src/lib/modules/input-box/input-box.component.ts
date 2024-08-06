@@ -205,7 +205,9 @@ export class SkyInputBoxComponent
   public cssClass = '';
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
+  }
 
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective | undefined;
@@ -257,10 +259,6 @@ export class SkyInputBoxComponent
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
-
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 

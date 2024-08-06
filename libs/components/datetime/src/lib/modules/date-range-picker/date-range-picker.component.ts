@@ -280,7 +280,9 @@ export class SkyDateRangePickerComponent
   public helpKey: string | undefined;
 
   @HostBinding('style.display')
-  protected display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.label && this.labelText ? undefined : 'none';
+  }
 
   protected calculators: SkyDateRangeCalculator[] = [];
   protected formGroup: FormGroup;
@@ -341,10 +343,6 @@ export class SkyDateRangePickerComponent
       this.#labelTextRequiredSvc.validateLabelText(
         this.labelText || this.label,
       );
-
-      if (!this.label && !this.labelText) {
-        this.display = 'none';
-      }
     }
   }
 

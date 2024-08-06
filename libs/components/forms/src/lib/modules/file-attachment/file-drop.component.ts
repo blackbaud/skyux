@@ -217,7 +217,9 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   public inputEl: ElementRef | undefined;
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
+  }
 
   public rejectedOver = false;
   public acceptedOver = false;
@@ -242,9 +244,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   protected rejectedFiles: SkyFileItem[] = [];
 
   public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 

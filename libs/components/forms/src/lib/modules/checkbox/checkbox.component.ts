@@ -334,7 +334,9 @@ export class SkyCheckboxComponent
   }
 
   @HostBinding('style.display')
-  public display: string | undefined;
+  protected get display(): 'none' | undefined {
+    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
+  }
 
   protected get isCheckboxRequired(): boolean {
     return !!(
@@ -387,10 +389,6 @@ export class SkyCheckboxComponent
   }
 
   public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-
     this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
