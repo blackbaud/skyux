@@ -255,6 +255,7 @@ export class AgGridWidgetsComponent
         [SkyCellType.Text, SkyCellType.Number, SkyCellType.Date].includes(
           colDef.type as SkyCellType,
         ),
+      headerTooltip: `This is the ${colDef.headerName} column`,
     };
   }
 }

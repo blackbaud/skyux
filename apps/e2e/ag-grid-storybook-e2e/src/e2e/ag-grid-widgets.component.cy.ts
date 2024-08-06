@@ -13,6 +13,14 @@ describe('ag-grid-widgets', () => {
             `/iframe.html?globals=theme:${theme}&id=ag-grid-widgetscomponent--ag-grid-widgets${compact ? '-compact' : ''}`,
           );
           cy.get('#ready').should('exist');
+          cy.get('.ag-header-cell[col-id="seasons_played"]')
+            .should('exist')
+            .first()
+            .trigger('mouseenter');
+          // Tooltip has a delay. Wait for it to appear.
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(1000);
+          cy.get('.ag-tooltip').should('exist');
           cy.get('#storybook-root').skyVisualTest(
             `ag-grid-widgets-${theme}${compact ? '-compact' : ''}`,
             {
