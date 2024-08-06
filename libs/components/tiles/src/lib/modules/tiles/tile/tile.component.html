@@ -104,7 +104,7 @@
     role="region"
     skyId
     [attr.aria-label]="tileName"
-    [attr.aria-labelledBy]="!tileName && titleRef ? tileTitleId : undefined"
+    [attr.aria-labelledby]="!tileName && titleRef ? tileTitleId : undefined"
     [@skyAnimationSlide]="isCollapsed ? 'up' : 'down'"
     #tileContent="skyId"
   >
