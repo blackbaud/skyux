@@ -108,7 +108,7 @@ export class DemoComponent {
     this.searchText = searchText ?? '';
 
     if (this.#gridApi) {
-      this.#gridApi.setQuickFilter(this.searchText);
+      this.#gridApi.updateGridOptions({ quickFilterText: this.searchText });
       const displayedRowCount = this.#gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
         this.#gridApi.hideOverlay();

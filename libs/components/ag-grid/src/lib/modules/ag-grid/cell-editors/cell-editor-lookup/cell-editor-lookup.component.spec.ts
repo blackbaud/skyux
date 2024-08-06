@@ -10,7 +10,7 @@ import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyLookupSelectModeType } from '@skyux/lookup';
 
 import {
-  Column,
+  AgColumn,
   GridApi,
   GridOptions,
   ICellEditorParams,
@@ -71,7 +71,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       column: {
         getColId: () => 'colId',
         getActualWidth: () => 123,
-      } as Column,
+      } as AgColumn,
       context: {
         gridOptions: {} as Partial<GridOptions>,
       },
@@ -186,7 +186,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       const column = {
         ...cellEditorParams.column,
         getActualWidth: (): number => width,
-      } as Column;
+      } as AgColumn;
       component.agInit({ ...(cellEditorParams as ICellEditorParams) });
       fixture.detectChanges();
       expect(component.width).toBe(123);
