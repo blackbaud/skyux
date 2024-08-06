@@ -10,7 +10,7 @@ import {
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ColumnResizedEvent, Events } from 'ag-grid-community';
+import { ColumnResizedEvent } from 'ag-grid-community';
 
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
@@ -98,7 +98,7 @@ export class SkyAgGridCellEditorLookupComponent
     this.isAlive = true;
     this.width = this.#params.column.getActualWidth();
     this.#params.api.addEventListener(
-      Events.EVENT_COLUMN_RESIZED,
+      'columnResized',
       (event: ColumnResizedEvent) => {
         if (event.column?.getColId() === this.#params?.column.getColId()) {
           this.width = event.column?.getActualWidth();

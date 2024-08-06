@@ -53,8 +53,10 @@
           height: 35px;
         }
 
-        &:hover {
-          background-color: variables.$sky-background-color-selected;
+        &:focus-visible,
+        &:hover,
+        &.ag-active-item {
+          background-color: var(--sky-background-color-selected);
         }
       }
     }

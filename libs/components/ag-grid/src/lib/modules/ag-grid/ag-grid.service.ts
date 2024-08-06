@@ -36,6 +36,7 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
 import { IconMapType, iconMap } from './icons/icon-map';
+import { SkyAgGridLoadingComponent } from './loading/loading.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
@@ -104,7 +105,7 @@ function getValidatorCellRendererSelector(component: string, fallback?: any) {
         !params.colDef.cellRendererParams.skyComponentProperties.validator(
           params.value,
           params.data,
-          params.rowIndex,
+          params?.node?.rowIndex,
         )
       ) {
         return {
@@ -285,7 +286,7 @@ export class SkyAgGridService implements OnDestroy {
           return !param.colDef.cellRendererParams.skyComponentProperties.validator(
             param.value,
             param.data,
-            param.rowIndex,
+            param.node?.rowIndex,
           );
         }
         return false;
@@ -489,6 +490,7 @@ export class SkyAgGridService implements OnDestroy {
         columnMoveRight: this.#getIconTemplate('columnMoveRight'),
         columnMovePin: this.#getIconTemplate('columnMovePin'),
       },
+      loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',

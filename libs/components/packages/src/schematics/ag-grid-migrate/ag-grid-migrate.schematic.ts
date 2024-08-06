@@ -5,8 +5,8 @@ import { platform } from 'os';
 
 import { Schema } from './schema';
 
-const AG_GRID_MIGRATION = '31.3.0';
-const AG_GRID_VERSION = '31.3.4';
+const AG_GRID_MIGRATION = '32.0.5';
+const AG_GRID_VERSION = '32.0.2';
 
 function getStartingVersion(sourceRoot: string): string | undefined {
   try {

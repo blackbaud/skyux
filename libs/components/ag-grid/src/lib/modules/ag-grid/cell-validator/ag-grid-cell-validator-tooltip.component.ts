@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
-import { CellFocusedEvent, Column, Events } from 'ag-grid-community';
+import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
@@ -27,14 +27,13 @@ export class SkyAgGridCellValidatorTooltipComponent {
 
     /*istanbul ignore next*/
     this.cellRendererParams?.api?.addEventListener(
-      Events.EVENT_CELL_FOCUSED,
+      'cellFocused',
       (eventParams: CellFocusedEvent) => {
         // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
         if (
-          !(eventParams.column instanceof Column) ||
-          eventParams.column.getColId() !==
+          (eventParams.column as AgColumn).getColId() !==
             this.cellRendererParams?.column?.getColId() ||
-          eventParams.rowIndex !== this.cellRendererParams.rowIndex
+          eventParams.rowIndex !== this.cellRendererParams?.node?.rowIndex
         ) {
           this.hidePopover();
         }
@@ -59,12 +58,9 @@ export class SkyAgGridCellValidatorTooltipComponent {
     });
 
     /*istanbul ignore next*/
-    this.cellRendererParams?.api?.addEventListener(
-      Events.EVENT_CELL_EDITING_STARTED,
-      () => {
-        this.hidePopover();
-      },
-    );
+    this.cellRendererParams?.api?.addEventListener('cellEditingStarted', () => {
+      this.hidePopover();
+    });
 
     if (
       typeof this.cellRendererParams?.skyComponentProperties
@@ -74,7 +70,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
         this.cellRendererParams.skyComponentProperties.validatorMessage(
           this.cellRendererParams.value,
           this.cellRendererParams.data,
-          this.cellRendererParams.rowIndex,
+          this.cellRendererParams?.node?.rowIndex ?? undefined,
         );
     } else {
       this.validatorMessage =

@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  Beans,
-  Column,
+  AgColumn,
+  BeanCollection,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -53,13 +53,13 @@ describe('SkyCellEditorAutocompleteComponent', () => {
     ]);
     api.getGridOption.and.returnValue(true);
     let cellEditorParams: Partial<SkyCellEditorAutocompleteParams>;
-    let column: Column;
+    let column: AgColumn;
     const selection = data[0];
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -251,13 +251,13 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
   describe('afterGuiAttached', () => {
     let cellEditorParams: Partial<SkyCellEditorAutocompleteParams>;
-    let column: Column;
+    let column: AgColumn;
     const selection = data[0];
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -266,7 +266,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         true,
       );
 
-      const gridApi = new GridApi();
+      const gridApi = {} as GridApi;
 
       gridApi.getDisplayNameForColumn = (): string => {
         return '';
