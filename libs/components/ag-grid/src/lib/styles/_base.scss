@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'node_modules/ag-grid-community/styles' as ag;
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './ag-grid-extra' as ag-grid-extra;
 @use './variables' as sky-ag-grid-variables;
 
 $defaultsForAllThemes: (
@@ -150,6 +151,8 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
 .ag-theme-sky-data-entry-grid-modern-light-compact,
 .ag-theme-sky-data-grid-modern-dark-compact,
 .ag-theme-sky-data-entry-grid-modern-dark-compact {
+  @include ag-grid-extra.ag-grid-extra();
+
   .ag-header-cell-sortable .ag-header-cell-label {
     cursor: initial;
   }

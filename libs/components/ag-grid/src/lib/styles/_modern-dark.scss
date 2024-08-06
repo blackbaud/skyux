@@ -1,4 +1,5 @@
 @use 'libs/components/theme/src/lib/styles/variables' as variables;
+@use './ag-grid-extra' as ag-grid-extra;
 @use './variables' as sky-ag-grid-variables;
 
 .ag-theme-sky-data-grid-modern-dark,
@@ -42,6 +43,8 @@
 
 .ag-theme-sky-data-entry-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-dark-compact {
+  @include ag-grid-extra.ag-grid-extra-dark();
+
   border-top: sky-ag-grid-variables.$sky-standard-border;
 
   .ag-popup {
