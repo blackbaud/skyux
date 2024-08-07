@@ -50,7 +50,7 @@ export { SkyIllustrationComponent as λ16 } from './lib/modules/illustration/ill
 /**
  * @deprecated Use `@skyux/help-inline` instead.
  */
-export { SkyHelpInlineModule, λ1 as λ17 } from '@skyux/help-inline';
+export { SkyHelpInlineModule, λ1 as λ3 } from '@skyux/help-inline';
 
 /**
  * @deprecated Use `@skyux/icon` instead.
@@ -60,6 +60,6 @@ export {
   SkyIconModule,
   SkyIconType,
   SkyIconVariantType,
-  λ1 as λ18,
-  λ2 as λ19,
+  λ1 as λ4,
+  λ2 as λ5,
 } from '@skyux/icon';
