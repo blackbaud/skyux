@@ -2,10 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
 import { SkyIdModule, SkyLogService, SkyTrimModule } from '@skyux/core';
+
+import { SkyFileAttachmentLabelService } from './file-attachment-label.service';
 
 /**
  * Displays a label above the file attachment element. To display a help button
@@ -23,9 +27,15 @@ import { SkyIdModule, SkyLogService, SkyTrimModule } from '@skyux/core';
   styleUrl: 'file-attachment-label.component.scss',
   templateUrl: './file-attachment-label.component.html',
 })
-export class SkyFileAttachmentLabelComponent {
-  @ViewChild('labelContentId')
-  public labelContentId: { id: string } | undefined;
+export class SkyFileAttachmentLabelComponent implements OnInit {
+  @ViewChild('labelContentId', { read: ElementRef, static: true })
+  public labelContentRef: ElementRef | undefined;
+
+  readonly #labelSvc = inject(SkyFileAttachmentLabelService, {
+    optional: true,
+    skipSelf: true,
+    host: true,
+  });
 
   constructor() {
     inject(SkyLogService).deprecated('SkyFileAttachmentLabelComponent', {
@@ -34,5 +44,9 @@ export class SkyFileAttachmentLabelComponent {
         'To add a label to single file attachment, use the `labelText` input ' +
         'on the `sky-file-attachment` component instead.',
     });
+  }
+
+  public ngOnInit(): void {
+    this.#labelSvc?.registerLabelComponent(this);
   }
 }

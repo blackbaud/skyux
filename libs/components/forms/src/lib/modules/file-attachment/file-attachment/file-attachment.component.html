@@ -7,27 +7,34 @@
         !labelText && isRequired && hasLabelComponent
     }"
   >
-    <ng-container *ngIf="labelText; else labelContent">
-      <span
-        *ngIf="!labelHidden"
-        class="sky-control-label sky-margin-inline-xs"
-        [ngClass]="{
-          'sky-control-label-required': isRequired
-        }"
-        >{{ labelText }}</span
-      ><sky-help-inline
-        *ngIf="helpPopoverContent || helpKey"
-        [labelText]="labelText"
-        [helpKey]="helpKey"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
-    </ng-container>
-    <span
-      class="sky-screen-reader-only"
-      *ngIf="isRequired && (hasLabelComponent || labelText)"
-      >{{ 'skyux_file_attachment_required' | skyLibResources }}</span
-    >
+    @if (labelText) {
+      @if (!labelHidden) {
+        <span
+          class="sky-control-label sky-margin-inline-xs"
+          [ngClass]="{
+            'sky-control-label-required': isRequired
+          }"
+          >{{ labelText }}</span
+        >
+      }
+
+      @if (helpPopoverContent || helpKey) {
+        <sky-help-inline
+          [labelText]="labelText"
+          [helpKey]="helpKey"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
+    } @else {
+      <ng-content select="sky-file-attachment-label" />
+    }
+
+    @if (isRequired && (hasLabelComponent || labelText)) {
+      <span class="sky-screen-reader-only">{{
+        'skyux_file_attachment_required' | skyLibResources
+      }}</span>
+    }
   </div>
   <div
     class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"
@@ -40,14 +47,6 @@
     (dragleave)="fileDragLeave($event)"
     (drop)="fileDrop($event)"
   >
-    <div
-      aria-hidden="true"
-      class="sky-screen-reader-only"
-      role="tooltip"
-      [attr.id]="fileDropDescriptionElementId"
-    >
-      {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
-    </div>
     <input
       hidden
       tabindex="-1"
@@ -58,14 +57,14 @@
       (change)="fileChangeEvent($event)"
       #fileInput
     />
-    <ng-container *ngIf="showFileAttachmentButton">
+
+    @if (showFileAttachmentButton) {
       <button
-        *ngIf="showFileAttachmentButton"
         class="sky-file-attachment-btn sky-btn sky-btn-default"
         type="button"
         skyId
         [attr.aria-describedby]="
-          (hintText ? hintTextEl.id + ' ' : '') + fileDropDescriptionElementId
+          (hintText ? hintTextRef.id + ' ' : '') + fileDropDescriptionRef.id
         "
         [attr.aria-label]="
           value
@@ -96,25 +95,27 @@
               | skyLibResources)
         }}
       </button>
-    </ng-container>
-    <sky-icon
-      *ngIf="value && !isImage && currentThemeName === 'modern'"
-      class="sky-file-attachment-icon sky-deemphasized"
-      icon="file-o"
-      size="2x"
-    />
-    <span
-      *ngIf="value || currentThemeName === 'default'"
-      class="sky-file-attachment-name"
-    >
-      <a
-        *ngIf="value; else noFile"
-        [attr.title]="fileName"
-        (click)="emitClick()"
-      >
-        {{ truncatedFileName }}
-      </a>
-    </span>
+    }
+
+    @if (value && !isImage && currentThemeName === 'modern') {
+      <sky-icon
+        class="sky-file-attachment-icon sky-deemphasized"
+        icon="file-o"
+        size="2x"
+      />
+    }
+
+    @if (value || currentThemeName === 'default') {
+      <span class="sky-file-attachment-name">
+        <a
+          *ngIf="value; else noFile"
+          [attr.title]="fileName"
+          (click)="emitClick()"
+        >
+          {{ truncatedFileName }}
+        </a>
+      </span>
+    }
     <ng-template #noFile>
       <span class="sky-file-attachment-none sky-deemphasized">
         {{ 'skyux_file_attachment_label_no_file_chosen' | skyLibResources }}
@@ -156,7 +157,7 @@
     [src]="value.url"
   />
 </div>
-<div skyId #hintTextEl="skyId">
+<div skyId #hintTextRef="skyId">
   <div
     *ngIf="hintText"
     class="sky-font-deemphasized sky-file-attachment-hint-text"
@@ -184,24 +185,32 @@
         | skyLibResources: fileErrorParam
     "
   />
-  <sky-form-error
-    *ngIf="fileErrorName === 'maxFileSize'"
-    [errorName]="'maxFileSize'"
-    [errorText]="
-      'skyux_file_attachment_max_file_size_error_label_text'
-        | skyLibResources: (fileErrorParam | skyFileSize)
-    "
-  />
-  <sky-form-error
-    *ngIf="fileErrorName === 'minFileSize'"
-    [errorName]="'minFileSize'"
-    [errorText]="
-      'skyux_file_attachment_min_file_size_error_label_text'
-        | skyLibResources: (fileErrorParam | skyFileSize)
-    "
-  />
+  @if (fileErrorName === 'maxFileSize') {
+    <sky-form-error
+      [errorName]="'maxFileSize'"
+      [errorText]="
+        'skyux_file_attachment_max_file_size_error_label_text'
+          | skyLibResources: (fileErrorParam | skyFileSize)
+      "
+    />
+  }
+  @if (fileErrorName === 'minFileSize') {
+    <sky-form-error
+      [errorName]="'minFileSize'"
+      [errorText]="
+        'skyux_file_attachment_min_file_size_error_label_text'
+          | skyLibResources: (fileErrorParam | skyFileSize)
+      "
+    />
+  }
 </sky-form-errors>
 
-<ng-template #labelContent>
-  <ng-content select="sky-file-attachment-label" />
-</ng-template>
+<span
+  aria-hidden="true"
+  class="sky-screen-reader-only"
+  role="tooltip"
+  skyId
+  #fileDropDescriptionRef
+>
+  {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
+</span>
