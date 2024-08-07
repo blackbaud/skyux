@@ -36,7 +36,7 @@ describe('FormFieldHideWhenMissingLabelDirective', () => {
     ).toBeFalsy();
   });
 
-  it('should hide', async () => {
+  it('should set `display: none;`', async () => {
     TestBed.configureTestingModule({
       imports: [TestComponent],
       providers: [SkyFormFieldLabelTextRequiredService],
