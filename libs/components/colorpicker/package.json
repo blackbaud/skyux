@@ -30,7 +30,6 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "@skyux/icon": "0.0.0-PLACEHOLDER",
     "tslib": "^2.6.3"
   }
 }
