@@ -424,11 +424,8 @@ describe('File drop component', () => {
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
     await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     expect(labelTextSpy).toHaveBeenCalled();
-    expect(fixture.nativeElement).not.toBeVisible();
   });
 
   it('should render the hintText when provided', () => {

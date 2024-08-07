@@ -1869,8 +1869,6 @@ describe('Text editor', () => {
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
     await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
 

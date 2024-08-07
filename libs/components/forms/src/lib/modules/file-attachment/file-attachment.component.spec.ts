@@ -1541,8 +1541,6 @@ describe('File attachment', () => {
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
     await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     expect(labelTextSpy).toHaveBeenCalled();
     expect(fileAttachment).not.toBeVisible();

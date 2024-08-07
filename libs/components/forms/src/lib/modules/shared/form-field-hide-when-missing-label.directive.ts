@@ -1,4 +1,4 @@
-import { Directive, HostBinding, effect, inject, input } from '@angular/core';
+import { Directive, HostBinding, Input, inject } from '@angular/core';
 
 import { SkyFormFieldLabelTextRequiredService } from './form-field-label-text-required.service';
 
@@ -16,15 +16,12 @@ export class SkyFormFieldHideWhenMissingLabelDirective {
   });
 
   @HostBinding('style.display')
-  public display: undefined | 'none' = undefined;
+  public display: 'none' | undefined = undefined;
 
-  public readonly labelText = input<string | null | undefined>();
-
-  constructor() {
-    effect(() => {
-      if (this.#labelTextRequired) {
-        this.display = this.labelText() ? undefined : 'none';
-      }
-    });
+  @Input()
+  public set labelText(value: string | null | undefined) {
+    if (this.#labelTextRequired) {
+      this.display = value ? undefined : 'none';
+    }
   }
 }

@@ -714,8 +714,6 @@ describe('Radio group component (reactive)', function () {
     const validationSpy = spyOn(headingTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
     await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
