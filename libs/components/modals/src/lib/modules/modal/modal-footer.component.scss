@@ -37,10 +37,7 @@
     }
 
     .sky-btn + .sky-btn-link {
-      margin-left: var(
-        --sky-compat-modal-footer-adjacent-btn-btn-link-margin,
-        $sky-margin
-      );
+      margin-left: $sky-margin;
     }
   }
 }

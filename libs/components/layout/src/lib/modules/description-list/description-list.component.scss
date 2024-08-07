@@ -38,8 +38,7 @@
   &.sky-description-list-horizontal-mode {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 0 var(--sky-compat-description-list-margin-bottom, -$sky-space-lg)
-      0;
+    margin: 0 0 -$sky-space-lg 0;
 
     .sky-description-list-content {
       margin: 0 0 $sky-space-lg 0;
