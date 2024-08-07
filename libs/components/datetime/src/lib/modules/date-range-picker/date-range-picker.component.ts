@@ -281,7 +281,7 @@ export class SkyDateRangePickerComponent
 
   @HostBinding('style.display')
   protected get display(): 'none' | undefined {
-    return this.label && this.labelText ? undefined : 'none';
+    return this.label || this.labelText ? undefined : 'none';
   }
 
   protected calculators: SkyDateRangeCalculator[] = [];
