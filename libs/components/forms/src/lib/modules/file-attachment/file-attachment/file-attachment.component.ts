@@ -45,7 +45,7 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
-import { Subject, of } from 'rxjs';
+import { Subject, firstValueFrom, of } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
@@ -76,7 +76,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    NgOptimizedImage,
     SkyFileAttachmentJoinIdsPipe,
     SkyFileSizePipe,
     SkyFormErrorComponent,
@@ -110,13 +109,13 @@ const MIN_FILE_SIZE_DEFAULT = 0;
       @let legacyLabelId = legacyLabelSvc.elementId | async;
 
       <div
+        #labelRef
         class="sky-file-attachment-label-wrapper"
         skyId
         [ngClass]="{
           'sky-control-label-required':
             !labelText && isRequired() && legacyLabelId,
         }"
-        #labelRef
       >
         @if (labelText) {
           @if (!labelHidden) {
@@ -160,6 +159,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
         (drop)="onFileDragDrop($event)"
       >
         <input
+          #inputRef
           hidden
           tabindex="-1"
           type="file"
@@ -183,6 +183,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
                   : (labelText ? labelRef.id : legacyLabelId)
             "
             [disabled]="disabled"
+            (blur)="onBlur()"
             (click)="onFileAttachClick()"
           >
             <sky-icon icon="folder-open-o" />
@@ -207,7 +208,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
         @if (value || !isModernTheme()) {
           <span class="sky-file-attachment-name">
             @if (value) {
-              <a [attr.title]="fileName" (click)="onFileNameClick()">
+              <a [attr.title]="fileName" (click)="onFileNameClick(value)">
                 {{ truncatedFileName }}
               </a>
             } @else {
@@ -232,7 +233,8 @@ const MIN_FILE_SIZE_DEFAULT = 0;
             [skyThemeClass]="{
               'sky-btn-icon-borderless': 'modern',
             }"
-            (click)="onFileRemoveClick()"
+            (blur)="onBlur()"
+            (click)="onFileRemoveClick(value)"
           >
             <sky-icon icon="trash-o" size="md" />
           </button>
@@ -246,7 +248,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
             'skyux_file_attachment_file_upload_image_preview_alt_text'
               | skyLibResources
           "
-          [ngSrc]="value.url"
+          [src]="value.url"
         />
       }
     </div>
@@ -303,19 +305,19 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     }
 
     <div
+      #fileDropDescriptionRef
       aria-hidden="true"
       class="sky-screen-reader-only"
       skyId
-      #fileDropDescriptionRef
     >
       {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
     </div>
 
     <div
+      #attachFileButtonLabelRef
       aria-hidden="true"
       class="sky-screen-reader-only"
       skyId
-      #attachFileButtonLabelRef
     >
       {{
         value
@@ -327,10 +329,10 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     </div>
 
     <div
+      #removeFileButtonLabelRef
       aria-hidden="true"
       class="sky-screen-reader-only"
       skyId
-      #removeFileButtonLabelRef
     >
       {{ 'skyux_file_attachment_file_item_remove' | skyLibResources: fileName }}
     </div>
@@ -348,45 +350,51 @@ export class SkyFileAttachmentComponent
   public acceptedTypes: string | undefined;
 
   /**
-   * A custom error message to display when a file doesn't match the accepted types.
-   * This replaces a default error message that lists all accepted types.
+   * A custom error message to display when a file doesn't match the accepted
+   * types. This replaces a default error message that lists all accepted types.
    */
   @Input()
   public acceptedTypesErrorMessage: string | undefined;
 
   /**
-   * Whether to disable the input on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
-   * To set the disabled state on reactive forms, use the `FormControl` instead.
+   * Whether to disable the input on template-driven forms. Don't use this input
+   * on reactive forms because they may overwrite the input or leave the control
+   * out of sync. To set the disabled state on reactive forms, use the
+   * `FormControl` instead.
    */
   @Input({ transform: booleanAttribute })
   public disabled = false;
 
   /**
-   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
-   * button is placed beside the single file attachment label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * A help key that identifies the global help content to display. When
+   * specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the single file attachment label. Clicking the
+   * button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
    */
   @Input()
   public helpKey: string | undefined;
 
   /**
-   * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
-   * button is added to the single file attachment label. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * The content of the help popover. When specified along with `labelText`, a
+   * [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the single file attachment label. The help inline button
+   * displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
 
   /**
-   * The title of the help popover. This property only applies when `helpPopoverContent` is
-   * also specified.
+   * The title of the help popover. This property only applies when
+   * `helpPopoverContent` is also specified.
    */
   @Input()
   public helpPopoverTitle: string | undefined;
 
   /**
-   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides
-   * additional context to the user.
+   * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help)
+   * that provides additional context to the user.
    */
   @Input()
   public hintText: string | undefined;
@@ -424,8 +432,9 @@ export class SkyFileAttachmentComponent
   public required = false;
 
   /**
-   * Whether the single file attachment is stacked on another form component. When specified,
-   * the appropriate vertical spacing is automatically added to the single file attachment.
+   * Whether the single file attachment is stacked on another form component.
+   * When specified, the appropriate vertical spacing is automatically added to
+   * the single file attachment.
    */
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
@@ -451,6 +460,9 @@ export class SkyFileAttachmentComponent
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
 
+  @ViewChild('inputRef', { static: true })
+  protected inputRef: ElementRef | undefined;
+
   protected fileDragAccepted = false;
   protected fileDragRejected = false;
   protected fileErrorName: SkyFileItemErrorType | undefined;
@@ -467,12 +479,15 @@ export class SkyFileAttachmentComponent
     self: true,
   });
 
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #fileAttachmentSvc = inject(SkyFileAttachmentService);
+  readonly #fileSvc = inject(SkyFileItemService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
   readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
-  #notifyChange: ((_: SkyFileItem) => void) | undefined;
+  #notifyChange: ((_: SkyFileItem | undefined) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
-
-  readonly #changeDetector = inject(ChangeDetectorRef);
 
   constructor() {
     this.isModernTheme = toSignal(
@@ -482,9 +497,11 @@ export class SkyFileAttachmentComponent
     );
   }
 
-  public writeValue(value: unknown): void {}
+  public writeValue(value: SkyFileItem | null | undefined): void {
+    this.#setValue(value);
+  }
 
-  public registerOnChange(fn: (_: SkyFileItem) => void): void {
+  public registerOnChange(fn: (_: SkyFileItem | undefined) => void): void {
     this.#notifyChange = fn;
   }
 
@@ -508,9 +525,17 @@ export class SkyFileAttachmentComponent
     );
   }
 
-  protected onFileAttachClick(): void {}
+  protected onBlur(): void {
+    this.#notifyTouched?.();
+  }
 
-  protected onFileChange(evt: Event): void {}
+  protected onFileAttachClick(): void {
+    this.inputRef?.nativeElement.click();
+  }
+
+  protected onFileChange(evt: Event): void {
+    void this.#handleFiles((evt.target as HTMLInputElement | undefined)?.files);
+  }
 
   protected onFileDragDrop(evt: DragEvent): void {}
 
@@ -520,7 +545,165 @@ export class SkyFileAttachmentComponent
 
   protected onFileDragOver(evt: DragEvent): void {}
 
-  protected onFileNameClick(): void {}
+  protected onFileNameClick(fileItem: SkyFileItem): void {
+    this.#notifyFileClick(fileItem);
+  }
 
-  protected onFileRemoveClick(): void {}
+  protected onFileRemoveClick(fileItem: SkyFileItem): void {
+    const fileName = fileItem.file.name;
+
+    this.value = undefined;
+    this.#notifyFileChange(undefined);
+
+    this.#announceState(
+      'skyux_file_attachment_file_upload_file_removed',
+      fileName,
+    );
+  }
+
+  async #announceState(
+    resourcesKey: string,
+    ...args: unknown[]
+  ): Promise<void> {
+    const value = await firstValueFrom(
+      this.#resourcesSvc.getString(resourcesKey, ...args),
+    );
+
+    this.#liveAnnouncerSvc.announce(value);
+  }
+
+  async #handleFiles(files: FileList | null | undefined): Promise<void> {
+    if (files) {
+      const fileItem = this.#fileAttachmentSvc
+        .checkFiles(
+          files,
+          this.minFileSize,
+          this.maxFileSize,
+          this.acceptedTypes,
+          this.validateFn,
+        )
+        // We only need to handle a single file.
+        .pop();
+
+      if (!fileItem || !fileItem.file) {
+        return;
+      }
+
+      this.isImage = fileItem.file.type.startsWith('image/');
+
+      if (this.isImage && !fileItem.errorType) {
+        try {
+          const dataUrl = await this.#getDataUrl(fileItem.file);
+          fileItem.url = dataUrl;
+        } catch (err) {
+          /* */
+        }
+      }
+
+      const previousFileName = this.value?.file.name;
+
+      if (previousFileName) {
+        void this.#announceState(
+          'skyux_file_attachment_file_upload_file_replaced',
+          previousFileName,
+          fileItem.file.name,
+        );
+      } else {
+        void this.#announceState(
+          'skyux_file_attachment_file_upload_file_added',
+          fileItem.file.name,
+        );
+      }
+
+      this.hostControl?.markAsDirty();
+
+      this.#notifyFileChange(fileItem);
+      this.#setValue(fileItem, true);
+
+      if (this.inputRef?.nativeElement) {
+        this.inputRef.nativeElement.value = '';
+      }
+
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  #getDataUrl(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      const err = new Error(`Failed to load file ${file.name}`);
+
+      reader.onload = (evt): void => {
+        const result = evt.target?.result;
+
+        if (result) {
+          const enc = new TextDecoder('utf-8');
+
+          resolve(typeof result === 'string' ? result : enc.decode(result));
+        }
+      };
+
+      reader.onerror = (): void => {
+        reject(err);
+      };
+
+      reader.onabort = (): void => {
+        reject(err);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  #notifyFileClick(fileItem: SkyFileItem): void {
+    this.fileClick.next({ file: fileItem });
+  }
+
+  /**
+   * @deprecated Better way to do this?
+   */
+  #notifyFileChange(fileItem: SkyFileItem | undefined): void {
+    this.fileChange.next({ file: fileItem });
+  }
+
+  #setFileName(fileItem: SkyFileItem | undefined): void {
+    if (fileItem) {
+      const fileName =
+        this.#fileSvc.isFile(fileItem) && fileItem.file.name
+          ? fileItem.file.name
+          : fileItem.url;
+
+      this.fileName = fileName;
+
+      this.truncatedFileName =
+        fileName.length > 26 ? fileName.slice(0, 26) + '\u2026' : fileName;
+    } else {
+      this.fileName = '';
+      this.truncatedFileName = '';
+    }
+  }
+
+  #setValue(value: SkyFileItem | null | undefined, notifyChange = false): void {
+    if (this.value !== value) {
+      value ??= undefined;
+
+      this.value = value;
+
+      // TODO: Better to assign this in the validate() method?
+      if (value?.errorType) {
+        this.fileErrors = { fileError: true };
+        this.fileErrorName = value.errorType;
+        this.fileErrorParam = value.errorParam;
+      } else {
+        this.fileErrorName = this.fileErrorParam = this.fileErrors = undefined;
+      }
+
+      this.#setFileName(value);
+
+      if (notifyChange) {
+        this.#notifyChange?.(this.value);
+        this.fileChange.next({ file: this.value });
+      }
+    }
+  }
 }
