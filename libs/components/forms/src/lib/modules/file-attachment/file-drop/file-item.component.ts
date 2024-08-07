@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   DoCheck,
@@ -10,17 +11,28 @@ import {
 } from '@angular/core';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 
 import { take } from 'rxjs/operators';
 
-import { SkyFileItem } from './file-item';
-import { SkyFileItemService } from './file-item.service';
+import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
+import { SkyFileItem } from '../shared/file-item';
+import { SkyFileItemService } from '../shared/file-item.service';
+import { SkyFileSizePipe } from '../shared/file-size.pipe';
+
 import { SkyFileLink } from './file-link';
 
 @Component({
+  imports: [
+    CommonModule,
+    SkyFileSizePipe,
+    SkyFormsResourcesModule,
+    SkyIconModule,
+  ],
   selector: 'sky-file-item',
+  standalone: true,
+  styleUrl: './file-item.component.scss',
   templateUrl: './file-item.component.html',
-  styleUrls: ['./file-item.component.scss'],
 })
 export class SkyFileItemComponent implements DoCheck {
   /**

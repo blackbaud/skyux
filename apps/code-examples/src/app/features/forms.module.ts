@@ -38,6 +38,13 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
+    path: 'file-drop/basic',
+    loadComponent: () =>
+      import('../code-examples/forms/file-drop/basic/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
     path: 'input-box/basic',
     loadComponent: () =>
       import('../code-examples/forms/input-box/basic/demo.component').then(
@@ -71,13 +78,6 @@ const routes: Routes = [
       import('../code-examples/forms/selection-box/radio/demo.component').then(
         (c) => c.DemoComponent,
       ),
-  },
-  {
-    path: 'single-file-attachment/basic',
-    loadComponent: () =>
-      import(
-        '../code-examples/forms/single-file-attachment/basic/demo.component'
-      ).then((c) => c.DemoComponent),
   },
   {
     path: 'toggle-switch/basic',

@@ -9,17 +9,19 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
+import { SkyFileItem } from '../shared/file-item';
 
-import { SkyFileAttachmentsModule } from './file-attachments.module';
+import { SkyFileDropChange } from './file-drop-change';
 import { SkyFileDropComponent } from './file-drop.component';
-import { SkyFileItem } from './file-item';
+import { SkyFileDropModule } from './file-drop.module';
 import { SkyFileLink } from './file-link';
-import { SkyFileDropChange } from './types/file-drop-change';
 
 describe('File drop component', () => {
   /** Simple test component with tabIndex */
   @Component({
+    imports: [SkyFileDropModule],
+    standalone: true,
     template: ` <sky-file-drop>
       <div class="sky-custom-drop"></div>
     </sky-file-drop>`,
@@ -35,11 +37,11 @@ describe('File drop component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SkyFileAttachmentsModule,
+        FileDropContentComponent,
+        SkyFileDropModule,
         SkyHelpTestingModule,
         NoopAnimationsModule,
       ],
-      declarations: [FileDropContentComponent],
     });
 
     let uniqueId = 0;
@@ -412,8 +414,7 @@ describe('File drop component', () => {
     TestBed.resetTestingModule();
 
     TestBed.configureTestingModule({
-      imports: [SkyFileAttachmentsModule],
-      declarations: [FileDropContentComponent],
+      imports: [FileDropContentComponent, SkyFileDropModule],
       providers: [SkyFormFieldLabelTextRequiredService],
     });
 

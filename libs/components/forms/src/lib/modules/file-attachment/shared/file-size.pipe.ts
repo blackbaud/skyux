@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { formatNumber } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -7,16 +7,13 @@ import { SkyLibResourcesService } from '@skyux/i18n';
  */
 @Pipe({
   name: 'skyFileSize',
+  standalone: true,
 })
 export class SkyFileSizePipe implements PipeTransform {
-  #decimalPipe: DecimalPipe;
-  #resourcesService: SkyLibResourcesService;
+  readonly #resourcesService: SkyLibResourcesService;
+  readonly #defaultLocale = 'en-US';
 
-  constructor(
-    decimalPipe: DecimalPipe,
-    resourcesService: SkyLibResourcesService,
-  ) {
-    this.#decimalPipe = decimalPipe;
+  constructor(resourcesService: SkyLibResourcesService) {
     this.#resourcesService = resourcesService;
   }
 
@@ -54,15 +51,19 @@ export class SkyFileSizePipe implements PipeTransform {
       Math.floor(input / (dividend / Math.pow(10, decimalPlaces))) /
       Math.pow(10, decimalPlaces);
 
-    const formattedSize = this.#decimalPipe.transform(roundedSize, '.0-3');
+    const formattedSize = formatNumber(
+      roundedSize,
+      this.#defaultLocale,
+      '.0-3',
+    );
 
     return this.#getString(template, formattedSize);
   }
 
-  #getString(key: string, ...args: any[]): string {
+  #getString(key: string, ...args: unknown[]): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
     return this.#resourcesService.getStringForLocale(
-      { locale: 'en-US' },
+      { locale: this.#defaultLocale },
       key,
       ...args,
     );

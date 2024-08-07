@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
+import { SkyFileAttachmentModule } from '../file-attachment.module';
 
 @Component({
+  imports: [CommonModule, SkyFileAttachmentModule],
   selector: 'sky-file-attachment-test',
+  standalone: true,
   template: `
     <sky-file-attachment [disabled]="disabled">
       <sky-file-attachment-label> Field Label </sky-file-attachment-label>

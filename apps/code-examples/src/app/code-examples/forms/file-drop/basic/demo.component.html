@@ -1,0 +1,16 @@
+<sky-file-drop
+  [acceptedTypes]="acceptedTypes"
+  [allowLinks]="true"
+  [hintText]="hintText"
+  [helpPopoverContent]="inlineHelpContent"
+  [labelText]="labelText"
+  [maxFileSize]="maxFileSize"
+  [required]="required"
+  [stacked]="stacked"
+  [validateFn]="validateFile"
+  (filesChanged)="onFilesChanged($event)"
+  (linkChanged)="onLinkChanged($event)"
+/>
+<div *ngFor="let file of allItems">
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+</div>
