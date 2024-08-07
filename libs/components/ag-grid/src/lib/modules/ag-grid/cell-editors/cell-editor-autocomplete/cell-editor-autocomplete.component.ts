@@ -69,7 +69,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
       this.#params.column,
       'header',
     );
-    this.rowNumber = this.#params.rowIndex + 1;
+    this.rowNumber = (this.#params.node?.rowIndex ?? 0) + 1;
     this.skyComponentProperties = this.#params.skyComponentProperties || {};
   }
 

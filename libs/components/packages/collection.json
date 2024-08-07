@@ -6,6 +6,11 @@
       "factory": "./src/schematics/ag-grid-migrate/ag-grid-migrate.schematic",
       "schema": "./src/schematics/ag-grid-migrate/schema.json"
     },
+    "ag-grid-update": {
+      "description": "Run AG Grid update schematic.",
+      "factory": "./src/schematics/migrations/update-11/ag-grid/ag-grid.schematic",
+      "schema": "./src/schematics/migrations/update-11/ag-grid/schema.json"
+    },
     "ng-add": {
       "description": "Add @skyux/packages to your project.",
       "factory": "./src/schematics/ng-add/ng-add.schematic",

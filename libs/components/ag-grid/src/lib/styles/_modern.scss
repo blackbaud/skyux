@@ -1,3 +1,5 @@
+@use 'libs/components/theme/src/lib/styles/variables' as variables;
+
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-dark,
 .ag-theme-sky-data-entry-grid-modern-light,
@@ -46,6 +48,11 @@
       position: relative;
       left: 2px;
     }
+  }
+
+  .ag-tooltip {
+    box-shadow: variables.$sky-theme-modern-elevation-4-shadow-size
+      variables.$sky-theme-modern-elevation-4-shadow-color;
   }
 
   @for $i from 1 through 100 {

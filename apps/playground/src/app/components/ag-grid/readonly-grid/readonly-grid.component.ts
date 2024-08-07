@@ -10,7 +10,6 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  Events,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -140,21 +139,18 @@ export class ReadonlyGridComponent implements OnInit {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
     this.gridApi.resetRowHeights();
-    this.gridApi.addEventListener(
-      Events.EVENT_ROW_SELECTED,
-      (event: RowSelectedEvent) => {
-        const row = event.node;
-        if (row.isSelected()) {
-          this.gridOptions.context.rowDeleteIds = [
-            ...this.gridOptions.context.rowDeleteIds,
-            row.id,
-          ];
-        } else {
-          this.gridOptions.context.rowDeleteIds =
-            this.gridOptions.context.rowDeleteIds.filter((id) => id !== row.id);
-        }
-      },
-    );
+    this.gridApi.addEventListener('rowSelected', (event: RowSelectedEvent) => {
+      const row = event.node;
+      if (row.isSelected()) {
+        this.gridOptions.context.rowDeleteIds = [
+          ...this.gridOptions.context.rowDeleteIds,
+          row.id,
+        ];
+      } else {
+        this.gridOptions.context.rowDeleteIds =
+          this.gridOptions.context.rowDeleteIds.filter((id) => id !== row.id);
+      }
+    });
   }
 
   public onScrollEnd(): void {

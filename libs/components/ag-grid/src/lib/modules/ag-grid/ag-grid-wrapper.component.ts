@@ -22,7 +22,12 @@ import {
 } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
+import {
+  CellEditingStartedEvent,
+  DetailGridInfo,
+  ModuleNames,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
@@ -81,12 +86,17 @@ export class SkyAgGridWrapperComponent
   }
 
   get #isInEditMode(): boolean {
-    /* istanbul ignore else */
     if (this.agGrid && this.agGrid.api) {
       const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
       if (primaryGridEditing) {
         return true;
-      } else {
+      } else if (
+        ModuleRegistry.__isRegistered(
+          ModuleNames.EnterpriseCoreModule,
+          'sky-ag-grid-wrapper',
+        )
+      ) {
+        // AG Grid 32+ throws an error for calling this API without enterprise modules.
         let innerEditing = false;
         this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
           if (detailGrid?.api && detailGrid.api.getEditingCells().length > 0) {
@@ -96,9 +106,8 @@ export class SkyAgGridWrapperComponent
 
         return innerEditing;
       }
-    } else {
-      return false;
     }
+    return false;
   }
 
   #_viewkeeperClasses: string[] = [];

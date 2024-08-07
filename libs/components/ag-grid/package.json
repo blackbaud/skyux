@@ -35,8 +35,8 @@
     "@skyux/lookup": "0.0.0-PLACEHOLDER",
     "@skyux/popovers": "0.0.0-PLACEHOLDER",
     "@skyux/theme": "0.0.0-PLACEHOLDER",
-    "ag-grid-angular": "^31.3.4",
-    "ag-grid-community": "^31.3.4"
+    "ag-grid-angular": "^32.0.2",
+    "ag-grid-community": "^32.0.2"
   },
   "dependencies": {
     "@skyux/icon": "0.0.0-PLACEHOLDER",

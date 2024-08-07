@@ -12,8 +12,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import {
   ICellRendererParams,
   IRowNode,
-  RowNode,
-  RowSelectedEvent,
+  RowNodeSelectedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -59,12 +58,9 @@ export class SkyAgGridCellRendererRowSelectorComponent
   public agInit(params: ICellRendererParams): void {
     this.#setParameters(params);
 
-    this.rowNode?.addEventListener(
-      RowNode.EVENT_ROW_SELECTED,
-      (event: RowSelectedEvent) => {
-        this.#rowSelectedListener(event);
-      },
-    );
+    this.rowNode?.addEventListener('rowSelected', (event) => {
+      this.#rowSelectedListener(event);
+    });
   }
 
   /**
@@ -95,9 +91,9 @@ export class SkyAgGridCellRendererRowSelectorComponent
   #setParameters(params: ICellRendererParams): void {
     this.#params = params;
     this.disabled.next(this.#params?.node?.selectable === false);
-    this.dataField = this.#params.colDef?.field;
+    this.dataField = this.#params?.colDef?.field;
     this.rowNode = this.#params?.node as IRowNode | undefined;
-    this.rowNumber = this.#params.rowIndex + 1;
+    this.rowNumber = (this.#params?.node?.rowIndex ?? 0) + 1;
 
     this.#subscription.unsubscribe();
     this.#subscription = new Subscription();
@@ -141,7 +137,7 @@ export class SkyAgGridCellRendererRowSelectorComponent
     );
   }
 
-  #rowSelectedListener(event: RowSelectedEvent): void {
+  #rowSelectedListener(event: RowNodeSelectedEvent): void {
     this.checked = event.node.isSelected();
 
     if (this.rowNode && this.dataField) {
