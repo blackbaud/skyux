@@ -270,7 +270,7 @@ describe('Toggle switch component', () => {
       expect(label?.textContent).toBe('label element');
     });
 
-    it('should not render if a parent component requires label text and it is not provided', () => {
+    it('should not render if a parent component requires label text and it is not provided', async () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [SkyToggleSwitchFixturesModule],
@@ -284,6 +284,9 @@ describe('Toggle switch component', () => {
       );
       const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(labelTextSpy).toHaveBeenCalled();
       expect(switchEl).not.toBeVisible();

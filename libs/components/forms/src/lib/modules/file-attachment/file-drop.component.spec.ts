@@ -408,7 +408,7 @@ describe('File drop component', () => {
     expect(labelEl).toHaveCssClass('sky-screen-reader-only');
   });
 
-  it('should not render if a parent component requires label text and it is not provided', () => {
+  it('should not render if a parent component requires label text and it is not provided', async () => {
     TestBed.resetTestingModule();
 
     TestBed.configureTestingModule({
@@ -423,6 +423,9 @@ describe('File drop component', () => {
     );
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(labelTextSpy).toHaveBeenCalled();
     expect(fixture.nativeElement).not.toBeVisible();

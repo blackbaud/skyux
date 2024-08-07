@@ -33,6 +33,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
@@ -56,6 +57,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   selector: 'sky-file-attachment',
   templateUrl: './file-attachment.component.html',
   styleUrls: ['./file-attachment.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
@@ -212,11 +219,6 @@ export class SkyFileAttachmentComponent
    */
   @Input()
   public required: boolean | undefined = false;
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
-  }
 
   public set value(value: SkyFileItem | undefined | null) {
     // The null check is needed to address a bug in Angular 4.

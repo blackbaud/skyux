@@ -26,6 +26,7 @@ import {
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
+  SkyFormFieldHideWhenMissingLabelDirective,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxHostService,
   SkyRequiredStateDirective,
@@ -74,6 +75,10 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText'],
+    },
     {
       directive: SkyRequiredStateDirective,
       inputs: ['required'],
@@ -386,11 +391,6 @@ export class SkyTextEditorComponent
   public formControlClass = !!inject(SkyInputBoxHostService, {
     optional: true,
   });
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
-  }
 
   protected editorFocused = false;
 

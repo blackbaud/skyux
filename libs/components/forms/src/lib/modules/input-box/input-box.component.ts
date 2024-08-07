@@ -34,6 +34,7 @@ import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 import { ReplaySubject } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
@@ -48,6 +49,12 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
   selector: 'sky-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [
     SkyContentInfoProvider,
     SkyInputBoxAdapterService,
@@ -203,11 +210,6 @@ export class SkyInputBoxComponent
 
   @HostBinding('class')
   public cssClass = '';
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
-  }
 
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective | undefined;

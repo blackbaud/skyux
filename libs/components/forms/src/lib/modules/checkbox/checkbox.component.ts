@@ -27,6 +27,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyCheckboxChange } from './checkbox-change';
@@ -42,7 +43,13 @@ import { SkyCheckboxChange } from './checkbox-change';
     './checkbox.default.component.scss',
     './checkbox.modern.component.scss',
   ],
-  hostDirectives: [SkyThemeComponentClassDirective],
+  hostDirectives: [
+    SkyThemeComponentClassDirective,
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [
     { provide: NG_VALIDATORS, useExisting: SkyCheckboxComponent, multi: true },
     {
@@ -331,11 +338,6 @@ export class SkyCheckboxComponent
 
   public get inputEl(): ElementRef | undefined {
     return this.#_inputEl;
-  }
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
   }
 
   protected get isCheckboxRequired(): boolean {

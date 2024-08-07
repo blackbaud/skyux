@@ -5,7 +5,6 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -29,6 +28,7 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
@@ -49,6 +49,12 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   selector: 'sky-toggle-switch',
   templateUrl: './toggle-switch.component.html',
   styleUrls: ['./toggle-switch.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [
     SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR,
     SKY_TOGGLE_SWITCH_VALIDATOR,
@@ -174,11 +180,6 @@ export class SkyToggleSwitchComponent
 
   @ContentChildren(SkyToggleSwitchLabelComponent)
   public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
-  }
 
   #control: AbstractControl | undefined;
   #isFirstChange = true;

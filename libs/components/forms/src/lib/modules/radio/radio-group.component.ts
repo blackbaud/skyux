@@ -23,6 +23,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
@@ -47,6 +48,12 @@ function numberAttribute4(value: unknown): number {
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
   styleUrls: ['./radio-group.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText: headingText'],
+    },
+  ],
   providers: [
     SkyRadioGroupIdService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
@@ -274,11 +281,6 @@ export class SkyRadioGroupComponent
 
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#headingTextRequired && !this.headingText ? 'none' : undefined;
-  }
 
   @HostBinding('class.sky-margin-stacked-lg')
   public stackedLg = false;

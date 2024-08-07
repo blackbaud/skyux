@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -19,6 +18,7 @@ import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
+import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
@@ -44,6 +44,12 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   selector: 'sky-radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -326,11 +332,6 @@ export class SkyRadioComponent
    */
   @Output()
   public disabledChange = new EventEmitter<boolean>();
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
-  }
 
   public set selectedValue(value: any) {
     if (value !== this.#_selectedValue) {

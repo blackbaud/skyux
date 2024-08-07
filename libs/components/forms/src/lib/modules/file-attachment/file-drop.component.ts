@@ -19,6 +19,7 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { take } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyFileAttachmentService } from './file-attachment.service';
@@ -44,6 +45,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   selector: 'sky-file-drop',
   templateUrl: './file-drop.component.html',
   styleUrls: ['./file-drop.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
@@ -215,11 +222,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.#labelTextRequired && !this.labelText ? 'none' : undefined;
-  }
 
   public rejectedOver = false;
   public acceptedOver = false;

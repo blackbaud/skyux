@@ -33,6 +33,7 @@ import { SkyLogService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
+  SkyFormFieldHideWhenMissingLabelDirective,
   SkyFormFieldLabelTextRequiredService,
   SkyInputBoxModule,
 } from '@skyux/forms';
@@ -109,6 +110,12 @@ function isPartialValue(
     SkyDatetimeResourcesModule,
     SkyInputBoxModule,
     SkyFormErrorsModule,
+  ],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      inputs: ['labelText: label || labelText'],
+    },
   ],
   providers: [
     {
@@ -278,11 +285,6 @@ export class SkyDateRangePickerComponent
    */
   @Input()
   public helpKey: string | undefined;
-
-  @HostBinding('style.display')
-  protected get display(): 'none' | undefined {
-    return this.label || this.labelText ? undefined : 'none';
-  }
 
   protected calculators: SkyDateRangeCalculator[] = [];
   protected formGroup: FormGroup;

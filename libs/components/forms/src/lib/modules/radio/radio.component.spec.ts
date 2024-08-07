@@ -254,7 +254,7 @@ describe('Radio component', function () {
       expect(radioLabels.item(2).textContent?.trim()).toBe(label3);
     }));
 
-    it('should not render if a parent component requires label text and it is not provided', () => {
+    it('should not render if a parent component requires label text and it is not provided', async () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [SkyRadioFixturesModule],
@@ -268,6 +268,9 @@ describe('Radio component', function () {
       );
       const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(labelTextSpy).toHaveBeenCalled();
       expect(radio).not.toBeVisible();
