@@ -5,7 +5,6 @@ import {
   EventEmitter,
   HostBinding,
   Input,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -28,7 +27,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyCheckboxChange } from './checkbox-change';
 
@@ -60,9 +58,7 @@ import { SkyCheckboxChange } from './checkbox-change';
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
 })
-export class SkyCheckboxComponent
-  implements ControlValueAccessor, OnInit, Validator
-{
+export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   /**
    * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
@@ -371,9 +367,6 @@ export class SkyCheckboxComponent
   #idSvc = inject(SkyIdService);
   #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
 
   protected readonly errorId = this.#idSvc.generateId();
 
@@ -388,10 +381,6 @@ export class SkyCheckboxComponent
 
     this.id = this.#defaultId;
     this.name = this.#defaultId;
-  }
-
-  public ngOnInit(): void {
-    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public validate(control: AbstractControl<boolean>): ValidationErrors | null {

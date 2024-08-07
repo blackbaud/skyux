@@ -34,7 +34,6 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
@@ -285,10 +284,6 @@ export class SkyFileAttachmentComponent
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
-
   protected ngControl: NgControl | undefined;
   protected errorId = this.#idSvc.generateId();
 
@@ -325,8 +320,6 @@ export class SkyFileAttachmentComponent
           this.#updateFileAttachmentButton();
         });
     }
-
-    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngAfterViewInit(): void {

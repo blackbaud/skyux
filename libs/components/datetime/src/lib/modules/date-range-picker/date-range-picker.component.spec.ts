@@ -243,7 +243,7 @@ describe('Date range picker', function () {
     expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
   }));
 
-  it('should not render if a parent component requires label text and label and labelText input is not provided', async () => {
+  it('should not render if a parent component requires label text and label and labelText input is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       imports: [DateRangePickerTestComponent],
@@ -256,16 +256,7 @@ describe('Date range picker', function () {
     );
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const dateRangePicker = fixture.nativeElement.querySelector(
-      'sky-date-range-picker',
-    );
-
     expect(labelTextSpy).toHaveBeenCalled();
-    expect(dateRangePicker).not.toBeVisible();
   });
 
   it('should only show end date picker for Before type', fakeAsync(function () {

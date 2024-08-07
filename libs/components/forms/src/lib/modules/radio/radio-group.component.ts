@@ -7,7 +7,6 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  OnInit,
   Optional,
   QueryList,
   Self,
@@ -24,7 +23,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
@@ -60,7 +58,7 @@ function numberAttribute4(value: unknown): number {
   ],
 })
 export class SkyRadioGroupComponent
-  implements AfterContentInit, AfterViewInit, OnInit, OnDestroy
+  implements AfterContentInit, AfterViewInit, OnDestroy
 {
   /**
    * The HTML element ID of the element that labels
@@ -316,10 +314,6 @@ export class SkyRadioGroupComponent
   readonly #logger = inject(SkyLogService);
   readonly #idService = inject(SkyIdService);
 
-  readonly #headingTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
-
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
 
@@ -393,10 +387,6 @@ export class SkyRadioGroupComponent
         });
       });
     }
-  }
-
-  public ngOnInit(): void {
-    this.#headingTextRequired?.validateLabelText(this.headingText);
   }
 
   public ngOnDestroy(): void {
