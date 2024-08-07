@@ -349,8 +349,10 @@ sky-colorpicker.sky-margin-stacked-lg {
 }
 
 .sky-theme-modern {
-  .sky-control-label {
-    color: $sky-theme-modern-font-data-label-color;
+  .sky-color-picker-label-wrapper {
+    .sky-control-label {
+      color: $sky-theme-modern-font-data-label-color;
+    }
   }
 
   .sky-colorpicker-disabled {
