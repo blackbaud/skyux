@@ -38,7 +38,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
 import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
-import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredDirective } from '../../shared/form-field-label-text-required.directive';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileItemErrorType } from '../shared/file-item-error-type';
@@ -61,6 +61,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText'],
+    },
+  ],
   imports: [
     CommonModule,
     SkyFileSizePipe,
@@ -222,9 +228,6 @@ export class SkyFileAttachmentComponent
   @Input({ transform: booleanAttribute })
   public required = false;
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   public set value(value: SkyFileItem | undefined | null) {
     // The null check is needed to address a bug in Angular 4.
     // writeValue is being called twice, first time with a phantom null value
@@ -295,10 +298,6 @@ export class SkyFileAttachmentComponent
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
-
   protected ngControl: NgControl | undefined;
   protected errorId = this.#idSvc.generateId();
 
@@ -335,11 +334,6 @@ export class SkyFileAttachmentComponent
           this.#updateFileAttachmentButton();
         });
     }
-
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngAfterViewInit(): void {

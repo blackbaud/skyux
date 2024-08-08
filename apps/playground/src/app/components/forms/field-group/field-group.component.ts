@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -9,11 +9,15 @@ import {
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import {
+  SkyCheckboxModule,
   SkyFieldGroupModule,
   SkyInputBoxModule,
   SkyRadioModule,
   SkyToggleSwitchModule,
 } from '@skyux/forms';
+
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 interface Item {
   icon: string;
@@ -26,9 +30,10 @@ interface Item {
   templateUrl: './field-group.component.html',
   standalone: true,
   imports: [
-    CommonModule,
+    AsyncPipe,
     FormsModule,
     ReactiveFormsModule,
+    SkyCheckboxModule,
     SkyFieldGroupModule,
     SkyIdModule,
     SkyInputBoxModule,
@@ -46,6 +51,7 @@ export class FieldGroupComponent {
     { icon: 'list', label: 'List', name: 'list' },
     { icon: 'map-marker', label: 'Map', name: 'map' },
   ];
+  protected lazyName = of('Name').pipe(delay(2200));
 
   constructor() {
     this.formGroup = this.#formBuilder.group({

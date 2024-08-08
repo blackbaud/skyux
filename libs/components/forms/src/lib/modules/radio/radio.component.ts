@@ -3,10 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   Provider,
   TemplateRef,
@@ -19,7 +17,7 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
@@ -44,12 +42,16 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   selector: 'sky-radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyRadioComponent
-  implements OnInit, OnDestroy, ControlValueAccessor
-{
+export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   /**
    * Fires when users focus off a radio button.
    */
@@ -326,9 +328,6 @@ export class SkyRadioComponent
   @Output()
   public disabledChange = new EventEmitter<boolean>();
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   public set selectedValue(value: any) {
     if (value !== this.#_selectedValue) {
       this.#_selectedValue = value;
@@ -357,19 +356,8 @@ export class SkyRadioComponent
   #radioGroupIdSvc = inject(SkyRadioGroupIdService, { optional: true });
   #logger = inject(SkyLogService);
 
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
-
   constructor() {
     this.id = this.#defaultId;
-  }
-
-  public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

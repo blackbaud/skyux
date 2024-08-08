@@ -6,7 +6,6 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -25,7 +24,7 @@ import { take } from 'rxjs/operators';
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
 import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
-import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredDirective } from '../../shared/form-field-label-text-required.directive';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileAttachmentService } from '../file-attachment/file-attachment.service';
 import { SkyFileItem } from '../shared/file-item';
@@ -49,6 +48,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  * on the element that receives drop events to exempt it from the drop exclusion rule.
  */
 @Component({
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText'],
+    },
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -69,7 +74,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   styleUrl: './file-drop.component.scss',
   templateUrl: './file-drop.component.html',
 })
-export class SkyFileDropComponent implements OnInit, OnDestroy {
+export class SkyFileDropComponent implements OnDestroy {
   /**
    * Fires when users add or remove files.
    */
@@ -236,9 +241,6 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput')
   public inputEl: ElementRef | undefined;
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   public rejectedOver = false;
   public acceptedOver = false;
   public linkUrl: string | undefined;
@@ -254,19 +256,8 @@ export class SkyFileDropComponent implements OnInit, OnDestroy {
   readonly #resourcesSvc = inject(SkyLibResourcesService);
   readonly #idSvc = inject(SkyIdService);
 
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
-
   protected errorId = this.#idSvc.generateId();
   protected rejectedFiles: SkyFileItem[] = [];
-
-  public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
-  }
 
   public ngOnDestroy(): void {
     this.filesChanged.complete();
