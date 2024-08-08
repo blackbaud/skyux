@@ -1,3 +1,4 @@
+<!-- eslint-disable-next-line @angular-eslint/template/no-inline-styles -->
 <div style="width: 60%">
   <sky-file-drop
     hintText="Really long hint text that should wrap and be confined to below the file drop element. We set the text to have a small margin below the drop and link controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
@@ -13,10 +14,11 @@
     (filesChanged)="filesUpdated($event)"
     (linkChanged)="linkAdded($event)"
   />
-  <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)">
-    </sky-file-item>
-  </div>
+  @for (file of allItems; track $index) {
+    <div>
+      <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+    </div>
+  }
 </div>
 
 <form [formGroup]="formGroup">
@@ -27,6 +29,7 @@
     labelText="Single file attachment"
     required="true"
     [acceptedTypes]="acceptedTypes"
+    [minFileSize]="minFileSize"
     [maxFileSize]="maxFileSize"
     [validateFn]="validateFile"
     (fileChange)="onFileChange($event)"
