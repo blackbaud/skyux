@@ -5,10 +5,8 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
-  HostBinding,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   QueryList,
   TemplateRef,
@@ -29,7 +27,7 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
@@ -49,6 +47,12 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   selector: 'sky-toggle-switch',
   templateUrl: './toggle-switch.component.html',
   styleUrls: ['./toggle-switch.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [
     SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR,
     SKY_TOGGLE_SWITCH_VALIDATOR,
@@ -56,12 +60,7 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyToggleSwitchComponent
-  implements
-    AfterContentInit,
-    OnInit,
-    OnDestroy,
-    ControlValueAccessor,
-    Validator
+  implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator
 {
   /**
    * The ARIA label for the toggle switch. This sets the `aria-label`
@@ -175,9 +174,6 @@ export class SkyToggleSwitchComponent
   @ContentChildren(SkyToggleSwitchLabelComponent)
   public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   #control: AbstractControl | undefined;
   #isFirstChange = true;
   readonly #logSvc = inject(SkyLogService);
@@ -187,10 +183,6 @@ export class SkyToggleSwitchComponent
   #_checked = false;
 
   #changeDetector: ChangeDetectorRef;
-
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
 
   constructor(changeDetector: ChangeDetectorRef, idService: SkyIdService) {
     this.#changeDetector = changeDetector;
@@ -217,13 +209,6 @@ export class SkyToggleSwitchComponent
     setTimeout(() => {
       this.enableIndicatorAnimation = true;
     });
-  }
-
-  public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngOnDestroy(): void {

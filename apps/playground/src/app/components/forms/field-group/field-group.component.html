@@ -7,39 +7,47 @@
       helpPopoverContent="content"
       helpKey="index.html"
     >
-      <sky-input-box labelText="Name" [stacked]="true">
+      <!-- Should not generate console error. -->
+      <sky-input-box stacked [labelText]="lazyName | async">
         <input type="text" formControlName="name" />
       </sky-input-box>
 
+      <!-- Expect one console error for "All form fields within <sky-field-group> must have `labelText` set on initialization." -->
       <sky-input-box class="sky-margin-stacked-lg">
         <label class="sky-control-label" [for]="hometownInput.id">
           Hometown
         </label>
         <input
+          #hometownInput="skyId"
           class="sky-form-control"
           formControlName="hometown"
           skyId
           type="text"
-          #hometownInput="skyId"
         />
       </sky-input-box>
-      <sky-toggle-switch
-        ariaLabel="Activate annual fundraiser"
-        formControlName="toggle"
-      >
-        <sky-toggle-switch-label> Active </sky-toggle-switch-label>
-      </sky-toggle-switch>
+
+      <sky-checkbox checked="true" labelText="Checked Checkbox" stacked />
+
+      <div class="sky-padding-even-large">
+        <sky-toggle-switch
+          labelText="Activate annual fundraiser"
+          formControlName="toggle"
+        />
+      </div>
       <sky-radio-group
         class="sky-switch-icon-group"
         formControlName="radio"
-        labelText="View"
+        headingText="View"
+        stacked
       >
-        <sky-radio
-          *ngFor="let view of views"
-          [icon]="view.icon"
-          [label]="view.label"
-          [value]="view.name"
-        />
+        @for (view of views; track view) {
+          <sky-radio
+            labelHidden
+            [icon]="view.icon"
+            [labelText]="view.label"
+            [value]="view.name"
+          />
+        }
       </sky-radio-group>
     </sky-field-group>
   </form>
