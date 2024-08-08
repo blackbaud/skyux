@@ -26,11 +26,11 @@
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
+    "@skyux/icon": "0.0.0-PLACEHOLDER",
     "@skyux/lookup": "0.0.0-PLACEHOLDER",
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "@skyux/icon": "0.0.0-PLACEHOLDER",
     "google-libphonenumber": "3.2.37",
     "intl-tel-input": "23.7.0",
     "tslib": "^2.6.3"
