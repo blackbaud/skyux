@@ -5,7 +5,6 @@ import {
   EventEmitter,
   HostBinding,
   Input,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -27,7 +26,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyCheckboxChange } from './checkbox-change';
 
@@ -42,7 +41,13 @@ import { SkyCheckboxChange } from './checkbox-change';
     './checkbox.default.component.scss',
     './checkbox.modern.component.scss',
   ],
-  hostDirectives: [SkyThemeComponentClassDirective],
+  hostDirectives: [
+    SkyThemeComponentClassDirective,
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText'],
+    },
+  ],
   providers: [
     { provide: NG_VALIDATORS, useExisting: SkyCheckboxComponent, multi: true },
     {
@@ -53,9 +58,7 @@ import { SkyCheckboxChange } from './checkbox-change';
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
 })
-export class SkyCheckboxComponent
-  implements ControlValueAccessor, OnInit, Validator
-{
+export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   /**
    * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
@@ -333,9 +336,6 @@ export class SkyCheckboxComponent
     return this.#_inputEl;
   }
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   protected get isCheckboxRequired(): boolean {
     return !!(
       this.required ||
@@ -367,9 +367,6 @@ export class SkyCheckboxComponent
   #idSvc = inject(SkyIdService);
   #defaultId = this.#idSvc.generateId();
   #logger = inject(SkyLogService);
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
 
   protected readonly errorId = this.#idSvc.generateId();
 
@@ -384,14 +381,6 @@ export class SkyCheckboxComponent
 
     this.id = this.#defaultId;
     this.name = this.#defaultId;
-  }
-
-  public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-
-    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public validate(control: AbstractControl<boolean>): ValidationErrors | null {
