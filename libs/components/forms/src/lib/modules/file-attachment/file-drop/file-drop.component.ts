@@ -12,6 +12,7 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SkyIdModule, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
@@ -55,6 +56,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   ],
   imports: [
     CommonModule,
+    FormsModule,
     SkyFileSizePipe,
     SkyFormErrorComponent,
     SkyFormErrorsComponent,
