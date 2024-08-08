@@ -40,10 +40,10 @@ sky-tabset {
 
 .sky-modal-content {
   .sky-tabset-style-tabs {
-    --sky-tabset-margin: 0 (-$sky-space-lg) $sky-space-xl;
+    --sky-tabset-margin: #{0 (-$sky-space-lg) $sky-space-xl};
   }
   .sky-tabset-style-wizard {
-    --sky-tabset-margin: 0 0 $sky-space-xl;
+    --sky-tabset-margin: #{0 0 $sky-space-xl};
   }
 }
 
