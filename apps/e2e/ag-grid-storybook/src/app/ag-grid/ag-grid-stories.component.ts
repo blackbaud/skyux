@@ -18,12 +18,7 @@ import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { FontLoadingService } from '@skyux/storybook';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import {
-  ColDef,
-  GridOptions,
-  RowNode,
-  RowSelectedEvent,
-} from 'ag-grid-community';
+import { ColDef, GridOptions, RowSelectedEvent } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -184,7 +179,7 @@ export class AgGridStoriesComponent
           onGridReady: (params) => {
             if (dataSet.id === 'row-delete') {
               params.api.addEventListener(
-                RowNode.EVENT_ROW_SELECTED,
+                'rowSelected',
                 ($event: RowSelectedEvent) => {
                   if ($event.node.id && $event.node.isSelected()) {
                     this.rowDeleteIds = this.rowDeleteIds.concat([

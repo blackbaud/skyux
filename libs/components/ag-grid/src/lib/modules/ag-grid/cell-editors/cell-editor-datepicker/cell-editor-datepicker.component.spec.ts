@@ -6,7 +6,6 @@ import {
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyDatepickerFixture } from '@skyux/datetime/testing';
 import {
   SkyTheme,
@@ -17,8 +16,8 @@ import {
 } from '@skyux/theme';
 
 import {
-  Beans,
-  Column,
+  AgColumn,
+  BeanCollection,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -114,7 +113,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
-        column: new Column<any>({}, null, 'col', true),
+        column: new AgColumn<any>({}, null, 'col', true),
         node: {
           rowHeight: 37,
         },
@@ -139,7 +138,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
-        column: new Column<any>({}, null, 'col', true),
+        column: new AgColumn<any>({}, null, 'col', true),
         node: {
           rowHeight: 37,
         },
@@ -171,14 +170,14 @@ describe('SkyCellEditorDatepickerComponent', () => {
       'setFocusedCell',
     ]);
     let cellEditorParams: Partial<SkyCellEditorDatepickerParams>;
-    let column: Column;
-    const rowNode = new RowNode({} as Beans);
+    let column: AgColumn;
+    const rowNode = new RowNode({} as BeanCollection);
     const dateString = '01/01/2019';
     const date = new Date(dateString);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -450,14 +449,14 @@ describe('SkyCellEditorDatepickerComponent', () => {
       'getDisplayNameForColumn',
     ]);
     let cellEditorParams: Partial<SkyCellEditorDatepickerParams>;
-    let column: Column;
+    let column: AgColumn;
     const dateString = '01/01/2019';
     const date = new Date(dateString);
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },

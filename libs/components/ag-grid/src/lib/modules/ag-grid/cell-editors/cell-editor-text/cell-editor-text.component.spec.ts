@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
-  Beans,
-  Column,
+  AgColumn,
+  BeanCollection,
   GridApi,
   ICellEditorParams,
   KeyCode,
@@ -63,13 +63,13 @@ describe('SkyCellEditorTextComponent', () => {
       'getDisplayNameForColumn',
     ]);
     let cellEditorParams: Partial<SkyCellEditorTextParams>;
-    let column: Column;
-    const rowNode = new RowNode({} as Beans);
+    let column: AgColumn;
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
     const value = 'testing';
 
     beforeEach(() => {
-      column = new Column(
+      column = new AgColumn(
         {
           colId: 'col',
         },
@@ -257,13 +257,13 @@ describe('SkyCellEditorTextComponent', () => {
 
     describe('afterGuiAttached', () => {
       let cellEditorParams: Partial<SkyCellEditorTextParams>;
-      let column: Column;
-      const rowNode = new RowNode({} as Beans);
+      let column: AgColumn;
+      const rowNode = new RowNode({} as BeanCollection);
       rowNode.rowHeight = 37;
       const value = 'testing';
 
       beforeEach(() => {
-        column = new Column(
+        column = new AgColumn(
           {
             colId: 'col',
           },
@@ -272,7 +272,7 @@ describe('SkyCellEditorTextComponent', () => {
           true,
         );
 
-        const gridApi = new GridApi();
+        const gridApi = {} as GridApi;
 
         gridApi.getDisplayNameForColumn = (): string => {
           return '';

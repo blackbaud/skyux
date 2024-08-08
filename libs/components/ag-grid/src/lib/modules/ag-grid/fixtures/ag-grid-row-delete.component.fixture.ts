@@ -1,11 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import {
-  Events,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-} from 'ag-grid-community';
+import { GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { firstValueFrom, fromEventPattern } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
@@ -120,13 +115,9 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public filterName(): Promise<void> {
     const filterChangedPromise = firstValueFrom(
       fromEventPattern(
+        (handler) => this.gridApi?.addEventListener('filterChanged', handler),
         (handler) =>
-          this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
-        (handler) =>
-          this.gridApi?.removeEventListener(
-            Events.EVENT_FILTER_CHANGED,
-            handler,
-          ),
+          this.gridApi?.removeEventListener('filterChanged', handler),
       ).pipe(
         first(),
         map(() => undefined),
@@ -145,13 +136,9 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public clearFilter(): Promise<void> {
     const filterChangedPromise = firstValueFrom(
       fromEventPattern(
+        (handler) => this.gridApi?.addEventListener('filterChanged', handler),
         (handler) =>
-          this.gridApi?.addEventListener(Events.EVENT_FILTER_CHANGED, handler),
-        (handler) =>
-          this.gridApi?.removeEventListener(
-            Events.EVENT_FILTER_CHANGED,
-            handler,
-          ),
+          this.gridApi?.removeEventListener('filterChanged', handler),
       ).pipe(
         first(),
         map(() => undefined),
@@ -177,10 +164,8 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public sortName(): Promise<void> {
     const sortChangedPromise = firstValueFrom(
       fromEventPattern(
-        (handler) =>
-          this.gridApi?.addEventListener(Events.EVENT_SORT_CHANGED, handler),
-        (handler) =>
-          this.gridApi?.removeEventListener(Events.EVENT_SORT_CHANGED, handler),
+        (handler) => this.gridApi?.addEventListener('sortChanged', handler),
+        (handler) => this.gridApi?.removeEventListener('sortChanged', handler),
       ).pipe(
         first(),
         map(() => undefined),

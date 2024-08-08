@@ -14,7 +14,6 @@ import {
 
 import {
   ColDef,
-  ColumnApi,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -96,7 +95,6 @@ export class DataManagerViewGridComponent implements OnInit {
 
   public dataState = new SkyDataManagerState({});
 
-  public columnApi?: ColumnApi;
   public displayedItems: any[] = [];
   public gridApi?: GridApi;
   public gridInitialized = false;
@@ -242,7 +240,6 @@ export class DataManagerViewGridComponent implements OnInit {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.columnApi = gridReadyEvent.columnApi;
     this.updateData();
     this.changeDetector.markForCheck();
   }

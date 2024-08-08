@@ -1,0 +1,207 @@
+<div class="sky-file-attachment-wrapper">
+  <div
+    class="sky-file-attachment-label-wrapper"
+    [attr.id]="labelElementId"
+    [ngClass]="{
+      'sky-control-label-required':
+        !labelText && isRequired && hasLabelComponent
+    }"
+  >
+    <ng-container *ngIf="labelText; else labelContent">
+      <span
+        *ngIf="!labelHidden"
+        class="sky-control-label sky-margin-inline-xs"
+        [ngClass]="{
+          'sky-control-label-required': isRequired
+        }"
+        >{{ labelText }}</span
+      ><sky-help-inline
+        *ngIf="helpPopoverContent || helpKey"
+        [labelText]="labelText"
+        [helpKey]="helpKey"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+    </ng-container>
+    <span
+      class="sky-screen-reader-only"
+      *ngIf="isRequired && (hasLabelComponent || labelText)"
+      >{{ 'skyux_file_attachment_required' | skyLibResources }}</span
+    >
+  </div>
+  <div
+    class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"
+    [ngClass]="{
+      'sky-file-attachment-accept': acceptedOver,
+      'sky-file-attachment-reject': rejectedOver
+    }"
+    (dragenter)="fileDragEnter($event)"
+    (dragover)="fileDragOver($event)"
+    (dragleave)="fileDragLeave($event)"
+    (drop)="fileDrop($event)"
+  >
+    <div
+      aria-hidden="true"
+      class="sky-screen-reader-only"
+      role="tooltip"
+      [attr.id]="fileDropDescriptionElementId"
+    >
+      {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
+    </div>
+    <input
+      hidden
+      tabindex="-1"
+      type="file"
+      [attr.accept]="acceptedTypes || null"
+      [disabled]="disabled"
+      [required]="isRequired"
+      (change)="fileChangeEvent($event)"
+      #fileInput
+    />
+    <ng-container *ngIf="showFileAttachmentButton">
+      <button
+        *ngIf="showFileAttachmentButton"
+        class="sky-file-attachment-btn sky-btn sky-btn-default"
+        type="button"
+        skyId
+        [attr.aria-describedby]="
+          (hintText ? hintTextEl.id + ' ' : '') + fileDropDescriptionElementId
+        "
+        [attr.aria-label]="
+          value
+            ? ('skyux_file_attachment_button_label_replace_file_label'
+              | skyLibResources: fileName)
+            : ('skyux_file_attachment_button_label_choose_file_label'
+              | skyLibResources)
+        "
+        [attr.aria-labelledby]="
+          attachButton.id +
+          ' ' +
+          (labelText
+            ? labelElementId
+            : hasLabelComponent
+              ? labelComponents?.get(0)?.labelContentId?.id
+              : undefined)
+        "
+        [disabled]="disabled"
+        (click)="onDropClicked()"
+        #attachButton="skyId"
+      >
+        <sky-icon icon="folder-open-o" />
+        {{
+          value
+            ? ('skyux_file_attachment_button_label_replace_file'
+              | skyLibResources)
+            : ('skyux_file_attachment_button_label_choose_file'
+              | skyLibResources)
+        }}
+      </button>
+    </ng-container>
+    <sky-icon
+      *ngIf="value && !isImage && currentThemeName === 'modern'"
+      class="sky-file-attachment-icon sky-deemphasized"
+      icon="file-o"
+      size="2x"
+    />
+    <span
+      *ngIf="value || currentThemeName === 'default'"
+      class="sky-file-attachment-name"
+    >
+      <a
+        *ngIf="value; else noFile"
+        [attr.title]="fileName"
+        (click)="emitClick()"
+      >
+        {{ truncatedFileName }}
+      </a>
+    </span>
+    <ng-template #noFile>
+      <span class="sky-file-attachment-none sky-deemphasized">
+        {{ 'skyux_file_attachment_label_no_file_chosen' | skyLibResources }}
+      </span>
+    </ng-template>
+    <button
+      *ngIf="value"
+      class="sky-btn sky-btn-borderless sky-file-attachment-delete"
+      skyId
+      type="button"
+      [attr.aria-label]="
+        'skyux_file_attachment_file_item_remove' | skyLibResources: fileName
+      "
+      [attr.aria-labelledby]="
+        deleteButton.id +
+        ' ' +
+        (hasLabelComponent
+          ? labelComponents?.get(0)?.labelContentId?.id
+          : undefined)
+      "
+      [disabled]="disabled"
+      [skyThemeClass]="{
+        'sky-btn-icon-borderless': 'modern'
+      }"
+      (click)="deleteFileAttachment()"
+      #deleteButton="skyId"
+    >
+      <sky-icon icon="trash-o" size="md" />
+    </button>
+  </div>
+
+  <img
+    *ngIf="value && isImage"
+    class="sky-file-attachment-preview-img"
+    [alt]="
+      'skyux_file_attachment_file_upload_image_preview_alt_text'
+        | skyLibResources
+    "
+    [src]="value.url"
+  />
+</div>
+<div skyId #hintTextEl="skyId">
+  <div
+    *ngIf="hintText"
+    class="sky-font-deemphasized sky-file-attachment-hint-text"
+  >
+    {{ hintText }}
+  </div>
+</div>
+
+<sky-form-errors
+  *ngIf="labelText && (ngControl?.control?.errors || fileErrorValidation)"
+  [id]="errorId"
+  [errors]="
+    ngControl?.errors !== null ? ngControl?.errors : fileErrorValidation
+  "
+  [labelText]="labelText"
+  [showErrors]="ngControl?.touched || ngControl?.dirty"
+>
+  <ng-content select="sky-form-error" />
+  <sky-form-error
+    *ngIf="fileErrorName === 'fileType'"
+    [errorName]="'fileType'"
+    [errorText]="
+      acceptedTypesErrorMessage ??
+        'skyux_file_attachment_file_type_error_label_text'
+        | skyLibResources: fileErrorParam
+    "
+  />
+  <sky-form-error
+    *ngIf="fileErrorName === 'maxFileSize'"
+    [errorName]="'maxFileSize'"
+    [errorText]="
+      'skyux_file_attachment_max_file_size_error_label_text'
+        | skyLibResources: (fileErrorParam | skyFileSize)
+    "
+  />
+  <sky-form-error
+    *ngIf="fileErrorName === 'minFileSize'"
+    [errorName]="'minFileSize'"
+    [errorText]="
+      'skyux_file_attachment_min_file_size_error_label_text'
+        | skyLibResources: (fileErrorParam | skyFileSize)
+    "
+  />
+</sky-form-errors>
+
+<ng-template #labelContent>
+  <ng-content select="sky-file-attachment-label" />
+</ng-template>

@@ -15,11 +15,7 @@ import {
 } from '@skyux/core';
 
 import { IHeaderGroupAngularComp } from 'ag-grid-angular';
-import {
-  ColumnGroupOpenedEvent,
-  Events,
-  ProvidedColumnGroup,
-} from 'ag-grid-community';
+import { ColumnGroupOpenedEvent, ProvidedColumnGroup } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
@@ -46,9 +42,11 @@ export class SkyAgGridHeaderGroupComponent
   public inlineHelpContainer: ElementRef | undefined;
 
   protected params: SkyAgGridHeaderGroupParams | undefined = undefined;
+  protected isExpandable$: Observable<boolean>;
   protected isExpanded$: Observable<boolean>;
 
   #columnGroup: ProvidedColumnGroup | undefined = undefined;
+  #isExpandableSubject = new BehaviorSubject<boolean>(false);
   #isExpandedSubject = new BehaviorSubject<boolean>(false);
   #subscriptions = new Subscription();
   #viewInitialized = false;
@@ -59,6 +57,7 @@ export class SkyAgGridHeaderGroupComponent
   readonly #environmentInjector = inject(EnvironmentInjector);
 
   constructor() {
+    this.isExpandable$ = this.#isExpandableSubject.asObservable();
     this.isExpanded$ = this.#isExpandedSubject.asObservable();
   }
 
@@ -81,19 +80,14 @@ export class SkyAgGridHeaderGroupComponent
     }
     this.#subscriptions = new Subscription();
     this.#columnGroup = params.columnGroup.getProvidedColumnGroup();
-    if (this.#columnGroup.isExpandable()) {
+    this.#isExpandableSubject.next(this.#columnGroup.isExpandable());
+    if (this.#isExpandableSubject.getValue()) {
       this.#subscriptions.add(
         fromEventPattern<ColumnGroupOpenedEvent>(
           (handler) =>
-            params.api.addEventListener(
-              Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
-            ),
+            params.api.addEventListener('columnGroupOpened', handler),
           (handler) =>
-            params.api.removeEventListener(
-              Events.EVENT_COLUMN_GROUP_OPENED,
-              handler,
-            ),
+            params.api.removeEventListener('columnGroupOpened', handler),
         ).subscribe((event) => {
           if (
             this.#columnGroup &&
