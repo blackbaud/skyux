@@ -42,7 +42,7 @@ export { SkyToggleSwitchChange } from './lib/modules/toggle-switch/types/toggle-
 
 export { SKY_FORM_ERRORS_ENABLED } from './lib/modules/form-error/form-errors-enabled-token';
 
-export { SkyFormFieldHideWhenMissingLabelDirective } from './lib/modules/shared/form-field-hide-when-missing-label.directive';
+export { SkyFormFieldLabelTextRequiredDirective } from './lib/modules/shared/form-field-label-text-required.directive';
 export { SkyFormFieldLabelTextRequiredService } from './lib/modules/shared/form-field-label-text-required.service';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.

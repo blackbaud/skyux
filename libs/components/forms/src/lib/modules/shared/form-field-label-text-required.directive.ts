@@ -14,10 +14,10 @@ import { SkyFormFieldLabelTextRequiredService } from './form-field-label-text-re
  * @internal
  */
 @Directive({
-  selector: '[skyFormFieldHideWhenMissingLabel]',
+  selector: '[skyFormFieldLabelTextRequired]',
   standalone: true,
 })
-export class SkyFormFieldHideWhenMissingLabelDirective implements OnInit {
+export class SkyFormFieldLabelTextRequiredDirective implements OnInit {
   @Input()
   public labelText: string | null | undefined;
 

@@ -25,7 +25,7 @@ import {
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
-  SkyFormFieldHideWhenMissingLabelDirective,
+  SkyFormFieldLabelTextRequiredDirective,
   SkyInputBoxHostService,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
@@ -74,7 +74,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
   ],
   hostDirectives: [
     {
-      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      directive: SkyFormFieldLabelTextRequiredDirective,
       inputs: ['labelText'],
     },
     {

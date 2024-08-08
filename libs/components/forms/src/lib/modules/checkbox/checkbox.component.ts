@@ -26,7 +26,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
+import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyCheckboxChange } from './checkbox-change';
 
@@ -44,7 +44,7 @@ import { SkyCheckboxChange } from './checkbox-change';
   hostDirectives: [
     SkyThemeComponentClassDirective,
     {
-      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      directive: SkyFormFieldLabelTextRequiredDirective,
       inputs: ['labelText'],
     },
   ],

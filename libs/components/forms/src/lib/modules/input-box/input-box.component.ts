@@ -34,7 +34,7 @@ import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 import { ReplaySubject } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
+import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -50,7 +50,7 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
   styleUrls: ['./input-box.component.scss'],
   hostDirectives: [
     {
-      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      directive: SkyFormFieldLabelTextRequiredDirective,
       inputs: ['labelText'],
     },
   ],

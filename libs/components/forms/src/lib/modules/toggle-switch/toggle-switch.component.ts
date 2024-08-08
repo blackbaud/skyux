@@ -27,7 +27,7 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormFieldHideWhenMissingLabelDirective } from '../shared/form-field-hide-when-missing-label.directive';
+import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
@@ -49,7 +49,7 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   styleUrls: ['./toggle-switch.component.scss'],
   hostDirectives: [
     {
-      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      directive: SkyFormFieldLabelTextRequiredDirective,
       inputs: ['labelText'],
     },
   ],

@@ -32,7 +32,7 @@ import { SkyLogService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
-  SkyFormFieldHideWhenMissingLabelDirective,
+  SkyFormFieldLabelTextRequiredDirective,
   SkyInputBoxModule,
 } from '@skyux/forms';
 
@@ -111,7 +111,7 @@ function isPartialValue(
   ],
   hostDirectives: [
     {
-      directive: SkyFormFieldHideWhenMissingLabelDirective,
+      directive: SkyFormFieldLabelTextRequiredDirective,
       inputs: ['labelText: label || labelText'],
     },
   ],
