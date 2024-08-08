@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
@@ -119,8 +119,15 @@ export class SkyPhoneFieldInputDirective
       .subscribe(() => {
         const value = this.#adapterSvc?.getInputValue(this.#elRef);
         this.#setValue(value);
-        this.#notifyChange?.(this.#getValue());
-        this.#notifyTouched?.();
+        this.#control?.updateValueAndValidity();
+      });
+
+    this.#phoneFieldComponent.countrySearchForm
+      .get('countrySearch')
+      ?.valueChanges.pipe(takeUntil(this.#ngUnsubscribe), take(1))
+      .subscribe(() => {
+        this.#control?.markAsDirty();
+        this.#control?.markAsTouched();
       });
   }
 

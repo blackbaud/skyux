@@ -165,6 +165,8 @@ describe('PhoneField fixture', () => {
   });
 
   it('should use newly selected country', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
     fixture.componentInstance.selectedCountryChange.calls.reset();
 
     if (COUNTRY_AU.name) {
