@@ -9,7 +9,6 @@ import {
   Injector,
   Input,
   OnDestroy,
-  OnInit,
   TemplateRef,
   booleanAttribute,
   inject,
@@ -33,7 +32,7 @@ import { SkyLogService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
-  SkyFormFieldLabelTextRequiredService,
+  SkyFormFieldLabelTextRequiredDirective,
   SkyInputBoxModule,
 } from '@skyux/forms';
 
@@ -110,6 +109,12 @@ function isPartialValue(
     SkyInputBoxModule,
     SkyFormErrorsModule,
   ],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText: label || labelText'],
+    },
+  ],
   providers: [
     {
       provide: NG_VALIDATORS,
@@ -129,13 +134,7 @@ function isPartialValue(
   templateUrl: './date-range-picker.component.html',
 })
 export class SkyDateRangePickerComponent
-  implements
-    AfterViewInit,
-    ControlValueAccessor,
-    DoCheck,
-    OnDestroy,
-    OnInit,
-    Validator
+  implements AfterViewInit, ControlValueAccessor, DoCheck, OnDestroy, Validator
 {
   /**
    * IDs for the date range options to include in the picker's dropdown.
@@ -279,9 +278,6 @@ export class SkyDateRangePickerComponent
   @Input()
   public helpKey: string | undefined;
 
-  @HostBinding('style.display')
-  protected display: string | undefined;
-
   protected calculators: SkyDateRangeCalculator[] = [];
   protected formGroup: FormGroup;
   protected hasErrors = false;
@@ -314,12 +310,6 @@ export class SkyDateRangePickerComponent
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dateRangeSvc = inject(SkyDateRangeService);
   readonly #injector = inject(Injector);
-  readonly #labelTextRequiredSvc = inject(
-    SkyFormFieldLabelTextRequiredService,
-    {
-      optional: true,
-    },
-  );
   readonly #logger = inject(SkyLogService);
 
   constructor() {
@@ -334,18 +324,6 @@ export class SkyDateRangePickerComponent
       startDate: new FormControl<DateValue>(initialValue.startDate),
       endDate: new FormControl<DateValue>(initialValue.endDate),
     });
-  }
-
-  public ngOnInit(): void {
-    if (this.#labelTextRequiredSvc) {
-      this.#labelTextRequiredSvc.validateLabelText(
-        this.labelText || this.label,
-      );
-
-      if (!this.label && !this.labelText) {
-        this.display = 'none';
-      }
-    }
   }
 
   public ngAfterViewInit(): void {

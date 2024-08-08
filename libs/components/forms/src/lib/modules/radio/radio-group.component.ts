@@ -7,7 +7,6 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  OnInit,
   Optional,
   QueryList,
   Self,
@@ -23,7 +22,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
@@ -47,13 +46,19 @@ function numberAttribute4(value: unknown): number {
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
   styleUrls: ['./radio-group.component.scss'],
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText: headingText'],
+    },
+  ],
   providers: [
     SkyRadioGroupIdService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
 })
 export class SkyRadioGroupComponent
-  implements AfterContentInit, AfterViewInit, OnInit, OnDestroy
+  implements AfterContentInit, AfterViewInit, OnDestroy
 {
   /**
    * The HTML element ID of the element that labels
@@ -275,9 +280,6 @@ export class SkyRadioGroupComponent
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   @HostBinding('class.sky-margin-stacked-lg')
   public stackedLg = false;
 
@@ -311,10 +313,6 @@ export class SkyRadioGroupComponent
 
   readonly #logger = inject(SkyLogService);
   readonly #idService = inject(SkyIdService);
-
-  readonly #headingTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
 
   protected errorId = this.#idService.generateId();
   protected ngControl: NgControl | undefined;
@@ -389,13 +387,6 @@ export class SkyRadioGroupComponent
         });
       });
     }
-  }
-
-  public ngOnInit(): void {
-    if (this.#headingTextRequired && !this.headingText) {
-      this.display = 'none';
-    }
-    this.#headingTextRequired?.validateLabelText(this.headingText);
   }
 
   public ngOnDestroy(): void {
