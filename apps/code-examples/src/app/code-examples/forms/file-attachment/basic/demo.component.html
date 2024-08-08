@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" class="sky-padding-even-lg">
+<form class="sky-padding-even-lg" [formGroup]="formGroup">
   <sky-file-attachment
     acceptedTypes="application/pdf,image/jpeg,image/png,image/gif"
     formControlName="attachment"
@@ -7,11 +7,10 @@
     labelText="Birth certificate"
     [helpPopoverContent]="inlineHelpPopover"
     [maxFileSize]="maxFileSize"
-    [validateFn]="validateFile"
     (fileChange)="onFileChange($event)"
     (fileClick)="onFileClick($event)"
   >
-    @if (customValidationError === 'invalidStartingLetter') {
+    @if (attachmentControl.errors?.['invalidStartingLetter']) {
       <sky-form-error
         errorName="invalidStartingLetter"
         errorText="You may not upload a file that begins with the letter 'a'."

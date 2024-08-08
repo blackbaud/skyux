@@ -21,7 +21,12 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { NgControl, ValidationErrors, Validators } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NgControl,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import {
   SkyIdModule,
   SkyIdService,
@@ -88,7 +93,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   templateUrl: './file-attachment.component.html',
 })
 export class SkyFileAttachmentComponent
-  implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
+  implements
+    AfterViewInit,
+    AfterContentInit,
+    ControlValueAccessor,
+    OnInit,
+    OnDestroy
 {
   /**
    * The comma-delimited string literal of MIME types that users can attach.
@@ -191,12 +201,14 @@ export class SkyFileAttachmentComponent
   /**
    * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
+   * @deprecated Add a custom Angular `Validator` function to the `FormControl` instead.
    */
   @Input()
   public validateFn: SkyFileValidateFn | undefined;
 
   /**
    * Fires when users add or remove files.
+   * @deprecated Subscribe to the form control's `valueChanges` event instead.
    */
   @Output()
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
@@ -637,3 +649,9 @@ export class SkyFileAttachmentComponent
     return;
   };
 }
+
+/**
+ * TODO:
+ * - pipe for aria-describedby, aria-label, aria-labelledby
+ * - use number attribute transform
+ */
