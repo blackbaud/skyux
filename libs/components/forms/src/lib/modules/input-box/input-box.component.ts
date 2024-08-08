@@ -339,7 +339,7 @@ export class SkyInputBoxComponent
   }
 
   #controlHasErrors(control: AbstractControlDirective | undefined): boolean {
-    return !!(control && control.invalid && (control.dirty || control.touched));
+    return !!(control && control.invalid && control.touched);
   }
 
   #updateInputRef(): void {
