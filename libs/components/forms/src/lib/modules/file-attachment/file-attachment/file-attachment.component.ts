@@ -51,6 +51,7 @@ import { map, take, takeUntil } from 'rxjs/operators';
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
 import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
+import { SkyFormFieldLabelTextRequiredDirective } from '../../shared/form-field-label-text-required.directive';
 import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileItem } from '../shared/file-item';
@@ -74,6 +75,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText'],
+    },
+  ],
   imports: [
     CommonModule,
     SkyFileAttachmentJoinIdsPipe,
@@ -104,239 +111,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   selector: 'sky-file-attachment',
   standalone: true,
   styleUrl: './file-attachment.component.scss',
-  template: `
-    <div class="sky-file-attachment-wrapper">
-      @let legacyLabelId = legacyLabelSvc.elementId | async;
-
-      <div
-        #labelRef
-        class="sky-file-attachment-label-wrapper"
-        skyId
-        [ngClass]="{
-          'sky-control-label-required':
-            !labelText && isRequired() && legacyLabelId,
-        }"
-      >
-        @if (labelText) {
-          @if (!labelHidden) {
-            <span
-              class="sky-control-label sky-margin-inline-xs"
-              [ngClass]="{
-                'sky-control-label-required': isRequired(),
-              }"
-              >{{ labelText }}</span
-            >
-          }
-
-          @if (helpPopoverContent || helpKey) {
-            <sky-help-inline
-              [helpKey]="helpKey"
-              [labelText]="labelText"
-              [popoverContent]="helpPopoverContent"
-              [popoverTitle]="helpPopoverTitle"
-            />
-          }
-        } @else {
-          <ng-content select="sky-file-attachment-label" />
-        }
-
-        @if (isRequired() && (legacyLabelId || labelText)) {
-          <span class="sky-screen-reader-only">{{
-            'skyux_file_attachment_required' | skyLibResources
-          }}</span>
-        }
-      </div>
-
-      <div
-        class="sky-file-attachment-upload sky-file-attachment sky-file-attachment-target"
-        [ngClass]="{
-          'sky-file-attachment-accept': fileDragAccepted,
-          'sky-file-attachment-reject': fileDragRejected,
-        }"
-        (dragenter)="onFileDragEnter($event)"
-        (dragleave)="onFileDragLeave($event)"
-        (dragover)="onFileDragOver($event)"
-        (drop)="onFileDragDrop($event)"
-      >
-        <input
-          #inputRef
-          hidden
-          tabindex="-1"
-          type="file"
-          [attr.accept]="acceptedTypes || null"
-          [disabled]="disabled"
-          [required]="isRequired()"
-          (change)="onFileChange($event)"
-        />
-
-        @if (!(value && isModernTheme())) {
-          <button
-            class="sky-file-attachment-btn sky-btn sky-btn-default"
-            type="button"
-            [attr.aria-describedby]="
-              (hintText ? hintTextRef.id : null)
-                | skyFileAttachmentJoinIds: fileDropDescriptionRef.id
-            "
-            [attr.aria-labelledby]="
-              attachFileButtonLabelRef.id
-                | skyFileAttachmentJoinIds
-                  : (labelText ? labelRef.id : legacyLabelId)
-            "
-            [disabled]="disabled"
-            (blur)="onBlur()"
-            (click)="onFileAttachClick()"
-          >
-            <sky-icon icon="folder-open-o" />
-            {{
-              value
-                ? ('skyux_file_attachment_button_label_replace_file'
-                  | skyLibResources)
-                : ('skyux_file_attachment_button_label_choose_file'
-                  | skyLibResources)
-            }}
-          </button>
-        }
-
-        @if (value && !isImage && isModernTheme()) {
-          <sky-icon
-            class="sky-file-attachment-icon sky-deemphasized"
-            icon="file-o"
-            size="2x"
-          />
-        }
-
-        @if (value || !isModernTheme()) {
-          <span class="sky-file-attachment-name">
-            @if (value) {
-              <a [attr.title]="fileName" (click)="onFileNameClick(value)">
-                {{ truncatedFileName }}
-              </a>
-            } @else {
-              <span class="sky-file-attachment-none sky-deemphasized">
-                {{
-                  'skyux_file_attachment_label_no_file_chosen' | skyLibResources
-                }}
-              </span>
-            }
-          </span>
-        }
-
-        @if (value) {
-          <button
-            class="sky-btn sky-btn-borderless sky-file-attachment-delete"
-            type="button"
-            [attr.aria-labelledby]="
-              removeFileButtonLabelRef.id
-                | skyFileAttachmentJoinIds: legacyLabelId
-            "
-            [disabled]="disabled"
-            [skyThemeClass]="{
-              'sky-btn-icon-borderless': 'modern',
-            }"
-            (blur)="onBlur()"
-            (click)="onFileRemoveClick(value)"
-          >
-            <sky-icon icon="trash-o" size="md" />
-          </button>
-        }
-      </div>
-
-      @if (value && isImage) {
-        <img
-          class="sky-file-attachment-preview-img"
-          [alt]="
-            'skyux_file_attachment_file_upload_image_preview_alt_text'
-              | skyLibResources
-          "
-          [src]="value.url"
-        />
-      }
-    </div>
-
-    <div skyId #hintTextRef>
-      @if (hintText) {
-        <div class="sky-font-deemphasized sky-file-attachment-hint-text">
-          {{ hintText }}
-        </div>
-      }
-    </div>
-
-    @if (labelText && (hostControl?.errors || fileErrors)) {
-      <sky-form-errors
-        [errors]="
-          hostControl?.errors !== null ? hostControl?.errors : fileErrors
-        "
-        [labelText]="labelText"
-        [showErrors]="hostControl?.touched || hostControl?.dirty"
-      >
-        <ng-content select="sky-form-error" />
-
-        @if (fileErrorName === 'fileType') {
-          <sky-form-error
-            errorName="fileType"
-            [errorText]="
-              acceptedTypesErrorMessage ??
-                'skyux_file_attachment_file_type_error_label_text'
-                | skyLibResources: fileErrorParam
-            "
-          />
-        }
-
-        @if (fileErrorName === 'maxFileSize') {
-          <sky-form-error
-            errorName="maxFileSize"
-            [errorText]="
-              'skyux_file_attachment_max_file_size_error_label_text'
-                | skyLibResources: (fileErrorParam | skyFileSize)
-            "
-          />
-        }
-
-        @if (fileErrorName === 'minFileSize') {
-          <sky-form-error
-            errorName="minFileSize"
-            [errorText]="
-              'skyux_file_attachment_min_file_size_error_label_text'
-                | skyLibResources: (fileErrorParam | skyFileSize)
-            "
-          />
-        }
-      </sky-form-errors>
-    }
-
-    <div
-      #fileDropDescriptionRef
-      aria-hidden="true"
-      class="sky-screen-reader-only"
-      skyId
-    >
-      {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
-    </div>
-
-    <div
-      #attachFileButtonLabelRef
-      aria-hidden="true"
-      class="sky-screen-reader-only"
-      skyId
-    >
-      {{
-        value
-          ? ('skyux_file_attachment_button_label_replace_file_label'
-            | skyLibResources: fileName)
-          : ('skyux_file_attachment_button_label_choose_file_label'
-            | skyLibResources)
-      }}
-    </div>
-
-    <div
-      #removeFileButtonLabelRef
-      aria-hidden="true"
-      class="sky-screen-reader-only"
-      skyId
-    >
-      {{ 'skyux_file_attachment_file_item_remove' | skyLibResources: fileName }}
-    </div>
-  `,
+  templateUrl: './file-attachment.component.html',
 })
 export class SkyFileAttachmentComponent
   implements ControlValueAccessor, Validator
