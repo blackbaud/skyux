@@ -56,10 +56,9 @@
   <ng-content />
 </fieldset>
 <sky-form-errors
-  *ngIf="headingText && ngControl?.errors"
   [id]="errorId"
   [errors]="ngControl?.errors"
-  [labelText]="'skyux_radio_group_required_label_text' | skyLibResources"
+  [labelText]="headingText"
   [showErrors]="ngControl?.touched || ngControl?.dirty"
 >
   <ng-content select="sky-form-error" />

@@ -226,9 +226,7 @@ describe('Checkbox harness', () => {
       dataSkyId: 'my-email-checkbox',
     });
 
-    await expectAsync(checkboxHarness.hasRequiredError()).toBeRejectedWithError(
-      'No form errors found.',
-    );
+    await expectAsync(checkboxHarness.hasRequiredError()).toBeResolvedTo(false);
   });
 
   it('should throw an error if no help inline is found', async () => {

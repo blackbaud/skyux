@@ -702,7 +702,9 @@ describe('Date range picker', function () {
     });
     detectChanges();
 
-    expect(fixture.nativeElement.querySelector('sky-form-error')).toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe(undefined);
 
     component.labelText = 'Date range picker';
     detectChanges();
