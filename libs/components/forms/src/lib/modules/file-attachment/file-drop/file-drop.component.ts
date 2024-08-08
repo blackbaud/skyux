@@ -65,7 +65,10 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyIconModule,
     SkyIdModule,
   ],
-  providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
+  providers: [
+    SkyFileAttachmentService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+  ],
   selector: 'sky-file-drop',
   standalone: true,
   styleUrl: './file-drop.component.scss',
