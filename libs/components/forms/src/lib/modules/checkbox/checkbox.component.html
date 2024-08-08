@@ -92,10 +92,9 @@
 </span>
 <sky-form-errors
   class="sky-checkbox-form-margin"
-  *ngIf="labelText"
   [id]="errorId"
   [errors]="control?.errors"
-  [labelText]="'skyux_checkbox_required_label_text' | skyLibResources"
+  [labelText]="labelText"
   [showErrors]="control?.touched || control?.dirty"
 >
   <ng-content select="sky-form-error" />

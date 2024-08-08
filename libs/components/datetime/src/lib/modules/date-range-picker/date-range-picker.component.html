@@ -39,7 +39,7 @@
         </option>
       </select>
     </sky-input-box>
-    <sky-form-errors *ngIf="labelText" [labelText]="labelText">
+    <sky-form-errors [labelText]="labelText">
       <sky-form-error
         *ngIf="
           hostControl?.errors?.['skyDateRange']?.errors.endDateBeforeStartDate
