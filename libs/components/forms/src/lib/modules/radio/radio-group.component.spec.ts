@@ -698,7 +698,7 @@ describe('Radio group component (reactive)', function () {
     expect(hintEl?.textContent.trim()).toBe(hintText);
   });
 
-  it('should not render if a parent component requires label text and it is not provided', async () => {
+  it('should not render if a parent component requires label text and it is not provided', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       imports: [SkyRadioFixturesModule],
@@ -713,7 +713,6 @@ describe('Radio group component (reactive)', function () {
     );
     const validationSpy = spyOn(headingTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
-    await fixture.whenStable();
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 

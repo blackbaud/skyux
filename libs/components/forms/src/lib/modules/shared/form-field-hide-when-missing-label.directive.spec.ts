@@ -23,30 +23,30 @@ class TestComponent {
 }
 
 describe('FormFieldHideWhenMissingLabelDirective', () => {
-  it('should do nothing', async () => {
+  it('should do nothing', () => {
     TestBed.configureTestingModule({
       imports: [TestComponent],
     });
+
     const fixture = TestBed.createComponent(TestComponent);
     fixture.componentRef.setInput('labelText', 'test');
     fixture.detectChanges();
-    await fixture.whenStable();
+
     expect(
       (fixture.nativeElement as HTMLElement).getAttribute('style'),
     ).toBeFalsy();
   });
 
-  it('should set `display: none;`', async () => {
+  it('should set `display: none;`', () => {
     TestBed.configureTestingModule({
       imports: [TestComponent],
       providers: [SkyFormFieldLabelTextRequiredService],
     });
+
     const fixture = TestBed.createComponent(TestComponent);
     fixture.componentRef.setInput('labelText', undefined);
     fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
+
     expect(
       (fixture.nativeElement as HTMLElement).getAttribute('style'),
     ).toEqual('display: none;');

@@ -1,4 +1,11 @@
-import { Directive, HostBinding, Input, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  HostBinding,
+  Input,
+  OnInit,
+  inject,
+} from '@angular/core';
 
 import { SkyFormFieldLabelTextRequiredService } from './form-field-label-text-required.service';
 
@@ -11,24 +18,28 @@ import { SkyFormFieldLabelTextRequiredService } from './form-field-label-text-re
   standalone: true,
 })
 export class SkyFormFieldHideWhenMissingLabelDirective implements OnInit {
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
+  @Input()
+  public labelText: string | null | undefined;
 
   @HostBinding('style.display')
-  public display: 'none' | undefined = undefined;
+  public display: 'none' | undefined;
 
-  @Input()
-  public set labelText(value: string | null | undefined) {
-    this.#labelText = value;
-    if (this.#labelTextRequired) {
-      this.display = value ? undefined : 'none';
-    }
-  }
-
-  #labelText: string | null | undefined;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #labelTextRequiredSvc = inject(
+    SkyFormFieldLabelTextRequiredService,
+    {
+      optional: true,
+    },
+  );
 
   public ngOnInit(): void {
-    this.#labelTextRequired?.validateLabelText(this.#labelText);
+    if (this.#labelTextRequiredSvc) {
+      if (this.labelText === undefined) {
+        this.display = 'none';
+        this.#changeDetector.markForCheck();
+      }
+
+      this.#labelTextRequiredSvc.validateLabelText(this.labelText);
+    }
   }
 }

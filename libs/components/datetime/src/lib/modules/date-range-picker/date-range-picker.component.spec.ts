@@ -256,7 +256,13 @@ describe('Date range picker', function () {
     );
     const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
     fixture.detectChanges();
+
+    const dateRangePicker = fixture.nativeElement.querySelector(
+      'sky-date-range-picker',
+    );
+
     expect(labelTextSpy).toHaveBeenCalled();
+    expect(dateRangePicker).not.toBeVisible();
   });
 
   it('should only show end date picker for Before type', fakeAsync(function () {

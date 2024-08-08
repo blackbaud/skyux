@@ -495,7 +495,7 @@ describe('Checkbox component', () => {
       expect(label?.textContent?.trim()).toBe(labelText);
     });
 
-    it('should not render if a parent component requires label text and it is not provided', async () => {
+    it('should not render if a parent component requires label text and it is not provided', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         declarations: [SingleCheckboxComponent],
@@ -510,7 +510,6 @@ describe('Checkbox component', () => {
       );
       const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
       fixture.detectChanges();
-      await fixture.whenStable();
 
       expect(labelTextSpy).toHaveBeenCalled();
       expect(checkbox).not.toBeVisible();

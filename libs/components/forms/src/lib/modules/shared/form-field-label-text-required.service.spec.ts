@@ -13,10 +13,11 @@ describe('SkyFormFieldLabelTextRequiredService', () => {
         { provide: SKY_LOG_LEVEL, useValue: SkyLogLevel.Error },
       ],
     });
+
     labelTextRequiredSvc = TestBed.inject(SkyFormFieldLabelTextRequiredService);
   });
 
-  it('should throw an error if labelText is undefined', () => {
+  it('should log an error if labelText is undefined', () => {
     const consoleErrorSpy = spyOn(console, 'error');
 
     labelTextRequiredSvc.validateLabelText(undefined);
@@ -26,7 +27,7 @@ describe('SkyFormFieldLabelTextRequiredService', () => {
     );
   });
 
-  it('should not throw an error if labelText is null, such as an unresolved async pipe', () => {
+  it('should not log an error if labelText is null, such as an unresolved async pipe', () => {
     const consoleErrorSpy = spyOn(console, 'error');
 
     labelTextRequiredSvc.validateLabelText(null);
