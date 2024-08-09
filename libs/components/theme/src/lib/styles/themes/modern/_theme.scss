@@ -43,36 +43,18 @@
 
   h4,
   .sky-font-heading-4 {
-    color: var(
-      --sky-compat-theme-modern-heading-4-font-color,
-      var(--sky-text-color-default)
-    );
+    color: var(--sky-text-color-default);
     font-size: $sky-theme-modern-font-heading-4-size;
-    font-weight: var(
-      --sky-compat-theme-modern-heading-4-font-weight,
-      var(--sky-theme-modern-font-heading-4-weight)
-    );
-    text-transform: var(
-      --sky-compat-theme-modern-heading-4-text-transform,
-      none
-    );
+    font-weight: var(--sky-theme-modern-font-heading-4-weight);
+    text-transform: none;
   }
 
   h5,
   .sky-font-heading-5 {
-    color: var(
-      --sky-compat-theme-modern-heading-5-font-color,
-      var(--sky-text-color-default)
-    );
+    color: var(--sky-text-color-default);
     font-size: $sky-theme-modern-font-heading-5-size;
-    font-weight: var(
-      --sky-compat-theme-modern-heading-5-font-weight,
-      var(--sky-theme-modern-font-heading-5-weight)
-    );
-    text-transform: var(
-      --sky-compat-theme-modern-heading-5-text-transform,
-      none
-    );
+    font-weight: var(--sky-theme-modern-font-heading-5-weight);
+    text-transform: none;
   }
 
   p {
