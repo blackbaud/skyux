@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -36,6 +36,10 @@ function getInputDebugEl(fixture: ComponentFixture<any>): DebugElement {
 
 function getButtonEl(el: HTMLElement): HTMLElement | null {
   return el.querySelector('.sky-file-attachment-btn');
+}
+
+function getDeleteButtonEl(el: HTMLElement): HTMLButtonElement | null {
+  return el.querySelector('.sky-file-attachment-delete');
 }
 
 describe('File attachment', () => {
@@ -68,6 +72,10 @@ describe('File attachment', () => {
         },
       ],
     });
+
+    spyOn(TestBed.inject(SkyIdService), 'generateId').and.returnValue(
+      'MOCK_ID',
+    );
 
     liveAnnouncerSpy = spyOn(
       TestBed.inject(SkyLiveAnnouncerService),
@@ -501,17 +509,17 @@ describe('File attachment', () => {
 
     const inputEl = getInputDebugEl(fixture);
 
-    spyOn(inputEl.references['fileInput'], 'click');
+    spyOn(inputEl.references['fileInputRef'], 'click');
 
     const dropEl = getButtonEl(el);
 
-    expect(inputEl.references['fileInput'].click).not.toHaveBeenCalled();
+    expect(inputEl.references['fileInputRef'].click).not.toHaveBeenCalled();
 
     dropEl?.click();
 
     fixture.detectChanges();
 
-    expect(inputEl.references['fileInput'].click).toHaveBeenCalled();
+    expect(inputEl.references['fileInputRef'].click).toHaveBeenCalled();
   });
 
   it('should not click the file input on remove button click', () => {
@@ -519,7 +527,7 @@ describe('File attachment', () => {
 
     const inputEl = getInputDebugEl(fixture);
 
-    spyOn(inputEl.references['fileInput'], 'click');
+    spyOn(inputEl.references['fileInputRef'], 'click');
 
     const file = [
       {
@@ -533,13 +541,13 @@ describe('File attachment', () => {
 
     const deleteEl = getDeleteEl();
 
-    expect(inputEl.references['fileInput'].click).not.toHaveBeenCalled();
+    expect(inputEl.references['fileInputRef'].click).not.toHaveBeenCalled();
 
     deleteEl?.click();
 
     fixture.detectChanges();
 
-    expect(inputEl.references['fileInput'].click).not.toHaveBeenCalled();
+    expect(inputEl.references['fileInputRef'].click).not.toHaveBeenCalled();
   });
 
   // Maybe some other tests here about dragging
@@ -1413,6 +1421,61 @@ describe('File attachment', () => {
     fixture.componentInstance.labelText = 'Attach file';
     fixture.componentInstance.labelElementText = undefined;
     fixture.detectChanges();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should set ARIA attributes', async () => {
+    const componentInstance = fixture.componentInstance;
+
+    fixture.detectChanges();
+
+    componentInstance.fileForm.setValue({
+      attachment: {
+        file: {
+          name: 'my-file.png',
+          type: 'image/png',
+          size: 1000,
+        },
+        url: '$/myFile',
+      },
+    });
+
+    // w/ legacy label component
+    componentInstance.labelText = undefined;
+    componentInstance.showLabel = true;
+    fixture.detectChanges();
+
+    const btn = getButtonEl(fixture.nativeElement);
+    const deleteBtn = getDeleteButtonEl(fixture.nativeElement);
+
+    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID');
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID MOCK_ID');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual(
+      'MOCK_ID MOCK_ID',
+    );
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+
+    // w/ label text
+    componentInstance.labelText = 'Sample label';
+    componentInstance.showLabel = false;
+    fixture.detectChanges();
+
+    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID');
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID MOCK_ID');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID');
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+
+    // w/o label text or legacy label component
+    componentInstance.labelText = undefined;
+    componentInstance.showLabel = false;
+    fixture.detectChanges();
+
+    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID');
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID');
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
