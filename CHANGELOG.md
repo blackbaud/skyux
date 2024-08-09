@@ -1,5 +1,14 @@
 # Changelog
 
+## [10.41.2](https://github.com/blackbaud/skyux/compare/10.41.1...10.41.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* **components/colorpicker:** match label text to easy mode label styling ([#2591](https://github.com/blackbaud/skyux/issues/2591)) ([6abe29c](https://github.com/blackbaud/skyux/commit/6abe29cbe423d7a276adfa69093725150b88ef36))
+* **components/forms:** fix field group `labelText` inputs to work with async pipe ([#2590](https://github.com/blackbaud/skyux/issues/2590)) ([43cd58b](https://github.com/blackbaud/skyux/commit/43cd58bd22231f139d6bb5c609b0f757fedb841a))
+* **components/pages:** use CSP_NONCE when creating style elements ([#2599](https://github.com/blackbaud/skyux/issues/2599)) ([cb8e620](https://github.com/blackbaud/skyux/commit/cb8e62082934f2fd352ac9709f15f4068637657b))
+
 ## [10.41.1](https://github.com/blackbaud/skyux/compare/10.41.0...10.41.1) (2024-08-02)
 
 
