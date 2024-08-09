@@ -641,8 +641,3 @@ export class SkyFileAttachmentComponent
     return;
   };
 }
-
-/**
- * TODO:
- * - pipe for aria-describedby, aria-label, aria-labelledby
- */
