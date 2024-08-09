@@ -40,7 +40,6 @@ describe('Form errors component', () => {
   it('should render known input errors when they are passed, a labelText is present, and showErrors is true', () => {
     componentInstance.errors = {
       required: true,
-      maxlength: true,
       minlength: true,
       skyDate: { invalid: true, minDate: true, maxDate: true },
       skyFuzzyDate: {
@@ -59,7 +58,6 @@ describe('Form errors component', () => {
 
     [
       'required',
-      'maxlength',
       'minlength',
       'invalidDate',
       'minDate',

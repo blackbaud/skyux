@@ -345,6 +345,13 @@ describe('Input box component', () => {
     fixture.detectChanges();
 
     validateInvalid('when dirty and untouched', inputBoxEl, false);
+
+    control.markAsTouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid('when dirty and touched', inputBoxEl, true);
   }
 
   function validateLabelAccessibilityLabel(
