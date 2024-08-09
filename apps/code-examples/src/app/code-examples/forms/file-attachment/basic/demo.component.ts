@@ -11,7 +11,6 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  SkyFileAttachmentChange,
   SkyFileAttachmentClick,
   SkyFileAttachmentModule,
   SkyFileItem,
@@ -42,7 +41,7 @@ function customValidator(
   ],
 })
 export class DemoComponent {
-  protected attachmentControl: FormControl<SkyFileItem | null | undefined>;
+  protected attachment: FormControl<SkyFileItem | null | undefined>;
 
   protected formGroup: FormGroup<{
     attachment: FormControl<SkyFileItem | null | undefined>;
@@ -51,16 +50,14 @@ export class DemoComponent {
   protected maxFileSize = 4000000;
 
   constructor() {
-    this.attachmentControl = new FormControl(undefined, {
+    this.attachment = new FormControl(undefined, {
       validators: [Validators.required, customValidator],
     });
 
     this.formGroup = inject(FormBuilder).group({
-      attachment: this.attachmentControl,
+      attachment: this.attachment,
     });
   }
-
-  protected onFileChange(result: SkyFileAttachmentChange): void {}
 
   protected onFileClick($event: SkyFileAttachmentClick): void {
     // Ensure we are only attempting to navigate to locally updated data for download.

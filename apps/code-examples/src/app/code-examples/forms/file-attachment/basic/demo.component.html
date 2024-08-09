@@ -1,16 +1,15 @@
-<form class="sky-padding-even-lg" [formGroup]="formGroup">
+<form [formGroup]="formGroup">
   <sky-file-attachment
     acceptedTypes="application/pdf,image/jpeg,image/png,image/gif"
     formControlName="attachment"
     helpPopoverTitle="Requirements"
     hintText="Attach a .pdf, .gif, .png, or .jpeg file."
     labelText="Birth certificate"
-    [helpPopoverContent]="inlineHelpPopover"
+    [helpPopoverContent]="helpInlinePopoverRef"
     [maxFileSize]="maxFileSize"
-    (fileChange)="onFileChange($event)"
     (fileClick)="onFileClick($event)"
   >
-    @if (attachmentControl.errors?.['invalidStartingLetter']) {
+    @if (attachment.errors?.['invalidStartingLetter']) {
       <sky-form-error
         errorName="invalidStartingLetter"
         errorText="You may not upload a file that begins with the letter 'a'."
@@ -19,7 +18,7 @@
   </sky-file-attachment>
 </form>
 
-<ng-template #inlineHelpPopover>
+<ng-template #helpInlinePopoverRef>
   Make sure the birth certificate includes:
   <ul>
     <li>Full name of child</li>
