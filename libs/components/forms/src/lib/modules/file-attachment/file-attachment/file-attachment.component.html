@@ -25,8 +25,8 @@
       />
     </ng-container>
     <span
-      *ngIf="isRequired && (hasLabelComponent || labelText)"
       class="sky-screen-reader-only"
+      *ngIf="isRequired && (hasLabelComponent || labelText)"
       >{{ 'skyux_file_attachment_required' | skyLibResources }}</span
     >
   </div>
@@ -63,23 +63,14 @@
     <ng-container *ngIf="showFileAttachmentButton">
       <button
         *ngIf="showFileAttachmentButton"
-        #attachButtonRef="skyId"
         class="sky-file-attachment-btn sky-btn sky-btn-default"
         type="button"
-        skyId
         [attr.aria-describedby]="
           hintText && hintTextEl.id
             | skyFileAttachmentJoinIds: fileDropDescriptionRef.id
         "
-        [attr.aria-label]="
-          value
-            ? ('skyux_file_attachment_button_label_replace_file_label'
-              | skyLibResources: fileName)
-            : ('skyux_file_attachment_button_label_choose_file_label'
-              | skyLibResources)
-        "
         [attr.aria-labelledby]="
-          attachButtonRef.id
+          attachButtonLabelRef.id
             | skyFileAttachmentJoinIds
               : (labelText
                   ? labelRef.id
@@ -123,15 +114,10 @@
     </ng-template>
     <button
       *ngIf="value"
-      #deleteButtonRef="skyId"
       class="sky-btn sky-btn-borderless sky-file-attachment-delete"
-      skyId
       type="button"
-      [attr.aria-label]="
-        'skyux_file_attachment_file_item_remove' | skyLibResources: fileName
-      "
       [attr.aria-labelledby]="
-        deleteButtonRef.id
+        deleteButtonLabelRef.id
           | skyFileAttachmentJoinIds
             : labelComponents?.get(0)?.labelContentId?.id
       "
@@ -204,3 +190,17 @@
 <ng-template #labelContent>
   <ng-content select="sky-file-attachment-label" />
 </ng-template>
+
+<span #attachButtonLabelRef="skyId" skyId>
+  {{
+    value
+      ? ('skyux_file_attachment_button_label_replace_file_label'
+        | skyLibResources: fileName)
+      : ('skyux_file_attachment_button_label_choose_file_label'
+        | skyLibResources)
+  }}
+</span>
+
+<span #deleteButtonLabelRef="skyId" skyId>
+  {{ 'skyux_file_attachment_file_item_remove' | skyLibResources: fileName }}
+</span>

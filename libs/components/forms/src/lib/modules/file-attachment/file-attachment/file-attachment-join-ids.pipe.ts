@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 /**
- * Joins an array of IDs with a "space" character
+ * Joins an array of IDs with a single space.
  * @internal
  */
 @Pipe({

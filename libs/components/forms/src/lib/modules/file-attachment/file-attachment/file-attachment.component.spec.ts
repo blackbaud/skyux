@@ -73,9 +73,10 @@ describe('File attachment', () => {
       ],
     });
 
-    spyOn(TestBed.inject(SkyIdService), 'generateId').and.returnValue(
-      'MOCK_ID',
-    );
+    let idIndex = 0;
+    spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(() => {
+      return `MOCK_ID_${idIndex++}`;
+    });
 
     liveAnnouncerSpy = spyOn(
       TestBed.inject(SkyLiveAnnouncerService),
@@ -1449,10 +1450,10 @@ describe('File attachment', () => {
     const btn = getButtonEl(fixture.nativeElement);
     const deleteBtn = getDeleteButtonEl(fixture.nativeElement);
 
-    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID');
-    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID MOCK_ID');
+    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5 MOCK_ID_7');
     expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual(
-      'MOCK_ID MOCK_ID',
+      'MOCK_ID_6 MOCK_ID_7',
     );
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -1462,9 +1463,9 @@ describe('File attachment', () => {
     componentInstance.showLabel = false;
     fixture.detectChanges();
 
-    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID');
-    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID MOCK_ID');
-    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID');
+    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5 MOCK_ID_2');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_6');
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
 
@@ -1473,9 +1474,9 @@ describe('File attachment', () => {
     componentInstance.showLabel = false;
     fixture.detectChanges();
 
-    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID');
-    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID');
-    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID');
+    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_6');
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
