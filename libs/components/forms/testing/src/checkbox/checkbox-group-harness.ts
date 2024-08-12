@@ -186,7 +186,6 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
       }),
     )();
 
-    // Defer making a breaking change to this harness by throwing an error if no errors are found.
     const errors = await errorsHarness.getFormErrors();
 
     if (errors.length) {
