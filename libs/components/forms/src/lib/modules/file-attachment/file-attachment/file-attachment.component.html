@@ -191,7 +191,12 @@
   <ng-content select="sky-file-attachment-label" />
 </ng-template>
 
-<span #attachButtonLabelRef="skyId" skyId>
+<span
+  #attachButtonLabelRef="skyId"
+  aria-hidden="true"
+  class="sky-screen-reader-only"
+  skyId
+>
   {{
     value
       ? ('skyux_file_attachment_button_label_replace_file_label'
@@ -201,6 +206,11 @@
   }}
 </span>
 
-<span #deleteButtonLabelRef="skyId" skyId>
+<span
+  #deleteButtonLabelRef="skyId"
+  aria-hidden="true"
+  class="sky-screen-reader-only"
+  skyId
+>
   {{ 'skyux_file_attachment_file_item_remove' | skyLibResources: fileName }}
 </span>
