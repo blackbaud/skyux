@@ -92,7 +92,7 @@
   {{ hintText }}
 </div>
 <sky-form-errors
-  *ngIf="labelText && ngControl?.errors"
+  class="sky-text-editor-errors"
   [id]="errorId"
   [errors]="ngControl.errors"
   [labelText]="labelText"

@@ -1,15 +1,10 @@
-@if (labelText && showErrors) {
-  <ng-container>
-    @if (errors) {
-      <ng-container>
-        @if (errors['required']) {
-          <sky-form-error
-            errorName="required"
-            [errorText]="
-              'skyux_form_error_required' | skyLibResources: labelText
-            "
-          />
-        }
+<div *ngIf="labelText && showErrors">
+  <ng-container *ngIf="errors">
+    <sky-form-error
+      *ngIf="errors['required']"
+      errorName="required"
+      [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
+    />
 
         @if (errors['minlength']; as minLengthError) {
           <sky-form-error
@@ -120,4 +115,5 @@
     }
     <ng-content />
   </ng-container>
-}
+  <ng-content />
+</div>
