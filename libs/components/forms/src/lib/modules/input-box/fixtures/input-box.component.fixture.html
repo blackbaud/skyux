@@ -242,6 +242,14 @@
   </form>
 </div>
 
+<form [formGroup]="errorForm">
+  <div class="easy-mode-max-length-error">
+    <sky-input-box labelText="Easy mode input" stacked="true">
+      <input formControlName="easyModeForm" />
+    </sky-input-box>
+  </div>
+</form>
+
 <div class="input-box-ngmodel-error">
   <sky-input-box class="sky-margin-stacked-lg">
     <label class="sky-control-label" [for]="errorNgModelInput.id">

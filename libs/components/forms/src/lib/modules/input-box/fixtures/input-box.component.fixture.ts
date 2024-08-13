@@ -57,6 +57,8 @@ export class InputBoxFixtureComponent {
 
   public errorNgModelValue: string | undefined;
 
+  public easyModeForm: UntypedFormControl;
+
   public easyModeValue: string | undefined;
 
   public easyModeCharacterLimit: number | undefined = 10;
@@ -85,6 +87,7 @@ export class InputBoxFixtureComponent {
 
   constructor() {
     this.errorField = new UntypedFormControl('', [Validators.required]);
+    this.easyModeForm = new UntypedFormControl('', []);
 
     this.errorStatusIndicatorField = new UntypedFormControl('', [
       Validators.required,
@@ -92,10 +95,15 @@ export class InputBoxFixtureComponent {
 
     this.errorForm = new UntypedFormGroup({
       errorFormField: new UntypedFormControl('', [Validators.required]),
+      easyModeForm: this.easyModeForm,
     });
   }
 
   public removeErrorFormRequiredValidator(): void {
     this.errorField.removeValidators(Validators.required);
+  }
+
+  public addMaxLengthValidator(): void {
+    this.easyModeForm.addValidators(Validators.maxLength(1));
   }
 }

@@ -337,7 +337,7 @@ describe('Input box component', () => {
 
     fixture.detectChanges();
 
-    validateInvalid('when pristine and touched', inputBoxEl, true);
+    validateInvalid('when pristine and touched', inputBoxEl, false);
 
     control.markAsUntouched();
     control.markAsDirty();
@@ -345,6 +345,33 @@ describe('Input box component', () => {
     fixture.detectChanges();
 
     validateInvalid('when dirty and untouched', inputBoxEl, false);
+
+    control.markAsTouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid('when dirty and touched', inputBoxEl, true);
+
+    control.setErrors({
+      maxlength: {
+        invalid: true,
+      },
+    });
+
+    control.markAsPristine();
+    control.markAsTouched();
+
+    fixture.detectChanges();
+
+    validateInvalid('when pristine and touched', inputBoxEl, true);
+
+    control.markAsUntouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid('when dirty and untouched', inputBoxEl, true);
 
     control.markAsTouched();
     control.markAsDirty();
@@ -603,6 +630,24 @@ describe('Input box component', () => {
       const errorEl = inputBoxEl?.querySelector('.sky-error-indicator');
 
       expect(errorEl).toBeVisible();
+    });
+
+    it('should render the max length form error on touched', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.componentInstance.addMaxLengthValidator();
+
+      fixture.componentInstance.easyModeForm.setValue('123');
+      fixture.componentInstance.easyModeForm.markAsTouched();
+      fixture.detectChanges();
+
+      const el = fixture.nativeElement.querySelector(
+        '.easy-mode-max-length-error',
+      ) as HTMLElement;
+
+      expect(
+        el.querySelector<HTMLElement>('span.sky-status-indicator-message')
+          ?.innerText,
+      ).toBe('Limit Easy mode input to 1 character(s).');
     });
 
     it('should allow a child to place template items inside the input box programmatically', () => {
