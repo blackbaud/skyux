@@ -7,14 +7,27 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import {
-  SkyFileAttachmentChange,
   SkyFileAttachmentClick,
   SkyFileAttachmentModule,
   SkyFileItem,
 } from '@skyux/forms';
+
+/**
+ * Demonstrates how to create a custom validator function for your form control.
+ */
+function customValidator(
+  control: AbstractControl<SkyFileItem | null | undefined>,
+): ValidationErrors | null {
+  const fileItem = control.value;
+
+  return fileItem?.file?.name.startsWith('a')
+    ? { invalidStartingLetter: true }
+    : null;
+}
 
 @Component({
   standalone: true,
@@ -28,36 +41,22 @@ import {
   ],
 })
 export class DemoComponent {
-  protected attachment: FormControl;
-  protected customValidationError: string | undefined;
-  protected formGroup: FormGroup;
+  protected attachment: FormControl<SkyFileItem | null | undefined>;
+
+  protected formGroup: FormGroup<{
+    attachment: FormControl<SkyFileItem | null | undefined>;
+  }>;
+
   protected maxFileSize = 4000000;
 
-  get #reactiveFile(): AbstractControl | null {
-    return this.formGroup.get('attachment');
-  }
-
   constructor() {
-    this.attachment = new FormControl(undefined, Validators.required);
+    this.attachment = new FormControl(undefined, {
+      validators: [Validators.required, customValidator],
+    });
+
     this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
-  }
-
-  protected onFileChange(result: SkyFileAttachmentChange): void {
-    const file = result.file;
-
-    if (file?.errorType) {
-      this.#reactiveFile?.setValue(undefined);
-    } else {
-      this.#reactiveFile?.setValue(file);
-    }
-
-    if (file && file.errorType === 'validate') {
-      this.customValidationError = file.errorParam;
-    } else {
-      this.customValidationError = undefined;
-    }
   }
 
   protected onFileClick($event: SkyFileAttachmentClick): void {
@@ -68,9 +67,5 @@ export class DemoComponent {
       link.href = $event.file.url;
       link.click();
     }
-  }
-
-  protected validateFile(file: SkyFileItem): string {
-    return file.file.name.startsWith('a') ? 'invalidStartingLetter' : '';
   }
 }
