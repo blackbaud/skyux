@@ -210,13 +210,5 @@
   "skyux_input_box_help_inline_aria_label": {
     "_description": "The accessible label for an input box help inline button",
     "message": "Show help content for {0}"
-  },
-  "skyux_checkbox_required_label_text": {
-    "_description": "The label text portion of the required validation message for checkboxes",
-    "message": "This selection"
-  },
-  "skyux_radio_group_required_label_text": {
-    "_description": "The label text portion of the required validation message for radio groups",
-    "message": "This selection"
   }
 }
