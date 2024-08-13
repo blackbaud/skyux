@@ -1,5 +1,28 @@
 # Changelog
 
+## [11.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.8...11.0.0-alpha.9) (2024-08-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** added support for [AG Grid 32](https://blog.ag-grid.com/whats-new-in-ag-grid-32/)
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 32 ([#2573](https://github.com/blackbaud/skyux/issues/2573)) ([62139b9](https://github.com/blackbaud/skyux/commit/62139b92b0f8241b21bfb13e4b61192859b61567))
+* **components/forms:** deprecate `SkyFileAttachmentsModule`; create `SkyFileAttachmentModule` and `SkyFileDropModule` ([#2585](https://github.com/blackbaud/skyux/issues/2585)) ([1d57a2f](https://github.com/blackbaud/skyux/commit/1d57a2f18b81cf0f376b51eec36c6357d883bd3e))
+* **components/packages:** update schematic for AG Grid 32 ([#2579](https://github.com/blackbaud/skyux/issues/2579)) ([04241e8](https://github.com/blackbaud/skyux/commit/04241e8ca5ef58a14e6742a5e45883b0a9da0958))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** match label text to easy mode label styling ([#2591](https://github.com/blackbaud/skyux/issues/2591)) ([#2594](https://github.com/blackbaud/skyux/issues/2594)) ([a8835f2](https://github.com/blackbaud/skyux/commit/a8835f2d3d488d05af21f4e386169be6fe5ab401))
+* **components/forms:** fix field group `labelText` inputs to work with async pipe ([#2590](https://github.com/blackbaud/skyux/issues/2590)) ([#2600](https://github.com/blackbaud/skyux/issues/2600)) ([c02aeea](https://github.com/blackbaud/skyux/commit/c02aeea7f5f41246df62150af8187d5378a82494))
+* **components/icon:** icon package is a peer dependency when used in other packages ([#2597](https://github.com/blackbaud/skyux/issues/2597)) ([a54fcdc](https://github.com/blackbaud/skyux/commit/a54fcdc6007d382f8dd214883e8aaa76c3183e86))
+* **components/indicators:** add exports from `icon` and `help-inline` ([#2592](https://github.com/blackbaud/skyux/issues/2592)) ([f533ca2](https://github.com/blackbaud/skyux/commit/f533ca22824757d027f885a0348635a73d7a9e47))
+* **components/pages:** use CSP_NONCE when creating style elements ([#2599](https://github.com/blackbaud/skyux/issues/2599)) ([#2601](https://github.com/blackbaud/skyux/issues/2601)) ([777e09c](https://github.com/blackbaud/skyux/commit/777e09c828d02c51301821253b83cf4fa2c6e077))
+* **components/router:** fix `SkyHrefHarness` to find elements when `skyHref` is bound to a template variable ([#2580](https://github.com/blackbaud/skyux/issues/2580)) ([#2581](https://github.com/blackbaud/skyux/issues/2581)) ([c41d75f](https://github.com/blackbaud/skyux/commit/c41d75f6eee21ce3d672fd27a2fb4ad173c2bc22))
+
 ## [10.41.2](https://github.com/blackbaud/skyux/compare/10.41.1...10.41.2) (2024-08-08)
 
 
