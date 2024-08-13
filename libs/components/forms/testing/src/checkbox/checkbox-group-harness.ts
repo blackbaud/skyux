@@ -180,14 +180,16 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   }
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    const harness = await this.locatorForOptional(
+    const errorsHarness = await this.locatorFor(
       SkyFormErrorsHarness.with({
         dataSkyId: 'checkbox-group-form-errors',
       }),
     )();
 
-    if (harness) {
-      return harness;
+    const errors = await errorsHarness.getFormErrors();
+
+    if (errors.length) {
+      return errorsHarness;
     }
 
     throw Error('No form errors found.');
