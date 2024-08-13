@@ -135,8 +135,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_input_box_help_inline_aria_label: {
       message: 'Show help content for {0}',
     },
-    skyux_checkbox_required_label_text: { message: 'This selection' },
-    skyux_radio_group_required_label_text: { message: 'This selection' },
   },
 };
 

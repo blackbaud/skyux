@@ -1,4 +1,4 @@
-<ng-container *ngIf="labelText && showErrors">
+<div *ngIf="labelText && showErrors">
   <ng-container *ngIf="errors">
     <sky-form-error
       *ngIf="errors['required']"
@@ -101,4 +101,4 @@
     />
   </ng-container>
   <ng-content />
-</ng-container>
+</div>

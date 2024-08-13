@@ -2087,7 +2087,9 @@ describe('Text editor', () => {
       validateIframeDocumentAttribute('aria-invalid', 'true');
       validateIframeDocumentAttribute(
         'aria-errormessage',
-        fixture.nativeElement.querySelector('sky-form-errors').id,
+        fixture.nativeElement.querySelector(
+          'sky-form-errors.sky-text-editor-errors',
+        ).id,
       );
     }));
 

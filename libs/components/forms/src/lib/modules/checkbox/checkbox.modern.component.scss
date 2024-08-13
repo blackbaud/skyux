@@ -34,6 +34,7 @@
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-form-margin') {
+  display: block;
   margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
 }
 
