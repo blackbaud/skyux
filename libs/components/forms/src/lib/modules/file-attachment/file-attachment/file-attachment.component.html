@@ -1,7 +1,8 @@
 <div class="sky-file-attachment-wrapper">
   <div
+    #labelRef="skyId"
     class="sky-file-attachment-label-wrapper"
-    [attr.id]="labelElementId"
+    skyId
     [ngClass]="{
       'sky-control-label-required':
         !labelText && isRequired && hasLabelComponent
@@ -41,14 +42,16 @@
     (drop)="fileDrop($event)"
   >
     <div
+      #fileDropDescriptionRef="skyId"
       aria-hidden="true"
       class="sky-screen-reader-only"
       role="tooltip"
-      [attr.id]="fileDropDescriptionElementId"
+      skyId
     >
       {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
     </div>
     <input
+      #fileInputRef
       hidden
       tabindex="-1"
       type="file"
@@ -56,36 +59,25 @@
       [disabled]="disabled"
       [required]="isRequired"
       (change)="fileChangeEvent($event)"
-      #fileInput
     />
     <ng-container *ngIf="showFileAttachmentButton">
       <button
         *ngIf="showFileAttachmentButton"
         class="sky-file-attachment-btn sky-btn sky-btn-default"
         type="button"
-        skyId
         [attr.aria-describedby]="
-          (hintText ? hintTextEl.id + ' ' : '') + fileDropDescriptionElementId
-        "
-        [attr.aria-label]="
-          value
-            ? ('skyux_file_attachment_button_label_replace_file_label'
-              | skyLibResources: fileName)
-            : ('skyux_file_attachment_button_label_choose_file_label'
-              | skyLibResources)
+          hintText && hintTextEl.id
+            | skyFileAttachmentJoinIds: fileDropDescriptionRef.id
         "
         [attr.aria-labelledby]="
-          attachButton.id +
-          ' ' +
-          (labelText
-            ? labelElementId
-            : hasLabelComponent
-              ? labelComponents?.get(0)?.labelContentId?.id
-              : undefined)
+          attachButtonLabelRef.id
+            | skyFileAttachmentJoinIds
+              : (labelText
+                  ? labelRef.id
+                  : labelComponents?.get(0)?.labelContentId?.id)
         "
         [disabled]="disabled"
         (click)="onDropClicked()"
-        #attachButton="skyId"
       >
         <sky-icon icon="folder-open-o" />
         {{
@@ -108,14 +100,14 @@
       class="sky-file-attachment-name"
     >
       <a
-        *ngIf="value; else noFile"
+        *ngIf="value; else noFileRef"
         [attr.title]="fileName"
         (click)="emitClick()"
       >
         {{ truncatedFileName }}
       </a>
     </span>
-    <ng-template #noFile>
+    <ng-template #noFileRef>
       <span class="sky-file-attachment-none sky-deemphasized">
         {{ 'skyux_file_attachment_label_no_file_chosen' | skyLibResources }}
       </span>
@@ -123,24 +115,17 @@
     <button
       *ngIf="value"
       class="sky-btn sky-btn-borderless sky-file-attachment-delete"
-      skyId
       type="button"
-      [attr.aria-label]="
-        'skyux_file_attachment_file_item_remove' | skyLibResources: fileName
-      "
       [attr.aria-labelledby]="
-        deleteButton.id +
-        ' ' +
-        (hasLabelComponent
-          ? labelComponents?.get(0)?.labelContentId?.id
-          : undefined)
+        deleteButtonLabelRef.id
+          | skyFileAttachmentJoinIds
+            : labelComponents?.get(0)?.labelContentId?.id
       "
       [disabled]="disabled"
       [skyThemeClass]="{
         'sky-btn-icon-borderless': 'modern'
       }"
       (click)="deleteFileAttachment()"
-      #deleteButton="skyId"
     >
       <sky-icon icon="trash-o" size="md" />
     </button>
@@ -166,11 +151,8 @@
 </div>
 
 <sky-form-errors
-  *ngIf="labelText && (ngControl?.control?.errors || fileErrorValidation)"
   [id]="errorId"
-  [errors]="
-    ngControl?.errors !== null ? ngControl?.errors : fileErrorValidation
-  "
+  [errors]="ngControl?.errors ?? fileErrorValidation"
   [labelText]="labelText"
   [showErrors]="ngControl?.touched || ngControl?.dirty"
 >
@@ -205,3 +187,27 @@
 <ng-template #labelContent>
   <ng-content select="sky-file-attachment-label" />
 </ng-template>
+
+<span
+  #attachButtonLabelRef="skyId"
+  aria-hidden="true"
+  class="sky-screen-reader-only"
+  skyId
+>
+  {{
+    value
+      ? ('skyux_file_attachment_button_label_replace_file_label'
+        | skyLibResources: fileName)
+      : ('skyux_file_attachment_button_label_choose_file_label'
+        | skyLibResources)
+  }}
+</span>
+
+<span
+  #deleteButtonLabelRef="skyId"
+  aria-hidden="true"
+  class="sky-screen-reader-only"
+  skyId
+>
+  {{ 'skyux_file_attachment_file_item_remove' | skyLibResources: fileName }}
+</span>

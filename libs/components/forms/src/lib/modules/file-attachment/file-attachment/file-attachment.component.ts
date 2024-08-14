@@ -21,7 +21,12 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { NgControl, ValidationErrors, Validators } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NgControl,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import {
   SkyIdModule,
   SkyIdService,
@@ -38,7 +43,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
 import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
-import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
+import { SkyFormFieldLabelTextRequiredDirective } from '../../shared/form-field-label-text-required.directive';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileItemErrorType } from '../shared/file-item-error-type';
@@ -48,10 +53,9 @@ import { SkyFileValidateFn } from '../shared/file-validate-function';
 
 import { SkyFileAttachmentChange } from './file-attachment-change';
 import { SkyFileAttachmentClick } from './file-attachment-click';
+import { SkyFileAttachmentJoinIdsPipe } from './file-attachment-join-ids.pipe';
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
-
-let uniqueId = 0;
 
 const MAX_FILE_SIZE_DEFAULT = 500000;
 const MIN_FILE_SIZE_DEFAULT = 0;
@@ -61,8 +65,15 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [
+    {
+      directive: SkyFormFieldLabelTextRequiredDirective,
+      inputs: ['labelText'],
+    },
+  ],
   imports: [
     CommonModule,
+    SkyFileAttachmentJoinIdsPipe,
     SkyFileSizePipe,
     SkyFormErrorComponent,
     SkyFormErrorsComponent,
@@ -82,7 +93,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   templateUrl: './file-attachment.component.html',
 })
 export class SkyFileAttachmentComponent
-  implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
+  implements
+    AfterViewInit,
+    AfterContentInit,
+    ControlValueAccessor,
+    OnInit,
+    OnDestroy
 {
   /**
    * The comma-delimited string literal of MIME types that users can attach.
@@ -185,12 +201,14 @@ export class SkyFileAttachmentComponent
   /**
    * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
+   * @deprecated Add a custom Angular `Validator` function to the `FormControl` instead.
    */
   @Input()
   public validateFn: SkyFileValidateFn | undefined;
 
   /**
    * Fires when users add or remove files.
+   * @deprecated Subscribe to the form control's `valueChanges` event instead.
    */
   @Output()
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
@@ -206,10 +224,6 @@ export class SkyFileAttachmentComponent
 
   public hasLabelComponent = false;
 
-  public fileDropDescriptionElementId: string;
-
-  public labelElementId: string;
-
   public rejectedOver = false;
 
   /**
@@ -221,9 +235,6 @@ export class SkyFileAttachmentComponent
    */
   @Input({ transform: booleanAttribute })
   public required = false;
-
-  @HostBinding('style.display')
-  public display: string | undefined;
 
   public set value(value: SkyFileItem | undefined | null) {
     // The null check is needed to address a bug in Angular 4.
@@ -257,7 +268,7 @@ export class SkyFileAttachmentComponent
 
   public truncatedFileName = '';
 
-  @ViewChild('fileInput')
+  @ViewChild('fileInputRef')
   public inputEl: ElementRef | undefined;
 
   @ContentChildren(SkyFileAttachmentLabelComponent)
@@ -276,8 +287,6 @@ export class SkyFileAttachmentComponent
 
   #enterEventTarget: EventTarget | undefined | null;
 
-  #fileAttachmentId = uniqueId++;
-
   #ngUnsubscribe = new Subject<void>();
 
   #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
@@ -294,10 +303,6 @@ export class SkyFileAttachmentComponent
   readonly #idSvc = inject(SkyIdService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
-
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
 
   protected ngControl: NgControl | undefined;
   protected errorId = this.#idSvc.generateId();
@@ -319,8 +324,6 @@ export class SkyFileAttachmentComponent
     this.ngControl = ngControl;
     this.#themeSvc = themeSvc;
 
-    this.labelElementId = `sky-file-attachment-label-${this.#fileAttachmentId}`;
-    this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${this.#fileAttachmentId}`;
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
@@ -335,11 +338,6 @@ export class SkyFileAttachmentComponent
           this.#updateFileAttachmentButton();
         });
     }
-
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
   }
 
   public ngAfterViewInit(): void {

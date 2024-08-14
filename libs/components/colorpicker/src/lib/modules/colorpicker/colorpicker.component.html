@@ -30,6 +30,7 @@
   </div>
 
   <button
+    #triggerButtonRef
     aria-haspopup="dialog"
     class="sky-colorpicker-button"
     type="button"
@@ -61,7 +62,6 @@
     }"
     [style.background-color]="backgroundColorForDisplay"
     (click)="onTriggerButtonClick()"
-    #triggerButtonRef
   >
     <sky-icon
       *ngIf="pickerButtonIcon"
@@ -85,6 +85,7 @@
 
   <ng-template #colorpickerTemplateRef>
     <div
+      #colorpickerRef
       class="sky-colorpicker-container"
       role="dialog"
       [attr.aria-labelledby]="triggerButtonId"
@@ -96,7 +97,6 @@
       }"
       [cdkTrapFocus]="true"
       [cdkTrapFocusAutoCapture]="false"
-      #colorpickerRef
     >
       <div class="sky-colorpicker">
         <div
@@ -125,11 +125,11 @@
           </div>
           <div class="right">
             <div
+              #hueSlider
               class="hue"
               [skyColorpickerSlider]
               [xAxis]="1"
               (newColorContrast)="hue = $event"
-              #hueSlider
             >
               <div
                 class="cursor sky-rounded-circle"
@@ -137,13 +137,13 @@
               ></div>
             </div>
             <div
+              #alphaSlider
               *ngIf="this.allowTransparency"
               class="alpha"
               [skyColorpickerSlider]
               [style.background-color]="alphaSliderColor"
               [xAxis]="1"
               (newColorContrast)="alphaAxis = $event"
-              #alphaSlider
             >
               <div
                 class="cursor sky-rounded-circle"
@@ -355,7 +355,6 @@
 </div>
 
 <sky-form-errors
-  *ngIf="labelText && ngControl?.errors"
   [id]="errorId"
   [errors]="ngControl?.errors"
   [labelText]="labelText"
