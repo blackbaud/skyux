@@ -10,6 +10,7 @@ import {
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyEmailValidationModule } from '@skyux/validation';
 
 import { InputBoxRoutingModule } from './input-box-routing.module';
 import { InputBoxVisualHostComponent } from './input-box-visual-host.component';
@@ -29,6 +30,7 @@ import { InputBoxComponent } from './input-box.component';
     SkyIdModule,
     SkyInputBoxModule,
     SkyStatusIndicatorModule,
+    SkyEmailValidationModule,
   ],
 })
 export class InputBoxModule {
