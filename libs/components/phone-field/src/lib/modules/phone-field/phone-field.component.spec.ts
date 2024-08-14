@@ -149,11 +149,11 @@ describe('Phone Field Component', () => {
     >,
     programmaticIso2 = '',
   ): void {
-    if (programmaticIso2)
+    if (programmaticIso2) {
       compFixture.componentInstance.selectedCountry = {
         iso2: programmaticIso2,
       };
-    else {
+    } else {
       const countryInput = getCountrySearchToggleButton(compFixture);
       countryInput.click();
       detectChangesAndTick(compFixture);
