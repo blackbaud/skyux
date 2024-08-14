@@ -9,6 +9,7 @@ import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
+import { SkyInputBoxErrorsComponent } from './input-box-errors.component';
 import { SkyInputBoxHintTextPipe } from './input-box-hint-text.pipe';
 import { SkyInputBoxComponent } from './input-box.component';
 
@@ -24,6 +25,7 @@ import { SkyInputBoxComponent } from './input-box.component';
     SkyInputBoxControlDirective,
     SkyInputBoxHintTextPipe,
     SkyThemeModule,
+    SkyInputBoxErrorsComponent,
   ],
   exports: [
     SkyInputBoxHintTextPipe,

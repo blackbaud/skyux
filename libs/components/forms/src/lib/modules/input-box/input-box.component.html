@@ -176,25 +176,13 @@
 </ng-template>
 
 <ng-template #errorLabelTemplate>
-  <sky-form-errors
-    [id]="errorId"
+  <sky-input-box-errors
+    [errorId]="errorId"
     [errors]="controlDir?.errors"
     [labelText]="labelText"
-    [ngClass]="{ 'sky-screen-reader-only': errorsScreenReaderOnly() }"
-    [showErrors]="controlDir?.touched || controlDir?.dirty"
-  >
-    <ng-content select="sky-form-error" />
-  </sky-form-errors>
-
-  @if (controlDir?.errors?.['maxlength']; as maxLengthError) {
-    <sky-form-error
-      errorName="maxlength"
-      [errorText]="
-        'skyux_form_error_maxlength'
-          | skyLibResources: labelText : maxLengthError.requiredLength
-      "
-    />
-  }
+    [touched]="controlDir?.touched"
+    [dirty]="controlDir?.dirty"
+  />
   <ng-content select=".sky-error-label,.sky-error-indicator" />
 </ng-template>
 
