@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { CSP_NONCE, Inject, Injectable, inject } from '@angular/core';
 
 /**
  * @internal
@@ -9,6 +9,7 @@ export class SkyPageThemeAdapterService {
   #styleEl: HTMLStyleElement | undefined;
 
   #document: Document;
+  #nonce = inject(CSP_NONCE, { optional: true });
 
   constructor(@Inject(DOCUMENT) document: Document) {
     this.#document = document;
@@ -22,6 +23,11 @@ export class SkyPageThemeAdapterService {
   public addTheme(): void {
     if (!this.#styleEl) {
       this.#styleEl = this.#document.createElement('style');
+
+      if (this.#nonce) {
+        this.#styleEl.nonce = this.#nonce;
+      }
+
       this.#styleEl.appendChild(
         this.#document.createTextNode(
           'body:not(.sky-theme-modern) { background-color: #fff; }',

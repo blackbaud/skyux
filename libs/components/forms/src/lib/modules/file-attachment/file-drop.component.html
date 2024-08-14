@@ -170,8 +170,7 @@
   </div>
 </fieldset>
 <sky-form-errors
-  *ngIf="labelText && rejectedFiles.length"
-  class="sky-file-drop-errors"
+  [class.sky-file-drop-errors]="labelText && rejectedFiles.length"
   [id]="errorId"
   [labelText]="labelText"
   [showErrors]="rejectedFiles.length"
