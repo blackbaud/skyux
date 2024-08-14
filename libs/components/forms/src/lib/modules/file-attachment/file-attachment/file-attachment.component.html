@@ -101,6 +101,8 @@
     >
       <a
         *ngIf="value; else noFileRef"
+        [href]="isData ? value.url : undefined"
+        [download]="isData ? value.file.name : undefined"
         [attr.title]="fileName"
         (click)="emitClick()"
       >

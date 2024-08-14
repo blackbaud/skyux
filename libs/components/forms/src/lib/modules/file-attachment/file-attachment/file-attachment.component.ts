@@ -216,6 +216,7 @@ export class SkyFileAttachmentComponent
   /**
    * Fires when users select the file name link. Make sure to bind the event.
    * If you do not, the file name link will be a dead link.
+   * @deprecated The download link attributes for the attached file are now set automatically and this output binding is no longer needed.
    */
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
@@ -244,8 +245,10 @@ export class SkyFileAttachmentComponent
 
     if (isNewValue) {
       if (value) {
+        this.isData = value.url?.startsWith('data:');
         this.isImage = this.#fileItemService.isImage(value);
       } else {
+        this.isData = false;
         this.isImage = false;
       }
       this.#setFileName(value);
@@ -277,6 +280,7 @@ export class SkyFileAttachmentComponent
     | undefined;
 
   public isImage = false;
+  public isData = false;
 
   protected get isRequired(): boolean {
     return (
