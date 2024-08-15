@@ -77,6 +77,12 @@ describe('Autocomplete component', () => {
     ) as HTMLElement;
   }
 
+  function getWaitWrapper(): HTMLElement | null {
+    return document.querySelector<HTMLElement>(
+      '.sky-autocomplete-results-waiting',
+    );
+  }
+
   function enterSearch(
     newValue: string,
     fixture: ComponentFixture<
@@ -788,6 +794,79 @@ describe('Autocomplete component', () => {
       const dropdownElement = getSearchResultsContainer();
 
       expect(dropdownElement).not.toBeNull();
+    }));
+
+    it('should show dropdown async search is running with no action area', fakeAsync(() => {
+      fixture.detectChanges();
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit',
+      ).and.callThrough();
+
+      enterSearch('r', fixture, true);
+
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: 'r',
+        result: jasmine.any(Observable),
+      });
+
+      let dropdownElement = getSearchResultsContainer();
+      let waitWrapper = getWaitWrapper();
+
+      expect(dropdownElement).not.toBeNull();
+      expect(waitWrapper).not.toBeNull();
+
+      tick(200);
+      fixture.detectChanges();
+
+      dropdownElement = getSearchResultsContainer();
+      waitWrapper = getWaitWrapper();
+
+      expect(dropdownElement).not.toBeNull();
+      expect(waitWrapper).toBeNull();
+
+      expect(asyncAutocomplete.searchResults.length).toEqual(6);
+      expect(asyncAutocomplete.searchResults[0].data.name).toEqual('Red');
+      expect(asyncAutocomplete.searchResults[1].data.name).toEqual('Green');
+    }));
+
+    it('should show dropdown async search is running with an action area', fakeAsync(() => {
+      component.showAddButton = true;
+      fixture.detectChanges();
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit',
+      ).and.callThrough();
+
+      enterSearch('r', fixture, true);
+
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: 'r',
+        result: jasmine.any(Observable),
+      });
+
+      let dropdownElement = getSearchResultsContainer();
+      let waitWrapper = getWaitWrapper();
+
+      expect(dropdownElement).not.toBeNull();
+      expect(waitWrapper).not.toBeNull();
+
+      tick(200);
+      fixture.detectChanges();
+
+      dropdownElement = getSearchResultsContainer();
+      waitWrapper = getWaitWrapper();
+
+      expect(dropdownElement).not.toBeNull();
+      expect(waitWrapper).toBeNull();
+
+      expect(asyncAutocomplete.searchResults.length).toEqual(6);
+      expect(asyncAutocomplete.searchResults[0].data.name).toEqual('Red');
+      expect(asyncAutocomplete.searchResults[1].data.name).toEqual('Green');
     }));
 
     it('should emit an undefined value when text input is cleared', fakeAsync(() => {
