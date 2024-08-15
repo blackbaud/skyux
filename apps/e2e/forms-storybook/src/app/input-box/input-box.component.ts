@@ -16,6 +16,7 @@ export class InputBoxComponent implements OnInit {
 
   public ngOnInit(): void {
     this.errorField.markAsTouched();
+    this.errorField.markAsDirty();
   }
 
   public onActionClick(): void {

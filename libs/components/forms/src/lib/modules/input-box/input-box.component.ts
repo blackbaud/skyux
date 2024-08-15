@@ -332,12 +332,14 @@ export class SkyInputBoxComponent
   }
 
   #controlHasErrors(control: AbstractControlDirective | undefined): boolean {
-    if (control?.hasError('maxlength')) {
+    if (control?.hasError('required')) {
       return !!(
         control &&
         control.invalid &&
         (control.touched || control.dirty)
       );
+    } else if (control?.hasError('maxlength')) {
+      return !!(control && control.invalid && control.dirty);
     }
     return !!(control && control.invalid && control.touched && control.dirty);
   }

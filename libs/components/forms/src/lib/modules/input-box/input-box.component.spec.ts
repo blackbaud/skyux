@@ -331,35 +331,14 @@ describe('Input box component', () => {
     inputBoxEl: Element | null,
     control: AbstractControl,
   ): void {
-    validateInvalid('when pristine and untouched', inputBoxEl, false);
-
-    control.markAsTouched();
-
-    fixture.detectChanges();
-
-    validateInvalid('when pristine and touched', inputBoxEl, false);
-
-    control.markAsUntouched();
-    control.markAsDirty();
-
-    fixture.detectChanges();
-
-    validateInvalid('when dirty and untouched', inputBoxEl, false);
-
-    control.markAsTouched();
-    control.markAsDirty();
-
-    fixture.detectChanges();
-
-    validateInvalid('when dirty and touched', inputBoxEl, true);
-
+    // required
     control.setErrors({
-      maxlength: {
+      required: {
         invalid: true,
       },
     });
+    validateInvalid('when pristine and untouched', inputBoxEl, false);
 
-    control.markAsPristine();
     control.markAsTouched();
 
     fixture.detectChanges();
@@ -372,6 +351,76 @@ describe('Input box component', () => {
     fixture.detectChanges();
 
     validateInvalid('when dirty and untouched', inputBoxEl, true);
+
+    control.markAsTouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid('when dirty and touched', inputBoxEl, true);
+
+    // max length
+    control.setErrors({
+      maxlength: {
+        invalid: true,
+      },
+    });
+
+    control.markAsPristine();
+    control.markAsUntouched();
+
+    fixture.detectChanges();
+
+    validateInvalid('when pristine and untouched', inputBoxEl, false);
+
+    control.markAsPristine();
+    control.markAsTouched();
+
+    fixture.detectChanges();
+
+    validateInvalid('when pristine and touched', inputBoxEl, false);
+
+    control.markAsUntouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid('when dirty and untouched', inputBoxEl, true);
+
+    control.markAsTouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid('when dirty and touched', inputBoxEl, true);
+
+    // all others
+    control.setErrors({
+      custom: {
+        invalid: true,
+      },
+    });
+
+    control.markAsPristine();
+    control.markAsUntouched();
+
+    fixture.detectChanges();
+
+    validateInvalid('when pristine and untouched', inputBoxEl, false);
+
+    control.markAsPristine();
+    control.markAsTouched();
+
+    fixture.detectChanges();
+
+    validateInvalid('when pristine and touched', inputBoxEl, false);
+
+    control.markAsUntouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
+
+    validateInvalid('when dirty and untouched', inputBoxEl, false);
 
     control.markAsTouched();
     control.markAsDirty();
