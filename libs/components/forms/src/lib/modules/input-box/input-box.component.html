@@ -182,6 +182,7 @@
     [labelText]="labelText"
     [touched]="controlDir?.touched"
     [dirty]="controlDir?.dirty"
+    [errorsScreenReaderOnly]="errorsScreenReaderOnly()"
   />
   <ng-content select=".sky-error-label,.sky-error-indicator" />
 </ng-template>

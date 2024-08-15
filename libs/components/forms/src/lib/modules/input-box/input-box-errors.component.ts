@@ -4,6 +4,7 @@ import { ValidationErrors } from '@angular/forms';
 import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyFormErrorModule } from '../form-error/form-error.module';
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 
 /**
@@ -20,6 +21,12 @@ import { SkyFormErrorsModule } from '../form-error/form-errors.module';
     SkyI18nModule,
   ],
   templateUrl: './input-box-errors.component.html',
+  providers: [
+    {
+      provide: SKY_FORM_ERRORS_ENABLED,
+      useValue: true,
+    },
+  ],
 })
 export class SkyInputBoxErrorsComponent {
   /**

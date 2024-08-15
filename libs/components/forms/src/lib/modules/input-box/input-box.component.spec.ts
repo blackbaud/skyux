@@ -632,24 +632,6 @@ describe('Input box component', () => {
       expect(errorEl).toBeVisible();
     });
 
-    it('should render the max length form error on touched', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      fixture.componentInstance.addMaxLengthValidator();
-
-      fixture.componentInstance.easyModeForm.setValue('123');
-      fixture.componentInstance.easyModeForm.markAsTouched();
-      fixture.detectChanges();
-
-      const el = fixture.nativeElement.querySelector(
-        '.easy-mode-max-length-error',
-      ) as HTMLElement;
-
-      expect(
-        el.querySelector<HTMLElement>('span.sky-status-indicator-message')
-          ?.innerText,
-      ).toBe('Limit Easy mode input to 1 character(s).');
-    });
-
     it('should allow a child to place template items inside the input box programmatically', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();

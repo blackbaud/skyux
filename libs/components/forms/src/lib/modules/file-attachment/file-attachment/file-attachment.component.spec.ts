@@ -1431,6 +1431,7 @@ describe('File attachment', () => {
     fixture.componentInstance.labelText = 'file attachment';
 
     fixture.componentInstance.attachment.markAsTouched();
+    fixture.componentInstance.attachment.markAsDirty();
     fixture.detectChanges();
 
     expect(
