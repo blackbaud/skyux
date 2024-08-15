@@ -74,6 +74,7 @@ export class SkyCharacterCounterInputDirective implements Validator {
     if (value.length > this.#skyCharacterCounterLimitOrDefault) {
       // This is needed to apply the appropriate error styles to the input.
       control.markAsTouched();
+      control.markAsDirty();
 
       return {
         skyCharacterCounter: {
