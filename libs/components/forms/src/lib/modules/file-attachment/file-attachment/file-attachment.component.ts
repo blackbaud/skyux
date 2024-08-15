@@ -278,7 +278,8 @@ export class SkyFileAttachmentComponent
     | undefined;
 
   public isImage = false;
-  public isData = false;
+
+  protected isData = false;
 
   protected get isRequired(): boolean {
     return (
