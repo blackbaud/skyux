@@ -241,6 +241,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       }
 
       this.#populateInputBoxHelpText();
+      this.selectedCountryChange.emit(this.#_selectedCountry);
     }
   }
 
@@ -351,7 +352,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       (newValue: SkyCountryFieldCountry | undefined | null) => {
         if (newValue?.iso2 !== this.selectedCountry?.iso2) {
           this.selectedCountry = newValue || undefined;
-          this.selectedCountryChange.emit(this.selectedCountry);
         }
       },
     );

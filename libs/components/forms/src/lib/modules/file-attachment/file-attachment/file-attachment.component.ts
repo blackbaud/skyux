@@ -21,7 +21,12 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { NgControl, ValidationErrors, Validators } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NgControl,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import {
   SkyIdModule,
   SkyIdService,
@@ -48,10 +53,9 @@ import { SkyFileValidateFn } from '../shared/file-validate-function';
 
 import { SkyFileAttachmentChange } from './file-attachment-change';
 import { SkyFileAttachmentClick } from './file-attachment-click';
+import { SkyFileAttachmentJoinIdsPipe } from './file-attachment-join-ids.pipe';
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
-
-let uniqueId = 0;
 
 const MAX_FILE_SIZE_DEFAULT = 500000;
 const MIN_FILE_SIZE_DEFAULT = 0;
@@ -69,6 +73,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   ],
   imports: [
     CommonModule,
+    SkyFileAttachmentJoinIdsPipe,
     SkyFileSizePipe,
     SkyFormErrorComponent,
     SkyFormErrorsComponent,
@@ -88,7 +93,12 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   templateUrl: './file-attachment.component.html',
 })
 export class SkyFileAttachmentComponent
-  implements AfterViewInit, AfterContentInit, OnInit, OnDestroy
+  implements
+    AfterViewInit,
+    AfterContentInit,
+    ControlValueAccessor,
+    OnInit,
+    OnDestroy
 {
   /**
    * The comma-delimited string literal of MIME types that users can attach.
@@ -191,19 +201,20 @@ export class SkyFileAttachmentComponent
   /**
    * The custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
+   * @deprecated Add a custom Angular `Validator` function to the `FormControl` instead.
    */
   @Input()
   public validateFn: SkyFileValidateFn | undefined;
 
   /**
    * Fires when users add or remove files.
+   * @deprecated Subscribe to the form control's `valueChanges` event instead.
    */
   @Output()
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
 
   /**
-   * Fires when users select the file name link. Make sure to bind the event.
-   * If you do not, the file name link will be a dead link.
+   * Fires when users select the file name link.
    */
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
@@ -211,10 +222,6 @@ export class SkyFileAttachmentComponent
   public acceptedOver = false;
 
   public hasLabelComponent = false;
-
-  public fileDropDescriptionElementId: string;
-
-  public labelElementId: string;
 
   public rejectedOver = false;
 
@@ -236,8 +243,10 @@ export class SkyFileAttachmentComponent
 
     if (isNewValue) {
       if (value) {
+        this.isData = value.url?.startsWith('data:');
         this.isImage = this.#fileItemService.isImage(value);
       } else {
+        this.isData = false;
         this.isImage = false;
       }
       this.#setFileName(value);
@@ -260,7 +269,7 @@ export class SkyFileAttachmentComponent
 
   public truncatedFileName = '';
 
-  @ViewChild('fileInput')
+  @ViewChild('fileInputRef')
   public inputEl: ElementRef | undefined;
 
   @ContentChildren(SkyFileAttachmentLabelComponent)
@@ -270,6 +279,8 @@ export class SkyFileAttachmentComponent
 
   public isImage = false;
 
+  protected isData = false;
+
   protected get isRequired(): boolean {
     return (
       this.required ||
@@ -278,8 +289,6 @@ export class SkyFileAttachmentComponent
   }
 
   #enterEventTarget: EventTarget | undefined | null;
-
-  #fileAttachmentId = uniqueId++;
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -318,8 +327,6 @@ export class SkyFileAttachmentComponent
     this.ngControl = ngControl;
     this.#themeSvc = themeSvc;
 
-    this.labelElementId = `sky-file-attachment-label-${this.#fileAttachmentId}`;
-    this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${this.#fileAttachmentId}`;
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
