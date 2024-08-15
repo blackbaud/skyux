@@ -30,6 +30,7 @@ export class PhoneFieldComponent implements AfterViewInit {
       phoneControlError: this.phoneControlError,
     });
     this.phoneControlError.setValue('bbb');
+    this.phoneControlError.markAsDirty();
     this.phoneControlError.markAsTouched();
 
     this.phoneControlInput = new UntypedFormControl();

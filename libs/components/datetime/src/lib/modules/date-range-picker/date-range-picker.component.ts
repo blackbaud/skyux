@@ -430,7 +430,7 @@ export class SkyDateRangePickerComponent
         this.#changeDetector.markForCheck();
       }
 
-      this.hasErrors = !!control.errors && (control.touched || control.dirty);
+      this.hasErrors = !!control.errors && control.touched && control.dirty;
     }
   }
 
