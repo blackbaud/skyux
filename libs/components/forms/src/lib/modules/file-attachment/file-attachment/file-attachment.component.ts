@@ -214,8 +214,7 @@ export class SkyFileAttachmentComponent
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
 
   /**
-   * Fires when users select the file name link. Make sure to bind the event.
-   * If you do not, the file name link will be a dead link.
+   * Fires when users select the file name link.
    */
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
@@ -244,8 +243,10 @@ export class SkyFileAttachmentComponent
 
     if (isNewValue) {
       if (value) {
+        this.isData = value.url?.startsWith('data:');
         this.isImage = this.#fileItemService.isImage(value);
       } else {
+        this.isData = false;
         this.isImage = false;
       }
       this.#setFileName(value);
@@ -277,6 +278,8 @@ export class SkyFileAttachmentComponent
     | undefined;
 
   public isImage = false;
+
+  protected isData = false;
 
   protected get isRequired(): boolean {
     return (

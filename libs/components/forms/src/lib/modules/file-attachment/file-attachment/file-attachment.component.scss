@@ -38,7 +38,7 @@
   }
 }
 
-.sky-file-attachment-name {
+.sky-file-attachment-file-link {
   padding: 0 5px;
 
   a {
@@ -105,7 +105,7 @@
       display: flex;
       align-items: flex-start;
 
-      .sky-file-attachment-name {
+      .sky-file-attachment-file-link {
         margin: $sky-theme-modern-space-sm $sky-theme-modern-space-sm 0 0;
         padding: 0;
       }
