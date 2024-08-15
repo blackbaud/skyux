@@ -40,6 +40,15 @@
       </select>
     </sky-input-box>
     <sky-form-errors [labelText]="labelText">
+      @if (
+        hostControl?.errors?.['skyDate'] &&
+        hostControl?.errors?.['skyDate']['invalid']
+      ) {
+        <sky-form-error
+          errorName="invalidDate"
+          [errorText]="'skyux_form_error_date' | skyLibResources"
+        />
+      }
       <sky-form-error
         *ngIf="
           hostControl?.errors?.['skyDateRange']?.errors.endDateBeforeStartDate
