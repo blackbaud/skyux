@@ -226,9 +226,15 @@ describe('Input box harness', () => {
   });
 
   it('should return whether custom form error has fired', async () => {
-    const { inputBoxHarness } = await setupTest({
+    const { component, fixture, inputBoxHarness } = await setupTest({
       dataSkyId: 'custom-error-easy-mode',
     });
+
+    const control = component.directiveErrorForm.controls['easyModeDatepicker'];
+    control.markAsTouched();
+    control.markAsDirty();
+
+    fixture.detectChanges();
 
     await expectAsync(
       inputBoxHarness.hasCustomFormError('custom'),
@@ -259,6 +265,7 @@ describe('Input box harness', () => {
     control.addValidators(Validators.minLength(2));
     control.setValue('a');
     control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -289,6 +296,7 @@ describe('Input box harness', () => {
     control.addValidators(SkyValidators.email);
     control.setValue('abc');
     control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -304,6 +312,7 @@ describe('Input box harness', () => {
     control.addValidators(SkyValidators.url);
     control.setValue('abc');
     control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -311,9 +320,14 @@ describe('Input box harness', () => {
   });
 
   it('should return whether invalid date error has fired', async () => {
-    const { fixture, inputBoxHarness } = await setupTest({
+    const { component, fixture, inputBoxHarness } = await setupTest({
       dataSkyId: 'datepicker-easy-mode',
     });
+
+    const control = component.directiveErrorForm.controls['easyModeDatepicker'];
+    control.setValue('invalid date');
+    control.markAsTouched();
+    control.markAsDirty();
 
     fixture.detectChanges();
 
@@ -329,6 +343,7 @@ describe('Input box harness', () => {
 
     const control = component.directiveErrorForm.controls['easyModeDatepicker'];
     control.setValue('01/01/2990');
+    control.markAsTouched();
     control.markAsDirty();
 
     fixture.detectChanges();
@@ -343,6 +358,7 @@ describe('Input box harness', () => {
 
     const control = component.directiveErrorForm.controls['easyModeDatepicker'];
     control.setValue('01/01/1990');
+    control.markAsTouched();
     control.markAsDirty();
 
     fixture.detectChanges();
@@ -356,6 +372,7 @@ describe('Input box harness', () => {
     });
 
     const control = component.directiveErrorForm.controls['easyModeTimepicker'];
+    control.markAsTouched();
     control.markAsDirty();
     fixture.detectChanges();
 
@@ -368,6 +385,7 @@ describe('Input box harness', () => {
     });
 
     const control = component.directiveErrorForm.controls['easyModePhoneField'];
+    control.markAsTouched();
     control.markAsDirty();
     fixture.detectChanges();
 

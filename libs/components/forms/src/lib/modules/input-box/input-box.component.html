@@ -183,7 +183,9 @@
     [touched]="controlDir?.touched"
     [dirty]="controlDir?.dirty"
     [errorsScreenReaderOnly]="errorsScreenReaderOnly()"
-  />
+  >
+    <ng-content select="sky-form-error" />
+  </sky-input-box-errors>
   <ng-content select=".sky-error-label,.sky-error-indicator" />
 </ng-template>
 

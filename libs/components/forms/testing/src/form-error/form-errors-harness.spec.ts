@@ -21,12 +21,19 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
       useValue: true,
     },
   ],
-  template: ` <sky-form-errors [labelText]="errorText" [errors]="errors" />
+  template: ` <sky-form-errors [labelText]="errorText" [showErrors]="true">
+      <sky-form-error errorName="error1" errorText="error1 text" />
+    </sky-form-errors>
     <sky-form-errors
       data-sky-id="other-error"
       labelText="other error"
-      [errors]="{ required: true }"
-    />"`,
+      showErrors="true"
+    >
+      <sky-form-error
+        errorName="error2"
+        errorText="error2 text"
+      /> </sky-form-errors
+    >"`,
 })
 class TestComponent {
   public errorText: string | undefined = 'Form';
@@ -66,44 +73,11 @@ describe('Form errors harness', () => {
     fixture.detectChanges();
     fixture.detectChanges();
 
-    await expectAsync(formErrorsHarness.hasError('required')).toBeResolvedTo(
+    await expectAsync(formErrorsHarness.hasError('error2')).toBeResolvedTo(
       true,
     );
     await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([
-      { errorName: 'required' },
-    ]);
-  });
-
-  it('should return an array of current errors', async () => {
-    const { formErrorsHarness, fixture } = await setupTest();
-
-    fixture.detectChanges();
-
-    await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([]);
-
-    fixture.componentInstance.errors = {
-      required: true,
-      minlength: true,
-      maxlength: true,
-      skyDate: { invalid: true, minDate: true, maxDate: true },
-      skyEmail: true,
-      skyPhoneField: true,
-      skyTime: true,
-      skyUrl: true,
-    };
-    fixture.detectChanges();
-
-    await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([
-      { errorName: 'required' },
-      { errorName: 'maxlength' },
-      { errorName: 'minlength' },
-      { errorName: 'invalidDate' },
-      { errorName: 'minDate' },
-      { errorName: 'maxDate' },
-      { errorName: 'email' },
-      { errorName: 'phone' },
-      { errorName: 'time' },
-      { errorName: 'url' },
+      { errorName: 'error2' },
     ]);
   });
 });
