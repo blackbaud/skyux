@@ -19,6 +19,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
+  SkyFormErrorModule,
   SkyFormErrorsModule,
   SkyFormFieldLabelTextRequiredDirective,
   SkyInputBoxHostService,
@@ -86,6 +87,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyToolbarModule,
     SkyFormErrorsModule,
     SkyTextEditorResourcesModule,
+    SkyFormErrorModule,
   ],
 })
 export class SkyTextEditorComponent

@@ -6,7 +6,6 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { ValidationErrors } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
@@ -30,12 +29,6 @@ import { SkyFormErrorComponent } from './form-error.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormErrorsComponent {
-  /**
-   * The validation errors from the form control.
-   */
-  @Input()
-  public errors: ValidationErrors | null | undefined;
-
   /**
    * Input label text to display in the error messages.
    */
