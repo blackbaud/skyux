@@ -172,6 +172,13 @@
   [showErrors]="ngControl?.touched || ngControl?.dirty"
 >
   <ng-content select="sky-form-error" />
+
+  @if (ngControl?.errors?.['required']) {
+    <sky-form-error
+      errorName="required"
+      [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
+    />
+  }
   <sky-form-error
     *ngIf="fileErrorName === 'fileType'"
     [errorName]="'fileType'"
@@ -197,14 +204,6 @@
         | skyLibResources: (fileErrorParam | skyFileSize)
     "
   />
-  @if (ngControl?.dirty && ngControl?.touched) {
-    @if (ngControl?.errors?.['required']) {
-      <sky-form-error
-        errorName="required"
-        [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
-      />
-    }
-  }
 </sky-form-errors>
 
 <ng-template #labelContent>

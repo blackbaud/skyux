@@ -55,9 +55,10 @@ describe('SkyInputBoxErrorsComponent', () => {
     );
 
     expect(errorMessages.length).toBe(2);
-    expect(errorMessages[0]?.innerText).toBe(
+
+    expect(errorMessages[0]?.innerText).toBe('input box is required.');
+    expect(errorMessages[1]?.innerText).toBe(
       'Limit input box to 1 character(s).',
     );
-    expect(errorMessages[1]?.innerText).toBe('input box is required.');
   });
 });

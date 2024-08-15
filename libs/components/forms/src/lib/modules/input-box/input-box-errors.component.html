@@ -6,6 +6,12 @@
   [ngClass]="{ 'sky-screen-reader-only': errorsScreenReaderOnly }"
   [showErrors]="touched || dirty"
 >
+  @if (errors?.['required']) {
+    <sky-form-error
+      errorName="required"
+      [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
+    />
+  }
   @if (dirty) {
     @if (errors?.['maxlength']; as maxLengthError) {
       <sky-form-error
@@ -17,13 +23,6 @@
       />
     }
     @if (touched) {
-      @if (errors?.['required']) {
-        <sky-form-error
-          errorName="required"
-          [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
-        />
-      }
-
       @if (errors?.['minlength']; as minLengthError) {
         <sky-form-error
           errorName="minlength"

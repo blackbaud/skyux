@@ -43,6 +43,7 @@ export class FileAttachmentComponent {
     this.rejectedFiles = [];
     this.allItems = [];
     this.linksToUpload = [];
+    this.attachment = new FormControl(null);
     this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
