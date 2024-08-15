@@ -214,9 +214,7 @@ export class SkyFileAttachmentComponent
   public fileChange = new EventEmitter<SkyFileAttachmentChange>();
 
   /**
-   * Fires when users select the file name link. Make sure to bind the event.
-   * If you do not, the file name link will be a dead link.
-   * @deprecated The download link attributes for the attached file are now set automatically and this output binding is no longer needed.
+   * Fires when users select the file name link.
    */
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();

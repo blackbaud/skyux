@@ -101,11 +101,13 @@ describe('File attachment', () => {
   }
 
   function getFileNameLinkEl(): HTMLElement | null {
-    return el.querySelector('.sky-file-attachment-name a');
+    return el.querySelector('.sky-file-attachment-file-link a');
   }
 
   function getFileNameText(): string | undefined {
-    return el.querySelector('.sky-file-attachment-name')?.textContent?.trim();
+    return el
+      .querySelector('.sky-file-attachment-file-link')
+      ?.textContent?.trim();
   }
 
   function getDeleteEl(): HTMLElement | null {
@@ -689,7 +691,9 @@ describe('File attachment', () => {
     expect(getFileNameText()).toBe('abcdefghijklmnopqrstuvwxyz...');
 
     expect(
-      el.querySelector('.sky-file-attachment-name > a')?.getAttribute('title'),
+      el
+        .querySelector('.sky-file-attachment-file-link > a')
+        ?.getAttribute('title'),
     ).toBe(
       'abcdefghijklmnopqrstuvwxyz12345.png',
       'Expected the anchor title to display the full file name.',
