@@ -222,6 +222,20 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioForm?.valid).toBe(true);
   }));
 
+  it('should render required error when radio button has required error', () => {
+    componentInstance.headingText = 'radio heading';
+    componentInstance.required = true;
+    fixture.detectChanges();
+
+    componentInstance.radioControl?.markAsTouched();
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('span.sky-status-indicator-message')
+        .innerText,
+    ).toBe('radio heading is required.');
+  });
+
   it('should use tabIndex when specified', fakeAsync(function () {
     componentInstance.tabIndex = 2;
     fixture.detectChanges();

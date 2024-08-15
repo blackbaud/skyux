@@ -17,6 +17,7 @@ import {
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
+import { SkyFormErrorModule } from '../form-error/form-error.module';
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
@@ -39,6 +40,7 @@ function numberAttribute4(value: unknown): number {
   imports: [
     CommonModule,
     SkyFormErrorsModule,
+    SkyFormErrorModule,
     SkyFormsResourcesModule,
     SkyHelpInlineModule,
     SkyIdModule,

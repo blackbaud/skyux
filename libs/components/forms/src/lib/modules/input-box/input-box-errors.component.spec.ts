@@ -22,6 +22,10 @@ describe('SkyInputBoxErrorsComponent', () => {
         invalid: true,
         requiredLength: 1,
       },
+      minlength: {
+        invalid: true,
+        requiredLength: 1,
+      },
     };
     fixture.componentInstance.labelText = 'input box';
     fixture.detectChanges();
@@ -31,8 +35,8 @@ describe('SkyInputBoxErrorsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render only max length error when dirty', () => {
-    fixture.componentInstance.dirty = true;
+  it('should render required error when touched', () => {
+    fixture.componentInstance.touched = true;
     fixture.detectChanges();
 
     const errorMessages = fixture.nativeElement.querySelectorAll(
@@ -40,7 +44,20 @@ describe('SkyInputBoxErrorsComponent', () => {
     );
 
     expect(errorMessages.length).toBe(1);
-    expect(errorMessages[0]?.innerText).toBe(
+    expect(errorMessages[0]?.innerText).toBe('input box is required.');
+  });
+
+  it('should render max length and required error when dirty', () => {
+    fixture.componentInstance.dirty = true;
+    fixture.detectChanges();
+
+    const errorMessages = fixture.nativeElement.querySelectorAll(
+      'span.sky-status-indicator-message',
+    );
+
+    expect(errorMessages.length).toBe(2);
+    expect(errorMessages[0]?.innerText).toBe('input box is required.');
+    expect(errorMessages[1]?.innerText).toBe(
       'Limit input box to 1 character(s).',
     );
   });
@@ -54,11 +71,14 @@ describe('SkyInputBoxErrorsComponent', () => {
       'span.sky-status-indicator-message',
     );
 
-    expect(errorMessages.length).toBe(2);
+    expect(errorMessages.length).toBe(3);
 
     expect(errorMessages[0]?.innerText).toBe('input box is required.');
     expect(errorMessages[1]?.innerText).toBe(
       'Limit input box to 1 character(s).',
+    );
+    expect(errorMessages[2]?.innerText).toBe(
+      'input box must be at least 1 character(s).',
     );
   });
 });

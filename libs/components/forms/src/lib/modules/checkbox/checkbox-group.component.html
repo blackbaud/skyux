@@ -67,5 +67,11 @@
   [labelText]="headingText"
   [showErrors]="formGroup?.touched || formGroup?.dirty"
 >
+  @if (formGroup?.errors?.['required']) {
+    <sky-form-error
+      errorName="required"
+      [errorText]="'skyux_form_error_required' | skyLibResources: headingText"
+    />
+  }
   <ng-content select="sky-form-error" />
 </sky-form-errors>

@@ -97,5 +97,11 @@
   [labelText]="labelText"
   [showErrors]="control?.touched || control?.dirty"
 >
+  @if (control?.errors?.['required']) {
+    <sky-form-error
+      errorName="required"
+      [errorText]="'skyux_form_error_required' | skyLibResources: labelText"
+    />
+  }
   <ng-content select="sky-form-error" />
 </sky-form-errors>

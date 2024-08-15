@@ -1,6 +1,6 @@
 <div>
   <sky-colorpicker
-    (selectedColorApplied)="lastColorApplied = $event"
+    #colorPickerTest
     [pickerButtonIcon]="pickerButtonIcon"
     [pickerButtonIconType]="pickerButtonIconType"
     [helpKey]="helpKey"
@@ -13,9 +13,9 @@
     [labelText]="labelText"
     [messageStream]="colorpickerController"
     [stacked]="stacked"
-    #colorPickerTest
+    (selectedColorApplied)="lastColorApplied = $event"
   >
-    <input
+    <sky-input-box
       [id]="id"
       [allowTransparency]="selectedTransparency"
       [alphaChannel]="selectedHexType"

@@ -37,64 +37,6 @@ describe('Form errors component', () => {
 
     fixture.detectChanges();
   });
-  it('should render known input errors when they are passed, a labelText is present, and showErrors is true', () => {
-    componentInstance.errors = {
-      required: true,
-      minlength: true,
-      skyDate: { invalid: true, minDate: true, maxDate: true },
-      skyFuzzyDate: {
-        futureDisabled: true,
-        invalid: true,
-        maxDate: true,
-        minDate: true,
-        yearRequired: true,
-      },
-      skyEmail: true,
-      skyPhoneField: true,
-      skyTime: true,
-      skyUrl: true,
-    };
-    fixture.detectChanges();
-
-    [
-      'required',
-      'minlength',
-      'invalidDate',
-      'minDate',
-      'maxDate',
-      'fuzzyFutureDisabled',
-      'fuzzyInvalidDate',
-      'fuzzyMaxDate',
-      'fuzzyMinDate',
-      'fuzzyYearRequired',
-      'email',
-      'phone',
-      'time',
-      'url',
-      'custom',
-    ].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toExist();
-      expect(formError).toBeVisible();
-    });
-  });
-
-  it('should render known and custom errors when a labelText is present and showErrors is true', () => {
-    componentInstance.errors = {
-      required: true,
-    };
-    fixture.detectChanges();
-
-    ['required', 'custom'].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toExist();
-      expect(formError).toBeVisible();
-    });
-  });
 
   it('should render custom errors when there are no known errors, labelText is present, and showErrors is true', () => {
     const formError = fixture.nativeElement.querySelector(
@@ -105,34 +47,23 @@ describe('Form errors component', () => {
   });
 
   it('should not render any errors when they are passed but showErrors is false', () => {
-    componentInstance.errors = {
-      required: true,
-    };
     componentInstance.showErrors = false;
 
     fixture.detectChanges();
-
-    ['required', 'custom'].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toBeNull();
-    });
+    const formError = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='custom']`,
+    );
+    expect(formError).toBeNull();
   });
 
   it('should not render any errors when they are passed but labelText is undefined', () => {
-    componentInstance.errors = {
-      required: true,
-    };
     componentInstance.labelText = undefined;
 
     fixture.detectChanges();
-
-    ['required', 'custom'].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toBeNull();
-    });
+    fixture.detectChanges();
+    const formError = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='custom']`,
+    );
+    expect(formError).toBeNull();
   });
 });
