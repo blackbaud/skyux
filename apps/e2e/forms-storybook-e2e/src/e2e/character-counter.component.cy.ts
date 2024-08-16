@@ -20,6 +20,9 @@ describe('character-counter', () => {
           .end()
           .get('#screenshot-character-count-input-box-invalid input')
           .focus();
+        cy.get('#screenshot-character-count-input-box-invalid input').type(
+          '{backspace}',
+        );
         cy.get('#screenshot-character-count-input-box-invalid input').blur();
 
         cy.get('body').screenshot(`character-counter-${theme}`, {
