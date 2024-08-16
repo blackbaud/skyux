@@ -430,6 +430,10 @@ export class SkyDateRangePickerComponent
         this.#changeDetector.markForCheck();
       }
 
+      if (this.#startDateControl.dirty || this.#endDateControl.dirty) {
+        this.#calculatorIdControl.markAsDirty();
+      }
+
       this.hasErrors = !!control.errors && control.touched && control.dirty;
     }
   }

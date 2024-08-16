@@ -38,17 +38,6 @@
           }}
         </option>
       </select>
-    </sky-input-box>
-    <sky-form-errors [labelText]="labelText">
-      @if (
-        hostControl?.errors?.['skyDate'] &&
-        hostControl?.errors?.['skyDate']['invalid']
-      ) {
-        <sky-form-error
-          errorName="invalidDate"
-          [errorText]="'skyux_form_error_date' | skyLibResources"
-        />
-      }
       <sky-form-error
         *ngIf="
           hostControl?.errors?.['skyDateRange']?.errors.endDateBeforeStartDate
@@ -59,8 +48,7 @@
             | skyLibResources
         "
       />
-      <ng-content select="sky-form-error" />
-    </sky-form-errors>
+    </sky-input-box>
   </div>
   <div
     class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
