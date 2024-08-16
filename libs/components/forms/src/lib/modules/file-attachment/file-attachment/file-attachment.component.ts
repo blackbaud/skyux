@@ -312,7 +312,6 @@ export class SkyFileAttachmentComponent
 
   protected fileErrorName: SkyFileItemErrorType | undefined;
   protected fileErrorParam: string | undefined;
-  protected fileErrorValidation: ValidationErrors | null | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
