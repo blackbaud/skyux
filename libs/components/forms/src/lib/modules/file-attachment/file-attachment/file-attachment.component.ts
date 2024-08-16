@@ -21,12 +21,7 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NgControl,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { ControlValueAccessor, NgControl, Validators } from '@angular/forms';
 import {
   SkyIdModule,
   SkyIdService,
