@@ -1,5 +1,14 @@
 # Changelog
 
+## [10.41.3](https://github.com/blackbaud/skyux/compare/10.41.2...10.41.3) (2024-08-16)
+
+
+### Bug Fixes
+
+* `sky-form-errors` is no longer created and destroyed when form errors are present ([#2596](https://github.com/blackbaud/skyux/issues/2596)) ([416f1ea](https://github.com/blackbaud/skyux/commit/416f1ea017d57627a07491b046440a7d065ca690))
+* **components/lookup:** autocomplete and lookup show wait in dropdown when using an async search when no dropdown was previously open ([#2610](https://github.com/blackbaud/skyux/issues/2610)) ([7250a20](https://github.com/blackbaud/skyux/commit/7250a207568ab2cf04b73f949ff84bdb4c57c906))
+* **components/phone-field:** phone numbers validate when selected country is changed programmatically ([#2593](https://github.com/blackbaud/skyux/issues/2593)) ([6da7bb8](https://github.com/blackbaud/skyux/commit/6da7bb8d05c0645f3cc6c65386d6428d3d85b9e8))
+
 ## [10.41.2](https://github.com/blackbaud/skyux/compare/10.41.1...10.41.2) (2024-08-08)
 
 
