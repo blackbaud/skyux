@@ -725,6 +725,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #searchTextChanged(searchText: string | undefined): void {
     if (this.#hasFocus) {
+      this.#openDropdown();
       const isEmpty =
         !searchText || !searchText.trim() || searchText.match(/^\s+$/);
 
@@ -792,6 +793,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#updateIsResultsVisible();
             this.#changeDetector.markForCheck();
 
+            // Safety check
+            /* istanbul ignore else */
             if (this.isOpen) {
               // Let the results populate in the DOM before recalculating placement.
               setTimeout(() => {
