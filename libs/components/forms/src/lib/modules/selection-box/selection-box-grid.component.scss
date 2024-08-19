@@ -9,7 +9,7 @@
   display: flex;
   flex-flow: row wrap;
   padding: 0 7.5px;
-  margin: 0 auto var(--sky-compat-selection-box-grid-margin-bottom, -15px) auto;
+  margin: 0 auto -15px auto;
 
   &.sky-selection-box-grid-align-center {
     justify-content: center;

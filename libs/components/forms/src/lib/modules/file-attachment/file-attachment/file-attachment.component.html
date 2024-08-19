@@ -97,10 +97,12 @@
     />
     <span
       *ngIf="value || currentThemeName === 'default'"
-      class="sky-file-attachment-name"
+      class="sky-file-attachment-file-link"
     >
       <a
         *ngIf="value; else noFileRef"
+        [href]="isData ? value.url : undefined"
+        [download]="isData ? value.file.name : undefined"
         [attr.title]="fileName"
         (click)="emitClick()"
       >
