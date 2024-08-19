@@ -3,10 +3,7 @@
 
 :host {
   display: inline-block;
-}
-
-.sky-radio-outer-wrapper {
-  display: inline-flex;
+  background-color: hotpink;
 }
 
 .sky-radio-help-inline {
@@ -54,5 +51,8 @@
     .sky-radio-icon-modern-checked {
       background-color: $sky-text-color-default;
     }
+  }
+  .sky-switch {
+    display: flex;
   }
 }
