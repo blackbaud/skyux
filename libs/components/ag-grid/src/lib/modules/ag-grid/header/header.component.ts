@@ -51,6 +51,8 @@ export class SkyAgGridHeaderComponent
   );
   public readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
 
+  protected displayName: string | undefined;
+
   #subscriptions = new Subscription();
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
@@ -78,9 +80,16 @@ export class SkyAgGridHeaderComponent
       return;
     }
     this.#leftPosition = params.column.getLeft() ?? 0;
-    this.columnLabel = params.displayName
-      ? undefined
-      : params.column.getColDef().field;
+    if (
+      params.displayName &&
+      !params.column.getColDef().headerComponentParams?.labelHidden
+    ) {
+      this.columnLabel = undefined;
+      this.displayName = params.displayName;
+    } else {
+      this.columnLabel = params.displayName || params.column.getColDef().field;
+      this.displayName = undefined;
+    }
     this.#subscriptions = new Subscription();
     if (params.column.isFilterAllowed()) {
       this.#subscriptions.add(

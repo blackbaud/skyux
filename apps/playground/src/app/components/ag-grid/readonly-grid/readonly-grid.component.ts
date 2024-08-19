@@ -10,6 +10,7 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -36,7 +37,7 @@ export class ReadonlyGridComponent implements OnInit {
   public gridOptions: GridOptions;
   public hasMore = true;
 
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       colId: 'selected',
@@ -44,10 +45,13 @@ export class ReadonlyGridComponent implements OnInit {
     },
     {
       colId: 'contextMenu',
-      headerName: '',
+      headerName: 'Context menu',
       sortable: false,
       cellRenderer: ReadonlyGridContextMenuComponent,
       maxWidth: 55,
+      headerComponentParams: {
+        labelHidden: true,
+      },
     },
     {
       field: 'name',

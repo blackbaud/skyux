@@ -53,9 +53,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
   public columnDefs: ColDef[] = [
     {
       field: 'selected',
-      headerName: '',
       maxWidth: 50,
-      sortable: false,
       type: SkyCellType.RowSelector,
     },
     {
@@ -173,6 +171,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
       },
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
+        labelHidden: true,
       },
     },
     {
