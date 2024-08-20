@@ -12,26 +12,27 @@
     <span class="ag-header-cell-label-and-icons">
       @if (params?.enableSorting) {
         <button
-          [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
+          aria-hidden="true"
           class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
           type="button"
-          [innerText]="params?.displayName"
+          [innerText]="displayName"
+          [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
           (click)="onSortRequested($event)"
         ></button>
-      } @else {
+      } @else if (displayName) {
         <span
-          [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
+          aria-hidden="true"
           class="ag-header-cell-text"
-          >{{ params?.displayName }}</span
+          [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
+          >{{ displayName }}</span
         >
       }
       @if (filterEnabled$ | async) {
         <span
-          class="ag-header-icon ag-header-label-icon ag-filter-icon"
           aria-hidden="true"
-        >
-          <sky-icon icon="filter" />
-        </span>
+          class="ag-header-icon ag-header-label-icon ag-filter-icon"
+          ><sky-icon icon="filter"
+        /></span>
       }
       @if (params?.enableSorting) {
         <button
@@ -46,7 +47,7 @@
                 <sky-icon *skyThemeIf="'modern'" icon="chevron-down" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
-                    | skyLibResources: params?.displayName
+                    | skyLibResources: displayName ?? accessibleHeaderText
                 }}</span></span
               >
             }
@@ -56,26 +57,26 @@
                 <sky-icon *skyThemeIf="'modern'" icon="chevron-up" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
-                    | skyLibResources: params?.displayName
+                    | skyLibResources: displayName ?? accessibleHeaderText
                 }}</span></span
               >
             }
           } @else {
             <span class="sky-screen-reader-only">{{
               'sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted'
-                | skyLibResources: params?.displayName
+                | skyLibResources: displayName ?? accessibleHeaderText
             }}</span>
           }
           @if (sortIndexDisplay$ | async; as sortIndexDisplay) {
             <span
-              class="ag-sort-indicator-icon ag-sort-order"
               aria-hidden="true"
+              class="ag-sort-indicator-icon ag-sort-order"
               >{{ sortIndexDisplay }}</span
             >
           }
         </button>
       }
     </span>
-    <span class="sky-control-help-container" #inlineHelpContainer></span>
+    <span #inlineHelpContainer class="sky-control-help-container"></span>
   </div>
 </div>
