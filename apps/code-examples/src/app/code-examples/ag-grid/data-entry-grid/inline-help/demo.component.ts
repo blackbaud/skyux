@@ -56,6 +56,10 @@ export class DemoComponent {
       maxWidth: 50,
       sortable: false,
       cellRenderer: ContextMenuComponent,
+      headerName: 'Context menu',
+      headerComponentParams: {
+        headerHidden: true,
+      },
     },
     {
       field: 'name',

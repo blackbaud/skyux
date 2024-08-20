@@ -171,7 +171,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
       },
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
-        labelHidden: true,
+        headerHidden: true,
       },
     },
     {

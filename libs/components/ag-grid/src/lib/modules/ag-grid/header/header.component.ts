@@ -35,10 +35,10 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
 {
-  // For accessibility, we need to set the title attribute on the header element if there is not a display name.
+  // For accessibility, we need to set the title attribute on the header element if there is no visible header text.
   // https://dequeuniversity.com/rules/axe/4.5/empty-table-header?application=axeAPI
   @HostBinding('attr.title')
-  public columnLabel: string | undefined;
+  public accessibleHeaderText: string | undefined;
 
   @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
   public inlineHelpContainer: ElementRef | undefined;
@@ -82,12 +82,13 @@ export class SkyAgGridHeaderComponent
     this.#leftPosition = params.column.getLeft() ?? 0;
     if (
       params.displayName &&
-      !params.column.getColDef().headerComponentParams?.labelHidden
+      !params.column.getColDef().headerComponentParams?.headerHidden
     ) {
-      this.columnLabel = undefined;
+      this.accessibleHeaderText = undefined;
       this.displayName = params.displayName;
     } else {
-      this.columnLabel = params.displayName || params.column.getColDef().field;
+      this.accessibleHeaderText =
+        params.displayName || params.column.getColDef().field;
       this.displayName = undefined;
     }
     this.#subscriptions = new Subscription();

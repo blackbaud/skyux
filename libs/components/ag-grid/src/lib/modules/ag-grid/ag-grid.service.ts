@@ -409,7 +409,7 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
           headerComponentParams: {
-            labelHidden: true,
+            headerHidden: true,
           },
           headerName: 'Row selection',
           minWidth: 55,

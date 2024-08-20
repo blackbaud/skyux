@@ -47,7 +47,7 @@
                 <sky-icon *skyThemeIf="'modern'" icon="chevron-down" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
-                    | skyLibResources: displayName ?? columnLabel
+                    | skyLibResources: displayName ?? accessibleHeaderText
                 }}</span></span
               >
             }
@@ -57,14 +57,14 @@
                 <sky-icon *skyThemeIf="'modern'" icon="chevron-up" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
-                    | skyLibResources: displayName ?? columnLabel
+                    | skyLibResources: displayName ?? accessibleHeaderText
                 }}</span></span
               >
             }
           } @else {
             <span class="sky-screen-reader-only">{{
               'sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted'
-                | skyLibResources: displayName ?? columnLabel
+                | skyLibResources: displayName ?? accessibleHeaderText
             }}</span>
           }
           @if (sortIndexDisplay$ | async; as sortIndexDisplay) {
