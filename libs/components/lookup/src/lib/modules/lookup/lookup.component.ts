@@ -95,7 +95,7 @@ export class SkyLookupComponent
    * enter text. You can specify static data such as an array of objects, or
    * you can pull data from a database.
    * @default []
-   * @deprecated The `searchAsync` event emitter and callback to provide data to the lookup component.
+   * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */
   @Input()
   public set data(value: any[] | undefined) {

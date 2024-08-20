@@ -41,7 +41,7 @@ export class SkyLookupAutocompleteAdapter {
   /**
    * The array of object properties to search when utilizing the `data` property and the built-in search function.
    * @default ["name"]
-   * @deprecated The `searchAsync` event emitter and callback to provide data to the lookup component.
+   * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */
   @Input()
   public set propertiesToSearch(value: string[] | undefined) {
@@ -59,7 +59,7 @@ export class SkyLookupAutocompleteAdapter {
    * change the text in the lookup field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code.
-   * @deprecated The `searchAsync` event emitter and callback to provide searched data to the lookup component.
+   * @deprecated Use the `searchAsync` event emitter and callback instead to provide searched data to the lookup component.
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction | undefined) {
@@ -99,7 +99,7 @@ export class SkyLookupAutocompleteAdapter {
    * using a custom search function via the `search` property filters must be
    * applied manually inside that function. The function must return `true` or
    * `false` for each result to indicate whether to display it in the dropdown list.
-   * @deprecated The `searchAsync` event emitter and callback to provide searched data to the lookup component.
+   * @deprecated Use the `searchAsync` event emitter and callback instead to provide searched data to the lookup component.
    */
   @Input()
   public set searchFilters(
