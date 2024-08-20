@@ -164,6 +164,10 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
   .ag-sticky-bottom::after {
     border-color: transparent;
   }
+
+  .ag-cell.ag-cell-focus a:focus-visible:not(:active) {
+    margin-inline-start: 2px;
+  }
 }
 
 .ag-theme-sky-data-grid-default,
