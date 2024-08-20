@@ -3,7 +3,10 @@
 
 :host {
   display: inline-block;
-  background-color: hotpink;
+}
+
+.sky-radio-outer-wrapper {
+  display: flex;
 }
 
 .sky-radio-help-inline {
