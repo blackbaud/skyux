@@ -22,9 +22,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_ag_grid_row_selector_aria_label: {
       message: 'Row selector for row {0}',
     },
-    sky_ag_grid_row_selector_column_heading: {
-      message: 'Row selection',
-    },
+    sky_ag_grid_row_selector_column_heading: { message: 'Row selection' },
     sky_ag_grid_cell_editor_datepicker_aria_label: {
       message: 'Editable date {0} for row {1}',
     },
