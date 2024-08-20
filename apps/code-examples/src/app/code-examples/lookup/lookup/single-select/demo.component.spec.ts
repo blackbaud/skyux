@@ -4,9 +4,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
-import { DemoComponent } from './demo.component';
+import { of } from 'rxjs';
 
-describe('Lookup single select demo', () => {
+import { DemoComponent } from './demo.component';
+import { DemoService } from './demo.service';
+
+describe('Lookup single-select demo', () => {
+  let mockSvc!: jasmine.SpyObj<DemoService>;
+
   async function setupTest(): Promise<{
     lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<DemoComponent>;
@@ -16,7 +21,7 @@ describe('Lookup single select demo', () => {
 
     const lookupHarness = await (
       await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: 'favorite-name-field' }),
+        SkyInputBoxHarness.with({ dataSkyId: 'favorite-names-field' }),
       )
     ).queryHarness(SkyLookupHarness);
 
@@ -24,8 +29,18 @@ describe('Lookup single select demo', () => {
   }
 
   beforeEach(() => {
+    // Create a mock search service. In a real-world application, the search
+    // service would make a web request which should be avoided in unit tests.
+    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
+
     TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
+      providers: [
+        {
+          provide: DemoService,
+          useValue: mockSvc,
+        },
+      ],
     });
   });
 
@@ -38,28 +53,56 @@ describe('Lookup single select demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness.enterText('be');
+    mockSvc.search.and.callFake((searchText) =>
+      of({
+        hasMore: false,
+        people:
+          searchText === 'b'
+            ? [
+                {
+                  name: 'Bernard',
+                },
+              ]
+            : [],
+        totalCount: 1,
+      }),
+    );
+
+    await lookupHarness.enterText('b');
     await lookupHarness.selectSearchResult({
-      text: 'Ben',
+      text: 'Bernard',
     });
 
     expect(fixture.componentInstance.favoritesForm.value.favoriteName).toEqual([
-      { name: 'Ben' },
+      { name: 'Bernard' },
     ]);
   });
 
   it('should respect the selection descriptor', async () => {
     const { lookupHarness } = await setupTest();
 
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            id: '21',
+            name: 'Bernard',
+          },
+        ],
+        totalCount: 1,
+      }),
+    );
+
     await lookupHarness.clickShowMoreButton();
 
     const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
-      'Search name',
+      'Search names',
     );
     await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
-      'Select name',
+      'Select names',
     );
   });
 });

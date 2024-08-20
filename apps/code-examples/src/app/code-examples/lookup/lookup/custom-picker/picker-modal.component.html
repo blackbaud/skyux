@@ -1,26 +1,32 @@
 <sky-modal class="lookup-custom-picker-modal">
   <sky-modal-header>Names</sky-modal-header>
   <sky-modal-content>
-    <form [formGroup]="peopleForm">
-      <sky-selection-box-grid>
-        <sky-selection-box
-          *ngFor="
-            let personControl of peopleForm.controls.people.controls;
-            let i = index
-          "
-          [control]="checkbox"
-        >
-          <sky-icon icon="user" />
-          <sky-selection-box-header>
-            {{ people[i].name }}
-          </sky-selection-box-header>
-          <sky-selection-box-description>
-            {{ people[i].formal }}
-          </sky-selection-box-description>
-          <sky-checkbox [formControl]="personControl" #checkbox></sky-checkbox>
-        </sky-selection-box>
-      </sky-selection-box-grid>
-    </form>
+    @if (peopleForm) {
+      <form [formGroup]="peopleForm">
+        <sky-selection-box-grid>
+          @for (
+            personControl of peopleForm.controls.people.controls;
+            track personControl;
+            let i = $index
+          ) {
+            <sky-selection-box [control]="checkbox">
+              <sky-icon icon="user" />
+              <sky-selection-box-header>
+                {{ people[i].name }}
+              </sky-selection-box-header>
+              <sky-selection-box-description>
+                {{ people[i].formal }}
+              </sky-selection-box-description>
+              <sky-checkbox #checkbox [formControl]="personControl" />
+            </sky-selection-box>
+          }
+        </sky-selection-box-grid>
+      </form>
+    } @else {
+      <div class="wait-container">
+        <sky-wait [isWaiting]="true" />
+      </div>
+    }
   </sky-modal-content>
   <sky-modal-footer>
     <button
