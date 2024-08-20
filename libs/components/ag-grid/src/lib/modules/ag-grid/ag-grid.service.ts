@@ -458,7 +458,6 @@ export class SkyAgGridService implements OnDestroy {
       },
       domLayout: 'autoHeight',
       ensureDomOrder: true,
-      enterNavigatesVerticallyAfterEdit: true,
       components: {
         'sky-ag-grid-cell-renderer-currency':
           SkyAgGridCellRendererCurrencyComponent,
