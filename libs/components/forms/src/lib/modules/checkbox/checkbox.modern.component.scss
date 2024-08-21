@@ -1,8 +1,13 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+@include mixins.sky-component-host('modern') {
+  display: inline-block;
+  background-color: hotpink;
+}
+
 @include mixins.sky-component('modern', '.sky-checkbox-outer-wrapper') {
-  display: inline-flex;
+  display: flex;
 
   .sky-checkbox-help-inline {
     display: inline-flex;
