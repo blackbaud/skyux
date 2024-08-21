@@ -56,7 +56,7 @@ export class SkyFormErrorsComponent {
   public touched = false;
 
   /**
-   * Indicates whether the parent component's control is touched
+   * Indicates whether the parent component's control is dirty
    */
   @Input({ transform: coerceBooleanProperty })
   public dirty = false;
