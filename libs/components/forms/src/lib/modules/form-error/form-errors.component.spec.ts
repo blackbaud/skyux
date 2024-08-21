@@ -7,7 +7,6 @@ import { SkyFormErrorModule } from './form-error.module';
 import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 import { SkyFormErrorsModule } from './form-errors.module';
 
-// SANKHYA TODO update unit tests
 @Component({
   standalone: true,
   imports: [SkyFormErrorsModule, SkyFormErrorModule],
@@ -17,6 +16,8 @@ import { SkyFormErrorsModule } from './form-errors.module';
       [labelText]="labelText"
       [errors]="errors"
       [showErrors]="showErrors"
+      [touched]="touched"
+      [dirty]="dirty"
     >
       <sky-form-error errorName="custom" errorMessage="Custom error" />
     </sky-form-errors>
@@ -26,6 +27,8 @@ class FormErrorsComponent {
   public errors?: ValidationErrors | undefined;
   public labelText: string | undefined = 'Label text';
   public showErrors = true;
+  public touched = false;
+  public dirty: boolean | undefined = false;
 }
 
 describe('Form errors component', () => {
@@ -38,7 +41,7 @@ describe('Form errors component', () => {
 
     fixture.detectChanges();
   });
-  it('should render known input errors when they are passed, a labelText is present, and showErrors is true', () => {
+  it('should render known input errors when they are passed, a labelText is present, and showErrors is true based on touched and/or dirty', () => {
     componentInstance.errors = {
       required: true,
       maxlength: true,
@@ -58,9 +61,23 @@ describe('Form errors component', () => {
     };
     fixture.detectChanges();
 
+    // max length
+    componentInstance.dirty = true;
+    fixture.detectChanges();
+
+    const formError = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='maxlength']`,
+    );
+    expect(formError).toExist();
+    expect(formError).toBeVisible();
+
+    // all other first class errors
+    componentInstance.dirty = undefined;
+    componentInstance.touched = true;
+    fixture.detectChanges();
+
     [
       'required',
-      'maxlength',
       'minlength',
       'invalidDate',
       'minDate',
@@ -84,22 +101,7 @@ describe('Form errors component', () => {
     });
   });
 
-  it('should render known and custom errors when a labelText is present and showErrors is true', () => {
-    componentInstance.errors = {
-      required: true,
-    };
-    fixture.detectChanges();
-
-    ['required', 'custom'].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toExist();
-      expect(formError).toBeVisible();
-    });
-  });
-
-  it('should render custom errors when there are no known errors, labelText is present, and showErrors is true', () => {
+  it('should render custom errors when there are no known errors, labelText is present, and showErrors is true regardless of touched or dirty', () => {
     const formError = fixture.nativeElement.querySelector(
       `sky-form-error[errorName='custom']`,
     );
@@ -110,12 +112,13 @@ describe('Form errors component', () => {
   it('should not render any errors when they are passed but showErrors is false', () => {
     componentInstance.errors = {
       required: true,
+      maxlength: true,
     };
     componentInstance.showErrors = false;
 
     fixture.detectChanges();
 
-    ['required', 'custom'].forEach((errorName) => {
+    ['required', 'custom', 'maxlength'].forEach((errorName) => {
       const formError = fixture.nativeElement.querySelector(
         `sky-form-error[errorName='${errorName}']`,
       );
@@ -126,12 +129,13 @@ describe('Form errors component', () => {
   it('should not render any errors when they are passed but labelText is undefined', () => {
     componentInstance.errors = {
       required: true,
+      maxlength: true,
     };
     componentInstance.labelText = undefined;
 
     fixture.detectChanges();
 
-    ['required', 'custom'].forEach((errorName) => {
+    ['required', 'custom', 'maxlength'].forEach((errorName) => {
       const formError = fixture.nativeElement.querySelector(
         `sky-form-error[errorName='${errorName}']`,
       );
