@@ -65,6 +65,10 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       maxWidth: 50,
       sortable: false,
       cellRenderer: ContextMenuComponent,
+      headerName: 'Context menu',
+      headerComponentParams: {
+        headerHidden: true,
+      },
     },
     {
       field: 'name',

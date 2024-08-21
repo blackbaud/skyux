@@ -74,6 +74,7 @@ describe('HeaderComponent', () => {
         isFilterAllowed: () => false,
         getSort: (): 'asc' | 'desc' | null | undefined => undefined,
         getSortIndex: () => undefined,
+        getColDef: () => ({}),
         getColId: () => 'test',
         getLeft: () => columnLeft,
       } as AgColumn,

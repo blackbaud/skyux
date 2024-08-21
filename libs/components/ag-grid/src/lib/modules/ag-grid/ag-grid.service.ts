@@ -408,7 +408,10 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Uneditable]: cellClassRuleTrueExpression,
           },
           cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
-          headerName: '',
+          headerComponentParams: {
+            headerHidden: true,
+          },
+          headerName: 'Row selection',
           minWidth: 55,
           maxWidth: 55,
           resizable: false,
@@ -455,7 +458,6 @@ export class SkyAgGridService implements OnDestroy {
       },
       domLayout: 'autoHeight',
       ensureDomOrder: true,
-      enterNavigatesVerticallyAfterEdit: true,
       components: {
         'sky-ag-grid-cell-renderer-currency':
           SkyAgGridCellRendererCurrencyComponent,
@@ -520,6 +522,7 @@ export class SkyAgGridService implements OnDestroy {
     if (this.#resources) {
       this.#resources
         .getString('sky_ag_grid_cell_renderer_currency_validator_message')
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value) => {
           columnTypes[
             SkyCellType.CurrencyValidator
@@ -547,10 +550,17 @@ export class SkyAgGridService implements OnDestroy {
     if (this.#resources) {
       this.#resources
         .getString('sky_ag_grid_cell_renderer_number_validator_message')
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value) => {
           columnTypes[
             SkyCellType.NumberValidator
           ].cellRendererParams.skyComponentProperties.validatorMessage = value;
+        });
+      this.#resources
+        .getString('sky_ag_grid_row_selector_column_heading')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((value) => {
+          columnTypes[SkyCellType.RowSelector].headerName = value;
         });
     }
 

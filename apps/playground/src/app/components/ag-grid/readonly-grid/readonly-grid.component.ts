@@ -44,10 +44,13 @@ export class ReadonlyGridComponent implements OnInit {
     },
     {
       colId: 'contextMenu',
-      headerName: '',
+      headerName: 'Context menu',
       sortable: false,
       cellRenderer: ReadonlyGridContextMenuComponent,
       maxWidth: 55,
+      headerComponentParams: {
+        headerHidden: true,
+      },
     },
     {
       field: 'name',
