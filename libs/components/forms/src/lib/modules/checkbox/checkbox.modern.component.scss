@@ -3,7 +3,6 @@
 
 @include mixins.sky-component-host('modern') {
   display: inline-block;
-  background-color: hotpink;
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-outer-wrapper') {
