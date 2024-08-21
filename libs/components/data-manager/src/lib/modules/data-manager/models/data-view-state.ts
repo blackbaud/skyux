@@ -13,6 +13,10 @@ export class SkyDataViewState {
    */
   public displayedColumnIds: string[] = [];
   /**
+   * Width of columns for column-based views
+   */
+  public columnWidths: { [columnId: string]: number } = {};
+  /**
    * The ID of this view.
    */
   public viewId: string;
@@ -28,6 +32,7 @@ export class SkyDataViewState {
     this.columnIds = data.columnIds || [];
     this.displayedColumnIds = data.displayedColumnIds || [];
     this.additionalData = data.additionalData;
+    this.columnWidths = data.columnWidths || {};
   }
 
   /**
@@ -40,6 +45,7 @@ export class SkyDataViewState {
       columnIds: this.columnIds,
       displayedColumnIds: this.displayedColumnIds,
       additionalData: this.additionalData,
+      columnWidths: this.columnWidths,
     };
   }
 }

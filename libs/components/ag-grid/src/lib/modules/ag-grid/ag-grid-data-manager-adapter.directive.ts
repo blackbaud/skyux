@@ -16,6 +16,7 @@ import {
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   ColumnMovedEvent,
+  ColumnResizedEvent,
   ColumnState,
   DragStoppedEvent,
   GridApi,
@@ -228,6 +229,19 @@ export class SkyAgGridDataManagerAdapterDirective
           }
         });
 
+      agGrid.columnResized
+        .pipe(
+          takeUntil(this.#ngUnsubscribe),
+          filter(
+            (event: ColumnResizedEvent) =>
+              !['gridInitializing', 'api'].includes(event.source), // this is so we don't get stuck in a loop
+          ),
+        )
+        .subscribe(() => {
+          // todo capture column width changes
+          // todo use resize observer for xs
+        });
+
       agGrid.sortChanged.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
         const gridColumnStates: ColumnState[] = agGrid.api.getColumnState();
 
@@ -259,6 +273,7 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   #updateColumnsInCurrentDataState(api: GridApi): void {
+    // use this same logic to store column width
     if (this.#viewConfig && this.#currentDataState) {
       const columnOrder = this.#getColumnOrder(api);
 
@@ -297,11 +312,26 @@ export class SkyAgGridDataManagerAdapterDirective
     if (agGrid && this.#viewConfig) {
       const viewState = dataState.getViewStateById(this.#viewConfig.id);
       let displayedColumnIds: string[] = [];
+      let columnWidths: { [key: string]: number } = {};
 
       /*istanbul ignore else*/
       if (viewState?.displayedColumnIds) {
         displayedColumnIds = viewState.displayedColumnIds;
       }
+
+      if (viewState?.columnWidths) {
+        // set widths for columns if they are stored in view state
+        columnWidths = viewState.columnWidths;
+      }
+      const newColumns = agGrid.api
+        .getColumnState()
+        .map((col) => col.colId)
+        .filter((colId) => !viewState?.columnWidths[colId]);
+      newColumns.forEach((colId) => {
+        // could be undefined ugh temp default value
+        const columnWidth = agGrid.api.getColumn(colId)?.getActualWidth() || 50;
+        // todo save above column width to the viewState.columnWidth
+      });
 
       const columnOrder = this.#getColumnOrder(agGrid.api);
 
@@ -317,6 +347,12 @@ export class SkyAgGridDataManagerAdapterDirective
         agGrid.api.setColumnsVisible(hideColumns, false);
         agGrid.api.setColumnsVisible(displayedColumnIds, true);
         agGrid.api.moveColumns(displayedColumnIds, 0);
+        if (Object.keys(columnWidths).length > 0) {
+          const newColumnWidths = Object.entries(columnWidths)
+            .filter(([key]) => displayedColumnIds.includes(key))
+            .map(([key, value]) => ({ key, newWidth: value }));
+          agGrid.api.setColumnWidths(newColumnWidths);
+        }
       }
     }
   }

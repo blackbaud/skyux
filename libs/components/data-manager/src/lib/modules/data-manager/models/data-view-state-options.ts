@@ -17,4 +17,8 @@ export interface SkyDataViewStateOptions {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalData?: any;
+  /**
+   * Width of columns for column-based views
+   */
+  columnWidths?: { [columnId: string]: number };
 }
