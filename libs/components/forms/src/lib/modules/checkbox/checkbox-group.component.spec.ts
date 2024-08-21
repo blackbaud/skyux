@@ -179,11 +179,15 @@ describe('Checkbox group component', function () {
       const checkbox = getCheckboxes(fixture)?.[0];
       const checkboxInput = checkbox?.querySelector('input');
 
+      // todo: flex topic about this, is it a bug
       // check and uncheck the checkbox to trigger the validation error
       checkboxInput?.click();
       fixture.detectChanges();
 
       checkboxInput?.click();
+      fixture.detectChanges();
+
+      componentInstance.formGroup.markAllAsTouched();
       fixture.detectChanges();
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');
@@ -206,6 +210,9 @@ describe('Checkbox group component', function () {
       fixture.detectChanges();
 
       checkboxInput?.click();
+      fixture.detectChanges();
+
+      componentInstance.contactMethod.markAsTouched();
       fixture.detectChanges();
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');
