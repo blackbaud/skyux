@@ -17,7 +17,6 @@ import {
 } from '@skyux/data-manager';
 import { FontLoadingService } from '@skyux/storybook';
 
-import { AgGridAngular } from 'ag-grid-angular';
 import { FirstDataRenderedEvent, GridOptions } from 'ag-grid-community';
 import {
   BehaviorSubject,
@@ -75,9 +74,6 @@ export class DataManagerComponent implements AfterViewInit {
 
   @Input()
   public autoHeightColumns = false;
-
-  @ViewChild(AgGridAngular)
-  public agGrid: AgGridAngular | undefined;
 
   @ViewChild('link')
   public linkTemplate!: TemplateRef<unknown>;
