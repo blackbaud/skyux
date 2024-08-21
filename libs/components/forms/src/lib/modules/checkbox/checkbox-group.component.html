@@ -66,6 +66,8 @@
   [errors]="formGroup?.errors"
   [labelText]="headingText"
   [showErrors]="formGroup?.touched || formGroup?.dirty"
+  [touched]="formGroup?.touched"
+  [dirty]="formGroup?.dirty"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>

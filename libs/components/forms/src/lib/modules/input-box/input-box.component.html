@@ -185,6 +185,8 @@
     [labelText]="labelText"
     [ngClass]="{ 'sky-screen-reader-only': errorsScreenReaderOnly() }"
     [showErrors]="controlDir?.touched || controlDir?.dirty"
+    [touched]="controlDir?.touched"
+    [dirty]="controlDir?.dirty"
   >
     <ng-content select="sky-form-error" />
   </sky-form-errors>

@@ -49,6 +49,18 @@ export class SkyFormErrorsComponent {
   @Input({ transform: coerceBooleanProperty })
   public showErrors = true;
 
+  /**
+   * Indicates whether the parent component's control is touched
+   */
+  @Input({ transform: coerceBooleanProperty })
+  public touched = false;
+
+  /**
+   * Indicates whether the parent component's control is touched
+   */
+  @Input({ transform: coerceBooleanProperty })
+  public dirty = false;
+
   @HostBinding('attr.aria-atomic')
   protected readonly ariaAtomic = 'true';
 

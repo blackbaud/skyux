@@ -96,6 +96,8 @@
   [errors]="control?.errors"
   [labelText]="labelText"
   [showErrors]="control?.touched || control?.dirty"
+  [touched]="control?.touched"
+  [dirty]="control?.dirty"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>

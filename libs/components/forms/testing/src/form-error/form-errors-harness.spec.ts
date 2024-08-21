@@ -12,6 +12,7 @@ import {
 
 import { SkyFormErrorsHarness } from './form-errors-harness';
 
+// SANKHYA TODO update form errors test harness
 //#region Test component
 @Component({
   selector: 'sky-form-errors-test',
