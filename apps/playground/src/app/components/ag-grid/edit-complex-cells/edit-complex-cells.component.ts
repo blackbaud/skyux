@@ -29,6 +29,7 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { delay, skip } from 'rxjs/operators';
 
+import { ActionComponent } from './action/action.component';
 import { CustomMultilineComponent } from './custom-multiline/custom-multiline.component';
 import {
   EDITABLE_GRID_DATA,
@@ -123,6 +124,15 @@ export class EditComplexCellsComponent implements OnInit {
         },
         sortable: false,
         filter: true,
+      },
+      {
+        colId: 'action',
+        headerName: 'Action',
+        cellRenderer: ActionComponent,
+        type: 'skyCellButtonEditor',
+        editable: this.editMode,
+        minWidth: 130,
+        autoHeight: true,
       },
       {
         colId: 'validationAutocomplete',
@@ -311,6 +321,13 @@ export class EditComplexCellsComponent implements OnInit {
         this.rowDeleteIds = this.rowDeleteIds.filter(
           (id) => id !== $event.node.id,
         );
+      }
+    });
+
+    this.gridApi.addEventListener('cellEditingStarted', (params) => {
+      if (params.colDef?.type === 'skyCellButtonEditor') {
+        this.gridApi.stopEditing();
+        this.gridApi.setFocusedCell(params.rowIndex, params.column);
       }
     });
 

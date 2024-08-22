@@ -16,6 +16,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  CellEditingStartedEvent,
   ColDef,
   GridApi,
   GridOptions,
@@ -27,6 +28,7 @@ import {
 
 import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data';
 import { EditModalContext } from './edit-modal-context';
+import { MarkInactiveComponent } from './mark-inactive.component';
 
 @Component({
   standalone: true,
@@ -49,6 +51,13 @@ export class EditModalComponent {
 
   constructor() {
     this.#columnDefs = [
+      {
+        colId: 'markInactiveAction',
+        headerName: 'Mark inactive',
+        type: 'markInactiveEditor',
+        cellRenderer: MarkInactiveComponent,
+        editable: true,
+      },
       {
         field: 'name',
         headerName: 'Name',
@@ -190,6 +199,19 @@ export class EditModalComponent {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
     this.#gridApi.sizeColumnsToFit();
+
+    this.#gridApi.addEventListener(
+      'cellEditingStarted',
+      (params: CellEditingStartedEvent) => {
+        if (params.colDef?.type === 'markInactiveEditor') {
+          this.#gridApi?.stopEditing();
+          if (params.rowIndex && params.column) {
+            this.#gridApi?.setFocusedCell(params.rowIndex, params.column);
+          }
+        }
+      },
+    );
+
     this.#changeDetectorRef.markForCheck();
   }
 
