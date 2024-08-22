@@ -34,31 +34,27 @@
     ]"
   >
     @switch (buttonType) {
-      @case ('context-menu') {
-        <ng-template>
-          <sky-icon icon="ellipsis" />
-        </ng-template>
+      @case (context - menu) {
+        <sky-icon icon="ellipsis" />
       }
       @default {
-        <ng-template>
-          <div class="sky-dropdown-button-container">
-            <div class="sky-dropdown-button-content-container">
-              <ng-content select="sky-dropdown-button" />
-            </div>
-            <div class="sky-dropdown-button-icon-container">
-              <sky-icon
-                *skyThemeIf="'default'"
-                class="sky-dropdown-caret"
-                icon="caret-down"
-              />
-              <sky-icon
-                *skyThemeIf="'modern'"
-                class="sky-dropdown-caret"
-                icon="chevron-down"
-              />
-            </div>
+        <div class="sky-dropdown-button-container">
+          <div class="sky-dropdown-button-content-container">
+            <ng-content select="sky-dropdown-button" />
           </div>
-        </ng-template>
+          <div class="sky-dropdown-button-icon-container">
+            <sky-icon
+              *skyThemeIf="'default'"
+              class="sky-dropdown-caret"
+              icon="caret-down"
+            />
+            <sky-icon
+              *skyThemeIf="'modern'"
+              class="sky-dropdown-caret"
+              icon="chevron-down"
+            />
+          </div>
+        </div>
       }
     }
   </button>
