@@ -1,6 +1,6 @@
 import { SkyCellType } from '@skyux/ag-grid';
 
-import { ColDef, ValueFormatterParams } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
 
 import { InlineHelpComponent } from './inline-help/inline-help.component';
 
@@ -59,12 +59,11 @@ export const columnDefinitions: ColDef[] = [
   ].map(([field, headerName]) => ({
     field,
     colId: field,
+    dataType: 'Boolean',
     headerName,
     sortable: false,
     cellClass: 'booleanType',
-    cellRenderer: 'textContent',
-    valueFormatter: (params: ValueFormatterParams) =>
-      params.value ? 'Yes' : 'No',
+    initialWidth: 40,
   })),
   {
     field: 'vote%',
