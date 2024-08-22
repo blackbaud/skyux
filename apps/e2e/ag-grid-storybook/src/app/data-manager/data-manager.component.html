@@ -1,3 +1,11 @@
+<ng-template #link let-value="value">
+  <a
+    href="https://www.google.com/search?q={{ encodeURIComponent(value) }}"
+    target="_blank"
+    >{{ value }}</a
+  >
+</ng-template>
+
 <sky-data-manager>
   <sky-data-manager-toolbar>
     <sky-data-manager-toolbar-primary-item>
