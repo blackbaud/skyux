@@ -3,13 +3,8 @@
   <sky-modal-content>
     <form [formGroup]="form" (submit)="modal.save()">
       <ng-container *ngFor="let field of fields" class="row">
-        <ng-container [ngSwitch]="title">
-          <ng-container *ngSwitchDefault>
-            <sky-input-box [labelText]="field">
-              <input [formControlName]="field" type="text" />
-            </sky-input-box>
-          </ng-container>
-          <ng-container *ngSwitchCase="'Color'">
+        @switch (title) {
+          @case ('Color') {
             <div class="sky-form-group">
               <label class="sky-control-label" [for]="input.id">{{
                 field
@@ -24,8 +19,13 @@
                 />
               </sky-colorpicker>
             </div>
-          </ng-container>
-        </ng-container>
+          }
+          @default {
+            <sky-input-box [labelText]="field">
+              <input [formControlName]="field" type="text" />
+            </sky-input-box>
+          }
+        }
       </ng-container>
     </form>
   </sky-modal-content>
