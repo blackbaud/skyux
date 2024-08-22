@@ -43,13 +43,6 @@ export class SkyFormErrorsComponent {
   public labelText: string | undefined;
 
   /**
-   * Indicates whether to show error messages, which might only be true if the
-   * form control is touched or dirty.
-   */
-  @Input({ transform: coerceBooleanProperty })
-  public showErrors = true;
-
-  /**
    * Indicates whether the parent component's control is touched
    */
   @Input({ transform: coerceBooleanProperty })

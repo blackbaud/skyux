@@ -172,22 +172,13 @@ describe('Checkbox group component', function () {
       expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 
-    it('should validate that a checkbox is selected when required', () => {
+    it('should validate that a checkbox is selected when required', async () => {
       componentInstance.required = true;
       fixture.detectChanges();
 
-      const checkbox = getCheckboxes(fixture)?.[0];
-      const checkboxInput = checkbox?.querySelector('input');
-
-      // todo: flex topic about this, is it a bug
-      // check and uncheck the checkbox to trigger the validation error
-      checkboxInput?.click();
-      fixture.detectChanges();
-
-      checkboxInput?.click();
-      fixture.detectChanges();
-
-      componentInstance.formGroup.markAllAsTouched();
+      // Trigger validation and mark all checkboxes as touched.
+      fixture.componentInstance.contactMethod.updateValueAndValidity();
+      fixture.componentInstance.contactMethod.markAllAsTouched();
       fixture.detectChanges();
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');

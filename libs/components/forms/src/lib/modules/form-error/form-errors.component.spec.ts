@@ -15,7 +15,6 @@ import { SkyFormErrorsModule } from './form-errors.module';
     <sky-form-errors
       [labelText]="labelText"
       [errors]="errors"
-      [showErrors]="showErrors"
       [touched]="touched"
       [dirty]="dirty"
     >
@@ -26,7 +25,6 @@ import { SkyFormErrorsModule } from './form-errors.module';
 class FormErrorsComponent {
   public errors?: ValidationErrors | undefined;
   public labelText: string | undefined = 'Label text';
-  public showErrors = true;
   public touched = false;
   public dirty: boolean | undefined = false;
 }
@@ -41,7 +39,7 @@ describe('Form errors component', () => {
 
     fixture.detectChanges();
   });
-  it('should render known input errors when they are passed, a labelText is present, and showErrors is true based on touched and/or dirty', () => {
+  it('should render known input errors when they are passed and a labelText is present based on touched and/or dirty', () => {
     componentInstance.errors = {
       required: true,
       maxlength: true,
@@ -61,7 +59,7 @@ describe('Form errors component', () => {
     };
     fixture.detectChanges();
 
-    // max length
+    // dirty
     componentInstance.dirty = true;
     fixture.detectChanges();
 
@@ -71,7 +69,7 @@ describe('Form errors component', () => {
     expect(formError).toExist();
     expect(formError).toBeVisible();
 
-    // all other first class errors
+    // touched
     componentInstance.dirty = undefined;
     componentInstance.touched = true;
     fixture.detectChanges();
@@ -79,6 +77,7 @@ describe('Form errors component', () => {
     [
       'required',
       'minlength',
+      'maxlength',
       'invalidDate',
       'minDate',
       'maxDate',
@@ -101,29 +100,27 @@ describe('Form errors component', () => {
     });
   });
 
-  it('should render custom errors when there are no known errors, labelText is present, and showErrors is true regardless of touched or dirty', () => {
-    const formError = fixture.nativeElement.querySelector(
-      `sky-form-error[errorName='custom']`,
-    );
-    expect(formError).toExist();
-    expect(formError).toBeVisible();
-  });
-
-  it('should not render any errors when they are passed but showErrors is false', () => {
-    componentInstance.errors = {
-      required: true,
-      maxlength: true,
-    };
-    componentInstance.showErrors = false;
-
+  it('should render custom errors when there are no known errors and labelText is present regardless of touched or dirty', () => {
+    componentInstance.touched = true;
     fixture.detectChanges();
 
-    ['required', 'custom', 'maxlength'].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toBeNull();
-    });
+    let formError = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='custom']`,
+    );
+
+    expect(formError).toExist();
+    expect(formError).toBeVisible();
+
+    componentInstance.touched = false;
+    componentInstance.dirty = true;
+    fixture.detectChanges();
+
+    formError = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='custom']`,
+    );
+
+    expect(formError).toExist();
+    expect(formError).toBeVisible();
   });
 
   it('should not render any errors when they are passed but labelText is undefined', () => {
