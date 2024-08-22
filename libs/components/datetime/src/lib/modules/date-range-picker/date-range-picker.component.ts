@@ -193,14 +193,6 @@ export class SkyDateRangePickerComponent
   }
 
   /**
-   * Whether to require users to specify a end date.
-   * @deprecated Use the `required` directive or Angular's `Validators.required`
-   * on the form control to mark the date range picker as required.
-   */
-  @Input({ transform: booleanAttribute })
-  public endDateRequired = false;
-
-  /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
@@ -261,14 +253,6 @@ export class SkyDateRangePickerComponent
   @Input({ transform: booleanAttribute })
   @HostBinding('class.sky-margin-stacked-lg')
   public stacked = false;
-
-  /**
-   * Whether to require users to specify a start date.
-   * @deprecated Use the `required` directive or Angular's `Validators.required`
-   * on the form control to mark the date range picker as required.
-   */
-  @Input({ transform: booleanAttribute })
-  public startDateRequired = false;
 
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)

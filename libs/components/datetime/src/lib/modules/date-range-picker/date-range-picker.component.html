@@ -22,11 +22,7 @@
         ('skyux_date_range_picker_default_label' | skyLibResources)
       "
     >
-      <select
-        formControlName="calculatorId"
-        [required]="isRequired()"
-        (blur)="onBlur()"
-      >
+      <select formControlName="calculatorId" (blur)="onBlur()">
         <option
           *ngFor="let calculator of calculators"
           [value]="calculator.calculatorId"
@@ -38,11 +34,10 @@
           }}
         </option>
       </select>
-    </sky-input-box>
-    <sky-form-errors [labelText]="labelText">
       <sky-form-error
         *ngIf="
-          hostControl?.errors?.['skyDateRange']?.errors.endDateBeforeStartDate
+          hostControl?.errors?.['skyDateRange']?.errors
+            .endDateBeforeStartDate && labelText
         "
         [errorName]="'endDateBeforeStartDate'"
         [errorText]="
@@ -51,7 +46,7 @@
         "
       />
       <ng-content select="sky-form-error" />
-    </sky-form-errors>
+    </sky-input-box>
   </div>
   <div
     class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
@@ -89,9 +84,7 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="
-            showStartDatePicker && (startDateRequired || isRequired())
-          "
+          [required]="showStartDatePicker && isRequired()"
         />
       </sky-datepicker>
     </sky-input-box>
@@ -129,7 +122,7 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="showEndDatePicker && (endDateRequired || isRequired())"
+          [required]="showEndDatePicker && isRequired()"
         />
       </sky-datepicker>
     </sky-input-box>
