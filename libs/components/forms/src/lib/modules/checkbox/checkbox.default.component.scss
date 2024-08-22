@@ -1,10 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-@include mixins.sky-component-host('default') {
-  display: inline-block;
-}
-
 @include mixins.sky-component('default', '.sky-checkbox-outer-wrapper') {
   display: flex;
 
