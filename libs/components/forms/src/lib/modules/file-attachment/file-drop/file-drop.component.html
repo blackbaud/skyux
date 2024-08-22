@@ -169,8 +169,6 @@
     </div>
   </div>
 </fieldset>
-<!-- TODO: once we add control value accessor, populate the below `sky-form-errors` with the appropriate values for `showErrors`, `touched`, and `dirty`-->
-<!-- for now we are marking touched as true so that file drop will continue to show `required` error-->
 <sky-form-errors
   [class.sky-file-drop-errors]="labelText && rejectedFiles.length"
   [id]="errorId"
