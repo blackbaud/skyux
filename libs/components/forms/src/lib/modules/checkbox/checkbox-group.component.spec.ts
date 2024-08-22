@@ -176,9 +176,24 @@ describe('Checkbox group component', function () {
       componentInstance.required = true;
       fixture.detectChanges();
 
+      const checkbox = getCheckboxes(fixture)?.[0];
+      const checkboxInput = checkbox?.querySelector('input');
+
+      // check the checkbox to trigger the validation
+      checkboxInput?.click();
+      fixture.detectChanges();
+
       // Trigger validation and mark all checkboxes as touched.
       fixture.componentInstance.contactMethod.updateValueAndValidity();
       fixture.componentInstance.contactMethod.markAllAsTouched();
+      fixture.detectChanges();
+
+      // uncheck the checkbox to trigger the validation error
+      checkboxInput?.click();
+      fixture.detectChanges();
+
+      // Trigger validation
+      fixture.componentInstance.contactMethod.updateValueAndValidity();
       fixture.detectChanges();
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');
