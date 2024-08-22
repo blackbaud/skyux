@@ -5,6 +5,7 @@ import {
   Component,
   HostBinding,
   Input,
+  booleanAttribute,
 } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -45,13 +46,13 @@ export class SkyFormErrorsComponent {
   /**
    * Indicates whether the parent component's control is touched
    */
-  @Input({ transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public touched = false;
 
   /**
    * Indicates whether the parent component's control is dirty
    */
-  @Input({ transform: coerceBooleanProperty })
+  @Input({ transform: booleanAttribute })
   public dirty = false;
 
   @HostBinding('attr.aria-atomic')
