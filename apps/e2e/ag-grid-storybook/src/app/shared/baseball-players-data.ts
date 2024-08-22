@@ -19,6 +19,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Text,
     minWidth: 200,
+    initialWidth: 200,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
@@ -31,6 +32,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: false,
     type: SkyCellType.Date,
     minWidth: 300,
+    initialWidth: 300,
     headerComponentParams: {
       inlineHelpComponent: InlineHelpComponent,
     },
@@ -48,6 +50,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: field === 'mvp',
     type: SkyCellType.Number,
     minWidth: 100,
+    initialWidth: 100,
   })),
   ...[
     ['3000h', '3000 Hits'],
@@ -65,6 +68,8 @@ export const columnDefinitions: ColDef[] = [
     cellRenderer: 'textContent',
     valueFormatter: (params: ValueFormatterParams) =>
       params.value ? 'Yes' : 'No',
+    minWidth: 100,
+    initialWidth: 100,
   })),
   {
     field: 'vote%',
@@ -73,6 +78,7 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Number,
     minWidth: 100,
+    initialWidth: 100,
     valueFormatter: (params) =>
       `${(Number(params.value) * 100).toPrecision(4)}%`,
   },
