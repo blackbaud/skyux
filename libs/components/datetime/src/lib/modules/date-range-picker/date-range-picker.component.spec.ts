@@ -700,6 +700,7 @@ describe('Date range picker', function () {
       startDate: new Date('1/2/2000'),
       endDate: new Date('1/1/2000'),
     });
+    component.reactiveForm.markAllAsTouched();
     detectChanges();
 
     expect(
