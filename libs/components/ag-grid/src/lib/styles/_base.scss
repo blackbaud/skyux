@@ -167,6 +167,9 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
 
   .ag-cell.ag-cell-focus a:focus-visible:not(:active) {
     margin-inline-start: 2px;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: 0;
   }
 }
 
