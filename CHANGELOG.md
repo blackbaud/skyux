@@ -19,6 +19,7 @@
 
 ### Bug Fixes
 
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([041dc29](https://github.com/blackbaud/skyux/commit/041dc29197b625106a4874c72fb396fa2424c11d))
 * `sky-form-errors` is no longer created and destroyed when form errors are present ([#2596](https://github.com/blackbaud/skyux/issues/2596)) ([#2606](https://github.com/blackbaud/skyux/issues/2606)) ([b23b00d](https://github.com/blackbaud/skyux/commit/b23b00d0d9906f43848ee604e9895b39ce2eacd5))
 * **components/ag-grid:** focused cell link outline ([#2622](https://github.com/blackbaud/skyux/issues/2622)) ([48a9c68](https://github.com/blackbaud/skyux/commit/48a9c68294d64feabbc2096bdce5d6573a5a0527))
 * **components/lookup:** autocomplete and lookup show wait in dropdown when using an async search when no dropdown was previously open ([#2610](https://github.com/blackbaud/skyux/issues/2610)) ([#2611](https://github.com/blackbaud/skyux/issues/2611)) ([537d702](https://github.com/blackbaud/skyux/commit/537d7022226d801f145828c421637d24f37396bd))
@@ -28,6 +29,18 @@
 ### Deprecations
 
 * **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([#2618](https://github.com/blackbaud/skyux/issues/2618)) ([4bce259](https://github.com/blackbaud/skyux/commit/4bce2595903ad971832e6f8fe9b2fa72009e1de1))
+
+## [10.41.4](https://github.com/blackbaud/skyux/compare/10.41.3...10.41.4) (2024-08-22)
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([041dc29](https://github.com/blackbaud/skyux/commit/041dc29197b625106a4874c72fb396fa2424c11d))
+
+
+### Deprecations
+
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([e28887f](https://github.com/blackbaud/skyux/commit/e28887ffabf7831870501dc61749446e45be4e22))
 
 ## [10.41.3](https://github.com/blackbaud/skyux/compare/10.41.2...10.41.3) (2024-08-16)
 
