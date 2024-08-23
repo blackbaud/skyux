@@ -1,4 +1,5 @@
 @use 'node_modules/ag-grid-community/styles' as ag;
+@use 'libs/components/theme/src/lib/styles/variables' as variables;
 
 /**
  * Additional styles based on https://github.com/ag-grid/ag-grid/blob/b32.0.2/community-modules/styles/src/internal/themes/quartz/_index.scss
@@ -89,6 +90,24 @@
     .ag-radio-button-input,
     input[class^='ag-'][type='range'] {
       cursor: pointer;
+    }
+
+    input.ag-checkbox-input[type='checkbox'] {
+      appearance: none;
+      display: inline-flex;
+      width: var(--sky-switch-size);
+      height: var(--sky-switch-size);
+
+      &:disabled {
+        background-color: var(--sky-background-color-disabled);
+        cursor: default;
+      }
+
+      &:checked:before {
+        background-color: currentColor;
+        content: ' ';
+        display: inline-block;
+      }
     }
   }
 }

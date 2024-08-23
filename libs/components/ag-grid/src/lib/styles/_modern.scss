@@ -82,16 +82,17 @@
   }
 
   input.ag-checkbox-input[type='checkbox'] {
-    appearance: none;
-    display: inline-flex;
-    width: var(--sky-switch-size);
-    height: var(--sky-switch-size);
+    color: var(--sky-text-color-action-primary);
     border: 1px solid var(--sky-border-color-neutral-medium-dark);
     border-radius: variables.$sky-theme-modern-box-border-radius-default;
 
     &:disabled {
-      background-color: var(--sky-background-color-disabled);
-      cursor: default;
+      color: var(--sky-text-color-default);
+    }
+
+    &:checked:not(:disabled) {
+      background-color: var(--sky-background-color-input-selected);
+      border-color: var(--sky-text-color-action-primary);
     }
 
     &:focus:not(:disabled) {
@@ -101,17 +102,11 @@
         variables.$sky-theme-modern-elevation-3-shadow-color;
     }
 
-    &:checked:not(:disabled) {
-      background-color: var(--sky-background-color-input-selected);
-      border-color: var(--sky-text-color-action-primary);
-    }
-
     &:focus:not(:disabled):before {
       margin: 1px;
     }
 
     &:checked:before {
-      background-color: currentColor;
       margin: 2px;
       width: 1em;
       height: 1em;
@@ -177,12 +172,6 @@
         23.294% 68.386%,
         23.294% 68.386%
       );
-      content: ' ';
-      display: inline-block;
-    }
-
-    &:checked:not(:disabled):before {
-      background-color: var(--sky-text-color-action-primary);
     }
   }
 }
