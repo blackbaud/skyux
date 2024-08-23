@@ -264,6 +264,7 @@ export class SkyDateRangePickerComponent
 
   protected calculators: SkyDateRangeCalculator[] = [];
   protected formGroup: FormGroup;
+  protected startHasErrors = false;
   protected hasErrors = false;
   protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
@@ -413,9 +414,14 @@ export class SkyDateRangePickerComponent
         this.formGroup.markAsUntouched();
         this.#changeDetector.markForCheck();
       }
-
-      this.hasErrors = !!control.errors && (control.touched || control.dirty);
     }
+
+    this.startHasErrors = this.checkControlForErrors(this.#startDateControl);
+    this.hasErrors = this.checkControlForErrors(this.#endDateControl);
+  }
+
+  public checkControlForErrors(control: AbstractControl): boolean {
+    return !!control.errors && (control.touched || control.dirty);
   }
 
   public ngOnDestroy(): void {
