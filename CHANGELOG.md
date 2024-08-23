@@ -1,5 +1,17 @@
 # Changelog
 
+## [10.41.4](https://github.com/blackbaud/skyux/compare/10.41.3...10.41.4) (2024-08-22)
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([041dc29](https://github.com/blackbaud/skyux/commit/041dc29197b625106a4874c72fb396fa2424c11d))
+
+
+### Deprecations
+
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([e28887f](https://github.com/blackbaud/skyux/commit/e28887ffabf7831870501dc61749446e45be4e22))
+
 ## [10.41.3](https://github.com/blackbaud/skyux/compare/10.41.2...10.41.3) (2024-08-16)
 
 
