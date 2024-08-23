@@ -1,11 +1,11 @@
 <form
-  class="lookup-demo-form"
+  class="sky-padding-even-md"
   novalidate
   [formGroup]="favoritesForm"
   (ngSubmit)="onSubmit()"
 >
   <sky-input-box
-    data-sky-id="favorite-name-field"
+    data-sky-id="favorite-names-field"
     helpPopoverContent="A name can be selected from the list or added as a new name."
     hintText="Choose a name from the list or add a new name."
     labelText="Favorite name"
@@ -13,14 +13,20 @@
   >
     <sky-lookup
       formControlName="favoriteName"
-      selectMode="single"
-      (addClick)="onAddButtonClicked()"
-      [data]="people"
+      idProperty="name"
       [enableShowMore]="true"
-      [searchFilters]="searchFilters"
+      [selectMode]="'single'"
       [showAddButton]="true"
       [showMoreConfig]="showMoreConfig"
+      (searchAsync)="searchAsync($event)"
+      (addClick)="addClick($event)"
     />
+    @if (favoritesForm.controls.favoriteName.errors?.['letterE']) {
+      <sky-form-error
+        errorName="letterE"
+        errorText="Please only choose a name that contain the letter E"
+      />
+    }
   </sky-input-box>
   <div
     class="sky-border-dark sky-rounded-corners sky-padding-even-md sky-margin-stacked-lg"

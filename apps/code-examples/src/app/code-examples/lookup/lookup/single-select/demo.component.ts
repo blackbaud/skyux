@@ -1,19 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
 } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyFormErrorModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyWaitService } from '@skyux/indicators';
 import {
-  SkyAutocompleteSearchFunctionFilter,
+  SkyAutocompleteSearchAsyncArgs,
+  SkyLookupAddClickEventArgs,
   SkyLookupModule,
   SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 
+import { map } from 'rxjs/operators';
+
+import { DemoService } from './demo.service';
 import { Person } from './person';
 
 @Component({
@@ -24,6 +31,7 @@ import { Person } from './person';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyFormErrorModule,
     SkyInputBoxModule,
     SkyLookupModule,
   ],
@@ -35,50 +43,31 @@ export class DemoComponent implements OnInit {
 
   public showMoreConfig: SkyLookupShowMoreConfig = {
     nativePickerConfig: {
-      selectionDescriptor: 'name',
+      selectionDescriptor: 'names',
     },
   };
 
-  protected searchFilters: SkyAutocompleteSearchFunctionFilter[];
-
-  protected people: Person[] = [
-    { name: 'Abed' },
-    { name: 'Alex' },
-    { name: 'Ben' },
-    { name: 'Britta' },
-    { name: 'Buzz' },
-    { name: 'Craig' },
-    { name: 'Elroy' },
-    { name: 'Garrett' },
-    { name: 'Ian' },
-    { name: 'Jeff' },
-    { name: 'Leonard' },
-    { name: 'Neil' },
-    { name: 'Pierce' },
-    { name: 'Preston' },
-    { name: 'Rachel' },
-    { name: 'Shirley' },
-    { name: 'Todd' },
-    { name: 'Troy' },
-    { name: 'Vaughn' },
-    { name: 'Vicki' },
-  ];
-
-  protected name: Person[] = [this.people[15]];
+  readonly #svc = inject(DemoService);
+  readonly #waitSvc = inject(SkyWaitService);
 
   constructor() {
-    this.favoritesForm = inject(FormBuilder).group({
-      favoriteName: [[this.people[15]]],
+    const name = new FormControl<Person[]>([{ name: 'Shirley' }], {
+      validators: [
+        (control: AbstractControl<Person[] | null>): ValidationErrors => {
+          if (
+            control.value?.some((person: Person) => !person.name.match(/e/i))
+          ) {
+            return { letterE: true };
+          }
+
+          return {};
+        },
+      ],
     });
 
-    this.searchFilters = [
-      (_, item: Person): boolean => {
-        const names = this.favoritesForm.value.favoriteName;
-
-        // Only show people in the search results that have not been chosen already.
-        return !names?.some((option) => option.name === item.name);
-      },
-    ];
+    this.favoritesForm = inject(FormBuilder).group({
+      favoriteName: name,
+    });
   }
 
   public ngOnInit(): void {
@@ -89,11 +78,33 @@ export class DemoComponent implements OnInit {
     });
   }
 
-  protected onAddButtonClicked(): void {
-    alert('Add button clicked!');
-  }
-
   protected onSubmit(): void {
     alert('Form submitted with: ' + JSON.stringify(this.favoritesForm.value));
+  }
+
+  protected searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
+    // In a real-world application the search service might return an Observable
+    // created by calling HttpClient.get(). Assigning that Observable to the result
+    // allows the lookup component to cancel the web request if it does not complete
+    // before the user searches again.
+    args.result = this.#svc.search(args.searchText).pipe(
+      map((result) => ({
+        hasMore: result.hasMore,
+        items: result.people,
+        totalCount: result.totalCount,
+      })),
+    );
+  }
+
+  protected addClick(args: SkyLookupAddClickEventArgs): void {
+    const person: Person = {
+      name: 'Newman',
+    };
+
+    this.#waitSvc.blockingWrap(this.#svc.addPerson(person)).subscribe(() => {
+      args.itemAdded({
+        item: person,
+      });
+    });
   }
 }
