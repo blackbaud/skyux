@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.10...11.0.0-alpha.11) (2024-08-23)
+
+
+### Bug Fixes
+
+* **components/packages:** fix collection path to `workspace-check` schematic ([#2629](https://github.com/blackbaud/skyux/issues/2629)) ([f028516](https://github.com/blackbaud/skyux/commit/f028516a2d08cea344d9c747d986f1204ef16465))
+
 ## [11.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.9...11.0.0-alpha.10) (2024-08-23)
 
 
