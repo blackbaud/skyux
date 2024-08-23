@@ -72,11 +72,4 @@ export class SkyAgGridAdapterService {
       focusableChildren[0].focus();
     }
   }
-
-  public focusOnColumnHeader(parentEl: HTMLElement, colId: string): void {
-    const columnHeader = parentEl.querySelector(
-      `.ag-header-cell[col-id="${colId}"]`,
-    ) as HTMLElement | undefined;
-    columnHeader?.focus();
-  }
 }
