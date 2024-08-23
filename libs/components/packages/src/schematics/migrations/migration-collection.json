@@ -7,7 +7,7 @@
     },
     "workspace-check": {
       "version": "0.0.0-PLACEHOLDER",
-      "factory": "./workspace-check/workspace-check.schematic",
+      "factory": "./update-11/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
     },
     "ag-grid": {
