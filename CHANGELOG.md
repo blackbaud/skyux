@@ -1,5 +1,34 @@
 # Changelog
 
+## [11.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.9...11.0.0-alpha.10) (2024-08-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* Custom properties used by compatibility stylesheets for previous SKY UX major versions have been removed. Consumers should adopt the updated styles within their applications.
+
+### Features
+
+* **components/ag-grid:** option for hidden column heading ([#2615](https://github.com/blackbaud/skyux/issues/2615)) ([0aec3c8](https://github.com/blackbaud/skyux/commit/0aec3c84320c7fdf29178e359accf02876278417))
+* **components/ag-grid:** remove enter key navigation in cell editors ([#2620](https://github.com/blackbaud/skyux/issues/2620)) ([383555c](https://github.com/blackbaud/skyux/commit/383555ce85dbe905738b2fe56f5e871b0559ed43))
+* **components/forms:** file attachment automatically creates download link for file uploads ([#2608](https://github.com/blackbaud/skyux/issues/2608)) ([321e93a](https://github.com/blackbaud/skyux/commit/321e93a937162ed2aed805dc4b850046489543d5))
+* **components/forms:** update `sky-file-attachment` component to use `ControlValueAccessor`; deprecate `validateFn` attribute in favor of custom form control validators; deprecate `fileChange` event in favor of form control `valueChanges` observable ([#2603](https://github.com/blackbaud/skyux/issues/2603)) ([7a74fc7](https://github.com/blackbaud/skyux/commit/7a74fc7388a15e5ce2b18057551d05413b45d798))
+* **components/packages:** warn when using ssr ([#2623](https://github.com/blackbaud/skyux/issues/2623)) ([8a753fb](https://github.com/blackbaud/skyux/commit/8a753fb85a723f45b62cbfa1dfffcc4b9032f257))
+* remove compat variables for previous compat stylesheets ([#2598](https://github.com/blackbaud/skyux/issues/2598)) ([dd59411](https://github.com/blackbaud/skyux/commit/dd594112f99c5662c2778b956fc1a63ec054e447))
+
+
+### Bug Fixes
+
+* `sky-form-errors` is no longer created and destroyed when form errors are present ([#2596](https://github.com/blackbaud/skyux/issues/2596)) ([#2606](https://github.com/blackbaud/skyux/issues/2606)) ([b23b00d](https://github.com/blackbaud/skyux/commit/b23b00d0d9906f43848ee604e9895b39ce2eacd5))
+* **components/ag-grid:** focused cell link outline ([#2622](https://github.com/blackbaud/skyux/issues/2622)) ([48a9c68](https://github.com/blackbaud/skyux/commit/48a9c68294d64feabbc2096bdce5d6573a5a0527))
+* **components/lookup:** autocomplete and lookup show wait in dropdown when using an async search when no dropdown was previously open ([#2610](https://github.com/blackbaud/skyux/issues/2610)) ([#2611](https://github.com/blackbaud/skyux/issues/2611)) ([537d702](https://github.com/blackbaud/skyux/commit/537d7022226d801f145828c421637d24f37396bd))
+* **components/phone-field:** phone numbers validate when selected country is changed programmatically ([#2593](https://github.com/blackbaud/skyux/issues/2593)) ([#2609](https://github.com/blackbaud/skyux/issues/2609)) ([273c1db](https://github.com/blackbaud/skyux/commit/273c1db3440648f904ba2f656edf6bd42d90ad22))
+
+
+### Deprecations
+
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([#2618](https://github.com/blackbaud/skyux/issues/2618)) ([4bce259](https://github.com/blackbaud/skyux/commit/4bce2595903ad971832e6f8fe9b2fa72009e1de1))
+
 ## [10.41.3](https://github.com/blackbaud/skyux/compare/10.41.2...10.41.3) (2024-08-16)
 
 
