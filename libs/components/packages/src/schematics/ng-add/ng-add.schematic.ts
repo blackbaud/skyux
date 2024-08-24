@@ -23,6 +23,7 @@ function installEssentialSkyUxPackages(skyuxVersion: string): Rule {
     const packageNames = [
       '@skyux/assets',
       '@skyux/core',
+      '@skyux/icon',
       '@skyux/i18n',
       '@skyux/theme',
     ];

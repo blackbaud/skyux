@@ -45,6 +45,7 @@ describe('ng-add.schematic', () => {
     const packageNames = [
       '@skyux/assets',
       '@skyux/core',
+      '@skyux/icon',
       '@skyux/i18n',
       '@skyux/theme',
     ];
