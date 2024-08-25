@@ -1,12 +1,10 @@
 import { Tree } from '@angular-devkit/schematics';
 
-import { GridOptions } from 'ag-grid-community';
-
 export function switchToSetGridOption(tree: Tree, path: string): void {
   const content = tree.readText(path);
   const recorder = tree.beginUpdate(path);
 
-  const translateMethodToOption: Record<string, keyof GridOptions> = {
+  const translateMethodToOption: Record<string, string> = {
     paginationSetPageSize: 'paginationPageSize',
     setAdvancedFilterBuilderParams: 'advancedFilterBuilderParams',
     setAdvancedFilterParent: 'advancedFilterParent',
