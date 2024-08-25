@@ -12,6 +12,7 @@ on:
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
   PERCY_COMMIT: ${{ github.sha }}
   PERCY_SKIP_UPDATE_CHECK: 'true'
