@@ -8,14 +8,19 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyWaitService } from '@skyux/indicators';
 import {
-  SkyAutocompleteSearchFunctionFilter,
+  SkyAutocompleteSearchAsyncArgs,
+  SkyLookupAddClickEventArgs,
   SkyLookupModule,
   SkyLookupShowMoreConfig,
   SkyLookupShowMoreCustomPickerContext,
 } from '@skyux/lookup';
 import { SkyModalService } from '@skyux/modals';
 
+import { map } from 'rxjs/operators';
+
+import { DemoService } from './demo.service';
 import { Person } from './person';
 import { PickerModalComponent } from './picker-modal.component';
 
@@ -37,106 +42,22 @@ export class DemoComponent implements OnInit {
   }>;
 
   protected showMoreConfig: SkyLookupShowMoreConfig;
-  protected searchFilters: SkyAutocompleteSearchFunctionFilter[];
-
-  protected people: Person[] = [
-    {
-      name: 'Abed',
-      formal: 'Mr. Nadir',
-    },
-    {
-      name: 'Alex',
-      formal: 'Mr. Osbourne',
-    },
-    {
-      name: 'Ben',
-      formal: 'Mr. Chang',
-    },
-    {
-      name: 'Britta',
-      formal: 'Ms. Perry',
-    },
-    {
-      name: 'Buzz',
-      formal: 'Mr. Hickey',
-    },
-    {
-      name: 'Craig',
-      formal: 'Mr. Pelton',
-    },
-    {
-      name: 'Elroy',
-      formal: 'Mr. Patashnik',
-    },
-    {
-      name: 'Garrett',
-      formal: 'Mr. Lambert',
-    },
-    {
-      name: 'Ian',
-      formal: 'Mr. Duncan',
-    },
-    {
-      name: 'Jeff',
-      formal: 'Mr. Winger',
-    },
-    {
-      name: 'Leonard',
-      formal: 'Mr. Rodriguez',
-    },
-    {
-      name: 'Neil',
-      formal: 'Mr. Neil',
-    },
-    {
-      name: 'Pierce',
-      formal: 'Mr. Hawthorne',
-    },
-    {
-      name: 'Preston',
-      formal: 'Mr. Koogler',
-    },
-    {
-      name: 'Rachel',
-      formal: 'Ms. Rachel',
-    },
-    {
-      name: 'Shirley',
-      formal: 'Ms. Bennett',
-    },
-    {
-      name: 'Todd',
-      formal: 'Mr. Jacobson',
-    },
-    {
-      name: 'Troy',
-      formal: 'Mr. Barnes',
-    },
-    {
-      name: 'Vaughn',
-      formal: 'Mr. Miller',
-    },
-    {
-      name: 'Vicki',
-      formal: 'Ms. Jenkins',
-    },
-  ];
 
   readonly #modalSvc = inject(SkyModalService);
+  readonly #svc = inject(DemoService);
+  readonly #waitSvc = inject(SkyWaitService);
 
   constructor() {
-    this.favoritesForm = inject(FormBuilder).group({
-      favoriteNames: [[this.people[15]]],
-    });
-
-    this.searchFilters = [
-      (_, item: Person): boolean => {
-        const names = this.favoritesForm.value.favoriteNames;
-
-        // Only show people in the search results that have not been chosen already.
-        return !names?.some((option) => option.name === item.name);
+    const names = new FormControl<Person[]>([
+      {
+        name: 'Shirley',
+        formal: 'Ms. Bennett',
       },
-    ];
+    ]);
+
+    this.favoritesForm = inject(FormBuilder).group({
+      favoriteNames: names,
+    });
 
     this.showMoreConfig = {
       customPicker: {
@@ -171,8 +92,31 @@ export class DemoComponent implements OnInit {
     });
   }
 
-  protected onAddButtonClicked(): void {
-    alert('Add button clicked!');
+  protected searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
+    // In a real-world application the search service might return an Observable
+    // created by calling HttpClient.get(). Assigning that Observable to the result
+    // allows the lookup component to cancel the web request if it does not complete
+    // before the user searches again.
+    args.result = this.#svc.search(args.searchText).pipe(
+      map((result) => ({
+        hasMore: result.hasMore,
+        items: result.people,
+        totalCount: result.totalCount,
+      })),
+    );
+  }
+
+  protected addClick(args: SkyLookupAddClickEventArgs): void {
+    const person: Person = {
+      name: 'Newman',
+      formal: 'Mr. Parker',
+    };
+
+    this.#waitSvc.blockingWrap(this.#svc.addPerson(person)).subscribe(() => {
+      args.itemAdded({
+        item: person,
+      });
+    });
   }
 
   protected onSubmit(): void {

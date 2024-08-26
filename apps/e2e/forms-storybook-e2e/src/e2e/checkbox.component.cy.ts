@@ -10,16 +10,12 @@ describe('forms-storybook - checkbox', () => {
       );
 
       it('should render the standard components', () => {
-        cy.get('app-checkbox')
-          .should('exist')
-          .should('be.visible')
-          .get('#touched-required-checkbox')
-          .dblclick();
-        cy.get('app-checkbox')
-          .should('exist')
-          .should('be.visible')
-          .get('#touched-easy-mode-checkbox')
-          .dblclick();
+        cy.get('app-checkbox').should('exist').should('be.visible');
+        cy.get('#touched-required-checkbox').click();
+        cy.get('#touched-required-checkbox').click();
+        cy.get('app-checkbox').should('exist').should('be.visible');
+        cy.get('#touched-easy-mode-checkbox').click();
+        cy.get('#touched-easy-mode-checkbox').click();
         cy.get('app-checkbox')
           .get('#standard-checkboxes')
           .should('exist')

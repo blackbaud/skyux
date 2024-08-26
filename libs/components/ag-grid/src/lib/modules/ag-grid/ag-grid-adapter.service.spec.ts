@@ -143,25 +143,4 @@ describe('SkyAgGridAdapterService', () => {
       expect(document.activeElement).toEqual(firstChildElement);
     });
   });
-
-  describe('focusOnColumnHeader', () => {
-    it('should move focus to the column header if there is one', () => {
-      agGridAdapterService.focusOnColumnHeader(
-        agGridAdapterServiceFixture.nativeElement,
-        'col1',
-      );
-      expect(document.activeElement).toEqual(
-        document.getElementById('col1-header'),
-      );
-    });
-
-    it('should leave focus on the given element if the column header is not available', () => {
-      firstChildElement.focus();
-      agGridAdapterService.focusOnColumnHeader(
-        agGridAdapterServiceFixture.nativeElement,
-        'col2',
-      );
-      expect(document.activeElement).toEqual(firstChildElement);
-    });
-  });
 });

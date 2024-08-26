@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   Component,
   HostBinding,
   Input,
-  OnInit,
+  TemplateRef,
+  ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
@@ -15,7 +17,7 @@ import {
 } from '@skyux/data-manager';
 import { FontLoadingService } from '@skyux/storybook';
 
-import { GridOptions } from 'ag-grid-community';
+import { FirstDataRenderedEvent, GridOptions } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
@@ -44,7 +46,7 @@ interface GridSettingsType {
   encapsulation: ViewEncapsulation.None,
   providers: [SkyDataManagerService],
 })
-export class DataManagerComponent implements OnInit {
+export class DataManagerComponent implements AfterViewInit {
   @HostBinding('class.use-normal-dom-layout')
   public get useNormalDomLayout(): boolean {
     return this.domLayout === 'normal';
@@ -72,6 +74,9 @@ export class DataManagerComponent implements OnInit {
 
   @Input()
   public autoHeightColumns = false;
+
+  @ViewChild('link')
+  public linkTemplate!: TemplateRef<unknown>;
 
   public dataManagerConfig: SkyDataManagerConfig = {};
 
@@ -110,7 +115,7 @@ export class DataManagerComponent implements OnInit {
   public items = data.slice(0, 50);
   public readonly settingsKey = 'ag-grid-storybook-data-manager';
   public gridOptions: GridOptions = {};
-  public readonly isActive$ = new BehaviorSubject(true);
+  public readonly isActive$ = new BehaviorSubject(false);
   public readonly gridSettings: FormGroup<GridSettingsType>;
   public readonly ready: Observable<boolean>;
 
@@ -140,7 +145,7 @@ export class DataManagerComponent implements OnInit {
     );
   }
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.gridSettings.setValue({
       enableTopScroll: this.enableTopScroll,
       domLayout: this.domLayout,
@@ -191,7 +196,6 @@ export class DataManagerComponent implements OnInit {
       this.wrapText = !!value.wrapText;
       this.autoHeightColumns = !!value.autoHeightColumns;
       this.#applyGridOptions();
-      setTimeout(() => this.isActive$.next(true));
     });
   }
 
@@ -206,20 +210,26 @@ export class DataManagerComponent implements OnInit {
         this.items = data.slice(0, 50);
       }
     }
+    const columnDefs = [
+      ...(this.showSelect
+        ? [
+            {
+              field: 'select',
+              type: SkyCellType.RowSelector,
+            },
+          ]
+        : []),
+      ...columnDefinitions,
+    ];
+    const name = columnDefs.find((col) => col.field === 'name');
+    if (name) {
+      name.type = SkyCellType.Template;
+      name.cellRendererParams = { template: this.linkTemplate };
+      delete name.cellRenderer;
+    }
     this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
-        columnDefs: [
-          ...(this.showSelect
-            ? [
-                {
-                  field: 'select',
-                  headerName: '',
-                  type: SkyCellType.RowSelector,
-                },
-              ]
-            : []),
-          ...columnDefinitions,
-        ],
+        columnDefs,
         context: {
           enableTopScroll: this.enableTopScroll,
         },
@@ -230,13 +240,19 @@ export class DataManagerComponent implements OnInit {
         },
         suppressColumnVirtualisation: true,
         suppressRowVirtualisation: true,
-        onFirstDataRendered: () => {
+        onFirstDataRendered: (event: FirstDataRenderedEvent) => {
           // Delay to allow the grid to render before capturing the screenshot.
           timer(1800)
             .pipe(first())
-            .subscribe(() => this.#gridReady.next(true));
+            .subscribe(() => {
+              event.api.setFocusedCell(0, 'name');
+              this.#gridReady.next(true);
+            });
         },
       },
     });
+    setTimeout(() => this.isActive$.next(true));
   }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

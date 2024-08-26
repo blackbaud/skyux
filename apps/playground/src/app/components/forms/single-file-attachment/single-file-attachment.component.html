@@ -20,7 +20,10 @@
     </sky-file-attachment-label>
   </sky-file-attachment>
 
-  <div *ngIf="attachment?.invalid && attachment?.dirty" class="sky-error-label">
+  <div
+    *ngIf="attachment?.invalid && attachment?.touched"
+    class="sky-error-label"
+  >
     Attach a file.
   </div>
   <div *ngIf="reactiveUploadError" class="sky-error-label">
