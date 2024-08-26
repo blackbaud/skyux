@@ -73,7 +73,7 @@
             [(ngModel)]="activeView.id"
           >
             @for (view of views; track view.id) {
-              <sky-radio-group
+              <sky-radio
                 [attr.aria-label]="view.name"
                 [icon]="view.icon"
                 [value]="view.id"
