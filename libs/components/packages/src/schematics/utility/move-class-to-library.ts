@@ -27,7 +27,12 @@ export function moveClassToLibrary(
       node.moduleSpecifier.text === options.previousLibrary,
   );
 
+  if (moduleImports.length === 0) {
+    return;
+  }
+
   const replacedImports: { [key: string]: ts.ImportSpecifier } = {};
+
   options.classNames.forEach((importName) => {
     const namedImportSpecifier = findNodes(
       sourceFile,
@@ -80,6 +85,7 @@ export function moveClassToLibrary(
       }
     }
   });
+
   if (Object.keys(replacedImports).length > 0) {
     recorder.insertLeft(
       moduleImports[0].getStart(sourceFile),

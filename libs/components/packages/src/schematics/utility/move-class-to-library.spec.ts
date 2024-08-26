@@ -175,4 +175,29 @@ import { BrowserModule } from '@angular/platform-browser';
 `,
     );
   });
+
+  it('should abort if symbols are found, but "previousLibrary" path is not', async () => {
+    const content = `
+import { SkyIconModule } from 'foo';
+import { SkyIconStackItem } from 'bar';
+`;
+
+    tree.create(path, content);
+
+    moveClassToLibrary(
+      tree,
+      path,
+      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
+      content,
+      {
+        classNames: ['SkyIconModule'],
+        previousLibrary: '@skyux/indicators',
+        newLibrary: '@skyux/icon',
+      },
+    );
+
+    const updatedContent = tree.readText(path);
+
+    expect(updatedContent).toEqual(content);
+  });
 });
