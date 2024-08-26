@@ -136,6 +136,7 @@ export class DataViewGridComponent implements OnInit {
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive = id === this.viewId;
+      this.changeDetector.markForCheck();
     });
   }
 
