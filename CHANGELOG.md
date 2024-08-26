@@ -1,5 +1,26 @@
 # Changelog
 
+## [11.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.11...11.0.0-alpha.12) (2024-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** show all first class errors on touched ([#2624](https://github.com/blackbaud/skyux/issues/2624))
+* **components/forms:** remove radio button extra space on top ([#2613](https://github.com/blackbaud/skyux/issues/2613))
+
+### Features
+
+* **components/ag-grid:** remember last position when tabbing in and out of the grid ([#2633](https://github.com/blackbaud/skyux/issues/2633)) ([5ccafdb](https://github.com/blackbaud/skyux/commit/5ccafdbd895398f138e00848de914322c9fd98d5))
+* **components/ag-grid:** switch to using `setGridOption` for deprecated api calls ([#2637](https://github.com/blackbaud/skyux/issues/2637)) ([31de6e8](https://github.com/blackbaud/skyux/commit/31de6e82774136ab4302bdb6076c7de2b9142d65))
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([#2632](https://github.com/blackbaud/skyux/issues/2632)) ([f86090d](https://github.com/blackbaud/skyux/commit/f86090d55fc9bf5f1a4050aa588b45fa7ecfeeaa))
+* **components/forms:** remove radio button extra space on top ([#2613](https://github.com/blackbaud/skyux/issues/2613)) ([d2d358d](https://github.com/blackbaud/skyux/commit/d2d358dad523c06a77c76eef68beaab6ad62d72d))
+* **components/forms:** show all first class errors on touched ([#2624](https://github.com/blackbaud/skyux/issues/2624)) ([e2739a1](https://github.com/blackbaud/skyux/commit/e2739a138b1f63649658e03f29c884b345b0ea4f))
+* **components/packages:** handle edge cases for package migration ([#2638](https://github.com/blackbaud/skyux/issues/2638)) ([2d59fe2](https://github.com/blackbaud/skyux/commit/2d59fe2fd1e675a8f0a5c546804f2c32dfbf147e))
+
 ## [11.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.10...11.0.0-alpha.11) (2024-08-23)
 
 
