@@ -45,13 +45,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'lookup/async',
-    loadComponent: () =>
-      import('../code-examples/lookup/lookup/async/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
-  {
     path: 'lookup/custom-picker',
     loadComponent: () =>
       import(

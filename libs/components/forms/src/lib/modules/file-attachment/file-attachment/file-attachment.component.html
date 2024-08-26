@@ -156,34 +156,37 @@
   [id]="errorId"
   [errors]="ngControl?.errors ?? fileErrorValidation"
   [labelText]="labelText"
-  [showErrors]="ngControl?.touched || ngControl?.dirty"
+  [touched]="ngControl?.touched"
+  [dirty]="ngControl?.dirty"
 >
   <ng-content select="sky-form-error" />
-  <sky-form-error
-    *ngIf="fileErrorName === 'fileType'"
-    [errorName]="'fileType'"
-    [errorText]="
-      acceptedTypesErrorMessage ??
-        'skyux_file_attachment_file_type_error_label_text'
-        | skyLibResources: fileErrorParam
-    "
-  />
-  <sky-form-error
-    *ngIf="fileErrorName === 'maxFileSize'"
-    [errorName]="'maxFileSize'"
-    [errorText]="
-      'skyux_file_attachment_max_file_size_error_label_text'
-        | skyLibResources: (fileErrorParam | skyFileSize)
-    "
-  />
-  <sky-form-error
-    *ngIf="fileErrorName === 'minFileSize'"
-    [errorName]="'minFileSize'"
-    [errorText]="
-      'skyux_file_attachment_min_file_size_error_label_text'
-        | skyLibResources: (fileErrorParam | skyFileSize)
-    "
-  />
+  @if (ngControl?.touched) {
+    <sky-form-error
+      *ngIf="fileErrorName === 'fileType'"
+      [errorName]="'fileType'"
+      [errorText]="
+        acceptedTypesErrorMessage ??
+          'skyux_file_attachment_file_type_error_label_text'
+          | skyLibResources: fileErrorParam
+      "
+    />
+    <sky-form-error
+      *ngIf="fileErrorName === 'maxFileSize'"
+      [errorName]="'maxFileSize'"
+      [errorText]="
+        'skyux_file_attachment_max_file_size_error_label_text'
+          | skyLibResources: (fileErrorParam | skyFileSize)
+      "
+    />
+    <sky-form-error
+      *ngIf="fileErrorName === 'minFileSize'"
+      [errorName]="'minFileSize'"
+      [errorText]="
+        'skyux_file_attachment_min_file_size_error_label_text'
+          | skyLibResources: (fileErrorParam | skyFileSize)
+      "
+    />
+  }
 </sky-form-errors>
 
 <ng-template #labelContent>

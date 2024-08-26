@@ -13,12 +13,11 @@
   >
     <sky-lookup
       formControlName="favoriteNames"
-      (addClick)="onAddButtonClicked()"
-      [data]="people"
       [enableShowMore]="true"
-      [searchFilters]="searchFilters"
       [showAddButton]="true"
       [showMoreConfig]="showMoreConfig"
+      (searchAsync)="searchAsync($event)"
+      (addClick)="addClick($event)"
     />
   </sky-input-box>
   <div

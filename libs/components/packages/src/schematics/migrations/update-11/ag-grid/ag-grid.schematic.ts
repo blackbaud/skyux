@@ -15,7 +15,7 @@ import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
 
 import { eventTypeStrings } from './event-type-strings/event-type-strings';
-import { switchToUpdateGridOptions } from './switch-to-update-grid-options/switch-to-update-grid-options';
+import { switchToSetGridOption } from './switch-to-set-grid-option/switch-to-set-grid-option';
 
 const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
@@ -144,7 +144,7 @@ async function updateSourceFiles(
       eventTypeStrings(tree, filePath);
       swapClasses(tree, filePath);
       swapGridOptionsApiToGridApi(tree, filePath);
-      switchToUpdateGridOptions(tree, filePath);
+      switchToSetGridOption(tree, filePath);
     });
   });
 }

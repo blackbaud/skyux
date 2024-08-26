@@ -203,6 +203,7 @@ describe('Checkbox harness', () => {
 
     await checkboxHarness.check();
     await checkboxHarness.uncheck();
+    await checkboxHarness.blur();
 
     await expectAsync(checkboxHarness.hasRequiredError()).toBeResolvedTo(true);
   });
