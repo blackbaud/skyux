@@ -17,43 +17,53 @@ export function moveClassToLibrary(
 ): void {
   const recorder = tree.beginUpdate(projectPath);
 
-  const indicatorsImports = findNodes(
+  const moduleImports = findNodes(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
   ).filter(
     (node): node is ts.ImportDeclaration =>
       ts.isImportDeclaration(node) &&
-      node.moduleSpecifier.getText() === `'${options.previousLibrary}'`,
-  )[0];
+      ts.isStringLiteral(node.moduleSpecifier) &&
+      node.moduleSpecifier.text === options.previousLibrary,
+  );
 
-  if (indicatorsImports) {
-    const replacedImports: { [key: string]: ts.ImportSpecifier } = {};
+  const replacedImports: { [key: string]: ts.ImportSpecifier } = {};
+  options.classNames.forEach((importName) => {
+    const namedImportSpecifier = findNodes(
+      sourceFile,
+      ts.SyntaxKind.ImportSpecifier,
+    ).filter(
+      (node): node is ts.ImportSpecifier =>
+        ts.isImportSpecifier(node) && node.name.text === importName,
+    )[0];
 
-    const indicatorsImportStart = indicatorsImports.getStart(sourceFile);
-    const indicatorsImportWidth = indicatorsImports.getWidth(sourceFile);
+    if (namedImportSpecifier) {
+      replacedImports[importName] = namedImportSpecifier;
+    }
+  });
 
-    options.classNames.forEach((importName) => {
-      const namedImportSpecifier = findNodes(
-        sourceFile,
-        ts.SyntaxKind.ImportSpecifier,
-      ).filter(
-        (node): node is ts.ImportSpecifier =>
-          ts.isImportSpecifier(node) && node.name.text === importName,
-      )[0];
+  moduleImports.forEach((moduleImport) => {
+    const moduleImportStart = moduleImport.getStart(sourceFile);
+    const moduleImportWidth = moduleImport.getWidth(sourceFile);
+    const moduleReplacements = Object.keys(replacedImports).filter(
+      (importName) => {
+        const namedImportStart =
+          replacedImports[importName].getStart(sourceFile);
+        return (
+          namedImportStart >= moduleImportStart &&
+          namedImportStart <= moduleImportStart + moduleImportWidth
+        );
+      },
+    );
 
-      if (namedImportSpecifier) {
-        replacedImports[importName] = namedImportSpecifier;
-      }
-    });
-
-    if (Object.keys(replacedImports).length > 0) {
+    if (moduleReplacements.length > 0) {
       if (
-        indicatorsImports.importClause?.namedBindings &&
-        ts.isNamedImports(indicatorsImports.importClause.namedBindings) &&
-        indicatorsImports.importClause.namedBindings.elements.length >
-          Object.keys(replacedImports).length
+        moduleImport.importClause?.namedBindings &&
+        ts.isNamedImports(moduleImport.importClause.namedBindings) &&
+        moduleImport.importClause.namedBindings.elements.length >
+          moduleReplacements.length
       ) {
-        Object.keys(replacedImports).forEach((importName) => {
+        moduleReplacements.forEach((importName) => {
           const namedImportStart =
             replacedImports[importName].getStart(sourceFile);
           const namedImportWidth =
@@ -66,15 +76,15 @@ export function moveClassToLibrary(
           }
         });
       } else {
-        recorder.remove(indicatorsImportStart, indicatorsImportWidth);
+        recorder.remove(moduleImportStart, moduleImportWidth);
       }
-
-      recorder.insertLeft(
-        indicatorsImportStart,
-        `import { ${Object.keys(replacedImports).join(', ')} } from '${options.newLibrary}';\n`,
-      );
     }
-
-    tree.commitUpdate(recorder);
+  });
+  if (Object.keys(replacedImports).length > 0) {
+    recorder.insertLeft(
+      moduleImports[0].getStart(sourceFile),
+      `import { ${Object.keys(replacedImports).join(', ')} } from '${options.newLibrary}';\n`,
+    );
   }
+  tree.commitUpdate(recorder);
 }

@@ -59,7 +59,8 @@
   [id]="errorId"
   [errors]="ngControl?.errors"
   [labelText]="headingText"
-  [showErrors]="ngControl?.touched || ngControl?.dirty"
+  [touched]="ngControl?.touched"
+  [dirty]="ngControl?.dirty"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>

@@ -4,10 +4,15 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
+import { of } from 'rxjs';
+
 import { DemoComponent } from './demo.component';
+import { DemoService } from './demo.service';
 import { ItemHarness } from './item-harness';
 
 describe('Lookup result templates demo', () => {
+  let mockSvc!: jasmine.SpyObj<DemoService>;
+
   async function setupTest(): Promise<{
     lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<DemoComponent>;
@@ -25,8 +30,18 @@ describe('Lookup result templates demo', () => {
   }
 
   beforeEach(() => {
+    // Create a mock search service. In a real-world application, the search
+    // service would make a web request which should be avoided in unit tests.
+    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
+
     TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
+      providers: [
+        {
+          provide: DemoService,
+          useValue: mockSvc,
+        },
+      ],
     });
   });
 
@@ -40,6 +55,19 @@ describe('Lookup result templates demo', () => {
 
   it('should use the expected dropdown item template', async () => {
     const { lookupHarness } = await setupTest();
+
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            name: 'Abed',
+            formal: 'Mr. Nadir',
+          },
+        ],
+        totalCount: 1,
+      }),
+    );
 
     await lookupHarness.enterText('be');
 
@@ -55,6 +83,19 @@ describe('Lookup result templates demo', () => {
 
   it('should use the expected modal item template', async () => {
     const { lookupHarness } = await setupTest();
+
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            name: 'Abed',
+            formal: 'Mr. Nadir',
+          },
+        ],
+        totalCount: 1,
+      }),
+    );
 
     await lookupHarness.clickShowMoreButton();
 
@@ -74,6 +115,19 @@ describe('Lookup result templates demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            name: 'Abed',
+            formal: 'Mr. Nadir',
+          },
+        ],
+        totalCount: 1,
+      }),
+    );
+
     await lookupHarness.enterText('be');
 
     const allResultHarnesses = await lookupHarness.getSearchResults();
@@ -90,6 +144,19 @@ describe('Lookup result templates demo', () => {
 
   it('should respect the selection descriptor', async () => {
     const { lookupHarness } = await setupTest();
+
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            name: 'Abed',
+            formal: 'Mr. Nadir',
+          },
+        ],
+        totalCount: 1,
+      }),
+    );
 
     await lookupHarness.clickShowMoreButton();
 

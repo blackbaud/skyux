@@ -4,9 +4,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
+import { of } from 'rxjs';
+
 import { DemoComponent } from './demo.component';
+import { DemoService } from './demo.service';
 
 describe('Lookup multi-select demo', () => {
+  let mockSvc!: jasmine.SpyObj<DemoService>;
+
   async function setupTest(): Promise<{
     lookupHarness: SkyLookupHarness;
     fixture: ComponentFixture<DemoComponent>;
@@ -24,8 +29,18 @@ describe('Lookup multi-select demo', () => {
   }
 
   beforeEach(() => {
+    // Create a mock search service. In a real-world application, the search
+    // service would make a web request which should be avoided in unit tests.
+    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
+
     TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
+      providers: [
+        {
+          provide: DemoService,
+          useValue: mockSvc,
+        },
+      ],
     });
   });
 
@@ -40,18 +55,46 @@ describe('Lookup multi-select demo', () => {
   it('should update the form control when a favorite name is selected', async () => {
     const { lookupHarness, fixture } = await setupTest();
 
-    await lookupHarness.enterText('be');
+    mockSvc.search.and.callFake((searchText) =>
+      of({
+        hasMore: false,
+        people:
+          searchText === 'b'
+            ? [
+                {
+                  name: 'Bernard',
+                },
+              ]
+            : [],
+        totalCount: 1,
+      }),
+    );
+
+    await lookupHarness.enterText('b');
     await lookupHarness.selectSearchResult({
-      text: 'Ben',
+      text: 'Bernard',
     });
 
-    expect(
-      fixture.componentInstance.favoritesForm.controls.favoriteNames.value,
-    ).toEqual([{ name: 'Shirley' }, { name: 'Ben' }]);
+    expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
+      [{ name: 'Shirley' }, { name: 'Bernard' }],
+    );
   });
 
   it('should respect the selection descriptor', async () => {
     const { lookupHarness } = await setupTest();
+
+    mockSvc.search.and.callFake(() =>
+      of({
+        hasMore: false,
+        people: [
+          {
+            id: '21',
+            name: 'Bernard',
+          },
+        ],
+        totalCount: 1,
+      }),
+    );
 
     await lookupHarness.clickShowMoreButton();
 

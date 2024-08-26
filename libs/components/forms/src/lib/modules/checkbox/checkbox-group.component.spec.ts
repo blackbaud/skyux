@@ -172,18 +172,28 @@ describe('Checkbox group component', function () {
       expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 
-    it('should validate that a checkbox is selected when required', () => {
+    it('should validate that a checkbox is selected when required', async () => {
       componentInstance.required = true;
       fixture.detectChanges();
 
       const checkbox = getCheckboxes(fixture)?.[0];
       const checkboxInput = checkbox?.querySelector('input');
 
-      // check and uncheck the checkbox to trigger the validation error
+      // check the checkbox to trigger the validation
       checkboxInput?.click();
       fixture.detectChanges();
 
+      // Trigger validation and mark all checkboxes as touched.
+      fixture.componentInstance.contactMethod.updateValueAndValidity();
+      fixture.componentInstance.contactMethod.markAllAsTouched();
+      fixture.detectChanges();
+
+      // uncheck the checkbox to trigger the validation error
       checkboxInput?.click();
+      fixture.detectChanges();
+
+      // Trigger validation
+      fixture.componentInstance.contactMethod.updateValueAndValidity();
       fixture.detectChanges();
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');
@@ -206,6 +216,9 @@ describe('Checkbox group component', function () {
       fixture.detectChanges();
 
       checkboxInput?.click();
+      fixture.detectChanges();
+
+      componentInstance.contactMethod.markAsTouched();
       fixture.detectChanges();
 
       const formError = fixture.nativeElement.querySelector('sky-form-error');
