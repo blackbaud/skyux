@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isDropdown">
+@if (!isDropdown) {
   <button
     type="button"
     class="sky-btn"
@@ -10,18 +10,15 @@
     }"
     (click)="onButtonClicked()"
   >
-    <ng-container
-      *ngTemplateOutlet="summaryActionBarSecondaryAction"
-    ></ng-container>
+    <ng-container *ngTemplateOutlet="summaryActionBarSecondaryAction" />
   </button>
-</ng-container>
-<sky-dropdown-item *ngIf="isDropdown">
-  <button type="button" [disabled]="disabled" (click)="onButtonClicked()">
-    <ng-container
-      *ngTemplateOutlet="summaryActionBarSecondaryAction"
-    ></ng-container>
-  </button>
-</sky-dropdown-item>
+} @else {
+  <sky-dropdown-item>
+    <button type="button" [disabled]="disabled" (click)="onButtonClicked()">
+      <ng-container *ngTemplateOutlet="summaryActionBarSecondaryAction" />
+    </button>
+  </sky-dropdown-item>
+}
 
 <ng-template #summaryActionBarSecondaryAction>
   <ng-content />

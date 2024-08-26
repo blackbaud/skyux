@@ -1,6 +1,7 @@
 <div class="sky-angular-tree-toolbar" role="toolbar">
   <sky-toolbar>
-    <sky-toolbar-item *ngIf="showSelectButtons">
+    @if (showSelectButtons) {
+<sky-toolbar-item>
       <button
         class="sky-btn sky-btn-link sky-angular-tree-select-all-btn"
         type="button"
@@ -9,7 +10,9 @@
         {{ 'skyux_angular_tree_select_all' | skyLibResources }}
       </button>
     </sky-toolbar-item>
-    <sky-toolbar-item *ngIf="showSelectButtons">
+}
+    @if (showSelectButtons) {
+<sky-toolbar-item>
       <button
         class="sky-btn sky-btn-link sky-angular-tree-clear-all-btn"
         type="button"
@@ -18,6 +21,7 @@
         {{ 'skyux_angular_tree_clear_all' | skyLibResources }}
       </button>
     </sky-toolbar-item>
+}
     <sky-toolbar-view-actions>
       <button
         class="sky-btn sky-btn-default sky-margin-inline-default sky-angular-tree-expand-all-btn"
