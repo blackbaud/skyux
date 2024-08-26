@@ -165,7 +165,7 @@ export class DataManagerVisualComponent implements OnInit {
       color: 'yellow',
     },
   ];
-  public activeViewId = 'repeaterView';
+  public activeViewId = 'gridView';
   public settingsKey = 'test';
 
   constructor(private dataManagerService: SkyDataManagerService) {

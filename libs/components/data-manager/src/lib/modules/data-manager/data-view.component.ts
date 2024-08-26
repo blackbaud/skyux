@@ -3,11 +3,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
+import {
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+} from '@skyux/core';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
@@ -28,6 +33,20 @@ import { SkyDataManagerState } from './models/data-manager-state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   hostDirectives: [SkyTextHighlightDirective],
+  providers: [
+    SkyResizeObserverMediaQueryService,
+    {
+      provide: SkyMediaQueryService,
+      useExisting: SkyResizeObserverMediaQueryService,
+    },
+  ],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
 export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
@@ -68,6 +87,8 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
     SkyTextHighlightDirective,
     { self: true },
   );
+  readonly #elementRef = inject(ElementRef<HTMLElement>);
+  readonly #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
 
   public ngOnInit(): void {
     this.#dataManagerService
@@ -94,11 +115,16 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
           this.#updateSearchHighlight(state);
         });
     }
+
+    this.#mediaQueryService.observe(this.#elementRef, {
+      updateResponsiveClasses: true,
+    });
   }
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.#mediaQueryService.unobserve();
   }
 
   #updateSearchHighlight(state?: SkyDataManagerState): void {
