@@ -3,8 +3,8 @@
   class="sky-text-editor-menu"
   [ngClass]="'sky-text-editor-menu-' + menu"
 >
-  <ng-container [ngSwitch]="menu">
-    <ng-container *ngSwitchCase="'edit'">
+  @switch (menu) {
+    @case ('edit') {
       <sky-dropdown
         label="Edit menu"
         [disabled]="disabled"
@@ -43,8 +43,8 @@
           </sky-dropdown-item>
         </sky-dropdown-menu>
       </sky-dropdown>
-    </ng-container>
-    <ng-container *ngSwitchCase="'format'">
+    }
+    @case ('format') {
       <sky-dropdown
         label="Format menu"
         [disabled]="disabled"
@@ -83,8 +83,8 @@
           </sky-dropdown-item>
         </sky-dropdown-menu>
       </sky-dropdown>
-    </ng-container>
-    <ng-container *ngSwitchCase="'merge-field'">
+    }
+    @case ('merge-field') {
       <sky-dropdown
         *ngIf="mergeFields && mergeFields.length > 0"
         label="Insert merge field"
@@ -105,6 +105,6 @@
           </sky-dropdown-item>
         </sky-dropdown-menu>
       </sky-dropdown>
-    </ng-container>
-  </ng-container>
+    }
+  }
 </sky-toolbar-item>
