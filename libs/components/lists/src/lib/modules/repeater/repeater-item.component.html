@@ -73,6 +73,7 @@
       *ngIf="selectable"
       class="sky-repeater-item-checkbox"
       [checked]="isSelected"
+      [labelHidden]="true"
       [labelText]="
         itemName
           ? ('skyux_repeater_item_checkbox_label' | skyLibResources: itemName)
