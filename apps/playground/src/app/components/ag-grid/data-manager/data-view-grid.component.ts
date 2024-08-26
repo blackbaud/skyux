@@ -157,7 +157,6 @@ export class DataViewGridComponent implements OnInit {
 
   public onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
-    // this.gridApi.sizeColumnsToFit();
     this.updateData();
   }
 

@@ -166,7 +166,6 @@ export class EditModalComponent {
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
     this.#changeDetector.markForCheck();
   }
 

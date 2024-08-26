@@ -191,7 +191,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
     this.#updateDisplayedItems();
   }
 

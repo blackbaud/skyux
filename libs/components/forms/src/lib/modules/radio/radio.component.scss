@@ -22,10 +22,6 @@
   margin-right: var(--sky-margin-inline-xs);
 }
 
-:host-context(li) {
-  margin-bottom: 3px;
-}
-
 .sky-switch-control:not(.sky-switch-control-icon) {
   sky-icon {
     font-size: 70%;

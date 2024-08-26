@@ -13,13 +13,6 @@ import {
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
-  styles: [
-    `
-      .im-special {
-        margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
-      }
-    `,
-  ],
 })
 export class CheckboxComponent implements OnInit {
   public checkValue = true;
