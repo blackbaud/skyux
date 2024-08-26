@@ -20,36 +20,45 @@
         'sky-control-label-required': required
       }"
     >
-      <span *ngIf="!headingLevel" [class]="'sky-heading-text ' + headingClass">
-        {{ headingText }}
-      </span>
-      <h3 *ngIf="headingLevel === 3" [class]="headingClass">
-        {{ headingText }}
-      </h3>
-      <h4 *ngIf="headingLevel === 4" [class]="headingClass">
-        {{ headingText }}
-      </h4>
-      <h5 *ngIf="headingLevel === 5" [class]="headingClass">
-        {{ headingText }}
-      </h5> </span
-    ><span class="sky-screen-reader-only" *ngIf="required">{{
-      'skyux_checkbox_group_required' | skyLibResources
-    }}</span
-    ><sky-help-inline
-      *ngIf="helpPopoverContent || helpKey"
-      [helpKey]="helpKey"
-      [labelText]="headingText"
-      [popoverTitle]="helpPopoverTitle"
-      [popoverContent]="helpPopoverContent"
-    />
+      @if (headingLevel === 3) {
+        <h3 [class]="headingClass">
+          {{ headingText }}
+        </h3>
+      } @else if (headingLevel === 4) {
+        <h4 [class]="headingClass">
+          {{ headingText }}
+        </h4>
+      } @else if (headingLevel === 5) {
+        <h5 [class]="headingClass">
+          {{ headingText }}
+        </h5>
+      } @else {
+        <span [class]="'sky-heading-text ' + headingClass">
+          {{ headingText }}
+        </span>
+      }
+    </span>
+    @if (required) {
+      <span class="sky-screen-reader-only">{{
+        'skyux_checkbox_group_required' | skyLibResources
+      }}</span>
+    }
+    @if (helpPopoverContent || helpKey) {
+      <sky-help-inline
+        [helpKey]="helpKey"
+        [labelText]="headingText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+    }
   </legend>
   <div
+    #hintTextEl="skyId"
     skyId
     [ngClass]="{
       'sky-font-deemphasized sky-margin-stacked-lg sky-checkbox-group-hint-text':
         !!hintText
     }"
-    #hintTextEl="skyId"
   >
     {{ hintText }}
   </div>

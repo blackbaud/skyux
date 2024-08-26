@@ -1,28 +1,33 @@
 <fieldset>
-  <legend
-    *ngIf="labelText"
-    class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
-    [ngClass]="{
-      'sky-screen-reader-only': labelHidden
-    }"
-  >
-    <span
-      class="sky-margin-inline-xs"
+  @if (labelText) {
+    <legend
+      class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
       [ngClass]="{
-        'sky-control-label-required': required
+        'sky-screen-reader-only': labelHidden
       }"
-      >{{ labelText }}</span
-    ><span class="sky-screen-reader-only" *ngIf="required">{{
-      'skyux_file_attachment_required' | skyLibResources
-    }}</span
-    ><sky-help-inline
-      *ngIf="helpPopoverContent || helpKey"
-      [helpKey]="helpKey"
-      [labelText]="labelText"
-      [popoverTitle]="helpPopoverTitle"
-      [popoverContent]="helpPopoverContent"
-    />
-  </legend>
+    >
+      <span
+        class="sky-margin-inline-xs"
+        [ngClass]="{
+          'sky-control-label-required': required
+        }"
+        >{{ labelText }}</span
+      >
+      @if (required) {
+        <span class="sky-screen-reader-only">{{
+          'skyux_file_attachment_required' | skyLibResources
+        }}</span>
+      }
+      @if (helpPopoverContent || helpKey) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="labelText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
+    </legend>
+  }
   <div
     class="sky-file-drop-row"
     [ngClass]="{ 'sky-file-drop-allow-links': allowLinks }"
@@ -37,11 +42,6 @@
       <button
         class="sky-file-drop sky-file-drop-target"
         type="button"
-        (click)="dropClicked()"
-        (dragover)="fileDragOver($event)"
-        (dragenter)="fileDragEnter($event)"
-        (dragleave)="fileDragLeave($event)"
-        (drop)="fileDrop($event)"
         [attr.aria-label]="
           fileUploadAriaLabel ||
           ('skyux_file_attachment_file_upload_drag_or_click' | skyLibResources)
@@ -51,9 +51,15 @@
         [attr.aria-errormessage]="
           labelText && rejectedFiles.length ? errorId : undefined
         "
+        (click)="dropClicked()"
+        (dragover)="fileDragOver($event)"
+        (dragenter)="fileDragEnter($event)"
+        (dragleave)="fileDragLeave($event)"
+        (drop)="fileDrop($event)"
       ></button>
 
       <input
+        #fileInput
         tabindex="-1"
         aria-hidden="true"
         type="file"
@@ -61,112 +67,116 @@
         [attr.multiple]="multiple ? multiple : null"
         [attr.accept]="acceptedTypes ? acceptedTypes : null"
         (change)="fileChangeEvent($event)"
-        #fileInput
       />
 
-      <div
-        class="sky-file-drop-contents sky-padding-even-default"
-        *ngIf="customEl.children.length === 0"
-      >
-        <div class="sky-file-drop-contents-not-over">
-          <div class="sky-file-drop-text-header sky-font-display-3">
-            {{
-              'skyux_file_attachment_file_upload_drag_file_here'
-                | skyLibResources
-            }}
+      @if (customEl.children.length === 0) {
+        <div class="sky-file-drop-contents sky-padding-even-default">
+          <div class="sky-file-drop-contents-not-over">
+            <div class="sky-file-drop-text-header sky-font-display-3">
+              {{
+                'skyux_file_attachment_file_upload_drag_file_here'
+                  | skyLibResources
+              }}
+            </div>
+            <div class="sky-file-drop-text">
+              {{
+                'skyux_file_attachment_file_upload_or_click_to_browse'
+                  | skyLibResources
+              }}
+            </div>
+            <sky-icon icon="cloud-upload" class="sky-file-upload-icon" />
           </div>
-          <div class="sky-file-drop-text">
-            {{
-              'skyux_file_attachment_file_upload_or_click_to_browse'
-                | skyLibResources
-            }}
-          </div>
-          <sky-icon icon="cloud-upload" class="sky-file-upload-icon" />
-        </div>
 
-        <!-- This will appear when file is dragged over and is valid -->
-        <div class="sky-file-drop-contents-accept">
-          <div class="sky-file-drop-text-header sky-font-display-3">
-            {{
-              'skyux_file_attachment_file_upload_drop_files_here'
-                | skyLibResources
-            }}
+          <!-- This will appear when file is dragged over and is valid -->
+          <div class="sky-file-drop-contents-accept">
+            <div class="sky-file-drop-text-header sky-font-display-3">
+              {{
+                'skyux_file_attachment_file_upload_drop_files_here'
+                  | skyLibResources
+              }}
+            </div>
+            <sky-icon icon="bullseye" class="sky-file-upload-icon" />
           </div>
-          <sky-icon icon="bullseye" class="sky-file-upload-icon" />
-        </div>
 
-        <!-- This will appear when file is dragged over and is invalid -->
-        <div class="sky-file-drop-contents-reject">
-          <div class="sky-file-drop-text-header sky-font-display-3">
-            {{
-              'skyux_file_attachment_file_upload_invalid_file' | skyLibResources
-            }}
+          <!-- This will appear when file is dragged over and is invalid -->
+          <div class="sky-file-drop-contents-reject">
+            <div class="sky-file-drop-text-header sky-font-display-3">
+              {{
+                'skyux_file_attachment_file_upload_invalid_file'
+                  | skyLibResources
+              }}
+            </div>
+            <sky-icon icon="times-circle" class="sky-file-upload-icon" />
           </div>
-          <sky-icon icon="times-circle" class="sky-file-upload-icon" />
         </div>
-      </div>
+      }
 
-      <div class="sky-file-drop-contents-custom" #customEl>
+      <div #customEl class="sky-file-drop-contents-custom">
         <ng-content />
       </div>
     </div>
-    <div class="sky-file-drop-col" *ngIf="allowLinks">
-      <div class="sky-file-drop-contents sky-padding-even-default">
-        <div class="sky-file-drop-link">
-          <div class="sky-file-drop-link-header">
-            <div class="sky-file-drop-text-header sky-font-display-3">
+    @if (allowLinks) {
+      <div class="sky-file-drop-col">
+        <div class="sky-file-drop-contents sky-padding-even-default">
+          <div class="sky-file-drop-link">
+            <div class="sky-file-drop-link-header">
+              <div class="sky-file-drop-text-header sky-font-display-3">
+                {{
+                  'skyux_file_attachment_file_upload_link_label'
+                    | skyLibResources
+                }}
+              </div>
+            </div>
+            <div class="sky-margin-stacked-xs">
+              <input
+                type="text"
+                class="sky-form-control"
+                [attr.aria-label]="
+                  linkUploadAriaLabel ||
+                  ('skyux_file_attachment_file_upload_link_label'
+                    | skyLibResources)
+                "
+                [attr.aria-describedby]="uploadHintText.id"
+                [attr.aria-invalid]="!!rejectedFiles.length"
+                [attr.aria-errormessage]="
+                  labelText && rejectedFiles.length ? errorId : undefined
+                "
+                [(ngModel)]="linkUrl"
+                (blur)="onLinkBlur()"
+                (keyup)="addLinkEnter($event)"
+              />
+            </div>
+            <div
+              #uploadHintText="skyId"
+              skyId
+              class="sky-font-deemphasized sky-file-drop-hint-text sky-margin-stacked-sm"
+            >
               {{
-                'skyux_file_attachment_file_upload_link_label' | skyLibResources
+                'skyux_file_attachment_file_upload_link_placeholder'
+                  | skyLibResources
               }}
             </div>
+            <button
+              type="button"
+              class="sky-btn sky-btn-primary"
+              [disabled]="!linkUrl"
+              (click)="addLink($event)"
+            >
+              {{
+                'skyux_file_attachment_file_upload_link_done' | skyLibResources
+              }}
+            </button>
           </div>
-          <div class="sky-margin-stacked-xs">
-            <input
-              type="text"
-              class="sky-form-control"
-              [attr.aria-label]="
-                linkUploadAriaLabel ||
-                ('skyux_file_attachment_file_upload_link_label'
-                  | skyLibResources)
-              "
-              [attr.aria-describedby]="uploadHintText.id"
-              [attr.aria-invalid]="!!rejectedFiles.length"
-              [attr.aria-errormessage]="
-                labelText && rejectedFiles.length ? errorId : undefined
-              "
-              [(ngModel)]="linkUrl"
-              (blur)="onLinkBlur()"
-              (keyup)="addLinkEnter($event)"
-            />
-          </div>
-          <div
-            skyId
-            #uploadHintText="skyId"
-            class="sky-font-deemphasized sky-file-drop-hint-text sky-margin-stacked-sm"
-          >
-            {{
-              'skyux_file_attachment_file_upload_link_placeholder'
-                | skyLibResources
-            }}
-          </div>
-          <button
-            type="button"
-            class="sky-btn sky-btn-primary"
-            [disabled]="!linkUrl"
-            (click)="addLink($event)"
-          >
-            {{
-              'skyux_file_attachment_file_upload_link_done' | skyLibResources
-            }}
-          </button>
         </div>
       </div>
-    </div>
+    }
   </div>
-  <div skyId #hintTextEl="skyId">
-    <div *ngIf="hintText" class="sky-font-deemphasized sky-file-drop-hint-text">
-      {{ hintText }}
-    </div>
+  <div #hintTextEl="skyId" skyId>
+    @if (hintText) {
+      <div class="sky-font-deemphasized sky-file-drop-hint-text">
+        {{ hintText }}
+      </div>
+    }
   </div>
 </fieldset>
 <sky-form-errors
@@ -175,40 +185,47 @@
   [labelText]="labelText"
   [touched]="rejectedFiles.length > 0"
 >
-  <div *ngFor="let rejectedFile of rejectedFiles">
-    <sky-form-error
-      *ngIf="rejectedFile.errorType === 'fileType'"
-      errorName="fileType"
-      [errorText]="
-        'skyux_file_attachment_file_type_error_label_text_with_name'
-          | skyLibResources: rejectedFile.file.name : rejectedFile.errorParam
-      "
-    />
-    <sky-form-error
-      *ngIf="rejectedFile.errorType === 'maxFileSize'"
-      errorName="maxFileSize"
-      [errorText]="
-        acceptedTypesErrorMessage ??
-          'skyux_file_attachment_max_file_size_error_label_text_with_name'
-          | skyLibResources
-            : rejectedFile.file.name
-            : (rejectedFile.errorParam | skyFileSize)
-      "
-    />
-    <sky-form-error
-      *ngIf="rejectedFile.errorType === 'minFileSize'"
-      errorName="minFileSize"
-      [errorText]="
-        'skyux_file_attachment_min_file_size_error_label_text_with_name'
-          | skyLibResources
-            : rejectedFile.file.name
-            : (rejectedFile.errorParam | skyFileSize)
-      "
-    />
-    <sky-form-error
-      *ngIf="rejectedFile.errorType === 'validate' && rejectedFile.errorParam"
-      errorName="validate"
-      [errorText]="rejectedFile.file.name + ': ' + rejectedFile.errorParam"
-    />
-  </div>
+  @for (rejectedFile of rejectedFiles; track rejectedFile) {
+    <div>
+      @if (rejectedFile.errorType === 'fileType') {
+        <sky-form-error
+          errorName="fileType"
+          [errorText]="
+            'skyux_file_attachment_file_type_error_label_text_with_name'
+              | skyLibResources
+                : rejectedFile.file.name
+                : rejectedFile.errorParam
+          "
+        />
+      } @else if (rejectedFile.errorType === 'maxFileSize') {
+        <sky-form-error
+          errorName="maxFileSize"
+          [errorText]="
+            acceptedTypesErrorMessage ??
+              'skyux_file_attachment_max_file_size_error_label_text_with_name'
+              | skyLibResources
+                : rejectedFile.file.name
+                : (rejectedFile.errorParam | skyFileSize)
+          "
+        />
+      } @else if (rejectedFile.errorType === 'minFileSize') {
+        <sky-form-error
+          errorName="minFileSize"
+          [errorText]="
+            'skyux_file_attachment_min_file_size_error_label_text_with_name'
+              | skyLibResources
+                : rejectedFile.file.name
+                : (rejectedFile.errorParam | skyFileSize)
+          "
+        />
+      } @else if (
+        rejectedFile.errorType === 'validate' && rejectedFile.errorParam
+      ) {
+        <sky-form-error
+          errorName="validate"
+          [errorText]="rejectedFile.file.name + ': ' + rejectedFile.errorParam"
+        />
+      }
+    </div>
+  }
 </sky-form-errors>

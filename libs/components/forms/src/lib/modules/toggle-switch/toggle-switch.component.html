@@ -5,6 +5,7 @@
   }"
 >
   <button
+    #toggle="skyId"
     class="sky-toggle-switch-button"
     role="switch"
     type="button"
@@ -22,7 +23,6 @@
     [tabIndex]="tabIndex"
     (blur)="onButtonBlur()"
     (click)="onButtonClick($event)"
-    #toggle="skyId"
   >
     <div aria-hidden="true" class="sky-toggle-switch-switch">
       <i
@@ -35,29 +35,31 @@
     </div>
   </button>
   <span>
-    <label
-      *ngIf="hasLabelComponent || labelText"
-      [for]="toggle.id"
-      [attr.id]="labelId"
-      class="sky-toggle-switch-label"
-    >
-      <ng-container *ngIf="labelText; else labelContent">
-        <ng-container *ngIf="!labelHidden">{{ labelText }}</ng-container>
-      </ng-container>
-    </label>
+    @if (hasLabelComponent || labelText) {
+      <label
+        class="sky-toggle-switch-label"
+        [for]="toggle.id"
+        [attr.id]="labelId"
+      >
+        @if (labelText) {
+          @if (!labelHidden) {
+            {{ labelText }}
+          }
+        } @else {
+          <ng-content select="sky-toggle-switch-label" />
+        }
+      </label>
+    }
     <span class="sky-control-help-container">
-      <sky-help-inline
-        *ngIf="labelText && (helpPopoverContent || helpKey)"
-        [helpKey]="helpKey"
-        [labelText]="labelText"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
+      @if (labelText && (helpPopoverContent || helpKey)) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="labelText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
       <ng-content select=".sky-control-help" />
     </span>
   </span>
 </span>
-
-<ng-template #labelContent>
-  <ng-content select="sky-toggle-switch-label" />
-</ng-template>

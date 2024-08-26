@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
 import { SkyFileAttachmentModule } from '../file-attachment.module';
 
 @Component({
-  imports: [CommonModule, SkyFileAttachmentModule],
+  imports: [SkyFileAttachmentModule],
   selector: 'sky-file-attachment-test',
   standalone: true,
   template: `

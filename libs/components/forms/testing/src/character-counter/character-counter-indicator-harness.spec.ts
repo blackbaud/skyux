@@ -1,6 +1,5 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyCharacterCounterModule } from '@skyux/forms';
@@ -9,7 +8,7 @@ import { SkyCharacterCounterIndicatorHarness } from './character-counter-indicat
 
 @Component({
   standalone: true,
-  imports: [CommonModule, SkyCharacterCounterModule],
+  imports: [SkyCharacterCounterModule],
   template: `
     <sky-character-counter-indicator
       data-sky-id="test-character-counter-indicator"

@@ -54,7 +54,9 @@ import { SkyCheckboxModule } from './checkbox.module';
     >
       <sky-checkbox-label>
         Simple checkbox
-        <span *ngIf="showInlineHelp">Help inline</span>
+        @if (showInlineHelp) {
+          <span>Help inline</span>
+        }
       </sky-checkbox-label>
     </sky-checkbox>
   </div>`,
@@ -95,7 +97,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   template: `
     <div>
       <form>
-        <sky-checkbox name="cb" [(ngModel)]="isGood" #wut>
+        <sky-checkbox #wut name="cb" [(ngModel)]="isGood">
           <sky-checkbox-label> Be good </sky-checkbox-label>
         </sky-checkbox>
       </form>
@@ -112,15 +114,17 @@ class CheckboxWithFormDirectivesComponent {
     <div>
       <form>
         <sky-checkbox
-          [hintText]="hintText"
-          [labelText]="labelText"
           name="cb"
           ngModel
+          [hintText]="hintText"
+          [labelText]="labelText"
           [required]="required"
         >
           <sky-checkbox-label>
             Be good
-            <span *ngIf="showInlineHelp">Help inline</span>
+            @if (showInlineHelp) {
+              <span>Help inline</span>
+            }
           </sky-checkbox-label>
         </sky-checkbox>
       </form>
@@ -142,7 +146,9 @@ class CheckboxWithRequiredInputComponent {
         <sky-checkbox name="cb" ngModel required>
           <sky-checkbox-label>
             Be good
-            <span *ngIf="showInlineHelp">Help inline</span>
+            @if (showInlineHelp) {
+              <span>Help inline</span>
+            }
           </sky-checkbox-label>
         </sky-checkbox>
       </form>
@@ -159,13 +165,13 @@ class CheckboxWithRequiredAttributeComponent {
     <div>
       <form [formGroup]="checkboxForm">
         <sky-checkbox
+          #wut
+          name="cb"
+          formControlName="checkbox1"
           [hintText]="hintText"
           [label]="ariaLabel"
           [labelledBy]="ariaLabelledBy"
           [labelText]="labelText"
-          name="cb"
-          formControlName="checkbox1"
-          #wut
         >
           <sky-checkbox-label> Be good </sky-checkbox-label>
         </sky-checkbox>
@@ -188,11 +194,11 @@ class CheckboxWithReactiveFormComponent {
     <div>
       <form [formGroup]="checkboxForm">
         <sky-checkbox
+          #wut
           name="cb"
           formControlName="checkbox1"
           [required]="required"
           [labelText]="labelText"
-          #wut
         >
           <sky-checkbox-label> Be good </sky-checkbox-label>
         </sky-checkbox>
@@ -212,7 +218,7 @@ class CheckboxWithReactiveFormRequiredInputComponent {
   template: `
     <div>
       <form [formGroup]="checkboxForm">
-        <sky-checkbox name="cb" formControlName="checkbox1" #wut>
+        <sky-checkbox #wut name="cb" formControlName="checkbox1">
           <sky-checkbox-label> Be good </sky-checkbox-label>
         </sky-checkbox>
       </form>
@@ -240,8 +246,10 @@ class MultipleCheckboxesComponent {}
 
 /** Simple test component with tabIndex */
 @Component({
-  template: ` <sky-checkbox [tabindex]="customTabIndex" [disabled]="isDisabled">
-  </sky-checkbox>`,
+  template: ` <sky-checkbox
+    [tabindex]="customTabIndex"
+    [disabled]="isDisabled"
+  />`,
 })
 class CheckboxWithTabIndexComponent {
   public customTabIndex = 7;
@@ -250,19 +258,19 @@ class CheckboxWithTabIndexComponent {
 
 /** Simple test component with an aria-label set. */
 @Component({
-  template: `<sky-checkbox label="Super effective"></sky-checkbox>`,
+  template: `<sky-checkbox label="Super effective" />`,
 })
 class CheckboxWithAriaLabelComponent {}
 
 /** Simple test component with an aria-label set. */
 @Component({
-  template: `<sky-checkbox labelledBy="some-id"></sky-checkbox>`,
+  template: `<sky-checkbox labelledBy="some-id" />`,
 })
 class CheckboxWithAriaLabelledbyComponent {}
 
 /** Simple test component with name attribute */
 @Component({
-  template: `<sky-checkbox [name]="name"></sky-checkbox>`,
+  template: `<sky-checkbox [name]="name" />`,
 })
 class CheckboxWithNameAttributeComponent {
   public name = 'test-name';
@@ -270,10 +278,7 @@ class CheckboxWithNameAttributeComponent {
 
 /** Simple test component with change event */
 @Component({
-  template: `<sky-checkbox
-    id="test-id"
-    (change)="lastEvent = $event"
-  ></sky-checkbox>`,
+  template: `<sky-checkbox id="test-id" (change)="lastEvent = $event" />`,
 })
 class CheckboxWithChangeEventComponent {
   public lastEvent: SkyCheckboxChange | undefined;
@@ -282,7 +287,7 @@ class CheckboxWithChangeEventComponent {
 /** Simple test component with OnPush change detection */
 @Component({
   template: ` <div>
-    <sky-checkbox id="simple-check" [(ngModel)]="isChecked"> </sky-checkbox>
+    <sky-checkbox id="simple-check" [(ngModel)]="isChecked" />
   </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
