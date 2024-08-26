@@ -14,12 +14,11 @@
       [alphaChannel]="selectedHexType"
     />
     @if (colorControl.errors?.['opaque']) {
-<sky-form-error
-     
+    <sky-form-error
       errorName="opaque"
       errorText="Color must have at least 80% opacity."
     />
-}
+    }
   </sky-colorpicker>
   <div class="colorpicker-form-control">
     <sky-colorpicker #colorPickerTest2 labelText="Label text">
@@ -33,12 +32,11 @@
         [alphaChannel]="selectedHexType"
       />
       @if (colorControl2.errors?.['opaque']) {
-<sky-form-error
-       
+      <sky-form-error
         errorName="opaque"
         errorText="Color must have at least 80% opacity."
       />
-}
+      }
     </sky-colorpicker>
   </div>
 </form>
