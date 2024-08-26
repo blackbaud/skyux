@@ -1,10 +1,10 @@
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
+  booleanAttribute,
 } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -43,11 +43,16 @@ export class SkyFormErrorsComponent {
   public labelText: string | undefined;
 
   /**
-   * Indicates whether to show error messages, which might only be true if the
-   * form control is touched or dirty.
+   * Indicates whether the parent component's control is touched
    */
-  @Input({ transform: coerceBooleanProperty })
-  public showErrors = true;
+  @Input({ transform: booleanAttribute })
+  public touched = false;
+
+  /**
+   * Indicates whether the parent component's control is dirty
+   */
+  @Input({ transform: booleanAttribute })
+  public dirty = false;
 
   @HostBinding('attr.aria-atomic')
   protected readonly ariaAtomic = 'true';
