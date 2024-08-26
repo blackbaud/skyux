@@ -103,7 +103,7 @@ export class DateRangePickerComponent {
       startDate: new Date('1/2/2012'),
       endDate: new Date('1/1/2012'),
     });
-    this.pickerFormControl.markAsDirty();
+    this.pickerFormControl.markAsTouched();
   }
 
   protected setUndefined(): void {

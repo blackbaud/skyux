@@ -191,7 +191,7 @@
   </sky-form-errors>
   <ng-content select=".sky-error-label,.sky-error-indicator" />
 </ng-template>
-
+touched: {{ controlDir?.touched }} dirty: {{ controlDir?.dirty }}
 <ng-template #hintTextTemplate>
   <div
     *ngIf="hintText || hostHintText"
