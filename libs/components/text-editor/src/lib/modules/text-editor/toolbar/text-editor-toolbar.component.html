@@ -3,8 +3,8 @@
   class="sky-text-editor-toolbar-action"
   [ngClass]="'sky-text-editor-toolbar-action-' + action"
 >
-  <ng-container [ngSwitch]="action">
-    <ng-container *ngSwitchCase="'font-family'">
+  @switch (action) {
+    @case ('font-family') {
       <sky-dropdown
         class="sky-text-editor-font-picker"
         [disabled]="disabled"
@@ -32,8 +32,8 @@
           </sky-dropdown-item>
         </sky-dropdown-menu>
       </sky-dropdown>
-    </ng-container>
-    <ng-container *ngSwitchCase="'font-size'">
+    }
+    @case ('font-size') {
       <sky-dropdown
         class="sky-text-editor-font-size-picker"
         [disabled]="disabled"
@@ -55,8 +55,8 @@
           </sky-dropdown-item>
         </sky-dropdown-menu>
       </sky-dropdown>
-    </ng-container>
-    <ng-container *ngSwitchCase="'font-style'">
+    }
+    @case ('font-style') {
       <div class="sky-switch-icon-group sky-text-editor-font-style-picker">
         <sky-checkbox
           icon="bold"
@@ -67,8 +67,7 @@
           (ngModelChange)="
             toggleFontStyle(styleState.boldState, $event, 'bold')
           "
-        >
-        </sky-checkbox>
+        />
         <sky-checkbox
           icon="italic"
           label="Italicized"
@@ -78,8 +77,7 @@
           (ngModelChange)="
             toggleFontStyle(styleState.italicState, $event, 'italic')
           "
-        >
-        </sky-checkbox>
+        />
         <sky-checkbox
           icon="underline"
           label="Underline"
@@ -89,22 +87,21 @@
           (ngModelChange)="
             toggleFontStyle(styleState.underlineState, $event, 'underline')
           "
-        >
-        </sky-checkbox>
+        />
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'color'">
+    }
+    @case ('color') {
       <div class="sky-text-editor-colorpicker-group">
         <div class="sky-text-editor-colorpicker-container">
           <sky-colorpicker
+            #colorPicker
             class="sky-text-editor-font-color-picker"
             label="Font color"
+            pickerButtonIcon="highlighter"
+            pickerButtonIconType="skyux"
             [messageStream]="colorpickerStream"
             [showResetButton]="false"
             (selectedColorChanged)="onColorpickerColorChanged($event)"
-            pickerButtonIcon="highlighter"
-            pickerButtonIconType="skyux"
-            #colorPicker
           >
             <input
               outputFormat="hex"
@@ -118,14 +115,14 @@
         </div>
         <div class="sky-text-editor-colorpicker-container">
           <sky-colorpicker
+            #backColorPicker
             class="sky-text-editor-background-color-picker"
             label="Background color"
+            pickerButtonIcon="text-color"
+            pickerButtonIconType="skyux"
             [messageStream]="backColorpickerStream"
             [showResetButton]="false"
             (selectedColorChanged)="onColorpickerColorChanged($event, true)"
-            #backColorPicker
-            pickerButtonIcon="text-color"
-            pickerButtonIconType="skyux"
           >
             <input
               outputFormat="rgba"
@@ -138,8 +135,8 @@
           </sky-colorpicker>
         </div>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'list'">
+    }
+    @case ('list') {
       <div class="sky-switch-icon-group">
         <button
           aria-label="Bulleted list"
@@ -162,8 +159,8 @@
           <sky-icon icon="number-list" />
         </button>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'alignment'">
+    }
+    @case ('alignment') {
       <div class="sky-switch-icon-group">
         <button
           aria-label="Align left"
@@ -196,8 +193,8 @@
           <sky-icon icon="align-right-text" />
         </button>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'indentation'">
+    }
+    @case ('indentation') {
       <div class="sky-switch-icon-group">
         <button
           aria-label="Outdent"
@@ -220,8 +217,8 @@
           <sky-icon icon="indent" />
         </button>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'undo-redo'">
+    }
+    @case ('undo-redo') {
       <div class="sky-switch-icon-group">
         <button
           aria-label="Undo"
@@ -244,8 +241,8 @@
           <sky-icon icon="redo" />
         </button>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'link'">
+    }
+    @case ('link') {
       <div class="sky-switch-icon-group">
         <button
           aria-label="Link"
@@ -271,6 +268,6 @@
           <sky-icon icon="unlink" />
         </button>
       </div>
-    </ng-container>
-  </ng-container>
+    }
+  }
 </sky-toolbar-item>
