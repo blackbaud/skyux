@@ -42,7 +42,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Start Nx Cloud CI run
-        run: npx nx-cloud start-ci-run
+        run: |
+          npx nx-cloud start-ci-run --distribute-on="manual"
 
   agents:
     name: Bootup Nx Cloud agent
@@ -89,26 +90,26 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run build, lint, test, and posttest for npm packages
         run: |
-          npx nx affected --target build lint test posttest --configuration ci --parallel=8 --exclude '*,!tag:npm'
+          npx nx affected --target build lint test posttest --configuration ci --exclude '*,!tag:npm' --agents
       - name: Run lint, test, and posttest for non-npm packages
         run: |
-          npx nx affected --target lint test posttest --configuration ci --parallel=8 --exclude 'tag:npm'
+          npx nx affected --target lint test posttest --configuration ci --exclude 'tag:npm' --agents
 
   build:
     name: Build
     needs: build-coverage-lint
     runs-on: ubuntu-latest
     steps:
-      - name: Run lint
-        run: echo Linted.
+      - name: Run build
+        run: echo Built.
 
   coverage:
     name: Code coverage
     needs: build-coverage-lint
     runs-on: ubuntu-latest
     steps:
-      - name: Run lint
-        run: echo Linted.
+      - name: Run code coverage
+        run: echo Code covered.
 
   lint:
     name: Lint
