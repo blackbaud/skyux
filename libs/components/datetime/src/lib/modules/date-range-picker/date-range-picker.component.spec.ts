@@ -18,7 +18,7 @@ import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
-fdescribe('Date range picker', function () {
+describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
 
