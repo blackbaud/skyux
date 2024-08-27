@@ -1,39 +1,41 @@
-<div *ngIf="datepickerMode" class="sky-datepicker-calendar-inner">
-  <div class="sky-datepicker-calendar-header">
-    <span class="sky-datepicker-header-left">
-      <button
-        type="button"
-        class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous"
-        [attr.aria-label]="previousLabel"
-        (click)="moveCalendar($event, -1)"
-      >
-        <sky-icon class="sky-datepicker-chevron" icon="chevron-left" />
-      </button>
-    </span>
-    <span class="sky-datepicker-header-center">
-      <button
-        [id]="datepickerId + '-title'"
-        type="button"
-        class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title"
-        (click)="toggleModeCalendar($event)"
-        [disabled]="datepickerMode === maxMode"
-        [ngClass]="{
-          'sky-btn-disabled': datepickerMode === maxMode
-        }"
-      >
-        <strong>{{ title }}</strong>
-      </button>
-    </span>
-    <span class="sky-datepicker-header-right">
-      <button
-        type="button"
-        class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-next"
-        [attr.aria-label]="nextLabel"
-        (click)="moveCalendar($event, 1)"
-      >
-        <sky-icon class="sky-datepicker-chevron" icon="chevron-right" />
-      </button>
-    </span>
+@if (datepickerMode) {
+  <div class="sky-datepicker-calendar-inner">
+    <div class="sky-datepicker-calendar-header">
+      <span class="sky-datepicker-header-left">
+        <button
+          type="button"
+          class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous"
+          [attr.aria-label]="previousLabel"
+          (click)="moveCalendar($event, -1)"
+        >
+          <sky-icon class="sky-datepicker-chevron" icon="chevron-left" />
+        </button>
+      </span>
+      <span class="sky-datepicker-header-center">
+        <button
+          type="button"
+          class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title"
+          [id]="datepickerId + '-title'"
+          [disabled]="datepickerMode === maxMode"
+          [ngClass]="{
+            'sky-btn-disabled': datepickerMode === maxMode
+          }"
+          (click)="toggleModeCalendar($event)"
+        >
+          <strong>{{ title }}</strong>
+        </button>
+      </span>
+      <span class="sky-datepicker-header-right">
+        <button
+          type="button"
+          class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-next"
+          [attr.aria-label]="nextLabel"
+          (click)="moveCalendar($event, 1)"
+        >
+          <sky-icon class="sky-datepicker-chevron" icon="chevron-right" />
+        </button>
+      </span>
+    </div>
+    <ng-content />
   </div>
-  <ng-content />
-</div>
+}
