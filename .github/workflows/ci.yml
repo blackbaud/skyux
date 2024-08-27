@@ -90,10 +90,10 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run build, lint, test, and posttest for npm packages
         run: |
-          npx nx affected --target build lint test posttest --configuration ci --exclude '*,!tag:npm' --agents
+          npx nx affected --target build lint test posttest --configuration ci --exclude '*,!tag:npm' --parallel 1 --agents
       - name: Run lint, test, and posttest for non-npm packages
         run: |
-          npx nx affected --target lint test posttest --configuration ci --exclude 'tag:npm' --agents
+          npx nx affected --target lint test posttest --configuration ci --exclude 'tag:npm' --parallel 1 --agents
 
   build:
     name: Build
