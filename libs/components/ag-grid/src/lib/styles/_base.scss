@@ -236,6 +236,14 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
     &.ag-cell-inline-editing {
       border-left-width: 0;
       border-right-width: 0;
+
+      &.sky-ag-grid-cell-template {
+        padding-left: calc(
+          var(--ag-cell-horizontal-padding) - 1px +
+            var(--ag-row-group-indent-size) * var(--ag-indentation-level)
+        );
+        padding-right: calc(var(--ag-cell-horizontal-padding) - 1px);
+      }
     }
 
     &.ag-cell-inline-editing,

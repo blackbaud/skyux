@@ -3,6 +3,8 @@ import {
   Component,
   HostListener,
   OnInit,
+  TemplateRef,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -48,9 +50,18 @@ import { InlineHelpComponent } from './inline-help/inline-help.component';
   templateUrl: './edit-complex-cells.component.html',
   styleUrls: ['./edit-complex-cells.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [AgGridModule, CommonModule, SkyAgGridModule, SkyToolbarModule],
+  imports: [
+    AgGridModule,
+    CommonModule,
+    SkyAgGridModule,
+    SkyToolbarModule,
+    ActionComponent,
+  ],
 })
 export class EditComplexCellsComponent implements OnInit {
+  @ViewChild('actionColumn', { static: true })
+  protected actionColumn: TemplateRef<unknown> | undefined;
+
   public gridData = EDITABLE_GRID_DATA;
   public editMode = false;
   public uneditedGridData: EditableGridRow[];
@@ -128,11 +139,15 @@ export class EditComplexCellsComponent implements OnInit {
       {
         colId: 'action',
         headerName: 'Action',
-        cellRenderer: ActionComponent,
-        type: 'skyCellButtonEditor',
+        type: SkyCellType.Template,
+        cellRendererParams: {
+          template: this.actionColumn,
+        },
+        cellEditorParams: {
+          template: this.actionColumn,
+        },
         editable: this.editMode,
         minWidth: 130,
-        autoHeight: true,
       },
       {
         colId: 'validationAutocomplete',
@@ -325,8 +340,7 @@ export class EditComplexCellsComponent implements OnInit {
     });
 
     this.gridApi.addEventListener('cellEditingStarted', (params) => {
-      if (params.colDef?.type === 'skyCellButtonEditor') {
-        this.gridApi.stopEditing();
+      if (params.colDef?.type === SkyCellType.Template) {
         this.gridApi.setFocusedCell(params.rowIndex, params.column);
       }
     });

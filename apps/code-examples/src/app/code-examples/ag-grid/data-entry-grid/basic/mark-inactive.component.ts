@@ -1,9 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
-
-import { AgGridDemoRow } from './data';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -11,21 +6,24 @@ import { AgGridDemoRow } from './data';
   templateUrl: './mark-inactive.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MarkInactiveComponent implements ICellRendererAngularComp {
+export class MarkInactiveComponent {
+  @Input()
+  public set name(value: string | undefined) {
+    this.#_name = value;
+    if (value) {
+      this.markInactiveAriaLabel = `Mark ${value} inactive`;
+    }
+  }
+
+  public get name(): string | undefined {
+    return this.#_name;
+  }
+
   protected markInactiveAriaLabel = '';
 
-  #name: string | undefined;
-
-  public agInit(params: ICellRendererParams<AgGridDemoRow>): void {
-    this.#name = params.data?.name;
-    this.markInactiveAriaLabel = `Mark ${this.#name} inactive`;
-  }
-
-  public refresh(): boolean {
-    return false;
-  }
+  #_name: string | undefined;
 
   protected markInactive(): void {
-    console.error(`Mark inactive action clicked for ${this.#name}`);
+    console.error(`Mark inactive action clicked for ${this.name}`);
   }
 }

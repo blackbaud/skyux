@@ -2,6 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
   inject,
 } from '@angular/core';
 import {
@@ -35,13 +38,20 @@ import { MarkInactiveComponent } from './mark-inactive.component';
   selector: 'app-edit-modal',
   templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
+  imports: [
+    AgGridModule,
+    SkyAgGridModule,
+    SkyModalModule,
+    MarkInactiveComponent,
+  ],
 })
-export class EditModalComponent {
-  protected gridData: AgGridDemoRow[];
-  protected gridOptions: GridOptions;
+export class EditModalComponent implements OnInit {
+  @ViewChild('markInactiveAction', { static: true })
+  protected markInactiveAction: TemplateRef<unknown> | undefined;
 
-  #columnDefs: ColDef[];
+  protected gridData: AgGridDemoRow[];
+  protected gridOptions: GridOptions | undefined;
+
   #gridApi: GridApi | undefined;
 
   protected readonly instance = inject(SkyModalInstance);
@@ -50,13 +60,19 @@ export class EditModalComponent {
   readonly #context = inject(EditModalContext);
 
   constructor() {
-    this.#columnDefs = [
+    this.gridData = this.#context.gridData;
+  }
+
+  public ngOnInit(): void {
+    const columnDefs: ColDef[] = [
       {
         colId: 'markInactiveAction',
         headerName: 'Mark inactive',
-        type: 'markInactiveEditor',
-        cellRenderer: MarkInactiveComponent,
+        type: SkyCellType.Template,
         editable: true,
+        cellRendererParams: {
+          template: this.markInactiveAction,
+        },
       },
       {
         field: 'name',
@@ -180,10 +196,8 @@ export class EditModalComponent {
       },
     ];
 
-    this.gridData = this.#context.gridData;
-
     this.gridOptions = {
-      columnDefs: this.#columnDefs,
+      columnDefs: columnDefs,
       onGridReady: (gridReadyEvent): void => {
         this.onGridReady(gridReadyEvent);
       },
@@ -203,9 +217,8 @@ export class EditModalComponent {
     this.#gridApi.addEventListener(
       'cellEditingStarted',
       (params: CellEditingStartedEvent) => {
-        if (params.colDef?.type === 'markInactiveEditor') {
-          this.#gridApi?.stopEditing();
-          if (params.rowIndex && params.column) {
+        if (params.colDef?.type === SkyCellType.Template) {
+          if (params.rowIndex !== null) {
             this.#gridApi?.setFocusedCell(params.rowIndex, params.column);
           }
         }
