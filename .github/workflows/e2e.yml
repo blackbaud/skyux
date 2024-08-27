@@ -94,6 +94,7 @@ jobs:
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
+      max-parallel: 12
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
@@ -276,6 +277,7 @@ jobs:
     needs: install-deps
     strategy:
       fail-fast: false
+      max-parallel: 12
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:

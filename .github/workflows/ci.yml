@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-plus-js"
+      - run: npx nx-cloud start-ci-run --distribute-on="8 linux-medium-plus-js"
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
