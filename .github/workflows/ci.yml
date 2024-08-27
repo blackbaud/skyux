@@ -47,8 +47,8 @@ jobs:
       - name: Capture projects
         id: projects
         run: |
-          echo "npm-projects=$(npx nx show projects --affected --exclude='*,!tag:npm' --json) >> $GITHUB_OUTPUT"
-          echo "non-npm-projects=$(npx nx show projects --affected --exclude='tag:npm' --json) >> $GITHUB_OUTPUT"
+          echo "non-npm-projects=$(npx nx show projects --affected --exclude='tag:npm' --json)" >> $GITHUB_OUTPUT"
+          echo "npm-projects=$(npx nx show projects --affected --exclude='*,!tag:npm' --json)" >> $GITHUB_OUTPUT"
       - name: NPM projects
         run: |
           npx nx show projects --affected --exclude='*,!tag:npm' --json | jq .
@@ -64,7 +64,7 @@ jobs:
       # If one build fails, do not cancel other builds.
       fail-fast: false
       matrix:
-        project: ${{ fromJSON(needs.install-deps.outputs.npm-projects) }}
+        include: ${{ fromJSON(needs.install-deps.outputs.npm-projects) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -94,7 +94,7 @@ jobs:
       # If one build fails, do not cancel other builds.
       fail-fast: false
       matrix:
-        project: ${{ fromJSON(needs.install-deps.outputs.non-npm-projects) }}
+        include: ${{ fromJSON(needs.install-deps.outputs.non-npm-projects) }}
     steps:
       - uses: actions/checkout@v4
         with:
