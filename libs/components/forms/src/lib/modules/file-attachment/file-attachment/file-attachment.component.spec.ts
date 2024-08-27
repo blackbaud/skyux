@@ -251,6 +251,7 @@ describe('File attachment', () => {
     }
     triggerChangeEvent(files);
 
+    fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
 
     if (fileReaderSpyData.loadCallbacks[0]) {
@@ -320,7 +321,10 @@ describe('File attachment', () => {
     expect(dragOverPreventDefaultSpy).toHaveBeenCalled();
   }
 
-  function triggerDrop(files: any[], dropDebugEl: DebugElement): void {
+  async function triggerDrop(
+    files: any[],
+    dropDebugEl: DebugElement,
+  ): Promise<void> {
     const dropPropStoppedSpy = jasmine.createSpy();
     const dropPreventDefaultSpy = jasmine.createSpy();
     const fileLength = files ? files.length : 0;
@@ -344,6 +348,7 @@ describe('File attachment', () => {
 
     dropDebugEl.triggerEventHandler('drop', dropEvent);
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(dropPropStoppedSpy).toHaveBeenCalled();
     expect(dropPreventDefaultSpy).toHaveBeenCalled();
@@ -1519,7 +1524,7 @@ describe('File attachment', () => {
     ).toBe('Error: Upload a file under 50 bytes.');
   });
 
-  it('should render file errors and NgControl errors when label text is set', () => {
+  it('should render file errors and NgControl errors when label text is set', async () => {
     fixture.componentInstance.labelText = 'file attachment';
     fixture.componentInstance.required = true;
     fixture.componentInstance.maxFileSize = 50;
@@ -1533,8 +1538,11 @@ describe('File attachment', () => {
       },
     ];
 
-    triggerDrop(files, getDropDebugEl());
+    await triggerDrop(files, getDropDebugEl());
     fixture.detectChanges;
+
+    fixture.componentInstance.attachment.markAsTouched();
+    fixture.detectChanges();
 
     expect(
       fixture.nativeElement

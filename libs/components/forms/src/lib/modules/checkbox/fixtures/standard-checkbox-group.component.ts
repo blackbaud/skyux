@@ -24,8 +24,8 @@ import { SkyCheckboxModule } from '../checkbox.module';
 export class SkyStandardCheckboxGroupComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);
 
-  protected formGroup: FormGroup;
-  protected contactMethod: FormGroup;
+  public formGroup: FormGroup;
+  public contactMethod: FormGroup;
 
   public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;

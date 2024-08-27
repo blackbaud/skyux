@@ -173,7 +173,7 @@
   [class.sky-file-drop-errors]="labelText && rejectedFiles.length"
   [id]="errorId"
   [labelText]="labelText"
-  [showErrors]="rejectedFiles.length"
+  [touched]="rejectedFiles.length > 0"
 >
   <div *ngFor="let rejectedFile of rejectedFiles">
     <sky-form-error

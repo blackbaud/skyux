@@ -243,7 +243,7 @@ describe('Input box harness', () => {
     const control = component.myForm.controls['lastName'];
     control.addValidators(Validators.required);
     control.setValue('');
-    control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -258,7 +258,7 @@ describe('Input box harness', () => {
     const control = component.myForm.controls['lastName'];
     control.addValidators(Validators.minLength(2));
     control.setValue('a');
-    control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -288,7 +288,7 @@ describe('Input box harness', () => {
     const control = component.myForm.controls['lastName'];
     control.addValidators(SkyValidators.email);
     control.setValue('abc');
-    control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -303,7 +303,7 @@ describe('Input box harness', () => {
     const control = component.myForm.controls['lastName'];
     control.addValidators(SkyValidators.url);
     control.setValue('abc');
-    control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -329,7 +329,7 @@ describe('Input box harness', () => {
 
     const control = component.directiveErrorForm.controls['easyModeDatepicker'];
     control.setValue('01/01/2990');
-    control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -343,7 +343,7 @@ describe('Input box harness', () => {
 
     const control = component.directiveErrorForm.controls['easyModeDatepicker'];
     control.setValue('01/01/1990');
-    control.markAsDirty();
+    control.markAsTouched();
 
     fixture.detectChanges();
 
@@ -356,7 +356,7 @@ describe('Input box harness', () => {
     });
 
     const control = component.directiveErrorForm.controls['easyModeTimepicker'];
-    control.markAsDirty();
+    control.markAsTouched();
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.hasTimeError()).toBeResolvedTo(true);
@@ -368,7 +368,7 @@ describe('Input box harness', () => {
     });
 
     const control = component.directiveErrorForm.controls['easyModePhoneField'];
-    control.markAsDirty();
+    control.markAsTouched();
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.hasPhoneFieldError()).toBeResolvedTo(

@@ -14,7 +14,8 @@ import { GreetingService } from './greeting/greeting.service';
   selector: 'sky-dynamic-component-test',
   template: `<div class="component-test">
       {{ message }}
-      <ng-container *ngIf="greeting">{{ greeting }}</ng-container>
+      <!-- prettier-ignore -->
+      @if (greeting) {{{ greeting }}}
     </div>
     <div #content></div>`,
 })

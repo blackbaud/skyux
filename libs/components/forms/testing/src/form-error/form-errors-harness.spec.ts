@@ -21,10 +21,17 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
       useValue: true,
     },
   ],
-  template: ` <sky-form-errors [labelText]="errorText" [errors]="errors" />
+  template: ` <sky-form-errors
+      [touched]="true"
+      [dirty]="true"
+      [labelText]="errorText"
+      [errors]="errors"
+    />
     <sky-form-errors
       data-sky-id="other-error"
       labelText="other error"
+      [touched]="true"
+      [dirty]="true"
       [errors]="{ required: true }"
     />"`,
 })
@@ -95,7 +102,6 @@ describe('Form errors harness', () => {
 
     await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([
       { errorName: 'required' },
-      { errorName: 'maxlength' },
       { errorName: 'minlength' },
       { errorName: 'invalidDate' },
       { errorName: 'minDate' },
@@ -104,6 +110,7 @@ describe('Form errors harness', () => {
       { errorName: 'phone' },
       { errorName: 'time' },
       { errorName: 'url' },
+      { errorName: 'maxlength' },
     ]);
   });
 });
