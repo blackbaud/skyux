@@ -45,8 +45,14 @@ jobs:
       - name: Capture projects
         id: projects
         run: |
-          echo "npm-projects=$(npx ng show projects --affected --exclude='*,!tag:npm' --json) >> $GITHUB_OUTPUT"
-          echo "non-npm-projects=$(npx ng show projects --affected --exclude='tag:npm' --json) >> $GITHUB_OUTPUT"
+          echo "npm-projects=$(npx nx show projects --affected --exclude='*,!tag:npm' --json) >> $GITHUB_OUTPUT"
+          echo "non-npm-projects=$(npx nx show projects --affected --exclude='tag:npm' --json) >> $GITHUB_OUTPUT"
+      - name: NPM projects
+        run: |
+          npx nx show projects --affected --exclude='*,!tag:npm' --json | jq .
+      - name: Non-NPM projects
+        run: |
+          npx nx show projects --affected --exclude='tag:npm' --json | jq .
 
   npm-packages:
     name: NPM packages
