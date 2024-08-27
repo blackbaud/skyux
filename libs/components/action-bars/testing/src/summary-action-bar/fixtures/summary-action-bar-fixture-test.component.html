@@ -7,13 +7,14 @@
       {{ primaryAction.buttonText }}
     </sky-summary-action-bar-primary-action>
     <sky-summary-action-bar-secondary-actions>
-      <sky-summary-action-bar-secondary-action
-        *ngFor="let action of secondaryActions"
-        [disabled]="action.isDisabled"
-        (actionClick)="action.click()"
-      >
-        {{ action.buttonText }}
-      </sky-summary-action-bar-secondary-action>
+      @for (action of secondaryActions; track action) {
+        <sky-summary-action-bar-secondary-action
+          [disabled]="action.isDisabled"
+          (actionClick)="action.click()"
+        >
+          {{ action.buttonText }}
+        </sky-summary-action-bar-secondary-action>
+      }
     </sky-summary-action-bar-secondary-actions>
     <sky-summary-action-bar-cancel
       [disabled]="cancelAction.isDisabled"
