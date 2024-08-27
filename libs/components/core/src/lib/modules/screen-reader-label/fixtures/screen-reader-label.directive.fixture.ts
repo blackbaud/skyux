@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { SkyScreenReaderLabelDirective } from '../screen-reader-label.directive';
@@ -7,7 +6,7 @@ import { SkyScreenReaderLabelDirective } from '../screen-reader-label.directive'
   selector: 'sky-screen-reader-label-directive-test',
   templateUrl: './screen-reader-label.directive.fixture.html',
   standalone: true,
-  imports: [CommonModule, SkyScreenReaderLabelDirective],
+  imports: [SkyScreenReaderLabelDirective],
 })
 export class ScreenReaderLabelFixtureComponent {
   @Input()
