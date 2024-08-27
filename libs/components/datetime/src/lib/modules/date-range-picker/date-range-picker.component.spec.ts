@@ -18,7 +18,7 @@ import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
-fdescribe('Date range picker', function () {
+describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
 
@@ -394,6 +394,18 @@ fdescribe('Date range picker', function () {
     ).toHaveCssClass('ng-touched');
   });
 
+  it('should mark the underlying control touched if the host control calls markAllAsTouched', () => {
+    fixture.detectChanges();
+
+    component.reactiveForm?.markAllAsTouched();
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-date-range-picker'),
+    ).toHaveCssClass('ng-touched');
+  });
+
   it('should mark only start date input as touched when start date is interacted with', () => {
     fixture.detectChanges();
 
@@ -753,28 +765,34 @@ fdescribe('Date range picker', function () {
     });
   }));
 
-  // might be bc it got moved into input box. might go away when merging
-  // it('should render date range specific errors only when labelText is provided', fakeAsync(() => {
-  //   component.dateRange?.setValue({
-  //     calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-  //     startDate: new Date('1/2/2000'),
-  //     endDate: new Date('1/1/2000'),
-  //   });
-  //   detectChanges();
+  it('should render date range specific errors only when labelText is provided', fakeAsync(() => {
+    const control = component.dateRange;
 
-  //   expect(
-  //     fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
-  //   ).toBe(undefined);
+    control?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/2/2000'),
+      endDate: new Date('1/1/2000'),
+    });
+    detectChanges();
 
-  //   component.labelText = 'Date range picker';
-  //   detectChanges();
+    control?.updateValueAndValidity();
+    control?.markAllAsTouched();
+    detectChanges();
 
-  //   expect(
-  //     fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
-  //   ).toBe(
-  //     'Error: Change the date range so that the end date is before the start date.',
-  //   );
-  // }));
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe(undefined);
+
+    component.labelText = 'Date range picker';
+    control?.updateValueAndValidity();
+    detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe(
+      'Error: Change the date range so that the end date is before the start date.',
+    );
+  }));
 
   it('should ignore extraneous properties when setting the value', () => {
     component.dateRange?.setValue({
