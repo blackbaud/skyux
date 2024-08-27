@@ -24,6 +24,7 @@ import {
   NG_VALUE_ACCESSOR,
   NgControl,
   ReactiveFormsModule,
+  TouchedChangeEvent,
   ValidationErrors,
   Validator,
   Validators,
@@ -36,7 +37,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { Subject, distinctUntilChanged, merge, takeUntil } from 'rxjs';
+import { Subject, distinctUntilChanged, filter, merge, takeUntil } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -393,6 +394,12 @@ export class SkyDateRangePickerComponent
         });
       });
 
+    this.hostControl?.events
+      .pipe(filter((event) => event instanceof TouchedChangeEvent))
+      .subscribe(() => {
+        this.formGroup.markAllAsTouched();
+      });
+
     this.#updatePickerVisibility(this.selectedCalculator);
   }
 
@@ -506,6 +513,9 @@ export class SkyDateRangePickerComponent
   }
 
   protected onBlur(): void {
+    // be more selective
+    // once both inputs are touched/dirty host control is touched or dirty
+    // keep for
     this.#notifyTouched?.();
   }
 

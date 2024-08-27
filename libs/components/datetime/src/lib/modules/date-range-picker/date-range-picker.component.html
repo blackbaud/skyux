@@ -1,8 +1,4 @@
-<div
-  class="sky-date-range-picker"
-  [formGroup]="formGroup"
-  (focusout)="onBlur()"
->
+<div class="sky-date-range-picker" [formGroup]="formGroup">
   <div
     class="sky-date-range-picker-form-group"
     [ngClass]="{
@@ -46,7 +42,6 @@
       />
       <ng-content select="sky-form-error" />
     </sky-input-box>
-    calculator errors: {{ calculatorIdControl?.errors | json }}
   </div>
   <div
     class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
