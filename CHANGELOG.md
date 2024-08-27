@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.12...11.0.0-alpha.13) (2024-08-27)
+
+
+### Features
+
+* **components/ag-grid:** use SkyCheckboxComponent style for boolean fields ([#2625](https://github.com/blackbaud/skyux/issues/2625)) ([513a8cc](https://github.com/blackbaud/skyux/commit/513a8cc20227c574953998772fda4ffd6de60387))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** migrate `ColumnApi` to `GridApi` ([#2653](https://github.com/blackbaud/skyux/issues/2653)) ([94120e2](https://github.com/blackbaud/skyux/commit/94120e225f89ea8f694221447bcafc47724ca302))
+* **components/lists:** selectable repeater items do not log a checkbox `label` deprecation warning ([#2641](https://github.com/blackbaud/skyux/issues/2641)) ([#2643](https://github.com/blackbaud/skyux/issues/2643)) ([515f4ca](https://github.com/blackbaud/skyux/commit/515f4ca7e4c34a5c2381fff18cc9e2fbb883e10a))
+* **components/packages:** update `move-class-to-library` to handle partial migration ([#2651](https://github.com/blackbaud/skyux/issues/2651)) ([c788c59](https://github.com/blackbaud/skyux/commit/c788c59b967d98ad45ec55ce96cdb752cfc980e7))
+
 ## [11.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.11...11.0.0-alpha.12) (2024-08-26)
 
 
