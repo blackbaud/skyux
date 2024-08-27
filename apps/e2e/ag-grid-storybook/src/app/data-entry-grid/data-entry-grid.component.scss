@@ -10,7 +10,7 @@ app-data-entry-grid {
     display: grid;
     grid-template-areas:
       'editLookup editDate'
-      'editDateWithCalendar .';
+      'editDateWithCalendar checkboxes';
     grid-template-columns: 600px 580px;
     grid-template-rows: 200px 200px 200px;
     grid-gap: 20px;
