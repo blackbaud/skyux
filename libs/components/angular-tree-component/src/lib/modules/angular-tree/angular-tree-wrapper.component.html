@@ -2,15 +2,15 @@
   class="sky-angular-tree-wrapper"
   [class.sky-angular-tree-read-only]="readOnly"
 >
-  <sky-angular-tree-toolbar
-    *ngIf="showToolbar"
-    [showSelectButtons]="showSelectButtons()"
-    (clearAllClick)="onClearAllClick()"
-    (collapseAllClick)="onCollapseAllClick()"
-    (expandAllClick)="onExpandAllClick()"
-    (selectAllClick)="onSelectAllClick()"
-  >
-  </sky-angular-tree-toolbar>
+  @if (showToolbar) {
+    <sky-angular-tree-toolbar
+      [showSelectButtons]="showSelectButtons()"
+      (clearAllClick)="onClearAllClick()"
+      (collapseAllClick)="onCollapseAllClick()"
+      (expandAllClick)="onExpandAllClick()"
+      (selectAllClick)="onSelectAllClick()"
+    />
+  }
   <div
     class="sky-angular-tree-root"
     role="tree"
