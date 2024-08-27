@@ -16,6 +16,11 @@ export function moveClassToLibrary(
   options: MoveClassToLibraryOptions,
 ): void {
   const recorder = tree.beginUpdate(projectPath);
+  const replacedImports: {
+    className: string;
+    moduleImport: ts.ImportDeclaration;
+    namedImportSpecifier: ts.ImportSpecifier;
+  }[] = [];
 
   const moduleImports = findNodes(
     sourceFile,
@@ -27,47 +32,39 @@ export function moveClassToLibrary(
       node.moduleSpecifier.text === options.previousLibrary,
   );
 
-  const replacedImports: { [key: string]: ts.ImportSpecifier } = {};
-  options.classNames.forEach((importName) => {
-    const namedImportSpecifier = findNodes(
-      sourceFile,
-      ts.SyntaxKind.ImportSpecifier,
-    ).filter(
-      (node): node is ts.ImportSpecifier =>
-        ts.isImportSpecifier(node) && node.name.text === importName,
-    )[0];
+  moduleImports.forEach((moduleImport) => {
+    options.classNames.forEach((className) => {
+      const namedImportSpecifier = findNodes(
+        moduleImport,
+        ts.SyntaxKind.ImportSpecifier,
+      ).filter(
+        (node): node is ts.ImportSpecifier =>
+          ts.isImportSpecifier(node) && node.name.text === className,
+      )[0];
 
-    if (namedImportSpecifier) {
-      replacedImports[importName] = namedImportSpecifier;
-    }
+      if (namedImportSpecifier) {
+        replacedImports.push({ className, moduleImport, namedImportSpecifier });
+      }
+    });
   });
 
-  moduleImports.forEach((moduleImport) => {
-    const moduleImportStart = moduleImport.getStart(sourceFile);
-    const moduleImportWidth = moduleImport.getWidth(sourceFile);
-    const moduleReplacements = Object.keys(replacedImports).filter(
-      (importName) => {
-        const namedImportStart =
-          replacedImports[importName].getStart(sourceFile);
-        return (
-          namedImportStart >= moduleImportStart &&
-          namedImportStart <= moduleImportStart + moduleImportWidth
-        );
-      },
-    );
-
-    if (moduleReplacements.length > 0) {
+  replacedImports.forEach(({ moduleImport }, index, list) => {
+    if (
+      list.findIndex((item) => item.moduleImport === moduleImport) === index
+    ) {
+      const matchedImports = list.filter(
+        (item) => item.moduleImport === moduleImport,
+      );
       if (
         moduleImport.importClause?.namedBindings &&
         ts.isNamedImports(moduleImport.importClause.namedBindings) &&
         moduleImport.importClause.namedBindings.elements.length >
-          moduleReplacements.length
+          matchedImports.length
       ) {
-        moduleReplacements.forEach((importName) => {
-          const namedImportStart =
-            replacedImports[importName].getStart(sourceFile);
-          const namedImportWidth =
-            replacedImports[importName].getWidth(sourceFile);
+        // The import contains other named imports that are not being removed.
+        matchedImports.forEach(({ namedImportSpecifier }) => {
+          const namedImportStart = namedImportSpecifier.getStart();
+          const namedImportWidth = namedImportSpecifier.getWidth();
 
           recorder.remove(namedImportStart, namedImportWidth);
 
@@ -76,14 +73,16 @@ export function moveClassToLibrary(
           }
         });
       } else {
-        recorder.remove(moduleImportStart, moduleImportWidth);
+        // The import only contains the named imports that are being removed.
+        recorder.remove(moduleImport.getStart(), moduleImport.getWidth());
       }
     }
   });
-  if (Object.keys(replacedImports).length > 0) {
+
+  if (replacedImports.length > 0) {
     recorder.insertLeft(
-      moduleImports[0].getStart(sourceFile),
-      `import { ${Object.keys(replacedImports).join(', ')} } from '${options.newLibrary}';\n`,
+      replacedImports[0].moduleImport.getStart(),
+      `import { ${replacedImports.map(({ className }) => className).join(', ')} } from '${options.newLibrary}';\n`,
     );
   }
   tree.commitUpdate(recorder);
