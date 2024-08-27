@@ -32,7 +32,7 @@
       </select>
       <sky-form-error
         *ngIf="
-          calculatorIdControl?.errors?.['skyDateRange']?.errors?.[
+          hostControl?.errors?.['skyDateRange']?.errors?.[
             'endDateBeforeStartDate'
           ] && labelText
         "
@@ -54,10 +54,7 @@
     }"
   >
     <sky-input-box
-      [hasErrors]="
-        controlHasErrors(startDateControl) ||
-        controlHasErrors(calculatorIdControl)
-      "
+      [hasErrors]="startDateHasErrors"
       [labelText]="
         selectedCalculator.type
           | skyDateRangePickerStartDateResourceKey
@@ -94,10 +91,7 @@
     [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
   >
     <sky-input-box
-      [hasErrors]="
-        controlHasErrors(endDateControl) ||
-        controlHasErrors(calculatorIdControl)
-      "
+      [hasErrors]="endDateHasErrors"
       [labelText]="
         selectedCalculator.type
           | skyDateRangePickerEndDateResourceKey

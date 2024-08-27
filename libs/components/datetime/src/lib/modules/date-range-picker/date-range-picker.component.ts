@@ -273,17 +273,17 @@ export class SkyDateRangePickerComponent
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
 
-  protected get calculatorIdControl(): AbstractControl<SkyDateRangeCalculatorId> {
+  get #calculatorIdControl(): AbstractControl<SkyDateRangeCalculatorId> {
     return this.formGroup.get(
       'calculatorId',
     ) as AbstractControl<SkyDateRangeCalculatorId>;
   }
 
-  protected get endDateControl(): AbstractControl<DateValue> {
+  get #endDateControl(): AbstractControl<DateValue> {
     return this.formGroup.get('endDate') as AbstractControl<DateValue>;
   }
 
-  protected get startDateControl(): AbstractControl<DateValue> {
+  get #startDateControl(): AbstractControl<DateValue> {
     return this.formGroup.get('startDate') as AbstractControl<DateValue>;
   }
 
@@ -378,8 +378,8 @@ export class SkyDateRangePickerComponent
     // If the datepickers' statuses change, we want to retrigger the host
     // control's validation so that their errors are reflected back to the host.
     merge(
-      this.startDateControl.statusChanges,
-      this.endDateControl.statusChanges,
+      this.#startDateControl.statusChanges,
+      this.#endDateControl.statusChanges,
     )
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
@@ -415,17 +415,17 @@ export class SkyDateRangePickerComponent
 
     if (control) {
       if (control.touched) {
-        this.calculatorIdControl.markAsTouched();
+        this.#calculatorIdControl.markAsTouched();
         this.#changeDetector.markForCheck();
       }
 
       this.startDateHasErrors =
-        this.controlHasErrors(this.startDateControl) ||
-        this.controlHasErrors(this.calculatorIdControl);
+        this.controlHasErrors(this.#startDateControl) ||
+        this.controlHasErrors(this.#calculatorIdControl);
       this.endDateHasErrors =
-        this.controlHasErrors(this.endDateControl) ||
-        this.controlHasErrors(this.calculatorIdControl);
-      this.selectHasErrors = this.controlHasErrors(this.calculatorIdControl);
+        this.controlHasErrors(this.#endDateControl) ||
+        this.controlHasErrors(this.#calculatorIdControl);
+      this.selectHasErrors = this.controlHasErrors(this.#calculatorIdControl);
       this.#changeDetector.markForCheck();
     }
   }
@@ -459,8 +459,8 @@ export class SkyDateRangePickerComponent
     let errors: ValidationErrors | null = null;
 
     const calculatorErrors = this.selectedCalculator.validate(control.value);
-    const startDateErrors = this.startDateControl.errors;
-    const endDateErrors = this.endDateControl.errors;
+    const startDateErrors = this.#startDateControl.errors;
+    const endDateErrors = this.#endDateControl.errors;
 
     if (calculatorErrors) {
       errors = {
@@ -470,7 +470,7 @@ export class SkyDateRangePickerComponent
         },
       };
     }
-    this.calculatorIdControl.setErrors(errors);
+    this.#calculatorIdControl.setErrors(errors);
 
     if (this.showStartDatePicker && startDateErrors) {
       errors ||= {};
