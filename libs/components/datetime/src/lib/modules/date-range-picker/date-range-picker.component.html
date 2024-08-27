@@ -30,18 +30,19 @@
           }}
         </option>
       </select>
-      <sky-form-error
-        *ngIf="
-          hostControl?.errors?.['skyDateRange']?.errors?.[
-            'endDateBeforeStartDate'
-          ] && labelText
-        "
-        [errorName]="'endDateBeforeStartDate'"
-        [errorText]="
-          'skyux_date_range_picker_end_date_before_start_date_error_label_text'
-            | skyLibResources
-        "
-      />
+      @if (
+        hostControl?.errors?.['skyDateRange']?.errors?.[
+          'endDateBeforeStartDate'
+        ] && labelText
+      ) {
+        <sky-form-error
+          [errorName]="'endDateBeforeStartDate'"
+          [errorText]="
+            'skyux_date_range_picker_end_date_before_start_date_error_label_text'
+              | skyLibResources
+          "
+        />
+      }
       <ng-content select="sky-form-error" />
     </sky-input-box>
   </div>
