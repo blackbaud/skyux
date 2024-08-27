@@ -95,6 +95,14 @@ jobs:
       - name: Run lint
         run: echo Linted.
 
+  stop-agents:
+    name: Stop Nx Cloud agents
+    needs: build-coverage-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stop agents
+        run: echo Agents stopped.
+
   check-workspace:
     name: Check dependencies and resources
     needs: install-deps
