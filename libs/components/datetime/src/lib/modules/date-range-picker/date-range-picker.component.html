@@ -18,17 +18,20 @@
         ('skyux_date_range_picker_default_label' | skyLibResources)
       "
     >
-      <select formControlName="calculatorId" (blur)="onBlur()">
-        <option
-          *ngFor="let calculator of calculators"
-          [value]="calculator.calculatorId"
-        >
-          {{
-            calculator._shortDescriptionResourceKey
-              ? (calculator._shortDescriptionResourceKey | skyLibResources)
-              : calculator.shortDescription
-          }}
-        </option>
+      <select
+        formControlName="calculatorId"
+        [required]="isRequired()"
+        (blur)="onBlur()"
+      >
+        @for (calculator of calculators; track calculator.calculatorId) {
+          <option [value]="calculator.calculatorId">
+            {{
+              calculator._shortDescriptionResourceKey
+                ? (calculator._shortDescriptionResourceKey | skyLibResources)
+                : calculator.shortDescription
+            }}
+          </option>
+        }
       </select>
       @if (
         hostControl?.errors?.['skyDateRange']?.errors?.[
