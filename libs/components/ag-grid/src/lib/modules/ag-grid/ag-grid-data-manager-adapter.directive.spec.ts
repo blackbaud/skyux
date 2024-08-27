@@ -190,7 +190,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridComponent.columnMoved.emit(columnMoved);
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
-    await new Promise((resolve) => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(updateDataState).toHaveBeenCalledWith(
       dataState,
