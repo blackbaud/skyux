@@ -1,5 +1,6 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
@@ -9,7 +10,11 @@ import { CheckboxHarnessTestModule } from './fixtures/checkbox-harness-test.modu
 
 async function setupTest(
   options: { dataSkyId?: string; hideEmailLabel?: boolean } = {},
-) {
+): Promise<{
+  checkboxHarness: SkyCheckboxHarness;
+  fixture: ComponentFixture<CheckboxHarnessTestComponent>;
+  loader: HarnessLoader;
+}> {
   await TestBed.configureTestingModule({
     imports: [CheckboxHarnessTestModule, SkyHelpTestingModule],
   }).compileComponents();
@@ -227,9 +232,7 @@ describe('Checkbox harness', () => {
       dataSkyId: 'my-email-checkbox',
     });
 
-    await expectAsync(checkboxHarness.hasRequiredError()).toBeRejectedWithError(
-      'No form errors found.',
-    );
+    await expectAsync(checkboxHarness.hasRequiredError()).toBeResolvedTo(false);
   });
 
   it('should throw an error if no help inline is found', async () => {
