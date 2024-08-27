@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -21,12 +20,7 @@ import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module'
   selector: 'sky-flyout-iterator',
   templateUrl: './flyout-iterator.component.html',
   styleUrls: ['./flyout-iterator.component.scss'],
-  imports: [
-    CommonModule,
-    SkyIconModule,
-    SkyFlyoutResourcesModule,
-    SkyThemeModule,
-  ],
+  imports: [SkyIconModule, SkyFlyoutResourcesModule, SkyThemeModule],
 })
 export class SkyFlyoutIteratorComponent implements OnDestroy {
   @Input()
