@@ -32,7 +32,9 @@
       </select>
       <sky-form-error
         *ngIf="
-          calculatorIdControl?.errors?.['endDateBeforeStartDate'] && labelText
+          calculatorIdControl?.errors?.['skyDateRange']?.errors?.[
+            'endDateBeforeStartDate'
+          ] && labelText
         "
         [errorName]="'endDateBeforeStartDate'"
         [errorText]="

@@ -394,6 +394,36 @@ fdescribe('Date range picker', function () {
     ).toHaveCssClass('ng-touched');
   });
 
+  it('should mark only start date input as touched when start date is interacted with', () => {
+    fixture.detectChanges();
+
+    const datepickerInputs = fixture.nativeElement.querySelectorAll(
+      '.sky-input-group input',
+    );
+
+    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(0), 'blur');
+
+    fixture.detectChanges();
+
+    expect(datepickerInputs.item(0)).toHaveCssClass('ng-touched');
+    expect(datepickerInputs.item(1)).toHaveCssClass('ng-untouched');
+  });
+
+  it('should mark only start date input as touched when start date is interacted with', () => {
+    fixture.detectChanges();
+
+    const datepickerInputs = fixture.nativeElement.querySelectorAll(
+      '.sky-input-group input',
+    );
+
+    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'blur');
+
+    fixture.detectChanges();
+
+    expect(datepickerInputs.item(1)).toHaveCssClass('ng-touched');
+    expect(datepickerInputs.item(0)).toHaveCssClass('ng-untouched');
+  });
+
   it('should maintain selected value when calculators change', fakeAsync(function () {
     fixture.detectChanges();
 
@@ -633,53 +663,82 @@ fdescribe('Date range picker', function () {
     expect(calculatorIdControl?.errors).toBeFalsy();
   }));
 
-  // it('should show validation errors when start date is required but not provided', fakeAsync(function () {
-  //   fixture.componentInstance.startDateRequired = true;
-  //   detectChanges();
-  //   const control = component.dateRange;
-  //   const calculatorIdControl =
-  //     component.dateRangePicker['formGroup']?.get('calculatorId');
-  //   control?.setValue({
-  //     calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-  //   });
-  //   detectChanges();
-  //   const datepickerInputs = fixture.nativeElement.querySelectorAll(
-  //     '.sky-input-group input',
-  //   );
+  it('should visually set start and end date datepickers to required and not the calculator select', () => {
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
 
-  //   SkyAppTestUtility.fireDomEvent(datepickerInputs.item(0), 'blur');
-  //   detectChanges();
-  //   const expectedError = {
-  //     required: true,
-  //   };
+    const control = component.dateRange;
+    control?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+    });
+    fixture.detectChanges();
 
-  //   expect(control?.errors).toEqual(expectedError);
-  //   expect(calculatorIdControl?.errors).toEqual(expectedError);
-  // }));
+    const datepickerInputLabels =
+      fixture.nativeElement.querySelectorAll('.sky-control-label');
+    const calculatorSelectLabel = datepickerInputLabels.item(0);
+    const startDateLabel = datepickerInputLabels.item(1);
+    const endDateLabel = datepickerInputLabels.item(2);
 
-  // it('should show validation errors when end date is required but not provided', fakeAsync(function () {
-  //   fixture.componentInstance.endDateRequired = true;
-  //   detectChanges();
-  //   const control = component.dateRange;
-  //   const calculatorIdControl =
-  //     component.dateRangePicker['formGroup']?.get('calculatorId');
-  //   control?.setValue({
-  //     calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-  //   });
-  //   detectChanges();
-  //   const datepickerInputs = fixture.nativeElement.querySelectorAll(
-  //     '.sky-input-group input',
-  //   );
+    expect(calculatorSelectLabel).not.toHaveCssClass(
+      'sky-control-label-required',
+    );
+    expect(startDateLabel).toHaveCssClass('sky-control-label-required');
+    expect(endDateLabel).toHaveCssClass('sky-control-label-required');
+  });
 
-  //   SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'blur');
-  //   detectChanges();
-  //   const expectedError = {
-  //     required: true,
-  //   };
+  it('should show validation errors when start date is required but not provided', fakeAsync(function () {
+    fixture.componentInstance.required = true;
+    detectChanges();
 
-  //   expect(control?.errors).toEqual(expectedError);
-  //   expect(calculatorIdControl?.errors).toEqual(expectedError);
-  // }));
+    const control = component.dateRange;
+    const startDateControl =
+      component.dateRangePicker['formGroup']?.get('startDate');
+
+    control?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+    });
+    detectChanges();
+
+    const datepickerInputs = fixture.nativeElement.querySelectorAll(
+      '.sky-input-group input',
+    );
+
+    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(0), 'blur');
+    detectChanges();
+    const expectedError = {
+      required: true,
+    };
+
+    expect(control?.errors).toEqual(expectedError);
+    expect(startDateControl?.errors).toEqual(expectedError);
+  }));
+
+  it('should show validation errors when end date is required but not provided', fakeAsync(function () {
+    fixture.componentInstance.required = true;
+    detectChanges();
+
+    const control = component.dateRange;
+    const endDateControl =
+      component.dateRangePicker['formGroup']?.get('endDate');
+
+    control?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+    });
+    detectChanges();
+
+    const datepickerInputs = fixture.nativeElement.querySelectorAll(
+      '.sky-input-group input',
+    );
+    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'blur');
+    detectChanges();
+
+    const expectedError = {
+      required: true,
+    };
+
+    expect(control?.errors).toEqual(expectedError);
+    expect(endDateControl?.errors).toEqual(expectedError);
+  }));
 
   it('should log a deprecation warning when label input is used', fakeAsync(() => {
     const logService = TestBed.inject(SkyLogService);

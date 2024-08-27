@@ -470,6 +470,7 @@ export class SkyDateRangePickerComponent
         },
       };
     }
+    this.calculatorIdControl.setErrors(errors);
 
     if (this.showStartDatePicker && startDateErrors) {
       errors ||= {};
@@ -481,8 +482,6 @@ export class SkyDateRangePickerComponent
       errors = { ...errors, ...endDateErrors };
     }
 
-    // set calculator errors to select controller
-    this.calculatorIdControl.setErrors(calculatorErrors);
     this.#changeDetector.markForCheck();
 
     // set start and end date errors - might not need to do this
