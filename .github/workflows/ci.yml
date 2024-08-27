@@ -43,7 +43,7 @@ jobs:
         run: npm ci
       - name: Start Nx Cloud CI run
         run: |
-          npx nx-cloud start-ci-run --distribute-on="manual"
+          npx nx-cloud start-ci-run --distribute-on="manual" --stop-agents-on-failure=false --require-explicit-completion
 
   agents:
     name: Bootup Nx Cloud agent
@@ -52,6 +52,7 @@ jobs:
     env:
       NX_CLOUD_DISTRIBUTED_EXECUTION: true
     strategy:
+      fail-fast: false
       matrix:
         agent: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
@@ -90,10 +91,10 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run build, lint, test, and posttest for npm packages
         run: |
-          npx nx affected --target build lint test posttest --configuration ci --exclude '*,!tag:npm' --parallel 1 --agents
+          npx nx affected --target build lint test posttest --configuration ci --exclude '*,!tag:npm' --parallel 2 --agents
       - name: Run lint, test, and posttest for non-npm packages
         run: |
-          npx nx affected --target lint test posttest --configuration ci --exclude 'tag:npm' --parallel 1 --agents
+          npx nx affected --target lint test posttest --configuration ci --exclude 'tag:npm' --parallel 2 --agents
 
   build:
     name: Build
