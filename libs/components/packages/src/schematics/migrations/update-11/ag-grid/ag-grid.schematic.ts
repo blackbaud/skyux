@@ -10,7 +10,6 @@ import {
   getPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
-import { removeImport } from '../../../utility/typescript/remove-import';
 import { swapImportedClass } from '../../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
@@ -89,10 +88,14 @@ function swapGridOptionsApiToGridApi(tree: Tree, path: string): void {
   }
   tree.commitUpdate(recorder);
   if (content.includes('ColumnApi')) {
-    removeImport(tree, path, parseSourceFile(tree, path), content, {
-      classNames: ['ColumnApi'],
-      moduleName: 'ag-grid-community',
-    });
+    swapImportedClass(tree, path, parseSourceFile(tree, path), [
+      {
+        classNames: {
+          ColumnApi: 'GridApi',
+        },
+        moduleName: 'ag-grid-community',
+      },
+    ]);
   }
 }
 

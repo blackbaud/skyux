@@ -60,4 +60,31 @@ describe('swap-imported-class', () => {
 
     A(D) && C;`);
   });
+
+  it('should avoid double importing classes', () => {
+    const path = 'file.ts';
+    const content = `
+    import { A, B, C } from 'module';
+
+    A(B) && C;`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+
+    swapImportedClass(tree, path, sourceFile, [
+      {
+        classNames: { B: 'C' },
+        moduleName: 'module',
+      },
+    ]);
+
+    expect(tree.readText(path)).toBe(`
+    import { A,  C } from 'module';
+
+    A(C) && C;`);
+  });
 });
