@@ -470,6 +470,8 @@ export class SkyDateRangePickerComponent
         },
       };
     }
+
+    // Set calculator errors on the select so that they appear beneath it.
     this.#calculatorIdControl.setErrors(errors);
 
     if (this.showStartDatePicker && startDateErrors) {
@@ -483,8 +485,6 @@ export class SkyDateRangePickerComponent
     }
 
     this.#changeDetector.markForCheck();
-
-    // set start and end date errors - might not need to do this
 
     return errors;
   }
@@ -512,9 +512,6 @@ export class SkyDateRangePickerComponent
   }
 
   protected onBlur(): void {
-    // be more selective
-    // once both inputs are touched/dirty host control is touched or dirty
-    // keep for
     this.#notifyTouched?.();
   }
 
