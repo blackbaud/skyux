@@ -12,8 +12,9 @@
   }
 
   <div class="sky-error-title sky-font-heading-1 sky-margin-stacked-lg">
-    <!-- prettier-ignore -->
-    @if (defaultTitle && (errorSvc.replaceDefaultTitle | async) === false) {{{ defaultTitle }}}
+    @if (defaultTitle && (errorSvc.replaceDefaultTitle | async) === false) {
+      <ng-container>{{ defaultTitle }}</ng-container>
+    }
     <ng-content select="sky-error-title" />
   </div>
 
