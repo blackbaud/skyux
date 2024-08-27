@@ -137,8 +137,8 @@ import { BrowserModule } from '@angular/platform-browser';
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';
-import { SkyIconStackItem, SkyIconType } from '@skyux/icon';
 import { SkyChevronModule } from '@skyux/indicators';
+import { SkyIconStackItem, SkyIconType } from '@skyux/icon';
 import {   SkyKeyInfoModule } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
 `,
@@ -167,9 +167,40 @@ import { BrowserModule } from '@angular/platform-browser';
     const updatedContent = tree.readText(path);
     expect(updatedContent).toEqual(
       `import { NgModule } from '@angular/core';
-import { SkyIconStackItem, SkyIconType } from '@skyux/icon';
 import { SkyChevronModule } from '@skyux/indicators';
+import { SkyIconStackItem, SkyIconType } from '@skyux/icon';
 
+import { SkyKeyInfoModule } from '@skyux/indicators';
+import { BrowserModule } from '@angular/platform-browser';
+`,
+    );
+  });
+
+  it('should update when some imports have already switched', async () => {
+    const content = `import { NgModule } from '@angular/core';
+import { SkyChevronModule, SkyIconStackItem } from '@skyux/indicators';
+import { SkyIconType } from '@skyux/icon';
+import { SkyKeyInfoModule } from '@skyux/indicators';
+import { BrowserModule } from '@angular/platform-browser';
+`;
+    tree.create(path, content);
+    moveClassToLibrary(
+      tree,
+      path,
+      ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true),
+      content,
+      {
+        classNames: ['SkyIconStackItem', 'SkyIconType'],
+        previousLibrary: '@skyux/indicators',
+        newLibrary: '@skyux/icon',
+      },
+    );
+    const updatedContent = tree.readText(path);
+    expect(updatedContent).toEqual(
+      `import { NgModule } from '@angular/core';
+import { SkyIconStackItem } from '@skyux/icon';
+import { SkyChevronModule,  } from '@skyux/indicators';
+import { SkyIconType } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
 `,
