@@ -56,6 +56,7 @@ export class DataEntryGridComponent
           { id: 'editDateWithCalendar', data: data.slice(6, 15) },
           { id: 'editDate', data: data.slice(3, 6) },
           { id: 'editLookup', data: data.slice(0, 3) },
+          { id: 'checkboxes', data: data.slice(0, 3) },
         ];
         break;
       case 'edit-lookup':
@@ -157,37 +158,43 @@ export class DataEntryGridComponent
           break;
         default:
           columnDefs = [
-            ...columnDefinitions.slice(0, 5).map((colDef) => {
-              if (
-                dataSet.id.startsWith('editLookup') &&
-                colDef.field === 'name'
-              ) {
+            ...columnDefinitions
+              .slice(0, dataSet.id === 'checkboxes' ? 500 : 5)
+              .map((colDef) => {
+                if (
+                  dataSet.id.startsWith('editLookup') &&
+                  colDef.field === 'name'
+                ) {
+                  return {
+                    ...colDef,
+                    editable: true,
+                    initialHide: dataSet.id === 'checkboxes',
+                    type: SkyCellType.Lookup,
+                    cellEditorParams: {
+                      skyComponentProperties: {
+                        data: this.#nameLookupData,
+                        idProperty: 'id',
+                        descriptorProperty: 'name',
+                        selectMode: dataSet.id.endsWith('Multiple')
+                          ? 'multiple'
+                          : 'single',
+                      },
+                    },
+                    cellRendererParams: {
+                      skyComponentProperties: {
+                        descriptorProperty: 'name',
+                      },
+                    },
+                  };
+                }
                 return {
                   ...colDef,
-                  editable: true,
-                  type: SkyCellType.Lookup,
-                  cellEditorParams: {
-                    skyComponentProperties: {
-                      data: this.#nameLookupData,
-                      idProperty: 'id',
-                      descriptorProperty: 'name',
-                      selectMode: dataSet.id.endsWith('Multiple')
-                        ? 'multiple'
-                        : 'single',
-                    },
-                  },
-                  cellRendererParams: {
-                    skyComponentProperties: {
-                      descriptorProperty: 'name',
-                    },
-                  },
+                  editable: !['cya', '500hr'].includes(colDef.field ?? ''),
+                  initialHide:
+                    dataSet.id === 'checkboxes' &&
+                    colDef.cellClass !== 'booleanType',
                 };
-              }
-              return {
-                ...colDef,
-                editable: colDef.field !== 'cya',
-              };
-            }),
+              }),
           ];
       }
       this.gridOptions[dataSet.id] = this.#agGridService.getGridOptions({
