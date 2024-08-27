@@ -6,16 +6,18 @@
 </span>
 <span aria-live="polite" class="sky-screen-reader-only">
   @if (characterCount > characterCountLimit) {
-    {{ 'skyux_character_count_over_limit' | skyLibResources }}
+    <ng-container>{{
+      'skyux_character_count_over_limit' | skyLibResources
+    }}</ng-container>
   } @else {
     @if (
       characterCount | skyCharacterCounterScreenReader: characterCountLimit;
       as screenReaderCount
     ) {
-      {{
+      <ng-container>{{
         'skyux_character_count_message'
           | skyLibResources: screenReaderCount : characterCountLimit
-      }}
+      }}</ng-container>
     }
   }
 </span>
