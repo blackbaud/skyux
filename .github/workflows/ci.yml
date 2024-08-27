@@ -63,10 +63,10 @@ jobs:
         run: node ./scripts/rebase-pr.js
       - name: Run build, lint, test, and posttest for npm packages
         run: |
-          npx nx affected --target build lint test posttest --configuration ci --exclude '*,!tag:npm' --parallel 2 --agents
+          npx nx affected --target build lint test posttest --configuration ci --exclude '*,!tag:npm'
       - name: Run lint, test, and posttest for non-npm packages
         run: |
-          npx nx affected --target lint test posttest --configuration ci --exclude 'tag:npm' --parallel 2 --agents
+          npx nx affected --target lint test posttest --configuration ci --exclude 'tag:npm'
       - name: Stop
         if: ${{ always() }}
         run: npx nx-cloud stop-all-agents
