@@ -9,8 +9,7 @@ on:
       - main
 
 env:
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_CLOUD_DISTRIBUTED_EXECUTION: false
+  NX_SKIP_NX_CACHE: true
 
 jobs:
   install-deps:
@@ -19,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
-      npm-projects: ${{ steps.projects.outputs.npm-projects }}
-      non-npm-projects: ${{ steps.projects.outputs.npm-projects }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,8 +30,6 @@ jobs:
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
       - name: Cache node modules
         id: cache
         uses: actions/cache@v4
@@ -44,101 +39,31 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Capture projects
-        id: projects
-        run: |
-          echo "non-npm-projects=$(npx nx show projects --affected --exclude='tag:npm' --json)" >> $GITHUB_OUTPUT"
-          echo "npm-projects=$(npx nx show projects --affected --exclude='*,!tag:npm' --json)" >> $GITHUB_OUTPUT"
-      - name: NPM projects
-        run: |
-          npx nx show projects --affected --exclude='*,!tag:npm' --json | jq .
-      - name: Non-NPM projects
-        run: |
-          npx nx show projects --affected --exclude='tag:npm' --json | jq .
-
-  npm-packages:
-    name: NPM packages
-    needs: install-deps
-    runs-on: ubuntu-latest
-    strategy:
-      # If one build fails, do not cancel other builds.
-      fail-fast: false
-      matrix:
-        include: ${{ fromJSON(needs.install-deps.outputs.npm-projects) }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
-      - name: Retrieve node_modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Run build, lint, test, and posttest
-        run: npx nx run-many --target build lint test posttest --configuration ci --projects ${{ matrix.project }}
-
-  non-npm-projects:
-    name: Non-NPM packages
-    needs: install-deps
-    runs-on: ubuntu-latest
-    strategy:
-      # If one build fails, do not cancel other builds.
-      fail-fast: false
-      matrix:
-        include: ${{ fromJSON(needs.install-deps.outputs.non-npm-projects) }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
-      - name: Retrieve node_modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Run lint, test, and posttest
-        run: npx nx run-many --target lint test posttest --configuration ci --projects ${{ matrix.project }}
-
-  build:
-    name: Build
-    needs: [non-npm-projects, npm-packages]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run build
-        run: echo Built.
-
-  coverage:
-    name: Code coverage
-    needs: [non-npm-projects, npm-packages]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run code coverage
-        run: echo Code coverage.
 
   lint:
     name: Lint
-    needs: [non-npm-projects, npm-packages]
+    needs: install-deps
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v4
+      - name: Retrieve node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Run lint
-        run: echo Linted.
+        run: npx nx affected:lint --quiet --silent --parallel=5
 
   check-workspace:
     name: Check dependencies and resources
@@ -192,11 +117,11 @@ jobs:
       - name: Check code formatting
         run: npx nx format:check
 
-  build-dist:
-    name: Build packages distribution
+  build:
+    name: Build
     needs: install-deps
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -208,6 +133,27 @@ jobs:
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v4
+      - name: Retrieve node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: Build
+        run: |
+          npx nx affected --target=build --parallel=5 --exclude '*,!tag:npm'
+
+  build-dist:
+    name: Build packages distribution
+    needs: install-deps
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
       - name: Retrieve node_modules cache
         uses: actions/cache/restore@v4
         with:
@@ -227,3 +173,29 @@ jobs:
           #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
           SLACK_FOOTER: 'Blackbaud Sky Build User'
+
+  coverage:
+    name: Code coverage
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v4
+      - name: Retrieve node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: Code coverage
+        run: |
+          npx nx affected --target=test,posttest --parallel=5 --configuration=ci
