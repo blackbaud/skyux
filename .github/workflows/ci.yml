@@ -10,7 +10,7 @@ on:
 
 env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_DISTRIBUTED_EXECUTION: false
 
 jobs:
   install-deps:
@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
+      npm-projects: ${{ steps.projects.outputs.npm-projects }}
+      non-npm-projects: ${{ steps.projects.outputs.npm-projects }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,30 +42,21 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Start Nx Cloud CI run
-        run: npx nx-cloud start-ci-run
+      - name: Capture projects
+        id: projects
+        run: |
+          echo "npm-projects=$(npx ng show projects --affected --exclude='*,!tag:npm' --json) >> $GITHUB_OUTPUT"
+          echo "non-npm-projects=$(npx ng show projects --affected --exclude='tag:npm' --json) >> $GITHUB_OUTPUT"
 
-  agents:
-    name: Bootup Nx Cloud agent
-    runs-on: ubuntu-latest
+  npm-packages:
+    name: NPM packages
     needs: install-deps
+    runs-on: ubuntu-latest
     strategy:
+      # If one build fails, do not cancel other builds.
+      fail-fast: false
       matrix:
-        agent: [1, 2, 3, 4, 5, 6, 7, 8]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Retrieve node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Start Nx Agent ${{ matrix.agent }}
-        run: npx nx-cloud start-agent
-
-  lint:
-    name: Lint
-    needs: install-deps
-    runs-on: ubuntu-latest
+        project: ${{ fromJSON(needs.install-deps.outputs.npm-projects) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -78,12 +71,66 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
       - name: Retrieve node_modules cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run build, lint, test, and posttest
+        run: npx nx run-many --target build lint test posttest --configuration ci --projects ${{ matrix.project }}
+
+  non-npm-projects:
+    name: Non-NPM packages
+    needs: install-deps
+    runs-on: ubuntu-latest
+    strategy:
+      # If one build fails, do not cancel other builds.
+      fail-fast: false
+      matrix:
+        project: ${{ fromJSON(needs.install-deps.outputs.non-npm-projects) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v4
+      - name: Retrieve node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run lint, test, and posttest
+        run: npx nx run-many --target lint test posttest --configuration ci --projects ${{ matrix.project }}
+
+  build:
+    name: Build
+    needs: [non-npm-projects, npm-packages]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run build
+        run: echo Built.
+
+  coverage:
+    name: Code coverage
+    needs: [non-npm-projects, npm-packages]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run code coverage
+        run: echo Code coverage.
+
+  lint:
+    name: Lint
+    needs: [non-npm-projects, npm-packages]
+    runs-on: ubuntu-latest
+    steps:
       - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel=5
+        run: echo Linted.
 
   check-workspace:
     name: Check dependencies and resources
@@ -101,7 +148,7 @@ jobs:
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve node_modules cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
@@ -130,39 +177,12 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
       - name: Retrieve node_modules cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Check code formatting
         run: npx nx format:check
-
-  build:
-    name: Build
-    needs: install-deps
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
-      - name: Retrieve node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Build
-        run: |
-          npx nx affected --target=build --parallel=5 --exclude '*,!tag:npm'
 
   build-dist:
     name: Build packages distribution
@@ -181,7 +201,7 @@ jobs:
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve node_modules cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
@@ -199,48 +219,3 @@ jobs:
           #cor-skyux-notifications
           SLACK_CHANNEL: C01GY7ZP4HM
           SLACK_FOOTER: 'Blackbaud Sky Build User'
-
-  coverage:
-    name: Code coverage
-    needs: install-deps
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
-      - name: Retrieve node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Code coverage
-        run: |
-          npx nx affected --target=test,posttest --parallel=5 --configuration=ci
-
-  stop-agents:
-    name: Stop Nx Cloud agents
-    runs-on: ubuntu-latest
-    if: ${{ !cancelled() }}
-    needs:
-      [install-deps, check-workspace, format, lint, build, build-dist, coverage]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-      - name: Retrieve node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Stop Nx Cloud agents
-        run: npx nx-cloud stop-all-agents
