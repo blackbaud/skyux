@@ -1,5 +1,75 @@
 # Changelog
 
+## [11.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.11...11.0.0-alpha.12) (2024-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** show all first class errors on touched ([#2624](https://github.com/blackbaud/skyux/issues/2624))
+* **components/forms:** remove radio button extra space on top ([#2613](https://github.com/blackbaud/skyux/issues/2613))
+
+### Features
+
+* **components/ag-grid:** remember last position when tabbing in and out of the grid ([#2633](https://github.com/blackbaud/skyux/issues/2633)) ([5ccafdb](https://github.com/blackbaud/skyux/commit/5ccafdbd895398f138e00848de914322c9fd98d5))
+* **components/ag-grid:** switch to using `setGridOption` for deprecated api calls ([#2637](https://github.com/blackbaud/skyux/issues/2637)) ([31de6e8](https://github.com/blackbaud/skyux/commit/31de6e82774136ab4302bdb6076c7de2b9142d65))
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([#2632](https://github.com/blackbaud/skyux/issues/2632)) ([f86090d](https://github.com/blackbaud/skyux/commit/f86090d55fc9bf5f1a4050aa588b45fa7ecfeeaa))
+* **components/forms:** remove radio button extra space on top ([#2613](https://github.com/blackbaud/skyux/issues/2613)) ([d2d358d](https://github.com/blackbaud/skyux/commit/d2d358dad523c06a77c76eef68beaab6ad62d72d))
+* **components/forms:** show all first class errors on touched ([#2624](https://github.com/blackbaud/skyux/issues/2624)) ([e2739a1](https://github.com/blackbaud/skyux/commit/e2739a138b1f63649658e03f29c884b345b0ea4f))
+* **components/packages:** handle edge cases for package migration ([#2638](https://github.com/blackbaud/skyux/issues/2638)) ([2d59fe2](https://github.com/blackbaud/skyux/commit/2d59fe2fd1e675a8f0a5c546804f2c32dfbf147e))
+
+## [11.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.10...11.0.0-alpha.11) (2024-08-23)
+
+
+### Bug Fixes
+
+* **components/packages:** fix collection path to `workspace-check` schematic ([#2629](https://github.com/blackbaud/skyux/issues/2629)) ([f028516](https://github.com/blackbaud/skyux/commit/f028516a2d08cea344d9c747d986f1204ef16465))
+
+## [11.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.9...11.0.0-alpha.10) (2024-08-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* Custom properties used by compatibility stylesheets for previous SKY UX major versions have been removed. Consumers should adopt the updated styles within their applications.
+
+### Features
+
+* **components/ag-grid:** option for hidden column heading ([#2615](https://github.com/blackbaud/skyux/issues/2615)) ([0aec3c8](https://github.com/blackbaud/skyux/commit/0aec3c84320c7fdf29178e359accf02876278417))
+* **components/ag-grid:** remove enter key navigation in cell editors ([#2620](https://github.com/blackbaud/skyux/issues/2620)) ([383555c](https://github.com/blackbaud/skyux/commit/383555ce85dbe905738b2fe56f5e871b0559ed43))
+* **components/forms:** file attachment automatically creates download link for file uploads ([#2608](https://github.com/blackbaud/skyux/issues/2608)) ([321e93a](https://github.com/blackbaud/skyux/commit/321e93a937162ed2aed805dc4b850046489543d5))
+* **components/forms:** update `sky-file-attachment` component to use `ControlValueAccessor`; deprecate `validateFn` attribute in favor of custom form control validators; deprecate `fileChange` event in favor of form control `valueChanges` observable ([#2603](https://github.com/blackbaud/skyux/issues/2603)) ([7a74fc7](https://github.com/blackbaud/skyux/commit/7a74fc7388a15e5ce2b18057551d05413b45d798))
+* **components/packages:** warn when using ssr ([#2623](https://github.com/blackbaud/skyux/issues/2623)) ([8a753fb](https://github.com/blackbaud/skyux/commit/8a753fb85a723f45b62cbfa1dfffcc4b9032f257))
+* remove compat variables for previous compat stylesheets ([#2598](https://github.com/blackbaud/skyux/issues/2598)) ([dd59411](https://github.com/blackbaud/skyux/commit/dd594112f99c5662c2778b956fc1a63ec054e447))
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([041dc29](https://github.com/blackbaud/skyux/commit/041dc29197b625106a4874c72fb396fa2424c11d))
+* `sky-form-errors` is no longer created and destroyed when form errors are present ([#2596](https://github.com/blackbaud/skyux/issues/2596)) ([#2606](https://github.com/blackbaud/skyux/issues/2606)) ([b23b00d](https://github.com/blackbaud/skyux/commit/b23b00d0d9906f43848ee604e9895b39ce2eacd5))
+* **components/ag-grid:** focused cell link outline ([#2622](https://github.com/blackbaud/skyux/issues/2622)) ([48a9c68](https://github.com/blackbaud/skyux/commit/48a9c68294d64feabbc2096bdce5d6573a5a0527))
+* **components/lookup:** autocomplete and lookup show wait in dropdown when using an async search when no dropdown was previously open ([#2610](https://github.com/blackbaud/skyux/issues/2610)) ([#2611](https://github.com/blackbaud/skyux/issues/2611)) ([537d702](https://github.com/blackbaud/skyux/commit/537d7022226d801f145828c421637d24f37396bd))
+* **components/phone-field:** phone numbers validate when selected country is changed programmatically ([#2593](https://github.com/blackbaud/skyux/issues/2593)) ([#2609](https://github.com/blackbaud/skyux/issues/2609)) ([273c1db](https://github.com/blackbaud/skyux/commit/273c1db3440648f904ba2f656edf6bd42d90ad22))
+
+
+### Deprecations
+
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([#2618](https://github.com/blackbaud/skyux/issues/2618)) ([4bce259](https://github.com/blackbaud/skyux/commit/4bce2595903ad971832e6f8fe9b2fa72009e1de1))
+
+## [10.41.4](https://github.com/blackbaud/skyux/compare/10.41.3...10.41.4) (2024-08-22)
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([041dc29](https://github.com/blackbaud/skyux/commit/041dc29197b625106a4874c72fb396fa2424c11d))
+
+
+### Deprecations
+
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([e28887f](https://github.com/blackbaud/skyux/commit/e28887ffabf7831870501dc61749446e45be4e22))
+
 ## [10.41.3](https://github.com/blackbaud/skyux/compare/10.41.2...10.41.3) (2024-08-16)
 
 

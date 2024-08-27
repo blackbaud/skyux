@@ -16,48 +16,55 @@ export function moveClassToLibrary(
   options: MoveClassToLibraryOptions,
 ): void {
   const recorder = tree.beginUpdate(projectPath);
+  const replacedImports: {
+    className: string;
+    moduleImport: ts.ImportDeclaration;
+    namedImportSpecifier: ts.ImportSpecifier;
+  }[] = [];
 
-  const indicatorsImports = findNodes(
+  const moduleImports = findNodes(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
   ).filter(
     (node): node is ts.ImportDeclaration =>
       ts.isImportDeclaration(node) &&
-      node.moduleSpecifier.getText() === `'${options.previousLibrary}'`,
-  )[0];
+      ts.isStringLiteral(node.moduleSpecifier) &&
+      node.moduleSpecifier.text === options.previousLibrary,
+  );
 
-  if (indicatorsImports) {
-    const replacedImports: { [key: string]: ts.ImportSpecifier } = {};
-
-    const indicatorsImportStart = indicatorsImports.getStart(sourceFile);
-    const indicatorsImportWidth = indicatorsImports.getWidth(sourceFile);
-
-    options.classNames.forEach((importName) => {
+  moduleImports.forEach((moduleImport) => {
+    options.classNames.forEach((className) => {
       const namedImportSpecifier = findNodes(
-        sourceFile,
+        moduleImport,
         ts.SyntaxKind.ImportSpecifier,
       ).filter(
         (node): node is ts.ImportSpecifier =>
-          ts.isImportSpecifier(node) && node.name.text === importName,
+          ts.isImportSpecifier(node) && node.name.text === className,
       )[0];
 
       if (namedImportSpecifier) {
-        replacedImports[importName] = namedImportSpecifier;
+        replacedImports.push({ className, moduleImport, namedImportSpecifier });
       }
     });
+  });
 
-    if (Object.keys(replacedImports).length > 0) {
+  replacedImports.forEach(({ moduleImport }, index, list) => {
+    if (
+      list.findIndex((item) => item.moduleImport === moduleImport) === index
+    ) {
+      const matchedImports = list.filter(
+        (item) => item.moduleImport === moduleImport,
+      );
       if (
-        indicatorsImports.importClause?.namedBindings &&
-        ts.isNamedImports(indicatorsImports.importClause.namedBindings) &&
-        indicatorsImports.importClause.namedBindings.elements.length >
-          Object.keys(replacedImports).length
+        moduleImport.importClause?.namedBindings &&
+        ts.isNamedImports(moduleImport.importClause.namedBindings) &&
+        moduleImport.importClause.namedBindings.elements.length >
+          matchedImports.length
       ) {
-        Object.keys(replacedImports).forEach((importName) => {
-          const namedImportStart =
-            replacedImports[importName].getStart(sourceFile);
-          const namedImportWidth =
-            replacedImports[importName].getWidth(sourceFile);
+        // The import contains other named imports that are not being removed.
+        matchedImports.forEach(({ namedImportSpecifier }) => {
+          const namedImportStart = namedImportSpecifier.getStart();
+          const namedImportWidth = namedImportSpecifier.getWidth();
 
           recorder.remove(namedImportStart, namedImportWidth);
 
@@ -66,15 +73,17 @@ export function moveClassToLibrary(
           }
         });
       } else {
-        recorder.remove(indicatorsImportStart, indicatorsImportWidth);
+        // The import only contains the named imports that are being removed.
+        recorder.remove(moduleImport.getStart(), moduleImport.getWidth());
       }
-
-      recorder.insertLeft(
-        indicatorsImportStart,
-        `import { ${Object.keys(replacedImports).join(', ')} } from '${options.newLibrary}';\n`,
-      );
     }
+  });
 
-    tree.commitUpdate(recorder);
+  if (replacedImports.length > 0) {
+    recorder.insertLeft(
+      replacedImports[0].moduleImport.getStart(),
+      `import { ${replacedImports.map(({ className }) => className).join(', ')} } from '${options.newLibrary}';\n`,
+    );
   }
+  tree.commitUpdate(recorder);
 }

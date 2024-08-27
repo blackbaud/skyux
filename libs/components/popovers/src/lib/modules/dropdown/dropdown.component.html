@@ -1,5 +1,6 @@
 <div class="sky-dropdown">
   <button
+    #triggerButton
     class="sky-btn sky-dropdown-button"
     type="button"
     [attr.aria-expanded]="isOpen"
@@ -31,14 +32,12 @@
       'sky-dropdown-button-type-' + buttonType,
       'sky-btn-' + buttonStyle
     ]"
-    #triggerButton
   >
-    <ng-container [ngSwitch]="buttonType">
-      <ng-template ngSwitchCase="context-menu">
+    @switch (buttonType) {
+      @case ('context-menu') {
         <sky-icon icon="ellipsis" />
-      </ng-template>
-
-      <ng-template ngSwitchDefault>
+      }
+      @default {
         <div class="sky-dropdown-button-container">
           <div class="sky-dropdown-button-content-container">
             <ng-content select="sky-dropdown-button" />
@@ -56,28 +55,28 @@
             />
           </div>
         </div>
-      </ng-template>
-    </ng-container>
+      }
+    }
   </button>
 </div>
 
 <ng-template #menuContainerTemplateRef>
   <div
+    #menuContainerElementRef
     class="sky-dropdown-menu-container"
     [class.hidden]="!isVisible"
-    #menuContainerElementRef
   >
     <ng-content select="sky-dropdown-menu" />
   </div>
 </ng-template>
 <span
+  #screenReaderLabelContextMenu="skyId"
   skyScreenReaderLabel
+  skyId
   [createLabel]="
     buttonType === 'context-menu' &&
     (contentInfoObs | async)?.descriptor?.type === 'elementId'
   "
-  skyId
-  #screenReaderLabelContextMenu="skyId"
 >
   {{
     'skyux_dropdown_context_menu_with_content_descriptor_el_default_label'

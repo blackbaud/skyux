@@ -15,7 +15,8 @@ import { SkyFormErrorsModule } from './form-errors.module';
     <sky-form-errors
       [labelText]="labelText"
       [errors]="errors"
-      [showErrors]="showErrors"
+      [touched]="touched"
+      [dirty]="dirty"
     >
       <sky-form-error errorName="custom" errorMessage="Custom error" />
     </sky-form-errors>
@@ -24,7 +25,8 @@ import { SkyFormErrorsModule } from './form-errors.module';
 class FormErrorsComponent {
   public errors?: ValidationErrors | undefined;
   public labelText: string | undefined = 'Label text';
-  public showErrors = true;
+  public touched = false;
+  public dirty: boolean | undefined = false;
 }
 
 describe('Form errors component', () => {
@@ -37,7 +39,7 @@ describe('Form errors component', () => {
 
     fixture.detectChanges();
   });
-  it('should render known input errors when they are passed, a labelText is present, and showErrors is true', () => {
+  it('should render known input errors when they are passed and a labelText is present based on touched and/or dirty', () => {
     componentInstance.errors = {
       required: true,
       maxlength: true,
@@ -57,10 +59,25 @@ describe('Form errors component', () => {
     };
     fixture.detectChanges();
 
+    // dirty
+    componentInstance.dirty = true;
+    fixture.detectChanges();
+
+    const formError = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='maxlength']`,
+    );
+    expect(formError).toExist();
+    expect(formError).toBeVisible();
+
+    // touched
+    componentInstance.dirty = undefined;
+    componentInstance.touched = true;
+    fixture.detectChanges();
+
     [
       'required',
-      'maxlength',
       'minlength',
+      'maxlength',
       'invalidDate',
       'minDate',
       'maxDate',
@@ -83,54 +100,39 @@ describe('Form errors component', () => {
     });
   });
 
-  it('should render known and custom errors when a labelText is present and showErrors is true', () => {
-    componentInstance.errors = {
-      required: true,
-    };
+  it('should render custom errors when there are no known errors and labelText is present regardless of touched or dirty', () => {
+    componentInstance.touched = true;
     fixture.detectChanges();
 
-    ['required', 'custom'].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toExist();
-      expect(formError).toBeVisible();
-    });
-  });
-
-  it('should render custom errors when there are no known errors, labelText is present, and showErrors is true', () => {
-    const formError = fixture.nativeElement.querySelector(
+    let formError = fixture.nativeElement.querySelector(
       `sky-form-error[errorName='custom']`,
     );
+
     expect(formError).toExist();
     expect(formError).toBeVisible();
-  });
 
-  it('should not render any errors when they are passed but showErrors is false', () => {
-    componentInstance.errors = {
-      required: true,
-    };
-    componentInstance.showErrors = false;
-
+    componentInstance.touched = false;
+    componentInstance.dirty = true;
     fixture.detectChanges();
 
-    ['required', 'custom'].forEach((errorName) => {
-      const formError = fixture.nativeElement.querySelector(
-        `sky-form-error[errorName='${errorName}']`,
-      );
-      expect(formError).toBeNull();
-    });
+    formError = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='custom']`,
+    );
+
+    expect(formError).toExist();
+    expect(formError).toBeVisible();
   });
 
   it('should not render any errors when they are passed but labelText is undefined', () => {
     componentInstance.errors = {
       required: true,
+      maxlength: true,
     };
     componentInstance.labelText = undefined;
 
     fixture.detectChanges();
 
-    ['required', 'custom'].forEach((errorName) => {
+    ['required', 'custom', 'maxlength'].forEach((errorName) => {
       const formError = fixture.nativeElement.querySelector(
         `sky-form-error[errorName='${errorName}']`,
       );
