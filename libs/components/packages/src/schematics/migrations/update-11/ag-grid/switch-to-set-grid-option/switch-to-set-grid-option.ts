@@ -96,7 +96,7 @@ export function switchToSetGridOption(tree: Tree, path: string): void {
   };
 
   const pattern = new RegExp(
-    `(?<=api[a-z]*)\\.(${Object.keys(translateMethodToOption).join('|')})\\(`,
+    `(?<=api[a-z]*[?]?)\\.(${Object.keys(translateMethodToOption).join('|')})\\(`,
     'gi',
   );
 

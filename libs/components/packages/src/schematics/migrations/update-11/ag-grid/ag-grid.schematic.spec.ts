@@ -156,6 +156,34 @@ describe('ag-grid.schematic', () => {
     expect(tree.readText('src/app/grid.component.ts')).toMatchSnapshot();
   });
 
+  it('should update this.columnApi', async () => {
+    expect.assertions(1);
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/grid.component.ts',
+      `
+        import { Component } from '@angular/core';
+        import { ColumnApi, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
+
+        @Component()
+        export class GridComponent {
+          #gridReady(event: GridReadyEvent): void {
+            this.columnApi = event.columnApi;
+            this.#columnApi = event.columnApi;
+            this._columnApi = event.columnApi;
+          }
+        }`,
+    );
+    await runner.runSchematic('ag-grid', {}, tree);
+    expect(tree.readText('src/app/grid.component.ts')).toMatchSnapshot();
+  });
+
   it('should warn about mixing modules and packages', async () => {
     expect.assertions(1);
     const { tree } = setupTest({

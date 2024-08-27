@@ -10,6 +10,7 @@ import {
   getPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
+import { removeImport } from '../../../utility/typescript/remove-import';
 import { swapImportedClass } from '../../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
@@ -63,12 +64,12 @@ function checkAgGridDependency(tree: Tree, context: SchematicContext): boolean {
  */
 function swapGridOptionsApiToGridApi(tree: Tree, path: string): void {
   const content = tree.readText(path);
+  const recorder = tree.beginUpdate(path);
   if (
     content.includes('this.gridApi') &&
     (content.includes('this.gridOptions.api') ||
       content.includes('this.gridOptions.columnApi'))
   ) {
-    const recorder = tree.beginUpdate(path);
     const instances = content.matchAll(
       /\bthis\.gridOptions\.(api|columnApi)\b/g,
     );
@@ -76,7 +77,22 @@ function swapGridOptionsApiToGridApi(tree: Tree, path: string): void {
       recorder.remove(instance.index, instance[0].length);
       recorder.insertRight(instance.index, 'this.gridApi');
     }
-    tree.commitUpdate(recorder);
+  }
+  if (content.includes('columnApi = ')) {
+    const instances = content.matchAll(
+      /(?<=\bthis\.[_#]?columnApi = \w+\.)columnApi(?=;)/g,
+    );
+    for (const instance of instances) {
+      recorder.remove(instance.index, instance[0].length);
+      recorder.insertRight(instance.index, 'api');
+    }
+  }
+  tree.commitUpdate(recorder);
+  if (content.includes('ColumnApi')) {
+    removeImport(tree, path, parseSourceFile(tree, path), content, {
+      classNames: ['ColumnApi'],
+      moduleName: 'ag-grid-community',
+    });
   }
 }
 
@@ -122,6 +138,9 @@ async function updateSourceFiles(
 
   const { workspace } = await getWorkspace(tree);
   workspace.projects.forEach((project) => {
+    context.logger.debug(
+      `Running SKY UX AG Grid updates within ${project.sourceRoot || project.root}.`,
+    );
     visitProjectFiles(tree, project.sourceRoot || project.root, (filePath) => {
       // If the file is not a TypeScript file, we can skip it.
       if (!filePath.endsWith('.ts') || filePath.includes('schematics')) {
@@ -166,15 +185,20 @@ export default function (): Rule {
 
     // AG Grid is not installed, so we don't need to do anything.
     if (!hasAgGrid) {
+      context.logger.debug(`AG Grid is not installed.`);
       return;
     }
 
     await updateSourceFiles(tree, context);
     const { workspace } = await getWorkspace(tree);
     for (const project of workspace.projects.values()) {
+      const sourceRoot = project.sourceRoot || `${project.root}/src`;
+      context.logger.debug(
+        `Scheduling AG Grid code modifications for ${sourceRoot}.`,
+      );
       context.addTask(
         new RunSchematicTask('@skyux/packages', 'ag-grid-migrate', {
-          sourceRoot: project.sourceRoot || `${project.root}/src`,
+          sourceRoot,
         }),
       );
     }
