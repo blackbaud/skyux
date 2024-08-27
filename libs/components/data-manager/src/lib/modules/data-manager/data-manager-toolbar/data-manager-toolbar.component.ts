@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -53,7 +52,6 @@ import { SkyDataViewConfig } from '../models/data-view-config';
   styleUrls: ['./data-manager-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     FormsModule,
     SkyCheckboxModule,
     SkyDataManagerResourcesModule,

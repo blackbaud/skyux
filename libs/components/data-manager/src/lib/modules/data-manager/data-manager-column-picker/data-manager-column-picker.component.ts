@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -43,7 +42,6 @@ interface Column extends SkyDataManagerColumnPickerOption {
   providers: [SkyDataManagerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     SkyDataManagerComponent,
     SkyDataManagerResourcesModule,
     SkyDataManagerToolbarComponent,
