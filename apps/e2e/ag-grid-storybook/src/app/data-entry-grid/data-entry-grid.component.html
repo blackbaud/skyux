@@ -2,7 +2,7 @@
 
 <ng-template #gridTemplate>
   <div [attr.id]="variationId">
-    <ng-container *ngFor="let dataSet of dataSets">
+    @for (dataSet of dataSets; track dataSet.id) {
       <sky-ag-grid-wrapper
         [attr.id]="dataSet.id"
         [ngStyle]="{ gridArea: dataSet.id }"
@@ -13,7 +13,7 @@
           [gridOptions]="gridOptions[dataSet.id]"
         />
       </sky-ag-grid-wrapper>
-    </ng-container>
+    }
   </div>
 </ng-template>
 
