@@ -264,14 +264,14 @@ export class SkyDateRangePickerComponent
   public helpKey: string | undefined;
 
   protected calculators: SkyDateRangeCalculator[] = [];
-  protected formGroup: FormGroup;
-  protected selectHasErrors = false;
-  protected startDateHasErrors = false;
   protected endDateHasErrors = false;
+  protected formGroup: FormGroup;
   protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
+  protected selectHasErrors = false;
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
+  protected startDateHasErrors = false;
 
   get #calculatorIdControl(): AbstractControl<SkyDateRangeCalculatorId> {
     return this.formGroup.get(
