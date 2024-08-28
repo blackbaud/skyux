@@ -94,6 +94,7 @@ jobs:
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
+      max-parallel: 8
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
@@ -273,9 +274,10 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
       cancel-in-progress: true
-    needs: install-deps
+    needs: [install-deps, build-storybook]
     strategy:
       fail-fast: false
+      max-parallel: 8
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
