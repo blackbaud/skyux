@@ -1,10 +1,7 @@
 <sky-fluid-grid [disableMargin]="true">
   <sky-row>
     <sky-column>
-      <sky-page-header
-        [pageTitle]="title"
-        [parentLink]="parentLink"
-      ></sky-page-header>
+      <sky-page-header [pageTitle]="title" [parentLink]="parentLink" />
     </sky-column>
   </sky-row>
   <sky-row>
@@ -14,11 +11,10 @@
       </div>
 
       <div class="sky-margin-stacked-xl">
-        <sky-wait [isWaiting]="needsAttention === 'loading'"></sky-wait>
-        <sky-needs-attention
-          *ngIf="needsAttention !== 'loading'"
-          [items]="needsAttentionArray"
-        ></sky-needs-attention>
+        <sky-wait [isWaiting]="needsAttention === 'loading'" />
+        @if (needsAttention !== 'loading') {
+          <sky-needs-attention [items]="needsAttentionArray" />
+        }
       </div>
 
       <div class="sky-margin-stacked-xl">
@@ -29,15 +25,15 @@
       <sky-link-list
         [links]="relatedLinks | skyActionHubRelatedLinksSort"
         [title]="'sky_action_hub_related_links' | skyLibResources"
-      ></sky-link-list>
+      />
       <sky-link-list
         [links]="recentLinks | skyActionHubRecentLinksResolve"
         [title]="'sky_action_hub_recent_links' | skyLibResources"
-      ></sky-link-list>
+      />
       <sky-modal-link-list
         [links]="settingsLinks"
         [title]="'sky_action_hub_settings_links' | skyLibResources"
-      ></sky-modal-link-list>
+      />
     </sky-column>
   </sky-row>
 </sky-fluid-grid>
