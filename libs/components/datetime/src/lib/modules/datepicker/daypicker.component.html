@@ -5,35 +5,29 @@
 >
   <thead>
     <tr>
-      <th
-        scope="col"
-        *ngFor="let label of labels"
-        class="sky-datepicker-center sky-datepicker-weekdays"
-      >
-        <small [attr.aria-label]="label.full">
-          <b>{{ label.abbr }}</b>
-        </small>
-      </th>
+      @for (label of labels; track label) {
+        <th scope="col" class="sky-datepicker-center sky-datepicker-weekdays">
+          <small [attr.aria-label]="label.full">
+            <b>{{ label.abbr }}</b>
+          </small>
+        </th>
+      }
     </tr>
   </thead>
   <tbody>
     <!-- Wait indicator for async custom date stream -->
-    <sky-wait [isWaiting]="isWaiting"> </sky-wait>
-    <ng-template ngFor [ngForOf]="rows" let-row="$implicit" let-index="index">
+    <sky-wait [isWaiting]="isWaiting" />
+    @for (row of rows; track row) {
       <tr role="row">
-        <td
-          *ngFor="let date of row"
-          class="sky-datepicker-center"
-          role="gridcell"
-          [id]="date.uid"
-        >
-          <sky-daypicker-cell
-            [activeDateHasChanged]="activeDateHasChanged"
-            [date]="date"
-          >
-          </sky-daypicker-cell>
-        </td>
+        @for (date of row; track date.uid) {
+          <td class="sky-datepicker-center" role="gridcell" [id]="date.uid">
+            <sky-daypicker-cell
+              [activeDateHasChanged]="activeDateHasChanged"
+              [date]="date"
+            />
+          </td>
+        }
       </tr>
-    </ng-template>
+    }
   </tbody>
 </table>

@@ -1,4 +1,5 @@
 <div
+  #overlayRef
   [class]="'sky-overlay-position-' + position + ' ' + wrapperClass"
   [style.z-index]="zIndex"
   [style.clip-path]="clipPath$ | async"
@@ -6,10 +7,11 @@
     'enable-pointer-events-pass-through': enablePointerEvents,
     'sky-overlay': true
   }"
-  #overlayRef
 >
-  <div class="sky-overlay-content" #overlayContentRef>
-    <ng-template #target> </ng-template>
+  <div #overlayContentRef class="sky-overlay-content">
+    <ng-template #target />
   </div>
-  <div *ngIf="showBackdrop" class="sky-overlay-backdrop"></div>
+  @if (showBackdrop) {
+    <div class="sky-overlay-backdrop"></div>
+  }
 </div>

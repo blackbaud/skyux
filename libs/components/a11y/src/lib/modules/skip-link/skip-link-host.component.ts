@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -18,7 +17,7 @@ import { SkySkipLinkAdapterService } from './skip-link-adapter.service';
   styleUrls: ['./skip-link-host.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkySkipLinkAdapterService],
-  imports: [CommonModule, SkyA11yResourcesModule],
+  imports: [SkyA11yResourcesModule],
 })
 export class SkySkipLinkHostComponent {
   public get links(): SkySkipLink[] {

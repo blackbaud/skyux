@@ -10,7 +10,7 @@
   <div class="sky-summary-action-bar-actions">
     <ng-content select="sky-summary-action-bar-actions" />
   </div>
-  <ng-container *ngIf="summaryContentExists()">
+  @if (summaryContentExists()) {
     <div
       class="sky-summary-action-bar-summary"
       [id]="summaryId"
@@ -26,32 +26,30 @@
         >
           <ng-content select="sky-summary-action-bar-summary" />
         </div>
-        <div
-          *ngIf="
-            (type
-              | skySummaryActionBarCollapsible: mediaQueryService.current) &&
-            !isSummaryCollapsed
-          "
-          class="sky-summary-action-bar-details-collapse"
-        >
-          <ng-container *ngTemplateOutlet="chevron"></ng-container>
-        </div>
+        @if (
+          (type | skySummaryActionBarCollapsible: mediaQueryService.current) &&
+          !isSummaryCollapsed
+        ) {
+          <div class="sky-summary-action-bar-details-collapse">
+            <ng-container *ngTemplateOutlet="chevron" />
+          </div>
+        }
       </div>
     </div>
-    <div
-      *ngIf="
-        (type | skySummaryActionBarCollapsible: mediaQueryService.current) &&
-        isSummaryCollapsed
-      "
-      class="sky-summary-action-bar-details-expand"
-    >
-      <ng-container *ngTemplateOutlet="chevron"></ng-container>
-    </div>
-  </ng-container>
+    @if (
+      (type | skySummaryActionBarCollapsible: mediaQueryService.current) &&
+      isSummaryCollapsed
+    ) {
+      <div class="sky-summary-action-bar-details-expand">
+        <ng-container *ngTemplateOutlet="chevron" />
+      </div>
+    }
+  }
 </div>
 
 <ng-template #chevron>
   <sky-chevron
+    #chevronEl
     [attr.aria-controls]="summaryId"
     [ariaLabel]="'skyux_summary_action_bar_expand' | skyLibResources"
     [direction]="isSummaryCollapsed ? 'up' : 'down'"
@@ -59,7 +57,5 @@
       'sky-margin-inline-default': 'modern'
     }"
     (directionChange)="onDirectionChange($event)"
-    #chevronEl
-  >
-  </sky-chevron>
+  />
 </ng-template>
