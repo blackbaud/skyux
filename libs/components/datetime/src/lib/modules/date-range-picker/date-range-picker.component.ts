@@ -24,6 +24,7 @@ import {
   NG_VALUE_ACCESSOR,
   NgControl,
   ReactiveFormsModule,
+  TouchedChangeEvent,
   ValidationErrors,
   Validator,
   Validators,
@@ -36,7 +37,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { Subject, distinctUntilChanged, merge, takeUntil } from 'rxjs';
+import { Subject, distinctUntilChanged, filter, merge, takeUntil } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -193,14 +194,6 @@ export class SkyDateRangePickerComponent
   }
 
   /**
-   * Whether to require users to specify a end date.
-   * @deprecated Use the `required` directive or Angular's `Validators.required`
-   * on the form control to mark the date range picker as required.
-   */
-  @Input({ transform: booleanAttribute })
-  public endDateRequired = false;
-
-  /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
    * when clicked using the specified content and optional title.
@@ -263,14 +256,6 @@ export class SkyDateRangePickerComponent
   public stacked = false;
 
   /**
-   * Whether to require users to specify a start date.
-   * @deprecated Use the `required` directive or Angular's `Validators.required`
-   * on the form control to mark the date range picker as required.
-   */
-  @Input({ transform: booleanAttribute })
-  public startDateRequired = false;
-
-  /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the date range picker label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application.
@@ -278,13 +263,15 @@ export class SkyDateRangePickerComponent
   @Input()
   public helpKey: string | undefined;
 
+  protected calculatorIdHasErrors = false;
   protected calculators: SkyDateRangeCalculator[] = [];
+  protected endDateHasErrors = false;
   protected formGroup: FormGroup;
-  protected hasErrors = false;
   protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
+  protected startDateHasErrors = false;
 
   get #calculatorIdControl(): AbstractControl<SkyDateRangeCalculatorId> {
     return this.formGroup.get(
@@ -407,6 +394,15 @@ export class SkyDateRangePickerComponent
         });
       });
 
+    this.hostControl?.events
+      .pipe(
+        filter((event) => event instanceof TouchedChangeEvent),
+        takeUntil(this.#ngUnsubscribe),
+      )
+      .subscribe(() => {
+        this.formGroup.markAllAsTouched();
+      });
+
     this.#updatePickerVisibility(this.selectedCalculator);
   }
 
@@ -419,19 +415,23 @@ export class SkyDateRangePickerComponent
    */
   public ngDoCheck(): void {
     const control = this.hostControl;
-    const touched = this.formGroup.touched;
 
     if (control) {
-      if (control.touched && !touched) {
-        this.formGroup.markAllAsTouched();
-        this.#changeDetector.markForCheck();
-      } else if (control.untouched && touched) {
-        this.formGroup.markAsUntouched();
-        this.#changeDetector.markForCheck();
-      }
-
-      this.hasErrors = !!control.errors && (control.touched || control.dirty);
+      this.startDateHasErrors =
+        this.#controlHasErrors(this.#startDateControl) ||
+        this.#controlHasErrors(this.#calculatorIdControl);
+      this.endDateHasErrors =
+        this.#controlHasErrors(this.#endDateControl) ||
+        this.#controlHasErrors(this.#calculatorIdControl);
+      this.calculatorIdHasErrors = this.#controlHasErrors(
+        this.#calculatorIdControl,
+      );
+      this.#changeDetector.markForCheck();
     }
+  }
+
+  #controlHasErrors(control: AbstractControl): boolean {
+    return !!control.errors && (control.touched || control.dirty);
   }
 
   public ngOnDestroy(): void {
@@ -471,6 +471,9 @@ export class SkyDateRangePickerComponent
       };
     }
 
+    // Set calculator errors on the select so that they appear beneath it.
+    this.#calculatorIdControl.setErrors(errors);
+
     if (this.showStartDatePicker && startDateErrors) {
       errors ||= {};
       errors = { ...errors, ...startDateErrors };
@@ -481,8 +484,6 @@ export class SkyDateRangePickerComponent
       errors = { ...errors, ...endDateErrors };
     }
 
-    // Set errors on the calculator select so that they appear beneath it.
-    this.#calculatorIdControl.setErrors(errors);
     this.#changeDetector.markForCheck();
 
     return errors;
