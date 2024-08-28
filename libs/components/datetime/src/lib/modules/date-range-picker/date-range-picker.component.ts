@@ -268,7 +268,7 @@ export class SkyDateRangePickerComponent
   protected formGroup: FormGroup;
   protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
-  protected selectHasErrors = false;
+  protected calculatorIdHasErrors = false;
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
   protected startDateHasErrors = false;
@@ -418,17 +418,19 @@ export class SkyDateRangePickerComponent
 
     if (control) {
       this.startDateHasErrors =
-        this.controlHasErrors(this.#startDateControl) ||
-        this.controlHasErrors(this.#calculatorIdControl);
+        this.#controlHasErrors(this.#startDateControl) ||
+        this.#controlHasErrors(this.#calculatorIdControl);
       this.endDateHasErrors =
-        this.controlHasErrors(this.#endDateControl) ||
-        this.controlHasErrors(this.#calculatorIdControl);
-      this.selectHasErrors = this.controlHasErrors(this.#calculatorIdControl);
+        this.#controlHasErrors(this.#endDateControl) ||
+        this.#controlHasErrors(this.#calculatorIdControl);
+      this.calculatorIdHasErrors = this.#controlHasErrors(
+        this.#calculatorIdControl,
+      );
       this.#changeDetector.markForCheck();
     }
   }
 
-  protected controlHasErrors(control: AbstractControl): boolean {
+  #controlHasErrors(control: AbstractControl): boolean {
     return !!control.errors && (control.touched || control.dirty);
   }
 
