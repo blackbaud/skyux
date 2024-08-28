@@ -8,17 +8,18 @@
     <ng-content select="sky-key-info-value" />
   </div>
   <div class="sky-key-info-label sky-field-label sky-font-data-label">
-    <span skyId #label="skyId"><ng-content select="sky-key-info-label" /></span
-    ><span class="sky-control-help-container"
-      ><sky-help-inline
-        *ngIf="helpPopoverContent || helpKey; else helpContent"
-        [labelledBy]="label.id"
-        [helpKey]="helpKey"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-    /></span>
+    <span #label="skyId" skyId><ng-content select="sky-key-info-label" /></span
+    ><span class="sky-control-help-container">
+      @if (helpPopoverContent || helpKey) {
+        <sky-help-inline
+          [labelledBy]="label.id"
+          [helpKey]="helpKey"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      } @else {
+        <ng-content select=".sky-control-help" />
+      }
+    </span>
   </div>
 </div>
-<ng-template #helpContent
-  ><ng-content select=".sky-control-help"
-/></ng-template>

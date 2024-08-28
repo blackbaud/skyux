@@ -20,8 +20,8 @@
 </ng-template>
 
 <!-- The following forms are for testing autocomplete behavior on init. -->
+@if (showFormWithOutAutocomplete) {
 <sky-inline-form
-  *ngIf="showFormWithOutAutocomplete"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithOutAutocomplete"
@@ -30,6 +30,7 @@
   <p>Something</p>
   <p>Something else</p>
 </sky-inline-form>
+}
 
 <ng-template #formWithOutAutocomplete>
   <div class="sky-form-group">
@@ -42,8 +43,8 @@
   </div>
 </ng-template>
 
+@if (showFormWithAutocomplete) {
 <sky-inline-form
-  *ngIf="showFormWithAutocomplete"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithAutocomplete"
@@ -52,6 +53,7 @@
   <p>Something</p>
   <p>Something else</p>
 </sky-inline-form>
+}
 <ng-template #formWithAutocomplete>
   <div class="sky-form-group">
     <label class="sky-control-label" for="demo-input-5"> Something </label>
@@ -63,14 +65,14 @@
   </div>
 </ng-template>
 
+@if (showFormWithHiddenElements) {
 <sky-inline-form
-  *ngIf="showFormWithHiddenElements"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithHiddenElements"
   (close)="onClose($event)"
->
-</sky-inline-form>
+/>
+}
 <ng-template #formWithHiddenElements>
   <div class="sky-form-group">
     <label class="sky-control-label" for="demo-input-5"> Something </label>
@@ -87,8 +89,8 @@
   </div>
 </ng-template>
 
+@if (showFormWithNoElements) {
 <sky-inline-form
-  *ngIf="showFormWithNoElements"
   [config]="config"
   [showForm]="showForm"
   [template]="formWithNoElements"
@@ -96,6 +98,7 @@
   <p>Something</p>
   <p>Something else</p>
 </sky-inline-form>
+}
 <ng-template #formWithNoElements>
   <p>This form is empty!</p>
 </ng-template>
