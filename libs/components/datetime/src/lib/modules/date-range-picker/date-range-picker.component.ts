@@ -263,12 +263,12 @@ export class SkyDateRangePickerComponent
   @Input()
   public helpKey: string | undefined;
 
+  protected calculatorIdHasErrors = false;
   protected calculators: SkyDateRangeCalculator[] = [];
   protected endDateHasErrors = false;
   protected formGroup: FormGroup;
   protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
-  protected calculatorIdHasErrors = false;
   protected showEndDatePicker = false;
   protected showStartDatePicker = false;
   protected startDateHasErrors = false;
