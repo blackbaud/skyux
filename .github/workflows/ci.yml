@@ -108,7 +108,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Stop agents
-        run:  |
+        run: |
           [ '${{ needs.build-coverage-lint.result }}' == 'success' ] && echo Agents stopped. || false
 
   check-workspace:
