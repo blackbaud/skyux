@@ -3,13 +3,7 @@ import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyDataManagerService } from '@skyux/data-manager';
 
 import { AgGridModule } from 'ag-grid-angular';
-import {
-  ColDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  ValueFormatterParams,
-} from 'ag-grid-community';
+import { ColDef, GridOptions, ValueFormatterParams } from 'ag-grid-community';
 import { of } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
@@ -77,27 +71,17 @@ export class DemoComponent {
     },
   ];
 
-  #gridApi: GridApi | undefined;
-
   readonly #agGridSvc = inject(SkyAgGridService);
 
   constructor() {
     const gridOptions: GridOptions = {
       columnDefs: this.#columnDefs,
-      onGridReady: (gridReadyEvent): void => {
-        this.onGridReady(gridReadyEvent);
-      },
       rowSelection: 'multiple',
     };
 
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions,
     });
-  }
-
-  public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
   }
 
   #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {

@@ -1,3 +1,4 @@
+import { SkyDataViewColumnWidths } from './data-view-column-widths';
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 /**
@@ -8,6 +9,11 @@ export class SkyDataViewState {
    * The IDs of the columns able to be displayed for column-based views. This property is required when utilizing a grid-based view, a column picker, or both.
    */
   public columnIds: string[] = [];
+
+  /**
+   * The widths of columns in column-based views for xs and sm+ breakpoints. If using sticky settings, the widths a user sets will be persisted.
+   */
+  public columnWidths: SkyDataViewColumnWidths = { xs: {}, sm: {} };
   /**
    * The IDs of the columns displayed for column-based views.
    */
@@ -26,6 +32,7 @@ export class SkyDataViewState {
   constructor(data: SkyDataViewStateOptions) {
     this.viewId = data.viewId;
     this.columnIds = data.columnIds || [];
+    this.columnWidths = data.columnWidths || { xs: {}, sm: {} };
     this.displayedColumnIds = data.displayedColumnIds || [];
     this.additionalData = data.additionalData;
   }
@@ -38,6 +45,7 @@ export class SkyDataViewState {
     return {
       viewId: this.viewId,
       columnIds: this.columnIds,
+      columnWidths: this.columnWidths,
       displayedColumnIds: this.displayedColumnIds,
       additionalData: this.additionalData,
     };
