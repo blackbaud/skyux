@@ -33,15 +33,50 @@ export function swapImportedClass(
     return;
   }
 
+  const applicableImportRanges = findNodes(
+    sourceFile,
+    ts.SyntaxKind.ImportDeclaration,
+  )
+    .filter(
+      (node): node is ts.ImportDeclaration =>
+        ts.isImportDeclaration(node) &&
+        ts.isStringLiteral(node.moduleSpecifier) &&
+        applicableOptions.some(
+          (option) =>
+            (node.moduleSpecifier as ts.StringLiteral).text ===
+            option.moduleName,
+        ),
+    )
+    .map((node) => ({
+      start: node.getStart(sourceFile),
+      width: node.getWidth(sourceFile),
+    }));
+
   const classNameSwaps: [string, string][] = applicableOptions
     .map((option) => Object.entries(option.classNames))
     .flat();
   const recorder = tree.beginUpdate(projectPath);
   classNameSwaps.forEach(([oldClassName, newClassName]) => {
     const references = findReferences(sourceFile, oldClassName);
+    const alreadyImported = isImported(
+      sourceFile,
+      newClassName,
+      applicableOptions[0].moduleName,
+    );
     references.forEach((reference) => {
-      recorder.remove(reference.getStart(), reference.getWidth());
-      recorder.insertRight(reference.getStart(), newClassName);
+      const start = reference.getStart();
+      const width = reference.getWidth();
+      recorder.remove(start, width);
+      if (
+        alreadyImported &&
+        applicableImportRanges.find(
+          (range) => range.start < start && range.start + range.width > start,
+        )
+      ) {
+        recorder.remove(start + width, 1);
+      } else {
+        recorder.insertRight(start, newClassName);
+      }
     });
   });
   tree.commitUpdate(recorder);
