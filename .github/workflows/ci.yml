@@ -75,33 +75,41 @@ jobs:
     name: Build
     needs: build-coverage-lint
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - name: Run build
-        run: echo Built.
+        run: |
+          [ '${{ needs.build-coverage-lint.result }}' == 'success' ] && echo Built. || false
 
   coverage:
     name: Code coverage
     needs: build-coverage-lint
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - name: Run code coverage
-        run: echo Code covered.
+        run: |
+          [ '${{ needs.build-coverage-lint.result }}' == 'success' ] && echo Code covered. || false
 
   lint:
     name: Lint
     needs: build-coverage-lint
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - name: Run lint
-        run: echo Linted.
+        run: |
+          [ '${{ needs.build-coverage-lint.result }}' == 'success' ] && echo Linted. || false
 
   stop-agents:
     name: Stop Nx Cloud agents
     needs: build-coverage-lint
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - name: Stop agents
-        run: echo Agents stopped.
+        run:  |
+          [ '${{ needs.build-coverage-lint.result }}' == 'success' ] && echo Agents stopped. || false
 
   check-workspace:
     name: Check dependencies and resources
