@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -19,7 +18,7 @@ import { SkyCheckboxModule } from '../checkbox.module';
   standalone: true,
   selector: 'sky-standard-checkbox-group',
   templateUrl: './standard-checkbox-group.component.html',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyCheckboxModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
 export class SkyStandardCheckboxGroupComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);

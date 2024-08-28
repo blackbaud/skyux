@@ -136,6 +136,7 @@ export class DataViewGridComponent implements OnInit {
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive = id === this.viewId;
+      this.changeDetector.markForCheck();
     });
   }
 
@@ -157,7 +158,6 @@ export class DataViewGridComponent implements OnInit {
 
   public onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
-    this.gridApi.sizeColumnsToFit();
     this.updateData();
   }
 

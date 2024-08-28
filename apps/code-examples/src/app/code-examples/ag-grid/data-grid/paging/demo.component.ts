@@ -141,7 +141,6 @@ export class DemoComponent implements OnInit, OnDestroy {
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
     this.#gridApi.paginationGoToPage(this.currentPage - 1);
   }
 

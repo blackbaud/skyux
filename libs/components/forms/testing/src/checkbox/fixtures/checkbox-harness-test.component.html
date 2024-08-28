@@ -1,5 +1,7 @@
 <form [formGroup]="myForm">
   <sky-checkbox-group
+    headingText="Contact method"
+    data-sky-id="checkbox-group"
     [attr.class]="class"
     [formGroup]="myForm"
     [helpKey]="helpKey"
@@ -11,8 +13,6 @@
     [headingStyle]="headingStyle"
     [required]="required"
     [stacked]="stacked"
-    headingText="Contact method"
-    data-sky-id="checkbox-group"
   >
     <sky-checkbox
       data-sky-id="my-email-checkbox"
@@ -20,19 +20,21 @@
       label="Your email address"
       labelledBy="foo-email-id"
     >
-      <sky-checkbox-label *ngIf="!hideEmailLabel"> Email </sky-checkbox-label>
+      @if (!hideEmailLabel) {
+        <sky-checkbox-label> Email </sky-checkbox-label>
+      }
     </sky-checkbox>
 
     <sky-checkbox
-      [required]="true"
-      [hintText]="phoneHintText"
-      [labelHidden]="hidePhoneLabel"
       data-sky-id="my-phone-checkbox"
       formControlName="phone"
       helpKey="helpKey.html"
       helpPopoverContent="(xxx)xxx-xxxx"
       helpPopoverTitle="Format"
       labelText="Phone"
+      [required]="true"
+      [hintText]="phoneHintText"
+      [labelHidden]="hidePhoneLabel"
     />
 
     <sky-checkbox
@@ -40,17 +42,19 @@
       formControlName="mail"
       labelText="Mail"
     >
-      <sky-form-error
-        *ngIf="mailControl.errors?.['requiredFalse']"
-        errorName="requiredFalse"
-        errorText="This checkbox must be unchecked."
-      />
+      @if (mailControl.errors?.['requiredFalse']) {
+        <sky-form-error
+          errorName="requiredFalse"
+          errorText="This checkbox must be unchecked."
+        />
+      }
     </sky-checkbox>
 
-    <sky-form-error
-      *ngIf="myForm.errors?.['emailOnly']"
-      errorName="emailOnly"
-      errorText="Email cannot be the only contact method."
-    />
+    @if (myForm.errors?.['emailOnly']) {
+      <sky-form-error
+        errorName="emailOnly"
+        errorText="Email cannot be the only contact method."
+      />
+    }
   </sky-checkbox-group>
 </form>

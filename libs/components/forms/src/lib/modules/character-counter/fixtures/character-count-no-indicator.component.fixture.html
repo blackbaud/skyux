@@ -19,8 +19,10 @@
       [skyCharacterCounterLimit]="maxCharacterCount"
     />
 
-    <div *ngIf="firstName.errors?.skyCharacterCounter" class="sky-error-label">
+    @if (firstName.errors?.skyCharacterCounter) {
+    <div class="sky-error-label">
       Limit First name to {{maxCharacterCount}} characters.
     </div>
+    }
   </form>
 </div>

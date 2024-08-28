@@ -106,9 +106,6 @@ export class ListPageContentComponent implements OnInit {
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
-        onGridReady: (args) => {
-          args.api.sizeColumnsToFit();
-        },
       },
     });
   }
