@@ -38,9 +38,6 @@ export class InputBoxFixtureComponent {
   public characterCountHelp = false;
 
   @Input()
-  public errorsScreenReaderOnly: boolean | undefined;
-
-  @Input()
   public hasErrors: boolean | undefined;
 
   @Input()
