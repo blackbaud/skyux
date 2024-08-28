@@ -21,13 +21,15 @@ import { SkyRadioFixture } from './radio-fixture';
       [(ngModel)]="favoriteSeason"
     >
       <ul class="sky-list-unstyled">
-        <li *ngFor="let season of seasons">
-          <sky-radio [disabled]="season.disabled" [value]="season.id">
-            <sky-radio-label>
-              {{ season.name }}
-            </sky-radio-label>
-          </sky-radio>
-        </li>
+        @for (season of seasons; track season.id) {
+          <li>
+            <sky-radio [disabled]="season.disabled" [value]="season.id">
+              <sky-radio-label>
+                {{ season.name }}
+              </sky-radio-label>
+            </sky-radio>
+          </li>
+        }
       </ul>
     </sky-radio-group>
   `,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,16 +17,17 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 @Component({
   selector: 'sky-form-error',
   standalone: true,
-  imports: [SkyStatusIndicatorModule, CommonModule],
+  imports: [SkyStatusIndicatorModule],
   template: `
-    <sky-status-indicator
-      *ngIf="formErrors"
-      class="sky-form-error"
-      descriptionType="error"
-      indicatorType="danger"
-    >
-      {{ errorText }}
-    </sky-status-indicator>
+    @if (formErrors) {
+      <sky-status-indicator
+        class="sky-form-error"
+        descriptionType="error"
+        indicatorType="danger"
+      >
+        {{ errorText }}
+      </sky-status-indicator>
+    }
   `,
   styles: [
     `

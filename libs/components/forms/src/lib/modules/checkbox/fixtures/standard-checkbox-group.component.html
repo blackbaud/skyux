@@ -14,11 +14,12 @@
     <sky-checkbox formControlName="email" labelText="Email" />
     <sky-checkbox formControlName="phone" labelText="Phone" />
     <sky-checkbox formControlName="text" labelText="Text" />
-    <sky-form-error
-      *ngIf="contactMethod.errors?.['emailOnly']"
-      errorName="emailOnly"
-      errorText="Email cannot be the only contact method."
-    ></sky-form-error>
+    @if (contactMethod.errors?.['emailOnly']) {
+      <sky-form-error
+        errorName="emailOnly"
+        errorText="Email cannot be the only contact method."
+      />
+    }
   </sky-checkbox-group>
   <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
 </form>
