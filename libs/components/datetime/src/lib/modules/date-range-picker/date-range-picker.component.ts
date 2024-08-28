@@ -395,7 +395,10 @@ export class SkyDateRangePickerComponent
       });
 
     this.hostControl?.events
-      .pipe(filter((event) => event instanceof TouchedChangeEvent))
+      .pipe(
+        filter((event) => event instanceof TouchedChangeEvent),
+        takeUntil(this.#ngUnsubscribe),
+      )
       .subscribe(() => {
         this.formGroup.markAllAsTouched();
       });
@@ -414,11 +417,6 @@ export class SkyDateRangePickerComponent
     const control = this.hostControl;
 
     if (control) {
-      if (control.touched) {
-        this.#calculatorIdControl.markAsTouched();
-        this.#changeDetector.markForCheck();
-      }
-
       this.startDateHasErrors =
         this.controlHasErrors(this.#startDateControl) ||
         this.controlHasErrors(this.#calculatorIdControl);
