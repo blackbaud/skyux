@@ -4,14 +4,16 @@
   [descriptionType]="descriptionType"
   [indicatorType]="indicatorType"
 >
-  Indicator text
-  <span *ngIf="showHelp" class="sky-control-help">Help inline</span>
+  Indicator text @if (showHelp) {
+  <span class="sky-control-help">Help inline</span>
+  }
 </sky-status-indicator>
 <sky-status-indicator
   id="status-indicator-without-indicator-type"
   [customDescription]="customDescription"
   [descriptionType]="descriptionType"
 >
-  Indicator text
-  <span *ngIf="showHelp" class="sky-control-help">Help inline</span>
+  Indicator text @if (showHelp) {
+  <span class="sky-control-help">Help inline</span>
+  }
 </sky-status-indicator>

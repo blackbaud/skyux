@@ -36,7 +36,9 @@
         "../../../.eslintrc-overrides.json",
         "prettier"
       ],
-      "rules": {}
+      "rules": {
+        "@angular-eslint/template/prefer-control-flow": ["warn"]
+      }
     },
     {
       "files": ["*.spec.ts", "**/fixtures/**/*.ts"],
