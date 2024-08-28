@@ -10,6 +10,7 @@ export enum SkyCellClass {
   Lookup = 'sky-ag-grid-cell-lookup',
   Number = 'sky-ag-grid-cell-number',
   RowSelector = 'sky-ag-grid-cell-row-selector',
+  Template = 'sky-ag-grid-cell-template',
   Text = 'sky-ag-grid-cell-text',
   Uneditable = 'sky-ag-grid-cell-uneditable',
 }

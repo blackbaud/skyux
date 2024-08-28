@@ -26,3 +26,6 @@
     </button>
   </sky-modal-footer>
 </sky-modal>
+<ng-template #markInactiveAction let-value="value" let-row="row">
+  <app-mark-inactive [name]="row?.name" />
+</ng-template>

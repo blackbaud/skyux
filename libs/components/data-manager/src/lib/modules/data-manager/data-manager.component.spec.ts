@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyLiveAnnouncerService,
+  SkyResizeObserverMediaQueryService,
+} from '@skyux/core';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 import { SkyBackToTopMessageType } from '@skyux/layout';
 
@@ -32,6 +35,7 @@ describe('SkyDataManagerComponent', () => {
         DataViewRepeaterFixtureComponent,
       ],
       imports: [DataManagerFixtureModule],
+      providers: [SkyResizeObserverMediaQueryService],
     });
 
     dataManagerFixture = TestBed.overrideComponent(SkyDataViewComponent, {
