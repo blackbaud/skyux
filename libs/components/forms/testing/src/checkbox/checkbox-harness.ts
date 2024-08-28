@@ -211,15 +211,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   }
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    const errorsHarness = await this.locatorFor(SkyFormErrorsHarness)();
-
-    const errors = await errorsHarness.getFormErrors();
-
-    if (errors.length) {
-      return errorsHarness;
-    }
-
-    throw Error('No form errors found.');
+    return await this.locatorFor(SkyFormErrorsHarness)();
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

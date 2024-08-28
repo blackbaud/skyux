@@ -13,11 +13,12 @@
       [outputFormat]="selectedOutputFormat"
       [alphaChannel]="selectedHexType"
     />
+    @if (colorControl.errors?.['opaque']) {
     <sky-form-error
-      *ngIf="colorControl.errors?.['opaque']"
       errorName="opaque"
       errorText="Color must have at least 80% opacity."
     />
+    }
   </sky-colorpicker>
   <div class="colorpicker-form-control">
     <sky-colorpicker #colorPickerTest2 labelText="Label text">
@@ -30,11 +31,12 @@
         [outputFormat]="selectedOutputFormat"
         [alphaChannel]="selectedHexType"
       />
+      @if (colorControl2.errors?.['opaque']) {
       <sky-form-error
-        *ngIf="colorControl2.errors?.['opaque']"
         errorName="opaque"
         errorText="Color must have at least 80% opacity."
       />
+      }
     </sky-colorpicker>
   </div>
 </form>

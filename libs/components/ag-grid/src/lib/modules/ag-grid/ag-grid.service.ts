@@ -419,7 +419,11 @@ export class SkyAgGridService implements OnDestroy {
           width: 55,
         },
         [SkyCellType.Template]: {
+          cellClassRules: {
+            [SkyCellClass.Template]: cellClassRuleTrueExpression,
+          },
           cellRenderer: SkyAgGridCellRendererTemplateComponent,
+          cellEditor: SkyAgGridCellRendererTemplateComponent,
         },
         [SkyCellType.Text]: {
           cellClassRules: {

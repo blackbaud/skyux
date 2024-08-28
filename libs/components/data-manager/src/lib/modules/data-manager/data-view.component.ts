@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -31,7 +30,6 @@ import { SkyDataManagerState } from './models/data-manager-state';
   selector: 'sky-data-view',
   templateUrl: './data-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
   hostDirectives: [SkyTextHighlightDirective],
   providers: [
     SkyResizeObserverMediaQueryService,

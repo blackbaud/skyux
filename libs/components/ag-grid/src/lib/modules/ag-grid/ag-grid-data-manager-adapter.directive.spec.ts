@@ -244,6 +244,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
+    // Arrange
+    // Set a column order that is different from the default order
     const updateDataState = spyOn(dataManagerService, 'updateDataState');
     agGridComponent.api.applyColumnState({
       state: [
@@ -266,21 +268,30 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       ],
       applyOrder: true,
     });
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     const columnMoved = {
       source: 'uiColumnMoved',
       api: agGridComponent.api,
     } as ColumnMovedEvent;
 
-    const viewState = dataState.views[0];
-    viewState.displayedColumnIds = ['selected', 'target', 'name', 'noHeader'];
+    // Act
     agGridComponent.columnMoved.emit(columnMoved);
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
     await new Promise((resolve) => setTimeout(resolve, 0));
 
+    // Assert
     expect(updateDataState).toHaveBeenCalledWith(
-      dataState,
+      jasmine.objectContaining({
+        views: [
+          jasmine.objectContaining({
+            displayedColumnIds: ['selected', 'target', 'name', 'noHeader'],
+          }),
+        ],
+      }),
       agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
