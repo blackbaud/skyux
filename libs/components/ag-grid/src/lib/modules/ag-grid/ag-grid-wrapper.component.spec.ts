@@ -34,6 +34,7 @@ import {
 } from './fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
+import { SkyCellType } from './types/cell-type';
 
 describe('SkyAgGridWrapperComponent', () => {
   let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
@@ -271,6 +272,18 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid'),
     ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
+  });
+
+  it('should set focus to template cells when editing', () => {
+    const spy = (agGrid.api.setFocusedCell as jasmine.Spy).and.stub();
+    agGrid.cellEditingStarted.next({
+      colDef: { type: SkyCellType.Template },
+      rowIndex: 0,
+      column: {} as AgColumn,
+    } as unknown as CellEditingStartedEvent);
+    gridWrapperFixture.detectChanges();
+
+    expect(spy).toHaveBeenCalled();
   });
 
   describe('onGridKeydown', () => {
