@@ -1,5 +1,4 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -13,7 +12,7 @@ import { SkyStatusIndicatorHarness } from './status-indicator-harness';
 @Component({
   selector: 'sky-status-indicator-test',
   standalone: true,
-  imports: [CommonModule, SkyStatusIndicatorModule],
+  imports: [SkyStatusIndicatorModule],
   template: `
     <sky-status-indicator
       data-sky-id="test-status-indicator"
