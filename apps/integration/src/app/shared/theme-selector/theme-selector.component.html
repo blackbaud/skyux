@@ -1,9 +1,9 @@
 <sky-input-box class="sky-margin-inline-lg theme-selector-input">
   <label class="sky-control-label" [for]="inputBoxSelect.id">Theme</label>
   <select
+    #inputBoxSelect="skyId"
     class="sky-theme-selector sky-form-control"
     skyId
-    #inputBoxSelect="skyId"
     [(ngModel)]="themeName"
   >
     <option value="default">Default</option>
@@ -16,13 +16,15 @@
     >Spacing</label
   >
   <select
+    #inputBoxSelectSpacing="skyId"
     class="sky-theme-selector sky-form-control"
     skyId
-    #inputBoxSelectSpacing="skyId"
     [(ngModel)]="themeSpacing"
   >
-    <option *ngFor="let spacingValue of spacingValues" [value]="spacingValue">
-      {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
-    </option>
+    @for (spacingValue of spacingValues; track spacingValue) {
+      <option [value]="spacingValue">
+        {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
+      </option>
+    }
   </select>
 </sky-input-box>

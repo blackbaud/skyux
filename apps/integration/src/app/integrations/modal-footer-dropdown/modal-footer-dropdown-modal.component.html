@@ -13,9 +13,11 @@
       <sky-dropdown buttonStyle="primary">
         <sky-dropdown-button>Menu</sky-dropdown-button>
         <sky-dropdown-menu>
-          <sky-dropdown-item *ngFor="let dropdownItem of dropdownItems">
-            <button type="button">{{ dropdownItem }}</button>
-          </sky-dropdown-item>
+          @for (dropdownItem of dropdownItems; track dropdownItem) {
+            <sky-dropdown-item>
+              <button type="button">{{ dropdownItem }}</button>
+            </sky-dropdown-item>
+          }
         </sky-dropdown-menu>
       </sky-dropdown>
       <button
