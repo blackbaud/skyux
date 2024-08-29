@@ -121,7 +121,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        run: npx nx run ${{ matrix.project }}:build-storybook:ci
+        run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-agents
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
@@ -177,7 +177,9 @@ jobs:
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - name: Build ${{ matrix.app }}
         run: |
-          npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/"
+          npx nx build ${{ matrix.app }} \
+            --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/" \
+            --no-agents
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
@@ -250,7 +252,7 @@ jobs:
             --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
             --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
       - name: Build Storybook Composition
-        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
+        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-agents
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v4
         with:
@@ -415,7 +417,7 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build e2e-schematics
-        run: npx nx build e2e-schematics
+        run: npx nx build e2e-schematics --no-agents
       - name: Download Percy Build Numbers
         uses: actions/download-artifact@v4
         with:
