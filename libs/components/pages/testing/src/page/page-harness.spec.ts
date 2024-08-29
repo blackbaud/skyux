@@ -9,8 +9,10 @@ import { SkyPageHarness } from './page-harness';
 //#region Test component
 @Component({
   selector: 'sky-page-test',
-  template: ` <sky-page [layout]="layout" data-sky-id="test-page"
-    ><sky-page-header *ngIf="showPageHeader" [pageTitle]="pageTitle" />
+  template: ` <sky-page data-sky-id="test-page" [layout]="layout">
+    @if (showPageHeader) {
+      <sky-page-header [pageTitle]="pageTitle" />
+    }
   </sky-page>`,
 })
 class TestComponent {
