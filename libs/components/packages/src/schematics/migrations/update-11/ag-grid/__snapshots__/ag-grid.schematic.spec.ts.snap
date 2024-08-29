@@ -11,6 +11,8 @@ exports[`ag-grid.schematic should update this.columnApi 1`] = `
             this.columnApi = event.api;
             this.#columnApi = event.api;
             this._columnApi = event.api;
+            event.api.getColumnState();
+            event.api.applyColumnState({ state: [] });
           }
         }"
 `;

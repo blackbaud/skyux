@@ -177,6 +177,8 @@ describe('ag-grid.schematic', () => {
             this.columnApi = event.columnApi;
             this.#columnApi = event.columnApi;
             this._columnApi = event.columnApi;
+            event.columnApi.getColumnState();
+            event.columnApi.applyColumnState({ state: [] });
           }
         }`,
     );
