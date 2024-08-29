@@ -17,7 +17,7 @@
     <ng-content select="sky-inline-delete" />
   </div>
 
-  <ng-container *ngIf="inlineFormTemplate">
+  @if (inlineFormTemplate) {
     <sky-inline-form
       [config]="inlineFormConfig"
       [showForm]="showInlineForm"
@@ -27,12 +27,10 @@
       <ng-container *ngTemplateOutlet="skyRepeaterItemLeft" />
       <ng-container *ngTemplateOutlet="skyRepeaterItemRight" />
     </sky-inline-form>
-  </ng-container>
-
-  <ng-container *ngIf="!inlineFormTemplate">
+  } @else {
     <ng-container *ngTemplateOutlet="skyRepeaterItemLeft" />
     <ng-container *ngTemplateOutlet="skyRepeaterItemRight" />
-  </ng-container>
+  }
 </div>
 
 <ng-template #skyRepeaterItemLeft>
@@ -40,7 +38,7 @@
     class="sky-repeater-item-left"
     [attr.role]="!showInlineForm ? (itemRole$ | async)?.content : undefined"
   >
-    <ng-container *ngIf="reorderable">
+    @if (reorderable) {
       <span
         aria-live="assertive"
         class="sky-screen-reader-only"
@@ -68,19 +66,20 @@
       >
         <sky-icon icon="arrows-v" />
       </button>
-    </ng-container>
-    <sky-checkbox
-      *ngIf="selectable"
-      class="sky-repeater-item-checkbox"
-      [checked]="isSelected"
-      [labelHidden]="true"
-      [labelText]="
-        itemName
-          ? ('skyux_repeater_item_checkbox_label' | skyLibResources: itemName)
-          : ('skyux_repeater_item_checkbox_label_default' | skyLibResources)
-      "
-      (change)="onCheckboxChange($event)"
-    />
+    }
+    @if (selectable) {
+      <sky-checkbox
+        class="sky-repeater-item-checkbox"
+        [checked]="isSelected"
+        [labelHidden]="true"
+        [labelText]="
+          itemName
+            ? ('skyux_repeater_item_checkbox_label' | skyLibResources: itemName)
+            : ('skyux_repeater_item_checkbox_label_default' | skyLibResources)
+        "
+        (change)="onCheckboxChange($event)"
+      />
+    }
     <div
       #contextMenuEl
       class="sky-repeater-item-context-menu"
@@ -106,48 +105,48 @@
       >
         <ng-content select="sky-repeater-item-title" />
       </div>
-      <button
-        *ngIf="reorderable"
-        class="sky-btn sky-btn-link sky-repeater-item-reorder-top"
-        type="button"
-        [attr.aria-label]="
-          itemName
-            ? ('skyux_repeater_item_reorder_top_label'
-              | skyLibResources: itemName)
-            : ('skyux_repeater_item_reorder_top_label_default'
-              | skyLibResources)
-        "
-        (click)="moveToTop($event)"
-      >
-        <sky-icon icon="arrow-up" />
-        {{ 'skyux_repeater_item_reorder_top' | skyLibResources }}
-      </button>
-      <div *ngIf="isCollapsible" class="sky-repeater-item-chevron">
-        <sky-chevron
-          [ariaControls]="contentId"
-          [ariaLabel]="
+      @if (reorderable) {
+        <button
+          class="sky-btn sky-btn-link sky-repeater-item-reorder-top"
+          type="button"
+          [attr.aria-label]="
             itemName
-              ? isExpanded
-                ? ('skyux_repeater_item_expand' | skyLibResources: itemName)
-                : ('skyux_repeater_item_collapse' | skyLibResources: itemName)
-              : isExpanded
-                ? ('skyux_repeater_item_expand_default' | skyLibResources)
-                : ('skyux_repeater_item_collapse_default' | skyLibResources)
+              ? ('skyux_repeater_item_reorder_top_label'
+                | skyLibResources: itemName)
+              : ('skyux_repeater_item_reorder_top_label_default'
+                | skyLibResources)
           "
-          [direction]="isExpanded ? 'up' : 'down'"
-          (directionChange)="chevronDirectionChange($event)"
-        />
-      </div>
-      <!-- Used for when the chevron is hidden to ensure that the right side is the same height as the left.-->
-      <div
-        *ngIf="!isCollapsible && !contextMenu"
-        class="sky-repeater-item-chevron-placeholder"
-      ></div>
+          (click)="moveToTop($event)"
+        >
+          <sky-icon icon="arrow-up" />
+          {{ 'skyux_repeater_item_reorder_top' | skyLibResources }}
+        </button>
+      }
+      @if (isCollapsible) {
+        <div class="sky-repeater-item-chevron">
+          <sky-chevron
+            [ariaControls]="contentId"
+            [ariaLabel]="
+              itemName
+                ? isExpanded
+                  ? ('skyux_repeater_item_expand' | skyLibResources: itemName)
+                  : ('skyux_repeater_item_collapse' | skyLibResources: itemName)
+                : isExpanded
+                  ? ('skyux_repeater_item_expand_default' | skyLibResources)
+                  : ('skyux_repeater_item_collapse_default' | skyLibResources)
+            "
+            [direction]="isExpanded ? 'up' : 'down'"
+            (directionChange)="chevronDirectionChange($event)"
+          />
+        </div>
+      } @else if (!contextMenu) {
+        <!-- Used for when the chevron is hidden to ensure that the right side is the same height as the left.-->
+        <div class="sky-repeater-item-chevron-placeholder"></div>
+      }
       <!-- Used to ensure that the right side is the same height as the left.-->
-      <div
-        *ngIf="contextMenu"
-        class="sky-repeater-item-chevron-placeholder-with-context"
-      ></div>
+      @if (contextMenu) {
+        <div class="sky-repeater-item-chevron-placeholder-with-context"></div>
+      }
     </div>
     <div
       #itemContentRef

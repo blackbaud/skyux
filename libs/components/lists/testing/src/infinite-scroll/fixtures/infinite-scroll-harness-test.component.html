@@ -1,5 +1,7 @@
 <ul>
-  <li *ngFor="let item of items">{{ item.name }}</li>
+  @for (item of items; track item) {
+    <li>{{ item.name }}</li>
+  }
 </ul>
 
 <sky-infinite-scroll
@@ -7,5 +9,4 @@
   [enabled]="enabled"
   [loading]="loading"
   (scrollEnd)="onScrollEnd()"
->
-</sky-infinite-scroll>
+/>
