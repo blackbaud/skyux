@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,12 +18,7 @@ import { SkyFormErrorComponent } from './form-error.component';
 @Component({
   selector: 'sky-form-errors',
   standalone: true,
-  imports: [
-    CommonModule,
-    SkyIdModule,
-    SkyFormErrorComponent,
-    SkyFormsResourcesModule,
-  ],
+  imports: [SkyIdModule, SkyFormErrorComponent, SkyFormsResourcesModule],
   templateUrl: './form-errors.component.html',
   styleUrls: ['./form-errors.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

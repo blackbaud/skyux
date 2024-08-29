@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   DoCheck,
@@ -23,12 +22,7 @@ import { SkyFileSizePipe } from '../shared/file-size.pipe';
 import { SkyFileLink } from './file-link';
 
 @Component({
-  imports: [
-    CommonModule,
-    SkyFileSizePipe,
-    SkyFormsResourcesModule,
-    SkyIconModule,
-  ],
+  imports: [SkyFileSizePipe, SkyFormsResourcesModule, SkyIconModule],
   selector: 'sky-file-item',
   standalone: true,
   styleUrl: './file-item.component.scss',

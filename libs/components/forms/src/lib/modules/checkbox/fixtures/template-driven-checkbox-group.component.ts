@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import {
   ControlContainer,
@@ -10,16 +9,16 @@ import {
 import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({
-  imports: [CommonModule, FormsModule, SkyCheckboxModule],
+  imports: [FormsModule, SkyCheckboxModule],
   selector: 'sky-template-driven-checkbox-group',
   standalone: true,
   template: `
     <form>
       <sky-checkbox-group
+        #templateFormGroup="ngModelGroup"
         headingText="Contact method"
         ngModelGroup="model"
         [required]="required"
-        #templateFormGroup="ngModelGroup"
       >
         <sky-checkbox labelText="Email" name="email" ngModel />
         <sky-checkbox labelText="Phone" name="phone" ngModel />

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import {
   FormsModule,
@@ -14,7 +13,6 @@ import { SkyFileAttachmentModule } from '../file-attachment.module';
 
 @Component({
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyFileAttachmentModule,

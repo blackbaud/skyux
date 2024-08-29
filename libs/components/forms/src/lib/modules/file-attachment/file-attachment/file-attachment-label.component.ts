@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,7 +16,7 @@ import { SkyIdModule, SkyLogService, SkyTrimModule } from '@skyux/core';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkyIdModule, SkyTrimModule],
+  imports: [SkyIdModule, SkyTrimModule],
   selector: 'sky-file-attachment-label',
   standalone: true,
   styleUrl: 'file-attachment-label.component.scss',

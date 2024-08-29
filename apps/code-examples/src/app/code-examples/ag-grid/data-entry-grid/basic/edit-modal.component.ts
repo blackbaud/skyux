@@ -19,7 +19,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  CellEditingStartedEvent,
   ColDef,
   GridApi,
   GridOptions,
@@ -212,16 +211,6 @@ export class EditModalComponent implements OnInit {
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.addEventListener(
-      'cellEditingStarted',
-      (params: CellEditingStartedEvent) => {
-        if (params.colDef?.type === SkyCellType.Template) {
-          if (params.rowIndex !== null) {
-            this.#gridApi?.setFocusedCell(params.rowIndex, params.column);
-          }
-        }
-      },
-    );
 
     this.#changeDetectorRef.markForCheck();
   }

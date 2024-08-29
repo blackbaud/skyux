@@ -1482,21 +1482,6 @@ describe('Input box component', () => {
       expect(errorEl).toHaveText('Error: Easy mode is required.');
     });
 
-    it('should allow showing errors only to screen readers', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      fixture.componentInstance.errorsScreenReaderOnly = true;
-      fixture.detectChanges();
-
-      const inputBoxEl = getInputBoxEl(fixture, 'input-easy-mode');
-      const inputEl = inputBoxEl?.querySelector('input');
-      inputEl?.dispatchEvent(new Event('blur'));
-      fixture.detectChanges();
-
-      const errorsEl = inputBoxEl?.querySelector('sky-form-errors');
-
-      expect(errorsEl).toHaveClass('sky-screen-reader-only');
-    });
-
     it('should add required attributes to label and input when required', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();

@@ -1,6 +1,6 @@
 <form [formGroup]="radioForm">
+  @if (showRadioGroup) {
   <sky-radio-group
-    *ngIf="showRadioGroup"
     class="form-group radio"
     formControlName="radioGroup"
     [ariaLabel]="ariaLabel"
@@ -19,16 +19,20 @@
   >
     <legend id="radio-group-label">Reactive Radio button options:</legend>
     <ul class="sky-list-unstyled">
-      <li *ngFor="let value of options">
+      @for (value of options; track value.name) {
+      <li>
         <sky-radio [disabled]="value.disabled" [id]="value.id" [value]="value">
           <sky-radio-label> Option {{ value.name }} </sky-radio-label>
         </sky-radio>
       </li>
+      }
     </ul>
+    @if (radioControl?.errors?.['incorrectOption']) {
     <sky-form-error
-      *ngIf="radioControl?.errors?.['incorrectOption']"
       errorName="incorrectOption"
       errorText="This option is incorrect."
     />
+    }
   </sky-radio-group>
+  }
 </form>

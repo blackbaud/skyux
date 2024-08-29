@@ -13,45 +13,51 @@
   "
 >
   <span class="sky-radio-group-label-wrapper">
-    <legend
-      *ngIf="headingText"
-      class="sky-control-label"
-      [ngClass]="{
-        'sky-screen-reader-only': headingHidden,
-        'sky-margin-stacked-sm': !hintText,
-        'sky-control-label-required': isRequired,
-        'sky-margin-inline-xs': helpPopoverContent
-      }"
-    >
-      <span *ngIf="!headingLevel" [class]="headingClass">
-        {{ headingText }}
-      </span>
-      <h3 *ngIf="headingLevel === 3" [class]="headingClass">
-        {{ headingText }}
-      </h3>
-      <h4 *ngIf="headingLevel === 4" [class]="headingClass">
-        {{ headingText }}
-      </h4>
-      <h5 *ngIf="headingLevel === 5" [class]="headingClass">
-        {{ headingText }}
-      </h5>
-    </legend>
-    <sky-help-inline
-      *ngIf="(helpPopoverContent || helpKey) && headingText"
-      [helpKey]="helpKey"
-      [labelText]="headingText"
-      [popoverTitle]="helpPopoverTitle"
-      [popoverContent]="helpPopoverContent"
-    />
+    @if (headingText) {
+      <legend
+        class="sky-control-label"
+        [ngClass]="{
+          'sky-screen-reader-only': headingHidden,
+          'sky-margin-stacked-sm': !hintText,
+          'sky-control-label-required': isRequired,
+          'sky-margin-inline-xs': helpPopoverContent
+        }"
+      >
+        @if (headingLevel === 3) {
+          <h3 [class]="headingClass">
+            {{ headingText }}
+          </h3>
+        } @else if (headingLevel === 4) {
+          <h4 [class]="headingClass">
+            {{ headingText }}
+          </h4>
+        } @else if (headingLevel === 5) {
+          <h5 [class]="headingClass">
+            {{ headingText }}
+          </h5>
+        } @else {
+          <span [class]="headingClass">
+            {{ headingText }}
+          </span>
+        }
+      </legend>
+      @if (helpPopoverContent || helpKey) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="headingText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
+    }
   </span>
 
-  <div skyId #hintTextEl="skyId">
-    <div
-      *ngIf="hintText"
-      class="sky-font-deemphasized sky-radio-group-hint-text"
-    >
-      {{ hintText }}
-    </div>
+  <div #hintTextEl="skyId" skyId>
+    @if (hintText) {
+      <div class="sky-font-deemphasized sky-radio-group-hint-text">
+        {{ hintText }}
+      </div>
+    }
   </div>
   <!-- need to keep this for radio buttons -->
   <ng-content />

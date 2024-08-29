@@ -11,13 +11,16 @@
     [maxFileSize]="maxFileSize"
     [stacked]="stacked"
   >
-    <sky-file-attachment-label *ngIf="showLabel">
-      {{ labelElementText }}
-      <sky-help-inline *ngIf="showInlineHelp" class="sky-control-help" />
+    @if (showLabel) {
+    <sky-file-attachment-label>
+      {{ labelElementText }} @if (showInlineHelp) {
+      <sky-help-inline class="sky-control-help" />
+      }
     </sky-file-attachment-label>
+    }
   </sky-file-attachment>
 
-  <div *ngIf="attachment?.invalid && attachment?.dirty" class="sky-error-label">
-    Attach a file.
-  </div>
+  @if (attachment?.invalid && attachment?.dirty) {
+  <div class="sky-error-label">Attach a file.</div>
+  }
 </form>

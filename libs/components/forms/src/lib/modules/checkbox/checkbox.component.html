@@ -8,6 +8,7 @@
     }"
   >
     <input
+      #inputEl
       class="sky-checkbox-input sky-switch-input"
       type="checkbox"
       [id]="inputId"
@@ -30,7 +31,6 @@
       }"
       (blur)="onInputBlur()"
       (change)="onInteractionEvent($event)"
-      #inputEl
     />
     <span
       class="sky-switch-control sky-rounded-corners"
@@ -42,53 +42,52 @@
         'sky-switch-control-danger': checkboxType === 'danger'
       }"
     >
-      <sky-icon
-        *ngIf="icon; else checkedOrIndeterminateTemplate"
-        [fixedWidth]="true"
-        [icon]="icon"
-      />
-      <ng-template #checkedOrIndeterminateTemplate>
-        <sky-icon
-          *ngIf="!indeterminate && checked"
-          class="sky-checkbox-icon-modern-checked"
-          [fixedWidth]="true"
-          icon="check"
-        />
-        <sky-icon
-          *ngIf="indeterminate"
-          class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
-          [fixedWidth]="true"
-          icon="square"
-        />
-      </ng-template>
+      @if (icon) {
+        <sky-icon [fixedWidth]="true" [icon]="icon" />
+      } @else {
+        @if (indeterminate) {
+          <sky-icon
+            class="sky-checkbox-icon-indeterminate sky-checkbox-icon-modern-indeterminate"
+            icon="square"
+            [fixedWidth]="true"
+          />
+        } @else if (checked) {
+          <sky-icon
+            class="sky-checkbox-icon-modern-checked"
+            icon="check"
+            [fixedWidth]="true"
+          />
+        }
+      }
     </span>
 
-    <ng-container *ngIf="labelText; else labelElement">
+    @if (labelText) {
       <sky-checkbox-label-text-label
         [labelText]="labelText"
         [labelHidden]="labelHidden"
       />
-    </ng-container>
-    <ng-template #labelElement>
+    } @else {
       <ng-content select="sky-checkbox-label" />
-    </ng-template>
+    }
   </label>
-  <sky-help-inline
-    *ngIf="(helpPopoverContent || helpKey) && labelText"
-    class="sky-checkbox-help-inline"
-    [helpKey]="helpKey"
-    [labelText]="labelText"
-    [popoverTitle]="helpPopoverTitle"
-    [popoverContent]="helpPopoverContent"
-  />
+  @if ((helpPopoverContent || helpKey) && labelText) {
+    <sky-help-inline
+      class="sky-checkbox-help-inline"
+      [helpKey]="helpKey"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
+  }
 </span>
-<span skyId #hintTextEl="skyId">
-  <div
-    *ngIf="hintText"
-    class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin"
-  >
-    {{ hintText }}
-  </div>
+<span #hintTextEl="skyId" skyId>
+  @if (hintText) {
+    <div
+      class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin"
+    >
+      {{ hintText }}
+    </div>
+  }
 </span>
 <sky-form-errors
   [class.sky-checkbox-form-margin]="labelText && control?.errors"
