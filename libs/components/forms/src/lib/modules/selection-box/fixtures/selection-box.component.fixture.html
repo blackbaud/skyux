@@ -1,6 +1,6 @@
 <div id="radioSelectionBoxes">
   <sky-radio-group ariaLabel="Test options" value="red">
-    @for (item of radioArray; track item.name) {
+    @for (item of radioArray; track item) {
     <sky-selection-box [control]="radio">
       <sky-icon [icon]="item.icon" [iconType]="item.iconType" />
       <sky-selection-box-header #radioHeaderId="skyId" skyId>
