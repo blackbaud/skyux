@@ -6,10 +6,8 @@
     stacked="true"
     [calculatorIds]="calculatorIds"
     [dateFormat]="dateFormat"
-    [endDateRequired]="endDateRequired"
     helpKey="helpKey.html"
     [hintText]="hintText"
-    [startDateRequired]="startDateRequired"
   />
 
   <button class="sky-btn sky-btn-default" type="submit">Submit</button>
@@ -37,12 +35,6 @@ Touched? {{ pickerFormControl.touched }}
   <button type="button" (click)="toggleDisabled()">Toggle disabled</button>
   <button type="button" (click)="toggleHintText()">Toggle hint text</button>
   <button type="button" (click)="toggleRequired()">Toggle required</button>
-  <button type="button" (click)="toggleStartDateRequired()">
-    Toggle start date required
-  </button>
-  <button type="button" (click)="toggleEndDateRequired()">
-    Toggle end date required
-  </button>
 
   <button type="button" (click)="changeDateFormat()">Change date format</button>
   <button type="button" (click)="changeLocale()">Change locale</button>

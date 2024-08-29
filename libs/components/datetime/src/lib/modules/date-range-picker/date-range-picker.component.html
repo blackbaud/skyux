@@ -1,8 +1,4 @@
-<div
-  class="sky-date-range-picker"
-  [formGroup]="formGroup"
-  (focusout)="onBlur()"
->
+<div class="sky-date-range-picker" [formGroup]="formGroup">
   <div
     class="sky-date-range-picker-form-group"
     [ngClass]="{
@@ -11,7 +7,7 @@
     }"
   >
     <sky-input-box
-      [hasErrors]="hasErrors"
+      [hasErrors]="calculatorIdHasErrors"
       [helpKey]="helpKey"
       [helpPopoverContent]="helpPopoverContent"
       [helpPopoverTitle]="helpPopoverTitle"
@@ -22,11 +18,7 @@
         ('skyux_date_range_picker_default_label' | skyLibResources)
       "
     >
-      <select
-        formControlName="calculatorId"
-        [required]="isRequired()"
-        (blur)="onBlur()"
-      >
+      <select formControlName="calculatorId" (blur)="onBlur()">
         @for (calculator of calculators; track calculator.calculatorId) {
           <option [value]="calculator.calculatorId">
             {{
@@ -38,8 +30,9 @@
         }
       </select>
       @if (
-        hostControl?.errors?.['skyDateRange']?.errors.endDateBeforeStartDate &&
-        labelText
+        hostControl?.errors?.['skyDateRange']?.errors?.[
+          'endDateBeforeStartDate'
+        ] && labelText
       ) {
         <sky-form-error
           [errorName]="'endDateBeforeStartDate'"
@@ -61,8 +54,7 @@
     }"
   >
     <sky-input-box
-      [errorsScreenReaderOnly]="true"
-      [hasErrors]="hasErrors"
+      [hasErrors]="startDateHasErrors"
       [labelText]="
         selectedCalculator.type
           | skyDateRangePickerStartDateResourceKey
@@ -88,9 +80,7 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="
-            showStartDatePicker && (startDateRequired || isRequired())
-          "
+          [required]="showStartDatePicker && isRequired()"
         />
       </sky-datepicker>
     </sky-input-box>
@@ -101,8 +91,7 @@
     [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
   >
     <sky-input-box
-      [errorsScreenReaderOnly]="true"
-      [hasErrors]="hasErrors"
+      [hasErrors]="endDateHasErrors"
       [labelText]="
         selectedCalculator.type
           | skyDateRangePickerEndDateResourceKey
@@ -128,7 +117,7 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="showEndDatePicker && (endDateRequired || isRequired())"
+          [required]="showEndDatePicker && isRequired()"
         />
       </sky-datepicker>
     </sky-input-box>

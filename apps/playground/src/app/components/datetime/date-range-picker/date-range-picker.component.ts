@@ -37,9 +37,7 @@ import { LocaleProvider } from './locale-provider';
 export class DateRangePickerComponent {
   protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
   protected dateFormat: string | undefined;
-  protected endDateRequired = false;
   protected hintText: string | undefined;
-  protected startDateRequired = false;
 
   protected formGroup = inject(FormBuilder).group({
     lastDonation: new FormControl<SkyDateRangeCalculation>(
@@ -105,7 +103,7 @@ export class DateRangePickerComponent {
       startDate: new Date('1/2/2012'),
       endDate: new Date('1/1/2012'),
     });
-    this.pickerFormControl.markAsDirty();
+    this.pickerFormControl.markAsTouched();
   }
 
   protected setUndefined(): void {
@@ -118,10 +116,6 @@ export class DateRangePickerComponent {
     } else {
       this.pickerFormControl.disable();
     }
-  }
-
-  protected toggleEndDateRequired(): void {
-    this.endDateRequired = !this.endDateRequired;
   }
 
   protected toggleHintText(): void {
@@ -140,9 +134,5 @@ export class DateRangePickerComponent {
       this.pickerFormControl.addValidators(Validators.required);
     }
     this.pickerFormControl.updateValueAndValidity();
-  }
-
-  protected toggleStartDateRequired(): void {
-    this.startDateRequired = !this.startDateRequired;
   }
 }
