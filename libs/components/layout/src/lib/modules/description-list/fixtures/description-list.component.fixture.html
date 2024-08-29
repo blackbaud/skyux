@@ -1,6 +1,6 @@
 <div class="sky-description-list-test-1">
   <sky-description-list [listItemWidth]="listItemWidth" [mode]="mode">
-    @for (item of personalInfo; track item.term) {
+    @for (item of personalInfo; track item) {
     <sky-description-list-content>
       <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
@@ -12,7 +12,7 @@
 </div>
 <div class="sky-description-list-test-2">
   <sky-description-list defaultDescription="No information found">
-    @for (item of systemInfo; track item.term) {
+    @for (item of systemInfo; track item) {
     <sky-description-list-content>
       <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
@@ -24,7 +24,7 @@
 </div>
 <div class="sky-description-list-test-3">
   <sky-description-list defaultDescription="Not yet loaded">
-    @for (item of asyncInfo; track item.term) {
+    @for (item of asyncInfo; track item) {
     <sky-description-list-content>
       <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
@@ -36,7 +36,7 @@
 </div>
 <div class="sky-description-list-test-4">
   <sky-description-list>
-    @for (item of personalInfo; track item.term) {
+    @for (item of personalInfo; track item) {
     <sky-description-list-content>
       <sky-description-list-term>
         {{item.term}}

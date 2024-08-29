@@ -1,7 +1,7 @@
 <sky-toolbar>
   <sky-toolbar-item>
     <sky-sort data-sky-id="test-sort-fixture" [showButtonText]="true">
-      @for (item of sortOptions; track item.label) {
+      @for (item of sortOptions; track item) {
       <sky-sort-item
         [active]="initialState === item.id"
         (itemSelect)="sortItems(item)"

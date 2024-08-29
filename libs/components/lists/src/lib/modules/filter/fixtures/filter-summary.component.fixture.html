@@ -1,5 +1,5 @@
 <sky-filter-summary>
-  @for (item of appliedFilters; track item.label; let i = $index) {
+  @for (item of appliedFilters; track item; let i = $index) {
   <sky-filter-summary-item
     [dismissible]="item.dismissible"
     (dismiss)="onDismiss(i)"

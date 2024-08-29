@@ -3,7 +3,7 @@
     <sky-definition-list-heading>
       Personal information
     </sky-definition-list-heading>
-    @for (item of personalInfo; track item.label) {
+    @for (item of personalInfo; track item) {
     <sky-definition-list-content>
       <sky-definition-list-label> {{item.label}} </sky-definition-list-label>
       <sky-definition-list-value> {{item.value}} </sky-definition-list-value>
@@ -16,7 +16,7 @@
     <sky-definition-list-heading>
       System information
     </sky-definition-list-heading>
-    @for (item of systemInfo; track item.label) {
+    @for (item of systemInfo; track item) {
     <sky-definition-list-content>
       <sky-definition-list-label> {{item.label}} </sky-definition-list-label>
       <sky-definition-list-value> {{item.value}} </sky-definition-list-value>
