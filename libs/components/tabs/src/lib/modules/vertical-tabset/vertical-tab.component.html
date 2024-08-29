@@ -1,4 +1,5 @@
 <a
+  #tabButton
   class="sky-vertical-tab sky-vertical-tabset-button"
   [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
   [attr.aria-disabled]="disabled || undefined"
@@ -16,41 +17,36 @@
   (keyup.arrowleft)="tabButtonArrowLeft($event)"
   (keyup.enter)="tabButtonActivate($event)"
   (keyup.space)="tabButtonActivate($event)"
-  #tabButton
 >
   <div class="sky-vertical-tab-display">
     <div class="sky-vertical-tab-heading">
       <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
-      <span
-        class="sky-vertical-tab-count"
-        *ngIf="tabHeaderCount || tabHeaderCount === 0"
-      >
-        ({{ tabHeaderCount }})
-      </span>
+      @if (tabHeaderCount || tabHeaderCount === 0) {
+        <span class="sky-vertical-tab-count"> ({{ tabHeaderCount }}) </span>
+      }
     </div>
-    <sky-status-indicator
-      *ngIf="errorIndicator"
-      class="sky-vertical-tab-heading-error"
-      descriptionType="error"
-      indicatorType="danger"
-    ></sky-status-indicator>
-    <sky-icon
-      *ngIf="isMobile && showTabRightArrow"
-      class="sky-vertical-tab-right-arrow"
-      icon="chevron-right"
-    />
+    @if (errorIndicator) {
+      <sky-status-indicator
+        class="sky-vertical-tab-heading-error"
+        descriptionType="error"
+        indicatorType="danger"
+      />
+    }
+    @if (isMobile && showTabRightArrow) {
+      <sky-icon class="sky-vertical-tab-right-arrow" icon="chevron-right" />
+    }
   </div>
 </a>
 
 <div #tabContentWrapper>
   <div
+    #tabContentPane
     class="sky-vertical-tab-content-pane"
     role="tabpanel"
     tabindex="0"
     skyId
     [attr.aria-labelledby]="tabId"
     [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
-    #tabContentPane
   >
     <ng-content />
 

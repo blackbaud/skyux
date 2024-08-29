@@ -19,7 +19,7 @@
   >
     <legend id="radio-group-label">Reactive Radio button options:</legend>
     <ul class="sky-list-unstyled">
-      @for (value of options; track value.name) {
+      @for (value of options; track value) {
       <li>
         <sky-radio [disabled]="value.disabled" [id]="value.id" [value]="value">
           <sky-radio-label> Option {{ value.name }} </sky-radio-label>

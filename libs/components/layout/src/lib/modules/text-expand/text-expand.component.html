@@ -1,25 +1,26 @@
 <div
+  #container
+  class="sky-text-expand-container"
   [@expansionAnimation]="{
     value: isExpanded,
     params: { transitionHeight: transitionHeight }
   }"
   (@expansionAnimation.done)="animationEnd()"
-  class="sky-text-expand-container"
-  #container
 >
-  <span class="sky-text-expand-text" [id]="contentSectionId" #text></span>
-  <span class="sky-text-expand-ellipsis" *ngIf="!isExpanded && expandable"
-    >...
-  </span>
-  <button
-    *ngIf="expandable"
-    type="button"
-    class="sky-btn sky-btn-link-inline sky-text-expand-see-more"
-    [attr.aria-expanded]="isModal ? undefined : !!isExpanded"
-    [attr.aria-controls]="isModal ? undefined : contentSectionId"
-    [attr.aria-haspopup]="isModal ? 'dialog' : undefined"
-    (click)="textExpand()"
-  >
-    {{ buttonText }}
-  </button>
+  <span #text class="sky-text-expand-text" [id]="contentSectionId"></span>
+  @if (expandable) {
+    @if (!isExpanded) {
+      <span class="sky-text-expand-ellipsis">... </span>
+    }
+    <button
+      type="button"
+      class="sky-btn sky-btn-link-inline sky-text-expand-see-more"
+      [attr.aria-expanded]="isModal ? undefined : !!isExpanded"
+      [attr.aria-controls]="isModal ? undefined : contentSectionId"
+      [attr.aria-haspopup]="isModal ? 'dialog' : undefined"
+      (click)="textExpand()"
+    >
+      {{ buttonText }}
+    </button>
+  }
 </div>
