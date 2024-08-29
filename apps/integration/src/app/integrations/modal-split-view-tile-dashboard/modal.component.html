@@ -6,13 +6,15 @@
         <sky-split-view>
           <sky-split-view-drawer [ariaLabel]="'Transaction list'">
             <sky-repeater [activeIndex]="0">
-              <sky-repeater-item *ngFor="let item of items; let i = index">
-                <sky-repeater-item-content>
-                  {{ item.amount }} <br />
-                  {{ item.date }} <br />
-                  {{ item.vendor }}
-                </sky-repeater-item-content>
-              </sky-repeater-item>
+              @for (item of items; track item; let i = $index) {
+                <sky-repeater-item>
+                  <sky-repeater-item-content>
+                    {{ item.amount }} <br />
+                    {{ item.date }} <br />
+                    {{ item.vendor }}
+                  </sky-repeater-item-content>
+                </sky-repeater-item>
+              }
             </sky-repeater>
           </sky-split-view-drawer>
 

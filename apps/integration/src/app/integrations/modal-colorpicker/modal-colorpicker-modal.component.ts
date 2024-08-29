@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -23,7 +22,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   styleUrls: ['./modal-colorpicker-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     SkyModalModule,
     FormsModule,
     SkyColorpickerModule,

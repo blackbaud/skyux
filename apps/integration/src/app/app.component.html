@@ -1,14 +1,15 @@
 <div id="controls" class="sky-margin-stacked-sm">
   <div>
-    <button
-      *ngIf="!isHome()"
-      class="sky-btn sky-btn-primary"
-      id="home-btn"
-      routerLink="/"
-      type="button"
-    >
-      Go home
-    </button>
+    @if (!isHome()) {
+      <button
+        class="sky-btn sky-btn-primary"
+        id="home-btn"
+        routerLink="/"
+        type="button"
+      >
+        Go home
+      </button>
+    }
   </div>
   <sky-theme-selector />
 </div>

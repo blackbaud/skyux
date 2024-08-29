@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -23,7 +22,6 @@ import { Tile2Component } from './tile2.component';
     SkyTilesModule,
     SkySplitViewModule,
     SkyRepeaterModule,
-    CommonModule,
   ],
 })
 export class ModalComponent {

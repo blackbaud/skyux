@@ -19,6 +19,7 @@ export { SkyFileLink } from './lib/modules/file-attachment/file-drop/file-link';
 export { SkyFileItem } from './lib/modules/file-attachment/shared/file-item';
 export { SkyFileItemErrorType } from './lib/modules/file-attachment/shared/file-item-error-type';
 export { SkyFileSizePipe } from './lib/modules/file-attachment/shared/file-size.pipe';
+export { SkyFileValidateFn } from './lib/modules/file-attachment/shared/file-validate-function';
 
 export { SkyFormErrorModule } from './lib/modules/form-error/form-error.module';
 export { SkyFormErrorsModule } from './lib/modules/form-error/form-errors.module';
