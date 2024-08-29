@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyModalModule } from '@skyux/modals';
 
@@ -9,7 +8,7 @@ import { LipsumComponent } from '../../shared/lipsum/lipsum.component';
   standalone: true,
   selector: 'app-test-cmp-modal',
   templateUrl: './modal-demo.component.html',
-  imports: [CommonModule, DataManagerModule, LipsumComponent, SkyModalModule],
+  imports: [DataManagerModule, LipsumComponent, SkyModalModule],
 })
 export class ModalDemoComponent {
   public showHelp = false;

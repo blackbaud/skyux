@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -12,13 +11,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   standalone: true,
   selector: 'app-demo-filter-modal-form',
   templateUrl: './data-filter-modal.component.html',
-  imports: [
-    CommonModule,
-    FormsModule,
-    SkyCheckboxModule,
-    SkyInputBoxModule,
-    SkyModalModule,
-  ],
+  imports: [FormsModule, SkyCheckboxModule, SkyInputBoxModule, SkyModalModule],
 })
 export class SkyDataManagerFiltersModalVisualComponent {
   public fruitType: string;

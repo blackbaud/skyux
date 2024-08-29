@@ -3,56 +3,50 @@
     <sky-checkbox [checked]="true">
       <sky-checkbox-label>
         Checked Checkbox
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help"></sky-help-inline>
+        }
       </sky-checkbox-label>
     </sky-checkbox>
     <sky-checkbox [checked]="false">
       <sky-checkbox-label>
         Unchecked Checkbox
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help"></sky-help-inline>
+        }
       </sky-checkbox-label>
     </sky-checkbox>
     <sky-checkbox [checked]="false" [indeterminate]="true">
       <sky-checkbox-label>
         Indeterminate Checkbox [internal only]
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help"></sky-help-inline>
+        }
       </sky-checkbox-label>
     </sky-checkbox>
     <sky-checkbox [checked]="false" [disabled]="true">
       <sky-checkbox-label>
         Disabled Checkbox
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help"></sky-help-inline>
+        }
       </sky-checkbox-label>
     </sky-checkbox>
     <sky-checkbox [checked]="true" [disabled]="true">
       <sky-checkbox-label>
         Disabled Checked Checkbox
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help"></sky-help-inline>
+        }
       </sky-checkbox-label>
     </sky-checkbox>
 
     <sky-checkbox [checked]="false" [indeterminate]="true" [disabled]="true">
       <sky-checkbox-label>
         Disabled Indeterminate Checkbox [internal only]
-        <sky-help-inline
-          *ngIf="showInlineHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help"></sky-help-inline>
+        }
       </sky-checkbox-label>
     </sky-checkbox>
   </div>
@@ -261,11 +255,12 @@
         helpPopoverContent="content"
       />
       <sky-checkbox formControlName="text" labelText="Text" />
-      <sky-form-error
-        *ngIf="contactMethod.errors?.['contactMethodRequired']"
-        errorName="contactMethodRequired"
-        errorText="A contact method is required."
-      ></sky-form-error>
+      @if (contactMethod.errors?.['contactMethodRequired']) {
+        <sky-form-error
+          errorName="contactMethodRequired"
+          errorText="A contact method is required."
+        ></sky-form-error>
+      }
     </sky-checkbox-group>
     <div class="sky-margin-stacked-xl">
       <sky-checkbox

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,7 +14,6 @@ import { ICellRendererParams } from 'ag-grid-community';
   templateUrl: './custom-multiline.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
 })
 export class CustomMultilineComponent implements ICellRendererAngularComp {
   public lines: number;
