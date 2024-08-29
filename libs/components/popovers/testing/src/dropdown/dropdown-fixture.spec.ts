@@ -37,7 +37,7 @@ const DATA_SKY_ID = 'test-dropdown';
         [ariaRole]="dropdownMenuAriaRole"
         (menuChanges)="onMenuChanges($event)"
       >
-        @for (item of items; track item.name; let i = $index) {
+        @for (item of items; track item; let i = $index) {
           <sky-dropdown-item [ariaRole]="i === 2 ? 'item-custom-role' : null">
             <button
               type="button"
