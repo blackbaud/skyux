@@ -1,15 +1,15 @@
+@if (showIt) {
 <sky-tabset
-  *ngIf="showIt"
   [active]="activeIndex"
   [permalinkId]="permalinkId"
   (activeChange)="onActiveChange($event)"
 >
-  <sky-tab tabHeading="A.P.I."> </sky-tab>
+  <sky-tab tabHeading="A.P.I." />
   <sky-tab
     tabHeading="Design & Guidelines"
     [disabled]="secondTabDisabled"
     [permalinkValue]="permalinkValue"
-  >
-  </sky-tab>
-  <sky-tab tabHeading="Questions?"> </sky-tab>
+  />
+  <sky-tabset tabHeading="Questions?" />
 </sky-tabset>
+}
