@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyTilesModule } from '../../tiles.module';
 import { SkyTileComponent } from '../tile.component';
 
 @Component({
-  imports: [CommonModule, SkyTilesModule],
+  imports: [SkyTilesModule],
   selector: 'sky-test-cmp',
   standalone: true,
   templateUrl: './tile.component.fixture.html',
