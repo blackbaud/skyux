@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,7 +12,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   selector: 'app-modal-wait-modal',
   templateUrl: './modal-wait-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkyModalModule, SkyWaitModule],
+  imports: [SkyModalModule, SkyWaitModule],
 })
 export class ModalWaitModalComponent {
   protected isWaiting = false;

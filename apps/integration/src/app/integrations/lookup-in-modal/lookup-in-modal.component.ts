@@ -9,7 +9,7 @@ import { ModalLookupComponent } from './modal-lookup.component';
 
 @Component({
   selector: 'app-lookup-in-modal',
-  template: '<span *ngIf="ready$ | async" id="ready"></span>',
+  template: '@if (ready$ | async) {<span id="ready"></span>}',
 })
 export class LookupInModalComponent implements OnInit, OnDestroy {
   protected readonly ready$ = inject(FontLoadingService)

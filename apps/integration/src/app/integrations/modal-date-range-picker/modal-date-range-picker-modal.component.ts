@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,7 +25,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   // styleUrls: ['./modal-date-range-picker-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     SkyModalModule,
     FormsModule,
     SkyDateRangePickerModule,
