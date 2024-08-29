@@ -61,13 +61,11 @@ const VALID_US_NUMBER = '8675555309';
         />
       </sky-phone-field>
 
-      <sky-status-indicator
-        *ngIf="!phoneControl.valid"
-        descriptionType="none"
-        indicatorType="danger"
-      >
-        Enter a phone number matching the format for the selected country.
-      </sky-status-indicator>
+      @if (!phoneControl.valid) {
+        <sky-status-indicator descriptionType="none" indicatorType="danger">
+          Enter a phone number matching the format for the selected country.
+        </sky-status-indicator>
+      }
     </form>
   `,
 })

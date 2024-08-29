@@ -33,28 +33,28 @@
     (focus)="onFocus()"
   >
     <span class="sky-tab-heading" [attr.aria-hidden]="true">
-      <span skyId #tabHeading="skyId">
+      <span #tabHeading="skyId" skyId>
         {{ buttonText }}
+        @if (buttonTextCount !== undefined) {
+          <span class="sky-tab-header-count">
+            {{ buttonTextCount }}
+          </span>
+        }
+      </span>
+      @if (closeable) {
         <span
-          *ngIf="buttonTextCount !== undefined"
-          class="sky-tab-header-count"
+          class="sky-btn-tab-close"
+          [tabindex]="closeBtnTabIndex"
+          [attr.aria-label]="'skyux_tab_close' | skyLibResources: buttonText"
+          [ngClass]="{
+            'sky-btn-tab-close-disabled': disabled
+          }"
+          (click)="onCloseClick($event)"
+          (keydown.enter)="onCloseClick($event)"
         >
-          {{ buttonTextCount }}
+          <sky-icon icon="remove" />
         </span>
-      </span>
-      <span
-        *ngIf="closeable"
-        class="sky-btn-tab-close"
-        [tabindex]="closeBtnTabIndex"
-        [attr.aria-label]="'skyux_tab_close' | skyLibResources: buttonText"
-        [ngClass]="{
-          'sky-btn-tab-close-disabled': disabled
-        }"
-        (click)="onCloseClick($event)"
-        (keydown.enter)="onCloseClick($event)"
-      >
-        <sky-icon icon="remove" />
-      </span>
+      }
     </span>
   </a>
 </div>

@@ -19,7 +19,7 @@
       "
     >
       <select formControlName="calculatorId" (blur)="onBlur()">
-        @for (calculator of calculators; track calculator.calculatorId) {
+        @for (calculator of calculators; track calculator) {
           <option [value]="calculator.calculatorId">
             {{
               calculator._shortDescriptionResourceKey

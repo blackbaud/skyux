@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,7 +13,7 @@ import { SkyHrefQueryParams } from '../types/href-query-params';
   templateUrl: 'href-fixture.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, SkyHrefModule],
+  imports: [SkyHrefModule],
 })
 export class HrefDirectiveFixtureComponent {
   @Input()

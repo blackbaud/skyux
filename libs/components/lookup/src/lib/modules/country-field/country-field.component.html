@@ -1,6 +1,6 @@
-<ng-container *ngIf="!inputBoxHostSvc">
-  <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
-</ng-container>
+@if (!inputBoxHostSvc) {
+  <ng-container *ngTemplateOutlet="inputTemplateRef" />
+}
 
 <ng-template #inputTemplateRef>
   <span
@@ -24,17 +24,16 @@
             selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
         }"
       >
-        <div
-          *ngIf="
-            selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
-          "
-          class="sky-country-field-flag"
-        >
-          <div
-            class="iti__flag"
-            [ngClass]="'iti__' + selectedCountry.iso2.toLowerCase()"
-          ></div>
-        </div>
+        @if (
+          selectedCountry && selectedCountry.iso2 && !hideSelectedCountryFlag
+        ) {
+          <div class="sky-country-field-flag">
+            <div
+              class="iti__flag"
+              [ngClass]="'iti__' + selectedCountry.iso2.toLowerCase()"
+            ></div>
+          </div>
+        }
         <textarea
           class="sky-form-control"
           name="selectedCountry"
@@ -56,15 +55,17 @@
   </span>
 </ng-template>
 
-<ng-template let-item="item" #countrySearchResultTemplate>
+<ng-template #countrySearchResultTemplate let-item="item">
   <div
     class="sky-country-field-search-result-flag"
     [ngClass]="'iti__flag iti__' + item.iso2.toLowerCase()"
   ></div>
   {{ item.name }}
-  <span *ngIf="includePhoneInfo" class="sky-deemphasized">
-    {{ item.dialCode }}
-  </span>
+  @if (includePhoneInfo) {
+    <span class="sky-deemphasized">
+      {{ item.dialCode }}
+    </span>
+  }
 </ng-template>
 
 <!-- This template should only be used in modern theme input boxes. -->

@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -31,7 +30,6 @@ const queryStringParamKey = '?Subject=';
     SkyInputBoxModule,
     SkyTabsModule,
     SkyTextEditorResourcesModule,
-    NgIf,
   ],
 })
 export class SkyTextEditorUrlModalComponent {

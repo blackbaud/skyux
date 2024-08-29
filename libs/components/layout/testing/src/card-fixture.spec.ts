@@ -9,16 +9,24 @@ import { SkyCardFixture } from './card-fixture';
   selector: 'sky-card-test',
   template: `
     <sky-card
+      data-sky-id="test-card"
       [size]="size"
       [selectable]="showCheckbox"
       [(selected)]="selected"
-      data-sky-id="test-card"
     >
-      <sky-card-title *ngIf="showTitle">Card title</sky-card-title>
-      <sky-card-content *ngIf="showContent"> Card content </sky-card-content>
-      <sky-card-actions *ngIf="showAction">
-        <button class="sky-btn sky-btn-default">Click me</button>
-      </sky-card-actions>
+      @if (showTitle) {
+        <sky-card-title>Card title</sky-card-title>
+      }
+      @if (showContent) {
+        <sky-card-content> Card content </sky-card-content>
+      }
+      @if (showAction) {
+        <sky-card-actions>
+          <button class="sky-btn sky-btn-default" type="button">
+            Click me
+          </button>
+        </sky-card-actions>
+      }
     </sky-card>
   `,
 })
