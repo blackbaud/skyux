@@ -2,7 +2,7 @@
   <div aria-live="polite">
     @if (errorsSvc.formErrors | async; as formErrors) {
       <div class="sky-modal-footer-errors sky-margin-stacked-lg">
-        @for (formError of formErrors; track formError.message) {
+        @for (formError of formErrors; track formError) {
           <sky-status-indicator
             descriptionType="error"
             indicatorType="danger"
