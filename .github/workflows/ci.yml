@@ -42,6 +42,7 @@ jobs:
 
   build-coverage-lint:
     name: Build, code coverage unit tests, and linting
+    if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
@@ -75,7 +76,7 @@ jobs:
     name: Build
     needs: build-coverage-lint
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     steps:
       - name: Run build
         run: |
@@ -85,7 +86,7 @@ jobs:
     name: Code coverage
     needs: build-coverage-lint
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     steps:
       - name: Run code coverage
         run: |
@@ -95,7 +96,7 @@ jobs:
     name: Lint
     needs: build-coverage-lint
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     steps:
       - name: Run lint
         run: |
@@ -105,7 +106,7 @@ jobs:
     name: Stop Nx Cloud agents
     needs: build-coverage-lint
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     steps:
       - name: Stop agents
         run: |
@@ -113,6 +114,7 @@ jobs:
 
   check-workspace:
     name: Check dependencies and resources
+    if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
