@@ -8,8 +8,8 @@
   (window:resize)="windowResize()"
 >
   <div
-    class="sky-modal sky-shadow sky-box sky-elevation-16 sky-modal-{{ size }}"
     tabindex="-1"
+    class="sky-modal sky-shadow sky-box sky-elevation-16 sky-modal-{{ size }}"
     [ngClass]="{
       'sky-modal-tiled': tiledBody,
       'sky-modal-viewkeeper': viewkeeperEnabled()
@@ -25,12 +25,12 @@
       }"
     >
       <div
+        #headerId="skyId"
         class="sky-modal-header-content"
         skyId
         [ngClass]="{
           'sky-font-heading-2': size === 'full-page'
         }"
-        #headerId="skyId"
       >
         @if (headingText) {
           <sky-modal-header>
@@ -50,16 +50,17 @@
         }
       </div>
       <div class="sky-modal-header-buttons">
-        <button
-          *ngIf="legacyHelpKey"
-          class="sky-btn sky-modal-btn-help"
-          name="help-button"
-          type="button"
-          [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
-          (click)="helpButtonClick()"
-        >
-          <sky-icon icon="question-circle" />
-        </button>
+        @if (legacyHelpKey) {
+          <button
+            class="sky-btn sky-modal-btn-help"
+            name="help-button"
+            type="button"
+            [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
+            (click)="helpButtonClick()"
+          >
+            <sky-icon icon="question-circle" />
+          </button>
+        }
 
         <button
           type="button"
@@ -72,15 +73,15 @@
       </div>
     </div>
     <div
+      #modalContentId="skyId"
+      #modalContentWrapper
       class="sky-modal-content sky-padding-even-large"
       role="region"
       tabindex="0"
       skyId
       [attr.aria-labelledby]="headerId.id"
-      (skyScrollShadow)="scrollShadowChange($event)"
       [skyScrollShadowEnabled]="scrollShadowEnabled"
-      #modalContentId="skyId"
-      #modalContentWrapper
+      (skyScrollShadow)="scrollShadowChange($event)"
     >
       <ng-content select="sky-modal-content" />
     </div>

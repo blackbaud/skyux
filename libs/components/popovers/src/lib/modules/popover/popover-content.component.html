@@ -1,4 +1,5 @@
 <div
+  #popoverRef
   class="sky-popover-container sky-popover-max-height"
   [@.disabled]="!enableAnimations"
   [@skyPopoverAnimation]="animationState"
@@ -10,7 +11,6 @@
   ]"
   (@skyPopoverAnimation.done)="onAnimationEvent($event)"
   (@skyPopoverAnimation.start)="onAnimationEvent($event)"
-  #popoverRef
 >
   <div
     class="sky-popover"
@@ -20,25 +20,25 @@
       'sky-elevation-4': 'modern'
     }"
   >
-    <header
-      *ngIf="popoverTitle"
-      class="sky-popover-header"
-      [skyThemeClass]="{
-        'sky-padding-even-default': 'default',
-        'sky-padding-even-lg sky-margin-stacked-lg': 'modern'
-      }"
-    >
-      <h1
-        *ngIf="popoverTitle"
-        class="sky-popover-title"
+    @if (popoverTitle) {
+      <header
+        class="sky-popover-header"
         [skyThemeClass]="{
-          'sky-font-heading-4': 'default',
-          'sky-font-emphasized': 'modern'
+          'sky-padding-even-default': 'default',
+          'sky-padding-even-lg sky-margin-stacked-lg': 'modern'
         }"
       >
-        {{ popoverTitle }}
-      </h1>
-    </header>
+        <h1
+          class="sky-popover-title"
+          [skyThemeClass]="{
+            'sky-font-heading-4': 'default',
+            'sky-font-emphasized': 'modern'
+          }"
+        >
+          {{ popoverTitle }}
+        </h1>
+      </header>
+    }
     <div
       class="sky-popover-body"
       [skyThemeClass]="{
@@ -46,14 +46,14 @@
         'sky-padding-even-lg': 'modern'
       }"
     >
-      <ng-container #contentTarget></ng-container>
+      <ng-container #contentTarget />
     </div>
     <span
+      #arrowRef
       aria-hidden="true"
       class="sky-popover-arrow"
       [style.left.px]="arrowLeft"
       [style.top.px]="arrowTop"
-      #arrowRef
     ></span>
   </div>
 </div>

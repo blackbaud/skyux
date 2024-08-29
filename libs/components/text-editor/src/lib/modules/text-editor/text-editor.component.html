@@ -9,7 +9,7 @@
   }"
 >
   <div class="sky-text-editor-label-wrapper">
-    <ng-container *ngIf="labelText">
+    @if (labelText) {
       <label
         class="sky-control-label"
         [ngClass]="{
@@ -18,57 +18,58 @@
         }"
         >{{ labelText }}</label
       >
-      <sky-help-inline
-        *ngIf="helpPopoverContent || helpKey"
-        [helpKey]="helpKey"
-        [labelText]="labelText"
-        [popoverContent]="helpPopoverContent"
-        [popoverTitle]="helpPopoverTitle"
-      />
-    </ng-container>
+      @if (helpPopoverContent || helpKey) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="labelText"
+          [popoverContent]="helpPopoverContent"
+          [popoverTitle]="helpPopoverTitle"
+        />
+      }
+    }
   </div>
-  <sky-toolbar
-    *ngIf="
-      (menus && menus.length) > 0 ||
-      (toolbarActions && toolbarActions.length > 0)
-    "
-    class="sky-text-editor-toolbar"
-  >
-    <sky-toolbar-section
-      *ngIf="menus && menus.length > 0"
-      aria-label="Text formatting"
-      class="menubar"
-      role="toolbar"
-    >
-      <sky-text-editor-menubar
-        [disabled]="disabled"
-        [editorFocusStream]="editorFocusStream"
-        [menus]="menus"
-        [mergeFields]="mergeFields"
-      >
-      </sky-text-editor-menubar>
-    </sky-toolbar-section>
-    <sky-toolbar-section
-      *ngIf="toolbarActions && toolbarActions.length > 0"
-      aria-label="Text formatting"
-      class="toolbar"
-      role="toolbar"
-    >
-      <sky-text-editor-toolbar
-        [disabled]="disabled"
-        [editorFocusStream]="editorFocusStream"
-        [fontList]="fontList"
-        [fontSizeList]="fontSizeList"
-        [linkWindowOptions]="linkWindowOptions"
-        [toolbarActions]="toolbarActions"
-        [styleState]="initialStyleState"
-      >
-      </sky-text-editor-toolbar>
-    </sky-toolbar-section>
-  </sky-toolbar>
+  @if (
+    (menus && menus.length) > 0 || (toolbarActions && toolbarActions.length > 0)
+  ) {
+    <sky-toolbar class="sky-text-editor-toolbar">
+      @if (menus && menus.length > 0) {
+        <sky-toolbar-section
+          aria-label="Text formatting"
+          class="menubar"
+          role="toolbar"
+        >
+          <sky-text-editor-menubar
+            [disabled]="disabled"
+            [editorFocusStream]="editorFocusStream"
+            [menus]="menus"
+            [mergeFields]="mergeFields"
+          />
+        </sky-toolbar-section>
+      }
+      @if (toolbarActions && toolbarActions.length > 0) {
+        <sky-toolbar-section
+          aria-label="Text formatting"
+          class="toolbar"
+          role="toolbar"
+        >
+          <sky-text-editor-toolbar
+            [disabled]="disabled"
+            [editorFocusStream]="editorFocusStream"
+            [fontList]="fontList"
+            [fontSizeList]="fontSizeList"
+            [linkWindowOptions]="linkWindowOptions"
+            [toolbarActions]="toolbarActions"
+            [styleState]="initialStyleState"
+          />
+        </sky-toolbar-section>
+      }
+    </sky-toolbar>
+  }
   <iframe
+    #iframe
     class="sky-text-editor-wrapper"
     src="about:blank"
+    allow="clipboard-read *; clipboard-write *"
     [attr.title]="
       labelText || ('skyux_text_editor_iframe_title_default' | skyLibResources)
     "
@@ -77,17 +78,15 @@
       'sky-text-editor-wrapper-disabled': disabled
     }"
     (load)="onIframeLoad()"
-    #iframe
-    allow="clipboard-read *; clipboard-write *"
   >
   </iframe>
 </div>
 <div
+  #hintTextEl="skyId"
   skyId
   [ngClass]="{
     'sky-font-deemphasized sky-text-editor-hint-text': !!hintText
   }"
-  #hintTextEl="skyId"
 >
   {{ hintText }}
 </div>
