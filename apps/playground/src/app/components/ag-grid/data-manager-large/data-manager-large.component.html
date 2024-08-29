@@ -75,8 +75,10 @@
     </sky-data-manager-toolbar-primary-item>
   </sky-data-manager-toolbar>
   <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
-    <sky-ag-grid-wrapper *ngIf="isActive$ | async" [compact]="compact">
-      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
-    </sky-ag-grid-wrapper>
+    @if (isActive$ | async) {
+      <sky-ag-grid-wrapper [compact]="compact">
+        <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
+      </sky-ag-grid-wrapper>
+    }
   </sky-data-view>
 </sky-data-manager>

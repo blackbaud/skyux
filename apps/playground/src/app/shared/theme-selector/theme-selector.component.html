@@ -21,8 +21,10 @@
     #inputBoxSelectSpacing="skyId"
     [(ngModel)]="themeSpacing"
   >
-    <option *ngFor="let spacingValue of spacingValues" [value]="spacingValue">
-      {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
-    </option>
+    @for (spacingValue of spacingValues; track spacingValue) {
+      <option [value]="spacingValue">
+        {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
+      </option>
+    }
   </select>
 </sky-input-box>

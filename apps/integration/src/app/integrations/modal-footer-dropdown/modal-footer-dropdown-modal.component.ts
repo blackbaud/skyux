@@ -1,4 +1,3 @@
-import { NgForOf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -9,7 +8,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
   templateUrl: './modal-footer-dropdown-modal.component.html',
   styleUrls: ['./modal-footer-dropdown-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyModalModule, SkyDropdownModule, NgForOf],
+  imports: [SkyModalModule, SkyDropdownModule],
 })
 export class ModalFooterDropdownModalComponent {
   protected readonly modalInstance = inject(SkyModalInstance);

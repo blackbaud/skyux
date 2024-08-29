@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -30,7 +29,6 @@ import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
   standalone: true,
   imports: [
     AgGridModule,
-    CommonModule,
     DataManagerPagedItemsPipe,
     SkyAgGridModule,
     SkyDataManagerModule,

@@ -47,21 +47,22 @@
 
 <div id="screenshot-action-button-container">
   <sky-action-button-container [alignItems]="alignItems">
-    <sky-action-button
-      *ngFor="let button of actionButtons"
-      [permalink]="button.permalink"
-      (actionClick)="buttonClicked()"
-    >
-      <sky-action-button-icon
-        [iconType]="button.iconType"
-      ></sky-action-button-icon>
-      <sky-action-button-header>
-        {{ button.header }}
-      </sky-action-button-header>
-      <sky-action-button-details>
-        {{ button.details }}
-      </sky-action-button-details>
-    </sky-action-button>
+    @for (button of actionButtons; track button) {
+      <sky-action-button
+        [permalink]="button.permalink"
+        (actionClick)="buttonClicked()"
+      >
+        <sky-action-button-icon
+          [iconType]="button.iconType"
+        ></sky-action-button-icon>
+        <sky-action-button-header>
+          {{ button.header }}
+        </sky-action-button-header>
+        <sky-action-button-details>
+          {{ button.details }}
+        </sky-action-button-details>
+      </sky-action-button>
+    }
   </sky-action-button-container>
 </div>
 

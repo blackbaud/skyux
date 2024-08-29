@@ -63,9 +63,9 @@
   <tr>
     <th>Value</th>
     <td>
-      <ng-container *ngFor="let friend of friendsForm.value.friends">
+      @for (friend of friendsForm.value.friends; track friend) {
         {{ friend.name }}
-      </ng-container>
+      }
     </td>
   </tr>
 </table>
@@ -176,19 +176,17 @@
   <tr>
     <th>Value</th>
     <td>
-      <ng-container *ngFor="let friend of bestFriendsForm.value.bestFriend">
+      @for (friend of bestFriendsForm.value.bestFriend; track friend) {
         {{ friend.name }}
-      </ng-container>
+      }
     </td>
   </tr>
   <tr>
     <th>Value async</th>
     <td>
-      <ng-container
-        *ngFor="let friend of bestFriendsForm.value.bestFriendAsync"
-      >
+      @for (friend of bestFriendsForm.value.bestFriendAsync; track friend) {
         {{ friend.name }}
-      </ng-container>
+      }
     </td>
   </tr>
 </table>

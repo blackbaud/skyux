@@ -9,14 +9,16 @@
   >
     <input
       id="phone-field-template-input"
-      [disabled]="isDisabled"
       skyPhoneFieldInput
+      [disabled]="isDisabled"
       [skyPhoneFieldNoValidate]="noValidate"
       [(ngModel)]="modelValue"
     />
   </sky-phone-field>
 
-  <div *ngIf="showInvalidDirective">
+  @if (showInvalidDirective) {
+  <div>
     <input type="text" skyPhoneFieldInput />
   </div>
+  }
 </div>

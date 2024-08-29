@@ -28,8 +28,10 @@
 <h3>Infinite scroll</h3>
 
 <ul>
-  <li *ngFor="let item of infiniteScrollData">
-    {{ item.name }}
-  </li>
+  @for (item of infiniteScrollData; track item) {
+    <li>
+      {{ item.name }}
+    </li>
+  }
 </ul>
 <sky-infinite-scroll [enabled]="enableInfiniteScroll" (scrollEnd)="addData()" />

@@ -15,6 +15,11 @@
       "factory": "./update-11/ag-grid/ag-grid.schematic",
       "description": "Apply code changes for AG Grid 32."
     },
+    "forms": {
+      "version": "11.0.0",
+      "factory": "./update-11/forms/forms.schematic",
+      "description": "Apply code changes for @skyux/forms."
+    },
     "help-inline-import-path": {
       "version": "11.0.0",
       "factory": "./update-11/help-inline-import-path/help-inline-import-path.schematic",

@@ -8,7 +8,7 @@
     <div class="sky-lookup-show-more-toolbar-wrapper">
       <sky-toolbar class="sky-lookup-show-more-modal-toolbar">
         <sky-toolbar-item>
-          <sky-search></sky-search>
+          <sky-search />
         </sky-toolbar-item>
         <sky-toolbar-view-actions>
           <button
@@ -47,7 +47,7 @@
       </sky-toolbar>
     </div>
 
-    <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5, 6]">
+    @for (number of [0, 1, 2, 3, 4, 5, 6]; track number) {
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -72,7 +72,7 @@
         quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
         voluptas nulla pariatur?
       </p>
-    </ng-container>
+    }
   </sky-modal-content>
   <sky-modal-footer>
     <button

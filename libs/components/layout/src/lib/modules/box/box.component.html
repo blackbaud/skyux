@@ -48,13 +48,14 @@
           </h2>
         }
       }
-      <sky-help-inline
-        *ngIf="(helpPopoverContent || helpKey) && !headingHidden"
-        [helpKey]="helpKey"
-        [labelText]="headingText"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
+      @if ((helpPopoverContent || helpKey) && !headingHidden) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="headingText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
     } @else {
       <ng-content select="sky-box-header" />
     }

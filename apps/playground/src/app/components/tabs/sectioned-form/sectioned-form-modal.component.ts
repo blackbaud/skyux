@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -20,7 +19,6 @@ import { SectionedFormPhoneFormDemoComponent } from './sectioned-form-phone-form
   templateUrl: './sectioned-form-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     SkyIconModule,
     SkyModalModule,
     SkySectionedFormModule,
