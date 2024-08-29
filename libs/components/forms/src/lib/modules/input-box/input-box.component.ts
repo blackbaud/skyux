@@ -17,9 +17,7 @@ import {
   Renderer2,
   TemplateRef,
   ViewEncapsulation,
-  booleanAttribute,
   inject,
-  input,
 } from '@angular/core';
 import {
   AbstractControlDirective,
@@ -169,13 +167,6 @@ export class SkyInputBoxComponent
   public get hintText(): string | undefined {
     return this.#_hintText;
   }
-
-  /**
-   * @internal
-   */
-  public errorsScreenReaderOnly = input(false, {
-    transform: booleanAttribute,
-  });
 
   public hostInputTemplate: TemplateRef<unknown> | undefined;
 

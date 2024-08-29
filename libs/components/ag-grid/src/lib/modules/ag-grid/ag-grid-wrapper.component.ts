@@ -48,6 +48,7 @@ import {
 import { agGridTheme } from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { SkyCellType } from './types/cell-type';
 
 let idIndex = 0;
 
@@ -191,6 +192,12 @@ export class SkyAgGridWrapperComponent
               ...this.#wrapperClasses.getValue(),
               ...addClasses,
             ]);
+            if (
+              types.includes(SkyCellType.Template) &&
+              params.rowIndex !== null
+            ) {
+              this.agGrid?.api.setFocusedCell(params.rowIndex, params.column);
+            }
           }
         });
       this.agGrid.cellEditingStopped

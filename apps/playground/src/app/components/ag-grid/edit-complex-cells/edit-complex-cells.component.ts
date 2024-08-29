@@ -339,12 +339,6 @@ export class EditComplexCellsComponent implements OnInit {
       }
     });
 
-    this.gridApi.addEventListener('cellEditingStarted', (params) => {
-      if (params.colDef?.type === SkyCellType.Template) {
-        this.gridApi.setFocusedCell(params.rowIndex, params.column);
-      }
-    });
-
     this.sizeGrid();
   }
 

@@ -13,25 +13,24 @@
   >
     <sky-dropdown-button>
       <sky-icon icon="sort" />
-      <span *ngIf="showButtonText" class="sky-sort-btn-text">
-        {{ 'skyux_sort_button_label' | skyLibResources }}
-      </span>
+      @if (showButtonText) {
+        <span class="sky-sort-btn-text">
+          {{ 'skyux_sort_button_label' | skyLibResources }}
+        </span>
+      }
     </sky-dropdown-button>
     <sky-dropdown-menu
       ariaRole="menu"
       [ariaLabelledBy]="sortMenuHeading.id"
       (click)="dropdownClicked()"
     >
-      <sky-sort-menu-heading
-        skyId
-        #sortMenuHeading="skyId"
-      ></sky-sort-menu-heading>
+      <sky-sort-menu-heading #sortMenuHeading="skyId" skyId />
       <div *skyThemeIf="'default'" class="sky-sort-heading-divider"></div>
-      <ng-container *ngFor="let item of sortItems">
+      @for (item of sortItems; track item) {
         <sky-dropdown-item>
-          <ng-container [ngTemplateOutlet]="item.itemTemplate!"></ng-container>
+          <ng-container [ngTemplateOutlet]="item.itemTemplate!" />
         </sky-dropdown-item>
-      </ng-container>
+      }
     </sky-dropdown-menu>
   </sky-dropdown>
 </div>
