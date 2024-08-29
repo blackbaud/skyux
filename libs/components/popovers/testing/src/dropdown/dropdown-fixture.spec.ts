@@ -37,19 +37,18 @@ const DATA_SKY_ID = 'test-dropdown';
         [ariaRole]="dropdownMenuAriaRole"
         (menuChanges)="onMenuChanges($event)"
       >
-        <sky-dropdown-item
-          *ngFor="let item of items; index as i"
-          [ariaRole]="i === 2 ? 'item-custom-role' : null"
-        >
-          <button
-            type="button"
-            [attr.data-test-id]="'my-button-' + i"
-            [attr.disabled]="item.disabled ? '' : null"
-            (click)="onItemClick()"
-          >
-            {{ item.name }}
-          </button>
-        </sky-dropdown-item>
+        @for (item of items; track item.name; let i = $index) {
+          <sky-dropdown-item [ariaRole]="i === 2 ? 'item-custom-role' : null">
+            <button
+              type="button"
+              [attr.data-test-id]="'my-button-' + i"
+              [attr.disabled]="item.disabled ? '' : null"
+              (click)="onItemClick()"
+            >
+              {{ item.name }}
+            </button>
+          </sky-dropdown-item>
+        }
       </sky-dropdown-menu>
     </sky-dropdown>
   `,

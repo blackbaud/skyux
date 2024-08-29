@@ -22,37 +22,40 @@
     [attr.aria-owns]="(tabIdSvc.ids | async)?.join(' ') || undefined"
     [attr.role]="isMobile ? undefined : ariaRole"
   ></span>
-  <div
-    *ngIf="maintainTabContent || tabService.tabsVisible()"
-    class="sky-vertical-tabset-group-container"
-    [@tabGroupEnter]="tabService.animationTabsVisibleState"
-    [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
-    (keydown.arrowdown)="tabGroupsArrowDown(); $event.preventDefault()"
-    (keydown.arrowup)="tabGroupsArrowUp(); $event.preventDefault()"
-    (focusin)="tabGroupsFocusIn()"
-    (focusout)="tabGroupsFocusOut()"
-    #groupContainerWrapper
-  >
-    <ng-content />
-  </div>
-  <div
-    *ngIf="maintainTabContent || tabService.contentVisible()"
-    class="sky-vertical-tabset-content"
-    [ngClass]="{
-      'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
-    }"
-    [@contentEnter]="tabService.animationContentVisibleState"
-    #contentContainerWrapper
-  >
-    <div #skySideContent></div>
-    <button
-      *ngIf="!tabService.tabsVisible()"
-      (click)="tabService.showTabs()"
-      class="sky-btn sky-btn-primary sky-vertical-tabset-show-tabs-btn"
-      type="button"
+  @if (maintainTabContent || tabService.tabsVisible()) {
+    <div
+      #groupContainerWrapper
+      class="sky-vertical-tabset-group-container"
+      [@tabGroupEnter]="tabService.animationTabsVisibleState"
+      [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+      (keydown.arrowdown)="tabGroupsArrowDown(); $event.preventDefault()"
+      (keydown.arrowup)="tabGroupsArrowUp(); $event.preventDefault()"
+      (focusin)="tabGroupsFocusIn()"
+      (focusout)="tabGroupsFocusOut()"
     >
-      <sky-icon icon="chevron-left" />
-      {{ showTabsText }}
-    </button>
-  </div>
+      <ng-content />
+    </div>
+  }
+  @if (maintainTabContent || tabService.contentVisible()) {
+    <div
+      #contentContainerWrapper
+      class="sky-vertical-tabset-content"
+      [ngClass]="{
+        'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
+      }"
+      [@contentEnter]="tabService.animationContentVisibleState"
+    >
+      <div #skySideContent></div>
+      @if (!tabService.tabsVisible()) {
+        <button
+          class="sky-btn sky-btn-primary sky-vertical-tabset-show-tabs-btn"
+          type="button"
+          (click)="tabService.showTabs()"
+        >
+          <sky-icon icon="chevron-left" />
+          {{ showTabsText }}
+        </button>
+      }
+    </div>
+  }
 </div>

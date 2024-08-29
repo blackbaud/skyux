@@ -7,10 +7,14 @@
     *skyThemeIf="'default'"
     class="sky-progress-indicator-status-marker-icon"
   >
-    <sky-icon *ngIf="isComplete" icon="check" />
+    @if (isComplete) {
+      <sky-icon icon="check" />
+    }
   </div>
   <div *skyThemeIf="'modern'" class="sky-progress-indicator-status-marker-icon">
-    <sky-icon *ngIf="isComplete" icon="check" />
+    @if (isComplete) {
+      <sky-icon icon="check" />
+    }
   </div>
   <div class="sky-progress-indicator-status-marker-line"></div>
 </div>

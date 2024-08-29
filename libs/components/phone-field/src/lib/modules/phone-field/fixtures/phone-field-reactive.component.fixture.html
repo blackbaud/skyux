@@ -1,7 +1,7 @@
 <form [formGroup]="phoneForm">
   <label for="phone-field-reactive-input">Reactive phone field</label>
+  @if (showPhoneField) {
   <sky-phone-field
-    *ngIf="showPhoneField"
     [allowExtensions]="allowExtensions"
     [defaultCountry]="defaultCountry"
     [returnFormat]="returnFormat"
@@ -15,8 +15,9 @@
       [skyPhoneFieldNoValidate]="noValidate"
     />
   </sky-phone-field>
-
-  <div *ngIf="showInvalidDirective">
+  } @if (showInvalidDirective) {
+  <div>
     <input type="text" skyPhoneFieldInput />
   </div>
+  }
 </form>
