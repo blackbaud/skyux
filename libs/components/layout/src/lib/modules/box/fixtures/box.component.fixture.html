@@ -10,9 +10,11 @@
   [helpPopoverContent]="helpPopoverContent"
   [helpPopoverTitle]="helpPopoverTitle"
 >
-  <sky-box-header *ngIf="showHeader">
+  @if (showHeader) {
+  <sky-box-header>
     <h2 class="sky-font-heading-2" id="my-header">Header</h2>
   </sky-box-header>
+  }
   <sky-box-controls>
     <button class="sky-btn sky-btn-default sky-btn-icon" type="button">
       X

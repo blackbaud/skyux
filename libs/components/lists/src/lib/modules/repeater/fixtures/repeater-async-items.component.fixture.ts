@@ -6,11 +6,13 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'sky-test-cmp',
   template: `
     <sky-repeater [activeIndex]="activeIndex">
-      <sky-repeater-item *ngFor="let item of asyncData | async">
-        <sky-repeater-item-title>
-          {{ item.title }}
-        </sky-repeater-item-title>
-      </sky-repeater-item>
+      @for (item of asyncData | async; track item.id) {
+        <sky-repeater-item>
+          <sky-repeater-item-title>
+            {{ item.title }}
+          </sky-repeater-item-title>
+        </sky-repeater-item>
+      }
     </sky-repeater>
   `,
 })

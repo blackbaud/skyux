@@ -12,14 +12,17 @@ const DATA_SKY_ID = 'test-infinite-scroll';
   selector: 'sky-infinite-scroll-fixture',
   template: `
     <ul style="scroll-behavior: auto; height: 40px;">
-      <li *ngFor="let i of items">{{ i }}</li>
-      <li *ngIf="items.length === 0"><em>(no items)</em></li>
+      @for (i of items; track i) {
+        <li>{{ i }}</li>
+      }
+      @if (items.length === 0) {
+        <li><em>(no items)</em></li>
+      }
       <sky-infinite-scroll
         data-sky-id="${DATA_SKY_ID}"
         [enabled]="true"
         (scrollEnd)="loadMore()"
-      >
-      </sky-infinite-scroll>
+      />
     </ul>
   `,
 })
