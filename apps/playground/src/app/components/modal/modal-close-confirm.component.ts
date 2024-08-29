@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -14,7 +13,7 @@ import {
   standalone: true,
   selector: 'app-test-cmp-modal-close-confirm',
   templateUrl: './modal-close-confirm.component.html',
-  imports: [CommonModule, FormsModule, SkyModalModule],
+  imports: [FormsModule, SkyModalModule],
 })
 export class ModalCloseConfirmComponent {
   public showHelp = false;

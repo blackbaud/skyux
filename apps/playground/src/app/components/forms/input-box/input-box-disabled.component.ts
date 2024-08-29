@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -9,7 +8,7 @@ import {
 import { SkyInputBoxModule } from '@skyux/forms';
 
 @Component({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyInputBoxModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyInputBoxModule],
   standalone: true,
   template: `
     <form novalidate [formGroup]="formGroup">
