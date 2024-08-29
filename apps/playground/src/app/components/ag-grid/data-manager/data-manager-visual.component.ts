@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
@@ -16,7 +15,6 @@ import { LocalStorageConfigService } from './local-storage-config.service';
   selector: 'app-data-manager-visual',
   standalone: true,
   imports: [
-    CommonModule,
     SkyDataManagerModule,
     DataViewGridComponent,
     DataViewRepeaterComponent,

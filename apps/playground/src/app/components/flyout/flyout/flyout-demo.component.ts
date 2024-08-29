@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
@@ -13,7 +12,7 @@ import { FlyoutModalDemoComponent } from './flyout-modal.component';
   standalone: true,
   selector: 'app-flyout-demo',
   templateUrl: './flyout-demo.component.html',
-  imports: [CommonModule, SkyDropdownModule, SkyInfiniteScrollModule],
+  imports: [SkyDropdownModule, SkyInfiniteScrollModule],
 })
 export class FlyoutDemoComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

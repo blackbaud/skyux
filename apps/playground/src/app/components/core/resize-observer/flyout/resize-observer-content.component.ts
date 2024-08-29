@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -21,7 +20,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './resize-observer-content.component.html',
   styleUrls: ['./resize-observer-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkySectionedFormModule],
+  imports: [SkySectionedFormModule],
   providers: [
     SkyResizeObserverMediaQueryService,
     {

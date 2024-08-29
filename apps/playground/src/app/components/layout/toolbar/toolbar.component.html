@@ -175,17 +175,22 @@
       </button>
     </sky-toolbar-view-actions>
   </sky-toolbar>
-  <p *ngFor="let number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio,
-    sed congue tellus. Donec sed viverra ligula. Suspendisse sodales vitae
-    sapien in interdum. Integer interdum velit vel lacus porttitor tristique. Ut
-    et libero erat. Aliquam rutrum, felis at ullamcorper volutpat, justo turpis
-    molestie magna, ac iaculis purus tellus blandit massa. Aenean porta erat
-    massa, non molestie urna lobortis sit amet. Aliquam tincidunt enim viverra
-    tortor tempor, vel faucibus ligula cursus. In mollis dolor eu tempor
-    lacinia. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mi
-    nisi, pellentesque non felis in, molestie molestie nunc. Nunc sit amet
-    ullamcorper risus.
-  </p>
+  @for (
+    number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    track number
+  ) {
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod
+      odio, sed congue tellus. Donec sed viverra ligula. Suspendisse sodales
+      vitae sapien in interdum. Integer interdum velit vel lacus porttitor
+      tristique. Ut et libero erat. Aliquam rutrum, felis at ullamcorper
+      volutpat, justo turpis molestie magna, ac iaculis purus tellus blandit
+      massa. Aenean porta erat massa, non molestie urna lobortis sit amet.
+      Aliquam tincidunt enim viverra tortor tempor, vel faucibus ligula cursus.
+      In mollis dolor eu tempor lacinia. Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit. Nulla mi nisi, pellentesque non felis in, molestie
+      molestie nunc. Nunc sit amet ullamcorper risus.
+    </p>
+  }
   <p id="viewkeeper-bottom">That's all folks</p>
 </div>

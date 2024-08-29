@@ -26,15 +26,16 @@
           />
 
           <span class="sky-error-indicator" skyId #characterCountError="skyId">
-            <sky-status-indicator
-              *ngIf="description.errors?.['skyCharacterCounter']"
-              data-sky-id="description-status-indicator-over-limit"
-              descriptionType="error"
-              indicatorType="danger"
-            >
-              Limit Transaction description to
-              {{ maxDescriptionCharacterCount }} characters.
-            </sky-status-indicator>
+            @if (description.errors?.['skyCharacterCounter']) {
+              <sky-status-indicator
+                data-sky-id="description-status-indicator-over-limit"
+                descriptionType="error"
+                indicatorType="danger"
+              >
+                Limit Transaction description to
+                {{ maxDescriptionCharacterCount }} characters.
+              </sky-status-indicator>
+            }
           </span>
         </sky-input-box>
 

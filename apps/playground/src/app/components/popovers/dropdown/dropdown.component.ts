@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -35,7 +34,7 @@ import { DropdownExampleComponent } from './dropdown-example.component';
       }
     `,
   ],
-  imports: [SkyCheckboxModule, FormsModule, DropdownExampleComponent, NgIf],
+  imports: [SkyCheckboxModule, FormsModule, DropdownExampleComponent],
 })
 export class DropdownComponent {
   protected disabledState = model(true);

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
@@ -9,21 +8,22 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
     <sky-modal>
       <sky-modal-content> Modal content... </sky-modal-content>
       <sky-modal-footer>
-        <button
-          *ngIf="visible"
-          class="sky-btn-default"
-          type="button"
-          (click)="visible = false"
-        >
-          Click to delete
-        </button>
+        @if (visible) {
+          <button
+            class="sky-btn-default"
+            type="button"
+            (click)="visible = false"
+          >
+            Click to delete
+          </button>
+        }
         <button class="sky-btn sky-btn-primary" type="button" (click)="close()">
           Close
         </button>
       </sky-modal-footer>
     </sky-modal>
   `,
-  imports: [CommonModule, SkyModalModule],
+  imports: [SkyModalModule],
 })
 export class FlyoutModalDemoComponent {
   public visible = true;

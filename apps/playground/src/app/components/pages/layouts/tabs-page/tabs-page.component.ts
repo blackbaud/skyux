@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyTabsModule } from '@skyux/tabs';
@@ -9,7 +8,6 @@ import { SplitViewContentComponent } from '../shared/split-view-content/split-vi
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
     DataManagerVisualComponent,
     SkyPageModule,
     SkyTabsModule,
