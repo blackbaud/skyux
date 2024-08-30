@@ -196,6 +196,16 @@ export function eventTypeStrings(tree: Tree, path: string): void {
       }
     }
   });
+  const stringReplace: Record<string, string> = {
+    "addEventListener('rowDataChanged'": `addEventListener('rowDataUpdated'`,
+  };
+  Object.entries(stringReplace).forEach(([oldString, newString]) => {
+    const oldStringIndex = content.indexOf(oldString);
+    if (oldStringIndex !== -1) {
+      recorder.remove(oldStringIndex, oldString.length);
+      recorder.insertLeft(oldStringIndex, newString);
+    }
+  });
   tree.commitUpdate(recorder);
   removeImport(tree, path, sourceFile, content, {
     classNames: ['Events'],

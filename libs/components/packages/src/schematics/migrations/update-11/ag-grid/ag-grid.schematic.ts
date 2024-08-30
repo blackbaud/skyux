@@ -79,7 +79,7 @@ function swapGridOptionsApiToGridApi(tree: Tree, path: string): void {
   }
   if (content.includes('columnApi = ')) {
     const instances = content.matchAll(
-      /(?<=\bthis\.[_#]?columnApi = \w+\.)columnApi(?=;)/g,
+      /(?<=\bthis\.[_#]?[A-Za-z]*[Cc]olumnApi = \w+\.|event\.)columnApi(?=[.;])/g,
     );
     for (const instance of instances) {
       recorder.remove(instance.index, instance[0].length);

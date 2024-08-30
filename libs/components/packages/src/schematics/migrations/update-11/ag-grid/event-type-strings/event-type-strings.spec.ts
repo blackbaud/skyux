@@ -126,4 +126,25 @@ describe('event-type-strings', () => {
       `,
     );
   });
+
+  it('should update rowDataChanged to rowDataUpdated', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'migration-test',
+    });
+    tree.create(
+      '/src/app/test.component.ts',
+      `
+      import { GridOptions } from 'ag-grid-community';
+      params.api.addEventListener('rowDataChanged', handler);
+      `,
+    );
+
+    eventTypeStrings(tree, '/src/app/test.component.ts');
+    expect(tree.readText('/src/app/test.component.ts')).toEqual(
+      `
+      import { GridOptions } from 'ag-grid-community';
+      params.api.addEventListener('rowDataUpdated', handler);
+      `,
+    );
+  });
 });
