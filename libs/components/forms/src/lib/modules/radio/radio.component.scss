@@ -7,11 +7,9 @@
 
 :host-context(sky-radio-group):not(:has(li)) {
   :host:not(:has(.sky-switch-control-icon)) {
-    background-color: hotpink;
     display: block;
 
     &:not(:last-child) {
-      background-color: limegreen;
       margin-bottom: var(--sky-margin-stacked-sm);
     }
   }
