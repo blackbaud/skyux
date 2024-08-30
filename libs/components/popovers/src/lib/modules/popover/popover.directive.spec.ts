@@ -5,7 +5,8 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_STACKING_CONTEXT,
   SkyAffixAutoFitContext,
@@ -23,6 +24,7 @@ import {
 
 import { BehaviorSubject, Subject } from 'rxjs';
 
+import { PopoverA11yTestComponent } from './fixtures/popover-a11y.component.fixture';
 import { PopoverFixtureComponent } from './fixtures/popover.component.fixture';
 import { PopoverFixturesModule } from './fixtures/popover.module.fixture';
 import { SkyPopoverAdapterService } from './popover-adapter.service';
@@ -1080,5 +1082,72 @@ describe('Popover directive', () => {
       expect(initialLeft).not.toEqual(endingArrowStyle.left);
       expect(initialTop).not.toEqual(endingArrowStyle.top);
     }));
+  });
+});
+
+describe('Popover directive accessibility', () => {
+  function getPopoverEl(): HTMLElement | null {
+    return document.querySelector('sky-popover-content') as HTMLElement | null;
+  }
+
+  /**
+   * Asserts the trigger button is accessible.
+   */
+  async function expectAccessible(
+    buttonEl: HTMLButtonElement | null,
+    attrs: { ariaExpanded: string },
+  ): Promise<void> {
+    const popoverEl = getPopoverEl();
+    const ariaControls = buttonEl?.getAttribute('aria-controls');
+
+    expect(buttonEl?.getAttribute('aria-expanded')).toEqual(attrs.ariaExpanded);
+
+    if (attrs.ariaExpanded === 'true') {
+      expect(popoverEl).toExist();
+      expect(ariaControls).toBeDefined();
+      expect(ariaControls).toEqual(popoverEl?.id ?? null);
+    } else {
+      expect(popoverEl).toBeNull();
+      expect(ariaControls).toBeNull();
+    }
+
+    await expectAsync(document.body).toBeAccessible({
+      rules: {
+        region: {
+          enabled: false,
+        },
+      },
+    });
+  }
+
+  it('should be accessible', async () => {
+    TestBed.configureTestingModule({
+      imports: [PopoverA11yTestComponent, NoopAnimationsModule],
+    });
+
+    const fixture = TestBed.createComponent(PopoverA11yTestComponent);
+
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector(
+      'button[data-sky-id="triggerEl"]',
+    ) as HTMLButtonElement;
+
+    // Open the popover.
+    btn.click();
+    fixture.detectChanges();
+
+    await expectAccessible(btn, {
+      ariaExpanded: 'true',
+    });
+
+    // Close the popover.
+    btn.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAccessible(btn, {
+      ariaExpanded: 'false',
+    });
   });
 });
