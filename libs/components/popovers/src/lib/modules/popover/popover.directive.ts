@@ -5,6 +5,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Renderer2,
+  inject,
 } from '@angular/core';
 
 import { Subject, Subscription, fromEvent as observableFromEvent } from 'rxjs';
@@ -44,6 +46,16 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public set skyPopover(value: SkyPopoverComponent | undefined) {
     this.popoverId = value?.popoverId;
     this.#_popover = value;
+
+    // this.#closedSubscription?.unsubscribe();
+    // this.#closedSubscription = value?.popoverClosed.subscribe(() => {
+    //   this.#updateAriaAttributes();
+    // });
+
+    // this.#openSubscription?.unsubscribe();
+    // this.#openSubscription = value?.popoverOpened.subscribe(() => {
+    //   this.#updateAriaAttributes();
+    // });
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -93,6 +105,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     return this.#_trigger;
   }
 
+  // #closedSubscription: Subscription | undefined;
+  // #openSubscription: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
 
   #_popover: SkyPopoverComponent | undefined;
@@ -100,6 +114,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #_trigger: SkyPopoverTrigger = 'click';
 
   #elementRef: ElementRef;
+  readonly #renderer = inject(Renderer2);
 
   constructor(elementRef: ElementRef) {
     this.#elementRef = elementRef;
@@ -113,6 +128,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#removeEventListeners();
     this.#unsubscribeMessageStream();
+    // this.#closedSubscription?.unsubscribe();
+    // this.#openSubscription?.unsubscribe();
   }
 
   public togglePopover(): void {
@@ -134,6 +151,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #closePopover(): void {
     this.skyPopover?.close();
+    this.#updateAriaAttributes({ isExpanded: false });
   }
 
   #closePopoverOrMarkForClose(): void {
@@ -253,6 +271,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     switch (message.type) {
       case SkyPopoverMessageType.Open:
         this.#positionPopover();
+        this.#updateAriaAttributes({ isExpanded: true });
         break;
 
       case SkyPopoverMessageType.Close:
@@ -293,6 +312,41 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     if (this.#messageStreamSub) {
       this.#messageStreamSub.unsubscribe();
       this.#messageStreamSub = undefined;
+    }
+  }
+
+  #updateAriaAttributes(options: {
+    /**
+     * Whether the popover button should be marked as "expanded".
+     */
+    isExpanded: boolean;
+  }): void {
+    if (options.isExpanded === true) {
+      this.#renderer.setAttribute(
+        this.#elementRef.nativeElement,
+        'aria-expanded',
+        'true',
+      );
+
+      /* istanbul ignore else: safety check */
+      if (this.popoverId) {
+        this.#renderer.setAttribute(
+          this.#elementRef.nativeElement,
+          'aria-controls',
+          this.popoverId,
+        );
+      }
+    } else {
+      this.#renderer.setAttribute(
+        this.#elementRef.nativeElement,
+        'aria-expanded',
+        'false',
+      );
+
+      this.#renderer.removeAttribute(
+        this.#elementRef.nativeElement,
+        'aria-controls',
+      );
     }
   }
 }
