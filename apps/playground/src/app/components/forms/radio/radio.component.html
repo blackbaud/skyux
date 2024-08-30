@@ -50,19 +50,17 @@
       [stacked]="true"
       [headingStyle]="headingStyle"
     >
-      <ul class="sky-list-unstyled">
-        <li *ngFor="let value of seasons">
-          <sky-radio [value]="value" [disabled]="value.disabled">
-            <sky-radio-label>
-              {{ value.name }}
-              <sky-help-inline
-                *ngIf="showInlineHelp"
-                class="sky-control-help"
-              ></sky-help-inline>
-            </sky-radio-label>
-          </sky-radio>
-        </li>
-      </ul>
+      @for (value of seasons; track value) {
+        <sky-radio [value]="value" [disabled]="value.disabled">
+          <sky-radio-label>
+            {{ value.name }}
+            <sky-help-inline
+              *ngIf="showInlineHelp"
+              class="sky-control-help"
+            ></sky-help-inline>
+          </sky-radio-label>
+        </sky-radio>
+      }
       <sky-form-error
         *ngIf="favoriteSeason.errors?.['incorrectSeason']"
         errorName="incorrectSeason"

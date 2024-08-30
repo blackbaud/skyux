@@ -8,17 +8,15 @@
       [helpPopoverTitle]="helpPopoverTitle"
       [hintText]="hintText"
     >
-      <ul class="sky-list-unstyled">
-        <li *ngFor="let option of paymentOptions">
-          <sky-radio
-            [disabled]="option.disabled"
-            [value]="option.value"
-            [labelText]="option.name"
-            [helpPopoverContent]="option.helpContent"
-            [hintText]="option.hintText"
-          />
-        </li>
-      </ul>
+      @for (option of paymentOptions; track option) {
+        <sky-radio
+          [disabled]="option.disabled"
+          [value]="option.value"
+          [labelText]="option.name"
+          [helpPopoverContent]="option.helpContent"
+          [hintText]="option.hintText"
+        />
+      }
       <sky-form-error
         *ngIf="paymentMethod.errors?.['processingIssue']"
         errorName="processingIssue"
