@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.41.5](https://github.com/blackbaud/skyux/compare/10.41.4...10.41.5) (2024-08-26)
+
+
+### Bug Fixes
+
+* **components/lists:** selectable repeater items do not log a checkbox `label` deprecation warning ([#2641](https://github.com/blackbaud/skyux/issues/2641)) ([110bfdf](https://github.com/blackbaud/skyux/commit/110bfdfeaa2c79417b9970b7fbee2c821febe660))
+
 ## [11.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.12...11.0.0-alpha.13) (2024-08-27)
 
 
