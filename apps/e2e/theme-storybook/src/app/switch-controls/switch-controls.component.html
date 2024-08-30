@@ -17,15 +17,13 @@
 
   <div class="sky-margin-stacked-default" id="screenshot-radio">
     <sky-radio-group formControlName="radioControl">
-      <ul class="sky-list-unstyled">
-        <li *ngFor="let option of radioOptions">
-          <sky-radio [disabled]="option.disabled" [value]="option.name">
-            <sky-radio-label>
-              {{ option.name }}
-            </sky-radio-label>
-          </sky-radio>
-        </li>
-      </ul>
+      @for (option of radioOptions; track option) {
+        <sky-radio [disabled]="option.disabled" [value]="option.name">
+          <sky-radio-label>
+            {{ option.name }}
+          </sky-radio-label>
+        </sky-radio>
+      }
     </sky-radio-group>
   </div>
 
@@ -49,25 +47,27 @@
   <div id="screenshot-radio-icon-group">
     <div class="sky-switch-icon-group sky-margin-stacked-default">
       <sky-radio-group formControlName="radioIconGroupControl">
-        <sky-radio
-          *ngFor="let option of radioGroupIconOptions"
-          [disabled]="option.disabled"
-          [icon]="option.icon"
-          [value]="option.name"
-        >
-        </sky-radio>
+        @for (option of radioGroupIconOptions; track option) {
+          <sky-radio
+            *ngFor="let option of radioGroupIconOptions"
+            [disabled]="option.disabled"
+            [icon]="option.icon"
+            [value]="option.name"
+          />
+        }
       </sky-radio-group>
     </div>
 
     <div class="sky-switch-icon-group sky-margin-stacked-default">
       <sky-radio-group formControlName="radioIconGroupDisabledControl">
-        <sky-radio
-          *ngFor="let option of radioGroupIconDisabledOptions"
-          [disabled]="option.disabled"
-          [icon]="option.icon"
-          [value]="option.name"
-        >
-        </sky-radio>
+        @for (option of radioGroupIconDisabledOptions; track option) {
+          <sky-radio
+            *ngFor="let option of radioGroupIconDisabledOptions"
+            [disabled]="option.disabled"
+            [icon]="option.icon"
+            [value]="option.name"
+          />
+        }
       </sky-radio-group>
     </div>
   </div>

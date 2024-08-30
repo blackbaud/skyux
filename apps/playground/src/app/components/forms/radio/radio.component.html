@@ -50,20 +50,16 @@
       [stacked]="true"
       [headingStyle]="headingStyle"
     >
-      <ul class="sky-list-unstyled">
-        @for (value of seasons; track value) {
-          <li>
-            <sky-radio [value]="value" [disabled]="value.disabled">
-              <sky-radio-label>
-                {{ value.name }}
-                @if (showInlineHelp) {
-                  <sky-help-inline class="sky-control-help"></sky-help-inline>
-                }
-              </sky-radio-label>
-            </sky-radio>
-          </li>
-        }
-      </ul>
+      @for (value of seasons; track value) {
+        <sky-radio [value]="value" [disabled]="value.disabled">
+          <sky-radio-label>
+            {{ value.name }}
+            @if (showInlineHelp) {
+              <sky-help-inline class="sky-control-help"></sky-help-inline>
+            }
+          </sky-radio-label>
+        </sky-radio>
+      }
       @if (favoriteSeason.errors?.['incorrectSeason']) {
         <sky-form-error
           errorName="incorrectSeason"
@@ -109,20 +105,16 @@
     [headingHidden]="true"
     #foo="ngModel"
   >
-    <ul class="sky-list-unstyled">
-      @for (item of seasons; track item) {
-        <li>
-          <sky-radio [value]="item.name" [disabled]="item.disabled">
-            <sky-radio-label>
-              {{ item.name }}
-              @if (showInlineHelp) {
-                <sky-help-inline class="sky-control-help"></sky-help-inline>
-              }
-            </sky-radio-label>
-          </sky-radio>
-        </li>
-      }
-    </ul>
+    @for (item of seasons; track item) {
+      <sky-radio [value]="item.name" [disabled]="item.disabled">
+        <sky-radio-label>
+          {{ item.name }}
+          @if (showInlineHelp) {
+            <sky-help-inline class="sky-control-help"></sky-help-inline>
+          }
+        </sky-radio-label>
+      </sky-radio>
+    }
   </sky-radio-group>
 </div>
 
@@ -136,18 +128,14 @@
     headingText="What is your favorite season?"
     #foo="ngModel"
   >
-    <ul class="sky-list-unstyled">
-      @for (item of seasons; track item) {
-        <li>
-          <sky-radio
-            [value]="item.name"
-            [disabled]="item.disabled"
-            [labelText]="item.name"
-            [helpPopoverContent]="showInlineHelp ? 'help content' : undefined"
-          />
-        </li>
-      }
-    </ul>
+    @for (item of seasons; track item) {
+      <sky-radio
+        [value]="item.name"
+        [disabled]="item.disabled"
+        [labelText]="item.name"
+        [helpPopoverContent]="showInlineHelp ? 'help content' : undefined"
+      />
+    }
   </sky-radio-group>
 </div>
 
