@@ -7,7 +7,7 @@
       />
     </sky-toolbar-item>
   </sky-toolbar-section>
-  @if (appliedFilters?.length > 0) {
+  @if (appliedFilters && appliedFilters.length > 0) {
     <sky-toolbar-section>
       <sky-filter-summary>
         @for (item of appliedFilters; track item; let i = $index) {
