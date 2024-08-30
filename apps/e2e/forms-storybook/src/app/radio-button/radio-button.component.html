@@ -23,14 +23,14 @@
       stacked="true"
     >
       <div class="sky-switch-icon-group">
-        <sky-radio
-          *ngFor="let option of radioIconOptions"
-          [icon]="option.icon"
-          [label]="option.label"
-          [value]="option.name"
-          [disabled]="option.disabled"
-        >
-        </sky-radio>
+        @for (option of radioIconOptions; track option) {
+          <sky-radio
+            [icon]="option.icon"
+            [label]="option.label"
+            [value]="option.name"
+            [disabled]="option.disabled"
+          />
+        }
       </div>
     </sky-radio-group>
     <sky-radio-group
@@ -57,7 +57,6 @@
       <div class="sky-switch-icon-group">
         @for (option of radioIconOptions; track option) {
           <sky-radio
-            *ngFor="let option of radioIconOptions"
             [icon]="option.icon"
             [label]="option.label"
             [value]="option.name"
@@ -111,7 +110,6 @@
       <div class="sky-switch-icon-group">
         @for (option of radioIconOptions; track option) {
           <sky-radio
-            *ngFor="let option of radioIconOptions"
             [icon]="option.icon"
             [label]="option.label"
             [value]="option.name"

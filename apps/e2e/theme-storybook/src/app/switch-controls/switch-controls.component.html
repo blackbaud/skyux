@@ -49,7 +49,6 @@
       <sky-radio-group formControlName="radioIconGroupControl">
         @for (option of radioGroupIconOptions; track option) {
           <sky-radio
-            *ngFor="let option of radioGroupIconOptions"
             [disabled]="option.disabled"
             [icon]="option.icon"
             [value]="option.name"
@@ -62,7 +61,6 @@
       <sky-radio-group formControlName="radioIconGroupDisabledControl">
         @for (option of radioGroupIconDisabledOptions; track option) {
           <sky-radio
-            *ngFor="let option of radioGroupIconDisabledOptions"
             [disabled]="option.disabled"
             [icon]="option.icon"
             [value]="option.name"
