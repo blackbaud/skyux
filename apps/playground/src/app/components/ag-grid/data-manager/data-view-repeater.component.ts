@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,7 +23,6 @@ import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
   selector: 'app-data-view-repeater',
   standalone: true,
   imports: [
-    CommonModule,
     DataManagerPagedItemsPipe,
     SkyDataManagerModule,
     SkyPagingModule,

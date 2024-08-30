@@ -1,4 +1,3 @@
-import { NgForOf } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -6,7 +5,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
 @Component({
   selector: 'app-dropdown-example',
   standalone: true,
-  imports: [NgForOf, SkyDropdownModule, SkyIconModule],
+  imports: [SkyDropdownModule, SkyIconModule],
   templateUrl: './dropdown-example.component.html',
   styles: `
     :host {

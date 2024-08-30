@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyPageModule } from '@skyux/pages';
 
@@ -6,7 +5,7 @@ import { SplitViewContentComponent } from '../shared/split-view-content/split-vi
 
 @Component({
   standalone: true,
-  imports: [CommonModule, SkyPageModule, SplitViewContentComponent],
+  imports: [SkyPageModule, SplitViewContentComponent],
   templateUrl: './fit-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

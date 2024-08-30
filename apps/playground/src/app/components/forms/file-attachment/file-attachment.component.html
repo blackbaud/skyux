@@ -13,10 +13,12 @@
     (filesChanged)="filesUpdated($event)"
     (linkChanged)="linkAdded($event)"
   />
-  <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)">
-    </sky-file-item>
-  </div>
+  @for (file of allItems; track file) {
+    <div>
+      <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)">
+      </sky-file-item>
+    </div>
+  }
 </div>
 
 <form [formGroup]="formGroup">

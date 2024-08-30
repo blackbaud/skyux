@@ -40,10 +40,10 @@
         <sky-lookup
           formControlName="favoriteName"
           selectMode="single"
-          (addClick)="onAddButtonClicked()"
           [data]="people"
           [enableShowMore]="true"
           [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
         />
       </sky-input-box>
     </div>
@@ -70,17 +70,17 @@
     <!-- TODO: Set this to easy mode when AB#2843045 is fixed -->
     <div class="sky-form-group">
       <sky-input-box stacked="true" hintText="Lookup items.">
-        <label class="sky-control-label" skyId #favoritePeopleLabel="skyId">
+        <label #favoritePeopleLabel="skyId" class="sky-control-label" skyId>
           Lookup field with multiple select
         </label>
         <sky-lookup
           formControlName="favoritePeople"
           selectMode="multiple"
-          (addClick)="onAddButtonClicked()"
           [ariaLabelledBy]="favoritePeopleLabel.id"
           [data]="people"
           [enableShowMore]="true"
           [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
         />
       </sky-input-box>
     </div>
@@ -107,9 +107,9 @@
     <div class="sky-form-group">
       <sky-input-box
         stacked="true"
-        [characterLimit]="characterCounterLimit"
         labelText="Favorite word"
         hintText="Enter favorite word."
+        [characterLimit]="characterCounterLimit"
       >
         <input formControlName="favoriteWord" type="text" />
       </sky-input-box>
@@ -160,11 +160,11 @@
           Text field
         </label>
         <input
+          #favoriteText="skyId"
           class="sky-form-control"
           type="text"
           formControlName="favoriteText"
           skyId
-          #favoriteText="skyId"
         />
       </sky-input-box>
     </div>
@@ -176,14 +176,14 @@
         <label class="sky-control-label" [for]="favoriteTextInputWithHelp.id">
           Text field with help
         </label>
-        <sky-help-inline class="sky-control-help"></sky-help-inline>
+        <sky-help-inline class="sky-control-help" />
         <input
+          #favoriteTextInputWithHelp="skyId"
           formControlName="favoriteText"
           type="text"
           spellcheck="false"
           class="sky-form-control"
           skyId
-          #favoriteTextInputWithHelp="skyId"
         />
       </sky-input-box>
     </div>
@@ -191,17 +191,17 @@
 
     <div class="sky-form-group">
       <sky-input-box stacked="true" hintText="Lookup items.">
-        <label class="sky-control-label" skyId #favoriteNameLabel="skyId">
+        <label #favoriteNameLabel="skyId" class="sky-control-label" skyId>
           Lookup field
         </label>
         <sky-lookup
           formControlName="favoriteName"
           selectMode="single"
-          (addClick)="onAddButtonClicked()"
           [ariaLabelledBy]="favoriteNameLabel.id"
           [data]="people"
           [enableShowMore]="true"
           [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
         />
       </sky-input-box>
     </div>
@@ -210,7 +210,7 @@
     <!-- In default theme, the non-button icon does not use the same height. -->
     <div *skyThemeIf="'modern'" class="sky-form-group">
       <sky-input-box stacked="true" hintText="Lookup items.">
-        <label class="sky-control-label" skyId #favoriteNameLabelNoAdd="skyId">
+        <label #favoriteNameLabelNoAdd="skyId" class="sky-control-label" skyId>
           Lookup field without show more or add button
         </label>
         <sky-lookup
@@ -227,17 +227,17 @@
 
     <div class="sky-form-group">
       <sky-input-box stacked="true" hintText="Lookup items.">
-        <label class="sky-control-label" skyId #favoritePeopleLabel="skyId">
+        <label #favoritePeopleLabel="skyId" class="sky-control-label" skyId>
           Lookup field with multiple select
         </label>
         <sky-lookup
           formControlName="favoritePeople"
           selectMode="multiple"
-          (addClick)="onAddButtonClicked()"
           [ariaLabelledBy]="favoritePeopleLabel.id"
           [data]="people"
           [enableShowMore]="true"
           [showAddButton]="true"
+          (addClick)="onAddButtonClicked()"
         />
       </sky-input-box>
     </div>
@@ -247,9 +247,9 @@
     <div *skyThemeIf="'modern'" class="sky-form-group">
       <sky-input-box stacked="true" hintText="Lookup items.">
         <label
+          #favoritePeopleLabelNoAdd="skyId"
           class="sky-control-label"
           skyId
-          #favoritePeopleLabelNoAdd="skyId"
         >
           Lookup field without show more or add button, multiple select
         </label>
@@ -270,11 +270,10 @@
         ><label class="sky-control-label" [for]="favoriteWordInput.id">
           Favorite word
         </label>
-        <sky-character-counter-indicator
-          #characterCountIndicator
-        ></sky-character-counter-indicator>
+        <sky-character-counter-indicator #characterCountIndicator />
 
         <input
+          #favoriteWordInput="skyId"
           class="sky-form-control"
           formControlName="favoriteWord"
           type="text"
@@ -283,22 +282,22 @@
           [skyCharacterCounterIndicator]="characterCountIndicator"
           [skyCharacterCounterLimit]="characterCounterLimit"
           [attr.aria-describedby]="characterCountError.id"
-          #favoriteWordInput="skyId"
         />
 
         <span
+          #characterCountError="skyId"
           class="sky-error-indicator"
           skyId
-          #characterCountError="skyId"
           data-sky-id="character-counter-error"
         >
-          <sky-status-indicator
-            *ngIf="showCharacterCounterError | async"
-            indicatorType="danger"
-            descriptionType="error"
-          >
-            Limit favorite word to {{ characterCounterLimit }} characters.
-          </sky-status-indicator>
+          @if (showCharacterCounterError | async) {
+            <sky-status-indicator
+              indicatorType="danger"
+              descriptionType="error"
+            >
+              Limit favorite word to {{ characterCounterLimit }} characters.
+            </sky-status-indicator>
+          }
         </span>
       </sky-input-box>
     </div>
@@ -323,11 +322,11 @@
         </label>
         <sky-datepicker>
           <input
+            #favoriteDateInput="skyId"
             formControlName="favoriteDate"
             skyDatepickerInput
             skyId
             type="text"
-            #favoriteDateInput="skyId"
           />
         </sky-datepicker>
       </sky-input-box>
@@ -347,4 +346,6 @@
   <div *skyThemeIf="'modern'" class="height-measure"></div> -->
   </div>
 </form>
-<span *ngIf="ready | async" id="ready"></span>
+@if (ready | async) {
+  <span id="ready"></span>
+}

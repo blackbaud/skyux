@@ -33,13 +33,15 @@
 
         <div class="spacer"></div>
 
-        <div class="el2" *ngIf="el2Visible"></div>
+        @if (el2Visible) {
+          <div class="el2"></div>
+        }
 
         <div class="spacer"></div>
 
         <div class="el2"></div>
 
-        <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
+        @for (number of [0, 1, 2, 3, 4, 5]; track number) {
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -65,7 +67,7 @@
             consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla
             pariatur?
           </p>
-        </ng-container>
+        }
       </div>
     </div>
     <div class="scroll-spacer"></div>

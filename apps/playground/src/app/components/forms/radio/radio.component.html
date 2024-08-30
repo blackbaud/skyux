@@ -50,22 +50,26 @@
       [stacked]="true"
       [headingStyle]="headingStyle"
     >
-      @for (value of seasons; track value) {
-        <sky-radio [value]="value" [disabled]="value.disabled">
-          <sky-radio-label>
-            {{ value.name }}
-            <sky-help-inline
-              *ngIf="showInlineHelp"
-              class="sky-control-help"
-            ></sky-help-inline>
-          </sky-radio-label>
-        </sky-radio>
+      <ul class="sky-list-unstyled">
+        @for (value of seasons; track value) {
+          <li>
+            <sky-radio [value]="value" [disabled]="value.disabled">
+              <sky-radio-label>
+                {{ value.name }}
+                @if (showInlineHelp) {
+                  <sky-help-inline class="sky-control-help"></sky-help-inline>
+                }
+              </sky-radio-label>
+            </sky-radio>
+          </li>
+        }
+      </ul>
+      @if (favoriteSeason.errors?.['incorrectSeason']) {
+        <sky-form-error
+          errorName="incorrectSeason"
+          errorText="Spring is the best season."
+        />
       }
-      <sky-form-error
-        *ngIf="favoriteSeason.errors?.['incorrectSeason']"
-        errorName="incorrectSeason"
-        errorText="Spring is the best season."
-      />
     </sky-radio-group>
   </div>
 
@@ -106,17 +110,18 @@
     #foo="ngModel"
   >
     <ul class="sky-list-unstyled">
-      <li *ngFor="let item of seasons">
-        <sky-radio [value]="item.name" [disabled]="item.disabled">
-          <sky-radio-label>
-            {{ item.name }}
-            <sky-help-inline
-              *ngIf="showInlineHelp"
-              class="sky-control-help"
-            ></sky-help-inline>
-          </sky-radio-label>
-        </sky-radio>
-      </li>
+      @for (item of seasons; track item) {
+        <li>
+          <sky-radio [value]="item.name" [disabled]="item.disabled">
+            <sky-radio-label>
+              {{ item.name }}
+              @if (showInlineHelp) {
+                <sky-help-inline class="sky-control-help"></sky-help-inline>
+              }
+            </sky-radio-label>
+          </sky-radio>
+        </li>
+      }
     </ul>
   </sky-radio-group>
 </div>
@@ -132,14 +137,16 @@
     #foo="ngModel"
   >
     <ul class="sky-list-unstyled">
-      <li *ngFor="let item of seasons">
-        <sky-radio
-          [value]="item.name"
-          [disabled]="item.disabled"
-          [labelText]="item.name"
-          [helpPopoverContent]="showInlineHelp ? 'help content' : undefined"
-        />
-      </li>
+      @for (item of seasons; track item) {
+        <li>
+          <sky-radio
+            [value]="item.name"
+            [disabled]="item.disabled"
+            [labelText]="item.name"
+            [helpPopoverContent]="showInlineHelp ? 'help content' : undefined"
+          />
+        </li>
+      }
     </ul>
   </sky-radio-group>
 </div>
