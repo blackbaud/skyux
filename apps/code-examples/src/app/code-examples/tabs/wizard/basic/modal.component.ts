@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -18,7 +17,6 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     SkyCheckboxModule,
     SkyFluidGridModule,

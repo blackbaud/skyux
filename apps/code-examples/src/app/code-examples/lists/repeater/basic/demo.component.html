@@ -1,14 +1,16 @@
 <sky-repeater data-sky-id="repeater-demo">
-  <ng-container *ngFor="let item of items">
+  @for (item of items; track item) {
     <sky-repeater-item [itemName]="item.accessibilityLabel">
-      <sky-repeater-item-title class="demo-repeater-flex" *ngIf="item.title">
-        <div class="demo-repeater-item-title sky-font-emphasized">
-          {{ item.title }}
-        </div>
-        <div>
-          {{ item.status }}
-        </div>
-      </sky-repeater-item-title>
+      @if (item.title) {
+        <sky-repeater-item-title class="demo-repeater-flex">
+          <div class="demo-repeater-item-title sky-font-emphasized">
+            {{ item.title }}
+          </div>
+          <div>
+            {{ item.status }}
+          </div>
+        </sky-repeater-item-title>
+      }
       <sky-repeater-item-context-menu>
         <sky-dropdown buttonType="context-menu">
           <sky-dropdown-menu>
@@ -41,5 +43,5 @@
         {{ item.note }}
       </sky-repeater-item-content>
     </sky-repeater-item>
-  </ng-container>
+  }
 </sky-repeater>

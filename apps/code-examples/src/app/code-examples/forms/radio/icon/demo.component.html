@@ -6,13 +6,14 @@
       headingHidden="true"
       headingText="View"
     >
-      <sky-radio
-        *ngFor="let view of views"
-        [icon]="view.icon"
-        [labelHidden]="true"
-        [labelText]="view.label"
-        [value]="view.name"
-      />
+      @for (view of views; track view) {
+        <sky-radio
+          [icon]="view.icon"
+          [labelHidden]="true"
+          [labelText]="view.label"
+          [value]="view.name"
+        />
+      }
     </sky-radio-group>
   </form>
 </div>

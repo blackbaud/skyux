@@ -34,12 +34,16 @@
   Confirm with delete button
 </button>
 
-<p *ngIf="selectedAction && selectedText" class="displayed-text">
-  You selected the "{{ selectedText }}" button, which has an action of "{{
-    selectedAction
-  }}."
-</p>
-
-<p *ngIf="selectedAction && !selectedText" class="displayed-text">
-  You selected the "{{ selectedAction }}" action.
-</p>
+@if (selectedAction) {
+  @if (selectedText) {
+    <p class="displayed-text">
+      You selected the "{{ selectedText }}" button, which has an action of "{{
+        selectedAction
+      }}."
+    </p>
+  } @else {
+    <p class="displayed-text">
+      You selected the "{{ selectedAction }}" action.
+    </p>
+  }
+}

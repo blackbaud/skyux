@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
@@ -22,7 +21,6 @@ import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-
   templateUrl: './record-page-attachments-tab.component.html',
   providers: [SkyDataManagerService],
   imports: [
-    CommonModule,
     AgGridModule,
     SkyAgGridModule,
     SkyDataManagerModule,

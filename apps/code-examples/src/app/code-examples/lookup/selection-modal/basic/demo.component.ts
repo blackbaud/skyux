@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   SkySelectionModalSearchResult,
@@ -14,7 +13,6 @@ import { Person } from './person';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule],
 })
 export class DemoComponent {
   protected selectedPeople: Person[] | undefined;

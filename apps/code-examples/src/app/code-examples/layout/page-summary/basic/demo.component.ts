@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAvatarModule } from '@skyux/avatar';
@@ -15,7 +14,6 @@ import { SkyPageSummaryModule } from '@skyux/layout';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
-    CommonModule,
     FormsModule,
     SkyAlertModule,
     SkyAvatarModule,

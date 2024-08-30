@@ -28,9 +28,11 @@
             <sky-input-box labelText="State">
               <select formControlName="state">
                 <option [attr.value]="undefined"></option>
-                <option *ngFor="let state of states" value="state">
-                  {{ state }}
-                </option>
+                @for (state of states; track state) {
+                  <option value="state">
+                    {{ state }}
+                  </option>
+                }
               </select>
             </sky-input-box>
           </sky-column>

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyActionHubModule, SkyPageModalLinksInput } from '@skyux/pages';
 
@@ -15,7 +14,7 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyActionHubModule],
+  imports: [SkyActionHubModule],
 })
 export class DemoComponent {
   public buttons = [
