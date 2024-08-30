@@ -305,32 +305,17 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
      */
     isExpanded: boolean;
   }): void {
-    if (options.isExpanded === true) {
-      this.#renderer.setAttribute(
-        this.#elementRef.nativeElement,
-        'aria-expanded',
-        'true',
-      );
+    const hostEl = this.#elementRef.nativeElement;
 
-      /* istanbul ignore else: safety check */
+    if (options.isExpanded === true) {
+      this.#renderer.setAttribute(hostEl, 'aria-expanded', 'true');
+
       if (this.popoverId) {
-        this.#renderer.setAttribute(
-          this.#elementRef.nativeElement,
-          'aria-controls',
-          this.popoverId,
-        );
+        this.#renderer.setAttribute(hostEl, 'aria-controls', this.popoverId);
       }
     } else {
-      this.#renderer.setAttribute(
-        this.#elementRef.nativeElement,
-        'aria-expanded',
-        'false',
-      );
-
-      this.#renderer.removeAttribute(
-        this.#elementRef.nativeElement,
-        'aria-controls',
-      );
+      this.#renderer.setAttribute(hostEl, 'aria-expanded', 'false');
+      this.#renderer.removeAttribute(hostEl, 'aria-controls');
     }
   }
 }
