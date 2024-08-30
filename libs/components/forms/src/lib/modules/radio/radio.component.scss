@@ -5,21 +5,15 @@
   display: inline-block;
 }
 
-:host-context(sky-radio-group) {
+:host-context(sky-radio-group):not(:has(li)) {
   :host:not(:has(.sky-switch-control-icon)) {
     background-color: hotpink;
     display: block;
 
     &:not(:last-child) {
-      // this should also be a fallback with unset so consumers remove any other padding/margins theyre adding themselves even without ul
+      background-color: limegreen;
       margin-bottom: var(--sky-margin-stacked-sm);
     }
-  }
-  // remove this when we remove support for unordered lists
-  :host-context(li:not(:last-of-type)) {
-    background-color: limegreen;
-    // to call out to consumers to pay attention to ul, potentially have this be a fallback to a 0px value variable in the compat stylesheet
-    margin-bottom: calc(var(--sky-margin-stacked-sm) - var(--sky-padding-half));
   }
 }
 
