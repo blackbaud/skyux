@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyFileAttachmentsModule } from '@skyux/forms';
@@ -13,7 +12,6 @@ import { SingleFileAttachmentComponent } from './single-file-attachment.componen
 
 @NgModule({
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SingleFileAttachmentRoutingModule,

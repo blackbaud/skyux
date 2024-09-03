@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -14,7 +13,6 @@ import { SelectionBoxTestComponent } from './selection-box.component.fixture';
 @NgModule({
   declarations: [SelectionBoxTestComponent, SelectionBoxGridTestComponent],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     SkyCheckboxModule,
     SkyIconModule,

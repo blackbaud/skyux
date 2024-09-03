@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
@@ -18,7 +17,7 @@ export class PagingVisualComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, SkyPagingModule],
+  imports: [SkyPagingModule],
   declarations: [PagingVisualComponent],
   exports: [PagingVisualComponent],
 })

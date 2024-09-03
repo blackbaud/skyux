@@ -1,5 +1,4 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { CommonModule } from '@angular/common';
 import { Component, DebugElement, Provider, Type } from '@angular/core';
 import {
   ComponentFixture,
@@ -89,7 +88,6 @@ describe('Text editor', () => {
     id = 0;
     TestBed.configureTestingModule({
       imports: [
-        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         SkyTextEditorResourcesModule,

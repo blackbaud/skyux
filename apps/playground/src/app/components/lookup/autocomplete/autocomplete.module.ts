@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -11,7 +10,6 @@ import { AutocompleteComponent } from './autocomplete.component';
   declarations: [AutocompleteComponent],
   imports: [
     AutocompleteRoutingModule,
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyAutocompleteModule,

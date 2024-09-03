@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
@@ -18,7 +17,6 @@ import { SkyActionHubComponent } from './action-hub.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     SkyBoxModule,
     SkyFluidGridModule,
     SkyLinkListModule,

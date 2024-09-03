@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -16,7 +15,6 @@ import { PhoneFieldTestComponent } from './phone-field.component.fixture';
     PhoneFieldTestComponent,
   ],
   imports: [
-    CommonModule,
     SkyPhoneFieldModule,
     SkyInputBoxModule,
     FormsModule,

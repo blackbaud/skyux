@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -20,7 +19,7 @@ import { SkyRadioTestComponent } from './radio.component.fixture';
     SkyRadioTestComponent,
     SkySingleRadioComponent,
   ],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyRadioModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
   exports: [
     SkyRadioGroupBooleanTestComponent,
     SkyRadioGroupFixtureComponent,

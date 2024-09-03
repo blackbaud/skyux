@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
@@ -10,7 +9,6 @@ import { TextExpandRepeaterComponent } from './text-expand-repeater.component';
 @NgModule({
   declarations: [TextExpandRepeaterComponent],
   imports: [
-    CommonModule,
     TextExpandRepeaterRoutingModule,
     SkyIconModule,
     SkyTextExpandRepeaterModule,

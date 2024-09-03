@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -11,7 +10,7 @@ import { IllustrationRoutingModule } from './illustration-routing.module';
 import { IllustrationComponent } from './illustration.component';
 
 @NgModule({
-  imports: [CommonModule, IllustrationComponent, IllustrationRoutingModule],
+  imports: [IllustrationComponent, IllustrationRoutingModule],
   providers: [
     {
       provide: SkyIllustrationResolverService,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyRadioModule } from '@skyux/forms';
@@ -10,7 +9,6 @@ import { RadioComponent } from './radio.component';
 @NgModule({
   declarations: [RadioComponent],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyHelpInlineModule,
