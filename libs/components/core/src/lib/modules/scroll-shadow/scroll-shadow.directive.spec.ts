@@ -91,7 +91,7 @@ describe('Scroll shadow directive', () => {
   });
 
   it('should not show a shadow when the body is scrollable when disabled', async () => {
-    cmp.height = 800;
+    cmp.height = 850;
     cmp.enabled = false;
     fixture.detectChanges();
     await waitForMutationObserver();
@@ -119,7 +119,7 @@ describe('Scroll shadow directive', () => {
       return;
     }
 
-    cmp.height = 800;
+    cmp.height = 850;
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -162,7 +162,7 @@ describe('Scroll shadow directive', () => {
       return;
     }
 
-    cmp.height = 800;
+    cmp.height = 850;
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();

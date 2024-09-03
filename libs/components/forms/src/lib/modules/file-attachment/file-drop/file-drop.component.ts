@@ -22,11 +22,10 @@ import { SkyIconModule } from '@skyux/icon';
 import { take } from 'rxjs/operators';
 
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
-import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
-import { SkyFormFieldLabelTextRequiredDirective } from '../../shared/form-field-label-text-required.directive';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileAttachmentService } from '../file-attachment/file-attachment.service';
+import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileSizePipe } from '../shared/file-size.pipe';
 import { SkyFileValidateFn } from '../shared/file-validate-function';
@@ -48,12 +47,14 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  * on the element that receives drop events to exempt it from the drop exclusion rule.
  */
 @Component({
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
+  selector: 'sky-file-drop',
+  templateUrl: './file-drop.component.html',
+  styleUrls: ['./file-drop.component.scss'],
+  providers: [
+    SkyFileAttachmentService,
+    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -65,14 +66,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyIconModule,
     SkyIdModule,
   ],
-  providers: [
-    SkyFileAttachmentService,
-    { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
-  ],
-  selector: 'sky-file-drop',
-  standalone: true,
-  styleUrl: './file-drop.component.scss',
-  templateUrl: './file-drop.component.html',
 })
 export class SkyFileDropComponent implements OnDestroy {
   /**
