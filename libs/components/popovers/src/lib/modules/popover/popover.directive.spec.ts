@@ -1098,17 +1098,22 @@ describe('Popover directive accessibility', () => {
     attrs: { ariaExpanded: string },
   ): Promise<void> {
     const popoverEl = getPopoverEl();
+    const popoverId = popoverEl?.id ?? null;
     const ariaControls = buttonEl?.getAttribute('aria-controls');
+    const ariaOwns = buttonEl?.getAttribute('aria-owns');
 
     expect(buttonEl?.getAttribute('aria-expanded')).toEqual(attrs.ariaExpanded);
 
     if (attrs.ariaExpanded === 'true') {
       expect(popoverEl).toExist();
+      expect(popoverId).toBeDefined();
       expect(ariaControls).toBeDefined();
-      expect(ariaControls).toEqual(popoverEl?.id ?? null);
+      expect(ariaControls).toEqual(popoverId);
+      expect(ariaOwns).toEqual(popoverId);
     } else {
       expect(popoverEl).toBeNull();
       expect(ariaControls).toBeNull();
+      expect(ariaOwns).toBeNull();
     }
 
     await expectAsync(document.body).toBeAccessible({

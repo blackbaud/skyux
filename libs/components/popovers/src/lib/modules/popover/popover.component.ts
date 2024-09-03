@@ -3,6 +3,7 @@ import {
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
+  HostBinding,
   Inject,
   Input,
   OnDestroy,
@@ -122,6 +123,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public isMouseEnter = false;
 
+  @HostBinding('attr.aria-owns')
   public popoverId: string;
 
   @ViewChild('templateRef', {
