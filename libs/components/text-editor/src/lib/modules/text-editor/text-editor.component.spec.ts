@@ -22,7 +22,6 @@ import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
-import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
@@ -1856,23 +1855,6 @@ describe('Text editor', () => {
         );
       }));
     });
-  });
-
-  it('should not display if a parent component requires label text and it is not provided', () => {
-    fixture = createComponent(TextEditorFixtureComponent, [
-      SkyFormFieldLabelTextRequiredService,
-    ]);
-
-    const labelTextRequiredSvc = TestBed.inject(
-      SkyFormFieldLabelTextRequiredService,
-    );
-    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
-    fixture.detectChanges();
-
-    const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
-
-    expect(labelTextSpy).toHaveBeenCalled();
-    expect(textEditor).not.toBeVisible();
   });
 
   describe('with ngModel', () => {

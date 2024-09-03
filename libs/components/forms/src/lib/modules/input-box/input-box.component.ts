@@ -34,7 +34,6 @@ import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 import { ReplaySubject } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -48,12 +47,6 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
   selector: 'sky-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
-  ],
   providers: [
     SkyContentInfoProvider,
     SkyInputBoxAdapterService,

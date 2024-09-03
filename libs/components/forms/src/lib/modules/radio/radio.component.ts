@@ -17,8 +17,6 @@ import { SkyFormsUtility, SkyIdService, SkyLogService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
-import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
-
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
 import { SkyRadioType } from './types/radio-type';
@@ -42,12 +40,6 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   selector: 'sky-radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
-  ],
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
