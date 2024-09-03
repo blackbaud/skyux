@@ -1,5 +1,25 @@
 # Changelog
 
+## [11.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.13...11.0.0-alpha.14) (2024-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/datetime:** remove deprecated required inputs and update error validation ([#2654](https://github.com/blackbaud/skyux/issues/2654))
+
+### Features
+
+* **components/ag-grid:** allow template ref cell renderers to be used for row actions in editable grids ([#2658](https://github.com/blackbaud/skyux/issues/2658)) ([59095c7](https://github.com/blackbaud/skyux/commit/59095c748f067b698bbe9f43067f0d83d0473e7b))
+* **components/ag-grid:** implement sticky setting for column widths ([#2645](https://github.com/blackbaud/skyux/issues/2645)) ([196d0e5](https://github.com/blackbaud/skyux/commit/196d0e58fa504df9a223712d8a209ef2f4152a1d))
+* **components/datetime:** remove deprecated required inputs and update error validation ([#2654](https://github.com/blackbaud/skyux/issues/2654)) ([052ea91](https://github.com/blackbaud/skyux/commit/052ea9199743dbc322d922517067b1a42528bc00))
+* **components/forms:** update `SkyFileValidateFn` export ([#2663](https://github.com/blackbaud/skyux/issues/2663)) ([1f391fb](https://github.com/blackbaud/skyux/commit/1f391fb195cd988f090eaebf5f887c0595fafc61))
+
+
+### Bug Fixes
+
+* **components/forms:** update checkbox and checkbox group harness to return false instead of throw when no form errors are present ([#2640](https://github.com/blackbaud/skyux/issues/2640)) ([28c1fdd](https://github.com/blackbaud/skyux/commit/28c1fddc1f70f468dbd98a8614084cf2e8a3d438))
+* **components/packages:** additional AG Grid event migrations ([#2662](https://github.com/blackbaud/skyux/issues/2662)) ([4f8626b](https://github.com/blackbaud/skyux/commit/4f8626b50e55b557110cb155d64d09c747286148))
+
 ## [10.41.5](https://github.com/blackbaud/skyux/compare/10.41.4...10.41.5) (2024-08-26)
 
 
