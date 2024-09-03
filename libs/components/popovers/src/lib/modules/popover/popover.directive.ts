@@ -89,6 +89,9 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   /**
    * The user action that displays the popover.
+   * @deprecated Due to accessibility concerns, popovers should always be opened
+   * when the user clicks the trigger element. Do not set this attribute so that
+   * the default behavior of "click" is used.
    */
   @Input()
   public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {
