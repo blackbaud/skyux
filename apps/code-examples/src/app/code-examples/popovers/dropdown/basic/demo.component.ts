@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -11,7 +10,7 @@ interface DropdownItem {
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyDropdownModule],
+  imports: [SkyDropdownModule],
 })
 export class DemoComponent {
   protected items: DropdownItem[] = [

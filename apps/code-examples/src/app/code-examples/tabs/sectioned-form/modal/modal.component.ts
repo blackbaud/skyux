@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -21,7 +20,6 @@ import { PhoneFormComponent } from './phone-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AddressFormComponent,
-    CommonModule,
     InformationFormComponent,
     PhoneFormComponent,
     SkyIconModule,

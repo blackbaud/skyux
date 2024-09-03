@@ -6,6 +6,8 @@
     <app-record-page-notes-tab />
   </sky-tab>
   <sky-tab tabHeading="Attachments" layout="list">
-    <app-record-page-attachments-tab *ngIf="activeTabIndex === 2" />
+    @if (activeTabIndex === 2) {
+      <app-record-page-attachments-tab />
+    }
   </sky-tab>
 </sky-tabset>

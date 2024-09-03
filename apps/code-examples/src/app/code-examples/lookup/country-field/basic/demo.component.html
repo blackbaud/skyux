@@ -5,10 +5,11 @@
     [helpPopoverContent]="helpPopoverContent"
   >
     <sky-country-field formControlName="country" />
-    <sky-form-error
-      *ngIf="countryControl.errors?.['invalidCountry']"
-      errorName="invalidCountry"
-      errorText="This country is no longer available for the date you selected."
-    />
+    @if (countryControl.errors?.['invalidCountry']) {
+      <sky-form-error
+        errorName="invalidCountry"
+        errorText="This country is no longer available for the date you selected."
+      />
+    }
   </sky-input-box>
 </form>

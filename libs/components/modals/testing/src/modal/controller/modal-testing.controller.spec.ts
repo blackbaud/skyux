@@ -66,7 +66,6 @@ class ModalTestComponent {
 }
 
 @Component({
-  imports: [],
   standalone: true,
   template: ``,
 })

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   SkyFileDropChange,
@@ -12,7 +11,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyFileDropModule, SkyStatusIndicatorModule],
+  imports: [SkyFileDropModule, SkyStatusIndicatorModule],
 })
 export class DemoComponent {
   protected acceptedTypes = 'image/png,image/jpeg';

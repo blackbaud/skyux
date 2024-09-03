@@ -84,11 +84,12 @@
               <option value="invalid">Invalid Color</option>
             </select>
             <!-- Custom form error not handled by input box. -->
-            <sky-form-error
-              *ngIf="favoriteColor.errors?.['invalid']"
-              errorName="invalid"
-              errorText="Invalid Color is not a color"
-            />
+            @if (favoriteColor.errors?.['invalid']) {
+              <sky-form-error
+                errorName="invalid"
+                errorText="Invalid Color is not a color"
+              />
+            }
           </sky-input-box>
         </sky-column>
       </sky-row>

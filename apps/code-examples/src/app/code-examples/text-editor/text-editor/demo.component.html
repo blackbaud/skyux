@@ -9,11 +9,12 @@
       hintText="Include details about how to opt out of future email."
       labelText="Message"
     >
-      <sky-form-error
-        *ngIf="myText.errors?.['companyName']"
-        errorName="companyName"
-        errorText="Message must include company name."
-      />
+      @if (myText.errors?.['companyName']) {
+        <sky-form-error
+          errorName="companyName"
+          errorText="Message must include company name."
+        />
+      }
     </sky-text-editor>
   </form>
 </div>

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyTabsModule } from '@skyux/tabs';
 
@@ -6,7 +5,7 @@ import { SkyTabsModule } from '@skyux/tabs';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyTabsModule],
+  imports: [SkyTabsModule],
 })
 export class DemoComponent {
   protected tabArray = [

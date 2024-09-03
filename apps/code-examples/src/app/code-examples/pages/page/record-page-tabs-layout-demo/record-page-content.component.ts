@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
@@ -11,7 +10,6 @@ import { RecordPageOverviewTabComponent } from './record-page-overview-tab.compo
   selector: 'app-record-page-content',
   templateUrl: './record-page-content.component.html',
   imports: [
-    CommonModule,
     RecordPageAttachmentsTabComponent,
     RecordPageNotesTabComponent,
     RecordPageOverviewTabComponent,

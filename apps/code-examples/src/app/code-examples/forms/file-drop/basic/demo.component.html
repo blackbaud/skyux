@@ -11,6 +11,8 @@
   (filesChanged)="onFilesChanged($event)"
   (linkChanged)="onLinkChanged($event)"
 />
-<div *ngFor="let file of allItems">
-  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
-</div>
+@for (file of allItems; track file) {
+  <div>
+    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+  </div>
+}

@@ -19,14 +19,16 @@
   </sky-toolbar-item>
 </sky-toolbar>
 <sky-repeater expandMode="none">
-  <sky-repeater-item *ngFor="let item of displayedItems">
-    <sky-repeater-item-title>
-      {{ item.title }}
-    </sky-repeater-item-title>
-    <sky-repeater-item-content>
-      <div>
-        {{ item.note }}
-      </div>
-    </sky-repeater-item-content>
-  </sky-repeater-item>
+  @for (item of displayedItems; track item) {
+    <sky-repeater-item>
+      <sky-repeater-item-title>
+        {{ item.title }}
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        <div>
+          {{ item.note }}
+        </div>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  }
 </sky-repeater>

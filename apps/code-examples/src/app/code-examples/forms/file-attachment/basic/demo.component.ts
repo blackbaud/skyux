@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -33,12 +32,7 @@ function customValidator(
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SkyFileAttachmentModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyFileAttachmentModule],
 })
 export class DemoComponent {
   protected attachment: FormControl<SkyFileItem | null | undefined>;

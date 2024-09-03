@@ -2,11 +2,11 @@
   <strong>{{ value }}</strong>
 </ng-template>
 <ng-template #emphasizedColumn let-value="value" let-row="row">
-  <span
-    *ngIf="row['jobLevel']"
-    class="sky-margin-inline-default sky-pull-right"
-    >{{ row['jobLevel'] }}</span
-  >
+  @if (row['jobLevel']) {
+    <span class="sky-margin-inline-default sky-pull-right">{{
+      row['jobLevel']
+    }}</span>
+  }
   <em>{{ value }}</em>
 </ng-template>
 <sky-ag-grid-wrapper>

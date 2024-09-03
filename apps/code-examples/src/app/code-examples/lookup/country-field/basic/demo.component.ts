@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   AbstractControl,
@@ -27,7 +26,6 @@ function validateCountry(
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyCountryFieldModule,
