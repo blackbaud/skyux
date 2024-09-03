@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -36,7 +35,6 @@ function validateTime(
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,

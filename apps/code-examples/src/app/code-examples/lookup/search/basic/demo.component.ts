@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
@@ -10,7 +9,7 @@ import { Item } from './item';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyRepeaterModule, SkySearchModule, SkyToolbarModule],
+  imports: [SkyRepeaterModule, SkySearchModule, SkyToolbarModule],
 })
 export class DemoComponent {
   protected displayedItems: Item[];

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -14,12 +13,7 @@ import { SkyDateRangePickerModule } from '@skyux/datetime';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SkyDateRangePickerModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DemoComponent {
   protected get reactiveRange(): AbstractControl | null {

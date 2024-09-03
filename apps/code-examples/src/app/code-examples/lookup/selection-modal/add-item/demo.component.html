@@ -8,11 +8,15 @@
   </button>
 </div>
 
-<div *ngIf="selectedPeople?.length">
-  Selected people:
-  <ul class="selection-modal-demo-selected">
-    <li *ngFor="let selectedPerson of selectedPeople">
-      {{ selectedPerson.name }}
-    </li>
-  </ul>
-</div>
+@if (selectedPeople?.length) {
+  <div>
+    Selected people:
+    <ul class="selection-modal-demo-selected">
+      @for (selectedPerson of selectedPeople; track selectedPerson) {
+        <li>
+          {{ selectedPerson.name }}
+        </li>
+      }
+    </ul>
+  </div>
+}

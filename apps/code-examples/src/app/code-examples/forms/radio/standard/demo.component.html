@@ -9,21 +9,24 @@
       [hintText]="hintText"
     >
       <ul class="sky-list-unstyled">
-        <li *ngFor="let option of paymentOptions">
-          <sky-radio
-            [disabled]="option.disabled"
-            [value]="option.value"
-            [labelText]="option.name"
-            [helpPopoverContent]="option.helpContent"
-            [hintText]="option.hintText"
-          />
-        </li>
+        @for (option of paymentOptions; track option) {
+          <li>
+            <sky-radio
+              [disabled]="option.disabled"
+              [value]="option.value"
+              [labelText]="option.name"
+              [helpPopoverContent]="option.helpContent"
+              [hintText]="option.hintText"
+            />
+          </li>
+        }
       </ul>
-      <sky-form-error
-        *ngIf="paymentMethod.errors?.['processingIssue']"
-        errorName="processingIssue"
-        errorText="An error occurred with this payment method. Please contact us to resolve."
-      />
+      @if (paymentMethod.errors?.['processingIssue']) {
+        <sky-form-error
+          errorName="processingIssue"
+          errorText="An error occurred with this payment method. Please contact us to resolve."
+        />
+      }
     </sky-radio-group>
   </form>
 </div>

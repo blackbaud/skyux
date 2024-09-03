@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyDefinitionListModule } from '@skyux/layout';
 
@@ -6,7 +5,7 @@ import { SkyDefinitionListModule } from '@skyux/layout';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyDefinitionListModule],
+  imports: [SkyDefinitionListModule],
 })
 export class DemoComponent {
   protected items: { label: string; value?: string }[] = [

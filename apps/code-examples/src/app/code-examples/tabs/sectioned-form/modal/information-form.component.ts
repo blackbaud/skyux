@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,7 +23,6 @@ import { SkySectionedFormService } from '@skyux/tabs';
   templateUrl: './information-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     SkyInputBoxModule,
     SkyFluidGridModule,

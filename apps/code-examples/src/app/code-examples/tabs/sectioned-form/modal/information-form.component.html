@@ -10,13 +10,14 @@
         <sky-input-box labelText="ID" stacked="true">
           <input formControlName="id" type="text" />
           <span class="sky-error-indicator">
-            <sky-status-indicator
-              *ngIf="formGroup.get('id')?.invalid"
-              indicatorType="danger"
-              descriptionType="error"
-            >
-              Enter a valid value.
-            </sky-status-indicator>
+            @if (formGroup.get('id')?.invalid) {
+              <sky-status-indicator
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Enter a valid value.
+              </sky-status-indicator>
+            }
           </span>
         </sky-input-box>
       </sky-column>

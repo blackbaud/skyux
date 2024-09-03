@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   FormArray,
@@ -25,7 +24,6 @@ import { Person } from './person';
   templateUrl: './picker-modal.component.html',
   styleUrls: ['./picker-modal.component.scss'],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyCheckboxModule,

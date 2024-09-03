@@ -48,43 +48,45 @@
   </sky-key-info>
 </div>
 <sky-repeater>
-  <sky-repeater-item *ngFor="let note of notes">
-    <sky-repeater-item-context-menu>
-      <sky-dropdown
-        buttonType="context-menu"
-        [label]="
-          'Context menu for note ' + note.noteNumber + ' from ' + note.date
-        "
-      >
-        <sky-dropdown-menu>
-          <sky-dropdown-item>
-            <button
-              type="button"
-              [attr.aria-label]="
-                'Edit note ' + note.noteNumber + ' from ' + note.date
-              "
-            >
-              Edit
-            </button>
-          </sky-dropdown-item>
-          <sky-dropdown-item>
-            <button
-              type="button"
-              [attr.aria-label]="
-                'Delete note ' + note.noteNumber + ' from ' + note.date
-              "
-            >
-              Delete
-            </button>
-          </sky-dropdown-item>
-        </sky-dropdown-menu>
-      </sky-dropdown>
-    </sky-repeater-item-context-menu>
-    <sky-repeater-item-content>
-      <div class="sky-margin-stacked-xs">
-        {{ note.content }}
-      </div>
-      <div class="sky-font-deemphasized">{{ note.date }}</div>
-    </sky-repeater-item-content>
-  </sky-repeater-item>
+  @for (note of notes; track note) {
+    <sky-repeater-item>
+      <sky-repeater-item-context-menu>
+        <sky-dropdown
+          buttonType="context-menu"
+          [label]="
+            'Context menu for note ' + note.noteNumber + ' from ' + note.date
+          "
+        >
+          <sky-dropdown-menu>
+            <sky-dropdown-item>
+              <button
+                type="button"
+                [attr.aria-label]="
+                  'Edit note ' + note.noteNumber + ' from ' + note.date
+                "
+              >
+                Edit
+              </button>
+            </sky-dropdown-item>
+            <sky-dropdown-item>
+              <button
+                type="button"
+                [attr.aria-label]="
+                  'Delete note ' + note.noteNumber + ' from ' + note.date
+                "
+              >
+                Delete
+              </button>
+            </sky-dropdown-item>
+          </sky-dropdown-menu>
+        </sky-dropdown>
+      </sky-repeater-item-context-menu>
+      <sky-repeater-item-content>
+        <div class="sky-margin-stacked-xs">
+          {{ note.content }}
+        </div>
+        <div class="sky-font-deemphasized">{{ note.date }}</div>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  }
 </sky-repeater>

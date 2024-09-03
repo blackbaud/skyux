@@ -12,7 +12,6 @@ interface User {
 }
 
 @Component({
-  imports: [],
   standalone: true,
   template: `
     @for (user of users; track user.firstName) {

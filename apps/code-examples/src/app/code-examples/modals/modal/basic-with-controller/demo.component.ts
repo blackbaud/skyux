@@ -11,7 +11,6 @@ import { ModalContext } from './modal-context';
 import { ModalComponent } from './modal.component';
 
 @Component({
-  imports: [],
   selector: 'app-demo',
   standalone: true,
   template: `<button

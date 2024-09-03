@@ -8,11 +8,12 @@
       <sky-datepicker>
         <input formControlName="startDate" skyDatepickerInput type="text" />
       </sky-datepicker>
-      <sky-form-error
-        *ngIf="startDate.errors?.['invalidWeekend']"
-        errorName="invalidWeekend"
-        errorText="Start date must not be on a weekend."
-      />
+      @if (startDate.errors?.['invalidWeekend']) {
+        <sky-form-error
+          errorName="invalidWeekend"
+          errorText="Start date must not be on a weekend."
+        />
+      }
     </sky-input-box>
   </form>
 

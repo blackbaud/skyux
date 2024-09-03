@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,7 +18,7 @@ import { Fruit } from './fruit';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkyFilterModule, SkyRepeaterModule, SkyToolbarModule],
+  imports: [SkyFilterModule, SkyRepeaterModule, SkyToolbarModule],
 })
 export class DemoComponent {
   protected appliedFilters: Filter[] = [];

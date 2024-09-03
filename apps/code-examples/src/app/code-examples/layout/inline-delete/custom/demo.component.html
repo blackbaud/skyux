@@ -9,10 +9,11 @@
       <sky-icon icon="trash" />
     </button>
   </div>
-  <sky-inline-delete
-    *ngIf="deleting"
-    [pending]="pending"
-    (cancelTriggered)="onCancelTriggered()"
-    (deleteTriggered)="onDeleteTriggered()"
-  />
+  @if (deleting) {
+    <sky-inline-delete
+      [pending]="pending"
+      (cancelTriggered)="onCancelTriggered()"
+      (deleteTriggered)="onDeleteTriggered()"
+    />
+  }
 </div>

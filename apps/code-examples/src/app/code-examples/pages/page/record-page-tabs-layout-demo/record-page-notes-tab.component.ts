@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
@@ -12,7 +11,6 @@ import { SkyDropdownModule } from '@skyux/popovers';
   selector: 'app-record-page-notes-tab',
   templateUrl: './record-page-notes-tab.component.html',
   imports: [
-    CommonModule,
     SkyDropdownModule,
     SkyIconModule,
     SkyKeyInfoModule,

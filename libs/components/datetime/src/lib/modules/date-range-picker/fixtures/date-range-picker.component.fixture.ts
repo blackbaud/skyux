@@ -35,13 +35,11 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public calculatorIds: SkyDateRangeCalculatorId[] | undefined;
   public dateFormat: string | undefined;
   public disableReactiveOnInit = false;
-  public endDateRequired = false;
   public label: string | undefined;
   public labelText: string | undefined;
   public numValueChangeNotifications = 0;
   public reactiveForm: UntypedFormGroup;
   public required = false;
-  public startDateRequired = false;
   public templateDisable: boolean | undefined;
   public helpKey: string | undefined;
   public hintText: string | undefined;

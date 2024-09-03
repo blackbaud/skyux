@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -22,12 +21,7 @@ function validateText(
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SkyTextEditorModule,
-    CommonModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyTextEditorModule],
 })
 export class DemoComponent {
   protected formGroup: FormGroup;

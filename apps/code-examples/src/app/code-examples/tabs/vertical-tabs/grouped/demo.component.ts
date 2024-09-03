@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
@@ -8,7 +7,7 @@ import { TabGroup } from './group';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyVerticalTabsetModule],
+  imports: [SkyVerticalTabsetModule],
 })
 export class DemoComponent {
   protected groups: TabGroup[] = [
