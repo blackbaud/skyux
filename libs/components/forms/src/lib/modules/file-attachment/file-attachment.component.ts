@@ -33,7 +33,6 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
@@ -56,12 +55,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   selector: 'sky-file-attachment',
   templateUrl: './file-attachment.component.html',
   styleUrls: ['./file-attachment.component.scss'],
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
-  ],
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },

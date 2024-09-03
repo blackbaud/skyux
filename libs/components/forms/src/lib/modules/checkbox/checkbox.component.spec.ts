@@ -27,8 +27,6 @@ import {
 
 import { sampleTime } from 'rxjs/operators';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
-
 import { SkyCheckboxChange } from './checkbox-change';
 import { SkyCheckboxComponent } from './checkbox.component';
 import { SkyCheckboxModule } from './checkbox.module';
@@ -493,26 +491,6 @@ describe('Checkbox component', () => {
       );
 
       expect(label?.textContent?.trim()).toBe(labelText);
-    });
-
-    it('should not render if a parent component requires label text and it is not provided', () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        declarations: [SingleCheckboxComponent],
-        imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
-        providers: [SkyFormFieldLabelTextRequiredService],
-      });
-
-      const fixture = TestBed.createComponent(SingleCheckboxComponent);
-      const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
-      const labelTextRequiredSvc = TestBed.inject(
-        SkyFormFieldLabelTextRequiredService,
-      );
-      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
-      fixture.detectChanges();
-
-      expect(labelTextSpy).toHaveBeenCalled();
-      expect(checkbox).not.toBeVisible();
     });
 
     it('should render help inline popover only if label text is provided', () => {
