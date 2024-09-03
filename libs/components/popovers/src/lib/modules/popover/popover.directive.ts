@@ -1,7 +1,4 @@
-import { DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
   Directive,
   ElementRef,
   HostBinding,
@@ -21,14 +18,6 @@ import { SkyPopoverMessage } from './types/popover-message';
 import { SkyPopoverMessageType } from './types/popover-message-type';
 import { SkyPopoverPlacement } from './types/popover-placement';
 import { SkyPopoverTrigger } from './types/popover-trigger';
-
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
-  standalone: true,
-  template: ``,
-})
-export class SkyPopoverSRPointerComponent {}
 
 @Directive({
   selector: '[skyPopover]',
@@ -117,33 +106,24 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #_trigger: SkyPopoverTrigger = 'click';
 
   #elementRef: ElementRef;
-  #pointerRef: HTMLSpanElement;
+  #srPointerEl: HTMLSpanElement | undefined;
+
   readonly #renderer = inject(Renderer2);
 
   constructor(elementRef: ElementRef) {
-    const span = inject(DOCUMENT).createElement('span');
-    this.#renderer.setAttribute(span, 'class', 'sky-screen-reader-only');
-    this.#pointerRef = span;
-
-    setTimeout(() => {
-      elementRef.nativeElement.parentNode.insertBefore(
-        this.#pointerRef,
-        elementRef.nativeElement.nextSibling,
-      );
-    });
-
     this.#elementRef = elementRef;
     this.#subscribeMessageStream();
   }
 
   public ngOnInit(): void {
     this.#addEventListeners();
+    this.#createSRPointerEl();
   }
 
   public ngOnDestroy(): void {
     this.#removeEventListeners();
     this.#unsubscribeMessageStream();
-    this.#pointerRef.remove();
+    this.#srPointerEl?.remove();
   }
 
   public togglePopover(): void {
@@ -329,6 +309,20 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Inserts an element after the host element that points to the contents of the popover using `aria-owns`. This pointer element is added directly after the trigger element to direct screen readers to the popover contents after navigating (using "quick nav", etc.) away from the button.
+   */
+  #createSRPointerEl(): void {
+    const span = this.#renderer.createElement('span');
+    this.#renderer.setAttribute(span, 'class', 'sky-screen-reader-only');
+    this.#srPointerEl = span;
+
+    this.#elementRef.nativeElement.parentNode.insertBefore(
+      this.#srPointerEl,
+      this.#elementRef.nativeElement.nextSibling,
+    );
+  }
+
   #updateAriaAttributes(options: {
     /**
      * Whether the popover button should be marked as "expanded".
@@ -336,7 +330,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     isExpanded: boolean;
   }): void {
     const hostEl = this.#elementRef.nativeElement;
-    const pointerEl = this.#pointerRef;
+    const pointerEl = this.#srPointerEl;
 
     if (options.isExpanded === true) {
       this.#renderer.setAttribute(hostEl, 'aria-expanded', 'true');

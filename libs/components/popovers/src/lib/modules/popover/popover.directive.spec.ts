@@ -1097,17 +1097,18 @@ describe('Popover directive accessibility', () => {
     buttonEl: HTMLButtonElement | null,
     attrs: { ariaExpanded: string },
   ): Promise<void> {
+    const pointerEl = buttonEl?.nextElementSibling;
     const popoverEl = getPopoverEl();
     const popoverId = popoverEl?.id ?? null;
     const ariaControls = buttonEl?.getAttribute('aria-controls');
-    const ariaOwns = buttonEl?.getAttribute('aria-owns');
+    const ariaOwns = pointerEl?.getAttribute('aria-owns');
 
     expect(buttonEl?.getAttribute('aria-expanded')).toEqual(attrs.ariaExpanded);
+    expect(pointerEl).toExist();
 
     if (attrs.ariaExpanded === 'true') {
       expect(popoverEl).toExist();
       expect(popoverId).toBeDefined();
-      expect(ariaControls).toBeDefined();
       expect(ariaControls).toEqual(popoverId);
       expect(ariaOwns).toEqual(popoverId);
     } else {
