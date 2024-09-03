@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
@@ -15,7 +14,6 @@ import { ModalComponent } from './modal.component';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule],
 })
 export class DemoComponent implements OnDestroy {
   protected modalSize = 'medium';

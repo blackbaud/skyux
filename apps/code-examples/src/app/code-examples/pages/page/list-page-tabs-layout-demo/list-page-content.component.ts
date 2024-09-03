@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
@@ -9,7 +8,7 @@ import { ListPageContactsGridComponent } from './list-page-contacts-grid.compone
   standalone: true,
   selector: 'app-list-page-content',
   templateUrl: './list-page-content.component.html',
-  imports: [CommonModule, ListPageContactsGridComponent, SkyTabsModule],
+  imports: [ListPageContactsGridComponent, SkyTabsModule],
 })
 export class ListPageContentComponent {
   protected activeTabIndex: SkyTabIndex = 0;

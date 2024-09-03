@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -9,13 +8,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    CommonModule,
-    FormsModule,
-    SkyCardModule,
-    SkyCheckboxModule,
-    SkyDropdownModule,
-  ],
+  imports: [FormsModule, SkyCardModule, SkyCheckboxModule, SkyDropdownModule],
 })
 export class DemoComponent {
   protected showAction = true;

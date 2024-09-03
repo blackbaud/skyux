@@ -12,7 +12,7 @@
 
 <div [skyHighlight]="searchTerm">
   The text that you enter is highlighted here.
-  <div *ngIf="showAdditionalContent">
-    This additional content is highlighted too!
-  </div>
+  @if (showAdditionalContent) {
+    <div>This additional content is highlighted too!</div>
+  }
 </div>

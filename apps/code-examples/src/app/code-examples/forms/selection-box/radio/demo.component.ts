@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -15,7 +14,6 @@ import { SkyIconModule } from '@skyux/icon';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyIconModule,

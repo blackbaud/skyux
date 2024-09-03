@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -15,7 +14,7 @@ import { SkyCheckboxModule } from '@skyux/forms';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyCheckboxModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
 export class DemoComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);

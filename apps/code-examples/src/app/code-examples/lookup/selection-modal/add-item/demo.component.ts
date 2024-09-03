@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, inject } from '@angular/core';
 import {
   SkySelectionModalAddClickEventArgs,
@@ -19,7 +18,6 @@ import { Person } from './person';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule],
 })
 export class DemoComponent implements OnDestroy {
   protected selectedPeople: Person[] | undefined;

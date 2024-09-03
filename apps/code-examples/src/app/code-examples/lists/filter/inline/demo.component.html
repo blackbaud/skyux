@@ -35,9 +35,11 @@
 </div>
 
 <sky-repeater expandMode="none">
-  <sky-repeater-item *ngFor="let item of filteredItems">
-    <sky-repeater-item-title>
-      {{ item.name }}
-    </sky-repeater-item-title>
-  </sky-repeater-item>
+  @for (item of filteredItems; track item) {
+    <sky-repeater-item>
+      <sky-repeater-item-title>
+        {{ item.name }}
+      </sky-repeater-item-title>
+    </sky-repeater-item>
+  }
 </sky-repeater>

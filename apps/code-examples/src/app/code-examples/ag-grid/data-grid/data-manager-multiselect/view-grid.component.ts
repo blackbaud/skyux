@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -37,7 +36,7 @@ import { Filters } from './filters';
   selector: 'app-view-grid',
   templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, CommonModule, SkyAgGridModule],
+  imports: [AgGridModule, SkyAgGridModule],
 })
 export class ViewGridComponent implements OnInit, OnDestroy {
   @Input()

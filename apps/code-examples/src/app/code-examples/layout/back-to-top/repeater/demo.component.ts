@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
@@ -7,7 +6,7 @@ import { SkyRepeaterModule } from '@skyux/lists';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyBackToTopModule, SkyRepeaterModule],
+  imports: [SkyBackToTopModule, SkyRepeaterModule],
 })
 export class DemoComponent {
   public personList = [

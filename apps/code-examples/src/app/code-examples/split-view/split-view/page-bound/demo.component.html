@@ -2,11 +2,13 @@
   <div class="page-flex">
     <div class="page-flex-header">
       <sky-page-summary>
-        <sky-page-summary-alert *ngIf="unapprovedTransaction">
-          <sky-alert alertType="info"
-            >There is an unapproved transaction.</sky-alert
-          >
-        </sky-page-summary-alert>
+        @if (unapprovedTransaction) {
+          <sky-page-summary-alert>
+            <sky-alert alertType="info"
+              >There is an unapproved transaction.</sky-alert
+            >
+          </sky-page-summary-alert>
+        }
         <sky-page-summary-title> SKY Developers, LLC </sky-page-summary-title>
         <sky-page-summary-subtitle>
           Petty Cash Transactions
@@ -21,17 +23,18 @@
       <sky-split-view dock="fill" [messageStream]="splitViewStream">
         <sky-split-view-drawer [ariaLabel]="'Transaction list'">
           <sky-repeater [activeIndex]="activeIndex">
-            <sky-repeater-item
-              *ngFor="let item of items; let i = index"
-              (click)="onItemClick(i)"
-              (keyup.enter)="onItemClick(i)"
-            >
-              <sky-repeater-item-content>
-                {{ item.amount }} <br />
-                {{ item.date }} <br />
-                {{ item.vendor }}
-              </sky-repeater-item-content>
-            </sky-repeater-item>
+            @for (item of items; track item; let i = $index) {
+              <sky-repeater-item
+                (click)="onItemClick(i)"
+                (keyup.enter)="onItemClick(i)"
+              >
+                <sky-repeater-item-content>
+                  {{ item.amount }} <br />
+                  {{ item.date }} <br />
+                  {{ item.vendor }}
+                </sky-repeater-item-content>
+              </sky-repeater-item>
+            }
           </sky-repeater>
         </sky-split-view-drawer>
 

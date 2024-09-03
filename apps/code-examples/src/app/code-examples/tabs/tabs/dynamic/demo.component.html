@@ -1,5 +1,7 @@
 <sky-tabset ariaLabel="Tab demonstration">
-  <sky-tab *ngFor="let tab of tabArray" [tabHeading]="tab.tabHeading">
-    {{ tab.tabContent }}
-  </sky-tab>
+  @for (tab of tabArray; track tab) {
+    <sky-tab [tabHeading]="tab.tabHeading">
+      {{ tab.tabContent }}
+    </sky-tab>
+  }
 </sky-tabset>
