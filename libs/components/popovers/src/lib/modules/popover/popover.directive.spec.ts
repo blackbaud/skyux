@@ -1087,7 +1087,7 @@ describe('Popover directive', () => {
 
 describe('Popover directive accessibility', () => {
   function getPopoverEl(): HTMLElement | null {
-    return document.querySelector('sky-popover-content') as HTMLElement | null;
+    return document.querySelector<HTMLElement>('sky-popover-content');
   }
 
   /**
@@ -1135,12 +1135,12 @@ describe('Popover directive accessibility', () => {
 
     fixture.detectChanges();
 
-    const btn = fixture.nativeElement.querySelector(
-      'button[data-sky-id="triggerEl"]',
-    ) as HTMLButtonElement;
+    const btn = (
+      fixture.nativeElement as HTMLElement
+    ).querySelector<HTMLButtonElement>('button[data-sky-id="triggerEl"]');
 
     // Open the popover.
-    btn.click();
+    btn?.click();
     fixture.detectChanges();
 
     await expectAccessible(btn, {
@@ -1148,7 +1148,7 @@ describe('Popover directive accessibility', () => {
     });
 
     // Close the popover.
-    btn.click();
+    btn?.click();
     fixture.detectChanges();
     await fixture.whenStable();
 
