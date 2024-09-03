@@ -1,11 +1,15 @@
+import { DOCUMENT } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
+  Component,
   Directive,
   ElementRef,
   HostBinding,
   Input,
   OnDestroy,
-  OnInit, // Renderer2,
-  // inject,
+  OnInit,
+  Renderer2,
+  inject,
 } from '@angular/core';
 
 import { Subject, Subscription, fromEvent as observableFromEvent } from 'rxjs';
@@ -17,6 +21,14 @@ import { SkyPopoverMessage } from './types/popover-message';
 import { SkyPopoverMessageType } from './types/popover-message-type';
 import { SkyPopoverPlacement } from './types/popover-placement';
 import { SkyPopoverTrigger } from './types/popover-trigger';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [],
+  standalone: true,
+  template: ``,
+})
+export class SkyPopoverSRPointerComponent {}
 
 @Directive({
   selector: '[skyPopover]',
@@ -44,11 +56,11 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.popoverId = value?.popoverId;
     this.#_popover = value;
 
-    // if (value) {
-    //   value.popoverClosed.subscribe(() => {
-    //     this.#updateAriaAttributes({ isExpanded: false });
-    //   });
-    // }
+    if (value) {
+      value.popoverClosed.subscribe(() => {
+        this.#updateAriaAttributes({ isExpanded: false });
+      });
+    }
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -105,9 +117,21 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #_trigger: SkyPopoverTrigger = 'click';
 
   #elementRef: ElementRef;
-  // readonly #renderer = inject(Renderer2);
+  #pointerRef: HTMLSpanElement;
+  readonly #renderer = inject(Renderer2);
 
   constructor(elementRef: ElementRef) {
+    const span = inject(DOCUMENT).createElement('span');
+    this.#renderer.setAttribute(span, 'class', 'sky-screen-reader-only');
+    this.#pointerRef = span;
+
+    setTimeout(() => {
+      elementRef.nativeElement.parentNode.insertBefore(
+        this.#pointerRef,
+        elementRef.nativeElement.nextSibling,
+      );
+    });
+
     this.#elementRef = elementRef;
     this.#subscribeMessageStream();
   }
@@ -119,6 +143,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#removeEventListeners();
     this.#unsubscribeMessageStream();
+    this.#pointerRef.remove();
   }
 
   public togglePopover(): void {
@@ -140,7 +165,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #closePopover(): void {
     this.skyPopover?.close();
-    // this.#updateAriaAttributes({ isExpanded: false });
+    this.#updateAriaAttributes({ isExpanded: false });
   }
 
   #closePopoverOrMarkForClose(): void {
@@ -260,7 +285,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     switch (message.type) {
       case SkyPopoverMessageType.Open:
         this.#positionPopover();
-        // this.#updateAriaAttributes({ isExpanded: true });
+        this.#updateAriaAttributes({ isExpanded: true });
         break;
 
       case SkyPopoverMessageType.Close:
@@ -304,25 +329,26 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     }
   }
 
-  // #updateAriaAttributes(options: {
-  //   /**
-  //    * Whether the popover button should be marked as "expanded".
-  //    */
-  //   isExpanded: boolean;
-  // }): void {
-  //   const hostEl = this.#elementRef.nativeElement;
+  #updateAriaAttributes(options: {
+    /**
+     * Whether the popover button should be marked as "expanded".
+     */
+    isExpanded: boolean;
+  }): void {
+    const hostEl = this.#elementRef.nativeElement;
+    const pointerEl = this.#pointerRef;
 
-  //   if (options.isExpanded === true) {
-  //     this.#renderer.setAttribute(hostEl, 'aria-expanded', 'true');
+    if (options.isExpanded === true) {
+      this.#renderer.setAttribute(hostEl, 'aria-expanded', 'true');
 
-  //     if (this.popoverId) {
-  //       this.#renderer.setAttribute(hostEl, 'aria-owns', this.popoverId);
-  //       this.#renderer.setAttribute(hostEl, 'aria-controls', this.popoverId);
-  //     }
-  //   } else {
-  //     this.#renderer.setAttribute(hostEl, 'aria-expanded', 'false');
-  //     this.#renderer.removeAttribute(hostEl, 'aria-owns');
-  //     this.#renderer.removeAttribute(hostEl, 'aria-controls');
-  //   }
-  // }
+      if (this.popoverId) {
+        this.#renderer.setAttribute(pointerEl, 'aria-owns', this.popoverId);
+        this.#renderer.setAttribute(hostEl, 'aria-controls', this.popoverId);
+      }
+    } else {
+      this.#renderer.setAttribute(hostEl, 'aria-expanded', 'false');
+      this.#renderer.removeAttribute(pointerEl, 'aria-owns');
+      this.#renderer.removeAttribute(hostEl, 'aria-controls');
+    }
+  }
 }

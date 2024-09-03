@@ -8,11 +8,6 @@
       Interactive content
     </button>
 
-    <sky-popover #myPopover0 popoverTitle="Playground popover">
-      The content of a popover can be text, HTML, or Angular components.
-      <button type="button">Subscribe</button>
-    </sky-popover>
-
     <button
       class="sky-btn sky-btn-primary sky-margin-inline-default"
       type="button"
@@ -20,10 +15,6 @@
     >
       Only text
     </button>
-
-    <sky-popover #myPopover1 popoverTitle="Playground popover">
-      The content of a popover can be text, HTML, or Angular components.
-    </sky-popover>
 
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut velit
@@ -43,3 +34,12 @@
     </p>
   </sky-page-content>
 </sky-page>
+
+<sky-popover #myPopover0 popoverTitle="Playground popover">
+  The content of a popover can be text, HTML, or Angular components.
+  <button type="button">Subscribe</button>
+</sky-popover>
+
+<sky-popover #myPopover1>
+  The content of a popover can be text, HTML, or Angular components.
+</sky-popover>
