@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -12,7 +11,6 @@ import { BoxComponent } from './box.component';
 @NgModule({
   imports: [
     BoxRoutingModule,
-    CommonModule,
     FormsModule,
     SkyHelpInlineModule,
     SkyBoxModule,

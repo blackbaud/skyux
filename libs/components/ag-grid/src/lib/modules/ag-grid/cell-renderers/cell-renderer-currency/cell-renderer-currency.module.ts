@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyNumericModule } from '@skyux/core';
@@ -11,7 +10,6 @@ import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency
 
 @NgModule({
   imports: [
-    CommonModule,
     SkyAgGridResourcesModule,
     SkyAgGridCellValidatorModule,
     FormsModule,

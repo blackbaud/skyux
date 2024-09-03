@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,7 +20,6 @@ import { VerticalTabsetTestComponent } from './vertical-tabset.component.fixture
     VerticalTabsetWithNgForTestComponent,
   ],
   imports: [
-    CommonModule,
     FormsModule,
     NoopAnimationsModule,
     SkyVerticalTabsetModule,

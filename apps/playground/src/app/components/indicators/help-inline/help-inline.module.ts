@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
@@ -28,12 +27,7 @@ export class HelpInlineRoutingModule {}
 
 @NgModule({
   declarations: [HelpInlineComponent],
-  imports: [
-    CommonModule,
-    HelpInlineRoutingModule,
-    SkyHelpInlineModule,
-    SkyPopoverModule,
-  ],
+  imports: [HelpInlineRoutingModule, SkyHelpInlineModule, SkyPopoverModule],
 })
 export class HelpInlineModule {
   public static routes = routes;
