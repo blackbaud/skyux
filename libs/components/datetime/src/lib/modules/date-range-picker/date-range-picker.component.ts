@@ -33,7 +33,6 @@ import { SkyLogService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
-  SkyFormFieldLabelTextRequiredDirective,
   SkyInputBoxModule,
 } from '@skyux/forms';
 
@@ -99,12 +98,6 @@ function isPartialValue(
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText: label || labelText'],
-    },
-  ],
   imports: [
     CommonModule,
     FormsModule,

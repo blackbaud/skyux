@@ -14,8 +14,6 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
-
 import { SkyToggleSwitchChangeEventFixtureComponent } from './fixtures/toggle-switch-change-event.component.fixture';
 import { SkyToggleSwitchFormDirectivesFixtureComponent } from './fixtures/toggle-switch-form-directives.component.fixture';
 import { SkyToggleSwitchOnPushFixtureComponent } from './fixtures/toggle-switch-on-push.component.fixture';
@@ -268,25 +266,6 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(label?.textContent).toBe('label element');
-    });
-
-    it('should not render if a parent component requires label text and it is not provided', () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [SkyToggleSwitchFixturesModule],
-        providers: [SkyFormFieldLabelTextRequiredService],
-      });
-
-      const fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
-      const switchEl = fixture.nativeElement.querySelector('sky-toggle-switch');
-      const labelTextRequiredSvc = TestBed.inject(
-        SkyFormFieldLabelTextRequiredService,
-      );
-      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
-      fixture.detectChanges();
-
-      expect(labelTextSpy).toHaveBeenCalled();
-      expect(switchEl).not.toBeVisible();
     });
 
     it('should pass accessibility with label element and no `ariaLabel`', async () => {
