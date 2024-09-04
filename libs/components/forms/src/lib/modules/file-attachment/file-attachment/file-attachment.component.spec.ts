@@ -1500,18 +1500,28 @@ describe('File attachment', () => {
   });
 
   it('should render form errors when label text is set', () => {
+    const btn = getButtonEl(fixture.nativeElement);
+    expect(btn?.getAttribute('aria-invalid')).toEqual('false');
+    expect(btn?.getAttribute('aria-errormessage')).toBeNull();
+
     fixture.componentInstance.required = true;
     fixture.componentInstance.labelText = 'file attachment';
 
     fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
 
+    expect(btn?.getAttribute('aria-invalid')).toEqual('true');
+    expect(btn?.getAttribute('aria-errormessage')).toEqual('MOCK_ID_1');
     expect(
       fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
     ).toBe('Error: file attachment is required.');
   });
 
   it('should render file errors when label text is set and no NgControl errors', () => {
+    const btn = getButtonEl(fixture.nativeElement);
+    expect(btn?.getAttribute('aria-invalid')).toEqual('false');
+    expect(btn?.getAttribute('aria-errormessage')).toBeNull();
+
     fixture.componentInstance.labelText = 'file attachment';
     fixture.componentInstance.required = false;
     fixture.componentInstance.maxFileSize = 50;
@@ -1519,12 +1529,18 @@ describe('File attachment', () => {
 
     setupStandardFileChangeEvent();
 
+    expect(btn?.getAttribute('aria-invalid')).toEqual('true');
+    expect(btn?.getAttribute('aria-errormessage')).toEqual('MOCK_ID_1');
     expect(
       fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
     ).toBe('Error: Upload a file under 50 bytes.');
   });
 
   it('should render file errors and NgControl errors when label text is set', async () => {
+    const btn = getButtonEl(fixture.nativeElement);
+    expect(btn?.getAttribute('aria-invalid')).toEqual('false');
+    expect(btn?.getAttribute('aria-errormessage')).toBeNull();
+
     fixture.componentInstance.labelText = 'file attachment';
     fixture.componentInstance.required = true;
     fixture.componentInstance.maxFileSize = 50;
@@ -1544,6 +1560,8 @@ describe('File attachment', () => {
     fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
 
+    expect(btn?.getAttribute('aria-invalid')).toEqual('true');
+    expect(btn?.getAttribute('aria-errormessage')).toEqual('MOCK_ID_1');
     expect(
       fixture.nativeElement
         .querySelectorAll('sky-form-error')[0]
