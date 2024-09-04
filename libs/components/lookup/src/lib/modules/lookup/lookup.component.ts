@@ -343,11 +343,6 @@ export class SkyLookupComponent
       this.controlId = this.inputBoxHostSvc.controlId;
       this.ariaDescribedBy = this.inputBoxHostSvc.ariaDescribedBy;
 
-      console.log('populating with');
-      console.log(this.inputTemplateRef);
-      console.log(this.inputTemplateRef.elementRef);
-      console.log(this.inputTemplateRef.elementRef.nativeElement);
-
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
         buttonsTemplate: this.enableShowMore
