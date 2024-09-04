@@ -13,6 +13,7 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
+  SkyDataViewColumnWidths,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
@@ -418,30 +419,43 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   #applyColumnWidths(): void {
+    if (!this.agGridList?.first || this.agGridList.first.api.isDestroyed()) {
+      return;
+    }
+
     const viewState =
       this.viewId && this.#currentDataState?.getViewStateById(this.viewId);
 
-    if (viewState) {
-      const currentWidths = viewState?.columnWidths;
-      const displayedColumns = viewState?.displayedColumnIds;
-      const agGrid = this.agGridList?.first;
+    if (viewState && viewState.columnWidths && viewState.displayedColumnIds) {
       const breakpointName =
         this.#currentBreakpoint === SkyMediaBreakpoints.xs ? 'xs' : 'sm';
-      const gridColumnLimits: IColumnLimit[] = [];
-
-      for (const column of displayedColumns) {
-        const columnWidth = currentWidths[breakpointName][column];
-
-        if (columnWidth) {
-          gridColumnLimits.push({
-            key: column,
-            minWidth: columnWidth,
-            maxWidth: columnWidth,
-          });
-        }
-      }
-
-      agGrid?.api.sizeColumnsToFit({ columnLimits: gridColumnLimits });
+      const columnLimits = this.#getGridColumnLimits(
+        viewState.displayedColumnIds,
+        viewState.columnWidths,
+        breakpointName,
+      );
+      this.agGridList.first.api.sizeColumnsToFit({ columnLimits });
     }
+  }
+
+  #getGridColumnLimits(
+    displayedColumns: string[],
+    currentWidths: SkyDataViewColumnWidths,
+    breakpointName: keyof SkyDataViewColumnWidths,
+  ): IColumnLimit[] {
+    const gridColumnLimits: IColumnLimit[] = [];
+
+    for (const column of displayedColumns) {
+      const columnWidth = currentWidths[breakpointName][column];
+
+      if (columnWidth) {
+        gridColumnLimits.push({
+          key: column,
+          minWidth: columnWidth,
+          maxWidth: columnWidth,
+        });
+      }
+    }
+    return gridColumnLimits;
   }
 }
