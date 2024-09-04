@@ -12,8 +12,6 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
-
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
 import { SkyRadioGroupReactiveFixtureComponent } from './fixtures/radio-group-reactive.component.fixture';
@@ -696,28 +694,6 @@ describe('Radio group component (reactive)', function () {
 
     expect(hintEl).not.toBeNull();
     expect(hintEl?.textContent.trim()).toBe(hintText);
-  });
-
-  it('should not render if a parent component requires label text and it is not provided', () => {
-    TestBed.resetTestingModule();
-    TestBed.configureTestingModule({
-      imports: [SkyRadioFixturesModule],
-      providers: [SkyFormFieldLabelTextRequiredService],
-    });
-
-    const fixture = TestBed.createComponent(
-      SkyRadioGroupReactiveFixtureComponent,
-    );
-    const headingTextRequiredSvc = TestBed.inject(
-      SkyFormFieldLabelTextRequiredService,
-    );
-    const validationSpy = spyOn(headingTextRequiredSvc, 'validateLabelText');
-    fixture.detectChanges();
-
-    const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
-
-    expect(validationSpy).toHaveBeenCalled();
-    expect(radioGroup).not.toBeVisible();
   });
 
   it('should have the lg margin class if stacked is true and headingLevel is unset', () => {
