@@ -22,7 +22,6 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
 import { SkyFileItem } from '../shared/file-item';
 
 import { SkyFileAttachmentChange } from './file-attachment-change';

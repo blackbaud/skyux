@@ -98,12 +98,6 @@ function isPartialValue(
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText: label || labelText'],
-    },
-  ],
   imports: [
     CommonModule,
     FormsModule,

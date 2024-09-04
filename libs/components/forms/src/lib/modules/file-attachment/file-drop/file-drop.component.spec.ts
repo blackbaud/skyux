@@ -9,10 +9,8 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 
-import { SkyFormFieldLabelTextRequiredService } from '../../shared/form-field-label-text-required.service';
 import { SkyFileItem } from '../shared/file-item';
 
-import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropChange } from './file-drop-change';
 import { SkyFileDropComponent } from './file-drop.component';
 import { SkyFileDropModule } from './file-drop.module';

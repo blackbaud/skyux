@@ -40,20 +40,15 @@ import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-<<<<<<< HEAD:libs/components/forms/src/lib/modules/file-attachment/file-attachment/file-attachment.component.ts
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
 import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
-import { SkyFormFieldLabelTextRequiredDirective } from '../../shared/form-field-label-text-required.directive';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileItemErrorType } from '../shared/file-item-error-type';
 import { SkyFileItemService } from '../shared/file-item.service';
 import { SkyFileSizePipe } from '../shared/file-size.pipe';
 import { SkyFileValidateFn } from '../shared/file-validate-function';
-=======
-import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
->>>>>>> a245e9a71 (fix(components/forms): stop requiring labelText in field group (#2674)):libs/components/forms/src/lib/modules/file-attachment/file-attachment.component.ts
 
 import { SkyFileAttachmentChange } from './file-attachment-change';
 import { SkyFileAttachmentClick } from './file-attachment-click';
@@ -68,14 +63,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  * Provides an element to attach a single local file.
  */
 @Component({
-<<<<<<< HEAD:libs/components/forms/src/lib/modules/file-attachment/file-attachment/file-attachment.component.ts
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
-  ],
   imports: [
     CommonModule,
     SkyFileAttachmentJoinIdsPipe,
@@ -88,11 +76,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyIdModule,
     SkyThemeModule,
   ],
-=======
-  selector: 'sky-file-attachment',
-  templateUrl: './file-attachment.component.html',
-  styleUrls: ['./file-attachment.component.scss'],
->>>>>>> a245e9a71 (fix(components/forms): stop requiring labelText in field group (#2674)):libs/components/forms/src/lib/modules/file-attachment/file-attachment.component.ts
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },

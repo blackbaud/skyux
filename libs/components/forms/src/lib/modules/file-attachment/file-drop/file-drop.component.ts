@@ -22,10 +22,10 @@ import { SkyIconModule } from '@skyux/icon';
 import { take } from 'rxjs/operators';
 
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
+import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileAttachmentService } from '../file-attachment/file-attachment.service';
-import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileSizePipe } from '../shared/file-size.pipe';
 import { SkyFileValidateFn } from '../shared/file-validate-function';
