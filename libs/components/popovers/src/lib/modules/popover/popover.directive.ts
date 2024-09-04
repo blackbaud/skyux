@@ -30,10 +30,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   @HostBinding('class')
   protected directiveClass = 'sky-popover-trigger';
 
-  /**
-   * The ID of the opened popover element.
-   * @internal
-   */
   protected popoverId: string | undefined;
 
   /**
@@ -45,11 +41,12 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.popoverId = value?.popoverId;
     this.#_popover = value;
 
-    if (value) {
-      value.popoverClosed.subscribe(() => {
-        this.#updateAriaAttributes({ isExpanded: false });
-      });
-    }
+    this.#popoverClosedSubscription?.unsubscribe();
+    this.#popoverClosedSubscription = value
+      ? value.popoverClosed.subscribe(() => {
+          this.#updateAriaAttributes({ isExpanded: false });
+        })
+      : undefined;
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -89,9 +86,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   /**
    * The user action that displays the popover.
-   * @deprecated Due to accessibility concerns, popovers should always be opened
-   * when the user clicks the trigger element. Do not set this attribute so that
-   * the default behavior of "click" is used.
+   * @deprecated To ensure usability on touch devices, trigger user-invoked
+   * popovers on `click` actions rather than `mouseenter` actions.
    */
   @Input()
   public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {
@@ -109,6 +105,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #_trigger: SkyPopoverTrigger = 'click';
 
   #elementRef: ElementRef;
+  #popoverClosedSubscription: Subscription | undefined;
   #srPointerEl: HTMLSpanElement | undefined;
 
   readonly #renderer = inject(Renderer2);
@@ -126,7 +123,9 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#removeEventListeners();
     this.#unsubscribeMessageStream();
+    this.#popoverClosedSubscription?.unsubscribe();
     this.#srPointerEl?.remove();
+    this.#srPointerEl = undefined;
   }
 
   public togglePopover(): void {
@@ -148,7 +147,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #closePopover(): void {
     this.skyPopover?.close();
-    this.#updateAriaAttributes({ isExpanded: false });
   }
 
   #closePopoverOrMarkForClose(): void {
@@ -313,7 +311,12 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   /**
-   * Inserts an element after the host element that points to the contents of the popover using `aria-owns`. This pointer element is added directly after the trigger element to direct screen readers to the popover contents after navigating (using "quick nav", etc.) away from the button.
+   * Inserts an element after the host element to direct screen readers to the
+   * popover contents via `aria-owns`. We need to create a separate element for
+   * this because the trigger element (usually a button or anchor element)
+   * cannot meaningfully set `aria-owns` to the ID of the popover contents
+   * because semantically the button should not contain block-level children.
+   * @see https://github.com/w3c/html-aria/issues/124
    */
   #createSRPointerEl(): void {
     const span = this.#renderer.createElement('span');
@@ -328,7 +331,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #updateAriaAttributes(options: {
     /**
-     * Whether the popover button should be marked as "expanded".
+     * Whether the popover content should be marked as "expanded".
      */
     isExpanded: boolean;
   }): void {

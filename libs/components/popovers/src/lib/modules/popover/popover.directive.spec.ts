@@ -1091,7 +1091,7 @@ describe('Popover directive accessibility', () => {
   }
 
   /**
-   * Asserts the trigger button is accessible.
+   * Asserts the popover and trigger button are accessible.
    */
   async function expectAccessible(
     buttonEl: HTMLButtonElement | null,
@@ -1099,6 +1099,7 @@ describe('Popover directive accessibility', () => {
   ): Promise<void> {
     const pointerEl = buttonEl?.nextElementSibling;
     const popoverEl = getPopoverEl();
+
     const popoverId = popoverEl?.id ?? null;
     const ariaControls = buttonEl?.getAttribute('aria-controls');
     const ariaOwns = pointerEl?.getAttribute('aria-owns');
