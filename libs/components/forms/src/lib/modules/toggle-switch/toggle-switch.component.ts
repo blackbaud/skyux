@@ -27,8 +27,6 @@ import { SkyIdService, SkyLogService } from '@skyux/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
-
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
 
@@ -47,12 +45,6 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   selector: 'sky-toggle-switch',
   templateUrl: './toggle-switch.component.html',
   styleUrls: ['./toggle-switch.component.scss'],
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
-  ],
   providers: [
     SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR,
     SKY_TOGGLE_SWITCH_VALIDATOR,
