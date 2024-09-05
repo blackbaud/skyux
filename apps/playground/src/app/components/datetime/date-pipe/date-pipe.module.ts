@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyDatePipeModule, SkyDatepickerModule } from '@skyux/datetime';
@@ -10,7 +9,6 @@ import { DatePipeProviderComponent } from './provider/date-pipe-provider.compone
 @NgModule({
   declarations: [DatePipeComponent, DatePipeProviderComponent],
   imports: [
-    CommonModule,
     DatePipeRoutingModule,
     FormsModule,
     ReactiveFormsModule,

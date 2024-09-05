@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -9,7 +8,7 @@ import { SkyBackToTopDirective } from './back-to-top.directive';
 
 @NgModule({
   declarations: [SkyBackToTopComponent, SkyBackToTopDirective],
-  imports: [CommonModule, SkyLayoutResourcesModule, SkyThemeModule],
+  imports: [SkyLayoutResourcesModule, SkyThemeModule],
   exports: [SkyBackToTopComponent, SkyBackToTopDirective],
 })
 export class SkyBackToTopModule {}

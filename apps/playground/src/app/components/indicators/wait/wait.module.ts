@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 
@@ -7,7 +6,7 @@ import { WaitComponent } from './wait.component';
 
 @NgModule({
   declarations: [WaitComponent],
-  imports: [CommonModule, WaitRoutingModule, SkyWaitModule],
+  imports: [WaitRoutingModule, SkyWaitModule],
 })
 export class WaitModule {
   public static routes = WaitRoutingModule.routes;

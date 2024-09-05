@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -76,7 +75,7 @@ export class NestedRepeaterComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, SkyRepeaterModule],
+  imports: [SkyRepeaterModule],
   declarations: [NestedRepeaterComponent],
   exports: [NestedRepeaterComponent],
 })

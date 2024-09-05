@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -21,12 +20,7 @@ import { RepeaterTestComponent } from './repeater.component.fixture';
     NestedRepeaterTestComponent,
     A11yRepeaterTestComponent,
   ],
-  imports: [
-    CommonModule,
-    NoopAnimationsModule,
-    SkyDropdownModule,
-    SkyRepeaterModule,
-  ],
+  imports: [NoopAnimationsModule, SkyDropdownModule, SkyRepeaterModule],
   exports: [
     RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,

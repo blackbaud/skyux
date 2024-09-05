@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAgGridModule } from '@skyux/ag-grid';
@@ -24,7 +23,6 @@ import { DataManagerComponent } from './data-manager.component';
     DataManagerViewGridComponent,
   ],
   imports: [
-    CommonModule,
     FormsModule,
     SkyToolbarModule,
     SkySearchModule,

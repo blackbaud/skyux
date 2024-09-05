@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
@@ -16,7 +15,7 @@ import { SkyBoxComponent } from './box.component';
     SkyBoxContentComponent,
     SkyBoxControlsComponent,
   ],
-  imports: [CommonModule, SkyHelpInlineModule, SkyThemeModule, SkyTrimModule],
+  imports: [SkyHelpInlineModule, SkyThemeModule, SkyTrimModule],
   exports: [
     SkyBoxComponent,
     SkyBoxHeaderComponent,

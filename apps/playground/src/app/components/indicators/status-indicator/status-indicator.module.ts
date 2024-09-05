@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
@@ -9,7 +8,6 @@ import { StatusIndicatorComponent } from './status-indicator.component';
 @NgModule({
   declarations: [StatusIndicatorComponent],
   imports: [
-    CommonModule,
     StatusIndicatorRoutingModule,
     SkyHelpInlineModule,
     SkyStatusIndicatorModule,

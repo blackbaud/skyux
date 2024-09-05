@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { SkySortModule } from '@skyux/lists';
 
@@ -55,7 +54,7 @@ export class SortVisualComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, SkySortModule],
+  imports: [SkySortModule],
   declarations: [SortVisualComponent],
   exports: [SortVisualComponent],
 })

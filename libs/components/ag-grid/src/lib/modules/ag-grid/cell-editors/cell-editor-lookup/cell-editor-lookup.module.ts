@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -11,7 +10,6 @@ import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.compone
   declarations: [SkyAgGridCellEditorLookupComponent],
   exports: [SkyAgGridCellEditorLookupComponent],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     SkyIdModule,
     SkyInputBoxModule,

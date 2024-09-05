@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -12,12 +11,7 @@ import { CharacterCountTestComponent } from './character-count.component.fixture
     CharacterCountNoIndicatorTestComponent,
     CharacterCountTestComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SkyCharacterCounterModule,
-    ReactiveFormsModule,
-  ],
+  imports: [FormsModule, SkyCharacterCounterModule, ReactiveFormsModule],
   exports: [
     CharacterCountNoIndicatorTestComponent,
     CharacterCountTestComponent,

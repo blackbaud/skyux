@@ -161,7 +161,8 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
     box-shadow: none;
   }
 
-  .ag-sticky-bottom::after {
+  .ag-sticky-bottom {
+    background-color: transparent;
     border-color: transparent;
   }
 

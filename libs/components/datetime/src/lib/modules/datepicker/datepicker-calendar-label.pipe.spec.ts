@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
@@ -44,7 +43,6 @@ describe('Datepicker calendar label pipe', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule],
       providers: [
         {
           provide: SkyDatepickerCalendarInnerComponent,

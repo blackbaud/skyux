@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyThemeModule } from '@skyux/theme';
@@ -9,11 +8,6 @@ import { SplitViewFixtureComponent } from './split-view.fixture';
 
 @NgModule({
   declarations: [SplitViewFixtureComponent],
-  imports: [
-    CommonModule,
-    SkySplitViewModule,
-    SkySummaryActionBarModule,
-    SkyThemeModule,
-  ],
+  imports: [SkySplitViewModule, SkySummaryActionBarModule, SkyThemeModule],
 })
 export class SplitViewFixturesModule {}
