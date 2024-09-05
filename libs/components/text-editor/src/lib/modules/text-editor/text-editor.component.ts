@@ -20,7 +20,6 @@ import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
-  SkyFormFieldLabelTextRequiredDirective,
   SkyInputBoxHostService,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
@@ -68,10 +67,6 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
     {
       directive: SkyRequiredStateDirective,
       inputs: ['required'],

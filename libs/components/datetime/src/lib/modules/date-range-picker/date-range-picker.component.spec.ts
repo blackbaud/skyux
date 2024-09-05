@@ -10,7 +10,6 @@ import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
-import { SkyFormFieldLabelTextRequiredService } from '@skyux/forms';
 
 import { DateRangePickerTestComponent } from './fixtures/date-range-picker.component.fixture';
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
@@ -242,28 +241,6 @@ describe('Date range picker', function () {
 
     expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
   }));
-
-  it('should not render if a parent component requires label text and label and labelText input is not provided', () => {
-    TestBed.resetTestingModule();
-    TestBed.configureTestingModule({
-      imports: [DateRangePickerTestComponent],
-      providers: [SkyFormFieldLabelTextRequiredService],
-    });
-
-    const fixture = TestBed.createComponent(DateRangePickerTestComponent);
-    const labelTextRequiredSvc = TestBed.inject(
-      SkyFormFieldLabelTextRequiredService,
-    );
-    const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
-    fixture.detectChanges();
-
-    const dateRangePicker = fixture.nativeElement.querySelector(
-      'sky-date-range-picker',
-    );
-
-    expect(labelTextSpy).toHaveBeenCalled();
-    expect(dateRangePicker).not.toBeVisible();
-  });
 
   it('should only show end date picker for Before type', fakeAsync(function () {
     verifyVisiblePickers(
