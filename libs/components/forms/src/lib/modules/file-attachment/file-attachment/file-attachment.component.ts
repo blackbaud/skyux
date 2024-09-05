@@ -302,6 +302,7 @@ export class SkyFileAttachmentComponent
 
   protected ngControl: NgControl | undefined;
   protected errorId = this.#idSvc.generateId();
+  protected labelId = this.#idSvc.generateId();
 
   protected fileErrorName: SkyFileItemErrorType | undefined;
   protected fileErrorParam: string | undefined;

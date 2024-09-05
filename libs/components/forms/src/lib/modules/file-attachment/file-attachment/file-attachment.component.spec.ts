@@ -1473,7 +1473,9 @@ describe('File attachment', () => {
 
     expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
     expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5 MOCK_ID_2');
-    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_6');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual(
+      'MOCK_ID_6 MOCK_ID_2',
+    );
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
 
