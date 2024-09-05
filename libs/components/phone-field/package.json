@@ -31,8 +31,8 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "google-libphonenumber": "3.2.37",
-    "intl-tel-input": "23.7.0",
+    "google-libphonenumber": "3.2.38",
+    "intl-tel-input": "24.4.0",
     "tslib": "^2.6.3"
   }
 }
