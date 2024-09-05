@@ -26,7 +26,6 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredDirective } from '../shared/form-field-label-text-required.directive';
 
 import { SkyCheckboxChange } from './checkbox-change';
 
@@ -41,13 +40,7 @@ import { SkyCheckboxChange } from './checkbox-change';
     './checkbox.default.component.scss',
     './checkbox.modern.component.scss',
   ],
-  hostDirectives: [
-    SkyThemeComponentClassDirective,
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
-  ],
+  hostDirectives: [SkyThemeComponentClassDirective],
   providers: [
     { provide: NG_VALIDATORS, useExisting: SkyCheckboxComponent, multi: true },
     {
