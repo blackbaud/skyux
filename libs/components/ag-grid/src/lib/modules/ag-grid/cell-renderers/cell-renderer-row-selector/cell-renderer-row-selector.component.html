@@ -4,6 +4,6 @@
   [tabindex]="0"
   [labelHidden]="true"
   [labelText]="(label | async) || ''"
-  [(ngModel)]="checked"
-  (change)="updateRow()"
+  [checked]="(checked | async) || false"
+  (change)="updateRow(!!$event.checked)"
 />

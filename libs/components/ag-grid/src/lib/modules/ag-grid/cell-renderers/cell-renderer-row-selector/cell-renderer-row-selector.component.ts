@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnDestroy,
   ViewEncapsulation,
@@ -12,10 +11,14 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import {
   ICellRendererParams,
   IRowNode,
-  RowNode,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subscription,
+  fromEventPattern,
+  isObservable,
+} from 'rxjs';
 
 /**
  * @internal
@@ -30,22 +33,21 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 export class SkyAgGridCellRendererRowSelectorComponent
   implements ICellRendererAngularComp, OnDestroy
 {
-  public checked: boolean | undefined;
   public dataField: string | undefined;
   public rowNode: IRowNode | undefined;
   public rowNumber: number | undefined;
 
+  protected checked = new BehaviorSubject(false);
   protected readonly disabled = new BehaviorSubject(false);
   protected readonly label = new BehaviorSubject('');
 
-  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #labelResourceKey = 'sky_ag_grid_row_selector_aria_label';
   #params: ICellRendererParams | undefined;
   readonly #resources = inject(SkyLibResourcesService);
   #subscription = new Subscription();
 
   constructor() {
-    this.#setDefaultLabel();
+    this.#setLabel();
   }
 
   public ngOnDestroy(): void {
@@ -58,13 +60,6 @@ export class SkyAgGridCellRendererRowSelectorComponent
    */
   public agInit(params: ICellRendererParams): void {
     this.#setParameters(params);
-
-    this.rowNode?.addEventListener(
-      RowNode.EVENT_ROW_SELECTED,
-      (event: RowSelectedEvent) => {
-        this.#rowSelectedListener(event);
-      },
-    );
   }
 
   /**
@@ -76,19 +71,18 @@ export class SkyAgGridCellRendererRowSelectorComponent
     return true;
   }
 
-  public updateRow(): void {
-    if (this.rowNode) {
-      const rowSelected = this.rowNode.isSelected();
-      const rowChecked = !!this.checked;
-      if (rowSelected !== rowChecked) {
-        this.rowNode.setSelected(rowChecked);
-      }
-
-      if (this.dataField) {
-        this.rowNode.data[this.dataField] = this.checked;
-      }
-
-      this.#changeDetector.markForCheck();
+  public updateRow(rowChecked: boolean): void {
+    if (!this.rowNode) {
+      return;
+    }
+    if (rowChecked !== this.rowNode.isSelected()) {
+      this.rowNode?.setSelected(rowChecked, undefined, 'checkboxSelected');
+    }
+    if (rowChecked !== this.checked.value) {
+      this.checked.next(rowChecked);
+    }
+    if (this.rowNode && this.dataField) {
+      this.rowNode.data[this.dataField] = rowChecked;
     }
   }
 
@@ -97,57 +91,64 @@ export class SkyAgGridCellRendererRowSelectorComponent
     this.disabled.next(this.#params?.node?.selectable === false);
     this.dataField = this.#params.colDef?.field;
     this.rowNode = this.#params?.node as IRowNode | undefined;
-    this.rowNumber = this.#params.rowIndex + 1;
+    const rowIndex = this.rowNode?.rowIndex ?? NaN;
+    this.rowNumber = Number.isNaN(rowIndex) ? undefined : rowIndex + 1;
 
     this.#subscription.unsubscribe();
     this.#subscription = new Subscription();
+    this.#setLabel();
+
+    const rowSelected = !!this.#params.node?.isSelected();
+
+    if (this.dataField) {
+      this.checked.next(!!this.#params.value);
+      if (rowSelected !== this.checked.value) {
+        this.rowNode?.setSelected(this.checked.value);
+      }
+    } else {
+      this.checked.next(rowSelected);
+    }
+
     this.#subscription.add(
-      this.label.subscribe(() => this.#changeDetector.markForCheck()),
+      fromEventPattern<RowSelectedEvent>(
+        (handler) => this.rowNode?.addEventListener('rowSelected', handler),
+        (handler) => this.rowNode?.removeEventListener('rowSelected', handler),
+      ).subscribe((event) => this.#rowSelectedListener(event)),
     );
-    if (typeof params.colDef?.cellRendererParams?.label === 'string') {
-      this.label.next(params.colDef.cellRendererParams.label);
-    } else if (typeof params.colDef?.cellRendererParams?.label === 'function') {
-      const label = params.colDef.cellRendererParams.label(params.data);
-      if (label.subscribe) {
+  }
+
+  #setLabel(): void {
+    const cellRendererParamLabel =
+      this.#params?.colDef?.cellRendererParams?.label;
+    if (this.#params?.colDef && typeof cellRendererParamLabel === 'string') {
+      this.label.next(this.#params.colDef.cellRendererParams.label);
+    } else if (
+      this.#params?.colDef &&
+      typeof cellRendererParamLabel === 'function'
+    ) {
+      const label = this.#params.colDef.cellRendererParams.label(
+        this.#params.data,
+      );
+      if (isObservable(label)) {
         this.#subscription.add(
-          label.subscribe((value: string) => this.label.next(value)),
+          label.subscribe((value: unknown) => this.label.next(String(value))),
         );
       } else {
         this.label.next(label);
       }
     } else {
-      this.#setDefaultLabel();
+      this.#subscription.add(
+        this.#resources
+          .getString(this.#labelResourceKey, this.rowNumber ?? '')
+          .subscribe((value) => this.label.next(value)),
+      );
     }
-
-    const rowSelected = !!this.#params.node?.isSelected();
-
-    if (this.dataField) {
-      this.checked = !!this.#params.value;
-      if (rowSelected !== this.checked) {
-        this.rowNode?.setSelected(this.checked);
-      }
-    } else {
-      this.checked = rowSelected;
-    }
-
-    this.#changeDetector.markForCheck();
-  }
-
-  #setDefaultLabel(): void {
-    this.#subscription.add(
-      this.#resources
-        .getString(this.#labelResourceKey, this.rowNumber ?? '')
-        .subscribe((value) => this.label.next(value)),
-    );
   }
 
   #rowSelectedListener(event: RowSelectedEvent): void {
-    this.checked = event.node.isSelected();
-
+    this.checked.next(!!event.node.isSelected());
     if (this.rowNode && this.dataField) {
-      this.rowNode.data[this.dataField] = this.checked;
+      this.rowNode.data[this.dataField] = this.checked.value;
     }
-
-    this.#changeDetector.markForCheck();
   }
 }
