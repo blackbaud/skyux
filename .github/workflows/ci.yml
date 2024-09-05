@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
@@ -46,7 +50,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        agent: [1, 2, 3, 4, 5]
+        agent: [1, 2, 3]
     steps:
       - uses: actions/checkout@v4
       - name: Retrieve node_modules cache
@@ -69,7 +73,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-      - run: npx nx-cloud start-ci-run --agent-count=5 --distribute-on="manual"
+      - run: npx nx-cloud start-ci-run --agent-count=3 --distribute-on="manual"
       - name: Retrieve node_modules cache
         uses: actions/cache/restore@v4
         with:
