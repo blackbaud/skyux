@@ -25,7 +25,8 @@
     "dev:format": "nx format:write",
     "dev:local-registry": "nx run tools:local-registry",
     "dev:publish-to-local-registry": "ts-node ./scripts/publish-local.ts",
-    "dev:pristine": "skyux-dev pristine-commit"
+    "dev:pristine": "skyux-dev pristine-commit",
+    "foo": ""
   },
   "engines": {
     "node": "^20.11.1",
