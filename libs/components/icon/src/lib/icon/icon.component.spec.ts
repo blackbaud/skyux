@@ -341,6 +341,18 @@ describe('Icon component', () => {
       return fixture.nativeElement.querySelector('.sky-icon-svg-img');
     }
 
+    function setupIcon(
+      iconName: string,
+      size?: string,
+      variant?: SkyIconVariantType,
+    ): void {
+      cmp.iconName = iconName;
+      cmp.size = size;
+      cmp.variant = variant;
+
+      fixture.detectChanges();
+    }
+
     function validateIconId(expectedId: string): void {
       const useEl = getSvgEl().querySelector<SVGUseElement>('use');
 
@@ -376,26 +388,69 @@ describe('Icon component', () => {
     });
 
     it('should display the resolved icon by ID', fakeAsync(() => {
-      cmp.iconName = 'test';
+      setupIcon('test', undefined, undefined);
       detectUrlChanges();
 
       validateIconId('#test-16-line');
     }));
 
     it('should display the resolved icon by ID and size', fakeAsync(() => {
-      cmp.iconName = 'test';
-      cmp.size = '2x';
+      setupIcon('test', '2x', undefined);
       detectUrlChanges();
 
       validateIconId('#test-32-line');
     }));
 
     it('should display the resolved icon by ID and variant', fakeAsync(() => {
-      cmp.iconName = 'test';
-      cmp.variant = 'solid';
+      setupIcon('test', undefined, 'solid');
       detectUrlChanges();
 
       validateIconId('#test-16-solid');
     }));
+
+    it('should display the resolved icon by ID, size, and variant', fakeAsync(() => {
+      setupIcon('test', '2x', 'solid');
+      detectUrlChanges();
+
+      validateIconId('#test-32-solid');
+    }));
+
+    describe('a11y', () => {
+      it('should be accessible (icon: "test", size: undefined, variant: undefined)', async () => {
+        setupIcon('test', undefined, undefined);
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible (icon: "test", size: 2x, variant: undefined)', async () => {
+        setupIcon('test', '2x', undefined);
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible (icon: "test", size: undefined, variant: "solid")', async () => {
+        setupIcon('test', undefined, 'solid');
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible (icon: "test", size: undefined, variant: "line")', async () => {
+        setupIcon('test', undefined, 'line');
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible (icon: "test", size: 2x, variant: "solid")', async () => {
+        setupIcon('test', '2x', 'solid');
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible (icon: "test", size: 2x, variant: "line")', async () => {
+        setupIcon('test', '2x', 'line');
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+    });
   });
 });

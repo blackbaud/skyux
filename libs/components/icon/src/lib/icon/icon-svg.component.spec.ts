@@ -77,6 +77,15 @@ describe('Icon SVG component', () => {
     validateIconId('#test-16-solid');
   }));
 
+  it('should display the resolved icon by ID, size, and variant', fakeAsync(() => {
+    fixture.componentRef.setInput('iconName', 'test');
+    fixture.componentRef.setInput('iconSize', '2x');
+    fixture.componentRef.setInput('iconVariant', 'solid');
+    detectUrlChanges();
+
+    validateIconId('#test-32-solid');
+  }));
+
   it("should use the host element's text color as its fill color", fakeAsync(() => {
     fixture.nativeElement.style.color = '#0f0';
 
