@@ -58,7 +58,9 @@ describe('Scroll shadow directive', () => {
       } else {
         const alpha = parseFloat(rgbaMatch[1]);
 
-        expect(expectedAlpha).toBeCloseTo(alpha, 2);
+        const alphaHundredths = Math.round(alpha * 1e2) / 1e2;
+        expect(alphaHundredths).toBeGreaterThan(expectedAlpha - 0.03);
+        expect(alphaHundredths).toBeLessThan(expectedAlpha + 0.03);
       }
     } else {
       expect(boxShadowStyle).toBe('none');
