@@ -381,10 +381,6 @@ describe('Icon component', () => {
 
       fixture = TestBed.createComponent(IconTestComponent);
       cmp = fixture.componentInstance;
-
-      // We are using the same test component as the `icon` tests - and those default to 3x. Undo this default for the `iconName` tests
-      cmp.size = undefined;
-      fixture.detectChanges();
     });
 
     it('should display the resolved icon by ID', fakeAsync(() => {
