@@ -125,7 +125,7 @@ jobs:
 
   check-workspace:
     name: Check dependencies and resources
-    if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
+    if: ${{ !cancelled() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
