@@ -5,6 +5,16 @@
   display: inline-block;
 }
 
+:host-context(sky-radio-group):not(:has(li)) {
+  :host:not(:has(.sky-switch-control-icon)) {
+    display: block;
+
+    &:not(:last-child) {
+      margin-bottom: var(--sky-margin-stacked-sm);
+    }
+  }
+}
+
 .sky-radio-outer-wrapper {
   display: flex;
 }
