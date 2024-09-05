@@ -9,6 +9,10 @@ on:
       - 10.x.x
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
@@ -94,7 +98,7 @@ jobs:
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
-      max-parallel: 5
+      max-parallel: 3
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
@@ -279,7 +283,7 @@ jobs:
     needs: [install-deps, build-storybook]
     strategy:
       fail-fast: false
-      max-parallel: 5
+      max-parallel: 3
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
