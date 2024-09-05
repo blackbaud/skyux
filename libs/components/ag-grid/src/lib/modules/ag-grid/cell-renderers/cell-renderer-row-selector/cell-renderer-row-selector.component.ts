@@ -72,17 +72,15 @@ export class SkyAgGridCellRendererRowSelectorComponent
   }
 
   public updateRow(rowChecked: boolean): void {
-    if (!this.rowNode) {
-      return;
-    }
-    if (rowChecked !== this.rowNode.isSelected()) {
-      this.rowNode?.setSelected(rowChecked, undefined, 'checkboxSelected');
-    }
-    if (rowChecked !== this.checked.value) {
-      this.checked.next(rowChecked);
-    }
-    if (this.rowNode && this.dataField) {
-      this.rowNode.data[this.dataField] = rowChecked;
+    this.checked.next(rowChecked);
+    if (this.rowNode) {
+      const rowSelected = this.rowNode.isSelected();
+      if (rowSelected !== rowChecked) {
+        this.rowNode.setSelected(rowChecked, undefined, 'checkboxSelected');
+      }
+      if (this.dataField) {
+        this.rowNode.data[this.dataField] = this.checked.value;
+      }
     }
   }
 
