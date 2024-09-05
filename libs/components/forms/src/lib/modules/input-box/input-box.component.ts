@@ -196,6 +196,8 @@ export class SkyInputBoxComponent
   public readonly hintTextId = this.#idSvc.generateId();
   public readonly ariaDescribedBy = new ReplaySubject<string | undefined>(1);
 
+  #requiredByChildComponent: boolean | undefined;
+
   @HostBinding('class')
   public cssClass = '';
 
@@ -233,7 +235,9 @@ export class SkyInputBoxComponent
 
   protected get required(): boolean {
     return (
-      this.#hasRequiredValidator() || this.inputRef?.nativeElement.required
+      this.#hasRequiredValidator() ||
+      this.inputRef?.nativeElement.required ||
+      this.#requiredByChildComponent
     );
   }
 
@@ -307,6 +311,11 @@ export class SkyInputBoxComponent
 
   public setHintTextScreenReaderOnly(hide: boolean): void {
     this.hintTextScreenReaderOnly = hide;
+    this.#changeRef.markForCheck();
+  }
+
+  public setRequiredByChildComponent(required: boolean): void {
+    this.#requiredByChildComponent = required;
     this.#changeRef.markForCheck();
   }
 

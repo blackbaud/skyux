@@ -14,6 +14,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -122,6 +123,14 @@ export class SkyLookupComponent
 
   public get disabled(): boolean {
     return this.#_disabled;
+  }
+
+  @Input({ transform: booleanAttribute })
+  set required(value: boolean) {
+    this.#requiredByTemplate = true;
+    if (this.inputBoxHostSvc?.initialized) {
+      this.inputBoxHostSvc?.setRequired(value);
+    }
   }
 
   /**
@@ -306,6 +315,7 @@ export class SkyLookupComponent
   #ngUnsubscribe = new Subject<void>();
   #openNativePicker: SkyModalInstance | undefined;
   #openSelectionModal: SkySelectionModalInstance | undefined;
+  #requiredByTemplate = false;
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
@@ -352,6 +362,8 @@ export class SkyLookupComponent
           ? undefined
           : this.searchIconTemplateRef,
       });
+
+      this.inputBoxHostSvc?.setRequired(this.#requiredByTemplate);
     } else {
       this.controlId = this.#idService.generateId();
     }

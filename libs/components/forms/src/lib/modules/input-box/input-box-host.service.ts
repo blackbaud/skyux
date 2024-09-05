@@ -10,6 +10,7 @@ import { SkyInputBoxComponent } from './input-box.component';
  */
 @Injectable()
 export class SkyInputBoxHostService {
+  public initialized = false;
   #host: SkyInputBoxComponent | undefined;
 
   public get controlId(): string {
@@ -33,6 +34,7 @@ export class SkyInputBoxHostService {
   public init(host: SkyInputBoxComponent): void {
     this.#host = host;
     this.#ariaDescribedBy = host.ariaDescribedBy.asObservable();
+    this.initialized = true;
   }
 
   public populate(args: SkyInputBoxPopulateArgs): void {
@@ -73,5 +75,15 @@ export class SkyInputBoxHostService {
     }
 
     this.#host.setHintTextScreenReaderOnly(hide);
+  }
+
+  public setRequired(required: boolean): void {
+    if (!this.#host) {
+      throw new Error(
+        'Cannot set required on the input box because `SkyInputBoxHostService` has not yet been initialized.',
+      );
+    }
+
+    this.#host.setRequiredByChildComponent(required);
   }
 }
