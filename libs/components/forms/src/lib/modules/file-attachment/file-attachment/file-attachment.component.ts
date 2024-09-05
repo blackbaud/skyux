@@ -43,7 +43,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
 import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
-import { SkyFormFieldLabelTextRequiredDirective } from '../../shared/form-field-label-text-required.directive';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileItemErrorType } from '../shared/file-item-error-type';
@@ -65,12 +64,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [
-    {
-      directive: SkyFormFieldLabelTextRequiredDirective,
-      inputs: ['labelText'],
-    },
-  ],
   imports: [
     CommonModule,
     SkyFileAttachmentJoinIdsPipe,
