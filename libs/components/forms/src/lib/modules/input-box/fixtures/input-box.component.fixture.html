@@ -172,6 +172,22 @@
   </sky-input-box>
 </div>
 
+<div class="easy-input-host-service">
+  <sky-input-box
+    labelText="Input using host service"
+    [hintText]="easyModeHintText"
+  >
+    <sky-input-box-host-service-fixture>
+      <input
+        #hostServiceInput="skyId"
+        class="sky-form-control"
+        skyId
+        type="text"
+      />
+    </sky-input-box-host-service-fixture>
+  </sky-input-box>
+</div>
+
 <div class="input-box-has-errors">
   <sky-input-box class="sky-margin-stacked-lg" [hasErrors]="hasErrors">
     <label class="sky-control-label" [for]="hasErrorsInput.id">

@@ -128,9 +128,7 @@ export class SkyLookupComponent
   @Input({ transform: booleanAttribute })
   set required(value: boolean) {
     this.#requiredByTemplate = true;
-    if (this.inputBoxHostSvc?.initialized) {
-      this.inputBoxHostSvc?.setRequired(value);
-    }
+    this.inputBoxHostSvc?.setRequired(value);
   }
 
   /**

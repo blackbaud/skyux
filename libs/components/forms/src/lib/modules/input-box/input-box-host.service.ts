@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 import { SkyInputBoxComponent } from './input-box.component';
@@ -10,8 +10,10 @@ import { SkyInputBoxComponent } from './input-box.component';
  */
 @Injectable()
 export class SkyInputBoxHostService {
-  public initialized = false;
   #host: SkyInputBoxComponent | undefined;
+  #requiredSubject = new BehaviorSubject<boolean>(false);
+
+  public required = this.#requiredSubject.asObservable();
 
   public get controlId(): string {
     return this.#host?.controlId ?? '';
@@ -34,7 +36,6 @@ export class SkyInputBoxHostService {
   public init(host: SkyInputBoxComponent): void {
     this.#host = host;
     this.#ariaDescribedBy = host.ariaDescribedBy.asObservable();
-    this.initialized = true;
   }
 
   public populate(args: SkyInputBoxPopulateArgs): void {
@@ -78,12 +79,6 @@ export class SkyInputBoxHostService {
   }
 
   public setRequired(required: boolean): void {
-    if (!this.#host) {
-      throw new Error(
-        'Cannot set required on the input box because `SkyInputBoxHostService` has not yet been initialized.',
-      );
-    }
-
-    this.#host.setRequiredByChildComponent(required);
+    this.#requiredSubject.next(required);
   }
 }

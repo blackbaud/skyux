@@ -196,7 +196,7 @@ export class SkyInputBoxComponent
   public readonly hintTextId = this.#idSvc.generateId();
   public readonly ariaDescribedBy = new ReplaySubject<string | undefined>(1);
 
-  #requiredByChildComponent: boolean | undefined;
+  #requiredByFormField: boolean | undefined;
 
   @HostBinding('class')
   public cssClass = '';
@@ -237,7 +237,7 @@ export class SkyInputBoxComponent
     return (
       this.#hasRequiredValidator() ||
       this.inputRef?.nativeElement.required ||
-      this.#requiredByChildComponent
+      this.#requiredByFormField
     );
   }
 
@@ -252,6 +252,11 @@ export class SkyInputBoxComponent
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
+
+    this.#inputBoxHostSvc.required.subscribe((required) => {
+      this.#requiredByFormField = required;
+      this.#changeRef.markForCheck();
+    });
   }
 
   public ngAfterContentChecked(): void {
@@ -311,11 +316,6 @@ export class SkyInputBoxComponent
 
   public setHintTextScreenReaderOnly(hide: boolean): void {
     this.hintTextScreenReaderOnly = hide;
-    this.#changeRef.markForCheck();
-  }
-
-  public setRequiredByChildComponent(required: boolean): void {
-    this.#requiredByChildComponent = required;
     this.#changeRef.markForCheck();
   }
 
