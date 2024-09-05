@@ -65,6 +65,11 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   }
 
   async #getPopoverId(): Promise<string | null> {
-    return (await this.host()).getAttribute('aria-controls');
+    const pointerId = await (await this.host()).getAttribute('aria-controls');
+    const pointerEl = await this.#documentRootLocator.locatorForOptional(
+      `#${pointerId}`,
+    )();
+
+    return (await pointerEl?.getAttribute('aria-owns')) ?? null;
   }
 }

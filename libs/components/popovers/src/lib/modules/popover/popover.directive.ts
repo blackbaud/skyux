@@ -8,6 +8,7 @@ import {
   Renderer2,
   inject,
 } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 
 import { Subject, Subscription, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -107,17 +108,20 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #elementRef: ElementRef;
   #popoverClosedSubscription: Subscription | undefined;
   #srPointerEl: HTMLSpanElement | undefined;
+  #srPointerId: string;
 
   readonly #renderer = inject(Renderer2);
 
   constructor(elementRef: ElementRef) {
     this.#elementRef = elementRef;
+    this.#srPointerId = inject(SkyIdService).generateId();
     this.#subscribeMessageStream();
   }
 
   public ngOnInit(): void {
     this.#addEventListeners();
     this.#createSRPointerEl();
+    this.#updateAriaAttributes({ isExpanded: false });
   }
 
   public ngOnDestroy(): void {
@@ -311,22 +315,25 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   /**
-   * Inserts an element after the host element to direct screen readers to the
-   * popover contents via `aria-owns`. We need to create a separate element for
-   * this because the trigger element (usually a button or anchor element)
-   * cannot meaningfully set `aria-owns` to the ID of the popover contents
-   * because semantically the button should not contain block-level children.
+   * Inserts an empty "pointer" element after the host element to direct screen
+   * readers to the opened popover content. Popover content is appended to the
+   * document body, but it needs to be associated with the host element to meet
+   * accessibility requirements. This is done by setting `aria-owns` on the
+   * pointer element, which instructs the screen reader to consider the popover
+   * contents as a child of the pointer element. We cannot set `aria-owns` on
+   * the host element because it is nearly always a button, and buttons cannot
+   * have block-level children.
    * @see https://github.com/w3c/html-aria/issues/124
    */
   #createSRPointerEl(): void {
     const span = this.#renderer.createElement('span');
     this.#renderer.setAttribute(span, 'class', 'sky-screen-reader-only');
+    this.#renderer.setAttribute(span, 'id', this.#srPointerId);
     this.#srPointerEl = span;
 
-    this.#elementRef.nativeElement.parentNode.insertBefore(
-      this.#srPointerEl,
-      this.#elementRef.nativeElement.nextSibling,
-    );
+    const hostEl = this.#elementRef.nativeElement;
+    this.#renderer.setAttribute(hostEl, 'aria-controls', this.#srPointerId);
+    hostEl.parentNode.insertBefore(this.#srPointerEl, hostEl.nextSibling);
   }
 
   #updateAriaAttributes(options: {
@@ -338,17 +345,18 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     const hostEl = this.#elementRef.nativeElement;
     const pointerEl = this.#srPointerEl;
 
-    if (options.isExpanded === true) {
-      this.#renderer.setAttribute(hostEl, 'aria-expanded', 'true');
+    this.#renderer.setAttribute(
+      hostEl,
+      'aria-expanded',
+      options.isExpanded ? 'true' : 'false',
+    );
 
+    if (options.isExpanded === true) {
       if (this.popoverId) {
         this.#renderer.setAttribute(pointerEl, 'aria-owns', this.popoverId);
-        this.#renderer.setAttribute(hostEl, 'aria-controls', this.popoverId);
       }
     } else {
-      this.#renderer.setAttribute(hostEl, 'aria-expanded', 'false');
       this.#renderer.removeAttribute(pointerEl, 'aria-owns');
-      this.#renderer.removeAttribute(hostEl, 'aria-controls');
     }
   }
 }

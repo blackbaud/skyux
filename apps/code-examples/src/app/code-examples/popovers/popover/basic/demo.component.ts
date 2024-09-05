@@ -12,9 +12,9 @@ import {
   imports: [SkyPopoverModule],
 })
 export class DemoComponent {
-  public dismissOnBlur: boolean | undefined;
-  public popoverAlignment: SkyPopoverAlignment | undefined;
-  public popoverBody = 'This is a popover.';
-  public popoverPlacement: SkyPopoverPlacement | undefined;
-  public popoverTitle: string | undefined = 'Did you know?';
+  protected dismissOnBlur: boolean | undefined;
+  protected popoverAlignment: SkyPopoverAlignment | undefined;
+  protected popoverBody = 'This is a popover.';
+  protected popoverPlacement: SkyPopoverPlacement | undefined;
+  protected popoverTitle: string | undefined = 'Did you know?';
 }
