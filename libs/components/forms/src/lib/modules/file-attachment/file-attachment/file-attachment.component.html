@@ -79,6 +79,10 @@
                   ? labelId
                   : labelComponents?.get(0)?.labelContentId?.id)
         "
+        [attr.aria-invalid]="!!(ngControl?.errors ?? fileErrorValidation)"
+        [attr.aria-errormessage]="
+          !!(ngControl?.errors ?? fileErrorValidation) ? errorId : undefined
+        "
         [disabled]="disabled"
         (click)="onDropClicked()"
       >
