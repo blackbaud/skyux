@@ -38,9 +38,9 @@ module.exports = () => {
     ],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
+        base: 'Chrome',
         flags: [
-          '--headless',
+          '--headless=new',
           '--disable-gpu',
           '--disable-dev-shm-usage',
           '--window-size=1920,1080',
@@ -52,7 +52,6 @@ module.exports = () => {
       jasmine: {
         random: false,
       },
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
       dir: join(__dirname, './coverage'),
