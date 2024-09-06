@@ -18,7 +18,8 @@
           type="button"
           class="sky-btn sky-btn-default sky-file-item-btn-delete"
           [attr.aria-label]="
-            'skyux_file_attachment_file_item_delete' | skyLibResources
+            'skyux_file_attachment_file_item_delete'
+              | skyLibResources: (isFile ? fileName : url)
           "
           (click)="itemDelete()"
         >
