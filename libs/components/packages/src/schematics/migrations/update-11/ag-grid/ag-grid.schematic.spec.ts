@@ -247,4 +247,102 @@ describe('ag-grid.schematic', () => {
       `import { ColDef } from '@ag-grid-community/core';`,
     );
   });
+
+  it('should switch `new Column` to `new AgColumn`', async () => {
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/app.component.ts',
+      `
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { Column } from 'ag-grid-community';
+
+        export class AppComponent {
+          public column: Column;
+        }`,
+    );
+    tree.create(
+      'src/app/app.component.spec.ts',
+      `
+        import { Column } from 'ag-grid-community';
+
+        if('should work', () => {
+          const column = new Column();
+        });`,
+    );
+
+    await runner.runSchematic('ag-grid', {}, tree);
+
+    expect(tree.readText('src/app/app.component.ts')).toEqual(
+      `
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { Column } from 'ag-grid-community';
+
+        export class AppComponent {
+          public column: Column;
+        }`,
+    );
+    expect(tree.readText('src/app/app.component.spec.ts')).toEqual(
+      `
+        import {  AgColumn } from 'ag-grid-community';
+
+        if('should work', () => {
+          const column = new AgColumn();
+        });`,
+    );
+  });
+
+  it('should switch `Beans` to `BeanCollection`', async () => {
+    const { tree } = setupTest({
+      dependencies: {
+        '@skyux/ag-grid': '0.0.0',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+      },
+    });
+    tree.create(
+      'src/app/app.component.ts',
+      `
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import { Beans } from 'ag-grid-community';
+
+        export class AppComponent {
+          public beans: Beans;
+        }`,
+    );
+    tree.create(
+      'src/app/app.component.spec.ts',
+      `
+        import { Beans } from 'ag-grid-community';
+
+        if('should work', () => {
+          const beans = new Beans();
+        });`,
+    );
+
+    await runner.runSchematic('ag-grid', {}, tree);
+
+    expect(tree.readText('src/app/app.component.ts')).toEqual(
+      `
+        import { SkyAgGridService } from '@skyux/ag-grid';
+        import {  BeanCollection } from 'ag-grid-community';
+
+        export class AppComponent {
+          public beans: BeanCollection;
+        }`,
+    );
+    expect(tree.readText('src/app/app.component.spec.ts')).toEqual(
+      `
+        import {  BeanCollection } from 'ag-grid-community';
+
+        if('should work', () => {
+          const beans = new BeanCollection();
+        });`,
+    );
+  });
 });

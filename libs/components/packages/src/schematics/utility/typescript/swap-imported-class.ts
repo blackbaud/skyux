@@ -1,11 +1,15 @@
-import { Tree } from '@angular-devkit/schematics';
+import { Tree, UpdateRecorder } from '@angular-devkit/schematics';
 import { isImported } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
+import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
+import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
+
+import { removeImport } from './remove-import';
 
 export interface SwapImportedClassOptions {
   classNames: Record<string, string>;
   moduleName: string;
+  filter?: (node: ts.Identifier) => boolean;
 }
 
 function findReferences(
@@ -18,9 +22,19 @@ function findReferences(
   );
 }
 
+function swapReference(
+  recorder: UpdateRecorder,
+  reference: ts.Identifier,
+  newClassName: string,
+): void {
+  const start = reference.getStart();
+  recorder.remove(start, reference.getWidth());
+  recorder.insertRight(start, newClassName);
+}
+
 export function swapImportedClass(
   tree: Tree,
-  projectPath: string,
+  filePath: string,
   sourceFile: ts.SourceFile,
   options: SwapImportedClassOptions[],
 ): void {
@@ -33,51 +47,62 @@ export function swapImportedClass(
     return;
   }
 
-  const applicableImportRanges = findNodes(
+  const endOfImports = findNodes(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
-  )
-    .filter(
-      (node): node is ts.ImportDeclaration =>
-        ts.isImportDeclaration(node) &&
-        ts.isStringLiteral(node.moduleSpecifier) &&
-        applicableOptions.some(
-          (option) =>
-            (node.moduleSpecifier as ts.StringLiteral).text ===
-            option.moduleName,
-        ),
-    )
-    .map((node) => ({
-      start: node.getStart(sourceFile),
-      width: node.getWidth(sourceFile),
-    }));
+  ).reduce((max, node) => Math.max(max, node.getEnd()), 0);
 
-  const classNameSwaps: [string, string][] = applicableOptions
-    .map((option) => Object.entries(option.classNames))
-    .flat();
-  const recorder = tree.beginUpdate(projectPath);
-  classNameSwaps.forEach(([oldClassName, newClassName]) => {
-    const references = findReferences(sourceFile, oldClassName);
-    const alreadyImported = isImported(
-      sourceFile,
-      newClassName,
-      applicableOptions[0].moduleName,
-    );
-    references.forEach((reference) => {
-      const start = reference.getStart();
-      const width = reference.getWidth();
-      recorder.remove(start, width);
+  const recorder = tree.beginUpdate(filePath);
+  const addImports: Record<string, string[]> = {};
+  const removeImports: Record<string, string[]> = {};
+  applicableOptions.forEach(({ classNames, moduleName, filter }) => {
+    Object.entries(classNames).forEach(([oldClassName, newClassName]) => {
+      const referencesInCode = findReferences(sourceFile, oldClassName).filter(
+        (reference) => reference.getStart() > endOfImports,
+      );
+      const referencesFiltered = referencesInCode.filter(
+        filter ?? (() => true),
+      );
+      referencesFiltered.forEach((reference) => {
+        swapReference(recorder, reference, newClassName);
+      });
       if (
-        alreadyImported &&
-        applicableImportRanges.find(
-          (range) => range.start < start && range.start + range.width > start,
-        )
+        referencesFiltered.length > 0 &&
+        !isImported(sourceFile, newClassName, moduleName)
       ) {
-        recorder.remove(start + width, 1);
-      } else {
-        recorder.insertRight(start, newClassName);
+        addImports[moduleName] ??= [];
+        addImports[moduleName].push(newClassName);
+      }
+      if (referencesFiltered.length === referencesInCode.length) {
+        removeImports[moduleName] ??= [];
+        removeImports[moduleName].push(oldClassName);
       }
     });
   });
+
+  const changes = Object.entries(addImports).flatMap(
+    ([moduleName, classNames]) =>
+      classNames.map((className) =>
+        insertImport(sourceFile, filePath, className, moduleName),
+      ),
+  );
+  applyToUpdateRecorder(recorder, changes);
+
   tree.commitUpdate(recorder);
+
+  const removeImportEntries = Object.entries(removeImports);
+  if (removeImportEntries.length > 0) {
+    const sourceFileAfterChanges = ts.createSourceFile(
+      filePath,
+      tree.readText(filePath),
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    removeImportEntries.forEach(([moduleName, classNames]) =>
+      removeImport(tree, filePath, sourceFileAfterChanges, {
+        classNames,
+        moduleName,
+      }),
+    );
+  }
 }
