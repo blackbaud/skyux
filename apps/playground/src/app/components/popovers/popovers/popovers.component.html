@@ -16,6 +16,15 @@
       Only text
     </button>
 
+    <button
+      class="sky-btn sky-btn-link"
+      type="button"
+      [skyPopover]="myPopover2"
+      [skyPopoverTrigger]="'mouseenter'"
+    >
+      Show on hover
+    </button>
+
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut velit
       a urna fermentum fermentum. Quisque sed lectus sit amet nibh tempus
@@ -41,5 +50,9 @@
 </sky-popover>
 
 <sky-popover #myPopover1>
+  The content of a popover can be text, HTML, or Angular components.
+</sky-popover>
+
+<sky-popover #myPopover2>
   The content of a popover can be text, HTML, or Angular components.
 </sky-popover>
