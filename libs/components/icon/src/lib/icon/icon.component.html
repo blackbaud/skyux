@@ -1,5 +1,9 @@
 @if (iconName) {
-  <sky-icon-svg [iconName]="iconName" [iconSize]="size" />
+  <sky-icon-svg
+    [iconName]="iconName"
+    [iconSize]="size"
+    [iconVariant]="variant"
+  />
 } @else {
   <i
     *ngIf="icon"
