@@ -1,5 +1,26 @@
 # Changelog
 
+## [11.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.14...11.0.0-alpha.15) (2024-09-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** radio button add proper spacing when not in unordered lists ([#2670](https://github.com/blackbaud/skyux/issues/2670))
+
+### Features
+
+* **components/ag-grid:** support AG Grid 32.1.0 ([#2681](https://github.com/blackbaud/skyux/issues/2681)) ([ee75bd2](https://github.com/blackbaud/skyux/commit/ee75bd21a0dd67f72fd0e6ef4a915674df52bd37))
+* **components/theme:** add support for @skyux/icons@7.8.0 ([#2678](https://github.com/blackbaud/skyux/issues/2678)) ([#2703](https://github.com/blackbaud/skyux/issues/2703)) ([ec10383](https://github.com/blackbaud/skyux/commit/ec103837cd131655988b9baa030000af63dc06ab))
+
+
+### Bug Fixes
+
+* **components/forms:** add missing ARIA attributes to file attachment button ([#2680](https://github.com/blackbaud/skyux/issues/2680)) ([85a8cb1](https://github.com/blackbaud/skyux/commit/85a8cb1e01a07ddf74f4b360828a7910f01dc3d9))
+* **components/forms:** radio button add proper spacing when not in unordered lists ([#2670](https://github.com/blackbaud/skyux/issues/2670)) ([9f47033](https://github.com/blackbaud/skyux/commit/9f47033d39d3e9b55b3ec14e96142ee78689347a))
+* **components/forms:** separate file attachment help inline button from label ([#2675](https://github.com/blackbaud/skyux/issues/2675)) ([67c1496](https://github.com/blackbaud/skyux/commit/67c1496f4e9eb2cc8d576af4fa38a8bec13eb977))
+* **components/forms:** stop requiring labelText in field group ([#2674](https://github.com/blackbaud/skyux/issues/2674)) ([#2677](https://github.com/blackbaud/skyux/issues/2677)) ([627f1d7](https://github.com/blackbaud/skyux/commit/627f1d71fb3ef1fedd0a89fdf5f7e2eb90ef1fc1))
+* **components/icon:** variant input is respected for SVG-based icons ([#2688](https://github.com/blackbaud/skyux/issues/2688)) ([#2701](https://github.com/blackbaud/skyux/issues/2701)) ([1d6953c](https://github.com/blackbaud/skyux/commit/1d6953c3d166d8e0dc50e5a686aaf193916cffd7))
+
 ## [10.42.0](https://github.com/blackbaud/skyux/compare/10.41.5...10.42.0) (2024-09-06)
 
 
