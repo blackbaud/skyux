@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.42.0](https://github.com/blackbaud/skyux/compare/10.41.5...10.42.0) (2024-09-06)
+
+
+### Features
+
+* **components/theme:** add support for @skyux/icons@7.8.0 ([#2678](https://github.com/blackbaud/skyux/issues/2678)) ([1997de3](https://github.com/blackbaud/skyux/commit/1997de3beb4b586a66dc78fc47f95c0fea74a885))
+
+
+### Bug Fixes
+
+* **components/forms:** stop requiring labelText in field group ([#2674](https://github.com/blackbaud/skyux/issues/2674)) ([a245e9a](https://github.com/blackbaud/skyux/commit/a245e9a71a7512ec9503a273c7dce1534c2dcdee))
+* **components/icon:** variant input is respected for SVG-based icons ([#2688](https://github.com/blackbaud/skyux/issues/2688)) ([d5681a6](https://github.com/blackbaud/skyux/commit/d5681a627f6da97c1fb1b2b314f3b4ce04dfd187))
+
 ## [11.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.13...11.0.0-alpha.14) (2024-09-03)
 
 
