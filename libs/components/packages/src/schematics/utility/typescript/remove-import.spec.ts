@@ -20,7 +20,7 @@ describe('remove-import', () => {
       ts.ScriptTarget.Latest,
       true,
     );
-    removeImport(tree, path, sourceFile, content, {
+    removeImport(tree, path, sourceFile, {
       classNames: ['B'],
       moduleName: 'module',
     });
@@ -37,7 +37,7 @@ describe('remove-import', () => {
       ts.ScriptTarget.Latest,
       true,
     );
-    removeImport(tree, path, sourceFile, content, {
+    removeImport(tree, path, sourceFile, {
       classNames: ['A', 'B', 'C'],
       moduleName: 'module',
     });

@@ -1,8 +1,6 @@
 <div class="sky-file-attachment-wrapper">
   <div
-    #labelRef="skyId"
     class="sky-file-attachment-label-wrapper"
-    skyId
     [ngClass]="{
       'sky-control-label-required':
         !labelText && isRequired && hasLabelComponent
@@ -12,19 +10,12 @@
       @if (!labelHidden) {
         <span
           class="sky-control-label sky-margin-inline-xs"
+          [attr.id]="labelId"
           [ngClass]="{
             'sky-control-label-required': isRequired
           }"
           >{{ labelText }}</span
         >
-      }
-      @if (helpPopoverContent || helpKey) {
-        <sky-help-inline
-          [labelText]="labelText"
-          [helpKey]="helpKey"
-          [popoverTitle]="helpPopoverTitle"
-          [popoverContent]="helpPopoverContent"
-        />
       }
     } @else {
       <ng-content select="sky-file-attachment-label" />
@@ -33,6 +24,14 @@
       <span class="sky-screen-reader-only">{{
         'skyux_file_attachment_required' | skyLibResources
       }}</span>
+    }
+    @if (labelText && (helpPopoverContent || helpKey)) {
+      <sky-help-inline
+        [labelText]="labelText"
+        [helpKey]="helpKey"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
     }
   </div>
   <div
@@ -77,8 +76,12 @@
           attachButtonLabelRef.id
             | skyFileAttachmentJoinIds
               : (labelText
-                  ? labelRef.id
+                  ? labelId
                   : labelComponents?.get(0)?.labelContentId?.id)
+        "
+        [attr.aria-invalid]="!!(ngControl?.errors ?? fileErrorValidation)"
+        [attr.aria-errormessage]="
+          !!(ngControl?.errors ?? fileErrorValidation) ? errorId : undefined
         "
         [disabled]="disabled"
         (click)="onDropClicked()"
@@ -126,7 +129,9 @@
         [attr.aria-labelledby]="
           deleteButtonLabelRef.id
             | skyFileAttachmentJoinIds
-              : labelComponents?.get(0)?.labelContentId?.id
+              : (labelText
+                  ? labelId
+                  : labelComponents?.get(0)?.labelContentId?.id)
         "
         [disabled]="disabled"
         [skyThemeClass]="{
