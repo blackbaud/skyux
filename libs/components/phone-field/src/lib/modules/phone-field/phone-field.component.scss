@@ -59,11 +59,12 @@
   .iti__flag {
     max-width: 25px;
     max-height: 13px;
-    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags.webp) !important;
+    background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/intl-tel-input/flags.webp) !important;
+    transform: scaleX(1.25);
 
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
       .iti__flag {
-        background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags@2x.webp) !important;
+        background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/intl-tel-input/flags@2x.webp) !important;
       }
     }
   }
