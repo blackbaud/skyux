@@ -45,7 +45,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.#popoverClosedSubscription?.unsubscribe();
     this.#popoverClosedSubscription = value
       ? value.popoverClosed.subscribe(() => {
-          this.#updateAriaAttributes({ isExpanded: false });
+          this.#isExpanded = false;
+          this.#updateAriaAttributes();
         })
       : undefined;
 
@@ -55,7 +56,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
       this.#destroySRPointerEl();
     }
 
-    this.#updateAriaAttributes({ isExpanded: false });
+    this.#updateAriaAttributes();
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -101,6 +102,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   @Input()
   public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {
     this.#_trigger = value ?? 'click';
+    this.#updateAriaAttributes();
   }
 
   public get skyPopoverTrigger(): SkyPopoverTrigger {
@@ -114,6 +116,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #_trigger: SkyPopoverTrigger = 'click';
 
   #elementRef: ElementRef;
+  #isExpanded = false;
   #popoverClosedSubscription: Subscription | undefined;
   #srPointerEl: HTMLSpanElement | undefined;
   #srPointerId: string;
@@ -275,7 +278,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     switch (message.type) {
       case SkyPopoverMessageType.Open:
         this.#positionPopover();
-        this.#updateAriaAttributes({ isExpanded: true });
+        this.#isExpanded = true;
+        this.#updateAriaAttributes();
         break;
 
       case SkyPopoverMessageType.Close:
@@ -331,9 +335,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    * @see https://github.com/w3c/html-aria/issues/124
    */
   #createSRPointerEl(): void {
-    if (this.skyPopover) {
+    if (this.skyPopover && this.skyPopoverTrigger === 'click') {
       const span = this.#renderer.createElement('span');
-      this.#renderer.setAttribute(span, 'class', 'sky-screen-reader-only');
       this.#renderer.setAttribute(span, 'id', this.#srPointerId);
       this.#srPointerEl = span;
 
@@ -348,12 +351,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.#srPointerEl = undefined;
   }
 
-  #updateAriaAttributes(options: {
-    /**
-     * Whether the popover content should be marked as "expanded".
-     */
-    isExpanded: boolean;
-  }): void {
+  #updateAriaAttributes(): void {
     const hostEl = this.#elementRef.nativeElement;
     const pointerEl = this.#srPointerEl;
 
@@ -361,10 +359,10 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
       this.#renderer.setAttribute(
         hostEl,
         'aria-expanded',
-        options.isExpanded ? 'true' : 'false',
+        this.#isExpanded ? 'true' : 'false',
       );
 
-      if (options.isExpanded === true) {
+      if (this.#isExpanded === true) {
         if (this.popoverId) {
           this.#renderer.setAttribute(pointerEl, 'aria-owns', this.popoverId);
         }

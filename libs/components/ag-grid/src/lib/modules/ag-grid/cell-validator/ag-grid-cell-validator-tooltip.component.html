@@ -1,14 +1,15 @@
 <div
+  class="sky-validator-cell"
+  skyPopoverTrigger="mouseenter"
   [skyPopover]="validatorPopover"
   [skyPopoverMessageStream]="popoverMessageStream"
-  class="sky-validator-cell"
 >
   <ng-content />
   <sky-status-indicator
     descriptionType="none"
     indicatorType="danger"
     class="sky-pull-right"
-  ></sky-status-indicator>
+  />
 </div>
 <sky-popover #validatorPopover popoverType="danger">
   {{ validatorMessage }}

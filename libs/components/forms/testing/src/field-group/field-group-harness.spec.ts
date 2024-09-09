@@ -155,6 +155,8 @@ describe('Field group harness', () => {
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
 
+    fixture.componentInstance.helpKey = 'helpKey.html';
+
     await fieldGroupHarness.clickHelpInline();
     fixture.detectChanges();
     await fixture.whenStable();
