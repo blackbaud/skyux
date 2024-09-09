@@ -32,6 +32,8 @@ export class SkyLookupInputBoxTestComponent {
 
   public form: UntypedFormGroup;
 
+  public required = false;
+
   public selectMode: SkyLookupSelectModeType | undefined;
 
   constructor(formBuilder: UntypedFormBuilder) {

@@ -7481,6 +7481,23 @@ describe('Lookup component', function () {
       expect(lookupComponent.isInputFocused).toEqual(false);
     });
 
+    it('should add or remove the required label class if `required` is set on lookup element', async function () {
+      component.required = true;
+      fixture.detectChanges();
+
+      let requiredLabel = fixture.nativeElement.querySelector(
+        '.sky-control-label-required',
+      );
+      expect(requiredLabel).toExist();
+
+      component.required = false;
+      fixture.detectChanges();
+      requiredLabel = fixture.nativeElement.querySelector(
+        '.sky-control-label-required',
+      );
+      expect(requiredLabel).not.toExist();
+    });
+
     describe('aria-describedby attribute', () => {
       it('should be set when hint text is specified and select mode is single', () => {
         validateDescribedBy('single');
