@@ -1,5 +1,18 @@
 # Changelog
 
+## [10.43.0](https://github.com/blackbaud/skyux/compare/10.42.0...10.43.0) (2024-09-09)
+
+
+### Features
+
+* add support for `axe-core@4.10.0` ([#2696](https://github.com/blackbaud/skyux/issues/2696)) ([48855a3](https://github.com/blackbaud/skyux/commit/48855a3ade96984aac2a62e95b1f0b4eac6102e7))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** improve row selector performance ([#2691](https://github.com/blackbaud/skyux/issues/2691)) ([e1d391b](https://github.com/blackbaud/skyux/commit/e1d391bcf594fd5b03cf9ee189c067801d7d588f))
+* **components/lookup:** add required label asterisk for template driven forms ([#2694](https://github.com/blackbaud/skyux/issues/2694)) ([2f25548](https://github.com/blackbaud/skyux/commit/2f25548870a035fb97c12d2667d477f9018c3961))
+
 ## [10.42.0](https://github.com/blackbaud/skyux/compare/10.41.5...10.42.0) (2024-09-06)
 
 
