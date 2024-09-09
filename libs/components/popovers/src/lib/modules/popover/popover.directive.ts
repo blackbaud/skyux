@@ -48,6 +48,14 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
           this.#updateAriaAttributes({ isExpanded: false });
         })
       : undefined;
+
+    if (value) {
+      this.#createSRPointerEl();
+    } else {
+      this.#destroySRPointerEl();
+    }
+
+    this.#updateAriaAttributes({ isExpanded: false });
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -120,16 +128,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.#addEventListeners();
-    this.#createSRPointerEl();
-    this.#updateAriaAttributes({ isExpanded: false });
   }
 
   public ngOnDestroy(): void {
     this.#removeEventListeners();
     this.#unsubscribeMessageStream();
+    this.#destroySRPointerEl();
     this.#popoverClosedSubscription?.unsubscribe();
-    this.#srPointerEl?.remove();
-    this.#srPointerEl = undefined;
   }
 
   public togglePopover(): void {
@@ -326,14 +331,21 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    * @see https://github.com/w3c/html-aria/issues/124
    */
   #createSRPointerEl(): void {
-    const span = this.#renderer.createElement('span');
-    this.#renderer.setAttribute(span, 'class', 'sky-screen-reader-only');
-    this.#renderer.setAttribute(span, 'id', this.#srPointerId);
-    this.#srPointerEl = span;
+    if (this.skyPopover) {
+      const span = this.#renderer.createElement('span');
+      this.#renderer.setAttribute(span, 'class', 'sky-screen-reader-only');
+      this.#renderer.setAttribute(span, 'id', this.#srPointerId);
+      this.#srPointerEl = span;
 
-    const hostEl = this.#elementRef.nativeElement;
-    this.#renderer.setAttribute(hostEl, 'aria-controls', this.#srPointerId);
-    hostEl.parentNode.insertBefore(this.#srPointerEl, hostEl.nextSibling);
+      const hostEl = this.#elementRef.nativeElement;
+      this.#renderer.setAttribute(hostEl, 'aria-controls', this.#srPointerId);
+      hostEl.parentNode.insertBefore(this.#srPointerEl, hostEl.nextSibling);
+    }
+  }
+
+  #destroySRPointerEl(): void {
+    this.#srPointerEl?.remove();
+    this.#srPointerEl = undefined;
   }
 
   #updateAriaAttributes(options: {
@@ -345,18 +357,22 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     const hostEl = this.#elementRef.nativeElement;
     const pointerEl = this.#srPointerEl;
 
-    this.#renderer.setAttribute(
-      hostEl,
-      'aria-expanded',
-      options.isExpanded ? 'true' : 'false',
-    );
+    if (pointerEl) {
+      this.#renderer.setAttribute(
+        hostEl,
+        'aria-expanded',
+        options.isExpanded ? 'true' : 'false',
+      );
 
-    if (options.isExpanded === true) {
-      if (this.popoverId) {
-        this.#renderer.setAttribute(pointerEl, 'aria-owns', this.popoverId);
+      if (options.isExpanded === true) {
+        if (this.popoverId) {
+          this.#renderer.setAttribute(pointerEl, 'aria-owns', this.popoverId);
+        }
+      } else {
+        this.#renderer.removeAttribute(pointerEl, 'aria-owns');
       }
     } else {
-      this.#renderer.removeAttribute(pointerEl, 'aria-owns');
+      this.#renderer.removeAttribute(hostEl, 'aria-expanded');
     }
   }
 }
