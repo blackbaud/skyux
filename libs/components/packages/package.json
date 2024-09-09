@@ -92,8 +92,8 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^17.3.4",
-    "@angular/core": "^17.3.4"
+    "@angular/cli": "^17.3.9",
+    "@angular/core": "^17.3.12"
   },
   "dependencies": {
     "fs-extra": "11.2.0",
