@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
+    env:
+      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -131,6 +134,9 @@ jobs:
     if: ${{ !cancelled() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     needs: install-deps
     runs-on: ubuntu-latest
+    env:
+      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -158,6 +164,9 @@ jobs:
     name: Check formatting
     needs: install-deps
     runs-on: ubuntu-latest
+    env:
+      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -184,6 +193,9 @@ jobs:
     needs: install-deps
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
+    env:
+      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
