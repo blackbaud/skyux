@@ -16,8 +16,8 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^17.3.4",
-    "@angular/core": "^17.3.4",
+    "@angular/common": "^17.3.12",
+    "@angular/core": "^17.3.12",
     "@skyux/animations": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/help-inline": "0.0.0-PLACEHOLDER",
