@@ -11,7 +11,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
