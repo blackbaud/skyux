@@ -1,5 +1,15 @@
 # Changelog
 
+## [11.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.15...11.0.0-alpha.16) (2024-09-09)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** improve row selector performance ([#2691](https://github.com/blackbaud/skyux/issues/2691)) ([#2710](https://github.com/blackbaud/skyux/issues/2710)) ([34ee162](https://github.com/blackbaud/skyux/commit/34ee162f837268a26946e63ec84ffd77a256b0e9))
+* **components/forms:** add unique ARIA labels to file drop item delete buttons ([#2700](https://github.com/blackbaud/skyux/issues/2700)) ([2670977](https://github.com/blackbaud/skyux/commit/2670977596a3825aef67466391d3a8585503565e))
+* **components/lookup:** add required label asterisk for template driven forms ([#2694](https://github.com/blackbaud/skyux/issues/2694)) ([#2711](https://github.com/blackbaud/skyux/issues/2711)) ([75c89f6](https://github.com/blackbaud/skyux/commit/75c89f61dec53428f3dcfc823c28b1d973da0922))
+* **components/packages:** adjust AG Grid migration ([#2708](https://github.com/blackbaud/skyux/issues/2708)) ([1da3110](https://github.com/blackbaud/skyux/commit/1da3110bd681b8d1a82f4e07770f5446d57ac849))
+
 ## [11.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.14...11.0.0-alpha.15) (2024-09-06)
 
 
