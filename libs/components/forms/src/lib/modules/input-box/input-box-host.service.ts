@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { SkyInputBoxComponent } from './input-box.component';
  * @internal
  */
 @Injectable()
-export class SkyInputBoxHostService {
+export class SkyInputBoxHostService implements OnDestroy {
   #host: SkyInputBoxComponent | undefined;
   #requiredSubject = new BehaviorSubject<boolean>(false);
 
@@ -36,6 +36,10 @@ export class SkyInputBoxHostService {
   public init(host: SkyInputBoxComponent): void {
     this.#host = host;
     this.#ariaDescribedBy = host.ariaDescribedBy.asObservable();
+  }
+
+  public ngOnDestroy(): void {
+    this.#requiredSubject.complete();
   }
 
   public populate(args: SkyInputBoxPopulateArgs): void {
@@ -78,6 +82,11 @@ export class SkyInputBoxHostService {
     this.#host.setHintTextScreenReaderOnly(hide);
   }
 
+  /**
+   * Set required so that input box displays the label correctly. When the input is supplied by the consumer it is a content
+   * child that input box can read required from and this is unnecessary. When the input is supplied internally by the
+   * component the input box does not have a ref to it, so the component needs to inform the input box of its required state.
+   */
   public setRequired(required: boolean): void {
     this.#requiredSubject.next(required);
   }

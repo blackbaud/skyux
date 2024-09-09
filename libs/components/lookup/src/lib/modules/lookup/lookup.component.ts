@@ -125,10 +125,18 @@ export class SkyLookupComponent
     return this.#_disabled;
   }
 
+  /**
+   * Whether the lookup field is required.
+   * @default false
+   */
   @Input({ transform: booleanAttribute })
   public set required(value: boolean) {
-    this.#requiredByTemplate = true;
+    this.#_required = value;
     this.inputBoxHostSvc?.setRequired(value);
+  }
+
+  public get required(): boolean {
+    return this.#_required;
   }
 
   /**
@@ -313,7 +321,7 @@ export class SkyLookupComponent
   #ngUnsubscribe = new Subject<void>();
   #openNativePicker: SkyModalInstance | undefined;
   #openSelectionModal: SkySelectionModalInstance | undefined;
-  #requiredByTemplate = false;
+  #_required = false;
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
@@ -361,7 +369,7 @@ export class SkyLookupComponent
           : this.searchIconTemplateRef,
       });
 
-      this.inputBoxHostSvc?.setRequired(this.#requiredByTemplate);
+      this.inputBoxHostSvc?.setRequired(this.required);
     } else {
       this.controlId = this.#idService.generateId();
     }

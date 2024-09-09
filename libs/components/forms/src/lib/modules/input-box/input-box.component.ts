@@ -31,7 +31,7 @@ import {
 } from '@angular/forms';
 import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 
@@ -249,14 +249,17 @@ export class SkyInputBoxComponent
 
   #previousInputRef: ElementRef | undefined;
   #previousMaxLengthValidator: ValidatorFn | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
 
-    this.#inputBoxHostSvc.required.subscribe((required) => {
-      this.#requiredByFormField = required;
-      this.#changeRef.markForCheck();
-    });
+    this.#inputBoxHostSvc.required
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((required) => {
+        this.#requiredByFormField = required;
+        this.#changeRef.markForCheck();
+      });
   }
 
   public ngAfterContentChecked(): void {
@@ -272,6 +275,8 @@ export class SkyInputBoxComponent
 
   public ngOnDestroy(): void {
     this.ariaDescribedBy.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public formControlFocusIn(): void {
