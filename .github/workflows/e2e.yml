@@ -131,7 +131,7 @@ jobs:
           restore-keys: build-storybook-${{ matrix.project }}-${{ runner.os }}-
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-agents
+        run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-cloud --no-dte
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
@@ -195,7 +195,7 @@ jobs:
         run: |
           npx nx build ${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/" \
-            --no-agents
+            --no-cloud --no-dte
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
@@ -268,7 +268,7 @@ jobs:
             --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
             --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
       - name: Build Storybook Composition
-        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-agents
+        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-cloud --no-dte
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v4
         with:
@@ -337,7 +337,7 @@ jobs:
         id: cache-key
         shell: pwsh
         run: |
-          $DEV_TARGET = $(npx nx show project ${{ matrix.project }} --json| jq -r '.targets.e2e.options.devServerTarget // ""') -split ':'
+          $DEV_TARGET = $(npx nx show project ${{ matrix.project }} --json | jq -r '.targets.e2e.options.devServerTarget // ""') -split ':'
           if ( -not $DEV_TARGET ) {
             Write-Host "No devServerTarget found for ${{ matrix.project }}. Skipping cache."
             Write-Host "::set-output name=cache-key::"
@@ -368,7 +368,7 @@ jobs:
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
 
           # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-agents 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             echo "Percy failed with exit code $RESULT"
@@ -376,7 +376,7 @@ jobs:
             if [ $RETRY -gt 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
-              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-agents 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
             else
               exit 1
             fi
@@ -458,7 +458,7 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build e2e-schematics
-        run: npx nx build e2e-schematics --no-agents
+        run: npx nx build e2e-schematics --no-cloud --no-dte
       - name: Download Percy Build Numbers
         uses: actions/download-artifact@v4
         with:
