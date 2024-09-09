@@ -38,13 +38,8 @@ module.exports = () => {
     ],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
-        base: 'Chrome',
-        flags: [
-          '--headless=new',
-          '--disable-gpu',
-          '--disable-dev-shm-usage',
-          '--window-size=1920,1080',
-        ],
+        base: 'ChromeHeadless',
+        flags: ['--headless=new', '--window-size=1920,1080'],
       },
     },
     restartOnFileChange: true,
