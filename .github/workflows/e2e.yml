@@ -16,7 +16,7 @@ concurrency:
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_TASKS_RUNNER: nx/tasks-runners/default
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
   PERCY_COMMIT: ${{ github.sha }}
   PERCY_SKIP_UPDATE_CHECK: 'true'
@@ -98,7 +98,6 @@ jobs:
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
-      max-parallel: 3
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
@@ -123,6 +122,13 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+        if: ${{ matrix.project != 'skip' }}
+      - name: Retrieve build-storybook-cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: build-storybook-${{ matrix.project }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          restore-keys: build-storybook-${{ matrix.project }}-${{ runner.os }}-
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
         run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-agents
@@ -179,6 +185,13 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
+      - name: Retrieve build-${{ matrix.project }}-cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: build-${{ matrix.project }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          restore-keys: build-${{ matrix.project }}-${{ runner.os }}-
+        if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.app }}
         run: |
           npx nx build ${{ matrix.app }} \
@@ -283,7 +296,6 @@ jobs:
     needs: [install-deps, build-storybook]
     strategy:
       fail-fast: false
-      max-parallel: 3
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
@@ -321,6 +333,12 @@ jobs:
           allow-deleted-screenshots: ${{ contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }}
       - name: Verify Cypress
         run: npx cypress verify
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
+      - name: Retrieve build-storybook-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .nx/cache
+          key: build-storybook-${{ matrix.project }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' }}
       - name: Percy ${{ matrix.project }}
         shell: bash
