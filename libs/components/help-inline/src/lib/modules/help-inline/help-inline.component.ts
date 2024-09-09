@@ -106,12 +106,8 @@ export class SkyHelpInlineComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
-  /**
-   * @internal
-   */
-  #labelText = signal<string | undefined>(undefined);
-
   readonly #format = inject(SkyAppFormat);
+  readonly #labelText = signal<string | undefined>(undefined);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   protected defaultAriaLabel = toSignal(
@@ -122,19 +118,21 @@ export class SkyHelpInlineComponent {
     this.#resourcesSvc.getString('skyux_help_inline_aria_label'),
   );
 
-  protected labelTextResolved = computed(() => {
-    const labelText = this.#labelText();
+  protected labelTextResolved = computed<string | undefined>(
+    (): string | undefined => {
+      const labelText = this.#labelText();
 
-    if (!labelText) {
+      if (labelText) {
+        const resource = this.labelTextResource();
+
+        if (resource) {
+          return this.#format.formatText(resource, this.#labelText());
+        }
+      }
+
       return;
-    }
-
-    const resource = this.labelTextResource();
-
-    return resource
-      ? this.#format.formatText(resource, this.#labelText())
-      : undefined;
-  });
+    },
+  );
 
   protected onClick(): void {
     this.actionClick.emit();
