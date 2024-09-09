@@ -56,7 +56,7 @@ describe('swap-imported-class', () => {
     ]);
 
     expect(tree.readText(path)).toBe(`
-    import { A, D, C } from 'module';
+    import { A,  C, D } from 'module';
 
     A(D) && C;`);
   });

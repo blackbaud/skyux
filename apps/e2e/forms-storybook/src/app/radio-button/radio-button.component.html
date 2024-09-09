@@ -148,5 +148,38 @@
         />
       </sky-radio-group>
     </div>
+    <sky-radio-group
+      formControlName="radioButtonOption"
+      headingStyle="3"
+      headingText="Radio button group outside of unordered list"
+      stacked="true"
+    >
+      @for (option of radioButtonOptions; track option) {
+        <sky-radio [disabled]="option.disabled" [value]="option.value">
+          <sky-radio-label>
+            {{ option.name }}
+            <sky-help-inline class="sky-control-help"></sky-help-inline>
+          </sky-radio-label>
+        </sky-radio>
+      }
+    </sky-radio-group>
+    <sky-radio-group
+      formControlName="noDefaultRadioButtonOption"
+      hintText="Radio group hint text"
+      helpPopoverContent="This is a popover"
+      headingText="Easy mode outside of unordered list"
+      [required]="true"
+      [stacked]="true"
+    >
+      @for (option of radioButtonOptions; track option) {
+        <sky-radio
+          [disabled]="option.disabled"
+          helpPopoverContent="content"
+          [hintText]="option.hint"
+          [labelText]="option.name"
+          [value]="option.value"
+        />
+      }
+    </sky-radio-group>
   </form>
 </div>

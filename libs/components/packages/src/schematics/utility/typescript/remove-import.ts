@@ -11,7 +11,6 @@ export function removeImport(
   tree: Tree,
   projectPath: string,
   sourceFile: ts.SourceFile,
-  content: string,
   options: RemoveImportOptions,
 ): void {
   const recorder = tree.beginUpdate(projectPath);
@@ -43,10 +42,7 @@ export function removeImport(
           classMatches.forEach((importSpecifier) => {
             const importStart = importSpecifier.getStart(sourceFile);
             const importWidth = importSpecifier.getWidth(sourceFile);
-            recorder.remove(importStart, importWidth);
-            if (content.charAt(importStart + importWidth) === ',') {
-              recorder.remove(importStart + importWidth, 1);
-            }
+            recorder.remove(importStart, importWidth + 1);
           });
         } else {
           const importStart = importDeclaration.getStart(sourceFile);
