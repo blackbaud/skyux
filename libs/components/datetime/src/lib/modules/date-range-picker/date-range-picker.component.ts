@@ -27,7 +27,6 @@ import {
   TouchedChangeEvent,
   ValidationErrors,
   Validator,
-  Validators,
 } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -233,12 +232,6 @@ export class SkyDateRangePickerComponent
    */
   @Input()
   public labelText: string | undefined;
-
-  /**
-   * Whether the date range picker requires a value.
-   */
-  @Input({ transform: booleanAttribute })
-  public required = false;
 
   /**
    * Whether the date range picker is stacked on another form component. When specified, the appropriate
@@ -496,12 +489,6 @@ export class SkyDateRangePickerComponent
         onlySelf: true,
       });
     }
-  }
-
-  protected isRequired(): boolean {
-    return !!(
-      this.required || this.hostControl?.hasValidator(Validators.required)
-    );
   }
 
   protected onBlur(): void {
