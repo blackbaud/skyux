@@ -18,6 +18,7 @@ env:
   GH_PAGES_OWNER: blackbaud
   NX_TASKS_RUNNER: 'nx/tasks-runners/default'
   NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
+  NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
   PERCY_COMMIT: ${{ github.sha }}
   PERCY_SKIP_UPDATE_CHECK: 'true'
