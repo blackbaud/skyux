@@ -9,6 +9,7 @@ import {
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
@@ -177,7 +178,7 @@ export class LookupComponent implements OnInit {
     });
 
     this.bestFriendsForm = this.formBuilder.group({
-      bestFriend: new UntypedFormControl(this.bestFriend),
+      bestFriend: new UntypedFormControl(this.bestFriend, Validators.required),
       bestFriendAsync: undefined,
     });
   }
