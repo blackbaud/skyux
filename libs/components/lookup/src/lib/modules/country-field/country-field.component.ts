@@ -14,6 +14,7 @@ import {
   TemplateRef,
   Type,
   ViewChild,
+  ViewEncapsulation,
   forwardRef,
   inject,
 } from '@angular/core';
@@ -57,6 +58,7 @@ let uniqueId = 0;
   styleUrls: ['./country-field.component.scss'],
   providers: [SKY_COUNTRY_FIELD_VALIDATOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyCountryFieldComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator

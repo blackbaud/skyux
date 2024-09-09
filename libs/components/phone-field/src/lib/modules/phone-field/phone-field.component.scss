@@ -1,6 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@import 'node_modules/intl-tel-input/build/css/intlTelInput.css';
+@use 'node_modules/intl-tel-input/build/css/intlTelInput.css';
 
 .sky-phone-field-country-btn + .sky-form-control {
   border-left: none;
