@@ -207,7 +207,7 @@ export function eventTypeStrings(tree: Tree, path: string): void {
     }
   });
   tree.commitUpdate(recorder);
-  removeImport(tree, path, sourceFile, content, {
+  removeImport(tree, path, sourceFile, {
     classNames: ['Events'],
     moduleName: 'ag-grid-community',
   });
