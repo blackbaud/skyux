@@ -50,7 +50,7 @@ describe('axe-core.schematic', () => {
       dependencies: {},
       devDependencies: {
         '@skyux-sdk/testing': '*',
-        'axe-core': '~4.9.0',
+        'axe-core': '~4.10.0',
       },
     });
   });
@@ -85,7 +85,7 @@ describe('axe-core.schematic', () => {
     expect(JSON.parse(tree.readText('package.json'))).toEqual({
       devDependencies: {
         '@skyux-sdk/testing': '*',
-        'axe-core': '~4.9.0',
+        'axe-core': '~4.10.0',
       },
     });
   });
