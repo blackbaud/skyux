@@ -186,7 +186,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Check code formatting
-        run: npx nx format:check
+        run: npx nx format:check --no-cloud --no-dte
 
   build-dist:
     name: Build packages distribution
