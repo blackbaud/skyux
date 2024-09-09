@@ -185,13 +185,12 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - name: Retrieve build-${{ matrix.project }}-cache
+      - name: Retrieve build-${{ matrix.app }}-cache
         uses: actions/cache@v4
         with:
           path: .nx/cache
-          key: build-${{ matrix.project }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-          restore-keys: build-${{ matrix.project }}-${{ runner.os }}-
-        if: ${{ matrix.project != 'skip' }}
+          key: build-${{ matrix.app }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          restore-keys: build-${{ matrix.app }}-${{ runner.os }}-
       - name: Build ${{ matrix.app }}
         run: |
           npx nx build ${{ matrix.app }} \
@@ -359,7 +358,7 @@ jobs:
           path: .nx/cache
           key: ${{ steps.cache-key.outputs.cache-key }}
           restore-keys: ${{ steps.cache-key.outputs.cache-restore-keys }}
-        if: ${{ matrix.project != 'skip' && steps.cache-key.outputs.cache-key }}
+        if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' && steps.cache-key.outputs.cache-key }}
       - name: Percy ${{ matrix.project }}
         shell: bash
         run: |
