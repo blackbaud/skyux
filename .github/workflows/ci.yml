@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - 10.x.x
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -135,8 +136,8 @@ jobs:
     needs: install-deps
     runs-on: ubuntu-latest
     env:
-      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
-      NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
+      NX_TASKS_RUNNER: 'nx-cloud'
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -165,8 +166,8 @@ jobs:
     needs: install-deps
     runs-on: ubuntu-latest
     env:
-      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
-      NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
+      NX_TASKS_RUNNER: 'nx-cloud'
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
