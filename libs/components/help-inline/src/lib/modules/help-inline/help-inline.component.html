@@ -34,7 +34,7 @@
     type="button"
     [attr.aria-controls]="ariaControls"
     [attr.aria-expanded]="ariaControls && (ariaExpanded ?? false)"
-    [ariaLabel]="ariaLabelResolved"
+    [attr.aria-label]="ariaLabelResolved"
     [attr.aria-labelledby]="
       labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
     "

@@ -6,15 +6,16 @@ import {
   Output,
   Signal,
   TemplateRef,
-  computed,
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyAppFormat, SkyIdModule } from '@skyux/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyIdModule } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
+
+import { of, switchMap } from 'rxjs';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
 
@@ -112,7 +113,6 @@ export class SkyHelpInlineComponent {
   protected readonly defaultAriaLabel: Signal<string | undefined>;
   protected readonly labelTextResolved: Signal<string | undefined>;
 
-  readonly #format = inject(SkyAppFormat);
   readonly #labelText = signal<string | undefined>(undefined);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
@@ -121,24 +121,19 @@ export class SkyHelpInlineComponent {
       this.#resourcesSvc.getString('skyux_help_inline_button_title'),
     );
 
-    const labelTextTemplate = toSignal(
-      this.#resourcesSvc.getString('skyux_help_inline_aria_label'),
-    );
-
-    this.labelTextResolved = computed<string | undefined>(
-      (): string | undefined => {
-        const labelText = this.#labelText();
-
-        if (labelText) {
-          const resource = labelTextTemplate();
-
-          if (resource) {
-            return this.#format.formatText(resource, this.#labelText());
+    this.labelTextResolved = toSignal(
+      toObservable(this.#labelText).pipe(
+        switchMap((labelText) => {
+          if (labelText) {
+            return this.#resourcesSvc.getString(
+              'skyux_help_inline_aria_label',
+              labelText,
+            );
           }
-        }
 
-        return;
-      },
+          return of(undefined);
+        }),
+      ),
     );
   }
 

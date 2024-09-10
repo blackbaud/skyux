@@ -285,6 +285,8 @@ describe('Help inline component', () => {
       component.labelText = 'test component';
 
       fixture.detectChanges();
+      // Trigger change detection for resources string observables.
+      fixture.detectChanges();
 
       await checkAriaPropertiesAndAccessibility({
         ariaLabel: 'Show help content for test component',
@@ -297,6 +299,8 @@ describe('Help inline component', () => {
       component.labelText = 'test component';
       component.ariaLabel = 'deprecated';
 
+      fixture.detectChanges();
+      // Trigger change detection for resources string observables.
       fixture.detectChanges();
 
       await checkAriaPropertiesAndAccessibility({
