@@ -1,11 +1,14 @@
 import { Rule } from '@angular-devkit/schematics';
 
+import { visitProjectFiles } from '../../../utility/visit-project-files';
+
 export default function (): Rule {
   return (tree) => {
     const stringReplace: Record<string, string> = {
       "from '@skyux/forms/lib/modules/file-attachment/file-validate-function';": `from '@skyux/forms';`,
     };
-    tree.visit((filePath, fileEntry) => {
+
+    visitProjectFiles(tree, '', (filePath, fileEntry) => {
       if (filePath.endsWith('.ts') && fileEntry) {
         const content = fileEntry.content.toString();
         const recorder = tree.beginUpdate(filePath);

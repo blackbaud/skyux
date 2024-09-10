@@ -47,7 +47,6 @@ module.exports = () => {
       jasmine: {
         random: false,
       },
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
       dir: join(__dirname, './coverage'),
