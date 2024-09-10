@@ -5,14 +5,13 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Renderer2,
   inject,
 } from '@angular/core';
-import { SkyIdService } from '@skyux/core';
 
 import { Subject, Subscription, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyPopoverSRPointerService } from './popover-sr-pointer.service';
 import { SkyPopoverComponent } from './popover.component';
 import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverMessage } from './types/popover-message';
@@ -21,6 +20,7 @@ import { SkyPopoverPlacement } from './types/popover-placement';
 import { SkyPopoverTrigger } from './types/popover-trigger';
 
 @Directive({
+  providers: [SkyPopoverSRPointerService],
   selector: '[skyPopover]',
 })
 export class SkyPopoverDirective implements OnInit, OnDestroy {
@@ -41,22 +41,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public set skyPopover(value: SkyPopoverComponent | undefined) {
     this.popoverId = value?.popoverId;
     this.#_popover = value;
-
-    this.#popoverClosedSubscription?.unsubscribe();
-    this.#popoverClosedSubscription = value
-      ? value.popoverClosed.subscribe(() => {
-          this.#isExpanded = false;
-          this.#updateAriaAttributes();
-        })
-      : undefined;
-
-    if (value) {
-      this.#createSRPointerEl();
-    } else {
-      this.#destroySRPointerEl();
-    }
-
-    this.#updateAriaAttributes();
+    this.#setupSRPointer(value);
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -102,7 +87,10 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   @Input()
   public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {
     this.#_trigger = value ?? 'click';
-    this.#updateAriaAttributes();
+    this.#srPointerSvc.updateAriaAttributes({
+      ariaOwns: this.popoverId,
+      expanded: this.#expanded,
+    });
   }
 
   public get skyPopoverTrigger(): SkyPopoverTrigger {
@@ -116,16 +104,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   #_trigger: SkyPopoverTrigger = 'click';
 
   #elementRef: ElementRef;
-  #isExpanded = false;
+  #expanded = false;
   #popoverClosedSubscription: Subscription | undefined;
-  #srPointerEl: HTMLSpanElement | undefined;
-  #srPointerId: string;
 
-  readonly #renderer = inject(Renderer2);
+  readonly #srPointerSvc = inject(SkyPopoverSRPointerService);
 
   constructor(elementRef: ElementRef) {
     this.#elementRef = elementRef;
-    this.#srPointerId = inject(SkyIdService).generateId();
     this.#subscribeMessageStream();
   }
 
@@ -136,7 +121,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#removeEventListeners();
     this.#unsubscribeMessageStream();
-    this.#destroySRPointerEl();
     this.#popoverClosedSubscription?.unsubscribe();
   }
 
@@ -278,7 +262,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     switch (message.type) {
       case SkyPopoverMessageType.Open:
         this.#positionPopover();
-        this.#isExpanded = true;
+        this.#expanded = true;
         this.#updateAriaAttributes();
         break;
 
@@ -306,6 +290,26 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.skyPopoverMessageStream.next({ type: messageType });
   }
 
+  #setupSRPointer(popover: SkyPopoverComponent | undefined): void {
+    this.#popoverClosedSubscription?.unsubscribe();
+    this.#popoverClosedSubscription = popover
+      ? popover.popoverClosed.subscribe(() => {
+          this.#expanded = false;
+          this.#updateAriaAttributes();
+        })
+      : undefined;
+
+    if (popover) {
+      if (this.skyPopoverTrigger === 'click') {
+        this.#srPointerSvc.createSRPointerEl();
+      }
+    } else {
+      this.#srPointerSvc.destroySRPointerEl();
+    }
+
+    this.#updateAriaAttributes();
+  }
+
   #subscribeMessageStream(): void {
     this.#unsubscribeMessageStream();
 
@@ -323,54 +327,10 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Inserts an empty "pointer" element after the host element to direct screen
-   * readers to the opened popover content. Popover content is appended to the
-   * document body, but it needs to be associated with the host element to meet
-   * accessibility requirements. This is done by setting `aria-owns` on the
-   * pointer element, which instructs the screen reader to consider the popover
-   * contents as a child of the pointer element. We cannot set `aria-owns` on
-   * the host element because it is nearly always a button, and buttons cannot
-   * have block-level children.
-   * @see https://github.com/w3c/html-aria/issues/124
-   */
-  #createSRPointerEl(): void {
-    if (this.skyPopover && this.skyPopoverTrigger === 'click') {
-      const span = this.#renderer.createElement('span');
-      this.#renderer.setAttribute(span, 'id', this.#srPointerId);
-      this.#srPointerEl = span;
-
-      const hostEl = this.#elementRef.nativeElement;
-      this.#renderer.setAttribute(hostEl, 'aria-controls', this.#srPointerId);
-      hostEl.parentNode.insertBefore(this.#srPointerEl, hostEl.nextSibling);
-    }
-  }
-
-  #destroySRPointerEl(): void {
-    this.#srPointerEl?.remove();
-    this.#srPointerEl = undefined;
-  }
-
   #updateAriaAttributes(): void {
-    const hostEl = this.#elementRef.nativeElement;
-    const pointerEl = this.#srPointerEl;
-
-    if (pointerEl) {
-      this.#renderer.setAttribute(
-        hostEl,
-        'aria-expanded',
-        this.#isExpanded ? 'true' : 'false',
-      );
-
-      if (this.#isExpanded === true) {
-        if (this.popoverId) {
-          this.#renderer.setAttribute(pointerEl, 'aria-owns', this.popoverId);
-        }
-      } else {
-        this.#renderer.removeAttribute(pointerEl, 'aria-owns');
-      }
-    } else {
-      this.#renderer.removeAttribute(hostEl, 'aria-expanded');
-    }
+    this.#srPointerSvc.updateAriaAttributes({
+      ariaOwns: this.popoverId,
+      expanded: this.#expanded,
+    });
   }
 }

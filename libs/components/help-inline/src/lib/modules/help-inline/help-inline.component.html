@@ -1,13 +1,14 @@
+@let ariaLabelResolved =
+  ariaLabel
+    | skyHelpInlineAriaLabel
+      : labelTextResolved()
+      : labelledBy
+      : defaultAriaLabel();
+
 @if (helpKey) {
   <sky-help-inline-help-key-button
     [ariaControls]="ariaControls"
-    [ariaLabel]="
-      ariaLabel
-        | skyHelpInlineAriaLabel
-          : labelTextResolved()
-          : labelledBy
-          : defaultAriaLabel()
-    "
+    [ariaLabel]="ariaLabelResolved"
     [ariaLabelledby]="
       labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
     "
@@ -18,13 +19,7 @@
   </sky-help-inline-help-key-button>
 } @else if (popoverContent) {
   <sky-help-inline-popover-button
-    [ariaLabel]="
-      ariaLabel
-        | skyHelpInlineAriaLabel
-          : labelTextResolved()
-          : labelledBy
-          : defaultAriaLabel()
-    "
+    [ariaLabel]="ariaLabelResolved"
     [ariaLabelledby]="
       labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
     "
@@ -40,13 +35,7 @@
     type="button"
     [attr.aria-controls]="ariaControls"
     [attr.aria-expanded]="ariaControls && (ariaExpanded ?? false)"
-    [ariaLabel]="
-      ariaLabel
-        | skyHelpInlineAriaLabel
-          : labelTextResolved()
-          : labelledBy
-          : defaultAriaLabel()
-    "
+    [ariaLabel]="ariaLabelResolved"
     [attr.aria-labelledby]="
       labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
     "

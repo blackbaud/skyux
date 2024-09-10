@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  Signal,
   TemplateRef,
   computed,
   inject,
@@ -106,33 +107,39 @@ export class SkyHelpInlineComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
+  protected readonly defaultAriaLabel: Signal<string | undefined>;
+  protected readonly labelTextResolved: Signal<string | undefined>;
+
   readonly #format = inject(SkyAppFormat);
   readonly #labelText = signal<string | undefined>(undefined);
+  readonly #labelTextTemplate: Signal<string | undefined>;
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
-  protected defaultAriaLabel = toSignal(
-    this.#resourcesSvc.getString('skyux_help_inline_button_title'),
-  );
+  constructor() {
+    this.#labelTextTemplate = toSignal(
+      this.#resourcesSvc.getString('skyux_help_inline_aria_label'),
+    );
 
-  protected labelTextResource = toSignal(
-    this.#resourcesSvc.getString('skyux_help_inline_aria_label'),
-  );
+    this.defaultAriaLabel = toSignal(
+      this.#resourcesSvc.getString('skyux_help_inline_button_title'),
+    );
 
-  protected labelTextResolved = computed<string | undefined>(
-    (): string | undefined => {
-      const labelText = this.#labelText();
+    this.labelTextResolved = computed<string | undefined>(
+      (): string | undefined => {
+        const labelText = this.#labelText();
 
-      if (labelText) {
-        const resource = this.labelTextResource();
+        if (labelText) {
+          const resource = this.#labelTextTemplate();
 
-        if (resource) {
-          return this.#format.formatText(resource, this.#labelText());
+          if (resource) {
+            return this.#format.formatText(resource, this.#labelText());
+          }
         }
-      }
 
-      return;
-    },
-  );
+        return;
+      },
+    );
+  }
 
   protected onClick(): void {
     this.actionClick.emit();

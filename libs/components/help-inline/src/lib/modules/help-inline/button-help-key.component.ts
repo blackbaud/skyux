@@ -25,15 +25,15 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
       class="sky-help-inline"
       type="button"
       [attr.aria-controls]="
-        ((helpSvc?.widgetReadyStateChange | async)
-          ? helpGlobalOptions?.ariaControls
-          : null) ?? ariaControls()
+        (ariaControls() ?? (helpSvc?.widgetReadyStateChange | async))
+          ? globalOptions?.ariaControls
+          : null
       "
-      [attr.aria-haspopup]="helpGlobalOptions?.ariaHaspopup"
+      [attr.aria-haspopup]="globalOptions?.ariaHaspopup"
       [attr.aria-label]="ariaLabel()"
       [attr.aria-labelledby]="ariaLabelledby()"
       [ngClass]="{
-        'sky-help-inline-hidden': !helpSvc
+        'sky-help-inline-hidden': !helpSvc,
       }"
       (click)="openHelpKey()"
     >
@@ -48,7 +48,7 @@ export class SkyHelpInlineHelpKeyButtonComponent {
   public ariaLabelledby = input<string | undefined>();
   public helpKey = input.required<string>();
 
-  protected readonly helpGlobalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
+  protected readonly globalOptions = inject(SKY_HELP_GLOBAL_OPTIONS, {
     optional: true,
   });
 
