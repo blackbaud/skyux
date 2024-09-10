@@ -816,6 +816,28 @@ describe('Input box component', () => {
       expect(els.characterCountEl).not.toExist();
     });
 
+    it('should set required if set by the child via host service', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      const hostServiceInputBox = fixture.debugElement
+        .query(By.css('.easy-input-host-service sky-input-box'))
+        .injector.get(SkyInputBoxHostService);
+
+      fixture.detectChanges();
+
+      let requiredLabel = fixture.nativeElement.querySelector(
+        '.easy-input-host-service .sky-control-label-required',
+      );
+      expect(requiredLabel).not.toExist();
+
+      hostServiceInputBox.setRequired(true);
+      fixture.detectChanges();
+
+      requiredLabel = fixture.nativeElement.querySelector(
+        '.easy-input-host-service .sky-control-label-required',
+      );
+      expect(requiredLabel).toExist();
+    });
+
     it('should add hint text', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();

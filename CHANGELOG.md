@@ -1,5 +1,40 @@
 # Changelog
 
+## [11.0.0-beta.0](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.16...11.0.0-beta.0) (2024-09-10)
+
+
+### Features
+
+* add support for `axe-core@4.10.0` ([#2696](https://github.com/blackbaud/skyux/issues/2696)) ([#2718](https://github.com/blackbaud/skyux/issues/2718)) ([7221b5e](https://github.com/blackbaud/skyux/commit/7221b5ef14d2e5781b6c0e05b307fd6744da453a))
+
+
+### Bug Fixes
+
+* **components/packages:** limit migrations to project files ([#2713](https://github.com/blackbaud/skyux/issues/2713)) ([3f9d815](https://github.com/blackbaud/skyux/commit/3f9d815770f9b4ea5d5f347f35cfcc129956944d))
+
+## [10.43.0](https://github.com/blackbaud/skyux/compare/10.42.0...10.43.0) (2024-09-09)
+
+
+### Features
+
+* add support for `axe-core@4.10.0` ([#2696](https://github.com/blackbaud/skyux/issues/2696)) ([48855a3](https://github.com/blackbaud/skyux/commit/48855a3ade96984aac2a62e95b1f0b4eac6102e7))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** improve row selector performance ([#2691](https://github.com/blackbaud/skyux/issues/2691)) ([e1d391b](https://github.com/blackbaud/skyux/commit/e1d391bcf594fd5b03cf9ee189c067801d7d588f))
+* **components/lookup:** add required label asterisk for template driven forms ([#2694](https://github.com/blackbaud/skyux/issues/2694)) ([2f25548](https://github.com/blackbaud/skyux/commit/2f25548870a035fb97c12d2667d477f9018c3961))
+
+## [11.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.15...11.0.0-alpha.16) (2024-09-09)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** improve row selector performance ([#2691](https://github.com/blackbaud/skyux/issues/2691)) ([#2710](https://github.com/blackbaud/skyux/issues/2710)) ([34ee162](https://github.com/blackbaud/skyux/commit/34ee162f837268a26946e63ec84ffd77a256b0e9))
+* **components/forms:** add unique ARIA labels to file drop item delete buttons ([#2700](https://github.com/blackbaud/skyux/issues/2700)) ([2670977](https://github.com/blackbaud/skyux/commit/2670977596a3825aef67466391d3a8585503565e))
+* **components/lookup:** add required label asterisk for template driven forms ([#2694](https://github.com/blackbaud/skyux/issues/2694)) ([#2711](https://github.com/blackbaud/skyux/issues/2711)) ([75c89f6](https://github.com/blackbaud/skyux/commit/75c89f61dec53428f3dcfc823c28b1d973da0922))
+* **components/packages:** adjust AG Grid migration ([#2708](https://github.com/blackbaud/skyux/issues/2708)) ([1da3110](https://github.com/blackbaud/skyux/commit/1da3110bd681b8d1a82f4e07770f5446d57ac849))
+
 ## [11.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.14...11.0.0-alpha.15) (2024-09-06)
 
 
