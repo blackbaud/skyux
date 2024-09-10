@@ -101,7 +101,7 @@ jobs:
         run: |
           export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx build e2e-schematics \
-            --no-cloud --no-dte --no-parallel --runner=nx/tasks-runners/default
+            --no-cloud --no-dte --no-parallel --runner=local
 
   build-storybook:
     name: Build Project Storybook
@@ -149,7 +149,7 @@ jobs:
         run: |
           export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx run ${{ matrix.project }}:build-storybook:ci \
-            --no-cloud --no-dte --no-parallel --runner=nx/tasks-runners/default
+            --no-cloud --no-dte --no-parallel --runner=local
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
@@ -214,13 +214,13 @@ jobs:
           export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx build ${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/" \
-            --no-cloud --no-dte --no-parallel --runner=nx/tasks-runners/default
+            --no-cloud --no-dte --no-parallel --runner=local
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: |
           export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx dep-graph --file=dist/apps/dep-graph/index.html \
-            --no-cloud --no-dte --no-parallel --runner=nx/tasks-runners/default
+            --no-cloud --no-dte --no-parallel --runner=local
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app == 'dep-graph' }}
       - name: Upload app artifact
         uses: actions/upload-artifact@v4
@@ -294,7 +294,7 @@ jobs:
         run: |
           export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx run storybook:build-storybook:ci --outputDir=dist/storybook \
-            --no-cloud --no-dte --no-parallel --runner=nx/tasks-runners/default
+            --no-cloud --no-dte --no-parallel --runner=local
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v4
         with:
