@@ -366,7 +366,7 @@ jobs:
         id: cache-key
         shell: pwsh
         run: |
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
+          $env:CI="false"; $env:GITHUB_ACTIONS="false"; # Do not use NX cloud.
           $DEV_TARGET = $(npx nx show project ${{ matrix.project }} --json | jq -r '.targets.e2e.options.devServerTarget // ""') -split ':'
           if ( -not $DEV_TARGET ) {
             Write-Host "No devServerTarget found for ${{ matrix.project }}. Skipping cache."
