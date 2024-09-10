@@ -316,7 +316,7 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
       cancel-in-progress: true
-    needs: [install-deps, build-storybook]
+    needs: install-deps
     strategy:
       fail-fast: false
       matrix:
