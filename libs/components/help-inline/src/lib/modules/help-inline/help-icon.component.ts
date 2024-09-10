@@ -17,11 +17,11 @@ import { SkyThemeModule } from '@skyux/theme';
       size="xs"
       [baseIcon]="{
         icon: 'circle-solid',
-        iconType: 'skyux'
+        iconType: 'skyux',
       }"
       [topIcon]="{
         icon: 'help-i',
-        iconType: 'skyux'
+        iconType: 'skyux',
       }"
     />
   `,
