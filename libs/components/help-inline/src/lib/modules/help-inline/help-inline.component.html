@@ -5,12 +5,13 @@
       : labelledBy
       : defaultAriaLabel();
 
+@let ariaLabelledbyResolved =
+  labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined;
+
 @if (helpKey) {
   <sky-help-inline-help-key-button
     [ariaLabel]="ariaLabelResolved"
-    [ariaLabelledby]="
-      labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
-    "
+    [ariaLabelledby]="ariaLabelledbyResolved"
     [helpKey]="helpKey"
     (actionClick)="actionClick.emit()"
   >
@@ -19,9 +20,7 @@
 } @else if (popoverContent) {
   <sky-help-inline-popover-button
     [ariaLabel]="ariaLabelResolved"
-    [ariaLabelledby]="
-      labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
-    "
+    [ariaLabelledby]="ariaLabelledbyResolved"
     [popoverContent]="popoverContent"
     [popoverTitle]="popoverTitle"
     (actionClick)="actionClick.emit()"
@@ -35,9 +34,7 @@
     [attr.aria-controls]="ariaControls"
     [attr.aria-expanded]="ariaControls && (ariaExpanded ?? false)"
     [attr.aria-label]="ariaLabelResolved"
-    [attr.aria-labelledby]="
-      labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
-    "
+    [attr.aria-labelledby]="ariaLabelledbyResolved"
     (click)="onClick()"
   >
     <ng-container [ngTemplateOutlet]="icon" />

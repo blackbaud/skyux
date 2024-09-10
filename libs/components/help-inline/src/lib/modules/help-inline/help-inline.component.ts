@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Signal,
   TemplateRef,
   inject,
   signal,
@@ -46,6 +45,9 @@ import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component'
   ],
 })
 export class SkyHelpInlineComponent {
+  readonly #labelText = signal<string | undefined>(undefined);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+
   /**
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
@@ -110,32 +112,24 @@ export class SkyHelpInlineComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
-  protected readonly defaultAriaLabel: Signal<string | undefined>;
-  protected readonly labelTextResolved: Signal<string | undefined>;
+  protected readonly defaultAriaLabel = toSignal(
+    this.#resourcesSvc.getString('skyux_help_inline_button_title'),
+  );
 
-  readonly #labelText = signal<string | undefined>(undefined);
-  readonly #resourcesSvc = inject(SkyLibResourcesService);
+  protected readonly labelTextResolved = toSignal(
+    toObservable(this.#labelText).pipe(
+      switchMap((labelText) => {
+        if (labelText) {
+          return this.#resourcesSvc.getString(
+            'skyux_help_inline_aria_label',
+            labelText,
+          );
+        }
 
-  constructor() {
-    this.defaultAriaLabel = toSignal(
-      this.#resourcesSvc.getString('skyux_help_inline_button_title'),
-    );
-
-    this.labelTextResolved = toSignal(
-      toObservable(this.#labelText).pipe(
-        switchMap((labelText) => {
-          if (labelText) {
-            return this.#resourcesSvc.getString(
-              'skyux_help_inline_aria_label',
-              labelText,
-            );
-          }
-
-          return of(undefined);
-        }),
-      ),
-    );
-  }
+        return of(undefined);
+      }),
+    ),
+  );
 
   protected onClick(): void {
     this.actionClick.emit();
