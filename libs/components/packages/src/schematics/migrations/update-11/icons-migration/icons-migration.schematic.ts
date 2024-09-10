@@ -4,6 +4,7 @@ import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 
 import { ensurePeersInstalled } from '../../../rules/ensure-peers-installed';
 import { moveClassToLibrary } from '../../../utility/move-class-to-library';
+import { visitProjectFiles } from '../../../utility/visit-project-files';
 
 export default function () {
   return chain([
@@ -15,12 +16,8 @@ export default function () {
       },
     ]),
     (tree: Tree) => {
-      tree.visit((path, entry) => {
-        if (
-          !path.endsWith('.ts') ||
-          path.includes('__skyux') ||
-          path.includes('node_modules')
-        ) {
+      visitProjectFiles(tree, '', (path, entry) => {
+        if (!path.endsWith('.ts')) {
           return;
         }
         const content = entry?.content.toString();

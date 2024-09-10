@@ -2,7 +2,7 @@ import { Tree } from '@angular-devkit/schematics';
 import { FileVisitor } from '@angular-devkit/schematics/src/tree/interface';
 
 const rootIgnore = ['dist', 'coverage'];
-const alwaysIgnore = ['node_modules'];
+const alwaysIgnore = ['node_modules', '__skyux'];
 
 export function visitProjectFiles(
   tree: Tree,
