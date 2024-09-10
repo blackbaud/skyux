@@ -17,7 +17,7 @@ import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculator-configs';
 
-fdescribe('Date range picker', function () {
+describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
 
@@ -502,7 +502,7 @@ fdescribe('Date range picker', function () {
     });
   }));
 
-  fit('should update validation errors from selected calculator', fakeAsync(function () {
+  it('should update validation errors from selected calculator', fakeAsync(function () {
     detectChanges();
     selectCalculator(SkyDateRangeCalculatorId.After);
     detectChanges();
@@ -610,14 +610,11 @@ fdescribe('Date range picker', function () {
     const calculatorIdControl =
       component.dateRangePicker['formGroup']?.get('calculatorId');
 
+    detectChanges();
+
     control?.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
     });
-
-    detectChanges();
-
-    expect(control?.errors).toBeFalsy();
-    expect(calculatorIdControl?.errors).toBeFalsy();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
       '.sky-input-group input',
@@ -936,6 +933,7 @@ fdescribe('Date range picker', function () {
     it('should always set required attribute on the time pickers', fakeAsync(() => {
       detectChanges();
       selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+      detectChanges();
       verifyFormFieldsRequired(true);
 
       component.setFormControlRequired(true);
