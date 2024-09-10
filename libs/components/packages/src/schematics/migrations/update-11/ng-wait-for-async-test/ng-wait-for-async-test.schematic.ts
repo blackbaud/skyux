@@ -3,14 +3,12 @@ import { isImported, parseSourceFile } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 
+import { visitProjectFiles } from '../../../utility/visit-project-files';
+
 export default function () {
   return (tree: Tree) => {
-    tree.visit((path, entry) => {
-      if (
-        !path.endsWith('.ts') ||
-        path.includes('__skyux') ||
-        path.includes('node_modules')
-      ) {
+    visitProjectFiles(tree, '', (path, entry) => {
+      if (!path.endsWith('.ts')) {
         return;
       }
       const content = entry?.content.toString();
