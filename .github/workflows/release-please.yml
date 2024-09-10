@@ -10,7 +10,7 @@ env:
   # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
   PRERELEASE: 'false'
   MAJOR_VERSION: 10
-  NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+  NX_RUNNER: 'nx/tasks-runners/default'
   NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
 jobs:
   release:

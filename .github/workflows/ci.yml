@@ -22,7 +22,7 @@ jobs:
     env:
       CI: 'false'
       GITHUB_ACTIONS: 'false'
-      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_RUNNER: 'nx/tasks-runners/default'
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
       matrix:
         agent: [1, 2, 3]
     env:
-      NX_TASKS_RUNNER: 'nx-cloud'
+      NX_RUNNER: 'nx-cloud'
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     env:
-      NX_TASKS_RUNNER: 'nx-cloud'
+      NX_RUNNER: 'nx-cloud'
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
@@ -93,9 +93,13 @@ jobs:
         run: node ./scripts/rebase-pr.js
       - name: Run build, lint, test, and posttest for npm packages
         run: |
+          set -x
+          printenv
           npx nx affected --target build lint test posttest --configuration ci --parallel 1 --exclude '*,!tag:npm'
       - name: Run lint, test, and posttest for non-npm packages
         run: |
+          set -x
+          printenv
           npx nx affected --target lint test posttest --configuration ci --parallel 1 --exclude 'tag:npm'
       - name: Stop
         if: ${{ always() }}
@@ -139,7 +143,7 @@ jobs:
     env:
       CI: 'false'
       GITHUB_ACTIONS: 'false'
-      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_RUNNER: 'nx/tasks-runners/default'
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
@@ -163,11 +167,6 @@ jobs:
         run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
         run: npx skyux-dev check-lib-resources
-        env:
-          CI: 'false'
-          GITHUB_ACTIONS: 'false'
-          NX_TASKS_RUNNER: 'nx/tasks-runners/default'
-          NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
 
   format:
     name: Check formatting
@@ -176,7 +175,7 @@ jobs:
     env:
       CI: 'false'
       GITHUB_ACTIONS: 'false'
-      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_RUNNER: 'nx/tasks-runners/default'
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
@@ -207,7 +206,7 @@ jobs:
     env:
       CI: 'false'
       GITHUB_ACTIONS: 'false'
-      NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+      NX_RUNNER: 'nx/tasks-runners/default'
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
     steps:
       - uses: actions/checkout@v4
@@ -240,7 +239,7 @@ jobs:
     if: ${{ !cancelled() }}
     needs: build-coverage-lint
     env:
-      NX_TASKS_RUNNER: 'nx-cloud'
+      NX_RUNNER: 'nx-cloud'
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
