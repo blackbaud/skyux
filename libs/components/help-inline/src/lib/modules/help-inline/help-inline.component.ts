@@ -13,13 +13,14 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAppFormat, SkyIdModule } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
 
 import { SkyHelpInlineAriaLabelPipe } from './aria-label.pipe';
 import { SkyHelpInlineHelpKeyButtonComponent } from './button-help-key.component';
 import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component';
-import { SkyHelpInlineIconComponent } from './help-icon.component';
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
@@ -36,10 +37,11 @@ import { SkyHelpInlineIconComponent } from './help-icon.component';
     CommonModule,
     SkyHelpInlineAriaLabelPipe,
     SkyHelpInlineHelpKeyButtonComponent,
-    SkyHelpInlineIconComponent,
     SkyHelpInlinePopoverButtonComponent,
     SkyHelpInlineResourcesModule,
+    SkyIconModule,
     SkyIdModule,
+    SkyThemeModule,
   ],
 })
 export class SkyHelpInlineComponent {

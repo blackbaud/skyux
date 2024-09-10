@@ -34,7 +34,6 @@ export class SkyPopoverSRPointerService implements OnDestroy {
   public createSRPointerEl(): void {
     const pointerEl = this.#renderer.createElement('span');
     this.#renderer.setAttribute(pointerEl, 'id', this.#srPointerId);
-    this.#renderer.setAttribute(pointerEl, 'class', 'sky-screen-reader-only');
     this.#srPointerEl = pointerEl;
 
     const hostEl = this.#hostEl?.nativeElement;

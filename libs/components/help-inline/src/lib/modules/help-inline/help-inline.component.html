@@ -14,7 +14,7 @@
     [helpKey]="helpKey"
     (actionClick)="actionClick.emit()"
   >
-    <sky-help-inline-icon />
+    <ng-container [ngTemplateOutlet]="icon" />
   </sky-help-inline-help-key-button>
 } @else if (popoverContent) {
   <sky-help-inline-popover-button
@@ -26,7 +26,7 @@
     [popoverTitle]="popoverTitle"
     (actionClick)="actionClick.emit()"
   >
-    <sky-help-inline-icon />
+    <ng-container [ngTemplateOutlet]="icon" />
   </sky-help-inline-popover-button>
 } @else {
   <button
@@ -40,9 +40,25 @@
     "
     (click)="onClick()"
   >
-    <sky-help-inline-icon />
+    <ng-container [ngTemplateOutlet]="icon" />
   </button>
 }
+
+<ng-template #icon>
+  <sky-icon *skyThemeIf="'default'" icon="info-circle" />
+  <sky-icon-stack
+    *skyThemeIf="'modern'"
+    size="xs"
+    [baseIcon]="{
+      icon: 'circle-solid',
+      iconType: 'skyux'
+    }"
+    [topIcon]="{
+      icon: 'help-i',
+      iconType: 'skyux'
+    }"
+  />
+</ng-template>
 
 <span #labelledByPrefixRef="skyId" hidden skyId>{{
   'skyux_help_inline_aria_label' | skyLibResources: ''
