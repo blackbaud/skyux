@@ -930,7 +930,7 @@ describe('Date range picker', function () {
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
     });
 
-    it('should always set required attribute on the time pickers', fakeAsync(() => {
+    it('should always set required attribute on the date pickers', fakeAsync(() => {
       detectChanges();
       selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
       detectChanges();
