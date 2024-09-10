@@ -41,7 +41,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public set skyPopover(value: SkyPopoverComponent | undefined) {
     this.popoverId = value?.popoverId;
     this.#_popover = value;
-    this.#setupSRPointer(value);
+    this.#updateSRPointer(value);
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -287,26 +287,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.skyPopoverMessageStream.next({ type: messageType });
   }
 
-  #setupSRPointer(popover: SkyPopoverComponent | undefined): void {
-    this.#popoverClosedSubscription?.unsubscribe();
-    this.#popoverClosedSubscription = popover
-      ? popover.popoverClosed.subscribe(() => {
-          this.#expanded = false;
-          this.#updateAriaAttributes();
-        })
-      : undefined;
-
-    if (popover) {
-      if (this.skyPopoverTrigger === 'click') {
-        this.#srPointerSvc.createSRPointerEl();
-      }
-    } else {
-      this.#srPointerSvc.destroySRPointerEl();
-    }
-
-    this.#updateAriaAttributes();
-  }
-
   #subscribeMessageStream(): void {
     this.#unsubscribeMessageStream();
 
@@ -329,5 +309,25 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
       ariaExpanded: this.#expanded,
       ariaOwns: this.popoverId,
     });
+  }
+
+  #updateSRPointer(popover: SkyPopoverComponent | undefined): void {
+    this.#popoverClosedSubscription?.unsubscribe();
+    this.#popoverClosedSubscription = popover
+      ? popover.popoverClosed.subscribe(() => {
+          this.#expanded = false;
+          this.#updateAriaAttributes();
+        })
+      : undefined;
+
+    if (popover) {
+      if (this.skyPopoverTrigger === 'click') {
+        this.#srPointerSvc.createSRPointerEl();
+      }
+    } else {
+      this.#srPointerSvc.destroySRPointerEl();
+    }
+
+    this.#updateAriaAttributes();
   }
 }

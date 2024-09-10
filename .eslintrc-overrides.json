@@ -54,7 +54,7 @@
         ],
         "@angular-eslint/template/no-interpolation-in-attributes": ["warn"],
         "@angular-eslint/template/no-positive-tabindex": ["warn"],
-        "@angular-eslint/template/prefer-control-flow": ["warn"],
+        "@angular-eslint/template/prefer-control-flow": ["error"],
         "@angular-eslint/template/prefer-ngsrc": ["warn"],
         "@angular-eslint/template/prefer-self-closing-tags": ["warn"],
         "@angular-eslint/template/role-has-required-aria": ["error"],
