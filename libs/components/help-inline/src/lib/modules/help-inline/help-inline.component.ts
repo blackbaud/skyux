@@ -116,12 +116,12 @@ export class SkyHelpInlineComponent {
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   constructor() {
-    this.#labelTextTemplate = toSignal(
-      this.#resourcesSvc.getString('skyux_help_inline_aria_label'),
-    );
-
     this.defaultAriaLabel = toSignal(
       this.#resourcesSvc.getString('skyux_help_inline_button_title'),
+    );
+
+    this.#labelTextTemplate = toSignal(
+      this.#resourcesSvc.getString('skyux_help_inline_aria_label'),
     );
 
     this.labelTextResolved = computed<string | undefined>(

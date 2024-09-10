@@ -47,12 +47,14 @@
         "@angular-eslint/template/interactive-supports-focus": ["warn"],
         "@angular-eslint/template/label-has-associated-control": ["warn"],
         "@angular-eslint/template/no-any": ["error"],
-        "@angular-eslint/template/no-call-expression": ["warn"],
         "@angular-eslint/template/no-distracting-elements": ["warn"],
-        "@angular-eslint/template/no-inline-styles": ["warn"],
+        "@angular-eslint/template/no-inline-styles": [
+          "warn",
+          { "allowBindToStyle": true, "allowNgStyle": true }
+        ],
         "@angular-eslint/template/no-interpolation-in-attributes": ["warn"],
         "@angular-eslint/template/no-positive-tabindex": ["warn"],
-        "@angular-eslint/template/prefer-control-flow": ["error"],
+        "@angular-eslint/template/prefer-control-flow": ["warn"],
         "@angular-eslint/template/prefer-ngsrc": ["warn"],
         "@angular-eslint/template/prefer-self-closing-tags": ["warn"],
         "@angular-eslint/template/role-has-required-aria": ["error"],

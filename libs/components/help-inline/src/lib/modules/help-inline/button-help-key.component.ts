@@ -25,7 +25,7 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
       class="sky-help-inline"
       type="button"
       [attr.aria-controls]="
-        (ariaControls() ?? (helpSvc?.widgetReadyStateChange | async))
+        (helpSvc?.widgetReadyStateChange | async)
           ? globalOptions?.ariaControls
           : null
       "
@@ -43,7 +43,6 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
 })
 export class SkyHelpInlineHelpKeyButtonComponent {
   public actionClick = output<void>();
-  public ariaControls = input<string | undefined>();
   public ariaLabel = input<string | undefined>();
   public ariaLabelledby = input<string | undefined>();
   public helpKey = input.required<string>();

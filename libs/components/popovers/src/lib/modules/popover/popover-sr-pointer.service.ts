@@ -47,11 +47,8 @@ export class SkyPopoverSRPointerService implements OnDestroy {
   }
 
   public updateAriaAttributes(options: {
+    ariaExpanded: boolean;
     ariaOwns?: string;
-    /**
-     * Whether the popover content is expanded.
-     */
-    expanded: boolean;
   }): void {
     const hostEl = this.#hostEl?.nativeElement;
     const pointerEl = this.#srPointerEl;
@@ -61,10 +58,10 @@ export class SkyPopoverSRPointerService implements OnDestroy {
       this.#renderer.setAttribute(
         hostEl,
         'aria-expanded',
-        options.expanded ? 'true' : 'false',
+        options.ariaExpanded ? 'true' : 'false',
       );
 
-      if (options.expanded === true) {
+      if (options.ariaExpanded === true) {
         if (options.ariaOwns) {
           this.#renderer.setAttribute(pointerEl, 'aria-owns', options.ariaOwns);
         }

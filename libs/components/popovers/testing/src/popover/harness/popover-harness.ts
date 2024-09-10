@@ -55,13 +55,13 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   async #getContent(): Promise<SkyPopoverContentHarness | null> {
     const popoverId = await this.#getPopoverId();
 
-    if (!popoverId) {
-      return null;
+    if (popoverId) {
+      return this.#documentRootLocator.locatorForOptional(
+        SkyPopoverContentHarness.with({ selector: `#${popoverId}` }),
+      )();
     }
 
-    return this.#documentRootLocator.locatorForOptional(
-      SkyPopoverContentHarness.with({ selector: `#${popoverId}` }),
-    )();
+    return null;
   }
 
   async #getPopoverId(): Promise<string | null> {
@@ -70,6 +70,6 @@ export class SkyPopoverHarness extends SkyComponentHarness {
       `#${pointerId}`,
     )();
 
-    return (await pointerEl?.getAttribute('aria-owns')) ?? null;
+    return pointerEl?.getAttribute('aria-owns') ?? null;
   }
 }

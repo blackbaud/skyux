@@ -87,10 +87,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   @Input()
   public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {
     this.#_trigger = value ?? 'click';
-    this.#srPointerSvc.updateAriaAttributes({
-      ariaOwns: this.popoverId,
-      expanded: this.#expanded,
-    });
+    this.#updateAriaAttributes();
   }
 
   public get skyPopoverTrigger(): SkyPopoverTrigger {
@@ -329,8 +326,8 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #updateAriaAttributes(): void {
     this.#srPointerSvc.updateAriaAttributes({
+      ariaExpanded: this.#expanded,
       ariaOwns: this.popoverId,
-      expanded: this.#expanded,
     });
   }
 }

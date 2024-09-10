@@ -33,8 +33,8 @@ import { SkyPopoverModule } from '@skyux/popovers';
       <ng-content />
     </button>
     <sky-popover #popoverRef [popoverTitle]="popoverTitle()">
-      @if (popoverTemplate(); as popoverTemp) {
-        <ng-container *ngTemplateOutlet="popoverTemp" />
+      @if (popoverTemplate(); as template) {
+        <ng-container *ngTemplateOutlet="template" />
       } @else {
         <p class="sky-help-inline-popover-text">{{ popoverContent() }}</p>
       }
