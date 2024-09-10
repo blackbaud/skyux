@@ -16,6 +16,8 @@ concurrency:
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
+  NX_TASKS_RUNNER: 'local'
+  NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
   NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
   PERCY_COMMIT: ${{ github.sha }}
@@ -93,15 +95,13 @@ jobs:
         with:
           path: ./dist/libs/sdk/e2e-schematics
           key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-          restore-keys: e2e-schematics-${{ runner.os }}-
       - name: Build e2e-schematics
         # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
         shell: bash
         run: |
           export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
-          npx nx build e2e-schematics \
-            --no-cloud --no-dte --no-parallel --runner=local
+          npx nx build e2e-schematics --no-parallel --runner=local
 
   build-storybook:
     name: Build Project Storybook
@@ -146,10 +146,7 @@ jobs:
           restore-keys: build-storybook-${{ matrix.project }}-${{ runner.os }}-
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        run: |
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
-          npx nx run ${{ matrix.project }}:build-storybook:ci \
-            --no-cloud --no-dte --no-parallel --runner=local
+        run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-parallel --runner=local
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
@@ -211,16 +208,12 @@ jobs:
           restore-keys: build-${{ matrix.app }}-${{ runner.os }}-
       - name: Build ${{ matrix.app }}
         run: |
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx build ${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/" \
-            --no-cloud --no-dte --no-parallel --runner=local
+            --no-parallel --runner=local
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
-        run: |
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
-          npx nx dep-graph --file=dist/apps/dep-graph/index.html \
-            --no-cloud --no-dte --no-parallel --runner=local
+        run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app == 'dep-graph' }}
       - name: Upload app artifact
         uses: actions/upload-artifact@v4
@@ -286,15 +279,11 @@ jobs:
       - name: Generate Storybook Composition
         shell: bash
         run: |
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx g @skyux-sdk/e2e-schematics:storybook-composition \
             --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
             --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
       - name: Build Storybook Composition
-        run: |
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
-          npx nx run storybook:build-storybook:ci --outputDir=dist/storybook \
-            --no-cloud --no-dte --no-parallel --runner=local
+        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-parallel --runner=local
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v4
         with:
@@ -371,10 +360,9 @@ jobs:
 
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
 
           # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             echo "Percy failed with exit code $RESULT"
@@ -382,7 +370,7 @@ jobs:
             if [ $RETRY -gt 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
-              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
             else
               exit 1
             fi
@@ -463,17 +451,17 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache e2e-schematics
+        uses: actions/cache/restore@v4
+        with:
+          path: ./dist/libs/sdk/e2e-schematics
+          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       - name: Download Percy Build Numbers
         uses: actions/download-artifact@v4
         with:
           path: ${{ runner.temp }}/percy-builds
           pattern: percy-build-*
           merge-multiple: true
-      - name: Cache e2e-schematics
-        uses: actions/cache/restore@v4
-        with:
-          path: ./dist/libs/sdk/e2e-schematics
-          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       - uses: actions/github-script@v7
         name: Verify E2E Visual Review
         id: verify-e2e
