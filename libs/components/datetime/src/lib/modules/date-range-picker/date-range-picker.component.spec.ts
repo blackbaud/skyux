@@ -610,11 +610,11 @@ describe('Date range picker', function () {
     const calculatorIdControl =
       component.dateRangePicker['formGroup']?.get('calculatorId');
 
-    detectChanges();
-
     control?.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
     });
+
+    detectChanges();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
       '.sky-input-group input',
