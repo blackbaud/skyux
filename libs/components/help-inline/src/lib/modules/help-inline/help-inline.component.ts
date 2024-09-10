@@ -112,7 +112,6 @@ export class SkyHelpInlineComponent {
 
   readonly #format = inject(SkyAppFormat);
   readonly #labelText = signal<string | undefined>(undefined);
-  readonly #labelTextTemplate: Signal<string | undefined>;
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   constructor() {
@@ -120,7 +119,7 @@ export class SkyHelpInlineComponent {
       this.#resourcesSvc.getString('skyux_help_inline_button_title'),
     );
 
-    this.#labelTextTemplate = toSignal(
+    const labelTextTemplate = toSignal(
       this.#resourcesSvc.getString('skyux_help_inline_aria_label'),
     );
 
@@ -129,7 +128,7 @@ export class SkyHelpInlineComponent {
         const labelText = this.#labelText();
 
         if (labelText) {
-          const resource = this.#labelTextTemplate();
+          const resource = labelTextTemplate();
 
           if (resource) {
             return this.#format.formatText(resource, this.#labelText());
