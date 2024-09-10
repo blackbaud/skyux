@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - 10.x.x
-  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -164,6 +163,11 @@ jobs:
         run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
         run: npx skyux-dev check-lib-resources
+        env:
+          CI: 'false'
+          GITHUB_ACTIONS: 'false'
+          NX_TASKS_RUNNER: 'nx/tasks-runners/default'
+          NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
 
   format:
     name: Check formatting
