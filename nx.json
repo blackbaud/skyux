@@ -122,5 +122,6 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
+  "nxCloudAccessToken": "Y2EyNjQ2OTctN2ZkMS00NTA2LWIxZDEtZTQyZDc3MjIwNDQyfHJlYWQ=",
   "defaultBase": "10.x.x"
 }

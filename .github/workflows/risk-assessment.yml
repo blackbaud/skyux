@@ -9,9 +9,6 @@ on:
       - labeled
       - unlabeled
       - ready_for_review
-env:
-  NX_RUNNER: 'nx/tasks-runners/default'
-  NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
 jobs:
   check_risk_labels:
     name: Check risk labels

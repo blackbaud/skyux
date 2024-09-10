@@ -9,8 +9,6 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-  NX_RUNNER: 'nx/tasks-runners/default'
-  NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
 
 jobs:
   conventional-title:

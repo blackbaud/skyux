@@ -14,10 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CI: 'false'
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
-  GITHUB_ACTIONS: 'false'
   NX_RUNNER: 'nx/tasks-runners/default'
   NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
   NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
@@ -99,9 +97,12 @@ jobs:
           key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
           restore-keys: e2e-schematics-${{ runner.os }}-
       - name: Build e2e-schematics
+        # Used by .github/actions/e2e-affected/action.yml
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
         shell: bash
-        run: npx nx build e2e-schematics --no-cloud --no-dte
+        run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
+          npx nx build e2e-schematics --no-cloud --no-dte
 
   build-storybook:
     name: Build Project Storybook
@@ -146,7 +147,9 @@ jobs:
           restore-keys: build-storybook-${{ matrix.project }}-${{ runner.os }}-
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-cloud --no-dte
+        run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
+          npx nx run ${{ matrix.project }}:build-storybook:ci --no-cloud --no-dte
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
@@ -208,12 +211,15 @@ jobs:
           restore-keys: build-${{ matrix.app }}-${{ runner.os }}-
       - name: Build ${{ matrix.app }}
         run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx build ${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/" \
             --no-cloud --no-dte
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
-        run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
+        run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
+          npx nx dep-graph --file=dist/apps/dep-graph/index.html
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app == 'dep-graph' }}
       - name: Upload app artifact
         uses: actions/upload-artifact@v4
@@ -279,11 +285,14 @@ jobs:
       - name: Generate Storybook Composition
         shell: bash
         run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx g @skyux-sdk/e2e-schematics:storybook-composition \
             --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
             --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
       - name: Build Storybook Composition
-        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-cloud --no-dte
+        run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
+          npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-cloud --no-dte
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v4
         with:
@@ -357,6 +366,7 @@ jobs:
         id: cache-key
         shell: pwsh
         run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           $DEV_TARGET = $(npx nx show project ${{ matrix.project }} --json | jq -r '.targets.e2e.options.devServerTarget // ""') -split ':'
           if ( -not $DEV_TARGET ) {
             Write-Host "No devServerTarget found for ${{ matrix.project }}. Skipping cache."
@@ -386,6 +396,7 @@ jobs:
 
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
 
           # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
           npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log

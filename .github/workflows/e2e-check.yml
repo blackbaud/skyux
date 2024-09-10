@@ -3,10 +3,6 @@ name: E2E Check
 on:
   status:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-  cancel-in-progress: true
-
 jobs:
   e2e-check-rerun:
     runs-on: ubuntu-latest
