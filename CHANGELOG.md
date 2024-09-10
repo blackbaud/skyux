@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.0.0-beta.0](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.16...11.0.0-beta.0) (2024-09-10)
+
+
+### Features
+
+* add support for `axe-core@4.10.0` ([#2696](https://github.com/blackbaud/skyux/issues/2696)) ([#2718](https://github.com/blackbaud/skyux/issues/2718)) ([7221b5e](https://github.com/blackbaud/skyux/commit/7221b5ef14d2e5781b6c0e05b307fd6744da453a))
+
+
+### Bug Fixes
+
+* **components/packages:** limit migrations to project files ([#2713](https://github.com/blackbaud/skyux/issues/2713)) ([3f9d815](https://github.com/blackbaud/skyux/commit/3f9d815770f9b4ea5d5f347f35cfcc129956944d))
+
 ## [10.43.0](https://github.com/blackbaud/skyux/compare/10.42.0...10.43.0) (2024-09-09)
 
 
