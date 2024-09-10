@@ -263,6 +263,7 @@ describe('Checkbox harness', () => {
     });
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
+    fixture.componentInstance.helpKey = 'helpKey.html';
     fixture.componentInstance.helpPopoverContent = undefined;
     fixture.detectChanges();
 

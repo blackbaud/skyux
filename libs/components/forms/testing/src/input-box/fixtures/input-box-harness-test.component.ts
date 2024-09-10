@@ -21,7 +21,7 @@ export class InputBoxHarnessTestComponent {
   public easyModeDisabled = false;
   public easyModeHelpContent: string | TemplateRef<unknown> | undefined =
     'Help content';
-  public easyModeHelpKey: string | undefined = 'helpKey.html';
+  public easyModeHelpKey: string | undefined;
   public easyModeHelpTitle = 'Help title';
   public easyModeLabel: string | undefined = 'Last name (easy mode)';
   public easyModeStacked = false;

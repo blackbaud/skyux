@@ -32,7 +32,7 @@ export class FieldGroupComponent {
   public headingHidden = false;
   public headingLevel: SkyFieldGroupHeadingLevel = 3;
   public headingStyle: SkyFieldGroupHeadingStyle = 3;
-  public helpKey: string | undefined = 'helpKey.html';
+  public helpKey: string | undefined;
   public helpPopoverContent: string | undefined = 'Popover content';
   public helpPopoverTitle = 'Popover title';
 
