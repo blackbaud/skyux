@@ -11,12 +11,14 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name || github.event.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 env:
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_TASKS_RUNNER: 'local'
+  NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
+  NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
   PERCY_BROWSER_EXECUTABLE: /usr/bin/chromium
   PERCY_COMMIT: ${{ github.sha }}
   PERCY_SKIP_UPDATE_CHECK: 'true'
@@ -87,6 +89,19 @@ jobs:
           echo 'Using workflow parameters:'
           echo ''
           echo '${{ steps.parameters.outputs.parameters }}' | jq
+      - name: Cache e2e-schematics
+        uses: actions/cache@v4
+        id: cache-e2e-schematics
+        with:
+          path: ./dist/libs/sdk/e2e-schematics
+          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+      - name: Build e2e-schematics
+        # Used by .github/actions/e2e-affected/action.yml
+        if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
+          npx nx build e2e-schematics --no-parallel --runner=local
 
   build-storybook:
     name: Build Project Storybook
@@ -98,7 +113,6 @@ jobs:
     strategy:
       # If one build fails, do not cancel other builds.
       fail-fast: false
-      max-parallel: 3
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
@@ -124,8 +138,15 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
+      - name: Retrieve build-storybook-cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: build-storybook-${{ matrix.project }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          restore-keys: build-storybook-${{ matrix.project }}-${{ runner.os }}-
+        if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-agents
+        run: npx nx run ${{ matrix.project }}:build-storybook:ci --no-parallel --runner=local
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
@@ -179,11 +200,17 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
+      - name: Retrieve build-${{ matrix.app }}-cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: build-${{ matrix.app }}-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
+          restore-keys: build-${{ matrix.app }}-${{ runner.os }}-
       - name: Build ${{ matrix.app }}
         run: |
           npx nx build ${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ needs.install-deps.outputs.pr-number }}/${{ matrix.app }}/" \
-            --no-agents
+            --no-parallel --runner=local
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
@@ -256,7 +283,7 @@ jobs:
             --projectsJson='${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' \
             --baseUrl='../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
       - name: Build Storybook Composition
-        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-agents
+        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-parallel --runner=local
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v4
         with:
@@ -280,10 +307,9 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.job }}--${{ matrix.project }}-${{ github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
       cancel-in-progress: true
-    needs: [install-deps, build-storybook]
+    needs: install-deps
     strategy:
       fail-fast: false
-      max-parallel: 3
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
@@ -309,6 +335,11 @@ jobs:
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
+      - name: Cache e2e-schematics
+        uses: actions/cache/restore@v4
+        with:
+          path: ./dist/libs/sdk/e2e-schematics
+          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       - name: Check if ${{ matrix.project }} is affected
         if: ${{ matrix.project != 'skip' }}
         uses: ./.github/actions/e2e-affected
@@ -331,7 +362,7 @@ jobs:
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
 
           # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-agents 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             echo "Percy failed with exit code $RESULT"
@@ -339,7 +370,7 @@ jobs:
             if [ $RETRY -gt 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
-              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-agents 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
             else
               exit 1
             fi
@@ -420,8 +451,11 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
-      - name: Build e2e-schematics
-        run: npx nx build e2e-schematics --no-agents
+      - name: Cache e2e-schematics
+        uses: actions/cache/restore@v4
+        with:
+          path: ./dist/libs/sdk/e2e-schematics
+          key: e2e-schematics-${{ runner.os }}-${{ github.head_ref || github.ref_name || github.event.ref }}
       - name: Download Percy Build Numbers
         uses: actions/download-artifact@v4
         with:
