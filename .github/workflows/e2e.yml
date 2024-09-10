@@ -374,7 +374,7 @@ jobs:
           export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
 
           # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             echo "Percy failed with exit code $RESULT"
@@ -382,7 +382,7 @@ jobs:
             if [ $RETRY -gt 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
-              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-cloud --no-dte --no-parallel --runner=local 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
             else
               exit 1
             fi
