@@ -14,8 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  CI: 'false'
   CYPRESS_VERIFY_TIMEOUT: 120000
   GH_PAGES_OWNER: blackbaud
+  GITHUB_ACTIONS: 'false'
   NX_TASKS_RUNNER: 'nx/tasks-runners/default'
   NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
   NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
