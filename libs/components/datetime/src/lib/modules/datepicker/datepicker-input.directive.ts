@@ -332,7 +332,7 @@ export class SkyDatepickerInputDirective
 
     this.#control?.setErrors({
       skyDate: {
-        invalid: true,
+        invalid: value,
       },
     });
   }

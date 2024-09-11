@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.0.0-beta.1](https://github.com/blackbaud/skyux/compare/11.0.0-beta.0...11.0.0-beta.1) (2024-09-11)
+
+
+### Features
+
+* **components/popovers:** implement disclosure pattern for popovers ([#2717](https://github.com/blackbaud/skyux/issues/2717)) ([581fe08](https://github.com/blackbaud/skyux/commit/581fe08ba6b1d62d078808ec48ff48aa86835705))
+
+
+### Bug Fixes
+
+* **components/datetime:** date range picker's datepickers are always required & datepicker `invalid` error is consistent ([#2719](https://github.com/blackbaud/skyux/issues/2719)) ([749b057](https://github.com/blackbaud/skyux/commit/749b05753119f19c67ef225de51e3043876d4b74))
+
 ## [11.0.0-beta.0](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.16...11.0.0-beta.0) (2024-09-10)
 
 
