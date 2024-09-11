@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.0.0](https://github.com/blackbaud/skyux/compare/11.0.0-beta.1...11.0.0) (2024-09-11)
+
+
+### Features
+
+* release 11.0.0 ([#2725](https://github.com/blackbaud/skyux/issues/2725)) ([82c4860](https://github.com/blackbaud/skyux/commit/82c4860b5b00456fcdd45a386a58dbc94c07ff97))
+
 ## [11.0.0-beta.1](https://github.com/blackbaud/skyux/compare/11.0.0-beta.0...11.0.0-beta.1) (2024-09-11)
 
 
