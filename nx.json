@@ -122,6 +122,11 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
+  "tasksRunnerOptions": {
+    "local": {
+      "runner": "nx/tasks-runners/default"
+    }
+  },
   "nxCloudAccessToken": "Y2EyNjQ2OTctN2ZkMS00NTA2LWIxZDEtZTQyZDc3MjIwNDQyfHJlYWQ=",
   "defaultBase": "10.x.x"
 }

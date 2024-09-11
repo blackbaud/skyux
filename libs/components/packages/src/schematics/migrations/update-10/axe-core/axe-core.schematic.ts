@@ -9,10 +9,10 @@ import {
 } from '@schematics/angular/utility/dependencies';
 
 const AXE_CORE_PACKAGE = 'axe-core';
-const AXE_CORE_VERSION = '~4.9.0';
+const AXE_CORE_VERSION = '~4.10.0';
 
 /**
- * Sets axe-core to ~4.9.0. We can't put this in the ng-update.packageGroup
+ * Sets axe-core to ~4.10.0. We can't put this in the ng-update.packageGroup
  * because we only want to update a customer's axe-core version if they've
  * installed @skyux-sdk/testing.
  */

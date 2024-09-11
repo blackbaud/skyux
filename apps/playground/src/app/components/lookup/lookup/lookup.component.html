@@ -37,6 +37,7 @@
       [disabled]="disabled"
     >
       <sky-lookup
+        required
         formControlName="friends2"
         idProperty="id"
         [data]="people"
@@ -105,8 +106,11 @@
 
   <div class="app-screenshot" id="lookup-single-visual">
     <form novalidate [formGroup]="bestFriendsForm">
-      <sky-input-box class="sky-margin-stacked-lg" [disabled]="disabled">
-        <label class="sky-control-label"> Who is your best friend? </label>
+      <sky-input-box
+        class="sky-margin-stacked-lg"
+        [disabled]="disabled"
+        labelText="Who is your best friend?"
+      >
         <sky-lookup
           formControlName="bestFriend"
           idProperty="id"
