@@ -25,6 +25,43 @@ describe('Help testing controller', () => {
     helpController.expectCurrentHelpKey('test');
   });
 
+  it('should validate current help key when a page default is used', () => {
+    helpSvc.updateHelp({ pageDefaultHelpKey: 'test-page' });
+    helpSvc.openHelp({});
+
+    helpController.expectCurrentHelpKey('test-page');
+  });
+
+  it('should validate current help key when a page default and open key is used', () => {
+    helpSvc.updateHelp({ pageDefaultHelpKey: 'test-page' });
+    helpSvc.openHelp({ helpKey: 'test' });
+
+    helpController.expectCurrentHelpKey('test');
+  });
+
+  it('should validate current help key when it is updated', () => {
+    helpSvc.openHelp({ helpKey: 'test' });
+    helpSvc.updateHelp({ helpKey: 'updated-test' });
+
+    helpController.expectCurrentHelpKey('updated-test');
+  });
+
+  it('should validate current help key when it is cleared via an update', () => {
+    helpSvc.updateHelp({ pageDefaultHelpKey: 'test-page' });
+    helpSvc.openHelp({ helpKey: 'test' });
+    helpSvc.updateHelp({ helpKey: undefined });
+
+    helpController.expectCurrentHelpKey('test-page');
+  });
+
+  it('should validate current help key when the current key and page default are cleared via an update', () => {
+    helpSvc.updateHelp({ pageDefaultHelpKey: 'test-page' });
+    helpSvc.openHelp({ helpKey: 'test' });
+    helpSvc.updateHelp({ helpKey: undefined, pageDefaultHelpKey: undefined });
+
+    helpController.expectCurrentHelpKey(undefined);
+  });
+
   it('should throw an error when the current help key does not match the expected help key', () => {
     helpSvc.openHelp({ helpKey: 'test' });
 
@@ -50,6 +87,44 @@ describe('Help testing controller', () => {
 
     expect(() => helpController.expectCurrentHelpKey('test')).toThrowError(
       `Expected current help key to be 'test', but the current help key is undefined.`,
+    );
+  });
+
+  it('should close help with a page default', () => {
+    helpSvc.updateHelp({ pageDefaultHelpKey: 'page-test' });
+    helpSvc.openHelp({ helpKey: 'test' });
+
+    helpController.expectCurrentHelpKey('test');
+
+    helpController.closeHelp();
+
+    helpController.expectCurrentHelpKey('page-test');
+
+    expect(() => helpController.expectCurrentHelpKey('test')).toThrowError(
+      `Expected current help key to be 'test', but the current help key is 'page-test'.`,
+    );
+  });
+
+  it('should close help and reopen with a page default', () => {
+    helpSvc.updateHelp({ pageDefaultHelpKey: 'page-test' });
+    helpSvc.openHelp({ helpKey: 'test' });
+
+    helpController.expectCurrentHelpKey('test');
+
+    helpController.closeHelp();
+
+    helpController.expectCurrentHelpKey('page-test');
+
+    expect(() => helpController.expectCurrentHelpKey('test')).toThrowError(
+      `Expected current help key to be 'test', but the current help key is 'page-test'.`,
+    );
+
+    helpSvc.openHelp({});
+
+    helpController.expectCurrentHelpKey('page-test');
+
+    expect(() => helpController.expectCurrentHelpKey('test')).toThrowError(
+      `Expected current help key to be 'test', but the current help key is 'page-test'.`,
     );
   });
 
