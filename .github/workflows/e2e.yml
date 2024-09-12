@@ -345,6 +345,7 @@ jobs:
         uses: ./.github/actions/e2e-affected
         id: affected
         with:
+          branch: ${{ github.head_ref || github.ref_name || github.event.ref }}
           base: ${{ needs.install-deps.outputs.base }}
           head: ${{ needs.install-deps.outputs.head }}
           project: ${{ matrix.project }}

@@ -4,6 +4,9 @@ inputs:
   project:
     description: 'The name of the project'
     required: true
+  branch:
+    description: 'The branch name for this run'
+    required: true
   base:
     description: 'The base commit to compare against'
     required: true
@@ -44,7 +47,7 @@ runs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             workflow_id: 'e2e.yml',
-            branch: '${{ inputs.head }}',
+            branch: '${{ inputs.branch }}',
             status: 'completed',
           }).then(({data}) => {
             return data.workflow_runs.map(run => run.head_sha);
