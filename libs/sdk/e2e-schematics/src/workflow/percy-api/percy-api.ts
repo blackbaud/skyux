@@ -134,6 +134,9 @@ export async function getLastGoodPercyBuild(
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
 ): Promise<string> {
+  if (shaArray.length === 0) {
+    return '';
+  }
   const fetchJson = getFetchJson(fetchClient);
   try {
     const projectId = await getProjectId(project, logger, fetchJson);
@@ -179,6 +182,9 @@ export async function getPercyTargetCommit(
   /* istanbul ignore next */
   fetchClient: Fetch = fetch,
 ): Promise<string> {
+  if (shaArray.length === 0) {
+    return '';
+  }
   const fetchJson = getFetchJson(fetchClient);
 
   function chunk(shaArray: string[], number: number) {
