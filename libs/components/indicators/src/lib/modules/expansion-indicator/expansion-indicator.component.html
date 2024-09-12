@@ -4,11 +4,11 @@
   [ngClass]="['sky-expansion-indicator-' + directionOrDefault]"
 >
   <ng-container *skyThemeIf="'default'">
-    <ng-container *ngTemplateOutlet="icon"></ng-container>
+    <ng-container *ngTemplateOutlet="icon" />
   </ng-container>
   <ng-container *skyThemeIf="'modern'">
     <span class="sky-expansion-indicator-glyph-container">
-      <ng-container *ngTemplateOutlet="icon"></ng-container>
+      <ng-container *ngTemplateOutlet="icon" />
     </span>
   </ng-container>
 </div>

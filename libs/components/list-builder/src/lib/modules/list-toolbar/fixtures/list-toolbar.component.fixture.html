@@ -1,10 +1,10 @@
 <sky-list-toolbar
+  #toolbar
   [inMemorySearchEnabled]="inMemorySearchEnabled"
   [searchEnabled]="searchEnabled"
   [searchText]="searchText"
   [sortSelectorEnabled]="sortEnabled"
   [toolbarType]="toolbarType"
-  #toolbar
 >
   <sky-list-toolbar-item
     *ngIf="showCustomItem1"
@@ -21,23 +21,20 @@
     id="custom-item-no-template"
     location="left"
     [index]="5000"
-  >
-  </sky-list-toolbar-item>
+  />
   <sky-list-toolbar-sort
     label="Custom"
     field="custom"
     type="string"
     [descending]="true"
-  >
-  </sky-list-toolbar-sort>
+  />
   <sky-list-toolbar-sort
     label="Custom"
     field="custom"
     type="string"
     [descending]="false"
-  >
-  </sky-list-toolbar-sort>
-  <sky-list-toolbar-view-actions></sky-list-toolbar-view-actions>
+  />
+  <sky-list-toolbar-view-actions />
 </sky-list-toolbar>
 
 <ng-template #default>

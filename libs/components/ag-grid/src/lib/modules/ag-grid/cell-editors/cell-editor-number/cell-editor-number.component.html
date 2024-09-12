@@ -1,5 +1,6 @@
 <ng-container [formGroup]="editorForm">
   <input
+    #skyCellEditorNumber
     formControlName="number"
     type="number"
     [attr.aria-label]="
@@ -10,6 +11,5 @@
     [style.height.px]="rowHeightWithoutBorders"
     [max]="max ?? null"
     [min]="min ?? null"
-    #skyCellEditorNumber
   />
 </ng-container>

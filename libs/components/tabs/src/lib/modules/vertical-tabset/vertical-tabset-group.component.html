@@ -10,6 +10,7 @@
     }"
   >
     <button
+      #groupHeadingButton
       class="sky-padding-even-default sky-vertical-tabset-button"
       role="tab"
       type="button"
@@ -24,24 +25,22 @@
       (click)="toggleMenuOpen()"
       (keyup.arrowleft)="groupButtonArrowLeft($event)"
       (keyup.arrowright)="groupButtonArrowRight($event)"
-      #groupHeadingButton
     >
       {{ groupHeading }}
       <sky-expansion-indicator
         class="sky-vertical-tabset-group-expansion-indicator"
         [direction]="!disabled && open ? 'up' : 'down'"
-      >
-      </sky-expansion-indicator>
+      />
     </button>
   </div>
   <div
+    #groupContent
     class="sky-vertical-tabset-group-content"
     skyId
     [attr.labelledby]="groupId"
     [@.disabled]="animationDisabled"
     [@skyAnimationSlide]="slideDirection"
     (@skyAnimationSlide.done)="updateSlideDirection($event)"
-    #groupContent
   >
     <ng-content />
   </div>

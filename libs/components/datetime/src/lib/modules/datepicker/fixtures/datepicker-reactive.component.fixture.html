@@ -1,7 +1,9 @@
-<form [formGroup]="datepickerForm" novalidate>
+<form novalidate [formGroup]="datepickerForm">
   <sky-datepicker class="form-input">
     <input
       id="dateInput"
+      formControlName="date"
+      skyDatepickerInput
       [dateFormat]="dateFormat"
       [disabled]="isDisabled"
       [skyDatepickerNoValidate]="noValidate"
@@ -10,8 +12,6 @@
       [startAtDate]="startAtDate"
       [startingDay]="startingDay"
       [strict]="strict"
-      formControlName="date"
-      skyDatepickerInput
     />
   </sky-datepicker>
 </form>

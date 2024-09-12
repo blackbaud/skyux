@@ -8,13 +8,13 @@
   "
 />
 <div
+  #contentWrapper
   class="sky-paging-content-wrapper"
   role="group"
   tabindex="-1"
   [attr.aria-label]="
     'skyux_paging_page_label' | skyLibResources: currentPage : pageCount
   "
-  #contentWrapper
 >
   <ng-content select="sky-paging-content" />
 </div>

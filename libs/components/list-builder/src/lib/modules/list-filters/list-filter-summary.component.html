@@ -1,9 +1,9 @@
 <sky-filter-summary>
   <sky-filter-summary-item
     *ngFor="let item of appliedFilters | async; let i = index"
+    [dismissible]="item.dismissible"
     (dismiss)="filterSummaryItemDismiss(i)"
     (itemClick)="filterSummaryItemClick(item)"
-    [dismissible]="item.dismissible"
   >
     {{ item.label || item.value }}
   </sky-filter-summary-item>

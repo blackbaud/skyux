@@ -5,14 +5,13 @@
       ariaControls="popover"
       [ariaExpanded]="popoverOpen"
       [skyPopover]="myPopover"
-    >
-    </sky-help-inline>
+    />
     <sky-popover
+      #myPopover
       id="popover"
       popoverTitle="Did you know?"
       (popoverClosed)="popoverChange(false)"
       (popoverOpened)="popoverChange(true)"
-      #myPopover
     >
       This is a popover.
     </sky-popover>

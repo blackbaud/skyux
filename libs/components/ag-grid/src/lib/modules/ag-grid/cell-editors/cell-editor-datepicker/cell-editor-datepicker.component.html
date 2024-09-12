@@ -10,6 +10,7 @@
     (openChange)="onCalendarOpenChange($event)"
   >
     <input
+      #skyCellEditorDatepickerInput
       formControlName="date"
       skyDatepickerInput
       [attr.aria-label]="
@@ -28,7 +29,6 @@
       [startingDay]="skyComponentProperties.startingDay"
       [skyDatepickerNoValidate]="skyComponentProperties.skyDatepickerNoValidate"
       [style.height.px]="rowHeightWithoutBorders"
-      #skyCellEditorDatepickerInput
     />
   </sky-datepicker>
 </div>
