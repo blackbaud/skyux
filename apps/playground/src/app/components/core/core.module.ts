@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -32,12 +31,7 @@ const routes: Routes = [
 export class CoreRoutingModule {}
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreRoutingModule,
-    ResizeObserverModule,
-    ViewkeeperModule,
-  ],
+  imports: [CoreRoutingModule, ResizeObserverModule, ViewkeeperModule],
 })
 export class CoreModule {
   public static routes = routes;

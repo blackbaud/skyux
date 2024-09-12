@@ -30,26 +30,32 @@
         'sky-switch-control-danger': icon && radioType === 'danger'
       }"
     >
-      <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon" />
+      @if (icon) {
+        <sky-icon [fixedWidth]="true" [icon]="icon" />
+      }
     </span>
-    <ng-container *ngIf="labelText; else labelElement">
-      <span *ngIf="!labelHidden" class="sky-switch-label">{{ labelText }}</span>
-    </ng-container>
-    <ng-template #labelElement>
+    @if (labelText) {
+      @if (!labelHidden) {
+        <span class="sky-switch-label">{{ labelText }}</span>
+      }
+    } @else {
       <ng-content select="sky-radio-label" />
-    </ng-template>
+    }
   </label>
-  <sky-help-inline
-    *ngIf="(helpPopoverContent || helpKey) && labelText"
-    class="sky-radio-help-inline"
-    [helpKey]="helpKey"
-    [labelText]="labelText"
-    [popoverTitle]="helpPopoverTitle"
-    [popoverContent]="helpPopoverContent"
-  />
+  @if ((helpPopoverContent || helpKey) && labelText) {
+    <sky-help-inline
+      class="sky-radio-help-inline"
+      [helpKey]="helpKey"
+      [labelText]="labelText"
+      [popoverTitle]="helpPopoverTitle"
+      [popoverContent]="helpPopoverContent"
+    />
+  }
 </span>
-<div skyId #hintTextEl="skyId">
-  <div *ngIf="hintText" class="sky-font-deemphasized sky-radio-hint-text">
-    {{ hintText }}
-  </div>
+<div #hintTextEl="skyId" skyId>
+  @if (hintText) {
+    <div class="sky-font-deemphasized sky-radio-hint-text">
+      {{ hintText }}
+    </div>
+  }
 </div>

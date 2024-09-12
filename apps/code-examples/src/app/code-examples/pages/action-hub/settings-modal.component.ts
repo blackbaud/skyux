@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -19,7 +18,6 @@ import { MODAL_TITLE } from './modal-title-token';
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyColorpickerModule,

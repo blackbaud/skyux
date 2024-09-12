@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +12,6 @@ import { ColorpickerReactiveTestComponent } from './colorpicker-reactive-compone
 @NgModule({
   declarations: [ColorpickerReactiveTestComponent, ColorpickerTestComponent],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyColorpickerModule,

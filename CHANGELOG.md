@@ -1,5 +1,310 @@
 # Changelog
 
+## [11.0.0](https://github.com/blackbaud/skyux/compare/11.0.0-beta.1...11.0.0) (2024-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** added support for [AG Grid 32](https://blog.ag-grid.com/whats-new-in-ag-grid-32/)
+* **components/datetime:** remove `startDateRequired` and `endDateRequired` inputs and update error validation ([#2654](https://github.com/blackbaud/skyux/issues/2654))
+* **components/forms:** radio button add proper spacing when not in unordered lists ([#2670](https://github.com/blackbaud/skyux/issues/2670))
+* **components/forms:** show all first class errors on touched ([#2624](https://github.com/blackbaud/skyux/issues/2624))
+* **components/forms:** remove radio button extra space on top ([#2613](https://github.com/blackbaud/skyux/issues/2613))
+* **components/lookup:** The lookup component has been updated to no longer set an incorrect `aria-labelledby` property on an internal element. This change may result in existing accessibility unit tests to fail; however, they were succeeding in error previously. Consumers should utilize the automatic accessibility provided by the `labelText` input on a wrapping input box. The `ariaLabel` and `ariaLabelledBy` inputs on the lookup component have been deprecated.
+* **components/popovers:** remove `dismissOnBlur` input from popover and dropdown ([#2571](https://github.com/blackbaud/skyux/issues/2571)) ([ad63818](https://github.com/blackbaud/skyux/commit/ad63818c473d07e36618b02811a3a80acc2ae269))
+* Custom properties used by compatibility stylesheets for previous SKY UX major versions have been removed. Consumers should adopt the updated styles within their applications.
+* remove @skyux/omnibar-interop ([#2555](https://github.com/blackbaud/skyux/issues/2555))
+* add support for Angular 18; drop support for Angular 17 ([#2419](https://github.com/blackbaud/skyux/issues/2419)) ([7a53bb5](https://github.com/blackbaud/skyux/commit/7a53bb5939eb96b8447c2dc2bc933e89969241f7))
+
+
+### Features
+
+* **components/ag-grid:** support AG Grid 32.1.0 ([#2681](https://github.com/blackbaud/skyux/issues/2681)) ([ee75bd2](https://github.com/blackbaud/skyux/commit/ee75bd21a0dd67f72fd0e6ef4a915674df52bd37))
+* **components/ag-grid:** use SkyCheckboxComponent style for boolean fields ([#2625](https://github.com/blackbaud/skyux/issues/2625)) ([513a8cc](https://github.com/blackbaud/skyux/commit/513a8cc20227c574953998772fda4ffd6de60387))
+* **components/ag-grid:** remember last position when tabbing in and out of the grid ([#2633](https://github.com/blackbaud/skyux/issues/2633)) ([5ccafdb](https://github.com/blackbaud/skyux/commit/5ccafdbd895398f138e00848de914322c9fd98d5))
+* **components/ag-grid:** switch to using `setGridOption` for deprecated api calls ([#2637](https://github.com/blackbaud/skyux/issues/2637)) ([31de6e8](https://github.com/blackbaud/skyux/commit/31de6e82774136ab4302bdb6076c7de2b9142d65))
+* **components/ag-grid:** option for hidden column heading ([#2615](https://github.com/blackbaud/skyux/issues/2615)) ([0aec3c8](https://github.com/blackbaud/skyux/commit/0aec3c84320c7fdf29178e359accf02876278417))
+* **components/ag-grid:** remove enter key navigation in cell editors ([#2620](https://github.com/blackbaud/skyux/issues/2620)) ([383555c](https://github.com/blackbaud/skyux/commit/383555ce85dbe905738b2fe56f5e871b0559ed43))
+* **components/forms:** add `SkyFileValidateFn` to public exports API ([#2663](https://github.com/blackbaud/skyux/issues/2663)) ([1f391fb](https://github.com/blackbaud/skyux/commit/1f391fb195cd988f090eaebf5f887c0595fafc61))
+* **components/forms:** file attachment automatically creates download link for file uploads ([#2608](https://github.com/blackbaud/skyux/issues/2608)) ([321e93a](https://github.com/blackbaud/skyux/commit/321e93a937162ed2aed805dc4b850046489543d5))
+* **components/forms:** update `sky-file-attachment` component to use `ControlValueAccessor`; deprecate `validateFn` attribute in favor of custom form control validators; deprecate `fileChange` event in favor of form control `valueChanges` observable ([#2603](https://github.com/blackbaud/skyux/issues/2603)) ([7a74fc7](https://github.com/blackbaud/skyux/commit/7a74fc7388a15e5ce2b18057551d05413b45d798))
+* **components/packages:** warn when using ssr ([#2623](https://github.com/blackbaud/skyux/issues/2623)) ([8a753fb](https://github.com/blackbaud/skyux/commit/8a753fb85a723f45b62cbfa1dfffcc4b9032f257))
+* remove compat variables for previous compat stylesheets ([#2598](https://github.com/blackbaud/skyux/issues/2598)) ([dd59411](https://github.com/blackbaud/skyux/commit/dd594112f99c5662c2778b956fc1a63ec054e447))
+* **components/packages:** schematic to remove compat stylesheets ([#2564](https://github.com/blackbaud/skyux/issues/2564)) ([27dd361](https://github.com/blackbaud/skyux/commit/27dd361d32d1104298199966065e33d5f98c5556))
+* **components/packages:** schematic to update `SkyHelpInlineModule` import from the indicators library to the help-inline library ([#2570](https://github.com/blackbaud/skyux/issues/2570)) ([1822746](https://github.com/blackbaud/skyux/commit/1822746eab32a1a5cf840b4fd3cfb88f93ed5b33))
+* **components/packages:** schematic to update icon type imports from the indicators library to the icon library ([#2572](https://github.com/blackbaud/skyux/issues/2572)) ([dbeaf5b](https://github.com/blackbaud/skyux/commit/dbeaf5bee770656c0fffb6530c1e8689eff0c7a3))
+* **components/packages:** schematic to update `async()` tests to use `waitForAsync()` ([#2489](https://github.com/blackbaud/skyux/issues/2489)) ([26a7036](https://github.com/blackbaud/skyux/commit/26a70362e534d4d4814d9388412b00c25c17d575))
+* **components/popovers:** implement disclosure pattern for popovers ([#2717](https://github.com/blackbaud/skyux/issues/2717)) ([581fe08](https://github.com/blackbaud/skyux/commit/581fe08ba6b1d62d078808ec48ff48aa86835705))
+* update Angular, `dompurify`, `eslint-plugin-deprecation`, `intl-tel-input`, and `validator` ([#2557](https://github.com/blackbaud/skyux/issues/2557)) ([1dd6b9b](https://github.com/blackbaud/skyux/commit/1dd6b9bcc4a820be02ff654e620d98935c93fe4e))
+* add support for `normalize-scss@8` ([#2558](https://github.com/blackbaud/skyux/issues/2558)) ([6648df1](https://github.com/blackbaud/skyux/commit/6648df1524619b3c82c79cd3b16daeec38fad587))
+* update `intl-tel-input` and `google-libphonenumber` dependencies ([#2542](https://github.com/blackbaud/skyux/issues/2542)) ([434d886](https://github.com/blackbaud/skyux/commit/434d886e10051c2b3fc1052feef8440a0e4dbe4c))
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([#2632](https://github.com/blackbaud/skyux/issues/2632)) ([f86090d](https://github.com/blackbaud/skyux/commit/f86090d55fc9bf5f1a4050aa588b45fa7ecfeeaa))
+* **components/ag-grid:** migrate `ColumnApi` to `GridApi` ([#2653](https://github.com/blackbaud/skyux/issues/2653)) ([94120e2](https://github.com/blackbaud/skyux/commit/94120e225f89ea8f694221447bcafc47724ca302))
+* **components/ag-grid:** focused cell link outline ([#2622](https://github.com/blackbaud/skyux/issues/2622)) ([48a9c68](https://github.com/blackbaud/skyux/commit/48a9c68294d64feabbc2096bdce5d6573a5a0527))
+* **components/core:** remove @angular/forms peer dependency ([#2566](https://github.com/blackbaud/skyux/issues/2566)) ([e61f1d4](https://github.com/blackbaud/skyux/commit/e61f1d4e50c0d10c8e0d49f2eba1ca02cfeeeb51))
+* **components/datetime:** date range picker's datepickers are always required & datepicker `invalid` error is consistent ([#2719](https://github.com/blackbaud/skyux/issues/2719)) ([749b057](https://github.com/blackbaud/skyux/commit/749b05753119f19c67ef225de51e3043876d4b74))
+* **components/datetime:** resources strings for default calculators are not resolved in the service ([#2536](https://github.com/blackbaud/skyux/issues/2536)) ([9ac8cd1](https://github.com/blackbaud/skyux/commit/9ac8cd1bd6b22adb85d3ebe236bc8f410ba4014f))
+* **components/forms:** add unique ARIA labels to file drop item delete buttons ([#2700](https://github.com/blackbaud/skyux/issues/2700)) ([2670977](https://github.com/blackbaud/skyux/commit/2670977596a3825aef67466391d3a8585503565e))
+* **components/forms:** add missing ARIA attributes to file attachment button ([#2680](https://github.com/blackbaud/skyux/issues/2680)) ([85a8cb1](https://github.com/blackbaud/skyux/commit/85a8cb1e01a07ddf74f4b360828a7910f01dc3d9))
+* **components/forms:** separate file attachment help inline button from label ([#2675](https://github.com/blackbaud/skyux/issues/2675)) ([67c1496](https://github.com/blackbaud/skyux/commit/67c1496f4e9eb2cc8d576af4fa38a8bec13eb977))
+* **components/forms:** update checkbox and checkbox group harness to return false instead of throw when no form errors are present ([#2640](https://github.com/blackbaud/skyux/issues/2640)) ([28c1fdd](https://github.com/blackbaud/skyux/commit/28c1fddc1f70f468dbd98a8614084cf2e8a3d438))
+* **components/i18n:** switch to string union type ([#2523](https://github.com/blackbaud/skyux/issues/2523)) ([7393ae9](https://github.com/blackbaud/skyux/commit/7393ae9e73be83fe42a1878c393640e380be0919))
+* **components/indicators:** add exports from `icon` and `help-inline` ([#2592](https://github.com/blackbaud/skyux/issues/2592)) ([f533ca2](https://github.com/blackbaud/skyux/commit/f533ca22824757d027f885a0348635a73d7a9e47))
+* **components/packages:** limit migrations to project files ([#2713](https://github.com/blackbaud/skyux/issues/2713)) ([3f9d815](https://github.com/blackbaud/skyux/commit/3f9d815770f9b4ea5d5f347f35cfcc129956944d))
+* **components/packages:** additional AG Grid event migrations ([#2662](https://github.com/blackbaud/skyux/issues/2662)) ([4f8626b](https://github.com/blackbaud/skyux/commit/4f8626b50e55b557110cb155d64d09c747286148))
+* **components/packages:** update `move-class-to-library` to handle partial migration ([#2651](https://github.com/blackbaud/skyux/issues/2651)) ([c788c59](https://github.com/blackbaud/skyux/commit/c788c59b967d98ad45ec55ce96cdb752cfc980e7))
+* use `booleanAttribute` transform instead of `SkyFormsUtility.coerceBooleanProperty` on boolean inputs ([#2533](https://github.com/blackbaud/skyux/issues/2533))
+
+
+### Deprecations
+
+* **components/forms:** deprecate `SkyFileAttachmentsModule`; create `SkyFileAttachmentModule` and `SkyFileDropModule` ([#2585](https://github.com/blackbaud/skyux/issues/2585)) ([1d57a2f](https://github.com/blackbaud/skyux/commit/1d57a2f18b81cf0f376b51eec36c6357d883bd3e))
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([#2618](https://github.com/blackbaud/skyux/issues/2618)) ([4bce259](https://github.com/blackbaud/skyux/commit/4bce2595903ad971832e6f8fe9b2fa72009e1de1))
+
+## [11.0.0-beta.1](https://github.com/blackbaud/skyux/compare/11.0.0-beta.0...11.0.0-beta.1) (2024-09-11)
+
+
+### Features
+
+* **components/popovers:** implement disclosure pattern for popovers ([#2717](https://github.com/blackbaud/skyux/issues/2717)) ([581fe08](https://github.com/blackbaud/skyux/commit/581fe08ba6b1d62d078808ec48ff48aa86835705))
+
+
+### Bug Fixes
+
+* **components/datetime:** date range picker's datepickers are always required & datepicker `invalid` error is consistent ([#2719](https://github.com/blackbaud/skyux/issues/2719)) ([749b057](https://github.com/blackbaud/skyux/commit/749b05753119f19c67ef225de51e3043876d4b74))
+
+## [11.0.0-beta.0](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.16...11.0.0-beta.0) (2024-09-10)
+
+
+### Features
+
+* add support for `axe-core@4.10.0` ([#2696](https://github.com/blackbaud/skyux/issues/2696)) ([#2718](https://github.com/blackbaud/skyux/issues/2718)) ([7221b5e](https://github.com/blackbaud/skyux/commit/7221b5ef14d2e5781b6c0e05b307fd6744da453a))
+
+
+### Bug Fixes
+
+* **components/packages:** limit migrations to project files ([#2713](https://github.com/blackbaud/skyux/issues/2713)) ([3f9d815](https://github.com/blackbaud/skyux/commit/3f9d815770f9b4ea5d5f347f35cfcc129956944d))
+
+## [10.43.0](https://github.com/blackbaud/skyux/compare/10.42.0...10.43.0) (2024-09-09)
+
+
+### Features
+
+* add support for `axe-core@4.10.0` ([#2696](https://github.com/blackbaud/skyux/issues/2696)) ([48855a3](https://github.com/blackbaud/skyux/commit/48855a3ade96984aac2a62e95b1f0b4eac6102e7))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** improve row selector performance ([#2691](https://github.com/blackbaud/skyux/issues/2691)) ([e1d391b](https://github.com/blackbaud/skyux/commit/e1d391bcf594fd5b03cf9ee189c067801d7d588f))
+* **components/lookup:** add required label asterisk for template driven forms ([#2694](https://github.com/blackbaud/skyux/issues/2694)) ([2f25548](https://github.com/blackbaud/skyux/commit/2f25548870a035fb97c12d2667d477f9018c3961))
+
+## [11.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.15...11.0.0-alpha.16) (2024-09-09)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** improve row selector performance ([#2691](https://github.com/blackbaud/skyux/issues/2691)) ([#2710](https://github.com/blackbaud/skyux/issues/2710)) ([34ee162](https://github.com/blackbaud/skyux/commit/34ee162f837268a26946e63ec84ffd77a256b0e9))
+* **components/forms:** add unique ARIA labels to file drop item delete buttons ([#2700](https://github.com/blackbaud/skyux/issues/2700)) ([2670977](https://github.com/blackbaud/skyux/commit/2670977596a3825aef67466391d3a8585503565e))
+* **components/lookup:** add required label asterisk for template driven forms ([#2694](https://github.com/blackbaud/skyux/issues/2694)) ([#2711](https://github.com/blackbaud/skyux/issues/2711)) ([75c89f6](https://github.com/blackbaud/skyux/commit/75c89f61dec53428f3dcfc823c28b1d973da0922))
+* **components/packages:** adjust AG Grid migration ([#2708](https://github.com/blackbaud/skyux/issues/2708)) ([1da3110](https://github.com/blackbaud/skyux/commit/1da3110bd681b8d1a82f4e07770f5446d57ac849))
+
+## [11.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.14...11.0.0-alpha.15) (2024-09-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** radio button add proper spacing when not in unordered lists ([#2670](https://github.com/blackbaud/skyux/issues/2670))
+
+### Features
+
+* **components/ag-grid:** support AG Grid 32.1.0 ([#2681](https://github.com/blackbaud/skyux/issues/2681)) ([ee75bd2](https://github.com/blackbaud/skyux/commit/ee75bd21a0dd67f72fd0e6ef4a915674df52bd37))
+* **components/theme:** add support for @skyux/icons@7.8.0 ([#2678](https://github.com/blackbaud/skyux/issues/2678)) ([#2703](https://github.com/blackbaud/skyux/issues/2703)) ([ec10383](https://github.com/blackbaud/skyux/commit/ec103837cd131655988b9baa030000af63dc06ab))
+
+
+### Bug Fixes
+
+* **components/forms:** add missing ARIA attributes to file attachment button ([#2680](https://github.com/blackbaud/skyux/issues/2680)) ([85a8cb1](https://github.com/blackbaud/skyux/commit/85a8cb1e01a07ddf74f4b360828a7910f01dc3d9))
+* **components/forms:** radio button add proper spacing when not in unordered lists ([#2670](https://github.com/blackbaud/skyux/issues/2670)) ([9f47033](https://github.com/blackbaud/skyux/commit/9f47033d39d3e9b55b3ec14e96142ee78689347a))
+* **components/forms:** separate file attachment help inline button from label ([#2675](https://github.com/blackbaud/skyux/issues/2675)) ([67c1496](https://github.com/blackbaud/skyux/commit/67c1496f4e9eb2cc8d576af4fa38a8bec13eb977))
+* **components/forms:** stop requiring labelText in field group ([#2674](https://github.com/blackbaud/skyux/issues/2674)) ([#2677](https://github.com/blackbaud/skyux/issues/2677)) ([627f1d7](https://github.com/blackbaud/skyux/commit/627f1d71fb3ef1fedd0a89fdf5f7e2eb90ef1fc1))
+* **components/icon:** variant input is respected for SVG-based icons ([#2688](https://github.com/blackbaud/skyux/issues/2688)) ([#2701](https://github.com/blackbaud/skyux/issues/2701)) ([1d6953c](https://github.com/blackbaud/skyux/commit/1d6953c3d166d8e0dc50e5a686aaf193916cffd7))
+
+## [10.42.0](https://github.com/blackbaud/skyux/compare/10.41.5...10.42.0) (2024-09-06)
+
+
+### Features
+
+* **components/theme:** add support for @skyux/icons@7.8.0 ([#2678](https://github.com/blackbaud/skyux/issues/2678)) ([1997de3](https://github.com/blackbaud/skyux/commit/1997de3beb4b586a66dc78fc47f95c0fea74a885))
+
+
+### Bug Fixes
+
+* **components/forms:** stop requiring labelText in field group ([#2674](https://github.com/blackbaud/skyux/issues/2674)) ([a245e9a](https://github.com/blackbaud/skyux/commit/a245e9a71a7512ec9503a273c7dce1534c2dcdee))
+* **components/icon:** variant input is respected for SVG-based icons ([#2688](https://github.com/blackbaud/skyux/issues/2688)) ([d5681a6](https://github.com/blackbaud/skyux/commit/d5681a627f6da97c1fb1b2b314f3b4ce04dfd187))
+
+## [11.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.13...11.0.0-alpha.14) (2024-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/datetime:** remove deprecated required inputs and update error validation ([#2654](https://github.com/blackbaud/skyux/issues/2654))
+
+### Features
+
+* **components/ag-grid:** allow template ref cell renderers to be used for row actions in editable grids ([#2658](https://github.com/blackbaud/skyux/issues/2658)) ([59095c7](https://github.com/blackbaud/skyux/commit/59095c748f067b698bbe9f43067f0d83d0473e7b))
+* **components/ag-grid:** implement sticky setting for column widths ([#2645](https://github.com/blackbaud/skyux/issues/2645)) ([196d0e5](https://github.com/blackbaud/skyux/commit/196d0e58fa504df9a223712d8a209ef2f4152a1d))
+* **components/datetime:** remove deprecated required inputs and update error validation ([#2654](https://github.com/blackbaud/skyux/issues/2654)) ([052ea91](https://github.com/blackbaud/skyux/commit/052ea9199743dbc322d922517067b1a42528bc00))
+* **components/forms:** update `SkyFileValidateFn` export ([#2663](https://github.com/blackbaud/skyux/issues/2663)) ([1f391fb](https://github.com/blackbaud/skyux/commit/1f391fb195cd988f090eaebf5f887c0595fafc61))
+
+
+### Bug Fixes
+
+* **components/forms:** update checkbox and checkbox group harness to return false instead of throw when no form errors are present ([#2640](https://github.com/blackbaud/skyux/issues/2640)) ([28c1fdd](https://github.com/blackbaud/skyux/commit/28c1fddc1f70f468dbd98a8614084cf2e8a3d438))
+* **components/packages:** additional AG Grid event migrations ([#2662](https://github.com/blackbaud/skyux/issues/2662)) ([4f8626b](https://github.com/blackbaud/skyux/commit/4f8626b50e55b557110cb155d64d09c747286148))
+
+## [10.41.5](https://github.com/blackbaud/skyux/compare/10.41.4...10.41.5) (2024-08-26)
+
+
+### Bug Fixes
+
+* **components/lists:** selectable repeater items do not log a checkbox `label` deprecation warning ([#2641](https://github.com/blackbaud/skyux/issues/2641)) ([110bfdf](https://github.com/blackbaud/skyux/commit/110bfdfeaa2c79417b9970b7fbee2c821febe660))
+
+## [11.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.12...11.0.0-alpha.13) (2024-08-27)
+
+
+### Features
+
+* **components/ag-grid:** use SkyCheckboxComponent style for boolean fields ([#2625](https://github.com/blackbaud/skyux/issues/2625)) ([513a8cc](https://github.com/blackbaud/skyux/commit/513a8cc20227c574953998772fda4ffd6de60387))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** migrate `ColumnApi` to `GridApi` ([#2653](https://github.com/blackbaud/skyux/issues/2653)) ([94120e2](https://github.com/blackbaud/skyux/commit/94120e225f89ea8f694221447bcafc47724ca302))
+* **components/lists:** selectable repeater items do not log a checkbox `label` deprecation warning ([#2641](https://github.com/blackbaud/skyux/issues/2641)) ([#2643](https://github.com/blackbaud/skyux/issues/2643)) ([515f4ca](https://github.com/blackbaud/skyux/commit/515f4ca7e4c34a5c2381fff18cc9e2fbb883e10a))
+* **components/packages:** update `move-class-to-library` to handle partial migration ([#2651](https://github.com/blackbaud/skyux/issues/2651)) ([c788c59](https://github.com/blackbaud/skyux/commit/c788c59b967d98ad45ec55ce96cdb752cfc980e7))
+
+## [11.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.11...11.0.0-alpha.12) (2024-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** show all first class errors on touched ([#2624](https://github.com/blackbaud/skyux/issues/2624))
+* **components/forms:** remove radio button extra space on top ([#2613](https://github.com/blackbaud/skyux/issues/2613))
+
+### Features
+
+* **components/ag-grid:** remember last position when tabbing in and out of the grid ([#2633](https://github.com/blackbaud/skyux/issues/2633)) ([5ccafdb](https://github.com/blackbaud/skyux/commit/5ccafdbd895398f138e00848de914322c9fd98d5))
+* **components/ag-grid:** switch to using `setGridOption` for deprecated api calls ([#2637](https://github.com/blackbaud/skyux/issues/2637)) ([31de6e8](https://github.com/blackbaud/skyux/commit/31de6e82774136ab4302bdb6076c7de2b9142d65))
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([#2632](https://github.com/blackbaud/skyux/issues/2632)) ([f86090d](https://github.com/blackbaud/skyux/commit/f86090d55fc9bf5f1a4050aa588b45fa7ecfeeaa))
+* **components/forms:** remove radio button extra space on top ([#2613](https://github.com/blackbaud/skyux/issues/2613)) ([d2d358d](https://github.com/blackbaud/skyux/commit/d2d358dad523c06a77c76eef68beaab6ad62d72d))
+* **components/forms:** show all first class errors on touched ([#2624](https://github.com/blackbaud/skyux/issues/2624)) ([e2739a1](https://github.com/blackbaud/skyux/commit/e2739a138b1f63649658e03f29c884b345b0ea4f))
+* **components/packages:** handle edge cases for package migration ([#2638](https://github.com/blackbaud/skyux/issues/2638)) ([2d59fe2](https://github.com/blackbaud/skyux/commit/2d59fe2fd1e675a8f0a5c546804f2c32dfbf147e))
+
+## [11.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.10...11.0.0-alpha.11) (2024-08-23)
+
+
+### Bug Fixes
+
+* **components/packages:** fix collection path to `workspace-check` schematic ([#2629](https://github.com/blackbaud/skyux/issues/2629)) ([f028516](https://github.com/blackbaud/skyux/commit/f028516a2d08cea344d9c747d986f1204ef16465))
+
+## [11.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.9...11.0.0-alpha.10) (2024-08-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* Custom properties used by compatibility stylesheets for previous SKY UX major versions have been removed. Consumers should adopt the updated styles within their applications.
+
+### Features
+
+* **components/ag-grid:** option for hidden column heading ([#2615](https://github.com/blackbaud/skyux/issues/2615)) ([0aec3c8](https://github.com/blackbaud/skyux/commit/0aec3c84320c7fdf29178e359accf02876278417))
+* **components/ag-grid:** remove enter key navigation in cell editors ([#2620](https://github.com/blackbaud/skyux/issues/2620)) ([383555c](https://github.com/blackbaud/skyux/commit/383555ce85dbe905738b2fe56f5e871b0559ed43))
+* **components/forms:** file attachment automatically creates download link for file uploads ([#2608](https://github.com/blackbaud/skyux/issues/2608)) ([321e93a](https://github.com/blackbaud/skyux/commit/321e93a937162ed2aed805dc4b850046489543d5))
+* **components/forms:** update `sky-file-attachment` component to use `ControlValueAccessor`; deprecate `validateFn` attribute in favor of custom form control validators; deprecate `fileChange` event in favor of form control `valueChanges` observable ([#2603](https://github.com/blackbaud/skyux/issues/2603)) ([7a74fc7](https://github.com/blackbaud/skyux/commit/7a74fc7388a15e5ce2b18057551d05413b45d798))
+* **components/packages:** warn when using ssr ([#2623](https://github.com/blackbaud/skyux/issues/2623)) ([8a753fb](https://github.com/blackbaud/skyux/commit/8a753fb85a723f45b62cbfa1dfffcc4b9032f257))
+* remove compat variables for previous compat stylesheets ([#2598](https://github.com/blackbaud/skyux/issues/2598)) ([dd59411](https://github.com/blackbaud/skyux/commit/dd594112f99c5662c2778b956fc1a63ec054e447))
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([041dc29](https://github.com/blackbaud/skyux/commit/041dc29197b625106a4874c72fb396fa2424c11d))
+* `sky-form-errors` is no longer created and destroyed when form errors are present ([#2596](https://github.com/blackbaud/skyux/issues/2596)) ([#2606](https://github.com/blackbaud/skyux/issues/2606)) ([b23b00d](https://github.com/blackbaud/skyux/commit/b23b00d0d9906f43848ee604e9895b39ce2eacd5))
+* **components/ag-grid:** focused cell link outline ([#2622](https://github.com/blackbaud/skyux/issues/2622)) ([48a9c68](https://github.com/blackbaud/skyux/commit/48a9c68294d64feabbc2096bdce5d6573a5a0527))
+* **components/lookup:** autocomplete and lookup show wait in dropdown when using an async search when no dropdown was previously open ([#2610](https://github.com/blackbaud/skyux/issues/2610)) ([#2611](https://github.com/blackbaud/skyux/issues/2611)) ([537d702](https://github.com/blackbaud/skyux/commit/537d7022226d801f145828c421637d24f37396bd))
+* **components/phone-field:** phone numbers validate when selected country is changed programmatically ([#2593](https://github.com/blackbaud/skyux/issues/2593)) ([#2609](https://github.com/blackbaud/skyux/issues/2609)) ([273c1db](https://github.com/blackbaud/skyux/commit/273c1db3440648f904ba2f656edf6bd42d90ad22))
+
+
+### Deprecations
+
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([#2618](https://github.com/blackbaud/skyux/issues/2618)) ([4bce259](https://github.com/blackbaud/skyux/commit/4bce2595903ad971832e6f8fe9b2fa72009e1de1))
+
+## [10.41.4](https://github.com/blackbaud/skyux/compare/10.41.3...10.41.4) (2024-08-22)
+
+
+### Bug Fixes
+
+* **code-examples:** update lookup code examples to all use the `searchAsync` event ([#2621](https://github.com/blackbaud/skyux/issues/2621)) ([041dc29](https://github.com/blackbaud/skyux/commit/041dc29197b625106a4874c72fb396fa2424c11d))
+
+
+### Deprecations
+
+* **components/lookup:** lookup component's `data` input has been deprecated and consumers should use the `searchAsync` event instead ([#2617](https://github.com/blackbaud/skyux/issues/2617)) ([e28887f](https://github.com/blackbaud/skyux/commit/e28887ffabf7831870501dc61749446e45be4e22))
+
+## [10.41.3](https://github.com/blackbaud/skyux/compare/10.41.2...10.41.3) (2024-08-16)
+
+
+### Bug Fixes
+
+* `sky-form-errors` is no longer created and destroyed when form errors are present ([#2596](https://github.com/blackbaud/skyux/issues/2596)) ([416f1ea](https://github.com/blackbaud/skyux/commit/416f1ea017d57627a07491b046440a7d065ca690))
+* **components/lookup:** autocomplete and lookup show wait in dropdown when using an async search when no dropdown was previously open ([#2610](https://github.com/blackbaud/skyux/issues/2610)) ([7250a20](https://github.com/blackbaud/skyux/commit/7250a207568ab2cf04b73f949ff84bdb4c57c906))
+* **components/phone-field:** phone numbers validate when selected country is changed programmatically ([#2593](https://github.com/blackbaud/skyux/issues/2593)) ([6da7bb8](https://github.com/blackbaud/skyux/commit/6da7bb8d05c0645f3cc6c65386d6428d3d85b9e8))
+
+## [11.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.8...11.0.0-alpha.9) (2024-08-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** added support for [AG Grid 32](https://blog.ag-grid.com/whats-new-in-ag-grid-32/)
+
+### Features
+
+* **components/ag-grid:** add support for AG Grid 32 ([#2573](https://github.com/blackbaud/skyux/issues/2573)) ([62139b9](https://github.com/blackbaud/skyux/commit/62139b92b0f8241b21bfb13e4b61192859b61567))
+* **components/forms:** deprecate `SkyFileAttachmentsModule`; create `SkyFileAttachmentModule` and `SkyFileDropModule` ([#2585](https://github.com/blackbaud/skyux/issues/2585)) ([1d57a2f](https://github.com/blackbaud/skyux/commit/1d57a2f18b81cf0f376b51eec36c6357d883bd3e))
+* **components/packages:** update schematic for AG Grid 32 ([#2579](https://github.com/blackbaud/skyux/issues/2579)) ([04241e8](https://github.com/blackbaud/skyux/commit/04241e8ca5ef58a14e6742a5e45883b0a9da0958))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** match label text to easy mode label styling ([#2591](https://github.com/blackbaud/skyux/issues/2591)) ([#2594](https://github.com/blackbaud/skyux/issues/2594)) ([a8835f2](https://github.com/blackbaud/skyux/commit/a8835f2d3d488d05af21f4e386169be6fe5ab401))
+* **components/forms:** fix field group `labelText` inputs to work with async pipe ([#2590](https://github.com/blackbaud/skyux/issues/2590)) ([#2600](https://github.com/blackbaud/skyux/issues/2600)) ([c02aeea](https://github.com/blackbaud/skyux/commit/c02aeea7f5f41246df62150af8187d5378a82494))
+* **components/icon:** icon package is a peer dependency when used in other packages ([#2597](https://github.com/blackbaud/skyux/issues/2597)) ([a54fcdc](https://github.com/blackbaud/skyux/commit/a54fcdc6007d382f8dd214883e8aaa76c3183e86))
+* **components/indicators:** add exports from `icon` and `help-inline` ([#2592](https://github.com/blackbaud/skyux/issues/2592)) ([f533ca2](https://github.com/blackbaud/skyux/commit/f533ca22824757d027f885a0348635a73d7a9e47))
+* **components/pages:** use CSP_NONCE when creating style elements ([#2599](https://github.com/blackbaud/skyux/issues/2599)) ([#2601](https://github.com/blackbaud/skyux/issues/2601)) ([777e09c](https://github.com/blackbaud/skyux/commit/777e09c828d02c51301821253b83cf4fa2c6e077))
+* **components/router:** fix `SkyHrefHarness` to find elements when `skyHref` is bound to a template variable ([#2580](https://github.com/blackbaud/skyux/issues/2580)) ([#2581](https://github.com/blackbaud/skyux/issues/2581)) ([c41d75f](https://github.com/blackbaud/skyux/commit/c41d75f6eee21ce3d672fd27a2fb4ad173c2bc22))
+
+## [10.41.2](https://github.com/blackbaud/skyux/compare/10.41.1...10.41.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* **components/colorpicker:** match label text to easy mode label styling ([#2591](https://github.com/blackbaud/skyux/issues/2591)) ([6abe29c](https://github.com/blackbaud/skyux/commit/6abe29cbe423d7a276adfa69093725150b88ef36))
+* **components/forms:** fix field group `labelText` inputs to work with async pipe ([#2590](https://github.com/blackbaud/skyux/issues/2590)) ([43cd58b](https://github.com/blackbaud/skyux/commit/43cd58bd22231f139d6bb5c609b0f757fedb841a))
+* **components/pages:** use CSP_NONCE when creating style elements ([#2599](https://github.com/blackbaud/skyux/issues/2599)) ([cb8e620](https://github.com/blackbaud/skyux/commit/cb8e62082934f2fd352ac9709f15f4068637657b))
+
+## [10.41.1](https://github.com/blackbaud/skyux/compare/10.41.0...10.41.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* **components/router:** fix `SkyHrefHarness` to find elements when `skyHref` is bound to a template variable ([#2580](https://github.com/blackbaud/skyux/issues/2580)) ([79ed2d0](https://github.com/blackbaud/skyux/commit/79ed2d0ed802a23a2f2089e1e3944240f39a16d9))
+
 ## [11.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/11.0.0-alpha.7...11.0.0-alpha.8) (2024-08-01)
 
 

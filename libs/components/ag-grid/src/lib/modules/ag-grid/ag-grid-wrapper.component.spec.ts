@@ -11,13 +11,16 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
+  AgColumn,
   CellEditingStartedEvent,
   CellEditingStoppedEvent,
-  Column,
+  CellFocusedEvent,
   DetailGridInfo,
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
+  HeaderFocusedEvent,
+  ModuleRegistry,
   RowDataUpdatedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
@@ -31,6 +34,7 @@ import {
 } from './fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
+import { SkyCellType } from './types/cell-type';
 
 describe('SkyAgGridWrapperComponent', () => {
   let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
@@ -73,8 +77,10 @@ describe('SkyAgGridWrapperComponent', () => {
     const agGridApi = gridFixture.componentInstance.agGrid?.api as GridApi;
     const api = {
       ensureColumnVisible: spyOn(agGridApi, 'ensureColumnVisible'),
+      ensureIndexVisible: spyOn(agGridApi, 'ensureIndexVisible'),
       forEachDetailGridInfo: spyOn(agGridApi, 'forEachDetailGridInfo'),
       getAllDisplayedColumns: spyOn(agGridApi, 'getAllDisplayedColumns'),
+      getDisplayedRowAtIndex: spyOn(agGridApi, 'getDisplayedRowAtIndex'),
       getEditingCells: spyOn(agGridApi, 'getEditingCells'),
       getGridOption: spyOn(agGridApi, 'getGridOption'),
       isDestroyed: spyOn(agGridApi, 'isDestroyed'),
@@ -83,17 +89,20 @@ describe('SkyAgGridWrapperComponent', () => {
       refreshHeader: spyOn(agGridApi, 'refreshHeader'),
       resetRowHeights: spyOn(agGridApi, 'resetRowHeights'),
       setFocusedCell: spyOn(agGridApi, 'setFocusedCell'),
+      setFocusedHeader: spyOn(agGridApi, 'setFocusedHeader'),
       stopEditing: spyOn(agGridApi, 'stopEditing'),
       updateGridOptions: spyOn(agGridApi, 'updateGridOptions'),
     };
     agGrid = {
       api,
-      columnApi: {} as never,
+
       gridReady: new Subject<GridReadyEvent>(),
       rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
       firstDataRendered: new Subject<FirstDataRenderedEvent>(),
       cellEditingStarted: new Subject<CellEditingStartedEvent>(),
       cellEditingStopped: new Subject<CellEditingStartedEvent>(),
+      cellFocused: new Subject<CellFocusedEvent>(),
+      headerFocused: new Subject<HeaderFocusedEvent>(),
     } as unknown as AgGridAngular;
 
     gridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
@@ -265,6 +274,18 @@ describe('SkyAgGridWrapperComponent', () => {
     ).not.toHaveCssClass('sky-ag-grid-cell-editing-test');
   });
 
+  it('should set focus to template cells when editing', () => {
+    const spy = (agGrid.api.setFocusedCell as jasmine.Spy).and.stub();
+    agGrid.cellEditingStarted.next({
+      colDef: { type: SkyCellType.Template },
+      rowIndex: 0,
+      column: {} as AgColumn,
+    } as unknown as CellEditingStartedEvent);
+    gridWrapperFixture.detectChanges();
+
+    expect(spy).toHaveBeenCalled();
+  });
+
   describe('onGridKeydown', () => {
     let skyAgGridDivEl: HTMLElement;
     beforeEach(() => {
@@ -285,7 +306,7 @@ describe('SkyAgGridWrapperComponent', () => {
     }
 
     it('should not move focus when tab is pressed but cells are being edited', () => {
-      const col = {} as Column;
+      const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([
         { rowIndex: 0, column: col, rowPinned: undefined },
@@ -297,8 +318,9 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
-      const col = {} as Column;
+      const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
+      spyOn(ModuleRegistry, '__isRegistered').and.returnValue(true);
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([]);
       (agGrid.api.forEachDetailGridInfo as jasmine.Spy).and.callFake((fn) => {
         fn(
@@ -417,7 +439,7 @@ describe('SkyAgGridWrapperComponent', () => {
       const afterButtonEl = gridWrapperNativeElement.querySelector(
         '#button-after-grid',
       ) as HTMLElement;
-      const column = new Column({}, {}, 'name', true);
+      const column = new AgColumn({}, {}, 'name', true);
 
       (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
         column,
@@ -426,7 +448,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
       focusOnAnchor(afterAnchorEl, afterButtonEl);
 
-      expect(agGrid.api.ensureColumnVisible).toHaveBeenCalledWith(column);
+      expect(agGrid.api.ensureColumnVisible).toHaveBeenCalledWith('name');
     });
 
     it('should not shift focus to the first grid cell if there is no cell', () => {
@@ -436,15 +458,13 @@ describe('SkyAgGridWrapperComponent', () => {
       const afterButtonEl = gridWrapperNativeElement.querySelector(
         '#button-after-grid',
       ) as HTMLElement;
-      const column = new Column({}, {}, 'name', true);
 
-      (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
-        column,
-      ]);
+      (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([]);
 
       focusOnAnchor(afterAnchorEl, afterButtonEl);
 
       expect(agGrid.api.setFocusedCell).not.toHaveBeenCalled();
+      expect(agGrid.api.setFocusedHeader).not.toHaveBeenCalled();
     });
 
     it('should not shift focus to the grid if it was the previously focused element', () => {
@@ -454,11 +474,72 @@ describe('SkyAgGridWrapperComponent', () => {
       const gridEl = gridWrapperNativeElement.querySelector(
         `#${gridWrapperComponent.gridId}`,
       ) as HTMLElement;
-      spyOn(gridAdapterService, 'setFocusedElementById');
 
       focusOnAnchor(afterAnchorEl, gridEl);
 
-      expect(gridAdapterService.setFocusedElementById).not.toHaveBeenCalled();
+      expect(agGrid.api.setFocusedHeader).not.toHaveBeenCalled();
+    });
+
+    it('should focus on the last focused header', () => {
+      const afterAnchorEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.afterAnchorId}`,
+      ) as HTMLElement;
+      const afterButtonEl = gridWrapperNativeElement.querySelector(
+        '#button-after-grid',
+      ) as HTMLElement;
+      const column = new AgColumn({}, {}, 'name', true);
+
+      (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
+        column,
+      ]);
+      (agGrid.api.ensureColumnVisible as jasmine.Spy).and.stub();
+
+      agGrid.headerFocused.next({
+        column: null,
+      } as unknown as HeaderFocusedEvent);
+      agGrid.headerFocused.next({ column } as unknown as HeaderFocusedEvent);
+      agGrid.headerFocused.next({
+        column: 'name',
+      } as unknown as HeaderFocusedEvent);
+      focusOnAnchor(afterAnchorEl, afterButtonEl);
+
+      expect(agGrid.api.setFocusedHeader).toHaveBeenCalledWith('name');
+      expect(agGrid.api.setFocusedCell).not.toHaveBeenCalled();
+    });
+
+    it('should focus on the last focused cell', () => {
+      const afterAnchorEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.afterAnchorId}`,
+      ) as HTMLElement;
+      const afterButtonEl = gridWrapperNativeElement.querySelector(
+        '#button-after-grid',
+      ) as HTMLElement;
+      const column = new AgColumn({}, {}, 'name', true);
+
+      (agGrid.api.getAllDisplayedColumns as jasmine.Spy).and.returnValue([
+        column,
+      ]);
+      (agGrid.api.getDisplayedRowAtIndex as jasmine.Spy).and.returnValue({});
+      (agGrid.api.ensureColumnVisible as jasmine.Spy).and.stub();
+
+      agGrid.cellFocused.next({
+        rowIndex: null,
+        column: null,
+      } as unknown as CellFocusedEvent);
+      agGrid.cellFocused.next({
+        rowIndex: 0,
+        column,
+      } as unknown as CellFocusedEvent);
+      agGrid.cellFocused.next({
+        rowIndex: 0,
+        column: 'name',
+      } as unknown as CellFocusedEvent);
+      focusOnAnchor(afterAnchorEl, afterButtonEl);
+
+      expect(agGrid.api.setFocusedHeader).not.toHaveBeenCalled();
+      expect(agGrid.api.getDisplayedRowAtIndex).toHaveBeenCalledWith(0);
+      expect(agGrid.api.ensureIndexVisible).toHaveBeenCalledWith(0, 'top');
+      expect(agGrid.api.setFocusedCell).toHaveBeenCalledWith(0, 'name');
     });
   });
 });

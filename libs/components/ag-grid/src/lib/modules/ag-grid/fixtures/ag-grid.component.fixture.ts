@@ -29,6 +29,10 @@ export const DomLayout = new InjectionToken<DomLayoutType>('DomLayout', {
   providedIn: 'root',
   factory: (): DomLayoutType => 'autoHeight',
 });
+export const Loading = new InjectionToken<boolean>('Loading', {
+  providedIn: 'root',
+  factory: (): boolean => false,
+});
 
 @Component({
   selector: 'sky-ag-grid-component-fixture',
@@ -49,9 +53,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
   public columnDefs: ColDef[] = [
     {
       field: 'selected',
-      headerName: '',
       maxWidth: 50,
-      sortable: false,
       type: SkyCellType.RowSelector,
     },
     {
@@ -169,6 +171,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
       },
       headerComponentParams: {
         inlineHelpComponent: FirstInlineHelpComponent,
+        headerHidden: true,
       },
     },
     {
@@ -208,6 +211,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
     defaultColDef: {
       minWidth: undefined,
     },
+    loading: inject(Loading),
   };
 
   #gridService = inject(SkyAgGridService);

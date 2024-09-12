@@ -1,8 +1,12 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+@include mixins.sky-component-host('modern') {
+  display: inline-block;
+}
+
 @include mixins.sky-component('modern', '.sky-checkbox-outer-wrapper') {
-  display: inline-flex;
+  display: flex;
 
   .sky-checkbox-help-inline {
     display: inline-flex;
@@ -34,6 +38,7 @@
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-form-margin') {
+  display: block;
   margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
 }
 

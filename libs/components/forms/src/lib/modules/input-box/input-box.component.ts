@@ -17,9 +17,7 @@ import {
   Renderer2,
   TemplateRef,
   ViewEncapsulation,
-  booleanAttribute,
   inject,
-  input,
 } from '@angular/core';
 import {
   AbstractControlDirective,
@@ -31,10 +29,9 @@ import {
 } from '@angular/forms';
 import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -70,10 +67,6 @@ export class SkyInputBoxComponent
   #idSvc = inject(SkyIdService);
   #elementRef = inject(ElementRef);
   #renderer = inject(Renderer2);
-
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
 
   /**
    * Whether to visually highlight the input box in an error state. If not specified, the input box
@@ -168,13 +161,6 @@ export class SkyInputBoxComponent
     return this.#_hintText;
   }
 
-  /**
-   * @internal
-   */
-  public errorsScreenReaderOnly = input(false, {
-    transform: booleanAttribute,
-  });
-
   public hostInputTemplate: TemplateRef<unknown> | undefined;
 
   public hostButtonsTemplate: TemplateRef<unknown> | undefined;
@@ -201,11 +187,10 @@ export class SkyInputBoxComponent
   public readonly hintTextId = this.#idSvc.generateId();
   public readonly ariaDescribedBy = new ReplaySubject<string | undefined>(1);
 
+  #requiredByFormField: boolean | undefined;
+
   @HostBinding('class')
   public cssClass = '';
-
-  @HostBinding('style.display')
-  public display: string | undefined;
 
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective | undefined;
@@ -222,7 +207,6 @@ export class SkyInputBoxComponent
   public inputRef: ElementRef | undefined;
 
   protected controlDir: AbstractControlDirective | undefined;
-  protected helpPopoverOpen: boolean | undefined;
 
   protected get isDisabled(): boolean {
     return !!(
@@ -242,7 +226,9 @@ export class SkyInputBoxComponent
 
   protected get required(): boolean {
     return (
-      this.#hasRequiredValidator() || this.inputRef?.nativeElement.required
+      this.#hasRequiredValidator() ||
+      this.inputRef?.nativeElement.required ||
+      this.#requiredByFormField
     );
   }
 
@@ -254,14 +240,17 @@ export class SkyInputBoxComponent
 
   #previousInputRef: ElementRef | undefined;
   #previousMaxLengthValidator: ValidatorFn | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
 
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
+    this.#inputBoxHostSvc.required
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((required) => {
+        this.#requiredByFormField = required;
+        this.#changeRef.markForCheck();
+      });
   }
 
   public ngAfterContentChecked(): void {
@@ -277,6 +266,8 @@ export class SkyInputBoxComponent
 
   public ngOnDestroy(): void {
     this.ariaDescribedBy.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public formControlFocusIn(): void {

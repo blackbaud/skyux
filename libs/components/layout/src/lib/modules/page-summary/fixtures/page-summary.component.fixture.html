@@ -1,5 +1,7 @@
 <sky-page-summary [@.disabled]="true">
-  <sky-page-summary-key-info *ngIf="showKeyInfo">
+  @if (showKeyInfo) {
+  <sky-page-summary-key-info>
     <div class="key-info-find-me">Key Info</div>
   </sky-page-summary-key-info>
+  }
 </sky-page-summary>

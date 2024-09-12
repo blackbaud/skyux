@@ -2,6 +2,8 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -9,8 +11,10 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  Beans,
+  BeanCollection,
+  Column,
   ColumnMovedEvent,
+  ColumnResizedEvent,
   ColumnState,
   DragStartedEvent,
   DragStoppedEvent,
@@ -32,15 +36,29 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   let dataViewEl: DebugElement;
   let agGridDataManagerDirective: SkyAgGridDataManagerAdapterDirective;
 
+  const mockQueryService = new MockSkyMediaQueryService();
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
       providers: [SkyDataManagerService],
     });
 
+    TestBed.overrideDirective(SkyAgGridDataManagerAdapterDirective, {
+      add: {
+        providers: [
+          {
+            provide: SkyMediaQueryService,
+            useValue: mockQueryService,
+          },
+        ],
+      },
+    });
+
     agGridDataManagerFixture = TestBed.createComponent(
       SkyAgGridDataManagerFixtureComponent,
     );
+
     agGridDataManagerFixtureComponent =
       agGridDataManagerFixture.componentInstance;
     dataManagerService = TestBed.inject(SkyDataManagerService);
@@ -58,6 +76,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     dataManagerService
       .getDataStateUpdates('test')
       .subscribe((state) => (dataState = state));
+
+    mockQueryService.fire(SkyMediaBreakpoints.sm);
   });
 
   it('should update the data state when a row is selected', async () => {
@@ -68,7 +88,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     agGridDataManagerFixture.detectChanges();
 
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.data = { id: '1' };
     spyOn(rowNode, 'isSelected').and.returnValue(true);
     spyOn(dataManagerService, 'updateDataState');
@@ -81,7 +101,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowIndex: 0,
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as never,
+
       rowPinned: null,
     } as RowSelectedEvent;
 
@@ -106,7 +126,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     dataManagerService.updateDataState(dataState, 'unitTest');
     agGridDataManagerFixture.detectChanges();
 
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode({} as BeanCollection);
     rowNode.data = { id: '3' };
     spyOn(rowNode, 'isSelected').and.returnValue(false);
     spyOn(dataManagerService, 'updateDataState');
@@ -119,7 +139,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       rowIndex: 0,
       api: {} as GridApi,
       data: {} as any,
-      columnApi: {} as never,
+
       rowPinned: null,
     } as RowSelectedEvent;
 
@@ -137,8 +157,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should set columns visible based on the data state changes', async () => {
-    spyOn(agGridComponent.api, 'setColumnsVisible');
-
     const newDataState = new SkyDataManagerState({
       views: [
         {
@@ -153,33 +171,127 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(agGridComponent.api.setColumnsVisible).toHaveBeenCalled();
+    expect(agGridComponent.api.getColumn('name')?.isVisible()).toBeTruthy();
+  });
+
+  it('should update the data state column widths when columns are removed', async () => {
+    const updateDataState = spyOn(
+      dataManagerService,
+      'updateDataState',
+    ).and.callThrough();
+
+    const columnRemovedState = new SkyDataManagerState({
+      views: [
+        {
+          viewId:
+            agGridDataManagerFixtureComponent.initialDataState.views[0].viewId,
+          displayedColumnIds: ['selected', 'name'],
+          columnWidths: {
+            xs: { name: 180, target: 220 },
+            sm: { name: 300, target: 400 },
+          },
+        },
+      ],
+    });
+
+    dataManagerService.updateDataState(columnRemovedState, 'unitTest');
+
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    const updatedState = new SkyDataManagerState({
+      views: [
+        {
+          viewId:
+            agGridDataManagerFixtureComponent.initialDataState.views[0].viewId,
+          displayedColumnIds: ['selected', 'name'],
+          columnWidths: {
+            xs: { name: 180 },
+            sm: { name: 300 },
+          },
+        },
+      ],
+    });
+
+    expect(updateDataState).toHaveBeenCalledWith(
+      updatedState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
+  it('should apply data state column widths when the breakpoint changes', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    mockQueryService.fire(SkyMediaBreakpoints.sm);
+
+    expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
+      300,
+    );
+    expect(agGridComponent.api.getColumn('target')?.getActualWidth()).toEqual(
+      400,
+    );
+
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
+
+    expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
+      180,
+    );
+    expect(agGridComponent.api.getColumn('target')?.getActualWidth()).toEqual(
+      220,
+    );
   });
 
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const colId = 'testCol';
-    const columnState: ColumnState = {
-      colId,
-      hide: false,
-    };
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue([columnState]);
-    spyOn(dataManagerService, 'updateDataState');
+    // Arrange
+    // Set a column order that is different from the default order
+    const updateDataState = spyOn(dataManagerService, 'updateDataState');
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+          hide: false,
+        },
+        {
+          colId: 'target',
+          hide: false,
+        },
+        {
+          colId: 'name',
+          hide: false,
+        },
+        {
+          colId: 'noHeader',
+          hide: false,
+        },
+      ],
+      applyOrder: true,
+    });
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     const columnMoved = {
       source: 'uiColumnMoved',
       api: agGridComponent.api,
     } as ColumnMovedEvent;
 
-    const viewState = dataState.views[0];
-    viewState.displayedColumnIds = [colId];
-
+    // Act
     agGridComponent.columnMoved.emit(columnMoved);
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
-      dataState,
+    // Assert
+    expect(updateDataState).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        views: [
+          jasmine.objectContaining({
+            displayedColumnIds: ['selected', 'target', 'name', 'noHeader'],
+          }),
+        ],
+      }),
       agGridDataManagerFixtureComponent.viewConfig.id,
     );
   });
@@ -235,29 +347,98 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
   });
 
+  it('should update the data state for the sm breakpoint when a column is resized', async () => {
+    await agGridDataManagerFixture.whenStable();
+    const updateDataState = spyOn(dataManagerService, 'updateDataState');
+
+    const column = {
+      getColId: (): string => {
+        return 'name';
+      },
+      getActualWidth: (): number => {
+        return 100;
+      },
+    };
+
+    const columnResized = {
+      source: 'uiColumnResized',
+      api: agGridComponent.api,
+      column: column as Column,
+    } as ColumnResizedEvent;
+
+    const viewState = dataState.views[0];
+    (viewState.columnWidths = {
+      xs: { name: 180, target: 220 },
+      sm: { name: 100, target: 400 },
+    }),
+      agGridComponent.columnResized.emit(columnResized);
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    expect(updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
+  it('should update the data state for the xs breakpoint when a column is resized', async () => {
+    mockQueryService.fire(SkyMediaBreakpoints.xs);
+
+    await agGridDataManagerFixture.whenStable();
+    const updateDataState = spyOn(dataManagerService, 'updateDataState');
+
+    const column = {
+      getColId: (): string => {
+        return 'name';
+      },
+      getActualWidth: (): number => {
+        return 100;
+      },
+    };
+
+    const columnResized = {
+      source: 'uiColumnResized',
+      api: agGridComponent.api,
+      column: column as Column,
+    } as ColumnResizedEvent;
+
+    const viewState = dataState.views[0];
+    (viewState.columnWidths = {
+      xs: { name: 100, target: 220 },
+      sm: { name: 300, target: 400 },
+    }),
+      agGridComponent.columnResized.emit(columnResized);
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    expect(updateDataState).toHaveBeenCalledWith(
+      dataState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
   it('should update the data state when the sort changes', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-        sort: 'desc',
-        sortIndex: 0,
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+          sort: 'desc',
+          sortIndex: 0,
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = {
@@ -278,24 +459,23 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes to null', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = undefined;
@@ -311,26 +491,25 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-        sort: 'desc',
-        sortIndex: 0,
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+          sort: 'desc',
+          sortIndex: 0,
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = {
@@ -351,26 +530,25 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const gridColumnStates: ColumnState[] = [
-      {
-        colId: 'selected',
-      },
-      {
-        colId: 'name',
-      },
-      {
-        colId: 'target',
-      },
-      {
-        colId: 'noHeader',
-        sort: 'desc',
-        sortIndex: 0,
-      },
-    ];
-
-    spyOn(agGridComponent.api, 'getColumnState').and.returnValue(
-      gridColumnStates,
-    );
+    agGridComponent.api.applyColumnState({
+      state: [
+        {
+          colId: 'selected',
+        },
+        {
+          colId: 'name',
+        },
+        {
+          colId: 'target',
+        },
+        {
+          colId: 'noHeader',
+          sort: 'desc',
+          sortIndex: 0,
+        },
+      ],
+      applyOrder: false,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = {
@@ -390,8 +568,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   describe('selecting rows', () => {
     it('should use the ag grid API to select all rows when onSelectAllClick is called', async () => {
-      spyOn(agGridComponent.api, 'selectAll');
-
       agGridDataManagerFixture.detectChanges();
       await agGridDataManagerFixture.whenStable();
 
@@ -400,12 +576,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       );
       viewConfig?.onSelectAllClick?.();
 
-      expect(agGridComponent.api.selectAll).toHaveBeenCalled();
+      expect(agGridComponent.api.getSelectedRows()).not.toEqual([]);
     });
 
     it('should use the ag grid API to deselect all rows when onClearAllClick is called', async () => {
-      spyOn(agGridComponent.api, 'deselectAll');
-
       agGridDataManagerFixture.detectChanges();
       await agGridDataManagerFixture.whenStable();
 
@@ -413,8 +587,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         agGridDataManagerFixtureComponent.viewConfig.id,
       );
       viewConfig?.onClearAllClick?.();
+      agGridDataManagerFixture.detectChanges();
+      await agGridDataManagerFixture.whenStable();
 
-      expect(agGridComponent.api.deselectAll).toHaveBeenCalled();
+      expect(agGridComponent.api.getSelectedRows()).toEqual([]);
     });
   });
 
@@ -456,7 +632,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should apply descending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const applyColStateSpy = spyOn(agGridComponent.api, 'applyColumnState');
 
     const newDataState = new SkyDataManagerState({ ...dataState });
     newDataState.activeSortOption = {
@@ -469,20 +644,28 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(applyColStateSpy).toHaveBeenCalledWith({
-      state: [
-        {
-          colId,
-          sort: 'desc',
-        },
-      ],
-      defaultState: { sort: null },
-    });
+    expect(agGridComponent.api.getColumnState()).toEqual([
+      jasmine.objectContaining({
+        colId: 'selected',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'name',
+        sort: 'desc',
+      }),
+      jasmine.objectContaining({
+        colId: 'target',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'noHeader',
+        sort: null,
+      }),
+    ]);
   });
 
   it('should apply ascending sort to rows when data manager active sort changes', async () => {
     const colId = 'name';
-    const applyColStateSpy = spyOn(agGridComponent.api, 'applyColumnState');
 
     const newDataState = new SkyDataManagerState({ ...dataState });
     newDataState.activeSortOption = {
@@ -495,15 +678,24 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(applyColStateSpy).toHaveBeenCalledWith({
-      state: [
-        {
-          colId,
-          sort: 'asc',
-        },
-      ],
-      defaultState: { sort: null },
-    });
+    expect(agGridComponent.api.getColumnState()).toEqual([
+      jasmine.objectContaining({
+        colId: 'selected',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'name',
+        sort: 'asc',
+      }),
+      jasmine.objectContaining({
+        colId: 'target',
+        sort: null,
+      }),
+      jasmine.objectContaining({
+        colId: 'noHeader',
+        sort: null,
+      }),
+    ]);
   });
 });
 

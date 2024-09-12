@@ -3,6 +3,8 @@ import {
   Component,
   HostListener,
   OnInit,
+  TemplateRef,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -24,12 +26,12 @@ import {
   GridOptions,
   GridReadyEvent,
   IGetRowsParams,
-  RowNode,
   RowSelectedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, of } from 'rxjs';
 import { delay, skip } from 'rxjs/operators';
 
+import { ActionComponent } from './action/action.component';
 import { CustomMultilineComponent } from './custom-multiline/custom-multiline.component';
 import {
   EDITABLE_GRID_DATA,
@@ -48,9 +50,18 @@ import { InlineHelpComponent } from './inline-help/inline-help.component';
   templateUrl: './edit-complex-cells.component.html',
   styleUrls: ['./edit-complex-cells.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [AgGridModule, CommonModule, SkyAgGridModule, SkyToolbarModule],
+  imports: [
+    AgGridModule,
+    CommonModule,
+    SkyAgGridModule,
+    SkyToolbarModule,
+    ActionComponent,
+  ],
 })
 export class EditComplexCellsComponent implements OnInit {
+  @ViewChild('actionColumn', { static: true })
+  protected actionColumn: TemplateRef<unknown> | undefined;
+
   public gridData = EDITABLE_GRID_DATA;
   public editMode = false;
   public uneditedGridData: EditableGridRow[];
@@ -124,6 +135,19 @@ export class EditComplexCellsComponent implements OnInit {
         },
         sortable: false,
         filter: true,
+      },
+      {
+        colId: 'action',
+        headerName: 'Action',
+        type: SkyCellType.Template,
+        cellRendererParams: {
+          template: this.actionColumn,
+        },
+        cellEditorParams: {
+          template: this.actionColumn,
+        },
+        editable: this.editMode,
+        minWidth: 130,
       },
       {
         colId: 'validationAutocomplete',
@@ -305,18 +329,15 @@ export class EditComplexCellsComponent implements OnInit {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
 
-    this.gridApi.addEventListener(
-      RowNode.EVENT_ROW_SELECTED,
-      ($event: RowSelectedEvent) => {
-        if (this.editMode && $event.node.isSelected()) {
-          this.rowDeleteIds = this.rowDeleteIds.concat([$event.node.id]);
-        } else {
-          this.rowDeleteIds = this.rowDeleteIds.filter(
-            (id) => id !== $event.node.id,
-          );
-        }
-      },
-    );
+    this.gridApi.addEventListener('rowSelected', ($event: RowSelectedEvent) => {
+      if (this.editMode && $event.node.isSelected()) {
+        this.rowDeleteIds = this.rowDeleteIds.concat([$event.node.id]);
+      } else {
+        this.rowDeleteIds = this.rowDeleteIds.filter(
+          (id) => id !== $event.node.id,
+        );
+      }
+    });
 
     this.sizeGrid();
   }
@@ -366,8 +387,9 @@ export class EditComplexCellsComponent implements OnInit {
       onGridSizeChanged: () => {
         this.sizeGrid();
       },
+      rowSelection: 'multiple',
       suppressColumnVirtualisation: true,
-      stopEditingWhenCellsLoseFocus: true,
+      stopEditingWhenCellsLoseFocus: false,
     };
 
     this.gridOptions = this.agGridService.getEditableGridOptions({

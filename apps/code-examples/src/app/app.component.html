@@ -1,20 +1,21 @@
-<div
-  *ngIf="router.url !== '/'"
-  id="controls"
-  [ngStyle]="{
-    'height.px': height
-  }"
->
-  <div>
-    <button
-      class="sky-btn sky-btn-primary"
-      id="home-btn"
-      routerLink="/"
-      type="button"
-    >
-      Go home
-    </button>
+@if (router.url !== '/') {
+  <div
+    id="controls"
+    [ngStyle]="{
+      'height.px': height
+    }"
+  >
+    <div>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="home-btn"
+        routerLink="/"
+        type="button"
+      >
+        Go home
+      </button>
+    </div>
   </div>
-</div>
+}
 
 <router-outlet />

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
@@ -18,12 +17,7 @@ import { SkyDateRangePickerModule } from '../date-range-picker.module';
 import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 
 @Component({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SkyDateRangePickerModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
   selector: 'sky-date-range-picker-test',
   standalone: true,
   templateUrl: './date-range-picker.component.fixture.html',
@@ -41,13 +35,11 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public calculatorIds: SkyDateRangeCalculatorId[] | undefined;
   public dateFormat: string | undefined;
   public disableReactiveOnInit = false;
-  public endDateRequired = false;
   public label: string | undefined;
   public labelText: string | undefined;
   public numValueChangeNotifications = 0;
   public reactiveForm: UntypedFormGroup;
   public required = false;
-  public startDateRequired = false;
   public templateDisable: boolean | undefined;
   public helpKey: string | undefined;
   public hintText: string | undefined;

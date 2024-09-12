@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -18,7 +17,6 @@ import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
-  ColumnApi,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -31,7 +29,6 @@ import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
   standalone: true,
   imports: [
     AgGridModule,
-    CommonModule,
     DataManagerPagedItemsPipe,
     SkyAgGridModule,
     SkyDataManagerModule,
@@ -100,7 +97,6 @@ export class DataViewGridComponent implements OnInit {
     ],
   };
 
-  public columnApi: ColumnApi;
   public displayedItems: any[];
   public gridApi: GridApi;
   public gridOptions: GridOptions;
@@ -138,6 +134,7 @@ export class DataViewGridComponent implements OnInit {
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive = id === this.viewId;
+      this.changeDetector.markForCheck();
     });
   }
 
@@ -158,9 +155,7 @@ export class DataViewGridComponent implements OnInit {
   }
 
   public onGridReady(event: GridReadyEvent): void {
-    this.columnApi = event.columnApi;
     this.gridApi = event.api;
-    this.gridApi.sizeColumnsToFit();
     this.updateData();
   }
 

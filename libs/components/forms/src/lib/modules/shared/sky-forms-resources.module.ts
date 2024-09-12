@@ -71,7 +71,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_file_attachment_button_label_replace_file_label: {
       message: 'Replace file {0} for',
     },
-    skyux_file_attachment_file_item_delete: { message: 'Delete file' },
+    skyux_file_attachment_file_item_delete: { message: 'Delete {0}' },
     skyux_file_attachment_file_item_remove: { message: 'Remove file {0} for' },
     skyux_file_attachment_file_size_b_plural: { message: '{0} bytes' },
     skyux_file_attachment_file_size_b_singular: { message: '{0} byte' },
@@ -135,8 +135,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_input_box_help_inline_aria_label: {
       message: 'Show help content for {0}',
     },
-    skyux_checkbox_required_label_text: { message: 'This selection' },
-    skyux_radio_group_required_label_text: { message: 'This selection' },
   },
 };
 

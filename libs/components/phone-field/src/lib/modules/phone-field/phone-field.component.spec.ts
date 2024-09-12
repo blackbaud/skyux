@@ -147,22 +147,29 @@ describe('Phone Field Component', () => {
       | PhoneFieldReactiveTestComponent
       | PhoneFieldInputBoxTestComponent
     >,
+    programmaticIso2 = '',
   ): void {
-    const countryInput = getCountrySearchToggleButton(compFixture);
-    countryInput.click();
-    detectChangesAndTick(compFixture);
+    if (programmaticIso2) {
+      compFixture.componentInstance.selectedCountry = {
+        iso2: programmaticIso2,
+      };
+    } else {
+      const countryInput = getCountrySearchToggleButton(compFixture);
+      countryInput.click();
+      detectChangesAndTick(compFixture);
 
-    const countrySearchInput = getCountrySearchInput(compFixture);
+      const countrySearchInput = getCountrySearchInput(compFixture);
 
-    countrySearchInput.value = countryName;
+      countrySearchInput.value = countryName;
 
-    SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
-    detectChangesAndTick(compFixture);
+      SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
+      detectChangesAndTick(compFixture);
 
-    SkyAppTestUtility.fireDomEvent(
-      document.querySelector('.sky-autocomplete-result:first-child'),
-      'click',
-    );
+      SkyAppTestUtility.fireDomEvent(
+        document.querySelector('.sky-autocomplete-result:first-child'),
+        'click',
+      );
+    }
 
     detectChangesAndTick(compFixture);
   }
@@ -826,7 +833,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           ngModel,
@@ -1267,7 +1274,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           ngModel,
@@ -1282,6 +1289,49 @@ describe('Phone Field Component', () => {
           '+355 24 569 874',
           true,
           true,
+          ngModel,
+          fixture,
+        );
+      }));
+
+      it('should validate correctly after country is changed programmatically', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        component.defaultCountry = 'us';
+        fixture.detectChanges();
+        component.modelValue = '6675555309';
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          true,
+          false,
+          ngModel,
+          fixture,
+        );
+
+        setCountry('Albania', fixture, 'al');
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          false,
+          false,
+          ngModel,
+          fixture,
+        );
+
+        component.modelValue = '024569874';
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '024569874',
+          '+355 24 569 874',
+          true,
+          false,
           ngModel,
           fixture,
         );
@@ -1936,7 +1986,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           component.phoneControl,
@@ -2144,7 +2194,7 @@ describe('Phone Field Component', () => {
 
         validateInputAndModel(
           '6675555309',
-          '6675555309',
+          '(667) 555-5309',
           false,
           true,
           component.phoneControl,
@@ -2159,6 +2209,46 @@ describe('Phone Field Component', () => {
           '+355 24 569 874',
           true,
           true,
+          component.phoneControl,
+          fixture,
+        );
+      }));
+
+      it('should validate correctly after country is changed programmatically', fakeAsync(() => {
+        fixture.detectChanges();
+        component.defaultCountry = 'us';
+        fixture.detectChanges();
+        component.phoneControl?.setValue('6675555309');
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          true,
+          false,
+          component.phoneControl,
+          fixture,
+        );
+
+        setCountry('Albania', fixture, 'al');
+
+        validateInputAndModel(
+          '6675555309',
+          '(667) 555-5309',
+          false,
+          false,
+          component.phoneControl,
+          fixture,
+        );
+
+        component.phoneControl?.setValue('024569874');
+        detectChangesAndTick(fixture);
+
+        validateInputAndModel(
+          '024569874',
+          '+355 24 569 874',
+          true,
+          false,
           component.phoneControl,
           fixture,
         );

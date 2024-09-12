@@ -1,16 +1,9 @@
-{{ data?.name }}
-<iframe
-  *ngIf="data?.showIframe"
-  src="https://developer.blackbaud.com/skyux/"
-></iframe>
-<button id="normal-button" type="button" *ngIf="data?.showNormalButton">
-  Normal Button
-</button>
-<button
-  *ngIf="data?.showAutofocusButton"
-  id="autofocus-button"
-  type="button"
-  cdkFocusInitial
->
+{{ data?.name }} @if (data?.showIframe) {
+<iframe src="https://developer.blackbaud.com/skyux/"></iframe>
+} @if (data?.showNormalButton) {
+<button id="normal-button" type="button">Normal Button</button>
+} @if (data?.showAutofocusButton) {
+<button id="autofocus-button" type="button" cdkFocusInitial>
   Autofocus Button
 </button>
+}

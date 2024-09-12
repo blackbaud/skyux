@@ -1,16 +1,30 @@
-<sky-file-drop
-  [acceptedTypes]="acceptedTypes"
-  [allowLinks]="true"
-  [hintText]="hintText"
-  [helpPopoverContent]="inlineHelpContent"
-  [labelText]="labelText"
-  [maxFileSize]="maxFileSize"
-  [required]="required"
-  [stacked]="stacked"
-  [validateFn]="validateFile"
-  (filesChanged)="onFilesChanged($event)"
-  (linkChanged)="onLinkChanged($event)"
-/>
-<div *ngFor="let file of allItems">
-  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
-</div>
+<form [formGroup]="formGroup">
+  <sky-file-attachment
+    acceptedTypes="application/pdf,image/jpeg,image/png,image/gif"
+    formControlName="attachment"
+    helpPopoverTitle="Requirements"
+    hintText="Attach a .pdf, .gif, .png, or .jpeg file."
+    labelText="Birth certificate"
+    [helpPopoverContent]="helpInlinePopoverRef"
+    [maxFileSize]="maxFileSize"
+    (fileClick)="onFileClick($event)"
+  >
+    @if (attachment.errors?.['invalidStartingLetter']) {
+      <sky-form-error
+        errorName="invalidStartingLetter"
+        errorText="You may not upload a file that begins with the letter 'a'."
+      />
+    }
+  </sky-file-attachment>
+</form>
+
+<ng-template #helpInlinePopoverRef>
+  Make sure the birth certificate includes:
+  <ul>
+    <li>Full name of child</li>
+    <li>Birth date</li>
+    <li>Place of birth</li>
+    <li>Name and signature of the physician or midwife</li>
+    <li>Registration or certificate number</li>
+  </ul>
+</ng-template>

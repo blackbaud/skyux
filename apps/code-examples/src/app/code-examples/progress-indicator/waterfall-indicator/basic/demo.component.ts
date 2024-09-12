@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,7 +23,7 @@ import { ModalComponent } from './modal.component';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkyProgressIndicatorModule],
+  imports: [SkyProgressIndicatorModule],
 })
 export class DemoComponent {
   protected activeIndex: number | undefined = 0;

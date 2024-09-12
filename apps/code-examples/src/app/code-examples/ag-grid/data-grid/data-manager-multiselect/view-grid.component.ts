@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -20,7 +19,6 @@ import {
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
-  ColumnApi,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -38,7 +36,7 @@ import { Filters } from './filters';
   selector: 'app-view-grid',
   templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, CommonModule, SkyAgGridModule],
+  imports: [AgGridModule, SkyAgGridModule],
 })
 export class ViewGridComponent implements OnInit, OnDestroy {
   @Input()
@@ -144,7 +142,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     },
   ];
 
-  #columnApi?: ColumnApi;
   #dataState = new SkyDataManagerState({});
   #gridApi?: GridApi;
   #ngUnsubscribe = new Subject<void>();
@@ -207,8 +204,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
-    this.#columnApi = gridReadyEvent.columnApi;
     this.#updateDisplayedItems();
   }
 
@@ -313,8 +308,8 @@ export class ViewGridComponent implements OnInit, OnDestroy {
   #updateDisplayedItems(): void {
     const sortOption = this.#dataState.activeSortOption;
 
-    if (this.#columnApi && sortOption) {
-      this.#columnApi.applyColumnState({
+    if (this.#gridApi && sortOption) {
+      this.#gridApi.applyColumnState({
         state: [
           {
             colId: sortOption.propertyName,

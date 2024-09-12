@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormControl,
@@ -31,7 +30,6 @@ interface DemoForm {
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyDescriptionListModule,

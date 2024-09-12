@@ -3,12 +3,13 @@
     <sky-icon [icon]="icon" />
   </span>
   <span class="sky-label-icon-theme-modern">
-    <sky-icon-stack size="xs" [baseIcon]="baseIcon" [topIcon]="topIcon">
-    </sky-icon-stack>
+    <sky-icon-stack size="xs" [baseIcon]="baseIcon" [topIcon]="topIcon" />
   </span>
-  <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
-    {{ descriptionComputed }}
-  </span>
+  @if (descriptionComputed) {
+    <span class="sky-screen-reader-only">
+      {{ descriptionComputed }}
+    </span>
+  }
   <span class="sky-label-text">
     <ng-content />
   </span>

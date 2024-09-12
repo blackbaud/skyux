@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyDescriptionListModule } from '@skyux/layout';
@@ -7,7 +6,7 @@ import { SkyDescriptionListModule } from '@skyux/layout';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyDescriptionListModule, SkyHelpInlineModule],
+  imports: [SkyDescriptionListModule, SkyHelpInlineModule],
 })
 export class DemoComponent {
   protected items: { term: string; description: string; helpText?: string }[] =

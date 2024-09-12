@@ -8,7 +8,7 @@
   white-space: nowrap;
 }
 
-.sky-country-field-country-btn + ::ng-deep .sky-form-control {
+.sky-country-field-country-btn + .sky-form-control {
   border-left: none;
 }
 
@@ -18,7 +18,7 @@
 
 .sky-country-field-search-result-flag {
   display: inline-block;
-  margin-right: $sky-margin-half;
+  margin-right: 9px;
 }
 
 .sky-country-field-flag {
@@ -75,47 +75,41 @@
   @include mixins.sky-field-status(invalid);
 }
 
-::ng-deep {
-  .sky-theme-modern {
-    .sky-country-field-disabled {
-      .sky-country-field-flag {
-        filter: grayscale(100%);
+.sky-theme-modern {
+  .sky-country-field-disabled {
+    .sky-country-field-flag {
+      filter: grayscale(100%);
+    }
+  }
+
+  .sky-input-box .sky-form-group {
+    .sky-country-field-input {
+      background-color: transparent;
+      border-radius: $sky-theme-modern-box-border-radius-default;
+
+      textarea.sky-form-control {
+        @include sky-country-field-textarea;
       }
     }
 
-    .sky-input-box .sky-form-group {
-      .sky-country-field-input {
-        background-color: transparent;
-        border-radius: $sky-theme-modern-box-border-radius-default;
-
-        textarea.sky-form-control {
-          @include sky-country-field-textarea;
-        }
+    .sky-country-field-input-with-flag {
+      .sky-country-field-flag {
+        height: 40px;
+        left: 15px;
+        opacity: 1;
       }
 
-      .sky-country-field-input-with-flag {
-        .sky-country-field-flag {
-          height: 40px;
-          left: 15px;
-          opacity: 1;
-        }
-
-        .sky-form-control {
-          padding-left: 45px;
-        }
+      .sky-form-control {
+        padding-left: 45px;
       }
     }
   }
 }
 
-.iti__flag {
+.sky-country-field-search-result-flag,
+.sky-country-field-flag .iti__flag {
   max-width: 25px;
   max-height: 13px;
-  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags.webp) !important;
-
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .iti__flag {
-      background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.3/assets/images/intl-tel-input/flags@2x.webp) !important;
-    }
-  }
+  background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/intl-tel-input/flags@2x.webp) !important;
+  transform: scaleX(1.25) translateX(2px);
 }

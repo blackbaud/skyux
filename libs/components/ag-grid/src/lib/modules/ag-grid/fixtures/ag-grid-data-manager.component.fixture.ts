@@ -63,6 +63,10 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
       {
         viewId: this.viewConfig.id,
         displayedColumnIds: ['selected', 'name', 'target'],
+        columnWidths: {
+          xs: { name: 180, target: 220 },
+          sm: { name: 300, target: 400 },
+        },
       },
     ],
   });

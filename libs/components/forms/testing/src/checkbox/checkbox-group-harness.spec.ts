@@ -213,6 +213,7 @@ describe('Checkbox group harness', () => {
 
     await checkboxHarness.check();
     await checkboxHarness.uncheck();
+    await checkboxHarness.blur();
 
     await expectAsync(checkboxGroupHarness.hasRequiredError()).toBeResolvedTo(
       true,
@@ -239,9 +240,9 @@ describe('Checkbox group harness', () => {
 
     await checkboxHarness.check();
 
-    await expectAsync(
-      checkboxGroupHarness.hasError('test'),
-    ).toBeRejectedWithError('No form errors found.');
+    await expectAsync(checkboxGroupHarness.hasError('test')).toBeResolvedTo(
+      false,
+    );
   });
 
   it('should throw an error if no help inline is found', async () => {

@@ -20,12 +20,14 @@
     </sky-file-attachment-label>
   </sky-file-attachment>
 
-  <div *ngIf="attachment?.invalid && attachment?.dirty" class="sky-error-label">
-    Attach a file.
-  </div>
-  <div *ngIf="reactiveUploadError" class="sky-error-label">
-    {{ reactiveUploadError }}
-  </div>
+  @if (attachment?.invalid && attachment?.touched) {
+    <div class="sky-error-label">Attach a file.</div>
+  }
+  @if (reactiveUploadError) {
+    <div class="sky-error-label">
+      {{ reactiveUploadError }}
+    </div>
+  }
 </form>
 
 <ng-template #popoverContent>

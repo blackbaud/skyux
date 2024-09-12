@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -16,7 +15,6 @@ import { SkyThemeModule } from '@skyux/theme';
   styleUrls: ['./modal-viewkept-toolbars-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     SkyCheckboxModule,
     SkyIconModule,
     SkyI18nModule,

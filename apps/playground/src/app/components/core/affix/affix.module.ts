@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyPopoverModule } from '@skyux/popovers';
@@ -10,7 +9,7 @@ const routes: Routes = [{ path: '', component: AffixComponent }];
 
 @NgModule({
   declarations: [AffixComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), SkyPopoverModule],
+  imports: [RouterModule.forChild(routes), SkyPopoverModule],
 })
 export class AffixModule {
   public static routes = AffixRoutingModule.routes;

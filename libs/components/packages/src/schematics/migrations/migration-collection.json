@@ -5,10 +5,25 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
+    "workspace-check": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./update-11/workspace-check/workspace-check.schematic",
+      "description": "Log warnings if the workspace is not configured correctly."
+    },
     "ag-grid": {
       "version": "11.0.0",
       "factory": "./update-11/ag-grid/ag-grid.schematic",
       "description": "Apply code changes for AG Grid 32."
+    },
+    "axe-core": {
+      "version": "11.0.0",
+      "factory": "./update-11/axe-core/axe-core.schematic",
+      "description": "Update axe-core if @skyux-sdk/testing installed."
+    },
+    "forms": {
+      "version": "11.0.0",
+      "factory": "./update-11/forms/forms.schematic",
+      "description": "Apply code changes for @skyux/forms."
     },
     "help-inline-import-path": {
       "version": "11.0.0",

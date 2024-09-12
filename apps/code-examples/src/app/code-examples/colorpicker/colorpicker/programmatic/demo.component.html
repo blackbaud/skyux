@@ -12,11 +12,12 @@
       type="text"
       [skyColorpickerInput]="colorPicker"
     />
-    <sky-form-error
-      *ngIf="favoriteColor.errors?.['opaque']"
-      errorName="opaque"
-      errorText="Color must have at least 80% opacity."
-    />
+    @if (favoriteColor.errors?.['opaque']) {
+      <sky-form-error
+        errorName="opaque"
+        errorText="Color must have at least 80% opacity."
+      />
+    }
   </sky-colorpicker>
 </form>
 

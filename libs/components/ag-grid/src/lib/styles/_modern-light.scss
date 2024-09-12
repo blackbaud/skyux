@@ -61,7 +61,9 @@
         cursor: pointer;
         border: 1px solid transparent;
 
-        &:hover {
+        &:focus-visible,
+        &:hover,
+        &.ag-active-item {
           background-color: transparent;
           border-color: variables.$sky-theme-modern-border-color-primary-dark;
         }

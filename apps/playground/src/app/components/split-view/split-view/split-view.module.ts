@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
@@ -21,7 +20,6 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
 @NgModule({
   declarations: [SplitViewComponent, SplitViewPageBoundComponent],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SkyDefinitionListModule,

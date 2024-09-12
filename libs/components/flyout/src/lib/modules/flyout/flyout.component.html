@@ -1,4 +1,5 @@
 <div
+  #flyoutRef
   class="sky-flyout"
   tabindex="-1"
   [attr.role]="config.ariaRole ? config.ariaRole : 'dialog'"
@@ -19,20 +20,19 @@
     'sky-shadow': 'default',
     'sky-elevation-8': 'modern'
   }"
-  (@flyoutState.done)="animationDone($event)"
   [@flyoutState]="getAnimationState()"
   [style.width.px]="flyoutWidth"
-  #flyoutRef
   [cdkTrapFocus]="enableTrapFocus"
   [cdkTrapFocusAutoCapture]="enableTrapFocusAutoCapture"
+  (@flyoutState.done)="animationDone($event)"
 >
   <div
+    #flyoutHeader
     class="sky-flyout-header"
     [skyThemeClass]="{
       'sky-padding-squish-large': 'default'
     }"
     [style.z-index]="zIndex$ | async"
-    #flyoutHeader
   >
     <div class="sky-flyout-header-content">
       <button
@@ -46,18 +46,18 @@
         <sky-icon icon="tile-drag" size="lg" />
       </button>
 
-      <sky-flyout-iterator
-        *ngIf="config.showIterator"
-        [nextButtonDisabled]="config.iteratorNextButtonDisabled"
-        [previousButtonDisabled]="config.iteratorPreviousButtonDisabled"
-        (nextButtonClick)="onIteratorNextButtonClick()"
-        (previousButtonClick)="onIteratorPreviousButtonClick()"
-      >
-      </sky-flyout-iterator>
+      @if (config.showIterator) {
+        <sky-flyout-iterator
+          [nextButtonDisabled]="config.iteratorNextButtonDisabled"
+          [previousButtonDisabled]="config.iteratorPreviousButtonDisabled"
+          (nextButtonClick)="onIteratorNextButtonClick()"
+          (previousButtonClick)="onIteratorPreviousButtonClick()"
+        />
+      }
     </div>
     <div class="sky-flyout-header-buttons">
-      <ng-container *ngTemplateOutlet="permalinkTemplate"> </ng-container>
-      <ng-container *ngTemplateOutlet="primaryActionTemplate"> </ng-container>
+      <ng-container *ngTemplateOutlet="permalinkTemplate" />
+      <ng-container *ngTemplateOutlet="primaryActionTemplate" />
       <button
         class="sky-btn sky-flyout-btn-close sky-label-icon-theme-default"
         type="button"
@@ -92,8 +92,8 @@
 </div>
 
 <ng-template #permalinkTemplate>
-  <ng-template [ngIf]="permalink">
-    <ng-template [ngIf]="permalink.url">
+  @if (permalink) {
+    @if (permalink.url) {
       <a
         class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
         [skyHref]="permalink.url"
@@ -105,8 +105,7 @@
       >
         {{ permalinkLabel }}
       </a>
-    </ng-template>
-    <ng-template [ngIf]="permalink.route">
+    } @else if (permalink.route) {
       <a
         class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
         [routerLink]="permalink.route.commands"
@@ -122,12 +121,12 @@
       >
         {{ permalinkLabel }}
       </a>
-    </ng-template>
-  </ng-template>
+    }
+  }
 </ng-template>
 
 <ng-template #primaryActionTemplate>
-  <ng-template [ngIf]="primaryAction && primaryAction.callback">
+  @if (primaryAction && primaryAction.callback) {
     <button
       type="button"
       class="sky-btn sky-btn-default sky-flyout-btn-primary-action sky-margin-inline-default"
@@ -135,5 +134,5 @@
     >
       {{ primaryActionLabel }}
     </button>
-  </ng-template>
+  }
 </ng-template>

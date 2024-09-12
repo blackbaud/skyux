@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SkyTilesModule } from '../../tiles.module';
@@ -17,6 +16,6 @@ import { TileDashboardTestComponent } from './tile-dashboard.component.fixture';
     TileDashboardTestComponent,
     TileDashboardOnPushTestComponent,
   ],
-  imports: [CommonModule, SkyTilesModule],
+  imports: [SkyTilesModule],
 })
 export class SkyTileDashboardFixturesModule {}

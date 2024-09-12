@@ -46,10 +46,6 @@
   overflow-y: auto;
 }
 
-:host-context(sky-modal-content) > .sky-vertical-tabset {
-  margin: var(--sky-compat-vertical-tabs-modal-margin);
-}
-
 :host-context(sky-modal-content) > :host .sky-vertical-tabset {
   margin: -15px;
 }

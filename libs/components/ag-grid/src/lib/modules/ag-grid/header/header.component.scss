@@ -26,6 +26,16 @@
   }
 }
 
+.ag-header-cell-label .ag-header-cell-label-and-icons,
+.sky-btn.sky-btn-icon-borderless {
+  .ag-header-label-icon,
+  .ag-header-menu-icon,
+  .ag-header-icon {
+    line-height: 0;
+    margin-left: var(--sky-margin-inline-sm);
+  }
+}
+
 button.ag-header-cell-label {
   max-width: 100%;
 }
@@ -44,7 +54,7 @@ button.ag-header-cell-label {
     flex-wrap: nowrap;
     flex-direction: row;
     overflow: hidden;
-    gap: var(--sky-margin-inline-xs);
+    align-items: center;
 
     .ag-header-cell-text {
       flex-grow: 0;

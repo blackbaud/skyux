@@ -1,5 +1,4 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -13,22 +12,23 @@ interface User {
 }
 
 @Component({
-  imports: [CommonModule],
   standalone: true,
   template: `
-    <div *ngFor="let user of users" class="test-item">
-      <span>{{ user.firstName }}</span>
-      <button class="test-btn" type="button" (click)="onClick(user)">
-        Delete
-      </button>
-      <button
-        class="test-btn-custom"
-        type="button"
-        (click)="onClickCustom(user)"
-      >
-        Delete (Custom)
-      </button>
-    </div>
+    @for (user of users; track user.firstName) {
+      <div class="test-item">
+        <span>{{ user.firstName }}</span>
+        <button class="test-btn" type="button" (click)="onClick(user)">
+          Delete
+        </button>
+        <button
+          class="test-btn-custom"
+          type="button"
+          (click)="onClickCustom(user)"
+        >
+          Delete (Custom)
+        </button>
+      </div>
+    }
   `,
 })
 class TestComponent {

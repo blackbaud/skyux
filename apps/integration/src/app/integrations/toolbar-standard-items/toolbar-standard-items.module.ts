@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyFilterModule, SkySortModule } from '@skyux/lists';
@@ -10,7 +9,6 @@ import { ToolbarStandardItemsComponent } from './toolbar-standard-items.componen
 @NgModule({
   declarations: [ToolbarStandardItemsComponent],
   imports: [
-    CommonModule,
     SkyFilterModule,
     SkyToolbarModule,
     SkySearchModule,

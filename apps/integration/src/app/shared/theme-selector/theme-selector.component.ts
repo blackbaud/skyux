@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -25,7 +24,7 @@ const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule, SkyIdModule, SkyInputBoxModule],
+  imports: [FormsModule, SkyIdModule, SkyInputBoxModule],
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {

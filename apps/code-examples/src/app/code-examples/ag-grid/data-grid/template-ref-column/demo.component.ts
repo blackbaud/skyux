@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -17,7 +16,7 @@ import { AG_GRID_DEMO_DATA } from './data';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [AgGridModule, SkyAgGridModule, NgIf],
+  imports: [AgGridModule, SkyAgGridModule],
 })
 export class DemoComponent implements OnInit {
   @ViewChild('boldColumn', { static: true })

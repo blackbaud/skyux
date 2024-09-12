@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,12 +15,7 @@ import { SkyFlyoutTestComponent } from './flyout.component.fixture';
     SkyFlyoutHostsTestComponent,
     SkyFlyoutModalFixtureFormComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterTestingModule,
-    SkyModalModule,
-    NoopAnimationsModule,
-  ],
+  imports: [RouterTestingModule, SkyModalModule, NoopAnimationsModule],
   exports: [
     SkyFlyoutTestSampleComponent,
     SkyFlyoutHostsTestComponent,

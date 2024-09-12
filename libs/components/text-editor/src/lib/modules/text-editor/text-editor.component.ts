@@ -9,7 +9,6 @@ import {
   Input,
   NgZone,
   OnDestroy,
-  OnInit,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
@@ -21,7 +20,6 @@ import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
-  SkyFormFieldLabelTextRequiredService,
   SkyInputBoxHostService,
   SkyRequiredStateDirective,
 } from '@skyux/forms';
@@ -86,7 +84,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
   ],
 })
 export class SkyTextEditorComponent
-  implements AfterViewInit, OnInit, OnDestroy, ControlValueAccessor
+  implements AfterViewInit, OnDestroy, ControlValueAccessor
 {
   /**
    * Whether to put focus on the editor after it renders.
@@ -381,9 +379,6 @@ export class SkyTextEditorComponent
     optional: true,
   });
 
-  @HostBinding('style.display')
-  public display: string | undefined;
-
   protected editorFocused = false;
 
   #defaultId: string;
@@ -412,10 +407,6 @@ export class SkyTextEditorComponent
   readonly #sanitizationService = inject(SkyTextSanitizationService);
   readonly #zone = inject(NgZone);
 
-  readonly #labelTextRequired = inject(SkyFormFieldLabelTextRequiredService, {
-    optional: true,
-  });
-
   protected readonly errorId = this.#idSvc.generateId();
   protected readonly ngControl = inject(NgControl);
   protected readonly requiredState = inject(SkyRequiredStateDirective);
@@ -429,12 +420,6 @@ export class SkyTextEditorComponent
     this.#initIframe();
   }
 
-  public ngOnInit(): void {
-    if (this.#labelTextRequired && !this.labelText) {
-      this.display = 'none';
-    }
-    this.#labelTextRequired?.validateLabelText(this.labelText);
-  }
   public ngOnDestroy(): void {
     this.#adapterService.removeObservers(this.#editorService.editor);
     this.#ngUnsubscribe.next();

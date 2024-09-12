@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
@@ -9,12 +8,7 @@ import { Person } from './person';
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    CommonModule,
-    SkyBackToTopModule,
-    SkyInfiniteScrollModule,
-    SkyRepeaterModule,
-  ],
+  imports: [SkyBackToTopModule, SkyInfiniteScrollModule, SkyRepeaterModule],
 })
 export class DemoComponent implements OnInit {
   public hasMore = true;

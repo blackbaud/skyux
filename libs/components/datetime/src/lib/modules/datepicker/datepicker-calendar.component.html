@@ -15,18 +15,17 @@
       tabindex="0"
       (keydown)="datepicker?.onKeydown($event)"
     >
-      <sky-daypicker
-        *ngIf="datepicker?.datepickerMode === 'day'"
-        [customDates]="customDates"
-        [isWaiting]="isDaypickerWaiting"
-        (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
-      ></sky-daypicker>
-      <sky-monthpicker
-        *ngIf="datepicker?.datepickerMode === 'month'"
-      ></sky-monthpicker>
-      <sky-yearpicker
-        *ngIf="datepicker?.datepickerMode === 'year'"
-      ></sky-yearpicker>
+      @if (datepicker?.datepickerMode === 'day') {
+        <sky-daypicker
+          [customDates]="customDates"
+          [isWaiting]="isDaypickerWaiting"
+          (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
+        />
+      } @else if (datepicker?.datepickerMode === 'month') {
+        <sky-monthpicker />
+      } @else if (datepicker?.datepickerMode === 'year') {
+        <sky-yearpicker />
+      }
     </div>
   </sky-datepicker-inner>
 </div>

@@ -3,14 +3,20 @@ import {
   NodePackageInstallTask,
   RunSchematicTask,
 } from '@angular-devkit/schematics/tasks';
+import { parseSourceFile } from '@angular/cdk/schematics';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
   getPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
+import { swapImportedClass } from '../../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 import { getWorkspace } from '../../../utility/workspace';
+
+import { eventTypeStrings } from './event-type-strings/event-type-strings';
+import { switchToSetGridOption } from './switch-to-set-grid-option/switch-to-set-grid-option';
 
 const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
@@ -19,7 +25,7 @@ const AG_GRID_ENT = 'ag-grid-enterprise';
 const AG_GRID_NG = 'ag-grid-angular';
 const AG_GRID_SKY = '@skyux/ag-grid';
 
-const AG_GRID_VERSION = '^31.3.4';
+const AG_GRID_VERSION = '^32.1.0';
 
 /**
  * Check package.json for AG Grid dependencies.
@@ -54,68 +60,44 @@ function checkAgGridDependency(tree: Tree, context: SchematicContext): boolean {
 }
 
 /**
- * Column API renamed getSecondaryColumns / setSecondaryColumns to getSecondaryPivotColumns / setSecondaryPivotColumns.
- */
-function renameColumnApiFunctionsInCode(updatedContent: string): string {
-  if (updatedContent.includes('etSecondaryColumns(')) {
-    updatedContent = updatedContent.replace(
-      /(?<=columnApi\s*)\.(get|set)SecondaryColumns\(/g,
-      (_, x) => `.${x}PivotResultColumns(`,
-    );
-  }
-  return updatedContent;
-}
-
-/**
- * Update renamed grid options in code.
- */
-function renameGridOptionsInCode(updatedContent: string): string {
-  const componentReferenceExp =
-    /\b((header|loadingOverlay|noRowsOverlay)Component|component|cell(Editor|Renderer)|filter)Framework\b/g;
-  if (
-    updatedContent.match(/gridOptions/i) &&
-    (updatedContent.includes('suppressCellSelection') ||
-      updatedContent.includes('getRowNodeId') ||
-      updatedContent.includes('enterMovesDown') ||
-      componentReferenceExp.test(updatedContent))
-  ) {
-    updatedContent = updatedContent
-      .replace(/\bsuppressCellSelection\b/g, 'suppressCellFocus')
-      .replace(componentReferenceExp, '$1')
-      .replace(/\bgetRowNodeId\b/g, 'getRowId')
-      .replace(/\benterMovesDown(?=\b|AfterEdit)/g, 'enterNavigatesVertically');
-  }
-  return updatedContent;
-}
-
-/**
- * Switch charPress to eventKey.
- */
-function renameCharPress(updatedContent: string): string {
-  if (updatedContent.match(/\bcharPress\b(?!: undefined)/)) {
-    updatedContent = updatedContent.replace(
-      /\bcharPress\b(?!: undefined)/g,
-      'eventKey',
-    );
-  }
-  return updatedContent;
-}
-
-/**
  * If available, switch gridOptions.api and gridOptions.columnApi to gridApi.
  */
-function swapGridOptionsApiToGridApi(updatedContent: string): string {
+function swapGridOptionsApiToGridApi(tree: Tree, path: string): void {
+  const content = tree.readText(path);
+  const recorder = tree.beginUpdate(path);
   if (
-    updatedContent.includes('this.gridApi.') &&
-    (updatedContent.includes('this.gridOptions.api.') ||
-      updatedContent.includes('this.gridOptions.columnApi.'))
+    content.includes('this.gridApi') &&
+    (content.includes('this.gridOptions.api') ||
+      content.includes('this.gridOptions.columnApi'))
   ) {
-    updatedContent = updatedContent.replace(
-      /\bthis\.gridOptions\.(api|columnApi)\./g,
-      'this.gridApi.',
+    const instances = content.matchAll(
+      /\bthis\.gridOptions\.(api|columnApi)\b/g,
     );
+    for (const instance of instances) {
+      recorder.remove(instance.index, instance[0].length);
+      recorder.insertRight(instance.index, 'this.gridApi');
+    }
   }
-  return updatedContent;
+  if (content.includes('columnApi = ')) {
+    const instances = content.matchAll(
+      /(?<=\bthis\.[_#]?[A-Za-z]*[Cc]olumnApi = \w+\.|event\.)columnApi(?=[.;])/g,
+    );
+    for (const instance of instances) {
+      recorder.remove(instance.index, instance[0].length);
+      recorder.insertRight(instance.index, 'api');
+    }
+  }
+  tree.commitUpdate(recorder);
+  if (content.includes('ColumnApi')) {
+    swapImportedClass(tree, path, parseSourceFile(tree, path), [
+      {
+        classNames: {
+          ColumnApi: 'GridApi',
+        },
+        moduleName: 'ag-grid-community',
+      },
+    ]);
+  }
 }
 
 /**
@@ -125,10 +107,28 @@ function includesAgGrid(updatedContent: string): boolean {
   return (
     updatedContent.includes(AG_GRID) ||
     updatedContent.includes(AG_GRID_ENT) ||
-    updatedContent.includes(AG_GRID_SKY) ||
-    updatedContent.includes(ANY_MODULE) ||
-    updatedContent.includes(ENT_MODULE)
+    updatedContent.includes(AG_GRID_SKY)
   );
+}
+
+function swapClasses(tree: Tree, filePath: string) {
+  const sourceFile = parseSourceFile(tree, filePath);
+  swapImportedClass(tree, filePath, sourceFile, [
+    {
+      classNames: {
+        Column: 'AgColumn',
+        Beans: 'BeanCollection',
+      },
+      moduleName: 'ag-grid-community',
+      filter: (node: ts.Identifier) => {
+        const parent = node.parent;
+        return (
+          node.text !== 'Column' ||
+          (parent && ts.isNewExpression(parent) && parent.expression === node)
+        );
+      },
+    },
+  ]);
 }
 
 /**
@@ -149,22 +149,21 @@ async function updateSourceFiles(
 
   const { workspace } = await getWorkspace(tree);
   workspace.projects.forEach((project) => {
+    context.logger.debug(
+      `Running SKY UX AG Grid updates within ${project.sourceRoot || project.root}.`,
+    );
     visitProjectFiles(tree, project.sourceRoot || project.root, (filePath) => {
       // If the file is not a TypeScript file, we can skip it.
-      if (!filePath.endsWith('.ts')) {
+      if (!filePath.endsWith('.ts') || filePath.includes('schematics')) {
         return;
       }
       const content = tree.readText(filePath);
       if (!content || !includesAgGrid(content)) {
         return;
       }
-      let updatedContent = content;
 
       // Prompt the user to moderate the use of AG Grid modules
-      if (
-        updatedContent.includes(ANY_MODULE) ||
-        updatedContent.includes(ENT_MODULE)
-      ) {
+      if (content.includes(ANY_MODULE) || content.includes(ENT_MODULE)) {
         warnOnce(
           `\n
           AG Grid recommends not mixing module and package imports.
@@ -172,27 +171,22 @@ async function updateSourceFiles(
         );
       }
 
-      updatedContent = renameCharPress(updatedContent);
-      updatedContent = renameColumnApiFunctionsInCode(updatedContent);
-      updatedContent = renameGridOptionsInCode(updatedContent);
-      updatedContent = swapGridOptionsApiToGridApi(updatedContent);
-
-      if (updatedContent !== content) {
-        tree.overwrite(filePath, updatedContent);
-      }
+      eventTypeStrings(tree, filePath);
+      swapClasses(tree, filePath);
+      swapGridOptionsApiToGridApi(tree, filePath);
+      switchToSetGridOption(tree, filePath);
     });
   });
 }
 
 /**
- * Upgrade to AG Grid 30 and address three breaking changes:
+ * Upgrade to AG Grid 32 and address three breaking changes:
  *
- * - Add missing peer dependency
- * - Warn about mixing modules and packages
- * - Column API renamed getSecondaryColumns / setSecondaryColumns
- * - Grid option renamed suppressCellSelection and getRowNodeId
- * - Rename charPress to eventKey
- * - Rename cellRendererFramework to cellRenderer
+ * - Switch Event Types to Strings
+ * - Switch gridOptions.api and gridOptions.columnApi to gridApi
+ * - Switch setQuickFilter to updateGridOptions
+ * - Switch Beans references to use BeanCollection
+ * - Switch Column references to use AgColumn
  *
  * Also advise against mixing modules and packages.
  */
@@ -202,15 +196,20 @@ export default function (): Rule {
 
     // AG Grid is not installed, so we don't need to do anything.
     if (!hasAgGrid) {
+      context.logger.debug(`AG Grid is not installed.`);
       return;
     }
 
     await updateSourceFiles(tree, context);
     const { workspace } = await getWorkspace(tree);
     for (const project of workspace.projects.values()) {
+      const sourceRoot = project.sourceRoot || `${project.root}/src`;
+      context.logger.debug(
+        `Scheduling AG Grid code modifications for ${sourceRoot}.`,
+      );
       context.addTask(
         new RunSchematicTask('@skyux/packages', 'ag-grid-migrate', {
-          sourceRoot: project.sourceRoot || `${project.root}/src`,
+          sourceRoot,
         }),
       );
     }

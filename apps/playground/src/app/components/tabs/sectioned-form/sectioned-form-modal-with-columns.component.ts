@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,7 +16,6 @@ import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
   styleUrl: './sectioned-form-modal-with-columns.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     SkyFluidGridModule,
     SkyIconModule,
     SkyModalModule,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -35,7 +34,7 @@ import { Filters } from './filters';
   selector: 'app-view-grid',
   templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, CommonModule, SkyAgGridModule],
+  imports: [AgGridModule, SkyAgGridModule],
 })
 export class ViewGridComponent implements OnInit, OnDestroy {
   @Input()
@@ -65,6 +64,10 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       maxWidth: 50,
       sortable: false,
       cellRenderer: ContextMenuComponent,
+      headerName: 'Context menu',
+      headerComponentParams: {
+        headerHidden: true,
+      },
     },
     {
       field: 'name',
@@ -235,7 +238,6 @@ export class ViewGridComponent implements OnInit, OnDestroy {
 
   protected onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
     this.#updateData();
     this.#changeDetectorRef.markForCheck();
   }

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
@@ -10,7 +9,7 @@ let nextId = 0;
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, SkyInfiniteScrollModule, SkyRepeaterModule],
+  imports: [SkyInfiniteScrollModule, SkyRepeaterModule],
 })
 export class DemoComponent implements OnInit {
   protected items: InfiniteScrollDemoItem[] = [];

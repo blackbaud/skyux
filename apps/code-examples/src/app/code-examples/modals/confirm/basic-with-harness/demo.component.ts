@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   SkyConfirmButtonConfig,
@@ -8,7 +7,6 @@ import {
 } from '@skyux/modals';
 
 @Component({
-  imports: [CommonModule],
   selector: 'app-demo',
   standalone: true,
   templateUrl: './demo.component.html',

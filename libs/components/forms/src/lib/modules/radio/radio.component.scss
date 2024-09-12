@@ -1,12 +1,22 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-:host {
+:host:has(.sky-switch-control-icon) {
   display: inline-block;
 }
 
+:host-context(sky-radio-group):not(:has(li)) {
+  :host:not(:has(.sky-switch-control-icon)) {
+    display: block;
+
+    &:not(:last-child) {
+      margin-bottom: var(--sky-margin-stacked-sm);
+    }
+  }
+}
+
 .sky-radio-outer-wrapper {
-  display: inline-flex;
+  display: flex;
 }
 
 .sky-radio-help-inline {
@@ -54,5 +64,8 @@
     .sky-radio-icon-modern-checked {
       background-color: $sky-text-color-default;
     }
+  }
+  .sky-switch {
+    display: flex;
   }
 }

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   SkyDataManagerFilterData,
@@ -11,7 +10,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   standalone: true,
   selector: 'app-home-filter',
   templateUrl: './home-filter.component.html',
-  imports: [CommonModule, SkyModalModule, SkyRepeaterModule],
+  imports: [SkyModalModule, SkyRepeaterModule],
 })
 export class HomeFiltersModalDemoComponent {
   public libraries: { name: string; isSelected: boolean }[];

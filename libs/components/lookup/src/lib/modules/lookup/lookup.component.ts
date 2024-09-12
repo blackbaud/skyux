@@ -14,6 +14,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -95,6 +96,7 @@ export class SkyLookupComponent
    * enter text. You can specify static data such as an array of objects, or
    * you can pull data from a database.
    * @default []
+   * @deprecated Use the `searchAsync` event emitter and callback instead to provide data to the lookup component.
    */
   @Input()
   public set data(value: any[] | undefined) {
@@ -121,6 +123,20 @@ export class SkyLookupComponent
 
   public get disabled(): boolean {
     return this.#_disabled;
+  }
+
+  /**
+   * Whether the lookup field is required.
+   * @default false
+   */
+  @Input({ transform: booleanAttribute })
+  public set required(value: boolean) {
+    this.#_required = value;
+    this.inputBoxHostSvc?.setRequired(value);
+  }
+
+  public get required(): boolean {
+    return this.#_required;
   }
 
   /**
@@ -305,6 +321,7 @@ export class SkyLookupComponent
   #ngUnsubscribe = new Subject<void>();
   #openNativePicker: SkyModalInstance | undefined;
   #openSelectionModal: SkySelectionModalInstance | undefined;
+  #_required = false;
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
@@ -351,6 +368,8 @@ export class SkyLookupComponent
           ? undefined
           : this.searchIconTemplateRef,
       });
+
+      this.inputBoxHostSvc?.setRequired(this.required);
     } else {
       this.controlId = this.#idService.generateId();
     }

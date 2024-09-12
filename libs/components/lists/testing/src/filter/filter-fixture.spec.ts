@@ -20,16 +20,13 @@ const DATA_SKY_ID_BUTTON = 'test-filter-button';
       [ariaControls]="ariaControls"
       [ariaExpanded]="ariaExpanded"
       (filterButtonClick)="filterButtonClicked()"
-    >
-    </sky-filter-button>
-
+    />
     <sky-filter-summary data-sky-id="${DATA_SKY_ID_SUMMARY}">
-      <sky-filter-summary-item
-        *ngFor="let item of appliedFilters; let i = index"
-        (dismiss)="onDismiss(i)"
-      >
-        {{ item }}
-      </sky-filter-summary-item>
+      @for (item of appliedFilters; track item; let i = $index) {
+        <sky-filter-summary-item (dismiss)="onDismiss(i)">
+          {{ item }}
+        </sky-filter-summary-item>
+      }
     </sky-filter-summary>
   `,
 })

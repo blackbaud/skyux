@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDataManagerModule } from '@skyux/data-manager';
@@ -21,7 +20,6 @@ import {
 @NgModule({
   imports: [
     AgGridModule,
-    CommonModule,
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyAgGridCellRendererCurrencyModule,

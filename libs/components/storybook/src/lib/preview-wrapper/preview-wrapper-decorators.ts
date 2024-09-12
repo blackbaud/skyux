@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { importProvidersFrom } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,7 +18,7 @@ export const previewWrapperDecorators: DecoratorFunction<
   unknown[]
 >[] = [
   moduleMetadata({
-    imports: [CommonModule, PreviewWrapperModule, RouterTestingModule],
+    imports: [PreviewWrapperModule, RouterTestingModule],
   }),
   // Define application-wide providers with the applicationConfig decorator
   applicationConfig({

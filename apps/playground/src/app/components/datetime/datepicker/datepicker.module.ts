@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -12,7 +11,6 @@ import { DatepickerComponent } from './datepicker.component';
 @NgModule({
   declarations: [DatepickerComponent],
   imports: [
-    CommonModule,
     DatepickerRoutingModule,
     FormsModule,
     ReactiveFormsModule,

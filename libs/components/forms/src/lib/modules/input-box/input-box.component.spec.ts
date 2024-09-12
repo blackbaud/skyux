@@ -23,8 +23,6 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyFormFieldLabelTextRequiredService } from '../shared/form-field-label-text-required.service';
-
 import { InputBoxFixtureComponent } from './fixtures/input-box.component.fixture';
 import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
@@ -669,32 +667,6 @@ describe('Input box component', () => {
       validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
     });
 
-    it('should not display if a parent component requires label text and it is not provided', () => {
-      TestBed.configureTestingModule({
-        imports: [InputBoxFixturesModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-          SkyFormFieldLabelTextRequiredService,
-        ],
-      });
-
-      const labelTextRequiredSvc = TestBed.inject(
-        SkyFormFieldLabelTextRequiredService,
-      );
-      const labelTextSpy = spyOn(labelTextRequiredSvc, 'validateLabelText');
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      const els = getDefaultEls(fixture, 'input-basic');
-
-      fixture.detectChanges();
-
-      expect(labelTextSpy).toHaveBeenCalled();
-      expect(els.inputBoxEl).toExist();
-      expect(els.inputEl).toBeNull();
-    });
-
     it('should add stacked CSS class', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
@@ -842,6 +814,28 @@ describe('Input box component', () => {
       els = getDefaultEls(fixture, 'input-easy-mode');
 
       expect(els.characterCountEl).not.toExist();
+    });
+
+    it('should set required if set by the child via host service', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      const hostServiceInputBox = fixture.debugElement
+        .query(By.css('.easy-input-host-service sky-input-box'))
+        .injector.get(SkyInputBoxHostService);
+
+      fixture.detectChanges();
+
+      let requiredLabel = fixture.nativeElement.querySelector(
+        '.easy-input-host-service .sky-control-label-required',
+      );
+      expect(requiredLabel).not.toExist();
+
+      hostServiceInputBox.setRequired(true);
+      fixture.detectChanges();
+
+      requiredLabel = fixture.nativeElement.querySelector(
+        '.easy-input-host-service .sky-control-label-required',
+      );
+      expect(requiredLabel).toExist();
     });
 
     it('should add hint text', () => {
@@ -1480,21 +1474,6 @@ describe('Input box component', () => {
       const errorEl = inputBoxEl.querySelector('sky-status-indicator');
 
       expect(errorEl).toHaveText('Error: Easy mode is required.');
-    });
-
-    it('should allow showing errors only to screen readers', () => {
-      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      fixture.componentInstance.errorsScreenReaderOnly = true;
-      fixture.detectChanges();
-
-      const inputBoxEl = getInputBoxEl(fixture, 'input-easy-mode');
-      const inputEl = inputBoxEl?.querySelector('input');
-      inputEl?.dispatchEvent(new Event('blur'));
-      fixture.detectChanges();
-
-      const errorsEl = inputBoxEl?.querySelector('sky-form-errors');
-
-      expect(errorsEl).toHaveClass('sky-screen-reader-only');
     });
 
     it('should add required attributes to label and input when required', async () => {

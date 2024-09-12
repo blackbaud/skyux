@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyInlineDeleteModule } from '@skyux/layout';
@@ -8,7 +7,7 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
-  imports: [CommonModule, SkyIconModule, SkyInlineDeleteModule],
+  imports: [SkyIconModule, SkyInlineDeleteModule],
 })
 export class DemoComponent {
   protected deleting = false;

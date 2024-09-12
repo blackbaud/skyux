@@ -22,7 +22,17 @@ import {
 } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { CellEditingStartedEvent, DetailGridInfo } from 'ag-grid-community';
+import {
+  AgColumn,
+  CellEditingStartedEvent,
+  CellFocusedEvent,
+  Column,
+  ColumnGroup,
+  DetailGridInfo,
+  HeaderFocusedEvent,
+  ModuleNames,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import {
   BehaviorSubject,
   Observable,
@@ -38,6 +48,7 @@ import {
 import { agGridTheme } from '../../styles/ag-grid-theme';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { SkyCellType } from './types/cell-type';
 
 let idIndex = 0;
 
@@ -81,12 +92,17 @@ export class SkyAgGridWrapperComponent
   }
 
   get #isInEditMode(): boolean {
-    /* istanbul ignore else */
     if (this.agGrid && this.agGrid.api) {
       const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
       if (primaryGridEditing) {
         return true;
-      } else {
+      } else if (
+        ModuleRegistry.__isRegistered(
+          ModuleNames.EnterpriseCoreModule,
+          'sky-ag-grid-wrapper',
+        )
+      ) {
+        // AG Grid 32+ throws an error for calling this API without enterprise modules.
         let innerEditing = false;
         this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
           if (detailGrid?.api && detailGrid.api.getEditingCells().length > 0) {
@@ -96,9 +112,8 @@ export class SkyAgGridWrapperComponent
 
         return innerEditing;
       }
-    } else {
-      return false;
     }
+    return false;
   }
 
   #_viewkeeperClasses: string[] = [];
@@ -120,6 +135,9 @@ export class SkyAgGridWrapperComponent
   readonly #mutationObserverService = inject(SkyMutationObserverService);
   readonly #isCompact = new BehaviorSubject<boolean>(false);
   readonly #hasEditableClass = new ReplaySubject<boolean>(1);
+  #lastFocusedCell:
+    | { rowIndex: number | 'header'; column: Column | ColumnGroup | string }
+    | undefined;
 
   constructor() {
     idIndex++;
@@ -174,6 +192,12 @@ export class SkyAgGridWrapperComponent
               ...this.#wrapperClasses.getValue(),
               ...addClasses,
             ]);
+            if (
+              types.includes(SkyCellType.Template) &&
+              params.rowIndex !== null
+            ) {
+              this.agGrid?.api.setFocusedCell(params.rowIndex, params.column);
+            }
           }
         });
       this.agGrid.cellEditingStopped
@@ -184,6 +208,27 @@ export class SkyAgGridWrapperComponent
               .getValue()
               .filter((c) => !c.startsWith('sky-ag-grid-cell-editing-')),
           );
+        });
+      this.agGrid.cellFocused
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event: CellFocusedEvent) => {
+          this.#lastFocusedCell =
+            Number.isInteger(event.rowIndex) && event.column
+              ? {
+                  rowIndex: event.rowIndex as number,
+                  column: event.column,
+                }
+              : undefined;
+        });
+      this.agGrid.headerFocused
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event: HeaderFocusedEvent) => {
+          this.#lastFocusedCell = event.column
+            ? {
+                rowIndex: 'header',
+                column: event.column,
+              }
+            : undefined;
         });
     }
   }
@@ -260,14 +305,31 @@ export class SkyAgGridWrapperComponent
       relatedTarget && this.#elementRef.nativeElement.contains(relatedTarget);
 
     if (this.agGrid && !previousWasGrid) {
-      const firstColumn = this.agGrid.api.getAllDisplayedColumns()[0];
-
-      if (firstColumn) {
-        this.agGrid.api.ensureColumnVisible(firstColumn);
-        this.#adapterService.focusOnColumnHeader(
-          this.#elementRef.nativeElement,
-          firstColumn.getColId(),
-        );
+      const displayedColumns = this.agGrid.api.getAllDisplayedColumns();
+      const focusOn = this.#lastFocusedCell ?? {
+        column: displayedColumns?.[0]?.getColId(),
+        rowIndex: 'header',
+      };
+      if (
+        focusOn.column &&
+        displayedColumns.some((col) => col.getId() === focusOn.column)
+      ) {
+        if (
+          focusOn.column instanceof AgColumn ||
+          typeof focusOn.column === 'string'
+        ) {
+          this.agGrid.api.ensureColumnVisible(focusOn.column);
+        }
+        if (focusOn.rowIndex === 'header') {
+          this.agGrid.api.setFocusedHeader(focusOn.column);
+        } else if (
+          this.agGrid.api.getDisplayedRowAtIndex(focusOn.rowIndex) &&
+          (focusOn.column instanceof AgColumn ||
+            typeof focusOn.column === 'string')
+        ) {
+          this.agGrid.api.ensureIndexVisible(focusOn.rowIndex, 'top');
+          this.agGrid.api.setFocusedCell(focusOn.rowIndex, focusOn.column);
+        }
       }
     }
   }

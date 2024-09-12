@@ -4,19 +4,18 @@
   <h2>Basic</h2>
   <div class="sky-padding-even-default" id="screenshot-tree-view-basic">
     <sky-angular-tree-wrapper>
-      <tree-root [nodes]="nodes" [options]="basicOptions" #treeBasic>
+      <tree-root #treeBasic [nodes]="nodes" [options]="basicOptions">
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
             [node]="node"
             [templates]="templates"
-          >
-          </sky-angular-tree-node>
+          />
         </ng-template>
       </tree-root>
     </sky-angular-tree-wrapper>
@@ -25,19 +24,18 @@
   <h2>Read-only mode</h2>
   <div class="sky-padding-even-default" id="screenshot-tree-view-basic">
     <sky-angular-tree-wrapper [readOnly]="true">
-      <tree-root [nodes]="nodes" [options]="basicOptions" #treeReadOnly>
+      <tree-root #treeReadOnly [nodes]="nodes" [options]="basicOptions">
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
             [node]="node"
             [templates]="templates"
-          >
-          </sky-angular-tree-node>
+          />
         </ng-template>
       </tree-root>
     </sky-angular-tree-wrapper>
@@ -51,10 +49,10 @@
     <sky-angular-tree-wrapper>
       <tree-root [nodes]="nodes" [options]="optionsNonCascading">
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
@@ -63,14 +61,16 @@
           >
             <sky-dropdown buttonType="context-menu">
               <sky-dropdown-menu>
-                <sky-dropdown-item *ngFor="let item of dropdownItems">
-                  <button
-                    type="button"
-                    (click)="actionClicked(item.name, node)"
-                  >
-                    {{ item.name }}
-                  </button>
-                </sky-dropdown-item>
+                @for (item of dropdownItems; track item) {
+                  <sky-dropdown-item>
+                    <button
+                      type="button"
+                      (click)="actionClicked(item.name, node)"
+                    >
+                      {{ item.name }}
+                    </button>
+                  </sky-dropdown-item>
+                }
               </sky-dropdown-menu>
             </sky-dropdown>
           </sky-angular-tree-node>
@@ -85,19 +85,18 @@
     class="sky-padding-even-default"
   >
     <sky-angular-tree-wrapper [showToolbar]="true">
-      <tree-root [nodes]="nodes" [options]="optionsCascading" #treeCascading>
+      <tree-root #treeCascading [nodes]="nodes" [options]="optionsCascading">
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
             [node]="node"
             [templates]="templates"
-          >
-          </sky-angular-tree-node>
+          />
         </ng-template>
       </tree-root>
     </sky-angular-tree-wrapper>
@@ -110,22 +109,21 @@
   >
     <sky-angular-tree-wrapper [showToolbar]="true">
       <tree-root
+        #treeNonCascading
         [nodes]="nodes"
         [options]="optionsNonCascading"
-        #treeNonCascading
       >
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
             [node]="node"
             [templates]="templates"
-          >
-          </sky-angular-tree-node>
+          />
         </ng-template>
       </tree-root>
     </sky-angular-tree-wrapper>
@@ -138,22 +136,21 @@
   >
     <sky-angular-tree-wrapper [selectLeafNodesOnly]="true" [showToolbar]="true">
       <tree-root
+        #treeLeafNodesOnly
         [nodes]="nodes"
         [options]="optionsNonCascading"
-        #treeLeafNodesOnly
       >
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
             [node]="node"
             [templates]="templates"
-          >
-          </sky-angular-tree-node>
+          />
         </ng-template>
       </tree-root>
     </sky-angular-tree-wrapper>
@@ -163,22 +160,21 @@
   <div id="screenshot-tree-view-single-select" class="sky-padding-even-default">
     <sky-angular-tree-wrapper [selectSingle]="true" [showToolbar]="true">
       <tree-root
+        #treeSingleNodeSelectionOnly
         [nodes]="nodes"
         [options]="optionsNonCascading"
-        #treeSingleNodeSelectionOnly
       >
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
             [node]="node"
             [templates]="templates"
-          >
-          </sky-angular-tree-node>
+          />
         </ng-template>
       </tree-root>
     </sky-angular-tree-wrapper>
@@ -206,23 +202,22 @@
     </table>
     <sky-angular-tree-wrapper>
       <tree-root
+        #treeEvents
         [nodes]="nodes"
         [options]="optionsCascading"
         (stateChange)="onStateChange($event)"
-        #treeEvents
       >
         <ng-template
+          #treeNodeFullTemplate
           let-index="index"
           let-node
           let-templates="templates"
-          #treeNodeFullTemplate
         >
           <sky-angular-tree-node
             [index]="index"
             [node]="node"
             [templates]="templates"
-          >
-          </sky-angular-tree-node>
+          />
         </ng-template>
       </tree-root>
     </sky-angular-tree-wrapper>

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { DebugElement, Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -86,7 +86,6 @@ describe('Help inline component', () => {
 
   let fixture: ComponentFixture<HelpInlineTestComponent>;
   let component: HelpInlineTestComponent;
-  let debugEl: DebugElement;
   let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
   let uniqueId = 0;
   let mockHelpSvc: jasmine.SpyObj<SkyHelpService>;
@@ -141,7 +140,6 @@ describe('Help inline component', () => {
 
     fixture = TestBed.createComponent(HelpInlineTestComponent);
     component = fixture.componentInstance as HelpInlineTestComponent;
-    debugEl = fixture.debugElement;
 
     // Mock the ID service.
     const idSvc = TestBed.inject(SkyIdService);
@@ -287,6 +285,8 @@ describe('Help inline component', () => {
       component.labelText = 'test component';
 
       fixture.detectChanges();
+      // Trigger change detection for resources string observables.
+      fixture.detectChanges();
 
       await checkAriaPropertiesAndAccessibility({
         ariaLabel: 'Show help content for test component',
@@ -299,6 +299,8 @@ describe('Help inline component', () => {
       component.labelText = 'test component';
       component.ariaLabel = 'deprecated';
 
+      fixture.detectChanges();
+      // Trigger change detection for resources string observables.
       fixture.detectChanges();
 
       await checkAriaPropertiesAndAccessibility({
@@ -372,13 +374,11 @@ describe('Help inline component', () => {
       tick();
       fixture.detectChanges();
 
-      const popoverElementId =
-        debugEl.nativeElement.querySelector('sky-popover').id;
       const helpInlineElement =
         fixture.nativeElement.querySelector('.sky-help-inline');
 
       expect(helpInlineElement?.getAttribute('aria-controls')).toBe(
-        popoverElementId,
+        helpInlineElement.nextElementSibling.id,
       );
     }));
 
@@ -507,28 +507,6 @@ describe('Help inline component', () => {
         expect(helpButton).toHaveCssClass('sky-help-inline-hidden');
 
         helpButton.click();
-
-        expect(mockHelpSvc.openHelp).not.toHaveBeenCalled();
-      });
-
-      it('should fall back to popover when popoverContent is also specified', async () => {
-        setupTest(false);
-
-        component.helpKey = 'test.html';
-        component.popoverContent = 'Hello';
-
-        fixture.detectChanges();
-
-        const helpButton = getHelpButton(fixture);
-        expect(helpButton).not.toHaveCssClass('sky-help-inline-hidden');
-
-        helpButton.click();
-
-        const { popoverHarness } = await getPopoverTestHarness();
-
-        expect(
-          await (await popoverHarness.getPopoverContent()).getBodyText(),
-        ).toBe('Hello');
 
         expect(mockHelpSvc.openHelp).not.toHaveBeenCalled();
       });

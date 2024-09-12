@@ -76,45 +76,48 @@
 
 <ng-template #labelTemplate>
   <ng-content select=".sky-control-label" />
-  <label
-    *ngIf="labelText"
-    class="sky-control-label"
-    [attr.aria-label]="
-      characterLimit !== undefined
-        ? labelText +
-          ' ' +
-          ('skyux_character_count_message'
-            | skyLibResources: characterCountScreenReader : characterLimit)
-        : null
-    "
-    [for]="controlId"
-    [id]="labelId"
-    [ngClass]="{
-      'sky-control-label-required': required
-    }"
-    >{{ labelText }}</label
-  >
+  @if (labelText) {
+    <label
+      class="sky-control-label"
+      [attr.aria-label]="
+        characterLimit !== undefined
+          ? labelText +
+            ' ' +
+            ('skyux_character_count_message'
+              | skyLibResources: characterCountScreenReader : characterLimit)
+          : null
+      "
+      [for]="controlId"
+      [id]="labelId"
+      [ngClass]="{
+        'sky-control-label-required': required
+      }"
+      >{{ labelText }}</label
+    >
+  }
 </ng-template>
 
 <ng-template #inlineHelpTemplate>
-  <sky-help-inline
-    *ngIf="helpPopoverContent || helpKey"
-    class="sky-control-help"
-    [helpKey]="helpKey"
-    [labelText]="labelText"
-    [popoverContent]="helpPopoverContent"
-    [popoverTitle]="helpPopoverTitle"
-  />
+  @if (helpPopoverContent || helpKey) {
+    <sky-help-inline
+      class="sky-control-help"
+      [helpKey]="helpKey"
+      [labelText]="labelText"
+      [popoverContent]="helpPopoverContent"
+      [popoverTitle]="helpPopoverTitle"
+    />
+  }
 
   <ng-content select=".sky-control-help" />
 </ng-template>
 
 <ng-template #characterCountTemplate>
-  <sky-character-counter-indicator
-    *ngIf="characterLimit !== undefined"
-    [characterCount]="controlDir?.value?.length || 0"
-    [characterCountLimit]="characterLimit"
-  />
+  @if (characterLimit !== undefined) {
+    <sky-character-counter-indicator
+      [characterCount]="controlDir?.value?.length || 0"
+      [characterCountLimit]="characterLimit"
+    />
+  }
   <ng-content select="sky-character-counter-indicator" />
 </ng-template>
 
@@ -122,46 +125,41 @@
   <ng-content
     select="input,select,.sky-form-control:not(textarea),sky-text-editor"
   />
-  <ng-container
-    *ngIf="hostInputTemplate"
-    [ngTemplateOutlet]="hostInputTemplate"
-  />
+  @if (hostInputTemplate) {
+    <ng-container [ngTemplateOutlet]="hostInputTemplate" />
+  }
   <ng-content select="textarea" />
 </ng-template>
 
 <ng-template #buttonsLeftTemplate>
   <ng-content select=".sky-input-group-btn.sky-input-box-btn-left" />
-  <ng-container
-    *ngIf="hostButtonsLeftTemplate"
-    [ngTemplateOutlet]="hostButtonsLeftTemplate"
-  />
+  @if (hostButtonsLeftTemplate) {
+    <ng-container [ngTemplateOutlet]="hostButtonsLeftTemplate" />
+  }
 </ng-template>
 
 <ng-template #buttonsTemplate>
   <ng-content
     select=".sky-input-group-btn:not(.sky-input-box-btn-left):not(.sky-input-box-btn-inset)"
   />
-  <ng-container
-    *ngIf="hostButtonsTemplate"
-    [ngTemplateOutlet]="hostButtonsTemplate"
-  />
+  @if (hostButtonsTemplate) {
+    <ng-container [ngTemplateOutlet]="hostButtonsTemplate" />
+  }
 </ng-template>
 
 <ng-template #buttonsInsetTemplate>
   <ng-content select=".sky-input-group-btn.sky-input-box-btn-inset" />
-  <ng-container
-    *ngIf="hostButtonsInsetTemplate"
-    [ngTemplateOutlet]="hostButtonsInsetTemplate"
-  />
+  @if (hostButtonsInsetTemplate) {
+    <ng-container [ngTemplateOutlet]="hostButtonsInsetTemplate" />
+  }
 </ng-template>
 
 <ng-template #iconsInsetTemplate>
   <div class="sky-input-box-icon-inset-wrapper" (click)="onInsetIconClick()">
     <ng-content select=".sky-input-group-icon.sky-input-box-icon-inset" />
-    <ng-container
-      *ngIf="hostIconsInsetTemplate"
-      [ngTemplateOutlet]="hostIconsInsetTemplate"
-    />
+    @if (hostIconsInsetTemplate) {
+      <ng-container [ngTemplateOutlet]="hostIconsInsetTemplate" />
+    }
   </div>
 </ng-template>
 
@@ -171,10 +169,9 @@
     (click)="onInsetIconClick()"
   >
     <ng-content select=".sky-input-group-icon.sky-input-box-icon-inset-left" />
-    <ng-container
-      *ngIf="hostIconsInsetLeftTemplate"
-      [ngTemplateOutlet]="hostIconsInsetLeftTemplate"
-    />
+    @if (hostIconsInsetLeftTemplate) {
+      <ng-container [ngTemplateOutlet]="hostIconsInsetLeftTemplate" />
+    }
   </div>
 </ng-template>
 
@@ -183,8 +180,8 @@
     [id]="errorId"
     [errors]="controlDir?.errors"
     [labelText]="labelText"
-    [ngClass]="{ 'sky-screen-reader-only': errorsScreenReaderOnly() }"
-    [showErrors]="controlDir?.touched || controlDir?.dirty"
+    [touched]="controlDir?.touched"
+    [dirty]="controlDir?.dirty"
   >
     <ng-content select="sky-form-error" />
   </sky-form-errors>
@@ -192,15 +189,16 @@
 </ng-template>
 
 <ng-template #hintTextTemplate>
-  <div
-    *ngIf="hintText || hostHintText"
-    class="sky-font-deemphasized sky-input-box-hint-text"
-    [ngClass]="{
-      'sky-input-box-hint-text-hidden': hintTextHidden,
-      'sky-screen-reader-only': hintTextScreenReaderOnly
-    }"
-    [id]="hintTextId"
-  >
-    {{ hintText | skyInputBoxHintText: hostHintText }}
-  </div>
+  @if (hintText || hostHintText) {
+    <div
+      class="sky-font-deemphasized sky-input-box-hint-text"
+      [ngClass]="{
+        'sky-input-box-hint-text-hidden': hintTextHidden,
+        'sky-screen-reader-only': hintTextScreenReaderOnly
+      }"
+      [id]="hintTextId"
+    >
+      {{ hintText | skyInputBoxHintText: hostHintText }}
+    </div>
+  }
 </ng-template>

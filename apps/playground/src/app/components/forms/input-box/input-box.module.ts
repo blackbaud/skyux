@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -18,7 +17,6 @@ import { InputBoxComponent } from './input-box.component';
 @NgModule({
   declarations: [InputBoxComponent, InputBoxVisualHostComponent],
   imports: [
-    CommonModule,
     FormsModule,
     InputBoxRoutingModule,
     ReactiveFormsModule,

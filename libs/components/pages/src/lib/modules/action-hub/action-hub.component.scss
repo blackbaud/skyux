@@ -1,7 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 :host {
-  --sky-compat-page-header-margin-top-and-bottom: 0;
   display: block;
   margin: var(--sky-padding-even-xl);
 }

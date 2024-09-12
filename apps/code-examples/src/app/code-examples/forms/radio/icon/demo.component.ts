@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -18,7 +17,7 @@ interface Item {
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SkyRadioModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class DemoComponent {
   protected formGroup: FormGroup;

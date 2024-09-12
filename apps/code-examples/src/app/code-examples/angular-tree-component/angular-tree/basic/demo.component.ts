@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TreeModule } from '@blackbaud/angular-tree-component';
 import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
@@ -9,12 +8,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    SkyAngularTreeModule,
-    SkyHelpInlineModule,
-    TreeModule,
-  ],
+  imports: [SkyAngularTreeModule, SkyHelpInlineModule, TreeModule],
 })
 export class DemoComponent {
   protected nodes = [

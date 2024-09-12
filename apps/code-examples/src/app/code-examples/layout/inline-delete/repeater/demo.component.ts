@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
@@ -14,12 +13,7 @@ interface InlineRepeaterDemoItem {
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    CommonModule,
-    SkyDropdownModule,
-    SkyInlineDeleteModule,
-    SkyRepeaterModule,
-  ],
+  imports: [SkyDropdownModule, SkyInlineDeleteModule, SkyRepeaterModule],
 })
 export class DemoComponent {
   protected originalRepeaterDemoItems: InlineRepeaterDemoItem[] = [

@@ -12,11 +12,12 @@
           [skyTimepickerInput]="timepicker"
         />
       </sky-timepicker>
-      <sky-form-error
-        *ngIf="time.errors?.['invalidMinute']"
-        errorName="invalidMinute"
-        errorText="Start time must be a 15-minute increment."
-      />
+      @if (time.errors?.['invalidMinute']) {
+        <sky-form-error
+          errorName="invalidMinute"
+          errorText="Start time must be a 15-minute increment."
+        />
+      }
     </sky-input-box>
   </form>
 </div>

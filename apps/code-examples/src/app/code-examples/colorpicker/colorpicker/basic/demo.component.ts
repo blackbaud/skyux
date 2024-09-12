@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -21,7 +20,7 @@ function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [CommonModule, ReactiveFormsModule, SkyColorpickerModule],
+  imports: [ReactiveFormsModule, SkyColorpickerModule],
 })
 export class DemoComponent {
   protected favoriteColor: FormControl<SkyColorpickerOutput | string>;

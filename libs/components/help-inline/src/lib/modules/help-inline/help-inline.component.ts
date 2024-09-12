@@ -6,17 +6,21 @@ import {
   Output,
   TemplateRef,
   inject,
+  signal,
 } from '@angular/core';
-import { SkyHelpService, SkyIdModule, SkyIdService } from '@skyux/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyIdModule } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
+
+import { of, switchMap } from 'rxjs';
 
 import { SkyHelpInlineResourcesModule } from '../shared/sky-help-inline-resources.module';
 
-import { SkyHelpInlineAriaControlsPipe } from './help-inline-aria-controls.pipe';
-import { SkyHelpInlineAriaExpandedPipe } from './help-inline-aria-expanded.pipe';
-import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe';
+import { SkyHelpInlineAriaLabelPipe } from './aria-label.pipe';
+import { SkyHelpInlineHelpKeyButtonComponent } from './button-help-key.component';
+import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component';
 
 /**
  * Inserts a help button beside an element, such as a field, to display contextual information about the element.
@@ -31,17 +35,19 @@ import { SkyHelpInlineAriaHaspopupPipe } from './help-inline-aria-haspopup.pipe'
   ],
   imports: [
     CommonModule,
-    SkyHelpInlineAriaControlsPipe,
-    SkyHelpInlineAriaExpandedPipe,
-    SkyHelpInlineAriaHaspopupPipe,
+    SkyHelpInlineAriaLabelPipe,
+    SkyHelpInlineHelpKeyButtonComponent,
+    SkyHelpInlinePopoverButtonComponent,
     SkyHelpInlineResourcesModule,
     SkyIconModule,
     SkyIdModule,
-    SkyPopoverModule,
     SkyThemeModule,
   ],
 })
 export class SkyHelpInlineComponent {
+  readonly #labelText = signal<string | undefined>(undefined);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+
   /**
    * The ID of the element that the help inline button controls.
    * This property [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
@@ -83,26 +89,15 @@ export class SkyHelpInlineComponent {
    * The label of the component the help inline button is attached to.
    */
   @Input()
-  public labelText: string | undefined;
+  public set labelText(value: string | undefined) {
+    this.#labelText.set(value);
+  }
 
   /**
    * The content of the help popover. When specified, clicking the help inline button opens a popover with this content and optional title.
    */
   @Input()
-  public set popoverContent(value: string | TemplateRef<unknown> | undefined) {
-    this.#_popoverContent = value;
-
-    if (value) {
-      this.popoverId = this.#idSvc.generateId();
-      this.isPopoverOpened = false;
-    }
-
-    this.popoverTemplate = value instanceof TemplateRef ? value : undefined;
-  }
-
-  public get popoverContent(): string | TemplateRef<unknown> | undefined {
-    return this.#_popoverContent;
-  }
+  public popoverContent: string | TemplateRef<unknown> | undefined;
 
   /**
    * The title of the help popover. This property only applies when `popoverContent` is
@@ -117,27 +112,26 @@ export class SkyHelpInlineComponent {
   @Output()
   public actionClick = new EventEmitter<void>();
 
-  protected isPopoverOpened: boolean | undefined;
-  protected popoverId: string | undefined;
-  protected popoverTemplate: TemplateRef<unknown> | undefined;
+  protected readonly defaultAriaLabel = toSignal(
+    this.#resourcesSvc.getString('skyux_help_inline_button_title'),
+  );
 
-  protected readonly helpSvc = inject(SkyHelpService, { optional: true });
+  protected readonly labelTextResolved = toSignal(
+    toObservable(this.#labelText).pipe(
+      switchMap((labelText) => {
+        if (labelText) {
+          return this.#resourcesSvc.getString(
+            'skyux_help_inline_aria_label',
+            labelText,
+          );
+        }
 
-  #_popoverContent: string | TemplateRef<unknown> | undefined;
-
-  readonly #idSvc = inject(SkyIdService);
+        return of(undefined);
+      }),
+    ),
+  );
 
   protected onClick(): void {
     this.actionClick.emit();
-
-    if (this.helpKey) {
-      this.helpSvc?.openHelp({
-        helpKey: this.helpKey,
-      });
-    }
-  }
-
-  protected popoverOpened(flag: boolean): void {
-    this.isPopoverOpened = flag;
   }
 }

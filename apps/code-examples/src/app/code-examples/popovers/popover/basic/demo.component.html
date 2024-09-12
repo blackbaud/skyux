@@ -1,23 +1,14 @@
 <button
   class="sky-btn sky-btn-default sky-margin-inline-sm"
+  data-sky-id="popover-demo"
   type="button"
   [skyPopover]="myPopover"
   [skyPopoverAlignment]="popoverAlignment"
   [skyPopoverPlacement]="popoverPlacement"
-  data-sky-id="popover-demo"
 >
-  Open popover on click
+  Open popover
 </button>
 
-<button
-  class="sky-btn sky-btn-link"
-  type="button"
-  [skyPopover]="myPopover"
-  skyPopoverTrigger="mouseenter"
->
-  Open popover on hover
-</button>
-
-<sky-popover [popoverTitle]="popoverTitle" #myPopover>
+<sky-popover #myPopover [popoverTitle]="popoverTitle">
   {{ popoverBody }}
 </sky-popover>

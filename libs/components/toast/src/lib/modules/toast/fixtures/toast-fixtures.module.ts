@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -17,7 +16,7 @@ import { SkyToasterTestComponent } from './toaster.component.fixture';
     SkyToasterTestComponent,
     SkyToastWithToasterServiceTestComponent,
   ],
-  imports: [CommonModule, SkyToastModule, NoopAnimationsModule],
+  imports: [SkyToastModule, NoopAnimationsModule],
   exports: [SkyToastTestComponent, SkyToasterTestComponent],
   providers: [SkyLibResourcesService],
 })

@@ -1,17 +1,20 @@
 <ng-template #repeaterList let-listItem>
   <sky-repeater [reorderable]="listItem.reorderable">
-    <sky-repeater-item
-      *ngFor="let item of listItem.children"
-      [reorderable]="item.reorderable"
-      [selectable]="item.selectable"
-    >
-      <sky-repeater-item-title>{{ item.label }}</sky-repeater-item-title>
-      <sky-repeater-item-content *ngIf="item.children?.length > 0">
-        <ng-container
-          *ngTemplateOutlet="repeaterList; context: { $implicit: item }"
-        ></ng-container>
-      </sky-repeater-item-content>
-    </sky-repeater-item>
+    @for (item of listItem.children; track item) {
+      <sky-repeater-item
+        [reorderable]="item.reorderable"
+        [selectable]="item.selectable"
+      >
+        <sky-repeater-item-title>{{ item.label }}</sky-repeater-item-title>
+        @if (item.children?.length > 0) {
+          <sky-repeater-item-content>
+            <ng-container
+              *ngTemplateOutlet="repeaterList; context: { $implicit: item }"
+            />
+          </sky-repeater-item-content>
+        }
+      </sky-repeater-item>
+    }
   </sky-repeater>
 </ng-template>
 
@@ -20,4 +23,4 @@
     repeaterList;
     context: { $implicit: { children: list, reorderable: false } }
   "
-></ng-container>
+/>

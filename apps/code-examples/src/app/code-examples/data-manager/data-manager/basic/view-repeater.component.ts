@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -27,7 +26,7 @@ import { Filters } from './filters';
   selector: 'app-view-repeater',
   templateUrl: './view-repeater.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, SkyDataManagerModule, SkyRepeaterModule],
+  imports: [SkyDataManagerModule, SkyRepeaterModule],
 })
 export class ViewRepeaterComponent implements OnInit, OnDestroy {
   @Input()

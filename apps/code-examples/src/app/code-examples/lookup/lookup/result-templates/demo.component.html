@@ -13,13 +13,13 @@
   >
     <sky-lookup
       formControlName="favoriteNames"
-      (addClick)="onAddButtonClicked()"
-      [data]="people"
+      idProperty="name"
       [enableShowMore]="true"
-      [searchFilters]="searchFilters"
       [searchResultTemplate]="dropdownItemTemplate"
       [showAddButton]="true"
       [showMoreConfig]="showMoreConfig"
+      (addClick)="addClick($event)"
+      (searchAsync)="searchAsync($event)"
     />
   </sky-input-box>
   <div
@@ -31,7 +31,7 @@
   <button class="sky-btn sky-btn-default" type="submit">Submit</button>
 </form>
 
-<ng-template let-item="item" #dropdownItemTemplate>
+<ng-template #dropdownItemTemplate let-item="item">
   <span class="lookup-demo-template-item">
     <strong class="lookup-demo-template-name">{{ item.name }}</strong
     ><br />
@@ -40,7 +40,7 @@
     </span>
   </span>
 </ng-template>
-<ng-template let-item="item" #modalItemTemplate>
+<ng-template #modalItemTemplate let-item="item">
   <span class="lookup-demo-template-item">
     <span class="lookup-demo-template-name">{{ item.name }}</span
     ><br />

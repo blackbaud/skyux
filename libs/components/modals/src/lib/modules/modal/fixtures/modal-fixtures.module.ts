@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyThemeService } from '@skyux/theme';
@@ -32,7 +31,7 @@ import { ModalTestComponent } from './modal.component.fixture';
     ModalWithScrollingContentTestComponent,
     ModalIsDirtyTestComponent,
   ],
-  imports: [CommonModule, RouterTestingModule, SkyModalModule],
+  imports: [RouterTestingModule, SkyModalModule],
   providers: [
     {
       provide: SkyThemeService,

@@ -1,6 +1,6 @@
-<div class="sky-list-view-checklist" *ngIf="active | async">
-  <div [ngSwitch]="selectMode">
-    <ng-template ngSwitchCase="single">
+<div *ngIf="active | async" class="sky-list-view-checklist">
+  @switch (selectMode) {
+    @case ('single') {
       <div role="radiogroup">
         <sky-list-view-checklist-item
           *ngFor="let item of items | async"
@@ -25,9 +25,8 @@
           </button>
         </sky-list-view-checklist-item>
       </div>
-    </ng-template>
-
-    <ng-template ngSwitchDefault>
+    }
+    @default {
       <sky-list-view-checklist-item
         *ngFor="let item of items | async"
         [attr.sky-cmp-id]="item.id"
@@ -51,6 +50,6 @@
           </sky-checkbox-label>
         </sky-checkbox>
       </sky-list-view-checklist-item>
-    </ng-template>
-  </div>
+    }
+  }
 </div>

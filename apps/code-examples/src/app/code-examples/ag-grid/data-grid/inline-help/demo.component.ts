@@ -125,7 +125,6 @@ export class DemoComponent {
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.#gridApi = gridReadyEvent.api;
-    this.#gridApi.sizeColumnsToFit();
     this.#changeDetectorRef.markForCheck();
   }
 
@@ -136,7 +135,7 @@ export class DemoComponent {
       this.searchText = '';
     }
     if (this.#gridApi) {
-      this.#gridApi.setQuickFilter(this.searchText);
+      this.#gridApi.updateGridOptions({ quickFilterText: this.searchText });
       const displayedRowCount = this.#gridApi.getDisplayedRowCount();
 
       if (displayedRowCount > 0) {

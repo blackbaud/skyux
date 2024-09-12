@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SkyIconModule } from '../icon.module';
@@ -8,6 +7,6 @@ import { IconTestComponent } from './icon.component.fixture';
 
 @NgModule({
   declarations: [IconTestComponent, IconStackTestComponent],
-  imports: [CommonModule, SkyIconModule],
+  imports: [SkyIconModule],
 })
 export class SkyIconFixturesModule {}

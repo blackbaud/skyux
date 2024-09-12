@@ -40,42 +40,44 @@
       Cancel
     </sky-summary-action-bar-cancel>
   </sky-summary-action-bar-actions>
-  <sky-summary-action-bar-summary *ngIf="showSummary">
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$123.00</sky-key-info-value>
-      <sky-key-info-label>Field 1</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$456.00</sky-key-info-value>
-      <sky-key-info-label>Field 2</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>18</sky-key-info-value>
-      <sky-key-info-label>Field 3</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$123.00</sky-key-info-value>
-      <sky-key-info-label>Field 1</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$456.00</sky-key-info-value>
-      <sky-key-info-label>Field 2</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>18</sky-key-info-value>
-      <sky-key-info-label>Field 3</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$123.00</sky-key-info-value>
-      <sky-key-info-label>Field 1</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>$456.00</sky-key-info-value>
-      <sky-key-info-label>Field 2</sky-key-info-label>
-    </sky-key-info>
-    <sky-key-info [layout]="layout">
-      <sky-key-info-value>18</sky-key-info-value>
-      <sky-key-info-label>Field 3</sky-key-info-label>
-    </sky-key-info>
-  </sky-summary-action-bar-summary>
+  @if (showSummary) {
+    <sky-summary-action-bar-summary>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>$123.00</sky-key-info-value>
+        <sky-key-info-label>Field 1</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>$456.00</sky-key-info-value>
+        <sky-key-info-label>Field 2</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>18</sky-key-info-value>
+        <sky-key-info-label>Field 3</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>$123.00</sky-key-info-value>
+        <sky-key-info-label>Field 1</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>$456.00</sky-key-info-value>
+        <sky-key-info-label>Field 2</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>18</sky-key-info-value>
+        <sky-key-info-label>Field 3</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>$123.00</sky-key-info-value>
+        <sky-key-info-label>Field 1</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>$456.00</sky-key-info-value>
+        <sky-key-info-label>Field 2</sky-key-info-label>
+      </sky-key-info>
+      <sky-key-info [layout]="layout">
+        <sky-key-info-value>18</sky-key-info-value>
+        <sky-key-info-label>Field 3</sky-key-info-label>
+      </sky-key-info>
+    </sky-summary-action-bar-summary>
+  }
 </sky-summary-action-bar>

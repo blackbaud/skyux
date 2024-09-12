@@ -1,29 +1,27 @@
-<ng-container *ngIf="!childElementsTest">
-  <input
-    aria-label="noop"
-    class="sky-input-search-term"
-    type="text"
-    [(ngModel)]="searchTerm"
-  />
+@if (!childElementsTest) {
 
-  <input
-    aria-label="noop"
-    class="sky-test-checkbox"
-    type="checkbox"
-    [(ngModel)]="showAdditionalContent"
-  />
+<input
+  aria-label="noop"
+  class="sky-input-search-term"
+  type="text"
+  [(ngModel)]="searchTerm"
+/>
 
-  <div class="sky-test-div-container" [skyHighlight]="searchTerm">
-    {{innerText1}}
-    <div *ngIf="showAdditionalContent">{{innerText2}}</div>
-  </div>
-</ng-container>
+<input
+  aria-label="noop"
+  class="sky-test-checkbox"
+  type="checkbox"
+  [(ngModel)]="showAdditionalContent"
+/>
 
-<div
-  *ngIf="childElementsTest"
-  class="sky-test-child-elements"
-  [skyHighlight]="searchTerm"
->
+<div class="sky-test-div-container" [skyHighlight]="searchTerm">
+  {{innerText1}} @if (showAdditionalContent) {
+  <div>{{innerText2}}</div>
+  }
+</div>
+
+} @else {
+<div class="sky-test-child-elements" [skyHighlight]="searchTerm">
   <span>a</span>
   <span>a</span>
   <span>a</span>
@@ -55,3 +53,4 @@
   <span>a</span>
   <span>a.</span>
 </div>
+}

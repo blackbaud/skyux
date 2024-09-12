@@ -17,7 +17,7 @@ import {
 } from '@skyux/core';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { ColumnMovedEvent, Events } from 'ag-grid-community';
+import { ColumnMovedEvent } from 'ag-grid-community';
 import { BehaviorSubject, Subscription, fromEventPattern } from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
@@ -35,10 +35,10 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
 {
-  // For accessibility, we need to set the title attribute on the header element if there is not a display name.
+  // For accessibility, we need to set the title attribute on the header element if there is no visible header text.
   // https://dequeuniversity.com/rules/axe/4.5/empty-table-header?application=axeAPI
   @HostBinding('attr.title')
-  public columnLabel: string | undefined;
+  public accessibleHeaderText: string | undefined;
 
   @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
   public inlineHelpContainer: ElementRef | undefined;
@@ -51,10 +51,13 @@ export class SkyAgGridHeaderComponent
   );
   public readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
 
+  protected displayName: string | undefined;
+
   #subscriptions = new Subscription();
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
   #agInitialized = false;
+  #leftPosition = 0;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentService = inject(SkyDynamicComponentService);
@@ -76,23 +79,25 @@ export class SkyAgGridHeaderComponent
     if (!params) {
       return;
     }
-    this.columnLabel = params.displayName
-      ? undefined
-      : params.column.getColDef().field;
+    this.#leftPosition = params.column.getLeft() ?? 0;
+    if (
+      params.displayName &&
+      !params.column.getColDef().headerComponentParams?.headerHidden
+    ) {
+      this.accessibleHeaderText = undefined;
+      this.displayName = params.displayName;
+    } else {
+      this.accessibleHeaderText =
+        params.displayName || params.column.getColDef().field;
+      this.displayName = undefined;
+    }
     this.#subscriptions = new Subscription();
     if (params.column.isFilterAllowed()) {
       this.#subscriptions.add(
         fromEventPattern(
+          (handler) => params.column.addEventListener('filterChanged', handler),
           (handler) =>
-            params.column.addEventListener(
-              Events.EVENT_FILTER_CHANGED,
-              handler,
-            ),
-          (handler) =>
-            params.column.removeEventListener(
-              Events.EVENT_FILTER_CHANGED,
-              handler,
-            ),
+            params.column.removeEventListener('filterChanged', handler),
         ).subscribe(() => {
           const isFilterActive = params.column.isFilterActive();
           if (isFilterActive !== this.filterEnabled$.getValue()) {
@@ -105,13 +110,9 @@ export class SkyAgGridHeaderComponent
       // Column sort state changes
       this.#subscriptions.add(
         fromEventPattern(
+          (handler) => params.column.addEventListener('sortChanged', handler),
           (handler) =>
-            params.column.addEventListener(Events.EVENT_SORT_CHANGED, handler),
-          (handler) =>
-            params.column.removeEventListener(
-              Events.EVENT_SORT_CHANGED,
-              handler,
-            ),
+            params.column.removeEventListener('sortChanged', handler),
         ).subscribe(() => {
           this.#updateSort();
         }),
@@ -119,10 +120,8 @@ export class SkyAgGridHeaderComponent
       // Other column sort state changes, for multi-column sorting
       this.#subscriptions.add(
         fromEventPattern(
-          (handler) =>
-            params.api.addEventListener(Events.EVENT_SORT_CHANGED, handler),
-          (handler) =>
-            params.api.removeEventListener(Events.EVENT_SORT_CHANGED, handler),
+          (handler) => params.api.addEventListener('sortChanged', handler),
+          (handler) => params.api.removeEventListener('sortChanged', handler),
         ).subscribe(() => {
           this.#updateSortIndex();
         }),
@@ -135,13 +134,11 @@ export class SkyAgGridHeaderComponent
     // and reattached to the DOM to maintain DOM order, and its focus is lost.
     this.#subscriptions.add(
       fromEventPattern<ColumnMovedEvent>(
-        (handler) =>
-          params.api.addEventListener(Events.EVENT_COLUMN_MOVED, handler),
-        (handler) =>
-          params.api.removeEventListener(Events.EVENT_COLUMN_MOVED, handler),
+        (handler) => params.api.addEventListener('columnMoved', handler),
+        (handler) => params.api.removeEventListener('columnMoved', handler),
       ).subscribe((event) => {
         const left = event.column?.getLeft() ?? 0;
-        const oldLeft = event.column?.getOldLeft() ?? 0;
+        const oldLeft = this.#leftPosition;
         if (
           event.column === params.column &&
           event.source === 'uiColumnMoved' &&
@@ -149,6 +146,7 @@ export class SkyAgGridHeaderComponent
         ) {
           params.eGridHeader.focus();
         }
+        this.#leftPosition = left;
       }),
     );
 

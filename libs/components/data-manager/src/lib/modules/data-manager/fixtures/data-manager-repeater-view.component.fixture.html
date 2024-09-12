@@ -1,7 +1,8 @@
 <sky-data-view [viewId]="viewConfig.id">
-  <sky-repeater *ngIf="isActive" expandMode="none">
+  @if (isActive) {
+  <sky-repeater expandMode="none">
+    @for (item of displayedItems; track item) {
     <sky-repeater-item
-      *ngFor="let item of displayedItems"
       [selectable]="true"
       [(isSelected)]="item.selected"
       (isSelectedChange)="onItemSelect($event, item)"
@@ -11,5 +12,7 @@
         <div>{{item.description}}</div>
       </sky-repeater-item-content>
     </sky-repeater-item>
+    }
   </sky-repeater>
+  }
 </sky-data-view>

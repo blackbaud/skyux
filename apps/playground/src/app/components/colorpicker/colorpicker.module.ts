@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -19,7 +18,7 @@ const routes: Routes = [
 export class ColorpickerRoutingModule {}
 
 @NgModule({
-  imports: [CommonModule, ColorpickerRoutingModule],
+  imports: [ColorpickerRoutingModule],
 })
 export class ColorpickerModule {
   public static routes = routes;
