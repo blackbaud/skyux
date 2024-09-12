@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
+  SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
   SkyStackingContext,
@@ -27,8 +28,6 @@ import { SkyPopoverContext } from './popover-context';
 import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverPlacement } from './types/popover-placement';
 import { SkyPopoverType } from './types/popover-type';
-
-let nextId = 0;
 
 @Component({
   selector: 'sky-popover',
@@ -123,7 +122,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public isMouseEnter = false;
 
-  public popoverId = `sky-popover-${nextId++}`;
+  public popoverId: string;
 
   @ViewChild('templateRef', {
     read: TemplateRef,
@@ -161,6 +160,8 @@ export class SkyPopoverComponent implements OnDestroy {
   ) {
     this.#overlayService = overlayService;
     this.#zIndex = stackingContext?.zIndex;
+
+    this.popoverId = inject(SkyIdService).generateId();
   }
 
   public ngOnDestroy(): void {

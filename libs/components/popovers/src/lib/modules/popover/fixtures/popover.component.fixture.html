@@ -1,5 +1,6 @@
 <div class="canvas">
   <button
+    #directiveRef
     class="sky-btn sky-btn-default"
     type="button"
     [skyPopover]="skyPopover"
@@ -7,21 +8,21 @@
     [skyPopoverMessageStream]="messageStream"
     [skyPopoverPlacement]="placement"
     [skyPopoverTrigger]="trigger"
-    #directiveRef
   >
     Caller
   </button>
 
   <button
+    #noArgsDirectiveRef
     class="sky-btn sky-btn-default"
     type="button"
     [skyPopover]="skyPopover"
-    #noArgsDirectiveRef
   >
     Caller
   </button>
 
   <sky-popover
+    #popoverRef
     [alignment]="popoverAlignment"
     [dismissOnBlur]="dismissOnBlur"
     [placement]="popoverPlacement"
@@ -29,7 +30,6 @@
     [popoverType]="popoverType"
     (popoverClosed)="onPopoverClosed()"
     (popoverOpened)="onPopoverOpened()"
-    #popoverRef
   >
     <div [style.height.px]="height ? height : null">
       Popover content.
