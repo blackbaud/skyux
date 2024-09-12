@@ -33,7 +33,7 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
       [attr.aria-label]="ariaLabel()"
       [attr.aria-labelledby]="ariaLabelledby()"
       [ngClass]="{
-        'sky-help-inline-hidden': !helpSvc,
+        'sky-help-inline-hidden': !helpSvc
       }"
       (click)="openHelpKey()"
     >
