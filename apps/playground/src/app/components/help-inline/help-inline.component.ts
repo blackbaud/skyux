@@ -17,6 +17,10 @@ class DemoHelpService extends SkyHelpService {
   public override openHelp(): void {
     alert('Help opened!');
   }
+
+  public override updateHelp(): void {
+    alert('Help');
+  }
 }
 
 @Component({

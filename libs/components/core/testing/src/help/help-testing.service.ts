@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { SkyHelpOpenArgs, SkyHelpService } from '@skyux/core';
+import {
+  SkyHelpOpenArgs,
+  SkyHelpService,
+  SkyHelpUpdateArgs,
+} from '@skyux/core';
 
 import { Observable, of } from 'rxjs';
 
@@ -14,13 +18,24 @@ export class SkyHelpTestingService extends SkyHelpService {
   }
 
   #currentHelpKey: string | undefined;
+  #currentPageHelpKey: string | undefined;
 
-  public override openHelp(args: SkyHelpOpenArgs): void {
-    this.#currentHelpKey = args.helpKey;
+  public override openHelp(args?: SkyHelpOpenArgs): void {
+    this.#currentHelpKey = args?.helpKey;
+  }
+
+  public override updateHelp(args: SkyHelpUpdateArgs): void {
+    if ('pageDefaultHelpKey' in args) {
+      this.#currentPageHelpKey = args.pageDefaultHelpKey;
+    }
+
+    if ('helpKey' in args) {
+      this.#currentHelpKey = args.helpKey;
+    }
   }
 
   public getCurrentHelpKey(): string | undefined {
-    return this.#currentHelpKey;
+    return this.#currentHelpKey || this.#currentPageHelpKey;
   }
 
   public closeHelp(): void {
