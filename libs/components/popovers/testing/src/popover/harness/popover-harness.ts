@@ -55,16 +55,21 @@ export class SkyPopoverHarness extends SkyComponentHarness {
   async #getContent(): Promise<SkyPopoverContentHarness | null> {
     const popoverId = await this.#getPopoverId();
 
-    return this.#documentRootLocator.locatorForOptional(
-      SkyPopoverContentHarness.with({ selector: `#${popoverId}` }),
-    )();
+    if (popoverId) {
+      return this.#documentRootLocator.locatorForOptional(
+        SkyPopoverContentHarness.with({ selector: `#${popoverId}` }),
+      )();
+    }
+
+    return null;
   }
 
-  async #getPopoverId(): Promise<string> {
-    return (
-      (await (await this.host()).getAttribute('data-popover-id')) ||
-      /* istanbul ignore next */
-      ''
-    );
+  async #getPopoverId(): Promise<string | null | undefined> {
+    const pointerId = await (await this.host()).getAttribute('aria-controls');
+    const pointerEl = await this.#documentRootLocator.locatorForOptional(
+      `#${pointerId}`,
+    )();
+
+    return pointerEl?.getAttribute('aria-owns');
   }
 }

@@ -1,35 +1,61 @@
-<button
-  class="sky-help-inline"
-  type="button"
-  [attr.aria-controls]="
-    ariaControls
-      | skyHelpInlineAriaControls
-        : popoverId
-        : helpKey
-        : (helpSvc?.widgetReadyStateChange | async)
-  "
-  [attr.aria-expanded]="
-    ariaExpanded | skyHelpInlineAriaExpanded: ariaControls : isPopoverOpened
-  "
-  [attr.aria-haspopup]="helpKey | skyHelpInlineAriaHaspopup"
-  [attr.aria-label]="
-    labelledBy
-      ? undefined
-      : labelText
-        ? ('skyux_help_inline_aria_label' | skyLibResources: labelText)
-        : ariaLabel
-          ? ariaLabel
-          : ('skyux_help_inline_button_title' | skyLibResources)
-  "
-  [attr.aria-labelledby]="
-    !labelledBy ? undefined : labelTextElement.id + ' ' + labelledBy
-  "
-  [ngClass]="{
-    'sky-help-inline-hidden': helpKey && !helpSvc && !popoverContent
-  }"
-  [skyPopover]="popoverContent ? popoverRef : undefined"
-  (click)="onClick()"
->
+@if (helpKey) {
+  <sky-help-inline-help-key-button
+    [ariaLabel]="
+      ariaLabel
+        | skyHelpInlineAriaLabel
+          : labelTextResolved()
+          : labelledBy
+          : defaultAriaLabel()
+    "
+    [ariaLabelledby]="
+      labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
+    "
+    [helpKey]="helpKey"
+    (actionClick)="actionClick.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="icon" />
+  </sky-help-inline-help-key-button>
+} @else if (popoverContent) {
+  <sky-help-inline-popover-button
+    [ariaLabel]="
+      ariaLabel
+        | skyHelpInlineAriaLabel
+          : labelTextResolved()
+          : labelledBy
+          : defaultAriaLabel()
+    "
+    [ariaLabelledby]="
+      labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
+    "
+    [popoverContent]="popoverContent"
+    [popoverTitle]="popoverTitle"
+    (actionClick)="actionClick.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="icon" />
+  </sky-help-inline-popover-button>
+} @else {
+  <button
+    class="sky-help-inline"
+    type="button"
+    [attr.aria-controls]="ariaControls"
+    [attr.aria-expanded]="ariaControls && (ariaExpanded ?? false)"
+    [attr.aria-label]="
+      ariaLabel
+        | skyHelpInlineAriaLabel
+          : labelTextResolved()
+          : labelledBy
+          : defaultAriaLabel()
+    "
+    [attr.aria-labelledby]="
+      labelledBy ? labelledByPrefixRef.id + ' ' + labelledBy : undefined
+    "
+    (click)="onClick()"
+  >
+    <ng-container [ngTemplateOutlet]="icon" />
+  </button>
+}
+
+<ng-template #icon>
   <sky-icon *skyThemeIf="'default'" icon="info-circle" />
   <sky-icon-stack
     *skyThemeIf="'modern'"
@@ -43,22 +69,8 @@
       iconType: 'skyux'
     }"
   />
-</button>
+</ng-template>
 
-<sky-popover
-  [id]="popoverId"
-  [popoverTitle]="popoverTitle"
-  (popoverClosed)="popoverOpened(false)"
-  (popoverOpened)="popoverOpened(true)"
-  #popoverRef
->
-  @if (popoverTemplate) {
-    <ng-container *ngTemplateOutlet="popoverTemplate" />
-  } @else {
-    <p class="sky-help-inline-popover-text">{{ popoverContent }}</p>
-  }
-</sky-popover>
-
-<span hidden skyId #labelTextElement="skyId">{{
+<span #labelledByPrefixRef="skyId" hidden skyId>{{
   'skyux_help_inline_aria_label' | skyLibResources: ''
 }}</span>
