@@ -702,6 +702,37 @@ describe('Date range picker', function () {
     expect(() => fixture.detectChanges()).not.toThrow();
   });
 
+  it('should notify value changes when switching between calculators without datepickers', fakeAsync(() => {
+    // Initialize control with a calculator that does not include datepickers.
+    component.dateRange?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.Today,
+    });
+    detectChanges();
+
+    expect(component.reactiveForm.value).toEqual({
+      dateRange: { calculatorId: SkyDateRangeCalculatorId.Today },
+    });
+
+    selectCalculator(SkyDateRangeCalculatorId.AnyTime);
+    detectChanges();
+
+    expect(component.reactiveForm.value).toEqual({
+      dateRange: {
+        calculatorId: SkyDateRangeCalculatorId.AnyTime,
+        startDate: null,
+        endDate: null,
+      },
+    });
+
+    selectCalculator(SkyDateRangeCalculatorId.LastQuarter);
+    detectChanges();
+
+    const value = component.reactiveForm.value.dateRange;
+    expect(value.calculatorId).toEqual(SkyDateRangeCalculatorId.LastQuarter);
+    expect(value.startDate).toEqual(jasmine.any(Date));
+    expect(value.endDate).toEqual(jasmine.any(Date));
+  }));
+
   describe('accessibility', () => {
     function verifyFormFieldsRequired(expectation: boolean): void {
       const inputBoxes =
