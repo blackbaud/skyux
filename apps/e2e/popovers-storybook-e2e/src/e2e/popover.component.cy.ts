@@ -18,8 +18,9 @@ describe(`popovers-storybook`, () => {
           .should('be.visible')
           .should('have.length', 16);
 
-        cy.get('#sky-popover-12 > div.sky-popover-container')
+        cy.get('sky-popover-content > div.sky-popover-container')
           .should('exist')
+          .eq(12)
           .should('be.visible')
           .should('have.class', 'sky-popover-placement-above')
           .then(($el) => {
@@ -27,8 +28,9 @@ describe(`popovers-storybook`, () => {
             cy.wrap($el.position().top).should('be.approximately', 580, 50);
           });
 
-        cy.get('#sky-popover-13 > div.sky-popover-container')
+        cy.get('sky-popover-content > div.sky-popover-container')
           .should('exist')
+          .eq(13)
           .should('be.visible')
           .should('have.class', 'sky-popover-placement-below')
           .then(($el) => {
@@ -36,8 +38,9 @@ describe(`popovers-storybook`, () => {
             cy.wrap($el.position().top).should('be.approximately', 580, 50);
           });
 
-        cy.get('#sky-popover-14 > div.sky-popover-container')
+        cy.get('sky-popover-content > div.sky-popover-container')
           .should('exist')
+          .eq(14)
           .should('be.visible')
           .should('have.class', 'sky-popover-placement-right')
           .then(($el) => {
@@ -45,8 +48,9 @@ describe(`popovers-storybook`, () => {
             cy.wrap($el.position().top).should('be.approximately', 580, 50);
           });
 
-        cy.get('#sky-popover-15 > div.sky-popover-container')
+        cy.get('sky-popover-content > div.sky-popover-container')
           .should('exist')
+          .eq(15)
           .should('be.visible')
           .should('have.class', 'sky-popover-placement-left')
           .then(($el) => {

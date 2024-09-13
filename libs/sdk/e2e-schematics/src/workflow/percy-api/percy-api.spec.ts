@@ -79,6 +79,21 @@ describe('percy-api', () => {
     });
   });
 
+  it('should return empty when no commits passed in', async () => {
+    const logger = createLogger();
+    const fetchClient = jest.fn().mockImplementation(() => {
+      return Promise.reject(new Error('Unexpected API call'));
+    });
+    const result = await getLastGoodPercyBuild(
+      'test-storybook-e2e',
+      [],
+      true,
+      logger,
+      fetchClient,
+    );
+    expect(result).toEqual('');
+  });
+
   it('should get last good build', async () => {
     const logger = createLogger();
     const fetchClient = jest.fn().mockImplementation((url: string) => {
@@ -152,6 +167,20 @@ describe('percy-api', () => {
       fetchClient,
     );
     expect(result).toEqual('commitSha');
+  });
+
+  it('should get empty target commit if no commits are passed in', async () => {
+    const logger = createLogger();
+    const fetchClient = jest.fn().mockImplementation(() => {
+      return Promise.reject(new Error('Unexpected API call'));
+    });
+    const result = await getPercyTargetCommit(
+      'test-storybook-e2e',
+      [],
+      logger,
+      fetchClient,
+    );
+    expect(result).toEqual('');
   });
 
   it('should handle no matching target commit', async () => {
