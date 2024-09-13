@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.1.0](https://github.com/blackbaud/skyux/compare/11.0.0...11.1.0) (2024-09-13)
+
+
+### Features
+
+* add support for `google-libphonenumber@3.2.38` and `intl-tel-input@24.4.0` ([#2689](https://github.com/blackbaud/skyux/issues/2689)) ([0f0329c](https://github.com/blackbaud/skyux/commit/0f0329c939284e78945e3a60885c378d18f786db))
+* **components/core:** update `SkyHelpService` to allow for updating global help and the utilization of a page default help key ([#2734](https://github.com/blackbaud/skyux/issues/2734)) ([def8123](https://github.com/blackbaud/skyux/commit/def8123e51ba0c32bae9deb7be96873881a3891d))
+
+
+### Bug Fixes
+
+* **components/datetime:** notify date range value changes when switching between calculators without datepickers ([#2738](https://github.com/blackbaud/skyux/issues/2738)) ([#2740](https://github.com/blackbaud/skyux/issues/2740)) ([5d371aa](https://github.com/blackbaud/skyux/commit/5d371aa54d5d3fe60b2e756ad638424cb94216d8))
+* **components/modals:** modal footers do not reserve space when an empty form error array is provided ([#2730](https://github.com/blackbaud/skyux/issues/2730)) ([453e737](https://github.com/blackbaud/skyux/commit/453e7378d90ff9b16ff3b94a14adbd05a415126b))
+
 ## [11.0.0](https://github.com/blackbaud/skyux/compare/11.0.0-beta.1...11.0.0) (2024-09-11)
 
 
