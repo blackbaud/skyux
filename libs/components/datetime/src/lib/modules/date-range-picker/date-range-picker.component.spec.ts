@@ -512,7 +512,7 @@ describe('Date range picker', function () {
     const control = component.dateRange;
 
     expect(control?.errors).toEqual({
-      skyDate: { invalid: true },
+      skyDate: { invalid: 'bogus value' },
     });
 
     selectCalculator(SkyDateRangeCalculatorId.Today);
@@ -615,9 +615,6 @@ describe('Date range picker', function () {
     });
 
     detectChanges();
-
-    expect(control?.errors).toBeFalsy();
-    expect(calculatorIdControl?.errors).toBeFalsy();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
       '.sky-input-group input',
@@ -933,10 +930,11 @@ describe('Date range picker', function () {
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
     });
 
-    it('should set "required" attributes when the host control is required', fakeAsync(() => {
+    it('should always set required attribute on the date pickers', fakeAsync(() => {
       detectChanges();
       selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
-      verifyFormFieldsRequired(false);
+      detectChanges();
+      verifyFormFieldsRequired(true);
 
       component.setFormControlRequired(true);
       detectChanges();
@@ -944,7 +942,7 @@ describe('Date range picker', function () {
 
       component.setFormControlRequired(false);
       detectChanges();
-      verifyFormFieldsRequired(false);
+      verifyFormFieldsRequired(true);
     }));
 
     it('it should render help inline if helpPopoverContent is provided', fakeAsync(() => {

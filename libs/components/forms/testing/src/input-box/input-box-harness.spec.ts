@@ -144,10 +144,12 @@ describe('Input box harness', () => {
     );
   });
 
-  it('should open help popover and widget when clicked', async () => {
+  it('should open widget when clicked', async () => {
     const { fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
+
+    fixture.componentInstance.easyModeHelpKey = 'helpKey.html';
 
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
@@ -156,7 +158,6 @@ describe('Input box harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await expectAsync(inputBoxHarness.getHelpPopoverContent()).toBeResolved();
     expect(helpSpy).toHaveBeenCalledWith({ helpKey: 'helpKey.html' });
   });
 

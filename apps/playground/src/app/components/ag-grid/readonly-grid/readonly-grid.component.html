@@ -8,13 +8,12 @@
       (rowDeleteConfirm)="deleteConfirm($event)"
     >
       <ag-grid-angular
+        skyBackToTop
         [gridOptions]="gridOptions"
         [rowData]="gridData"
-        skyBackToTop
       />
     </sky-ag-grid-wrapper>
-    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()">
-    </sky-infinite-scroll>
+    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()" />
   </div>
 } @else {
   <div class="readonly-grid">
@@ -24,12 +23,11 @@
       (rowDeleteConfirm)="deleteConfirm($event)"
     >
       <ag-grid-angular
+        skyBackToTop
         [gridOptions]="gridOptions"
         [rowData]="gridData"
-        skyBackToTop
       />
     </sky-ag-grid-wrapper>
-    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()">
-    </sky-infinite-scroll>
+    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()" />
   </div>
 }

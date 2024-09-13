@@ -9,11 +9,11 @@
     </label>
     <sky-autocomplete [data]="colors" [searchFilters]="searchFilters">
       <input
+        #favoriteColorInput="skyId"
         formControlName="favoriteColor"
         skyAutocomplete
         skyId
         type="text"
-        #favoriteColorInput="skyId"
       />
     </sky-autocomplete>
   </div>

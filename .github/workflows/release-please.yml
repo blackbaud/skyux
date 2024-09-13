@@ -8,7 +8,7 @@ on:
       - main
 env:
   # Set to 'alpha', 'beta', or 'rc' to create a prerelease.
-  PRERELEASE: 'alpha'
+  PRERELEASE: 'false'
   MAJOR_VERSION: 11
 jobs:
   release:

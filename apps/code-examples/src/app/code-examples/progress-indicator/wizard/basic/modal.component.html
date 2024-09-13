@@ -5,9 +5,9 @@
   <sky-modal-content>
     <form [formGroup]="formGroup">
       <sky-progress-indicator
+        #wizardDemo
         [displayMode]="displayMode"
         (progressChanges)="updateIndex($event)"
-        #wizardDemo
       >
         <sky-progress-indicator-item title="First step">
           <div>

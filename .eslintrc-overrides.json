@@ -39,7 +39,7 @@
       "files": ["*.html"],
       "rules": {
         "@angular-eslint/template/alt-text": ["warn"],
-        "@angular-eslint/template/attributes-order": ["warn"],
+        "@angular-eslint/template/attributes-order": ["error"],
         "@angular-eslint/template/button-has-type": ["error"],
         "@angular-eslint/template/conditional-complexity": ["warn"],
         "@angular-eslint/template/cyclomatic-complexity": ["warn"],
@@ -47,9 +47,11 @@
         "@angular-eslint/template/interactive-supports-focus": ["warn"],
         "@angular-eslint/template/label-has-associated-control": ["warn"],
         "@angular-eslint/template/no-any": ["error"],
-        "@angular-eslint/template/no-call-expression": ["warn"],
         "@angular-eslint/template/no-distracting-elements": ["warn"],
-        "@angular-eslint/template/no-inline-styles": ["warn"],
+        "@angular-eslint/template/no-inline-styles": [
+          "warn",
+          { "allowBindToStyle": true, "allowNgStyle": true }
+        ],
         "@angular-eslint/template/no-interpolation-in-attributes": ["warn"],
         "@angular-eslint/template/no-positive-tabindex": ["warn"],
         "@angular-eslint/template/prefer-control-flow": ["error"],

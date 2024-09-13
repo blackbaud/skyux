@@ -4,6 +4,7 @@ import {
   RunSchematicTask,
 } from '@angular-devkit/schematics/tasks';
 import { parseSourceFile } from '@angular/cdk/schematics';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import {
   NodeDependencyType,
   addPackageJsonDependency,
@@ -119,6 +120,13 @@ function swapClasses(tree: Tree, filePath: string) {
         Beans: 'BeanCollection',
       },
       moduleName: 'ag-grid-community',
+      filter: (node: ts.Identifier) => {
+        const parent = node.parent;
+        return (
+          node.text !== 'Column' ||
+          (parent && ts.isNewExpression(parent) && parent.expression === node)
+        );
+      },
     },
   ]);
 }

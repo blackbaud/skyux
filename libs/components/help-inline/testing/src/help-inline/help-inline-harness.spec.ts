@@ -174,6 +174,9 @@ describe('Inline help harness', () => {
     fixture.detectChanges();
 
     await expectAsync(helpInlineHarness.getLabelText()).toBeResolvedTo('label');
+    await expectAsync(helpInlineHarness.getAriaLabel()).toBeResolvedTo(
+      'Show help content for label',
+    );
   });
 
   it('should throw an error trying to get popover content if popover is closed', async () => {

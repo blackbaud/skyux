@@ -21,23 +21,17 @@
     }"
   >
     @if (popoverTitle) {
-      <header
+      <div
         class="sky-popover-header"
         [skyThemeClass]="{
           'sky-padding-even-default': 'default',
           'sky-padding-even-lg sky-margin-stacked-lg': 'modern'
         }"
       >
-        <h1
-          class="sky-popover-title"
-          [skyThemeClass]="{
-            'sky-font-heading-4': 'default',
-            'sky-font-emphasized': 'modern'
-          }"
-        >
+        <h4 class="sky-popover-title sky-font-heading-4">
           {{ popoverTitle }}
-        </h1>
-      </header>
+        </h4>
+      </div>
     }
     <div
       class="sky-popover-body"

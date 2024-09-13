@@ -14,11 +14,11 @@
       [searchResultTemplate]="oceanSearchResultTemplate"
     >
       <input
+        #largestOceanInput="skyId"
         formControlName="largestOcean"
         type="text"
         skyAutocomplete
         skyId
-        #largestOceanInput="skyId"
       />
     </sky-autocomplete>
   </div>

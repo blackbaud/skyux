@@ -55,7 +55,7 @@
           <sky-radio-label>
             {{ value.name }}
             @if (showInlineHelp) {
-              <sky-help-inline class="sky-control-help"></sky-help-inline>
+              <sky-help-inline class="sky-control-help" />
             }
           </sky-radio-label>
         </sky-radio>
@@ -98,19 +98,19 @@
 <h1>Radio buttons (template-driven)</h1>
 <div>
   <sky-radio-group
+    #foo="ngModel"
+    headingText="What is your favorite season? (template)"
     [disabled]="disabled"
     [required]="required"
-    [(ngModel)]="radioValue"
-    headingText="What is your favorite season? (template)"
     [headingHidden]="true"
-    #foo="ngModel"
+    [(ngModel)]="radioValue"
   >
     @for (item of seasons; track item) {
       <sky-radio [value]="item.name" [disabled]="item.disabled">
         <sky-radio-label>
           {{ item.name }}
           @if (showInlineHelp) {
-            <sky-help-inline class="sky-control-help"></sky-help-inline>
+            <sky-help-inline class="sky-control-help" />
           }
         </sky-radio-label>
       </sky-radio>
@@ -121,12 +121,12 @@
 <h1>Radio button and group easy mode</h1>
 <div>
   <sky-radio-group
+    #foo="ngModel"
+    helpPopoverContent="content"
+    headingText="What is your favorite season?"
     [disabled]="disabled"
     [required]="required"
     [(ngModel)]="radioValue"
-    helpPopoverContent="content"
-    headingText="What is your favorite season?"
-    #foo="ngModel"
   >
     @for (item of seasons; track item) {
       <sky-radio

@@ -1,15 +1,13 @@
 <sky-toolbar class="sky-list-multiselect-toolbar">
   <sky-toolbar-section>
     <sky-toolbar-item>
-      <sky-list-toolbar-item-renderer [template]="selectAllTemplate">
-      </sky-list-toolbar-item-renderer>
+      <sky-list-toolbar-item-renderer [template]="selectAllTemplate" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <sky-list-toolbar-item-renderer [template]="clearSelectionsTemplate">
-      </sky-list-toolbar-item-renderer>
+      <sky-list-toolbar-item-renderer [template]="clearSelectionsTemplate" />
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
-      <ng-container *ngTemplateOutlet="showSelectedTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="showSelectedTemplate" />
     </sky-toolbar-view-actions>
   </sky-toolbar-section>
 </sky-toolbar>

@@ -1,5 +1,6 @@
 <form novalidate>
   <sky-lookup
+    #standardLookup
     id="my-lookup"
     name="friends"
     [ariaLabel]="ariaLabel"
@@ -17,9 +18,8 @@
     [selectMode]="selectMode"
     [showAddButton]="showAddButton"
     [showMoreConfig]="showMoreConfig"
-    (addClick)="addButtonClicked($event)"
     [(ngModel)]="selectedFriends"
-    #standardLookup
+    (addClick)="addButtonClicked($event)"
   />
 </form>
 
@@ -34,6 +34,7 @@
 
 <form novalidate>
   <sky-lookup
+    #asyncLookup
     id="my-async-lookup"
     name="friends"
     [ariaLabel]="ariaLabel"
@@ -50,10 +51,9 @@
     [selectMode]="selectMode"
     [showAddButton]="showAddButton"
     [showMoreConfig]="showMoreConfig"
+    [(ngModel)]="selectedFriendsAsync"
     (addClick)="addButtonClicked($event)"
     (searchAsync)="searchAsync($event)"
-    [(ngModel)]="selectedFriendsAsync"
-    #asyncLookup
   />
 </form>
 <button class="sky-btn sky-btn-primary" id="test-button" type="button">

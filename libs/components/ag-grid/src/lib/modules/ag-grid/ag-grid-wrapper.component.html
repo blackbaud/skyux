@@ -7,12 +7,12 @@
 </span>
 <div
   class="sky-ag-grid"
+  tabindex="0"
   [class.sky-ag-grid-top-scrollbar]="
     agGrid?.gridOptions?.context &&
     agGrid?.gridOptions?.context['enableTopScroll']
   "
   [ngClass]="wrapperClasses$ | async"
-  tabindex="0"
   [id]="gridId"
   [skyViewkeeper]="viewkeeperClasses"
   (keydown)="onGridKeydown($event)"
