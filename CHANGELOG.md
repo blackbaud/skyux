@@ -1,5 +1,17 @@
 # Changelog
 
+## [10.44.0](https://github.com/blackbaud/skyux/compare/10.43.0...10.44.0) (2024-09-13)
+
+
+### Features
+
+* **components/popovers:** implement disclosure pattern for popovers ([#2729](https://github.com/blackbaud/skyux/issues/2729)) ([43a235c](https://github.com/blackbaud/skyux/commit/43a235c127c0b2e80eebd877d56b5949803c23a1))
+
+
+### Bug Fixes
+
+* **components/datetime:** notify date range value changes when switching between calculators without datepickers ([#2738](https://github.com/blackbaud/skyux/issues/2738)) ([06321ce](https://github.com/blackbaud/skyux/commit/06321cef8eff58e6c716305afc37765d7cf60b81))
+
 ## [10.43.0](https://github.com/blackbaud/skyux/compare/10.42.0...10.43.0) (2024-09-09)
 
 
