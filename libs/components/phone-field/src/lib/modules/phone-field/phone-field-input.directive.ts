@@ -118,7 +118,7 @@ export class SkyPhoneFieldInputDirective
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         const value = this.#adapterSvc?.getInputValue(this.#elRef);
-        this.#setValue(value, true);
+        this.#setValue(value);
         this.#control?.updateValueAndValidity();
       });
 
@@ -174,7 +174,7 @@ export class SkyPhoneFieldInputDirective
     this.#phoneFieldComponent?.setCountryByDialCode(rawValue);
     this.#adapterSvc?.setElementValue(this.#elRef, rawValue);
 
-    this.#setValue(rawValue, true);
+    this.#setValue(rawValue);
     const newValue = this.#getValue();
 
     if (rawValue !== newValue) {
@@ -201,8 +201,7 @@ export class SkyPhoneFieldInputDirective
   @HostListener('change')
   protected onChange(): void {
     const value = this.#adapterSvc?.getInputValue(this.#elRef);
-    console.log('1 sunny');
-    this.#setValue(value, true);
+    this.#setValue(value);
     this.#notifyChange?.(this.#getValue());
   }
 
@@ -210,8 +209,7 @@ export class SkyPhoneFieldInputDirective
   protected onInput(): void {
     const value = this.#adapterSvc?.getInputValue(this.#elRef);
     this.#phoneFieldComponent?.setCountryByDialCode(value);
-    console.log('2 sunny');
-    this.#setValue(value, false);
+    this.#setValue(value);
     this.#notifyChange?.(this.#getValue());
   }
 
@@ -297,10 +295,10 @@ export class SkyPhoneFieldInputDirective
     }
   }
 
-  #setValue(value: string | undefined, format: boolean): void {
+  #setValue(value: string | undefined): void {
     /* istanbul ignore else */
     if (value !== undefined) {
-      const formatted = this.#formatPhoneNumber(format ? value : undefined);
+      const formatted = this.#formatPhoneNumber(value);
       this.#_value = formatted ?? value;
     }
   }

@@ -2311,6 +2311,37 @@ fdescribe('Phone Field Component', () => {
       nativeElement = fixture.nativeElement as HTMLElement;
     });
 
+    it('should set validate new value on input', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+
+      const inputEl = nativeElement.querySelector('input');
+      if (inputEl) {
+        inputEl.value = '667555530';
+      }
+
+      SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+      fixture.detectChanges();
+
+      const model = fixture.debugElement
+        .query(By.css('input'))
+        .injector.get(NgModel);
+
+      expect(model.errors).toEqual({
+        skyPhoneField: {
+          invalid: '667555530',
+        },
+      });
+
+      if (inputEl) {
+        inputEl.value = '6675555309';
+      }
+
+      SkyAppTestUtility.fireDomEvent(inputEl, 'input');
+      fixture.detectChanges();
+
+      expect(model.errors).toBeNull();
+    }));
+
     it('should render in the expected input box containers', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
