@@ -345,6 +345,7 @@ jobs:
         uses: ./.github/actions/e2e-affected
         id: affected
         with:
+          branch: ${{ github.head_ref || github.ref_name || github.event.ref }}
           base: ${{ needs.install-deps.outputs.base }}
           head: ${{ needs.install-deps.outputs.head }}
           project: ${{ matrix.project }}
@@ -433,6 +434,18 @@ jobs:
       - publish
     if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
     steps:
+      - uses: actions/github-script@v7
+        if: ${{ job.status == 'cancelled' || contains(needs.*.result, 'cancelled') }}
+        with:
+          script: 'core.setFailed("Cancelled.");'
+      - uses: actions/github-script@v7
+        if: ${{ contains(needs.*.result, 'skipped') }}
+        with:
+          script: 'core.setFailed("Skipped a step.");'
+      - uses: actions/github-script@v7
+        if: ${{ contains(needs.*.result, 'failure') }}
+        with:
+          script: 'core.setFailed("Failed.");'
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
