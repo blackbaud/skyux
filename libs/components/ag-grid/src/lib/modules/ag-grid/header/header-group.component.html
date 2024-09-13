@@ -11,11 +11,11 @@
     <button
       class="sky-btn sky-btn-icon-borderless"
       type="button"
-      (click)="setExpanded(false)"
       [attr.aria-label]="
         'sky_ag_grid_column_group_header_collapse_aria_label'
           | skyLibResources: params?.displayName
       "
+      (click)="setExpanded(false)"
     >
       <sky-icon icon="double-chevron-left" />
     </button>
@@ -23,14 +23,14 @@
     <button
       class="sky-btn sky-btn-icon-borderless"
       type="button"
-      (click)="setExpanded(true)"
       [attr.aria-label]="
         'sky_ag_grid_column_group_header_expand_aria_label'
           | skyLibResources: params?.displayName
       "
+      (click)="setExpanded(true)"
     >
       <sky-icon icon="double-chevron-right" />
     </button>
   }
 }
-<span class="sky-control-help-container" #inlineHelpContainer></span>
+<span #inlineHelpContainer class="sky-control-help-container"></span>

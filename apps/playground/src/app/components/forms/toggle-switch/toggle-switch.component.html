@@ -14,7 +14,7 @@
       >Overridden label component</sky-toggle-switch-label
     >
     @if (showInlineHelp) {
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     }
   </sky-toggle-switch>
   <span>Text after switch</span>
@@ -24,7 +24,7 @@
   <sky-toggle-switch labelText="Disabled switch" [disabled]="true">
     <sky-toggle-switch-label>Overridden label</sky-toggle-switch-label>
     @if (showInlineHelp) {
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     }
   </sky-toggle-switch>
 </div>
@@ -32,7 +32,7 @@
   <sky-toggle-switch [checked]="true" [disabled]="true">
     <sky-toggle-switch-label>Disabled switch checked</sky-toggle-switch-label>
     @if (showInlineHelp) {
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     }
   </sky-toggle-switch>
 </div>
@@ -43,30 +43,30 @@
     ariaLabel="Toggle switch without visible label"
   >
     @if (showInlineHelp) {
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     }
   </sky-toggle-switch>
   <span>Text after switch</span>
 </div>
 <div class="sky-padding-even-large">
   <sky-toggle-switch
-    [disabled]="true"
     labelText="Disabled switch without visible label"
     labelHidden="true"
+    [disabled]="true"
   >
     @if (showInlineHelp) {
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     }
   </sky-toggle-switch>
 </div>
 <div class="sky-padding-even-large">
   <sky-toggle-switch
+    ariaLabel="Disabled switch checked without visible label"
     [checked]="true"
     [disabled]="true"
-    ariaLabel="Disabled switch checked without visible label"
   >
     @if (showInlineHelp) {
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     }
   </sky-toggle-switch>
 </div>

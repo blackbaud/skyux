@@ -1,7 +1,7 @@
 <sky-progress-indicator
+  #myIndicator
   displayMode="horizontal"
   [messageStream]="messageStream"
-  #myIndicator
 >
   <sky-progress-indicator-item title="Configure connection">
     Content 1
@@ -23,19 +23,16 @@
 <sky-progress-indicator-nav-button
   buttonType="previous"
   [progressIndicator]="myIndicator"
->
-</sky-progress-indicator-nav-button>
+/>
 
 <sky-progress-indicator-nav-button
   buttonType="next"
   [progressIndicator]="myIndicator"
->
-</sky-progress-indicator-nav-button>
+/>
 
 <sky-progress-indicator-nav-button
   buttonType="finish"
   [attr.data-test-selector]="'finish-button'"
   [progressIndicator]="myIndicator"
   (actionClick)="onFinishClick($event)"
->
-</sky-progress-indicator-nav-button>
+/>

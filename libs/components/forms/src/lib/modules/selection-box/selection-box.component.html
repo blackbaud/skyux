@@ -1,4 +1,5 @@
 <label
+  #selectionBox
   class="sky-selection-box sky-rounded-corners sky-btn sky-btn-default"
   [attr.disabled]="disabled ? true : null"
   [ngClass]="{
@@ -10,14 +11,13 @@
     'sky-box sky-elevation-1': 'modern'
   }"
   (keydown)="onKeydown($event)"
-  #selectionBox
 >
   <div
+    #icon
     class="sky-selection-box-icon"
     [ngStyle]="{
       display: !icon.innerHTML.trim() ? 'none' : ''
     }"
-    #icon
   >
     <ng-content select="sky-icon" />
   </div>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div class="sky-selection-box-control" #control>
+  <div #control class="sky-selection-box-control">
     <ng-content select="sky-radio" />
     <ng-content select="sky-checkbox" />
   </div>

@@ -1,10 +1,10 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
   <sky-colorpicker
+    #colorPicker
     labelText="What is your favorite color?"
     hintText="Pick a color with at least 80% opacity."
     [stacked]="true"
     (selectedColorChanged)="onSelectedColorChanged($event)"
-    #colorPicker
   >
     <input
       formControlName="favoriteColor"

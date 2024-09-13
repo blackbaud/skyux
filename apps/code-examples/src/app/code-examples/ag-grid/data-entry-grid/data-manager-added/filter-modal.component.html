@@ -3,10 +3,10 @@
   <sky-modal-content>
     <label [for]="jobTitleInput.id">Job Title</label>
     <select
+      #jobTitleInput
       class="sky-form-control"
       skyId="jobTitleInput"
       [(ngModel)]="jobTitle"
-      #jobTitleInput
     >
       <option value="any">Any job title</option>
       <option value="Product Manager">Product Manager</option>

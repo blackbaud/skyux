@@ -3,10 +3,10 @@
     >Date format</label
   >
   <input
+    #dateFormatInput="skyId"
     class="sky-form-control"
     skyId
     [(ngModel)]="dateFormat"
-    #dateFormatInput="skyId"
   />
 </sky-input-box>
 
@@ -16,11 +16,10 @@
   style="display: inline-block"
 >
   <sky-datepicker-calendar
+    #datepicker
     [selectedDate]="selectedDate"
     (selectedDateChange)="selectedDate = $event"
-    #datepicker
-  >
-  </sky-datepicker-calendar>
+  />
 </div>
 <br />
 <div
@@ -31,6 +30,7 @@
   <sky-input-box labelText="Easy mode input box" stacked="true">
     <sky-datepicker #picker>
       <input
+        #date="ngModel"
         skyDatepickerInput
         [disabled]="disabled"
         [maxDate]="maxDate"
@@ -41,7 +41,6 @@
         [strict]="strict"
         [dateFormat]="dateFormat"
         [(ngModel)]="selectedDate"
-        #date="ngModel"
       />
     </sky-datepicker>
   </sky-input-box>
@@ -90,6 +89,7 @@
   <p>Fuzzy datepicker template form</p>
   <sky-datepicker>
     <input
+      #date="ngModel"
       skyFuzzyDatepickerInput
       [futureDisabled]="futureDisabled"
       [disabled]="disabled"
@@ -100,7 +100,6 @@
       [startingDay]="startingDay"
       [dateFormat]="dateFormat"
       [(ngModel)]="selectedDate"
-      #date="ngModel"
     />
   </sky-datepicker>
 </div>
@@ -265,10 +264,11 @@
     [disabled]="disabled"
   >
     <sky-datepicker
-      (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
       #inputBoxPicker
+      (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
     >
       <input
+        #date="ngModel"
         skyDatepickerInput
         [disabled]="disabled"
         [maxDate]="maxDate"
@@ -278,7 +278,6 @@
         [startingDay]="startingDay"
         [strict]="strict"
         [(ngModel)]="selectedDate"
-        #date="ngModel"
       />
     </sky-datepicker>
   </sky-input-box>

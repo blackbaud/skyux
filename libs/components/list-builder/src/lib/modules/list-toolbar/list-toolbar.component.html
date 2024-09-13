@@ -5,15 +5,13 @@
         <sky-list-toolbar-item-renderer
           [attr.sky-cmp-id]="item.id"
           [template]="item.template"
-        >
-        </sky-list-toolbar-item-renderer>
+        />
       </sky-toolbar-item>
       <sky-toolbar-item *ngFor="let item of centerTemplates">
         <sky-list-toolbar-item-renderer
           [attr.sky-cmp-id]="item.id"
           [template]="item.template"
-        >
-        </sky-list-toolbar-item-renderer>
+        />
       </sky-toolbar-item>
       <sky-toolbar-item
         *ngFor="let item of rightTemplates"
@@ -22,8 +20,7 @@
         <sky-list-toolbar-item-renderer
           [attr.sky-cmp-id]="item.id"
           [template]="item.template"
-        >
-        </sky-list-toolbar-item-renderer>
+        />
       </sky-toolbar-item>
 
       <ng-content />
@@ -53,8 +50,7 @@
           <sky-list-toolbar-item-renderer
             sky-cmp-id="search"
             [template]="search"
-          >
-          </sky-list-toolbar-item-renderer>
+          />
         </sky-toolbar-item>
       </sky-toolbar-section>
       <sky-toolbar-section [hidden]="!hasAdditionalToolbarSection">
@@ -62,15 +58,13 @@
           <sky-list-toolbar-item-renderer
             [attr.sky-cmp-id]="item.id"
             [template]="item.template"
-          >
-          </sky-list-toolbar-item-renderer>
+          />
         </sky-toolbar-item>
         <sky-toolbar-item *ngFor="let item of centerTemplates">
           <sky-list-toolbar-item-renderer
             [attr.sky-cmp-id]="item.id"
             [template]="item.template"
-          >
-          </sky-list-toolbar-item-renderer>
+          />
         </sky-toolbar-item>
         <sky-toolbar-item
           *ngFor="let item of rightTemplates"
@@ -80,8 +74,7 @@
             *ngIf="item.id !== 'search'"
             [attr.sky-cmp-id]="item.id"
             [template]="item.template"
-          >
-          </sky-list-toolbar-item-renderer>
+          />
         </sky-toolbar-item>
         <ng-content />
 
@@ -98,8 +91,7 @@
   >
     <ng-content select="sky-list-filter-inline" />
   </div>
-  <sky-list-multiselect-toolbar *ngIf="isMultiselectEnabled | async">
-  </sky-list-multiselect-toolbar>
+  <sky-list-multiselect-toolbar *ngIf="isMultiselectEnabled | async" />
 </div>
 
 <ng-template #search>
@@ -110,8 +102,7 @@
       [placeholderText]="placeholder"
       [searchText]="searchTextInput | async"
       (searchApply)="updateSearchText($event)"
-    >
-    </sky-search>
+    />
     <ng-content select="sky-list-toolbar-search-actions" />
   </div>
 </ng-template>
@@ -144,6 +135,5 @@
     [filterButtonId]="filterButtonId"
     [showButtonText]="true"
     (filterButtonClick)="inlineFilterButtonClick()"
-  >
-  </sky-filter-button>
+  />
 </ng-template>

@@ -7,7 +7,7 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 @Component({
   selector: 'sky-test-cmp',
   template: `
-    <div [style.width]="parentWidth" #parent>
+    <div #parent [style.width]="parentWidth">
       <div #child>Hello world</div>
     </div>
     <div #outside>I'm outside the parent!</div>

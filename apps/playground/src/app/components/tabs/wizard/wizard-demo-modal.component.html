@@ -5,10 +5,10 @@
     </sky-modal-header>
     <sky-modal-content>
       <sky-tabset
-        ariaLabel="Tab demonstration"
-        [(active)]="activeIndex"
-        tabStyle="wizard"
         #wizardDemo
+        ariaLabel="Tab demonstration"
+        tabStyle="wizard"
+        [(active)]="activeIndex"
       >
         <sky-tab tabHeading="1. Get started">
           <sky-input-box>
@@ -16,11 +16,11 @@
               >Enter text here to enable step 2.</label
             >
             <input
+              #input1="skyId"
               type="text"
               class="sky-form-control"
               formControlName="requiredValue1"
               skyId
-              #input1="skyId"
             />
           </sky-input-box>
         </sky-tab>
@@ -37,30 +37,24 @@
               >Enter text here to save.</label
             >
             <input
+              #input3="skyId"
               type="text"
               class="sky-form-control"
               formControlName="requiredValue3"
               skyId
-              #input3="skyId"
             />
           </sky-input-box>
         </sky-tab>
       </sky-tabset>
     </sky-modal-content>
     <sky-modal-footer>
-      <sky-tabset-nav-button
-        buttonType="previous"
-        [tabset]="wizardDemo"
-      ></sky-tabset-nav-button>
-      <sky-tabset-nav-button
-        buttonType="next"
-        [tabset]="wizardDemo"
-      ></sky-tabset-nav-button>
+      <sky-tabset-nav-button buttonType="previous" [tabset]="wizardDemo" />
+      <sky-tabset-nav-button buttonType="next" [tabset]="wizardDemo" />
       <sky-tabset-nav-button
         buttonType="finish"
         [tabset]="wizardDemo"
         [disabled]="saveDisabled"
-      ></sky-tabset-nav-button>
+      />
       <button
         class="sky-btn sky-btn-link"
         type="button"
