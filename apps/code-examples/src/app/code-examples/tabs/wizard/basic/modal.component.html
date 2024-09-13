@@ -5,13 +5,13 @@
     </sky-modal-header>
     <sky-modal-content>
       <sky-tabset
-        ariaLabel="Sign-up steps"
-        [(active)]="activeIndex"
-        tabStyle="wizard"
         #wizardDemo
+        ariaLabel="Sign-up steps"
+        tabStyle="wizard"
+        [(active)]="activeIndex"
       >
         <sky-tab tabHeading="1. Biographical Details">
-          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+          <sky-fluid-grid gutterSize="small" [disableMargin]="true">
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box labelText="First name" [stacked]="true">
@@ -35,7 +35,7 @@
           tabHeading="2. Contact Information"
           [disabled]="isStep2Disabled"
         >
-          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+          <sky-fluid-grid gutterSize="small" [disableMargin]="true">
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box labelText="Phone Number" [stacked]="true">
@@ -53,7 +53,7 @@
           </sky-fluid-grid>
         </sky-tab>
         <sky-tab tabHeading="3. More Information" [disabled]="isStep3Disabled">
-          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+          <sky-fluid-grid gutterSize="small" [disableMargin]="true">
             <sky-row>
               <sky-column [screenSmall]="12">
                 <sky-checkbox formControlName="termsAccepted" [required]="true">

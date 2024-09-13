@@ -5,13 +5,13 @@
         URL - ruleset v{{ skyUrlValidationOptions.rulesetVersion }}
       </label>
       <input
-        class="sky-form-control"
-        name="url"
-        [skyUrlValidation]="skyUrlValidationOptions"
-        skyId
-        [(ngModel)]="demoModel.url"
         #urlInput="skyId"
         #urlControl="ngModel"
+        class="sky-form-control"
+        name="url"
+        skyId
+        [skyUrlValidation]="skyUrlValidationOptions"
+        [(ngModel)]="demoModel.url"
       />
     </sky-input-box>
   </div>

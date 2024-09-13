@@ -3,8 +3,7 @@
     *ngTemplateOutlet="
       selectMode === 'multiple' ? multipleSelectMode : singleSelectMode
     "
-  >
-  </ng-container>
+  />
 </div>
 
 <ng-template #multipleSelectMode>
@@ -30,8 +29,7 @@
       [tokens]="tokens"
       (tokensChange)="onTokensChange($event)"
       (tokenSelected)="openPicker()"
-    >
-    </sky-tokens>
+    />
   </div>
 </ng-template>
 

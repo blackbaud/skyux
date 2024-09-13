@@ -23,11 +23,11 @@
       (selectionChange)="onPlanetSelection($event)"
     >
       <input
+        #planetInput
         formControlName="farthestPlanet"
         skyAutocomplete
         skyId
         type="text"
-        #planetInput
       />
     </sky-autocomplete>
   </div>

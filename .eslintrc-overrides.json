@@ -39,7 +39,7 @@
       "files": ["*.html"],
       "rules": {
         "@angular-eslint/template/alt-text": ["warn"],
-        "@angular-eslint/template/attributes-order": ["warn"],
+        "@angular-eslint/template/attributes-order": ["error"],
         "@angular-eslint/template/button-has-type": ["error"],
         "@angular-eslint/template/conditional-complexity": ["warn"],
         "@angular-eslint/template/cyclomatic-complexity": ["warn"],

@@ -6,7 +6,7 @@ import { SkyGridComponent } from '../grid.component';
   selector: 'sky-test-cmp',
   template: `
     <sky-grid [data]="data">
-      <sky-grid-column field="column1" heading="Column1"> </sky-grid-column>
+      <sky-grid-column field="column1" heading="Column1" />
     </sky-grid>
   `,
 })

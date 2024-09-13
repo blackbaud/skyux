@@ -1,9 +1,9 @@
 <div class="sky-grid">
   <div
     *ngIf="showTopScroll"
+    #topScrollContainer
     class="sky-grid-top-scroll-container"
     (scroll)="onTopScroll($event)"
-    #topScrollContainer
   >
     <div
       class="sky-grid-top-scroll"
@@ -11,13 +11,13 @@
     ></div>
   </div>
   <div
+    #gridContainer
     class="sky-grid-table-container"
     [style.height.px]="height"
     [style.width.px]="width"
     (scroll)="onGridScroll($event)"
-    #gridContainer
   >
-    <table class="sky-grid-table" [ngClass]="getTableClassNames()" #gridTable>
+    <table #gridTable class="sky-grid-table" [ngClass]="getTableClassNames()">
       <thead>
         <tr [dragula]="dragulaGroupName">
           <th
@@ -37,6 +37,7 @@
               let last = last;
               let i = index
             "
+            #gridCol
             class="sky-grid-heading sky-field-label"
             scope="col"
             [attr.sky-cmp-index]="i"
@@ -50,7 +51,6 @@
             (mouseup)="sortByColumn(column)"
             (keydown)="onKeydown($event, column)"
             (touchmove)="onTouchMove($event)"
-            #gridCol
           >
             <div
               class="overflow"
@@ -85,8 +85,7 @@
                 (keydown.space)="$event.stopPropagation()"
                 (mousedown)="$event.stopPropagation()"
                 (mouseup)="$event.stopPropagation()"
-              >
-              </sky-help-inline>
+              />
             </div>
             <span
               *ngIf="(fit === 'width' && !last) || fit === 'scroll'"
@@ -99,6 +98,7 @@
             >
             </span>
             <input
+              #colSizeRange
               aria-label="Width of column"
               class="sky-grid-column-input-aria-only"
               role="slider"
@@ -116,7 +116,6 @@
               (focus)="onResizeHandleFocus($event)"
               (keydown)="onKeydownResizeCol($event)"
               (change)="onInputChangeResizeCol($event)"
-              #colSizeRange
             />
           </th>
         </tr>
@@ -144,10 +143,9 @@
             >
               <sky-checkbox
                 [label]="'skyux_grid_multiselect_select_row' | skyLibResources"
-                (change)="onMultiselectCheckboxChange()"
                 [(ngModel)]="item.isSelected"
-              >
-              </sky-checkbox>
+                (change)="onMultiselectCheckboxChange()"
+              />
             </div>
           </td>
           <td
@@ -170,18 +168,17 @@
               [item]="item"
               [columnId]="column.id"
               [attr.sky-cmp-id]="column.id || column.field"
-            >
-            </sky-grid-cell>
+            />
           </td>
         </tr>
       </tbody>
     </table>
     <div
       *ngIf="showResizeBar"
+      #resizeBar
       aria-hidden="true"
       class="sky-grid-resize-bar"
       tabindex="-1"
-      #resizeBar
     ></div>
   </div>
 </div>
@@ -192,18 +189,18 @@
 
 <ng-template let-item #inlineDeleteTemplateRef>
   <div
+    #inlineDeleteRef
     [id]="'row-delete-ref-' + item.id"
     [ngStyle]="{
       height: getRowHeight(0),
       position: 'fixed',
       width: tableWidth + 'px'
     }"
-    #inlineDeleteRef
   >
     <sky-inline-delete
       [pending]="getRowDeleteItem(item.id).pending"
       (cancelTriggered)="cancelRowDelete(item.id)"
       (deleteTriggered)="confirmRowDelete(item.id)"
-    ></sky-inline-delete>
+    />
   </div>
 </ng-template>
