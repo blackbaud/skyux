@@ -22,7 +22,7 @@ export abstract class SkyHelpService {
    * Opens a globally accessible help dialog.
    * @param args The options for opening the help dialog.
    */
-  public abstract openHelp(args: SkyHelpOpenArgs): void;
+  public abstract openHelp(args?: SkyHelpOpenArgs): void;
 
   /**
    * Updates a globally accessible help dialog.

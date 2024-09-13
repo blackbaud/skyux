@@ -20,8 +20,8 @@ export class SkyHelpTestingService extends SkyHelpService {
   #currentHelpKey: string | undefined;
   #currentPageHelpKey: string | undefined;
 
-  public override openHelp(args: SkyHelpOpenArgs): void {
-    this.#currentHelpKey = args.helpKey;
+  public override openHelp(args?: SkyHelpOpenArgs): void {
+    this.#currentHelpKey = args?.helpKey;
   }
 
   public override updateHelp(args: SkyHelpUpdateArgs): void {

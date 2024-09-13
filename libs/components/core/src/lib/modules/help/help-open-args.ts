@@ -1,9 +1,9 @@
 /**
- * Options for displaying global help.
+ * Options for displaying a globally accessible help dialog.
  */
 export interface SkyHelpOpenArgs {
   /**
-   * A unique key that identifies the help content to display. If not provided, the page's default help content will be displayed.
+   * A unique key that identifies the help content to display.
    * */
-  helpKey?: string;
+  helpKey: string;
 }

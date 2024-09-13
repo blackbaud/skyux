@@ -27,7 +27,7 @@ describe('Help testing controller', () => {
 
   it('should validate current help key when a page default is used', () => {
     helpSvc.updateHelp({ pageDefaultHelpKey: 'test-page' });
-    helpSvc.openHelp({});
+    helpSvc.openHelp();
 
     helpController.expectCurrentHelpKey('test-page');
   });
@@ -119,7 +119,7 @@ describe('Help testing controller', () => {
       `Expected current help key to be 'test', but the current help key is 'page-test'.`,
     );
 
-    helpSvc.openHelp({});
+    helpSvc.openHelp();
 
     helpController.expectCurrentHelpKey('page-test');
 

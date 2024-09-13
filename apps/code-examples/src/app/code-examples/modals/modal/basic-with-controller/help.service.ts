@@ -12,6 +12,12 @@ import {
  */
 @Injectable({ providedIn: 'root' })
 export class MyHelpService extends SkyHelpService {
+  public override openHelp(args?: SkyHelpOpenArgs): void {
+    if (args) {
+      console.error(`Open help panel to key: ${args.helpKey}`);
+    }
+  }
+
   public override updateHelp(args: SkyHelpUpdateArgs): void {
     if ('helpKey' in args) {
       console.error(`help key update: ${args.helpKey}`);
@@ -20,9 +26,5 @@ export class MyHelpService extends SkyHelpService {
     if ('pageDefaultHelpKey' in args) {
       console.error(`page default help key update: ${args.pageDefaultHelpKey}`);
     }
-  }
-
-  public override openHelp(args: SkyHelpOpenArgs): void {
-    console.error(`Open help panel to key: ${args.helpKey}`);
   }
 }
