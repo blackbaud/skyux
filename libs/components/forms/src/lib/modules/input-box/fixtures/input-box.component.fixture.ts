@@ -49,6 +49,9 @@ export class InputBoxFixtureComponent {
   @Input()
   public insetIconDisabled: boolean | undefined;
 
+  @Input()
+  public labelText: string | undefined = 'Easy mode';
+
   public errorField: UntypedFormControl;
 
   public errorForm: UntypedFormGroup;
