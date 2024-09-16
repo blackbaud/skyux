@@ -1,5 +1,5 @@
 /**
- * Options for displaying global help.
+ * Options for displaying a globally accessible help dialog.
  */
 export interface SkyHelpOpenArgs {
   /**

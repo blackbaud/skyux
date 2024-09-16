@@ -42,6 +42,7 @@ export { SkyAppFormat } from './lib/modules/format/app-format';
 export { SkyHelpGlobalOptions } from './lib/modules/help/help-global-options';
 export { SKY_HELP_GLOBAL_OPTIONS } from './lib/modules/help/help-global-options-token';
 export { SkyHelpOpenArgs } from './lib/modules/help/help-open-args';
+export { SkyHelpUpdateArgs } from './lib/modules/help/help-update-args';
 export { SkyHelpService } from './lib/modules/help/help.service';
 
 export { SkyIdModule } from './lib/modules/id/id.module';
