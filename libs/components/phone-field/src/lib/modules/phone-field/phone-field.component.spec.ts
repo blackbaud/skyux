@@ -29,7 +29,7 @@ import { PhoneFieldReactiveTestComponent } from './fixtures/phone-field-reactive
 import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixture';
 import { SkyPhoneFieldModule } from './phone-field.module';
 
-fdescribe('Phone Field Component', () => {
+describe('Phone Field Component', () => {
   let mockThemeSvc: Partial<SkyThemeService>;
 
   function checkCountrySearchToggleButtonFlag(
