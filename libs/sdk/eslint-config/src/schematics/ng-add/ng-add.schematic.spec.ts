@@ -61,28 +61,6 @@ describe('ng-add.schematic', () => {
     expect(contents).toEqual(expectedContents);
   }
 
-  it('should install dependencies', async () => {
-    const { runSchematic, tree } = await setupTest({
-      esLintConfig: {},
-    });
-
-    await runSchematic();
-
-    expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true,
-    );
-
-    validateJsonFile(
-      tree,
-      'package.json',
-      expect.objectContaining({
-        devDependencies: expect.objectContaining({
-          'eslint-plugin-deprecation': 'LATEST_^2.0.0',
-        }),
-      }),
-    );
-  });
-
   it('should configure ESLint config', async () => {
     const { runSchematic, tree } = await setupTest({
       esLintConfig: {

@@ -15,12 +15,9 @@
   "plugins": [
     "@angular-eslint",
     "@angular-eslint/template",
-    "@typescript-eslint",
-    "deprecation"
+    "@typescript-eslint"
   ],
   "rules": {
-    "deprecation/deprecation": "warn",
-
     "curly": "error",
     "default-case": "error",
     "default-case-last": "error",
@@ -76,6 +73,7 @@
     "@typescript-eslint/no-base-to-string": "error",
     "@typescript-eslint/no-confusing-non-null-assertion": "error",
     "@typescript-eslint/no-confusing-void-expression": "error",
+    "@typescript-eslint/no-deprecated": "warn",
     "@typescript-eslint/no-duplicate-enum-values": "error",
     "@typescript-eslint/no-mixed-enums": "error",
     "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "error",
