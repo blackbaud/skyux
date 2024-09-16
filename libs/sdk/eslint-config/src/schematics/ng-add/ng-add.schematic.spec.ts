@@ -1,7 +1,4 @@
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import path from 'path';
 
@@ -50,15 +47,6 @@ describe('ng-add.schematic', () => {
       runSchematic,
       tree,
     };
-  }
-
-  function validateJsonFile(
-    tree: UnitTestTree,
-    path: string,
-    expectedContents: unknown,
-  ) {
-    const contents = readJsonFile(tree, path);
-    expect(contents).toEqual(expectedContents);
   }
 
   it('should configure ESLint config', async () => {
