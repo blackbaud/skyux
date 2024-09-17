@@ -23,11 +23,8 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  AgColumn,
   CellEditingStartedEvent,
   CellFocusedEvent,
-  Column,
-  ColumnGroup,
   DetailGridInfo,
   HeaderFocusedEvent,
   ModuleNames,
@@ -135,9 +132,6 @@ export class SkyAgGridWrapperComponent
   readonly #mutationObserverService = inject(SkyMutationObserverService);
   readonly #isCompact = new BehaviorSubject<boolean>(false);
   readonly #hasEditableClass = new ReplaySubject<boolean>(1);
-  #lastFocusedCell:
-    | { rowIndex: number | 'header'; column: Column | ColumnGroup | string }
-    | undefined;
 
   constructor() {
     idIndex++;
@@ -212,23 +206,25 @@ export class SkyAgGridWrapperComponent
       this.agGrid.cellFocused
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((event: CellFocusedEvent) => {
-          this.#lastFocusedCell =
-            Number.isInteger(event.rowIndex) && event.column
-              ? {
-                  rowIndex: event.rowIndex as number,
-                  column: event.column,
-                }
-              : undefined;
+          event.context ??= {};
+          event.context['lastFocusedCell'] = {
+            rowIndex: event.rowIndex,
+            column:
+              typeof event.column === 'object'
+                ? event.column?.getColId()
+                : `${event.column}`,
+          };
         });
       this.agGrid.headerFocused
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((event: HeaderFocusedEvent) => {
-          this.#lastFocusedCell = event.column
-            ? {
-                rowIndex: 'header',
-                column: event.column,
-              }
-            : undefined;
+          event.context ??= {};
+          event.context['lastFocusedCell'] = {
+            rowIndex: null,
+            column: event.column?.getUniqueId
+              ? event.column.getUniqueId()
+              : `${event.column}`,
+          };
         });
     }
   }
@@ -305,32 +301,9 @@ export class SkyAgGridWrapperComponent
       relatedTarget && this.#elementRef.nativeElement.contains(relatedTarget);
 
     if (this.agGrid && !previousWasGrid) {
-      const displayedColumns = this.agGrid.api.getAllDisplayedColumns();
-      const focusOn = this.#lastFocusedCell ?? {
-        column: displayedColumns?.[0]?.getColId(),
-        rowIndex: 'header',
-      };
-      if (
-        focusOn.column &&
-        displayedColumns.some((col) => col.getId() === focusOn.column)
-      ) {
-        if (
-          focusOn.column instanceof AgColumn ||
-          typeof focusOn.column === 'string'
-        ) {
-          this.agGrid.api.ensureColumnVisible(focusOn.column);
-        }
-        if (focusOn.rowIndex === 'header') {
-          this.agGrid.api.setFocusedHeader(focusOn.column);
-        } else if (
-          this.agGrid.api.getDisplayedRowAtIndex(focusOn.rowIndex) &&
-          (focusOn.column instanceof AgColumn ||
-            typeof focusOn.column === 'string')
-        ) {
-          this.agGrid.api.ensureIndexVisible(focusOn.rowIndex, 'top');
-          this.agGrid.api.setFocusedCell(focusOn.rowIndex, focusOn.column);
-        }
-      }
+      this.#elementRef.nativeElement
+        .querySelector('.ag-tab-guard.ag-tab-guard-top')
+        ?.focus();
     }
   }
 

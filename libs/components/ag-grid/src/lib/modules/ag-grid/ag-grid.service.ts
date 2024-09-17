@@ -40,6 +40,7 @@ import { SkyAgGridLoadingComponent } from './loading/loading.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
+import { LastFocusedCell } from './types/last-focused.cell';
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
 function autocompleteComparator(
@@ -469,6 +470,23 @@ export class SkyAgGridService implements OnDestroy {
           SkyAgGridCellRendererCurrencyValidatorComponent,
         'sky-ag-grid-cell-renderer-validator-tooltip':
           SkyAgGridCellRendererValidatorTooltipComponent,
+      },
+      focusGridInnerElement: (params) => {
+        const lastFocusedCell = params.context['lastFocusedCell'] as
+          | LastFocusedCell
+          | undefined;
+        if (lastFocusedCell) {
+          if (lastFocusedCell.rowIndex !== null) {
+            params.api.setFocusedCell(
+              lastFocusedCell.rowIndex,
+              lastFocusedCell.column,
+            );
+          } else {
+            params.api.setFocusedHeader(lastFocusedCell.column);
+          }
+          return true;
+        }
+        return false;
       },
       getRowId: (params) => {
         const dataId = params.data.id;
