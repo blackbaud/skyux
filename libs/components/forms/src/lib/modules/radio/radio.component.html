@@ -35,9 +35,11 @@
       }
     </span>
     @if (labelText) {
-      @if (!labelHidden) {
-        <span class="sky-switch-label">{{ labelText }}</span>
-      }
+      <span
+        class="sky-switch-label"
+        [class.sky-screen-reader-only]="labelHidden"
+        >{{ labelText }}</span
+      >
     } @else {
       <ng-content select="sky-radio-label" />
     }
