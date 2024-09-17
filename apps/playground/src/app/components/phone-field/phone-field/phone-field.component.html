@@ -40,35 +40,20 @@
   id="screenshot-phone-field-input-box"
   class="phone-field-playground-instance"
 >
-  <sky-input-box>
-    <label class="sky-control-label" [for]="skyPhoneFieldInputBox.id">
-      Input box
-    </label>
-    <sky-phone-field>
-      <input
-        #skyPhoneFieldInputBox="skyId"
-        class="sky-form-control"
-        skyId
-        skyPhoneFieldInput
-        [(ngModel)]="phoneNumberInputBox"
-      />
-    </sky-phone-field>
-  </sky-input-box>
-</div>
-
-<div
-  id="screenshot-phone-field-input-box-easy"
-  class="phone-field-playground-instance"
->
-  <sky-input-box
-    hintText="We'll call this number when it's your birthday."
-    labelText="Input box (easy)"
-    mode="detect"
+  <div
+    id="screenshot-phone-field-input-box-easy"
+    class="phone-field-playground-instance"
   >
-    <sky-phone-field>
-      <input skyPhoneFieldInput [(ngModel)]="phoneNumberInputBox" />
-    </sky-phone-field>
-  </sky-input-box>
-</div>
+    <sky-input-box
+      hintText="We'll call this number when it's your birthday."
+      labelText="Input box (easy)"
+      mode="detect"
+    >
+      <sky-phone-field>
+        <input skyPhoneFieldInput [(ngModel)]="phoneNumberInputBox" />
+      </sky-phone-field>
+    </sky-input-box>
+  </div>
 
-<input type="text" />
+  <input type="text" />
+</div>
