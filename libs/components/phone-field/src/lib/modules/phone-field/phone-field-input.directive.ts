@@ -198,17 +198,12 @@ export class SkyPhoneFieldInputDirective
     this.#notifyTouched?.();
   }
 
-  @HostListener('change')
-  protected onChange(): void {
-    const value = this.#adapterSvc?.getInputValue(this.#elRef);
-    this.#setValue(value);
-    this.#notifyChange?.(this.#getValue());
-  }
-
   @HostListener('input')
   protected onInput(): void {
     const value = this.#adapterSvc?.getInputValue(this.#elRef);
     this.#phoneFieldComponent?.setCountryByDialCode(value);
+    this.#setValue(value);
+    this.#notifyChange?.(this.#getValue());
   }
 
   #formatPhoneNumber(value: string | undefined): string | undefined {
