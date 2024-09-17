@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.2.0](https://github.com/blackbaud/skyux/compare/11.1.0...11.2.0) (2024-09-17)
+
+
+### Features
+
+* **components/phone-field:** update revalidation to occur on input ([#2744](https://github.com/blackbaud/skyux/issues/2744)) ([09af237](https://github.com/blackbaud/skyux/commit/09af237146b18b91fb2305f8de4c4b2457904c59))
+
+
+### Bug Fixes
+
+* **sdk/eslint-config:** remove utilization of the eslint deprecation plugin as it is not compatible with ESLint 9 ([#2746](https://github.com/blackbaud/skyux/issues/2746)) ([11d04f9](https://github.com/blackbaud/skyux/commit/11d04f91f40742e2230ae4b9535958327d62604b))
+
 ## [10.44.1](https://github.com/blackbaud/skyux/compare/10.44.0...10.44.1) (2024-09-17)
 
 
