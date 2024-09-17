@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
@@ -63,7 +63,7 @@ describe('Radio harness', () => {
     await expectAsync(radioHarness.isFocused()).toBeResolvedTo(false);
   });
 
-  it('should get ARIA attributes', waitForAsync(async () => {
+  it('should get ARIA attributes', async () => {
     const { radioHarness, fixture } = await setupTest({
       dataSkyId: 'my-check-radio',
     });
@@ -78,7 +78,7 @@ describe('Radio harness', () => {
       'foo-check-id',
     );
     await expectAsync(radioHarness.getLabelText()).toBeResolvedTo('Check');
-  }));
+  });
 
   it('should handle a missing label when getting the label text', async () => {
     const { radioHarness } = await setupTest({

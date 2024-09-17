@@ -21,7 +21,9 @@ export class SkyRadioHarness extends SkyComponentHarness {
 
   #getLabel = this.locatorForOptional(SkyRadioLabelHarness);
 
-  #getLabelText = this.locatorForOptional('span.sky-switch-label');
+  #getLabelText = this.locatorForOptional(
+    'span.sky-switch-label.sky-radio-label-text',
+  );
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -103,12 +105,12 @@ export class SkyRadioHarness extends SkyComponentHarness {
    */
   public async getLabelText(): Promise<string | undefined> {
     const labelText = await this.#getLabelText();
-    const label = await this.#getLabel();
+    // const label = ;
 
     if (labelText) {
       return labelText.text();
     } else {
-      return label?.getText();
+      return (await this.#getLabel())?.getText();
     }
   }
 
