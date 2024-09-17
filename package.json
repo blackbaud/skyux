@@ -98,7 +98,7 @@
     "@angular/platform-browser-dynamic": "18.2.3",
     "@angular/router": "18.2.3",
     "@blackbaud/angular-tree-component": "1.0.0",
-    "@blackbaud/skyux-design-tokens": "0.0.28",
+    "@blackbaud/skyux-design-tokens": "file:.yalc/@blackbaud/skyux-design-tokens",
     "@nx/angular": "19.5.3",
     "@skyux/icons": "7.8.0",
     "ag-grid-angular": "32.1.0",

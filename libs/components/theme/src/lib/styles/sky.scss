@@ -2,6 +2,8 @@
 // global styles for our consumers.
 
 @forward 'node_modules/normalize-scss/sass/normalize/import-now';
+@forward 'node_modules/@blackbaud/skyux-design-tokens/scss/modern';
+@forward 'node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud';
 
 @forward 'normalize-compat';
 @forward 'custom-properties';

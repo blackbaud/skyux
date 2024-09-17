@@ -1,7 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Renderer2, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -16,6 +16,7 @@ import { ThemeSelectorValue } from './theme-selector-value';
 interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
   themeSpacing: ThemeSelectorSpacingValue;
+  geminiEnabled: boolean | undefined;
 }
 
 const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
@@ -24,7 +25,7 @@ const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
   standalone: true,
-  imports: [FormsModule, SkyIdModule, SkyInputBoxModule],
+  imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyInputBoxModule],
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {
@@ -54,13 +55,26 @@ export class SkyThemeSelectorComponent implements OnInit {
     return this.#_themeSpacing;
   }
 
+  public set geminiEnabled(value: boolean) {
+    if (value !== this.#_geminiEnabled) {
+      this.#toggleGeminiClass(value);
+    }
+    this.#_geminiEnabled = value;
+  }
+
+  public get geminiEnabled(): boolean {
+    return this.#_geminiEnabled;
+  }
+
   protected spacingValues: ThemeSelectorSpacingValue[] = [];
 
   #_themeName: ThemeSelectorValue | undefined;
   #_themeSpacing: ThemeSelectorSpacingValue | undefined;
+  #_geminiEnabled = false;
 
-  #themeSvc = inject(SkyThemeService);
   #currentThemeSettings: SkyThemeSettings;
+  #renderer = inject(Renderer2);
+  #themeSvc = inject(SkyThemeService);
 
   public ngOnInit(): void {
     const previousSettings = this.#getLastSettings();
@@ -69,6 +83,7 @@ export class SkyThemeSelectorComponent implements OnInit {
       try {
         this.themeName = previousSettings.themeName;
         this.themeSpacing = previousSettings.themeSpacing;
+        this.geminiEnabled = previousSettings.geminiEnabled || false;
       } catch {
         // Bad settings.
       }
@@ -129,7 +144,16 @@ export class SkyThemeSelectorComponent implements OnInit {
     this.#saveSettings({
       themeName: this.themeName,
       themeSpacing: this.themeSpacing,
+      geminiEnabled: this.geminiEnabled,
     });
+  }
+
+  #toggleGeminiClass(addClass: boolean): void {
+    if (addClass) {
+      this.#renderer.addClass(document.body, 'sky-theme-brand-blackbaud');
+    } else {
+      this.#renderer.removeClass(document.body, 'sky-theme-brand-blackbaud');
+    }
   }
 
   #getLastSettings(): LocalStorageSettings | undefined {

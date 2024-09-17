@@ -7,8 +7,7 @@
 
   .sky-elevation-1,
   .sky-elevation-1-bordered {
-    box-shadow: $sky-theme-modern-elevation-1-shadow-size
-      $sky-theme-modern-elevation-1-shadow-color;
+    box-shadow: var(--sky-elevation-raised);
   }
 
   .sky-elevation-1-bordered {
