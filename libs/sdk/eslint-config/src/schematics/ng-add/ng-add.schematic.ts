@@ -3,7 +3,6 @@ import { Rule, Tree, chain } from '@angular-devkit/schematics';
 import { readJson } from 'fs-extra';
 import { resolve } from 'path';
 
-import { installDependencies } from '../shared/rules/install-dependencies';
 import { modifyEsLintConfig } from '../shared/rules/modify-eslint-config';
 import { modifyTsConfig } from '../shared/rules/modify-tsconfig';
 import { PackageJson } from '../shared/types/package-json';
@@ -40,7 +39,6 @@ export default function ngAdd(): Rule {
     }
 
     return chain([
-      installDependencies(),
       modifyEsLintConfig(),
       modifyTsConfig(),
       hardenPackageVersion(),

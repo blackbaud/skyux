@@ -1,7 +1,4 @@
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import path from 'path';
 
@@ -51,37 +48,6 @@ describe('ng-add.schematic', () => {
       tree,
     };
   }
-
-  function validateJsonFile(
-    tree: UnitTestTree,
-    path: string,
-    expectedContents: unknown,
-  ) {
-    const contents = readJsonFile(tree, path);
-    expect(contents).toEqual(expectedContents);
-  }
-
-  it('should install dependencies', async () => {
-    const { runSchematic, tree } = await setupTest({
-      esLintConfig: {},
-    });
-
-    await runSchematic();
-
-    expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true,
-    );
-
-    validateJsonFile(
-      tree,
-      'package.json',
-      expect.objectContaining({
-        devDependencies: expect.objectContaining({
-          'eslint-plugin-deprecation': 'LATEST_^2.0.0',
-        }),
-      }),
-    );
-  });
 
   it('should configure ESLint config', async () => {
     const { runSchematic, tree } = await setupTest({
