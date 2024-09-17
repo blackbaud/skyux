@@ -81,7 +81,7 @@ export class SkyBoxComponent {
   /**
    * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to the box heading. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
-   * when clicked using the specified content and optional title.
+   * when clicked using the specified content and optional title. This property only applies when `headingText` is also specified.
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -96,7 +96,7 @@ export class SkyBoxComponent {
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the box heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
-   * as configured by the application.
+   * as configured by the application. This property only applies when `headingText` is also specified.
    */
   @Input()
   public helpKey: string | undefined;
