@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.44.1](https://github.com/blackbaud/skyux/compare/10.44.0...10.44.1) (2024-09-17)
+
+
+### Bug Fixes
+
+* update JSDocs to communicate that inline help features require a value for `labelText` ([#2745](https://github.com/blackbaud/skyux/issues/2745)) ([c862bcd](https://github.com/blackbaud/skyux/commit/c862bcde12ef41fb92c63ba071e5d191c6c31502))
+
 ## [11.1.0](https://github.com/blackbaud/skyux/compare/11.0.0...11.1.0) (2024-09-13)
 
 
