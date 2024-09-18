@@ -119,6 +119,6 @@
       }
     }
   },
-  "implicitDependencies": ["libs/sdk/eslint-config"],
+  "implicitDependencies": ["eslint-config"],
   "tags": []
 }

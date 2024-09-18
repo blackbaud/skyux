@@ -48,7 +48,6 @@ describe('Modals with viewkept toolbars', () => {
 
   function openModal(): void {
     getModalTrigger()?.click();
-    fixture.detectChanges();
   }
 
   async function scrollContentDown(): Promise<void> {

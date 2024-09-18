@@ -636,7 +636,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('getDefaultGridOptions getEditableFn', () => {
-    let cellClassRuleEditableFunction: () => boolean;
+    let cellClassRuleEditableFunction: (params?: any) => boolean;
     let cellClassParams: CellClassParams;
 
     beforeEach(() => {
