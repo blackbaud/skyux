@@ -111,8 +111,8 @@ export class SkyTextEditorUrlModalComponent {
         // Set active tab to email
         this.activeTab = 1;
       } else {
-        (this.url = this.#modalContext.urlResult.url),
-          (this.target = this.#modalContext.urlResult.target as any);
+        this.url = this.#modalContext.urlResult.url;
+        this.target = this.#modalContext.urlResult.target as any;
 
         // set active tab to web page
         this.activeTab = 0;
