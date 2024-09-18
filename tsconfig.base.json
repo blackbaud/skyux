@@ -144,6 +144,9 @@
         "libs/components/split-view/testing/src/public-api.ts"
       ],
       "@skyux/storybook": ["libs/components/storybook/src/index.ts"],
+      "@skyux/storybook/font-loading": [
+        "libs/components/storybook/font-loading/src/index.ts"
+      ],
       "@skyux/tabs": ["libs/components/tabs/src/index.ts"],
       "@skyux/tabs/testing": ["libs/components/tabs/testing/src/public-api.ts"],
       "@skyux/text-editor": ["libs/components/text-editor/src/index.ts"],

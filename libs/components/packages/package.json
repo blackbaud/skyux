@@ -93,7 +93,7 @@
   "peerDependencies": {
     "@angular/cdk": "^18.2.4",
     "@angular/cli": "^18.2.4",
-    "@angular/core": "^18.2.4"
+    "@angular/core": "^18.2.5"
   },
   "dependencies": {
     "fs-extra": "11.2.0",
