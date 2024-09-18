@@ -22,7 +22,6 @@ sky-box {
   .sky-box-header-content {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     align-items: baseline;
     padding: var(
       --sky-box-header-container-padding,
@@ -37,7 +36,6 @@ sky-box {
     }
 
     sky-box-controls {
-      order: 1;
       margin-left: auto;
       padding-left: var(
         --sky-box-controls-padding-left,
@@ -60,9 +58,6 @@ sky-box {
   }
 
   sky-box-content {
-    flex: 0 1 100%;
-    order: 2;
-
     .sky-box-content {
       padding: var(
         --sky-box-content-padding,
