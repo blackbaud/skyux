@@ -26,7 +26,7 @@
   <pre>{{ formGroup.value | json }}</pre>
 </form>
 
-<ng-template let-item="item" #oceanSearchResultTemplate>
+<ng-template #oceanSearchResultTemplate let-item="item">
   <sky-icon icon="long-arrow-right" />
   {{ item.title }} &bull; ID {{ item.id }}
 </ng-template>

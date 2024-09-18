@@ -92,7 +92,7 @@
   },
   "peerDependencies": {
     "@angular/cdk": "^18.2.3",
-    "@angular/cli": "^18.2.3",
+    "@angular/cli": "^18.2.0",
     "@angular/core": "^18.2.3"
   },
   "dependencies": {
