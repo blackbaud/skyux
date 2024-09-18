@@ -139,10 +139,24 @@ describe('ng-add.schematic', () => {
     });
 
     await expect(() => runSchematic()).rejects.toThrowError(
-      "The package '@angular-eslint/schematics' is not installed. " +
+      "The package 'angular-eslint' is not installed. " +
         "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
         'See: https://github.com/angular-eslint/angular-eslint#quick-start',
     );
+  });
+
+  it("should not abort if 'angular-eslint' is installed", async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {},
+      packageJson: {
+        devDependencies: {
+          'angular-eslint': '*',
+        },
+      },
+    });
+
+    await runSchematic();
+    expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual({});
   });
 
   it('should harden the version of the @skyux-sdk/eslint-config package', async () => {
