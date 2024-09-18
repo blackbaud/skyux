@@ -30,9 +30,12 @@ export default function ngAdd(): Rule {
   return (tree) => {
     const packageJson = getPackageJson(tree);
 
-    if (!packageJson.devDependencies?.['@angular-eslint/schematics']) {
+    if (
+      !packageJson.devDependencies?.['@angular-eslint/schematics'] &&
+      !packageJson.devDependencies?.['angular-eslint']
+    ) {
       throw new Error(
-        "The package '@angular-eslint/schematics' is not installed. " +
+        "The package 'angular-eslint' is not installed. " +
           "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
           'See: https://github.com/angular-eslint/angular-eslint#quick-start',
       );
