@@ -1,4 +1,4 @@
-export { FontLoadingService } from '../font-loading/src/font-loading.service';
+export { FontLoadingService } from './lib/font-loading/font-loading.service';
 export { previewWrapperDecorators } from './lib/preview-wrapper/preview-wrapper-decorators';
 export { previewWrapperGlobalTypes } from './lib/preview-wrapper/preview-wrapper-global-types';
 export { previewWrapperParameters } from './lib/preview-wrapper/preview-wrapper-parameters';
