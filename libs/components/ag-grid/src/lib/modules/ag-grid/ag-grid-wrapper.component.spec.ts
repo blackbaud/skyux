@@ -413,7 +413,6 @@ describe('SkyAgGridWrapperComponent', () => {
     }
 
     it('should not move focus when tab is pressed but cells are being edited', () => {
-      agGrid.api.stopEditing as jasmine.Spy;
       fireKeyupEscape();
       expect(agGrid.api.stopEditing).toHaveBeenCalled();
     });

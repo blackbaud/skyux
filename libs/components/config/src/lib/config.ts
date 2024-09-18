@@ -57,7 +57,7 @@ export interface RuntimeConfig {
   includeRouteModule: boolean;
   pactConfig?: SkyuxPactConfig;
   params: SkyAppRuntimeConfigParams;
-  routes?: Object[]; // Dynamically added in sky-pages-module-generator.js
+  routes?: object[]; // Dynamically added in sky-pages-module-generator.js
   routesPattern: string;
   runtimeAlias: string;
   spaPathAlias: string;
@@ -81,7 +81,7 @@ export interface SkyuxConfigAppTheming {
 
 export interface SkyuxConfigApp {
   base?: string;
-  externals?: Object;
+  externals?: object;
   port?: string;
   styles?: string[];
   theming?: SkyuxConfigAppTheming;

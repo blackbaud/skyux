@@ -20,6 +20,6 @@ export interface SkyAgGridAutocompleteProperties {
 /**
  * @deprecated Use SkyAgGridAutocompleteProperties instead.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line
 export interface SkyAutocompleteProperties
   extends SkyAgGridAutocompleteProperties {}
