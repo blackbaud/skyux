@@ -1,15 +1,17 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
-/* Default theme */
-sky-box {
-  --sky-box-border-radius: initial;
-  --sky-box-overflow: initial;
+/* Default theme token overrides */
+@include mixins.sky-component('default', 'sky-box') {
+  --sky-box-header-container-padding: var(--sky-padding-even-xl)
+    var(--sky-padding-even-xl) 0 var(--sky-padding-even-xl);
+  --sky-box-content-padding: var(--sky-padding-even-xl);
+  --sky-box-controls-padding-left: var(--sky-margin-inline-xl);
 }
 
-/* Modern theme */
-.sky-theme-modern sky-box {
-  --sky-box-border-radius: $sky-theme-modern-box-border-radius-default;
-  --sky-box-overflow: hidden;
+/* Modern theme token overrides */
+@include mixins.sky-component('modern', 'sky-box', true, '', true) {
+  --sky-box-controls-padding-left: var(--sky-margin-inline-xl);
 }
 
 sky-box {
@@ -17,17 +19,18 @@ sky-box {
 }
 
 .sky-box {
-  background-color: #fff;
-  border-radius: var(--sky-box-border-radius);
-  overflow: var(--sky-box-overflow);
-
   .sky-box-header-content {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
-    padding: var(--sky-padding-even-xl) var(--sky-padding-even-xl) 0
-      var(--sky-padding-even-xl);
+    padding: var(
+      --sky-box-header-container-padding,
+      var(--sky-space-inset-bottomless-top-xl)
+        var(--sky-space-inset-bottomless-right-xl)
+        var(--sky-space-inset-bottomless-bottom-xl)
+        var(--sky-space-inset-bottomless-left-xl)
+    );
 
     &:empty {
       display: none;
@@ -36,6 +39,10 @@ sky-box {
     sky-box-controls {
       order: 1;
       margin-left: auto;
+      padding-left: var(
+        --sky-box-controls-padding-left,
+        var(--sky-space-text_action_gap-l)
+      );
 
       .sky-box-controls {
         position: relative;
@@ -47,6 +54,7 @@ sky-box {
     h3,
     h4,
     h5 {
+      display: inline;
       margin-block: 0;
     }
   }
@@ -56,7 +64,10 @@ sky-box {
     order: 2;
 
     .sky-box-content {
-      padding: var(--sky-padding-even-xl);
+      padding: var(
+        --sky-box-content-padding,
+        var(--sky-space-inset-balanced-xl)
+      );
     }
   }
 }

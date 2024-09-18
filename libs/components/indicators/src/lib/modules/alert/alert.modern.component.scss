@@ -5,23 +5,21 @@
   display: block;
 }
 
-@include mixins.sky-component('modern', '.sky-alert') {
-  :host-context(.sky-theme-modern:not(.sky-theme-brand-blackbaud)) {
-    --sky-alert-padding: 0 var(--modern-size-10);
-    --sky-alert-text-vertical-padding: var(--modern-size-15);
-    --sky-alert-button-size: 32px;
-    --sky-alert-button-padding: 0;
-  }
+/* Modern theme token overrides */
+@include mixins.sky-component('modern', '.sky-alert', true, '', true) {
+  --sky-alert-padding: 0 var(--modern-size-10);
+  --sky-alert-text-vertical-padding: var(--modern-size-15);
+  --sky-alert-button-size: 32px;
+  --sky-alert-button-padding: 0;
+}
 
+@include mixins.sky-component('modern', '.sky-alert') {
   padding: var(--sky-alert-padding, var(--sky-space-inset-balanced-s));
   border-left: solid var(--sky-border-width-accent);
   color: var(--sky-text-color-default);
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-radius: var(--sky-border-radius-s);
-  background-color: #fff;
-  overflow: hidden;
 
   .sky-alert-content {
     padding: var(

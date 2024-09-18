@@ -2,8 +2,8 @@
 
 .sky-theme-modern {
   .sky-box {
-    background-color: #fff;
-    border-radius: $sky-theme-modern-box-border-radius-default;
+    background-color: var(--sky-color-background-container-base);
+    border-radius: var(--sky-border-radius-s);
     overflow: hidden;
   }
 }

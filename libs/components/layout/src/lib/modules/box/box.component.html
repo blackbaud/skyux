@@ -10,52 +10,52 @@
 >
   <div class="sky-box-header-content">
     @if (headingText) {
-      @switch (headingLevel) {
-        @case (3) {
-          <h3
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
-            {{ headingText }}
-          </h3>
+      <div>
+        @switch (headingLevel) {
+          @case (3) {
+            <!-- prettier-ignore -->
+            <h3
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+            >{{ headingText }}</h3>
+          }
+          @case (4) {
+            <!-- prettier-ignore -->
+            <h4
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+            >{{ headingText }}</h4>
+          }
+          @case (5) {
+            <!-- prettier-ignore -->
+            <h5
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+            >{{ headingText }}</h5>
+          }
+          @default {
+            <!-- prettier-ignore -->
+            <h2
+              [id]="headerId"
+              [class]="headingClass"
+              [class.sky-screen-reader-only]="headingHidden"
+            >{{ headingText }}</h2>
+          }
         }
-        @case (4) {
-          <h4
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
-            {{ headingText }}
-          </h4>
+        @if ((helpPopoverContent || helpKey) && !headingHidden) {
+          <span class="sky-control-help-container">
+            <sky-help-inline
+              [helpKey]="helpKey"
+              [labelText]="headingText"
+              [popoverTitle]="helpPopoverTitle"
+              [popoverContent]="helpPopoverContent"
+            />
+          </span>
         }
-        @case (5) {
-          <h5
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
-            {{ headingText }}
-          </h5>
-        }
-        @default {
-          <h2
-            [id]="headerId"
-            [class]="headingClass + ' sky-margin-inline-xs'"
-            [class.sky-screen-reader-only]="headingHidden"
-          >
-            {{ headingText }}
-          </h2>
-        }
-      }
-      @if ((helpPopoverContent || helpKey) && !headingHidden) {
-        <sky-help-inline
-          [helpKey]="helpKey"
-          [labelText]="headingText"
-          [popoverTitle]="helpPopoverTitle"
-          [popoverContent]="helpPopoverContent"
-        />
-      }
+      </div>
     } @else {
       <ng-content select="sky-box-header" />
     }

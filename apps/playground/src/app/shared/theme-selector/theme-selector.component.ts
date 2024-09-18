@@ -60,6 +60,7 @@ export class SkyThemeSelectorComponent implements OnInit {
       this.#toggleGeminiClass(value);
     }
     this.#_geminiEnabled = value;
+    this.#updateThemeSettings();
   }
 
   public get geminiEnabled(): boolean {

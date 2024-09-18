@@ -11,7 +11,9 @@
   }
 
   .sky-elevation-1-bordered {
-    border: $sky-theme-modern-elevation-1-bordered-border;
+    border-color: var(--sky-color-border-container-base);
+    border-width: var(--sky-border-width-container-base);
+    border-style: solid;
   }
 
   .sky-elevation-3 {
