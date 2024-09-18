@@ -250,7 +250,7 @@ export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
   public helpPopoverTitle: string | undefined;
 
   /**
-   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * A help key that identifies the global help content to display. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the radio group heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
    * as configured by the application. This property only applies when `headingText` is also specified.
    */
