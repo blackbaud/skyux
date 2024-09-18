@@ -57,7 +57,7 @@ describe('Modals with wait', () => {
 
   function openModal(): void {
     getModalTrigger()?.click();
-    fixture.detectChanges;
+    fixture.detectChanges();
   }
 
   let fixture: ComponentFixture<ModalWaitComponent>;

@@ -1556,7 +1556,7 @@ describe('File attachment', () => {
     ];
 
     await triggerDrop(files, getDropDebugEl());
-    fixture.detectChanges;
+    fixture.detectChanges();
 
     fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();

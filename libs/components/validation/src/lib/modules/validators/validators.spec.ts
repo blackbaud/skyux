@@ -94,7 +94,7 @@ describe('FormControl Validators', () => {
         SkyValidators.url(optionsRulesetV1),
       );
       expect(control.valid).toBeTruthy();
-      control.clearValidators;
+      control.clearValidators();
     });
 
     it('should be valid on empty input (undefined) using ruleset v1 (explicitly)', () => {
@@ -153,7 +153,7 @@ describe('FormControl Validators', () => {
         SkyValidators.url(optionsRulesetV2),
       );
       expect(control.valid).toBeTruthy();
-      control.clearValidators;
+      control.clearValidators();
     });
 
     it('should be valid on empty input (undefined) using ruleset v2', () => {

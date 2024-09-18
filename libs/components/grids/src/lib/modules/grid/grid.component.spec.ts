@@ -1495,7 +1495,6 @@ describe('Grid Component', () => {
           document.querySelector('#row-delete-ref-1');
         const inlineDelete2: HTMLElement =
           document.querySelector('#row-delete-ref-2');
-        inlineDelete1.getBoundingClientRect().left;
         expect(inlineDelete1.getBoundingClientRect().left.toFixed(1)).toEqual(
           row1Rect.left.toFixed(1),
         );

@@ -10,6 +10,5 @@ export interface SkyAgGridDatepickerProperties {
 /**
  * @deprecated Use SkyAgGridDatepickerProperties instead.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SkyDatepickerProperties
-  extends SkyAgGridDatepickerProperties {}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export type SkyDatepickerProperties = SkyAgGridDatepickerProperties

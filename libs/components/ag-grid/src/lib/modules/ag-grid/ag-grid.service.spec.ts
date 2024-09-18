@@ -225,7 +225,7 @@ describe('SkyAgGridService', () => {
         'function',
       );
       expect(
-        (modernThemeGridOptions.icons?.['sortDescending'] as Function)(),
+        (modernThemeGridOptions.icons?.['sortDescending'] as () => string)(),
       ).toBe(`<i aria-hidden="true" class="sky-i-chevron-down"></i>`);
     });
 
@@ -636,7 +636,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('getDefaultGridOptions getEditableFn', () => {
-    let cellClassRuleEditableFunction: Function;
+    let cellClassRuleEditableFunction: () => boolean;
     let cellClassParams: CellClassParams;
 
     beforeEach(() => {

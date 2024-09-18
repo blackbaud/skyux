@@ -491,7 +491,7 @@ describe('Flyout component', () => {
   }));
 
   it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
-    let handlerFunction: Function | undefined;
+    let handlerFunction: () => void | undefined;
 
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
