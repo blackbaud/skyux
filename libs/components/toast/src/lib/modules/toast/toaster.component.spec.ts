@@ -258,8 +258,12 @@ describe('Toaster component', () => {
       numToasterClicks++;
     });
 
-    toaster && SkyAppTestUtility.fireDomEvent(toaster, 'click');
-    toast && SkyAppTestUtility.fireDomEvent(toast, 'click');
+    if (toaster) {
+      SkyAppTestUtility.fireDomEvent(toaster, 'click');
+    }
+    if (toast) {
+      SkyAppTestUtility.fireDomEvent(toast, 'click');
+    }
 
     checkbox.click();
 
@@ -284,7 +288,9 @@ describe('Toaster component', () => {
       spy: jasmine.Spy,
       expectedValue: boolean,
     ) {
-      toaster && SkyAppTestUtility.fireDomEvent(toaster, eventName);
+      if (toaster) {
+        SkyAppTestUtility.fireDomEvent(toaster, eventName);
+      }
       expect(spy).toHaveBeenCalledWith(expectedValue);
     }
 
