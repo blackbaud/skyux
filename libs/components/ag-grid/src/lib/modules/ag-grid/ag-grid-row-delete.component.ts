@@ -18,12 +18,12 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
   selector: 'sky-ag-grid-row-delete',
   template: `
     <ng-template
+      #inlineDeleteTemplateRef
       let-row
       let-tableWidth="tableWidth()"
       let-getRowDeleteItem="getRowDeleteItem"
       let-cancelRowDelete="cancelRowDelete"
       let-confirmRowDelete="confirmRowDelete"
-      #inlineDeleteTemplateRef
     >
       <div
         #inlineDeleteRef

@@ -122,7 +122,7 @@ export default async function (tree: Tree, schema: Schema) {
       if (
         e2eProject.targets['e2e'].options.devServerTarget ===
           `${projectName}:storybook` &&
-        e2eProject.targets['e2e'].configurations?.['ci'].devServerTarget !==
+        e2eProject.targets['e2e'].configurations?.['ci']?.devServerTarget !==
           `${projectName}:static-storybook`
       ) {
         hasChanged = true;
