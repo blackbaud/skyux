@@ -1,5 +1,21 @@
 # Changelog
 
+## [11.3.0](https://github.com/blackbaud/skyux/compare/11.2.0...11.3.0) (2024-09-19)
+
+
+### Features
+
+* **components/ag-grid:** support changing the tab focus behavior ([#2748](https://github.com/blackbaud/skyux/issues/2748)) ([e63f738](https://github.com/blackbaud/skyux/commit/e63f73844be2b300df6e8e3ba4dd91a1bba7aaa9))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** non-resizeable columns show a column divider but do not show a resize cursor or hover indicator ([#2757](https://github.com/blackbaud/skyux/issues/2757)) ([63d78d4](https://github.com/blackbaud/skyux/commit/63d78d43e559c604ce23d86850e3977830c0fa84))
+* **components/ag-grid:** sort direction button is not visible when sorting is not active on a column ([#2743](https://github.com/blackbaud/skyux/issues/2743)) ([bb7c016](https://github.com/blackbaud/skyux/commit/bb7c01636c44fbe1ae4f3c108d9f84917d16b187))
+* **sdk/eslint-config:** alternatively look for `angular-eslint` dependency ([#2755](https://github.com/blackbaud/skyux/issues/2755)) ([e1fd53c](https://github.com/blackbaud/skyux/commit/e1fd53c531d0985813c78625a6e8ecf8c3038552))
+* update `@typescript-eslint/eslint-plugin` to use deprecated rule ([#2756](https://github.com/blackbaud/skyux/issues/2756)) ([a4ab15a](https://github.com/blackbaud/skyux/commit/a4ab15a40a3623c6c2dcf500ba77bad3635b4c18))
+* update JSDocs to communicate that inline help features require a value for `labelText` ([#2745](https://github.com/blackbaud/skyux/issues/2745)) ([#2751](https://github.com/blackbaud/skyux/issues/2751)) ([708e754](https://github.com/blackbaud/skyux/commit/708e754a7a67ab4c84e05809c50ff52160b8f849))
+
 ## [11.2.0](https://github.com/blackbaud/skyux/compare/11.1.0...11.2.0) (2024-09-17)
 
 
