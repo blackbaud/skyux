@@ -14,7 +14,7 @@ import {
   ListSortFieldSelectorModel,
 } from '@skyux/list-builder-common';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, isObservable } from 'rxjs';
 import { map as observableMap, skip, take } from 'rxjs/operators';
 
 import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
@@ -1275,7 +1275,7 @@ describe('List Component', () => {
       it('displayed items should throw error', () => {
         const list = fixture.componentInstance.list;
         try {
-          list.displayedItems;
+          isObservable(list.displayedItems);
         } catch (error) {
           expect(error.message).toBe(
             'List requires data or dataProvider to be set.',

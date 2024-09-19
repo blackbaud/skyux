@@ -15,9 +15,9 @@ export class SkyModalBeforeCloseHandler {
    * Function to call to close the modal. Neglecting to call this function
    * effectively cancels the close modal action.
    */
-  public readonly closeModal: Function;
+  public readonly closeModal: () => void;
 
-  constructor(closeModal: Function, closeArgs: SkyModalCloseArgs) {
+  constructor(closeModal: () => void, closeArgs: SkyModalCloseArgs) {
     this.closeArgs = closeArgs;
     this.closeModal = closeModal;
   }
