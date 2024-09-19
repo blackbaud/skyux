@@ -30,18 +30,12 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript", "prettier"],
-      "rules": {
-        "@typescript-eslint/no-extra-semi": "error",
-        "no-extra-semi": "off"
-      }
+      "rules": {}
     },
     {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nx/javascript", "prettier"],
-      "rules": {
-        "@typescript-eslint/no-extra-semi": "error",
-        "no-extra-semi": "off"
-      }
+      "rules": {}
     },
     {
       "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],

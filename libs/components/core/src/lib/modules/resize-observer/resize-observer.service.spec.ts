@@ -170,8 +170,10 @@ describe('ResizeObserver service', async () => {
     const errorEvent = new ErrorEvent('error', {
       message: 'ResizeObserver loop completed with undelivered notifications.',
     });
-    window.onerror && (window as any).onerror(errorEvent);
-    window.onerror && (window as any).onerror('Other error.');
+    if (window.onerror) {
+      (window as any).onerror(errorEvent);
+      (window as any).onerror('Other error.');
+    }
     subscription.unsubscribe();
     destroyElementRef(target);
     expect(window.onerror).toHaveBeenCalledWith(errorEvent);

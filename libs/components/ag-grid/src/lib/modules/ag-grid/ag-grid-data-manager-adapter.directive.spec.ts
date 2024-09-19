@@ -367,11 +367,11 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     } as ColumnResizedEvent;
 
     const viewState = dataState.views[0];
-    (viewState.columnWidths = {
+    viewState.columnWidths = {
       xs: { name: 180, target: 220 },
       sm: { name: 100, target: 400 },
-    }),
-      agGridComponent.columnResized.emit(columnResized);
+    };
+    agGridComponent.columnResized.emit(columnResized);
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
@@ -403,11 +403,11 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     } as ColumnResizedEvent;
 
     const viewState = dataState.views[0];
-    (viewState.columnWidths = {
+    viewState.columnWidths = {
       xs: { name: 100, target: 220 },
       sm: { name: 300, target: 400 },
-    }),
-      agGridComponent.columnResized.emit(columnResized);
+    };
+    agGridComponent.columnResized.emit(columnResized);
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
