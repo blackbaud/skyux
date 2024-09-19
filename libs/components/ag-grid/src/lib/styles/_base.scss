@@ -154,9 +154,13 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
   @include ag-grid-extra.ag-grid-extra();
 
   .ag-header-cell {
+    cursor: initial;
+
     &:not(.sky-ag-grid-header-resizable) {
       .ag-header-cell-resize {
         cursor: initial;
+        // We want to always show our dividers that use the resize cell. The AG Grid style on non-resizable cells uses `!important` so we have to do so as well.
+        display: block !important;
       }
     }
   }
