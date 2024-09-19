@@ -27,14 +27,20 @@
     @if (errors?.['skyDate'] && errors?.['skyDate']['minDate']) {
       <sky-form-error
         errorName="minDate"
-        [errorText]="'skyux_form_error_date_min' | skyLibResources"
+        [errorText]="
+          'skyux_form_error_date_min'
+            | skyLibResources: errors?.['skyDate']['minDateFormatted']
+        "
       />
     }
 
     @if (errors?.['skyDate'] && errors?.['skyDate']['maxDate']) {
       <sky-form-error
         errorName="maxDate"
-        [errorText]="'skyux_form_error_date_max' | skyLibResources"
+        [errorText]="
+          'skyux_form_error_date_max'
+            | skyLibResources: errors?.['skyDate']['maxDateFormatted']
+        "
       />
     }
 
@@ -59,14 +65,22 @@
     @if (errors?.['skyFuzzyDate'] && errors?.['skyFuzzyDate']['maxDate']) {
       <sky-form-error
         errorName="fuzzyMaxDate"
-        [errorText]="'skyux_form_error_fuzzy_date_max_date' | skyLibResources"
+        [errorText]="
+          'skyux_form_error_fuzzy_date_max_date'
+            | skyLibResources: errors?.['skyFuzzyDate']['maxDateFormatted']
+        "
       />
     }
 
     @if (errors?.['skyFuzzyDate'] && errors?.['skyFuzzyDate']['minDate']) {
       <sky-form-error
         errorName="fuzzyMinDate"
-        [errorText]="'skyux_form_error_fuzzy_date_min_date' | skyLibResources"
+        [errorText]="
+          'skyux_form_error_fuzzy_date_min_date'
+            | skyLibResources
+              : errors?.['skyFuzzyDate'] &&
+                  errors?.['skyFuzzyDate']['minDateFormatted']
+        "
       />
     }
 
