@@ -35,4 +35,8 @@ export class AppComponent {
 
     themeSvc.init(document.body, renderer, themeSettings);
   }
+
+  public isHome(): boolean {
+    return this.router.url === '/';
+  }
 }
