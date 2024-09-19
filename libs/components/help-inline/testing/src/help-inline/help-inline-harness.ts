@@ -105,9 +105,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   /**
    * Gets the help popover content.
    */
-  public async getPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
+  public async getPopoverContent(): Promise<string | undefined> {
     return (await this.#getPopoverHarnessContent())?.getBodyText();
   }
 

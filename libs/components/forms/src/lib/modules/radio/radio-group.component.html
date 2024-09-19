@@ -36,7 +36,7 @@
             {{ headingText }}
           </h5>
         } @else {
-          <span [class]="'sky-heading-text ' + headingClass">
+          <span [class]="'sky-radio-group-heading-text ' + headingClass">
             {{ headingText }}
           </span>
         }
@@ -63,7 +63,6 @@
 </fieldset>
 <sky-form-errors
   [id]="errorId"
-  [attr.data-sky-id]="formErrorsDataId"
   [errors]="ngControl?.errors"
   [labelText]="headingText"
   [touched]="ngControl?.touched"

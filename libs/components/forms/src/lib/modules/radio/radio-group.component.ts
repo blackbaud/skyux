@@ -311,7 +311,6 @@ export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
   readonly #idService = inject(SkyIdService);
 
   protected errorId = this.#idService.generateId();
-  protected formErrorsDataId = 'radio-group-form-errors';
   protected ngControl: NgControl | undefined;
 
   constructor(

@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
 } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyRadioGroupHeadingLevel,
   SkyRadioGroupHeadingStyle,
+  SkyRadioModule,
 } from '@skyux/forms';
 
 function validatePaymentMethod(
@@ -18,8 +23,15 @@ function validatePaymentMethod(
 }
 
 @Component({
+  standalone: true,
   selector: 'test-radio-harness',
   templateUrl: './radio-harness-test.component.html',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SkyRadioModule,
+    NoopAnimationsModule,
+  ],
 })
 export class RadioHarnessTestComponent {
   public class = '';
@@ -38,11 +50,9 @@ export class RadioHarnessTestComponent {
   public required = false;
   public stacked = false;
 
-  #formBuilder: UntypedFormBuilder;
+  #formBuilder = inject(UntypedFormBuilder);
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-
+  constructor() {
     this.paymentMethod = this.#formBuilder.control('cash', {
       validators: [validatePaymentMethod],
     });

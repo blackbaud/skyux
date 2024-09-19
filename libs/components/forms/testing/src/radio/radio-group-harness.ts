@@ -1,5 +1,4 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
@@ -22,13 +21,15 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-radio-group';
 
-  #getRadioButtons = this.locatorForAll(SkyRadioHarness);
-  #getHintText = this.locatorForOptional('.sky-radio-group-hint-text');
-  #getHeading = this.locatorFor('.sky-control-label');
   #getH3 = this.locatorForOptional('legend h3');
   #getH4 = this.locatorForOptional('legend h4');
   #getH5 = this.locatorForOptional('legend h5');
-  #getHeadingText = this.locatorForOptional('legend .sky-heading-text');
+  #getHeading = this.locatorFor('.sky-control-label');
+  #getHeadingText = this.locatorForOptional(
+    'legend .sky-radio-group-heading-text',
+  );
+  #getHintText = this.locatorForOptional('.sky-radio-group-hint-text');
+  #getRadioButtons = this.locatorForAll(SkyRadioHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -45,46 +46,6 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    */
   public async clickHelpInline(): Promise<void> {
     return (await this.#getHelpInline()).click();
-  }
-
-  /**
-   * Gets an array of harnesses for the radio buttons in the radio group.
-   */
-  public async getRadioButtons(): Promise<SkyRadioHarness[]> {
-    return await this.#getRadioButtons();
-  }
-
-  /**
-   * Gets the help popover content.
-   */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  /**
-   * Gets the help popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
-  }
-
-  /**
-   * Gets the radio group's heading text. If `headingHidden` is true,
-   * the text will still be returned.
-   */
-  public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getHeading()).text();
-  }
-
-  /**
-   * Gets the radio group's hint text.
-   */
-  public async getHintText(): Promise<string> {
-    const hintText = await this.#getHintText();
-
-    return (await hintText?.text())?.trim() ?? '';
   }
 
   /**
@@ -140,6 +101,44 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the radio group's heading text. If `headingHidden` is true,
+   * the text will still be returned.
+   */
+  public async getHeadingText(): Promise<string | undefined> {
+    return (await this.#getHeading()).text();
+  }
+
+  /**
+   * Gets the help popover content.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  /**
+   * Gets the radio group's hint text.
+   */
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
+
+    return (await hintText?.text())?.trim() ?? '';
+  }
+
+  /**
+   * Gets an array of harnesses for the radio buttons in the radio group.
+   */
+  public async getRadioButtons(): Promise<SkyRadioHarness[]> {
+    return await this.#getRadioButtons();
+  }
+
+  /**
    * Whether the radio group is required.
    */
   public async getRequired(): Promise<boolean> {
@@ -171,11 +170,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   }
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    return await this.locatorFor(
-      SkyFormErrorsHarness.with({
-        dataSkyId: 'radio-group-form-errors',
-      }),
-    )();
+    return await this.locatorFor(SkyFormErrorsHarness)();
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

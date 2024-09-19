@@ -43,23 +43,23 @@ export class SkyRadioHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the help inline button.
-   */
-  public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
-  }
-
-  /**
-   * Puts the radio button in a checked state by toggling it if it is currently unchecked, or doing nothing if it is already checked.
+   * Puts the radio button in a checked state if it is currently unchecked.
    */
   public async check(): Promise<void> {
     if (await this.isDisabled()) {
       throw new Error(
-        'Could not toggle the radio button because it is disabled.',
+        'Could not check the radio button because it is disabled.',
       );
     } else if (!(await this.isChecked())) {
       await (await this.#getInput()).click();
     }
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return (await this.#getHelpInline()).click();
   }
 
   /**
@@ -86,9 +86,7 @@ export class SkyRadioHarness extends SkyComponentHarness {
   /**
    * Gets the help popover content.
    */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
+  public async getHelpPopoverContent(): Promise<string | undefined> {
     return await (await this.#getHelpInline()).getPopoverContent();
   }
 
@@ -100,18 +98,12 @@ export class SkyRadioHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the radio button's label text. If the label is set via `labelText` and `labelHidden` is true,
-   * the text will still be returned.
+   * Gets the radio button's hint text.
    */
-  public async getLabelText(): Promise<string | undefined> {
-    const labelText = await this.#getLabelText();
-    // const label = ;
+  public async getHintText(): Promise<string> {
+    const hintText = await this.#getHintText();
 
-    if (labelText) {
-      return labelText.text();
-    } else {
-      return (await this.#getLabel())?.getText();
-    }
+    return (await hintText?.text())?.trim() ?? '';
   }
 
   /**
@@ -131,12 +123,17 @@ export class SkyRadioHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the radio button's hint text.
+   * Gets the radio button's label text. If the label is set via `labelText` and `labelHidden` is true,
+   * the text will still be returned.
    */
-  public async getHintText(): Promise<string> {
-    const hintText = await this.#getHintText();
+  public async getLabelText(): Promise<string | undefined> {
+    const labelText = await this.#getLabelText();
 
-    return (await hintText?.text())?.trim() ?? '';
+    if (labelText) {
+      return labelText.text();
+    } else {
+      return (await this.#getLabel())?.getText();
+    }
   }
 
   /**
