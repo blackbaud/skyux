@@ -6,7 +6,11 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyLayoutHostForChildArgs, SkyLayoutHostService } from '@skyux/core';
+import {
+  SkyHelpService,
+  SkyLayoutHostForChildArgs,
+  SkyLayoutHostService,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -44,6 +48,14 @@ export class SkyPageComponent implements OnInit, OnDestroy {
     this.#updateCssClass();
   }
 
+  /**
+   * A help key that identifies the page's default [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) content to display.
+   */
+  @Input()
+  public set helpKey(value: string | undefined) {
+    this.#helpSvc?.updateHelp({ pageDefaultHelpKey: value });
+  }
+
   @HostBinding('class')
   public cssClass = LAYOUT_CLASS_DEFAULT;
 
@@ -54,6 +66,7 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
   #themeAdapter = inject(SkyPageThemeAdapterService);
   #layoutHostSvc = inject(SkyLayoutHostService);
+  #helpSvc = inject(SkyHelpService, { optional: true });
 
   public ngOnInit(): void {
     this.#themeAdapter.addTheme();
@@ -71,6 +84,8 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+
+    this.#helpSvc?.updateHelp({ pageDefaultHelpKey: undefined });
   }
 
   #updateCssClass(): void {
