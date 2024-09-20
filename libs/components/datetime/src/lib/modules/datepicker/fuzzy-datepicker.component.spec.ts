@@ -1014,6 +1014,9 @@ describe('fuzzy datepicker input', () => {
           expect(ngModel.valid).toBe(false);
           expect(ngModel.touched).toBe(true);
           expect(ngModel.errors?.['skyFuzzyDate'].minDate).toBeTruthy();
+          expect(ngModel.errors?.['skyFuzzyDate'].minDateFormatted).toEqual(
+            '02/15/2015',
+          );
 
           setInputElementValue(nativeElement, '2/15/2015', fixture);
 
@@ -1035,6 +1038,9 @@ describe('fuzzy datepicker input', () => {
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.errors?.['skyFuzzyDate'].maxDate).toBeTruthy();
+        expect(ngModel.errors?.['skyFuzzyDate'].maxDateFormatted).toEqual(
+          '05/25/2017',
+        );
 
         flush();
       }));
@@ -1048,6 +1054,9 @@ describe('fuzzy datepicker input', () => {
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.errors?.['skyFuzzyDate'].minDate).toBeTruthy();
+        expect(ngModel.errors?.['skyFuzzyDate'].minDateFormatted).toEqual(
+          '05/04/2017',
+        );
 
         flush();
       }));
