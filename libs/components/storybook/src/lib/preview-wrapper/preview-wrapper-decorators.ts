@@ -1,5 +1,6 @@
 import { provideLocationMocks } from '@angular/common/testing';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideRouter } from '@angular/router';
 import { SkyThemeService } from '@skyux/theme';
 import type { AngularRenderer } from '@storybook/angular';
 import {
@@ -23,6 +24,7 @@ export const previewWrapperDecorators: DecoratorFunction<
   // Define application-wide providers with the applicationConfig decorator
   applicationConfig({
     providers: [
+      provideRouter([]),
       provideAnimationsAsync('noop'),
       SkyThemeService,
       {
