@@ -923,6 +923,12 @@ describe('datepicker', () => {
         setInputElementValue(fixture.nativeElement, '5/26/2017', fixture);
 
         expect(ngModel.valid).toBe(false);
+        expect(ngModel.errors).toEqual({
+          skyDate: {
+            maxDate: component.maxDate,
+            maxDateFormatted: '05/25/2017',
+          },
+        });
       }));
 
       it('should handle change below min date', fakeAsync(() => {
@@ -933,6 +939,12 @@ describe('datepicker', () => {
         setInputElementValue(fixture.nativeElement, '5/1/2017', fixture);
 
         expect(ngModel.valid).toBe(false);
+        expect(ngModel.errors).toEqual({
+          skyDate: {
+            minDate: component.minDate,
+            minDateFormatted: '05/04/2017',
+          },
+        });
       }));
 
       it('should pass max date to calendar', fakeAsync(() => {

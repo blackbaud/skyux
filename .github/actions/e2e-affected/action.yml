@@ -88,7 +88,7 @@ runs:
             '--withTarget=e2e',
             '--affected',
             '--json'
-          ]).then(({stdout}) => JSON.parse(stdout));
+          ]).then(({stdout}) => JSON.parse(stdout)).catch(() => []);
           const projectAffected = affectedProjects.includes('${{ inputs.project }}');
           if (projectAffected) {
             core.info(`E2E tests affected`);

@@ -23,6 +23,8 @@ interface SkyFuzzyDateRange {
   years: string;
   months: string;
   days: string;
+  startDate: Date;
+  endDate: Date;
   valid: boolean;
 }
 
@@ -307,8 +309,8 @@ export class SkyFuzzyDateService implements OnDestroy {
     startFuzzyDate: SkyFuzzyDate,
     endFuzzyDate: SkyFuzzyDate,
   ): SkyFuzzyDateRange {
-    let start;
-    let end;
+    const start = this.getMomentFromFuzzyDate(startFuzzyDate);
+    const end = this.getMomentFromFuzzyDate(endFuzzyDate);
     let days;
     let months;
     let years;
@@ -320,9 +322,6 @@ export class SkyFuzzyDateService implements OnDestroy {
       endFuzzyDate &&
       endFuzzyDate.year
     ) {
-      start = this.getMomentFromFuzzyDate(startFuzzyDate);
-      end = this.getMomentFromFuzzyDate(endFuzzyDate);
-
       years = end.diff(start, 'years');
       months = end.diff(start, 'months');
       days = end.diff(start, 'days');
@@ -333,6 +332,8 @@ export class SkyFuzzyDateService implements OnDestroy {
       years: years,
       months: months,
       days: days,
+      startDate: start.toDate(),
+      endDate: end.toDate(),
       valid: valid,
     };
   }

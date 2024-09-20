@@ -16,3 +16,8 @@ export { SkyFormErrorHarness } from './form-error/form-error-harness';
 export { SkyFormErrorHarnessFilters } from './form-error/form-error-harness.filters';
 
 export { SkyRadioFixture } from './radio-fixture';
+export { SkyRadioGroupHarness } from './radio/radio-group-harness';
+export { SkyRadioGroupHarnessFilters } from './radio/radio-group-harness-filters';
+export { SkyRadioHarness } from './radio/radio-harness';
+export { SkyRadioHarnessFilters } from './radio/radio-harness-filters';
+export { SkyRadioLabelHarness } from './radio/radio-label-harness';
