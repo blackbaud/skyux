@@ -10,7 +10,8 @@ import {
   inject,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { FontLoadingService, PreviewWrapperModule } from '@skyux/storybook';
+import { PreviewWrapperModule } from '@skyux/storybook/components';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 import {
   SkyTheme,
   SkyThemeMode,

@@ -15,7 +15,7 @@ import {
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import { ColDef, GridOptions, RowSelectedEvent } from 'ag-grid-community';

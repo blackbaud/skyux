@@ -1,6 +1,5 @@
-import { importProvidersFrom } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideLocationMocks } from '@angular/common/testing';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { SkyThemeService } from '@skyux/theme';
 import type { AngularRenderer } from '@storybook/angular';
 import {
@@ -18,12 +17,13 @@ export const previewWrapperDecorators: DecoratorFunction<
   unknown[]
 >[] = [
   moduleMetadata({
-    imports: [PreviewWrapperModule, RouterTestingModule],
+    imports: [PreviewWrapperModule],
+    providers: [provideLocationMocks()],
   }),
   // Define application-wide providers with the applicationConfig decorator
   applicationConfig({
     providers: [
-      importProvidersFrom(NoopAnimationsModule),
+      provideAnimationsAsync('noop'),
       SkyThemeService,
       {
         provide: 'BODY',

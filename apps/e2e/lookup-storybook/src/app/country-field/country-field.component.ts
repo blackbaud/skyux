@@ -4,7 +4,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-country-field',

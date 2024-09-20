@@ -8,7 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 import {
   SkyTheme,
   SkyThemeMode,

@@ -43,11 +43,19 @@
     --ag-header-column-resize-handle-width: 3px;
   }
 
+  .ag-header-cell.sky-ag-grid-header-resizable.ag-column-resizing
+    .ag-header-cell-resize::after {
+    height: 100%;
+    top: 0;
+  }
+
   .ag-header-cell.sky-ag-grid-header-resizable:not(.ag-column-resizing)
     > .ag-header-cell-resize:hover {
     &::after {
       position: relative;
       left: 2px;
+      top: 0;
+      height: 100%;
     }
   }
 
@@ -58,9 +66,19 @@
 
   @for $i from 1 through 100 {
     .ag-root:has(
-        .ag-header-cell.sky-ag-grid-header-resizable:nth-child(#{$i})
+        .ag-header-cell.sky-ag-grid-header-resizable:not(
+            .ag-column-resizing
+          ):nth-child(#{$i})
           > .ag-header-cell-resize:hover
       ) {
+      .ag-header-cell.ag-floating-filter:nth-child(#{$i})::before {
+        top: 0;
+        --ag-header-column-separator-color: var(
+          --sky-text-color-action-primary
+        );
+        --ag-header-column-separator-height: 100%;
+        --ag-header-column-separator-width: 1px;
+      }
       .ag-cell:nth-child(#{$i}) {
         --ag-cell-horizontal-border: 1px
           solid
@@ -73,6 +91,14 @@
             #{$i}
           )
       ) {
+      .ag-header-cell.ag-floating-filter:nth-child(#{$i})::before {
+        top: 0;
+        --ag-header-column-separator-color: var(
+          --sky-text-color-action-primary
+        );
+        --ag-header-column-separator-height: 100%;
+        --ag-header-column-separator-width: 3px;
+      }
       .ag-cell:nth-child(#{$i}) {
         --ag-cell-horizontal-border: 3px
           solid

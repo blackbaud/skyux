@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { SummaryActionBarModalComponent } from './summary-action-bar-modal.component';
 

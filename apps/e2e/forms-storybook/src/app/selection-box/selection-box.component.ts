@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 
