@@ -1,1 +1,1 @@
-export { SkyIconManifestGlyph as SkyThemeIconManifestGlyph } from '@skyux/icons';
+export type { SkyIconManifestGlyph as SkyThemeIconManifestGlyph } from '@skyux/icons';

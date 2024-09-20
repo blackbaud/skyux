@@ -1,19 +1,19 @@
 export { SkyDropdownModule } from './lib/modules/dropdown/dropdown.module';
-export { SkyDropdownButtonType } from './lib/modules/dropdown/types/dropdown-button-type';
-export { SkyDropdownHorizontalAlignment } from './lib/modules/dropdown/types/dropdown-horizontal-alignment';
-export { SkyDropdownMenuChange } from './lib/modules/dropdown/types/dropdown-menu-change';
-export { SkyDropdownMessage } from './lib/modules/dropdown/types/dropdown-message';
+export type { SkyDropdownButtonType } from './lib/modules/dropdown/types/dropdown-button-type';
+export type { SkyDropdownHorizontalAlignment } from './lib/modules/dropdown/types/dropdown-horizontal-alignment';
+export type { SkyDropdownMenuChange } from './lib/modules/dropdown/types/dropdown-menu-change';
+export type { SkyDropdownMessage } from './lib/modules/dropdown/types/dropdown-message';
 export { SkyDropdownMessageType } from './lib/modules/dropdown/types/dropdown-message-type';
-export { SkyDropdownTriggerType } from './lib/modules/dropdown/types/dropdown-trigger-type';
+export type { SkyDropdownTriggerType } from './lib/modules/dropdown/types/dropdown-trigger-type';
 
 export { SkyPopoverModule } from './lib/modules/popover/popover.module';
-export { SkyPopoverAlignment } from './lib/modules/popover/types/popover-alignment';
-export { SkyPopoverMessage } from './lib/modules/popover/types/popover-message';
+export type { SkyPopoverAlignment } from './lib/modules/popover/types/popover-alignment';
+export type { SkyPopoverMessage } from './lib/modules/popover/types/popover-message';
 export { SkyPopoverMessageType } from './lib/modules/popover/types/popover-message-type';
-export { SkyPopoverPlacement } from './lib/modules/popover/types/popover-placement';
-export { SkyPopoverPosition } from './lib/modules/popover/types/popover-position';
-export { SkyPopoverTrigger } from './lib/modules/popover/types/popover-trigger';
-export { SkyPopoverType } from './lib/modules/popover/types/popover-type';
+export type { SkyPopoverPlacement } from './lib/modules/popover/types/popover-placement';
+export type { SkyPopoverPosition } from './lib/modules/popover/types/popover-position';
+export type { SkyPopoverTrigger } from './lib/modules/popover/types/popover-trigger';
+export type { SkyPopoverType } from './lib/modules/popover/types/popover-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

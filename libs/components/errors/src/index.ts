@@ -1,6 +1,6 @@
 export { ErrorModalConfig } from './lib/modules/error/error-modal-config';
 export { SkyErrorModalService } from './lib/modules/error/error-modal.service';
-export { SkyErrorType } from './lib/modules/error/error-type';
+export type { SkyErrorType } from './lib/modules/error/error-type';
 export { SkyErrorModule } from './lib/modules/error/error.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.

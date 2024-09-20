@@ -3,4 +3,4 @@ export { SkyCardFixture } from './card-fixture';
 export { SkyPageSummaryFixture } from './page-summary-fixture';
 
 export { SkyBoxHarness } from './box/box-harness';
-export { SkyBoxHarnessFilters } from './box/box-harness.filters';
+export type { SkyBoxHarnessFilters } from './box/box-harness.filters';

@@ -3,9 +3,9 @@ export { SkyFilterModule } from './lib/modules/filter/filter.module';
 export { SkyInfiniteScrollModule } from './lib/modules/infinite-scroll/infinite-scroll.module';
 
 export { SkyPagingModule } from './lib/modules/paging/paging.module';
-export { SkyPagingContentChangeArgs } from './lib/modules/paging/types/paging-content-change-args';
+export type { SkyPagingContentChangeArgs } from './lib/modules/paging/types/paging-content-change-args';
 
-export { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expand-mode-type';
+export type { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expand-mode-type';
 export { SkyRepeaterModule } from './lib/modules/repeater/repeater.module';
 
 export { SkySortModule } from './lib/modules/sort/sort.module';

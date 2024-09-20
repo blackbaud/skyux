@@ -13,7 +13,7 @@ export { ListViewGridColumnsOrchestrator } from './lib/modules/list-view-grid/st
 export { ListViewGridColumnsLoadAction } from './lib/modules/list-view-grid/state/columns/load.action';
 export { ListViewDisplayedGridColumnsOrchestrator } from './lib/modules/list-view-grid/state/displayed-columns/displayed-columns.orchestrator';
 export { ListViewDisplayedGridColumnsLoadAction } from './lib/modules/list-view-grid/state/displayed-columns/load.action';
-export { GridStateAction } from './lib/modules/list-view-grid/state/grid-state-action.type';
+export type { GridStateAction } from './lib/modules/list-view-grid/state/grid-state-action.type';
 export { GridStateModel } from './lib/modules/list-view-grid/state/grid-state.model';
 export {
   GridStateDispatcher,
@@ -21,10 +21,10 @@ export {
 } from './lib/modules/list-view-grid/state/grid-state.rxstate';
 export { GridState } from './lib/modules/list-view-grid/state/grid-state.state-node';
 
-export { SkyListViewGridMessage } from './lib/modules/list-view-grid/types/list-view-grid-message';
+export type { SkyListViewGridMessage } from './lib/modules/list-view-grid/types/list-view-grid-message';
 export { SkyListViewGridMessageType } from './lib/modules/list-view-grid/types/list-view-grid-message-type';
-export { SkyListViewGridRowDeleteCancelArgs } from './lib/modules/list-view-grid/types/list-view-grid-row-delete-cancel-args';
-export { SkyListViewGridRowDeleteConfirmArgs } from './lib/modules/list-view-grid/types/list-view-grid-row-delete-confirm-args';
+export type { SkyListViewGridRowDeleteCancelArgs } from './lib/modules/list-view-grid/types/list-view-grid-row-delete-cancel-args';
+export type { SkyListViewGridRowDeleteConfirmArgs } from './lib/modules/list-view-grid/types/list-view-grid-row-delete-confirm-args';
 
 // Components and directives must be exported to support Angular’s “partial” Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

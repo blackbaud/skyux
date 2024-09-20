@@ -1,5 +1,5 @@
 export { SkyListViewChecklistModule } from './lib/modules/list-view-checklist/list-view-checklist.module';
-export { ChecklistStateAction } from './lib/modules/list-view-checklist/state/checklist-state-action.type';
+export type { ChecklistStateAction } from './lib/modules/list-view-checklist/state/checklist-state-action.type';
 export { ChecklistStateModel } from './lib/modules/list-view-checklist/state/checklist-state.model';
 export {
   ChecklistStateDispatcher,

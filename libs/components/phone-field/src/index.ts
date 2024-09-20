@@ -1,6 +1,6 @@
 export { SkyPhoneFieldModule } from './lib/modules/phone-field/phone-field.module';
-export { SkyPhoneFieldCountry } from './lib/modules/phone-field/types/country';
-export { SkyPhoneFieldNumberReturnFormat } from './lib/modules/phone-field/types/number-return-format';
+export type { SkyPhoneFieldCountry } from './lib/modules/phone-field/types/country';
+export type { SkyPhoneFieldNumberReturnFormat } from './lib/modules/phone-field/types/number-return-format';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

@@ -1,13 +1,13 @@
 export { SkyProgressIndicatorModule } from './lib/modules/progress-indicator/progress-indicator.module';
-export { SkyProgressIndicatorActionClickArgs } from './lib/modules/progress-indicator/types/progress-indicator-action-click-args';
+export type { SkyProgressIndicatorActionClickArgs } from './lib/modules/progress-indicator/types/progress-indicator-action-click-args';
 export { SkyProgressIndicatorActionClickProgressHandler } from './lib/modules/progress-indicator/types/progress-indicator-action-click-progress-handler';
-export { SkyProgressIndicatorChange } from './lib/modules/progress-indicator/types/progress-indicator-change';
-export { SkyProgressIndicatorDisplayModeType } from './lib/modules/progress-indicator/types/progress-indicator-display-mode-type';
+export type { SkyProgressIndicatorChange } from './lib/modules/progress-indicator/types/progress-indicator-change';
+export type { SkyProgressIndicatorDisplayModeType } from './lib/modules/progress-indicator/types/progress-indicator-display-mode-type';
 export { SkyProgressIndicatorItemStatus } from './lib/modules/progress-indicator/types/progress-indicator-item-status';
-export { SkyProgressIndicatorMessage } from './lib/modules/progress-indicator/types/progress-indicator-message';
+export type { SkyProgressIndicatorMessage } from './lib/modules/progress-indicator/types/progress-indicator-message';
 export { SkyProgressIndicatorMessageType } from './lib/modules/progress-indicator/types/progress-indicator-message-type';
 export { SkyProgressIndicatorDisplayMode } from './lib/modules/progress-indicator/types/progress-indicator-mode';
-export { SkyProgressIndicatorNavButtonType } from './lib/modules/progress-indicator/types/progress-indicator-nav-button-type';
+export type { SkyProgressIndicatorNavButtonType } from './lib/modules/progress-indicator/types/progress-indicator-nav-button-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.

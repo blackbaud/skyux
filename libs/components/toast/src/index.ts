@@ -4,7 +4,7 @@ export {
   SkyToastLegacyService,
   SkyToastService,
 } from './lib/modules/toast/toast.service';
-export { SkyToastConfig } from './lib/modules/toast/types/toast-config';
+export type { SkyToastConfig } from './lib/modules/toast/types/toast-config';
 export { SkyToastContainerOptions } from './lib/modules/toast/types/toast-container-options';
 export { SkyToastDisplayDirection } from './lib/modules/toast/types/toast-display-direction';
 export { SkyToastType } from './lib/modules/toast/types/toast-type';

@@ -1,18 +1,18 @@
 export { SkyActionHubModule } from './lib/modules/action-hub/action-hub.module';
-export { SkyActionHubNeedsAttention } from './lib/modules/action-hub/types/action-hub-needs-attention';
+export type { SkyActionHubNeedsAttention } from './lib/modules/action-hub/types/action-hub-needs-attention';
 export {
-  SkyActionHubNeedsAttentionClickHandler,
-  SkyActionHubNeedsAttentionClickHandlerArgs,
+  type SkyActionHubNeedsAttentionClickHandler,
+  type SkyActionHubNeedsAttentionClickHandlerArgs,
 } from './lib/modules/action-hub/types/action-hub-needs-attention-click-handler';
-export { SkyPageLink } from './lib/modules/action-hub/types/page-link';
-export { SkyPageLinksInput } from './lib/modules/action-hub/types/page-links-input';
-export { SkyPageModalLink } from './lib/modules/action-hub/types/page-modal-link';
-export { SkyPageModalLinksInput } from './lib/modules/action-hub/types/page-modal-links-input';
-export { SkyRecentLink } from './lib/modules/action-hub/types/recent-link';
-export { SkyRecentLinksInput } from './lib/modules/action-hub/types/recent-links-input';
+export { type SkyPageLink } from './lib/modules/action-hub/types/page-link';
+export { type SkyPageLinksInput } from './lib/modules/action-hub/types/page-links-input';
+export { type SkyPageModalLink } from './lib/modules/action-hub/types/page-modal-link';
+export { type SkyPageModalLinksInput } from './lib/modules/action-hub/types/page-modal-links-input';
+export { type SkyRecentLink } from './lib/modules/action-hub/types/recent-link';
+export { type SkyRecentLinksInput } from './lib/modules/action-hub/types/recent-links-input';
 export { SkyPageHeaderModule } from './lib/modules/page-header/page-header.module';
 export { SkyPageModule } from './lib/modules/page/page.module';
-export { SkyPageLayoutType } from './lib/modules/page/types/page-layout-type';
+export { type SkyPageLayoutType } from './lib/modules/page/types/page-layout-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

@@ -1,11 +1,11 @@
 export { SkyRichTextDisplayModule } from './lib/modules/rich-text-display/rich-text-display.module';
 
-export { SkyTextEditorFont } from './lib/modules/text-editor/types/font-state';
-export { SkyTextEditorLinkWindowOptionsType } from './lib/modules/text-editor/types/link-window-options-type';
-export { SkyTextEditorMenuType } from './lib/modules/text-editor/types/menu-type';
-export { SkyTextEditorStyleState } from './lib/modules/text-editor/types/style-state';
-export { SkyTextEditorMergeField } from './lib/modules/text-editor/types/text-editor-merge-field';
-export { SkyTextEditorToolbarActionType } from './lib/modules/text-editor/types/toolbar-action-type';
+export type { SkyTextEditorFont } from './lib/modules/text-editor/types/font-state';
+export type { SkyTextEditorLinkWindowOptionsType } from './lib/modules/text-editor/types/link-window-options-type';
+export type { SkyTextEditorMenuType } from './lib/modules/text-editor/types/menu-type';
+export type { SkyTextEditorStyleState } from './lib/modules/text-editor/types/style-state';
+export type { SkyTextEditorMergeField } from './lib/modules/text-editor/types/text-editor-merge-field';
+export type { SkyTextEditorToolbarActionType } from './lib/modules/text-editor/types/toolbar-action-type';
 
 export { SkyTextEditorModule } from './lib/modules/text-editor/text-editor.module';
 
