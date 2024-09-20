@@ -395,6 +395,10 @@ export class SkyDatepickerInputDirective
         return {
           skyDate: {
             minDate,
+            minDateFormatted: this.#dateFormatter.format(
+              minDate,
+              this.dateFormat,
+            ),
           },
         };
       }
@@ -409,6 +413,10 @@ export class SkyDatepickerInputDirective
         return {
           skyDate: {
             maxDate,
+            maxDateFormatted: this.#dateFormatter.format(
+              maxDate,
+              this.dateFormat,
+            ),
           },
         };
       }
