@@ -1,10 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { RadioHarnessTestComponent } from './fixtures/radio-harness-test.component';
-import { RadioHarnessTestModule } from './fixtures/radio-harness-test.module';
 import { SkyRadioGroupHarness } from './radio-group-harness';
 
 async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
@@ -12,7 +12,11 @@ async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   fixture: ComponentFixture<RadioHarnessTestComponent>;
 }> {
   await TestBed.configureTestingModule({
-    imports: [RadioHarnessTestModule, SkyHelpTestingModule],
+    imports: [
+      RadioHarnessTestComponent,
+      SkyHelpTestingModule,
+      NoopAnimationsModule,
+    ],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(RadioHarnessTestComponent);

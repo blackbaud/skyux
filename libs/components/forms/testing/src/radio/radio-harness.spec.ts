@@ -1,11 +1,11 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { RadioHarnessTestComponent } from './fixtures/radio-harness-test.component';
-import { RadioHarnessTestModule } from './fixtures/radio-harness-test.module';
 import { SkyRadioHarness } from './radio-harness';
 
 async function setupTest(
@@ -16,7 +16,11 @@ async function setupTest(
   loader: HarnessLoader;
 }> {
   await TestBed.configureTestingModule({
-    imports: [RadioHarnessTestModule, SkyHelpTestingModule],
+    imports: [
+      RadioHarnessTestComponent,
+      SkyHelpTestingModule,
+      NoopAnimationsModule,
+    ],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(RadioHarnessTestComponent);
@@ -170,7 +174,7 @@ describe('Radio harness', () => {
     await expectAsync(radioHarness.isChecked()).toBeResolvedTo(false);
 
     await expectAsync(radioHarness.check()).toBeRejectedWithError(
-      'Could not toggle the radio button because it is disabled.',
+      'Could not check the radio button because it is disabled.',
     );
   });
 

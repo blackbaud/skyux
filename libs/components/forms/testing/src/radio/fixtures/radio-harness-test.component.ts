@@ -8,7 +8,6 @@ import {
   UntypedFormGroup,
   ValidationErrors,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyRadioGroupHeadingLevel,
@@ -26,12 +25,7 @@ function validatePaymentMethod(
   standalone: true,
   selector: 'test-radio-harness',
   templateUrl: './radio-harness-test.component.html',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SkyRadioModule,
-    NoopAnimationsModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class RadioHarnessTestComponent {
   public class = '';
