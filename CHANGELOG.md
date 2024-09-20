@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.4.0](https://github.com/blackbaud/skyux/compare/11.3.0...11.4.0) (2024-09-20)
+
+
+### Features
+
+* **components/forms:** add harnesses for radio and radio group components ([#2754](https://github.com/blackbaud/skyux/issues/2754)) ([ca31508](https://github.com/blackbaud/skyux/commit/ca31508a00a258fd5b2b5523d01615c137664b4c))
+* **components/pages:** add `helpKey` input to the page component ([#2739](https://github.com/blackbaud/skyux/issues/2739)) ([ed3f518](https://github.com/blackbaud/skyux/commit/ed3f5189c6e7ed1706b8d475daa344a13a6d67eb))
+
+
+### Bug Fixes
+
+* **components/datetime:** show minimum and maximum date in error message ([#2762](https://github.com/blackbaud/skyux/issues/2762)) ([d3b2e66](https://github.com/blackbaud/skyux/commit/d3b2e66a73760fd7e5bf5edc6a7c5500a44681b6))
+
 ## [11.3.0](https://github.com/blackbaud/skyux/compare/11.2.0...11.3.0) (2024-09-19)
 
 
