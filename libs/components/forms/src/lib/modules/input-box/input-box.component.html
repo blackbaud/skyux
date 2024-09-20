@@ -98,7 +98,7 @@
 </ng-template>
 
 <ng-template #inlineHelpTemplate>
-  @if (helpPopoverContent || helpKey) {
+  @if ((helpPopoverContent || helpKey) && labelText) {
     <sky-help-inline
       class="sky-control-help"
       [helpKey]="helpKey"
@@ -107,7 +107,6 @@
       [popoverTitle]="helpPopoverTitle"
     />
   }
-
   <ng-content select=".sky-control-help" />
 </ng-template>
 

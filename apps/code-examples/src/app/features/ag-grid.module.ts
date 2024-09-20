@@ -17,6 +17,13 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
+    path: 'data-entry-grid/focus',
+    loadComponent: () =>
+      import(
+        '../code-examples/ag-grid/data-entry-grid/focus/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'data-entry-grid/inline-help',
     loadComponent: () =>
       import(

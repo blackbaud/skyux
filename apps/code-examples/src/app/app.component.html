@@ -1,11 +1,11 @@
-@if (router.url !== '/') {
-  <div
-    id="controls"
-    [ngStyle]="{
-      'height.px': height
-    }"
-  >
-    <div>
+<div
+  id="controls"
+  [ngStyle]="{
+    'height.px': height
+  }"
+>
+  <div>
+    @if (!isHome()) {
       <button
         class="sky-btn sky-btn-primary"
         id="home-btn"
@@ -14,8 +14,16 @@
       >
         Go home
       </button>
-    </div>
+    }
   </div>
-}
+  <sky-theme-selector />
+</div>
 
-<router-outlet />
+<div
+  id="content"
+  [ngStyle]="{
+    height: 'calc(100vh - ' + height + 'px)'
+  }"
+>
+  <router-outlet />
+</div>
