@@ -4,7 +4,7 @@ import { SkyColorpickerHarness } from '@skyux/colorpicker/testing';
 
 import { DemoComponent } from './demo.component';
 
-fdescribe('Basic colorpicker demo', () => {
+describe('Basic colorpicker demo', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     harness: SkyColorpickerHarness;
     fixture: ComponentFixture<DemoComponent>;
@@ -28,14 +28,14 @@ fdescribe('Basic colorpicker demo', () => {
     });
   });
 
-  it('should have the appropriate values set', async () => {
+  it('should have the initial values set', async () => {
     const { harness } = await setupTest({ dataSkyId: 'favorite-color' });
 
     await expectAsync(harness.getLabelText()).toBeResolvedTo(
       'What is your favorite color?',
     );
     await expectAsync(harness.getHintText()).toBeResolvedTo(
-      'Pick a color with at least 80% opacity.',
+      'Pick a color with at least 80% opacity',
     );
   });
 
