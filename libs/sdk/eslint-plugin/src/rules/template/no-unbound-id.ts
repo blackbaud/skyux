@@ -14,8 +14,8 @@ export const noUnboundId = ruleCreator({
 
     return {
       ['Element$1'](el: TmplAstElement) {
-        const found = el.attributes.find(({ name }) => {
-          return name === 'id';
+        const found = el.attributes.find((attribute) => {
+          return attribute.name === 'id';
         });
 
         if (found) {

@@ -1,13 +1,16 @@
+import templateAll from './configs/template-all.json';
+import processors from './processors';
 import {
   noUnboundId,
   RULE_NAME as noUnboundIdRuleName,
-} from './lib/rules/template/no-unbound-id';
-import processors from './processors';
+} from './rules/template/no-unbound-id';
 
 export = {
-  configs: {},
+  configs: {
+    ['template-all']: templateAll,
+  },
   processors,
   rules: {
-    [noUnboundIdRuleName]: noUnboundId,
+    [`template/${noUnboundIdRuleName}`]: noUnboundId,
   },
 };

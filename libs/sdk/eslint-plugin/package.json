@@ -1,6 +1,10 @@
 {
   "name": "@skyux-eslint/eslint-plugin",
   "version": "0.0.1",
+  "files": [
+    "src",
+    "package.json"
+  ],
   "peerDependencies": {
     "@typescript-eslint/utils": "^8.6.0"
   }

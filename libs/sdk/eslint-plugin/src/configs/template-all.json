@@ -1,5 +1,4 @@
 {
-  "parser": "@angular-eslint/template-parser",
   "plugins": ["@skyux-eslint"],
   "rules": {
     "@skyux-eslint/template/no-unbound-id": "error"
