@@ -185,6 +185,10 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
     outline-style: solid;
     outline-offset: 0;
   }
+
+  .ag-ltr .ag-header-cell-resize {
+    right: -4px;
+  }
 }
 
 .ag-theme-sky-data-grid-default,

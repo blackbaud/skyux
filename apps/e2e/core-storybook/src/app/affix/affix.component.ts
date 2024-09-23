@@ -12,7 +12,7 @@ import {
   SkyAffixPosition,
   SkyAffixVerticalAlignment,
 } from '@skyux/core';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-affix',
