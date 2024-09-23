@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  AbstractControl,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { SkyColorpickerOutput } from '@skyux/colorpicker';
@@ -30,15 +28,7 @@ export class ColorpickerComponent {
   #required = false;
 
   constructor(formBuilder: UntypedFormBuilder) {
-    this.favoriteColor = new UntypedFormControl('#f00', [
-      (control: AbstractControl): ValidationErrors | null => {
-        if (control.value?.rgba?.alpha < 0.8) {
-          return { opaque: true };
-        }
-
-        return null;
-      },
-    ]);
+    this.favoriteColor = new UntypedFormControl('#000');
 
     this.reactiveForm = formBuilder.group({
       favoriteColor: this.favoriteColor,

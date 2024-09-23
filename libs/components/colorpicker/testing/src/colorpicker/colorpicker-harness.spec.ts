@@ -12,6 +12,15 @@ import {
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyColorpickerHarness } from './colorpicker-harness';
 
@@ -29,7 +38,6 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
         [labelHidden]="labelHidden"
         [labelText]="labelText"
         [labelledBy]="labelledBy"
-        [showResetButton]="showResetButton"
         [stacked]="stacked"
       >
         <input
@@ -63,18 +71,34 @@ class TestComponent {
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
-      colorpicker: new FormControl(),
+      colorpicker: new FormControl('#f00'),
     });
   }
 }
 //#endregion Test component
 
 fdescribe('Colorpicker harness', () => {
-  async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+  };
+
+  async function setupTest(
+    options: { dataSkyId?: string; theme?: 'default' | 'modern' } = {},
+  ): Promise<{
     colorpickerHarness: SkyColorpickerHarness;
     fixture: ComponentFixture<TestComponent>;
     loader: HarnessLoader;
   }> {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets[options?.theme || 'default'],
+          SkyThemeMode.presets.light,
+        ),
+        previousSettings: undefined,
+      }),
+    };
+
     await TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [
@@ -82,6 +106,12 @@ fdescribe('Colorpicker harness', () => {
         NoopAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
+      ],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
       ],
     }).compileComponents();
 
@@ -150,6 +180,23 @@ fdescribe('Colorpicker harness', () => {
     ).toBeResolvedTo('This is a colorpicker');
   });
 
+  it('should get help popover title', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'colorpicker';
+    fixture.componentInstance.helpPopoverContent = 'This is a colorpicker';
+    fixture.componentInstance.helpPopoverTitle = 'What is this?';
+    fixture.detectChanges();
+
+    await colorpickerHarness.clickHelpInline();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(colorpickerHarness.getHelpPopoverTitle()).toBeResolvedTo(
+      'What is this?',
+    );
+  });
+
   it('should get colorpicker hint text', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
@@ -190,4 +237,79 @@ fdescribe('Colorpicker harness', () => {
       true,
     );
   });
+
+  it('should get aria label when set with `label` input', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.label = 'colorpicker';
+    fixture.detectChanges();
+
+    await expectAsync(colorpickerHarness.getAriaLabel()).toBeResolvedTo(
+      'colorpicker',
+    );
+  });
+
+  it('should get title when set with `label` input', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.label = 'colorpicker';
+    fixture.detectChanges();
+
+    await expectAsync(colorpickerHarness.getTitle()).toBeResolvedTo(
+      'colorpicker',
+    );
+  });
+
+  it('should get whether colorpicker label is hidden', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'colorpicker label';
+    fixture.componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    await expectAsync(colorpickerHarness.isLabelHidden()).toBeResolvedTo(true);
+  });
+
+  it('should click the reset button in default', async () => {
+    const { colorpickerHarness, fixture } = await setupTest({
+      theme: 'default',
+    });
+
+    const control = fixture.componentInstance.myForm.controls['colorpicker'];
+    control.setValue('#000');
+    fixture.detectChanges();
+
+    expect(control.value['hex']).toBe('#000');
+    await colorpickerHarness.clickResetButton();
+    fixture.detectChanges();
+
+    expect(control.value['hex']).toBe('#f00');
+  });
+
+  it('should click the reset button in default', async () => {
+    const { colorpickerHarness, fixture } = await setupTest({
+      theme: 'modern',
+    });
+
+    const control = fixture.componentInstance.myForm.controls['colorpicker'];
+    control.setValue('#000');
+    fixture.detectChanges();
+
+    expect(control.value['hex']).toBe('#000');
+    await colorpickerHarness.clickResetButton();
+    fixture.detectChanges();
+
+    expect(control.value['hex']).toBe('#f00');
+  });
+
+  // it('should throw an error if no reset button is found', async () => {
+  //   const { colorpickerHarness, fixture } = await setupTest();
+
+  //   fixture.componentInstance.showResetButton = false;
+  //   fixture.detectChanges();
+
+  //   expectAsync(colorpickerHarness.clickResetButton()).toBeRejectedWithError(
+  //     'No reset button found.',
+  //   );
+  // });
 });

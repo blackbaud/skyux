@@ -1,6 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { TemplateRef } from '@angular/core';
-import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFormErrorsHarness } from '@skyux/forms/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
@@ -14,15 +14,16 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
 
   #getHintText = this.locatorFor('.sky-colorpicker-hint-text');
   #getLabel = this.locatorFor('label.sky-control-label');
+  #getButton = this.locatorFor('button.sky-colorpicker-button');
+  #resetButtonDefault = this.locatorForOptional(
+    'button.sky-colorpicker-reset-button',
+  );
+  #resetButtonModern = this.locatorForOptional(
+    'button.sky-colorpicker-reset-button-modern',
+  );
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    const harness = await this.locatorForOptional(SkyFormErrorsHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('no errors found.');
+    return await this.locatorFor(SkyFormErrorsHarness)();
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
@@ -68,6 +69,42 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError('required');
+    return (await this.#getFormErrors())?.hasError('required');
+  }
+
+  public async getAriaLabel(): Promise<string | null> {
+    return (await this.#getButton()).getAttribute('aria-label');
+  }
+
+  public async getTitle(): Promise<string | null> {
+    return (await this.#getButton()).getAttribute('title');
+  }
+
+  public async isLabelHidden(): Promise<boolean> {
+    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
+  }
+
+  public async clickColorpickerButton(): Promise<void> {
+    (await this.#getButton()).click();
+  }
+
+  public async colorpickerIsOpen(): Promise<boolean> {
+    return (
+      (await (await this.#getButton()).getAttribute('aria-expanded')) === 'true'
+    );
+  }
+
+  public async clickResetButton(): Promise<void> {
+    const defaultButton = (await this.#resetButtonDefault()) ?? null;
+    const modernButton = (await this.#resetButtonModern()) ?? null;
+
+    if (!defaultButton && !modernButton) {
+      throw Error('No reset button found.');
+    }
+    if (defaultButton) {
+      await defaultButton?.click();
+    } else if (modernButton) {
+      await modernButton?.click();
+    }
   }
 }
