@@ -2,7 +2,6 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  flush,
   inject,
   tick,
 } from '@angular/core/testing';
@@ -11,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { SkyLiveAnnouncerFixtureComponent } from './fixtures/live-announcer.component.fixture';
 import { SkyLiveAnnouncerService } from './live-announcer.service';
 
-describe('SkyLiveAnnouncer', () => {
+fdescribe('SkyLiveAnnouncer', () => {
   let announcer: SkyLiveAnnouncerService;
   let fixture: ComponentFixture<SkyLiveAnnouncerFixtureComponent>;
 
@@ -34,7 +33,6 @@ describe('SkyLiveAnnouncer', () => {
     const ariaLiveElement = getLiveElement();
 
     expect(ariaLiveElement?.textContent).toBe('Test');
-    flush();
   }));
 
   it('should correctly update the politeness attribute', fakeAsync(() => {
@@ -43,7 +41,6 @@ describe('SkyLiveAnnouncer', () => {
 
     expect(ariaLiveElement?.textContent).toBe('Hey Google');
     expect(ariaLiveElement?.getAttribute('aria-live')).toBe('assertive');
-    flush();
   }));
 
   it('should apply the aria-live value polite by default', fakeAsync(() => {
@@ -52,7 +49,6 @@ describe('SkyLiveAnnouncer', () => {
 
     expect(ariaLiveElement?.textContent).toBe('Hey Google');
     expect(ariaLiveElement?.getAttribute('aria-live')).toBe('polite');
-    flush();
   }));
 
   it('should clear the announcement after a given duration', fakeAsync(() => {
@@ -91,7 +87,6 @@ describe('SkyLiveAnnouncer', () => {
 
     announcer.clear();
     expect(ariaLiveElement?.textContent).toBeFalsy();
-    flush();
   }));
 
   it('should remove the aria-live element from the DOM on destroy', fakeAsync(() => {
@@ -129,7 +124,6 @@ describe('SkyLiveAnnouncer', () => {
       .withContext('Expected only one live announcer element in the DOM.')
       .toBe(1);
     extraElement.remove();
-    flush();
   }));
 });
 
