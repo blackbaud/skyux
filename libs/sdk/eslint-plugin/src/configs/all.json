@@ -1,0 +1,6 @@
+{
+  "plugins": ["@skyux-eslint"],
+  "rules": {
+    "@skyux-eslint/no-lambda-imports": "error"
+  }
+}

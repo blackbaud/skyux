@@ -1,14 +1,11 @@
 import { type TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { ESLintUtils } from '@typescript-eslint/utils';
+
+import { createESLintRule } from '../../utils/create-eslint-rule';
 
 export const RULE_NAME = 'no-unbound-id';
 
-const ruleCreator = ESLintUtils.RuleCreator((ruleName) => {
-  return `https://github.com/blackbaud/skyux/blob/main/libs/cdk/eslint-plugin/docs/rules/${ruleName}.md`;
-});
-
-export const noUnboundId = ruleCreator({
+export const noUnboundId = createESLintRule({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
