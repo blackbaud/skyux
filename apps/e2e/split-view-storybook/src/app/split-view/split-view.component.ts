@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 

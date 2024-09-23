@@ -10,7 +10,7 @@ import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
 } from '@skyux/datetime';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 import { of } from 'rxjs';
 import { delay, distinctUntilChanged } from 'rxjs/operators';

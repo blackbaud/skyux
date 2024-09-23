@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
-import { PreviewWrapperModule } from '@skyux/storybook';
+import { PreviewWrapperModule } from '@skyux/storybook/components';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';

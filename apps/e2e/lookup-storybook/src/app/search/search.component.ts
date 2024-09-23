@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-search',
