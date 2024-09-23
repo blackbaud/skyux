@@ -35,7 +35,7 @@ describe('Basic colorpicker demo', () => {
       'What is your favorite color?',
     );
     await expectAsync(harness.getHintText()).toBeResolvedTo(
-      'Pick a color with at least 80% opacity',
+      'Pick a color with at least 80% opacity.',
     );
   });
 
