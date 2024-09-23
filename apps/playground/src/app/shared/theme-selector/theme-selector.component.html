@@ -1,9 +1,9 @@
 <sky-input-box class="sky-margin-inline-lg theme-selector-input">
   <label class="sky-control-label" [for]="inputBoxSelect.id">Theme</label>
   <select
+    #inputBoxSelect="skyId"
     skyId
     class="sky-theme-selector sky-form-control"
-    #inputBoxSelect="skyId"
     [(ngModel)]="themeName"
   >
     <option value="default">Default</option>
@@ -13,9 +13,9 @@
 <sky-input-box class="sky-margin-inline-lg theme-selector-input">
   <label class="sky-control-label" [for]="inputBoxSelectMode.id">Mode</label>
   <select
+    #inputBoxSelectMode="skyId"
     class="sky-theme-selector sky-form-control"
     skyId
-    #inputBoxSelectMode="skyId"
     [disabled]="modeValues.length === 1"
     [(ngModel)]="themeMode"
   >
@@ -32,9 +32,9 @@
     >Spacing</label
   >
   <select
+    #inputBoxSelectSpacing="skyId"
     skyId
     class="sky-theme-selector sky-form-control"
-    #inputBoxSelectSpacing="skyId"
     [disabled]="spacingValues.length === 1"
     [(ngModel)]="themeSpacing"
   >
