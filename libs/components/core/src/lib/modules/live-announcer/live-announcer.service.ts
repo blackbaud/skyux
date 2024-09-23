@@ -22,6 +22,7 @@ export class SkyLiveAnnouncerService implements OnDestroy {
   #announcerElement: HTMLElement | undefined;
   #document = inject(DOCUMENT);
   #idService = inject(SkyIdService);
+  #durationTimeout: number | undefined;
 
   constructor() {
     this.#announcerElement = this.#createLiveElement();
@@ -44,10 +45,16 @@ export class SkyLiveAnnouncerService implements OnDestroy {
     const politeness = args?.politeness ?? 'polite';
 
     this.clear();
+    clearTimeout(this.#durationTimeout);
 
     this.#announcerElement.setAttribute('aria-live', politeness);
 
     this.#announcerElement.textContent = message;
+
+    this.#durationTimeout = setTimeout(
+      () => this.clear(),
+      args?.duration ?? this.#calculateDefaultDurationFromString(message),
+    ) as unknown as number;
   }
 
   /**
@@ -68,6 +75,22 @@ export class SkyLiveAnnouncerService implements OnDestroy {
     this.#announcerElement?.remove();
     this.#announcerElement = undefined;
     this.announcerElementChanged.next(undefined);
+    clearTimeout(this.#durationTimeout);
+  }
+
+  // Calculate a default duration for an announced message based on the number of words in the string.
+  #calculateDefaultDurationFromString(message: string): number {
+    // Research suggests normal WPM is 110 for english. Lowering here to be conservative.
+    const baseWordsPerMinute = 80;
+    const minuteInMilliseconds = 60000;
+    const numberOfWords = message.split(' ').length;
+
+    // Calculate a base time based on a slow words per minute.
+    const baseTime =
+      (numberOfWords / baseWordsPerMinute) * minuteInMilliseconds;
+
+    // Add 50% to time to account for exceptionally slow screen reader settings and/or speech settings that leave long pauses between words.
+    return baseTime * 1.5;
   }
 
   #createLiveElement(): HTMLElement {
