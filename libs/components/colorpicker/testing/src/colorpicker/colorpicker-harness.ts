@@ -7,6 +7,9 @@ import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyColorpickerDropdownHarness } from './colorpicker-dropdown-harness';
 import { SkyColorpickerHarnessFilters } from './colorpicker-harness.filters';
 
+/**
+ * Harness for interacting with colorpicker components in tests.
+ */
 export class SkyColorpickerHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -49,55 +52,24 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
     return SkyColorpickerHarness.getDataSkyIdPredicate(filters);
   }
 
+  /**
+   * Clicks the colorpicker button.
+   */
+  public async clickColorpickerButton(): Promise<void> {
+    const button = await this.#getButton();
+    return await button.click();
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
   public async clickHelpInline(): Promise<void> {
     return (await this.#getHelpInline()).click();
   }
 
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
-    return await (await this.#getHelpInline()).getPopoverContent();
-  }
-
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
-  }
-
-  public async getHintText(): Promise<string> {
-    return (await (await this.#getHintText()).text()).trim();
-  }
-
-  public async getLabelText(): Promise<string> {
-    return (await (await this.#getLabel()).text()).trim();
-  }
-
-  public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrors())?.hasError('required');
-  }
-
-  public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getButton()).getAttribute('aria-label');
-  }
-
-  public async getTitle(): Promise<string | null> {
-    return (await this.#getButton()).getAttribute('title');
-  }
-
-  public async isLabelHidden(): Promise<boolean> {
-    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
-  }
-
-  public async clickColorpickerButton(): Promise<void> {
-    const button = await this.#getButton();
-    return button.click();
-  }
-
-  public async isColorpickerOpen(): Promise<boolean> {
-    return (
-      (await (await this.#getButton()).getAttribute('aria-expanded')) === 'true'
-    );
-  }
-
+  /**
+   * Clicks the reset button. Throws an error if the reset button is hidden.
+   */
   public async clickResetButton(): Promise<void> {
     const defaultButton = (await this.#resetButtonDefault()) ?? null;
     const modernButton = (await this.#resetButtonModern()) ?? null;
@@ -106,12 +78,23 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
       throw new Error('No reset button found.');
     }
     if (defaultButton) {
-      return defaultButton?.click();
+      return await defaultButton?.click();
     } else if (modernButton) {
-      return modernButton?.click();
+      return await modernButton?.click();
     }
   }
 
+  /**
+   * Gets the colorpicker component's aria label.
+   */
+  public async getAriaLabel(): Promise<string | null> {
+    return (await this.#getButton()).getAttribute('aria-label');
+  }
+
+  /**
+   * Gets the `SkyColorpickerDropdownHarness` for the colorpicker dropdown controlled by
+   * the colorpicker button. Throws an error if the dropdown is not open.
+   */
   public async getColorpickerDropdown(): Promise<SkyColorpickerDropdownHarness> {
     const overlayId = await this.getOverlayId();
 
@@ -124,6 +107,76 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
     return await this.#documentRootLocator.locatorFor(
       SkyColorpickerDropdownHarness.with({ id: overlayId }),
     )();
+  }
+
+  /**
+   * Gets the help inline popover content.
+   */
+  public async getHelpPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
+    return await (await this.#getHelpInline()).getPopoverContent();
+  }
+
+  /**
+   * Gets the help inline popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  /**
+   * Gets the colorpicker component's hint text.
+   */
+  public async getHintText(): Promise<string> {
+    return (await (await this.#getHintText()).text()).trim();
+  }
+
+  /**
+   * Gets the colorpicker component's label text.
+   */
+  public async getLabelText(): Promise<string> {
+    return (await (await this.#getLabel()).text()).trim();
+  }
+
+  /**
+   * Gets the colorpicker button's title.
+   */
+  public async getTitle(): Promise<string | null> {
+    return (await this.#getButton()).getAttribute('title');
+  }
+
+  /**
+   * Whether the required error has fired.
+   */
+  public async hasRequiredError(): Promise<boolean> {
+    return (await this.#getFormErrors())?.hasError('required');
+  }
+
+  /**
+   * Whether the colorpicker component's label is hidden.
+   */
+  public async isLabelHidden(): Promise<boolean> {
+    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
+  }
+
+  /**
+   * Whether the colorpicker component is open.
+   */
+  public async isColorpickerOpen(): Promise<boolean> {
+    try {
+      await this.getColorpickerDropdown();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Whether the colorpicker component is stacked.
+   */
+  public async isStacked(): Promise<boolean> {
+    return (await this.host()).hasClass('sky-margin-stacked-lg');
   }
 
   private async getOverlayId(): Promise<string | null> {

@@ -28,7 +28,7 @@ export class ColorpickerComponent {
   #required = false;
 
   constructor(formBuilder: UntypedFormBuilder) {
-    this.favoriteColor = new UntypedFormControl('#000');
+    this.favoriteColor = new UntypedFormControl('#f00');
 
     this.reactiveForm = formBuilder.group({
       favoriteColor: this.favoriteColor,

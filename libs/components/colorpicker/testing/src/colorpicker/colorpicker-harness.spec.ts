@@ -22,6 +22,7 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
+import { SkyColorpickerDropdownHarness } from './colorpicker-dropdown-harness';
 import { SkyColorpickerHarness } from './colorpicker-harness';
 
 //#region Test component
@@ -38,6 +39,7 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
         [labelHidden]="labelHidden"
         [labelText]="labelText"
         [labelledBy]="labelledBy"
+        [showResetButton]="showResetButton"
         [stacked]="stacked"
       >
         <input
@@ -45,9 +47,7 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
           type="text"
           [required]="required"
           [skyColorpickerInput]="skyColorpickerTest"
-          [allowTransparency]="allowTransparency"
-          [alphaChannel]="alphaChannel"
-          [presetColors]="presetColors"
+          [presetColors]="swatches"
         />
       </sky-colorpicker>
       <sky-colorpicker
@@ -66,8 +66,10 @@ class TestComponent {
   public labelText: string | undefined;
   public labelledBy: string | undefined;
   public myForm: FormGroup;
-  public showResetButton = false;
+  public showResetButton = true;
   public stacked = false;
+
+  public swatches: string[] | undefined;
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
@@ -77,7 +79,7 @@ class TestComponent {
 }
 //#endregion Test component
 
-fdescribe('Colorpicker harness', () => {
+describe('Colorpicker harness', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -302,23 +304,222 @@ fdescribe('Colorpicker harness', () => {
     expect(control.value['hex']).toBe('#f00');
   });
 
-  // it('should throw an error if no reset button is found', async () => {
-  //   const { colorpickerHarness, fixture } = await setupTest();
-
-  //   fixture.componentInstance.showResetButton = false;
-  //   fixture.detectChanges();
-
-  //   expectAsync(colorpickerHarness.clickResetButton()).toBeRejectedWithError(
-  //     'No reset button found.',
-  //   );
-  // });
-
-  fit('should get whether colorpicker dropdown is open', async () => {
+  it('should throw an error if no reset button is found', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.showResetButton = false;
+    fixture.detectChanges();
+
+    await expectAsync(
+      colorpickerHarness.clickResetButton(),
+    ).toBeRejectedWithError('No reset button found.');
+  });
+
+  it('should get whether colorpicker dropdown is open', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    await expectAsync(colorpickerHarness.isColorpickerOpen()).toBeResolvedTo(
+      false,
+    );
 
     await colorpickerHarness.clickColorpickerButton();
     fixture.detectChanges();
 
-    expectAsync(colorpickerHarness.isColorpickerOpen()).toBeResolvedTo(true);
+    await expectAsync(colorpickerHarness.isColorpickerOpen()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should get whether colorpicker is stacked', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.stacked = true;
+    fixture.detectChanges();
+
+    await expectAsync(colorpickerHarness.isStacked()).toBeResolvedTo(true);
+  });
+
+  describe('colorpicker dropdown', () => {
+    async function getColorpickerDropdownHarness(
+      colorpickerHarness: SkyColorpickerHarness,
+      fixture: ComponentFixture<TestComponent>,
+    ): Promise<SkyColorpickerDropdownHarness> {
+      await colorpickerHarness.clickColorpickerButton();
+      fixture.detectChanges();
+
+      return await colorpickerHarness.getColorpickerDropdown();
+    }
+    it('should set hex value', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.setHexValue('#000');
+      await dropdownHarness.clickApplyButton();
+      fixture.detectChanges();
+
+      expect(control.value['hex']).toBe('#000');
+    });
+
+    it('should set red value', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.setRedValue('0');
+      await dropdownHarness.clickApplyButton();
+      fixture.detectChanges();
+
+      expect(control.value['hex']).toBe('#000');
+    });
+
+    it('should set green value', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.setGreenValue('255');
+      await dropdownHarness.clickApplyButton();
+      fixture.detectChanges();
+
+      expect(control.value['hex']).toBe('#ff0');
+    });
+
+    it('should set blue value', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.setBlueValue('255');
+      await dropdownHarness.clickApplyButton();
+      fixture.detectChanges();
+
+      expect(control.value['hex']).toBe('#f0f');
+    });
+
+    it('should set alpha value', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.setAlphaValue('.5');
+      await dropdownHarness.clickApplyButton();
+      fixture.detectChanges();
+
+      expect(control.value['rgbaText']).toBe('rgba(255,0,0,0.5)');
+    });
+
+    it('should click a swatch button in default theme', async () => {
+      const { colorpickerHarness, fixture } = await setupTest({
+        theme: 'default',
+      });
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.componentInstance.swatches = ['#f0f', '#0ff'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.clickSwatch('#0ff');
+      await dropdownHarness.clickApplyButton();
+      fixture.detectChanges();
+
+      expect(control.value['hex']).toBe('#0ff');
+    });
+
+    it('should click a swatch button in modern theme', async () => {
+      const { colorpickerHarness, fixture } = await setupTest({
+        theme: 'modern',
+      });
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.componentInstance.swatches = ['#f0f', '#0ff'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.clickSwatch('#0ff');
+      await dropdownHarness.clickApplyButton();
+      fixture.detectChanges();
+
+      expect(control.value['hex']).toBe('#0ff');
+    });
+
+    it('should throw an error if trying to click a swatch and no swatches are set', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      fixture.detectChanges();
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await expectAsync(
+        dropdownHarness.clickSwatch('#0ff'),
+      ).toBeRejectedWithError('No swatches found.');
+    });
+
+    it('should click the cancel button', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      const control = fixture.componentInstance.myForm.controls['colorpicker'];
+      fixture.detectChanges();
+      expect(control.value).toBe('#f00');
+
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await dropdownHarness.setGreenValue('255');
+      await dropdownHarness.clickCancelButton();
+      fixture.detectChanges();
+
+      expect(control.value).toBe('#f00');
+    });
   });
 });
