@@ -156,6 +156,14 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   /**
+   * Whether the custom error has fired.
+   * @params errorName `errorName` of the custom error.
+   */
+  public async hasError(errorName: string): Promise<boolean> {
+    return (await this.#getFormErrors())?.hasError(errorName);
+  }
+
+  /**
    * Whether the required error has fired.
    */
   public async hasRequiredError(): Promise<boolean> {

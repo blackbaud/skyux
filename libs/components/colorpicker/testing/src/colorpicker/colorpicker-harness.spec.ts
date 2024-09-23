@@ -50,6 +50,12 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
           [skyColorpickerInput]="skyColorpickerTest"
           [presetColors]="swatches"
         />
+        @if (showCustomError) {
+          <sky-form-error
+            errorName="wrongColor"
+            errorText="That is not a good color."
+          />
+        }
       </sky-colorpicker>
       <sky-colorpicker
         data-sky-id="other-colorpicker"
@@ -68,6 +74,7 @@ class TestComponent {
   public labelledBy: string | undefined;
   public myForm: FormGroup;
   public pickerButtonIcon: string | undefined;
+  public showCustomError = false;
   public showResetButton = true;
   public stacked = false;
 
@@ -238,6 +245,21 @@ describe('Colorpicker harness', () => {
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.hasRequiredError()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should check whether custom error has fired', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'colorpicker';
+    fixture.detectChanges();
+
+    fixture.componentInstance.showCustomError = true;
+    fixture.componentInstance.myForm.markAllAsTouched();
+    fixture.detectChanges();
+
+    await expectAsync(colorpickerHarness.hasError('wrongColor')).toBeResolvedTo(
       true,
     );
   });
