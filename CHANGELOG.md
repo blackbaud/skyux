@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.5.0](https://github.com/blackbaud/skyux/compare/11.4.0...11.5.0) (2024-09-23)
+
+
+### Features
+
+* **components/ag-grid:** support AG Grid 32.2 ([#2759](https://github.com/blackbaud/skyux/issues/2759)) ([6915157](https://github.com/blackbaud/skyux/commit/691515788024aec4974f2183191c66d2a57cd637))
+
+
+### Bug Fixes
+
+* **components/core:** fix `SkyLogLevel` to support `--isolatedModules` ([#2766](https://github.com/blackbaud/skyux/issues/2766)) ([770ab4c](https://github.com/blackbaud/skyux/commit/770ab4c5064849b7c4ecc2bbacbdd677928205bc))
+
 ## [11.4.0](https://github.com/blackbaud/skyux/compare/11.3.0...11.4.0) (2024-09-20)
 
 
