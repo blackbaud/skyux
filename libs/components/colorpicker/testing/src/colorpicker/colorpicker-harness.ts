@@ -4,6 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFormErrorsHarness } from '@skyux/forms/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
+import { SkyColorpickerDropdownHarness } from './colorpicker-dropdown-harness';
 import { SkyColorpickerHarnessFilters } from './colorpicker-harness.filters';
 
 export class SkyColorpickerHarness extends SkyComponentHarness {
@@ -11,6 +12,8 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * @internal
    */
   public static hostSelector = 'sky-colorpicker';
+
+  #documentRootLocator = this.documentRootLocatorFactory();
 
   #getHintText = this.locatorFor('.sky-colorpicker-hint-text');
   #getLabel = this.locatorFor('label.sky-control-label');
@@ -85,10 +88,11 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   public async clickColorpickerButton(): Promise<void> {
-    (await this.#getButton()).click();
+    const button = await this.#getButton();
+    return button.click();
   }
 
-  public async colorpickerIsOpen(): Promise<boolean> {
+  public async isColorpickerOpen(): Promise<boolean> {
     return (
       (await (await this.#getButton()).getAttribute('aria-expanded')) === 'true'
     );
@@ -99,12 +103,30 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
     const modernButton = (await this.#resetButtonModern()) ?? null;
 
     if (!defaultButton && !modernButton) {
-      throw Error('No reset button found.');
+      throw new Error('No reset button found.');
     }
     if (defaultButton) {
-      await defaultButton?.click();
+      return defaultButton?.click();
     } else if (modernButton) {
-      await modernButton?.click();
+      return modernButton?.click();
     }
+  }
+
+  public async getColorpickerDropdown(): Promise<SkyColorpickerDropdownHarness> {
+    const overlayId = await this.getOverlayId();
+
+    if (!overlayId) {
+      throw new Error(
+        'Unable to get colorpicker dropdown because dropdown is closed',
+      );
+    }
+
+    return await this.#documentRootLocator.locatorFor(
+      SkyColorpickerDropdownHarness.with({ id: overlayId }),
+    )();
+  }
+
+  private async getOverlayId(): Promise<string | null> {
+    return (await this.#getButton()).getAttribute('aria-controls');
   }
 }

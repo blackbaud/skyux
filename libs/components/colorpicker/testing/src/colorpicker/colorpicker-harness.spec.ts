@@ -312,4 +312,13 @@ fdescribe('Colorpicker harness', () => {
   //     'No reset button found.',
   //   );
   // });
+
+  fit('should get whether colorpicker dropdown is open', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    await colorpickerHarness.clickColorpickerButton();
+    fixture.detectChanges();
+
+    expectAsync(colorpickerHarness.isColorpickerOpen()).toBeResolvedTo(true);
+  });
 });

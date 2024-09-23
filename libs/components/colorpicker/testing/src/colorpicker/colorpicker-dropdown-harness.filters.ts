@@ -1,10 +1,10 @@
 import { BaseHarnessFilters } from '@angular/cdk/testing';
 
 /**
- * A set of criteria that can be used to filter a list of `SkyColorpickerOverlay` instances.
+ * A set of criteria that can be used to filter a list of `SkyColorpickerDropdown` instances.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SkyColorpickerOverlayHarnessFilters
+export interface SkyColorpickerDropdownHarnessFilters
   extends BaseHarnessFilters {
   id?: string;
 }

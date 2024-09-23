@@ -1,9 +1,9 @@
 import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
-import { SkyColorpickerOverlayHarnessFilters } from './colorpicker-overlay-harness.filters';
+import { SkyColorpickerDropdownHarnessFilters } from './colorpicker-dropdown-harness.filters';
 
-export class SkyColorpickerOverlayHarness extends SkyComponentHarness {
+export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
   public static hostSelector = '.sky-colorpicker-container';
 
   #getInputs = this.locatorForAll('input.sky-form-control');
@@ -11,9 +11,9 @@ export class SkyColorpickerOverlayHarness extends SkyComponentHarness {
   #getCancelButton = this.locatorFor('sky-btn-colorpicker-close');
 
   public static with(
-    filters: SkyColorpickerOverlayHarnessFilters,
-  ): HarnessPredicate<SkyColorpickerOverlayHarness> {
-    return SkyColorpickerOverlayHarness.getDataSkyIdPredicate(
+    filters: SkyColorpickerDropdownHarnessFilters,
+  ): HarnessPredicate<SkyColorpickerDropdownHarness> {
+    return SkyColorpickerDropdownHarness.getDataSkyIdPredicate(
       filters,
     ).addOption('id', filters.id, async (harness, id) =>
       HarnessPredicate.stringMatches(await harness.getId(), id),
