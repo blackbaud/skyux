@@ -24,11 +24,11 @@
   />
 </form>
 
-<ng-template let-item="item" #customSearchResultTemplate>
+<ng-template #customSearchResultTemplate let-item="item">
   {{ item.description }}
 </ng-template>
 
-<ng-template let-item="item" #customShowMoreTemplate>
+<ng-template #customShowMoreTemplate let-item="item">
   {{ item.name }} - {{ item.birthDate }}
 </ng-template>
 

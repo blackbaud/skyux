@@ -21,9 +21,9 @@
     }
   },
   "peerDependencies": {
-    "@angular/common": "^18.2.3",
-    "@angular/core": "^18.2.3",
-    "@angular/forms": "^18.2.3",
+    "@angular/common": "^18.2.5",
+    "@angular/core": "^18.2.5",
+    "@angular/forms": "^18.2.5",
     "@skyux/autonumeric": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/data-manager": "0.0.0-PLACEHOLDER",
@@ -36,8 +36,8 @@
     "@skyux/lookup": "0.0.0-PLACEHOLDER",
     "@skyux/popovers": "0.0.0-PLACEHOLDER",
     "@skyux/theme": "0.0.0-PLACEHOLDER",
-    "ag-grid-angular": "^32.1.0",
-    "ag-grid-community": "^32.1.0"
+    "ag-grid-angular": "^32.2.0",
+    "ag-grid-community": "^32.2.0"
   },
   "dependencies": {
     "tslib": "^2.6.3"

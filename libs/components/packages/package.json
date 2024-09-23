@@ -84,16 +84,16 @@
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
       "@skyux/validation": "0.0.0-PLACEHOLDER",
-      "ag-grid-angular": "^32.1.0",
-      "ag-grid-community": "^32.1.0",
+      "ag-grid-angular": "^32.2.0",
+      "ag-grid-community": "^32.2.0",
       "ag-grid-enterprise": "^32.1.0",
       "autonumeric": "^4.10.5"
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "^18.2.3",
-    "@angular/cli": "^18.2.3",
-    "@angular/core": "^18.2.3"
+    "@angular/cdk": "^18.2.4",
+    "@angular/cli": "^18.2.4",
+    "@angular/core": "^18.2.5"
   },
   "dependencies": {
     "fs-extra": "11.2.0",

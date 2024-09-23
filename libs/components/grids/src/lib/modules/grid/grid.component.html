@@ -122,8 +122,8 @@
       </thead>
       <tbody class="sky-grid-tbody">
         <tr
-          class="sky-grid-row"
           *ngFor="let item of items; let i = index"
+          class="sky-grid-row"
           [attr.aria-current]="isRowHighlighted(item.id) ? true : null"
           [attr.sky-cmp-id]="item.id"
           [ngClass]="{
@@ -187,7 +187,7 @@
   value
 }}</ng-template>
 
-<ng-template let-item #inlineDeleteTemplateRef>
+<ng-template #inlineDeleteTemplateRef let-item>
   <div
     #inlineDeleteRef
     [id]="'row-delete-ref-' + item.id"

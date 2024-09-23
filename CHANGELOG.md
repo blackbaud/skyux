@@ -1,5 +1,65 @@
 # Changelog
 
+## [11.5.0](https://github.com/blackbaud/skyux/compare/11.4.0...11.5.0) (2024-09-23)
+
+
+### Features
+
+* **components/ag-grid:** support AG Grid 32.2 ([#2759](https://github.com/blackbaud/skyux/issues/2759)) ([6915157](https://github.com/blackbaud/skyux/commit/691515788024aec4974f2183191c66d2a57cd637))
+
+
+### Bug Fixes
+
+* **components/core:** fix `SkyLogLevel` to support `--isolatedModules` ([#2766](https://github.com/blackbaud/skyux/issues/2766)) ([770ab4c](https://github.com/blackbaud/skyux/commit/770ab4c5064849b7c4ecc2bbacbdd677928205bc))
+
+## [11.4.0](https://github.com/blackbaud/skyux/compare/11.3.0...11.4.0) (2024-09-20)
+
+
+### Features
+
+* **components/forms:** add harnesses for radio and radio group components ([#2754](https://github.com/blackbaud/skyux/issues/2754)) ([ca31508](https://github.com/blackbaud/skyux/commit/ca31508a00a258fd5b2b5523d01615c137664b4c))
+* **components/pages:** add `helpKey` input to the page component ([#2739](https://github.com/blackbaud/skyux/issues/2739)) ([ed3f518](https://github.com/blackbaud/skyux/commit/ed3f5189c6e7ed1706b8d475daa344a13a6d67eb))
+
+
+### Bug Fixes
+
+* **components/datetime:** show minimum and maximum date in error message ([#2762](https://github.com/blackbaud/skyux/issues/2762)) ([d3b2e66](https://github.com/blackbaud/skyux/commit/d3b2e66a73760fd7e5bf5edc6a7c5500a44681b6))
+
+## [11.3.0](https://github.com/blackbaud/skyux/compare/11.2.0...11.3.0) (2024-09-19)
+
+
+### Features
+
+* **components/ag-grid:** support changing the tab focus behavior ([#2748](https://github.com/blackbaud/skyux/issues/2748)) ([e63f738](https://github.com/blackbaud/skyux/commit/e63f73844be2b300df6e8e3ba4dd91a1bba7aaa9))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** non-resizeable columns show a column divider but do not show a resize cursor or hover indicator ([#2757](https://github.com/blackbaud/skyux/issues/2757)) ([63d78d4](https://github.com/blackbaud/skyux/commit/63d78d43e559c604ce23d86850e3977830c0fa84))
+* **components/ag-grid:** sort direction button is not visible when sorting is not active on a column ([#2743](https://github.com/blackbaud/skyux/issues/2743)) ([bb7c016](https://github.com/blackbaud/skyux/commit/bb7c01636c44fbe1ae4f3c108d9f84917d16b187))
+* **sdk/eslint-config:** alternatively look for `angular-eslint` dependency ([#2755](https://github.com/blackbaud/skyux/issues/2755)) ([e1fd53c](https://github.com/blackbaud/skyux/commit/e1fd53c531d0985813c78625a6e8ecf8c3038552))
+* update `@typescript-eslint/eslint-plugin` to use deprecated rule ([#2756](https://github.com/blackbaud/skyux/issues/2756)) ([a4ab15a](https://github.com/blackbaud/skyux/commit/a4ab15a40a3623c6c2dcf500ba77bad3635b4c18))
+* update JSDocs to communicate that inline help features require a value for `labelText` ([#2745](https://github.com/blackbaud/skyux/issues/2745)) ([#2751](https://github.com/blackbaud/skyux/issues/2751)) ([708e754](https://github.com/blackbaud/skyux/commit/708e754a7a67ab4c84e05809c50ff52160b8f849))
+
+## [11.2.0](https://github.com/blackbaud/skyux/compare/11.1.0...11.2.0) (2024-09-17)
+
+
+### Features
+
+* **components/phone-field:** update revalidation to occur on input ([#2744](https://github.com/blackbaud/skyux/issues/2744)) ([09af237](https://github.com/blackbaud/skyux/commit/09af237146b18b91fb2305f8de4c4b2457904c59))
+
+
+### Bug Fixes
+
+* **sdk/eslint-config:** remove utilization of the eslint deprecation plugin as it is not compatible with ESLint 9 ([#2746](https://github.com/blackbaud/skyux/issues/2746)) ([11d04f9](https://github.com/blackbaud/skyux/commit/11d04f91f40742e2230ae4b9535958327d62604b))
+
+## [10.44.1](https://github.com/blackbaud/skyux/compare/10.44.0...10.44.1) (2024-09-17)
+
+
+### Bug Fixes
+
+* update JSDocs to communicate that inline help features require a value for `labelText` ([#2745](https://github.com/blackbaud/skyux/issues/2745)) ([c862bcd](https://github.com/blackbaud/skyux/commit/c862bcde12ef41fb92c63ba071e5d191c6c31502))
+
 ## [11.1.0](https://github.com/blackbaud/skyux/compare/11.0.0...11.1.0) (2024-09-13)
 
 

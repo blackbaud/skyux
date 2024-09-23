@@ -583,9 +583,11 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   ): void {
     // Activate/deactivate tab components.
     this.tabs?.forEach((tab) => {
-      this.#tabsetService.tabIndexesEqual(tab.tabIndexValue, activeIndex)
-        ? tab.activate()
-        : tab.deactivate();
+      if (this.#tabsetService.tabIndexesEqual(tab.tabIndexValue, activeIndex)) {
+        tab.activate();
+      } else {
+        tab.deactivate();
+      }
     });
 
     // Update the tab button models.

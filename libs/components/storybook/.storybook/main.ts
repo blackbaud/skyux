@@ -9,6 +9,6 @@ import { rootMain } from '../../../../.storybook/main';
 const config: StorybookConfig = {
   ...rootMain,
   // There needs to be one local story in order for composition to work.
-  stories: ['../src/lib/**/*.stories.mdx', '../src/lib/**/*.stories.@(js|ts)'],
+  stories: ['../src/lib/**/*.stories.@(js|ts)'],
 };
 module.exports = config;

@@ -44,12 +44,12 @@ describe('Form errors component', () => {
       required: true,
       maxlength: true,
       minlength: true,
-      skyDate: { invalid: true, minDate: true, maxDate: true },
+      skyDate: { invalid: true, minDate: '01/01/2024', maxDate: '01/01/2022' },
       skyFuzzyDate: {
         futureDisabled: true,
         invalid: true,
-        maxDate: true,
-        minDate: true,
+        maxDate: '01/2023',
+        minDate: '01/2024',
         yearRequired: true,
       },
       skyEmail: true,
@@ -98,6 +98,57 @@ describe('Form errors component', () => {
       expect(formError).toExist();
       expect(formError).toBeVisible();
     });
+  });
+
+  it('should include the minimum or maximum date in the date error messages', () => {
+    componentInstance.errors = {
+      skyDate: {
+        invalid: true,
+        maxDate: new Date('01/01/2025'),
+        maxDateFormatted: '01/01/2025',
+        minDate: new Date('01/01/2024'),
+        minDateFormatted: '01/01/2024',
+      },
+      skyFuzzyDate: {
+        futureDisabled: true,
+        invalid: true,
+        maxDate: new Date('01/01/2021'),
+        maxDateFormatted: '01/01/2021',
+        minDate: new Date('01/01/2020'),
+        minDateFormatted: '01/01/2020',
+        yearRequired: true,
+      },
+    };
+
+    componentInstance.dirty = true;
+    componentInstance.touched = true;
+    fixture.detectChanges();
+
+    const minDateErrorMessage = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='minDate'] .sky-status-indicator-message`,
+    );
+    const maxDateErrorMessage = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='maxDate'] .sky-status-indicator-message`,
+    );
+    const fuzzyMinDateErrorMessage = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='fuzzyMinDate'] .sky-status-indicator-message`,
+    );
+    const fuzzyMaxDateErrorMessage = fixture.nativeElement.querySelector(
+      `sky-form-error[errorName='fuzzyMaxDate'] .sky-status-indicator-message`,
+    );
+
+    expect(minDateErrorMessage.textContent).toEqual(
+      'Select or enter a date on or after 01/01/2024.',
+    );
+    expect(maxDateErrorMessage.textContent).toEqual(
+      'Select or enter a date on or before 01/01/2025.',
+    );
+    expect(fuzzyMinDateErrorMessage.textContent).toEqual(
+      'Select or enter a date on or after 01/01/2020.',
+    );
+    expect(fuzzyMaxDateErrorMessage.textContent).toEqual(
+      'Select or enter a date on or before 01/01/2021.',
+    );
   });
 
   it('should render custom errors when there are no known errors and labelText is present regardless of touched or dirty', () => {
