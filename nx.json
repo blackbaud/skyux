@@ -69,6 +69,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["default", "^default"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
     }
   },
   "namedInputs": {
@@ -128,5 +133,10 @@
     }
   },
   "nxCloudAccessToken": "Y2EyNjQ2OTctN2ZkMS00NTA2LWIxZDEtZTQyZDc3MjIwNDQyfHJlYWQ=",
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "release": {
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build"
+    }
+  }
 }
