@@ -22,6 +22,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./affix/affix.module').then((m) => m.AffixModule),
   },
+  {
+    path: 'live-announcer',
+    loadComponent: () => import('./live-announcer/live-announcer.component'),
+    data: {
+      name: 'Live announcer',
+      library: 'core',
+      icon: 'universal-access',
+    },
+  },
 ];
 
 @NgModule({
