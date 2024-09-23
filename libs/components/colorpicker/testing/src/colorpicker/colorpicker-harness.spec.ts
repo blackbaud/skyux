@@ -39,6 +39,7 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
         [labelHidden]="labelHidden"
         [labelText]="labelText"
         [labelledBy]="labelledBy"
+        [pickerButtonIcon]="pickerButtonIcon"
         [showResetButton]="showResetButton"
         [stacked]="stacked"
       >
@@ -66,6 +67,7 @@ class TestComponent {
   public labelText: string | undefined;
   public labelledBy: string | undefined;
   public myForm: FormGroup;
+  public pickerButtonIcon: string | undefined;
   public showResetButton = true;
   public stacked = false;
 
@@ -337,6 +339,16 @@ describe('Colorpicker harness', () => {
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.isStacked()).toBeResolvedTo(true);
+  });
+
+  it('should get the colorpicker icon test harness', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.pickerButtonIcon = 'calendar';
+    fixture.detectChanges();
+
+    const iconHarness = await colorpickerHarness.getColorpickerIcon();
+    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('calendar');
   });
 
   describe('colorpicker dropdown', () => {

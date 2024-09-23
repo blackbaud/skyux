@@ -3,6 +3,7 @@ import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFormErrorsHarness } from '@skyux/forms/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyIconHarness } from '@skyux/icon/testing';
 
 import { SkyColorpickerDropdownHarness } from './colorpicker-dropdown-harness';
 import { SkyColorpickerHarnessFilters } from './colorpicker-harness.filters';
@@ -107,6 +108,14 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
     return await this.#documentRootLocator.locatorFor(
       SkyColorpickerDropdownHarness.with({ id: overlayId }),
     )();
+  }
+
+  /**
+   * Gets the `SkyIconHarness` for the colorpicker icon if set.
+   * @internal
+   */
+  public async getColorpickerIcon(): Promise<SkyIconHarness> {
+    return await this.locatorFor(SkyIconHarness)();
   }
 
   /**
