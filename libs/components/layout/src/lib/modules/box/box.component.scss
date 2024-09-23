@@ -14,18 +14,6 @@
   --sky-override-box-controls-padding-left: var(--sky-margin-inline-xl);
 }
 
-.sky-box {
-  --component-token: 4px;
-}
-
-.sky-theme-modern.sky-box {
-  --component-token: var(--the-actual-token-to-use);
-}
-
-.sky-box {
-  margin-bottom: var(--component-token);
-}
-
 sky-box {
   display: block;
 }
