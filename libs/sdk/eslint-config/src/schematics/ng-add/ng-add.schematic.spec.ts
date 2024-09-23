@@ -1,7 +1,4 @@
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import path from 'path';
 
@@ -51,37 +48,6 @@ describe('ng-add.schematic', () => {
       tree,
     };
   }
-
-  function validateJsonFile(
-    tree: UnitTestTree,
-    path: string,
-    expectedContents: unknown,
-  ) {
-    const contents = readJsonFile(tree, path);
-    expect(contents).toEqual(expectedContents);
-  }
-
-  it('should install dependencies', async () => {
-    const { runSchematic, tree } = await setupTest({
-      esLintConfig: {},
-    });
-
-    await runSchematic();
-
-    expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true,
-    );
-
-    validateJsonFile(
-      tree,
-      'package.json',
-      expect.objectContaining({
-        devDependencies: expect.objectContaining({
-          'eslint-plugin-deprecation': 'LATEST_^2.0.0',
-        }),
-      }),
-    );
-  });
 
   it('should configure ESLint config', async () => {
     const { runSchematic, tree } = await setupTest({
@@ -173,10 +139,24 @@ describe('ng-add.schematic', () => {
     });
 
     await expect(() => runSchematic()).rejects.toThrowError(
-      "The package '@angular-eslint/schematics' is not installed. " +
+      "The package 'angular-eslint' is not installed. " +
         "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
         'See: https://github.com/angular-eslint/angular-eslint#quick-start',
     );
+  });
+
+  it("should not abort if 'angular-eslint' is installed", async () => {
+    const { runSchematic, tree } = await setupTest({
+      esLintConfig: {},
+      packageJson: {
+        devDependencies: {
+          'angular-eslint': '*',
+        },
+      },
+    });
+
+    await runSchematic();
+    expect(readJsonFile(tree, ESLINT_CONFIG_PATH)).toEqual({});
   });
 
   it('should harden the version of the @skyux-sdk/eslint-config package', async () => {

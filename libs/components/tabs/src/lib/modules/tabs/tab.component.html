@@ -1,10 +1,10 @@
 <div
+  #tabContentWrapper
   class="sky-tab"
   role="tabpanel"
   [attr.aria-labelledby]="tabButtonId"
   [hidden]="!showContent"
   [id]="tabPanelId"
-  #tabContentWrapper
 >
   <ng-content />
 </div>

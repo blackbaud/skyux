@@ -699,6 +699,21 @@ describe('Input box component', () => {
       await validateHelpInline(fixture, 'Help content from template');
     });
 
+    it('should not render help inline button if labelText undefined', async () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      fixture.componentRef.setInput('labelText', undefined);
+      fixture.componentInstance.easyModeHelpPopoverContent = "What's this?";
+      fixture.detectChanges();
+
+      const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(
+        easyModeInput.inlineHelpEl?.querySelector('.sky-help-inline'),
+      ).toBeUndefined();
+    });
+
     it('should render help inline with help key', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();

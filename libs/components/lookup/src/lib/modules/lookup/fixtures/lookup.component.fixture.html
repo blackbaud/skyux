@@ -1,6 +1,7 @@
-<form [formGroup]="form" novalidate>
+<form novalidate [formGroup]="form">
   <label id="my-lookup-label"> My friends </label>
   <sky-lookup
+    #standardLookup
     id="my-lookup"
     formControlName="friends"
     [ariaLabel]="ariaLabel"
@@ -20,21 +21,21 @@
     [showMoreConfig]="showMoreConfig"
     [wrapperClass]="wrapperClass"
     (addClick)="addButtonClicked($event)"
-    #standardLookup
   />
 </form>
 
-<ng-template let-item="item" #customSearchResultTemplate>
+<ng-template #customSearchResultTemplate let-item="item">
   {{ item.description }}
 </ng-template>
 
-<ng-template let-item="item" #customShowMoreTemplate>
+<ng-template #customShowMoreTemplate let-item="item">
   {{ item.name }} - {{ item.birthDate }}
 </ng-template>
 
-<form [formGroup]="asyncForm" novalidate>
+<form novalidate [formGroup]="asyncForm">
   <label id="my-async-lookup-label"> My friends (async) </label>
   <sky-lookup
+    #asyncLookup
     id="my-async-lookup"
     formControlName="friends"
     [ariaLabel]="ariaLabel"
@@ -53,7 +54,6 @@
     [wrapperClass]="wrapperClass"
     (addClick)="addButtonClicked($event)"
     (searchAsync)="searchAsync($event)"
-    #asyncLookup
   />
 </form>
 <button class="sky-btn sky-btn-primary" id="test-button" type="button">

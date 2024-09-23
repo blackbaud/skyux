@@ -10,16 +10,19 @@ import {
   SkyThemeSpacing,
 } from '@skyux/theme';
 
+import { ThemeSelectorModeValue } from './theme-selector-mode-value';
 import { ThemeSelectorSpacingValue } from './theme-selector-spacing-value';
 import { ThemeSelectorValue } from './theme-selector-value';
 
 interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
+  themeMode: ThemeSelectorModeValue;
   themeSpacing: ThemeSelectorSpacingValue;
   geminiEnabled: boolean | undefined;
 }
 
-const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
+const PREVIOUS_SETTINGS_KEY =
+  'skyux-playground-theme-mode-spacing-selector-settings';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -67,11 +70,27 @@ export class SkyThemeSelectorComponent implements OnInit {
     return this.#_geminiEnabled;
   }
 
+  public set themeMode(value: ThemeSelectorModeValue | undefined) {
+    const previous = this.#_themeMode;
+    this.#_themeMode = value;
+
+    if (value !== previous) {
+      this.#updateThemeSettings();
+    }
+  }
+
+  public get themeMode(): ThemeSelectorModeValue | undefined {
+    return this.#_themeMode;
+  }
+
   protected spacingValues: ThemeSelectorSpacingValue[] = [];
 
-  #_themeName: ThemeSelectorValue | undefined;
-  #_themeSpacing: ThemeSelectorSpacingValue | undefined;
+  protected modeValues: ThemeSelectorModeValue[] = [];
+
   #_geminiEnabled = false;
+  #_themeName: ThemeSelectorValue = 'default';
+  #_themeSpacing: ThemeSelectorSpacingValue = 'standard';
+  #_themeMode: ThemeSelectorModeValue = 'light';
 
   #currentThemeSettings: SkyThemeSettings;
   #renderer = inject(Renderer2);
@@ -83,8 +102,9 @@ export class SkyThemeSelectorComponent implements OnInit {
     if (previousSettings) {
       try {
         this.themeName = previousSettings.themeName;
+        this.themeMode = previousSettings.themeMode;
         this.themeSpacing = previousSettings.themeSpacing;
-        this.geminiEnabled = previousSettings.geminiEnabled || false;
+        this.geminiEnabled = previousSettings.geminiEnabled;
       } catch {
         // Bad settings.
       }
@@ -93,49 +113,44 @@ export class SkyThemeSelectorComponent implements OnInit {
     this.#themeSvc.settingsChange.subscribe((settingsChange) => {
       const settings = settingsChange.currentSettings;
 
-      if (settings.theme === SkyTheme.presets.modern) {
-        this.themeName =
-          settings.mode === SkyThemeMode.presets.dark
-            ? 'modern-dark'
-            : 'modern-light';
-
-        this.themeSpacing = settings.spacing.name as ThemeSelectorSpacingValue;
-      } else {
+      if (settings.theme === SkyTheme.presets.default) {
         this.themeName = 'default';
+        this.themeMode = 'light';
         this.themeSpacing = 'standard';
+      } else {
+        this.themeName = settings.theme.name as ThemeSelectorValue;
+        this.themeMode = settings.mode.name as ThemeSelectorModeValue;
+        this.themeSpacing = settings.spacing.name as ThemeSelectorSpacingValue;
       }
 
       this.#currentThemeSettings = settings;
-      this.#updateSpacingOptions();
+      this.#updateModeAndSpacingOptions();
     });
   }
 
-  #updateSpacingOptions(): void {
+  #updateModeAndSpacingOptions(): void {
     if (this.#currentThemeSettings) {
       this.spacingValues =
         this.#currentThemeSettings.theme.supportedSpacing.map(
           (spacing) => spacing.name as ThemeSelectorSpacingValue,
         );
+
+      this.modeValues = this.#currentThemeSettings.theme.supportedModes.map(
+        (mode) => mode.name as ThemeSelectorModeValue,
+      );
     }
   }
 
   #updateThemeSettings(): void {
     const themeSpacing = SkyThemeSpacing.presets[this.themeSpacing];
+    const themeMode = SkyThemeMode.presets[this.themeMode];
 
     let theme: SkyTheme;
-    let themeMode = SkyThemeMode.presets.light;
 
-    switch (this.themeName) {
-      case 'modern-light':
-        theme = SkyTheme.presets.modern;
-        break;
-      case 'modern-dark':
-        theme = SkyTheme.presets.modern;
-        themeMode = SkyThemeMode.presets.dark;
-        break;
-      default:
-        theme = SkyTheme.presets.default;
-        break;
+    if (this.themeName === 'modern') {
+      theme = SkyTheme.presets.modern;
+    } else {
+      theme = SkyTheme.presets.default;
     }
 
     this.#themeSvc.setTheme(
@@ -144,6 +159,7 @@ export class SkyThemeSelectorComponent implements OnInit {
 
     this.#saveSettings({
       themeName: this.themeName,
+      themeMode: this.themeMode,
       themeSpacing: this.themeSpacing,
       geminiEnabled: this.geminiEnabled,
     });

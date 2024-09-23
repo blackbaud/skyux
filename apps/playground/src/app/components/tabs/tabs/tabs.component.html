@@ -2,9 +2,9 @@
   <div id="screenshot-tabset" style="height: 200px">
     <sky-tabset
       permalinkId="sample"
+      [active]="1"
       (newTab)="newTabClick()"
       (openTab)="openTabClick()"
-      [active]="1"
     >
       <sky-tab [disabled]="true" [tabHeading]="'Tab 1'" (close)="closeTab()">
         Tab 1 Content

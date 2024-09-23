@@ -1,10 +1,10 @@
 <sky-angular-tree-wrapper>
-  <tree-root [nodes]="nodes" #tree>
+  <tree-root #tree [nodes]="nodes">
     <ng-template
+      #treeNodeFullTemplate
       let-index="index"
       let-node
       let-templates="templates"
-      #treeNodeFullTemplate
     >
       <sky-angular-tree-node
         [helpPopoverContent]="node.data.helpPopoverContent"

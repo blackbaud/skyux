@@ -4,6 +4,9 @@ inputs:
   project:
     description: 'The name of the project'
     required: true
+  branch:
+    description: 'The branch name for this run'
+    required: true
   base:
     description: 'The base commit to compare against'
     required: true
@@ -39,12 +42,20 @@ runs:
             }
           };
 
+          // Find commits that ran through the e2e workflow on the PR branch.
+          const prBranchCommitsBuilt = await github.rest.actions.listWorkflowRuns({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'e2e.yml',
+            branch: '${{ inputs.branch }}',
+            status: 'completed',
+          }).then(({data}) => {
+            return data.workflow_runs.map(run => run.head_sha);
+          });
+
           // Getting 500 commits to the base branch, looking for one where this e2e test was affected and run.
           const targetBranchCommits = await exec.getExecOutput('git', ['log', '--format=%H', '-500', '${{ inputs.base }}'])
             .then(({stdout}) => stdout.trim().split('\n'));
-
-          const prBranchCommits = await exec.getExecOutput('git', ['log', '--format=%H', '${{ inputs.base }}..${{ inputs.head }}'])
-            .then(({stdout}) => stdout.trim().split('\n').slice(0, 25));
 
           const { getLastGoodPercyBuild, getPercyTargetCommit } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
           const targetCommit = await getPercyTargetCommit(
@@ -56,7 +67,7 @@ runs:
           core.setOutput('percy_target_commit', targetCommit);
           const lastGoodCommit = await getLastGoodPercyBuild(
             'skyux-${{ inputs.project }}',
-            prBranchCommits,
+            prBranchCommitsBuilt,
             '${{ inputs.allow-deleted-screenshots }}' !== 'false',
             core,
             (url) => fetch(url, options)
@@ -77,7 +88,7 @@ runs:
             '--withTarget=e2e',
             '--affected',
             '--json'
-          ]).then(({stdout}) => JSON.parse(stdout));
+          ]).then(({stdout}) => JSON.parse(stdout)).catch(() => []);
           const projectAffected = affectedProjects.includes('${{ inputs.project }}');
           if (projectAffected) {
             core.info(`E2E tests affected`);

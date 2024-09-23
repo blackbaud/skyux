@@ -31,7 +31,8 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-          "apps/playground/src/styles.scss"
+          "apps/playground/src/styles.scss",
+          "node_modules/@blackbaud/skyux-design-tokens/scss/blackbaud.css"
         ],
         "scripts": [],
         "stylePreprocessorOptions": {

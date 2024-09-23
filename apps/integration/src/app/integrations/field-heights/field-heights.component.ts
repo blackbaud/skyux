@@ -130,7 +130,9 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
               console.log(`Doesn't match .height-measure`, heightElement);
             }
           });
-          this.ready.getValue() || this.ready.next(true);
+          if (!this.ready.getValue()) {
+            this.ready.next(true);
+          }
         }),
     );
   }

@@ -2,10 +2,10 @@
   <button
     class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
+    data-sky-id="popover-demo"
     [skyPopover]="myPopover"
     [skyPopoverAlignment]="popoverAlignment"
     [skyPopoverPlacement]="popoverPlacement"
-    data-sky-id="popover-demo"
   >
     A: Open popover on click
   </button>
@@ -13,10 +13,10 @@
   <button
     class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
+    data-sky-id="popover-demo"
     [skyPopover]="myPopover"
     [skyPopoverAlignment]="popoverAlignment"
     [skyPopoverPlacement]="popoverPlacement"
-    data-sky-id="popover-demo"
   >
     B: Open popover on click
   </button>
@@ -24,10 +24,10 @@
   <button
     class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
+    data-sky-id="popover-demo"
     [skyPopover]="myPopover"
     [skyPopoverAlignment]="popoverAlignment"
     [skyPopoverPlacement]="popoverPlacement"
-    data-sky-id="popover-demo"
   >
     C: Open popover on click
   </button>
@@ -35,10 +35,10 @@
   <button
     class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
+    data-sky-id="popover-demo"
     [skyPopover]="myPopover"
     [skyPopoverAlignment]="popoverAlignment"
     [skyPopoverPlacement]="popoverPlacement"
-    data-sky-id="popover-demo"
   >
     D: Open popover on click
   </button>
@@ -46,10 +46,10 @@
   <button
     class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
+    data-sky-id="popover-demo"
     [skyPopover]="myPopover"
     [skyPopoverAlignment]="popoverAlignment"
     [skyPopoverPlacement]="popoverPlacement"
-    data-sky-id="popover-demo"
   >
     E: Open popover on click
   </button>
@@ -57,10 +57,10 @@
   <button
     class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
+    data-sky-id="popover-demo"
     [skyPopover]="myPopover"
     [skyPopoverAlignment]="popoverAlignment"
     [skyPopoverPlacement]="popoverPlacement"
-    data-sky-id="popover-demo"
   >
     F: Open popover on click
   </button>
@@ -68,10 +68,10 @@
   <button
     class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
+    data-sky-id="popover-demo"
     [skyPopover]="myPopover"
     [skyPopoverAlignment]="popoverAlignment"
     [skyPopoverPlacement]="popoverPlacement"
-    data-sky-id="popover-demo"
   >
     G: Open popover on click
   </button>
@@ -79,13 +79,13 @@
   <button
     class="sky-btn sky-btn-link"
     type="button"
-    [skyPopover]="myPopover"
     skyPopoverTrigger="mouseenter"
+    [skyPopover]="myPopover"
   >
     H: Open popover on hover
   </button>
 
-  <sky-popover [popoverTitle]="popoverTitle" #myPopover>
+  <sky-popover #myPopover [popoverTitle]="popoverTitle">
     {{ popoverBody }}
   </sky-popover>
 </div>

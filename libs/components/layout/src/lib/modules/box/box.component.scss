@@ -6,12 +6,24 @@
   --sky-box-header-container-padding: var(--sky-padding-even-xl)
     var(--sky-padding-even-xl) 0 var(--sky-padding-even-xl);
   --sky-box-content-padding: var(--sky-padding-even-xl);
-  --sky-box-controls-padding-left: var(--sky-margin-inline-xl);
+  --sky-override-box-controls-padding-left: var(--sky-margin-inline-xl);
 }
 
 /* Modern theme token overrides */
 @include mixins.sky-component('modern', 'sky-box', true, '', true) {
-  --sky-box-controls-padding-left: var(--sky-margin-inline-xl);
+  --sky-override-box-controls-padding-left: var(--sky-margin-inline-xl);
+}
+
+.sky-box {
+  --component-token: 4px;
+}
+
+.sky-theme-modern.sky-box {
+  --component-token: var(--the-actual-token-to-use);
+}
+
+.sky-box {
+  margin-bottom: var(--component-token);
 }
 
 sky-box {
@@ -38,7 +50,7 @@ sky-box {
     sky-box-controls {
       margin-left: auto;
       padding-left: var(
-        --sky-box-controls-padding-left,
+        --sky-override-box-controls-padding-left,
         var(--sky-space-text_action_gap-l)
       );
 

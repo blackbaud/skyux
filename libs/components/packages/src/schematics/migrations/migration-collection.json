@@ -54,6 +54,11 @@
       "version": "11.0.0",
       "factory": "./update-11/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
       "description": "Remove backward compatible stylesheets for older versions of SKY UX."
+    },
+    "remove-deprecation-eslint-plugin": {
+      "version": "11.2.0",
+      "factory": "./update-11/remove-deprecation-eslint-plugin/remove-deprecation-eslint-plugin.schematic",
+      "description": "Remove ESLint deprecation plugin which is not compatible with ESLint 9."
     }
   }
 }

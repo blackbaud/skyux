@@ -14,11 +14,11 @@
       [searchResultTemplate]="oceanSearchResultTemplate"
     >
       <input
+        #largestOceanInput="skyId"
         formControlName="largestOcean"
         type="text"
         skyAutocomplete
         skyId
-        #largestOceanInput="skyId"
       />
     </sky-autocomplete>
   </div>
@@ -26,7 +26,7 @@
   <pre>{{ formGroup.value | json }}</pre>
 </form>
 
-<ng-template let-item="item" #oceanSearchResultTemplate>
+<ng-template #oceanSearchResultTemplate let-item="item">
   <sky-icon icon="long-arrow-right" />
   {{ item.title }} &bull; ID {{ item.id }}
 </ng-template>

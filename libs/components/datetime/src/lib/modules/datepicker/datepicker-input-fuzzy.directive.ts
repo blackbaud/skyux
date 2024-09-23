@@ -425,6 +425,10 @@ export class SkyFuzzyDatepickerInputDirective
             validationError = {
               skyFuzzyDate: {
                 maxDate: value,
+                maxDateFormatted: this.#dateFormatter.format(
+                  fuzzyDateRange.endDate,
+                  this.dateFormat,
+                ),
               },
             };
           }
@@ -439,6 +443,10 @@ export class SkyFuzzyDatepickerInputDirective
             validationError = {
               skyFuzzyDate: {
                 minDate: value,
+                minDateFormatted: this.#dateFormatter.format(
+                  fuzzyDateRange.startDate,
+                  this.dateFormat,
+                ),
               },
             };
           }

@@ -1,5 +1,6 @@
 <div *ngIf="active | async">
   <sky-grid
+    #skyGrid
     [columns]="columns | async"
     [data]="items | async"
     [enableMultiselect]="enableMultiselect"
@@ -20,8 +21,6 @@
     (rowDeleteConfirm)="confirmRowDelete($event)"
     (selectedColumnIdsChange)="columnIdsChanged($event)"
     (sortFieldChange)="sortFieldChanged($event)"
-    #skyGrid
-  >
-  </sky-grid>
-  <sky-wait [isWaiting]="loading | async"> </sky-wait>
+  />
+  <sky-wait [isWaiting]="loading | async" />
 </div>

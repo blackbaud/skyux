@@ -3,6 +3,10 @@
   margin: 5px;
 }
 
+#content {
+  overflow-y: auto;
+}
+
 #controls {
   position: sticky;
   top: 0;

@@ -4,6 +4,7 @@
     [formGroup]="editorForm"
   >
     <sky-lookup
+      formControlName="selection"
       [ariaLabelledBy]="
         skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
       "
@@ -12,7 +13,6 @@
       [debounceTime]="skyComponentProperties?.debounceTime"
       [descriptorProperty]="skyComponentProperties?.descriptorProperty"
       [enableShowMore]="skyComponentProperties?.enableShowMore"
-      formControlName="selection"
       [idProperty]="skyComponentProperties?.idProperty"
       [placeholderText]="skyComponentProperties?.placeholderText"
       [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
@@ -23,11 +23,11 @@
       [searchTextMinimumCharacters]="
         skyComponentProperties?.searchTextMinimumCharacters
       "
-      (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
       [selectMode]="skyComponentProperties?.selectMode"
       [showAddButton]="skyComponentProperties?.showAddButton"
       [showMoreConfig]="skyComponentProperties?.showMoreConfig"
       [wrapperClass]="skyComponentProperties?.wrapperClass"
+      (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
       (addClick)="skyComponentProperties?.addClick?.($event)"
       (openChange)="onLookupOpenChange($event)"
     />
@@ -39,6 +39,7 @@
     [formGroup]="editorForm"
   >
     <sky-lookup
+      formControlName="selection"
       [ariaLabelledBy]="
         skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
       "
@@ -47,7 +48,6 @@
       [debounceTime]="skyComponentProperties?.debounceTime"
       [descriptorProperty]="skyComponentProperties?.descriptorProperty"
       [enableShowMore]="skyComponentProperties?.enableShowMore"
-      formControlName="selection"
       [idProperty]="skyComponentProperties?.idProperty"
       [placeholderText]="skyComponentProperties?.placeholderText"
       [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
@@ -67,6 +67,6 @@
     />
   </sky-input-box>
 }
-<div class="sky-screen-reader-only" skyId #screenReaderLabel="skyId">
+<div #screenReaderLabel="skyId" class="sky-screen-reader-only" skyId>
   {{ labelText }}
 </div>

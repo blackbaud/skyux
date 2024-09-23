@@ -148,6 +148,7 @@ describe('HeaderComponent', () => {
     };
     component.agInit(params);
     fixture.detectChanges();
+    await fixture.whenStable();
     expect(apiEvents['sortChanged'].length).toBeGreaterThanOrEqual(1);
     expect(columnEvents['sortChanged'].length).toBeGreaterThanOrEqual(1);
     expect(columnEvents['filterChanged'].length).toBeGreaterThanOrEqual(1);
@@ -158,6 +159,22 @@ describe('HeaderComponent', () => {
         By.css('.ag-sort-indicator-container sky-icon'),
       ).attributes['icon'],
     ).toBe('caret-up');
+    expect(
+      document.querySelector('.ag-sort-indicator-container'),
+    ).not.toBeNull();
+    useSort = 'desc';
+    apiEvents['sortChanged'].forEach((listener) => listener());
+    columnEvents['sortChanged'].forEach((listener) => listener());
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.debugElement.query(
+        By.css('.ag-sort-indicator-container sky-icon'),
+      ).attributes['icon'],
+    ).toBe('caret-down');
+    expect(
+      document.querySelector('.ag-sort-indicator-container'),
+    ).not.toBeNull();
     useSort = undefined;
     apiEvents['sortChanged'].forEach((listener) => listener());
     columnEvents['sortChanged'].forEach((listener) => listener());
@@ -166,12 +183,23 @@ describe('HeaderComponent', () => {
     expect(
       fixture.debugElement.query(By.css('.ag-header-label-icon')),
     ).toBeFalsy();
+    expect(document.querySelector('.ag-sort-indicator-container')).toBeNull();
 
     columnEvents['filterChanged'].forEach((listener) => listener());
     expect(component.filterEnabled$.getValue()).toBe(true);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.debugElement.query(By.css('.ag-filter-icon'))).toBeTruthy();
+  });
+
+  it('should not show sort button when sort is disabled', async () => {
+    params = {
+      ...params,
+      enableSorting: false,
+    };
+    component.agInit(params);
+    fixture.detectChanges();
+    expect(document.querySelector('.ag-sort-indicator-container')).toBeNull();
   });
 
   it('should not sort when sort is disabled', async () => {

@@ -5,7 +5,7 @@ import { SkyDescriptionListAdapterService } from './description-list-adapter-ser
 
 @Component({
   selector: 'sky-test-cmp',
-  template: `<div [style.width]="width" #el>Hello world</div>`,
+  template: `<div #el [style.width]="width">Hello world</div>`,
 })
 class SkyDescriptionListAdapterTestComponent {
   public width: string | undefined;

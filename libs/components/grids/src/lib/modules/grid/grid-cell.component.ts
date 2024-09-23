@@ -15,7 +15,7 @@ import { ListItemModel, getData } from '@skyux/list-builder-common';
  */
 @Component({
   selector: 'sky-grid-cell',
-  template: '<ng-template #cell></ng-template>',
+  template: '<ng-template #cell />',
   styleUrls: ['./grid-cell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

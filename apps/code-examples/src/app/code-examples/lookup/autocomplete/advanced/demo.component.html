@@ -23,11 +23,11 @@
       (selectionChange)="onPlanetSelection($event)"
     >
       <input
+        #planetInput
         formControlName="farthestPlanet"
         skyAutocomplete
         skyId
         type="text"
-        #planetInput
       />
     </sky-autocomplete>
   </div>
@@ -35,7 +35,7 @@
   <pre>{{ formGroup.value | json }}</pre>
 </form>
 
-<ng-template let-item="item" #planetSearchResultTemplate>
+<ng-template #planetSearchResultTemplate let-item="item">
   <strong>
     {{ item.name }}
   </strong>

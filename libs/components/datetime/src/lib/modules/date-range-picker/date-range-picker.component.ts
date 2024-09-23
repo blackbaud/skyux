@@ -188,7 +188,7 @@ export class SkyDateRangePickerComponent
   /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is added to date range picker. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
-   * when clicked using the specified content and optional title.
+   * when clicked using the specified content and optional title. This property only applies when `labelText` is also specified.
    */
   @Input()
   public helpPopoverContent: string | TemplateRef<unknown> | undefined;
@@ -242,9 +242,9 @@ export class SkyDateRangePickerComponent
   public stacked = false;
 
   /**
-   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * A help key that identifies the global help content to display. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
    * button is placed beside the date range picker label. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
-   * as configured by the application.
+   * as configured by the application. This property only applies when `labelText` is also specified.
    */
   @Input()
   public helpKey: string | undefined;
@@ -338,16 +338,10 @@ export class SkyDateRangePickerComponent
             // need it to be a number.
             value.calculatorId = +value.calculatorId;
 
-            // If the calculator ID is changed, we need to reset the start and
-            // end date values and wait until the next valueChanges event to
-            // notify the host control.
+            // Reset the start and end date values if the calculator ID changes.
             if (value.calculatorId !== this.#getValue().calculatorId) {
-              this.#setValue(
-                { calculatorId: value.calculatorId },
-                { emitEvent: true },
-              );
-
-              return;
+              delete value.endDate;
+              delete value.startDate;
             }
           }
 
@@ -539,13 +533,13 @@ export class SkyDateRangePickerComponent
   ): void {
     const oldValue = this.#getValue();
 
-    const valueOrDefault =
-      !value || isNullOrUndefined(value.calculatorId)
-        ? this.#getDefaultValue(this.calculators[0])
-        : {
-            ...this.#getDefaultValue(this.#getCalculator(value.calculatorId)),
-            ...value,
-          };
+    const isValueEmpty = !value || isNullOrUndefined(value.calculatorId);
+    const valueOrDefault = isValueEmpty
+      ? this.#getDefaultValue(this.calculators[0])
+      : {
+          ...this.#getDefaultValue(this.#getCalculator(value.calculatorId)),
+          ...value,
+        };
 
     // Ensure falsy values are set to null.
     valueOrDefault.endDate = valueOrDefault.endDate || null;

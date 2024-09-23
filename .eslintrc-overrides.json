@@ -3,7 +3,6 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-non-null-assertion": "warn",
@@ -39,7 +38,7 @@
       "files": ["*.html"],
       "rules": {
         "@angular-eslint/template/alt-text": ["warn"],
-        "@angular-eslint/template/attributes-order": ["warn"],
+        "@angular-eslint/template/attributes-order": ["error"],
         "@angular-eslint/template/button-has-type": ["error"],
         "@angular-eslint/template/conditional-complexity": ["warn"],
         "@angular-eslint/template/cyclomatic-complexity": ["warn"],

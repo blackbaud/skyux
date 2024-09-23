@@ -4,9 +4,9 @@
       <h2 class="sky-font-heading-2">Box 1 header</h2>
       @if (showHelp) {
         <sky-help-inline
-          (actionClick)="onHelpClick()"
           class="sky-control-help"
-        ></sky-help-inline>
+          (actionClick)="onHelpClick()"
+        />
       }
     </sky-box-header>
   }
@@ -45,9 +45,9 @@
       <h2 class="sky-font-heading-2">Box 2 header</h2>
       @if (showHelp) {
         <sky-help-inline
-          (actionClick)="onHelpClick()"
           class="sky-control-help"
-        ></sky-help-inline>
+          (actionClick)="onHelpClick()"
+        />
       }
     </sky-box-header>
   }
@@ -80,12 +80,12 @@
 </sky-box>
 
 <sky-box
-  [headingHidden]="!showHeader"
   headingText="Easy-mode header"
+  helpPopoverTitle="Easy-mode help"
+  [headingHidden]="!showHeader"
   [headingStyle]="headingStyle"
   [headingLevel]="headingStyle"
   [helpPopoverContent]="showHelp ? helpContent : undefined"
-  helpPopoverTitle="Easy-mode help"
 >
   @if (showControls) {
     <sky-box-controls>
@@ -116,12 +116,12 @@
 </sky-box>
 
 <div style="margin-top: 4em">
-  <sky-checkbox [(ngModel)]="showHeader" labelText="Show header" />
-  <sky-checkbox [(ngModel)]="showControls" labelText="Show controls" />
+  <sky-checkbox labelText="Show header" [(ngModel)]="showHeader" />
+  <sky-checkbox labelText="Show controls" [(ngModel)]="showControls" />
   <sky-checkbox
-    [(ngModel)]="showHelp"
-    [disabled]="!showHeader"
     labelText="Show inline help"
+    [disabled]="!showHeader"
+    [(ngModel)]="showHelp"
   />
   <button
     type="button"

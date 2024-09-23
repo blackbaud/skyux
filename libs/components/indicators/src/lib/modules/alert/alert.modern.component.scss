@@ -117,7 +117,7 @@
     }
 
     &:focus-visible:not(:active) {
-      box-shadow: var(--sky-elevation-raised);
+      box-shadow: var(--sky-elevation-raised-100);
     }
   }
 

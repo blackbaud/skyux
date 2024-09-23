@@ -16,10 +16,10 @@
 
 <div class="sky-theme-template">
   <ng-container *skyThemeIf="'default'">
-    default:<ng-container *ngTemplateOutlet="foo"></ng-container>
+    default:<ng-container *ngTemplateOutlet="foo" />
   </ng-container>
   <ng-container *skyThemeIf="'modern'">
-    modern:<ng-container *ngTemplateOutlet="foo"></ng-container>
+    modern:<ng-container *ngTemplateOutlet="foo" />
   </ng-container>
   <ng-template #foo>
     <ng-content select=".projectable" />

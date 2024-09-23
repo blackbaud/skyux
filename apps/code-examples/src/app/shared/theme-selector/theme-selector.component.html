@@ -1,0 +1,30 @@
+<sky-input-box class="sky-margin-inline-lg theme-selector-input">
+  <label class="sky-control-label" [for]="inputBoxSelect.id">Theme</label>
+  <select
+    #inputBoxSelect="skyId"
+    class="sky-theme-selector sky-form-control"
+    skyId
+    [(ngModel)]="themeName"
+  >
+    <option value="default">Default</option>
+    <option value="modern-light">Modern - Light</option>
+    <option value="modern-dark">Modern - Dark</option>
+  </select>
+</sky-input-box>
+<sky-input-box class="theme-selector-input">
+  <label class="sky-control-label" [for]="inputBoxSelectSpacing.id"
+    >Spacing</label
+  >
+  <select
+    #inputBoxSelectSpacing="skyId"
+    class="sky-theme-selector sky-form-control"
+    skyId
+    [(ngModel)]="themeSpacing"
+  >
+    @for (spacingValue of spacingValues; track spacingValue) {
+      <option [value]="spacingValue">
+        {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
+      </option>
+    }
+  </select>
+</sky-input-box>

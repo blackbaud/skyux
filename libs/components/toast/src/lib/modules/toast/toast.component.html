@@ -12,12 +12,9 @@
       <sky-icon [icon]="icon" />
     </div>
     <div aria-hidden="true" class="sky-toast-icon-theme-modern">
-      <sky-icon-stack
-        [baseIcon]="baseIcon"
-        [topIcon]="topIcon"
-      ></sky-icon-stack>
+      <sky-icon-stack [baseIcon]="baseIcon" [topIcon]="topIcon" />
     </div>
-    <div class="sky-toast-content" skyId="toastContent" #toastContent>
+    <div #toastContent class="sky-toast-content" skyId="toastContent">
       <ng-content />
     </div>
     <button
@@ -31,9 +28,9 @@
     </button>
   </div>
   <span
+    #toastCloseMessage
     class="sky-screen-reader-only"
     skyId="toastCloseMessage"
-    #toastCloseMessage
     >{{ 'skyux_toast_close_button_aria_label' | skyLibResources }}</span
   >
 </aside>

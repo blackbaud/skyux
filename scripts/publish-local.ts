@@ -1,9 +1,9 @@
 import { joinPathFragments, workspaceRoot } from '@nx/devkit';
-import { getPackageJson } from '@nx/eslint-plugin/src/utils/package-json-utils';
 import { updateJsonFile } from '@nx/workspace';
 
 import { SpawnOptions } from 'child_process';
 import { readFileSync, writeFileSync } from 'fs';
+import { readJSONSync } from 'fs-extra';
 import { format } from 'prettier';
 import { parse } from 'semver';
 
@@ -18,7 +18,7 @@ async function skyuxDevCommand(
 
 (async () => {
   const packageJsonFile = joinPathFragments(workspaceRoot, 'package.json');
-  const startVersion = getPackageJson(packageJsonFile).version;
+  const startVersion = readJSONSync(packageJsonFile).version;
   try {
     updateJsonFile(packageJsonFile, (json) => {
       const version = parse(json.version);

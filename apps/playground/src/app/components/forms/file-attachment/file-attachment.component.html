@@ -15,8 +15,7 @@
   />
   @for (file of allItems; track file) {
     <div>
-      <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)">
-      </sky-file-item>
+      <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
     </div>
   }
 </div>

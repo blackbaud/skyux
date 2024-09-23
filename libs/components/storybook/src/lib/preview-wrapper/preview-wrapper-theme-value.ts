@@ -1,4 +1,5 @@
 export type PreviewWrapperThemeValue =
   | 'default'
   | 'modern-light'
-  | 'modern-dark';
+  | 'modern-dark'
+  | 'modern-gemini-light';

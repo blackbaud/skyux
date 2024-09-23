@@ -1044,12 +1044,24 @@ describe('Modal component', () => {
       { message: 'Test error 2' },
     ];
 
+    let errorsComponent = document.querySelector('.sky-modal-footer-errors');
     let errorEls = document.querySelectorAll('.sky-status-indicator');
+    expect(errorsComponent).toBeNull();
+    expect(errorEls.length).toBe(0);
+
+    modalInstance.componentInstance.errors = [];
+    getApplicationRef().tick();
+
+    errorsComponent = document.querySelector('.sky-modal-footer-errors');
+    errorEls = document.querySelectorAll('.sky-status-indicator');
+    expect(errorsComponent).toBeNull();
     expect(errorEls.length).toBe(0);
 
     modalInstance.componentInstance.errors = errors;
     getApplicationRef().tick();
 
+    errorsComponent = document.querySelector('.sky-modal-footer-errors');
+    expect(errorsComponent).not.toBeNull();
     errorEls = document.querySelectorAll('.sky-status-indicator');
     errorEls.forEach((el, i) => {
       expect(el.textContent).toEqual(` Error: ${errors[i].message}`);
