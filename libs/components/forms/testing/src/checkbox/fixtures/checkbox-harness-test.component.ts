@@ -34,6 +34,7 @@ export class CheckboxHarnessTestComponent {
   public hintText: string | undefined;
   public phoneHintText: string | undefined;
   public mailControl: UntypedFormControl;
+  public myCheckboxGroup: UntypedFormGroup;
   public myForm: UntypedFormGroup;
   public required = false;
   public stacked = false;
@@ -51,15 +52,21 @@ export class CheckboxHarnessTestComponent {
       },
     ]);
 
-    this.myForm = this.#formBuilder.group({
+    this.myCheckboxGroup = this.#formBuilder.group({
       email: new UntypedFormControl(false),
       phone: new UntypedFormControl(false),
       mail: this.mailControl,
     });
 
+    this.myForm = this.#formBuilder.group({
+      group: this.myCheckboxGroup,
+      stacked: new UntypedFormControl(false),
+    });
+
     this.myForm.setValidators(
       (control: AbstractControl): ValidationErrors | null => {
-        const group = control as UntypedFormGroup;
+        const formGroup = control as UntypedFormGroup;
+        const group = formGroup.controls['group'] as UntypedFormGroup;
         const email = group.controls['email'];
         const phone = group.controls['phone'];
         const mail = group.controls['mail'];

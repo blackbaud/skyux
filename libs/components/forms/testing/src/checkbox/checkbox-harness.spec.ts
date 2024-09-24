@@ -191,6 +191,14 @@ describe('Checkbox harness', () => {
     await expectAsync(checkboxHarness.getValue()).toBeResolvedTo('on');
   });
 
+  it('should indicate the component is stacked', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'stacked-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.isStacked()).toBeResolvedTo(true);
+  });
+
   it('should throw error if toggling a disabled checkbox', async () => {
     const { checkboxHarness, fixture } = await setupTest({
       dataSkyId: 'my-email-checkbox',
