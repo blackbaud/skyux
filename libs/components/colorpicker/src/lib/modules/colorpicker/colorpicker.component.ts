@@ -545,6 +545,8 @@ export class SkyColorpickerComponent
     // Revert picker values back to previous color.
     this.updatePickerValues(this.backgroundColorForDisplay);
     this.closePicker();
+
+    this.#changeDetector.markForCheck();
   }
 
   public onPresetClick(value: string): void {

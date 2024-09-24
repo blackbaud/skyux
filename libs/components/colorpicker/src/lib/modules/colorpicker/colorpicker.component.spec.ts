@@ -842,6 +842,28 @@ describe('Colorpicker Component', () => {
       verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
 
+    it('should set aria-expanded appropriately when closed with `cancel` button', fakeAsync(() => {
+      const colorpickerButton = getColorpickerButton(nativeElement);
+      expect(colorpickerButton.getAttribute('aria-expanded')).toBeFalsy();
+
+      openColorpicker(nativeElement);
+      expect(colorpickerButton.getAttribute('aria-expanded')).toBe('true');
+
+      closeColorpicker(nativeElement, fixture);
+      expect(colorpickerButton.getAttribute('aria-expanded')).toBe('false');
+    }));
+
+    it('should set aria-expanded appropriately when closed with `apply` button', fakeAsync(() => {
+      const colorpickerButton = getColorpickerButton(nativeElement);
+      expect(colorpickerButton.getAttribute('aria-expanded')).toBeFalsy();
+
+      openColorpicker(nativeElement);
+      expect(colorpickerButton.getAttribute('aria-expanded')).toBe('true');
+
+      applyColorpicker();
+      expect(colorpickerButton.getAttribute('aria-expanded')).toBe('false');
+    }));
+
     it('should emit a selectedColorChanged and selectedColorApplied event on submit', fakeAsync(() => {
       spyOn(
         component.colorpickerComponent.selectedColorChanged,
