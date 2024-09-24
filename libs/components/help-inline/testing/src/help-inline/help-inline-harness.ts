@@ -1,4 +1,5 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import {
   SkyPopoverContentHarness,
@@ -104,7 +105,9 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   /**
    * Gets the help popover content.
    */
-  public async getPopoverContent(): Promise<string | undefined> {
+  public async getPopoverContent(): Promise<
+    TemplateRef<unknown> | string | undefined
+  > {
     return (await this.#getPopoverHarnessContent())?.getBodyText();
   }
 

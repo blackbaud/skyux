@@ -121,7 +121,9 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * Gets the help inline popover content.
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverContent();
+    const content = await (await this.#getHelpInline()).getPopoverContent();
+
+    return content as string | undefined;
   }
 
   /**
