@@ -6,6 +6,10 @@ import {
   RULE_NAME as noLambdaImportsRuleName,
 } from './rules/no-lambda-imports';
 import {
+  rule as noDeprecatedDirectives,
+  RULE_NAME as noDeprecatedDirectivesRuleName,
+} from './rules/template/no-deprecated-directives';
+import {
   noUnboundId,
   RULE_NAME as noUnboundIdRuleName,
 } from './rules/template/no-unbound-id';
@@ -18,6 +22,7 @@ export = {
   processors,
   rules: {
     [noLambdaImportsRuleName]: noLambdaImports,
+    [`template/${noDeprecatedDirectivesRuleName}`]: noDeprecatedDirectives,
     [`template/${noUnboundIdRuleName}`]: noUnboundId,
   },
 };

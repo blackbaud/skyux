@@ -5,6 +5,9 @@ import { createESLintRule } from '../../utils/create-eslint-rule';
 
 export const RULE_NAME = 'no-unbound-id';
 
+/**
+ * [Bad practice]
+ */
 export const noUnboundId = createESLintRule({
   create(context) {
     const parserServices = getTemplateParserServices(context);

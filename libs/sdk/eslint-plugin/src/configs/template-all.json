@@ -1,6 +1,7 @@
 {
   "plugins": ["@skyux-eslint"],
   "rules": {
+    "@skyux-eslint/template/no-deprecated-directives": "error",
     "@skyux-eslint/template/no-unbound-id": "error"
   }
 }
