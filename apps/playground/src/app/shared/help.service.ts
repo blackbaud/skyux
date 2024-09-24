@@ -9,17 +9,17 @@ import {
 export class PlaygroundHelpService extends SkyHelpService {
   public override openHelp(args?: SkyHelpOpenArgs): void {
     if (args) {
-      alert('help key: ' + args.helpKey);
+      console.log('help key: ' + args.helpKey);
     }
   }
 
   public override updateHelp(args: SkyHelpUpdateArgs): void {
     if ('helpKey' in args) {
-      alert('help key update: ' + args.helpKey);
+      console.log('help key update: ' + args.helpKey);
     }
 
     if ('pageDefaultHelpKey' in args) {
-      alert('page default help key update: ' + args.pageDefaultHelpKey);
+      console.log('page default help key update: ' + args.pageDefaultHelpKey);
     }
   }
 }
