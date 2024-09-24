@@ -27,7 +27,7 @@ import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: PreviewWrapperThemeValue | undefined) {
-    this.#removeGeminiClass();
+    this.#removeModernV2Class();
 
     const themeOrDefault = value ?? 'default';
     if (themeOrDefault.match(/^modern(-(light|dark))?$/)) {
@@ -42,12 +42,12 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
           SkyThemeMode.presets.light,
         );
       }
-    } else if (themeOrDefault.includes('gemini')) {
+    } else if (themeOrDefault.includes('v2')) {
       this.themeSettings = new SkyThemeSettings(
         SkyTheme.presets.modern,
         SkyThemeMode.presets.light,
       );
-      this.#addGeminiClass();
+      this.#addModernV2Class();
     } else {
       this.themeSettings = new SkyThemeSettings(
         SkyTheme.presets.default,
@@ -95,11 +95,11 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     this.#themeService.destroy();
   }
 
-  #addGeminiClass() {
+  #addModernV2Class() {
     this.#renderer.addClass(document.body, 'sky-theme-brand-blackbaud');
   }
 
-  #removeGeminiClass() {
+  #removeModernV2Class() {
     this.#renderer.removeClass(document.body, 'sky-theme-brand-blackbaud');
   }
 }

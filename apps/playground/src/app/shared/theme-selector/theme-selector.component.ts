@@ -18,7 +18,7 @@ interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
   themeMode: ThemeSelectorModeValue;
   themeSpacing: ThemeSelectorSpacingValue;
-  geminiEnabled: boolean | undefined;
+  modernV2Enabled: boolean | undefined;
 }
 
 const PREVIOUS_SETTINGS_KEY =
@@ -58,16 +58,16 @@ export class SkyThemeSelectorComponent implements OnInit {
     return this.#_themeSpacing;
   }
 
-  public set geminiEnabled(value: boolean) {
-    if (value !== this.#_geminiEnabled) {
-      this.#toggleGeminiClass(value);
+  public set modernV2Enabled(value: boolean) {
+    if (value !== this.#_modernV2Enabled) {
+      this.#toggleModernV2Class(value);
     }
-    this.#_geminiEnabled = value;
+    this.#_modernV2Enabled = value;
     this.#updateThemeSettings();
   }
 
-  public get geminiEnabled(): boolean {
-    return this.#_geminiEnabled;
+  public get modernV2Enabled(): boolean {
+    return this.#_modernV2Enabled;
   }
 
   public set themeMode(value: ThemeSelectorModeValue | undefined) {
@@ -87,7 +87,7 @@ export class SkyThemeSelectorComponent implements OnInit {
 
   protected modeValues: ThemeSelectorModeValue[] = [];
 
-  #_geminiEnabled = false;
+  #_modernV2Enabled = false;
   #_themeName: ThemeSelectorValue = 'default';
   #_themeSpacing: ThemeSelectorSpacingValue = 'standard';
   #_themeMode: ThemeSelectorModeValue = 'light';
@@ -104,7 +104,7 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.themeName = previousSettings.themeName;
         this.themeMode = previousSettings.themeMode;
         this.themeSpacing = previousSettings.themeSpacing;
-        this.geminiEnabled = previousSettings.geminiEnabled;
+        this.modernV2Enabled = previousSettings.modernV2Enabled;
       } catch {
         // Bad settings.
       }
@@ -161,11 +161,11 @@ export class SkyThemeSelectorComponent implements OnInit {
       themeName: this.themeName,
       themeMode: this.themeMode,
       themeSpacing: this.themeSpacing,
-      geminiEnabled: this.geminiEnabled,
+      modernV2Enabled: this.modernV2Enabled,
     });
   }
 
-  #toggleGeminiClass(addClass: boolean): void {
+  #toggleModernV2Class(addClass: boolean): void {
     if (addClass) {
       this.#renderer.addClass(document.body, 'sky-theme-brand-blackbaud');
     } else {

@@ -1,1 +1,1 @@
-export type ThemeSelectorValue = 'default' | 'modern' | 'gemini';
+export type ThemeSelectorValue = 'default' | 'modern' | 'modern-v2';

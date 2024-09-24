@@ -2,7 +2,7 @@ export type E2EVariationName =
   | 'default'
   | 'modern-light'
   | 'modern-dark'
-  | 'modern-gemini-light';
+  | 'modern-v2-light';
 
 export const E2eVariations = {
   DISPLAY_WIDTHS: [1280],
@@ -11,13 +11,13 @@ export const E2eVariations = {
 
   forEachTheme: (
     callback: (theme: E2EVariationName) => void,
-    includeGemini = false,
+    includeModernV2 = false,
   ) => {
     callback('default');
     callback('modern-light');
 
-    if (includeGemini) {
-      callback('modern-gemini-light');
+    if (includeModernV2) {
+      callback('modern-v2-light');
     }
   },
 };

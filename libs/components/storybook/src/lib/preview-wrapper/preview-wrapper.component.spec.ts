@@ -47,7 +47,7 @@ describe('PreviewWrapperComponent', () => {
       theme: 'default',
       mode: 'light',
     };
-    let expectGeminiClass = false;
+    let expectModernV2Class = false;
     const subscription = themeService.settingsChange.subscribe(
       (settings: SkyThemeSettingsChange) => {
         expect(settings.currentSettings.theme.name).toEqual(
@@ -55,13 +55,13 @@ describe('PreviewWrapperComponent', () => {
         );
         expect(settings.currentSettings.mode.name).toEqual(expectedTheme.mode);
 
-        const gemini = fixture.nativeElement.querySelector(
+        const modernV2 = fixture.nativeElement.querySelector(
           '.sky-theme-brand-blackbaud',
         );
-        if (expectGeminiClass) {
-          expect(gemini).toBeDefined();
+        if (expectModernV2Class) {
+          expect(modernV2).toBeDefined();
         } else {
-          expect(gemini).toBeNull();
+          expect(modernV2).toBeNull();
         }
       },
     );
@@ -87,14 +87,14 @@ describe('PreviewWrapperComponent', () => {
       theme: 'modern',
       mode: 'light',
     };
-    expectGeminiClass = true;
-    component.theme = 'modern-gemini-light';
+    expectModernV2Class = true;
+    component.theme = 'modern-v2-light';
 
     expectedTheme = {
       theme: 'default',
       mode: 'light',
     };
-    expectGeminiClass = false;
+    expectModernV2Class = false;
     component.theme = undefined;
 
     subscription.unsubscribe();
