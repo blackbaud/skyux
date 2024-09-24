@@ -110,7 +110,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the `SkyIconHarness` for the colorpicker icon if set.
+   * Gets the `SkyIconHarness` for the colorpicker icon.
    * @internal
    */
   public async getColorpickerIcon(): Promise<SkyIconHarness> {
