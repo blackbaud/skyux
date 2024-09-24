@@ -77,7 +77,6 @@ class TestComponent {
   public showCustomError = false;
   public showResetButton = true;
   public stacked = false;
-
   public swatches: string[] | undefined;
 
   constructor(formBuilder: FormBuilder) {
@@ -296,7 +295,7 @@ describe('Colorpicker harness', () => {
     await expectAsync(colorpickerHarness.isLabelHidden()).toBeResolvedTo(true);
   });
 
-  it('should click the reset button in default', async () => {
+  it('should click the reset button in default theme', async () => {
     const { colorpickerHarness, fixture } = await setupTest({
       theme: 'default',
     });
@@ -312,7 +311,7 @@ describe('Colorpicker harness', () => {
     expect(control.value['hex']).toBe('#f00');
   });
 
-  it('should click the reset button in default', async () => {
+  it('should click the reset button in modern theme', async () => {
     const { colorpickerHarness, fixture } = await setupTest({
       theme: 'modern',
     });

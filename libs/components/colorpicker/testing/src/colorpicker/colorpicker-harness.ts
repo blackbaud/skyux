@@ -1,5 +1,4 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFormErrorsHarness } from '@skyux/forms/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
@@ -19,9 +18,9 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
+  #getButton = this.locatorFor('button.sky-colorpicker-button');
   #getHintText = this.locatorFor('.sky-colorpicker-hint-text');
   #getLabel = this.locatorFor('label.sky-control-label');
-  #getButton = this.locatorFor('button.sky-colorpicker-button');
   #resetButtonDefault = this.locatorForOptional(
     'button.sky-colorpicker-reset-button',
   );
@@ -121,9 +120,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   /**
    * Gets the help inline popover content.
    */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
+  public async getHelpPopoverContent(): Promise<string | undefined> {
     return await (await this.#getHelpInline()).getPopoverContent();
   }
 

@@ -12,11 +12,11 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
    */
   public static hostSelector = '.sky-colorpicker-container';
 
-  #getInputs = this.locatorForAll('input.sky-form-control');
   #getApplyButton = this.locatorFor('.sky-btn-colorpicker-apply');
   #getCancelButton = this.locatorFor('.sky-btn-colorpicker-close');
-  #getSwatchesModern = this.locatorForAll('button.sky-btn-link');
+  #getInputs = this.locatorForAll('input.sky-form-control');
   #getSwatchesDefault = this.locatorForAll('button.sky-preset-color');
+  #getSwatchesModern = this.locatorForAll('button.sky-btn-link');
 
   public static with(
     filters: SkyColorpickerDropdownHarnessFilters,
