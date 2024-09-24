@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
-import { PreviewWrapperModule } from '@skyux/storybook';
+import { PreviewWrapperModule } from '@skyux/storybook/components';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';

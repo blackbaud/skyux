@@ -207,6 +207,16 @@ describe('SkyAgGridService', () => {
     });
 
     it('should set icons for modern theme', () => {
+      const options = agGridService.getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(typeof options.icons?.['sortDescending']).toBe('function');
+
+      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
+        `<i aria-hidden="true" class="fa fa-caret-down"></i>`,
+      );
+
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
@@ -217,20 +227,18 @@ describe('SkyAgGridService', () => {
           mockThemeSvc.settingsChange.getValue().currentSettings,
       });
 
-      const modernThemeGridOptions = agGridService.getGridOptions({
-        gridOptions: {},
-      });
-
-      expect(typeof modernThemeGridOptions.icons?.['sortDescending']).toBe(
-        'function',
+      expect((options.icons?.['sortDescending'] as () => string)()).toBe(
+        `<i aria-hidden="true" class="sky-i-chevron-down"></i>`,
       );
-      expect(
-        (modernThemeGridOptions.icons?.['sortDescending'] as () => string)(),
-      ).toBe(`<i aria-hidden="true" class="sky-i-chevron-down"></i>`);
     });
 
     it('should unsubscribe from the theme service when destroyed', () => {
       expect(agGridService.getHeaderHeight()).toBe(37);
+      expect(
+        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
+          SkyCellType.Date
+        ].minWidth,
+      ).toBe(160);
 
       // Trigger change to modern theme
       mockThemeSvc.settingsChange.next({
@@ -244,6 +252,11 @@ describe('SkyAgGridService', () => {
 
       // Get new grid options after theme change
       expect(agGridService.getHeaderHeight()).toBe(60);
+      expect(
+        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
+          SkyCellType.Date
+        ].minWidth,
+      ).toBe(180);
 
       // Destroy subscription
       agGridService.ngOnDestroy();
@@ -260,6 +273,11 @@ describe('SkyAgGridService', () => {
 
       // Get new grid options after theme change, but expect heights have not changed
       expect(agGridService.getHeaderHeight()).toBe(60);
+      expect(
+        agGridService.getGridOptions({ gridOptions: {} }).columnTypes?.[
+          SkyCellType.Date
+        ].minWidth,
+      ).toBe(180);
     });
 
     it('should not overwrite default component definitions', () => {

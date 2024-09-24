@@ -4,7 +4,7 @@ import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
 } from '@skyux/datetime';
-import { FontLoadingService } from '@skyux/storybook';
+import { FontLoadingService } from '@skyux/storybook/font-loading';
 
 @Component({
   selector: 'app-date-range-picker',
