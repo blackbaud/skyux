@@ -1,8 +1,23 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+/* Default theme token overrides */
+@include mixins.sky-component('default', 'sky-box') {
+  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
+}
+
+/* Modern theme token overrides */
+@include mixins.sky-component('modern', 'sky-box', true, '', true) {
+  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
+}
+
 sky-box-header {
   flex: 1 0;
 
   .sky-box-header {
-    padding: 0 var(--sky-margin-inline-xl) 0 0;
+    padding-right: var(
+      --sky-override-box-header-padding-right,
+      var(--sky-space-text_action_gap-l)
+    );
 
     h1,
     h2,

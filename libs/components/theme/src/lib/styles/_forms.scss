@@ -61,8 +61,19 @@ textarea.ng-invalid.ng-touched {
   @include mixins.sky-required-field;
 }
 
+/* Default theme token overrides */
+@include mixins.sky-component(
+  'default',
+  '.sky-control-help-container:not(:empty)'
+) {
+  --sky-override-help-inline-margin-left: var(--sky-margin-inline-xs);
+}
+
 .sky-control-help-container:not(:empty) {
-  margin-left: var(--sky-margin-inline-xs);
+  margin-left: var(
+    --sky-override-help-inline-margin-left,
+    var(--sky-space-text_action_gap-xs)
+  );
 }
 
 fieldset {
