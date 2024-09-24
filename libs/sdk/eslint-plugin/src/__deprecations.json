@@ -1,0 +1,37 @@
+{
+  "_": "The contents of this file are generated automatically. Existing contents are for testing purposes only.",
+  "directives": {
+    "selectors": [
+      {
+        "selector": "sky-card",
+        "reason": "For other SKY UX components that group and list content, see the [content containers guidelines](https://developer.blackbaud.com/skyux/design/guidelines/content-containers)."
+      }
+    ],
+    "properties": [
+      {
+        "selector": "sky-checkbox",
+        "inputs": [
+          {
+            "name": "label",
+            "reason": "Use `labelText` input on `sky-checkbox-component` instead."
+          }
+        ]
+      },
+      {
+        "selector": "sky-file-attachment",
+        "inputs": [
+          {
+            "selector": "validatorFn",
+            "reason": ""
+          }
+        ],
+        "outputs": [
+          {
+            "selector": "fileChange",
+            "reason": ""
+          }
+        ]
+      }
+    ]
+  }
+}
