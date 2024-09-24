@@ -6,52 +6,69 @@
     headingText && formGroup?.errors ? errorId : undefined
   "
 >
-  <legend
-    class="sky-control-label"
-    [ngClass]="{
-      'sky-screen-reader-only': headingHidden,
-      'sky-margin-stacked-xs': !!hintText,
-      'sky-margin-stacked-sm': !hintText
-    }"
-  >
-    <span
-      class="sky-margin-inline-xs"
-      [ngClass]="{
-        'sky-control-label-required': required
-      }"
-    >
-      @if (headingLevel === 3) {
-        <h3 [class]="headingClass">
-          {{ headingText }}
-        </h3>
-      } @else if (headingLevel === 4) {
-        <h4 [class]="headingClass">
-          {{ headingText }}
-        </h4>
-      } @else if (headingLevel === 5) {
-        <h5 [class]="headingClass">
-          {{ headingText }}
-        </h5>
-      } @else {
-        <span [class]="'sky-heading-text ' + headingClass">
-          {{ headingText }}
-        </span>
+  <legend class="sky-screen-reader-only">
+    @switch (headingLevel) {
+      @case (3) {
+        <h3 [class]="headingClass">{{ headingText }}</h3>
       }
-    </span>
+      @case (4) {
+        <h4 [class]="headingClass">{{ headingText }}</h4>
+      }
+      @case (5) {
+        <h5 [class]="headingClass">{{ headingText }}</h5>
+      }
+      @default {
+        <span [class]="'sky-checkbox-group-heading-text ' + headingClass">{{
+          headingText
+        }}</span>
+      }
+    }
     @if (required) {
-      <span class="sky-screen-reader-only">{{
-        'skyux_checkbox_group_required' | skyLibResources
+      <span class="sky-checkbox-group-required-label">{{
+        'skyux_form_group_required' | skyLibResources
       }}</span>
     }
-    @if (helpPopoverContent || helpKey) {
-      <sky-help-inline
-        [helpKey]="helpKey"
-        [labelText]="headingText"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
-    }
   </legend>
+  @if (!headingHidden) {
+    <div
+      class="sky-control-label"
+      [ngClass]="{
+        'sky-margin-stacked-xs': !!hintText,
+        'sky-margin-stacked-sm': !hintText
+      }"
+    >
+      <span
+        aria-hidden="true"
+        class="sky-margin-inline-xs"
+        [ngClass]="{
+          'sky-control-label-required': required
+        }"
+      >
+        @switch (headingLevel) {
+          @case (3) {
+            <h3 [class]="headingClass">{{ headingText }}</h3>
+          }
+          @case (4) {
+            <h4 [class]="headingClass">{{ headingText }}</h4>
+          }
+          @case (5) {
+            <h5 [class]="headingClass">{{ headingText }}</h5>
+          }
+          @default {
+            <span [class]="headingClass">{{ headingText }}</span>
+          }
+        }
+      </span>
+      @if (helpPopoverContent || helpKey) {
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="headingText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      }
+    </div>
+  }
   <div
     #hintTextEl="skyId"
     skyId

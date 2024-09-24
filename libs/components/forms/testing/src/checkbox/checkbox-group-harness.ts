@@ -1,5 +1,4 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
@@ -15,7 +14,6 @@ import { SkyCheckboxHarness } from './checkbox-harness';
 
 /**
  * Harness for interacting with a checkbox group component in tests.
- * @internal
  */
 export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   /**
@@ -24,13 +22,20 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-checkbox-group';
 
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
+  #getHeading = this.locatorForOptional('.sky-control-label');
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
-  #getHeading = this.locatorFor('.sky-control-label');
-  #getHeadingWrapper = this.locatorFor('.sky-control-label span');
-  #getH3 = this.locatorForOptional('legend h3');
-  #getH4 = this.locatorForOptional('legend h4');
-  #getH5 = this.locatorForOptional('legend h5');
-  #getHeadingText = this.locatorForOptional('legend .sky-heading-text');
+  #getLegendDefault = this.locatorForOptional(
+    'legend .sky-checkbox-group-heading-text',
+  );
+  #getLegendH3 = this.locatorForOptional('legend h3');
+  #getLegendH4 = this.locatorForOptional('legend h4');
+  #getLegendH5 = this.locatorForOptional('legend h5');
+  #getLegendHeading = this.locatorFor(
+    'legend h3,h4,h5,.sky-checkbox-group-heading-text',
+  );
+  #getLegendRequired = this.locatorForOptional(
+    'legend .sky-checkbox-group-required-label',
+  );
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -59,10 +64,15 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   /**
    * Gets the help popover content.
    */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
-    return await (await this.#getHelpInline()).getPopoverContent();
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    const content = await (await this.#getHelpInline()).getPopoverContent();
+
+    /* istanbul ignore if */
+    if (typeof content === 'object') {
+      throw Error('Unexpected template ref');
+    }
+
+    return content;
   }
 
   /**
@@ -77,7 +87,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getHeading()).text();
+    return (await this.#getLegendHeading()).text();
   }
 
   /**
@@ -93,7 +103,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    return (await this.#getHeading()).hasClass('sky-screen-reader-only');
+    return (await this.#getHeading()) === null;
   }
 
   /**
@@ -102,9 +112,10 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public async getHeadingLevel(): Promise<
     SkyCheckboxGroupHeadingLevel | undefined
   > {
-    const h3 = await this.#getH3();
-    const h4 = await this.#getH4();
-    const h5 = await this.#getH5();
+    const heading = await this.#getLegendHeading();
+    const h3 = await heading.matchesSelector('h3');
+    const h4 = await heading.matchesSelector('h4');
+    const h5 = await heading.matchesSelector('h5');
 
     if (h3) {
       return 3;
@@ -121,16 +132,10 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * The heading style used for the checkbox group.
    */
   public async getHeadingStyle(): Promise<SkyCheckboxGroupHeadingStyle> {
-    const headingOrLabel =
-      (await this.#getH3()) ||
-      (await this.#getH4()) ||
-      (await this.#getH5()) ||
-      (await this.#getHeadingText());
+    const heading = await this.#getLegendHeading();
 
-    const isHeadingStyle3 =
-      await headingOrLabel?.hasClass('sky-font-heading-3');
-    const isHeadingStyle4 =
-      await headingOrLabel?.hasClass('sky-font-heading-4');
+    const isHeadingStyle3 = await heading.hasClass('sky-font-heading-3');
+    const isHeadingStyle4 = await heading.hasClass('sky-font-heading-4');
 
     if (isHeadingStyle3) {
       return 3;
@@ -145,9 +150,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether the checkbox group is required.
    */
   public async getRequired(): Promise<boolean> {
-    const headingWrapper = await this.#getHeadingWrapper();
-
-    return await headingWrapper.hasClass('sky-control-label-required');
+    return (await this.#getLegendRequired()) !== null;
   }
 
   /**
@@ -156,8 +159,10 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public async getStacked(): Promise<boolean> {
     const host = await this.host();
     const heading =
-      (await this.#getH3()) || (await this.#getH4()) || (await this.#getH5());
-    const label = await this.#getHeadingText();
+      (await this.#getLegendH3()) ||
+      (await this.#getLegendH4()) ||
+      (await this.#getLegendH5());
+    const label = await this.#getLegendDefault();
 
     return (
       ((await host.hasClass('sky-margin-stacked-lg')) && !!label) ||

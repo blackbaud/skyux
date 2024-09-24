@@ -29,7 +29,7 @@ describe('Checkbox group component', function () {
     checkboxGroupFixture: ComponentFixture<any>,
   ): string | undefined | null {
     return getLegend(checkboxGroupFixture).querySelector(
-      '.sky-screen-reader-only',
+      '.sky-checkbox-group-required-label',
     )?.textContent;
   }
 

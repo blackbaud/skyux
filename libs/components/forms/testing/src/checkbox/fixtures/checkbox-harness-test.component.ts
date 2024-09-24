@@ -1,19 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
 } from '@angular/forms';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyCheckboxGroupHeadingLevel,
   SkyCheckboxGroupHeadingStyle,
+  SkyCheckboxModule,
 } from '@skyux/forms';
 
 @Component({
+  standalone: true,
   selector: 'test-checkbox-harness',
   templateUrl: './checkbox-harness-test.component.html',
+  imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
 export class CheckboxHarnessTestComponent {
   public class = '';
@@ -32,11 +38,9 @@ export class CheckboxHarnessTestComponent {
   public required = false;
   public stacked = false;
 
-  #formBuilder: UntypedFormBuilder;
+  #formBuilder = inject(UntypedFormBuilder);
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-
+  constructor() {
     this.mailControl = new UntypedFormControl(false, [
       (control: AbstractControl): ValidationErrors | null => {
         if (control.value) {
