@@ -34,7 +34,6 @@ sky-box {
     }
 
     sky-box-controls {
-      order: 1;
       margin-left: auto;
 
       .sky-box-controls {
@@ -43,18 +42,21 @@ sky-box {
       }
     }
 
+    .sky-box-header-right {
+      flex: 1 0;
+      padding: 0 var(--sky-margin-inline-xl) 0 0;
+    }
+
     h2,
     h3,
     h4,
     h5 {
+      display: inline;
       margin-block: 0;
     }
   }
 
   sky-box-content {
-    flex: 0 1 100%;
-    order: 2;
-
     .sky-box-content {
       padding: var(--sky-padding-even-xl);
     }
