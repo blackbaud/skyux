@@ -1,1 +1,1 @@
-export type ThemeSelectorValue = 'default' | 'modern-light' | 'modern-dark';
+export type ThemeSelectorValue = 'default' | 'modern' | 'modern-v2';
