@@ -1,7 +1,8 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-@include mixins.sky-component('default', '.sky-label') {
+@include compatMixins.sky-default-overrides('.sky-label') {
   --sky-override-label-border-radius-pill: 10rem;
   --sky-override-label-line-height: 2.2;
   --sky-override-label-margin: 0 3px;
@@ -24,31 +25,29 @@
   --sky-override-label-icon-modern-display: none;
 }
 
-@include mixins.sky-component('modern', '.sky-label', true, '', true) {
+@include compatMixins.sky-modern-overrides('.sky-label') {
   --sky-override-label-line-height: 1;
   --sky-override-label-margin: 0 3px;
+
+  &.sky-label-danger,
+  &.sky-label-warning {
+    --sky-override-label-padding-left: var(--modern-size-9);
+  }
+
+  &.sky-label-info,
+  &.sky-label-success {
+    --sky-override-label-padding-left: var(--modern-size-6);
+  }
+
+  &.sky-label-info {
+    --sky-override-label-info-exclamation-path-color: var(
+      --modern-color-gray-105
+    );
+  }
 }
 
-@include mixins.sky-component('modern', '.sky-label') {
+@include compatMixins.sky-modern-overrides('.sky-label', true) {
   --sky-override-label-icon-default-display: none;
-}
-
-@include mixins.sky-component('modern', '.sky-label-danger', true, '', true) {
-  --sky-override-label-padding-left: var(--modern-size-9);
-}
-
-@include mixins.sky-component('modern', '.sky-label-warning', true, '', true) {
-  --sky-override-label-padding-left: var(--modern-size-9);
-}
-
-@include mixins.sky-component('modern', '.sky-label-info', true, '', true) {
-  --sky-override-label-padding-left: var(--modern-size-6);
-  --sky-override-label-info-exclamation-path-color: var(
-    --modern-color-gray-105
-  );
-}
-@include mixins.sky-component('modern', '.sky-label-success', true, '', true) {
-  --sky-override-label-padding-left: var(--modern-size-6);
 }
 
 /* Modern theme */
