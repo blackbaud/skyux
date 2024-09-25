@@ -8,7 +8,7 @@ import {
 
 import { DemoComponent } from './demo.component';
 
-fdescribe('Basic checkbox group demo', () => {
+describe('Basic checkbox group demo', () => {
   async function setupCheckboxGroupTest(options: {
     dataSkyId: string;
   }): Promise<SkyCheckboxGroupHarness> {
