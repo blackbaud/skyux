@@ -21,13 +21,13 @@
         "selector": "sky-file-attachment",
         "inputs": [
           {
-            "selector": "validatorFn",
+            "name": "validatorFn",
             "reason": ""
           }
         ],
         "outputs": [
           {
-            "selector": "fileChange",
+            "name": "fileChange",
             "reason": ""
           }
         ]

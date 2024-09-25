@@ -6,6 +6,7 @@
     "config",
     "e2e-schematics",
     "eslint-config",
+    "eslint-plugin",
     "packages",
     "prettier-schematics",
     "router",
