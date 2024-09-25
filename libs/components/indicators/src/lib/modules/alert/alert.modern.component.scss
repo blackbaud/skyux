@@ -1,16 +1,17 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include mixins.sky-component-host('modern') {
   display: block;
 }
 
-/* Modern theme token overrides */
-@include mixins.sky-component('modern', '.sky-alert', true, '', true) {
+@include compatMixins.sky-modern-overrides('.sky-alert') {
   --sky-override-alert-padding: 0 var(--modern-size-10);
   --sky-override-alert-text-vertical-padding: var(--modern-size-15);
   --sky-override-alert-button-size: 32px;
   --sky-override-alert-button-padding: 0;
+  --sky-override-alert-inner-icon-color: var(--sky-color-icon-default);
 }
 
 @include mixins.sky-component('modern', '.sky-alert') {
@@ -133,6 +134,10 @@
 
   &.sky-alert-info .sky-alert-icon-theme-modern {
     color: var(--sky-color-icon-info);
+    --sky-icon-stack-top-icon-color-override: var(
+      --sky-override-alert-inner-icon-color,
+      var(--sky-color-inverse)
+    );
   }
 
   &.sky-alert-success .sky-alert-icon-theme-modern {

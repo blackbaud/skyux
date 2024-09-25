@@ -1,5 +1,16 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+.sky-default {
+  --background-color-info: light-blue;
+}
+
+.sky-modern {
+  --background-color-info: blue;
+}
+
+.sky-modern-v2-only {
+}
+
 /* Default theme */
 sky-box {
   --sky-box-border-radius: initial;
