@@ -27,7 +27,7 @@ interface DeprecatedProperties {
   outputs?: DeprecatedProperty[];
 }
 
-export const RULE_NAME = 'no-deprecated-directives';
+export const RULE_NAME = 'template/no-deprecated-directives';
 
 // const DEPRECATED_SELECTORS = ['sky-card', 'sky-checkbox-label'].join('|');
 

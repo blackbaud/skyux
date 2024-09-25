@@ -1,5 +1,5 @@
-import all from './configs/all.json';
-import templateAll from './configs/template-all.json';
+import next from './configs/next.json';
+import templateNext from './configs/template-next.json';
 import processors from './processors';
 import {
   noLambdaImports,
@@ -16,13 +16,13 @@ import {
 
 export = {
   configs: {
-    all,
-    ['template-all']: templateAll,
+    next,
+    ['template-next']: templateNext,
   },
   processors,
   rules: {
     [noLambdaImportsRuleName]: noLambdaImports,
-    [`template/${noDeprecatedDirectivesRuleName}`]: noDeprecatedDirectives,
-    [`template/${noUnboundIdRuleName}`]: noUnboundId,
+    [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
+    [noUnboundIdRuleName]: noUnboundId,
   },
 };
