@@ -1,5 +1,10 @@
-import { readFile } from 'fs/promises';
 import { glob } from 'glob';
+import { readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+
+const DEPRECATIONS_FILE_PATH = path.normalize(
+  'dist/libs/sdk/eslint-plugin/src/__deprecations.json',
+);
 
 interface DeprecatedProperty {
   name: string;
@@ -61,15 +66,19 @@ async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
           for (const property of directive.children) {
             const propertyDecorator = property.decorators?.[0];
 
-            if (!propertyDecorator) {
-              continue;
-            }
+            const isInput =
+              propertyDecorator?.name === 'Input' ||
+              property.type?.name === 'InputSignal';
 
-            if (
-              propertyDecorator.name === 'Input' ||
-              propertyDecorator.name === 'Output'
-            ) {
-              const tags = property.comment?.blockTags;
+            const isOutput =
+              propertyDecorator?.name === 'Output' ||
+              property.type?.name === 'OutputEmitterRef';
+
+            if (isInput || isOutput) {
+              const tags =
+                property.comment?.blockTags ??
+                property.setSignature?.comment?.blockTags ??
+                property.getSignature?.comment?.blockTags;
 
               if (tags) {
                 for (const tag of tags) {
@@ -78,7 +87,7 @@ async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
                       .map((x: { text: string }) => x.text.replace('\n', ' '))
                       .join('');
 
-                    if (propertyDecorator.name === 'Input') {
+                    if (isInput) {
                       inputs.push({ name: property.name, reason });
                     } else {
                       outputs.push({ name: property.name, reason });
@@ -101,11 +110,14 @@ async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
     }
   }
 
-  console.log('Deprecated selectors:', selectors);
-  console.log(
-    'Deprecated properties:',
-    JSON.stringify(properties, undefined, 2),
-  );
+  const deprecations = {
+    directives: {
+      properties,
+      selectors,
+    },
+  };
+
+  await writeFile(DEPRECATIONS_FILE_PATH, JSON.stringify(deprecations));
 }
 
 void populateNoDeprecatedDirectivesESLintRule();
