@@ -1,6 +1,5 @@
-import { Component, ViewChild, inject } from '@angular/core';
-import { SkySummaryActionBarModule, λ3 } from '@skyux/action-bars';
-import { SkyOverlayLegacyService } from '@skyux/core';
+import { Component } from '@angular/core';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 @Component({
@@ -10,11 +9,6 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule],
 })
 export class DemoComponent {
-  @ViewChild(λ3, { static: true })
-  public bad!: λ3;
-
-  public svc = inject(SkyOverlayLegacyService);
-
   protected onPrimaryActionClick(): void {
     alert('Primary action button clicked.');
   }

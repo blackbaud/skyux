@@ -4,6 +4,5 @@
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
   "cSpell.enabled": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["TSES"]
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
