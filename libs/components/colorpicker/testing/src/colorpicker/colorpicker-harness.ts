@@ -28,20 +28,6 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
     'button.sky-colorpicker-reset-button-modern',
   );
 
-  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    return await this.locatorFor(SkyFormErrorsHarness)();
-  }
-
-  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
-    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No help inline found.');
-  }
-
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyColorpickerHarness` that meets certain criteria
@@ -85,10 +71,17 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the colorpicker component's aria label.
+   * Gets the colorpicker button's `aria-label`.
    */
   public async getAriaLabel(): Promise<string | null> {
     return (await this.#getButton()).getAttribute('aria-label');
+  }
+
+  /**
+   * Gets the colorpicker button's `aria-labelledBy`
+   */
+  public async getAriaLabelledBy(): Promise<string | null> {
+    return (await this.#getButton()).getAttribute('aria-labelledby');
   }
 
   /**
@@ -96,7 +89,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * the colorpicker button. Throws an error if the dropdown is not open.
    */
   public async getColorpickerDropdown(): Promise<SkyColorpickerDropdownHarness> {
-    const overlayId = await this.getOverlayId();
+    const overlayId = await this.#getOverlayId();
 
     if (!overlayId) {
       throw new Error(
@@ -105,7 +98,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
     }
 
     return await this.#documentRootLocator.locatorFor(
-      SkyColorpickerDropdownHarness.with({ id: overlayId }),
+      SkyColorpickerDropdownHarness.with({ selector: `#${overlayId}` }),
     )();
   }
 
@@ -141,17 +134,17 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   /**
+   * Whether the colorpicker component's label is hidden.
+   */
+  public async getLabelHidden(): Promise<boolean> {
+    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
+  }
+
+  /**
    * Gets the colorpicker component's label text.
    */
   public async getLabelText(): Promise<string> {
     return (await (await this.#getLabel()).text()).trim();
-  }
-
-  /**
-   * Gets the colorpicker button's title.
-   */
-  public async getTitle(): Promise<string | null> {
-    return (await this.#getButton()).getAttribute('title');
   }
 
   /**
@@ -170,10 +163,13 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the colorpicker component's label is hidden.
+   * Whether the reset button is shown.
    */
-  public async isLabelHidden(): Promise<boolean> {
-    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
+  public async hasResetButton(): Promise<boolean> {
+    const defaultButton = (await this.#resetButtonDefault()) ?? null;
+    const modernButton = (await this.#resetButtonModern()) ?? null;
+
+    return !!defaultButton || !!modernButton;
   }
 
   /**
@@ -195,7 +191,21 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
     return (await this.host()).hasClass('sky-margin-stacked-lg');
   }
 
-  private async getOverlayId(): Promise<string | null> {
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    return await this.locatorFor(SkyFormErrorsHarness)();
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
+  }
+
+  async #getOverlayId(): Promise<string | null> {
     return (await this.#getButton()).getAttribute('aria-controls');
   }
 }

@@ -5,6 +5,4 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SkyColorpickerDropdownHarnessFilters
-  extends BaseHarnessFilters {
-  id?: string;
-}
+  extends BaseHarnessFilters {}

@@ -21,11 +21,14 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
   public static with(
     filters: SkyColorpickerDropdownHarnessFilters,
   ): HarnessPredicate<SkyColorpickerDropdownHarness> {
-    return SkyColorpickerDropdownHarness.getDataSkyIdPredicate(
-      filters,
-    ).addOption('id', filters.id, async (harness, id) =>
-      HarnessPredicate.stringMatches(await harness.getId(), id),
-    );
+    return new HarnessPredicate(SkyColorpickerDropdownHarness, filters);
+  }
+
+  /**
+   * Whether transparency is allowed.
+   */
+  public async allowsTransparency(): Promise<boolean> {
+    return !!(await this.#getAlphaInput());
   }
 
   /**
@@ -46,8 +49,8 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
    * Clicks a specified swatch in the color preset section.
    * @param swatchHex Hex code of the swatch to click.
    */
-  public async clickSwatch(swatchHex: string): Promise<void> {
-    const swatches = await this.getSwatchButtons();
+  public async clickPresetColorSwatch(swatchHex: string): Promise<void> {
+    const swatches = await this.#getSwatchButtons();
     const ariaLabel = `Preset Color: ${swatchHex}`;
 
     for (const swatch of swatches) {
@@ -58,14 +61,30 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets an array of the hex codes of the preset swatches.
+   */
+  public async getPresetSwatches(): Promise<(string | undefined)[]> {
+    const swatches = await this.#getSwatchButtons();
+
+    return await Promise.all(
+      swatches.map(async (swatch): Promise<string | undefined> => {
+        return (await swatch.getAttribute('aria-label'))?.split(':')[1].trim();
+      }),
+    );
+  }
+
+  /**
    * Enters a value into the alpha input box.
    * @param value A decimal value from 0-1.
    */
   public async setAlphaValue(value: string): Promise<void> {
-    const input = await this.getAlphaInput();
+    const input = await this.#getAlphaInput();
 
-    input.setInputValue(value);
-    input.dispatchEvent('input');
+    if (!input) {
+      throw new Error('Alpha input cannot be found.');
+    }
+
+    await this.#setInputValue(input, value);
   }
 
   /**
@@ -73,10 +92,9 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
    * @param value A value from 0-255
    */
   public async setBlueValue(value: string): Promise<void> {
-    const input = await this.getBlueInput();
+    const input = await this.#getBlueInput();
 
-    input.setInputValue(value);
-    input.dispatchEvent('input');
+    await this.#setInputValue(input, value);
   }
 
   /**
@@ -84,10 +102,9 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
    * @param value A value from 0-255
    */
   public async setGreenValue(value: string): Promise<void> {
-    const input = await this.getGreenInput();
+    const input = await this.#getGreenInput();
 
-    input.setInputValue(value);
-    input.dispatchEvent('input');
+    await this.#setInputValue(input, value);
   }
 
   /**
@@ -95,10 +112,9 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
    * @param value A hex value
    */
   public async setHexValue(value: string): Promise<void> {
-    const input = await this.getHexInput();
+    const input = await this.#getHexInput();
 
-    input.setInputValue(value);
-    input.dispatchEvent('input');
+    await this.#setInputValue(input, value);
   }
 
   /**
@@ -106,37 +122,32 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
    * @param value A value from 0-255
    */
   public async setRedValue(value: string): Promise<void> {
-    const input = await this.getRedInput();
+    const input = await this.#getRedInput();
 
-    input.setInputValue(value);
-    input.dispatchEvent('input');
+    await this.#setInputValue(input, value);
   }
 
-  private async getAlphaInput(): Promise<TestElement> {
+  async #getAlphaInput(): Promise<TestElement | null> {
     return (await this.#getInputs())[4];
   }
 
-  private async getBlueInput(): Promise<TestElement> {
+  async #getBlueInput(): Promise<TestElement> {
     return (await this.#getInputs())[3];
   }
 
-  private async getGreenInput(): Promise<TestElement> {
+  async #getGreenInput(): Promise<TestElement> {
     return (await this.#getInputs())[2];
   }
 
-  private async getHexInput(): Promise<TestElement> {
+  async #getHexInput(): Promise<TestElement> {
     return (await this.#getInputs())[0];
   }
 
-  private async getId(): Promise<string | null> {
-    return (await this.host()).getAttribute('id');
-  }
-
-  private async getRedInput(): Promise<TestElement> {
+  async #getRedInput(): Promise<TestElement> {
     return (await this.#getInputs())[1];
   }
 
-  private async getSwatchButtons(): Promise<TestElement[]> {
+  async #getSwatchButtons(): Promise<TestElement[]> {
     let swatchesModern = await this.#getSwatchesModern();
     swatchesModern = swatchesModern.slice(0, swatchesModern.length - 1);
 
@@ -149,5 +160,10 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
     } else {
       throw new Error('No swatches found.');
     }
+  }
+
+  async #setInputValue(input: TestElement, value: string): Promise<void> {
+    input.setInputValue(value);
+    input.dispatchEvent('input');
   }
 }

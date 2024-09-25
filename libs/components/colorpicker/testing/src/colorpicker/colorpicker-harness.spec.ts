@@ -46,6 +46,7 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
         <input
           formControlName="colorpicker"
           type="text"
+          [allowTransparency]="allowTransparency"
           [required]="required"
           [skyColorpickerInput]="skyColorpickerTest"
           [presetColors]="swatches"
@@ -65,6 +66,7 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
   `,
 })
 class TestComponent {
+  public allowTransparency = true;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public hintText: string | undefined;
@@ -263,7 +265,7 @@ describe('Colorpicker harness', () => {
     );
   });
 
-  it('should get aria label when set with `label` input', async () => {
+  it('should get `aria-label` when set with `label` input', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
     fixture.componentInstance.label = 'colorpicker';
@@ -274,13 +276,13 @@ describe('Colorpicker harness', () => {
     );
   });
 
-  it('should get title when set with `label` input', async () => {
+  it('should get `aria-label` when set with `labelledBy` input', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.label = 'colorpicker';
+    fixture.componentInstance.labelledBy = 'colorpicker';
     fixture.detectChanges();
 
-    await expectAsync(colorpickerHarness.getTitle()).toBeResolvedTo(
+    await expectAsync(colorpickerHarness.getAriaLabelledBy()).toBeResolvedTo(
       'colorpicker',
     );
   });
@@ -292,7 +294,7 @@ describe('Colorpicker harness', () => {
     fixture.componentInstance.labelHidden = true;
     fixture.detectChanges();
 
-    await expectAsync(colorpickerHarness.isLabelHidden()).toBeResolvedTo(true);
+    await expectAsync(colorpickerHarness.getLabelHidden()).toBeResolvedTo(true);
   });
 
   it('should click the reset button in default theme', async () => {
@@ -336,6 +338,19 @@ describe('Colorpicker harness', () => {
     await expectAsync(
       colorpickerHarness.clickResetButton(),
     ).toBeRejectedWithError('No reset button found.');
+  });
+
+  it('should get whether reset button is shown', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    await expectAsync(colorpickerHarness.hasResetButton()).toBeResolvedTo(true);
+
+    fixture.componentInstance.showResetButton = false;
+    fixture.detectChanges();
+
+    await expectAsync(colorpickerHarness.hasResetButton()).toBeResolvedTo(
+      false,
+    );
   });
 
   it('should get whether colorpicker dropdown is open', async () => {
@@ -477,6 +492,56 @@ describe('Colorpicker harness', () => {
       expect(control.value['rgbaText']).toBe('rgba(255,0,0,0.5)');
     });
 
+    it('should throw an error if trying to set alpha input when transparency is not allowed', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+
+      fixture.componentInstance.allowTransparency = false;
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await expectAsync(
+        dropdownHarness.setAlphaValue('.5'),
+      ).toBeRejectedWithError('Alpha input cannot be found.');
+    });
+
+    it('should get whether transparency is allowed', async () => {
+      const { colorpickerHarness, fixture } = await setupTest();
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await expectAsync(dropdownHarness.allowsTransparency()).toBeResolvedTo(
+        true,
+      );
+
+      fixture.componentInstance.allowTransparency = false;
+      fixture.detectChanges();
+
+      await expectAsync(dropdownHarness.allowsTransparency()).toBeResolvedTo(
+        false,
+      );
+    });
+
+    it('should get an array of swatch hexes in default theme', async () => {
+      const { colorpickerHarness, fixture } = await setupTest({
+        theme: 'default',
+      });
+
+      fixture.componentInstance.swatches = ['#f0f', '#0ff'];
+      fixture.detectChanges();
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await expectAsync(dropdownHarness.getPresetSwatches()).toBeResolvedTo(
+        fixture.componentInstance.swatches,
+      );
+    });
+
     it('should click a swatch button in default theme', async () => {
       const { colorpickerHarness, fixture } = await setupTest({
         theme: 'default',
@@ -492,7 +557,7 @@ describe('Colorpicker harness', () => {
         fixture,
       );
 
-      await dropdownHarness.clickSwatch('#0ff');
+      await dropdownHarness.clickPresetColorSwatch('#0ff');
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
@@ -514,7 +579,7 @@ describe('Colorpicker harness', () => {
         fixture,
       );
 
-      await dropdownHarness.clickSwatch('#0ff');
+      await dropdownHarness.clickPresetColorSwatch('#0ff');
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
@@ -532,7 +597,7 @@ describe('Colorpicker harness', () => {
       );
 
       await expectAsync(
-        dropdownHarness.clickSwatch('#0ff'),
+        dropdownHarness.clickPresetColorSwatch('#0ff'),
       ).toBeRejectedWithError('No swatches found.');
     });
 
