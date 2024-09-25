@@ -1,6 +1,9 @@
+import { processors } from '@angular-eslint/eslint-plugin-template';
+
 import next from './configs/next.json';
+import recommended from './configs/recommended.json';
 import templateNext from './configs/template-next.json';
-import processors from './processors';
+import templateRecommended from './configs/template-recommended.json';
 import {
   noLambdaImports,
   RULE_NAME as noLambdaImportsRuleName,
@@ -17,7 +20,9 @@ import {
 export = {
   configs: {
     next,
+    recommended,
     ['template-next']: templateNext,
+    ['template-recommended']: templateRecommended,
   },
   processors,
   rules: {

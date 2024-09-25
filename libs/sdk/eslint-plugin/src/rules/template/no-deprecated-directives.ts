@@ -29,22 +29,6 @@ interface DeprecatedProperties {
 
 export const RULE_NAME = 'template/no-deprecated-directives';
 
-// const DEPRECATED_SELECTORS = ['sky-card', 'sky-checkbox-label'].join('|');
-
-// const DEPRECATED_PROPERTIES: Record<string, Record<string, string[]>> = {
-//   'sky-checkbox': {
-//     inputs: ['label'],
-//   },
-//   'sky-file-attachment': {
-//     inputs: ['validatorFn'],
-//     outputs: ['fileChange'],
-//   },
-// };
-
-// const SELECTORS_WITH_DEPRECATED_PROPERTIES = Object.keys(
-//   DEPRECATED_PROPERTIES,
-// ).join('|');
-
 const DEPRECATED_SELECTORS = DEPRECATIONS.directives.selectors
   .map((s) => s.selector)
   .join('|');

@@ -36,8 +36,8 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when using deprecated property',
       annotatedSource: `
-        <sky-file-attachment validatorFn="{{ foo }}"></sky-file-attachment>
-                             ~~~~~~~~~~~~~~~~~~~~~~~
+        <sky-file-attachment [validatorFn]="foo"></sky-file-attachment>
+                             ~~~~~~~~~~~~~~~~~~~
       `,
       messageId: 'noDeprecatedDirectiveProperties',
       data: { element: 'sky-file-attachment', property: 'validatorFn' },
