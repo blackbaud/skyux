@@ -92,9 +92,10 @@ export const rule = createESLintRule({
       description: '',
     },
     messages: {
-      noDeprecatedDirectives: '<{{element}} /> is deprecated. {{reason}}',
+      noDeprecatedDirectives:
+        '<{{element}} /> element is deprecated. {{reason}}',
       noDeprecatedDirectiveProperties:
-        'The property {{property}} on the <{{element}} /> element is deprecated. {{reason}}',
+        'The property `{{property}}` on the <{{element}} /> element is deprecated. {{reason}}',
     },
     schema: [],
     type: 'problem',
