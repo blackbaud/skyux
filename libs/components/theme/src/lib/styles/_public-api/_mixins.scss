@@ -100,54 +100,42 @@
   }
 }
 
-@mixin sky-component(
-  $theme,
-  $selector,
-  $encapsulate: true,
-  $breakpoint: '',
-  $excludeModernV2: false
-) {
+@mixin sky-component($theme, $selector, $encapsulate: true, $breakpoint: '') {
   @if $breakpoint == '' {
-    @include sky-component-theme($theme, $selector, $excludeModernV2) {
+    @include sky-component-theme($theme, $selector) {
       @content;
     }
   } @else if $breakpoint == 'xs' {
     @include sky-host-responsive-container-xs-min($encapsulate) {
-      @include sky-component-theme($theme, $selector, $excludeModernV2) {
+      @include sky-component-theme($theme, $selector) {
         @content;
       }
     }
   } @else if $breakpoint == 'sm' {
     @include sky-host-responsive-container-sm-min($encapsulate) {
-      @include sky-component-theme($theme, $selector, $excludeModernV2) {
+      @include sky-component-theme($theme, $selector) {
         @content;
       }
     }
   } @else if $breakpoint == 'md' {
     @include sky-host-responsive-container-md-min($encapsulate) {
-      @include sky-component-theme($theme, $selector, $excludeModernV2) {
+      @include sky-component-theme($theme, $selector) {
         @content;
       }
     }
   } @else if $breakpoint == 'lg' {
     @include sky-host-responsive-container-lg-min($encapsulate) {
-      @include sky-component-theme($theme, $selector, $excludeModernV2) {
+      @include sky-component-theme($theme, $selector) {
         @content;
       }
     }
   }
 }
 
-@mixin sky-component-theme($theme, $selector, $excludeModernV2) {
+@mixin sky-component-theme($theme, $selector) {
   @if $theme == 'modern' {
-    @if $excludeModernV2 {
-      :is(.sky-theme-modern:not(.sky-theme-brand-blackbaud) #{$selector}) {
-        @content;
-      }
-    } @else {
-      :is(.sky-theme-modern #{$selector}) {
-        @content;
-      }
+    :is(.sky-theme-modern #{$selector}) {
+      @content;
     }
   } @else {
     #{$selector}:not(.sky-theme-modern *) {
