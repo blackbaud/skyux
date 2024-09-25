@@ -16,10 +16,10 @@
     #inputBoxSelectMode="skyId"
     class="sky-theme-selector sky-form-control"
     skyId
-    [disabled]="modeValues.length === 1"
+    [disabled]="modeValues().length === 1"
     [(ngModel)]="themeMode"
   >
-    @for (modeValue of modeValues; track modeValue) {
+    @for (modeValue of modeValues(); track modeValue) {
       <option [value]="modeValue">
         {{ modeValue.charAt(0).toUpperCase() + modeValue.substring(1) }}
       </option>
@@ -35,10 +35,10 @@
     #inputBoxSelectSpacing="skyId"
     skyId
     class="sky-theme-selector sky-form-control"
-    [disabled]="spacingValues.length === 1"
+    [disabled]="spacingValues().length === 1"
     [(ngModel)]="themeSpacing"
   >
-    @for (spacingValue of spacingValues; track spacingValue) {
+    @for (spacingValue of spacingValues(); track spacingValue) {
       <option [value]="spacingValue">
         {{ spacingValue.charAt(0).toUpperCase() + spacingValue.substring(1) }}
       </option>
@@ -47,6 +47,6 @@
 </sky-input-box>
 <sky-checkbox
   labelText="Enable modern v2"
-  [disabled]="themeName === 'default'"
+  [disabled]="themeName() === 'default'"
   [(ngModel)]="modernV2Enabled"
 />

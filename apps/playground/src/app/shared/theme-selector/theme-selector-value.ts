@@ -1,1 +1,3 @@
-export type ThemeSelectorValue = 'default' | 'modern' | 'modern-v2';
+import { SkyTheme } from '@skyux/theme';
+
+export type ThemeSelectorValue = keyof typeof SkyTheme.presets;
