@@ -1,12 +1,10 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-/* Default theme token overrides */
-@include mixins.sky-component('default', 'sky-box') {
+@include compatMixins.sky-default-overrides('sky-box') {
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 
-/* Modern theme token overrides */
-@include mixins.sky-component('modern', 'sky-box', true, '', true) {
+@include compatMixins.sky-modern-overrides('sky-box') {
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 

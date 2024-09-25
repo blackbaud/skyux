@@ -1,7 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-/* Default theme token overrides */
 @include compatMixins.sky-default-overrides('sky-box') {
   --sky-override-box-header-container-padding: var(--sky-padding-even-xl)
     var(--sky-padding-even-xl) 0 var(--sky-padding-even-xl);
@@ -9,7 +8,6 @@
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 
-/* Modern theme token overrides */
 @include compatMixins.sky-modern-overrides('sky-box') {
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
