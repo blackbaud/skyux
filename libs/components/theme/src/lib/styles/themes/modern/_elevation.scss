@@ -7,12 +7,13 @@
 
   .sky-elevation-1,
   .sky-elevation-1-bordered {
-    box-shadow: $sky-theme-modern-elevation-1-shadow-size
-      $sky-theme-modern-elevation-1-shadow-color;
+    box-shadow: var(--sky-elevation-raised-100);
   }
 
   .sky-elevation-1-bordered {
-    border: $sky-theme-modern-elevation-1-bordered-border;
+    border-color: var(--sky-color-border-container-base);
+    border-width: var(--sky-border-width-container-base);
+    border-style: solid;
   }
 
   .sky-elevation-3 {
