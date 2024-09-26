@@ -282,7 +282,7 @@ describe('Colorpicker harness', () => {
     fixture.componentInstance.labelledBy = 'colorpicker';
     fixture.detectChanges();
 
-    await expectAsync(colorpickerHarness.getAriaLabelledBy()).toBeResolvedTo(
+    await expectAsync(colorpickerHarness.getAriaLabelledby()).toBeResolvedTo(
       'colorpicker',
     );
   });
@@ -537,9 +537,9 @@ describe('Colorpicker harness', () => {
         fixture,
       );
 
-      await expectAsync(dropdownHarness.getPresetSwatches()).toBeResolvedTo(
-        fixture.componentInstance.swatches,
-      );
+      await expectAsync(
+        dropdownHarness.getPresetColorSwatches(),
+      ).toBeResolvedTo(fixture.componentInstance.swatches);
     });
 
     it('should throw an error if a swatch is set to undefined', async () => {
@@ -555,7 +555,7 @@ describe('Colorpicker harness', () => {
       );
 
       await expectAsync(
-        dropdownHarness.getPresetSwatches(),
+        dropdownHarness.getPresetColorSwatches(),
       ).toBeRejectedWithError('Preset swatch is undefined.');
     });
 

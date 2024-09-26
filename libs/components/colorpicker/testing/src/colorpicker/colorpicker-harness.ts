@@ -80,7 +80,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   /**
    * Gets the colorpicker button's `aria-labelledBy`
    */
-  public async getAriaLabelledBy(): Promise<string | null> {
+  public async getAriaLabelledby(): Promise<string | null> {
     return (await this.#getButton()).getAttribute('aria-labelledby');
   }
 
