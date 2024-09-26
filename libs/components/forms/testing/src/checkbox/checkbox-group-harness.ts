@@ -22,7 +22,8 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-checkbox-group';
 
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
-  #getHeading = this.locatorForOptional('.sky-control-label');
+  #getHeading = this.locatorFor('.sky-control-label');
+  #getHeadingWrapper = this.locatorFor('.sky-control-label span');
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
   #getLegendDefault = this.locatorForOptional(
     'legend .sky-checkbox-group-heading-text',
@@ -32,9 +33,6 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   #getLegendH5 = this.locatorForOptional('legend h5');
   #getLegendHeading = this.locatorFor(
     'legend h3,h4,h5,.sky-checkbox-group-heading-text',
-  );
-  #getLegendRequired = this.locatorForOptional(
-    'legend .sky-checkbox-group-required-label',
   );
 
   /**
@@ -67,12 +65,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public async getHelpPopoverContent(): Promise<string | undefined> {
     const content = await (await this.#getHelpInline()).getPopoverContent();
 
-    /* istanbul ignore if */
-    if (typeof content === 'object') {
-      throw Error('Unexpected template ref');
-    }
-
-    return content;
+    return content as string | undefined;
   }
 
   /**
@@ -103,7 +96,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    return (await this.#getHeading()) === null;
+    return (await this.#getHeading()).hasClass('sky-screen-reader-only');
   }
 
   /**
@@ -150,7 +143,9 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether the checkbox group is required.
    */
   public async getRequired(): Promise<boolean> {
-    return (await this.#getLegendRequired()) !== null;
+    const headingWrapper = await this.#getHeadingWrapper();
+
+    return await headingWrapper.hasClass('sky-control-label-required');
   }
 
   /**

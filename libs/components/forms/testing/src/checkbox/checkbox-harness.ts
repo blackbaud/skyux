@@ -87,12 +87,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   public async getHelpPopoverContent(): Promise<string | undefined> {
     const content = await (await this.#getHelpInline()).getPopoverContent();
 
-    /* istanbul ignore if */
-    if (typeof content === 'object') {
-      throw Error('Unexpected template ref');
-    }
-
-    return content;
+    return content as string | undefined;
   }
 
   /**
