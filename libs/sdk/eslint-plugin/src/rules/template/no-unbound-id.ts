@@ -3,12 +3,10 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 
 import { createESLintRule } from '../../utils/create-eslint-rule';
 
-export const RULE_NAME = 'template/no-unbound-id';
+export const RULE_NAME = 'no-unbound-id';
+export const messageId = 'noUnboundId';
 
-/**
- * [Bad practice]
- */
-export const noUnboundId = createESLintRule({
+export const rule = createESLintRule({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
@@ -21,7 +19,7 @@ export const noUnboundId = createESLintRule({
         if (idAttr) {
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(idAttr.sourceSpan),
-            messageId: 'noUnboundId',
+            messageId,
             data: {
               element: el.name,
             },
@@ -36,11 +34,11 @@ export const noUnboundId = createESLintRule({
       description: 'ID must be unique.',
     },
     messages: {
-      noUnboundId:
+      [messageId]:
         '<{{element}} /> element must not have a static ID. Use the `skyId` directive instead.',
     },
     schema: [],
     type: 'problem',
   },
-  name: RULE_NAME,
+  name: `template/${RULE_NAME}`,
 });

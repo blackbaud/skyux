@@ -27,7 +27,7 @@ interface DeprecatedProperties {
   outputs?: DeprecatedProperty[];
 }
 
-export const RULE_NAME = 'template/no-deprecated-directives';
+export const RULE_NAME = 'no-deprecated-directives';
 
 const DEPRECATED_SELECTORS = DEPRECATIONS.directives.selectors
   .map((s) => s.selector)
@@ -66,6 +66,27 @@ export const rule = createESLintRule({
                   reason: property?.reason,
                 },
               });
+            } else {
+              const output = el.outputs.find((output) => {
+                property = directive.outputs?.find(
+                  (o) => o.name === output.name,
+                );
+                return !!property;
+              });
+
+              if (output) {
+                context.report({
+                  loc: parserServices.convertNodeSourceSpanToLoc(
+                    output.sourceSpan,
+                  ),
+                  messageId: 'noDeprecatedDirectiveProperties',
+                  data: {
+                    element: el.name,
+                    property: output.name,
+                    reason: property?.reason,
+                  },
+                });
+              }
             }
           }
         }
@@ -95,10 +116,10 @@ export const rule = createESLintRule({
       noDeprecatedDirectives:
         '<{{element}} /> element is deprecated. {{reason}}',
       noDeprecatedDirectiveProperties:
-        'The property `{{property}}` on the <{{element}} /> element is deprecated. {{reason}}',
+        'The attribute `{{property}}` on the <{{element}} /> element is deprecated. {{reason}}',
     },
     schema: [],
     type: 'problem',
   },
-  name: RULE_NAME,
+  name: `template/${RULE_NAME}`,
 });

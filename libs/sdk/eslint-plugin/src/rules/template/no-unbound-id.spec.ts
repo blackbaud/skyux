@@ -3,7 +3,7 @@ import {
   convertAnnotatedSourceToFailureCase,
 } from '@angular-eslint/test-utils';
 
-import { RULE_NAME, noUnboundId } from './no-unbound-id';
+import { RULE_NAME, messageId, rule } from './no-unbound-id';
 
 const ruleTester = new RuleTester({
   languageOptions: {
@@ -12,7 +12,7 @@ const ruleTester = new RuleTester({
   },
 });
 
-ruleTester.run(RULE_NAME, noUnboundId, {
+ruleTester.run(RULE_NAME, rule, {
   valid: [
     '<button [id]="foobar"></button>',
     '<button [attr.id]="foobar"></button>',
@@ -25,7 +25,7 @@ ruleTester.run(RULE_NAME, noUnboundId, {
         <span id="foobar"></span>
               ~~~~~~~~~~~
       `,
-      messageId: 'noUnboundId',
+      messageId,
       data: { element: 'span' },
     }),
   ],

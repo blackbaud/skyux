@@ -5,7 +5,7 @@ import recommended from './configs/recommended.json';
 import templateNext from './configs/template-next.json';
 import templateRecommended from './configs/template-recommended.json';
 import {
-  noLambdaImports,
+  rule as noLambdaImports,
   RULE_NAME as noLambdaImportsRuleName,
 } from './rules/no-lambda-imports';
 import {
@@ -13,7 +13,7 @@ import {
   RULE_NAME as noDeprecatedDirectivesRuleName,
 } from './rules/template/no-deprecated-directives';
 import {
-  noUnboundId,
+  rule as noUnboundId,
   RULE_NAME as noUnboundIdRuleName,
 } from './rules/template/no-unbound-id';
 
@@ -27,7 +27,7 @@ export = {
   processors,
   rules: {
     [noLambdaImportsRuleName]: noLambdaImports,
-    [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
-    [noUnboundIdRuleName]: noUnboundId,
+    [`template/${noDeprecatedDirectivesRuleName}`]: noDeprecatedDirectives,
+    [`template/${noUnboundIdRuleName}`]: noUnboundId,
   },
 };

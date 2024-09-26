@@ -3,8 +3,9 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
 export const RULE_NAME = 'no-lambda-imports';
+export const messageId = 'noLambdaImports';
 
-export const noLambdaImports = createESLintRule({
+export const rule = createESLintRule({
   create(context) {
     return {
       ['ImportDeclaration'](node: TSESTree.ImportDeclaration) {
@@ -15,7 +16,7 @@ export const noLambdaImports = createESLintRule({
         if (found) {
           context.report({
             loc: found.loc,
-            messageId: 'noLambdaImports',
+            messageId,
             data: {},
           });
         }
@@ -28,7 +29,7 @@ export const noLambdaImports = createESLintRule({
       description: 'Do not import lambdas.',
     },
     messages: {
-      noLambdaImports: 'Do not import lambda files.',
+      [messageId]: 'Do not import lambda files.',
     },
     schema: [],
     type: 'problem',
