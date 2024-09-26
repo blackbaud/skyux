@@ -8,6 +8,19 @@
     display: block;
   }
 
+  &-blocks.sky-layout-host-for-child-with-links {
+    --sky-layout-host-header-spacing: 0;
+    --sky-layout-host-content-spacing: 0;
+    --sky-layout-host-row-grid-spacing: 20px;
+    --sky-layout-host-column-grid-spacing: 10px;
+
+    display: grid;
+    row-gap: var(--sky-layout-host-row-grid-spacing);
+    column-gap: var(--sky-layout-host-column-grid-spacing);
+    margin: var(--sky-layout-host-row-grid-spacing)
+      var(--sky-layout-host-column-grid-spacing);
+  }
+
   &-fit,
   &-for-child-fit {
     position: absolute;
@@ -53,6 +66,28 @@
       --sky-layout-host-content-spacing: 20px;
     }
 
+    &-blocks.sky-layout-host-for-child-with-links {
+      --sky-layout-host-header-spacing: 0;
+      --sky-layout-host-content-spacing: 0;
+      --sky-layout-host-row-grid-spacing: 20px;
+      --sky-layout-host-column-grid-spacing: 20px;
+
+      grid-template: 'header header' 'content links';
+      grid-template-columns: 3fr 1fr;
+
+      > sky-page-header {
+        grid-area: header;
+      }
+
+      > sky-page-content {
+        grid-area: content;
+      }
+
+      > sky-page-links {
+        grid-area: links;
+      }
+    }
+
     &-fit,
     &-list {
       --sky-layout-host-header-spacing: 20px;
@@ -72,6 +107,13 @@
       &-blocks {
         --sky-layout-host-header-spacing: 30px 30px 0 30px;
         --sky-layout-host-content-spacing: 30px;
+      }
+
+      &-blocks.sky-layout-host-for-child-with-links {
+        --sky-layout-host-header-spacing: 0;
+        --sky-layout-host-content-spacing: 0;
+        --sky-layout-host-row-grid-spacing: 30px;
+        --sky-layout-host-column-grid-spacing: 30px;
       }
 
       &-fit,
