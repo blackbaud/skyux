@@ -26,7 +26,7 @@ ruleTester.run(RULE_NAME, rule, {
               ~~~~~~~~~~~
       `,
       messageId,
-      data: { element: 'span' },
+      data: { selector: 'span' },
     }),
   ],
 });

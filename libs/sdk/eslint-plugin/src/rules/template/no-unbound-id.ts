@@ -21,7 +21,7 @@ export const rule = createESLintRule({
             loc: parserServices.convertNodeSourceSpanToLoc(idAttr.sourceSpan),
             messageId,
             data: {
-              element: el.name,
+              selector: el.name,
             },
           });
         }
@@ -35,7 +35,7 @@ export const rule = createESLintRule({
     },
     messages: {
       [messageId]:
-        '<{{element}} /> element must not have a static ID. Use the `skyId` directive instead.',
+        '<{{selector}} /> element must not have a static ID. Use the `skyId` directive instead.',
     },
     schema: [],
     type: 'problem',
