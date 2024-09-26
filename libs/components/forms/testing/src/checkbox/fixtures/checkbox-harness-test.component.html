@@ -3,7 +3,7 @@
     headingText="Contact method"
     data-sky-id="checkbox-group"
     [attr.class]="class"
-    [formGroup]="myForm"
+    [formGroup]="myCheckboxGroup"
     [helpKey]="helpKey"
     [helpPopoverContent]="helpPopoverContent"
     [helpPopoverTitle]="helpPopoverTitle"
@@ -28,10 +28,10 @@
     <sky-checkbox
       data-sky-id="my-phone-checkbox"
       formControlName="phone"
-      [helpKey]="helpKey"
       helpPopoverContent="(xxx)xxx-xxxx"
       helpPopoverTitle="Format"
       labelText="Phone"
+      [helpKey]="helpKey"
       [required]="true"
       [hintText]="phoneHintText"
       [labelHidden]="hidePhoneLabel"
@@ -57,4 +57,10 @@
       />
     }
   </sky-checkbox-group>
+  <sky-checkbox
+    data-sky-id="stacked-checkbox"
+    formControlName="stacked"
+    labelText="Stacked"
+    stacked
+  />
 </form>
