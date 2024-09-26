@@ -1,4 +1,5 @@
 @use 'mixins' as mixins;
+@use 'compat-tokens-mixins' as compatMixins;
 @use 'variables' as *;
 
 .sky-form-control {
@@ -61,8 +62,17 @@ textarea.ng-invalid.ng-touched {
   @include mixins.sky-required-field;
 }
 
+@include compatMixins.sky-default-overrides(
+  '.sky-control-help-container:not(:empty)'
+) {
+  --sky-override-help-inline-margin-left: var(--sky-margin-inline-xs);
+}
+
 .sky-control-help-container:not(:empty) {
-  margin-left: var(--sky-margin-inline-xs);
+  margin-left: var(
+    --sky-override-help-inline-margin-left,
+    var(--sky-space-text_action_gap-xs)
+  );
 }
 
 fieldset {
