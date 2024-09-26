@@ -542,6 +542,23 @@ describe('Colorpicker harness', () => {
       );
     });
 
+    it('should throw an error is a swatch is set to undefined', async () => {
+      const { colorpickerHarness, fixture } = await setupTest({
+        theme: 'default',
+      });
+
+      fixture.componentInstance.swatches = [''];
+      fixture.detectChanges();
+      const dropdownHarness = await getColorpickerDropdownHarness(
+        colorpickerHarness,
+        fixture,
+      );
+
+      await expectAsync(
+        dropdownHarness.getPresetSwatches(),
+      ).toBeRejectedWithError('Preset swatch is undefined.');
+    });
+
     it('should click a swatch button in default theme', async () => {
       const { colorpickerHarness, fixture } = await setupTest({
         theme: 'default',

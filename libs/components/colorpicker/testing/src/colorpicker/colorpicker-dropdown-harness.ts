@@ -63,12 +63,18 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
   /**
    * Gets an array of the hex codes of the preset swatches.
    */
-  public async getPresetSwatches(): Promise<(string | undefined)[]> {
+  public async getPresetSwatches(): Promise<string[]> {
     const swatches = await this.#getSwatchButtons();
 
     return await Promise.all(
-      swatches.map(async (swatch): Promise<string | undefined> => {
-        return (await swatch.getAttribute('aria-label'))?.split(':')[1].trim();
+      swatches.map(async (swatch): Promise<string> => {
+        const swatchHex = (await swatch.getAttribute('aria-label'))
+          ?.split(':')[1]
+          .trim();
+        if (!swatchHex) {
+          throw new Error('Preset swatch is undefined.');
+        }
+        return swatchHex;
       }),
     );
   }
