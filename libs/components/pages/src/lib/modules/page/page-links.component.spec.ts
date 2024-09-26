@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLayoutHostService } from '@skyux/core';
 
 import { SkyPageLinksComponent } from './page-links.component';
 
@@ -9,6 +10,7 @@ describe('PageLinksComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SkyPageLinksComponent],
+      providers: [SkyLayoutHostService],
     });
 
     fixture = TestBed.createComponent(SkyPageLinksComponent);
