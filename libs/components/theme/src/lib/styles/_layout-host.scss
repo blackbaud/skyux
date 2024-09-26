@@ -19,6 +19,21 @@
     column-gap: var(--sky-layout-host-column-grid-spacing);
     margin: var(--sky-layout-host-row-grid-spacing)
       var(--sky-layout-host-column-grid-spacing);
+
+    grid-template: 'header' 'content' 'links';
+    grid-template-columns: 1fr;
+
+    > sky-page-header {
+      grid-area: header;
+    }
+
+    > sky-page-content {
+      grid-area: content;
+    }
+
+    > sky-page-links {
+      grid-area: links;
+    }
   }
 
   &-fit,
@@ -74,18 +89,6 @@
 
       grid-template: 'header header' 'content links';
       grid-template-columns: 3fr 1fr;
-
-      > sky-page-header {
-        grid-area: header;
-      }
-
-      > sky-page-content {
-        grid-area: content;
-      }
-
-      > sky-page-links {
-        grid-area: links;
-      }
     }
 
     &-fit,

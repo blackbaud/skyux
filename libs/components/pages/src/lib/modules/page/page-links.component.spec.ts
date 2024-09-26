@@ -9,7 +9,7 @@ describe('PageLinksComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyPageLinksComponent],
+      imports: [SkyPageLinksComponent],
       providers: [SkyLayoutHostService],
     });
 

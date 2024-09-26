@@ -8,12 +8,8 @@ import { SkyPageLinksComponent } from './page-links.component';
 import { SkyPageComponent } from './page.component';
 
 @NgModule({
-  declarations: [
-    SkyPageComponent,
-    SkyPageContentComponent,
-    SkyPageLinksComponent,
-  ],
-  imports: [CommonModule],
+  declarations: [SkyPageComponent, SkyPageContentComponent],
+  imports: [CommonModule, SkyPageLinksComponent],
   exports: [
     SkyPageComponent,
     SkyPageHeaderModule,
