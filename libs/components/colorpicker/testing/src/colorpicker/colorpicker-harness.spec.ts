@@ -542,12 +542,12 @@ describe('Colorpicker harness', () => {
       );
     });
 
-    it('should throw an error is a swatch is set to undefined', async () => {
+    it('should throw an error if a swatch is set to undefined', async () => {
       const { colorpickerHarness, fixture } = await setupTest({
         theme: 'default',
       });
 
-      fixture.componentInstance.swatches = [''];
+      fixture.componentInstance.swatches = ['', '#f0f'];
       fixture.detectChanges();
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
