@@ -27,6 +27,8 @@ import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: PreviewWrapperThemeValue | undefined) {
+    this.#removeModernV2Class();
+
     const themeOrDefault = value ?? 'default';
     if (themeOrDefault.match(/^modern(-(light|dark))?$/)) {
       if (themeOrDefault.includes('dark')) {
@@ -40,6 +42,12 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
           SkyThemeMode.presets.light,
         );
       }
+    } else if (themeOrDefault.includes('v2')) {
+      this.themeSettings = new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+      );
+      this.#addModernV2Class();
     } else {
       this.themeSettings = new SkyThemeSettings(
         SkyTheme.presets.default,
@@ -85,5 +93,13 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.#themeService.destroy();
+  }
+
+  #addModernV2Class() {
+    this.#renderer.addClass(document.body, 'sky-theme-brand-blackbaud');
+  }
+
+  #removeModernV2Class() {
+    this.#renderer.removeClass(document.body, 'sky-theme-brand-blackbaud');
   }
 }

@@ -1,7 +1,15 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -10,116 +18,94 @@ import {
   SkyThemeSpacing,
 } from '@skyux/theme';
 
+import { ThemeSelectorModeValue } from './theme-selector-mode-value';
 import { ThemeSelectorSpacingValue } from './theme-selector-spacing-value';
 import { ThemeSelectorValue } from './theme-selector-value';
 
 interface LocalStorageSettings {
   themeName: ThemeSelectorValue;
+  themeMode: ThemeSelectorModeValue;
   themeSpacing: ThemeSelectorSpacingValue;
+  modernV2Enabled: boolean | undefined;
 }
 
-const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
+const PREVIOUS_SETTINGS_KEY =
+  'skyux-playground-theme-mode-spacing-selector-settings';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
   standalone: true,
-  imports: [FormsModule, SkyIdModule, SkyInputBoxModule],
+  imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyInputBoxModule],
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {
-  public set themeName(value: ThemeSelectorValue | undefined) {
-    const previousThemeName = this.#_themeName;
-    this.#_themeName = value;
-
-    if (value !== previousThemeName) {
-      this.#updateThemeSettings();
-    }
-  }
-
-  public get themeName(): ThemeSelectorValue | undefined {
-    return this.#_themeName;
-  }
-
-  public set themeSpacing(value: ThemeSelectorSpacingValue | undefined) {
-    const previous = this.#_themeSpacing;
-    this.#_themeSpacing = value;
-
-    if (value !== previous) {
-      this.#updateThemeSettings();
-    }
-  }
-
-  public get themeSpacing(): ThemeSelectorSpacingValue | undefined {
-    return this.#_themeSpacing;
-  }
-
-  protected spacingValues: ThemeSelectorSpacingValue[] = [];
-
-  #_themeName: ThemeSelectorValue | undefined;
-  #_themeSpacing: ThemeSelectorSpacingValue | undefined;
-
+  #renderer = inject(Renderer2);
   #themeSvc = inject(SkyThemeService);
-  #currentThemeSettings: SkyThemeSettings;
+
+  #currentTheme = computed(
+    () => SkyTheme.presets[this.themeName() as ThemeSelectorValue],
+  );
+
+  protected readonly themeName = signal<ThemeSelectorValue>('default');
+  protected readonly themeMode = signal<ThemeSelectorModeValue>('light');
+  protected readonly themeSpacing =
+    signal<ThemeSelectorSpacingValue>('standard');
+  protected readonly modernV2Enabled = signal(false);
+
+  protected readonly spacingValues = computed(() =>
+    this.#currentTheme().supportedSpacing.map((spacing) => spacing.name),
+  );
+
+  protected readonly modeValues = computed(() =>
+    this.#currentTheme().supportedModes.map((mode) => mode.name),
+  );
+
+  constructor() {
+    effect(() => {
+      this.#updateThemeSettings(
+        this.themeName(),
+        this.themeMode(),
+        this.themeSpacing(),
+        this.modernV2Enabled(),
+      );
+    });
+
+    effect(() => {
+      this.#toggleModernV2Class(this.modernV2Enabled());
+    });
+  }
 
   public ngOnInit(): void {
     const previousSettings = this.#getLastSettings();
 
     if (previousSettings) {
       try {
-        this.themeName = previousSettings.themeName;
-        this.themeSpacing = previousSettings.themeSpacing;
+        this.themeName.set(previousSettings.themeName);
+        this.themeMode.set(previousSettings.themeMode);
+        this.themeSpacing.set(previousSettings.themeSpacing);
+        this.modernV2Enabled.set(previousSettings.modernV2Enabled);
       } catch {
         // Bad settings.
       }
     }
-
-    this.#themeSvc.settingsChange.subscribe((settingsChange) => {
-      const settings = settingsChange.currentSettings;
-
-      if (settings.theme === SkyTheme.presets.modern) {
-        this.themeName =
-          settings.mode === SkyThemeMode.presets.dark
-            ? 'modern-dark'
-            : 'modern-light';
-
-        this.themeSpacing = settings.spacing.name as ThemeSelectorSpacingValue;
-      } else {
-        this.themeName = 'default';
-        this.themeSpacing = 'standard';
-      }
-
-      this.#currentThemeSettings = settings;
-      this.#updateSpacingOptions();
-    });
   }
 
-  #updateSpacingOptions(): void {
-    if (this.#currentThemeSettings) {
-      this.spacingValues =
-        this.#currentThemeSettings.theme.supportedSpacing.map(
-          (spacing) => spacing.name as ThemeSelectorSpacingValue,
-        );
-    }
-  }
-
-  #updateThemeSettings(): void {
-    const themeSpacing = SkyThemeSpacing.presets[this.themeSpacing];
+  #updateThemeSettings(
+    themeName: ThemeSelectorValue,
+    themeModeName: ThemeSelectorModeValue,
+    themeSpacingName: ThemeSelectorSpacingValue,
+    modernV2Enabled: boolean,
+  ): void {
+    const themeSpacing = SkyThemeSpacing.presets[themeSpacingName];
+    const themeMode = SkyThemeMode.presets[themeModeName];
 
     let theme: SkyTheme;
-    let themeMode = SkyThemeMode.presets.light;
 
-    switch (this.themeName) {
-      case 'modern-light':
-        theme = SkyTheme.presets.modern;
-        break;
-      case 'modern-dark':
-        theme = SkyTheme.presets.modern;
-        themeMode = SkyThemeMode.presets.dark;
-        break;
-      default:
-        theme = SkyTheme.presets.default;
-        break;
+    if (themeName === 'modern') {
+      theme = SkyTheme.presets.modern;
+    } else {
+      theme = SkyTheme.presets.default;
     }
 
     this.#themeSvc.setTheme(
@@ -127,9 +113,18 @@ export class SkyThemeSelectorComponent implements OnInit {
     );
 
     this.#saveSettings({
-      themeName: this.themeName,
-      themeSpacing: this.themeSpacing,
+      themeName: themeName,
+      themeMode: themeModeName,
+      themeSpacing: themeSpacingName,
+      modernV2Enabled: modernV2Enabled,
     });
+  }
+
+  #toggleModernV2Class(addClass: boolean): void {
+    this.#renderer[addClass ? 'addClass' : 'removeClass'](
+      document.body,
+      'sky-theme-brand-blackbaud',
+    );
   }
 
   #getLastSettings(): LocalStorageSettings | undefined {
