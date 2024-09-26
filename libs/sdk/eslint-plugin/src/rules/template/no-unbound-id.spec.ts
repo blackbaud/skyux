@@ -1,16 +1,10 @@
-import {
-  RuleTester,
-  convertAnnotatedSourceToFailureCase,
-} from '@angular-eslint/test-utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
+
+import { createTemplateRuleTester } from '../../testing/create-template-rule-tester';
 
 import { RULE_NAME, messageId, rule } from './no-unbound-id';
 
-const ruleTester = new RuleTester({
-  languageOptions: {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    parser: require('@angular-eslint/template-parser'),
-  },
-});
+const ruleTester = createTemplateRuleTester();
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
