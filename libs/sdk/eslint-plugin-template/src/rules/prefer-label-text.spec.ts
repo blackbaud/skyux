@@ -15,12 +15,24 @@ ruleTester.run(RULE_NAME, rule, {
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail if labelText not set',
+      description: 'should fail if labelText not set and has label element',
       annotatedSource: `
         <sky-checkbox>
         ~~~~~~~~~~~~~~
-          <sky-checkbox-label></sky-checkbox-label>
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          <sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~
+            {{ 'first_name' | skyAppResources }}
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          </sky-checkbox-label>
+          ~~~~~~~~~~~~~~~~~~~~~
+        </sky-checkbox>
+        ~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-checkbox labelText="{{ 'first_name' | skyAppResources }}">
+        ~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~
+          ~~~~~~~~~~~~~~~~~~~~~
         </sky-checkbox>
         ~~~~~~~~~~~~~~~
       `,
@@ -28,33 +40,20 @@ ruleTester.run(RULE_NAME, rule, {
       data: {
         selector: 'sky-checkbox',
         labelInputName: 'labelText',
-      },
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: 'should fail if labelText empty',
-      annotatedSource: `
-        <sky-input-box labelText>
-        ~~~~~~~~~~~~~~~~~~~~~~~~~
-        </sky-input-box>
-        ~~~~~~~~~~~~~~~~
-      `,
-      messageId,
-      data: {
-        selector: 'sky-input-box',
-        labelInputName: 'labelText',
+        labelSelector: 'sky-checkbox-label',
       },
     }),
     convertAnnotatedSourceToFailureCase({
       description: 'should fail if labelText set but label element remains',
       annotatedSource: `
         <sky-input-box labelText="foo"><label></label></sky-input-box>
-                                       ~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
       annotatedOutput: `
         <sky-input-box labelText="foo"></sky-input-box>
-                                       ~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
-      messageId: 'preferLabelTextWithoutLabelElement',
+      messageId,
       data: {
         selector: 'sky-input-box',
         labelInputName: 'labelText',

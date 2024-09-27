@@ -1,18 +1,27 @@
 import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 
+function traverseChildNodes(
+  el: TmplAstElement,
+  childNodeName: string,
+): TmplAstElement | undefined {
+  return el.children.find((child) => {
+    if (child instanceof TmplAstElement) {
+      if (child.name === childNodeName) {
+        return true;
+      }
+
+      return false;
+
+      // return traverseChildNodes(child, childNodeName);
+    }
+
+    return false;
+  }) as TmplAstElement | undefined;
+}
+
 export function getChildNodeOf(
   el: TmplAstElement,
   childNodeName: string,
 ): TmplAstElement | undefined {
-  const traverseChildNodes = ({
-    children,
-  }: TmplAstElement): TmplAstElement | undefined => {
-    return children.find(
-      (child) =>
-        child instanceof TmplAstElement &&
-        (child.name === childNodeName || traverseChildNodes(child)),
-    ) as TmplAstElement | undefined;
-  };
-
-  return traverseChildNodes(el);
+  return traverseChildNodes(el, childNodeName);
 }

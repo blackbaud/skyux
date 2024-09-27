@@ -40,5 +40,5 @@ export const rule = createESLintRule({
     schema: [],
     type: 'problem',
   },
-  name: `template/${RULE_NAME}`,
+  name: RULE_NAME,
 });
