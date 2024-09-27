@@ -130,5 +130,5 @@ export const rule = createESLintRule({
     type: 'problem',
     fixable: 'code',
   },
-  name: `template/${RULE_NAME}`,
+  name: RULE_NAME,
 });

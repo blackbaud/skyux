@@ -1,6 +1,6 @@
 import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 
-function traverseChildNodes(
+export function getChildNodeOf(
   el: TmplAstElement,
   childNodeName: string,
 ): TmplAstElement | undefined {
@@ -10,18 +10,9 @@ function traverseChildNodes(
         return true;
       }
 
-      return false;
-
-      // return traverseChildNodes(child, childNodeName);
+      return getChildNodeOf(child, childNodeName);
     }
 
     return false;
   }) as TmplAstElement | undefined;
-}
-
-export function getChildNodeOf(
-  el: TmplAstElement,
-  childNodeName: string,
-): TmplAstElement | undefined {
-  return traverseChildNodes(el, childNodeName);
 }
