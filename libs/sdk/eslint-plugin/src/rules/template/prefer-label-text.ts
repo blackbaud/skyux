@@ -1,23 +1,22 @@
-import { type TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 
 import { createESLintRule } from '../../utils/create-eslint-rule';
+import { getChildNodeOf } from '../../utils/get-child-node-of';
 
 export const RULE_NAME = 'prefer-label-text';
 export const messageId = 'preferLabelText';
-
-// const SELECTORS_WITH_LABEL_COMPONENTS = [
-//   'sky-checkbox',
-//   'sky-file-attachment',
-//   'sky-radio',
-//   'sky-toggle-switch',
-// ].join('|');
 
 const COMPONENTS_WITH_LABEL_TEXT: {
   componentSelector: string;
   labelInputName: string;
   labelSelector: string;
 }[] = [
+  {
+    componentSelector: 'sky-box',
+    labelInputName: 'headingText',
+    labelSelector: 'sky-box-header',
+  },
   {
     componentSelector: 'sky-checkbox',
     labelInputName: 'labelText',
@@ -29,14 +28,24 @@ const COMPONENTS_WITH_LABEL_TEXT: {
     labelSelector: 'sky-file-attachment-label',
   },
   {
-    componentSelector: 'sky-box',
-    labelInputName: 'headingText',
-    labelSelector: 'sky-box-header',
-  },
-  {
     componentSelector: 'sky-input-box',
     labelInputName: 'labelText',
     labelSelector: 'label',
+  },
+  {
+    componentSelector: 'sky-modal',
+    labelInputName: 'headingText',
+    labelSelector: 'sky-modal-header',
+  },
+  {
+    componentSelector: 'sky-radio',
+    labelInputName: 'labelText',
+    labelSelector: 'sky-radio-label',
+  },
+  {
+    componentSelector: 'sky-toggle-switch',
+    labelInputName: 'labelText',
+    labelSelector: 'sky-toggle-switch-label',
   },
 ];
 
@@ -62,23 +71,38 @@ export const rule = createESLintRule({
 
         const { labelInputName, labelSelector } = config;
 
-        // Abort if `labelText` already assigned.
-        if (
-          el.inputs.some((i) => i.name === labelInputName) ||
-          el.attributes.some((i) => i.name === labelInputName)
-        ) {
-          return;
-        }
+        const labelTextAttr =
+          el.inputs.find((i) => i.name === labelInputName) ??
+          el.attributes.find((i) => i.name === labelInputName);
 
-        context.report({
-          loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
-          messageId,
-          data: {
-            selector: el.name,
-            labelInputName,
-            labelSelector,
-          },
-        });
+        if (labelTextAttr?.value) {
+          const labelEl = getChildNodeOf(el, labelSelector);
+
+          // Label element still present.
+          if (labelEl) {
+            context.report({
+              loc: parserServices.convertNodeSourceSpanToLoc(
+                labelEl.sourceSpan,
+              ),
+              messageId: 'preferLabelTextWithoutLabelElement',
+              data: {
+                selector: el.name,
+                labelInputName,
+                labelSelector,
+              },
+            });
+          }
+        } else {
+          // Label text is not defined.
+          context.report({
+            loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
+            messageId,
+            data: {
+              selector: el.name,
+              labelInputName,
+            },
+          });
+        }
       },
     };
   },
@@ -88,8 +112,9 @@ export const rule = createESLintRule({
       description: 'Use label text.',
     },
     messages: {
-      [messageId]:
-        '<{{selector}}> element should set `{{labelInputName}}`. Delete the <{{labelSelector}}> element and set `{{labelInputName}}` instead.',
+      [messageId]: '<{{selector}}> element should set `{{labelInputName}}`.',
+      preferLabelTextWithoutLabelElement:
+        '<{{selector}}> element sets `{{labelInputName}}`. The <{{labelSelector}}> element can be removed.',
     },
     schema: [],
     type: 'problem',
