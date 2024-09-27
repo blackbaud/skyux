@@ -15,8 +15,6 @@ $popover-max-width: 276px;
 
 @include compatMixins.sky-modern-overrides('.sky-popover-container') {
   --sky-override-popover-accent-border-width: var(--modern-size-6);
-  /* delete this before merging */
-  --sky-size-max_width-overlay_message: 236px;
   --sky-override-popover-with-header-top-padding: 2px;
   --sky-override-popover-header-bottom-margin: var(--modern-space-lg);
 }
