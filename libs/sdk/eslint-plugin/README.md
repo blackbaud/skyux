@@ -1,4 +1,4 @@
-# eslint-plugin
+# @skyux-eslint/eslint-plugin (experimental)
 
 This library was generated with [Nx](https://nx.dev).
 

@@ -90,6 +90,12 @@ export const rule = createESLintRule({
                 labelInputName,
                 labelSelector,
               },
+              fix: (fixer) => {
+                return fixer.removeRange([
+                  labelEl.sourceSpan.start.offset,
+                  labelEl.sourceSpan.end.offset,
+                ]);
+              },
             });
           }
         } else {
@@ -118,6 +124,7 @@ export const rule = createESLintRule({
     },
     schema: [],
     type: 'problem',
+    fixable: 'code',
   },
   name: `template/${RULE_NAME}`,
 });

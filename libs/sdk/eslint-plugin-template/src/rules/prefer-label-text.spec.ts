@@ -47,10 +47,12 @@ ruleTester.run(RULE_NAME, rule, {
     convertAnnotatedSourceToFailureCase({
       description: 'should fail if labelText set but label element remains',
       annotatedSource: `
-        <sky-input-box labelText="foo">
-          <label></label>
-          ~~~~~~~~~~~~~~~
-        </sky-input-box>
+        <sky-input-box labelText="foo"><label></label></sky-input-box>
+                                       ~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-input-box labelText="foo"></sky-input-box>
+                                       ~~~~~~~~~~~~~~~
       `,
       messageId: 'preferLabelTextWithoutLabelElement',
       data: {
