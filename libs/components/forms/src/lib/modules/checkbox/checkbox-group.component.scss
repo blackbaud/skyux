@@ -2,9 +2,15 @@
   display: block;
 }
 
-h3,
-h4,
-h5 {
-  margin: 0;
-  display: inline-block;
+.sky-control-label {
+  h3,
+  h4,
+  h5 {
+    margin: 0;
+    display: inline-block;
+  }
+
+  span {
+    line-height: 1.1;
+  }
 }
