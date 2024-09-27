@@ -1,18 +1,22 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { SkyCheckboxGroupHarness } from './checkbox-group-harness';
 import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.component';
-import { CheckboxHarnessTestModule } from './fixtures/checkbox-harness-test.module';
 
 async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   checkboxGroupHarness: SkyCheckboxGroupHarness;
   fixture: ComponentFixture<CheckboxHarnessTestComponent>;
 }> {
   await TestBed.configureTestingModule({
-    imports: [CheckboxHarnessTestModule, SkyHelpTestingModule],
+    imports: [
+      CheckboxHarnessTestComponent,
+      SkyHelpTestingModule,
+      NoopAnimationsModule,
+    ],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);

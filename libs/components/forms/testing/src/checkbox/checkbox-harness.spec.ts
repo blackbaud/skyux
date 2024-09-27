@@ -1,12 +1,12 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
 import { SkyCheckboxHarness } from './checkbox-harness';
 import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.component';
-import { CheckboxHarnessTestModule } from './fixtures/checkbox-harness-test.module';
 
 async function setupTest(
   options: { dataSkyId?: string; hideEmailLabel?: boolean } = {},
@@ -16,7 +16,11 @@ async function setupTest(
   loader: HarnessLoader;
 }> {
   await TestBed.configureTestingModule({
-    imports: [CheckboxHarnessTestModule, SkyHelpTestingModule],
+    imports: [
+      CheckboxHarnessTestComponent,
+      SkyHelpTestingModule,
+      NoopAnimationsModule,
+    ],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);
@@ -185,6 +189,14 @@ describe('Checkbox harness', () => {
       jasmine.stringMatching(/sky-checkbox-sky-id-gen__[0-9]+__[0-9]+/),
     );
     await expectAsync(checkboxHarness.getValue()).toBeResolvedTo('on');
+  });
+
+  it('should indicate the component is stacked', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'stacked-checkbox',
+    });
+
+    await expectAsync(checkboxHarness.isStacked()).toBeResolvedTo(true);
   });
 
   it('should throw error if toggling a disabled checkbox', async () => {
