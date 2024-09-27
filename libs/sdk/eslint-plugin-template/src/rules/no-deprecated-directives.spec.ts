@@ -1,6 +1,6 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 
-import { createTemplateRuleTester } from '../../testing/create-template-rule-tester';
+import { createTemplateRuleTester } from '../testing/create-template-rule-tester';
 
 import { RULE_NAME, rule } from './no-deprecated-directives';
 

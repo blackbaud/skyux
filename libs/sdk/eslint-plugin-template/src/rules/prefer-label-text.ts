@@ -1,8 +1,8 @@
 import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 
-import { createESLintRule } from '../../utils/create-eslint-rule';
-import { getChildNodeOf } from '../../utils/get-child-node-of';
+import { createESLintRule } from '../utils/create-eslint-rule';
+import { getChildNodeOf } from '../utils/get-child-node-of';
 
 export const RULE_NAME = 'prefer-label-text';
 export const messageId = 'preferLabelText';
@@ -112,9 +112,9 @@ export const rule = createESLintRule({
       description: 'Use label text.',
     },
     messages: {
-      [messageId]: '<{{selector}}> element should set `{{labelInputName}}`.',
+      [messageId]: '<{{selector}}> element missing `{{labelInputName}}`.',
       preferLabelTextWithoutLabelElement:
-        '<{{selector}}> element sets `{{labelInputName}}`. The <{{labelSelector}}> element can be removed.',
+        '<{{selector}}> element sets `{{labelInputName}}`; the <{{labelSelector}}> element can be removed.',
     },
     schema: [],
     type: 'problem',

@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const DEPRECATIONS_FILE_PATH = path.normalize(
-  'dist/libs/sdk/eslint-plugin/src/__deprecations.json',
+  'dist/libs/sdk/eslint-plugin-template/src/__deprecations.json',
 );
 
 interface DeprecatedProperty {

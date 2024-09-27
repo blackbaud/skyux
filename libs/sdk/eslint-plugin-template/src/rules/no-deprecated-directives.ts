@@ -1,8 +1,8 @@
 import { type TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 
-import deprecationsJson from '../../__deprecations.json';
-import { createESLintRule } from '../../utils/create-eslint-rule';
+import deprecationsJson from '../__deprecations.json';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 const DEPRECATIONS = deprecationsJson as {
   directives: {

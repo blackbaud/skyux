@@ -1,7 +1,7 @@
 import { type TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 
-import { createESLintRule } from '../../utils/create-eslint-rule';
+import { createESLintRule } from '../utils/create-eslint-rule';
 
 export const RULE_NAME = 'no-unbound-id';
 export const messageId = 'noUnboundId';

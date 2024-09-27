@@ -26,6 +26,9 @@
     "paths": {
       "*": ["./vendor/types/*"],
       "@skyux-eslint/eslint-plugin": ["libs/sdk/eslint-plugin/src/index.ts"],
+      "@skyux-eslint/eslint-plugin-template": [
+        "libs/sdk/eslint-plugin-template/src/index.ts"
+      ],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux-sdk/e2e-schematics/cypress-preset": [
         "libs/sdk/e2e-schematics/src/cypress-preset.ts"

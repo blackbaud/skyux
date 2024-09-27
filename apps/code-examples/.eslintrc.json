@@ -57,7 +57,7 @@
       "files": ["*.html"],
       "extends": [
         "plugin:@nx/angular-template",
-        "plugin:@skyux-eslint/template-next",
+        "plugin:@skyux-eslint/template/next",
         "../../.eslintrc-overrides.json",
         "prettier"
       ],
