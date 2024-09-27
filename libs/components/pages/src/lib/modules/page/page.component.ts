@@ -1,18 +1,20 @@
 import {
   Component,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
-  Signal,
-  computed,
-  contentChild,
   inject,
-  input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyHelpService, SkyLayoutHostService } from '@skyux/core';
+import {
+  SkyHelpService,
+  SkyLayoutHostForChildArgs,
+  SkyLayoutHostService,
+} from '@skyux/core';
 
-import { SkyPageLinksComponent } from './page-links.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 import { SkyPageLayoutType } from './types/page-layout-type';
 
@@ -21,7 +23,6 @@ const LAYOUT_DEFAULT: SkyPageLayoutType = 'none';
 const LAYOUT_FOR_CHILD_CLASS_PREFIX = 'sky-layout-host-for-child-';
 const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
 const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
-const LAYOUT_WITH_LINKS = `sky-layout-with-links`;
 
 /**
  * Displays a page using the specified layout. The page component is a responsive container,
@@ -32,9 +33,6 @@ const LAYOUT_WITH_LINKS = `sky-layout-with-links`;
   selector: 'sky-page',
   template: `<ng-content />`,
   providers: [SkyPageThemeAdapterService, SkyLayoutHostService],
-  host: {
-    '[class]': 'cssClass()',
-  },
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**
@@ -44,7 +42,11 @@ export class SkyPageComponent implements OnInit, OnDestroy {
    * Use `none` for custom content that does not adhere to predefined spacing or constraints.
    * @default "none"
    */
-  public readonly layout = input<SkyPageLayoutType | undefined>();
+  @Input()
+  public set layout(value: SkyPageLayoutType | undefined) {
+    this.#layout = value;
+    this.#updateCssClass();
+  }
 
   /**
    * A help key that identifies the page's default [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) content to display.
@@ -54,49 +56,47 @@ export class SkyPageComponent implements OnInit, OnDestroy {
     this.#helpSvc?.updateHelp({ pageDefaultHelpKey: value });
   }
 
-  public readonly cssClass: Signal<string>;
+  @HostBinding('class')
+  public cssClass = LAYOUT_CLASS_DEFAULT;
 
-  protected pageLinks = contentChild(SkyPageLinksComponent);
+  #layout: SkyPageLayoutType | undefined;
+  #layoutForChild: SkyPageLayoutType | undefined;
 
-  readonly #helpSvc = inject(SkyHelpService, { optional: true });
-  readonly #layoutHostSvc = inject(SkyLayoutHostService);
-  readonly #themeAdapter = inject(SkyPageThemeAdapterService);
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor() {
-    const layoutForChildSignal = toSignal(
-      this.#layoutHostSvc.hostLayoutForChild,
-    );
-    this.cssClass = computed(() => {
-      const cssClass: string[] = [];
-
-      const layout = this.layout();
-      if (layout) {
-        cssClass.push(`${LAYOUT_CLASS_PREFIX}${layout}`);
-      } else {
-        cssClass.push(LAYOUT_CLASS_DEFAULT);
-      }
-
-      const layoutForChild = layoutForChildSignal();
-      if (layoutForChild) {
-        cssClass.push(
-          `${LAYOUT_FOR_CHILD_CLASS_PREFIX}${layoutForChild.layout}`,
-        );
-      }
-
-      if (this.pageLinks()) {
-        cssClass.push(LAYOUT_WITH_LINKS);
-      }
-
-      return cssClass.join(' ');
-    });
-  }
+  #themeAdapter = inject(SkyPageThemeAdapterService);
+  #layoutHostSvc = inject(SkyLayoutHostService);
+  #helpSvc = inject(SkyHelpService, { optional: true });
 
   public ngOnInit(): void {
     this.#themeAdapter.addTheme();
+
+    this.#layoutHostSvc.hostLayoutForChild
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((args: SkyLayoutHostForChildArgs) => {
+        this.#layoutForChild = args.layout as SkyPageLayoutType;
+        this.#updateCssClass();
+      });
   }
 
   public ngOnDestroy(): void {
     this.#themeAdapter.removeTheme();
+
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+
     this.#helpSvc?.updateHelp({ pageDefaultHelpKey: undefined });
+  }
+
+  #updateCssClass(): void {
+    let cssClass = this.#layout
+      ? `${LAYOUT_CLASS_PREFIX}${this.#layout}`
+      : LAYOUT_CLASS_DEFAULT;
+
+    if (this.#layoutForChild) {
+      cssClass = `${cssClass} ${LAYOUT_FOR_CHILD_CLASS_PREFIX}${this.#layoutForChild}`;
+    }
+
+    this.cssClass = cssClass;
   }
 }

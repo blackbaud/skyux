@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
   template: '<ng-content />',
   styles: `
     :host {
-      display: block;
+      display: var(--sky-layout-host-links-display, block);
+      margin: var(--sky-layout-host-links-spacing, 0);
     }
   `,
 })
