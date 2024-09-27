@@ -3,6 +3,7 @@ import { expect } from '@skyux-sdk/testing';
 import { SkyHelpService, SkyLayoutHostService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
+import { PageFixtureComponent } from './fixtures/page-fixture.component';
 import { SkyPageComponent } from './page.component';
 import { SkyPageModule } from './page.module';
 import { SkyPageLayoutType } from './types/page-layout-type';
@@ -20,7 +21,7 @@ describe('Page component', () => {
     layout: SkyPageLayoutType | undefined,
     expectedCssClass: string,
   ): void {
-    fixture.componentInstance.layout = layout;
+    fixture.componentRef.setInput('layout', layout);
     fixture.detectChanges();
 
     expect(fixture.nativeElement).toHaveCssClass(expectedCssClass);
@@ -28,7 +29,7 @@ describe('Page component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyPageModule, SkyHelpTestingModule],
+      imports: [SkyPageModule, SkyHelpTestingModule, PageFixtureComponent],
     });
 
     styleEl = document.createElement('style');
@@ -108,5 +109,16 @@ describe('Page component', () => {
       pageDefaultHelpKey: undefined,
     });
     expect(updateHelpSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('should add class when page links are present', async () => {
+    const fixture = TestBed.createComponent(PageFixtureComponent);
+    fixture.componentRef.setInput('withLinks', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('sky-page')).toHaveCssClass(
+      'sky-layout-with-links',
+    );
   });
 });

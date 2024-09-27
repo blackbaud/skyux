@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { SkyLayoutHostService } from '@skyux/core';
+import { Component } from '@angular/core';
 
 /**
  * Displays page links within a block page layout.
@@ -8,17 +7,11 @@ import { SkyLayoutHostService } from '@skyux/core';
 @Component({
   standalone: true,
   selector: 'sky-page-links',
-  template: '<ng-content/>',
+  template: '<ng-content />',
   styles: `
     :host {
       display: block;
     }
   `,
 })
-export class SkyPageLinksComponent {
-  constructor() {
-    inject(SkyLayoutHostService).setHostLayoutForChild({
-      layout: 'with-links',
-    });
-  }
-}
+export class SkyPageLinksComponent {}

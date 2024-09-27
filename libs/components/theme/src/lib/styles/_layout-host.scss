@@ -8,7 +8,7 @@
     display: block;
   }
 
-  &-blocks.sky-layout-host-for-child-with-links {
+  &-blocks.sky-layout-with-links {
     --sky-layout-host-header-spacing: 0;
     --sky-layout-host-content-spacing: 0;
     --sky-layout-host-row-grid-spacing: 20px;
@@ -81,7 +81,7 @@
       --sky-layout-host-content-spacing: 20px;
     }
 
-    &-blocks.sky-layout-host-for-child-with-links {
+    &-blocks.sky-layout-with-links {
       --sky-layout-host-header-spacing: 0;
       --sky-layout-host-content-spacing: 0;
       --sky-layout-host-row-grid-spacing: 20px;
@@ -112,7 +112,7 @@
         --sky-layout-host-content-spacing: 30px;
       }
 
-      &-blocks.sky-layout-host-for-child-with-links {
+      &-blocks.sky-layout-with-links {
         --sky-layout-host-header-spacing: 0;
         --sky-layout-host-content-spacing: 0;
         --sky-layout-host-row-grid-spacing: 30px;
