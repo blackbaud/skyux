@@ -10,7 +10,7 @@
   }
 
   .sky-padding-even-lg {
-    padding: $sky-theme-modern-padding-even-lg;
+    padding: var(--sky-space-inset-balanced-l);
   }
 
   .sky-padding-even-xl {
