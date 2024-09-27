@@ -20,15 +20,14 @@ $popover-max-width: 276px;
 }
 
 .sky-popover-container {
-  --sky-popover-max-width: calc(
-    min(var(--sky-size-max_width-overlay_message)) +
-      calc(var(--sky-space-inset-balanced-l) * 2)
-  );
   position: fixed;
   min-width: $popover-max-width;
   max-width: var(
     --sky-override-popover-max-width,
-    var(--sky-popover-max-width)
+    calc(
+      min(var(--sky-size-max_width-overlay_message)) +
+        calc(var(--sky-space-inset-balanced-l) * 2)
+    )
   );
 
   &.sky-popover-hidden {
