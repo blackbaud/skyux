@@ -2,23 +2,24 @@
   class="sky-field-group"
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
 >
-  <span class="sky-field-group-legend-wrapper">
-    <legend
-      [ngClass]="{
-        'sky-screen-reader-only': headingHidden,
-        'sky-margin-inline-xs': helpPopoverContent
-      }"
-    >
-      @if (headingLevel === 3) {
-        <h3 [class]="headingClass">
-          {{ headingText }}
-        </h3>
-      } @else if (headingLevel === 4) {
-        <h4 [class]="headingClass">
-          {{ headingText }}
-        </h4>
+  <legend
+    class="sky-control-label"
+    [ngClass]="{
+      'sky-screen-reader-only': headingHidden,
+      'sky-margin-stacked-xs': !!hintText,
+      'sky-margin-stacked-sm': !hintText
+    }"
+  >
+    <span class="sky-margin-inline-xs">
+      @switch (headingLevel) {
+        @case (4) {
+          <h4 [class]="headingClass">{{ headingText }}</h4>
+        }
+        @default {
+          <h3 [class]="headingClass">{{ headingText }}</h3>
+        }
       }
-    </legend>
+    </span>
     @if (helpPopoverContent || helpKey) {
       <sky-help-inline
         class="sky-field-group-help-inline"
@@ -28,10 +29,10 @@
         [popoverContent]="helpPopoverContent"
       />
     }
-  </span>
+  </legend>
   <div #hintTextEl="skyId" skyId>
     @if (hintText) {
-      <div class="sky-field-group-hint-text sky-font-deemphasized">
+      <div class="sky-field-group-hint-text sky-margin-stacked-lg sky-font-deemphasized">
         {{ hintText }}
       </div>
     }
