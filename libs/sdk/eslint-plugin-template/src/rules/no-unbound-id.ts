@@ -11,7 +11,7 @@ export const rule = createESLintRule({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      ['Element$1'](el: TmplAstElement) {
+      ['Element$1[attribute="id"'](el: TmplAstElement) {
         const idAttr = el.attributes.find((attribute) => {
           return attribute.name === 'id';
         });
@@ -35,7 +35,7 @@ export const rule = createESLintRule({
     },
     messages: {
       [messageId]:
-        '<{{selector}} /> element must not have a static ID. Use the `skyId` directive instead.',
+        '<{{selector}}> element must not have a static ID. Use the `skyId` directive instead.',
     },
     schema: [],
     type: 'problem',

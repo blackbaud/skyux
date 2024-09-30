@@ -61,7 +61,7 @@ export const rule = createESLintRule({
                 ),
                 messageId: 'noDeprecatedDirectiveProperties',
                 data: {
-                  property: input.name,
+                  property: property?.name,
                   reason: property?.reason,
                   selector: el.name,
                 },
@@ -81,7 +81,7 @@ export const rule = createESLintRule({
                   ),
                   messageId: 'noDeprecatedDirectiveProperties',
                   data: {
-                    property: output.name,
+                    property: property?.name,
                     reason: property?.reason,
                     selector: el.name,
                   },
@@ -114,9 +114,9 @@ export const rule = createESLintRule({
     },
     messages: {
       noDeprecatedDirectives:
-        '<{{selector}} /> element is deprecated. {{reason}}',
+        '<{{selector}}> element is deprecated. {{reason}}',
       noDeprecatedDirectiveProperties:
-        'The attribute `{{property}}` on the <{{selector}} /> element is deprecated. {{reason}}',
+        'The attribute `{{property}}` on the <{{selector}}> element is deprecated. {{reason}}',
     },
     schema: [],
     type: 'problem',

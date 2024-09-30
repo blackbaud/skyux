@@ -6,7 +6,7 @@ export function createESLintRule(
   >,
 ) {
   const ruleCreator = ESLintUtils.RuleCreator((ruleName) => {
-    return `https://github.com/blackbaud/skyux/blob/main/libs/cdk/eslint-plugin/docs/rules/${ruleName}.md`;
+    return `https://github.com/blackbaud/skyux/blob/main/libs/cdk/eslint-plugin-template/docs/rules/${ruleName}.md`;
   });
 
   return ruleCreator(config);

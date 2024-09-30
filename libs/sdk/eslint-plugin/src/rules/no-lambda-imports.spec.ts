@@ -15,20 +15,38 @@ ruleTester.run(RULE_NAME, rule, {
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
-      description: 'it should fail when importing lambda',
-      annotatedSource: `
-        import { SkySummaryActionBarModule, λ3 } from '@skyux/foo';
-                                            ~~
-        `,
-      messageId,
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description: 'it should fail when importing lambda',
+      description: 'it should fail when importing a lambda file',
       annotatedSource: `
         import { λ1999 } from '@skyux/foo';
                  ~~~~~
         `,
       messageId,
+      data: {
+        importName: 'λ1999',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'it should fail when importing multiple lambda files',
+      annotatedSource: `
+        import { SkySummaryActionBarModule, λ3, λ5 } from '@skyux/foo';
+                                            ~~  ^^
+        `,
+      messages: [
+        {
+          char: '~',
+          messageId,
+          data: {
+            importName: 'λ3',
+          },
+        },
+        {
+          char: '^',
+          messageId,
+          data: {
+            importName: 'λ5',
+          },
+        },
+      ],
     }),
   ],
 });

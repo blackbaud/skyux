@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils';
+import type { TSESTree as ESTree } from '@typescript-eslint/utils';
 
 import { createESLintRule } from '../utils/create-eslint-rule';
 
@@ -8,17 +8,23 @@ export const messageId = 'noLambdaImports';
 export const rule = createESLintRule({
   create(context) {
     return {
-      ['ImportDeclaration'](node: TSESTree.ImportDeclaration) {
-        const found = node.specifiers.find((specifier) => {
+      ['ImportDeclaration'](node: ESTree.ImportDeclaration) {
+        const lambdaImports = node.specifiers.filter((specifier) => {
           return specifier.local.name.startsWith('λ');
         });
 
-        if (found) {
-          context.report({
-            loc: found.loc,
-            messageId,
-            data: {},
-          });
+        if (lambdaImports.length > 0) {
+          for (const lambdaImport of lambdaImports) {
+            const data = {
+              importName: lambdaImport.local.name,
+            };
+
+            context.report({
+              loc: lambdaImport.loc,
+              messageId,
+              data,
+            });
+          }
         }
       },
     };
@@ -26,10 +32,11 @@ export const rule = createESLintRule({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Do not import lambdas.',
+      description:
+        'Do not import types prefixed by a lambda character. These files are not part of the SKY UX public API.',
     },
     messages: {
-      [messageId]: 'Do not import lambda files.',
+      [messageId]: '{{importName}} is not included in the SKY UX public API',
     },
     schema: [],
     type: 'problem',

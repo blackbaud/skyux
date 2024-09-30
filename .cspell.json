@@ -1,4 +1,11 @@
 {
   "import": "node_modules/@skyux/dev-infra-private/.cspell-shared.json",
-  "words": ["novalidate", "tabindex", "interactable", "fetchpriority", "xlink"]
+  "words": [
+    "fetchpriority",
+    "interactable",
+    "novalidate",
+    "tabindex",
+    "Tmpl",
+    "xlink"
+  ]
 }
