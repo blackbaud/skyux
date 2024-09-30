@@ -8,9 +8,7 @@ body {
 }
 
 .static-popover-wrapper {
-  // modern v2 popovers are either 40% of the view width or 50 characters wide, whichever is smaller. 50 characters is approxmately 525px right now,
-  // so setting the width to 540px gives it the space it would need at the widest possible width + some extra space for the trigger button and spacing.
-  width: 540px;
+  width: 300px;
   height: 180px;
   display: inline-block;
   position: relative;
@@ -27,12 +25,12 @@ body {
 
   &-above {
     bottom: 0;
-    left: 265px;
+    left: 145px;
   }
 
   &-below {
     top: 0;
-    left: 265px;
+    left: 145px;
   }
 
   &-right {
