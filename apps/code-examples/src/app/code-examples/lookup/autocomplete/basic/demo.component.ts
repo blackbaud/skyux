@@ -36,7 +36,7 @@ export class DemoComponent {
     { name: 'Black' },
   ];
 
-  protected formGroup: FormGroup;
+  public formGroup: FormGroup;
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
