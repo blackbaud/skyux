@@ -48,7 +48,6 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
         animation: sky-modal-error 300ms ease-out 1;
         display: block;
         margin-top: var(--sky-margin-stacked-xs);
-        overflow: hidden;
       }
     `,
   ],
