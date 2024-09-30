@@ -51,7 +51,7 @@ describe(`popovers-storybook`, () => {
         cy.window().percySnapshot(
           `popovercomponent-popover--popover-${theme}`,
           {
-            widths: [1280],
+            widths: [2200],
           },
         );
         cy.window().screenshot(`popovercomponent-popover--popover-${theme}`);
