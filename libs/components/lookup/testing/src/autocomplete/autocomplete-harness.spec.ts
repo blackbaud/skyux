@@ -231,6 +231,71 @@ describe('Autocomplete harness', () => {
         results[0].queryHarnessOrNull(NonexistentHarness),
       ).toBeResolvedTo(null);
     });
+
+    it('should get the autocomplete `aria-labelledby` value', async () => {
+      const { autocompleteHarness, fixture } = await setupTest({
+        dataSkyId: 'my-autocomplete-1',
+      });
+
+      fixture.componentInstance.ariaLabelledby = 'autocomplete-aria-labelledby';
+      fixture.detectChanges();
+
+      await expectAsync(autocompleteHarness.getAriaLabelledby()).toBeResolvedTo(
+        'autocomplete-aria-labelledby',
+      );
+    });
+
+    it('should get the text displayed when there are no search results', async () => {
+      const { autocompleteHarness, fixture } = await setupTest({
+        dataSkyId: 'my-autocomplete-1',
+      });
+
+      fixture.componentInstance.noResultFoundText =
+        'No search results were found.';
+      fixture.detectChanges();
+
+      await autocompleteHarness?.enterText('z');
+      fixture.detectChanges();
+
+      await expectAsync(
+        autocompleteHarness.getNoResultsFoundText(),
+      ).toBeResolvedTo('No search results were found.');
+    });
+
+    it('should throw an error trying to get the no search results text when there are search results', async () => {
+      const { autocompleteHarness, fixture } = await setupTest({
+        dataSkyId: 'my-autocomplete-1',
+      });
+
+      fixture.componentInstance.noResultFoundText =
+        'No search results were found.';
+      fixture.detectChanges();
+
+      await autocompleteHarness?.enterText('d');
+      fixture.detectChanges();
+
+      await expectAsync(
+        autocompleteHarness.getNoResultsFoundText(),
+      ).toBeRejectedWithError(
+        'Cannot find no results found text as there are search results found.',
+      );
+    });
+
+    it('should throw an error trying to get the no search results text when the dropdown is closed', async () => {
+      const { autocompleteHarness, fixture } = await setupTest({
+        dataSkyId: 'my-autocomplete-1',
+      });
+
+      fixture.componentInstance.noResultFoundText =
+        'No search results were found.';
+      fixture.detectChanges();
+
+      await expectAsync(
+        autocompleteHarness.getNoResultsFoundText(),
+      ).toBeRejectedWithError(
+        'Cannot find no results found text as the dropdown is closed.',
+      );
+    });
   });
 
   describe('protected features', () => {

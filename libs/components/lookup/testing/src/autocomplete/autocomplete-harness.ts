@@ -8,7 +8,6 @@ import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search
 
 /**
  * Harness for interacting with an autocomplete component in tests.
- * @internal
  */
 export class SkyAutocompleteHarness extends SkyComponentHarness {
   /**
@@ -17,7 +16,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-autocomplete';
 
   #documentRootLocator = this.documentRootLocatorFactory();
-
+  #getAutocomplete = this.locatorFor('.sky-autocomplete');
   #getInput = this.locatorFor(SkyAutocompleteInputHarness);
 
   /**
@@ -38,7 +37,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clears the input value.
+   * Clears the autocomplete input value.
    */
   public async clear(): Promise<void> {
     return (await this.#getInput()).clear();
@@ -59,7 +58,14 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Returns search result harnesses.
+   * Gets the autocomplete `aria-labelledby` value.
+   */
+  public async getAriaLabelledby(): Promise<string | null> {
+    return (await this.#getAutocomplete()).getAttribute('aria-labelledby');
+  }
+
+  /**
+   * Returns autocomplete search result harnesses.
    */
   public async getSearchResults(
     filters?: SkyAutocompleteSearchResultHarnessFilters,
@@ -93,7 +99,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Returns the text content for each search result.
+   * Returns the text content for each autocomplete search result.
    */
   public async getSearchResultsText(
     filters?: SkyAutocompleteSearchResultHarnessFilters,
@@ -113,6 +119,29 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    */
   public async getValue(): Promise<string> {
     return (await this.#getInput()).getValue();
+  }
+
+  /**
+   * Gets the text displayed when no search results are found.
+   */
+  public async getNoResultsFoundText(): Promise<string | undefined> {
+    const overlay = await this.#getOverlay();
+
+    if (!overlay) {
+      throw new Error(
+        'Cannot find no results found text as the dropdown is closed.',
+      );
+    }
+
+    try {
+      const noResultFoundText =
+        await overlay.querySelector('.sky-deemphasized');
+      return (await noResultFoundText?.text())?.trim();
+    } catch {
+      throw new Error(
+        'Cannot find no results found text as there are search results found.',
+      );
+    }
   }
 
   /**
@@ -156,6 +185,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * to prevent consumers of the autocomplete harness from calling it.
    * The lookup harness, which extends the autocomplete harness, may
    * still access this feature, however.)
+   * @internal
    */
   protected async clickAddButton(): Promise<void> {
     const overlay = await this.#getOverlay();
@@ -185,6 +215,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * to prevent consumers of the autocomplete harness from calling it.
    * The lookup harness, which extends the autocomplete harness, may
    * still access this feature, however.)
+   * @internal
    */
   protected async clickShowMoreButton(): Promise<void> {
     const overlay = await this.#getOverlay();
