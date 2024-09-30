@@ -12,35 +12,43 @@
     headingText && ngControl?.errors ? errorId : undefined
   "
 >
-  <span class="sky-radio-group-label-wrapper">
-    @if (headingText) {
-      <legend
-        class="sky-control-label"
+  @if (headingText) {
+    <legend
+      class="sky-control-label"
+      [ngClass]="{
+        'sky-screen-reader-only': headingHidden,
+        'sky-margin-stacked-xs': !!hintText,
+        'sky-margin-stacked-sm': !hintText
+      }"
+    >
+      <span
+        class="sky-margin-inline-xs"
         [ngClass]="{
-          'sky-screen-reader-only': headingHidden,
-          'sky-margin-stacked-sm': !hintText,
-          'sky-control-label-required': isRequired,
-          'sky-margin-inline-xs': helpPopoverContent
+          'sky-control-label-required': required
         }"
       >
-        @if (headingLevel === 3) {
-          <h3 [class]="headingClass">
-            {{ headingText }}
-          </h3>
-        } @else if (headingLevel === 4) {
-          <h4 [class]="headingClass">
-            {{ headingText }}
-          </h4>
-        } @else if (headingLevel === 5) {
-          <h5 [class]="headingClass">
-            {{ headingText }}
-          </h5>
-        } @else {
-          <span [class]="'sky-radio-group-heading-text ' + headingClass">
-            {{ headingText }}
-          </span>
+        @switch (headingLevel) {
+          @case (3) {
+            <h3 [class]="headingClass">{{ headingText }}</h3>
+          }
+          @case (4) {
+            <h4 [class]="headingClass">{{ headingText }}</h4>
+          }
+          @case (5) {
+            <h5 [class]="headingClass">{{ headingText }}</h5>
+          }
+          @default {
+            <span [class]="'sky-radio-group-heading-text ' + headingClass">{{
+              headingText
+            }}</span>
+          }
         }
-      </legend>
+      </span>
+      @if (required) {
+        <span class="sky-screen-reader-only">{{
+          'skyux_form_group_required' | skyLibResources
+        }}</span>
+      }
       @if (helpPopoverContent || helpKey) {
         <sky-help-inline
           [helpKey]="helpKey"
@@ -49,12 +57,13 @@
           [popoverContent]="helpPopoverContent"
         />
       }
-    }
-  </span>
-
+    </legend>
+  }
   <div #hintTextEl="skyId" skyId>
     @if (hintText) {
-      <div class="sky-font-deemphasized sky-radio-group-hint-text">
+      <div
+        class="sky-font-deemphasized sky-radio-group-hint-text sky-margin-stacked-lg"
+      >
         {{ hintText }}
       </div>
     }
