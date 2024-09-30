@@ -3,8 +3,8 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
   standalone: true,
-  selector: 'app-demo',
-  templateUrl: './demo.component.html',
+  selector: 'sky-fluid-grid-fixture',
+  templateUrl: './fluid-grid-test.component.html',
   styles: [
     `
       .highlight-columns .sky-column {
@@ -16,7 +16,8 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
   ],
   imports: [SkyFluidGridModule],
 })
-export class DemoComponent {
+export class FluidGridHarnessTestComponent {
   public gutterSize: SkyFluidGridGutterSizeType | undefined;
+
   public disableMargin = false;
 }
