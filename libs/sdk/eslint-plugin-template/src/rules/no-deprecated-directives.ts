@@ -110,7 +110,8 @@ export const rule = createESLintRule({
   defaultOptions: [],
   meta: {
     docs: {
-      description: '',
+      description:
+        'Prevents usage of deprecated directives and components in consumer templates.',
     },
     messages: {
       noDeprecatedDirectives:

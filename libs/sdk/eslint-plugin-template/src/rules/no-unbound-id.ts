@@ -31,7 +31,7 @@ export const rule = createESLintRule({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'ID must be unique.',
+      description: 'Prevents usage of static IDs on HTML elements.',
     },
     messages: {
       [messageId]:

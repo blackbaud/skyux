@@ -33,7 +33,7 @@ export const rule = createESLintRule({
   meta: {
     docs: {
       description:
-        'Do not import types prefixed by a lambda character. These files are not part of the SKY UX public API.',
+        'Prevents importing components from SKY UX packages that start with the "λ" lambda character.',
     },
     messages: {
       [messageId]: '{{importName}} is not included in the SKY UX public API',
