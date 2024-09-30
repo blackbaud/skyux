@@ -329,6 +329,28 @@ describe('SkyAgGridService', () => {
           ?.enableCellTextSelection,
       ).toBeFalsy();
     });
+
+    it('should update selection options', () => {
+      expect(
+        agGridService.getGridOptions({
+          gridOptions: { rowSelection: 'single' },
+        }),
+      ).toEqual(
+        jasmine.objectContaining({
+          selection: { mode: 'singleRow' },
+        }),
+      );
+
+      expect(
+        agGridService.getGridOptions({
+          gridOptions: { enableRangeSelection: true },
+        }),
+      ).toEqual(
+        jasmine.objectContaining({
+          selection: { mode: 'cell' },
+        }),
+      );
+    });
   });
 
   describe('getEditableGridOptions', () => {
@@ -338,6 +360,7 @@ describe('SkyAgGridService', () => {
       });
 
       expect(editableGridOptions.rowSelection).toBeUndefined();
+      expect(editableGridOptions.selection).toBeUndefined();
     });
   });
 
