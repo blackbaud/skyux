@@ -2,15 +2,11 @@
   display: block;
 }
 
-h3,
-h4 {
-  margin: 0;
-}
+legend {
+  display: flex;
 
-.sky-field-group-legend-wrapper {
-  display: inline-flex;
-}
-
-sky-help-inline {
-  display: inline-flex;
+  h3,
+  h4 {
+    margin: 0;
+  }
 }
