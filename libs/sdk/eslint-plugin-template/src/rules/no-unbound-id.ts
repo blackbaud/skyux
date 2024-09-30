@@ -11,7 +11,7 @@ export const rule = createESLintRule({
     const parserServices = getTemplateParserServices(context);
 
     return {
-      ['Element$1[attribute="id"'](el: TmplAstElement) {
+      ['Element$1'](el: TmplAstElement) {
         const idAttr = el.attributes.find((attribute) => {
           return attribute.name === 'id';
         });

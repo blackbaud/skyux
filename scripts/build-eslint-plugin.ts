@@ -2,6 +2,10 @@ import fs, { emptyDir } from 'fs-extra';
 
 import { runCommand } from './utils/spawn';
 
+/**
+ * Builds the ESLint plugins and copies them to the local node_modules directory
+ * to allow ESLint configs to pick them up.
+ */
 async function buildESLintPlugin(): Promise<void> {
   await runCommand('npx', [
     'nx',

@@ -22,7 +22,9 @@ async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
   const files = await glob('dist/libs/components/**/documentation.json');
 
   for (const file of files) {
-    const json = JSON.parse(await readFile(file, { encoding: 'utf-8' }));
+    const json = JSON.parse(
+      await readFile(path.normalize(file), { encoding: 'utf-8' }),
+    );
 
     for (const directive of json.typedoc.children) {
       const directiveDecorator = directive.decorators?.[0];
