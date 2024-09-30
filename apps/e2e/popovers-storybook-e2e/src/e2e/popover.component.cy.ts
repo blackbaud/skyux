@@ -5,7 +5,7 @@ describe(`popovers-storybook`, () => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() =>
         cy
-          .viewport(2200, 1200)
+          .viewport(1280, 1200)
           .visit(
             `/iframe.html?globals=theme:${theme}&id=popovercomponent-popover--popover`,
           ),
@@ -51,7 +51,7 @@ describe(`popovers-storybook`, () => {
         cy.window().percySnapshot(
           `popovercomponent-popover--popover-${theme}`,
           {
-            widths: [2200],
+            widths: [1280],
           },
         );
         cy.window().screenshot(`popovercomponent-popover--popover-${theme}`);
