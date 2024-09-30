@@ -26,7 +26,7 @@
     "dev:local-registry": "nx run tools:local-registry",
     "dev:publish-to-local-registry": "ts-node ./scripts/publish-local.ts",
     "dev:pristine": "skyux-dev pristine-commit",
-    "dev:build-eslint-plugin": "ts-node ./scripts/build-eslint-plugin.ts && ts-node ./scripts/postbuild-all.ts"
+    "dev:build-eslint-plugin": "ts-node ./scripts/build-eslint-plugin.ts"
   },
   "engines": {
     "node": "^20.11.1",

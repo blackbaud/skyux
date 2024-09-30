@@ -7,7 +7,6 @@
       "extends": [
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:@skyux-eslint/next",
         "../../.eslintrc-overrides.json",
         "prettier"
       ],
@@ -57,7 +56,6 @@
       "files": ["*.html"],
       "extends": [
         "plugin:@nx/angular-template",
-        "plugin:@skyux-eslint/template/next",
         "../../.eslintrc-overrides.json",
         "prettier"
       ],
