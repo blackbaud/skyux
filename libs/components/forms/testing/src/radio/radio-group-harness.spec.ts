@@ -34,12 +34,17 @@ async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
 }
 
 describe('Radio group harness', () => {
-  it('should get the heading text', async () => {
-    const { radioGroupHarness } = await setupTest();
+  it('should get the heading text when it is set', async () => {
+    const { radioGroupHarness, fixture } = await setupTest();
 
     await expectAsync(radioGroupHarness.getHeadingText()).toBeResolvedTo(
       'Payment method',
     );
+
+    fixture.componentInstance.headingText = undefined;
+    fixture.detectChanges();
+
+    await expectAsync(radioGroupHarness.getHeadingText()).toBeResolvedTo('');
   });
 
   it('should get the heading text when heading text is hidden', async () => {
@@ -67,6 +72,13 @@ describe('Radio group harness', () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
     fixture.componentInstance.hideGroupHeading = true;
+    fixture.detectChanges();
+
+    await expectAsync(radioGroupHarness.getHeadingHidden()).toBeResolvedTo(
+      true,
+    );
+
+    fixture.componentInstance.headingText = undefined;
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingHidden()).toBeResolvedTo(
