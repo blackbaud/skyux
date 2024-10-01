@@ -247,12 +247,6 @@
         helpPopoverContent="content"
       />
       <sky-checkbox formControlName="text" labelText="Text" />
-      @if (contactMethod.errors?.['contactMethodRequired']) {
-        <sky-form-error
-          errorName="contactMethodRequired"
-          errorText="A contact method is required."
-        />
-      }
     </sky-checkbox-group>
     <div class="sky-margin-stacked-xl">
       <sky-checkbox
