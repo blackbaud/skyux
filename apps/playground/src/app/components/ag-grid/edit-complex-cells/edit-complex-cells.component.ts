@@ -387,7 +387,6 @@ export class EditComplexCellsComponent implements OnInit {
       onGridSizeChanged: () => {
         this.sizeGrid();
       },
-      rowSelection: 'multiple',
       suppressColumnVirtualisation: true,
       stopEditingWhenCellsLoseFocus: false,
     };

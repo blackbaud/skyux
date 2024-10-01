@@ -158,8 +158,8 @@ export class ViewGridComponent implements OnInit, OnDestroy {
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
-        rowSelection: 'single',
         onGridReady: this.onGridReady.bind(this),
+        selection: { mode: 'singleRow' },
       },
     });
 
