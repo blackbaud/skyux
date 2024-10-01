@@ -203,6 +203,21 @@ export class SkyAgGridService implements OnDestroy {
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions,
   ): GridOptions {
+    if (
+      !providedGridOptions.selection &&
+      ('rowSelection' in providedGridOptions ||
+        'enableRangeSelection' in providedGridOptions)
+    ) {
+      if (providedGridOptions.rowSelection === 'single') {
+        providedGridOptions.selection = { mode: 'singleRow' };
+      }
+      if (providedGridOptions.enableRangeSelection) {
+        providedGridOptions.selection = { mode: 'cell' };
+      }
+      delete providedGridOptions.rowSelection;
+      delete providedGridOptions.enableRangeSelection;
+    }
+
     const mergedGridOptions: GridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
@@ -232,13 +247,14 @@ export class SkyAgGridService implements OnDestroy {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
       },
+      selection: providedGridOptions.selection ?? defaultGridOptions.selection,
     };
 
     // Enable text selection unless explicitly disabled or conflicting with another setting.
     if (
       mergedGridOptions.enableCellTextSelection ||
       (!('enableCellTextSelection' in mergedGridOptions) &&
-        !mergedGridOptions.enableRangeSelection &&
+        mergedGridOptions.selection?.mode !== 'cell' &&
         !mergedGridOptions.columnDefs?.some((col: ColDef) => col.editable))
     ) {
       mergedGridOptions.context ||= {};
@@ -516,11 +532,15 @@ export class SkyAgGridService implements OnDestroy {
       },
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
-      rowMultiSelectWithClick: true,
-      rowSelection: 'multiple',
+      selection: {
+        mode: 'multiRow',
+        enableClickSelection: false,
+        enableMultiSelectWithClick: true,
+        checkboxes: false,
+        headerCheckbox: false,
+      },
       singleClickEdit: true,
       sortingOrder: ['desc', 'asc', null],
-      suppressRowClickSelection: true,
       suppressDragLeaveHidesColumns: true,
     };
 
@@ -597,9 +617,7 @@ export class SkyAgGridService implements OnDestroy {
 
   #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
-
-    defaultGridOptions.rowSelection = undefined;
-
+    delete defaultGridOptions.selection;
     return defaultGridOptions;
   }
 
