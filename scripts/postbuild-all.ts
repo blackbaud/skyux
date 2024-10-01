@@ -7,17 +7,24 @@ const DEPRECATIONS_FILE_PATH = path.normalize(
 );
 
 interface DeprecatedProperty {
-  name: string;
-  reason: string;
+  reason?: string;
+}
+
+type DeprecatedProperties = Record<string, DeprecatedProperty>;
+
+interface DeprecatedDirective {
+  deprecated: boolean;
+  reason?: string;
+  properties?: DeprecatedProperties;
+}
+
+interface Deprecations {
+  components?: Record<string, DeprecatedDirective>;
+  directives?: Record<string, DeprecatedDirective>;
 }
 
 async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
-  const selectors: { selector: string; reason: string }[] = [];
-  const properties: {
-    selector: string;
-    inputs?: DeprecatedProperty[];
-    outputs?: DeprecatedProperty[];
-  }[] = [];
+  const deprecations: Deprecations = {};
 
   const files = await glob('dist/libs/components/**/documentation.json');
 
@@ -26,98 +33,92 @@ async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
       await readFile(path.normalize(file), { encoding: 'utf-8' }),
     );
 
-    for (const directive of json.typedoc.children) {
-      const directiveDecorator = directive.decorators?.[0];
+    for (const docs of json.typedoc.children) {
+      const docsDecorator = docs.decorators?.[0];
 
-      if (!directiveDecorator) {
+      if (!docsDecorator) {
         continue;
       }
 
-      if (
-        directiveDecorator.name === 'Component' ||
-        directiveDecorator.name === 'Directive'
-      ) {
-        const selector = directiveDecorator.arguments.obj
+      const isDirective = docsDecorator.name === 'Directive';
+
+      if (docsDecorator.name === 'Component' || isDirective) {
+        let selector: string = docsDecorator.arguments.obj
           .split("selector: '")[1]
-          .split("'")[0]
-          .replace(/(?:\[|\])/g, '');
+          .split("'")[0];
 
-        let isDirectiveDeprecated = false;
+        if (isDirective) {
+          selector = selector.split('[')[1].split(']')[0];
+        }
 
-        if (directive.comment?.blockTags) {
-          for (const tag of directive.comment.blockTags) {
+        const category: keyof Deprecations = isDirective
+          ? 'directives'
+          : 'components';
+
+        if (docs.comment?.blockTags) {
+          for (const tag of docs.comment.blockTags) {
             if (tag.tag === '@deprecated') {
-              isDirectiveDeprecated = true;
+              deprecations[category] ??= {};
+              deprecations[category][selector] = {
+                deprecated: true,
+              };
 
               const reason = tag.content
                 .map((x: { text: string }) => x.text.replace('\n', ' '))
-                .join('');
+                .join('')
+                .trim();
 
-              selectors.push({
-                reason,
-                selector,
-              });
+              if (reason) {
+                deprecations[category][selector].reason = reason;
+              }
             }
           }
         }
 
-        if (!isDirectiveDeprecated) {
-          const inputs: DeprecatedProperty[] = [];
-          const outputs: DeprecatedProperty[] = [];
+        for (const property of docs.children) {
+          const propertyDecorator = property.decorators?.[0];
 
-          for (const property of directive.children) {
-            const propertyDecorator = property.decorators?.[0];
+          const isInput =
+            propertyDecorator?.name === 'Input' ||
+            property.type?.name === 'InputSignal';
 
-            const isInput =
-              propertyDecorator?.name === 'Input' ||
-              property.type?.name === 'InputSignal';
+          const isOutput =
+            propertyDecorator?.name === 'Output' ||
+            property.type?.name === 'OutputEmitterRef';
 
-            const isOutput =
-              propertyDecorator?.name === 'Output' ||
-              property.type?.name === 'OutputEmitterRef';
+          if (isInput || isOutput) {
+            const tags =
+              property.comment?.blockTags ??
+              property.setSignature?.comment?.blockTags ??
+              property.getSignature?.comment?.blockTags;
 
-            if (isInput || isOutput) {
-              const tags =
-                property.comment?.blockTags ??
-                property.setSignature?.comment?.blockTags ??
-                property.getSignature?.comment?.blockTags;
+            if (tags) {
+              for (const tag of tags) {
+                if (tag.tag === '@deprecated') {
+                  const reason = tag.content
+                    .map((x: { text: string }) => x.text.replace('\n', ' '))
+                    .join('')
+                    .trim();
 
-              if (tags) {
-                for (const tag of tags) {
-                  if (tag.tag === '@deprecated') {
-                    const reason = tag.content
-                      .map((x: { text: string }) => x.text.replace('\n', ' '))
-                      .join('');
+                  deprecations[category] ??= {};
+                  deprecations[category][selector] ??= { deprecated: false };
 
-                    if (isInput) {
-                      inputs.push({ name: property.name, reason });
-                    } else {
-                      outputs.push({ name: property.name, reason });
-                    }
+                  const directive = deprecations[category][selector];
+
+                  directive.properties ??= {};
+                  directive.properties[property.name] = {};
+
+                  if (reason) {
+                    directive.properties[property.name].reason = reason;
                   }
                 }
               }
             }
           }
-
-          if (inputs.length > 0 || outputs.length > 0) {
-            properties.push({
-              selector,
-              inputs,
-              outputs,
-            });
-          }
         }
       }
     }
   }
-
-  const deprecations = {
-    directives: {
-      properties,
-      selectors,
-    },
-  };
 
   await writeFile(DEPRECATIONS_FILE_PATH, JSON.stringify(deprecations));
 }

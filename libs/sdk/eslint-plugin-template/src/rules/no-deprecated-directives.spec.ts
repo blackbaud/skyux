@@ -10,6 +10,32 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [],
   invalid: [
     convertAnnotatedSourceToFailureCase({
+      description: 'should fail when using deprecated directives',
+      annotatedSource: `
+        <input type="text" skyDeprecatedThing />
+                           ~~~~~~~~~~~~~~~~~~
+      `,
+      messageId: 'noDeprecatedDirectives',
+      data: {
+        reason: '',
+        selector: 'skyDeprecatedThing',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when using deprecated features of directives',
+      annotatedSource: `
+        <input type="text" skyAutocomplete autocompleteAttribute="foo" />
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      messageId: 'noDeprecatedDirectiveProperties',
+      data: {
+        reason:
+          'SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.',
+        selector: 'input',
+        property: 'autocompleteAttribute',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
       description: 'should fail when using sky-card',
       annotatedSource: `
         <sky-card></sky-card>

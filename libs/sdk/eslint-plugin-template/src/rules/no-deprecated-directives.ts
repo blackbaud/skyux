@@ -1,111 +1,120 @@
-import { type TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
+import {
+  type TmplAstBoundAttribute,
+  type TmplAstElement,
+  type TmplAstTextAttribute,
+} from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
+import { RuleListener } from '@typescript-eslint/utils/ts-eslint';
 
 import deprecationsJson from '../__deprecations.json';
 import { createESLintRule } from '../utils/create-eslint-rule';
 
-const DEPRECATIONS = deprecationsJson as {
-  directives: {
-    selectors: DeprecatedDirective[];
-    properties: DeprecatedProperties[];
-  };
-};
-
-interface DeprecatedDirective {
-  selector: string;
-  reason: string;
-}
+const DEPRECATIONS = deprecationsJson as Deprecations;
 
 interface DeprecatedProperty {
-  name: string;
-  reason: string;
+  reason?: string;
 }
 
-interface DeprecatedProperties {
-  selector: string;
-  inputs?: DeprecatedProperty[];
-  outputs?: DeprecatedProperty[];
+type DeprecatedProperties = Record<string, DeprecatedProperty>;
+
+interface DeprecatedDirective {
+  deprecated: boolean;
+  reason?: string;
+  properties?: DeprecatedProperties;
+}
+
+interface Deprecations {
+  components?: Record<string, DeprecatedDirective>;
+  directives?: Record<string, DeprecatedDirective>;
 }
 
 export const RULE_NAME = 'no-deprecated-directives';
-
-const DEPRECATED_SELECTORS = DEPRECATIONS.directives.selectors
-  .map((s) => s.selector)
-  .join('|');
-
-const SELECTORS_WITH_DEPRECATED_PROPERTIES = DEPRECATIONS.directives.properties
-  .map((p) => p.selector)
-  .join('|');
 
 export const rule = createESLintRule({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
-    return {
-      [`Element$1[name=/^(${SELECTORS_WITH_DEPRECATED_PROPERTIES})$/]`](
-        el: TmplAstElement,
-      ) {
-        for (const directive of DEPRECATIONS.directives.properties) {
-          if (directive.selector === el.name) {
-            let property: DeprecatedProperty | undefined;
+    const reportDeprecatedDirective = (
+      el: TmplAstElement | TmplAstBoundAttribute | TmplAstTextAttribute,
+      docs: DeprecatedDirective,
+    ): void => {
+      context.report({
+        loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
+        messageId: 'noDeprecatedDirectives',
+        data: {
+          reason: docs?.reason ?? '',
+          selector: el.name,
+        },
+      });
+    };
 
-            const input = el.inputs.find((input) => {
-              property = directive.inputs?.find((i) => i.name === input.name);
-              return !!property;
+    const reportDeprecatedInputsOutputs = (
+      el: TmplAstElement,
+      docs: DeprecatedDirective,
+    ): void => {
+      if (docs.properties) {
+        for (const [propertyName, propertyDetails] of Object.entries(
+          docs.properties,
+        )) {
+          const attr =
+            el.inputs.find((input) => input.name === propertyName) ||
+            el.outputs.find((output) => output.name === propertyName) ||
+            el.attributes.find((attr) => attr.name === propertyName);
+
+          if (attr) {
+            context.report({
+              loc: parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan),
+              messageId: 'noDeprecatedDirectiveProperties',
+              data: {
+                property: propertyName,
+                reason: propertyDetails.reason ?? '',
+                selector: el.name,
+              },
             });
-
-            if (input) {
-              context.report({
-                loc: parserServices.convertNodeSourceSpanToLoc(
-                  input.sourceSpan,
-                ),
-                messageId: 'noDeprecatedDirectiveProperties',
-                data: {
-                  property: property?.name,
-                  reason: property?.reason,
-                  selector: el.name,
-                },
-              });
-            } else {
-              const output = el.outputs.find((output) => {
-                property = directive.outputs?.find(
-                  (o) => o.name === output.name,
-                );
-                return !!property;
-              });
-
-              if (output) {
-                context.report({
-                  loc: parserServices.convertNodeSourceSpanToLoc(
-                    output.sourceSpan,
-                  ),
-                  messageId: 'noDeprecatedDirectiveProperties',
-                  data: {
-                    property: property?.name,
-                    reason: property?.reason,
-                    selector: el.name,
-                  },
-                });
-              }
-            }
           }
         }
-      },
-      [`Element$1[name=/^(${DEPRECATED_SELECTORS})$/]`](el: TmplAstElement) {
-        const found = DEPRECATIONS.directives.selectors.find(
-          (s) => s.selector === el.name,
-        );
-
-        context.report({
-          loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
-          messageId: 'noDeprecatedDirectives',
-          data: {
-            reason: found?.reason,
-            selector: el.name,
-          },
-        });
-      },
+      }
     };
+
+    const rules: RuleListener = {};
+
+    if (DEPRECATIONS.components !== undefined) {
+      const components = DEPRECATIONS.components;
+      const selectors = Object.keys(components).join('|');
+
+      rules[`Element$1[name=/^(${selectors})$/]`] = (el: TmplAstElement) => {
+        const docs = components[el.name];
+
+        if (docs.deprecated) {
+          reportDeprecatedDirective(el, docs);
+        } else {
+          reportDeprecatedInputsOutputs(el, docs);
+        }
+      };
+    }
+
+    if (DEPRECATIONS.directives !== undefined) {
+      const directives = DEPRECATIONS.directives;
+      const selectors = Object.keys(directives).join('|');
+
+      rules[
+        `:matches(BoundAttribute, TextAttribute)[name=/^(${selectors})$/]`
+      ] = (
+        el: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
+          parent: TmplAstElement;
+        },
+      ) => {
+        const docs = directives[el.name];
+
+        if (docs.deprecated) {
+          reportDeprecatedDirective(el, docs);
+        } else {
+          reportDeprecatedInputsOutputs(el.parent, docs);
+        }
+      };
+    }
+
+    return rules;
   },
   defaultOptions: [],
   meta: {

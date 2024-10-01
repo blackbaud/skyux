@@ -6,9 +6,9 @@
     "package.json"
   ],
   "peerDependencies": {
-    "@angular-eslint/bundled-angular-compiler": "^18.3.1",
-    "@angular-eslint/eslint-plugin-template": "^18.3.1",
-    "@angular-eslint/utils": "^18.3.1",
     "@typescript-eslint/utils": "^8.6.0"
+  },
+  "dependencies": {
+    "tslib": "^2.6.3"
   }
 }
