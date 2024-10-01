@@ -27,16 +27,16 @@
         --sky-override-alert-text-vertical-padding,
         var(--sky-space-inset-balanced-none)
       )
-      var(--sky-space-text_action_gap-m)
+      var(--sky-space-gap-text_action-m)
       var(
         --sky-override-alert-text-vertical-padding,
         var(--sky-space-inset-balanced-none)
       )
-      var(--sky-space-icon_gap-l);
+      var(--sky-space-gap-icon-l);
     width: 100%;
 
     ::ng-deep a {
-      color: change-color($sky-text-color-default, $alpha: 0.8);
+      color: hsl(from var(--sky-text-color-default) h s l / 0.8);
       text-decoration: underline;
 
       &:hover {
@@ -95,7 +95,7 @@
     border-style: solid;
     border-color: var(--sky-color-border-action-tertiary-base);
     border-radius: var(--sky-border-radius-s);
-    border-width: var(--sky-border-width-interactive-base);
+    border-width: var(--sky-border-width-action-base);
     background-color: var(--sky-color-background-action-tertiary-base);
     display: none;
     flex-shrink: 0;
@@ -103,18 +103,18 @@
     &:hover {
       opacity: 1;
       border-color: var(--sky-color-border-action-tertiary-hover);
-      border-width: var(--sky-border-width-interactive-hover);
+      border-width: var(--sky-border-width-action-hover);
     }
 
     &:focus-visible {
       outline: none;
       border-color: var(--sky-color-border-action-tertiary-focus);
-      border-width: var(--sky-border-width-interactive-focus);
+      border-width: var(--sky-border-width-action-focus);
     }
 
     &:active {
       border-color: var(--sky-color-border-action-tertiary-focus);
-      border-width: var(--sky-border-width-interactive-focus);
+      border-width: var(--sky-border-width-action-focus);
     }
 
     &:focus-visible:not(:active) {
