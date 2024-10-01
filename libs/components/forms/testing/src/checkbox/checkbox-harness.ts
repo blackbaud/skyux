@@ -1,5 +1,4 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
@@ -11,7 +10,6 @@ import { SkyCheckboxLabelTextLabelHarness } from './checkbox-label-text-label.ha
 
 /**
  * Harness for interacting with a checkbox component in tests.
- * @internal
  */
 export class SkyCheckboxHarness extends SkyComponentHarness {
   /**
@@ -86,10 +84,10 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   /**
    * Gets the help popover content.
    */
-  public async getHelpPopoverContent(): Promise<
-    TemplateRef<unknown> | string | undefined
-  > {
-    return await (await this.#getHelpInline()).getPopoverContent();
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    const content = await (await this.#getHelpInline()).getPopoverContent();
+
+    return content as string | undefined;
   }
 
   /**
@@ -199,6 +197,13 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   public async isRequired(): Promise<boolean> {
     const value = await (await this.#getInput()).getAttribute('required');
     return value !== null;
+  }
+
+  /**
+   * Whether the checkbox is stacked.
+   */
+  public async isStacked(): Promise<boolean> {
+    return await (await this.host()).hasClass('sky-margin-stacked-lg');
   }
 
   /**

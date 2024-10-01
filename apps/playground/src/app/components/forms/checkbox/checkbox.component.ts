@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   NgModelGroup,
   UntypedFormBuilder,
   UntypedFormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
@@ -56,21 +54,6 @@ export class CheckboxComponent implements OnInit {
       contactMethod: this.contactMethod,
       terms: new FormControl(false),
     });
-
-    this.contactMethod.setValidators(
-      (control: AbstractControl): ValidationErrors | null => {
-        const group = control as FormGroup;
-        const email = group.controls['email'];
-        const phone = group.controls['phone'];
-        const text = group.controls['text'];
-
-        if (!email.value && !phone.value && !text.value) {
-          return { contactMethodRequired: true };
-        } else {
-          return null;
-        }
-      },
-    );
   }
 
   public ngOnInit(): void {

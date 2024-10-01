@@ -22,8 +22,7 @@
   }
 
   .sky-elevation-4 {
-    box-shadow: $sky-theme-modern-elevation-4-shadow-size
-      $sky-theme-modern-elevation-4-shadow-color;
+    box-shadow: var(--sky-elevation-overlay-100);
   }
 
   .sky-elevation-8 {
