@@ -277,7 +277,7 @@ describe('Autocomplete harness', () => {
       await expectAsync(
         autocompleteHarness.getNoResultsFoundText(),
       ).toBeRejectedWithError(
-        'Cannot find no results found text as there are search results found.',
+        'Cannot find "no results found" text because there are search results.',
       );
     });
 
