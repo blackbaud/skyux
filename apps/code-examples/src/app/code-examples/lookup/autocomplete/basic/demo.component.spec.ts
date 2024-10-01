@@ -50,8 +50,8 @@ describe('Basic colorpicker demo', () => {
     await expectAsync(searchResults[0].getText()).toBeResolvedTo('Blue');
 
     await searchResults[0].select();
-    const value = fixture.componentInstance.formGroup.controls['favoriteColor']
-      .value as { name: string };
-    expect(value.name).toBe('Blue');
+    const value =
+      fixture.componentInstance.formGroup.get('favoriteColor')?.value;
+    expect(value?.name).toBe('Blue');
   });
 });

@@ -129,7 +129,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
     if (!overlay) {
       throw new Error(
-        'Cannot find no results found text as the dropdown is closed.',
+        'Cannot find "no results found" text as the dropdown is closed.',
       );
     }
 
@@ -139,7 +139,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
       return (await noResultFoundText?.text())?.trim();
     } catch {
       throw new Error(
-        'Cannot find no results found text as there are search results found.',
+        'Cannot find "no results found" text because there are search results.',
       );
     }
   }

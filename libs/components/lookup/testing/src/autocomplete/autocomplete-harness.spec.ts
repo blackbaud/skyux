@@ -293,7 +293,7 @@ describe('Autocomplete harness', () => {
       await expectAsync(
         autocompleteHarness.getNoResultsFoundText(),
       ).toBeRejectedWithError(
-        'Cannot find no results found text as the dropdown is closed.',
+        'Cannot find "no results found" text as the dropdown is closed.',
       );
     });
   });
