@@ -7,10 +7,7 @@
   &-tabs {
     display: block;
 
-    &:has(
-        > sky-page-content ~ sky-page-links,
-        > sky-page-links ~ sky-page-content
-      ) {
+    &:has(> sky-page-content):has(> sky-page-links) {
       --sky-layout-host-links-spacing: 10px;
 
       display: grid;
@@ -78,10 +75,7 @@
     &-blocks,
     &-list,
     &-tabs {
-      &:has(
-          > sky-page-content ~ sky-page-links,
-          > sky-page-links ~ sky-page-content
-        ) {
+      &:has(> sky-page-content):has(> sky-page-links) {
         --sky-layout-host-links-spacing: 20px;
 
         grid-template:
