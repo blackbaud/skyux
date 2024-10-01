@@ -1,5 +1,22 @@
 # Changelog
 
+## [11.6.0](https://github.com/blackbaud/skyux/compare/11.5.0...11.6.0) (2024-09-27)
+
+
+### Features
+
+* **components/colorpicker:** add colorpicker test harness  ([#2768](https://github.com/blackbaud/skyux/issues/2768)) ([03dea32](https://github.com/blackbaud/skyux/commit/03dea3217ddca75e9644c3e3140db1a7f5d4f3cc))
+* **components/forms:** add test harnesses for checkbox and checkbox group ([#2776](https://github.com/blackbaud/skyux/issues/2776)) ([7af1c8a](https://github.com/blackbaud/skyux/commit/7af1c8a180d9845d6d1d51e352a4ff727a094bac))
+* **components/indicators:** tokenize alert styling ([#2771](https://github.com/blackbaud/skyux/issues/2771)) ([55bed24](https://github.com/blackbaud/skyux/commit/55bed24f24f23d6c38ce3f8d5580ea2526b019ac))
+* **components/indicators:** tokenize label styling ([#2775](https://github.com/blackbaud/skyux/issues/2775)) ([65ccc00](https://github.com/blackbaud/skyux/commit/65ccc00715dbf7190d03970ecf60e90c7cd54ef1))
+* **components/indicators:** tokenize status indicator styles ([#2778](https://github.com/blackbaud/skyux/issues/2778)) ([6551e25](https://github.com/blackbaud/skyux/commit/6551e25bd60a55de4f155f60ae18bda69ea19a2b))
+* **components/layout:** tokenize box styling ([#2774](https://github.com/blackbaud/skyux/issues/2774)) ([8cb3892](https://github.com/blackbaud/skyux/commit/8cb3892c7d1c8850938e93d34c56bbe17db7716a))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** set `aria-expanded` to false when closed with `cancel` button ([#2772](https://github.com/blackbaud/skyux/issues/2772)) ([291e6ce](https://github.com/blackbaud/skyux/commit/291e6ce646a256c65a5751e85703dffa7ea3ab9c))
+
 ## [11.5.0](https://github.com/blackbaud/skyux/compare/11.4.0...11.5.0) (2024-09-23)
 
 

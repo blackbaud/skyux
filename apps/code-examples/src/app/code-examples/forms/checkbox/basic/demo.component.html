@@ -1,6 +1,7 @@
 <div class="sky-padding-even-large">
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <sky-checkbox-group
+      data-sky-id="checkbox-group"
       headingText="Contact method"
       headingStyle="5"
       helpPopoverContent="We use your contact info to keep you informed on current events. We will not sell your information."
@@ -19,13 +20,13 @@
         />
       }
     </sky-checkbox-group>
-    <div class="sky-margin-stacked-xl">
-      <sky-checkbox
-        formControlName="terms"
-        labelText="I agree to the terms and conditions"
-        [required]="true"
-      />
-    </div>
+    <sky-checkbox
+      data-sky-id="single-checkbox"
+      formControlName="terms"
+      labelText="I agree to the terms and conditions"
+      [required]="true"
+      [stacked]="true"
+    />
     <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
   </form>
 </div>

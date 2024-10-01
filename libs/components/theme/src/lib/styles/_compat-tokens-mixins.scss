@@ -1,0 +1,7 @@
+@forward 'themes/modern/compat-tokens-mixins';
+
+@mixin sky-default-overrides($selector) {
+  #{$selector}:not(.sky-theme-modern *) {
+    @content;
+  }
+}

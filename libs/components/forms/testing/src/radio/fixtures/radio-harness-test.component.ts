@@ -32,6 +32,7 @@ export class RadioHarnessTestComponent {
   public cashHintText: string | undefined;
   public headingLevel: SkyRadioGroupHeadingLevel | undefined = 3;
   public headingStyle: SkyRadioGroupHeadingStyle = 3;
+  public headingText: string | undefined = 'Payment method';
   public helpKey: string | undefined;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;

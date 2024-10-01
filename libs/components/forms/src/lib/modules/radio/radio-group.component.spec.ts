@@ -189,7 +189,9 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    const radioGroupLabel = getRadioGroupLabel(fixture);
+    const radioGroupLabel = fixture.nativeElement.querySelector(
+      'span.sky-margin-inline-xs',
+    );
     expect(radioGroupDiv?.getAttribute('required')).toBeNull();
     expect(radioGroupDiv?.getAttribute('aria-required')).toBeNull();
     expect(radioGroupLabel).not.toHaveCssClass('sky-control-label-required');
@@ -203,7 +205,9 @@ describe('Radio group component (reactive)', function () {
     tick();
 
     const radioGroupDiv = getRadioGroup(fixture);
-    const radioGroupLabel = getRadioGroupLabel(fixture);
+    const radioGroupLabel = fixture.nativeElement.querySelector(
+      'span.sky-margin-inline-xs',
+    );
     expect(radioGroupDiv?.getAttribute('required')).not.toBeNull();
     expect(radioGroupDiv?.getAttribute('aria-required')).toBe('true');
     expect(radioGroupLabel).toHaveCssClass('sky-control-label-required');
