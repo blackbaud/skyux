@@ -15,6 +15,8 @@ interface Color {
   templateUrl: './autocomplete-harness-test.component.html',
 })
 export class AutocompleteHarnessTestComponent {
+  public ariaLabelledby: string | undefined;
+
   public colors: Color[] = [
     { name: 'Red', id: 1 },
     { name: 'Blue', id: 2 },
@@ -34,6 +36,8 @@ export class AutocompleteHarnessTestComponent {
   public myForm: UntypedFormGroup;
 
   public showAddButton = true;
+
+  public noResultFoundText: string | undefined;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({

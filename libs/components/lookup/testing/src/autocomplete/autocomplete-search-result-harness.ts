@@ -4,8 +4,7 @@ import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-harness-filters';
 
 /**
- * Harness for interacting with an autocomplete search results in tests.
- * @internal
+ * Harness for interacting with an autocomplete search result in tests.
  */
 export class SkyAutocompleteSearchResultHarness extends SkyQueryableComponentHarness {
   /**
