@@ -21,8 +21,9 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-field-group';
 
   #getLegend = this.locatorFor('legend');
-  #getH3 = this.locatorForOptional('legend h3');
-  #getH4 = this.locatorForOptional('legend h4');
+  #getLegendH3 = this.locatorForOptional('legend h3');
+  #getLegendH4 = this.locatorForOptional('legend h4');
+  #getLegendHeading = this.locatorFor('legend h3,h4');
   #getHintText = this.locatorForOptional('.sky-field-group-hint-text');
 
   /**
@@ -40,7 +41,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getLegend()).text();
+    return (await this.#getLegendHeading()).text();
   }
 
   /**
@@ -72,7 +73,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    * The semantic heading level used for the field group.
    */
   public async getHeadingLevel(): Promise<SkyFieldGroupHeadingLevel> {
-    const h3 = await this.#getH3();
+    const h3 = await this.#getLegendH3();
 
     return h3 ? 3 : 4;
   }
@@ -81,7 +82,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    * The heading style used for the field group.
    */
   public async getHeadingStyle(): Promise<SkyFieldGroupHeadingStyle> {
-    const heading = (await this.#getH3()) || (await this.#getH4());
+    const heading = (await this.#getLegendH3()) || (await this.#getLegendH4());
 
     return (await heading?.hasClass('sky-font-heading-3')) ? 3 : 4;
   }
@@ -112,7 +113,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
     const harness = await this.locatorForOptional(
       SkyHelpInlineHarness.with({
-        ancestor: '.sky-field-group > .sky-field-group-legend-wrapper',
+        ancestor: '.sky-field-group > .sky-control-label',
       }),
     )();
 
