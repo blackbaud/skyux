@@ -8,7 +8,7 @@ import { ColorIdHarness } from './fixtures/color-id-harness';
 import { MyExtendsAutocompleteHarness } from './fixtures/my-extends-harness';
 import { NonexistentHarness } from './fixtures/nonexistent-harness';
 
-fdescribe('Autocomplete harness', () => {
+describe('Autocomplete harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}) {
     await TestBed.configureTestingModule({
       imports: [AutocompleteHarnessTestModule],
