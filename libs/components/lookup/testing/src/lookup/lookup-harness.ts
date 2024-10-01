@@ -30,6 +30,8 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyLookupHarness` that meets certain criteria.
+   *
+   * For lookup components wrapped in input boxes, all filters (eg. `data-sky-id`) must be placed on the `sky-input-box` wrapper.
    */
   public static override with(
     filters: SkyLookupHarnessFilters,
