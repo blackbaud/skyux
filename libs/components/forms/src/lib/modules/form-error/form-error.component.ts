@@ -31,7 +31,21 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
   `,
   styles: [
     `
+      @keyframes sky-modal-error {
+        0%,
+        50% {
+          max-height: 0;
+          margin-top: 0;
+          opacity: 0;
+        }
+        100% {
+          max-height: 500px;
+          opacity: 1;
+        }
+      }
+
       :host {
+        animation: sky-modal-error 300ms ease-out 1;
         display: block;
         margin-top: var(--sky-margin-stacked-xs);
       }
