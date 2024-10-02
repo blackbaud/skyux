@@ -16,6 +16,6 @@ import { SkyTilesModule } from '@skyux/tiles';
     <sky-tile-content>
       <sky-tile-content-section>Hi</sky-tile-content-section>
     </sky-tile-content>
-  </sky-tile> `,
+  </sky-tile>`,
 })
 export class BlocksTileDashboardPageTile1Component {}

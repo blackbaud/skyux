@@ -17,7 +17,7 @@ export default [
         './blocks-tile-dashboard-page/blocks-tile-dashboard-page.component'
       ),
     data: {
-      name: 'Page (Blocks tile dashboard)',
+      name: 'Page (Blocks - tile dashboard)',
       icon: 'list',
       library: 'pages',
     },
