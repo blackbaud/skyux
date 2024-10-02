@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyAvatarModule } from '@skyux/avatar';
@@ -46,6 +51,8 @@ interface WorkspaceItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class FitPageComponent {
+  public readonly showLinks = input<boolean>(false);
+
   protected set activeIndex(value: number) {
     this.#_activeIndex = value;
     this.activeRecord = this.items[this.#_activeIndex];
