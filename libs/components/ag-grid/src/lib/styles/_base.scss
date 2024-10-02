@@ -153,6 +153,8 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
 .ag-theme-sky-data-entry-grid-modern-dark-compact {
   @include ag-grid-extra.ag-grid-extra();
 
+  --ag-list-item-height: var(--ag-row-height);
+
   .ag-header-cell {
     cursor: initial;
 

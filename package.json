@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "11.5.0",
+  "version": "11.6.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -98,7 +98,7 @@
     "@angular/platform-browser-dynamic": "18.2.5",
     "@angular/router": "18.2.5",
     "@blackbaud/angular-tree-component": "1.0.0",
-    "@blackbaud/skyux-design-tokens": "0.0.29",
+    "@blackbaud/skyux-design-tokens": "0.0.32",
     "@nx/angular": "19.7.4",
     "@skyux/icons": "7.8.0",
     "@storybook/addon-interactions": "8.3.1",

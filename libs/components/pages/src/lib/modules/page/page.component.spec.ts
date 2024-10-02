@@ -20,7 +20,7 @@ describe('Page component', () => {
     layout: SkyPageLayoutType | undefined,
     expectedCssClass: string,
   ): void {
-    fixture.componentInstance.layout = layout;
+    fixture.componentRef.setInput('layout', layout);
     fixture.detectChanges();
 
     expect(fixture.nativeElement).toHaveCssClass(expectedCssClass);
