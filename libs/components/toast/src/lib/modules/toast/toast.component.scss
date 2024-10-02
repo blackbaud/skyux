@@ -14,6 +14,8 @@
   --sky-override-toast-close-button-margin: 0;
   --sky-override-toast-close-button-opacity: 0.8;
   --sky-override-toast-close-button-padding: 0;
+  --sky-override-toast-content-link-color: #212327cc;
+  --sky-override-toast-content-link-decoration: underline;
   --sky-override-toast-color-background-info: #{$sky-background-color-info};
   --sky-override-toast-color-border-info: #{$sky-highlight-color-info};
   --sky-override-toast-color-background-success: #{$sky-background-color-success};
@@ -28,6 +30,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-toast') {
+  --sky-override-toast-content-link-color: #212327cc;
   --sky-override-toast-icon-top-padding: calc(var(--modern-size-5) * -1);
   --sky-override-toast-info-exclamation-path-color: var(
     --modern-color-gray-105
@@ -141,8 +144,14 @@ sky-toast {
     a,
     .sky-btn-link,
     .sky-btn-link-inline {
-      color: hsl(from var(--sky-text-color-default) h s l / 0.8);
-      text-decoration: underline;
+      color: var(
+        --sky-override-toast-content-link-color,
+        var(--sky-color-text-default)
+      );
+      text-decoration: var(
+        --sky-override-toast-content-link-decoration,
+        var(--sky-font-text_decoration-visible_link)
+      );
 
       &:hover {
         color: var(--sky-text-color-default);
