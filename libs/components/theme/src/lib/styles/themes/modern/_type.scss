@@ -2,26 +2,31 @@
 
 .sky-theme-modern {
   .sky-font-body-default {
-    font-size: $sky-theme-modern-font-body-default-size;
-    font-weight: $sky-theme-modern-font-body-default-weight;
+    font-size: var(--sky-font-size-body-m);
+    font-weight: var(--sky-font-weight-body-m);
+    line-height: var(--sky-font-line-height-body-m);
   }
 
   .sky-font-body-sm {
-    font-size: $sky-theme-modern-font-body-sm-size;
-    font-weight: $sky-theme-modern-font-body-sm-weight;
+    font-size: var(--sky-font-size-body-s);
+    font-weight: var(--sky-font-weight-body-s);
+    line-height: var(--sky-font-line-height-body-s);
   }
 
   .sky-font-body-lg {
-    font-size: $sky-theme-modern-font-body-lg-size;
-    font-weight: $sky-theme-modern-font-body-lg-weight;
+    font-size: var(--sky-font-size-body-l);
+    font-weight: var(--sky-font-weight-body-l);
+    line-height: var(--sky-font-line-height-body-l);
   }
 
   .sky-font-data-label {
-    color: $sky-theme-modern-font-data-label-color;
-    font-size: $sky-theme-modern-font-data-label-size;
-    font-weight: $sky-theme-modern-font-data-label-weight;
+    color: var(--sky-color-text-deemphasized);
+    font-size: var(--sky-font-size-data_label);
+    font-weight: var(--sky-font-weight-data_label);
+    line-height: var(--sky-font-line-height-data_label);
   }
 
+  // deprecated
   .sky-font-field-label {
     color: $sky-theme-modern-font-data-label-color;
     font-size: $sky-theme-modern-font-data-label-size;
@@ -29,57 +34,38 @@
   }
 
   .sky-font-deemphasized {
-    color: var(--sky-text-color-deemphasized);
+    color: var(--sky-color-text-deemphasized);
     font-style: $sky-theme-modern-font-deemphasized-style;
     font-size: inherit;
   }
 
   .sky-font-emphasized {
-    font-weight: $sky-theme-modern-font-emphasized-weight;
+    font-weight: var(--sky-font-weight-emphasized);
     font-size: inherit;
   }
 
   .sky-font-display-1 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-1-size;
-    font-weight: $sky-theme-modern-font-display-1-weight;
+    font-size: var(--sky-font-size-display-1);
+    font-weight: var(--sky-font-weight-display-1);
+    line-height: var(--sky-font-line-height-display-1);
   }
 
   .sky-font-display-2 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-2-size;
-    font-weight: $sky-theme-modern-font-display-2-weight;
+    font-size: var(--sky-font-size-display-2);
+    font-weight: var(--sky-font-weight-display-2);
+    line-height: var(--sky-font-line-height-display-2);
   }
 
   .sky-font-display-3,
   .sky-headline {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-3-size;
-    font-weight: $sky-theme-modern-font-display-3-weight;
+    font-size: var(--sky-font-size-display-3);
+    font-weight: var(--sky-font-weight-display-3);
+    line-height: var(--sky-font-line-height-display-3);
   }
 
   .sky-font-display-4 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-4-size;
-    font-weight: $sky-theme-modern-font-display-4-weight;
-  }
-
-  &.sky-theme-mode-dark {
-    .sky-font-data-label,
-    .sky-font-display-1,
-    .sky-font-display-2,
-    .sky-font-display-3,
-    .sky-font-display-4,
-    .sky-font-emphasized,
-    .sky-headline {
-      color: var(--sky-text-color-default);
-    }
-
-    .sky-font-deemphasized,
-    .sky-field-label,
-    .sky-font-data-label,
-    .sky-font-field-label {
-      color: var(--sky-text-color-deemphasized);
-    }
+    font-size: var(--sky-font-size-display-4);
+    font-weight: var(--sky-font-weight-display-4);
+    line-height: var(--sky-font-line-height-display-4);
   }
 }

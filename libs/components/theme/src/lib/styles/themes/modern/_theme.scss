@@ -2,8 +2,10 @@
 
 .sky-theme-modern,
 .sky-theme-modern form {
-  font-size: $sky-theme-modern-font-body-default-size;
-  font-weight: $sky-theme-modern-font-body-default-weight;
+  font-size: var(--sky-font-size-body-m);
+  font-family: var(--sky-font-family-primary);
+  color: var(--sky-color-text-default);
+  font-weight: var(--sky-font-weight-body-m);
   transition:
     background-color $sky-transition-time-short,
     color $sky-transition-time-short;
@@ -22,28 +24,24 @@
 
   h1,
   .sky-font-heading-1 {
-    font-family: $sky-font-family;
     font-size: $sky-theme-modern-font-heading-1-size;
     font-weight: $sky-theme-modern-font-heading-1-weight;
   }
 
   h2,
   .sky-font-heading-2 {
-    font-family: $sky-font-family;
     font-size: $sky-theme-modern-font-heading-2-size;
     font-weight: $sky-theme-modern-font-heading-2-weight;
   }
 
   h3,
   .sky-font-heading-3 {
-    color: var(--sky-text-color-default);
     font-size: $sky-theme-modern-font-heading-3-size;
     font-weight: $sky-theme-modern-font-heading-3-weight;
   }
 
   h4,
   .sky-font-heading-4 {
-    color: var(--sky-text-color-default);
     font-size: $sky-theme-modern-font-heading-4-size;
     font-weight: var(--sky-theme-modern-font-heading-4-weight);
     text-transform: none;
@@ -51,7 +49,6 @@
 
   h5,
   .sky-font-heading-5 {
-    color: var(--sky-text-color-default);
     font-size: $sky-theme-modern-font-heading-5-size;
     font-weight: var(--sky-theme-modern-font-heading-5-weight);
     text-transform: none;
@@ -66,25 +63,6 @@
     color: var(--sky-text-color-on-dark);
   }
 
-  &.sky-theme-mode-dark {
-    h1,
-    h2,
-    h3,
-    h6,
-    .sky-font-heading-1,
-    .sky-font-heading-2,
-    .sky-font-heading-3,
-    .sky-font-heading-6 {
-      color: var(--sky-text-color-default);
-    }
-
-    h4,
-    h5,
-    .sky-font-heading-4,
-    .sky-font-heading-5 {
-      color: var(--sky-text-color-deemphasized);
-    }
-  }
   .sky-rounded-corners {
     border-radius: $sky-theme-modern-box-border-radius-default;
   }
