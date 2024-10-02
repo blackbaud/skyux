@@ -1,5 +1,8 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkySearchComponent } from '@skyux/lookup';
 
 import { SearchHarnessTestComponent } from './fixtures/search-harness-test.component';
 import { SearchHarnessTestModule } from './fixtures/search-harness-test.module';
@@ -7,18 +10,35 @@ import { SkySearchHarness } from './search-harness';
 
 describe('Search harness', () => {
   async function setupTest(options: { dataSkyId: string }) {
+    const mediaQuery = new MockSkyMediaQueryService();
+
     await TestBed.configureTestingModule({
       imports: [SearchHarnessTestModule],
+      providers: [
+        {
+          provide: SkyMediaQueryService,
+          useValue: mediaQuery,
+        },
+      ],
     }).compileComponents();
 
-    const fixture = TestBed.createComponent(SearchHarnessTestComponent);
+    const fixture = TestBed.overrideComponent(SkySearchComponent, {
+      add: {
+        providers: [
+          {
+            provide: SkyMediaQueryService,
+            useValue: mediaQuery,
+          },
+        ],
+      },
+    }).createComponent(SearchHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const searchHarness = await loader.getHarness(
       SkySearchHarness.with({ dataSkyId: options.dataSkyId }),
     );
 
-    return { searchHarness, fixture, loader };
+    return { searchHarness, fixture, loader, mediaQuery };
   }
 
   it('should focus and blur input', async () => {
@@ -92,5 +112,99 @@ describe('Search harness', () => {
     await expectAsync(searchHarness?.getPlaceholderText()).toBeResolvedTo(
       'My placeholder text.',
     );
+  });
+
+  it('should click the clear button', async () => {
+    const { searchHarness } = await setupTest({
+      dataSkyId: 'my-search-1',
+    });
+
+    await searchHarness.enterText('abc');
+    await expectAsync(searchHarness.getValue()).toBeResolvedTo('abc');
+
+    await searchHarness.clickClearButton();
+    await expectAsync(searchHarness.getValue()).toBeResolvedTo('');
+  });
+
+  it('should should throw an error when trying to click dismiss on a non collapsible search', async () => {
+    const { searchHarness } = await setupTest({
+      dataSkyId: 'my-search-1',
+    });
+    await expectAsync(
+      searchHarness.clickDismissSearchButton(),
+    ).toBeRejectedWithError(
+      'Cannot find dismiss search button. Is a collapsed search open?',
+    );
+  });
+
+  it('should should throw an error when trying to click open on a non collapsed search', async () => {
+    const { searchHarness } = await setupTest({
+      dataSkyId: 'my-search-1',
+    });
+    await expectAsync(
+      searchHarness.clickSearchOpenButton(),
+    ).toBeRejectedWithError(
+      'Cannot click search open button as search is not collapsed',
+    );
+  });
+
+  describe('In mobile view', () => {
+    async function setMobileView(
+      fixture: ComponentFixture<SearchHarnessTestComponent>,
+      mockMediaQueryService: MockSkyMediaQueryService,
+    ): Promise<void> {
+      mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+      fixture.detectChanges();
+      await fixture.whenStable();
+    }
+    it('should throw errors trying to interact with collapsed search input', async () => {
+      const { fixture, searchHarness, mediaQuery } = await setupTest({
+        dataSkyId: 'my-search-1',
+      });
+
+      await setMobileView(fixture, mediaQuery);
+
+      await expectAsync(searchHarness.blur()).toBeRejectedWithError(
+        'Search is collapsed.',
+      );
+      await expectAsync(searchHarness.clear()).toBeRejectedWithError(
+        'Search is collapsed.',
+      );
+      await expectAsync(searchHarness.clickClearButton()).toBeRejectedWithError(
+        'Search is collapsed.',
+      );
+      await expectAsync(
+        searchHarness.clickSubmitButton(),
+      ).toBeRejectedWithError('Search is collapsed.');
+      await expectAsync(searchHarness.enterText('abc')).toBeRejectedWithError(
+        'Search is collapsed.',
+      );
+      await expectAsync(searchHarness.focus()).toBeRejectedWithError(
+        'Search is collapsed.',
+      );
+      await expectAsync(
+        searchHarness.getPlaceholderText(),
+      ).toBeRejectedWithError('Search is collapsed.');
+      await expectAsync(searchHarness.getValue()).toBeRejectedWithError(
+        'Search is collapsed.',
+      );
+      await expectAsync(searchHarness.isFocused()).toBeRejectedWithError(
+        'Search is collapsed.',
+      );
+    });
+
+    it('should open and close a collapsible search get whether the search is collapsed', async () => {
+      const { fixture, searchHarness, mediaQuery } = await setupTest({
+        dataSkyId: 'my-search-1',
+      });
+
+      await setMobileView(fixture, mediaQuery);
+
+      await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(true);
+      await searchHarness.clickSearchOpenButton();
+      await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(false);
+      await searchHarness.clickDismissSearchButton();
+      await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(true);
+    });
   });
 });

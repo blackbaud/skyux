@@ -72,7 +72,9 @@ export class SkySearchHarness extends SkyComponentHarness {
     const button = await this.#getDismissButton();
 
     if (!button) {
-      throw new Error('Cannot find dismiss search button.');
+      throw new Error(
+        'Cannot find dismiss search button. Is a collapsed search open?',
+      );
     }
 
     return button.click();
@@ -84,7 +86,7 @@ export class SkySearchHarness extends SkyComponentHarness {
   public async clickSearchOpenButton(): Promise<void> {
     const button = await this.#getOpenButton();
 
-    if (button.getAttribute('hidden') !== null) {
+    if (!(await this.isCollapsed())) {
       throw new Error(
         'Cannot click search open button as search is not collapsed',
       );
@@ -170,7 +172,9 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Whether the search input is collapsed.
    */
   public async isCollapsed(): Promise<boolean> {
-    return (await this.#getOpenButton()).getAttribute('hidden') === null;
+    return (
+      (await (await this.#getOpenButton()).getAttribute('hidden')) === null
+    );
   }
 
   /**
