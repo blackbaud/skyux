@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { DemoComponent } from './demo.component';

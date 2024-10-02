@@ -1,3 +1,4 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -8,6 +9,7 @@ import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
+import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { SkyFileItem } from '../shared/file-item';
 
@@ -1256,15 +1258,18 @@ describe('File drop component', () => {
     );
   });
 
-  it('should set aria-describedby for the link input', () => {
+  it('should set hint text for the link input', async () => {
+    const linkUploadHintText = 'Hello, world!';
+
     componentInstance.allowLinks = true;
+    componentInstance.linkUploadHintText = linkUploadHintText;
     fixture.detectChanges();
 
-    const linkInput = getLinkInput();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const harness =
+      await loader.getHarness<SkyInputBoxHarness>(SkyInputBoxHarness);
 
-    expect(
-      linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value,
-    ).toBe('MOCK_ID_4');
+    await expectAsync(harness.getHintText()).toBeResolvedTo(linkUploadHintText);
   });
 
   it('should not have required class and aria-required attribute and label should not have screen reader text when not required', () => {
