@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
-  FormGroup,
+  FormControl,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -36,11 +36,7 @@ export class DemoComponent {
     { name: 'Black' },
   ];
 
-  protected formGroup: FormGroup;
-
-  constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      favoriteColor: undefined,
-    });
-  }
+  public formGroup = inject(FormBuilder).group({
+    favoriteColor: new FormControl<{ name: string } | undefined>(undefined),
+  });
 }
