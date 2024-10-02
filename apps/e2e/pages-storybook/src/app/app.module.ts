@@ -23,7 +23,10 @@ if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   declarations: [AppComponent],
   imports: [
     NoopAnimationsModule,
-    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabledBlocking',
+      bindToComponentInputs: true,
+    }),
   ],
   bootstrap: [AppComponent],
 })

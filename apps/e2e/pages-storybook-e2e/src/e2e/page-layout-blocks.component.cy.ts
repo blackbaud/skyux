@@ -14,30 +14,35 @@ Cypress.on(
 describe(`pages-storybook`, () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
-      beforeEach(() =>
-        cy.visit(`/iframe.html?globals=theme:${theme}&id=${ID}`),
-      );
-      it('should render the component', () => {
-        cy.get('app-blocks-page sky-page')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`${ID}-${theme}`);
-        cy.get('app-blocks-page sky-page').percySnapshot(`${ID}-${theme}`);
-      });
+      [
+        ['block-layout', ID],
+        ['block-layout-with-links', `${ID}-with-links`],
+      ].forEach(([_, ID]) => {
+        describe(`${_}`, () => {
+          beforeEach(() =>
+            cy.visit(`/iframe.html?globals=theme:${theme}&id=${ID}`),
+          );
 
-      it('should render the component on mobile', () => {
-        cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
+          it('should render the component', () => {
+            cy.get('app-blocks-page sky-page')
+              .should('exist')
+              .should('be.visible');
+            cy.window().screenshot(`${ID}-${theme}`);
+            cy.window().percySnapshot(`${ID}-${theme}`);
+          });
 
-        cy.get('app-blocks-page sky-page')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`${ID}-${theme}-mobile`);
-        cy.get('app-blocks-page sky-page').percySnapshot(
-          `${ID}-${theme}-mobile`,
-          {
-            widths: E2eVariations.MOBILE_WIDTHS,
-          },
-        );
+          it('should render the component on mobile', () => {
+            cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
+
+            cy.get('app-blocks-page sky-page')
+              .should('exist')
+              .should('be.visible');
+            cy.window().screenshot(`${ID}-${theme}-mobile`);
+            cy.window().percySnapshot(`${ID}-${theme}-mobile`, {
+              widths: E2eVariations.MOBILE_WIDTHS,
+            });
+          });
+        });
       });
     });
   });
