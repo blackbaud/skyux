@@ -1,4 +1,3 @@
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -9,7 +8,6 @@ import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
-import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { SkyFileItem } from '../shared/file-item';
 
@@ -1265,11 +1263,14 @@ describe('File drop component', () => {
     componentInstance.linkUploadHintText = linkUploadHintText;
     fixture.detectChanges();
 
-    const loader = TestbedHarnessEnvironment.loader(fixture);
-    const harness =
-      await loader.getHarness<SkyInputBoxHarness>(SkyInputBoxHarness);
+    const linkInput = getLinkInput();
 
-    await expectAsync(harness.getHintText()).toBeResolvedTo(linkUploadHintText);
+    const ariaDescribedby =
+      linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value;
+
+    expect(
+      document.getElementById(ariaDescribedby)?.textContent?.trim(),
+    ).toEqual(linkUploadHintText);
   });
 
   it('should not have required class and aria-required attribute and label should not have screen reader text when not required', () => {
