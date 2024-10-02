@@ -1,13 +1,28 @@
-:host {
+sky-page-header-actions {
   display: block;
 
   &:not(:empty) {
     margin-top: var(--sky-margin-stacked-xl);
+    // Negate the bottom margin of the last row of buttons so it doesn't create extra
+    // vertical space between the actions and the page content.
+    margin-bottom: calc(var(--sky-margin-stacked-sm) * -1);
+  }
 
-    ::ng-deep {
-      .sky-btn + .sky-btn {
-        margin-left: var(--sky-margin-inline-sm);
-      }
+  > sky-dropdown {
+    display: inline-block;
+  }
+
+  // Only style direct descendants to prevent adding additional margin to the button
+  // inside the dropdown.
+  > :is(.sky-btn, sky-dropdown) {
+    // Vertical space between rows of buttons that have wrapped.
+    margin-bottom: var(--sky-margin-stacked-sm);
+
+    &:not(:last-child) {
+      // Horizontal space between buttons on the same row. Use margin-right so that
+      // extra horizontal space is not added to the first button that wraps to the
+      // next line.
+      margin-right: var(--sky-margin-inline-sm);
     }
   }
 }
