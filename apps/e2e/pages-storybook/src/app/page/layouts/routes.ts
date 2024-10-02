@@ -21,6 +21,18 @@ export default [
     },
   },
   {
+    path: 'blocks-tile-dashboard',
+    loadComponent: () =>
+      import(
+        './blocks-tile-dashboard-page/blocks-tile-dashboard-page.component'
+      ),
+    data: {
+      name: 'Page (Blocks - tile dashboard)',
+      icon: 'list',
+      library: 'pages',
+    },
+  },
+  {
     path: 'fit',
     loadComponent: () => import('./fit-page/fit-page.component'),
     data: {
