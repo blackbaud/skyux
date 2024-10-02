@@ -5,6 +5,8 @@ import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
 
+import { LinksComponent } from '../../../shared/links/links.component';
+
 @Component({
   selector: 'app-blocks-page',
   standalone: true,
@@ -16,6 +18,7 @@ import { SkyPageModule } from '@skyux/pages';
     SkyFluidGridModule,
     SkyLabelModule,
     SkyPageModule,
+    LinksComponent,
   ],
   templateUrl: './blocks-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
