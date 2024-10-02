@@ -11,6 +11,16 @@ export default [
     },
   },
   {
+    path: 'blocks-with-links',
+    loadComponent: () => import('./blocks-page/blocks-page.component'),
+    data: {
+      name: 'Page (Blocks)',
+      icon: 'list',
+      library: 'pages',
+      showLinks: true,
+    },
+  },
+  {
     path: 'blocks-tile-dashboard',
     loadComponent: () =>
       import(

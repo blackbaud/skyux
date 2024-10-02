@@ -26,4 +26,5 @@ export { SkyPageHeaderAvatarComponent as λ10 } from './lib/modules/page-header/
 export { SkyPageHeaderDetailsComponent as λ8 } from './lib/modules/page-header/page-header-details.component';
 export { SkyPageHeaderComponent as λ4 } from './lib/modules/page-header/page-header.component';
 export { SkyPageContentComponent as λ7 } from './lib/modules/page/page-content.component';
+export { SkyPageLinksComponent as λ12 } from './lib/modules/page/page-links.component';
 export { SkyPageComponent as λ6 } from './lib/modules/page/page.component';
