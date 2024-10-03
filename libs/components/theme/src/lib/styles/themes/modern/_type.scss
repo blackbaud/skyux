@@ -4,26 +4,26 @@
   .sky-font-body-default {
     font-size: var(--sky-font-size-body-m);
     font-weight: var(--sky-font-weight-body-m);
-    line-height: var(--sky-font-line-height-body-m);
+    line-height: var(--sky-font-line_height-body-m);
   }
 
   .sky-font-body-sm {
     font-size: var(--sky-font-size-body-s);
     font-weight: var(--sky-font-weight-body-s);
-    line-height: var(--sky-font-line-height-body-s);
+    line-height: var(--sky-font-line_height-body-s);
   }
 
   .sky-font-body-lg {
     font-size: var(--sky-font-size-body-l);
     font-weight: var(--sky-font-weight-body-l);
-    line-height: var(--sky-font-line-height-body-l);
+    line-height: var(--sky-font-line_height-body-l);
   }
 
   .sky-font-data-label {
     color: var(--sky-color-text-deemphasized);
     font-size: var(--sky-font-size-data_label);
     font-weight: var(--sky-font-weight-data_label);
-    line-height: var(--sky-font-line-height-data_label);
+    line-height: var(--sky-font-line_height-data_label);
   }
 
   // deprecated
@@ -48,14 +48,14 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-1);
     font-weight: var(--sky-font-weight-display-1);
-    line-height: var(--sky-font-line-height-display-1);
+    line-height: var(--sky-font-line_height-display-1);
   }
 
   .sky-font-display-2 {
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-2);
     font-weight: var(--sky-font-weight-display-2);
-    line-height: var(--sky-font-line-height-display-2);
+    line-height: var(--sky-font-line_height-display-2);
   }
 
   .sky-font-display-3,
@@ -63,13 +63,13 @@
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-3);
     font-weight: var(--sky-font-weight-display-3);
-    line-height: var(--sky-font-line-height-display-3);
+    line-height: var(--sky-font-line_height-display-3);
   }
 
   .sky-font-display-4 {
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-4);
     font-weight: var(--sky-font-weight-display-4);
-    line-height: var(--sky-font-line-height-display-4);
+    line-height: var(--sky-font-line_height-display-4);
   }
 }
