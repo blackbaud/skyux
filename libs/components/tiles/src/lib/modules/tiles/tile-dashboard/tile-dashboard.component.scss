@@ -42,3 +42,7 @@
 :host-context(.sky-theme-default) {
   background-color: $sky-background-color-neutral-light;
 }
+
+:host-context(.sky-theme-modern .sky-layout-host-blocks) {
+  padding: 0;
+}
