@@ -6,10 +6,5 @@ import { SkyLinkListModule } from '@skyux/pages';
   standalone: true,
   imports: [SkyLinkListModule],
   templateUrl: './links.component.html',
-  styles: `
-    :host {
-      display: contents;
-    }
-  `,
 })
 export class LinksComponent {}

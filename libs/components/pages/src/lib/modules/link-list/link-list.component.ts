@@ -12,7 +12,6 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
 /**
  * A component that displays a list of links on the right side of the page, or
  * below the page content on mobile devices.
- * @internal
  */
 @Component({
   standalone: true,

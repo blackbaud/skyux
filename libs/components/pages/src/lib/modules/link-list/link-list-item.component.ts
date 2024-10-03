@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 /**
  * A wrapper for each link in a link list.
- * @internal
  */
 @Component({
   standalone: true,

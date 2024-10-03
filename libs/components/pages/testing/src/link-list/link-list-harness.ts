@@ -6,7 +6,6 @@ import { SkyLinkListHarnessFilters } from './link-list-harness-filters';
 
 /**
  * Harness for interacting with a link list component in tests.
- * @internal
  */
 export class SkyLinkListHarness extends SkyComponentHarness {
   /**
