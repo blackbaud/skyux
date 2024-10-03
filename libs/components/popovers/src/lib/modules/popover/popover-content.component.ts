@@ -19,10 +19,17 @@ import {
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {
+  Observable,
+  Subject,
+  animationFrameScheduler,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  fromEvent as observableFromEvent,
+  takeUntil,
+} from 'rxjs';
 
-import { SkyPopoverAdapterService } from './popover-adapter.service';
 import { skyPopoverAnimation } from './popover-animation';
 import { SkyPopoverAnimationState } from './popover-animation-state';
 import { SkyPopoverContext } from './popover-context';
@@ -42,7 +49,6 @@ import { SkyPopoverType } from './types/popover-type';
   templateUrl: './popover-content.component.html',
   styleUrls: ['./popover-content.component.scss'],
   animations: [skyPopoverAnimation],
-  providers: [SkyPopoverAdapterService],
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   @HostBinding('id')
@@ -63,10 +69,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   public affixer: SkyAffixer | undefined;
-
-  public arrowLeft: number | undefined;
-
-  public arrowTop: number | undefined;
 
   public dismissOnBlur = true;
 
@@ -129,7 +131,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   #elementRef: ElementRef;
   #affixService: SkyAffixService;
   #coreAdapterService: SkyCoreAdapterService;
-  #adapterService: SkyPopoverAdapterService;
   #context: SkyPopoverContext;
   #themeSvc: SkyThemeService | undefined;
 
@@ -138,7 +139,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     elementRef: ElementRef,
     affixService: SkyAffixService,
     coreAdapterService: SkyCoreAdapterService,
-    adapterService: SkyPopoverAdapterService,
     context: SkyPopoverContext,
     @Optional() themeSvc?: SkyThemeService,
   ) {
@@ -146,7 +146,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.#elementRef = elementRef;
     this.#affixService = affixService;
     this.#coreAdapterService = coreAdapterService;
-    this.#adapterService = adapterService;
     this.#context = context;
     this.#themeSvc = themeSvc;
   }
@@ -239,7 +238,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     // Let the styles render before gauging the affix dimensions.
     setTimeout(() => {
       /* istanbul ignore if */
-      if (!this.popoverRef?.nativeElement || this.#ngUnsubscribe.isStopped) {
+      if (!this.popoverRef?.nativeElement || this.#ngUnsubscribe.closed) {
         return;
       }
 
@@ -267,8 +266,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
       this.affixer!.affixTo(this.#caller?.nativeElement, affixOptions);
 
-      this.#updateArrowOffset();
-
       this.isOpen = true;
       this.#changeDetector.markForCheck();
     });
@@ -293,45 +290,19 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     if (this.popoverRef) {
       const affixer = this.#affixService.createAffixer(this.popoverRef);
 
-      affixer.offsetChange
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateArrowOffset();
-          this.#changeDetector.markForCheck();
-        });
-
-      affixer.overflowScroll
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateArrowOffset();
-          this.#changeDetector.markForCheck();
-        });
-
       affixer.placementChange
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((change) => {
-          this.placement = change.placement;
-          this.#changeDetector.markForCheck();
+        .pipe(
+          takeUntil(this.#ngUnsubscribe),
+          debounceTime(0, animationFrameScheduler),
+          map((change) => change.placement),
+          distinctUntilChanged(),
+        )
+        .subscribe((placement) => {
+          this.placement = placement;
+          this.#changeDetector.detectChanges();
         });
 
       this.affixer = affixer;
-    }
-  }
-
-  #updateArrowOffset(): void {
-    if (this.#caller && this.popoverRef && this.arrowRef && this.placement) {
-      const { top, left } = this.#adapterService.getArrowCoordinates(
-        {
-          caller: this.#caller,
-          popover: this.popoverRef,
-          popoverArrow: this.arrowRef,
-        },
-        this.placement,
-        this.themeName,
-      );
-
-      this.arrowTop = top;
-      this.arrowLeft = left;
     }
   }
 

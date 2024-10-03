@@ -57,7 +57,8 @@ $popover-max-width: 276px;
 .sky-popover-arrow {
   width: 0;
   height: 0;
-  position: fixed;
+  display: inline-block;
+  position: absolute;
   border: $popover-border-size solid transparent;
 }
 

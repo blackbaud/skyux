@@ -27,7 +27,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { PopoverA11yTestComponent } from './fixtures/popover-a11y.component.fixture';
 import { PopoverFixtureComponent } from './fixtures/popover.component.fixture';
 import { PopoverFixturesModule } from './fixtures/popover.module.fixture';
-import { SkyPopoverAdapterService } from './popover-adapter.service';
 import { SkyPopoverMessage } from './types/popover-message';
 import { SkyPopoverMessageType } from './types/popover-message-type';
 
@@ -39,10 +38,6 @@ describe('Popover directive', () => {
   };
 
   //#region helpers
-
-  function getArrowElement(): HTMLElement | null {
-    return document.querySelector('.sky-popover-arrow');
-  }
 
   function getCallerElement(): HTMLButtonElement | undefined {
     return fixture.componentInstance.callerElementRef?.nativeElement;
@@ -62,9 +57,10 @@ describe('Popover directive', () => {
 
   function detectChangesFakeAsync(): void {
     fixture.detectChanges();
-    tick();
+    // 16ms is the fakeAsync time for requestAnimationFrame, simulating 60fps.
+    tick(16);
     fixture.detectChanges();
-    tick();
+    tick(16);
   }
 
   function getFocusableItems(): NodeListOf<Element> | undefined {
@@ -871,8 +867,6 @@ describe('Popover directive', () => {
     it('should allow repositioning the popover', fakeAsync(
       inject([SkyAffixService], (affixService: SkyAffixService) => {
         const mockAffixer: any = {
-          offsetChange: new Subject(),
-          overflowScroll: new Subject(),
           placementChange: new Subject(),
           affixTo() {},
           destroy() {},
@@ -931,8 +925,6 @@ describe('Popover directive', () => {
     beforeEach(inject([SkyAffixService], (_affixService: SkyAffixService) => {
       affixService = _affixService;
       mockAffixer = {
-        offsetChange: new Subject(),
-        overflowScroll: new Subject(),
         placementChange: new Subject(),
         affixTo() {},
         destroy() {},
@@ -1053,34 +1045,6 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(popover).toHaveCssClass('sky-popover-hidden');
-    }));
-
-    it('should update popover arrow on scroll', fakeAsync(() => {
-      detectChangesFakeAsync();
-
-      const button = getCallerElement();
-
-      button?.click();
-      detectChangesFakeAsync();
-
-      spyOn(
-        SkyPopoverAdapterService.prototype,
-        'getArrowCoordinates',
-      ).and.returnValue({ top: 50, left: 75 });
-
-      const arrowElement = getArrowElement();
-      expect(arrowElement).toExist();
-      const initialArrowStyle = window.getComputedStyle(arrowElement!);
-      const initialLeft = initialArrowStyle.left;
-      const initialTop = initialArrowStyle.top;
-
-      mockAffixer.overflowScroll.next();
-      detectChangesFakeAsync();
-
-      const endingArrowStyle = window.getComputedStyle(arrowElement!);
-
-      expect(initialLeft).not.toEqual(endingArrowStyle.left);
-      expect(initialTop).not.toEqual(endingArrowStyle.top);
     }));
   });
 });
