@@ -45,12 +45,14 @@
   }
 
   .sky-font-display-1 {
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-1);
     font-weight: var(--sky-font-weight-display-1);
     line-height: var(--sky-font-line-height-display-1);
   }
 
   .sky-font-display-2 {
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-2);
     font-weight: var(--sky-font-weight-display-2);
     line-height: var(--sky-font-line-height-display-2);
@@ -58,12 +60,14 @@
 
   .sky-font-display-3,
   .sky-headline {
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-3);
     font-weight: var(--sky-font-weight-display-3);
     line-height: var(--sky-font-line-height-display-3);
   }
 
   .sky-font-display-4 {
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-4);
     font-weight: var(--sky-font-weight-display-4);
     line-height: var(--sky-font-line-height-display-4);

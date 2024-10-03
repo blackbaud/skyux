@@ -24,24 +24,28 @@
 
   h1,
   .sky-font-heading-1 {
+    font-family: var(--sky-font-family-primary);
     font-size: $sky-theme-modern-font-heading-1-size;
     font-weight: $sky-theme-modern-font-heading-1-weight;
   }
 
   h2,
   .sky-font-heading-2 {
+    font-family: var(--sky-font-family-primary);
     font-size: $sky-theme-modern-font-heading-2-size;
     font-weight: $sky-theme-modern-font-heading-2-weight;
   }
 
   h3,
   .sky-font-heading-3 {
+    color: var(--sky-color-text-default);
     font-size: $sky-theme-modern-font-heading-3-size;
     font-weight: $sky-theme-modern-font-heading-3-weight;
   }
 
   h4,
   .sky-font-heading-4 {
+    color: var(--sky-color-text-default);
     font-size: $sky-theme-modern-font-heading-4-size;
     font-weight: var(--sky-theme-modern-font-heading-4-weight);
     text-transform: none;
@@ -49,6 +53,7 @@
 
   h5,
   .sky-font-heading-5 {
+    color: var(--sky-color-text-default);
     font-size: $sky-theme-modern-font-heading-5-size;
     font-weight: var(--sky-theme-modern-font-heading-5-weight);
     text-transform: none;
