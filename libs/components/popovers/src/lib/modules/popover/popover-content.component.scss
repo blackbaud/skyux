@@ -7,6 +7,10 @@ $popover-border-size: 10px;
 $popover-modern-border-size: 6px;
 $popover-max-width: 276px;
 
+:host {
+  --popover-arrow-offset: 0;
+}
+
 .sky-popover-container {
   position: fixed;
   min-width: $popover-max-width;
@@ -72,7 +76,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     border-bottom: 0;
     border-top-color: $sky-highlight-color-info;
-    bottom: 0;
+    bottom: var(--popover-arrow-offset);
     left: 50%;
     margin-left: -$popover-arrow-size * 0.5;
   }
@@ -98,7 +102,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     border-top: 0;
     border-bottom-color: $sky-highlight-color-info;
-    top: 0;
+    top: var(--popover-arrow-offset);
     left: 50%;
     margin-left: -$popover-arrow-size * 0.5;
   }
@@ -124,7 +128,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     border-left: 0;
     border-right-color: $sky-highlight-color-info;
-    left: 0;
+    left: var(--popover-arrow-offset);
     top: 50%;
     margin-top: -$popover-arrow-size * 0.5;
   }
@@ -150,7 +154,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     border-right: 0;
     border-left-color: $sky-highlight-color-info;
-    right: 0;
+    right: var(--popover-arrow-offset);
     top: 50%;
     margin-top: -$popover-arrow-size * 0.5;
   }
@@ -190,6 +194,8 @@ $popover-max-width: 276px;
 }
 
 @include mixins.sky-theme-modern {
+  --popover-arrow-offset: 4px;
+
   .sky-popover {
     border-radius: 6px;
   }
@@ -207,7 +213,6 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      bottom: 1px;
       border-radius: 0 0 3px 0;
       border-bottom: solid $popover-border-size $sky-highlight-color-info;
       border-right: solid $popover-border-size $sky-highlight-color-info;
@@ -235,7 +240,6 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      top: 1px;
       border-radius: 3px 0 0 0;
       border-top: solid $popover-border-size $sky-highlight-color-info;
       border-left: solid $popover-border-size $sky-highlight-color-info;
@@ -263,7 +267,6 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      left: 1px;
       border-radius: 0 0 0 3px;
       border-bottom: solid $popover-border-size $sky-highlight-color-info;
       border-left: solid $popover-border-size $sky-highlight-color-info;
@@ -291,7 +294,6 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      right: 1px;
       border-radius: 0 3px 0 0;
       border-top: solid $popover-border-size $sky-highlight-color-info;
       border-right: solid $popover-border-size $sky-highlight-color-info;
