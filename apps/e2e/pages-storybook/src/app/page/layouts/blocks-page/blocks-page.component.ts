@@ -4,6 +4,7 @@ import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 import { LinksComponent } from '../../../shared/links/links.component';
 
@@ -15,6 +16,7 @@ import { LinksComponent } from '../../../shared/links/links.component';
     SkyAlertModule,
     SkyAvatarModule,
     SkyBoxModule,
+    SkyDropdownModule,
     SkyFluidGridModule,
     SkyLabelModule,
     SkyPageModule,
