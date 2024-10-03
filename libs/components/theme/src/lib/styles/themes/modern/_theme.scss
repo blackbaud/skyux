@@ -86,6 +86,6 @@
     }
   }
   .sky-rounded-corners {
-    border-radius: $sky-theme-modern-box-border-radius-default;
+    border-radius: var(--sky-border-radius-s);
   }
 }
