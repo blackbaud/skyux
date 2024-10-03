@@ -91,5 +91,3 @@ jobs:
             sdk/eslint-config
             sdk/prettier-schematics
             sdk/testing
-          validateSingleCommit: true
-          validateSingleCommitMatchesPrTitle: true

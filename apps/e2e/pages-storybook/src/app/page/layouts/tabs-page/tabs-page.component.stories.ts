@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import TabsPageComponent from './tabs-page.component';
 
@@ -16,3 +16,8 @@ export default {
 type Story = StoryObj<TabsPageComponent>;
 export const TabsPage: Story = {};
 TabsPage.args = {};
+
+export const TabsPageWithLinks: Story = {};
+TabsPageWithLinks.args = {
+  showLinks: true,
+};
