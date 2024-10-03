@@ -194,7 +194,7 @@ $popover-max-width: 276px;
 }
 
 @include mixins.sky-theme-modern {
-  --popover-arrow-offset: 4px;
+  --popover-arrow-offset: 3px;
 
   .sky-popover {
     border-radius: 6px;
