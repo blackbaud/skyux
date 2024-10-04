@@ -17,6 +17,7 @@ import { SkyActionHubComponent } from './action-hub.component';
 
 @NgModule({
   imports: [
+    SkyActionHubRecentLinksResolvePipe,
     SkyBoxModule,
     SkyFluidGridModule,
     SkyLinkListModule,
@@ -31,13 +32,13 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyActionHubButtonsComponent,
     SkyActionHubComponent,
     SkyActionHubContentComponent,
-    SkyActionHubRecentLinksResolvePipe,
     SkyActionHubRelatedLinksSortPipe,
   ],
   exports: [
     SkyActionHubButtonsComponent,
     SkyActionHubComponent,
     SkyActionHubContentComponent,
+    SkyActionHubRecentLinksResolvePipe,
   ],
 })
 export class SkyActionHubModule {}

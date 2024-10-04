@@ -6,6 +6,8 @@ import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyDropdownModule } from '@skyux/popovers';
 
+import { LinksComponent } from '../../../shared/links/links.component';
+
 @Component({
   selector: 'app-blocks-page',
   standalone: true,
@@ -18,6 +20,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
     SkyFluidGridModule,
     SkyLabelModule,
     SkyPageModule,
+    LinksComponent,
   ],
   templateUrl: './blocks-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
