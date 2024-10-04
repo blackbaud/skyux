@@ -119,6 +119,7 @@ sky-input-box {
   .sky-input-box-hint-text {
     flex-basis: 100%;
     margin-top: var(--sky-margin-stacked-xs);
+    text-align: left;
 
     &.sky-input-box-hint-text-hidden {
       visibility: hidden;

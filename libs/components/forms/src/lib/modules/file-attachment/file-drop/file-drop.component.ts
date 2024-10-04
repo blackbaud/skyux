@@ -24,6 +24,7 @@ import { take } from 'rxjs/operators';
 import { SkyFormErrorComponent } from '../../form-error/form-error.component';
 import { SKY_FORM_ERRORS_ENABLED } from '../../form-error/form-errors-enabled-token';
 import { SkyFormErrorsComponent } from '../../form-error/form-errors.component';
+import { SkyInputBoxModule } from '../../input-box/input-box.module';
 import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module';
 import { SkyFileAttachmentService } from '../file-attachment/file-attachment.service';
 import { SkyFileItem } from '../shared/file-item';
@@ -65,6 +66,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
+    SkyInputBoxModule,
   ],
 })
 export class SkyFileDropComponent implements OnDestroy {
@@ -103,6 +105,12 @@ export class SkyFileDropComponent implements OnDestroy {
    */
   @Input()
   public linkUploadAriaLabel: string | undefined;
+
+  /**
+   * The hint text for the link upload input.
+   */
+  @Input()
+  public linkUploadHintText: string | undefined;
 
   /**
    * The minimum size in bytes for valid files.
