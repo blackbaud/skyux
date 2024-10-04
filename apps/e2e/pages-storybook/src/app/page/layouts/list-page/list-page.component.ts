@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyPageModule } from '@skyux/pages';
 
+import { LinksComponent } from '../../../shared/links/links.component';
+
 @Component({
   selector: 'app-list-page',
   standalone: true,
-  imports: [CommonModule, SkyPageModule],
+  imports: [CommonModule, SkyPageModule, LinksComponent],
   templateUrl: './list-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
