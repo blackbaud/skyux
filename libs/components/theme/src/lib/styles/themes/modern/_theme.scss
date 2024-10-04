@@ -4,8 +4,6 @@
 @include compatMixins.sky-modern-overrides() {
   --sky-override-font-size: var(--sky-font-size-body-m);
   --sky-override-form-font-weight: var(--sky-font-weight-body-m);
-  // delete this before merging
-  --sky-override-h2-weight: 400;
 }
 
 html:has(.sky-theme-brand-blackbaud) {
@@ -56,10 +54,7 @@ html:has(.sky-theme-brand-blackbaud) {
     color: var(--sky-color-text-heading);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-heading-2);
-    font-weight: var(
-      --sky-override-h2-weight,
-      var(--sky-font-weight-heading-2)
-    );
+    font-weight: var(--sky-font-weight-heading-2);
   }
 
   h3,
