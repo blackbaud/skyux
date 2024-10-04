@@ -40,12 +40,12 @@
   .sky-font-deemphasized {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
-    font-style: var(--sky-font-style-deemphasized);
+    font-style: var(--sky-font-style-deemphasized-style);
+    font-weight: var(--sky-font-style-deemphasized-weight);
     font-size: inherit;
   }
 
   .sky-font-emphasized {
-    color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
     font-size: inherit;
     font-weight: var(--sky-font-weight-emphasized);
