@@ -9,8 +9,10 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyContentInfoProvider, SkyMediaBreakpoints } from '@skyux/core';
-import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
-import { SkyMediaQueryTestingController } from '@skyux/core/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
