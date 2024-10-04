@@ -4,6 +4,8 @@
 @include compatMixins.sky-modern-overrides() {
   --sky-override-font-size: var(--sky-font-size-body-m);
   --sky-override-form-font-weight: var(--sky-font-weight-body-m);
+  // delete this before merging
+  --sky-override-h2-weight: 400;
 }
 
 html:has(.sky-theme-brand-blackbaud) {
@@ -47,7 +49,6 @@ html:has(.sky-theme-brand-blackbaud) {
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-heading-1);
     font-weight: var(--sky-font-weight-heading-1);
-    line-height: var(--sky-font-line_height-heading-1);
   }
 
   h2,
@@ -55,8 +56,10 @@ html:has(.sky-theme-brand-blackbaud) {
     color: var(--sky-color-text-heading);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-heading-2);
-    font-weight: var(--sky-font-weight-heading-2);
-    line-height: var(--sky-font-line_height-heading-2);
+    font-weight: var(
+      --sky-override-h2-weight,
+      var(--sky-font-weight-heading-2)
+    );
   }
 
   h3,
@@ -64,7 +67,6 @@ html:has(.sky-theme-brand-blackbaud) {
     color: var(--sky-color-text-heading);
     font-size: var(--sky-font-size-heading-3);
     font-weight: var(--sky-font-weight-heading-3);
-    line-height: var(--sky-font-line_height-heading-3);
   }
 
   h4,
@@ -72,7 +74,6 @@ html:has(.sky-theme-brand-blackbaud) {
     color: var(--sky-color-text-heading);
     font-size: var(--sky-font-size-heading-4);
     font-weight: var(--sky-font-weight-heading-4);
-    line-height: var(--sky-font-line_height-heading-4);
     text-transform: none;
   }
 
@@ -81,7 +82,6 @@ html:has(.sky-theme-brand-blackbaud) {
     color: var(--sky-color-text-heading);
     font-size: var(--sky-font-size-heading-5);
     font-weight: var(--sky-font-weight-heading-5);
-    line-height: var(--sky-font-line_height-heading-5);
     text-transform: none;
   }
 
@@ -96,5 +96,32 @@ html:has(.sky-theme-brand-blackbaud) {
 
   .sky-rounded-corners {
     border-radius: var(--sky-border-radius-s);
+  }
+}
+
+@include compatMixins.sky-modern-v2() {
+  h1,
+  .sky-font-heading-1 {
+    line-height: var(--sky-font-line_height-heading-1);
+  }
+
+  h2,
+  .sky-font-heading-2 {
+    line-height: var(--sky-font-line_height-heading-2);
+  }
+
+  h3,
+  .sky-font-heading-3 {
+    line-height: var(--sky-font-line_height-heading-3);
+  }
+
+  h4,
+  .sky-font-heading-4 {
+    line-height: var(--sky-font-line_height-heading-4);
+  }
+
+  h5,
+  .sky-font-heading-5 {
+    line-height: var(--sky-font-line_height-heading-5);
   }
 }

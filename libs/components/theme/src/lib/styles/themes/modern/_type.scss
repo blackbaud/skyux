@@ -67,7 +67,7 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('', false, true) {
+@include compatMixins.sky-modern-v2() {
   .sky-font-body-default {
     line-height: var(--sky-font-line_height-body-m);
   }
