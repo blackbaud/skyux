@@ -21,8 +21,7 @@ interface TestSubject<T = unknown> {
  */
 @Injectable()
 export class SkyModalTestingService
-  extends SkyModalTestingController
-  implements OnDestroy, SkyModalServiceInterface
+  implements OnDestroy, SkyModalServiceInterface, SkyModalTestingController
 {
   readonly #modals = new Map<SkyModalInstance, TestSubject>();
 
