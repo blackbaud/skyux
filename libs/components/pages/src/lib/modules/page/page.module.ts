@@ -13,6 +13,7 @@ import { SkyPageComponent } from './page.component';
   declarations: [SkyPageComponent, SkyPageContentComponent],
   imports: [
     CommonModule,
+    SkyPageLinksComponent,
     SkyLinkListComponent,
     SkyLinkListItemComponent,
     SkyPageLinksComponent,
