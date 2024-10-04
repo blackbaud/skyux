@@ -39,6 +39,7 @@ export class SkyMediaQueryTestingService
     });
   }
 
+  /* istanbul ignore next */
   public override destroy(): void {
     /* noop */
   }
