@@ -20,7 +20,6 @@ export { SkyPageLayoutType } from './lib/modules/page/types/page-layout-type';
 export { SkyActionHubButtonsComponent as λ2 } from './lib/modules/action-hub/action-hub-buttons.component';
 export { SkyActionHubContentComponent as λ3 } from './lib/modules/action-hub/action-hub-content.component';
 export { SkyActionHubComponent as λ1 } from './lib/modules/action-hub/action-hub.component';
-export { SkyActionHubRecentLinksResolvePipe as λ16 } from './lib/modules/action-hub/action-hub-recent-links-resolve.pipe';
 export { SkyLinkListComponent as λ13 } from './lib/modules/link-list/link-list.component';
 export { SkyLinkListItemComponent as λ14 } from './lib/modules/link-list/link-list-item.component';
 export { SkyLinkListRecentlyAccessedComponent as λ15 } from './lib/modules/link-list-recently-accessed/link-list-recently-accessed.component';

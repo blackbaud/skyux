@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SkyLinkListRecentlyAccessedComponent } from '../link-list-recently-accessed/link-list-recently-accessed.component';
@@ -13,7 +12,6 @@ import { SkyPageComponent } from './page.component';
 @NgModule({
   declarations: [SkyPageComponent, SkyPageContentComponent],
   imports: [
-    CommonModule,
     SkyPageLinksComponent,
     SkyLinkListComponent,
     SkyLinkListItemComponent,

@@ -38,7 +38,6 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyActionHubButtonsComponent,
     SkyActionHubComponent,
     SkyActionHubContentComponent,
-    SkyActionHubRecentLinksResolvePipe,
   ],
 })
 export class SkyActionHubModule {}
