@@ -4,6 +4,7 @@
 @include compatMixins.sky-modern-overrides() {
   --sky-override-font-size: var(--sky-font-size-body-m);
   --sky-override-form-font-weight: var(--sky-font-weight-body-m);
+  --sky-override-p-line-height: var(--sky-font-line_height-body-m);
 }
 
 html:has(.sky-theme-brand-blackbaud) {
@@ -81,7 +82,7 @@ html:has(.sky-theme-brand-blackbaud) {
   }
 
   p {
-    line-height: $sky-theme-modern-font-paragraph-line-height;
+    line-height: var(--sky-override-p-line-height);
   }
 
   mark.sky-highlight-mark {
