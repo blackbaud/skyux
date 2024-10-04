@@ -1,11 +1,26 @@
 @use '../../variables' as *;
+@use '../modern/compat-tokens-mixins' as compatMixins;
 
-.sky-theme-modern,
-.sky-theme-modern form {
-  font-size: var(--sky-font-size-body-m);
+@include compatMixins.sky-modern-overrides() {
+  --sky-override-font-size: var(--sky-font-size-body-m);
+  --sky-override-form-font-weight: var(--sky-font-weight-body-m);
+}
+
+.sky-theme-modern {
+  font-size: var(--sky-override-font-size, initial);
+  font-weight: var(--sky-font-weight-body-m);
   font-family: var(--sky-font-family-primary);
   color: var(--sky-color-text-default);
-  font-weight: var(--sky-font-weight-body-m);
+
+  transition:
+    background-color $sky-transition-time-short,
+    color $sky-transition-time-short;
+}
+
+.sky-theme-modern form {
+  font-size: var(--sky-override-font-size, initial);
+  font-weight: var(--sky-override-form-font-weight, initial);
+
   transition:
     background-color $sky-transition-time-short,
     color $sky-transition-time-short;
