@@ -3,22 +3,29 @@
 
 .sky-theme-modern {
   .sky-font-body-default {
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-m);
     font-weight: var(--sky-font-weight-body-m);
   }
 
   .sky-font-body-sm {
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-s);
     font-weight: var(--sky-font-weight-body-s);
   }
 
   .sky-font-body-lg {
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-body-l);
     font-weight: var(--sky-font-weight-body-l);
   }
 
   .sky-font-data-label {
     color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-data_label);
     font-weight: var(--sky-font-weight-data_label);
   }
@@ -32,22 +39,27 @@
 
   .sky-font-deemphasized {
     color: var(--sky-color-text-deemphasized);
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    font-family: var(--sky-font-family-primary);
+    font-style: var(--sky-font-style-deemphasized);
     font-size: inherit;
   }
 
   .sky-font-emphasized {
-    font-weight: var(--sky-font-weight-emphasized);
+    color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
     font-size: inherit;
+    font-weight: var(--sky-font-weight-emphasized);
   }
 
   .sky-font-display-1 {
+    color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-1);
     font-weight: var(--sky-font-weight-display-1);
   }
 
   .sky-font-display-2 {
+    color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-2);
     font-weight: var(--sky-font-weight-display-2);
@@ -55,12 +67,14 @@
 
   .sky-font-display-3,
   .sky-headline {
+    color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-3);
     font-weight: var(--sky-font-weight-display-3);
   }
 
   .sky-font-display-4 {
+    color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
     font-size: var(--sky-font-size-display-4);
     font-weight: var(--sky-font-weight-display-4);
