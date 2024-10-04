@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 /**
  * Displays page links within a block page layout.
- * @internal
  */
 @Component({
   standalone: true,

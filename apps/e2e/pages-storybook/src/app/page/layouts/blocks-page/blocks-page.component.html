@@ -23,6 +23,52 @@
     <sky-page-header-actions>
       <button class="sky-btn sky-btn-default">Action one</button>
       <button class="sky-btn sky-btn-default">Action two</button>
+      <sky-dropdown>
+        <sky-dropdown-button>Group action one</sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item
+            ><button type="button">
+              Group action item one
+            </button></sky-dropdown-item
+          >
+          <sky-dropdown-item
+            ><button type="button">
+              Group action item two
+            </button></sky-dropdown-item
+          >
+        </sky-dropdown-menu>
+      </sky-dropdown>
+      <button class="sky-btn sky-btn-default">Action six</button>
+      <sky-dropdown>
+        <sky-dropdown-button>Group action two</sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item
+            ><button type="button">
+              Group action item one
+            </button></sky-dropdown-item
+          >
+          <sky-dropdown-item
+            ><button type="button">
+              Group action item two
+            </button></sky-dropdown-item
+          >
+        </sky-dropdown-menu>
+      </sky-dropdown>
+      <sky-dropdown>
+        <sky-dropdown-button>Group action three</sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item
+            ><button type="button">
+              Group action item one
+            </button></sky-dropdown-item
+          >
+          <sky-dropdown-item
+            ><button type="button">
+              Group action item two
+            </button></sky-dropdown-item
+          >
+        </sky-dropdown-menu>
+      </sky-dropdown>
     </sky-page-header-actions>
     <sky-page-header-avatar>
       <sky-avatar name="Test name"> </sky-avatar>
@@ -47,6 +93,6 @@
     </sky-fluid-grid>
   </sky-page-content>
   @if (showLinks()) {
-    <sky-page-links>Links.</sky-page-links>
+    <sky-page-links><app-links /></sky-page-links>
   }
 </sky-page>

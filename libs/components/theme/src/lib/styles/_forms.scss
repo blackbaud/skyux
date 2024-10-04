@@ -71,7 +71,7 @@ textarea.ng-invalid.ng-touched {
 .sky-control-help-container:not(:empty) {
   margin-left: var(
     --sky-override-help-inline-margin-left,
-    var(--sky-space-text_action_gap-xs)
+    var(--sky-space-gap-text_action-xs)
   );
 }
 

@@ -1256,15 +1256,21 @@ describe('File drop component', () => {
     );
   });
 
-  it('should set aria-describedby for the link input', () => {
+  it('should set hint text for the link input', async () => {
+    const linkUploadHintText = 'Hello, world!';
+
     componentInstance.allowLinks = true;
+    componentInstance.linkUploadHintText = linkUploadHintText;
     fixture.detectChanges();
 
     const linkInput = getLinkInput();
 
+    const ariaDescribedby =
+      linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value;
+
     expect(
-      linkInput.nativeElement.attributes.getNamedItem('aria-describedby').value,
-    ).toBe('MOCK_ID_4');
+      document.getElementById(ariaDescribedby)?.textContent?.trim(),
+    ).toEqual(linkUploadHintText);
   });
 
   it('should not have required class and aria-required attribute and label should not have screen reader text when not required', () => {

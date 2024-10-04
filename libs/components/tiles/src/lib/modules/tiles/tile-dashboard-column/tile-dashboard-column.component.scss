@@ -30,3 +30,22 @@
     padding: $sky-theme-modern-padding-h-md;
   }
 }
+
+:host-context(.sky-theme-modern .sky-layout-host-blocks) {
+  @include mixins.sky-host-responsive-container-sm-min() {
+    &.sky-tile-dashboard-layout-multi {
+      &-first {
+        padding-left: 0;
+      }
+
+      &-last {
+        padding-right: 0;
+      }
+    }
+
+    &.sky-tile-dashboard-layout-single {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
