@@ -27,7 +27,14 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
   ],
 })
 export class SkyLinkListComponent {
+  /**
+   * The text to display as the list's heading.
+   */
   public readonly headingText = input<string>();
+
+  /**
+   * Option to pass links as an array of `SkyPageLink` objects or `'loading'` to display a loading indicator.
+   */
   public readonly links = input<SkyPageLinksInput | undefined>();
 
   protected readonly linkItems = contentChildren(SkyLinkListItemComponent);
