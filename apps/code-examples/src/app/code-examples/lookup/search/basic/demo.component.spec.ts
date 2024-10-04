@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-import { SkySearchComponent } from '@skyux/lookup';
 import { SkySearchHarness } from '@skyux/lookup/testing';
 
 import { DemoComponent } from './demo.component';
@@ -24,16 +23,7 @@ describe('Basic search demo', () => {
         },
       ],
     }).compileComponents();
-    const fixture = TestBed.overrideComponent(SkySearchComponent, {
-      add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockMediaQuery,
-          },
-        ],
-      },
-    }).createComponent(DemoComponent);
+    const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const harness = await loader.getHarness(
@@ -86,7 +76,7 @@ describe('Basic search demo', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await harness.clickSearchOpenButton();
+    await harness.clickOpenSearchButton();
     await expectAsync(harness.isCollapsed()).toBeResolvedTo(false);
 
     await harness.enterText('Send');

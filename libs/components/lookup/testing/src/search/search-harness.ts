@@ -33,9 +33,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Blurs the search input.
    */
   public async blur(): Promise<void> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded('Failed to blur the search input.');
 
     await (await this.#getInput()).blur();
   }
@@ -44,9 +42,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Clears the search input.
    */
   public async clear(): Promise<void> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded('Failed to clear the search input.');
 
     const input = await this.#getInput();
     await input.focus();
@@ -58,9 +54,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Clicks the search input clear button.
    */
   public async clickClearButton(): Promise<void> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded('Failed to click clear button.');
 
     return (await this.#getClearButton()).click();
   }
@@ -83,7 +77,7 @@ export class SkySearchHarness extends SkyComponentHarness {
   /**
    * Clicks the search icon button that opens search input when it is collapsed.
    */
-  public async clickSearchOpenButton(): Promise<void> {
+  public async clickOpenSearchButton(): Promise<void> {
     const button = await this.#getOpenButton();
 
     if (!(await this.isCollapsed())) {
@@ -99,9 +93,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Clicks the search submit button.
    */
   public async clickSubmitButton(): Promise<void> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded('Failed to click the submit button.');
 
     return (await this.#getSubmitButton()).click();
   }
@@ -110,9 +102,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Enters text into the search input and performs a search.
    */
   public async enterText(value: string): Promise<void> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded('Failed to enter text into the search input.');
 
     const input = await this.#getInput();
     await input.clear();
@@ -125,9 +115,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Focuses the search input.
    */
   public async focus(): Promise<void> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded('Failed to focus the search input.');
 
     await (await this.#getInput()).focus();
   }
@@ -150,9 +138,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Gets the value of the input's placeholder attribute.
    */
   public async getPlaceholderText(): Promise<string | null> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded('Failed to get the placeholder text.');
 
     return (await this.#getInput()).getAttribute('placeholder');
   }
@@ -161,9 +147,9 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Gets the value of the search input.
    */
   public async getValue(): Promise<string> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded(
+      'Failed to get the value of the search input.',
+    );
 
     return (await this.#getInput()).getProperty('value');
   }
@@ -189,10 +175,16 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Whether the search input is focused.
    */
   public async isFocused(): Promise<boolean> {
-    if (await this.isCollapsed()) {
-      throw new Error('Search is collapsed.');
-    }
+    await this.#assertIsExpanded(
+      'Failed to get the search input focus status.',
+    );
 
     return (await this.#getInput()).isFocused();
+  }
+
+  async #assertIsExpanded(errorMessage: string): Promise<void> {
+    if (await this.isCollapsed()) {
+      throw new Error(`${errorMessage} Search is collapsed.`);
+    }
   }
 }
