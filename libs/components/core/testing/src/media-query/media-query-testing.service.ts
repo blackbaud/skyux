@@ -28,8 +28,9 @@ export class SkyMediaQueryTestingService
     this.#currentBreakpoint,
   );
 
-  #currentBreakpointObs =
-    this.#currentBreakpointChange.pipe(takeUntilDestroyed());
+  #currentBreakpointObs = this.#currentBreakpointChange
+    .asObservable()
+    .pipe(takeUntilDestroyed());
 
   public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs.subscribe({
