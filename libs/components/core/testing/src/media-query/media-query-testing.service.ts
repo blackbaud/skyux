@@ -45,6 +45,10 @@ export class SkyMediaQueryTestingService
     /* noop */
   }
 
+  public hasSubscribers(): boolean {
+    return this.#currentBreakpointChange.observed;
+  }
+
   public setBreakpoint(breakpoint: SkyMediaBreakpoints): void {
     this.#currentBreakpoint = breakpoint;
     this.#currentBreakpointChange.next(breakpoint);
