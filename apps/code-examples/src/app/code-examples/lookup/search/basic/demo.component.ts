@@ -37,6 +37,7 @@ export class DemoComponent {
     },
   ];
 
+  protected placeholderText = 'Search through reminders.';
   protected searchAriaLabel = 'Search reminders';
   protected searchText = '';
 
