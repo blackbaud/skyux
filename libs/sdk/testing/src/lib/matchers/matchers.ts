@@ -729,6 +729,8 @@ export function expect<T>(actual: T): SkyMatchers<T> {
  * Create an async expectation for a spec.
  * @param actual Actual computed value to test expectations against.
  */
-export function expectAsync<T, U>(actual: T): SkyAsyncMatchers<T, U> {
+export function expectAsync<T, U>(
+  actual: T | PromiseLike<T>,
+): SkyAsyncMatchers<T, U> {
   return windowRef.expectAsync(actual);
 }

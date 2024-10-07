@@ -5,7 +5,15 @@
   "sourceRoot": "libs/components/colorpicker/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["colorpicker", "testing", "theme"],
+  "implicitDependencies": [
+    "colorpicker",
+    "core-testing",
+    "forms-testing",
+    "help-inline-testing",
+    "icon-testing",
+    "testing",
+    "theme"
+  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build colorpicker-testing'",

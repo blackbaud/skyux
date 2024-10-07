@@ -22,6 +22,8 @@ import {
 
 import { Subject } from 'rxjs';
 
+import { LinksComponent } from '../../../shared/links/links.component';
+
 interface WorkspaceItem {
   id: number;
   amount: number;
@@ -46,6 +48,7 @@ interface WorkspaceItem {
     SkyRepeaterModule,
     SkySplitViewModule,
     SkySummaryActionBarModule,
+    LinksComponent,
   ],
   templateUrl: './fit-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
