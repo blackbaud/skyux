@@ -70,7 +70,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     width: $popover-arrow-size * 1.5;
     height: $popover-arrow-size * 0.75;
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    clip-path: polygon(0 0, 50% 95%, 100% 0);
   }
 
   &.sky-popover-danger {
@@ -94,7 +94,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     width: $popover-arrow-size * 1.5;
     height: $popover-arrow-size * 0.75;
-    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    clip-path: polygon(50% 5%, 0 100%, 100% 100%);
   }
 
   &.sky-popover-danger {
@@ -118,7 +118,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     width: $popover-arrow-size * 0.75;
     height: $popover-arrow-size * 1.5;
-    clip-path: polygon(0 50%, 100% 100%, 100% 0);
+    clip-path: polygon(5% 50%, 100% 100%, 100% 0);
     background-color: $sky-highlight-color-info;
   }
 
@@ -143,7 +143,7 @@ $popover-max-width: 276px;
   .sky-popover-arrow {
     width: $popover-arrow-size * 0.75;
     height: $popover-arrow-size * 1.5;
-    clip-path: polygon(0 0, 0 100%, 100% 50%);
+    clip-path: polygon(0 0, 0 100%, 95% 50%);
     background-color: $sky-highlight-color-info;
   }
 
@@ -181,7 +181,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      clip-path: polygon(0 0, 40% 95%, 50% 100%, 60% 95%, 100% 0);
+      clip-path: polygon(0 0, 45% 88%, 50% 92%, 55% 88%, 100% 0);
     }
 
     &.sky-popover-danger {
@@ -203,7 +203,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      clip-path: polygon(0 100%, 40% 5%, 50% 0, 60% 5%, 100% 100%);
+      clip-path: polygon(0 100%, 45% 12%, 50% 8%, 55% 12%, 100% 100%);
     }
 
     &.sky-popover-danger {
@@ -225,7 +225,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      clip-path: polygon(100% 0, 5% 40%, 0 50%, 5% 60%, 100% 100%);
+      clip-path: polygon(100% 0, 12% 45%, 8% 50%, 12% 55%, 100% 100%);
     }
 
     &.sky-popover-danger {
@@ -247,7 +247,7 @@ $popover-max-width: 276px;
     }
 
     .sky-popover-arrow {
-      clip-path: polygon(0 0, 95% 40%, 100% 50%, 95% 60%, 0 100%);
+      clip-path: polygon(0 0, 88% 45%, 92% 50%, 88% 55%, 0 100%);
     }
 
     &.sky-popover-danger {
