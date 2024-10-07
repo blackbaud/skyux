@@ -1,3 +1,9 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-key-info') {
+  --sky-override-key-info-horizontal-gap: var(--sky-margin-inline-xs);
+}
+
 .sky-key-info {
   display: var(--sky-host-key-info-display, inline-block);
 
@@ -8,7 +14,11 @@
     }
 
     .sky-key-info-label {
-      padding: 0 0 0 var(--sky-space-gap-label-s);
+      padding: 0 0 0
+        var(
+          --sky-override-key-info-horizontal-gap,
+          var(--sky-space-gap-label-s)
+        );
     }
   }
 
