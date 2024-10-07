@@ -1,5 +1,16 @@
 # Changelog
 
+## [11.8.0](https://github.com/blackbaud/skyux/compare/11.7.0...11.8.0) (2024-10-07)
+
+
+### Features
+
+* **components/forms:** add `linkUploadHintText` input to the file drop component ([#2796](https://github.com/blackbaud/skyux/issues/2796)) ([9f5e268](https://github.com/blackbaud/skyux/commit/9f5e26828e627c08ca2701a87d2ede5cf45353a4))
+* **components/lookup:** add search test harness ([#2798](https://github.com/blackbaud/skyux/issues/2798)) ([ad579e7](https://github.com/blackbaud/skyux/commit/ad579e7cc2cc3851edbbf4cd4e5a0f8b0ece52d4))
+* **components/pages:** add `sky-link-list-recently-accessed` component ([#2800](https://github.com/blackbaud/skyux/issues/2800)) ([0cf6a41](https://github.com/blackbaud/skyux/commit/0cf6a41cc905c2537eed8c66033355193f521ab9))
+* **components/pages:** add `sky-link-list` component ([#2784](https://github.com/blackbaud/skyux/issues/2784)) ([537ef63](https://github.com/blackbaud/skyux/commit/537ef6320340adc43df48a4c35777360b82e87c0))
+* **components/theme:** tokenize type and theme ([#2797](https://github.com/blackbaud/skyux/issues/2797)) ([17d65d9](https://github.com/blackbaud/skyux/commit/17d65d9cf9cf1ce114890a471ccb48ffeb757868))
+
 ## [11.7.0](https://github.com/blackbaud/skyux/compare/11.6.0...11.7.0) (2024-10-03)
 
 
