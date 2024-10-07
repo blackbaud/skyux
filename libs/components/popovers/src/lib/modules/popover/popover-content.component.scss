@@ -7,10 +7,6 @@ $popover-border-size: 10px;
 $popover-modern-border-size: 6px;
 $popover-max-width: 276px;
 
-:host {
-  --popover-arrow-offset: 0;
-}
-
 .sky-popover-container {
   position: fixed;
   min-width: $popover-max-width;
@@ -72,10 +68,9 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    width: $popover-border-size * 2;
-    height: $popover-border-size;
+    width: $popover-arrow-size * 1.5;
+    height: $popover-arrow-size * 0.75;
     clip-path: polygon(0 0, 50% 100%, 100% 0);
-    translate: 0 calc(var(--popover-arrow-offset) * -1);
   }
 
   &.sky-popover-danger {
@@ -97,10 +92,9 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    width: $popover-border-size * 2;
-    height: $popover-border-size;
+    width: $popover-arrow-size * 1.5;
+    height: $popover-arrow-size * 0.75;
     clip-path: polygon(50% 0, 0 100%, 100% 100%);
-    translate: 0 var(--popover-arrow-offset);
   }
 
   &.sky-popover-danger {
@@ -122,11 +116,10 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    width: $popover-border-size;
-    height: $popover-border-size * 2;
+    width: $popover-arrow-size * 0.75;
+    height: $popover-arrow-size * 1.5;
     clip-path: polygon(0 50%, 100% 100%, 100% 0);
     background-color: $sky-highlight-color-info;
-    translate: var(--popover-arrow-offset) 0;
   }
 
   &.sky-popover-danger {
@@ -148,11 +141,10 @@ $popover-max-width: 276px;
   }
 
   .sky-popover-arrow {
-    width: $popover-border-size;
-    height: $popover-border-size * 2;
+    width: $popover-arrow-size * 0.75;
+    height: $popover-arrow-size * 1.5;
     clip-path: polygon(0 0, 0 100%, 100% 50%);
     background-color: $sky-highlight-color-info;
-    translate: calc(var(--popover-arrow-offset) * -1) 0;
   }
 
   &.sky-popover-danger {
@@ -166,23 +158,6 @@ $popover-max-width: 276px;
   }
 }
 
-.sky-popover-placement-above,
-.sky-popover-placement-below {
-  &.sky-popover-alignment-left {
-    .sky-popover-arrow {
-      left: $popover-arrow-size * 2;
-      right: auto;
-    }
-  }
-
-  &.sky-popover-alignment-right {
-    .sky-popover-arrow {
-      left: auto;
-      right: $popover-arrow-size * 2;
-    }
-  }
-}
-
 .sky-popover-max-height {
   .sky-popover {
     @include popoverMixins.popoverMaxHeight();
@@ -190,8 +165,6 @@ $popover-max-width: 276px;
 }
 
 @include mixins.sky-theme-modern {
-  --popover-arrow-offset: 1px;
-
   .sky-popover {
     border-radius: 6px;
   }
