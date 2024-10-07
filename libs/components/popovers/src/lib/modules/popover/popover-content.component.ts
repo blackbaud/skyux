@@ -130,6 +130,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   #changeDetector: ChangeDetectorRef;
   #elementRef: ElementRef;
   #affixService: SkyAffixService;
+  #arrowAffixer: SkyAffixer | undefined;
   #coreAdapterService: SkyCoreAdapterService;
   #context: SkyPopoverContext;
   #themeSvc: SkyThemeService | undefined;
@@ -184,6 +185,12 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     if (this.affixer) {
       this.affixer.destroy();
       this.affixer = undefined;
+    }
+
+    /* istanbul ignore else */
+    if (this.#arrowAffixer) {
+      this.#arrowAffixer.destroy();
+      this.#arrowAffixer = undefined;
     }
   }
 
@@ -266,6 +273,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
       this.affixer!.affixTo(this.#caller?.nativeElement, affixOptions);
 
+      this.#updateArrowOffset();
+
       this.isOpen = true;
       this.#changeDetector.markForCheck();
     });
@@ -299,10 +308,31 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         )
         .subscribe((placement) => {
           this.placement = placement;
+          this.#updateArrowOffset();
           this.#changeDetector.detectChanges();
         });
 
       this.affixer = affixer;
+    }
+  }
+
+  #updateArrowOffset(): void {
+    if (this.#caller && this.arrowRef && this.placement) {
+      this.#arrowAffixer?.destroy();
+      this.#arrowAffixer = this.#affixService.createAffixer(this.arrowRef);
+      this.#arrowAffixer.affixTo(this.#caller?.nativeElement, {
+        autoFitContext: SkyAffixAutoFitContext.Viewport,
+        enableAutoFit: false,
+        horizontalAlignment: ['above', 'below'].includes(this.placement)
+          ? 'center'
+          : undefined,
+        verticalAlignment: ['left', 'right'].includes(this.placement)
+          ? 'middle'
+          : undefined,
+        isSticky: true,
+        placement: parseAffixPlacement(this.placement as SkyPopoverPlacement),
+        position: 'absolute',
+      });
     }
   }
 
