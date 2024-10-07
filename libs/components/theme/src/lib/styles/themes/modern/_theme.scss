@@ -7,7 +7,7 @@
   --sky-override-p-line-height: var(--sky-font-line_height-body-m);
 }
 
-html:has(.sky-theme-brand-blackbaud) {
+@include compatMixins.sky-modern-v2-html {
   font-size: initial;
 }
 

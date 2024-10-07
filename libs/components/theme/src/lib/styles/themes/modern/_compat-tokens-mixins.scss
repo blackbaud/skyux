@@ -15,3 +15,9 @@
     @content;
   }
 }
+
+@mixin sky-modern-v2-html() {
+  html:has(.sky-theme-brand-blackbaud) {
+    @content;
+  }
+}
