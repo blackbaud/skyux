@@ -30,11 +30,11 @@
     font-weight: var(--sky-font-weight-data_label);
   }
 
-  // deprecated
   .sky-font-field-label {
-    color: $sky-theme-modern-font-data-label-color;
-    font-size: $sky-theme-modern-font-data-label-size;
-    font-weight: $sky-theme-modern-font-data-label-weight;
+    color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-data_label);
+    font-weight: var(--sky-font-weight-data_label);
   }
 
   .sky-font-deemphasized {
@@ -95,6 +95,10 @@
   }
 
   .sky-font-data-label {
+    line-height: var(--sky-font-line_height-data_label);
+  }
+
+  .sky-font-field-label {
     line-height: var(--sky-font-line_height-data_label);
   }
 
