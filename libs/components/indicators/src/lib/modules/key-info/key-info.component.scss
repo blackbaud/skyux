@@ -8,7 +8,13 @@
     }
 
     .sky-key-info-label {
-      padding: 0 0 0 var(--sky-margin-inline-xs);
+      padding: 0 0 0 var(--sky-space-gap-label-s);
+    }
+  }
+
+  &:not(.sky-key-info-horizontal) {
+    .sky-key-info-label {
+      padding: var(--sky-space-gap-label-0) 0 0 0;
     }
   }
 }
