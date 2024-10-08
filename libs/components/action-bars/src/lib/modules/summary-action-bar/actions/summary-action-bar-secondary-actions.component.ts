@@ -47,8 +47,6 @@ export class SkySummaryActionBarSecondaryActionsComponent
   ) {
     this.#changeDetector = changeDetector;
     this.#mediaQueryService = mediaQueryService;
-
-    console.log('foo', this.#mediaQueryService.current);
   }
 
   public ngAfterContentInit(): void {

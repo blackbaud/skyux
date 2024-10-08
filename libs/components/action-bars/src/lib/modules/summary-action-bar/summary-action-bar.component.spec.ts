@@ -675,7 +675,7 @@ describe('Summary Action Bar component', () => {
         await expectAsync(fixture.nativeElement).toBeAccessible();
       });
 
-      fit('should be accessible (standard xs setup collapsed summary)', async () => {
+      it('should be accessible (standard xs setup collapsed summary)', async () => {
         fixture.detectChanges();
         mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();

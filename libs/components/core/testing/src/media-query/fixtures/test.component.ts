@@ -39,12 +39,6 @@ export class λFooTestComponent {
 })
 export class TestComponent {
   protected querySvc = inject(SkyMediaQueryService);
-
-  constructor() {
-    this.querySvc.subscribe((x) => {
-      console.log('current', x, this.querySvc);
-    });
-  }
 }
 
 // TODO: This removes the "container query" override from the wrapper for testing.

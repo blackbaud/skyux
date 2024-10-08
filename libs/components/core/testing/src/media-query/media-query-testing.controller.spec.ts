@@ -14,7 +14,7 @@ import {
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
 import { provideSkyMediaQueryTesting } from './provide-media-query-testing';
 
-fdescribe('media-query-testing.controller', () => {
+describe('media-query-testing.controller', () => {
   function expectBreakpointCSSClass(
     el: HTMLElement,
     breakpoint: SkyMediaBreakpoints,
@@ -69,7 +69,7 @@ fdescribe('media-query-testing.controller', () => {
     overrideWrapperForTesting();
   });
 
-  fit('should trigger media query breakpoints', () => {
+  it('should trigger media query breakpoints', () => {
     const { fixture, mediaQueryController } = setupTest();
 
     const el = fixture.nativeElement;
@@ -91,7 +91,7 @@ fdescribe('media-query-testing.controller', () => {
     expectBreakpointCSSClass(el, SkyMediaBreakpoints.lg);
   });
 
-  fit('should work with overridden providers', async () => {
+  it('should work with overridden providers', async () => {
     const {
       elementMediaQueryController,
       fixture,

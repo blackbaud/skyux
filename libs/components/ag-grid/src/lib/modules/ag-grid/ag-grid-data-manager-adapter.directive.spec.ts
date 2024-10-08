@@ -46,7 +46,11 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
 
-    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
+    TestBed.overrideDirective(SkyAgGridDataManagerAdapterDirective, {
+      add: {
+        providers: [provideSkyMediaQueryTesting()],
+      },
+    });
 
     agGridDataManagerFixture = TestBed.createComponent(
       SkyAgGridDataManagerFixtureComponent,
@@ -54,16 +58,26 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     agGridDataManagerFixtureComponent =
       agGridDataManagerFixture.componentInstance;
+
     dataManagerService = TestBed.inject(SkyDataManagerService);
+    // mediaQueryController = agGridDataManagerFixture.componentRef.injector.get(
+    //   SkyMediaQueryTestingController,
+    // );
 
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent = agGridDataManagerFixtureComponent.agGrid as AgGridAngular;
+
     dataViewEl = agGridDataManagerFixture.debugElement.query(
       By.directive(SkyAgGridDataManagerAdapterDirective),
     );
+
     agGridDataManagerDirective = dataViewEl.injector.get(
       SkyAgGridDataManagerAdapterDirective,
+    );
+
+    mediaQueryController = dataViewEl.injector.get(
+      SkyMediaQueryTestingController,
     );
 
     dataManagerService
