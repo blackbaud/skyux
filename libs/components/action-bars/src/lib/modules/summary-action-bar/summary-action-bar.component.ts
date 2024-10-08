@@ -93,7 +93,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.type = this.#adapterService.getSummaryActionBarType(
       this.#elementRef.nativeElement,
     );
-
     if (
       !(
         this.type === SkySummaryActionBarType.FullPageModal ||

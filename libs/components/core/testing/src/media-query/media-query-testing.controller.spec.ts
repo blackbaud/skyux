@@ -4,7 +4,7 @@ import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SkyMediaBreakpoints } from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkySearchHarness } from '@skyux/lookup/testing';
 
 import {
@@ -89,6 +89,25 @@ describe('media-query-testing.controller', () => {
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
     expectBreakpointCSSClass(el, SkyMediaBreakpoints.lg);
+  });
+
+  it('should emit breakpoint changes', () => {
+    const { mediaQueryController } = setupTest();
+
+    let currentBreakpoint: SkyMediaBreakpoints | undefined;
+    const subscription = TestBed.inject(SkyMediaQueryService).subscribe(
+      (breakpoint) => {
+        currentBreakpoint = breakpoint;
+      },
+    );
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.lg);
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.xs);
+
+    subscription.unsubscribe();
   });
 
   it('should work with overridden providers', async () => {

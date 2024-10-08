@@ -62,11 +62,9 @@ export class SkySummaryActionBarSecondaryActionsComponent
         this.#checkAndUpdateChildrenType();
       },
     );
-
     if (this.#mediaQueryService.current === SkyMediaBreakpoints.xs) {
       this.isMobile = true;
     }
-
     this.#checkAndUpdateChildrenType();
   }
 
