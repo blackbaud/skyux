@@ -87,6 +87,7 @@ sky-input-box {
 
   sky-character-counter-indicator {
     flex-grow: 1;
+    font-style: var(--sky-font-style-hint-m-style);
     text-align: right;
     margin-bottom: $sky-margin-half;
     margin-left: auto;
