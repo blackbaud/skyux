@@ -52,7 +52,7 @@ export class SkyFluidGridHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the fluid grid has additional margins on the sides.
+   * Whether the fluid grid has margin enabled.
    */
   public async hasMargin(): Promise<boolean> {
     return !(await (

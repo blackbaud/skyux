@@ -1,4 +1,3 @@
-import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
@@ -14,7 +13,6 @@ describe('Row test harness', () => {
   ): Promise<{
     rowHarness: SkyRowHarness;
     fixture: ComponentFixture<FluidGridHarnessTestComponent>;
-    loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
       imports: [FluidGridHarnessTestComponent, SkyHelpTestingModule],
@@ -31,7 +29,7 @@ describe('Row test harness', () => {
         )
       : await loader.getHarness(SkyRowHarness);
 
-    return { rowHarness, fixture, loader };
+    return { rowHarness, fixture };
   }
 
   it('should get the row from its data-sky-id and return the columns', async () => {
