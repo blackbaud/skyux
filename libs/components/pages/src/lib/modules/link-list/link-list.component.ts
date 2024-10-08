@@ -10,8 +10,7 @@ import { LinkAsModule } from '../link-as/link-as.module';
 import { SkyLinkListItemComponent } from './link-list-item.component';
 
 /**
- * A component that displays a list of links on the right side of the page, or
- * below the page content on mobile devices.
+ * A component that displays a list of links, such as within a `<sky-page-links>` component.
  */
 @Component({
   standalone: true,

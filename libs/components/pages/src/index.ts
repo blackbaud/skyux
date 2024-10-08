@@ -22,6 +22,7 @@ export { SkyActionHubContentComponent as λ3 } from './lib/modules/action-hub/ac
 export { SkyActionHubComponent as λ1 } from './lib/modules/action-hub/action-hub.component';
 export { SkyLinkListComponent as λ13 } from './lib/modules/link-list/link-list.component';
 export { SkyLinkListItemComponent as λ14 } from './lib/modules/link-list/link-list-item.component';
+export { SkyLinkListRecentlyAccessedComponent as λ15 } from './lib/modules/link-list-recently-accessed/link-list-recently-accessed.component';
 export { SkyModalLinkListComponent as λ5 } from './lib/modules/modal-link-list/modal-link-list.component';
 export { SkyPageHeaderActionsComponent as λ9 } from './lib/modules/page-header/page-header-actions.component';
 export { SkyPageHeaderAlertsComponent as λ11 } from './lib/modules/page-header/page-header-alerts.component';
