@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.44.2](https://github.com/blackbaud/skyux/compare/10.44.1...10.44.2) (2024-10-08)
+
+
+### Bug Fixes
+
+* **components/popovers:** update arrow position when scrolling in flex layout ([#2799](https://github.com/blackbaud/skyux/issues/2799)) ([3d031c8](https://github.com/blackbaud/skyux/commit/3d031c8e5c8241af1423a410e890d53e50a18da9))
+
 ## [11.8.0](https://github.com/blackbaud/skyux/compare/11.7.0...11.8.0) (2024-10-07)
 
 
