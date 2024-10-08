@@ -6,6 +6,11 @@
   --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
 }
 
+@include compatMixins.sky-modern-overrides('.sky-input-box') {
+  --sky-override-background-color-input-box-group: #{$sky-color-white};
+  --sky-override-background-color-input-box-group-focused: #{$sky-color-white};
+}
+
 .sky-input-box {
   --sky-background-color-input-box-group: transparent;
   --sky-background-color-input-box-group-focused: transparent;
@@ -13,8 +18,14 @@
 
 .sky-theme-modern {
   .sky-input-box {
-    --sky-background-color-input-box-group: #{$sky-color-white};
-    --sky-background-color-input-box-group-focused: #{$sky-color-white};
+    --sky-background-color-input-box-group: var(
+      --sky-override-background-color-input-box-group,
+      var(--sky-color-background-input-base)
+    );
+    --sky-background-color-input-box-group-focused: var(
+      --sky-override-background-color-input-box-group-focused,
+      var(--sky-color-background-input-base)
+    );
   }
 }
 
