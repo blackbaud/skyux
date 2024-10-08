@@ -2,7 +2,8 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyFormErrorsHarness } from '@skyux/forms/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
-import { SkyIconHarness } from '@skyux/icon/testing';
+
+import { SkyIconHarness } from 'libs/components/icon/testing/src/public-api';
 
 import { SkyColorpickerDropdownHarness } from './colorpicker-dropdown-harness';
 import { SkyColorpickerHarnessFilters } from './colorpicker-harness.filters';
