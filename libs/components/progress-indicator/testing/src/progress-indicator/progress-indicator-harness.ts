@@ -24,22 +24,14 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a specific progress indicator item based on filters.
+   * Gets a specific progress indicator item that meets certain criteria.
    */
   public async getItem(
     filter: SkyProgressIndicatorItemFilters,
   ): Promise<SkyProgressIndicatorItemHarness> {
-    const item = await this.locatorFor(
+    return await this.locatorFor(
       SkyProgressIndicatorItemHarness.with(filter),
     )();
-
-    if (!item) {
-      throw new Error(
-        `Unable to find a progress indicator item with filter(s): ${JSON.stringify(filter)}`,
-      );
-    }
-
-    return item;
   }
 
   /**

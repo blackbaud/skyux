@@ -17,7 +17,7 @@ export class SkyProgressIndicatorItemHarness extends SkyComponentHarness {
   public static with(
     filters: SkyProgressIndicatorItemFilters,
   ): HarnessPredicate<SkyProgressIndicatorItemHarness> {
-    return new HarnessPredicate(SkyProgressIndicatorItemHarness, filters);
+    return SkyProgressIndicatorItemHarness.getDataSkyIdPredicate(filters);
   }
 
   /**

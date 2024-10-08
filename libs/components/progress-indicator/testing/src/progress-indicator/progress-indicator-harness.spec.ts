@@ -18,11 +18,14 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
         >Optional details about this step
       </sky-progress-indicator-item>
       <sky-progress-indicator-item
-        data-sky-id="current-step"
+        data-sky-id="unfinished-step"
         helpPopoverContent="Example help content for current step"
         title="Current step"
       />
-      <sky-progress-indicator-item title="HIDDEN TITLE" />
+      <sky-progress-indicator-item
+        data-sky-id="unfinished-step"
+        title="HIDDEN TITLE"
+      />
     </sky-progress-indicator>
     <sky-progress-indicator data-sky-id="other-indicator" [isPassive]="true" />
   `,
@@ -57,6 +60,71 @@ describe('Progress indicator test harness', () => {
     const { progressIndicatorHarness } = await setupTest({
       dataSkyId: 'other-indicator',
     });
+
+    await expectAsync(progressIndicatorHarness.isPassive()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should get progress indicator item by data-sky-id', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const itemHarness = await progressIndicatorHarness.getItem({
+      dataSkyId: 'finished-step',
+    });
+
+    await expectAsync(itemHarness.isCompleted()).toBeResolvedTo(true);
+  });
+
+  it('should get an array of all items', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const items = await progressIndicatorHarness.getItems();
+
+    expect(items.length).toBe(3);
+  });
+
+  it('should get an array of items based on criteria', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const items = await progressIndicatorHarness.getItems({
+      dataSkyId: 'unfinished-step',
+    });
+
+    expect(items.length).toBe(2);
+  });
+
+  it('should throw an error if no items are found', async () => {
+    const { progressIndicatorHarness } = await setupTest({
+      dataSkyId: 'other-indicator',
+    });
+
+    await expectAsync(
+      progressIndicatorHarness.getItems(),
+    ).toBeRejectedWithError('Unable to find any progress indicator items.');
+  });
+
+  it('should throw an error if no items are found matching criteria', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    await expectAsync(
+      progressIndicatorHarness.getItems({
+        dataSkyId: 'unknown-step',
+      }),
+    ).toBeRejectedWithError(
+      'Unable to find any progress indicator items with filter(s): {"dataSkyId":"unknown-step"}',
+    );
+  });
+
+  it('should get whether the progress indicator is passive', async () => {
+    const { progressIndicatorHarness, fixture } = await setupTest({});
+
+    await expectAsync(progressIndicatorHarness.isPassive()).toBeResolvedTo(
+      false,
+    );
+
+    fixture.componentInstance.isPassive = true;
+    fixture.detectChanges();
 
     await expectAsync(progressIndicatorHarness.isPassive()).toBeResolvedTo(
       true,
