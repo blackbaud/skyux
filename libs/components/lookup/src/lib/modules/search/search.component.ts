@@ -217,6 +217,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     if (this.#searchShouldCollapse()) {
       this.breakpointSubscription = this.#mediaQueryService.subscribe(
         (args: SkyMediaBreakpoints) => {
+          console.log('eh?', args);
           this.#mediaQueryCallback(args);
           this.#changeRef.detectChanges();
         },

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyTabsModule } from '@skyux/tabs';
@@ -25,21 +24,12 @@ import { SkySummaryActionBarTestComponent } from './summary-action-bar.component
     SplitViewMockComponent,
   ],
   imports: [
-    BrowserModule,
     NoopAnimationsModule,
-    RouterTestingModule,
     SkyKeyInfoModule,
     SkyModalModule,
     SkyTabsModule,
     SkySummaryActionBarModule,
   ],
-  exports: [
-    BrowserModule,
-    RouterTestingModule,
-    SkyModalModule,
-    SkyKeyInfoModule,
-    SkySummaryActionBarModule,
-    SplitViewMockComponent,
-  ],
+  providers: [provideRouter([])],
 })
 export class SkySummaryActionBarFixtureModule {}

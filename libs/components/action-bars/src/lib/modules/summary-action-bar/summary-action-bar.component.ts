@@ -93,12 +93,14 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.type = this.#adapterService.getSummaryActionBarType(
       this.#elementRef.nativeElement,
     );
+
     if (
       !(
         this.type === SkySummaryActionBarType.FullPageModal ||
         this.type === SkySummaryActionBarType.StandardModal
       )
     ) {
+      console.log('setupReactiveState 1');
       this.#setupReactiveState();
 
       if (this.type === SkySummaryActionBarType.SplitView) {
@@ -118,6 +120,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       this.#adapterService.styleModalFooter(this.#elementRef);
 
       if (this.type === SkySummaryActionBarType.FullPageModal) {
+        console.log('setupReactiveState 2');
         this.#setupReactiveState();
       }
     }
@@ -184,8 +187,10 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   #setupReactiveState(): void {
+    console.log('setupReactiveState() current', this.mediaQueryService.current);
     this.#mediaQuerySubscription = this.mediaQueryService.subscribe(
       (args: SkyMediaBreakpoints) => {
+        console.log('subscribe', args);
         if (args !== SkyMediaBreakpoints.xs) {
           this.isSummaryCollapsed = false;
           this.slideDirection = 'down';

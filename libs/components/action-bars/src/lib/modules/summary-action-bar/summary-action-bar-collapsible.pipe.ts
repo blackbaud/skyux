@@ -11,6 +11,13 @@ export class SkySummaryActionBarCollapsiblePipe implements PipeTransform {
     summaryActionBarType: SkySummaryActionBarType | undefined,
     mediaBreakpoint: SkyMediaBreakpoints,
   ): boolean {
+    console.log(
+      'pipe eh?',
+      summaryActionBarType,
+      SkySummaryActionBarType.StandardModal,
+      mediaBreakpoint,
+      SkyMediaBreakpoints.xs,
+    );
     return (
       summaryActionBarType === SkySummaryActionBarType.StandardModal ||
       mediaBreakpoint === SkyMediaBreakpoints.xs

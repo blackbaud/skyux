@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkyMediaBreakpoints } from '@skyux/core';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { SummaryActionBarTestComponent } from './fixtures/summary-action-bar-fixture-test.component';
@@ -11,7 +14,7 @@ import { SkySummaryActionBarTestingModule } from './summary-action-bar.module';
 describe('Summary action bar fixture', () => {
   let fixture: ComponentFixture<SummaryActionBarTestComponent>;
   let testComponent: SummaryActionBarTestComponent;
-  let mockQueryService: MockSkyMediaQueryService;
+  let mediaQueryController: SkyMediaQueryTestingController;
   let summaryActionBarFixture: SkySummaryActionBarFixture;
 
   //#region helpers
@@ -19,7 +22,7 @@ describe('Summary action bar fixture', () => {
   async function initiateResponsiveMode(
     breakpoint: SkyMediaBreakpoints,
   ): Promise<void> {
-    mockQueryService.fire(breakpoint);
+    mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
     return fixture.whenStable();
   }
@@ -27,18 +30,14 @@ describe('Summary action bar fixture', () => {
   //#endregion
 
   beforeEach(() => {
-    // replace the mock service before using in the test bed to avoid change detection errors
-    mockQueryService = new MockSkyMediaQueryService();
-
     TestBed.configureTestingModule({
       declarations: [SummaryActionBarTestComponent],
       imports: [SkyKeyInfoModule, SkySummaryActionBarTestingModule],
-      providers: [
-        { provide: SkyMediaQueryService, useValue: mockQueryService },
-      ],
+      providers: [provideSkyMediaQueryTesting()],
     });
 
     fixture = TestBed.createComponent(SummaryActionBarTestComponent);
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
     testComponent = fixture.componentInstance;
     fixture.detectChanges();
     summaryActionBarFixture = new SkySummaryActionBarFixture(

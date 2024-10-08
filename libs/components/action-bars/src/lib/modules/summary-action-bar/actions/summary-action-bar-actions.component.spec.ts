@@ -7,52 +7,30 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkyMediaBreakpoints } from '@skyux/core';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import { SkyDropdownMessageType } from '@skyux/popovers';
 
 import { SkySummaryActionBarTestComponent } from '../fixtures/summary-action-bar.component.fixture';
 import { SkySummaryActionBarFixtureModule } from '../fixtures/summary-action-bar.module.fixture';
-import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
-
-import { SkySummaryActionBarSecondaryActionsComponent } from './summary-action-bar-secondary-actions.component';
 
 describe('Summary Action Bar action components', () => {
   let fixture: ComponentFixture<SkySummaryActionBarTestComponent>;
   let cmp: SkySummaryActionBarTestComponent;
   let debugElement: DebugElement;
-  let mockMediaQueryService: MockSkyMediaQueryService;
+  let mediaQueryController: SkyMediaQueryTestingController;
 
   beforeEach(() => {
-    mockMediaQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [SkySummaryActionBarFixtureModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
 
-    fixture = TestBed.overrideComponent(
-      SkySummaryActionBarSecondaryActionsComponent,
-      {
-        add: {
-          providers: [
-            {
-              provide: SkyMediaQueryService,
-              useValue: mockMediaQueryService,
-            },
-          ],
-        },
-      },
-    )
-      .overrideComponent(SkySummaryActionBarComponent, {
-        add: {
-          providers: [
-            {
-              provide: SkyMediaQueryService,
-              useValue: mockMediaQueryService,
-            },
-          ],
-        },
-      })
-      .createComponent(SkySummaryActionBarTestComponent);
+    fixture = TestBed.createComponent(SkySummaryActionBarTestComponent);
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
 
     cmp = fixture.componentInstance as SkySummaryActionBarTestComponent;
     debugElement = fixture.debugElement;
@@ -156,7 +134,7 @@ describe('Summary Action Bar action components', () => {
     });
 
     it('should have secondary actions with isDropdown as true on xs screens', () => {
-      mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
 
       expect(
@@ -210,7 +188,7 @@ describe('Summary Action Bar action components', () => {
 
     it('should be accessible (standard xs setup)', async () => {
       fixture.detectChanges();
-      mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
       fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -218,7 +196,7 @@ describe('Summary Action Bar action components', () => {
 
     it('should be accessible (standard xs setup collapsed summary)', async () => {
       fixture.detectChanges();
-      mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
       await fixture.whenStable();
       debugElement

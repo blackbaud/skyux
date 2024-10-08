@@ -47,6 +47,8 @@ export class SkySummaryActionBarSecondaryActionsComponent
   ) {
     this.#changeDetector = changeDetector;
     this.#mediaQueryService = mediaQueryService;
+
+    console.log('foo', this.#mediaQueryService.current);
   }
 
   public ngAfterContentInit(): void {
@@ -62,9 +64,11 @@ export class SkySummaryActionBarSecondaryActionsComponent
         this.#checkAndUpdateChildrenType();
       },
     );
+
     if (this.#mediaQueryService.current === SkyMediaBreakpoints.xs) {
       this.isMobile = true;
     }
+
     this.#checkAndUpdateChildrenType();
   }
 
