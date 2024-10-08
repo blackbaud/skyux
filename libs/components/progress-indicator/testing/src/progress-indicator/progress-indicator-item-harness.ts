@@ -1,0 +1,73 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+
+import { SkyProgressIndicatorItemFilters } from './progress-indicator-item-harness-filters';
+
+export class SkyProgressIndicatorItemHarness extends SkyComponentHarness {
+  public static hostSelector = 'sky-progress-indicator-item';
+
+  #getHeading = this.locatorFor('.sky-progress-indicator-item-heading');
+  #getIndicator = this.locatorFor('.sky-progress-indicator-status-marker');
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyProgressIndicatorItemHarness` that meets certain criteria
+   */
+  public static with(
+    filters: SkyProgressIndicatorItemFilters,
+  ): HarnessPredicate<SkyProgressIndicatorItemHarness> {
+    return new HarnessPredicate(SkyProgressIndicatorItemHarness, filters);
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets the help inline popover content.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    const content = await (await this.#getHelpInline()).getPopoverContent();
+
+    return content as string | undefined;
+  }
+
+  /**
+   * Gets the progress indicator item's title text.
+   */
+  public async getTitle(): Promise<string> {
+    return (await (await this.#getHeading()).text()).trim();
+  }
+
+  // TODO get content - look at input box
+
+  /**
+   * Gets the help inline popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  /**
+   * Whether the indicator item step is completed.
+   */
+  public async isCompleted(): Promise<boolean> {
+    return (await this.#getIndicator()).hasClass(
+      'sky-progress-indicator-status-marker-status-complete',
+    );
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
+  }
+}
