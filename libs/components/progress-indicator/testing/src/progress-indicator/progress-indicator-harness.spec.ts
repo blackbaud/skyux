@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
 import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
@@ -19,7 +20,6 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
       </sky-progress-indicator-item>
       <sky-progress-indicator-item
         data-sky-id="unfinished-step"
-        helpPopoverContent="Example help content for current step"
         title="Current step"
       />
       <sky-progress-indicator-item
@@ -42,7 +42,7 @@ describe('Progress indicator test harness', () => {
   }> {
     await TestBed.configureTestingModule({
       declarations: [TestProgressIndicatorComponent],
-      imports: [SkyProgressIndicatorModule],
+      imports: [SkyProgressIndicatorModule, NoopAnimationsModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestProgressIndicatorComponent);
@@ -129,5 +129,65 @@ describe('Progress indicator test harness', () => {
     await expectAsync(progressIndicatorHarness.isPassive()).toBeResolvedTo(
       true,
     );
+  });
+
+  it('should click help inline button', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const item = await progressIndicatorHarness.getItem({
+      dataSkyId: 'finished-step',
+    });
+
+    await item.clickHelpInline();
+
+    await expectAsync(item.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should throw an error if no help inline is found', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const item = await progressIndicatorHarness.getItem({
+      dataSkyId: 'unfinished-step',
+    });
+
+    await expectAsync(item.getHelpPopoverContent()).toBeRejectedWithError(
+      'No help inline found.',
+    );
+  });
+
+  it('should get help popover content', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const item = await progressIndicatorHarness.getItem({
+      dataSkyId: 'finished-step',
+    });
+
+    await item.clickHelpInline();
+
+    await expectAsync(item.getHelpPopoverContent()).toBeResolvedTo(
+      'Example help content for finished step',
+    );
+  });
+
+  it('should get help popover title', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const item = await progressIndicatorHarness.getItem({
+      dataSkyId: 'finished-step',
+    });
+
+    await item.clickHelpInline();
+
+    await expectAsync(item.getHelpPopoverTitle()).toBeResolvedTo('Start here');
+  });
+
+  it('should get the progress indicator item title', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    const item = await progressIndicatorHarness.getItem({
+      dataSkyId: 'finished-step',
+    });
+
+    await expectAsync(item.getTitle()).toBeResolvedTo('Finished step');
   });
 });

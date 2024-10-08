@@ -40,7 +40,8 @@ export class SkyProgressIndicatorItemHarness extends SkyComponentHarness {
    * Gets the progress indicator item's title text.
    */
   public async getTitle(): Promise<string> {
-    return (await (await this.#getHeading()).text()).trim();
+    const title = await (await this.#getHeading()).text();
+    return title.substring(title.indexOf('-') + 1).trim();
   }
 
   // TODO get content - look at input box

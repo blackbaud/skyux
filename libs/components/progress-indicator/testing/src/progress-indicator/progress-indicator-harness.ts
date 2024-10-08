@@ -60,7 +60,6 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
    * Whether the progress indicator is passive.
    */
   public async isPassive(): Promise<boolean> {
-    console.log(await this.host());
     return (await this.#getProgressIndicator()).hasClass(
       'sky-progress-indicator-passive',
     );
