@@ -1,18 +1,18 @@
 {
   "name": "@skyux-eslint/eslint-plugin-template",
   "version": "0.0.0-PLACEHOLDER",
-  "files": [
-    "src",
-    "package.json"
-  ],
   "peerDependencies": {
     "@angular-eslint/bundled-angular-compiler": "^18.3.1",
     "@angular-eslint/eslint-plugin-template": "^18.3.1",
     "@angular-eslint/test-utils": "^18.3.1",
     "@angular-eslint/utils": "^18.3.1",
-    "@typescript-eslint/utils": "^8.6.0"
+    "@typescript-eslint/utils": "^8.8.1"
   },
   "dependencies": {
     "tslib": "^2.6.3"
-  }
+  },
+  "files": [
+    "src",
+    "package.json"
+  ]
 }
