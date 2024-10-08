@@ -243,9 +243,7 @@ describe('Action hub component', () => {
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
         0,
       );
-      const recent1 = fixture.nativeElement.querySelector(
-        'sky-link-list[ng-reflect-title="Recently accessed"] a',
-      );
+      const recent1 = fixture.nativeElement.querySelector('sky-link-list a');
       expect(recent1).toHaveText('Recent link');
     }));
 

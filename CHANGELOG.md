@@ -1,5 +1,43 @@
 # Changelog
 
+## [10.44.2](https://github.com/blackbaud/skyux/compare/10.44.1...10.44.2) (2024-10-08)
+
+
+### Bug Fixes
+
+* **components/popovers:** update arrow position when scrolling in flex layout ([#2799](https://github.com/blackbaud/skyux/issues/2799)) ([3d031c8](https://github.com/blackbaud/skyux/commit/3d031c8e5c8241af1423a410e890d53e50a18da9))
+
+## [11.8.0](https://github.com/blackbaud/skyux/compare/11.7.0...11.8.0) (2024-10-07)
+
+
+### Features
+
+* **components/forms:** add `linkUploadHintText` input to the file drop component ([#2796](https://github.com/blackbaud/skyux/issues/2796)) ([9f5e268](https://github.com/blackbaud/skyux/commit/9f5e26828e627c08ca2701a87d2ede5cf45353a4))
+* **components/lookup:** add search test harness ([#2798](https://github.com/blackbaud/skyux/issues/2798)) ([ad579e7](https://github.com/blackbaud/skyux/commit/ad579e7cc2cc3851edbbf4cd4e5a0f8b0ece52d4))
+* **components/pages:** add `sky-link-list-recently-accessed` component ([#2800](https://github.com/blackbaud/skyux/issues/2800)) ([0cf6a41](https://github.com/blackbaud/skyux/commit/0cf6a41cc905c2537eed8c66033355193f521ab9))
+* **components/pages:** add `sky-link-list` component ([#2784](https://github.com/blackbaud/skyux/issues/2784)) ([537ef63](https://github.com/blackbaud/skyux/commit/537ef6320340adc43df48a4c35777360b82e87c0))
+* **components/theme:** tokenize type and theme ([#2797](https://github.com/blackbaud/skyux/issues/2797)) ([17d65d9](https://github.com/blackbaud/skyux/commit/17d65d9cf9cf1ce114890a471ccb48ffeb757868))
+
+## [11.7.0](https://github.com/blackbaud/skyux/compare/11.6.0...11.7.0) (2024-10-03)
+
+
+### Features
+
+* **components/lookup:** add autocomplete test harness ([#2789](https://github.com/blackbaud/skyux/issues/2789)) ([aca84f2](https://github.com/blackbaud/skyux/commit/aca84f2cdf4340b9719aea963c1fdc317e421bda))
+* **components/pages:** add `sky-page-links` component ([#2781](https://github.com/blackbaud/skyux/issues/2781)) ([01e3fa8](https://github.com/blackbaud/skyux/commit/01e3fa836f201e7995cbe6c0991c033cf2d85c27))
+* **components/popovers:** tokenize popover styling ([#2783](https://github.com/blackbaud/skyux/issues/2783)) ([1d7ed64](https://github.com/blackbaud/skyux/commit/1d7ed64e7bb354ecf3910b87517023d7c1901c2b))
+* **components/toast:** tokenize toast styling ([#2791](https://github.com/blackbaud/skyux/issues/2791)) ([5a46bda](https://github.com/blackbaud/skyux/commit/5a46bdac65152d39ba8b65bf40e72673c7e2685b))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** address deprecation warnings ([#2788](https://github.com/blackbaud/skyux/issues/2788)) ([c9695da](https://github.com/blackbaud/skyux/commit/c9695da523e3bb488cfab2b74a2e533d79bb3a08))
+* **components/forms:** delay error display to allow clicks to content below to complete ([#2777](https://github.com/blackbaud/skyux/issues/2777)) ([3d9e73f](https://github.com/blackbaud/skyux/commit/3d9e73f4179c4a84e20645aebff38c0bd17717f6))
+* **components/forms:** legends for radio group and field group are properly detectable by screen readers ([#2786](https://github.com/blackbaud/skyux/issues/2786)) ([92caefc](https://github.com/blackbaud/skyux/commit/92caefc347bc5dfad54edb1dbf7a778a6f01026a))
+* **components/pages:** display dropdowns as inline and fix margins around wrapped buttons ([#2794](https://github.com/blackbaud/skyux/issues/2794)) ([21dba3b](https://github.com/blackbaud/skyux/commit/21dba3b5cc1eefa1493bf2f70ed2ad9184ad4aeb))
+* **components/tiles:** remove horizontal spacing from tile dashboard in blocks page layout ([#2792](https://github.com/blackbaud/skyux/issues/2792)) ([c6ab957](https://github.com/blackbaud/skyux/commit/c6ab957d126c3c153829257436356df4073728ab))
+* **sdk/testing:** adjust async matchers ([#2795](https://github.com/blackbaud/skyux/issues/2795)) ([ba68482](https://github.com/blackbaud/skyux/commit/ba68482b5ad62f18d91a232f976da91e6fa8bd46))
+
 ## [11.6.0](https://github.com/blackbaud/skyux/compare/11.5.0...11.6.0) (2024-09-27)
 
 

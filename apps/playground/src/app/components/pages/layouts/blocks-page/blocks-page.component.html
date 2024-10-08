@@ -42,4 +42,15 @@
       </sky-row>
     </sky-fluid-grid>
   </sky-page-content>
+  <sky-page-links>
+    <sky-link-list
+      headingText="Related links"
+      [links]="linksLoading()"
+      (click)="linksLoading.set(linksLoading() ? undefined : 'loading')"
+    >
+      <sky-link-list-item>
+        <a href="/">Components</a>
+      </sky-link-list-item>
+    </sky-link-list>
+  </sky-page-links>
 </sky-page>

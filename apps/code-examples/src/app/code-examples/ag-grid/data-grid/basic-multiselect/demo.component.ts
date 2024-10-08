@@ -76,7 +76,6 @@ export class DemoComponent {
   constructor() {
     const gridOptions: GridOptions = {
       columnDefs: this.#columnDefs,
-      rowSelection: 'multiple',
     };
 
     this.gridOptions = this.#agGridSvc.getGridOptions({

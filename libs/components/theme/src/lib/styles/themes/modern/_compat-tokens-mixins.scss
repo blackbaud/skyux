@@ -1,4 +1,4 @@
-@mixin sky-modern-overrides($selector, $affectsAll: false) {
+@mixin sky-modern-overrides($selector: '', $affectsAll: false) {
   @if $affectsAll {
     :is(.sky-theme-modern #{$selector}) {
       @content;
@@ -7,5 +7,17 @@
     :is(.sky-theme-modern:not(.sky-theme-brand-blackbaud) #{$selector}) {
       @content;
     }
+  }
+}
+
+@mixin sky-modern-v2($selector: '') {
+  :is(.sky-theme-modern.sky-theme-brand-blackbaud #{$selector}) {
+    @content;
+  }
+}
+
+@mixin sky-modern-v2-html() {
+  html:has(.sky-theme-brand-blackbaud) {
+    @content;
   }
 }

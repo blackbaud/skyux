@@ -99,9 +99,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'This file type is invalid',
     },
     skyux_file_attachment_file_upload_link_label: { message: 'Link to a file' },
-    skyux_file_attachment_file_upload_link_placeholder: {
-      message: 'Start with http:// or https://',
-    },
     skyux_file_attachment_file_upload_or_click_to_browse: {
       message: 'or click to browse',
     },

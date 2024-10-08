@@ -24,12 +24,9 @@
     <sky-column [screenLarge]="3" [screenXSmall]="12">
       <sky-link-list
         [links]="relatedLinks | skyActionHubRelatedLinksSort"
-        [title]="'sky_action_hub_related_links' | skyLibResources"
+        [headingText]="'sky_action_hub_related_links' | skyLibResources"
       />
-      <sky-link-list
-        [links]="recentLinks | skyActionHubRecentLinksResolve"
-        [title]="'sky_action_hub_recent_links' | skyLibResources"
-      />
+      <sky-link-list-recently-accessed [recentLinks]="recentLinks" />
       <sky-modal-link-list
         [links]="settingsLinks"
         [title]="'sky_action_hub_settings_links' | skyLibResources"
