@@ -6,7 +6,7 @@ import { SkyMediaQueryTestingController } from './media-query-testing.controller
 import { SkyMediaQueryTestingService } from './media-query-testing.service';
 
 const MEDIA_QUERY_PROVIDERS: Provider[] = [
-  SkyMediaQueryTestingService,
+  // SkyMediaQueryTestingService,
   {
     provide: SkyMediaQueryService,
     useExisting: SkyMediaQueryTestingService,
