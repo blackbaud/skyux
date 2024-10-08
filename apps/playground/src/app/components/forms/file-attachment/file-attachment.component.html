@@ -1,24 +1,23 @@
-<div style="width: 60%">
-  <sky-file-drop
-    hintText="Really long hint text that should wrap and be confined to below the file drop element. We set the text to have a small margin below the drop and link controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
-    labelText="File attachment field"
-    helpKey="help.html"
-    [acceptedTypes]="acceptedTypes"
-    [allowLinks]="true"
-    [maxFileSize]="maxFileSize"
-    [minFileSize]="minFileSize"
-    [required]="required"
-    [validateFn]="validateFile"
-    [stacked]="true"
-    (filesChanged)="filesUpdated($event)"
-    (linkChanged)="linkAdded($event)"
-  />
-  @for (file of allItems; track file) {
-    <div>
-      <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
-    </div>
-  }
-</div>
+<sky-file-drop
+  hintText="Really long hint text that should wrap and be confined to below the file drop element. We set the text to have a small margin below the drop and link controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
+  labelText="File attachment field"
+  linkUploadHintText="Start with http:// or https://"
+  helpKey="help.html"
+  [acceptedTypes]="acceptedTypes"
+  [allowLinks]="true"
+  [maxFileSize]="maxFileSize"
+  [minFileSize]="minFileSize"
+  [required]="required"
+  [validateFn]="validateFile"
+  [stacked]="true"
+  (filesChanged)="filesUpdated($event)"
+  (linkChanged)="linkAdded($event)"
+/>
+@for (file of allItems; track file) {
+  <div>
+    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+  </div>
+}
 
 <form [formGroup]="formGroup">
   <sky-file-attachment

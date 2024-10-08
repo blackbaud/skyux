@@ -6,6 +6,29 @@
   &-list,
   &-tabs {
     display: block;
+
+    &:has(> sky-page-content):has(> sky-page-links) {
+      --sky-layout-host-links-spacing: 10px;
+
+      display: grid;
+      grid-template:
+        'header'
+        'content'
+        'links';
+      grid-template-columns: 1fr;
+
+      > sky-page-header {
+        grid-area: header;
+      }
+
+      > sky-page-content {
+        grid-area: content;
+      }
+
+      > sky-page-links {
+        grid-area: links;
+      }
+    }
   }
 
   &-fit,
@@ -22,6 +45,7 @@
     --sky-layout-host-content-flex-grow: 1;
     --sky-layout-host-content-overflow: auto;
     --sky-layout-host-content-position: relative;
+    --sky-layout-host-links-display: none;
   }
 
   &-blocks,
@@ -48,6 +72,21 @@
 
 @include mixins.sky-host-responsive-container-sm-min(false) {
   .sky-layout-host {
+    &-blocks,
+    &-list,
+    &-tabs {
+      &:has(> sky-page-content):has(> sky-page-links) {
+        --sky-layout-host-links-spacing: 20px;
+
+        grid-template:
+          'header header'
+          'content links';
+        grid-template-columns: 3fr 1fr;
+      }
+    }
+  }
+
+  .sky-layout-host {
     &-blocks {
       --sky-layout-host-header-spacing: 20px 20px 0 20px;
       --sky-layout-host-content-spacing: 20px;
@@ -72,12 +111,14 @@
       &-blocks {
         --sky-layout-host-header-spacing: 30px 30px 0 30px;
         --sky-layout-host-content-spacing: 30px;
+        --sky-layout-host-links-spacing: 30px 30px 30px 0;
       }
 
       &-fit,
       &-list,
       &-tabs {
         --sky-layout-host-header-spacing: 30px 30px 20px 30px;
+        --sky-layout-host-links-spacing: 30px;
       }
 
       &-fit,

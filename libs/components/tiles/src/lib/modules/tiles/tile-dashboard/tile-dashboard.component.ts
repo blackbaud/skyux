@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   OnDestroy,
   Optional,
@@ -10,6 +9,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  signal,
 } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -32,11 +32,14 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
   styleUrls: ['./tile-dashboard.component.scss'],
   templateUrl: './tile-dashboard.component.html',
   providers: [SkyTileDashboardService],
+  host: {
+    '[class]': 'layoutClassName()',
+  },
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
-  @HostBinding('class')
-  protected layoutClassName =
-    'sky-tile-dashboard-multi-column sky-tile-dashboard-gt-xs';
+  protected layoutClassName = signal(
+    'sky-tile-dashboard-multi-column sky-tile-dashboard-gt-xs',
+  );
 
   /**
    * Populates the tile dashboard based on the `SkyTileDashboardConfig` object.
@@ -115,18 +118,24 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
 
     this.#subscriptions.add(
       this.#mediaQueryService.subscribe((args: SkyMediaBreakpoints) => {
+        let layoutClassName = this.layoutClassName();
+
         if (
           args === SkyMediaBreakpoints.xs ||
           args === SkyMediaBreakpoints.sm
         ) {
-          this.layoutClassName = 'sky-tile-dashboard-single-column';
+          layoutClassName = 'sky-tile-dashboard-single-column';
         } else {
-          this.layoutClassName = 'sky-tile-dashboard-multi-column';
+          layoutClassName = 'sky-tile-dashboard-multi-column';
         }
         if (args === SkyMediaBreakpoints.xs) {
-          this.layoutClassName += ' sky-tile-dashboard-xs';
+          layoutClassName += ' sky-tile-dashboard-xs';
         } else {
-          this.layoutClassName += ' sky-tile-dashboard-gt-xs';
+          layoutClassName += ' sky-tile-dashboard-gt-xs';
+        }
+
+        if (layoutClassName !== this.layoutClassName()) {
+          this.layoutClassName.set(layoutClassName);
         }
       }),
     );

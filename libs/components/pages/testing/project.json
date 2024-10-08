@@ -5,7 +5,7 @@
   "sourceRoot": "libs/components/pages/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "pages"],
+  "implicitDependencies": ["core-testing", "indicators-testing", "pages"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build pages-testing'",
