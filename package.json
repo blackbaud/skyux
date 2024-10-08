@@ -185,14 +185,13 @@
     "@types/jest": "29.5.13",
     "@types/node": "20.14.12",
     "@types/validator": "13.12.0",
-    "@typescript-eslint/eslint-plugin": "8.6.0",
-    "@typescript-eslint/parser": "8.6.0",
+    "@typescript-eslint/eslint-plugin": "8.8.1",
+    "@typescript-eslint/parser": "8.8.1",
     "cross-spawn": "7.0.3",
     "cypress": "13.13.1",
     "eslint": "9.12.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-cypress": "2.15.1",
-    "eslint-plugin-deprecation": "3.0.0",
     "eslint-plugin-storybook": "0.8.0",
     "fs-extra": "11.2.0",
     "jasmine": "5.3.0",
@@ -218,7 +217,7 @@
   },
   "overrides": {
     "@nx/eslint-plugin@19.7.4": {
-      "@typescript-eslint/parser": "8.6.0"
+      "@typescript-eslint/parser": "8.8.1"
     },
     "ng2-dragula@5.1.0": {
       "@angular/animations": ">=16.0.0 <19.0.0",
