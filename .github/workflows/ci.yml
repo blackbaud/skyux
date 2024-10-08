@@ -189,7 +189,7 @@ jobs:
     name: Build packages distribution
     needs: install-deps
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'pull_request' }}
+    # if: ${{ github.event_name != 'pull_request' }}
     env:
       NX_TASKS_RUNNER: 'local'
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'false'
@@ -205,6 +205,8 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Build packages dist
         run: npx skyux-dev create-packages-dist --skipNxCache
+      - name: Update deprecations list for @skyux-eslint/eslint-plugin-template
+        run: npx ts-node ./scripts/postbuild-all.ts
       - name: Notify Slack (failure)
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2

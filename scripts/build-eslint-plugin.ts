@@ -1,10 +1,11 @@
-import fs, { emptyDir } from 'fs-extra';
+import { copy, emptyDir } from 'fs-extra';
+import path from 'node:path';
 
 import { runCommand } from './utils/spawn';
 
 /**
  * Builds the ESLint plugins and copies them to the local node_modules directory
- * to allow ESLint configs to pick them up.
+ * to allow local ESLint configs to pick them up.
  */
 async function buildESLintPlugin(): Promise<void> {
   await runCommand('npx', [
@@ -16,14 +17,14 @@ async function buildESLintPlugin(): Promise<void> {
 
   await emptyDir('node_modules/@skyux-eslint');
 
-  await fs.copy(
-    'dist/libs/sdk/eslint-plugin',
-    'node_modules/@skyux-eslint/eslint-plugin',
+  await copy(
+    path.normalize('dist/libs/sdk/eslint-plugin'),
+    path.normalize('node_modules/@skyux-eslint/eslint-plugin'),
   );
 
-  await fs.copy(
-    'dist/libs/sdk/eslint-plugin-template',
-    'node_modules/@skyux-eslint/eslint-plugin-template',
+  await copy(
+    path.normalize('dist/libs/sdk/eslint-plugin-template'),
+    path.normalize('node_modules/@skyux-eslint/eslint-plugin-template'),
   );
 }
 

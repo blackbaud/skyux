@@ -1,6 +1,6 @@
 # `@skyux-eslint/template/no-deprecated-directives`
 
-Prevents usage of deprecated directives and components in consumer templates.
+Prevents usage of deprecated directives and components in HTML templates.
 
 - Type: problem
 

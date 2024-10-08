@@ -1,6 +1,6 @@
 {
   "name": "@skyux-eslint/eslint-plugin",
-  "version": "0.0.1",
+  "version": "0.0.0-PLACEHOLDER",
   "files": [
     "src",
     "package.json"
