@@ -99,7 +99,6 @@ jobs:
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          export CI="false"; export GITHUB_ACTIONS="false"; # Do not use NX cloud.
           npx nx build e2e-schematics --no-parallel
 
   build-storybook:
