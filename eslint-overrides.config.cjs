@@ -39,6 +39,7 @@ module.exports = [
       '@angular-eslint/template/alt-text': ['warn'],
       '@angular-eslint/template/attributes-order': ['error'],
       '@angular-eslint/template/button-has-type': ['error'],
+      '@angular-eslint/template/click-events-have-key-events': ['warn'],
       '@angular-eslint/template/conditional-complexity': ['warn'],
       '@angular-eslint/template/cyclomatic-complexity': ['warn'],
       '@angular-eslint/template/elements-content': ['error'],
