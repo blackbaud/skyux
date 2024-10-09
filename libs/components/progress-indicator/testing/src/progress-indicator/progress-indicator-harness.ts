@@ -5,6 +5,9 @@ import { SkyProgressIndicatorFilters } from './progress-indicator-harness-filter
 import { SkyProgressIndicatorItemHarness } from './progress-indicator-item-harness';
 import { SkyProgressIndicatorItemFilters } from './progress-indicator-item-harness-filters';
 
+/**
+ * Harness for interacting with a progress indicator component in tests.
+ */
 export class SkyProgressIndicatorHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -12,6 +15,10 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-progress-indicator';
 
   #getProgressIndicator = this.locatorFor('.sky-progress-indicator');
+  #getResetButton = this.locatorFor(
+    'sky-progress-indicator-reset-button > .sky-btn-link',
+  );
+  #getTitle = this.locatorFor('.sky-progress-indicator-title');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -21,6 +28,17 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
     filters: SkyProgressIndicatorFilters,
   ): HarnessPredicate<SkyProgressIndicatorHarness> {
     return SkyProgressIndicatorHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks the reset button
+   */
+  public async clickResetButton(): Promise<void> {
+    try {
+      return (await this.#getResetButton()).click();
+    } catch {
+      throw new Error('Unable to find reset button.');
+    }
   }
 
   /**
@@ -54,6 +72,17 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
     }
 
     return items;
+  }
+
+  /**
+   * Gets the progress indicator title.
+   */
+  public async getTitle(): Promise<string> {
+    try {
+      return (await (await this.#getTitle()).text()).trim();
+    } catch {
+      throw new Error('Unable to find title.');
+    }
   }
 
   /**

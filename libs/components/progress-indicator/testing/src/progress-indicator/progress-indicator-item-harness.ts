@@ -4,7 +4,13 @@ import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyProgressIndicatorItemFilters } from './progress-indicator-item-harness-filters';
 
+/**
+ * Harness for interacting with a progress indicator item component in tests.
+ */
 export class SkyProgressIndicatorItemHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-progress-indicator-item';
 
   #getHeading = this.locatorFor('.sky-progress-indicator-item-heading');

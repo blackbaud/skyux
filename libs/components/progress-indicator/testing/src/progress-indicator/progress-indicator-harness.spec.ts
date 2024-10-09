@@ -10,7 +10,16 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
 @Component({
   selector: 'sky-progress-indicator-test',
   template: `
-    <sky-progress-indicator [isPassive]="isPassive" [startingIndex]="1">
+    <sky-progress-indicator
+      #progressIndicator
+      [isPassive]="isPassive"
+      [startingIndex]="1"
+    >
+      @if (showTitle) {
+        <sky-progress-indicator-title>
+          Progress indicator title
+        </sky-progress-indicator-title>
+      }
       <sky-progress-indicator-item
         data-sky-id="finished-step"
         helpPopoverContent="Example help content for finished step"
@@ -26,12 +35,21 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
         data-sky-id="unfinished-step"
         title="HIDDEN TITLE"
       />
+      @if (showResetButton) {
+        <sky-progress-indicator-reset-button
+          [progressIndicator]="progressIndicator"
+        >
+          Erase all settings
+        </sky-progress-indicator-reset-button>
+      }
     </sky-progress-indicator>
     <sky-progress-indicator data-sky-id="other-indicator" [isPassive]="true" />
   `,
 })
 class TestProgressIndicatorComponent {
   public isPassive = false;
+  public showResetButton = false;
+  public showTitle = false;
 }
 // #endregion Test Component
 
@@ -189,5 +207,48 @@ describe('Progress indicator test harness', () => {
     });
 
     await expectAsync(item.getTitle()).toBeResolvedTo('Finished step');
+  });
+
+  it('should throw an error if trying to click non existent reset button', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    await expectAsync(
+      progressIndicatorHarness.clickResetButton(),
+    ).toBeRejectedWithError('Unable to find reset button.');
+  });
+
+  it('should click the reset button', async () => {
+    const { progressIndicatorHarness, fixture } = await setupTest({});
+
+    const finishedItem = await progressIndicatorHarness.getItem({
+      dataSkyId: 'finished-step',
+    });
+
+    await expectAsync(finishedItem.isCompleted()).toBeResolvedTo(true);
+
+    fixture.componentInstance.showResetButton = true;
+    fixture.detectChanges();
+
+    await progressIndicatorHarness.clickResetButton();
+    await expectAsync(finishedItem.isCompleted()).toBeResolvedTo(false);
+  });
+
+  it('should throw an error if no title is found', async () => {
+    const { progressIndicatorHarness } = await setupTest({});
+
+    await expectAsync(
+      progressIndicatorHarness.getTitle(),
+    ).toBeRejectedWithError('Unable to find title.');
+  });
+
+  it('should get the title', async () => {
+    const { progressIndicatorHarness, fixture } = await setupTest({});
+
+    fixture.componentInstance.showTitle = true;
+    fixture.detectChanges();
+
+    await expectAsync(progressIndicatorHarness.getTitle()).toBeResolvedTo(
+      'Progress indicator title',
+    );
   });
 });
