@@ -69,30 +69,12 @@ export class SkyColumnHarness extends SkyComponentHarness {
   async #getColumnClass(size: string): Promise<number> {
     const host = await this.host();
 
-    return (await host.hasClass(`sky-column-${size}-12`))
-      ? 12
-      : (await host.hasClass(`sky-column-${size}-11`))
-        ? 11
-        : (await host.hasClass(`sky-column-${size}-10`))
-          ? 10
-          : (await host.hasClass(`sky-column-${size}-9`))
-            ? 9
-            : (await host.hasClass(`sky-column-${size}-8`))
-              ? 8
-              : (await host.hasClass(`sky-column-${size}-7`))
-                ? 7
-                : (await host.hasClass(`sky-column-${size}-6`))
-                  ? 6
-                  : (await host.hasClass(`sky-column-${size}-5`))
-                    ? 5
-                    : (await host.hasClass(`sky-column-${size}-4`))
-                      ? 4
-                      : (await host.hasClass(`sky-column-${size}-3`))
-                        ? 3
-                        : (await host.hasClass(`sky-column-${size}-2`))
-                          ? 2
-                          : (await host.hasClass(`sky-column-${size}-1`))
-                            ? 1
-                            : 0;
+    for (let i = 12; i; i--) {
+      if (await host.hasClass(`sky-column-${size}-${i}`)) {
+        return i;
+      }
+    }
+
+    return 0;
   }
 }
