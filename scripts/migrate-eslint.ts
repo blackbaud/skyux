@@ -12,7 +12,7 @@ async function migrateESLintConfig(): Promise<void> {
 
     await writeFile(
       path.join(dirname, 'eslint.config.cjs'),
-      dirname.includes('list-builder')
+      /\/(list-builder|grid|select-field)/.test(dirname)
         ? `const nx = require('@nx/eslint-plugin');
 const prettier = require('eslint-config-prettier');
 const baseConfig = require('../../../eslint-base.config.cjs');

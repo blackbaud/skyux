@@ -57,6 +57,7 @@
         "ci": {
           "ci": true,
           "codeCoverage": true,
+          "quite": true,
           "runInBand": true
         }
       }
