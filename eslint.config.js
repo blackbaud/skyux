@@ -1,5 +1,8 @@
 const nx = require('@nx/eslint-plugin');
 
+const eslintConfigPrettier = require('eslint-config-prettier');
+const overrides = require('./eslint-overrides.config.cjs');
+
 module.exports = [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
@@ -40,4 +43,6 @@ module.exports = [
     },
     languageOptions: { parser: require('jsonc-eslint-parser') },
   },
+  ...overrides,
+  eslintConfigPrettier,
 ];
