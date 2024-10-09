@@ -1,9 +1,8 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkySearchHarness } from '@skyux/lookup/testing';
 
@@ -22,50 +21,26 @@ describe('media-query-testing.controller', () => {
     expect(el.className).toEqual(`breakpoint-${breakpoint}`);
   }
 
-  function setupTest(options?: { overrideComponent: Type<unknown> }): {
-    elementMediaQueryController: SkyMediaQueryTestingController;
+  function setupTest(): {
     fixture: ComponentFixture<TestComponent>;
     mediaQueryController: SkyMediaQueryTestingController;
-    wrapperMediaQueryController: SkyMediaQueryTestingController;
   } {
-    if (options?.overrideComponent) {
-      TestBed.overrideComponent(options.overrideComponent, {
-        add: {
-          providers: [provideSkyMediaQueryTesting()],
-        },
-      });
-    }
-
     const fixture = TestBed.createComponent(TestComponent);
-
     const mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
 
-    // TODO: We need a way to override this component's providers in order to
-    // let consumers trigger the media query change. But should we?
-    const wrapperMediaQueryController = fixture.debugElement
-      .query(By.css('sky-foo-wrapper'))
-      .injector.get(SkyMediaQueryTestingController);
-
-    const elementMediaQueryController = fixture.debugElement.injector.get(
-      SkyMediaQueryTestingController,
-      undefined,
-      { skipSelf: true },
-    );
-
     return {
-      elementMediaQueryController,
       fixture,
       mediaQueryController,
-      wrapperMediaQueryController,
     };
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestComponent, NoopAnimationsModule],
-      providers: [provideSkyMediaQueryTesting()],
+      providers: [provideSkyMediaQueryTesting(), provideRouter([])],
     });
 
+    // TODO: This probably shouldn't be done:
     overrideWrapperForTesting();
   });
 
@@ -111,19 +86,12 @@ describe('media-query-testing.controller', () => {
   });
 
   it('should work with overridden providers', async () => {
-    const {
-      elementMediaQueryController,
-      fixture,
-      mediaQueryController,
-      wrapperMediaQueryController,
-    } = setupTest();
+    const { fixture, mediaQueryController } = setupTest();
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const searchHarness = await loader.getHarness(SkySearchHarness);
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
-    // elementMediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
-    // wrapperMediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -131,8 +99,6 @@ describe('media-query-testing.controller', () => {
     await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(true);
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
-    elementMediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
-    wrapperMediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
     await fixture.whenStable();
 

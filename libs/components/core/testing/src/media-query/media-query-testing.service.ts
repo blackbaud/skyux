@@ -1,5 +1,5 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   SkyMediaBreakpoints,
@@ -19,7 +19,7 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 @Injectable({ providedIn: 'root' })
 export class SkyMediaQueryTestingService
   extends SkyMediaQueryService
-  implements OnDestroy, SkyMediaQueryTestingController
+  implements SkyMediaQueryTestingController
 {
   public override get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
@@ -27,17 +27,12 @@ export class SkyMediaQueryTestingService
 
   #currentBreakpoint = DEFAULT_BREAKPOINT;
   #currentBreakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
-    this.#currentBreakpoint,
+    DEFAULT_BREAKPOINT,
   );
 
   #currentBreakpointObs = this.#currentBreakpointChange
     .asObservable()
     .pipe(takeUntilDestroyed());
-
-  public override ngOnDestroy(): void {
-    this.#currentBreakpoint = DEFAULT_BREAKPOINT;
-    this.#currentBreakpointChange.complete();
-  }
 
   public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs.subscribe({
