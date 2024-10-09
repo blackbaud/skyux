@@ -79,10 +79,40 @@
       &:has(> sky-page-content):has(> sky-page-links) {
         --sky-layout-host-links-spacing: var(--sky-margin-inline-xl);
 
+        > sky-page-header,
+        .sky-page-header,
+        .sky-page-header-info,
+        .sky-page-header-text-and-content {
+          grid-area: unset;
+          display: contents;
+        }
+
+        sky-page-header-alerts {
+          grid-area: header-alerts;
+          margin: var(--sky-layout-host-header-spacing);
+        }
+
+        sky-page-header-avatar {
+          grid-area: header-avatar;
+          margin: var(--sky-layout-host-header-spacing);
+          margin-top: 0;
+          margin-right: 0;
+        }
+
+        h1.sky-page-header-text {
+          grid-area: header-text;
+        }
+
+        div.sky-page-header-content {
+          grid-area: header-content;
+        }
+
         grid-template:
-          'header header'
-          'content links';
-        grid-template-columns: 3fr 1fr;
+          'header-alerts header-alerts  header-alerts'
+          'header-avatar header-text    header-text'
+          'header-avatar header-content links'
+          'content       content        links';
+        grid-template-columns: min-content auto 25%;
       }
     }
   }
