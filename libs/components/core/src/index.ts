@@ -62,8 +62,13 @@ export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
 export { SkyMediaBreakpoints } from './lib/modules/media-query/media-breakpoints';
 export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
+
+export { SKY_MEDIA_QUERY_SERVICE_OVERRIDE } from './lib/modules/media-query/media-query-service-override.token';
 export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
 export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';
+export { provideSkyMediaQueryServiceOverride } from './lib/modules/media-query/provide-media-query-service-override';
+export { SkyMediaQueryServiceBase } from './lib/modules/media-query/media-query-service-base';
+export { SkyMediaQueryServiceOverride } from './lib/modules/media-query/media-query-service-override';
 
 export { SkyMutationObserverService } from './lib/modules/mutation/mutation-observer-service';
 
@@ -105,7 +110,6 @@ export { SkyAppSetTitleArgs } from './lib/modules/title/set-title-args';
 export { SkyAppTitleService } from './lib/modules/title/title.service';
 
 export { SkyTrimModule } from './lib/modules/trim/trim.module';
-
 export { SkyUIConfigService } from './lib/modules/ui-config/ui-config.service';
 
 export { SkyViewkeeperHostOptions } from './lib/modules/viewkeeper/viewkeeper-host-options';

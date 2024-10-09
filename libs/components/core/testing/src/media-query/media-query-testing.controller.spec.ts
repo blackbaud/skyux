@@ -1,15 +1,13 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkySearchHarness } from '@skyux/lookup/testing';
 
-import {
-  TestComponent,
-  overrideWrapperForTesting,
-} from './fixtures/test.component';
+import { TestComponent } from './fixtures/test.component';
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
 import { provideSkyMediaQueryTesting } from './provide-media-query-testing';
 
@@ -39,9 +37,6 @@ describe('media-query-testing.controller', () => {
       imports: [TestComponent, NoopAnimationsModule],
       providers: [provideSkyMediaQueryTesting(), provideRouter([])],
     });
-
-    // TODO: Don't do this.
-    overrideWrapperForTesting();
   });
 
   it('should trigger media query breakpoints', () => {
@@ -88,21 +83,23 @@ describe('media-query-testing.controller', () => {
   it('should work with overridden providers', async () => {
     const { fixture, mediaQueryController } = setupTest();
 
+    const wrapper = fixture.debugElement.query(By.css('sky-foo-wrapper'));
+
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const searchHarness = await loader.getHarness(SkySearchHarness);
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
     fixture.detectChanges();
-    await fixture.whenStable();
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.xs);
+    expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.xs);
     await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(true);
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
-    await fixture.whenStable();
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.lg);
+    expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.lg);
     await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(false);
   });
 });

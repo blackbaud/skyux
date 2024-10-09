@@ -9,8 +9,8 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 
@@ -33,10 +33,7 @@ import { SkyDataManagerState } from './models/data-manager-state';
   hostDirectives: [SkyTextHighlightDirective],
   providers: [
     SkyResizeObserverMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
   styles: [
     `

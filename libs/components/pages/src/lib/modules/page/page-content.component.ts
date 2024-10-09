@@ -7,8 +7,8 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 /**
@@ -22,10 +22,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     SkyResizeObserverMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkyPageContentComponent implements OnInit, OnDestroy {

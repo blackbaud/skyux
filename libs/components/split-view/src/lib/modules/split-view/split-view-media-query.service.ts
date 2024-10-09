@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryListener } from '@skyux/core';
+import {
+  SkyMediaBreakpoints,
+  SkyMediaQueryListener,
+  SkyMediaQueryService,
+} from '@skyux/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -8,22 +12,15 @@ import { BehaviorSubject, Subscription } from 'rxjs';
  * @internal
  */
 @Injectable()
-export class SkySplitViewMediaQueryService {
-  public get current(): SkyMediaBreakpoints {
+export class SkySplitViewMediaQueryService extends SkyMediaQueryService {
+  public override get current(): SkyMediaBreakpoints {
     return this.#_current;
   }
 
-  #currentSubject: BehaviorSubject<SkyMediaBreakpoints>;
-
   #_current = SkyMediaBreakpoints.xs;
+  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.#_current);
 
-  constructor() {
-    this.#currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-      this.#_current,
-    );
-  }
-
-  public subscribe(listener: SkyMediaQueryListener): Subscription {
+  public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentSubject.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
@@ -79,7 +76,7 @@ export class SkySplitViewMediaQueryService {
     }
   }
 
-  public destroy(): void {
+  public override destroy(): void {
     this.#currentSubject.complete();
   }
 }

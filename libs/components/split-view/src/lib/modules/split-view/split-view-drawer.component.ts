@@ -13,7 +13,7 @@ import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
-  SkyMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { Subject, fromEvent } from 'rxjs';
@@ -33,10 +33,7 @@ let skySplitViewNextId = 0;
   styleUrls: ['split-view-drawer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkySplitViewMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkySplitViewMediaQueryService),
   ],
 })
 export class SkySplitViewDrawerComponent

@@ -14,8 +14,8 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -37,10 +37,7 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     SkyResizeObserverMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {

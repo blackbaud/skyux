@@ -1,10 +1,11 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryListener,
-  SkyMediaQueryService,
+  SkyMediaQueryServiceOverride,
+  SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -18,10 +19,9 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
  */
 @Injectable({ providedIn: 'root' })
 export class SkyMediaQueryTestingService
-  extends SkyMediaQueryService
-  implements SkyMediaQueryTestingController
+  implements SkyMediaQueryServiceOverride, SkyMediaQueryTestingController
 {
-  public override get current(): SkyMediaBreakpoints {
+  public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
@@ -34,7 +34,7 @@ export class SkyMediaQueryTestingService
     .asObservable()
     .pipe(takeUntilDestroyed());
 
-  public override subscribe(listener: SkyMediaQueryListener): Subscription {
+  public subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs.subscribe({
       next: (breakpoint) => {
         listener(breakpoint);
@@ -43,12 +43,28 @@ export class SkyMediaQueryTestingService
   }
 
   /* istanbul ignore next */
-  public override destroy(): void {
+  public destroy(): void {
     /* noop */
   }
 
   public setBreakpoint(breakpoint: SkyMediaBreakpoints): void {
     this.#currentBreakpoint = breakpoint;
     this.#currentBreakpointChange.next(breakpoint);
+  }
+
+  /* istanbul ignore next */
+  public observe(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _element: ElementRef,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _options?: { updateResponsiveClasses?: boolean },
+  ): SkyResizeObserverMediaQueryService {
+    /* noop */
+    return this as unknown as SkyResizeObserverMediaQueryService;
+  }
+
+  /* istanbul ignore next */
+  public unobserve(): void {
+    /* noop */
   }
 }

@@ -11,7 +11,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { SkyMediaQueryService } from '@skyux/core';
+import { provideSkyMediaQueryServiceOverride } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -31,10 +31,7 @@ let nextId = 0;
   styleUrls: ['./vertical-tab.component.scss'],
   providers: [
     SkyVerticalTabMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyVerticalTabMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkyVerticalTabMediaQueryService),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

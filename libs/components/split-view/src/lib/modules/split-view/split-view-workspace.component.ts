@@ -10,7 +10,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyCoreAdapterService, SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyCoreAdapterService,
+  provideSkyMediaQueryServiceOverride,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,10 +30,7 @@ import { SkySplitViewService } from './split-view.service';
   styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkySplitViewMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkySplitViewMediaQueryService),
   ],
 })
 export class SkySplitViewWorkspaceComponent

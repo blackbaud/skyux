@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
+import { SkyMediaQueryServiceOverride } from '../media-query/media-query-service-override';
+import { SkyMediaQueryService } from '../media-query/media-query.service';
 
 import { SkyResizeObserverService } from './resize-observer.service';
 
@@ -14,11 +16,14 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
  */
 @Injectable()
-export class SkyResizeObserverMediaQueryService implements OnDestroy {
+export class SkyResizeObserverMediaQueryService
+  extends SkyMediaQueryService
+  implements OnDestroy, SkyMediaQueryServiceOverride
+{
   /**
    * Returns the current breakpoint.
    */
-  public get current(): SkyMediaBreakpoints {
+  public override get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
@@ -54,7 +59,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #target: ElementRef | undefined;
 
-  public ngOnDestroy(): void {
+  public override ngOnDestroy(): void {
     this.unobserve();
 
     this.#target = undefined;
@@ -64,7 +69,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   /**
    * @internal
    */
-  public destroy(): void {
+  public override destroy(): void {
     this.ngOnDestroy();
   }
 
@@ -114,7 +119,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   /**
    * Subscribes to element size changes that cross breakpoints.
    */
-  public subscribe(listener: SkyMediaQueryListener): Subscription {
+  public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {

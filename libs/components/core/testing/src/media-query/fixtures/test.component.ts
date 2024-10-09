@@ -1,24 +1,32 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { SkyMediaQueryService } from '@skyux/core';
+import { Component, Injectable, inject } from '@angular/core';
+import {
+  SkyMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
+} from '@skyux/core';
 import { SkySearchModule } from '@skyux/lookup';
 
-import { provideSkyMediaQueryTesting } from '../provide-media-query-testing';
+@Injectable()
+class MyMediaQueryService extends SkyMediaQueryService {}
 
 /**
  * This component simulates a SKY UX component that has provided the media
  * query service as a class provider.
  */
 @Component({
+  host: {
+    '[class]': '"breakpoint-" + querySvc.current',
+  },
   selector: 'sky-foo-wrapper',
   standalone: true,
   template: '<ng-content />',
-  // Override the environment provider with an element provider.
-  providers: [SkyMediaQueryService],
+  providers: [
+    // Override the environment provider with an element provider.
+    provideSkyMediaQueryServiceOverride(MyMediaQueryService),
+  ],
 })
-// Use lambda to simulate an internal SKY UX component.
+// Use lambda to simulate a component not included in the public API.
 export class λFooTestComponent {
   protected querySvc = inject(SkyMediaQueryService);
 }
@@ -38,14 +46,4 @@ export class λFooTestComponent {
 })
 export class TestComponent {
   protected querySvc = inject(SkyMediaQueryService);
-}
-
-// Override the internal component's providers.
-// TODO: We can't do this for our components because they're not exported to the public API.
-export function overrideWrapperForTesting(): void {
-  TestBed.overrideComponent(λFooTestComponent, {
-    add: {
-      providers: [provideSkyMediaQueryTesting()],
-    },
-  });
 }

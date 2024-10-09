@@ -28,8 +28,8 @@ import {
   SKY_STACKING_CONTEXT,
   SkyDynamicComponentService,
   SkyMediaBreakpoints,
-  SkyMediaQueryService,
   SkyUIConfigService,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
@@ -69,7 +69,7 @@ let nextId = 0;
   providers: [
     SkyFlyoutAdapterService,
     SkyFlyoutMediaQueryService,
-    { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService },
+    provideSkyMediaQueryServiceOverride(SkyFlyoutMediaQueryService),
   ],
   animations: [
     trigger('flyoutState', [
