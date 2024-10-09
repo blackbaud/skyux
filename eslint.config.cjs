@@ -1,48 +1,5 @@
-const nx = require('@nx/eslint-plugin');
-
-const eslintConfigPrettier = require('eslint-config-prettier');
+const prettier = require('eslint-config-prettier');
+const baseConfig = require('./eslint-base.config.cjs');
 const overrides = require('./eslint-overrides.config.cjs');
 
-module.exports = [
-  ...nx.configs['flat/base'],
-  ...nx.configs['flat/typescript'],
-  ...nx.configs['flat/javascript'],
-  {
-    ignores: ['**/dist'],
-  },
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    rules: {
-      '@nx/enforce-module-boundaries': [
-        'error',
-        {
-          enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
-          depConstraints: [
-            {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    // Override or add rules here
-    rules: {},
-  },
-  {
-    files: ['**/*.json'],
-    rules: {
-      '@nx/dependency-checks': [
-        'error',
-        { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
-      ],
-    },
-    languageOptions: { parser: require('jsonc-eslint-parser') },
-  },
-  ...overrides,
-  eslintConfigPrettier,
-];
+module.exports = [...baseConfig, ...overrides, prettier];
