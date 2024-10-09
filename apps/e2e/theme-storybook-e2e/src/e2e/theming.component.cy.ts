@@ -37,5 +37,5 @@ describe('theme-storybook', () => {
         );
       });
     });
-  });
+  }, true);
 });

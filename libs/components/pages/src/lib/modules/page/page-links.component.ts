@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 /**
- * Displays page links within a block page layout.
- * @internal
+ * Displays page links on the right side of the page, or below the page content
+ * on mobile devices.
  */
 @Component({
   standalone: true,

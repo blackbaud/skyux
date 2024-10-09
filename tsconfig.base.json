@@ -79,7 +79,7 @@
       ],
       "@skyux/i18n": ["libs/components/i18n/src/index.ts"],
       "@skyux/icon": ["libs/components/icon/src/index.ts"],
-      "@skyux/icon/testing": ["libs/components/icon/testing/src/index.ts"],
+      "@skyux/icon/testing": ["libs/components/icon/testing/src/public-api.ts"],
       "@skyux/indicators": ["libs/components/indicators/src/index.ts"],
       "@skyux/indicators/testing": [
         "libs/components/indicators/testing/src/public-api.ts"

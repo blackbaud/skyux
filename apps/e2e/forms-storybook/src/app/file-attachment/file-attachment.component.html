@@ -2,13 +2,14 @@
   <sky-file-drop
     helpPopoverContent="Help content"
     helpPopoverTitle="Help title"
-    labelText="File attachment"
     hintText="File attachment hint text"
+    labelText="File attachment"
+    linkUploadHintText="Start with http:// or https://"
     [acceptedTypes]="acceptedTypes"
-    [required]="required"
-    (filesChanged)="filesUpdated($event)"
     [allowLinks]="true"
+    [required]="required"
     [stacked]="true"
+    (filesChanged)="filesUpdated($event)"
   >
   </sky-file-drop>
 
@@ -21,10 +22,11 @@
   <label class="sky-control-label"> File attachment with old inline help</label>
   <sky-help-inline class="sky-control-help"></sky-help-inline>
   <sky-file-drop
+    linkUploadHintText="Start with http:// or https://"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
-    (filesChanged)="filesUpdated($event)"
     [stacked]="true"
+    (filesChanged)="filesUpdated($event)"
   >
   </sky-file-drop>
 
