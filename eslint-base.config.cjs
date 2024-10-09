@@ -1,4 +1,5 @@
 const nx = require('@nx/eslint-plugin');
+const cspell = require('@cspell/eslint-plugin/recommended');
 
 module.exports = [
   ...nx.configs['flat/base'],
@@ -40,4 +41,5 @@ module.exports = [
     },
     languageOptions: { parser: require('jsonc-eslint-parser') },
   },
+  cspell,
 ];
