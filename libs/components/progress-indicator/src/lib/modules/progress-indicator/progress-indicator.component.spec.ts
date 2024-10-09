@@ -951,17 +951,6 @@ describe('Progress indicator component', () => {
       ]);
     }));
 
-    it('should warn if using template reference variable with legacy reset button', fakeAsync(() => {
-      detectChanges();
-
-      componentInstance.progressIndicatorTemplateRefLegacy =
-        componentInstance.progressIndicator;
-
-      detectChanges();
-
-      expect(consoleWarnSpy).toHaveBeenCalled();
-    }));
-
     it('should support legacy reset button located inside progress indicator component', fakeAsync(() => {
       detectChanges();
 

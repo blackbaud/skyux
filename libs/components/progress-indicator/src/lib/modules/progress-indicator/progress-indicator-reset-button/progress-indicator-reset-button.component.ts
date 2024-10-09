@@ -55,11 +55,6 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
 
   constructor(changeDetector: ChangeDetectorRef) {
     this.#changeDetector = changeDetector;
-    console.warn(
-      '[Deprecation warning] The `<sky-progress-indicator-reset-button>` component is ' +
-        'deprecated. Please use the `<sky-progress-indicator-nav-button>` component instead, with ' +
-        '`buttonType` set to "reset".',
-    );
   }
 
   public ngOnDestroy(): void {
