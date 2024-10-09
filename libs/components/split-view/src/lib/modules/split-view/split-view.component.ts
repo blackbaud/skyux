@@ -22,7 +22,6 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { SkySplitViewAdapterService } from './split-view-adapter.service';
 import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
-import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 import { SkySplitViewService } from './split-view.service';
 import { SkySplitViewDockType } from './types/split-view-dock-type';
 import { SkySplitViewMessage } from './types/split-view-message';
@@ -36,11 +35,7 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
   selector: 'sky-split-view',
   templateUrl: './split-view.component.html',
   styleUrls: ['./split-view.component.scss'],
-  providers: [
-    SkySplitViewAdapterService,
-    SkySplitViewMediaQueryService,
-    SkySplitViewService,
-  ],
+  providers: [SkySplitViewAdapterService, SkySplitViewService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('blockAnimationOnLoad', [transition(':enter', [])]),

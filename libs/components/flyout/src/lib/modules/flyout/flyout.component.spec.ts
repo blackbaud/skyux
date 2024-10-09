@@ -8,7 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyUIConfigService } from '@skyux/core';
+import { SkyContentQueryLegacyService, SkyUIConfigService } from '@skyux/core';
 import { SkyModalService } from '@skyux/modals';
 import {
   SkyTheme,
@@ -28,7 +28,6 @@ import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
 import { SkyFlyoutTestSampleContext } from './fixtures/flyout-sample-context.fixture';
 import { SkyFlyoutTestComponent } from './fixtures/flyout.component.fixture';
 import { SkyFlyoutInstance } from './flyout-instance';
-import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
 import { SkyFlyoutComponent } from './flyout.component';
 import { SkyFlyoutService } from './flyout.service';
 import { SkyFlyoutConfig } from './types/flyout-config';
@@ -1583,7 +1582,7 @@ describe('Flyout component', () => {
   describe('responsive states', () => {
     it('should set the media query service breakpoint to the window size when xs via resize', fakeAsync(() => {
       const breakpointSpy = spyOn(
-        SkyFlyoutMediaQueryService.prototype,
+        SkyContentQueryLegacyService.prototype,
         'setBreakpointForWidth',
       ).and.callThrough();
       windowSizeSpy.and.callThrough();
@@ -1600,7 +1599,7 @@ describe('Flyout component', () => {
     it(`should set the media query service breakpoint to the flyout size when larger
   than xs via resize`, fakeAsync(() => {
       const breakpointSpy = spyOn(
-        SkyFlyoutMediaQueryService.prototype,
+        SkyContentQueryLegacyService.prototype,
         'setBreakpointForWidth',
       ).and.callThrough();
 
@@ -1627,7 +1626,7 @@ describe('Flyout component', () => {
 
     it('should set the media query service breakpoint to the window size when xs via resize', fakeAsync(() => {
       const breakpointSpy = spyOn(
-        SkyFlyoutMediaQueryService.prototype,
+        SkyContentQueryLegacyService.prototype,
         'setBreakpointForWidth',
       ).and.callThrough();
       windowSizeSpy.and.returnValue(767);
@@ -1640,7 +1639,7 @@ describe('Flyout component', () => {
     it(`should set the media query service breakpoint to the flyout size when larger
     than xs on load`, fakeAsync(() => {
       const breakpointSpy = spyOn(
-        SkyFlyoutMediaQueryService.prototype,
+        SkyContentQueryLegacyService.prototype,
         'setBreakpointForWidth',
       ).and.callThrough();
       windowSizeSpy.and.returnValue(800);

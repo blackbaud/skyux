@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {
   SkyAppWindowRef,
+  SkyContentQueryLegacyService,
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
   provideSkyMediaQueryServiceOverride,
@@ -19,7 +20,6 @@ import {
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
 
-import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 import { SkySplitViewService } from './split-view.service';
 
 let skySplitViewNextId = 0;
@@ -33,7 +33,8 @@ let skySplitViewNextId = 0;
   styleUrls: ['split-view-drawer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    provideSkyMediaQueryServiceOverride(SkySplitViewMediaQueryService),
+    SkyContentQueryLegacyService,
+    provideSkyMediaQueryServiceOverride(SkyContentQueryLegacyService),
   ],
 })
 export class SkySplitViewDrawerComponent
@@ -99,7 +100,7 @@ export class SkySplitViewDrawerComponent
   #changeDetectorRef: ChangeDetectorRef;
   #coreAdapterService: SkyCoreAdapterService;
   #elementRef: ElementRef;
-  #splitViewMediaQuerySvc: SkySplitViewMediaQueryService;
+  #mediaQuerySvc: SkyContentQueryLegacyService;
   #splitViewSvc: SkySplitViewService;
   #windowRef: SkyAppWindowRef;
 
@@ -109,14 +110,14 @@ export class SkySplitViewDrawerComponent
     changeDetectorRef: ChangeDetectorRef,
     coreAdapterService: SkyCoreAdapterService,
     elementRef: ElementRef,
-    splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
+    mediaQuerySvc: SkyContentQueryLegacyService,
     splitViewSvc: SkySplitViewService,
     windowRef: SkyAppWindowRef,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#coreAdapterService = coreAdapterService;
     this.#elementRef = elementRef;
-    this.#splitViewMediaQuerySvc = splitViewMediaQuerySvc;
+    this.#mediaQuerySvc = mediaQuerySvc;
     this.#splitViewSvc = splitViewSvc;
     this.#windowRef = windowRef;
 
@@ -148,7 +149,7 @@ export class SkySplitViewDrawerComponent
     event.stopPropagation();
 
     if (
-      this.#splitViewMediaQuerySvc.isWidthWithinBreakpoint(
+      this.#mediaQuerySvc.isWidthWithinBreakpoint(
         window.innerWidth,
         SkyMediaBreakpoints.xs,
       )
@@ -233,12 +234,14 @@ export class SkySplitViewDrawerComponent
   }
 
   #updateBreakpoint(): void {
-    this.#splitViewMediaQuerySvc.setBreakpointForWidth(this.width);
-    const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
-    this.#coreAdapterService.setResponsiveContainerClass(
-      this.#elementRef,
-      newDrawerBreakpoint,
-    );
+    if (this.width !== undefined) {
+      this.#mediaQuerySvc.setBreakpointForWidth(this.width);
+      const newDrawerBreakpoint = this.#mediaQuerySvc.current;
+      this.#coreAdapterService.setResponsiveContainerClass(
+        this.#elementRef,
+        newDrawerBreakpoint,
+      );
+    }
   }
 
   #setMaxWidth(): void {

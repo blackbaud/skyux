@@ -11,6 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  SkyContentQueryLegacyService,
   SkyCoreAdapterService,
   provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
@@ -18,7 +19,6 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 import { SkySplitViewService } from './split-view.service';
 
 /**
@@ -30,7 +30,8 @@ import { SkySplitViewService } from './split-view.service';
   styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    provideSkyMediaQueryServiceOverride(SkySplitViewMediaQueryService),
+    SkyContentQueryLegacyService,
+    provideSkyMediaQueryServiceOverride(SkyContentQueryLegacyService),
   ],
 })
 export class SkySplitViewWorkspaceComponent
@@ -60,7 +61,7 @@ export class SkySplitViewWorkspaceComponent
   #changeDetectorRef: ChangeDetectorRef;
   #coreAdapterSvc: SkyCoreAdapterService;
   #elementRef: ElementRef;
-  #splitViewMediaQuerySvc: SkySplitViewMediaQueryService;
+  #mediaQuerySvc: SkyContentQueryLegacyService;
   #splitViewSvc: SkySplitViewService;
 
   #_isMobile: boolean | undefined;
@@ -69,13 +70,13 @@ export class SkySplitViewWorkspaceComponent
     changeDetectorRef: ChangeDetectorRef,
     coreAdapterSvc: SkyCoreAdapterService,
     elementRef: ElementRef,
-    splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
+    mediaQuerySvc: SkyContentQueryLegacyService,
     splitViewSvc: SkySplitViewService,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#coreAdapterSvc = coreAdapterSvc;
     this.#elementRef = elementRef;
-    this.#splitViewMediaQuerySvc = splitViewMediaQuerySvc;
+    this.#mediaQuerySvc = mediaQuerySvc;
     this.#splitViewSvc = splitViewSvc;
   }
 
@@ -109,8 +110,8 @@ export class SkySplitViewWorkspaceComponent
 
   #updateBreakpoint(): void {
     const width = this.#elementRef.nativeElement.parentElement.clientWidth;
-    this.#splitViewMediaQuerySvc.setBreakpointForWidth(width);
-    const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
+    this.#mediaQuerySvc.setBreakpointForWidth(width);
+    const newDrawerBreakpoint = this.#mediaQuerySvc.current;
     this.#coreAdapterSvc.setResponsiveContainerClass(
       this.#elementRef,
       newDrawerBreakpoint,

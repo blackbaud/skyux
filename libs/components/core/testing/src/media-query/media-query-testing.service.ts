@@ -2,6 +2,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  SkyContentQueryLegacyService,
   SkyMediaBreakpoints,
   SkyMediaQueryListener,
   SkyMediaQueryServiceOverride,
@@ -19,9 +20,10 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
  */
 @Injectable({ providedIn: 'root' })
 export class SkyMediaQueryTestingService
+  extends SkyContentQueryLegacyService
   implements SkyMediaQueryServiceOverride, SkyMediaQueryTestingController
 {
-  public get current(): SkyMediaBreakpoints {
+  public override get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
@@ -34,7 +36,7 @@ export class SkyMediaQueryTestingService
     .asObservable()
     .pipe(takeUntilDestroyed());
 
-  public subscribe(listener: SkyMediaQueryListener): Subscription {
+  public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs.subscribe({
       next: (breakpoint) => {
         listener(breakpoint);
@@ -43,7 +45,7 @@ export class SkyMediaQueryTestingService
   }
 
   /* istanbul ignore next */
-  public destroy(): void {
+  public override destroy(): void {
     /* noop */
   }
 

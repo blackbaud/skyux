@@ -26,6 +26,7 @@ import {
 import { RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
+  SkyContentQueryLegacyService,
   SkyDynamicComponentService,
   SkyMediaBreakpoints,
   SkyUIConfigService,
@@ -44,7 +45,6 @@ import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module'
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 import { SkyFlyoutInstance } from './flyout-instance';
 import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
-import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
 import { SkyFlyoutAction } from './types/flyout-action';
 import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
 import { SkyFlyoutConfig } from './types/flyout-config';
@@ -68,8 +68,8 @@ let nextId = 0;
   styleUrls: ['./flyout.component.scss'],
   providers: [
     SkyFlyoutAdapterService,
-    SkyFlyoutMediaQueryService,
-    provideSkyMediaQueryServiceOverride(SkyFlyoutMediaQueryService),
+    SkyContentQueryLegacyService,
+    provideSkyMediaQueryServiceOverride(SkyContentQueryLegacyService),
   ],
   animations: [
     trigger('flyoutState', [
@@ -169,7 +169,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #elementRef = inject(ElementRef);
   readonly #environmentInjector = inject(EnvironmentInjector);
-  readonly #flyoutMediaQueryService = inject(SkyFlyoutMediaQueryService);
+  readonly #mediaQuerySvc = inject(SkyContentQueryLegacyService);
   readonly #ngZone = inject(NgZone);
   readonly #resourcesService = inject(SkyLibResourcesService);
   readonly #uiConfigService = inject(SkyUIConfigService);
@@ -198,7 +198,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
     if (
-      this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
+      this.#mediaQuerySvc.isWidthWithinBreakpoint(
         event.target.innerWidth,
         SkyMediaBreakpoints.xs,
       )
@@ -523,9 +523,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   #updateBreakpointAndResponsiveClass(width: number): void {
-    this.#flyoutMediaQueryService.setBreakpointForWidth(width);
+    this.#mediaQuerySvc.setBreakpointForWidth(width);
 
-    const newBreakpoint = this.#flyoutMediaQueryService.current;
+    const newBreakpoint = this.#mediaQuerySvc.current;
 
     this.#adapter.setResponsiveClass(this.#elementRef, newBreakpoint);
   }
@@ -573,7 +573,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     if (
-      this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
+      this.#mediaQuerySvc.isWidthWithinBreakpoint(
         window.innerWidth,
         SkyMediaBreakpoints.xs,
       )

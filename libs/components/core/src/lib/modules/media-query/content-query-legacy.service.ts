@@ -1,17 +1,14 @@
-import { Injectable } from '@angular/core';
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryListener,
-  SkyMediaQueryService,
-} from '@skyux/core';
-
 import { ReplaySubject, Subscription } from 'rxjs';
+
+import { SkyMediaBreakpoints } from './media-breakpoints';
+import { SkyMediaQueryListener } from './media-query-listener';
+import { SkyMediaQueryService } from './media-query.service';
 
 /**
  * @internal
+ * @deprecated Use `SkyResizeObserverMediaQueryService` instead.
  */
-@Injectable()
-export class SkyFlyoutMediaQueryService extends SkyMediaQueryService {
+export class SkyContentQueryLegacyService extends SkyMediaQueryService {
   public override get current(): SkyMediaBreakpoints {
     return this.#current;
   }
@@ -25,6 +22,10 @@ export class SkyFlyoutMediaQueryService extends SkyMediaQueryService {
         listener(breakpoints);
       },
     });
+  }
+
+  public override destroy(): void {
+    this.#currentSubject.complete();
   }
 
   public setBreakpointForWidth(width: number): void {
@@ -69,9 +70,5 @@ export class SkyFlyoutMediaQueryService extends SkyMediaQueryService {
         return width >= lgBreakpointMinPixels;
       }
     }
-  }
-
-  public override destroy(): void {
-    this.#currentSubject.complete();
   }
 }

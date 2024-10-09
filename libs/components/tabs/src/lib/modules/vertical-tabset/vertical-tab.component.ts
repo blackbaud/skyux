@@ -11,14 +11,16 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { provideSkyMediaQueryServiceOverride } from '@skyux/core';
+import {
+  SkyContentQueryLegacyService,
+  provideSkyMediaQueryServiceOverride,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
-import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
@@ -30,8 +32,8 @@ let nextId = 0;
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
   providers: [
-    SkyVerticalTabMediaQueryService,
-    provideSkyMediaQueryServiceOverride(SkyVerticalTabMediaQueryService),
+    SkyContentQueryLegacyService,
+    provideSkyMediaQueryServiceOverride(SkyContentQueryLegacyService),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -179,20 +181,20 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #adapterService: SkyVerticalTabsetAdapterService;
   #changeRef: ChangeDetectorRef;
   #tabsetService: SkyVerticalTabsetService;
-  #verticalTabMediaQueryService: SkyVerticalTabMediaQueryService;
+  #mediaQuerySvc: SkyContentQueryLegacyService;
   #tabIdSvc: SkyTabIdService | undefined;
 
   constructor(
     adapterService: SkyVerticalTabsetAdapterService,
     changeRef: ChangeDetectorRef,
     tabsetService: SkyVerticalTabsetService,
-    verticalTabMediaQueryService: SkyVerticalTabMediaQueryService,
+    mediaQuerySvc: SkyContentQueryLegacyService,
     @Optional() tabIdSvc?: SkyTabIdService,
   ) {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
-    this.#verticalTabMediaQueryService = verticalTabMediaQueryService;
+    this.#mediaQuerySvc = mediaQuerySvc;
     this.#tabIdSvc = tabIdSvc;
 
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
@@ -273,9 +275,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #updateBreakpointAndResponsiveClass(): void {
     if (this.tabContent) {
       const width = this.#adapterService.getWidth(this.tabContent);
-      this.#verticalTabMediaQueryService.setBreakpointForWidth(width);
+      this.#mediaQuerySvc.setBreakpointForWidth(width);
 
-      const newBreakpoint = this.#verticalTabMediaQueryService.current;
+      const newBreakpoint = this.#mediaQuerySvc.current;
 
       if (newBreakpoint) {
         this.#adapterService.setResponsiveClass(this.tabContent, newBreakpoint);

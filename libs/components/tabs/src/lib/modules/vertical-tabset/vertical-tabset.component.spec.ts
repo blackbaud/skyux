@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
+import { SkyContentQueryLegacyService, SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -20,7 +20,6 @@ import { VerticalTabsetNoActiveTestComponent } from './fixtures/vertical-tabset-
 import { VerticalTabsetNoGroupTestComponent } from './fixtures/vertical-tabset-no-group.component.fixture';
 import { VerticalTabsetProgrammaticTestComponent } from './fixtures/vertical-tabset-programmatic.component';
 import { VerticalTabsetTestComponent } from './fixtures/vertical-tabset.component.fixture';
-import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
@@ -930,7 +929,7 @@ describe('Vertical tabset component', () => {
   it('should add the appropriate responsive container upon initialization', async () => {
     spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(640);
     const mediaQuerySpy = spyOn(
-      SkyVerticalTabMediaQueryService.prototype,
+      SkyContentQueryLegacyService.prototype,
       'setBreakpointForWidth',
     ).and.callThrough();
 
@@ -972,7 +971,7 @@ describe('Vertical tabset component', () => {
     ).toBeTruthy();
     widthSpy.and.returnValue(1100);
     const mediaQuerySpy = spyOn(
-      SkyVerticalTabMediaQueryService.prototype,
+      SkyContentQueryLegacyService.prototype,
       'setBreakpointForWidth',
     ).and.callThrough();
 
@@ -992,7 +991,7 @@ describe('Vertical tabset component', () => {
 
     spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(800);
     const mediaQuerySpy = spyOn(
-      SkyVerticalTabMediaQueryService.prototype,
+      SkyContentQueryLegacyService.prototype,
       'setBreakpointForWidth',
     ).and.callThrough();
 

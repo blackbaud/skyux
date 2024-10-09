@@ -1,19 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
 
-import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
+import { SkyContentQueryLegacyService } from './content-query-legacy.service';
+import { SkyMediaBreakpoints } from './media-breakpoints';
 
-describe('Flyout media query service', () => {
+describe('Legacy content query service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SkyFlyoutMediaQueryService],
+      providers: [SkyContentQueryLegacyService],
     });
   });
 
   describe('initialization test', () => {
     it('should handle initialization properly', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
@@ -35,8 +35,8 @@ describe('Flyout media query service', () => {
 
   describe('query tests', () => {
     it('should complete the subscription on destroy', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         const subscription = mediaQueryService.subscribe(() => {});
 
         mediaQueryService.destroy();
@@ -46,8 +46,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should update the breakpoint correctly when setBreakPoint is called', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
@@ -78,8 +78,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should provide the ability to check the current breakpoints', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         mediaQueryService.setBreakpointForWidth(900);
 
         expect(mediaQueryService.current).toEqual(SkyMediaBreakpoints.sm);
@@ -90,8 +90,8 @@ describe('Flyout media query service', () => {
 
   describe('width checks', () => {
     it('should return true from isWidthXs when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             767,
@@ -104,8 +104,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should return false from isWidthXs when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             768,
@@ -118,8 +118,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should return true from isWidthSm when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             768,
@@ -138,8 +138,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should return false from isWidthSm when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             767,
@@ -158,8 +158,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should return true from isWidthMd when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             992,
@@ -178,8 +178,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should return false from isWidthMd when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             991,
@@ -198,8 +198,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should return true from isWidthLg when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             1200,
@@ -218,8 +218,8 @@ describe('Flyout media query service', () => {
     ));
 
     it('should return false from isWidthLg when appropriate', inject(
-      [SkyFlyoutMediaQueryService],
-      (mediaQueryService: SkyFlyoutMediaQueryService) => {
+      [SkyContentQueryLegacyService],
+      (mediaQueryService: SkyContentQueryLegacyService) => {
         expect(
           mediaQueryService.isWidthWithinBreakpoint(
             1199,
