@@ -35,6 +35,7 @@ module.exports = [
   ...overrides,
   {
     files: ['**/*.ts'],
+    ignores: ['**/*.spec.ts', '**/fixtures/**'],
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
@@ -85,6 +86,7 @@ module.exports = [
   ...overrides,
   {
     files: ['**/*.ts'],
+    ignores: ['**/*.spec.ts', '**/fixtures/**'],
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
