@@ -31,7 +31,7 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the reset button
+   * Clicks the reset button.
    */
   public async clickResetButton(): Promise<void> {
     try {

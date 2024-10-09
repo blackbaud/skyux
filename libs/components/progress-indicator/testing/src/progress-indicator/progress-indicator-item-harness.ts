@@ -43,20 +43,18 @@ export class SkyProgressIndicatorItemHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the help inline popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
+  }
+
+  /**
    * Gets the progress indicator item's title text.
    */
   public async getTitle(): Promise<string> {
     const title = await (await this.#getHeading()).text();
     return title.substring(title.indexOf('-') + 1).trim();
-  }
-
-  // TODO get content - look at input box
-
-  /**
-   * Gets the help inline popover title.
-   */
-  public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**
