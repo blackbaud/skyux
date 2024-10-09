@@ -36,9 +36,4 @@ module.exports = [
       ],
     },
   },
-  {
-    files: ['**/*.html'],
-    // Override or add rules here
-    rules: {},
-  },
 ];
