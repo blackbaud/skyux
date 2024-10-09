@@ -40,7 +40,7 @@ describe('media-query-testing.controller', () => {
       providers: [provideSkyMediaQueryTesting(), provideRouter([])],
     });
 
-    // TODO: This probably shouldn't be done:
+    // TODO: Don't do this.
     overrideWrapperForTesting();
   });
 
