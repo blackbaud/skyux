@@ -1,5 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, contentChildren, input } from '@angular/core';
+import {
+  Component,
+  Input,
+  computed,
+  contentChildren,
+  signal,
+} from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 
@@ -29,18 +35,23 @@ export class SkyLinkListComponent {
   /**
    * The text to display as the list's heading.
    */
-  public readonly headingText = input<string>();
+  @Input()
+  public headingText = '';
 
   /**
    * Option to pass links as an array of `SkyPageLink` objects or `'loading'` to display a loading indicator.
    */
-  public readonly links = input<SkyPageLinksInput | undefined>();
+  @Input()
+  public set links(value: SkyPageLinksInput) {
+    this.linksInput.set(value);
+  }
 
+  protected readonly linksInput = signal<SkyPageLinksInput>(undefined);
   protected readonly linkItems = contentChildren(SkyLinkListItemComponent);
 
   protected readonly hasLinks = computed<boolean>(() => {
     const linkItems = this.linkItems();
-    const links = this.links();
+    const links = this.linksInput();
     if (linkItems.length > 0) {
       return true;
     }
@@ -48,7 +59,7 @@ export class SkyLinkListComponent {
   });
 
   protected readonly linksArray = computed<SkyPageLink[]>(() => {
-    const links = this.links();
+    const links = this.linksInput();
     if (Array.isArray(links)) {
       return links;
     }
