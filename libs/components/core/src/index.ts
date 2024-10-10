@@ -60,16 +60,14 @@ export { SkyLogService } from './lib/modules/log/log.service';
 export { SkyLogLevel } from './lib/modules/log/types/log-level';
 export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
+export { SkyContentQueryLegacyService } from './lib/modules/media-query/content-query-legacy.service';
 export { SkyMediaBreakpoints } from './lib/modules/media-query/media-breakpoints';
 export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
-
+export { SkyMediaQueryServiceOverride } from './lib/modules/media-query/media-query-service-override';
 export { SKY_MEDIA_QUERY_SERVICE_OVERRIDE } from './lib/modules/media-query/media-query-service-override.token';
 export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
 export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';
 export { provideSkyMediaQueryServiceOverride } from './lib/modules/media-query/provide-media-query-service-override';
-export { SkyMediaQueryServiceBase } from './lib/modules/media-query/media-query-service-base';
-export { SkyMediaQueryServiceOverride } from './lib/modules/media-query/media-query-service-override';
-export { SkyContentQueryLegacyService } from './lib/modules/media-query/content-query-legacy.service';
 
 export { SkyMutationObserverService } from './lib/modules/mutation/mutation-observer-service';
 
@@ -99,8 +97,8 @@ export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-o
 
 export { SkyScreenReaderLabelDirective } from './lib/modules/screen-reader-label/screen-reader-label.directive';
 
-export { SkyScrollShadowDirective } from './lib/modules/scroll-shadow/scroll-shadow.directive';
 export { SkyScrollShadowEventArgs } from './lib/modules/scroll-shadow/scroll-shadow-event-args';
+export { SkyScrollShadowDirective } from './lib/modules/scroll-shadow/scroll-shadow.directive';
 
 export { SkyScrollableHostService } from './lib/modules/scrollable-host/scrollable-host.service';
 
