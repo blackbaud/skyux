@@ -7,9 +7,12 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { SkyMediaBreakpoints } from '@skyux/core';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';
 import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-action-bar-split-view.component.fixture';
@@ -96,34 +99,28 @@ describe('Summary Action Bar component', () => {
     );
   }
 
-  let mockMediaQueryService: MockSkyMediaQueryService;
+  let mediaQueryController: SkyMediaQueryTestingController;
 
   beforeEach(() => {
-    mockMediaQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [SkySummaryActionBarFixtureModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
 
     TestBed.overrideComponent(SkySummaryActionBarSecondaryActionsComponent, {
       add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockMediaQueryService,
-          },
-        ],
+        providers: [provideSkyMediaQueryTesting()],
       },
     }).overrideComponent(SkySummaryActionBarComponent, {
       add: {
         providers: [
           SkySummaryActionBarAdapterService,
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockMediaQueryService,
-          },
+          provideSkyMediaQueryTesting(),
         ],
       },
     });
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   describe('standard usage', () => {
@@ -150,7 +147,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set a new margin when the summary area changes collapsed state', fakeAsync(() => {
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         let actionBarHeight = getActionBarHeight(debugElement);
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
@@ -298,14 +295,14 @@ describe('Summary Action Bar component', () => {
 
       it('should set isSummaryCollapsible to true when on a xs screen', () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         validateCollapsible(debugElement.nativeElement, true);
       });
 
       it('should recognize when the summary tag when it is toggled externally when on a xs screen', () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         expect(getSummary(debugElement)).toExist();
         toggleSummary(debugElement);
@@ -321,7 +318,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         validateCollapsible(getModalHost(), true);
       });
@@ -331,7 +328,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         expect(cmp.openedModal?.summaryActionBar).toBeTruthy();
         validateCollapsible(getModalHost(), true);
@@ -339,13 +336,13 @@ describe('Summary Action Bar component', () => {
 
       it('should set isSummaryCollapsed to false when moving from a xs screen to a large screen', () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         (
           cmp.summaryActionBar as SkySummaryActionBarComponent
         ).isSummaryCollapsed = true;
-        mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
       });
@@ -355,7 +352,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         expect(cmp.openedModal).toBeTruthy();
 
         fixture.detectChanges();
@@ -365,7 +362,7 @@ describe('Summary Action Bar component', () => {
         expect(summaryActionBar).toBeTruthy();
 
         summaryActionBar.isSummaryCollapsed = true;
-        mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
 
         fixture.detectChanges();
 
@@ -378,7 +375,7 @@ describe('Summary Action Bar component', () => {
     describe('animations', () => {
       it('should update slide direction and isSummaryCollapsed when collapsing the summary', fakeAsync(() => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
@@ -393,7 +390,7 @@ describe('Summary Action Bar component', () => {
 
       it('should update slide direction and isSummaryCollapsed when expanding the summary', fakeAsync(() => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         clickCollapseButton(debugElement);
         fixture.detectChanges();
@@ -412,7 +409,7 @@ describe('Summary Action Bar component', () => {
 
       it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         clickCollapseButton(debugElement);
         // Allow animation to finish
@@ -427,7 +424,7 @@ describe('Summary Action Bar component', () => {
 
       it(`should move focus to the expanded summary's chevron after expanding`, async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         clickCollapseButton(debugElement);
         // Allow animation to finish
@@ -463,7 +460,7 @@ describe('Summary Action Bar component', () => {
         cmp.hideMainActionBar = true;
         cmp.showSecondaryActionBar = true;
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         validateCollapsible(debugElement.nativeElement, true);
       });
@@ -478,7 +475,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (standard xs setup)', async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -486,7 +483,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (standard xs setup collapsed summary)', async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         clickCollapseButton(debugElement);
@@ -551,7 +548,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         // Testing modal host here due to the modal not being contained in the fixture
@@ -567,7 +564,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         // Using query selector here due to the modal not being inside the debugElement
@@ -687,7 +684,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (standard xs setup)', async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -695,7 +692,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (standard xs setup collapsed summary)', async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         clickCollapseButton(debugElement);
@@ -759,7 +756,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (standard xs setup)', async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -767,7 +764,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (standard xs setup collapsed summary)', async () => {
         fixture.detectChanges();
-        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
         await fixture.whenStable();
         clickCollapseButton(debugElement);

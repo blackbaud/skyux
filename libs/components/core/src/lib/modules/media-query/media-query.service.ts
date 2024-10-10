@@ -4,13 +4,16 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
+import { SkyMediaQueryServiceBase } from './media-query-service-base';
 
 const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 @Injectable({
   providedIn: 'root',
 })
-export class SkyMediaQueryService implements OnDestroy {
+export class SkyMediaQueryService
+  implements SkyMediaQueryServiceBase, OnDestroy
+{
   /**
    * The size for the `xs` breakpoint.
    * @default "(max-width: 767px)"

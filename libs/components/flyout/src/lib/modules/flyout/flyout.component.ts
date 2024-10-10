@@ -27,9 +27,10 @@ import { RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
   SkyDynamicComponentService,
-  SkyMediaBreakpoints,
   SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
   SkyUIConfigService,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
@@ -44,7 +45,6 @@ import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module'
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 import { SkyFlyoutInstance } from './flyout-instance';
 import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
-import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
 import { SkyFlyoutAction } from './types/flyout-action';
 import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
 import { SkyFlyoutConfig } from './types/flyout-config';
@@ -68,8 +68,7 @@ let nextId = 0;
   styleUrls: ['./flyout.component.scss'],
   providers: [
     SkyFlyoutAdapterService,
-    SkyFlyoutMediaQueryService,
-    { provide: SkyMediaQueryService, useExisting: SkyFlyoutMediaQueryService },
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
   animations: [
     trigger('flyoutState', [
@@ -167,9 +166,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   readonly #adapter = inject(SkyFlyoutAdapterService);
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
-  readonly #elementRef = inject(ElementRef);
   readonly #environmentInjector = inject(EnvironmentInjector);
-  readonly #flyoutMediaQueryService = inject(SkyFlyoutMediaQueryService);
+
+  // Inject the media query service, but assert the type as the override
+  // to avoid a circular reference by DI.
+  readonly #mediaQuerySvc = inject(
+    SkyMediaQueryService,
+  ) as unknown as SkyResizeObserverMediaQueryService;
+
   readonly #ngZone = inject(NgZone);
   readonly #resourcesService = inject(SkyLibResourcesService);
   readonly #uiConfigService = inject(SkyUIConfigService);
@@ -188,30 +192,33 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     if (this.flyoutHeader) {
       this.#adapter.adjustHeaderForHelp(this.flyoutHeader);
     }
+
+    /* istanbul ignore else: safety check */
+    if (this.flyoutRef) {
+      this.#mediaQuerySvc.observe(this.flyoutRef, {
+        updateResponsiveClasses: true,
+      });
+    }
   }
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    this.#mediaQuerySvc.unobserve();
   }
 
   @HostListener('window:resize', ['$event'])
-  public onWindowResize(event: any): void {
-    if (
-      this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
-        event.target.innerWidth,
-        SkyMediaBreakpoints.xs,
-      )
-    ) {
-      this.#updateBreakpointAndResponsiveClass(event.target.innerWidth);
-    } else {
-      this.#updateBreakpointAndResponsiveClass(this.flyoutWidth);
-    }
-
+  public onWindowResize(event: Event): void {
     this.#setFullscreen();
 
-    if (event.target.innerWidth - this.flyoutWidth < this.#windowBufferSize) {
-      this.flyoutWidth = event.target.innerWidth - this.#windowBufferSize;
+    if (this.isFullscreen) {
+      return;
+    }
+
+    const target = event.target as Window;
+
+    if (target.innerWidth - this.flyoutWidth < this.#windowBufferSize) {
+      this.flyoutWidth = target.innerWidth - this.#windowBufferSize;
       this.#xCoord = this.#windowBufferSize;
       this.#setUserData();
     }
@@ -378,13 +385,13 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.#adapter.toggleIframePointerEvents(false);
 
-    fromEvent(document, 'mousemove')
+    fromEvent<MouseEvent>(document, 'mousemove')
       .pipe(
         takeWhile(() => {
           return this.isDragging;
         }),
       )
-      .subscribe((moveEvent: any) => {
+      .subscribe((moveEvent) => {
         this.onMouseMove(moveEvent);
       });
 
@@ -394,8 +401,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           return this.isDragging;
         }),
       )
-      .subscribe((mouseUpEvent: any) => {
-        this.onHandleRelease(mouseUpEvent);
+      .subscribe(() => {
+        this.onHandleRelease();
       });
   }
 
@@ -424,12 +431,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     this.flyoutWidth = width;
 
-    this.#updateBreakpointAndResponsiveClass(this.flyoutWidth);
-
     this.#changeDetector.markForCheck();
   }
 
-  public onHandleRelease(event: MouseEvent): void {
+  public onHandleRelease(): void {
     fromEvent(document, 'click')
       .pipe(take(1))
       .subscribe(() => {
@@ -522,14 +527,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.target?.clear();
   }
 
-  #updateBreakpointAndResponsiveClass(width: number): void {
-    this.#flyoutMediaQueryService.setBreakpointForWidth(width);
-
-    const newBreakpoint = this.#flyoutMediaQueryService.current;
-
-    this.#adapter.setResponsiveClass(this.#elementRef, newBreakpoint);
-  }
-
   #setFullscreen(): void {
     if (window.innerWidth - this.#windowBufferSize < this.config.minWidth) {
       this.isFullscreen = true;
@@ -570,17 +567,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.flyoutWidth = window.innerWidth - this.#windowBufferSize;
       this.#xCoord = this.#windowBufferSize;
       this.#setUserData();
-    }
-
-    if (
-      this.#flyoutMediaQueryService.isWidthWithinBreakpoint(
-        window.innerWidth,
-        SkyMediaBreakpoints.xs,
-      )
-    ) {
-      this.#updateBreakpointAndResponsiveClass(window.innerWidth);
-    } else {
-      this.#updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
 
     this.#setFullscreen();

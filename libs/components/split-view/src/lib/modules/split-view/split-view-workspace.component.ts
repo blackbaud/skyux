@@ -1,21 +1,23 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
-import { SkyCoreAdapterService, SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 import { SkySplitViewService } from './split-view.service';
 
 /**
@@ -27,15 +29,10 @@ import { SkySplitViewService } from './split-view.service';
   styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkySplitViewMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
-export class SkySplitViewWorkspaceComponent
-  implements AfterViewInit, OnDestroy, OnInit
-{
+export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
   public set isMobile(value: boolean | undefined) {
     this.#_isMobile = value;
     this.#changeDetectorRef.markForCheck();
@@ -56,27 +53,28 @@ export class SkySplitViewWorkspaceComponent
 
   public showDrawerButtonClick = new EventEmitter<number>();
 
+  @ViewChild('workspaceRef', { static: true })
+  protected workspaceRef!: ElementRef;
+
   #ngUnsubscribe = new Subject<void>();
   #changeDetectorRef: ChangeDetectorRef;
-  #coreAdapterSvc: SkyCoreAdapterService;
-  #elementRef: ElementRef;
-  #splitViewMediaQuerySvc: SkySplitViewMediaQueryService;
+  #mediaQuerySvc: SkyResizeObserverMediaQueryService;
   #splitViewSvc: SkySplitViewService;
 
   #_isMobile: boolean | undefined;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
-    coreAdapterSvc: SkyCoreAdapterService,
-    elementRef: ElementRef,
-    splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
+    mediaQuerySvc: SkyMediaQueryService,
     splitViewSvc: SkySplitViewService,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
-    this.#coreAdapterSvc = coreAdapterSvc;
-    this.#elementRef = elementRef;
-    this.#splitViewMediaQuerySvc = splitViewMediaQuerySvc;
     this.#splitViewSvc = splitViewSvc;
+
+    // Inject the media query service, but assert the type as the override
+    // to avoid a circular reference by DI.
+    this.#mediaQuerySvc =
+      mediaQuerySvc as unknown as SkyResizeObserverMediaQueryService;
   }
 
   public ngOnInit(): void {
@@ -86,35 +84,16 @@ export class SkySplitViewWorkspaceComponent
         this.isMobile = mobile;
         this.#changeDetectorRef.markForCheck();
       });
-  }
 
-  public ngAfterViewInit(): void {
-    this.#splitViewSvc.drawerWidthStream
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#updateBreakpoint();
-      });
+    this.#mediaQuerySvc.observe(this.workspaceRef, {
+      updateResponsiveClasses: true,
+    });
   }
 
   public ngOnDestroy(): void {
     this.showDrawerButtonClick.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-  }
-
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    this.#updateBreakpoint();
-  }
-
-  #updateBreakpoint(): void {
-    const width = this.#elementRef.nativeElement.parentElement.clientWidth;
-    this.#splitViewMediaQuerySvc.setBreakpointForWidth(width);
-    const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
-    this.#coreAdapterSvc.setResponsiveContainerClass(
-      this.#elementRef,
-      newDrawerBreakpoint,
-    );
-    this.#changeDetectorRef.markForCheck();
+    this.#mediaQuerySvc.unobserve();
   }
 }

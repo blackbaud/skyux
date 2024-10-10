@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -11,14 +10,16 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
-import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
@@ -30,11 +31,7 @@ let nextId = 0;
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
   providers: [
-    SkyVerticalTabMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyVerticalTabMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -143,7 +140,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
       // NOTE: Wrapped in a setTimeout here to ensure that everything has completed rendering.
       setTimeout(() => {
         if (this.tabContent) {
-          this.#updateBreakpointAndResponsiveClass();
+          this.#mediaQuerySvc.observe(this.tabContent, {
+            updateResponsiveClasses: true,
+          });
         }
       });
     }
@@ -182,21 +181,25 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #adapterService: SkyVerticalTabsetAdapterService;
   #changeRef: ChangeDetectorRef;
   #tabsetService: SkyVerticalTabsetService;
-  #verticalTabMediaQueryService: SkyVerticalTabMediaQueryService;
+  #mediaQuerySvc: SkyResizeObserverMediaQueryService;
   #tabIdSvc: SkyTabIdService | undefined;
 
   constructor(
     adapterService: SkyVerticalTabsetAdapterService,
     changeRef: ChangeDetectorRef,
     tabsetService: SkyVerticalTabsetService,
-    verticalTabMediaQueryService: SkyVerticalTabMediaQueryService,
+    mediaQuerySvc: SkyMediaQueryService,
     @Optional() tabIdSvc?: SkyTabIdService,
   ) {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
-    this.#verticalTabMediaQueryService = verticalTabMediaQueryService;
     this.#tabIdSvc = tabIdSvc;
+
+    // Inject the media query service, but assert the type as the override
+    // to avoid a circular reference by DI.
+    this.#mediaQuerySvc =
+      mediaQuerySvc as unknown as SkyResizeObserverMediaQueryService;
 
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
     this.tabId = this.#defaultTabId;
@@ -211,18 +214,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
       this.#changeRef.markForCheck();
     });
 
-    // Update the breakpoint and responsive class here just as a sanity check since we can not
-    // watch for element resizing.
-    this.#tabsetService.indexChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((index) => {
-        if (this.index === index && this.contentRendered) {
-          if (this.tabContent) {
-            this.#updateBreakpointAndResponsiveClass();
-          }
-        }
-      });
-
     this.#tabsetService.addTab(this);
   }
 
@@ -232,6 +223,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#tabsetService.destroyTab(this);
+    this.#mediaQuerySvc.unobserve();
   }
 
   public activateTab(): void {
@@ -262,29 +254,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    if (this.tabContent) {
-      this.#updateBreakpointAndResponsiveClass();
-    }
-  }
-
   public tabDeactivated(): void {
     this.#changeRef.markForCheck();
-  }
-
-  #updateBreakpointAndResponsiveClass(): void {
-    if (this.tabContent) {
-      const width = this.#adapterService.getWidth(this.tabContent);
-      this.#verticalTabMediaQueryService.setBreakpointForWidth(width);
-
-      const newBreakpoint = this.#verticalTabMediaQueryService.current;
-
-      if (newBreakpoint) {
-        this.#adapterService.setResponsiveClass(this.tabContent, newBreakpoint);
-      }
-
-      this.#changeRef.markForCheck();
-    }
   }
 }

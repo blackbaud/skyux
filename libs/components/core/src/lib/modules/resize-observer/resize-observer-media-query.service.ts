@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
+import { SkyMediaQueryServiceOverride } from '../media-query/media-query-service-override';
 
 import { SkyResizeObserverService } from './resize-observer.service';
 
@@ -14,7 +15,9 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
  */
 @Injectable()
-export class SkyResizeObserverMediaQueryService implements OnDestroy {
+export class SkyResizeObserverMediaQueryService
+  implements OnDestroy, SkyMediaQueryServiceOverride
+{
   /**
    * Returns the current breakpoint.
    */

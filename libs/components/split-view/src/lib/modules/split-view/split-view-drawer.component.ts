@@ -8,18 +8,19 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
-  SkyMediaBreakpoints,
   SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
 
-import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 import { SkySplitViewService } from './split-view.service';
 
 let skySplitViewNextId = 0;
@@ -33,10 +34,7 @@ let skySplitViewNextId = 0;
   styleUrls: ['split-view-drawer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkySplitViewMediaQueryService,
-    },
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkySplitViewDrawerComponent
@@ -58,7 +56,6 @@ export class SkySplitViewDrawerComponent
   public set width(value: number | undefined) {
     if (value) {
       this.#_width = Number(value);
-      this.#updateBreakpoint();
       this.#splitViewSvc.updateDrawerWidth(this.#_width);
       this.#changeDetectorRef.markForCheck();
     }
@@ -82,6 +79,9 @@ export class SkySplitViewDrawerComponent
     return this.#_width || this.widthDefault;
   }
 
+  @ViewChild('drawerRef', { static: true })
+  protected drawerRef!: ElementRef;
+
   public isMobile = false;
 
   public splitViewDrawerId: string;
@@ -101,8 +101,7 @@ export class SkySplitViewDrawerComponent
   #xCoord = 0;
   #changeDetectorRef: ChangeDetectorRef;
   #coreAdapterService: SkyCoreAdapterService;
-  #elementRef: ElementRef;
-  #splitViewMediaQuerySvc: SkySplitViewMediaQueryService;
+  #mediaQuerySvc: SkyResizeObserverMediaQueryService;
   #splitViewSvc: SkySplitViewService;
   #windowRef: SkyAppWindowRef;
 
@@ -111,17 +110,19 @@ export class SkySplitViewDrawerComponent
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     coreAdapterService: SkyCoreAdapterService,
-    elementRef: ElementRef,
-    splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
+    mediaQuerySvc: SkyMediaQueryService,
     splitViewSvc: SkySplitViewService,
     windowRef: SkyAppWindowRef,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#coreAdapterService = coreAdapterService;
-    this.#elementRef = elementRef;
-    this.#splitViewMediaQuerySvc = splitViewMediaQuerySvc;
     this.#splitViewSvc = splitViewSvc;
     this.#windowRef = windowRef;
+
+    // Inject the media query service, but assert the type as the override
+    // to avoid a circular reference by DI.
+    this.#mediaQuerySvc =
+      mediaQuerySvc as unknown as SkyResizeObserverMediaQueryService;
 
     this.splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
   }
@@ -138,7 +139,9 @@ export class SkySplitViewDrawerComponent
   }
 
   public ngAfterViewInit(): void {
-    this.#updateBreakpoint();
+    this.#mediaQuerySvc.observe(this.drawerRef, {
+      updateResponsiveClasses: true,
+    });
   }
 
   public ngOnDestroy(): void {
@@ -149,15 +152,6 @@ export class SkySplitViewDrawerComponent
   public onResizeHandleMouseDown(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
-
-    if (
-      this.#splitViewMediaQuerySvc.isWidthWithinBreakpoint(
-        window.innerWidth,
-        SkyMediaBreakpoints.xs,
-      )
-    ) {
-      return;
-    }
 
     this.#setMaxWidth();
     this.#isDragging = true;
@@ -233,15 +227,6 @@ export class SkySplitViewDrawerComponent
     ) {
       this.width = window.innerWidth - this.widthTolerance;
     }
-  }
-
-  #updateBreakpoint(): void {
-    this.#splitViewMediaQuerySvc.setBreakpointForWidth(this.width);
-    const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
-    this.#coreAdapterService.setResponsiveContainerClass(
-      this.#elementRef,
-      newDrawerBreakpoint,
-    );
   }
 
   #setMaxWidth(): void {
