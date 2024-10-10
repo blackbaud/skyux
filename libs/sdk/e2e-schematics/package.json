@@ -2,8 +2,8 @@
   "name": "@skyux-sdk/e2e-schematics",
   "version": "1.0.0",
   "peerDependencies": {
-    "@angular/cdk": "^18.2.4",
-    "@angular/cli": "^18.2.4",
+    "@angular/cdk": "^18.2.8",
+    "@angular/cli": "^18.2.8",
     "@percy/cypress": "^3.1.2",
     "@nx/devkit": "^19.7.4",
     "@nx/workspace": "^19.7.4",

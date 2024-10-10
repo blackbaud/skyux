@@ -17,7 +17,11 @@
   );
 }
 
-@include compatMixins.sky-modern-overrides('.sky-status-indicator', true) {
+@include compatMixins.sky-modern-overrides(
+  '.sky-status-indicator',
+  true,
+  true
+) {
   --sky-override-status-indicator-icon-default-display: none;
 }
 
