@@ -203,18 +203,10 @@ export class SkyAgGridService implements OnDestroy {
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions,
   ): GridOptions {
-    if (
-      !providedGridOptions.selection &&
-      ('rowSelection' in providedGridOptions ||
-        'enableRangeSelection' in providedGridOptions)
-    ) {
-      if (providedGridOptions.rowSelection === 'single') {
-        providedGridOptions.selection = { mode: 'singleRow' };
-      }
+    if ('enableRangeSelection' in providedGridOptions) {
       if (providedGridOptions.enableRangeSelection) {
-        providedGridOptions.selection = { mode: 'cell' };
+        providedGridOptions.cellSelection = true;
       }
-      delete providedGridOptions.rowSelection;
       delete providedGridOptions.enableRangeSelection;
     }
 
@@ -247,14 +239,13 @@ export class SkyAgGridService implements OnDestroy {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
       },
-      selection: providedGridOptions.selection ?? defaultGridOptions.selection,
     };
 
     // Enable text selection unless explicitly disabled or conflicting with another setting.
     if (
       mergedGridOptions.enableCellTextSelection ||
       (!('enableCellTextSelection' in mergedGridOptions) &&
-        mergedGridOptions.selection?.mode !== 'cell' &&
+        !mergedGridOptions.cellSelection &&
         !mergedGridOptions.columnDefs?.some((col: ColDef) => col.editable))
     ) {
       mergedGridOptions.context ||= {};
@@ -532,10 +523,10 @@ export class SkyAgGridService implements OnDestroy {
       },
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
-      selection: {
+      rowSelection: {
         mode: 'multiRow',
         enableClickSelection: false,
-        enableMultiSelectWithClick: true,
+        enableSelectionWithoutKeys: true,
         checkboxes: false,
         headerCheckbox: false,
       },
@@ -617,7 +608,7 @@ export class SkyAgGridService implements OnDestroy {
 
   #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
-    delete defaultGridOptions.selection;
+    defaultGridOptions.rowSelection = undefined;
     return defaultGridOptions;
   }
 
