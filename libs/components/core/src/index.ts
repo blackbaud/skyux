@@ -108,6 +108,7 @@ export { SkyAppSetTitleArgs } from './lib/modules/title/set-title-args';
 export { SkyAppTitleService } from './lib/modules/title/title.service';
 
 export { SkyTrimModule } from './lib/modules/trim/trim.module';
+
 export { SkyUIConfigService } from './lib/modules/ui-config/ui-config.service';
 
 export { SkyViewkeeperHostOptions } from './lib/modules/viewkeeper/viewkeeper-host-options';

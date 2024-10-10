@@ -19,8 +19,6 @@ import { ReplaySubject, Subscription } from 'rxjs';
 
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
 
-const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
-
 /**
  * @internal
  */
@@ -35,19 +33,15 @@ export class SkyMediaQueryTestingService
     return this.#currentBreakpoint;
   }
 
-  #currentBreakpoint = DEFAULT_BREAKPOINT;
+  #currentBreakpoint = SkyMediaBreakpoints.md;
   #currentBreakpointChange = new ReplaySubject<SkyMediaBreakpoints>(1);
-
-  #elementRef: ElementRef | undefined;
-
   #currentBreakpointObs = this.#currentBreakpointChange
     .asObservable()
     .pipe(takeUntilDestroyed());
+  #elementRef: ElementRef | undefined;
+  #observeSubscription: Subscription | undefined;
 
   readonly #renderer: Renderer2;
-
-  #doUpdateResponsiveClasses = false;
-  #observeSubscription: Subscription | undefined;
 
   constructor() {
     this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
@@ -86,11 +80,9 @@ export class SkyMediaQueryTestingService
     options?: { updateResponsiveClasses?: boolean },
   ): SkyResizeObserverMediaQueryService {
     this.#elementRef = elementRef;
-    this.#doUpdateResponsiveClasses = options?.updateResponsiveClasses ?? false;
-
     this.#observeSubscription?.unsubscribe();
     this.#observeSubscription = this.subscribe((breakpoint) => {
-      if (this.#elementRef && this.#doUpdateResponsiveClasses) {
+      if (this.#elementRef && options?.updateResponsiveClasses) {
         this.#removeResponsiveClasses(this.#elementRef.nativeElement);
         this.#addResponsiveClass(breakpoint);
       }
