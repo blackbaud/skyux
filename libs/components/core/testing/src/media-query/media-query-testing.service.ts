@@ -3,7 +3,6 @@ import {
   ElementRef,
   Injectable,
   OnDestroy,
-  Renderer2,
   RendererFactory2,
   inject,
 } from '@angular/core';
@@ -15,7 +14,7 @@ import {
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
-import { ReplaySubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
 
@@ -34,18 +33,15 @@ export class SkyMediaQueryTestingService
   }
 
   #currentBreakpoint = SkyMediaBreakpoints.md;
-  #currentBreakpointChange = new ReplaySubject<SkyMediaBreakpoints>(1);
+  #currentBreakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
+    this.#currentBreakpoint,
+  );
   #currentBreakpointObs = this.#currentBreakpointChange
     .asObservable()
     .pipe(takeUntilDestroyed());
-  #elementRef: ElementRef | undefined;
   #observeSubscription: Subscription | undefined;
 
-  readonly #renderer: Renderer2;
-
-  constructor() {
-    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
-  }
+  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs.subscribe({
@@ -62,11 +58,6 @@ export class SkyMediaQueryTestingService
 
   public ngOnDestroy(): void {
     this.#observeSubscription?.unsubscribe();
-
-    /* istanbul ignore else: safety check */
-    if (this.#elementRef) {
-      this.#removeResponsiveClasses(this.#elementRef.nativeElement);
-    }
   }
 
   public setBreakpoint(breakpoint: SkyMediaBreakpoints): void {
@@ -79,12 +70,13 @@ export class SkyMediaQueryTestingService
     elementRef: ElementRef,
     options?: { updateResponsiveClasses?: boolean },
   ): SkyResizeObserverMediaQueryService {
-    this.#elementRef = elementRef;
     this.#observeSubscription?.unsubscribe();
     this.#observeSubscription = this.subscribe((breakpoint) => {
-      if (this.#elementRef && options?.updateResponsiveClasses) {
-        this.#removeResponsiveClasses(this.#elementRef.nativeElement);
-        this.#addResponsiveClass(breakpoint);
+      if (options?.updateResponsiveClasses) {
+        const el = elementRef.nativeElement;
+
+        this.#removeResponsiveClasses(el);
+        this.#addResponsiveClass(el, breakpoint);
       }
     });
 
@@ -96,9 +88,9 @@ export class SkyMediaQueryTestingService
     /* noop */
   }
 
-  #addResponsiveClass(breakpoint: SkyMediaBreakpoints): void {
+  #addResponsiveClass(el: HTMLElement, breakpoint: SkyMediaBreakpoints): void {
     const className = this.#getClassForBreakpoint(breakpoint);
-    this.#renderer.addClass(this.#elementRef?.nativeElement, className);
+    this.#renderer.addClass(el, className);
   }
 
   #removeResponsiveClasses(el: HTMLElement): void {

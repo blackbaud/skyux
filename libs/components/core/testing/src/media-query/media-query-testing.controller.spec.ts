@@ -1,11 +1,9 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { SkySearchHarness } from '@skyux/lookup/testing';
 
 import { TestComponent } from './fixtures/test.component';
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
@@ -84,22 +82,20 @@ describe('media-query-testing.controller', () => {
     const { fixture, mediaQueryController } = setupTest();
 
     const wrapper = fixture.debugElement.query(By.css('sky-foo-wrapper'));
-
-    const loader = TestbedHarnessEnvironment.loader(fixture);
-    const searchHarness = await loader.getHarness(SkySearchHarness);
+    const child = fixture.debugElement.query(By.css('sky-foo-child'));
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
     fixture.detectChanges();
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.xs);
     expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.xs);
-    await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(true);
+    expectBreakpointCSSClass(child.nativeElement, SkyMediaBreakpoints.xs);
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.lg);
     expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.lg);
-    await expectAsync(searchHarness.isCollapsed()).toBeResolvedTo(false);
+    expectBreakpointCSSClass(child.nativeElement, SkyMediaBreakpoints.lg);
   });
 });

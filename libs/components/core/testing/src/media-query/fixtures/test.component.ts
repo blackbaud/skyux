@@ -5,7 +5,6 @@ import {
   SkyMediaQueryService,
   provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
-import { SkySearchModule } from '@skyux/lookup';
 
 @Injectable()
 class MyMediaQueryService extends SkyMediaQueryService {}
@@ -27,7 +26,7 @@ class MyMediaQueryService extends SkyMediaQueryService {}
   ],
 })
 // Use lambda to simulate a component not included in the public API.
-export class λFooTestComponent {
+export class λWrapperTestComponent {
   protected querySvc = inject(SkyMediaQueryService);
 }
 
@@ -35,12 +34,24 @@ export class λFooTestComponent {
   host: {
     '[class]': '"breakpoint-" + querySvc.current',
   },
-  imports: [λFooTestComponent, CommonModule, SkySearchModule],
+  selector: 'sky-foo-child',
+  standalone: true,
+  template: '',
+})
+export class λChildTestComponent {
+  protected querySvc = inject(SkyMediaQueryService);
+}
+
+@Component({
+  host: {
+    '[class]': '"breakpoint-" + querySvc.current',
+  },
+  imports: [λChildTestComponent, λWrapperTestComponent, CommonModule],
   standalone: true,
   template: `
     <sky-foo-wrapper>
-      <!-- Search will use the element injector of the wrapper -->
-      <sky-search />
+      <!-- Children will use the element injector of the wrapper -->
+      <sky-foo-child />
     </sky-foo-wrapper>
   `,
 })
