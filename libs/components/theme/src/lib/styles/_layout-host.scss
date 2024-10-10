@@ -24,11 +24,19 @@
 
       > sky-page-content {
         grid-area: content;
-        margin-right: var(--sky-margin-inline-xl);
       }
 
       > sky-page-links {
         grid-area: links;
+      }
+    }
+  }
+
+  &-list,
+  &-tabs {
+    &:has(> sky-page-content):has(> sky-page-links) {
+      > sky-page-content {
+        margin-right: var(--sky-margin-inline-xl);
       }
     }
   }
