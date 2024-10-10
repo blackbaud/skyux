@@ -96,7 +96,7 @@
     "@angular/forms": "18.2.8",
     "@angular/platform-browser": "18.2.8",
     "@angular/platform-browser-dynamic": "18.2.8",
-    "@angular/router": "",
+    "@angular/router": "18.2.8",
     "@blackbaud/angular-tree-component": "1.0.0",
     "@blackbaud/skyux-design-tokens": "0.0.36",
     "@nx/angular": "19.7.4",
