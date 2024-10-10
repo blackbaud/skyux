@@ -8,7 +8,7 @@ import { SkyMediaQueryService } from './media-query.service';
  * @internal
  */
 export function provideSkyMediaQueryServiceOverride(
-  svc: Type<SkyMediaQueryService | SkyMediaQueryServiceOverride>,
+  svc: Type<SkyMediaQueryServiceOverride>,
 ): Provider[] {
   return [
     svc,

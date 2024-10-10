@@ -7,13 +7,12 @@ import { SkyMediaQueryServiceBase } from './media-query-service-base';
 /**
  * @internal
  */
-export abstract class SkyMediaQueryServiceOverride extends SkyMediaQueryServiceBase {
-  public abstract observe(
+export interface SkyMediaQueryServiceOverride extends SkyMediaQueryServiceBase {
+  observe?: (
     element: ElementRef,
     options?: {
       updateResponsiveClasses?: boolean;
     },
-  ): SkyResizeObserverMediaQueryService;
-
-  public abstract unobserve(): void;
+  ) => SkyResizeObserverMediaQueryService;
+  unobserve?: () => void;
 }

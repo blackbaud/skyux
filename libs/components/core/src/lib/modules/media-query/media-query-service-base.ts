@@ -6,8 +6,8 @@ import { SkyMediaQueryListener } from './media-query-listener';
 /**
  * @internal
  */
-export abstract class SkyMediaQueryServiceBase {
-  public abstract get current(): SkyMediaBreakpoints;
-  public abstract destroy(): void;
-  public abstract subscribe(listener: SkyMediaQueryListener): Subscription;
+export interface SkyMediaQueryServiceBase {
+  get current(): SkyMediaBreakpoints;
+  destroy(): void;
+  subscribe(listener: SkyMediaQueryListener): Subscription;
 }
