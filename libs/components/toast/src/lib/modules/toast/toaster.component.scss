@@ -7,7 +7,7 @@
   --sky-override-toaster-max-width: 300px;
 }
 
-@include compatMixins.sky-modern-overrides('.sky-toaster') {
+@include compatMixins.sky-modern-overrides('.sky-toaster', false) {
   --sky-override-toaster-width-xs: var(--modern-size-320);
   --sky-override-toaster-width: var(--modern-size-400);
 }

@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.10.0](https://github.com/blackbaud/skyux/compare/11.9.0...11.10.0) (2024-10-10)
+
+
+### Features
+
+* **components/layout:** add test harnesses to fluid grid ([#2785](https://github.com/blackbaud/skyux/issues/2785)) ([2be5810](https://github.com/blackbaud/skyux/commit/2be58105ba7c8e0da9bd07d52c30b25172ef3e7a))
+* **components/progress-indicator:** add progress indicator test harness ([#2814](https://github.com/blackbaud/skyux/issues/2814)) ([6ec100e](https://github.com/blackbaud/skyux/commit/6ec100e53fb3ba1c66ff89845536f53226ad7078))
+
+
+### Bug Fixes
+
+* **components/theme:** update style mixins to support angular 18.2.8 ([#2819](https://github.com/blackbaud/skyux/issues/2819)) ([2ed12cd](https://github.com/blackbaud/skyux/commit/2ed12cdbea5c398f964eb1bfedc3028a2645ccf3))
+
 ## [11.9.0](https://github.com/blackbaud/skyux/compare/11.8.0...11.9.0) (2024-10-09)
 
 
