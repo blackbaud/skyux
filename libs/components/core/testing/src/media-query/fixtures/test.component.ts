@@ -1,13 +1,26 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { CommonModule } from '@angular/common';
-import { Component, Injectable, inject } from '@angular/core';
 import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import {
+  SkyMediaBreakpoints,
   SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
   provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
-@Injectable()
-class MyMediaQueryService extends SkyMediaQueryService {}
+export const BREAKPOINT_NAMES = new Map<SkyMediaBreakpoints, string>([
+  [SkyMediaBreakpoints.lg, 'lg'],
+  [SkyMediaBreakpoints.md, 'md'],
+  [SkyMediaBreakpoints.sm, 'sm'],
+  [SkyMediaBreakpoints.xs, 'xs'],
+]);
 
 /**
  * This component simulates a SKY UX component that has provided the media
@@ -19,15 +32,32 @@ class MyMediaQueryService extends SkyMediaQueryService {}
   },
   selector: 'sky-foo-wrapper',
   standalone: true,
-  template: '<ng-content />',
+  template: `
+    <div #wrapperRef data-sky-id="my-resize-wrapper">
+      <ng-content />
+    </div>
+  `,
   providers: [
     // Override the environment provider with an element provider.
-    provideSkyMediaQueryServiceOverride(MyMediaQueryService),
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 // Use lambda to simulate a component not included in the public API.
-export class λWrapperTestComponent {
-  protected querySvc = inject(SkyMediaQueryService);
+export class λWrapperTestComponent implements OnInit, OnDestroy {
+  @ViewChild('wrapperRef', { static: true })
+  protected wrapperRef!: ElementRef;
+
+  protected querySvc = inject(
+    SkyMediaQueryService,
+  ) as unknown as SkyResizeObserverMediaQueryService;
+
+  public ngOnInit(): void {
+    this.querySvc.observe(this.wrapperRef, { updateResponsiveClasses: true });
+  }
+
+  public ngOnDestroy(): void {
+    this.querySvc.unobserve();
+  }
 }
 
 @Component({

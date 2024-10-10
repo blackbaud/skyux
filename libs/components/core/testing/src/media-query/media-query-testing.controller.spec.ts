@@ -78,10 +78,13 @@ describe('media-query-testing.controller', () => {
     subscription.unsubscribe();
   });
 
-  it('should work with overridden providers', async () => {
+  it('should work with overridden providers', () => {
     const { fixture, mediaQueryController } = setupTest();
 
     const wrapper = fixture.debugElement.query(By.css('sky-foo-wrapper'));
+    const wrapperDiv = wrapper.nativeElement.querySelector(
+      '[data-sky-id="my-resize-wrapper"]',
+    );
     const child = fixture.debugElement.query(By.css('sky-foo-child'));
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
@@ -89,6 +92,7 @@ describe('media-query-testing.controller', () => {
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.xs);
     expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.xs);
+    expect(wrapperDiv).toHaveClass('sky-responsive-container-xs');
     expectBreakpointCSSClass(child.nativeElement, SkyMediaBreakpoints.xs);
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
@@ -96,6 +100,7 @@ describe('media-query-testing.controller', () => {
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.lg);
     expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.lg);
+    expect(wrapperDiv).toHaveClass('sky-responsive-container-lg');
     expectBreakpointCSSClass(child.nativeElement, SkyMediaBreakpoints.lg);
   });
 });
