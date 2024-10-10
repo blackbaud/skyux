@@ -47,11 +47,11 @@ describe('some-or-all-projects', () => {
         name: `test-app${i}`,
       });
       await storybookConfigurationGenerator(tree, {
-        configureCypress: false,
-        generateCypressSpecs: false,
         generateStories: false,
         linter: Linter.None,
         project: `test-app${i}`,
+        interactionTests: false,
+        skipFormat: true,
       });
     }
     // Without specifying name.

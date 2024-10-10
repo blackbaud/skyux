@@ -23,7 +23,6 @@ describe('configure-test-ci generator', () => {
       name: 'test',
       skipFormat: true,
       directory: 'test',
-      projectNameAndRootFormat: 'as-provided',
       skipPackageJson: true,
       linter: Linter.None,
       e2eTestRunner: E2eTestRunner.None,

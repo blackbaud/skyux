@@ -35,6 +35,7 @@ describe('nx-generator-utils', () => {
     });
     await libraryGenerator(tree, {
       name: 'my-library',
+      directory: 'libs/my-library',
     });
     const projectConfig = readProjectConfiguration(tree, 'my-library');
     projectConfig.generators = {
