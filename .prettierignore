@@ -19,3 +19,5 @@ CHANGELOG.md
 /.nx/cache
 
 /.nx/workspace-data
+
+/libs/sdk/**/*.md
