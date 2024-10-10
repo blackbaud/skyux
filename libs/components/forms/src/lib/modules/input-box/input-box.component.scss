@@ -9,6 +9,8 @@
 @include compatMixins.sky-modern-overrides('.sky-input-box') {
   --sky-override-background-color-input-box-group: #{$sky-color-white};
   --sky-override-background-color-input-box-group-focused: #{$sky-color-white};
+  --sky-override-input-padding-top: 26px;
+  --sky-override-input-margin-top: -23px;
 }
 
 .sky-input-box {
@@ -143,6 +145,7 @@ sky-input-box {
 }
 
 .sky-theme-modern {
+  // --sky-font-size-input-label: 3rem !important;
   /* Styles applied to both enabled and disabled input boxes */
   .sky-input-box {
     .sky-input-box-group {
@@ -218,7 +221,7 @@ sky-input-box {
       width: 55px;
 
       .sky-icon {
-        color: $sky-theme-modern-font-deemphasized-color;
+        color: var(--sky-color-text-deemphasized);
         font-size: 24px;
       }
     }
@@ -244,7 +247,7 @@ sky-input-box {
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
         @include mixins.sky-theme-modern-border-invalid;
-        color: $sky-background-color-danger-dark;
+        color: var(--sky-color-text-danger);
       }
     }
 
@@ -261,14 +264,14 @@ sky-input-box {
 
       .sky-form-group {
         @include mixins.sky-theme-modern-border-focus;
-        color: $sky-theme-modern-text-color-action-primary;
+        color: var(--sky-color-text-action);
       }
     }
 
     .sky-form-group {
       @include mixins.sky-theme-modern-border;
 
-      color: $sky-theme-modern-font-data-label-color;
+      color: var(--sky-color-text-deemphasized);
       flex-wrap: nowrap;
       margin-bottom: 0;
       padding: 0;
@@ -303,7 +306,7 @@ sky-input-box {
         .sky-control-label {
           // TODO ERIKA
           padding-top: var(--sky-space-inset-input_label-top-m);
-          padding-bottom: 1px;
+          padding-bottom: var(--erikas-test-padding);
           // padding: 6px 0 1px 0;
         }
 
@@ -331,6 +334,28 @@ sky-input-box {
       }
 
       .sky-form-control {
+        // margin-top: var(
+        //   --sky-override-input-margin-top,
+        //   calc(
+        //     calc(
+        //         calc(
+        //             var(--sky-font-line_height-input-label) *
+        //               var(--sky-font-size-input-label)
+        //           ) + var(--sky-space-inset-input_label-top-m) +
+        //           var(--sky-space-inset-input_label-top-m)
+        //       ) * -1
+        //   )
+        // );
+        // padding-top: var(
+        //   --sky-override-input-padding-top,
+        //   calc(
+        //     calc(
+        //         var(--sky-font-line_height-input-label) *
+        //           var(--sky-font-size-input-label)
+        //       ) + var(--sky-space-inset-input_label-top-m) +
+        //       var(--sky-space-inset-input_label-top-m)
+        //   )
+        // );
         margin-top: -23px;
         padding-top: 26px;
       }
@@ -356,14 +381,10 @@ sky-input-box {
         &:autofill,
         &:-webkit-autofill {
           box-shadow: none !important;
-          clip-path: inset(
-            2px round $sky-theme-modern-box-border-radius-default
-          ) !important;
+          clip-path: inset(2px round var(--sky-border-radius-s)) !important;
 
           &:hover {
-            clip-path: inset(
-              1px round $sky-theme-modern-box-border-radius-default
-            ) !important;
+            clip-path: inset(1px round var(--sky-border-radius-s)) !important;
           }
         }
 
@@ -494,7 +515,7 @@ sky-input-box {
         &:active,
         &:focus {
           @include mixins.sky-theme-modern-border-active;
-          color: $sky-text-color-default;
+          color: var(--sky-color-text-default);
           z-index: 2;
         }
 
@@ -516,12 +537,12 @@ sky-input-box {
       .sky-form-group {
         @include mixins.sky-theme-modern-border-invalid;
 
-        color: $sky-background-color-danger-dark;
+        color: var(--sky-color-text-danger);
       }
 
       &:active {
         .sky-form-group {
-          color: $sky-theme-modern-text-color-action-primary;
+          color: var(--sky-color-text-deemphasized);
         }
       }
     }
@@ -540,7 +561,7 @@ sky-input-box {
       .sky-form-group {
         @include mixins.sky-theme-modern-border-focus;
 
-        color: $sky-theme-modern-text-color-action-primary;
+        color: var(--sky-color-text-action);
       }
     }
 
@@ -566,13 +587,16 @@ sky-input-box {
     }
 
     .sky-form-group {
-      background-color: $sky-theme-modern-color-gray-07;
+      background-color: var(--sky-color-background-input-disabled);
     }
 
     .sky-input-group-btn .sky-btn {
-      background-color: $sky-theme-modern-color-gray-07;
+      background-color: var(--sky-color-background-input-disabled);
       border: none;
-      @include mixins.sky-theme-modern-border;
+      @include mixins.sky-theme-modern-border(
+        var(--sky-color-border-input-disabled),
+        var(--sky-border-width-input-disabled)
+      );
       opacity: 1;
     }
   }
