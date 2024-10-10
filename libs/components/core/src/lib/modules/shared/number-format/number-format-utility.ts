@@ -32,7 +32,7 @@ export class SkyNumberFormatUtility {
     style: SkyIntlNumberFormatStyle,
     digits?: string | null,
     currency: string | null = null,
-    currencyAsSymbol = false,
+    currencyDisplay: 'code' | 'symbol' | 'narrowSymbol' | 'name' = 'symbol',
     currencySign?: 'accounting' | 'standard',
   ): string | null {
     if (value == null) {
@@ -86,7 +86,7 @@ export class SkyNumberFormatUtility {
       minimumFractionDigits: minFraction,
       maximumFractionDigits: maxFraction,
       currency: currency,
-      currencyAsSymbol: currencyAsSymbol,
+      currencyDisplay: currencyDisplay,
       currencySign: currencySign,
     });
   }

@@ -272,6 +272,29 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('£15.50');
   });
 
+  it('formats 15.50 as Canadian Dollars with 2 digits as $CA15.50 when the local is not CA and the full symbol is used', () => {
+    const value = 15.5;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.iso = 'CAD';
+    options.locale = 'en-US';
+    options.format = 'currency';
+
+    expect(skyNumeric.formatNumber(value, options)).toBe('CA$15.50');
+  });
+
+  it('formats 15.50 as Canadian Dollars with 2 digits as $15.50 when the local is not CA and the narrow symbol is used', () => {
+    const value = 15.5;
+    const options = new NumericOptions();
+    options.digits = 2;
+    options.iso = 'CAD';
+    options.locale = 'en-US';
+    options.format = 'currency';
+    options.currencyDisplay = 'narrowSymbol';
+
+    expect(skyNumeric.formatNumber(value, options)).toBe('$15.50');
+  });
+
   // Testing ability only after a certain value is specified
   // using the truncateAfter configuration property
   it('does not truncate 5000 to 5K when truncateAfter set to 10000', () => {
@@ -389,7 +412,7 @@ describe('Numeric service', () => {
           style: SkyIntlNumberFormatStyle,
           digits?: string | null,
           currency: string | null = null,
-          currencyAsSymbol = false,
+          currencyDisplay = 'symbol',
         ) => {
           return value as string | null;
         },
