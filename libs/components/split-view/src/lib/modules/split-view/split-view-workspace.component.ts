@@ -8,6 +8,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   SkyMediaQueryService,
@@ -55,9 +56,11 @@ export class SkySplitViewWorkspaceComponent
 
   public showDrawerButtonClick = new EventEmitter<number>();
 
+  @ViewChild('workspaceRef', { static: true })
+  protected workspaceRef!: ElementRef;
+
   #ngUnsubscribe = new Subject<void>();
   #changeDetectorRef: ChangeDetectorRef;
-  #elementRef: ElementRef;
   #mediaQuerySvc: SkyResizeObserverMediaQueryService;
   #splitViewSvc: SkySplitViewService;
 
@@ -65,12 +68,10 @@ export class SkySplitViewWorkspaceComponent
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
-    elementRef: ElementRef,
     mediaQuerySvc: SkyMediaQueryService,
     splitViewSvc: SkySplitViewService,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
-    this.#elementRef = elementRef;
     this.#splitViewSvc = splitViewSvc;
 
     // Inject the media query service, but assert the type as the override
@@ -89,7 +90,7 @@ export class SkySplitViewWorkspaceComponent
   }
 
   public ngAfterViewInit(): void {
-    this.#mediaQuerySvc.observe(this.#elementRef, {
+    this.#mediaQuerySvc.observe(this.workspaceRef, {
       updateResponsiveClasses: true,
     });
   }
