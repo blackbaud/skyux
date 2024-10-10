@@ -24,6 +24,7 @@
 
       > sky-page-content {
         grid-area: content;
+        margin-right: var(--sky-margin-inline-xl);
       }
 
       > sky-page-links {
@@ -117,10 +118,11 @@
           'header-avatar header-text    header-text'
           'header-avatar header-content links'
           'content       content        links';
-        grid-template-rows: minmax(var(--sky-margin-stacked-xl), min-content) min-content minmax(
-            var(--sky-margin-stacked-xl),
-            min-content
-          ) 1fr;
+        grid-template-rows:
+          minmax(var(--sky-margin-stacked-xl), min-content)
+          minmax(var(--sky-margin-stacked-xl), min-content)
+          minmax(var(--sky-margin-stacked-xl), min-content)
+          1fr;
         grid-template-columns: 0 auto 25%;
 
         &:has(sky-page-header-avatar:not(:empty)) {
