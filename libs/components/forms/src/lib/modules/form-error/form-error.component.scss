@@ -1,0 +1,27 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-form-error-margin-top: var(--sky-margin-stacked-xs);
+}
+
+@keyframes sky-modal-error {
+  0%,
+  50% {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+  }
+  100% {
+    max-height: 500px;
+    opacity: 1;
+  }
+}
+
+:host {
+  animation: sky-modal-error 300ms ease-out 1;
+  display: block;
+  margin-top: var(
+    --sky-override-form-error-margin-top,
+    var(--sky-space-gap-stacked_supplemental-s)
+  );
+}
