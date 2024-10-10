@@ -9,6 +9,7 @@ import {
   inject,
 } from '@angular/core';
 import {
+  SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
   provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
@@ -32,7 +33,6 @@ import { SkyDataManagerState } from './models/data-manager-state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyTextHighlightDirective],
   providers: [
-    SkyResizeObserverMediaQueryService,
     provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
   styles: [
@@ -83,7 +83,12 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
     { self: true },
   );
   readonly #elementRef = inject(ElementRef<HTMLElement>);
-  readonly #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
+
+  // Inject the media query service, but assert the type as the override
+  // to avoid a circular reference by DI.
+  readonly #mediaQuerySvc = inject(
+    SkyMediaQueryService,
+  ) as unknown as SkyResizeObserverMediaQueryService;
 
   public ngOnInit(): void {
     this.#dataManagerService
@@ -111,7 +116,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
         });
     }
 
-    this.#mediaQueryService.observe(this.#elementRef, {
+    this.#mediaQuerySvc.observe(this.#elementRef, {
       updateResponsiveClasses: true,
     });
   }
@@ -119,7 +124,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-    this.#mediaQueryService.unobserve();
+    this.#mediaQuerySvc.unobserve();
   }
 
   #updateSearchHighlight(state?: SkyDataManagerState): void {

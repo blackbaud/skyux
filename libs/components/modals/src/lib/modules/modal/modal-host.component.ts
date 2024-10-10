@@ -97,7 +97,6 @@ export class SkyModalHostComponent implements OnDestroy {
 
     params.providers ||= [];
     params.providers.push(
-      { provide: SkyResizeObserverMediaQueryService },
       {
         provide: SkyModalHostService,
         useValue: hostService,

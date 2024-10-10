@@ -14,6 +14,7 @@ import {
   inject,
 } from '@angular/core';
 import {
+  SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
   provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
@@ -36,7 +37,6 @@ let nextId = 0;
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    SkyResizeObserverMediaQueryService,
     provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
@@ -185,11 +185,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   public set tabContentWrapper(tabContentWrapper: ElementRef | undefined) {
     /* istanbul ignore else */
     if (tabContentWrapper) {
-      this.#mediaQueryService.observe(tabContentWrapper, {
+      this.#mediaQuerySvc.observe(tabContentWrapper, {
         updateResponsiveClasses: true,
       });
     } else {
-      this.#mediaQueryService.unobserve();
+      this.#mediaQuerySvc.unobserve();
     }
   }
 
@@ -242,7 +242,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#setPermalinkValueOrDefault();
   }
 
-  #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
+  // Inject the media query service, but assert the type as the override
+  // to avoid a circular reference by DI.
+  readonly #mediaQuerySvc = inject(
+    SkyMediaQueryService,
+  ) as unknown as SkyResizeObserverMediaQueryService;
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -262,7 +266,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     if (this.tabIndexValue !== undefined) {
       this.#tabsetService.unregisterTab(this.tabIndexValue);
     }
-    this.#mediaQueryService.unobserve();
+    this.#mediaQuerySvc.unobserve();
   }
 
   public init(): void {

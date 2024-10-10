@@ -7,6 +7,7 @@ import {
   inject,
 } from '@angular/core';
 import {
+  SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
   provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
@@ -21,7 +22,6 @@ import { SkyPageLink } from '../action-hub/types/page-link';
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
   providers: [
-    SkyResizeObserverMediaQueryService,
     provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
@@ -39,15 +39,20 @@ export class SkyPageHeaderComponent implements OnInit, OnDestroy {
   public pageTitle!: string;
 
   #elementRef = inject(ElementRef);
-  #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
+
+  // Inject the media query service, but assert the type as the override
+  // to avoid a circular reference by DI.
+  readonly #mediaQuerySvc = inject(
+    SkyMediaQueryService,
+  ) as unknown as SkyResizeObserverMediaQueryService;
 
   public ngOnInit(): void {
-    this.#mediaQueryService.observe(this.#elementRef, {
+    this.#mediaQuerySvc.observe(this.#elementRef, {
       updateResponsiveClasses: true,
     });
   }
 
   public ngOnDestroy(): void {
-    this.#mediaQueryService.unobserve();
+    this.#mediaQuerySvc.unobserve();
   }
 }
