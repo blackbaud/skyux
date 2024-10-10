@@ -137,7 +137,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       moveProject = true;
       await moveGenerator(tree, {
         projectName: options.storybookAppName,
-        destination: `${BASE_PATH}/${options.storybookAppName}`,
+        destination: `apps/${BASE_PATH}/${options.storybookAppName}`,
         updateImportPath: false,
         skipFormat: true,
       });
@@ -152,7 +152,7 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       moveProject = true;
       await moveGenerator(tree, {
         projectName: `${options.storybookAppName}-e2e`,
-        destination: `${BASE_PATH}/${options.storybookAppName}-e2e`,
+        destination: `apps/${BASE_PATH}/${options.storybookAppName}-e2e`,
         updateImportPath: false,
         skipFormat: true,
       });
@@ -177,7 +177,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       strict: options.strict,
       prefix: options.prefix,
       directory: `apps/${BASE_PATH}/${options.storybookAppName}`,
-      projectNameAndRootFormat: 'as-provided',
       skipPackageJson: true,
       skipTests: !options.includeTests,
       standaloneConfig: true,

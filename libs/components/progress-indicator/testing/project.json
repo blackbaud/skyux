@@ -7,9 +7,8 @@
   "tags": ["testing"],
   "implicitDependencies": [
     "core-testing",
-    "progress-indicator",
-    "testing",
-    "theme"
+    "help-inline-testing",
+    "progress-indicator"
   ],
   "targets": {
     "build": {

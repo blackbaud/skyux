@@ -29,8 +29,8 @@ describe('storybook-composition', () => {
     for (const name of ['storybook', 'test-app']) {
       await createTestApplication(tree, { name, e2eTestRunner: true });
       await storybookConfigurationGenerator(tree, {
-        configureCypress: false,
-        generateCypressSpecs: false,
+        interactionTests: false,
+        skipFormat: true,
         generateStories: false,
         linter: Linter.None,
         project: name,
@@ -54,8 +54,8 @@ describe('storybook-composition', () => {
       await createTestApplication(tree, { name, e2eTestRunner: true });
       if (name === 'storybook') {
         await storybookConfigurationGenerator(tree, {
-          configureCypress: false,
-          generateCypressSpecs: false,
+          interactionTests: false,
+          skipFormat: true,
           generateStories: false,
           linter: Linter.None,
           project: name,
@@ -94,8 +94,8 @@ describe('storybook-composition', () => {
       e2eTestRunner: true,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
       linter: Linter.None,
       project: 'storybook',
@@ -126,8 +126,8 @@ describe('storybook-composition', () => {
     ]) {
       await createTestApplication(tree, { name, e2eTestRunner: true });
       await storybookConfigurationGenerator(tree, {
-        configureCypress: false,
-        generateCypressSpecs: false,
+        interactionTests: false,
+        skipFormat: true,
         generateStories: false,
         linter: Linter.None,
         project: name,

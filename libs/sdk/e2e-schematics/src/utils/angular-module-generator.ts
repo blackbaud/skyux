@@ -1,4 +1,3 @@
-import { componentGenerator } from '@nx/angular/generators';
 import { Tree } from '@nx/devkit';
 import { Schema as ComponentSchema } from '@schematics/angular/component/schema';
 import { Schema as ModuleSchema } from '@schematics/angular/module/schema';
@@ -16,7 +15,7 @@ export async function angularComponentGenerator(
   tree: Tree,
   schema: ComponentSchema,
 ) {
-  return componentGenerator(tree, {
+  return wrapAngularDevkitSchematic('@schematics/angular', 'component')(tree, {
     style: 'scss',
     ...schema,
   });

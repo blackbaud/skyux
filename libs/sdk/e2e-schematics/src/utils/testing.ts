@@ -15,7 +15,6 @@ export async function createTestApplication(
     name: options.name,
     skipPackageJson: true,
     directory: `apps/${options.name}`,
-    projectNameAndRootFormat: 'as-provided',
     e2eTestRunner: options.e2eTestRunner
       ? E2eTestRunner.Cypress
       : E2eTestRunner.None,
@@ -34,7 +33,6 @@ export async function createTestLibrary(
     name: options.name,
     skipPackageJson: true,
     directory: `libs/${options.name}`,
-    projectNameAndRootFormat: 'as-provided',
     linter: Linter.None,
     unitTestRunner: UnitTestRunner.None,
   });

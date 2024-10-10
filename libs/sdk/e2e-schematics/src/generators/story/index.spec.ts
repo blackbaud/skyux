@@ -211,6 +211,9 @@ describe('story generator', () => {
     }
     await libraryGenerator(appTree, {
       name: 'wrong',
+      directory: 'wrong',
+      skipFormat: true,
+      skipPackageJson: true,
     });
     try {
       await storyGenerator(appTree, {
