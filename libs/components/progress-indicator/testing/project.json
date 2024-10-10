@@ -1,17 +1,21 @@
 {
-  "name": "icon-testing",
+  "name": "progress-indicator-testing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/components/icon/testing/src",
+  "sourceRoot": "libs/components/progress-indicator/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "icon", "theme"],
+  "implicitDependencies": [
+    "core-testing",
+    "help-inline-testing",
+    "progress-indicator"
+  ],
   "targets": {
     "build": {
-      "command": "echo ' 🏗️  build icon-testing'",
+      "command": "echo ' 🏗️  build progress-indicator-testing'",
       "dependsOn": [
         {
-          "projects": ["icon"],
+          "projects": ["progress-indicator"],
           "target": "build"
         }
       ]
@@ -19,8 +23,8 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "tsConfig": "libs/components/icon/testing/tsconfig.spec.json",
-        "karmaConfig": "libs/components/icon/testing/karma.conf.js",
+        "tsConfig": "libs/components/progress-indicator/testing/tsconfig.spec.json",
+        "karmaConfig": "libs/components/progress-indicator/testing/karma.conf.js",
         "codeCoverage": true,
         "codeCoverageExclude": ["**/fixtures/**"],
         "styles": [

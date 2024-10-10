@@ -1,5 +1,6 @@
 <sky-progress-indicator
   #progressIndicator
+  data-sky-id="demo-progress-indicator"
   [messageStream]="progressMessageStream"
   [startingIndex]="2"
   (progressChanges)="updateIndex($event)"
@@ -9,6 +10,7 @@
   </sky-progress-indicator-title>
 
   <sky-progress-indicator-item
+    data-sky-id="configure-connection"
     helpPopoverContent="Example help for configure connection"
     title="Configure connection"
   >
@@ -62,7 +64,10 @@
     }
   </sky-progress-indicator-item>
 
-  <sky-progress-indicator-item title="Test connection">
+  <sky-progress-indicator-item
+    data-sky-id="test-connection"
+    title="Test connection"
+  >
     @if (activeIndex && activeIndex >= 2) {
       <div>
         @if (activeIndex === 2) {
