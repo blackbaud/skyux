@@ -5,7 +5,7 @@
   "sourceRoot": "libs/components/icon/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "theme"],
+  "implicitDependencies": ["core-testing", "icon", "theme"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build icon-testing'",
