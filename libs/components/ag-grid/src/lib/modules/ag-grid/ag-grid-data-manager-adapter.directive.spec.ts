@@ -505,7 +505,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         {
           colId: 'noHeader',
           sort: 'desc',
-          sortIndex: 0,
         },
       ],
       applyOrder: false,

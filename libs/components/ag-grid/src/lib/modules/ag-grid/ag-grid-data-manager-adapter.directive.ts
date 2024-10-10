@@ -262,9 +262,11 @@ export class SkyAgGridDataManagerAdapterDirective
       agGrid.sortChanged.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
         const gridColumnStates: ColumnState[] = agGrid.api.getColumnState();
 
-        const activeSortColumnState = gridColumnStates?.find(
-          (aGridColumnState) => aGridColumnState.sortIndex === 0,
-        );
+        const activeSortColumnState =
+          gridColumnStates?.find(
+            (aGridColumnState) => aGridColumnState.sortIndex === 0,
+          ) ??
+          gridColumnStates?.find((aGridColumnState) => aGridColumnState.sort);
 
         if (this.#viewConfig && this.#currentDataState) {
           if (activeSortColumnState) {
