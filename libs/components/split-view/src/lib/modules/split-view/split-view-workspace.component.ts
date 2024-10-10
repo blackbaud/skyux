@@ -5,14 +5,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
-  SkyContentQueryLegacyService,
-  SkyCoreAdapterService,
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
   provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
@@ -30,8 +29,7 @@ import { SkySplitViewService } from './split-view.service';
   styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    SkyContentQueryLegacyService,
-    provideSkyMediaQueryServiceOverride(SkyContentQueryLegacyService),
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkySplitViewWorkspaceComponent
@@ -59,25 +57,26 @@ export class SkySplitViewWorkspaceComponent
 
   #ngUnsubscribe = new Subject<void>();
   #changeDetectorRef: ChangeDetectorRef;
-  #coreAdapterSvc: SkyCoreAdapterService;
   #elementRef: ElementRef;
-  #mediaQuerySvc: SkyContentQueryLegacyService;
+  #mediaQuerySvc: SkyResizeObserverMediaQueryService;
   #splitViewSvc: SkySplitViewService;
 
   #_isMobile: boolean | undefined;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
-    coreAdapterSvc: SkyCoreAdapterService,
     elementRef: ElementRef,
-    mediaQuerySvc: SkyContentQueryLegacyService,
+    mediaQuerySvc: SkyMediaQueryService,
     splitViewSvc: SkySplitViewService,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
-    this.#coreAdapterSvc = coreAdapterSvc;
     this.#elementRef = elementRef;
-    this.#mediaQuerySvc = mediaQuerySvc;
     this.#splitViewSvc = splitViewSvc;
+
+    // Inject the media query service, but assert the type as the override
+    // to avoid a circular reference by DI.
+    this.#mediaQuerySvc =
+      mediaQuerySvc as unknown as SkyResizeObserverMediaQueryService;
   }
 
   public ngOnInit(): void {
@@ -90,32 +89,15 @@ export class SkySplitViewWorkspaceComponent
   }
 
   public ngAfterViewInit(): void {
-    this.#splitViewSvc.drawerWidthStream
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#updateBreakpoint();
-      });
+    this.#mediaQuerySvc.observe(this.#elementRef, {
+      updateResponsiveClasses: true,
+    });
   }
 
   public ngOnDestroy(): void {
     this.showDrawerButtonClick.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-  }
-
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    this.#updateBreakpoint();
-  }
-
-  #updateBreakpoint(): void {
-    const width = this.#elementRef.nativeElement.parentElement.clientWidth;
-    this.#mediaQuerySvc.setBreakpointForWidth(width);
-    const newDrawerBreakpoint = this.#mediaQuerySvc.current;
-    this.#coreAdapterSvc.setResponsiveContainerClass(
-      this.#elementRef,
-      newDrawerBreakpoint,
-    );
-    this.#changeDetectorRef.markForCheck();
+    this.#mediaQuerySvc.unobserve();
   }
 }

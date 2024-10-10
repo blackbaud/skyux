@@ -17,10 +17,6 @@ export class SkySplitViewService implements OnDestroy {
 
   public drawerVisible = new BehaviorSubject<boolean>(true);
 
-  public get drawerWidthStream(): Observable<number> {
-    return this.#_drawerWidthStream;
-  }
-
   public splitViewElementRef: ElementRef | undefined;
 
   public set isMobile(value: boolean) {

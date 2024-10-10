@@ -60,7 +60,6 @@ export { SkyLogService } from './lib/modules/log/log.service';
 export { SkyLogLevel } from './lib/modules/log/types/log-level';
 export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
-export { SkyContentQueryLegacyService } from './lib/modules/media-query/content-query-legacy.service';
 export { SkyMediaBreakpoints } from './lib/modules/media-query/media-breakpoints';
 export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
 export { SkyMediaQueryServiceOverride } from './lib/modules/media-query/media-query-service-override';

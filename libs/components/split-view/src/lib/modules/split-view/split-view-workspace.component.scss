@@ -1,6 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host {
+  display: block;
+}
+
 .sky-split-view-workspace {
   background: #ffffff;
   height: 100%;

@@ -5,8 +5,6 @@ import {
   RendererFactory2,
 } from '@angular/core';
 
-import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
-
 import { SkyFocusableChildrenOptions } from './focusable-children-options';
 
 const SKY_TABBABLE_SELECTOR = [
@@ -40,40 +38,40 @@ export class SkyCoreAdapterService {
    * @param breakpoint - The SkyMediaBreakpoint will determine which class
    * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
    */
-  public setResponsiveContainerClass(
-    elementRef: ElementRef,
-    breakpoint: SkyMediaBreakpoints,
-  ): void {
-    const nativeEl = elementRef.nativeElement;
+  // public setResponsiveContainerClass(
+  //   elementRef: ElementRef,
+  //   breakpoint: SkyMediaBreakpoints,
+  // ): void {
+  //   const nativeEl = elementRef.nativeElement;
 
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-md');
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
+  //   this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
+  //   this.#renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
+  //   this.#renderer.removeClass(nativeEl, 'sky-responsive-container-md');
+  //   this.#renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
 
-    let newClass: string;
+  //   let newClass: string;
 
-    switch (breakpoint) {
-      case SkyMediaBreakpoints.xs: {
-        newClass = 'sky-responsive-container-xs';
-        break;
-      }
-      case SkyMediaBreakpoints.sm: {
-        newClass = 'sky-responsive-container-sm';
-        break;
-      }
-      case SkyMediaBreakpoints.md: {
-        newClass = 'sky-responsive-container-md';
-        break;
-      }
-      default: {
-        newClass = 'sky-responsive-container-lg';
-        break;
-      }
-    }
+  //   switch (breakpoint) {
+  //     case SkyMediaBreakpoints.xs: {
+  //       newClass = 'sky-responsive-container-xs';
+  //       break;
+  //     }
+  //     case SkyMediaBreakpoints.sm: {
+  //       newClass = 'sky-responsive-container-sm';
+  //       break;
+  //     }
+  //     case SkyMediaBreakpoints.md: {
+  //       newClass = 'sky-responsive-container-md';
+  //       break;
+  //     }
+  //     default: {
+  //       newClass = 'sky-responsive-container-lg';
+  //       break;
+  //     }
+  //   }
 
-    this.#renderer.addClass(nativeEl, newClass);
-  }
+  //   this.#renderer.addClass(nativeEl, newClass);
+  // }
 
   /**
    * This method temporarily enables/disables pointer events.
@@ -185,9 +183,9 @@ export class SkyCoreAdapterService {
    * Returns the clientWidth of the provided elementRef.
    * @param elementRef - The element to calculate width from.
    */
-  public getWidth(elementRef: ElementRef): number {
-    return elementRef.nativeElement.clientWidth;
-  }
+  // public getWidth(elementRef: ElementRef): number {
+  //   return elementRef.nativeElement.clientWidth;
+  // }
 
   /**
    * Checks if an event target has a higher z-index than a given element.
