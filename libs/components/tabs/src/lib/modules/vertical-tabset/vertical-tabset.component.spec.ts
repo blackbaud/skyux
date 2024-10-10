@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyContentQueryLegacyService, SkyMediaBreakpoints } from '@skyux/core';
+import { SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -926,94 +926,76 @@ describe('Vertical tabset component', () => {
     expect(allTabContentElements2[6]).toHaveText('Group 3 Tab 2 content');
   }));
 
+  function expectResponsiveCssClass(
+    el: HTMLElement | undefined,
+    breakpoint: SkyMediaBreakpoints,
+  ): void {
+    if (!el) {
+      throw new Error(
+        'Cannot determine responsive class because element does not exist.',
+      );
+    }
+
+    switch (breakpoint) {
+      case SkyMediaBreakpoints.xs:
+        expect(el).toHaveCssClass('sky-responsive-container-xs');
+        break;
+      case SkyMediaBreakpoints.sm:
+        expect(el).toHaveCssClass('sky-responsive-container-sm');
+        break;
+      case SkyMediaBreakpoints.md:
+        expect(el).toHaveCssClass('sky-responsive-container-md');
+        break;
+      case SkyMediaBreakpoints.lg:
+        expect(el).toHaveCssClass('sky-responsive-container-lg');
+        break;
+    }
+  }
+
   it('should add the appropriate responsive container upon initialization', async () => {
-    spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(640);
-    const mediaQuerySpy = spyOn(
-      SkyContentQueryLegacyService.prototype,
-      'setBreakpointForWidth',
-    ).and.callThrough();
-
     const fixture = createTestComponent();
     fixture.detectChanges();
 
     const activeTab = fixture.componentInstance.verticalTabs?.find(
       (tab) => !!tab.active,
     );
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
-    expect(mediaQuerySpy).toHaveBeenCalledWith(640);
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-xs'),
-    ).toBeTruthy();
-  });
-
-  it('should add the appropriate responsive container upon window resize', async () => {
-    const fixture = createTestComponent();
-    const widthSpy = spyOnProperty(
-      Element.prototype,
-      'clientWidth',
-      'get',
-    ).and.returnValue(1500);
-    fixture.detectChanges();
-
-    const activeTab = fixture.componentInstance.verticalTabs?.find(
-      (tab) => !!tab.active,
+    expectResponsiveCssClass(
+      activeTab?.tabContent?.nativeElement,
+      SkyMediaBreakpoints.xs,
     );
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
     fixture.detectChanges();
     await fixture.whenStable();
 
-    let tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
-
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-lg'),
-    ).toBeTruthy();
-    widthSpy.and.returnValue(1100);
-    const mediaQuerySpy = spyOn(
-      SkyContentQueryLegacyService.prototype,
-      'setBreakpointForWidth',
-    ).and.callThrough();
-
-    SkyAppTestUtility.fireDomEvent(window, 'resize');
-    fixture.detectChanges();
-
-    tabContentPane = activeTab?.tabContent?.nativeElement;
-    expect(mediaQuerySpy).toHaveBeenCalledWith(1100);
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-md'),
-    ).toBeTruthy();
-  });
-
-  it('should add the appropriate responsive container upon a tab being activated', fakeAsync(() => {
-    const fixture = createTestComponent();
-    fixture.detectChanges();
-
-    spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(800);
-    const mediaQuerySpy = spyOn(
-      SkyContentQueryLegacyService.prototype,
-      'setBreakpointForWidth',
-    ).and.callThrough();
-
-    // open second group
-    clickGroupButton(fixture, 1);
-
-    // open first tab in second group
-    clickTab(fixture, 0, 1);
-    tick();
-    fixture.detectChanges();
-
-    const activeTab = fixture.componentInstance.verticalTabs?.find(
-      (tab) => !!tab.active,
+    expectResponsiveCssClass(
+      activeTab?.tabContent?.nativeElement,
+      SkyMediaBreakpoints.sm,
     );
-    const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
-    expect(mediaQuerySpy).toHaveBeenCalledWith(800);
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-sm'),
-    ).toBeTruthy();
 
-    flush();
-  }));
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.md);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expectResponsiveCssClass(
+      activeTab?.tabContent?.nativeElement,
+      SkyMediaBreakpoints.md,
+    );
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expectResponsiveCssClass(
+      activeTab?.tabContent?.nativeElement,
+      SkyMediaBreakpoints.lg,
+    );
+  });
 
   it('should scroll back to the top of the content pane when switching tabs', () => {
     const fixture = createTestComponent();

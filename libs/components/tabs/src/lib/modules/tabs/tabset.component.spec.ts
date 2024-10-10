@@ -10,11 +10,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyIdService,
-  SkyLayoutHostService,
-  SkyResizeObserverMediaQueryService,
-} from '@skyux/core';
+import { SkyIdService, SkyLayoutHostService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -35,7 +31,6 @@ import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalink
 import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
 import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
 import { SkyTabLayoutType } from './tab-layout-type';
-import { SkyTabComponent } from './tab.component';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 import { SkyTabsetComponent } from './tabset.component';
@@ -942,32 +937,6 @@ describe('Tabset component', () => {
       tick();
 
       validateTabSelected(el, 0);
-    }));
-
-    it('should observe the size of an active tab', fakeAsync(() => {
-      const mockResizeObserverMediaQueryService = jasmine.createSpyObj(
-        'SkyResizeObserverMediaQueryService',
-        ['observe', 'unobserve'],
-      );
-
-      TestBed.overrideComponent(SkyTabComponent, {
-        set: {
-          providers: [
-            {
-              provide: SkyResizeObserverMediaQueryService,
-              useValue: mockResizeObserverMediaQueryService,
-            },
-          ],
-        },
-      });
-
-      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-
-      expect(mockResizeObserverMediaQueryService.observe).toHaveBeenCalled();
     }));
 
     it('should initialize active state based on string tabIndex values', fakeAsync(() => {
