@@ -1,5 +1,5 @@
-<sky-wait [isWaiting]="links() === 'loading'" />
-@if (links() === 'loading') {
+<sky-wait [isWaiting]="linksInput() === 'loading'" />
+@if (linksInput() === 'loading') {
   <ng-container [ngTemplateOutlet]="headingTemplateRef" />
 } @else {
   @if (hasLinks()) {
@@ -41,5 +41,5 @@
 }
 
 <ng-template #headingTemplateRef>
-  <h2 class="sky-font-heading-4">{{ headingText() }}</h2>
+  <h2 class="sky-font-heading-4">{{ headingText }}</h2>
 </ng-template>

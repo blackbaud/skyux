@@ -26,5 +26,7 @@ import { LinksComponent } from '../../../shared/links/links.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class BlocksPageComponent {
+  public readonly hideAlert = input<boolean>(false);
+  public readonly hideAvatar = input<boolean>(false);
   public readonly showLinks = input<boolean>(false);
 }
