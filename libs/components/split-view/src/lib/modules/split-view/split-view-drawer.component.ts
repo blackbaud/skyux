@@ -15,7 +15,7 @@ import {
   SkyCoreAdapterService,
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  _provideSkyMediaQueryServiceOverride,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { Subject, fromEvent } from 'rxjs';
@@ -34,7 +34,7 @@ let skySplitViewNextId = 0;
   styleUrls: ['split-view-drawer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkySplitViewDrawerComponent

@@ -15,7 +15,7 @@ import {
   SKY_STACKING_CONTEXT,
   SkyDynamicComponentService,
   SkyResizeObserverMediaQueryService,
-  _provideSkyMediaQueryServiceOverride,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { BehaviorSubject } from 'rxjs';
@@ -105,7 +105,7 @@ export class SkyModalHostComponent implements OnDestroy {
         provide: SkyModalConfiguration,
         useValue: params,
       },
-      _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+      provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
       {
         provide: SKY_STACKING_CONTEXT,
         useValue: {

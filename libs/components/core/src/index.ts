@@ -76,7 +76,7 @@ export { SkyMediaQueryServiceOverride } from './lib/modules/media-query/media-qu
 export { SKY_MEDIA_QUERY_SERVICE_OVERRIDE } from './lib/modules/media-query/media-query-service-override.token';
 export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
 export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';
-export { _provideSkyMediaQueryServiceOverride } from './lib/modules/media-query/provide-media-query-service-override';
+export { provideSkyMediaQueryServiceOverride } from './lib/modules/media-query/provide-media-query-service-override';
 
 export { SkyMutationObserverService } from './lib/modules/mutation/mutation-observer-service';
 

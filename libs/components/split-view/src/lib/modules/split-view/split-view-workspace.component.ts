@@ -13,7 +13,7 @@ import {
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  _provideSkyMediaQueryServiceOverride,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { Subject } from 'rxjs';
@@ -30,7 +30,7 @@ import { SkySplitViewService } from './split-view.service';
   styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkySplitViewWorkspaceComponent

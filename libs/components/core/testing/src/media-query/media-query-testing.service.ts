@@ -36,17 +36,10 @@ export class SkyMediaQueryTestingService
     SkyMediaQueryTestingController,
     OnDestroy
 {
-  /**
-   * Emits when the breakpoint changes.
-   */
   public get breakpointChange(): Observable<SkyMediaBreakpointType> {
     return this.#breakpointChangeObs;
   }
 
-  /**
-   * Returns the current breakpoint.
-   * @deprecated Subscribe to the `breakpointChange` observable instead.
-   */
   public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
@@ -69,10 +62,6 @@ export class SkyMediaQueryTestingService
     this.destroy();
   }
 
-  /**
-   * @internal
-   */
-  /* istanbul ignore next */
   public destroy(): void {
     this.#observeSubscription?.unsubscribe();
     this.#currentSubject.complete();
@@ -106,7 +95,6 @@ export class SkyMediaQueryTestingService
     });
   }
 
-  /* istanbul ignore next */
   public observe(
     elementRef: ElementRef,
     options?: { updateResponsiveClasses?: boolean },
@@ -124,7 +112,6 @@ export class SkyMediaQueryTestingService
     return this as unknown as SkyResizeObserverMediaQueryService;
   }
 
-  /* istanbul ignore next */
   public unobserve(): void {
     this.#observeSubscription?.unsubscribe();
   }

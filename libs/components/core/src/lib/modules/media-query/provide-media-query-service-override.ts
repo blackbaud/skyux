@@ -8,7 +8,7 @@ import { SkyMediaQueryService } from './media-query.service';
  * Overrides the `SkyMediaQueryService` provider, usually within an element injector.
  * @internal
  */
-export function _provideSkyMediaQueryServiceOverride(
+export function provideSkyMediaQueryServiceOverride(
   svc: Type<SkyMediaQueryServiceOverride>,
 ): Provider[] {
   return [

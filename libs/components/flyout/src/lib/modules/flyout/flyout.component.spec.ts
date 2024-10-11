@@ -8,7 +8,7 @@ import {
 import { Router, provideRouter } from '@angular/router';
 import '@angular/router/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyUIConfigService } from '@skyux/core';
+import { SkyMediaBreakpointType, SkyUIConfigService } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -1589,23 +1589,13 @@ describe('Flyout component', () => {
   });
 
   describe('responsive states', () => {
-    function expectResponsiveCssClass(breakpoint: SkyMediaBreakpoints): void {
+    function expectResponsiveCssClass(
+      breakpoint: SkyMediaBreakpointType,
+    ): void {
       const flyoutElement = getFlyoutElement();
-
-      switch (breakpoint) {
-        case SkyMediaBreakpoints.xs:
-          expect(flyoutElement).toHaveCssClass('sky-responsive-container-xs');
-          break;
-        case SkyMediaBreakpoints.sm:
-          expect(flyoutElement).toHaveCssClass('sky-responsive-container-sm');
-          break;
-        case SkyMediaBreakpoints.md:
-          expect(flyoutElement).toHaveCssClass('sky-responsive-container-md');
-          break;
-        case SkyMediaBreakpoints.lg:
-          expect(flyoutElement).toHaveCssClass('sky-responsive-container-lg');
-          break;
-      }
+      expect(flyoutElement).toHaveCssClass(
+        `sky-responsive-container-${breakpoint}`,
+      );
     }
 
     function expectWidth(width: number): void {
@@ -1626,25 +1616,25 @@ describe('Flyout component', () => {
       mediaQueryController.setBreakpoint('xs');
       fixture.detectChanges();
       expectWidth(400);
-      expectResponsiveCssClass(SkyMediaBreakpoints.xs);
+      expectResponsiveCssClass('xs');
 
       resizeFlyout(-400);
       mediaQueryController.setBreakpoint('sm');
       fixture.detectChanges();
       expectWidth(800);
-      expectResponsiveCssClass(SkyMediaBreakpoints.sm);
+      expectResponsiveCssClass('sm');
 
       resizeFlyout(-200);
       mediaQueryController.setBreakpoint('md');
       fixture.detectChanges();
       expectWidth(1000);
-      expectResponsiveCssClass(SkyMediaBreakpoints.md);
+      expectResponsiveCssClass('md');
 
       resizeFlyout(-200);
       mediaQueryController.setBreakpoint('lg');
       fixture.detectChanges();
       expectWidth(1200);
-      expectResponsiveCssClass(SkyMediaBreakpoints.lg);
+      expectResponsiveCssClass('lg');
     }));
 
     describe('when in modern theme', () => {

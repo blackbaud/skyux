@@ -9,7 +9,7 @@ import {
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  _provideSkyMediaQueryServiceOverride,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { SkyPageLink } from '../action-hub/types/page-link';
@@ -22,7 +22,7 @@ import { SkyPageLink } from '../action-hub/types/page-link';
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
   providers: [
-    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkyPageHeaderComponent implements OnInit, OnDestroy {

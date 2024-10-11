@@ -30,7 +30,7 @@ import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
   SkyUIConfigService,
-  _provideSkyMediaQueryServiceOverride,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
@@ -68,7 +68,7 @@ let nextId = 0;
   styleUrls: ['./flyout.component.scss'],
   providers: [
     SkyFlyoutAdapterService,
-    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
   animations: [
     trigger('flyoutState', [

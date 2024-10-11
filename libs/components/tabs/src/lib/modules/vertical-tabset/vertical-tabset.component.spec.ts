@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
+import { SkyMediaBreakpointType } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -928,7 +928,7 @@ describe('Vertical tabset component', () => {
 
   function expectResponsiveCssClass(
     el: HTMLElement | undefined,
-    breakpoint: SkyMediaBreakpoints,
+    breakpoint: SkyMediaBreakpointType,
   ): void {
     if (!el) {
       throw new Error(
@@ -936,20 +936,7 @@ describe('Vertical tabset component', () => {
       );
     }
 
-    switch (breakpoint) {
-      case SkyMediaBreakpoints.xs:
-        expect(el).toHaveCssClass('sky-responsive-container-xs');
-        break;
-      case SkyMediaBreakpoints.sm:
-        expect(el).toHaveCssClass('sky-responsive-container-sm');
-        break;
-      case SkyMediaBreakpoints.md:
-        expect(el).toHaveCssClass('sky-responsive-container-md');
-        break;
-      case SkyMediaBreakpoints.lg:
-        expect(el).toHaveCssClass('sky-responsive-container-lg');
-        break;
-    }
+    expect(el).toHaveCssClass(`sky-responsive-container-${breakpoint}`);
   }
 
   it('should add the appropriate responsive container upon initialization', async () => {
@@ -964,37 +951,25 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(
-      activeTab?.tabContent?.nativeElement,
-      SkyMediaBreakpoints.xs,
-    );
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'xs');
 
     mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(
-      activeTab?.tabContent?.nativeElement,
-      SkyMediaBreakpoints.sm,
-    );
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'sm');
 
     mediaQueryController.setBreakpoint('md');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(
-      activeTab?.tabContent?.nativeElement,
-      SkyMediaBreakpoints.md,
-    );
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'md');
 
     mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(
-      activeTab?.tabContent?.nativeElement,
-      SkyMediaBreakpoints.lg,
-    );
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'lg');
   });
 
   it('should scroll back to the top of the content pane when switching tabs', () => {

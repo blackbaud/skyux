@@ -12,7 +12,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  _provideSkyMediaQueryServiceOverride,
+  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 /**
@@ -33,7 +33,7 @@ import {
   `,
   providers: [
     // Override the environment provider with an element provider.
-    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 // Use lambda to simulate a component not included in the public API.
