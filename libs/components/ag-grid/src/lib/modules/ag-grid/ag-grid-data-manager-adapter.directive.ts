@@ -174,8 +174,8 @@ export class SkyAgGridDataManagerAdapterDirective
     if (agGrid) {
       agGrid.gridReady.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
         if (this.#viewConfig && this.viewId) {
-          this.#viewConfig.onSelectAllClick = this.#selectAll.bind(this);
-          this.#viewConfig.onClearAllClick = this.#clearAll.bind(this);
+          this.#viewConfig.onSelectAllClick = () => agGrid.api.selectAll();
+          this.#viewConfig.onClearAllClick = () => agGrid.api.deselectAll();
           this.#dataManagerSvc.updateViewConfig(this.#viewConfig);
           this.#dataStateSub = this.#dataManagerSvc
             .getDataStateUpdates(this.#viewConfig.id)
@@ -370,16 +370,6 @@ export class SkyAgGridDataManagerAdapterDirective
         defaultState: { sort: null },
       });
     }
-  }
-
-  #selectAll(): void {
-    const agGrid = this.agGridList?.first;
-    agGrid?.api.selectAll();
-  }
-
-  #clearAll(): void {
-    const agGrid = this.agGridList?.first;
-    agGrid?.api.deselectAll();
   }
 
   #updateColumnWidth(colId: string, width: number): void {
