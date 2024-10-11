@@ -1,5 +1,9 @@
-import { formatFiles } from '@nrwl/devkit';
-import { Tree, getProjects, updateProjectConfiguration } from '@nx/devkit';
+import {
+  Tree,
+  formatFiles,
+  getProjects,
+  updateProjectConfiguration,
+} from '@nx/devkit';
 
 export async function configureTestCiGenerator(
   tree: Tree,

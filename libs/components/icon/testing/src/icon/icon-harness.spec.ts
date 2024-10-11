@@ -2,6 +2,8 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { SkyIconModule } from '@skyux/icon';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -11,8 +13,6 @@ import {
 } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
-
-import { SkyIconModule } from '../../../src/lib/icon/icon.module';
 
 import { SkyIconHarness } from './icon-harness';
 
