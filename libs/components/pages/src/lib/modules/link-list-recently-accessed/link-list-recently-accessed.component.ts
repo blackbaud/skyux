@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyActionHubRecentLinksResolvePipe } from '../action-hub/action-hub-recent-links-resolve.pipe';
 import { SkyRecentLinksInput } from '../action-hub/types/recent-links-input';
@@ -18,7 +18,7 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
   ],
   template: `
     <sky-link-list
-      [links]="recentLinks | skyActionHubRecentLinksResolve"
+      [links]="recentLinks() | skyActionHubRecentLinksResolve"
       [headingText]="'sky_action_hub_recent_links' | skyLibResources"
     />
   `,
@@ -29,6 +29,5 @@ export class SkyLinkListRecentlyAccessedComponent {
    * a `SkyRecentlyAccessedGetLinksArgs` object for `SkyRecentlyAccessedService`,
    * or `'loading'` to display a loading indicator.
    */
-  @Input()
-  public recentLinks: SkyRecentLinksInput | undefined;
+  public readonly recentLinks = input<SkyRecentLinksInput>();
 }
