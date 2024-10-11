@@ -10,7 +10,6 @@ import { SkyCountryFieldSearchResultHarnessFilters } from './country-field-searc
 
 /**
  * Harness for interacting with a country field component in tests.
- * @internal
  */
 export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   /**
