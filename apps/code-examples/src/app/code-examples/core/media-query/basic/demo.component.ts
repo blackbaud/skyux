@@ -1,41 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { SkyAlertModule } from '@skyux/indicators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
 
 @Component({
-  standalone: true,
+  host: {
+    '[class]': '"my-breakpoint-" + breakpoint()',
+  },
+  imports: [CommonModule],
   selector: 'app-demo',
+  standalone: true,
   templateUrl: './demo.component.html',
-  imports: [SkyAlertModule],
 })
 export class DemoComponent {
-  protected currentBreakpoint: string | undefined;
-
-  constructor() {
-    inject(SkyMediaQueryService)
-      .breakpointChange.pipe(takeUntilDestroyed())
-      .subscribe((breakpoint) => {
-        switch (breakpoint) {
-          case SkyMediaBreakpoints.xs:
-            this.currentBreakpoint = 'xs';
-            break;
-
-          case SkyMediaBreakpoints.sm:
-            this.currentBreakpoint = 'sm';
-            break;
-
-          case SkyMediaBreakpoints.md:
-            this.currentBreakpoint = 'md';
-            break;
-
-          case SkyMediaBreakpoints.lg:
-            this.currentBreakpoint = 'lg';
-            break;
-
-          default:
-            this.currentBreakpoint = 'unknown';
-        }
-      });
-  }
+  protected breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 }

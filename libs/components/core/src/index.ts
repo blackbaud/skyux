@@ -65,6 +65,7 @@ export {
   SkyMediaBreakpointType,
   isSkyMediaBreakpointType,
   toSkyMediaBreakpointType,
+  toSkyMediaBreakpoints,
 } from './lib/modules/media-query/media-breakpoint-type';
 export {
   SKY_MEDIA_BREAKPOINT_DEFAULT,

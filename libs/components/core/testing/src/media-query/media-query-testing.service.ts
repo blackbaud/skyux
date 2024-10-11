@@ -15,7 +15,7 @@ import {
   SkyMediaQueryServiceOverride,
   SkyResizeObserverMediaQueryService,
   isSkyMediaBreakpointType,
-  toSkyMediaBreakpointType,
+  toSkyMediaBreakpoints,
 } from '@skyux/core';
 
 import {
@@ -81,27 +81,25 @@ export class SkyMediaQueryTestingService
   }
 
   public async expectBreakpoint(
-    expectedBreakpoint: SkyMediaBreakpointType | SkyMediaBreakpoints,
-  ): Promise<boolean> {
+    expectedBreakpoint: SkyMediaBreakpointType,
+  ): Promise<void> {
     const current = await firstValueFrom(this.#breakpointChange);
 
-    if (isSkyMediaBreakpointType(expectedBreakpoint)) {
-      return expectedBreakpoint === current;
+    if (expectedBreakpoint !== current) {
+      throw new Error(
+        `Expected the current media breakpoint to be "${expectedBreakpoint}", but it is "${current}".`,
+      );
     }
-
-    return toSkyMediaBreakpointType(expectedBreakpoint) === current;
   }
 
-  public setBreakpoint(breakpoint: SkyMediaBreakpoints): void {
-    this.#currentBreakpoint = breakpoint;
-    this.#currentSubject.next(breakpoint);
+  public setBreakpoint(breakpoint: SkyMediaBreakpointType): void {
+    const breakpointLegacy = isSkyMediaBreakpointType(breakpoint)
+      ? toSkyMediaBreakpoints(breakpoint)
+      : breakpoint;
 
-    const breakpointType = toSkyMediaBreakpointType(breakpoint);
-
-    /* istanbul ignore else: safety check */
-    if (breakpointType) {
-      this.#breakpointChange.next(breakpointType);
-    }
+    this.#currentBreakpoint = breakpointLegacy;
+    this.#currentSubject.next(breakpointLegacy);
+    this.#breakpointChange.next(breakpoint);
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
