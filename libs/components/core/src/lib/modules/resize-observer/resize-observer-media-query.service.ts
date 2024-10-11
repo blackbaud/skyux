@@ -163,11 +163,7 @@ export class SkyResizeObserverMediaQueryService
       this.#currentBreakpointObs.next(breakpoint);
 
       const breakpointType = toSkyMediaBreakpointType(breakpoint);
-
-      /* istanbul ignore else: safety check */
-      if (breakpointType) {
-        this.#breakpointChange.next(breakpointType);
-      }
+      this.#breakpointChange.next(breakpointType);
     }
 
     this.#currentBreakpoint = breakpoint;

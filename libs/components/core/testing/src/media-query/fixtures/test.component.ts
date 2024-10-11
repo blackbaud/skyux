@@ -8,19 +8,12 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
-  SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
   _provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
-
-export const BREAKPOINT_NAMES = new Map<SkyMediaBreakpoints, string>([
-  [SkyMediaBreakpoints.lg, 'lg'],
-  [SkyMediaBreakpoints.md, 'md'],
-  [SkyMediaBreakpoints.sm, 'sm'],
-  [SkyMediaBreakpoints.xs, 'xs'],
-]);
 
 /**
  * This component simulates a SKY UX component that has provided the media
@@ -28,8 +21,9 @@ export const BREAKPOINT_NAMES = new Map<SkyMediaBreakpoints, string>([
  */
 @Component({
   host: {
-    '[class]': '"breakpoint-" + querySvc.current',
+    '[class]': '"breakpoint-" + breakpointChange()',
   },
+  imports: [CommonModule],
   selector: 'sky-foo-wrapper',
   standalone: true,
   template: `
@@ -51,6 +45,8 @@ export class λWrapperTestComponent implements OnInit, OnDestroy {
     SkyMediaQueryService,
   ) as unknown as SkyResizeObserverMediaQueryService;
 
+  protected breakpointChange = toSignal(this.querySvc.breakpointChange);
+
   public ngOnInit(): void {
     this.querySvc.observe(this.wrapperRef, { updateResponsiveClasses: true });
   }
@@ -62,19 +58,21 @@ export class λWrapperTestComponent implements OnInit, OnDestroy {
 
 @Component({
   host: {
-    '[class]': '"breakpoint-" + querySvc.current',
+    '[class]': '"breakpoint-" + breakpointChange()',
   },
   selector: 'sky-foo-child',
   standalone: true,
   template: '',
 })
 export class λChildTestComponent {
-  protected querySvc = inject(SkyMediaQueryService);
+  protected breakpointChange = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 }
 
 @Component({
   host: {
-    '[class]': '"breakpoint-" + querySvc.current',
+    '[class]': '"breakpoint-" + breakpointChange()',
   },
   imports: [λChildTestComponent, λWrapperTestComponent, CommonModule],
   standalone: true,
@@ -86,5 +84,7 @@ export class λChildTestComponent {
   `,
 })
 export class TestComponent {
-  protected querySvc = inject(SkyMediaQueryService);
+  protected breakpointChange = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 }

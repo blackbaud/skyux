@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
-import { SkyMediaBreakpoints } from '@skyux/core';
+import { SkyMediaBreakpointType } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -31,7 +31,7 @@ describe('SplitView fixture', () => {
   //#region helpers
 
   async function initiateResponsiveMode(
-    breakpoint: SkyMediaBreakpoints,
+    breakpoint: SkyMediaBreakpointType,
   ): Promise<void> {
     mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
@@ -82,7 +82,7 @@ describe('SplitView fixture', () => {
     expect(splitViewFixture.drawer.width).toBe(DEFAULT_DRAWER_WIDTH);
 
     // responsive mode
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.ariaLabel).toBe(DEFAULT_DRAWER_ARIA_LABEL);
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.drawer.width).toBe('');
@@ -109,7 +109,7 @@ describe('SplitView fixture', () => {
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
 
     // responsive mode
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.workspace.ariaLabel).toBe(
       DEFAULT_WORKSPACE_ARIA_LABEL,
     );
@@ -127,7 +127,7 @@ describe('SplitView fixture', () => {
     await fixture.whenStable();
 
     // verify updates
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.workspace.ariaLabel).toBe(
       testComponent.workspaceAriaLabel,
     );
@@ -138,7 +138,7 @@ describe('SplitView fixture', () => {
 
   it('should open drawer when in responsive mode', async () => {
     // switch to responsive mode
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.drawer.width).toBe('');
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
@@ -152,7 +152,7 @@ describe('SplitView fixture', () => {
 
   it('should handle attempting to open drawer when already open', async () => {
     // responsive mode switches to the workspace by default
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.workspace.backButtonIsVisible).toBeTrue();
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
@@ -185,7 +185,7 @@ describe('SplitView fixture', () => {
 
   it('should switch to workspace on item selection', async () => {
     // responsive mode switches to the workspace by default
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.workspace.backButtonIsVisible).toBeTrue();
     expect(splitViewFixture.workspace.isVisible).toBeTrue();

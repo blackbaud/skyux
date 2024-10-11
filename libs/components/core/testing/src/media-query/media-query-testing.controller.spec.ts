@@ -17,7 +17,7 @@ import { provideSkyMediaQueryTesting } from './provide-media-query-testing';
 describe('media-query-testing.controller', () => {
   function expectBreakpointCSSClass(
     el: HTMLElement,
-    breakpoint: SkyMediaBreakpoints,
+    breakpoint: SkyMediaBreakpointType,
   ): void {
     expect(el.className).toEqual(`breakpoint-${breakpoint}`);
   }
@@ -49,19 +49,19 @@ describe('media-query-testing.controller', () => {
 
     mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
-    expectBreakpointCSSClass(el, SkyMediaBreakpoints.xs);
+    expectBreakpointCSSClass(el, 'xs');
 
     mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
-    expectBreakpointCSSClass(el, SkyMediaBreakpoints.sm);
+    expectBreakpointCSSClass(el, 'sm');
 
     mediaQueryController.setBreakpoint('md');
     fixture.detectChanges();
-    expectBreakpointCSSClass(el, SkyMediaBreakpoints.md);
+    expectBreakpointCSSClass(el, 'md');
 
     mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
-    expectBreakpointCSSClass(el, SkyMediaBreakpoints.lg);
+    expectBreakpointCSSClass(el, 'lg');
   });
 
   it('should emit breakpoint changes (legacy)', () => {
@@ -113,6 +113,10 @@ describe('media-query-testing.controller', () => {
     mediaQueryController.setBreakpoint('lg');
 
     await mediaQueryController.expectBreakpoint('lg');
+
+    expect(TestBed.inject(SkyMediaQueryService).current).toEqual(
+      SkyMediaBreakpoints.lg,
+    );
   });
 
   it('should throw when expecting the wrong breakpoint', async () => {
@@ -139,17 +143,17 @@ describe('media-query-testing.controller', () => {
     mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
 
-    expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.xs);
-    expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.xs);
+    expectBreakpointCSSClass(fixture.nativeElement, 'xs');
+    expectBreakpointCSSClass(wrapper.nativeElement, 'xs');
     expect(wrapperDiv).toHaveClass('sky-responsive-container-xs');
-    expectBreakpointCSSClass(child.nativeElement, SkyMediaBreakpoints.xs);
+    expectBreakpointCSSClass(child.nativeElement, 'xs');
 
     mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
 
-    expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.lg);
-    expectBreakpointCSSClass(wrapper.nativeElement, SkyMediaBreakpoints.lg);
+    expectBreakpointCSSClass(fixture.nativeElement, 'lg');
+    expectBreakpointCSSClass(wrapper.nativeElement, 'lg');
     expect(wrapperDiv).toHaveClass('sky-responsive-container-lg');
-    expectBreakpointCSSClass(child.nativeElement, SkyMediaBreakpoints.lg);
+    expectBreakpointCSSClass(child.nativeElement, 'lg');
   });
 });
