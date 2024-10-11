@@ -14,7 +14,6 @@ import {
   SkyMediaQueryListener,
   SkyMediaQueryServiceOverride,
   SkyResizeObserverMediaQueryService,
-  isSkyMediaBreakpointType,
   toSkyMediaBreakpoints,
 } from '@skyux/core';
 
@@ -93,10 +92,7 @@ export class SkyMediaQueryTestingService
   }
 
   public setBreakpoint(breakpoint: SkyMediaBreakpointType): void {
-    const breakpointLegacy = isSkyMediaBreakpointType(breakpoint)
-      ? toSkyMediaBreakpoints(breakpoint)
-      : breakpoint;
-
+    const breakpointLegacy = toSkyMediaBreakpoints(breakpoint);
     this.#currentBreakpoint = breakpointLegacy;
     this.#currentSubject.next(breakpointLegacy);
     this.#breakpointChange.next(breakpoint);

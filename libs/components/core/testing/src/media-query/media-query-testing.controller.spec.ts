@@ -115,6 +115,18 @@ describe('media-query-testing.controller', () => {
     await mediaQueryController.expectBreakpoint('lg');
   });
 
+  it('should throw when expecting the wrong breakpoint', async () => {
+    const { mediaQueryController } = setupTest();
+
+    mediaQueryController.setBreakpoint('lg');
+
+    await expectAsync(
+      mediaQueryController.expectBreakpoint('sm'),
+    ).toBeRejectedWithError(
+      'Expected the current media breakpoint to be "sm", but it is "lg".',
+    );
+  });
+
   it('should work with overridden providers', () => {
     const { fixture, mediaQueryController } = setupTest();
 
