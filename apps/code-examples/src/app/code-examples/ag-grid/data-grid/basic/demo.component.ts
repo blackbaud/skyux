@@ -67,7 +67,7 @@ export class DemoComponent {
   constructor() {
     const gridOptions: GridOptions = {
       columnDefs: this.#columnDefs,
-      selection: { mode: 'singleRow' },
+      rowSelection: { mode: 'singleRow' },
     };
 
     this.gridOptions = this.#agGridSvc.getGridOptions({
