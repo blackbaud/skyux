@@ -46,7 +46,7 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('.sky-label', true) {
+@include compatMixins.sky-modern-overrides('.sky-label', true, true) {
   --sky-override-label-icon-default-display: none;
 }
 
