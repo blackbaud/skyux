@@ -27,9 +27,10 @@ module.exports = [
     },
   },
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    // Override or add rules here
-    rules: {},
+    files: ['**/*.cjs'],
+    rules: {
+      '@typescript-eslint/no-require-imports': ['off'],
+    },
   },
   {
     files: ['**/*.json'],
