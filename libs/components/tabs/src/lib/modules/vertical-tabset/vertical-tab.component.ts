@@ -13,7 +13,7 @@ import {
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
+  _provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 import { Subject } from 'rxjs';
@@ -31,7 +31,7 @@ let nextId = 0;
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
   providers: [
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

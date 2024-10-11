@@ -3,7 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import {
+  SKY_MEDIA_BREAKPOINT_DEFAULT,
+  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
+  SkyMediaBreakpointType,
+  SkyMediaBreakpoints,
+  SkyMediaQueryService,
+} from '@skyux/core';
 
 import { TestComponent } from './fixtures/test.component';
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
@@ -81,7 +87,8 @@ describe('media-query-testing.controller', () => {
   it('should emit breakpoint changes', () => {
     const { mediaQueryController } = setupTest();
 
-    let currentBreakpoint: SkyMediaBreakpoints | undefined;
+    let currentBreakpoint: SkyMediaBreakpointType | undefined;
+
     const subscription = TestBed.inject(
       SkyMediaQueryService,
     ).breakpointChange.subscribe((breakpoint) => {
@@ -89,12 +96,34 @@ describe('media-query-testing.controller', () => {
     });
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
-    expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.lg);
+    expect(currentBreakpoint).toEqual('lg');
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
-    expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.xs);
+    expect(currentBreakpoint).toEqual('xs');
 
     subscription.unsubscribe();
+  });
+
+  it('should expect current breakpoint', async () => {
+    const { mediaQueryController } = setupTest();
+
+    await expectAsync(
+      mediaQueryController.expectBreakpoint(SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT),
+    ).toBeResolvedTo(true);
+
+    await expectAsync(
+      mediaQueryController.expectBreakpoint(SKY_MEDIA_BREAKPOINT_DEFAULT),
+    ).toBeResolvedTo(true);
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+
+    await expectAsync(
+      mediaQueryController.expectBreakpoint('lg'),
+    ).toBeResolvedTo(true);
+
+    await expectAsync(
+      mediaQueryController.expectBreakpoint(SkyMediaBreakpoints.lg),
+    ).toBeResolvedTo(true);
   });
 
   it('should work with overridden providers', () => {

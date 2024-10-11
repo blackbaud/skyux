@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SkyMediaBreakpoints } from '@skyux/core';
+import { SkyMediaBreakpointType } from '@skyux/core';
 
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
@@ -9,11 +9,11 @@ import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 export class SkySummaryActionBarCollapsiblePipe implements PipeTransform {
   public transform(
     summaryActionBarType: SkySummaryActionBarType | undefined,
-    mediaBreakpoint: SkyMediaBreakpoints | null,
+    mediaBreakpoint: SkyMediaBreakpointType | null,
   ): boolean {
     return (
       summaryActionBarType === SkySummaryActionBarType.StandardModal ||
-      mediaBreakpoint === SkyMediaBreakpoints.xs
+      mediaBreakpoint === 'xs'
     );
   }
 }

@@ -2,11 +2,17 @@ import { Injectable, NgZone, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
-import { SkyMediaBreakpoints } from './media-breakpoints';
+import {
+  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
+  SkyMediaBreakpointType,
+  toSkyMediaBreakpointType,
+} from './media-breakpoint-type';
+import {
+  SKY_MEDIA_BREAKPOINT_DEFAULT,
+  SkyMediaBreakpoints,
+} from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
 import { SkyMediaQueryServiceBase } from './media-query-service-base';
-
-const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 @Injectable({
   providedIn: 'root',
@@ -38,20 +44,31 @@ export class SkyMediaQueryService
    */
   public static lg = '(min-width: 1200px)';
 
-  public get breakpointChange(): Observable<SkyMediaBreakpoints> {
+  /**
+   * Emits when the breakpoint changes.
+   */
+  public get breakpointChange(): Observable<SkyMediaBreakpointType> {
     return this.#breakpointChangeObs;
   }
 
+  /**
+   * Returns the current breakpoint.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
+   */
   public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
-  #breakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
-    DEFAULT_BREAKPOINT,
+  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+    SKY_MEDIA_BREAKPOINT_DEFAULT,
+  );
+
+  #breakpointChange = new BehaviorSubject<SkyMediaBreakpointType>(
+    SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   );
 
   #breakpointChangeObs = this.#breakpointChange.asObservable();
-  #currentBreakpoint = DEFAULT_BREAKPOINT;
+  #currentBreakpoint = SKY_MEDIA_BREAKPOINT_DEFAULT;
 
   #breakpoints: {
     mediaQueryString: string;
@@ -91,16 +108,25 @@ export class SkyMediaQueryService
     this.destroy();
   }
 
+  /**
+   * Subscribes to screen size changes.
+   * @param listener Specifies a function that is called when breakpoints change.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
+   */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#breakpointChange.subscribe({
+    return this.#currentSubject.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
       },
     });
   }
 
+  /**
+   * @internal
+   */
   public destroy(): void {
     this.#removeListeners();
+    this.#currentSubject.complete();
     this.#breakpointChange.complete();
   }
 
@@ -141,6 +167,13 @@ export class SkyMediaQueryService
 
   #notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
     this.#currentBreakpoint = breakpoint;
-    this.#breakpointChange.next(breakpoint);
+    this.#currentSubject.next(breakpoint);
+
+    const breakpointType = toSkyMediaBreakpointType(breakpoint);
+
+    /* istanbul ignore else: safety check */
+    if (breakpointType) {
+      this.#breakpointChange.next(breakpointType);
+    }
   }
 }

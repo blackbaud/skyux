@@ -12,7 +12,7 @@ import {
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
+  _provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 export const BREAKPOINT_NAMES = new Map<SkyMediaBreakpoints, string>([
@@ -39,7 +39,7 @@ export const BREAKPOINT_NAMES = new Map<SkyMediaBreakpoints, string>([
   `,
   providers: [
     // Override the environment provider with an element provider.
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 // Use lambda to simulate a component not included in the public API.

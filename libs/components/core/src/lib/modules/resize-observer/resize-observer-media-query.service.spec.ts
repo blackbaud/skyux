@@ -1,6 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
+import { SkyMediaBreakpointType } from '../media-query/media-breakpoint-type';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import {
@@ -75,7 +76,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     document.body.appendChild(nativeElement);
     const target = new ElementRef(nativeElement);
 
-    let result: SkyMediaBreakpoints | undefined;
+    let result: SkyMediaBreakpointType | undefined;
 
     const service = TestBed.inject(SkyResizeObserverMediaQueryService);
     service.observe(target);
@@ -91,7 +92,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
       },
     ]);
 
-    expect(result).toEqual(SkyMediaBreakpoints.xs);
+    expect(result).toEqual('xs');
 
     mockResizeObserverHandle.emit([
       {
@@ -104,7 +105,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
       },
     ]);
 
-    expect(result).toEqual(SkyMediaBreakpoints.lg);
+    expect(result).toEqual('lg');
     expect(service.current).toEqual(SkyMediaBreakpoints.lg);
 
     service.unobserve();

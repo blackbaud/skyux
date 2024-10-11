@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {
   SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
+  _provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
@@ -22,7 +22,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkySectionedFormModule],
   providers: [
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class ResizeObserverContentComponent

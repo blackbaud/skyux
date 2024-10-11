@@ -9,7 +9,7 @@ import {
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
+  _provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 
 /**
@@ -22,7 +22,7 @@ import {
   styleUrls: ['./page-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
 export class SkyPageContentComponent implements OnInit, OnDestroy {

@@ -1,5 +1,6 @@
 import { Observable, Subscription } from 'rxjs';
 
+import { SkyMediaBreakpointType } from './media-breakpoint-type';
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
 
@@ -10,10 +11,11 @@ export interface SkyMediaQueryServiceBase {
   /**
    * Emits when the breakpoint changes.
    */
-  get breakpointChange(): Observable<SkyMediaBreakpoints>;
+  get breakpointChange(): Observable<SkyMediaBreakpointType>;
 
   /**
    * Returns the current breakpoint.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
   get current(): SkyMediaBreakpoints;
 

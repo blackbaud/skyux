@@ -3,13 +3,19 @@ import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
+import {
+  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
+  SkyMediaBreakpointType,
+  toSkyMediaBreakpointType,
+} from '../media-query/media-breakpoint-type';
+import {
+  SKY_MEDIA_BREAKPOINT_DEFAULT,
+  SkyMediaBreakpoints,
+} from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
 import { SkyMediaQueryServiceOverride } from '../media-query/media-query-service-override';
 
 import { SkyResizeObserverService } from './resize-observer.service';
-
-const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
@@ -18,16 +24,23 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 export class SkyResizeObserverMediaQueryService
   implements OnDestroy, SkyMediaQueryServiceOverride
 {
-  public get breakpointChange(): Observable<SkyMediaBreakpoints> {
+  /**
+   * Emits when the breakpoint changes.
+   */
+  public get breakpointChange(): Observable<SkyMediaBreakpointType> {
     return this.#breakpointChangeObs;
   }
 
+  /**
+   * Returns the current breakpoint.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
+   */
   public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
-  #breakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
-    DEFAULT_BREAKPOINT,
+  #breakpointChange = new BehaviorSubject<SkyMediaBreakpointType>(
+    SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   );
 
   #breakpointChangeObs = this.#breakpointChange.asObservable();
@@ -54,21 +67,38 @@ export class SkyResizeObserverMediaQueryService
     },
   ];
 
-  #currentBreakpoint: SkyMediaBreakpoints = DEFAULT_BREAKPOINT;
+  #currentBreakpoint: SkyMediaBreakpoints = SKY_MEDIA_BREAKPOINT_DEFAULT;
+
+  #currentBreakpointObs = new BehaviorSubject<SkyMediaBreakpoints>(
+    SKY_MEDIA_BREAKPOINT_DEFAULT,
+  );
+
   #ngUnsubscribe = new Subject<void>();
+
   #resizeObserverSvc = inject(SkyResizeObserverService);
+
   #target: ElementRef | undefined;
 
   public ngOnDestroy(): void {
     this.unobserve();
+
     this.#target = undefined;
+    this.#currentBreakpointObs.complete();
     this.#breakpointChange.complete();
   }
 
+  /**
+   * @internal
+   */
   public destroy(): void {
     this.ngOnDestroy();
   }
 
+  /**
+   * Sets the container element to watch. The `SkyResizeObserverMediaQueryService`
+   * will only observe one element at a time. Any previous subscriptions will be
+   * unsubscribed when a new element is observed.
+   */
   public observe(
     element: ElementRef,
     options?: {
@@ -99,6 +129,9 @@ export class SkyResizeObserverMediaQueryService
     return this;
   }
 
+  /**
+   * Stop watching the container element and remove any added classes.
+   */
   public unobserve(): void {
     this.#removeResponsiveClasses();
     this.#ngUnsubscribe.next();
@@ -106,11 +139,12 @@ export class SkyResizeObserverMediaQueryService
   }
 
   /**
-   * Subscribes to element size changes that cross breakpoints.
+   * Subscribes to screen size changes.
+   * @param listener Specifies a function that is called when breakpoints change.
    * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#breakpointChange
+    return this.#currentBreakpointObs
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
         listener(value);
@@ -126,8 +160,16 @@ export class SkyResizeObserverMediaQueryService
     }
 
     if (this.current !== breakpoint) {
-      this.#breakpointChange.next(breakpoint);
+      this.#currentBreakpointObs.next(breakpoint);
+
+      const breakpointType = toSkyMediaBreakpointType(breakpoint);
+
+      /* istanbul ignore else: safety check */
+      if (breakpointType) {
+        this.#breakpointChange.next(breakpointType);
+      }
     }
+
     this.#currentBreakpoint = breakpoint;
   }
 

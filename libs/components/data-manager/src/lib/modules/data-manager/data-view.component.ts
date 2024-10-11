@@ -11,7 +11,7 @@ import {
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
+  _provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 
@@ -33,7 +33,7 @@ import { SkyDataManagerState } from './models/data-manager-state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyTextHighlightDirective],
   providers: [
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
+    _provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
   styles: [
     `

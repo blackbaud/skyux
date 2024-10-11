@@ -6,19 +6,26 @@ import {
   RendererFactory2,
   inject,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  SKY_MEDIA_BREAKPOINT_DEFAULT,
+  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
+  SkyMediaBreakpointType,
   SkyMediaBreakpoints,
   SkyMediaQueryListener,
   SkyMediaQueryServiceOverride,
   SkyResizeObserverMediaQueryService,
+  isSkyMediaBreakpointType,
+  toSkyMediaBreakpointType,
 } from '@skyux/core';
 
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  firstValueFrom,
+} from 'rxjs';
 
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
-
-const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 /**
  * @internal
@@ -30,46 +37,79 @@ export class SkyMediaQueryTestingService
     SkyMediaQueryTestingController,
     OnDestroy
 {
-  public get breakpointChange(): Observable<SkyMediaBreakpoints> {
+  /**
+   * Emits when the breakpoint changes.
+   */
+  public get breakpointChange(): Observable<SkyMediaBreakpointType> {
     return this.#breakpointChangeObs;
   }
 
+  /**
+   * Returns the current breakpoint.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
+   */
   public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
-  #breakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
-    DEFAULT_BREAKPOINT,
+  #breakpointChange = new BehaviorSubject<SkyMediaBreakpointType>(
+    SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   );
 
-  #breakpointChangeObs = this.#breakpointChange
-    .asObservable()
-    .pipe(takeUntilDestroyed());
-  #currentBreakpoint = DEFAULT_BREAKPOINT;
+  #breakpointChangeObs = this.#breakpointChange.asObservable();
+  #currentBreakpoint = SKY_MEDIA_BREAKPOINT_DEFAULT;
+  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+    SKY_MEDIA_BREAKPOINT_DEFAULT,
+  );
+
   #observeSubscription: Subscription | undefined;
 
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
-
-  public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#breakpointChange.subscribe({
-      next: (breakpoint) => {
-        listener(breakpoint);
-      },
-    });
-  }
-
-  /* istanbul ignore next */
-  public destroy(): void {
-    this.#observeSubscription?.unsubscribe();
-  }
 
   public ngOnDestroy(): void {
     this.destroy();
   }
 
+  /**
+   * @internal
+   */
+  /* istanbul ignore next */
+  public destroy(): void {
+    this.#observeSubscription?.unsubscribe();
+    this.#currentSubject.complete();
+    this.#breakpointChange.complete();
+  }
+
+  public async expectBreakpoint(
+    expectedBreakpoint: SkyMediaBreakpointType | SkyMediaBreakpoints,
+  ): Promise<boolean> {
+    const current = await firstValueFrom(this.#breakpointChange);
+
+    if (isSkyMediaBreakpointType(expectedBreakpoint)) {
+      return expectedBreakpoint === current;
+    }
+
+    return toSkyMediaBreakpointType(expectedBreakpoint) === current;
+  }
+
   public setBreakpoint(breakpoint: SkyMediaBreakpoints): void {
     this.#currentBreakpoint = breakpoint;
-    this.#breakpointChange.next(breakpoint);
+    this.#currentSubject.next(breakpoint);
+
+    const breakpointType = toSkyMediaBreakpointType(breakpoint);
+
+    /* istanbul ignore else: safety check */
+    if (breakpointType) {
+      this.#breakpointChange.next(breakpointType);
+    }
+  }
+
+  public subscribe(listener: SkyMediaQueryListener): Subscription {
+    return this.#currentSubject.subscribe({
+      next: (breakpoint) => {
+        listener(breakpoint);
+      },
+    });
   }
 
   /* istanbul ignore next */
@@ -100,6 +140,10 @@ export class SkyMediaQueryTestingService
     this.#renderer.addClass(el, className);
   }
 
+  #getClassForBreakpoint(breakpoint: SkyMediaBreakpoints): string {
+    return `sky-responsive-container-${SkyMediaBreakpoints[breakpoint]}`;
+  }
+
   #removeResponsiveClasses(el: HTMLElement): void {
     for (const breakpoint of Object.values(SkyMediaBreakpoints)) {
       if (typeof breakpoint === 'number') {
@@ -107,9 +151,5 @@ export class SkyMediaQueryTestingService
         this.#renderer.removeClass(el, className);
       }
     }
-  }
-
-  #getClassForBreakpoint(breakpoint: SkyMediaBreakpoints): string {
-    return `sky-responsive-container-${SkyMediaBreakpoints[breakpoint]}`;
   }
 }

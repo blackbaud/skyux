@@ -60,13 +60,22 @@ export { SkyLogService } from './lib/modules/log/log.service';
 export { SkyLogLevel } from './lib/modules/log/types/log-level';
 export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
-export { SkyMediaBreakpoints } from './lib/modules/media-query/media-breakpoints';
+export {
+  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
+  SkyMediaBreakpointType,
+  isSkyMediaBreakpointType,
+  toSkyMediaBreakpointType,
+} from './lib/modules/media-query/media-breakpoint-type';
+export {
+  SKY_MEDIA_BREAKPOINT_DEFAULT,
+  SkyMediaBreakpoints,
+} from './lib/modules/media-query/media-breakpoints';
 export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
 export { SkyMediaQueryServiceOverride } from './lib/modules/media-query/media-query-service-override';
 export { SKY_MEDIA_QUERY_SERVICE_OVERRIDE } from './lib/modules/media-query/media-query-service-override.token';
 export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
 export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';
-export { provideSkyMediaQueryServiceOverride } from './lib/modules/media-query/provide-media-query-service-override';
+export { _provideSkyMediaQueryServiceOverride } from './lib/modules/media-query/provide-media-query-service-override';
 
 export { SkyMutationObserverService } from './lib/modules/mutation/mutation-observer-service';
 

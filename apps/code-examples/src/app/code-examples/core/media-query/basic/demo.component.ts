@@ -1,8 +1,7 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkyAlertModule } from '@skyux/indicators';
-
-import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -10,41 +9,33 @@ import { Subscription } from 'rxjs';
   templateUrl: './demo.component.html',
   imports: [SkyAlertModule],
 })
-export class DemoComponent implements OnDestroy {
+export class DemoComponent {
   protected currentBreakpoint: string | undefined;
 
-  #querySubscription: Subscription;
-
-  readonly #mediaQuerySvc = inject(SkyMediaQueryService);
-
   constructor() {
-    this.#querySubscription = this.#mediaQuerySvc.subscribe((newBreakpoint) => {
-      switch (newBreakpoint) {
-        case SkyMediaBreakpoints.xs:
-          this.currentBreakpoint = 'xs';
-          break;
+    inject(SkyMediaQueryService)
+      .breakpointChange.pipe(takeUntilDestroyed())
+      .subscribe((breakpoint) => {
+        switch (breakpoint) {
+          case SkyMediaBreakpoints.xs:
+            this.currentBreakpoint = 'xs';
+            break;
 
-        case SkyMediaBreakpoints.sm:
-          this.currentBreakpoint = 'sm';
-          break;
+          case SkyMediaBreakpoints.sm:
+            this.currentBreakpoint = 'sm';
+            break;
 
-        case SkyMediaBreakpoints.md:
-          this.currentBreakpoint = 'md';
-          break;
+          case SkyMediaBreakpoints.md:
+            this.currentBreakpoint = 'md';
+            break;
 
-        case SkyMediaBreakpoints.lg:
-          this.currentBreakpoint = 'lg';
-          break;
+          case SkyMediaBreakpoints.lg:
+            this.currentBreakpoint = 'lg';
+            break;
 
-        default:
-          this.currentBreakpoint = 'unknown';
-      }
-    });
-  }
-
-  public ngOnDestroy(): void {
-    if (this.#querySubscription) {
-      this.#querySubscription.unsubscribe();
-    }
+          default:
+            this.currentBreakpoint = 'unknown';
+        }
+      });
   }
 }
