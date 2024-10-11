@@ -48,6 +48,65 @@ module.exports = [
 ];
 `;
 
+const ESLINT_STORYBOOK_APPS = `const nx = require('@nx/eslint-plugin');
+const prettier = require('eslint-config-prettier');
+const baseConfig = require('../../../eslint-base.config.cjs');
+const overrides = require('../../../eslint-overrides-angular.config.cjs');
+
+module.exports = [
+  ...baseConfig,
+  {
+    files: ['**/*.json'],
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
+      ],
+    },
+    languageOptions: { parser: require('jsonc-eslint-parser') },
+  },
+  ...nx.configs['flat/angular'],
+  ...nx.configs['flat/angular-template'],
+  ...overrides,
+  {
+    files: ['**/*.ts'],
+    ignores: ['**/*.spec.ts', '**/fixtures/**'],
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'app',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  prettier,
+];
+`;
+
+const ESLINT_E2E_APPS = `const prettier = require('eslint-config-prettier');
+const cypress = require('eslint-plugin-cypress/flat');
+const baseConfig = require('../../../eslint.config.cjs');
+const overrides = require('../../../eslint-overrides.config.cjs');
+
+module.exports = [
+  cypress.configs['recommended'],
+  ...baseConfig,
+  ...overrides,
+  prettier,
+];
+`;
+
 const ESLINT_NODE = `const prettier = require('eslint-config-prettier');
 const baseConfig = require('../../../eslint-base.config.cjs');
 const overrides = require('../../../eslint-overrides.config.cjs');
@@ -203,7 +262,9 @@ async function migrateSdkESLintConfig(): Promise<void> {
 }
 
 async function migrateAppESLintConfig(): Promise<void> {
-  const jsonConfigs = await glob('apps/**/.eslintrc.json');
+  const jsonConfigs = await glob(
+    'apps/{code-examples,integration,playground}/**/.eslintrc.json',
+  );
 
   for (const jsonConfigPath of jsonConfigs) {
     const dirname = path.dirname(jsonConfigPath);
@@ -213,6 +274,33 @@ async function migrateAppESLintConfig(): Promise<void> {
   }
 }
 
+async function migrateE2EAppESLintConfig(): Promise<void> {
+  const jsonConfigs = await glob('apps/e2e/*-e2e/**/.eslintrc.json');
+
+  for (const jsonConfigPath of jsonConfigs) {
+    const dirname = path.dirname(jsonConfigPath);
+
+    await unlink(jsonConfigPath);
+    await writeFile(path.join(dirname, 'eslint.config.cjs'), ESLINT_E2E_APPS);
+  }
+}
+
+async function migrateStorybookAppESLintConfig(): Promise<void> {
+  const jsonConfigs = await glob('apps/e2e/*-storybook/**/.eslintrc.json');
+
+  for (const jsonConfigPath of jsonConfigs) {
+    const dirname = path.dirname(jsonConfigPath);
+
+    await unlink(jsonConfigPath);
+    await writeFile(
+      path.join(dirname, 'eslint.config.cjs'),
+      ESLINT_STORYBOOK_APPS,
+    );
+  }
+}
+
 migrateComponentsESLintConfig();
 migrateSdkESLintConfig();
 migrateAppESLintConfig();
+migrateE2EAppESLintConfig();
+migrateStorybookAppESLintConfig();
