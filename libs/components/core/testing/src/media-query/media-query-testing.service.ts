@@ -14,9 +14,11 @@ import {
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { SkyMediaQueryTestingController } from './media-query-testing.controller';
+
+const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 /**
  * @internal
@@ -28,23 +30,28 @@ export class SkyMediaQueryTestingService
     SkyMediaQueryTestingController,
     OnDestroy
 {
+  public get breakpointChange(): Observable<SkyMediaBreakpoints> {
+    return this.#breakpointChangeObs;
+  }
+
   public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
-  #currentBreakpoint = SkyMediaBreakpoints.md;
-  #currentBreakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
-    this.#currentBreakpoint,
+  #breakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
+    DEFAULT_BREAKPOINT,
   );
-  #currentBreakpointObs = this.#currentBreakpointChange
+
+  #breakpointChangeObs = this.#breakpointChange
     .asObservable()
     .pipe(takeUntilDestroyed());
+  #currentBreakpoint = DEFAULT_BREAKPOINT;
   #observeSubscription: Subscription | undefined;
 
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#currentBreakpointObs.subscribe({
+    return this.#breakpointChange.subscribe({
       next: (breakpoint) => {
         listener(breakpoint);
       },
@@ -53,16 +60,16 @@ export class SkyMediaQueryTestingService
 
   /* istanbul ignore next */
   public destroy(): void {
-    this.ngOnDestroy();
+    this.#observeSubscription?.unsubscribe();
   }
 
   public ngOnDestroy(): void {
-    this.#observeSubscription?.unsubscribe();
+    this.destroy();
   }
 
   public setBreakpoint(breakpoint: SkyMediaBreakpoints): void {
     this.#currentBreakpoint = breakpoint;
-    this.#currentBreakpointChange.next(breakpoint);
+    this.#breakpointChange.next(breakpoint);
   }
 
   /* istanbul ignore next */
@@ -85,7 +92,7 @@ export class SkyMediaQueryTestingService
 
   /* istanbul ignore next */
   public unobserve(): void {
-    /* noop */
+    this.#observeSubscription?.unsubscribe();
   }
 
   #addResponsiveClass(el: HTMLElement, breakpoint: SkyMediaBreakpoints): void {

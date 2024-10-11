@@ -1,6 +1,6 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
@@ -38,17 +38,19 @@ export class SkyMediaQueryService
    */
   public static lg = '(min-width: 1200px)';
 
-  /**
-   * Returns the current breakpoint.
-   */
+  public get breakpointChange(): Observable<SkyMediaBreakpoints> {
+    return this.#breakpointChangeObs;
+  }
+
   public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
-  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+  #breakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
     DEFAULT_BREAKPOINT,
   );
 
+  #breakpointChangeObs = this.#breakpointChange.asObservable();
   #currentBreakpoint = DEFAULT_BREAKPOINT;
 
   #breakpoints: {
@@ -86,28 +88,20 @@ export class SkyMediaQueryService
   }
 
   public ngOnDestroy(): void {
-    this.#removeListeners();
-    this.#currentSubject.complete();
+    this.destroy();
   }
 
-  /**
-   * Subscribes to screen size changes.
-   * @param listener Specifies a function that is called when breakpoints change.
-   */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#currentSubject.subscribe({
+    return this.#breakpointChange.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
       },
     });
   }
 
-  /**
-   * @internal
-   */
   public destroy(): void {
     this.#removeListeners();
-    this.#currentSubject.complete();
+    this.#breakpointChange.complete();
   }
 
   #addListeners(): void {
@@ -147,6 +141,6 @@ export class SkyMediaQueryService
 
   #notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
     this.#currentBreakpoint = breakpoint;
-    this.#currentSubject.next(breakpoint);
+    this.#breakpointChange.next(breakpoint);
   }
 }

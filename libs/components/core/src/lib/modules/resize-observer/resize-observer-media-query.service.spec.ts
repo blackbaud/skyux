@@ -70,6 +70,51 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     nativeElement.remove();
   });
 
+  it('should emit when the breakpoint changes', async () => {
+    const nativeElement = document.createElement('div');
+    document.body.appendChild(nativeElement);
+    const target = new ElementRef(nativeElement);
+
+    let result: SkyMediaBreakpoints | undefined;
+
+    const service = TestBed.inject(SkyResizeObserverMediaQueryService);
+    service.observe(target);
+
+    const subscription = service.breakpointChange.subscribe((breakpoint) => {
+      result = breakpoint;
+    });
+
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+      },
+    ]);
+
+    expect(result).toEqual(SkyMediaBreakpoints.xs);
+
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+        contentRect: {
+          ...mockResizeObserverEntry.contentRect,
+          width: 2000,
+        },
+      },
+    ]);
+
+    expect(result).toEqual(SkyMediaBreakpoints.lg);
+    expect(service.current).toEqual(SkyMediaBreakpoints.lg);
+
+    service.unobserve();
+    service.destroy();
+
+    expect(subscription.closed).toBeTrue();
+
+    nativeElement.remove();
+  });
+
   it("should update the observed element's classes on resize when updateResponsiveClasses is true", () => {
     const testEl = document.createElement('div');
     const target = new ElementRef(testEl);

@@ -56,7 +56,6 @@ export class SkySplitViewDrawerComponent
   public set width(value: number | undefined) {
     if (value) {
       this.#_width = Number(value);
-      this.#splitViewSvc.updateDrawerWidth(this.#_width);
       this.#changeDetectorRef.markForCheck();
     }
   }

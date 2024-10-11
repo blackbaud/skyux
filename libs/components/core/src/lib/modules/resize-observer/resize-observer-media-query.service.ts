@@ -1,6 +1,6 @@
 import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 
-import { ReplaySubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
@@ -18,12 +18,19 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 export class SkyResizeObserverMediaQueryService
   implements OnDestroy, SkyMediaQueryServiceOverride
 {
-  /**
-   * Returns the current breakpoint.
-   */
+  public get breakpointChange(): Observable<SkyMediaBreakpoints> {
+    return this.#breakpointChangeObs;
+  }
+
   public get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
+
+  #breakpointChange = new BehaviorSubject<SkyMediaBreakpoints>(
+    DEFAULT_BREAKPOINT,
+  );
+
+  #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #breakpoints: {
     check: (width: number) => boolean;
@@ -48,33 +55,20 @@ export class SkyResizeObserverMediaQueryService
   ];
 
   #currentBreakpoint: SkyMediaBreakpoints = DEFAULT_BREAKPOINT;
-
-  #currentBreakpointObs = new ReplaySubject<SkyMediaBreakpoints>(1);
-
   #ngUnsubscribe = new Subject<void>();
-
   #resizeObserverSvc = inject(SkyResizeObserverService);
-
   #target: ElementRef | undefined;
 
   public ngOnDestroy(): void {
     this.unobserve();
-
     this.#target = undefined;
-    this.#currentBreakpointObs.complete();
+    this.#breakpointChange.complete();
   }
 
-  /**
-   * @internal
-   */
   public destroy(): void {
     this.ngOnDestroy();
   }
 
-  /**
-   * Sets the container element to watch. The `SkyResizeObserverMediaQueryService` will only observe one element at a
-   * time. Any previous subscriptions will be unsubscribed when a new element is observed.
-   */
   public observe(
     element: ElementRef,
     options?: {
@@ -105,9 +99,6 @@ export class SkyResizeObserverMediaQueryService
     return this;
   }
 
-  /**
-   * Stop watching the container element and remove any added classes.
-   */
   public unobserve(): void {
     this.#removeResponsiveClasses();
     this.#ngUnsubscribe.next();
@@ -116,9 +107,10 @@ export class SkyResizeObserverMediaQueryService
 
   /**
    * Subscribes to element size changes that cross breakpoints.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#currentBreakpointObs
+    return this.#breakpointChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
         listener(value);
@@ -134,7 +126,7 @@ export class SkyResizeObserverMediaQueryService
     }
 
     if (this.current !== breakpoint) {
-      this.#currentBreakpointObs.next(breakpoint);
+      this.#breakpointChange.next(breakpoint);
     }
     this.#currentBreakpoint = breakpoint;
   }

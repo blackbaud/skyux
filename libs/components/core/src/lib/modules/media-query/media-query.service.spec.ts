@@ -1,4 +1,4 @@
-import { inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryService } from './media-query.service';
@@ -185,6 +185,32 @@ describe('Media query service', () => {
         subscription.unsubscribe();
       },
     ));
+
+    it('should emit when the breakpoint changes', () => {
+      const mediaQuerySvc = TestBed.inject(SkyMediaQueryService);
+
+      let result: SkyMediaBreakpoints | undefined;
+
+      const subscription = mediaQuerySvc.breakpointChange.subscribe(
+        (breakpoint) => {
+          result = breakpoint;
+        },
+      );
+
+      callBreakpoint(SkyMediaBreakpoints.xs);
+
+      expect(result).toEqual(SkyMediaBreakpoints.xs);
+
+      callBreakpoint(SkyMediaBreakpoints.md);
+
+      expect(result).toEqual(SkyMediaBreakpoints.md);
+
+      callBreakpoint(SkyMediaBreakpoints.lg);
+
+      expect(result).toEqual(SkyMediaBreakpoints.lg);
+
+      subscription.unsubscribe();
+    });
 
     it('should provide the ability to check the current breakpoints', inject(
       [SkyMediaQueryService],

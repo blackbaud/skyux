@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -32,7 +33,9 @@ import { SkySplitViewService } from './split-view.service';
     provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
-export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
+export class SkySplitViewWorkspaceComponent
+  implements OnDestroy, OnInit, AfterViewInit
+{
   public set isMobile(value: boolean | undefined) {
     this.#_isMobile = value;
     this.#changeDetectorRef.markForCheck();
@@ -84,7 +87,9 @@ export class SkySplitViewWorkspaceComponent implements OnDestroy, OnInit {
         this.isMobile = mobile;
         this.#changeDetectorRef.markForCheck();
       });
+  }
 
+  public ngAfterViewInit(): void {
     this.#mediaQuerySvc.observe(this.workspaceRef, {
       updateResponsiveClasses: true,
     });

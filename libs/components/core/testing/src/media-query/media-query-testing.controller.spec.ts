@@ -59,7 +59,7 @@ describe('media-query-testing.controller', () => {
     expectBreakpointCSSClass(el, SkyMediaBreakpoints.lg);
   });
 
-  it('should emit breakpoint changes', () => {
+  it('should emit breakpoint changes (legacy)', () => {
     const { mediaQueryController } = setupTest();
 
     let currentBreakpoint: SkyMediaBreakpoints | undefined;
@@ -68,6 +68,25 @@ describe('media-query-testing.controller', () => {
         currentBreakpoint = breakpoint;
       },
     );
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.lg);
+
+    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.xs);
+
+    subscription.unsubscribe();
+  });
+
+  it('should emit breakpoint changes', () => {
+    const { mediaQueryController } = setupTest();
+
+    let currentBreakpoint: SkyMediaBreakpoints | undefined;
+    const subscription = TestBed.inject(
+      SkyMediaQueryService,
+    ).breakpointChange.subscribe((breakpoint) => {
+      currentBreakpoint = breakpoint;
+    });
 
     mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
     expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.lg);
