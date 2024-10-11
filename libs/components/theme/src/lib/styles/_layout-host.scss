@@ -129,7 +129,7 @@
         grid-template-rows:
           minmax(var(--sky-margin-stacked-xl), min-content)
           minmax(var(--sky-margin-stacked-xl), min-content)
-          minmax(var(--sky-margin-stacked-xl), min-content)
+          minmax(var(--sky-layout-host-header-spacing-bottom), min-content)
           1fr;
         grid-template-columns: 0 auto 25%;
 
@@ -151,17 +151,20 @@
   .sky-layout-host {
     &-blocks {
       --sky-layout-host-header-spacing: 20px 20px 0 20px;
+      --sky-layout-host-header-spacing-bottom: 0;
       --sky-layout-host-content-spacing: 20px;
     }
 
     &-fit,
     &-list {
       --sky-layout-host-header-spacing: 20px;
+      --sky-layout-host-header-spacing-bottom: var(--sky-margin-stacked-xl);
       --sky-layout-host-content-spacing: 0 20px;
     }
 
     &-tabs {
       --sky-layout-host-header-spacing: 20px;
+      --sky-layout-host-header-spacing-bottom: var(--sky-margin-stacked-xl);
       --sky-layout-host-tab-content-spacing: 20px;
     }
   }
