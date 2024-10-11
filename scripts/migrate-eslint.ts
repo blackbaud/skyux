@@ -30,7 +30,7 @@ module.exports = [
         'error',
         {
           type: 'attribute',
-          prefix: 'sky',
+          prefix: 'app',
           style: 'camelCase',
         },
       ],
@@ -38,7 +38,7 @@ module.exports = [
         'error',
         {
           type: 'element',
-          prefix: 'sky',
+          prefix: 'app',
           style: 'kebab-case',
         },
       ],
