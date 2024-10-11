@@ -272,7 +272,10 @@ describe('ast-utils', () => {
   it('should findComponentClass', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await createTestApplication(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+    });
     const componentClass = findComponentClass(
       readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
     );
@@ -307,7 +310,10 @@ describe('ast-utils', () => {
   it('should findComponentClass, component options not object', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await createTestApplication(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+    });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
       `
@@ -328,7 +334,10 @@ describe('ast-utils', () => {
   it('should findComponentClass, no decorated class', async () => {
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await createTestApplication(tree, { name: 'test' });
-    await componentGenerator(tree, { name: 'test', project: 'test' });
+    await componentGenerator(tree, {
+      name: 'test',
+      path: 'apps/test/src/app/test/test',
+    });
     tree.write(
       'apps/test/src/app/test/test.component.ts',
       `
