@@ -91,7 +91,7 @@ module.exports = [
     },
   },
   {
-    files: [''**/.storybook/*.ts],
+    files: ['**/.storybook/*.ts'],
     rules: {
       'no-restricted-syntax': ['warn']
     }
