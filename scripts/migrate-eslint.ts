@@ -2,7 +2,53 @@ import { glob } from 'glob';
 import { unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const NODE_ESLINT = `const prettier = require('eslint-config-prettier');
+const ESLINT_APPS = `const nx = require('@nx/eslint-plugin');
+const prettier = require('eslint-config-prettier');
+const baseConfig = require('../../eslint-base.config.cjs');
+const overrides = require('../../eslint-overrides-angular.config.cjs');
+
+module.exports = [
+  ...baseConfig,
+  {
+    files: ['**/*.json'],
+    rules: {
+      '@nx/dependency-checks': [
+        'error',
+        { ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'] },
+      ],
+    },
+    languageOptions: { parser: require('jsonc-eslint-parser') },
+  },
+  ...nx.configs['flat/angular'],
+  ...nx.configs['flat/angular-template'],
+  ...overrides,
+  {
+    files: ['**/*.ts'],
+    ignores: ['**/*.spec.ts', '**/fixtures/**'],
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'sky',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'sky',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  prettier,
+];
+`;
+
+const ESLINT_NODE = `const prettier = require('eslint-config-prettier');
 const baseConfig = require('../../../eslint-base.config.cjs');
 const overrides = require('../../../eslint-overrides.config.cjs');
 
@@ -23,7 +69,7 @@ module.exports = [
 ];
 `;
 
-const ANGULAR_ESLINT = `const nx = require('@nx/eslint-plugin');
+const ESLINT_ANGULAR = `const nx = require('@nx/eslint-plugin');
 const prettier = require('eslint-config-prettier');
 const baseConfig = require('../../../eslint-base.config.cjs');
 const overrides = require('../../../eslint-overrides-angular.config.cjs');
@@ -69,7 +115,7 @@ module.exports = [
 ];
 `;
 
-const ANGULAR_DEPRECATED_ESLINT = `const nx = require('@nx/eslint-plugin');
+const ESLINT_ANGULAR_DEPRECATED = `const nx = require('@nx/eslint-plugin');
 const prettier = require('eslint-config-prettier');
 const baseConfig = require('../../../eslint-base.config.cjs');
 const overrides = require('../../../eslint-overrides-angular.config.cjs');
@@ -132,11 +178,11 @@ async function migrateComponentsESLintConfig(): Promise<void> {
     let contents: string | undefined;
 
     if (/\/(list-builder|grid|select-field)/.test(dirname)) {
-      contents = ANGULAR_DEPRECATED_ESLINT;
+      contents = ESLINT_ANGULAR_DEPRECATED;
     } else if (/\/(packages)\//.test(dirname)) {
-      contents = NODE_ESLINT;
+      contents = ESLINT_NODE;
     } else {
-      contents = ANGULAR_ESLINT;
+      contents = ESLINT_ANGULAR;
     }
 
     if (contents) {
@@ -152,22 +198,21 @@ async function migrateSdkESLintConfig(): Promise<void> {
     const dirname = path.dirname(jsonConfigPath);
 
     await unlink(jsonConfigPath);
+    await writeFile(path.join(dirname, 'eslint.config.cjs'), ESLINT_NODE);
+  }
+}
 
-    let contents: string | undefined;
+async function migrateAppESLintConfig(): Promise<void> {
+  const jsonConfigs = await glob('apps/**/.eslintrc.json');
 
-    if (/\/(list-builder|grid|select-field)/.test(dirname)) {
-      contents = ANGULAR_DEPRECATED_ESLINT;
-    } else if (/\/(packages)\//.test(dirname)) {
-      contents = NODE_ESLINT;
-    } else {
-      contents = ANGULAR_ESLINT;
-    }
+  for (const jsonConfigPath of jsonConfigs) {
+    const dirname = path.dirname(jsonConfigPath);
 
-    if (contents) {
-      await writeFile(path.join(dirname, 'eslint.config.cjs'), contents);
-    }
+    await unlink(jsonConfigPath);
+    await writeFile(path.join(dirname, 'eslint.config.cjs'), ESLINT_APPS);
   }
 }
 
 migrateComponentsESLintConfig();
 migrateSdkESLintConfig();
+migrateAppESLintConfig();
