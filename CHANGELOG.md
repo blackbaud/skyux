@@ -1,5 +1,31 @@
 # Changelog
 
+## [11.11.0](https://github.com/blackbaud/skyux/compare/11.10.0...11.11.0) (2024-10-11)
+
+
+### Features
+
+* **components/ag-grid:** support AG Grid 32.2.2 ([#2816](https://github.com/blackbaud/skyux/issues/2816)) ([8292e7d](https://github.com/blackbaud/skyux/commit/8292e7da3c83c059ce3e2a7936a26c5ea7f3a0d0))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** capture sort changes in data manager when not using sort index ([#2820](https://github.com/blackbaud/skyux/issues/2820)) ([ed8fa6d](https://github.com/blackbaud/skyux/commit/ed8fa6de6f612246685a4c61e43937d3f05a0c43))
+* **components/pages:** adjust page links spacing ([#2812](https://github.com/blackbaud/skyux/issues/2812)) ([fbb02ea](https://github.com/blackbaud/skyux/commit/fbb02ea96cacf09bc50d37fc50ae583df8a4cc63))
+
+## [11.10.0](https://github.com/blackbaud/skyux/compare/11.9.0...11.10.0) (2024-10-10)
+
+
+### Features
+
+* **components/layout:** add test harnesses to fluid grid ([#2785](https://github.com/blackbaud/skyux/issues/2785)) ([2be5810](https://github.com/blackbaud/skyux/commit/2be58105ba7c8e0da9bd07d52c30b25172ef3e7a))
+* **components/progress-indicator:** add progress indicator test harness ([#2814](https://github.com/blackbaud/skyux/issues/2814)) ([6ec100e](https://github.com/blackbaud/skyux/commit/6ec100e53fb3ba1c66ff89845536f53226ad7078))
+
+
+### Bug Fixes
+
+* **components/theme:** update style mixins to support angular 18.2.8 ([#2819](https://github.com/blackbaud/skyux/issues/2819)) ([2ed12cd](https://github.com/blackbaud/skyux/commit/2ed12cdbea5c398f964eb1bfedc3028a2645ccf3))
+
 ## [11.9.0](https://github.com/blackbaud/skyux/compare/11.8.0...11.9.0) (2024-10-09)
 
 

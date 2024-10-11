@@ -37,11 +37,17 @@ exports[`find-module should find module 2`] = `
 import { CommonModule } from '@angular/common';
 import { TestComponent } from './test.component';
 
+
+
 @NgModule({
-  declarations: [TestComponent],
-  imports: [CommonModule],
+  declarations: [
+    TestComponent
+  ],
+  imports: [
+    CommonModule
+  ]
 })
-export class TestModule {}
+export class TestModule { }
 "
 `;
 
@@ -80,10 +86,14 @@ exports[`find-module should find standalone component 2`] = `
 "import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+
+
 @NgModule({
   declarations: [],
-  imports: [CommonModule],
+  imports: [
+    CommonModule
+  ]
 })
-export class TestModule {}
+export class TestModule { }
 "
 `;

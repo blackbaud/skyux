@@ -4,9 +4,9 @@ import {
   getProjects,
   readJson,
   updateJson,
+  updateProjectConfiguration,
   visitNotIgnoredFiles,
-} from '@nrwl/devkit';
-import { updateProjectConfiguration } from '@nx/devkit';
+} from '@nx/devkit';
 import { getSourceNodes } from '@nx/js';
 
 import * as semver from 'semver';
