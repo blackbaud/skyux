@@ -7,7 +7,6 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -134,7 +133,7 @@ describe('Summary Action Bar action components', () => {
     });
 
     it('should have secondary actions with isDropdown as true on xs screens', () => {
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+      mediaQueryController.setBreakpoint('xs');
       fixture.detectChanges();
 
       expect(
@@ -188,7 +187,7 @@ describe('Summary Action Bar action components', () => {
 
     it('should be accessible (standard xs setup)', async () => {
       fixture.detectChanges();
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+      mediaQueryController.setBreakpoint('xs');
       fixture.detectChanges();
       fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -196,7 +195,7 @@ describe('Summary Action Bar action components', () => {
 
     it('should be accessible (standard xs setup collapsed summary)', async () => {
       fixture.detectChanges();
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+      mediaQueryController.setBreakpoint('xs');
       fixture.detectChanges();
       await fixture.whenStable();
       debugElement

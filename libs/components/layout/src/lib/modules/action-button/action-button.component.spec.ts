@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyCoreAdapterService, SkyMediaBreakpoints } from '@skyux/core';
+import { SkyCoreAdapterService } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -168,10 +168,10 @@ describe('Action button component', () => {
       '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-2x';
     const largeIconSelector =
       '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-3x';
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     expect(debugElement.query(By.css(smallIconSelector))).not.toBeNull();
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     expect(debugElement.query(By.css(largeIconSelector))).not.toBeNull();
   });

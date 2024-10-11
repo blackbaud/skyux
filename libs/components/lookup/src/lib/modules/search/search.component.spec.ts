@@ -8,7 +8,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyContentInfoProvider, SkyMediaBreakpoints } from '@skyux/core';
+import { SkyContentInfoProvider } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -142,13 +142,13 @@ describe('Search component', () => {
   }
 
   function triggerXsBreakpoint(): Promise<void> {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
   function triggerLgBreakpoint(): Promise<void> {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
     return fixture.whenStable();
   }

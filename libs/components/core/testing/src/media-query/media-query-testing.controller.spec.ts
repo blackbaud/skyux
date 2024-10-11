@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import {
-  SKY_MEDIA_BREAKPOINT_DEFAULT,
   SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   SkyMediaBreakpointType,
   SkyMediaBreakpoints,
@@ -48,19 +47,19 @@ describe('media-query-testing.controller', () => {
 
     const el = fixture.nativeElement;
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     expectBreakpointCSSClass(el, SkyMediaBreakpoints.xs);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     expectBreakpointCSSClass(el, SkyMediaBreakpoints.sm);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.md);
+    mediaQueryController.setBreakpoint('md');
     fixture.detectChanges();
     expectBreakpointCSSClass(el, SkyMediaBreakpoints.md);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
     expectBreakpointCSSClass(el, SkyMediaBreakpoints.lg);
   });
@@ -75,10 +74,10 @@ describe('media-query-testing.controller', () => {
       },
     );
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.lg);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     expect(currentBreakpoint).toEqual(SkyMediaBreakpoints.xs);
 
     subscription.unsubscribe();
@@ -95,10 +94,10 @@ describe('media-query-testing.controller', () => {
       currentBreakpoint = breakpoint;
     });
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     expect(currentBreakpoint).toEqual('lg');
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     expect(currentBreakpoint).toEqual('xs');
 
     subscription.unsubscribe();
@@ -107,23 +106,13 @@ describe('media-query-testing.controller', () => {
   it('should expect current breakpoint', async () => {
     const { mediaQueryController } = setupTest();
 
-    await expectAsync(
-      mediaQueryController.expectBreakpoint(SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT),
-    ).toBeResolvedTo(true);
+    await mediaQueryController.expectBreakpoint(
+      SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
+    );
 
-    await expectAsync(
-      mediaQueryController.expectBreakpoint(SKY_MEDIA_BREAKPOINT_DEFAULT),
-    ).toBeResolvedTo(true);
+    mediaQueryController.setBreakpoint('lg');
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
-
-    await expectAsync(
-      mediaQueryController.expectBreakpoint('lg'),
-    ).toBeResolvedTo(true);
-
-    await expectAsync(
-      mediaQueryController.expectBreakpoint(SkyMediaBreakpoints.lg),
-    ).toBeResolvedTo(true);
+    await mediaQueryController.expectBreakpoint('lg');
   });
 
   it('should work with overridden providers', () => {
@@ -135,7 +124,7 @@ describe('media-query-testing.controller', () => {
     );
     const child = fixture.debugElement.query(By.css('sky-foo-child'));
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.xs);
@@ -143,7 +132,7 @@ describe('media-query-testing.controller', () => {
     expect(wrapperDiv).toHaveClass('sky-responsive-container-xs');
     expectBreakpointCSSClass(child.nativeElement, SkyMediaBreakpoints.xs);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
 
     expectBreakpointCSSClass(fixture.nativeElement, SkyMediaBreakpoints.lg);

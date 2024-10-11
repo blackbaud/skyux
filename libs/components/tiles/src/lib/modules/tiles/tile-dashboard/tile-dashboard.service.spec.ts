@@ -8,7 +8,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyUIConfigService } from '@skyux/core';
+import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -476,7 +476,7 @@ describe('Tile dashboard service', () => {
 
   it('should allow tiles to be moved within a column in single column mode', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -576,7 +576,7 @@ describe('Tile dashboard service', () => {
     const fixture = createDashboardTestComponent();
     const el = fixture.nativeElement;
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -616,7 +616,7 @@ describe('Tile dashboard service', () => {
     expect(getTileCount(multiColumnEls[1])).toBe(1);
     expect(getTileCount(singleColumnEl)).toBe(0);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     fixture.detectChanges();
 
@@ -624,7 +624,7 @@ describe('Tile dashboard service', () => {
     expect(getTileCount(multiColumnEls[1])).toBe(0);
     expect(getTileCount(singleColumnEl)).toBe(4);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.md);
+    mediaQueryController.setBreakpoint('md');
 
     fixture.detectChanges();
 
@@ -643,7 +643,7 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
     tick();
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     mockDragulaService.drop().next({});
 
@@ -652,7 +652,7 @@ describe('Tile dashboard service', () => {
 
     expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
 
     mockDragulaService.drop().next({});
 

@@ -1623,25 +1623,25 @@ describe('Flyout component', () => {
       tick();
 
       resizeFlyout(100);
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+      mediaQueryController.setBreakpoint('xs');
       fixture.detectChanges();
       expectWidth(400);
       expectResponsiveCssClass(SkyMediaBreakpoints.xs);
 
       resizeFlyout(-400);
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
+      mediaQueryController.setBreakpoint('sm');
       fixture.detectChanges();
       expectWidth(800);
       expectResponsiveCssClass(SkyMediaBreakpoints.sm);
 
       resizeFlyout(-200);
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.md);
+      mediaQueryController.setBreakpoint('md');
       fixture.detectChanges();
       expectWidth(1000);
       expectResponsiveCssClass(SkyMediaBreakpoints.md);
 
       resizeFlyout(-200);
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+      mediaQueryController.setBreakpoint('lg');
       fixture.detectChanges();
       expectWidth(1200);
       expectResponsiveCssClass(SkyMediaBreakpoints.lg);

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -141,7 +140,7 @@ describe('Search harness', () => {
       fixture: ComponentFixture<SearchHarnessTestComponent>,
       mockMediaQueryService: SkyMediaQueryTestingController,
     ): Promise<void> {
-      mockMediaQueryService.setBreakpoint(SkyMediaBreakpoints.xs);
+      mockMediaQueryService.setBreakpoint('xs');
       fixture.detectChanges();
       await fixture.whenStable();
     }

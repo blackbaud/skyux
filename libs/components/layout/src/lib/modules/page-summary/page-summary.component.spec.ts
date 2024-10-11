@@ -1,6 +1,5 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -38,7 +37,7 @@ describe('Page summary component', () => {
     expect(el.querySelector(xsSelector)).not.toExist();
     expect(el.querySelector(smSelector)).toExist();
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     expect(el.querySelector(xsSelector)).toExist();
     expect(el.querySelector(smSelector)).not.toExist();

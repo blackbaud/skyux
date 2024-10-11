@@ -14,7 +14,6 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -138,7 +137,7 @@ function getFocusedElement(): HTMLElement {
 }
 
 function initiateResponsiveMode(fixture: ComponentFixture<unknown>): void {
-  mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+  mediaQueryController.setBreakpoint('xs');
   fixture.detectChanges();
 }
 
@@ -405,7 +404,7 @@ describe('Split view component', () => {
   describe('after properties initialize', () => {
     // Runs the initial getters. Make sure we always have a baseline of lg media breakpoint.
     beforeEach(fakeAsync(() => {
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+      mediaQueryController.setBreakpoint('lg');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -613,7 +612,7 @@ describe('Split view component', () => {
 
     it('resize handle and workspace panel should be revealed when screen size changes back to md from xs', fakeAsync(() => {
       initiateResponsiveMode(fixture);
-      mediaQueryController.setBreakpoint(SkyMediaBreakpoints.md);
+      mediaQueryController.setBreakpoint('md');
       fixture.detectChanges();
       const resizeHandle = getResizeHandle(fixture);
 

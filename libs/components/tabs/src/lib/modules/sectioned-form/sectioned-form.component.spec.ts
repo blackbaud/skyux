@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -51,7 +50,7 @@ describe('Sectioned form component', () => {
       fixture: ComponentFixture<SkySectionedFormFixtureComponent>,
     ) => void,
   ): void {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
@@ -215,7 +214,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should fire the active index changed event when tab changed', () => {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     const fixture = createTestComponent();
     fixture.detectChanges();
@@ -273,7 +272,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should have a visible animation state on load in mobile', () => {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
 
     fixture.detectChanges();
@@ -303,7 +302,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should not use tab aria-associations and roles in mobile view', () => {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
     fixture.detectChanges();
@@ -378,7 +377,7 @@ describe('Sectioned form component', () => {
   });
 
   it('should show content after resizing screen', () => {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -389,7 +388,7 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     // resize screen out of mobile
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
     fixture.componentInstance.sectionedForm?.tabService.updateContent();
     fixture.detectChanges();
@@ -400,7 +399,7 @@ describe('Sectioned form component', () => {
     expect(content[0].textContent.trim()).toBe('information 2');
 
     // resize back to mobile
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     fixture.componentInstance.sectionedForm?.tabService.updateContent();
     fixture.detectChanges();
@@ -410,7 +409,7 @@ describe('Sectioned form component', () => {
     expect(content.length).toBe(0);
 
     // resize to widescreen
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
     fixture.componentInstance.sectionedForm?.tabService.updateContent();
     fixture.detectChanges();

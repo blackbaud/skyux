@@ -2,7 +2,6 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -76,7 +75,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       .getDataStateUpdates('test')
       .subscribe((state) => (dataState = state));
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
   });
 
   it('should update the data state when a row is selected', async () => {
@@ -221,7 +220,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should apply data state column widths when the breakpoint changes', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
 
     expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
       300,
@@ -230,7 +229,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       400,
     );
 
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
       180,
@@ -381,7 +380,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should update the data state for the xs breakpoint when a column is resized', async () => {
-    mediaQueryController.setBreakpoint(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     await agGridDataManagerFixture.whenStable();
     const updateDataState = spyOn(dataManagerService, 'updateDataState');

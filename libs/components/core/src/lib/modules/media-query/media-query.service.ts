@@ -170,10 +170,6 @@ export class SkyMediaQueryService
     this.#currentSubject.next(breakpoint);
 
     const breakpointType = toSkyMediaBreakpointType(breakpoint);
-
-    /* istanbul ignore else: safety check */
-    if (breakpointType) {
-      this.#breakpointChange.next(breakpointType);
-    }
+    this.#breakpointChange.next(breakpointType);
   }
 }

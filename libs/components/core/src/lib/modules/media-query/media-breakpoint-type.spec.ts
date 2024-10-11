@@ -1,6 +1,7 @@
 import {
   isSkyMediaBreakpointType,
   toSkyMediaBreakpointType,
+  toSkyMediaBreakpoints,
 } from './media-breakpoint-type';
 import { SkyMediaBreakpoints } from './media-breakpoints';
 
@@ -18,5 +19,12 @@ describe('media-breakpoint-type', () => {
     expect(toSkyMediaBreakpointType(SkyMediaBreakpoints.sm)).toEqual('sm');
     expect(toSkyMediaBreakpointType(SkyMediaBreakpoints.md)).toEqual('md');
     expect(toSkyMediaBreakpointType(SkyMediaBreakpoints.lg)).toEqual('lg');
+  });
+
+  it('should transform a `SkyMediaBreakpointType` value to `SkyMediaBreakpoints`', () => {
+    expect(toSkyMediaBreakpoints('xs')).toEqual(SkyMediaBreakpoints.xs);
+    expect(toSkyMediaBreakpoints('sm')).toEqual(SkyMediaBreakpoints.sm);
+    expect(toSkyMediaBreakpoints('md')).toEqual(SkyMediaBreakpoints.md);
+    expect(toSkyMediaBreakpoints('lg')).toEqual(SkyMediaBreakpoints.lg);
   });
 });
