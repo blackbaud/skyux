@@ -1,5 +1,8 @@
 import { SkyMediaBreakpoints } from './media-breakpoints';
 
+/**
+ * @internal
+ */
 const SKY_MEDIA_BREAKPOINT_TYPES = ['xs', 'sm', 'md', 'lg'] as const;
 
 /**
