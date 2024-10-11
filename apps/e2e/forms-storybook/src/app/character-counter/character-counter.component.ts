@@ -44,13 +44,13 @@ export class CharacterCounterComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     setTimeout(() => {
       this.ready.next(true);
     }, 100);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.ready.complete();
   }
 }
