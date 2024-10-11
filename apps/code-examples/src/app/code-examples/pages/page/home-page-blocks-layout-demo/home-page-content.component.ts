@@ -1,11 +1,11 @@
-import { NgFor, NgClass } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import {
-  SkyFluidGridModule,
   SkyBoxModule,
   SkyDescriptionListModule,
+  SkyFluidGridModule,
 } from '@skyux/layout';
 import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 
