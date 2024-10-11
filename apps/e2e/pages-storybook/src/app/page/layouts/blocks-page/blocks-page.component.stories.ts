@@ -21,3 +21,22 @@ export const BlocksPageWithLinks: Story = {};
 BlocksPageWithLinks.args = {
   showLinks: true,
 };
+
+export const BlocksPageWithLinksNoAlert: Story = {};
+BlocksPageWithLinksNoAlert.args = {
+  hideAlert: true,
+  showLinks: true,
+};
+
+export const BlocksPageWithLinksNoAvatar: Story = {};
+BlocksPageWithLinksNoAvatar.args = {
+  hideAvatar: true,
+  showLinks: true,
+};
+
+export const BlocksPageWithLinksNoAvatarNoAlert: Story = {};
+BlocksPageWithLinksNoAvatarNoAlert.args = {
+  hideAlert: true,
+  hideAvatar: true,
+  showLinks: true,
+};
