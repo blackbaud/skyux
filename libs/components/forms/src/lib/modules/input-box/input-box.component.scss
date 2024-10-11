@@ -6,7 +6,7 @@
   --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
 }
 
-@include compatMixins.sky-modern-overrides('.sky-input-box') {
+@include compatMixins.sky-modern-overrides('.sky-input-box', false) {
   --sky-override-background-color-input-box-group: #{$sky-color-white};
   --sky-override-background-color-input-box-group-focused: #{$sky-color-white};
   --sky-override-input-padding-top: 26px;
@@ -244,30 +244,6 @@ sky-input-box {
       }
     }
 
-    .sky-input-box-group-form-control-invalid {
-      .sky-form-group {
-        @include mixins.sky-theme-modern-border-invalid;
-        color: var(--sky-color-text-danger);
-      }
-    }
-
-    .sky-input-box-group-form-control-focus:not(:active),
-    .sky-input-box-group-form-control-focus:not(
-        :active
-      ).sky-input-box-group-form-control-invalid {
-      /*
-        The combination of z-index here and position: relative on the form control
-        allows the drop shadow on the focused input group to display above the
-        input group buttons.
-      */
-      z-index: 1;
-
-      .sky-form-group {
-        @include mixins.sky-theme-modern-border-focus;
-        color: var(--sky-color-text-action);
-      }
-    }
-
     .sky-form-group {
       @include mixins.sky-theme-modern-border;
 
@@ -306,8 +282,7 @@ sky-input-box {
         .sky-control-label {
           // TODO ERIKA
           padding-top: var(--sky-space-inset-input_label-top-m);
-          padding-bottom: var(--erikas-test-padding);
-          // padding: 6px 0 1px 0;
+          padding-bottom: 1px;
         }
 
         .sky-control-label,
