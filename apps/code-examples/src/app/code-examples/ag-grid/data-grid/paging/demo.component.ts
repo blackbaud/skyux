@@ -97,7 +97,7 @@ export class DemoComponent implements OnInit, OnDestroy {
       onGridReady: (gridReadyEvent): void => {
         this.onGridReady(gridReadyEvent);
       },
-      selection: { mode: 'singleRow' },
+      rowSelection: { mode: 'singleRow' },
       pagination: true,
       suppressPaginationPanel: true,
       paginationPageSize: this.pageSize,
