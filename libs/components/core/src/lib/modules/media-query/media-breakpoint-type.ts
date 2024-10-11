@@ -3,7 +3,7 @@ import { SkyMediaBreakpoints } from './media-breakpoints';
 /**
  * @internal
  */
-const SKY_MEDIA_BREAKPOINT_TYPES = ['xs', 'sm', 'md', 'lg'] as const;
+export const SKY_MEDIA_BREAKPOINT_TYPES = ['xs', 'sm', 'md', 'lg'] as const;
 
 /**
  * The names for all media breakpoints.

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import {
   SKY_MEDIA_BREAKPOINT_DEFAULT,
+  SKY_MEDIA_BREAKPOINT_TYPES,
   SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   SkyMediaBreakpointType,
   SkyMediaBreakpoints,
@@ -49,6 +50,7 @@ export class SkyMediaQueryTestingService
   );
 
   #breakpointChangeObs = this.#breakpointChange.asObservable();
+
   #currentBreakpoint = SKY_MEDIA_BREAKPOINT_DEFAULT;
   #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
     SKY_MEDIA_BREAKPOINT_DEFAULT,
@@ -100,14 +102,16 @@ export class SkyMediaQueryTestingService
     options?: { updateResponsiveClasses?: boolean },
   ): SkyResizeObserverMediaQueryService {
     this.#observeSubscription?.unsubscribe();
-    this.#observeSubscription = this.subscribe((breakpoint) => {
-      if (options?.updateResponsiveClasses) {
-        const el = elementRef.nativeElement;
+    this.#observeSubscription = this.#breakpointChangeObs.subscribe(
+      (breakpoint) => {
+        if (options?.updateResponsiveClasses) {
+          const el = elementRef.nativeElement;
 
-        this.#removeResponsiveClasses(el);
-        this.#addResponsiveClass(el, breakpoint);
-      }
-    });
+          this.#removeResponsiveClasses(el);
+          this.#addResponsiveClass(el, breakpoint);
+        }
+      },
+    );
 
     return this as unknown as SkyResizeObserverMediaQueryService;
   }
@@ -116,21 +120,22 @@ export class SkyMediaQueryTestingService
     this.#observeSubscription?.unsubscribe();
   }
 
-  #addResponsiveClass(el: HTMLElement, breakpoint: SkyMediaBreakpoints): void {
+  #addResponsiveClass(
+    el: HTMLElement,
+    breakpoint: SkyMediaBreakpointType,
+  ): void {
     const className = this.#getClassForBreakpoint(breakpoint);
     this.#renderer.addClass(el, className);
   }
 
-  #getClassForBreakpoint(breakpoint: SkyMediaBreakpoints): string {
-    return `sky-responsive-container-${SkyMediaBreakpoints[breakpoint]}`;
+  #getClassForBreakpoint(breakpoint: SkyMediaBreakpointType): string {
+    return `sky-responsive-container-${breakpoint}`;
   }
 
   #removeResponsiveClasses(el: HTMLElement): void {
-    for (const breakpoint of Object.values(SkyMediaBreakpoints)) {
-      if (typeof breakpoint === 'number') {
-        const className = this.#getClassForBreakpoint(breakpoint);
-        this.#renderer.removeClass(el, className);
-      }
+    for (const breakpoint of SKY_MEDIA_BREAKPOINT_TYPES) {
+      const className = this.#getClassForBreakpoint(breakpoint);
+      this.#renderer.removeClass(el, className);
     }
   }
 }
