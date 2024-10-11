@@ -170,3 +170,4 @@ async function migrateSdkESLintConfig(): Promise<void> {
 }
 
 migrateComponentsESLintConfig();
+migrateSdkESLintConfig();
