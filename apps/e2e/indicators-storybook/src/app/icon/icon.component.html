@@ -27,13 +27,13 @@
 </div>
 <div class="icon-sheet">
   <div *ngFor="let icon of icons" class="icon-sheet--icon sky-padding-even-md">
-    <sky-icon [icon]="icon.name" size="lg" />
+    <sky-icon size="lg" [icon]="icon.name" />
     <span>{{ icon.name }}</span>
   </div>
 </div>
 <div class="icon-sheet">
   <div *ngFor="let fa of faIcons" class="icon-sheet--icon sky-padding-even-md">
-    <sky-icon [icon]="fa" size="lg" />
+    <sky-icon size="lg" [icon]="fa" />
     <span>{{ fa }}</span>
   </div>
 </div>
@@ -127,4 +127,4 @@
     [topIcon]="{ icon: 'exclamation', iconType: 'skyux' }"
   />
 </div>
-<span id="ready" *ngIf="ready | async"></span>
+<span *ngIf="ready | async" id="ready"></span>

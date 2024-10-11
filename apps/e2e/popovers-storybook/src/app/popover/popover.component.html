@@ -6,18 +6,19 @@
         class="static-popover-wrapper"
       >
         <button
+          aria-label="Button"
+          class="static-popover-button"
           type="button"
           [skyPopover]="staticPopover"
           [skyPopoverMessageStream]="staticPopoverMessageStream"
-          class="static-popover-button"
           [ngClass]="'static-popover-button-' + popoverPlacement"
         ></button>
         <sky-popover
           #staticPopover
+          alignment="center"
           [placement]="popoverPlacement"
           [popoverTitle]="popoverTitle"
           [popoverType]="popoverType"
-          alignment="center"
         >
           <div class="popover-message">
             The content of a popover can be text, HTML, or Angular components.
@@ -27,5 +28,5 @@
     </ng-container>
   </div>
 
-  <div id="popovers-ready" *ngIf="ready | async"></div>
+  <div *ngIf="ready | async" id="popovers-ready"></div>
 </div>

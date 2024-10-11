@@ -10,42 +10,39 @@
     [required]="required"
     [stacked]="true"
     (filesChanged)="filesUpdated($event)"
-  >
-  </sky-file-drop>
+  />
 
   <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file"> </sky-file-item>
+    <sky-file-item [fileItem]="file" />
   </div>
 </div>
 
-<div style="width: 60%" *ngIf="basic">
+<div *ngIf="basic" style="width: 60%">
   <label class="sky-control-label"> File attachment with old inline help</label>
-  <sky-help-inline class="sky-control-help"></sky-help-inline>
+  <sky-help-inline class="sky-control-help" />
   <sky-file-drop
     linkUploadHintText="Start with http:// or https://"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
     [stacked]="true"
     (filesChanged)="filesUpdated($event)"
-  >
-  </sky-file-drop>
+  />
 
   <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file"> </sky-file-item>
+    <sky-file-item [fileItem]="file" />
   </div>
 </div>
 
-<div style="width: 60%" *ngIf="basic">
+<div *ngIf="basic" style="width: 60%">
   <sky-file-drop
     helpPopoverTitle="This should not show up"
     labelText="File attachment links removed"
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="false"
     (filesChanged)="filesUpdated($event)"
-  >
-  </sky-file-drop>
+  />
 
   <div *ngFor="let file of allItems">
-    <sky-file-item [fileItem]="file"> </sky-file-item>
+    <sky-file-item [fileItem]="file" />
   </div>
 </div>

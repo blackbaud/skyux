@@ -2,13 +2,12 @@
   <p>
     <sky-toggle-switch [checked]="true">
       <sky-toggle-switch-label> Switch is "on" </sky-toggle-switch-label>
-      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <sky-help-inline class="sky-control-help" />
     </sky-toggle-switch>
   </p>
 
   <p>
-    <sky-toggle-switch [checked]="false" labelText='Switch is "off"'>
-    </sky-toggle-switch>
+    <sky-toggle-switch labelText='Switch is "off"' [checked]="false" />
   </p>
 
   <p>
@@ -21,11 +20,10 @@
 
   <p>
     <sky-toggle-switch
+      labelText='Switch is "off", disabled'
       [checked]="false"
       [disabled]="true"
-      labelText='Switch is "off", disabled'
-    >
-    </sky-toggle-switch>
+    />
   </p>
 
   <p>
