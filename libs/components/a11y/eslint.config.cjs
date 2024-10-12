@@ -1,5 +1,7 @@
 const nx = require('@nx/eslint-plugin');
-const baseConfig = require('../../../eslint.config.cjs');
+const prettier = require('eslint-config-prettier');
+const baseConfig = require('../../../eslint-base.config.cjs');
+const overrides = require('../../../eslint-overrides-angular.config.cjs');
 
 module.exports = [
   ...baseConfig,
@@ -15,8 +17,10 @@ module.exports = [
   },
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
+  ...overrides,
   {
     files: ['**/*.ts'],
+    ignores: ['**/*.spec.ts', '**/fixtures/**'],
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
@@ -36,4 +40,5 @@ module.exports = [
       ],
     },
   },
+  prettier,
 ];
