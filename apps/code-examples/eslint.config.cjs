@@ -53,7 +53,7 @@ module.exports = [
       extends: ['../../libs/sdk/eslint-config/recommended'],
     })
     .map((config) => ({
-      files: ['/src/app/code-examples/**/*.ts'],
+      files: ['**/src/app/code-examples/**/*.ts'],
       languageOptions: {
         ...config.languageOptions,
         parserOptions: {
