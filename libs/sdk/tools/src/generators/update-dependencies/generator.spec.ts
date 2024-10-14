@@ -1,5 +1,5 @@
 import { version as ANGULAR_VERSION } from '@angular/core/package.json';
-import { libraryGenerator } from '@nrwl/angular/generators';
+import { libraryGenerator } from '@nx/angular/generators';
 import {
   Tree,
   readJson,
@@ -7,8 +7,8 @@ import {
   stripIndents,
   updateJson,
   writeJson,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+} from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import generator from './generator';
 
@@ -41,12 +41,19 @@ describe('update dependencies generator', () => {
       publishable: true,
       importPath: '@proj/test',
       directory: 'test',
-      projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
       skipPackageJson: true,
+    });
+    updateJson(appTree, 'package.json', (json: any) => {
+      json.dependencies['example-package'] = '^1.0.0';
+      return json;
     });
     await generator(appTree);
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
+    expect(
+      readJson(appTree, `package.json`).dependencies['example-package'],
+    ).toEqual('1.0.0');
   });
 
   it('should update peer dependencies', async () => {
@@ -56,11 +63,12 @@ describe('update dependencies generator', () => {
       publishable: true,
       importPath: '@proj/test',
       directory: 'test',
-      projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
+      skipPackageJson: true,
     });
     const originalConfig = readProjectConfiguration(appTree, 'test');
     expect(originalConfig).toBeDefined();
-    updateJson(appTree, 'package.json', (json) => {
+    updateJson(appTree, 'package.json', (json: any) => {
       json.dependencies = {
         ...json.dependencies,
         '@proj/one': '1.0.0',
@@ -71,7 +79,7 @@ describe('update dependencies generator', () => {
       };
       return json;
     });
-    updateJson(appTree, `${originalConfig.root}/package.json`, (json) => {
+    updateJson(appTree, `${originalConfig.root}/package.json`, (json: any) => {
       json.dependencies = {
         ...json.dependencies,
         '@proj/one': '^1.0.0',
@@ -140,18 +148,19 @@ describe('update dependencies generator', () => {
       publishable: true,
       importPath: '@proj/test',
       directory: 'test',
-      projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
+      skipPackageJson: true,
     });
     const originalConfig = readProjectConfiguration(appTree, 'test');
     expect(originalConfig).toBeDefined();
-    updateJson(appTree, 'package.json', (json) => {
+    updateJson(appTree, 'package.json', (json: any) => {
       json.dependencies = {
         ...json.dependencies,
         '@proj/one': '2.0.0',
       };
       return json;
     });
-    updateJson(appTree, `${originalConfig.root}/package.json`, (json) => {
+    updateJson(appTree, `${originalConfig.root}/package.json`, (json: any) => {
       json.dependencies = {
         ...json.dependencies,
         '@proj/one': '^1.0.0',
@@ -172,7 +181,8 @@ describe('update dependencies generator', () => {
       publishable: true,
       importPath: '@proj/test',
       directory: 'lib/test',
-      projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
+      skipPackageJson: true,
     });
     await libraryGenerator(appTree, {
       name: 'other',
@@ -180,7 +190,8 @@ describe('update dependencies generator', () => {
       publishable: true,
       importPath: '@proj/other',
       directory: 'lib/other',
-      projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
+      skipPackageJson: true,
     });
     const testProject = readProjectConfiguration(appTree, 'test');
     writeJson(appTree, `${testProject.root}/testing/project.json`, {
