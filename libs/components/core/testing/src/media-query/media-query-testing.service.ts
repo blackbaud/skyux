@@ -31,7 +31,7 @@ import { SkyMediaQueryTestingController } from './media-query-testing.controller
 /**
  * @internal
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class SkyMediaQueryTestingService
   implements
     SkyMediaQueryServiceInterface,

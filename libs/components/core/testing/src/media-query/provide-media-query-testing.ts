@@ -13,6 +13,7 @@ import { SkyMediaQueryTestingService } from './media-query-testing.service';
  */
 export function provideSkyMediaQueryTesting(): Provider[] {
   return [
+    SkyMediaQueryTestingService,
     {
       provide: SKY_MEDIA_QUERY_SERVICE_OVERRIDE,
       useExisting: SkyMediaQueryTestingService,
