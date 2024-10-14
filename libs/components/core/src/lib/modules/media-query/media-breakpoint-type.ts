@@ -23,11 +23,6 @@ export function isSkyMediaBreakpointType(
     SKY_MEDIA_BREAKPOINT_TYPES.includes(value as SkyMediaBreakpointType)
   );
 }
-/**
- * The default media breakpoint type.
- * @internal
- */
-export const SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT: SkyMediaBreakpointType = 'md';
 
 /**
  * Transforms a `SkyMediaBreakpoints` value to `SkyMediaBreakpointType`.

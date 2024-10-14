@@ -1,9 +1,8 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import {
-  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   SkyMediaBreakpointType,
   toSkyMediaBreakpointType,
 } from './media-breakpoint-type';
@@ -63,10 +62,7 @@ export class SkyMediaQueryService
     SKY_MEDIA_BREAKPOINT_DEFAULT,
   );
 
-  #breakpointChange = new BehaviorSubject<SkyMediaBreakpointType>(
-    SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
-  );
-
+  #breakpointChange = new ReplaySubject<SkyMediaBreakpointType>(1);
   #breakpointChangeObs = this.#breakpointChange.asObservable();
   #currentBreakpoint = SKY_MEDIA_BREAKPOINT_DEFAULT;
 

@@ -1,10 +1,15 @@
 import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import {
-  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   SkyMediaBreakpointType,
   toSkyMediaBreakpointType,
 } from '../media-query/media-breakpoint-type';
@@ -41,10 +46,7 @@ export class SkyResizeObserverMediaQueryService
     return this.#currentBreakpoint;
   }
 
-  #breakpointChange = new BehaviorSubject<SkyMediaBreakpointType>(
-    SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
-  );
-
+  #breakpointChange = new ReplaySubject<SkyMediaBreakpointType>(1);
   #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #breakpoints: {

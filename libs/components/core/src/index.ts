@@ -62,7 +62,6 @@ export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
 export {
   SKY_MEDIA_BREAKPOINT_TYPES,
-  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   SkyMediaBreakpointType,
   isSkyMediaBreakpointType,
   toSkyMediaBreakpointType,

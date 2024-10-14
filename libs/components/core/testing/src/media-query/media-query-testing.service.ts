@@ -9,7 +9,6 @@ import {
 import {
   SKY_MEDIA_BREAKPOINT_DEFAULT,
   SKY_MEDIA_BREAKPOINT_TYPES,
-  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   SkyMediaBreakpointType,
   SkyMediaBreakpoints,
   SkyMediaQueryListener,
@@ -22,6 +21,7 @@ import {
 import {
   BehaviorSubject,
   Observable,
+  ReplaySubject,
   Subscription,
   firstValueFrom,
 } from 'rxjs';
@@ -47,9 +47,8 @@ export class SkyMediaQueryTestingService
     return this.#currentBreakpoint;
   }
 
-  #breakpointChange = new BehaviorSubject<SkyMediaBreakpointType>(
-    SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
-  );
+  #breakpoint: SkyMediaBreakpointType | undefined;
+  #breakpointChange = new ReplaySubject<SkyMediaBreakpointType>(1);
   #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #currentBreakpoint = SKY_MEDIA_BREAKPOINT_DEFAULT;
@@ -74,6 +73,12 @@ export class SkyMediaQueryTestingService
   public async expectBreakpoint(
     expectedBreakpoint: SkyMediaBreakpointType,
   ): Promise<void> {
+    if (!this.#breakpoint) {
+      throw new Error(
+        `A media breakpoint has not been set. Call \`setBreakpoint()\` and try again.`,
+      );
+    }
+
     const current = await firstValueFrom(this.#breakpointChange);
 
     if (expectedBreakpoint !== current) {
@@ -85,9 +90,14 @@ export class SkyMediaQueryTestingService
 
   public setBreakpoint(breakpoint: SkyMediaBreakpointType): void {
     const breakpointLegacy = toSkyMediaBreakpoints(breakpoint);
+
     this.#currentBreakpoint = breakpointLegacy;
     this.#currentSubject.next(breakpointLegacy);
-    this.#breakpointChange.next(breakpoint);
+
+    if (this.#breakpoint !== breakpoint) {
+      this.#breakpoint = breakpoint;
+      this.#breakpointChange.next(breakpoint);
+    }
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {

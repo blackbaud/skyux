@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import {
-  SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   SkyMediaBreakpointType,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
@@ -106,12 +105,13 @@ describe('media-query-testing.controller', () => {
   it('should expect current breakpoint', async () => {
     const { mediaQueryController } = setupTest();
 
-    await mediaQueryController.expectBreakpoint(
-      SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
+    await expectAsync(
+      mediaQueryController.expectBreakpoint('md'),
+    ).toBeRejectedWithError(
+      'A media breakpoint has not been set. Call `setBreakpoint()` and try again.',
     );
 
     mediaQueryController.setBreakpoint('lg');
-
     await mediaQueryController.expectBreakpoint('lg');
 
     expect(TestBed.inject(SkyMediaQueryService).current).toEqual(
