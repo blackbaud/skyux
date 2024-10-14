@@ -1,8 +1,6 @@
 import { virtualFs } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 
-import commentJson from 'comment-json';
-
 /**
  * Returns the contents of a required file or throws an error if it doesn't exist.
  */
@@ -30,5 +28,5 @@ export function writeTextFile(
 }
 
 export function writeJsonFile<T>(tree: Tree, path: string, contents: T): void {
-  writeTextFile(tree, path, commentJson.stringify(contents, undefined, 2));
+  writeTextFile(tree, path, JSON.stringify(contents, undefined, 2));
 }
