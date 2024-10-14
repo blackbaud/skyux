@@ -82,6 +82,10 @@
     --sky-layout-host-content-spacing: 0;
     --sky-layout-host-tab-content-spacing: 10px;
   }
+
+  &-none {
+    --sky-layout-host-links-display: none;
+  }
 }
 
 @include mixins.sky-host-responsive-container-sm-min(false) {
