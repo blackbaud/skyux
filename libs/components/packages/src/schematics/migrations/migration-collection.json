@@ -61,7 +61,7 @@
       "description": "Remove ESLint deprecation plugin which is not compatible with ESLint 9."
     },
     "vscode-eslint-setting": {
-      "version": "11.10.0",
+      "version": "11.11.1",
       "factory": "./update-11/vscode-eslint-setting/vscode-eslint-setting.schematic",
       "description": "Update the VSCode workspace's settings so that the ESLint plugin works with ESLint 9 and a legacy config"
     }
