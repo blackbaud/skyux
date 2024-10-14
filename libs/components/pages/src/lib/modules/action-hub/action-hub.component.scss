@@ -2,8 +2,5 @@
 
 :host {
   display: block;
-}
-
-.sky-margin-stacked-xl:empty {
-  margin-bottom: 0;
+  background-color: var(--sky-background-color-neutral-light);
 }

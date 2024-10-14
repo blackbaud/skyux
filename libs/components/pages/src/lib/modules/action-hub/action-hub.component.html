@@ -1,5 +1,9 @@
 <sky-page layout="blocks">
-  <sky-page-header [pageTitle]="title" [parentLink]="parentLink" />
+  <sky-page-header [pageTitle]="title" [parentLink]="parentLink">
+    <sky-page-header-actions>
+      <ng-content select="sky-action-hub-buttons" />
+    </sky-page-header-actions>
+  </sky-page-header>
   <sky-page-content>
     <div class="sky-margin-stacked-xl">
       <ng-content select="sky-action-hub-buttons" />

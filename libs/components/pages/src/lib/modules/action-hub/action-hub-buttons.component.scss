@@ -1,7 +1,5 @@
 :host {
   display: block;
-
-  &:not(:empty) {
-    margin-bottom: var(--sky-margin-stacked-xl);
-  }
+  position: relative;
+  top: calc(-1 * var(--sky-margin-stacked-sm));
 }
