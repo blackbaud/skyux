@@ -7,7 +7,7 @@ import { SkyMediaQueryListener } from './media-query-listener';
 /**
  * @internal
  */
-export interface SkyMediaQueryServiceBase {
+export interface SkyMediaQueryServiceInterface {
   /**
    * Emits when the breakpoint changes.
    */

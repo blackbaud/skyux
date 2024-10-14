@@ -115,13 +115,9 @@ export class SkySplitViewDrawerComponent
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#coreAdapterService = coreAdapterService;
+    this.#mediaQuerySvc = mediaQuerySvc as SkyResizeObserverMediaQueryService;
     this.#splitViewSvc = splitViewSvc;
     this.#windowRef = windowRef;
-
-    // Inject the media query service, but assert the type as the override
-    // to avoid a circular reference by DI.
-    this.#mediaQuerySvc =
-      mediaQuerySvc as unknown as SkyResizeObserverMediaQueryService;
 
     this.splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
   }

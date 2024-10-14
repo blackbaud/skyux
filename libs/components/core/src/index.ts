@@ -73,7 +73,7 @@ export {
   SkyMediaBreakpoints,
 } from './lib/modules/media-query/media-breakpoints';
 export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
-export { SkyMediaQueryServiceOverride } from './lib/modules/media-query/media-query-service-override';
+export { SkyMediaQueryServiceInterface } from './lib/modules/media-query/media-query-service-interface';
 export { SKY_MEDIA_QUERY_SERVICE_OVERRIDE } from './lib/modules/media-query/media-query-service-override.token';
 export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
 export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';
@@ -102,6 +102,7 @@ export {
 export { SkyPercentPipeModule } from './lib/modules/percent-pipe/percent-pipe.module';
 export { SkyPercentPipe } from './lib/modules/percent-pipe/percent.pipe';
 
+export { SkyResizeObserverMediaQueryServiceInterface } from './lib/modules/resize-observer/resize-observer-media-query-service-interface';
 export { SkyResizeObserverMediaQueryService } from './lib/modules/resize-observer/resize-observer-media-query.service';
 export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-observer.service';
 

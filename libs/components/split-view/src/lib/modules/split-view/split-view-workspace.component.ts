@@ -72,12 +72,8 @@ export class SkySplitViewWorkspaceComponent
     splitViewSvc: SkySplitViewService,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
+    this.#mediaQuerySvc = mediaQuerySvc as SkyResizeObserverMediaQueryService;
     this.#splitViewSvc = splitViewSvc;
-
-    // Inject the media query service, but assert the type as the override
-    // to avoid a circular reference by DI.
-    this.#mediaQuerySvc =
-      mediaQuerySvc as unknown as SkyResizeObserverMediaQueryService;
   }
 
   public ngOnInit(): void {

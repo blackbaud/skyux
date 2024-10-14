@@ -194,12 +194,8 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
+    this.#mediaQuerySvc = mediaQuerySvc as SkyResizeObserverMediaQueryService;
     this.#tabIdSvc = tabIdSvc;
-
-    // Inject the media query service, but assert the type as the override
-    // to avoid a circular reference by DI.
-    this.#mediaQuerySvc =
-      mediaQuerySvc as unknown as SkyResizeObserverMediaQueryService;
 
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
     this.tabId = this.#defaultTabId;

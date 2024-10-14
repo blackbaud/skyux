@@ -83,12 +83,9 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
     { self: true },
   );
   readonly #elementRef = inject(ElementRef<HTMLElement>);
-
-  // Inject the media query service, but assert the type as the override
-  // to avoid a circular reference by DI.
   readonly #mediaQuerySvc = inject(
     SkyMediaQueryService,
-  ) as unknown as SkyResizeObserverMediaQueryService;
+  ) as SkyResizeObserverMediaQueryService;
 
   public ngOnInit(): void {
     this.#dataManagerService

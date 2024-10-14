@@ -12,13 +12,13 @@ import {
   SkyMediaBreakpoints,
 } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
-import { SkyMediaQueryServiceBase } from './media-query-service-base';
+import { SkyMediaQueryServiceInterface } from './media-query-service-interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SkyMediaQueryService
-  implements SkyMediaQueryServiceBase, OnDestroy
+  implements OnDestroy, SkyMediaQueryServiceInterface
 {
   /**
    * The size for the `xs` breakpoint.

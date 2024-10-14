@@ -242,11 +242,9 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#setPermalinkValueOrDefault();
   }
 
-  // Inject the media query service, but assert the type as the override
-  // to avoid a circular reference by DI.
   readonly #mediaQuerySvc = inject(
     SkyMediaQueryService,
-  ) as unknown as SkyResizeObserverMediaQueryService;
+  ) as SkyResizeObserverMediaQueryService;
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (

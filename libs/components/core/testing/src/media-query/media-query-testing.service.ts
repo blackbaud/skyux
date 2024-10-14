@@ -13,8 +13,9 @@ import {
   SkyMediaBreakpointType,
   SkyMediaBreakpoints,
   SkyMediaQueryListener,
-  SkyMediaQueryServiceOverride,
+  SkyMediaQueryServiceInterface,
   SkyResizeObserverMediaQueryService,
+  SkyResizeObserverMediaQueryServiceInterface,
   toSkyMediaBreakpoints,
 } from '@skyux/core';
 
@@ -33,7 +34,8 @@ import { SkyMediaQueryTestingController } from './media-query-testing.controller
 @Injectable({ providedIn: 'root' })
 export class SkyMediaQueryTestingService
   implements
-    SkyMediaQueryServiceOverride,
+    SkyMediaQueryServiceInterface,
+    SkyResizeObserverMediaQueryServiceInterface,
     SkyMediaQueryTestingController,
     OnDestroy
 {
@@ -48,7 +50,6 @@ export class SkyMediaQueryTestingService
   #breakpointChange = new BehaviorSubject<SkyMediaBreakpointType>(
     SKY_MEDIA_BREAKPOINT_TYPE_DEFAULT,
   );
-
   #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #currentBreakpoint = SKY_MEDIA_BREAKPOINT_DEFAULT;

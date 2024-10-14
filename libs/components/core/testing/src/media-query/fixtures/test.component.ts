@@ -43,7 +43,7 @@ export class λWrapperTestComponent implements OnInit, OnDestroy {
 
   protected querySvc = inject(
     SkyMediaQueryService,
-  ) as unknown as SkyResizeObserverMediaQueryService;
+  ) as SkyResizeObserverMediaQueryService;
 
   protected breakpointChange = toSignal(this.querySvc.breakpointChange);
 

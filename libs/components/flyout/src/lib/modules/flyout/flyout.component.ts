@@ -167,12 +167,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #environmentInjector = inject(EnvironmentInjector);
-
-  // Inject the media query service, but assert the type as the override
-  // to avoid a circular reference by DI.
   readonly #mediaQuerySvc = inject(
     SkyMediaQueryService,
-  ) as unknown as SkyResizeObserverMediaQueryService;
+  ) as SkyResizeObserverMediaQueryService;
 
   readonly #ngZone = inject(NgZone);
   readonly #resourcesService = inject(SkyLibResourcesService);

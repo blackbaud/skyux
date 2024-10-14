@@ -13,8 +13,9 @@ import {
   SkyMediaBreakpoints,
 } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
-import { SkyMediaQueryServiceOverride } from '../media-query/media-query-service-override';
+import { SkyMediaQueryService } from '../media-query/media-query.service';
 
+import { SkyResizeObserverMediaQueryServiceInterface } from './resize-observer-media-query-service-interface';
 import { SkyResizeObserverService } from './resize-observer.service';
 
 /**
@@ -22,12 +23,13 @@ import { SkyResizeObserverService } from './resize-observer.service';
  */
 @Injectable()
 export class SkyResizeObserverMediaQueryService
-  implements OnDestroy, SkyMediaQueryServiceOverride
+  extends SkyMediaQueryService
+  implements OnDestroy, SkyResizeObserverMediaQueryServiceInterface
 {
   /**
    * Emits when the breakpoint changes.
    */
-  public get breakpointChange(): Observable<SkyMediaBreakpointType> {
+  public override get breakpointChange(): Observable<SkyMediaBreakpointType> {
     return this.#breakpointChangeObs;
   }
 
@@ -35,7 +37,7 @@ export class SkyResizeObserverMediaQueryService
    * Returns the current breakpoint.
    * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
-  public get current(): SkyMediaBreakpoints {
+  public override get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
 
@@ -79,7 +81,7 @@ export class SkyResizeObserverMediaQueryService
 
   #target: ElementRef | undefined;
 
-  public ngOnDestroy(): void {
+  public override ngOnDestroy(): void {
     this.unobserve();
 
     this.#target = undefined;
@@ -90,7 +92,7 @@ export class SkyResizeObserverMediaQueryService
   /**
    * @internal
    */
-  public destroy(): void {
+  public override destroy(): void {
     this.ngOnDestroy();
   }
 
@@ -143,7 +145,7 @@ export class SkyResizeObserverMediaQueryService
    * @param listener Specifies a function that is called when breakpoints change.
    * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
-  public subscribe(listener: SkyMediaQueryListener): Subscription {
+  public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
