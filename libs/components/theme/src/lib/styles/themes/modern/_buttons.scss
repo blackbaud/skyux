@@ -3,7 +3,7 @@
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides('.sky-btn') {
+@include compatMixins.sky-modern-overrides('.sky-btn', false) {
   --sky-override-borderless-icon-size: 26px;
   --sky-override-button-padding: 9px 21px;
   --sky-override-button-link-inline-color-disabled: var(
@@ -12,11 +12,15 @@
   --sky-override-button-link-inline-color-hover-active: var(
     --sky-text-color-action-primary-hover
   );
-  --sky-override-button-link-inline-opacity-disabled: 0.65;
+  &.sky-btn-link-inline,
+  &.sky-btn-borderless-inline {
+    --sky-override-button-opacity-disabled: 0.65;
+  }
   --sky-override-button-link-inline-border-radius: 0;
   --sky-override-button-link-inline-font-size: var(--sky-font-size-body-m);
   --sky-override-button-link-inline-vertical-align: top;
   --sky-override-button-icon-borderless-padding: 1px;
+  --sky-override-button-icon-padding: 9px 15px;
 
   &:not(.sky-btn-link-inline):not(.sky-btn-borderless-inline) {
     --sky-override-button-line-height: calc(20 / 14);
@@ -59,12 +63,28 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
-        opacity: 1;
+        opacity: var(--sky-override-button-opacity-disabled, 1);
+        color: var(--sky-color-text-deemphasized);
+
+        &.sky-btn-link-inline {
+          color: var(
+            --sky-override-button-link-inline-color-disabled,
+            var(--sky-color-text-default)
+          );
+        }
       }
     }
   }
 
-  .sky-btn-default {
+  .sky-btn-icon {
+    padding: var(
+      --sky-override-button-icon-padding,
+      var(--sky-space-inset-balanced-s)
+    );
+  }
+
+  .sky-btn-default,
+  .sky-btn-icon {
     background-color: var(--sky-color-background-action-secondary-base);
     color: var(--sky-color-text-default);
     box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
@@ -102,7 +122,6 @@
         box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
           var(--sky-color-border-action-secondary-disabled);
         background-color: var(--sky-color-background-action-secondary-disabled);
-        color: var(--sky-color-text-deemphasized);
       }
     }
   }
@@ -145,7 +164,6 @@
         box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
           var(--sky-color-border-action-primary-disabled);
         background-color: var(--sky-color-background-action-primary-disabled);
-        color: var(--sky-color-text-deemphasized);
       }
     }
   }
@@ -188,14 +206,32 @@
         box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
           var(--sky-color-border-action-danger-disabled);
         background-color: var(--sky-color-background-action-danger-disabled);
-        color: var(--sky-color-text-deemphasized);
       }
     }
   }
 
   .sky-btn-link {
-    background-color: var(--sky-color-background-action-tertiary-base);
     color: var(--sky-color-text-action);
+  }
+
+  .sky-btn-borderless,
+  .sky-btn-icon-borderless {
+    color: var(--sky-color-icon-deemphasized);
+  }
+
+  .sky-btn-icon-borderless {
+    padding: var(
+      --sky-override-button-icon-borderless-padding,
+      var(--sky-space-inset-balanced-xs)
+    );
+    height: var(--sky-override-borderless-icon-size, '');
+    width: var(--sky-override-borderless-icon-size, '');
+  }
+
+  .sky-btn-link,
+  .sky-btn-borderless,
+  .sky-btn-icon-borderless {
+    background-color: var(--sky-color-background-action-tertiary-base);
     box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
       var(--sky-color-border-action-tertiary-base);
 
@@ -231,7 +267,6 @@
         box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
           var(--sky-color-border-action-tertiary-disabled);
         background-color: var(--sky-color-background-action-tertiary-disabled);
-        color: var(--sky-color-text-deemphasized);
       }
     }
   }
@@ -271,65 +306,6 @@
       );
       text-decoration: underline;
     }
-
-    &.sky-btn-disabled,
-    &[disabled] {
-      &,
-      &:hover,
-      &:focus-visible,
-      &.sky-btn-focus,
-      &:active,
-      &.sky-btn-active {
-        color: var(
-          --sky-override-button-link-inline-color-disabled,
-          var(--sky-color-text-default)
-        );
-        opacity: var(--sky-override-button-link-inline-opacity-disabled, 1);
-      }
-    }
-  }
-
-  .sky-btn-borderless {
-    background-color: var(--sky-color-background-action-tertiary-base);
-    color: var(--sky-color-icon-deemphasized);
-    box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
-      var(--sky-color-border-action-tertiary-base);
-
-    &:hover {
-      background-color: var(--sky-color-background-action-tertiary-hover);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
-        var(--sky-color-border-action-tertiary-hover);
-    }
-
-    &:active,
-    &.sky-btn-active {
-      background-color: var(--sky-color-background-action-tertiary-active);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
-        var(--sky-color-border-action-tertiary-active);
-    }
-
-    &:focus-visible:not(:active) {
-      background-color: var(--sky-color-background-action-tertiary-focus);
-      box-shadow:
-        inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus);
-    }
-
-    &.sky-btn-disabled,
-    &[disabled] {
-      &,
-      &:hover,
-      &:focus-visible,
-      &.sky-btn-focus,
-      &:active,
-      &.sky-btn-active {
-        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
-          var(--sky-color-border-action-tertiary-disabled);
-        background-color: var(--sky-color-background-action-tertiary-disabled);
-        color: var(--sky-color-text-deemphasized);
-      }
-    }
   }
 
   .sky-btn-borderless-inline {
@@ -337,77 +313,6 @@
     padding: var(--sky-space-inset-balanced-none);
     font-size: var(--sky-override-button-link-inline-font-size, inherit);
     vertical-align: var(--sky-override-button-link-inline-vertical-align, '');
-
-    &.sky-btn-disabled,
-    &[disabled] {
-      &,
-      &:hover,
-      &:focus-visible,
-      &.sky-btn-focus,
-      &:active,
-      &.sky-btn-active {
-        opacity: var(--sky-override-button-link-inline-opacity-disabled, 1);
-      }
-    }
-  }
-
-  .sky-btn-icon {
-    @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-text-color-default,
-      $sky-color-white,
-      $sky-theme-modern-border-color-neutral-medium,
-      $sky-theme-modern-background-color-primary-dark,
-      $sky-theme-modern-padding-button-icon
-    );
-  }
-
-  .sky-btn-icon-borderless {
-    padding: var(
-      --sky-override-button-icon-borderless-padding,
-      var(--sky-space-inset-balanced-xs)
-    );
-    background-color: var(--sky-color-background-action-tertiary-base);
-    color: var(--sky-color-icon-deemphasized);
-    box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
-      var(--sky-color-border-action-tertiary-base);
-
-    &:hover {
-      background-color: var(--sky-color-background-action-tertiary-hover);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
-        var(--sky-color-border-action-tertiary-hover);
-    }
-
-    &:active,
-    &.sky-btn-active {
-      background-color: var(--sky-color-background-action-tertiary-active);
-      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
-        var(--sky-color-border-action-tertiary-active);
-    }
-
-    &:focus-visible:not(:active) {
-      background-color: var(--sky-color-background-action-tertiary-focus);
-      box-shadow:
-        inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
-        var(--sky-elevation-focus);
-    }
-
-    &.sky-btn-disabled,
-    &[disabled] {
-      &,
-      &:hover,
-      &:focus-visible,
-      &.sky-btn-focus,
-      &:active,
-      &.sky-btn-active {
-        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
-          var(--sky-color-border-action-tertiary-disabled);
-        background-color: var(--sky-color-background-action-tertiary-disabled);
-        color: var(--sky-color-text-deemphasized);
-      }
-    }
-    height: var(--sky-override-borderless-icon-size, '');
-    width: var(--sky-override-borderless-icon-size, '');
   }
 
   .sky-btn-sm {
