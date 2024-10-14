@@ -1,0 +1,130 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-input-box') {
+  --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
+  --sky-override-input-box-error-margin-top: 5px;
+  --sky-override-button-width: 33px;
+}
+
+@include compatMixins.sky-modern-overrides('.sky-input-box', false) {
+  --sky-override-background-color-input-box-group: #{$sky-color-white};
+  --sky-override-background-color-input-box-group-focused: #{$sky-color-white};
+  --sky-override-input-padding-top: 26px;
+  --sky-override-input-margin-top: -23px;
+  --sky-override-button-width: 55px;
+}
+
+@include compatMixins.sky-modern-v2('.sky-input-box') {
+  --sky-override-button-width: 55px;
+}
+
+// default theme initial input box background colors (also set by ag-grid and search)
+.sky-input-box {
+  --sky-background-color-input-box-group: transparent;
+  --sky-background-color-input-box-group-focused: transparent;
+}
+
+// modern theme initial input box background colors with overrides (also set by ag-grid and search)
+.sky-theme-modern {
+  .sky-input-box {
+    --sky-background-color-input-box-group: var(
+      --sky-override-background-color-input-box-group,
+      var(--sky-color-background-input-base)
+    );
+    --sky-background-color-input-box-group-focused: var(
+      --sky-override-background-color-input-box-group-focused,
+      var(--sky-color-background-input-base)
+    );
+  }
+}
+
+sky-input-box {
+  display: block;
+
+  // default and modern; spacing for the old way of displaying errors
+  .sky-error-indicator {
+    margin-top: var(
+      --sky-override-input-box-error-margin-top,
+      var(--sky-space-gap-stacked_supplemental-s)
+    );
+  }
+
+  // default and modern; display properties and background color
+  .sky-form-group {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--sky-background-color-input-box-group);
+
+    &:focus-within {
+      background-color: var(--sky-background-color-input-box-group-focused);
+    }
+
+    .sky-input-box-label-wrapper {
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  // default; visual input styling
+  .sky-input-box-input-group-inner {
+    display: flex;
+    background-color: #fff;
+    width: 100%;
+    z-index: 1;
+
+    &:not(.sky-field-status-active):not(.sky-field-status-invalid) {
+      @include mixins.sky-border(dark, top, bottom, left, right);
+    }
+  }
+
+  // default; inset button styling (search, phone field search dismiss)
+  .sky-input-box-btn-inset {
+    .sky-btn {
+      background-color: transparent;
+      border: none;
+    }
+  }
+
+  // default and modern, except width (modern overwrites)
+  .sky-input-box-icon-inset-wrapper,
+  .sky-input-box-icon-inset-left-wrapper {
+    display: flex;
+
+    .sky-input-group-icon {
+      width: var(--sky-override-button-width);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // default; disabled inset button background colors/colors
+  .sky-input-box-disabled {
+    .sky-input-box-icon-inset-wrapper,
+    .sky-input-box-icon-inset-left-wrapper {
+      background-color: $sky-background-color-disabled;
+
+      .sky-icon {
+        color: $sky-text-color-deemphasized;
+      }
+    }
+  }
+
+  sky-character-counter-indicator {
+    flex-grow: 1;
+    font-style: var(--sky-font-style-hint-m-style);
+    text-align: right;
+    margin-bottom: $sky-margin-half;
+    margin-left: auto;
+  }
+
+  .sky-control-label + sky-character-counter-indicator {
+    flex-grow: 0;
+    flex-shrink: 0.001;
+  }
+}
+
+.sky-theme-modern {
+}
