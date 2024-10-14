@@ -1,14 +1,9 @@
-@let isCollapsible =
-  type
-    | skySummaryActionBarCollapsible
-      : (mediaQueryService.breakpointChange | async);
-
 <div
   class="sky-summary-action-bar"
   [ngClass]="{
-    'sky-summary-action-bar-summary-collapsible': isCollapsible,
-    'sky-summary-action-bar-modal': type === 1 || type === 2,
-    'sky-summary-action-bar-split-view': type === 4
+    'sky-summary-action-bar-summary-collapsible': isCollapsible(),
+    'sky-summary-action-bar-modal': type() === 1 || type() === 2,
+    'sky-summary-action-bar-split-view': type() === 4
   }"
 >
   <div class="sky-summary-action-bar-actions">
@@ -30,14 +25,14 @@
         >
           <ng-content select="sky-summary-action-bar-summary" />
         </div>
-        @if (isCollapsible && !isSummaryCollapsed) {
+        @if (isCollapsible() && !isSummaryCollapsed) {
           <div class="sky-summary-action-bar-details-collapse">
             <ng-container *ngTemplateOutlet="chevron" />
           </div>
         }
       </div>
     </div>
-    @if (isCollapsible && isSummaryCollapsed) {
+    @if (isCollapsible() && isSummaryCollapsed) {
       <div class="sky-summary-action-bar-details-expand">
         <ng-container *ngTemplateOutlet="chevron" />
       </div>

@@ -12,7 +12,6 @@ import { SkySummaryActionBarCancelComponent } from './actions/summary-action-bar
 import { SkySummaryActionBarPrimaryActionComponent } from './actions/summary-action-bar-primary-action.component';
 import { SkySummaryActionBarSecondaryActionComponent } from './actions/summary-action-bar-secondary-action.component';
 import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';
-import { SkySummaryActionBarCollapsiblePipe } from './summary-action-bar-collapsible.pipe';
 import { SkySummaryActionBarComponent } from './summary-action-bar.component';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 
@@ -20,7 +19,6 @@ import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-ba
   declarations: [
     SkySummaryActionBarActionsComponent,
     SkySummaryActionBarCancelComponent,
-    SkySummaryActionBarCollapsiblePipe,
     SkySummaryActionBarComponent,
     SkySummaryActionBarPrimaryActionComponent,
     SkySummaryActionBarSecondaryActionComponent,
