@@ -26,15 +26,16 @@ describe('Media query demo', () => {
   it('should change the breakpoint', async () => {
     const { fixture, mediaController } = setupTest();
 
-    fixture.detectChanges();
-
-    await mediaController.expectBreakpoint('md');
-    expect(fixture.nativeElement).toHaveClass('my-breakpoint-md');
-
     mediaController.setBreakpoint('xs');
     fixture.detectChanges();
 
     await mediaController.expectBreakpoint('xs');
     expect(fixture.nativeElement).toHaveClass('my-breakpoint-xs');
+
+    mediaController.setBreakpoint('lg');
+    fixture.detectChanges();
+
+    await mediaController.expectBreakpoint('lg');
+    expect(fixture.nativeElement).toHaveClass('my-breakpoint-lg');
   });
 });

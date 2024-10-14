@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -8,7 +7,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
+  afterNextRender,
+  viewChild,
 } from '@angular/core';
 import {
   SkyAppWindowRef,
@@ -37,9 +37,7 @@ let skySplitViewNextId = 0;
     provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
   ],
 })
-export class SkySplitViewDrawerComponent
-  implements AfterViewInit, OnInit, OnDestroy
-{
+export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   /**
    * The ARIA label for the list panel. This sets the panel's `aria-label` attribute to provide a text equivalent for screen readers
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
@@ -78,8 +76,7 @@ export class SkySplitViewDrawerComponent
     return this.#_width || this.widthDefault;
   }
 
-  @ViewChild('drawerRef', { static: true })
-  protected drawerRef!: ElementRef;
+  protected drawerRef = viewChild<ElementRef<unknown>>('drawerRef');
 
   public isMobile = false;
 
@@ -120,6 +117,16 @@ export class SkySplitViewDrawerComponent
     this.#windowRef = windowRef;
 
     this.splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
+
+    afterNextRender(() => {
+      const drawerRef = this.drawerRef();
+
+      if (drawerRef) {
+        this.#mediaQuerySvc.observe(drawerRef, {
+          updateResponsiveClasses: true,
+        });
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -131,12 +138,6 @@ export class SkySplitViewDrawerComponent
         this.isMobile = mobile;
         this.#changeDetectorRef.markForCheck();
       });
-  }
-
-  public ngAfterViewInit(): void {
-    this.#mediaQuerySvc.observe(this.drawerRef, {
-      updateResponsiveClasses: true,
-    });
   }
 
   public ngOnDestroy(): void {
