@@ -13,12 +13,10 @@ import {
   provideSkyMediaQueryTesting,
 } from '@skyux/core/testing';
 
-import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';
 import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-action-bar-split-view.component.fixture';
 import { SkySummaryActionBarTabsTestComponent } from './fixtures/summary-action-bar-tabs.component.fixture';
 import { SkySummaryActionBarTestComponent } from './fixtures/summary-action-bar.component.fixture';
 import { SkySummaryActionBarFixtureModule } from './fixtures/summary-action-bar.module.fixture';
-import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
 import { SkySummaryActionBarComponent } from './summary-action-bar.component';
 
 describe('Summary Action Bar component', () => {
@@ -104,19 +102,6 @@ describe('Summary Action Bar component', () => {
     TestBed.configureTestingModule({
       imports: [SkySummaryActionBarFixtureModule],
       providers: [provideSkyMediaQueryTesting()],
-    });
-
-    TestBed.overrideComponent(SkySummaryActionBarSecondaryActionsComponent, {
-      add: {
-        providers: [provideSkyMediaQueryTesting()],
-      },
-    }).overrideComponent(SkySummaryActionBarComponent, {
-      add: {
-        providers: [
-          SkySummaryActionBarAdapterService,
-          provideSkyMediaQueryTesting(),
-        ],
-      },
     });
 
     mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);

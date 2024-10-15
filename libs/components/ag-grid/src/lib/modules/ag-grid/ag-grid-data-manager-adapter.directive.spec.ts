@@ -45,12 +45,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
 
-    TestBed.overrideDirective(SkyAgGridDataManagerAdapterDirective, {
-      add: {
-        providers: [provideSkyMediaQueryTesting()],
-      },
-    });
-
     agGridDataManagerFixture = TestBed.createComponent(
       SkyAgGridDataManagerFixtureComponent,
     );

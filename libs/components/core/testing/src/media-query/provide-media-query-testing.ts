@@ -1,5 +1,5 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { Provider } from '@angular/core';
+import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import {
   SKY_MEDIA_QUERY_SERVICE_OVERRIDE,
   SkyMediaQueryService,
@@ -11,8 +11,8 @@ import { SkyMediaQueryTestingService } from './media-query-testing.service';
 /**
  * Mocks the media query service for unit tests.
  */
-export function provideSkyMediaQueryTesting(): Provider[] {
-  return [
+export function provideSkyMediaQueryTesting(): EnvironmentProviders {
+  return makeEnvironmentProviders([
     SkyMediaQueryTestingService,
     {
       provide: SKY_MEDIA_QUERY_SERVICE_OVERRIDE,
@@ -26,5 +26,5 @@ export function provideSkyMediaQueryTesting(): Provider[] {
       provide: SkyMediaQueryTestingController,
       useExisting: SkyMediaQueryTestingService,
     },
-  ];
+  ]);
 }
