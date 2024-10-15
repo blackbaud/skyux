@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.11.2](https://github.com/blackbaud/skyux/compare/11.11.1...11.11.2) (2024-10-15)
+
+
+### Bug Fixes
+
+* **components/tabs:** push permalink query params via router ([#2828](https://github.com/blackbaud/skyux/issues/2828)) ([c2d24a1](https://github.com/blackbaud/skyux/commit/c2d24a115d6e9522ff60312d5975bd7cd1e7e5d7))
+
 ## [11.11.1](https://github.com/blackbaud/skyux/compare/11.11.0...11.11.1) (2024-10-15)
 
 
