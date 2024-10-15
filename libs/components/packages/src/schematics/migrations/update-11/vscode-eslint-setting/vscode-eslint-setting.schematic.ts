@@ -2,11 +2,14 @@ import { Rule, Tree } from '@angular-devkit/schematics';
 
 import { readRequiredFile, writeJsonFile } from '../../../utility/tree';
 
+const packageJsonPath = '/package.json';
+const vscodeSettingsPath = '.vscode/settings.json';
+
 function getVSCodeSettings(tree: Tree): {
   'eslint.useFlatConfig'?: boolean;
 } {
-  if (tree.exists('.vscode/settings.json')) {
-    return JSON.parse(readRequiredFile(tree, '.vscode/settings.json'));
+  if (tree.exists(vscodeSettingsPath)) {
+    return JSON.parse(readRequiredFile(tree, vscodeSettingsPath));
   } else {
     return {};
   }
@@ -28,8 +31,8 @@ function legacyEslintConfigExists(tree: Tree): boolean {
     }
   });
 
-  if (!found && tree.exists('/package.json')) {
-    found = !!JSON.parse(readRequiredFile(tree, '/package.json'))[
+  if (!found && tree.exists(packageJsonPath)) {
+    found = !!JSON.parse(readRequiredFile(tree, packageJsonPath))[
       'eslintConfig'
     ];
   }
@@ -43,7 +46,7 @@ export default function (): Rule {
       const currentSettings = getVSCodeSettings(tree);
 
       currentSettings['eslint.useFlatConfig'] = false;
-      writeJsonFile(tree, '.vscode/settings.json', currentSettings);
+      writeJsonFile(tree, vscodeSettingsPath, currentSettings);
     }
   };
 }
