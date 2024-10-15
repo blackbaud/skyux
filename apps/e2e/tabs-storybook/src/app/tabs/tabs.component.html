@@ -1,9 +1,9 @@
 <div>
   <sky-tabset
     permalinkId="sample"
+    [active]="active"
     (newTab)="onNewTabClick()"
     (openTab)="onOpenTabClick()"
-    [active]="active"
   >
     <ng-container *ngFor="let tab of tabs; let i = index">
       <sky-tab

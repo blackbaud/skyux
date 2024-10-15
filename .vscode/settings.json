@@ -1,6 +1,7 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "eslint.useFlatConfig": true,
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
   "cSpell.enabled": true,
