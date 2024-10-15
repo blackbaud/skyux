@@ -50,7 +50,6 @@ jobs:
         agent: [1, 2, 3]
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
     steps:
       - uses: actions/checkout@v4
       - name: Retrieve node_modules cache
@@ -60,6 +59,8 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
+        env:
+          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
 
   build-coverage-lint:
     name: Build, code coverage unit tests, and linting
@@ -68,7 +69,6 @@ jobs:
     needs: install-deps
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -77,6 +77,8 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - run: npx nx-cloud start-ci-run --agent-count=3 --distribute-on="manual"
+        env:
+          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
       - name: Retrieve node_modules cache
         uses: actions/cache/restore@v4
         with:
@@ -89,12 +91,18 @@ jobs:
       - name: Run build, lint, test, and posttest for npm packages
         run: |
           npx nx affected --target build lint test posttest --configuration ci --parallel 1 --exclude '*,!tag:npm'
+        env:
+          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
       - name: Run lint, test, and posttest for non-npm packages
         run: |
           npx nx affected --target lint test posttest --configuration ci --parallel 1 --exclude 'tag:npm'
+        env:
+          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
       - name: Stop
         if: ${{ always() }}
         run: npx nx-cloud stop-all-agents
+        env:
+          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
 
   build:
     name: Build
@@ -178,6 +186,8 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Check code formatting
         run: npx nx format:check
+        env:
+          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
 
   build-dist:
     name: Build packages distribution
@@ -216,7 +226,6 @@ jobs:
     needs: build-coverage-lint
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -229,3 +238,5 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Stop Nx Cloud agents
         run: npx nx-cloud stop-all-agents
+        env:
+          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
