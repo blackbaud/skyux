@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-tabs-storybook',
   preset: '../../../jest.preset.js',

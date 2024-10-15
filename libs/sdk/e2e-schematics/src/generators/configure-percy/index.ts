@@ -2,7 +2,7 @@ import type { Tree } from '@nx/devkit';
 import { formatFiles, generateFiles, joinPathFragments } from '@nx/devkit';
 import { insertStatement } from '@nx/workspace/src/generators/utils/insert-statement';
 
-import { getE2eProjects } from '../../utils';
+import { getE2eProjects } from '../../utils/get-projects';
 
 import { Schema } from './schema';
 

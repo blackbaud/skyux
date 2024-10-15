@@ -5,11 +5,11 @@
     </label>
     <sky-timepicker #disabledTimepicker>
       <input
+        #disabledTimepickerInput="skyId"
         skyId
+        timeFormat="hh"
         [disabled]="true"
         [skyTimepickerInput]="disabledTimepicker"
-        timeFormat="hh"
-        #disabledTimepickerInput="skyId"
       />
     </sky-timepicker>
   </sky-input-box>
@@ -18,10 +18,10 @@
     <label class="sky-control-label" [for]="timepickerInput.id">Label</label>
     <sky-timepicker #timepicker>
       <input
+        #timepickerInput="skyId"
         skyId
         [skyTimepickerInput]="timepicker"
         [timeFormat]="timeFormat"
-        #timepickerInput="skyId"
         [(ngModel)]="time"
       />
     </sky-timepicker>
