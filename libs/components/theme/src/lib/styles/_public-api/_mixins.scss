@@ -233,6 +233,7 @@
   border: none;
   box-shadow: inset 0 0 0 1px $color;
 }
+
 @mixin sky-theme-modern-border-hover(
   $color: vars.$sky-theme-modern-background-color-primary-dark
 ) {
@@ -248,14 +249,13 @@
 }
 
 @mixin sky-theme-modern-border-focus(
-  $color: var(--sky-color-border-input-focus),
+  $color: vars.$sky-theme-modern-background-color-primary-dark,
   $shadow-size: vars.$sky-theme-modern-elevation-1-shadow-size,
-  $shadow-color: vars.$sky-theme-modern-elevation-1-shadow-color,
-  $border-size: var(--sky-border-width-input-focus)
+  $shadow-color: vars.$sky-theme-modern-elevation-1-shadow-color
 ) {
   border: none;
   box-shadow:
-    inset 0 0 0 $border-size $color,
+    inset 0 0 0 2px $color,
     $shadow-size $shadow-color;
 }
 
