@@ -195,13 +195,6 @@ sky-input-box {
         ) + var(--sky-input-box-space-top)
     );
 
-    // default border values
-    --sky-input-box-input-border-color: var(
-      --sky-override-input-box-color-border-base,
-      var(--sky-color-border-input-base)
-    );
-    --sky-input-box-input-border-width: var(--sky-border-width-input-base);
-
     .sky-input-box-group {
       display: flex;
     }
@@ -523,6 +516,13 @@ sky-input-box {
 
   // border styling for enabled inputs
   .sky-input-box:not(.sky-input-box-disabled) {
+    // default border values
+    --sky-input-box-input-border-color: var(
+      --sky-override-input-box-color-border-base,
+      var(--sky-color-border-input-base)
+    );
+    --sky-input-box-input-border-width: var(--sky-border-width-input-base);
+
     .sky-input-box-group-form-control .sky-form-group,
     .sky-input-group-btn .sky-btn {
       border: none;
