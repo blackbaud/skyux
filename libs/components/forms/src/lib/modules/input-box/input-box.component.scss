@@ -9,8 +9,10 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-input-box', false) {
-  --sky-override-background-color-input-box-group: #{$sky-color-white};
-  --sky-override-background-color-input-box-group-focused: #{$sky-color-white};
+  --sky-override-background-color-input-box-group: var(--modern-color-white);
+  --sky-override-background-color-input-box-group-focused: var(
+    --modern-color-white
+  );
   --sky-override-input-padding-top: 26px;
   --sky-override-input-margin-top: -23px;
   --sky-override-textarea-border-top: 29px;
@@ -18,7 +20,7 @@
   --sky-override-button-width: 55px;
   --sky-override-input-box-color-border-base: var(--modern-color-gray-15);
   --sky-override-label-padding-bottom: 1px;
-  --sky-override-input-box-no-label-space-top: #{$sky-theme-modern-space-sm};
+  --sky-override-input-box-no-label-space-top: var(--modern-space-s);
   --sky-override-input-box-select-space: 10px;
   --sky-override-input-focus-elevation-shadow: var(--modern-shadow-size-1);
 }
@@ -286,7 +288,7 @@ sky-input-box {
     .sky-input-box-group-form-control + .sky-input-group-btn {
       .sky-btn {
         // makes the borders between the input and button appear to be a single 1px border, while allowing both to have hover effect
-        margin-left: calc(var(--sky-border-width-input-base) * -2);
+        margin-left: calc(var(--sky-border-width-input-active) * -1);
       }
     }
 
@@ -513,7 +515,7 @@ sky-input-box {
 
     .sky-input-box-icon-inset-left-wrapper {
       .sky-input-box-icon-inset-left {
-        padding: 0 0 0 $sky-theme-modern-space-md;
+        padding: 0 0 0 var(--sky-space-inset-input-left-m);
         width: initial;
       }
     }
@@ -581,7 +583,7 @@ sky-input-box {
       color: var(--sky-color-text-danger);
     }
 
-    // input z indexex and color active state
+    // input z indexes and color active state
     .sky-input-box-group-form-control-focus:not(:active),
     .sky-input-box-group-form-control-focus:not(
         :active
@@ -625,6 +627,7 @@ sky-input-box {
     }
   }
 
+  // disabled input styling
   .sky-input-box.sky-input-box-disabled {
     .sky-form-group,
     .sky-input-group-btn .sky-btn {
@@ -647,10 +650,7 @@ sky-input-box {
       background-color: transparent;
     }
 
-    .sky-form-group {
-      background-color: var(--sky-color-background-input-disabled);
-    }
-
+    .sky-form-group,
     .sky-input-group-btn .sky-btn {
       background-color: var(--sky-color-background-input-disabled);
     }
