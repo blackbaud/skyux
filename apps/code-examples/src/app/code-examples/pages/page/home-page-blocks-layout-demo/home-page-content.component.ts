@@ -15,7 +15,6 @@ import { TileUpdatesComponent } from './tile-updates.component';
 @Component({
   selector: 'app-home-page-content',
   templateUrl: './home-page-content.component.html',
-  styleUrls: ['./home-page-content.component.scss'],
   standalone: true,
   imports: [
     NgClass,
@@ -29,52 +28,48 @@ import { TileUpdatesComponent } from './tile-updates.component';
   ],
 })
 export class HomePageContentComponent {
-  public dashboardConfig: SkyTileDashboardConfig;
-
-  constructor() {
-    this.dashboardConfig = {
-      tiles: [
+  protected dashboardConfig: SkyTileDashboardConfig = {
+    tiles: [
+      {
+        id: 'tile-updates',
+        componentType: TileUpdatesComponent,
+      },
+      {
+        id: 'tile-my-actions',
+        componentType: TileMyActionsComponent,
+      },
+    ],
+    layout: {
+      singleColumn: {
+        tiles: [
+          {
+            id: 'tile-updates',
+            isCollapsed: false,
+          },
+          {
+            id: 'tile-my-actions',
+            isCollapsed: false,
+          },
+        ],
+      },
+      multiColumn: [
         {
-          id: 'tile-updates',
-          componentType: TileUpdatesComponent,
-        },
-        {
-          id: 'tile-my-actions',
-          componentType: TileMyActionsComponent,
-        },
-      ],
-      layout: {
-        singleColumn: {
           tiles: [
             {
               id: 'tile-updates',
               isCollapsed: false,
             },
+          ],
+        },
+        {
+          tiles: [
             {
               id: 'tile-my-actions',
               isCollapsed: false,
             },
           ],
         },
-        multiColumn: [
-          {
-            tiles: [
-              {
-                id: 'tile-updates',
-                isCollapsed: false,
-              },
-            ],
-          },
-          {
-            tiles: [
-              {
-                id: 'tile-my-actions',
-                isCollapsed: false,
-              },
-            ],
-          },
-        ],
-      },
-    };
-  }
+      ],
+    },
+  };
 }

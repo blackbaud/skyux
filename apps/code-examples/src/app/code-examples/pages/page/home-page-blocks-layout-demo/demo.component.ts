@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyPageModule } from '@skyux/pages';
+import { SkyPageModule, SkyRecentLink } from '@skyux/pages';
 
 import { HomePageContentComponent } from './home-page-content.component';
 
@@ -11,7 +11,7 @@ import { HomePageContentComponent } from './home-page-content.component';
   imports: [HomePageContentComponent, SkyIconModule, SkyPageModule],
 })
 export class DemoComponent {
-  protected readonly recentLinks = [
+  protected readonly recentLinks: SkyRecentLink[] = [
     {
       label: 'Gift Management',
       permalink: { url: '' },
