@@ -34,10 +34,21 @@
 
 .sky-theme-modern {
   .sky-btn {
-    border: none;
     border-radius: var(--sky-border-radius-s);
     font-size: var(--sky-font-size-body-m);
     transition: box-shadow $sky-transition-time-short;
+
+    line-height: var(
+      --sky-override-button-line-height,
+      var(--sky-font-line_height-body-m)
+    );
+  }
+
+  .sky-btn-default,
+  .sky-btn-primary,
+  .sky-btn-danger,
+  .sky-btn-link,
+  .sky-btn-borderless {
     padding: var(
       --sky-override-button-padding,
       var(--sky-space-inset-pillarbox-1_2-top-m)
@@ -45,10 +56,18 @@
         var(--sky-space-inset-pillarbox-1_2-bottom-m)
         var(--sky-space-inset-pillarbox-1_2-left-m)
     );
-    line-height: var(
-      --sky-override-button-line-height,
-      var(--sky-font-line_height-body-m)
-    );
+  }
+
+  .sky-btn-default,
+  .sky-btn-primary,
+  .sky-btn-danger,
+  .sky-btn-link,
+  .sky-btn-borderless,
+  .sky-btn-icon-borderless,
+  .sky-btn-icon,
+  .sky-btn-link-inline,
+  .sky-btn-borderless-inline {
+    border: none;
     outline: none;
 
     &:hover {
@@ -63,6 +82,7 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
+        border: none;
         opacity: var(--sky-override-button-opacity-disabled, 1);
         color: var(--sky-color-text-deemphasized);
 
@@ -306,6 +326,19 @@
       );
       text-decoration: underline;
     }
+
+    &.sky-btn-disabled,
+    &[disabled] {
+      &,
+      &:hover,
+      &:focus-visible,
+      &.sky-btn-focus,
+      &:active,
+      &.sky-btn-active {
+        box-shadow: inset 0 0 0 0
+          var(--sky-color-border-action-tertiary-disabled);
+      }
+    }
   }
 
   .sky-btn-borderless-inline {
@@ -313,6 +346,26 @@
     padding: var(--sky-space-inset-balanced-none);
     font-size: var(--sky-override-button-link-inline-font-size, inherit);
     vertical-align: var(--sky-override-button-link-inline-vertical-align, '');
+
+    &:focus-visible:not(:active) {
+      box-shadow:
+        0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-tertiary-focus),
+        var(--sky-elevation-focus);
+    }
+
+    &.sky-btn-disabled,
+    &[disabled] {
+      &,
+      &:hover,
+      &:focus-visible,
+      &.sky-btn-focus,
+      &:active,
+      &.sky-btn-active {
+        box-shadow: inset 0 0 0 0
+          var(--sky-color-border-action-tertiary-disabled);
+      }
+    }
   }
 
   .sky-btn-sm {
