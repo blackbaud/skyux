@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.11.1](https://github.com/blackbaud/skyux/compare/11.11.0...11.11.1) (2024-10-15)
+
+
+### Bug Fixes
+
+* **components/theme:** address warning in styles ([#2826](https://github.com/blackbaud/skyux/issues/2826)) ([594a8ab](https://github.com/blackbaud/skyux/commit/594a8ab2d380c26d89f225624446fe8f2757c047))
+* run schematic to set VSCode plugin setting to not expect flat configs for ESLint 9 which was included in `11.x.x` ([#2825](https://github.com/blackbaud/skyux/issues/2825)) ([96330a0](https://github.com/blackbaud/skyux/commit/96330a08003afa9f4d6afb8e308421f782cea7fd))
+
 ## [11.11.0](https://github.com/blackbaud/skyux/compare/11.10.0...11.11.0) (2024-10-11)
 
 
