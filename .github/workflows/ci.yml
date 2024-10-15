@@ -12,6 +12,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NX_VERBOSE_LOGGING: ${{ runner.debug }}
+
 jobs:
   install-deps:
     name: Install and cache dependencies
