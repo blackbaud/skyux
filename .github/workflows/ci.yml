@@ -12,9 +12,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  NX_VERBOSE_LOGGING: ${{ runner.debug }}
-
 jobs:
   install-deps:
     name: Install and cache dependencies
@@ -53,6 +50,7 @@ jobs:
         agent: [1, 2, 3]
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
     steps:
       - uses: actions/checkout@v4
       - name: Retrieve node_modules cache
@@ -70,6 +68,7 @@ jobs:
     needs: install-deps
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -217,6 +216,7 @@ jobs:
     needs: build-coverage-lint
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
