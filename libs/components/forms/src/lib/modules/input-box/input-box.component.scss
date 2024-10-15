@@ -572,7 +572,7 @@ sky-input-box {
       --sky-input-box-input-border-width: var(--sky-border-width-input-error);
     }
 
-    // input z indexes and color hover state
+    // input z indexes hover state
     .sky-input-box-group-form-control:hover {
       /* Ensure the form control border shows over the adjacent input group button. */
       z-index: 1;
@@ -583,7 +583,7 @@ sky-input-box {
       color: var(--sky-color-text-danger);
     }
 
-    // input z indexes and color active state
+    // input z indexes and color focus state
     .sky-input-box-group-form-control-focus:not(:active),
     .sky-input-box-group-form-control-focus:not(
         :active
@@ -597,6 +597,11 @@ sky-input-box {
       .sky-form-group {
         color: var(--sky-color-text-action);
       }
+    }
+
+    // input color active state
+    .sky-input-box-group-form-control:active .sky-form-group {
+      color: var(--sky-color-text-action);
     }
 
     // button z indexes and color
