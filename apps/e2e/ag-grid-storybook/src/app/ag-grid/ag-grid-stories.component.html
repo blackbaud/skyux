@@ -5,9 +5,9 @@
     <sky-ag-grid-wrapper
       *ngIf="isActive$ | async"
       skyAgGridRowDelete
+      [compact]="compact"
       [(rowDeleteIds)]="rowDeleteIds"
       (rowDeleteConfirm)="deleteConfirm($event)"
-      [compact]="compact"
     >
       <ag-grid-angular [gridOptions]="gridOptions['row-delete']" />
     </sky-ag-grid-wrapper>
@@ -32,6 +32,6 @@
 
 <br />
 
-<span id="ready" *ngIf="ready | async"></span>
+<span *ngIf="ready | async" id="ready"></span>
 
-<sky-preview-wrapper *ngIf="addPreviewWrapper$ | async"></sky-preview-wrapper>
+<sky-preview-wrapper *ngIf="addPreviewWrapper$ | async" />

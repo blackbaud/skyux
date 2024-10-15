@@ -5,10 +5,10 @@
     </sky-modal-header>
     <sky-modal-content>
       <sky-tabset
-        ariaLabel="Tab demonstration"
-        [(active)]="activeIndex"
-        tabStyle="wizard"
         #wizardDemo
+        ariaLabel="Tab demonstration"
+        tabStyle="wizard"
+        [(active)]="activeIndex"
       >
         <sky-tab tabHeading="1. Get started">
           <sky-input-box
@@ -33,19 +33,13 @@
       </sky-tabset>
     </sky-modal-content>
     <sky-modal-footer>
-      <sky-tabset-nav-button
-        buttonType="previous"
-        [tabset]="wizardDemo"
-      ></sky-tabset-nav-button>
-      <sky-tabset-nav-button
-        buttonType="next"
-        [tabset]="wizardDemo"
-      ></sky-tabset-nav-button>
+      <sky-tabset-nav-button buttonType="previous" [tabset]="wizardDemo" />
+      <sky-tabset-nav-button buttonType="next" [tabset]="wizardDemo" />
       <sky-tabset-nav-button
         buttonType="finish"
         [tabset]="wizardDemo"
         [disabled]="saveDisabled"
-      ></sky-tabset-nav-button>
+      />
       <button
         class="sky-btn sky-btn-link"
         type="button"

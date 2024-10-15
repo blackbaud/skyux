@@ -31,26 +31,26 @@
   </sky-summary-action-bar>
 </ng-template>
 <sky-split-view
+  *ngIf="type === 'split-view'"
   dock="fill"
   backButtonText="Responsive button text"
-  *ngIf="type === 'split-view'"
 >
   <sky-split-view-drawer>Drawer</sky-split-view-drawer>
   <sky-split-view-workspace>
     <sky-split-view-workspace-content>Content</sky-split-view-workspace-content>
     <sky-split-view-workspace-footer
-      ><ng-container *ngTemplateOutlet="actionBar"></ng-container
-    ></sky-split-view-workspace-footer>
+      ><ng-container *ngTemplateOutlet="actionBar"
+    /></sky-split-view-workspace-footer>
   </sky-split-view-workspace>
 </sky-split-view>
 <sky-tabset *ngIf="type === 'tab'">
   <sky-tab tabHeading="Tab 1">
     Content for Tab 1
-    <ng-container *ngTemplateOutlet="actionBar"></ng-container>
+    <ng-container *ngTemplateOutlet="actionBar" />
   </sky-tab>
   <sky-tab tabHeading="Tab 2"> Content for Tab 2 </sky-tab>
 </sky-tabset>
 <ng-container *ngIf="type === 'page'">
-  <ng-container *ngTemplateOutlet="actionBar"></ng-container>
+  <ng-container *ngTemplateOutlet="actionBar" />
 </ng-container>
-<span id="ready" *ngIf="ready$ | async"></span>
+<span *ngIf="ready$ | async" id="ready"></span>
