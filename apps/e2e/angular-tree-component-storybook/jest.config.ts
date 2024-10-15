@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-angular-tree-component-storybook',
   preset: '../../../jest.preset.js',

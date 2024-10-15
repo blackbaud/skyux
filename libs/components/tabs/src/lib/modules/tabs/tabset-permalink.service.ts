@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, Subject, SubscriptionLike } from 'rxjs';
@@ -18,30 +18,16 @@ export class SkyTabsetPermalinkService implements OnDestroy {
     return this.#popStateChange;
   }
 
-  #popStateChange: Subject<void>;
+  #popStateChange = new Subject<void>();
 
   #subscription: SubscriptionLike | undefined;
 
-  #activatedRoute: ActivatedRoute;
-  #location: Location;
-  #router: Router;
-
-  constructor(
-    activatedRoute: ActivatedRoute,
-    location: Location,
-    router: Router,
-  ) {
-    this.#activatedRoute = activatedRoute;
-    this.#location = location;
-    this.#router = router;
-
-    this.#popStateChange = new Subject<void>();
-  }
+  readonly #activatedRoute = inject(ActivatedRoute);
+  readonly #location = inject(Location);
+  readonly #router = inject(Router);
 
   public ngOnDestroy(): void {
-    if (this.#subscription) {
-      this.#subscription.unsubscribe();
-    }
+    this.#subscription?.unsubscribe();
     this.#popStateChange.complete();
   }
 
@@ -70,13 +56,12 @@ export class SkyTabsetPermalinkService implements OnDestroy {
       params[name] = value;
     }
 
-    // Update the URL without triggering a navigation state change.
-    // See: https://stackoverflow.com/a/46486677
+    // Uses replace so that values can be deleted.
     const url = this.#router
       .createUrlTree([], {
         relativeTo: this.#activatedRoute,
         queryParams: params,
-        queryParamsHandling: 'merge',
+        queryParamsHandling: 'replace',
       })
       .toString();
 
@@ -85,9 +70,15 @@ export class SkyTabsetPermalinkService implements OnDestroy {
       return;
     }
 
-    // Use `replaceState()` when the tabset is being initialized so an extra
-    // history item isn't added to the browser's back stack.
-    this.#location[initial ? 'replaceState' : 'go'](url);
+    // Navigate via the Angular router to update the URL and broadcast the
+    // change. Use `replaceUrl` on the initial navigation so an extra history
+    // item isn't added to the browser's back stack.
+    void this.#router.navigate([], {
+      relativeTo: this.#activatedRoute,
+      queryParams: params,
+      queryParamsHandling: 'replace',
+      replaceUrl: initial,
+    });
   }
 
   /**

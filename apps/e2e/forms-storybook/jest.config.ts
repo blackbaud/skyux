@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-forms-storybook',
   preset: '../../../jest.preset.js',

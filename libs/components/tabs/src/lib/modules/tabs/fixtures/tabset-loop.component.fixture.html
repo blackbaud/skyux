@@ -2,7 +2,7 @@
   [active]="activeIndex"
   (tabIndexesChange)="onTabIndexesChange($event)"
 >
-  @for (tab of tabArray; track tab) {
+  @for (tab of tabArray; track tab.tabHeading) {
   <sky-tab
     [active]="tab.active"
     [tabIndexValue]="tab.tabIndex"
