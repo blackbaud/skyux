@@ -3,16 +3,15 @@
 
   <!-- Parent is window -->
   <div
-    [ngClass]="{ 'scrollable-parent': scrollableParent }"
     id="screenshot-infinite-scroll"
+    [ngClass]="{ 'scrollable-parent': scrollableParent }"
   >
     <ul>
       <li *ngFor="let item of items">
         {{ item }}
       </li>
     </ul>
-    <sky-infinite-scroll [enabled]="enabled" [loading]="loading">
-    </sky-infinite-scroll>
+    <sky-infinite-scroll [enabled]="enabled" [loading]="loading" />
   </div>
 </div>
-<span id="ready" *ngIf="ready | async"></span>
+<span *ngIf="ready | async" id="ready"></span>

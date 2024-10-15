@@ -4,7 +4,7 @@
     <button class="sky-btn sky-btn-danger" type="button">
       <sky-icon icon="trash" />
     </button>
-    <sky-inline-delete [pending]="false"></sky-inline-delete>
+    <sky-inline-delete [pending]="false" />
   </div>
 </div>
 
@@ -14,7 +14,7 @@
     <button class="sky-btn sky-btn-danger" type="button">
       <sky-icon icon="trash" />
     </button>
-    <sky-inline-delete [pending]="true"></sky-inline-delete>
+    <sky-inline-delete [pending]="true" />
   </div>
 </div>
 <span *ngIf="ready | async" id="ready"></span>

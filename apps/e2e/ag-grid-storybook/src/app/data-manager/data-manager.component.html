@@ -1,7 +1,7 @@
 <ng-template #link let-value="value">
   <a
-    href="https://www.google.com/search?q={{ encodeURIComponent(value) }}"
     target="_blank"
+    href="https://www.google.com/search?q={{ encodeURIComponent(value) }}"
     >{{ value }}</a
   >
 </ng-template>
@@ -88,4 +88,4 @@
     </sky-ag-grid-wrapper>
   </sky-data-view>
 </sky-data-manager>
-<span id="ready" *ngIf="ready | async"></span>
+<span *ngIf="ready | async" id="ready"></span>

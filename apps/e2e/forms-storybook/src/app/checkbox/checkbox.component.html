@@ -18,7 +18,7 @@
       <sky-checkbox [checked]="true">
         <sky-checkbox-label>
           Checkbox with help inline
-          <sky-help-inline class="sky-control-help"></sky-help-inline>
+          <sky-help-inline class="sky-control-help" />
         </sky-checkbox-label>
       </sky-checkbox>
     </sky-column>
@@ -52,12 +52,12 @@
     <sky-column>
       <sky-checkbox
         ngModel
-        [checked]="false"
-        [required]="true"
         helpPopoverContent="content"
         labelText="Checkbox with all easy mode inputs"
         hintText="Hint text"
         id="touched-required-checkbox"
+        [checked]="false"
+        [required]="true"
       />
     </sky-column>
   </sky-row>
@@ -105,15 +105,15 @@
         ngModel
         labelText="Checkbox with easy mode errors and help inline"
         helpPopoverContent="popover Content"
-        [required]="true"
         id="touched-easy-mode-checkbox"
+        [required]="true"
       />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <div>
-        <sky-checkbox ngModel [stacked]="true" labelText="Stacked checkbox" />
+        <sky-checkbox ngModel labelText="Stacked checkbox" [stacked]="true" />
       </div>
       <button type="button" class="sky-btn sky-btn-primary">Save</button>
     </sky-column>
@@ -148,7 +148,7 @@
         *ngIf="standardCheckboxGroupFormGroup1.errors?.['emailOnly']"
         errorName="emailOnly"
         errorText="Email cannot be the only contact method."
-      ></sky-form-error>
+      />
     </sky-checkbox-group>
     <sky-checkbox-group
       headingLevel="3"
@@ -195,34 +195,35 @@
   <sky-row class="sky-padding-even-md">
     <sky-column>
       <div class="sky-switch-icon-group">
-        <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
-        <sky-checkbox icon="umbrella" label="umbrella" [checked]="false">
-        </sky-checkbox>
-        <sky-checkbox icon="star" label="favorite" [checked]="false">
-        </sky-checkbox>
+        <sky-checkbox icon="bold" label="bold" [checked]="true" />
+        <sky-checkbox icon="umbrella" label="umbrella" [checked]="false" />
+        <sky-checkbox icon="star" label="favorite" [checked]="false" />
         <sky-checkbox
           icon="exclamation-triangle"
           label="careful"
           [checked]="false"
-        >
-        </sky-checkbox>
+        />
       </div>
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
-      <sky-checkbox icon="bold" label="bold" [checked]="true"> </sky-checkbox>
+      <sky-checkbox icon="bold" label="bold" [checked]="true" />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
-      <sky-checkbox icon="bold" label="bold" [checked]="true" [disabled]="true">
-      </sky-checkbox>
+      <sky-checkbox
+        icon="bold"
+        label="bold"
+        [checked]="true"
+        [disabled]="true"
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
     <sky-column>
-      <sky-checkbox icon="bold" label="bold" [checked]="false"> </sky-checkbox>
+      <sky-checkbox icon="bold" label="bold" [checked]="false" />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -232,8 +233,7 @@
         checkboxType="info"
         label="umbrella"
         [checked]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -244,8 +244,7 @@
         label="umbrella"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -255,8 +254,7 @@
         checkboxType="info"
         label="umbrella"
         [checked]="false"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -266,8 +264,7 @@
         checkboxType="success"
         label="favorite"
         [checked]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -278,8 +275,7 @@
         label="favorite"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -289,8 +285,7 @@
         checkboxType="success"
         label="favorite"
         [checked]="false"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -300,8 +295,7 @@
         checkboxType="warning"
         label="careful"
         [checked]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -312,8 +306,7 @@
         label="careful"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -323,8 +316,7 @@
         checkboxType="warning"
         label="careful"
         [checked]="false"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -334,8 +326,7 @@
         checkboxType="danger"
         label="wrong"
         [checked]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -346,8 +337,7 @@
         label="wrong"
         [checked]="true"
         [disabled]="true"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <sky-row class="sky-padding-even-md">
@@ -357,8 +347,7 @@
         checkboxType="danger"
         label="wrong"
         [checked]="false"
-      >
-      </sky-checkbox>
+      />
     </sky-column>
   </sky-row>
   <form [formGroup]="iconCheckboxGroupFormGroup">

@@ -8,8 +8,8 @@ import {
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
-import { updateJson } from '../../utils';
 import { createTestApplication, createTestLibrary } from '../../utils/testing';
+import { updateJson } from '../../utils/update-json';
 
 import componentE2eGenerator from './index';
 

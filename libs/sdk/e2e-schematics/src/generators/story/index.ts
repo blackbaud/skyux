@@ -11,11 +11,10 @@ import {
 } from '@nx/devkit';
 
 import {
-  basename,
-  capitalizeWords,
   getProjectTypeBase,
   getStorybookProject,
-} from '../../utils';
+} from '../../utils/get-projects';
+import { basename, capitalizeWords } from '../../utils/utils';
 
 import { ComponentGeneratorSchema } from './schema';
 
