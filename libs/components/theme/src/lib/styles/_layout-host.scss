@@ -136,7 +136,7 @@
 
         &:has(sky-page-header-avatar:not(:empty)) {
           grid-template-columns:
-            120px
+            150px
             calc(75% - 120px)
             25%;
 
