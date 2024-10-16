@@ -9,10 +9,8 @@ import {
 } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyMediaBreakpointType,
-  toSkyMediaBreakpointType,
-} from '../media-query/media-breakpoint-type';
+import { SkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-type';
+import { toSkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-utils';
 import {
   SKY_MEDIA_BREAKPOINT_DEFAULT,
   SkyMediaBreakpoints,
@@ -20,7 +18,6 @@ import {
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
 import { SkyMediaQueryService } from '../media-query/media-query.service';
 
-import { SkyResizeObserverMediaQueryServiceInterface } from './resize-observer-media-query-service-interface';
 import { SkyResizeObserverService } from './resize-observer.service';
 
 /**
@@ -29,12 +26,12 @@ import { SkyResizeObserverService } from './resize-observer.service';
 @Injectable()
 export class SkyResizeObserverMediaQueryService
   extends SkyMediaQueryService
-  implements OnDestroy, SkyResizeObserverMediaQueryServiceInterface
+  implements OnDestroy
 {
   /**
    * Emits when the breakpoint changes.
    */
-  public override get breakpointChange(): Observable<SkyMediaBreakpointType> {
+  public override get breakpointChange(): Observable<SkyBreakpointType> {
     return this.#breakpointChangeObs;
   }
 
@@ -46,7 +43,7 @@ export class SkyResizeObserverMediaQueryService
     return this.#currentBreakpoint;
   }
 
-  #breakpointChange = new ReplaySubject<SkyMediaBreakpointType>(1);
+  #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
   #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #breakpoints: {
@@ -166,7 +163,7 @@ export class SkyResizeObserverMediaQueryService
     if (this.current !== breakpoint) {
       this.#currentBreakpointObs.next(breakpoint);
 
-      const breakpointType = toSkyMediaBreakpointType(breakpoint);
+      const breakpointType = toSkyBreakpointType(breakpoint);
       this.#breakpointChange.next(breakpointType);
     }
 
