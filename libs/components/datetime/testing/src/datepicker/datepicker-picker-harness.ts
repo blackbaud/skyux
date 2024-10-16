@@ -1,4 +1,4 @@
-import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDatepickerPickerHarnessFilters } from './datepicker-picker-harness.filters';
@@ -18,6 +18,7 @@ export class SkyDatepickerPickerHarness extends SkyComponentHarness {
   #getDaypicker = this.locatorForOptional('sky-daypicker');
   #getMonthpicker = this.locatorForOptional('sky-monthpicker');
   #getSelected = this.locatorFor('.sky-datepicker-btn-selected > span');
+  #getTitle = this.locatorFor('.sky-datepicker-calendar-title > strong');
 
   public static with(
     filters: SkyDatepickerPickerHarnessFilters,
@@ -65,6 +66,34 @@ export class SkyDatepickerPickerHarness extends SkyComponentHarness {
   public async clickTitleButton(): Promise<void> {
     const button = await this.#getTitleButton();
 
-    if(button.getAttribu)
+    if (await button.hasClass('.sky-btn-disabled')) {
+      throw new Error('Title button is disabled.');
+    }
+
+    return button.click();
+  }
+
+  /**
+   * Gets the current title.
+   */
+  public async getCalendarTitle(): Promise<string> {
+    return (await (await this.#getTitle()).text()).trim();
+  }
+
+  /**
+   * Clicks the specified date, month or year.
+   * @params the specified value to click, in the following format
+   * day format: dddd, MMMM Do YYYY
+   * month format: MMMM YYYY
+   * year format: YYYY
+   */
+  public async clickDate(date: string): Promise<void> {
+    try {
+      return (await this.locatorFor(`[aria-label]=${date}`)()).click();
+    } catch {
+      throw new Error(
+        `Unable to find date with label "${date}". Check that the format is correct and matches the current calendar mode.`,
+      );
+    }
   }
 }
