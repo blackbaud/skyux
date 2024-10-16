@@ -1,6 +1,6 @@
 /**
  * Represents all available media breakpoints.
- * @deprecated Use `SkyMediaBreakpointType` instead.
+ * @deprecated Use `SkyBreakpointType` instead.
  */
 export enum SkyMediaBreakpoints {
   /**

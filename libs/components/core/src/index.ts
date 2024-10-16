@@ -60,23 +60,19 @@ export { SkyLogService } from './lib/modules/log/log.service';
 export { SkyLogLevel } from './lib/modules/log/types/log-level';
 export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
-export {
-  SKY_MEDIA_BREAKPOINT_TYPES,
-  SkyMediaBreakpointType,
-  isSkyMediaBreakpointType,
-  toSkyMediaBreakpointType,
-  toSkyMediaBreakpoints,
-} from './lib/modules/media-query/media-breakpoint-type';
+export { SkyBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer';
+export { SKY_BREAKPOINT_OBSERVER } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer.token';
+export { SkyBreakpointType } from './lib/modules/media-query/breakpoint-observers/breakpoint-type';
+export { SkyContainerBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/container-breakpoint-observer';
+export { SkyMediaBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/media-breakpoint-observer';
+export { provideSkyBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/provide-breakpoint-observer';
 export {
   SKY_MEDIA_BREAKPOINT_DEFAULT,
   SkyMediaBreakpoints,
 } from './lib/modules/media-query/media-breakpoints';
 export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
-export { SkyMediaQueryServiceInterface } from './lib/modules/media-query/media-query-service-interface';
-export { SKY_MEDIA_QUERY_SERVICE_OVERRIDE } from './lib/modules/media-query/media-query-service-override.token';
 export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
 export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';
-export { provideSkyMediaQueryServiceOverride } from './lib/modules/media-query/provide-media-query-service-override';
 
 export { SkyMutationObserverService } from './lib/modules/mutation/mutation-observer-service';
 
@@ -101,7 +97,6 @@ export {
 export { SkyPercentPipeModule } from './lib/modules/percent-pipe/percent-pipe.module';
 export { SkyPercentPipe } from './lib/modules/percent-pipe/percent.pipe';
 
-export { SkyResizeObserverMediaQueryServiceInterface } from './lib/modules/resize-observer/resize-observer-media-query-service-interface';
 export { SkyResizeObserverMediaQueryService } from './lib/modules/resize-observer/resize-observer-media-query.service';
 export { SkyResizeObserverService } from './lib/modules/resize-observer/resize-observer.service';
 
