@@ -1,5 +1,20 @@
 # Changelog
 
+## [11.12.0](https://github.com/blackbaud/skyux/compare/11.11.2...11.12.0) (2024-10-16)
+
+
+### Features
+
+* **components/forms:** tokenize input box styling ([#2811](https://github.com/blackbaud/skyux/issues/2811)) ([30e0304](https://github.com/blackbaud/skyux/commit/30e030436aa23163423ad9e1497aaabd1166e9da))
+* **components/lookup:** add test harnesses to country field ([#2822](https://github.com/blackbaud/skyux/issues/2822)) ([a5df333](https://github.com/blackbaud/skyux/commit/a5df333ef50fd586ba49e9e71eaab33ebb523e70))
+* **components/theme:** tokenize button styling ([#2803](https://github.com/blackbaud/skyux/issues/2803)) ([f319508](https://github.com/blackbaud/skyux/commit/f319508ff587567dc43725227e8301e4e0973bdf))
+
+
+### Bug Fixes
+
+* **components/packages:** accommodate vscode settings with json comments ([#2833](https://github.com/blackbaud/skyux/issues/2833)) ([be34b8d](https://github.com/blackbaud/skyux/commit/be34b8de9740ccb38825d40d3438e0cde8b85b94))
+* **components/pages:** constrain page sizing ([#2832](https://github.com/blackbaud/skyux/issues/2832)) ([e89fb87](https://github.com/blackbaud/skyux/commit/e89fb870687e56cc519b963e8c4f2a6af293be05))
+
 ## [11.11.2](https://github.com/blackbaud/skyux/compare/11.11.1...11.11.2) (2024-10-15)
 
 
