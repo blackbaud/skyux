@@ -14,7 +14,7 @@ import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
-import { getStorybookProjects } from '../../utils';
+import { getStorybookProjects } from '../../utils/get-projects';
 
 import { Schema } from './schema';
 

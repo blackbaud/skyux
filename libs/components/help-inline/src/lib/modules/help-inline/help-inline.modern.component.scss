@@ -39,11 +39,11 @@
   display: none;
 }
 
-@include mixins.sky-component('modern', '.sky-help-inline-popover-text') {
-  overflow-wrap: break-word;
-  margin: 0;
-}
-
 @include mixins.sky-component('modern', 'sky-icon-stack') {
   display: inline-flex;
+}
+
+::ng-deep .sky-theme-modern .sky-help-inline-popover-text {
+  overflow-wrap: break-word;
+  margin: 0;
 }

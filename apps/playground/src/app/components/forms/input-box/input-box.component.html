@@ -373,6 +373,28 @@ Value</textarea
     </sky-input-box>
   </div>
 
+  <div id="input-box-disabled-form-control-error">
+    <sky-input-box
+      stacked="true"
+      labelText="Disabled input with form control error"
+    >
+      <input type="text" [formControl]="errorDisabledField" />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-disabled-ng-model-error">
+    <sky-input-box stacked="true" labelText="Disabled input with NgModel error">
+      <input
+        #errorNgModelDisabled="ngModel"
+        type="text"
+        required
+        disabled
+        type="text"
+        [(ngModel)]="errorNgModelValue"
+      />
+    </sky-input-box>
+  </div>
+
   <div id="input-box-select">
     <sky-input-box stacked="true">
       <label class="sky-control-label" [for]="inputBoxSelect.id">
@@ -623,7 +645,7 @@ No label</textarea
     </sky-input-box>
   </div>
 
-  <form action="about:blank" autocomplete="on" [formGroup]="errorAutofillForm">
+  <form [formGroup]="errorAutofillForm">
     <div id="input-box-basic-autofill">
       <sky-input-box stacked="true">
         <label class="sky-control-label" [for]="inputBoxBasic.id"

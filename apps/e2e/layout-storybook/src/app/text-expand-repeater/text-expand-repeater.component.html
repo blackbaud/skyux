@@ -1,18 +1,15 @@
-<sky-text-expand-repeater [data]="repeaterData" [maxItems]="2">
-</sky-text-expand-repeater>
+<sky-text-expand-repeater [data]="repeaterData" [maxItems]="2" />
 <sky-text-expand-repeater
-  [data]="repeaterData"
-  [maxItems]="2"
   listStyle="ordered"
-  [itemTemplate]="template"
->
-</sky-text-expand-repeater>
-<sky-text-expand-repeater
   [data]="repeaterData"
   [maxItems]="2"
+  [itemTemplate]="template"
+/>
+<sky-text-expand-repeater
   listStyle="unstyled"
->
-</sky-text-expand-repeater>
+  [data]="repeaterData"
+  [maxItems]="2"
+/>
 <ng-template #template let-item>
   Custom template for displaying item text: {{ item }}
 </ng-template>
