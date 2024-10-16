@@ -356,6 +356,7 @@ jobs:
         shell: bash
         run: |
           set +e
+          set +o pipefail
 
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
