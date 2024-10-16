@@ -136,16 +136,8 @@
 
         &:has(sky-page-header-avatar:not(:empty)) {
           grid-template-columns:
-            calc(
-              #{variables.$sky-avatar-height} + var(--sky-margin-inline-xl) + var(
-                  --sky-margin-inline-lg
-                ) + var(--sky-margin-inline-xs)
-            )
-            calc(
-              75% - #{variables.$sky-avatar-height} - var(
-                  --sky-margin-inline-xl
-                ) - var(--sky-margin-inline-lg) - var(--sky-margin-inline-xs)
-            )
+            120px
+            calc(75% - 120px)
             25%;
 
           h1.sky-page-header-text {
