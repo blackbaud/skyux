@@ -6,6 +6,11 @@
   --sky-override-form-control-color: var(--sky-text-color-default);
 }
 
+@include compatMixins.sky-default-overrides('.sky-control-label-required') {
+  --sky-override-required-color: var(--sky-highlight-color-danger);
+  --sky-override-required-space: var(--sky-padding-half);
+}
+
 .sky-form-control {
   width: 100%;
   padding: 6px 12px;
@@ -63,7 +68,14 @@ textarea.ng-invalid.ng-touched {
 }
 
 .sky-control-label-required:after {
-  @include mixins.sky-required-field;
+  /* TODO: remove this fallback `content` line, once support for content alt text is added to firefox & safari */
+  content: '*';
+  content: '*' / '';
+  color: var(--sky-override-required-color, var(--sky-color-text-danger));
+  padding-left: var(
+    --sky-override-required-space,
+    var(--sky-space-gap-label-s)
+  );
 }
 
 @include compatMixins.sky-default-overrides(
