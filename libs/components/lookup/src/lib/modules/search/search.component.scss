@@ -157,6 +157,15 @@ sky-search {
     }
 
     .sky-search-container .sky-search-input-container {
+      .sky-input-box-group
+        .sky-input-box-group-form-control:not(
+          .sky-input-box-group-form-control-focus,
+          :hover
+        )
+        .sky-form-group {
+        box-shadow: none;
+      }
+
       &.sky-search-input-container-has-value {
         .sky-input-box-group-form-control:not(
             .sky-input-box-group-form-control-focus,
@@ -183,8 +192,6 @@ sky-search {
       }
 
       .sky-input-box-group .sky-form-group {
-        box-shadow: none;
-
         .sky-input-box-form-group-inner {
           input {
             width: auto;
