@@ -365,7 +365,7 @@ jobs:
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             echo "Percy failed with exit code $RESULT"
-            RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds|Module loop: this module is already being loaded.)' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds|Module loop: this module is already being loaded|Failed to connect to the bus: Could not parse server address: Unknown address type)' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
             if [ $RETRY -gt 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
