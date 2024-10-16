@@ -21,8 +21,6 @@ import { SkyCountryFieldModule } from '@skyux/lookup';
   ],
 })
 export class CountryFieldHarnessTestComponent {
-  public autocompleteAttribute: string | undefined;
-  public hideSelectedCountryFlag: boolean | undefined;
   public myForm: UntypedFormGroup;
 
   #formBuilder = inject(UntypedFormBuilder);

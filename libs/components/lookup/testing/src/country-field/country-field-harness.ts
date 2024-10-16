@@ -18,7 +18,8 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
    * element is removed from the DOM.
    * @internal
    */
-  public static override hostSelector = 'sky-country-field,.sky-input-box';
+  public static override hostSelector =
+    'sky-country-field,.sky-country-field-container';
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
@@ -27,6 +28,10 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyCountryFieldHarness` that meets certain criteria.
+   * These filters only work for standalone country fields.
+   * For country fields wrapped inside a `sky-input-box` place filters
+   * on the input box and query the country field using a `SkyInputBoxHarness`.
+   * See the code example for the input box implementation.
    */
   public static override with(
     filters: SkyCountryFieldHarnessFilters,
@@ -64,7 +69,8 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
 
   /**
    * Gets the country field  `aria-labelledby` value.
-   * This is not needed for country field because the id is generated internally.
+   * This is not needed for country field because the id is generated internally,
+   * and the method is marked internal to prevent it from being documented publicly.
    * @internal
    */
   /* istanbul ignore next */
@@ -124,7 +130,8 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
 
   /**
    * Gets the text displayed when no search results are found.
-   * This is always the default for country field.
+   * For a country field, this is always the default text and the method
+   * is marked internal to prevent it from being documented publicly.
    * @internal
    */
   /* istanbul ignore next */

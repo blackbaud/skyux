@@ -25,7 +25,8 @@ export class SkyCountryFieldSearchResultHarness extends SkyAutocompleteSearchRes
 
   /**
    * Returns the value of the search result's descriptor property.
-   * This is not needed by country field because it is always set to the country name.
+   * This is not needed by country field because it is always set to the country name,
+   * and the method is marked internal to prevent it from being documented publicly.
    * @internal
    */
   public override async getDescriptorValue(): Promise<string> {
