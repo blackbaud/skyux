@@ -189,6 +189,21 @@ describe('vscode-eslint-setting.schematic', () => {
     });
   });
 
+  it(`should run successfully with comments`, async () => {
+    const { runner, tree } = setupTest(
+      '.eslintrc.js',
+      `
+      // Comment.
+      {}
+      `,
+    );
+
+    await runner.runSchematic('vscode-eslint-setting', undefined, tree);
+    expect(tree.readJson('.vscode/settings.json')).toEqual({
+      'eslint.useFlatConfig': false,
+    });
+  });
+
   const possibleFlatConfigFiles = [
     'eslint.config.js',
     'eslint.config.mjs',

@@ -59,6 +59,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
+        if: ${{ env.NX_CLOUD_ACCESS_TOKEN }}
         env:
           NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
 
@@ -77,6 +78,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - run: npx nx-cloud start-ci-run --agent-count=3 --distribute-on="manual"
+        if: ${{ env.NX_CLOUD_ACCESS_TOKEN }}
         env:
           NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
       - name: Retrieve node_modules cache
@@ -99,7 +101,7 @@ jobs:
         env:
           NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
       - name: Stop
-        if: ${{ always() }}
+        if: ${{ always() && env.NX_CLOUD_ACCESS_TOKEN }}
         run: npx nx-cloud stop-all-agents
         env:
           NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
@@ -224,19 +226,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     needs: build-coverage-lint
-    env:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-      - name: Retrieve node_modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ needs.install-deps.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
       - name: Stop Nx Cloud agents
-        run: npx nx-cloud stop-all-agents
-        env:
-          NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
+        run: echo "🛑 ☁️ 🕵️"
