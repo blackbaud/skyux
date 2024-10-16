@@ -1,24 +1,26 @@
-import {
-  ElementRef,
-  Injectable,
-  RendererFactory2,
-  inject,
-} from '@angular/core';
+import { Directive, ElementRef, RendererFactory2, inject } from '@angular/core';
 
 import {
   SKY_BREAKPOINT_TYPES,
   SkyBreakpointType,
-} from './breakpoint-observers/breakpoint-type';
-import { SkyMediaQueryService } from './media-query.service';
+} from '../media-query/breakpoint-observers/breakpoint-type';
+import { provideSkyBreakpointObserver } from '../media-query/breakpoint-observers/provide-breakpoint-observer';
+import { SkyMediaQueryService } from '../media-query/media-query.service';
 
-@Injectable()
-export class SkyContainerQueryService extends SkyMediaQueryService {
+import { SkyContainerBreakpointObserver } from './container-breakpoint-observer';
+
+@Directive({
+  providers: [provideSkyBreakpointObserver(SkyContainerBreakpointObserver)],
+  selector: '[skyContainerQuery]',
+  standalone: true,
+})
+export class SkyContainerQueryDirective {
+  readonly #querySvc = inject(SkyMediaQueryService);
   readonly #elementRef = inject(ElementRef);
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   constructor() {
-    super();
-    this.breakpointChange.subscribe((breakpoint) => {
+    this.#querySvc.breakpointChange.subscribe((breakpoint) => {
       this.#removeResponsiveClasses(this.#elementRef);
       this.#addResponsiveClass(this.#elementRef, breakpoint);
     });

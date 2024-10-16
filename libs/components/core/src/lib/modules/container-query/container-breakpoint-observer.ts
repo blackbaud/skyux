@@ -3,8 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
-import { SkyBreakpointObserver } from './breakpoint-observer';
-import { SkyBreakpointType } from './breakpoint-type';
+import { SkyBreakpointObserver } from '../media-query/breakpoint-observers/breakpoint-observer';
+import { SkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-type';
 
 // import { SkyContainerBreakpointObserverAdapterService } from './container-breakpoint-observer-adapter.service';
 

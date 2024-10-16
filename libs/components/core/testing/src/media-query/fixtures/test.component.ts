@@ -2,12 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  SkyContainerBreakpointObserver,
-  SkyContainerQueryService,
-  SkyMediaQueryService,
-  provideSkyBreakpointObserver,
-} from '@skyux/core';
+import { SkyContainerQueryDirective, SkyMediaQueryService } from '@skyux/core';
 
 /**
  * This component simulates a SKY UX component that has provided the media
@@ -17,15 +12,15 @@ import {
   host: {
     '[class]': '"breakpoint-" + breakpointChange()',
   },
+  hostDirectives: [SkyContainerQueryDirective],
   imports: [CommonModule],
   selector: 'sky-foo-wrapper',
   standalone: true,
   template: ` <ng-content /> `,
-  providers: [provideSkyBreakpointObserver(SkyContainerBreakpointObserver)],
+  providers: [],
 })
-// Use lambda to simulate a component not included in the public API.
 export class λWrapperTestComponent {
-  #querySvc = inject(SkyContainerQueryService);
+  readonly #querySvc = inject(SkyMediaQueryService);
 
   protected breakpointChange = toSignal(this.#querySvc.breakpointChange);
 }
