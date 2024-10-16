@@ -47,6 +47,9 @@ describe('Page header component', () => {
     fixture.componentInstance.width = 900;
     fixture.detectChanges();
 
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
+    fixture.detectChanges();
+
     const largeAvatar = fixture.nativeElement.querySelector(
       '.sky-avatar-wrapper-size-large',
     );

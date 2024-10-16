@@ -45,6 +45,7 @@ describe('Page summary component', () => {
 
   it('should have appropriate class when key info is present', fakeAsync(() => {
     const fixture = TestBed.createComponent(SkyPageSummaryTestComponent);
+    mediaQueryController.setBreakpoint('md');
 
     fixture.detectChanges();
     tick();
