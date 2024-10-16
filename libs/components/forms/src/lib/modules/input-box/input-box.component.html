@@ -190,7 +190,11 @@
 <ng-template #hintTextTemplate>
   @if (hintText || hostHintText) {
     <div
-      class="sky-font-deemphasized sky-input-box-hint-text"
+      class="sky-input-box-hint-text"
+      [skyThemeClass]="{
+        'sky-font-deemphasized': 'default',
+        'sky-font-hint-text-s': 'modern'
+      }"
       [ngClass]="{
         'sky-input-box-hint-text-hidden': hintTextHidden,
         'sky-screen-reader-only': hintTextScreenReaderOnly

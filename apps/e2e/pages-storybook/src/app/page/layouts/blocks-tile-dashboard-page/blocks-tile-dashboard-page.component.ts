@@ -40,11 +40,15 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
         </sky-label>
       </sky-page-header-details>
       <sky-page-header-actions>
-        <button class="sky-btn sky-btn-default">Action one</button>
-        <button class="sky-btn sky-btn-default">Action two</button>
+        <button class="sky-btn sky-btn-default" type="button">
+          Action one
+        </button>
+        <button class="sky-btn sky-btn-default" type="button">
+          Action two
+        </button>
       </sky-page-header-actions>
       <sky-page-header-avatar>
-        <sky-avatar name="Test name"> </sky-avatar>
+        <sky-avatar name="Test name" />
       </sky-page-header-avatar>
     </sky-page-header>
     <sky-page-content>

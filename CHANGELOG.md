@@ -1,5 +1,35 @@
 # Changelog
 
+## [11.12.0](https://github.com/blackbaud/skyux/compare/11.11.2...11.12.0) (2024-10-16)
+
+
+### Features
+
+* **components/forms:** tokenize input box styling ([#2811](https://github.com/blackbaud/skyux/issues/2811)) ([30e0304](https://github.com/blackbaud/skyux/commit/30e030436aa23163423ad9e1497aaabd1166e9da))
+* **components/lookup:** add test harnesses to country field ([#2822](https://github.com/blackbaud/skyux/issues/2822)) ([a5df333](https://github.com/blackbaud/skyux/commit/a5df333ef50fd586ba49e9e71eaab33ebb523e70))
+* **components/theme:** tokenize button styling ([#2803](https://github.com/blackbaud/skyux/issues/2803)) ([f319508](https://github.com/blackbaud/skyux/commit/f319508ff587567dc43725227e8301e4e0973bdf))
+
+
+### Bug Fixes
+
+* **components/packages:** accommodate vscode settings with json comments ([#2833](https://github.com/blackbaud/skyux/issues/2833)) ([be34b8d](https://github.com/blackbaud/skyux/commit/be34b8de9740ccb38825d40d3438e0cde8b85b94))
+* **components/pages:** constrain page sizing ([#2832](https://github.com/blackbaud/skyux/issues/2832)) ([e89fb87](https://github.com/blackbaud/skyux/commit/e89fb870687e56cc519b963e8c4f2a6af293be05))
+
+## [11.11.2](https://github.com/blackbaud/skyux/compare/11.11.1...11.11.2) (2024-10-15)
+
+
+### Bug Fixes
+
+* **components/tabs:** push permalink query params via router ([#2828](https://github.com/blackbaud/skyux/issues/2828)) ([c2d24a1](https://github.com/blackbaud/skyux/commit/c2d24a115d6e9522ff60312d5975bd7cd1e7e5d7))
+
+## [11.11.1](https://github.com/blackbaud/skyux/compare/11.11.0...11.11.1) (2024-10-15)
+
+
+### Bug Fixes
+
+* **components/theme:** address warning in styles ([#2826](https://github.com/blackbaud/skyux/issues/2826)) ([594a8ab](https://github.com/blackbaud/skyux/commit/594a8ab2d380c26d89f225624446fe8f2757c047))
+* run schematic to set VSCode plugin setting to not expect flat configs for ESLint 9 which was included in `11.x.x` ([#2825](https://github.com/blackbaud/skyux/issues/2825)) ([96330a0](https://github.com/blackbaud/skyux/commit/96330a08003afa9f4d6afb8e308421f782cea7fd))
+
 ## [11.11.0](https://github.com/blackbaud/skyux/compare/11.10.0...11.11.0) (2024-10-11)
 
 

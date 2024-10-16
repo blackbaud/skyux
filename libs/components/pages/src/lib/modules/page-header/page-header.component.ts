@@ -17,11 +17,11 @@ export class SkyPageHeaderComponent {
    * A link to the parent page of the current page.
    */
   @Input()
-  public parentLink?: SkyPageLink;
+  public parentLink: SkyPageLink | undefined;
 
   /**
    * The title of the current page.
    */
   @Input()
-  public pageTitle!: string;
+  public pageTitle: string | undefined;
 }

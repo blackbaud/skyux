@@ -1,4 +1,13 @@
 {
-  "import": "node_modules/@skyux/dev-infra-private/.cspell-shared.json",
-  "words": ["novalidate", "tabindex", "interactable", "fetchpriority", "xlink"]
+  "import": "@skyux/dev-infra-private/.cspell-shared.json",
+  "words": [
+    "cyclomatic",
+    "fetchpriority",
+    "interactable",
+    "ngsrc",
+    "novalidate",
+    "pillarbox",
+    "tabindex",
+    "xlink"
+  ]
 }

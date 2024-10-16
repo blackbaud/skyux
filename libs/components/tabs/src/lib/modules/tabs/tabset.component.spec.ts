@@ -1783,6 +1783,8 @@ describe('Tabset component', () => {
 
       expect(replaceStateSpy).toHaveBeenCalledOnceWith(
         '/?foobar-active-tab=design-guidelines',
+        '',
+        jasmine.any(Object),
       );
 
       expect(goSpy).not.toHaveBeenCalled();
@@ -1808,6 +1810,8 @@ describe('Tabset component', () => {
 
       expect(replaceStateSpy).toHaveBeenCalledOnceWith(
         '/?foobar-active-tab=api',
+        '',
+        jasmine.any(Object),
       );
 
       expect(goSpy).not.toHaveBeenCalled();

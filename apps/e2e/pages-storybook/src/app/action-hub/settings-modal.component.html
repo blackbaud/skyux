@@ -11,18 +11,18 @@
               }}</label>
               <sky-colorpicker #colorPicker>
                 <input
+                  #input="skyId"
+                  skyId
+                  type="text"
                   [formControlName]="field"
                   [skyColorpickerInput]="colorPicker"
-                  skyId
-                  #input="skyId"
-                  type="text"
                 />
               </sky-colorpicker>
             </div>
           }
           @default {
             <sky-input-box [labelText]="field">
-              <input [formControlName]="field" type="text" />
+              <input type="text" [formControlName]="field" />
             </sky-input-box>
           }
         }

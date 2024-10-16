@@ -61,13 +61,13 @@ export class FilterComponent implements AfterViewInit, OnDestroy {
 
   public readonly ready = new BehaviorSubject<boolean>(false);
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     setTimeout(() => {
       this.ready.next(true);
     }, 300);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.ready.complete();
   }
 }

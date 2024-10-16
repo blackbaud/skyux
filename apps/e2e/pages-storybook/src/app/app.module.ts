@@ -34,7 +34,7 @@ if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
       bindToComponentInputs: true,
     }),
   ],
-  providers: [provideInitialTheme('modern')],
+  providers: [provideInitialTheme('default')],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
