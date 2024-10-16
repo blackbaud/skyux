@@ -21,7 +21,11 @@ import { SkyInputBoxHarness } from '@skyux/forms/testing';
     <form [formGroup]="myForm">
       <sky-input-box data-sky-id="input-wrapped">
         <sky-datepicker>
-          <input formControlName="inputWrapped" type="text" />
+          <input
+            skyDatepickerInput
+            formControlName="inputWrapped"
+            type="text"
+          />
         </sky-datepicker>
       </sky-input-box>
       <sky-datepicker data-sky-id="standalone">
@@ -35,14 +39,14 @@ class TestComponent {
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
-      inputWrapped: new FormControl('input wrapped'),
-      standalone: new FormControl('standalone'),
+      inputWrapped: new FormControl('12/1/2000'),
+      standalone: new FormControl('1/2/1234'),
     });
   }
 }
 //#endregion Test component
 
-fdescribe('Datepicker harness', () => {
+describe('Datepicker harness', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     datepickerHarness: SkyDatepickerHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -75,22 +79,179 @@ fdescribe('Datepicker harness', () => {
   }
 
   it('should get datepicker inside input box', async () => {
-    const { fixture } = await setupTest({
+    const { datepickerHarness } = await setupTest({
       dataSkyId: 'input-wrapped',
     });
 
-    expect(
-      fixture.componentInstance.myForm.controls['inputWrapped'].value,
-    ).toBe('input wrapped');
+    await datepickerHarness.clickCalendarButton();
+    const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+
+    await expectAsync(calendarHarness.getSelectedValue()).toBeResolvedTo(
+      'Friday, December 1st 2000',
+    );
   });
 
   it('should get standalone datepicker', async () => {
-    const { fixture } = await setupTest({
+    const { datepickerHarness } = await setupTest({
       dataSkyId: 'standalone',
     });
 
-    expect(
-      fixture.componentInstance.myForm.controls['inputWrapped'].value,
-    ).toBe('input wrapped');
+    await datepickerHarness.clickCalendarButton();
+    const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+
+    await expectAsync(calendarHarness.getSelectedValue()).toBeResolvedTo(
+      'Wednesday, October 16th 2024',
+    );
+  });
+
+  it('should click the picker button and get whether datepicker is open', async () => {
+    const { datepickerHarness } = await setupTest({
+      dataSkyId: 'input-wrapped',
+    });
+
+    await expectAsync(datepickerHarness.isDatepickerOpen()).toBeResolvedTo(
+      false,
+    );
+
+    await datepickerHarness.clickCalendarButton();
+    await expectAsync(datepickerHarness.isDatepickerOpen()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should throw an error trying to get calendar picker if picker is closed', async () => {
+    const { datepickerHarness } = await setupTest({
+      dataSkyId: 'input-wrapped',
+    });
+
+    await expectAsync(
+      datepickerHarness.getDatepickerCalendar(),
+    ).toBeRejectedWithError(
+      'Unable to get calendar picker because picker is closed.',
+    );
+  });
+
+  describe('Datepicker calendar picker', () => {
+    it('should get calendar title', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+
+      await expectAsync(calendarHarness.getCalendarTitle()).toBeResolvedTo(
+        'December 2000',
+      );
+    });
+
+    it('should click previous button', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+      await calendarHarness.clickPreviousButton();
+
+      await expectAsync(calendarHarness.getCalendarTitle()).toBeResolvedTo(
+        'November 2000',
+      );
+    });
+
+    it('should click next button', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+      await calendarHarness.clickNextButton();
+
+      await expectAsync(calendarHarness.getCalendarTitle()).toBeResolvedTo(
+        'January 2001',
+      );
+    });
+
+    it('should click title button', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+      await calendarHarness.clickTitleButton();
+
+      await expectAsync(calendarHarness.getCalendarTitle()).toBeResolvedTo(
+        '2000',
+      );
+    });
+
+    it('should throw an error if title button is clicked when disabled', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+      await calendarHarness.clickTitleButton();
+      await calendarHarness.clickTitleButton();
+
+      await expectAsync(
+        calendarHarness.clickTitleButton(),
+      ).toBeRejectedWithError('Title button is disabled.');
+    });
+
+    it('should get calendar picker mode', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+
+      await expectAsync(calendarHarness.getCalendarMode()).toBeResolvedTo(
+        'day',
+      );
+
+      await calendarHarness.clickTitleButton();
+      await expectAsync(calendarHarness.getCalendarMode()).toBeResolvedTo(
+        'month',
+      );
+
+      await calendarHarness.clickTitleButton();
+      await expectAsync(calendarHarness.getCalendarMode()).toBeResolvedTo(
+        'year',
+      );
+    });
+
+    it('should click a date based on input', async () => {
+      const { datepickerHarness, fixture } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+
+      await calendarHarness.clickDate('Saturday, December 2nd 2000');
+      expect(
+        fixture.componentInstance.myForm.controls['inputWrapped'].value,
+      ).toEqual(new Date('12/02/2000'));
+    });
+
+    it('should throw an error if date input is incorrect', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+
+      await expectAsync(
+        calendarHarness.clickDate('December'),
+      ).toBeRejectedWithError(
+        'Unable to find date with label "December". Check that the format is correct and matches the current calendar mode.',
+      );
+    });
   });
 });
