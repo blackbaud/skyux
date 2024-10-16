@@ -29,9 +29,9 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyCountryFieldHarness` that meets certain criteria.
    * These filters only work for standalone country fields.
-   * For country fields wrapped inside a `sky-input-box` place filters
-   * on the input box and query the country field using a `SkyInputBoxHarness`.
-   * See the code example for the input box implementation.
+   * For country fields wrapped inside `sky-input-box`, place filters
+   * on the input box instead, and query the country field using a `SkyInputBoxHarness`.
+   * For the input box implementation, see the code example.
    */
   public static override with(
     filters: SkyCountryFieldHarnessFilters,
