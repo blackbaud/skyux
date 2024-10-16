@@ -137,7 +137,7 @@
         &:has(sky-page-header-avatar:not(:empty)) {
           grid-template-columns:
             150px
-            calc(75% - 120px)
+            calc(75% - 150px)
             25%;
 
           h1.sky-page-header-text {
