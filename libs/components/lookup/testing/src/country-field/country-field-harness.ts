@@ -118,7 +118,14 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
   public override async getSearchResultsText(
     filters?: SkyCountryFieldSearchResultHarnessFilters,
   ): Promise<string[]> {
-    return await super.getSearchResultsText(filters);
+    const harnesses = await this.getSearchResults(filters);
+
+    const text: string[] = [];
+    for (const harness of harnesses) {
+      text.push(await harness.getText());
+    }
+
+    return text;
   }
 
   /**
