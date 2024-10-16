@@ -135,9 +135,6 @@ describe('media-query-testing.controller', () => {
     const { fixture, mediaQueryController } = setupTest();
 
     const wrapper = fixture.debugElement.query(By.css('sky-foo-wrapper'));
-    // const wrapperDiv = wrapper.nativeElement.querySelector(
-    //   '[data-sky-id="my-resize-wrapper"]',
-    // );
     const child = fixture.debugElement.query(By.css('sky-foo-child'));
 
     mediaQueryController.setBreakpoint('xs');
@@ -146,7 +143,6 @@ describe('media-query-testing.controller', () => {
     expectBreakpointCSSClass(fixture.nativeElement, 'xs');
     expectBreakpointCSSClass(wrapper.nativeElement, 'xs');
     expect(wrapper.nativeElement).toHaveClass('sky-responsive-container-xs');
-    // expect(wrapperDiv).toHaveClass('sky-responsive-container-xs');
     expectBreakpointCSSClass(child.nativeElement, 'xs');
 
     mediaQueryController.setBreakpoint('lg');
@@ -154,7 +150,6 @@ describe('media-query-testing.controller', () => {
 
     expectBreakpointCSSClass(fixture.nativeElement, 'lg');
     expectBreakpointCSSClass(wrapper.nativeElement, 'lg');
-    // expect(wrapperDiv).toHaveClass('sky-responsive-container-lg');
     expectBreakpointCSSClass(child.nativeElement, 'lg');
   });
 });

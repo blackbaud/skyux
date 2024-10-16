@@ -22,6 +22,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkySectionedFormModule],
   providers: [
+    SkyResizeObserverMediaQueryService,
     {
       provide: SkyMediaQueryService,
       useClass: SkyResizeObserverMediaQueryService,

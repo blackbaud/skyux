@@ -1,27 +1,21 @@
 import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Observable,
-  ReplaySubject,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-type';
 import { toSkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-utils';
-import {
-  SKY_MEDIA_BREAKPOINT_DEFAULT,
-  SkyMediaBreakpoints,
-} from '../media-query/media-breakpoints';
+import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
 import { SkyMediaQueryService } from '../media-query/media-query.service';
 
 import { SkyResizeObserverService } from './resize-observer.service';
 
+const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
+
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
+ * @deprecated Add `provideSkyBreakpointObserver` to your component's providers instead.
  */
 @Injectable()
 export class SkyResizeObserverMediaQueryService
@@ -68,11 +62,9 @@ export class SkyResizeObserverMediaQueryService
     },
   ];
 
-  #currentBreakpoint: SkyMediaBreakpoints = SKY_MEDIA_BREAKPOINT_DEFAULT;
+  #currentBreakpoint: SkyMediaBreakpoints = DEFAULT_BREAKPOINT;
 
-  #currentBreakpointObs = new BehaviorSubject<SkyMediaBreakpoints>(
-    SKY_MEDIA_BREAKPOINT_DEFAULT,
-  );
+  #currentBreakpointObs = new ReplaySubject<SkyMediaBreakpoints>(1);
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -96,9 +88,8 @@ export class SkyResizeObserverMediaQueryService
   }
 
   /**
-   * Sets the container element to watch. The `SkyResizeObserverMediaQueryService`
-   * will only observe one element at a time. Any previous subscriptions will be
-   * unsubscribed when a new element is observed.
+   * Sets the container element to watch. The `SkyResizeObserverMediaQueryService` will only observe one element at a
+   * time. Any previous subscriptions will be unsubscribed when a new element is observed.
    */
   public observe(
     element: ElementRef,
@@ -140,9 +131,7 @@ export class SkyResizeObserverMediaQueryService
   }
 
   /**
-   * Subscribes to screen size changes.
-   * @param listener Specifies a function that is called when breakpoints change.
-   * @deprecated Subscribe to the `breakpointChange` observable instead.
+   * Subscribes to element size changes that cross breakpoints.
    */
   public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs
@@ -162,11 +151,9 @@ export class SkyResizeObserverMediaQueryService
 
     if (this.current !== breakpoint) {
       this.#currentBreakpointObs.next(breakpoint);
-
       const breakpointType = toSkyBreakpointType(breakpoint);
       this.#breakpointChange.next(breakpointType);
     }
-
     this.#currentBreakpoint = breakpoint;
   }
 

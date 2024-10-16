@@ -26,7 +26,7 @@ import {
 import { RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
-  SkyContainerQueryModule,
+  SkyContainerQueryDirective,
   SkyDynamicComponentService,
   SkyUIConfigService,
 } from '@skyux/core';
@@ -82,7 +82,7 @@ let nextId = 0;
     A11yModule,
     CommonModule,
     RouterModule,
-    SkyContainerQueryModule,
+    SkyContainerQueryDirective,
     SkyHrefModule,
     SkyIconModule,
     SkyFlyoutIteratorComponent,
@@ -130,15 +130,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
    */
   public widthStep = 10;
 
-  /**
-   * @internal
-   */
-  @ViewChild('flyoutRef', {
-    read: ElementRef,
-    static: true,
-  })
-  public flyoutRef: ElementRef | undefined;
-
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
@@ -163,7 +154,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #environmentInjector = inject(EnvironmentInjector);
-
   readonly #ngZone = inject(NgZone);
   readonly #resourcesService = inject(SkyLibResourcesService);
   readonly #uiConfigService = inject(SkyUIConfigService);

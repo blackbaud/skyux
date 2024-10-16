@@ -62,17 +62,13 @@ export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
 export { SkyContainerBreakpointObserver } from './lib/modules/container-query/container-breakpoint-observer';
 export { SkyContainerQueryDirective } from './lib/modules/container-query/container-query.directive';
-export { SkyContainerQueryModule } from './lib/modules/container-query/container-query.module';
 
 export { SkyBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer';
 export { SKY_BREAKPOINT_OBSERVER } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer.token';
 export { SkyBreakpointType } from './lib/modules/media-query/breakpoint-observers/breakpoint-type';
 export { SkyMediaBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/media-breakpoint-observer';
 export { provideSkyBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/provide-breakpoint-observer';
-export {
-  SKY_MEDIA_BREAKPOINT_DEFAULT,
-  SkyMediaBreakpoints,
-} from './lib/modules/media-query/media-breakpoints';
+export { SkyMediaBreakpoints } from './lib/modules/media-query/media-breakpoints';
 export { SkyMediaQueryListener } from './lib/modules/media-query/media-query-listener';
 export { SkyMediaQueryModule } from './lib/modules/media-query/media-query.module';
 export { SkyMediaQueryService } from './lib/modules/media-query/media-query.service';

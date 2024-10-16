@@ -6,11 +6,10 @@ import { Observable, Subscription } from 'rxjs';
 import { SkyBreakpointType } from './breakpoint-observers/breakpoint-type';
 import { toSkyMediaBreakpoints } from './breakpoint-observers/breakpoint-utils';
 import { SkyMediaBreakpointObserver } from './breakpoint-observers/media-breakpoint-observer';
-import {
-  SKY_MEDIA_BREAKPOINT_DEFAULT,
-  SkyMediaBreakpoints,
-} from './media-breakpoints';
+import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
+
+const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +57,7 @@ export class SkyMediaQueryService implements OnDestroy {
     return this.#currentBreakpoint;
   }
 
-  #currentBreakpoint = SKY_MEDIA_BREAKPOINT_DEFAULT;
+  #currentBreakpoint = DEFAULT_BREAKPOINT;
 
   // Keep NgZone as a constructor param so that consumer mocks don't throw typing errors.
   constructor(_zone?: NgZone) {

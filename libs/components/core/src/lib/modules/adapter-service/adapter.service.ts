@@ -39,7 +39,7 @@ export class SkyCoreAdapterService {
    * @param elementRef - The element that will receive the new CSS class.
    * @param breakpoint - The SkyMediaBreakpoint will determine which class
    * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
-   * @deprecated Use `SkyResizeObserverMediaQueryService` instead.
+   * @deprecated
    */
   public setResponsiveContainerClass(
     elementRef: ElementRef,

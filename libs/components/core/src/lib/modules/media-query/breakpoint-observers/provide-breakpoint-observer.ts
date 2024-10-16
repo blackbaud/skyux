@@ -20,6 +20,7 @@ export function provideSkyBreakpointObserver(
       provide: SkyMediaBreakpointObserver,
       useFactory() {
         return (
+          // Yield to the injection token, if it's defined.
           inject(SKY_BREAKPOINT_OBSERVER, { optional: true }) ??
           inject(observer)
         );

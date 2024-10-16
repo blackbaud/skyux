@@ -4,10 +4,6 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyContainerQueryDirective, SkyMediaQueryService } from '@skyux/core';
 
-/**
- * This component simulates a SKY UX component that has provided the media
- * query service as a class provider.
- */
 @Component({
   host: {
     '[class]': '"breakpoint-" + breakpointChange()',

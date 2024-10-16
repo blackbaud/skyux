@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyContainerQueryModule } from '@skyux/core';
+import { SkyContainerQueryDirective } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -24,7 +24,7 @@ import { SkySplitViewComponent } from './split-view.component';
   ],
   imports: [
     CommonModule,
-    SkyContainerQueryModule,
+    SkyContainerQueryDirective,
     SkyIconModule,
     SkySplitViewResourcesModule,
     SkyThemeModule,

@@ -23,10 +23,3 @@ export enum SkyMediaBreakpoints {
    */
   lg,
 }
-
-/**
- * The default media breakpoint.
- * @internal
- */
-export const SKY_MEDIA_BREAKPOINT_DEFAULT: SkyMediaBreakpoints =
-  SkyMediaBreakpoints.md;

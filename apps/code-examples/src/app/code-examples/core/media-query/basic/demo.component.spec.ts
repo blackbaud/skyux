@@ -29,13 +29,17 @@ describe('Media query demo', () => {
     mediaController.setBreakpoint('xs');
     fixture.detectChanges();
 
+    const breakpointEl = fixture.nativeElement.querySelector(
+      '[data-sky-id="breakpoint"]',
+    );
+
     await mediaController.expectBreakpoint('xs');
-    expect(fixture.nativeElement).toHaveClass('my-breakpoint-xs');
+    expect(breakpointEl.textContent).toEqual('xs');
 
     mediaController.setBreakpoint('lg');
     fixture.detectChanges();
 
     await mediaController.expectBreakpoint('lg');
-    expect(fixture.nativeElement).toHaveClass('my-breakpoint-lg');
+    expect(breakpointEl.textContent).toEqual('lg');
   });
 });
