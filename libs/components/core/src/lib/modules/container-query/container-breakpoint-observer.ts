@@ -5,14 +5,15 @@ import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyBreakpointObserver } from '../media-query/breakpoint-observers/breakpoint-observer';
 import { SkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-type';
+import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
 
 // import { SkyContainerBreakpointObserverAdapterService } from './container-breakpoint-observer-adapter.service';
 
 const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
-  ['xs', (x) => x > 0 && x <= 767],
-  ['sm', (x) => x > 767 && x <= 991],
-  ['md', (x) => x > 991 && x <= 1199],
-  ['lg', (x) => x > 1199],
+  ['xs', (w) => w > 0 && w <= 767],
+  ['sm', (w) => w > 767 && w <= 991],
+  ['md', (w) => w > 991 && w <= 1199],
+  ['lg', (w) => w > 1199],
 ]);
 
 /**
@@ -21,28 +22,12 @@ const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
  */
 @Injectable()
 export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
-  // readonly #adapter = inject(SkyContainerBreakpointObserverAdapterService);
   readonly #elementRef = inject(ElementRef);
+  readonly #resizeObserver = inject(SkyResizeObserverService);
 
   public get breakpointChange(): Observable<SkyBreakpointType> {
     return this.#breakpointChangeObs;
   }
-
-  #observer = new ResizeObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.target === this.#elementRef.nativeElement) {
-        for (const [breakpoint, check] of QUERIES.entries()) {
-          if (check(entry.contentRect.width)) {
-            // const el = this.#elementRef;
-            // this.#adapter.removeResponsiveClasses(el);
-            // this.#adapter.addResponsiveClass(el, breakpoint);
-            this.#notifyBreakpointChange(breakpoint);
-            break;
-          }
-        }
-      }
-    }
-  });
 
   readonly #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
   readonly #breakpointChangeObs = this.#breakpointChange
@@ -50,7 +35,17 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
     .pipe(takeUntilDestroyed());
 
   constructor() {
-    this.#observer.observe(this.#elementRef.nativeElement);
+    this.#resizeObserver
+      .observe(this.#elementRef.nativeElement)
+      .pipe(takeUntilDestroyed())
+      .subscribe((entry) => {
+        for (const [breakpoint, check] of QUERIES.entries()) {
+          if (check(entry.contentRect.width)) {
+            this.#notifyBreakpointChange(breakpoint);
+            break;
+          }
+        }
+      });
   }
 
   public ngOnDestroy(): void {
@@ -58,7 +53,6 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
   }
 
   public destroy(): void {
-    this.#observer.unobserve(this.#elementRef.nativeElement);
     this.#breakpointChange.complete();
   }
 
