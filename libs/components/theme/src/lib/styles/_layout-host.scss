@@ -1,4 +1,5 @@
-@use 'mixins' as mixins;
+@use './mixins' as mixins;
+@use './variables' as variables;
 
 // xs breakpoint
 .sky-layout-host {
@@ -130,11 +131,20 @@
           minmax(var(--sky-margin-stacked-xl), min-content)
           minmax(var(--sky-margin-stacked-xl), min-content)
           minmax(var(--sky-margin-stacked-xl), min-content)
-          1fr;
-        grid-template-columns: 0 auto 25%;
+          auto;
+        grid-template-columns: 0 75% 25%;
 
         &:has(sky-page-header-avatar:not(:empty)) {
-          grid-template-columns: min-content auto 25%;
+          grid-template-columns:
+            calc(
+              #{variables.$sky-avatar-height} + var(--sky-margin-inline-xl) + var(--sky-margin-inline-lg)
+            )
+            calc(
+              75% - #{variables.$sky-avatar-height} - var(
+                  --sky-margin-inline-xl
+                ) - var(--sky-margin-inline-lg)
+            )
+            25%;
 
           h1.sky-page-header-text {
             margin: 0;
