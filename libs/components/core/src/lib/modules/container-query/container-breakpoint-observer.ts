@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, inject } from '@angular/core';
+import { ElementRef, Injectable, afterNextRender, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, ReplaySubject } from 'rxjs';
@@ -6,8 +6,6 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { SkyBreakpointObserver } from '../media-query/breakpoint-observers/breakpoint-observer';
 import { SkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-type';
 import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
-
-// import { SkyContainerBreakpointObserverAdapterService } from './container-breakpoint-observer-adapter.service';
 
 const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
   ['xs', (w) => w > 0 && w <= 767],
@@ -36,16 +34,15 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
 
   constructor() {
     this.#resizeObserver
-      .observe(this.#elementRef.nativeElement)
+      .observe(this.#elementRef)
       .pipe(takeUntilDestroyed())
       .subscribe((entry) => {
-        for (const [breakpoint, check] of QUERIES.entries()) {
-          if (check(entry.contentRect.width)) {
-            this.#notifyBreakpointChange(breakpoint);
-            break;
-          }
-        }
+        this.#checkBreakpoint(entry.contentRect.width);
       });
+
+    afterNextRender(() => {
+      this.#checkWidth(this.#elementRef);
+    });
   }
 
   public ngOnDestroy(): void {
@@ -54,6 +51,20 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
 
   public destroy(): void {
     this.#breakpointChange.complete();
+  }
+
+  #checkBreakpoint(width: number) {
+    for (const [breakpoint, check] of QUERIES.entries()) {
+      if (check(width)) {
+        this.#notifyBreakpointChange(breakpoint);
+        break;
+      }
+    }
+  }
+
+  #checkWidth(el: ElementRef): void {
+    const width = (el.nativeElement as HTMLElement).offsetWidth ?? 0;
+    this.#checkBreakpoint(width);
   }
 
   #notifyBreakpointChange(breakpoint: SkyBreakpointType): void {

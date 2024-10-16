@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyIdModule } from '@skyux/core';
+import { SkyContainerQueryModule, SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import {
   SkyExpansionIndicatorModule,
@@ -23,6 +23,7 @@ import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
   ],
   imports: [
     CommonModule,
+    SkyContainerQueryModule,
     SkyIconModule,
     SkyIdModule,
     SkyExpansionIndicatorModule,

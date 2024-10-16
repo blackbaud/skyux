@@ -10,6 +10,9 @@ import { SkyMediaQueryService } from '../media-query/media-query.service';
 import { SkyContainerBreakpointObserver } from './container-breakpoint-observer';
 
 @Directive({
+  host: {
+    '[style.display]': '"block"',
+  },
   providers: [provideSkyBreakpointObserver(SkyContainerBreakpointObserver)],
   selector: '[skyContainerQuery]',
   standalone: true,

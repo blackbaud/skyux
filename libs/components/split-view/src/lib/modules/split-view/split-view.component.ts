@@ -15,7 +15,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
+import { SkyContainerQueryDirective, SkyCoreAdapterService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -32,10 +32,15 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
+  hostDirectives: [SkyContainerQueryDirective],
   selector: 'sky-split-view',
   templateUrl: './split-view.component.html',
   styleUrls: ['./split-view.component.scss'],
-  providers: [SkySplitViewAdapterService, SkySplitViewService],
+  providers: [
+    SkySplitViewAdapterService,
+    SkySplitViewService,
+    // provideSkyBreakpointObserver(SkyContainerBreakpointObserver),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('blockAnimationOnLoad', [transition(':enter', [])]),

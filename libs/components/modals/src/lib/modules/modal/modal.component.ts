@@ -15,12 +15,12 @@ import {
 } from '@angular/core';
 import {
   SkyAppWindowRef,
+  SkyContainerQueryModule,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
   SkyIdModule,
   SkyLiveAnnouncerService,
-  SkyResizeObserverMediaQueryService,
   SkyScrollShadowDirective,
   SkyScrollShadowEventArgs,
 } from '@skyux/core';
@@ -59,6 +59,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   ],
   imports: [
     CommonModule,
+    SkyContainerQueryModule,
     SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
@@ -189,9 +190,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   readonly #errorsSvc = inject(SkyModalErrorsService);
   readonly #hostService = inject(SkyModalHostService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
-  readonly #mediaQueryService = inject(SkyResizeObserverMediaQueryService, {
-    optional: true,
-  });
   readonly #windowRef = inject(SkyAppWindowRef);
 
   /**
@@ -312,20 +310,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
       referenceEl: this.modalContentWrapperElement!.nativeElement,
       zIndex: 5,
     });
-
-    /* istanbul ignore next */
-    if (this.#mediaQueryService) {
-      this.#mediaQueryService.observe(this.modalContentWrapperElement!, {
-        updateResponsiveClasses: true,
-      });
-    }
   }
 
   public ngOnDestroy(): void {
-    /* istanbul ignore next */
-    if (this.#mediaQueryService) {
-      this.#mediaQueryService.unobserve();
-    }
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }

@@ -38,7 +38,7 @@
   </div>
 </a>
 
-<div #tabContentWrapper>
+<div #tabContentWrapper skyContainerQuery>
   <div
     #tabContentPane
     class="sky-vertical-tab-content-pane"
@@ -49,7 +49,5 @@
     [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
   >
     <ng-content />
-
-    <div></div>
   </div>
 </div>

@@ -17,6 +17,7 @@ import { SkyMediaQueryListener } from './media-query-listener';
 })
 export class SkyMediaQueryService implements OnDestroy {
   readonly #breakpointObserver = inject(SkyMediaBreakpointObserver);
+  public observer = this.#breakpointObserver;
 
   /**
    * Emits when the breakpoint changes.

@@ -10,11 +10,6 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
-} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -30,9 +25,6 @@ let nextId = 0;
   selector: 'sky-vertical-tab',
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
-  providers: [
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
@@ -132,25 +124,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     return this.#tabIdOrDefault;
   }
 
-  public set contentRendered(value: boolean) {
-    this.#_contentRendered = value;
-
-    /* istanbul ignore else */
-    if (this.#_contentRendered) {
-      // NOTE: Wrapped in a setTimeout here to ensure that everything has completed rendering.
-      setTimeout(() => {
-        if (this.tabContent) {
-          this.#mediaQuerySvc.observe(this.tabContent, {
-            updateResponsiveClasses: true,
-          });
-        }
-      });
-    }
-  }
-
-  public get contentRendered(): boolean {
-    return this.#_contentRendered;
-  }
+  public contentRendered = false;
 
   public index: number | undefined;
 
@@ -168,8 +142,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   #_ariaRole = 'tab';
 
-  #_contentRendered = false;
-
   #tabIdOrDefault: string;
 
   #defaultTabId: string;
@@ -181,20 +153,17 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #adapterService: SkyVerticalTabsetAdapterService;
   #changeRef: ChangeDetectorRef;
   #tabsetService: SkyVerticalTabsetService;
-  #mediaQuerySvc: SkyResizeObserverMediaQueryService;
   #tabIdSvc: SkyTabIdService | undefined;
 
   constructor(
     adapterService: SkyVerticalTabsetAdapterService,
     changeRef: ChangeDetectorRef,
     tabsetService: SkyVerticalTabsetService,
-    mediaQuerySvc: SkyMediaQueryService,
     @Optional() tabIdSvc?: SkyTabIdService,
   ) {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
-    this.#mediaQuerySvc = mediaQuerySvc as SkyResizeObserverMediaQueryService;
     this.#tabIdSvc = tabIdSvc;
 
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
@@ -219,7 +188,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#tabsetService.destroyTab(this);
-    this.#mediaQuerySvc.unobserve();
   }
 
   public activateTab(): void {

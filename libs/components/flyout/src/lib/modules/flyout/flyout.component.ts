@@ -26,11 +26,9 @@ import {
 import { RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
+  SkyContainerQueryModule,
   SkyDynamicComponentService,
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
   SkyUIConfigService,
-  provideSkyMediaQueryServiceOverride,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
@@ -66,10 +64,7 @@ let nextId = 0;
   selector: 'sky-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
-  providers: [
-    SkyFlyoutAdapterService,
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
-  ],
+  providers: [SkyFlyoutAdapterService],
   animations: [
     trigger('flyoutState', [
       state(FLYOUT_OPEN_STATE, style({ transform: 'initial' })),
@@ -87,6 +82,7 @@ let nextId = 0;
     A11yModule,
     CommonModule,
     RouterModule,
+    SkyContainerQueryModule,
     SkyHrefModule,
     SkyIconModule,
     SkyFlyoutIteratorComponent,
@@ -167,9 +163,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #environmentInjector = inject(EnvironmentInjector);
-  readonly #mediaQuerySvc = inject(
-    SkyMediaQueryService,
-  ) as SkyResizeObserverMediaQueryService;
 
   readonly #ngZone = inject(NgZone);
   readonly #resourcesService = inject(SkyLibResourcesService);
@@ -189,19 +182,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     if (this.flyoutHeader) {
       this.#adapter.adjustHeaderForHelp(this.flyoutHeader);
     }
-
-    /* istanbul ignore else: safety check */
-    if (this.flyoutRef) {
-      this.#mediaQuerySvc.observe(this.flyoutRef, {
-        updateResponsiveClasses: true,
-      });
-    }
   }
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-    this.#mediaQuerySvc.unobserve();
   }
 
   @HostListener('window:resize', ['$event'])

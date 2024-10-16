@@ -2,21 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
-  afterNextRender,
-  viewChild,
 } from '@angular/core';
-import {
-  SkyAppWindowRef,
-  SkyCoreAdapterService,
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
-} from '@skyux/core';
+import { SkyAppWindowRef, SkyCoreAdapterService } from '@skyux/core';
 
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
@@ -33,9 +24,6 @@ let skySplitViewNextId = 0;
   templateUrl: 'split-view-drawer.component.html',
   styleUrls: ['split-view-drawer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
-  ],
 })
 export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   /**
@@ -76,8 +64,6 @@ export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
     return this.#_width || this.widthDefault;
   }
 
-  protected drawerRef = viewChild<ElementRef<unknown>>('drawerRef');
-
   public isMobile = false;
 
   public splitViewDrawerId: string;
@@ -97,7 +83,6 @@ export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   #xCoord = 0;
   #changeDetectorRef: ChangeDetectorRef;
   #coreAdapterService: SkyCoreAdapterService;
-  #mediaQuerySvc: SkyResizeObserverMediaQueryService;
   #splitViewSvc: SkySplitViewService;
   #windowRef: SkyAppWindowRef;
 
@@ -106,27 +91,15 @@ export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     coreAdapterService: SkyCoreAdapterService,
-    mediaQuerySvc: SkyMediaQueryService,
     splitViewSvc: SkySplitViewService,
     windowRef: SkyAppWindowRef,
   ) {
     this.#changeDetectorRef = changeDetectorRef;
     this.#coreAdapterService = coreAdapterService;
-    this.#mediaQuerySvc = mediaQuerySvc as SkyResizeObserverMediaQueryService;
     this.#splitViewSvc = splitViewSvc;
     this.#windowRef = windowRef;
 
     this.splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
-
-    afterNextRender(() => {
-      const drawerRef = this.drawerRef();
-
-      if (drawerRef) {
-        this.#mediaQuerySvc.observe(drawerRef, {
-          updateResponsiveClasses: true,
-        });
-      }
-    });
   }
 
   public ngOnInit(): void {

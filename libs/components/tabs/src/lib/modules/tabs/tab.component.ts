@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -10,14 +9,7 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
-  ViewChild,
-  inject,
 } from '@angular/core';
-import {
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
-  provideSkyMediaQueryServiceOverride,
-} from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -36,9 +28,6 @@ let nextId = 0;
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    provideSkyMediaQueryServiceOverride(SkyResizeObserverMediaQueryService),
-  ],
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
@@ -181,18 +170,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     return this.#tabIndexChange;
   }
 
-  @ViewChild('tabContentWrapper')
-  public set tabContentWrapper(tabContentWrapper: ElementRef | undefined) {
-    /* istanbul ignore else */
-    if (tabContentWrapper) {
-      this.#mediaQuerySvc.observe(tabContentWrapper, {
-        updateResponsiveClasses: true,
-      });
-    } else {
-      this.#mediaQuerySvc.unobserve();
-    }
-  }
-
   public permalinkValueOrDefault = '';
 
   public showContent = false;
@@ -242,10 +219,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#setPermalinkValueOrDefault();
   }
 
-  readonly #mediaQuerySvc = inject(
-    SkyMediaQueryService,
-  ) as SkyResizeObserverMediaQueryService;
-
   public ngOnChanges(changes: SimpleChanges): void {
     if (
       (changes['disabled'] && !changes['disabled'].firstChange) ||
@@ -264,7 +237,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     if (this.tabIndexValue !== undefined) {
       this.#tabsetService.unregisterTab(this.tabIndexValue);
     }
-    this.#mediaQuerySvc.unobserve();
   }
 
   public init(): void {

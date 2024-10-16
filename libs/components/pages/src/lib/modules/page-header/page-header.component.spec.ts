@@ -2,6 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
 import { PageHeaderFixturesComponent } from './fixtures/page-header-fixtures.component';
 import { SkyPageHeaderModule } from './page-header.module';
@@ -15,6 +19,7 @@ describe('Page header component', () => {
         SkyPageHeaderModule,
         RouterTestingModule.withRoutes([]),
       ],
+      providers: [provideSkyMediaQueryTesting()],
     });
   });
 
@@ -52,6 +57,9 @@ describe('Page header component', () => {
   it('should render an avatar at size small when page is at an xs breakpoint', () => {
     const fixture = TestBed.createComponent(PageHeaderFixturesComponent);
     fixture.componentInstance.showAvatar = true;
+    fixture.detectChanges();
+
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('xs');
     fixture.detectChanges();
 
     const smallAvatar = fixture.nativeElement.querySelector(
