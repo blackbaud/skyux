@@ -43,11 +43,7 @@
 </div>
 
 <div class="select-basic">
-  <sky-input-box
-    class="sky-margin-stacked-lg"
-    [disabled]="basicDisabled"
-    [hasErrors]="hasErrors"
-  >
+  <sky-input-box stacked [disabled]="basicDisabled" [hasErrors]="hasErrors">
     <label class="sky-control-label" [for]="selectInput.id">
       Select input
     </label>
@@ -192,7 +188,7 @@
 </div>
 
 <div class="input-box-has-errors">
-  <sky-input-box class="sky-margin-stacked-lg" [hasErrors]="hasErrors">
+  <sky-input-box stacked [hasErrors]="hasErrors">
     <label class="sky-control-label" [for]="hasErrorsInput.id">
       hasErrors
     </label>
@@ -208,7 +204,7 @@
 </div>
 
 <div class="input-box-form-control-error">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked>
     <label class="sky-control-label" [for]="formControlErrorInput.id">
       Form control error
     </label>
@@ -224,7 +220,7 @@
 </div>
 
 <div class="input-box-form-control-error-status-indicator">
-  <sky-input-box class="sky-margin-stacked-lg" labelText="uh oh">
+  <sky-input-box stacked labelText="uh oh">
     <label class="sky-control-label" [for]="formControlErrorStatusIndicator.id">
       Form control error with status indicator
     </label>
@@ -245,7 +241,7 @@
 
 <div class="input-box-form-control-name-error">
   <form [formGroup]="errorForm">
-    <sky-input-box class="sky-margin-stacked-lg">
+    <sky-input-box stacked>
       <label class="sky-control-label" [for]="formControlByNameInput.id">
         Form control by name error
       </label>
@@ -262,7 +258,7 @@
 </div>
 
 <div class="input-box-ngmodel-error">
-  <sky-input-box class="sky-margin-stacked-lg">
+  <sky-input-box stacked>
     <label class="sky-control-label" [for]="errorNgModelInput.id">
       NgModel error
     </label>

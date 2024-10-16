@@ -223,7 +223,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   public async getStacked(): Promise<boolean> {
     const host = await this.host();
 
-    return host.hasClass('sky-margin-stacked-lg');
+    return host.hasClass('sky-form-field-stacked');
   }
 
   async #getElementTextOrDefault(el: TestElement | null): Promise<string> {
