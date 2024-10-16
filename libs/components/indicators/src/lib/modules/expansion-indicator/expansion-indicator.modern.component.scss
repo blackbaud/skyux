@@ -1,26 +1,39 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-modern-overrides('.sky-expansion-indicator') {
+  --sky-override-expansion-indicator-size: 26px;
+  --sky-override-expansion-indicator-size-half: 13px;
+  --sky-override-expansion-indicator-container-left: 4px;
+  --sky-override-expansion-indicator-container-top: 3.5px;
+  --sky-override-expansion-indicator-leg-left-left: 4px;
+  --sky-override-expansion-indicator-leg-right-left: 10.5px;
+}
 
 @include mixins.sky-component('modern', '.sky-expansion-indicator') {
   display: inline-block;
   border: none;
   background-color: transparent;
   flex-shrink: 0;
-  height: 26px;
+  height: var(--sky-override-expansion-indicator-size, var(--sky-size-icon-s));
   margin: 0;
   overflow: hidden;
   position: relative;
   vertical-align: top;
-  width: 26px;
+  width: var(--sky-override-expansion-indicator-size, var(--sky-size-icon-s));
 }
 
 @include mixins.sky-component('modern', '.sky-expansion-indicator-part') {
-  background: $sky-theme-modern-font-deemphasized-color;
+  background: var(--sky-color-icon-deemphasized);
   border: none;
   display: inline-block;
   height: 2px;
   position: absolute;
-  top: 13px;
+  top: var(
+    --sky-override-expansion-indicator-size-half,
+    calc(var(--sky-size-icon-s) / 2)
+  );
   transition:
     transform $sky-transition-time-medium,
     left $sky-transition-time-medium;
@@ -32,21 +45,21 @@
   'modern',
   '.sky-expansion-indicator-glyph-container'
 ) {
-  left: 4px;
+  left: var(--sky-override-expansion-indicator-container-left, 0);
   display: inline-block;
   position: absolute;
-  top: 3.5px;
+  top: var(--sky-override-expansion-indicator-container-top, 1.5px);
   transform: scale(0.68);
 }
 
 @include mixins.sky-component('modern', '.sky-expansion-indicator-left') {
   border-radius: 1px 0 0 1px;
-  left: 4px;
+  left: var(--sky-override-expansion-indicator-leg-left-left, 2.75px);
 }
 
 @include mixins.sky-component('modern', '.sky-expansion-indicator-right') {
   border-radius: 0 1px 1px 0;
-  left: 10.5px;
+  left: var(--sky-override-expansion-indicator-leg-right-left, 9.25px);
 }
 
 @include mixins.sky-component('modern', '.sky-expansion-indicator-up') {
