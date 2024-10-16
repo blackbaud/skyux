@@ -9,11 +9,11 @@ describe(`pages-storybook`, () => {
         ),
       );
       it('should render the component', () => {
-        cy.get('app-action-hub')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`actionhubcomponent-actionhub--action-hub-${theme}`);
-        cy.get('app-action-hub').percySnapshot(
+        cy.get('app-action-hub').should('exist').should('be.visible');
+        cy.window().screenshot(
+          `actionhubcomponent-actionhub--action-hub-${theme}`,
+        );
+        cy.window().percySnapshot(
           `actionhubcomponent-actionhub--action-hub-${theme}`,
         );
       });

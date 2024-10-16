@@ -7,6 +7,7 @@ import { SkyLinkListModule } from '../link-list/link-list.module';
 import { SkyModalLinkListModule } from '../modal-link-list/modal-link-list.module';
 import { SkyNeedsAttentionModule } from '../needs-attention/needs-attention.module';
 import { SkyPageHeaderModule } from '../page-header/page-header.module';
+import { SkyPageModule } from '../page/page.module';
 import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
 import { SkyActionHubButtonsComponent } from './action-hub-buttons.component';
@@ -27,6 +28,7 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyPagesResourcesModule,
     SkyThemeModule,
     SkyWaitModule,
+    SkyPageModule,
   ],
   declarations: [
     SkyActionHubButtonsComponent,
