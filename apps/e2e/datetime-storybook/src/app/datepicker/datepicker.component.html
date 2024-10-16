@@ -10,8 +10,7 @@
   <sky-datepicker-calendar
     [selectedDate]="selectedDate"
     (selectedDateChange)="selectedDate = $event"
-  >
-  </sky-datepicker-calendar>
+  />
 </div>
 <br />
 <div
@@ -22,6 +21,7 @@
   <p>Template form</p>
   <sky-datepicker>
     <input
+      #date="ngModel"
       skyDatepickerInput
       [disabled]="disabled"
       [maxDate]="maxDate"
@@ -31,7 +31,6 @@
       [strict]="strict"
       [dateFormat]="dateFormat"
       [(ngModel)]="selectedDate"
-      #date="ngModel"
     />
   </sky-datepicker>
 
@@ -251,4 +250,4 @@
     </sky-datepicker>
   </sky-input-box>
 </div>
-<span id="ready" *ngIf="ready$ | async"></span>
+<span *ngIf="ready$ | async" id="ready"></span>
