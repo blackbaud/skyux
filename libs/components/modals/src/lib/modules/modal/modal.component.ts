@@ -15,7 +15,6 @@ import {
 } from '@angular/core';
 import {
   SkyAppWindowRef,
-  SkyContainerQueryDirective,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
@@ -59,7 +58,6 @@ const ARIA_ROLE_DEFAULT = 'dialog';
   ],
   imports: [
     CommonModule,
-    SkyContainerQueryDirective,
     SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,

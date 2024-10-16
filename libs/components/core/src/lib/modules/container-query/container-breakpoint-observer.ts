@@ -27,6 +27,7 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
     return this.#breakpointChangeObs;
   }
 
+  #breakpoint: SkyBreakpointType | undefined;
   readonly #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
   readonly #breakpointChangeObs = this.#breakpointChange
     .asObservable()
@@ -55,7 +56,8 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
 
   #checkBreakpoint(width: number) {
     for (const [breakpoint, check] of QUERIES.entries()) {
-      if (check(width)) {
+      if (breakpoint !== this.#breakpoint && check(width)) {
+        this.#breakpoint = breakpoint;
         this.#notifyBreakpointChange(breakpoint);
         break;
       }
