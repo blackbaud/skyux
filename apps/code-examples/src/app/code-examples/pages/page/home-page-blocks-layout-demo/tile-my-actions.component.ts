@@ -5,8 +5,12 @@ import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
   standalone: true,
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'div.tile2',
+  selector: 'app-tile-my-actions',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   templateUrl: './tile-my-actions.component.html',
   imports: [SkyTilesModule, SkyDropdownModule, SkyRepeaterModule],
 })

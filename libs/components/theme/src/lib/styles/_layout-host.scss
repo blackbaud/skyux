@@ -95,8 +95,7 @@
     &-list,
     &-tabs {
       &:has(> sky-page-content):has(> sky-page-links) {
-        --sky-layout-host-links-spacing: var(--sky-margin-stacked-lg)
-          var(--sky-margin-inline-xl);
+        --sky-layout-host-links-spacing: var(--sky-margin-inline-xl);
 
         > sky-page-header,
         .sky-page-header,
@@ -139,7 +138,7 @@
         grid-template-rows:
           minmax(var(--sky-margin-stacked-xl), min-content)
           minmax(var(--sky-margin-stacked-xl), min-content)
-          minmax(var(--sky-layout-host-header-spacing-bottom), min-content)
+          minmax(var(--sky-margin-stacked-xl), min-content)
           auto;
         grid-template-columns: 0 75% 25%;
 

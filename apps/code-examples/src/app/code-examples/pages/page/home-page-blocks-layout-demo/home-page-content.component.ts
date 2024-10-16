@@ -1,12 +1,5 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
-import { SkyKeyInfoModule } from '@skyux/indicators';
-import {
-  SkyBoxModule,
-  SkyDescriptionListModule,
-  SkyFluidGridModule,
-} from '@skyux/layout';
 import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 
 import { TileMyActionsComponent } from './tile-my-actions.component';
@@ -16,16 +9,7 @@ import { TileUpdatesComponent } from './tile-updates.component';
   selector: 'app-home-page-content',
   templateUrl: './home-page-content.component.html',
   standalone: true,
-  imports: [
-    NgClass,
-    NgFor,
-    SkyBoxModule,
-    SkyDescriptionListModule,
-    SkyFluidGridModule,
-    SkyIconModule,
-    SkyKeyInfoModule,
-    SkyTilesModule,
-  ],
+  imports: [NgClass, NgFor, SkyTilesModule],
 })
 export class HomePageContentComponent {
   protected dashboardConfig: SkyTileDashboardConfig = {

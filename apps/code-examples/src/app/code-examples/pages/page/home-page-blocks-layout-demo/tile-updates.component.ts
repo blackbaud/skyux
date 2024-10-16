@@ -3,8 +3,12 @@ import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
   standalone: true,
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'div.tile1',
+  selector: 'app-tile-updates',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   templateUrl: './tile-updates.component.html',
   imports: [SkyTilesModule],
 })
