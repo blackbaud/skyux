@@ -6,6 +6,8 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { SkyBreakpointObserver } from './breakpoint-observer';
 import { SkyBreakpointType } from './breakpoint-type';
 
+// import { SkyContainerBreakpointObserverAdapterService } from './container-breakpoint-observer-adapter.service';
+
 const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
   ['xs', (x) => x > 0 && x <= 767],
   ['sm', (x) => x > 767 && x <= 991],
@@ -19,6 +21,9 @@ const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
  */
 @Injectable()
 export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
+  // readonly #adapter = inject(SkyContainerBreakpointObserverAdapterService);
+  readonly #elementRef = inject(ElementRef);
+
   public get breakpointChange(): Observable<SkyBreakpointType> {
     return this.#breakpointChangeObs;
   }
@@ -28,6 +33,9 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
       if (entry.target === this.#elementRef.nativeElement) {
         for (const [breakpoint, check] of QUERIES.entries()) {
           if (check(entry.contentRect.width)) {
+            // const el = this.#elementRef;
+            // this.#adapter.removeResponsiveClasses(el);
+            // this.#adapter.addResponsiveClass(el, breakpoint);
             this.#notifyBreakpointChange(breakpoint);
             break;
           }
@@ -40,8 +48,6 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
   readonly #breakpointChangeObs = this.#breakpointChange
     .asObservable()
     .pipe(takeUntilDestroyed());
-
-  readonly #elementRef = inject(ElementRef);
 
   constructor() {
     this.#observer.observe(this.#elementRef.nativeElement);

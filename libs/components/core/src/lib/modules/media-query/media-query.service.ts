@@ -1,4 +1,5 @@
 import { Injectable, NgZone, OnDestroy, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -60,9 +61,11 @@ export class SkyMediaQueryService implements OnDestroy {
 
   // Keep NgZone as a constructor param so that consumer mocks don't throw typing errors.
   constructor(_zone?: NgZone) {
-    this.#breakpointObserver.breakpointChange.subscribe((breakpoint) => {
-      this.#currentBreakpoint = toSkyMediaBreakpoints(breakpoint);
-    });
+    this.#breakpointObserver.breakpointChange
+      .pipe(takeUntilDestroyed())
+      .subscribe((breakpoint) => {
+        this.#currentBreakpoint = toSkyMediaBreakpoints(breakpoint);
+      });
   }
 
   public ngOnDestroy(): void {

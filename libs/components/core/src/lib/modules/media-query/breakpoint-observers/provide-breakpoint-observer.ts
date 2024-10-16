@@ -1,5 +1,6 @@
 import { Provider, Type, inject } from '@angular/core';
 
+import { SkyContainerQueryService } from '../container-query.service';
 import { SkyMediaQueryService } from '../media-query.service';
 
 import { SkyBreakpointObserver } from './breakpoint-observer';
@@ -15,6 +16,7 @@ export function provideSkyBreakpointObserver(
 ): Provider[] {
   return [
     SkyMediaQueryService,
+    SkyContainerQueryService,
     observer,
     {
       provide: SkyMediaBreakpointObserver,

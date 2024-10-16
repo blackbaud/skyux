@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpointType } from '@skyux/core';
+import { SkyBreakpointType } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -928,7 +928,7 @@ describe('Vertical tabset component', () => {
 
   function expectResponsiveCssClass(
     el: HTMLElement | undefined,
-    breakpoint: SkyMediaBreakpointType,
+    breakpoint: SkyBreakpointType,
   ): void {
     if (!el) {
       throw new Error(

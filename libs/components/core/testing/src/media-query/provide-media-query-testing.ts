@@ -1,30 +1,30 @@
-/* eslint-disable @nx/enforce-module-boundaries */
-import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import { Provider } from '@angular/core';
 import {
-  SKY_MEDIA_QUERY_SERVICE_OVERRIDE,
+  SKY_BREAKPOINT_OBSERVER,
+  SkyContainerBreakpointObserver,
+  SkyMediaBreakpointObserver,
   SkyMediaQueryService,
 } from '@skyux/core';
 
-import { SkyMediaQueryTestingController } from './media-query-testing.controller';
-import { SkyMediaQueryTestingService } from './media-query-testing.service';
+import { SkyBreakpointObserverTesting } from './breakpoint-observer-testing';
+import { SkyMediaQueryTestingController } from './media-query-testing-controller';
 
-/**
- * Mocks the media query service for unit tests.
- */
-export function provideSkyMediaQueryTesting(): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    SkyMediaQueryTestingService,
+export function provideSkyMediaQueryTesting(): Provider[] {
+  return [
+    SkyMediaQueryService,
+    SkyBreakpointObserverTesting,
+    SkyMediaQueryTestingController,
     {
-      provide: SKY_MEDIA_QUERY_SERVICE_OVERRIDE,
-      useExisting: SkyMediaQueryTestingService,
+      provide: SkyContainerBreakpointObserver,
+      useExisting: SkyBreakpointObserverTesting,
     },
     {
-      provide: SkyMediaQueryService,
-      useExisting: SkyMediaQueryTestingService,
+      provide: SkyMediaBreakpointObserver,
+      useExisting: SkyBreakpointObserverTesting,
     },
     {
-      provide: SkyMediaQueryTestingController,
-      useExisting: SkyMediaQueryTestingService,
+      provide: SKY_BREAKPOINT_OBSERVER,
+      useExisting: SkyBreakpointObserverTesting,
     },
-  ]);
+  ];
 }

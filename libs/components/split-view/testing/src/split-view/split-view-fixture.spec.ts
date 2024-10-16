@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
-import { SkyMediaBreakpointType } from '@skyux/core';
+import { SkyBreakpointType } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -31,7 +31,7 @@ describe('SplitView fixture', () => {
   //#region helpers
 
   async function initiateResponsiveMode(
-    breakpoint: SkyMediaBreakpointType,
+    breakpoint: SkyBreakpointType,
   ): Promise<void> {
     mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
