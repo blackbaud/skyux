@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
+  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
@@ -34,10 +35,12 @@ function validateCountry(
 })
 export class DemoComponent {
   protected countryControl: FormControl<SkyCountryFieldCountry | undefined>;
-  protected countryForm: FormGroup<DemoForm>;
+  public countryForm: FormGroup<DemoForm>;
 
   protected helpPopoverContent =
     'We use the country to validate your passport within 10 business days. You can update it at any time.';
+
+  #formBuilder = inject(FormBuilder);
 
   constructor() {
     this.countryControl = new FormControl(
@@ -51,7 +54,7 @@ export class DemoComponent {
       },
     );
 
-    this.countryForm = new FormGroup({
+    this.countryForm = this.#formBuilder.group({
       country: this.countryControl,
     });
   }
