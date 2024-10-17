@@ -7,10 +7,10 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyContainerBreakpointObserverDirective,
   SkyHelpService,
   SkyLayoutHostForChildArgs,
   SkyLayoutHostService,
+  SkyResponsiveHostDirective,
 } from '@skyux/core';
 
 import { Subject } from 'rxjs';
@@ -31,7 +31,7 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
  * This is helpful if there is other content to the left or right of the page.
  */
 @Component({
-  hostDirectives: [SkyContainerBreakpointObserverDirective],
+  hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-page',
   template: `<ng-content />`,
   providers: [SkyPageThemeAdapterService, SkyLayoutHostService],

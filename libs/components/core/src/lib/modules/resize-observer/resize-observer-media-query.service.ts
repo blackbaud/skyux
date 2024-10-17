@@ -3,8 +3,8 @@ import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyBreakpoint } from '../media-query/breakpoint-observers/breakpoint';
-import { toSkyBreakpoint } from '../media-query/breakpoint-observers/breakpoint-utils';
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
+import { toSkyBreakpoint } from '../breakpoint-observer/breakpoint-utils';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
 import { SkyMediaQueryService } from '../media-query/media-query.service';
@@ -15,7 +15,7 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
- * @deprecated Add `SkyContainerBreakpointObserverDirective` to your component's `hostDirectives` instead.
+ * @deprecated Add `SkyResponsiveHostDirective` to your component's `hostDirectives` instead.
  */
 @Injectable()
 export class SkyResizeObserverMediaQueryService

@@ -1,17 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  SkyContainerBreakpointObserverDirective,
-  SkyMediaQueryService,
-} from '@skyux/core';
+import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 import { SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
   host: {
     '[style.display]': '"block"',
   },
-  hostDirectives: [SkyContainerBreakpointObserverDirective],
+  hostDirectives: [SkyResponsiveHostDirective],
   selector: 'app-with-breakpoint-directive',
   standalone: true,
   template: '<ng-content />',
@@ -33,7 +30,7 @@ export class BreakpointReaderComponent {
   imports: [
     BreakpointReaderComponent,
     CommonModule,
-    SkyContainerBreakpointObserverDirective,
+    SkyResponsiveHostDirective,
     SkyFluidGridModule,
     WithBreakpointDirectiveComponent,
   ],

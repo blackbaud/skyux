@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  SkyContainerBreakpointObserverDirective,
-  SkyMediaQueryService,
-} from '@skyux/core';
+import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
 import { DemoContainerComponent } from './container.component';
@@ -13,7 +10,7 @@ import { DemoContainerComponent } from './container.component';
   imports: [
     CommonModule,
     DemoContainerComponent,
-    SkyContainerBreakpointObserverDirective,
+    SkyResponsiveHostDirective,
     SkyIconModule,
   ],
   selector: 'app-demo',

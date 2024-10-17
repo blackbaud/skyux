@@ -26,8 +26,8 @@ import {
 import { RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
-  SkyContainerBreakpointObserverDirective,
   SkyDynamicComponentService,
+  SkyResponsiveHostDirective,
   SkyUIConfigService,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -82,7 +82,7 @@ let nextId = 0;
     A11yModule,
     CommonModule,
     RouterModule,
-    SkyContainerBreakpointObserverDirective,
+    SkyResponsiveHostDirective,
     SkyHrefModule,
     SkyIconModule,
     SkyFlyoutIteratorComponent,

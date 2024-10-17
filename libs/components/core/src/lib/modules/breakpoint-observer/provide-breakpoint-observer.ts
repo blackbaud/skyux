@@ -1,6 +1,6 @@
 import { Provider, Type, inject } from '@angular/core';
 
-import { SkyMediaQueryService } from '../media-query.service';
+import { SkyMediaQueryService } from '../media-query/media-query.service';
 
 import { SkyBreakpointObserver } from './breakpoint-observer';
 import { SKY_BREAKPOINT_OBSERVER } from './breakpoint-observer.token';

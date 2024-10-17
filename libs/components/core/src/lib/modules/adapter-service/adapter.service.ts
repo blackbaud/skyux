@@ -8,11 +8,11 @@ import {
 import {
   SKY_BREAKPOINTS,
   SkyBreakpoint,
-} from '../media-query/breakpoint-observers/breakpoint';
+} from '../breakpoint-observer/breakpoint';
 import {
   isSkyBreakpoint,
   toSkyBreakpoint,
-} from '../media-query/breakpoint-observers/breakpoint-utils';
+} from '../breakpoint-observer/breakpoint-utils';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import { SkyFocusableChildrenOptions } from './focusable-children-options';
@@ -47,7 +47,7 @@ export class SkyCoreAdapterService {
    * @param elementRef - The element that will receive the new CSS class.
    * @param breakpoint - The SkyMediaBreakpoint will determine which class
    * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
-   * @deprecated Use the `SkyContainerBreakpointObserverDirective` instead.
+   * @deprecated Use the `SkyResponsiveHostDirective` instead.
    */
   public setResponsiveContainerClass(
     elementRef: ElementRef,

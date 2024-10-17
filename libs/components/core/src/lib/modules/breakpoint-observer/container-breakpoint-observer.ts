@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
-import { SkyResizeObserverService } from '../../resize-observer/resize-observer.service';
+import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
 
 import { SkyBreakpoint } from './breakpoint';
 import { SkyBreakpointObserver } from './breakpoint-observer';

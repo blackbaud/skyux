@@ -1,48 +1,62 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { By } from '@angular/platform-browser';
-// import {
-//   SkyMediaQueryTestingController,
-//   provideSkyMediaQueryTesting,
-// } from '@skyux/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
-// import { DemoComponent } from './demo.component';
+import { DemoComponent } from './demo.component';
 
-// describe('Media query demo', () => {
-//   function setupTest(): {
-//     fixture: ComponentFixture<DemoComponent>;
-//     mediaController: SkyMediaQueryTestingController;
-//   } {
-//     const fixture = TestBed.createComponent(DemoComponent);
-//     const mediaController = TestBed.inject(SkyMediaQueryTestingController);
+describe('Media query demo', () => {
+  function setupTest(): {
+    fixture: ComponentFixture<DemoComponent>;
+    mediaController: SkyMediaQueryTestingController;
+  } {
+    const fixture = TestBed.createComponent(DemoComponent);
+    const mediaController = TestBed.inject(SkyMediaQueryTestingController);
 
-//     return { fixture, mediaController };
-//   }
+    return { fixture, mediaController };
+  }
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       providers: [provideSkyMediaQueryTesting()],
-//     });
-//   });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideSkyMediaQueryTesting()],
+    });
+  });
 
-//   it('should change the breakpoint', async () => {
-//     const { fixture, mediaController } = setupTest();
+  it('should change the breakpoint', async () => {
+    const { fixture, mediaController } = setupTest();
 
-//     mediaController.setBreakpoint('xs');
-//     fixture.detectChanges();
+    const containerWithHostDirective = fixture.debugElement.query(
+      By.css('[data-sky-id="container-w-host-directive"]'),
+    ).nativeElement;
 
-//     await mediaController.expectBreakpoint('xs');
+    const containerWithAttrDirective = fixture.debugElement.query(
+      By.css('[data-sky-id="container-w-attr"]'),
+    ).nativeElement;
 
-//     expect(
-//       fixture.debugElement.query(By.css('.my-nav-mobile')).nativeElement,
-//     ).toBeDefined();
+    mediaController.setBreakpoint('xs');
+    fixture.detectChanges();
 
-//     mediaController.setBreakpoint('lg');
-//     fixture.detectChanges();
+    await mediaController.expectBreakpoint('xs');
 
-//     await mediaController.expectBreakpoint('lg');
+    expect(containerWithHostDirective).toHaveClass(
+      'sky-responsive-container-xs',
+    );
+    expect(containerWithAttrDirective).toHaveClass(
+      'sky-responsive-container-xs',
+    );
 
-//     expect(
-//       fixture.debugElement.query(By.css('.my-nav-desktop')).nativeElement,
-//     ).toBeDefined();
-//   });
-// });
+    mediaController.setBreakpoint('lg');
+    fixture.detectChanges();
+
+    await mediaController.expectBreakpoint('lg');
+
+    expect(containerWithHostDirective).toHaveClass(
+      'sky-responsive-container-lg',
+    );
+    expect(containerWithAttrDirective).toHaveClass(
+      'sky-responsive-container-lg',
+    );
+  });
+});

@@ -2,8 +2,8 @@ import { Directive, ElementRef, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SkyCoreAdapterService } from '../../adapter-service/adapter.service';
-import { SkyMediaQueryService } from '../media-query.service';
+import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
+import { SkyMediaQueryService } from '../media-query/media-query.service';
 
 import { SkyBreakpoint } from './breakpoint';
 import { SkyContainerBreakpointObserver } from './container-breakpoint-observer';
@@ -15,12 +15,12 @@ import { provideSkyBreakpointObserver } from './provide-breakpoint-observer';
  * host element to allow for responsive styles.
  */
 @Directive({
-  exportAs: 'skyContainerBreakpointObserver',
+  exportAs: 'skyResponsiveHost',
   providers: [provideSkyBreakpointObserver(SkyContainerBreakpointObserver)],
-  selector: '[skyContainerBreakpointObserver]',
+  selector: '[skyResponsiveHost]',
   standalone: true,
 })
-export class SkyContainerBreakpointObserverDirective {
+export class SkyResponsiveHostDirective {
   readonly #mediaSvc = inject(SkyMediaQueryService);
 
   /**

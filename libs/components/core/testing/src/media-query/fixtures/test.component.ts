@@ -2,17 +2,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  SkyContainerBreakpointObserverDirective,
-  SkyMediaQueryService,
-} from '@skyux/core';
+import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 
 @Component({
   host: {
     '[class]': '"breakpoint-" + breakpointChange()',
     '[style.display]': '"block"',
   },
-  hostDirectives: [SkyContainerBreakpointObserverDirective],
+  hostDirectives: [SkyResponsiveHostDirective],
   imports: [CommonModule],
   selector: 'sky-foo-wrapper',
   standalone: true,

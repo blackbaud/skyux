@@ -3,9 +3,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { SkyBreakpoint } from './breakpoint-observers/breakpoint';
-import { toSkyMediaBreakpoints } from './breakpoint-observers/breakpoint-utils';
-import { SkyMediaBreakpointObserver } from './breakpoint-observers/media-breakpoint-observer';
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
+import { toSkyMediaBreakpoints } from '../breakpoint-observer/breakpoint-utils';
+import { SkyMediaBreakpointObserver } from '../breakpoint-observer/media-breakpoint-observer';
+
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
 

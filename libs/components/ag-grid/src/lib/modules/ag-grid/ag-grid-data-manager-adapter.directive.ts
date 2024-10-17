@@ -411,6 +411,7 @@ export class SkyAgGridDataManagerAdapterDirective
   }
 
   #applyColumnWidths(): void {
+    /* istanbul ignore if: safety check */
     if (!this.agGridList?.first || this.agGridList.first.api.isDestroyed()) {
       return;
     }

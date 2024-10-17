@@ -1,12 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  SkyContainerBreakpointObserverDirective,
-  SkyMediaQueryService,
-} from '@skyux/core';
+import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 
 @Component({
-  hostDirectives: [SkyContainerBreakpointObserverDirective],
+  hostDirectives: [SkyResponsiveHostDirective],
   selector: 'app-container',
   standalone: true,
   styles: `

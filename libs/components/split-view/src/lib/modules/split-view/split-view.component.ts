@@ -15,10 +15,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  SkyContainerBreakpointObserverDirective,
-  SkyCoreAdapterService,
-} from '@skyux/core';
+import { SkyCoreAdapterService, SkyResponsiveHostDirective } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -35,7 +32,7 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
-  hostDirectives: [SkyContainerBreakpointObserverDirective],
+  hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-split-view',
   templateUrl: './split-view.component.html',
   styleUrls: ['./split-view.component.scss'],
