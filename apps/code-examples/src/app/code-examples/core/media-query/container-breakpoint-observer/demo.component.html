@@ -1,0 +1,19 @@
+<p>Viewport breakpoint: {{ breakpoint() }}</p>
+
+<h4>
+  A component using the <code>SkyContainerBreakpointObserverDirective</code> as
+  a host directive:
+</h4>
+
+<app-container data-sky-id="container-w-host-directive" />
+
+<h4>A DIV using the <code>skyContainerBreakpointObserver</code> attribute:</h4>
+
+<div
+  #contentRef="skyContainerBreakpointObserver"
+  class="my-container"
+  data-sky-id="container-w-attr"
+  skyContainerBreakpointObserver
+>
+  <p>Breakpoint within container: {{ contentRef.breakpointChange | async }}</p>
+</div>

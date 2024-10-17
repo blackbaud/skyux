@@ -17,6 +17,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'media-query/container-breakpoint-observer',
+    loadComponent: () =>
+      import(
+        '../code-examples/core/media-query/container-breakpoint-observer/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'numeric/basic',
     loadComponent: () =>
       import('../code-examples/core/numeric/basic/demo.component').then(
