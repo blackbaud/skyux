@@ -43,10 +43,7 @@ export class BreakpointReaderComponent {
       <sky-row>
         <sky-column [screenXSmall]="6" style="border: 1px solid magenta">
           HTML directive:
-          <div
-            #observer="skyContainerBreakpointObserver"
-            skyContainerBreakpointObserver
-          >
+          <div #observer="skyResponsiveHost" skyResponsiveHost>
             @if ((observer.breakpointChange | async) === 'xs') {
               <div style="color:red;">Mobile view!</div>
             }
