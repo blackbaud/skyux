@@ -46,18 +46,6 @@ sky-column.sky-column {
 @include create_column_gutters_modern(small);
 @include create_column_gutters_modern(medium);
 
-@include mixins.sky-host-responsive-container-lg-min(false) {
-  @include create_columns(lg);
-}
-
-@include mixins.sky-host-responsive-container-md-min(false) {
-  @include create_columns(md);
-}
-
-@include mixins.sky-host-responsive-container-sm-min(false) {
-  @include create_columns(sm);
-}
-
 @include mixins.sky-host-responsive-container-xs-min(false) {
   @include create_columns(xs);
 
@@ -68,4 +56,16 @@ sky-column.sky-column {
       width: 100%;
     }
   }
+}
+
+@include mixins.sky-host-responsive-container-sm-min(false) {
+  @include create_columns(sm);
+}
+
+@include mixins.sky-host-responsive-container-md-min(false) {
+  @include create_columns(md);
+}
+
+@include mixins.sky-host-responsive-container-lg-min(false) {
+  @include create_columns(lg);
 }
