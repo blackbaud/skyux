@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.13.0](https://github.com/blackbaud/skyux/compare/11.12.0...11.13.0) (2024-10-17)
+
+
+### Features
+
+* **components/forms:** tokenize stacked input box styling ([#2834](https://github.com/blackbaud/skyux/issues/2834)) ([29d2a2e](https://github.com/blackbaud/skyux/commit/29d2a2e90fe0f90de573ebdaa69ff06e8643f8cd))
+* **components/indicators:** tokenize chevron and expansion indicator styles ([#2837](https://github.com/blackbaud/skyux/issues/2837)) ([6b4ec78](https://github.com/blackbaud/skyux/commit/6b4ec78abc89434baf556335c957c5060aac78dc))
+
+
+### Bug Fixes
+
+* **components/pages:** update code example for action hub pattern ([#2824](https://github.com/blackbaud/skyux/issues/2824)) ([e0d8050](https://github.com/blackbaud/skyux/commit/e0d8050d0d5b589e9041b98eb27c633a4f078a4c))
+* **components/theme:** public api publishes successfully ([#2838](https://github.com/blackbaud/skyux/issues/2838)) ([e296ef5](https://github.com/blackbaud/skyux/commit/e296ef5dbfd7bde57ebfc953fef1d3970727261a))
+
 ## [11.12.0](https://github.com/blackbaud/skyux/compare/11.11.2...11.12.0) (2024-10-16)
 
 
