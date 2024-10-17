@@ -50,14 +50,20 @@ export class SkyAvatarHarness extends SkyComponentHarness {
   /**
    * Gets the avatar's current image URL.
    */
-  public async getSrc(): Promise<string | undefined> {
+  public async getSrc(): Promise<string | Blob | undefined> {
     const imageEl = await this.locatorFor('.sky-avatar-image')();
 
     if (await isHidden(imageEl)) {
       return undefined;
     }
 
-    return await SkyHarnessUtility.getBackgroundImageUrl(imageEl);
+    const url = await SkyHarnessUtility.getBackgroundImageUrl(imageEl);
+
+    if (url?.startsWith('blob:')) {
+      return await (await fetch(url)).blob();
+    }
+
+    return url;
   }
 
   /**
@@ -70,7 +76,7 @@ export class SkyAvatarHarness extends SkyComponentHarness {
   /**
    * Simulates the user selecting or dropping an image onto the component.
    */
-  public async changeAvatar(file: File): Promise<void> {
+  public async dropAvatarFile(file: File): Promise<void> {
     const fileDrop = await this.#getFileDrop();
 
     if (!fileDrop) {

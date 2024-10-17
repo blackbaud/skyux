@@ -48,9 +48,6 @@ describe('File drop harness', () => {
 
     await harness.dropFile(testFile);
 
-    // The file drop component's `filesChanged` event happens asynchronously as the
-    // result of an event handler which is outside of the test harness async logic,
-    // so explicitly wait for it to be set before validating.
     const files = await changedFiles;
 
     expect(files).toEqual({

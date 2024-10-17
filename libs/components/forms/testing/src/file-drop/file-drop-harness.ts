@@ -46,5 +46,12 @@ export class SkyFileDropHarness extends SkyComponentHarness {
         files: fileList as unknown as EventData,
       },
     });
+
+    // The file drop component's `filesChanged` event happens asynchronously as the
+    // result of an event handler which is outside of the test harness async logic,
+    // so get in the queue after the event handler, then resolve.
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), 1);
+    });
   }
 }

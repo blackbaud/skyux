@@ -59,7 +59,7 @@ describe('Avatar harness', () => {
     await expectAsync(harness.getInitials()).toBeResolvedTo('JD');
   });
 
-  it('should return the specified URL', async () => {
+  it('should return the avatar URL if `src` is a string', async () => {
     const { fixture, harness } = await setupTest();
 
     await expectAsync(harness.getSrc()).toBeResolvedTo(undefined);
@@ -69,6 +69,16 @@ describe('Avatar harness', () => {
     await expectAsync(harness.getSrc()).toBeResolvedTo(
       'https://example.com/image.png',
     );
+  });
+
+  it('should return the avatar Blob if `src` is a Blob', async () => {
+    const { fixture, harness } = await setupTest();
+
+    await expectAsync(harness.getSrc()).toBeResolvedTo(undefined);
+
+    fixture.componentRef.setInput('src', new Blob(['a']));
+
+    await expectAsync(harness.getSrc()).toBeResolvedTo(jasmine.any(Blob));
   });
 
   it('should return whether the user can change the avatar image', async () => {
@@ -91,11 +101,13 @@ describe('Avatar harness', () => {
       fixture.componentInstance.avatarChanged,
     );
 
-    await harness.changeAvatar(
+    await harness.dropAvatarFile(
       new File([], 'test.png', {
         type: 'image/png',
       }),
     );
+
+    console.log(await harness.getSrc());
 
     await expectAsync(avatarChanged).toBeResolvedTo({
       file: jasmine.objectContaining({
@@ -113,7 +125,7 @@ describe('Avatar harness', () => {
     fixture.componentRef.setInput('canChange', true);
     fixture.detectChanges();
 
-    await harness.changeAvatar(
+    await harness.dropAvatarFile(
       new File([], 'test.txt', {
         type: 'text/plain',
       }),
@@ -132,7 +144,7 @@ describe('Avatar harness', () => {
     fixture.componentRef.setInput('maxFileSize', 1);
     fixture.detectChanges();
 
-    await harness.changeAvatar(
+    await harness.dropAvatarFile(
       new File(['aa'], 'test.png', {
         type: 'image/png',
       }),
@@ -150,7 +162,7 @@ describe('Avatar harness', () => {
     fixture.componentRef.setInput('canChange', true);
     fixture.detectChanges();
 
-    await harness.changeAvatar(
+    await harness.dropAvatarFile(
       new File([], 'test.txt', {
         type: 'text/plain',
       }),
@@ -169,7 +181,7 @@ describe('Avatar harness', () => {
     fixture.detectChanges();
 
     await expectAsync(
-      harness.changeAvatar(
+      harness.dropAvatarFile(
         new File([], 'test.png', {
           type: 'image/png',
         }),
