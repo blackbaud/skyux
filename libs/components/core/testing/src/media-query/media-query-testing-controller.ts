@@ -5,6 +5,10 @@ import { firstValueFrom } from 'rxjs';
 
 import { SkyBreakpointObserverTesting } from './breakpoint-observer-testing';
 
+/**
+ * A controller to be injected into tests, which mocks the
+ * `SkyMediaQueryService` and handles interactions with breakpoints.
+ */
 @Injectable()
 export class SkyMediaQueryTestingController {
   readonly #observer = inject(SkyBreakpointObserverTesting);
@@ -32,6 +36,9 @@ export class SkyMediaQueryTestingController {
     }
   }
 
+  /**
+   * Emits the provided breakpoint to all subscribers.
+   */
   public setBreakpoint(breakpoint: SkyBreakpoint): void {
     this.#breakpoint = breakpoint;
     this.#observer.setBreakpoint(breakpoint);

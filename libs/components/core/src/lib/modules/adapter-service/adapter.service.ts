@@ -45,8 +45,8 @@ export class SkyCoreAdapterService {
    * Set the responsive container CSS class for a given element.
    *
    * @param elementRef - The element that will receive the new CSS class.
-   * @param breakpoint - The SkyMediaBreakpoint will determine which class
-   * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
+   * @param breakpoint - The breakpoint to determine which class gets set.
+   * For example a breakpoint of "xs" will set a CSS class of "sky-responsive-container-xs".
    * @deprecated Use the `SkyResponsiveHostDirective` instead.
    */
   public setResponsiveContainerClass(

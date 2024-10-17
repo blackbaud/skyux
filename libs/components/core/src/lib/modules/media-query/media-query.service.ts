@@ -1,7 +1,7 @@
 import { Injectable, NgZone, OnDestroy, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 
 import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
 import { toSkyMediaBreakpoints } from '../breakpoint-observer/breakpoint-utils';
@@ -12,6 +12,9 @@ import { SkyMediaQueryListener } from './media-query-listener';
 
 const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
+/**
+ * Utility used to subscribe to viewport and container breakpoint changes.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -54,19 +57,20 @@ export class SkyMediaQueryService implements OnDestroy {
    * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
   public get current(): SkyMediaBreakpoints {
-    return this.#currentBreakpoint;
+    return this.#currentBreakpoint();
   }
 
-  #currentBreakpoint = DEFAULT_BREAKPOINT;
+  #currentBreakpoint = toSignal(
+    this.#breakpointObserver.breakpointChange.pipe(
+      map((breakpoint) => toSkyMediaBreakpoints(breakpoint)),
+    ),
+    {
+      initialValue: DEFAULT_BREAKPOINT,
+    },
+  );
 
   // Keep NgZone as a constructor param so that consumer mocks don't encounter typing errors.
-  constructor(_zone?: NgZone) {
-    this.#breakpointObserver.breakpointChange
-      .pipe(takeUntilDestroyed())
-      .subscribe((breakpoint) => {
-        this.#currentBreakpoint = toSkyMediaBreakpoints(breakpoint);
-      });
-  }
+  constructor(_zone?: NgZone) {}
 
   public ngOnDestroy(): void {
     this.destroy();

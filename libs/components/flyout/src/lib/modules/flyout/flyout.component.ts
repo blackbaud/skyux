@@ -163,7 +163,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #environmentInjector = inject(EnvironmentInjector);
-
   readonly #ngZone = inject(NgZone);
   readonly #resourcesService = inject(SkyLibResourcesService);
   readonly #uiConfigService = inject(SkyUIConfigService);

@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { SkyBreakpoint } from '../media-query/breakpoint-observers/breakpoint';
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import {

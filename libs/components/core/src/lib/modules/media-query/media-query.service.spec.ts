@@ -1,7 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { SkyBreakpoint } from './breakpoint-observers/breakpoint';
-import { SkyMediaBreakpointObserver } from './breakpoint-observers/media-breakpoint-observer';
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
+import { SkyMediaBreakpointObserver } from '../breakpoint-observer/media-breakpoint-observer';
+
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryService } from './media-query.service';
 
@@ -196,15 +197,12 @@ describe('Media query service', () => {
       );
 
       callBreakpoint(SkyMediaBreakpoints.xs);
-
       expect(result).toEqual('xs');
 
       callBreakpoint(SkyMediaBreakpoints.md);
-
       expect(result).toEqual('md');
 
       callBreakpoint(SkyMediaBreakpoints.lg);
-
       expect(result).toEqual('lg');
 
       subscription.unsubscribe();

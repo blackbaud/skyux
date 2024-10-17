@@ -9,6 +9,9 @@ import {
 import { SkyBreakpointObserverTesting } from './breakpoint-observer-testing';
 import { SkyMediaQueryTestingController } from './media-query-testing-controller';
 
+/**
+ * Adds mocks to allow interactions with breakpoints in tests.
+ */
 export function provideSkyMediaQueryTesting(): Provider[] {
   return [
     SkyMediaQueryService,

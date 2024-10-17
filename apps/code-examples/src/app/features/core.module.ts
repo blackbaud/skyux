@@ -17,10 +17,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'media-query/container-breakpoint-observer',
+    path: 'media-query/responsive-host',
     loadComponent: () =>
       import(
-        '../code-examples/core/media-query/container-breakpoint-observer/demo.component'
+        '../code-examples/core/media-query/responsive-host/demo.component'
       ).then((c) => c.DemoComponent),
   },
   {

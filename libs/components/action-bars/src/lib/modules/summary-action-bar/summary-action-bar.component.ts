@@ -46,6 +46,13 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
+  readonly #adapterService = inject(SkySummaryActionBarAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #mediaQuerySvc = inject(SkyMediaQueryService);
+  readonly #observerService = inject(SkyMutationObserverService);
+  readonly #windowRef = inject(SkyAppWindowRef);
+
   public isSummaryCollapsed = false;
 
   public slideDirection = 'down';
@@ -65,17 +72,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   @ViewChild('chevronEl', { read: ElementRef })
   public chevronElementRef: ElementRef | undefined;
 
-  #mediaQuerySubscription: Subscription | undefined;
-  #observer: MutationObserver | undefined;
-  #idled = new Subject<boolean>();
-
-  readonly #adapterService = inject(SkySummaryActionBarAdapterService);
-  readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #elementRef = inject(ElementRef);
-  readonly #mediaQuerySvc = inject(SkyMediaQueryService);
-  readonly #observerService = inject(SkyMutationObserverService);
-  readonly #windowRef = inject(SkyAppWindowRef);
-
   protected readonly isCollapsible = computed(() => {
     return (
       this.type() === SkySummaryActionBarType.StandardModal ||
@@ -87,6 +83,10 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     undefined,
   );
 
+  #mediaQuerySubscription: Subscription | undefined;
+  #observer: MutationObserver | undefined;
+  #idled = new Subject<boolean>();
+
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
 
   #_summaryElement: ElementRef | undefined;
@@ -95,8 +95,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     const type = this.#adapterService.getSummaryActionBarType(
       this.#elementRef.nativeElement,
     );
-
-    this.type.set(type);
 
     if (
       !(
@@ -126,6 +124,8 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
         this.#setupReactiveState();
       }
     }
+
+    this.type.set(type);
     this.#changeDetector.detectChanges();
   }
 
@@ -169,9 +169,11 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
         this.#changeDetector.markForCheck();
       }
 
+      const type = this.type();
+
       if (
-        this.type() === SkySummaryActionBarType.Page ||
-        this.type() === SkySummaryActionBarType.Tab
+        type === SkySummaryActionBarType.Page ||
+        type === SkySummaryActionBarType.Tab
       ) {
         this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
       }

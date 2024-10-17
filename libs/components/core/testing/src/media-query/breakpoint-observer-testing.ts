@@ -3,6 +3,10 @@ import { SkyBreakpoint, SkyBreakpointObserver } from '@skyux/core';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
+/**
+ * Overrides the media and container breakpoint observers for testing.
+ * @internal
+ */
 @Injectable()
 export class SkyBreakpointObserverTesting implements SkyBreakpointObserver {
   public get breakpointChange(): Observable<SkyBreakpoint> {

@@ -5,12 +5,14 @@ import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 import { SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
-  host: {
-    '[style.display]': '"block"',
-  },
   hostDirectives: [SkyResponsiveHostDirective],
   selector: 'app-with-breakpoint-directive',
   standalone: true,
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   template: '<ng-content />',
 })
 export class WithBreakpointDirectiveComponent {}
@@ -48,7 +50,6 @@ export class BreakpointReaderComponent {
             @if ((observer.breakpointChange | async) === 'xs') {
               <div style="color:red;">Mobile view!</div>
             }
-
             <app-breakpoint-reader />
           </div>
         </sky-column>

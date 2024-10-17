@@ -6,39 +6,41 @@ import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 
 @Component({
   host: {
-    '[class]': '"breakpoint-" + breakpointChange()',
-    '[style.display]': '"block"',
+    '[class]': '"breakpoint-" + breakpoint()',
   },
   hostDirectives: [SkyResponsiveHostDirective],
-  imports: [CommonModule],
   selector: 'sky-foo-wrapper',
   standalone: true,
-  template: ` <ng-content /> `,
-  providers: [],
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
+  template: '<ng-content />',
 })
 export class λWrapperTestComponent {
-  readonly #querySvc = inject(SkyMediaQueryService);
-
-  protected breakpointChange = toSignal(this.#querySvc.breakpointChange);
-}
-
-@Component({
-  host: {
-    '[class]': '"breakpoint-" + breakpointChange()',
-  },
-  selector: 'sky-foo-child',
-  standalone: true,
-  template: '',
-})
-export class λChildTestComponent {
-  protected breakpointChange = toSignal(
+  protected breakpoint = toSignal(
     inject(SkyMediaQueryService).breakpointChange,
   );
 }
 
 @Component({
   host: {
-    '[class]': '"breakpoint-" + breakpointChange()',
+    '[class]': '"breakpoint-" + breakpoint()',
+  },
+  selector: 'sky-foo-child',
+  standalone: true,
+  template: '',
+})
+export class λChildTestComponent {
+  protected breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
+}
+
+@Component({
+  host: {
+    '[class]': '"breakpoint-" + breakpoint()',
   },
   imports: [λChildTestComponent, λWrapperTestComponent, CommonModule],
   standalone: true,
@@ -50,7 +52,7 @@ export class λChildTestComponent {
   `,
 })
 export class TestComponent {
-  protected breakpointChange = toSignal(
+  protected breakpoint = toSignal(
     inject(SkyMediaQueryService).breakpointChange,
   );
 }

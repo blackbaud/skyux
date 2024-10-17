@@ -15,7 +15,7 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
- * @deprecated Add `SkyResponsiveHostDirective` to your component's `hostDirectives` instead.
+ * @deprecated Use the `SkyResponsiveHostDirective` instead.
  */
 @Injectable()
 export class SkyResizeObserverMediaQueryService

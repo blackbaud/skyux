@@ -23,10 +23,10 @@ import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
   ],
   imports: [
     CommonModule,
-    SkyResponsiveHostDirective,
     SkyIconModule,
     SkyIdModule,
     SkyExpansionIndicatorModule,
+    SkyResponsiveHostDirective,
     SkyStatusIndicatorModule,
     SkyTabsResourcesModule,
     SkyThemeModule,

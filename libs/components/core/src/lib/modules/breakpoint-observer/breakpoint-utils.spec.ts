@@ -1,4 +1,4 @@
-import { SkyMediaBreakpoints } from '../media-breakpoints';
+import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import {
   isSkyBreakpoint,

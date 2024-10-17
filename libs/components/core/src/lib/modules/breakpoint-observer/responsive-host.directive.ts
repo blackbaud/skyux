@@ -11,7 +11,7 @@ import { provideSkyBreakpointObserver } from './provide-breakpoint-observer';
 
 /**
  * Overrides the `SkyMediaQueryService` to emit breakpoint changes when the host
- * container is resized. This directive also adds specific CSS classes to the
+ * container is resized. This directive also adds SKY UX CSS classes to the
  * host element to allow for responsive styles.
  */
 @Directive({
