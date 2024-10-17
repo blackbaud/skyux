@@ -1,11 +1,12 @@
 import { ElementRef, Injectable, afterNextRender, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, distinctUntilChanged } from 'rxjs';
 
-import { SkyBreakpointObserver } from '../media-query/breakpoint-observers/breakpoint-observer';
-import { SkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-type';
-import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
+import { SkyResizeObserverService } from '../../resize-observer/resize-observer.service';
+
+import { SkyBreakpointObserver } from './breakpoint-observer';
+import { SkyBreakpointType } from './breakpoint-type';
 
 const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
   ['xs', (w) => w > 0 && w <= 767],
@@ -15,7 +16,7 @@ const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
 ]);
 
 /**
- * Emits changes to the width of the host container.
+ * Emits when the width of the host container changes.
  * @internal
  */
 @Injectable()
@@ -36,7 +37,7 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
   constructor() {
     this.#resizeObserver
       .observe(this.#elementRef)
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(), distinctUntilChanged())
       .subscribe((entry) => {
         this.#checkBreakpoint(entry.contentRect.width);
       });

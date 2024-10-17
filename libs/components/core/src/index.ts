@@ -60,12 +60,11 @@ export { SkyLogService } from './lib/modules/log/log.service';
 export { SkyLogLevel } from './lib/modules/log/types/log-level';
 export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
-export { SkyContainerBreakpointObserver } from './lib/modules/container-query/container-breakpoint-observer';
-export { SkyContainerQueryDirective } from './lib/modules/container-query/container-query.directive';
-
 export { SkyBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer';
 export { SKY_BREAKPOINT_OBSERVER } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer.token';
 export { SkyBreakpointType } from './lib/modules/media-query/breakpoint-observers/breakpoint-type';
+export { SkyContainerBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/container-breakpoint-observer';
+export { SkyContainerBreakpointObserverDirective } from './lib/modules/media-query/breakpoint-observers/container-breakpoint-observer.directive';
 export { SkyMediaBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/media-breakpoint-observer';
 export { provideSkyBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/provide-breakpoint-observer';
 export { SkyMediaBreakpoints } from './lib/modules/media-query/media-breakpoints';

@@ -7,7 +7,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { SkyContainerQueryDirective } from '@skyux/core';
+import { SkyContainerBreakpointObserverDirective } from '@skyux/core';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
@@ -26,7 +26,10 @@ import { SkyDataManagerState } from './models/data-manager-state';
   selector: 'sky-data-view',
   templateUrl: './data-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [SkyContainerQueryDirective, SkyTextHighlightDirective],
+  hostDirectives: [
+    SkyContainerBreakpointObserverDirective,
+    SkyTextHighlightDirective,
+  ],
   styles: [
     `
       :host {

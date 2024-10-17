@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   HostBinding,
   Input,
   OnDestroy,
@@ -8,11 +7,10 @@ import {
   inject,
 } from '@angular/core';
 import {
+  SkyContainerBreakpointObserverDirective,
   SkyHelpService,
   SkyLayoutHostForChildArgs,
   SkyLayoutHostService,
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
 import { Subject } from 'rxjs';
@@ -33,17 +31,10 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
  * This is helpful if there is other content to the left or right of the page.
  */
 @Component({
+  hostDirectives: [SkyContainerBreakpointObserverDirective],
   selector: 'sky-page',
   template: `<ng-content />`,
-  providers: [
-    SkyPageThemeAdapterService,
-    SkyLayoutHostService,
-    SkyResizeObserverMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
-    },
-  ],
+  providers: [SkyPageThemeAdapterService, SkyLayoutHostService],
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**
@@ -78,10 +69,6 @@ export class SkyPageComponent implements OnInit, OnDestroy {
   #themeAdapter = inject(SkyPageThemeAdapterService);
   #layoutHostSvc = inject(SkyLayoutHostService);
   #helpSvc = inject(SkyHelpService, { optional: true });
-  readonly #elementRef = inject(ElementRef);
-  readonly #resizeObserverSvc = inject(SkyResizeObserverMediaQueryService, {
-    self: true,
-  });
 
   public ngOnInit(): void {
     this.#themeAdapter.addTheme();
@@ -92,13 +79,10 @@ export class SkyPageComponent implements OnInit, OnDestroy {
         this.#layoutForChild = args.layout as SkyPageLayoutType;
         this.#updateCssClass();
       });
-
-    this.#resizeObserverSvc.observe(this.#elementRef);
   }
 
   public ngOnDestroy(): void {
     this.#themeAdapter.removeTheme();
-    this.#resizeObserverSvc.destroy();
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();

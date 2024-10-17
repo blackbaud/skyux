@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation, inject } from '@angular/core';
-import { SkyContainerQueryDirective } from '@skyux/core';
+import { SkyContainerBreakpointObserverDirective } from '@skyux/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { SkyModalErrorsService } from './modal-errors.service';
@@ -9,7 +9,7 @@ import { SkyModalErrorsService } from './modal-errors.service';
  * Specifies content to display in the modal's footer.
  */
 @Component({
-  hostDirectives: [SkyContainerQueryDirective],
+  hostDirectives: [SkyContainerBreakpointObserverDirective],
   standalone: true,
   selector: 'sky-modal-footer',
   templateUrl: './modal-footer.component.html',

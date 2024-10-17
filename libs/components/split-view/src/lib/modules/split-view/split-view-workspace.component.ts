@@ -5,11 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  SkyContainerBreakpointObserver,
-  SkyMediaQueryService,
-  provideSkyBreakpointObserver,
-} from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
 
 /**
  * Contains the content, footer, and header to display in the split view's workspace panel.
@@ -19,9 +15,11 @@ import {
   templateUrl: 'split-view-workspace.component.html',
   styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideSkyBreakpointObserver(SkyContainerBreakpointObserver)],
 })
 export class SkySplitViewWorkspaceComponent {
+  // Use the parent's breakpoint since the mobile header should only appear when
+  // the split view container as a whole reaches the "xs" breakpoint, not just
+  // the workspace area.
   protected breakpoint = toSignal(
     inject(SkyMediaQueryService, { skipSelf: true }).breakpointChange,
   );

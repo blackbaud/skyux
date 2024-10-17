@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SkyContainerQueryDirective } from '@skyux/core';
+import { SkyContainerBreakpointObserverDirective } from '@skyux/core';
 
 import { SkyPageLink } from '../action-hub/types/page-link';
 
@@ -7,7 +7,7 @@ import { SkyPageLink } from '../action-hub/types/page-link';
  * Displays page heading's contents using spacing that corresponds to the parent page's layout
  */
 @Component({
-  hostDirectives: [SkyContainerQueryDirective],
+  hostDirectives: [SkyContainerBreakpointObserverDirective],
   selector: 'sky-page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],

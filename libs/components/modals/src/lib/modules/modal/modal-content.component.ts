@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { SkyContainerQueryDirective } from '@skyux/core';
+import { SkyContainerBreakpointObserverDirective } from '@skyux/core';
 
 /**
  * Specifies content to display in the modal's body.
  */
 @Component({
-  hostDirectives: [SkyContainerQueryDirective],
+  hostDirectives: [SkyContainerBreakpointObserverDirective],
   standalone: true,
   selector: 'sky-modal-content',
   templateUrl: './modal-content.component.html',

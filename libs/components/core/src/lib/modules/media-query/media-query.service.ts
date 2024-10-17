@@ -16,7 +16,6 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 })
 export class SkyMediaQueryService implements OnDestroy {
   readonly #breakpointObserver = inject(SkyMediaBreakpointObserver);
-  public observer = this.#breakpointObserver;
 
   /**
    * Emits when the breakpoint changes.

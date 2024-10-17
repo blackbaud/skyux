@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyContainerQueryDirective } from '@skyux/core';
+import { SkyContainerBreakpointObserverDirective } from '@skyux/core';
 
 /**
  * Displays page contents using spacing that corresponds to the parent
  * page's layout.
  */
 @Component({
-  hostDirectives: [SkyContainerQueryDirective],
+  hostDirectives: [SkyContainerBreakpointObserverDirective],
   selector: 'sky-page-content',
   template: `<ng-content />`,
   styleUrls: ['./page-content.component.scss'],
