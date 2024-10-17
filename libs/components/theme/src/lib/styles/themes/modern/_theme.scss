@@ -120,7 +120,7 @@
   }
 }
 
-@include compatMixins.sky-modern-v2() {
+@include compatMixins.sky-modern-v2($encapsulate: false) {
   h1,
   .sky-font-heading-1 {
     line-height: var(--sky-font-line_height-heading-1);

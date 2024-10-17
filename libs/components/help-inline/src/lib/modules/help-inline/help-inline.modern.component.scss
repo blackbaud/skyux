@@ -11,8 +11,11 @@
     )};
   --sky-override-help-inline-padding-sides: var(--modern-size-6);
   --sky-override-help-inline-border-radius: var(--modern-size-3);
-  --sky-override-help-inline-line-height: 16.5px;
   --sky-override-help-inline-font-size: #{$sky-font-size-base};
+}
+
+@include compatMixins.sky-modern-v2('.sky-help-inline') {
+  line-height: 1;
 }
 
 @include mixins.sky-component('modern', '.sky-help-inline') {
@@ -32,7 +35,6 @@
     --sky-override-help-inline-border-radius,
     var(--sky-border-radius-s)
   );
-  line-height: var(--sky-override-help-inline-line-height, 1);
   color: var(--sky-color-icon-action);
   background-color: var(--sky-color-background-action-tertiary-base);
   // The font size here is to size the icon stack to the correct size.
