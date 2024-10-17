@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { SkyBreakpointType } from './breakpoint-observers/breakpoint-type';
+import { SkyBreakpoint } from './breakpoint-observers/breakpoint';
 import { SkyMediaBreakpointObserver } from './breakpoint-observers/media-breakpoint-observer';
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryService } from './media-query.service';
@@ -187,7 +187,7 @@ describe('Media query service', () => {
     it('should emit when the breakpoint changes', () => {
       const mediaQuerySvc = TestBed.inject(SkyMediaQueryService);
 
-      let result: SkyBreakpointType | undefined;
+      let result: SkyBreakpoint | undefined;
 
       const subscription = mediaQuerySvc.breakpointChange.subscribe(
         (breakpoint) => {

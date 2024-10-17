@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { SkyBreakpointType } from '../media-query/breakpoint-observers/breakpoint-type';
+import { SkyBreakpoint } from '../media-query/breakpoint-observers/breakpoint';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import {
@@ -76,7 +76,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     document.body.appendChild(nativeElement);
     const target = new ElementRef(nativeElement);
 
-    let result: SkyBreakpointType | undefined;
+    let result: SkyBreakpoint | undefined;
 
     const service = TestBed.inject(SkyResizeObserverMediaQueryService);
     service.observe(target);

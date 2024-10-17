@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { SkyBreakpointObserver, SkyBreakpointType } from '@skyux/core';
+import { SkyBreakpoint, SkyBreakpointObserver } from '@skyux/core';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class SkyBreakpointObserverTesting implements SkyBreakpointObserver {
-  public get breakpointChange(): Observable<SkyBreakpointType> {
+  public get breakpointChange(): Observable<SkyBreakpoint> {
     return this.#breakpointChangeObs;
   }
 
-  #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
+  #breakpointChange = new ReplaySubject<SkyBreakpoint>(1);
   #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   public destroy(): void {
     this.#breakpointChange.complete();
   }
 
-  public setBreakpoint(breakpoint: SkyBreakpointType): void {
+  public setBreakpoint(breakpoint: SkyBreakpoint): void {
     this.#breakpointChange.next(breakpoint);
   }
 }

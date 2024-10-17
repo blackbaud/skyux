@@ -5,10 +5,10 @@ import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyResizeObserverService } from '../../resize-observer/resize-observer.service';
 
+import { SkyBreakpoint } from './breakpoint';
 import { SkyBreakpointObserver } from './breakpoint-observer';
-import { SkyBreakpointType } from './breakpoint-type';
 
-const QUERIES = new Map<SkyBreakpointType, (width: number) => boolean>([
+const QUERIES = new Map<SkyBreakpoint, (width: number) => boolean>([
   ['xs', (w) => w > 0 && w <= 767],
   ['sm', (w) => w > 767 && w <= 991],
   ['md', (w) => w > 991 && w <= 1199],
@@ -24,12 +24,12 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
   readonly #elementRef = inject(ElementRef);
   readonly #resizeObserver = inject(SkyResizeObserverService);
 
-  public get breakpointChange(): Observable<SkyBreakpointType> {
+  public get breakpointChange(): Observable<SkyBreakpoint> {
     return this.#breakpointChangeObs;
   }
 
-  #breakpoint: SkyBreakpointType | undefined;
-  readonly #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
+  #breakpoint: SkyBreakpoint | undefined;
+  readonly #breakpointChange = new ReplaySubject<SkyBreakpoint>(1);
   readonly #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   constructor() {
@@ -59,7 +59,7 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
     }
   }
 
-  #notifyBreakpointChange(breakpoint: SkyBreakpointType): void {
+  #notifyBreakpointChange(breakpoint: SkyBreakpoint): void {
     this.#breakpointChange.next(breakpoint);
   }
 }

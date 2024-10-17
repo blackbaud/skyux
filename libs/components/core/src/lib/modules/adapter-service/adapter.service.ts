@@ -6,12 +6,12 @@ import {
 } from '@angular/core';
 
 import {
-  SKY_BREAKPOINT_TYPES,
-  SkyBreakpointType,
-} from '../media-query/breakpoint-observers/breakpoint-type';
+  SKY_BREAKPOINTS,
+  SkyBreakpoint,
+} from '../media-query/breakpoint-observers/breakpoint';
 import {
-  isSkyBreakpointType,
-  toSkyBreakpointType,
+  isSkyBreakpoint,
+  toSkyBreakpoint,
 } from '../media-query/breakpoint-observers/breakpoint-utils';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
@@ -51,19 +51,19 @@ export class SkyCoreAdapterService {
    */
   public setResponsiveContainerClass(
     elementRef: ElementRef,
-    breakpoint: SkyBreakpointType | SkyMediaBreakpoints,
+    breakpoint: SkyBreakpoint | SkyMediaBreakpoints,
   ): void {
     const nativeEl = elementRef.nativeElement;
 
-    for (const breakpointType of SKY_BREAKPOINT_TYPES) {
+    for (const breakpointType of SKY_BREAKPOINTS) {
       this.#renderer.removeClass(
         nativeEl,
         `sky-responsive-container-${breakpointType}`,
       );
     }
 
-    if (!isSkyBreakpointType(breakpoint)) {
-      breakpoint = toSkyBreakpointType(breakpoint);
+    if (!isSkyBreakpoint(breakpoint)) {
+      breakpoint = toSkyBreakpoint(breakpoint);
     }
 
     this.#renderer.addClass(nativeEl, `sky-responsive-container-${breakpoint}`);

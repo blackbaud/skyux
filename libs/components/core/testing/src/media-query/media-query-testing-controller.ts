@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { SkyBreakpointType } from '@skyux/core';
+import { SkyBreakpoint } from '@skyux/core';
 
 import { firstValueFrom } from 'rxjs';
 
@@ -9,13 +9,13 @@ import { SkyBreakpointObserverTesting } from './breakpoint-observer-testing';
 export class SkyMediaQueryTestingController {
   readonly #observer = inject(SkyBreakpointObserverTesting);
 
-  #breakpoint: SkyBreakpointType | undefined;
+  #breakpoint: SkyBreakpoint | undefined;
 
   /**
    * Throws an error if the current breakpoint does not match the expected breakpoint.
    */
   public async expectBreakpoint(
-    expectedBreakpoint: SkyBreakpointType,
+    expectedBreakpoint: SkyBreakpoint,
   ): Promise<void> {
     if (!this.#breakpoint) {
       throw new Error(
@@ -32,7 +32,7 @@ export class SkyMediaQueryTestingController {
     }
   }
 
-  public setBreakpoint(breakpoint: SkyBreakpointType): void {
+  public setBreakpoint(breakpoint: SkyBreakpoint): void {
     this.#breakpoint = breakpoint;
     this.#observer.setBreakpoint(breakpoint);
   }

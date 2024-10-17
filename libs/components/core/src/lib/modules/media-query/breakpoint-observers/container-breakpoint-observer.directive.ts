@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { SkyCoreAdapterService } from '../../adapter-service/adapter.service';
 import { SkyMediaQueryService } from '../media-query.service';
 
-import { SkyBreakpointType } from './breakpoint-type';
+import { SkyBreakpoint } from './breakpoint';
 import { SkyContainerBreakpointObserver } from './container-breakpoint-observer';
 import { provideSkyBreakpointObserver } from './provide-breakpoint-observer';
 
@@ -26,7 +26,7 @@ export class SkyContainerBreakpointObserverDirective {
   /**
    * Emits when the breakpoint changes.
    */
-  public get breakpointChange(): Observable<SkyBreakpointType> {
+  public get breakpointChange(): Observable<SkyBreakpoint> {
     return this.#mediaSvc.breakpointChange;
   }
 

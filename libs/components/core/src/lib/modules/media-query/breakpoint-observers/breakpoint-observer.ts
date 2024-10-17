@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
 
-import { SkyBreakpointType } from './breakpoint-type';
+import { SkyBreakpoint } from './breakpoint';
 
 /**
  * @internal
  */
 export interface SkyBreakpointObserver {
-  get breakpointChange(): Observable<SkyBreakpointType>;
+  get breakpointChange(): Observable<SkyBreakpoint>;
   destroy(): void;
 }

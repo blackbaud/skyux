@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
+import { SkyBreakpoint } from './breakpoint';
 import { SkyBreakpointObserver } from './breakpoint-observer';
-import { SkyBreakpointType } from './breakpoint-type';
 
-const QUERIES = new Map<SkyBreakpointType, string>([
+const QUERIES = new Map<SkyBreakpoint, string>([
   ['xs', '(max-width: 767px)'],
   ['sm', '(min-width: 768px) and (max-width: 991px)'],
   ['md', '(min-width: 992px) and (max-width: 1199px)'],
@@ -13,18 +13,18 @@ const QUERIES = new Map<SkyBreakpointType, string>([
 ]);
 
 /**
- * Emits changes to the width of the viewport.
+ * Emits when the viewport width changes.
  * @internal
  */
 @Injectable({
   providedIn: 'root',
 })
 export class SkyMediaBreakpointObserver implements SkyBreakpointObserver {
-  public get breakpointChange(): Observable<SkyBreakpointType> {
+  public get breakpointChange(): Observable<SkyBreakpoint> {
     return this.#breakpointChangeObs;
   }
 
-  readonly #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
+  readonly #breakpointChange = new ReplaySubject<SkyBreakpoint>(1);
   readonly #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #listeners = new Map<MediaQueryList, (evt: MediaQueryListEvent) => void>();
@@ -53,7 +53,7 @@ export class SkyMediaBreakpointObserver implements SkyBreakpointObserver {
     this.#breakpointChange.complete();
   }
 
-  #notifyBreakpointChange(breakpoint: SkyBreakpointType): void {
+  #notifyBreakpointChange(breakpoint: SkyBreakpoint): void {
     this.#breakpointChange.next(breakpoint);
   }
 }

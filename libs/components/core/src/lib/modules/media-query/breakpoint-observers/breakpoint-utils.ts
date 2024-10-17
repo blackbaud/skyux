@@ -1,46 +1,46 @@
 import { SkyMediaBreakpoints } from '../media-breakpoints';
 
-import { SKY_BREAKPOINT_TYPES, SkyBreakpointType } from './breakpoint-type';
+import { SKY_BREAKPOINTS, SkyBreakpoint } from './breakpoint';
 
 /**
- * Whether the value is of type `SkyBreakpointType`.
+ * Whether the value is of type `SkyBreakpoint`.
  * @internal
  */
-export function isSkyBreakpointType(
-  value: SkyBreakpointType | SkyMediaBreakpoints | null | undefined,
-): value is SkyBreakpointType {
+export function isSkyBreakpoint(
+  value: SkyBreakpoint | SkyMediaBreakpoints | null | undefined,
+): value is SkyBreakpoint {
   return (
     value !== null &&
     value !== undefined &&
-    SKY_BREAKPOINT_TYPES.includes(value as SkyBreakpointType)
+    SKY_BREAKPOINTS.includes(value as SkyBreakpoint)
   );
 }
 
 /**
- * Transforms a `SkyMediaBreakpoints` value to `SkyBreakpointType`.
+ * Transforms a `SkyMediaBreakpoints` value to `SkyBreakpoint`.
  * @internal
  */
-export function toSkyBreakpointType(
+export function toSkyBreakpoint(
   breakpoint: SkyMediaBreakpoints,
-): SkyBreakpointType {
-  const breakpointsMap = new Map<SkyMediaBreakpoints, SkyBreakpointType>([
+): SkyBreakpoint {
+  const breakpointsMap = new Map<SkyMediaBreakpoints, SkyBreakpoint>([
     [SkyMediaBreakpoints.xs, 'xs'],
     [SkyMediaBreakpoints.sm, 'sm'],
     [SkyMediaBreakpoints.md, 'md'],
     [SkyMediaBreakpoints.lg, 'lg'],
   ]);
 
-  return breakpointsMap.get(breakpoint) as SkyBreakpointType;
+  return breakpointsMap.get(breakpoint) as SkyBreakpoint;
 }
 
 /**
- * Transforms a `SkyBreakpointType` value to `SkyMediaBreakpoints`.
+ * Transforms a `SkyBreakpoint` value to `SkyMediaBreakpoints`.
  * @internal
  */
 export function toSkyMediaBreakpoints(
-  breakpoint: SkyBreakpointType,
+  breakpoint: SkyBreakpoint,
 ): SkyMediaBreakpoints {
-  const breakpointsMap = new Map<SkyBreakpointType, SkyMediaBreakpoints>([
+  const breakpointsMap = new Map<SkyBreakpoint, SkyMediaBreakpoints>([
     ['xs', SkyMediaBreakpoints.xs],
     ['sm', SkyMediaBreakpoints.sm],
     ['md', SkyMediaBreakpoints.md],

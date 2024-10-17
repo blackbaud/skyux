@@ -62,7 +62,7 @@ export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
 export { SkyBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer';
 export { SKY_BREAKPOINT_OBSERVER } from './lib/modules/media-query/breakpoint-observers/breakpoint-observer.token';
-export { SkyBreakpointType } from './lib/modules/media-query/breakpoint-observers/breakpoint-type';
+export { SkyBreakpoint } from './lib/modules/media-query/breakpoint-observers/breakpoint';
 export { SkyContainerBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/container-breakpoint-observer';
 export { SkyContainerBreakpointObserverDirective } from './lib/modules/media-query/breakpoint-observers/container-breakpoint-observer.directive';
 export { SkyMediaBreakpointObserver } from './lib/modules/media-query/breakpoint-observers/media-breakpoint-observer';

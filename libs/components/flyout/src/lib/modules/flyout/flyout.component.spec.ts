@@ -8,7 +8,7 @@ import {
 import { Router, provideRouter } from '@angular/router';
 import '@angular/router/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyBreakpointType, SkyUIConfigService } from '@skyux/core';
+import { SkyBreakpoint, SkyUIConfigService } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -1589,7 +1589,7 @@ describe('Flyout component', () => {
   });
 
   describe('responsive states', () => {
-    function expectResponsiveCssClass(breakpoint: SkyBreakpointType): void {
+    function expectResponsiveCssClass(breakpoint: SkyBreakpoint): void {
       const flyoutElement = getFlyoutElement();
       expect(flyoutElement).toHaveCssClass(
         `sky-responsive-container-${breakpoint}`,

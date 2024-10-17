@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import {
-  SkyBreakpointType,
+  SkyBreakpoint,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
 } from '@skyux/core';
@@ -16,7 +16,7 @@ import { provideSkyMediaQueryTesting } from './provide-media-query-testing';
 describe('media-query-testing.controller', () => {
   function expectBreakpointCSSClass(
     el: HTMLElement,
-    breakpoint: SkyBreakpointType,
+    breakpoint: SkyBreakpoint,
   ): void {
     expect(el).toHaveClass(`breakpoint-${breakpoint}`);
   }
@@ -85,7 +85,7 @@ describe('media-query-testing.controller', () => {
   it('should emit breakpoint changes', () => {
     const { mediaQueryController } = setupTest();
 
-    let currentBreakpoint: SkyBreakpointType | undefined;
+    let currentBreakpoint: SkyBreakpoint | undefined;
 
     const subscription = TestBed.inject(
       SkyMediaQueryService,

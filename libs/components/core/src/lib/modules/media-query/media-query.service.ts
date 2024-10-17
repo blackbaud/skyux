@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { SkyBreakpointType } from './breakpoint-observers/breakpoint-type';
+import { SkyBreakpoint } from './breakpoint-observers/breakpoint';
 import { toSkyMediaBreakpoints } from './breakpoint-observers/breakpoint-utils';
 import { SkyMediaBreakpointObserver } from './breakpoint-observers/media-breakpoint-observer';
 import { SkyMediaBreakpoints } from './media-breakpoints';
@@ -20,7 +20,7 @@ export class SkyMediaQueryService implements OnDestroy {
   /**
    * Emits when the breakpoint changes.
    */
-  public get breakpointChange(): Observable<SkyBreakpointType> {
+  public get breakpointChange(): Observable<SkyBreakpoint> {
     return this.#breakpointObserver.breakpointChange;
   }
 
@@ -58,7 +58,7 @@ export class SkyMediaQueryService implements OnDestroy {
 
   #currentBreakpoint = DEFAULT_BREAKPOINT;
 
-  // Keep NgZone as a constructor param so that consumer mocks don't throw typing errors.
+  // Keep NgZone as a constructor param so that consumer mocks don't encounter typing errors.
   constructor(_zone?: NgZone) {
     this.#breakpointObserver.breakpointChange
       .pipe(takeUntilDestroyed())
@@ -85,7 +85,7 @@ export class SkyMediaQueryService implements OnDestroy {
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#breakpointObserver.breakpointChange.subscribe({
-      next: (breakpoint: SkyBreakpointType) => {
+      next: (breakpoint: SkyBreakpoint) => {
         listener(toSkyMediaBreakpoints(breakpoint));
       },
     });

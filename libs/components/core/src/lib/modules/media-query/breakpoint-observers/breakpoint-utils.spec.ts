@@ -1,28 +1,28 @@
 import { SkyMediaBreakpoints } from '../media-breakpoints';
 
 import {
-  isSkyBreakpointType,
-  toSkyBreakpointType,
+  isSkyBreakpoint,
+  toSkyBreakpoint,
   toSkyMediaBreakpoints,
 } from './breakpoint-utils';
 
-describe('media-breakpoint-type', () => {
-  it('should check if a value is of type SkyBreakpointType', () => {
-    expect(isSkyBreakpointType('xs')).toEqual(true);
-    expect(isSkyBreakpointType(1)).toEqual(false);
-    expect(isSkyBreakpointType(SkyMediaBreakpoints.lg)).toEqual(false);
-    expect(isSkyBreakpointType(null)).toEqual(false);
-    expect(isSkyBreakpointType(undefined)).toEqual(false);
+describe('breakpoint-utils', () => {
+  it('should check if a value is of type SkyBreakpoint', () => {
+    expect(isSkyBreakpoint('xs')).toEqual(true);
+    expect(isSkyBreakpoint(1)).toEqual(false);
+    expect(isSkyBreakpoint(SkyMediaBreakpoints.lg)).toEqual(false);
+    expect(isSkyBreakpoint(null)).toEqual(false);
+    expect(isSkyBreakpoint(undefined)).toEqual(false);
   });
 
-  it('should transform a `SkyMediaBreakpoints` value to `SkyBreakpointType`', () => {
-    expect(toSkyBreakpointType(SkyMediaBreakpoints.xs)).toEqual('xs');
-    expect(toSkyBreakpointType(SkyMediaBreakpoints.sm)).toEqual('sm');
-    expect(toSkyBreakpointType(SkyMediaBreakpoints.md)).toEqual('md');
-    expect(toSkyBreakpointType(SkyMediaBreakpoints.lg)).toEqual('lg');
+  it('should transform a `SkyMediaBreakpoints` value to `SkyBreakpoint`', () => {
+    expect(toSkyBreakpoint(SkyMediaBreakpoints.xs)).toEqual('xs');
+    expect(toSkyBreakpoint(SkyMediaBreakpoints.sm)).toEqual('sm');
+    expect(toSkyBreakpoint(SkyMediaBreakpoints.md)).toEqual('md');
+    expect(toSkyBreakpoint(SkyMediaBreakpoints.lg)).toEqual('lg');
   });
 
-  it('should transform a `SkyBreakpointType` value to `SkyMediaBreakpoints`', () => {
+  it('should transform a `SkyBreakpoint` value to `SkyMediaBreakpoints`', () => {
     expect(toSkyMediaBreakpoints('xs')).toEqual(SkyMediaBreakpoints.xs);
     expect(toSkyMediaBreakpoints('sm')).toEqual(SkyMediaBreakpoints.sm);
     expect(toSkyMediaBreakpoints('md')).toEqual(SkyMediaBreakpoints.md);

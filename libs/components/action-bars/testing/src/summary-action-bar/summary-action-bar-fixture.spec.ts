@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyBreakpointType } from '@skyux/core';
+import { SkyBreakpoint } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -20,7 +20,7 @@ describe('Summary action bar fixture', () => {
   //#region helpers
 
   async function initiateResponsiveMode(
-    breakpoint: SkyBreakpointType,
+    breakpoint: SkyBreakpoint,
   ): Promise<void> {
     mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
