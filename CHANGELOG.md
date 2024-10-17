@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.14.0](https://github.com/blackbaud/skyux/compare/11.13.1...11.14.0) (2024-10-17)
+
+
+### Features
+
+* **components/help-inline:** tokenize help inline styles ([#2841](https://github.com/blackbaud/skyux/issues/2841)) ([12c8c9c](https://github.com/blackbaud/skyux/commit/12c8c9cda650e003699f1ae6a1525ccd7555fdd4))
+
 ## [11.13.1](https://github.com/blackbaud/skyux/compare/11.13.0...11.13.1) (2024-10-17)
 
 
