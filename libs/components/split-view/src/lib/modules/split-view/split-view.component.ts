@@ -36,11 +36,7 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
   selector: 'sky-split-view',
   templateUrl: './split-view.component.html',
   styleUrls: ['./split-view.component.scss'],
-  providers: [
-    SkySplitViewAdapterService,
-    SkySplitViewService,
-    // provideSkyBreakpointObserver(SkyContainerBreakpointObserver),
-  ],
+  providers: [SkySplitViewAdapterService, SkySplitViewService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('blockAnimationOnLoad', [transition(':enter', [])]),
