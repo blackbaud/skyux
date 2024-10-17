@@ -120,7 +120,7 @@ export class SkyInputBoxComponent
   @Input()
   public set stacked(value: BooleanInput) {
     this.#_stacked = coerceBooleanProperty(value);
-    this.cssClass = this.#_stacked ? 'sky-margin-stacked-lg' : '';
+    this.cssClass = this.#_stacked ? 'sky-form-field-stacked' : '';
   }
 
   /**

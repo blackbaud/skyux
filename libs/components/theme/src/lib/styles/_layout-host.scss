@@ -1,4 +1,5 @@
-@use 'mixins' as mixins;
+@use './mixins' as mixins;
+@use './variables' as variables;
 
 // xs breakpoint
 .sky-layout-host {
@@ -9,6 +10,10 @@
 
     --sky-layout-host-links-spacing: var(--sky-margin-stacked-xl)
       var(--sky-margin-inline-sm);
+
+    .sky-margin-stacked-xl:empty {
+      margin-bottom: 0;
+    }
 
     &:has(> sky-page-content):has(> sky-page-links) {
       display: grid;
@@ -78,6 +83,10 @@
     --sky-layout-host-content-spacing: 0;
     --sky-layout-host-tab-content-spacing: 10px;
   }
+
+  &-none {
+    --sky-layout-host-links-display: none;
+  }
 }
 
 @include mixins.sky-host-responsive-container-sm-min(false) {
@@ -130,11 +139,17 @@
           minmax(var(--sky-margin-stacked-xl), min-content)
           minmax(var(--sky-margin-stacked-xl), min-content)
           minmax(var(--sky-margin-stacked-xl), min-content)
-          1fr;
-        grid-template-columns: 0 auto 25%;
+          auto;
+        grid-template-columns: 0 75% 25%;
 
         &:has(sky-page-header-avatar:not(:empty)) {
-          grid-template-columns: min-content auto 25%;
+          --sky-layout-host-header-avatar-size: calc(
+            120px + var(--sky-margin-inline-xl)
+          );
+          grid-template-columns:
+            var(--sky-layout-host-header-avatar-size)
+            calc(75% - var(--sky-layout-host-header-avatar-size))
+            25%;
 
           h1.sky-page-header-text {
             margin: 0;

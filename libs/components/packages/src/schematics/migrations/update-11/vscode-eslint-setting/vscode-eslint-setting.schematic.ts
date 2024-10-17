@@ -1,5 +1,7 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
 
+import { parse } from 'jsonc-parser';
+
 import { readRequiredFile, writeJsonFile } from '../../../utility/tree';
 
 const packageJsonPath = '/package.json';
@@ -9,7 +11,7 @@ function getVSCodeSettings(tree: Tree): {
   'eslint.useFlatConfig'?: boolean;
 } {
   if (tree.exists(vscodeSettingsPath)) {
-    return JSON.parse(readRequiredFile(tree, vscodeSettingsPath));
+    return parse(readRequiredFile(tree, vscodeSettingsPath), [], {});
   } else {
     return {};
   }
