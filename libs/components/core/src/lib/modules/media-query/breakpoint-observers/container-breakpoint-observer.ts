@@ -1,7 +1,7 @@
-import { ElementRef, Injectable, afterNextRender, inject } from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Observable, ReplaySubject, distinctUntilChanged } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyResizeObserverService } from '../../resize-observer/resize-observer.service';
 
@@ -30,21 +30,15 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
 
   #breakpoint: SkyBreakpointType | undefined;
   readonly #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
-  readonly #breakpointChangeObs = this.#breakpointChange
-    .asObservable()
-    .pipe(takeUntilDestroyed());
+  readonly #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   constructor() {
     this.#resizeObserver
       .observe(this.#elementRef)
-      .pipe(takeUntilDestroyed(), distinctUntilChanged())
+      .pipe(takeUntilDestroyed())
       .subscribe((entry) => {
         this.#checkBreakpoint(entry.contentRect.width);
       });
-
-    afterNextRender(() => {
-      this.#checkWidth(this.#elementRef);
-    });
   }
 
   public ngOnDestroy(): void {
@@ -63,11 +57,6 @@ export class SkyContainerBreakpointObserver implements SkyBreakpointObserver {
         break;
       }
     }
-  }
-
-  #checkWidth(el: ElementRef): void {
-    const width = (el.nativeElement as HTMLElement).offsetWidth ?? 0;
-    this.#checkBreakpoint(width);
   }
 
   #notifyBreakpointChange(breakpoint: SkyBreakpointType): void {

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
@@ -26,9 +25,7 @@ export class SkyMediaBreakpointObserver implements SkyBreakpointObserver {
   }
 
   readonly #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
-  readonly #breakpointChangeObs = this.#breakpointChange
-    .asObservable()
-    .pipe(takeUntilDestroyed());
+  readonly #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #listeners = new Map<MediaQueryList, (evt: MediaQueryListEvent) => void>();
 

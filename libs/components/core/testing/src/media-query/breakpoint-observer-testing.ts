@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyBreakpointObserver, SkyBreakpointType } from '@skyux/core';
 
 import { Observable, ReplaySubject } from 'rxjs';
@@ -11,9 +10,7 @@ export class SkyBreakpointObserverTesting implements SkyBreakpointObserver {
   }
 
   #breakpointChange = new ReplaySubject<SkyBreakpointType>(1);
-  #breakpointChangeObs = this.#breakpointChange
-    .asObservable()
-    .pipe(takeUntilDestroyed());
+  #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   public destroy(): void {
     this.#breakpointChange.complete();

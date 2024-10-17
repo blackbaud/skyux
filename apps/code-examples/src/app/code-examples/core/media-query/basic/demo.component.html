@@ -1,2 +1,29 @@
-Current media breakpoint:
-<strong data-sky-id="breakpoint">{{ breakpoint() }}</strong>
+<p>Current media breakpoint: {{ breakpoint() }}</p>
+
+@if (breakpoint() === 'xs') {
+  <nav class="my-nav-mobile">
+    <ul>
+      <li>
+        <button aria-label="Home" type="button">
+          <sky-icon icon="menu" />
+        </button>
+      </li>
+    </ul>
+  </nav>
+} @else {
+  <nav class="my-nav-desktop">
+    <ul>
+      <li>
+        <a href="#">Home</a>
+      </li>
+    </ul>
+  </nav>
+}
+
+<div
+  #contentRef="skyContainerBreakpointObserver"
+  class="my-content"
+  skyContainerBreakpointObserver
+>
+  <p>Breakpoint within container: {{ contentRef.breakpointChange | async }}</p>
+</div>

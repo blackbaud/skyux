@@ -12,6 +12,8 @@ import {
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
 } from '@skyux/core/testing';
 import {
   SkyTheme,
@@ -204,6 +206,7 @@ describe('Modal component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyModalFixturesModule, SkyHelpTestingModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
 
     // Confirm all modals are closed before another test is executed.
@@ -838,6 +841,8 @@ describe('Modal component', () => {
 
   it('should contain responsive size class', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
+
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('xs');
 
     expect(document.querySelector('.sky-responsive-container-xs')).toExist();
 
