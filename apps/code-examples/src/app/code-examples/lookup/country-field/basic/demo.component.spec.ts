@@ -1,20 +1,23 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAutocompleteHarness } from '@skyux/lookup/testing';
+import { SkyInputBoxHarness } from '@skyux/forms/testing';
+import { SkyCountryFieldHarness } from '@skyux/lookup/testing';
 
 import { DemoComponent } from './demo.component';
 
-describe('Basic autocomplete demo', () => {
+describe('Basic country field demo', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
-    harness: SkyAutocompleteHarness;
+    harness: SkyCountryFieldHarness;
     fixture: ComponentFixture<DemoComponent>;
   }> {
     const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    const harness = await loader.getHarness(
-      SkyAutocompleteHarness.with({ dataSkyId: options.dataSkyId }),
-    );
+    const harness = await (
+      await loader.getHarness(
+        SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),
+      )
+    ).queryHarness(SkyCountryFieldHarness);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -28,30 +31,26 @@ describe('Basic autocomplete demo', () => {
     });
   });
 
-  it('should set up favorite color autocomplete input', async () => {
+  it('should set up country field input', async () => {
     const { harness, fixture } = await setupTest({
-      dataSkyId: 'favorite-color',
+      dataSkyId: 'country-field',
     });
 
     await harness.focus();
-    await harness.enterText('b');
+    await harness.enterText('ger');
 
     const searchResultsText = await harness.getSearchResultsText();
 
-    expect(searchResultsText.length).toBe(3);
+    expect(searchResultsText.length).toBe(4);
 
     await harness.clear();
-    await harness.enterText('blu');
+    await harness.enterText('can');
 
     const searchResults = await harness.getSearchResults();
-    await expectAsync(searchResults[0].getDescriptorValue()).toBeResolvedTo(
-      'Blue',
-    );
-    await expectAsync(searchResults[0].getText()).toBeResolvedTo('Blue');
+    await expectAsync(searchResults[1].getText()).toBeResolvedTo('Canada');
 
-    await searchResults[0].select();
-    const value =
-      fixture.componentInstance.formGroup.get('favoriteColor')?.value;
-    expect(value?.name).toBe('Blue');
+    await searchResults[1].select();
+    const value = fixture.componentInstance.countryForm.get('country')?.value;
+    expect(value?.name).toBe('Canada');
   });
 });

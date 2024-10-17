@@ -4,6 +4,10 @@ export { SkyAutocompleteSearchResultHarness } from './autocomplete/autocomplete-
 export { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete/autocomplete-search-result-harness-filters';
 
 export { SkyCountryFieldFixture } from './country-field/country-field-fixture';
+export { SkyCountryFieldHarness } from './country-field/country-field-harness';
+export { SkyCountryFieldHarnessFilters } from './country-field/country-field-harness-filters';
+export { SkyCountryFieldSearchResultHarness } from './country-field/country-field-search-result-harness';
+export { SkyCountryFieldSearchResultHarnessFilters } from './country-field/country-field-search-result-harness-filters';
 export { SkyCountryFieldTestingModule } from './country-field/country-field-testing.module';
 
 export { SkyLookupHarness } from './lookup/lookup-harness';

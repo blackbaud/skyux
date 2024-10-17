@@ -44,6 +44,13 @@ const routes: Routes = [
         '../code-examples/pages/page/split-view-page-fit-layout-demo/demo.component'
       ).then((c) => c.DemoComponent),
   },
+  {
+    path: 'page/home-page-blocks-layout',
+    loadComponent: () =>
+      import(
+        '../code-examples/pages/page/home-page-blocks-layout-demo/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
 ];
 
 @NgModule({

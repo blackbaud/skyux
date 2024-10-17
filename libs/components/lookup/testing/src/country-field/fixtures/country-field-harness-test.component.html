@@ -1,0 +1,7 @@
+<form [formGroup]="myForm">
+  <sky-country-field
+    data-sky-id="country-field"
+    formControlName="countryControl"
+    (selectedCountryChange)="selectedCountryChange($event)"
+  />
+</form>

@@ -30,7 +30,9 @@ import {
 })
 export class SkyPageContentComponent implements OnInit, OnDestroy {
   #elementRef = inject(ElementRef);
-  #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
+  #mediaQueryService = inject(SkyResizeObserverMediaQueryService, {
+    self: true,
+  });
 
   public ngOnInit(): void {
     this.#mediaQueryService.observe(this.#elementRef, {

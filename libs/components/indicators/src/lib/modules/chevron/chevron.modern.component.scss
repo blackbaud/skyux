@@ -1,20 +1,23 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-modern-overrides('.sky-chevron') {
+  --sky-override-chevron-size: #{$sky-context-menu-size};
+  --sky-override-chevron-line-height: calc(20 / 14);
+  padding: 0;
+}
 
 @include mixins.sky-component('modern', '.sky-chevron') {
   border: none;
   background-color: transparent;
   flex-shrink: 0;
-  height: $sky-context-menu-size;
+  height: var(--sky-override-chevron-size, '');
+  line-height: var(--sky-override-chevron-line-height, 1);
   margin: 0;
-  padding: 0;
   overflow: hidden;
-  width: $sky-context-menu-size;
+  width: var(--sky-override-chevron-size, '');
   cursor: pointer;
   position: relative;
   vertical-align: top;
-
-  &:hover .sky-chevron-part {
-    border-color: darken($sky-text-color-icon-borderless, 20%);
-  }
 }

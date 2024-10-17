@@ -673,12 +673,12 @@ describe('Input box component', () => {
 
       const els = getDefaultEls(fixture, 'input-easy-mode');
 
-      expect(els.inputBoxEl).toHaveCssClass('sky-margin-stacked-lg');
+      expect(els.inputBoxEl).toHaveCssClass('sky-form-field-stacked');
 
       fixture.componentInstance.easyModeStacked = false;
       fixture.detectChanges();
 
-      expect(els.inputBoxEl).not.toHaveCssClass('sky-margin-stacked-lg');
+      expect(els.inputBoxEl).not.toHaveCssClass('sky-form-field-stacked');
     });
 
     it('should add help inline for text', async () => {

@@ -21,6 +21,8 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
 
   public errorForm: UntypedFormGroup;
 
+  public errorDisabledField: UntypedFormControl;
+
   public errorNgModelValue: string;
 
   public helpPopoverContent: string | undefined = "I'm some help content.";
@@ -31,6 +33,9 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
 
   @ViewChild('errorNgModel')
   public errorNgModel: NgModel;
+
+  @ViewChild('errorNgModelDisabled')
+  public errorNgModelDisabled: NgModel;
 
   public ngOnInit(): void {
     this.errorField = new UntypedFormControl('', [Validators.required]);
@@ -69,11 +74,17 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
     this.errorAutofillForm.controls[
       'errorAutofillTextareaFormField'
     ].markAsTouched();
+
+    this.errorDisabledField = new UntypedFormControl('', [Validators.required]);
+    this.errorDisabledField.markAsTouched();
+    this.errorDisabledField.markAsDirty();
+    this.errorDisabledField.disable();
   }
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
       this.errorNgModel.control.markAsTouched();
+      this.errorNgModelDisabled.control.markAsTouched();
     });
   }
 
