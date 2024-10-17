@@ -1,3 +1,8 @@
+/* istanbul ignore file: these are used in @skyux/core */
+
+/**
+ * @internal
+ */
 export const mockResizeObserverEntry: ResizeObserverEntry = {
   target: {} as Element,
   borderBoxSize: [],
@@ -21,6 +26,9 @@ const defaultCallback: ResizeObserverCallback = (
   observer: ResizeObserver,
 ) => {};
 
+/**
+ * @internal
+ */
 export const mockResizeObserverHandle = {
   callback: defaultCallback,
   emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver) => {
@@ -28,6 +36,9 @@ export const mockResizeObserverHandle = {
   },
 };
 
+/**
+ * @internal
+ */
 export function mockResizeObserver() {
   (window as any).requestAnimationFrame = (callback: () => void): number => {
     callback();

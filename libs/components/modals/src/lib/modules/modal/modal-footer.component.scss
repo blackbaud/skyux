@@ -1,6 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+sky-modal-footer {
+  display: block;
+}
+
 .sky-modal-footer-container {
   background-color: #fff;
   @include mixins.sky-border(light, top);

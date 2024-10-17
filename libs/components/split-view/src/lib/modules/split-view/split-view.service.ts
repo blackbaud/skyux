@@ -17,10 +17,6 @@ export class SkySplitViewService implements OnDestroy {
 
   public drawerVisible = new BehaviorSubject<boolean>(true);
 
-  public get drawerWidthStream(): Observable<number> {
-    return this.#_drawerWidthStream;
-  }
-
   public splitViewElementRef: ElementRef | undefined;
 
   public set isMobile(value: boolean) {
@@ -38,7 +34,6 @@ export class SkySplitViewService implements OnDestroy {
   #mediaQueryServiceSubscription: Subscription;
 
   #_backButtonTextStream = new BehaviorSubject<string>('');
-  #_drawerWidthStream = new BehaviorSubject<number>(320);
   #_isMobile = false;
   #_isMobileStream = new BehaviorSubject<boolean>(false);
 
@@ -82,9 +77,5 @@ export class SkySplitViewService implements OnDestroy {
 
   public updateBackButtonText(text: string): void {
     this.#_backButtonTextStream.next(text);
-  }
-
-  public updateDrawerWidth(drawerWidth: number): void {
-    this.#_drawerWidthStream.next(drawerWidth);
   }
 }

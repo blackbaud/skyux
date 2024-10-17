@@ -1,0 +1,19 @@
+<p>Viewport breakpoint: {{ breakpoint() }}</p>
+
+<h4>
+  A component using the <code>SkyResponsiveHostDirective</code> as a host
+  directive:
+</h4>
+
+<app-container data-sky-id="container-w-host-directive" />
+
+<h4>A DIV using the <code>skyResponsiveHost</code> attribute:</h4>
+
+<div
+  #hostRef="skyResponsiveHost"
+  class="my-container"
+  data-sky-id="container-w-attr"
+  skyResponsiveHost
+>
+  <p>Breakpoint within container: {{ hostRef.breakpointChange | async }}</p>
+</div>

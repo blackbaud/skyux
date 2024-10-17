@@ -14,8 +14,10 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -33,7 +35,7 @@ import { SkySplitViewDockType } from './types/split-view-dock-type';
 import { SkySplitViewMessage } from './types/split-view-message';
 import { SkySplitViewMessageType } from './types/split-view-message-type';
 
-let mockQueryService: MockSkyMediaQueryService;
+let mediaQueryController: SkyMediaQueryTestingController;
 
 // #region helpers
 function noop(): void {
@@ -135,7 +137,7 @@ function getFocusedElement(): HTMLElement {
 }
 
 function initiateResponsiveMode(fixture: ComponentFixture<unknown>): void {
-  mockQueryService.fire(SkyMediaBreakpoints.xs);
+  mediaQueryController.setBreakpoint('xs');
   fixture.detectChanges();
 }
 
@@ -190,13 +192,10 @@ describe('Split view component', () => {
       }),
     };
 
-    // replace the mock service before using in the test bed to avoid change detection errors
-    mockQueryService = new MockSkyMediaQueryService();
-
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, SplitViewFixturesModule],
       providers: [
-        { provide: SkyMediaQueryService, useValue: mockQueryService },
+        provideSkyMediaQueryTesting(),
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
@@ -204,6 +203,7 @@ describe('Split view component', () => {
       ],
     });
 
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
     rendererFactory = TestBed.inject(RendererFactory2);
     renderer = rendererFactory.createRenderer(undefined, null);
     fixture = TestBed.createComponent(SplitViewFixtureComponent);
@@ -404,7 +404,7 @@ describe('Split view component', () => {
   describe('after properties initialize', () => {
     // Runs the initial getters. Make sure we always have a baseline of lg media breakpoint.
     beforeEach(fakeAsync(() => {
-      mockQueryService.fire(SkyMediaBreakpoints.lg);
+      mediaQueryController.setBreakpoint('lg');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -612,7 +612,7 @@ describe('Split view component', () => {
 
     it('resize handle and workspace panel should be revealed when screen size changes back to md from xs', fakeAsync(() => {
       initiateResponsiveMode(fixture);
-      mockQueryService.fire(SkyMediaBreakpoints.md);
+      mediaQueryController.setBreakpoint('md');
       fixture.detectChanges();
       const resizeHandle = getResizeHandle(fixture);
 
