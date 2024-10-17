@@ -29,11 +29,11 @@ describe('Media query demo', () => {
 
     const containerWithHostDirective = fixture.debugElement.query(
       By.css('[data-sky-id="container-w-host-directive"]'),
-    ).nativeElement;
+    ).nativeElement as HTMLElement;
 
     const containerWithAttrDirective = fixture.debugElement.query(
       By.css('[data-sky-id="container-w-attr"]'),
-    ).nativeElement;
+    ).nativeElement as HTMLElement;
 
     mediaController.setBreakpoint('xs');
     fixture.detectChanges();

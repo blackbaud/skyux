@@ -41,7 +41,7 @@ export class BreakpointReaderComponent {
     <p>Root breakpoint: {{ rootBreakpoint() }}</p>
     <sky-fluid-grid>
       <sky-row>
-        <sky-column [screenXSmall]="6" style="border: 1px solid magenta">
+        <sky-column style="border: 1px solid magenta" [screenXSmall]="6">
           HTML directive:
           <div #observer="skyResponsiveHost" skyResponsiveHost>
             @if ((observer.breakpointChange | async) === 'xs') {
@@ -50,7 +50,7 @@ export class BreakpointReaderComponent {
             <app-breakpoint-reader />
           </div>
         </sky-column>
-        <sky-column [screenXSmall]="6" style="border: 1px solid green">
+        <sky-column style="border: 1px solid green" [screenXSmall]="6">
           Host directive:
           <app-with-breakpoint-directive>
             <app-breakpoint-reader />
