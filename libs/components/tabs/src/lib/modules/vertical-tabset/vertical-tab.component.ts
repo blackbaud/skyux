@@ -124,7 +124,24 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     return this.#tabIdOrDefault;
   }
 
-  public contentRendered = false;
+  public set contentRendered(value: boolean) {
+    this.#_contentRendered = value;
+
+    /* istanbul ignore else */
+    if (this.#_contentRendered) {
+      // NOTE: Trigger another change detection cycle when the service marks
+      // this tab as "rendered".
+      setTimeout(() => {
+        if (this.tabContent) {
+          this.#changeRef.markForCheck();
+        }
+      });
+    }
+  }
+
+  public get contentRendered(): boolean {
+    return this.#_contentRendered;
+  }
 
   public index: number | undefined;
 
@@ -141,6 +158,8 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   });
 
   #_ariaRole = 'tab';
+
+  #_contentRendered = false;
 
   #tabIdOrDefault: string;
 
