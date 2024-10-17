@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.13.1](https://github.com/blackbaud/skyux/compare/11.13.0...11.13.1) (2024-10-17)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** adjust row selection options ([#2842](https://github.com/blackbaud/skyux/issues/2842)) ([2f1397c](https://github.com/blackbaud/skyux/commit/2f1397caa874754b228588ccb21a3e08a6f1bf53))
+
 ## [11.13.0](https://github.com/blackbaud/skyux/compare/11.12.0...11.13.0) (2024-10-17)
 
 
