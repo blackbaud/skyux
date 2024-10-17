@@ -356,6 +356,7 @@ jobs:
         shell: bash
         run: |
           set +e
+          set +o pipefail
 
           echo '# PERCY_TARGET_BRANCH' $PERCY_TARGET_BRANCH
           echo '# PERCY_TARGET_COMMIT' $PERCY_TARGET_COMMIT
@@ -365,8 +366,9 @@ jobs:
           RESULT=$?
           if [ $RESULT -ne 0 ]; then
             echo "Percy failed with exit code $RESULT"
-            RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds|Module loop: this module is already being loaded.)' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
-            if [ $RETRY -gt 0 ]; then
+            RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds|Module loop: this module is already being loaded|Failed to connect to the bus: Could not parse server address: Unknown address type)' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            FINALIZED=$(grep -cE '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            if [ $RETRY -gt 0 ] || [ $FINALIZED -eq 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
               npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
