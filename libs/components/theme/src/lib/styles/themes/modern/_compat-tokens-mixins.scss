@@ -27,7 +27,6 @@
   }
 }
 
-// We don't anticipate needing to encapsulate v2 only styles
 @mixin sky-modern-v2($selector: '', $encapsulate: true) {
   @if $encapsulate {
     :host-context(.sky-theme-modern.sky-theme-brand-blackbaud) #{$selector} {
