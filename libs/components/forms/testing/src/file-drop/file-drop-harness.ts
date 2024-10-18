@@ -37,7 +37,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     const dropTarget = await this.#getDropTarget();
 
     const fileList = {
-      item: (index: number) => files[index],
+      item: (index: number): File => files[index],
       length: files.length,
     };
 
@@ -51,7 +51,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     // result of an event handler which is outside of the test harness async logic,
     // so get in the queue after the event handler, then resolve.
     return new Promise((resolve) => {
-      setTimeout(() => resolve(), 1);
+      setTimeout(() => resolve(), 100);
     });
   }
 }
