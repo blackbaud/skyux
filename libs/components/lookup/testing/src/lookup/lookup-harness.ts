@@ -31,7 +31,10 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyLookupHarness` that meets certain criteria.
    *
-   * For lookup components wrapped in input boxes, all filters (eg. `data-sky-id`) must be placed on the `sky-input-box` wrapper.
+   * These filters only work for standalone lookups. For lookups
+   * wrapped inside `sky-input-box`, place filters on the input box
+   * instead and query the datepicker using a `SkyInputBoxHarness`.
+   * For the input box implementation, see the code example.
    */
   public static override with(
     filters: SkyLookupHarnessFilters,
