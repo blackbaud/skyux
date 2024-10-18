@@ -9,17 +9,17 @@
     </label>
     <input
       class="sky-form-control"
+      id="inputName"
+      type="text"
       [ngModel]="name"
       [required]="nameRequired"
       (blur)="checkValidity()"
       (ngModelChange)="nameChange($event)"
-      id="inputName"
-      type="text"
     />
   </div>
   <div style="margin-right: 10px; flex: 1">
     <label for="inputId" class="sky-control-label"> Id </label>
-    <input class="sky-form-control" [ngModel]="id" id="inputId" type="text" />
+    <input class="sky-form-control" id="inputId" type="text" [ngModel]="id" />
   </div>
 </div>
 

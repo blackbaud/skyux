@@ -102,5 +102,5 @@ export function getStorybookProject(
 }
 
 export function getProjectTypeBase(projectConfig: ProjectConfiguration) {
-  return `${projectConfig.projectType == 'library' ? 'lib' : 'app'}`;
+  return `${projectConfig.projectType === 'library' ? 'lib' : 'app'}`;
 }

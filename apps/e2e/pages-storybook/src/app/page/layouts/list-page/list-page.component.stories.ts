@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import ListPageComponent from './list-page.component';
 
@@ -16,3 +16,8 @@ export default {
 type Story = StoryObj<ListPageComponent>;
 export const ListPage: Story = {};
 ListPage.args = {};
+
+export const ListPageWithLinks: Story = {};
+ListPageWithLinks.args = {
+  showLinks: true,
+};

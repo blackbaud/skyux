@@ -19,6 +19,9 @@ import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmInstance } from './confirm-instance';
 import { SkyConfirmType } from './confirm-type';
 
+/**
+ * @internal
+ */
 @Component({
   standalone: true,
   selector: 'sky-confirm',

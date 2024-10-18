@@ -46,7 +46,7 @@
   }
 }
 
-@include compatMixins.sky-modern-overrides('.sky-label', true) {
+@include compatMixins.sky-modern-overrides('.sky-label', true, true) {
   --sky-override-label-icon-default-display: none;
 }
 
@@ -141,7 +141,7 @@
   display: inline-block;
   padding-left: var(
     --sky-override-label-text-padding-left,
-    var(--sky-space-icon_gap-s)
+    var(--sky-space-gap-icon-s)
   );
 }
 

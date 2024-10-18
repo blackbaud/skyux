@@ -4,7 +4,7 @@
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 
-@include compatMixins.sky-modern-overrides('sky-box') {
+@include compatMixins.sky-modern-overrides('sky-box', false) {
   --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 
@@ -14,7 +14,7 @@ sky-box-header {
   .sky-box-header {
     padding-right: var(
       --sky-override-box-header-padding-right,
-      var(--sky-space-text_action_gap-l)
+      var(--sky-space-gap-text_action-l)
     );
 
     h1,

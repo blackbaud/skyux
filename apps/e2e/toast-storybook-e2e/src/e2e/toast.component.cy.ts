@@ -43,5 +43,5 @@ describe('toast-storybook', () => {
         );
       });
     });
-  });
+  }, true);
 });

@@ -83,7 +83,7 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.gridOptions = this.#gridService.getEditableGridOptions({
+    this.gridOptions = this.#gridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
     this.#dataManagerService.initDataManager({

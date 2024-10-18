@@ -2,13 +2,17 @@
 @use 'compat-tokens-mixins' as compatMixins;
 @use 'variables' as *;
 
+@include compatMixins.sky-default-overrides('.sky-form-control') {
+  --sky-override-form-control-color: var(--sky-text-color-default);
+}
+
 .sky-form-control {
   width: 100%;
   padding: 6px 12px;
   @include mixins.sky-border(dark, top, bottom, left, right);
   line-height: $sky-line-height-base;
   font-size: $sky-font-size-base;
-  color: var(--sky-text-color-default);
+  color: var(--sky-override-form-control-color, var(--sky-color-text-default));
 
   &:not([type='range']):not([type='radio']):not([type='checkbox']):not(select) {
     /* Remove device-specific styles */
@@ -71,7 +75,7 @@ textarea.ng-invalid.ng-touched {
 .sky-control-help-container:not(:empty) {
   margin-left: var(
     --sky-override-help-inline-margin-left,
-    var(--sky-space-text_action_gap-xs)
+    var(--sky-space-gap-text_action-xs)
   );
 }
 

@@ -5,6 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
 
@@ -29,14 +30,8 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
       </sky-status-indicator>
     }
   `,
-  styles: [
-    `
-      :host {
-        display: block;
-        margin-top: var(--sky-margin-stacked-xs);
-      }
-    `,
-  ],
+  styleUrl: './form-error.component.scss',
+  hostDirectives: [SkyThemeComponentClassDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormErrorComponent {
