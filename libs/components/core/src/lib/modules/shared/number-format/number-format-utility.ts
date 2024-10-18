@@ -32,7 +32,7 @@ export class SkyNumberFormatUtility {
     style: SkyIntlNumberFormatStyle,
     digits?: string | null,
     currency: string | null = null,
-    currencyDisplay: 'code' | 'symbol' | 'narrowSymbol' | 'name' = 'symbol',
+    currencyDisplay: 'code' | 'symbol' | 'narrowSymbol' | 'name' = 'code',
     currencySign?: 'accounting' | 'standard',
   ): string | null {
     if (value == null) {

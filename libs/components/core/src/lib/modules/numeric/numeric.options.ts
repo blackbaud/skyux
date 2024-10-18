@@ -66,8 +66,7 @@ export class NumericOptions implements SkyNumericOptions {
 
   public currencySign?: 'accounting' | 'standard' = 'standard';
 
-  public currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name' =
-    'symbol';
+  public currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name';
 
   public iso?: string = 'USD';
 

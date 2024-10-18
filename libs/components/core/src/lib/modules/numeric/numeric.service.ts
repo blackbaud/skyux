@@ -124,7 +124,7 @@ export class SkyNumericService {
           SkyIntlNumberFormatStyle.Currency,
           digitsFormatted,
           numericOptions.iso,
-          numericOptions.currencyDisplay,
+          numericOptions.currencyDisplay ?? 'symbol',
           numericOptions.currencySign,
         ) as string;
         //   ^^^^^^ Result can't be null since the sanitized input is always a number.
