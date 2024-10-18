@@ -13,7 +13,7 @@ function formatCurrency(
     SkyIntlNumberFormatStyle.Currency,
     digits,
     'USD',
-    true,
+    'symbol',
     currencySign || 'standard',
   );
 }

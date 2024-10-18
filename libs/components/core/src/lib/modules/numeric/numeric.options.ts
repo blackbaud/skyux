@@ -21,6 +21,11 @@ export interface SkyNumericOptions {
   currencySign?: 'accounting' | 'standard';
 
   /**
+   * Specifies the display of the currency. Defaults to 'symbol'.
+   */
+  currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name';
+
+  /**
    * Specifies the ISO4217 currency code to use for currency formatting.
    */
   iso?: string;
@@ -60,6 +65,8 @@ export class NumericOptions implements SkyNumericOptions {
   public format?: string = 'number';
 
   public currencySign?: 'accounting' | 'standard' = 'standard';
+
+  public currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name';
 
   public iso?: string = 'USD';
 
