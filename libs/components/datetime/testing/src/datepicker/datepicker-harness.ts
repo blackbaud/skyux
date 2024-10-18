@@ -41,7 +41,7 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
    * the datepicker. Throws an error if the calendar picker is not open.
    */
   public async getDatepickerCalendar(): Promise<SkyDatepickerCalendarHarness> {
-    const calendarId = await this.getAriaControls();
+    const calendarId = await this.#getAriaControls();
 
     if (!calendarId) {
       throw new Error(
@@ -65,7 +65,7 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
     );
   }
 
-  private async getAriaControls(): Promise<string | null> {
+  async #getAriaControls(): Promise<string | null> {
     return (await this.#getCalendarButton()).getAttribute('aria-controls');
   }
 }
