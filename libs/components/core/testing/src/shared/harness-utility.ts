@@ -1,7 +1,7 @@
 import { TestElement } from '@angular/cdk/testing';
 
-export namespace SkyHarnessUtility {
-  export async function getBackgroundImageUrl(
+export class SkyHarnessUtility {
+  public static async getBackgroundImageUrl(
     el: TestElement,
   ): Promise<string | undefined> {
     const backgroundImage = await el.getCssValue('background-image');
