@@ -29,7 +29,7 @@ import { SkyInputBoxHarness } from '@skyux/forms/testing';
         </sky-datepicker>
       </sky-input-box>
       <sky-datepicker data-sky-id="standalone">
-        <input formControlName="standalone" type="text" />
+        <input skyDatepickerInput formControlName="standalone" type="text" />
       </sky-datepicker>
     </form>
   `,
@@ -100,7 +100,7 @@ describe('Datepicker harness', () => {
     const calendarHarness = await datepickerHarness.getDatepickerCalendar();
 
     await expectAsync(calendarHarness.getSelectedValue()).toBeResolvedTo(
-      'Wednesday, October 16th 2024',
+      'Monday, January 2nd 1234',
     );
   });
 
