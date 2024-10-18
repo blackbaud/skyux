@@ -1,8 +1,12 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { SkyOverlayHarness } from '@skyux/core/testing';
 
 import { SkyAutocompleteHarness } from '../autocomplete/autocomplete-harness';
+import { SkyAutocompleteInputHarness } from '../autocomplete/autocomplete-input-harness';
 
 import { SkyLookupHarnessFilters } from './lookup-harness-filters';
+import { SkyLookupSearchResultHarness } from './lookup-search-result-harness';
+import { SkyLookupSearchResultHarnessFilters } from './lookup-search-result-harness-filters';
 import { SkyLookupSelectionHarness } from './lookup-selection-harness';
 import { SkyLookupSelectionsListHarness } from './lookup-selections-list-harness';
 import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harness';
@@ -23,6 +27,8 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   #getAutocompleteHarness = this.locatorFor(SkyAutocompleteHarness);
 
+  #getInput = this.locatorFor(SkyAutocompleteInputHarness);
+
   #getSelectionsListHarness = this.locatorFor(SkyLookupSelectionsListHarness);
 
   #getWrapper = this.locatorFor('.sky-lookup');
@@ -40,6 +46,20 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     filters: SkyLookupHarnessFilters,
   ): HarnessPredicate<SkyLookupHarness> {
     return SkyLookupHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Blurs the lookup input.
+   */
+  public override async blur(): Promise<void> {
+    return await super.blur();
+  }
+
+  /**
+   * Clears the lookup input value.
+   */
+  public override async clear(): Promise<void> {
+    return await super.clear();
   }
 
   /**
@@ -63,6 +83,78 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    */
   public async dismissSelections(): Promise<void> {
     return (await this.#getSelectionsListHarness()).dismissSelections();
+  }
+
+  /**
+   * Enters text into the lookup input.
+   */
+  public override async enterText(value: string): Promise<void> {
+    return await super.enterText(value);
+  }
+
+  /**
+   * Focuses the lookup input.
+   */
+  public override async focus(): Promise<void> {
+    return await super.focus();
+  }
+
+  /**
+   * Gets the lookup `aria-labelledby` value.
+   * This property is deprecated and adding it to the
+   */
+  public override async getAriaLabelledby(): Promise<string | null> {
+    return await super.getAriaLabelledby();
+  }
+
+  /**
+   * Returns lookup search result harnesses.
+   */
+  public override async getSearchResults(
+    filters?: SkyLookupSearchResultHarnessFilters,
+  ): Promise<SkyLookupSearchResultHarness[]> {
+    const overlay = await this.#getOverlay();
+
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search results. The lookup is closed.',
+      );
+    }
+
+    const harnesses = await overlay.queryHarnesses(
+      SkyLookupSearchResultHarness.with(filters || {}),
+    );
+
+    if (filters && harnesses.length === 0) {
+      // Stringify the regular expression so that it's readable in the console log.
+      if (filters.text instanceof RegExp) {
+        filters.text = filters.text.toString();
+      }
+
+      throw new Error(
+        `Could not find search results matching filter(s): ${JSON.stringify(
+          filters,
+        )}`,
+      );
+    }
+
+    return harnesses;
+  }
+
+  /**
+   * Returns the text content for each lookup search result.
+   */
+  public override async getSearchResultsText(
+    filters?: SkyLookupSearchResultHarnessFilters,
+  ): Promise<string[]> {
+    const harnesses = await this.getSearchResults(filters);
+
+    const text: string[] = [];
+    for (const harness of harnesses) {
+      text.push(await harness.getText());
+    }
+
+    return text;
   }
 
   /**
@@ -101,9 +193,56 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
+   * Gets the value of the lookup input.
+   */
+  public override async getValue(): Promise<string> {
+    return await super.getValue();
+  }
+
+  /**
+   * Whether the lookup input is disabled.
+   */
+  public override async isDisabled(): Promise<boolean> {
+    return await super.isDisabled();
+  }
+
+  /**
+   * Whether the lookup input is focused.
+   */
+  public override async isFocused(): Promise<boolean> {
+    return await super.isFocused();
+  }
+
+  /**
    * Whether the lookup allows for multiple selections.
    */
   public async isMultiselect(): Promise<boolean> {
     return !(await (await this.#getWrapper()).hasClass('sky-lookup-single'));
+  }
+
+  /**
+   * Whether the lookup is open.
+   */
+  public override async isOpen(): Promise<boolean> {
+    return await super.isOpen();
+  }
+
+  /**
+   * Selects a search result.
+   */
+  public override async selectSearchResult(
+    filters: SkyLookupSearchResultHarnessFilters,
+  ): Promise<void> {
+    return await super.selectSearchResult(filters);
+  }
+
+  async #getOverlay(): Promise<SkyOverlayHarness | null> {
+    const overlayId = await (await this.#getInput()).getAriaControls();
+
+    return overlayId
+      ? this.#documentRootLocator.locatorForOptional(
+          SkyOverlayHarness.with({ selector: `#${overlayId}` }),
+        )()
+      : null;
   }
 }
