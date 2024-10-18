@@ -11,10 +11,11 @@ import { SkyMediaQueryService } from '@skyux/core';
  * Contains the content, footer, and header to display in the split view's workspace panel.
  */
 @Component({
-  selector: 'sky-split-view-workspace',
-  templateUrl: 'split-view-workspace.component.html',
-  styleUrls: ['./split-view-workspace.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'sky-split-view-workspace',
+  standalone: true,
+  styleUrls: ['./split-view-workspace.component.scss'],
+  templateUrl: 'split-view-workspace.component.html',
 })
 export class SkySplitViewWorkspaceComponent {
   // Use the parent's breakpoint since the mobile header should only appear when

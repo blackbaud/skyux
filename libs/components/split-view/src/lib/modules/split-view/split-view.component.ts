@@ -5,6 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -32,12 +33,6 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
-  hostDirectives: [SkyResponsiveHostDirective],
-  selector: 'sky-split-view',
-  templateUrl: './split-view.component.html',
-  styleUrls: ['./split-view.component.scss'],
-  providers: [SkySplitViewAdapterService, SkySplitViewService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('blockAnimationOnLoad', [transition(':enter', [])]),
     trigger('drawerEnter', [
@@ -49,6 +44,14 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
       transition('* => true', animate('150ms ease-in')),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [SkyResponsiveHostDirective],
+  imports: [CommonModule],
+  providers: [SkySplitViewAdapterService, SkySplitViewService],
+  selector: 'sky-split-view',
+  standalone: true,
+  styleUrls: ['./split-view.component.scss'],
+  templateUrl: './split-view.component.html',
 })
 export class SkySplitViewComponent implements OnInit, OnDestroy {
   /**

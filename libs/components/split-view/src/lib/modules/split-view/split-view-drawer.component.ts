@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,6 +13,8 @@ import { SkyAppWindowRef, SkyCoreAdapterService } from '@skyux/core';
 import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
 
+import { SkySplitViewResourcesModule } from '../shared/sky-split-view-resources.module';
+
 import { SkySplitViewService } from './split-view.service';
 
 let skySplitViewNextId = 0;
@@ -20,10 +23,12 @@ let skySplitViewNextId = 0;
  * Specifies the content to display in the split view's list panel.
  */
 @Component({
-  selector: 'sky-split-view-drawer',
-  templateUrl: 'split-view-drawer.component.html',
-  styleUrls: ['split-view-drawer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkySplitViewResourcesModule],
+  selector: 'sky-split-view-drawer',
+  standalone: true,
+  styleUrls: ['split-view-drawer.component.scss'],
+  templateUrl: 'split-view-drawer.component.html',
 })
 export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   /**
