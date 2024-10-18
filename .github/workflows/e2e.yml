@@ -371,7 +371,7 @@ jobs:
             if [ $RETRY -gt 0 ] || [ $FINALIZED -eq 0 ]; then
               echo "Percy client error. Retrying..."
               set -eo pipefail
-              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --skipNxCache --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
             else
               exit 1
             fi
