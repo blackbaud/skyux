@@ -1,3 +1,7 @@
+/**
+ * Represents all available media breakpoints.
+ * @deprecated Use `SkyBreakpoint` instead.
+ */
 export enum SkyMediaBreakpoints {
   /**
    * Screen widths of 767px or less.

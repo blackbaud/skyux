@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   Input,
@@ -10,13 +9,8 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
-  ViewChild,
-  inject,
 } from '@angular/core';
-import {
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
-} from '@skyux/core';
+import { SkyResponsiveHostDirective } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -31,17 +25,11 @@ const LAYOUT_DEFAULT: SkyTabLayoutType = 'none';
 let nextId = 0;
 
 @Component({
+  hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-tab',
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    SkyResizeObserverMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
-    },
-  ],
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
@@ -184,18 +172,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     return this.#tabIndexChange;
   }
 
-  @ViewChild('tabContentWrapper')
-  public set tabContentWrapper(tabContentWrapper: ElementRef | undefined) {
-    /* istanbul ignore else */
-    if (tabContentWrapper) {
-      this.#mediaQueryService.observe(tabContentWrapper, {
-        updateResponsiveClasses: true,
-      });
-    } else {
-      this.#mediaQueryService.unobserve();
-    }
-  }
-
   public permalinkValueOrDefault = '';
 
   public showContent = false;
@@ -245,8 +221,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.#setPermalinkValueOrDefault();
   }
 
-  #mediaQueryService = inject(SkyResizeObserverMediaQueryService);
-
   public ngOnChanges(changes: SimpleChanges): void {
     if (
       (changes['disabled'] && !changes['disabled'].firstChange) ||
@@ -265,7 +239,6 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     if (this.tabIndexValue !== undefined) {
       this.#tabsetService.unregisterTab(this.tabIndexValue);
     }
-    this.#mediaQueryService.unobserve();
   }
 
   public init(): void {

@@ -4,8 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkyBreakpoint } from '@skyux/core';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import { SkyDefinitionListModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyThemeService } from '@skyux/theme';
@@ -22,15 +25,15 @@ const DEFAULT_BACK_BUTTON_TEXT = 'Back to list';
 describe('SplitView fixture', () => {
   let fixture: ComponentFixture<SplitViewTestComponent>;
   let testComponent: SplitViewTestComponent;
-  let mockQueryService: MockSkyMediaQueryService;
+  let mediaQueryController: SkyMediaQueryTestingController;
   let splitViewFixture: SkySplitViewFixture;
 
   //#region helpers
 
   async function initiateResponsiveMode(
-    breakpoint: SkyMediaBreakpoints,
+    breakpoint: SkyBreakpoint,
   ): Promise<void> {
-    mockQueryService.fire(breakpoint);
+    mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
     return fixture.whenStable();
   }
@@ -50,9 +53,6 @@ describe('SplitView fixture', () => {
   //#endregion
 
   beforeEach(() => {
-    // replace the mock service before using in the test bed to avoid change detection errors
-    mockQueryService = new MockSkyMediaQueryService();
-
     TestBed.configureTestingModule({
       declarations: [SplitViewTestComponent],
       imports: [
@@ -63,15 +63,10 @@ describe('SplitView fixture', () => {
         SkySummaryActionBarModule,
         SkySplitViewTestingModule,
       ],
-      providers: [
-        SkyThemeService,
-        {
-          provide: SkyMediaQueryService,
-          useValue: mockQueryService,
-        },
-      ],
+      providers: [SkyThemeService, provideSkyMediaQueryTesting()],
     });
 
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
     fixture = TestBed.createComponent(SplitViewTestComponent);
     testComponent = fixture.componentInstance;
     splitViewFixture = new SkySplitViewFixture(
@@ -87,7 +82,7 @@ describe('SplitView fixture', () => {
     expect(splitViewFixture.drawer.width).toBe(DEFAULT_DRAWER_WIDTH);
 
     // responsive mode
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.ariaLabel).toBe(DEFAULT_DRAWER_ARIA_LABEL);
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.drawer.width).toBe('');
@@ -114,7 +109,7 @@ describe('SplitView fixture', () => {
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
 
     // responsive mode
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.workspace.ariaLabel).toBe(
       DEFAULT_WORKSPACE_ARIA_LABEL,
     );
@@ -132,7 +127,7 @@ describe('SplitView fixture', () => {
     await fixture.whenStable();
 
     // verify updates
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.workspace.ariaLabel).toBe(
       testComponent.workspaceAriaLabel,
     );
@@ -143,7 +138,7 @@ describe('SplitView fixture', () => {
 
   it('should open drawer when in responsive mode', async () => {
     // switch to responsive mode
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.drawer.width).toBe('');
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
@@ -157,7 +152,7 @@ describe('SplitView fixture', () => {
 
   it('should handle attempting to open drawer when already open', async () => {
     // responsive mode switches to the workspace by default
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.workspace.backButtonIsVisible).toBeTrue();
     expect(splitViewFixture.workspace.isVisible).toBeTrue();
@@ -190,7 +185,7 @@ describe('SplitView fixture', () => {
 
   it('should switch to workspace on item selection', async () => {
     // responsive mode switches to the workspace by default
-    await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+    await initiateResponsiveMode('xs');
     expect(splitViewFixture.drawer.isVisible).toBeFalse();
     expect(splitViewFixture.workspace.backButtonIsVisible).toBeTrue();
     expect(splitViewFixture.workspace.isVisible).toBeTrue();

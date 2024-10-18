@@ -1,16 +1,33 @@
-import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { Injectable, NgZone, OnDestroy, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
+
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
+import { toSkyMediaBreakpoints } from '../breakpoint-observer/breakpoint-utils';
+import { SkyMediaBreakpointObserver } from '../breakpoint-observer/media-breakpoint-observer';
 
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
 
 const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
+/**
+ * Utility used to subscribe to viewport and container breakpoint changes.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class SkyMediaQueryService implements OnDestroy {
+  readonly #breakpointObserver = inject(SkyMediaBreakpointObserver);
+
+  /**
+   * Emits when the breakpoint changes.
+   */
+  public get breakpointChange(): Observable<SkyBreakpoint> {
+    return this.#breakpointObserver.breakpointChange;
+  }
+
   /**
    * The size for the `xs` breakpoint.
    * @default "(max-width: 767px)"
@@ -37,113 +54,45 @@ export class SkyMediaQueryService implements OnDestroy {
 
   /**
    * Returns the current breakpoint.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
   public get current(): SkyMediaBreakpoints {
-    return this.#currentBreakpoint;
+    return this.#currentBreakpoint();
   }
 
-  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-    DEFAULT_BREAKPOINT,
+  #currentBreakpoint = toSignal(
+    this.#breakpointObserver.breakpointChange.pipe(
+      map((breakpoint) => toSkyMediaBreakpoints(breakpoint)),
+    ),
+    {
+      initialValue: DEFAULT_BREAKPOINT,
+    },
   );
 
-  #currentBreakpoint = DEFAULT_BREAKPOINT;
-
-  #breakpoints: {
-    mediaQueryString: string;
-    name: SkyMediaBreakpoints;
-  }[] = [
-    {
-      mediaQueryString: SkyMediaQueryService.xs,
-      name: SkyMediaBreakpoints.xs,
-    },
-    {
-      mediaQueryString: SkyMediaQueryService.sm,
-      name: SkyMediaBreakpoints.sm,
-    },
-    {
-      mediaQueryString: SkyMediaQueryService.md,
-      name: SkyMediaBreakpoints.md,
-    },
-    {
-      mediaQueryString: SkyMediaQueryService.lg,
-      name: SkyMediaBreakpoints.lg,
-    },
-  ];
-
-  #mediaQueries: {
-    mediaQueryList: MediaQueryList;
-    listener: (event: any) => void;
-  }[] = [];
-
-  #zone: NgZone;
-
-  constructor(zone: NgZone) {
-    this.#zone = zone;
-    this.#addListeners();
-  }
+  // Keep NgZone as a constructor param so that consumer mocks don't encounter typing errors.
+  constructor(_zone?: NgZone) {}
 
   public ngOnDestroy(): void {
-    this.#removeListeners();
-    this.#currentSubject.complete();
-  }
-
-  /**
-   * Subscribes to screen size changes.
-   * @param listener Specifies a function that is called when breakpoints change.
-   */
-  public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#currentSubject.subscribe({
-      next: (breakpoints: SkyMediaBreakpoints) => {
-        listener(breakpoints);
-      },
-    });
+    this.destroy();
   }
 
   /**
    * @internal
    */
   public destroy(): void {
-    this.#removeListeners();
-    this.#currentSubject.complete();
+    this.#breakpointObserver.destroy();
   }
 
-  #addListeners(): void {
-    this.#mediaQueries = this.#breakpoints.map((breakpoint) => {
-      const mq = matchMedia(breakpoint.mediaQueryString);
-
-      const listener = (event: MediaQueryListEvent) => {
-        // Run the check outside of Angular's change detection since Angular
-        // does not wrap matchMedia listeners in NgZone.
-        // See: https://blog.assaf.co/angular-2-change-detection-zones-and-an-example/
-        this.#zone.run(() => {
-          if (event.matches) {
-            this.#notifyBreakpointChange(breakpoint.name);
-          }
-        });
-      };
-
-      mq.addListener(listener);
-
-      if (mq.matches) {
-        this.#notifyBreakpointChange(breakpoint.name);
-      }
-
-      return {
-        mediaQueryList: mq,
-        listener,
-      };
+  /**
+   * Subscribes to screen size changes.
+   * @param listener Specifies a function that is called when breakpoints change.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
+   */
+  public subscribe(listener: SkyMediaQueryListener): Subscription {
+    return this.#breakpointObserver.breakpointChange.subscribe({
+      next: (breakpoint: SkyBreakpoint) => {
+        listener(toSkyMediaBreakpoints(breakpoint));
+      },
     });
-  }
-
-  #removeListeners(): void {
-    this.#mediaQueries.forEach((mediaQuery) => {
-      mediaQuery.mediaQueryList.removeListener(mediaQuery.listener);
-    });
-    this.#mediaQueries = [];
-  }
-
-  #notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
-    this.#currentBreakpoint = breakpoint;
-    this.#currentSubject.next(breakpoint);
   }
 }

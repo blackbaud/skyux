@@ -1,6 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 :host {
+  display: block;
   flex-shrink: 0;
 }
 

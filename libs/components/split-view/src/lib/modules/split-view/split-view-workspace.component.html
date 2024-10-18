@@ -4,7 +4,7 @@
   tabindex="0"
   [attr.aria-label]="ariaLabel"
 >
-  @if (isMobile) {
+  @if (breakpoint() === 'xs') {
     <sky-split-view-workspace-header />
   }
   <ng-content select="sky-split-view-workspace-content" />

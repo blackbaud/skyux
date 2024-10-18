@@ -1,4 +1,7 @@
-import { inject } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
+
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
+import { SkyMediaBreakpointObserver } from '../breakpoint-observer/media-breakpoint-observer';
 
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryService } from './media-query.service';
@@ -13,8 +16,11 @@ describe('Media query service', () => {
   let matchMediaSpy: jasmine.Spy;
 
   function setUpListeners(): void {
-    spyOn(mediaQueryListPrototype, 'addListener').and.callFake(
-      (serviceListener: (args: { matches: boolean }) => void) => {
+    spyOn(mediaQueryListPrototype, 'addEventListener').and.callFake(
+      (
+        _evtName: string,
+        serviceListener: (args: { matches: boolean }) => void,
+      ) => {
         if (listenerCount === 0) {
           xsListener = serviceListener;
         } else if (listenerCount === 1) {
@@ -61,18 +67,18 @@ describe('Media query service', () => {
           if (args === '(max-width: 767px)') {
             return {
               matches: true,
-              addListener: () => {
+              addEventListener: () => {
                 return;
               },
-              removeListener: () => {
+              removeEventListener: () => {
                 return;
               },
             };
           } else {
             return {
               matches: false,
-              addListener: () => {},
-              removeListener: () => {
+              addEventListener: () => {},
+              removeEventListener: () => {
                 return;
               },
             };
@@ -141,23 +147,16 @@ describe('Media query service', () => {
       },
     ));
 
-    it('should stop listening for media query breakpoints on destroy', inject(
-      [SkyMediaQueryService],
-      (mediaQueryService: SkyMediaQueryService) => {
-        const removeListenerSpy = spyOn(
-          mediaQueryListPrototype,
-          'removeListener',
-        );
+    it('should call the breakpoint observer `destroy` method', () => {
+      const destroySpy = spyOn(
+        TestBed.inject(SkyMediaBreakpointObserver),
+        'destroy',
+      );
 
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        const subscription = mediaQueryService.subscribe(() => {});
+      TestBed.inject(SkyMediaQueryService).destroy();
 
-        mediaQueryService.destroy();
-
-        expect(removeListenerSpy.calls.count()).toBe(4);
-        expect(subscription.closed).toBe(true);
-      },
-    ));
+      expect(destroySpy).toHaveBeenCalledTimes(1);
+    });
 
     it('should fire the listener when the specified breakpoint is hit', inject(
       [SkyMediaQueryService],
@@ -185,6 +184,29 @@ describe('Media query service', () => {
         subscription.unsubscribe();
       },
     ));
+
+    it('should emit when the breakpoint changes', () => {
+      const mediaQuerySvc = TestBed.inject(SkyMediaQueryService);
+
+      let result: SkyBreakpoint | undefined;
+
+      const subscription = mediaQuerySvc.breakpointChange.subscribe(
+        (breakpoint) => {
+          result = breakpoint;
+        },
+      );
+
+      callBreakpoint(SkyMediaBreakpoints.xs);
+      expect(result).toEqual('xs');
+
+      callBreakpoint(SkyMediaBreakpoints.md);
+      expect(result).toEqual('md');
+
+      callBreakpoint(SkyMediaBreakpoints.lg);
+      expect(result).toEqual('lg');
+
+      subscription.unsubscribe();
+    });
 
     it('should provide the ability to check the current breakpoints', inject(
       [SkyMediaQueryService],
