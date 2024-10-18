@@ -152,6 +152,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   public onDirectionChange(direction: string): void {
     this.slideDirection = direction;
+    this.#changeDetector.markForCheck();
   }
 
   public summaryContentExists(): boolean {

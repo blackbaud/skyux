@@ -25,6 +25,11 @@ describe('action-bars-storybook - summary action bar', () => {
                 cy.viewport(width, height).visit(
                   `/iframe.html?globals=theme:${theme}&id=summaryactionbarcomponent-summaryactionbar--summary-action-bar-${style}`,
                 );
+
+                // Wait for the summary action bar to render fully.
+                // eslint-disable-next-line cypress/no-unnecessary-waiting
+                cy.wait(250);
+
                 cy.get('app-summary-action-bar')
                   .should('exist')
                   .should('be.visible');
@@ -36,7 +41,6 @@ describe('action-bars-storybook - summary action bar', () => {
                   .should('be.visible');
 
                 if (style === 'modal') {
-                  cy.pause();
                   cy.get('sky-modal-content')
                     .should('exist')
                     .should('be.visible')
