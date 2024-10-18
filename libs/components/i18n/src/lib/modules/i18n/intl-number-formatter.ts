@@ -14,7 +14,7 @@ export abstract class SkyIntlNumberFormatter {
       maximumFractionDigits,
       currency,
       currencySign = 'standard',
-      currencyDisplay = 'symbol',
+      currencyDisplay = 'code',
     } = opts;
 
     const options: Intl.NumberFormatOptions & { currencySign: string } = {
