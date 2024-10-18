@@ -88,6 +88,9 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   #idled = new Subject<boolean>();
 
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
+  protected readonly breakpoint = toSignal(
+    this.#mediaQuerySvc.breakpointChange,
+  );
 
   #_summaryElement: ElementRef | undefined;
 
