@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
@@ -19,7 +19,9 @@ const QUERIES = new Map<SkyBreakpoint, string>([
 @Injectable({
   providedIn: 'root',
 })
-export class SkyMediaBreakpointObserver implements SkyBreakpointObserver {
+export class SkyMediaBreakpointObserver
+  implements OnDestroy, SkyBreakpointObserver
+{
   public get breakpointChange(): Observable<SkyBreakpoint> {
     return this.#breakpointChangeObs;
   }
@@ -33,7 +35,7 @@ export class SkyMediaBreakpointObserver implements SkyBreakpointObserver {
     for (const [breakpoint, query] of QUERIES.entries()) {
       const mq = matchMedia(query);
 
-      const listener = (evt: MediaQueryListEvent) => {
+      const listener = (evt: MediaQueryListEvent): void => {
         if (evt.matches) {
           this.#notifyBreakpointChange(breakpoint);
         }
@@ -47,6 +49,10 @@ export class SkyMediaBreakpointObserver implements SkyBreakpointObserver {
 
       this.#listeners.set(mq, listener);
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy();
   }
 
   public destroy(): void {

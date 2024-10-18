@@ -13,21 +13,16 @@ describe('split-view-storybook', () => {
                 `/iframe.html?globals=theme:${theme}&id=splitviewcomponent-splitview--split-view`,
               );
             });
-
             it(`should fill the page when dock is set to fill at width ${width}`, () => {
-              cy.get('#ready').should('exist').end();
-
-              // Sidebar has a delay. Wait for it to appear.
-              // eslint-disable-next-line cypress/no-unnecessary-waiting
-              cy.wait(300);
-
-              cy.get('.screenshot-area')
+              cy.get('#ready')
+                .should('exist')
+                .end()
+                .get('.screenshot-area')
                 .should('exist')
                 .should('be.visible')
                 .screenshot(
                   `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`,
                 );
-
               cy.get('.screenshot-area').percySnapshot(
                 `splitviewcomponent-splitview--split-view-dock-fill-${theme}-${width}`,
                 {
