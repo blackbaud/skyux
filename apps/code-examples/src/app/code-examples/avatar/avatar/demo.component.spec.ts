@@ -8,18 +8,20 @@ import { DemoComponent } from './demo.component';
 import { DemoService } from './demo.service';
 
 describe('Basic avatar harness', () => {
-  let mockDemoSvc: jasmine.SpyObj<DemoService>;
+  let uploadAvatarSpy: jasmine.Spy;
 
   beforeEach(() => {
-    mockDemoSvc = jasmine.createSpyObj<DemoService>('DemoService', {
-      uploadAvatar: of(undefined),
-    });
+    uploadAvatarSpy = jasmine
+      .createSpy('uploadAvatarSpy')
+      .and.returnValue(of(undefined));
 
     TestBed.configureTestingModule({
       providers: [
         {
           provide: DemoService,
-          useValue: mockDemoSvc,
+          useValue: {
+            uploadAvatar: uploadAvatarSpy,
+          },
         },
       ],
     });
@@ -66,7 +68,7 @@ describe('Basic avatar harness', () => {
 
     await harness.dropAvatarFile(testFile);
 
-    expect(mockDemoSvc.uploadAvatar).toHaveBeenCalledOnceWith(testFile);
+    expect(uploadAvatarSpy).toHaveBeenCalledOnceWith(testFile);
 
     await expectAsync(harness.getSrc()).toBeResolvedTo(jasmine.any(Blob));
   });

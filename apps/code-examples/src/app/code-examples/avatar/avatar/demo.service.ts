@@ -6,7 +6,8 @@ import { Observable, delay, of } from 'rxjs';
   providedIn: 'root',
 })
 export class DemoService {
-  public uploadAvatar(file: File): Observable<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public uploadAvatar(_file: File): Observable<void> {
     // Simulate uploading the file to a web service.
     return of(undefined).pipe(delay(500));
   }
