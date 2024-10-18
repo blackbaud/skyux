@@ -1,4 +1,3 @@
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
 
@@ -11,7 +10,7 @@ export default {
   component: SplitViewDockFillComponent,
   decorators: [
     moduleMetadata({
-      imports: [SplitViewModule, NoopAnimationsModule],
+      imports: [SplitViewModule],
     }),
   ],
 } as Meta<SplitViewDockFillComponent>;

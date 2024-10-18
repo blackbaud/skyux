@@ -36,6 +36,7 @@ describe('action-bars-storybook - summary action bar', () => {
                   .should('be.visible');
 
                 if (style === 'modal') {
+                  cy.pause();
                   cy.get('sky-modal-content')
                     .should('exist')
                     .should('be.visible')
