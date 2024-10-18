@@ -45,14 +45,13 @@ function validateDate(
 export class DemoComponent {
   protected formGroup: FormGroup<DemoForm>;
   protected startDate: FormControl<Date | null>;
-
-  protected helpPopoverContent =
-    'If you need help with registration, choose a date at least 8 business days after you arrive. The process takes up to 7 business days from the start date.';
-
   protected hintText = 'Must be before your 1 year anniversary.';
 
+  public helpPopoverContent =
+    'If you need help with registration, choose a date at least 8 business days after you arrive. The process takes up to 7 business days from the start date.';
+
   constructor() {
-    this.startDate = new FormControl<Date | null>(null, {
+    this.startDate = new FormControl<Date | null>(new Date('10/12/2001'), {
       validators: [Validators.required, validateDate],
     });
 
