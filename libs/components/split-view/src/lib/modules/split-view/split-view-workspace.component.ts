@@ -7,11 +7,14 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 
+import { SkySplitViewWorkspaceHeaderComponent } from './split-view-workspace-header.component';
+
 /**
  * Contains the content, footer, and header to display in the split view's workspace panel.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkySplitViewWorkspaceHeaderComponent],
   selector: 'sky-split-view-workspace',
   standalone: true,
   styleUrls: ['./split-view-workspace.component.scss'],
