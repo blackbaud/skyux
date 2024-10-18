@@ -6,7 +6,7 @@ import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { DemoComponent } from './demo.component';
 
-fdescribe('Basic datepicker demo', () => {
+describe('Basic datepicker demo', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     inputHarness: SkyInputBoxHarness;
     datepickerHarness: SkyDatepickerHarness;

@@ -20,6 +20,9 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
   #getTitle = this.locatorFor('.sky-datepicker-calendar-title > strong');
   #getTitleButton = this.locatorFor('.sky-datepicker-calendar-title');
 
+  /**
+   * @internal
+   */
   public static with(
     filters: SkyDatepickerCalendarHarnessFilters,
   ): HarnessPredicate<SkyDatepickerCalendarHarness> {
