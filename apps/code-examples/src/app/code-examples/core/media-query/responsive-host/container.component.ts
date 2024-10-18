@@ -14,7 +14,10 @@ import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
       max-width: 800px;
     }
   `,
-  template: ` <p>Breakpoint within container: {{ breakpoint() }}</p> `,
+  template: `
+    <p>Breakpoint within container: {{ breakpoint() }}</p>
+    <ng-content />
+  `,
 })
 export class DemoContainerComponent {
   protected breakpoint = toSignal(

@@ -4,11 +4,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
+import { DemoChildComponent } from './child.component';
 import { DemoContainerComponent } from './container.component';
 
 @Component({
   imports: [
     CommonModule,
+    DemoChildComponent,
     DemoContainerComponent,
     SkyResponsiveHostDirective,
     SkyIconModule,

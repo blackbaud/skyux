@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject } from '@angular/core';
+import { Directive, ElementRef, Injector, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -21,6 +21,7 @@ import { provideSkyBreakpointObserver } from './provide-breakpoint-observer';
   standalone: true,
 })
 export class SkyResponsiveHostDirective {
+  readonly #injector = inject(Injector);
   readonly #mediaSvc = inject(SkyMediaQueryService);
 
   /**
@@ -28,6 +29,22 @@ export class SkyResponsiveHostDirective {
    */
   public get breakpointChange(): Observable<SkyBreakpoint> {
     return this.#mediaSvc.breakpointChange;
+  }
+
+  /**
+   * The injector of the responsive host. Useful when displaying child components
+   * via `ngTemplateOutlet`.
+   * @example```
+   * <my-container #responsiveHost="skyResponsiveHost">
+   *   <ng-container
+   *     [ngTemplateOutlet]="myTemplate"
+   *     [ngTemplateOutletInjector]="responsiveHost.injector"
+   *   />
+   * </my-container>
+   * ```
+   */
+  public get injector(): Injector {
+    return this.#injector;
   }
 
   constructor() {

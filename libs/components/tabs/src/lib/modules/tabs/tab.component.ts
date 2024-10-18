@@ -10,6 +10,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { SkyResponsiveHostDirective } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -24,6 +25,7 @@ const LAYOUT_DEFAULT: SkyTabLayoutType = 'none';
 let nextId = 0;
 
 @Component({
+  hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-tab',
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
