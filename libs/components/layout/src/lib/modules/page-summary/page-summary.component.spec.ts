@@ -1,17 +1,23 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
 import { SkyPageSummaryFixturesModule } from './fixtures/page-summary-fixtures.module';
 import { SkyPageSummaryTestComponent } from './fixtures/page-summary.component.fixture';
-import { SkyPageSummaryComponent } from './page-summary.component';
 
 describe('Page summary component', () => {
+  let mediaQueryController: SkyMediaQueryTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyPageSummaryFixturesModule],
+      providers: [provideSkyMediaQueryTesting()],
     });
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   it('should move the key info section on extra-small screens', () => {
@@ -19,18 +25,7 @@ describe('Page summary component', () => {
       return `.sky-page-summary-key-info-${size} .sky-page-summary-key-info-container`;
     }
 
-    const mockQueryService = new MockSkyMediaQueryService();
-
-    const fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
-      add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockQueryService,
-          },
-        ],
-      },
-    }).createComponent(SkyPageSummaryTestComponent);
+    const fixture = TestBed.createComponent(SkyPageSummaryTestComponent);
 
     fixture.detectChanges();
 
@@ -42,25 +37,16 @@ describe('Page summary component', () => {
     expect(el.querySelector(xsSelector)).not.toExist();
     expect(el.querySelector(smSelector)).toExist();
 
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
 
     expect(el.querySelector(xsSelector)).toExist();
     expect(el.querySelector(smSelector)).not.toExist();
   });
 
   it('should have appropriate class when key info is present', fakeAsync(() => {
-    const mockQueryService = new MockSkyMediaQueryService();
-
-    const fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
-      add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockQueryService,
-          },
-        ],
-      },
-    }).createComponent(SkyPageSummaryTestComponent);
+    const fixture = TestBed.createComponent(SkyPageSummaryTestComponent);
+    mediaQueryController.setBreakpoint('md');
 
     fixture.detectChanges();
     tick();
@@ -79,18 +65,7 @@ describe('Page summary component', () => {
   }));
 
   it('should be accessible', async () => {
-    const mockQueryService = new MockSkyMediaQueryService();
-
-    const fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
-      add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockQueryService,
-          },
-        ],
-      },
-    }).createComponent(SkyPageSummaryTestComponent);
+    const fixture = TestBed.createComponent(SkyPageSummaryTestComponent);
 
     fixture.detectChanges();
     await fixture.whenStable();

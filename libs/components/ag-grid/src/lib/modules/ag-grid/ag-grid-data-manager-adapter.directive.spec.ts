@@ -2,8 +2,10 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -35,24 +37,12 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   let dataState: SkyDataManagerState;
   let dataViewEl: DebugElement;
   let agGridDataManagerDirective: SkyAgGridDataManagerAdapterDirective;
-
-  const mockQueryService = new MockSkyMediaQueryService();
+  let mediaQueryController: SkyMediaQueryTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService],
-    });
-
-    TestBed.overrideDirective(SkyAgGridDataManagerAdapterDirective, {
-      add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockQueryService,
-          },
-        ],
-      },
+      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
 
     agGridDataManagerFixture = TestBed.createComponent(
@@ -73,11 +63,13 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       SkyAgGridDataManagerAdapterDirective,
     );
 
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
+
     dataManagerService
       .getDataStateUpdates('test')
       .subscribe((state) => (dataState = state));
 
-    mockQueryService.fire(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
   });
 
   it('should update the data state when a row is selected', async () => {
@@ -222,7 +214,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should apply data state column widths when the breakpoint changes', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    mockQueryService.fire(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
+    agGridDataManagerFixture.detectChanges();
 
     expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
       300,
@@ -231,7 +224,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       400,
     );
 
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
+    agGridDataManagerFixture.detectChanges();
 
     expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
       180,
@@ -382,7 +376,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should update the data state for the xs breakpoint when a column is resized', async () => {
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     await agGridDataManagerFixture.whenStable();
     const updateDataState = spyOn(dataManagerService, 'updateDataState');
@@ -606,29 +600,29 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should unregister the grid if no grids are rendered', () => {
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(1);
 
     agGridDataManagerFixtureComponent.displayFirstGrid = false;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(0);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(0);
   });
 
   it('should register a grid if no other grids are rendered', () => {
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(1);
 
     agGridDataManagerFixtureComponent.displayFirstGrid = false;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(0);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(0);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(0);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(0);
 
     agGridDataManagerFixtureComponent.displaySecondGrid = true;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(1);
   });
 
   it('should apply descending sort to rows when data manager active sort changes', async () => {

@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkyBreakpoint } from '@skyux/core';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { SummaryActionBarTestComponent } from './fixtures/summary-action-bar-fixture-test.component';
@@ -11,15 +14,15 @@ import { SkySummaryActionBarTestingModule } from './summary-action-bar.module';
 describe('Summary action bar fixture', () => {
   let fixture: ComponentFixture<SummaryActionBarTestComponent>;
   let testComponent: SummaryActionBarTestComponent;
-  let mockQueryService: MockSkyMediaQueryService;
+  let mediaQueryController: SkyMediaQueryTestingController;
   let summaryActionBarFixture: SkySummaryActionBarFixture;
 
   //#region helpers
 
   async function initiateResponsiveMode(
-    breakpoint: SkyMediaBreakpoints,
+    breakpoint: SkyBreakpoint,
   ): Promise<void> {
-    mockQueryService.fire(breakpoint);
+    mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
     return fixture.whenStable();
   }
@@ -27,18 +30,14 @@ describe('Summary action bar fixture', () => {
   //#endregion
 
   beforeEach(() => {
-    // replace the mock service before using in the test bed to avoid change detection errors
-    mockQueryService = new MockSkyMediaQueryService();
-
     TestBed.configureTestingModule({
       declarations: [SummaryActionBarTestComponent],
       imports: [SkyKeyInfoModule, SkySummaryActionBarTestingModule],
-      providers: [
-        { provide: SkyMediaQueryService, useValue: mockQueryService },
-      ],
+      providers: [provideSkyMediaQueryTesting()],
     });
 
     fixture = TestBed.createComponent(SummaryActionBarTestComponent);
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
     testComponent = fixture.componentInstance;
     fixture.detectChanges();
     summaryActionBarFixture = new SkySummaryActionBarFixture(
@@ -62,7 +61,7 @@ describe('Summary action bar fixture', () => {
     });
 
     it('should expose primary action button default properties when responsive', async () => {
-      await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+      await initiateResponsiveMode('xs');
       const actionSpy = spyOn(testComponent, 'primaryActionClicked');
       const action = summaryActionBarFixture.primaryAction;
 
@@ -115,7 +114,7 @@ describe('Summary action bar fixture', () => {
     });
 
     it('should expose secondary action button default properties when responsive', async () => {
-      await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+      await initiateResponsiveMode('xs');
       const actionSpy = spyOn(testComponent, 'secondaryActionClicked');
       const actions = summaryActionBarFixture.secondaryActions;
 
@@ -179,7 +178,7 @@ describe('Summary action bar fixture', () => {
     });
 
     it('should expose cancel action button default properties when responsive', async () => {
-      await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+      await initiateResponsiveMode('xs');
       const actionSpy = spyOn(testComponent, 'cancelActionClicked');
       const action = summaryActionBarFixture.cancelAction;
 
@@ -230,7 +229,7 @@ describe('Summary action bar fixture', () => {
     });
 
     it('should expose content body when responsive', async () => {
-      await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+      await initiateResponsiveMode('xs');
 
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
       expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
@@ -239,7 +238,7 @@ describe('Summary action bar fixture', () => {
     });
 
     it('should expose content body even when not visible', async () => {
-      await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+      await initiateResponsiveMode('xs');
 
       // close the content
       await summaryActionBarFixture.toggleSummaryContentVisibility();
@@ -254,7 +253,7 @@ describe('Summary action bar fixture', () => {
     });
 
     it('should open and close summary content when responsive', async () => {
-      await initiateResponsiveMode(SkyMediaBreakpoints.xs);
+      await initiateResponsiveMode('xs');
 
       expect(summaryActionBarFixture.summaryBodyIsVisible).toBeTrue();
 

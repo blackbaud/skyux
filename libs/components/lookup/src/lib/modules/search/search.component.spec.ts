@@ -8,12 +8,11 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyContentInfoProvider } from '@skyux/core';
 import {
-  SkyContentInfoProvider,
-  SkyMediaBreakpoints,
-  SkyMediaQueryService,
-} from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -25,7 +24,6 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SearchTestComponent } from './fixtures/search.component.fixture';
-import { SkySearchComponent } from './search.component';
 import { SkySearchModule } from './search.module';
 
 describe('Search component', () => {
@@ -33,8 +31,8 @@ describe('Search component', () => {
   let component: SearchTestComponent;
   let element: DebugElement;
   let contentInfoProvider: SkyContentInfoProvider;
-  let mockMediaQueryService: MockSkyMediaQueryService;
   let mockThemeSvc: { settingsChange: BehaviorSubject<SkyThemeSettingsChange> };
+  let mediaQueryController: SkyMediaQueryTestingController;
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -47,16 +45,11 @@ describe('Search component', () => {
       }),
     };
 
-    mockMediaQueryService = new MockSkyMediaQueryService();
-
     TestBed.configureTestingModule({
       declarations: [SearchTestComponent],
       imports: [SkySearchModule, NoopAnimationsModule],
       providers: [
-        {
-          provide: SkyMediaQueryService,
-          useValue: mockMediaQueryService,
-        },
+        provideSkyMediaQueryTesting(),
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
@@ -65,20 +58,12 @@ describe('Search component', () => {
       ],
     });
 
-    fixture = TestBed.overrideComponent(SkySearchComponent, {
-      add: {
-        providers: [
-          {
-            provide: SkyMediaQueryService,
-            useValue: mockMediaQueryService,
-          },
-        ],
-      },
-    }).createComponent(SearchTestComponent);
+    fixture = TestBed.createComponent(SearchTestComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement as DebugElement;
 
     contentInfoProvider = TestBed.inject(SkyContentInfoProvider);
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   afterEach(() => {
@@ -157,13 +142,13 @@ describe('Search component', () => {
   }
 
   function triggerXsBreakpoint(): Promise<void> {
-    mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
   function triggerLgBreakpoint(): Promise<void> {
-    mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
     return fixture.whenStable();
   }
