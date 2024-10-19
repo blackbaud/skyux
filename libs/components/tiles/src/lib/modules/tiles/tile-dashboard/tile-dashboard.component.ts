@@ -11,6 +11,7 @@ import {
   ViewChildren,
   computed,
   inject,
+  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
@@ -100,21 +101,24 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
 
   protected layoutClassName = computed(() => {
     const breakpoint = this.#breakpoint();
-    let layoutClassName = '';
 
-    if (breakpoint === 'xs' || breakpoint === 'sm') {
-      layoutClassName = 'sky-tile-dashboard-single-column';
-    } else {
-      layoutClassName = 'sky-tile-dashboard-multi-column';
-    }
+    return untracked(() => {
+      let layoutClassName = '';
 
-    if (breakpoint === 'xs') {
-      layoutClassName += ' sky-tile-dashboard-xs';
-    } else {
-      layoutClassName += ' sky-tile-dashboard-gt-xs';
-    }
+      if (breakpoint === 'xs' || breakpoint === 'sm') {
+        layoutClassName = 'sky-tile-dashboard-single-column';
+      } else {
+        layoutClassName = 'sky-tile-dashboard-multi-column';
+      }
 
-    return layoutClassName;
+      if (breakpoint === 'xs') {
+        layoutClassName += ' sky-tile-dashboard-xs';
+      } else {
+        layoutClassName += ' sky-tile-dashboard-gt-xs';
+      }
+
+      return layoutClassName;
+    });
   });
 
   #configSet = false;
