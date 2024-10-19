@@ -20,6 +20,7 @@ import {
   ViewEncapsulation,
   effect,
   inject,
+  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -212,15 +213,19 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.contentInfoObs = this.#contentInfoProvider?.getInfo();
 
     effect(() => {
-      if (this.#breakpoint() === 'xs') {
-        this.inputAnimate = INPUT_HIDDEN_STATE;
-      } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
-        this.inputAnimate = INPUT_SHOWN_STATE;
-      } else {
-        this.mobileSearchShown = false;
-      }
+      const breakpoint = this.#breakpoint();
 
-      this.#changeRef.detectChanges();
+      untracked(() => {
+        if (this.#searchShouldCollapse()) {
+          if (breakpoint === 'xs') {
+            this.inputAnimate = INPUT_HIDDEN_STATE;
+          } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
+            this.inputAnimate = INPUT_SHOWN_STATE;
+          } else {
+            this.mobileSearchShown = false;
+          }
+        }
+      });
     });
   }
 
@@ -323,13 +328,14 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   public inputAnimationEnd(event: AnimationEvent): void {
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.endInputAnimation(this.#elRef);
+      const breakpoint = this.#breakpoint();
 
       this.searchButtonShown =
-        event.toState === INPUT_HIDDEN_STATE && this.#breakpoint() === 'xs';
+        event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs';
 
       if (
-        (event.toState === INPUT_HIDDEN_STATE && this.#breakpoint() === 'xs') ||
-        this.#breakpoint() !== 'xs'
+        (event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs') ||
+        breakpoint !== 'xs'
       ) {
         this.mobileSearchShown = false;
       }
