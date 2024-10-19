@@ -398,7 +398,8 @@ describe('Summary Action Bar component', () => {
         clickCollapseButton(debugElement);
         // Allow animation to finish
         fixture.detectChanges();
-        await fixture.whenStable();
+        await fixture.whenRenderingDone();
+        fixture.detectChanges();
         // ALlow focusing to take place
         fixture.detectChanges();
         await fixture.whenStable();

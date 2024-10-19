@@ -28,7 +28,9 @@ export class SkyActionButtonIconComponent {
   @Input()
   public iconType: string | undefined;
 
-  #breakpoint = toSignal(inject(SkyMediaQueryService).breakpointChange);
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 
   protected fontSizeClass = computed(() => {
     return this.#breakpoint() === 'xs'

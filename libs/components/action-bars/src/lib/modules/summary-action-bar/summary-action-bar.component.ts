@@ -1,4 +1,5 @@
 import { AnimationEvent } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -20,9 +21,13 @@ import {
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
+import { SkyChevronModule } from '@skyux/indicators';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resources.module';
 
 import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
@@ -38,12 +43,19 @@ let nextId = 0;
  * `sky-summary-action-bar-summary` components.
  */
 @Component({
-  selector: 'sky-summary-action-bar',
-  templateUrl: './summary-action-bar.component.html',
-  styleUrls: ['./summary-action-bar.component.scss'],
   animations: [skyAnimationSlide],
-  providers: [SkySummaryActionBarAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyActionBarsResourcesModule,
+    SkyChevronModule,
+    SkyThemeModule,
+  ],
+  providers: [SkySummaryActionBarAdapterService],
+  selector: 'sky-summary-action-bar',
+  standalone: true,
+  styleUrls: ['./summary-action-bar.component.scss'],
+  templateUrl: './summary-action-bar.component.html',
 })
 export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #adapterService = inject(SkySummaryActionBarAdapterService);

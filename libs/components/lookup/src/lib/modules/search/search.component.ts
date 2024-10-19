@@ -18,12 +18,13 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  effect,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyContentInfo,
   SkyContentInfoProvider,
-  SkyMediaBreakpoints,
   SkyMediaQueryService,
 } from '@skyux/core';
 
@@ -161,8 +162,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   @Input()
   public placeholderText: string | undefined;
 
-  public breakpointSubscription: Subscription | undefined;
-
   public clearButtonShown = false;
 
   public dismissButtonShown = false;
@@ -185,8 +184,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #elRef: ElementRef;
 
-  #mediaQueryService: SkyMediaQueryService;
-
   #searchAdapter: SkySearchAdapterService;
 
   #searchUpdated = new Subject<string>();
@@ -199,30 +196,35 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #_expandMode = EXPAND_MODE_RESPONSIVE;
 
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
+
   constructor(
-    mediaQueryService: SkyMediaQueryService,
     elRef: ElementRef,
     searchAdapter: SkySearchAdapterService,
     changeRef: ChangeDetectorRef,
   ) {
-    this.#mediaQueryService = mediaQueryService;
     this.#elRef = elRef;
     this.#searchAdapter = searchAdapter;
     this.#changeRef = changeRef;
 
     this.contentInfoObs = this.#contentInfoProvider?.getInfo();
+
+    effect(() => {
+      if (this.#breakpoint() === 'xs') {
+        this.inputAnimate = INPUT_HIDDEN_STATE;
+      } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
+        this.inputAnimate = INPUT_SHOWN_STATE;
+      } else {
+        this.mobileSearchShown = false;
+      }
+
+      this.#changeRef.detectChanges();
+    });
   }
 
   public ngOnInit(): void {
-    if (this.#searchShouldCollapse()) {
-      this.breakpointSubscription = this.#mediaQueryService.subscribe(
-        (args: SkyMediaBreakpoints) => {
-          this.#mediaQueryCallback(args);
-          this.#changeRef.detectChanges();
-        },
-      );
-    }
-
     this.#setupSearchChangedEvent();
   }
 
@@ -311,10 +313,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.startInputAnimation(this.#elRef);
 
-      if (
-        event.toState === INPUT_SHOWN_STATE &&
-        this.#mediaQueryService.current === SkyMediaBreakpoints.xs
-      ) {
+      if (event.toState === INPUT_SHOWN_STATE && this.#breakpoint() === 'xs') {
         this.mobileSearchShown = true;
         this.searchButtonShown = false;
       }
@@ -326,13 +325,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       this.#searchAdapter.endInputAnimation(this.#elRef);
 
       this.searchButtonShown =
-        event.toState === INPUT_HIDDEN_STATE &&
-        this.#mediaQueryService.current === SkyMediaBreakpoints.xs;
+        event.toState === INPUT_HIDDEN_STATE && this.#breakpoint() === 'xs';
 
       if (
-        (event.toState === INPUT_HIDDEN_STATE &&
-          this.#mediaQueryService.current === SkyMediaBreakpoints.xs) ||
-        this.#mediaQueryService.current !== SkyMediaBreakpoints.xs
+        (event.toState === INPUT_HIDDEN_STATE && this.#breakpoint() === 'xs') ||
+        this.#breakpoint() !== 'xs'
       ) {
         this.mobileSearchShown = false;
       }
@@ -340,10 +337,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public ngOnDestroy(): void {
-    if (this.breakpointSubscription) {
-      this.breakpointSubscription.unsubscribe();
-    }
-
     this.#searchUpdated.complete();
     this.#searchUpdatedSub?.unsubscribe();
   }
@@ -364,22 +357,9 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   #shouldOpenInput(): boolean {
     return (
       this.searchText !== '' &&
-      this.#mediaQueryService.current === SkyMediaBreakpoints.xs &&
+      this.#breakpoint() === 'xs' &&
       this.#searchShouldCollapse()
     );
-  }
-
-  #mediaQueryCallback(args: SkyMediaBreakpoints): void {
-    if (this.#searchShouldCollapse()) {
-      if (args === SkyMediaBreakpoints.xs) {
-        this.inputAnimate = INPUT_HIDDEN_STATE;
-      } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
-        this.inputAnimate = INPUT_SHOWN_STATE;
-      } else {
-        this.mobileSearchShown = false;
-      }
-    }
-    this.#changeRef.markForCheck();
   }
 
   #searchShouldCollapse(): boolean {

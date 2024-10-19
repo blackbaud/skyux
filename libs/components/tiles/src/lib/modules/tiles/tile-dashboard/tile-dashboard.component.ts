@@ -9,12 +9,14 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  signal,
+  computed,
+  inject,
 } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
@@ -37,8 +39,8 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
   },
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
-  protected layoutClassName = signal(
-    'sky-tile-dashboard-multi-column sky-tile-dashboard-gt-xs',
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
   );
 
   /**
@@ -96,49 +98,40 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
 
   public moveInstructionsId: string;
 
+  protected layoutClassName = computed(() => {
+    const breakpoint = this.#breakpoint();
+    let layoutClassName = '';
+
+    if (breakpoint === 'xs' || breakpoint === 'sm') {
+      layoutClassName = 'sky-tile-dashboard-single-column';
+    } else {
+      layoutClassName = 'sky-tile-dashboard-multi-column';
+    }
+
+    if (breakpoint === 'xs') {
+      layoutClassName += ' sky-tile-dashboard-xs';
+    } else {
+      layoutClassName += ' sky-tile-dashboard-gt-xs';
+    }
+
+    return layoutClassName;
+  });
+
   #configSet = false;
   #dashboardService: SkyTileDashboardService;
-  #mediaQueryService: SkyMediaQueryService;
   #ngUnsubscribe = new Subject<void>();
-  #subscriptions = new Subscription();
   #resourcesService: SkyLibResourcesService | undefined;
   #viewReady = false;
   #_config: SkyTileDashboardConfig | undefined;
 
   constructor(
     dashboardService: SkyTileDashboardService,
-    mediaQueryService: SkyMediaQueryService,
     @Optional() resourcesService?: SkyLibResourcesService,
   ) {
     this.#dashboardService = dashboardService;
-    this.#mediaQueryService = mediaQueryService;
     this.#resourcesService = resourcesService;
     this.moveInstructionsId =
       this.#dashboardService.bagId + '-move-instructions';
-
-    this.#subscriptions.add(
-      this.#mediaQueryService.subscribe((args: SkyMediaBreakpoints) => {
-        let layoutClassName = this.layoutClassName();
-
-        if (
-          args === SkyMediaBreakpoints.xs ||
-          args === SkyMediaBreakpoints.sm
-        ) {
-          layoutClassName = 'sky-tile-dashboard-single-column';
-        } else {
-          layoutClassName = 'sky-tile-dashboard-multi-column';
-        }
-        if (args === SkyMediaBreakpoints.xs) {
-          layoutClassName += ' sky-tile-dashboard-xs';
-        } else {
-          layoutClassName += ' sky-tile-dashboard-gt-xs';
-        }
-
-        if (layoutClassName !== this.layoutClassName()) {
-          this.layoutClassName.set(layoutClassName);
-        }
-      }),
-    );
 
     this.#dashboardService.configChange.subscribe(
       (config: SkyTileDashboardConfig) => {
@@ -147,10 +140,8 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
         // Update aria live region with tile drag info
         if (config.movedTile && this.#resourcesService) {
           let messageObservable: Observable<string>;
-          if (
-            this.#mediaQueryService.current === SkyMediaBreakpoints.xs ||
-            this.#mediaQueryService.current === SkyMediaBreakpoints.sm
-          ) {
+
+          if (this.#breakpoint() === 'xs' || this.#breakpoint() === 'sm') {
             messageObservable = this.#resourcesService.getString(
               'skyux_tile_moved_assistive_text',
               config.movedTile.tileDescription,
@@ -193,8 +184,6 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-    this.#subscriptions.unsubscribe();
-    this.#dashboardService.destroy();
   }
 
   #checkReady(): void {

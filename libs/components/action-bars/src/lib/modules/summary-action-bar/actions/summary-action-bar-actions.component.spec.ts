@@ -103,9 +103,9 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length,
+        cmp.secondaryActions?.secondaryActionComponents()?.length,
       ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
+      cmp.secondaryActions?.secondaryActionComponents()?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
       });
     });
@@ -114,9 +114,9 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length,
+        cmp.secondaryActions?.secondaryActionComponents()?.length,
       ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
+      cmp.secondaryActions?.secondaryActionComponents()?.forEach((action) => {
         expect(action.isDropdown).toBeFalsy();
       });
 
@@ -125,9 +125,9 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length,
+        cmp.secondaryActions?.secondaryActionComponents()?.length,
       ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
+      cmp.secondaryActions?.secondaryActionComponents()?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
       });
     });
@@ -137,14 +137,15 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
 
       expect(
-        cmp.secondaryActions?.secondaryActionComponents?.length,
+        cmp.secondaryActions?.secondaryActionComponents()?.length,
       ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.forEach((action) => {
+      cmp.secondaryActions?.secondaryActionComponents()?.forEach((action) => {
         expect(action.isDropdown).toBeTruthy();
       });
     });
 
     it('should dismiss dropdown menu when the secondary action button is clicked', fakeAsync(() => {
+      mediaQueryController.setBreakpoint('xs');
       cmp.extraActions = true;
       fixture.detectChanges();
       tick();
@@ -167,7 +168,7 @@ describe('Summary Action Bar action components', () => {
           'sky-dropdown-menu sky-summary-action-bar-secondary-action button',
         ),
       ).toBeTruthy();
-      cmp.secondaryActions?.secondaryActionComponents?.first.actionClick.emit();
+      cmp.secondaryActions?.secondaryActionComponents()?.[0].actionClick.emit();
       fixture.detectChanges();
       tick();
       expect(

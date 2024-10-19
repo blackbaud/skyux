@@ -1,11 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
-import { SkyChevronModule } from '@skyux/indicators';
-import { SkyDropdownModule } from '@skyux/popovers';
-import { SkyThemeModule } from '@skyux/theme';
-
-import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resources.module';
 
 import { SkySummaryActionBarActionsComponent } from './actions/summary-action-bar-actions.component';
 import { SkySummaryActionBarCancelComponent } from './actions/summary-action-bar-cancel.component';
@@ -16,7 +9,7 @@ import { SkySummaryActionBarComponent } from './summary-action-bar.component';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 
 @NgModule({
-  declarations: [
+  imports: [
     SkySummaryActionBarActionsComponent,
     SkySummaryActionBarCancelComponent,
     SkySummaryActionBarComponent,
@@ -24,14 +17,6 @@ import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-ba
     SkySummaryActionBarSecondaryActionComponent,
     SkySummaryActionBarSecondaryActionsComponent,
     SkySummaryActionBarSummaryComponent,
-  ],
-  imports: [
-    CommonModule,
-    SkyChevronModule,
-    SkyDropdownModule,
-    SkyIconModule,
-    SkyActionBarsResourcesModule,
-    SkyThemeModule,
   ],
   exports: [
     SkySummaryActionBarComponent,

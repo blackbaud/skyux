@@ -41,6 +41,4 @@ export class MockTileDashboardService {
   public tileIsCollapsed() {}
 
   public setColumns() {}
-
-  public destroy() {}
 }

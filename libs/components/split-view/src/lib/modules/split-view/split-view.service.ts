@@ -1,8 +1,9 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 /**
@@ -10,7 +11,7 @@ import { take } from 'rxjs/operators';
  * @internal
  */
 @Injectable()
-export class SkySplitViewService implements OnDestroy {
+export class SkySplitViewService {
   public get backButtonTextStream(): Observable<string> {
     return this.#_backButtonTextStream;
   }
@@ -31,16 +32,11 @@ export class SkySplitViewService implements OnDestroy {
     return this.#_isMobileStream;
   }
 
-  #mediaQueryServiceSubscription: Subscription;
-
   #_backButtonTextStream = new BehaviorSubject<string>('');
   #_isMobile = false;
   #_isMobileStream = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    mediaQueryService: SkyMediaQueryService,
-    resources: SkyLibResourcesService,
-  ) {
+  constructor(resources: SkyLibResourcesService) {
     // Set default back button text.
     resources
       .getString('skyux_split_view_back_to_list')
@@ -50,9 +46,11 @@ export class SkySplitViewService implements OnDestroy {
       });
 
     // Set breakpoint.
-    this.#mediaQueryServiceSubscription = mediaQueryService.subscribe(
-      (breakpoint) => {
-        const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
+    inject(SkyMediaQueryService)
+      .breakpointChange.pipe(takeUntilDestroyed())
+      .subscribe((breakpoint) => {
+        const nowMobile = breakpoint === 'xs';
+
         if (nowMobile && !this.isMobile) {
           // switching to mobile
           this.#_isMobileStream.next(true);
@@ -63,12 +61,7 @@ export class SkySplitViewService implements OnDestroy {
           this.drawerVisible.next(true);
         }
         this.isMobile = nowMobile;
-      },
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#mediaQueryServiceSubscription.unsubscribe();
+      });
   }
 
   public backButtonClick(): void {

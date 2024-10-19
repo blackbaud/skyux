@@ -1,21 +1,16 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
   QueryList,
+  effect,
+  inject,
 } from '@angular/core';
-import {
-  SkyLogService,
-  SkyMediaBreakpoints,
-  SkyMediaQueryService,
-} from '@skyux/core';
-
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { SkyLogService, SkyMediaQueryService } from '@skyux/core';
 
 import { SkyPageSummaryAdapterService } from './page-summary-adapter.service';
 import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.component';
@@ -30,9 +25,7 @@ import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.componen
   styleUrls: ['./page-summary.component.scss'],
   providers: [SkyPageSummaryAdapterService],
 })
-export class SkyPageSummaryComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy
-{
+export class SkyPageSummaryComponent implements AfterContentInit {
   public hasKeyInfo = false;
 
   @ContentChildren(SkyPageSummaryKeyInfoComponent, {
@@ -42,25 +35,25 @@ export class SkyPageSummaryComponent
     | QueryList<SkyPageSummaryKeyInfoComponent>
     | undefined;
 
-  #breakpointSubscription: Subscription | undefined;
-  #ngUnsubscribe = new Subject<void>();
-
   #elRef: ElementRef;
   #adapter: SkyPageSummaryAdapterService;
-  #mediaQueryService: SkyMediaQueryService;
   #changeDetectorRef: ChangeDetectorRef;
+
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 
   constructor(
     elRef: ElementRef,
     adapter: SkyPageSummaryAdapterService,
-    mediaQueryService: SkyMediaQueryService,
     logger: SkyLogService,
     changeDetector: ChangeDetectorRef,
   ) {
     this.#elRef = elRef;
     this.#adapter = adapter;
-    this.#mediaQueryService = mediaQueryService;
     this.#changeDetectorRef = changeDetector;
+
     logger.deprecated('SkyPageSummaryComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
@@ -68,17 +61,13 @@ export class SkyPageSummaryComponent
       replacementRecommendation:
         'For page templates and techniques to summarize page content, see the page design guidelines.',
     });
-  }
 
-  public ngAfterViewInit(): void {
-    this.#breakpointSubscription = this.#mediaQueryService.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        this.#adapter.updateKeyInfoLocation(
-          this.#elRef,
-          args === SkyMediaBreakpoints.xs,
-        );
-      },
-    );
+    effect(() => {
+      this.#adapter.updateKeyInfoLocation(
+        this.#elRef,
+        this.#breakpoint() === 'xs',
+      );
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -86,22 +75,12 @@ export class SkyPageSummaryComponent
       this.hasKeyInfo = this.keyInfoComponents.length > 0;
 
       this.keyInfoComponents.changes
-        .pipe(takeUntil(this.#ngUnsubscribe))
+        .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe(() => {
           this.hasKeyInfo =
             !!this.keyInfoComponents && this.keyInfoComponents.length > 0;
           this.#changeDetectorRef.markForCheck();
         });
     }
-  }
-
-  public ngOnDestroy(): void {
-    /* istanbul ignore else */
-    /* sanity check */
-    if (this.#breakpointSubscription) {
-      this.#breakpointSubscription.unsubscribe();
-    }
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 }
