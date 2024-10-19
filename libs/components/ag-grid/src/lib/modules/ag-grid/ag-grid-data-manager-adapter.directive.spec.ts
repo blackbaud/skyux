@@ -215,6 +215,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     await agGridDataManagerFixture.whenStable();
 
     mediaQueryController.setBreakpoint('sm');
+    agGridDataManagerFixture.detectChanges();
 
     expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
       300,
@@ -224,6 +225,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
 
     mediaQueryController.setBreakpoint('xs');
+    agGridDataManagerFixture.detectChanges();
 
     expect(agGridComponent.api.getColumn('name')?.getActualWidth()).toEqual(
       180,
@@ -598,29 +600,29 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should unregister the grid if no grids are rendered', () => {
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(1);
 
     agGridDataManagerFixtureComponent.displayFirstGrid = false;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(0);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(0);
   });
 
   it('should register a grid if no other grids are rendered', () => {
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(1);
 
     agGridDataManagerFixtureComponent.displayFirstGrid = false;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(0);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(0);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(0);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(0);
 
     agGridDataManagerFixtureComponent.displaySecondGrid = true;
     agGridDataManagerFixture.detectChanges();
 
-    expect(agGridDataManagerDirective.agGridList?.length).toBe(1);
-    expect(agGridDataManagerDirective.skyAgGridWrapperList?.length).toBe(1);
+    expect(agGridDataManagerDirective.agGridList().length).toBe(1);
+    expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(1);
   });
 
   it('should apply descending sort to rows when data manager active sort changes', async () => {
