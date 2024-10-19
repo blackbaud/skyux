@@ -48,9 +48,10 @@ export class SkySummaryActionBarSecondaryActionsComponent {
 
   public dropdownMessageStream = new Subject<SkyDropdownMessage>();
 
-  public readonly secondaryActionComponents = contentChildren(
-    SkySummaryActionBarSecondaryActionComponent,
-  );
+  public readonly secondaryActionComponents =
+    contentChildren<SkySummaryActionBarSecondaryActionComponent>(
+      SkySummaryActionBarSecondaryActionComponent,
+    );
 
   constructor() {
     effect(() => {

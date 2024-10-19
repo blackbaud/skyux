@@ -1,6 +1,8 @@
 <div
   class="sky-page-summary"
-  [ngClass]="{ 'sky-page-summary-with-key-info': hasKeyInfo }"
+  [ngClass]="{
+    'sky-page-summary-with-key-info': keyInfoComponents().length > 0
+  }"
 >
   <ng-content select="sky-page-summary-alert" />
   <div class="sky-page-summary-row">

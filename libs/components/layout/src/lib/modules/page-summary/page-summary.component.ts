@@ -1,15 +1,11 @@
 import {
-  AfterContentInit,
-  ChangeDetectorRef,
   Component,
-  ContentChildren,
-  DestroyRef,
   ElementRef,
-  QueryList,
+  contentChildren,
   effect,
   inject,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService, SkyMediaQueryService } from '@skyux/core';
 
 import { SkyPageSummaryAdapterService } from './page-summary-adapter.service';
@@ -25,36 +21,18 @@ import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.componen
   styleUrls: ['./page-summary.component.scss'],
   providers: [SkyPageSummaryAdapterService],
 })
-export class SkyPageSummaryComponent implements AfterContentInit {
-  public hasKeyInfo = false;
+export class SkyPageSummaryComponent {
+  protected keyInfoComponents = contentChildren(SkyPageSummaryKeyInfoComponent);
 
-  @ContentChildren(SkyPageSummaryKeyInfoComponent, {
-    read: SkyPageSummaryKeyInfoComponent,
-  })
-  public keyInfoComponents:
-    | QueryList<SkyPageSummaryKeyInfoComponent>
-    | undefined;
-
-  #elRef: ElementRef;
-  #adapter: SkyPageSummaryAdapterService;
-  #changeDetectorRef: ChangeDetectorRef;
-
-  readonly #destroyRef = inject(DestroyRef);
   readonly #breakpoint = toSignal(
     inject(SkyMediaQueryService).breakpointChange,
   );
 
-  constructor(
-    elRef: ElementRef,
-    adapter: SkyPageSummaryAdapterService,
-    logger: SkyLogService,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#elRef = elRef;
-    this.#adapter = adapter;
-    this.#changeDetectorRef = changeDetector;
+  constructor() {
+    const adapter = inject(SkyPageSummaryAdapterService);
+    const elRef = inject(ElementRef);
 
-    logger.deprecated('SkyPageSummaryComponent', {
+    inject(SkyLogService).deprecated('SkyPageSummaryComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/design/guidelines/page-layouts',
@@ -63,24 +41,7 @@ export class SkyPageSummaryComponent implements AfterContentInit {
     });
 
     effect(() => {
-      this.#adapter.updateKeyInfoLocation(
-        this.#elRef,
-        this.#breakpoint() === 'xs',
-      );
+      adapter.updateKeyInfoLocation(elRef, this.#breakpoint() === 'xs');
     });
-  }
-
-  public ngAfterContentInit(): void {
-    if (this.keyInfoComponents) {
-      this.hasKeyInfo = this.keyInfoComponents.length > 0;
-
-      this.keyInfoComponents.changes
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe(() => {
-          this.hasKeyInfo =
-            !!this.keyInfoComponents && this.keyInfoComponents.length > 0;
-          this.#changeDetectorRef.markForCheck();
-        });
-    }
   }
 }

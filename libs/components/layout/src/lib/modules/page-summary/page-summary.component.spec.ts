@@ -38,6 +38,7 @@ describe('Page summary component', () => {
     expect(el.querySelector(smSelector)).toExist();
 
     mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
 
     expect(el.querySelector(xsSelector)).toExist();
     expect(el.querySelector(smSelector)).not.toExist();
