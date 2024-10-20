@@ -333,21 +333,18 @@ describe('SkyAgGridService', () => {
     it('should update selection options', () => {
       expect(
         agGridService.getGridOptions({
-          gridOptions: { rowSelection: 'single' },
+          gridOptions: { enableRangeSelection: true, rowSelection: 'multiple' },
         }),
       ).toEqual(
         jasmine.objectContaining({
-          selection: { mode: 'singleRow' },
-        }),
-      );
-
-      expect(
-        agGridService.getGridOptions({
-          gridOptions: { enableRangeSelection: true },
-        }),
-      ).toEqual(
-        jasmine.objectContaining({
-          selection: { mode: 'cell' },
+          cellSelection: true,
+          rowSelection: {
+            mode: 'multiRow',
+            enableClickSelection: false,
+            enableSelectionWithoutKeys: true,
+            checkboxes: false,
+            headerCheckbox: false,
+          },
         }),
       );
     });
@@ -360,7 +357,6 @@ describe('SkyAgGridService', () => {
       });
 
       expect(editableGridOptions.rowSelection).toBeUndefined();
-      expect(editableGridOptions.selection).toBeUndefined();
     });
   });
 

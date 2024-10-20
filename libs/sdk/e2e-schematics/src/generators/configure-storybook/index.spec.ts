@@ -11,8 +11,8 @@ import { TsConfig } from '@nx/storybook/src/utils/utilities';
 
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
-import { updateJson } from '../../utils';
 import { createTestApplication } from '../../utils/testing';
+import { updateJson } from '../../utils/update-json';
 
 import configureStorybook from './index';
 
@@ -42,8 +42,8 @@ describe('configure-storybook', () => {
       e2eTestRunner: true,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
       linter: Linter.None,
       project: `test-app`,
@@ -95,8 +95,8 @@ describe('configure-storybook', () => {
       e2eTestRunner: true,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
       linter: Linter.None,
       project: `test-app`,
@@ -126,8 +126,8 @@ describe('configure-storybook', () => {
       e2eTestRunner: true,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
       linter: Linter.None,
       project: `test-app`,
@@ -160,8 +160,8 @@ describe('configure-storybook', () => {
       name: `test-app`,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
       linter: Linter.None,
       project: `test-app`,
@@ -184,8 +184,8 @@ describe('configure-storybook', () => {
       e2eTestRunner: false,
     });
     await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
+      interactionTests: false,
+      skipFormat: true,
       generateStories: false,
       linter: Linter.None,
       project: `test-app`,

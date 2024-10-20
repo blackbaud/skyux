@@ -4,9 +4,8 @@
     [iconSize]="size"
     [iconVariant]="variant"
   />
-} @else {
+} @else if (icon) {
   <i
-    *ngIf="icon"
     aria-hidden="true"
     class="sky-icon"
     [attr.data-sky-icon]="icon"

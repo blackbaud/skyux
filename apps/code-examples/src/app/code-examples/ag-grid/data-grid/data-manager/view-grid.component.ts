@@ -159,7 +159,7 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       gridOptions: {
         columnDefs: this.#columnDefs,
         onGridReady: this.onGridReady.bind(this),
-        selection: { mode: 'singleRow' },
+        rowSelection: { mode: 'singleRow' },
       },
     });
 

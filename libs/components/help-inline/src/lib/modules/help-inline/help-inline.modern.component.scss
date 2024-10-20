@@ -1,28 +1,48 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
   as modernMixins;
 
+@include compatMixins.sky-modern-overrides('.sky-help-inline') {
+  --sky-override-help-inline-color-hover: #{darken(
+      $sky-background-color-primary-dark,
+      10%
+    )};
+  --sky-override-help-inline-padding-sides: var(--modern-size-6);
+  --sky-override-help-inline-border-radius: var(--modern-size-3);
+  --sky-override-help-inline-font-size: #{$sky-font-size-base};
+}
+
+@include compatMixins.sky-modern-v2('.sky-help-inline') {
+  line-height: 1;
+}
+
 @include mixins.sky-component('modern', '.sky-help-inline') {
-  font-size: $sky-font-size-base;
-  display: inline-block;
-  border-radius: 3px;
-
-  // The 0px and 5px padding is because we want 1px top/bottom and 6px left/right but the mixin
-  // adds a pixel to account for standard button drop shadows that do not exist on this button.
-  @include modernMixins.sky-theme-modern-button-variant(
-    $sky-theme-modern-background-color-primary-dark,
-    transparent,
-    transparent,
-    $sky-theme-modern-background-color-primary-dark,
-    0px 5px
+  border: none;
+  outline: none;
+  padding: var(--sky-space-inset-pillarbox-1_4-top-xs)
+    var(
+      --sky-override-help-inline-padding-sides,
+      var(--sky-space-inset-pillarbox-1_4-right-xs)
+    )
+    var(--sky-space-inset-pillarbox-1_4-bottom-xs)
+    var(
+      --sky-override-help-inline-padding-sides,
+      var(--sky-space-inset-pillarbox-1_4-left-xs)
+    );
+  border-radius: var(
+    --sky-override-help-inline-border-radius,
+    var(--sky-border-radius-s)
   );
-
-  &:hover {
-    color: darken($sky-background-color-primary-dark, 10%);
-    transition: color $sky-transition-time-short;
-    cursor: pointer;
-  }
+  color: var(--sky-color-icon-action);
+  background-color: var(--sky-color-background-action-tertiary-base);
+  // The font size here is to size the icon stack to the correct size.
+  // This implementation is likely to change in tokenization pass 2.
+  font-size: var(--sky-override-help-inline-font-size, 12.8px);
+  display: inline-block;
+  box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
+    var(--sky-color-border-action-tertiary-base);
 
   ::ng-deep {
     .fa-stack-2x {
@@ -33,17 +53,67 @@
       font-size: 10px;
     }
   }
+
+  &:hover {
+    background-color: var(--sky-color-background-action-tertiary-hover);
+    box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
+      var(--sky-color-border-action-tertiary-hover);
+    color: var(
+      --sky-override-help-inline-color-hover,
+      var(--sky-color-icon-action)
+    );
+    transition: color $sky-transition-time-short;
+    cursor: pointer;
+  }
+
+  &:active,
+  &.sky-btn-active {
+    background-color: var(--sky-color-background-action-tertiary-active);
+    box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
+      var(--sky-color-border-action-tertiary-active);
+  }
+
+  &:focus-visible:not(:active) {
+    background-color: var(--sky-color-background-action-tertiary-focus);
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus),
+      var(--sky-elevation-focus);
+  }
+
+  &.sky-btn-disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus-visible,
+    &.sky-btn-focus,
+    &:active,
+    &.sky-btn-active {
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+        var(--sky-color-border-action-tertiary-disabled);
+      background-color: var(--sky-color-background-action-tertiary-disabled);
+
+      &:focus-visible,
+      &.sky-btn-focus {
+        box-shadow: var(
+          --sky-override-button-icon-disabled-box-shadow,
+          inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(--sky-color-border-action-tertiary-disabled)
+        );
+      }
+    }
+  }
 }
 
 @include mixins.sky-component('modern', '.sky-help-inline-hidden') {
   display: none;
 }
 
-@include mixins.sky-component('modern', '.sky-help-inline-popover-text') {
-  overflow-wrap: break-word;
-  margin: 0;
-}
-
 @include mixins.sky-component('modern', 'sky-icon-stack') {
   display: inline-flex;
+}
+
+::ng-deep .sky-theme-modern .sky-help-inline-popover-text {
+  overflow-wrap: break-word;
+  margin: 0;
 }

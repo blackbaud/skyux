@@ -19,7 +19,7 @@
           {{ dropdownTriggerButtonText }}
         </sky-dropdown-button>
         <sky-dropdown-menu>
-          @for (tabButton of tabButtons; track tabButton) {
+          @for (tabButton of tabButtons; track tabButton.buttonId) {
             <sky-dropdown-item class="sky-tab-dropdown-menu-item">
               <div
                 class="sky-tab-dropdown-item"
@@ -43,7 +43,7 @@
     }
   </span>
   <span class="sky-tabset-tabs">
-    @for (tabButton of tabButtons; track tabButton) {
+    @for (tabButton of tabButtons; track tabButton.buttonId) {
       <ng-container
         *ngTemplateOutlet="
           tabButtonTemplate;

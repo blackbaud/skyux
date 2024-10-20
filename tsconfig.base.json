@@ -138,6 +138,9 @@
       "@skyux/progress-indicator": [
         "libs/components/progress-indicator/src/index.ts"
       ],
+      "@skyux/progress-indicator/testing": [
+        "libs/components/progress-indicator/testing/src/public-api.ts"
+      ],
       "@skyux/router": ["libs/components/router/src/index.ts"],
       "@skyux/router/testing": [
         "libs/components/router/testing/src/public-api.ts"

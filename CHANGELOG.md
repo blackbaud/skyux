@@ -1,5 +1,108 @@
 # Changelog
 
+## [11.14.0](https://github.com/blackbaud/skyux/compare/11.13.1...11.14.0) (2024-10-18)
+
+
+### Features
+
+* **components/datetime:** add datepicker test harness ([#2836](https://github.com/blackbaud/skyux/issues/2836)) ([b154d4c](https://github.com/blackbaud/skyux/commit/b154d4cbc2d595ce9665fd8351cb52f4ebbdad47))
+* **components/help-inline:** tokenize help inline styles ([#2841](https://github.com/blackbaud/skyux/issues/2841)) ([12c8c9c](https://github.com/blackbaud/skyux/commit/12c8c9cda650e003699f1ae6a1525ccd7555fdd4))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** merge row selection options ([#2845](https://github.com/blackbaud/skyux/issues/2845)) ([a64a1b6](https://github.com/blackbaud/skyux/commit/a64a1b6bff3ab9f9d0caafbbff92f03061ee4490))
+
+## [11.13.1](https://github.com/blackbaud/skyux/compare/11.13.0...11.13.1) (2024-10-17)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** adjust row selection options ([#2842](https://github.com/blackbaud/skyux/issues/2842)) ([2f1397c](https://github.com/blackbaud/skyux/commit/2f1397caa874754b228588ccb21a3e08a6f1bf53))
+
+## [11.13.0](https://github.com/blackbaud/skyux/compare/11.12.0...11.13.0) (2024-10-17)
+
+
+### Features
+
+* **components/forms:** tokenize stacked input box styling ([#2834](https://github.com/blackbaud/skyux/issues/2834)) ([29d2a2e](https://github.com/blackbaud/skyux/commit/29d2a2e90fe0f90de573ebdaa69ff06e8643f8cd))
+* **components/indicators:** tokenize chevron and expansion indicator styles ([#2837](https://github.com/blackbaud/skyux/issues/2837)) ([6b4ec78](https://github.com/blackbaud/skyux/commit/6b4ec78abc89434baf556335c957c5060aac78dc))
+
+
+### Bug Fixes
+
+* **components/pages:** update code example for action hub pattern ([#2824](https://github.com/blackbaud/skyux/issues/2824)) ([e0d8050](https://github.com/blackbaud/skyux/commit/e0d8050d0d5b589e9041b98eb27c633a4f078a4c))
+* **components/theme:** public api publishes successfully ([#2838](https://github.com/blackbaud/skyux/issues/2838)) ([e296ef5](https://github.com/blackbaud/skyux/commit/e296ef5dbfd7bde57ebfc953fef1d3970727261a))
+
+## [11.12.0](https://github.com/blackbaud/skyux/compare/11.11.2...11.12.0) (2024-10-16)
+
+
+### Features
+
+* **components/forms:** tokenize input box styling ([#2811](https://github.com/blackbaud/skyux/issues/2811)) ([30e0304](https://github.com/blackbaud/skyux/commit/30e030436aa23163423ad9e1497aaabd1166e9da))
+* **components/lookup:** add test harnesses to country field ([#2822](https://github.com/blackbaud/skyux/issues/2822)) ([a5df333](https://github.com/blackbaud/skyux/commit/a5df333ef50fd586ba49e9e71eaab33ebb523e70))
+* **components/theme:** tokenize button styling ([#2803](https://github.com/blackbaud/skyux/issues/2803)) ([f319508](https://github.com/blackbaud/skyux/commit/f319508ff587567dc43725227e8301e4e0973bdf))
+
+
+### Bug Fixes
+
+* **components/packages:** accommodate vscode settings with json comments ([#2833](https://github.com/blackbaud/skyux/issues/2833)) ([be34b8d](https://github.com/blackbaud/skyux/commit/be34b8de9740ccb38825d40d3438e0cde8b85b94))
+* **components/pages:** constrain page sizing ([#2832](https://github.com/blackbaud/skyux/issues/2832)) ([e89fb87](https://github.com/blackbaud/skyux/commit/e89fb870687e56cc519b963e8c4f2a6af293be05))
+
+## [11.11.2](https://github.com/blackbaud/skyux/compare/11.11.1...11.11.2) (2024-10-15)
+
+
+### Bug Fixes
+
+* **components/tabs:** push permalink query params via router ([#2828](https://github.com/blackbaud/skyux/issues/2828)) ([c2d24a1](https://github.com/blackbaud/skyux/commit/c2d24a115d6e9522ff60312d5975bd7cd1e7e5d7))
+
+## [11.11.1](https://github.com/blackbaud/skyux/compare/11.11.0...11.11.1) (2024-10-15)
+
+
+### Bug Fixes
+
+* **components/theme:** address warning in styles ([#2826](https://github.com/blackbaud/skyux/issues/2826)) ([594a8ab](https://github.com/blackbaud/skyux/commit/594a8ab2d380c26d89f225624446fe8f2757c047))
+* run schematic to set VSCode plugin setting to not expect flat configs for ESLint 9 which was included in `11.x.x` ([#2825](https://github.com/blackbaud/skyux/issues/2825)) ([96330a0](https://github.com/blackbaud/skyux/commit/96330a08003afa9f4d6afb8e308421f782cea7fd))
+
+## [11.11.0](https://github.com/blackbaud/skyux/compare/11.10.0...11.11.0) (2024-10-11)
+
+
+### Features
+
+* **components/ag-grid:** support AG Grid 32.2.2 ([#2816](https://github.com/blackbaud/skyux/issues/2816)) ([8292e7d](https://github.com/blackbaud/skyux/commit/8292e7da3c83c059ce3e2a7936a26c5ea7f3a0d0))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** capture sort changes in data manager when not using sort index ([#2820](https://github.com/blackbaud/skyux/issues/2820)) ([ed8fa6d](https://github.com/blackbaud/skyux/commit/ed8fa6de6f612246685a4c61e43937d3f05a0c43))
+* **components/pages:** adjust page links spacing ([#2812](https://github.com/blackbaud/skyux/issues/2812)) ([fbb02ea](https://github.com/blackbaud/skyux/commit/fbb02ea96cacf09bc50d37fc50ae583df8a4cc63))
+
+## [11.10.0](https://github.com/blackbaud/skyux/compare/11.9.0...11.10.0) (2024-10-10)
+
+
+### Features
+
+* **components/layout:** add test harnesses to fluid grid ([#2785](https://github.com/blackbaud/skyux/issues/2785)) ([2be5810](https://github.com/blackbaud/skyux/commit/2be58105ba7c8e0da9bd07d52c30b25172ef3e7a))
+* **components/progress-indicator:** add progress indicator test harness ([#2814](https://github.com/blackbaud/skyux/issues/2814)) ([6ec100e](https://github.com/blackbaud/skyux/commit/6ec100e53fb3ba1c66ff89845536f53226ad7078))
+
+
+### Bug Fixes
+
+* **components/theme:** update style mixins to support angular 18.2.8 ([#2819](https://github.com/blackbaud/skyux/issues/2819)) ([2ed12cd](https://github.com/blackbaud/skyux/commit/2ed12cdbea5c398f964eb1bfedc3028a2645ccf3))
+
+## [11.9.0](https://github.com/blackbaud/skyux/compare/11.8.0...11.9.0) (2024-10-09)
+
+
+### Features
+
+* **components/indicators:** tokenize key info styling ([#2804](https://github.com/blackbaud/skyux/issues/2804)) ([9cca793](https://github.com/blackbaud/skyux/commit/9cca7934061353ed3927316b2e08a8e73d03abf7))
+
+
+### Bug Fixes
+
+* **components/icon:** reorganize internal file structure for correct documentation output ([#2810](https://github.com/blackbaud/skyux/issues/2810)) ([08da772](https://github.com/blackbaud/skyux/commit/08da7720d9ae5d13dcc8af22281dcf5dfd0eebb7))
+* **components/popovers:** update arrow position when scrolling in flex layout ([#2799](https://github.com/blackbaud/skyux/issues/2799)) ([#2808](https://github.com/blackbaud/skyux/issues/2808)) ([00c4b8f](https://github.com/blackbaud/skyux/commit/00c4b8f8a4ddc49bda2b7c8674d96e25d884486d))
+
 ## [10.44.2](https://github.com/blackbaud/skyux/compare/10.44.1...10.44.2) (2024-10-08)
 
 

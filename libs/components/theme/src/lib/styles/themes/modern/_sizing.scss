@@ -90,4 +90,14 @@
     margin-top: 0;
     margin-bottom: $sky-theme-modern-margin-stacked-xxl;
   }
+
+  .sky-form-field-stacked {
+    margin-top: 0;
+    margin-bottom: var(--sky-space-gap-form-l);
+  }
+
+  .sky-field-group-stacked {
+    margin-top: 0;
+    margin-bottom: var(--sky-space-gap-form-xl);
+  }
 }

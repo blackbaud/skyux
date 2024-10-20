@@ -9,7 +9,7 @@
       </sky-alert>
     </sky-page-header-alerts>
     <sky-page-header-avatar>
-      <sky-avatar name="Test name"> </sky-avatar>
+      <sky-avatar name="Test name" />
     </sky-page-header-avatar>
   </sky-page-header>
   <sky-page-content>
@@ -72,12 +72,12 @@
                   Approved amount
                 </label>
                 <input
+                  #amountInput
                   class="sky-form-control"
                   formControlName="approvedAmount"
                   name="approvedAmount"
                   type="text"
                   skyId
-                  #amountInput
                 />
               </sky-input-box>
             </div>
@@ -88,11 +88,11 @@
                   Comments
                 </label>
                 <textarea
+                  #commentsInput
                   class="sky-form-control"
                   formControlName="comments"
                   name="comments"
                   skyId
-                  #commentsInput
                 ></textarea>
               </sky-input-box>
             </div>

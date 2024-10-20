@@ -4,7 +4,7 @@ import { SkyAutocompleteHarness } from '@skyux/lookup/testing';
 
 import { DemoComponent } from './demo.component';
 
-describe('Basic colorpicker demo', () => {
+describe('Basic autocomplete demo', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     harness: SkyAutocompleteHarness;
     fixture: ComponentFixture<DemoComponent>;

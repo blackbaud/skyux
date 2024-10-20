@@ -29,7 +29,7 @@
   --sky-override-toast-padding: 0 #{$sky-padding};
 }
 
-@include compatMixins.sky-modern-overrides('.sky-toast') {
+@include compatMixins.sky-modern-overrides('.sky-toast', false) {
   --sky-override-toast-content-link-color: #212327cc;
   --sky-override-toast-icon-top-padding: calc(var(--modern-size-5) * -1);
   --sky-override-toast-info-exclamation-path-color: var(

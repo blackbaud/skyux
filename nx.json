@@ -57,6 +57,7 @@
         "ci": {
           "ci": true,
           "codeCoverage": true,
+          "quiet": true,
           "runInBand": true
         }
       }
@@ -122,11 +123,6 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "tasksRunnerOptions": {
-    "local": {
-      "runner": "nx/tasks-runners/default"
-    }
-  },
-  "nxCloudAccessToken": "Y2EyNjQ2OTctN2ZkMS00NTA2LWIxZDEtZTQyZDc3MjIwNDQyfHJlYWQ=",
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "useLegacyCache": true
 }

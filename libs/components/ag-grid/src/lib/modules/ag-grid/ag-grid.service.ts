@@ -12,12 +12,12 @@ import {
   HeaderClassParams,
   ICellRendererParams,
   RowClassParams,
+  RowSelectionOptions,
   SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
@@ -203,19 +203,31 @@ export class SkyAgGridService implements OnDestroy {
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions,
   ): GridOptions {
-    if (
-      !providedGridOptions.selection &&
-      ('rowSelection' in providedGridOptions ||
-        'enableRangeSelection' in providedGridOptions)
-    ) {
-      if (providedGridOptions.rowSelection === 'single') {
-        providedGridOptions.selection = { mode: 'singleRow' };
-      }
+    if ('enableRangeSelection' in providedGridOptions) {
       if (providedGridOptions.enableRangeSelection) {
-        providedGridOptions.selection = { mode: 'cell' };
+        providedGridOptions.cellSelection = true;
       }
-      delete providedGridOptions.rowSelection;
       delete providedGridOptions.enableRangeSelection;
+    }
+    if (
+      providedGridOptions.rowSelection === 'single' ||
+      providedGridOptions.rowSelection === 'multiple'
+    ) {
+      const rowSelectionOptions: Record<string, RowSelectionOptions> = {
+        single: { mode: 'singleRow' },
+        multiple: { mode: 'multiRow' },
+      };
+      providedGridOptions.rowSelection =
+        rowSelectionOptions[providedGridOptions.rowSelection];
+    }
+    if (
+      defaultGridOptions.rowSelection &&
+      providedGridOptions.rowSelection?.mode
+    ) {
+      providedGridOptions.rowSelection = {
+        ...(defaultGridOptions.rowSelection as RowSelectionOptions),
+        ...providedGridOptions.rowSelection,
+      } as RowSelectionOptions;
     }
 
     const mergedGridOptions: GridOptions = {
@@ -247,14 +259,13 @@ export class SkyAgGridService implements OnDestroy {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
       },
-      selection: providedGridOptions.selection ?? defaultGridOptions.selection,
     };
 
     // Enable text selection unless explicitly disabled or conflicting with another setting.
     if (
       mergedGridOptions.enableCellTextSelection ||
       (!('enableCellTextSelection' in mergedGridOptions) &&
-        mergedGridOptions.selection?.mode !== 'cell' &&
+        !mergedGridOptions.cellSelection &&
         !mergedGridOptions.columnDefs?.some((col: ColDef) => col.editable))
     ) {
       mergedGridOptions.context ||= {};
@@ -532,10 +543,10 @@ export class SkyAgGridService implements OnDestroy {
       },
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: () => this.#onCellFocused(),
-      selection: {
+      rowSelection: {
         mode: 'multiRow',
         enableClickSelection: false,
-        enableMultiSelectWithClick: true,
+        enableSelectionWithoutKeys: true,
         checkboxes: false,
         headerCheckbox: false,
       },
@@ -617,7 +628,7 @@ export class SkyAgGridService implements OnDestroy {
 
   #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
-    delete defaultGridOptions.selection;
+    defaultGridOptions.rowSelection = undefined;
     return defaultGridOptions;
   }
 

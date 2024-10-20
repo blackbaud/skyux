@@ -11,8 +11,8 @@
 <form [formGroup]="fileForm">
   <sky-file-attachment
     formControlName="imageAttachment"
-    (fileChange)="reactiveFileUpdated($event)"
     stacked="true"
+    (fileChange)="reactiveFileUpdated($event)"
   >
     <sky-file-attachment-label>
       Single file attachment with image
