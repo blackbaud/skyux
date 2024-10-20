@@ -1,0 +1,8 @@
+{
+  "plugins": ["@skyux-eslint/template"],
+  "rules": {
+    "@skyux-eslint/template/no-deprecated-directives": "error",
+    "@skyux-eslint/template/no-unbound-id": "error",
+    "@skyux-eslint/template/prefer-label-text": "error"
+  }
+}
