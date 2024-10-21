@@ -5,6 +5,7 @@
 @include compatMixins.sky-default-overrides('.sky-input-box') {
   --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
   --sky-override-input-box-error-margin-top: 5px;
+  --sky-override-input-box-select-border-radius: 0;
   --sky-override-button-width: 33px;
 }
 
@@ -74,6 +75,14 @@ sky-input-box {
     .sky-input-box-label-wrapper {
       display: flex;
       width: 100%;
+    }
+
+    // The global select styles add a border radius to select elements. This ensures it is not visible when the field is disabled within an input box.
+    select.sky-form-control {
+      border-radius: var(
+        --sky-override-input-box-select-border-radius,
+        var(--sky-border-radius-s)
+      );
     }
   }
 
