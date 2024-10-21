@@ -5,7 +5,14 @@
   "sourceRoot": "libs/components/avatar/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["avatar", "testing"],
+  "implicitDependencies": [
+    "avatar",
+    "core-testing",
+    "errors-testing",
+    "forms",
+    "forms-testing",
+    "testing"
+  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build avatar-testing'",
