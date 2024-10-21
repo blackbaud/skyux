@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -21,15 +22,17 @@ import { SkyPhoneFieldModule } from '@skyux/phone-field';
   ],
 })
 export class DemoComponent {
-  protected phoneForm: FormGroup;
+  public phoneForm: FormGroup;
+  public phoneControl: FormControl;
 
   #formBuilder = inject(FormBuilder);
 
   constructor() {
+    this.phoneControl = this.#formBuilder.control(undefined, {
+      validators: Validators.required,
+    });
     this.phoneForm = this.#formBuilder.group({
-      phoneControl: this.#formBuilder.control(undefined, {
-        validators: Validators.required,
-      }),
+      phoneControl: this.phoneControl,
     });
   }
 }
