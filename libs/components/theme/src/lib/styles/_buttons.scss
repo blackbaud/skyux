@@ -148,6 +148,7 @@ a.sky-btn {
   font-weight: 400;
   color: var(--sky-text-color-default);
   line-height: 1.6em;
+  --sky-override-tab-line-height: 1.6em !important;
   margin-right: $sky-margin-half;
   padding-bottom: $sky-padding-half;
   padding-top: $sky-padding-half;
