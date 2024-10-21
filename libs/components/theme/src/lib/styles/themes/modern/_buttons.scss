@@ -1,4 +1,3 @@
-@use '../../_public-api/themes/modern/_compat/mixins' as modernCompatMixins;
 @use '../../mixins' as mixins;
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
@@ -55,6 +54,20 @@
   &.sky-btn-borderless-inline {
     --sky-override-button-line-height: normal;
   }
+}
+
+@include compatMixins.sky-modern-overrides('.sky-btn-tab', false) {
+  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
+  --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
+  --sky-override-tab-hover-border-bottom-color: var(--modern-color-blue-50);
+  --sky-override-tab-disabled-background-color: var(--modern-color-transparent);
+  --sky-override-tab-disabled-font-size: 15px;
+  --sky-override-tab-button-radius: 0;
+  --sky-override-tab-line-height: 1.8;
+  --sky-override-selected-dropdown-item-border-width: var(--modern-size-3);
+  --sky-override-selected-dropdown-background-color: var(
+    --modern-color-transparent
+  );
 }
 
 .sky-theme-modern {
@@ -447,24 +460,188 @@
   }
 
   .sky-btn-tab {
-    @include modernCompatMixins.sky-theme-modern-btn-tab;
+    background-color: var(--sky-color-background-nav-base);
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: var(
+      --sky-override-tab-button-radius,
+      var(--sky-border-radius-s)
+    );
+    border-top-right-radius: var(
+      --sky-override-tab-button-radius,
+      var(--sky-border-radius-s)
+    );
+    color: var(--sky-color-text-deemphasized);
+    font-size: var(--sky-font-size-body-m);
+    font-weight: var(--sky-font-weight-body-m);
+    line-height: var(
+      --sky-override-tab-line-height,
+      var(--sky-font-line_height-body-m)
+    );
+    padding: var(--sky-space-inset-pillarbox-2_3-top-m)
+      var(--sky-space-inset-pillarbox-2_3-right-m)
+      var(--sky-space-inset-pillarbox-2_3-bottom-m)
+      var(--sky-space-inset-pillarbox-2_3-left-m);
+    transition: box-shadow $sky-transition-time-short;
+
+    &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
+        .sky-dropdown-button-type-tab
+      ):not(:focus-visible) {
+      background-color: var(--sky-color-background-nav-hover);
+      border-bottom: var(--sky-border-width-action-selected-s)
+        var(--sky-border-style-accent)
+        var(
+          --sky-override-tab-hover-border-bottom-color,
+          var(--sky-color-border-selected)
+        );
+      color: var(--sky-color-text-default);
+      padding-bottom: calc(
+        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+            --sky-border-width-action-selected-s
+          )
+      );
+    }
+
+    &:focus-visible {
+      background-color: var(--sky-color-background-nav-focus);
+      color: var(--sky-color-text-default);
+      outline: none;
+    }
+
+    &:focus-visible:not(:active) {
+      color: var(--sky-color-text-default);
+      outline: solid var(--sky-border-width-action-selected-m)
+        var(--sky-color-border-selected);
+      outline-offset: calc(var(--sky-border-width-action-selected-m) * -1);
+      box-shadow: var(--sky-elevation-focus);
+    }
+
+    &:active {
+      color: var(--sky-color-text-default);
+      background-color: var(--sky-color-background-nav-active);
+      border-bottom: var(--sky-border-width-action-selected-s)
+        var(--sky-border-style-accent)
+        var(
+          --sky-override-tab-hover-border-bottom-color,
+          var(--sky-color-border-selected)
+        );
+      padding-bottom: calc(
+        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+            --sky-override-tab-selected-border-bottom-size,
+            var(--sky-border-width-action-selected-s)
+          )
+      );
+    }
+
+    &.sky-btn-tab-disabled {
+      background-color: var(
+        --sky-override-tab-disabled-background-color,
+        var(--sky-color-background-nav-disabled)
+      );
+      color: var(--sky-color-text-deemphasized);
+      font-style: var(--sky-font-style-deemphasized-style);
+      font-weight: var(--sky-font-style-deemphasized-weight);
+      font-size: var(
+        --sky-override-tab-disabled-font-size,
+        var(--sky-font-size-body-m)
+      );
+
+      .sky-btn-tab-close {
+        font-size: var(--sky-font-size-body-m);
+      }
+    }
   }
 
   .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-    @include modernCompatMixins.sky-theme-modern-btn-tab-selected;
+    background-color: var(
+      --sky-override-tab-selected-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    color: var(--sky-color-text-default);
+    box-shadow: none;
+
+    &:not(:active) {
+      border-bottom: var(
+          --sky-override-tab-selected-border-bottom-size,
+          var(--sky-border-width-action-selected-l)
+        )
+        var(--sky-border-style-accent) var(--sky-color-border-selected);
+      padding-bottom: calc(
+        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+            --sky-override-tab-selected-border-bottom-size,
+            var(--sky-border-width-action-selected-l)
+          )
+      );
+    }
+
+    &:hover:not(.sky-btn-tab-disabled) {
+      background-color: var(
+        --sky-override-tab-selected-background-color,
+        var(--sky-color-background-selected-soft)
+      );
+      color: var(--sky-color-text-default);
+    }
+
+    .sky-btn-tab-close,
+    .sky-tab-header-count {
+      color: var(--sky-color-text-deemphasized);
+    }
+
+    .sky-btn-tab-close {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      margin-left: var(--sky-space-gap-text_action-xs);
+    }
   }
 
   .sky-tab-header-count {
-    color: var(--sky-text-color-deemphasized);
-    margin-left: $sky-theme-modern-margin-inline-sm;
+    color: var(--sky-color-text-deemphasized);
+    margin-left: var(--sky-space-gap-label-m);
   }
 
   .sky-tab-dropdown-menu-item {
     .sky-btn-tab {
-      @include modernCompatMixins.sky-theme-modern-btn-tab-dropdown-item;
+      border-radius: var(--sky-border-radius-s);
+      &:hover:not(.sky-btn-tab-disabled) {
+        border-bottom: none;
+        outline: solid var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-secondary-hover);
+        outline-offset: calc(var(--sky-border-width-action-hover) * -1);
+      }
+
+      &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected) {
+        background-color: transparent;
+      }
+
+      &:focus-visible:not(:active) {
+        background-color: transparent;
+        box-shadow: var(--sky-elevation-focus);
+        outline: solid var(--sky-border-width-action-active)
+          var(--sky-color-border-action-secondary-focus);
+        outline-offset: calc(var(--sky-border-width-action-active) * -1);
+      }
 
       &.sky-btn-tab-selected {
-        @include modernCompatMixins.sky-theme-modern-btn-tab-selected-dropdown-item;
+        background-color: var(
+          --sky-override-selected-dropdown-background-color,
+          var(--sky-color-background-selected-soft)
+        );
+        color: var(--sky-color-text-default);
+        border-bottom: none;
+        border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
+        border-left: var(
+            --sky-override-selected-dropdown-item-border-width,
+            var(--sky-border-width-action-selected-l)
+          )
+          var(--sky-border-style-accent) var(--sky-color-border-selected);
+        padding-bottom: var(--sky-space-inset-pillarbox-2_3-bottom-m);
+        padding-left: calc(
+          var(--sky-space-inset-pillarbox-2_3-left-m) - var(
+              --sky-override-selected-dropdown-item-border-width,
+              var(--sky-border-width-action-selected-l)
+            )
+        );
       }
     }
   }

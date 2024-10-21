@@ -1,5 +1,10 @@
 @use './mixins' as mixins;
 @use './variables' as variables;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('body') {
+  --sky-override-tabset-padding-xs-breakpoint: 10px;
+}
 
 // xs breakpoint
 .sky-layout-host {
@@ -81,7 +86,10 @@
 
   &-tabs {
     --sky-layout-host-content-spacing: 0;
-    --sky-layout-host-tab-content-spacing: 10px;
+    --sky-layout-host-tab-content-spacing: var(
+      --sky-override-tabset-padding-xs-breakpoint,
+      var(--sky-space-inset-tabs-s)
+    );
   }
 
   &-none {
@@ -202,7 +210,7 @@
       }
 
       &-tabs {
-        --sky-layout-host-tab-content-spacing: 30px;
+        --sky-layout-host-tab-content-spacing: var(--sky-space-inset-tabs-xl);
       }
     }
   }

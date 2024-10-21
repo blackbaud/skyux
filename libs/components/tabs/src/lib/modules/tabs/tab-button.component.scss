@@ -1,70 +1,83 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-tab-button') {
+  --sky-override-tab-close-padding: 1px 6px;
+  --sky-override-tab-close-position-right: 10px;
+  --sky-override-tab-close-position-top: 10px;
+  --sky-override-tab-close-color: #{$sky-text-color-deemphasized};
+  --sky-override-tab-close-hover-color: #{$sky-text-color-default};
+  --sky-override-tab-close-active-hover-color: #fff;
+  --sky-override-tab-margin-right: #{$sky-margin-inline-compact};
+  --sky-override-closeable-tab-padding-right: 43px;
+}
+
+@include compatMixins.sky-modern-overrides('sky-tab-button', false) {
+  --sky-override-tab-close-padding: var(--modern-size-1) var(--modern-size-6);
+  --sky-override-tab-close-position-top: var(--modern-size-12);
+  --sky-override-tab-close-position-right: var(--modern-size-10);
+  --sky-override-closeable-tab-padding-right: 44px;
+}
 
 .sky-btn-tab-wrapper {
   display: inline-block;
   position: relative;
-  margin-right: $sky-margin-inline-compact;
+  margin-right: var(
+    --sky-override-tab-margin-right,
+    var(--sky-space-gap-action_group-m)
+  );
 
   .sky-btn-tab-close {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    color: $sky-text-color-deemphasized;
-    padding: 1px 6px;
+    top: var(
+      --sky-override-tab-close-position-top,
+      var(--sky-space-gap-icon-m)
+    );
+    right: var(
+      --sky-override-tab-close-position-right,
+      var(--sky-space-gap-icon-m)
+    );
+    color: var(
+      --sky-override-tab-close-color,
+      var(--sky-color-icon-deemphasized)
+    );
+    // padding default should change to be the same on all sides when we do the icon work
+    padding: var(
+      --sky-override-tab-close-padding,
+      0 var(--sky-space-inset-balanced-xs)
+    );
 
     &:hover {
-      color: $sky-text-color-default;
+      color: var(
+        --sky-override-tab-close-hover-color,
+        var(--sky-color-icon-default)
+      );
       transition: color $sky-transition-time-short;
     }
   }
 
   &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
     .sky-btn-tab-close {
-      color: #fff;
+      color: var(
+        --sky-override-tab-close-active-hover-color,
+        var(--sky-color-icon-deemphasized)
+      );
     }
   }
 
   &.sky-btn-tab-wrapper-disabled {
     cursor: not-allowed;
   }
-}
-
-.sky-tab-btn-closeable {
-  padding-right: 43px;
-}
-
-@include mixins.sky-theme-modern {
-  .sky-btn-tab-wrapper {
-    margin-right: $sky-theme-modern-margin-inline-sm;
-
-    .sky-btn-tab-close {
-      top: 12px;
-      right: 10px;
-    }
-
-    &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
-      .sky-btn-tab-close {
-        color: $sky-text-color-deemphasized;
-      }
-    }
-  }
 
   .sky-tab-btn-closeable {
-    padding-right: 44px;
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-btn-tab-wrapper {
-    .sky-btn-tab-close {
-      color: $sky-background-color-neutral-light;
-    }
-
-    &.sky-btn-tab-wrapper-selected:not(.sky-btn-tab-wrapper-disabled) {
-      .sky-btn-tab-close {
-        color: $sky-background-color-neutral-light;
-      }
-    }
+    padding-right: var(
+      --sky-override-closeable-tab-padding-right,
+      calc(
+        var(--sky-space-inset-pillarbox-2_3-right-m) +
+          var(--sky-space-gap-text_action-xs) +
+          var(--sky-space-inset-balanced-xs) +
+          var(--sky-space-inset-balanced-xs) + var(--sky-font-size-body-m)
+      )
+    );
   }
 }
