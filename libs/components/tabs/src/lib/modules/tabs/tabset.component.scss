@@ -12,7 +12,8 @@
   --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
   --sky-override-tabset-modal-margin: #{0 (-$sky-space-lg) $sky-space-xl};
   --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
-  --sky-override-tabset-modal-padding: 0;
+  --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
+  --sky-override-tabset-modal-padding-none: 0;
 }
 
 @include compatMixins.sky-modern-v2('sky-tabset', false) {
@@ -69,7 +70,6 @@ sky-tabset {
       var(--sky-border-width-divider) var(--sky-border-style-divider)
         var(--sky-color-border-divider)
     );
-    padding-left: 0;
   }
 }
 
@@ -84,11 +84,11 @@ sky-tabset {
     );
 
     padding-left: var(
-      --sky-override-tabset-modal-padding,
+      --sky-override-tabset-modal-padding-left,
       var(--sky-space-inset-floated-left-m)
     );
     padding-right: var(
-      --sky-override-tabset-modal-padding,
+      --sky-override-tabset-modal-padding-none,
       var(--sky-space-inset-floated-right-m)
     );
   }
@@ -102,11 +102,11 @@ sky-tabset {
     );
 
     padding-left: var(
-      --sky-override-tabset-modal-padding,
+      --sky-override-tabset-modal-padding-none,
       var(--sky-space-inset-floated-left-m)
     );
     padding-right: var(
-      --sky-override-tabset-modal-padding,
+      --sky-override-tabset-modal-padding-none,
       var(--sky-space-inset-floated-right-m)
     );
   }
