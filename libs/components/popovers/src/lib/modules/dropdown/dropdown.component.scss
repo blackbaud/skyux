@@ -18,6 +18,13 @@
   --sky-override-context-menu-font-size: var(--sky-font-size-body-m);
 }
 
+@include compatMixins.sky-modern-overrides('.sky-dropdown-button-type-tab') {
+  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
+  --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
+  --sky-override-tab-button-radius: 0;
+  --sky-override-tab-line-height: 1.8;
+}
+
 .sky-dropdown-button-type-tab {
   @include mixins.sky-btn-tab();
   @include mixins.sky-btn-tab-selected();
@@ -78,8 +85,55 @@
 
 @include mixins.sky-theme-modern {
   .sky-dropdown-button-type-tab {
-    @include modernMixins.sky-theme-modern-btn-tab();
-    @include modernMixins.sky-theme-modern-btn-tab-selected();
+    background-color: var(
+      --sky-override-tab-selected-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    color: var(--sky-color-text-default);
+    box-shadow: none;
+    border: none;
+    border-bottom: var(
+        --sky-override-tab-selected-border-bottom-size,
+        var(--sky-border-width-action-selected-l)
+      )
+      var(--sky-border-style-accent) var(--sky-color-border-selected);
+    border-radius: 0;
+    border-top-left-radius: var(
+      --sky-override-tab-button-radius,
+      var(--sky-border-radius-s)
+    );
+    border-top-right-radius: var(
+      --sky-override-tab-button-radius,
+      var(--sky-border-radius-s)
+    );
+    font-size: var(--sky-font-size-body-m);
+    font-weight: var(--sky-font-weight-body-m);
+    line-height: var(
+      --sky-override-tab-line-height,
+      var(--sky-font-line_height-body-m)
+    );
+    padding: var(--sky-space-inset-pillarbox-2_3-top-m)
+      var(--sky-space-inset-pillarbox-2_3-right-m)
+      calc(
+        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+            --sky-override-tab-selected-border-bottom-size,
+            var(--sky-border-width-action-selected-l)
+          )
+      )
+      var(--sky-space-inset-pillarbox-2_3-left-m);
+    transition: box-shadow $sky-transition-time-short;
+
+    &:focus-visible {
+      color: var(--sky-color-text-default);
+      outline: none;
+    }
+
+    &:focus-visible:not(:active) {
+      outline: solid var(--sky-border-width-action-selected-m)
+        var(--sky-color-border-selected);
+      outline-offset: calc(var(--sky-border-width-action-selected-m) * -1);
+      box-shadow: var(--sky-elevation-focus);
+    }
   }
 
   .sky-dropdown-button-type-context-menu {
