@@ -1,10 +1,12 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 
-import { tsBaseConfig } from './ts-base';
+import tsBaseConfig from './ts-base';
+import tsRecommendedTypeChecked from './ts-recommended-type-checked';
 
 export default [
+  tsBaseConfig,
+  tsRecommendedTypeChecked,
   {
-    ...tsBaseConfig(),
     name: 'skyux-eslint/ts-all',
     rules: {
       'skyux-eslint/no-lambda-imports': 'error',

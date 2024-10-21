@@ -1,10 +1,10 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 
-import { templateBaseConfig } from './template-base';
+import templateBaseConfig from './template-base';
 
 export default [
+  templateBaseConfig,
   {
-    ...templateBaseConfig(),
     name: 'skyux-eslint/template-all',
     rules: {
       'skyux-eslint-template/no-deprecated-directives': 'error',
