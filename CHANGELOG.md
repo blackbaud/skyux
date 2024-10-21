@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.15.0](https://github.com/blackbaud/skyux/compare/11.14.0...11.15.0) (2024-10-21)
+
+
+### Features
+
+* **components/popovers:** tokenize dropdown styles ([#2847](https://github.com/blackbaud/skyux/issues/2847)) ([37ee846](https://github.com/blackbaud/skyux/commit/37ee846691caae72771162443953b7063f43a83e))
+
 ## [11.14.0](https://github.com/blackbaud/skyux/compare/11.13.1...11.14.0) (2024-10-18)
 
 
