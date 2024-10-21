@@ -1,6 +1,6 @@
 import { ESLintUtils } from '@typescript-eslint/utils';
 
-export function createESLintRule(
+export function createESLintTemplateRule(
   config: Readonly<
     ESLintUtils.RuleWithMetaAndName<readonly unknown[], string, unknown>
   >,
@@ -11,7 +11,7 @@ export function createESLintRule(
   ESLintUtils.RuleListener
 > {
   const ruleCreator = ESLintUtils.RuleCreator((ruleName) => {
-    return `https://github.com/blackbaud/skyux/blob/main/libs/cdk/eslint-plugin/docs/rules/${ruleName}.md`;
+    return `https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/${ruleName}.md`;
   });
 
   return ruleCreator(config);

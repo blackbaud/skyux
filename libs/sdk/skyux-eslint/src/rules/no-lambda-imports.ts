@@ -1,6 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/utils';
 
-import { createESLintRule } from '../utils/create-eslint-rule';
+import { createESLintRule } from './utils/create-eslint-rule';
 
 export const RULE_NAME = 'no-lambda-imports';
 export const messageId = 'noLambdaImports';
