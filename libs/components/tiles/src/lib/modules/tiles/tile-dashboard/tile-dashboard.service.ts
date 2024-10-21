@@ -6,7 +6,6 @@ import {
   QueryList,
   effect,
   inject,
-  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -70,15 +69,13 @@ export class SkyTileDashboardService {
     effect(() => {
       const breakpoint = this.#breakpoint();
 
-      untracked(() => {
-        const mode =
-          breakpoint === 'xs' || breakpoint === 'sm' ? 'single' : 'multi';
+      const mode =
+        breakpoint === 'xs' || breakpoint === 'sm' ? 'single' : 'multi';
 
-        if (mode !== this.#mode) {
-          this.#mode = mode;
-          this.changeColumnMode(mode);
-        }
-      });
+      if (mode !== this.#mode) {
+        this.#mode = mode;
+        this.changeColumnMode(mode);
+      }
     });
 
     this.bagId = `sky-tile-dashboard-bag-${++bagIdIndex}`;

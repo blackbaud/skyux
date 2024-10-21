@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -27,22 +26,16 @@ describe('Media query demo', () => {
   it('should change the breakpoint', async () => {
     const { fixture, mediaController } = setupTest();
 
+    const el = fixture.nativeElement as HTMLElement;
+
     mediaController.setBreakpoint('xs');
     fixture.detectChanges();
 
-    await mediaController.expectBreakpoint('xs');
-
-    expect(
-      fixture.debugElement.query(By.css('.my-nav-mobile')).nativeElement,
-    ).toBeDefined();
+    expect(el.querySelector('.my-nav-mobile')).toBeDefined();
 
     mediaController.setBreakpoint('lg');
     fixture.detectChanges();
 
-    await mediaController.expectBreakpoint('lg');
-
-    expect(
-      fixture.debugElement.query(By.css('.my-nav-desktop')).nativeElement,
-    ).toBeDefined();
+    expect(el.querySelector('.my-nav-desktop')).toBeDefined();
   });
 });

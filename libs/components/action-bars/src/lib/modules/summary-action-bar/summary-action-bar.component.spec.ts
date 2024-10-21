@@ -7,7 +7,6 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -363,13 +362,13 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
-        expect(cmp.summaryActionBar?.slideDirection).toBe('down');
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
         clickCollapseButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeTruthy();
-        expect(cmp.summaryActionBar?.slideDirection).toBe('up');
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
       }));
 
       it('should update slide direction and isSummaryCollapsed when expanding the summary', fakeAsync(() => {
@@ -382,13 +381,13 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeTruthy();
-        expect(cmp.summaryActionBar?.slideDirection).toBe('up');
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
         clickExpandButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
-        expect(cmp.summaryActionBar?.slideDirection).toBe('down');
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
       }));
 
       it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {

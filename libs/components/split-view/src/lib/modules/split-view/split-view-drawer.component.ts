@@ -27,8 +27,8 @@ let skySplitViewNextId = 0;
   imports: [CommonModule, SkySplitViewResourcesModule],
   selector: 'sky-split-view-drawer',
   standalone: true,
-  styleUrls: ['split-view-drawer.component.scss'],
-  templateUrl: 'split-view-drawer.component.html',
+  styleUrl: './split-view-drawer.component.scss',
+  templateUrl: './split-view-drawer.component.html',
 })
 export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
   /**

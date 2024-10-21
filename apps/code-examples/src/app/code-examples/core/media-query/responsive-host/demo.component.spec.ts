@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -24,21 +23,21 @@ describe('Media query demo', () => {
     });
   });
 
-  it('should change the breakpoint', async () => {
+  it('should change the breakpoint', () => {
     const { fixture, mediaController } = setupTest();
 
-    const containerWithHostDirective = fixture.debugElement.query(
-      By.css('[data-sky-id="container-w-host-directive"]'),
-    ).nativeElement as HTMLElement;
+    const el = fixture.nativeElement as HTMLElement;
 
-    const containerWithAttrDirective = fixture.debugElement.query(
-      By.css('[data-sky-id="container-w-attr"]'),
-    ).nativeElement as HTMLElement;
+    const containerWithHostDirective = el.querySelector<HTMLElement>(
+      '[data-sky-id="container-w-host-directive"]',
+    );
+
+    const containerWithAttrDirective = el.querySelector<HTMLElement>(
+      '[data-sky-id="container-w-attr"]',
+    );
 
     mediaController.setBreakpoint('xs');
     fixture.detectChanges();
-
-    await mediaController.expectBreakpoint('xs');
 
     expect(containerWithHostDirective).toHaveClass(
       'sky-responsive-container-xs',
@@ -49,8 +48,6 @@ describe('Media query demo', () => {
 
     mediaController.setBreakpoint('lg');
     fixture.detectChanges();
-
-    await mediaController.expectBreakpoint('lg');
 
     expect(containerWithHostDirective).toHaveClass(
       'sky-responsive-container-lg',

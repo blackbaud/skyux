@@ -33,6 +33,8 @@ import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
+type SlideDirection = 'up' | 'down';
+
 /**
  * Auto-incrementing integer used to generate unique ids for summary action bar components.
  */
@@ -67,7 +69,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   public isSummaryCollapsed = false;
 
-  public slideDirection = 'down';
+  public slideDirection = signal<SlideDirection>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 
@@ -162,9 +164,8 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.#idled.complete();
   }
 
-  public onDirectionChange(direction: string): void {
-    this.slideDirection = direction;
-    this.#changeDetector.markForCheck();
+  public onDirectionChange(direction: SlideDirection): void {
+    this.slideDirection.set(direction);
   }
 
   public summaryContentExists(): boolean {
@@ -177,7 +178,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       animationEvent.toState !== 'void' &&
       animationEvent.fromState !== 'void'
     ) {
-      if (this.slideDirection === 'up') {
+      if (this.slideDirection() === 'up') {
         this.isSummaryCollapsed = true;
         this.#changeDetector.markForCheck();
       }
@@ -200,7 +201,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   // NOTE: This function is needed so that the button is added before animation
   public summaryTransitionStart(): void {
-    if (this.slideDirection === 'down') {
+    if (this.slideDirection() === 'down') {
       this.isSummaryCollapsed = false;
     }
   }
@@ -210,7 +211,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       (args: SkyMediaBreakpoints) => {
         if (args !== SkyMediaBreakpoints.xs) {
           this.isSummaryCollapsed = false;
-          this.slideDirection = 'down';
+          this.slideDirection.set('down');
         }
         this.#changeDetector.detectChanges();
       },

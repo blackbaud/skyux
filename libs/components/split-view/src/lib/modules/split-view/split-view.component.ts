@@ -50,7 +50,7 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
   providers: [SkySplitViewAdapterService, SkySplitViewService],
   selector: 'sky-split-view',
   standalone: true,
-  styleUrls: ['./split-view.component.scss'],
+  styleUrl: './split-view.component.scss',
   templateUrl: './split-view.component.html',
 })
 export class SkySplitViewComponent implements OnInit, OnDestroy {

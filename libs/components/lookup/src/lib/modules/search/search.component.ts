@@ -20,7 +20,6 @@ import {
   ViewEncapsulation,
   effect,
   inject,
-  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -215,17 +214,15 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     effect(() => {
       const breakpoint = this.#breakpoint();
 
-      untracked(() => {
-        if (this.#searchShouldCollapse()) {
-          if (breakpoint === 'xs') {
-            this.inputAnimate = INPUT_HIDDEN_STATE;
-          } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
-            this.inputAnimate = INPUT_SHOWN_STATE;
-          } else {
-            this.mobileSearchShown = false;
-          }
+      if (this.#searchShouldCollapse()) {
+        if (breakpoint === 'xs') {
+          this.inputAnimate = INPUT_HIDDEN_STATE;
+        } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
+          this.inputAnimate = INPUT_SHOWN_STATE;
+        } else {
+          this.mobileSearchShown = false;
         }
-      });
+      }
     });
   }
 

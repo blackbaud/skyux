@@ -57,6 +57,12 @@ export class SkyMediaBreakpointObserver
 
   public destroy(): void {
     this.#breakpointChange.complete();
+
+    for (const [query, listener] of this.#listeners.entries()) {
+      query.removeEventListener('change', listener);
+    }
+
+    this.#listeners.clear();
   }
 
   #notifyBreakpointChange(breakpoint: SkyBreakpoint): void {

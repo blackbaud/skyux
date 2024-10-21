@@ -17,8 +17,8 @@ import { SkySplitViewWorkspaceHeaderComponent } from './split-view-workspace-hea
   imports: [SkySplitViewWorkspaceHeaderComponent],
   selector: 'sky-split-view-workspace',
   standalone: true,
-  styleUrls: ['./split-view-workspace.component.scss'],
-  templateUrl: 'split-view-workspace.component.html',
+  styleUrl: './split-view-workspace.component.scss',
+  templateUrl: './split-view-workspace.component.html',
 })
 export class SkySplitViewWorkspaceComponent {
   // Use the parent's breakpoint since the mobile header should only appear when

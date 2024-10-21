@@ -20,8 +20,8 @@ import { SkySplitViewService } from './split-view.service';
   imports: [SkyIconModule],
   selector: 'sky-split-view-workspace-header',
   standalone: true,
-  styleUrls: ['split-view-workspace-header.component.scss'],
-  templateUrl: 'split-view-workspace-header.component.html',
+  styleUrl: './split-view-workspace-header.component.scss',
+  templateUrl: './split-view-workspace-header.component.html',
 })
 export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
   public backButtonText: string | undefined;

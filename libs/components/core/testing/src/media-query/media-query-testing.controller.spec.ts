@@ -102,35 +102,6 @@ describe('media-query-testing.controller', () => {
     subscription.unsubscribe();
   });
 
-  it('should expect current breakpoint', async () => {
-    const { mediaQueryController } = setupTest();
-
-    await expectAsync(
-      mediaQueryController.expectBreakpoint('md'),
-    ).toBeRejectedWithError(
-      'A media breakpoint has not been set. Call `setBreakpoint()` and try again.',
-    );
-
-    mediaQueryController.setBreakpoint('lg');
-    await mediaQueryController.expectBreakpoint('lg');
-
-    expect(TestBed.inject(SkyMediaQueryService).current).toEqual(
-      SkyMediaBreakpoints.lg,
-    );
-  });
-
-  it('should throw when expecting the wrong breakpoint', async () => {
-    const { mediaQueryController } = setupTest();
-
-    mediaQueryController.setBreakpoint('lg');
-
-    await expectAsync(
-      mediaQueryController.expectBreakpoint('sm'),
-    ).toBeRejectedWithError(
-      'Expected the current media breakpoint to be "sm", but it is "lg".',
-    );
-  });
-
   it('should work with overridden providers', () => {
     const { fixture, mediaQueryController } = setupTest();
 

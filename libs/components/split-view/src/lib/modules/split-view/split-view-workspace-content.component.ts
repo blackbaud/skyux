@@ -12,7 +12,7 @@ import { SkyResponsiveHostDirective } from '@skyux/core';
   hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-split-view-workspace-content',
   standalone: true,
-  styleUrls: ['./split-view-workspace-content.component.scss'],
-  templateUrl: 'split-view-workspace-content.component.html',
+  styleUrl: './split-view-workspace-content.component.scss',
+  templateUrl: './split-view-workspace-content.component.html',
 })
 export class SkySplitViewWorkspaceContentComponent {}

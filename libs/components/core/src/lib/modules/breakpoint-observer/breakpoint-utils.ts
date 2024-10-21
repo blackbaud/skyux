@@ -2,6 +2,20 @@ import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import { SKY_BREAKPOINTS, SkyBreakpoint } from './breakpoint';
 
+const breakpointLookup = new Map<SkyMediaBreakpoints, SkyBreakpoint>([
+  [SkyMediaBreakpoints.xs, 'xs'],
+  [SkyMediaBreakpoints.sm, 'sm'],
+  [SkyMediaBreakpoints.md, 'md'],
+  [SkyMediaBreakpoints.lg, 'lg'],
+]);
+
+const legacyLookup = new Map<SkyBreakpoint, SkyMediaBreakpoints>([
+  ['xs', SkyMediaBreakpoints.xs],
+  ['sm', SkyMediaBreakpoints.sm],
+  ['md', SkyMediaBreakpoints.md],
+  ['lg', SkyMediaBreakpoints.lg],
+]);
+
 /**
  * Whether the value is of type `SkyBreakpoint`.
  * @internal
@@ -23,14 +37,7 @@ export function isSkyBreakpoint(
 export function toSkyBreakpoint(
   breakpoint: SkyMediaBreakpoints,
 ): SkyBreakpoint {
-  const breakpointsMap = new Map<SkyMediaBreakpoints, SkyBreakpoint>([
-    [SkyMediaBreakpoints.xs, 'xs'],
-    [SkyMediaBreakpoints.sm, 'sm'],
-    [SkyMediaBreakpoints.md, 'md'],
-    [SkyMediaBreakpoints.lg, 'lg'],
-  ]);
-
-  return breakpointsMap.get(breakpoint) as SkyBreakpoint;
+  return breakpointLookup.get(breakpoint) as SkyBreakpoint;
 }
 
 /**
@@ -40,12 +47,5 @@ export function toSkyBreakpoint(
 export function toSkyMediaBreakpoints(
   breakpoint: SkyBreakpoint,
 ): SkyMediaBreakpoints {
-  const breakpointsMap = new Map<SkyBreakpoint, SkyMediaBreakpoints>([
-    ['xs', SkyMediaBreakpoints.xs],
-    ['sm', SkyMediaBreakpoints.sm],
-    ['md', SkyMediaBreakpoints.md],
-    ['lg', SkyMediaBreakpoints.lg],
-  ]);
-
-  return breakpointsMap.get(breakpoint) as SkyMediaBreakpoints;
+  return legacyLookup.get(breakpoint) as SkyMediaBreakpoints;
 }

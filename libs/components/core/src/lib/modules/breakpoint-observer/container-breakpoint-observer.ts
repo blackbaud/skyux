@@ -14,12 +14,12 @@ import { SkyResizeObserverService } from '../resize-observer/resize-observer.ser
 import { SkyBreakpoint } from './breakpoint';
 import { SkyBreakpointObserver } from './breakpoint-observer';
 
-const QUERIES = new Map<SkyBreakpoint, (width: number) => boolean>([
-  ['xs', (w): boolean => w > 0 && w <= 767],
-  ['sm', (w): boolean => w > 767 && w <= 991],
-  ['md', (w): boolean => w > 991 && w <= 1199],
-  ['lg', (w): boolean => w > 1199],
-]);
+const QUERIES: [SkyBreakpoint, (width: number) => boolean][] = [
+  ['xs', (width): boolean => width > 0 && width <= 767],
+  ['sm', (width): boolean => width > 767 && width <= 991],
+  ['md', (width): boolean => width > 991 && width <= 1199],
+  ['lg', (width): boolean => width > 1199],
+];
 
 /**
  * Emits when the width of the host container changes.
@@ -62,7 +62,7 @@ export class SkyContainerBreakpointObserver
   }
 
   #checkBreakpoint(width: number): void {
-    for (const [breakpoint, check] of QUERIES.entries()) {
+    for (const [breakpoint, check] of QUERIES) {
       if (breakpoint !== this.#breakpoint && check(width)) {
         this.#breakpoint = breakpoint;
         this.#notifyBreakpointChange(breakpoint);

@@ -13,7 +13,7 @@
     <div
       class="sky-summary-action-bar-summary"
       [id]="summaryId"
-      [@skyAnimationSlide]="slideDirection"
+      [@skyAnimationSlide]="slideDirection()"
       (@skyAnimationSlide.start)="summaryTransitionStart()"
       (@skyAnimationSlide.done)="summaryTransitionEnd($event)"
     >

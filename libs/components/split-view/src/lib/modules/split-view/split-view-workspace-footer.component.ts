@@ -9,7 +9,7 @@ import { SkyResponsiveHostDirective } from '@skyux/core';
   hostDirectives: [SkyResponsiveHostDirective],
   selector: 'sky-split-view-workspace-footer',
   standalone: true,
-  styleUrls: ['./split-view-workspace-footer.component.scss'],
-  templateUrl: 'split-view-workspace-footer.component.html',
+  styleUrl: './split-view-workspace-footer.component.scss',
+  templateUrl: './split-view-workspace-footer.component.html',
 })
 export class SkySplitViewWorkspaceFooterComponent {}
