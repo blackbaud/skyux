@@ -2,6 +2,21 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
   as modernMixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-dropdown') {
+  --sky-override-caret-margin-left: #{$sky-margin};
+  --sky-override-context-menu-padding: 3px 8px;
+  --sky-override-context-menu-border-radius: 50%;
+  --sky-override-context-menu-line-height: 1.428571429;
+  --sky-override-context-menu-font-size: 15px;
+}
+
+@include compatMixins.sky-modern-overrides('.sky-dropdown') {
+  --sky-override-context-menu-padding: var(--modern-size-3) var(--modern-size-8);
+  --sky-override-context-menu-line-height: calc(20 / 14);
+  --sky-override-context-menu-font-size: var(--sky-font-size-body-m);
+}
 
 .sky-dropdown-button-type-tab {
   @include mixins.sky-btn-tab();
@@ -11,11 +26,19 @@
 }
 
 .sky-dropdown-button-type-context-menu {
-  border-radius: 50%;
-  padding-bottom: 3px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 3px;
+  border-radius: var(
+    --sky-override-context-menu-border-radius,
+    var(--sky-border-radius-s)
+  );
+  padding: var(
+    --sky-override-context-menu-padding,
+    var(--sky-space-inset-balanced-xs)
+  );
+  font-size: var(
+    --sky-override-context-menu-font-size,
+    var(--sky-font-size-body-l)
+  );
+  line-height: var(--sky-override-context-menu-line-height, 1);
 }
 
 :host-context(.sky-toolbar-container) {
@@ -25,7 +48,10 @@
 }
 
 .sky-dropdown-caret {
-  margin-left: $sky-margin;
+  margin-left: var(
+    --sky-override-caret-margin-left,
+    var(--sky-space-gap-icon-m)
+  );
 }
 
 .sky-dropdown-button-container {
@@ -56,26 +82,12 @@
     @include modernMixins.sky-theme-modern-btn-tab-selected();
   }
 
-  .sky-dropdown-caret {
-    margin-left: $sky-theme-modern-margin-inline-sm;
-  }
-
   .sky-dropdown-button-type-context-menu {
-    border-radius: 6px;
-    padding-bottom: 3px;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 3px;
-    background-color: transparent;
+    background-color: var(--sky-color-background-action-tertiary-base);
 
     &:not(:hover):not(:focus-visible) {
-      box-shadow: none;
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
+        var(--sky-color-border-action-tertiary-base);
     }
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-dropdown-button-type-tab {
-    @include modernMixins.sky-theme-modern-dark-btn-tab-selected();
   }
 }
