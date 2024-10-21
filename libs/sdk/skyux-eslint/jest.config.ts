@@ -20,10 +20,7 @@ export default {
       statements: 100,
     },
   },
-  coveragePathIgnorePatterns: [
-    '<rootDir>/src/schematics/shared/testing',
-    '<rootDir>/src/schematics/shared/utility',
-  ],
+  coveragePathIgnorePatterns: ['<rootDir>/src/schematics/testing'],
   preset: '../../../jest.preset.js',
   maxWorkers: 2,
 };

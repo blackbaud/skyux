@@ -60,11 +60,12 @@ export const rule = createESLintTemplateRule({
     return {
       [`Element$1[name=/^(${SELECTORS_WITH_LABEL_COMPONENTS})$/]`](
         el: TmplAstElement,
-      ) {
+      ): void {
         const config = COMPONENTS_WITH_LABEL_TEXT.find(
           (c) => c.selector === el.name,
         );
 
+        /* istanbul ignore if: safety check */
         if (!config) {
           return;
         }

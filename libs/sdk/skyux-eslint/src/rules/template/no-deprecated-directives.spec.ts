@@ -6,6 +6,50 @@ import { RULE_NAME, rule } from './no-deprecated-directives';
 
 const ruleTester = createTemplateRuleTester();
 
+jest.mock('../../__deprecations.json', () => {
+  return {
+    components: {
+      'sky-card': {
+        deprecated: true,
+        reason: 'Do not use the card component.',
+      },
+      'sky-file-attachment': {
+        deprecated: false,
+        properties: {
+          fileChange: {
+            reason:
+              "Subscribe to the form control's `valueChanges` event instead.",
+          },
+          validateFn: {
+            reason:
+              'Add a custom Angular `Validator` function to the `FormControl` instead.',
+          },
+        },
+      },
+    },
+    directives: {
+      skyDeprecatedThing: {
+        deprecated: true,
+      },
+      skyFoo: {
+        properties: {
+          noReason: {
+            deprecated: true,
+          },
+        },
+      },
+      skyAutocomplete: {
+        deprecated: false,
+        properties: {
+          autocompleteAttribute: {
+            reason: 'Do not use it.',
+          },
+        },
+      },
+    },
+  };
+});
+
 ruleTester.run(RULE_NAME, rule, {
   valid: [],
   invalid: [
@@ -29,24 +73,34 @@ ruleTester.run(RULE_NAME, rule, {
       `,
       messageId: 'noDeprecatedDirectiveProperties',
       data: {
-        reason:
-          'SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.',
+        reason: 'Do not use it.',
         selector: 'input',
         property: 'autocompleteAttribute',
       },
     }),
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail when using sky-card',
+      description:
+        'should work if a deprecated property does not have a reason',
+      annotatedSource: `
+        <input type="text" skyFoo noReason />
+                                  ~~~~~~~~
+      `,
+      messageId: 'noDeprecatedDirectiveProperties',
+      data: {
+        property: 'noReason',
+        reason: '',
+        selector: 'input',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when using deprecated components',
       annotatedSource: `
         <sky-card></sky-card>
         ~~~~~~~~~~~~~~~~~~~~~
       `,
       messageId: 'noDeprecatedDirectives',
       data: {
-        reason:
-          '`SkyCardComponent` is deprecated. For other SKY UX components that ' +
-          'group and list content, see the content containers guidelines. For ' +
-          'more information, see https://developer.blackbaud.com/skyux/design/guidelines/content-containers.',
+        reason: 'Do not use the card component.',
         selector: 'sky-card',
       },
     }),

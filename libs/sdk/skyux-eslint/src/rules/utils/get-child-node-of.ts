@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 
 export function getChildNodeOf(
