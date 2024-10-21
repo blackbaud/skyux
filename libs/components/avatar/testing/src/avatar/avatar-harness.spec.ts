@@ -38,6 +38,10 @@ class TestComponent {
   }
 }
 
+async function getByteArray(file: File | Blob): Promise<number[]> {
+  return Array.from(new Uint8Array(await file.arrayBuffer()));
+}
+
 describe('Avatar harness', () => {
   async function setupTest(): Promise<{
     fixture: ComponentFixture<TestComponent>;
@@ -93,10 +97,6 @@ describe('Avatar harness', () => {
 
     await expectAsync(harness.getCanChange()).toBeResolvedTo(true);
   });
-
-  async function getByteArray(file: File | Blob): Promise<number[]> {
-    return Array.from(new Uint8Array(await file.arrayBuffer()));
-  }
 
   it('should set the avatar image', async () => {
     const { fixture, harness } = await setupTest();
