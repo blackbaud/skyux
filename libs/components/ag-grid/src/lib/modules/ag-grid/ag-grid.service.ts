@@ -12,13 +12,12 @@ import {
   HeaderClassParams,
   ICellRendererParams,
   RowClassParams,
+  RowSelectionOptions,
   SuppressHeaderKeyboardEventParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { RowSelectionOptions } from 'ag-grid-community/dist/types/core/entities/gridOptions';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
@@ -223,9 +222,7 @@ export class SkyAgGridService implements OnDestroy {
     }
     if (
       defaultGridOptions.rowSelection &&
-      providedGridOptions.rowSelection?.mode &&
-      providedGridOptions.rowSelection?.mode ===
-        (defaultGridOptions.rowSelection as RowSelectionOptions).mode
+      providedGridOptions.rowSelection?.mode
     ) {
       providedGridOptions.rowSelection = {
         ...(defaultGridOptions.rowSelection as RowSelectionOptions),

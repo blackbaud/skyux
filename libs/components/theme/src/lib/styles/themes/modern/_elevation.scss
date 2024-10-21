@@ -38,36 +38,4 @@
   .sky-elevation-24 {
     box-shadow: var(--sky-elevation-overlay-400);
   }
-
-  &.sky-theme-mode-dark {
-    .sky-elevation-0-bordered,
-    .sky-elevation-1-bordered {
-      border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;
-    }
-
-    .sky-elevation-1,
-    .sky-elevation-1-bordered {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-1;
-    }
-
-    .sky-elevation-3 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
-    }
-
-    .sky-elevation-4 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-4;
-    }
-
-    .sky-elevation-8 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-8;
-    }
-
-    .sky-elevation-16 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-16;
-    }
-
-    .sky-elevation-24 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-24;
-    }
-  }
 }

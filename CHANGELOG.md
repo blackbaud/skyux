@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.14.0](https://github.com/blackbaud/skyux/compare/11.13.1...11.14.0) (2024-10-18)
+
+
+### Features
+
+* **components/datetime:** add datepicker test harness ([#2836](https://github.com/blackbaud/skyux/issues/2836)) ([b154d4c](https://github.com/blackbaud/skyux/commit/b154d4cbc2d595ce9665fd8351cb52f4ebbdad47))
+* **components/help-inline:** tokenize help inline styles ([#2841](https://github.com/blackbaud/skyux/issues/2841)) ([12c8c9c](https://github.com/blackbaud/skyux/commit/12c8c9cda650e003699f1ae6a1525ccd7555fdd4))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** merge row selection options ([#2845](https://github.com/blackbaud/skyux/issues/2845)) ([a64a1b6](https://github.com/blackbaud/skyux/commit/a64a1b6bff3ab9f9d0caafbbff92f03061ee4490))
+
 ## [11.13.1](https://github.com/blackbaud/skyux/compare/11.13.0...11.13.1) (2024-10-17)
 
 

@@ -57,5 +57,5 @@ describe('popovers-storybook', () => {
         });
       });
     });
-  });
+  }, true);
 });
