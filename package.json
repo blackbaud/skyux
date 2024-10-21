@@ -132,6 +132,7 @@
     "@angular-eslint/eslint-plugin": "18.3.1",
     "@angular-eslint/eslint-plugin-template": "18.3.1",
     "@angular-eslint/template-parser": "18.3.1",
+    "@angular-eslint/test-utils": "18.3.1",
     "@angular/cli": "18.2.8",
     "@angular/compiler-cli": "18.2.8",
     "@angular/language-service": "18.2.8",

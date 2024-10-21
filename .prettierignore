@@ -3,6 +3,7 @@
 /.nyc_output
 /coverage
 /dist
+/libs/sdk/skyux-eslint/**/*.md
 /node_modules
 /temp
 /tmp
