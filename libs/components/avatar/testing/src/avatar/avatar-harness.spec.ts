@@ -1,10 +1,8 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, input } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAvatarModule, SkyAvatarSize } from '@skyux/avatar';
 import { SkyFileItem } from '@skyux/forms';
-
-import { ReplaySubject, firstValueFrom } from 'rxjs';
 
 import { SkyAvatarHarness } from './avatar-harness';
 
@@ -16,22 +14,27 @@ import { SkyAvatarHarness } from './avatar-harness';
     [canChange]="canChange()"
     [maxFileSize]="maxFileSize()"
     [name]="name()"
-    [src]="src()"
+    [src]="srcComputed()"
     [size]="size()"
     (avatarChanged)="onAvatarChanged($event)"
   />`,
 })
 class TestComponent {
-  public readonly canChange = input<boolean>();
-  public readonly maxFileSize = input<number>();
-  public readonly name = input<string | undefined>();
-  public readonly src = input<string>();
-  public readonly size = input<SkyAvatarSize>();
+  public updateSrcOnChange = true;
 
-  public readonly avatarChanged = new ReplaySubject<SkyFileItem>(1);
+  protected readonly canChange = input<boolean>();
+  protected readonly maxFileSize = input<number>();
+  protected readonly name = input<string | undefined>();
+  protected readonly src = input<string>();
+  protected readonly size = input<SkyAvatarSize>();
 
-  public onAvatarChanged(file: SkyFileItem): void {
-    this.avatarChanged.next(file);
+  protected srcFile = signal<File | undefined>(undefined);
+  protected srcComputed = computed(() => this.srcFile() ?? this.src());
+
+  protected onAvatarChanged(file: SkyFileItem): void {
+    if (this.updateSrcOnChange) {
+      this.srcFile.set(file.file);
+    }
   }
 }
 
@@ -91,30 +94,49 @@ describe('Avatar harness', () => {
     await expectAsync(harness.getCanChange()).toBeResolvedTo(true);
   });
 
+  async function getByteArray(file: File | Blob): Promise<number[]> {
+    return Array.from(new Uint8Array(await file.arrayBuffer()));
+  }
+
   it('should set the avatar image', async () => {
     const { fixture, harness } = await setupTest();
 
     fixture.componentRef.setInput('canChange', true);
     fixture.detectChanges();
 
-    const avatarChanged = firstValueFrom(
-      fixture.componentInstance.avatarChanged,
-    );
-
-    await harness.dropAvatarFile(
-      new File([], 'test.png', {
-        type: 'image/png',
-      }),
-    );
-
-    console.log(await harness.getSrc());
-
-    await expectAsync(avatarChanged).toBeResolvedTo({
-      file: jasmine.objectContaining({
-        name: 'test.png',
-      }),
-      url: jasmine.any(String),
+    const testFile = new File(['abc'], 'test.png', {
+      type: 'image/png',
     });
+
+    await harness.dropAvatarFile(testFile, true);
+
+    const expectedByteArray = await getByteArray(testFile);
+    const actualByteArray = await getByteArray(
+      (await harness.getSrc()) as Blob,
+    );
+
+    expect(Array.from(actualByteArray)).toEqual(
+      jasmine.arrayWithExactContents(Array.from(expectedByteArray)),
+    );
+  });
+
+  it('should time out when waiting for avatar change if it does not change', async () => {
+    const { fixture, harness } = await setupTest();
+
+    fixture.componentInstance.updateSrcOnChange = false;
+
+    fixture.componentRef.setInput('canChange', true);
+    fixture.detectChanges();
+
+    const testFile = new File(['abc'], 'test.png', {
+      type: 'image/png',
+    });
+
+    await expectAsync(
+      harness.dropAvatarFile(testFile, true),
+    ).toBeRejectedWithError(
+      'The avatar src did not change within the expected time span',
+    );
   });
 
   it('should get whether a file type error modal is displayed', async () => {

@@ -5,8 +5,8 @@ import { SkyFileDropHarness } from '@skyux/forms/testing';
 
 import { SkyAvatarHarnessFilters } from './avatar-harness-filters';
 
-const WAIT_FOR_CHANGE_INTERVAL = 10;
-const WAIT_FOR_CHANGE_TIMEOUT = 3000;
+const WAIT_INTERVAL = 10;
+const WAIT_TIMEOUT = 3000;
 
 async function isHidden(el: TestElement): Promise<boolean> {
   return (await el.getCssValue('display')) === 'none';
@@ -86,10 +86,10 @@ export class SkyAvatarHarness extends SkyComponentHarness {
     }
 
     if (waitForChange) {
-      return this.#dropAndWaitForAvatarChange(fileDrop, file);
+      await this.#dropAndWait(fileDrop, file);
+    } else {
+      await fileDrop.dropFile(file);
     }
-
-    await fileDrop.dropFile(file);
   }
 
   /**
@@ -133,36 +133,30 @@ export class SkyAvatarHarness extends SkyComponentHarness {
     return SkyHarnessUtility.getBackgroundImageUrl(imageEl);
   }
 
-  async #dropAndWaitForAvatarChange(
-    fileDrop: SkyFileDropHarness,
-    file: File,
-  ): Promise<void> {
+  async #dropAndWait(fileDrop: SkyFileDropHarness, file: File): Promise<void> {
     const currentUrl = await this.#getImageUrl();
 
     await fileDrop.dropFile(file);
 
     return new Promise<void>((resolve, reject) => {
-      let attempts = 0;
-
-      const checkForFileChange = async (): Promise<void> => {
+      const checkForFileChange = async (attempts: number): Promise<void> => {
         if ((await this.#getImageUrl()) !== currentUrl) {
           resolve();
-        }
-
-        if (attempts * WAIT_FOR_CHANGE_INTERVAL >= WAIT_FOR_CHANGE_TIMEOUT) {
+        } else if (attempts * WAIT_INTERVAL < WAIT_TIMEOUT) {
+          setTimeout(
+            () => void checkForFileChange(attempts + 1),
+            WAIT_INTERVAL,
+          );
+        } else {
           reject(
             new Error(
               'The avatar src did not change within the expected time span',
             ),
           );
-        } else {
-          attempts++;
-
-          setTimeout(() => void checkForFileChange(), WAIT_FOR_CHANGE_INTERVAL);
         }
       };
 
-      void checkForFileChange();
+      void checkForFileChange(0);
     });
   }
 }
