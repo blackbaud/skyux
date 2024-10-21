@@ -65,6 +65,10 @@
   --sky-override-tab-disabled-font-size: 15px;
   --sky-override-tab-button-radius: 0;
   --sky-override-tab-line-height: 1.8;
+  --sky-override-selected-dropdown-item-border-width: var(--modern-size-3);
+  --sky-override-selected-dropdown-background-color: var(
+    --modern-color-transparent
+  );
 }
 
 .sky-theme-modern {
@@ -507,8 +511,7 @@
 
     &:focus-visible:not(:active) {
       color: var(--sky-color-text-default);
-      outline: var(--sky-border-style-accent)
-        var(--sky-border-width-action-selected-m)
+      outline: solid var(--sky-border-width-action-selected-m)
         var(--sky-color-border-selected);
       outline-offset: calc(var(--sky-border-width-action-selected-m) * -1);
       box-shadow: var(--sky-elevation-focus);
@@ -600,29 +603,46 @@
 
   .sky-tab-dropdown-menu-item {
     .sky-btn-tab {
-      border-radius: 6px;
+      border-radius: var(--sky-border-radius-s);
       &:hover:not(.sky-btn-tab-disabled) {
-        background-color: transparent;
         border-bottom: none;
-        outline: solid 1px var(--sky-background-color-primary-dark);
-        outline-offset: -1px;
+        outline: solid var(--sky-border-width-action-hover)
+          var(--sky-color-border-action-secondary-hover);
+        outline-offset: calc(var(--sky-border-width-action-hover) * -1);
+      }
+
+      &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected) {
+        background-color: transparent;
       }
 
       &:focus-visible:not(:active) {
         background-color: transparent;
-        box-shadow: vars.$sky-theme-modern-elevation-3-shadow-size
-          vars.$sky-theme-modern-elevation-3-shadow-color;
-        outline: solid 2px var(--sky-background-color-primary-dark);
-        outline-offset: -2px;
+        box-shadow: var(--sky-elevation-focus);
+        outline: solid var(--sky-border-width-action-active)
+          var(--sky-color-border-action-secondary-focus);
+        outline-offset: calc(var(--sky-border-width-action-active) * -1);
       }
 
       &.sky-btn-tab-selected {
+        background-color: var(
+          --sky-override-selected-dropdown-background-color,
+          var(--sky-color-background-selected-soft)
+        );
         color: var(--sky-color-text-default);
         border-bottom: none;
-        border-radius: 0 6px 6px 0;
-        border-left: solid 3px var(--sky-background-color-primary-dark);
-        padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom;
-        padding-left: compatVars.$sky-tab-btn-padding-left-right - 3px;
+        border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
+        border-left: var(
+            --sky-override-selected-dropdown-item-border-width,
+            var(--sky-border-width-action-selected-l)
+          )
+          var(--sky-border-style-accent) var(--sky-color-border-selected);
+        padding-bottom: var(--sky-space-inset-pillarbox-2_3-bottom-m);
+        padding-left: calc(
+          var(--sky-space-inset-pillarbox-2_3-left-m) - var(
+              --sky-override-selected-dropdown-item-border-width,
+              var(--sky-border-width-action-selected-l)
+            )
+        );
       }
     }
   }

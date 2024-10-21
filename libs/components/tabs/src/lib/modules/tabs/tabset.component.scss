@@ -15,7 +15,7 @@
   --sky-override-tabset-modal-padding: 0;
 }
 
-@include compatMixins.sky-modern-v2('sky-tabset') {
+@include compatMixins.sky-modern-v2('sky-tabset', false) {
   // The tabset buttons will be addressed in phase 2;
   // this explicit height setting allows the rest of the v2 tab styling to appear correctly for now
   .sky-tabset-btn-new,
