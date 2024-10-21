@@ -5,7 +5,6 @@ export class SkyHarnessUtility {
     el: TestElement,
   ): Promise<string | undefined> {
     const backgroundImage = await el.getCssValue('background-image');
-
     return /url\(('|")([^'"]+)('|")\)/gi.exec(backgroundImage)?.[2];
   }
 }
