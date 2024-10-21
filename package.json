@@ -118,7 +118,6 @@
     "moment": "2.30.1",
     "ng2-dragula": "5.1.0",
     "normalize-scss": "8.0.0",
-    "package-json": "7.0.0",
     "rxjs": "7.8.1",
     "storybook": "8.3.5",
     "tslib": "2.6.3",
@@ -129,10 +128,12 @@
     "@angular-devkit/build-angular": "18.2.8",
     "@angular-devkit/core": "18.2.8",
     "@angular-devkit/schematics": "18.2.8",
+    "@angular-eslint/bundled-angular-compiler": "18.3.1",
     "@angular-eslint/eslint-plugin": "18.3.1",
     "@angular-eslint/eslint-plugin-template": "18.3.1",
     "@angular-eslint/template-parser": "18.3.1",
     "@angular-eslint/test-utils": "18.3.1",
+    "@angular-eslint/utils": "18.3.1",
     "@angular/cli": "18.2.8",
     "@angular/compiler-cli": "18.2.8",
     "@angular/language-service": "18.2.8",
@@ -187,6 +188,7 @@
     "@types/validator": "13.12.0",
     "@typescript-eslint/eslint-plugin": "8.8.1",
     "@typescript-eslint/parser": "8.8.1",
+    "@typescript-eslint/utils": "8.8.1",
     "angular-eslint": "18.3.1",
     "cross-spawn": "7.0.3",
     "cypress": "13.15.0",
@@ -218,6 +220,9 @@
     "verdaccio": "5.32.2"
   },
   "overrides": {
+    "eslint-plugin-storybook@0.9.0": {
+      "@typescript-eslint/utils": "^8.8.1"
+    },
     "ng2-dragula@5.1.0": {
       "@angular/animations": ">=16.0.0 <19.0.0",
       "@angular/core": ">=16.0.0 <19.0.0",
