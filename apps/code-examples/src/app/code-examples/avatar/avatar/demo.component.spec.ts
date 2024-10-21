@@ -66,7 +66,7 @@ describe('Basic avatar harness', () => {
 
     const testFile = createTestFile(100);
 
-    await harness.dropAvatarFile(testFile);
+    await harness.dropAvatarFile(testFile, true);
 
     expect(uploadAvatarSpy).toHaveBeenCalledOnceWith(testFile);
 

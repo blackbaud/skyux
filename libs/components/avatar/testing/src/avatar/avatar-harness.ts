@@ -5,6 +5,9 @@ import { SkyFileDropHarness } from '@skyux/forms/testing';
 
 import { SkyAvatarHarnessFilters } from './avatar-harness-filters';
 
+const WAIT_FOR_CHANGE_INTERVAL = 10;
+const WAIT_FOR_CHANGE_TIMEOUT = 3000;
+
 async function isHidden(el: TestElement): Promise<boolean> {
   return (await el.getCssValue('display')) === 'none';
 }
@@ -48,16 +51,10 @@ export class SkyAvatarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the avatar's current image URL.
+   * Gets the avatar's current image URL or Blob.
    */
   public async getSrc(): Promise<string | Blob | undefined> {
-    const imageEl = await this.locatorFor('.sky-avatar-image')();
-
-    if (await isHidden(imageEl)) {
-      return undefined;
-    }
-
-    const url = await SkyHarnessUtility.getBackgroundImageUrl(imageEl);
+    const url = await this.#getImageUrl();
 
     if (url?.startsWith('blob:')) {
       return await (await fetch(url)).blob();
@@ -76,13 +73,20 @@ export class SkyAvatarHarness extends SkyComponentHarness {
   /**
    * Simulates the user selecting or dropping an image onto the component.
    */
-  public async dropAvatarFile(file: File): Promise<void> {
+  public async dropAvatarFile(
+    file: File,
+    waitForChange?: boolean,
+  ): Promise<void> {
     const fileDrop = await this.#getFileDrop();
 
     if (!fileDrop) {
       throw new Error(
         'A new avatar cannot be selected because the canChange input is not set to true.',
       );
+    }
+
+    if (waitForChange) {
+      return this.#dropAndWaitForAvatarChange(fileDrop, file);
     }
 
     await fileDrop.dropFile(file);
@@ -117,5 +121,48 @@ export class SkyAvatarHarness extends SkyComponentHarness {
     }
 
     await errorModal.clickCloseButton();
+  }
+
+  async #getImageUrl(): Promise<string | undefined> {
+    const imageEl = await this.locatorFor('.sky-avatar-image')();
+
+    if (await isHidden(imageEl)) {
+      return undefined;
+    }
+
+    return SkyHarnessUtility.getBackgroundImageUrl(imageEl);
+  }
+
+  async #dropAndWaitForAvatarChange(
+    fileDrop: SkyFileDropHarness,
+    file: File,
+  ): Promise<void> {
+    const currentUrl = await this.#getImageUrl();
+
+    await fileDrop.dropFile(file);
+
+    return new Promise<void>((resolve, reject) => {
+      let attempts = 0;
+
+      const checkForFileChange = async (): Promise<void> => {
+        if ((await this.#getImageUrl()) !== currentUrl) {
+          resolve();
+        }
+
+        if (attempts * WAIT_FOR_CHANGE_INTERVAL >= WAIT_FOR_CHANGE_TIMEOUT) {
+          reject(
+            new Error(
+              'The avatar src did not change within the expected time span',
+            ),
+          );
+        } else {
+          attempts++;
+
+          setTimeout(() => void checkForFileChange(), WAIT_FOR_CHANGE_INTERVAL);
+        }
+      };
+
+      void checkForFileChange();
+    });
   }
 }
