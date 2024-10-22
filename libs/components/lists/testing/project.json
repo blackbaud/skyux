@@ -10,18 +10,13 @@
     "forms-testing",
     "indicators-testing",
     "layout",
-    "lists",
     "testing"
   ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build lists-testing'",
-      "dependsOn": [
-        {
-          "projects": ["lists"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
