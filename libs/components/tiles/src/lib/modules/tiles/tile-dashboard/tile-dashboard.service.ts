@@ -4,6 +4,7 @@ import {
   Injectable,
   Output,
   QueryList,
+  computed,
   effect,
   inject,
 } from '@angular/core';
@@ -63,19 +64,16 @@ export class SkyTileDashboardService {
   readonly #dynamicComponentService = inject(SkyDynamicComponentService);
   readonly #uiConfigService = inject(SkyUIConfigService);
 
-  #mode: SkyTileDashboardColumnMode | undefined;
+  readonly #mode = computed<SkyTileDashboardColumnMode>(() => {
+    const breakpoint = this.#breakpoint();
+
+    return breakpoint === 'xs' || breakpoint === 'sm' ? 'single' : 'multi';
+  });
 
   constructor() {
     effect(() => {
-      const breakpoint = this.#breakpoint();
-
-      const mode =
-        breakpoint === 'xs' || breakpoint === 'sm' ? 'single' : 'multi';
-
-      if (mode !== this.#mode) {
-        this.#mode = mode;
-        this.changeColumnMode(mode);
-      }
+      const mode = this.#mode();
+      this.changeColumnMode(mode);
     });
 
     this.bagId = `sky-tile-dashboard-bag-${++bagIdIndex}`;
@@ -262,7 +260,7 @@ export class SkyTileDashboardService {
     tileDescription: string,
   ): void {
     if (this.#config) {
-      const mode = this.#mode;
+      const mode = this.#mode();
       const tileId = this.#getTileId(tileCmp);
       const tile = this.#findTile(tileId);
 
@@ -415,7 +413,7 @@ export class SkyTileDashboardService {
   #loadTiles(config: SkyTileDashboardConfig): void {
     const layout = config.layout;
 
-    if (this.#mode === 'single') {
+    if (this.#mode() === 'single') {
       for (const tile of layout.singleColumn.tiles) {
         this.#loadTileIntoColumn(this.#singleColumn, tile);
       }
@@ -527,7 +525,7 @@ export class SkyTileDashboardService {
   #getSingleColumnLayoutForUIState(
     config: SkyTileDashboardConfig,
   ): SkyTileDashboardConfigLayoutColumn {
-    if (this.#mode === 'single') {
+    if (this.#mode() === 'single') {
       return {
         tiles: this.#getTilesInEl(this.#getColumnEl(this.#singleColumn)),
       };
@@ -539,7 +537,7 @@ export class SkyTileDashboardService {
   #getMultiColumnLayoutForUIState(
     config: SkyTileDashboardConfig,
   ): SkyTileDashboardConfigLayoutColumn[] {
-    if (this.#mode === 'multi') {
+    if (this.#mode() === 'multi') {
       const layoutColumns: SkyTileDashboardConfigLayoutColumn[] = [];
       let columns: SkyTileDashboardColumnComponent[] = [];
       /*istanbul ignore else */

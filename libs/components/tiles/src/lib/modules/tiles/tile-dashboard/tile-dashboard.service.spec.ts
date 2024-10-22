@@ -645,6 +645,8 @@ describe('Tile dashboard service', () => {
 
     mediaQueryController.setBreakpoint('xs');
 
+    fixture.detectChanges();
+
     mockDragulaService.drop().next({});
 
     fixture.detectChanges();
@@ -653,6 +655,8 @@ describe('Tile dashboard service', () => {
     expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
 
     mediaQueryController.setBreakpoint('lg');
+
+    fixture.detectChanges();
 
     mockDragulaService.drop().next({});
 
