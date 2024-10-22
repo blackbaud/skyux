@@ -18,23 +18,38 @@
   }
 
   .sky-padding-horizontal-sm {
-    padding: var(--sky-space-inset-horizontal-s);
+    padding: var(--sky-space-inset-horizontal-top-s)
+      var(--sky-space-inset-horizontal-right-s)
+      var(--sky-space-inset-horizontal-bottom-s)
+      var(--sky-space-inset-horizontal-left-s);
   }
 
   .sky-padding-horizontal-md {
-    padding: var(--sky-space-inset-horizontal-m);
+    padding: var(--sky-space-inset-horizontal-top-m)
+      var(--sky-space-inset-horizontal-right-m)
+      var(--sky-space-inset-horizontal-bottom-m)
+      var(--sky-space-inset-horizontal-left-m);
   }
 
   .sky-padding-horizontal-xl {
-    padding: var(--sky-space-inset-horizontal-xl);
+    padding: var(--sky-space-inset-horizontal-top-xl)
+      var(--sky-space-inset-horizontal-right-xl)
+      var(--sky-space-inset-horizontal-bottom-xl)
+      var(--sky-space-inset-horizontal-left-xl);
   }
 
   .sky-padding-vertical-md {
-    padding: var(--sky-space-inset-vertical-m);
+    padding: var(--sky-space-inset-vertical-top-m)
+      var(--sky-space-inset-vertical-right-m)
+      var(--sky-space-inset-vertical-bottom-m)
+      var(--sky-space-inset-vertical-left-m);
   }
 
   .sky-padding-vertical-lg {
-    padding: var(--sky-space-inset-vertical-l);
+    padding: var(--sky-space-inset-vertical-top-l)
+      var(--sky-space-inset-vertical-right-l)
+      var(--sky-space-inset-vertical-bottom-l)
+      var(--sky-space-inset-vertical-left-l);
   }
 
   .sky-margin-inline-xs {
