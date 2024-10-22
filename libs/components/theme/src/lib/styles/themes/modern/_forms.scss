@@ -1,10 +1,16 @@
 @use '../../variables' as *;
 
 .sky-theme-modern {
-  &.sky-theme-mode-dark {
-    .sky-error-label {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
-    }
+  .sky-error-label {
+    margin-top: var(--sky-space-inset-input_label-top-m);
+    color: var(--sky-text-color-default);
+  }
+
+  .sky-error-label::before {
+    content: '\f071';
+    font-family: FontAwesome;
+    margin-right: var(--sky-space-gap-icon-s);
+    color: var(--sky-color-icon-danger);
   }
 
   // Placeholder text
