@@ -3,6 +3,6 @@ export interface SkyIntlNumberFormatterOptions {
   minimumFractionDigits?: number;
   maximumFractionDigits?: number;
   currency?: string | null;
-  currencyAsSymbol?: boolean;
   currencySign?: 'standard' | 'accounting';
+  currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name';
 }
