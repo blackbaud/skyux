@@ -10,6 +10,19 @@
   --sky-override-context-menu-font-size: 15px;
 }
 
+@include compatMixins.sky-default-overrides('.sky-dropdown-button-type-tab') {
+  --sky-override-tab-selected-background-color: var(
+    --sky-background-color-primary-dark
+  );
+  --sky-override-tab-button-radius: 4px;
+  --sky-override-tab-dropdown-color: var(--sky-text-color-on-dark);
+  --sky-override-tab-font-size: 15px;
+  --sky-override-tab-font-weight: 600;
+  --sky-override-tab-line-height: 1.8;
+  --sky-override-tab-padding: 8px 16px;
+  --sky-override-tab-border-bottom: none;
+}
+
 @include compatMixins.sky-modern-overrides('.sky-dropdown') {
   --sky-override-context-menu-padding: var(--modern-size-3) var(--modern-size-8);
   --sky-override-context-menu-line-height: calc(20 / 14);
@@ -23,11 +36,57 @@
   --sky-override-tab-line-height: 1.8;
 }
 
-.sky-dropdown-button-type-tab {
-  @include mixins.sky-btn-tab();
-  @include mixins.sky-btn-tab-selected();
-  max-width: 100%;
-  text-align: left;
+.sky-dropdown {
+  .sky-dropdown-button-type-tab {
+    background-color: var(
+      --sky-override-tab-selected-background-color,
+      var(--sky-color-background-selected-soft)
+    );
+    border: none;
+    box-shadow: none;
+    border-radius: var(
+        --sky-override-tab-button-radius,
+        var(--sky-border-radius-s)
+      )
+      var(--sky-override-tab-button-radius, var(--sky-border-radius-s)) 0 0;
+    color: var(
+      --sky-override-tab-dropdown-color,
+      var(--sky-color-text-default)
+    );
+    border-bottom: var(
+      --sky-override-tab-border-bottom,
+      var(
+          --sky-override-tab-selected-border-bottom-size,
+          var(--sky-border-width-action-selected-l)
+        )
+        var(--sky-border-style-accent) var(--sky-color-border-selected)
+    );
+    cursor: pointer;
+    display: inline-block;
+    font-size: var(--sky-override-tab-font-size, var(--sky-font-size-body-m));
+    font-weight: var(
+      --sky-override-tab-font-weight,
+      var(--sky-font-weight-body-m)
+    );
+    line-height: var(
+      --sky-override-tab-line-height,
+      var(--sky-font-line_height-body-m)
+    );
+    padding: var(
+      --sky-override-tab-padding,
+      var(--sky-space-inset-pillarbox-2_3-top-m)
+        var(--sky-space-inset-pillarbox-2_3-right-m)
+        calc(
+          var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
+              --sky-override-tab-selected-border-bottom-size,
+              var(--sky-border-width-action-selected-l)
+            )
+        )
+        var(--sky-space-inset-pillarbox-2_3-left-m)
+    );
+    max-width: 100%;
+    text-align: left;
+  }
 }
 
 .sky-dropdown-button-type-context-menu {
@@ -83,46 +142,7 @@
 
 @include mixins.sky-theme-modern {
   .sky-dropdown-button-type-tab {
-    background-color: var(
-      --sky-override-tab-selected-background-color,
-      var(--sky-color-background-selected-soft)
-    );
-    color: var(--sky-color-text-default);
-    box-shadow: none;
-    border: none;
-    border-bottom: var(
-        --sky-override-tab-selected-border-bottom-size,
-        var(--sky-border-width-action-selected-l)
-      )
-      var(--sky-border-style-accent) var(--sky-color-border-selected);
-    border-radius: 0;
-    border-top-left-radius: var(
-      --sky-override-tab-button-radius,
-      var(--sky-border-radius-s)
-    );
-    border-top-right-radius: var(
-      --sky-override-tab-button-radius,
-      var(--sky-border-radius-s)
-    );
-    font-size: var(--sky-font-size-body-m);
-    font-weight: var(--sky-font-weight-body-m);
-    line-height: var(
-      --sky-override-tab-line-height,
-      var(--sky-font-line_height-body-m)
-    );
-    padding: var(--sky-space-inset-pillarbox-2_3-top-m)
-      var(--sky-space-inset-pillarbox-2_3-right-m)
-      calc(
-        var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
-            --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-action-selected-l)
-          )
-      )
-      var(--sky-space-inset-pillarbox-2_3-left-m);
-    transition: box-shadow $sky-transition-time-short;
-
     &:focus-visible {
-      color: var(--sky-color-text-default);
       outline: none;
     }
 

@@ -14,6 +14,7 @@
   --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
   --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
   --sky-override-tabset-modal-padding-none: 0;
+  --sky-override-tabset-overflow: hidden;
 }
 
 @include compatMixins.sky-modern-v2('sky-tabset', false) {
@@ -61,7 +62,10 @@ sky-tabset {
   white-space: nowrap;
 
   flex-grow: var(--sky-layout-host-content-flex-grow, 0);
-  overflow: var(--sky-layout-host-content-overflow, hidden);
+  overflow: var(
+    --sky-layout-host-content-overflow,
+    var(--sky-override-tabset-overflow, visible)
+  );
   position: var(--sky-layout-host-content-position, static);
 
   &.sky-tabset-style-wizard {
@@ -182,10 +186,4 @@ sky-tabset {
 .sky-tabset-btn-new,
 .sky-tabset-btn-open {
   color: var(--sky-override-tabset-button-color, --sky-color-text-default);
-}
-
-.sky-theme-modern {
-  .sky-tabset {
-    overflow: visible; /* for drop shadow visibility on focused tabs */
-  }
 }
