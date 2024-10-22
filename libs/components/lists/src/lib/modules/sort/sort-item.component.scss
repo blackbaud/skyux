@@ -20,7 +20,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-sort-item', false) {
-  --sky-override-sort-item-color-selected: var(--modern-color-white);
+  --sky-override-sort-item-color-selected: transparent;
   --sky-override-sort-item-width-border-selected: var(--modern-size-3);
 }
 
@@ -47,6 +47,8 @@
     width: 100%;
     outline: none;
     border: none;
+    // The position relative ensures that the box shadows are not cut off by the selected item.
+    position: relative;
     background-color: transparent;
     color: var(
       --sky-override-sort-item-color-text,
@@ -148,11 +150,11 @@
       )
       var(--sky-color-border-selected)
   );
+  border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
   padding: var(--sky-override-sort-item-padding-selected, 0);
   margin: 0;
 
   & button {
-    border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
     padding-left: var(
       --sky-override-sort-item-padding-left-selected,
       calc(
@@ -162,6 +164,7 @@
           )
       )
     );
+    border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
     font-weight: var(
       --sky-override-sort-item-font-weight-selected,
       var(--sky-font-weight-body-m)
