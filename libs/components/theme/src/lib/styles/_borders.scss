@@ -20,17 +20,17 @@
 .sky-border-bottom-light {
   border-bottom: var(
     --sky-override-border-light,
-    var(--sky-border-style-separator-row) var(--sky-border-width-separator-row)
-      var(--sky-color-border-separator-row)
+    var(--sky-border-style-separator-light)
+      var(--sky-border-width-separator-light)
+      var(--sky-color-border-separator-light)
   );
 }
 
 .sky-border-bottom-row {
   border-bottom: var(
     --sky-override-border-row,
-    var(--sky-border-style-separator-dark)
-      var(--sky-border-width-separator-dark)
-      var(--sky-color-border-separator-dark)
+    var(--sky-border-style-separator-row) var(--sky-border-width-separator-row)
+      var(--sky-color-border-separator-row)
   );
 }
 
@@ -46,7 +46,8 @@
 .sky-border-light {
   border: var(
     --sky-override-border-light,
-    var(--sky-border-style-separator-row) var(--sky-border-width-separator-row)
-      var(--sky-color-border-separator-row)
+    var(--sky-border-style-separator-light)
+      var(--sky-border-width-separator-light)
+      var(--sky-color-border-separator-light)
   );
 }
