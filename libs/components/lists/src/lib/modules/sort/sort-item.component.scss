@@ -150,7 +150,10 @@
       )
       var(--sky-color-border-selected)
   );
-  border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
+  border-radius: var(
+    --sky-override-sort-item-border-radius,
+    0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0
+  );
   padding: var(--sky-override-sort-item-padding-selected, 0);
   margin: 0;
 
@@ -164,11 +167,17 @@
           )
       )
     );
-    border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
+    border-radius: var(
+      --sky-override-sort-item-border-radius,
+      0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0
+    );
     font-weight: var(
       --sky-override-sort-item-font-weight-selected,
       var(--sky-font-weight-body-m)
     );
-    color: var(--sky-color-text-default);
+    color: var(
+      --sky-override-sort-item-color-text,
+      var(--sky-color-text-default)
+    );
   }
 }
