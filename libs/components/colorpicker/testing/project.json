@@ -6,7 +6,6 @@
   "prefix": "sky",
   "tags": ["testing"],
   "implicitDependencies": [
-    "colorpicker",
     "core-testing",
     "forms-testing",
     "help-inline-testing",
@@ -17,12 +16,8 @@
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build colorpicker-testing'",
-      "dependsOn": [
-        {
-          "projects": ["colorpicker"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

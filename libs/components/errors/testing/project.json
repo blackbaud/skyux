@@ -5,16 +5,12 @@
   "sourceRoot": "libs/components/errors/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["errors", "testing"],
+  "implicitDependencies": ["testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build errors-testing'",
-      "dependsOn": [
-        {
-          "projects": ["errors"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
