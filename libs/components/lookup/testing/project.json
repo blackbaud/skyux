@@ -12,19 +12,14 @@
     "forms-testing",
     "indicators-testing",
     "lists-testing",
-    "lookup",
     "testing",
     "theme"
   ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build lookup-testing'",
-      "dependsOn": [
-        {
-          "projects": ["lookup"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

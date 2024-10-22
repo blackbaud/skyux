@@ -17,6 +17,7 @@ import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
 import { ModalLookupComponent } from './modal-lookup.component';
 import { ModalRequiredComponent } from './modal-required.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
+import { ModalWithTabsComponent } from './modal-with-tabs.component';
 
 @Component({
   standalone: true,
@@ -128,6 +129,10 @@ export class ModalVisualComponent {
 
   protected openRequiredFieldModal(): void {
     this.openModalInstance(ModalRequiredComponent);
+  }
+
+  protected openTabsModal(): void {
+    this.openModalInstance(ModalWithTabsComponent, { size: 'large' });
   }
 
   public hideButtons(): void {

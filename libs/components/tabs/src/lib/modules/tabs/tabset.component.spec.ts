@@ -179,57 +179,6 @@ describe('Tabset component', () => {
     expect(goSpy).not.toHaveBeenCalled();
   });
 
-  it('should update the tab button margin class when the theme is modern', () => {
-    function validateMargins(theme: string): void {
-      for (const btnEl of btnEls) {
-        if (theme === 'modern') {
-          expect(btnEl).toHaveCssClass('sky-margin-inline-sm');
-        } else {
-          expect(btnEl).not.toHaveCssClass('sky-margin-inline-sm');
-        }
-      }
-    }
-
-    const template = `<sky-tabset (newTab)="newTab()" (openTab)="openTab()">
-  <sky-tab
-    tabHeading="Tab 1"
-  >
-    Tab content
-  </sky-tab>
-</sky-tabset>`;
-
-    const fixture = TestBed.overrideComponent(TabsetTestComponent, {
-      set: {
-        template: template,
-      },
-    }).createComponent(TabsetTestComponent);
-
-    fixture.detectChanges();
-
-    const btnEls = [
-      ...Array.from(fixture.nativeElement.querySelectorAll('.sky-btn-tab')),
-      fixture.nativeElement.querySelector('.sky-tabset-btn-new'),
-      fixture.nativeElement.querySelector('.sky-tabset-btn-open'),
-    ];
-
-    validateMargins('default');
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: new SkyThemeSettings(
-        SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
-      ),
-    });
-
-    fixture.detectChanges();
-
-    validateMargins('modern');
-  });
-
   it('should set the tabs style correctly', () => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
     const cmp: TabsetTestComponent = fixture.componentInstance;

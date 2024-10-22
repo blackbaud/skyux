@@ -1,0 +1,23 @@
+<sky-modal>
+  <sky-modal-header>
+    <h2 class="sky-modal-title">Modal with tabs</h2>
+  </sky-modal-header>
+  <sky-modal-content>
+    <sky-tabset
+      [active]="1"
+      (newTab)="newTabClick()"
+      (openTab)="openTabClick()"
+    >
+      <sky-tab [disabled]="true" [tabHeading]="'Tab 1'" (close)="closeTab()">
+        Tab 1 Content
+      </sky-tab>
+      <sky-tab [tabHeading]="'Tab 2'" (close)="closeTab()">
+        Tab 2 Content
+      </sky-tab>
+      <sky-tab [tabHeading]="'Tab 3'" (close)="closeTab()">
+        Tab 3 Content
+      </sky-tab>
+    </sky-tabset>
+  </sky-modal-content>
+  <sky-modal-footer> Footer </sky-modal-footer>
+</sky-modal>

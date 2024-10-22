@@ -5,20 +5,12 @@
   "sourceRoot": "libs/components/list-builder-view-grids/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "list-builder",
-    "list-builder-view-grids",
-    "testing"
-  ],
+  "implicitDependencies": ["list-builder", "testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build list-builder-view-grids-testing'",
-      "dependsOn": [
-        {
-          "projects": ["list-builder-view-grids"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

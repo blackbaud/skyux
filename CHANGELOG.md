@@ -1,5 +1,23 @@
 # Changelog
 
+## [11.15.1](https://github.com/blackbaud/skyux/compare/11.15.0...11.15.1) (2024-10-22)
+
+
+### Bug Fixes
+
+* **components/theme:** remove anchor tag tokens which changed css specificity ([#2856](https://github.com/blackbaud/skyux/issues/2856)) ([5d0cbb3](https://github.com/blackbaud/skyux/commit/5d0cbb3d0dc0bc5075a8eb070447cc8bfd17bccb))
+
+## [11.15.0](https://github.com/blackbaud/skyux/compare/11.14.0...11.15.0) (2024-10-22)
+
+
+### Features
+
+* **components/core:** allow `currencyDisplay` to be specified for `SkyNumericOptions` ([#2817](https://github.com/blackbaud/skyux/issues/2817)) (Thanks @Blackbaud-MitchellThomas) ([a72bc34](https://github.com/blackbaud/skyux/commit/a72bc34d6dc1052f12144a68373673542ea68d04))
+* **components/lists:** tokenize sort styles ([#2853](https://github.com/blackbaud/skyux/issues/2853)) ([6ff09a4](https://github.com/blackbaud/skyux/commit/6ff09a478d464ad9a6cfffdf238897f7d6752f8f))
+* **components/popovers:** tokenize dropdown styles ([#2847](https://github.com/blackbaud/skyux/issues/2847)) ([37ee846](https://github.com/blackbaud/skyux/commit/37ee846691caae72771162443953b7063f43a83e))
+* **components/tabs:** tokenize tabs styling ([#2850](https://github.com/blackbaud/skyux/issues/2850)) ([a209b3e](https://github.com/blackbaud/skyux/commit/a209b3ea7323dd39795bd6c5d5c81226d220c894))
+* **components/theme:** tokenize border, sizing, and elevation styles ([#2855](https://github.com/blackbaud/skyux/issues/2855)) ([e414abf](https://github.com/blackbaud/skyux/commit/e414abf32aea63dcaf5bc890e173abbc8a7475cb))
+
 ## [11.14.0](https://github.com/blackbaud/skyux/compare/11.13.1...11.14.0) (2024-10-18)
 
 
