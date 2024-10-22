@@ -22,6 +22,7 @@
       },
       "defaultConfiguration": "production",
       "dependsOn": [
+        "^build",
         {
           "projects": ["forms-testing"],
           "target": "build"

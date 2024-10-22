@@ -22,6 +22,7 @@
       },
       "defaultConfiguration": "production",
       "dependsOn": [
+        "^build",
         {
           "projects": ["icon-testing"],
           "target": "build"

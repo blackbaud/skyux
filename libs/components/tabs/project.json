@@ -22,6 +22,7 @@
       },
       "defaultConfiguration": "production",
       "dependsOn": [
+        "^build",
         {
           "projects": ["tabs-testing"],
           "target": "build"

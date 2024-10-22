@@ -22,6 +22,7 @@
       },
       "defaultConfiguration": "production",
       "dependsOn": [
+        "^build",
         {
           "projects": ["lists-testing"],
           "target": "build"

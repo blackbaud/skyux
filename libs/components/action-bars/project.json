@@ -22,6 +22,7 @@
       },
       "defaultConfiguration": "production",
       "dependsOn": [
+        "^build",
         {
           "projects": ["action-bars-testing"],
           "target": "build"

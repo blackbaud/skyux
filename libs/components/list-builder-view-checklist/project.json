@@ -24,6 +24,7 @@
       },
       "defaultConfiguration": "production",
       "dependsOn": [
+        "^build",
         {
           "projects": ["list-builder-view-checklist-testing"],
           "target": "build"

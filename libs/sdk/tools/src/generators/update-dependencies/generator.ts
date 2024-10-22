@@ -167,6 +167,7 @@ function updateTestingImplicitDependencies(tree: Tree): void {
       if (parentProject) {
         if (parentProject?.targets?.['build']) {
           parentProject.targets['build'].dependsOn = [
+            '^build',
             {
               projects: [projectConfig.name],
               target: 'build',

@@ -21,6 +21,7 @@ Object {
       },
       "defaultConfiguration": "production",
       "dependsOn": Array [
+        "^build",
         Object {
           "projects": Array [
             "test-testing",

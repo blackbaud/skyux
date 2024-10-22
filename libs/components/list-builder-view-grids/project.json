@@ -24,6 +24,7 @@
       },
       "defaultConfiguration": "production",
       "dependsOn": [
+        "^build",
         {
           "projects": ["list-builder-view-grids-testing"],
           "target": "build"
