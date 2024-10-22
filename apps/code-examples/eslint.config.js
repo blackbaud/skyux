@@ -1,6 +1,6 @@
 // @ts-check
 const tsEslint = require('typescript-eslint');
-const skyux = require('../../libs/sdk/skyux-eslint/transpiled.cjs');
+const skyux = require('../../libs/sdk/skyux-eslint/dev-transpiler.cjs');
 const config = require('../../eslint-apps.config');
 
 module.exports = tsEslint.config(
