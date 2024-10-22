@@ -12,19 +12,14 @@
     "layout",
     "lists",
     "modals",
-    "split-view",
     "testing",
     "theme"
   ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build split-view-testing'",
-      "dependsOn": [
-        {
-          "projects": ["split-view"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

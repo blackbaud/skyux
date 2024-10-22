@@ -20,6 +20,15 @@ Object {
         },
       },
       "defaultConfiguration": "production",
+      "dependsOn": Array [
+        "^build",
+        Object {
+          "projects": Array [
+            "test-testing",
+          ],
+          "target": "build",
+        },
+      ],
       "executor": "@nx/angular:package",
       "options": Object {
         "project": "lib/test/ng-package.json",
@@ -48,8 +57,8 @@ exports[`update dependencies generator should capture testing dependencies 2`] =
 Object {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": Array [
-    "other",
-    "test",
+    "aaa",
+    "bbb",
   ],
   "name": "test-testing",
   "projectType": "library",
@@ -58,13 +67,9 @@ Object {
   "targets": Object {
     "build": Object {
       "command": "echo ' 🏗️  build test-testing'",
-      "dependsOn": Array [
-        Object {
-          "projects": Array [
-            "test",
-          ],
-          "target": "build",
-        },
+      "dependsOn": Array [],
+      "inputs": Array [
+        "buildInputs",
       ],
     },
     "test": Object {
