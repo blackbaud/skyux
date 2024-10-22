@@ -23,7 +23,7 @@ describe('Media query demo', () => {
     });
   });
 
-  it('should change the breakpoint', async () => {
+  it('should change the breakpoint', () => {
     const { fixture, mediaController } = setupTest();
 
     const el = fixture.nativeElement as HTMLElement;
