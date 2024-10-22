@@ -1,8 +1,16 @@
 @use '../../variables' as *;
+@use '../../compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-modern-overrides('.sky-error-label', false) {
+  --sky-override-error-label-margin-top: var(--modern-size-5);
+}
 
 .sky-theme-modern {
   .sky-error-label {
-    margin-top: var(--sky-space-inset-input_label-top-m);
+    margin-top: var(
+      --sky-override-error-label-margin-top,
+      var(--sky-space-inset-input_label-top-m)
+    );
     color: var(--sky-text-color-default);
   }
 
