@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyFluidGridModule } from '@skyux/layout';
-import { SkyPageModule } from '@skyux/pages';
+import { SkyFluidGridModule, SkyPageModule } from '@skyux/layout';
 
 @Component({
   standalone: true,
