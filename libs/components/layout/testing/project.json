@@ -9,18 +9,13 @@
     "core",
     "core-testing",
     "help-inline-testing",
-    "layout",
     "testing"
   ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build layout-testing'",
-      "dependsOn": [
-        {
-          "projects": ["layout"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
