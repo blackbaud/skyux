@@ -5,7 +5,7 @@ import templateBaseConfig from './template-base';
 export default [
   templateBaseConfig,
   {
-    name: 'skyux-eslint/template-all',
+    name: 'skyux-eslint-template-all',
     rules: {
       'skyux-eslint-template/no-deprecated-directives': 'error',
       'skyux-eslint-template/no-unbound-id': 'error',

@@ -1,4 +1,4 @@
-# `@skyux-eslint/template/no-deprecated-directives`
+# `skyux-eslint-template/no-deprecated-directives`
 
 Prevents usage of deprecated directives and components in HTML templates.
 
@@ -19,7 +19,7 @@ The rule does not have any configuration options.
 ```json
 {
   "rules": {
-    "@skyux-eslint/template/no-deprecated-directives": ["error"]
+    "skyux-eslint-template/no-deprecated-directives": ["error"]
   }
 }
 ```

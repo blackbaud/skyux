@@ -4,6 +4,7 @@
 /coverage
 /dist
 /libs/sdk/skyux-eslint/**/*.md
+/libs/sdk/skyux-eslint/**/__deprecations.json
 /node_modules
 /temp
 /tmp

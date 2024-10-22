@@ -1,5 +1,5 @@
-import { Component, contentChild } from '@angular/core';
-import { SkySummaryActionBarModule, λ2 } from '@skyux/action-bars';
+import { Component } from '@angular/core';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 @Component({
@@ -9,8 +9,6 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule],
 })
 export class DemoComponent {
-  protected foo = contentChild(λ2);
-
   protected onPrimaryActionClick(): void {
     alert('Primary action button clicked.');
   }

@@ -40,3 +40,11 @@ module.exports = tsEslint.config(
   },
 );
 ```
+
+## Refresh deprecations summary for `skyux-eslint-template/no-deprecated-directives` rule
+
+Note: Only do this for prerelease versions since updating the deprecations summary could result in a breaking change for our consumers.
+
+```
+npm run dev:refresh-skyux-eslint-deprecations-summary
+```

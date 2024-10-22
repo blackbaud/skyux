@@ -1,4 +1,4 @@
-# @skyux-eslint/template/prefer-label-text
+# skyux-eslint-template/prefer-label-text
 
 Ensures form components set the `labelText` (or `headingText`) attribute, which automatically activates key usability and accessibility features.
 
@@ -20,7 +20,7 @@ The rule does not have any configuration options.
 ```json
 {
   "rules": {
-    "@skyux-eslint/template/prefer-label-text": ["error"]
+    "skyux-eslint-template/prefer-label-text": ["error"]
   }
 }
 ```

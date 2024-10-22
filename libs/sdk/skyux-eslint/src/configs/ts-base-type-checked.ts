@@ -7,7 +7,7 @@ export default {
       tsconfigRootDir: '.',
     },
   },
-  name: 'skyux-eslint/ts-recommended-type-checked',
+  name: 'skyux-eslint/ts-base-type-checked',
   rules: {
     'dot-notation': 'off',
     '@typescript-eslint/dot-notation': 'error',

@@ -8,6 +8,10 @@ module.exports = tsEslint.config(
   {
     files: ['**/src/app/code-examples/**/*.ts'],
     extends: [...skyux.configs.tsAll],
+    rules: {
+      'no-alert': 'warn',
+      'no-console': 'warn',
+    },
   },
   {
     files: ['**/src/app/code-examples/**/*.html'],

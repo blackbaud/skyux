@@ -26,7 +26,7 @@ function hardenPackageVersion(): Rule {
   };
 }
 
-export default function ngAdd(): Rule {
+export function ngAdd(): Rule {
   return (tree, context) => {
     if (
       !getPackageJsonDependency(tree, '@angular-eslint/schematics') &&

@@ -82,7 +82,9 @@ export const rule = createESLintTemplateRule({
       const components = DEPRECATIONS.components;
       const selectors = Object.keys(components).join('|');
 
-      rules[`Element$1[name=/^(${selectors})$/]`] = (el: TmplAstElement) => {
+      rules[`Element$1[name=/^(${selectors})$/]`] = (
+        el: TmplAstElement,
+      ): void => {
         const docs = components[el.name];
 
         if (docs.deprecated) {
@@ -103,7 +105,7 @@ export const rule = createESLintTemplateRule({
         el: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
           parent: TmplAstElement;
         },
-      ) => {
+      ): void => {
         const docs = directives[el.name];
 
         if (docs.deprecated) {

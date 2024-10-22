@@ -15,6 +15,7 @@
     "lint:affected": "nx affected:lint --quiet --silent --parallel=5",
     "format": "nx format:write",
     "format:check": "nx format:check",
+    "dev:refresh-skyux-eslint-deprecations-summary": "npm run dev:create-packages-dist -- --skipNxCache && ts-node ./scripts/refresh-skyux-eslint-deprecations-summary.ts",
     "dev:check-library-dependencies": "skyux-dev check-lib-dependencies",
     "dev:check-library-missing-peers": "skyux-dev check-lib-missing-peers --fix",
     "dev:update-library-dependencies": "nx g @skyux-sdk/tools:update-dependencies",

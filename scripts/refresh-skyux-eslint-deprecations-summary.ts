@@ -4,7 +4,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const DEPRECATIONS_FILE_PATH = path.normalize(
-  'dist/libs/sdk/skyux-eslint/src/__deprecations.json',
+  'libs/sdk/skyux-eslint/src/__deprecations.json',
 );
 
 interface DeprecatedProperty {
@@ -24,10 +24,21 @@ interface Deprecations {
   directives?: Record<string, DeprecatedDirective>;
 }
 
-async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
+/**
+ * Refreshes the __deprecations.json file used by the
+ * 'skyux-eslint-template/no-deprecated-directives' rule.
+ */
+async function refreshSkyuxEslintDeprecationsSummary(): Promise<void> {
   const deprecations: Deprecations = {};
 
   const files = await glob('dist/libs/components/**/documentation.json');
+
+  if (files.length === 0) {
+    throw new Error(
+      'No documentation.json files found. ' +
+        'Did you run `npx skyux-dev create-packages-dist`?',
+    );
+  }
 
   for (const file of files) {
     const json = JSON.parse(
@@ -124,4 +135,4 @@ async function populateNoDeprecatedDirectivesESLintRule(): Promise<void> {
   await writeFile(DEPRECATIONS_FILE_PATH, JSON.stringify(deprecations));
 }
 
-void populateNoDeprecatedDirectivesESLintRule();
+void refreshSkyuxEslintDeprecationsSummary();

@@ -19,7 +19,7 @@ The rule does not have any configuration options.
 ```json
 {
   "rules": {
-    "@skyux-eslint/no-lambda-imports": ["error"]
+    "skyux-eslint/no-lambda-imports": ["error"]
   }
 }
 ```

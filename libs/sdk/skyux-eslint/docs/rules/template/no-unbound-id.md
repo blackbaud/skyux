@@ -1,4 +1,4 @@
-# @skyux-eslint/template/no-unbound-id
+# skyux-eslint-template/no-unbound-id
 
 Prevents usage of static IDs on HTML elements. For accessibility reasons, all IDs on the page must be unique; to guarantee this, we recommend using the [`skyId`](https://developer.blackbaud.com/skyux/components/id) directive.
 
@@ -19,7 +19,7 @@ The rule does not have any configuration options.
 ```json
 {
   "rules": {
-    "@skyux-eslint/template/no-unbound-id": ["error"]
+    "skyux-eslint-template/no-unbound-id": ["error"]
   }
 }
 ```

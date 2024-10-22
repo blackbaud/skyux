@@ -1,11 +1,11 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 
 import tsBaseConfig from './ts-base';
-import tsRecommendedTypeChecked from './ts-recommended-type-checked';
+import tsBaseConfigTypeChecked from './ts-base-type-checked';
 
 export default [
   tsBaseConfig,
-  tsRecommendedTypeChecked,
+  tsBaseConfigTypeChecked,
   {
     name: 'skyux-eslint/ts-all',
     rules: {
