@@ -33,8 +33,6 @@ import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
-type SlideDirection = 'up' | 'down';
-
 /**
  * Auto-incrementing integer used to generate unique ids for summary action bar components.
  */
@@ -69,7 +67,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   public isSummaryCollapsed = false;
 
-  public slideDirection = signal<SlideDirection>('down');
+  public slideDirection = signal<string>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 
@@ -164,7 +162,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.#idled.complete();
   }
 
-  public onDirectionChange(direction: SlideDirection): void {
+  public onDirectionChange(direction: string): void {
     this.slideDirection.set(direction);
   }
 

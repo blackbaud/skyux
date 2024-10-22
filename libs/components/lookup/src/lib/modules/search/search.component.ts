@@ -18,11 +18,11 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
-  effect,
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
+  SkyBreakpoint,
   SkyContentInfo,
   SkyContentInfoProvider,
   SkyMediaQueryService,
@@ -162,6 +162,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   @Input()
   public placeholderText: string | undefined;
 
+  public breakpointSubscription: Subscription | undefined;
+
   public clearButtonShown = false;
 
   public dismissButtonShown = false;
@@ -196,9 +198,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #_expandMode = EXPAND_MODE_RESPONSIVE;
 
-  readonly #breakpoint = toSignal(
-    inject(SkyMediaQueryService).breakpointChange,
-  );
+  readonly #mediaQuerySvc = inject(SkyMediaQueryService);
+  readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
 
   constructor(
     elRef: ElementRef,
@@ -210,23 +211,17 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#changeRef = changeRef;
 
     this.contentInfoObs = this.#contentInfoProvider?.getInfo();
-
-    effect(() => {
-      const breakpoint = this.#breakpoint();
-
-      if (this.#searchShouldCollapse()) {
-        if (breakpoint === 'xs') {
-          this.inputAnimate = INPUT_HIDDEN_STATE;
-        } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
-          this.inputAnimate = INPUT_SHOWN_STATE;
-        } else {
-          this.mobileSearchShown = false;
-        }
-      }
-    });
   }
 
   public ngOnInit(): void {
+    if (this.#searchShouldCollapse()) {
+      this.breakpointSubscription =
+        this.#mediaQuerySvc.breakpointChange.subscribe((breakpoint) => {
+          this.#mediaQueryCallback(breakpoint);
+          this.#changeRef.detectChanges();
+        });
+    }
+
     this.#setupSearchChangedEvent();
   }
 
@@ -325,6 +320,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   public inputAnimationEnd(event: AnimationEvent): void {
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.endInputAnimation(this.#elRef);
+
       const breakpoint = this.#breakpoint();
 
       this.searchButtonShown =
@@ -340,6 +336,10 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public ngOnDestroy(): void {
+    if (this.breakpointSubscription) {
+      this.breakpointSubscription.unsubscribe();
+    }
+
     this.#searchUpdated.complete();
     this.#searchUpdatedSub?.unsubscribe();
   }
@@ -363,6 +363,19 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       this.#breakpoint() === 'xs' &&
       this.#searchShouldCollapse()
     );
+  }
+
+  #mediaQueryCallback(breakpoint: SkyBreakpoint): void {
+    if (this.#searchShouldCollapse()) {
+      if (breakpoint === 'xs') {
+        this.inputAnimate = INPUT_HIDDEN_STATE;
+      } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
+        this.inputAnimate = INPUT_SHOWN_STATE;
+      } else {
+        this.mobileSearchShown = false;
+      }
+    }
+    this.#changeRef.markForCheck();
   }
 
   #searchShouldCollapse(): boolean {
