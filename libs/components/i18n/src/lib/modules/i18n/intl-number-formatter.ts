@@ -13,8 +13,8 @@ export abstract class SkyIntlNumberFormatter {
       minimumFractionDigits,
       maximumFractionDigits,
       currency,
-      currencyAsSymbol = false,
       currencySign = 'standard',
+      currencyDisplay = 'code',
     } = opts;
 
     const options: Intl.NumberFormatOptions & { currencySign: string } = {
@@ -30,7 +30,7 @@ export abstract class SkyIntlNumberFormatter {
 
     if (style === SkyIntlNumberFormatStyle.Currency) {
       options.currency = typeof currency === 'string' ? currency : undefined;
-      options.currencyDisplay = currencyAsSymbol ? 'symbol' : 'code';
+      options.currencyDisplay = currencyDisplay;
     }
 
     return new Intl.NumberFormat(locale, options).format(num);
