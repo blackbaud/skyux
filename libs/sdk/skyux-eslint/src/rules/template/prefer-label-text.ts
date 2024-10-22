@@ -3,6 +3,7 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 import { getChildNodeOf } from '../utils/get-child-node-of';
+import { getTextContent } from '../utils/get-text-content';
 
 export const RULE_NAME = 'prefer-label-text';
 export const messageId = 'preferLabelText';
@@ -88,11 +89,8 @@ export const rule = createESLintTemplateRule({
               labelSelector,
             },
             fix: (fixer) => {
-              const labelInnerHtml = labelEl.children
-                .map((c) => c.sourceSpan.toString().trim())
-                .join('');
-
-              const textReplacement = ` ${labelInputName}="${labelInnerHtml}"`;
+              const textContent = getTextContent(labelEl);
+              const textReplacement = ` ${labelInputName}="${textContent}"`;
               const range = [
                 el.startSourceSpan.end.offset - 1,
                 el.startSourceSpan.end.offset,
