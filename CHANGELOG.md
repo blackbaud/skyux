@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.15.1](https://github.com/blackbaud/skyux/compare/11.15.0...11.15.1) (2024-10-22)
+
+
+### Bug Fixes
+
+* **components/theme:** remove anchor tag tokens which changed css specificity ([#2856](https://github.com/blackbaud/skyux/issues/2856)) ([5d0cbb3](https://github.com/blackbaud/skyux/commit/5d0cbb3d0dc0bc5075a8eb070447cc8bfd17bccb))
+
 ## [11.15.0](https://github.com/blackbaud/skyux/compare/11.14.0...11.15.0) (2024-10-22)
 
 
