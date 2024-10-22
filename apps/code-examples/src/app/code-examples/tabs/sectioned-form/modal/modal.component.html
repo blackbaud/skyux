@@ -1,7 +1,4 @@
-<sky-modal>
-  <sky-modal-header>
-    Sectioned form — Index: {{ activeIndexDisplay }}
-  </sky-modal-header>
+<sky-modal [headingText]="'Sectioned form — Index: ' + activeIndexDisplay">
   <sky-modal-content>
     <sky-sectioned-form (indexChanged)="onIndexChanged($event)">
       <sky-sectioned-form-section heading="Basic information">
