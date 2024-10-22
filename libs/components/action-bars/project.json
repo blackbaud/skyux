@@ -24,7 +24,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["action-bars-testing"],
+          "projects": ["action-bars-testing", "core"],
           "target": "build"
         }
       ]

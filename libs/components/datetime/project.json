@@ -24,7 +24,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["datetime-testing"],
+          "projects": ["core", "datetime", "datetime-testing", "forms"],
           "target": "build"
         }
       ]

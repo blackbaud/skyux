@@ -5,16 +5,6 @@
   "sourceRoot": "libs/components/split-view/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "action-bars",
-    "core",
-    "core-testing",
-    "layout",
-    "lists",
-    "modals",
-    "testing",
-    "theme"
-  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build split-view-testing'",
