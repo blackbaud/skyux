@@ -5,7 +5,6 @@
   "sourceRoot": "libs/components/errors/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build errors-testing'",

@@ -5,7 +5,6 @@
   "sourceRoot": "libs/components/a11y/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build a11y-testing'",

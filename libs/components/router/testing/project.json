@@ -5,7 +5,6 @@
   "sourceRoot": "libs/components/router/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "router-testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build router-testing'",

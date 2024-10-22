@@ -24,7 +24,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["progress-indicator-testing"],
+          "projects": ["core", "help-inline", "progress-indicator-testing"],
           "target": "build"
         }
       ]

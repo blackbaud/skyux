@@ -202,11 +202,31 @@ describe('update dependencies generator', () => {
       skipTests: true,
     });
     await libraryGenerator(appTree, {
+      name: 'aaa-testing',
+      buildable: true,
+      publishable: false,
+      importPath: '@proj/aaa/testing',
+      directory: 'lib/aaa-testing',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+    });
+    await libraryGenerator(appTree, {
       name: 'bbb',
       buildable: true,
       publishable: true,
       importPath: '@proj/bbb',
       directory: 'lib/bbb',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+    });
+    await libraryGenerator(appTree, {
+      name: 'bbb-testing',
+      buildable: true,
+      publishable: false,
+      importPath: '@proj/bbb/testing',
+      directory: 'lib/bbb-testing',
       skipFormat: true,
       skipPackageJson: true,
       skipTests: true,
@@ -228,8 +248,8 @@ describe('update dependencies generator', () => {
       stripIndents`
       import { thirdParty } from '@third-party/core';
       import { test } from '@proj/test';
-      import { otherB } from '@proj/bbb';
-      import { otherA } from '@proj/aaa';
+      import { otherB } from '@proj/bbb/testing';
+      import { otherA } from '@proj/aaa/testing';
 
       test();
       otherA();

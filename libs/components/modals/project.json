@@ -24,7 +24,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["modals-testing"],
+          "projects": ["core", "help-inline", "modals-testing"],
           "target": "build"
         }
       ]
