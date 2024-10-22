@@ -3,10 +3,6 @@ import { glob } from 'glob';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const DEPRECATIONS_FILE_PATH = path.normalize(
-  'libs/sdk/skyux-eslint/src/__deprecations.json',
-);
-
 interface DeprecatedProperty {
   reason?: string;
 }
@@ -23,6 +19,17 @@ interface Deprecations {
   components?: Record<string, DeprecatedDirective>;
   directives?: Record<string, DeprecatedDirective>;
 }
+
+const DEPRECATIONS_FILE_PATH = path.normalize(
+  'libs/sdk/skyux-eslint/src/__deprecations.json',
+);
+
+/**
+ * These selectors are deprecated, but have a non-deprecated replacement. Since
+ * the selectors are the same, we won't be able to distinguish between the
+ * deprecated selector and the non-deprecated selector.
+ */
+const EXCLUDE_SELECTORS = ['sky-page'];
 
 /**
  * Refreshes the __deprecations.json file used by the
@@ -58,6 +65,10 @@ async function refreshSkyuxEslintDeprecationsSummary(): Promise<void> {
         let selector: string = docsDecorator.arguments.obj
           .split("selector: '")[1]
           .split("'")[0];
+
+        if (EXCLUDE_SELECTORS.includes(selector)) {
+          continue;
+        }
 
         if (isDirective) {
           selector = selector.split('[')[1].split(']')[0];
