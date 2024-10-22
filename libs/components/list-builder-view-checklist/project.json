@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/list-builder-view-checklist/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -21,7 +22,13 @@
           "tsConfig": "libs/components/list-builder-view-checklist/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        {
+          "projects": ["list-builder-view-checklist-testing"],
+          "target": "build"
+        }
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -63,6 +70,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

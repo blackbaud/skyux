@@ -119,6 +119,7 @@ function updateTestingImplicitDependencies(tree: Tree): void {
   const packages = Array.from(packagesToProjects.keys());
   testingProjects.forEach((projectConfig) => {
     const importedProjects: string[] = [];
+    const parentProjectName = `${projectConfig.name?.replace('-testing', '')}`;
     visitNotIgnoredFiles(tree, `${projectConfig.root}/src`, (file) => {
       if (file.endsWith('.ts')) {
         const source = ts.createSourceFile(
@@ -139,7 +140,11 @@ function updateTestingImplicitDependencies(tree: Tree): void {
               importPath.startsWith(`'${packageName}/`),
           );
           const projectName = packagesToProjects.get(importProject ?? '');
-          if (importProject && projectName) {
+          if (
+            importProject &&
+            projectName &&
+            projectName !== parentProjectName
+          ) {
             importedProjects.push(projectName);
           }
         });
@@ -149,12 +154,8 @@ function updateTestingImplicitDependencies(tree: Tree): void {
       projectConfig.targets ??= {};
       projectConfig.targets['build'] = {
         command: `echo ' 🏗️  build ${projectConfig.name}'`,
-        dependsOn: [
-          {
-            projects: [projectConfig.name.replace('-testing', '')],
-            target: 'build',
-          },
-        ],
+        inputs: ['buildInputs'],
+        dependsOn: [],
       };
       if (importedProjects.length > 0) {
         projectConfig.implicitDependencies = [
@@ -162,14 +163,29 @@ function updateTestingImplicitDependencies(tree: Tree): void {
         ].sort((a, b) => a.localeCompare(b));
       }
       updateProjectConfiguration(tree, projectConfig.name, projectConfig);
+      const parentProject = projects.get(parentProjectName);
+      if (parentProject) {
+        if (parentProject?.targets?.['build']) {
+          parentProject.targets['build'].dependsOn = [
+            {
+              projects: [projectConfig.name],
+              target: 'build',
+            },
+          ];
+        }
+        updateProjectConfiguration(tree, parentProjectName, parentProject);
+      }
     }
   });
 }
 
-export default async function (tree: Tree) {
+export default async function (tree: Tree, options: { skipFormat: boolean }) {
   hardenRootDependencies(tree);
   updatePeerDependencies(tree);
   updateNgUpdatePackageGroup(tree);
   updateTestingImplicitDependencies(tree);
-  await formatFiles(tree);
+  /* istanbul ignore if */
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }

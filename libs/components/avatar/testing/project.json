@@ -5,16 +5,12 @@
   "sourceRoot": "libs/components/avatar/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["avatar", "testing"],
+  "implicitDependencies": ["testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build avatar-testing'",
-      "dependsOn": [
-        {
-          "projects": ["avatar"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
