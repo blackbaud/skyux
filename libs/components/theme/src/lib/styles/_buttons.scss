@@ -109,7 +109,39 @@ a.sky-btn {
 }
 
 .sky-btn-tab {
-  @include mixins.sky-btn-tab();
+  background-color: transparent;
+  border: none;
+  border-radius: 4px 4px 0 0;
+  color: var(--sky-text-color-deemphasized);
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  line-height: 1.8;
+  padding: 8px 16px;
+
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: var(--sky-background-color-neutral-light);
+    color: var(--sky-text-color-default);
+    text-decoration: none;
+  }
+
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: var(--sky-background-color-neutral-light);
+  }
+
+  &.sky-btn-tab-disabled {
+    background-color: var(--sky-background-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+    outline: none;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--sky-text-color-deemphasized);
+      cursor: default;
+      text-decoration: none;
+    }
+  }
 }
 
 .sky-btn-tab-close {
@@ -133,7 +165,13 @@ a.sky-btn {
 }
 
 .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-  @include mixins.sky-btn-tab-selected;
+  background-color: var(--sky-background-color-primary-dark);
+  color: var(--sky-text-color-on-dark);
+
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: var(--sky-background-color-primary-dark);
+    color: var(--sky-text-color-on-dark);
+  }
 
   .sky-btn-tab-close,
   .sky-tab-header-count {
@@ -147,7 +185,6 @@ a.sky-btn {
   border-radius: $sky-border-radius;
   font-weight: 400;
   color: var(--sky-text-color-default);
-  line-height: 1.6em;
   margin-right: $sky-margin-half;
   padding-bottom: $sky-padding-half;
   padding-top: $sky-padding-half;
@@ -172,6 +209,10 @@ a.sky-btn {
     color: var(--sky-text-color-deemphasized);
     box-shadow: none;
   }
+}
+
+.sky-tabset-tabs .sky-btn-tab-wrapper .sky-btn-tab-wizard {
+  line-height: 1.6em;
 }
 
 .sky-btn-borderless {
