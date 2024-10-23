@@ -5,12 +5,6 @@
   "sourceRoot": "libs/components/layout/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core",
-    "core-testing",
-    "help-inline-testing",
-    "testing"
-  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build layout-testing'",
