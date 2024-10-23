@@ -31,11 +31,11 @@ describe('Media query demo', () => {
     mediaController.setBreakpoint('xs');
     fixture.detectChanges();
 
-    expect(el.querySelector('.my-nav-mobile')).toBeDefined();
+    expect(el.querySelector('.my-nav-mobile')).toBeTruthy();
 
     mediaController.setBreakpoint('lg');
     fixture.detectChanges();
 
-    expect(el.querySelector('.my-nav-desktop')).toBeDefined();
+    expect(el.querySelector('.my-nav-desktop')).toBeTruthy();
   });
 });
