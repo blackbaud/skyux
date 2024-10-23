@@ -1,5 +1,4 @@
-<sky-modal>
-  <sky-modal-header> Filter food preferences </sky-modal-header>
+<sky-modal headingText="Filter food preferences">
   <sky-modal-content>
     <sky-input-box labelText="Fruit type" stacked="true">
       <select [(ngModel)]="fruitType">
@@ -8,9 +7,7 @@
         <option value="berry">Berry</option>
       </select>
     </sky-input-box>
-    <sky-checkbox [(ngModel)]="hideOrange">
-      <sky-checkbox-label>Hide orange fruits</sky-checkbox-label>
-    </sky-checkbox>
+    <sky-checkbox labelText="Hide orange fruits" [(ngModel)]="hideOrange" />
   </sky-modal-content>
   <sky-modal-footer>
     <button

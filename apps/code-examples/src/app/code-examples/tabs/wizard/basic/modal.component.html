@@ -1,8 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSave()">
-  <sky-modal>
-    <sky-modal-header>
-      {{ title }}
-    </sky-modal-header>
+  <sky-modal [headingText]="title">
     <sky-modal-content>
       <sky-tabset
         #wizardDemo
@@ -56,18 +53,17 @@
           <sky-fluid-grid gutterSize="small" [disableMargin]="true">
             <sky-row>
               <sky-column [screenSmall]="12">
-                <sky-checkbox formControlName="termsAccepted" [required]="true">
-                  <sky-checkbox-label>
-                    Accept terms and conditions
-                  </sky-checkbox-label>
-                </sky-checkbox>
+                <sky-checkbox
+                  formControlName="termsAccepted"
+                  labelText="Accept terms and conditions"
+                  required
+                />
               </sky-column>
               <sky-column [screenSmall]="12">
-                <sky-checkbox formControlName="mailingList">
-                  <sky-checkbox-label>
-                    Sign up for our email newsletter
-                  </sky-checkbox-label>
-                </sky-checkbox>
+                <sky-checkbox
+                  formControlName="mailingList"
+                  labelText="Sign up for our email newsletter"
+                />
               </sky-column>
             </sky-row>
           </sky-fluid-grid>

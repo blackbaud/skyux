@@ -1,18 +1,10 @@
-<sky-modal>
-  <sky-modal-header>
-    {{ context.title }}
-  </sky-modal-header>
+<sky-modal [headingText]="context.title">
   <sky-modal-content>
     <br />
     <br />
   </sky-modal-content>
   <sky-modal-footer>
-    <button
-      class="sky-btn sky-btn-primary"
-      style="margin: 0 auto; vertical-align: middle"
-      type="button"
-      (click)="submit()"
-    >
+    <button class="sky-btn sky-btn-primary" type="button" (click)="submit()">
       {{ context.buttonText }}
     </button>
   </sky-modal-footer>

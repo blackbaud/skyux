@@ -50,39 +50,24 @@
           </sky-description-list-content>
         </sky-description-list>
         <div>
-          <sky-input-box stacked="true">
-            <label class="sky-control-label" [for]="amountInput.id">
-              Approved amount
-            </label>
+          <sky-input-box stacked="true" labelText="Approved amount">
             <input
-              #amountInput
-              class="sky-form-control"
               formControlName="approvedAmount"
               name="approvedAmount"
               type="text"
-              skyId
             />
           </sky-input-box>
         </div>
 
         <div>
-          <sky-input-box stacked="true">
-            <label class="sky-control-label" [for]="commentsInput.id">
-              Comments
-            </label>
-            <textarea
-              #commentsInput
-              class="sky-form-control"
-              formControlName="comments"
-              name="comments"
-              skyId
-            ></textarea>
+          <sky-input-box stacked="true" labelText="Comments">
+            <textarea formControlName="comments" name="comments"></textarea>
           </sky-input-box>
         </div>
       </form>
     </sky-split-view-workspace-content>
     <sky-split-view-workspace-footer>
-      <sky-summary-action-bar id="summary-action-bar">
+      <sky-summary-action-bar>
         <sky-summary-action-bar-actions>
           <sky-summary-action-bar-primary-action (actionClick)="onApprove()">
             Approve expense

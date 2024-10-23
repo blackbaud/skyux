@@ -1,11 +1,1 @@
-<sky-input-box>
-  <label class="sky-control-label" [for]="input1.id"> Label </label>
-  <input #input1="skyId" class="sky-form-control" type="text" skyId />
-</sky-input-box>
-
-<sky-input-box>
-  <label class="sky-control-label" [for]="input2.id"> Label </label>
-  <select #input2="skyId" class="sky-form-control" skyId>
-    <option>Value</option>
-  </select>
-</sky-input-box>
+<div #myDiv="skyId" skyId>This DIV's id is '{{ myDiv.id }}'</div>

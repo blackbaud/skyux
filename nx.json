@@ -80,7 +80,7 @@
       "!{projectRoot}/**/*.spec.[jt]s",
       "!{projectRoot}/**/*.stories.@(js|ts)",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/karma.conf.js",
@@ -92,18 +92,14 @@
       "{workspaceRoot}/.github/workflows/e2e.yml",
       "{workspaceRoot}/.percy.json"
     ],
-    "lintInputs": [
-      "{projectRoot}/**/*",
-      "{workspaceRoot}/.eslintrc-overrides.json",
-      "{workspaceRoot}/.eslintrc.json"
-    ],
+    "lintInputs": ["{projectRoot}/**/*", "{workspaceRoot}/eslint-*"],
     "storybookInputs": [
       "{projectRoot}/**/*",
       "{workspaceRoot}/.babelrc",
       "{workspaceRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.spec.[jt]s",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/karma.conf.js",
       "!{projectRoot}/src/test-setup.[jt]s",
@@ -118,7 +114,7 @@
       "{workspaceRoot}/scripts/posttest-{projectName}.ts",
       "{workspaceRoot}/scripts/utils/**",
       "!{projectRoot}/**/*.stories.@(js|ts)",
-      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/tsconfig.storybook.json"
     ]

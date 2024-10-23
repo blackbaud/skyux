@@ -10,12 +10,6 @@ import { readJsonFile } from '../shared/utility/tree';
 const COLLECTION_PATH = path.resolve(__dirname, '../../../collection.json');
 const ESLINT_CONFIG_PATH = './.eslintrc.json';
 
-jest.mock('../shared/utility/get-latest-version', () => ({
-  getLatestVersion: jest.fn((_, version) =>
-    Promise.resolve(`LATEST_${version}`),
-  ),
-}));
-
 describe('ng-add.schematic', () => {
   const runner = new SchematicTestRunner('schematics', COLLECTION_PATH);
   const defaultProjectName = 'my-app';

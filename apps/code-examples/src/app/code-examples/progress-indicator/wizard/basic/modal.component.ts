@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import {
   SkyProgressIndicatorActionClickArgs,
@@ -16,6 +16,7 @@ import {
   imports: [
     ReactiveFormsModule,
     SkyCheckboxModule,
+    SkyInputBoxModule,
     SkyModalModule,
     SkyProgressIndicatorModule,
   ],

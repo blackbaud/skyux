@@ -5,9 +5,10 @@
 </div>
 
 <div class="sky-margin-stacked-lg">
-  <sky-checkbox [(ngModel)]="showAdditionalContent">
-    <sky-checkbox-label> Display additional content </sky-checkbox-label>
-  </sky-checkbox>
+  <sky-checkbox
+    labelText="Display additional content"
+    [(ngModel)]="showAdditionalContent"
+  />
 </div>
 
 <div [skyHighlight]="searchTerm">

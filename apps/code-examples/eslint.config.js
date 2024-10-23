@@ -1,44 +1,24 @@
-const { FlatCompat } = require('@eslint/eslintrc');
-const js = require('@eslint/js');
-const path = require('node:path');
+// @ts-check
+const tsEslint = require('typescript-eslint');
+const skyux = require('../../libs/sdk/skyux-eslint/dev-transpiler.cjs');
 const config = require('../../eslint-apps.config');
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
-
-module.exports = [
+module.exports = tsEslint.config(
   ...config,
-  ...compat
-    .config({
-      extends: ['../../libs/sdk/eslint-config/recommended'],
-    })
-    .map((config) => ({
-      files: ['**/src/app/code-examples/**/*.ts'],
-      languageOptions: {
-        ...config.languageOptions,
-        parserOptions: {
-          project: [path.join(__dirname, 'tsconfig.editor.json')],
-          tsconfigRootDir: '.',
-        },
-      },
-      linterOptions: { reportUnusedDisableDirectives: true },
-      rules: {
-        ...config.rules,
-        'no-alert': 'warn',
-        'no-console': 'warn',
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              {
-                group: ['../*'],
-                message: 'Make sure to import from local files only.',
-              },
-            ],
-          },
-        ],
-      },
-    })),
-];
+  {
+    files: ['**/src/app/code-examples/**/*.ts'],
+    extends: [...skyux.configs.tsAll],
+    rules: {
+      '@typescript-eslint/no-deprecated': 'warn',
+      'no-alert': 'warn',
+      'no-console': 'warn',
+    },
+  },
+  {
+    files: ['**/src/app/code-examples/**/*.html'],
+    extends: [...skyux.configs.templateAll],
+    rules: {
+      'skyux-eslint-template/no-deprecated-directives': 'warn',
+    },
+  },
+);

@@ -1,10 +1,7 @@
 <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
   <sky-row>
     <sky-column [screenSmall]="4" [screenXSmall]="12">
-      <sky-box class="sky-margin-stacked-xl">
-        <sky-box-header>
-          <h2 class="sky-font-heading-2">Details</h2>
-        </sky-box-header>
+      <sky-box class="sky-margin-stacked-xl" headingText="Details">
         <sky-box-controls>
           <button
             aria-label="Edit button for details"
@@ -31,10 +28,7 @@
       </sky-box>
     </sky-column>
     <sky-column [screenSmall]="4" [screenXSmall]="12">
-      <sky-box class="sky-margin-stacked-xl">
-        <sky-box-header>
-          <h2 class="sky-font-heading-2">Payments</h2>
-        </sky-box-header>
+      <sky-box class="sky-margin-stacked-xl" headingText="Payments">
         <sky-box-content>
           <div class="box-2-content">
             <div class="box-2-actuals">
@@ -78,10 +72,7 @@
       </sky-box>
     </sky-column>
     <sky-column [screenSmall]="4" [screenXSmall]="12">
-      <sky-box>
-        <sky-box-header>
-          <h2 class="sky-font-heading-2">Recent activity</h2>
-        </sky-box-header>
+      <sky-box headingText="Recent activity">
         <sky-box-content>
           <sky-repeater>
             @for (activity of recentActivity; track activity) {
