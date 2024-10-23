@@ -25,14 +25,14 @@
         >
           <ng-content select="sky-summary-action-bar-summary" />
         </div>
-        @if (isCollapsible() && !isSummaryCollapsed) {
+        @if (isCollapsible() && !isSummaryCollapsed()) {
           <div class="sky-summary-action-bar-details-collapse">
             <ng-container *ngTemplateOutlet="chevron" />
           </div>
         }
       </div>
     </div>
-    @if (isCollapsible() && isSummaryCollapsed) {
+    @if (isCollapsible() && isSummaryCollapsed()) {
       <div class="sky-summary-action-bar-details-expand">
         <ng-container *ngTemplateOutlet="chevron" />
       </div>
@@ -45,7 +45,7 @@
     #chevronEl
     [attr.aria-controls]="summaryId"
     [ariaLabel]="'skyux_summary_action_bar_expand' | skyLibResources"
-    [direction]="isSummaryCollapsed ? 'up' : 'down'"
+    [direction]="isSummaryCollapsed() ? 'up' : 'down'"
     [skyThemeClass]="{
       'sky-margin-inline-default': 'modern'
     }"

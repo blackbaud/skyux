@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  DestroyRef,
   ElementRef,
   OnDestroy,
   ViewChild,
@@ -13,18 +14,17 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { skyAnimationSlide } from '@skyux/animations';
 import {
   SkyAppWindowRef,
-  SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
 import { SkyChevronModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { Subject, Subscription, fromEvent } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyActionBarsResourcesModule } from '../shared/sky-action-bars-resources.module';
@@ -60,13 +60,13 @@ let nextId = 0;
 export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #adapterService = inject(SkySummaryActionBarAdapterService);
   readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #destroyRef = inject(DestroyRef);
   readonly #elementRef = inject(ElementRef);
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
   readonly #observerService = inject(SkyMutationObserverService);
   readonly #windowRef = inject(SkyAppWindowRef);
 
-  public isSummaryCollapsed = false;
-
+  public isSummaryCollapsed = signal<boolean>(false);
   public slideDirection = signal<string>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
@@ -95,7 +95,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     undefined,
   );
 
-  #mediaQuerySubscription: Subscription | undefined;
   #observer: MutationObserver | undefined;
   #idled = new Subject<boolean>();
 
@@ -156,9 +155,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.#removeResizeListener();
     this.#removeTabListener();
 
-    if (this.#mediaQuerySubscription) {
-      this.#mediaQuerySubscription.unsubscribe();
-    }
     this.#idled.complete();
   }
 
@@ -177,8 +173,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       animationEvent.fromState !== 'void'
     ) {
       if (this.slideDirection() === 'up') {
-        this.isSummaryCollapsed = true;
-        this.#changeDetector.markForCheck();
+        this.isSummaryCollapsed.set(true);
       }
 
       const type = this.type();
@@ -200,20 +195,20 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   // NOTE: This function is needed so that the button is added before animation
   public summaryTransitionStart(): void {
     if (this.slideDirection() === 'down') {
-      this.isSummaryCollapsed = false;
+      this.isSummaryCollapsed.set(false);
     }
   }
 
   #setupReactiveState(): void {
-    this.#mediaQuerySubscription = this.#mediaQuerySvc.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        if (args !== SkyMediaBreakpoints.xs) {
-          this.isSummaryCollapsed = false;
+    this.#mediaQuerySvc.breakpointChange
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((breakpoint) => {
+        if (breakpoint !== 'xs') {
+          this.isSummaryCollapsed.set(false);
           this.slideDirection.set('down');
         }
         this.#changeDetector.detectChanges();
-      },
-    );
+      });
   }
 
   public setupTabListener(): void {

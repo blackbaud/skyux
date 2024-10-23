@@ -324,10 +324,10 @@ describe('Summary Action Bar component', () => {
         expect(cmp.summaryActionBar).toBeTruthy();
         (
           cmp.summaryActionBar as SkySummaryActionBarComponent
-        ).isSummaryCollapsed = true;
+        ).isSummaryCollapsed.set(true);
         mediaQueryController.setBreakpoint('lg');
         fixture.detectChanges();
-        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
       });
 
       it('should set isSummaryCollapsed to false when moving from a xs screen to a large screen in a full screen modal', () => {
@@ -344,13 +344,13 @@ describe('Summary Action Bar component', () => {
           ?.summaryActionBar as SkySummaryActionBarComponent;
         expect(summaryActionBar).toBeTruthy();
 
-        summaryActionBar.isSummaryCollapsed = true;
+        summaryActionBar.isSummaryCollapsed.set(true);
         mediaQueryController.setBreakpoint('lg');
 
         fixture.detectChanges();
 
         expect(
-          cmp.openedModal?.summaryActionBar?.isSummaryCollapsed,
+          cmp.openedModal?.summaryActionBar?.isSummaryCollapsed(),
         ).toBeFalsy();
       });
     });
@@ -361,13 +361,13 @@ describe('Summary Action Bar component', () => {
         mediaQueryController.setBreakpoint('xs');
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
-        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
         expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
         clickCollapseButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeTruthy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
         expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
       }));
 
@@ -380,13 +380,13 @@ describe('Summary Action Bar component', () => {
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
-        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeTruthy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
         expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
         clickExpandButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(cmp.summaryActionBar?.isSummaryCollapsed).toBeFalsy();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
         expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
       }));
 
