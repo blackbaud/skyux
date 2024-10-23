@@ -2,9 +2,6 @@ import { ComponentHarness } from '@angular/cdk/testing';
 
 /**
  * Harness to interact with the autocomplete input harness.
- *
- * This harness is marked as internal as all relevant functions are exposed to consumers through the `SkyAutocompleteHarness` functions.
- * @internal
  */
 export class SkyAutocompleteInputHarness extends ComponentHarness {
   /**
