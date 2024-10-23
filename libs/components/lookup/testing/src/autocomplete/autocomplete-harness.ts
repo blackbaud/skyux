@@ -47,10 +47,10 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   /**
    * Enters text into the autocomplete input.
-   * @deprecated Call `await (await autocomplete.getControl()).enterText()` instead.
+   * @deprecated Call `await (await autocomplete.getControl()).setValue()` instead.
    */
   public async enterText(value: string): Promise<void> {
-    return (await this.#getInput()).enterText(value);
+    return (await this.#getInput()).setValue(value);
   }
 
   /**

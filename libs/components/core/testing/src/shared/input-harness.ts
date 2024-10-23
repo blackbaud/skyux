@@ -20,16 +20,6 @@ export class SkyInputHarness extends ComponentHarness {
   }
 
   /**
-   * Enters text into the input.
-   */
-  public async enterText(value: string): Promise<void> {
-    const el = await this.host();
-    await el.focus();
-    await el.clear();
-    await el.sendKeys(value);
-  }
-
-  /**
    * Focuses the input.
    */
   public async focus(): Promise<void> {
@@ -56,5 +46,26 @@ export class SkyInputHarness extends ComponentHarness {
    */
   public async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
+  }
+
+  /**
+   * Sets the value of the input. The value will be set by simulating key
+   * presses that correspond to the given value.
+   */
+  public async setValue(value: string): Promise<void> {
+    const inputEl = await this.host();
+    await inputEl.clear();
+
+    // We don't want to send keys for the value if the value is an empty
+    // string in order to clear the value. Sending keys with an empty string
+    // still results in unnecessary focus events.
+    if (value) {
+      await inputEl.sendKeys(value);
+    }
+
+    // Some input types won't respond to key presses (e.g. `color`) so to be sure that the
+    // value is set, we also set the property after the keyboard sequence. Note that we don't
+    // want to do it before, because it can cause the value to be entered twice.
+    await inputEl.setInputValue(value);
   }
 }
