@@ -9,6 +9,7 @@ import {
 import {
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   Input,
@@ -20,7 +21,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyBreakpoint,
   SkyContentInfo,
@@ -162,8 +163,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   @Input()
   public placeholderText: string | undefined;
 
-  public breakpointSubscription: Subscription | undefined;
-
   public clearButtonShown = false;
 
   public dismissButtonShown = false;
@@ -198,6 +197,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #_expandMode = EXPAND_MODE_RESPONSIVE;
 
+  readonly #destroyRef = inject(DestroyRef);
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
 
@@ -215,10 +215,10 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public ngOnInit(): void {
     if (this.#searchShouldCollapse()) {
-      this.breakpointSubscription =
-        this.#mediaQuerySvc.breakpointChange.subscribe((breakpoint) => {
+      this.#mediaQuerySvc.breakpointChange
+        .pipe(takeUntilDestroyed(this.#destroyRef))
+        .subscribe((breakpoint) => {
           this.#mediaQueryCallback(breakpoint);
-          this.#changeRef.detectChanges();
         });
     }
 
@@ -336,10 +336,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public ngOnDestroy(): void {
-    if (this.breakpointSubscription) {
-      this.breakpointSubscription.unsubscribe();
-    }
-
     this.#searchUpdated.complete();
     this.#searchUpdatedSub?.unsubscribe();
   }
