@@ -3,14 +3,11 @@
   [attr.aria-describedby]="hintText ? hintTextEl.id : undefined"
 >
   <legend
-    class="sky-control-label"
     [ngClass]="{
-      'sky-screen-reader-only': headingHidden,
-      'sky-margin-stacked-xs': !!hintText,
-      'sky-margin-stacked-sm': !hintText
+      'sky-screen-reader-only': headingHidden
     }"
   >
-    <span class="sky-margin-inline-xs">
+    <span class="sky-field-group-heading">
       @switch (headingLevel) {
         @case (4) {
           <h4 [class]="headingClass">{{ headingText }}</h4>
@@ -30,10 +27,14 @@
       />
     }
   </legend>
-  <div #hintTextEl="skyId" skyId>
+  <div #hintTextEl="skyId" skyId class="sky-field-group-hint-text-wrapper">
     @if (hintText) {
       <div
-        class="sky-field-group-hint-text sky-margin-stacked-lg sky-font-deemphasized"
+        class="sky-field-group-hint-text"
+        [skyThemeClass]="{
+          'sky-font-deemphasized': 'default',
+          'sky-font-hint-text-s': 'modern'
+        }"
       >
         {{ hintText }}
       </div>
