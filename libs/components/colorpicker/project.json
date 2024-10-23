@@ -24,7 +24,13 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["colorpicker-testing"],
+          "projects": [
+            "colorpicker-testing",
+            "core",
+            "forms",
+            "help-inline",
+            "icon"
+          ],
           "target": "build"
         }
       ]

@@ -24,7 +24,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["split-view-testing"],
+          "projects": ["core", "split-view-testing"],
           "target": "build"
         }
       ]

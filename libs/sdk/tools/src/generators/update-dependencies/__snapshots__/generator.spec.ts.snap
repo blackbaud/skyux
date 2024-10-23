@@ -24,6 +24,8 @@ Object {
         "^build",
         Object {
           "projects": Array [
+            "aaa",
+            "bbb",
             "test-testing",
           ],
           "target": "build",
@@ -56,10 +58,6 @@ Object {
 exports[`update dependencies generator should capture testing dependencies 2`] = `
 Object {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": Array [
-    "aaa",
-    "bbb",
-  ],
   "name": "test-testing",
   "projectType": "library",
   "root": "lib/test/testing",
