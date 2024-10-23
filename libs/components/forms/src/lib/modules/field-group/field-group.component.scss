@@ -2,23 +2,11 @@
   display: block;
 }
 
-.sky-field-group-hint-text {
-  margin-top: var(--sky-margin-stacked-xs);
-}
+legend {
+  display: flex;
 
-.sky-field-group-content {
-  margin-top: var(--sky-margin-stacked-sm);
-}
-
-h3,
-h4 {
-  margin: 0;
-}
-
-.sky-field-group-legend-wrapper {
-  display: inline-flex;
-}
-
-sky-help-inline {
-  display: inline-flex;
+  h3,
+  h4 {
+    margin: 0;
+  }
 }

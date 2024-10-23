@@ -2,92 +2,117 @@
 
 .sky-theme-modern {
   .sky-padding-even-sm {
-    padding: $sky-theme-modern-padding-even-sm;
+    padding: var(--sky-space-inset-balanced-s);
   }
 
   .sky-padding-even-md {
-    padding: $sky-theme-modern-padding-even-md;
+    padding: var(--sky-space-inset-balanced-m);
   }
 
   .sky-padding-even-lg {
-    padding: $sky-theme-modern-padding-even-lg;
+    padding: var(--sky-space-inset-balanced-l);
   }
 
   .sky-padding-even-xl {
-    padding: $sky-theme-modern-padding-even-xl;
+    padding: var(--sky-space-inset-balanced-xl);
   }
 
   .sky-padding-horizontal-sm {
-    padding: $sky-theme-modern-padding-h-sm;
+    padding: var(--sky-space-inset-horizontal-top-s)
+      var(--sky-space-inset-horizontal-right-s)
+      var(--sky-space-inset-horizontal-bottom-s)
+      var(--sky-space-inset-horizontal-left-s);
   }
 
   .sky-padding-horizontal-md {
-    padding: $sky-theme-modern-padding-h-md;
+    padding: var(--sky-space-inset-horizontal-top-m)
+      var(--sky-space-inset-horizontal-right-m)
+      var(--sky-space-inset-horizontal-bottom-m)
+      var(--sky-space-inset-horizontal-left-m);
   }
 
   .sky-padding-horizontal-xl {
-    padding: $sky-theme-modern-padding-h-xl;
+    padding: var(--sky-space-inset-horizontal-top-xl)
+      var(--sky-space-inset-horizontal-right-xl)
+      var(--sky-space-inset-horizontal-bottom-xl)
+      var(--sky-space-inset-horizontal-left-xl);
   }
 
   .sky-padding-vertical-md {
-    padding: $sky-theme-modern-padding-v-md;
+    padding: var(--sky-space-inset-vertical-top-m)
+      var(--sky-space-inset-vertical-right-m)
+      var(--sky-space-inset-vertical-bottom-m)
+      var(--sky-space-inset-vertical-left-m);
   }
 
   .sky-padding-vertical-lg {
-    padding: $sky-theme-modern-padding-v-lg;
+    padding: var(--sky-space-inset-vertical-top-l)
+      var(--sky-space-inset-vertical-right-l)
+      var(--sky-space-inset-vertical-bottom-l)
+      var(--sky-space-inset-vertical-left-l);
   }
 
   .sky-margin-inline-xs {
-    margin-right: $sky-theme-modern-margin-inline-xs;
+    margin-right: var(--sky-space-inline-xs);
   }
 
   .sky-margin-inline-sm {
-    margin-right: $sky-theme-modern-margin-inline-sm;
+    margin-right: var(--sky-space-inline-s);
   }
 
   .sky-margin-inline-md {
-    margin-right: $sky-theme-modern-margin-inline-md;
+    margin-right: var(--sky-space-inline-m);
   }
 
   .sky-margin-inline-lg {
-    margin-right: $sky-theme-modern-margin-inline-lg;
+    margin-right: var(--sky-space-inline-l);
   }
 
   .sky-margin-inline-xl {
-    margin-right: $sky-theme-modern-margin-inline-xl;
+    margin-right: var(--sky-space-inline-xl);
   }
 
   .sky-margin-inline-xxl {
-    margin-right: $sky-theme-modern-margin-inline-xxl;
+    margin-right: var(--sky-space-inline-xxl);
   }
 
   .sky-margin-stacked-xs {
     margin-top: 0;
-    margin-bottom: $sky-theme-modern-margin-stacked-xs;
+    margin-bottom: var(--sky-space-stacked-xs);
   }
 
   .sky-margin-stacked-sm {
     margin-top: 0;
-    margin-bottom: $sky-theme-modern-margin-stacked-sm;
+    margin-bottom: var(--sky-space-stacked-s);
   }
 
   .sky-margin-stacked-md {
     margin-top: 0;
-    margin-bottom: $sky-theme-modern-margin-stacked-md;
+    margin-bottom: var(--sky-space-stacked-m);
   }
 
   .sky-margin-stacked-lg {
     margin-top: 0;
-    margin-bottom: $sky-theme-modern-margin-stacked-lg;
+    margin-bottom: var(--sky-space-stacked-l);
   }
 
   .sky-margin-stacked-xl {
     margin-top: 0;
-    margin-bottom: $sky-theme-modern-margin-stacked-xl;
+    margin-bottom: var(--sky-space-stacked-xl);
   }
 
   .sky-margin-stacked-xxl {
     margin-top: 0;
-    margin-bottom: $sky-theme-modern-margin-stacked-xxl;
+    margin-bottom: var(--sky-space-stacked-xxl);
+  }
+
+  .sky-form-field-stacked {
+    margin-top: 0;
+    margin-bottom: var(--sky-space-gap-form-l);
+  }
+
+  .sky-field-group-stacked {
+    margin-top: 0;
+    margin-bottom: var(--sky-space-gap-form-xl);
   }
 }

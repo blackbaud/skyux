@@ -5,16 +5,11 @@
   "sourceRoot": "libs/components/tabs/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["tabs", "testing"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build tabs-testing'",
-      "dependsOn": [
-        {
-          "projects": ["tabs"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

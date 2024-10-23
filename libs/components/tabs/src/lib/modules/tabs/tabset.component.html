@@ -19,7 +19,7 @@
           {{ dropdownTriggerButtonText }}
         </sky-dropdown-button>
         <sky-dropdown-menu>
-          @for (tabButton of tabButtons; track tabButton) {
+          @for (tabButton of tabButtons; track tabButton.buttonId) {
             <sky-dropdown-item class="sky-tab-dropdown-menu-item">
               <div
                 class="sky-tab-dropdown-item"
@@ -43,7 +43,7 @@
     }
   </span>
   <span class="sky-tabset-tabs">
-    @for (tabButton of tabButtons; track tabButton) {
+    @for (tabButton of tabButtons; track tabButton.buttonId) {
       <ng-container
         *ngTemplateOutlet="
           tabButtonTemplate;
@@ -57,11 +57,11 @@
   <span class="sky-tabset-btns">
     @if (newTab.observers.length > 0) {
       <button
-        class="sky-btn sky-btn-icon sky-tabset-btn-new sky-margin-inline-compact"
+        class="sky-btn sky-btn-icon sky-tabset-btn-new"
         type="button"
         [attr.aria-label]="'skyux_tab_add' | skyLibResources"
         [skyThemeClass]="{
-          'sky-margin-inline-sm': 'modern'
+          'sky-margin-inline-compact': 'default'
         }"
         (click)="onNewTabClick()"
       >
@@ -70,11 +70,11 @@
     }
     @if (openTab.observers.length > 0) {
       <button
-        class="sky-btn sky-btn-icon sky-tabset-btn-open sky-margin-inline-compact"
+        class="sky-btn sky-btn-icon sky-tabset-btn-open"
         type="button"
         [attr.aria-label]="'skyux_tab_open' | skyLibResources"
         [skyThemeClass]="{
-          'sky-margin-inline-sm': 'modern'
+          'sky-margin-inline-compact': 'default'
         }"
         (click)="onOpenTabClick()"
       >

@@ -14,3 +14,19 @@ export function readRequiredFile(tree: Tree, filePath: string): string {
 
   return virtualFs.fileBufferToString(data);
 }
+
+export function writeTextFile(
+  tree: Tree,
+  path: string,
+  contents: string,
+): void {
+  if (tree.exists(path)) {
+    tree.overwrite(path, contents);
+  } else {
+    tree.create(path, contents);
+  }
+}
+
+export function writeJsonFile<T>(tree: Tree, path: string, contents: T): void {
+  writeTextFile(tree, path, JSON.stringify(contents, undefined, 2));
+}

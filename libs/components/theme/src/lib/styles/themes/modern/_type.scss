@@ -1,85 +1,140 @@
 @use '../../variables' as *;
+@use '../../compat-tokens-mixins' as compatMixins;
 
 .sky-theme-modern {
   .sky-font-body-default {
-    font-size: $sky-theme-modern-font-body-default-size;
-    font-weight: $sky-theme-modern-font-body-default-weight;
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-body-m);
+    font-weight: var(--sky-font-weight-body-m);
   }
 
   .sky-font-body-sm {
-    font-size: $sky-theme-modern-font-body-sm-size;
-    font-weight: $sky-theme-modern-font-body-sm-weight;
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-body-s);
+    font-weight: var(--sky-font-weight-body-s);
   }
 
   .sky-font-body-lg {
-    font-size: $sky-theme-modern-font-body-lg-size;
-    font-weight: $sky-theme-modern-font-body-lg-weight;
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-body-l);
+    font-weight: var(--sky-font-weight-body-l);
   }
 
   .sky-font-data-label {
-    color: $sky-theme-modern-font-data-label-color;
-    font-size: $sky-theme-modern-font-data-label-size;
-    font-weight: $sky-theme-modern-font-data-label-weight;
+    color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-data_label);
+    font-weight: var(--sky-font-weight-data_label);
   }
 
   .sky-font-field-label {
-    color: $sky-theme-modern-font-data-label-color;
-    font-size: $sky-theme-modern-font-data-label-size;
-    font-weight: $sky-theme-modern-font-data-label-weight;
+    color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-data_label);
+    font-weight: var(--sky-font-weight-data_label);
   }
 
   .sky-font-deemphasized {
-    color: var(--sky-text-color-deemphasized);
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
+    font-style: var(--sky-font-style-deemphasized-style);
+    font-weight: var(--sky-font-style-deemphasized-weight);
     font-size: inherit;
   }
 
   .sky-font-emphasized {
-    font-weight: $sky-theme-modern-font-emphasized-weight;
+    font-family: var(--sky-font-family-primary);
     font-size: inherit;
+    font-weight: var(--sky-font-weight-emphasized);
+  }
+
+  .sky-font-hint-text-s {
+    color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-hint-s);
+    font-style: var(--sky-font-style-hint-s-style);
+    font-weight: var(--sky-font-weight-hint-s);
+    letter-spacing: var(--sky-font-letter_spacing-hint-s);
+    line-height: var(--sky-font-line_height-hint-s);
+  }
+
+  .sky-font-hint-text-m {
+    color: var(--sky-color-text-deemphasized);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-hint-m);
+    font-style: var(--sky-font-style-hint-m-style);
+    font-weight: var(--sky-font-weight-hint-m);
+    line-height: var(--sky-font-line_height-hint-m);
   }
 
   .sky-font-display-1 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-1-size;
-    font-weight: $sky-theme-modern-font-display-1-weight;
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-display-1);
+    font-weight: var(--sky-font-weight-display-1);
   }
 
   .sky-font-display-2 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-2-size;
-    font-weight: $sky-theme-modern-font-display-2-weight;
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-display-2);
+    font-weight: var(--sky-font-weight-display-2);
   }
 
   .sky-font-display-3,
   .sky-headline {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-3-size;
-    font-weight: $sky-theme-modern-font-display-3-weight;
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-display-3);
+    font-weight: var(--sky-font-weight-display-3);
   }
 
   .sky-font-display-4 {
-    font-family: $sky-font-family;
-    font-size: $sky-theme-modern-font-display-4-size;
-    font-weight: $sky-theme-modern-font-display-4-weight;
+    color: var(--sky-color-text-default);
+    font-family: var(--sky-font-family-primary);
+    font-size: var(--sky-font-size-display-4);
+    font-weight: var(--sky-font-weight-display-4);
+  }
+}
+
+@include compatMixins.sky-modern-v2($encapsulate: false) {
+  .sky-font-body-default {
+    line-height: var(--sky-font-line_height-body-m);
   }
 
-  &.sky-theme-mode-dark {
-    .sky-font-data-label,
-    .sky-font-display-1,
-    .sky-font-display-2,
-    .sky-font-display-3,
-    .sky-font-display-4,
-    .sky-font-emphasized,
-    .sky-headline {
-      color: var(--sky-text-color-default);
-    }
+  .sky-font-body-sm {
+    line-height: var(--sky-font-line_height-body-s);
+  }
 
-    .sky-font-deemphasized,
-    .sky-field-label,
-    .sky-font-data-label,
-    .sky-font-field-label {
-      color: var(--sky-text-color-deemphasized);
-    }
+  .sky-font-body-lg {
+    line-height: var(--sky-font-line_height-body-l);
+  }
+
+  .sky-font-data-label {
+    line-height: var(--sky-font-line_height-data_label);
+  }
+
+  .sky-font-field-label {
+    line-height: var(--sky-font-line_height-data_label);
+  }
+
+  .sky-font-display-1 {
+    line-height: var(--sky-font-line_height-display-1);
+  }
+
+  .sky-font-display-2 {
+    line-height: var(--sky-font-line_height-display-2);
+  }
+
+  .sky-font-display-3,
+  .sky-headline {
+    line-height: var(--sky-font-line_height-display-3);
+  }
+
+  .sky-font-display-4 {
+    line-height: var(--sky-font-line_height-display-4);
   }
 }

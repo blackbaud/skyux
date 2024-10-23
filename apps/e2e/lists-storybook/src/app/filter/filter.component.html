@@ -4,17 +4,15 @@
   <div class="app-screenshot" id="screenshot-filter-button">
     <sky-filter-button
       [active]="filtersActive"
-      (filterButtonClick)="filtersActive = !filtersActive"
       [showButtonText]="false"
-    >
-    </sky-filter-button>
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
     {{ ' ' }}
     <sky-filter-button
       [active]="!filtersActive"
-      (filterButtonClick)="filtersActive = !filtersActive"
       [showButtonText]="false"
-    >
-    </sky-filter-button>
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
   </div>
 
   <h2>Filter button with text</h2>
@@ -22,17 +20,15 @@
   <div class="app-screenshot" id="screenshot-filter-button-text">
     <sky-filter-button
       [active]="filtersActive"
-      (filterButtonClick)="filtersActive = !filtersActive"
       [showButtonText]="true"
-    >
-    </sky-filter-button>
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
     {{ ' ' }}
     <sky-filter-button
       [active]="!filtersActive"
-      (filterButtonClick)="filtersActive = !filtersActive"
       [showButtonText]="true"
-    >
-    </sky-filter-button>
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
   </div>
 
   <h2>Filter summary</h2>
@@ -77,8 +73,7 @@
         <sky-date-range-picker
           class="sky-date-range-picker-form-group"
           label="Date range"
-        >
-        </sky-date-range-picker>
+        />
       </sky-filter-inline-item>
       <sky-filter-inline-item>
         <div>Textual item on right (for testing purposes)</div>

@@ -505,7 +505,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         {
           colId: 'noHeader',
           sort: 'desc',
-          sortIndex: 0,
         },
       ],
       applyOrder: false,
@@ -574,8 +573,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       const viewConfig = dataManagerService.getViewById(
         agGridDataManagerFixtureComponent.viewConfig.id,
       );
+      const selectAll = spyOn(agGridComponent.api, 'selectAll');
       viewConfig?.onSelectAllClick?.();
 
+      expect(selectAll).toHaveBeenCalled();
       expect(agGridComponent.api.getSelectedRows()).not.toEqual([]);
     });
 

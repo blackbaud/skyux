@@ -12,7 +12,7 @@ import { RoutingScope } from '@schematics/angular/module/schema';
 import assert from 'node:assert';
 import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 
-import { angularModuleGenerator } from '../../utils';
+import { angularModuleGenerator } from '../../utils/angular-module-generator';
 import { createTestApplication, createTestLibrary } from '../../utils/testing';
 import componentE2e from '../component-e2e';
 
@@ -211,6 +211,9 @@ describe('story generator', () => {
     }
     await libraryGenerator(appTree, {
       name: 'wrong',
+      directory: 'wrong',
+      skipFormat: true,
+      skipPackageJson: true,
     });
     try {
       await storyGenerator(appTree, {

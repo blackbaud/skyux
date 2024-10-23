@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/colorpicker/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -19,7 +20,20 @@
           "tsConfig": "libs/components/colorpicker/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": [
+            "colorpicker-testing",
+            "core",
+            "forms",
+            "help-inline",
+            "icon"
+          ],
+          "target": "build"
+        }
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -61,6 +75,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

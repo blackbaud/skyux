@@ -5,16 +5,11 @@
   "sourceRoot": "libs/components/core/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core"],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build core-testing'",
-      "dependsOn": [
-        {
-          "projects": ["core"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

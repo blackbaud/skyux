@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'e2e-help-inline-storybook',
   preset: '../../../jest.preset.js',

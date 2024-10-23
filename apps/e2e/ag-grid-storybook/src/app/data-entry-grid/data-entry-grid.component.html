@@ -27,6 +27,6 @@
 
 <br />
 
-<span id="ready" *ngIf="ready | async"></span>
+<span *ngIf="ready | async" id="ready"></span>
 
-<sky-preview-wrapper *ngIf="addPreviewWrapper$ | async"></sky-preview-wrapper>
+<sky-preview-wrapper *ngIf="addPreviewWrapper$ | async" />

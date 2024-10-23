@@ -21,5 +21,5 @@ describe('layout-storybook', () => {
         });
       });
     });
-  });
+  }, true);
 });

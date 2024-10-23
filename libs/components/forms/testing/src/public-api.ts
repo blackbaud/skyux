@@ -5,9 +5,14 @@ export { SkyCharacterCounterIndicatorHarness } from './character-counter/charact
 export { SkyCharacterCounterIndicatorHarnessFilters } from './character-counter/character-counter-indicator-harness-filters';
 
 export { SkyCheckboxFixture } from './checkbox-fixture';
+export { SkyCheckboxGroupHarness } from './checkbox/checkbox-group-harness';
+export { SkyCheckboxGroupHarnessFilters } from './checkbox/checkbox-group-harness-filters';
 export { SkyCheckboxHarness } from './checkbox/checkbox-harness';
 export { SkyCheckboxHarnessFilters } from './checkbox/checkbox-harness-filters';
 export { SkyCheckboxLabelHarness } from './checkbox/checkbox-label-harness';
+
+export { SkyFileDropHarness } from './file-drop/file-drop-harness';
+export { SkyFileDropHarnessFilters } from './file-drop/file-drop-harness-filters';
 
 export { SkyFormErrorsHarness } from './form-error/form-errors-harness';
 export { SkyFormErrorsHarnessFilters } from './form-error/form-errors-harness.filters';

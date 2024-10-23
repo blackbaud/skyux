@@ -1,4 +1,30 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-tabset') {
+  --sky-override-tabset-padding: 0 0 0
+    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  --sky-override-tabset-button-group-padding-left: #{$sky-padding};
+  --sky-override-tabset-button-margin-right: 5px;
+  --sky-override-tabset-border-bottom: #{2px solid
+    $sky-background-color-primary-dark};
+  --sky-override-tabset-wizard-border-bottom: none;
+  --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
+  --sky-override-tabset-modal-margin: #{0 (-$sky-space-lg) $sky-space-xl};
+  --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
+  --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
+  --sky-override-tabset-modal-padding-none: 0;
+  --sky-override-tabset-overflow: hidden;
+}
+
+@include compatMixins.sky-modern-v2('sky-tabset', false) {
+  // The tabset buttons will be addressed in phase 2;
+  // this explicit height setting allows the rest of the v2 tab styling to appear correctly for now
+  .sky-tabset-btn-new,
+  .sky-tabset-btn-open {
+    height: 36px;
+  }
+}
 
 sky-tabset {
   &.sky-tabset-layout-fit {
@@ -20,36 +46,90 @@ sky-tabset {
   --sky-tabset-margin: 0;
 
   align-items: center;
-  border-bottom: 2px solid $sky-background-color-primary-dark;
+  border-bottom: var(
+    --sky-override-tabset-border-bottom,
+    var(--sky-border-width-divider) var(--sky-border-style-divider)
+      var(--sky-color-border-divider)
+  );
   display: flex;
   list-style-type: none;
   margin: var(--sky-tabset-margin);
-  padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  padding: var(
+    --sky-override-tabset-padding,
+    0 0 0
+      var(--sky-layout-host-tab-content-spacing, var(--sky-space-inset-tabs-m))
+  );
   white-space: nowrap;
 
   flex-grow: var(--sky-layout-host-content-flex-grow, 0);
-  overflow: var(--sky-layout-host-content-overflow, hidden);
+  overflow: var(
+    --sky-layout-host-content-overflow,
+    var(--sky-override-tabset-overflow, visible)
+  );
   position: var(--sky-layout-host-content-position, static);
 
   &.sky-tabset-style-wizard {
-    border-bottom: none;
-    padding-left: 0;
+    border-bottom: var(
+      --sky-override-tabset-wizard-border-bottom-style,
+      var(--sky-border-width-divider) var(--sky-border-style-divider)
+        var(--sky-color-border-divider)
+    );
   }
 }
 
 .sky-modal-content {
   .sky-tabset-style-tabs {
-    --sky-tabset-margin: #{0 (-$sky-space-lg) $sky-space-xl};
+    --sky-tabset-margin: var(
+      --sky-override-tabset-modal-margin,
+      calc(var(--sky-space-inset-floated-top-m) * -1)
+        calc(var(--sky-space-inset-floated-right-m) * -1)
+        var(--sky-space-inset-floated-bottom-m)
+        calc(var(--sky-space-inset-floated-left-m) * -1)
+    );
+
+    padding-left: var(
+      --sky-override-tabset-modal-padding-left,
+      var(--sky-space-inset-floated-left-m)
+    );
+    padding-right: var(
+      --sky-override-tabset-modal-padding-none,
+      var(--sky-space-inset-floated-right-m)
+    );
   }
   .sky-tabset-style-wizard {
-    --sky-tabset-margin: #{0 0 $sky-space-xl};
+    --sky-tabset-margin: var(
+      --sky-override-tabset-wizard-modal-margin,
+      calc(var(--sky-space-inset-floated-top-m) * -1)
+        calc(var(--sky-space-inset-floated-right-m) * -1)
+        var(--sky-space-inset-floated-bottom-m)
+        calc(var(--sky-space-inset-floated-left-m) * -1)
+    );
+
+    padding-left: var(
+      --sky-override-tabset-modal-padding-none,
+      var(--sky-space-inset-floated-left-m)
+    );
+    padding-right: var(
+      --sky-override-tabset-modal-padding-none,
+      var(--sky-space-inset-floated-right-m)
+    );
   }
 }
 
 .sky-tabset-btns {
   order: 1;
-  padding-left: $sky-padding;
+  padding-left: var(
+    --sky-override-tabset-button-group-padding-left,
+    var(--sky-space-gap-action_group-m)
+  );
+
+  .sky-tabset-btn-new,
+  .sky-tabset-btn-open {
+    margin-right: var(
+      --sky-override-tabset-button-margin-right,
+      var(--sky-space-gap-action_group-m)
+    );
+  }
 }
 
 .sky-tabset-dropdown {
@@ -59,7 +139,7 @@ sky-tabset {
 
 .sky-tabset-mode-dropdown {
   /* This line fixes an issue with extra whitespace under collapsed (dropdown) tabs in IE 11. */
-  line-height: 0;
+  // line-height: 0;
 
   .sky-tabset-tabs {
     visibility: hidden;
@@ -75,11 +155,11 @@ sky-tabset {
 
   .sky-dropdown-item {
     margin: 0;
-  }
 
-  .sky-btn-tab-wrapper {
-    width: 100%;
-    margin-right: 0;
+    .sky-btn-tab-wrapper {
+      width: 100%;
+      margin-right: 0;
+    }
   }
 
   .sky-btn-tab {
@@ -105,28 +185,5 @@ sky-tabset {
 
 .sky-tabset-btn-new,
 .sky-tabset-btn-open {
-  color: $sky-text-color-action-primary;
-}
-
-.sky-theme-modern {
-  .sky-modal-content {
-    .sky-tabset {
-      --sky-tabset-margin: #{(-$sky-theme-modern-space-sm) (
-          -$sky-theme-modern-space-xl
-        ) $sky-theme-modern-space-xl};
-      padding-left: $sky-theme-modern-space-xl;
-      padding-right: $sky-theme-modern-space-xl;
-    }
-  }
-
-  .sky-tabset {
-    border-bottom: 1px solid $sky-theme-modern-border-color-neutral-medium;
-    overflow: visible; /* for drop shadow visibility on focused tabs */
-  }
-
-  .sky-tab-dropdown-menu-item {
-    .sky-btn-tab-wrapper {
-      margin-right: 0;
-    }
-  }
+  color: var(--sky-override-tabset-button-color, --sky-color-text-default);
 }

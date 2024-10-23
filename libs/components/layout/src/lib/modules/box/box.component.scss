@@ -1,15 +1,15 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-/* Default theme */
-sky-box {
-  --sky-box-border-radius: initial;
-  --sky-box-overflow: initial;
+@include compatMixins.sky-default-overrides('sky-box') {
+  --sky-override-box-header-container-padding: var(--sky-padding-even-xl)
+    var(--sky-padding-even-xl) 0 var(--sky-padding-even-xl);
+  --sky-override-box-content-padding: var(--sky-padding-even-xl);
+  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 
-/* Modern theme */
-.sky-theme-modern sky-box {
-  --sky-box-border-radius: $sky-theme-modern-box-border-radius-default;
-  --sky-box-overflow: hidden;
+@include compatMixins.sky-modern-overrides('sky-box', false) {
+  --sky-override-box-header-padding-right: var(--sky-margin-inline-xl);
 }
 
 sky-box {
@@ -26,15 +26,19 @@ sky-box {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
-    padding: var(--sky-padding-even-xl) var(--sky-padding-even-xl) 0
-      var(--sky-padding-even-xl);
+    padding: var(
+      --sky-override-box-header-container-padding,
+      var(--sky-space-inset-bottomless-top-xl)
+        var(--sky-space-inset-bottomless-right-xl)
+        var(--sky-space-inset-bottomless-bottom-xl)
+        var(--sky-space-inset-bottomless-left-xl)
+    );
 
     &:empty {
       display: none;
     }
 
     sky-box-controls {
-      order: 1;
       margin-left: auto;
 
       .sky-box-controls {
@@ -43,20 +47,29 @@ sky-box {
       }
     }
 
+    .sky-box-header-right {
+      flex: 1 0;
+      padding-right: var(
+        --sky-override-box-header-padding-right,
+        var(--sky-space-gap-text_action-l)
+      );
+    }
+
     h2,
     h3,
     h4,
     h5 {
+      display: inline;
       margin-block: 0;
     }
   }
 
   sky-box-content {
-    flex: 0 1 100%;
-    order: 2;
-
     .sky-box-content {
-      padding: var(--sky-padding-even-xl);
+      padding: var(
+        --sky-override-box-content-padding,
+        var(--sky-space-inset-balanced-xl)
+      );
     }
   }
 }

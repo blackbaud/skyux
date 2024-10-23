@@ -23,7 +23,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_character_count_over_limit: {
       message: 'You are over the character limit.',
     },
-    skyux_checkbox_group_required: { message: 'Required' },
     skyux_form_error_character_count: {
       message: 'Limit {0} to {1} character(s).',
     },
@@ -61,6 +60,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_form_error_required: { message: '{0} is required.' },
     skyux_form_error_time: { message: 'Select or enter a valid time.' },
     skyux_form_error_url: { message: 'Enter a URL with a valid format.' },
+    skyux_form_group_required: { message: 'Required' },
     skyux_file_attachment_button_label_choose_file: { message: 'Attach file' },
     skyux_file_attachment_button_label_choose_file_label: {
       message: 'Attach file for',
@@ -99,9 +99,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'This file type is invalid',
     },
     skyux_file_attachment_file_upload_link_label: { message: 'Link to a file' },
-    skyux_file_attachment_file_upload_link_placeholder: {
-      message: 'Start with http:// or https://',
-    },
     skyux_file_attachment_file_upload_or_click_to_browse: {
       message: 'or click to browse',
     },

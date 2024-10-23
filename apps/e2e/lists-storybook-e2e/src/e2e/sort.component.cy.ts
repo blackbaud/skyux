@@ -53,5 +53,5 @@ describe('lists-storybook - sort', () => {
         });
       });
     });
-  });
+  }, true);
 });

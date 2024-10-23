@@ -5,23 +5,11 @@
   "sourceRoot": "libs/components/lists/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core-testing",
-    "forms-testing",
-    "indicators-testing",
-    "layout",
-    "lists",
-    "testing"
-  ],
   "targets": {
     "build": {
       "command": "echo ' 🏗️  build lists-testing'",
-      "dependsOn": [
-        {
-          "projects": ["lists"],
-          "target": "build"
-        }
-      ]
+      "inputs": ["buildInputs"],
+      "dependsOn": []
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

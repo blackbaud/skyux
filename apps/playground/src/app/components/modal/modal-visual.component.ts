@@ -15,7 +15,9 @@ import { ModalErrorComponent } from './modal-error.component';
 import { ModalFormDemoComponent } from './modal-form-demo.component';
 import { ModalFullPageDemoComponent } from './modal-full-page-demo.component';
 import { ModalLookupComponent } from './modal-lookup.component';
+import { ModalRequiredComponent } from './modal-required.component';
 import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
+import { ModalWithTabsComponent } from './modal-with-tabs.component';
 
 @Component({
   standalone: true,
@@ -123,6 +125,14 @@ export class ModalVisualComponent {
 
   public openErrorModal(): void {
     this.openModalInstance(ModalErrorComponent);
+  }
+
+  protected openRequiredFieldModal(): void {
+    this.openModalInstance(ModalRequiredComponent);
+  }
+
+  protected openTabsModal(): void {
+    this.openModalInstance(ModalWithTabsComponent, { size: 'large' });
   }
 
   public hideButtons(): void {

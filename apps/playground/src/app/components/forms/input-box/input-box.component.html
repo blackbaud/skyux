@@ -165,6 +165,51 @@ Value</textarea
     </sky-input-box>
   </div>
 
+  <div id="input-box-help-inline-and-character-count-overflow">
+    <sky-input-box stacked="true">
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onActionClick()"
+      />
+      <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
+        Input with inline help and overflowing text. The label should wrap while
+        the inline help icon should stick to the top right of the input box
+        beside the character counter.
+      </label>
+      <sky-character-counter-indicator #indicator />
+      <input
+        #inputBoxInlineHelpOverflow="skyId"
+        class="sky-form-control"
+        skyId
+        skyCharacterCounter
+        type="text"
+        value="Value"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline-and-character-count-overflow">
+    <sky-input-box stacked="true">
+      <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
+        Input with inline help and overflowing text. The label should wrap while
+        leaving margin beside the character counter.
+      </label>
+      <sky-character-counter-indicator #indicator />
+      <input
+        #inputBoxInlineHelpOverflow="skyId"
+        class="sky-form-control"
+        skyId
+        skyCharacterCounter
+        type="text"
+        value="Value"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
+      />
+    </sky-input-box>
+  </div>
+
   <div id="input-box-button-single">
     <sky-input-box stacked="true">
       <label class="sky-control-label" [for]="inputBoxButtonSingle.id">
@@ -370,6 +415,28 @@ Value</textarea
           <sky-icon icon="calendar" />
         </button>
       </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-disabled-form-control-error">
+    <sky-input-box
+      stacked="true"
+      labelText="Disabled input with form control error"
+    >
+      <input type="text" [formControl]="errorDisabledField" />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-disabled-ng-model-error">
+    <sky-input-box stacked="true" labelText="Disabled input with NgModel error">
+      <input
+        #errorNgModelDisabled="ngModel"
+        type="text"
+        required
+        disabled
+        type="text"
+        [(ngModel)]="errorNgModelValue"
+      />
     </sky-input-box>
   </div>
 
@@ -623,7 +690,7 @@ No label</textarea
     </sky-input-box>
   </div>
 
-  <form action="about:blank" autocomplete="on" [formGroup]="errorAutofillForm">
+  <form [formGroup]="errorAutofillForm">
     <div id="input-box-basic-autofill">
       <sky-input-box stacked="true">
         <label class="sky-control-label" [for]="inputBoxBasic.id"

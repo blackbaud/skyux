@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
   standalone: true,
@@ -16,4 +16,7 @@ import { SkyFluidGridModule } from '@skyux/layout';
   ],
   imports: [SkyFluidGridModule],
 })
-export class DemoComponent {}
+export class DemoComponent {
+  public gutterSize: SkyFluidGridGutterSizeType | undefined;
+  public disableMargin = false;
+}
