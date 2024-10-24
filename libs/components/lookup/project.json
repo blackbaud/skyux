@@ -24,15 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": [
-            "core",
-            "forms",
-            "indicators",
-            "lists",
-            "lookup-testing"
-          ],
+          "projects": ["core", "forms", "indicators", "lists", "testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/lookup/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/lookup/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/lookup/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "icon-testing"],
+          "projects": ["core"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/icon/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/icon/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/icon/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
