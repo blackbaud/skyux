@@ -6,11 +6,6 @@
   "prefix": "sky",
   "tags": ["testing"],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build phone-field-testing'",
-      "inputs": ["buildInputs"],
-      "dependsOn": []
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

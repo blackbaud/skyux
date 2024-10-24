@@ -26,12 +26,18 @@ Object {
           "projects": Array [
             "aaa",
             "bbb",
-            "test-testing",
           ],
           "target": "build",
         },
       ],
       "executor": "@nx/angular:package",
+      "inputs": Array [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/lib/test/testing/src/**/*",
+        "!{workspaceRoot}/lib/test/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/lib/test/testing/src/**/fixtures/**/*",
+      ],
       "options": Object {
         "project": "lib/test/ng-package.json",
       },
@@ -57,19 +63,11 @@ Object {
 
 exports[`update dependencies generator should capture testing dependencies 2`] = `
 Object {
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "name": "test-testing",
   "projectType": "library",
   "root": "lib/test/testing",
   "sourceRoot": "lib/test/testing/src",
   "targets": Object {
-    "build": Object {
-      "command": "echo ' 🏗️  build test-testing'",
-      "dependsOn": Array [],
-      "inputs": Array [
-        "buildInputs",
-      ],
-    },
     "test": Object {
       "commands": Array [
         "echo test",
