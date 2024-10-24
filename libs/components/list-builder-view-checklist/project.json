@@ -26,9 +26,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["list-builder-view-checklist-testing"],
+          "projects": ["testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/list-builder-view-checklist/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/list-builder-view-checklist/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/list-builder-view-checklist/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

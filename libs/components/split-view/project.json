@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "split-view-testing"],
+          "projects": ["testing", "theme"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/split-view/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/split-view/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/split-view/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
