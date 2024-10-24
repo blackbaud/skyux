@@ -101,7 +101,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   /**
    * Gets the lookup `aria-labelledby` value.
-   * This property is deprecated and adding it to the
+   * @deprecated The component input this property returns is deprecated in favor of the `labelText` input. This property should no longer be needed.
    */
   public override async getAriaLabelledby(): Promise<string | null> {
     return await super.getAriaLabelledby();
