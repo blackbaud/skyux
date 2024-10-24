@@ -5,7 +5,7 @@ import {
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppAssetsService } from '@skyux/assets';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -20,9 +20,9 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
   bootstrap: [AppComponent],
   imports: [
     AppRoutingModule,
-    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
+    NoopAnimationsModule,
     ReactiveFormsModule,
     SkyFluidGridModule,
     SkyI18nModule,

@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "help-inline", "modals-testing"],
+          "projects": ["core", "help-inline", "theme"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/modals/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/modals/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/modals/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

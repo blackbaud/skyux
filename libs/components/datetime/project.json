@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "datetime", "datetime-testing", "forms"],
+          "projects": ["core", "testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/datetime/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/datetime/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/datetime/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

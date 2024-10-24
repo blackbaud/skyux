@@ -4,18 +4,19 @@ import {
   Injectable,
   Output,
   QueryList,
+  computed,
+  effect,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
-  SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
 } from '@skyux/core';
 
 import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
@@ -24,6 +25,8 @@ import { SkyTileDashboardConfigLayoutColumn } from '../tile-dashboard-config/til
 import { SkyTileDashboardConfigLayoutTile } from '../tile-dashboard-config/tile-dashboard-config-layout-tile';
 import { SkyTileDashboardConfigTile } from '../tile-dashboard-config/tile-dashboard-config-tile';
 import { SkyTileComponent } from '../tile/tile.component';
+
+import { SkyTileDashboardColumnMode } from './tile-dashboard-column-mode';
 
 const ATTR_TILE_ID = '_sky-tile-dashboard-tile-id';
 
@@ -49,17 +52,30 @@ export class SkyTileDashboardService {
 
   #columns: QueryList<SkyTileDashboardColumnComponent> | undefined;
   #config: SkyTileDashboardConfig | undefined;
-  #mediaSubscription: Subscription | undefined;
   #singleColumn: SkyTileDashboardColumnComponent | undefined;
   #settingsKey: string | undefined;
   #tileComponents: ComponentRef<any>[] | undefined;
 
-  #dragulaService = inject(DragulaService);
-  #dynamicComponentService = inject(SkyDynamicComponentService);
-  #mediaQuery = inject(SkyMediaQueryService);
-  #uiConfigService = inject(SkyUIConfigService);
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
+
+  readonly #dragulaService = inject(DragulaService);
+  readonly #dynamicComponentService = inject(SkyDynamicComponentService);
+  readonly #uiConfigService = inject(SkyUIConfigService);
+
+  readonly #mode = computed<SkyTileDashboardColumnMode>(() => {
+    const breakpoint = this.#breakpoint();
+
+    return breakpoint === 'xs' || breakpoint === 'sm' ? 'single' : 'multi';
+  });
 
   constructor() {
+    effect(() => {
+      const mode = this.#mode();
+      this.changeColumnMode(mode);
+    });
+
     this.bagId = `sky-tile-dashboard-bag-${++bagIdIndex}`;
 
     this.#initDragula();
@@ -99,7 +115,7 @@ export class SkyTileDashboardService {
               this.#initToDefaults(config, columns, singleColumn);
             }
           },
-          (error: any) => {
+          () => {
             // Config setting key doesn't exist or other config service error
             this.#initToDefaults(config, columns, singleColumn);
           },
@@ -205,10 +221,10 @@ export class SkyTileDashboardService {
   /**
    * @internal
    */
-  public changeColumnMode(isSingleColumn: boolean): void {
+  public changeColumnMode(mode: SkyTileDashboardColumnMode): void {
     /*istanbul ignore else */
     if (this.#config) {
-      if (isSingleColumn) {
+      if (mode === 'single') {
         this.#moveTilesToSingleColumn();
       } else {
         this.#moveTilesToMultiColumn();
@@ -238,32 +254,20 @@ export class SkyTileDashboardService {
   /**
    * @internal
    */
-  public destroy(): void {
-    /*istanbul ignore else */
-    if (this.#mediaSubscription) {
-      this.#mediaSubscription.unsubscribe();
-    }
-  }
-
-  /**
-   * @internal
-   */
   public moveTileOnKeyDown(
     tileCmp: SkyTileComponent,
     direction: string,
     tileDescription: string,
   ): void {
     if (this.#config) {
-      const isSingleColumnMode =
-        this.#mediaQuery.current === SkyMediaBreakpoints.xs ||
-        this.#mediaQuery.current === SkyMediaBreakpoints.sm;
-
+      const mode = this.#mode();
       const tileId = this.#getTileId(tileCmp);
       const tile = this.#findTile(tileId);
 
       let column: SkyTileDashboardConfigLayoutColumn | undefined;
       let colIndex = 0;
-      if (isSingleColumnMode) {
+
+      if (mode === 'single') {
         column = this.#config.layout.singleColumn;
       } else {
         column = this.#findTileColumn(tileId);
@@ -275,7 +279,7 @@ export class SkyTileDashboardService {
       if (column && tile && tileId) {
         if (
           (direction === 'left' || direction === 'right') &&
-          !isSingleColumnMode
+          mode === 'multi'
         ) {
           const operator = direction === 'left' ? -1 : 1;
           const newColumn =
@@ -314,7 +318,7 @@ export class SkyTileDashboardService {
 
             // Get the column element
             let columnEl: Element | undefined;
-            if (isSingleColumnMode) {
+            if (mode === 'single') {
               columnEl = this.#getColumnEl(this.#singleColumn);
             } else {
               columnEl = this.#getColumnEl(this.#columns?.toArray()[colIndex]);
@@ -338,7 +342,7 @@ export class SkyTileDashboardService {
             reportConfig.movedTile = {
               tileDescription:
                 tileDescription || /* istanbul ignore next */ tile.id,
-              column: isSingleColumnMode ? 1 : colIndex + 1,
+              column: mode === 'single' ? 1 : colIndex + 1,
               position: curIndex + operator + 1,
             };
             this.configChange.emit(reportConfig);
@@ -402,7 +406,6 @@ export class SkyTileDashboardService {
   #checkReadyAndLoadTiles(): void {
     if (this.#config && this.#columns) {
       this.#loadTiles(this.#config);
-      this.#initMediaQueries();
       this.dashboardInitialized.emit();
     }
   }
@@ -410,10 +413,7 @@ export class SkyTileDashboardService {
   #loadTiles(config: SkyTileDashboardConfig): void {
     const layout = config.layout;
 
-    if (
-      this.#mediaQuery.current === SkyMediaBreakpoints.xs ||
-      this.#mediaQuery.current === SkyMediaBreakpoints.sm
-    ) {
+    if (this.#mode() === 'single') {
       for (const tile of layout.singleColumn.tiles) {
         this.#loadTileIntoColumn(this.#singleColumn, tile);
       }
@@ -525,10 +525,7 @@ export class SkyTileDashboardService {
   #getSingleColumnLayoutForUIState(
     config: SkyTileDashboardConfig,
   ): SkyTileDashboardConfigLayoutColumn {
-    if (
-      this.#mediaQuery.current === SkyMediaBreakpoints.xs ||
-      this.#mediaQuery.current === SkyMediaBreakpoints.sm
-    ) {
+    if (this.#mode() === 'single') {
       return {
         tiles: this.#getTilesInEl(this.#getColumnEl(this.#singleColumn)),
       };
@@ -540,12 +537,7 @@ export class SkyTileDashboardService {
   #getMultiColumnLayoutForUIState(
     config: SkyTileDashboardConfig,
   ): SkyTileDashboardConfigLayoutColumn[] {
-    if (
-      !(
-        this.#mediaQuery.current === SkyMediaBreakpoints.xs ||
-        this.#mediaQuery.current === SkyMediaBreakpoints.sm
-      )
-    ) {
+    if (this.#mode() === 'multi') {
       const layoutColumns: SkyTileDashboardConfigLayoutColumn[] = [];
       let columns: SkyTileDashboardColumnComponent[] = [];
       /*istanbul ignore else */
@@ -588,19 +580,6 @@ export class SkyTileDashboardService {
     }
 
     return layoutTiles;
-  }
-
-  #initMediaQueries(): void {
-    /*istanbul ignore else */
-    if (!this.#mediaSubscription) {
-      this.#mediaSubscription = this.#mediaQuery.subscribe(
-        (args: SkyMediaBreakpoints) => {
-          this.changeColumnMode(
-            args === SkyMediaBreakpoints.xs || args === SkyMediaBreakpoints.sm,
-          );
-        },
-      );
-    }
   }
 
   #initDragula(): void {

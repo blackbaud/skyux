@@ -1,7 +1,9 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
 import { SearchHarnessTestComponent } from './fixtures/search-harness-test.component';
 import { SearchHarnessTestModule } from './fixtures/search-harness-test.module';
@@ -9,16 +11,9 @@ import { SkySearchHarness } from './search-harness';
 
 describe('Search harness', () => {
   async function setupTest(options: { dataSkyId: string }) {
-    const mediaQuery = new MockSkyMediaQueryService();
-
     await TestBed.configureTestingModule({
       imports: [SearchHarnessTestModule],
-      providers: [
-        {
-          provide: SkyMediaQueryService,
-          useValue: mediaQuery,
-        },
-      ],
+      providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(SearchHarnessTestComponent);
@@ -27,6 +22,8 @@ describe('Search harness', () => {
     const searchHarness = await loader.getHarness(
       SkySearchHarness.with({ dataSkyId: options.dataSkyId }),
     );
+
+    const mediaQuery = TestBed.inject(SkyMediaQueryTestingController);
 
     return { searchHarness, fixture, loader, mediaQuery };
   }
@@ -141,9 +138,9 @@ describe('Search harness', () => {
   describe('In mobile view', () => {
     async function setMobileView(
       fixture: ComponentFixture<SearchHarnessTestComponent>,
-      mockMediaQueryService: MockSkyMediaQueryService,
+      mockMediaQueryService: SkyMediaQueryTestingController,
     ): Promise<void> {
-      mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+      mockMediaQueryService.setBreakpoint('xs');
       fixture.detectChanges();
       await fixture.whenStable();
     }

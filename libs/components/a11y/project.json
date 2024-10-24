@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["a11y-testing", "core"],
+          "projects": ["core"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/a11y/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/a11y/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/a11y/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

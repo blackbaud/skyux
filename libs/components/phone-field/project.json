@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["lookup", "phone-field-testing"],
+          "projects": ["lookup", "testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/phone-field/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/phone-field/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/phone-field/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
