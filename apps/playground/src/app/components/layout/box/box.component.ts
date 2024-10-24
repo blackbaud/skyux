@@ -11,7 +11,6 @@ import { Component } from '@angular/core';
       }
     `,
   ],
-  styleUrl: './box.component.scss',
 })
 export class BoxComponent {
   public showControls = true;
