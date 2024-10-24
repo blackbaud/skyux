@@ -3,11 +3,11 @@
     class="sky-date-range-picker-form-group"
     [ngClass]="{
       'sky-date-range-picker-last-input':
-        !showStartDatePicker && !showEndDatePicker
+        !showStartDatePicker() && !showEndDatePicker()
     }"
   >
     <sky-input-box
-      [hasErrors]="calculatorIdHasErrors"
+      [hasErrors]="calculatorIdHasErrors()"
       [helpKey]="helpKey"
       [helpPopoverContent]="helpPopoverContent"
       [helpPopoverTitle]="helpPopoverTitle"
@@ -45,16 +45,16 @@
       <ng-content select="sky-form-error" />
     </sky-input-box>
   </div>
-  @if (showStartDatePicker) {
+  @if (showStartDatePicker()) {
     <div
       class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
       [ngClass]="{
         'sky-date-range-picker-last-input':
-          showStartDatePicker && !showEndDatePicker
+          showStartDatePicker() && !showEndDatePicker()
       }"
     >
       <sky-input-box
-        [hasErrors]="startDateHasErrors"
+        [hasErrors]="startDateHasErrors()"
         [labelText]="
           selectedCalculator.type
             | skyDateRangePickerStartDateResourceKey
@@ -86,13 +86,13 @@
       </sky-input-box>
     </div>
   }
-  @if (showEndDatePicker) {
+  @if (showEndDatePicker()) {
     <div
       class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
-      [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
+      [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker() }"
     >
       <sky-input-box
-        [hasErrors]="endDateHasErrors"
+        [hasErrors]="endDateHasErrors()"
         [labelText]="
           selectedCalculator.type
             | skyDateRangePickerEndDateResourceKey

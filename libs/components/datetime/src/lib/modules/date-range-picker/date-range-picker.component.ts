@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DoCheck,
   HostBinding,
@@ -12,6 +11,7 @@ import {
   TemplateRef,
   booleanAttribute,
   inject,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -253,15 +253,15 @@ export class SkyDateRangePickerComponent
   @Input()
   public helpKey: string | undefined;
 
-  protected calculatorIdHasErrors = false;
+  protected calculatorIdHasErrors = signal<boolean>(false);
   protected calculators: SkyDateRangeCalculator[] = [];
-  protected endDateHasErrors = false;
+  protected endDateHasErrors = signal<boolean>(false);
   protected formGroup: FormGroup;
   protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator: SkyDateRangeCalculator;
-  protected showEndDatePicker = false;
-  protected showStartDatePicker = false;
-  protected startDateHasErrors = false;
+  protected showEndDatePicker = signal<boolean>(false);
+  protected showStartDatePicker = signal<boolean>(false);
+  protected startDateHasErrors = signal<boolean>(false);
 
   get #calculatorIdControl(): AbstractControl<SkyDateRangeCalculatorId> {
     return this.formGroup.get(
@@ -285,7 +285,6 @@ export class SkyDateRangePickerComponent
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
-  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dateRangeSvc = inject(SkyDateRangeService);
   readonly #injector = inject(Injector);
   readonly #logger = inject(SkyLogService);
@@ -322,14 +321,6 @@ export class SkyDateRangePickerComponent
         });
       });
     }
-
-    // Update the view when "required" or "disabled" states are changed on the
-    // host control.
-    this.hostControl?.statusChanges
-      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        this.#changeDetector.markForCheck();
-      });
 
     // Start listening for changes after the first change detection cycle.
     setTimeout(() => {
@@ -401,19 +392,19 @@ export class SkyDateRangePickerComponent
     const control = this.hostControl;
 
     if (control) {
-      this.startDateHasErrors =
+      this.startDateHasErrors.set(
         this.#controlHasErrors(this.#startDateControl) ||
-        this.#controlHasErrors(this.#calculatorIdControl);
-
-      this.endDateHasErrors =
-        this.#controlHasErrors(this.#endDateControl) ||
-        this.#controlHasErrors(this.#calculatorIdControl);
-
-      this.calculatorIdHasErrors = this.#controlHasErrors(
-        this.#calculatorIdControl,
+          this.#controlHasErrors(this.#calculatorIdControl),
       );
 
-      this.#changeDetector.markForCheck();
+      this.endDateHasErrors.set(
+        this.#controlHasErrors(this.#endDateControl) ||
+          this.#controlHasErrors(this.#calculatorIdControl),
+      );
+
+      this.calculatorIdHasErrors.set(
+        this.#controlHasErrors(this.#calculatorIdControl),
+      );
     }
   }
 
@@ -457,17 +448,15 @@ export class SkyDateRangePickerComponent
     // Set calculator errors on the select so that they appear beneath it.
     this.#calculatorIdControl.setErrors(errors);
 
-    if (this.showStartDatePicker && startDateErrors) {
+    if (this.showStartDatePicker() && startDateErrors) {
       errors ||= {};
       errors = { ...errors, ...startDateErrors };
     }
 
-    if (this.showEndDatePicker && endDateErrors) {
+    if (this.showEndDatePicker() && endDateErrors) {
       errors ||= {};
       errors = { ...errors, ...endDateErrors };
     }
-
-    this.#changeDetector.markForCheck();
 
     return errors;
   }
@@ -620,8 +609,7 @@ export class SkyDateRangePickerComponent
         break;
     }
 
-    this.showEndDatePicker = showEndDatePicker;
-    this.showStartDatePicker = showStartDatePicker;
-    this.#changeDetector.markForCheck();
+    this.showEndDatePicker.set(showEndDatePicker);
+    this.showStartDatePicker.set(showStartDatePicker);
   }
 }
