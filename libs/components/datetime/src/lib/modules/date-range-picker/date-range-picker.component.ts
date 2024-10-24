@@ -3,16 +3,17 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  DoCheck,
+  DestroyRef,
   HostBinding,
   Injector,
   Input,
-  OnDestroy,
   TemplateRef,
+  afterNextRender,
   booleanAttribute,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -35,14 +36,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import {
-  Subject,
-  distinctUntilChanged,
-  filter,
-  map,
-  merge,
-  takeUntil,
-} from 'rxjs';
+import { distinctUntilChanged, map, merge } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -85,6 +79,10 @@ function areDatesEqual(a: DateValue, b: DateValue): boolean {
   }
 
   return a instanceof Date && b instanceof Date && a.getTime() === b.getTime();
+}
+
+function controlHasErrors(control: AbstractControl): boolean {
+  return !!(control.errors && control.touched);
 }
 
 function isNullOrUndefined(value: unknown): value is undefined | null {
@@ -134,7 +132,7 @@ function isPartialValue(
   templateUrl: './date-range-picker.component.html',
 })
 export class SkyDateRangePickerComponent
-  implements AfterViewInit, ControlValueAccessor, DoCheck, OnDestroy, Validator
+  implements AfterViewInit, ControlValueAccessor, Validator
 {
   /**
    * IDs for the date range options to include in the picker's dropdown.
@@ -281,11 +279,11 @@ export class SkyDateRangePickerComponent
   #_label: string | undefined;
   #_value: SkyDateRangeCalculation;
   #lastChangedValue: SkyDateRangeCalculation | undefined;
-  #ngUnsubscribe = new Subject<void>();
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
   readonly #dateRangeSvc = inject(SkyDateRangeService);
+  readonly #destroyRef = inject(DestroyRef);
   readonly #injector = inject(Injector);
   readonly #logger = inject(SkyLogService);
 
@@ -301,9 +299,34 @@ export class SkyDateRangePickerComponent
       startDate: new FormControl<DateValue>(initialValue.startDate),
       endDate: new FormControl<DateValue>(initialValue.endDate),
     });
-  }
 
-  // TODO: Changing calculator IDs should clear out the date picker fields.
+    // Start listening for changes after the first change detection cycle.
+    afterNextRender(() => {
+      this.#calculatorIdControl.valueChanges
+        .pipe(
+          map((calculatorId) => +calculatorId),
+          distinctUntilChanged(),
+        )
+        .subscribe((calculatorId) => {
+          this.#setValue({ calculatorId });
+          this.#notifyChangeIfDistinct();
+        });
+
+      this.#startDateControl.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe((startDate) => {
+          this.#patchValue({ startDate });
+          this.#notifyChangeIfDistinct();
+        });
+
+      this.#endDateControl.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe((endDate) => {
+          this.#patchValue({ endDate });
+          this.#notifyChangeIfDistinct();
+        });
+    });
+  }
 
   public ngAfterViewInit(): void {
     this.hostControl = this.#injector.get(NgControl, null, {
@@ -322,40 +345,13 @@ export class SkyDateRangePickerComponent
       });
     }
 
-    // Start listening for changes after the first change detection cycle.
-    setTimeout(() => {
-      this.#calculatorIdControl.valueChanges
-        .pipe(
-          map((calculatorId) => +calculatorId),
-          distinctUntilChanged(),
-        )
-        .subscribe((calculatorId) => {
-          this.#setValue({ calculatorId });
-          this.#notifyChangeIfDistinct();
-        });
-
-      this.#startDateControl.valueChanges
-        .pipe(distinctUntilChanged())
-        .subscribe((startDate) => {
-          this.#_value.startDate = startDate;
-          this.#notifyChangeIfDistinct();
-        });
-
-      this.#endDateControl.valueChanges
-        .pipe(distinctUntilChanged())
-        .subscribe((endDate) => {
-          this.#_value.endDate = endDate;
-          this.#notifyChangeIfDistinct();
-        });
-    });
-
     // If the datepickers' statuses change, we want to retrigger the host
     // control's validation so that their errors are reflected back to the host.
     merge(
       this.#startDateControl.statusChanges,
       this.#endDateControl.statusChanges,
     )
-      .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.#destroyRef))
       .subscribe(() => {
         // Use a setTimeout to avoid an ExpressionChangedAfterChecked error,
         // since multiple calls to updateValueAndValidity in the same
@@ -370,47 +366,28 @@ export class SkyDateRangePickerComponent
 
     // Mark all fields as touched if the host control is touched.
     this.hostControl?.events
-      .pipe(
-        filter((event) => event instanceof TouchedChangeEvent),
-        takeUntil(this.#ngUnsubscribe),
-      )
-      .subscribe(() => {
-        this.formGroup.markAllAsTouched();
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.#destroyRef))
+      .subscribe((evt) => {
+        if (evt instanceof TouchedChangeEvent) {
+          this.formGroup.markAllAsTouched();
+        } else {
+          this.startDateHasErrors.set(
+            controlHasErrors(this.#startDateControl) ||
+              controlHasErrors(this.#calculatorIdControl),
+          );
+
+          this.endDateHasErrors.set(
+            controlHasErrors(this.#endDateControl) ||
+              controlHasErrors(this.#calculatorIdControl),
+          );
+
+          this.calculatorIdHasErrors.set(
+            controlHasErrors(this.#calculatorIdControl),
+          );
+        }
       });
 
     this.#updatePickerVisibility(this.selectedCalculator);
-  }
-
-  /**
-   * Check for touched status in ngDoCheck since Angular does not (currently)
-   * have an API to respond to touched status changes from the host control.
-   * @see https://github.com/angular/angular/issues/17736#issuecomment-310812368
-   * TODO: Angular 18 introduces a new API to respond to these statuses.
-   * @see https://github.com/angular/angular/issues/10887#issuecomment-2035267400
-   */
-  public ngDoCheck(): void {
-    const control = this.hostControl;
-
-    if (control) {
-      this.startDateHasErrors.set(
-        this.#controlHasErrors(this.#startDateControl) ||
-          this.#controlHasErrors(this.#calculatorIdControl),
-      );
-
-      this.endDateHasErrors.set(
-        this.#controlHasErrors(this.#endDateControl) ||
-          this.#controlHasErrors(this.#calculatorIdControl),
-      );
-
-      this.calculatorIdHasErrors.set(
-        this.#controlHasErrors(this.#calculatorIdControl),
-      );
-    }
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 
   // Implemented as part of ControlValueAccessor.
@@ -481,15 +458,10 @@ export class SkyDateRangePickerComponent
     this.#notifyTouched?.();
   }
 
-  #controlHasErrors(control: AbstractControl): boolean {
-    return !!(control.errors && (control.touched || control.dirty));
-  }
-
   #getCalculator(calculatorId: number): SkyDateRangeCalculator {
     const found = this.calculators.find((c) => c.calculatorId === calculatorId);
 
-    /*safety check: should not happen*/
-    /*istanbul ignore if*/
+    /*istanbul ignore if: safety check*/
     if (!found) {
       throw new Error(
         `A date range calculator with ID (${calculatorId}) could not be found.`,
@@ -527,29 +499,22 @@ export class SkyDateRangePickerComponent
       return;
     }
 
-    const value = this.#getValue();
+    const oldValue = this.#getValue();
 
-    if (!isNullOrUndefined(partialValue.calculatorId)) {
-      value.calculatorId = partialValue.calculatorId;
+    // If the new ID is distinct, erase the old start and end dates because
+    // they're no longer applicable.
+    if (
+      !isNullOrUndefined(partialValue.calculatorId) &&
+      oldValue.calculatorId !== partialValue.calculatorId
+    ) {
+      delete oldValue.endDate;
+      delete oldValue.startDate;
     }
 
-    // Allow for unsetting the end date with 'undefined';
-    if ('endDate' in partialValue) {
-      value.endDate = partialValue.endDate;
-    }
-
-    // Allow for unsetting the start date with 'undefined';
-    if ('startDate' in partialValue) {
-      value.startDate = partialValue.startDate;
-    }
-
-    if (value.startDate === null) {
-      delete value.startDate;
-    }
-
-    if (value.endDate === null) {
-      delete value.endDate;
-    }
+    const value: SkyDateRangeCalculation = {
+      ...oldValue,
+      ...partialValue,
+    };
 
     this.#setValue(value);
   }
@@ -575,11 +540,11 @@ export class SkyDateRangePickerComponent
     if (!areDateRangesEqual(oldValue, valueOrDefault)) {
       this.#_value = valueOrDefault;
 
-      this.selectedCalculator = this.#getCalculator(
-        valueOrDefault.calculatorId,
-      );
-
       if (oldValue.calculatorId !== valueOrDefault.calculatorId) {
+        this.selectedCalculator = this.#getCalculator(
+          valueOrDefault.calculatorId,
+        );
+
         this.#updatePickerVisibility(this.selectedCalculator);
       }
 
