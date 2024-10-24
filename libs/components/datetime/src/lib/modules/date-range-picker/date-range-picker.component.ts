@@ -35,7 +35,14 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { Subject, distinctUntilChanged, filter, merge, takeUntil } from 'rxjs';
+import {
+  Subject,
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+  takeUntil,
+} from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -273,6 +280,7 @@ export class SkyDateRangePickerComponent
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
   #_label: string | undefined;
   #_value: SkyDateRangeCalculation;
+  #lastChangedValue: SkyDateRangeCalculation | undefined;
   #ngUnsubscribe = new Subject<void>();
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
@@ -325,41 +333,28 @@ export class SkyDateRangePickerComponent
 
     // Start listening for changes after the first change detection cycle.
     setTimeout(() => {
-      this.formGroup.valueChanges
+      this.#calculatorIdControl.valueChanges
         .pipe(
-          distinctUntilChanged(areDateRangesEqual),
-          takeUntil(this.#ngUnsubscribe),
+          map((calculatorId) => +calculatorId),
+          distinctUntilChanged(),
         )
-        .subscribe((value) => {
-          const oldValue = this.#getValue();
+        .subscribe((calculatorId) => {
+          this.#setValue({ calculatorId });
+          this.#notifyChangeIfDistinct();
+        });
 
-          // TODO: Needed?
-          if (areDateRangesEqual(value, oldValue)) {
-            console.log('YES', value, oldValue);
-            return;
-          }
+      this.#startDateControl.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe((startDate) => {
+          this.#_value.startDate = startDate;
+          this.#notifyChangeIfDistinct();
+        });
 
-          if (!isNullOrUndefined(value?.calculatorId)) {
-            // The select element sets the calculator ID to a string, but we
-            // need it to be a number.
-            value.calculatorId = +value.calculatorId;
-
-            // Reset the start and end date values if the calculator ID changes.
-            if (value.calculatorId !== oldValue.calculatorId) {
-              delete value.endDate;
-              delete value.startDate;
-            }
-          }
-
-          // We want to update the value of the form group in case there are any defaults that aren't accounted for.
-          // We'll emit
-          this.#setValue(value);
-          const newValue = this.#getValue();
-
-          // Update the host control if the value is different.
-          if (!areDateRangesEqual(oldValue, newValue)) {
-            this.#notifyChange?.(newValue);
-          }
+      this.#endDateControl.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe((endDate) => {
+          this.#_value.endDate = endDate;
+          this.#notifyChangeIfDistinct();
         });
     });
 
@@ -524,6 +519,15 @@ export class SkyDateRangePickerComponent
   #getValue(): SkyDateRangeCalculation {
     // Important! Return a clone to avoid changing the properties by reference.
     return { ...this.#_value };
+  }
+
+  #notifyChangeIfDistinct(): void {
+    const value = this.#getValue();
+
+    if (!areDateRangesEqual(this.#lastChangedValue, value)) {
+      this.#lastChangedValue = value;
+      this.#notifyChange?.(value);
+    }
   }
 
   #patchValue(
