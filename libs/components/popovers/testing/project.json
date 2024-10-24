@@ -5,17 +5,7 @@
   "sourceRoot": "libs/components/popovers/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "popovers", "testing", "theme"],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build popovers-testing'",
-      "dependsOn": [
-        {
-          "projects": ["popovers"],
-          "target": "build"
-        }
-      ]
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

@@ -31,6 +31,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   /**
    * Blurs the autocomplete input.
+   * @deprecated Call `await (await autocomplete.getControl()).blur()` instead.
    */
   public async blur(): Promise<void> {
     return (await this.#getInput()).blur();
@@ -38,6 +39,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   /**
    * Clears the autocomplete input value.
+   * @deprecated Call `await (await autocomplete.getControl()).clear()` instead.
    */
   public async clear(): Promise<void> {
     return (await this.#getInput()).clear();
@@ -45,13 +47,15 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   /**
    * Enters text into the autocomplete input.
+   * @deprecated Call `await (await autocomplete.getControl()).setValue()` instead.
    */
   public async enterText(value: string): Promise<void> {
-    return (await this.#getInput()).enterText(value);
+    return (await this.#getInput()).setValue(value);
   }
 
   /**
    * Focuses the autocomplete input.
+   * @deprecated Call `await (await autocomplete.getControl()).focus()` instead.
    */
   public async focus(): Promise<void> {
     return (await this.#getInput()).focus();
@@ -62,6 +66,13 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    */
   public async getAriaLabelledby(): Promise<string | null> {
     return (await this.#getAutocomplete()).getAttribute('aria-labelledby');
+  }
+
+  /**
+   * Gets the autocomplete input harness.
+   */
+  public async getControl(): Promise<SkyAutocompleteInputHarness> {
+    return await this.#getInput();
   }
 
   /**
@@ -116,6 +127,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   /**
    * Gets the value of the autocomplete input.
+   * @deprecated Call `await (await autocomplete.getControl()).getValue()` instead.
    */
   public async getValue(): Promise<string> {
     return (await this.#getInput()).getValue();
@@ -146,6 +158,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   /**
    * Whether the autocomplete input is disabled.
+   * @deprecated Call `await (await autocomplete.getControl()).isDisabled()` instead.
    */
   public async isDisabled(): Promise<boolean> {
     return (await this.#getInput()).isDisabled();
@@ -153,6 +166,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   /**
    * Whether the autocomplete input is focused.
+   * @deprecated Call `await (await autocomplete.getControl()).isFocused()` instead.
    */
   public async isFocused(): Promise<boolean> {
     return (await this.#getInput()).isFocused();

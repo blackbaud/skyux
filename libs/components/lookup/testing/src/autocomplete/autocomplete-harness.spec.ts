@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 
 import { SkyAutocompleteHarness } from './autocomplete-harness';
+import { SkyAutocompleteInputHarness } from './autocomplete-input-harness';
 import { AutocompleteHarnessTestComponent } from './fixtures/autocomplete-harness-test.component';
 import { AutocompleteHarnessTestModule } from './fixtures/autocomplete-harness-test.module';
 import { ColorIdHarness } from './fixtures/color-id-harness';
@@ -26,6 +27,17 @@ describe('Autocomplete harness', () => {
 
     return { autocompleteHarness, fixture, loader };
   }
+
+  it('should get the input harness', async () => {
+    const { autocompleteHarness } = await setupTest({
+      dataSkyId: 'my-autocomplete-1',
+    });
+
+    expect(
+      (await autocompleteHarness.getControl()) instanceof
+        SkyAutocompleteInputHarness,
+    ).toBe(true);
+  });
 
   it('should focus and blur input', async () => {
     const { autocompleteHarness } = await setupTest({

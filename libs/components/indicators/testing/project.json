@@ -5,22 +5,7 @@
   "sourceRoot": "libs/components/indicators/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core-testing",
-    "help-inline",
-    "indicators",
-    "testing"
-  ],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build indicators-testing'",
-      "dependsOn": [
-        {
-          "projects": ["indicators"],
-          "target": "build"
-        }
-      ]
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

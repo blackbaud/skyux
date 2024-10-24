@@ -165,6 +165,51 @@ Value</textarea
     </sky-input-box>
   </div>
 
+  <div id="input-box-help-inline-and-character-count-overflow">
+    <sky-input-box stacked="true">
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onActionClick()"
+      />
+      <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
+        Input with inline help and overflowing text. The label should wrap while
+        the inline help icon should stick to the top right of the input box
+        beside the character counter.
+      </label>
+      <sky-character-counter-indicator #indicator />
+      <input
+        #inputBoxInlineHelpOverflow="skyId"
+        class="sky-form-control"
+        skyId
+        skyCharacterCounter
+        type="text"
+        value="Value"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline-and-character-count-overflow">
+    <sky-input-box stacked="true">
+      <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
+        Input with inline help and overflowing text. The label should wrap while
+        leaving margin beside the character counter.
+      </label>
+      <sky-character-counter-indicator #indicator />
+      <input
+        #inputBoxInlineHelpOverflow="skyId"
+        class="sky-form-control"
+        skyId
+        skyCharacterCounter
+        type="text"
+        value="Value"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
+      />
+    </sky-input-box>
+  </div>
+
   <div id="input-box-button-single">
     <sky-input-box stacked="true">
       <label class="sky-control-label" [for]="inputBoxButtonSingle.id">

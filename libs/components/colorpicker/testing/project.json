@@ -5,25 +5,7 @@
   "sourceRoot": "libs/components/colorpicker/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "colorpicker",
-    "core-testing",
-    "forms-testing",
-    "help-inline-testing",
-    "icon-testing",
-    "testing",
-    "theme"
-  ],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build colorpicker-testing'",
-      "dependsOn": [
-        {
-          "projects": ["colorpicker"],
-          "target": "build"
-        }
-      ]
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
