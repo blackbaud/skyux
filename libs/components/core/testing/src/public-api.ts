@@ -15,4 +15,5 @@ export {
 export { SkyComponentHarness } from './shared/component-harness';
 export { SkyHarnessFilters } from './shared/harness-filters';
 export { SkyHarnessUtility } from './shared/harness-utility';
+export { SkyInputHarness } from './shared/input-harness';
 export { SkyQueryableComponentHarness } from './shared/queryable-component-harness';
