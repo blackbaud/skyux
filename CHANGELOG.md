@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.17.0](https://github.com/blackbaud/skyux/compare/11.16.0...11.17.0) (2024-10-24)
+
+
+### Features
+
+* **components/forms:** tokenize toggle switch styles ([#2865](https://github.com/blackbaud/skyux/issues/2865)) ([92865f8](https://github.com/blackbaud/skyux/commit/92865f829da0df14a90049565454fd72f168428e))
+
 ## [11.16.0](https://github.com/blackbaud/skyux/compare/11.15.1...11.16.0) (2024-10-24)
 
 
