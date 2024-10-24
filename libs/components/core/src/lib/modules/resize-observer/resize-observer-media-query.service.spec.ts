@@ -1,6 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import {
@@ -67,6 +68,51 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     service.unobserve();
     service.destroy();
     expect(subscription.closed).toBeTrue();
+    nativeElement.remove();
+  });
+
+  it('should emit when the breakpoint changes', async () => {
+    const nativeElement = document.createElement('div');
+    document.body.appendChild(nativeElement);
+    const target = new ElementRef(nativeElement);
+
+    let result: SkyBreakpoint | undefined;
+
+    const service = TestBed.inject(SkyResizeObserverMediaQueryService);
+    service.observe(target);
+
+    const subscription = service.breakpointChange.subscribe((breakpoint) => {
+      result = breakpoint;
+    });
+
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+      },
+    ]);
+
+    expect(result).toEqual('xs');
+
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+        contentRect: {
+          ...mockResizeObserverEntry.contentRect,
+          width: 2000,
+        },
+      },
+    ]);
+
+    expect(result).toEqual('lg');
+    expect(service.current).toEqual(SkyMediaBreakpoints.lg);
+
+    service.unobserve();
+    service.destroy();
+
+    expect(subscription.closed).toBeTrue();
+
     nativeElement.remove();
   });
 
