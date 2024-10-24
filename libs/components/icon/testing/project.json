@@ -5,13 +5,7 @@
   "sourceRoot": "libs/components/icon/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "theme"],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build icon-testing'",
-      "inputs": ["buildInputs"],
-      "dependsOn": []
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

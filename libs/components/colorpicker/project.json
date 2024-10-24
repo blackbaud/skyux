@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["colorpicker-testing"],
+          "projects": ["core", "forms", "help-inline", "icon", "testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/colorpicker/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

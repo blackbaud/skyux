@@ -5,13 +5,7 @@
   "sourceRoot": "libs/components/toast/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["testing"],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build toast-testing'",
-      "inputs": ["buildInputs"],
-      "dependsOn": []
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

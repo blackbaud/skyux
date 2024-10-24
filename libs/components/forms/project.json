@@ -24,9 +24,22 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["forms-testing"],
+          "projects": [
+            "core",
+            "help-inline",
+            "indicators",
+            "popovers",
+            "testing"
+          ],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/forms/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/forms/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/forms/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

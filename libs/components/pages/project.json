@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["pages-testing"],
+          "projects": ["core", "indicators"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/pages/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/pages/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/pages/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

@@ -1,4 +1,5 @@
 import {
+  ProjectConfiguration,
   Tree,
   formatFiles,
   getProjects,
@@ -90,88 +91,102 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
   }
 }
 
-/**
- * Testing projects do not have a separate package.json to track dependencies.
- */
-function updateTestingImplicitDependencies(tree: Tree): void {
-  const projects = getProjects(tree);
-  const testingProjects = new Map(
-    Array.from(projects.entries()).filter(([name]) =>
-      name.endsWith('-testing'),
-    ),
-  );
+function mapProjectsToPackages(
+  projects: Map<string, ProjectConfiguration>,
+  tree: Tree,
+): Map<string, string> {
   const packagesToProjects = new Map<string, string>();
   projects.forEach((projectConfig) => {
     const packageJsonFile = `${projectConfig.root}/package.json`;
     if (projectConfig.name && tree.exists(packageJsonFile)) {
       const packageJson = readJson(tree, packageJsonFile);
       if (packageJson.name) {
-        if (testingProjects.has(`${projectConfig.name}-testing`)) {
-          packagesToProjects.set(
-            `${packageJson.name}/testing`,
-            `${projectConfig.name}-testing`,
-          );
-        }
         packagesToProjects.set(packageJson.name, projectConfig.name);
       }
     }
   });
+  return packagesToProjects;
+}
+
+function getImportedProjects(
+  tree: Tree,
+  projectConfig: ProjectConfiguration,
+  packagesToProjects: Map<string, string>,
+): string[] {
+  const importedProjects: string[] = [];
   const packages = Array.from(packagesToProjects.keys());
-  testingProjects.forEach((projectConfig) => {
-    const importedProjects: string[] = [];
-    const parentProjectName = `${projectConfig.name?.replace('-testing', '')}`;
-    visitNotIgnoredFiles(tree, `${projectConfig.root}/src`, (file) => {
-      if (file.endsWith('.ts')) {
-        const source = ts.createSourceFile(
-          file,
-          tree.read(file, 'utf-8') || '',
-          ts.ScriptTarget.Latest,
-          true,
+  visitNotIgnoredFiles(tree, `${projectConfig.root}/src`, (file) => {
+    if (
+      file.endsWith('.ts') &&
+      !file.endsWith('.spec.ts') &&
+      !file.includes('/fixtures/')
+    ) {
+      const source = ts.createSourceFile(
+        file,
+        tree.read(file, 'utf-8') || '',
+        ts.ScriptTarget.Latest,
+        true,
+      );
+      const sourceNodes = getSourceNodes(source);
+      const importDeclarations = sourceNodes.filter((node) =>
+        ts.isImportDeclaration(node),
+      ) as ts.ImportDeclaration[];
+      importDeclarations.forEach((importDeclaration) => {
+        const importPath = importDeclaration.moduleSpecifier.getText();
+        const importProject = packages.find(
+          (packageName) =>
+            importPath === `'${packageName}'` ||
+            importPath.startsWith(`'${packageName}/`),
         );
-        const sourceNodes = getSourceNodes(source);
-        const importDeclarations = sourceNodes.filter((node) =>
-          ts.isImportDeclaration(node),
-        ) as ts.ImportDeclaration[];
-        importDeclarations.forEach((importDeclaration) => {
-          const importPath = importDeclaration.moduleSpecifier.getText();
-          const importProject = packages.find(
-            (packageName) =>
-              importPath === `'${packageName}'` ||
-              importPath.startsWith(`'${packageName}/`),
-          );
-          const projectName = packagesToProjects.get(importProject ?? '');
-          if (
-            importProject &&
-            projectName &&
-            projectName !== parentProjectName
-          ) {
-            importedProjects.push(projectName);
-          }
-        });
-      }
-    });
+        const projectName = packagesToProjects.get(importProject ?? '');
+        if (importProject && projectName && !projectName.endsWith('-testing')) {
+          importedProjects.push(projectName);
+        }
+      });
+    }
+  });
+  return [...new Set(importedProjects)].sort((a, b) => a.localeCompare(b));
+}
+
+/**
+ * Testing projects do not have a separate package.json to track dependencies.
+ */
+function updateTestingBuildTargetDependencies(tree: Tree): void {
+  const projects = getProjects(tree);
+  const testingProjects = new Map<string, ProjectConfiguration>(
+    Array.from(projects.entries()).filter(([name]) =>
+      name.endsWith('-testing'),
+    ),
+  );
+  const packagesToProjects = mapProjectsToPackages(projects, tree);
+  testingProjects.forEach((projectConfig) => {
+    const parentProjectName = `${projectConfig.name?.replace('-testing', '')}`;
+    const importedProjects = getImportedProjects(
+      tree,
+      projectConfig,
+      packagesToProjects,
+    ).filter((projectName) => projectName !== parentProjectName);
     if (projectConfig.name) {
-      projectConfig.targets ??= {};
-      projectConfig.targets['build'] = {
-        command: `echo ' 🏗️  build ${projectConfig.name}'`,
-        inputs: ['buildInputs'],
-        dependsOn: [],
-      };
-      if (importedProjects.length > 0) {
-        projectConfig.implicitDependencies = [
-          ...new Set(importedProjects),
-        ].sort((a, b) => a.localeCompare(b));
-      }
-      updateProjectConfiguration(tree, projectConfig.name, projectConfig);
       const parentProject = projects.get(parentProjectName);
       if (parentProject) {
         if (parentProject?.targets?.['build']) {
           parentProject.targets['build'].dependsOn = [
             '^build',
-            {
-              projects: [projectConfig.name],
-              target: 'build',
-            },
+            ...(importedProjects.length > 0
+              ? [
+                  {
+                    projects: importedProjects,
+                    target: 'build',
+                  },
+                ]
+              : []),
+          ];
+          parentProject.targets['build'].inputs = [
+            'buildInputs',
+            '^buildInputs',
+            `{workspaceRoot}/${projectConfig.root}/src/**/*`,
+            `!{workspaceRoot}/${projectConfig.root}/src/**/*.spec.ts`,
+            `!{workspaceRoot}/${projectConfig.root}/src/**/fixtures/**/*`,
           ];
         }
         updateProjectConfiguration(tree, parentProjectName, parentProject);
@@ -180,11 +195,14 @@ function updateTestingImplicitDependencies(tree: Tree): void {
   });
 }
 
-export default async function (tree: Tree, options: { skipFormat: boolean }) {
+export default async function (
+  tree: Tree,
+  options: { skipFormat: boolean },
+): Promise<void> {
   hardenRootDependencies(tree);
   updatePeerDependencies(tree);
   updateNgUpdatePackageGroup(tree);
-  updateTestingImplicitDependencies(tree);
+  updateTestingBuildTargetDependencies(tree);
   /* istanbul ignore if */
   if (!options.skipFormat) {
     await formatFiles(tree);

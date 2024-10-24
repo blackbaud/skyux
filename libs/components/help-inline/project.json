@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["help-inline-testing"],
+          "projects": ["core", "popovers"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/help-inline/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/help-inline/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/help-inline/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

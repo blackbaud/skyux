@@ -5,20 +5,7 @@
   "sourceRoot": "libs/components/datetime/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core-testing",
-    "datetime-testing",
-    "forms",
-    "forms-testing",
-    "popovers",
-    "testing"
-  ],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build datetime-testing'",
-      "inputs": ["buildInputs"],
-      "dependsOn": []
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

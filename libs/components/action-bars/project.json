@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["action-bars-testing"],
+          "projects": ["testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/action-bars/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/action-bars/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/action-bars/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
