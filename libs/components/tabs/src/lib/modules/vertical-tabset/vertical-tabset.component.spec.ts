@@ -7,8 +7,11 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkyBreakpoint } from '@skyux/core';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
 import { SkyVerticalTabsFixturesModule } from './fixtures/vertical-tabs-fixtures.module';
 import { VerticalTabsetEmptyGroupTestComponent } from './fixtures/vertical-tabset-empty-group.component';
@@ -17,12 +20,11 @@ import { VerticalTabsetNoActiveTestComponent } from './fixtures/vertical-tabset-
 import { VerticalTabsetNoGroupTestComponent } from './fixtures/vertical-tabset-no-group.component.fixture';
 import { VerticalTabsetProgrammaticTestComponent } from './fixtures/vertical-tabset-programmatic.component';
 import { VerticalTabsetTestComponent } from './fixtures/vertical-tabset.component.fixture';
-import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 // #region helpers
-let mockQueryService: MockSkyMediaQueryService;
+let mediaQueryController: SkyMediaQueryTestingController;
 
 function getVisibleTabContentPane(
   fixture: ComponentFixture<unknown>,
@@ -220,17 +222,12 @@ function validateTabsKeyboardNav(
 
 describe('Vertical tabset component', () => {
   beforeEach(() => {
-    mockQueryService = new MockSkyMediaQueryService();
-
     TestBed.configureTestingModule({
       imports: [SkyVerticalTabsFixturesModule],
-      providers: [
-        {
-          provide: SkyMediaQueryService,
-          useValue: mockQueryService,
-        },
-      ],
+      providers: [provideSkyMediaQueryTesting()],
     });
+
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
   });
 
   function createTestComponent(): ComponentFixture<VerticalTabsetTestComponent> {
@@ -238,7 +235,7 @@ describe('Vertical tabset component', () => {
   }
 
   it('first tab in open group should be selected', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
 
     fixture.detectChanges();
@@ -252,7 +249,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('open second tab in second group', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -282,7 +279,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('should open tab when enter key is pressed', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -299,7 +296,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('should open tab when space key is pressed', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -316,7 +313,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('should expand and collapse groups with the left and right arrow keys', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -336,7 +333,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should move to the first item in a group with the right arrow key', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -351,7 +348,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should focus parent group when left arrow is pressed', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -368,7 +365,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('should navigate between tabs when up and down arrow keys are pressed', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -402,7 +399,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should focus the active tab when the tabs container is focused', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -432,7 +429,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('should focus the first tab when the tabs container is focused and no tab is active', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
 
     fixture.componentInstance.active = false;
@@ -492,7 +489,7 @@ describe('Vertical tabset component', () => {
   });
 
   it("should focus the active tab's group when the tabs container is focused and the tab's group is collapsed", fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -516,7 +513,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('should pass through aria inputs, id, and set role', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.componentInstance.tab1Required = true;
     const el = fixture.nativeElement as HTMLElement;
@@ -552,7 +549,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('check closing of group', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -565,7 +562,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('disabled group should not open when clicked', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
 
@@ -581,7 +578,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('mobile button should not be visible on wide screen', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -595,7 +592,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('mobile button should be visible on small screen', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -619,7 +616,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('show tabs button should show tabs on mobile', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -652,7 +649,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('clicking a tab in mobile should show content and hides tabs', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -683,7 +680,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('tabs should not have tab aria associations and roles in mobile view', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -703,14 +700,14 @@ describe('Vertical tabset component', () => {
   });
 
   it('should hide tabs when switching from widescreen to mobile', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
     // simulate screen size change switching to mobile
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     fixture.componentInstance.tabset?.tabService.updateContent();
     fixture.detectChanges();
 
@@ -731,14 +728,14 @@ describe('Vertical tabset component', () => {
   });
 
   it('should show tabs and hide tab list button when switching from mobile to widescreen', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
     // simulate screen size change switching to widescreen
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     fixture.componentInstance.tabset?.tabService.updateContent();
     fixture.detectChanges();
 
@@ -759,7 +756,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should deactivate active tab when another tab is clicked', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.detectChanges();
     const el = fixture.nativeElement;
@@ -794,7 +791,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should display tab header count when defined', () => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     const el = fixture.nativeElement as HTMLElement;
 
@@ -808,7 +805,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('should not display tab header count when not defined', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -833,7 +830,7 @@ describe('Vertical tabset component', () => {
   }));
 
   it('should not activate tab when disabled', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     const el = fixture.nativeElement;
 
@@ -878,7 +875,7 @@ describe('Vertical tabset component', () => {
   });
 
   it('maintainTabContent - tab content remains in same order', fakeAsync(() => {
-    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
     fixture.componentInstance.maintainTabContent = true;
     fixture.detectChanges();
@@ -929,94 +926,51 @@ describe('Vertical tabset component', () => {
     expect(allTabContentElements2[6]).toHaveText('Group 3 Tab 2 content');
   }));
 
+  function expectResponsiveCssClass(
+    el: HTMLElement | undefined,
+    breakpoint: SkyBreakpoint,
+  ): void {
+    if (!el) {
+      throw new Error(
+        'Cannot determine responsive class because element does not exist.',
+      );
+    }
+
+    expect(el).toHaveCssClass(`sky-responsive-container-${breakpoint}`);
+  }
+
   it('should add the appropriate responsive container upon initialization', async () => {
-    spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(640);
-    const mediaQuerySpy = spyOn(
-      SkyVerticalTabMediaQueryService.prototype,
-      'setBreakpointForWidth',
-    ).and.callThrough();
-
     const fixture = createTestComponent();
     fixture.detectChanges();
 
     const activeTab = fixture.componentInstance.verticalTabs?.find(
       (tab) => !!tab.active,
     );
+
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
-    expect(mediaQuerySpy).toHaveBeenCalledWith(640);
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-xs'),
-    ).toBeTruthy();
-  });
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'xs');
 
-  it('should add the appropriate responsive container upon window resize', async () => {
-    const fixture = createTestComponent();
-    const widthSpy = spyOnProperty(
-      Element.prototype,
-      'clientWidth',
-      'get',
-    ).and.returnValue(1500);
-    fixture.detectChanges();
-
-    const activeTab = fixture.componentInstance.verticalTabs?.find(
-      (tab) => !!tab.active,
-    );
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    let tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'sm');
 
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-lg'),
-    ).toBeTruthy();
-    widthSpy.and.returnValue(1100);
-    const mediaQuerySpy = spyOn(
-      SkyVerticalTabMediaQueryService.prototype,
-      'setBreakpointForWidth',
-    ).and.callThrough();
-
-    SkyAppTestUtility.fireDomEvent(window, 'resize');
+    mediaQueryController.setBreakpoint('md');
     fixture.detectChanges();
+    await fixture.whenStable();
 
-    tabContentPane = activeTab?.tabContent?.nativeElement;
-    expect(mediaQuerySpy).toHaveBeenCalledWith(1100);
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-md'),
-    ).toBeTruthy();
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'md');
+
+    mediaQueryController.setBreakpoint('lg');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'lg');
   });
-
-  it('should add the appropriate responsive container upon a tab being activated', fakeAsync(() => {
-    const fixture = createTestComponent();
-    fixture.detectChanges();
-
-    spyOnProperty(Element.prototype, 'clientWidth', 'get').and.returnValue(800);
-    const mediaQuerySpy = spyOn(
-      SkyVerticalTabMediaQueryService.prototype,
-      'setBreakpointForWidth',
-    ).and.callThrough();
-
-    // open second group
-    clickGroupButton(fixture, 1);
-
-    // open first tab in second group
-    clickTab(fixture, 0, 1);
-    tick();
-    fixture.detectChanges();
-
-    const activeTab = fixture.componentInstance.verticalTabs?.find(
-      (tab) => !!tab.active,
-    );
-    const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
-    expect(mediaQuerySpy).toHaveBeenCalledWith(800);
-    expect(
-      tabContentPane.classList.contains('sky-responsive-container-sm'),
-    ).toBeTruthy();
-
-    flush();
-  }));
 
   it('should scroll back to the top of the content pane when switching tabs', () => {
     const fixture = createTestComponent();
@@ -1061,12 +1015,8 @@ describe('Vertical tabset component - with ngFor', () => {
   let component: VerticalTabsetWithNgForTestComponent;
 
   beforeEach(() => {
-    mockQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
       imports: [SkyVerticalTabsFixturesModule],
-      providers: [
-        { provide: SkyMediaQueryService, useValue: mockQueryService },
-      ],
     });
     fixture = TestBed.createComponent(VerticalTabsetWithNgForTestComponent);
     component = fixture.componentInstance;

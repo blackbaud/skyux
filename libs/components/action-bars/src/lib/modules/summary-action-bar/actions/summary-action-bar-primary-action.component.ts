@@ -10,10 +10,11 @@ import {
  * Displays a primary button.
  */
 @Component({
-  selector: 'sky-summary-action-bar-primary-action',
-  templateUrl: './summary-action-bar-primary-action.component.html',
-  styleUrls: ['./summary-action-bar-primary-action.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'sky-summary-action-bar-primary-action',
+  standalone: true,
+  styleUrls: ['./summary-action-bar-primary-action.component.scss'],
+  templateUrl: './summary-action-bar-primary-action.component.html',
 })
 export class SkySummaryActionBarPrimaryActionComponent {
   /**
