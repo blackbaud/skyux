@@ -21,6 +21,7 @@
   --sky-override-toggle-switch-border-width-selected: 2px;
   --sky-override-toggle-switch-box-shadow-focus: none;
   --sky-override-toggle-switch-label-gap: #{$sky-margin};
+  --sky-override-toggle-switch-line-height: calc(20 / 14);
   --sky-override-toggle-switch-padding: 1px;
   --sky-override-toggle-switch-padding-active: 1px;
   --sky-override-toggle-switch-padding-disabled: 0;
@@ -43,6 +44,7 @@
 
 @include compatMixins.sky-modern-overrides('.sky-toggle-switch') {
   --sky-override-toggle-switch-background-color: var(--modern-color-white);
+  --sky-override-toggle-switch-line-height: calc(20 / 14);
   --sky-override-toggle-switch-width: var(--modern-size-48);
   --sky-override-toggle-switch-indicator-box-shadow: 0px 1px 2px 0px
     rgba(0, 0, 0, 0.5);
@@ -88,7 +90,15 @@
           ) / 100%
       );
       flex: none;
-      line-height: $sky-line-height-base;
+      line-height: var(
+        --sky-override-toggle-switch-line-height,
+        calc(
+          var(--sky-size-switch) - calc(
+              calc(var(--sky-border-width-input-base) * 2) +
+                calc(var(--sky-space-inset-thumb) * 2)
+            )
+        )
+      );
       width: var(
         --sky-override-toggle-switch-width,
         calc(
@@ -125,7 +135,7 @@
       );
     }
 
-    &:focus-visible:not(:is(:active, .sky-toggle-switch-disabled))
+    &:focus-visible:not(:active, .sky-toggle-switch-disabled)
       .sky-toggle-switch-switch {
       box-shadow: var(
         --sky-override-toggle-switch-box-shadow-focus,
@@ -183,7 +193,7 @@
         );
       }
 
-      &:not(:is(:focus-visible, :active, .sky-toggle-switch-disabled))
+      &:not(:focus-visible, :active, .sky-toggle-switch-disabled)
         .sky-toggle-switch-switch {
         border-width: var(
           --sky-override-toggle-switch-border-width-selected,
@@ -209,7 +219,7 @@
     }
 
     &.sky-toggle-switch-disabled {
-      color: var(--sky-text-color-default);
+      color: var(--sky-color-text-default);
 
       .sky-toggle-switch-switch {
         background-color: var(
