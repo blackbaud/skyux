@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["avatar-testing", "core", "errors", "forms"],
+          "projects": ["core", "errors", "forms", "testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/avatar/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/avatar/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/avatar/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

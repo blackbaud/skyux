@@ -26,9 +26,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["list-builder-view-grids-testing"],
+          "projects": ["testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

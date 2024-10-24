@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "help-inline", "progress-indicator-testing"],
+          "projects": ["core", "help-inline"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/progress-indicator/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/progress-indicator/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/progress-indicator/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

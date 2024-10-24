@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "indicators-testing"],
+          "projects": ["core", "testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/indicators/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/indicators/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/indicators/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

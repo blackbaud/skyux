@@ -26,13 +26,20 @@
         {
           "projects": [
             "core",
-            "forms-testing",
             "help-inline",
             "indicators",
-            "popovers"
+            "popovers",
+            "testing"
           ],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/forms/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/forms/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/forms/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {
