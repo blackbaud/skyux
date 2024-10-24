@@ -11,12 +11,7 @@ import {
   inject,
 } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
-import {
-  SKY_STACKING_CONTEXT,
-  SkyDynamicComponentService,
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
-} from '@skyux/core';
+import { SKY_STACKING_CONTEXT, SkyDynamicComponentService } from '@skyux/core';
 
 import { BehaviorSubject } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
@@ -97,7 +92,6 @@ export class SkyModalHostComponent implements OnDestroy {
 
     params.providers ||= [];
     params.providers.push(
-      { provide: SkyResizeObserverMediaQueryService },
       {
         provide: SkyModalHostService,
         useValue: hostService,
@@ -105,10 +99,6 @@ export class SkyModalHostComponent implements OnDestroy {
       {
         provide: SkyModalConfiguration,
         useValue: params,
-      },
-      {
-        provide: SkyMediaQueryService,
-        useExisting: SkyResizeObserverMediaQueryService,
       },
       {
         provide: SKY_STACKING_CONTEXT,

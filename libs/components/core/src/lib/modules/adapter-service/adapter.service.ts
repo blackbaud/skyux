@@ -5,6 +5,14 @@ import {
   RendererFactory2,
 } from '@angular/core';
 
+import {
+  SKY_BREAKPOINTS,
+  SkyBreakpoint,
+} from '../breakpoint-observer/breakpoint';
+import {
+  isSkyBreakpoint,
+  toSkyBreakpoint,
+} from '../breakpoint-observer/breakpoint-utils';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import { SkyFocusableChildrenOptions } from './focusable-children-options';
@@ -37,42 +45,28 @@ export class SkyCoreAdapterService {
    * Set the responsive container CSS class for a given element.
    *
    * @param elementRef - The element that will receive the new CSS class.
-   * @param breakpoint - The SkyMediaBreakpoint will determine which class
-   * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
+   * @param breakpoint - The breakpoint to determine which class gets set.
+   * For example a breakpoint of "xs" will set a CSS class of "sky-responsive-container-xs".
+   * @deprecated Use the `SkyResponsiveHostDirective` instead.
    */
   public setResponsiveContainerClass(
     elementRef: ElementRef,
-    breakpoint: SkyMediaBreakpoints,
+    breakpoint: SkyBreakpoint | SkyMediaBreakpoints,
   ): void {
     const nativeEl = elementRef.nativeElement;
 
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-md');
-    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
-
-    let newClass: string;
-
-    switch (breakpoint) {
-      case SkyMediaBreakpoints.xs: {
-        newClass = 'sky-responsive-container-xs';
-        break;
-      }
-      case SkyMediaBreakpoints.sm: {
-        newClass = 'sky-responsive-container-sm';
-        break;
-      }
-      case SkyMediaBreakpoints.md: {
-        newClass = 'sky-responsive-container-md';
-        break;
-      }
-      default: {
-        newClass = 'sky-responsive-container-lg';
-        break;
-      }
+    for (const breakpointType of SKY_BREAKPOINTS) {
+      this.#renderer.removeClass(
+        nativeEl,
+        `sky-responsive-container-${breakpointType}`,
+      );
     }
 
-    this.#renderer.addClass(nativeEl, newClass);
+    if (!isSkyBreakpoint(breakpoint)) {
+      breakpoint = toSkyBreakpoint(breakpoint);
+    }
+
+    this.#renderer.addClass(nativeEl, `sky-responsive-container-${breakpoint}`);
   }
 
   /**

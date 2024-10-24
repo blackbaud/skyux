@@ -1,10 +1,9 @@
 <div
   class="sky-summary-action-bar"
   [ngClass]="{
-    'sky-summary-action-bar-summary-collapsible':
-      type | skySummaryActionBarCollapsible: mediaQueryService.current,
-    'sky-summary-action-bar-modal': type === 1 || type === 2,
-    'sky-summary-action-bar-split-view': type === 4
+    'sky-summary-action-bar-summary-collapsible': isCollapsible(),
+    'sky-summary-action-bar-modal': type() === 1 || type() === 2,
+    'sky-summary-action-bar-split-view': type() === 4
   }"
 >
   <div class="sky-summary-action-bar-actions">
@@ -14,7 +13,7 @@
     <div
       class="sky-summary-action-bar-summary"
       [id]="summaryId"
-      [@skyAnimationSlide]="slideDirection"
+      [@skyAnimationSlide]="slideDirection()"
       (@skyAnimationSlide.start)="summaryTransitionStart()"
       (@skyAnimationSlide.done)="summaryTransitionEnd($event)"
     >
@@ -26,20 +25,14 @@
         >
           <ng-content select="sky-summary-action-bar-summary" />
         </div>
-        @if (
-          (type | skySummaryActionBarCollapsible: mediaQueryService.current) &&
-          !isSummaryCollapsed
-        ) {
+        @if (isCollapsible() && !isSummaryCollapsed()) {
           <div class="sky-summary-action-bar-details-collapse">
             <ng-container *ngTemplateOutlet="chevron" />
           </div>
         }
       </div>
     </div>
-    @if (
-      (type | skySummaryActionBarCollapsible: mediaQueryService.current) &&
-      isSummaryCollapsed
-    ) {
+    @if (isCollapsible() && isSummaryCollapsed()) {
       <div class="sky-summary-action-bar-details-expand">
         <ng-container *ngTemplateOutlet="chevron" />
       </div>
@@ -52,7 +45,7 @@
     #chevronEl
     [attr.aria-controls]="summaryId"
     [ariaLabel]="'skyux_summary_action_bar_expand' | skyLibResources"
-    [direction]="isSummaryCollapsed ? 'up' : 'down'"
+    [direction]="isSummaryCollapsed() ? 'up' : 'down'"
     [skyThemeClass]="{
       'sky-margin-inline-default': 'modern'
     }"

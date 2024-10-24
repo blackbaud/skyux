@@ -1,5 +1,6 @@
 import { ElementRef, Injectable, inject } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
 
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 
@@ -47,32 +48,32 @@ export class SkyVerticalTabsetService {
 
   #isMobile = false;
 
-  #mediaQueryService: SkyMediaQueryService;
   #adapterSvc = inject(SkyVerticalTabsetAdapterService);
 
-  constructor(mediaQueryService: SkyMediaQueryService) {
-    this.#mediaQueryService = mediaQueryService;
-    this.#mediaQueryService.subscribe((breakpoint) => {
-      const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
+  constructor() {
+    inject(SkyMediaQueryService)
+      .breakpointChange.pipe(takeUntilDestroyed())
+      .subscribe((breakpoint) => {
+        const nowMobile = breakpoint === 'xs';
 
-      if (nowMobile && !this.#isMobile) {
-        // switching to mobile
-        this.switchingMobile.next(true);
+        if (nowMobile && !this.#isMobile) {
+          // switching to mobile
+          this.switchingMobile.next(true);
 
-        if (!this.#tabsVisible) {
-          this.hidingTabs.next(true);
+          if (!this.#tabsVisible) {
+            this.hidingTabs.next(true);
+          }
+        } else if (!nowMobile && this.#isMobile) {
+          // switching to widescreen
+          this.switchingMobile.next(false);
+
+          if (!this.#tabsVisible) {
+            this.showingTabs.next(true);
+          }
         }
-      } else if (!nowMobile && this.#isMobile) {
-        // switching to widescreen
-        this.switchingMobile.next(false);
 
-        if (!this.#tabsVisible) {
-          this.showingTabs.next(true);
-        }
-      }
-
-      this.#isMobile = nowMobile;
-    });
+        this.#isMobile = nowMobile;
+      });
   }
 
   public addTab(tab: SkyVerticalTabComponent): void {

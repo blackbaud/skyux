@@ -1,6 +1,4 @@
-@if (
-  !isMobile && secondaryActionComponents && secondaryActionComponents.length < 5
-) {
+@if (breakpoint() !== 'xs' && secondaryActionComponents().length < 5) {
   <div class="sky-summary-action-bar-secondary-buttons" role="menubar">
     <ng-container *ngTemplateOutlet="summaryActionBarSecondaryActions" />
   </div>
