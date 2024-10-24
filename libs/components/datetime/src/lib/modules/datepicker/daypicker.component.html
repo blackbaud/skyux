@@ -5,7 +5,7 @@
 >
   <thead>
     <tr>
-      @for (label of labels; track label) {
+      @for (label of labels; track label.full) {
         <th scope="col" class="sky-datepicker-center sky-datepicker-weekdays">
           <small [attr.aria-label]="label.full">
             <b>{{ label.abbr }}</b>
@@ -17,7 +17,7 @@
   <tbody>
     <!-- Wait indicator for async custom date stream -->
     <sky-wait [isWaiting]="isWaiting" />
-    @for (row of rows; track row) {
+    @for (row of rows; track $index) {
       <tr role="row">
         @for (date of row; track date.uid) {
           <td class="sky-datepicker-center" role="gridcell" [id]="date.uid">

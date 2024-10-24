@@ -1,6 +1,6 @@
 <table role="grid">
   <tbody>
-    @for (row of rows; track row) {
+    @for (row of rows; track $index) {
       <tr>
         @for (date of row; track date.uid) {
           <td class="sky-datepicker-row" role="gridcell">

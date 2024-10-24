@@ -299,6 +299,8 @@ export class SkyDateRangePickerComponent
     });
   }
 
+  // TODO: Changing calculator IDs should clear out the date picker fields.
+
   public ngAfterViewInit(): void {
     this.hostControl = this.#injector.get(NgControl, null, {
       optional: true,
@@ -312,7 +314,6 @@ export class SkyDateRangePickerComponent
       setTimeout(() => {
         this.hostControl?.setValue(this.#getValue(), {
           emitEvent: false,
-          onlySelf: true,
         });
       });
     }
@@ -521,17 +522,41 @@ export class SkyDateRangePickerComponent
   }
 
   #getValue(): SkyDateRangeCalculation {
-    return this.#_value;
+    // Important! Return a clone to avoid changing the properties by reference.
+    return { ...this.#_value };
   }
 
   #patchValue(
     partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
   ): void {
-    const { calculatorId } = this.#getValue();
+    if (isNullOrUndefined(partialValue)) {
+      this.#setValue(null, { emitEvent: true });
+      return;
+    }
 
-    const value = isNullOrUndefined(partialValue)
-      ? null
-      : { ...{ calculatorId }, ...partialValue };
+    const value = this.#getValue();
+
+    if (!isNullOrUndefined(partialValue.calculatorId)) {
+      value.calculatorId = partialValue.calculatorId;
+    }
+
+    // Allow for unsetting the end date with 'undefined';
+    if ('endDate' in partialValue) {
+      value.endDate = partialValue.endDate;
+    }
+
+    // Allow for unsetting the start date with 'undefined';
+    if ('startDate' in partialValue) {
+      value.startDate = partialValue.startDate;
+    }
+
+    if (value.startDate === null) {
+      delete value.startDate;
+    }
+
+    if (value.endDate === null) {
+      delete value.endDate;
+    }
 
     this.#setValue(value, { emitEvent: true });
   }
