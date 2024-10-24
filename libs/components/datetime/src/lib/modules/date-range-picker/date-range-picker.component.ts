@@ -148,10 +148,7 @@ export class SkyDateRangePickerComponent
     // If the currently selected calculator isn't available anymore,
     // select the first calculator in the new array.
     if (!this.#_calculatorIds.includes(currentCalculatorId)) {
-      this.#setValue(
-        { calculatorId: this.calculatorIds[0] },
-        { emitEvent: true },
-      );
+      this.#setValue({ calculatorId: this.calculatorIds[0] });
     }
   }
 
@@ -336,6 +333,12 @@ export class SkyDateRangePickerComponent
         .subscribe((value) => {
           const oldValue = this.#getValue();
 
+          // TODO: Needed?
+          if (areDateRangesEqual(value, oldValue)) {
+            console.log('YES', value, oldValue);
+            return;
+          }
+
           if (!isNullOrUndefined(value?.calculatorId)) {
             // The select element sets the calculator ID to a string, but we
             // need it to be a number.
@@ -348,12 +351,9 @@ export class SkyDateRangePickerComponent
             }
           }
 
-          // TODO: Needed?
-          if (areDateRangesEqual(value, oldValue)) {
-            return;
-          }
-
-          this.#setValue(value, { emitEvent: false });
+          // We want to update the value of the form group in case there are any defaults that aren't accounted for.
+          // We'll emit
+          this.#setValue(value);
           const newValue = this.#getValue();
 
           // Update the host control if the value is different.
@@ -530,7 +530,7 @@ export class SkyDateRangePickerComponent
     partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
   ): void {
     if (isNullOrUndefined(partialValue)) {
-      this.#setValue(null, { emitEvent: true });
+      this.#setValue(null);
       return;
     }
 
@@ -558,16 +558,13 @@ export class SkyDateRangePickerComponent
       delete value.endDate;
     }
 
-    this.#setValue(value, { emitEvent: true });
+    this.#setValue(value);
   }
 
   /**
    * Sets the value to be used by the date range picker form control.
    */
-  #setValue(
-    value: SkyDateRangeCalculation | null | undefined,
-    options: { emitEvent: boolean },
-  ): void {
+  #setValue(value: SkyDateRangeCalculation | null | undefined): void {
     const oldValue = this.#getValue();
 
     const isValueEmpty = !value || isNullOrUndefined(value.calculatorId);
@@ -593,9 +590,7 @@ export class SkyDateRangePickerComponent
         this.#updatePickerVisibility(this.selectedCalculator);
       }
 
-      if (options?.emitEvent) {
-        this.formGroup.patchValue(valueOrDefault);
-      }
+      this.formGroup.patchValue(valueOrDefault);
     }
   }
 
