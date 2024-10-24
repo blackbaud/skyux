@@ -4,6 +4,7 @@
   "sourceRoot": "libs/components/help-inline/src",
   "prefix": "sky",
   "projectType": "library",
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -19,7 +20,21 @@
           "tsConfig": "libs/components/help-inline/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "popovers"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/help-inline/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/help-inline/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/help-inline/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -61,6 +76,5 @@
         ]
       }
     }
-  },
-  "tags": ["component", "npm"]
+  }
 }

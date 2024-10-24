@@ -5,17 +5,7 @@
   "sourceRoot": "libs/components/help-inline/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": ["core-testing", "help-inline", "popovers-testing"],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build help-inline-testing'",
-      "dependsOn": [
-        {
-          "projects": ["help-inline"],
-          "target": "build"
-        }
-      ]
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

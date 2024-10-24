@@ -5,23 +5,7 @@
   "sourceRoot": "libs/components/phone-field/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "indicators",
-    "lookup-testing",
-    "phone-field",
-    "testing",
-    "theme"
-  ],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build phone-field-testing'",
-      "dependsOn": [
-        {
-          "projects": ["phone-field"],
-          "target": "build"
-        }
-      ]
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

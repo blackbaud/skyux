@@ -5,21 +5,7 @@
   "sourceRoot": "libs/components/progress-indicator/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core-testing",
-    "help-inline-testing",
-    "progress-indicator"
-  ],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build progress-indicator-testing'",
-      "dependsOn": [
-        {
-          "projects": ["progress-indicator"],
-          "target": "build"
-        }
-      ]
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
