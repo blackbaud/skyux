@@ -103,11 +103,20 @@ export class DateRangePickerComponent {
       startDate: new Date('1/2/2012'),
       endDate: new Date('1/1/2012'),
     });
+
     this.pickerFormControl.markAsTouched();
   }
 
   protected setUndefined(): void {
     this.pickerFormControl.setValue(undefined);
+  }
+
+  protected setValidRange(): void {
+    this.pickerFormControl.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('2024/10/1'),
+      endDate: new Date('2024/10/31'),
+    });
   }
 
   protected toggleDisabled(): void {
