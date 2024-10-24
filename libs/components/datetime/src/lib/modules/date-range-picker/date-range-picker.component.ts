@@ -333,23 +333,30 @@ export class SkyDateRangePickerComponent
           takeUntil(this.#ngUnsubscribe),
         )
         .subscribe((value) => {
+          const oldValue = this.#getValue();
+
           if (!isNullOrUndefined(value?.calculatorId)) {
             // The select element sets the calculator ID to a string, but we
             // need it to be a number.
             value.calculatorId = +value.calculatorId;
 
             // Reset the start and end date values if the calculator ID changes.
-            if (value.calculatorId !== this.#getValue().calculatorId) {
+            if (value.calculatorId !== oldValue.calculatorId) {
               delete value.endDate;
               delete value.startDate;
             }
+          }
+
+          // TODO: Needed?
+          if (areDateRangesEqual(value, oldValue)) {
+            return;
           }
 
           this.#setValue(value, { emitEvent: false });
           const newValue = this.#getValue();
 
           // Update the host control if the value is different.
-          if (!areDateRangesEqual(this.hostControl?.value, newValue)) {
+          if (!areDateRangesEqual(oldValue, newValue)) {
             this.#notifyChange?.(newValue);
           }
         });
@@ -374,6 +381,7 @@ export class SkyDateRangePickerComponent
         });
       });
 
+    // Mark all fields as touched if the host control is touched.
     this.hostControl?.events
       .pipe(
         filter((event) => event instanceof TouchedChangeEvent),
@@ -400,18 +408,17 @@ export class SkyDateRangePickerComponent
       this.startDateHasErrors =
         this.#controlHasErrors(this.#startDateControl) ||
         this.#controlHasErrors(this.#calculatorIdControl);
+
       this.endDateHasErrors =
         this.#controlHasErrors(this.#endDateControl) ||
         this.#controlHasErrors(this.#calculatorIdControl);
+
       this.calculatorIdHasErrors = this.#controlHasErrors(
         this.#calculatorIdControl,
       );
+
       this.#changeDetector.markForCheck();
     }
-  }
-
-  #controlHasErrors(control: AbstractControl): boolean {
-    return !!control.errors && (control.touched || control.dirty);
   }
 
   public ngOnDestroy(): void {
@@ -489,6 +496,10 @@ export class SkyDateRangePickerComponent
     this.#notifyTouched?.();
   }
 
+  #controlHasErrors(control: AbstractControl): boolean {
+    return !!(control.errors && (control.touched || control.dirty));
+  }
+
   #getCalculator(calculatorId: number): SkyDateRangeCalculator {
     const found = this.calculators.find((c) => c.calculatorId === calculatorId);
 
@@ -516,12 +527,13 @@ export class SkyDateRangePickerComponent
   #patchValue(
     partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
   ): void {
-    this.#setValue(
-      isNullOrUndefined(partialValue)
-        ? null
-        : { ...this.#getValue(), ...partialValue },
-      { emitEvent: true },
-    );
+    const { calculatorId } = this.#getValue();
+
+    const value = isNullOrUndefined(partialValue)
+      ? null
+      : { ...{ calculatorId }, ...partialValue };
+
+    this.#setValue(value, { emitEvent: true });
   }
 
   /**

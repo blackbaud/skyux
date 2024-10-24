@@ -19,7 +19,7 @@
       "
     >
       <select formControlName="calculatorId" (blur)="onBlur()">
-        @for (calculator of calculators; track calculator) {
+        @for (calculator of calculators; track calculator.calculatorId) {
           <option [value]="calculator.calculatorId">
             {{
               calculator._shortDescriptionResourceKey
@@ -65,6 +65,7 @@
         <input
           formControlName="startDate"
           name="startDate"
+          required
           skyDatepickerInput
           type="text"
           [attr.aria-label]="
@@ -80,7 +81,6 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="showStartDatePicker"
         />
       </sky-datepicker>
     </sky-input-box>
@@ -102,6 +102,7 @@
         <input
           formControlName="endDate"
           name="endDate"
+          required
           skyDatepickerInput
           type="text"
           [attr.aria-label]="
@@ -117,7 +118,6 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="showEndDatePicker"
         />
       </sky-datepicker>
     </sky-input-box>
