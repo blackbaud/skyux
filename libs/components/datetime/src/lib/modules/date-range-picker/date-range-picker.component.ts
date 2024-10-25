@@ -8,7 +8,6 @@ import {
   Injector,
   Input,
   TemplateRef,
-  afterNextRender,
   booleanAttribute,
   inject,
   signal,
@@ -304,40 +303,13 @@ export class SkyDateRangePickerComponent
     this.calculators = this.#dateRangeSvc.calculators;
     this.selectedCalculator = this.calculators[0];
 
-    const initialValue = this.#getDefaultValue(this.selectedCalculator);
+    const initialValue = this.selectedCalculator.getValue();
     this.#_value = initialValue;
 
     this.formGroup = inject(FormBuilder).group({
       calculatorId: new FormControl<number>(initialValue.calculatorId),
       startDate: new FormControl<DateValue>(initialValue.startDate),
       endDate: new FormControl<DateValue>(initialValue.endDate),
-    });
-
-    // Start listening for changes after the first change detection cycle.
-    afterNextRender(() => {
-      this.#calculatorIdControl.valueChanges
-        .pipe(
-          map((calculatorId) => +calculatorId),
-          distinctUntilChanged(),
-        )
-        .subscribe((calculatorId) => {
-          this.#setValue({ calculatorId });
-          this.#notifyChangeIfDistinct();
-        });
-
-      this.#startDateControl.valueChanges
-        .pipe(distinctUntilChanged())
-        .subscribe((startDate) => {
-          this.#patchValue({ startDate });
-          this.#notifyChangeIfDistinct();
-        });
-
-      this.#endDateControl.valueChanges
-        .pipe(distinctUntilChanged())
-        .subscribe((endDate) => {
-          this.#patchValue({ endDate });
-          this.#notifyChangeIfDistinct();
-        });
     });
   }
 
@@ -358,6 +330,30 @@ export class SkyDateRangePickerComponent
       });
     }
 
+    this.#calculatorIdControl.valueChanges
+      .pipe(
+        map((calculatorId) => +calculatorId),
+        distinctUntilChanged(),
+      )
+      .subscribe((calculatorId) => {
+        this.#setValue({ calculatorId });
+        this.#notifyChangeIfDistinct();
+      });
+
+    this.#startDateControl.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((startDate) => {
+        this.#patchValue({ startDate });
+        this.#notifyChangeIfDistinct();
+      });
+
+    this.#endDateControl.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((endDate) => {
+        this.#patchValue({ endDate });
+        this.#notifyChangeIfDistinct();
+      });
+
     // If the datepickers' statuses change, we want to retrigger the host
     // control's validation so that their errors are reflected back to the host.
     merge(
@@ -377,27 +373,27 @@ export class SkyDateRangePickerComponent
         });
       });
 
-    // Mark all fields as touched if the host control is touched.
     this.hostControl?.events
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.#destroyRef))
       .subscribe((evt) => {
+        // Mark all fields as touched if the host control is touched.
         if (evt instanceof TouchedChangeEvent) {
           this.formGroup.markAllAsTouched();
-        } else {
-          this.startDateHasErrors.set(
-            controlHasErrors(this.#startDateControl) ||
-              controlHasErrors(this.#calculatorIdControl),
-          );
-
-          this.endDateHasErrors.set(
-            controlHasErrors(this.#endDateControl) ||
-              controlHasErrors(this.#calculatorIdControl),
-          );
-
-          this.calculatorIdHasErrors.set(
-            controlHasErrors(this.#calculatorIdControl),
-          );
         }
+
+        this.startDateHasErrors.set(
+          controlHasErrors(this.#startDateControl) ||
+            controlHasErrors(this.#calculatorIdControl),
+        );
+
+        this.endDateHasErrors.set(
+          controlHasErrors(this.#endDateControl) ||
+            controlHasErrors(this.#calculatorIdControl),
+        );
+
+        this.calculatorIdHasErrors.set(
+          controlHasErrors(this.#calculatorIdControl),
+        );
       });
 
     this.#updatePickerVisibility(this.selectedCalculator);
@@ -484,12 +480,6 @@ export class SkyDateRangePickerComponent
     return found;
   }
 
-  #getDefaultValue(
-    calculator: SkyDateRangeCalculator,
-  ): SkyDateRangeCalculation {
-    return calculator.getValue();
-  }
-
   #getValue(): SkyDateRangeCalculation {
     // Important! Return a clone to avoid changing the properties by reference.
     return { ...this.#_value };
@@ -540,9 +530,9 @@ export class SkyDateRangePickerComponent
 
     const isValueEmpty = !value || isNullOrUndefined(value.calculatorId);
     const valueOrDefault = isValueEmpty
-      ? this.#getDefaultValue(this.calculators[0])
+      ? this.calculators[0].getValue()
       : {
-          ...this.#getDefaultValue(this.#getCalculator(value.calculatorId)),
+          ...this.#getCalculator(value.calculatorId).getValue(),
           ...value,
         };
 
