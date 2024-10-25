@@ -330,18 +330,6 @@ export class SkyDateRangePickerComponent
       });
     }
 
-    // Notify consumers when the value changes.
-    this.formGroup.valueChanges
-      .pipe(
-        distinctUntilChanged(areDateRangesEqual),
-        takeUntilDestroyed(this.#destroyRef),
-      )
-      .subscribe((value) => {
-        if (value) {
-          this.#notifyChange?.(value);
-        }
-      });
-
     // Reset the value when the calculator ID changes.
     this.#calculatorIdControl.valueChanges
       .pipe(
@@ -582,5 +570,11 @@ export class SkyDateRangePickerComponent
 
     this.showEndDatePicker.set(showEndDatePicker);
     this.showStartDatePicker.set(showStartDatePicker);
+  }
+
+  protected onDateChange(): void {
+    setTimeout(() => {
+      this.#notifyChange?.(this.formGroup.value);
+    });
   }
 }

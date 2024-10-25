@@ -18,7 +18,11 @@
         ('skyux_date_range_picker_default_label' | skyLibResources)
       "
     >
-      <select formControlName="calculatorId" (blur)="onBlur()">
+      <select
+        formControlName="calculatorId"
+        (blur)="onBlur()"
+        (change)="onDateChange()"
+      >
         @for (calculator of calculators; track calculator.calculatorId) {
           <option [value]="calculator.calculatorId">
             {{
@@ -61,7 +65,7 @@
           | skyLibResources
       "
     >
-      <sky-datepicker>
+      <sky-datepicker (dateChange)="onDateChange()">
         <input
           formControlName="startDate"
           name="startDate"
@@ -81,6 +85,7 @@
           "
           [dateFormat]="dateFormat"
           [required]="showStartDatePicker()"
+          (change)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>
@@ -98,7 +103,7 @@
           | skyLibResources
       "
     >
-      <sky-datepicker>
+      <sky-datepicker (dateChange)="onDateChange()">
         <input
           formControlName="endDate"
           name="endDate"
@@ -118,6 +123,7 @@
           "
           [dateFormat]="dateFormat"
           [required]="showEndDatePicker()"
+          (change)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>

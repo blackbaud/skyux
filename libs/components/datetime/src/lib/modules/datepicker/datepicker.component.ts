@@ -112,6 +112,10 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public customDates: SkyDatepickerCustomDate[] | undefined;
 
+  /**
+   * @internal
+   */
+  @Output()
   public dateChange = new EventEmitter<Date>();
 
   public isDaypickerWaiting = false;
