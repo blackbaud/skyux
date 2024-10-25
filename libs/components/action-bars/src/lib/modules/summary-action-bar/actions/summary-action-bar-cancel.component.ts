@@ -10,10 +10,11 @@ import {
  * Displays a cancel action.
  */
 @Component({
-  selector: 'sky-summary-action-bar-cancel',
-  templateUrl: './summary-action-bar-cancel.component.html',
-  styleUrls: ['./summary-action-bar-cancel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'sky-summary-action-bar-cancel',
+  standalone: true,
+  styleUrls: ['./summary-action-bar-cancel.component.scss'],
+  templateUrl: './summary-action-bar-cancel.component.html',
 })
 export class SkySummaryActionBarCancelComponent {
   /**

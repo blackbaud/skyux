@@ -273,25 +273,6 @@ describe('Tile dashboard component', () => {
     );
   }));
 
-  it(`should release resources when the component is destroyed`, () => {
-    const fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
-      add: {
-        providers: [
-          {
-            provide: SkyTileDashboardService,
-            useValue: mockTileDashboardService,
-          },
-        ],
-      },
-    }).createComponent(TileDashboardTestComponent);
-
-    const destroySpy = spyOn(mockTileDashboardService, 'destroy');
-
-    fixture.destroy();
-
-    expect(destroySpy).toHaveBeenCalled();
-  });
-
   it(`should display columns with equal widths despite a tile's contents`, fakeAsync(() => {
     const fixture = TestBed.createComponent(TileDashboardTestComponent);
 

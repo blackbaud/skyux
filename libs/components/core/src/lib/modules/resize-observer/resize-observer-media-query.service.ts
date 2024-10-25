@@ -1,10 +1,13 @@
 import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 
-import { ReplaySubject, Subject, Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyBreakpoint } from '../breakpoint-observer/breakpoint';
+import { toSkyBreakpoint } from '../breakpoint-observer/breakpoint-utils';
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
+import { SkyMediaQueryService } from '../media-query/media-query.service';
 
 import { SkyResizeObserverService } from './resize-observer.service';
 
@@ -12,15 +15,30 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
+ * @deprecated Use the `SkyResponsiveHostDirective` instead.
  */
 @Injectable()
-export class SkyResizeObserverMediaQueryService implements OnDestroy {
+export class SkyResizeObserverMediaQueryService
+  extends SkyMediaQueryService
+  implements OnDestroy
+{
+  /**
+   * Emits when the breakpoint changes.
+   */
+  public override get breakpointChange(): Observable<SkyBreakpoint> {
+    return this.#breakpointChangeObs;
+  }
+
   /**
    * Returns the current breakpoint.
+   * @deprecated Subscribe to the `breakpointChange` observable instead.
    */
-  public get current(): SkyMediaBreakpoints {
+  public override get current(): SkyMediaBreakpoints {
     return this.#currentBreakpoint;
   }
+
+  #breakpointChange = new ReplaySubject<SkyBreakpoint>(1);
+  #breakpointChangeObs = this.#breakpointChange.asObservable();
 
   #breakpoints: {
     check: (width: number) => boolean;
@@ -54,17 +72,18 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #target: ElementRef | undefined;
 
-  public ngOnDestroy(): void {
+  public override ngOnDestroy(): void {
     this.unobserve();
 
     this.#target = undefined;
     this.#currentBreakpointObs.complete();
+    this.#breakpointChange.complete();
   }
 
   /**
    * @internal
    */
-  public destroy(): void {
+  public override destroy(): void {
     this.ngOnDestroy();
   }
 
@@ -114,7 +133,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   /**
    * Subscribes to element size changes that cross breakpoints.
    */
-  public subscribe(listener: SkyMediaQueryListener): Subscription {
+  public override subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObs
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
@@ -132,6 +151,8 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
     if (this.current !== breakpoint) {
       this.#currentBreakpointObs.next(breakpoint);
+      const breakpointType = toSkyBreakpoint(breakpoint);
+      this.#breakpointChange.next(breakpointType);
     }
     this.#currentBreakpoint = breakpoint;
   }
