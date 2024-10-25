@@ -29,6 +29,11 @@ export class SkyPhoneFieldHarness extends SkyComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyPhoneFieldHarness` that meets certain criteria.
+   *
+   * These filters only work for standalone phone fields. For phone fields
+   * wrapped inside `sky-input-box`, place filters on the input box
+   * instead and query the datepicker using a `SkyInputBoxHarness`.
+   * For the input box implementation, see the code example.
    */
   public static with(
     filters: SkyPhoneFieldHarnessFilters,
@@ -37,31 +42,10 @@ export class SkyPhoneFieldHarness extends SkyComponentHarness {
   }
 
   /**
-   * Blurs the phone field input.
+   * Gets the phone field input harness.
    */
-  public async blur(): Promise<void> {
-    return (await this.#getInput()).blur();
-  }
-
-  /**
-   * Clears the phone field input value.
-   */
-  public async clear(): Promise<void> {
-    return (await this.#getInput()).clear();
-  }
-
-  /**
-   * Enters text into the phone field input.
-   */
-  public async enterText(value: string): Promise<void> {
-    return (await this.#getInput()).enterText(value);
-  }
-
-  /**
-   * Focuses the phone field input.
-   */
-  public async focus(): Promise<void> {
-    return (await this.#getInput()).focus();
+  public async getControl(): Promise<SkyPhoneFieldInputHarness> {
+    return await this.#getInput();
   }
 
   /**
@@ -80,27 +64,6 @@ export class SkyPhoneFieldHarness extends SkyComponentHarness {
     return await (
       await this.#getCountryFieldButtonContainer()
     ).getAttribute('data-sky-test-name');
-  }
-
-  /**
-   * Gets the value of the phone field input.
-   */
-  public async getValue(): Promise<string> {
-    return (await this.#getInput()).getValue();
-  }
-
-  /**
-   * Whether the phone field input is disabled.
-   */
-  public async isDisabled(): Promise<boolean> {
-    return (await this.#getInput()).isDisabled();
-  }
-
-  /**
-   * Whether the phone field input is focused.
-   */
-  public async isFocused(): Promise<boolean> {
-    return (await this.#getInput()).isFocused();
   }
 
   /**

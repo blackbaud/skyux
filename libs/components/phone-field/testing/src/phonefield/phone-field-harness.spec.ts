@@ -43,64 +43,19 @@ describe('Phone field harness', () => {
     return { phoneFieldHarness, fixture, loader };
   }
 
-  it('should focus and blur input', async () => {
-    const { phoneFieldHarness } = await setupTest({
-      dataSkyId: DATA_SKY_ID,
-    });
-
-    await expectAsync(phoneFieldHarness?.isFocused()).toBeResolvedTo(false);
-
-    await phoneFieldHarness?.focus();
-    await expectAsync(phoneFieldHarness?.isFocused()).toBeResolvedTo(true);
-
-    await phoneFieldHarness?.blur();
-    await expectAsync(phoneFieldHarness?.isFocused()).toBeResolvedTo(false);
-  });
-
-  it('should be able to check if phone field is disabled', async () => {
-    const { phoneFieldHarness, fixture } = await setupTest({
-      dataSkyId: DATA_SKY_ID,
-    });
-    let isDisabled = await phoneFieldHarness.isDisabled();
-    expect(isDisabled).toBe(false);
-
-    fixture.componentInstance.disabled = true;
-    fixture.detectChanges();
-    await fixture.whenStable();
-    isDisabled = await phoneFieldHarness.isDisabled();
-    expect(isDisabled).toBe(true);
-  });
-
-  it('should clear the input value', async () => {
-    const { phoneFieldHarness } = await setupTest({
-      dataSkyId: DATA_SKY_ID,
-    });
-
-    // First, set a value on the phoneField.
-    await phoneFieldHarness.enterText(VALID_US_NUMBER);
-
-    await expectAsync(phoneFieldHarness.getValue()).toBeResolvedTo(
-      VALID_US_NUMBER,
-    );
-
-    // Now, clear the value.
-    await phoneFieldHarness.clear();
-    await expectAsync(phoneFieldHarness.getValue()).toBeResolvedTo('');
-  });
-
   it('should use selected country', async () => {
     const { phoneFieldHarness, fixture } = await setupTest({
       dataSkyId: DATA_SKY_ID,
     });
 
-    await phoneFieldHarness.focus();
+    await (await phoneFieldHarness.getControl()).focus();
     // enter a valid phone number for the default country
-    await phoneFieldHarness.enterText(VALID_US_NUMBER);
+    await (await phoneFieldHarness.getControl()).setValue(VALID_US_NUMBER);
 
     // expect the model to use the proper dial code and format
-    await expectAsync(phoneFieldHarness.getValue()).toBeResolvedTo(
-      VALID_US_NUMBER,
-    );
+    await expectAsync(
+      (await phoneFieldHarness.getControl()).getValue(),
+    ).toBeResolvedTo(VALID_US_NUMBER);
     expect(fixture.componentInstance.phoneControl?.value).toEqual(
       '(867) 555-5309',
     );
@@ -137,12 +92,12 @@ describe('Phone field harness', () => {
     ).toHaveBeenCalledWith(jasmine.objectContaining(COUNTRY_AU));
 
     // enter a valid phone number for the new country
-    await phoneFieldHarness.enterText(VALID_AU_NUMBER);
+    await (await phoneFieldHarness.getControl()).setValue(VALID_AU_NUMBER);
 
     // expect the model to use the proper dial code and format
-    await expectAsync(phoneFieldHarness.getValue()).toBeResolvedTo(
-      VALID_AU_NUMBER,
-    );
+    await expectAsync(
+      (await phoneFieldHarness.getControl()).getValue(),
+    ).toBeResolvedTo(VALID_AU_NUMBER);
     expect(fixture.componentInstance.phoneControl?.value).toEqual(
       '+61 2 1234 5678',
     );

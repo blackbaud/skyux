@@ -21,7 +21,7 @@ const DATA_SKY_ID = 'my-phone-field';
 const VALID_AU_NUMBER = '0212345678';
 const VALID_US_NUMBER = '8675555309';
 
-fdescribe('Basic phone field demo', () => {
+describe('Basic phone field demo', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     harness: SkyPhoneFieldHarness;
     fixture: ComponentFixture<DemoComponent>;
@@ -53,14 +53,15 @@ fdescribe('Basic phone field demo', () => {
     });
 
     // First, set a value on the phoneField.
-    await harness.focus();
-    await harness.enterText(VALID_US_NUMBER);
+    const inputHarness = await harness.getControl();
+    await inputHarness.focus();
+    await inputHarness.setValue(VALID_US_NUMBER);
 
-    await expectAsync(harness.getValue()).toBeResolvedTo(VALID_US_NUMBER);
+    await expectAsync(inputHarness.getValue()).toBeResolvedTo(VALID_US_NUMBER);
 
     // Now, clear the value.
-    await harness.clear();
-    await expectAsync(harness.getValue()).toBeResolvedTo('');
+    await inputHarness.clear();
+    await expectAsync(inputHarness.getValue()).toBeResolvedTo('');
   });
 
   it('should use selected country', async () => {
@@ -68,12 +69,13 @@ fdescribe('Basic phone field demo', () => {
       dataSkyId: DATA_SKY_ID,
     });
 
-    await harness.focus();
+    const inputHarness = await harness.getControl();
+    await inputHarness.focus();
     // enter a valid phone number for the default country
-    await harness.enterText(VALID_US_NUMBER);
+    await inputHarness.setValue(VALID_US_NUMBER);
 
     // expect the model to use the proper dial code and format
-    await expectAsync(harness.getValue()).toBeResolvedTo(VALID_US_NUMBER);
+    await expectAsync(inputHarness.getValue()).toBeResolvedTo(VALID_US_NUMBER);
     expect(fixture.componentInstance.phoneControl.value).toEqual(
       '(867) 555-5309',
     );
@@ -98,10 +100,10 @@ fdescribe('Basic phone field demo', () => {
     }
 
     // enter a valid phone number for the new country
-    await harness.enterText(VALID_AU_NUMBER);
+    await inputHarness.setValue(VALID_AU_NUMBER);
 
     // expect the model to use the proper dial code and format
-    await expectAsync(harness.getValue()).toBeResolvedTo(VALID_AU_NUMBER);
+    await expectAsync(inputHarness.getValue()).toBeResolvedTo(VALID_AU_NUMBER);
     expect(fixture.componentInstance.phoneControl.value).toEqual(
       '+61 2 1234 5678',
     );
