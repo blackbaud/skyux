@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  DoCheck,
   HostBinding,
   Injector,
   Input,
@@ -35,7 +36,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { distinctUntilChanged, map, merge } from 'rxjs';
+import { distinctUntilChanged, filter, map, merge } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -144,7 +145,7 @@ function isPartialValue(
   templateUrl: './date-range-picker.component.html',
 })
 export class SkyDateRangePickerComponent
-  implements AfterViewInit, ControlValueAccessor, Validator
+  implements AfterViewInit, ControlValueAccessor, DoCheck, Validator
 {
   /**
    * IDs for the date range options to include in the picker's dropdown.
@@ -336,22 +337,31 @@ export class SkyDateRangePickerComponent
         distinctUntilChanged(),
       )
       .subscribe((calculatorId) => {
-        this.#setValue({ calculatorId });
-        this.#notifyChangeIfDistinct();
+        const oldValue = this.#getValue();
+        if (oldValue.calculatorId !== calculatorId) {
+          this.#setValue({ calculatorId });
+          this.#notifyChangeIfDistinct();
+        }
       });
 
     this.#startDateControl.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe((startDate) => {
-        this.#patchValue({ startDate });
-        this.#notifyChangeIfDistinct();
+        const oldValue = this.#getValue();
+        if (oldValue.startDate !== startDate) {
+          this.#patchValue({ startDate });
+          this.#notifyChangeIfDistinct();
+        }
       });
 
     this.#endDateControl.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe((endDate) => {
-        this.#patchValue({ endDate });
-        this.#notifyChangeIfDistinct();
+        const oldValue = this.#getValue();
+        if (oldValue.endDate !== endDate) {
+          this.#patchValue({ endDate });
+          this.#notifyChangeIfDistinct();
+        }
       });
 
     // If the datepickers' statuses change, we want to retrigger the host
@@ -373,30 +383,31 @@ export class SkyDateRangePickerComponent
         });
       });
 
+    // Mark all fields as touched if the host control is touched.
     this.hostControl?.events
-      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.#destroyRef))
-      .subscribe((evt) => {
-        // Mark all fields as touched if the host control is touched.
-        if (evt instanceof TouchedChangeEvent) {
-          this.formGroup.markAllAsTouched();
-        }
-
-        this.startDateHasErrors.set(
-          controlHasErrors(this.#startDateControl) ||
-            controlHasErrors(this.#calculatorIdControl),
-        );
-
-        this.endDateHasErrors.set(
-          controlHasErrors(this.#endDateControl) ||
-            controlHasErrors(this.#calculatorIdControl),
-        );
-
-        this.calculatorIdHasErrors.set(
-          controlHasErrors(this.#calculatorIdControl),
-        );
+      .pipe(
+        filter((event) => event instanceof TouchedChangeEvent),
+        takeUntilDestroyed(this.#destroyRef),
+      )
+      .subscribe(() => {
+        this.formGroup.markAllAsTouched();
       });
 
     this.#updatePickerVisibility(this.selectedCalculator);
+  }
+
+  public ngDoCheck(): void {
+    this.startDateHasErrors.set(
+      controlHasErrors(this.#startDateControl) ||
+        controlHasErrors(this.#calculatorIdControl),
+    );
+
+    this.endDateHasErrors.set(
+      controlHasErrors(this.#endDateControl) ||
+        controlHasErrors(this.#calculatorIdControl),
+    );
+
+    this.calculatorIdHasErrors.set(controlHasErrors(this.#calculatorIdControl));
   }
 
   // Implemented as part of ControlValueAccessor.

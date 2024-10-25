@@ -851,6 +851,25 @@ describe('Date range picker', function () {
       },
     });
 
+    // Test a programmatic change.
+    component.numValueChangeNotifications = 0;
+    component.dateRange?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      endDate: new Date('2024/10/25'),
+      startDate: new Date('2024/10/26'),
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.numValueChangeNotifications).toEqual(1);
+    expect(component.reactiveForm.value).toEqual({
+      dateRange: {
+        calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+        endDate: jasmine.any(Date),
+        startDate: jasmine.any(Date),
+      },
+    });
+
     component.numValueChangeNotifications = 0;
     selectCalculator(SkyDateRangeCalculatorId.AnyTime);
     fixture.detectChanges();
