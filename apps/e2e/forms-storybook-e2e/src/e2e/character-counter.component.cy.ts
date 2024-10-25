@@ -31,5 +31,5 @@ describe('character-counter', () => {
         });
       });
     });
-  });
+  }, true);
 });

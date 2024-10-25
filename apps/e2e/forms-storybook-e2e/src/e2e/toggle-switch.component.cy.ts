@@ -23,5 +23,5 @@ describe('forms-storybook - toggle switch', () => {
         );
       });
     });
-  });
+  }, true);
 });

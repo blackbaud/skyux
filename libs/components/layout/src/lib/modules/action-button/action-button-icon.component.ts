@@ -1,7 +1,6 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
-import { Subscription } from 'rxjs';
+import { Component, Input, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
 
 const FONTSIZECLASS_SMALL = '2x';
 const FONTSIZECLASS_LARGE = '3x';
@@ -17,7 +16,7 @@ const FONTSIZECLASS_LARGE = '3x';
   ],
   templateUrl: './action-button-icon.component.html',
 })
-export class SkyActionButtonIconComponent implements OnDestroy {
+export class SkyActionButtonIconComponent {
   /**
    * The icon from the
    * [Font Awesome library](https://fontawesome.com/v4.7.0/).
@@ -29,27 +28,13 @@ export class SkyActionButtonIconComponent implements OnDestroy {
   @Input()
   public iconType: string | undefined;
 
-  public fontSizeClass: string = FONTSIZECLASS_LARGE;
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 
-  #subscription: Subscription;
-
-  constructor(mediaQueryService: SkyMediaQueryService) {
-    this.#subscription = mediaQueryService.subscribe(
-      (args: SkyMediaBreakpoints) => {
-        if (args === SkyMediaBreakpoints.xs) {
-          this.fontSizeClass = FONTSIZECLASS_SMALL;
-        } else {
-          this.fontSizeClass = FONTSIZECLASS_LARGE;
-        }
-      },
-    );
-  }
-
-  public ngOnDestroy() {
-    /* istanbul ignore else */
-    /* sanity check */
-    if (this.#subscription) {
-      this.#subscription.unsubscribe();
-    }
-  }
+  protected fontSizeClass = computed(() => {
+    return this.#breakpoint() === 'xs'
+      ? FONTSIZECLASS_SMALL
+      : FONTSIZECLASS_LARGE;
+  });
 }

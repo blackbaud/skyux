@@ -37,26 +37,10 @@
 
 .sky-theme-modern {
   a {
-    color: var(--sky-color-text-action);
     border-radius: var(
       --sky-override-a-border-radius,
       var(--sky-border-radius-s)
     );
-
-    &:hover,
-    &:active {
-      &:not(.sky-btn-primary):not(.sky-btn-danger) {
-        color: var(
-          --sky-override-a-color-hover-active,
-          var(--sky-color-text-action)
-        );
-      }
-
-      &.sky-btn-primary,
-      &.sky-btn-danger {
-        color: var(--sky-color-text-inverse);
-      }
-    }
 
     &:focus-visible:not(:active) {
       outline: none;

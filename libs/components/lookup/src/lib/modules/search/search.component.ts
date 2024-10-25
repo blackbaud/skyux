@@ -9,6 +9,7 @@ import {
 import {
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   Input,
@@ -20,10 +21,11 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
+  SkyBreakpoint,
   SkyContentInfo,
   SkyContentInfoProvider,
-  SkyMediaBreakpoints,
   SkyMediaQueryService,
 } from '@skyux/core';
 
@@ -161,8 +163,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   @Input()
   public placeholderText: string | undefined;
 
-  public breakpointSubscription: Subscription | undefined;
-
   public clearButtonShown = false;
 
   public dismissButtonShown = false;
@@ -185,8 +185,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #elRef: ElementRef;
 
-  #mediaQueryService: SkyMediaQueryService;
-
   #searchAdapter: SkySearchAdapterService;
 
   #searchUpdated = new Subject<string>();
@@ -199,13 +197,15 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #_expandMode = EXPAND_MODE_RESPONSIVE;
 
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #mediaQuerySvc = inject(SkyMediaQueryService);
+  readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
+
   constructor(
-    mediaQueryService: SkyMediaQueryService,
     elRef: ElementRef,
     searchAdapter: SkySearchAdapterService,
     changeRef: ChangeDetectorRef,
   ) {
-    this.#mediaQueryService = mediaQueryService;
     this.#elRef = elRef;
     this.#searchAdapter = searchAdapter;
     this.#changeRef = changeRef;
@@ -215,12 +215,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public ngOnInit(): void {
     if (this.#searchShouldCollapse()) {
-      this.breakpointSubscription = this.#mediaQueryService.subscribe(
-        (args: SkyMediaBreakpoints) => {
-          this.#mediaQueryCallback(args);
-          this.#changeRef.detectChanges();
-        },
-      );
+      this.#mediaQuerySvc.breakpointChange
+        .pipe(takeUntilDestroyed(this.#destroyRef))
+        .subscribe((breakpoint) => {
+          this.#mediaQueryCallback(breakpoint);
+        });
     }
 
     this.#setupSearchChangedEvent();
@@ -311,10 +310,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.startInputAnimation(this.#elRef);
 
-      if (
-        event.toState === INPUT_SHOWN_STATE &&
-        this.#mediaQueryService.current === SkyMediaBreakpoints.xs
-      ) {
+      if (event.toState === INPUT_SHOWN_STATE && this.#breakpoint() === 'xs') {
         this.mobileSearchShown = true;
         this.searchButtonShown = false;
       }
@@ -325,14 +321,14 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.endInputAnimation(this.#elRef);
 
+      const breakpoint = this.#breakpoint();
+
       this.searchButtonShown =
-        event.toState === INPUT_HIDDEN_STATE &&
-        this.#mediaQueryService.current === SkyMediaBreakpoints.xs;
+        event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs';
 
       if (
-        (event.toState === INPUT_HIDDEN_STATE &&
-          this.#mediaQueryService.current === SkyMediaBreakpoints.xs) ||
-        this.#mediaQueryService.current !== SkyMediaBreakpoints.xs
+        (event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs') ||
+        breakpoint !== 'xs'
       ) {
         this.mobileSearchShown = false;
       }
@@ -340,10 +336,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public ngOnDestroy(): void {
-    if (this.breakpointSubscription) {
-      this.breakpointSubscription.unsubscribe();
-    }
-
     this.#searchUpdated.complete();
     this.#searchUpdatedSub?.unsubscribe();
   }
@@ -364,14 +356,14 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   #shouldOpenInput(): boolean {
     return (
       this.searchText !== '' &&
-      this.#mediaQueryService.current === SkyMediaBreakpoints.xs &&
+      this.#breakpoint() === 'xs' &&
       this.#searchShouldCollapse()
     );
   }
 
-  #mediaQueryCallback(args: SkyMediaBreakpoints): void {
+  #mediaQueryCallback(breakpoint: SkyBreakpoint): void {
     if (this.#searchShouldCollapse()) {
-      if (args === SkyMediaBreakpoints.xs) {
+      if (breakpoint === 'xs') {
         this.inputAnimate = INPUT_HIDDEN_STATE;
       } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
         this.inputAnimate = INPUT_SHOWN_STATE;

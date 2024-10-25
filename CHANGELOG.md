@@ -1,5 +1,34 @@
 # Changelog
 
+## [11.16.0](https://github.com/blackbaud/skyux/compare/11.15.1...11.16.0) (2024-10-24)
+
+
+### Features
+
+* **components/avatar:** add avatar test harness ([#2840](https://github.com/blackbaud/skyux/issues/2840)) ([af101dc](https://github.com/blackbaud/skyux/commit/af101dc3fd171596a5cb07a1cc37ea97f66171c4))
+* **components/core:** add `SkyMediaQueryController` to interact with breakpoints in tests ([#2802](https://github.com/blackbaud/skyux/issues/2802)) ([fa54b87](https://github.com/blackbaud/skyux/commit/fa54b8727869ff4a1d82b4dab81fedd243052421))
+* **components/forms:** tokenize character counter styles ([#2859](https://github.com/blackbaud/skyux/issues/2859)) ([dfc4207](https://github.com/blackbaud/skyux/commit/dfc4207c10ffc39d450fbd8ee04cfa6d053270d8))
+* **components/forms:** tokenize field group styles ([#2863](https://github.com/blackbaud/skyux/issues/2863)) ([a986aea](https://github.com/blackbaud/skyux/commit/a986aea719a3b7802ab13d1391e1dd187a654507))
+* **components/lookup:** add `getControl()` method to the autocomplete test harness ([#2861](https://github.com/blackbaud/skyux/issues/2861)) ([1ed64cf](https://github.com/blackbaud/skyux/commit/1ed64cf333bf686a8976c4bb0de10348fc0db794))
+
+## [11.15.1](https://github.com/blackbaud/skyux/compare/11.15.0...11.15.1) (2024-10-22)
+
+
+### Bug Fixes
+
+* **components/theme:** remove anchor tag tokens which changed css specificity ([#2856](https://github.com/blackbaud/skyux/issues/2856)) ([5d0cbb3](https://github.com/blackbaud/skyux/commit/5d0cbb3d0dc0bc5075a8eb070447cc8bfd17bccb))
+
+## [11.15.0](https://github.com/blackbaud/skyux/compare/11.14.0...11.15.0) (2024-10-22)
+
+
+### Features
+
+* **components/core:** allow `currencyDisplay` to be specified for `SkyNumericOptions` ([#2817](https://github.com/blackbaud/skyux/issues/2817)) (Thanks @Blackbaud-MitchellThomas) ([a72bc34](https://github.com/blackbaud/skyux/commit/a72bc34d6dc1052f12144a68373673542ea68d04))
+* **components/lists:** tokenize sort styles ([#2853](https://github.com/blackbaud/skyux/issues/2853)) ([6ff09a4](https://github.com/blackbaud/skyux/commit/6ff09a478d464ad9a6cfffdf238897f7d6752f8f))
+* **components/popovers:** tokenize dropdown styles ([#2847](https://github.com/blackbaud/skyux/issues/2847)) ([37ee846](https://github.com/blackbaud/skyux/commit/37ee846691caae72771162443953b7063f43a83e))
+* **components/tabs:** tokenize tabs styling ([#2850](https://github.com/blackbaud/skyux/issues/2850)) ([a209b3e](https://github.com/blackbaud/skyux/commit/a209b3ea7323dd39795bd6c5d5c81226d220c894))
+* **components/theme:** tokenize border, sizing, and elevation styles ([#2855](https://github.com/blackbaud/skyux/issues/2855)) ([e414abf](https://github.com/blackbaud/skyux/commit/e414abf32aea63dcaf5bc890e173abbc8a7475cb))
+
 ## [11.14.0](https://github.com/blackbaud/skyux/compare/11.13.1...11.14.0) (2024-10-18)
 
 

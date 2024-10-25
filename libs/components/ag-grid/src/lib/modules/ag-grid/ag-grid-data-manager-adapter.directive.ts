@@ -1,15 +1,15 @@
 import {
   AfterContentInit,
   ChangeDetectorRef,
-  ContentChildren,
   Directive,
   Input,
   OnDestroy,
-  OnInit,
-  QueryList,
+  contentChildren,
+  effect,
   inject,
 } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyBreakpoint, SkyMediaQueryService } from '@skyux/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -32,6 +32,10 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
+function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
+  return breakpoint === 'xs' ? 'xs' : 'sm';
+}
+
 /**
  * @internal
  */
@@ -39,19 +43,20 @@ import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
   selector: '[skyAgGridDataManagerAdapter]',
 })
 export class SkyAgGridDataManagerAdapterDirective
-  implements AfterContentInit, OnDestroy, OnInit
+  implements AfterContentInit, OnDestroy
 {
   @Input()
   public viewId: string | undefined;
 
-  @ContentChildren(AgGridAngular, { descendants: true })
-  public agGridList: QueryList<AgGridAngular> | undefined;
+  public readonly agGridList = contentChildren<AgGridAngular>(AgGridAngular, {
+    descendants: true,
+  });
 
-  @ContentChildren(SkyAgGridWrapperComponent, { descendants: true })
-  public skyAgGridWrapperList: QueryList<SkyAgGridWrapperComponent> | undefined;
+  public skyAgGridWrapperList = contentChildren(SkyAgGridWrapperComponent, {
+    descendants: true,
+  });
 
   #currentAgGrid: AgGridAngular | undefined;
-  #currentBreakpoint: SkyMediaBreakpoints = 3;
   #currentDataState: SkyDataManagerState | undefined;
   #currentSkyAgGridWrapper: SkyAgGridWrapperComponent | undefined;
   #dataStateSub: Subscription | undefined;
@@ -60,7 +65,9 @@ export class SkyAgGridDataManagerAdapterDirective
   #changeDetector: ChangeDetectorRef;
   #dataManagerSvc: SkyDataManagerService;
 
-  readonly #mediaQueryService = inject(SkyMediaQueryService);
+  readonly #breakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -68,31 +75,33 @@ export class SkyAgGridDataManagerAdapterDirective
   ) {
     this.#changeDetector = changeDetector;
     this.#dataManagerSvc = dataManagerSvc;
+
+    effect(() => {
+      const list = this.agGridList();
+
+      this.#checkForAgGrid(list);
+    });
+
+    effect(() => {
+      const list = this.skyAgGridWrapperList();
+
+      this.#checkForSkyAgGridWrapper(list);
+    });
+
+    effect(() => {
+      const breakpoint = this.#breakpoint();
+
+      if (breakpoint) {
+        this.#applyColumnWidths(breakpoint);
+      }
+    });
   }
 
   public ngAfterContentInit(): void {
     if (this.viewId) {
       this.#dataManagerSvc.setViewkeeperClasses(this.viewId, ['.ag-header']);
       this.#viewConfig = this.#dataManagerSvc.getViewById(this.viewId);
-
-      this.#checkForAgGrid();
-      this.#checkForSkyAgGridWrapper();
-
-      this.agGridList?.changes
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => this.#checkForAgGrid());
-
-      this.skyAgGridWrapperList?.changes
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => this.#checkForSkyAgGridWrapper());
     }
-  }
-
-  public ngOnInit(): void {
-    this.#mediaQueryService.subscribe((breakpoint: SkyMediaBreakpoints) => {
-      this.#currentBreakpoint = breakpoint;
-      this.#applyColumnWidths();
-    });
   }
 
   public ngOnDestroy(): void {
@@ -100,15 +109,13 @@ export class SkyAgGridDataManagerAdapterDirective
     this.#ngUnsubscribe.complete();
   }
 
-  #checkForAgGrid(): void {
-    if (this.agGridList) {
-      const agGridCount = this.agGridList.length;
+  #checkForAgGrid(agGridList: readonly AgGridAngular[]): void {
+    const agGrid = agGridList[0];
+    const agGridCount = agGridList.length;
 
-      /* istanbul ignore else */
-      if (agGridCount === 0) {
-        this.#unregisterAgGrid();
-      } else if (this.agGridList.first !== this.#currentAgGrid) {
-        this.#registerAgGrid();
+    if (agGrid) {
+      if (agGrid !== this.#currentAgGrid) {
+        this.#registerAgGrid(agGrid);
       }
 
       if (agGridCount > 1) {
@@ -119,24 +126,21 @@ export class SkyAgGridDataManagerAdapterDirective
     }
   }
 
-  #checkForSkyAgGridWrapper(): void {
-    if (this.skyAgGridWrapperList) {
-      const skyAgGridWrapperCount = this.skyAgGridWrapperList.length;
+  #checkForSkyAgGridWrapper(
+    wrappers: readonly SkyAgGridWrapperComponent[],
+  ): void {
+    const count = wrappers.length;
+    const wrapper = wrappers[0];
 
-      /* istanbul ignore else */
-      if (skyAgGridWrapperCount === 0) {
-        this.#unregisterSkyAgGridWrapper();
-      } else if (
-        this.skyAgGridWrapperList.first !== this.#currentSkyAgGridWrapper
-      ) {
-        this.#registerSkyAgGridWrapper();
-      }
+    /* istanbul ignore else */
+    if (wrapper !== this.#currentSkyAgGridWrapper) {
+      this.#registerSkyAgGridWrapper(wrapper);
+    }
 
-      if (skyAgGridWrapperCount > 1) {
-        console.warn(
-          'More than one ag-grid child component was found. Using the first ag-Grid.',
-        );
-      }
+    if (count > 1) {
+      console.warn(
+        'More than one ag-grid child component was found. Using the first ag-Grid.',
+      );
     }
   }
 
@@ -153,9 +157,9 @@ export class SkyAgGridDataManagerAdapterDirective
     this.#currentSkyAgGridWrapper = undefined;
   }
 
-  #registerSkyAgGridWrapper(): void {
+  #registerSkyAgGridWrapper(wrapper: SkyAgGridWrapperComponent): void {
     this.#unregisterSkyAgGridWrapper();
-    this.#currentSkyAgGridWrapper = this.skyAgGridWrapperList?.first;
+    this.#currentSkyAgGridWrapper = wrapper;
 
     setTimeout(() => {
       if (this.#currentSkyAgGridWrapper) {
@@ -164,10 +168,8 @@ export class SkyAgGridDataManagerAdapterDirective
     });
   }
 
-  #registerAgGrid(): void {
+  #registerAgGrid(agGrid: AgGridAngular): void {
     this.#unregisterAgGrid();
-
-    const agGrid = this.agGridList?.first;
 
     this.#currentAgGrid = agGrid;
 
@@ -224,8 +226,10 @@ export class SkyAgGridDataManagerAdapterDirective
         .subscribe((event: ColumnResizedEvent) => {
           const colId = event.column?.getColId();
           const width = event.column?.getActualWidth();
-          if (colId && width) {
-            this.#updateColumnWidth(colId, width);
+          const breakpoint = this.#breakpoint();
+
+          if (colId && width && breakpoint) {
+            this.#updateColumnWidth(colId, width, breakpoint);
           }
         });
 
@@ -372,15 +376,17 @@ export class SkyAgGridDataManagerAdapterDirective
     }
   }
 
-  #updateColumnWidth(colId: string, width: number): void {
+  #updateColumnWidth(
+    colId: string,
+    width: number,
+    breakpoint: SkyBreakpoint,
+  ): void {
     const viewState =
       this.viewId && this.#currentDataState?.getViewStateById(this.viewId);
     if (viewState && this.viewId && this.#currentDataState) {
       const currentWidths = viewState?.columnWidths;
-      const breakpointName =
-        this.#currentBreakpoint === SkyMediaBreakpoints.xs ? 'xs' : 'sm';
 
-      currentWidths[breakpointName][colId] = width;
+      currentWidths[toColumnWidthName(breakpoint)][colId] = width;
 
       viewState.columnWidths = currentWidths;
       this.#dataManagerSvc.updateDataState(
@@ -410,23 +416,22 @@ export class SkyAgGridDataManagerAdapterDirective
     }
   }
 
-  #applyColumnWidths(): void {
-    if (!this.agGridList?.first || this.agGridList.first.api.isDestroyed()) {
-      return;
-    }
+  #applyColumnWidths(breakpoint?: SkyBreakpoint): void {
+    breakpoint ??= this.#breakpoint();
 
-    const viewState =
-      this.viewId && this.#currentDataState?.getViewStateById(this.viewId);
+    if (breakpoint) {
+      const viewState =
+        this.viewId && this.#currentDataState?.getViewStateById(this.viewId);
 
-    if (viewState && viewState.columnWidths && viewState.displayedColumnIds) {
-      const breakpointName =
-        this.#currentBreakpoint === SkyMediaBreakpoints.xs ? 'xs' : 'sm';
-      const columnLimits = this.#getGridColumnLimits(
-        viewState.displayedColumnIds,
-        viewState.columnWidths,
-        breakpointName,
-      );
-      this.agGridList.first.api.sizeColumnsToFit({ columnLimits });
+      if (viewState && viewState.columnWidths && viewState.displayedColumnIds) {
+        const columnLimits = this.#getGridColumnLimits(
+          viewState.displayedColumnIds,
+          viewState.columnWidths,
+          toColumnWidthName(breakpoint),
+        );
+
+        this.#currentAgGrid?.api.sizeColumnsToFit({ columnLimits });
+      }
     }
   }
 

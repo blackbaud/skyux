@@ -5,11 +5,7 @@
     [attr.aria-checked]="isSelected | async"
     [ngClass]="{ 'sky-sort-item-selected': (isSelected | async) }"
   >
-    <button
-      type="button"
-      [ngClass]="{ 'sky-font-emphasized': (isSelected | async) }"
-      (click)="itemClicked()"
-    >
+    <button type="button" (click)="itemClicked()">
       <ng-content />
     </button>
   </div>

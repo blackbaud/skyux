@@ -22,6 +22,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./affix/affix.module').then((m) => m.AffixModule),
   },
+  {
+    path: 'media-query',
+    loadComponent: () => import('./media-query/basic/media-query.component'),
+    data: {
+      name: 'Media queries',
+      icon: 'circle',
+      library: 'core',
+    },
+  },
 ];
 
 @NgModule({

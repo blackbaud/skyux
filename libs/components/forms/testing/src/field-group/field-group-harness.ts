@@ -113,7 +113,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
     const harness = await this.locatorForOptional(
       SkyHelpInlineHarness.with({
-        ancestor: '.sky-field-group > .sky-control-label',
+        ancestor: '.sky-field-group > .sky-field-group-legend',
       }),
     )();
 

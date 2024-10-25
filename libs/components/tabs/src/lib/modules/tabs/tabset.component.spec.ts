@@ -10,11 +10,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import {
-  SkyIdService,
-  SkyLayoutHostService,
-  SkyResizeObserverMediaQueryService,
-} from '@skyux/core';
+import { SkyIdService, SkyLayoutHostService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -35,7 +31,6 @@ import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalink
 import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
 import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
 import { SkyTabLayoutType } from './tab-layout-type';
-import { SkyTabComponent } from './tab.component';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 import { SkyTabsetComponent } from './tabset.component';
@@ -182,57 +177,6 @@ describe('Tabset component', () => {
     fixture.destroy();
 
     expect(goSpy).not.toHaveBeenCalled();
-  });
-
-  it('should update the tab button margin class when the theme is modern', () => {
-    function validateMargins(theme: string): void {
-      for (const btnEl of btnEls) {
-        if (theme === 'modern') {
-          expect(btnEl).toHaveCssClass('sky-margin-inline-sm');
-        } else {
-          expect(btnEl).not.toHaveCssClass('sky-margin-inline-sm');
-        }
-      }
-    }
-
-    const template = `<sky-tabset (newTab)="newTab()" (openTab)="openTab()">
-  <sky-tab
-    tabHeading="Tab 1"
-  >
-    Tab content
-  </sky-tab>
-</sky-tabset>`;
-
-    const fixture = TestBed.overrideComponent(TabsetTestComponent, {
-      set: {
-        template: template,
-      },
-    }).createComponent(TabsetTestComponent);
-
-    fixture.detectChanges();
-
-    const btnEls = [
-      ...Array.from(fixture.nativeElement.querySelectorAll('.sky-btn-tab')),
-      fixture.nativeElement.querySelector('.sky-tabset-btn-new'),
-      fixture.nativeElement.querySelector('.sky-tabset-btn-open'),
-    ];
-
-    validateMargins('default');
-
-    mockThemeSvc.settingsChange.next({
-      currentSettings: new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      ),
-      previousSettings: new SkyThemeSettings(
-        SkyTheme.presets.default,
-        SkyThemeMode.presets.light,
-      ),
-    });
-
-    fixture.detectChanges();
-
-    validateMargins('modern');
   });
 
   it('should set the tabs style correctly', () => {
@@ -942,32 +886,6 @@ describe('Tabset component', () => {
       tick();
 
       validateTabSelected(el, 0);
-    }));
-
-    it('should observe the size of an active tab', fakeAsync(() => {
-      const mockResizeObserverMediaQueryService = jasmine.createSpyObj(
-        'SkyResizeObserverMediaQueryService',
-        ['observe', 'unobserve'],
-      );
-
-      TestBed.overrideComponent(SkyTabComponent, {
-        set: {
-          providers: [
-            {
-              provide: SkyResizeObserverMediaQueryService,
-              useValue: mockResizeObserverMediaQueryService,
-            },
-          ],
-        },
-      });
-
-      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-
-      expect(mockResizeObserverMediaQueryService.observe).toHaveBeenCalled();
     }));
 
     it('should initialize active state based on string tabIndex values', fakeAsync(() => {

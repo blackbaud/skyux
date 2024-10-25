@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -11,14 +10,11 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { SkyMediaQueryService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
-import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
@@ -29,13 +25,6 @@ let nextId = 0;
   selector: 'sky-vertical-tab',
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
-  providers: [
-    SkyVerticalTabMediaQueryService,
-    {
-      provide: SkyMediaQueryService,
-      useExisting: SkyVerticalTabMediaQueryService,
-    },
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
@@ -140,10 +129,11 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
     /* istanbul ignore else */
     if (this.#_contentRendered) {
-      // NOTE: Wrapped in a setTimeout here to ensure that everything has completed rendering.
+      // NOTE: Trigger another change detection cycle when the service marks
+      // this tab as "rendered".
       setTimeout(() => {
         if (this.tabContent) {
-          this.#updateBreakpointAndResponsiveClass();
+          this.#changeRef.markForCheck();
         }
       });
     }
@@ -182,20 +172,17 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #adapterService: SkyVerticalTabsetAdapterService;
   #changeRef: ChangeDetectorRef;
   #tabsetService: SkyVerticalTabsetService;
-  #verticalTabMediaQueryService: SkyVerticalTabMediaQueryService;
   #tabIdSvc: SkyTabIdService | undefined;
 
   constructor(
     adapterService: SkyVerticalTabsetAdapterService,
     changeRef: ChangeDetectorRef,
     tabsetService: SkyVerticalTabsetService,
-    verticalTabMediaQueryService: SkyVerticalTabMediaQueryService,
     @Optional() tabIdSvc?: SkyTabIdService,
   ) {
     this.#adapterService = adapterService;
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
-    this.#verticalTabMediaQueryService = verticalTabMediaQueryService;
     this.#tabIdSvc = tabIdSvc;
 
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
@@ -210,18 +197,6 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
       this.isMobile = mobile;
       this.#changeRef.markForCheck();
     });
-
-    // Update the breakpoint and responsive class here just as a sanity check since we can not
-    // watch for element resizing.
-    this.#tabsetService.indexChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((index) => {
-        if (this.index === index && this.contentRendered) {
-          if (this.tabContent) {
-            this.#updateBreakpointAndResponsiveClass();
-          }
-        }
-      });
 
     this.#tabsetService.addTab(this);
   }
@@ -262,29 +237,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    if (this.tabContent) {
-      this.#updateBreakpointAndResponsiveClass();
-    }
-  }
-
   public tabDeactivated(): void {
     this.#changeRef.markForCheck();
-  }
-
-  #updateBreakpointAndResponsiveClass(): void {
-    if (this.tabContent) {
-      const width = this.#adapterService.getWidth(this.tabContent);
-      this.#verticalTabMediaQueryService.setBreakpointForWidth(width);
-
-      const newBreakpoint = this.#verticalTabMediaQueryService.current;
-
-      if (newBreakpoint) {
-        this.#adapterService.setResponsiveClass(this.tabContent, newBreakpoint);
-      }
-
-      this.#changeRef.markForCheck();
-    }
   }
 }
