@@ -291,7 +291,6 @@ export class SkyDateRangePickerComponent
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
   #_label: string | undefined;
   #_value: SkyDateRangeCalculation;
-  #lastChangedValue: SkyDateRangeCalculation | undefined;
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
@@ -331,37 +330,29 @@ export class SkyDateRangePickerComponent
       });
     }
 
+    // Notify consumers when the value changes.
+    this.formGroup.valueChanges
+      .pipe(
+        distinctUntilChanged(areDateRangesEqual),
+        takeUntilDestroyed(this.#destroyRef),
+      )
+      .subscribe((value) => {
+        if (value) {
+          this.#notifyChange?.(value);
+        }
+      });
+
+    // Reset the value when the calculator ID changes.
     this.#calculatorIdControl.valueChanges
       .pipe(
+        // The select element sets the calculator ID to a string, but we
+        // need it to be a number.
         map((calculatorId) => +calculatorId),
         distinctUntilChanged(),
+        takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe((calculatorId) => {
-        const oldValue = this.#getValue();
-        if (oldValue.calculatorId !== calculatorId) {
-          this.#setValue({ calculatorId });
-          this.#notifyChangeIfDistinct();
-        }
-      });
-
-    this.#startDateControl.valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe((startDate) => {
-        const oldValue = this.#getValue();
-        if (oldValue.startDate !== startDate) {
-          this.#patchValue({ startDate });
-          this.#notifyChangeIfDistinct();
-        }
-      });
-
-    this.#endDateControl.valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe((endDate) => {
-        const oldValue = this.#getValue();
-        if (oldValue.endDate !== endDate) {
-          this.#patchValue({ endDate });
-          this.#notifyChangeIfDistinct();
-        }
+        this.#setValue({ calculatorId });
       });
 
     // If the datepickers' statuses change, we want to retrigger the host
@@ -396,6 +387,13 @@ export class SkyDateRangePickerComponent
     this.#updatePickerVisibility(this.selectedCalculator);
   }
 
+  /**
+   * Check for touched status in ngDoCheck since Angular does not (currently)
+   * have an API to respond to touched status changes from the host control.
+   * @see https://github.com/angular/angular/issues/17736#issuecomment-310812368
+   * TODO: Angular 18 introduces a new API to respond to these statuses.
+   * @see https://github.com/angular/angular/issues/10887#issuecomment-2035267400
+   */
   public ngDoCheck(): void {
     this.startDateHasErrors.set(
       controlHasErrors(this.#startDateControl) ||
@@ -496,15 +494,6 @@ export class SkyDateRangePickerComponent
     return { ...this.#_value };
   }
 
-  #notifyChangeIfDistinct(): void {
-    const value = this.#getValue();
-
-    if (!areDateRangesEqual(this.#lastChangedValue, value)) {
-      this.#lastChangedValue = value;
-      this.#notifyChange?.(value);
-    }
-  }
-
   #patchValue(
     partialValue: DateRangeCalculationInterop | null | undefined,
   ): void {
@@ -562,7 +551,10 @@ export class SkyDateRangePickerComponent
         this.#updatePickerVisibility(this.selectedCalculator);
       }
 
-      this.formGroup.patchValue(valueOrDefault);
+      this.formGroup.patchValue(valueOrDefault, {
+        emitEvent: false,
+        onlySelf: true,
+      });
     }
   }
 

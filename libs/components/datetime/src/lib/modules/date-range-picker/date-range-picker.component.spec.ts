@@ -70,11 +70,22 @@ describe('Date range picker', function () {
     type: SkyDateRangeCalculatorType,
   ): void {
     detectChanges();
+
     selectCalculator(id);
+
     detectChanges();
 
-    const showStartDatePicker = getStartDateInput() !== null;
-    const showEndDatePicker = getEndDateInput() !== null;
+    const formGroups = fixture.nativeElement.querySelectorAll(
+      '.sky-date-range-picker-form-group',
+    ) as NodeListOf<HTMLDivElement>;
+
+    const showStartDatePicker = !(
+      formGroups.item(1).getAttribute('hidden') !== null
+    );
+
+    const showEndDatePicker = !(
+      formGroups.item(2).getAttribute('hidden') !== null
+    );
 
     // Check if element is hidden.
     switch (type) {
@@ -201,8 +212,6 @@ describe('Date range picker', function () {
 
     selectCalculator(SkyDateRangeCalculatorId.After);
 
-    detectChanges();
-
     enterStartDate('2000/1/2');
 
     const inputElement = fixture.nativeElement
@@ -287,8 +296,6 @@ describe('Date range picker', function () {
     component.disableReactiveOnInit = true;
 
     detectChanges();
-    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
-    detectChanges();
 
     verifyFormFieldsDisabledStatus(true);
 
@@ -327,8 +334,6 @@ describe('Date range picker', function () {
     component.templateDisable = true;
 
     detectChanges();
-    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
-    detectChanges();
 
     verifyFormFieldsDisabledStatus(true);
   }));
@@ -336,8 +341,6 @@ describe('Date range picker', function () {
   it('should set enabled state via template input on initialization', fakeAsync(function () {
     component.templateDisable = false;
 
-    detectChanges();
-    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
     detectChanges();
 
     verifyFormFieldsDisabledStatus(false);
@@ -381,12 +384,6 @@ describe('Date range picker', function () {
   });
 
   it('should mark only start date input as touched when start date is interacted with', () => {
-    component.dateRange?.setValue({
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: new Date('1/1/2000'),
-      endDate: new Date('1/2/2000'),
-    });
-
     fixture.detectChanges();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
@@ -402,12 +399,6 @@ describe('Date range picker', function () {
   });
 
   it('should mark only start date input as touched when start date is interacted with', () => {
-    component.dateRange?.setValue({
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: new Date('1/1/2000'),
-      endDate: new Date('1/2/2000'),
-    });
-
     fixture.detectChanges();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
