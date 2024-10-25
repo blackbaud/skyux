@@ -1,59 +1,23 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-@use 'scss/variables' as lookupVars;
+@include compatMixins.sky-default-overrides('.sky-search-container') {
+  --sky-override-search-mobile-background-color: #{$sky-color-white};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-search-container', false) {
+  --sky-override-search-close-button-height-width: 40px;
+  --sky-override-search-background-color: var(--modern-color-transparent);
+}
 
 sky-search {
-  .sky-search-input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: 0 none;
-
-    &:focus {
-      border: 0 none;
-      box-shadow: none;
-      outline: none;
-    }
-
-    /**
-     * Prevents the IE clear icon from displaying in the input
-     * because our search control already includes a clear icon.
-     */
-    &::-ms-clear {
-      display: none;
-    }
-  }
-
-  .sky-search-btn {
-    border-left: 0 none;
-
-    &:hover,
-    &:focus {
-      background-color: $sky-color-white;
-    }
-  }
-
   .sky-search-btn-apply {
     padding-left: 6px;
-    @include defaultMixins.sky-border(dark, top, bottom, right);
   }
 
   .sky-search-btn-clear {
-    border-right: 0 none;
     padding-right: 6px;
-    @include defaultMixins.sky-border(dark, top, bottom);
-  }
-
-  .sky-search-input-focused {
-    .sky-search-btn {
-      border-color: transparent;
-      border-top: 0 none;
-      border-bottom: 0 none;
-    }
-
-    .sky-search-btn-apply {
-      border-right: 0 none;
-    }
   }
 
   // Search input (.sky-form-control) has z-index 2.
@@ -75,7 +39,7 @@ sky-search {
 
   @include defaultMixins.sky-host-responsive-container-sm-min(false) {
     .sky-search-input-container {
-      min-width: lookupVars.$sky-search-width;
+      min-width: 300px;
     }
   }
 
@@ -123,7 +87,10 @@ sky-search {
   .sky-search-dismiss-absolute {
     align-items: center;
     position: absolute;
-    background-color: lookupVars.$sky-search-background-color;
+    background-color: var(
+      --sky-override-search-mobile-background-color,
+      var(--sky-color-background-action-secondary-base)
+    );
     top: 0;
     left: 0;
     bottom: 0;
@@ -135,24 +102,45 @@ sky-search {
 .sky-theme-modern {
   sky-search {
     .sky-input-box {
-      --sky-background-color-input-box-group: transparent;
+      --sky-background-color-input-box-group: var(
+        --sky-override-search-background-color,
+        var(--sky-color-background-action-secondary-base)
+      );
     }
 
     .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
-      width: 40px;
+      height: var(
+        --sky-override-search-close-button-height-width,
+        calc(
+          calc(
+              var(--sky-font-line_height-input-val) *
+                var(--sky-font-size-input-val)
+            ) + calc(var(--sky-space-inset-balanced-s) * 2)
+        )
+      );
+      width: var(
+        --sky-override-search-close-button-height-width,
+        calc(
+          calc(
+              var(--sky-font-line_height-input-val) *
+                var(--sky-font-size-input-val)
+            ) + calc(var(--sky-space-inset-balanced-s) * 2)
+        )
+      );
 
       .sky-icon.sky-i-close {
-        color: $sky-theme-modern-color-gray-110;
+        color: var(--sky-color-icon-default);
         font-size: inherit;
       }
     }
 
+    // the styles on the mobile search button when a search is applied
     .sky-search-btn-open-applied {
       &.sky-search-btn-open,
       &.sky-search-btn-open:hover {
         border: none;
         box-shadow: inset 0 0 0 2px $sky-highlight-color-success;
-        padding: $sky-theme-modern-padding-button-icon;
+        padding: var(--sky-space-inset-balanced-s);
       }
     }
 
@@ -173,21 +161,21 @@ sky-search {
           )
           .sky-form-group {
           border: none;
-          border-radius: unset;
-          box-shadow: inset 0 -1px 0 0 $sky-theme-modern-background-color-primary-dark;
+          border-radius: var(--sky-border-radius-0);
+          box-shadow: inset 0 -1px 0 0 var(--sky-color-border-selected);
         }
       }
 
       .sky-input-box-icon-inset-left-wrapper {
         .sky-input-box-icon-inset-left {
-          padding: 0 10px;
+          padding: 0 var(--sky-space-gap-icon-m);
         }
       }
 
       .sky-input-group-icon {
         .sky-icon {
           font-size: 17.3333px; // Override input-box's size with the old font-awesome size.
-          color: $sky-theme-modern-color-gray-110;
+          color: var(--sky-color-icon-default);
         }
       }
 
@@ -195,52 +183,21 @@ sky-search {
         .sky-input-box-form-group-inner {
           input {
             width: auto;
-            padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm
-              $sky-theme-modern-space-sm 0;
+            padding: var(--sky-space-inset-balanced-s)
+              var(--sky-space-inset-balanced-s)
+              var(--sky-space-inset-balanced-s) 0;
             margin: 0;
 
             &::placeholder {
-              font-style: normal;
-              color: inherit;
-              font-weight: $sky-theme-modern-font-deemphasized-weight;
+              font-style: var(--sky-font-style-body-s);
+              color: var(--sky-color-text-default);
+              font-weight: var(--bb-font-weight-regular);
             }
 
             &:focus::placeholder {
               color: transparent;
             }
           }
-        }
-      }
-    }
-  }
-
-  &.sky-theme-mode-dark {
-    .sky-search-dismiss-absolute {
-      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
-    }
-
-    .sky-search-btn-open-applied {
-      &.sky-search-btn-open,
-      &.sky-search-btn-open:hover {
-        color: $sky-highlight-color-success;
-      }
-    }
-
-    sky-search {
-      .sky-input-box {
-        --sky-background-color-input-box-group: transparent;
-      }
-
-      .sky-input-box .sky-input-group-btn .sky-btn.sky-search-btn {
-        .sky-icon.sky-i-close {
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
-        }
-      }
-
-      .sky-input-group-icon {
-        .sky-icon {
-          font-size: 17.333px;
-          color: $sky-theme-modern-mode-dark-font-body-default-color;
         }
       }
     }
