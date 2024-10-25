@@ -21,7 +21,7 @@
       <select
         formControlName="calculatorId"
         (blur)="onBlur()"
-        (change)="onDateChange()"
+        (change)="onCalculatorIdChange()"
       >
         @for (calculator of calculators; track calculator.calculatorId) {
           <option [value]="calculator.calculatorId">
@@ -65,7 +65,7 @@
           | skyLibResources
       "
     >
-      <sky-datepicker (dateChange)="onDateChange()">
+      <sky-datepicker (calendarDateChange)="onDateChange()">
         <input
           formControlName="startDate"
           name="startDate"
@@ -103,7 +103,7 @@
           | skyLibResources
       "
     >
-      <sky-datepicker (dateChange)="onDateChange()">
+      <sky-datepicker (calendarDateChange)="onDateChange()">
         <input
           formControlName="endDate"
           name="endDate"

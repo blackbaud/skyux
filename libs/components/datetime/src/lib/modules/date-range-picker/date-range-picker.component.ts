@@ -36,7 +36,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { distinctUntilChanged, filter, map, merge } from 'rxjs';
+import { distinctUntilChanged, filter, merge } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -330,19 +330,6 @@ export class SkyDateRangePickerComponent
       });
     }
 
-    // Reset the value when the calculator ID changes.
-    this.#calculatorIdControl.valueChanges
-      .pipe(
-        // The select element sets the calculator ID to a string, but we
-        // need it to be a number.
-        map((calculatorId) => +calculatorId),
-        distinctUntilChanged(),
-        takeUntilDestroyed(this.#destroyRef),
-      )
-      .subscribe((calculatorId) => {
-        this.#setValue({ calculatorId });
-      });
-
     // If the datepickers' statuses change, we want to retrigger the host
     // control's validation so that their errors are reflected back to the host.
     merge(
@@ -464,6 +451,25 @@ export class SkyDateRangePickerComponent
     this.#notifyTouched?.();
   }
 
+  /**
+   * Fires when a user changes the selected calculator ID.
+   */
+  protected onCalculatorIdChange(): void {
+    // Reset the value when the calculator ID changes.
+    this.#setValue({ calculatorId: +this.#calculatorIdControl.value });
+    this.onDateChange();
+  }
+
+  /**
+   * Fires when a user interacts with the date range picker.
+   */
+  protected onDateChange(): void {
+    // Wait until the form control is updated before retrieving its value.
+    setTimeout(() => {
+      this.#notifyChange?.(this.formGroup.value);
+    });
+  }
+
   #getCalculator(calculatorId: number): SkyDateRangeCalculator {
     const found = this.calculators.find((c) => c.calculatorId === calculatorId);
 
@@ -570,11 +576,5 @@ export class SkyDateRangePickerComponent
 
     this.showEndDatePicker.set(showEndDatePicker);
     this.showStartDatePicker.set(showStartDatePicker);
-  }
-
-  protected onDateChange(): void {
-    setTimeout(() => {
-      this.#notifyChange?.(this.formGroup.value);
-    });
   }
 }

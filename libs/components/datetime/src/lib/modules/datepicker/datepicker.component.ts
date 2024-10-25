@@ -14,6 +14,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  output,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -108,14 +109,16 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   @Output()
   public openChange = new EventEmitter<boolean>();
 
+  /**
+   * Fires when a user selects a date from the calendar.
+   * @internal
+   */
+  public calendarDateChange = output<Date>();
+
   public calendarId: string;
 
   public customDates: SkyDatepickerCustomDate[] | undefined;
 
-  /**
-   * @internal
-   */
-  @Output()
   public dateChange = new EventEmitter<Date>();
 
   public isDaypickerWaiting = false;
@@ -286,6 +289,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   public onSelectedDateChange(value: Date): void {
+    this.calendarDateChange.emit(value);
     this.dateChange.emit(value);
     this.#closePicker();
   }
