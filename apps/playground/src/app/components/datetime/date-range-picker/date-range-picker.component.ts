@@ -98,19 +98,13 @@ export class DateRangePickerComponent {
   }
 
   protected setInvalidRange(): void {
-    // this.pickerFormControl.setValue({
-    //   calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-    //   startDate: new Date('1/2/2012'),
-    //   endDate: new Date('1/1/2012'),
-    // });
-
-    this.pickerFormControl.markAsTouched();
-
     this.pickerFormControl.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: 'invalid',
-      endDate: 'invalid',
-    } as any);
+      startDate: new Date('1/2/2012'),
+      endDate: new Date('1/1/2012'),
+    });
+
+    this.pickerFormControl.markAsTouched();
   }
 
   protected setUndefined(): void {

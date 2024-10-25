@@ -4,7 +4,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  DoCheck,
   HostBinding,
   Injector,
   Input,
@@ -25,6 +24,7 @@ import {
   NG_VALUE_ACCESSOR,
   NgControl,
   ReactiveFormsModule,
+  StatusChangeEvent,
   TouchedChangeEvent,
   ValidationErrors,
   Validator,
@@ -145,7 +145,7 @@ function isPartialValue(
   templateUrl: './date-range-picker.component.html',
 })
 export class SkyDateRangePickerComponent
-  implements AfterViewInit, ControlValueAccessor, DoCheck, Validator
+  implements AfterViewInit, ControlValueAccessor, Validator
 {
   /**
    * IDs for the date range options to include in the picker's dropdown.
@@ -352,35 +352,38 @@ export class SkyDateRangePickerComponent
     // Mark all fields as touched if the host control is touched.
     this.hostControl?.events
       .pipe(
-        filter((event) => event instanceof TouchedChangeEvent),
+        filter((evt) => evt instanceof TouchedChangeEvent),
         takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe(() => {
         this.formGroup.markAllAsTouched();
       });
 
-    this.#updatePickerVisibility(this.selectedCalculator);
-  }
+    // Check error status whenever our form's status changes.
+    this.formGroup.events
+      .pipe(
+        filter(
+          (evt) =>
+            evt instanceof TouchedChangeEvent ||
+            evt instanceof StatusChangeEvent,
+        ),
+        takeUntilDestroyed(this.#destroyRef),
+      )
+      .subscribe(() => {
+        this.calculatorIdHasErrors.set(
+          controlHasErrors(this.#calculatorIdControl),
+        );
 
-  /**
-   * Check for touched status in ngDoCheck since Angular does not (currently)
-   * have an API to respond to touched status changes from the host control.
-   * @see https://github.com/angular/angular/issues/17736#issuecomment-310812368
-   * TODO: Angular 18 introduces a new API to respond to these statuses.
-   * @see https://github.com/angular/angular/issues/10887#issuecomment-2035267400
-   */
-  public ngDoCheck(): void {
-    this.startDateHasErrors.set(
-      controlHasErrors(this.#startDateControl) ||
-        controlHasErrors(this.#calculatorIdControl),
-    );
+        this.startDateHasErrors.set(
+          controlHasErrors(this.#startDateControl) ||
+            this.calculatorIdHasErrors(),
+        );
 
-    this.endDateHasErrors.set(
-      controlHasErrors(this.#endDateControl) ||
-        controlHasErrors(this.#calculatorIdControl),
-    );
-
-    this.calculatorIdHasErrors.set(controlHasErrors(this.#calculatorIdControl));
+        this.endDateHasErrors.set(
+          controlHasErrors(this.#endDateControl) ||
+            this.calculatorIdHasErrors(),
+        );
+      });
   }
 
   // Implemented as part of ControlValueAccessor.
@@ -461,7 +464,7 @@ export class SkyDateRangePickerComponent
   }
 
   /**
-   * Fires when a user interacts with the date range picker.
+   * Fires when a user interacts with a date range picker.
    */
   protected onDateChange(): void {
     // Wait until the form control is updated before retrieving its value.
