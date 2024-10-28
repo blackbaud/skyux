@@ -965,6 +965,57 @@ describe('Lookup component', function () {
         component.setSingleSelect();
       });
 
+      it('should emit only once per value change', fakeAsync(() => {
+        const bestFriend = { name: 'Rachel' };
+        component.friends = [bestFriend];
+
+        let counter = 0;
+
+        const sub = component.form.valueChanges.subscribe(() => {
+          counter++;
+        });
+
+        // Expect zero on init.
+        fixture.detectChanges();
+        expect(counter).toEqual(0);
+        counter = 0;
+
+        // Programmatic change:
+        component.form.setValue({
+          friends: [{ name: 'Xavier' }],
+        });
+        fixture.detectChanges();
+        expect(counter).toEqual(1);
+        counter = 0;
+
+        // User interaction:
+        performSearch('s', fixture);
+        selectSearchResult(0, fixture);
+        expect(counter).toEqual(1);
+        counter = 0;
+
+        // Programmatic, set to null:
+        component.form.setValue({
+          friends: null,
+        });
+        fixture.detectChanges();
+        expect(counter).toEqual(1);
+        counter = 0;
+
+        // Programmatic, but do not notify:
+        component.form.setValue(
+          {
+            friends: [{ name: 'Isaac' }],
+          },
+          { emitEvent: false },
+        );
+        fixture.detectChanges();
+        expect(counter).toEqual(0);
+        counter = 0;
+
+        sub.unsubscribe();
+      }));
+
       it('should allow a preselected value', fakeAsync(() => {
         const bestFriend = { name: 'Rachel' };
         expect(lookupComponent.value).toEqual([]);
