@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["router-testing"],
+          "projects": ["core"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/router/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/router/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/router/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

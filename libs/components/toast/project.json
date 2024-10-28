@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["toast-testing"],
+          "projects": ["testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/toast/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/toast/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/toast/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

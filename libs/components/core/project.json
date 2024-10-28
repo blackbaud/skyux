@@ -21,12 +21,13 @@
         }
       },
       "defaultConfiguration": "production",
-      "dependsOn": [
-        "^build",
-        {
-          "projects": ["core-testing"],
-          "target": "build"
-        }
+      "dependsOn": ["^build"],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/core/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/core/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/core/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

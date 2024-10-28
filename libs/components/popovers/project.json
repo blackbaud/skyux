@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["popovers-testing"],
+          "projects": ["core", "testing", "theme"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/popovers/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/popovers/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/popovers/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

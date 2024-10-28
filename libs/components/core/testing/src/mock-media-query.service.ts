@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { Injectable, NgZone } from '@angular/core';
 import {
   SkyMediaBreakpoints,
@@ -9,6 +10,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 
 /**
  * @internal
+ * @deprecated Use `provideSkyMediaQueryTesting()` coupled with `SkyMediaQueryTestingController`.
  */
 @Injectable()
 export class MockSkyMediaQueryService extends SkyMediaQueryService {

@@ -69,7 +69,7 @@
     "@nx/angular:package": {
       "cache": true,
       "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
+      "inputs": ["buildInputs", "^buildInputs"]
     }
   },
   "namedInputs": {
@@ -80,6 +80,7 @@
       "!{projectRoot}/**/*.spec.[jt]s",
       "!{projectRoot}/**/*.stories.@(js|ts)",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/**/fixtures/**/*",
       "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/jest.config.[jt]s",

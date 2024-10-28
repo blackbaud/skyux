@@ -24,6 +24,10 @@ $header-height: 50px;
     .sky-flyout-resize-handle {
       cursor: initial;
     }
+
+    .sky-flyout-header {
+      width: 100%;
+    }
   }
 
   &.sky-flyout-hidden {

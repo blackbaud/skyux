@@ -24,9 +24,16 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["tabs-testing"],
+          "projects": ["testing"],
           "target": "build"
         }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/tabs/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/tabs/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/tabs/testing/src/**/fixtures/**/*"
       ]
     },
     "test": {

@@ -5,22 +5,7 @@
   "sourceRoot": "libs/components/lookup/testing/src",
   "prefix": "sky",
   "tags": ["testing"],
-  "implicitDependencies": [
-    "core",
-    "core-testing",
-    "forms",
-    "forms-testing",
-    "indicators-testing",
-    "lists-testing",
-    "testing",
-    "theme"
-  ],
   "targets": {
-    "build": {
-      "command": "echo ' 🏗️  build lookup-testing'",
-      "inputs": ["buildInputs"],
-      "dependsOn": []
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
