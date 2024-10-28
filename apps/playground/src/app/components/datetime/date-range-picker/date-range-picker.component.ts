@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormsModule,
@@ -38,28 +37,22 @@ export class DateRangePickerComponent {
   protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
   protected dateFormat: string | undefined;
   protected hintText: string | undefined;
-
-  protected formGroup = inject(FormBuilder).group({
-    lastDonation: new FormControl<SkyDateRangeCalculation>(
-      { calculatorId: SkyDateRangeCalculatorId.Today },
-      [Validators.required],
-    ),
+  protected lastDonationControl = new FormControl<SkyDateRangeCalculation>({
+    calculatorId: SkyDateRangeCalculatorId.Today,
   });
 
-  protected get pickerFormControl(): AbstractControl<SkyDateRangeCalculation> {
-    return this.formGroup.get(
-      'lastDonation',
-    ) as AbstractControl<SkyDateRangeCalculation>;
-  }
+  protected formGroup = inject(FormBuilder).group({
+    lastDonation: this.lastDonationControl,
+  });
 
   readonly #localeProvider = inject(SkyAppLocaleProvider) as LocaleProvider;
 
   constructor() {
-    this.pickerFormControl.statusChanges.subscribe((x) => {
+    this.lastDonationControl.statusChanges.subscribe((x) => {
       console.log('HOST STATUS CHANGE:', x);
     });
 
-    this.pickerFormControl.valueChanges.subscribe((x) => {
+    this.lastDonationControl.valueChanges.subscribe((x) => {
       console.log('HOST VALUE CHANGE:', JSON.stringify(x));
     });
   }
@@ -84,7 +77,7 @@ export class DateRangePickerComponent {
   }
 
   protected changeValue(): void {
-    this.pickerFormControl.patchValue({ calculatorId: 5 });
+    this.lastDonationControl.patchValue({ calculatorId: 5 });
   }
 
   protected onSubmit(): void {
@@ -98,21 +91,21 @@ export class DateRangePickerComponent {
   }
 
   protected setInvalidRange(): void {
-    this.pickerFormControl.setValue({
+    this.lastDonationControl.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: new Date('1/2/2012'),
       endDate: new Date('1/1/2012'),
     });
 
-    this.pickerFormControl.markAsTouched();
+    this.lastDonationControl.markAsTouched();
   }
 
   protected setUndefined(): void {
-    this.pickerFormControl.setValue(undefined);
+    this.lastDonationControl.setValue(undefined);
   }
 
   protected setValidRange(): void {
-    this.pickerFormControl.setValue({
+    this.lastDonationControl.setValue({
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: new Date('2024/10/1'),
       endDate: new Date('2024/10/31'),
@@ -120,10 +113,10 @@ export class DateRangePickerComponent {
   }
 
   protected toggleDisabled(): void {
-    if (this.pickerFormControl.disabled) {
-      this.pickerFormControl.enable();
+    if (this.lastDonationControl.disabled) {
+      this.lastDonationControl.enable();
     } else {
-      this.pickerFormControl.disable();
+      this.lastDonationControl.disable();
     }
   }
 
@@ -137,11 +130,11 @@ export class DateRangePickerComponent {
   }
 
   protected toggleRequired(): void {
-    if (this.pickerFormControl.hasValidator(Validators.required)) {
-      this.pickerFormControl.removeValidators(Validators.required);
+    if (this.lastDonationControl.hasValidator(Validators.required)) {
+      this.lastDonationControl.removeValidators(Validators.required);
     } else {
-      this.pickerFormControl.addValidators(Validators.required);
+      this.lastDonationControl.addValidators(Validators.required);
     }
-    this.pickerFormControl.updateValueAndValidity();
+    this.lastDonationControl.updateValueAndValidity();
   }
 }

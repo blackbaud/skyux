@@ -37,7 +37,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { distinctUntilChanged, filter, map, merge } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -333,27 +333,26 @@ export class SkyDateRangePickerComponent
 
     // If the datepickers' statuses change, we want to retrigger the host
     // control's validation so that their errors are reflected back to the host.
-    merge(
-      this.#startDateControl.statusChanges,
-      this.#endDateControl.statusChanges,
-    )
-      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.#destroyRef))
+    this.formGroup.events
+      .pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt) => evt.status),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.#destroyRef),
+      )
       .subscribe(() => {
-        // Use a setTimeout to avoid an ExpressionChangedAfterChecked error,
-        // since multiple calls to updateValueAndValidity in the same
-        // cycle may collide with one another.
-        setTimeout(() => {
-          this.hostControl?.updateValueAndValidity({
-            emitEvent: false,
-            onlySelf: true,
-          });
+        this.hostControl?.updateValueAndValidity({
+          emitEvent: false,
+          onlySelf: true,
         });
       });
 
     // Mark all fields as touched if the host control is touched.
     this.hostControl?.events
       .pipe(
-        filter((event) => event instanceof TouchedChangeEvent),
+        filter((evt) => evt instanceof TouchedChangeEvent),
+        map((evt) => evt.touched),
+        distinctUntilChanged(),
         takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe(() => {
@@ -525,9 +524,7 @@ export class SkyDateRangePickerComponent
         this.#updatePickerVisibility(this.selectedCalculator);
       }
 
-      this.formGroup.patchValue(valueOrDefault, {
-        onlySelf: true,
-      });
+      this.formGroup.patchValue(valueOrDefault);
     }
   }
 
