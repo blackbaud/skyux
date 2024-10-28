@@ -7,18 +7,19 @@ import {
   HostBinding,
   Injector,
   Input,
+  Signal,
   TemplateRef,
   booleanAttribute,
+  computed,
   inject,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
   FormBuilder,
   FormControl,
-  FormGroup,
   FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -36,7 +37,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { distinctUntilChanged, filter, merge } from 'rxjs';
+import { distinctUntilChanged, filter, map, merge } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -94,10 +95,6 @@ function areDatesEqual(a: DateValue, b: DateValue): boolean {
   return a instanceof Date && b instanceof Date && a.getTime() === b.getTime();
 }
 
-function controlHasErrors(control: AbstractControl): boolean {
-  return !!(control.errors && control.touched);
-}
-
 function isNullOrUndefined(value: unknown): value is undefined | null {
   return value === undefined || value === null;
 }
@@ -147,6 +144,11 @@ function isPartialValue(
 export class SkyDateRangePickerComponent
   implements AfterViewInit, ControlValueAccessor, Validator
 {
+  readonly #dateRangeSvc = inject(SkyDateRangeService);
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #injector = inject(Injector);
+  readonly #logger = inject(SkyLogService);
+
   /**
    * IDs for the date range options to include in the picker's dropdown.
    * The options specify calculator objects that return two `Date` objects to represent date ranges.
@@ -264,54 +266,66 @@ export class SkyDateRangePickerComponent
   @Input()
   public helpKey: string | undefined;
 
-  protected calculatorIdHasErrors = signal<boolean>(false);
-  protected calculators: SkyDateRangeCalculator[] = [];
-  protected endDateHasErrors = signal<boolean>(false);
-  protected formGroup: FormGroup;
+  protected calculators = this.#dateRangeSvc.calculators;
   protected hostControl: AbstractControl | null | undefined;
-  protected selectedCalculator: SkyDateRangeCalculator;
+  protected selectedCalculator = this.calculators[0];
   protected showEndDatePicker = signal<boolean>(false);
   protected showStartDatePicker = signal<boolean>(false);
-  protected startDateHasErrors = signal<boolean>(false);
 
-  get #calculatorIdControl(): AbstractControl<SkyDateRangeCalculatorId> {
-    return this.formGroup.get(
-      'calculatorId',
-    ) as AbstractControl<SkyDateRangeCalculatorId>;
-  }
-
-  get #endDateControl(): AbstractControl<DateValue> {
-    return this.formGroup.get('endDate') as AbstractControl<DateValue>;
-  }
-
-  get #startDateControl(): AbstractControl<DateValue> {
-    return this.formGroup.get('startDate') as AbstractControl<DateValue>;
-  }
-
-  #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
-  #_label: string | undefined;
-  #_value: SkyDateRangeCalculation;
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
-  readonly #dateRangeSvc = inject(SkyDateRangeService);
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #injector = inject(Injector);
-  readonly #logger = inject(SkyLogService);
+  #calculatorIdControl = new FormControl<number>(
+    this.#getValue().calculatorId,
+    { nonNullable: true },
+  );
+  #calculatorIdInvalid = this.#createStatusChangeSignal(
+    this.#calculatorIdControl,
+  );
+  #calculatorIdTouched = this.#createTouchedChangeSignal(
+    this.#calculatorIdControl,
+  );
 
-  constructor() {
-    this.calculators = this.#dateRangeSvc.calculators;
-    this.selectedCalculator = this.calculators[0];
+  #endDateControl = new FormControl<DateValue>(this.#getValue().endDate);
+  #endDateInvalid = this.#createStatusChangeSignal(this.#endDateControl);
+  #endDateTouched = this.#createTouchedChangeSignal(this.#endDateControl);
 
-    const initialValue = this.selectedCalculator.getValue();
-    this.#_value = initialValue;
+  #startDateControl = new FormControl<DateValue>(this.#getValue().startDate);
+  #startDateInvalid = this.#createStatusChangeSignal(this.#startDateControl);
+  #startDateTouched = this.#createTouchedChangeSignal(this.#startDateControl);
 
-    this.formGroup = inject(FormBuilder).group({
-      calculatorId: new FormControl<number>(initialValue.calculatorId),
-      startDate: new FormControl<DateValue>(initialValue.startDate),
-      endDate: new FormControl<DateValue>(initialValue.endDate),
-    });
-  }
+  protected formGroup = inject(FormBuilder).group({
+    calculatorId: this.#calculatorIdControl,
+    startDate: this.#startDateControl,
+    endDate: this.#endDateControl,
+  });
+
+  protected readonly calculatorIdHasErrors = computed(() => {
+    const touched = this.#calculatorIdTouched();
+    const invalid = this.#calculatorIdInvalid();
+
+    return touched && invalid;
+  });
+
+  protected readonly endDateHasErrors = computed(() => {
+    const calculatorIdHasErrors = this.calculatorIdHasErrors();
+    const touched = this.#endDateTouched();
+    const invalid = this.#endDateInvalid();
+
+    return calculatorIdHasErrors || (touched && invalid);
+  });
+
+  protected readonly startDateHasErrors = computed(() => {
+    const calculatorIdHasErrors = this.calculatorIdHasErrors();
+    const touched = this.#startDateTouched();
+    const invalid = this.#startDateInvalid();
+
+    return calculatorIdHasErrors || (touched && invalid);
+  });
+
+  #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
+  #_label: string | undefined;
+  #_value = this.selectedCalculator.getValue();
 
   public ngAfterViewInit(): void {
     this.hostControl = this.#injector.get(NgControl, null, {
@@ -352,37 +366,11 @@ export class SkyDateRangePickerComponent
     // Mark all fields as touched if the host control is touched.
     this.hostControl?.events
       .pipe(
-        filter((evt) => evt instanceof TouchedChangeEvent),
+        filter((event) => event instanceof TouchedChangeEvent),
         takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe(() => {
         this.formGroup.markAllAsTouched();
-      });
-
-    // Check error status whenever our form's status changes.
-    this.formGroup.events
-      .pipe(
-        filter(
-          (evt) =>
-            evt instanceof TouchedChangeEvent ||
-            evt instanceof StatusChangeEvent,
-        ),
-        takeUntilDestroyed(this.#destroyRef),
-      )
-      .subscribe(() => {
-        this.calculatorIdHasErrors.set(
-          controlHasErrors(this.#calculatorIdControl),
-        );
-
-        this.startDateHasErrors.set(
-          controlHasErrors(this.#startDateControl) ||
-            this.calculatorIdHasErrors(),
-        );
-
-        this.endDateHasErrors.set(
-          controlHasErrors(this.#endDateControl) ||
-            this.calculatorIdHasErrors(),
-        );
       });
   }
 
@@ -469,7 +457,9 @@ export class SkyDateRangePickerComponent
   protected onDateChange(): void {
     // Wait until the form control is updated before retrieving its value.
     setTimeout(() => {
-      this.#notifyChange?.(this.formGroup.value);
+      this.#notifyChange?.(
+        this.formGroup.getRawValue() as SkyDateRangeCalculation,
+      );
     });
   }
 
@@ -549,7 +539,6 @@ export class SkyDateRangePickerComponent
       }
 
       this.formGroup.patchValue(valueOrDefault, {
-        emitEvent: false,
         onlySelf: true,
       });
     }
@@ -579,5 +568,27 @@ export class SkyDateRangePickerComponent
 
     this.showEndDatePicker.set(showEndDatePicker);
     this.showStartDatePicker.set(showStartDatePicker);
+  }
+
+  #createStatusChangeSignal(control: FormControl): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt) => evt.status === 'INVALID'),
+        takeUntilDestroyed(this.#destroyRef),
+      ),
+    );
+  }
+
+  #createTouchedChangeSignal(
+    control: FormControl,
+  ): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof TouchedChangeEvent),
+        map((evt) => evt.touched),
+        takeUntilDestroyed(this.#destroyRef),
+      ),
+    );
   }
 }
