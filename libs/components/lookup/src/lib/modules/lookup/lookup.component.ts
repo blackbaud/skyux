@@ -356,6 +356,8 @@ export class SkyLookupComponent
     if (options.emitEvent) {
       this.#notifyChange?.(this.#_value);
     }
+
+    this.#updateForSelectMode();
   }
 
   constructor(
@@ -494,7 +496,6 @@ export class SkyLookupComponent
   public writeValue(value: any[]): void {
     // Since we are dealing with arrays - clone the array being sent in to ensure we aren't modifying a consumers outer array
     this.#setValue(value ? value.slice() : [], { emitEvent: false });
-    this.#updateForSelectMode();
   }
 
   public registerOnChange(fn: (value: any[]) => void) {
