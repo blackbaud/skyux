@@ -53,19 +53,6 @@ import { SKY_DEFAULT_CALCULATOR_IDS } from './types/date-range-default-calculato
 
 type DateValue = Date | string | null | undefined;
 
-/**
- * The date range picker expects each datepicker to return a `DateValue` type,
- * but the datepicker actually returns `Date | null | undefined`. This is
- * deceptive because the datepicker will in fact return a string value for
- * values that cannot be formatted into a Date. We're creating this interface
- * to accommodate the discrepancy until we can resolve it in a breaking change.
- */
-interface DateRangeCalculationInterop {
-  calculatorId?: SkyDateRangeCalculatorId;
-  endDate?: DateValue;
-  startDate?: DateValue;
-}
-
 function areDateRangesEqual(
   rangeA: SkyDateRangeCalculation | undefined,
   rangeB: SkyDateRangeCalculation | undefined,
@@ -482,7 +469,7 @@ export class SkyDateRangePickerComponent
   }
 
   #patchValue(
-    partialValue: DateRangeCalculationInterop | null | undefined,
+    partialValue: Partial<SkyDateRangeCalculation> | null | undefined,
   ): void {
     if (isNullOrUndefined(partialValue)) {
       this.#setValue(null);
@@ -504,7 +491,7 @@ export class SkyDateRangePickerComponent
     const value = {
       ...oldValue,
       ...partialValue,
-    } as SkyDateRangeCalculation;
+    };
 
     this.#setValue(value);
   }
