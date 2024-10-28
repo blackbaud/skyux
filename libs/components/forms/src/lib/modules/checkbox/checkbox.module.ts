@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SkyIdModule, SkyTrimModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyFormErrorModule } from '../form-error/form-error.module';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
@@ -30,6 +31,7 @@ import { SkyCheckboxComponent } from './checkbox.component';
     SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
+    SkyThemeModule,
     SkyTrimModule,
   ],
   exports: [
