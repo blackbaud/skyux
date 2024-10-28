@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyFieldGroupHeadingLevel } from './field-group-heading-level';
 import { SkyFieldGroupHeadingStyle } from './field-group-heading-style';
@@ -25,7 +26,7 @@ function numberAttribute3(value: unknown): number {
   templateUrl: './field-group.component.html',
   styleUrl: './field-group.component.scss',
   standalone: true,
-  imports: [CommonModule, SkyHelpInlineModule, SkyIdModule],
+  imports: [CommonModule, SkyHelpInlineModule, SkyIdModule, SkyThemeModule],
 })
 export class SkyFieldGroupComponent {
   /**

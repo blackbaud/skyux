@@ -1,5 +1,16 @@
 # Changelog
 
+## [11.16.0](https://github.com/blackbaud/skyux/compare/11.15.1...11.16.0) (2024-10-24)
+
+
+### Features
+
+* **components/avatar:** add avatar test harness ([#2840](https://github.com/blackbaud/skyux/issues/2840)) ([af101dc](https://github.com/blackbaud/skyux/commit/af101dc3fd171596a5cb07a1cc37ea97f66171c4))
+* **components/core:** add `SkyMediaQueryController` to interact with breakpoints in tests ([#2802](https://github.com/blackbaud/skyux/issues/2802)) ([fa54b87](https://github.com/blackbaud/skyux/commit/fa54b8727869ff4a1d82b4dab81fedd243052421))
+* **components/forms:** tokenize character counter styles ([#2859](https://github.com/blackbaud/skyux/issues/2859)) ([dfc4207](https://github.com/blackbaud/skyux/commit/dfc4207c10ffc39d450fbd8ee04cfa6d053270d8))
+* **components/forms:** tokenize field group styles ([#2863](https://github.com/blackbaud/skyux/issues/2863)) ([a986aea](https://github.com/blackbaud/skyux/commit/a986aea719a3b7802ab13d1391e1dd187a654507))
+* **components/lookup:** add `getControl()` method to the autocomplete test harness ([#2861](https://github.com/blackbaud/skyux/issues/2861)) ([1ed64cf](https://github.com/blackbaud/skyux/commit/1ed64cf333bf686a8976c4bb0de10348fc0db794))
+
 ## [11.15.1](https://github.com/blackbaud/skyux/compare/11.15.0...11.15.1) (2024-10-22)
 
 
