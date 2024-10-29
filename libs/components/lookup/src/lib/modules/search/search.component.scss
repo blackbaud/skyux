@@ -82,6 +82,25 @@ sky-search {
     }
   }
 
+  .sky-btn.sky-search-btn-open {
+    padding-top: var(
+      --sky-override-search-mobile-button-vertical-padding,
+      var(--sky-space-inset-pillarbox-1_2-top-m)
+    );
+    padding-bottom: var(
+      --sky-override-search-mobile-button-vertical-padding,
+      var(--sky-space-inset-pillarbox-1_2-bottom-m)
+    );
+    padding-left: var(
+      --sky-override-search-mobile-button-horizontal-padding,
+      var(--sky-space-inset-pillarbox-1_2-left-m)
+    );
+    padding-right: var(
+      --sky-override-search-mobile-button-horizontal-padding,
+      var(--sky-space-inset-pillarbox-1_2-right-m)
+    );
+  }
+
   .sky-search-btn-open-applied {
     &.sky-search-btn-open,
     &.sky-search-btn-open:hover {
@@ -123,25 +142,6 @@ sky-search {
         var(--sky-space-inset-pillarbox-1_2-right-m)
       );
     }
-  }
-
-  .sky-btn.sky-search-btn-open {
-    padding-top: var(
-      --sky-override-search-mobile-button-vertical-padding,
-      var(--sky-space-inset-pillarbox-1_2-top-m)
-    );
-    padding-bottom: var(
-      --sky-override-search-mobile-button-vertical-padding,
-      var(--sky-space-inset-pillarbox-1_2-bottom-m)
-    );
-    padding-left: var(
-      --sky-override-search-mobile-button-horizontal-padding,
-      var(--sky-space-inset-pillarbox-1_2-left-m)
-    );
-    padding-right: var(
-      --sky-override-search-mobile-button-horizontal-padding,
-      var(--sky-space-inset-pillarbox-1_2-right-m)
-    );
   }
 
   .sky-search-dismiss-container {
