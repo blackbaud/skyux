@@ -22,8 +22,8 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-checkbox-group';
 
   #getCheckboxes = this.locatorForAll(SkyCheckboxHarness);
-  #getHeading = this.locatorFor('.sky-control-label');
-  #getHeadingWrapper = this.locatorFor('.sky-control-label span');
+  #getHeading = this.locatorFor('.sky-checkbox-group-heading');
+  #getHeadingWrapper = this.locatorFor('.sky-checkbox-group-legend');
   #getHintText = this.locatorForOptional('.sky-checkbox-group-hint-text');
   #getLegendDefault = this.locatorForOptional(
     'legend .sky-checkbox-group-heading-text',
@@ -96,7 +96,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    return (await this.#getHeading()).hasClass('sky-screen-reader-only');
+    return (await this.#getHeadingWrapper()).hasClass('sky-screen-reader-only');
   }
 
   /**
@@ -143,9 +143,9 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether the checkbox group is required.
    */
   public async getRequired(): Promise<boolean> {
-    const headingWrapper = await this.#getHeadingWrapper();
+    const heading = await this.#getHeading();
 
-    return await headingWrapper.hasClass('sky-control-label-required');
+    return await heading.hasClass('sky-control-label-required');
   }
 
   /**
@@ -160,8 +160,8 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
     const label = await this.#getLegendDefault();
 
     return (
-      ((await host.hasClass('sky-margin-stacked-lg')) && !!label) ||
-      ((await host.hasClass('sky-margin-stacked-xl')) && !!heading)
+      ((await host.hasClass('sky-checkbox-stacked-no-heading')) && !!label) ||
+      ((await host.hasClass('sky-checkbox-stacked-heading')) && !!heading)
     );
   }
 
@@ -190,7 +190,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
     const harness = await this.locatorForOptional(
       SkyHelpInlineHarness.with({
-        ancestor: '.sky-checkbox-group > .sky-control-label',
+        ancestor: '.sky-checkbox-group > .sky-checkbox-group-legend',
       }),
     )();
 
