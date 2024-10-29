@@ -3,11 +3,11 @@
     class="sky-date-range-picker-form-group"
     [ngClass]="{
       'sky-date-range-picker-last-input':
-        !showStartDatePicker && !showEndDatePicker
+        !showStartDatePicker() && !showEndDatePicker()
     }"
   >
     <sky-input-box
-      [hasErrors]="calculatorIdHasErrors"
+      [hasErrors]="calculatorIdHasErrors()"
       [helpKey]="helpKey"
       [helpPopoverContent]="helpPopoverContent"
       [helpPopoverTitle]="helpPopoverTitle"
@@ -18,8 +18,12 @@
         ('skyux_date_range_picker_default_label' | skyLibResources)
       "
     >
-      <select formControlName="calculatorId" (blur)="onBlur()">
-        @for (calculator of calculators; track calculator) {
+      <select
+        formControlName="calculatorId"
+        (blur)="onBlur()"
+        (change)="onCalculatorIdChange()"
+      >
+        @for (calculator of calculators; track calculator.calculatorId) {
           <option [value]="calculator.calculatorId">
             {{
               calculator._shortDescriptionResourceKey
@@ -47,21 +51,21 @@
   </div>
   <div
     class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
-    [hidden]="!showStartDatePicker"
+    [hidden]="!showStartDatePicker()"
     [ngClass]="{
       'sky-date-range-picker-last-input':
-        showStartDatePicker && !showEndDatePicker
+        showStartDatePicker() && !showEndDatePicker()
     }"
   >
     <sky-input-box
-      [hasErrors]="startDateHasErrors"
+      [hasErrors]="startDateHasErrors()"
       [labelText]="
         selectedCalculator.type
           | skyDateRangePickerStartDateResourceKey
           | skyLibResources
       "
     >
-      <sky-datepicker>
+      <sky-datepicker (calendarDateChange)="onDateChange()">
         <input
           formControlName="startDate"
           name="startDate"
@@ -80,25 +84,26 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="showStartDatePicker"
+          [required]="showStartDatePicker()"
+          (change)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>
   </div>
   <div
     class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
-    [hidden]="!showEndDatePicker"
-    [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
+    [hidden]="!showEndDatePicker()"
+    [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker() }"
   >
     <sky-input-box
-      [hasErrors]="endDateHasErrors"
+      [hasErrors]="endDateHasErrors()"
       [labelText]="
         selectedCalculator.type
           | skyDateRangePickerEndDateResourceKey
           | skyLibResources
       "
     >
-      <sky-datepicker>
+      <sky-datepicker (calendarDateChange)="onDateChange()">
         <input
           formControlName="endDate"
           name="endDate"
@@ -117,7 +122,8 @@
                 | skyLibResources)
           "
           [dateFormat]="dateFormat"
-          [required]="showEndDatePicker"
+          [required]="showEndDatePicker()"
+          (change)="onDateChange()"
         />
       </sky-datepicker>
     </sky-input-box>

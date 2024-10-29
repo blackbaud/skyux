@@ -83,7 +83,11 @@
 <span #hintTextEl="skyId" skyId>
   @if (hintText) {
     <div
-      class="sky-font-deemphasized sky-checkbox-hint-text sky-checkbox-form-margin"
+      class="sky-checkbox-hint-text sky-checkbox-form-margin"
+      [skyThemeClass]="{
+        'sky-font-deemphasized': 'default',
+        'sky-font-hint-text-s': 'modern'
+      }"
     >
       {{ hintText }}
     </div>

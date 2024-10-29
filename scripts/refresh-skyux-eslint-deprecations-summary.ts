@@ -38,7 +38,7 @@ const EXCLUDE_SELECTORS = ['sky-page'];
 async function refreshSkyuxEslintDeprecationsSummary(): Promise<void> {
   const deprecations: Deprecations = {};
 
-  const files = await glob('dist/libs/components/**/documentation.json');
+  const files = await glob('dist/libs/components/*/documentation.json');
 
   if (files.length === 0) {
     throw new Error(
