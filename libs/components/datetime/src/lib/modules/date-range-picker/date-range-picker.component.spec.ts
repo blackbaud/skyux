@@ -210,7 +210,7 @@ describe('Date range picker', function () {
 
     detectChanges();
 
-    selectCalculator(SkyDateRangeCalculatorId.Before);
+    selectCalculator(SkyDateRangeCalculatorId.After);
 
     enterStartDate('2000/1/2');
 
@@ -785,7 +785,11 @@ describe('Date range picker', function () {
     detectChanges();
 
     expect(component.reactiveForm.value).toEqual({
-      dateRange: { calculatorId: SkyDateRangeCalculatorId.Today },
+      dateRange: {
+        calculatorId: SkyDateRangeCalculatorId.Today,
+        endDate: jasmine.any(Date),
+        startDate: jasmine.any(Date),
+      },
     });
 
     selectCalculator(SkyDateRangeCalculatorId.AnyTime);
@@ -807,6 +811,70 @@ describe('Date range picker', function () {
     expect(value.startDate).toEqual(jasmine.any(Date));
     expect(value.endDate).toEqual(jasmine.any(Date));
   }));
+
+  it('should notify value changes only once per change', async () => {
+    component.dateRange?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.Today,
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.numValueChangeNotifications).toEqual(0);
+    expect(component.reactiveForm.value).toEqual({
+      dateRange: {
+        calculatorId: SkyDateRangeCalculatorId.Today,
+        endDate: jasmine.any(Date),
+        startDate: jasmine.any(Date),
+      },
+    });
+
+    component.numValueChangeNotifications = 0;
+    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.numValueChangeNotifications).toEqual(1);
+    expect(component.reactiveForm.value).toEqual({
+      dateRange: {
+        calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+        endDate: null,
+        startDate: null,
+      },
+    });
+
+    // Test a programmatic change.
+    component.numValueChangeNotifications = 0;
+    component.dateRange?.setValue({
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      endDate: new Date('2024/10/25'),
+      startDate: new Date('2024/10/26'),
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.numValueChangeNotifications).toEqual(1);
+    expect(component.reactiveForm.value).toEqual({
+      dateRange: {
+        calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+        endDate: jasmine.any(Date),
+        startDate: jasmine.any(Date),
+      },
+    });
+
+    component.numValueChangeNotifications = 0;
+    selectCalculator(SkyDateRangeCalculatorId.AnyTime);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.numValueChangeNotifications).toEqual(1);
+    expect(component.reactiveForm.value).toEqual({
+      dateRange: {
+        calculatorId: SkyDateRangeCalculatorId.AnyTime,
+        endDate: null,
+        startDate: null,
+      },
+    });
+  });
 
   describe('accessibility', () => {
     function verifyFormFieldsRequired(expectation: boolean): void {
