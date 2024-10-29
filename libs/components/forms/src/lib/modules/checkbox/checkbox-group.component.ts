@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
-import { SkyThemeComponentClassDirective } from '@skyux/theme';
+import { SkyThemeComponentClassDirective, SkyThemeModule } from '@skyux/theme';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
@@ -43,6 +43,7 @@ function numberAttribute4(value: unknown): number {
     SkyFormsResourcesModule,
     SkyHelpInlineModule,
     SkyIdModule,
+    SkyThemeModule,
   ],
   providers: [
     {

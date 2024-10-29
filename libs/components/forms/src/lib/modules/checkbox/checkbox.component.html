@@ -71,13 +71,15 @@
     }
   </label>
   @if ((helpPopoverContent || helpKey) && labelText) {
-    <sky-help-inline
-      class="sky-checkbox-help-inline"
-      [helpKey]="helpKey"
-      [labelText]="labelText"
-      [popoverTitle]="helpPopoverTitle"
-      [popoverContent]="helpPopoverContent"
-    />
+    <span class="sky-control-help-container">
+      <sky-help-inline
+        class="sky-checkbox-help-inline"
+        [helpKey]="helpKey"
+        [labelText]="labelText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+    </span>
   }
 </span>
 <span #hintTextEl="skyId" skyId>
