@@ -9,6 +9,7 @@
     "packages",
     "prettier-schematics",
     "router",
+    "skyux-eslint",
     "storybook",
     "testing"
   ],
