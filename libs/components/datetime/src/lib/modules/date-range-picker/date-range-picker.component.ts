@@ -336,7 +336,7 @@ export class SkyDateRangePickerComponent
     this.formGroup.events
       .pipe(
         filter((evt) => evt instanceof StatusChangeEvent),
-        map((evt) => evt.status),
+        map((evt: StatusChangeEvent) => evt.status),
         distinctUntilChanged(),
         takeUntilDestroyed(this.#destroyRef),
       )
@@ -351,7 +351,7 @@ export class SkyDateRangePickerComponent
     this.hostControl?.events
       .pipe(
         filter((evt) => evt instanceof TouchedChangeEvent),
-        map((evt) => evt.touched),
+        map((evt: TouchedChangeEvent) => evt.touched),
         distinctUntilChanged(),
         takeUntilDestroyed(this.#destroyRef),
       )
@@ -558,7 +558,7 @@ export class SkyDateRangePickerComponent
     return toSignal(
       control.events.pipe(
         filter((evt) => evt instanceof StatusChangeEvent),
-        map((evt) => evt.status === 'INVALID'),
+        map((evt: StatusChangeEvent) => evt.status === 'INVALID'),
         takeUntilDestroyed(this.#destroyRef),
       ),
     );
@@ -570,7 +570,7 @@ export class SkyDateRangePickerComponent
     return toSignal(
       control.events.pipe(
         filter((evt) => evt instanceof TouchedChangeEvent),
-        map((evt) => evt.touched),
+        map((evt: TouchedChangeEvent) => evt.touched),
         takeUntilDestroyed(this.#destroyRef),
       ),
     );
