@@ -5,11 +5,25 @@
   --sky-override-checkbox-group-hint-text-space: #{$sky-space-xs};
   --sky-override-checkbox-group-content-space: #{$sky-space-sm};
   --sky-override-checkbox-group-content-with-hint-text-space: #{$sky-space-md};
+
+  .sky-checkbox-group-legend {
+    .sky-checkbox-group-heading-text {
+      line-height: 1.1;
+    }
+  }
 }
 
 @include compatMixins.sky-default-host-overrides() {
   --sky-override-checkbox-group-stacked-margin-bottom-no-heading: #{$sky-space-md};
   --sky-override-checkbox-group-stacked-margin-bottom-heading: #{$sky-space-xl};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-checkbox-group') {
+  .sky-checkbox-group-legend {
+    .sky-checkbox-group-heading-text {
+      line-height: 1.1;
+    }
+  }
 }
 
 :host {
@@ -36,10 +50,6 @@
   h5 {
     margin: 0;
     display: inline-block;
-  }
-
-  .sky-checkbox-group-heading-text {
-    line-height: 1.1;
   }
 }
 
