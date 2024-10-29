@@ -1,4 +1,4 @@
-# skyux-eslint
+# skyux-eslint (Developer Preview)
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -10,12 +10,12 @@ Run `nx test skyux-eslint` to execute the unit tests via [Jest](https://jestjs.i
 
 ```
 // @ts-check
-const eslint = require("@eslint/js");
-const angular = require("angular-eslint");
+const eslint = require('@eslint/js');
+const angular = require('angular-eslint');
 const skyux = require('skyux-eslint');
-const tseslint = require("typescript-eslint");
+const tseslint = require('typescript-eslint');
 
-module.exports = tsEslint.config(
+module.exports = tseslint.config(
   {
     files: ['**/*.ts'],
     extends: [
@@ -23,20 +23,21 @@ module.exports = tsEslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
-      ...skyux.configs.tsRecommended
+      ...skyux.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
     rules: {
       // ...
-    }
+    },
   },
   {
     files: ['**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
-      ...skyux.configs.templateRecommended
+      ...skyux.configs.templateRecommended,
     ],
+    rules: {},
   },
 );
 ```
