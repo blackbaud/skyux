@@ -35,7 +35,7 @@ function getRadioGroup(
 function getRadioGroupLabel(
   radioFixture: ComponentFixture<any>,
 ): HTMLElement | null {
-  return radioFixture.nativeElement.querySelector('.sky-control-label');
+  return radioFixture.nativeElement.querySelector('.sky-radio-group-legend');
 }
 
 function getRadioLabels(
@@ -190,7 +190,7 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroupDiv = getRadioGroup(fixture);
     const radioGroupLabel = fixture.nativeElement.querySelector(
-      'span.sky-margin-inline-xs',
+      '.sky-radio-group-legend span',
     );
     expect(radioGroupDiv?.getAttribute('required')).toBeNull();
     expect(radioGroupDiv?.getAttribute('aria-required')).toBeNull();
@@ -206,7 +206,7 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroupDiv = getRadioGroup(fixture);
     const radioGroupLabel = fixture.nativeElement.querySelector(
-      'span.sky-margin-inline-xs',
+      '.sky-radio-group-legend span',
     );
     expect(radioGroupDiv?.getAttribute('required')).not.toBeNull();
     expect(radioGroupDiv?.getAttribute('aria-required')).toBe('true');
@@ -707,7 +707,7 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
-    expect(radioGroup).toHaveClass('sky-margin-stacked-lg');
+    expect(radioGroup).toHaveClass('sky-radio-group-stacked-no-heading');
   });
 
   it('should have the xl margin class if stacked is true and headingLevel is set', () => {
@@ -717,15 +717,15 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
-    expect(radioGroup).toHaveClass('sky-margin-stacked-xl');
+    expect(radioGroup).toHaveClass('sky-radio-group-stacked-heading');
   });
 
   it('should not have the lg or xl margin class if stacked is false', () => {
     fixture.detectChanges();
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
-    expect(radioGroup).not.toHaveClass('sky-margin-stacked-lg');
-    expect(radioGroup).not.toHaveClass('sky-margin-stacked-xl');
+    expect(radioGroup).not.toHaveClass('sky-radio-group-stacked-no-heading');
+    expect(radioGroup).not.toHaveClass('sky-radio-group-stacked-heading');
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {
