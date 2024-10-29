@@ -19,13 +19,15 @@
       }
     </span>
     @if (helpPopoverContent || helpKey) {
-      <sky-help-inline
-        class="sky-field-group-help-inline"
-        [helpKey]="helpKey"
-        [labelText]="headingText"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
+      <span class="sky-control-help-container">
+        <sky-help-inline
+          class="sky-field-group-help-inline"
+          [helpKey]="helpKey"
+          [labelText]="headingText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      </span>
     }
   </legend>
   <div #hintTextEl="skyId" skyId class="sky-field-group-hint-text-wrapper">

@@ -2,7 +2,6 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-field-group') {
-  --sky-override-field-group-help-inline-space: #{$sky-space-xs};
   --sky-override-field-group-hint-text-space: #{$sky-space-xs};
   --sky-override-field-group-content-space: #{$sky-space-sm};
   --sky-override-field-group-content-with-hint-text-space: #{$sky-space-md};
@@ -19,13 +18,6 @@ legend {
   h4 {
     margin: 0;
   }
-}
-
-.sky-field-group-heading:has(+ .sky-field-group-help-inline) {
-  margin-right: var(
-    --sky-override-field-group-help-inline-space,
-    var(--sky-space-gap-text_action-xs)
-  );
 }
 
 .sky-field-group-hint-text {
