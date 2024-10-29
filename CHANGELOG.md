@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.17.0](https://github.com/blackbaud/skyux/compare/11.16.0...11.17.0) (2024-10-29)
+
+
+### Features
+
+* **components/forms:** tokenize toggle switch styles ([#2865](https://github.com/blackbaud/skyux/issues/2865)) ([92865f8](https://github.com/blackbaud/skyux/commit/92865f829da0df14a90049565454fd72f168428e))
+
+
+### Bug Fixes
+
+* **components/lookup:** fix lookup component to emit `valueChanges` only once per change ([#2870](https://github.com/blackbaud/skyux/issues/2870)) ([e672f82](https://github.com/blackbaud/skyux/commit/e672f82e4e05b312ad40403048aa1c4ef3555b27))
+
 ## [11.16.0](https://github.com/blackbaud/skyux/compare/11.15.1...11.16.0) (2024-10-24)
 
 
