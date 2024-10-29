@@ -96,9 +96,12 @@
     <div class="sky-search-item-dismiss">
       @if (mobileSearchShown) {
         <button
-          class="sky-btn sky-btn-secondary sky-search-btn-dismiss"
+          class="sky-btn sky-search-btn-dismiss"
           type="button"
           [attr.title]="'skyux_search_dismiss' | skyLibResources"
+          [skyThemeClass]="{
+            'sky-btn-icon-borderless': 'modern'
+          }"
           (click)="toggleSearchInput(false)"
         >
           <sky-icon
