@@ -1,5 +1,4 @@
-<sky-modal>
-  <sky-modal-header> Filter employees </sky-modal-header>
+<sky-modal headingText="Filter employees">
   <sky-modal-content>
     <label [for]="jobTitleInput.id">Job Title</label>
     <select
@@ -13,9 +12,7 @@
       <option value="Software Engineer">Software Engineer</option>
     </select>
     <div class="sky-margin-stacked-lg">
-      <sky-checkbox [(ngModel)]="hideSales">
-        <sky-checkbox-label> Hide Sales employees </sky-checkbox-label>
-      </sky-checkbox>
+      <sky-checkbox labelText="Hide Sales employees" [(ngModel)]="hideSales" />
     </div>
   </sky-modal-content>
   <sky-modal-footer>
