@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
+import { SkyThemeComponentClassDirective, SkyThemeModule } from '@skyux/theme';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
@@ -42,6 +43,7 @@ function numberAttribute4(value: unknown): number {
     SkyFormsResourcesModule,
     SkyHelpInlineModule,
     SkyIdModule,
+    SkyThemeModule,
   ],
   providers: [
     {
@@ -51,6 +53,7 @@ function numberAttribute4(value: unknown): number {
     },
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyCheckboxGroupComponent implements Validator {
   /**
@@ -137,10 +140,10 @@ export class SkyCheckboxGroupComponent implements Validator {
   @Input()
   public helpKey: string | undefined;
 
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-checkbox-stacked-no-heading')
   public stackedLg = false;
 
-  @HostBinding('class.sky-margin-stacked-xl')
+  @HostBinding('class.sky-checkbox-stacked-heading')
   public stackedXL = false;
 
   readonly #idSvc = inject(SkyIdService);

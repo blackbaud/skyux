@@ -68,6 +68,7 @@ export class DateRangePickerComponent {
     anyDate: FormControl<SkyDateRangeCalculation | null>;
     before: FormControl<SkyDateRangeCalculation | null>;
     after: FormControl<SkyDateRangeCalculation | null>;
+    helpInline: FormControl<SkyDateRangeCalculation | null>;
     range: FormControl<SkyDateRangeCalculation | null>;
     rangeRequired: FormControl<SkyDateRangeCalculation | null>;
     rangeInvalid: FormControl<SkyDateRangeCalculation | null>;
@@ -92,6 +93,10 @@ export class DateRangePickerComponent {
       after: new FormControl<SkyDateRangeCalculation | null>({
         ...value,
         calculatorId: SkyDateRangeCalculatorId.After,
+      }),
+      helpInline: new FormControl<SkyDateRangeCalculation | null>({
+        ...value,
+        calculatorId: SkyDateRangeCalculatorId.AnyTime,
       }),
       range: new FormControl<SkyDateRangeCalculation | null>({
         ...value,

@@ -14,15 +14,12 @@
 >
   @if (headingText) {
     <legend
-      class="sky-control-label"
+      class="sky-radio-group-legend"
       [ngClass]="{
-        'sky-screen-reader-only': headingHidden,
-        'sky-margin-stacked-xs': !!hintText,
-        'sky-margin-stacked-sm': !hintText
+        'sky-screen-reader-only': headingHidden
       }"
     >
       <span
-        class="sky-margin-inline-xs"
         [ngClass]="{
           'sky-control-label-required': required
         }"
@@ -50,25 +47,33 @@
         }}</span>
       }
       @if (helpPopoverContent || helpKey) {
-        <sky-help-inline
-          [helpKey]="helpKey"
-          [labelText]="headingText"
-          [popoverTitle]="helpPopoverTitle"
-          [popoverContent]="helpPopoverContent"
-        />
+        <span class="sky-control-help-container">
+          <sky-help-inline
+            [helpKey]="helpKey"
+            [labelText]="headingText"
+            [popoverTitle]="helpPopoverTitle"
+            [popoverContent]="helpPopoverContent"
+          />
+        </span>
       }
     </legend>
   }
   <div #hintTextEl="skyId" skyId>
     @if (hintText) {
       <div
-        class="sky-font-deemphasized sky-radio-group-hint-text sky-margin-stacked-lg"
+        class="sky-radio-group-hint-text"
+        [skyThemeClass]="{
+          'sky-font-deemphasized': 'default',
+          'sky-font-hint-text-s': 'modern'
+        }"
       >
         {{ hintText }}
       </div>
     }
   </div>
-  <ng-content />
+  <div class="sky-radio-group-content">
+    <ng-content />
+  </div>
 </fieldset>
 <sky-form-errors
   [id]="errorId"

@@ -7,15 +7,13 @@
   "
 >
   <legend
-    class="sky-control-label"
+    class="sky-checkbox-group-legend"
     [ngClass]="{
-      'sky-screen-reader-only': headingHidden,
-      'sky-margin-stacked-xs': !!hintText,
-      'sky-margin-stacked-sm': !hintText
+      'sky-screen-reader-only': headingHidden
     }"
   >
     <span
-      class="sky-margin-inline-xs"
+      class="sky-checkbox-group-heading"
       [ngClass]="{
         'sky-control-label-required': required
       }"
@@ -43,20 +41,25 @@
       }}</span>
     }
     @if (helpPopoverContent || helpKey) {
-      <sky-help-inline
-        [helpKey]="helpKey"
-        [labelText]="headingText"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
+      <span class="sky-control-help-container">
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="headingText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      </span>
     }
   </legend>
   <div
     #hintTextEl="skyId"
     skyId
     [ngClass]="{
-      'sky-font-deemphasized sky-margin-stacked-lg sky-checkbox-group-hint-text':
-        !!hintText
+      'sky-checkbox-group-hint-text': !!hintText
+    }"
+    [skyThemeClass]="{
+      'sky-font-deemphasized': 'default',
+      'sky-font-hint-text-s': 'modern'
     }"
   >
     {{ hintText }}

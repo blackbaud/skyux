@@ -16,17 +16,18 @@ describe('forms-storybook - checkbox', () => {
         cy.get('app-checkbox').should('exist').should('be.visible');
         cy.get('#touched-easy-mode-checkbox').click();
         cy.get('#touched-easy-mode-checkbox').click();
+        cy.get('#touched-easy-mode-checkbox input').blur();
         cy.get('app-checkbox')
           .get('#standard-checkboxes')
           .should('exist')
           .should('be.visible')
           .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-standard`);
-        cy.get('#standard-checkboxes').percySnapshot(
+        cy.skyVisualTest(
           `checkboxcomponent-checkbox--checkbox-${theme}-standard`,
           {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-            scope: '#standard-checkboxes',
+            overwrite: true,
           },
+          '#standard-checkboxes',
         );
       });
 
@@ -38,14 +39,14 @@ describe('forms-storybook - checkbox', () => {
           .should('exist')
           .should('be.visible')
           .screenshot(`checkboxcomponent-checkbox--checkbox-${theme}-icon`);
-        cy.get('#icon-checkboxes').percySnapshot(
+        cy.skyVisualTest(
           `checkboxcomponent-checkbox--checkbox-${theme}-icon`,
           {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-            scope: '#icon-checkboxes',
+            overwrite: true,
           },
+          '#icon-checkboxes',
         );
       });
     });
-  });
+  }, true);
 });

@@ -45,18 +45,26 @@
     }
   </label>
   @if ((helpPopoverContent || helpKey) && labelText) {
-    <sky-help-inline
-      class="sky-radio-help-inline"
-      [helpKey]="helpKey"
-      [labelText]="labelText"
-      [popoverTitle]="helpPopoverTitle"
-      [popoverContent]="helpPopoverContent"
-    />
+    <span class="sky-control-help-container">
+      <sky-help-inline
+        class="sky-radio-help-inline"
+        [helpKey]="helpKey"
+        [labelText]="labelText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+    </span>
   }
 </span>
 <div #hintTextEl="skyId" skyId>
   @if (hintText) {
-    <div class="sky-font-deemphasized sky-radio-hint-text">
+    <div
+      class="sky-radio-hint-text"
+      [skyThemeClass]="{
+        'sky-font-deemphasized': 'default',
+        'sky-font-hint-text-s': 'modern'
+      }"
+    >
       {{ hintText }}
     </div>
   }

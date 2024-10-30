@@ -90,4 +90,5 @@ jobs:
             sdk/e2e-schematics
             sdk/eslint-config
             sdk/prettier-schematics
+            sdk/skyux-eslint
             sdk/testing

@@ -8,12 +8,11 @@ import {
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyUIConfigService } from '@skyux/core';
 import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService,
-  SkyUIConfigService,
-} from '@skyux/core';
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -44,7 +43,7 @@ describe('Tile dashboard service', () => {
   let dashboardConfig: SkyTileDashboardConfig;
   let dashboardService: SkyTileDashboardService;
   let mockDragulaService: MockDragulaService;
-  let mockMediaQueryService: MockSkyMediaQueryService;
+  let mediaQueryController: SkyMediaQueryTestingController;
   let mockUIConfigService: MockSkyUIConfigService;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
@@ -55,7 +54,6 @@ describe('Tile dashboard service', () => {
   }
 
   beforeEach(() => {
-    mockMediaQueryService = new MockSkyMediaQueryService();
     mockUIConfigService = new MockSkyUIConfigService();
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -75,7 +73,7 @@ describe('Tile dashboard service', () => {
       ],
       providers: [
         { provide: DragulaService, useClass: MockDragulaService },
-        { provide: SkyMediaQueryService, useValue: mockMediaQueryService },
+        provideSkyMediaQueryTesting(),
         { provide: SkyUIConfigService, useValue: mockUIConfigService },
         SkyTileDashboardService,
         {
@@ -86,6 +84,7 @@ describe('Tile dashboard service', () => {
       ],
     });
 
+    mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
     mockDragulaService = TestBed.inject(DragulaService) as MockDragulaService;
     dashboardService = TestBed.inject(SkyTileDashboardService);
 
@@ -477,7 +476,7 @@ describe('Tile dashboard service', () => {
 
   it('should allow tiles to be moved within a column in single column mode', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
-    mockMediaQueryService.fire(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -577,7 +576,7 @@ describe('Tile dashboard service', () => {
     const fixture = createDashboardTestComponent();
     const el = fixture.nativeElement;
 
-    mockMediaQueryService.fire(SkyMediaBreakpoints.sm);
+    mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -617,7 +616,7 @@ describe('Tile dashboard service', () => {
     expect(getTileCount(multiColumnEls[1])).toBe(1);
     expect(getTileCount(singleColumnEl)).toBe(0);
 
-    mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
 
     fixture.detectChanges();
 
@@ -625,7 +624,7 @@ describe('Tile dashboard service', () => {
     expect(getTileCount(multiColumnEls[1])).toBe(0);
     expect(getTileCount(singleColumnEl)).toBe(4);
 
-    mockMediaQueryService.fire(SkyMediaBreakpoints.md);
+    mediaQueryController.setBreakpoint('md');
 
     fixture.detectChanges();
 
@@ -644,7 +643,9 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
     tick();
 
-    mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+    mediaQueryController.setBreakpoint('xs');
+
+    fixture.detectChanges();
 
     mockDragulaService.drop().next({});
 
@@ -653,7 +654,9 @@ describe('Tile dashboard service', () => {
 
     expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
 
-    mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
+    mediaQueryController.setBreakpoint('lg');
+
+    fixture.detectChanges();
 
     mockDragulaService.drop().next({});
 
@@ -665,19 +668,6 @@ describe('Tile dashboard service', () => {
 
   it('should sanity check for invalid tile when setting a tile to be collapsed', () => {
     dashboardService.setTileCollapsed(undefined, true);
-  });
-
-  it('should release resources when destroyed', () => {
-    dashboardService.init(
-      dashboardConfig,
-      undefined,
-      undefined,
-      'mySettingsKey',
-    );
-
-    dashboardService.destroy();
-
-    expect(mockMediaQueryService.currentMockSubject.observers.length).toBe(0);
   });
 
   it('should return default config when settingsKey exists', () => {

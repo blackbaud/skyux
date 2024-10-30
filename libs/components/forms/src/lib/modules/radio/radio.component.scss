@@ -1,5 +1,25 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-radio-outer-wrapper') {
+  --sky-override-radio-icon-border-radius: 50%;
+  --sky-override-radio-icon-color-disabled: #{$sky-color-black};
+  --sky-override-radio-icon-color-selected: #{$sky-color-black};
+  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
+  --sky-override-radio-icon-size: 10px;
+}
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-radio-hint-text-inset: var(--sky-margin-stacked-xs) 0 0
+    calc(var(--sky-switch-size) + var(--sky-switch-margin));
+  --sky-override-radio-group-radio-bottom-margin: var(--sky-margin-stacked-sm);
+}
+
+@include compatMixins.sky-modern-overrides('.sky-radio-outer-wrapper') {
+  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
+  --sky-override-radio-icon-color-selected: var(--sky-color-icon-action);
+}
 
 :host:has(.sky-switch-control-icon) {
   display: inline-block;
@@ -10,7 +30,10 @@
     display: block;
 
     &:not(:last-child) {
-      margin-bottom: var(--sky-margin-stacked-sm);
+      margin-bottom: var(
+        --sky-override-radio-group-radio-bottom-margin,
+        var(--sky-space-gap-form-s)
+      );
     }
   }
 }
@@ -23,19 +46,8 @@
   display: inline-flex;
 }
 
-@include mixins.sky-component('default', '.sky-switch-label') {
-  margin-right: var(--sky-margin-inline-xs);
-}
-
-// TODO: move to the modern stylesheet when splitting out radio button
-@include mixins.sky-component('modern', '.sky-switch-label') {
-  margin-right: var(--sky-margin-inline-xs);
-}
-
-.sky-switch-control:not(.sky-switch-control-icon) {
-  sky-icon {
-    font-size: 70%;
-  }
+.sky-switch:not(:has(~ .sky-control-help-container)) .sky-switch-label {
+  margin-right: var(--sky-override-radio-label-margin-right, 0);
 }
 
 // "Checked" state inner-circle.
@@ -43,29 +55,30 @@
   + .sky-switch-control:not(.sky-switch-control-icon)::after {
   content: '';
   display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: $sky-color-black;
-  border-radius: 50%;
+  width: var(--sky-override-radio-icon-size, var(--sky-size-icon-xs));
+  height: var(--sky-override-radio-icon-size, var(--sky-size-icon-xs));
+  background: var(
+    --sky-override-radio-icon-color-selected,
+    var(--sky-color-icon-inverse)
+  );
+  border-radius: var(
+    --sky-override-radio-icon-border-radius,
+    var(--sky-border-radius-round)
+  );
+}
+
+.sky-radio-input:disabled
+  + .sky-switch-control:not(.sky-switch-control-icon)::after {
+  background-color: var(
+    --sky-override-radio-icon-color-disabled,
+    var(--sky-color-text-deemphasized)
+  );
 }
 
 .sky-radio-hint-text {
-  margin: var(--sky-margin-stacked-xs) 0 0
-    calc(var(--sky-switch-size) + var(--sky-switch-margin));
-}
-
-@include mixins.sky-theme-modern {
-  .sky-switch-input:checked
-    + .sky-switch-control:not(.sky-switch-control-icon)::after {
-    background: $sky-theme-modern-background-color-primary-dark;
-  }
-
-  .sky-radio-input:disabled + .sky-switch-control {
-    .sky-radio-icon-modern-checked {
-      background-color: $sky-text-color-default;
-    }
-  }
-  .sky-switch {
-    display: flex;
-  }
+  margin: var(
+    --sky-override-radio-hint-text-inset,
+    var(--sky-space-gap-stacked_supplemental-s) 0 0
+      var(--sky-space-inset-switch)
+  );
 }

@@ -1,5 +1,43 @@
 # Changelog
 
+## [11.18.0](https://github.com/blackbaud/skyux/compare/11.17.0...11.18.0) (2024-10-30)
+
+
+### Features
+
+* add experimental `skyux-eslint` package for custom ESLint rules ([#2852](https://github.com/blackbaud/skyux/issues/2852)) ([659d628](https://github.com/blackbaud/skyux/commit/659d628157f211cff81688758be6bd1087356bc8))
+* **components/forms:** tokenize checkbox styles ([#2872](https://github.com/blackbaud/skyux/issues/2872)) ([df3e290](https://github.com/blackbaud/skyux/commit/df3e290fa9abafa4f2a23ffa1a8f77c232c9939c))
+* **components/lookup:** tokenize search styles ([#2868](https://github.com/blackbaud/skyux/issues/2868)) ([e9f2d57](https://github.com/blackbaud/skyux/commit/e9f2d57218fd188ca6694e70b044ba8ed675a361))
+
+
+### Bug Fixes
+
+* **components/datetime:** fix date range picker to emit `valueChanges` only once per change ([#2867](https://github.com/blackbaud/skyux/issues/2867)) ([8392489](https://github.com/blackbaud/skyux/commit/839248946b7892b9374426c744f668f8fe98de44))
+* **components/lookup:** selection modal choices satisfy the required state of the lookup component ([#2876](https://github.com/blackbaud/skyux/issues/2876)) ([292b15b](https://github.com/blackbaud/skyux/commit/292b15b6b7bcd50c1426c46d0ac32ff440359850))
+
+## [11.17.0](https://github.com/blackbaud/skyux/compare/11.16.0...11.17.0) (2024-10-29)
+
+
+### Features
+
+* **components/forms:** tokenize toggle switch styles ([#2865](https://github.com/blackbaud/skyux/issues/2865)) ([92865f8](https://github.com/blackbaud/skyux/commit/92865f829da0df14a90049565454fd72f168428e))
+
+
+### Bug Fixes
+
+* **components/lookup:** fix lookup component to emit `valueChanges` only once per change ([#2870](https://github.com/blackbaud/skyux/issues/2870)) ([e672f82](https://github.com/blackbaud/skyux/commit/e672f82e4e05b312ad40403048aa1c4ef3555b27))
+
+## [11.16.0](https://github.com/blackbaud/skyux/compare/11.15.1...11.16.0) (2024-10-24)
+
+
+### Features
+
+* **components/avatar:** add avatar test harness ([#2840](https://github.com/blackbaud/skyux/issues/2840)) ([af101dc](https://github.com/blackbaud/skyux/commit/af101dc3fd171596a5cb07a1cc37ea97f66171c4))
+* **components/core:** add `SkyMediaQueryController` to interact with breakpoints in tests ([#2802](https://github.com/blackbaud/skyux/issues/2802)) ([fa54b87](https://github.com/blackbaud/skyux/commit/fa54b8727869ff4a1d82b4dab81fedd243052421))
+* **components/forms:** tokenize character counter styles ([#2859](https://github.com/blackbaud/skyux/issues/2859)) ([dfc4207](https://github.com/blackbaud/skyux/commit/dfc4207c10ffc39d450fbd8ee04cfa6d053270d8))
+* **components/forms:** tokenize field group styles ([#2863](https://github.com/blackbaud/skyux/issues/2863)) ([a986aea](https://github.com/blackbaud/skyux/commit/a986aea719a3b7802ab13d1391e1dd187a654507))
+* **components/lookup:** add `getControl()` method to the autocomplete test harness ([#2861](https://github.com/blackbaud/skyux/issues/2861)) ([1ed64cf](https://github.com/blackbaud/skyux/commit/1ed64cf333bf686a8976c4bb0de10348fc0db794))
+
 ## [11.15.1](https://github.com/blackbaud/skyux/compare/11.15.0...11.15.1) (2024-10-22)
 
 

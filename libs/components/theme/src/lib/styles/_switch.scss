@@ -6,6 +6,10 @@
   display: inline-flex;
   position: relative;
 
+  &:has(~ .sky-control-help-container) .sky-switch-label {
+    margin-right: 0;
+  }
+
   &.sky-switch-disabled {
     cursor: default;
 
