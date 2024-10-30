@@ -583,13 +583,13 @@ describe('Checkbox component', () => {
 
       const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
 
-      expect(checkbox).toHaveClass('sky-margin-stacked-lg');
+      expect(checkbox).toHaveClass('sky-form-field-stacked');
     });
 
     it('should not have the lg margin class if stacked is false', () => {
       const checkbox = fixture.nativeElement.querySelector('sky-checkbox');
 
-      expect(checkbox).not.toHaveClass('sky-margin-stacked-lg');
+      expect(checkbox).not.toHaveClass('sky-form-field-stacked');
     });
 
     it('should make the host element a tab stop', () => {
