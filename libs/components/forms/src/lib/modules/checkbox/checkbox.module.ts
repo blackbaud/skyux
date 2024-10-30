@@ -31,8 +31,8 @@ import { SkyCheckboxComponent } from './checkbox.component';
     SkyHelpInlineModule,
     SkyIconModule,
     SkyIdModule,
-    SkyThemeModule,
     SkyTrimModule,
+    SkyThemeModule,
   ],
   exports: [
     SkyCheckboxComponent,

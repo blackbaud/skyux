@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 import { NgControl, Validators } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -48,6 +49,7 @@ function numberAttribute4(value: unknown): number {
     SkyRadioGroupIdService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
   /**
@@ -269,10 +271,10 @@ export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
 
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-radio-group-stacked-no-heading')
   public stackedLg = false;
 
-  @HostBinding('class.sky-margin-stacked-xl')
+  @HostBinding('class.sky-radio-group-stacked-heading')
   public stackedXL = false;
 
   protected get isRequired(): boolean {

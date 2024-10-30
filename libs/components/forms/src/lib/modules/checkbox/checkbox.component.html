@@ -3,8 +3,7 @@
     class="sky-checkbox-wrapper sky-switch"
     [ngClass]="{
       'sky-control-label-required': isCheckboxRequired,
-      'sky-switch-disabled': disabled,
-      'sky-margin-inline-xs': labelText && !icon
+      'sky-switch-disabled': disabled
     }"
   >
     <input
@@ -71,13 +70,15 @@
     }
   </label>
   @if ((helpPopoverContent || helpKey) && labelText) {
-    <sky-help-inline
-      class="sky-checkbox-help-inline"
-      [helpKey]="helpKey"
-      [labelText]="labelText"
-      [popoverTitle]="helpPopoverTitle"
-      [popoverContent]="helpPopoverContent"
-    />
+    <span class="sky-control-help-container">
+      <sky-help-inline
+        class="sky-checkbox-help-inline"
+        [helpKey]="helpKey"
+        [labelText]="labelText"
+        [popoverTitle]="helpPopoverTitle"
+        [popoverContent]="helpPopoverContent"
+      />
+    </span>
   }
 </span>
 <span #hintTextEl="skyId" skyId>
