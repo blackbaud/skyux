@@ -1,10 +1,10 @@
-import { ComponentHarness } from '@angular/cdk/testing';
+import { SkyComponentHarness } from './component-harness';
 
 /**
  * Harness used to interact with native input elements in tests.
  * @internal
  */
-export class SkyInputHarness extends ComponentHarness {
+export class SkyInputHarness extends SkyComponentHarness {
   /**
    * Blurs the input.
    */

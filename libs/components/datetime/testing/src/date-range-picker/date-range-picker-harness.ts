@@ -1,10 +1,13 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyDatepickerHarness } from '@skyux/datetime/testing';
-import { SkyFormErrorsHarness, SkyInputBoxHarness } from '@skyux/forms/testing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { SkyDateRangeCalculatorId } from '@skyux/datetime';
+import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
-import { SkyDateRangePickerCalculatorOptionHarness } from './date-range-picker-calculator-option-harness';
-import { SkyDateRangePickerCalculatorOptionHarnessFilters } from './date-range-picker-calculator-option-harness.filters';
+import { isDate } from 'moment';
+
+import { SkyDatepickerHarness } from '../public-api';
+
 import { SkyDateRangePickerFilters } from './date-range-picker-harness.filters';
 
 export class SkyDateRangePickerHarness extends SkyComponentHarness {
@@ -27,6 +30,9 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
     SkyInputBoxHarness.with({
       ancestor: '.sky-date-range-picker-select-field',
     }),
+  );
+  #getCalculatorSelect = this.locatorFor(
+    'select[FormControlName="calculatorId"',
   );
 
   /**
@@ -70,6 +76,20 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the start date datepicker.
+   */
+  public async getStartDatepicker(): Promise<SkyDatepickerHarness> {
+    return (await this.#getStartDateInput()).queryHarness(SkyDatepickerHarness);
+  }
+
+  /**
+   * Gets the end date datepicker.
+   */
+  public async getEndDatepicker(): Promise<SkyDatepickerHarness> {
+    return (await this.#getEndDateInput()).queryHarness(SkyDatepickerHarness);
+  }
+
+  /**
    * Whether the custom error has fired.
    * @params errorName `errorName` of the custom error.
    */
@@ -101,17 +121,32 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Selects a calculator based on its name.
+   * Selects the specified calculator.
    */
-  public async selectCalculator(calculatorName: string): Promise<void> {
-    const option = await this.locatorForOptional(
-      SkyDateRangePickerCalculatorOptionHarness.with({ text: calculatorName }),
-    )();
+  public async selectCalculator(
+    calculatorId: SkyDateRangeCalculatorId,
+  ): Promise<void> {
+    const select = await this.#getCalculatorSelect();
+    return select.setInputValue(calculatorId.toString());
+  }
 
-    if (!option) {
-      throw new Error(`Unable to find calculator "${calculatorName}".`);
+  /**
+   * Sets the start date.
+   */
+  public async setStartDate(newDate: Date | string): Promise<void> {
+    if (isDate(newDate)) {
+      newDate = newDate.toDateString();
     }
+    return (await this.getStartDatepicker()).setValue(newDate);
+  }
 
-    return await option.click();
+  /**
+   * Sets the end date.
+   */
+  public async setEndDate(newDate: Date | string): Promise<void> {
+    if (isDate(newDate)) {
+      newDate = newDate.toDateString();
+    }
+    return (await this.getEndDatepicker()).setValue(newDate);
   }
 }

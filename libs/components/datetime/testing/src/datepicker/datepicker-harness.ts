@@ -1,10 +1,10 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyInputHarness } from '@skyux/core/testing';
 
 import { SkyDatepickerCalendarHarness } from './datepicker-calendar-harness';
 import { SkyDatepickerFilters } from './datepicker-harness.filters';
 
-export class SkyDatepickerHarness extends SkyComponentHarness {
+export class SkyDatepickerHarness extends SkyInputHarness {
   /**
    * @internal
    */
