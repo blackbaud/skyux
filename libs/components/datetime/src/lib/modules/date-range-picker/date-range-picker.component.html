@@ -8,9 +8,9 @@
   >
     <sky-input-box
       [hasErrors]="calculatorIdHasErrors"
-      [helpKey]="helpKey"
-      [helpPopoverContent]="helpPopoverContent"
-      [helpPopoverTitle]="helpPopoverTitle"
+      [helpKey]="labelText ? helpKey : undefined"
+      [helpPopoverContent]="labelText ? helpPopoverContent : undefined"
+      [helpPopoverTitle]="labelText ? helpPopoverTitle : undefined"
       [hintText]="hintText"
       [labelText]="
         labelText ||

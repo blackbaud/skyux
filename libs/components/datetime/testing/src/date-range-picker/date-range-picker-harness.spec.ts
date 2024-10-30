@@ -35,6 +35,11 @@ import { SkyDateRangePickerHarness } from './date-range-picker-harness';
 })
 class TestComponent {
   public myForm: FormGroup;
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
+  public hintText: string | undefined;
+  public labelText: string | undefined;
+  public stacked = false;
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
@@ -45,7 +50,7 @@ class TestComponent {
 }
 //#endregion Test component
 fdescribe('Date range picker harness', () => {
-  async function setupTest(options: { dataSkyId: string }): Promise<{
+  async function setupTest(options?: { dataSkyId: string }): Promise<{
     dateRangePickerHarness: SkyDateRangePickerHarness;
     fixture: ComponentFixture<TestComponent>;
   }> {
@@ -61,7 +66,7 @@ fdescribe('Date range picker harness', () => {
 
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const dateRangePickerHarness: SkyDateRangePickerHarness = options.dataSkyId
+    const dateRangePickerHarness: SkyDateRangePickerHarness = options?.dataSkyId
       ? await loader.getHarness(
           SkyDateRangePickerHarness.with({ dataSkyId: options.dataSkyId }),
         )
@@ -77,6 +82,71 @@ fdescribe('Date range picker harness', () => {
 
     await expectAsync(dateRangePickerHarness.getHintText()).toBeResolvedTo(
       'The other date range picker',
+    );
+  });
+
+  it('should open help popover when clicked', async () => {
+    const { dateRangePickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'label';
+    fixture.componentInstance.helpPopoverContent = 'content';
+    fixture.detectChanges();
+
+    await dateRangePickerHarness.clickHelpInline();
+
+    await expectAsync(
+      dateRangePickerHarness.getHelpPopoverContent(),
+    ).toBeResolved();
+  });
+
+  it('should get help popover content', async () => {
+    const { dateRangePickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'label';
+    fixture.componentInstance.helpPopoverContent = 'content';
+    fixture.detectChanges();
+
+    await dateRangePickerHarness.clickHelpInline();
+
+    await expectAsync(
+      dateRangePickerHarness.getHelpPopoverContent(),
+    ).toBeResolvedTo(fixture.componentInstance.helpPopoverContent);
+  });
+
+  it('should get help popover title', async () => {
+    const { dateRangePickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'label';
+    fixture.componentInstance.helpPopoverTitle = 'title';
+    fixture.componentInstance.helpPopoverContent = 'content';
+    fixture.detectChanges();
+
+    await dateRangePickerHarness.clickHelpInline();
+
+    await expectAsync(
+      dateRangePickerHarness.getHelpPopoverTitle(),
+    ).toBeResolvedTo(fixture.componentInstance.helpPopoverTitle);
+  });
+
+  it('should get hint text', async () => {
+    const { dateRangePickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.hintText = 'hint text';
+    fixture.detectChanges();
+
+    await expectAsync(dateRangePickerHarness.getHintText()).toBeResolvedTo(
+      fixture.componentInstance.hintText,
+    );
+  });
+
+  it('should get label', async () => {
+    const { dateRangePickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'label';
+    fixture.detectChanges();
+
+    await expectAsync(dateRangePickerHarness.getLabelText()).toBeResolvedTo(
+      fixture.componentInstance.labelText,
     );
   });
 });

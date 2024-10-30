@@ -10,6 +10,9 @@ import { SkyDatepickerHarness } from '../public-api';
 
 import { SkyDateRangePickerFilters } from './date-range-picker-harness.filters';
 
+/**
+ * Harness for interacting with date range picker components in tests.
+ */
 export class SkyDateRangePickerHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -43,6 +46,13 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
     filters: SkyDateRangePickerFilters,
   ): HarnessPredicate<SkyDateRangePickerHarness> {
     return SkyDateRangePickerHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return (await this.#getCalculatorSelectInput()).clickHelpInline();
   }
 
   /**

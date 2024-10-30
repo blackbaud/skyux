@@ -4,6 +4,9 @@ import { SkyInputHarness } from '@skyux/core/testing';
 import { SkyDatepickerCalendarHarness } from './datepicker-calendar-harness';
 import { SkyDatepickerFilters } from './datepicker-harness.filters';
 
+/**
+ * Harness for interacting with datepicker components in tests.
+ */
 export class SkyDatepickerHarness extends SkyInputHarness {
   /**
    * @internal
