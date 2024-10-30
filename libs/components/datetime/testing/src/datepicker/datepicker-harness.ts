@@ -1,13 +1,14 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyInputHarness } from '@skyux/core/testing';
+import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDatepickerCalendarHarness } from './datepicker-calendar-harness';
+import { SkyDatepickerInputHarness } from './datepicker-harness-input';
 import { SkyDatepickerFilters } from './datepicker-harness.filters';
 
 /**
  * Harness for interacting with datepicker components in tests.
  */
-export class SkyDatepickerHarness extends SkyInputHarness {
+export class SkyDatepickerHarness extends SkyComponentHarness {
   /**
    * @internal
    */
@@ -55,6 +56,13 @@ export class SkyDatepickerHarness extends SkyInputHarness {
     return await this.#documentRootLocator.locatorFor(
       SkyDatepickerCalendarHarness.with({ selector: `#${calendarId}` }),
     )();
+  }
+
+  /**
+   * Gets the datepicker input harness.
+   */
+  public async getControl(): Promise<SkyDatepickerInputHarness> {
+    return this.locatorFor(SkyDatepickerInputHarness)();
   }
 
   /**
