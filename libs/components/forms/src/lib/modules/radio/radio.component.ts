@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 
@@ -42,6 +43,7 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   styleUrls: ['./radio.component.scss'],
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   /**

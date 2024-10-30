@@ -130,13 +130,13 @@ describe('Checkbox group component', function () {
 
       const group = getCheckboxGroup(fixture);
 
-      expect(group).toHaveClass('sky-margin-stacked-lg');
+      expect(group).toHaveClass('sky-checkbox-stacked-no-heading');
     });
 
     it('should have the xl margin class if stacked is true and headingLevel is set', () => {
       const group = getCheckboxGroup(fixture);
 
-      expect(group).toHaveClass('sky-margin-stacked-xl');
+      expect(group).toHaveClass('sky-checkbox-stacked-heading');
     });
 
     it('should not have the lg or xl margin class if stacked is false', () => {
@@ -145,8 +145,8 @@ describe('Checkbox group component', function () {
 
       const group = getCheckboxGroup(fixture);
 
-      expect(group).not.toHaveClass('sky-margin-stacked-lg');
-      expect(group).not.toHaveClass('sky-margin-stacked-xl');
+      expect(group).not.toHaveClass('sky-checkbox-stacked-no-heading');
+      expect(group).not.toHaveClass('sky-checkbox-stacked-heading');
     });
 
     it('should include the asterisk and screen reader text when required', () => {
@@ -154,7 +154,7 @@ describe('Checkbox group component', function () {
       fixture.detectChanges();
 
       const heading = fixture.nativeElement.querySelector(
-        'span.sky-margin-inline-xs',
+        '.sky-checkbox-group-heading',
       );
 
       expect(heading).toHaveClass('sky-control-label-required');
@@ -165,7 +165,7 @@ describe('Checkbox group component', function () {
       fixture.detectChanges();
 
       const heading = fixture.nativeElement.querySelector(
-        'span.sky-margin-inline-xs',
+        '.sky-checkbox-group-heading',
       );
 
       expect(heading).not.toHaveClass('sky-control-label-required');

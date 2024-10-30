@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -27,12 +27,8 @@ describe('List page tabs layout demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        DemoComponent,
-        SkyHelpTestingModule,
-        NoopAnimationsModule,
-        RouterTestingModule,
-      ],
+      imports: [DemoComponent, SkyHelpTestingModule, NoopAnimationsModule],
+      providers: [provideRouter([])],
     });
   });
 

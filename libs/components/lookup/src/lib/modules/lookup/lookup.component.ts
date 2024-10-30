@@ -198,10 +198,12 @@ export class SkyLookupComponent
     this.#updateForSelectMode();
 
     if (multipleToSingle) {
-      if (this.value && this.value.length > 1) {
+      const value = this.#getValue();
+
+      if (value?.length > 1) {
         // The `setTimeout` is needed to avoid a `ExpressionChangedAfterItHasBeenCheckedError` error in template forms.
         setTimeout(() => {
-          this.writeValue([this.value[0]]);
+          this.#setValue([value[0]], { emitEvent: true });
           this.#changeDetector.detectChanges();
         });
       }
@@ -234,11 +236,13 @@ export class SkyLookupComponent
     return this.#_tokens;
   }
 
-  public set tokens(value: SkyToken[] | undefined) {
+  public set tokens(tokens: SkyToken[] | undefined) {
+    const value = this.#getValue();
+
     // Collapse the tokens into a single token if the user has selected many options.
-    if (this.enableShowMore && this.value.length > 5) {
+    if (this.enableShowMore && value.length > 5) {
       this.#resourcesService
-        .getString('skyux_lookup_tokens_summary', this.value.length.toString())
+        .getString('skyux_lookup_tokens_summary', value.length.toString())
         .pipe(take(1))
         .subscribe((label) => {
           this.#_tokens = [
@@ -249,24 +253,18 @@ export class SkyLookupComponent
           this.#changeDetector.markForCheck();
         });
     } else {
-      this.#_tokens = value;
+      this.#_tokens = tokens;
       this.#changeDetector.markForCheck();
     }
   }
 
+  /**
+   * @internal
+   * @deprecated This is exposed for unit tests only; refactor unit tests to
+   * derive the control value a different way.
+   */
   public get value(): any[] {
-    return this.#_value ? this.#_value : [];
-  }
-
-  public set value(newValue: any[]) {
-    this.#_value = newValue;
-
-    if (!this.#pickerModalOpen()) {
-      this.tokens = this.#parseTokens(newValue);
-    }
-
-    this.onChange(this.#_value);
-    this.onTouched();
+    return this.#getValue();
   }
 
   public autocompleteController = new Subject<SkyAutocompleteMessage>();
@@ -319,6 +317,8 @@ export class SkyLookupComponent
   #idle = new Subject<void>();
   #markForTokenFocusOnKeyUp = false;
   #ngUnsubscribe = new Subject<void>();
+  #notifyChange: ((value: any[]) => void) | undefined;
+  #notifyTouched: (() => void) | undefined;
   #openNativePicker: SkyModalInstance | undefined;
   #openSelectionModal: SkySelectionModalInstance | undefined;
   #_required = false;
@@ -341,6 +341,24 @@ export class SkyLookupComponent
   readonly #resourcesService = inject(SkyLibResourcesService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
   readonly #windowRef = inject(SkyAppWindowRef);
+
+  #getValue(): any[] {
+    return this.#_value ? this.#_value : [];
+  }
+
+  #setValue(newValue: any[], options: { emitEvent: boolean }): void {
+    this.#_value = newValue;
+
+    if (this.selectMode === 'multiple' && !this.#pickerModalOpen()) {
+      this.tokens = this.#parseTokens(newValue);
+    }
+
+    if (options.emitEvent) {
+      this.#notifyChange?.(this.#_value);
+    }
+
+    this.#updateForSelectMode();
+  }
 
   constructor(
     @Self() @Optional() ngControl?: NgControl,
@@ -411,16 +429,15 @@ export class SkyLookupComponent
   public onAutocompleteSelectionChange(
     change: SkyAutocompleteSelectionChange,
   ): void {
-    /* istanbul ignore else */
     if (change.selectedItem) {
       this.#addToSelected(change.selectedItem);
-    } else if (this.selectMode === 'single') {
-      this.writeValue([]);
+    } else {
+      this.#setValue([], { emitEvent: true });
     }
   }
 
   public onAutocompleteBlur(): void {
-    this.onTouched();
+    this.#notifyTouched?.();
   }
 
   public onTokensChange(change: SkyToken[]): void {
@@ -433,14 +450,12 @@ export class SkyLookupComponent
         this.#focusInput();
       }
 
-      // NOTE: We do this here instead of just using the `value` setter because we need to use the
-      // set of tokens returned here for the purposes of setting focus (see `onTokensKeyUp`).
-      this.#_value = change.map((token) => {
+      this.tokens = change;
+      const value = change.map((token) => {
         return token.value;
       });
-      this.tokens = change;
-      this.onChange(this.#_value);
-      this.onTouched();
+
+      this.#setValue(value, { emitEvent: true });
     }
   }
 
@@ -480,22 +495,15 @@ export class SkyLookupComponent
 
   public writeValue(value: any[]): void {
     // Since we are dealing with arrays - clone the array being sent in to ensure we aren't modifying a consumers outer array
-    this.value = value ? value.slice() : [];
-    this.#updateForSelectMode();
+    this.#setValue(value ? value.slice() : [], { emitEvent: false });
   }
 
-  // Angular automatically constructs these methods.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onChange = (value: any[]) => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onTouched = () => {};
-
-  public registerOnChange(fn: (value: any) => void) {
-    this.onChange = fn;
+  public registerOnChange(fn: (value: any[]) => void) {
+    this.#notifyChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this.#notifyTouched = fn;
   }
 
   // Allows Angular to disable the input.
@@ -610,10 +618,10 @@ export class SkyLookupComponent
       this.showMoreConfig.customPicker.open({
         items: this.data,
         initialSearch,
-        initialValue: this.value,
+        initialValue: this.#getValue(),
       });
     } else {
-      const initialValue = this.value;
+      const initialValue = this.#getValue();
 
       if (this.#hasSearchAsync()) {
         this.#openSelectionModal =
@@ -676,7 +684,7 @@ export class SkyLookupComponent
   #createSelectionModalInstance(
     initialSearch: string,
   ): SkySelectionModalInstance {
-    const initialValue = this.value;
+    const initialValue = this.#getValue();
     const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
 
     if (!modalConfig.itemTemplate) {
@@ -719,7 +727,7 @@ export class SkyLookupComponent
   }
 
   #createNativePickerInstance(initialSearch: string): SkyModalInstance {
-    const initialValue = this.value;
+    const initialValue = this.#getValue();
     const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
 
     if (!modalConfig.itemTemplate) {
@@ -766,7 +774,7 @@ export class SkyLookupComponent
     /* istanbul ignore next */
     selectedItems = selectedItems || [];
 
-    this.writeValue(selectedItems);
+    this.#setValue(selectedItems, { emitEvent: true });
     this.#focusInput();
     this.#changeDetector.markForCheck();
   }
@@ -776,19 +784,21 @@ export class SkyLookupComponent
   }
 
   #addToSelected(item: any): void {
+    const value = this.#getValue();
+
     let selectedItems: any[];
 
     if (this.selectMode === 'single') {
       selectedItems = [item];
     } else {
-      selectedItems = this.value;
+      selectedItems = value;
 
       const idProperty = this.idProperty || '';
 
       // If items have a unique identifier, don't allow the same item to be added twice.
       if (
         !this.idProperty ||
-        !this.value.some(
+        !value.some(
           (existingItem) => existingItem[idProperty] === item[idProperty],
         )
       ) {
@@ -798,7 +808,7 @@ export class SkyLookupComponent
       this.clearSearchText();
     }
 
-    this.writeValue(selectedItems);
+    this.#setValue(selectedItems, { emitEvent: true });
   }
 
   #addEventListeners(): void {
@@ -894,11 +904,13 @@ export class SkyLookupComponent
       }
 
       if (addItemToValue) {
+        const oldValue = this.#getValue();
         const newValue =
           this.selectMode === 'multiple'
-            ? this.value.concat(args.item)
+            ? oldValue.concat(args.item)
             : [args.item];
-        this.writeValue(newValue);
+
+        this.#setValue(newValue, { emitEvent: true });
       }
     }
   }
@@ -922,7 +934,8 @@ export class SkyLookupComponent
   #updateForSelectMode(): void {
     if (this.autocompleteInputDirective) {
       if (this.selectMode === 'single') {
-        this.autocompleteInputDirective.value = this.value && this.value[0];
+        const value = this.#getValue();
+        this.autocompleteInputDirective.value = value && value[0];
       } else {
         this.clearSearchText();
       }
