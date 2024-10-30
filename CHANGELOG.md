@@ -1,5 +1,20 @@
 # Changelog
 
+## [11.18.0](https://github.com/blackbaud/skyux/compare/11.17.0...11.18.0) (2024-10-30)
+
+
+### Features
+
+* add experimental `skyux-eslint` package for custom ESLint rules ([#2852](https://github.com/blackbaud/skyux/issues/2852)) ([659d628](https://github.com/blackbaud/skyux/commit/659d628157f211cff81688758be6bd1087356bc8))
+* **components/forms:** tokenize checkbox styles ([#2872](https://github.com/blackbaud/skyux/issues/2872)) ([df3e290](https://github.com/blackbaud/skyux/commit/df3e290fa9abafa4f2a23ffa1a8f77c232c9939c))
+* **components/lookup:** tokenize search styles ([#2868](https://github.com/blackbaud/skyux/issues/2868)) ([e9f2d57](https://github.com/blackbaud/skyux/commit/e9f2d57218fd188ca6694e70b044ba8ed675a361))
+
+
+### Bug Fixes
+
+* **components/datetime:** fix date range picker to emit `valueChanges` only once per change ([#2867](https://github.com/blackbaud/skyux/issues/2867)) ([8392489](https://github.com/blackbaud/skyux/commit/839248946b7892b9374426c744f668f8fe98de44))
+* **components/lookup:** selection modal choices satisfy the required state of the lookup component ([#2876](https://github.com/blackbaud/skyux/issues/2876)) ([292b15b](https://github.com/blackbaud/skyux/commit/292b15b6b7bcd50c1426c46d0ac32ff440359850))
+
 ## [11.17.0](https://github.com/blackbaud/skyux/compare/11.16.0...11.17.0) (2024-10-29)
 
 
