@@ -12,11 +12,7 @@ const COUNTRY_AU: SkyPhoneFieldCountry = {
   iso2: 'au',
   dialCode: '+61',
 };
-// const COUNTRY_US: SkyPhoneFieldCountry = {
-//   name: 'United States',
-//   iso2: 'us',
-//   dialCode: '+1',
-// };
+
 const DATA_SKY_ID = 'my-phone-field';
 const VALID_AU_NUMBER = '0212345678';
 const VALID_US_NUMBER = '8675555309';
