@@ -20,6 +20,7 @@
   font-weight: var(--sky-font-weight-body-m);
   font-family: var(--sky-font-family-primary);
   color: var(--sky-color-text-default);
+  background-color: var(--sky-color-background-page);
 
   transition:
     background-color $sky-transition-time-short,
