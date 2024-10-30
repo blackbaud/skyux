@@ -203,7 +203,7 @@ export class SkyLookupComponent
       if (value?.length > 1) {
         // The `setTimeout` is needed to avoid a `ExpressionChangedAfterItHasBeenCheckedError` error in template forms.
         setTimeout(() => {
-          this.writeValue([value[0]]);
+          this.#setValue([value[0]], { emitEvent: true });
           this.#changeDetector.detectChanges();
         });
       }
@@ -774,7 +774,7 @@ export class SkyLookupComponent
     /* istanbul ignore next */
     selectedItems = selectedItems || [];
 
-    this.writeValue(selectedItems);
+    this.#setValue(selectedItems, { emitEvent: true });
     this.#focusInput();
     this.#changeDetector.markForCheck();
   }
@@ -909,7 +909,8 @@ export class SkyLookupComponent
           this.selectMode === 'multiple'
             ? oldValue.concat(args.item)
             : [args.item];
-        this.writeValue(newValue);
+
+        this.#setValue(newValue, { emitEvent: true });
       }
     }
   }

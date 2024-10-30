@@ -3794,6 +3794,28 @@ describe('Lookup component', function () {
         dismissSelectedItem(0, fixture);
         expect(component.form.invalid).toEqual(true);
       }));
+
+      it('should mark the required field as valid when a value is chosen from the selection modal', fakeAsync(() => {
+        component.friends = [{ name: 'Rachel' }];
+        component.enableShowMore = true;
+
+        fixture.detectChanges();
+        component.setRequired();
+        fixture.detectChanges();
+
+        expect(component.form.invalid).toEqual(false);
+        dismissSelectedItem(0, fixture);
+        expect(component.form.invalid).toEqual(true);
+
+        performSearch('s', fixture);
+        clickShowMore(fixture);
+        selectShowMoreItemMultiple(0, fixture);
+        saveShowMoreModal(fixture);
+
+        tick();
+
+        expect(component.form.invalid).toEqual(false);
+      }));
     });
 
     describe('events', function () {
