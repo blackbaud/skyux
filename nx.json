@@ -120,6 +120,5 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "defaultBase": "main",
-  "useLegacyCache": true
+  "defaultBase": "main"
 }
