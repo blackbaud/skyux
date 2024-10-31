@@ -26,10 +26,8 @@
         {
           "projects": [
             "core",
-            "datetime",
             "help-inline",
             "indicators",
-            "phone-field",
             "popovers",
             "testing"
           ],
