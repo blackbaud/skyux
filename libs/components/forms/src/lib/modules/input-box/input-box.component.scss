@@ -285,10 +285,32 @@ sky-input-box {
       z-index: 1;
     }
 
-    .sky-input-box-group-form-control + .sky-input-group-btn {
+    .sky-input-box-group-form-control-focus:not(:active)
+      + .sky-input-group-btn {
+      .sky-btn {
+        // makes the borders between the input and button appear to be a single 1px border, while allowing both to have hover effect
+        margin-left: calc(var(--sky-border-width-input-focus) * -1);
+      }
+    }
+
+    .sky-input-box-group-form-control:active + .sky-input-group-btn {
       .sky-btn {
         // makes the borders between the input and button appear to be a single 1px border, while allowing both to have hover effect
         margin-left: calc(var(--sky-border-width-input-active) * -1);
+      }
+    }
+
+    .sky-input-box-group-form-control + .sky-input-group-btn {
+      .sky-btn {
+        // makes the borders between the input and button appear to be a single 1px border, while allowing both to have hover effect
+        margin-left: calc(var(--sky-border-width-input-base) * -1);
+      }
+    }
+
+    .sky-input-box-group-form-control + .sky-input-group-btn {
+      .sky-btn {
+        // makes the borders between the input and button appear to be a single 1px border, while allowing both to have hover effect
+        margin-left: calc(var(--sky-border-width-input-base) * -1);
       }
     }
 
