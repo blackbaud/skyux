@@ -8,7 +8,20 @@
         [hintText]="hintText"
         [labelText]="labelText"
         [required]="required"
-      />
+      >
+        @if (lastDonation.errors?.['startDateWeekend']) {
+          <sky-form-error
+            errorName="startDateWeekend"
+            errorText="Do not pick a weekend as the start date."
+          />
+        }
+        @if (lastDonation.errors?.['endDateWeekend']) {
+          <sky-form-error
+            errorName="endDateWeekend"
+            errorText="Do not pick a weekend as the end date."
+          />
+        }
+      </sky-date-range-picker>
     </div>
   </form>
 </div>
