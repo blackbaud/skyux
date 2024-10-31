@@ -39,14 +39,16 @@
         ] && labelText
       ) {
         <sky-form-error
-          [errorName]="'endDateBeforeStartDate'"
+          errorName="endDateBeforeStartDate"
           [errorText]="
             'skyux_date_range_picker_end_date_before_start_date_error_label_text'
               | skyLibResources
           "
         />
       }
-      <ng-content select="sky-form-error" />
+      <span class="date-range-picker-custom-errors">
+        <ng-content select="sky-form-error" />
+      </span>
     </sky-input-box>
   </div>
   <div
