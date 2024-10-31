@@ -6,7 +6,6 @@
   --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
   --sky-override-input-box-error-margin-top: 5px;
   --sky-override-input-box-select-border-radius: 0;
-  --sky-override-input-box-select-icon-size: 15px 30px;
   --sky-override-button-width: 33px;
 }
 
@@ -29,8 +28,6 @@
   --sky-override-input-box-no-label-space-top: var(--modern-space-s);
   --sky-override-input-box-select-space: 10px;
   --sky-override-input-focus-elevation-shadow: var(--modern-shadow-size-1);
-  --sky-override-input-box-select-icon-size: var(--modern-size-15)
-    var(--modern-size-30);
 }
 
 // default theme initial input box background colors (also set by ag-grid and search)
@@ -506,10 +503,6 @@ sky-input-box {
           opens the select element when the label clicked.
         */
         z-index: 3;
-        background-size: var(
-          --sky-override-input-box-select-icon-size,
-          var(--sky-size-icon-s) var(--sky-size-icon-xl)
-        );
       }
 
       textarea.sky-form-control {

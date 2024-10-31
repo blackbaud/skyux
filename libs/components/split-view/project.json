@@ -24,7 +24,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["testing", "theme"],
+          "projects": ["modals", "testing", "theme"],
           "target": "build"
         }
       ],
