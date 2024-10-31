@@ -35,6 +35,10 @@
   display: inline-flex;
   position: relative;
 
+  &:has(~ .sky-control-help-container) .sky-switch-label {
+    margin-right: 0;
+  }
+
   &.sky-switch-disabled {
     cursor: not-allowed;
   }
@@ -79,7 +83,7 @@
       }
 
       background-color: var(--sky-color-background-selected-heavy);
-      border-width: var(--sky-border-width-input-selected);
+      border-width: var(--sky-border-width-action-selected-s);
       border-color: var(--sky-color-border-selected);
 
       &:is(
@@ -325,6 +329,6 @@
   }
 
   sky-radio .sky-switch-control-icon {
-    border-radius: $sky-theme-modern-box-border-radius-default;
+    border-radius: var(--sky-border-radius-s);
   }
 }

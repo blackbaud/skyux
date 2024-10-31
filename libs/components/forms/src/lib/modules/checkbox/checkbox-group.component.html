@@ -55,7 +55,11 @@
     #hintTextEl="skyId"
     skyId
     [ngClass]="{
-      'sky-font-deemphasized sky-checkbox-group-hint-text': !!hintText
+      'sky-checkbox-group-hint-text': !!hintText
+    }"
+    [skyThemeClass]="{
+      'sky-font-deemphasized': 'default',
+      'sky-font-hint-text-s': 'modern'
     }"
   >
     {{ hintText }}

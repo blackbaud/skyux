@@ -6,10 +6,17 @@
   --sky-override-checkbox-checked-color: var(--sky-color-icon-action);
   --sky-override-checkbox-checked-color-disabled: #{$sky-text-color-default};
   --sky-override-checkbox-indeterminate-font-size: 14px;
+  --sky-override-checkbox-label-margin-right: var(--sky-margin-inline-xs);
 }
 
 @include mixins.sky-component-host('modern') {
   display: inline-block;
+
+  .sky-switch:not(:has(~ .sky-control-help-container)):not(
+      :has(.sky-switch-control-icon)
+    ):has(sky-checkbox-label-text-label) {
+    margin-right: var(--sky-override-checkbox-label-margin-right, 0);
+  }
 }
 
 @include mixins.sky-component('modern', '.sky-checkbox-outer-wrapper') {

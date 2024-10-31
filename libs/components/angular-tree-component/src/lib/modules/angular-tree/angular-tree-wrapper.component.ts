@@ -165,7 +165,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     const targetNodeId = event.target.getAttribute('data-node-id');
 
     // Key press did not happen on the node.
-    if (targetNodeId !== node.id.toString()) {
+    if (!node || targetNodeId !== node.id.toString()) {
       // angular-tree-component will preventDefault() on anything using a key action handler,
       // thus stopping "enter" and "space" keys to throw "click" events on interactive elements.
       // This logic ensures components looking for "clicks" on those keystrokes still work (dropdown component).

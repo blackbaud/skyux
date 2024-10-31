@@ -21,8 +21,8 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-radio-group';
 
-  #getHeading = this.locatorForOptional('.sky-control-label');
-  #getHeadingWrapper = this.locatorFor('.sky-control-label span');
+  #getHeading = this.locatorFor('.sky-radio-group-legend span');
+  #getHeadingWrapper = this.locatorForOptional('.sky-radio-group-legend');
   #getHintText = this.locatorForOptional('.sky-radio-group-hint-text');
   #getLegendDefault = this.locatorForOptional(
     'legend .sky-radio-group-heading-text',
@@ -57,7 +57,8 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    */
   public async getHeadingHidden(): Promise<boolean> {
     return (
-      (await this.#getHeading())?.hasClass('sky-screen-reader-only') ?? true
+      (await this.#getHeadingWrapper())?.hasClass('sky-screen-reader-only') ??
+      true
     );
   }
 
@@ -155,7 +156,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    * Whether the radio group is required.
    */
   public async getRequired(): Promise<boolean> {
-    const headingWrapper = await this.#getHeadingWrapper();
+    const headingWrapper = await this.#getHeading();
 
     return await headingWrapper.hasClass('sky-control-label-required');
   }
@@ -172,8 +173,9 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
     const label = await this.#getLegendDefault();
 
     return (
-      ((await host.hasClass('sky-margin-stacked-lg')) && !!label) ||
-      ((await host.hasClass('sky-margin-stacked-xl')) && !!heading)
+      ((await host.hasClass('sky-radio-group-stacked-no-heading')) &&
+        !!label) ||
+      ((await host.hasClass('sky-radio-group-stacked-heading')) && !!heading)
     );
   }
 
@@ -191,7 +193,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
     const harness = await this.locatorForOptional(
       SkyHelpInlineHarness.with({
-        ancestor: '.sky-radio-group > .sky-control-label',
+        ancestor: '.sky-radio-group > .sky-radio-group-legend',
       }),
     )();
 
