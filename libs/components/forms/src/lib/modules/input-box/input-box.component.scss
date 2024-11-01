@@ -476,7 +476,7 @@ sky-input-box {
         }
       }
 
-      .sky-input-box-btn-inset {
+      .sky-input-group-btn.sky-input-box-btn-inset {
         .sky-btn {
           background-color: transparent;
           border-radius: var(--sky-border-radius-s);
@@ -584,7 +584,7 @@ sky-input-box {
       );
     }
 
-    // apply button border
+    // apply button border and background color
     .sky-input-group-btn .sky-btn {
       border: none;
       box-shadow: var(
