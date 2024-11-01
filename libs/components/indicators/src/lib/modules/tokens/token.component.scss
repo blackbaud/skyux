@@ -1,11 +1,40 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-token') {
+  --sky-override-token-background-color: #{$sky-background-color-info-light};
+  --sky-override-token-font-size: 15px;
+  --sky-override-token-padding: 0;
+  --sky-override-token-close-margin-left: -2px;
+  --sky-override-token-dismissible-padding-right: 0;
+  --sky-override-token-align-items: inherit;
+  --sky-override-token-display: inline-block;
+  --sky-override-token-button-padding: 2px 8px;
+}
+
+@include compatMixins.sky-modern-overrides('.sky-token') {
+  --sky-override-token-font-size: var(--modern-font-size-150);
+  --sky-override-token-padding: 0;
+  --sky-override-token-button-padding: var(--modern-size-1) var(--modern-size-5);
+}
 
 .sky-token {
-  background-color: $sky-background-color-info-light;
+  background-color: var(
+    --sky-override-token-background-color,
+    var(--sky-color-background-selected-soft)
+  );
+  font-size: var(--sky-override-token-font-size, var(--sky-font-size-body-m));
   border: 1px solid $sky-highlight-color-info;
-  padding: 0;
-  display: inline-block;
+  padding: var(
+    --sky-override-token-padding,
+    var(--sky-space-inset-pillarbox-1_4-top-xs)
+      var(--sky-space-inset-pillarbox-1_4-right-xs)
+      var(--sky-space-inset-pillarbox-1_4-bottom-xs)
+      var(--sky-space-inset-pillarbox-1_4-left-xs)
+  );
+  align-items: var(--sky-override-token-align-items, center);
+  display: var(--sky-override-token-display, inline-flex);
 
   &:hover,
   &.sky-token-focused {
@@ -23,6 +52,17 @@
       opacity: 1;
     }
   }
+
+  &.sky-token-dismissible {
+    padding-right: var(
+      --sky-override-token-dismissible-padding-right,
+      var(--sky-border-width-action-selected-s)
+    );
+  }
+
+  .sky-token-btn-action {
+    font-size: var(--sky-override-token-font-size, var(--sky-font-size-body-m));
+  }
 }
 
 .sky-btn-disabled {
@@ -33,7 +73,7 @@
 .sky-token-btn {
   background-color: transparent;
   border: 0;
-  padding: 2px 8px;
+  padding: var(--sky-override-token-button-padding, 0);
 }
 
 .sky-token-btn-action {
@@ -43,7 +83,10 @@
 }
 
 .sky-token-btn-close {
-  margin-left: -2px;
+  margin-left: var(
+    --sky-override-token-close-margin-left,
+    var(--sky-space-gap-text_action-xs)
+  );
   opacity: 0.9;
 
   &:hover,
@@ -60,18 +103,12 @@
 
 @include mixins.sky-theme-modern {
   .sky-token {
-    align-items: center;
-    display: inline-flex;
-    font-size: 14px;
-
     &:not(.sky-btn-disabled) {
       @include mixins.sky-theme-modern-border($sky-background-color-info);
       background-color: $sky-color-blue-05;
     }
 
     &.sky-token-dismissible {
-      padding-right: 1px;
-
       .sky-token-btn-action {
         padding-right: 0;
       }
@@ -96,7 +133,6 @@
   }
 
   .sky-token-btn {
-    padding: 1px 5px;
     border: 0;
     box-shadow: none;
     background-color: transparent;
@@ -106,16 +142,11 @@
     }
   }
 
-  .sky-token-btn-action {
-    font-size: 14px;
-  }
-
   .sky-token-btn-close {
     align-items: center;
     border-radius: $sky-theme-modern-border-radius-md - 1;
     display: flex;
     height: 20px;
-    margin-left: $sky-theme-modern-margin-inline-xs;
     width: 20px;
     padding: 0;
 
@@ -138,16 +169,5 @@
 
   .sky-token-btn-close-icon {
     width: 100%;
-  }
-}
-
-@include mixins.sky-theme-modern-dark {
-  .sky-token {
-    background-color: $sky-background-color-info-light;
-  }
-
-  .sky-token,
-  .sky-token-btn-close {
-    color: $sky-text-color-default;
   }
 }
