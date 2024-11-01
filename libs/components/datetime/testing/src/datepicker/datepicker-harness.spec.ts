@@ -14,6 +14,8 @@ import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
+import { SkyDatepickerInputHarness } from './datepicker-harness-input';
+
 //#region Test component
 @Component({
   selector: 'sky-datepicker-test',
@@ -252,6 +254,32 @@ describe('Datepicker harness', () => {
       ).toBeRejectedWithError(
         'Unable to find date with label "December". Check that the format is correct and matches the current calendar mode.',
       );
+    });
+
+    it('should get the input harness', async () => {
+      const { datepickerHarness } = await setupTest({
+        dataSkyId: 'input-wrapped',
+      });
+
+      expect(
+        (await datepickerHarness.getControl()) instanceof
+          SkyDatepickerInputHarness,
+      ).toBeTruthy();
+    });
+
+    describe('Datepicker input harness', () => {
+      it('should set the date', async () => {
+        const { datepickerHarness, fixture } = await setupTest({
+          dataSkyId: 'input-wrapped',
+        });
+
+        const inputHarness = await datepickerHarness.getControl();
+        await inputHarness.setValue('01/03/2021');
+
+        expect(
+          fixture.componentInstance.myForm.controls['inputWrapped'].value,
+        ).toEqual(new Date('01/03/2021'));
+      });
     });
   });
 });

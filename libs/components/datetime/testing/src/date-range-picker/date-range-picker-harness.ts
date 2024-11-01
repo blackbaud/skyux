@@ -29,7 +29,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   );
   #getCalculatorSelectInput = this.locatorFor(
     SkyInputBoxHarness.with({
-      ancestor: '.sky-date-range-picker-select-field',
+      ancestor: '.sky-date-range-picker-select-calculator',
     }),
   );
   #getCalculatorSelect = this.locatorFor(
@@ -38,7 +38,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyDatepickerHarness` that meets certain criteria.
+   * `SkyDateRangePickerHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyDateRangePickerFilters,
@@ -70,14 +70,14 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the date range picker component's hint text.
+   * Gets the hint text.
    */
   public async getHintText(): Promise<string> {
     return await (await this.#getCalculatorSelectInput()).getHintText();
   }
 
   /**
-   * Gets the date range picker component's label text.
+   * Gets the label text.
    */
   public async getLabelText(): Promise<string> {
     return (await this.#getCalculatorSelectInput()).getLabelText();
@@ -100,8 +100,8 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the custom error has fired.
-   * @params errorName `errorName` of the custom error.
+   * Whether a custom error has fired.
+   * @params errorName `errorName` property of the custom `sky-form-error`.
    */
   public async hasError(errorName: string): Promise<boolean> {
     return (await this.#getCalculatorSelectInput()).hasCustomFormError(

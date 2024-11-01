@@ -1,6 +1,6 @@
 <div class="sky-date-range-picker" [formGroup]="formGroup">
   <div
-    class="sky-date-range-picker-form-group sky-date-range-picker-select-field"
+    class="sky-date-range-picker-form-group sky-date-range-picker-select-calculator"
     [ngClass]="{
       'sky-date-range-picker-last-input':
         !showStartDatePicker() && !showEndDatePicker()
@@ -95,7 +95,7 @@
   <div
     class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper sky-date-range-picker-end-date"
     [hidden]="!showEndDatePicker()"
-    [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker }"
+    [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker() }"
   >
     <sky-input-box
       [hasErrors]="endDateHasErrors()"

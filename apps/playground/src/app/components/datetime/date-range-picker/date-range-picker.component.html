@@ -1,6 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <sky-date-range-picker
-    data-sky-id="Sandhya"
     formControlName="lastDonation"
     label="Last donation"
     labelText="Last donation label"
@@ -9,8 +8,7 @@
     [calculatorIds]="calculatorIds"
     [dateFormat]="dateFormat"
     [hintText]="hintText"
-  >
-  </sky-date-range-picker>
+  />
 
   <button class="sky-btn sky-btn-default" type="submit">Submit</button>
 </form>
