@@ -229,7 +229,7 @@ describe('Date range picker', function () {
       'sky-date-range-picker',
     );
 
-    expect(dateRangePicker).toHaveClass('sky-margin-stacked-lg');
+    expect(dateRangePicker).toHaveClass('sky-form-field-stacked');
   }));
 
   it('should not have the lg margin class if stacked is false', fakeAsync(() => {
@@ -239,7 +239,7 @@ describe('Date range picker', function () {
       'sky-date-range-picker',
     );
 
-    expect(dateRangePicker).not.toHaveClass('sky-margin-stacked-lg');
+    expect(dateRangePicker).not.toHaveClass('sky-form-field-stacked');
   }));
 
   it('should only show end date picker for Before type', fakeAsync(function () {

@@ -140,10 +140,10 @@ export class SkyCheckboxGroupComponent implements Validator {
   @Input()
   public helpKey: string | undefined;
 
-  @HostBinding('class.sky-checkbox-stacked-no-heading')
+  @HostBinding('class.sky-form-field-stacked')
   public stackedLg = false;
 
-  @HostBinding('class.sky-checkbox-stacked-heading')
+  @HostBinding('class.sky-field-group-stacked')
   public stackedXL = false;
 
   readonly #idSvc = inject(SkyIdService);

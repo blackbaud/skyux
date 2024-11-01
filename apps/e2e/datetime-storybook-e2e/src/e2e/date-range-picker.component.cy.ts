@@ -64,5 +64,5 @@ describe('Date range picker', () => {
         );
       });
     });
-  });
+  }, true);
 });

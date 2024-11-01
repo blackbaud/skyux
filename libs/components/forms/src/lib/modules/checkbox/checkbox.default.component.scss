@@ -26,7 +26,7 @@
   margin-left: calc(var(--sky-switch-size) + var(--sky-switch-margin));
 }
 
-@include mixins.sky-component-host('default', ':host.sky-margin-stacked-lg') {
+@include mixins.sky-component-host('default', ':host.sky-form-field-stacked') {
   display: block;
 }
 
