@@ -271,10 +271,10 @@ export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
 
-  @HostBinding('class.sky-radio-group-stacked-no-heading')
+  @HostBinding('class.sky-form-field-stacked')
   public stackedLg = false;
 
-  @HostBinding('class.sky-radio-group-stacked-heading')
+  @HostBinding('class.sky-field-group-stacked')
   public stackedXL = false;
 
   protected get isRequired(): boolean {

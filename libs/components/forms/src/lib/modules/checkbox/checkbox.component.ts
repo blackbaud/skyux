@@ -280,7 +280,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
    * set `stacked` on the checkbox group component instead.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-form-field-stacked')
   public stacked = false;
 
   /**
@@ -438,7 +438,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   }
 
   /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   // istanbul ignore next
   public onTouched: () => any = () => {};
 

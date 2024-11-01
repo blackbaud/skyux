@@ -13,11 +13,6 @@
   }
 }
 
-@include compatMixins.sky-default-host-overrides() {
-  --sky-override-radio-group-stacked-margin-bottom-no-heading: #{$sky-space-md};
-  --sky-override-radio-group-stacked-margin-bottom-heading: #{$sky-space-xl};
-}
-
 @include compatMixins.sky-modern-overrides('.sky-radio-group') {
   .sky-radio-group-legend {
     .sky-radio-group-heading-text {
@@ -27,23 +22,9 @@
 }
 
 :host {
-  &.sky-radio-group-stacked-heading,
-  &.sky-radio-group-stacked-no-heading {
+  &.sky-field-group-stacked,
+  &.sky-form-field-stacked {
     display: block;
-  }
-
-  &.sky-radio-group-stacked-heading {
-    margin-bottom: var(
-      --sky-override-radio-group-stacked-margin-bottom-heading,
-      var(--sky-space-gap-form-xl)
-    );
-  }
-
-  &.sky-radio-group-stacked-no-heading {
-    margin-bottom: var(
-      --sky-override-radio-group-stacked-margin-bottom-no-heading,
-      var(--sky-space-gap-form-l)
-    );
   }
 }
 
