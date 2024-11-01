@@ -37,6 +37,7 @@
 
 .sky-theme-modern {
   a {
+    color: var(--sky-color-text-action);
     border-radius: var(
       --sky-override-a-border-radius,
       var(--sky-border-radius-s)
@@ -95,8 +96,14 @@
   }
 
   mark.sky-highlight-mark {
-    background-color: var(--sky-background-color-danger-dark);
-    color: var(--sky-text-color-on-dark);
+    background-color: var(--sky-color-background-text_highlight);
+    color: var(--sky-color-text-default);
+    border-bottom: var(--sky-border-width-text_highlight)
+      var(--sky-border-style-accent) var(--sky-color-border-text_highlight);
+  }
+
+  :is(a, .sky-btn-link-inline) mark.sky-highlight-mark {
+    color: var(--sky-color-text-link_highlighted);
   }
 
   .sky-rounded-corners {
