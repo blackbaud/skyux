@@ -13,11 +13,6 @@
   }
 }
 
-@include compatMixins.sky-default-host-overrides() {
-  --sky-override-checkbox-group-stacked-margin-bottom-no-heading: #{$sky-space-md};
-  --sky-override-checkbox-group-stacked-margin-bottom-heading: #{$sky-space-xl};
-}
-
 @include compatMixins.sky-modern-overrides('.sky-checkbox-group') {
   .sky-checkbox-group-legend {
     .sky-checkbox-group-heading-text {
@@ -28,20 +23,6 @@
 
 :host {
   display: block;
-
-  &.sky-checkbox-stacked-heading {
-    margin-bottom: var(
-      --sky-override-checkbox-group-stacked-margin-bottom-heading,
-      var(--sky-space-gap-form-xl)
-    );
-  }
-
-  &.sky-checkbox-stacked-no-heading {
-    margin-bottom: var(
-      --sky-override-checkbox-group-stacked-margin-bottom-no-heading,
-      var(--sky-space-gap-form-l)
-    );
-  }
 }
 
 .sky-checkbox-group-legend {

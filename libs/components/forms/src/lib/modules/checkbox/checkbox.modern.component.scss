@@ -55,7 +55,7 @@
   margin-left: var(--sky-space-inset-switch);
 }
 
-@include mixins.sky-component-host('modern', ':host.sky-margin-stacked-lg') {
+@include mixins.sky-component-host('modern', ':host.sky-form-field-stacked') {
   display: block;
 }
 

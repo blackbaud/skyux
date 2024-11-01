@@ -707,7 +707,7 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
-    expect(radioGroup).toHaveClass('sky-radio-group-stacked-no-heading');
+    expect(radioGroup).toHaveClass('sky-form-field-stacked');
   });
 
   it('should have the xl margin class if stacked is true and headingLevel is set', () => {
@@ -717,15 +717,15 @@ describe('Radio group component (reactive)', function () {
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
-    expect(radioGroup).toHaveClass('sky-radio-group-stacked-heading');
+    expect(radioGroup).toHaveClass('sky-field-group-stacked');
   });
 
   it('should not have the lg or xl margin class if stacked is false', () => {
     fixture.detectChanges();
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
 
-    expect(radioGroup).not.toHaveClass('sky-radio-group-stacked-no-heading');
-    expect(radioGroup).not.toHaveClass('sky-radio-group-stacked-heading');
+    expect(radioGroup).not.toHaveClass('sky-form-field-stacked');
+    expect(radioGroup).not.toHaveClass('sky-field-group-stacked');
   });
 
   it('should log a deprecation warning when ariaLabel and ariaLabelledBy are set', () => {

@@ -242,7 +242,7 @@ export class SkyDateRangePickerComponent
    * vertical spacing is automatically added to the date range picker.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-form-field-stacked')
   public stacked = false;
 
   /**

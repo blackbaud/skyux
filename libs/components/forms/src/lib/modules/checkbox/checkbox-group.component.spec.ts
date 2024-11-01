@@ -130,13 +130,13 @@ describe('Checkbox group component', function () {
 
       const group = getCheckboxGroup(fixture);
 
-      expect(group).toHaveClass('sky-checkbox-stacked-no-heading');
+      expect(group).toHaveClass('sky-form-field-stacked');
     });
 
     it('should have the xl margin class if stacked is true and headingLevel is set', () => {
       const group = getCheckboxGroup(fixture);
 
-      expect(group).toHaveClass('sky-checkbox-stacked-heading');
+      expect(group).toHaveClass('sky-field-group-stacked');
     });
 
     it('should not have the lg or xl margin class if stacked is false', () => {
@@ -145,8 +145,8 @@ describe('Checkbox group component', function () {
 
       const group = getCheckboxGroup(fixture);
 
-      expect(group).not.toHaveClass('sky-checkbox-stacked-no-heading');
-      expect(group).not.toHaveClass('sky-checkbox-stacked-heading');
+      expect(group).not.toHaveClass('sky-form-field-stacked');
+      expect(group).not.toHaveClass('sky-field-group-stacked');
     });
 
     it('should include the asterisk and screen reader text when required', () => {
