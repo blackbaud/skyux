@@ -173,9 +173,8 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
     const label = await this.#getLegendDefault();
 
     return (
-      ((await host.hasClass('sky-radio-group-stacked-no-heading')) &&
-        !!label) ||
-      ((await host.hasClass('sky-radio-group-stacked-heading')) && !!heading)
+      ((await host.hasClass('sky-form-field-stacked')) && !!label) ||
+      ((await host.hasClass('sky-field-group-stacked')) && !!heading)
     );
   }
 

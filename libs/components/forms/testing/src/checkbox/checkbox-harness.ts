@@ -203,7 +203,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Whether the checkbox is stacked.
    */
   public async isStacked(): Promise<boolean> {
-    return await (await this.host()).hasClass('sky-margin-stacked-lg');
+    return await (await this.host()).hasClass('sky-form-field-stacked');
   }
 
   /**
