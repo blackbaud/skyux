@@ -136,7 +136,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Whether the date range picker has stacked enabled.
    */
   public async isStacked(): Promise<boolean> {
-    return (await this.host()).hasClass('sky-margin-stacked-lg');
+    return (await this.host()).hasClass('sky-form-field-stacked');
   }
 
   /**
