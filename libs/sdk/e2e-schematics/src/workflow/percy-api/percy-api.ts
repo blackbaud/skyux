@@ -63,7 +63,7 @@ function getFetchJson(
   fetchClient: (input: RequestInfo | URL) => Promise<Response>,
 ): FetchJson {
   return async (url: string, name: string) =>
-    fetchClient(url)
+    await fetchClient(url)
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
@@ -89,8 +89,10 @@ export async function checkPercyBuild(
   fetchClient: Fetch = fetch,
 ): Promise<BuildSummary> {
   const fetchJson = getFetchJson(fetchClient);
+
   try {
     const build = await getBuild(buildId, fetchJson);
+
     if (build?.id && `${build.id}` === `${buildId}`) {
       const finished = build.attributes.state === 'finished';
       const approved =
@@ -98,6 +100,7 @@ export async function checkPercyBuild(
       const removedSnapshots = finished
         ? await getRemovedSnapshots(build.id, fetchJson)
         : [];
+
       return {
         project,
         state: build.attributes.state as BuildSummary['state'],
@@ -106,6 +109,7 @@ export async function checkPercyBuild(
       };
     } else {
       logger.warning(`No Percy build found for ${project} build ${buildId}`);
+
       return {
         project,
         state: undefined,
@@ -115,11 +119,10 @@ export async function checkPercyBuild(
     }
   } catch (error) {
     logger.error(`Error checking Percy build\n\n${(error as Error).stack}`);
-    return Promise.reject(
-      new Error(`Error checking Percy build: ${error}`, {
-        cause: error,
-      }),
-    );
+
+    throw new Error(`Error checking Percy build: ${error}`, {
+      cause: error,
+    });
   }
 }
 
@@ -223,7 +226,7 @@ async function getProjectId(
   logger: Logger,
   fetchJson: FetchJson,
 ): Promise<string> {
-  return fetchJson<{ id: string }>(
+  return await fetchJson<{ id: string }>(
     `https://percy.io/api/v1/projects?project_slug=${slug}`,
     'Percy project ID',
   ).then((response) => {
@@ -251,7 +254,7 @@ async function getBuilds(
   const stateFilter = states
     .map((state) => `&filter[state][]=${state}`)
     .join('');
-  return fetchJson<Build[]>(
+  return await fetchJson<Build[]>(
     `https://percy.io/api/v1/builds?project_id=${projectId}${shaFilter}${stateFilter}&page[limit]=${limit}`,
     'Percy builds',
   ).then((builds) => builds.filter((build) => build.type === 'builds'));
@@ -261,7 +264,7 @@ async function getBuild(
   buildId: string,
   fetchJson: FetchJson,
 ): Promise<Build | undefined> {
-  return fetchJson<Build>(
+  return await fetchJson<Build>(
     `https://percy.io/api/v1/builds/${buildId}`,
     `Percy build ${buildId}`,
   ).then((build) => {
@@ -276,7 +279,7 @@ async function getRemovedSnapshots(
   buildId: string,
   fetchJson: FetchJson,
 ): Promise<string[]> {
-  return fetchJson<Snapshot[]>(
+  return await fetchJson<Snapshot[]>(
     `https://percy.io/api/v1/builds/${buildId}/removed-snapshots`,
     'removed snapshots',
   ).then((response) =>

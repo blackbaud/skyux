@@ -68,5 +68,6 @@ export default async function (tree: Tree, schema: Schema) {
       relativeToRoot,
     },
   );
-  return formatFiles(tree);
+
+  return await formatFiles(tree);
 }

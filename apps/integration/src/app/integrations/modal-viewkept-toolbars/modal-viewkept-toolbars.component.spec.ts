@@ -58,7 +58,7 @@ describe('Modals with viewkept toolbars', () => {
       bubbles: false,
     });
     fixture.detectChanges();
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   let fixture: ComponentFixture<ModalViewkeptToolbarsComponent>;

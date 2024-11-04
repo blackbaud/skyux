@@ -32,5 +32,5 @@ export default async function (tree: Tree, schema: Schema) {
     }
   });
 
-  return formatFiles(tree);
+  return await formatFiles(tree);
 }
