@@ -24,7 +24,6 @@
   --sky-override-datepicker-horizontal-padding: 0;
   --sky-override-datepicker-vertical-padding: 0;
   --sky-override-datepicker-calendar-top-padding: 0;
-  --sky-override-datepicker-outline: revert;
   --sky-override-datepicker-chevron-size: inherit;
   --sky-override-chevron-color: #{$sky-text-color-default};
   --sky-override-datepicker-title-font-style: 700;
@@ -123,7 +122,7 @@
       );
 
     &:focus-visible {
-      .sky-btn-active {
+      .sky-btn.sky-btn-active {
         border: var(--sky-override-datepicker-button-border, none);
         box-shadow: var(
           --sky-override-button-box-shadow,
@@ -131,8 +130,6 @@
             var(--sky-color-border-action-tertiary-active)
         );
       }
-
-      outline: var(--sky-override-datepicker-outline, none);
     }
   }
 
@@ -356,5 +353,12 @@ sky-monthpicker {
         var(--sky-space-inset-pillarbox-1_2-bottom-s)
         var(--sky-space-inset-pillarbox-1_2-left-s)
     );
+  }
+}
+
+.sky-theme-modern {
+  .sky-datepicker-calendar-inner
+    .sky-datepicker-calendar-table-container:focus-visible {
+    outline: none;
   }
 }
