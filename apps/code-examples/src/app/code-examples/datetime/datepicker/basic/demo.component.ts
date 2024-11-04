@@ -13,8 +13,6 @@ import {
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 
-import { isDate } from 'moment';
-
 interface DemoForm {
   startDate: FormControl<Date | null>;
 }
@@ -23,7 +21,7 @@ function validateDate(
   control: AbstractControl<Date | null>,
 ): ValidationErrors | null {
   const date = control.value;
-  if (isDate(date)) {
+  if (date instanceof Date) {
     const day = date?.getDay();
 
     return day !== undefined && (day === 0 || day === 6)
