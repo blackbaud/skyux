@@ -37,7 +37,7 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
    * Clicks the calendar button.
    */
   public async clickCalendarButton(): Promise<void> {
-    return (await this.#getCalendarButton()).click();
+    return await (await this.#getCalendarButton()).click();
   }
 
   /**
@@ -62,7 +62,7 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
    * Gets the datepicker input harness.
    */
   public async getControl(): Promise<SkyDatepickerInputHarness> {
-    return this.locatorFor(SkyDatepickerInputHarness)();
+    return await this.locatorFor(SkyDatepickerInputHarness)();
   }
 
   /**
@@ -77,6 +77,8 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
   }
 
   async #getAriaControls(): Promise<string | null> {
-    return (await this.#getCalendarButton()).getAttribute('aria-controls');
+    return await (
+      await this.#getCalendarButton()
+    ).getAttribute('aria-controls');
   }
 }

@@ -212,8 +212,8 @@ describe('Date range picker harness', () => {
     await dateRangePickerHarness.selectCalculator(
       SkyDateRangeCalculatorId.SpecificRange,
     );
-    await dateRangePickerHarness.setStartDate('1/2/2023');
-    await dateRangePickerHarness.setEndDate('1/2/2000');
+    await dateRangePickerHarness.setStartDateValue('1/2/2023');
+    await dateRangePickerHarness.setEndDateValue('1/2/2000');
 
     await expectAsync(
       dateRangePickerHarness.hasEndDateBeforeStartDateError(),
@@ -275,7 +275,7 @@ describe('Date range picker harness', () => {
       month: '2-digit',
       day: '2-digit',
     });
-    await dateRangePickerHarness.setStartDate(newDate);
+    await dateRangePickerHarness.setStartDateValue(newDate);
     expect(
       fixture.componentInstance.myForm.controls['testPicker'].value,
     ).toEqual({
@@ -296,7 +296,7 @@ describe('Date range picker harness', () => {
       month: '2-digit',
       day: '2-digit',
     });
-    await dateRangePickerHarness.setEndDate(newDate);
+    await dateRangePickerHarness.setEndDateValue(newDate);
     expect(
       fixture.componentInstance.myForm.controls['testPicker'].value,
     ).toEqual({
@@ -310,13 +310,13 @@ describe('Date range picker harness', () => {
     const { dateRangePickerHarness } = await setupTest();
 
     await expectAsync(
-      dateRangePickerHarness.setStartDate('10/12/2023'),
+      dateRangePickerHarness.setStartDateValue('10/12/2023'),
     ).toBeRejectedWithError(
       'Unable to set start date. Start datepicker is not visible.',
     );
 
     await expectAsync(
-      dateRangePickerHarness.setEndDate('10/12/2023'),
+      dateRangePickerHarness.setEndDateValue('10/12/2023'),
     ).toBeRejectedWithError(
       'Unable to set end date. End datepicker is not visible.',
     );

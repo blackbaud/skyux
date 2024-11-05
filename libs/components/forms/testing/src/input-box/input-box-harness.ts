@@ -41,7 +41,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
@@ -83,14 +83,14 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
    * Whether the custom error is triggered.
    */
   public async hasCustomFormError(errorName: string): Promise<boolean> {
-    return (await this.#getFormError()).hasError(errorName);
+    return await (await this.#getFormError()).hasError(errorName);
   }
 
   /**
    * Whether the required field is empty.
    */
   public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('required');
+    return await (await this.#getFormError()).hasError('required');
   }
 
   /**
@@ -171,7 +171,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   public async getLabelText(): Promise<string> {
     const label = await this.#getLabel();
 
-    return this.#getElementTextOrDefault(label);
+    return await this.#getElementTextOrDefault(label);
   }
 
   /**

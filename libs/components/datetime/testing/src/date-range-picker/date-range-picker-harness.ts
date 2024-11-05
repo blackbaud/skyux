@@ -17,23 +17,20 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-date-range-picker';
 
-  #getStartDateInput = this.locatorFor(
+  #getStartDateInputBoxHarness = this.locatorFor(
     SkyInputBoxHarness.with({
       ancestor: '.sky-date-range-picker-start-date',
     }),
   );
-  #getEndDateInput = this.locatorFor(
+  #getEndDateInputBoxHarness = this.locatorFor(
     SkyInputBoxHarness.with({
       ancestor: '.sky-date-range-picker-end-date',
     }),
   );
-  #getCalculatorSelectInput = this.locatorFor(
+  #getCalculatorIdInputBoxHarness = this.locatorFor(
     SkyInputBoxHarness.with({
       ancestor: '.sky-date-range-picker-select-calculator',
     }),
-  );
-  #getCalculatorSelect = this.locatorFor(
-    'select[FormControlName="calculatorId"',
   );
 
   /**
@@ -50,7 +47,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getCalculatorSelectInput()).clickHelpInline();
+    await (await this.#getCalculatorIdInputBoxHarness()).clickHelpInline();
   }
 
   /**
@@ -58,7 +55,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
     return (await (
-      await this.#getCalculatorSelectInput()
+      await this.#getCalculatorIdInputBoxHarness()
     ).getHelpPopoverContent()) as string | undefined;
   }
 
@@ -66,37 +63,39 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Gets the help inline popover title.
    */
   public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return await (await this.#getCalculatorSelectInput()).getHelpPopoverTitle();
+    return await (
+      await this.#getCalculatorIdInputBoxHarness()
+    ).getHelpPopoverTitle();
   }
 
   /**
    * Gets the hint text.
    */
   public async getHintText(): Promise<string> {
-    return await (await this.#getCalculatorSelectInput()).getHintText();
+    return await (await this.#getCalculatorIdInputBoxHarness()).getHintText();
   }
 
   /**
    * Gets the label text.
    */
   public async getLabelText(): Promise<string> {
-    return (await this.#getCalculatorSelectInput()).getLabelText();
+    return await (await this.#getCalculatorIdInputBoxHarness()).getLabelText();
   }
 
   /**
    * Whether date range picker end date before start date error is thrown.
    */
   public async hasEndDateBeforeStartDateError(): Promise<boolean> {
-    return (await this.#getCalculatorSelectInput()).hasCustomFormError(
-      'endDateBeforeStartDate',
-    );
+    return await (
+      await this.#getCalculatorIdInputBoxHarness()
+    ).hasCustomFormError('endDateBeforeStartDate');
   }
 
   /**
    * Whether end date input has required error.
    */
   public async hasEndDateRequiredError(): Promise<boolean> {
-    return (await this.#getEndDateInput()).hasRequiredError();
+    return await (await this.#getEndDateInputBoxHarness()).hasRequiredError();
   }
 
   /**
@@ -104,23 +103,23 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * @params errorName `errorName` property of the custom `sky-form-error`.
    */
   public async hasError(errorName: string): Promise<boolean> {
-    return (await this.#getCalculatorSelectInput()).hasCustomFormError(
-      errorName,
-    );
+    return await (
+      await this.#getCalculatorIdInputBoxHarness()
+    ).hasCustomFormError(errorName);
   }
 
   /**
    * Whether start date input has required error.
    */
   public async hasStartDateRequiredError(): Promise<boolean> {
-    return (await this.#getStartDateInput()).hasRequiredError();
+    return await (await this.#getStartDateInputBoxHarness()).hasRequiredError();
   }
 
   /**
    * Whether the date range picker component is disabled.
    */
   public async isDisabled(): Promise<boolean> {
-    return (await this.#getCalculatorSelectInput()).getDisabled();
+    return await (await this.#getCalculatorIdInputBoxHarness()).getDisabled();
   }
 
   /**
@@ -136,7 +135,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Whether the date range picker has stacked enabled.
    */
   public async isStacked(): Promise<boolean> {
-    return (await this.host()).hasClass('sky-form-field-stacked');
+    return await (await this.host()).hasClass('sky-form-field-stacked');
   }
 
   /**
@@ -154,15 +153,17 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   public async selectCalculator(
     calculatorId: SkyDateRangeCalculatorId,
   ): Promise<void> {
-    const select = await this.#getCalculatorSelect();
-    return select.selectOptions(calculatorId);
+    const select = await this.locatorFor(
+      'select[FormControlName="calculatorId"',
+    )();
+    return await select.selectOptions(calculatorId);
   }
 
   /**
    * Sets the end date.
    * @param newDate date input as a formatted string.
    */
-  public async setEndDate(newDate: string): Promise<void> {
+  public async setEndDateValue(newDate: string): Promise<void> {
     if (!(await this.isEndDateVisible())) {
       throw new Error('Unable to set end date. End datepicker is not visible.');
     }
@@ -174,7 +175,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Sets the start date.
    * @param newDate date input as a formatted string.
    */
-  public async setStartDate(newDate: string): Promise<void> {
+  public async setStartDateValue(newDate: string): Promise<void> {
     if (!(await this.isEndDateVisible())) {
       throw new Error(
         'Unable to set start date. Start datepicker is not visible.',
@@ -185,10 +186,14 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   }
 
   async #getEndDatepicker(): Promise<SkyDatepickerHarness> {
-    return (await this.#getEndDateInput()).queryHarness(SkyDatepickerHarness);
+    return await (
+      await this.#getEndDateInputBoxHarness()
+    ).queryHarness(SkyDatepickerHarness);
   }
 
   async #getStartDatepicker(): Promise<SkyDatepickerHarness> {
-    return (await this.#getStartDateInput()).queryHarness(SkyDatepickerHarness);
+    return await (
+      await this.#getStartDateInputBoxHarness()
+    ).queryHarness(SkyDatepickerHarness);
   }
 }

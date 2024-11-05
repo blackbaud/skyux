@@ -51,18 +51,8 @@ describe('Basic date range picker demo', () => {
     });
 
     await harness.selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
-    await harness.setStartDate(
-      new Date('05/07/2022').toLocaleDateString('en-us', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      }),
-    );
-    await harness.setEndDate('05/22/2022');
+    await harness.setEndDateValue('05/22/2022');
 
-    await expectAsync(harness.hasError('startDateWeekend')).toBeResolvedTo(
-      true,
-    );
-    await expectAsync(harness.hasError('endDateWeekend')).toBeResolvedTo(true);
+    await expectAsync(harness.hasError('dateWeekend')).toBeResolvedTo(true);
   });
 });

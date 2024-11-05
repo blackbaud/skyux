@@ -10,8 +10,7 @@ export class SkyDatepickerInputHarness extends SkyInputHarness {
   public static hostSelector = '[skyDatepickerInput]';
 
   /**
-   * Sets the value of the input. The value will be set by simulating key
-   * presses that correspond to the given value and dispatching event changes.
+   * Sets the value of the input.
    */
   public override async setValue(value: string): Promise<void> {
     await super.setValue(value);

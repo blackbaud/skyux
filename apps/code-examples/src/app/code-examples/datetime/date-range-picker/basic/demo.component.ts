@@ -10,7 +10,24 @@ import {
 } from '@angular/forms';
 import { SkyDateRangePickerModule } from '@skyux/datetime';
 
-import { isDate } from 'moment';
+function dateRangeExcludesWeekend(
+  control: AbstractControl,
+): ValidationErrors | null {
+  const startDate = control.value.startDate;
+  const endDate = control.value.endDate;
+
+  const isWeekend = (value: unknown): boolean => {
+    return (
+      value instanceof Date && (value.getDay() === 6 || value.getDay() === 0)
+    );
+  };
+
+  if (isWeekend(startDate) || isWeekend(endDate)) {
+    return { dateWeekend: true };
+  }
+
+  return null;
+}
 
 @Component({
   standalone: true,
@@ -33,31 +50,10 @@ export class DemoComponent {
   protected required = true;
 
   constructor() {
-    this.lastDonation = new FormControl('', {
-      validators: [
-        (control): ValidationErrors | null => {
-          const startDate = control.value.startDate;
-          if (isDate(startDate)) {
-            return startDate.getDay() === 6 || startDate.getDay() === 0
-              ? { startDateWeekend: true }
-              : null;
-          }
-          return null;
-        },
-        (control): ValidationErrors | null => {
-          const endDate = control.value.endDate;
-          if (isDate(endDate)) {
-            return endDate.getDay() === 6 || endDate.getDay() === 0
-              ? { endDateWeekend: true }
-              : null;
-          }
-          return null;
-        },
-      ],
-    });
-    if (this.disabled) {
-      this.lastDonation.disable();
-    }
+    this.lastDonation = new FormControl<string | null>(
+      { value: '', disabled: this.disabled },
+      [dateRangeExcludesWeekend],
+    );
     this.formGroup = inject(FormBuilder).group({
       lastDonation: this.lastDonation,
     });
