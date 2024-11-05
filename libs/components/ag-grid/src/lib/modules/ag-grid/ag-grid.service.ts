@@ -499,7 +499,7 @@ export class SkyAgGridService implements OnDestroy {
           SkyAgGridCellRendererValidatorTooltipComponent,
       },
       focusGridInnerElement: (params) => {
-        const lastFocusedCell = params.context['lastFocusedCell'] as
+        const lastFocusedCell = params.context?.['lastFocusedCell'] as
           | LastFocusedCell
           | undefined;
         if (lastFocusedCell) {
