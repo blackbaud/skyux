@@ -206,25 +206,32 @@ export class SkyAgGridWrapperComponent
       this.agGrid.cellFocused
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((event: CellFocusedEvent) => {
-          event.context ??= {};
-          event.context['lastFocusedCell'] = {
+          const context = event.context || {};
+
+          context['lastFocusedCell'] = {
             rowIndex: event.rowIndex,
             column:
               typeof event.column === 'object'
                 ? event.column?.getColId()
                 : `${event.column}`,
           };
+
+          event.api?.setGridOption('context', context);
         });
+
       this.agGrid.headerFocused
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((event: HeaderFocusedEvent) => {
-          event.context ??= {};
-          event.context['lastFocusedCell'] = {
+          const context = event.context || {};
+
+          context['lastFocusedCell'] = {
             rowIndex: null,
             column: event.column?.getUniqueId
               ? event.column.getUniqueId()
               : `${event.column}`,
           };
+
+          event.api?.setGridOption('context', context);
         });
     }
   }
