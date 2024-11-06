@@ -63,11 +63,20 @@ Object {
 
 exports[`update dependencies generator should capture testing dependencies 2`] = `
 Object {
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "name": "test-testing",
   "projectType": "library",
   "root": "lib/test/testing",
   "sourceRoot": "lib/test/testing/src",
   "targets": Object {
+    "lint": Object {
+      "executor": "@nx/eslint:lint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "{projectRoot}/src/**/*.ts",
+        ],
+      },
+    },
     "test": Object {
       "commands": Array [
         "echo test",
