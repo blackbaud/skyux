@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyHrefResolverService } from '@skyux/router';
-import { SkyHrefTestingModule } from '@skyux/router/testing';
+import { SkyHrefTestingModule } from './href-testing.module';
 
 import { SkyHrefResolverMockService } from './href-resolver-mock.service';
 
