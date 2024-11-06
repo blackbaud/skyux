@@ -1,5 +1,31 @@
 # Changelog
 
+## [11.19.1](https://github.com/blackbaud/skyux/compare/11.19.0...11.19.1) (2024-11-06)
+
+
+### Bug Fixes
+
+* **code-examples:** datepicker code example invalid date bug ([#2886](https://github.com/blackbaud/skyux/issues/2886)) ([e77de74](https://github.com/blackbaud/skyux/commit/e77de746159c433136849303e37e2587d0ed388f))
+* **components/ag-grid:** handle and set last focused cell context correctly ([#2889](https://github.com/blackbaud/skyux/issues/2889)) ([1ae817c](https://github.com/blackbaud/skyux/commit/1ae817ca9216106a3a0e5975a7a4e70204ddfcb9))
+* **components/lists:** disable repeater item selection checkbox ([#2891](https://github.com/blackbaud/skyux/issues/2891)) ([effe402](https://github.com/blackbaud/skyux/commit/effe4026c7f60c5f4c7eedda3ad6dad1b5a8dfcc))
+* **components/phone-field:** move phone field testing artifacts to correct location ([#2890](https://github.com/blackbaud/skyux/issues/2890)) ([348fa5a](https://github.com/blackbaud/skyux/commit/348fa5a731e88b2ecbad59cff1804f2a7069f1c2))
+
+## [11.19.0](https://github.com/blackbaud/skyux/compare/11.18.0...11.19.0) (2024-11-01)
+
+
+### Features
+
+* **components/datetime:** tokenize date range picker styles ([#2882](https://github.com/blackbaud/skyux/issues/2882)) ([ffe6e72](https://github.com/blackbaud/skyux/commit/ffe6e7221cb2c3c7b8cc65cdeb4186e82a8593c3))
+* **components/forms:** tokenize radio styles ([#2874](https://github.com/blackbaud/skyux/issues/2874)) ([4e833c4](https://github.com/blackbaud/skyux/commit/4e833c403b539385442c0db2d79ccf5781ed0f87))
+* **components/indicators:** tokenize text highlight styles ([#2883](https://github.com/blackbaud/skyux/issues/2883)) ([19d9bd4](https://github.com/blackbaud/skyux/commit/19d9bd47ce2a714e6d112f61fb5a10d36d080038))
+* **components/phone-field:** add phone field test harness ([#2849](https://github.com/blackbaud/skyux/issues/2849)) ([bb7e4a6](https://github.com/blackbaud/skyux/commit/bb7e4a64e57c2b42096e304a2de4964b5a4359ec))
+* **components/theme:** tokenize body font size ([#2881](https://github.com/blackbaud/skyux/issues/2881)) ([8b508de](https://github.com/blackbaud/skyux/commit/8b508deca5d4e9533ab34d6247072cabeee74690))
+
+
+### Bug Fixes
+
+* **components/angular-tree-component:** handle key event when node is not passed ([#2878](https://github.com/blackbaud/skyux/issues/2878)) ([1bfa483](https://github.com/blackbaud/skyux/commit/1bfa48385a6318b1c67044a218c8b2c8b841fc99))
+
 ## [11.18.0](https://github.com/blackbaud/skyux/compare/11.17.0...11.18.0) (2024-10-30)
 
 

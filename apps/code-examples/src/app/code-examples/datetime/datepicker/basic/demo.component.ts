@@ -21,13 +21,16 @@ function validateDate(
   control: AbstractControl<Date | null>,
 ): ValidationErrors | null {
   const date = control.value;
-  const day = date?.getDay();
+  if (date instanceof Date) {
+    const day = date?.getDay();
 
-  return day !== undefined && (day === 0 || day === 6)
-    ? {
-        invalidWeekend: true,
-      }
-    : null;
+    return day !== undefined && (day === 0 || day === 6)
+      ? {
+          invalidWeekend: true,
+        }
+      : null;
+  }
+  return null;
 }
 
 @Component({

@@ -91,6 +91,7 @@ describe('SkyAgGridWrapperComponent', () => {
       resetRowHeights: spyOn(agGridApi, 'resetRowHeights'),
       setFocusedCell: spyOn(agGridApi, 'setFocusedCell'),
       setFocusedHeader: spyOn(agGridApi, 'setFocusedHeader'),
+      setGridOption: spyOn(agGridApi, 'setGridOption'),
       stopEditing: spyOn(agGridApi, 'stopEditing'),
       updateGridOptions: spyOn(agGridApi, 'updateGridOptions'),
     };
@@ -465,7 +466,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
       agGrid.headerFocused.next({
         column: null,
-        context: agGrid.gridOptions?.context,
+        context: undefined,
       } as unknown as HeaderFocusedEvent);
       agGrid.headerFocused.next({
         column,
@@ -511,7 +512,7 @@ describe('SkyAgGridWrapperComponent', () => {
       agGrid.cellFocused.next({
         rowIndex: null,
         column: null,
-        context: agGrid.gridOptions?.context,
+        context: undefined,
       } as unknown as CellFocusedEvent);
       agGrid.cellFocused.next({
         rowIndex: 0,
