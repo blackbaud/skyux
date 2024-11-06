@@ -1,4 +1,3 @@
- 
 import { SkyConfirmCloseEventArgs, SkyConfirmConfig } from '@skyux/modals';
 
 /**

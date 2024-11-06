@@ -1,4 +1,3 @@
- 
 import { Provider } from '@angular/core';
 import {
   SKY_BREAKPOINT_OBSERVER,

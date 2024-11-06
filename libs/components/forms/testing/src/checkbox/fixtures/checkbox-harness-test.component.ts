@@ -8,7 +8,6 @@ import {
   UntypedFormGroup,
   ValidationErrors,
 } from '@angular/forms';
- 
 import {
   SkyCheckboxGroupHeadingLevel,
   SkyCheckboxGroupHeadingStyle,

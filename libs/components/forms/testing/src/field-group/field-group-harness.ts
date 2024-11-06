@@ -1,7 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
- 
 import {
   SkyFieldGroupHeadingLevel,
   SkyFieldGroupHeadingStyle,

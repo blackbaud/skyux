@@ -1,6 +1,4 @@
 import { Injectable, OnDestroy, StaticProvider, Type } from '@angular/core';
-
- 
 import {
   SkyModalCloseArgs,
   SkyModalConfigurationInterface,

@@ -2,7 +2,6 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
- 
 import { SkyBoxHeadingLevel, SkyBoxHeadingStyle } from '@skyux/layout';
 
 import { SkyBoxHarnessFilters } from './box-harness.filters';

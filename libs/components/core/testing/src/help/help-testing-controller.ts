@@ -1,5 +1,4 @@
 import { inject } from '@angular/core';
- 
 import { SkyHelpService } from '@skyux/core';
 
 import { SkyHelpTestingService } from './help-testing.service';

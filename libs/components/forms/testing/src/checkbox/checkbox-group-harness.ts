@@ -1,6 +1,5 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
- 
 import {
   SkyCheckboxGroupHeadingLevel,
   SkyCheckboxGroupHeadingStyle,

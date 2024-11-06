@@ -65,7 +65,6 @@ export class SkyColumnHarness extends SkyComponentHarness {
     return result || (await this.#getColumnSize(index - 1));
   }
 
-   
   async #getColumnClass(size: string): Promise<number> {
     const host = await this.host();
 

@@ -1,6 +1,4 @@
 import { Provider } from '@angular/core';
-
- 
 import { SkyModalService } from '@skyux/modals';
 
 import { SkyModalTestingController } from './modal-testing.controller';
