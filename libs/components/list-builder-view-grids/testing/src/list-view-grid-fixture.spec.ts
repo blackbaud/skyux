@@ -108,7 +108,7 @@ describe('List view grid fixture', () => {
       locked: boolean,
       textContent: string,
     ) => {
-      let header = listViewGrid.getHeader(columnIndex);
+      const header = listViewGrid.getHeader(columnIndex);
 
       expect(header.locked).toBe(locked);
       expect(header.textContent).toBe(textContent);

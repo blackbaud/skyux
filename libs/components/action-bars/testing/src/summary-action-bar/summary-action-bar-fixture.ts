@@ -113,7 +113,7 @@ export class SkySummaryActionBarFixture {
    * @param query The selector query to use.
    */
   public queryAllSummaryBody(query: string): NodeList {
-    return this.queryAllSummaryBodyElement(query);
+    return this.#queryAllSummaryBodyElement(query);
   }
 
   //#region helpers
@@ -189,7 +189,7 @@ export class SkySummaryActionBarFixture {
     );
   }
 
-  queryAllSummaryBodyElement(query: string): NodeList {
+  #queryAllSummaryBodyElement(query: string): NodeList {
     return this.#debugEl.nativeElement.querySelectorAll(
       `sky-summary-action-bar-summary ${query}`,
     );

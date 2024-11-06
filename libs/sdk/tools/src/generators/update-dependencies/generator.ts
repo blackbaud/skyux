@@ -2,6 +2,7 @@ import {
   ProjectConfiguration,
   Tree,
   formatFiles,
+  generateFiles,
   getProjects,
   readJson,
   updateJson,
@@ -9,6 +10,7 @@ import {
   visitNotIgnoredFiles,
 } from '@nx/devkit';
 import { getSourceNodes } from '@nx/js';
+import { relativePathToWorkspaceRoot } from '@schematics/angular/utility/paths';
 
 import * as semver from 'semver';
 import * as ts from 'typescript';
@@ -191,6 +193,18 @@ function updateTestingBuildTargetDependencies(tree: Tree): void {
         }
         updateProjectConfiguration(tree, parentProjectName, parentProject);
       }
+      projectConfig.targets ??= {};
+      projectConfig.targets['lint'] = {
+        executor: '@nx/eslint:lint',
+        options: {
+          lintFilePatterns: ['{projectRoot}/src/**/*.ts'],
+        },
+      };
+      updateProjectConfiguration(tree, projectConfig.name, projectConfig);
+      generateFiles(tree, __dirname + '/files', projectConfig.root, {
+        pathToRoot: relativePathToWorkspaceRoot(projectConfig.root),
+        projectRoot: projectConfig.root,
+      });
     }
   });
 }
