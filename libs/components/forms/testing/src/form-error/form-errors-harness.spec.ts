@@ -3,7 +3,6 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorModule,

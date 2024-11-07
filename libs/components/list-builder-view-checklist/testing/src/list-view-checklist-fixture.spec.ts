@@ -45,7 +45,7 @@ class TestComponent {
 
   public selectedItems: typeof testItems = [];
 
-  public selectMode: string = 'multiple';
+  public selectMode = 'multiple';
 
   public selectedItemsChange(selectedMap: Map<string, boolean>) {
     this.items.pipe(take(1)).subscribe((items) => {

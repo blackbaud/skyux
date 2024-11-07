@@ -1,0 +1,5 @@
+const prettier = require('eslint-config-prettier');
+const baseConfig = require('<%- pathToRoot %>/eslint-base.config');
+const overrides = require('<%- pathToRoot %>/eslint-overrides.config');
+
+module.exports = [...baseConfig, ...overrides, prettier];

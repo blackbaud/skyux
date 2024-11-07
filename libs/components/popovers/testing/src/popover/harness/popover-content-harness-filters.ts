@@ -1,8 +1,8 @@
-import { BaseHarnessFilters } from '@angular/cdk/testing';
+import { SkyHarnessFilters } from '@skyux/core/testing';
 
 /**
  * A set of criteria that can be used to filter a list of `SkyComponentHarness` instances.
  * @internal
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SkyPopoverContentHarnessFilters extends BaseHarnessFilters {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
+export interface SkyPopoverContentHarnessFilters extends SkyHarnessFilters {}

@@ -1,7 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { TemplateRef } from '@angular/core';
 import { SkyComponentHarness } from '@skyux/core/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyFieldGroupHeadingLevel,
   SkyFieldGroupHeadingStyle,
