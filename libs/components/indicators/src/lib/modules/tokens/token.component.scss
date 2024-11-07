@@ -129,131 +129,122 @@
     );
     cursor: pointer;
   }
+}
 
-  &.sky-btn-disabled {
-    .sky-btn-disabled {
-      opacity: 1;
-    }
-  }
+.sky-token-btn {
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: var(--sky-override-token-button-padding, 0);
+}
 
-  &.sky-token-dismissible {
-    padding-right: var(
-      --sky-override-token-dismissible-padding-right,
-      var(--sky-border-width-action-selected-s)
-    );
-  }
+.sky-btn-disabled {
+  background-color: var(
+    --sky-override-token-disabled-background-color,
+    var(--sky-color-background-action-tertiary-disabled)
+  );
+  cursor: default;
+  user-select: none;
+  opacity: 1;
 
   .sky-token-btn-action {
-    font-size: var(--sky-override-token-font-size, var(--sky-font-size-body-m));
-
-    &:focus-visible {
-      outline: none;
-    }
-  }
-
-  .sky-token-btn-close-icon {
-    width: var(--sky-override-token-close-icon-width, 100%);
-  }
-
-  .sky-token-btn {
-    background-color: transparent;
-    border: 0;
-    box-shadow: none;
-    padding: var(--sky-override-token-button-padding, 0);
-  }
-
-  &.sky-btn-disabled {
-    background-color: var(
-      --sky-override-token-disabled-background-color,
-      var(--sky-color-background-action-tertiary-disabled)
-    );
-    cursor: default;
-    user-select: none;
-
-    .sky-token-btn-action {
-      color: var(--sky-color-text-deemphasized);
-    }
-
-    .sky-token-btn-close {
-      color: var(--sky-color-icon-deemphasized);
-    }
+    color: var(--sky-color-text-deemphasized);
   }
 
   .sky-token-btn-close {
-    margin-left: var(
-      --sky-override-token-close-margin-left,
-      var(--sky-space-gap-text_action-xs)
-    );
-    opacity: var(--sky-override-token-close-button-opacity, 1);
-    padding: var(
-      --sky-override-token-close-padding,
-      var(--sky-space-inset-balanced-xxs)
-    );
-    border-radius: var(
-      --sky-override-token-close-border-radius,
-      calc(
-        var(--sky-border-radius-s) - var(--sky-border-width-action-selected-s)
-      )
-    );
-    align-items: var(--sky-override-token-close-align-items, center);
-    display: var(--sky-override-token-close-display, flex);
-    height: var(--sky-override-token-close-size, '');
-    width: var(--sky-override-token-close-size, '');
-    line-height: var(--sky-override-token-close-line-height, 1);
+    color: var(--sky-color-icon-deemphasized);
+  }
+}
 
-    &:hover,
-    &:focus-visible {
-      opacity: 1;
-    }
+.sky-token-btn-close {
+  margin-left: var(
+    --sky-override-token-close-margin-left,
+    var(--sky-space-gap-text_action-xs)
+  );
+  opacity: var(--sky-override-token-close-button-opacity, 1);
+  padding: var(
+    --sky-override-token-close-padding,
+    var(--sky-space-inset-balanced-xxs)
+  );
+  border-radius: var(
+    --sky-override-token-close-border-radius,
+    calc(var(--sky-border-radius-s) - var(--sky-border-width-action-selected-s))
+  );
+  align-items: var(--sky-override-token-close-align-items, center);
+  display: var(--sky-override-token-close-display, flex);
+  height: var(--sky-override-token-close-size, '');
+  width: var(--sky-override-token-close-size, '');
+  line-height: var(--sky-override-token-close-line-height, 1);
 
-    &:hover {
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+
+  &:hover {
+    background-color: var(
+      --sky-override-token-close-hover-background-color,
+      var(--sky-color-background-action-tertiary-hover)
+    );
+    border: none;
+    box-shadow: var(
+      --sky-override-token-close-hover-box-shadow,
+      inset 0 0 0 var(--sky-border-width-action-hover)
+        var(--sky-color-border-action-tertiary-hover)
+    );
+  }
+
+  &:focus-visible {
+    outline: var(--sky-override-token-close-focus-outline, none);
+
+    &:not(:active) {
       background-color: var(
-        --sky-override-token-close-hover-background-color,
-        var(--sky-color-background-action-tertiary-hover)
+        --sky-override-token-close-focus-background-color,
+        var(--sky-color-background-action-tertiary-focus)
       );
       border: none;
       box-shadow: var(
-        --sky-override-token-close-hover-box-shadow,
-        inset 0 0 0 var(--sky-border-width-action-hover)
-          var(--sky-color-border-action-tertiary-hover)
-      );
-    }
-
-    &:focus-visible {
-      outline: var(--sky-override-token-close-focus-outline, none);
-
-      &:not(:active) {
-        background-color: var(
-          --sky-override-token-close-focus-background-color,
-          var(--sky-color-background-action-tertiary-focus)
-        );
-        border: none;
-        box-shadow: var(
-          --sky-override-token-close-focus-box-shadow,
-          inset 0 0 0 var(--sky-border-width-action-focus)
-            var(--sky-color-border-action-tertiary-focus),
-          var(--sky-elevation-focus)
-        );
-      }
-    }
-
-    &.sky-token-btn-close-active {
-      background-color: var(
-        --sky-override-token-close-active-background-color,
-        var(--sky-color-background-action-tertiary-active)
-      );
-      border: none;
-      box-shadow: var(
-        --sky-override-token-close-active-box-shadow,
-        inset 0 0 0 var(--sky-border-width-action-active)
-          var(--sky-color-border-action-tertiary-active)
+        --sky-override-token-close-focus-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(--sky-color-border-action-tertiary-focus),
+        var(--sky-elevation-focus)
       );
     }
   }
 
-  &.sky-token-dismissible {
-    .sky-token-btn-action {
-      padding-right: 0;
-    }
+  &.sky-token-btn-close-active {
+    background-color: var(
+      --sky-override-token-close-active-background-color,
+      var(--sky-color-background-action-tertiary-active)
+    );
+    border: none;
+    box-shadow: var(
+      --sky-override-token-close-active-box-shadow,
+      inset 0 0 0 var(--sky-border-width-action-active)
+        var(--sky-color-border-action-tertiary-active)
+    );
   }
+}
+
+.sky-token-dismissible {
+  padding-right: var(
+    --sky-override-token-dismissible-padding-right,
+    var(--sky-border-width-action-selected-s)
+  );
+
+  .sky-token-btn-action {
+    padding-right: 0;
+  }
+}
+
+.sky-token-btn-action {
+  font-size: var(--sky-override-token-font-size, var(--sky-font-size-body-m));
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.sky-token-btn-close-icon {
+  width: var(--sky-override-token-close-icon-width, 100%);
 }
