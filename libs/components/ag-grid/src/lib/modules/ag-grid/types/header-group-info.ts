@@ -5,7 +5,7 @@ import { ColumnGroup } from 'ag-grid-community';
 /**
  * To display a help button beside the column group header, create a component containing
  * [`sky-help-inline`](https://developer.blackbaud.com/skyux/components/help-inline),
- * and use `inject(SkyAgGridHeaderGroupInfo)` to access the column group
+ * and inject SkyAgGridHeaderGroupInfo to access the column group
  * information, such as display name.
  * Add the component to the `headerGroupComponentParams.inlineHelpComponent`
  * property of the [column group definition](https://www.ag-grid.com/angular-data-grid/column-groups/).
