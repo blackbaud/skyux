@@ -1,5 +1,22 @@
 # Changelog
 
+## [11.19.2](https://github.com/blackbaud/skyux/compare/11.19.1...11.19.2) (2024-11-07)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** hidden header showing as `undefined` ([#2893](https://github.com/blackbaud/skyux/issues/2893)) ([498486c](https://github.com/blackbaud/skyux/commit/498486cf275346063918fe864fd56f6268b8886f))
+
+## [11.19.1](https://github.com/blackbaud/skyux/compare/11.19.0...11.19.1) (2024-11-06)
+
+
+### Bug Fixes
+
+* **code-examples:** datepicker code example invalid date bug ([#2886](https://github.com/blackbaud/skyux/issues/2886)) ([e77de74](https://github.com/blackbaud/skyux/commit/e77de746159c433136849303e37e2587d0ed388f))
+* **components/ag-grid:** handle and set last focused cell context correctly ([#2889](https://github.com/blackbaud/skyux/issues/2889)) ([1ae817c](https://github.com/blackbaud/skyux/commit/1ae817ca9216106a3a0e5975a7a4e70204ddfcb9))
+* **components/lists:** disable repeater item selection checkbox ([#2891](https://github.com/blackbaud/skyux/issues/2891)) ([effe402](https://github.com/blackbaud/skyux/commit/effe4026c7f60c5f4c7eedda3ad6dad1b5a8dfcc))
+* **components/phone-field:** move phone field testing artifacts to correct location ([#2890](https://github.com/blackbaud/skyux/issues/2890)) ([348fa5a](https://github.com/blackbaud/skyux/commit/348fa5a731e88b2ecbad59cff1804f2a7069f1c2))
+
 ## [11.19.0](https://github.com/blackbaud/skyux/compare/11.18.0...11.19.0) (2024-11-01)
 
 

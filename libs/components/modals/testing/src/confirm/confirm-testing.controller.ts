@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { SkyConfirmCloseEventArgs, SkyConfirmConfig } from '@skyux/modals';
 
 /**

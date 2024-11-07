@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Injectable, NgZone } from '@angular/core';
 import {
   SkyMediaBreakpoints,

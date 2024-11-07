@@ -133,6 +133,10 @@ describe('Summary action bar fixture', () => {
         await action.click();
         expect(actionSpy).toHaveBeenCalledWith(i);
       }
+
+      await expectAsync(
+        summaryActionBarFixture.toggleSecondaryActionDropdown(),
+      ).toBeResolved();
     });
 
     it('should expose secondary action button properties if the properties change', async () => {
