@@ -148,7 +148,10 @@
   );
   cursor: default;
   user-select: none;
-  opacity: 1;
+
+  .sky-btn-disabled {
+    opacity: 1;
+  }
 
   .sky-token-btn-action {
     color: var(--sky-color-text-deemphasized);
