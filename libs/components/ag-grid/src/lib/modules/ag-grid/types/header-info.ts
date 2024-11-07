@@ -5,7 +5,7 @@ import { Column } from 'ag-grid-community';
 /**
  * To display a help button beside the column header, create a component containing
  * [`sky-help-inline`](https://developer.blackbaud.com/skyux/components/help-inline),
- * and use `inject(SkyAgGridHeaderInfo)` to access the column information, such
+ * and inject SkyAgGridHeaderInfo to access the column information, such
  * as display name.
  * Add the component to the `headerComponentParams.inlineHelpComponent`
  * property of the [column definition](https://www.ag-grid.com/angular-data-grid/column-definitions/).
