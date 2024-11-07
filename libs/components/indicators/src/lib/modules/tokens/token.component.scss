@@ -129,12 +129,15 @@
     );
     cursor: pointer;
   }
+
+  .sky-token-btn {
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+  }
 }
 
 .sky-token-btn {
-  background-color: transparent;
-  border: 0;
-  box-shadow: none;
   padding: var(--sky-override-token-button-padding, 0);
 }
 
