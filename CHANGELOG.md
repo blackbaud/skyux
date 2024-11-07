@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.19.2](https://github.com/blackbaud/skyux/compare/11.19.1...11.19.2) (2024-11-07)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** hidden header showing as `undefined` ([#2893](https://github.com/blackbaud/skyux/issues/2893)) ([498486c](https://github.com/blackbaud/skyux/commit/498486cf275346063918fe864fd56f6268b8886f))
+
 ## [11.19.1](https://github.com/blackbaud/skyux/compare/11.19.0...11.19.1) (2024-11-06)
 
 
