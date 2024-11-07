@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Provider } from '@angular/core';
 import { SkyConfirmService } from '@skyux/modals';
 

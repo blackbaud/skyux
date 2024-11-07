@@ -14,8 +14,10 @@
         <button
           aria-hidden="true"
           class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
+          tabindex="-1"
           type="button"
-          [innerText]="displayName"
+          [attr.aria-label]="accessibleHeaderText"
+          [innerText]="displayName ?? ''"
           [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
           (click)="onSortRequested($event)"
         ></button>

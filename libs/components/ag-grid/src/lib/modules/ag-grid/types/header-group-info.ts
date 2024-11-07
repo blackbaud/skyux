@@ -3,17 +3,26 @@ import { Injectable } from '@angular/core';
 import { ColumnGroup } from 'ag-grid-community';
 
 /**
- * To display a help button beside the column group header, create a component that includes the help button element,
- * such as `sky-help-inline`, include a `SkyAgGridHeaderGroupInfo` parameter in the constructor to access the column
- * group information, such as display name, and add the component to the `headerComponentParams.inlineHelpComponent`
- * property of the column definition.
+ * To display a help button beside the column group header, create a component containing
+ * [`sky-help-inline`](https://developer.blackbaud.com/skyux/components/help-inline),
+ * and inject SkyAgGridHeaderGroupInfo to access the column group
+ * information, such as display name.
+ * Add the component to the `headerGroupComponentParams.inlineHelpComponent`
+ * property of the [column group definition](https://www.ag-grid.com/angular-data-grid/column-groups/).
+ * @see SkyAgGridHeaderGroupParams
  */
 @Injectable()
 export class SkyAgGridHeaderGroupInfo {
+  /**
+   * [Column group information from AG Grid](https://www.ag-grid.com/angular-data-grid/column-object-group/).
+   */
   public columnGroup: ColumnGroup | undefined;
+  /**
+   * Display name of the column group.
+   */
   public displayName: string | undefined;
   /**
-   * Application context as set on `gridOptions.context`.
+   * AG Grid's [`context` field](https://www.ag-grid.com/angular-data-grid/context/).
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public context: any;
