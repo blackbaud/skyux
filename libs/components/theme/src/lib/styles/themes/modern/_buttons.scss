@@ -45,7 +45,6 @@
       var(--sky-border-width-action-focus)
       var(--sky-color-border-action-tertiary-focus),
     var(--sky-elevation-focus);
-  --sky-override-btn-sm-font-size: 12px;
 
   &:not(.sky-btn-link-inline):not(.sky-btn-borderless-inline) {
     --sky-override-button-line-height: calc(20 / 14);
@@ -456,11 +455,8 @@
 
   .sky-btn-sm {
     padding: $sky-padding-half $sky-padding;
-    font-size: var(
-      --sky-override-btn-sm-font-size,
-      var(--sky-font-size-body-m)
-    );
-    line-height: var(--sky-font-line_height-body-m);
+    font-size: 12px;
+    line-height: 1.5;
   }
 
   .sky-btn-tab {

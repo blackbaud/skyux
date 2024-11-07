@@ -7,9 +7,12 @@
     <tr>
       @for (label of labels; track label.full) {
         <th scope="col" class="sky-datepicker-center sky-datepicker-weekdays">
-          <small [attr.aria-label]="label.full">
-            <b>{{ label.abbr }}</b>
-          </small>
+          <!-- display: inline -->
+          <small
+            class="sky-datepicker-weekday-text"
+            [attr.aria-label]="label.full"
+            >{{ label.abbr }}</small
+          >
         </th>
       }
     </tr>

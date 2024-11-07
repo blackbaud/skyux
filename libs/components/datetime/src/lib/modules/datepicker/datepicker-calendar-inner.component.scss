@@ -30,6 +30,10 @@
   --sky-override-datepicker-nav-space: 0;
   --sky-override-datepicker-table-border-spacing: 2px;
   --sky-override-datepicker-td-padding: 1px;
+  --sky-override-datepicker-weekday-weight: 900;
+  --sky-override-datepicker-focus-outline: auto;
+  --sky-override-datepicker-day-btn-font-size: 12px;
+  --sky-override-datepicker-day-btn-line-height: 1.5;
 }
 
 @include compatMixins.sky-modern-overrides(
@@ -62,12 +66,22 @@
   --sky-override-datepicker-nav-space: 0;
   --sky-override-datepicker-table-border-spacing: 2px;
   --sky-override-datepicker-td-padding: 1px;
+  --sky-override-datepicker-weekday-weight: 900;
+  --sky-override-datepicker-day-btn-font-size: 12px;
 }
 
-// this is temporary until we make the SVG icon updates and figure out borderless icon button line-height
-@include compatMixins.sky-modern-v2('.sky-datepicker-calendar-header', false) {
-  .sky-btn-default {
+@include compatMixins.sky-modern-v2('.sky-datepicker-calendar-inner', false) {
+  // this is temporary until we make the SVG icon updates and figure out borderless icon button line-height
+  .sky-datepicker-calendar-header .sky-btn-default {
     line-height: 1;
+  }
+
+  sky-yearpicker td {
+    width: 20%;
+  }
+
+  sky-monthpicker td {
+    width: 33%;
   }
 }
 
@@ -120,6 +134,8 @@
       );
 
     &:focus-visible {
+      outline: var(--sky-override-datepicker-focus-outline, none);
+
       .sky-btn.sky-btn-active {
         border: var(--sky-override-datepicker-button-selected-border, none);
         box-shadow: var(
@@ -234,10 +250,23 @@
     }
   }
 
+  .sky-datepicker-btn-date {
+    min-width: 100%;
+  }
+
+  // TO DO: remove sky-btn-sm class in SKY UX 12
   .sky-btn-sm.sky-datepicker-btn-date {
+    font-size: var(
+      --sky-override-datepicker-day-btn-font-size,
+      var(--sky-font-size-body-m)
+    );
     height: var(
       --sky-override-datepicker-day-button-size,
       var(--sky-size-picker_btn)
+    );
+    line-height: var(
+      --sky-override-datepicker-day-btn-line-height,
+      var(--sky-font-line_height-body-m)
     );
     min-width: var(--sky-override-datepicker-day-button-size, 0);
     padding: var(--sky-override-datepicker-day-button-padding, 0);
@@ -350,9 +379,9 @@ sky-monthpicker {
   }
 }
 
-.sky-theme-modern {
-  .sky-datepicker-calendar-inner
-    .sky-datepicker-calendar-table-container:focus-visible {
-    outline: none;
-  }
+.sky-datepicker-weekday-text {
+  font-weight: var(
+    --sky-override-datepicker-weekday-weight,
+    var(--sky-font-style-emphasized)
+  );
 }
