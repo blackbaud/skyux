@@ -2,8 +2,12 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDatepickerCalendarHarness } from './datepicker-calendar-harness';
+import { SkyDatepickerInputHarness } from './datepicker-harness-input';
 import { SkyDatepickerFilters } from './datepicker-harness.filters';
 
+/**
+ * Harness for interacting with datepicker components in tests.
+ */
 export class SkyDatepickerHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -33,7 +37,7 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
    * Clicks the calendar button.
    */
   public async clickCalendarButton(): Promise<void> {
-    return (await this.#getCalendarButton()).click();
+    return await (await this.#getCalendarButton()).click();
   }
 
   /**
@@ -55,6 +59,13 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the datepicker input harness.
+   */
+  public async getControl(): Promise<SkyDatepickerInputHarness> {
+    return await this.locatorFor(SkyDatepickerInputHarness)();
+  }
+
+  /**
    * Whether the datepicker calendar picker is open.
    */
   public async isDatepickerOpen(): Promise<boolean> {
@@ -66,6 +77,8 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
   }
 
   async #getAriaControls(): Promise<string | null> {
-    return (await this.#getCalendarButton()).getAttribute('aria-controls');
+    return await (
+      await this.#getCalendarButton()
+    ).getAttribute('aria-controls');
   }
 }
