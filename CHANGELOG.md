@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.20.0](https://github.com/blackbaud/skyux/compare/11.19.2...11.20.0) (2024-11-08)
+
+
+### Features
+
+* **components/indicators:** tokenize token styles ([#2884](https://github.com/blackbaud/skyux/issues/2884)) ([d01c2f5](https://github.com/blackbaud/skyux/commit/d01c2f5d71073b0f572ee123dc99897d5da94db9))
+
 ## [11.19.2](https://github.com/blackbaud/skyux/compare/11.19.1...11.19.2) (2024-11-07)
 
 
