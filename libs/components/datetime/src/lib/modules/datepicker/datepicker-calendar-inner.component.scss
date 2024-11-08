@@ -30,7 +30,8 @@
   --sky-override-datepicker-nav-space: 0;
   --sky-override-datepicker-table-border-spacing: 2px;
   --sky-override-datepicker-td-padding: 1px;
-  --sky-override-datepicker-weekday-weight: 900;
+  --sky-override-datepicker-weekday-font-weight: 900;
+  --sky-override-datepicker-weekday-font-size: 12.8px;
   --sky-override-datepicker-focus-outline: auto;
   --sky-override-datepicker-day-btn-font-size: 12px;
   --sky-override-datepicker-day-btn-line-height: 1.5;
@@ -66,7 +67,8 @@
   --sky-override-datepicker-nav-space: 0;
   --sky-override-datepicker-table-border-spacing: 2px;
   --sky-override-datepicker-td-padding: 1px;
-  --sky-override-datepicker-weekday-weight: 900;
+  --sky-override-datepicker-weekday-font-weight: 900;
+  --sky-override-datepicker-weekday-font-size: 12.8px;
   --sky-override-datepicker-day-btn-font-size: 12px;
 }
 
@@ -380,8 +382,12 @@ sky-monthpicker {
 }
 
 .sky-datepicker-weekday-text {
+  font-size: var(
+    --sky-override-datepicker-weekday-font-size,
+    var(--sky-font-size-body-m)
+  );
   font-weight: var(
-    --sky-override-datepicker-weekday-weight,
+    --sky-override-datepicker-weekday-font-weight,
     var(--sky-font-style-emphasized)
   );
 }
