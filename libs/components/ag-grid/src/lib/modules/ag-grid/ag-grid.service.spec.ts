@@ -1016,11 +1016,28 @@ describe('SkyAgGridService', () => {
             id: '123',
           },
         } as RowClassParams),
-      ).toEqual('sky-ag-grid-row-123');
+      ).toEqual(['sky-ag-grid-row-123']);
     });
 
     it('should not generate a class without an id', () => {
-      expect(defaultGridOptions.getRowClass?.(params)).toBeFalsy();
+      expect(defaultGridOptions.getRowClass?.(params)).toEqual([]);
+    });
+
+    it('should merge row classes', () => {
+      expect(
+        agGridService
+          .getGridOptions({
+            gridOptions: {
+              getRowClass: () => 'custom-class',
+            },
+          })
+          .getRowClass?.({
+            ...params,
+            node: {
+              id: '123',
+            },
+          } as RowClassParams),
+      ).toEqual(['sky-ag-grid-row-123', 'custom-class']);
     });
   });
 });

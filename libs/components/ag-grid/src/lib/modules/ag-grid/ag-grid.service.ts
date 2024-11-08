@@ -200,7 +200,9 @@ export class SkyAgGridService implements OnDestroy {
   }
 
   #mergeGridOptions(
-    defaultGridOptions: GridOptions,
+    defaultGridOptions: GridOptions & {
+      getRowClass: (params: RowClassParams) => string[];
+    },
     providedGridOptions: GridOptions,
   ): GridOptions {
     if ('enableRangeSelection' in providedGridOptions) {
@@ -238,6 +240,10 @@ export class SkyAgGridService implements OnDestroy {
         // Apply default components last to prevent consumers from overwriting our component types.
         ...defaultGridOptions.components,
       },
+      context: {
+        ...defaultGridOptions.context,
+        ...providedGridOptions.context,
+      },
       columnTypes: {
         ...providedGridOptions.columnTypes,
         // apply default second to prevent consumers from overwriting our default column types
@@ -255,9 +261,23 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.defaultColGroupDef,
         headerClass: defaultGridOptions.defaultColGroupDef?.headerClass,
       },
+      getRowClass: (params): string[] => {
+        const defaultClasses = defaultGridOptions.getRowClass(
+          params,
+        ) as string[];
+        const providedClasses = providedGridOptions.getRowClass?.(params) ?? [];
+        const providedClassesArray = Array.isArray(providedClasses)
+          ? providedClasses
+          : [providedClasses];
+        return [...defaultClasses, ...providedClassesArray];
+      },
       icons: {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
+      },
+      onCellFocused: (event): void => {
+        defaultGridOptions.onCellFocused?.(event);
+        providedGridOptions.onCellFocused?.(event);
       },
     };
 
@@ -277,7 +297,9 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  #getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  #getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
+    getRowClass: (params: RowClassParams) => string[];
+  } {
     // cellClassRules can be functions or string expressions
     const cellClassRuleTrueExpression = (): boolean => true;
 
@@ -340,7 +362,9 @@ export class SkyAgGridService implements OnDestroy {
       };
     }
 
-    const defaultSkyGridOptions: GridOptions = {
+    const defaultSkyGridOptions: GridOptions & {
+      getRowClass: (params: RowClassParams) => string[];
+    } = {
       columnTypes: {
         [SkyCellType.Autocomplete]: {
           cellClassRules: {
@@ -525,11 +549,11 @@ export class SkyAgGridService implements OnDestroy {
         }
         return this.#keyMap.get(params.data) as string;
       },
-      getRowClass: (params: RowClassParams) => {
+      getRowClass: (params: RowClassParams): string[] => {
         if (params.node.id) {
-          return `sky-ag-grid-row-${params.node.id}`;
+          return [`sky-ag-grid-row-${params.node.id}`];
         } else {
-          return undefined;
+          return [];
         }
       },
       icons: {
@@ -626,7 +650,9 @@ export class SkyAgGridService implements OnDestroy {
     this.#agGridAdapterService.focusOnFocusableChildren(currentElement);
   }
 
-  #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
+    getRowClass: (params: RowClassParams) => string[];
+  } {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
     defaultGridOptions.rowSelection = undefined;
     return defaultGridOptions;
