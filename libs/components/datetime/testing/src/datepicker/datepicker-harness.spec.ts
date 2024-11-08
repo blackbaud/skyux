@@ -10,10 +10,10 @@ import {
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDatepickerModule } from '@skyux/datetime';
-import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
+import { SkyDatepickerHarness } from './datepicker-harness';
 import { SkyDatepickerInputHarness } from './datepicker-harness-input';
 
 //#region Test component

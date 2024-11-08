@@ -8,7 +8,6 @@ import {
   UntypedFormGroup,
   ValidationErrors,
 } from '@angular/forms';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   SkyRadioGroupHeadingLevel,
   SkyRadioGroupHeadingStyle,
