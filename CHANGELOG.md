@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.21.0](https://github.com/blackbaud/skyux/compare/11.20.0...11.21.0) (2024-11-12)
+
+
+### Features
+
+* **components/ag-grid:** allow custom row class rules ([#2897](https://github.com/blackbaud/skyux/issues/2897)) ([cdaf390](https://github.com/blackbaud/skyux/commit/cdaf3906ff63ff75d8d9feda9f680abf2a110001))
+* **components/datetime:** add date range picker harness ([#2885](https://github.com/blackbaud/skyux/issues/2885)) ([ee4e34e](https://github.com/blackbaud/skyux/commit/ee4e34e7623dd24546ac75756d58913112ec5cd9))
+
 ## [11.20.0](https://github.com/blackbaud/skyux/compare/11.19.2...11.20.0) (2024-11-08)
 
 
