@@ -6,8 +6,28 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
 } from '@angular/forms';
 import { SkyDateRangePickerModule } from '@skyux/datetime';
+
+function dateRangeExcludesWeekend(
+  control: AbstractControl,
+): ValidationErrors | null {
+  const startDate = control.value.startDate;
+  const endDate = control.value.endDate;
+
+  const isWeekend = (value: unknown): boolean => {
+    return (
+      value instanceof Date && (value.getDay() === 6 || value.getDay() === 0)
+    );
+  };
+
+  if (isWeekend(startDate) || isWeekend(endDate)) {
+    return { dateWeekend: true };
+  }
+
+  return null;
+}
 
 @Component({
   standalone: true,
@@ -26,11 +46,16 @@ export class DemoComponent {
   protected hintText =
     'Donations received today are updated at the top of each hour.';
   protected labelText = 'Last donation';
+  protected lastDonation: FormControl<string | null>;
   protected required = true;
 
   constructor() {
+    this.lastDonation = new FormControl<string | null>(
+      { value: '', disabled: this.disabled },
+      [dateRangeExcludesWeekend],
+    );
     this.formGroup = inject(FormBuilder).group({
-      lastDonation: new FormControl({ value: '', disabled: this.disabled }),
+      lastDonation: this.lastDonation,
     });
   }
 }

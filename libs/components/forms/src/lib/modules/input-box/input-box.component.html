@@ -182,7 +182,9 @@
     [touched]="controlDir?.touched"
     [dirty]="controlDir?.dirty"
   >
-    <ng-content select="sky-form-error" />
+    <ng-content
+      select="sky-form-error,span.sky-input-box-descendent-form-error"
+    />
   </sky-form-errors>
   <ng-content select=".sky-error-label,.sky-error-indicator" />
 </ng-template>
