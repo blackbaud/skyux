@@ -9,10 +9,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import {
-  SkyDateRangeCalculatorId,
-  SkyDateRangePickerModule,
-} from '@skyux/datetime';
+import { SkyDateRangePickerModule } from '@skyux/datetime';
 
 function dateRangeExcludesWeekend(
   control: AbstractControl,
@@ -55,19 +52,14 @@ export class DemoComponent {
   protected hintText =
     'Donations received today are updated at the top of each hour.';
   protected labelText = 'Last donation';
-  protected lastDonation: FormControl;
+  protected lastDonation: FormControl<string | null>;
   protected required = true;
 
   constructor() {
-    this.lastDonation = new FormControl(
+    this.lastDonation = new FormControl<string | null>(
       { value: '', disabled: this.disabled },
       [dateRangeExcludesWeekend],
     );
-    this.lastDonation.setValue({
-      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
-      startDate: new Date('11/09/2024'),
-      endDate: new Date('11/09/2024'),
-    });
     this.formGroup = inject(FormBuilder).group({
       lastDonation: this.lastDonation,
     });

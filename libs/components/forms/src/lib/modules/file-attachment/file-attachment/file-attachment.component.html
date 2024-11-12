@@ -174,7 +174,7 @@
   @if (ngControl?.touched) {
     @if (fileErrorName === 'fileType') {
       <sky-form-error
-        [errorName]="'fileType'"
+        errorName="fileType"
         [errorText]="
           acceptedTypesErrorMessage ??
             'skyux_file_attachment_file_type_error_label_text'
@@ -183,7 +183,7 @@
       />
     } @else if (fileErrorName === 'maxFileSize') {
       <sky-form-error
-        [errorName]="'maxFileSize'"
+        errorName="maxFileSize"
         [errorText]="
           'skyux_file_attachment_max_file_size_error_label_text'
             | skyLibResources: (fileErrorParam | skyFileSize)
@@ -191,7 +191,7 @@
       />
     } @else if (fileErrorName === 'minFileSize') {
       <sky-form-error
-        [errorName]="'minFileSize'"
+        errorName="minFileSize"
         [errorText]="
           'skyux_file_attachment_min_file_size_error_label_text'
             | skyLibResources: (fileErrorParam | skyFileSize)
