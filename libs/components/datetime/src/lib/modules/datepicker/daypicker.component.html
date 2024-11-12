@@ -8,10 +8,10 @@
       @for (label of labels; track label.full) {
         <th scope="col" class="sky-datepicker-center sky-datepicker-weekdays">
           <!-- display: inline -->
-          <small
+          <span
             class="sky-datepicker-weekday-text"
             [attr.aria-label]="label.full"
-            >{{ label.abbr }}</small
+            >{{ label.abbr }}</span
           >
         </th>
       }
