@@ -936,14 +936,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   #closeDropdown(): void {
-    return;
-    // this.#resetSearch();
-    // this.isOpen = false;
-    // this.#destroyOverlay();
-    // this.#removeActiveDescendant();
-    // this.#updateAriaControls();
-    // this.#changeDetector.markForCheck();
-    // this.openChange.emit(false);
+    this.#resetSearch();
+    this.isOpen = false;
+    this.#destroyOverlay();
+    this.#removeActiveDescendant();
+    this.#updateAriaControls();
+    this.#changeDetector.markForCheck();
+    this.openChange.emit(false);
   }
 
   #setActiveDescendant(): void {
