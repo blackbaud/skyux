@@ -29,6 +29,7 @@ import {
   TouchedChangeEvent,
   ValidationErrors,
   Validator,
+  Validators,
 } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -290,6 +291,9 @@ export class SkyDateRangePickerComponent
   protected readonly calculatorIdHasErrors = computed(() => {
     const touched = this.#calculatorIdTouched();
     const invalid = this.#calculatorIdInvalid();
+    console.log(
+      'host required:' + this.hostControl?.hasValidator(Validators.required),
+    );
 
     return touched && invalid;
   });
@@ -319,7 +323,9 @@ export class SkyDateRangePickerComponent
       optional: true,
       self: true,
     })?.control;
-
+    console.log(
+      'host required:' + this.hostControl?.hasValidator(Validators.required),
+    );
     // Set a default value on the control if it's undefined on init.
     // We need to use setTimeout to avoid interfering with the first
     // validation cycle.

@@ -63,6 +63,5 @@ export class DemoComponent {
     this.formGroup = inject(FormBuilder).group({
       lastDonation: this.lastDonation,
     });
-    this.formGroup.markAllAsTouched();
   }
 }
