@@ -146,8 +146,9 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     }
 
     try {
-      const noResultFoundText =
-        await overlay.querySelector('.sky-deemphasized');
+      const noResultFoundText = await overlay.querySelector(
+        '.sky-autocomplete-no-results',
+      );
       return (await noResultFoundText?.text())?.trim();
     } catch {
       throw new Error(
