@@ -17,7 +17,7 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
   #getNextButton = this.locatorFor('.sky-datepicker-btn-next');
   #getPreviousButton = this.locatorFor('.sky-datepicker-btn-previous');
   #getSelected = this.locatorFor('.sky-datepicker-btn-selected');
-  #getTitle = this.locatorFor('.sky-datepicker-calendar-title > strong');
+  #getTitle = this.locatorFor('.sky-datepicker-calendar-title');
   #getTitleButton = this.locatorFor('.sky-datepicker-calendar-title');
 
   /**
