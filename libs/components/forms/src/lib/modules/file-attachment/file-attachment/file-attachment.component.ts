@@ -628,12 +628,11 @@ export class SkyFileAttachmentComponent
   }
 
   // istanbul ignore next
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   #onChange = (_: any): void => {
     return;
   };
   // istanbul ignore next
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   #onTouched = (): void => {
     return;
   };

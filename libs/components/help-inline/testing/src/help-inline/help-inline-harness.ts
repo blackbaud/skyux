@@ -41,14 +41,16 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
       );
     }
 
-    return button.click();
+    await button.click();
   }
 
   /**
    * Gets the `aria-controls` value.
    */
   public async getAriaControls(): Promise<string | null> {
-    return (await this.#getInlineHelpButton()).getAttribute('aria-controls');
+    return await (
+      await this.#getInlineHelpButton()
+    ).getAttribute('aria-controls');
   }
 
   /**
@@ -70,7 +72,7 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
    * Gets the `aria-label` value.
    */
   public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getInlineHelpButton()).getAttribute('aria-label');
+    return await (await this.#getInlineHelpButton()).getAttribute('aria-label');
   }
 
   /**
@@ -108,20 +110,20 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
   public async getPopoverContent(): Promise<
     TemplateRef<unknown> | string | undefined
   > {
-    return (await this.#getPopoverHarnessContent())?.getBodyText();
+    return await (await this.#getPopoverHarnessContent())?.getBodyText();
   }
 
   /**
    * Gets the help popover title.
    */
   public async getPopoverTitle(): Promise<string | undefined> {
-    return (await this.#getPopoverHarnessContent())?.getTitleText();
+    return await (await this.#getPopoverHarnessContent())?.getTitleText();
   }
 
   async #getPopoverHarnessContent(): Promise<
     SkyPopoverContentHarness | undefined
   > {
-    return (
+    return await (
       await this.locatorForOptional(SkyPopoverHarness)()
     )?.getPopoverContent();
   }

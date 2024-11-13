@@ -41,14 +41,14 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Blurs the checkbox.
    */
   public async blur(): Promise<void> {
-    return (await this.#getInput()).blur();
+    await (await this.#getInput()).blur();
   }
 
   /**
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
@@ -64,21 +64,21 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Focuses the checkbox.
    */
   public async focus(): Promise<void> {
-    return (await this.#getInput()).focus();
+    await (await this.#getInput()).focus();
   }
 
   /**
    * Gets the checkbox's aria-label.
    */
   public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('aria-label');
+    return await (await this.#getInput()).getAttribute('aria-label');
   }
 
   /**
    * Gets the checkbox's aria-labelledby.
    */
   public async getAriaLabelledby(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('aria-labelledby');
+    return await (await this.#getInput()).getAttribute('aria-labelledby');
   }
 
   /**
@@ -112,7 +112,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
       // if labelText is set, ariaLabel will never return null
       return text || ariaLabel!;
     } else {
-      return label?.getText();
+      return await label?.getText();
     }
   }
 
@@ -145,35 +145,35 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Gets the checkbox's name.
    */
   public async getName(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('name');
+    return await (await this.#getInput()).getAttribute('name');
   }
 
   /**
    * Gets the checkbox's value.
    */
   public async getValue(): Promise<string | null> {
-    return (await this.#getInput()).getProperty<string | null>('value');
+    return await (await this.#getInput()).getProperty<string | null>('value');
   }
 
   /**
    * Whether the checkbox displays custom error.
    */
   public async hasCustomError(errorName: string): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError(errorName);
+    return await (await this.#getFormErrors()).hasError(errorName);
   }
 
   /**
    * Whether the checkbox displays an error that it is required.
    */
   public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError('required');
+    return await (await this.#getFormErrors()).hasError('required');
   }
 
   /**
    * Whether the checkbox is checked.
    */
   public async isChecked(): Promise<boolean> {
-    return (await this.#getInput()).getProperty<boolean>('checked');
+    return await (await this.#getInput()).getProperty<boolean>('checked');
   }
 
   /**
@@ -188,7 +188,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
    * Whether the checkbox is focused.
    */
   public async isFocused(): Promise<boolean> {
-    return (await this.#getInput()).isFocused();
+    return await (await this.#getInput()).isFocused();
   }
 
   /**

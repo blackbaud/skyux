@@ -28,7 +28,7 @@ export class SkyFormErrorsHarness extends SkyComponentHarness {
       SkyFormErrorHarness.with({}),
     )();
 
-    return Promise.all(
+    return await Promise.all(
       formErrorHarnesses.map(async (formError) => {
         return { errorName: await formError.getErrorName() };
       }),

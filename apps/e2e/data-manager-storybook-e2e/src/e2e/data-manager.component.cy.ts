@@ -11,7 +11,6 @@ describe('data-manager-storybook', () => {
             ),
           );
           it(`should render the component`, () => {
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
             cy.get('#ready').should('exist');
 
             cy.get('app-data-manager')

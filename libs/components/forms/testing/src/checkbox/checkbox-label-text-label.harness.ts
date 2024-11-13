@@ -16,6 +16,6 @@ export class SkyCheckboxLabelTextLabelHarness extends ComponentHarness {
    * Gets the text content of the `labelText` checkbox label.
    */
   public async getText(): Promise<string | undefined> {
-    return (await this.#getLabelContent())?.text();
+    return await (await this.#getLabelContent())?.text();
   }
 }

@@ -18,21 +18,21 @@ export class SkyErrorModalHarness extends SkyComponentHarness {
    * Gets the title of the error modal.
    */
   public async getTitle(): Promise<string> {
-    return (await this.#title()).text();
+    return await (await this.#title()).text();
   }
 
   /**
    * Gets the description of the error modal.
    */
   public async getDescription(): Promise<string> {
-    return (await this.#description()).text();
+    return await (await this.#description()).text();
   }
 
   /**
    * Gets the text of the error modal close button.
    */
   public async getCloseText(): Promise<string> {
-    return (await this.#closeButton()).text();
+    return await (await this.#closeButton()).text();
   }
 
   /**

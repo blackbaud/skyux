@@ -38,7 +38,7 @@ export class SkyRadioHarness extends SkyComponentHarness {
    * Blurs the radio button.
    */
   public async blur(): Promise<void> {
-    return (await this.#getInput()).blur();
+    await (await this.#getInput()).blur();
   }
 
   /**
@@ -58,28 +58,28 @@ export class SkyRadioHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
    * Focuses the radio button.
    */
   public async focus(): Promise<void> {
-    return (await this.#getInput()).focus();
+    await (await this.#getInput()).focus();
   }
 
   /**
    * Gets the radio button's aria-label.
    */
   public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('aria-label');
+    return await (await this.#getInput()).getAttribute('aria-label');
   }
 
   /**
    * Gets the radio button's aria-labelledby.
    */
   public async getAriaLabelledby(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('aria-labelledby');
+    return await (await this.#getInput()).getAttribute('aria-labelledby');
   }
 
   /**
@@ -136,9 +136,9 @@ export class SkyRadioHarness extends SkyComponentHarness {
     const labelText = await this.#getLabelText();
 
     if (labelText) {
-      return labelText.text();
+      return await labelText.text();
     } else {
-      return (await this.#getLabel())?.getText();
+      return await (await this.#getLabel())?.getText();
     }
   }
 
@@ -146,14 +146,14 @@ export class SkyRadioHarness extends SkyComponentHarness {
    * Gets the radio button's name.
    */
   public async getName(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('name');
+    return await (await this.#getInput()).getAttribute('name');
   }
 
   /**
    * Whether the radio button is checked.
    */
   public async isChecked(): Promise<boolean> {
-    return (await this.#getInput()).getProperty<boolean>('checked');
+    return await (await this.#getInput()).getProperty<boolean>('checked');
   }
 
   /**
@@ -168,7 +168,7 @@ export class SkyRadioHarness extends SkyComponentHarness {
    * Whether the radio button is focused.
    */
   public async isFocused(): Promise<boolean> {
-    return (await this.#getInput()).isFocused();
+    return await (await this.#getInput()).isFocused();
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

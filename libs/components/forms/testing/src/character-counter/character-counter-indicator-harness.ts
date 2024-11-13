@@ -48,7 +48,7 @@ export class SkyCharacterCounterIndicatorHarness extends SkyComponentHarness {
    * count is greater than the limit.
    */
   public async isOverLimit(): Promise<boolean> {
-    return (await this.#getLabel()).hasClass('sky-error-label');
+    return await (await this.#getLabel()).hasClass('sky-error-label');
   }
 
   async #getLabelParts(): Promise<LabelParts> {
