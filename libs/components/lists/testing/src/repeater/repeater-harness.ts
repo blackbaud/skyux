@@ -30,6 +30,8 @@ export class SkyRepeaterHarness extends SkyComponentHarness {
   public async getRepeaterItems(
     filters?: SkyRepeaterItemHarnessFilters,
   ): Promise<SkyRepeaterItemHarness[]> {
-    return this.locatorForAll(SkyRepeaterItemHarness.with(filters || {}))();
+    return await this.locatorForAll(
+      SkyRepeaterItemHarness.with(filters || {}),
+    )();
   }
 }

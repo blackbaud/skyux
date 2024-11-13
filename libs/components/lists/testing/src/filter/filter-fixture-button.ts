@@ -32,7 +32,7 @@ export class SkyFilterFixtureButton {
       button.click();
     }
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   public get button(): SkyListsFilterFixtureButton {

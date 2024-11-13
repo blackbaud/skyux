@@ -82,7 +82,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Dismisses the selections made with a multiselect lookup.
    */
   public async dismissSelections(): Promise<void> {
-    return (await this.#getSelectionsListHarness()).dismissSelections();
+    return await (await this.#getSelectionsListHarness()).dismissSelections();
   }
 
   /**
@@ -182,14 +182,14 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Gets a list of selections made with a multiselect lookup.
    */
   public async getSelections(): Promise<SkyLookupSelectionHarness[]> {
-    return (await this.#getSelectionsListHarness()).getSelections();
+    return await (await this.#getSelectionsListHarness()).getSelections();
   }
 
   /**
    * Gets the text content of all selections made with a multiselect lookup.
    */
   public async getSelectionsText(): Promise<string[]> {
-    return (await this.#getSelectionsListHarness()).getSelectionsText();
+    return await (await this.#getSelectionsListHarness()).getSelectionsText();
   }
 
   /**
@@ -240,7 +240,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     const overlayId = await (await this.#getInput()).getAriaControls();
 
     return overlayId
-      ? this.#documentRootLocator.locatorForOptional(
+      ? await this.#documentRootLocator.locatorForOptional(
           SkyOverlayHarness.with({ selector: `#${overlayId}` }),
         )()
       : null;

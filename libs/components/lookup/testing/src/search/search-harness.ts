@@ -56,7 +56,7 @@ export class SkySearchHarness extends SkyComponentHarness {
   public async clickClearButton(): Promise<void> {
     await this.#assertIsExpanded('Failed to click clear button.');
 
-    return (await this.#getClearButton()).click();
+    return await (await this.#getClearButton()).click();
   }
 
   /**
@@ -71,7 +71,7 @@ export class SkySearchHarness extends SkyComponentHarness {
       );
     }
 
-    return button.click();
+    return await button.click();
   }
 
   /**
@@ -86,7 +86,7 @@ export class SkySearchHarness extends SkyComponentHarness {
       );
     }
 
-    return button.click();
+    return await button.click();
   }
 
   /**
@@ -95,7 +95,7 @@ export class SkySearchHarness extends SkyComponentHarness {
   public async clickSubmitButton(): Promise<void> {
     await this.#assertIsExpanded('Failed to click the submit button.');
 
-    return (await this.#getSubmitButton()).click();
+    return await (await this.#getSubmitButton()).click();
   }
 
   /**
@@ -124,14 +124,14 @@ export class SkySearchHarness extends SkyComponentHarness {
    * Gets the search input's `aria-label`.
    */
   public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('aria-label');
+    return await (await this.#getInput()).getAttribute('aria-label');
   }
 
   /**
    * Gets the search's aria-labelledby.
    */
   public async getAriaLabelledby(): Promise<string | null> {
-    return (await this.#getInput()).getAttribute('aria-labelledby');
+    return await (await this.#getInput()).getAttribute('aria-labelledby');
   }
 
   /**
@@ -140,7 +140,7 @@ export class SkySearchHarness extends SkyComponentHarness {
   public async getPlaceholderText(): Promise<string | null> {
     await this.#assertIsExpanded('Failed to get the placeholder text.');
 
-    return (await this.#getInput()).getAttribute('placeholder');
+    return await (await this.#getInput()).getAttribute('placeholder');
   }
 
   /**
@@ -151,7 +151,7 @@ export class SkySearchHarness extends SkyComponentHarness {
       'Failed to get the value of the search input.',
     );
 
-    return (await this.#getInput()).getProperty('value');
+    return await (await this.#getInput()).getProperty('value');
   }
 
   /**
@@ -179,7 +179,7 @@ export class SkySearchHarness extends SkyComponentHarness {
       'Failed to get the search input focus status.',
     );
 
-    return (await this.#getInput()).isFocused();
+    return await (await this.#getInput()).isFocused();
   }
 
   async #assertIsExpanded(errorMessage: string): Promise<void> {

@@ -80,7 +80,7 @@ export class SkyDropdownFixture {
   public async clickDropdownButton(): Promise<unknown> {
     this.#buttonDebugElement.nativeElement.click();
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   /**
@@ -100,7 +100,7 @@ export class SkyDropdownFixture {
     itemEls[index].querySelector('button,a').click();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   /**

@@ -32,7 +32,7 @@ export class SkyInfiniteScrollFixture {
       button.click();
     }
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   #getButton() {

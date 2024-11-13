@@ -18,8 +18,11 @@ export class SkyCountryFieldSearchResultHarness extends SkyAutocompleteSearchRes
     return new HarnessPredicate(
       SkyCountryFieldSearchResultHarness,
       filters,
-    ).addOption('textContent', filters.text, async (harness, text) =>
-      HarnessPredicate.stringMatches(await harness.getText(), text),
+    ).addOption(
+      'textContent',
+      filters.text,
+      async (harness, text) =>
+        await HarnessPredicate.stringMatches(await harness.getText(), text),
     );
   }
 

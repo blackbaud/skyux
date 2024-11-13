@@ -180,7 +180,7 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
     const overlayId = await (await this.#getInput()).getAriaControls();
 
     return overlayId
-      ? this.#documentRootLocator.locatorForOptional(
+      ? await this.#documentRootLocator.locatorForOptional(
           SkyOverlayHarness.with({ selector: `#${overlayId}` }),
         )()
       : null;

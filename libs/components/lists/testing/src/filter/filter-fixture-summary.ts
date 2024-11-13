@@ -32,7 +32,7 @@ export class SkyFilterFixtureSummary {
         if (closeButton instanceof HTMLElement) {
           closeButton.click();
           this.#fixture.detectChanges();
-          return this.#fixture.whenStable();
+          return await this.#fixture.whenStable();
         }
       }
     }

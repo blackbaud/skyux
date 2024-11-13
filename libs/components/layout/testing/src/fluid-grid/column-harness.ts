@@ -28,28 +28,28 @@ export class SkyColumnHarness extends SkyComponentHarness {
    * Gets the size of the column in an XSmall responsive context.
    */
   public async getXSmallSize(): Promise<number> {
-    return this.#getColumnSize(0);
+    return await this.#getColumnSize(0);
   }
 
   /**
    * Gets the size of the column in a Small responsive context.
    */
   public async getSmallSize(): Promise<number> {
-    return this.#getColumnSize(1);
+    return await this.#getColumnSize(1);
   }
 
   /**
    * Gets the size of the column in a Medium responsive context.
    */
   public async getMediumSize(): Promise<number> {
-    return this.#getColumnSize(2);
+    return await this.#getColumnSize(2);
   }
 
   /**
    * Gets the size of the column in a Large responsive context.
    */
   public async getLargeSize(): Promise<number> {
-    return this.#getColumnSize(3);
+    return await this.#getColumnSize(3);
   }
 
   async #getColumnSize(index: number): Promise<number> {

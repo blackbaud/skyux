@@ -84,7 +84,7 @@ export class SkyCountryFieldFixture {
     await this.#searchAndSelect(searchText, 0, this.#fixture);
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   /**

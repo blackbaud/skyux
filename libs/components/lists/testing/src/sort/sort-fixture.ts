@@ -85,7 +85,7 @@ export class SkySortFixture {
       await this.#fixture.whenStable();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      return await this.#fixture.whenStable();
     }
   }
 
@@ -107,7 +107,7 @@ export class SkySortFixture {
       await this.#fixture.whenStable();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      return await this.#fixture.whenStable();
     }
   }
 
@@ -116,7 +116,7 @@ export class SkySortFixture {
    * @param menuItemIndex The index of the menu item to select.
    */
   public async selectMenuItemByIndex(menuItemIndex: number): Promise<void> {
-    return this.#selectMenuItem((_item: HTMLElement, index: number) => {
+    return await this.#selectMenuItem((_item: HTMLElement, index: number) => {
       return index === menuItemIndex;
     });
   }
@@ -131,7 +131,7 @@ export class SkySortFixture {
   ): Promise<void> {
     /* istanbul ignore else */
     if (menuItemText) {
-      return this.#selectMenuItem((item: HTMLElement) => {
+      return await this.#selectMenuItem((item: HTMLElement) => {
         return SkyAppTestUtility.getText(item) === menuItemText;
       });
     } else {
@@ -184,7 +184,7 @@ export class SkySortFixture {
       targetButton?.click();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      return await this.#fixture.whenStable();
     }
   }
 

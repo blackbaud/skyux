@@ -57,7 +57,7 @@ export class SkyPagingFixture {
       pageButton.click();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      return await this.#fixture.whenStable();
     }
   }
 
@@ -71,7 +71,7 @@ export class SkyPagingFixture {
       nextButton.click();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      return await this.#fixture.whenStable();
     }
   }
 
@@ -85,7 +85,7 @@ export class SkyPagingFixture {
       previousButton.click();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      return await this.#fixture.whenStable();
     }
   }
 
@@ -127,7 +127,7 @@ export class SkyPagingFixture {
     await this.#fixture.whenStable();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   //#endregion

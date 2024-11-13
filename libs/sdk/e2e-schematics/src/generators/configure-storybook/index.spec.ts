@@ -145,7 +145,6 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
     expect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       JSON.parse(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString(),

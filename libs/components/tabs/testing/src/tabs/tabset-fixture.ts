@@ -95,14 +95,14 @@ export class SkyTabsetFixture {
    * Clicks the tabset's "new" button.
    */
   public async clickNewButton(): Promise<any> {
-    return this.#clickButton('sky-tabset-btn-new');
+    return await this.#clickButton('sky-tabset-btn-new');
   }
 
   /**
    * Clicks the tabset's "open" button.
    */
   public async clickOpenButton(): Promise<any> {
-    return this.#clickButton('sky-tabset-btn-open');
+    return await this.#clickButton('sky-tabset-btn-open');
   }
 
   /**
@@ -115,7 +115,7 @@ export class SkyTabsetFixture {
     tabLinkEl.click();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   /**
@@ -138,7 +138,7 @@ export class SkyTabsetFixture {
     closeBtnEl.click();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   async #clickButton(buttonCls: string): Promise<any> {
@@ -151,7 +151,7 @@ export class SkyTabsetFixture {
     newButtonEl.click();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    return await this.#fixture.whenStable();
   }
 
   #getTabsetEl(): HTMLDivElement {

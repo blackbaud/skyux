@@ -40,11 +40,23 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
     filters: SkyRepeaterItemHarnessFilters,
   ): HarnessPredicate<SkyRepeaterItemHarness> {
     return SkyRepeaterItemHarness.getDataSkyIdPredicate(filters)
-      .addOption('contentText', filters.contentText, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getContentText(), text),
+      .addOption(
+        'contentText',
+        filters.contentText,
+        async (harness, text) =>
+          await HarnessPredicate.stringMatches(
+            await harness.getContentText(),
+            text,
+          ),
       )
-      .addOption('titleText', filters.titleText, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getTitleText(), text),
+      .addOption(
+        'titleText',
+        filters.titleText,
+        async (harness, text) =>
+          await HarnessPredicate.stringMatches(
+            await harness.getTitleText(),
+            text,
+          ),
       );
   }
 
@@ -73,7 +85,7 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
       );
     }
 
-    return checkbox.isChecked();
+    return await checkbox.isChecked();
   }
 
   /**
@@ -108,14 +120,14 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
    * Gets the text of the repeater item content.
    */
   public async getContentText(): Promise<string> {
-    return (await this.#getContent()).text();
+    return await (await this.#getContent()).text();
   }
 
   /**
    * Gets the text of the repeater item title.
    */
   public async getTitleText(): Promise<string> {
-    return (await this.#getTitle()).text();
+    return await (await this.#getTitle()).text();
   }
 
   /**

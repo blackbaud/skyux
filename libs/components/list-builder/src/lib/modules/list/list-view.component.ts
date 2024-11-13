@@ -46,7 +46,6 @@ export abstract class ListViewComponent {
     return this.viewName;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   /* istanbul ignore next */
   public onViewActive() {}
   // eslint-disable-next-line @typescript-eslint/no-empty-function
