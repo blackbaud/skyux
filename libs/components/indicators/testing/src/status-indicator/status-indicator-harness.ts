@@ -1,5 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import type {
   SkyIndicatorDescriptionType,
   SkyIndicatorIconType,
@@ -28,6 +29,16 @@ export class SkyStatusIndicatorHarness extends SkyComponentHarness {
     filters: SkyStatusIndicatorHarnessFilters,
   ): HarnessPredicate<SkyStatusIndicatorHarness> {
     return SkyStatusIndicatorHarness.getDataSkyIdPredicate(filters);
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 
   /**
@@ -117,5 +128,28 @@ export class SkyStatusIndicatorHarness extends SkyComponentHarness {
     }
 
     return '';
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Gets the help inline popover content.
+   */
+  public async getHelpPopoverContent(): Promise<string | undefined> {
+    const content = await (await this.#getHelpInline()).getPopoverContent();
+
+    return content as string | undefined;
+  }
+
+  /**
+   * Gets the help inline popover title.
+   */
+  public async getHelpPopoverTitle(): Promise<string | undefined> {
+    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 }
