@@ -1,11 +1,11 @@
 import {
+  ProjectConfiguration,
+  Tree,
   formatFiles,
   generateFiles,
   getProjects,
   joinPathFragments,
-  ProjectConfiguration,
   readJson,
-  Tree,
   updateJson,
   updateProjectConfiguration,
   visitNotIgnoredFiles,
@@ -77,20 +77,25 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
   };
   if (tree.exists('libs/components/packages/package.json')) {
     const npmPackages = Array.from(getProjects(tree).values())
-      .filter((project) => project.name !== 'packages' && !!project.tags?.includes('npm'))
+      .filter((project) => !!project.tags?.includes('npm'))
       .map(
         (project) =>
-          <string>readJson(tree, joinPathFragments(project.root, 'package.json')).name,
-      );
+          readJson(tree, joinPathFragments(project.root, 'package.json')).name,
+      )
+      .filter(Boolean)
+      .map(String);
     updateJson(tree, 'libs/components/packages/package.json', (json) => {
       const packageGroup = Object.entries<string>({
         ...json['ng-update']['packageGroup'],
-        ...Object.fromEntries(npmPackages.map((name) => [name, '0.0.0-PLACEHOLDER'])),
       })
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .filter(([name, version]) => !!name && !!version);
+        .concat(npmPackages.map((name) => [name, '0.0.0-PLACEHOLDER']))
+        .filter(
+          ([name], index, list) =>
+            name !== '@skyux/packages' &&
+            index === list.findIndex(([n]) => n === name),
+        );
       packageGroup.forEach(([name, version], index) => {
-        if (version !== '0.0.0-PLACEHOLDER') {
+        if (!npmPackages.includes(name)) {
           const rootVersion = rootPackageJsonDependencies[name];
           const prefix = version.match(`^[~^]`) ? version.charAt(0) : '';
           if (rootVersion) {
@@ -98,10 +103,11 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
           }
         }
       });
+      packageGroup.sort(([a], [b]) => a.localeCompare(b));
       // @skyux/packages is first so it shows when running ng update.
       json['ng-update']['packageGroup'] = {
         '@skyux/packages': '0.0.0-PLACEHOLDER',
-        ...Object.fromEntries(packageGroup)
+        ...Object.fromEntries(packageGroup),
       };
       return json;
     });
