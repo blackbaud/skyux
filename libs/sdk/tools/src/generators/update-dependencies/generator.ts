@@ -1,10 +1,11 @@
 import {
-  ProjectConfiguration,
-  Tree,
   formatFiles,
   generateFiles,
   getProjects,
+  joinPathFragments,
+  ProjectConfiguration,
   readJson,
+  Tree,
   updateJson,
   updateProjectConfiguration,
   visitNotIgnoredFiles,
@@ -75,19 +76,33 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
     ...rootPackageJson.devDependencies,
   };
   if (tree.exists('libs/components/packages/package.json')) {
-    updateJson(tree, 'libs/components/packages/package.json', (json) => {
-      const packageGroup = Object.entries<string>(
-        json['ng-update']['packageGroup'],
+    const npmPackages = Array.from(getProjects(tree).values())
+      .filter((project) => project.name !== 'packages' && !!project.tags?.includes('npm'))
+      .map(
+        (project) =>
+          <string>readJson(tree, joinPathFragments(project.root, 'package.json')).name,
       );
-      packageGroup.forEach(([name, version]) => {
+    updateJson(tree, 'libs/components/packages/package.json', (json) => {
+      const packageGroup = Object.entries<string>({
+        ...json['ng-update']['packageGroup'],
+        ...Object.fromEntries(npmPackages.map((name) => [name, '0.0.0-PLACEHOLDER'])),
+      })
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .filter(([name, version]) => !!name && !!version);
+      packageGroup.forEach(([name, version], index) => {
         if (version !== '0.0.0-PLACEHOLDER') {
           const rootVersion = rootPackageJsonDependencies[name];
           const prefix = version.match(`^[~^]`) ? version.charAt(0) : '';
           if (rootVersion) {
-            json['ng-update']['packageGroup'][name] = `${prefix}${rootVersion}`;
+            packageGroup[index][1] = `${prefix}${rootVersion}`;
           }
         }
       });
+      // @skyux/packages is first so it shows when running ng update.
+      json['ng-update']['packageGroup'] = {
+        '@skyux/packages': '0.0.0-PLACEHOLDER',
+        ...Object.fromEntries(packageGroup)
+      };
       return json;
     });
   }
