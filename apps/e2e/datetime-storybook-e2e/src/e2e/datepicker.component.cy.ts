@@ -174,5 +174,5 @@ describe('Date picker', () => {
           });
       });
     });
-  });
+  }, true);
 });

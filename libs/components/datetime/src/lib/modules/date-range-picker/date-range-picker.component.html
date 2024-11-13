@@ -1,6 +1,6 @@
 <div class="sky-date-range-picker" [formGroup]="formGroup">
   <div
-    class="sky-date-range-picker-form-group"
+    class="sky-date-range-picker-form-group sky-date-range-picker-select-calculator"
     [ngClass]="{
       'sky-date-range-picker-last-input':
         !showStartDatePicker() && !showEndDatePicker()
@@ -39,18 +39,20 @@
         ] && labelText
       ) {
         <sky-form-error
-          [errorName]="'endDateBeforeStartDate'"
+          errorName="endDateBeforeStartDate"
           [errorText]="
             'skyux_date_range_picker_end_date_before_start_date_error_label_text'
               | skyLibResources
           "
         />
       }
-      <ng-content select="sky-form-error" />
+      <span class="sky-input-box-descendent-form-error">
+        <ng-content select="sky-form-error" />
+      </span>
     </sky-input-box>
   </div>
   <div
-    class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
+    class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper sky-date-range-picker-start-date"
     [hidden]="!showStartDatePicker()"
     [ngClass]="{
       'sky-date-range-picker-last-input':
@@ -91,7 +93,7 @@
     </sky-input-box>
   </div>
   <div
-    class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper"
+    class="sky-date-range-picker-form-group sky-date-range-datepicker-wrapper sky-date-range-picker-end-date"
     [hidden]="!showEndDatePicker()"
     [ngClass]="{ 'sky-date-range-picker-last-input': showEndDatePicker() }"
   >
