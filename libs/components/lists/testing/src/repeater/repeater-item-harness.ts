@@ -40,24 +40,14 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
     filters: SkyRepeaterItemHarnessFilters,
   ): HarnessPredicate<SkyRepeaterItemHarness> {
     return SkyRepeaterItemHarness.getDataSkyIdPredicate(filters)
-      .addOption(
-        'contentText',
-        filters.contentText,
-        async (harness, text) =>
-          await HarnessPredicate.stringMatches(
-            await harness.getContentText(),
-            text,
-          ),
-      )
-      .addOption(
-        'titleText',
-        filters.titleText,
-        async (harness, text) =>
-          await HarnessPredicate.stringMatches(
-            await harness.getTitleText(),
-            text,
-          ),
-      );
+      .addOption('contentText', filters.contentText, async (harness, text) => {
+        const content = await harness.getContentText();
+        return await HarnessPredicate.stringMatches(content, text);
+      })
+      .addOption('titleText', filters.titleText, async (harness, text) => {
+        const title = await harness.getTitleText();
+        return await HarnessPredicate.stringMatches(title, text);
+      });
   }
 
   /**

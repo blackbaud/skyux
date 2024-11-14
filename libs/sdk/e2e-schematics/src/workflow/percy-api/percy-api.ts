@@ -62,8 +62,8 @@ interface Snapshot {
 function getFetchJson(
   fetchClient: (input: RequestInfo | URL) => Promise<Response>,
 ): FetchJson {
-  return async (url: string, name: string) =>
-    await fetchClient(url)
+  return async (url: string, name: string) => {
+    return await fetchClient(url)
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
@@ -79,6 +79,7 @@ function getFetchJson(
           new Error(`Error fetching ${name}`, { cause: error }),
         );
       });
+  };
 }
 
 export async function checkPercyBuild(
@@ -190,7 +191,7 @@ export async function getPercyTargetCommit(
   }
   const fetchJson = getFetchJson(fetchClient);
 
-  function chunk(shaArray: string[], number: number) {
+  function chunk(shaArray: string[], number: number): string[][] {
     const result = [];
     for (let i = 0; i < shaArray.length; i += number) {
       result.push(shaArray.slice(i, i + number));

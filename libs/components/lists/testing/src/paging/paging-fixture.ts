@@ -34,9 +34,9 @@ export class SkyPagingFixture {
     });
   }
 
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     this.#_debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
@@ -57,7 +57,7 @@ export class SkyPagingFixture {
       pageButton.click();
 
       this.#fixture.detectChanges();
-      return await this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 
@@ -71,7 +71,7 @@ export class SkyPagingFixture {
       nextButton.click();
 
       this.#fixture.detectChanges();
-      return await this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 
@@ -85,7 +85,7 @@ export class SkyPagingFixture {
       previousButton.click();
 
       this.#fixture.detectChanges();
-      return await this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 
@@ -127,7 +127,7 @@ export class SkyPagingFixture {
     await this.#fixture.whenStable();
 
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   //#endregion

@@ -50,7 +50,7 @@ export class SkyPhoneFieldFixture {
   public async blur(): Promise<void> {
     SkyAppTestUtility.fireDomEvent(this.#phoneFieldInput, 'blur');
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**
@@ -84,7 +84,7 @@ export class SkyPhoneFieldFixture {
     SkyAppTestUtility.fireDomEvent(inputEl, 'change');
 
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**
@@ -112,7 +112,7 @@ export class SkyPhoneFieldFixture {
     const countryFixture = await this.#getCountryFixture();
     await countryFixture.searchAndSelectFirstResult(searchText);
 
-    return await this.#waitForCountrySelection();
+    await this.#waitForCountrySelection();
   }
 
   /**
@@ -175,7 +175,7 @@ export class SkyPhoneFieldFixture {
 
   async #openCountrySelection(): Promise<void> {
     this.#countryFlagButton.click();
-    return await this.#waitForCountrySelection();
+    await this.#waitForCountrySelection();
   }
 
   #setSkyTestId(element: HTMLElement, skyTestId: string): void {
@@ -188,6 +188,6 @@ export class SkyPhoneFieldFixture {
     await this.#fixture.whenStable();
 
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 }

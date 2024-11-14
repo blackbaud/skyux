@@ -52,14 +52,14 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Blurs the lookup input.
    */
   public override async blur(): Promise<void> {
-    return await super.blur();
+    await super.blur();
   }
 
   /**
    * Clears the lookup input value.
    */
   public override async clear(): Promise<void> {
-    return await super.clear();
+    await super.clear();
   }
 
   /**
@@ -82,21 +82,21 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Dismisses the selections made with a multiselect lookup.
    */
   public async dismissSelections(): Promise<void> {
-    return await (await this.#getSelectionsListHarness()).dismissSelections();
+    await (await this.#getSelectionsListHarness()).dismissSelections();
   }
 
   /**
    * Enters text into the lookup input.
    */
   public override async enterText(value: string): Promise<void> {
-    return await super.enterText(value);
+    await super.enterText(value);
   }
 
   /**
    * Focuses the lookup input.
    */
   public override async focus(): Promise<void> {
-    return await super.focus();
+    await super.focus();
   }
 
   /**
@@ -233,7 +233,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   public override async selectSearchResult(
     filters: SkyLookupSearchResultHarnessFilters,
   ): Promise<void> {
-    return await super.selectSearchResult(filters);
+    await super.selectSearchResult(filters);
   }
 
   async #getOverlay(): Promise<SkyOverlayHarness | null> {

@@ -27,7 +27,7 @@ export class SkyLookupShowMorePickerHarness extends SkySelectionModalHarness {
   public override async selectSearchResult(
     filters?: SkyLookupShowMorePickerSearchResultHarnessFilters,
   ): Promise<void> {
-    return await super.selectSearchResult(filters);
+    await super.selectSearchResult(filters);
   }
 
   /**

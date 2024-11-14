@@ -18,28 +18,21 @@ export class SkyConfirmButtonHarness extends ComponentHarness {
     filters: SkyConfirmButtonHarnessFilters,
   ): HarnessPredicate<SkyConfirmButtonHarness> {
     return new HarnessPredicate(SkyConfirmButtonHarness, filters)
-      .addOption(
-        'text',
-        filters.text,
-        async (harness, text) =>
-          await HarnessPredicate.stringMatches(await harness.getText(), text),
-      )
-      .addOption(
-        'styleType',
-        filters.styleType,
-        async (harness, styleType) =>
-          await HarnessPredicate.stringMatches(
-            await harness.getStyleType(),
-            styleType,
-          ),
-      );
+      .addOption('text', filters.text, async (harness, text) => {
+        const buttonText = await harness.getText();
+        return await HarnessPredicate.stringMatches(buttonText, text);
+      })
+      .addOption('styleType', filters.styleType, async (harness, styleType) => {
+        const buttonStyleType = await harness.getStyleType();
+        return await HarnessPredicate.stringMatches(buttonStyleType, styleType);
+      });
   }
 
   /**
    * Clicks the confirm button.
    */
   public async click(): Promise<void> {
-    return await (await this.host()).click();
+    await (await this.host()).click();
   }
 
   /**

@@ -35,7 +35,7 @@ describe('SplitView fixture', () => {
   ): Promise<void> {
     mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
-    return await fixture.whenStable();
+    await fixture.whenStable();
   }
 
   function getRepeaterItemElements(): DebugElement[] {

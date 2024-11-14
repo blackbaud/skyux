@@ -10,9 +10,9 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  */
 export class SkyFilterFixtureSummary {
   #debugElement: DebugElement;
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
       this.#fixture,
@@ -21,21 +21,25 @@ export class SkyFilterFixtureSummary {
     );
   }
 
-  public async filterCloseClick(index: number): Promise<any> {
+  public async filterCloseClick(index: number): Promise<void> {
     const summaryItems = this.#debugElement.nativeElement.querySelectorAll(
       'sky-filter-summary-item',
     );
     if (summaryItems.length > index) {
       const summaryItem = summaryItems[index];
+
       if (summaryItem instanceof HTMLElement) {
         const closeButton = summaryItem.querySelector('.sky-token-btn-close');
+
         if (closeButton instanceof HTMLElement) {
           closeButton.click();
           this.#fixture.detectChanges();
-          return await this.#fixture.whenStable();
+          await this.#fixture.whenStable();
+          return;
         }
       }
     }
+
     throw new Error(`Unable to click close for a filter index ${index}`);
   }
 }

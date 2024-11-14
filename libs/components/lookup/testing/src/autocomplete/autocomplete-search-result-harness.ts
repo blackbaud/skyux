@@ -44,7 +44,7 @@ export class SkyAutocompleteSearchResultHarness extends SkyQueryableComponentHar
    * Selects the search result.
    */
   public async select(): Promise<void> {
-    return await (await this.host()).click();
+    await (await this.host()).click();
   }
 
   /**

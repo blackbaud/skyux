@@ -34,7 +34,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * @deprecated Call `await (await autocomplete.getControl()).blur()` instead.
    */
   public async blur(): Promise<void> {
-    return await (await this.#getInput()).blur();
+    await (await this.#getInput()).blur();
   }
 
   /**
@@ -42,7 +42,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * @deprecated Call `await (await autocomplete.getControl()).clear()` instead.
    */
   public async clear(): Promise<void> {
-    return await (await this.#getInput()).clear();
+    await (await this.#getInput()).clear();
   }
 
   /**
@@ -50,7 +50,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * @deprecated Call `await (await autocomplete.getControl()).setValue()` instead.
    */
   public async enterText(value: string): Promise<void> {
-    return await (await this.#getInput()).setValue(value);
+    await (await this.#getInput()).setValue(value);
   }
 
   /**
@@ -58,7 +58,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * @deprecated Call `await (await autocomplete.getControl()).focus()` instead.
    */
   public async focus(): Promise<void> {
-    return await (await this.#getInput()).focus();
+    await (await this.#getInput()).focus();
   }
 
   /**

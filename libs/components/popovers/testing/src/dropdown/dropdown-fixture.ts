@@ -77,16 +77,16 @@ export class SkyDropdownFixture {
   /**
    * Click the dropdown button to open or close the dropdown menu.
    */
-  public async clickDropdownButton(): Promise<unknown> {
+  public async clickDropdownButton(): Promise<void> {
     this.#buttonDebugElement.nativeElement.click();
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**
    * Click the dropdown item at the provided index.
    */
-  public async clickDropdownItem(index: number): Promise<unknown> {
+  public async clickDropdownItem(index: number): Promise<void> {
     const itemEls = this.#getDropdownItemEls();
 
     if (!itemEls) {
@@ -100,7 +100,7 @@ export class SkyDropdownFixture {
     itemEls[index].querySelector('button,a').click();
 
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**

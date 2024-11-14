@@ -12,9 +12,9 @@ import { SkyListsFilterFixtureButton } from './lists-filter-fixture-button';
  */
 export class SkyFilterFixtureButton {
   #debugElement: DebugElement;
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
@@ -26,13 +26,13 @@ export class SkyFilterFixtureButton {
   /**
    * Click the button to apply the filter.
    */
-  public async clickFilterButton(): Promise<any> {
+  public async clickFilterButton(): Promise<void> {
     const button = this.#getButtonElement();
     if (button instanceof HTMLButtonElement && !button.disabled) {
       button.click();
     }
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   public get button(): SkyListsFilterFixtureButton {

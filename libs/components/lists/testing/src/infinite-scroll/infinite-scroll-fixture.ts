@@ -11,9 +11,9 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  */
 export class SkyInfiniteScrollFixture {
   #debugElement: DebugElement;
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
@@ -23,21 +23,23 @@ export class SkyInfiniteScrollFixture {
   }
 
   public get loadMoreButtonIsVisible(): boolean {
-    return this.#getButton() instanceof HTMLButtonElement;
+    return this.#getButton() !== null;
   }
 
-  public async clickLoadMoreButton(): Promise<any> {
+  public async clickLoadMoreButton(): Promise<void> {
     const button = this.#getButton();
-    if (button instanceof HTMLButtonElement) {
+
+    if (button !== null) {
       button.click();
     }
+
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
-  #getButton() {
-    return this.#debugElement.nativeElement.querySelector(
-      '.sky-infinite-scroll .sky-btn',
-    );
+  #getButton(): HTMLButtonElement | null {
+    return (
+      this.#debugElement.nativeElement as HTMLElement
+    ).querySelector<HTMLButtonElement>('.sky-infinite-scroll .sky-btn');
   }
 }

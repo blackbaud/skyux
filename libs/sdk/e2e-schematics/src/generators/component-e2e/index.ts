@@ -124,7 +124,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   let createProject = false;
   let moveProject = false;
   /* istanbul ignore next */
-
   let projectConfig: ProjectConfiguration;
   let e2eProjectConfig: ProjectConfiguration;
   try {
@@ -232,7 +231,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   }
 
   /* istanbul ignore next */
-
   if (
     createProject ||
     !(

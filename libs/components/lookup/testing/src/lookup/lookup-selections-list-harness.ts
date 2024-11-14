@@ -18,7 +18,7 @@ export class SkyLookupSelectionsListHarness extends SkyTokensHarness {
    * Dismisses the selections in the list.
    */
   public async dismissSelections(): Promise<void> {
-    return await super.dismissTokens();
+    await super.dismissTokens();
   }
 
   /**

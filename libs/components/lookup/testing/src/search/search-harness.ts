@@ -55,8 +55,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    */
   public async clickClearButton(): Promise<void> {
     await this.#assertIsExpanded('Failed to click clear button.');
-
-    return await (await this.#getClearButton()).click();
+    await (await this.#getClearButton()).click();
   }
 
   /**
@@ -71,7 +70,7 @@ export class SkySearchHarness extends SkyComponentHarness {
       );
     }
 
-    return await button.click();
+    await button.click();
   }
 
   /**
@@ -86,7 +85,7 @@ export class SkySearchHarness extends SkyComponentHarness {
       );
     }
 
-    return await button.click();
+    await button.click();
   }
 
   /**
@@ -94,8 +93,7 @@ export class SkySearchHarness extends SkyComponentHarness {
    */
   public async clickSubmitButton(): Promise<void> {
     await this.#assertIsExpanded('Failed to click the submit button.');
-
-    return await (await this.#getSubmitButton()).click();
+    await (await this.#getSubmitButton()).click();
   }
 
   /**

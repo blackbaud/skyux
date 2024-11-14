@@ -1,6 +1,7 @@
 import { storybookConfigurationGenerator } from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
+  Tree,
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
@@ -19,7 +20,7 @@ import configureStorybook from './index';
 describe('configure-storybook', () => {
   let warnSpy: jest.SpyInstance;
 
-  function setupTest() {
+  function setupTest(): { tree: Tree } {
     warnSpy = jest.spyOn(console, 'warn');
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};

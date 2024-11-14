@@ -45,14 +45,14 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Clears the text of the search input.
    */
   public async clearSearchText(): Promise<void> {
-    return await (await this.#getSearchHarness()).clear();
+    await (await this.#getSearchHarness()).clear();
   }
 
   /**
    * Enters text into the search input and performs a search.
    */
   public async enterSearchText(value: string): Promise<void> {
-    return await (await this.#getSearchHarness()).enterText(value);
+    await (await this.#getSearchHarness()).enterText(value);
   }
 
   /**
@@ -85,7 +85,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Saves any selections made and closes the modal.
    */
   public async saveAndClose(): Promise<void> {
-    return await (await this.#getSaveButton()).click();
+    await (await this.#getSaveButton()).click();
   }
 
   /**
@@ -100,7 +100,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Closes the picker without saving any selections made.
    */
   public async cancel(): Promise<void> {
-    return await (await this.#getCancelButton()).click();
+    await (await this.#getCancelButton()).click();
   }
 
   /**
@@ -202,7 +202,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Loads more results in the picker.
    */
   public async loadMore(): Promise<void> {
-    return await (await this.#getInfiniteScroll()).loadMore();
+    await (await this.#getInfiniteScroll()).loadMore();
   }
 
   /**

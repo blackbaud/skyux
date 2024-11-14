@@ -107,7 +107,7 @@ export class SkySplitViewFixture {
     await this.#fixture.whenStable();
 
     this.#fixture.detectChanges();
-    return await this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   // #endregion

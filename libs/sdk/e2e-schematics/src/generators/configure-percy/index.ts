@@ -9,7 +9,10 @@ import { Schema } from './schema';
 /**
  * Disable video recording and import @percy/cypress into the e2e project, which enables the .percySnapshot method.
  */
-export default async function (tree: Tree, schema: Schema) {
+export default async function configurePercy(
+  tree: Tree,
+  schema: Schema,
+): Promise<void> {
   const projects = getE2eProjects(tree, schema.name);
   projects.forEach((project) => {
     // Disable video recording
@@ -32,5 +35,5 @@ export default async function (tree: Tree, schema: Schema) {
     }
   });
 
-  return await formatFiles(tree);
+  await formatFiles(tree);
 }

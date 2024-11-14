@@ -20,21 +20,14 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
     filters: SkyDropdownItemHarnessFilters,
   ): HarnessPredicate<SkyDropdownItemHarness> {
     return SkyDropdownItemHarness.getDataSkyIdPredicate(filters)
-      .addOption(
-        'text',
-        filters.text,
-        async (harness, text) =>
-          await HarnessPredicate.stringMatches(await harness.getText(), text),
-      )
-      .addOption(
-        'ariaRole',
-        filters.ariaRole,
-        async (harness, ariaRole) =>
-          await HarnessPredicate.stringMatches(
-            await harness.getAriaRole(),
-            ariaRole,
-          ),
-      );
+      .addOption('text', filters.text, async (harness, text) => {
+        const menuItemText = await harness.getText();
+        return await HarnessPredicate.stringMatches(menuItemText, text);
+      })
+      .addOption('ariaRole', filters.ariaRole, async (harness, ariaRole) => {
+        const itemAriaRole = await harness.getAriaRole();
+        return await HarnessPredicate.stringMatches(itemAriaRole, ariaRole);
+      });
   }
 
   /**

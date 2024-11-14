@@ -32,7 +32,7 @@ export class SkyModalHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return await (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
