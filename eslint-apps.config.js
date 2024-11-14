@@ -10,7 +10,7 @@ module.exports = [
   ...overrides,
   {
     files: ['**/*.ts'],
-    ignores: ['**/*.spec.ts', '**/fixtures/**'],
+    ignores: ['**/*.spec.ts', '**/fixtures/**/*.ts'],
     rules: {
       '@angular-eslint/directive-selector': [
         'error',
