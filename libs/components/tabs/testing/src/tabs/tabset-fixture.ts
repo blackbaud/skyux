@@ -44,9 +44,9 @@ export class SkyTabsetFixture {
   }
 
   #debugEl: DebugElement;
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
@@ -94,35 +94,35 @@ export class SkyTabsetFixture {
   /**
    * Clicks the tabset's "new" button.
    */
-  public async clickNewButton(): Promise<any> {
-    return this.#clickButton('sky-tabset-btn-new');
+  public async clickNewButton(): Promise<void> {
+    await this.#clickButton('sky-tabset-btn-new');
   }
 
   /**
    * Clicks the tabset's "open" button.
    */
-  public async clickOpenButton(): Promise<any> {
-    return this.#clickButton('sky-tabset-btn-open');
+  public async clickOpenButton(): Promise<void> {
+    await this.#clickButton('sky-tabset-btn-open');
   }
 
   /**
    * Clicks the tab button at the specified index.
    * @param tabIndex The index of the tab.
    */
-  public async clickTab(tabIndex: number): Promise<any> {
+  public async clickTab(tabIndex: number): Promise<void> {
     const tabLinkEl = this.#getTabLinkEl(tabIndex);
 
     tabLinkEl.click();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**
    * Click's the tab's close button at the specified index.
    * @param tabIndex The index of the tab.
    */
-  public async clickTabClose(tabIndex: number): Promise<any> {
+  public async clickTabClose(tabIndex: number): Promise<void> {
     const tabWrapperEl = this.#getTabsetEl().querySelectorAll(
       `.sky-tabset-tabs .sky-btn-tab-wrapper`,
     )[tabIndex];
@@ -138,10 +138,10 @@ export class SkyTabsetFixture {
     closeBtnEl.click();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
-  async #clickButton(buttonCls: string): Promise<any> {
+  async #clickButton(buttonCls: string): Promise<void> {
     const tabsetEl = this.#getTabsetEl();
 
     const newButtonEl = tabsetEl.querySelector(
@@ -151,7 +151,7 @@ export class SkyTabsetFixture {
     newButtonEl.click();
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   #getTabsetEl(): HTMLDivElement {

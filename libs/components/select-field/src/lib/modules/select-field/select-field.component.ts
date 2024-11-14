@@ -344,7 +344,6 @@ export class SkySelectFieldComponent
     this.value = undefined;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   /* istanbul ignore next */
   private _registeredTouchCallback = () => {};
 

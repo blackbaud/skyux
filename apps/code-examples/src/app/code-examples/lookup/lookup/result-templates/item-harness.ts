@@ -11,10 +11,10 @@ export class ItemHarness extends ComponentHarness {
   #getFormalName = this.locatorFor('.lookup-demo-template-formal-name');
 
   public async getName(): Promise<string> {
-    return (await this.#getName()).text();
+    return await (await this.#getName()).text();
   }
 
   public async getFormalName(): Promise<string> {
-    return (await this.#getFormalName()).text();
+    return await (await this.#getFormalName()).text();
   }
 }

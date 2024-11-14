@@ -816,13 +816,13 @@ describe('Split view component', () => {
       fixture.componentInstance.ariaLabelForDrawer = 'My drawer';
       fixture.detectChanges();
       await fixture.whenStable();
-      return expectAsync(fixture.nativeElement).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility when in responsive mode', async () => {
       initiateResponsiveMode(fixture);
       await fixture.whenStable();
-      return expectAsync(fixture.nativeElement).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility when scrolling', async () => {
@@ -836,7 +836,7 @@ describe('Split view component', () => {
       });
       fixture.detectChanges();
       await fixture.whenStable();
-      return expectAsync(fixture.nativeElement).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   });
 });

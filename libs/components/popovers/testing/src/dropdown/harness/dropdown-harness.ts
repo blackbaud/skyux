@@ -35,7 +35,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    * Gets the aria-label value.
    */
   public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getDropdownButton()).getAttribute('aria-label');
+    return await (await this.#getDropdownButton()).getAttribute('aria-label');
   }
 
   /**
@@ -84,7 +84,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
       );
     }
 
-    return this.#documentRootLocator.locatorFor(
+    return await this.#documentRootLocator.locatorFor(
       SkyDropdownMenuHarness.with({ selector: `#${dropdownMenuId}` }),
     )();
   }
@@ -93,7 +93,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    * Gets the hover tooltip text.
    */
   public async getTitle(): Promise<string | null> {
-    return (await this.#getDropdownButton()).getAttribute('title');
+    return await (await this.#getDropdownButton()).getAttribute('title');
   }
 
   /**
@@ -124,6 +124,8 @@ export class SkyDropdownHarness extends SkyComponentHarness {
    * Gets the element ID of the dropdown menu that the dropdown button controls.
    */
   async #getAriaControls(): Promise<string | null> {
-    return (await this.#getDropdownButton()).getAttribute('aria-controls');
+    return await (
+      await this.#getDropdownButton()
+    ).getAttribute('aria-controls');
   }
 }

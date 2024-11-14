@@ -31,7 +31,7 @@ export class SkyPageHeaderHarness extends SkyComponentHarness {
   public async getPageTitle(): Promise<string | undefined> {
     const title = await this.#getTitle();
 
-    return title.text();
+    return await title.text();
   }
 
   /**
@@ -41,7 +41,7 @@ export class SkyPageHeaderHarness extends SkyComponentHarness {
     const parentLink = await this.#getParentLink();
 
     if (parentLink) {
-      return parentLink.text();
+      return await parentLink.text();
     }
 
     throw new Error('No parent link was found in the page header.');

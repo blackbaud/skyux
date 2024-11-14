@@ -124,7 +124,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   let createProject = false;
   let moveProject = false;
   /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   let projectConfig: ProjectConfiguration;
   let e2eProjectConfig: ProjectConfiguration;
   try {
@@ -232,7 +231,6 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   }
 
   /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   if (
     createProject ||
     !(

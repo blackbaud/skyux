@@ -35,7 +35,7 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
    */
   public async clickResetButton(): Promise<void> {
     try {
-      return (await this.#getResetButton()).click();
+      await (await this.#getResetButton()).click();
     } catch {
       throw new Error('Unable to find reset button.');
     }
@@ -89,8 +89,8 @@ export class SkyProgressIndicatorHarness extends SkyComponentHarness {
    * Whether the progress indicator is passive.
    */
   public async isPassive(): Promise<boolean> {
-    return (await this.#getProgressIndicator()).hasClass(
-      'sky-progress-indicator-passive',
-    );
+    return await (
+      await this.#getProgressIndicator()
+    ).hasClass('sky-progress-indicator-passive');
   }
 }

@@ -50,7 +50,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
@@ -74,14 +74,14 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * Gets the colorpicker button's `aria-label`.
    */
   public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getButton()).getAttribute('aria-label');
+    return await (await this.#getButton()).getAttribute('aria-label');
   }
 
   /**
    * Gets the colorpicker button's `aria-labelledby`
    */
   public async getAriaLabelledby(): Promise<string | null> {
-    return (await this.#getButton()).getAttribute('aria-labelledby');
+    return await (await this.#getButton()).getAttribute('aria-labelledby');
   }
 
   /**
@@ -137,7 +137,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * Whether the colorpicker component's label is hidden.
    */
   public async getLabelHidden(): Promise<boolean> {
-    return (await this.#getLabel()).hasClass('sky-screen-reader-only');
+    return await (await this.#getLabel()).hasClass('sky-screen-reader-only');
   }
 
   /**
@@ -152,14 +152,14 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * @params errorName `errorName` of the custom error.
    */
   public async hasError(errorName: string): Promise<boolean> {
-    return (await this.#getFormErrors())?.hasError(errorName);
+    return await (await this.#getFormErrors())?.hasError(errorName);
   }
 
   /**
    * Whether the required error has fired.
    */
   public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrors())?.hasError('required');
+    return await (await this.#getFormErrors())?.hasError('required');
   }
 
   /**
@@ -188,7 +188,7 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
    * Whether the colorpicker component is stacked.
    */
   public async isStacked(): Promise<boolean> {
-    return (await this.host()).hasClass('sky-margin-stacked-lg');
+    return await (await this.host()).hasClass('sky-margin-stacked-lg');
   }
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {
@@ -206,6 +206,6 @@ export class SkyColorpickerHarness extends SkyComponentHarness {
   }
 
   async #getOverlayId(): Promise<string | null> {
-    return (await this.#getButton()).getAttribute('aria-controls');
+    return await (await this.#getButton()).getAttribute('aria-controls');
   }
 }

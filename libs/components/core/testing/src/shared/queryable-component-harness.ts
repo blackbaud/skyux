@@ -16,7 +16,7 @@ export abstract class SkyQueryableComponentHarness extends SkyComponentHarness {
   public async queryHarness<T extends ComponentHarness>(
     query: HarnessQuery<T>,
   ): Promise<T> {
-    return this.locatorFor(query)();
+    return await this.locatorFor(query)();
   }
 
   /**
@@ -25,7 +25,7 @@ export abstract class SkyQueryableComponentHarness extends SkyComponentHarness {
   public async queryHarnessOrNull<T extends ComponentHarness>(
     query: HarnessQuery<T>,
   ): Promise<T | null> {
-    return this.locatorForOptional(query)();
+    return await this.locatorForOptional(query)();
   }
 
   /**
@@ -34,14 +34,14 @@ export abstract class SkyQueryableComponentHarness extends SkyComponentHarness {
   public async queryHarnesses<T extends ComponentHarness>(
     harness: HarnessQuery<T>,
   ): Promise<T[]> {
-    return this.locatorForAll(harness)();
+    return await this.locatorForAll(harness)();
   }
 
   /**
    * Returns a child test element or throws an error if not found.
    */
   public async querySelector(selector: string): Promise<TestElement | null> {
-    return this.locatorFor(selector)();
+    return await this.locatorFor(selector)();
   }
 
   /**
@@ -50,13 +50,13 @@ export abstract class SkyQueryableComponentHarness extends SkyComponentHarness {
   public async querySelectorOrNull(
     selector: string,
   ): Promise<TestElement | null> {
-    return this.locatorForOptional(selector)();
+    return await this.locatorForOptional(selector)();
   }
 
   /**
    * Returns child test elements.
    */
   public async querySelectorAll(selector: string): Promise<TestElement[]> {
-    return this.locatorForAll(selector)();
+    return await this.locatorForAll(selector)();
   }
 }
