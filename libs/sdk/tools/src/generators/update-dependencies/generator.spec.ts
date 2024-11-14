@@ -109,6 +109,29 @@ describe('update dependencies generator', () => {
   });
 
   it('should update ng-update package group', async () => {
+    await libraryGenerator(appTree, {
+      name: 'test',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/test',
+      directory: 'libs/components/test',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+    await libraryGenerator(appTree, {
+      name: 'packages',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/packages',
+      directory: 'libs/components/packages',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'npm',
+    });
+
     appTree.write(
       'package.json',
       JSON.stringify({
@@ -139,7 +162,9 @@ describe('update dependencies generator', () => {
     expect(projectPackageJson).toEqual({
       'ng-update': {
         packageGroup: {
+          '@skyux/packages': '0.0.0-PLACEHOLDER',
           '@proj/one': '1.1.0',
+          '@proj/test': '0.0.0-PLACEHOLDER',
           '@proj/two': '^2.2.0',
         },
       },

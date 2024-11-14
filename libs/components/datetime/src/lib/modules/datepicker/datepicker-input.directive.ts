@@ -558,13 +558,12 @@ export class SkyDatepickerInputDirective
     return moment(value).isValid();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   // istanbul ignore next
   #onChange = (_: any) => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   // istanbul ignore next
   #onTouched = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   // istanbul ignore next
   #onValidatorChange = () => {};
 
