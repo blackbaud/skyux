@@ -76,6 +76,7 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
     ...rootPackageJson.devDependencies,
   };
   if (tree.exists('libs/components/packages/package.json')) {
+    const excludedPackages = ['@skyux/packages', 'skyux-eslint'];
     const npmPackages = Array.from(getProjects(tree).values())
       .filter((project) => !!project.tags?.includes('npm'))
       .map(
@@ -91,7 +92,7 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
         .concat(npmPackages.map((name) => [name, '0.0.0-PLACEHOLDER']))
         .filter(
           ([name], index, list) =>
-            name !== '@skyux/packages' &&
+            !excludedPackages.includes(name) &&
             index === list.findIndex(([n]) => n === name),
         );
       packageGroup.forEach(([name, version], index) => {
