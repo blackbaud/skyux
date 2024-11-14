@@ -23,7 +23,12 @@ export default {
     '@typescript-eslint/prefer-reduce-type-parameter': 'error',
     '@typescript-eslint/prefer-return-this-type': 'error',
     '@typescript-eslint/prefer-string-starts-ends-with': 'error',
-    '@typescript-eslint/switch-exhaustiveness-check': 'error',
+    '@typescript-eslint/switch-exhaustiveness-check': [
+      'error',
+      {
+        considerDefaultExhaustiveForUnions: true,
+      },
+    ],
     '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
   },
 } satisfies TSESLint.FlatConfig.Config;
