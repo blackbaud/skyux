@@ -1,12 +1,12 @@
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
 
-@include compatMixins.sky-modern-overrides('.sky-error-label', false) {
-  --sky-override-error-label-margin-top: var(--modern-size-5);
-}
-
 @include compatMixins.sky-modern-overrides('select', false) {
   --sky-override-select-icon-size: var(--modern-size-15) var(--modern-size-30);
+}
+
+@include compatMixins.sky-modern-overrides('.sky-error-label', false) {
+  --sky-override-error-label-margin-top: var(--modern-size-5);
 }
 
 .sky-theme-modern {

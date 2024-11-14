@@ -4,22 +4,19 @@
 
 @include compatMixins.sky-modern-overrides('.sky-btn', false) {
   --sky-override-borderless-icon-size: 26px;
-  --sky-override-button-padding: 9px 21px;
+  --sky-override-button-icon-borderless-padding: 1px;
+  --sky-override-button-icon-padding: 9px 15px;
+  --sky-override-button-link-inline-border-radius: 0;
   --sky-override-button-link-inline-color-disabled: var(
     --sky-color-text-action
   );
   --sky-override-button-link-inline-color-hover-active: var(
     --sky-text-color-action-primary-hover
   );
-  &.sky-btn-link-inline,
-  &.sky-btn-borderless-inline {
-    --sky-override-button-opacity-disabled: 0.65;
-  }
-  --sky-override-button-link-inline-border-radius: 0;
   --sky-override-button-link-inline-font-size: var(--sky-font-size-body-m);
   --sky-override-button-link-inline-vertical-align: top;
-  --sky-override-button-icon-borderless-padding: 1px;
-  --sky-override-button-icon-padding: 9px 15px;
+  --sky-override-button-opacity-disabled: 0.65;
+  --sky-override-button-padding: 9px 21px;
 
   --sky-override-button-primary-disabled-box-shadow: inset 0 0 0
       var(--sky-border-width-action-focus)

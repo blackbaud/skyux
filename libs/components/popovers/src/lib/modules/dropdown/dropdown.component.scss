@@ -4,36 +4,36 @@
 
 @include compatMixins.sky-default-overrides('.sky-dropdown') {
   --sky-override-caret-margin-left: #{$sky-margin};
-  --sky-override-context-menu-padding: 3px 8px;
   --sky-override-context-menu-border-radius: 50%;
-  --sky-override-context-menu-line-height: 1.428571429;
   --sky-override-context-menu-font-size: 15px;
+  --sky-override-context-menu-line-height: 1.428571429;
+  --sky-override-context-menu-padding: 3px 8px;
 }
 
 @include compatMixins.sky-default-overrides('.sky-dropdown-button-type-tab') {
-  --sky-override-tab-selected-background-color: var(
-    --sky-background-color-primary-dark
-  );
+  --sky-override-tab-border-bottom: none;
   --sky-override-tab-button-radius: 4px;
   --sky-override-tab-dropdown-color: var(--sky-text-color-on-dark);
   --sky-override-tab-font-size: 15px;
   --sky-override-tab-font-weight: 600;
   --sky-override-tab-line-height: 1.8;
   --sky-override-tab-padding: 8px 16px;
-  --sky-override-tab-border-bottom: none;
+  --sky-override-tab-selected-background-color: var(
+    --sky-background-color-primary-dark
+  );
 }
 
 @include compatMixins.sky-modern-overrides('.sky-dropdown') {
-  --sky-override-context-menu-padding: var(--modern-size-3) var(--modern-size-8);
-  --sky-override-context-menu-line-height: calc(20 / 14);
   --sky-override-context-menu-font-size: var(--sky-font-size-body-m);
+  --sky-override-context-menu-line-height: calc(20 / 14);
+  --sky-override-context-menu-padding: var(--modern-size-3) var(--modern-size-8);
 }
 
 @include compatMixins.sky-modern-overrides('.sky-dropdown-button-type-tab') {
-  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
-  --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
   --sky-override-tab-button-radius: 0;
   --sky-override-tab-line-height: 1.8;
+  --sky-override-tab-selected-background-color: var(--modern-color-transparent);
+  --sky-override-tab-selected-border-bottom-size: var(--modern-size-3);
 }
 
 .sky-dropdown {

@@ -5,7 +5,6 @@
   --sky-override-sort-heading-color: var(--sky-text-color-deemphasized);
   --sky-override-sort-heading-margin: 4px;
   --sky-override-sort-heading-padding: 3px #{$sky-padding-double};
-  --sky-override-sort-heading-margin: 4px;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-sort-menu-heading') {
@@ -18,8 +17,8 @@
   padding: var(
     --sky-override-sort-heading-padding,
     var(--sky-space-inset-pillarbox-1_2-top-m)
-      var(--sky-space-inset-pillarbox-1_2-left-m)
-      var(--sky-space-inset-pillarbox-1_2-bottom-m)
+      var(--sky-space-inset-pillarbox-1_2-left-m) var
+      (--sky-space-inset-pillarbox-1_2-bottom-m)
       var(--sky-space-inset-pillarbox-1_2-right-m)
   );
   margin: var(--sky-override-sort-heading-margin, 0);

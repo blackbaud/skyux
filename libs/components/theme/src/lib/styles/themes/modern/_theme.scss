@@ -2,12 +2,12 @@
 @use '../../compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-modern-overrides($encapsulate: false) {
-  --sky-override-form-font-weight: var(--sky-font-weight-body-m);
-  --sky-override-p-line-height: var(--sky-font-line_height-body-m);
   --sky-override-a-border-radius: 0;
   --sky-override-a-color-hover-active: var(
     --sky-text-color-action-primary-hover
   );
+  --sky-override-form-font-weight: var(--sky-font-weight-body-m);
+  --sky-override-p-line-height: var(--sky-font-line_height-body-m);
 }
 
 @include compatMixins.sky-modern-v2-html {

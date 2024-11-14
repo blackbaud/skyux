@@ -3,12 +3,12 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include compatMixins.sky-modern-overrides('.sky-expansion-indicator') {
-  --sky-override-expansion-indicator-size: 26px;
-  --sky-override-expansion-indicator-size-half: 13px;
   --sky-override-expansion-indicator-container-left: 4px;
   --sky-override-expansion-indicator-container-top: 3.5px;
   --sky-override-expansion-indicator-leg-left-left: 4px;
   --sky-override-expansion-indicator-leg-right-left: 10.5px;
+  --sky-override-expansion-indicator-size: 26px;
+  --sky-override-expansion-indicator-size-half: 13px;
 }
 
 @include mixins.sky-component('modern', '.sky-expansion-indicator') {

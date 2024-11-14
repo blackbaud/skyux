@@ -3,13 +3,13 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include compatMixins.sky-default-overrides('.sky-toaster') {
-  --sky-override-toaster-padding: 0 #{$sky-margin-double $sky-margin-double} 0;
   --sky-override-toaster-max-width: 300px;
+  --sky-override-toaster-padding: 0 #{$sky-margin-double $sky-margin-double} 0;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-toaster', false) {
-  --sky-override-toaster-width-xs: var(--modern-size-320);
   --sky-override-toaster-width: var(--modern-size-400);
+  --sky-override-toaster-width-xs: var(--modern-size-320);
 }
 
 .sky-toaster {
