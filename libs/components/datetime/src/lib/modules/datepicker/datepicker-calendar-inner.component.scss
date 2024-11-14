@@ -315,7 +315,7 @@
 
   .sky-datepicker-secondary {
     color: var(
-      --sky-override-secondary-date-color,
+      --sky-override-datepicker-secondary-date-color,
       var(--sky-color-text-deemphasized)
     );
   }
