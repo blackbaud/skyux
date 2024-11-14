@@ -163,6 +163,16 @@ jobs:
         run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
         run: npx skyux-dev check-lib-resources
+      - name: Check library project dependencies are up to date
+        run: |
+          if [ ! $(npm run dev:update-library-dependencies -- --dry-run | tee -a /dev/fd/2 | fgrep -q UPDATE) ]
+          then
+            echo "All library project dependencies are up to date."
+          else
+            echo "Some library project dependencies are out of date."
+            echo "Run 'npm run dev:update-library-dependencies' to update them."
+            exit 1
+          fi
 
   format:
     name: Check formatting
