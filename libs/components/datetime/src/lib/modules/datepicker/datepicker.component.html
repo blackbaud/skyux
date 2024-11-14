@@ -34,6 +34,7 @@
           : ('skyux_datepicker_trigger_button_label' | skyLibResources)
       "
       [disabled]="disabled"
+      (blur)="onTriggerButtonBlur($event)"
       (click)="onTriggerButtonClick()"
     >
       <sky-icon icon="calendar" size="lg" />

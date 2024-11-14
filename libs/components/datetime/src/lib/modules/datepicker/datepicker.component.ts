@@ -115,6 +115,12 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    */
   public calendarDateChange = output<Date>();
 
+  /**
+   * Fires when the picker button loses focus.
+   * @internal
+   */
+  public triggerButtonBlur = output<FocusEvent>();
+
   public calendarId: string;
 
   public customDates: SkyDatepickerCustomDate[] | undefined;
@@ -338,6 +344,19 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
           this.#changeDetector.detectChanges();
         }
       }
+    }
+  }
+
+  protected onTriggerButtonBlur(evt: FocusEvent): void {
+    const relatedTarget = evt.relatedTarget;
+    const overlayEl: HTMLElement | undefined =
+      this.#overlay?.componentRef.location.nativeElement;
+
+    const isFocusingOverlay =
+      relatedTarget instanceof Element && !!overlayEl?.contains(relatedTarget);
+
+    if (relatedTarget === null || !isFocusingOverlay) {
+      this.triggerButtonBlur.emit(evt);
     }
   }
 

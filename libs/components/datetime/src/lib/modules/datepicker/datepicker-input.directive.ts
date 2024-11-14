@@ -45,6 +45,9 @@ const SKY_DATEPICKER_VALIDATOR = {
 @Directive({
   selector: '[skyDatepickerInput]',
   providers: [SKY_DATEPICKER_VALUE_ACCESSOR, SKY_DATEPICKER_VALIDATOR],
+  host: {
+    '(focusout)': 'onFocusOut($event)',
+  },
 })
 export class SkyDatepickerInputDirective
   implements
@@ -223,6 +226,7 @@ export class SkyDatepickerInputDirective
   #dateFormatter = new SkyDateFormatter();
   #preferredShortDateFormat: string | undefined;
   #ngUnsubscribe = new Subject<void>();
+  #notifyTouched: (() => void) | undefined;
 
   #_dateFormat: string | undefined;
   #_disabled = false;
@@ -270,6 +274,12 @@ export class SkyDatepickerInputDirective
           SkyDateFormatter.getPreferredShortDateFormat();
         this.#applyDateFormat();
       });
+
+    this.#datepickerComponent.triggerButtonBlur.subscribe((evt) => {
+      if (!this.#isFocusingInput(evt)) {
+        this.#notifyTouched?.();
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -283,9 +293,8 @@ export class SkyDatepickerInputDirective
     this.#datepickerComponent.dateChange
       .pipe(distinctUntilChanged())
       .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((value: Date) => {
+      .subscribe((value) => {
         this.#value = value;
-        this.#onTouched();
       });
   }
 
@@ -335,11 +344,6 @@ export class SkyDatepickerInputDirective
         invalid: value,
       },
     });
-  }
-
-  @HostListener('blur')
-  public onInputBlur(): void {
-    this.#onTouched();
   }
 
   @HostListener('input')
@@ -439,7 +443,7 @@ export class SkyDatepickerInputDirective
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.#onTouched = fn;
+    this.#notifyTouched = fn;
   }
 
   public registerOnValidatorChange(fn: () => void): void {
@@ -457,6 +461,12 @@ export class SkyDatepickerInputDirective
    */
   public detectInputValueChange(): void {
     this.#onValueChange(this.#elementRef.nativeElement.value);
+  }
+
+  protected onFocusOut(evt: FocusEvent): void {
+    if (!this.#isFocusingTriggerButton(evt)) {
+      this.#notifyTouched?.();
+    }
   }
 
   #applyDateFormat(): void {
@@ -558,10 +568,18 @@ export class SkyDatepickerInputDirective
     return moment(value).isValid();
   }
 
+  #isFocusingInput(evt: FocusEvent): boolean {
+    return evt.relatedTarget === this.#elementRef.nativeElement;
+  }
+
+  #isFocusingTriggerButton(evt: FocusEvent): boolean {
+    const buttonEl = this.#datepickerComponent.triggerButtonRef?.nativeElement;
+
+    return buttonEl instanceof Element && evt.relatedTarget === buttonEl;
+  }
+
   // istanbul ignore next
   #onChange = (_: any) => {};
-  // istanbul ignore next
-  #onTouched = () => {};
   // istanbul ignore next
   #onValidatorChange = () => {};
 
