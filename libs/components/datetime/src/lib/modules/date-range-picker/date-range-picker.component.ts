@@ -12,6 +12,7 @@ import {
   booleanAttribute,
   computed,
   inject,
+  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -29,7 +30,6 @@ import {
   TouchedChangeEvent,
   ValidationErrors,
   Validator,
-  Validators,
 } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -38,7 +38,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { distinctUntilChanged, filter, map } from 'rxjs';
+import { distinctUntilChanged, filter, map, of } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -281,6 +281,7 @@ export class SkyDateRangePickerComponent
   #startDateControl = new FormControl<DateValue>(this.#getValue().startDate);
   #startDateInvalid = this.#createStatusChangeSignal(this.#startDateControl);
   #startDateTouched = this.#createTouchedChangeSignal(this.#startDateControl);
+  #hostHasCustomError: Signal<boolean | undefined> | undefined;
 
   protected formGroup = inject(FormBuilder).group({
     calculatorId: this.#calculatorIdControl,
@@ -290,11 +291,8 @@ export class SkyDateRangePickerComponent
 
   protected readonly calculatorIdHasErrors = computed(() => {
     const touched = this.#calculatorIdTouched();
-    const invalid = this.#calculatorIdInvalid();
-    console.log(
-      'host required:' + this.hostControl?.hasValidator(Validators.required),
-    );
-
+    const invalid = this.#calculatorIdInvalid() || this.#hostHasCustomError?.();
+    console.log('exists:' + this.#hostHasCustomError);
     return touched && invalid;
   });
 
@@ -323,9 +321,15 @@ export class SkyDateRangePickerComponent
       optional: true,
       self: true,
     })?.control;
-    console.log(
-      'host required:' + this.hostControl?.hasValidator(Validators.required),
-    );
+
+    runInInjectionContext(this.#injector, () => {
+      if (this.hostControl) {
+        this.#hostHasCustomError = this.#createHostCustomErrorChange(
+          this.hostControl,
+        );
+      }
+    });
+
     // Set a default value on the control if it's undefined on init.
     // We need to use setTimeout to avoid interfering with the first
     // validation cycle.
@@ -336,6 +340,10 @@ export class SkyDateRangePickerComponent
         });
       });
     }
+
+    // this.#hostHasCustomError = this.#createHostCustomErrorChange(
+    //   this.hostControl,
+    // );
 
     // If the datepickers' statuses change, we want to retrigger the host
     // control's validation so that their errors are reflected back to the host.
@@ -364,6 +372,11 @@ export class SkyDateRangePickerComponent
       .subscribe(() => {
         this.formGroup.markAllAsTouched();
       });
+
+    /*
+    - toSignal to convert the observable on hostcontrol status change (doesnt exist yet)
+    - computed signal to check for custom errors - responds to status change signal and sees if the incoming error is a not known errors
+    */
   }
 
   // Implemented as part of ControlValueAccessor.
@@ -578,6 +591,26 @@ export class SkyDateRangePickerComponent
         filter((evt) => evt instanceof TouchedChangeEvent),
         map((evt: TouchedChangeEvent) => evt.touched),
         takeUntilDestroyed(this.#destroyRef),
+      ),
+    );
+  }
+
+  #createHostCustomErrorChange(
+    control: AbstractControl,
+  ): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt: StatusChangeEvent) => {
+          const errors: ValidationErrors | null = evt.source.errors;
+          if (errors) {
+            const hasCustom = Object.keys(errors).findIndex(
+              (evt) => evt !== 'required',
+            );
+            return hasCustom !== -1;
+          }
+          return false;
+        }),
       ),
     );
   }
