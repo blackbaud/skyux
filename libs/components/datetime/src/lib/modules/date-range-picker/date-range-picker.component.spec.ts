@@ -915,10 +915,14 @@ describe('Date range picker', function () {
     ).toBeTrue();
   }));
 
-  fit('should display form errors and mark mark all inputs as invalid', fakeAsync(() => {
+  it('should display custom form errors and mark mark all inputs as invalid', fakeAsync(() => {
     detectChanges();
     selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+    detectChanges();
     const control = component.dateRange;
+    control?.setErrors({
+      customError: true,
+    });
     control?.markAllAsTouched();
     detectChanges();
 
