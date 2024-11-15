@@ -605,8 +605,11 @@ export class SkyDateRangePickerComponent
           const errors: ValidationErrors | null = evt.source.errors;
           if (errors) {
             const hasCustom = Object.keys(errors).findIndex(
-              (evt) => evt !== 'required',
+              (error) => error !== 'required',
             );
+            const other = Object.keys(errors).some((errors) => {
+              return errors !== 'required';
+            });
             return hasCustom !== -1;
           }
           return false;
