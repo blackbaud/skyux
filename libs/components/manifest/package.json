@@ -1,0 +1,19 @@
+{
+  "name": "@skyux/manifest",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "type": "module",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme"
+}

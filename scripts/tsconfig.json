@@ -20,6 +20,6 @@
     "strictNullChecks": true,
     "target": "es2020"
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "manifest/run-typedoc.mjs"],
   "exclude": ["node_modules"]
 }
