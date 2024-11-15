@@ -77,7 +77,9 @@
               <button
                 name="minute"
                 type="button"
-                [ngClass]="{ 'sky-btn-active': selectedMinute === minute }"
+                [ngClass]="{
+                  'sky-btn-active': highlightMinute(selectedMinute, minute)
+                }"
                 (click)="setTime($event)"
               >
                 {{ '00'.substring(0, 2 - minute.toString().length) + minute }}
