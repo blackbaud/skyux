@@ -12,7 +12,14 @@
     [labelText]="labelText"
     [required]="required"
     [stacked]="stacked"
-  />
+  >
+    @if (dateRange?.errors?.['customError']) {
+    <sky-form-error
+      errorName="customError"
+      errorText="This is a custom error."
+    />
+    }
+  </sky-date-range-picker>
   }
 </form>
 

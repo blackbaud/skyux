@@ -915,6 +915,26 @@ describe('Date range picker', function () {
     ).toBeTrue();
   }));
 
+  fit('should display form errors and mark mark all inputs as invalid', fakeAsync(() => {
+    detectChanges();
+    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+    const control = component.dateRange;
+    control?.markAllAsTouched();
+    detectChanges();
+
+    const inputs: HTMLElement[] = fixture.nativeElement.querySelectorAll(
+      '.sky-input-box-input-group-inner',
+    );
+
+    inputs.forEach((input) => {
+      expect(input.classList.contains('sky-field-status-invalid')).toBeTrue();
+    });
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe('Error: This is a custom error.');
+  }));
+
   describe('accessibility', () => {
     function verifyFormFieldsRequired(expectation: boolean): void {
       const inputBoxes =
