@@ -323,7 +323,7 @@ export class SkyDateRangePickerComponent
 
     runInInjectionContext(this.#injector, () => {
       if (this.hostControl) {
-        this.#hostHasCustomError = this.#createHostCustomErrorChange(
+        this.#hostHasCustomError = this.#createHostCustomErrorChangeSignal(
           this.hostControl,
         );
       }
@@ -339,10 +339,6 @@ export class SkyDateRangePickerComponent
         });
       });
     }
-
-    // this.#hostHasCustomError = this.#createHostCustomErrorChange(
-    //   this.hostControl,
-    // );
 
     // If the datepickers' statuses change, we want to retrigger the host
     // control's validation so that their errors are reflected back to the host.
@@ -371,11 +367,6 @@ export class SkyDateRangePickerComponent
       .subscribe(() => {
         this.formGroup.markAllAsTouched();
       });
-
-    /*
-    - toSignal to convert the observable on hostcontrol status change (doesnt exist yet)
-    - computed signal to check for custom errors - responds to status change signal and sees if the incoming error is a not known errors
-    */
   }
 
   // Implemented as part of ControlValueAccessor.
@@ -572,6 +563,25 @@ export class SkyDateRangePickerComponent
     this.showStartDatePicker.set(showStartDatePicker);
   }
 
+  #createHostCustomErrorChangeSignal(
+    control: AbstractControl,
+  ): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt: StatusChangeEvent) => {
+          const errors: ValidationErrors | null = evt.source.errors;
+          if (errors) {
+            return Object.keys(errors).some((error) => {
+              return error !== 'required' && error !== 'skyDate';
+            });
+          }
+          return false;
+        }),
+      ),
+    );
+  }
+
   #createStatusChangeSignal(control: FormControl): Signal<boolean | undefined> {
     return toSignal(
       control.events.pipe(
@@ -590,25 +600,6 @@ export class SkyDateRangePickerComponent
         filter((evt) => evt instanceof TouchedChangeEvent),
         map((evt: TouchedChangeEvent) => evt.touched),
         takeUntilDestroyed(this.#destroyRef),
-      ),
-    );
-  }
-
-  #createHostCustomErrorChange(
-    control: AbstractControl,
-  ): Signal<boolean | undefined> {
-    return toSignal(
-      control.events.pipe(
-        filter((evt) => evt instanceof StatusChangeEvent),
-        map((evt: StatusChangeEvent) => {
-          const errors: ValidationErrors | null = evt.source.errors;
-          if (errors) {
-            return Object.keys(errors).some((error) => {
-              return error !== 'required' && error !== 'skyDate';
-            });
-          }
-          return false;
-        }),
       ),
     );
   }
