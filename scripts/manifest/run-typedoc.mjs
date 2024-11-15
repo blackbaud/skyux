@@ -1,4 +1,5 @@
 import crossSpawn from 'cross-spawn';
+import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -27,19 +28,6 @@ function _exec(command, args) {
 }
 
 async function runTypeDoc() {
-  // await _exec('npx', [
-  //   'typedoc',
-  //   'libs/components/indicators/src/index.ts',
-  //   '--emit',
-  //   'docs',
-  //   '--json',
-  //   'docs-json/indicators.json',
-  //   '--plugin',
-  //   pluginPath,
-  //   '--tsconfig',
-  //   'libs/components/indicators/tsconfig.lib.prod.json',
-  // ]);
-
   const output = await _exec('npx', [
     'nx',
     'show',
@@ -51,14 +39,20 @@ async function runTypeDoc() {
 
   const projectNames = JSON.parse(output);
 
-  await fsPromises.rm('manifests', { recursive: true });
-  await fsPromises.mkdir('manifest');
+  if (fs.existsSync('manifests')) {
+    await fsPromises.rm('manifests', { recursive: true });
+  }
+
+  await fsPromises.mkdir('manifests');
 
   for (const projectName of projectNames) {
     const projectRoot = `libs/components/${projectName}`;
 
     const app = await typedoc.Application.bootstrapWithPlugins({
-      entryPoints: [`${projectRoot}/src/index.ts`],
+      entryPoints: [
+        `${projectRoot}/src/index.ts`,
+        `${projectRoot}/testing/src/public-api.ts`,
+      ],
       emit: 'docs',
       excludeExternals: true,
       excludeInternal: true,
@@ -77,10 +71,14 @@ async function runTypeDoc() {
     const project = await app.convert();
 
     if (project) {
-      await app.generateJson(project, `manifests/${projectName}.json`);
-      // console.log(
-      //   project.getReflectionsByKind(ReflectionKind.ClassOrInterface),
-      // );
+      const mainEntry = project.children[0];
+      const testingEntry = project.children[1];
+
+      console.log('main', mainEntry?.children);
+
+      process.exit();
+
+      // await app.generateJson(project, `manifests/${projectName}.json`);
     }
   }
 }
