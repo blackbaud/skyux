@@ -17,7 +17,6 @@ export class DropdownExampleComponent {
   public readonly disabledState = input(true);
   protected readonly notDisabled = signal(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public items = [
     { name: 'Option 1', disabled: this.notDisabled },
     { name: 'Disabled option', disabled: this.disabledState },

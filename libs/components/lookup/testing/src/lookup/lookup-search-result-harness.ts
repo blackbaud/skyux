@@ -18,9 +18,10 @@ export class SkyLookupSearchResultHarness extends SkyAutocompleteSearchResultHar
     return new HarnessPredicate(
       SkyLookupSearchResultHarness,
       filters,
-    ).addOption('textContent', filters.text, async (harness, text) =>
-      HarnessPredicate.stringMatches(await harness.getText(), text),
-    );
+    ).addOption('textContent', filters.text, async (harness, text) => {
+      const searchResultText = await harness.getText();
+      return await HarnessPredicate.stringMatches(searchResultText, text);
+    });
   }
 
   /**

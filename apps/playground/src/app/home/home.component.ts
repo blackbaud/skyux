@@ -79,7 +79,6 @@ export class HomeComponent implements AfterViewInit {
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (
       router.config
         .find((route) => route.path === 'components')
@@ -132,7 +131,6 @@ export class HomeComponent implements AfterViewInit {
       });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private createComponentData(
     routes: ComponentRouteInfo[],
     parentPath: string,
@@ -142,7 +140,6 @@ export class HomeComponent implements AfterViewInit {
 
     for (const route of routes) {
       if (route.loadChildren) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promises.push(
           (route.loadChildren() as Promise<any>).then((newRoutes) => {
             // Account for a lazy-loaded module or a lazy-loaded routes array

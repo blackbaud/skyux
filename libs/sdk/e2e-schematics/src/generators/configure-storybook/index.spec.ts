@@ -1,6 +1,7 @@
 import { storybookConfigurationGenerator } from '@nx/angular/generators';
 import {
   NxJsonConfiguration,
+  Tree,
   readNxJson,
   readProjectConfiguration,
   updateNxJson,
@@ -19,7 +20,7 @@ import configureStorybook from './index';
 describe('configure-storybook', () => {
   let warnSpy: jest.SpyInstance;
 
-  function setupTest() {
+  function setupTest(): { tree: Tree } {
     warnSpy = jest.spyOn(console, 'warn');
     const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     const nxJson: NxJsonConfiguration = readNxJson(tree) || {};
@@ -145,7 +146,6 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
     expect(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       JSON.parse(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString(),

@@ -16,13 +16,13 @@ describe('Sort fixture', () => {
   //#region helpers
 
   async function lookupActiveMenuItem(): Promise<SkySortFixtureMenuItem> {
-    return menuLookup((sortFixture: SkySortFixture) => {
+    return await menuLookup((sortFixture: SkySortFixture) => {
       return sortFixture.activeMenuItem;
     });
   }
 
   async function lookupInactiveMenuItem(): Promise<SkySortFixtureMenuItem> {
-    return menuLookup((sortFixture: SkySortFixture) => {
+    return await menuLookup((sortFixture: SkySortFixture) => {
       return sortFixture.menuItems?.find((x) => !x.isActive);
     });
   }

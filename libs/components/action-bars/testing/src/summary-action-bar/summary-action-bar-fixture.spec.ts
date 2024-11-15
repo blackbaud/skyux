@@ -24,7 +24,7 @@ describe('Summary action bar fixture', () => {
   ): Promise<void> {
     mediaQueryController.setBreakpoint(breakpoint);
     fixture.detectChanges();
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   //#endregion

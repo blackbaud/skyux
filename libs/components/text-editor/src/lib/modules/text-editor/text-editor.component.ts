@@ -599,15 +599,11 @@ export class SkyTextEditorComponent
   }
 
   /* istanbul ignore next */
-  #_onTouched = (): void => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-  };
+  #_onTouched = (): void => {};
 
   /* istanbul ignore next */
   #_onChange: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
-  ) => void = () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-  };
+  ) => void = () => {};
 }

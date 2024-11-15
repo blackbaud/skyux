@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'sdk-prettier-schematics',
 

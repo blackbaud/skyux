@@ -8,14 +8,14 @@ export class PickerHarness extends ComponentHarness {
   #getSaveButton = this.locatorFor('.lookup-custom-picker-save-button');
 
   public async checkItemAt(index: number): Promise<void> {
-    return (await this.#getCheckboxes())[index].check();
+    await (await this.#getCheckboxes())[index].check();
   }
 
   public async uncheckItemAt(index: number): Promise<void> {
-    return (await this.#getCheckboxes())[index].uncheck();
+    await (await this.#getCheckboxes())[index].uncheck();
   }
 
   public async save(): Promise<void> {
-    return (await this.#getSaveButton()).click();
+    await (await this.#getSaveButton()).click();
   }
 }

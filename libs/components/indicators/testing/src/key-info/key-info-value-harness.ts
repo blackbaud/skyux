@@ -14,6 +14,6 @@ export class SkyKeyInfoValueHarness extends SkyComponentHarness {
    * Gets the text value of the component content.
    */
   public async getText(): Promise<string> {
-    return (await this.host()).text();
+    return await (await this.host()).text();
   }
 }

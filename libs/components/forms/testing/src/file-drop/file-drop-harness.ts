@@ -29,7 +29,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    * Drops a file onto the component's drop target.
    */
   public async dropFile(file: File): Promise<void> {
-    return this.#dropFiles([file]);
+    await this.#dropFiles([file]);
   }
 
   // Consider making this public when we finalize this harness's public API.
@@ -50,7 +50,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     // The file drop component's `filesChanged` event happens asynchronously as the
     // result of an event handler which is outside of the test harness async logic,
     // so get in the queue after the event handler, then resolve.
-    return new Promise((resolve) => {
+    return await new Promise((resolve) => {
       setTimeout(() => resolve(), 100);
     });
   }
