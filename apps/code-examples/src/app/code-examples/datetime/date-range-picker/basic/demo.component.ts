@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -34,12 +33,7 @@ function dateRangeExcludesWeekend(
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SkyDateRangePickerModule,
-    CommonModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DemoComponent {
   protected get reactiveRange(): AbstractControl | null {

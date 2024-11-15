@@ -876,7 +876,7 @@ describe('Date range picker', function () {
     });
   });
 
-  it('should mark select calculator picker as invalid only when the entire date range picker is invalid', fakeAsync(() => {
+  it('should not mark calculator as invalid when the error is from the datepicker', fakeAsync(() => {
     detectChanges();
     selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
     const control = component.dateRange;
@@ -915,7 +915,7 @@ describe('Date range picker', function () {
     ).toBeTrue();
   }));
 
-  it('should display custom form errors and mark mark all inputs as invalid', fakeAsync(() => {
+  it('should display custom form errors and mark all inputs as invalid', fakeAsync(() => {
     detectChanges();
     selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
     detectChanges();

@@ -570,13 +570,12 @@ export class SkyDateRangePickerComponent
       control.events.pipe(
         filter((evt) => evt instanceof StatusChangeEvent),
         map((evt: StatusChangeEvent) => {
-          const errors: ValidationErrors | null = evt.source.errors;
-          if (errors) {
-            return Object.keys(errors).some((error) => {
-              return error !== 'required' && error !== 'skyDate';
-            });
-          }
-          return false;
+          const errors = evt.source.errors ?? [];
+          const knownErrors = ['required', 'skyDate'];
+
+          return Object.keys(errors).some((error) => {
+            return !knownErrors.includes(error);
+          });
         }),
       ),
     );
