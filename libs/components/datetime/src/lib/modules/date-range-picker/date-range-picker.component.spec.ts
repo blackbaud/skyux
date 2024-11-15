@@ -21,6 +21,16 @@ describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
 
+  function blurInput(inputEl: Element): void {
+    inputEl.dispatchEvent(
+      new FocusEvent('focusout', {
+        bubbles: true,
+        cancelable: true,
+        relatedTarget: null,
+      }),
+    );
+  }
+
   function detectChanges(): void {
     fixture.detectChanges();
     tick();
@@ -386,11 +396,11 @@ describe('Date range picker', function () {
   it('should mark only start date input as touched when start date is interacted with', () => {
     fixture.detectChanges();
 
-    const datepickerInputs = fixture.nativeElement.querySelectorAll(
-      '.sky-input-group input',
-    );
+    const datepickerInputs = (
+      fixture.nativeElement as HTMLElement
+    ).querySelectorAll('.sky-input-group input');
 
-    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(0), 'blur');
+    blurInput(datepickerInputs.item(0));
 
     fixture.detectChanges();
 
@@ -398,19 +408,19 @@ describe('Date range picker', function () {
     expect(datepickerInputs.item(1)).toHaveCssClass('ng-untouched');
   });
 
-  it('should mark only start date input as touched when start date is interacted with', () => {
+  it('should mark only end date input as touched when end date is interacted with', () => {
     fixture.detectChanges();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
       '.sky-input-group input',
     );
 
-    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'blur');
+    blurInput(datepickerInputs.item(1));
 
     fixture.detectChanges();
 
-    expect(datepickerInputs.item(1)).toHaveCssClass('ng-touched');
     expect(datepickerInputs.item(0)).toHaveCssClass('ng-untouched');
+    expect(datepickerInputs.item(1)).toHaveCssClass('ng-touched');
   });
 
   it('should maintain selected value when calculators change', fakeAsync(function () {
