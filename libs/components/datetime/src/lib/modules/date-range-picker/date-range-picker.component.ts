@@ -38,7 +38,7 @@ import {
   SkyInputBoxModule,
 } from '@skyux/forms';
 
-import { distinctUntilChanged, filter, map, of } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs';
 
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -292,7 +292,6 @@ export class SkyDateRangePickerComponent
   protected readonly calculatorIdHasErrors = computed(() => {
     const touched = this.#calculatorIdTouched();
     const invalid = this.#calculatorIdInvalid() || this.#hostHasCustomError?.();
-    console.log('exists:' + this.#hostHasCustomError);
     return touched && invalid;
   });
 
@@ -604,13 +603,9 @@ export class SkyDateRangePickerComponent
         map((evt: StatusChangeEvent) => {
           const errors: ValidationErrors | null = evt.source.errors;
           if (errors) {
-            const hasCustom = Object.keys(errors).findIndex(
-              (error) => error !== 'required',
-            );
-            const other = Object.keys(errors).some((errors) => {
-              return errors !== 'required';
+            return Object.keys(errors).some((error) => {
+              return error !== 'required' && error !== 'skyDate';
             });
-            return hasCustom !== -1;
           }
           return false;
         }),

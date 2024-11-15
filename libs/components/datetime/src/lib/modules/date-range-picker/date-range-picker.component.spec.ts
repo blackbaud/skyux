@@ -876,6 +876,45 @@ describe('Date range picker', function () {
     });
   });
 
+  it('should mark select calculator picker as invalid only when the entire date range picker is invalid', fakeAsync(() => {
+    detectChanges();
+    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+    const control = component.dateRange;
+    control?.markAllAsTouched();
+    detectChanges();
+
+    const calculatorInput = fixture.nativeElement.querySelector(
+      '.sky-date-range-picker-select-calculator .sky-input-box-input-group-inner',
+    );
+    const startInput: HTMLElement = fixture.nativeElement.querySelector(
+      '.sky-date-range-picker-start-date .sky-input-box-input-group-inner',
+    );
+
+    expect(
+      startInput.classList.contains('sky-field-status-invalid'),
+    ).toBeTrue();
+    expect(
+      calculatorInput.classList.contains('sky-field-status-invalid'),
+    ).toBeFalse();
+
+    const selectedValue: SkyDateRangeCalculation = {
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/1/2000'),
+      endDate: new Date('1/2/1997'),
+    };
+
+    control?.setValue(selectedValue);
+
+    detectChanges();
+
+    expect(
+      startInput.classList.contains('sky-field-status-invalid'),
+    ).toBeTrue();
+    expect(
+      calculatorInput.classList.contains('sky-field-status-invalid'),
+    ).toBeTrue();
+  }));
+
   describe('accessibility', () => {
     function verifyFormFieldsRequired(expectation: boolean): void {
       const inputBoxes =
