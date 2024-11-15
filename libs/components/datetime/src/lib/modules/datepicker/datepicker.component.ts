@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -37,6 +38,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+import { SkyDatepickerHostService } from './datepicker-host.service';
 
 let nextId = 0;
 
@@ -49,8 +51,11 @@ let nextId = 0;
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SkyDatepickerHostService],
 })
-export class SkyDatepickerComponent implements OnDestroy, OnInit {
+export class SkyDatepickerComponent
+  implements AfterViewInit, OnDestroy, OnInit
+{
   /**
    * Adds a class to the datepicker.
    * @default ""
@@ -114,12 +119,6 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    * @internal
    */
   public calendarDateChange = output<Date>();
-
-  /**
-   * Fires when the picker button loses focus.
-   * @internal
-   */
-  public triggerButtonBlur = output<FocusEvent>();
 
   public calendarId: string;
 
@@ -232,6 +231,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   #overlayService: SkyOverlayService;
   readonly #zIndex: Observable<number> | undefined;
 
+  readonly #datepickerHostSvc = inject(SkyDatepickerHostService);
+
   constructor(
     affixService: SkyAffixService,
     changeDetector: ChangeDetectorRef,
@@ -275,6 +276,10 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
           this.#populateInputBoxHelpText();
         });
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.#datepickerHostSvc.init(this);
   }
 
   public ngOnDestroy(): void {
@@ -347,17 +352,12 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  protected onTriggerButtonBlur(evt: FocusEvent): void {
-    const relatedTarget = evt.relatedTarget;
-    const overlayEl: HTMLElement | undefined =
-      this.#overlay?.componentRef.location.nativeElement;
-
-    const isFocusingOverlay =
-      relatedTarget instanceof Element && !!overlayEl?.contains(relatedTarget);
-
-    if (relatedTarget === null || !isFocusingOverlay) {
-      this.triggerButtonBlur.emit(evt);
-    }
+  /**
+   * Gets the element reference of the picker overlay.
+   * @internal
+   */
+  public getPickerRef(): ElementRef | undefined {
+    return this.#overlay?.componentRef.location;
   }
 
   #closePicker(): void {
