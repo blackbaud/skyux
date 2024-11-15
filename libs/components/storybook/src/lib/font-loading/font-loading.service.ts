@@ -35,8 +35,9 @@ export class FontLoadingService {
         weight: 400,
       }),
     );
-    return from(
-      Promise.all(fonts.map(async (font): Promise<void> => font.load())),
-    ).pipe(map(() => true));
+
+    return from(Promise.all(fonts.map((font) => font.load()))).pipe(
+      map(() => true),
+    );
   }
 }

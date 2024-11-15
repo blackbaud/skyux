@@ -20,12 +20,14 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
     filters: SkyDropdownItemHarnessFilters,
   ): HarnessPredicate<SkyDropdownItemHarness> {
     return SkyDropdownItemHarness.getDataSkyIdPredicate(filters)
-      .addOption('text', filters.text, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getText(), text),
-      )
-      .addOption('ariaRole', filters.ariaRole, async (harness, ariaRole) =>
-        HarnessPredicate.stringMatches(await harness.getAriaRole(), ariaRole),
-      );
+      .addOption('text', filters.text, async (harness, text) => {
+        const menuItemText = await harness.getText();
+        return await HarnessPredicate.stringMatches(menuItemText, text);
+      })
+      .addOption('ariaRole', filters.ariaRole, async (harness, ariaRole) => {
+        const itemAriaRole = await harness.getAriaRole();
+        return await HarnessPredicate.stringMatches(itemAriaRole, ariaRole);
+      });
   }
 
   /**
@@ -39,13 +41,13 @@ export class SkyDropdownItemHarness extends SkyComponentHarness {
    * Gets the dropdown item role.
    */
   public async getAriaRole(): Promise<string | null> {
-    return (await this.#getItem()).getAttribute('role');
+    return await (await this.#getItem()).getAttribute('role');
   }
 
   /**
    * Gets the menu item text.
    */
   public async getText(): Promise<string | null> {
-    return (await this.#getItem()).text();
+    return await (await this.#getItem()).text();
   }
 }

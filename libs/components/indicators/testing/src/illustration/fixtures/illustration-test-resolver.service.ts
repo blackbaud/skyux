@@ -4,7 +4,7 @@ import { SkyIllustrationResolverService } from '@skyux/indicators';
 @Injectable()
 export class SkyIllustrationTestResolverService extends SkyIllustrationResolverService {
   public override async resolveUrl(name: string): Promise<string> {
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       setTimeout(() => {
         switch (name) {
           case 'success':

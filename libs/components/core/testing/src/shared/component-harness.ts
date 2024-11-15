@@ -23,6 +23,6 @@ export abstract class SkyComponentHarness extends ComponentHarness {
   }
 
   async #getSkyId(): Promise<string | null> {
-    return (await this.host()).getAttribute('data-sky-id');
+    return await (await this.host()).getAttribute('data-sky-id');
   }
 }

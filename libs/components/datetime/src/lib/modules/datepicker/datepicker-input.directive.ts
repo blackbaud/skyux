@@ -560,10 +560,8 @@ export class SkyDatepickerInputDirective
 
   // istanbul ignore next
   #onChange = (_: any) => {};
-
   // istanbul ignore next
   #onTouched = () => {};
-
   // istanbul ignore next
   #onValidatorChange = () => {};
 

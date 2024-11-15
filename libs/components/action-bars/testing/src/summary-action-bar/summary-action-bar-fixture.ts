@@ -76,7 +76,7 @@ export class SkySummaryActionBarFixture {
       await this.#fixture.whenStable();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 
@@ -94,7 +94,7 @@ export class SkySummaryActionBarFixture {
       await this.#fixture.whenStable();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 

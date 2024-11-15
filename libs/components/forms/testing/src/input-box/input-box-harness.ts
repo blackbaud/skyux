@@ -24,7 +24,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   #getWrapper = this.locatorFor('.sky-input-box');
 
   async #getFormError(): Promise<SkyFormErrorsHarness> {
-    return this.locatorFor(SkyFormErrorsHarness)();
+    return await this.locatorFor(SkyFormErrorsHarness)();
   }
 
   /**
@@ -97,63 +97,63 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
    * Whether the field has more characters than allowed.
    */
   public async hasMaxLengthError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('maxlength');
+    return await (await this.#getFormError()).hasError('maxlength');
   }
 
   /**
    * Whether the field has fewer characters than allowed.
    */
   public async hasMinLengthError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('minlength');
+    return await (await this.#getFormError()).hasError('minlength');
   }
 
   /**
    * Whether the field is set to an invalid email address.
    */
   public async hasEmailError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('email');
+    return await (await this.#getFormError()).hasError('email');
   }
 
   /**
    * Whether the field is set to an invalid URL.
    */
   public async hasUrlError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('url');
+    return await (await this.#getFormError()).hasError('url');
   }
 
   /**
    * Whether the field is set to an invalid date.
    */
   public async hasInvalidDateError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('invalidDate');
+    return await (await this.#getFormError()).hasError('invalidDate');
   }
 
   /**
    * Whether the field is set to an invalid minimum date.
    */
   public async hasMinDateError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('minDate');
+    return await (await this.#getFormError()).hasError('minDate');
   }
 
   /**
    * Whether the field is set to an invalid maximum date.
    */
   public async hasMaxDateError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('maxDate');
+    return await (await this.#getFormError()).hasError('maxDate');
   }
 
   /**
    * Whether the field is set to an invalid phone number.
    */
   public async hasPhoneFieldError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('phone');
+    return await (await this.#getFormError()).hasError('phone');
   }
 
   /**
    * Whether the field is set to an invalid time.
    */
   public async hasTimeError(): Promise<boolean> {
-    return (await this.#getFormError()).hasError('time');
+    return await (await this.#getFormError()).hasError('time');
   }
 
   /**
@@ -162,7 +162,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   public async getDisabled(): Promise<boolean> {
     const wrapper = await this.#getWrapper();
 
-    return wrapper.hasClass('sky-input-box-disabled');
+    return await wrapper.hasClass('sky-input-box-disabled');
   }
 
   /**
@@ -214,7 +214,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   public async getHintText(): Promise<string> {
     const hintText = await this.#getHintText();
 
-    return this.#getElementTextOrDefault(hintText);
+    return await this.#getElementTextOrDefault(hintText);
   }
 
   /**
@@ -223,7 +223,7 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   public async getStacked(): Promise<boolean> {
     const host = await this.host();
 
-    return host.hasClass('sky-form-field-stacked');
+    return await host.hasClass('sky-form-field-stacked');
   }
 
   async #getElementTextOrDefault(el: TestElement | null): Promise<string> {

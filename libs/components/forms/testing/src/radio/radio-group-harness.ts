@@ -48,17 +48,16 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    return (
-      (await this.#getHeadingWrapper())?.hasClass('sky-screen-reader-only') ??
-      true
-    );
+    return await ((
+      await this.#getHeadingWrapper()
+    )?.hasClass('sky-screen-reader-only') ?? true);
   }
 
   /**
@@ -111,7 +110,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getLegendHeading())?.text() ?? '';
+    return await ((await this.#getLegendHeading())?.text() ?? '');
   }
 
   /**
@@ -181,7 +180,7 @@ export class SkyRadioGroupHarness extends SkyComponentHarness {
    * Whether the radio group has errors.
    */
   public async hasError(errorName: string): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError(errorName);
+    return await (await this.#getFormErrors()).hasError(errorName);
   }
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {

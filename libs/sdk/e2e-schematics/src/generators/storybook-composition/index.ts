@@ -12,7 +12,10 @@ import { relative } from 'path';
 
 import { Schema } from './schema';
 
-export default async function (tree: Tree, schema: Schema) {
+export default async function generateStorybookComposition(
+  tree: Tree,
+  schema: Schema,
+): Promise<void> {
   const allProjects = getProjects(tree);
   const storybookProject = allProjects.get('storybook');
   if (!allProjects || !storybookProject) {
@@ -40,7 +43,7 @@ export default async function (tree: Tree, schema: Schema) {
     } else {
       projectsArg = projectsJson.split(',').map((s) => s.trim());
     }
-  } catch (e) {
+  } catch {
     (schema.ansiColor === false ? console.error : logger.error)(
       `Unable to parse projectsJson: ${schema.projectsJson}`,
     );
@@ -68,5 +71,6 @@ export default async function (tree: Tree, schema: Schema) {
       relativeToRoot,
     },
   );
-  return formatFiles(tree);
+
+  await formatFiles(tree);
 }

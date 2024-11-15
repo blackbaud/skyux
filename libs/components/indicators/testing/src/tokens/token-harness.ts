@@ -28,7 +28,7 @@ export class SkyTokenHarness extends ComponentHarness {
       'text',
       filters.text,
       async (harness, test) =>
-        HarnessPredicate.stringMatches(
+        await HarnessPredicate.stringMatches(
           await (await harness.host()).text(),
           test,
         ),
@@ -63,27 +63,27 @@ export class SkyTokenHarness extends ComponentHarness {
    * Returns the text content of the token.
    */
   public async getText(): Promise<string> {
-    return (await this.host()).text();
+    return await (await this.host()).text();
   }
 
   /**
    * Whether the token is disabled.
    */
   public async isDisabled(): Promise<boolean> {
-    return (await this.#getWrapper()).hasClass('sky-token-disabled');
+    return await (await this.#getWrapper()).hasClass('sky-token-disabled');
   }
 
   /**
    * Whether the token is dismissible.
    */
   public async isDismissible(): Promise<boolean> {
-    return (await this.#getWrapper()).hasClass('sky-token-dismissible');
+    return await (await this.#getWrapper()).hasClass('sky-token-dismissible');
   }
 
   /**
    * Whether the token is focused.
    */
   public async isFocused(): Promise<boolean> {
-    return (await this.#getActionButton()).isFocused();
+    return await (await this.#getActionButton()).isFocused();
   }
 }
