@@ -1457,8 +1457,6 @@ describe('datepicker', () => {
         getSelectedCalendarItem()?.click();
         blurTriggerButton(fixture);
 
-        detectChanges(fixture);
-
         expect(component.dateControl.valid).toBe(true);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);

@@ -285,7 +285,10 @@ export class SkyDatepickerInputDirective
     this.#datepickerHostSvc?.focusout
       .pipe(takeUntilDestroyed())
       .subscribe((evt) => {
-        if (!this.#isFocusingInput(evt)) {
+        const isFocusingInput =
+          evt.relatedTarget === this.#elementRef.nativeElement;
+
+        if (!isFocusingInput) {
           this.#notifyTouched?.();
         }
       });
@@ -575,10 +578,6 @@ export class SkyDatepickerInputDirective
     }
 
     return moment(value).isValid();
-  }
-
-  #isFocusingInput(evt: FocusEvent): boolean {
-    return evt.relatedTarget === this.#elementRef.nativeElement;
   }
 
   // istanbul ignore next
