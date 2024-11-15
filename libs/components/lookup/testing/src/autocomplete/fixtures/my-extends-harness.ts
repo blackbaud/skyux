@@ -8,10 +8,10 @@ export class MyExtendsAutocompleteHarness extends SkyAutocompleteHarness {
   public static override hostSelector = '.my-autocomplete-3';
 
   public override async clickAddButton(): Promise<void> {
-    return super.clickAddButton();
+    await super.clickAddButton();
   }
 
   public override async clickShowMoreButton(): Promise<void> {
-    return super.clickShowMoreButton();
+    await super.clickShowMoreButton();
   }
 }

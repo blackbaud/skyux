@@ -70,7 +70,6 @@ export class LookupComponent implements OnInit {
   public bestFriendSelectMode: SkyLookupSelectModeType = 'single';
 
   @ViewChild('itemTemplate2')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public set modalItemTemplate(itemTemplate: TemplateRef<unknown>) {
     this.showMoreConfig.nativePickerConfig = {
       itemTemplate: itemTemplate,

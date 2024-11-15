@@ -12,6 +12,7 @@
         </button>
       </span>
       <span class="sky-datepicker-header-center">
+        <!-- display: inline -->
         <button
           type="button"
           class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title"
@@ -21,9 +22,8 @@
             'sky-btn-disabled': datepickerMode === maxMode
           }"
           (click)="toggleModeCalendar($event)"
+          >{{ title }}</button
         >
-          <strong>{{ title }}</strong>
-        </button>
       </span>
       <span class="sky-datepicker-header-right">
         <button

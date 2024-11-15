@@ -75,7 +75,7 @@ export class SkyIconHarness extends SkyComponentHarness {
    */
   public async isFixedWidth(): Promise<boolean> {
     const icon = await this.#getIcon();
-    return icon.hasClass(`fa-fw`);
+    return await icon.hasClass(`fa-fw`);
   }
 
   async #getIcon(): Promise<TestElement> {

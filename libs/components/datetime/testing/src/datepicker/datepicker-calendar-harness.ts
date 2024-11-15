@@ -17,7 +17,7 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
   #getNextButton = this.locatorFor('.sky-datepicker-btn-next');
   #getPreviousButton = this.locatorFor('.sky-datepicker-btn-previous');
   #getSelected = this.locatorFor('.sky-datepicker-btn-selected');
-  #getTitle = this.locatorFor('.sky-datepicker-calendar-title > strong');
+  #getTitle = this.locatorFor('.sky-datepicker-calendar-title');
   #getTitleButton = this.locatorFor('.sky-datepicker-calendar-title');
 
   /**
@@ -38,7 +38,7 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
    */
   public async clickDate(date: string): Promise<void> {
     try {
-      return (await this.locatorFor(`[aria-label="${date}"]`)()).click();
+      await (await this.locatorFor(`[aria-label="${date}"]`)()).click();
     } catch {
       throw new Error(
         `Unable to find date with label "${date}". Check that the format is correct and matches the current calendar mode.`,
@@ -50,14 +50,14 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
    *  Clicks the 'next' button on the calendar header.
    */
   public async clickNextButton(): Promise<void> {
-    return (await this.#getNextButton()).click();
+    await (await this.#getNextButton()).click();
   }
 
   /**
    * Clicks the 'previous' button on the calendar header.
    */
   public async clickPreviousButton(): Promise<void> {
-    return (await this.#getPreviousButton()).click();
+    await (await this.#getPreviousButton()).click();
   }
 
   /**
@@ -70,7 +70,7 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
       throw new Error('Title button is disabled.');
     }
 
-    return button.click();
+    await button.click();
   }
 
   /**
@@ -97,6 +97,6 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
    * Gets the value of the currently selected calendar item.
    */
   public async getSelectedValue(): Promise<string | null> {
-    return (await this.#getSelected()).getAttribute('aria-label');
+    return await (await this.#getSelected()).getAttribute('aria-label');
   }
 }

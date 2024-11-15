@@ -14,6 +14,6 @@ export class SkyPopoverBodyHarness extends SkyQueryableComponentHarness {
    * Gets the text of the popover content body.
    */
   public async getText(): Promise<string> {
-    return (await this.host()).text();
+    return await (await this.host()).text();
   }
 }

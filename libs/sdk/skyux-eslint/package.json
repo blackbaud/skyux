@@ -16,18 +16,13 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
-  "schematics": "./collection.json",
-  "ng-add": {
-    "save": "devDependencies"
-  },
   "peerDependencies": {
-    "@angular-eslint/bundled-angular-compiler": "^18.3.1",
-    "@angular-eslint/eslint-plugin-template": "^18.3.1",
-    "@angular-eslint/template-parser": "^18.3.1",
-    "@angular-eslint/test-utils": "^18.3.1",
-    "@angular-eslint/utils": "^18.3.1",
-    "@angular/cli": "^18.2.8",
-    "@typescript-eslint/utils": "^8.8.0"
+    "@angular-eslint/bundled-angular-compiler": "^18.4.0",
+    "@angular-eslint/eslint-plugin-template": "^18.4.0",
+    "@angular-eslint/template-parser": "^18.4.0",
+    "@angular-eslint/test-utils": "^18.4.0",
+    "@angular-eslint/utils": "^18.4.0",
+    "@typescript-eslint/utils": "^8.14.0"
   },
   "dependencies": {
     "tslib": "^2.6.3"

@@ -29,7 +29,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
    * Toggles a popover open or closed.
    */
   public async clickPopoverButton(): Promise<void> {
-    return (await this.host()).click();
+    await (await this.host()).click();
   }
 
   /**
@@ -56,7 +56,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
     const popoverId = await this.#getPopoverId();
 
     if (popoverId) {
-      return this.#documentRootLocator.locatorForOptional(
+      return await this.#documentRootLocator.locatorForOptional(
         SkyPopoverContentHarness.with({ selector: `#${popoverId}` }),
       )();
     }
@@ -70,6 +70,6 @@ export class SkyPopoverHarness extends SkyComponentHarness {
       `#${pointerId}`,
     )();
 
-    return pointerEl?.getAttribute('aria-owns');
+    return await pointerEl?.getAttribute('aria-owns');
   }
 }

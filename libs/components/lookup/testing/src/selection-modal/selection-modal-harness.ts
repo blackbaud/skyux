@@ -45,14 +45,14 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Clears the text of the search input.
    */
   public async clearSearchText(): Promise<void> {
-    return (await this.#getSearchHarness()).clear();
+    await (await this.#getSearchHarness()).clear();
   }
 
   /**
    * Enters text into the search input and performs a search.
    */
   public async enterSearchText(value: string): Promise<void> {
-    return (await this.#getSearchHarness()).enterText(value);
+    await (await this.#getSearchHarness()).enterText(value);
   }
 
   /**
@@ -60,7 +60,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Gets the search input's aria-label.
    */
   public async getSearchAriaLabel(): Promise<string | null> {
-    return (await this.#getSearchHarness()).getAriaLabel();
+    return await (await this.#getSearchHarness()).getAriaLabel();
   }
 
   /**
@@ -85,7 +85,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Saves any selections made and closes the modal.
    */
   public async saveAndClose(): Promise<void> {
-    return (await this.#getSaveButton()).click();
+    await (await this.#getSaveButton()).click();
   }
 
   /**
@@ -93,14 +93,14 @@ export class SkySelectionModalHarness extends ComponentHarness {
    * Gets the save button's aria-label.
    */
   public async getSaveButtonAriaLabel(): Promise<string | null> {
-    return (await this.#getSaveButton()).getAttribute('aria-label');
+    return await (await this.#getSaveButton()).getAttribute('aria-label');
   }
 
   /**
    * Closes the picker without saving any selections made.
    */
   public async cancel(): Promise<void> {
-    return (await this.#getCancelButton()).click();
+    await (await this.#getCancelButton()).click();
   }
 
   /**
@@ -156,7 +156,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
       );
     }
 
-    return button.getAttribute('aria-label');
+    return await button.getAttribute('aria-label');
   }
 
   /**
@@ -195,14 +195,14 @@ export class SkySelectionModalHarness extends ComponentHarness {
       );
     }
 
-    return button.getAttribute('aria-label');
+    return await button.getAttribute('aria-label');
   }
 
   /**
    * Loads more results in the picker.
    */
   public async loadMore(): Promise<void> {
-    return (await this.#getInfiniteScroll()).loadMore();
+    await (await this.#getInfiniteScroll()).loadMore();
   }
 
   /**
@@ -232,7 +232,9 @@ export class SkySelectionModalHarness extends ComponentHarness {
    */
   public async getOnlyShowSelectedAriaLabel(): Promise<string | null> {
     try {
-      return (await this.#getCheckboxHarness()).getAriaLabel();
+      const label = await (await this.#getCheckboxHarness()).getAriaLabel();
+
+      return label;
     } catch {
       throw new Error(
         'Could not get the "Show only selected items" checkbox because it could not be found.',

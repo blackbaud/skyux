@@ -32,7 +32,7 @@ export class SkyModalHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
@@ -40,7 +40,9 @@ export class SkyModalHarness extends SkyComponentHarness {
    * @deprecated
    */
   public async getAriaDescribedBy(): Promise<string | null> {
-    return (await this.#getModalDialog()).getAttribute('aria-describedby');
+    return await (
+      await this.#getModalDialog()
+    ).getAttribute('aria-describedby');
   }
 
   /**
@@ -48,21 +50,21 @@ export class SkyModalHarness extends SkyComponentHarness {
    * @deprecated
    */
   public async getAriaLabelledBy(): Promise<string | null> {
-    return (await this.#getModalDialog()).getAttribute('aria-labelledby');
+    return await (await this.#getModalDialog()).getAttribute('aria-labelledby');
   }
 
   /**
    * Gets the role of the modal.
    */
   public async getAriaRole(): Promise<string | null> {
-    return (await this.#getModalDialog()).getAttribute('role');
+    return await (await this.#getModalDialog()).getAttribute('role');
   }
 
   /**
    * Gets the modal's heading text.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getModalHeading()).text();
+    return await (await this.#getModalHeading()).text();
   }
 
   /**
@@ -71,14 +73,14 @@ export class SkyModalHarness extends SkyComponentHarness {
   public async getHelpPopoverContent(): Promise<
     TemplateRef<unknown> | string | undefined
   > {
-    return (await this.#getHelpInline()).getPopoverContent();
+    return await (await this.#getHelpInline()).getPopoverContent();
   }
 
   /**
    * Gets the help popover title.
    */
   public async getHelpPopoverTitle(): Promise<string | undefined> {
-    return (await this.#getHelpInline()).getPopoverTitle();
+    return await (await this.#getHelpInline()).getPopoverTitle();
   }
 
   /**
@@ -116,7 +118,7 @@ export class SkyModalHarness extends SkyComponentHarness {
    */
   public async isFullPage(): Promise<boolean> {
     const modal = this.#getModal();
-    return (await modal).hasClass('sky-modal-full-page');
+    return await (await modal).hasClass('sky-modal-full-page');
   }
 
   /**

@@ -35,14 +35,14 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
    * Clicks the colorpicker dropdown apply button.
    */
   public async clickApplyButton(): Promise<void> {
-    return (await this.#getApplyButton()).click();
+    await (await this.#getApplyButton()).click();
   }
 
   /**
    * Clicks the colorpicker dropdown cancel button.
    */
   public async clickCancelButton(): Promise<void> {
-    return (await this.#getCancelButton()).click();
+    await (await this.#getCancelButton()).click();
   }
 
   /**

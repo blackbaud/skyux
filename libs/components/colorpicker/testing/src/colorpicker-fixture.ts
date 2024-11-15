@@ -42,8 +42,7 @@ export class SkyColorpickerFixture {
     SkyAppTestUtility.fireDomEvent(hexInput, 'input');
 
     await this.#clickColorpickerApplyButtonEl();
-
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**
@@ -86,7 +85,7 @@ export class SkyColorpickerFixture {
 
     await this.#clickColorpickerApplyButtonEl();
 
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**
@@ -109,7 +108,7 @@ export class SkyColorpickerFixture {
 
     await this.#clickColorpickerApplyButtonEl();
 
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   async #clickColorpickerButtonEl(): Promise<void> {
@@ -121,7 +120,7 @@ export class SkyColorpickerFixture {
 
     this.#fixture.detectChanges();
 
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   async #clickColorpickerApplyButtonEl(): Promise<void> {
@@ -133,7 +132,7 @@ export class SkyColorpickerFixture {
 
     this.#fixture.detectChanges();
 
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   #getColorpickerInputEl(): DebugElement {

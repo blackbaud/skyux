@@ -33,7 +33,6 @@ describe(`ag-grid-storybook data manager`, () => {
             });
 
             it(`should render ag-grid with data manager, ${label} layout${compact ? ', compact' : ''}`, () => {
-              // eslint-disable-next-line cypress/no-unnecessary-waiting
               cy.get('#ready', { timeout: 10000 })
                 .should('exist')
                 .end()
@@ -63,7 +62,6 @@ describe(`ag-grid-storybook data manager`, () => {
         });
 
         it(`should render data manager column picker${compact ? ', compact' : ''}`, () => {
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.viewport(1300, 900)
             .visit(
               /* spell-checker:disable-next-line */
