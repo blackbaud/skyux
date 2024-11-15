@@ -392,6 +392,10 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     this.#openPicker();
   }
 
+  protected highlightMinute(selectedMinute: number, minute: number): boolean {
+    return Math.floor(selectedMinute / 5) === minute / 5;
+  }
+
   #closePicker(): void {
     this.#destroyAffixer();
     this.#destroyOverlay();
