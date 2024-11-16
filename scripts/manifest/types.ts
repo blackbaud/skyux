@@ -10,32 +10,12 @@ export interface SkyManifestJSDocsDefinition {
 /**
  * Describes function and method parameters.
  */
-interface SkyManifestParameterDefinition {
+export interface SkyManifestParameterDefinition {
   defaultValue: string;
   description: string;
-  isRequired: boolean;
+  isOptional: boolean;
   name: string;
-  type: SkyManifestTypeDefinition;
-  typeArguments: SkyManifestTypeDefinition[];
-}
-
-/**
- * Used by method, function, and arrow function types.
- */
-interface SkyManifestCallSignatureDefinition {
-  parameters: SkyManifestParameterDefinition[];
-  returnType: SkyManifestTypeDefinition;
-}
-
-/**
- * Describes index signature types, e.g. `[_: string]: unknown`.
- */
-interface SkyManifestIndexSignatureDefinition {
-  key: {
-    name: string;
-    type: SkyManifestTypeDefinition;
-  };
-  type: SkyManifestTypeDefinition;
+  type: string;
 }
 
 /**
@@ -49,59 +29,61 @@ export interface SkyManifestInterfacePropertyDefinition
 /**
  * Describes TypeScript types.
  */
-interface SkyManifestTypeDefinition {
-  callSignature: SkyManifestCallSignatureDefinition;
-  indexSignature: SkyManifestIndexSignatureDefinition;
-  name: string;
-  type:
-    | 'array'
-    | 'intrinsic'
-    | 'literal'
-    | 'reference'
-    | 'reflection'
-    | 'typeParameter'
-    | 'typeOperator'
-    | 'union'
-    | 'unknown';
-  /**
-   * Describes any type arguments, e.g. `<T, F>`.
-   */
-  typeArguments: SkyManifestTypeDefinition[];
-  /**
-   * Used for type literals or inline interfaces, e.g. `route: { commands: any[] }`
-   */
-  typeLiteral: {
-    properties: SkyManifestInterfacePropertyDefinition[];
-  };
-  /**
-   * The types that compose a union type.
-   */
-  unionTypes: SkyManifestTypeDefinition[];
-}
+// export interface SkyManifestTypeDefinition {
+//   callSignature?: SkyManifestCallSignatureDefinition;
+//   indexSignature?: SkyManifestIndexSignatureDefinition;
+//   name?: string;
+//   type?:
+//     | 'array'
+//     | 'intrinsic'
+//     | 'literal'
+//     | 'reference'
+//     | 'reflection'
+//     | 'typeParameter'
+//     | 'typeOperator'
+//     | 'union'
+//     | 'unknown';
+//   /**
+//    * Describes any type arguments, e.g. `<T, F>`.
+//    */
+//   typeArguments?: SkyManifestTypeDefinition[];
+//   /**
+//    * Used for type literals or inline interfaces, e.g. `route: { commands: any[] }`
+//    */
+//   typeLiteral?: {
+//     properties: SkyManifestInterfacePropertyDefinition[];
+//   };
+//   /**
+//    * The types that compose a union type.
+//    */
+//   unionTypes?: SkyManifestTypeDefinition[];
+// }
 
 /**
  * e.g. Foo<T>()
  */
-interface SkyManifestTypeParameterDefinition {
+export interface SkyManifestTypeParameterDefinition {
   name: string;
-  type: SkyManifestTypeDefinition;
+  type: string;
 }
 
-interface SkyManifestClassMethodDefinition extends SkyManifestJSDocsDefinition {
-  isStatic: boolean;
+export interface SkyManifestClassMethodDefinition
+  extends SkyManifestJSDocsDefinition {
   name: string;
-  type: SkyManifestTypeDefinition;
-  typeParameters: SkyManifestTypeParameterDefinition[];
+  parameters: SkyManifestParameterDefinition[];
+  returnType: string;
 }
 
-interface SkyManifestClassPropertyDefinition
+export interface SkyManifestClassPropertyDefinition
   extends SkyManifestJSDocsDefinition {
   defaultValue: string;
   isRequired: boolean;
-  type: SkyManifestTypeDefinition;
+  name: string;
+  type: string;
 }
 
-interface SkyManifestClassDefinition extends SkyManifestJSDocsDefinition {
+export interface SkyManifestClassDefinition
+  extends SkyManifestJSDocsDefinition {
   methods: SkyManifestClassMethodDefinition[];
   name: string;
   properties: SkyManifestClassPropertyDefinition[];
@@ -132,8 +114,8 @@ interface SkyManifestPipeDefinition extends SkyManifestJSDocsDefinition {
 }
 
 interface SkyManifestTypeAliasDefinition extends SkyManifestJSDocsDefinition {
-  type: SkyManifestTypeDefinition;
-  typeParameters: SkyManifestTypeParameterDefinition[];
+  name: string;
+  type: string;
 }
 
 export interface SkyManifestPackage {
