@@ -22,55 +22,68 @@ function addDecoratorInfo(context, decl) {
     return;
   }
 
-  const modifiers = declaration.modifiers;
-  let decorators;
+  let decorators = [];
 
-  if (ts.isClassDeclaration(declaration)) {
-    decorators = modifiers
-      ?.filter((m) =>
-        m.getText().match(/@Component|@Directive|@Injectable|@Pipe|@NgModule/),
-      )
-      .map((m) => ({
-        name: m
-          .getText()
-          .match(/(?<=@)Component|Directive|Injectable|Pipe|NgModule/)[0],
-        arguments: {
-          obj: m.getText(),
-        },
-      }));
-  } else {
-    decorators = modifiers
-      ?.filter((m) => m.getText().match(/(?<=@)Input|Output(?=\(\))/))
-      .map((m) => {
-        const decoratorObject = {
-          name: m.getText().match(/(?<=@)Input|Output(?=\(\))/)[0],
-        };
+  // if (ts.isClassDeclaration(declaration)) {
+  const modifiers = declaration.modifiers ?? [];
 
-        if (m.expression) {
-          if (m.expression.arguments && m.expression.arguments[0]) {
-            if (m.expression.arguments[0].text) {
-              decoratorObject.arguments = {
-                bindingPropertyName: m.expression.arguments[0].text,
+  for (const modifier of modifiers) {
+    const expression = modifier.expression?.expression;
+
+    if (expression) {
+      const decoratorName = expression.escapedText;
+
+      if (
+        ![
+          'Component',
+          'Directive',
+          'Injectable',
+          'Input',
+          'NgModule',
+          'Output',
+          'Pipe',
+        ].includes(decoratorName)
+      ) {
+        continue;
+      }
+
+      const decorator = {
+        name: decoratorName,
+      };
+
+      const args = modifier.expression?.arguments[0];
+
+      if (args) {
+        switch (decorator.name) {
+          case 'Component':
+          case 'Directive':
+            decorator.arguments = {
+              selector:
+                args.symbol.members.get('selector')?.valueDeclaration
+                  .initializer.text ?? '',
+            };
+
+            break;
+
+          case 'Pipe':
+            decorator.arguments = {
+              name: args.symbol.members.get('name').valueDeclaration.initializer
+                .text,
+            };
+            break;
+
+          case 'Input':
+            if (args.text) {
+              decorator.arguments = {
+                bindingPropertyName: args.text,
               };
-            } else if (
-              m.expression.arguments[0].properties &&
-              m.expression.arguments[0].properties.length > 0
-            ) {
-              decoratorObject.arguments = {};
-              for (const property of m.expression.arguments[0].properties) {
-                const value = property.initializer.getText();
-                if (property.name.getText() === 'alias') {
-                  decoratorObject.arguments.bindingPropertyName = value;
-                } else {
-                  decoratorObject.arguments[property.name.getText()] = value;
-                }
-              }
             }
-          }
+            break;
         }
+      }
 
-        return decoratorObject;
-      });
+      decorators.push(decorator);
+    }
   }
 
   decl.decorators = decorators;

@@ -2,18 +2,17 @@ import crossSpawn from 'cross-spawn';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import typedoc, { ReflectionKind } from 'typedoc';
+import { Application } from 'typedoc';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pluginPath = path.join(__dirname, './typedoc-plugin.mjs');
 
-function _exec(command, args) {
+function _exec(command: string, args: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = crossSpawn(command, args, { stdio: 'pipe' });
 
     let stdout = '';
-    child.stdout.on('data', (data) => {
+
+    child.stdout?.on('data', (data) => {
       stdout += data.toString();
     });
 
@@ -27,7 +26,7 @@ function _exec(command, args) {
   });
 }
 
-async function runTypeDoc() {
+async function runTypeDoc(): Promise<void> {
   const output = await _exec('npx', [
     'nx',
     'show',
@@ -48,7 +47,7 @@ async function runTypeDoc() {
   for (const projectName of projectNames) {
     const projectRoot = `libs/components/${projectName}`;
 
-    const app = await typedoc.Application.bootstrapWithPlugins({
+    const app = await Application.bootstrapWithPlugins({
       entryPoints: [
         `${projectRoot}/src/index.ts`,
         `${projectRoot}/testing/src/public-api.ts`,
@@ -58,27 +57,30 @@ async function runTypeDoc() {
       excludeInternal: true,
       excludePrivate: true,
       excludeProtected: true,
-      plugin: pluginPath,
+      plugin: [pluginPath],
       tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
       exclude: [
         `!**/${projectRoot}/**`,
         '**/(fixtures|node_modules)/**',
         '**/*+(.fixture|.spec).ts',
       ],
-      externalPattern: `!**/${projectRoot}/**`,
+      externalPattern: [`!**/${projectRoot}/**`],
     });
 
     const project = await app.convert();
 
     if (project) {
-      const mainEntry = project.children[0];
-      const testingEntry = project.children[1];
+      // const mainEntry = project.children?.[0];
+      // const testingEntry = project.children?.[1];
 
-      console.log('main', mainEntry?.children);
+      await app.generateJson(project, `manifests/${projectName}.json`);
 
-      process.exit();
+      // process.exit();
 
       // await app.generateJson(project, `manifests/${projectName}.json`);
+
+      // Fix lambda names
+      // Assign anchorIds
     }
   }
 }

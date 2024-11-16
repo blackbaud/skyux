@@ -1,12 +1,12 @@
-const path = require('node:path');
+// const path = require('node:path');
 
-require('ts-node').register({
-  project: path.join(__dirname, '../tsconfig.json'),
-  swc: true,
-});
+// require('ts-node').register({
+//   project: path.join(__dirname, '../tsconfig.json'),
+//   swc: true,
+// });
 
-const plugin = require('./typedoc-plugin.ts');
+// const plugin = require('./typedoc-plugin.ts');
 
-module.exports = {
-  load: plugin.load,
-};
+// module.exports = {
+//   load: plugin.load,
+// };
