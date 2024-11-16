@@ -1,8 +1,22 @@
+/* eslint-disable max-depth */
+
+/* eslint-disable complexity */
 import crossSpawn from 'cross-spawn';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
-import { Application } from 'typedoc';
+import {
+  Application,
+  Comment,
+  DeclarationReflection,
+  ReflectionKind,
+} from 'typedoc';
+
+import { SkyManifestJSDocsDefinition, SkyManifestPackage } from './types';
+
+interface DeclarationReflectionWithDecorators extends DeclarationReflection {
+  decorators: { name: string; arguments?: Record<string, unknown> }[];
+}
 
 const pluginPath = path.join(__dirname, './typedoc-plugin.mjs');
 
@@ -26,6 +40,125 @@ function _exec(command: string, args: string[]): Promise<string> {
   });
 }
 
+function getJsDocsMetadata(
+  comment: Comment | undefined,
+): SkyManifestJSDocsDefinition {
+  let codeExample = '';
+  let codeExampleLanguage: 'markup' | 'typescript' = 'markup';
+  let deprecationReason = '';
+  let defaultValue = '';
+  let description = '';
+  let isDeprecated = false;
+  let isPreview = false;
+
+  // let parameters: {
+  //   name: string;
+  //   description: string;
+  // }[] = [];
+
+  // const extras: {
+  //   [key: string]: unknown;
+  // } = {};
+
+  if (comment) {
+    if (comment.blockTags) {
+      comment.blockTags.forEach((tag) => {
+        switch (tag.tag) {
+          case '@deprecated': {
+            isDeprecated = true;
+            deprecationReason = tag.content
+              .map((item) => item.text)
+              .join('')
+              .trim();
+            break;
+          }
+
+          case '@default':
+          case '@defaultValue': {
+            defaultValue = tag.content
+              .map((item) => item.text)
+              .join('')
+              .trim();
+
+            if (tag.content[0].kind === 'code') {
+              defaultValue = defaultValue.split('```')[1].trim();
+
+              const defaultLanguage = defaultValue.split('\n')[0];
+              if (
+                defaultLanguage === 'markup' ||
+                defaultLanguage === 'typescript' ||
+                defaultLanguage === 'ts'
+              ) {
+                defaultValue = defaultValue
+                  .slice(defaultLanguage.length)
+                  .trim();
+              }
+            }
+            break;
+          }
+
+          case '@example': {
+            codeExample = tag.content
+              .map((item) => item.text)
+              .join('')
+              .trim()
+              .split('```')[1]
+              .trim();
+            const exampleLanguage = codeExample.split('\n')[0];
+            if (
+              exampleLanguage === 'markup' ||
+              exampleLanguage === 'typescript'
+            ) {
+              codeExample = codeExample.slice(exampleLanguage.length).trim();
+              codeExampleLanguage = exampleLanguage;
+            }
+            break;
+          }
+
+          // case '@param': {
+          //   parameters = parameters || [];
+          //   parameters.push({
+          //     name: tag.param,
+          //     description: tag.content
+          //       .map((item) => item.text)
+          //       .join('')
+          //       .trim(),
+          //   });
+          //   break;
+          // }
+
+          case '@preview':
+            isPreview = true;
+            break;
+
+          // case '@required':
+          //   isRequired = true;
+          //   break;
+
+          default:
+            break;
+        }
+      });
+    }
+
+    description = comment.summary
+      ?.map((item) => item.text)
+      .join('')
+      .trim();
+  }
+
+  return {
+    codeExample,
+    codeExampleLanguage,
+    // defaultValue,
+    deprecationReason,
+    description,
+    // extras,
+    isDeprecated,
+    isPreview,
+  };
+}
+
 async function runTypeDoc(): Promise<void> {
   const output = await _exec('npx', [
     'nx',
@@ -44,6 +177,8 @@ async function runTypeDoc(): Promise<void> {
 
   await fsPromises.mkdir('manifests');
 
+  const packages = new Map<string, SkyManifestPackage>();
+
   for (const projectName of projectNames) {
     const projectRoot = `libs/components/${projectName}`;
 
@@ -57,6 +192,7 @@ async function runTypeDoc(): Promise<void> {
       excludeInternal: true,
       excludePrivate: true,
       excludeProtected: true,
+      logLevel: 'Error',
       plugin: [pluginPath],
       tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
       exclude: [
@@ -70,19 +206,76 @@ async function runTypeDoc(): Promise<void> {
     const project = await app.convert();
 
     if (project) {
-      // const mainEntry = project.children?.[0];
+      const mainEntry = project.children?.[0];
       // const testingEntry = project.children?.[1];
 
+      const children = mainEntry?.children as
+        | DeclarationReflectionWithDecorators[]
+        | undefined;
+
+      if (children) {
+        // packages[`@skyux/${projectName}`] = {};
+
+        for (const child of children) {
+          const packageName = `@skyux/${projectName}`;
+          const fileName = child.sources?.[0].fullFileName;
+
+          if (fileName && !fileName.endsWith('/index.ts')) {
+            // Derive the group name from its directory.
+            const groupName =
+              fileName
+                .split(`${projectName}/src/lib/modules/`)[1]
+                ?.split('/')[0] ?? 'root';
+
+            const pack = packages.get(`${packageName}:${groupName}`) ?? {
+              classes: [],
+              components: [],
+              directives: [],
+              enumerations: [],
+              interfaces: [],
+              modules: [],
+              pipes: [],
+              services: [],
+              typeAliases: [],
+            };
+
+            const jsDocsMetadata = getJsDocsMetadata(child.comment);
+
+            switch (child.kind) {
+              case ReflectionKind.Class: {
+                const decoratorName = child.decorators[0]?.name;
+
+                switch (decoratorName) {
+                  case 'Injectable': {
+                    pack.services.push({
+                      methods: [],
+                      name: child.name,
+                      properties: [],
+                      ...jsDocsMetadata,
+                    });
+                    break;
+                  }
+                }
+
+                break;
+              }
+            }
+
+            packages.set(`${packageName}:${groupName}`, pack);
+          }
+        }
+      }
+
+      // if (testingEntry?.children) {
+      //   packages[`@skyux/${projectName}/testing`] = {};
+      // }
       await app.generateJson(project, `manifests/${projectName}.json`);
-
-      // process.exit();
-
-      // await app.generateJson(project, `manifests/${projectName}.json`);
-
       // Fix lambda names
       // Assign anchorIds
     }
   }
+
+  console.log('packages:', packages);
 }
 
 runTypeDoc();
