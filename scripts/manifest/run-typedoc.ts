@@ -153,7 +153,8 @@ function getCommentMeta(comment: Comment | undefined): {
     description = comment.summary
       ?.map((item) => item.text)
       .join('')
-      .trim();
+      .trim()
+      .replace(/(\r\n|\n|\r)/gm, ' ');
   }
 
   return {
@@ -301,7 +302,7 @@ function getMethods(
         description,
         isDeprecated,
         isPreview,
-        // isStatic: !!child.flags?.isStatic,
+        isStatic: !!child.flags?.isStatic,
         name: child.name,
         parameters: getParameters(signature?.parameters),
         returnType: getType(signature?.type),
@@ -323,9 +324,59 @@ function getProperties(
 
   for (const child of decl.children) {
     if (child.kind === ReflectionKind.Accessor) {
-      console.log('ACCESSOR', child);
+      const {
+        codeExample,
+        codeExampleLanguage,
+        defaultValue,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isPreview,
+        isRequired,
+      } = getCommentMeta(
+        child.getSignature?.comment ?? child.setSignature?.comment,
+      );
+
+      const property: SkyManifestClassPropertyDefinition = {
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        defaultValue,
+        isDeprecated,
+        isPreview,
+        isOptional: !isRequired,
+        name: child.name,
+        type: getType(child.getSignature?.type),
+      };
+
+      properties.push(property);
     } else if (child.kind === ReflectionKind.Property) {
-      console.log('PROPERTY', child);
+      const {
+        codeExample,
+        codeExampleLanguage,
+        defaultValue,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isPreview,
+        isRequired,
+      } = getCommentMeta(child.comment);
+
+      const property: SkyManifestClassPropertyDefinition = {
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        defaultValue: child.defaultValue ?? defaultValue,
+        isDeprecated,
+        isPreview,
+        isOptional: !isRequired && child.defaultValue === undefined,
+        name: child.name,
+        type: getType(child.type),
+      };
+
+      properties.push(property);
     }
   }
 
@@ -438,8 +489,6 @@ async function runTypeDoc(): Promise<void> {
                       properties: getProperties(child),
                     };
 
-                    // console.log('SVC', JSON.stringify(svc, undefined, 2));
-
                     pack.services.push(svc);
                     break;
                   }
@@ -463,7 +512,7 @@ async function runTypeDoc(): Promise<void> {
     }
   }
 
-  // console.log('packages:', JSON.stringify([...packages], undefined, 2));
+  console.log('packages:', JSON.stringify([...packages], undefined, 2));
 }
 
 runTypeDoc();

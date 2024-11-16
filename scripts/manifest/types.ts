@@ -69,6 +69,7 @@ export interface SkyManifestTypeParameterDefinition {
 
 export interface SkyManifestClassMethodDefinition
   extends SkyManifestJSDocsDefinition {
+  isStatic: boolean;
   name: string;
   parameters: SkyManifestParameterDefinition[];
   returnType: string;
@@ -77,7 +78,7 @@ export interface SkyManifestClassMethodDefinition
 export interface SkyManifestClassPropertyDefinition
   extends SkyManifestJSDocsDefinition {
   defaultValue: string;
-  isRequired: boolean;
+  isOptional: boolean;
   name: string;
   type: string;
 }
