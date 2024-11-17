@@ -24,12 +24,13 @@ import {
   SkyManifestClassDefinition,
   SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
+  SkyManifestDirectiveDefinition,
   SkyManifestPackage,
   SkyManifestParameterDefinition,
 } from './types';
 
 interface DeclarationReflectionWithDecorators extends DeclarationReflection {
-  decorators: { name: string; arguments?: Record<string, unknown> }[];
+  decorators?: { name: string; arguments?: Record<string, string> }[];
 }
 
 const pluginPath = path.join(__dirname, './typedoc-plugin.mjs');
@@ -90,6 +91,18 @@ function getCommentMeta(comment: Comment | undefined): {
               .map((item) => item.text)
               .join('')
               .trim();
+
+            // TypeDoc sometimes wraps default values in code blocks.
+            if (defaultValue.includes('```')) {
+              defaultValue = defaultValue.split('\n')[1];
+            }
+
+            // TypeDoc version 0.20.x stopped auto-generating initializers for the default value
+            // (and replaced them with "...") due to the complicated logic it required.
+            // See: https://github.com/TypeStrong/typedoc/issues/1552
+            if (defaultValue === '...') {
+              defaultValue = '';
+            }
 
             break;
           }
@@ -313,74 +326,171 @@ function getMethods(
   return methods;
 }
 
+function getProperty(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestClassPropertyDefinition | undefined {
+  if (decl.kind === ReflectionKind.Accessor) {
+    const {
+      codeExample,
+      codeExampleLanguage,
+      defaultValue,
+      deprecationReason,
+      description,
+      isDeprecated,
+      isPreview,
+      isRequired,
+    } = getCommentMeta(
+      decl.getSignature?.comment ?? decl.setSignature?.comment,
+    );
+
+    const property: SkyManifestClassPropertyDefinition = {
+      codeExample,
+      codeExampleLanguage,
+      deprecationReason,
+      description,
+      defaultValue,
+      isDeprecated,
+      isPreview,
+      isOptional: !isRequired,
+      name: decl.name,
+      type: getType(decl.getSignature?.type),
+    };
+
+    return property;
+  }
+
+  if (decl.kind === ReflectionKind.Property) {
+    const {
+      codeExample,
+      codeExampleLanguage,
+      defaultValue,
+      deprecationReason,
+      description,
+      isDeprecated,
+      isPreview,
+      isRequired,
+    } = getCommentMeta(decl.comment);
+
+    const property: SkyManifestClassPropertyDefinition = {
+      codeExample,
+      codeExampleLanguage,
+      deprecationReason,
+      description,
+      defaultValue: decl.defaultValue ?? defaultValue,
+      isDeprecated,
+      isPreview,
+      isOptional: !isRequired && decl.defaultValue === undefined,
+      name: decl.name,
+      type: getType(decl.type),
+    };
+
+    return property;
+  }
+}
+
 function getProperties(
   decl: DeclarationReflectionWithDecorators,
+  // withDecorator?: 'Input' | 'Output',
 ): SkyManifestClassPropertyDefinition[] {
   if (!decl.children) {
     return [];
   }
 
   const properties: SkyManifestClassPropertyDefinition[] = [];
+  const children = decl.children as DeclarationReflectionWithDecorators[];
 
-  for (const child of decl.children) {
-    if (child.kind === ReflectionKind.Accessor) {
-      const {
-        codeExample,
-        codeExampleLanguage,
-        defaultValue,
-        deprecationReason,
-        description,
-        isDeprecated,
-        isPreview,
-        isRequired,
-      } = getCommentMeta(
-        child.getSignature?.comment ?? child.setSignature?.comment,
-      );
+  if (getSelector(decl) === 'sky-link-list-recently-accessed') {
+    console.log(children);
+  }
 
-      const property: SkyManifestClassPropertyDefinition = {
-        codeExample,
-        codeExampleLanguage,
-        deprecationReason,
-        description,
-        defaultValue,
-        isDeprecated,
-        isPreview,
-        isOptional: !isRequired,
-        name: child.name,
-        type: getType(child.getSignature?.type),
-      };
+  for (const child of children) {
+    // TODO: How to handle 'input' signals?
+    // if (withDecorator !== getDecorator(child)) {
+    //   continue;
+    // }
 
-      properties.push(property);
-    } else if (child.kind === ReflectionKind.Property) {
-      const {
-        codeExample,
-        codeExampleLanguage,
-        defaultValue,
-        deprecationReason,
-        description,
-        isDeprecated,
-        isPreview,
-        isRequired,
-      } = getCommentMeta(child.comment);
+    if (isInput(child) || isOutput(child)) {
+      continue;
+    }
 
-      const property: SkyManifestClassPropertyDefinition = {
-        codeExample,
-        codeExampleLanguage,
-        deprecationReason,
-        description,
-        defaultValue: child.defaultValue ?? defaultValue,
-        isDeprecated,
-        isPreview,
-        isOptional: !isRequired && child.defaultValue === undefined,
-        name: child.name,
-        type: getType(child.type),
-      };
+    const property = getProperty(child);
 
+    if (property) {
       properties.push(property);
     }
   }
 
   return properties;
+}
+
+function isInput(decl: DeclarationReflectionWithDecorators): boolean {
+  return (
+    getDecorator(decl) === 'Input' ||
+    (decl.type instanceof ReferenceType && decl.type?.name === 'InputSignal')
+  );
+}
+
+function isOutput(decl: DeclarationReflectionWithDecorators): boolean {
+  return (
+    getDecorator(decl) === 'Output' ||
+    (decl.type instanceof ReferenceType && decl.type?.name === 'OutputSignal')
+  );
+}
+
+function getInputs(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestClassPropertyDefinition[] {
+  if (!decl.children) {
+    return [];
+  }
+
+  const inputs: SkyManifestClassPropertyDefinition[] = [];
+
+  for (const child of decl.children) {
+    if (isInput(child)) {
+      const input = getProperty(child);
+
+      if (input) {
+        inputs.push(input);
+      }
+    }
+  }
+
+  return inputs;
+}
+
+function getOutputs(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestClassPropertyDefinition[] {
+  if (!decl.children) {
+    return [];
+  }
+
+  const outputs: SkyManifestClassPropertyDefinition[] = [];
+
+  for (const child of decl.children) {
+    if (isOutput(child)) {
+      const output = getProperty(child);
+
+      if (output) {
+        outputs.push(output);
+      }
+    }
+  }
+
+  return outputs;
+}
+
+function getDecorator(
+  decl: DeclarationReflectionWithDecorators,
+): string | undefined {
+  return decl.decorators?.[0]?.name;
+}
+
+function getSelector(
+  decl: DeclarationReflectionWithDecorators,
+): string | undefined {
+  return decl.decorators?.[0]?.arguments?.['selector'];
 }
 
 async function runTypeDoc(): Promise<void> {
@@ -394,7 +504,7 @@ async function runTypeDoc(): Promise<void> {
   // ]);
 
   // const projectNames = JSON.parse(output);
-  const projectNames = ['core'];
+  const projectNames = ['pages'];
 
   if (fs.existsSync('manifests')) {
     await fsPromises.rm('manifests', { recursive: true });
@@ -473,7 +583,7 @@ async function runTypeDoc(): Promise<void> {
 
             switch (child.kind) {
               case ReflectionKind.Class: {
-                const decoratorName = child.decorators[0]?.name;
+                const decoratorName = getDecorator(child);
 
                 switch (decoratorName) {
                   case 'Injectable': {
@@ -490,6 +600,26 @@ async function runTypeDoc(): Promise<void> {
                     };
 
                     pack.services.push(svc);
+                    break;
+                  }
+
+                  case 'Component':
+                  case 'Directive': {
+                    const directive: SkyManifestDirectiveDefinition = {
+                      codeExample,
+                      codeExampleLanguage,
+                      deprecationReason,
+                      description,
+                      isDeprecated,
+                      isPreview,
+                      selector: getSelector(child) ?? '',
+                      inputs: getInputs(child),
+                      outputs: getOutputs(child),
+                    };
+
+                    console.log('directive', directive);
+
+                    pack.directives.push(directive);
                     break;
                   }
                 }
@@ -512,7 +642,7 @@ async function runTypeDoc(): Promise<void> {
     }
   }
 
-  console.log('packages:', JSON.stringify([...packages], undefined, 2));
+  // console.log('packages:', JSON.stringify([...packages], undefined, 2));
 }
 
 runTypeDoc();

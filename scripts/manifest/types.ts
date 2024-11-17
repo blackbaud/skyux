@@ -90,7 +90,16 @@ export interface SkyManifestClassDefinition
   properties: SkyManifestClassPropertyDefinition[];
 }
 
-interface SkyManifestDirectiveDefinition extends SkyManifestJSDocsDefinition {
+// export interface SkyManifestDirectiveInputDefinition
+//   extends SkyManifestJSDocsDefinition {
+//   defaultValue: string;
+//   isRequired: boolean;
+//   name: string;
+//   type: string;
+// }
+
+export interface SkyManifestDirectiveDefinition
+  extends SkyManifestJSDocsDefinition {
   inputs: SkyManifestClassPropertyDefinition[];
   outputs: SkyManifestClassPropertyDefinition[];
   selector: string;
