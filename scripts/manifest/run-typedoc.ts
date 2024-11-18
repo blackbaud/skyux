@@ -161,8 +161,8 @@ function getCommentMeta(comment: Comment | undefined): {
   };
 }
 
-function getTypeParameters(params: SomeType[]): string {
-  if (params.length === 0) {
+function getTypeParameters(params: SomeType[] | undefined): string {
+  if (!params || params.length === 0) {
     return '';
   }
 
@@ -642,7 +642,7 @@ async function runTypeDoc(): Promise<void> {
     const projectRefl = await app.convert();
 
     if (projectRefl) {
-      process.stdout.write(`Creating manifest for ${projectName}...`);
+      console.log(`Creating manifest for ${projectName}...`);
 
       const hasTestingEntryPoint = fs.existsSync(
         path.normalize(entryPoints[1]),
@@ -834,7 +834,7 @@ async function runTypeDoc(): Promise<void> {
                   indexSignatures: getIndexSignatures(child),
                   isDeprecated,
                   isPreview,
-                  name: child.name + getType(child.type),
+                  name: child.name,
                   properties: getInterfaceProperties(child),
                 };
 
