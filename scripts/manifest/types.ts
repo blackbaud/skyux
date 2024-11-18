@@ -132,6 +132,7 @@ export interface SkyManifestEnumerationMemberDefinition
 export interface SkyManifestEnumerationDefinition
   extends SkyManifestJSDocsDefinition {
   members: SkyManifestEnumerationMemberDefinition[];
+  name: string;
 }
 
 export interface SkyManifestInterfaceDefinition
@@ -142,6 +143,7 @@ export interface SkyManifestInterfaceDefinition
 }
 
 export interface SkyManifestPipeDefinition extends SkyManifestJSDocsDefinition {
+  name: string;
   transformMethod: SkyManifestFunctionOrMethodDefinition;
 }
 

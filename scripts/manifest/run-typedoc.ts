@@ -169,11 +169,16 @@ function getTypeParameters(params: SomeType[] | undefined): string {
 
   let name = `<`;
 
+  const typeParams: string[] = [];
   for (const param of params) {
-    name += getType(param);
+    typeParams.push(getType(param));
   }
 
-  name += '>';
+  if (typeParams.length === 0) {
+    return '';
+  }
+
+  name += typeParams.join(', ') + '>';
 
   return name;
 }
@@ -203,25 +208,42 @@ function getType(type: SomeType | undefined): string {
       return name;
     }
 
-    // Inline interfaces.
     if (type instanceof ReflectionType) {
-      const props = ['{'];
+      // Closures.
+      if (type.declaration.signatures) {
+        const params = getParameters(type.declaration.signatures[0].parameters);
+        const returnType = getType(type.declaration.signatures[0].type);
+        console.log('eh?', type);
+        const paramsStr = params
+          .map((p) => {
+            return `${p.name}${p.isOptional ? '?' : ''}: ${p.type}`;
+          })
+          .join(', ');
 
-      const children = type.declaration.children ?? [];
-
-      for (const child of children) {
-        props.push(
-          `${child.name}${child.flags?.isOptional ? '?' : ''}: ${getType(child.type)};`,
-        );
+        return `(${paramsStr}) => ${returnType}`;
       }
 
-      props.push('}');
-
-      return props.join(' ');
+      // Inline interfaces.
+      if (type.declaration.children) {
+        const props = ['{'];
+        for (const child of type.declaration.children) {
+          props.push(
+            `${child.name}${child.flags?.isOptional ? '?' : ''}: ${getType(child.type)};`,
+          );
+        }
+        props.push('}');
+        return props.join(' ');
+      }
     }
 
     if (type instanceof ArrayType) {
-      return `${getType(type.elementType)}[]`;
+      const elementType = getType(type.elementType);
+
+      if (type.elementType instanceof ReflectionType) {
+        return `(${elementType})[]`;
+      }
+
+      return `${elementType}[]`;
     }
 
     if (type instanceof UnionType) {
@@ -784,6 +806,7 @@ async function runTypeDoc(): Promise<void> {
                       description,
                       isDeprecated,
                       isPreview,
+                      name: child.name,
                       transformMethod: getPipeTransformMethod(child),
                     };
 
@@ -837,6 +860,7 @@ async function runTypeDoc(): Promise<void> {
                   isDeprecated,
                   isPreview,
                   members: getEnumMembers(child),
+                  name: child.name,
                 };
 
                 pack.enumerations.push(enumeration);

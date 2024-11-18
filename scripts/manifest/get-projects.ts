@@ -41,7 +41,7 @@ export async function getProjects(): Promise<ProjectDefinition[]> {
 
   // const projectNames = JSON.parse(output);
 
-  const projectNames = ['action-bars'];
+  const projectNames = ['ag-grid'];
 
   const projects: ProjectDefinition[] = [];
 
