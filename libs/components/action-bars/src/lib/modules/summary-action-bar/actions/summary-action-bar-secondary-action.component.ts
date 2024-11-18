@@ -24,7 +24,6 @@ import { SkyThemeModule } from '@skyux/theme';
 export class SkySummaryActionBarSecondaryActionComponent {
   /**
    * Whether to disable a secondary action.
-   * @default false
    */
   @Input()
   public disabled = false;

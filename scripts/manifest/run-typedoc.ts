@@ -27,6 +27,7 @@ import {
   SkyManifestClassDefinition,
   SkyManifestClassPropertyDefinition,
   SkyManifestDirectiveDefinition,
+  SkyManifestDirectiveInputDefinition,
   SkyManifestEnumerationDefinition,
   SkyManifestEnumerationMemberDefinition,
   SkyManifestFunctionOrMethodDefinition,
@@ -351,6 +352,25 @@ function getPipeTransformMethod(
   throw new Error(`Failed to find transform method for pipe: ${decl.name}`);
 }
 
+function getInput(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestDirectiveInputDefinition | undefined {
+  const property = getProperty(decl);
+
+  if (property) {
+    const { isRequired } = getCommentMeta(
+      decl.comment ?? decl.getSignature?.comment ?? decl.setSignature?.comment,
+    );
+
+    const input: SkyManifestDirectiveInputDefinition = {
+      ...property,
+      isRequired,
+    };
+
+    return input;
+  }
+}
+
 function getProperty(
   decl: DeclarationReflectionWithDecorators,
 ): SkyManifestClassPropertyDefinition | undefined {
@@ -363,7 +383,6 @@ function getProperty(
       description,
       isDeprecated,
       isPreview,
-      isRequired,
     } = getCommentMeta(
       decl.getSignature?.comment ?? decl.setSignature?.comment,
     );
@@ -376,7 +395,6 @@ function getProperty(
       defaultValue: getDefaultValue(decl, defaultValue),
       isDeprecated,
       isPreview,
-      isOptional: !isRequired,
       name: decl.name,
       type: getType(decl.getSignature?.type),
     };
@@ -393,7 +411,6 @@ function getProperty(
       description,
       isDeprecated,
       isPreview,
-      isRequired,
     } = getCommentMeta(decl.comment);
 
     const property: SkyManifestClassPropertyDefinition = {
@@ -404,7 +421,6 @@ function getProperty(
       defaultValue: getDefaultValue(decl, defaultValue),
       isDeprecated,
       isPreview,
-      isOptional: !isRequired && decl.defaultValue === undefined,
       name: decl.name,
       type: getType(decl.type),
     };
@@ -522,13 +538,13 @@ function isOutput(decl: DeclarationReflectionWithDecorators): boolean {
 
 function getInputs(
   decl: DeclarationReflectionWithDecorators,
-): SkyManifestClassPropertyDefinition[] {
-  const inputs: SkyManifestClassPropertyDefinition[] = [];
+): SkyManifestDirectiveInputDefinition[] {
+  const inputs: SkyManifestDirectiveInputDefinition[] = [];
 
   if (decl.children) {
     for (const child of decl.children) {
       if (isInput(child)) {
-        const input = getProperty(child);
+        const input = getInput(child);
 
         if (input) {
           inputs.push(input);
@@ -602,6 +618,14 @@ function getSelector(
   decl: DeclarationReflectionWithDecorators,
 ): string | undefined {
   return decl.decorators?.[0]?.arguments?.['selector'];
+}
+
+function getDirectiveName(decl: DeclarationReflectionWithDecorators): string {
+  if (decl.name.startsWith('λ')) {
+    return decl.escapedName as string;
+  }
+
+  return decl.name;
 }
 
 async function runTypeDoc(): Promise<void> {
@@ -725,6 +749,7 @@ async function runTypeDoc(): Promise<void> {
                       description,
                       isDeprecated,
                       isPreview,
+                      name: getDirectiveName(child),
                       selector: getSelector(child) ?? '',
                       inputs: getInputs(child),
                       outputs: getOutputs(child),

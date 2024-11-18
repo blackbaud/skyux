@@ -77,9 +77,13 @@ export interface SkyManifestFunctionOrMethodDefinition
 export interface SkyManifestClassPropertyDefinition
   extends SkyManifestJSDocsDefinition {
   defaultValue: string;
-  isOptional: boolean;
   name: string;
   type: string;
+}
+
+export interface SkyManifestDirectiveInputDefinition
+  extends SkyManifestClassPropertyDefinition {
+  isRequired: boolean;
 }
 
 export interface SkyManifestInterfacePropertyDefinition
@@ -113,7 +117,8 @@ export interface SkyManifestClassDefinition
 
 export interface SkyManifestDirectiveDefinition
   extends SkyManifestJSDocsDefinition {
-  inputs: SkyManifestClassPropertyDefinition[];
+  inputs: SkyManifestDirectiveInputDefinition[];
+  name: string;
   outputs: SkyManifestClassPropertyDefinition[];
   selector: string;
 }
