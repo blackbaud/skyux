@@ -16,6 +16,7 @@ import {
   Reflection,
   ReflectionKind,
   ReflectionType,
+  SignatureReflection,
   SomeType,
   UnionType,
 } from 'typedoc';
@@ -23,12 +24,18 @@ import {
 import { getProjects } from './get-projects';
 import {
   SkyManifestClassDefinition,
-  SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
   SkyManifestDirectiveDefinition,
+  SkyManifestEnumerationDefinition,
+  SkyManifestEnumerationMemberDefinition,
+  SkyManifestFunctionOrMethodDefinition,
+  SkyManifestIndexSignatureDefinition,
+  SkyManifestInterfaceDefinition,
+  SkyManifestInterfacePropertyDefinition,
   SkyManifestPackage,
   SkyManifestParameterDefinition,
   SkyManifestPipeDefinition,
+  SkyManifestTypeAliasDefinition,
 } from './types';
 
 interface DeclarationReflectionWithDecorators extends DeclarationReflection {
@@ -152,15 +159,15 @@ function getCommentMeta(comment: Comment | undefined): {
   };
 }
 
-function getTypeArguments(typeArguments: SomeType[]): string {
-  if (typeArguments.length === 0) {
+function getTypeParameters(params: SomeType[]): string {
+  if (params.length === 0) {
     return '';
   }
 
   let name = `<`;
 
-  for (const arg of typeArguments) {
-    name += getType(arg);
+  for (const param of params) {
+    name += getType(param);
   }
 
   name += '>';
@@ -175,15 +182,19 @@ function getType(type: SomeType | undefined): string {
     }
 
     if (type instanceof LiteralType) {
+      if (typeof type.value === 'string') {
+        return `'${type.value}'`;
+      }
+
       return `${type.value}`;
     }
 
-    // Type arguments.
+    // Type parameters.
     if (type instanceof ReferenceType) {
       let name = type.name;
 
       if (type.typeArguments) {
-        name += getTypeArguments(type.typeArguments);
+        name += getTypeParameters(type.typeArguments);
       }
 
       return name;
@@ -245,22 +256,20 @@ function getDefaultValue(
 function getParameters(
   refl: ParameterReflection[] | undefined,
 ): SkyManifestParameterDefinition[] {
-  if (!refl) {
-    return [];
-  }
-
   const parameters: SkyManifestParameterDefinition[] = [];
 
-  for (const param of refl) {
-    const { defaultValue, description } = getCommentMeta(param.comment);
+  if (refl) {
+    for (const param of refl) {
+      const { defaultValue, description } = getCommentMeta(param.comment);
 
-    parameters.push({
-      defaultValue: getDefaultValue(param, defaultValue),
-      description,
-      isOptional: !!param.flags?.isOptional,
-      name: param.name,
-      type: getType(param.type),
-    });
+      parameters.push({
+        defaultValue: getDefaultValue(param, defaultValue),
+        description,
+        isOptional: !!param.flags?.isOptional,
+        name: param.name,
+        type: getType(param.type),
+      });
+    }
   }
 
   return parameters;
@@ -268,25 +277,26 @@ function getParameters(
 
 function getMethods(
   decl: DeclarationReflectionWithDecorators,
-): SkyManifestClassMethodDefinition[] {
-  if (!decl.children) {
-    return [];
-  }
+): SkyManifestFunctionOrMethodDefinition[] {
+  const methods: SkyManifestFunctionOrMethodDefinition[] = [];
 
-  const methods: SkyManifestClassMethodDefinition[] = [];
-
-  for (const child of decl.children) {
-    if (child.kind === ReflectionKind.Method && !child.name.startsWith('ng')) {
-      methods.push(getMethod(child));
+  if (decl.children) {
+    for (const child of decl.children) {
+      if (
+        child.kind === ReflectionKind.Method &&
+        !child.name.startsWith('ng')
+      ) {
+        methods.push(getFunctionOrMethod(child));
+      }
     }
   }
 
   return methods;
 }
 
-function getMethod(
+function getFunctionOrMethod(
   decl: DeclarationReflection,
-): SkyManifestClassMethodDefinition {
+): SkyManifestFunctionOrMethodDefinition {
   const signature = decl.signatures?.[0];
 
   const {
@@ -298,14 +308,13 @@ function getMethod(
     isPreview,
   } = getCommentMeta(signature?.comment);
 
-  const method: SkyManifestClassMethodDefinition = {
+  const method: SkyManifestFunctionOrMethodDefinition = {
     codeExample,
     codeExampleLanguage,
     deprecationReason,
     description,
     isDeprecated,
     isPreview,
-    isStatic: !!decl.flags?.isStatic,
     name: decl.name,
     parameters: getParameters(signature?.parameters),
     returnType: getType(signature?.type),
@@ -316,11 +325,11 @@ function getMethod(
 
 function getPipeTransformMethod(
   decl: DeclarationReflectionWithDecorators,
-): SkyManifestClassMethodDefinition {
+): SkyManifestFunctionOrMethodDefinition {
   if (decl.children) {
     for (const child of decl.children) {
       if (child.kind === ReflectionKind.Method && child.name === 'transform') {
-        return getMethod(child);
+        return getFunctionOrMethod(child);
       }
     }
   }
@@ -393,26 +402,89 @@ function getProperty(
 function getProperties(
   decl: DeclarationReflectionWithDecorators,
 ): SkyManifestClassPropertyDefinition[] {
-  if (!decl.children) {
-    return [];
-  }
-
   const properties: SkyManifestClassPropertyDefinition[] = [];
-  const children = decl.children as DeclarationReflectionWithDecorators[];
 
-  if (getSelector(decl) === 'sky-link-list-recently-accessed') {
-    console.log(children);
+  if (decl.children) {
+    for (const child of decl.children) {
+      if (isInput(child) || isOutput(child)) {
+        continue;
+      }
+
+      const property = getProperty(child);
+      if (property) {
+        properties.push(property);
+      }
+    }
   }
 
-  for (const child of children) {
-    if (isInput(child) || isOutput(child)) {
-      continue;
+  return properties;
+}
+
+function getIndexSignatures(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestIndexSignatureDefinition[] {
+  const formatted: SkyManifestIndexSignatureDefinition[] = [];
+
+  if (decl.indexSignatures) {
+    for (const signature of decl.indexSignatures) {
+      const param = signature.parameters?.[0];
+
+      if (param) {
+        const {
+          codeExample,
+          codeExampleLanguage,
+          deprecationReason,
+          description,
+          isDeprecated,
+          isPreview,
+        } = getCommentMeta(signature.comment);
+
+        formatted.push({
+          codeExample,
+          codeExampleLanguage,
+          deprecationReason,
+          description,
+          isDeprecated,
+          isPreview,
+          name: `[${param.name}: ${getType(param.type)}]`,
+          type: getType(signature.type),
+          parameters: getParameters(signature.parameters),
+        });
+      }
     }
+  }
 
-    const property = getProperty(child);
+  return formatted;
+}
 
-    if (property) {
-      properties.push(property);
+function getInterfaceProperties(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestInterfacePropertyDefinition[] {
+  const properties: SkyManifestInterfacePropertyDefinition[] = [];
+
+  if (decl.children) {
+    for (const child of decl.children) {
+      const {
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isPreview,
+        isRequired,
+      } = getCommentMeta(child.comment);
+
+      properties.push({
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isOptional: !isRequired && !!child.flags?.isOptional,
+        isPreview,
+        name: child.name,
+        type: getType(child.type),
+      });
     }
   }
 
@@ -437,18 +509,16 @@ function isOutput(decl: DeclarationReflectionWithDecorators): boolean {
 function getInputs(
   decl: DeclarationReflectionWithDecorators,
 ): SkyManifestClassPropertyDefinition[] {
-  if (!decl.children) {
-    return [];
-  }
-
   const inputs: SkyManifestClassPropertyDefinition[] = [];
 
-  for (const child of decl.children) {
-    if (isInput(child)) {
-      const input = getProperty(child);
+  if (decl.children) {
+    for (const child of decl.children) {
+      if (isInput(child)) {
+        const input = getProperty(child);
 
-      if (input) {
-        inputs.push(input);
+        if (input) {
+          inputs.push(input);
+        }
       }
     }
   }
@@ -459,23 +529,53 @@ function getInputs(
 function getOutputs(
   decl: DeclarationReflectionWithDecorators,
 ): SkyManifestClassPropertyDefinition[] {
-  if (!decl.children) {
-    return [];
-  }
-
   const outputs: SkyManifestClassPropertyDefinition[] = [];
 
-  for (const child of decl.children) {
-    if (isOutput(child)) {
-      const output = getProperty(child);
+  if (decl.children) {
+    for (const child of decl.children) {
+      if (isOutput(child)) {
+        const output = getProperty(child);
 
-      if (output) {
-        outputs.push(output);
+        if (output) {
+          outputs.push(output);
+        }
       }
     }
   }
 
   return outputs;
+}
+
+function getEnumMembers(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestEnumerationMemberDefinition[] {
+  const members: SkyManifestEnumerationMemberDefinition[] = [];
+
+  if (decl.children) {
+    for (const child of decl.children) {
+      const {
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isPreview,
+      } = getCommentMeta(child.comment);
+
+      members.push({
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isPreview,
+        name: child.name,
+        type: getType(child.type),
+      });
+    }
+  }
+
+  return members;
 }
 
 function getDecorator(
@@ -553,17 +653,20 @@ async function runTypeDoc(): Promise<void> {
                 .split(`${projectName}/src/lib/modules/`)[1]
                 ?.split('/')[0] ?? 'root';
 
-            const pack = packages.get(`${packageName}:${groupName}`) ?? {
-              classes: [],
-              components: [],
-              directives: [],
-              enumerations: [],
-              interfaces: [],
-              modules: [],
-              pipes: [],
-              services: [],
-              typeAliases: [],
-            };
+            const pack =
+              packages.get(`${packageName}:${groupName}`) ??
+              ({
+                classes: [],
+                components: [],
+                directives: [],
+                enumerations: [],
+                functions: [],
+                interfaces: [],
+                modules: [],
+                pipes: [],
+                services: [],
+                typeAliases: [],
+              } satisfies SkyManifestPackage);
 
             const {
               codeExample,
@@ -615,7 +718,7 @@ async function runTypeDoc(): Promise<void> {
                   }
 
                   case 'NgModule': {
-                    const def: SkyManifestClassDefinition = {
+                    const module: SkyManifestClassDefinition = {
                       codeExample,
                       codeExampleLanguage,
                       deprecationReason,
@@ -627,9 +730,7 @@ async function runTypeDoc(): Promise<void> {
                       properties: getProperties(child),
                     };
 
-                    console.log('module', def);
-
-                    pack.modules.push(def);
+                    pack.modules.push(module);
                     break;
                   }
 
@@ -661,14 +762,72 @@ async function runTypeDoc(): Promise<void> {
                       properties: getProperties(child),
                     };
 
-                    console.log('class', cls);
-
                     pack.classes.push(cls);
                     break;
                   }
                 }
 
                 break;
+              }
+
+              case ReflectionKind.TypeAlias: {
+                const alias: SkyManifestTypeAliasDefinition = {
+                  codeExample,
+                  codeExampleLanguage,
+                  deprecationReason,
+                  description,
+                  isDeprecated,
+                  isPreview,
+                  name: child.name,
+                  type: getType(child.type),
+                };
+
+                pack.typeAliases.push(alias);
+                break;
+              }
+
+              case ReflectionKind.Enum: {
+                const enumeration: SkyManifestEnumerationDefinition = {
+                  codeExample,
+                  codeExampleLanguage,
+                  deprecationReason,
+                  description,
+                  isDeprecated,
+                  isPreview,
+                  members: getEnumMembers(child),
+                };
+
+                pack.enumerations.push(enumeration);
+                break;
+              }
+
+              case ReflectionKind.Function: {
+                const func = getFunctionOrMethod(child);
+
+                pack.functions.push(func);
+                break;
+              }
+
+              case ReflectionKind.Interface: {
+                const def: SkyManifestInterfaceDefinition = {
+                  codeExample,
+                  codeExampleLanguage,
+                  deprecationReason,
+                  description,
+                  indexSignatures: getIndexSignatures(child),
+                  isDeprecated,
+                  isPreview,
+                  name: child.name + getType(child.type),
+                  properties: getInterfaceProperties(child),
+                };
+
+                pack.interfaces.push(def);
+                break;
+              }
+
+              default: {
+                console.error(child);
+                throw new Error(`The type of '${child.name}' is not handled!`);
               }
             }
 

@@ -1,3 +1,3 @@
-export class Foo {
+export class FooClass {
   public bar = 'baz';
 }
