@@ -1,7 +1,6 @@
 /* eslint-disable max-depth */
 
 /* eslint-disable complexity */
-import crossSpawn from 'cross-spawn';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
@@ -21,6 +20,7 @@ import {
   UnionType,
 } from 'typedoc';
 
+import { getProjects } from './get-projects';
 import {
   SkyManifestClassDefinition,
   SkyManifestClassMethodDefinition,
@@ -28,6 +28,7 @@ import {
   SkyManifestDirectiveDefinition,
   SkyManifestPackage,
   SkyManifestParameterDefinition,
+  SkyManifestPipeDefinition,
 } from './types';
 
 interface DeclarationReflectionWithDecorators extends DeclarationReflection {
@@ -35,26 +36,6 @@ interface DeclarationReflectionWithDecorators extends DeclarationReflection {
 }
 
 const pluginPath = path.join(__dirname, './typedoc-plugin.mjs');
-
-function _exec(command: string, args: string[]): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const child = crossSpawn(command, args, { stdio: 'pipe' });
-
-    let stdout = '';
-
-    child.stdout?.on('data', (data) => {
-      stdout += data.toString();
-    });
-
-    child.on('error', (err) => {
-      reject(err);
-    });
-
-    child.on('exit', () => {
-      resolve(stdout);
-    });
-  });
-}
 
 type CodeExampleLanguage = 'markup' | 'typescript';
 
@@ -295,33 +276,55 @@ function getMethods(
 
   for (const child of decl.children) {
     if (child.kind === ReflectionKind.Method && !child.name.startsWith('ng')) {
-      const signature = child.signatures?.[0];
-
-      const {
-        codeExample,
-        codeExampleLanguage,
-        deprecationReason,
-        description,
-        isDeprecated,
-        isPreview,
-      } = getCommentMeta(signature?.comment);
-
-      methods.push({
-        codeExample,
-        codeExampleLanguage,
-        deprecationReason,
-        description,
-        isDeprecated,
-        isPreview,
-        isStatic: !!child.flags?.isStatic,
-        name: child.name,
-        parameters: getParameters(signature?.parameters),
-        returnType: getType(signature?.type),
-      });
+      methods.push(getMethod(child));
     }
   }
 
   return methods;
+}
+
+function getMethod(
+  decl: DeclarationReflection,
+): SkyManifestClassMethodDefinition {
+  const signature = decl.signatures?.[0];
+
+  const {
+    codeExample,
+    codeExampleLanguage,
+    deprecationReason,
+    description,
+    isDeprecated,
+    isPreview,
+  } = getCommentMeta(signature?.comment);
+
+  const method: SkyManifestClassMethodDefinition = {
+    codeExample,
+    codeExampleLanguage,
+    deprecationReason,
+    description,
+    isDeprecated,
+    isPreview,
+    isStatic: !!decl.flags?.isStatic,
+    name: decl.name,
+    parameters: getParameters(signature?.parameters),
+    returnType: getType(signature?.type),
+  };
+
+  return method;
+}
+
+function getPipeTransformMethod(
+  decl: DeclarationReflectionWithDecorators,
+): SkyManifestClassMethodDefinition {
+  if (decl.children) {
+    for (const child of decl.children) {
+      if (child.kind === ReflectionKind.Method && child.name === 'transform') {
+        return getMethod(child);
+      }
+    }
+  }
+
+  throw new Error(`Failed to find transform method for pipe: ${decl.name}`);
 }
 
 function getProperty(
@@ -425,7 +428,8 @@ function isInput(decl: DeclarationReflectionWithDecorators): boolean {
 function isOutput(decl: DeclarationReflectionWithDecorators): boolean {
   return (
     getDecorator(decl) === 'Output' ||
-    (decl.type instanceof ReferenceType && decl.type?.name === 'OutputSignal')
+    (decl.type instanceof ReferenceType &&
+      decl.type?.name === 'OutputEmitterRef')
   );
 }
 
@@ -486,17 +490,7 @@ function getSelector(
 }
 
 async function runTypeDoc(): Promise<void> {
-  // const output = await _exec('npx', [
-  //   'nx',
-  //   'show',
-  //   'projects',
-  //   '--projects',
-  //   'tag:component', // maybe add new tag named 'docs'?
-  //   '--json',
-  // ]);
-
-  // const projectNames = JSON.parse(output);
-  const projectNames = ['forms'];
+  const nxProjects = await getProjects();
 
   if (fs.existsSync('manifests')) {
     await fsPromises.rm('manifests', { recursive: true });
@@ -506,14 +500,13 @@ async function runTypeDoc(): Promise<void> {
 
   const packages = new Map<string, SkyManifestPackage>();
 
-  for (const projectName of projectNames) {
-    const projectRoot = `libs/components/${projectName}`;
+  for (const { entryPoints, projectName, projectRoot } of nxProjects) {
+    // const projectRoot = `libs/components/${projectName}`;
+
+    console.log(entryPoints, projectName, projectRoot);
 
     const app = await Application.bootstrapWithPlugins({
-      entryPoints: [
-        `${projectRoot}/src/index.ts`,
-        `${projectRoot}/testing/src/public-api.ts`,
-      ],
+      entryPoints,
       emit: 'docs',
       excludeExternals: true,
       excludeInternal: true,
@@ -530,15 +523,22 @@ async function runTypeDoc(): Promise<void> {
       externalPattern: [`!**/${projectRoot}/**`],
     });
 
-    const project = await app.convert();
+    const projectRefl = await app.convert();
 
-    if (project) {
-      const mainEntry = project.children?.[0];
+    if (projectRefl) {
+      const hasTestingEntryPoint = fs.existsSync(
+        path.normalize(entryPoints[1]),
+      );
+
+      let children: DeclarationReflectionWithDecorators[] | undefined;
+
+      if (hasTestingEntryPoint) {
+        children = projectRefl.children?.[0].children;
+      } else {
+        children = projectRefl.children;
+      }
+
       // const testingEntry = project.children?.[1];
-
-      const children = mainEntry?.children as
-        | DeclarationReflectionWithDecorators[]
-        | undefined;
 
       if (children) {
         for (const child of children) {
@@ -609,9 +609,24 @@ async function runTypeDoc(): Promise<void> {
                       outputs: getOutputs(child),
                     };
 
-                    console.log('directive', directive);
+                    console.log(directive);
 
                     pack.directives.push(directive);
+                    break;
+                  }
+
+                  case 'Pipe': {
+                    const pipe: SkyManifestPipeDefinition = {
+                      codeExample,
+                      codeExampleLanguage,
+                      deprecationReason,
+                      description,
+                      isDeprecated,
+                      isPreview,
+                      transformMethod: getPipeTransformMethod(child),
+                    };
+
+                    pack.pipes.push(pipe);
                     break;
                   }
                 }
@@ -631,6 +646,8 @@ async function runTypeDoc(): Promise<void> {
       // await app.generateJson(project, `manifests/${projectName}.json`);
       // Fix lambda names
       // Assign anchorIds
+    } else {
+      throw new Error(`Failed to create a TypeDoc project for ${projectName}.`);
     }
   }
 

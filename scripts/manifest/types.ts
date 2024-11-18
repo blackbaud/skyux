@@ -119,7 +119,7 @@ interface SkyManifestInterfaceDefinition extends SkyManifestJSDocsDefinition {
   typeParameters: SkyManifestTypeParameterDefinition[];
 }
 
-interface SkyManifestPipeDefinition extends SkyManifestJSDocsDefinition {
+export interface SkyManifestPipeDefinition extends SkyManifestJSDocsDefinition {
   transformMethod: SkyManifestClassMethodDefinition;
 }
 
