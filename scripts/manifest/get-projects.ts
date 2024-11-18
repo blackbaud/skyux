@@ -7,8 +7,8 @@ export interface ProjectDefinition {
   projectRoot: string;
 }
 
-// const ROOT_PATH = 'libs/components/';
-const ROOT_PATH = 'scripts/manifest/fixtures/libs/components/';
+const ROOT_PATH = 'libs/components/';
+// const ROOT_PATH = 'scripts/manifest/fixtures/libs/components/';
 
 function _exec(command: string, args: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -30,19 +30,20 @@ function _exec(command: string, args: string[]): Promise<string> {
 }
 
 export async function getProjects(): Promise<ProjectDefinition[]> {
-  // const output = await _exec('npx', [
-  //   'nx',
-  //   'show',
-  //   'projects',
-  //   '--projects',
-  //   'tag:component', // maybe add new tag named 'docs'?
-  //   '--json',
-  // ]);
+  const output = await _exec('npx', [
+    'nx',
+    'show',
+    'projects',
+    '--projects',
+    'tag:component', // maybe add new tag named 'docs'?
+    '--json',
+  ]);
 
-  // const projectNames = JSON.parse(output);
+  const projectNames = JSON.parse(output);
+
+  // const projectNames = ['config'];
 
   const projects: ProjectDefinition[] = [];
-  const projectNames = ['foo'];
 
   for (const projectName of projectNames) {
     const projectRoot = `${ROOT_PATH}${projectName}`;

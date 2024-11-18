@@ -11,13 +11,14 @@ import {
   DeclarationReflection,
   IntrinsicType,
   LiteralType,
+  MappedType,
   ParameterReflection,
   ReferenceType,
   Reflection,
   ReflectionKind,
   ReflectionType,
-  SignatureReflection,
   SomeType,
+  TypeOperatorType,
   UnionType,
 } from 'typedoc';
 
@@ -36,6 +37,7 @@ import {
   SkyManifestParameterDefinition,
   SkyManifestPipeDefinition,
   SkyManifestTypeAliasDefinition,
+  SkyManifestVariableDefinition,
 } from './types';
 
 interface DeclarationReflectionWithDecorators extends DeclarationReflection {
@@ -223,6 +225,18 @@ function getType(type: SomeType | undefined): string {
 
     if (type instanceof UnionType) {
       return type.types.map((t) => getType(t)).join(' | ');
+    }
+
+    if (type instanceof TypeOperatorType) {
+      if (type.target instanceof ReferenceType) {
+        return `${type.operator} ${type.target.name}`;
+      }
+    }
+
+    if (type instanceof MappedType) {
+      // console.error('\nUnhandled MappedType!', type, type.parameterType);
+      // return '______MappedType______';
+      return type.parameter;
     }
 
     console.error(type);
@@ -628,6 +642,8 @@ async function runTypeDoc(): Promise<void> {
     const projectRefl = await app.convert();
 
     if (projectRefl) {
+      process.stdout.write(`Creating manifest for ${projectName}...`);
+
       const hasTestingEntryPoint = fs.existsSync(
         path.normalize(entryPoints[1]),
       );
@@ -666,6 +682,7 @@ async function runTypeDoc(): Promise<void> {
                 pipes: [],
                 services: [],
                 typeAliases: [],
+                variables: [],
               } satisfies SkyManifestPackage);
 
             const {
@@ -825,6 +842,22 @@ async function runTypeDoc(): Promise<void> {
                 break;
               }
 
+              case ReflectionKind.Variable: {
+                const def: SkyManifestVariableDefinition = {
+                  codeExample,
+                  codeExampleLanguage,
+                  deprecationReason,
+                  description,
+                  isDeprecated,
+                  isPreview,
+                  name: child.name,
+                  type: getType(child.type),
+                };
+
+                pack.variables.push(def);
+                break;
+              }
+
               default: {
                 console.error(child);
                 throw new Error(`The type of '${child.name}' is not handled!`);
@@ -832,14 +865,19 @@ async function runTypeDoc(): Promise<void> {
             }
 
             packages.set(`${packageName}:${groupName}`, pack);
+            await fsPromises.writeFile(
+              `manifests/${projectName}.json`,
+              JSON.stringify(pack, undefined, 2),
+            );
           }
         }
       }
 
+      // console.error(`Created manifest for ${projectName}.`);
+      // await app.generateJson(pack, `manifests/${projectName}.json`);
       // if (testingEntry?.children) {
       //   packages[`@skyux/${projectName}/testing`] = {};
       // }
-      // await app.generateJson(project, `manifests/${projectName}.json`);
       // Fix lambda names
       // Assign anchorIds
     } else {

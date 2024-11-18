@@ -146,6 +146,12 @@ export interface SkyManifestTypeAliasDefinition
   type: string;
 }
 
+export interface SkyManifestVariableDefinition
+  extends SkyManifestJSDocsDefinition {
+  name: string;
+  type: string;
+}
+
 export interface SkyManifestPackage {
   classes: SkyManifestClassDefinition[];
   components: SkyManifestDirectiveDefinition[];
@@ -157,6 +163,7 @@ export interface SkyManifestPackage {
   pipes: SkyManifestPipeDefinition[];
   services: SkyManifestClassDefinition[];
   typeAliases: SkyManifestTypeAliasDefinition[];
+  variables: SkyManifestVariableDefinition[];
 }
 
 /**
