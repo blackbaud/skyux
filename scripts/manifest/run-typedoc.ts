@@ -14,6 +14,7 @@ import {
   LiteralType,
   ParameterReflection,
   ReferenceType,
+  Reflection,
   ReflectionKind,
   ReflectionType,
   SomeType,
@@ -91,18 +92,6 @@ function getCommentMeta(comment: Comment | undefined): {
               .map((item) => item.text)
               .join('')
               .trim();
-
-            // TypeDoc sometimes wraps default values in code blocks.
-            if (defaultValue.includes('```')) {
-              defaultValue = defaultValue.split('\n')[1];
-            }
-
-            // TypeDoc version 0.20.x stopped auto-generating initializers for the default value
-            // (and replaced them with "...") due to the complicated logic it required.
-            // See: https://github.com/TypeStrong/typedoc/issues/1552
-            if (defaultValue === '...') {
-              defaultValue = '';
-            }
 
             break;
           }
@@ -250,17 +239,26 @@ function getType(type: SomeType | undefined): string {
   return 'unknown';
 }
 
-// function getTypeParameterDefinitions(
-//   typeParameters: SomeType[] | undefined,
-// ): SkyManifestTypeParameterDefinition[] {
-//   if (!typeParameters) {
-//     return [];
-//   }
+function getDefaultValue(
+  refl: Reflection & { defaultValue?: string },
+  defaultValue?: string,
+): string {
+  defaultValue = (defaultValue || refl.defaultValue) ?? '';
 
-//   return typeParameters.map((typeParam) => {
-//     return getTypeDefinition(typeParam);
-//   });
-// }
+  // TypeDoc sometimes wraps default values in code blocks.
+  if (defaultValue.includes('```')) {
+    defaultValue = defaultValue.split('\n')[1];
+  }
+
+  // TypeDoc version 0.20.x stopped auto-generating initializers for the default value
+  // (and replaced them with "...") due to the complicated logic it required.
+  // See: https://github.com/TypeStrong/typedoc/issues/1552
+  if (defaultValue === '...') {
+    defaultValue = '';
+  }
+
+  return defaultValue;
+}
 
 function getParameters(
   refl: ParameterReflection[] | undefined,
@@ -275,7 +273,7 @@ function getParameters(
     const { defaultValue, description } = getCommentMeta(param.comment);
 
     parameters.push({
-      defaultValue,
+      defaultValue: getDefaultValue(param, defaultValue),
       description,
       isOptional: !!param.flags?.isOptional,
       name: param.name,
@@ -348,7 +346,7 @@ function getProperty(
       codeExampleLanguage,
       deprecationReason,
       description,
-      defaultValue,
+      defaultValue: getDefaultValue(decl, defaultValue),
       isDeprecated,
       isPreview,
       isOptional: !isRequired,
@@ -376,7 +374,7 @@ function getProperty(
       codeExampleLanguage,
       deprecationReason,
       description,
-      defaultValue: decl.defaultValue ?? defaultValue,
+      defaultValue: getDefaultValue(decl, defaultValue),
       isDeprecated,
       isPreview,
       isOptional: !isRequired && decl.defaultValue === undefined,
@@ -390,7 +388,6 @@ function getProperty(
 
 function getProperties(
   decl: DeclarationReflectionWithDecorators,
-  // withDecorator?: 'Input' | 'Output',
 ): SkyManifestClassPropertyDefinition[] {
   if (!decl.children) {
     return [];
@@ -404,11 +401,6 @@ function getProperties(
   }
 
   for (const child of children) {
-    // TODO: How to handle 'input' signals?
-    // if (withDecorator !== getDecorator(child)) {
-    //   continue;
-    // }
-
     if (isInput(child) || isOutput(child)) {
       continue;
     }
@@ -504,7 +496,7 @@ async function runTypeDoc(): Promise<void> {
   // ]);
 
   // const projectNames = JSON.parse(output);
-  const projectNames = ['pages'];
+  const projectNames = ['forms'];
 
   if (fs.existsSync('manifests')) {
     await fsPromises.rm('manifests', { recursive: true });
