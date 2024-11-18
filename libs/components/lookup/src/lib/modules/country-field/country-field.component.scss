@@ -1,11 +1,53 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @import 'node_modules/intl-tel-input/build/css/intlTelInput.css';
 
-@mixin sky-country-field-textarea {
-  overflow: hidden;
-  resize: none;
-  white-space: nowrap;
+@include compatMixins.sky-default-overrides('.sky-country-field-container') {
+  --sky-override-country-field-max-width: 25px;
+  --sky-override-country-field-max-height: 13px;
+  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
+  --sky-override-country-field-input-box-flag-left: 13px;
+  --sky-override-country-field-input-box-flag-height: 35px;
+  --sky-override-country-field-input-box-form-control-padding-left: 40px;
+  --sky-override-country-field-disabled-flag-filter: none;
+  --sky-override-country-field-disabled-flag-opacity: 0.65;
+  --sky-override-country-field-disabled-input-background-color: #{$sky-background-color-disabled};
+  --sky-override-country-field-flag-bottom: 0;
+}
+
+@include compatMixins.sky-default-overrides(
+  '.sky-autocomplete-result:has(.sky-country-field-search-result-flag)'
+) {
+  --sky-override-country-field-max-width: 25px;
+  --sky-override-country-field-max-height: 13px;
+  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
+  --sky-override-country-field-search-result-info-padding-left: 29px;
+  --sky-override-country-field-search-result-dial-code-padding-left: 0;
+}
+
+@include compatMixins.sky-modern-overrides(
+  '.sky-country-field-container',
+  false
+) {
+  --sky-override-country-field-max-width: 25px;
+  --sky-override-country-field-max-height: 13px;
+  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
+  --sky-override-country-field-input-box-flag-left: 15px;
+  --sky-override-country-field-input-box-flag-height: 40px;
+  --sky-override-country-field-input-box-form-control-padding-left: 45px;
+  --sky-override-country-field-flag-bottom: 0;
+}
+
+@include compatMixins.sky-modern-overrides(
+  '.sky-autocomplete-result:has(.sky-country-field-search-result-flag)',
+  false
+) {
+  --sky-override-country-field-max-width: 25px;
+  --sky-override-country-field-max-height: 13px;
+  --sky-override-country-field-transform: scaleX(1.25) translateX(2px);
+  --sky-override-country-field-search-result-info-padding-left: 29px;
+  --sky-override-country-field-search-result-dial-code-padding-left: 0;
 }
 
 .sky-country-field-country-btn + .sky-form-control {
@@ -16,9 +58,30 @@
   width: 100%;
 }
 
+.sky-autocomplete-result:has(.sky-country-field-search-result-flag) {
+  position: relative;
+}
+
 .sky-country-field-search-result-flag {
-  display: inline-block;
-  margin-right: 9px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+}
+
+.sky-country-field-search-result-info {
+  padding-left: var(
+    --sky-override-country-field-search-result-info-padding-left,
+    calc(var(--sky-size-icon-s) + var(--sky-space-gap-icon-m))
+  );
+}
+
+.sky-country-field-search-result-dial-code {
+  padding-left: var(
+    --sky-override-country-field-search-result-dial-code-padding-left,
+    var(--sky-space-gap-label-s)
+  );
 }
 
 .sky-country-field-flag {
@@ -28,9 +91,13 @@
 .sky-country-field-disabled {
   .sky-country-field-input {
     cursor: default;
-    background-color: $sky-background-color-disabled;
+    background-color: var(
+      --sky-override-country-field-disabled-input-background-color,
+      transparent
+    );
   }
 
+  // NOTE: This rule is set for non-input box country fields. Remove when support for this is fully removed.
   .sky-country-field-flag {
     opacity: 0.65;
   }
@@ -46,13 +113,17 @@
     margin-bottom: auto;
     margin-top: auto;
     position: absolute;
+
+    // NOTE: These styles are set for non-input box country fields. Remove when support for this is fully removed.
+    bottom: 0;
     left: 13px;
     height: 35px;
-    bottom: 0;
   }
 
   textarea {
-    @include sky-country-field-textarea;
+    overflow: hidden;
+    resize: none !important;
+    white-space: nowrap;
   }
 }
 
@@ -61,55 +132,69 @@
     display: flex;
   }
 
+  // NOTE: This rule is set for non-input box country fields. Remove when support for this is fully removed.
   .sky-form-control {
     padding-left: 40px;
   }
 }
 
-.sky-country-field-country-selected,
-.sky-country-field-country-default {
-  @include mixins.sky-border(light, bottom);
-}
-
+// NOTE: These rules are set for non-input box country fields. Remove when support for this is fully removed.
 :host(.ng-invalid.ng-touched) .sky-country-field-input textarea {
-  @include mixins.sky-field-status(invalid);
+  box-shadow: 0 0 8px rgba($sky-highlight-color-danger, 0.6);
+  border: 1px solid var(--sky-highlight-color-danger);
+  outline: none;
 }
 
-.sky-theme-modern {
-  .sky-country-field-disabled {
+.sky-country-field-disabled {
+  .sky-country-field-flag {
+    filter: var(
+      --sky-override-country-field-disabled-flag-filter,
+      grayscale(100%)
+    );
+  }
+}
+
+.sky-input-box .sky-form-group {
+  .sky-country-field-input-with-flag {
     .sky-country-field-flag {
-      filter: grayscale(100%);
+      height: var(
+        --sky-override-country-field-input-box-flag-height,
+        calc(
+          var(--sky-font-line_height-input-val) * var(--sky-font-size-input-val)
+        )
+      );
+      left: var(
+        --sky-override-country-field-input-box-flag-left,
+        var(--sky-space-inset-input-left-m)
+      );
+      bottom: var(
+        --sky-override-country-field-flag-bottom,
+        var(--sky-space-inset-input-bottom-m)
+      );
     }
-  }
 
-  .sky-input-box .sky-form-group {
-    .sky-country-field-input {
-      background-color: transparent;
-      border-radius: $sky-theme-modern-box-border-radius-default;
-
-      textarea.sky-form-control {
-        @include sky-country-field-textarea;
-      }
-    }
-
-    .sky-country-field-input-with-flag {
+    .sky-country-field-disabled {
       .sky-country-field-flag {
-        height: 40px;
-        left: 15px;
-        opacity: 1;
+        opacity: var(--sky-override-country-field-disabled-flag-opacity, 1);
       }
+    }
 
-      .sky-form-control {
-        padding-left: 45px;
-      }
+    .sky-form-control {
+      padding-left: var(
+        --sky-override-country-field-input-box-form-control-padding-left,
+        calc(
+          var(--sky-space-inset-input-left-m) + var(--sky-size-icon-s) +
+            var(--sky-space-gap-icon-m)
+        )
+      );
     }
   }
 }
 
-.sky-country-field-search-result-flag,
+.sky-country-field-search-result-flag .iti__flag,
 .sky-country-field-flag .iti__flag {
-  max-width: 25px;
-  max-height: 13px;
   background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/1.0.0-beta.4/assets/images/intl-tel-input/flags@2x.webp) !important;
-  transform: scaleX(1.25) translateX(2px);
+  max-width: var(--sky-override-country-field-max-width, inherit);
+  max-height: var(--sky-override-country-field-max-height, inherit);
+  transform: var(--sky-override-country-field-transform, inherit);
 }
