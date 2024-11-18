@@ -5,13 +5,13 @@
   as modernMixins;
 
 @include compatMixins.sky-modern-overrides('.sky-help-inline') {
+  --sky-override-help-inline-border-radius: var(--modern-size-3);
   --sky-override-help-inline-color-hover: #{darken(
       $sky-background-color-primary-dark,
       10%
     )};
-  --sky-override-help-inline-padding-sides: var(--modern-size-6);
-  --sky-override-help-inline-border-radius: var(--modern-size-3);
   --sky-override-help-inline-font-size: #{$sky-font-size-base};
+  --sky-override-help-inline-padding-sides: var(--modern-size-6);
 }
 
 @include compatMixins.sky-modern-v2('.sky-help-inline') {
