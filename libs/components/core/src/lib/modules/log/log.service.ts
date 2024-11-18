@@ -98,7 +98,6 @@ export class SkyLogService {
 
       this.#logBasedOnLevel(logLevel, messageParts.join(' '));
     }
-    return Promise.resolve();
   }
 
   /**

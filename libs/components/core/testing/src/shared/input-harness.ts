@@ -9,28 +9,28 @@ export class SkyInputHarness extends ComponentHarness {
    * Blurs the input.
    */
   public async blur(): Promise<void> {
-    return (await this.host()).blur();
+    await (await this.host()).blur();
   }
 
   /**
    * Clears the input value.
    */
   public async clear(): Promise<void> {
-    return (await this.host()).clear();
+    await (await this.host()).clear();
   }
 
   /**
    * Focuses the input.
    */
   public async focus(): Promise<void> {
-    return (await this.host()).focus();
+    await (await this.host()).focus();
   }
 
   /**
    * Gets the value of the input.
    */
   public async getValue(): Promise<string> {
-    return (await this.host()).getProperty('value');
+    return await (await this.host()).getProperty('value');
   }
 
   /**
@@ -45,7 +45,7 @@ export class SkyInputHarness extends ComponentHarness {
    * Whether the input is focused.
    */
   public async isFocused(): Promise<boolean> {
-    return (await this.host()).isFocused();
+    return await (await this.host()).isFocused();
   }
 
   /**

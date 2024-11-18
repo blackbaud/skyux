@@ -4,6 +4,7 @@ import {
   formatFiles,
   generateFiles,
   getProjects,
+  joinPathFragments,
   readJson,
   updateJson,
   updateProjectConfiguration,
@@ -75,19 +76,40 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
     ...rootPackageJson.devDependencies,
   };
   if (tree.exists('libs/components/packages/package.json')) {
+    const excludedPackages = ['@skyux/packages', 'skyux-eslint'];
+    const npmPackages = Array.from(getProjects(tree).values())
+      .filter((project) => !!project.tags?.includes('npm'))
+      .map(
+        (project) =>
+          readJson(tree, joinPathFragments(project.root, 'package.json')).name,
+      )
+      .filter(Boolean)
+      .map(String);
     updateJson(tree, 'libs/components/packages/package.json', (json) => {
-      const packageGroup = Object.entries<string>(
-        json['ng-update']['packageGroup'],
-      );
-      packageGroup.forEach(([name, version]) => {
-        if (version !== '0.0.0-PLACEHOLDER') {
+      const packageGroup = Object.entries<string>({
+        ...json['ng-update']['packageGroup'],
+      })
+        .concat(npmPackages.map((name) => [name, '0.0.0-PLACEHOLDER']))
+        .filter(
+          ([name], index, list) =>
+            !excludedPackages.includes(name) &&
+            index === list.findIndex(([n]) => n === name),
+        );
+      packageGroup.forEach(([name, version], index) => {
+        if (!npmPackages.includes(name)) {
           const rootVersion = rootPackageJsonDependencies[name];
           const prefix = version.match(`^[~^]`) ? version.charAt(0) : '';
           if (rootVersion) {
-            json['ng-update']['packageGroup'][name] = `${prefix}${rootVersion}`;
+            packageGroup[index][1] = `${prefix}${rootVersion}`;
           }
         }
       });
+      packageGroup.sort(([a], [b]) => a.localeCompare(b));
+      // @skyux/packages is first so it shows when running ng update.
+      json['ng-update']['packageGroup'] = {
+        '@skyux/packages': '0.0.0-PLACEHOLDER',
+        ...Object.fromEntries(packageGroup),
+      };
       return json;
     });
   }

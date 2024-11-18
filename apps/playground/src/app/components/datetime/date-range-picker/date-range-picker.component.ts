@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import {
@@ -15,6 +17,25 @@ import {
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { LocaleProvider } from './locale-provider';
+
+function dateRangeExcludesWeekend(
+  control: AbstractControl,
+): ValidationErrors | null {
+  const startDate = control.value.startDate;
+  const endDate = control.value.endDate;
+
+  const isWeekend = (value: unknown): boolean => {
+    return (
+      value instanceof Date && (value.getDay() === 6 || value.getDay() === 0)
+    );
+  };
+
+  if (isWeekend(startDate) || isWeekend(endDate)) {
+    return { dateWeekend: true };
+  }
+
+  return null;
+}
 
 @Component({
   imports: [
@@ -37,9 +58,9 @@ export class DateRangePickerComponent {
   protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
   protected dateFormat: string | undefined;
   protected hintText: string | undefined;
-  protected lastDonationControl = new FormControl<SkyDateRangeCalculation>({
-    calculatorId: SkyDateRangeCalculatorId.Today,
-  });
+  protected lastDonationControl = new FormControl<
+    SkyDateRangeCalculation | string
+  >('', [dateRangeExcludesWeekend]);
 
   protected formGroup = inject(FormBuilder).group({
     lastDonation: this.lastDonationControl,

@@ -61,7 +61,7 @@ describe('Lookup component', function () {
     fixture: ComponentFixture<any>,
   ): Promise<void> {
     clickShowMoreBase(fixture);
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   function clickSearchButton(
@@ -417,7 +417,7 @@ describe('Lookup component', function () {
     fixture: ComponentFixture<any>,
   ): Promise<void> {
     selectShowOnlySelectedBase(fixture);
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   function selectShowMoreItemMultiple(
@@ -517,7 +517,7 @@ describe('Lookup component', function () {
       modalContent.scrollTop = newYPosition ?? modalContent.scrollHeight;
       SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
       fixture.detectChanges();
-      return fixture.whenStable();
+      await fixture.whenStable();
     }
   }
 

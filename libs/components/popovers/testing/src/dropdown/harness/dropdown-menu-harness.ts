@@ -38,14 +38,14 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * Gets the `aria-labelledby` value.
    */
   public async getAriaLabelledBy(): Promise<string | null> {
-    return (await this.host()).getAttribute('aria-labelledby');
+    return await (await this.host()).getAttribute('aria-labelledby');
   }
 
   /**
    * Gets the dropdown menu role.
    */
   public async getAriaRole(): Promise<string | null> {
-    return (await this.host()).getAttribute('role');
+    return await (await this.host()).getAttribute('role');
   }
 
   /**

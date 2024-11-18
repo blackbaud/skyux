@@ -302,7 +302,6 @@ export class SkyAgGridWrapperComponent
     }
   }
 
-  // eslint-disable-next-line complexity
   public onAnchorFocus(event: FocusEvent): void {
     const relatedTarget = event.relatedTarget as HTMLElement | undefined;
     const previousWasGrid =

@@ -30,7 +30,7 @@ export class SkyProgressIndicatorItemHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
@@ -61,9 +61,9 @@ export class SkyProgressIndicatorItemHarness extends SkyComponentHarness {
    * Whether the indicator item step is completed.
    */
   public async isCompleted(): Promise<boolean> {
-    return (await this.#getIndicator()).hasClass(
-      'sky-progress-indicator-status-marker-status-complete',
-    );
+    return await (
+      await this.#getIndicator()
+    ).hasClass('sky-progress-indicator-status-marker-status-complete');
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

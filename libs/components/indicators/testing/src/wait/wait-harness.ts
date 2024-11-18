@@ -62,13 +62,17 @@ export class SkyWaitHarness extends SkyComponentHarness {
    * Gets the full page state of the wait component.
    */
   public async isFullPage(): Promise<boolean> {
-    return (await this.#getWaitContainer()).hasClass('sky-wait-full-page');
+    return await (
+      await this.#getWaitContainer()
+    ).hasClass('sky-wait-full-page');
   }
 
   /**
    * Gets the blocking state of the wait component.
    */
   public async isNonBlocking(): Promise<boolean> {
-    return (await this.#getWaitContainer()).hasClass('sky-wait-non-blocking');
+    return await (
+      await this.#getWaitContainer()
+    ).hasClass('sky-wait-non-blocking');
   }
 }

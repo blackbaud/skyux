@@ -1,6 +1,14 @@
+const tsEslint = require('typescript-eslint');
+
 module.exports = [
   {
     files: ['**/*.ts'],
+    languageOptions: {
+      parser: tsEslint.parser,
+      parserOptions: {
+        projectService: true,
+      },
+    },
     rules: {
       '@typescript-eslint/no-empty-function': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -11,6 +19,8 @@ module.exports = [
         'error',
         { overrides: { constructors: 'no-public' } },
       ],
+      'no-return-await': 'off',
+      '@typescript-eslint/return-await': ['error', 'always'],
       complexity: ['warn', { max: 10 }],
       curly: 'error',
       eqeqeq: ['error', 'always'],

@@ -10,7 +10,7 @@ describe('Harness utility', () => {
     const el: Partial<TestElement> = {
       getCssValue: async (property) => {
         if (property === 'background-image') {
-          return Promise.resolve(imageCss);
+          return await Promise.resolve(imageCss);
         }
 
         return '';

@@ -48,7 +48,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**
@@ -79,7 +79,7 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getLegendHeading()).text();
+    return await (await this.#getLegendHeading()).text();
   }
 
   /**
@@ -95,7 +95,9 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    return (await this.#getHeadingWrapper()).hasClass('sky-screen-reader-only');
+    return await (
+      await this.#getHeadingWrapper()
+    ).hasClass('sky-screen-reader-only');
   }
 
   /**
@@ -168,14 +170,14 @@ export class SkyCheckboxGroupHarness extends SkyComponentHarness {
    * Whether all the checkboxes in a required group are unchecked.
    */
   public async hasRequiredError(): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError('required');
+    return await (await this.#getFormErrors()).hasError('required');
   }
 
   /**
    * Whether the checkbox group has errors.
    */
   public async hasError(errorName: string): Promise<boolean> {
-    return (await this.#getFormErrors()).hasError(errorName);
+    return await (await this.#getFormErrors()).hasError(errorName);
   }
 
   async #getFormErrors(): Promise<SkyFormErrorsHarness> {

@@ -42,9 +42,9 @@ export class SkyCountryFieldFixture {
     return this.#getInputElement().value;
   }
 
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
@@ -64,11 +64,13 @@ export class SkyCountryFieldFixture {
       this.#fixture,
     );
     const resultArray = Array.prototype.slice.call(resultNodes);
-    const results = resultArray.map((result: HTMLElement) => {
-      const countryNameEl = result.querySelector('.sky-highlight-mark');
-      const countryName = SkyAppTestUtility.getText(countryNameEl)!;
-      return countryName;
-    });
+    const results = resultArray
+      .map((result) => {
+        const countryNameEl = result.querySelector('.sky-highlight-mark');
+        const countryName = SkyAppTestUtility.getText(countryNameEl);
+        return countryName;
+      })
+      .filter((result) => result !== undefined);
 
     this.#fixture.detectChanges();
     await this.#fixture.whenStable();
@@ -84,17 +86,17 @@ export class SkyCountryFieldFixture {
     await this.#searchAndSelect(searchText, 0, this.#fixture);
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   /**
    * Clears the country selection and input field.
    */
-  public clear(): Promise<void> {
+  public async clear(): Promise<void> {
     this.#enterSearch('', this.#fixture);
 
     this.#fixture.detectChanges();
-    return this.#fixture.whenStable();
+    await this.#fixture.whenStable();
   }
 
   //#region helpers
@@ -112,15 +114,16 @@ export class SkyCountryFieldFixture {
     return debugEl.nativeElement as HTMLTextAreaElement;
   }
 
-  #blurInput(fixture: ComponentFixture<any>): Promise<void> {
+  async #blurInput(fixture: ComponentFixture<unknown>): Promise<void> {
     SkyAppTestUtility.fireDomEvent(this.#getInputElement(), 'blur');
+
     fixture.detectChanges();
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
-  #enterSearch(
+  async #enterSearch(
     newValue: string,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
   ): Promise<void> {
     const inputElement = this.#getInputElement();
     inputElement.value = newValue;
@@ -128,12 +131,12 @@ export class SkyCountryFieldFixture {
     SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
     fixture.detectChanges();
-    return fixture.whenStable();
+    await fixture.whenStable();
   }
 
   async #searchAndGetResults(
     newValue: string,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
   ): Promise<NodeListOf<HTMLElement>> {
     await this.#enterSearch(newValue, fixture);
     fixture.detectChanges();
@@ -146,7 +149,7 @@ export class SkyCountryFieldFixture {
   async #searchAndSelect(
     newValue: string,
     index: number,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<unknown>,
   ): Promise<void> {
     const inputElement = this.#getInputElement();
     const searchResults = await this.#searchAndGetResults(newValue, fixture);
