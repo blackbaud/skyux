@@ -134,7 +134,7 @@ export class SkyStatusIndicatorHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    return await (await this.#getHelpInline()).click();
   }
 
   /**
