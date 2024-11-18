@@ -214,7 +214,8 @@ function getType(type: SomeType | undefined): string {
       return type.types.map((t) => getType(t)).join(' | ');
     }
 
-    console.error('UNHANDLED TYPE:', type);
+    console.error(type);
+    throw new Error('^^^^ UNHANDLED TYPE!');
   }
 
   return 'unknown';
@@ -500,11 +501,12 @@ async function runTypeDoc(): Promise<void> {
 
   const packages = new Map<string, SkyManifestPackage>();
 
-  for (const { entryPoints, projectName, projectRoot } of nxProjects) {
-    // const projectRoot = `libs/components/${projectName}`;
-
-    console.log(entryPoints, projectName, projectRoot);
-
+  for (const {
+    entryPoints,
+    packageName,
+    projectName,
+    projectRoot,
+  } of nxProjects) {
     const app = await Application.bootstrapWithPlugins({
       entryPoints,
       emit: 'docs',
@@ -542,7 +544,6 @@ async function runTypeDoc(): Promise<void> {
 
       if (children) {
         for (const child of children) {
-          const packageName = `@skyux/${projectName}`;
           const fileName = child.sources?.[0].fullFileName;
 
           if (fileName && !fileName.endsWith('/index.ts')) {
@@ -609,9 +610,26 @@ async function runTypeDoc(): Promise<void> {
                       outputs: getOutputs(child),
                     };
 
-                    console.log(directive);
-
                     pack.directives.push(directive);
+                    break;
+                  }
+
+                  case 'NgModule': {
+                    const def: SkyManifestClassDefinition = {
+                      codeExample,
+                      codeExampleLanguage,
+                      deprecationReason,
+                      description,
+                      isDeprecated,
+                      isPreview,
+                      methods: getMethods(child),
+                      name: child.name,
+                      properties: getProperties(child),
+                    };
+
+                    console.log('module', def);
+
+                    pack.modules.push(def);
                     break;
                   }
 
@@ -627,6 +645,25 @@ async function runTypeDoc(): Promise<void> {
                     };
 
                     pack.pipes.push(pipe);
+                    break;
+                  }
+
+                  default: {
+                    const cls: SkyManifestClassDefinition = {
+                      codeExample,
+                      codeExampleLanguage,
+                      deprecationReason,
+                      description,
+                      isDeprecated,
+                      isPreview,
+                      methods: getMethods(child),
+                      name: child.name,
+                      properties: getProperties(child),
+                    };
+
+                    console.log('class', cls);
+
+                    pack.classes.push(cls);
                     break;
                   }
                 }

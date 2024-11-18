@@ -2,6 +2,7 @@ import crossSpawn from 'cross-spawn';
 
 export interface ProjectDefinition {
   entryPoints: string[];
+  packageName: string;
   projectName: string;
   projectRoot: string;
 }
@@ -51,6 +52,7 @@ export async function getProjects(): Promise<ProjectDefinition[]> {
         `${projectRoot}/src/index.ts`,
         `${projectRoot}/testing/src/public-api.ts`,
       ],
+      packageName: `@skyux/${projectName}`,
       projectName,
       projectRoot,
     });
