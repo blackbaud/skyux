@@ -6,19 +6,19 @@
   --sky-override-radio-icon-border-radius: 50%;
   --sky-override-radio-icon-color-disabled: #{$sky-color-black};
   --sky-override-radio-icon-color-selected: #{$sky-color-black};
-  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
   --sky-override-radio-icon-size: 10px;
+  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
 }
 
 @include compatMixins.sky-default-host-overrides() {
+  --sky-override-radio-group-radio-bottom-margin: var(--sky-margin-stacked-sm);
   --sky-override-radio-hint-text-inset: var(--sky-margin-stacked-xs) 0 0
     calc(var(--sky-switch-size) + var(--sky-switch-margin));
-  --sky-override-radio-group-radio-bottom-margin: var(--sky-margin-stacked-sm);
 }
 
 @include compatMixins.sky-modern-overrides('.sky-radio-outer-wrapper') {
-  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
   --sky-override-radio-icon-color-selected: var(--sky-color-icon-action);
+  --sky-override-radio-label-margin-right: var(--sky-margin-inline-xs);
 }
 
 :host:has(.sky-switch-control-icon) {

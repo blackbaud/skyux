@@ -2,9 +2,9 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-radio-group') {
-  --sky-override-radio-group-hint-text-space: #{$sky-space-xs};
   --sky-override-radio-group-content-space: #{$sky-space-sm};
   --sky-override-radio-group-content-with-hint-text-space: #{$sky-space-md};
+  --sky-override-radio-group-hint-text-space: #{$sky-space-xs};
 
   .sky-radio-group-legend {
     .sky-radio-group-heading-text {

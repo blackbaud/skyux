@@ -2,26 +2,26 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-sort-item') {
-  --sky-override-sort-item-color-selected: inherit;
-  --sky-override-sort-item-border-left-selected: none;
   --sky-override-sort-item-active-class-background: #{$sky-background-color-neutral-light};
+  --sky-override-sort-item-border-left-selected: none;
   --sky-override-sort-item-border-radius: 0px;
   --sky-override-sort-item-box-shadow: none;
   --sky-override-sort-item-color-background: transparent;
   --sky-override-sort-item-color-selected: #{$sky-background-color-selected};
+  --sky-override-sort-item-color-selected: inherit;
   --sky-override-sort-item-color-text: #{$sky-text-color-default};
   --sky-override-sort-item-focus-visible-background: #{$sky-background-color-neutral-light};
   --sky-override-sort-item-font-weight-selected: 600;
   --sky-override-sort-item-hover-background: #{$sky-background-color-neutral-light};
+  --sky-override-sort-item-margin: 4px;
   --sky-override-sort-item-padding: 3px #{$sky-padding-double};
   --sky-override-sort-item-padding-left-selected: #{$sky-padding-double};
   --sky-override-sort-item-padding-selected: 4px;
-  --sky-override-sort-item-margin: 4px;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-sort-item', false) {
-  --sky-override-sort-item-color-selected: transparent;
   --sky-override-sort-item-width-border-selected: var(--modern-size-3);
+  --sky-override-sort-item-color-selected: transparent;
 }
 
 .sky-sort-item {

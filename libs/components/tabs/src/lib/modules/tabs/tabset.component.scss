@@ -2,19 +2,19 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('sky-tabset') {
-  --sky-override-tabset-padding: 0 0 0
-    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
-  --sky-override-tabset-button-group-padding-left: #{$sky-padding};
-  --sky-override-tabset-button-margin-right: 5px;
   --sky-override-tabset-border-bottom: #{2px solid
     $sky-background-color-primary-dark};
-  --sky-override-tabset-wizard-border-bottom: none;
   --sky-override-tabset-button-color: #{$sky-text-color-action-primary};
+  --sky-override-tabset-button-group-padding-left: #{$sky-padding};
+  --sky-override-tabset-button-margin-right: 5px;
   --sky-override-tabset-modal-margin: #{0 (-$sky-space-lg) $sky-space-xl};
-  --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
   --sky-override-tabset-modal-padding-left: #{$sky-space-lg};
   --sky-override-tabset-modal-padding-none: 0;
   --sky-override-tabset-overflow: hidden;
+  --sky-override-tabset-padding: 0 0 0
+    var(--sky-layout-host-tab-content-spacing, #{$sky-padding-plus-half});
+  --sky-override-tabset-wizard-border-bottom: none;
+  --sky-override-tabset-wizard-modal-margin: #{0 0 $sky-space-xl};
 }
 
 @include compatMixins.sky-modern-v2('sky-tabset', false) {

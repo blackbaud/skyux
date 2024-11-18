@@ -2,21 +2,21 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('sky-tab-button') {
+  --sky-override-closeable-tab-padding-right: 43px;
+  --sky-override-tab-close-active-hover-color: #fff;
+  --sky-override-tab-close-color: #{$sky-text-color-deemphasized};
+  --sky-override-tab-close-hover-color: #{$sky-text-color-default};
   --sky-override-tab-close-padding: 1px 6px;
   --sky-override-tab-close-position-right: 10px;
   --sky-override-tab-close-position-top: 10px;
-  --sky-override-tab-close-color: #{$sky-text-color-deemphasized};
-  --sky-override-tab-close-hover-color: #{$sky-text-color-default};
-  --sky-override-tab-close-active-hover-color: #fff;
   --sky-override-tab-margin-right: #{$sky-margin-inline-compact};
-  --sky-override-closeable-tab-padding-right: 43px;
 }
 
 @include compatMixins.sky-modern-overrides('sky-tab-button', false) {
-  --sky-override-tab-close-padding: var(--modern-size-1) var(--modern-size-6);
-  --sky-override-tab-close-position-top: var(--modern-size-12);
-  --sky-override-tab-close-position-right: var(--modern-size-10);
   --sky-override-closeable-tab-padding-right: 44px;
+  --sky-override-tab-close-padding: var(--modern-size-1) var(--modern-size-6);
+  --sky-override-tab-close-position-right: var(--modern-size-10);
+  --sky-override-tab-close-position-top: var(--modern-size-12);
 }
 
 .sky-btn-tab-wrapper {

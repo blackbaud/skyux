@@ -2,13 +2,19 @@
 @use 'compat-tokens-mixins' as compatMixins;
 @use 'variables' as *;
 
-@include compatMixins.sky-default-overrides('.sky-form-control') {
-  --sky-override-form-control-color: var(--sky-text-color-default);
+@include compatMixins.sky-default-overrides(
+  '.sky-control-help-container:not(:empty)'
+) {
+  --sky-override-help-inline-margin-left: var(--sky-margin-inline-xs);
 }
 
 @include compatMixins.sky-default-overrides('.sky-control-label-required') {
   --sky-override-required-color: var(--sky-highlight-color-danger);
   --sky-override-required-space: var(--sky-padding-half);
+}
+
+@include compatMixins.sky-default-overrides('.sky-form-control') {
+  --sky-override-form-control-color: var(--sky-text-color-default);
 }
 
 .sky-form-control {
@@ -76,12 +82,6 @@ textarea.ng-invalid.ng-touched {
     --sky-override-required-space,
     var(--sky-space-gap-label-s)
   );
-}
-
-@include compatMixins.sky-default-overrides(
-  '.sky-control-help-container:not(:empty)'
-) {
-  --sky-override-help-inline-margin-left: var(--sky-margin-inline-xs);
 }
 
 .sky-control-help-container:not(:empty) {
