@@ -213,7 +213,7 @@ function getType(type: SomeType | undefined): string {
       if (type.declaration.signatures) {
         const params = getParameters(type.declaration.signatures[0].parameters);
         const returnType = getType(type.declaration.signatures[0].type);
-        console.log('eh?', type);
+
         const paramsStr = params
           .map((p) => {
             return `${p.name}${p.isOptional ? '?' : ''}: ${p.type}`;
@@ -226,12 +226,15 @@ function getType(type: SomeType | undefined): string {
       // Inline interfaces.
       if (type.declaration.children) {
         const props = ['{'];
+
         for (const child of type.declaration.children) {
           props.push(
             `${child.name}${child.flags?.isOptional ? '?' : ''}: ${getType(child.type)};`,
           );
         }
+
         props.push('}');
+
         return props.join(' ');
       }
     }
