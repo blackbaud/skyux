@@ -209,10 +209,12 @@ function getType(type: SomeType | undefined): string {
     }
 
     if (type instanceof ReflectionType) {
+      const typeDecl = type.declaration;
+
       // Closures.
-      if (type.declaration.signatures) {
-        const params = getParameters(type.declaration.signatures[0].parameters);
-        const returnType = getType(type.declaration.signatures[0].type);
+      if (typeDecl.signatures) {
+        const params = getParameters(typeDecl.signatures[0].parameters);
+        const returnType = getType(typeDecl.signatures[0].type);
 
         const paramsStr = params
           .map((p) => {
@@ -224,10 +226,10 @@ function getType(type: SomeType | undefined): string {
       }
 
       // Inline interfaces.
-      if (type.declaration.children) {
+      if (typeDecl.children) {
         const props = ['{'];
 
-        for (const child of type.declaration.children) {
+        for (const child of typeDecl.children) {
           props.push(
             `${child.name}${child.flags?.isOptional ? '?' : ''}: ${getType(child.type)};`,
           );
@@ -236,6 +238,13 @@ function getType(type: SomeType | undefined): string {
         props.push('}');
 
         return props.join(' ');
+      }
+
+      // Index signatures.
+      if (typeDecl.indexSignatures) {
+        const sigs = getIndexSignatures(typeDecl);
+
+        return `{ ${sigs[0].name}: ${sigs[0].type}; }`;
       }
     }
 
