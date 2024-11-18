@@ -926,8 +926,9 @@ async function runTypeDoc(): Promise<void> {
             }
 
             packages.set(`${packageName}:${groupName}`, pack);
+
             await fsPromises.writeFile(
-              `manifests/${projectName}.json`,
+              `manifests/${projectName}_${groupName}.json`,
               JSON.stringify(pack, undefined, 2),
             );
           }
