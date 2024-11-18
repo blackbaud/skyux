@@ -43,7 +43,7 @@ class TestComponent {
   public helpPopoverTitle = '';
 }
 
-fdescribe('Status indicator harness', () => {
+describe('Status indicator harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     component: TestComponent;
     harness: SkyStatusIndicatorHarness;
