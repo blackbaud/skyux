@@ -16,6 +16,13 @@ const routes: Routes = [
         '../code-examples/colorpicker/colorpicker/programmatic/demo.component'
       ).then((c) => c.DemoComponent),
   },
+  {
+    path: 'help-key',
+    loadComponent: () =>
+      import(
+        '../code-examples/colorpicker/colorpicker/help-key/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
 ];
 
 @NgModule({

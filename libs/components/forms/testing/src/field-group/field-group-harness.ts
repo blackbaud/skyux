@@ -11,7 +11,6 @@ import { SkyFieldGroupHarnessFilters } from './field-group-harness-filters';
 
 /**
  * Harness for interacting with a field group component in tests.
- * @internal
  */
 export class SkyFieldGroupHarness extends SkyComponentHarness {
   /**

@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyIndicatorDescriptionType,
   SkyIndicatorIconType,
@@ -19,6 +20,8 @@ import { SkyStatusIndicatorHarness } from './status-indicator-harness';
       [indicatorType]="indicatorType"
       [customDescription]="customDescription"
       [descriptionType]="descriptionType"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
     >
       This is a sample status indicator.
     </sky-status-indicator>
@@ -36,6 +39,8 @@ class TestComponent {
   public indicatorType = 'warning';
   public customDescription: string | undefined;
   public descriptionType: SkyIndicatorDescriptionType = 'warning';
+  public helpPopoverContent = '';
+  public helpPopoverTitle = '';
 }
 
 describe('Status indicator harness', () => {
@@ -45,7 +50,7 @@ describe('Status indicator harness', () => {
     fixture: ComponentFixture<TestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TestComponent],
+      imports: [TestComponent, NoopAnimationsModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -168,6 +173,45 @@ describe('Status indicator harness', () => {
 
     await expectAsync(harness.getText()).toBeRejectedWithError(
       'Status indicator text was not found. Did you set the descriptionType input?',
+    );
+  });
+
+  it('should throw an error if there is no help inline', async () => {
+    const { harness, fixture } = await setupTest();
+
+    fixture.detectChanges();
+
+    await expectAsync(harness.clickHelpInline()).toBeRejectedWithError(
+      'No help inline found.',
+    );
+  });
+
+  it('should open help inline popover when clicked', async () => {
+    const { harness, fixture } = await setupTest();
+
+    fixture.componentInstance.helpPopoverContent = 'This is a status';
+    fixture.detectChanges();
+
+    await harness.clickHelpInline();
+
+    await expectAsync(harness.getHelpPopoverContent()).toBeResolved();
+  });
+
+  it('should get help popover title and content', async () => {
+    const { harness, fixture } = await setupTest();
+
+    fixture.componentInstance.helpPopoverContent = 'This is a status';
+    fixture.componentInstance.helpPopoverTitle = 'What is this?';
+    fixture.detectChanges();
+
+    await harness.clickHelpInline();
+
+    await expectAsync(harness.getHelpPopoverTitle()).toBeResolvedTo(
+      'What is this?',
+    );
+
+    await expectAsync(harness.getHelpPopoverContent()).toBeResolvedTo(
+      'This is a status',
     );
   });
 });

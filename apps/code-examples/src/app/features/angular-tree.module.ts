@@ -9,6 +9,13 @@ const routes: Routes = [
         '../code-examples/angular-tree-component/angular-tree/basic/demo.component'
       ).then((c) => c.DemoComponent),
   },
+  {
+    path: 'help-key',
+    loadComponent: () =>
+      import(
+        '../code-examples/angular-tree-component/angular-tree/help-key/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
 ];
 
 @NgModule({
