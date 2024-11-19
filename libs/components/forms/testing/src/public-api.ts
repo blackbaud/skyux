@@ -11,6 +11,9 @@ export { SkyCheckboxHarness } from './checkbox/checkbox-harness';
 export { SkyCheckboxHarnessFilters } from './checkbox/checkbox-harness-filters';
 export { SkyCheckboxLabelHarness } from './checkbox/checkbox-label-harness';
 
+export { SkyFileAttachmentHarness } from './file-attachment/file-attachment-harness';
+export { SkyFileAttachmentHarnessFilters } from './file-attachment/file-attachment-harness-filters';
+
 export { SkyFileDropHarness } from './file-drop/file-drop-harness';
 export { SkyFileDropHarnessFilters } from './file-drop/file-drop-harness-filters';
 
