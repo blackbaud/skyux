@@ -176,12 +176,6 @@
       );
     }
 
-    .sky-country-field-disabled {
-      .sky-country-field-flag {
-        opacity: var(--sky-override-country-field-disabled-flag-opacity, 1);
-      }
-    }
-
     .sky-form-control {
       padding-left: var(
         --sky-override-country-field-input-box-form-control-padding-left,
@@ -190,6 +184,14 @@
             var(--sky-space-gap-icon-m)
         )
       );
+    }
+  }
+
+  .sky-country-field-disabled {
+    .sky-country-field-input-with-flag {
+      .sky-country-field-flag {
+        opacity: var(--sky-override-country-field-disabled-flag-opacity, 1);
+      }
     }
   }
 }
