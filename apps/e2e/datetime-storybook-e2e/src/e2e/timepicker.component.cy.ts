@@ -54,5 +54,5 @@ describe('datetime-storybook', () => {
         });
       });
     });
-  });
+  }, true);
 });
