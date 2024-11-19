@@ -1,5 +1,7 @@
-interface SkyManifestTopLevelDefinition extends SkyManifestJSDocsDefinition {
+export interface SkyManifestTopLevelDefinition
+  extends SkyManifestJSDocsDefinition {
   anchorId: string;
+  docsSection: string;
   name: string;
 }
 

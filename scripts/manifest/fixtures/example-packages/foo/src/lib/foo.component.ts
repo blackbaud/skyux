@@ -7,6 +7,9 @@ import {
   output,
 } from '@angular/core';
 
+/**
+ * @docsSection banana
+ */
 @Component({
   imports: [],
   selector: 'lib-foo',

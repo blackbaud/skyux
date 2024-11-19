@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * @docsSection banana
+ */
 @Pipe({
   name: 'foo',
 })
