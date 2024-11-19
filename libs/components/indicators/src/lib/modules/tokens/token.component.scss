@@ -186,7 +186,7 @@
   );
   border-radius: var(
     --sky-override-token-close-border-radius,
-    calc(var(--sky-border-radius-s) - var(--sky-border-width-action-selected-s))
+    calc(var(--sky-border-radius-s) - var(--sky-border-width-selected-s))
   );
   align-items: var(--sky-override-token-close-align-items, center);
   display: var(--sky-override-token-close-display, flex);
@@ -247,7 +247,7 @@
 .sky-token-dismissible {
   padding-right: var(
     --sky-override-token-dismissible-padding-right,
-    var(--sky-border-width-action-selected-s)
+    var(--sky-border-width-selected-s)
   );
 
   .sky-token-btn-action {
