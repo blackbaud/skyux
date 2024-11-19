@@ -6,7 +6,7 @@ import { Observable, Subject, fromEvent } from 'rxjs';
 import { SkyDatepickerComponent } from './datepicker.component';
 
 /**
- * Handles interactions between the colorpicker host component and the input
+ * Handles interactions between the datepicker host component and the input
  * directive.
  * @internal
  */
