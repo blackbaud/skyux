@@ -5,6 +5,10 @@
 @include compatMixins.sky-default-overrides(
   '.sky-autocomplete-results-container'
 ) {
+  --sky-override-autocomplete-actions-add-icon-padding-right: #{$sky-theme-modern-space-xs};
+  --sky-override-autocomplete-actions-no-results-line-height: normal;
+  --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
+  --sky-override-autocomplete-actions-top-border: 1px solid #{$sky-border-color-neutral-medium};
   --sky-override-autocomplete-no-results-font-size: 15px;
   --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
   --sky-override-autocomplete-result-background-color: transparent;
@@ -24,6 +28,9 @@
     '.sky-autocomplete-results-container',
     false
   ) {
+    --sky-override-autocomplete-actions-no-results-line-height: normal;
+    --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
+    --sky-override-autocomplete-actions-top-border: 1px solid #{$sky-border-color-neutral-medium};
     --sky-override-autocomplete-no-results-font-size: 15px;
     --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
     --sky-override-autocomplete-result-margin-bottom: 0;
@@ -109,9 +116,12 @@
   font-size: var(--sky-override-autocomplete-no-results-font-size, inherit);
 }
 
-// TODO: Tokenize when doing lookup
 .sky-autocomplete-actions {
-  @include defaultMixins.sky-border(dark, top);
+  border-top: var(
+    --sky-override-autocomplete-actions-top-border,
+    var(--sky-border-width-divider) var(--sky-border-style-divider)
+      var(--sky-color-border-divider)
+  );
 
   .sky-autocomplete-action {
     border: none;
@@ -119,7 +129,16 @@
 
   .sky-autocomplete-actions-no-results {
     display: inline-block;
-    padding: 7px 13px;
+    padding: var(
+      --sky-override-autocomplete-actions-no-results-padding,
+      var(--sky-space-inset-pillarbox-1_2-top-m) 0
+        var(--sky-space-inset-pillarbox-1_2-bottom-m)
+        var(--sky-space-inset-pillarbox-1_2-left-m)
+    );
+    line-height: var(
+      --sky-override-autocomplete-actions-no-results-line-height,
+      var(--sky-font-line_height-body-m)
+    );
   }
 }
 
@@ -127,7 +146,10 @@
   float: right;
 
   sky-icon {
-    padding-right: $sky-theme-modern-space-xs;
+    padding-right: var(
+      --sky-override-autocomplete-actions-add-icon-padding-right,
+      var(--sky-space-gap-icon-s)
+    );
   }
 }
 
