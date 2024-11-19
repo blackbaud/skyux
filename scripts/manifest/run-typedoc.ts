@@ -804,6 +804,13 @@ function sortMapByKey<T = unknown>(value: Map<string, T>): Map<string, T> {
   return new Map([...value.entries()].sort());
 }
 
+async function writeJsonFiles(packagesMap: PackagesMap): Promise<void> {
+  await fsPromises.writeFile(
+    `manifests/public-api.json`,
+    JSON.stringify(toObject(sortMapByKey(packagesMap)), undefined, 2),
+  );
+}
+
 async function runTypeDoc(): Promise<void> {
   const nxProjects = await getProjects();
 
@@ -1059,14 +1066,20 @@ async function runTypeDoc(): Promise<void> {
         packagesMap.set(refl.entryName, sortMapByKey(sectionsMap));
       }
     }
-
-    // Assign anchorIds
   }
 
-  await fsPromises.writeFile(
-    `manifests/public-api.json`,
-    JSON.stringify(toObject(sortMapByKey(packagesMap)), undefined, 2),
-  );
+  await writeJsonFiles(packagesMap);
 }
 
 runTypeDoc();
+
+/**
+ * TODO:
+ * - Uniform structure to testing directory.
+ * - Where to put JSON files, and where to put the generator?
+ * - Unit tests.
+ * - Simplify shape? Allow undefined values?
+ * 1. Run typedoc to determine the public API.  @skyux/metadata/public-api.json
+ * 2. Filter deprecated items.                  @skyux/metadata/deprecated.json
+ * 3. Filter template items.                    @skyux/metadata/template-features.json
+ */
