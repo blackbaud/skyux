@@ -57,7 +57,7 @@
       --sky-override-tab-border-bottom,
       var(
           --sky-override-tab-selected-border-bottom-size,
-          var(--sky-border-width-action-selected-l)
+          var(--sky-border-width-selected-l)
         )
         var(--sky-border-style-accent) var(--sky-color-border-selected)
     );
@@ -79,7 +79,7 @@
         calc(
           var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
               --sky-override-tab-selected-border-bottom-size,
-              var(--sky-border-width-action-selected-l)
+              var(--sky-border-width-selected-l)
             )
         )
         var(--sky-space-inset-pillarbox-2_3-left-m)
@@ -147,9 +147,9 @@
     }
 
     &:focus-visible:not(:active) {
-      outline: solid var(--sky-border-width-action-selected-m)
+      outline: solid var(--sky-border-width-selected-m)
         var(--sky-color-border-selected);
-      outline-offset: calc(var(--sky-border-width-action-selected-m) * -1);
+      outline-offset: calc(var(--sky-border-width-selected-m) * -1);
       box-shadow: var(--sky-elevation-focus);
     }
   }

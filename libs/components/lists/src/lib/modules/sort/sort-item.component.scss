@@ -146,7 +146,7 @@
     solid
       var(
         --sky-override-sort-item-width-border-selected,
-        var(--sky-border-width-action-selected-l)
+        var(--sky-border-width-selected-l)
       )
       var(--sky-color-border-selected)
   );
@@ -163,7 +163,7 @@
       calc(
         var(--sky-space-inset-pillarbox-1_2-left-m) - var(
             --sky-override-sort-item-width-border-selected,
-            var(--sky-border-width-action-selected-l)
+            var(--sky-border-width-selected-l)
           )
       )
     );
