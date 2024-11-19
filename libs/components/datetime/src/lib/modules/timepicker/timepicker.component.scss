@@ -121,7 +121,7 @@
       width: 100%;
       height: 100%;
 
-      &:focus {
+      &:focus-visible:not(:active) {
         outline: var(--sky-override-timepicker-button-focus-outline);
         outline-offset: var(
           --sky-override-timepicker-button-focus-outline-offset
