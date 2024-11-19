@@ -80,7 +80,7 @@
   );
 }
 
-.sky-country-field-search-result-dial-code {
+.sky-country-field-search-result-dial-code.sky-font-deemphasized {
   font-size: var(--sky-override-country-field-phone-info-font-size, inherit);
   padding-left: var(
     --sky-override-country-field-search-result-dial-code-padding-left,
