@@ -3,16 +3,10 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include compatMixins.sky-default-overrides('.sky-label') {
+  --sky-override-label-align-items: initial;
   --sky-override-label-border-radius-pill: 10rem;
-  --sky-override-label-line-height: 2.2;
-  --sky-override-label-margin: 0 3px;
-  --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
-  --sky-override-label-text-padding-left: var(--sky-padding-half);
   --sky-override-label-color-background-container-danger: var(
     --sky-background-color-danger
-  );
-  --sky-override-label-color-background-container-warning: var(
-    --sky-background-color-warning
   );
   --sky-override-label-color-background-container-info: var(
     --sky-background-color-info
@@ -20,9 +14,15 @@
   --sky-override-label-color-background-container-success: var(
     --sky-background-color-success
   );
+  --sky-override-label-color-background-container-warning: var(
+    --sky-background-color-warning
+  );
   --sky-override-label-display: inline;
-  --sky-override-label-align-items: initial;
   --sky-override-label-icon-modern-display: none;
+  --sky-override-label-line-height: 2.2;
+  --sky-override-label-margin: 0 3px;
+  --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
+  --sky-override-label-text-padding-left: var(--sky-padding-half);
 }
 
 @include compatMixins.sky-modern-overrides('.sky-label') {
@@ -34,15 +34,15 @@
     --sky-override-label-padding-left: var(--modern-size-9);
   }
 
-  &.sky-label-info,
-  &.sky-label-success {
-    --sky-override-label-padding-left: var(--modern-size-6);
-  }
-
   &.sky-label-info {
     --sky-override-label-info-exclamation-path-color: var(
       --modern-color-gray-105
     );
+  }
+
+  &.sky-label-info,
+  &.sky-label-success {
+    --sky-override-label-padding-left: var(--modern-size-6);
   }
 }
 

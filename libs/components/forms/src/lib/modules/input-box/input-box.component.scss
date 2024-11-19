@@ -3,28 +3,28 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-input-box') {
-  --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
-  --sky-override-input-box-error-margin-top: 5px;
-  --sky-override-input-box-select-border-radius: 0;
   --sky-override-button-width: 33px;
+  --sky-override-input-box-error-margin-top: 5px;
+  --sky-override-input-box-hint-margin-top: var(--sky-margin-stacked-xs);
+  --sky-override-input-box-select-border-radius: 0;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-input-box', false) {
   --sky-override-background-color-input-box: var(--modern-color-white);
-  --sky-override-input-padding-top: 26px;
-  --sky-override-input-margin-top: -23px;
-  --sky-override-textarea-border-top: 29px;
-  --sky-override-textarea-margin-top: -26px;
   --sky-override-button-width: 55px;
   --sky-override-input-box-character-count-font-size: var(
     --sky-font-size-body-m
   );
   --sky-override-input-box-character-count-padding: 3px 0 0;
   --sky-override-input-box-color-border-base: var(--modern-color-gray-15);
-  --sky-override-label-padding-bottom: 1px;
   --sky-override-input-box-no-label-space-top: var(--modern-space-s);
   --sky-override-input-box-select-space: 10px;
   --sky-override-input-focus-elevation-shadow: var(--modern-shadow-size-1);
+  --sky-override-input-margin-top: -23px;
+  --sky-override-input-padding-top: 26px;
+  --sky-override-label-padding-bottom: 1px;
+  --sky-override-textarea-border-top: 29px;
+  --sky-override-textarea-margin-top: -26px;
 }
 
 // default theme initial input box background colors (also set by ag-grid and search)

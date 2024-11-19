@@ -220,5 +220,5 @@ describe('lookup-storybook', () => {
         });
       });
     });
-  });
+  }, true);
 });

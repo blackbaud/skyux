@@ -24,6 +24,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'key-info/help-key',
+    loadComponent: () =>
+      import(
+        '../code-examples/indicators/key-info/help-key/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'label/basic',
     loadComponent: () =>
       import('../code-examples/indicators/label/basic/demo.component').then(
@@ -38,10 +45,10 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
-    path: 'status-indicator/inline-help',
+    path: 'status-indicator/help-key',
     loadComponent: () =>
       import(
-        '../code-examples/indicators/status-indicator/inline-help/demo.component'
+        '../code-examples/indicators/status-indicator/help-key/demo.component'
       ).then((c) => c.DemoComponent),
   },
   {

@@ -20,6 +20,9 @@ export { SkyFormErrorsHarnessFilters } from './form-error/form-errors-harness.fi
 export { SkyFormErrorHarness } from './form-error/form-error-harness';
 export { SkyFormErrorHarnessFilters } from './form-error/form-error-harness.filters';
 
+export { SkyFieldGroupHarness } from './field-group/field-group-harness';
+export { SkyFieldGroupHarnessFilters } from './field-group/field-group-harness-filters';
+
 export { SkyRadioFixture } from './radio-fixture';
 export { SkyRadioGroupHarness } from './radio/radio-group-harness';
 export { SkyRadioGroupHarnessFilters } from './radio/radio-group-harness-filters';
