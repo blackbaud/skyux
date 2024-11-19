@@ -1,25 +1,23 @@
 <div class="sky-padding-even-lg">
   <form [formGroup]="formGroup">
-    <div class="sky-margin-stacked-lg">
-      <sky-date-range-picker
-        formControlName="lastDonation"
-        [calculatorIds]="customCalculators"
-        [dateFormat]="dateFormat"
-        [helpPopoverContent]="inlineHelpPopover"
-        [hintText]="hintText"
-        [labelText]="labelText"
-        [required]="required"
-      >
-        @if (
-          lastDonation.errors?.['skyDateRange']?.errors?.['dateIsAfterToday']
-        ) {
-          <sky-form-error
-            errorName="dateIsAfterToday"
-            errorText="Enter a date before today."
-          />
-        }
-      </sky-date-range-picker>
-    </div>
+    <sky-date-range-picker
+      formControlName="lastDonation"
+      [calculatorIds]="customCalculators"
+      [dateFormat]="dateFormat"
+      [helpPopoverContent]="inlineHelpPopover"
+      [hintText]="hintText"
+      [labelText]="labelText"
+      [required]="required"
+    >
+      @if (
+        lastDonation.errors?.['skyDateRange']?.errors?.['dateIsAfterToday']
+      ) {
+        <sky-form-error
+          errorName="dateIsAfterToday"
+          errorText="Enter a date before today."
+        />
+      }
+    </sky-date-range-picker>
   </form>
 </div>
 

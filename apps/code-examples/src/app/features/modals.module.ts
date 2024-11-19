@@ -31,6 +31,13 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
+    path: 'modal-with-harness-help-key',
+    loadComponent: () =>
+      import(
+        '../code-examples/modals/modal/basic-with-harness-help-key/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'modal-with-error',
     loadComponent: () =>
       import('../code-examples/modals/modal/with-error/demo.component').then(
