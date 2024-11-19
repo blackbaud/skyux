@@ -78,18 +78,25 @@
     }
 
     .sky-tokens {
-      margin-top: var(--sky-override-lookup-tokens-margin-top, -6px);
-      margin-bottom: -5px;
       row-gap: var(
         --sky-override-lookup-tokens-row-gap,
         var(--sky-space-gap-action_group-s)
       );
 
+      // NOTE: These styles are for legacy non-input box lookups and there are overrides below for input box.
+      // Remove those overrides and use them here when we fully drop support for this use case.
+      // Mixin override only used here to maintain an existing default/modern difference without the modern mixin.
+      margin-top: var(--sky-override-lookup-tokens-margin-top, -6px);
+      margin-bottom: -5px;
+
       .sky-tokens-content {
+        flex-basis: 100px;
+
+        // NOTE: These styles are for legacy non-input box lookups and there are overrides below for input box.
+        // Remove those overrides and use them here when we fully drop support for this use case.
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
-        flex-basis: 100px;
       }
     }
   }
@@ -105,7 +112,7 @@
 }
 
 // NOTE: Some of these styles are for legacy non-input box lookups and there are overrides below for input box.
-// Remove those overrides when we fully drop support for this use case.
+// Remove those overrides and use them here when we fully drop support for this use case.
 .sky-lookup-search {
   cursor: text;
   background-color: var(--sky-override-lookup-search-background-color, inherit);
