@@ -1,2 +1,2 @@
-export { SkyHrefHarness } from './href/href-harness';
-export { SkyHrefTestingModule } from './href/href-testing.module';
+export { SkyHrefTestingModule } from './modules/href/href-testing.module';
+export { SkyHrefHarness } from './modules/href/href-harness';
