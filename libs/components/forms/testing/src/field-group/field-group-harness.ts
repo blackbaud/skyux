@@ -11,7 +11,6 @@ import { SkyFieldGroupHarnessFilters } from './field-group-harness-filters';
 
 /**
  * Harness for interacting with a field group component in tests.
- * @internal
  */
 export class SkyFieldGroupHarness extends SkyComponentHarness {
   /**
@@ -40,7 +39,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getLegendHeading()).text();
+    return await (await this.#getLegendHeading()).text();
   }
 
   /**
@@ -56,7 +55,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    * Whether the heading is hidden.
    */
   public async getHeadingHidden(): Promise<boolean> {
-    return (await this.#getLegend()).hasClass('sky-screen-reader-only');
+    return await (await this.#getLegend()).hasClass('sky-screen-reader-only');
   }
 
   /**
@@ -65,7 +64,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
   public async getStacked(): Promise<boolean> {
     const host = await this.host();
 
-    return host.hasClass('sky-margin-stacked-xl');
+    return await host.hasClass('sky-margin-stacked-xl');
   }
 
   /**
@@ -90,7 +89,7 @@ export class SkyFieldGroupHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    await (await this.#getHelpInline()).click();
   }
 
   /**

@@ -17,7 +17,7 @@ export class SkySkipLinksHarness extends SkyComponentHarness {
   public async getSkipLinkText(index: number): Promise<string> {
     const skipLinks = await this.#getSkipLinks();
 
-    return skipLinks[index].text();
+    return await skipLinks[index].text();
   }
 
   /**
@@ -26,6 +26,6 @@ export class SkySkipLinksHarness extends SkyComponentHarness {
   public async clickSkipLink(index: number): Promise<void> {
     const skipLinks = await this.#getSkipLinks();
 
-    return skipLinks[index].click();
+    await skipLinks[index].click();
   }
 }

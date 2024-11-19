@@ -16,6 +16,6 @@ export class SkyRadioLabelHarness extends ComponentHarness {
    * Gets the text content of the radio label.
    */
   public async getText(): Promise<string> {
-    return (await this.#getLabelContent()).text();
+    return await (await this.#getLabelContent()).text();
   }
 }

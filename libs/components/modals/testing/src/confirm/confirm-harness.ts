@@ -54,7 +54,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    * Gets the body of the confirm component.
    */
   public async getBodyText(): Promise<string | undefined> {
-    return (await this.#getBodyEl())?.text();
+    return await (await this.#getBodyEl())?.text();
   }
 
   /**
@@ -93,7 +93,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    * Gets the message of the confirm component.
    */
   public async getMessageText(): Promise<string> {
-    return (await this.#getMessageEl()).text();
+    return await (await this.#getMessageEl()).text();
   }
 
   /**
@@ -112,9 +112,9 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    * Whether the whitespace is preserved on the confirm component.
    */
   public async isWhiteSpacePreserved(): Promise<boolean> {
-    return (await this.#getMessageEl()).hasClass(
-      'sky-confirm-preserve-white-space',
-    );
+    return await (
+      await this.#getMessageEl()
+    ).hasClass('sky-confirm-preserve-white-space');
   }
 
   /**
@@ -123,6 +123,6 @@ export class SkyConfirmHarness extends SkyComponentHarness {
   async #queryHarnesses<T extends ComponentHarness>(
     harness: HarnessQuery<T>,
   ): Promise<T[]> {
-    return this.locatorForAll(harness)();
+    return await this.locatorForAll(harness)();
   }
 }

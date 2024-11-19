@@ -1,5 +1,19 @@
 # Changelog
 
+## [11.22.0](https://github.com/blackbaud/skyux/compare/11.21.0...11.22.0) (2024-11-14)
+
+
+### Features
+
+* **components/datetime:** tokenize datepicker styles ([#2880](https://github.com/blackbaud/skyux/issues/2880)) ([3da9930](https://github.com/blackbaud/skyux/commit/3da9930861a23f309a66d289fc26aac19a5e4067))
+* **components/lookup:** tokenize autocomplete styles ([#2902](https://github.com/blackbaud/skyux/issues/2902)) ([1a15087](https://github.com/blackbaud/skyux/commit/1a1508740910ee20e6e82eca0d98d877411e6ed5))
+
+
+### Bug Fixes
+
+* **components/i18n:** remove deprecated features from generated resources module ([#2905](https://github.com/blackbaud/skyux/issues/2905)) ([04bae38](https://github.com/blackbaud/skyux/commit/04bae38710740339258a8ccc81e95240051005fd))
+* **sdk/skyux-eslint:** remove schematics to minimize dependency requirements for Node.js consumers ([#2906](https://github.com/blackbaud/skyux/issues/2906)) ([8724ec2](https://github.com/blackbaud/skyux/commit/8724ec2b9feafa07a8344df55a0b96a49f9238be))
+
 ## [11.21.0](https://github.com/blackbaud/skyux/compare/11.20.0...11.21.0) (2024-11-12)
 
 

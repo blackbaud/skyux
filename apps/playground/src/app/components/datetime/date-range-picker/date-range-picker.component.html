@@ -8,7 +8,14 @@
     [calculatorIds]="calculatorIds"
     [dateFormat]="dateFormat"
     [hintText]="hintText"
-  />
+  >
+    @if (lastDonationControl.errors?.['dateWeekend']) {
+      <sky-form-error
+        errorName="dateWeekend"
+        errorText="Do not pick a weekend."
+      />
+    }
+  </sky-date-range-picker>
 
   <button class="sky-btn sky-btn-default" type="submit">Submit</button>
 </form>

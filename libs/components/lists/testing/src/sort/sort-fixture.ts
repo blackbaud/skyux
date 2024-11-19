@@ -57,9 +57,9 @@ export class SkySortFixture {
   }
 
   #debugEl: DebugElement;
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
@@ -78,6 +78,7 @@ export class SkySortFixture {
     }
 
     const menu = this.#getDropdownButtonEl();
+
     if (menu !== undefined && !menu.disabled) {
       menu.click();
 
@@ -85,7 +86,7 @@ export class SkySortFixture {
       await this.#fixture.whenStable();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 
@@ -107,7 +108,7 @@ export class SkySortFixture {
       await this.#fixture.whenStable();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 
@@ -116,7 +117,7 @@ export class SkySortFixture {
    * @param menuItemIndex The index of the menu item to select.
    */
   public async selectMenuItemByIndex(menuItemIndex: number): Promise<void> {
-    return this.#selectMenuItem((_item: HTMLElement, index: number) => {
+    return await this.#selectMenuItem((_item: HTMLElement, index: number) => {
       return index === menuItemIndex;
     });
   }
@@ -131,7 +132,7 @@ export class SkySortFixture {
   ): Promise<void> {
     /* istanbul ignore else */
     if (menuItemText) {
-      return this.#selectMenuItem((item: HTMLElement) => {
+      return await this.#selectMenuItem((item: HTMLElement) => {
         return SkyAppTestUtility.getText(item) === menuItemText;
       });
     } else {
@@ -184,7 +185,7 @@ export class SkySortFixture {
       targetButton?.click();
 
       this.#fixture.detectChanges();
-      return this.#fixture.whenStable();
+      await this.#fixture.whenStable();
     }
   }
 

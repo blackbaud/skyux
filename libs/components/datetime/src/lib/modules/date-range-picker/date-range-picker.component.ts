@@ -12,6 +12,7 @@ import {
   booleanAttribute,
   computed,
   inject,
+  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -280,6 +281,7 @@ export class SkyDateRangePickerComponent
   #startDateControl = new FormControl<DateValue>(this.#getValue().startDate);
   #startDateInvalid = this.#createStatusChangeSignal(this.#startDateControl);
   #startDateTouched = this.#createTouchedChangeSignal(this.#startDateControl);
+  #hostHasCustomError: Signal<boolean | undefined> | undefined;
 
   protected formGroup = inject(FormBuilder).group({
     calculatorId: this.#calculatorIdControl,
@@ -289,8 +291,7 @@ export class SkyDateRangePickerComponent
 
   protected readonly calculatorIdHasErrors = computed(() => {
     const touched = this.#calculatorIdTouched();
-    const invalid = this.#calculatorIdInvalid();
-
+    const invalid = this.#calculatorIdInvalid() || this.#hostHasCustomError?.();
     return touched && invalid;
   });
 
@@ -319,6 +320,14 @@ export class SkyDateRangePickerComponent
       optional: true,
       self: true,
     })?.control;
+
+    runInInjectionContext(this.#injector, () => {
+      if (this.hostControl) {
+        this.#hostHasCustomError = this.#createHostCustomErrorChangeSignal(
+          this.hostControl,
+        );
+      }
+    });
 
     // Set a default value on the control if it's undefined on init.
     // We need to use setTimeout to avoid interfering with the first
@@ -552,6 +561,24 @@ export class SkyDateRangePickerComponent
 
     this.showEndDatePicker.set(showEndDatePicker);
     this.showStartDatePicker.set(showStartDatePicker);
+  }
+
+  #createHostCustomErrorChangeSignal(
+    control: AbstractControl,
+  ): Signal<boolean | undefined> {
+    return toSignal(
+      control.events.pipe(
+        filter((evt) => evt instanceof StatusChangeEvent),
+        map((evt: StatusChangeEvent) => {
+          const errors = evt.source.errors ?? [];
+          const knownErrors = ['required', 'skyDate'];
+
+          return Object.keys(errors).some((error) => {
+            return !knownErrors.includes(error);
+          });
+        }),
+      ),
+    );
   }
 
   #createStatusChangeSignal(control: FormControl): Signal<boolean | undefined> {

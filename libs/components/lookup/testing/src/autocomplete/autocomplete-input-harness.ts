@@ -13,6 +13,6 @@ export class SkyAutocompleteInputHarness extends SkyInputHarness {
    * Returns the value of the input's `aria-controls` attribute.
    */
   public async getAriaControls(): Promise<string | null> {
-    return (await this.host()).getAttribute('aria-controls');
+    return await (await this.host()).getAttribute('aria-controls');
   }
 }

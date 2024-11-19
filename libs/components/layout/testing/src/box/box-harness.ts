@@ -33,7 +33,7 @@ export class SkyBoxHarness extends SkyComponentHarness {
    * Clicks the help inline button.
    */
   public async clickHelpInline(): Promise<void> {
-    return (await this.#getHelpInline()).click();
+    return await (await this.#getHelpInline()).click();
   }
 
   /**
@@ -57,7 +57,7 @@ export class SkyBoxHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getHeadingText(): Promise<string | undefined> {
-    return (await this.#getHeading()).text();
+    return await (await this.#getHeading()).text();
   }
 
   /**
@@ -106,21 +106,21 @@ export class SkyBoxHarness extends SkyComponentHarness {
    * Gets the aria-label property of the box
    */
   public async getAriaLabel(): Promise<string | null> {
-    return (await this.#getBox()).getAttribute('aria-label');
+    return await (await this.#getBox()).getAttribute('aria-label');
   }
 
   /**
    * Gets the aria-labelledby property of the box
    */
   public async getAriaLabelledby(): Promise<string | null> {
-    return (await this.#getBox()).getAttribute('aria-labelledby');
+    return await (await this.#getBox()).getAttribute('aria-labelledby');
   }
 
   /**
    * Gets the aria-role property of the box
    */
   public async getAriaRole(): Promise<string | null> {
-    return (await this.#getBox()).getAttribute('role');
+    return await (await this.#getBox()).getAttribute('role');
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

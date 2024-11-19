@@ -15,7 +15,6 @@ export async function createTestApp(
 ): Promise<UnitTestTree> {
   return await runner.runExternalSchematic('@schematics/angular', 'ng-new', {
     directory: '/',
-
     name: appOptions.defaultProjectName,
     routing: true,
     strict: true,

@@ -24,9 +24,23 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'checkbox/help-key',
+    loadComponent: () =>
+      import('../code-examples/forms/checkbox/help-key/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
     path: 'field-group/basic',
     loadComponent: () =>
       import('../code-examples/forms/field-group/basic/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
+    path: 'field-group/help-key',
+    loadComponent: () =>
+      import('../code-examples/forms/field-group/help-key/demo.component').then(
         (c) => c.DemoComponent,
       ),
   },
@@ -38,9 +52,23 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
+    path: 'file-attachment/help-key',
+    loadComponent: () =>
+      import(
+        '../code-examples/forms/file-attachment/help-key/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
     path: 'file-drop/basic',
     loadComponent: () =>
       import('../code-examples/forms/file-drop/basic/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
+    path: 'file-drop/help-key',
+    loadComponent: () =>
+      import('../code-examples/forms/file-drop/help-key/demo.component').then(
         (c) => c.DemoComponent,
       ),
   },
@@ -66,6 +94,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'radio/help-key',
+    loadComponent: () =>
+      import('../code-examples/forms/radio/help-key/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
     path: 'selection-box/checkbox',
     loadComponent: () =>
       import(
@@ -87,10 +122,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'toggle-switch/inline-help',
+    path: 'toggle-switch/help-key',
     loadComponent: () =>
       import(
-        '../code-examples/forms/toggle-switch/inline-help/demo.component'
+        '../code-examples/forms/toggle-switch/help-key/demo.component'
       ).then((c) => c.DemoComponent),
   },
 ];

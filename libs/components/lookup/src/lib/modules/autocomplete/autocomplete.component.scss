@@ -5,18 +5,18 @@
 @include compatMixins.sky-default-overrides(
   '.sky-autocomplete-results-container'
 ) {
-  --sky-override-autocomplete-results-container-background-color: #{$sky-color-white};
-  --sky-override-autocomplete-results-container-border-radius: 0;
-  --sky-override-autocomplete-results-padding: 4px;
+  --sky-override-autocomplete-no-results-font-size: 15px;
   --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
-  --sky-override-autocomplete-result-margin-bottom: 4px;
-  --sky-override-autocomplete-result-padding: 3px #{$sky-padding-double};
   --sky-override-autocomplete-result-background-color: transparent;
   --sky-override-autocomplete-result-box-shadow: none;
   --sky-override-autocomplete-result-focus-background-color: #{$sky-background-color-neutral-light};
   --sky-override-autocomplete-result-focus-box-shadow: none;
-  --sky-override-autocomplete-no-results-font-size: 15px;
+  --sky-override-autocomplete-result-margin-bottom: 4px;
+  --sky-override-autocomplete-result-padding: 3px #{$sky-padding-double};
+  --sky-override-autocomplete-results-container-background-color: #{$sky-color-white};
+  --sky-override-autocomplete-results-container-border-radius: 0;
   --sky-override-autocomplete-results-no-results-padding: 4px;
+  --sky-override-autocomplete-results-padding: 4px;
 }
 
 ::ng-deep {
@@ -24,11 +24,11 @@
     '.sky-autocomplete-results-container',
     false
   ) {
+    --sky-override-autocomplete-no-results-font-size: 15px;
     --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
     --sky-override-autocomplete-result-margin-bottom: 0;
     --sky-override-autocomplete-result-padding: #{$sky-theme-modern-space-sm 0
       $sky-theme-modern-space-sm $sky-theme-modern-space-md};
-    --sky-override-autocomplete-no-results-font-size: 15px;
     --sky-override-autocomplete-results-no-results-padding: var(
         --sky-space-inset-vertical-top-s
       )

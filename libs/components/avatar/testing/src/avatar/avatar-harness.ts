@@ -47,7 +47,7 @@ export class SkyAvatarHarness extends SkyComponentHarness {
       return undefined;
     }
 
-    return initialsEl.text();
+    return await initialsEl.text();
   }
 
   /**
@@ -130,7 +130,7 @@ export class SkyAvatarHarness extends SkyComponentHarness {
       return undefined;
     }
 
-    return SkyHarnessUtility.getBackgroundImageUrl(imageEl);
+    return await SkyHarnessUtility.getBackgroundImageUrl(imageEl);
   }
 
   async #dropAndWait(fileDrop: SkyFileDropHarness, file: File): Promise<void> {
@@ -138,7 +138,7 @@ export class SkyAvatarHarness extends SkyComponentHarness {
 
     await fileDrop.dropFile(file);
 
-    return new Promise<void>((resolve, reject) => {
+    return await new Promise<void>((resolve, reject) => {
       const checkForFileChange = async (attempts: number): Promise<void> => {
         if ((await this.#getImageUrl()) !== currentUrl) {
           resolve();

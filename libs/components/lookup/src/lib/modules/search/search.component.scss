@@ -3,33 +3,33 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-search-container') {
-  --sky-override-search-mobile-background-color: #{$sky-color-white};
-  --sky-override-search-clear-padding-right: 6px;
-  --sky-override-search-mobile-font-size: #{$sky-font-size-base};
+  --sky-override-search-applied-background-color: #fff;
   --sky-override-search-applied-border: #{2px solid $sky-highlight-color-success};
-  --sky-override-search-applied-mobile-button-vertical-padding: 5px;
-  --sky-override-search-applied-mobile-button-horizontal-padding: 11px;
-  --sky-override-search-mobile-button-vertical-padding: 6px;
-  --sky-override-search-mobile-button-horizontal-padding: 12px;
   --sky-override-search-applied-box-shadow: none;
   --sky-override-search-applied-color: #{$sky-highlight-color-success};
-  --sky-override-search-applied-background-color: #fff;
+  --sky-override-search-applied-mobile-button-horizontal-padding: 11px;
+  --sky-override-search-applied-mobile-button-vertical-padding: 5px;
+  --sky-override-search-clear-padding-right: 6px;
   --sky-override-search-container-padding: #{$sky-padding-half};
+  --sky-override-search-mobile-background-color: #{$sky-color-white};
+  --sky-override-search-mobile-button-horizontal-padding: 12px;
+  --sky-override-search-mobile-button-vertical-padding: 6px;
+  --sky-override-search-mobile-font-size: #{$sky-font-size-base};
 }
 
 @include compatMixins.sky-modern-overrides('.sky-search-container', false) {
-  --sky-override-search-button-height-width: 40px;
-  --sky-override-search-background-color: var(--modern-color-transparent);
-  --sky-override-search-applied-mobile-button-vertical-padding: 9px;
-  --sky-override-search-applied-mobile-button-horizontal-padding: 15px;
-  --sky-override-search-mobile-button-vertical-padding: 9px;
-  --sky-override-search-mobile-button-horizontal-padding: 15px;
-  --sky-override-search-appied-border-width: 2px;
-  --sky-override-search-applied-color: #{$sky-highlight-color-success};
+  --sky-override-input-icon-size: 17.3333px;
   --sky-override-search-applied-background-color: var(
     --sky-color-background-action-secondary-base
   );
-  --sky-override-input-icon-size: 17.3333px;
+  --sky-override-search-applied-color: #{$sky-highlight-color-success};
+  --sky-override-search-applied-mobile-button-horizontal-padding: 15px;
+  --sky-override-search-applied-mobile-button-vertical-padding: 9px;
+  --sky-override-search-appied-border-width: 2px;
+  --sky-override-search-background-color: var(--modern-color-transparent);
+  --sky-override-search-button-height-width: 40px;
+  --sky-override-search-mobile-button-horizontal-padding: 15px;
+  --sky-override-search-mobile-button-vertical-padding: 9px;
 }
 
 sky-search {

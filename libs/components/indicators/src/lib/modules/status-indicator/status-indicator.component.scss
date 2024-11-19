@@ -3,18 +3,12 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include compatMixins.sky-default-overrides('.sky-status-indicator') {
-  --sky-override-status-indicator-modern-default-display: none;
+  --sky-override-status-indicator-icon-color-danger: #{$sky-highlight-color-danger};
   --sky-override-status-indicator-icon-color-info: #{$sky-highlight-color-info};
   --sky-override-status-indicator-icon-color-success: #{$sky-highlight-color-success};
   --sky-override-status-indicator-icon-color-warning: #{$sky-highlight-color-warning};
-  --sky-override-status-indicator-icon-color-danger: #{$sky-highlight-color-danger};
   --sky-override-status-indicator-icon-padding-right: #{$sky-space-xs};
-}
-
-@include compatMixins.sky-modern-overrides('.sky-status-indicator') {
-  --sky-override-status-indicator-info-exclamation-path-color: var(
-    --modern-color-gray-105
-  );
+  --sky-override-status-indicator-modern-default-display: none;
 }
 
 @include compatMixins.sky-modern-overrides(
@@ -23,6 +17,12 @@
   true
 ) {
   --sky-override-status-indicator-icon-default-display: none;
+}
+
+@include compatMixins.sky-modern-overrides('.sky-status-indicator') {
+  --sky-override-status-indicator-info-exclamation-path-color: var(
+    --modern-color-gray-105
+  );
 }
 
 .sky-status-indicator {
