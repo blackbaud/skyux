@@ -13,6 +13,7 @@ import {
   LiteralType,
   MappedType,
   ParameterReflection,
+  ProjectReflection,
   ReferenceType,
   Reflection,
   ReflectionKind,
@@ -25,16 +26,17 @@ import {
 import { getProjects } from './get-projects';
 import {
   SkyManifestClassDefinition,
+  SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
   SkyManifestDirectiveDefinition,
   SkyManifestDirectiveInputDefinition,
   SkyManifestEnumerationDefinition,
   SkyManifestEnumerationMemberDefinition,
-  SkyManifestFunctionOrMethodDefinition,
+  SkyManifestFunctionDefinition,
   SkyManifestIndexSignatureDefinition,
   SkyManifestInterfaceDefinition,
   SkyManifestInterfacePropertyDefinition,
-  SkyManifestPackage,
+  SkyManifestPackageSection,
   SkyManifestParameterDefinition,
   SkyManifestPipeDefinition,
   SkyManifestTypeAliasDefinition,
@@ -67,11 +69,6 @@ function getCommentMeta(comment: Comment | undefined): {
   let isDeprecated = false;
   let isPreview = false;
   let isRequired = false;
-
-  // let parameters: {
-  //   name: string;
-  //   description: string;
-  // }[] = [];
 
   if (comment) {
     if (comment.blockTags) {
@@ -116,18 +113,6 @@ function getCommentMeta(comment: Comment | undefined): {
 
             break;
           }
-
-          // case '@param': {
-          //   parameters = parameters || [];
-          //   parameters.push({
-          //     name: tag.param,
-          //     description: tag.content
-          //       .map((item) => item.text)
-          //       .join('')
-          //       .trim(),
-          //   });
-          //   break;
-          // }
 
           case '@preview':
             isPreview = true;
@@ -326,8 +311,8 @@ function getParameters(
 
 function getMethods(
   decl: DeclarationReflectionWithDecorators,
-): SkyManifestFunctionOrMethodDefinition[] {
-  const methods: SkyManifestFunctionOrMethodDefinition[] = [];
+): SkyManifestClassMethodDefinition[] {
+  const methods: SkyManifestClassMethodDefinition[] = [];
 
   if (decl.children) {
     for (const child of decl.children) {
@@ -335,7 +320,7 @@ function getMethods(
         child.kind === ReflectionKind.Method &&
         !child.name.startsWith('ng')
       ) {
-        methods.push(getFunctionOrMethod(child));
+        methods.push(getMethod(child));
       }
     }
   }
@@ -343,9 +328,9 @@ function getMethods(
   return methods;
 }
 
-function getFunctionOrMethod(
+function getMethod(
   decl: DeclarationReflection,
-): SkyManifestFunctionOrMethodDefinition {
+): SkyManifestClassMethodDefinition {
   const signature = decl.signatures?.[0];
 
   const {
@@ -357,7 +342,61 @@ function getFunctionOrMethod(
     isPreview,
   } = getCommentMeta(signature?.comment);
 
-  const method: SkyManifestFunctionOrMethodDefinition = {
+  const method: SkyManifestClassMethodDefinition = {
+    codeExample,
+    codeExampleLanguage,
+    deprecationReason,
+    description,
+    isDeprecated,
+    isPreview,
+    isStatic: !!decl.flags.isStatic,
+    name: decl.name,
+    parameters: getParameters(signature?.parameters),
+    returnType: getType(signature?.type),
+  };
+
+  return method;
+}
+
+const STRING_DASHERIZE_REGEXP = /[ _.]/g;
+const STRING_DECAMELIZE_REGEXP = /([a-z\d])([A-Z])/g;
+
+function decamelize(str: string): string {
+  return str.replace(STRING_DECAMELIZE_REGEXP, '$1_$2').toLowerCase();
+}
+
+export function dasherize(str: string): string {
+  return decamelize(str).replace(STRING_DASHERIZE_REGEXP, '-');
+}
+
+function getAnchorId(decl: DeclarationReflection): string {
+  const letters = decl.name.match(/[a-zA-Z0-1]/g)?.join('');
+
+  if (letters) {
+    const anchorId = `${dasherize(ReflectionKind[decl.kind])}-${dasherize(letters)}`;
+
+    return anchorId;
+  }
+
+  return `skyux_${Date.now().toString()}`;
+}
+
+function getFunction(
+  decl: DeclarationReflection,
+): SkyManifestFunctionDefinition {
+  const signature = decl.signatures?.[0];
+
+  const {
+    codeExample,
+    codeExampleLanguage,
+    deprecationReason,
+    description,
+    isDeprecated,
+    isPreview,
+  } = getCommentMeta(signature?.comment);
+
+  const fn: SkyManifestFunctionDefinition = {
+    anchorId: getAnchorId(decl),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -369,16 +408,16 @@ function getFunctionOrMethod(
     returnType: getType(signature?.type),
   };
 
-  return method;
+  return fn;
 }
 
 function getPipeTransformMethod(
   decl: DeclarationReflectionWithDecorators,
-): SkyManifestFunctionOrMethodDefinition {
+): SkyManifestClassMethodDefinition {
   if (decl.children) {
     for (const child of decl.children) {
       if (child.kind === ReflectionKind.Method && child.name === 'transform') {
-        return getFunctionOrMethod(child);
+        return getMethod(child);
       }
     }
   }
@@ -662,6 +701,109 @@ function getDirectiveName(decl: DeclarationReflectionWithDecorators): string {
   return decl.name;
 }
 
+type PackagesMap = Map<string, PackageSectionsMap>;
+type PackageSectionsMap = Map<string, SkyManifestPackageSection>;
+
+async function getTypeDocProjectReflection(
+  entryPoints: string[],
+  projectRoot: string,
+): Promise<ProjectReflection> {
+  const app = await Application.bootstrapWithPlugins({
+    entryPoints,
+    emit: 'docs',
+    excludeExternals: true,
+    excludeInternal: true,
+    excludePrivate: true,
+    excludeProtected: true,
+    logLevel: 'Error',
+    plugin: [pluginPath],
+    tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
+    exclude: [
+      `!**/${projectRoot}/**`,
+      '**/(fixtures|node_modules)/**',
+      '**/*+(.fixture|.spec).ts',
+    ],
+    externalPattern: [`!**/${projectRoot}/**`],
+  });
+
+  const projectRefl = await app.convert();
+
+  if (!projectRefl) {
+    throw new Error(
+      `Failed to create TypeDoc project reflection for '${projectRoot}'.`,
+    );
+  }
+
+  return projectRefl;
+}
+
+/**
+ * Gets the section name from the file path.
+ */
+function getPackageSectionName(filePath: string): string {
+  return filePath.split('/src/lib/modules/')[1]?.split('/')[0] ?? 'root';
+}
+
+/**
+ * If multiple entry points are provided, TypeDoc creates an array of project
+ * reflections. If it's just one, TypeDoc skips the array, and exports the
+ * children as one object. This function always returns an array.
+ */
+function getEntryPointReflections({
+  entryPoints,
+  packageName,
+  projectRefl,
+}: {
+  entryPoints: string[];
+  packageName: string;
+  projectRefl: ProjectReflection;
+}): { entryName: string; children?: DeclarationReflectionWithDecorators[] }[] {
+  const reflections: {
+    entryName: string;
+    children?: DeclarationReflectionWithDecorators[];
+  }[] = [];
+
+  const hasTestingEntryPoint = fs.existsSync(path.normalize(entryPoints[1]));
+
+  if (hasTestingEntryPoint) {
+    reflections.push(
+      {
+        entryName: packageName,
+        children: projectRefl.children?.[0].children,
+      },
+      {
+        entryName: `${packageName}/testing`,
+        children: projectRefl.children?.[1].children,
+      },
+    );
+  } else {
+    reflections.push({
+      entryName: packageName,
+      children: projectRefl.children,
+    });
+  }
+
+  return reflections;
+}
+
+function toObject(map: Map<string, unknown>): Record<string, unknown> {
+  const obj: Record<string, unknown> = {};
+
+  for (const [key, value] of map.entries()) {
+    if (value instanceof Map) {
+      obj[key] = toObject(value);
+    } else {
+      obj[key] = value;
+    }
+  }
+
+  return obj;
+}
+
+function sortMapByKey<T = unknown>(value: Map<string, T>): Map<string, T> {
+  return new Map([...value.entries()].sort());
+}
+
 async function runTypeDoc(): Promise<void> {
   const nxProjects = await getProjects();
 
@@ -671,7 +813,7 @@ async function runTypeDoc(): Promise<void> {
 
   await fsPromises.mkdir('manifests');
 
-  const packages = new Map<string, SkyManifestPackage>();
+  const packagesMap: PackagesMap = new Map<string, PackageSectionsMap>();
 
   for (const {
     entryPoints,
@@ -679,275 +821,252 @@ async function runTypeDoc(): Promise<void> {
     projectName,
     projectRoot,
   } of nxProjects) {
-    const app = await Application.bootstrapWithPlugins({
+    const projectRefl = await getTypeDocProjectReflection(
       entryPoints,
-      emit: 'docs',
-      excludeExternals: true,
-      excludeInternal: true,
-      excludePrivate: true,
-      excludeProtected: true,
-      logLevel: 'Error',
-      plugin: [pluginPath],
-      tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
-      exclude: [
-        `!**/${projectRoot}/**`,
-        '**/(fixtures|node_modules)/**',
-        '**/*+(.fixture|.spec).ts',
-      ],
-      externalPattern: [`!**/${projectRoot}/**`],
+      projectRoot,
+    );
+
+    console.log(`Creating manifest for ${projectName}...`);
+
+    const entryPointReflections = getEntryPointReflections({
+      entryPoints,
+      packageName,
+      projectRefl,
     });
 
-    const projectRefl = await app.convert();
+    for (const refl of entryPointReflections) {
+      if (refl.children) {
+        const sectionsMap: PackageSectionsMap =
+          packagesMap.get(refl.entryName) ??
+          new Map<string, SkyManifestPackageSection>();
 
-    if (projectRefl) {
-      console.log(`Creating manifest for ${projectName}...`);
+        for (const child of refl.children) {
+          const filePath = child.sources?.[0].fullFileName;
 
-      const hasTestingEntryPoint = fs.existsSync(
-        path.normalize(entryPoints[1]),
-      );
+          if (!filePath || filePath.endsWith('/index.ts')) {
+            continue;
+          }
 
-      let children: DeclarationReflectionWithDecorators[] | undefined;
+          const section: SkyManifestPackageSection = {
+            classes: [],
+            components: [],
+            directives: [],
+            enumerations: [],
+            functions: [],
+            interfaces: [],
+            modules: [],
+            pipes: [],
+            services: [],
+            typeAliases: [],
+            variables: [],
+          };
 
-      if (hasTestingEntryPoint) {
-        children = projectRefl.children?.[0].children;
-      } else {
-        children = projectRefl.children;
-      }
+          const {
+            codeExample,
+            codeExampleLanguage,
+            deprecationReason,
+            description,
+            isDeprecated,
+            isPreview,
+          } = getCommentMeta(child.comment);
 
-      // const testingEntry = project.children?.[1];
+          switch (child.kind) {
+            case ReflectionKind.Class: {
+              const decoratorName = getDecorator(child);
 
-      if (children) {
-        for (const child of children) {
-          const fileName = child.sources?.[0].fullFileName;
+              switch (decoratorName) {
+                case 'Injectable': {
+                  const svc: SkyManifestClassDefinition = {
+                    anchorId: getAnchorId(child),
+                    codeExample,
+                    codeExampleLanguage,
+                    deprecationReason,
+                    description,
+                    isDeprecated,
+                    isPreview,
+                    methods: getMethods(child),
+                    name: child.name,
+                    properties: getProperties(child),
+                  };
 
-          if (fileName && !fileName.endsWith('/index.ts')) {
-            // Derive the group name from its directory.
-            const groupName =
-              fileName
-                .split(`${projectName}/src/lib/modules/`)[1]
-                ?.split('/')[0] ?? 'root';
-
-            const pack =
-              packages.get(`${packageName}:${groupName}`) ??
-              ({
-                classes: [],
-                components: [],
-                directives: [],
-                enumerations: [],
-                functions: [],
-                interfaces: [],
-                modules: [],
-                pipes: [],
-                services: [],
-                typeAliases: [],
-                variables: [],
-              } satisfies SkyManifestPackage);
-
-            const {
-              codeExample,
-              codeExampleLanguage,
-              deprecationReason,
-              description,
-              isDeprecated,
-              isPreview,
-            } = getCommentMeta(child.comment);
-
-            switch (child.kind) {
-              case ReflectionKind.Class: {
-                const decoratorName = getDecorator(child);
-
-                switch (decoratorName) {
-                  case 'Injectable': {
-                    const svc: SkyManifestClassDefinition = {
-                      codeExample,
-                      codeExampleLanguage,
-                      deprecationReason,
-                      description,
-                      isDeprecated,
-                      isPreview,
-                      methods: getMethods(child),
-                      name: child.name,
-                      properties: getProperties(child),
-                    };
-
-                    pack.services.push(svc);
-                    break;
-                  }
-
-                  case 'Component':
-                  case 'Directive': {
-                    const directive: SkyManifestDirectiveDefinition = {
-                      codeExample,
-                      codeExampleLanguage,
-                      deprecationReason,
-                      description,
-                      isDeprecated,
-                      isPreview,
-                      name: getDirectiveName(child),
-                      selector: getSelector(child) ?? '',
-                      inputs: getInputs(child),
-                      outputs: getOutputs(child),
-                    };
-
-                    pack.directives.push(directive);
-                    break;
-                  }
-
-                  case 'NgModule': {
-                    const module: SkyManifestClassDefinition = {
-                      codeExample,
-                      codeExampleLanguage,
-                      deprecationReason,
-                      description,
-                      isDeprecated,
-                      isPreview,
-                      methods: getMethods(child),
-                      name: child.name,
-                      properties: getProperties(child),
-                    };
-
-                    pack.modules.push(module);
-                    break;
-                  }
-
-                  case 'Pipe': {
-                    const pipe: SkyManifestPipeDefinition = {
-                      codeExample,
-                      codeExampleLanguage,
-                      deprecationReason,
-                      description,
-                      isDeprecated,
-                      isPreview,
-                      name: child.name,
-                      transformMethod: getPipeTransformMethod(child),
-                    };
-
-                    pack.pipes.push(pipe);
-                    break;
-                  }
-
-                  default: {
-                    const cls: SkyManifestClassDefinition = {
-                      codeExample,
-                      codeExampleLanguage,
-                      deprecationReason,
-                      description,
-                      isDeprecated,
-                      isPreview,
-                      methods: getMethods(child),
-                      name: child.name,
-                      properties: getProperties(child),
-                    };
-
-                    pack.classes.push(cls);
-                    break;
-                  }
+                  section.services.push(svc);
+                  break;
                 }
 
-                break;
+                case 'Component':
+                case 'Directive': {
+                  const directive: SkyManifestDirectiveDefinition = {
+                    anchorId: getAnchorId(child),
+                    codeExample,
+                    codeExampleLanguage,
+                    deprecationReason,
+                    description,
+                    isDeprecated,
+                    isPreview,
+                    name: getDirectiveName(child),
+                    selector: getSelector(child) ?? '',
+                    inputs: getInputs(child),
+                    outputs: getOutputs(child),
+                  };
+
+                  section.directives.push(directive);
+                  break;
+                }
+
+                case 'NgModule': {
+                  const module: SkyManifestClassDefinition = {
+                    anchorId: getAnchorId(child),
+                    codeExample,
+                    codeExampleLanguage,
+                    deprecationReason,
+                    description,
+                    isDeprecated,
+                    isPreview,
+                    methods: getMethods(child),
+                    name: child.name,
+                    properties: getProperties(child),
+                  };
+
+                  section.modules.push(module);
+                  break;
+                }
+
+                case 'Pipe': {
+                  const pipe: SkyManifestPipeDefinition = {
+                    anchorId: getAnchorId(child),
+                    codeExample,
+                    codeExampleLanguage,
+                    deprecationReason,
+                    description,
+                    isDeprecated,
+                    isPreview,
+                    name: child.name,
+                    transformMethod: getPipeTransformMethod(child),
+                  };
+
+                  section.pipes.push(pipe);
+                  break;
+                }
+
+                default: {
+                  const cls: SkyManifestClassDefinition = {
+                    anchorId: getAnchorId(child),
+                    codeExample,
+                    codeExampleLanguage,
+                    deprecationReason,
+                    description,
+                    isDeprecated,
+                    isPreview,
+                    methods: getMethods(child),
+                    name: child.name,
+                    properties: getProperties(child),
+                  };
+
+                  section.classes.push(cls);
+                  break;
+                }
               }
 
-              case ReflectionKind.TypeAlias: {
-                const alias: SkyManifestTypeAliasDefinition = {
-                  codeExample,
-                  codeExampleLanguage,
-                  deprecationReason,
-                  description,
-                  isDeprecated,
-                  isPreview,
-                  name: child.name,
-                  type: getType(child.type),
-                };
-
-                pack.typeAliases.push(alias);
-                break;
-              }
-
-              case ReflectionKind.Enum: {
-                const enumeration: SkyManifestEnumerationDefinition = {
-                  codeExample,
-                  codeExampleLanguage,
-                  deprecationReason,
-                  description,
-                  isDeprecated,
-                  isPreview,
-                  members: getEnumMembers(child),
-                  name: child.name,
-                };
-
-                pack.enumerations.push(enumeration);
-                break;
-              }
-
-              case ReflectionKind.Function: {
-                const func = getFunctionOrMethod(child);
-
-                pack.functions.push(func);
-                break;
-              }
-
-              case ReflectionKind.Interface: {
-                const def: SkyManifestInterfaceDefinition = {
-                  codeExample,
-                  codeExampleLanguage,
-                  deprecationReason,
-                  description,
-                  indexSignatures: getIndexSignatures(child),
-                  isDeprecated,
-                  isPreview,
-                  name: child.name,
-                  properties: getInterfaceProperties(child),
-                };
-
-                pack.interfaces.push(def);
-                break;
-              }
-
-              case ReflectionKind.Variable: {
-                const def: SkyManifestVariableDefinition = {
-                  codeExample,
-                  codeExampleLanguage,
-                  deprecationReason,
-                  description,
-                  isDeprecated,
-                  isPreview,
-                  name: child.name,
-                  type: getType(child.type),
-                };
-
-                pack.variables.push(def);
-                break;
-              }
-
-              default: {
-                console.error(child);
-                throw new Error(`The type of '${child.name}' is not handled!`);
-              }
+              break;
             }
 
-            packages.set(`${packageName}:${groupName}`, pack);
+            case ReflectionKind.TypeAlias: {
+              const alias: SkyManifestTypeAliasDefinition = {
+                anchorId: getAnchorId(child),
+                codeExample,
+                codeExampleLanguage,
+                deprecationReason,
+                description,
+                isDeprecated,
+                isPreview,
+                name: child.name,
+                type: getType(child.type),
+              };
 
-            await fsPromises.writeFile(
-              `manifests/${projectName}_${groupName}.json`,
-              JSON.stringify(pack, undefined, 2),
-            );
+              section.typeAliases.push(alias);
+              break;
+            }
+
+            case ReflectionKind.Enum: {
+              const enumeration: SkyManifestEnumerationDefinition = {
+                anchorId: getAnchorId(child),
+                codeExample,
+                codeExampleLanguage,
+                deprecationReason,
+                description,
+                isDeprecated,
+                isPreview,
+                members: getEnumMembers(child),
+                name: child.name,
+              };
+
+              section.enumerations.push(enumeration);
+              break;
+            }
+
+            case ReflectionKind.Function: {
+              const func = getFunction(child);
+
+              section.functions.push(func);
+              break;
+            }
+
+            case ReflectionKind.Interface: {
+              const def: SkyManifestInterfaceDefinition = {
+                anchorId: getAnchorId(child),
+                codeExample,
+                codeExampleLanguage,
+                deprecationReason,
+                description,
+                indexSignatures: getIndexSignatures(child),
+                isDeprecated,
+                isPreview,
+                name: child.name,
+                properties: getInterfaceProperties(child),
+              };
+
+              section.interfaces.push(def);
+              break;
+            }
+
+            case ReflectionKind.Variable: {
+              const def: SkyManifestVariableDefinition = {
+                anchorId: getAnchorId(child),
+                codeExample,
+                codeExampleLanguage,
+                deprecationReason,
+                description,
+                isDeprecated,
+                isPreview,
+                name: child.name,
+                type: getType(child.type),
+              };
+
+              section.variables.push(def);
+              break;
+            }
+
+            default: {
+              console.error(child);
+              throw new Error(`Unhandled type encountered.`);
+            }
           }
-        }
-      }
 
-      // console.error(`Created manifest for ${projectName}.`);
-      // await app.generateJson(pack, `manifests/${projectName}.json`);
-      // if (testingEntry?.children) {
-      //   packages[`@skyux/${projectName}/testing`] = {};
-      // }
-      // Fix lambda names
-      // Assign anchorIds
-    } else {
-      throw new Error(`Failed to create a TypeDoc project for ${projectName}.`);
+          const sectionName = getPackageSectionName(filePath);
+          sectionsMap.set(sectionName, section);
+        }
+
+        packagesMap.set(refl.entryName, sortMapByKey(sectionsMap));
+      }
     }
+
+    // Assign anchorIds
   }
 
-  // console.log('packages:', JSON.stringify([...packages], undefined, 2));
+  await fsPromises.writeFile(
+    `manifests/public-api.json`,
+    JSON.stringify(toObject(sortMapByKey(packagesMap)), undefined, 2),
+  );
 }
 
 runTypeDoc();

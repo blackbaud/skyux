@@ -1,3 +1,8 @@
+interface SkyManifestTopLevelDefinition extends SkyManifestJSDocsDefinition {
+  anchorId: string;
+  name: string;
+}
+
 export interface SkyManifestJSDocsDefinition {
   codeExample: string;
   codeExampleLanguage: 'markup' | 'typescript';
@@ -18,8 +23,15 @@ export interface SkyManifestParameterDefinition {
   type: string;
 }
 
-export interface SkyManifestFunctionOrMethodDefinition
+export interface SkyManifestFunctionDefinition
+  extends SkyManifestTopLevelDefinition {
+  parameters: SkyManifestParameterDefinition[];
+  returnType: string;
+}
+
+export interface SkyManifestClassMethodDefinition
   extends SkyManifestJSDocsDefinition {
+  isStatic: boolean;
   name: string;
   parameters: SkyManifestParameterDefinition[];
   returnType: string;
@@ -52,16 +64,14 @@ export interface SkyManifestIndexSignatureDefinition
 }
 
 export interface SkyManifestClassDefinition
-  extends SkyManifestJSDocsDefinition {
-  methods: SkyManifestFunctionOrMethodDefinition[];
-  name: string;
+  extends SkyManifestTopLevelDefinition {
+  methods: SkyManifestClassMethodDefinition[];
   properties: SkyManifestClassPropertyDefinition[];
 }
 
 export interface SkyManifestDirectiveDefinition
-  extends SkyManifestJSDocsDefinition {
+  extends SkyManifestTopLevelDefinition {
   inputs: SkyManifestDirectiveInputDefinition[];
-  name: string;
   outputs: SkyManifestClassPropertyDefinition[];
   selector: string;
 }
@@ -73,41 +83,39 @@ export interface SkyManifestEnumerationMemberDefinition
 }
 
 export interface SkyManifestEnumerationDefinition
-  extends SkyManifestJSDocsDefinition {
+  extends SkyManifestTopLevelDefinition {
   members: SkyManifestEnumerationMemberDefinition[];
-  name: string;
 }
 
 export interface SkyManifestInterfaceDefinition
-  extends SkyManifestJSDocsDefinition {
-  name: string;
+  extends SkyManifestTopLevelDefinition {
   properties: SkyManifestInterfacePropertyDefinition[];
   indexSignatures: SkyManifestIndexSignatureDefinition[];
 }
 
-export interface SkyManifestPipeDefinition extends SkyManifestJSDocsDefinition {
-  name: string;
-  transformMethod: SkyManifestFunctionOrMethodDefinition;
+export interface SkyManifestPipeDefinition
+  extends SkyManifestTopLevelDefinition {
+  transformMethod: SkyManifestClassMethodDefinition;
 }
 
 export interface SkyManifestTypeAliasDefinition
-  extends SkyManifestJSDocsDefinition {
-  name: string;
+  extends SkyManifestTopLevelDefinition {
   type: string;
 }
 
 export interface SkyManifestVariableDefinition
-  extends SkyManifestJSDocsDefinition {
-  name: string;
+  extends SkyManifestTopLevelDefinition {
   type: string;
 }
 
-export interface SkyManifestPackage {
+export type SkyManifestPackage = Record<string, SkyManifestPackageSection>;
+
+export interface SkyManifestPackageSection {
   classes: SkyManifestClassDefinition[];
   components: SkyManifestDirectiveDefinition[];
   directives: SkyManifestDirectiveDefinition[];
   enumerations: SkyManifestEnumerationDefinition[];
-  functions: SkyManifestFunctionOrMethodDefinition[];
+  functions: SkyManifestFunctionDefinition[];
   interfaces: SkyManifestInterfaceDefinition[];
   modules: SkyManifestClassDefinition[];
   pipes: SkyManifestPipeDefinition[];
