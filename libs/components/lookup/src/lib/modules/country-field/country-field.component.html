@@ -56,16 +56,19 @@
 </ng-template>
 
 <ng-template #countrySearchResultTemplate let-item="item">
-  <div
-    class="sky-country-field-search-result-flag"
-    [ngClass]="'iti__flag iti__' + item.iso2.toLowerCase()"
-  ></div>
-  {{ item.name }}
-  @if (includePhoneInfo) {
-    <span class="sky-deemphasized">
-      {{ item.dialCode }}
-    </span>
-  }
+  <div class="sky-country-field-search-result-flag">
+    <div [ngClass]="'iti__flag iti__' + item.iso2.toLowerCase()"></div>
+  </div>
+  <div class="sky-country-field-search-result-info">
+    {{ item.name }}
+    @if (includePhoneInfo) {
+      <span
+        class="sky-font-deemphasized sky-country-field-search-result-dial-code"
+      >
+        {{ item.dialCode }}
+      </span>
+    }
+  </div>
 </ng-template>
 
 <!-- This template should only be used in modern theme input boxes. -->

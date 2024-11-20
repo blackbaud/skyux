@@ -127,5 +127,5 @@ describe('lookup-storybook', () => {
         );
       });
     });
-  });
+  }, true);
 });
