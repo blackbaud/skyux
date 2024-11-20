@@ -14,7 +14,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { SkyDatepickerHarness } from './datepicker-harness';
-import { SkyDatepickerInputHarness } from './datepicker-harness-input';
+import { SkyDatepickerInputHarness } from './datepicker-input-harness';
 
 //#region Test component
 @Component({
@@ -273,12 +273,37 @@ describe('Datepicker harness', () => {
           dataSkyId: 'input-wrapped',
         });
 
+        const control = fixture.componentInstance.myForm.get('inputWrapped');
+
         const inputHarness = await datepickerHarness.getControl();
         await inputHarness.setValue('01/03/2021');
 
-        expect(
-          fixture.componentInstance.myForm.controls['inputWrapped'].value,
-        ).toEqual(new Date('01/03/2021'));
+        expect(control?.value).toEqual(new Date('01/03/2021'));
+        expect(control?.touched).toEqual(true);
+      });
+
+      it('should set the touched status when focus leaves the composite control', async () => {
+        const { datepickerHarness, fixture } = await setupTest({
+          dataSkyId: 'input-wrapped',
+        });
+
+        const control = fixture.componentInstance.myForm.get('inputWrapped');
+        const inputHarness = await datepickerHarness.getControl();
+
+        fixture.detectChanges();
+
+        expect(control?.touched).toEqual(false);
+        await expectAsync(inputHarness.isFocused()).toBeResolvedTo(false);
+
+        // Interact with calendar.
+        await datepickerHarness.clickCalendarButton();
+        const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+        await calendarHarness.clickDate('Saturday, December 2nd 2000');
+
+        // Blur the input.
+        await inputHarness.blur();
+
+        expect(control?.touched).toEqual(true);
       });
     });
   });
