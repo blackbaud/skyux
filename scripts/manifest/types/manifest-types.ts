@@ -1,6 +1,20 @@
+export type SkyManifestDefinitionKind =
+  | 'class'
+  | 'component'
+  | 'directive'
+  | 'enumeration'
+  | 'function'
+  | 'interface'
+  | 'module'
+  | 'pipe'
+  | 'service'
+  | 'type-alias'
+  | 'variable';
+
 export interface SkyManifestTopLevelDefinition
   extends SkyManifestJSDocsDefinition {
   anchorId: string;
+  kind: SkyManifestDefinitionKind;
   name: string;
 }
 

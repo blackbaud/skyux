@@ -29,6 +29,7 @@ export function getFunction(
     description,
     isDeprecated,
     isPreview,
+    kind: 'function',
     name: decl.name,
     parameters: getParameters(signature?.parameters),
     returnType: getType(signature?.type),

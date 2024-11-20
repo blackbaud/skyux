@@ -60,6 +60,7 @@ export function getEnum(
     description,
     isDeprecated,
     isPreview,
+    kind: 'enumeration',
     members: getEnumMembers(decl),
     name: decl.name,
   };

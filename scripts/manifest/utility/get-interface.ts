@@ -64,6 +64,7 @@ export function getInterface(
     indexSignatures: getIndexSignatures(decl),
     isDeprecated,
     isPreview,
+    kind: 'interface',
     name: decl.name,
     properties: getInterfaceProperties(decl),
   };

@@ -42,6 +42,7 @@ export function getPipe(
     description,
     isDeprecated,
     isPreview,
+    kind: 'pipe',
     name: decl.name,
     transformMethod: getPipeTransformMethod(decl),
   };

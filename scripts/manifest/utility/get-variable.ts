@@ -25,6 +25,7 @@ export function getVariable(
     description,
     isDeprecated,
     isPreview,
+    kind: 'variable',
     name: decl.name,
     type: getType(decl.type),
   };

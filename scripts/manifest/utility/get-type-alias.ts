@@ -25,6 +25,7 @@ export function getTypeAlias(
     description,
     isDeprecated,
     isPreview,
+    kind: 'type-alias',
     name: decl.name,
     type: getType(decl.type),
   };

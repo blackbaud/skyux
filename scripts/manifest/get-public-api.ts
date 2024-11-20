@@ -25,18 +25,22 @@ function handleClassKind(
 
   switch (decoratorName) {
     case 'Injectable': {
-      section.services.push(getClass(child));
+      section.services.push(getClass(child, 'service'));
       break;
     }
 
-    case 'Component':
+    case 'Component': {
+      section.directives.push(getDirective(child, 'component'));
+      break;
+    }
+
     case 'Directive': {
-      section.directives.push(getDirective(child));
+      section.directives.push(getDirective(child, 'directive'));
       break;
     }
 
     case 'NgModule': {
-      section.modules.push(getClass(child));
+      section.modules.push(getClass(child, 'module'));
       break;
     }
 
@@ -46,7 +50,7 @@ function handleClassKind(
     }
 
     default: {
-      section.classes.push(getClass(child));
+      section.classes.push(getClass(child, 'class'));
       break;
     }
   }
@@ -132,6 +136,7 @@ export async function getPublicApi(): Promise<PackagesMap> {
           }
 
           const sectionName = getSectionName(filePath);
+
           const section: SkyManifestPackageSection = sections.get(
             sectionName,
           ) ?? {
