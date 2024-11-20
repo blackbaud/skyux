@@ -14,7 +14,7 @@ async function getTypeDocProjectReflection(
     entryPoints,
     emit: 'docs',
     excludeExternals: true,
-    excludeInternal: true,
+    excludeInternal: false, // intentional!
     excludePrivate: true,
     excludeProtected: true,
     logLevel: 'Error',

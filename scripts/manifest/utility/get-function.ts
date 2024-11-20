@@ -15,8 +15,8 @@ export function getFunction(
     codeExampleLanguage,
     deprecationReason,
     description,
-
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.signatures?.[0]?.comment);
 
@@ -30,6 +30,7 @@ export function getFunction(
     description,
     filePath,
     isDeprecated,
+    isInternal,
     isPreview,
     kind: 'function',
     name: decl.name,

@@ -110,6 +110,7 @@ export function getDirective(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.comment);
 
@@ -123,6 +124,7 @@ export function getDirective(
     description,
     filePath,
     isDeprecated,
+    isInternal,
     isPreview,
     kind,
     name: directiveName,

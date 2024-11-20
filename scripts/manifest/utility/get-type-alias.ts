@@ -15,6 +15,7 @@ export function getTypeAlias(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.comment);
 
@@ -26,6 +27,7 @@ export function getTypeAlias(
     description,
     filePath,
     isDeprecated,
+    isInternal,
     isPreview,
     kind: 'type-alias',
     name: decl.name,

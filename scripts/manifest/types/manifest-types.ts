@@ -16,6 +16,7 @@ export interface SkyManifestTopLevelDefinition
   anchorId: string;
   filePath: string;
   kind: SkyManifestDefinitionKind;
+  isInternal: boolean;
   name: string;
 }
 

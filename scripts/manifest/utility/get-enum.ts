@@ -50,6 +50,7 @@ export function getEnum(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.comment);
 
@@ -61,6 +62,7 @@ export function getEnum(
     description,
     filePath,
     isDeprecated,
+    isInternal,
     isPreview,
     kind: 'enumeration',
     members: getEnumMembers(decl),

@@ -53,6 +53,7 @@ export function getInterface(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.comment);
 
@@ -65,6 +66,7 @@ export function getInterface(
     filePath,
     indexSignatures: getIndexSignatures(decl),
     isDeprecated,
+    isInternal,
     isPreview,
     kind: 'interface',
     name: decl.name,

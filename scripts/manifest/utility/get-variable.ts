@@ -15,6 +15,7 @@ export function getVariable(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.comment);
 
@@ -26,6 +27,7 @@ export function getVariable(
     description,
     filePath,
     isDeprecated,
+    isInternal,
     isPreview,
     kind: 'variable',
     name: decl.name,

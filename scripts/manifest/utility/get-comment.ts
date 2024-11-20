@@ -16,6 +16,7 @@ export function getComment(comment: Comment | undefined): {
   defaultValue: string;
   description: string;
   isDeprecated: boolean;
+  isInternal: boolean;
   isPreview: boolean;
   isRequired: boolean;
 } {
@@ -25,10 +26,13 @@ export function getComment(comment: Comment | undefined): {
   let defaultValue = '';
   let description = '';
   let isDeprecated = false;
+  let isInternal = false;
   let isPreview = false;
   let isRequired = false;
 
   if (comment) {
+    isInternal = comment.modifierTags.has('@internal');
+
     if (comment.blockTags) {
       comment.blockTags.forEach((tag) => {
         switch (tag.tag) {
@@ -88,6 +92,7 @@ export function getComment(comment: Comment | undefined): {
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
     isRequired,
   };

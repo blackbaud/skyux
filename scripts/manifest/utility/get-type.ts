@@ -5,6 +5,7 @@ import {
   IntrinsicType,
   LiteralType,
   MappedType,
+  PredicateType,
   ReferenceType,
   ReflectionType,
   SignatureReflection,
@@ -132,6 +133,10 @@ export function getType(type: SomeType | undefined): string {
 
     if (type instanceof MappedType) {
       return type.parameter;
+    }
+
+    if (type instanceof PredicateType) {
+      return getType(type.targetType);
     }
 
     console.error(type);

@@ -32,6 +32,7 @@ export function getPipe(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.comment);
 
@@ -43,6 +44,7 @@ export function getPipe(
     description,
     filePath,
     isDeprecated,
+    isInternal,
     isPreview,
     kind: 'pipe',
     name: decl.name,

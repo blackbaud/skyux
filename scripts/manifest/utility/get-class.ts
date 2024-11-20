@@ -151,6 +151,7 @@ export function getClass(
     deprecationReason,
     description,
     isDeprecated,
+    isInternal,
     isPreview,
   } = getComment(decl.comment);
 
@@ -162,6 +163,7 @@ export function getClass(
     description,
     filePath,
     isDeprecated,
+    isInternal,
     isPreview,
     kind,
     methods: getMethods(decl),
