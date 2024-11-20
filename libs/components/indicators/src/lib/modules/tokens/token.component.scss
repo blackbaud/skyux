@@ -3,66 +3,78 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-token') {
-  --sky-override-token-background-color: #{$sky-background-color-info-light};
   --sky-override-token-active-background-color: #{darken(
       $sky-background-color-info-light,
       10%
     )};
+  --sky-override-token-active-border: 1px solid #{$sky-highlight-color-info};
+  --sky-override-token-active-box-shadow: #{0 0 8px
+    rgba($sky-highlight-color-info, 0.6)};
+  --sky-override-token-align-items: inherit;
+  --sky-override-token-background-color: #{$sky-background-color-info-light};
+  --sky-override-token-border: 1px solid #{$sky-highlight-color-info};
+  --sky-override-token-box-shadow: none;
+  --sky-override-token-button-padding: 2px 8px;
+  --sky-override-token-close-align-items: inherit;
+  --sky-override-token-close-active-background-color: transparent;
+  --sky-override-token-close-active-box-shadow: none;
+  --sky-override-token-close-border-radius: 3px;
+  --sky-override-token-close-button-opacity: 0.9;
+  --sky-override-token-close-display: inline-block;
+  --sky-override-token-close-focus-background-color: transparent
+    --sky-override-token-close-focus-box-shadow: none;
+  --sky-override-token-close-focus-outline: auto;
+  --sky-override-token-close-hover-background-color: transparent;
+  --sky-override-token-close-hover-box-shadow: none;
+  --sky-override-token-close-icon-width: initial;
+  --sky-override-token-close-line-height: calc(20 / 14);
+  --sky-override-token-close-margin-left: -2px;
+  --sky-override-token-close-padding: 2px 8px;
+  --sky-override-token-close-size: '';
+  --sky-override-token-color-background-container-danger: var(
+    --sky-background-color-danger
+  );
+  --sky-override-token-color-background-container-info: var(
+    --sky-background-color-info
+  );
+  --sky-override-token-color-background-container-success: var(
+    --sky-background-color-success
+  );
+  --sky-override-token-color-background-container-warning: var(
+    --sky-background-color-warning
+  );
+  --sky-override-token-display: inline-block;
+  --sky-override-token-disabled-background-color: #{$sky-background-color-info-light};
+  --sky-override-token-dismissible-padding-right: 0;
+  --sky-override-token-font-size: 15px;
   --sky-override-token-focused-background-color: #{darken(
       $sky-background-color-info-light,
       10%
     )};
+  --sky-override-token-focused-border: 1px solid #{$sky-highlight-color-info};
+  --sky-override-token-focused-box-shadow: #{0 0 8px
+    rgba($sky-highlight-color-info, 0.6)};
   --sky-override-token-hover-background-color: #{darken(
       $sky-background-color-info-light,
       10%
     )};
-  --sky-override-token-font-size: 15px;
-  --sky-override-token-padding: 0;
-  --sky-override-token-close-margin-left: -2px;
-  --sky-override-token-dismissible-padding-right: 0;
-  --sky-override-token-align-items: inherit;
-  --sky-override-token-display: inline-block;
-  --sky-override-token-button-padding: 2px 8px;
-  --sky-override-token-border: 1px solid #{$sky-highlight-color-info};
-  --sky-override-token-active-border: 1px solid #{$sky-highlight-color-info};
-  --sky-override-token-focused-border: 1px solid #{$sky-highlight-color-info};
   --sky-override-token-hover-border: 1px solid #{darken(
       $sky-highlight-color-info,
       10%
     )};
-  --sky-override-token-box-shadow: none;
-  --sky-override-token-active-box-shadow: #{0 0 8px
-    rgba($sky-highlight-color-info, 0.6)};
   --sky-override-token-hover-box-shadow: none;
-  --sky-override-token-focused-box-shadow: #{0 0 8px
-    rgba($sky-highlight-color-info, 0.6)};
-  --sky-override-token-close-icon-width: initial;
-  --sky-override-token-disabled-background-color: #{$sky-background-color-info-light};
-  --sky-override-token-close-padding: 2px 8px;
-  --sky-override-token-close-border-radius: 3px;
-  --sky-override-token-close-display: inline-block;
-  --sky-override-token-close-align-items: inherit;
-  --sky-override-token-close-size: '';
-  --sky-override-token-close-line-height: calc(20 / 14);
-  --sky-override-token-close-button-opacity: 0.9;
-  --sky-override-token-close-active-background-color: transparent;
-  --sky-override-token-close-active-box-shadow: none;
-  --sky-override-token-close-hover-box-shadow: none;
-  --sky-override-token-close-hover-background-color: transparent;
-  --sky-override-token-close-focus-outline: auto;
-  --sky-override-token-close-focus-background-color: transparent
-    --sky-override-token-close-focus-box-shadow: none;
+  --sky-override-token-padding: 0;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-token') {
-  --sky-override-token-font-size: var(--modern-font-size-150);
-  --sky-override-token-padding: 0;
   --sky-override-token-button-padding: var(--modern-size-1) var(--modern-size-5);
-  --sky-override-token-close-padding: 0;
-  --sky-override-token-close-size: var(--modern-size-20);
-  --sky-override-token-close-line-height: calc(20 / 14);
   --sky-override-token-close-button-opacity: 0.9;
   --sky-override-token-close-hover-box-shadow: inset 0 0 0 1px transparent;
+  --sky-override-token-close-line-height: calc(20 / 14);
+  --sky-override-token-close-padding: 0;
+  --sky-override-token-close-size: var(--modern-size-20);
+  --sky-override-token-font-size: var(--modern-font-size-150);
+  --sky-override-token-padding: 0;
 }
 
 .sky-token {
@@ -174,7 +186,7 @@
   );
   border-radius: var(
     --sky-override-token-close-border-radius,
-    calc(var(--sky-border-radius-s) - var(--sky-border-width-action-selected-s))
+    calc(var(--sky-border-radius-s) - var(--sky-border-width-selected-s))
   );
   align-items: var(--sky-override-token-close-align-items, center);
   display: var(--sky-override-token-close-display, flex);
@@ -235,7 +247,7 @@
 .sky-token-dismissible {
   padding-right: var(
     --sky-override-token-dismissible-padding-right,
-    var(--sky-border-width-action-selected-s)
+    var(--sky-border-width-selected-s)
   );
 
   .sky-token-btn-action {

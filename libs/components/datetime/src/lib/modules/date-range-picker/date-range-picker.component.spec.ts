@@ -21,6 +21,16 @@ describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
 
+  function blurInput(inputEl: Element): void {
+    inputEl.dispatchEvent(
+      new FocusEvent('focusout', {
+        bubbles: true,
+        cancelable: true,
+        relatedTarget: null,
+      }),
+    );
+  }
+
   function detectChanges(): void {
     fixture.detectChanges();
     tick();
@@ -386,11 +396,11 @@ describe('Date range picker', function () {
   it('should mark only start date input as touched when start date is interacted with', () => {
     fixture.detectChanges();
 
-    const datepickerInputs = fixture.nativeElement.querySelectorAll(
-      '.sky-input-group input',
-    );
+    const datepickerInputs = (
+      fixture.nativeElement as HTMLElement
+    ).querySelectorAll('.sky-input-group input');
 
-    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(0), 'blur');
+    blurInput(datepickerInputs.item(0));
 
     fixture.detectChanges();
 
@@ -398,19 +408,19 @@ describe('Date range picker', function () {
     expect(datepickerInputs.item(1)).toHaveCssClass('ng-untouched');
   });
 
-  it('should mark only start date input as touched when start date is interacted with', () => {
+  it('should mark only end date input as touched when end date is interacted with', () => {
     fixture.detectChanges();
 
     const datepickerInputs = fixture.nativeElement.querySelectorAll(
       '.sky-input-group input',
     );
 
-    SkyAppTestUtility.fireDomEvent(datepickerInputs.item(1), 'blur');
+    blurInput(datepickerInputs.item(1));
 
     fixture.detectChanges();
 
-    expect(datepickerInputs.item(1)).toHaveCssClass('ng-touched');
     expect(datepickerInputs.item(0)).toHaveCssClass('ng-untouched');
+    expect(datepickerInputs.item(1)).toHaveCssClass('ng-touched');
   });
 
   it('should maintain selected value when calculators change', fakeAsync(function () {
@@ -875,6 +885,69 @@ describe('Date range picker', function () {
       },
     });
   });
+
+  it('should not mark calculator as invalid when the error is from the datepicker', fakeAsync(() => {
+    detectChanges();
+    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+    const control = component.dateRange;
+    control?.markAllAsTouched();
+    detectChanges();
+
+    const calculatorInput = fixture.nativeElement.querySelector(
+      '.sky-date-range-picker-select-calculator .sky-input-box-input-group-inner',
+    );
+    const startInput: HTMLElement = fixture.nativeElement.querySelector(
+      '.sky-date-range-picker-start-date .sky-input-box-input-group-inner',
+    );
+
+    expect(
+      startInput.classList.contains('sky-field-status-invalid'),
+    ).toBeTrue();
+    expect(
+      calculatorInput.classList.contains('sky-field-status-invalid'),
+    ).toBeFalse();
+
+    const selectedValue: SkyDateRangeCalculation = {
+      calculatorId: SkyDateRangeCalculatorId.SpecificRange,
+      startDate: new Date('1/1/2000'),
+      endDate: new Date('1/2/1997'),
+    };
+
+    control?.setValue(selectedValue);
+
+    detectChanges();
+
+    expect(
+      startInput.classList.contains('sky-field-status-invalid'),
+    ).toBeTrue();
+    expect(
+      calculatorInput.classList.contains('sky-field-status-invalid'),
+    ).toBeTrue();
+  }));
+
+  it('should display custom form errors and mark all inputs as invalid', fakeAsync(() => {
+    detectChanges();
+    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
+    detectChanges();
+    const control = component.dateRange;
+    control?.setErrors({
+      customError: true,
+    });
+    control?.markAllAsTouched();
+    detectChanges();
+
+    const inputs: HTMLElement[] = fixture.nativeElement.querySelectorAll(
+      '.sky-input-box-input-group-inner',
+    );
+
+    inputs.forEach((input) => {
+      expect(input.classList.contains('sky-field-status-invalid')).toBeTrue();
+    });
+
+    expect(
+      fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
+    ).toBe('Error: This is a custom error.');
+  }));
 
   describe('accessibility', () => {
     function verifyFormFieldsRequired(expectation: boolean): void {

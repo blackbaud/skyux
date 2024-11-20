@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: 'angular-tree',
     loadChildren: () =>
-      import('./features/angular-tree.modules').then(
+      import('./features/angular-tree.module').then(
         (m) => m.AngularTreeFeatureModule,
       ),
   },

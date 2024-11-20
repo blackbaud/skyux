@@ -3,8 +3,8 @@
 @include compatMixins.sky-default-overrides('.sky-datepicker-btn-date') {
   --sky-override-daypicker-disabled-style: italic;
   --sky-override-daypicker-key-date-color: #d93a3d;
-  --sky-override-daypicker-key-date-size: 5px;
   --sky-override-daypicker-key-date-left: 15px;
+  --sky-override-daypicker-key-date-size: 5px;
   --sky-override-daypicker-key-date-top: 22px;
 }
 

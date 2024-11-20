@@ -3,12 +3,12 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-date-range-picker') {
-  --sky-override-date-range-picker-responsive-bottom-margin: var(
-    --sky-margin-stacked-lg
-  );
   --sky-override-date-range-picker-margin-right: 0;
   --sky-override-date-range-picker-padding-left: #{$sky-padding-half};
   --sky-override-date-range-picker-padding-right: #{$sky-padding-half};
+  --sky-override-date-range-picker-responsive-bottom-margin: var(
+    --sky-margin-stacked-lg
+  );
 }
 
 :host {

@@ -2,9 +2,9 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-checkbox-group') {
-  --sky-override-checkbox-group-hint-text-space: #{$sky-space-xs};
   --sky-override-checkbox-group-content-space: #{$sky-space-sm};
   --sky-override-checkbox-group-content-with-hint-text-space: #{$sky-space-md};
+  --sky-override-checkbox-group-hint-text-space: #{$sky-space-xs};
 
   .sky-checkbox-group-legend {
     .sky-checkbox-group-heading-text {

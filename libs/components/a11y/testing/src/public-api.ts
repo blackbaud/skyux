@@ -1,1 +1,1 @@
-export { SkySkipLinksHarness } from './skip-link/skip-links-harness';
+export { SkySkipLinksHarness } from './modules/skip-link/skip-links-harness';

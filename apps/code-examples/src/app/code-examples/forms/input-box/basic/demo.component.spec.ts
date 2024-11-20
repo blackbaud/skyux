@@ -2,48 +2,64 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { DemoComponent } from './demo.component';
 
 describe('Basic input box demo', () => {
-  async function setupTest(options: {
-    dataSkyId: string;
-  }): Promise<SkyInputBoxHarness> {
+  async function setupTest(options: { dataSkyId: string }): Promise<{
+    inputBoxHarness: SkyInputBoxHarness;
+    helpController: SkyHelpTestingController;
+  }> {
     const fixture = TestBed.createComponent(DemoComponent);
-
     const loader = TestbedHarnessEnvironment.loader(fixture);
-
-    const harness = await loader.getHarness(
+    const helpController = TestBed.inject(SkyHelpTestingController);
+    const inputBoxHarness = await loader.getHarness(
       SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),
     );
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    return harness;
+    return { inputBoxHarness, helpController };
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, DemoComponent],
+      imports: [NoopAnimationsModule, DemoComponent, SkyHelpTestingModule],
     });
   });
 
   describe('first name field', () => {
     it('should have the expected label text and stacked values', async () => {
-      const harness = await setupTest({
+      const { inputBoxHarness } = await setupTest({
         dataSkyId: 'input-box-first-name',
       });
 
-      await expectAsync(harness.getLabelText()).toBeResolvedTo('First name');
-      await expectAsync(harness.getStacked()).toBeResolvedTo(true);
+      await expectAsync(inputBoxHarness.getLabelText()).toBeResolvedTo(
+        'First name',
+      );
+      await expectAsync(inputBoxHarness.getStacked()).toBeResolvedTo(true);
+    });
+
+    it('should have the correct help key', async () => {
+      const { inputBoxHarness, helpController } = await setupTest({
+        dataSkyId: 'input-box-first-name',
+      });
+
+      await inputBoxHarness.clickHelpInline();
+
+      helpController.expectCurrentHelpKey('first-name-help');
     });
   });
 
   describe('last name field', () => {
     it('should have last name required', async () => {
-      const harness = await setupTest({
+      const { inputBoxHarness } = await setupTest({
         dataSkyId: 'input-box-last-name',
       });
 
@@ -57,17 +73,19 @@ describe('Basic input box demo', () => {
         SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
       }
 
-      await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
+      await expectAsync(inputBoxHarness.hasRequiredError()).toBeResolvedTo(
+        true,
+      );
     });
   });
 
   describe('bio field', () => {
     it('should have a character limit of 250', async () => {
-      const harness = await setupTest({
+      const { inputBoxHarness } = await setupTest({
         dataSkyId: 'input-box-bio',
       });
 
-      const characterCounter = await harness.getCharacterCounter();
+      const characterCounter = await inputBoxHarness.getCharacterCounter();
 
       await expectAsync(characterCounter.getCharacterCount()).toBeResolvedTo(0);
       await expectAsync(
@@ -76,11 +94,11 @@ describe('Basic input box demo', () => {
     });
 
     it('should show hint text', async () => {
-      const harness = await setupTest({
+      const { inputBoxHarness } = await setupTest({
         dataSkyId: 'input-box-bio',
       });
 
-      const hintText = await harness.getHintText();
+      const hintText = await inputBoxHarness.getHintText();
 
       expect(hintText).toBe(
         `A brief description of the member's background, such as hometown, school, hobbies, etc.`,
@@ -90,16 +108,16 @@ describe('Basic input box demo', () => {
 
   describe('email field', () => {
     it('should show a help popover with the expected text', async () => {
-      const harness = await setupTest({
+      const { inputBoxHarness } = await setupTest({
         dataSkyId: 'input-box-email',
       });
 
-      await harness.clickHelpInline();
+      await inputBoxHarness.clickHelpInline();
 
-      const helpPopoverTitle = await harness.getHelpPopoverTitle();
+      const helpPopoverTitle = await inputBoxHarness.getHelpPopoverTitle();
       expect(helpPopoverTitle).toBe('Privacy notice');
 
-      const helpPopoverContent = await harness.getHelpPopoverContent();
+      const helpPopoverContent = await inputBoxHarness.getHelpPopoverContent();
       expect(helpPopoverContent).toBe(
         `We do not share this information with any third parties.`,
       );
@@ -108,7 +126,7 @@ describe('Basic input box demo', () => {
 
   describe('favorite color field', () => {
     it('should not allow invalid color to be selected', async () => {
-      const harness = await setupTest({
+      const { inputBoxHarness } = await setupTest({
         dataSkyId: 'input-box-favorite-color',
       });
 
@@ -121,9 +139,9 @@ describe('Basic input box demo', () => {
         selectEl.dispatchEvent(new Event('change'));
       }
 
-      await expectAsync(harness.hasCustomFormError('invalid')).toBeResolvedTo(
-        true,
-      );
+      await expectAsync(
+        inputBoxHarness.hasCustomFormError('invalid'),
+      ).toBeResolvedTo(true);
     });
   });
 });

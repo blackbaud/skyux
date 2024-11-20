@@ -16,6 +16,13 @@ const routes: Routes = [
         (c) => c.DemoComponent,
       ),
   },
+  {
+    path: 'text-editor/help-key',
+    loadComponent: () =>
+      import('../code-examples/text-editor/help-key/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
 ];
 
 @NgModule({

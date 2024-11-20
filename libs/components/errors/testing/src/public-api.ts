@@ -1,3 +1,3 @@
-export { SkyErrorFixture } from './error-fixture';
+export { SkyErrorFixture } from './legacy/error-fixture';
 
-export { SkyErrorModalHarness } from './error-modal/error-modal-harness';
+export { SkyErrorModalHarness } from './modules/error/error-modal-harness';

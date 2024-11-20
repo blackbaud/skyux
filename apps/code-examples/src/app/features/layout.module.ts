@@ -38,6 +38,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'box/help-key',
+    loadComponent: () =>
+      import('../code-examples/layout/box/help-key/demo.component').then(
+        (c) => c.DemoComponent,
+      ),
+  },
+  {
     path: 'card/basic',
     loadComponent: () =>
       import('../code-examples/layout/card/basic/demo.component').then(
@@ -77,6 +84,13 @@ const routes: Routes = [
     loadComponent: () =>
       import(
         '../code-examples/layout/description-list/long-description/demo.component'
+      ).then((c) => c.DemoComponent),
+  },
+  {
+    path: 'description-list/help-key',
+    loadComponent: () =>
+      import(
+        '../code-examples/layout/description-list/help-key/demo.component'
       ).then((c) => c.DemoComponent),
   },
   {

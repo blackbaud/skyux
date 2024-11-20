@@ -4,22 +4,18 @@
 
 @include compatMixins.sky-modern-overrides('.sky-btn', false) {
   --sky-override-borderless-icon-size: 26px;
-  --sky-override-button-padding: 9px 21px;
+  --sky-override-button-icon-borderless-padding: 1px;
+  --sky-override-button-icon-padding: 9px 15px;
+  --sky-override-button-link-inline-border-radius: 0;
   --sky-override-button-link-inline-color-disabled: var(
     --sky-color-text-action
   );
   --sky-override-button-link-inline-color-hover-active: var(
     --sky-text-color-action-primary-hover
   );
-  &.sky-btn-link-inline,
-  &.sky-btn-borderless-inline {
-    --sky-override-button-opacity-disabled: 0.65;
-  }
-  --sky-override-button-link-inline-border-radius: 0;
   --sky-override-button-link-inline-font-size: var(--sky-font-size-body-m);
   --sky-override-button-link-inline-vertical-align: top;
-  --sky-override-button-icon-borderless-padding: 1px;
-  --sky-override-button-icon-padding: 9px 15px;
+  --sky-override-button-padding: 9px 21px;
 
   --sky-override-button-primary-disabled-box-shadow: inset 0 0 0
       var(--sky-border-width-action-focus)
@@ -53,6 +49,7 @@
   &.sky-btn-link-inline,
   &.sky-btn-borderless-inline {
     --sky-override-button-line-height: normal;
+    --sky-override-button-opacity-disabled: 0.65;
   }
 }
 
@@ -488,7 +485,7 @@
         .sky-dropdown-button-type-tab
       ):not(:focus-visible) {
       background-color: var(--sky-color-background-nav-hover);
-      border-bottom: var(--sky-border-width-action-selected-s)
+      border-bottom: var(--sky-border-width-selected-s)
         var(--sky-border-style-accent)
         var(
           --sky-override-tab-hover-border-bottom-color,
@@ -497,7 +494,7 @@
       color: var(--sky-color-text-default);
       padding-bottom: calc(
         var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
-            --sky-border-width-action-selected-s
+            --sky-border-width-selected-s
           )
       );
     }
@@ -510,16 +507,16 @@
 
     &:focus-visible:not(:active) {
       color: var(--sky-color-text-default);
-      outline: solid var(--sky-border-width-action-selected-m)
+      outline: solid var(--sky-border-width-selected-m)
         var(--sky-color-border-selected);
-      outline-offset: calc(var(--sky-border-width-action-selected-m) * -1);
+      outline-offset: calc(var(--sky-border-width-selected-m) * -1);
       box-shadow: var(--sky-elevation-focus);
     }
 
     &:active {
       color: var(--sky-color-text-default);
       background-color: var(--sky-color-background-nav-active);
-      border-bottom: var(--sky-border-width-action-selected-s)
+      border-bottom: var(--sky-border-width-selected-s)
         var(--sky-border-style-accent)
         var(
           --sky-override-tab-hover-border-bottom-color,
@@ -528,7 +525,7 @@
       padding-bottom: calc(
         var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
             --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-action-selected-s)
+            var(--sky-border-width-selected-s)
           )
       );
     }
@@ -563,13 +560,13 @@
     &:not(:active) {
       border-bottom: var(
           --sky-override-tab-selected-border-bottom-size,
-          var(--sky-border-width-action-selected-l)
+          var(--sky-border-width-selected-l)
         )
         var(--sky-border-style-accent) var(--sky-color-border-selected);
       padding-bottom: calc(
         var(--sky-space-inset-pillarbox-2_3-bottom-m) - var(
             --sky-override-tab-selected-border-bottom-size,
-            var(--sky-border-width-action-selected-l)
+            var(--sky-border-width-selected-l)
           )
       );
     }
@@ -632,14 +629,14 @@
         border-radius: 0 var(--sky-border-radius-s) var(--sky-border-radius-s) 0;
         border-left: var(
             --sky-override-selected-dropdown-item-border-width,
-            var(--sky-border-width-action-selected-l)
+            var(--sky-border-width-selected-l)
           )
           var(--sky-border-style-accent) var(--sky-color-border-selected);
         padding-bottom: var(--sky-space-inset-pillarbox-2_3-bottom-m);
         padding-left: calc(
           var(--sky-space-inset-pillarbox-2_3-left-m) - var(
               --sky-override-selected-dropdown-item-border-width,
-              var(--sky-border-width-action-selected-l)
+              var(--sky-border-width-selected-l)
             )
         );
       }

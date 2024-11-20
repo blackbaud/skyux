@@ -11,7 +11,9 @@ import {
   Optional,
   Renderer2,
   forwardRef,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -27,6 +29,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from './date-formatter';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
+import { SkyDatepickerHostService } from './datepicker-host.service';
 import { SkyDatepickerComponent } from './datepicker.component';
 import { SkyFuzzyDate } from './fuzzy-date';
 import { SkyFuzzyDateService } from './fuzzy-date.service';
@@ -49,6 +52,9 @@ const SKY_FUZZY_DATEPICKER_VALIDATOR = {
     SKY_FUZZY_DATEPICKER_VALUE_ACCESSOR,
     SKY_FUZZY_DATEPICKER_VALIDATOR,
   ],
+  host: {
+    '(focusout)': 'onFocusout($event)',
+  },
 })
 export class SkyFuzzyDatepickerInputDirective
   implements
@@ -234,6 +240,8 @@ export class SkyFuzzyDatepickerInputDirective
 
   #ngUnsubscribe = new Subject<void>();
 
+  #notifyTouched: (() => void) | undefined;
+
   #_futureDisabled: boolean | undefined = false;
 
   #_dateFormat: string | undefined;
@@ -258,6 +266,10 @@ export class SkyFuzzyDatepickerInputDirective
   #fuzzyDateService: SkyFuzzyDateService;
   #renderer: Renderer2;
   #datepickerComponent: SkyDatepickerComponent;
+
+  readonly #datepickerHostSvc = inject(SkyDatepickerHostService, {
+    optional: true,
+  });
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -292,6 +304,17 @@ export class SkyFuzzyDatepickerInputDirective
         this.#preferredShortDateFormat =
           SkyDateFormatter.getPreferredShortDateFormat();
       });
+
+    this.#datepickerHostSvc?.focusout
+      .pipe(takeUntilDestroyed())
+      .subscribe((evt) => {
+        const isFocusingInput =
+          evt.relatedTarget === this.#elementRef.nativeElement;
+
+        if (!isFocusingInput) {
+          this.#notifyTouched?.();
+        }
+      });
   }
 
   public ngOnInit(): void {
@@ -313,7 +336,6 @@ export class SkyFuzzyDatepickerInputDirective
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((value: Date) => {
         this.#value = value;
-        this.#onTouched();
       });
   }
 
@@ -348,8 +370,6 @@ export class SkyFuzzyDatepickerInputDirective
 
   @HostListener('blur')
   public onInputBlur(): void {
-    this.#onTouched();
-
     const formattedDate = this.#fuzzyDateService.format(
       this.#value,
       this.dateFormat,
@@ -482,7 +502,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.#onTouched = fn;
+    this.#notifyTouched = fn;
   }
 
   public registerOnValidatorChange(fn: () => void): void {
@@ -500,6 +520,12 @@ export class SkyFuzzyDatepickerInputDirective
    */
   public detectInputValueChange(): void {
     this.#onValueChange(this.#elementRef.nativeElement.value);
+  }
+
+  protected onFocusout(evt: FocusEvent): void {
+    if (!this.#datepickerHostSvc?.isFocusingDatepicker(evt)) {
+      this.#notifyTouched?.();
+    }
   }
 
   #onValueChange(newValue: string): void {
@@ -561,8 +587,6 @@ export class SkyFuzzyDatepickerInputDirective
 
   // istanbul ignore next
   #onChange = (_: any) => {};
-  // istanbul ignore next
-  #onTouched = () => {};
   // istanbul ignore next
   #onValidatorChange = () => {};
 
