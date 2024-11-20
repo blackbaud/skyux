@@ -1,3 +1,3 @@
-export { SkyAvatarFixture } from './avatar-fixture';
+export { SkyAvatarFixture } from './legacy/avatar-fixture';
 
-export { SkyAvatarHarness } from './avatar/avatar-harness';
+export { SkyAvatarHarness } from './modules/avatar/avatar-harness';

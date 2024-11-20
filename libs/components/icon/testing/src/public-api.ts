@@ -1,2 +1,2 @@
-export { SkyIconHarness } from './icon/icon-harness';
-export { SkyIconHarnessFilters } from './icon/icon-harness-filters';
+export { SkyIconHarness } from './modules/icon/icon-harness';
+export { SkyIconHarnessFilters } from './modules/icon/icon-harness-filters';

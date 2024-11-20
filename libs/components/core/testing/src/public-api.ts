@@ -1,17 +1,17 @@
-export { SkyCoreTestingModule } from './core-testing.module';
-export { SkyHelpTestingController } from './help/help-testing-controller';
-export { SkyHelpTestingModule } from './help/help-testing.module';
-export { SkyMediaQueryTestingController } from './media-query/media-query-testing-controller';
-export { provideSkyMediaQueryTesting } from './media-query/provide-media-query-testing';
-export { MockSkyMediaQueryService } from './mock-media-query.service';
-export { MockSkyUIConfigService } from './mock-ui-config.service';
-export { SkyOverlayHarness } from './overlay/overlay-harness';
-export { SkyOverlayHarnessFilters } from './overlay/overlay-harness-filters';
+export { SkyCoreTestingModule } from './legacy/core-testing.module';
+export { MockSkyMediaQueryService } from './legacy/mock-media-query.service';
+export { MockSkyUIConfigService } from './legacy/mock-ui-config.service';
 export {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
-} from './resize-observer-mock';
+} from './legacy/resize-observer-mock';
+export { SkyHelpTestingController } from './modules/help/help-testing-controller';
+export { SkyHelpTestingModule } from './modules/help/help-testing.module';
+export { SkyMediaQueryTestingController } from './modules/media-query/media-query-testing-controller';
+export { provideSkyMediaQueryTesting } from './modules/media-query/provide-media-query-testing';
+export { SkyOverlayHarness } from './modules/overlay/overlay-harness';
+export { SkyOverlayHarnessFilters } from './modules/overlay/overlay-harness-filters';
 export { SkyComponentHarness } from './shared/component-harness';
 export { SkyHarnessFilters } from './shared/harness-filters';
 export { SkyHarnessUtility } from './shared/harness-utility';

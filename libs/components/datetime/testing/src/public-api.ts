@@ -1,10 +1,10 @@
-export { SkyDatepickerFixture } from './datepicker-fixture';
-export { SkyTimepickerFixture } from './timepicker-fixture';
+export { SkyDatepickerFixture } from './legacy/datepicker-fixture';
+export { SkyTimepickerFixture } from './legacy/timepicker-fixture';
 
-export { SkyDateRangePickerHarness } from './date-range-picker/date-range-picker-harness';
-export { SkyDateRangePickerFilters } from './date-range-picker/date-range-picker-harness.filters';
+export { SkyDateRangePickerHarness } from './modules/date-range-picker/date-range-picker-harness';
+export { SkyDateRangePickerFilters } from './modules/date-range-picker/date-range-picker-harness.filters';
 
-export { SkyDatepickerCalendarHarness } from './datepicker/datepicker-calendar-harness';
-export { SkyDatepickerCalendarHarnessFilters } from './datepicker/datepicker-calendar-harness.filters';
-export { SkyDatepickerHarness } from './datepicker/datepicker-harness';
-export { SkyDatepickerFilters } from './datepicker/datepicker-harness.filters';
+export { SkyDatepickerCalendarHarness } from './modules/datepicker/datepicker-calendar-harness';
+export { SkyDatepickerCalendarHarnessFilters } from './modules/datepicker/datepicker-calendar-harness.filters';
+export { SkyDatepickerHarness } from './modules/datepicker/datepicker-harness';
+export { SkyDatepickerFilters } from './modules/datepicker/datepicker-harness.filters';
