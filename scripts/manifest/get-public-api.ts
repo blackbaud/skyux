@@ -113,7 +113,7 @@ export async function getPublicApi(): Promise<PackagesMap> {
           packages.get(refl.entryName) ?? [];
 
         for (const child of refl.children) {
-          const filePath = child.sources?.[0].fullFileName;
+          const filePath = child.sources?.[0].fileName;
 
           if (!filePath || filePath.endsWith('/index.ts')) {
             continue;
