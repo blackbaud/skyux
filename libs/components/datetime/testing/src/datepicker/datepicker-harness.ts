@@ -2,8 +2,8 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyDatepickerCalendarHarness } from './datepicker-calendar-harness';
-import { SkyDatepickerInputHarness } from './datepicker-harness-input';
 import { SkyDatepickerFilters } from './datepicker-harness.filters';
+import { SkyDatepickerInputHarness } from './datepicker-input-harness';
 
 /**
  * Harness for interacting with datepicker components in tests.
