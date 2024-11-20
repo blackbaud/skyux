@@ -306,8 +306,12 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('Cyprus');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__cy');
       }));
 
       it('should only display supported countries', fakeAsync(() => {
@@ -320,12 +324,20 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('United States');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__us');
 
         expect(results[1]).toHaveText('Australia');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__au');
 
         expect(results.length).toBe(2);
       }));
@@ -343,11 +355,19 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('United States');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__us');
         expect(results[1]).toHaveText('Cyprus');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__cy');
       }));
 
       it('should clear the selection when all search text is cleared', fakeAsync(() => {
@@ -495,7 +515,9 @@ describe('Country Field Component', () => {
         });
 
         let searchResults = searchAndGetResults('Austr', fixture);
-        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toBeNull();
 
         component.countryFieldComponent.includePhoneInfo = undefined;
         searchAndSelect('Austr', 0, fixture);
@@ -507,7 +529,9 @@ describe('Country Field Component', () => {
         });
 
         searchResults = searchAndGetResults('Austr', fixture);
-        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toBeNull();
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
@@ -537,9 +561,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
-          '61',
-        );
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toHaveText('61');
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
@@ -876,8 +900,12 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('Cyprus');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__cy');
       }));
 
       it('should only display supported countries', fakeAsync(() => {
@@ -890,12 +918,20 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('United States');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__us');
 
         expect(results[1]).toHaveText('Australia');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__au');
 
         expect(results.length).toBe(2);
       }));
@@ -910,12 +946,20 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('United States');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__us');
 
         expect(results[1]).toHaveText('Australia');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__au');
 
         expect(results.length).toBe(2);
       }));
@@ -958,11 +1002,19 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('United States');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__us');
         expect(results[1]).toHaveText('Cyprus');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__cy');
       }));
 
       it('should clear the selection when all search text is cleared', fakeAsync(() => {
@@ -1118,7 +1170,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toBeNull();
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
@@ -1147,9 +1201,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
-          '61',
-        );
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toHaveText('61');
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
@@ -1345,8 +1399,12 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('Cyprus');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__cy');
       }));
 
       it('should only display supported countries', fakeAsync(() => {
@@ -1359,12 +1417,20 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('United States');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__us');
 
         expect(results[1]).toHaveText('Australia');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__au');
 
         expect(results.length).toBe(2);
       }));
@@ -1384,11 +1450,19 @@ describe('Country Field Component', () => {
         const results = searchAndGetResults('us', fixture);
 
         expect(results[0]).toHaveText('Australia');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[0].querySelector('div')).toHaveCssClass('iti__au');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[0].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__au');
         expect(results[1]).toHaveText('Cyprus');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
-        expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__flag');
+        expect(
+          results[1].querySelector('.sky-country-field-search-result-flag div'),
+        ).toHaveCssClass('iti__cy');
       }));
 
       it('should clear the selection when all search text is cleared', fakeAsync(() => {
@@ -1452,7 +1526,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toBeNull();
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
@@ -1477,9 +1553,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
-          '61',
-        );
+        expect(
+          searchResults[0].querySelector('.sky-font-deemphasized'),
+        ).toHaveText('61');
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
