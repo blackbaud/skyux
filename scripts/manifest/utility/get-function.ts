@@ -8,6 +8,7 @@ import { getType } from './get-type';
 
 export function getFunction(
   decl: DeclarationReflection,
+  filePath: string,
 ): SkyManifestFunctionDefinition {
   const {
     codeExample,
@@ -27,6 +28,7 @@ export function getFunction(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     isDeprecated,
     isPreview,
     kind: 'function',

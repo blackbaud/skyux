@@ -42,6 +42,7 @@ function getEnumMembers(
 
 export function getEnum(
   decl: DeclarationReflection,
+  filePath: string,
 ): SkyManifestEnumerationDefinition {
   const {
     codeExample,
@@ -58,6 +59,7 @@ export function getEnum(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     isDeprecated,
     isPreview,
     kind: 'enumeration',

@@ -7,6 +7,7 @@ import { getType } from './get-type';
 
 export function getTypeAlias(
   decl: DeclarationReflection,
+  filePath: string,
 ): SkyManifestTypeAliasDefinition {
   const {
     codeExample,
@@ -23,6 +24,7 @@ export function getTypeAlias(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     isDeprecated,
     isPreview,
     kind: 'type-alias',

@@ -102,6 +102,7 @@ function getDirectiveName(decl: DeclarationReflection): string {
 export function getDirective(
   decl: DeclarationReflectionWithDecorators,
   kind: 'component' | 'directive',
+  filePath: string,
 ): SkyManifestDirectiveDefinition {
   const {
     codeExample,
@@ -118,6 +119,7 @@ export function getDirective(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     isDeprecated,
     isPreview,
     kind,

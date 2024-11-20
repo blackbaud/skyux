@@ -143,6 +143,7 @@ export function getProperties(
 export function getClass(
   decl: DeclarationReflection,
   kind: 'class' | 'module' | 'service',
+  filePath: string,
 ): SkyManifestClassDefinition {
   const {
     codeExample,
@@ -159,6 +160,7 @@ export function getClass(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     isDeprecated,
     isPreview,
     kind,

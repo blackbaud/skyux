@@ -1,5 +1,3 @@
-import fsPromises from 'fs/promises';
-import { glob } from 'glob';
 import { DeclarationReflection, ReflectionKind } from 'typedoc';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
@@ -19,62 +17,64 @@ export type PackagesMap = Map<string, SkyManifestTopLevelDefinition[]>;
 
 function handleClassKind(
   child: DeclarationReflection,
+  filePath: string,
 ): SkyManifestTopLevelDefinition {
   const decoratorName = getDecorator(child);
 
   switch (decoratorName) {
     case 'Injectable': {
-      return getClass(child, 'service');
+      return getClass(child, 'service', filePath);
     }
 
     case 'Component': {
-      return getDirective(child, 'component');
+      return getDirective(child, 'component', filePath);
     }
 
     case 'Directive': {
-      return getDirective(child, 'directive');
+      return getDirective(child, 'directive', filePath);
     }
 
     case 'NgModule': {
-      return getClass(child, 'module');
+      return getClass(child, 'module', filePath);
     }
 
     case 'Pipe': {
-      return getPipe(child);
+      return getPipe(child, filePath);
     }
 
     default: {
-      return getClass(child, 'class');
+      return getClass(child, 'class', filePath);
     }
   }
 }
 
 function getManifestItem(
   child: DeclarationReflection,
+  filePath: string,
 ): SkyManifestTopLevelDefinition {
   switch (child.kind) {
     case ReflectionKind.Class: {
-      return handleClassKind(child);
+      return handleClassKind(child, filePath);
     }
 
     case ReflectionKind.TypeAlias: {
-      return getTypeAlias(child);
+      return getTypeAlias(child, filePath);
     }
 
     case ReflectionKind.Enum: {
-      return getEnum(child);
+      return getEnum(child, filePath);
     }
 
     case ReflectionKind.Function: {
-      return getFunction(child);
+      return getFunction(child, filePath);
     }
 
     case ReflectionKind.Interface: {
-      return getInterface(child);
+      return getInterface(child, filePath);
     }
 
     case ReflectionKind.Variable: {
-      return getVariable(child);
+      return getVariable(child, filePath);
     }
 
     default: {
@@ -85,81 +85,8 @@ function getManifestItem(
   }
 }
 
-function sortObjectByKeys<T extends Record<string, unknown>>(obj: T): T {
-  return Object.keys(obj)
-    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
-    .reduce<Record<string, unknown>>((acc, key) => {
-      acc[key] = obj[key];
-      return acc;
-    }, {}) as T;
-}
-
-function getSectionName(filePath: string): string | undefined {
-  return filePath.split('src/lib/modules/')?.[1]?.split('/')[0];
-}
-
-function maybeSetDocumentationSection(
-  filePath: string,
-  packageName: string,
-  projectName: string,
-  docsSections: any,
-): void {
-  if (filePath.includes('/testing/')) {
-    return;
-  }
-
-  const sectionName = getSectionName(filePath);
-
-  if (!sectionName) {
-    console.warn(`A section name could not be determined for ${filePath}.`);
-    return;
-  }
-
-  if (docsSections[sectionName] === undefined) {
-    const apiGlob = `libs/components/${projectName}/src/lib/modules/${sectionName}/*`;
-    const codeExamplesGlob = `apps/code-examples/src/app/code-examples/${projectName}/${sectionName}/*`;
-
-    if (glob.sync(apiGlob).length > 0) {
-      docsSections[sectionName] = {
-        packageName,
-        title: sectionName,
-        api: [apiGlob],
-      };
-    } else {
-      throw new Error(`API files not found for ${projectName}/${sectionName}!`);
-    }
-
-    if (glob.sync(codeExamplesGlob).length > 0) {
-      docsSections[sectionName].codeExamples = [codeExamplesGlob];
-    } else {
-      console.error(
-        ` ! No code example files found for ${projectName}/${sectionName}`,
-      );
-    }
-
-    const testingGlob = `libs/components/${projectName}/testing/src/modules/${sectionName}/*`;
-
-    if (glob.sync(testingGlob).length > 0) {
-      docsSections[sectionName].testing = [testingGlob];
-    } else {
-      console.error(
-        ` ! No testing files found for ${projectName}/${sectionName}`,
-      );
-    }
-  }
-}
-
 export async function getPublicApi(): Promise<PackagesMap> {
   const nxProjects = await getProjects();
-
-  const skyuxDevConfig = JSON.parse(
-    await fsPromises.readFile('.skyuxdev.json', 'utf-8'),
-  );
-  skyuxDevConfig.documentation = {
-    sections: {},
-  };
-
-  const docsSections = skyuxDevConfig.documentation.sections;
 
   const packages: PackagesMap = new Map<
     string,
@@ -192,29 +119,13 @@ export async function getPublicApi(): Promise<PackagesMap> {
             continue;
           }
 
-          maybeSetDocumentationSection(
-            filePath,
-            packageName,
-            projectName,
-            docsSections,
-          );
-
-          items.push(getManifestItem(child));
+          items.push(getManifestItem(child, filePath));
         }
 
         packages.set(refl.entryName, items);
       }
     }
   }
-
-  skyuxDevConfig.documentation.sections = sortObjectByKeys(docsSections);
-
-  console.log('DOCS', skyuxDevConfig.documentation.sections);
-
-  await fsPromises.writeFile(
-    '.skyuxdev.json',
-    JSON.stringify(skyuxDevConfig, undefined, 2),
-  );
 
   return packages;
 }

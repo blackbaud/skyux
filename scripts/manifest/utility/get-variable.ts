@@ -7,6 +7,7 @@ import { getType } from './get-type';
 
 export function getVariable(
   decl: DeclarationReflection,
+  filePath: string,
 ): SkyManifestVariableDefinition {
   const {
     codeExample,
@@ -23,6 +24,7 @@ export function getVariable(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     isDeprecated,
     isPreview,
     kind: 'variable',

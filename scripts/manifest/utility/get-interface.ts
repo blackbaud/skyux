@@ -45,6 +45,7 @@ function getInterfaceProperties(
 
 export function getInterface(
   decl: DeclarationReflection,
+  filePath: string,
 ): SkyManifestInterfaceDefinition {
   const {
     codeExample,
@@ -61,6 +62,7 @@ export function getInterface(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     indexSignatures: getIndexSignatures(decl),
     isDeprecated,
     isPreview,

@@ -14,6 +14,7 @@ export type SkyManifestDefinitionKind =
 export interface SkyManifestTopLevelDefinition
   extends SkyManifestJSDocsDefinition {
   anchorId: string;
+  filePath: string;
   kind: SkyManifestDefinitionKind;
   name: string;
 }
@@ -145,6 +146,21 @@ export interface SkyManifestPackageSection {
 
 export type SkyManifestPackages = Record<string, SkyManifestPackage>;
 
+export type SkyManifestTemplateFeatures = {
+  packages: Record<string, SkyManifestTemplateFeaturesPackage>;
+};
+
+export interface SkyManifestTemplateFeaturesPackage {
+  directives: {
+    selector: string;
+    inputs: string[];
+    outputs: string[];
+  }[];
+  pipes: {
+    name: string;
+  }[];
+}
+
 /**
  * Input: [subject]="@skyux/indicators:help-inline"
  * Lookup: publicApi.packages['@skyux/indicators:help-inline']
@@ -152,19 +168,5 @@ export type SkyManifestPackages = Record<string, SkyManifestPackage>;
 export interface SkyManifest {
   publicApi: SkyManifestPackages;
   deprecated: unknown;
-  templateFeatures: {
-    packages: Record<
-      string,
-      {
-        directives: {
-          selector: string;
-          inputs: string[];
-          outputs: string[];
-        }[];
-        pipes: {
-          name: string;
-        }[];
-      }
-    >;
-  };
+  templateFeatures: SkyManifestTemplateFeatures;
 }

@@ -24,6 +24,7 @@ function getPipeTransformMethod(
 
 export function getPipe(
   decl: DeclarationReflection,
+  filePath: string,
 ): SkyManifestPipeDefinition {
   const {
     codeExample,
@@ -40,6 +41,7 @@ export function getPipe(
     codeExampleLanguage,
     deprecationReason,
     description,
+    filePath,
     isDeprecated,
     isPreview,
     kind: 'pipe',
