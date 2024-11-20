@@ -7,7 +7,6 @@ import { SkyDatepickerFilters } from './datepicker-harness.filters';
 
 /**
  * Harness for interacting with datepicker components in tests.
- * @ref [SkyDatepickerComponent,]
  */
 export class SkyDatepickerHarness extends SkyComponentHarness {
   /**

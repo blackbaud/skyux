@@ -3,7 +3,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyDateRangeCalculatorId } from '@skyux/datetime';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
-import { SkyDatepickerHarness } from '../../public-api';
+import { SkyDatepickerHarness } from '../datepicker/datepicker-harness';
 
 import { SkyDateRangePickerFilters } from './date-range-picker-harness.filters';
 
