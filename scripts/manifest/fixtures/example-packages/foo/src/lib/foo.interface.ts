@@ -1,6 +1,5 @@
 /**
  * This is the Foo interface.
- * @docsSection banana
  */
 export interface FooInterface {
   bar?: string;

@@ -1,7 +1,5 @@
 import { Comment, CommentDisplayPart } from 'typedoc';
 
-import { dasherize } from './strings';
-
 export type CodeExampleLanguage = 'markup' | 'typescript';
 
 function getCommentTagText(parts: CommentDisplayPart[]): string {
@@ -17,7 +15,6 @@ export function getComment(comment: Comment | undefined): {
   deprecationReason: string;
   defaultValue: string;
   description: string;
-  docsSection?: string;
   isDeprecated: boolean;
   isPreview: boolean;
   isRequired: boolean;
@@ -30,7 +27,6 @@ export function getComment(comment: Comment | undefined): {
   let isDeprecated = false;
   let isPreview = false;
   let isRequired = false;
-  let docsSection: string | undefined;
 
   if (comment) {
     if (comment.blockTags) {
@@ -45,11 +41,6 @@ export function getComment(comment: Comment | undefined): {
           case '@deprecated': {
             isDeprecated = true;
             deprecationReason = getCommentTagText(tag.content);
-            break;
-          }
-
-          case '@docsSection': {
-            docsSection = dasherize(getCommentTagText(tag.content));
             break;
           }
 
@@ -96,7 +87,6 @@ export function getComment(comment: Comment | undefined): {
     defaultValue,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     isRequired,

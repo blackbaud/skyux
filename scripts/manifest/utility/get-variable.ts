@@ -1,4 +1,4 @@
-import { SkyManifestVariableDefinition } from 'manifest/types';
+import { SkyManifestVariableDefinition } from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
 
 import { getAnchorId } from './get-anchor-id';
@@ -7,7 +7,6 @@ import { getType } from './get-type';
 
 export function getVariable(
   decl: DeclarationReflection,
-  docsSection: string,
 ): SkyManifestVariableDefinition {
   const {
     codeExample,
@@ -24,7 +23,6 @@ export function getVariable(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     name: decl.name,

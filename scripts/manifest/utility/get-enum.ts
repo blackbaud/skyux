@@ -1,7 +1,7 @@
 import {
   SkyManifestEnumerationDefinition,
   SkyManifestEnumerationMemberDefinition,
-} from 'manifest/types';
+} from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
 
 import { getAnchorId } from './get-anchor-id';
@@ -42,7 +42,6 @@ function getEnumMembers(
 
 export function getEnum(
   decl: DeclarationReflection,
-  docsSection: string,
 ): SkyManifestEnumerationDefinition {
   const {
     codeExample,
@@ -59,7 +58,6 @@ export function getEnum(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     members: getEnumMembers(decl),

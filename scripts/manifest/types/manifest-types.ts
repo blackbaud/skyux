@@ -1,7 +1,6 @@
 export interface SkyManifestTopLevelDefinition
   extends SkyManifestJSDocsDefinition {
   anchorId: string;
-  docsSection: string;
   name: string;
 }
 
@@ -137,7 +136,7 @@ export type SkyManifestPackages = Record<string, SkyManifestPackage>;
  * Lookup: publicApi.packages['@skyux/indicators:help-inline']
  */
 export interface SkyManifest {
-  packages: SkyManifestPackages;
+  publicApi: SkyManifestPackages;
   deprecated: unknown;
   templateFeatures: {
     packages: Record<

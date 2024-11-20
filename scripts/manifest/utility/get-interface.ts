@@ -1,7 +1,7 @@
 import {
   SkyManifestInterfaceDefinition,
   SkyManifestInterfacePropertyDefinition,
-} from 'manifest/types';
+} from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
 
 import { getAnchorId } from './get-anchor-id';
@@ -45,7 +45,6 @@ function getInterfaceProperties(
 
 export function getInterface(
   decl: DeclarationReflection,
-  docsSection: string,
 ): SkyManifestInterfaceDefinition {
   const {
     codeExample,
@@ -62,7 +61,6 @@ export function getInterface(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     indexSignatures: getIndexSignatures(decl),
     isDeprecated,
     isPreview,

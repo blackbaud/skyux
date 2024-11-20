@@ -1,4 +1,4 @@
-import { SkyManifestFunctionDefinition } from 'manifest/types';
+import { SkyManifestFunctionDefinition } from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
 
 import { getAnchorId } from './get-anchor-id';
@@ -8,7 +8,6 @@ import { getType } from './get-type';
 
 export function getFunction(
   decl: DeclarationReflection,
-  docsSection: string,
 ): SkyManifestFunctionDefinition {
   const {
     codeExample,
@@ -28,7 +27,6 @@ export function getFunction(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     name: decl.name,

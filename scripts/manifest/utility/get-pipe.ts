@@ -1,7 +1,7 @@
 import {
   SkyManifestClassMethodDefinition,
   SkyManifestPipeDefinition,
-} from 'manifest/types';
+} from 'manifest/types/manifest-types';
 import { DeclarationReflection, ReflectionKind } from 'typedoc';
 
 import { getAnchorId } from './get-anchor-id';
@@ -24,7 +24,6 @@ function getPipeTransformMethod(
 
 export function getPipe(
   decl: DeclarationReflection,
-  docsSection: string,
 ): SkyManifestPipeDefinition {
   const {
     codeExample,
@@ -41,7 +40,6 @@ export function getPipe(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     name: decl.name,

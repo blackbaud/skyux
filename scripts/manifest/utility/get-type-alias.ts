@@ -1,4 +1,4 @@
-import { SkyManifestTypeAliasDefinition } from 'manifest/types';
+import { SkyManifestTypeAliasDefinition } from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
 
 import { getAnchorId } from './get-anchor-id';
@@ -7,7 +7,6 @@ import { getType } from './get-type';
 
 export function getTypeAlias(
   decl: DeclarationReflection,
-  docsSection: string,
 ): SkyManifestTypeAliasDefinition {
   const {
     codeExample,
@@ -24,7 +23,6 @@ export function getTypeAlias(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     name: decl.name,

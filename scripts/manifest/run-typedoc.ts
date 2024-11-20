@@ -9,9 +9,9 @@ import {
   ReflectionKind,
 } from 'typedoc';
 
-import { DeclarationReflectionWithDecorators } from './declaration-reflection-with-decorators';
 import { getProjects } from './get-projects';
-import { SkyManifestPackageSection } from './types';
+import { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
+import { SkyManifestPackageSection } from './types/manifest-types';
 import { getClass } from './utility/get-class';
 import { getComment } from './utility/get-comment';
 import { getDecorator } from './utility/get-decorator';

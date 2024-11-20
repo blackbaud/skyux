@@ -1,4 +1,4 @@
-import { SkyManifestIndexSignatureDefinition } from 'manifest/types';
+import { SkyManifestIndexSignatureDefinition } from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
 
 import { getComment } from './get-comment';

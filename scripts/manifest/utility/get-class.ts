@@ -4,7 +4,7 @@ import {
   SkyManifestClassDefinition,
   SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
-} from '../types';
+} from '../types/manifest-types';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
@@ -142,7 +142,6 @@ export function getProperties(
 
 export function getClass(
   decl: DeclarationReflection,
-  docsSection: string,
 ): SkyManifestClassDefinition {
   const {
     codeExample,
@@ -159,7 +158,6 @@ export function getClass(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     methods: getMethods(decl),

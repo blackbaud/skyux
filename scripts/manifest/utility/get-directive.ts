@@ -1,9 +1,9 @@
-import { DeclarationReflectionWithDecorators } from 'manifest/declaration-reflection-with-decorators';
+import { DeclarationReflectionWithDecorators } from 'manifest/types/declaration-reflection-with-decorators';
 import {
   SkyManifestClassPropertyDefinition,
   SkyManifestDirectiveDefinition,
   SkyManifestDirectiveInputDefinition,
-} from 'manifest/types';
+} from 'manifest/types/manifest-types';
 import { DeclarationReflection, ReferenceType } from 'typedoc';
 
 import { getAnchorId } from './get-anchor-id';
@@ -101,7 +101,6 @@ function getDirectiveName(decl: DeclarationReflection): string {
 
 export function getDirective(
   decl: DeclarationReflectionWithDecorators,
-  docsSection: string,
 ): SkyManifestDirectiveDefinition {
   const {
     codeExample,
@@ -118,7 +117,6 @@ export function getDirective(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsSection,
     isDeprecated,
     isPreview,
     name: getDirectiveName(decl),
