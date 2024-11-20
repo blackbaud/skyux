@@ -54,7 +54,7 @@ export function getEnum(
   } = getComment(decl.comment);
 
   const def: SkyManifestEnumerationDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,

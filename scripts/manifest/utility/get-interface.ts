@@ -57,7 +57,7 @@ export function getInterface(
   } = getComment(decl.comment);
 
   const def: SkyManifestInterfaceDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,

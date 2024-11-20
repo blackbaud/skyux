@@ -23,7 +23,7 @@ export function getFunction(
   const signature = decl.signatures?.[0];
 
   const def: SkyManifestFunctionDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,

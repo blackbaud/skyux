@@ -36,7 +36,7 @@ export function getPipe(
   } = getComment(decl.comment);
 
   const pipe: SkyManifestPipeDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,

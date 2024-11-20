@@ -19,7 +19,7 @@ export function getVariable(
   } = getComment(decl.comment);
 
   const def: SkyManifestVariableDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,

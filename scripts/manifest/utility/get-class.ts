@@ -155,7 +155,7 @@ export function getClass(
   } = getComment(decl.comment);
 
   const def: SkyManifestClassDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,

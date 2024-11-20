@@ -19,7 +19,7 @@ export function getTypeAlias(
   } = getComment(decl.comment);
 
   const def: SkyManifestTypeAliasDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,

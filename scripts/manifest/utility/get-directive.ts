@@ -113,8 +113,10 @@ export function getDirective(
     isPreview,
   } = getComment(decl.comment);
 
+  const directiveName = getDirectiveName(decl);
+
   const directive: SkyManifestDirectiveDefinition = {
-    anchorId: getAnchorId(decl),
+    anchorId: getAnchorId(directiveName, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -123,7 +125,7 @@ export function getDirective(
     isDeprecated,
     isPreview,
     kind,
-    name: getDirectiveName(decl),
+    name: directiveName,
     selector: getSelector(decl) ?? '',
     inputs: getInputs(decl),
     outputs: getOutputs(decl),
