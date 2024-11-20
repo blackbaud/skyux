@@ -2,9 +2,13 @@
   "baseBranch": "main",
   "documentation": {
     "sections": {
-      "dropdown": {
-        "api": ["libs/components/popovers/src/lib/modules/dropdown/*"],
-        "testing": ["libs/components/popovers/testing/src/modules/dropdown/*"]
+      "foo": {
+        "api": [
+          "libs/components/foo/src/lib/modules/foo/*"
+        ],
+        "testing": [
+          "libs/components/foo/testing/src/modules/foo/*"
+        ]
       }
     }
   },
