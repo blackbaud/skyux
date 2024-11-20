@@ -1,5 +1,22 @@
 # Changelog
 
+## [11.23.0](https://github.com/blackbaud/skyux/compare/11.22.0...11.23.0) (2024-11-20)
+
+
+### Features
+
+* add code examples for help key ([#2903](https://github.com/blackbaud/skyux/issues/2903)) ([a9bacda](https://github.com/blackbaud/skyux/commit/a9bacdacbf2ceb0585f64cfdf0e176cfda7c5e5e))
+* **components/datetime:** tokenize timepicker styles ([#2911](https://github.com/blackbaud/skyux/issues/2911)) ([957b7d6](https://github.com/blackbaud/skyux/commit/957b7d67675579d6e3c330e07859cffaba996704))
+* **components/lookup:** tokenize country field styles ([#2914](https://github.com/blackbaud/skyux/issues/2914)) ([51808ee](https://github.com/blackbaud/skyux/commit/51808ee8762aa3675ca4112106d24ec05f254a9b))
+* **components/lookup:** tokenize lookup styles ([#2913](https://github.com/blackbaud/skyux/issues/2913)) ([3236e6e](https://github.com/blackbaud/skyux/commit/3236e6e543c5c97b0e332a4e446f64c7b9a03ac2))
+
+
+### Bug Fixes
+
+* **components/datetime:** date range picker visually invalid on custom errors ([#2910](https://github.com/blackbaud/skyux/issues/2910)) ([357c3eb](https://github.com/blackbaud/skyux/commit/357c3eb3350b9330a5c04eea480b10d046c4d9d4))
+* **components/datetime:** datepicker emits touched status when focus leaves composite control ([#2909](https://github.com/blackbaud/skyux/issues/2909)) ([08a7063](https://github.com/blackbaud/skyux/commit/08a7063e4d923bdda0960174ddd567bb62ef9a23))
+* **components/datetime:** timepicker minute picker highlights closest passed time ([#2900](https://github.com/blackbaud/skyux/issues/2900)) ([b85231e](https://github.com/blackbaud/skyux/commit/b85231ee6ba25999c97aebb88dc724f04e2646ea))
+
 ## [11.22.0](https://github.com/blackbaud/skyux/compare/11.21.0...11.22.0) (2024-11-14)
 
 
