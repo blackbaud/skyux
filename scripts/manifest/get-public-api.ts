@@ -1,5 +1,5 @@
 import fsPromises from 'fs/promises';
-import path from 'node:path';
+import { glob } from 'glob';
 import { DeclarationReflection, ReflectionKind } from 'typedoc';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
@@ -85,16 +85,29 @@ function getManifestItem(
   }
 }
 
+function sortObjectByKeys<T extends Record<string, unknown>>(obj: T): T {
+  return Object.keys(obj)
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
+    .reduce<Record<string, unknown>>((acc, key) => {
+      acc[key] = obj[key];
+      return acc;
+    }, {}) as T;
+}
+
 function getSectionName(filePath: string): string | undefined {
   return filePath.split('src/lib/modules/')?.[1]?.split('/')[0];
 }
 
 function maybeSetDocumentationSection(
   filePath: string,
+  packageName: string,
   projectName: string,
   docsSections: any,
-  hasTestingEntryPoint: boolean,
 ): void {
+  if (filePath.includes('/testing/')) {
+    return;
+  }
+
   const sectionName = getSectionName(filePath);
 
   if (!sectionName) {
@@ -103,14 +116,35 @@ function maybeSetDocumentationSection(
   }
 
   if (docsSections[sectionName] === undefined) {
-    docsSections[sectionName] = {
-      api: [`libs/components/${projectName}/src/lib/modules/${sectionName}/*`],
-    };
+    const apiGlob = `libs/components/${projectName}/src/lib/modules/${sectionName}/*`;
+    const codeExamplesGlob = `apps/code-examples/src/app/code-examples/${projectName}/${sectionName}/*`;
 
-    if (hasTestingEntryPoint) {
-      docsSections[sectionName].testing = [
-        `libs/components/${projectName}/testing/src/modules/${sectionName}/*`,
-      ];
+    if (glob.sync(apiGlob).length > 0) {
+      docsSections[sectionName] = {
+        packageName,
+        title: sectionName,
+        api: [apiGlob],
+      };
+    } else {
+      throw new Error(`API files not found for ${projectName}/${sectionName}!`);
+    }
+
+    if (glob.sync(codeExamplesGlob).length > 0) {
+      docsSections[sectionName].codeExamples = [codeExamplesGlob];
+    } else {
+      console.error(
+        ` ! No code example files found for ${projectName}/${sectionName}`,
+      );
+    }
+
+    const testingGlob = `libs/components/${projectName}/testing/src/modules/${sectionName}/*`;
+
+    if (glob.sync(testingGlob).length > 0) {
+      docsSections[sectionName].testing = [testingGlob];
+    } else {
+      console.error(
+        ` ! No testing files found for ${projectName}/${sectionName}`,
+      );
     }
   }
 }
@@ -146,8 +180,6 @@ export async function getPublicApi(): Promise<PackagesMap> {
       projectRoot,
     });
 
-    const hasTestingEntryPoint = entryPointReflections.length === 2;
-
     for (const refl of entryPointReflections) {
       if (refl.children) {
         const items: SkyManifestTopLevelDefinition[] =
@@ -162,9 +194,9 @@ export async function getPublicApi(): Promise<PackagesMap> {
 
           maybeSetDocumentationSection(
             filePath,
+            packageName,
             projectName,
             docsSections,
-            hasTestingEntryPoint,
           );
 
           items.push(getManifestItem(child));
@@ -175,7 +207,9 @@ export async function getPublicApi(): Promise<PackagesMap> {
     }
   }
 
-  console.log('DOCS', docsSections);
+  skyuxDevConfig.documentation.sections = sortObjectByKeys(docsSections);
+
+  console.log('DOCS', skyuxDevConfig.documentation.sections);
 
   await fsPromises.writeFile(
     '.skyuxdev.json',
