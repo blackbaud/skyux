@@ -119,7 +119,7 @@ export interface SkyManifestInterfaceDefinition extends SkyManifestDefinition {
  */
 export interface SkyManifestInterfacePropertyDefinition
   extends SkyManifestJsDocDefinition {
-  isOptional: boolean;
+  isOptional?: boolean;
   name: string;
   type: string;
 }
@@ -142,7 +142,7 @@ export interface SkyManifestJsDocDefinition {
 export interface SkyManifestParameterDefinition {
   defaultValue: string;
   description: string;
-  isOptional: boolean;
+  isOptional?: boolean;
   name: string;
   type: string;
 }

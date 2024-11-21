@@ -7,9 +7,9 @@ export class FooPipe implements PipeTransform {
   public transform(
     value: string | undefined,
     isThing = false,
-    foo: string,
-    bar?: string,
+    bar: boolean,
+    foo?: string,
   ): string {
-    return (value ?? isThing) ? 'thing' : foo;
+    return (value ?? isThing) ? 'thing' : foo ? bar.toString() : 'not a thing';
   }
 }

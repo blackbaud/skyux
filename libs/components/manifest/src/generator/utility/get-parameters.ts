@@ -18,7 +18,7 @@ export function getParameters(
       parameters.push({
         defaultValue: getDefaultValue(param, defaultValue),
         description,
-        isOptional: !!param.flags?.isOptional,
+        isOptional: param.flags.isOptional ? true : undefined,
         name: param.name,
         type: getType(param.type),
       });

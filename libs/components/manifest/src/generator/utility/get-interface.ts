@@ -24,8 +24,9 @@ function getInterfaceProperties(
         description,
         isDeprecated,
         isPreview,
-        isRequired,
       } = getComment(child.comment);
+
+      const isOptional = child.flags.isOptional ? true : undefined;
 
       properties.push({
         codeExample,
@@ -33,7 +34,7 @@ function getInterfaceProperties(
         deprecationReason,
         description,
         isDeprecated,
-        isOptional: !isRequired && !!child.flags?.isOptional,
+        isOptional,
         isPreview,
         name: child.name,
         type: getType(child.type),
