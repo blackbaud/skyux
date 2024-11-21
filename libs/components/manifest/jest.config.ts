@@ -1,5 +1,5 @@
 export default {
-  displayName: 'skyux-eslint',
+  displayName: 'manifest',
   globals: {},
   testEnvironment: 'node',
   transform: {
@@ -11,7 +11,7 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/sdk/skyux-eslint',
+  coverageDirectory: '../../../coverage/libs/components/manifest',
   coverageThreshold: {
     global: {
       branches: 100,

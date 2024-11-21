@@ -11,8 +11,7 @@ export type SkyManifestDefinitionKind =
   | 'type-alias'
   | 'variable';
 
-export interface SkyManifestTopLevelDefinition
-  extends SkyManifestJSDocsDefinition {
+export interface SkyManifestDefinition extends SkyManifestJsDocDefinition {
   anchorId: string;
   filePath: string;
   kind: SkyManifestDefinitionKind;
@@ -20,7 +19,7 @@ export interface SkyManifestTopLevelDefinition
   name: string;
 }
 
-export interface SkyManifestJSDocsDefinition {
+export interface SkyManifestJsDocDefinition {
   codeExample: string;
   codeExampleLanguage: 'markup' | 'typescript';
   isDeprecated: boolean;
@@ -29,9 +28,6 @@ export interface SkyManifestJSDocsDefinition {
   description: string;
 }
 
-/**
- * Describes function and method parameters.
- */
 export interface SkyManifestParameterDefinition {
   defaultValue: string;
   description: string;
@@ -40,14 +36,13 @@ export interface SkyManifestParameterDefinition {
   type: string;
 }
 
-export interface SkyManifestFunctionDefinition
-  extends SkyManifestTopLevelDefinition {
+export interface SkyManifestFunctionDefinition extends SkyManifestDefinition {
   parameters: SkyManifestParameterDefinition[];
   returnType: string;
 }
 
 export interface SkyManifestClassMethodDefinition
-  extends SkyManifestJSDocsDefinition {
+  extends SkyManifestJsDocDefinition {
   isStatic: boolean;
   name: string;
   parameters: SkyManifestParameterDefinition[];
@@ -55,7 +50,7 @@ export interface SkyManifestClassMethodDefinition
 }
 
 export interface SkyManifestClassPropertyDefinition
-  extends SkyManifestJSDocsDefinition {
+  extends SkyManifestJsDocDefinition {
   defaultValue: string;
   name: string;
   type: string;
@@ -67,107 +62,101 @@ export interface SkyManifestDirectiveInputDefinition
 }
 
 export interface SkyManifestInterfacePropertyDefinition
-  extends SkyManifestJSDocsDefinition {
+  extends SkyManifestJsDocDefinition {
   isOptional: boolean;
   name: string;
   type: string;
 }
 
 export interface SkyManifestIndexSignatureDefinition
-  extends SkyManifestJSDocsDefinition {
+  extends SkyManifestJsDocDefinition {
   name: string;
   type: string;
   parameters: SkyManifestParameterDefinition[];
 }
 
-export interface SkyManifestClassDefinition
-  extends SkyManifestTopLevelDefinition {
+export interface SkyManifestClassDefinition extends SkyManifestDefinition {
   methods: SkyManifestClassMethodDefinition[];
   properties: SkyManifestClassPropertyDefinition[];
 }
 
-export interface SkyManifestDirectiveDefinition
-  extends SkyManifestTopLevelDefinition {
+export interface SkyManifestDirectiveDefinition extends SkyManifestDefinition {
   inputs: SkyManifestDirectiveInputDefinition[];
   outputs: SkyManifestClassPropertyDefinition[];
   selector: string;
 }
 
 export interface SkyManifestEnumerationMemberDefinition
-  extends SkyManifestJSDocsDefinition {
+  extends SkyManifestJsDocDefinition {
   name: string;
   type: string;
 }
 
 export interface SkyManifestEnumerationDefinition
-  extends SkyManifestTopLevelDefinition {
+  extends SkyManifestDefinition {
   members: SkyManifestEnumerationMemberDefinition[];
 }
 
-export interface SkyManifestInterfaceDefinition
-  extends SkyManifestTopLevelDefinition {
+export interface SkyManifestInterfaceDefinition extends SkyManifestDefinition {
   properties: SkyManifestInterfacePropertyDefinition[];
   indexSignatures: SkyManifestIndexSignatureDefinition[];
 }
 
-export interface SkyManifestPipeDefinition
-  extends SkyManifestTopLevelDefinition {
+export interface SkyManifestPipeDefinition extends SkyManifestDefinition {
   transformMethod: SkyManifestClassMethodDefinition;
 }
 
-export interface SkyManifestTypeAliasDefinition
-  extends SkyManifestTopLevelDefinition {
+export interface SkyManifestTypeAliasDefinition extends SkyManifestDefinition {
   type: string;
 }
 
-export interface SkyManifestVariableDefinition
-  extends SkyManifestTopLevelDefinition {
+export interface SkyManifestVariableDefinition extends SkyManifestDefinition {
   type: string;
 }
 
-export type SkyManifestPackage = Record<string, SkyManifestPackageSection>;
+// export type SkyManifestPackage = Record<string, SkyManifestPackageSection>;
 
-export interface SkyManifestPackageSection {
-  classes: SkyManifestClassDefinition[];
-  components: SkyManifestDirectiveDefinition[];
-  directives: SkyManifestDirectiveDefinition[];
-  enumerations: SkyManifestEnumerationDefinition[];
-  functions: SkyManifestFunctionDefinition[];
-  interfaces: SkyManifestInterfaceDefinition[];
-  modules: SkyManifestClassDefinition[];
-  pipes: SkyManifestPipeDefinition[];
-  services: SkyManifestClassDefinition[];
-  typeAliases: SkyManifestTypeAliasDefinition[];
-  variables: SkyManifestVariableDefinition[];
-}
+// export interface SkyManifestPackageSection {
+//   classes: SkyManifestClassDefinition[];
+//   components: SkyManifestDirectiveDefinition[];
+//   directives: SkyManifestDirectiveDefinition[];
+//   enumerations: SkyManifestEnumerationDefinition[];
+//   functions: SkyManifestFunctionDefinition[];
+//   interfaces: SkyManifestInterfaceDefinition[];
+//   modules: SkyManifestClassDefinition[];
+//   pipes: SkyManifestPipeDefinition[];
+//   services: SkyManifestClassDefinition[];
+//   typeAliases: SkyManifestTypeAliasDefinition[];
+//   variables: SkyManifestVariableDefinition[];
+// }
 
 /**
  * packages.get('@skyux/core:foo')
  */
 
-export type SkyManifestPackages = Record<string, SkyManifestPackage>;
+// export type SkyManifestPackages = Record<string, SkyManifestPackage>;
 
-export type SkyManifestTemplateFeatures = {
-  packages: Record<string, SkyManifestTemplateFeaturesPackage>;
-};
+// export type SkyManifestTemplateFeatures = {
+//   packages: Record<string, SkyManifestTemplateFeaturesPackage>;
+// };
 
-export interface SkyManifestTemplateFeaturesPackage {
-  directives: {
-    selector: string;
-    inputs: string[];
-    outputs: string[];
-  }[];
-  pipes: {
-    name: string;
-  }[];
-}
+// export interface SkyManifestTemplateFeaturesPackage {
+//   directives: {
+//     selector: string;
+//     inputs: string[];
+//     outputs: string[];
+//   }[];
+//   pipes: {
+//     name: string;
+//   }[];
+// }
 
 /**
  * Input: [subject]="@skyux/indicators:help-inline"
  * Lookup: publicApi.packages['@skyux/indicators:help-inline']
  */
-export interface SkyManifest {
-  publicApi: SkyManifestPackages;
-  deprecated: unknown;
-  templateFeatures: SkyManifestTemplateFeatures;
-}
+// export interface SkyManifest {
+// publicApi: SkyManifestPackages;
+// deprecated: unknown;
+// templateFeatures: SkyManifestTemplateFeatures;
+// }

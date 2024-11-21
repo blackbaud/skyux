@@ -6,44 +6,90 @@ import { RULE_NAME, rule } from './no-deprecated-directives';
 
 const ruleTester = createTemplateRuleTester();
 
-jest.mock('../../__deprecations.json', () => {
+jest.mock('@skyux/manifest', () => {
+  const original = jest.requireActual('@skyux/manifest');
+
   return {
-    components: {
-      'sky-card': {
-        deprecated: true,
-        reason: 'Do not use the card component.',
-      },
-      'sky-file-attachment': {
-        deprecated: false,
-        properties: {
-          fileChange: {
-            reason:
-              "Subscribe to the form control's `valueChanges` event instead.",
-          },
-          validateFn: {
-            reason:
-              'Add a custom Angular `Validator` function to the `FormControl` instead.',
-          },
-        },
-      },
-    },
-    directives: {
-      skyDeprecatedThing: {
-        deprecated: true,
-      },
-      skyFoo: {
-        properties: {
-          noReason: {
-            deprecated: true,
-          },
-        },
-      },
-      skyAutocomplete: {
-        deprecated: false,
-        properties: {
-          autocompleteAttribute: {
-            reason: 'Do not use it.',
-          },
+    ...original,
+    manifest: {
+      publicApi: {
+        packages: {
+          '@skyux/layout': [
+            {
+              anchorId: '',
+              filePath: '',
+              codeExample: '',
+              codeExampleLanguage: 'markup',
+              description: '',
+              kind: 'component',
+              name: 'SkyCardComponent',
+              selector: 'sky-card',
+              isInternal: false,
+              isPreview: false,
+              isDeprecated: true,
+              deprecationReason: 'Do not use the card component.',
+              inputs: [],
+              outputs: [],
+            },
+          ],
+          '@skyux/forms': [
+            {
+              kind: 'component',
+              selector: 'sky-file-attachment',
+              isDeprecated: false,
+              deprecationReason: '',
+              inputs: [
+                {
+                  name: 'validateFn',
+                  isDeprecated: true,
+                  deprecationReason:
+                    'Add a custom Angular `Validator` function to the `FormControl` instead.',
+                },
+              ],
+              outputs: [
+                {
+                  name: 'fileChange',
+                  isDeprecated: true,
+                  deprecationReason:
+                    "Subscribe to the form control's `valueChanges` event instead.",
+                },
+              ],
+            },
+          ],
+          '@skyux/foo': [
+            {
+              isDeprecated: true,
+              kind: 'directive',
+              selector:
+                'input[skyDeprecatedThing], textarea[skyDeprecatedThing]',
+            },
+            {
+              kind: 'directive',
+              selector: '[skyFoo]',
+              isDeprecated: false,
+              inputs: [
+                {
+                  name: 'noReason',
+                  isDeprecated: true,
+                  deprecationReason: '',
+                },
+              ],
+              outputs: [],
+            },
+            {
+              kind: 'directive',
+              selector: '[skyAutocomplete]',
+              isDeprecated: false,
+              inputs: [
+                {
+                  name: 'autocompleteAttribute',
+                  isDeprecated: true,
+                  deprecationReason: 'Do not use it.',
+                },
+              ],
+              outputs: [],
+            },
+          ],
         },
       },
     },
@@ -51,7 +97,7 @@ jest.mock('../../__deprecations.json', () => {
 });
 
 ruleTester.run(RULE_NAME, rule, {
-  valid: [],
+  valid: ['<foobar type="text" skyDeprecatedThing />'],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when using deprecated directives',

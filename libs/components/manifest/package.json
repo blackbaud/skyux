@@ -2,7 +2,6 @@
   "name": "@skyux/manifest",
   "version": "0.0.0-PLACEHOLDER",
   "author": "Blackbaud, Inc.",
-  "type": "module",
   "keywords": [
     "blackbaud",
     "skyux"

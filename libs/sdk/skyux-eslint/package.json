@@ -25,6 +25,7 @@
     "@typescript-eslint/utils": "^8.14.0"
   },
   "dependencies": {
+    "@skyux/manifest": "0.0.0-PLACEHOLDER",
     "tslib": "^2.6.3"
   }
 }
