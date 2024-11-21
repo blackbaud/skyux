@@ -66,7 +66,7 @@ export class ReadonlyGridComponent implements OnInit {
     {
       field: 'startDate',
       headerName: 'Start Date',
-      type: SkyCellType.Date,
+      type: [SkyCellType.RightAligned, SkyCellType.Date],
     },
     {
       field: 'endDate',
