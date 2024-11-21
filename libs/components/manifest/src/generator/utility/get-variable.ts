@@ -1,14 +1,15 @@
-import { SkyManifestTypeAliasDefinition } from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
+
+import { SkyManifestVariableDefinition } from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getType } from './get-type';
 
-export function getTypeAlias(
+export function getVariable(
   decl: DeclarationReflection,
   filePath: string,
-): SkyManifestTypeAliasDefinition {
+): SkyManifestVariableDefinition {
   const {
     codeExample,
     codeExampleLanguage,
@@ -19,7 +20,7 @@ export function getTypeAlias(
     isPreview,
   } = getComment(decl.comment);
 
-  const def: SkyManifestTypeAliasDefinition = {
+  const def: SkyManifestVariableDefinition = {
     anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
@@ -29,7 +30,7 @@ export function getTypeAlias(
     isDeprecated,
     isInternal,
     isPreview,
-    kind: 'type-alias',
+    kind: 'variable',
     name: decl.name,
     type: getType(decl.type),
   };

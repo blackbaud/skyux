@@ -4,7 +4,7 @@ import {
   SkyManifestClassDefinition,
   SkyManifestClassMethodDefinition,
   SkyManifestClassPropertyDefinition,
-} from '../types/manifest-types';
+} from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
@@ -116,6 +116,8 @@ export function getProperty(
 
     return property;
   }
+
+  return;
 }
 
 export function getProperties(

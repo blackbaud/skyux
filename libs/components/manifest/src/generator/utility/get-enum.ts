@@ -1,18 +1,18 @@
-import {
-  SkyManifestInterfaceDefinition,
-  SkyManifestInterfacePropertyDefinition,
-} from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
+
+import {
+  SkyManifestEnumerationDefinition,
+  SkyManifestEnumerationMemberDefinition,
+} from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
-import { getIndexSignatures } from './get-index-signatures';
 import { getType } from './get-type';
 
-function getInterfaceProperties(
+function getEnumMembers(
   decl: DeclarationReflection,
-): SkyManifestInterfacePropertyDefinition[] {
-  const properties: SkyManifestInterfacePropertyDefinition[] = [];
+): SkyManifestEnumerationMemberDefinition[] {
+  const members: SkyManifestEnumerationMemberDefinition[] = [];
 
   if (decl.children) {
     for (const child of decl.children) {
@@ -23,16 +23,14 @@ function getInterfaceProperties(
         description,
         isDeprecated,
         isPreview,
-        isRequired,
       } = getComment(child.comment);
 
-      properties.push({
+      members.push({
         codeExample,
         codeExampleLanguage,
         deprecationReason,
         description,
         isDeprecated,
-        isOptional: !isRequired && !!child.flags?.isOptional,
         isPreview,
         name: child.name,
         type: getType(child.type),
@@ -40,13 +38,13 @@ function getInterfaceProperties(
     }
   }
 
-  return properties;
+  return members;
 }
 
-export function getInterface(
+export function getEnum(
   decl: DeclarationReflection,
   filePath: string,
-): SkyManifestInterfaceDefinition {
+): SkyManifestEnumerationDefinition {
   const {
     codeExample,
     codeExampleLanguage,
@@ -57,20 +55,19 @@ export function getInterface(
     isPreview,
   } = getComment(decl.comment);
 
-  const def: SkyManifestInterfaceDefinition = {
+  const def: SkyManifestEnumerationDefinition = {
     anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
     description,
     filePath,
-    indexSignatures: getIndexSignatures(decl),
     isDeprecated,
     isInternal,
     isPreview,
-    kind: 'interface',
+    kind: 'enumeration',
+    members: getEnumMembers(decl),
     name: decl.name,
-    properties: getInterfaceProperties(decl),
   };
 
   return def;

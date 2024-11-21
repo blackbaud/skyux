@@ -1,15 +1,15 @@
-import { SkyManifestFunctionDefinition } from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
+
+import { SkyManifestTypeAliasDefinition } from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
-import { getParameters } from './get-parameters';
 import { getType } from './get-type';
 
-export function getFunction(
+export function getTypeAlias(
   decl: DeclarationReflection,
   filePath: string,
-): SkyManifestFunctionDefinition {
+): SkyManifestTypeAliasDefinition {
   const {
     codeExample,
     codeExampleLanguage,
@@ -18,11 +18,9 @@ export function getFunction(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.signatures?.[0]?.comment);
+  } = getComment(decl.comment);
 
-  const signature = decl.signatures?.[0];
-
-  const def: SkyManifestFunctionDefinition = {
+  const def: SkyManifestTypeAliasDefinition = {
     anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
@@ -32,10 +30,9 @@ export function getFunction(
     isDeprecated,
     isInternal,
     isPreview,
-    kind: 'function',
+    kind: 'type-alias',
     name: decl.name,
-    parameters: getParameters(signature?.parameters),
-    returnType: getType(signature?.type),
+    type: getType(decl.type),
   };
 
   return def;

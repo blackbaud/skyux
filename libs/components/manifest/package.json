@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/blackbaud/skyux/issues"
   },
-  "homepage": "https://github.com/blackbaud/skyux#readme"
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "optionalDependencies": {
+    "typedoc": "0.26.11"
+  }
 }

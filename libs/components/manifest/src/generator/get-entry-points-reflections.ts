@@ -4,7 +4,10 @@ import { Application, ProjectReflection } from 'typedoc';
 
 import { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
 
-const TYPEDOC_PLUGIN_PATH = path.join(__dirname, './typedoc-plugin.mjs');
+const TYPEDOC_PLUGIN_PATH = path.join(
+  __dirname,
+  './plugins/typedoc-plugin.mjs',
+);
 
 async function getTypeDocProjectReflection(
   entryPoints: string[],
@@ -14,12 +17,15 @@ async function getTypeDocProjectReflection(
     entryPoints,
     emit: 'docs',
     excludeExternals: true,
-    excludeInternal: false, // intentional!
+    excludeInternal: false, // Include internal declarations for usage gathering.
     excludePrivate: true,
     excludeProtected: true,
     logLevel: 'Error',
     plugin: [TYPEDOC_PLUGIN_PATH],
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
+    compilerOptions: {
+      transpileOnly: true,
+    },
     exclude: [
       `!**/${projectRoot}/**`,
       '**/(fixtures|node_modules)/**',

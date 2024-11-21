@@ -1,14 +1,16 @@
-import { SkyManifestVariableDefinition } from 'manifest/types/manifest-types';
 import { DeclarationReflection } from 'typedoc';
+
+import { SkyManifestFunctionDefinition } from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
+import { getParameters } from './get-parameters';
 import { getType } from './get-type';
 
-export function getVariable(
+export function getFunction(
   decl: DeclarationReflection,
   filePath: string,
-): SkyManifestVariableDefinition {
+): SkyManifestFunctionDefinition {
   const {
     codeExample,
     codeExampleLanguage,
@@ -17,9 +19,11 @@ export function getVariable(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment);
+  } = getComment(decl.signatures?.[0]?.comment);
 
-  const def: SkyManifestVariableDefinition = {
+  const signature = decl.signatures?.[0];
+
+  const def: SkyManifestFunctionDefinition = {
     anchorId: getAnchorId(decl.name, decl.kind),
     codeExample,
     codeExampleLanguage,
@@ -29,9 +33,10 @@ export function getVariable(
     isDeprecated,
     isInternal,
     isPreview,
-    kind: 'variable',
+    kind: 'function',
     name: decl.name,
-    type: getType(decl.type),
+    parameters: getParameters(signature?.parameters),
+    returnType: getType(signature?.type),
   };
 
   return def;

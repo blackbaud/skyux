@@ -1,8 +1,9 @@
 import { DeclarationReflection, ReflectionKind } from 'typedoc';
 
+import { SkyManifestDefinition } from '../types/manifest';
+
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { getProjects } from './get-projects';
-import { SkyManifestTopLevelDefinition } from './types/manifest-types';
 import { getClass } from './utility/get-class';
 import { getDecorator } from './utility/get-decorator';
 import { getDirective } from './utility/get-directive';
@@ -13,12 +14,12 @@ import { getPipe } from './utility/get-pipe';
 import { getTypeAlias } from './utility/get-type-alias';
 import { getVariable } from './utility/get-variable';
 
-export type PackagesMap = Map<string, SkyManifestTopLevelDefinition[]>;
+export type PackagesMap = Map<string, SkyManifestDefinition[]>;
 
 function handleClassKind(
   child: DeclarationReflection,
   filePath: string,
-): SkyManifestTopLevelDefinition {
+): SkyManifestDefinition {
   const decoratorName = getDecorator(child);
 
   switch (decoratorName) {
@@ -51,7 +52,7 @@ function handleClassKind(
 function getManifestItem(
   child: DeclarationReflection,
   filePath: string,
-): SkyManifestTopLevelDefinition {
+): SkyManifestDefinition {
   switch (child.kind) {
     case ReflectionKind.Class: {
       return handleClassKind(child, filePath);
@@ -85,13 +86,10 @@ function getManifestItem(
   }
 }
 
-export async function getPublicApi(): Promise<PackagesMap> {
+export async function getPublicApi(): Promise<{ packages: PackagesMap }> {
   const nxProjects = await getProjects();
 
-  const packages: PackagesMap = new Map<
-    string,
-    SkyManifestTopLevelDefinition[]
-  >();
+  const packages: PackagesMap = new Map<string, SkyManifestDefinition[]>();
 
   for (const {
     entryPoints,
@@ -109,7 +107,7 @@ export async function getPublicApi(): Promise<PackagesMap> {
 
     for (const refl of entryPointReflections) {
       if (refl.children) {
-        const items: SkyManifestTopLevelDefinition[] =
+        const items: SkyManifestDefinition[] =
           packages.get(refl.entryName) ?? [];
 
         for (const child of refl.children) {
@@ -127,5 +125,5 @@ export async function getPublicApi(): Promise<PackagesMap> {
     }
   }
 
-  return packages;
+  return { packages };
 }

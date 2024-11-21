@@ -1,10 +1,11 @@
-import { DeclarationReflectionWithDecorators } from 'manifest/types/declaration-reflection-with-decorators';
+import { DeclarationReflection, ReferenceType } from 'typedoc';
+
 import {
   SkyManifestClassPropertyDefinition,
   SkyManifestDirectiveDefinition,
   SkyManifestDirectiveInputDefinition,
-} from 'manifest/types/manifest-types';
-import { DeclarationReflection, ReferenceType } from 'typedoc';
+} from '../../types/manifest';
+import { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
 import { getAnchorId } from './get-anchor-id';
 import { getProperty } from './get-class';
@@ -43,6 +44,8 @@ function getInput(
 
     return input;
   }
+
+  return;
 }
 
 function getInputs(

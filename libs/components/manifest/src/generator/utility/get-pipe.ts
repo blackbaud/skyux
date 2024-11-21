@@ -1,8 +1,9 @@
+import { DeclarationReflection, ReflectionKind } from 'typedoc';
+
 import {
   SkyManifestClassMethodDefinition,
   SkyManifestPipeDefinition,
-} from 'manifest/types/manifest-types';
-import { DeclarationReflection, ReflectionKind } from 'typedoc';
+} from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getMethod } from './get-class';
