@@ -91,13 +91,8 @@ export async function getPublicApi(): Promise<SkyManifestPublicApi> {
 
   const packages: PackagesMap = new Map<string, SkyManifestDefinition[]>();
 
-  for (const {
-    entryPoints,
-    packageName,
-    projectName,
-    projectRoot,
-  } of nxProjects) {
-    console.log(`Creating manifest for ${projectName}...`);
+  for (const { entryPoints, packageName, projectRoot } of nxProjects) {
+    process.stderr.write(`Creating manifest for ${packageName}...`);
 
     const entryPointReflections = await getEntryPointsReflections({
       entryPoints,
@@ -113,7 +108,10 @@ export async function getPublicApi(): Promise<SkyManifestPublicApi> {
         for (const child of refl.children) {
           const filePath = child.sources?.[0].fileName;
 
-          if (!filePath || filePath.endsWith('/index.ts')) {
+          if (
+            typeof filePath === 'undefined' ||
+            filePath.endsWith('/index.ts')
+          ) {
             continue;
           }
 
@@ -123,6 +121,8 @@ export async function getPublicApi(): Promise<SkyManifestPublicApi> {
         packages.set(refl.entryName, items);
       }
     }
+
+    process.stderr.write(' done\n');
   }
 
   return { packages: Object.fromEntries(packages) };

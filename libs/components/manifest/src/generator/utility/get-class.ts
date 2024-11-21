@@ -53,7 +53,7 @@ export function getMethod(
     description,
     isDeprecated,
     isPreview,
-    isStatic: !!decl.flags.isStatic,
+    isStatic: decl.flags.isStatic ? true : undefined,
     name: decl.name,
     parameters: getParameters(signature?.parameters),
     returnType: getType(signature?.type),

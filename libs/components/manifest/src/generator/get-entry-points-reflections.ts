@@ -24,6 +24,7 @@ async function getTypeDocProjectReflection(
     plugin: [TYPEDOC_PLUGIN_PATH],
     tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
     compilerOptions: {
+      skipLibCheck: true,
       transpileOnly: true,
     },
     exclude: [
