@@ -15,7 +15,6 @@
     "lint:affected": "nx affected:lint --quiet --silent --parallel=5",
     "format": "nx format:write",
     "format:check": "nx format:check",
-    "dev:refresh-skyux-eslint-deprecations-summary": "npm run dev:create-packages-dist -- --skipNxCache && ts-node ./scripts/refresh-skyux-eslint-deprecations-summary.ts",
     "dev:check-library-dependencies": "skyux-dev check-lib-dependencies",
     "dev:check-library-missing-peers": "skyux-dev check-lib-missing-peers --fix",
     "dev:update-library-dependencies": "nx g @skyux-sdk/tools:update-dependencies",
@@ -122,6 +121,7 @@
     "rxjs": "7.8.1",
     "storybook": "8.3.5",
     "tslib": "2.6.3",
+    "typedoc": "0.26.11",
     "validator": "13.12.0",
     "zone.js": "0.14.10"
   },
@@ -218,7 +218,6 @@
     "resize-observer-polyfill": "1.5.1",
     "ts-jest": "29.2.5",
     "ts-node": "10.9.2",
-    "typedoc": "0.26.11",
     "typescript": "5.5.4",
     "typescript-eslint": "8.14.0",
     "verdaccio": "5.32.2"
