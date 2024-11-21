@@ -19,22 +19,8 @@ export async function generateManifest(
     await fsPromises.mkdir(outDir);
   }
 
-  const manifestFilePath = path.resolve(__dirname, '../manifest.ts');
-  // const originalManifest = await fsPromises.readFile(manifestFilePath, 'utf-8');
-
   await fsPromises.writeFile(
-    manifestFilePath,
-    `import { SkyManifest } from './types/manifest';
-
-export const manifest: SkyManifest = {
-  publicApi: {
-    packages: ${JSON.stringify(Object.fromEntries(publicApi.packages))},
-  },
-};
-`,
+    path.join(outDir, 'public-api.json'),
+    JSON.stringify(publicApi),
   );
-  // await fsPromises.writeFile(
-  //   path.join(outDir, 'public-api.json'),
-  //   JSON.stringify(Object.fromEntries(publicApi.packages)),
-  // );
 }

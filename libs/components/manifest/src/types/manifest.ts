@@ -114,8 +114,6 @@ export interface SkyManifestVariableDefinition extends SkyManifestDefinition {
   type: string;
 }
 
-export interface SkyManifest {
-  publicApi: {
-    packages: Record<string, SkyManifestDefinition[]>;
-  };
+export interface SkyManifestPublicApi {
+  packages: Record<string, SkyManifestDefinition[]>;
 }

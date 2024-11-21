@@ -1,7 +1,7 @@
-import { SkyManifest } from './types/manifest';
+// import { SkyManifest } from './types/manifest';
 
-export const manifest: SkyManifest = {
-  publicApi: {
-    packages: {},
-  },
-};
+// export const manifest: SkyManifest = {
+//   publicApi: {
+//     packages: {},
+//   },
+// };

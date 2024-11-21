@@ -1,6 +1,6 @@
 import { DeclarationReflection, ReflectionKind } from 'typedoc';
 
-import { SkyManifestDefinition } from '../types/manifest';
+import { SkyManifestDefinition, SkyManifestPublicApi } from '../types/manifest';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { getProjects } from './get-projects';
@@ -86,7 +86,7 @@ function getManifestItem(
   }
 }
 
-export async function getPublicApi(): Promise<{ packages: PackagesMap }> {
+export async function getPublicApi(): Promise<SkyManifestPublicApi> {
   const nxProjects = await getProjects();
 
   const packages: PackagesMap = new Map<string, SkyManifestDefinition[]>();
@@ -125,5 +125,5 @@ export async function getPublicApi(): Promise<{ packages: PackagesMap }> {
     }
   }
 
-  return { packages };
+  return { packages: Object.fromEntries(packages) };
 }

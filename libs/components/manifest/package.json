@@ -15,6 +15,18 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./public-api.json": {
+      "default": "./public-api.json"
+    }
+  },
   "optionalDependencies": {
     "typedoc": "0.26.11"
   }

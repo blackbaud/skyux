@@ -6,92 +6,76 @@ import { RULE_NAME, rule } from './no-deprecated-directives';
 
 const ruleTester = createTemplateRuleTester();
 
-jest.mock('@skyux/manifest', () => {
-  const original = jest.requireActual('@skyux/manifest');
-
+jest.mock('@skyux/manifest/public-api.json', () => {
   return {
-    ...original,
-    manifest: {
-      publicApi: {
-        packages: {
-          '@skyux/layout': [
+    packages: {
+      '@skyux/layout': [
+        {
+          kind: 'component',
+          selector: 'sky-card',
+          isDeprecated: true,
+          deprecationReason: 'Do not use the card component.',
+          inputs: [],
+          outputs: [],
+        },
+      ],
+      '@skyux/forms': [
+        {
+          kind: 'component',
+          selector: 'sky-file-attachment',
+          isDeprecated: false,
+          deprecationReason: '',
+          inputs: [
             {
-              anchorId: '',
-              filePath: '',
-              codeExample: '',
-              codeExampleLanguage: 'markup',
-              description: '',
-              kind: 'component',
-              name: 'SkyCardComponent',
-              selector: 'sky-card',
-              isInternal: false,
-              isPreview: false,
+              name: 'validateFn',
               isDeprecated: true,
-              deprecationReason: 'Do not use the card component.',
-              inputs: [],
-              outputs: [],
+              deprecationReason:
+                'Add a custom Angular `Validator` function to the `FormControl` instead.',
             },
           ],
-          '@skyux/forms': [
+          outputs: [
             {
-              kind: 'component',
-              selector: 'sky-file-attachment',
-              isDeprecated: false,
-              deprecationReason: '',
-              inputs: [
-                {
-                  name: 'validateFn',
-                  isDeprecated: true,
-                  deprecationReason:
-                    'Add a custom Angular `Validator` function to the `FormControl` instead.',
-                },
-              ],
-              outputs: [
-                {
-                  name: 'fileChange',
-                  isDeprecated: true,
-                  deprecationReason:
-                    "Subscribe to the form control's `valueChanges` event instead.",
-                },
-              ],
-            },
-          ],
-          '@skyux/foo': [
-            {
+              name: 'fileChange',
               isDeprecated: true,
-              kind: 'directive',
-              selector:
-                'input[skyDeprecatedThing], textarea[skyDeprecatedThing]',
-            },
-            {
-              kind: 'directive',
-              selector: '[skyFoo]',
-              isDeprecated: false,
-              inputs: [
-                {
-                  name: 'noReason',
-                  isDeprecated: true,
-                  deprecationReason: '',
-                },
-              ],
-              outputs: [],
-            },
-            {
-              kind: 'directive',
-              selector: '[skyAutocomplete]',
-              isDeprecated: false,
-              inputs: [
-                {
-                  name: 'autocompleteAttribute',
-                  isDeprecated: true,
-                  deprecationReason: 'Do not use it.',
-                },
-              ],
-              outputs: [],
+              deprecationReason:
+                "Subscribe to the form control's `valueChanges` event instead.",
             },
           ],
         },
-      },
+      ],
+      '@skyux/foo': [
+        {
+          isDeprecated: true,
+          kind: 'directive',
+          selector: 'input[skyDeprecatedThing], textarea[skyDeprecatedThing]',
+        },
+        {
+          kind: 'directive',
+          selector: '[skyFoo]',
+          isDeprecated: false,
+          inputs: [
+            {
+              name: 'noReason',
+              isDeprecated: true,
+              deprecationReason: '',
+            },
+          ],
+          outputs: [],
+        },
+        {
+          kind: 'directive',
+          selector: '[skyAutocomplete]',
+          isDeprecated: false,
+          inputs: [
+            {
+              name: 'autocompleteAttribute',
+              isDeprecated: true,
+              deprecationReason: 'Do not use it.',
+            },
+          ],
+          outputs: [],
+        },
+      ],
     },
   };
 });

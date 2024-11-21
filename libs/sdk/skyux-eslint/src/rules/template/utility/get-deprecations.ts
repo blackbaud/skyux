@@ -1,6 +1,13 @@
-import { isDirectiveDefinition, manifest } from '@skyux/manifest';
+import {
+  SkyManifestDefinition,
+  SkyManifestPublicApi,
+  isDirectiveDefinition,
+} from '@skyux/manifest';
+import publicApi from '@skyux/manifest/public-api.json';
 
 import { Deprecations } from './deprecation-types';
+
+const packages = publicApi.packages as SkyManifestPublicApi;
 
 export function getDeprecations(): Deprecations {
   const deprecations: Deprecations = {
@@ -8,7 +15,12 @@ export function getDeprecations(): Deprecations {
     directives: {},
   };
 
-  for (const [, definitions] of Object.entries(manifest.publicApi.packages)) {
+  const packageEntries = Object.entries(packages) as [
+    string,
+    SkyManifestDefinition[],
+  ][];
+
+  for (const [, definitions] of packageEntries) {
     for (const definition of definitions) {
       if (isDirectiveDefinition(definition)) {
         const category: keyof Deprecations =
