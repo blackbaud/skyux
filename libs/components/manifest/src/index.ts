@@ -1,7 +1,21 @@
-// export { manifest } from './manifest';
 export {
+  SkyManifestClassDefinition,
+  SkyManifestClassMethodDefinition,
+  SkyManifestClassPropertyDefinition,
   SkyManifestDefinition,
+  SkyManifestDefinitionKind,
   SkyManifestDirectiveDefinition,
+  SkyManifestDirectiveInputDefinition,
+  SkyManifestEnumerationDefinition,
+  SkyManifestEnumerationMemberDefinition,
+  SkyManifestFunctionDefinition,
+  SkyManifestIndexSignatureDefinition,
+  SkyManifestInterfaceDefinition,
+  SkyManifestInterfacePropertyDefinition,
+  SkyManifestParameterDefinition,
+  SkyManifestPipeDefinition,
   SkyManifestPublicApi,
+  SkyManifestTypeAliasDefinition,
+  SkyManifestVariableDefinition,
 } from './types/manifest.js';
 export { isDirectiveDefinition, isTemplateFeature } from './utils';

@@ -10,24 +10,24 @@ function getCommentTagText(parts: CommentDisplayPart[]): string {
 }
 
 export function getComment(comment: Comment | undefined): {
-  codeExample: string;
-  codeExampleLanguage: CodeExampleLanguage;
-  deprecationReason: string;
+  codeExample: string | undefined;
+  codeExampleLanguage: CodeExampleLanguage | undefined;
+  deprecationReason: string | undefined;
   defaultValue: string;
   description: string;
-  isDeprecated: boolean;
+  isDeprecated: boolean | undefined;
   isInternal: boolean;
-  isPreview: boolean;
+  isPreview: boolean | undefined;
   isRequired: boolean;
 } {
-  let codeExample = '';
-  let codeExampleLanguage: CodeExampleLanguage = 'markup';
-  let deprecationReason = '';
+  let codeExample: string | undefined;
+  let codeExampleLanguage: CodeExampleLanguage | undefined;
+  let deprecationReason: string | undefined;
   let defaultValue = '';
   let description = '';
-  let isDeprecated = false;
+  let isDeprecated: boolean | undefined;
   let isInternal = false;
-  let isPreview = false;
+  let isPreview: boolean | undefined;
   let isRequired = false;
 
   if (comment) {
@@ -44,7 +44,7 @@ export function getComment(comment: Comment | undefined): {
 
           case '@deprecated': {
             isDeprecated = true;
-            deprecationReason = getCommentTagText(tag.content);
+            deprecationReason = getCommentTagText(tag.content) || undefined;
             break;
           }
 
@@ -59,6 +59,8 @@ export function getComment(comment: Comment | undefined): {
             ) {
               codeExample = codeExample.slice(exampleLanguage.length).trim();
               codeExampleLanguage = exampleLanguage;
+            } else {
+              codeExampleLanguage = 'markup';
             }
 
             break;

@@ -128,12 +128,12 @@ export interface SkyManifestInterfacePropertyDefinition
  * Information captured from common JSDoc comments.
  */
 export interface SkyManifestJsDocDefinition {
-  codeExample: string;
-  codeExampleLanguage: 'markup' | 'typescript';
-  deprecationReason: string;
+  codeExample?: string;
+  codeExampleLanguage?: 'markup' | 'typescript';
+  deprecationReason?: string;
   description: string;
-  isDeprecated: boolean;
-  isPreview: boolean;
+  isDeprecated?: boolean;
+  isPreview?: boolean;
 }
 
 /**
