@@ -479,7 +479,8 @@ sky-input-box {
       .sky-input-group-btn.sky-input-box-btn-inset {
         .sky-btn {
           background-color: transparent;
-          border-radius: var(--sky-border-radius-s);
+          border-top-right-radius: var(--sky-border-radius-s);
+          border-bottom-right-radius: var(--sky-border-radius-s);
           transition-property: none;
 
           &:not(:active):not(:focus):not(:hover) {

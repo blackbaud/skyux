@@ -27,8 +27,8 @@
 
   // Placeholder text
   ::placeholder {
-    color: var(--sky-text-color-deemphasized);
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    color: var(--sky-color-text-deemphasized);
+    font-style: var(--sky-font-style-deemphasized-style);
     opacity: 1;
   }
 
