@@ -355,21 +355,10 @@ export class SkyAgGridService implements OnDestroy {
         const minWidth = params.column?.getMinWidth() ?? 0;
         // istanbul ignore next
         const maxWidth = params.column?.getMaxWidth() ?? Infinity;
-        const classes = [...classNames];
-
         if (params.column?.isResizable() && minWidth < maxWidth) {
-          classes.push(SkyHeaderClass.Resizable);
+          return [...classNames, SkyHeaderClass.Resizable];
         }
-
-        if (
-          params.column &&
-          params.api
-            .getColumnDef(params.column)
-            ?.type?.includes(SkyCellType.RightAligned)
-        ) {
-          classes.push(SkyHeaderClass.RightAligned);
-        }
-        return classes;
+        return classNames;
       };
     }
 
@@ -469,6 +458,7 @@ export class SkyAgGridService implements OnDestroy {
           cellClassRules: {
             [SkyCellClass.RightAligned]: cellClassRuleTrueExpression,
           },
+          headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
