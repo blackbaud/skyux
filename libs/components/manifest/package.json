@@ -31,8 +31,6 @@
     "tslib": "^2.6.3"
   },
   "optionalDependencies": {
-    "@angular/core": "^18.2.8",
-    "cross-spawn": "^7.0.3",
     "typedoc": "~0.26.11"
   }
 }

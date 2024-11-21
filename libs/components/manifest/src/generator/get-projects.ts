@@ -1,4 +1,4 @@
-import crossSpawn from 'cross-spawn';
+import { spawn } from 'node:child_process';
 
 export interface ProjectDefinition {
   entryPoints: string[];
@@ -12,7 +12,7 @@ const ROOT_PATH = 'libs/components/';
 
 function _exec(command: string, args: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
-    const child = crossSpawn(command, args, { stdio: 'pipe' });
+    const child = spawn(command, args, { stdio: 'pipe' });
 
     let stdout = '';
     child.stdout?.on('data', (data) => {
