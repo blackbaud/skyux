@@ -50,7 +50,7 @@ function getInput(
 
 function getInputs(
   decl: DeclarationReflectionWithDecorators,
-): SkyManifestDirectiveInputDefinition[] {
+): SkyManifestDirectiveInputDefinition[] | undefined {
   const inputs: SkyManifestDirectiveInputDefinition[] = [];
 
   if (decl.children) {
@@ -65,12 +65,12 @@ function getInputs(
     }
   }
 
-  return inputs;
+  return inputs.length > 0 ? inputs : undefined;
 }
 
 function getOutputs(
   decl: DeclarationReflection,
-): SkyManifestClassPropertyDefinition[] {
+): SkyManifestClassPropertyDefinition[] | undefined {
   const outputs: SkyManifestClassPropertyDefinition[] = [];
 
   if (decl.children) {
@@ -85,7 +85,7 @@ function getOutputs(
     }
   }
 
-  return outputs;
+  return outputs.length > 0 ? outputs : undefined;
 }
 
 function getSelector(

@@ -1,5 +1,7 @@
 import {
+  SkyManifestClassPropertyDefinition,
   SkyManifestDefinition,
+  SkyManifestDirectiveDefinition,
   SkyManifestPublicApi,
   isDirectiveDefinition,
 } from '@skyux/manifest';
@@ -8,6 +10,12 @@ import publicApi from '@skyux/manifest/public-api.json';
 import { Deprecations } from './deprecation-types';
 
 const packages = publicApi.packages as SkyManifestPublicApi;
+
+function getInputsAndOutputs(
+  definition: SkyManifestDirectiveDefinition,
+): SkyManifestClassPropertyDefinition[] {
+  return (definition.inputs ?? []).concat(definition.outputs ?? []);
+}
 
 export function getDeprecations(): Deprecations {
   const deprecations: Deprecations = {
@@ -34,7 +42,7 @@ export function getDeprecations(): Deprecations {
           continue;
         }
 
-        const properties = definition.inputs.concat(definition.outputs);
+        const properties = getInputsAndOutputs(definition);
 
         for (const property of properties) {
           deprecations[category][definition.selector] ??= {

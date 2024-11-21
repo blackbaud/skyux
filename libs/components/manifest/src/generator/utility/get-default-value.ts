@@ -3,11 +3,11 @@ import { Reflection } from 'typedoc';
 export function getDefaultValue(
   refl: Reflection & { defaultValue?: string },
   defaultValue?: string,
-): string {
-  defaultValue = (defaultValue || refl.defaultValue) ?? '';
+): string | undefined {
+  defaultValue = defaultValue || refl.defaultValue;
 
   // TypeDoc sometimes wraps default values in code blocks.
-  if (defaultValue.includes('```')) {
+  if (defaultValue?.includes('```')) {
     defaultValue = defaultValue.split('\n')[1];
   }
 
@@ -15,7 +15,7 @@ export function getDefaultValue(
   // (and replaced them with "...") due to the complicated logic it required.
   // See: https://github.com/TypeStrong/typedoc/issues/1552
   if (defaultValue === '...') {
-    defaultValue = '';
+    defaultValue = undefined;
   }
 
   return defaultValue;

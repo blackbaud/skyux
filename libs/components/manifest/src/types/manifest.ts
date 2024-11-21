@@ -18,8 +18,8 @@ export type SkyManifestDefinitionKind =
  * Information about a class exported from the public API.
  */
 export interface SkyManifestClassDefinition extends SkyManifestDefinition {
-  methods: SkyManifestClassMethodDefinition[];
-  properties: SkyManifestClassPropertyDefinition[];
+  methods?: SkyManifestClassMethodDefinition[];
+  properties?: SkyManifestClassPropertyDefinition[];
 }
 
 /**
@@ -38,7 +38,7 @@ export interface SkyManifestClassMethodDefinition
  */
 export interface SkyManifestClassPropertyDefinition
   extends SkyManifestJsDocDefinition {
-  defaultValue: string;
+  defaultValue?: string;
   name: string;
   type: string;
 }
@@ -49,7 +49,7 @@ export interface SkyManifestClassPropertyDefinition
 export interface SkyManifestDefinition extends SkyManifestJsDocDefinition {
   anchorId: string;
   filePath: string;
-  isInternal: boolean;
+  isInternal?: boolean;
   kind: SkyManifestDefinitionKind;
   name: string;
 }
@@ -58,8 +58,8 @@ export interface SkyManifestDefinition extends SkyManifestJsDocDefinition {
  * Information about a directive or component exported from the public API.
  */
 export interface SkyManifestDirectiveDefinition extends SkyManifestDefinition {
-  inputs: SkyManifestDirectiveInputDefinition[];
-  outputs: SkyManifestClassPropertyDefinition[];
+  inputs?: SkyManifestDirectiveInputDefinition[];
+  outputs?: SkyManifestClassPropertyDefinition[];
   selector: string;
 }
 
@@ -131,7 +131,7 @@ export interface SkyManifestJsDocDefinition {
   codeExample?: string;
   codeExampleLanguage?: 'markup' | 'typescript';
   deprecationReason?: string;
-  description: string;
+  description?: string;
   isDeprecated?: boolean;
   isPreview?: boolean;
 }
@@ -140,8 +140,8 @@ export interface SkyManifestJsDocDefinition {
  * Information about a function or method parameter.
  */
 export interface SkyManifestParameterDefinition {
-  defaultValue: string;
-  description: string;
+  defaultValue?: string;
+  description?: string;
   isOptional?: boolean;
   name: string;
   type: string;

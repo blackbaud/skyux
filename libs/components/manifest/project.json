@@ -13,7 +13,10 @@
         "tsConfig": "libs/components/manifest/tsconfig.lib.json",
         "packageJson": "libs/components/manifest/package.json",
         "main": "libs/components/manifest/src/index.ts",
-        "assets": ["libs/components/manifest/*.md"]
+        "assets": [
+          "libs/components/manifest/*.md",
+          "libs/components/manifest/public-api.json"
+        ]
       }
     },
     "postbuild": {

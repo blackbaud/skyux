@@ -1,37 +1,60 @@
-import { Comment, CommentDisplayPart } from 'typedoc';
+import { Comment, CommentDisplayPart, CommentTag } from 'typedoc';
 
 export type CodeExampleLanguage = 'markup' | 'typescript';
 
-function getCommentTagText(parts: CommentDisplayPart[]): string {
-  return parts
-    .map((item) => item.text)
-    .join('')
-    .trim();
+function getCommentTagText(parts: CommentDisplayPart[]): string | undefined {
+  return (
+    parts
+      .map((item) => item.text)
+      .join('')
+      .trim() || undefined
+  );
+}
+
+function getCodeExample(comment: CommentTag): {
+  codeExample: string | undefined;
+  codeExampleLanguage: CodeExampleLanguage | undefined;
+} {
+  let codeExample = getCommentTagText(comment.content)?.split('```')[1].trim();
+  let codeExampleLanguage: CodeExampleLanguage | undefined;
+
+  if (codeExample) {
+    const exampleLanguage = codeExample?.split('\n')[0];
+
+    if (exampleLanguage === 'markup' || exampleLanguage === 'typescript') {
+      codeExample = codeExample.slice(exampleLanguage.length).trim();
+      codeExampleLanguage = exampleLanguage;
+    } else {
+      codeExampleLanguage = 'markup';
+    }
+  }
+
+  return { codeExample, codeExampleLanguage };
 }
 
 export function getComment(comment: Comment | undefined): {
   codeExample: string | undefined;
   codeExampleLanguage: CodeExampleLanguage | undefined;
   deprecationReason: string | undefined;
-  defaultValue: string;
-  description: string;
+  defaultValue: string | undefined;
+  description: string | undefined;
   isDeprecated: boolean | undefined;
-  isInternal: boolean;
+  isInternal: boolean | undefined;
   isPreview: boolean | undefined;
   isRequired: boolean;
 } {
   let codeExample: string | undefined;
   let codeExampleLanguage: CodeExampleLanguage | undefined;
   let deprecationReason: string | undefined;
-  let defaultValue = '';
-  let description = '';
+  let defaultValue: string | undefined;
+  let description: string | undefined;
   let isDeprecated: boolean | undefined;
-  let isInternal = false;
+  let isInternal: boolean | undefined;
   let isPreview: boolean | undefined;
   let isRequired = false;
 
   if (comment) {
-    isInternal = comment.modifierTags.has('@internal');
+    isInternal = comment.modifierTags.has('@internal') ? true : undefined;
 
     if (comment.blockTags) {
       comment.blockTags.forEach((tag) => {
@@ -44,25 +67,14 @@ export function getComment(comment: Comment | undefined): {
 
           case '@deprecated': {
             isDeprecated = true;
-            deprecationReason = getCommentTagText(tag.content) || undefined;
+            deprecationReason = getCommentTagText(tag.content);
             break;
           }
 
           case '@example': {
-            codeExample = getCommentTagText(tag.content).split('```')[1].trim();
-
-            const exampleLanguage = codeExample.split('\n')[0];
-
-            if (
-              exampleLanguage === 'markup' ||
-              exampleLanguage === 'typescript'
-            ) {
-              codeExample = codeExample.slice(exampleLanguage.length).trim();
-              codeExampleLanguage = exampleLanguage;
-            } else {
-              codeExampleLanguage = 'markup';
-            }
-
+            const example = getCodeExample(tag);
+            codeExample = example.codeExample;
+            codeExampleLanguage = example.codeExampleLanguage;
             break;
           }
 
@@ -80,11 +92,12 @@ export function getComment(comment: Comment | undefined): {
       });
     }
 
-    description = comment.summary
-      ?.map((item) => item.text)
-      .join('')
-      .trim()
-      .replace(/(\r\n|\n|\r)/gm, ' ');
+    description =
+      comment.summary
+        .map((item) => item.text)
+        .join('')
+        .trim()
+        .replace(/(\r\n|\n|\r)/gm, ' ') || undefined;
   }
 
   return {

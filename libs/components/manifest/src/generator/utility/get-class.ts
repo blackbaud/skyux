@@ -15,7 +15,7 @@ import { getType } from './get-type';
 
 export function getMethods(
   decl: DeclarationReflection,
-): SkyManifestClassMethodDefinition[] {
+): SkyManifestClassMethodDefinition[] | undefined {
   const methods: SkyManifestClassMethodDefinition[] = [];
 
   if (decl.children) {
@@ -29,7 +29,7 @@ export function getMethods(
     }
   }
 
-  return methods;
+  return methods.length > 0 ? methods : undefined;
 }
 
 export function getMethod(
@@ -122,7 +122,7 @@ export function getProperty(
 
 export function getProperties(
   decl: DeclarationReflection,
-): SkyManifestClassPropertyDefinition[] {
+): SkyManifestClassPropertyDefinition[] | undefined {
   const properties: SkyManifestClassPropertyDefinition[] = [];
 
   if (decl.children) {
@@ -139,7 +139,7 @@ export function getProperties(
     }
   }
 
-  return properties;
+  return properties.length > 0 ? properties : undefined;
 }
 
 export function getClass(
