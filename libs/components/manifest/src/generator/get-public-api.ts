@@ -1,9 +1,7 @@
 import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 
-import {
-  type SkyManifestDefinition,
-  type SkyManifestPublicApi,
-} from '../types/manifest';
+import { SkyManifestParentDefinition } from '../types/base-def';
+import { type SkyManifestPublicApi } from '../types/manifest';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { ProjectDefinition } from './get-projects';
@@ -17,12 +15,12 @@ import { getPipe } from './utility/get-pipe';
 import { getTypeAlias } from './utility/get-type-alias';
 import { getVariable } from './utility/get-variable';
 
-export type PackagesMap = Map<string, SkyManifestDefinition[]>;
+export type PackagesMap = Map<string, SkyManifestParentDefinition[]>;
 
 function handleClassKind(
   child: DeclarationReflection,
   filePath: string,
-): SkyManifestDefinition {
+): SkyManifestParentDefinition {
   const decoratorName = getDecorator(child);
 
   switch (decoratorName) {
@@ -55,7 +53,7 @@ function handleClassKind(
 function getManifestItem(
   child: DeclarationReflection,
   filePath: string,
-): SkyManifestDefinition {
+): SkyManifestParentDefinition {
   switch (child.kind) {
     case ReflectionKind.Class: {
       return handleClassKind(child, filePath);
@@ -105,7 +103,10 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
 export async function getPublicApi(
   projects: ProjectDefinition[],
 ): Promise<SkyManifestPublicApi> {
-  const packages: PackagesMap = new Map<string, SkyManifestDefinition[]>();
+  const packages: PackagesMap = new Map<
+    string,
+    SkyManifestParentDefinition[]
+  >();
 
   for (const { entryPoints, packageName, projectRoot } of projects) {
     process.stderr.write(`Creating manifest for ${packageName}...`);
@@ -118,7 +119,7 @@ export async function getPublicApi(
 
     for (const refl of entryPointReflections) {
       if (refl.children) {
-        const items: SkyManifestDefinition[] =
+        const items: SkyManifestParentDefinition[] =
           packages.get(refl.entryName) ?? [];
 
         for (const child of refl.children) {

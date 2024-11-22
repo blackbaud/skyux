@@ -1,6 +1,6 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import { type SkyManifestFunctionDefinition } from '../../types/manifest';
+import type { SkyManifestFunctionDefinition } from '../../types/function-def';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
@@ -36,7 +36,7 @@ export function getFunction(
     kind: 'function',
     name: decl.name,
     parameters: getParameters(signature?.parameters),
-    returnType: getType(signature?.type),
+    type: getType(signature?.type),
   };
 
   return def;

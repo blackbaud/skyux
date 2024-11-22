@@ -4,17 +4,15 @@ import {
   type TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import {
-  SkyManifestDeprecatedDirective,
-  type SkyManifestPublicApi,
-  getDeprecatedTemplateFeatures,
-} from '@skyux/manifest';
+import { type SkyManifestPublicApi } from '@skyux/manifest';
 import publicApi from '@skyux/manifest/public-api.json';
 import { type RuleListener } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
+import { getDeprecatedTemplateFeatures } from './utils/get-deprecated-template-features';
 import { parseDirectiveSelectors } from './utils/parse-directive-selectors';
+import { DeprecatedDirective } from './utils/types';
 
 const DEPRECATIONS = getDeprecatedTemplateFeatures(
   publicApi as SkyManifestPublicApi,
@@ -28,7 +26,7 @@ export const rule = createESLintTemplateRule({
 
     const reportDeprecatedDirective = (
       el: TmplAstElement | TmplAstBoundAttribute | TmplAstTextAttribute,
-      docs: SkyManifestDeprecatedDirective,
+      docs: DeprecatedDirective,
     ): void => {
       context.report({
         loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
@@ -42,7 +40,7 @@ export const rule = createESLintTemplateRule({
 
     const reportDeprecatedInputsOutputs = (
       el: TmplAstElement,
-      docs: SkyManifestDeprecatedDirective,
+      docs: DeprecatedDirective,
     ): void => {
       if (docs.properties) {
         for (const property of docs.properties) {
@@ -91,17 +89,17 @@ export const rule = createESLintTemplateRule({
     if (DEPRECATIONS.directives !== undefined) {
       const selectors = parseDirectiveSelectors(DEPRECATIONS.directives);
 
-      for (const selector of selectors) {
-        const ruleId = selector.element
-          ? `Element$1[name=${selector.element}] > :matches(BoundAttribute, TextAttribute)[name="${selector.attr}"]`
-          : `:matches(BoundAttribute, TextAttribute)[name="${selector.attr}"]`;
+      for (const detail of selectors) {
+        const ruleId = detail.element
+          ? `Element$1[name=${detail.element}] > :matches(BoundAttribute, TextAttribute)[name="${detail.attr}"]`
+          : `:matches(BoundAttribute, TextAttribute)[name="${detail.attr}"]`;
 
         rules[ruleId] = (
           node: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
             parent: TmplAstElement;
           },
         ): void => {
-          const docs = selector.directive;
+          const docs = detail.directive;
 
           if (docs.isDeprecated) {
             reportDeprecatedDirective(node, docs);

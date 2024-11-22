@@ -1,6 +1,6 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import { type SkyManifestIndexSignatureDefinition } from '../../types/manifest';
+import type { SkyManifestIndexSignatureDefinition } from '../../types/interface-def';
 
 import { getComment } from './get-comment';
 import { getParameters } from './get-parameters';
@@ -32,6 +32,7 @@ export function getIndexSignatures(
           description,
           isDeprecated,
           isPreview,
+          kind: 'index-signature',
           name: `[${param.name}: ${getType(param.type)}]`,
           type: getType(signature.type),
           parameters: getParameters(signature.parameters),

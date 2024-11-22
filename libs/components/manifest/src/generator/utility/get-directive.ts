@@ -1,10 +1,10 @@
 import { type DeclarationReflection, ReferenceType } from 'typedoc';
 
-import {
-  type SkyManifestClassPropertyDefinition,
-  type SkyManifestDirectiveDefinition,
-  type SkyManifestDirectiveInputDefinition,
-} from '../../types/manifest';
+import type {
+  SkyManifestDirectiveDefinition,
+  SkyManifestDirectiveInputDefinition,
+  SkyManifestDirectiveOutputDefinition,
+} from '../../types/directive-def';
 import { type DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
 import { getAnchorId } from './get-anchor-id';
@@ -40,6 +40,7 @@ function getInput(
 
     const input: SkyManifestDirectiveInputDefinition = {
       ...property,
+      kind: 'directive-input',
       isRequired,
     };
 
@@ -69,15 +70,32 @@ function getInputs(
   return inputs.length > 0 ? inputs : undefined;
 }
 
+function getOutput(
+  decl: DeclarationReflection,
+): SkyManifestDirectiveOutputDefinition | undefined {
+  const property = getProperty(decl);
+
+  if (property) {
+    const output: SkyManifestDirectiveOutputDefinition = {
+      ...property,
+      kind: 'directive-output',
+    };
+
+    return output;
+  }
+
+  return;
+}
+
 function getOutputs(
   decl: DeclarationReflection,
-): SkyManifestClassPropertyDefinition[] | undefined {
-  const outputs: SkyManifestClassPropertyDefinition[] = [];
+): SkyManifestDirectiveOutputDefinition[] | undefined {
+  const outputs: SkyManifestDirectiveOutputDefinition[] = [];
 
   if (decl.children) {
     for (const child of decl.children) {
       if (isOutput(child)) {
-        const output = getProperty(child);
+        const output = getOutput(child);
 
         if (output) {
           outputs.push(output);
@@ -112,8 +130,13 @@ export function getDirective(
 
   const directiveName = remapLambdaName(decl);
 
+  const inputs = getInputs(decl) ?? [];
+  const outputs = getOutputs(decl) ?? [];
+  const children = [...inputs, ...outputs];
+
   const directive: SkyManifestDirectiveDefinition = {
     anchorId: getAnchorId(directiveName, decl.kind),
+    children: children.length > 0 ? children : undefined,
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -125,8 +148,6 @@ export function getDirective(
     kind,
     name: directiveName,
     selector: getSelector(decl) ?? '',
-    inputs: getInputs(decl),
-    outputs: getOutputs(decl),
   };
 
   return directive;

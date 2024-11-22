@@ -1,43 +1,15 @@
-import { type DeclarationReflection, ReflectionKind } from 'typedoc';
-
-import type {
-  SkyManifestClassMethodDefinition,
-  SkyManifestPipeDefinition,
-} from '../../types/manifest';
-import { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
+import type { SkyManifestPipeDefinition } from '../../types/pipe-def';
+import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
 import { getAnchorId } from './get-anchor-id';
-import { getMethod } from './get-class';
-import { getComment } from './get-comment';
+import { getClass } from './get-class';
 import { remapLambdaName } from './remap-lambda-name';
-
-function getPipeTransformMethod(
-  decl: DeclarationReflection,
-): SkyManifestClassMethodDefinition {
-  if (decl.children) {
-    for (const child of decl.children) {
-      if (child.kind === ReflectionKind.Method && child.name === 'transform') {
-        return getMethod(child);
-      }
-    }
-  }
-
-  throw new Error(`Failed to find transform method for pipe: ${decl.name}`);
-}
 
 export function getPipe(
   decl: DeclarationReflectionWithDecorators,
   filePath: string,
 ): SkyManifestPipeDefinition {
-  const {
-    codeExample,
-    codeExampleLanguage,
-    deprecationReason,
-    description,
-    isDeprecated,
-    isInternal,
-    isPreview,
-  } = getComment(decl.comment);
+  const reflection = getClass(decl, 'class', filePath);
 
   const templateBindingName = decl.decorators?.[0]?.arguments?.[
     'name'
@@ -46,19 +18,12 @@ export function getPipe(
   const pipeName = remapLambdaName(decl);
 
   const pipe: SkyManifestPipeDefinition = {
+    ...reflection,
     anchorId: getAnchorId(pipeName, decl.kind),
-    codeExample,
-    codeExampleLanguage,
-    deprecationReason,
-    description,
-    filePath,
-    isDeprecated,
-    isInternal,
-    isPreview,
+    children: reflection.children ?? [],
     kind: 'pipe',
     name: pipeName,
     templateBindingName,
-    transformMethod: getPipeTransformMethod(decl),
   };
 
   return pipe;

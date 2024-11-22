@@ -1,10 +1,10 @@
 import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 
-import {
-  type SkyManifestClassDefinition,
-  type SkyManifestClassMethodDefinition,
-  type SkyManifestClassPropertyDefinition,
-} from '../../types/manifest';
+import type {
+  SkyManifestClassDefinition,
+  SkyManifestClassMethodDefinition,
+  SkyManifestClassPropertyDefinition,
+} from '../../types/class-def';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
@@ -54,9 +54,10 @@ export function getMethod(
     isDeprecated,
     isPreview,
     isStatic: decl.flags.isStatic ? true : undefined,
+    kind: 'class-method',
     name: decl.name,
     parameters: getParameters(signature?.parameters),
-    returnType: getType(signature?.type),
+    type: getType(signature?.type),
   };
 
   return method;
@@ -84,6 +85,7 @@ export function getProperty(
       defaultValue: getDefaultValue(decl, defaultValue),
       isDeprecated,
       isPreview,
+      kind: 'class-property',
       name: decl.name,
       type: getType(decl.getSignature?.type),
     };
@@ -110,6 +112,7 @@ export function getProperty(
       defaultValue: getDefaultValue(decl, defaultValue),
       isDeprecated,
       isPreview,
+      kind: 'class-property',
       name: decl.name,
       type: getType(decl.type),
     };
@@ -157,8 +160,13 @@ export function getClass(
     isPreview,
   } = getComment(decl.comment);
 
+  const methods = getMethods(decl) ?? [];
+  const properties = getProperties(decl) ?? [];
+  const children = [...methods, ...properties];
+
   const def: SkyManifestClassDefinition = {
     anchorId: getAnchorId(decl.name, decl.kind),
+    children: children.length > 0 ? children : undefined,
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -168,9 +176,7 @@ export function getClass(
     isInternal,
     isPreview,
     kind,
-    methods: getMethods(decl),
     name: decl.name,
-    properties: getProperties(decl),
   };
 
   return def;

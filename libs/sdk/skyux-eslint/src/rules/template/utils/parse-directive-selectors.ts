@@ -1,7 +1,7 @@
-import { type SkyManifestDeprecatedDirective } from '@skyux/manifest';
+import { DeprecatedDirective } from './types';
 
 interface DirectiveSelectorDetail {
-  directive: SkyManifestDeprecatedDirective;
+  directive: DeprecatedDirective;
   attr: string;
   element?: string;
 }
@@ -11,7 +11,7 @@ interface DirectiveSelectorDetail {
  * returns the element/attribute pairs.
  */
 export function parseDirectiveSelectors(
-  directives: SkyManifestDeprecatedDirective[],
+  directives: DeprecatedDirective[],
 ): DirectiveSelectorDetail[] {
   const details: DirectiveSelectorDetail[] = [];
 

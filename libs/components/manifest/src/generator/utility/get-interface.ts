@@ -1,9 +1,9 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import {
-  type SkyManifestInterfaceDefinition,
-  type SkyManifestInterfacePropertyDefinition,
-} from '../../types/manifest';
+import type {
+  SkyManifestInterfaceDefinition,
+  SkyManifestInterfacePropertyDefinition,
+} from '../../types/interface-def';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
@@ -36,6 +36,7 @@ function getInterfaceProperties(
         isDeprecated,
         isOptional,
         isPreview,
+        kind: 'interface-property',
         name: child.name,
         type: getType(child.type),
       });
@@ -59,20 +60,23 @@ export function getInterface(
     isPreview,
   } = getComment(decl.comment);
 
+  const indexSignatures = getIndexSignatures(decl);
+  const children = getInterfaceProperties(decl);
+
   const def: SkyManifestInterfaceDefinition = {
     anchorId: getAnchorId(decl.name, decl.kind),
+    children: children.length > 0 ? children : undefined,
     codeExample,
     codeExampleLanguage,
     deprecationReason,
     description,
     filePath,
-    indexSignatures: getIndexSignatures(decl),
+    indexSignatures: indexSignatures.length > 0 ? indexSignatures : undefined,
     isDeprecated,
     isInternal,
     isPreview,
     kind: 'interface',
     name: decl.name,
-    properties: getInterfaceProperties(decl),
   };
 
   return def;

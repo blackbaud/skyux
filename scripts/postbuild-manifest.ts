@@ -4,57 +4,13 @@ import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
 import { generateManifest } from '../libs/components/manifest/src/generator/generate-manifest';
-import {
-  SkyManifestPublicApi,
-  SkyManifestTemplateFeatureDeprecations,
-  getDeprecatedTemplateFeatures,
-} from '../libs/components/manifest/src/index';
+import { SkyManifestPublicApi } from '../libs/components/manifest/src/index';
 
 import { runCommand } from './utils/spawn';
 
-interface DeprecationsSnapshot {
-  templateFeatures: string[];
-}
-
-function removeWhitespace(str: string): string {
-  return str.replace(/\s/g, '');
-}
-
-function getNewSnapshot(
-  deprecations: SkyManifestTemplateFeatureDeprecations,
-): DeprecationsSnapshot {
-  const snapshot: DeprecationsSnapshot = {
-    templateFeatures: [],
-  };
-
-  for (const component of deprecations.components.concat(
-    deprecations.directives,
-  )) {
-    const selector = removeWhitespace(component.selector);
-
-    if (component.isDeprecated) {
-      snapshot.templateFeatures.push(selector);
-    } else {
-      component.properties?.forEach((property) => {
-        snapshot.templateFeatures.push(
-          `${selector}.${removeWhitespace(property.name)}`,
-        );
-      });
-    }
-  }
-
-  for (const pipe of deprecations.pipes) {
-    snapshot.templateFeatures.push(removeWhitespace(pipe.templateBindingName));
-  }
-
-  snapshot.templateFeatures.sort();
-
-  return snapshot;
-}
-
 async function writeSnapshot(
   snapshotPath: string,
-  snapshot: DeprecationsSnapshot,
+  snapshot: string[],
 ): Promise<void> {
   await fsPromises.writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
 }
@@ -70,30 +26,51 @@ async function isPrerelease(): Promise<boolean> {
   return thisPackageJson.version.includes('-');
 }
 
+function getDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
+  const deprecations: string[] = [];
+
+  for (const [packageName, definitions] of Object.entries(publicApi.packages)) {
+    for (const definition of definitions) {
+      if (definition.isDeprecated) {
+        deprecations.push(`${packageName}:${definition.name}`);
+      }
+
+      if (definition.children) {
+        definition.children?.forEach((child) => {
+          if (child.isDeprecated) {
+            deprecations.push(
+              `${packageName}:${definition.name}:${child.name}`,
+            );
+          }
+        });
+      }
+    }
+  }
+
+  return deprecations.sort();
+}
+
 /**
- * Validates that the public API does not deprecate any template features during
+ * Validates that the public API does not include newly deprecated features in
  * a minor version release.
  */
 async function checkManifest(publicApi: SkyManifestPublicApi): Promise<void> {
-  const deprecations = getDeprecatedTemplateFeatures(publicApi);
-  const snapshot = getNewSnapshot(deprecations);
   const snapshotDirectory = path.join(__dirname, '__snapshots__');
-  const snapshotPath = path.join(
-    snapshotDirectory,
-    'deprecated-template-features.json',
-  );
+  const snapshotPath = path.join(snapshotDirectory, 'deprecations.json');
 
   await fsExtra.ensureDir(snapshotDirectory);
+
+  const snapshot = getDeprecationsSnapshot(publicApi);
 
   if (!fs.existsSync(snapshotPath) || (await isPrerelease())) {
     await writeSnapshot(snapshotPath, snapshot);
   } else {
     const previousDeprecations = JSON.parse(
       await fsPromises.readFile(snapshotPath, 'utf-8'),
-    ) as DeprecationsSnapshot;
+    ) as string[];
 
-    const newDeprecations = snapshot.templateFeatures.filter(
-      (feature) => !previousDeprecations.templateFeatures.includes(feature),
+    const newDeprecations = snapshot.filter(
+      (feature) => !previousDeprecations.includes(feature),
     );
 
     if (newDeprecations.length > 0) {

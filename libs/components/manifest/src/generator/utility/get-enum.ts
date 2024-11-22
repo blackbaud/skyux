@@ -1,9 +1,10 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import {
-  type SkyManifestEnumerationDefinition,
-  type SkyManifestEnumerationMemberDefinition,
-} from '../../types/manifest';
+import type {
+  SkyManifestEnumerationDefinition,
+  SkyManifestEnumerationMemberDefinition,
+} from '../../types/enumeration-def';
+import '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
@@ -32,6 +33,7 @@ function getEnumMembers(
         description,
         isDeprecated,
         isPreview,
+        kind: 'enum-member',
         name: child.name,
         type: getType(child.type),
       });
@@ -66,7 +68,7 @@ export function getEnum(
     isInternal,
     isPreview,
     kind: 'enumeration',
-    members: getEnumMembers(decl),
+    children: getEnumMembers(decl),
     name: decl.name,
   };
 

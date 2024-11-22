@@ -1,6 +1,6 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import { type SkyManifestTypeAliasDefinition } from '../../types/manifest';
+import type { SkyManifestTypeAliasDefinition } from '../../types/type-alias-def';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';

@@ -15,8 +15,6 @@ jest.mock('@skyux/manifest/public-api.json', () => {
           selector: 'sky-card',
           isDeprecated: true,
           deprecationReason: 'Do not use the card component.',
-          inputs: [],
-          outputs: [],
         },
       ],
       '@skyux/forms': [
@@ -25,16 +23,16 @@ jest.mock('@skyux/manifest/public-api.json', () => {
           selector: 'sky-file-attachment',
           isDeprecated: false,
           deprecationReason: '',
-          inputs: [
+          children: [
             {
+              kind: 'directive-input',
               name: 'validateFn',
               isDeprecated: true,
               deprecationReason:
                 'Add a custom Angular `Validator` function to the `FormControl` instead.',
             },
-          ],
-          outputs: [
             {
+              kind: 'directive-output',
               name: 'fileChange',
               isDeprecated: true,
               deprecationReason:
@@ -53,27 +51,27 @@ jest.mock('@skyux/manifest/public-api.json', () => {
           kind: 'directive',
           selector: '[skyFoo]',
           isDeprecated: false,
-          inputs: [
+          children: [
             {
+              kind: 'directive-input',
               name: 'noReason',
               isDeprecated: true,
               deprecationReason: '',
             },
           ],
-          outputs: [],
         },
         {
           kind: 'directive',
           selector: '[skyAutocomplete]',
           isDeprecated: false,
-          inputs: [
+          children: [
             {
+              kind: 'directive-input',
               name: 'autocompleteAttribute',
               isDeprecated: true,
               deprecationReason: 'Do not use it.',
             },
           ],
-          outputs: [],
         },
       ],
     },
