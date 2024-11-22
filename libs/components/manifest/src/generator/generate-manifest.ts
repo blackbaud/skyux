@@ -4,17 +4,23 @@ import path from 'node:path';
 
 import { SkyManifestPublicApi } from '../types/manifest';
 
+import { getProjects } from './get-projects';
 import { getPublicApi } from './get-public-api';
 
 interface SkyManifestOptions {
   outDir: string;
-  projectsDirectory: string;
+  projectNames: string[];
+  projectsRootDirectory: string;
 }
 
 export async function generateManifest(
   options: SkyManifestOptions,
 ): Promise<{ publicApi: SkyManifestPublicApi }> {
-  const publicApi = await getPublicApi(options.projectsDirectory);
+  const projects = getProjects(
+    options.projectsRootDirectory,
+    options.projectNames,
+  );
+  const publicApi = await getPublicApi(projects);
 
   const outDir = path.normalize(options.outDir);
 

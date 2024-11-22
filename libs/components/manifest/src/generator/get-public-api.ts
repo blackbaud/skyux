@@ -6,7 +6,7 @@ import {
 } from '../types/manifest';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
-import { getProjects } from './get-projects';
+import { ProjectDefinition } from './get-projects';
 import { getClass } from './utility/get-class';
 import { getDecorator } from './utility/get-decorator';
 import { getDirective } from './utility/get-directive';
@@ -90,13 +90,11 @@ function getManifestItem(
 }
 
 export async function getPublicApi(
-  projectsDirectory: string,
+  projects: ProjectDefinition[],
 ): Promise<SkyManifestPublicApi> {
-  const nxProjects = await getProjects(projectsDirectory);
-
   const packages: PackagesMap = new Map<string, SkyManifestDefinition[]>();
 
-  for (const { entryPoints, packageName, projectRoot } of nxProjects) {
+  for (const { entryPoints, packageName, projectRoot } of projects) {
     process.stderr.write(`Creating manifest for ${packageName}...`);
 
     const entryPointReflections = await getEntryPointsReflections({
