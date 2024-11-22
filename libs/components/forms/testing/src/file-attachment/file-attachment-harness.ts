@@ -67,6 +67,34 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
+   * Clicks the uploaded file's name link to download it.
+   */
+  public async clickUploadedFile(): Promise<void> {
+    try {
+      const file = await this.locatorFor('a')();
+      return await file.click();
+    } catch {
+      throw new Error('Unable to find uploaded file.');
+    }
+  }
+
+  /**
+   * Clicks the uploaded file's delete button.
+   */
+  public async clickUploadedFileDeleteButton(): Promise<void> {
+    try {
+      const deleteButton = await this.locatorFor(
+        'button.sky-file-attachment-delete',
+      )();
+      return await deleteButton.click();
+    } catch {
+      throw new Error(
+        "Unable to find uploaded file's delete button. Check if a file is uploaded.",
+      );
+    }
+  }
+
+  /**
    * Gets the accepted file types.
    */
   public async getAcceptedTypes(): Promise<string | null> {

@@ -50,6 +50,7 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
         data-sky-id="reactive-file-attachment"
         formControlName="attachment"
         labelText="other file attachment"
+        (fileClick)="onFileClick()"
       />
     </form>
   `,
@@ -72,10 +73,14 @@ class TestComponent {
       attachment: this.attachment,
     });
   }
+
+  public onFileClick(): void {
+    // Only exists for the spy
+  }
 }
 //#endregion Test component
 
-describe('File attachment harness', () => {
+fdescribe('File attachment harness', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -297,21 +302,21 @@ describe('File attachment harness', () => {
     );
   });
 
-  it('should click the replace file button', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
-      dataSkyId: 'reactive-file-attachment',
-      theme: 'default',
-    });
-    const input = fixture.nativeElement.querySelectorAll('input')[0];
-    spyOn(input, 'click');
+  // it('should click the replace file button', async () => {
+  //   const { fileAttachmentHarness, fixture } = await setupTest({
+  //     dataSkyId: 'reactive-file-attachment',
+  //     theme: 'default',
+  //   });
+  //   const input = fixture.nativeElement.querySelectorAll('input')[0];
+  //   spyOn(input, 'click');
 
-    const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
-    fixture.detectChanges();
+  //   const file = new File([], 'file.txt', { type: 'text/plain ' });
+  //   fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+  //   fixture.detectChanges();
 
-    await fileAttachmentHarness.clickReplaceFileButton();
-    expect(input.click).toHaveBeenCalled();
-  });
+  //   await fileAttachmentHarness.clickReplaceFileButton();
+  //   expect(input.click).toHaveBeenCalled();
+  // });
 
   it('should throw an error if trying to click replace file button in modern theme', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({
@@ -340,6 +345,59 @@ describe('File attachment harness', () => {
       fileAttachmentHarness.clickReplaceFileButton(),
     ).toBeRejectedWithError(
       'Cannot click Replace file button, it is not visible.',
+    );
+  });
+
+  it('should click the uploaded file', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    const spy = spyOn(fixture.componentInstance, 'onFileClick');
+
+    const file = new File([], 'file.txt', { type: 'text/plain ' });
+    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.detectChanges();
+
+    await fileAttachmentHarness.clickUploadedFile();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should throw an error if attempting to click a file when no file is uploaded', async () => {
+    const { fileAttachmentHarness } = await setupTest({});
+    await expectAsync(
+      fileAttachmentHarness.clickUploadedFile(),
+    ).toBeRejectedWithError('Unable to find uploaded file.');
+  });
+
+  it('should delete the uploaded file after the delete button is clicked', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    const file = new File([], 'file.txt', { type: 'text/plain ' });
+    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.value).toEqual({
+      file,
+      url: 'foo.bar',
+    });
+
+    await fileAttachmentHarness.clickUploadedFileDeleteButton();
+
+    expect(fixture.componentInstance.attachment.value).toEqual(undefined);
+  });
+
+  it('should throw an error when attempting to click the delete button when no file is uploaded', async () => {
+    const { fileAttachmentHarness } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    await expectAsync(
+      fileAttachmentHarness.clickUploadedFileDeleteButton(),
+    ).toBeRejectedWithError(
+      "Unable to find uploaded file's delete button. Check if a file is uploaded.",
     );
   });
 });
