@@ -89,8 +89,10 @@ function getManifestItem(
   }
 }
 
-export async function getPublicApi(): Promise<SkyManifestPublicApi> {
-  const nxProjects = await getProjects();
+export async function getPublicApi(
+  projectsDirectory: string,
+): Promise<SkyManifestPublicApi> {
+  const nxProjects = await getProjects(projectsDirectory);
 
   const packages: PackagesMap = new Map<string, SkyManifestDefinition[]>();
 

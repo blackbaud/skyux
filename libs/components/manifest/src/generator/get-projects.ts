@@ -7,8 +7,6 @@ interface ProjectDefinition {
   projectRoot: string;
 }
 
-const ROOT_PATH = 'libs/components/';
-
 function _exec(command: string, args: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: 'pipe' });
@@ -18,31 +16,59 @@ function _exec(command: string, args: string[]): Promise<string> {
       stdout += data.toString();
     });
 
+    let stderr = '';
+    child.stderr?.on('data', (data) => {
+      stderr += data.toString();
+    });
+
     child.on('error', (err) => {
       reject(err);
     });
 
-    child.on('exit', () => {
-      resolve(stdout);
+    child.on('exit', (exitCode) => {
+      if (exitCode === 1) {
+        reject(new Error(stderr ? stderr : stdout));
+      } else {
+        resolve(stdout);
+      }
     });
   });
 }
 
-export async function getProjects(): Promise<ProjectDefinition[]> {
-  const output = await _exec('npx', [
-    'nx',
-    'show',
-    'projects',
-    '--projects',
-    'tag:component',
-    '--json',
-  ]);
+function ensureTrailingSlash(path: string): string {
+  return path.endsWith('/') ? path : `${path}/`;
+}
 
-  const projectNames = JSON.parse(output);
+async function getNxProjectNames(): Promise<string[]> {
+  try {
+    const output = await _exec('npx', [
+      'nx',
+      'show',
+      'projects',
+      '--projects',
+      'tag:component',
+      '--json',
+    ]);
+
+    const projectNames = JSON.parse(output);
+
+    return projectNames;
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+export async function getProjects(
+  projectsDirectory: string,
+): Promise<ProjectDefinition[]> {
+  projectsDirectory = ensureTrailingSlash(projectsDirectory);
+
+  const projectNames = await getNxProjectNames();
   const projects: ProjectDefinition[] = [];
 
   for (const projectName of projectNames) {
-    const projectRoot = `${ROOT_PATH}${projectName}`;
+    const projectRoot = `${projectsDirectory}${projectName}`;
 
     projects.push({
       entryPoints: [

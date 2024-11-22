@@ -1,7 +1,7 @@
-import type { DeprecatedDirective } from '../types/deprecation';
+import { type SkyManifestDeprecatedDirective } from '@skyux/manifest';
 
 interface DirectiveSelectorDetail {
-  directive: DeprecatedDirective;
+  directive: SkyManifestDeprecatedDirective;
   attr: string;
   element?: string;
 }
@@ -11,20 +11,18 @@ interface DirectiveSelectorDetail {
  * returns the element/attribute pairs.
  */
 export function parseDirectiveSelectors(
-  directives: Record<string, DeprecatedDirective>,
+  directives: SkyManifestDeprecatedDirective[],
 ): DirectiveSelectorDetail[] {
   const details: DirectiveSelectorDetail[] = [];
 
-  const selectors = Object.keys(directives);
-
-  for (const selector of selectors) {
-    const pieces = selector.split(',').map((p) => p.trim());
+  for (const directive of directives) {
+    const pieces = directive.selector.split(',').map((p) => p.trim());
 
     for (const piece of pieces) {
       const element = piece.split('[')[0];
 
       details.push({
-        directive: directives[selector],
+        directive,
         element,
         attr: piece.split('[')[1].split(']')[0],
       });

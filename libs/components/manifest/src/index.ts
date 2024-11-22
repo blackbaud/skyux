@@ -1,21 +1,31 @@
-export {
-  type SkyManifestClassDefinition,
-  type SkyManifestClassMethodDefinition,
-  type SkyManifestClassPropertyDefinition,
-  type SkyManifestDefinition,
-  type SkyManifestDefinitionKind,
-  type SkyManifestDirectiveDefinition,
-  type SkyManifestDirectiveInputDefinition,
-  type SkyManifestEnumerationDefinition,
-  type SkyManifestEnumerationMemberDefinition,
-  type SkyManifestFunctionDefinition,
-  type SkyManifestIndexSignatureDefinition,
-  type SkyManifestInterfaceDefinition,
-  type SkyManifestInterfacePropertyDefinition,
-  type SkyManifestParameterDefinition,
-  type SkyManifestPipeDefinition,
-  type SkyManifestPublicApi,
-  type SkyManifestTypeAliasDefinition,
-  type SkyManifestVariableDefinition,
+export { getDeprecatedTemplateFeatures } from './get-deprecated-template-features';
+export type {
+  SkyManifestClassDefinition,
+  SkyManifestClassMethodDefinition,
+  SkyManifestClassPropertyDefinition,
+  SkyManifestDefinition,
+  SkyManifestDefinitionKind,
+  SkyManifestDirectiveDefinition,
+  SkyManifestDirectiveInputDefinition,
+  SkyManifestEnumerationDefinition,
+  SkyManifestEnumerationMemberDefinition,
+  SkyManifestFunctionDefinition,
+  SkyManifestIndexSignatureDefinition,
+  SkyManifestInterfaceDefinition,
+  SkyManifestInterfacePropertyDefinition,
+  SkyManifestParameterDefinition,
+  SkyManifestPipeDefinition,
+  SkyManifestPublicApi,
+  SkyManifestTypeAliasDefinition,
+  SkyManifestVariableDefinition,
 } from './types/manifest.js';
-export { isDirectiveDefinition, isTemplateFeature } from './utils';
+export {
+  isDirectiveDefinition,
+  isPipeDefinition,
+  isTemplateFeature,
+} from './utils';
+export type {
+  SkyManifestDeprecatedDirective,
+  SkyManifestDeprecatedPipe,
+  SkyManifestTemplateFeatureDeprecations,
+} from './types/deprecated';

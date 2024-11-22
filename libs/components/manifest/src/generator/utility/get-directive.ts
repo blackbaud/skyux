@@ -11,6 +11,7 @@ import { getAnchorId } from './get-anchor-id';
 import { getProperty } from './get-class';
 import { getComment } from './get-comment';
 import { getDecorator } from './get-decorator';
+import { remapLambdaName } from './remap-lambda-name';
 
 export function isInput(decl: DeclarationReflectionWithDecorators): boolean {
   return (
@@ -94,14 +95,6 @@ function getSelector(
   return decl.decorators?.[0]?.arguments?.['selector'];
 }
 
-function getDirectiveName(decl: DeclarationReflection): string {
-  if (decl.name.startsWith('λ')) {
-    return decl.escapedName as string;
-  }
-
-  return decl.name;
-}
-
 export function getDirective(
   decl: DeclarationReflectionWithDecorators,
   kind: 'component' | 'directive',
@@ -117,7 +110,7 @@ export function getDirective(
     isPreview,
   } = getComment(decl.comment);
 
-  const directiveName = getDirectiveName(decl);
+  const directiveName = remapLambdaName(decl);
 
   const directive: SkyManifestDirectiveDefinition = {
     anchorId: getAnchorId(directiveName, decl.kind),

@@ -114,7 +114,10 @@
         "libs/components/lookup/testing/src/public-api.ts"
       ],
       "@skyux/manifest": ["libs/components/manifest/src/index.ts"],
-      "@skyux/manifest/*.json": ["libs/components/manifest/*.json"],
+      "@skyux/manifest/*.json": [
+        "dist/libs/components/manifest/*.json",
+        "libs/components/manifest/*.json"
+      ],
       "@skyux/modals": ["libs/components/modals/src/index.ts"],
       "@skyux/modals/testing": [
         "libs/components/modals/testing/src/public-api.ts"

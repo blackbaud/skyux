@@ -122,7 +122,9 @@ function handleUnionType(type: UnionType): string {
 export function getType(type: SomeType | undefined): string {
   let formatted: string | undefined;
 
-  if (type instanceof IntrinsicType) {
+  if (typeof type === 'undefined') {
+    return 'unknown';
+  } else if (type instanceof IntrinsicType) {
     formatted = type.name;
   } else if (type instanceof LiteralType) {
     formatted = handleLiteralType(type);

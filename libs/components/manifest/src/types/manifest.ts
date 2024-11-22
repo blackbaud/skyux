@@ -151,6 +151,7 @@ export interface SkyManifestParameterDefinition {
  * Information about a pipe exported from the public API.
  */
 export interface SkyManifestPipeDefinition extends SkyManifestDefinition {
+  templateBindingName: string;
   transformMethod: SkyManifestClassMethodDefinition;
 }
 

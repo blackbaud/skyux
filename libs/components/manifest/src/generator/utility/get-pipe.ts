@@ -1,13 +1,15 @@
 import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 
-import {
-  type SkyManifestClassMethodDefinition,
-  type SkyManifestPipeDefinition,
+import type {
+  SkyManifestClassMethodDefinition,
+  SkyManifestPipeDefinition,
 } from '../../types/manifest';
+import { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
 import { getAnchorId } from './get-anchor-id';
 import { getMethod } from './get-class';
 import { getComment } from './get-comment';
+import { remapLambdaName } from './remap-lambda-name';
 
 function getPipeTransformMethod(
   decl: DeclarationReflection,
@@ -24,7 +26,7 @@ function getPipeTransformMethod(
 }
 
 export function getPipe(
-  decl: DeclarationReflection,
+  decl: DeclarationReflectionWithDecorators,
   filePath: string,
 ): SkyManifestPipeDefinition {
   const {
@@ -37,8 +39,14 @@ export function getPipe(
     isPreview,
   } = getComment(decl.comment);
 
+  const templateBindingName = decl.decorators?.[0]?.arguments?.[
+    'name'
+  ] as string;
+
+  const pipeName = remapLambdaName(decl);
+
   const pipe: SkyManifestPipeDefinition = {
-    anchorId: getAnchorId(decl.name, decl.kind),
+    anchorId: getAnchorId(pipeName, decl.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -48,7 +56,8 @@ export function getPipe(
     isInternal,
     isPreview,
     kind: 'pipe',
-    name: decl.name,
+    name: pipeName,
+    templateBindingName,
     transformMethod: getPipeTransformMethod(decl),
   };
 

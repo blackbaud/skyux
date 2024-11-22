@@ -4,15 +4,21 @@ import {
   type TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
+import {
+  SkyManifestDeprecatedDirective,
+  type SkyManifestPublicApi,
+  getDeprecatedTemplateFeatures,
+} from '@skyux/manifest';
+import publicApi from '@skyux/manifest/public-api.json';
 import { type RuleListener } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
-import { type DeprecatedDirective } from './types/deprecation';
-import { getDeprecations } from './utility/get-deprecations';
-import { parseDirectiveSelectors } from './utility/parse-directive-selectors';
+import { parseDirectiveSelectors } from './utils/parse-directive-selectors';
 
-const DEPRECATIONS = getDeprecations();
+const DEPRECATIONS = getDeprecatedTemplateFeatures(
+  publicApi as SkyManifestPublicApi,
+);
 
 export const RULE_NAME = 'no-deprecated-directives';
 
@@ -22,13 +28,13 @@ export const rule = createESLintTemplateRule({
 
     const reportDeprecatedDirective = (
       el: TmplAstElement | TmplAstBoundAttribute | TmplAstTextAttribute,
-      docs: DeprecatedDirective,
+      docs: SkyManifestDeprecatedDirective,
     ): void => {
       context.report({
         loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
         messageId: 'noDeprecatedDirectives',
         data: {
-          reason: docs?.reason ?? '',
+          reason: docs.deprecationReason ?? '',
           selector: el.name,
         },
       });
@@ -36,7 +42,7 @@ export const rule = createESLintTemplateRule({
 
     const reportDeprecatedInputsOutputs = (
       el: TmplAstElement,
-      docs: DeprecatedDirective,
+      docs: SkyManifestDeprecatedDirective,
     ): void => {
       if (docs.properties) {
         for (const property of docs.properties) {
@@ -51,7 +57,7 @@ export const rule = createESLintTemplateRule({
               messageId: 'noDeprecatedDirectiveProperties',
               data: {
                 property: property.name,
-                reason: property.reason ?? '',
+                reason: property.deprecationReason ?? '',
                 selector: el.name,
               },
             });
@@ -64,17 +70,20 @@ export const rule = createESLintTemplateRule({
 
     if (DEPRECATIONS.components !== undefined) {
       const components = DEPRECATIONS.components;
-      const selectors = Object.keys(components).join('|');
+      const selectors = components.map((c) => c.selector).join('|');
 
       rules[`Element$1[name=/^(${selectors})$/]`] = (
         el: TmplAstElement,
       ): void => {
-        const docs = components[el.name];
+        const docs = components.find((c) => c.selector === el.name);
 
-        if (docs.deprecated) {
-          reportDeprecatedDirective(el, docs);
-        } else {
-          reportDeprecatedInputsOutputs(el, docs);
+        /* istanbul ignore else: safety check */
+        if (docs) {
+          if (docs.isDeprecated) {
+            reportDeprecatedDirective(el, docs);
+          } else {
+            reportDeprecatedInputsOutputs(el, docs);
+          }
         }
       };
     }
@@ -94,7 +103,7 @@ export const rule = createESLintTemplateRule({
         ): void => {
           const docs = selector.directive;
 
-          if (docs.deprecated) {
+          if (docs.isDeprecated) {
             reportDeprecatedDirective(node, docs);
           } else {
             reportDeprecatedInputsOutputs(node.parent, docs);
