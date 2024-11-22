@@ -158,7 +158,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "18.2.8",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#10.0.0-alpha.15",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#10.0.0-alpha.16",
     "@storybook/addon-a11y": "8.3.5",
     "@storybook/addon-actions": "8.3.5",
     "@storybook/addon-controls": "8.3.5",
