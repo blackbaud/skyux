@@ -4,11 +4,11 @@ import {
   type TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { RuleListener } from '@typescript-eslint/utils/ts-eslint';
+import { type RuleListener } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
-import { DeprecatedDirective } from './utility/deprecation-types';
+import { type DeprecatedDirective } from './types/deprecation';
 import { getDeprecations } from './utility/get-deprecations';
 import { parseDirectiveSelectors } from './utility/parse-directive-selectors';
 

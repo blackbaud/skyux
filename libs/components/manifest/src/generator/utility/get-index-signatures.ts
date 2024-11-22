@@ -1,6 +1,6 @@
-import { DeclarationReflection } from 'typedoc';
+import { type DeclarationReflection } from 'typedoc';
 
-import { SkyManifestIndexSignatureDefinition } from '../../types/manifest';
+import { type SkyManifestIndexSignatureDefinition } from '../../types/manifest';
 
 import { getComment } from './get-comment';
 import { getParameters } from './get-parameters';

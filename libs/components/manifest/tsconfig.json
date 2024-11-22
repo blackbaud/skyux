@@ -1,6 +1,7 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
+    "isolatedModules": true,
     "module": "CommonJS",
     "moduleResolution": "node"
   },

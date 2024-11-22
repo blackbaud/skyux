@@ -1,8 +1,8 @@
-import { DeclarationReflection } from 'typedoc';
+import { type DeclarationReflection } from 'typedoc';
 
 import {
-  SkyManifestInterfaceDefinition,
-  SkyManifestInterfacePropertyDefinition,
+  type SkyManifestInterfaceDefinition,
+  type SkyManifestInterfacePropertyDefinition,
 } from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';

@@ -24,7 +24,6 @@ function addDecoratorInfo(context, decl) {
 
   let decorators = [];
 
-  // if (ts.isClassDeclaration(declaration)) {
   const modifiers = declaration.modifiers ?? [];
 
   for (const modifier of modifiers) {
@@ -90,14 +89,14 @@ function addDecoratorInfo(context, decl) {
 }
 
 /**
- * This plugin is based on a suggestion from a Typedoc maintainer at https://github.com/TypeStrong/typedoc/issues/2346#issuecomment-1656806051.
- * Modifications were made to support accessors and to fix issues that were present in his suggestion (which he admitted hadn't been tested).
+ * This plugin is based on a suggestion from a Typedoc maintainer at
+ * https://github.com/TypeStrong/typedoc/issues/2346#issuecomment-1656806051.
  */
 export function load(app) {
-  // Add decorator info to reflections
+  // Add decorator info to reflections.
   app.converter.on(Converter.EVENT_CREATE_DECLARATION, addDecoratorInfo);
 
-  // Add decorator info to serialized json
+  // Add decorator info to serialized JSON.
   app.serializer.addSerializer({
     priority: 0,
     supports() {

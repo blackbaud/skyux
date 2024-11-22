@@ -1,11 +1,11 @@
-import { DeclarationReflection, ReferenceType } from 'typedoc';
+import { type DeclarationReflection, ReferenceType } from 'typedoc';
 
 import {
-  SkyManifestClassPropertyDefinition,
-  SkyManifestDirectiveDefinition,
-  SkyManifestDirectiveInputDefinition,
+  type SkyManifestClassPropertyDefinition,
+  type SkyManifestDirectiveDefinition,
+  type SkyManifestDirectiveInputDefinition,
 } from '../../types/manifest';
-import { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
+import { type DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
 import { getAnchorId } from './get-anchor-id';
 import { getProperty } from './get-class';

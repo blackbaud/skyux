@@ -1,6 +1,6 @@
-import { DeclarationReflection } from 'typedoc';
+import { type DeclarationReflection } from 'typedoc';
 
-import { SkyManifestFunctionDefinition } from '../../types/manifest';
+import { type SkyManifestFunctionDefinition } from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';

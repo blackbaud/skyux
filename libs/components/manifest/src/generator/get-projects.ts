@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
 
-export interface ProjectDefinition {
+interface ProjectDefinition {
   entryPoints: string[];
   packageName: string;
   projectName: string;
@@ -8,7 +8,6 @@ export interface ProjectDefinition {
 }
 
 const ROOT_PATH = 'libs/components/';
-// const ROOT_PATH = 'scripts/manifest/fixtures/example-packages/';
 
 function _exec(command: string, args: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -40,9 +39,6 @@ export async function getProjects(): Promise<ProjectDefinition[]> {
   ]);
 
   const projectNames = JSON.parse(output);
-
-  // const projectNames = ['layout'];
-
   const projects: ProjectDefinition[] = [];
 
   for (const projectName of projectNames) {

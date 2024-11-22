@@ -1,8 +1,8 @@
-import { DeclarationReflection } from 'typedoc';
+import { type DeclarationReflection } from 'typedoc';
 
 import {
-  SkyManifestEnumerationDefinition,
-  SkyManifestEnumerationMemberDefinition,
+  type SkyManifestEnumerationDefinition,
+  type SkyManifestEnumerationMemberDefinition,
 } from '../../types/manifest';
 
 import { getAnchorId } from './get-anchor-id';

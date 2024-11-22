@@ -1,13 +1,13 @@
 import {
-  SkyManifestClassPropertyDefinition,
-  SkyManifestDefinition,
-  SkyManifestDirectiveDefinition,
-  SkyManifestPublicApi,
+  type SkyManifestClassPropertyDefinition,
+  type SkyManifestDefinition,
+  type SkyManifestDirectiveDefinition,
+  type SkyManifestPublicApi,
   isDirectiveDefinition,
 } from '@skyux/manifest';
 import publicApi from '@skyux/manifest/public-api.json';
 
-import { Deprecations } from './deprecation-types';
+import type { Deprecations } from '../types/deprecation';
 
 const packages = publicApi.packages as SkyManifestPublicApi;
 

@@ -1,4 +1,4 @@
-import { DeprecatedDirective } from './deprecation-types';
+import type { DeprecatedDirective } from '../types/deprecation';
 
 interface DirectiveSelectorDetail {
   directive: DeprecatedDirective;

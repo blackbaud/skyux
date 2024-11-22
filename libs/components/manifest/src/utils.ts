@@ -1,6 +1,6 @@
 import {
-  SkyManifestDefinition,
-  SkyManifestDirectiveDefinition,
+  type SkyManifestDefinition,
+  type SkyManifestDirectiveDefinition,
 } from './types/manifest.js';
 
 export function isTemplateFeature(def: SkyManifestDefinition): boolean {
@@ -9,6 +9,9 @@ export function isTemplateFeature(def: SkyManifestDefinition): boolean {
   );
 }
 
+/**
+ * Whether the provided definition is a directive definition.
+ */
 export function isDirectiveDefinition(
   def: SkyManifestDefinition,
 ): def is SkyManifestDirectiveDefinition {

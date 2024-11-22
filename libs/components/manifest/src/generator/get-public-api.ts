@@ -1,6 +1,9 @@
-import { DeclarationReflection, ReflectionKind } from 'typedoc';
+import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 
-import { SkyManifestDefinition, SkyManifestPublicApi } from '../types/manifest';
+import {
+  type SkyManifestDefinition,
+  type SkyManifestPublicApi,
+} from '../types/manifest';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { getProjects } from './get-projects';

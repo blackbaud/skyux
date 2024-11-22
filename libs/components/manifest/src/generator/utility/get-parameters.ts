@@ -1,6 +1,6 @@
-import { ParameterReflection } from 'typedoc';
+import { type ParameterReflection } from 'typedoc';
 
-import { SkyManifestParameterDefinition } from '../../types/manifest';
+import { type SkyManifestParameterDefinition } from '../../types/manifest';
 
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';

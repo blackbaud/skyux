@@ -1,4 +1,8 @@
-import { Comment, CommentDisplayPart, CommentTag } from 'typedoc';
+import {
+  type Comment,
+  type CommentDisplayPart,
+  type CommentTag,
+} from 'typedoc';
 
 export type CodeExampleLanguage = 'markup' | 'typescript';
 
@@ -41,7 +45,7 @@ export function getComment(comment: Comment | undefined): {
   isDeprecated: boolean | undefined;
   isInternal: boolean | undefined;
   isPreview: boolean | undefined;
-  isRequired: boolean;
+  isRequired: boolean | undefined;
 } {
   let codeExample: string | undefined;
   let codeExampleLanguage: CodeExampleLanguage | undefined;
@@ -51,7 +55,7 @@ export function getComment(comment: Comment | undefined): {
   let isDeprecated: boolean | undefined;
   let isInternal: boolean | undefined;
   let isPreview: boolean | undefined;
-  let isRequired = false;
+  let isRequired: boolean | undefined;
 
   if (comment) {
     isInternal = comment.modifierTags.has('@internal') ? true : undefined;

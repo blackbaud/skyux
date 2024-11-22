@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { Application, ProjectReflection } from 'typedoc';
+import { Application, type ProjectReflection } from 'typedoc';
 
-import { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
+import { type DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
 
 const TYPEDOC_PLUGIN_PATH = path.join(
   __dirname,
-  './plugins/typedoc-plugin.mjs',
+  './plugins/typedoc-plugin-decorators.mjs',
 );
 
 async function getTypeDocProjectReflection(
@@ -17,7 +17,7 @@ async function getTypeDocProjectReflection(
     entryPoints,
     emit: 'docs',
     excludeExternals: true,
-    excludeInternal: false, // Include internal declarations for usage gathering.
+    excludeInternal: false, // Include internal declarations for usage metrics.
     excludePrivate: true,
     excludeProtected: true,
     logLevel: 'Error',
