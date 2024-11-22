@@ -81,7 +81,10 @@ jest.mock('@skyux/manifest/public-api.json', () => {
 });
 
 ruleTester.run(RULE_NAME, rule, {
-  valid: ['<foobar type="text" skyDeprecatedThing />'],
+  valid: [
+    // Deprecated directive, but on the "wrong" element should still pass.
+    '<foobar skyDeprecatedThing />',
+  ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when using deprecated directives',
