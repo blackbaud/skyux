@@ -302,21 +302,21 @@ fdescribe('File attachment harness', () => {
     );
   });
 
-  // it('should click the replace file button', async () => {
-  //   const { fileAttachmentHarness, fixture } = await setupTest({
-  //     dataSkyId: 'reactive-file-attachment',
-  //     theme: 'default',
-  //   });
-  //   const input = fixture.nativeElement.querySelectorAll('input')[0];
-  //   spyOn(input, 'click');
+  it('should click the replace file button', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+      theme: 'default',
+    });
+    const input = fixture.nativeElement.querySelectorAll('input')[1];
+    spyOn(input, 'click');
 
-  //   const file = new File([], 'file.txt', { type: 'text/plain ' });
-  //   fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
-  //   fixture.detectChanges();
+    const file = new File([], 'file.txt', { type: 'text/plain ' });
+    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.detectChanges();
 
-  //   await fileAttachmentHarness.clickReplaceFileButton();
-  //   expect(input.click).toHaveBeenCalled();
-  // });
+    await fileAttachmentHarness.clickReplaceFileButton();
+    expect(input.click).toHaveBeenCalled();
+  });
 
   it('should throw an error if trying to click replace file button in modern theme', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({
