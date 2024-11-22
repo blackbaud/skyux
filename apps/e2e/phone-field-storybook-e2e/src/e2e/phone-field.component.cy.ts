@@ -65,5 +65,5 @@ describe('phone-field-storybook', () => {
           );
       });
     });
-  });
+  }, true);
 });

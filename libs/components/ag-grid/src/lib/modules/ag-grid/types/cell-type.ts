@@ -69,6 +69,12 @@ export enum SkyCellType {
   /**
    * **Edit and read-only modes**
    * <br/>
+   * The header and cells in the column will render right aligned.
+   */
+  RightAligned = 'skyCellRightAligned',
+  /**
+   * **Edit and read-only modes**
+   * <br/>
    * Cells in the column will render as [SKY UX checkbox components](https://developer.blackbaud.com/skyux/components/checkbox). It allows the user to select multiple rows, and adds a highlight to selected rows. The [Ag Grid `rowNode`](https://www.ag-grid.com/javascript-grid-row-node/) will be updated to reflect the selected state.
    */
   RowSelector = 'skyCellRowSelector',

@@ -30,11 +30,17 @@ function detectChanges(fixture: ComponentFixture<any>): void {
 }
 
 function getTriggerButton(
-  fixture: ComponentFixture<any>,
-): HTMLButtonElement | null {
-  return fixture.nativeElement.querySelector(
+  fixture: ComponentFixture<unknown>,
+): HTMLButtonElement {
+  const buttonEl = fixture.nativeElement.querySelector(
     '.sky-input-group-datepicker-btn',
   ) as HTMLButtonElement | null;
+
+  if (buttonEl === null) {
+    throw new Error('Expected trigger button to exist.');
+  }
+
+  return buttonEl;
 }
 
 function clickDatepickerButton(
@@ -46,6 +52,12 @@ function clickDatepickerButton(
     detectChanges(fixture);
   }
 }
+
+function clickTrigger(fixture: ComponentFixture<unknown>): void {
+  getTriggerButton(fixture).click();
+  detectChanges(fixture);
+}
+
 function setInputProperty(
   value: any,
   component: any,
@@ -69,9 +81,37 @@ function setInputElementValue(
   detectChanges(fixture);
 }
 
-function blurInput(element: HTMLElement, fixture: ComponentFixture<any>): void {
-  const inputEl = element.querySelector('input');
-  SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+function blurInput(
+  fixture: ComponentFixture<unknown>,
+  relatedTarget: Element | null = null,
+): void {
+  const inputEl = getInputElement(fixture);
+
+  inputEl.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      cancelable: true,
+      relatedTarget,
+    }),
+  );
+
+  detectChanges(fixture);
+}
+
+function blurTriggerButton(
+  fixture: ComponentFixture<unknown>,
+  relatedTarget: Element | null = null,
+): void {
+  const buttonEl = getTriggerButton(fixture);
+
+  buttonEl.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      cancelable: true,
+      relatedTarget,
+    }),
+  );
+
   detectChanges(fixture);
 }
 
@@ -84,12 +124,16 @@ function setFormControlProperty(
   detectChanges(fixture);
 }
 
-function getInputElement(
-  fixture: ComponentFixture<any>,
-): HTMLInputElement | null {
-  return fixture.nativeElement.querySelector(
+function getInputElement(fixture: ComponentFixture<unknown>): HTMLInputElement {
+  const inputEl = fixture.nativeElement.querySelector(
     'input',
   ) as HTMLInputElement | null;
+
+  if (inputEl === null) {
+    throw new Error('Expected input element to exist.');
+  }
+
+  return inputEl;
 }
 
 function getInputElementValue(
@@ -764,7 +808,7 @@ describe('fuzzy datepicker input', () => {
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
@@ -1500,7 +1544,7 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.touched).toBe(false);
 
         setInputElementValue(nativeElement, '1/1/2000', fixture);
-        blurInput(nativeElement, fixture);
+        blurInput(fixture);
 
         expect(component.dateControl.valid).toBe(true);
         expect(component.dateControl.pristine).toBe(false);
@@ -1519,13 +1563,36 @@ describe('fuzzy datepicker input', () => {
 
         clickDatepickerButton(fixture);
         getSelectedCalendarItem()?.click();
-        detectChanges(fixture);
+        blurTriggerButton(fixture);
 
         expect(component.dateControl.valid).toBe(true);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
 
         flush();
+      }));
+
+      it('should mark control as touched only after focus has left the composite control', fakeAsync(() => {
+        detectChanges(fixture);
+
+        expect(component.dateControl.touched).toBe(false);
+
+        const inputEl = getInputElement(fixture);
+        const triggerButtonEl = getTriggerButton(fixture);
+
+        // Move focus to the trigger button.
+        blurInput(fixture, triggerButtonEl);
+        expect(component.dateControl.touched).toBe(false);
+
+        // Click the calendar and move focus to the input.
+        clickTrigger(fixture);
+        getSelectedCalendarItem()?.click();
+        blurTriggerButton(fixture, inputEl);
+        expect(component.dateControl.touched).toBe(false);
+
+        // Blur the input, but move focus elsewhere.
+        blurInput(fixture, null);
+        expect(component.dateControl.touched).toBe(true);
       }));
     });
 
@@ -1554,7 +1621,7 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);

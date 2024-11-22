@@ -53,7 +53,7 @@ let mockThemeSvc: {
   settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
 };
 
-function detectChanges(fixture: ComponentFixture<any>): void {
+function detectChanges(fixture: ComponentFixture<unknown>): void {
   fixture.detectChanges();
   tick();
   fixture.detectChanges();
@@ -61,18 +61,24 @@ function detectChanges(fixture: ComponentFixture<any>): void {
 }
 
 function getTriggerButton(
-  fixture: ComponentFixture<any>,
-): HTMLButtonElement | null {
-  return fixture.nativeElement.querySelector(
+  fixture: ComponentFixture<unknown>,
+): HTMLButtonElement {
+  const buttonEl = fixture.nativeElement.querySelector(
     '.sky-input-group-datepicker-btn',
   ) as HTMLButtonElement | null;
+
+  if (buttonEl === null) {
+    throw new Error('Expected trigger button to exist.');
+  }
+
+  return buttonEl;
 }
 
 function clickTrigger(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
   isFakeAsync = true,
 ): void {
-  getTriggerButton(fixture)?.click();
+  getTriggerButton(fixture).click();
   if (isFakeAsync) {
     detectChanges(fixture);
   }
@@ -81,7 +87,7 @@ function clickTrigger(
 function setInputProperty(
   value: any,
   component: any,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   component.selectedDate = value;
   detectChanges(fixture);
@@ -90,7 +96,7 @@ function setInputProperty(
 function setInputElementValue(
   element: HTMLElement,
   text: string,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   const inputEl = getInputElement(fixture);
   if (inputEl) {
@@ -101,33 +107,65 @@ function setInputElementValue(
   detectChanges(fixture);
 }
 
-function blurInput(element: HTMLElement, fixture: ComponentFixture<any>): void {
-  const inputEl = element.querySelector('input');
-  SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
+function blurInput(
+  fixture: ComponentFixture<unknown>,
+  relatedTarget: Element | null = null,
+): void {
+  const inputEl = getInputElement(fixture);
+
+  inputEl.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      cancelable: true,
+      relatedTarget,
+    }),
+  );
+
+  detectChanges(fixture);
+}
+
+function blurTriggerButton(
+  fixture: ComponentFixture<unknown>,
+  relatedTarget: Element | null = null,
+): void {
+  const buttonEl = getTriggerButton(fixture);
+
+  buttonEl.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      cancelable: true,
+      relatedTarget,
+    }),
+  );
+
   detectChanges(fixture);
 }
 
 function setFormControlProperty(
   value: any,
   component: any,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   component.dateControl.setValue(value);
   detectChanges(fixture);
 }
 
-function getInputElement(
-  fixture: ComponentFixture<any>,
-): HTMLInputElement | null {
-  return fixture.nativeElement.querySelector(
+function getInputElement(fixture: ComponentFixture<unknown>): HTMLInputElement {
+  const inputEl = fixture.nativeElement.querySelector(
     'input',
   ) as HTMLInputElement | null;
+
+  if (inputEl === null) {
+    throw new Error('Expected input element to exist.');
+  }
+
+  return inputEl;
 }
 
 function getInputElementValue(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): string | undefined {
-  return getInputElement(fixture)?.value;
+  return getInputElement(fixture).value;
 }
 
 function getCalendar(): HTMLElement | null {
@@ -136,7 +174,7 @@ function getCalendar(): HTMLElement | null {
 
 function getCalendarDayButton(
   index: number,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): HTMLButtonElement | null {
   return document
     .querySelectorAll('tbody tr td .sky-btn-default')
@@ -145,7 +183,7 @@ function getCalendarDayButton(
 
 function clickCalendarDateButton(
   index: number,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): void {
   getCalendarDayButton(index, fixture)?.click();
   detectChanges(fixture);
@@ -153,20 +191,22 @@ function clickCalendarDateButton(
 
 function getCalendarColumn(
   index: number,
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<unknown>,
 ): HTMLElement | null {
   return document
     .querySelectorAll('.sky-datepicker-center.sky-datepicker-weekdays')
     .item(0) as HTMLElement | null;
 }
 
-function getCalendarTitle(fixture: ComponentFixture<any>): HTMLElement | null {
+function getCalendarTitle(
+  fixture: ComponentFixture<unknown>,
+): HTMLElement | null {
   return document.querySelector(
     '.sky-datepicker-calendar-title',
   ) as HTMLElement | null;
 }
 
-function clickCalendarTitle(fixture: ComponentFixture<any>): void {
+function clickCalendarTitle(fixture: ComponentFixture<unknown>): void {
   getCalendarTitle(fixture)?.click();
   detectChanges(fixture);
 }
@@ -297,13 +337,13 @@ describe('datepicker', () => {
     });
 
     it('should not overwrite aria-label on the datepicker input when one is provided', () => {
-      getInputElement(fixture)?.setAttribute(
+      getInputElement(fixture).setAttribute(
         'aria-label',
         'This is a date field.',
       );
       fixture.detectChanges();
 
-      expect(getInputElement(fixture)?.getAttribute('aria-label')).toBe(
+      expect(getInputElement(fixture).getAttribute('aria-label')).toBe(
         'This is a date field.',
       );
     });
@@ -713,7 +753,7 @@ describe('datepicker', () => {
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
@@ -760,7 +800,7 @@ describe('datepicker', () => {
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(ngModel.valid).toBe(false);
         expect(ngModel.touched).toBe(true);
@@ -1399,7 +1439,7 @@ describe('datepicker', () => {
         expect(component.dateControl.touched).toBe(false);
 
         setInputElementValue(nativeElement, '1/1/2000', fixture);
-        blurInput(nativeElement, fixture);
+        blurInput(fixture);
 
         expect(component.dateControl.valid).toBe(true);
         expect(component.dateControl.pristine).toBe(false);
@@ -1415,10 +1455,33 @@ describe('datepicker', () => {
 
         clickTrigger(fixture);
         getSelectedCalendarItem()?.click();
-        detectChanges(fixture);
+        blurTriggerButton(fixture);
 
         expect(component.dateControl.valid).toBe(true);
         expect(component.dateControl.pristine).toBe(false);
+        expect(component.dateControl.touched).toBe(true);
+      }));
+
+      it('should mark control as touched only after focus has left the composite control', fakeAsync(() => {
+        detectChanges(fixture);
+
+        expect(component.dateControl.touched).toBe(false);
+
+        const inputEl = getInputElement(fixture);
+        const triggerButtonEl = getTriggerButton(fixture);
+
+        // Move focus to the trigger button.
+        blurInput(fixture, triggerButtonEl);
+        expect(component.dateControl.touched).toBe(false);
+
+        // Click the calendar and move focus to the input.
+        clickTrigger(fixture);
+        getSelectedCalendarItem()?.click();
+        blurTriggerButton(fixture, inputEl);
+        expect(component.dateControl.touched).toBe(false);
+
+        // Blur the input, but move focus elsewhere.
+        blurInput(fixture, null);
         expect(component.dateControl.touched).toBe(true);
       }));
     });
@@ -1447,7 +1510,7 @@ describe('datepicker', () => {
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
 
-        blurInput(fixture.nativeElement, fixture);
+        blurInput(fixture);
 
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.touched).toBe(true);
