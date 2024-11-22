@@ -1,1 +1,1 @@
-export { SkyFooHarness } from './modules/foo/foo-harness';
+export { SkyFooHarness } from './foo-harness';

@@ -1,12 +1,12 @@
 /**
  * This is the Foo interface.
  */
-export interface FooInterface {
-  bar?: string;
+export interface FooInterface<A, B> {
+  bar?: A;
   /**
    * This describes baz.
    */
-  baz: string;
+  baz: B;
   /**
    * This describes the index signature.
    * @param _ The name of the thing.
