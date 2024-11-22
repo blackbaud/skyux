@@ -69,7 +69,7 @@ function handleArrayType(type: ArrayType): string {
   const elementType = getType(type.elementType);
 
   if (type.elementType instanceof ReflectionType) {
-    return `(${elementType})[]`;
+    return `${wrapWithParentheses(elementType)}[]`;
   }
 
   return `${elementType}[]`;
@@ -116,7 +116,21 @@ function handleTypeOperatorType(type: TypeOperatorType): string | undefined {
 }
 
 function handleUnionType(type: UnionType): string {
-  return type.types.map((t) => getType(t)).join(' | ');
+  return type.types
+    .map((t) => {
+      let formatted = getType(t);
+
+      if (t instanceof ReflectionType) {
+        formatted = wrapWithParentheses(formatted);
+      }
+
+      return formatted;
+    })
+    .join(' | ');
+}
+
+function wrapWithParentheses(type: string): string {
+  return `(${type})`;
 }
 
 export function getType(type: SomeType | undefined): string {

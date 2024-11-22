@@ -20,8 +20,8 @@ export async function generateManifest(
     options.projectsRootDirectory,
     options.projectNames,
   );
-  const publicApi = await getPublicApi(projects);
 
+  const publicApi = await getPublicApi(projects);
   const outDir = path.normalize(options.outDir);
 
   if (!fs.existsSync(outDir)) {

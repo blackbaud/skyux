@@ -2,6 +2,7 @@ export { FooInternalClass } from './lib/foo-internal.class';
 export { FooAlias } from './lib/foo.alias';
 export { FooClass } from './lib/foo.class';
 export { FooComponent as λ1 } from './lib/foo.component';
+export { FooDirective } from './lib/foo.directive';
 export { FooEnum } from './lib/foo.enum';
 export { createFoo } from './lib/foo.function';
 export { FooInterface } from './lib/foo.interface';

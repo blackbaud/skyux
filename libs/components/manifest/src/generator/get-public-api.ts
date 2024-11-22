@@ -89,6 +89,19 @@ function getManifestItem(
   }
 }
 
+function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
+  return arr.sort((a, b) => {
+    const aValue = a[key];
+    const bValue = b[key];
+
+    if (typeof aValue === 'string' && typeof bValue === 'string') {
+      return aValue.localeCompare(bValue);
+    }
+
+    return 0;
+  });
+}
+
 export async function getPublicApi(
   projects: ProjectDefinition[],
 ): Promise<SkyManifestPublicApi> {
@@ -121,12 +134,14 @@ export async function getPublicApi(
           items.push(getManifestItem(child, filePath));
         }
 
-        packages.set(refl.entryName, items);
+        packages.set(refl.entryName, sortArrayByKey(items, 'filePath'));
       }
     }
 
     process.stderr.write(' done\n');
   }
 
-  return { packages: Object.fromEntries(packages) };
+  return {
+    packages: Object.fromEntries(packages),
+  };
 }

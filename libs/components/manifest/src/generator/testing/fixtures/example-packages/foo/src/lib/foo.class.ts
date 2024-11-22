@@ -8,4 +8,6 @@ export class FooClass {
    * @default 'foo'
    */
   public baz: string | undefined;
+
+  public somethingElse: undefined | (() => void);
 }
