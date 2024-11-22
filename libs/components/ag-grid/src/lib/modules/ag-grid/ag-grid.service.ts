@@ -454,6 +454,12 @@ export class SkyAgGridService implements OnDestroy {
           cellEditor: SkyAgGridCellEditorNumberComponent,
           headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
         },
+        [SkyCellType.RightAligned]: {
+          cellClassRules: {
+            [SkyCellClass.RightAligned]: cellClassRuleTrueExpression,
+          },
+          headerClass: getHeaderClass(SkyHeaderClass.RightAligned),
+        },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
             [SkyCellClass.RowSelector]: cellClassRuleTrueExpression,

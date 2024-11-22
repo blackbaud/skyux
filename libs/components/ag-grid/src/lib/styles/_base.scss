@@ -319,9 +319,14 @@ ag-grid-angular {
     display: none;
   }
   .sky-ag-grid-cell-number,
-  .sky-ag-grid-cell-currency {
+  .sky-ag-grid-cell-currency,
+  .sky-ag-grid-cell-right-aligned {
     text-align: right;
     padding-right: 12px;
+  }
+
+  .sky-ag-grid-cell-number,
+  .sky-ag-grid-cell-currency {
     font-variant-numeric: tabular-nums;
   }
 
