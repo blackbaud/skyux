@@ -1,4 +1,3 @@
-// export { getDeprecatedTemplateFeatures } from './get-deprecated-template-features';
 export type {
   SkyManifestChildDefinition,
   SkyManifestChildDefinitionKind,
@@ -28,13 +27,8 @@ export type {
   SkyManifestInterfaceDefinition,
   SkyManifestInterfacePropertyDefinition,
 } from './types/interface-def';
+export type { SkyManifestPublicApi } from './types/manifest.js';
 export type { SkyManifestPipeDefinition } from './types/pipe-def';
 export type { SkyManifestTypeAliasDefinition } from './types/type-alias-def';
 export type { SkyManifestVariableDefinition } from './types/variable-def';
-export type { SkyManifestPublicApi } from './types/manifest.js';
 export { isDirectiveDefinition } from './utils';
-// export type {
-//   SkyManifestDeprecatedDirective,
-//   SkyManifestDeprecatedPipe,
-//   SkyManifestTemplateFeatureDeprecations,
-// } from './types/_deprecated';

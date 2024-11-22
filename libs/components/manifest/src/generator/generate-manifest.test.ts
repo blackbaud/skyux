@@ -11,11 +11,13 @@ function setup(): { writeFileMock: jest.Mock } {
       existsSync: jest.fn().mockImplementation(() => true),
     };
   });
+
   jest.mock('node:fs/promises', () => {
     return {
       writeFile: writeFileMock,
     };
   });
+
   jest.mock('./get-projects', () => {
     return {
       getProjects: jest.fn().mockImplementation(() => {
