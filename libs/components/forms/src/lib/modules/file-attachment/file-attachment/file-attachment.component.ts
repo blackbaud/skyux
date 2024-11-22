@@ -96,7 +96,6 @@ export class SkyFileAttachmentComponent
   /**
    * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
-   * @required
    */
   @Input()
   public acceptedTypes: string | undefined;
