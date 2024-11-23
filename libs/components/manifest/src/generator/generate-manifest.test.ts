@@ -190,8 +190,18 @@ describe('generate-manifest', () => {
               children: [
                 {
                   kind: 'class-property',
-                  name: 'arrayType',
+                  name: 'arrayOfFunctionTypes',
+                  type: 'undefined | (() => void)[]',
+                },
+                {
+                  kind: 'class-property',
+                  name: 'arrayOfIntrinsicTypes',
                   type: 'undefined | string[]',
+                },
+                {
+                  kind: 'class-property',
+                  name: 'arrayOfReflectionTypes',
+                  type: 'undefined | { a: boolean; b: string; }[]',
                 },
                 {
                   kind: 'class-property',

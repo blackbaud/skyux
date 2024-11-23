@@ -69,7 +69,10 @@ function formatTypeParameters(params: SomeType[] | undefined): string {
 function handleArrayType(type: ArrayType): string {
   const elementType = formatType(type.elementType);
 
-  if (type.elementType instanceof ReflectionType) {
+  if (
+    type.elementType instanceof ReflectionType &&
+    type.elementType.declaration.signatures
+  ) {
     return `${wrapWithParentheses(elementType)}[]`;
   }
 
@@ -167,6 +170,7 @@ export function formatType(type: SomeType | undefined): string {
     formatted = formatType(type.targetType);
   }
 
+  /* istanbul ignore if: safety check */
   if (!formatted) {
     console.error(type);
 

@@ -12,7 +12,9 @@ export class FooBasicTypeParamDefaultValueClass<T = boolean> {
  * This is the foo class.
  */
 export class FooClass<TClass extends FooBaseClass> {
-  public arrayType: string[] | undefined;
+  public arrayOfFunctionTypes: (() => void)[] | undefined;
+  public arrayOfIntrinsicTypes: string[] | undefined;
+  public arrayOfReflectionTypes: { a: boolean; b: string }[] | undefined;
   public literalType: 1 | 0 | undefined;
   public intrinsicType: string | undefined;
   public mapType: Map<string, number> | undefined;
