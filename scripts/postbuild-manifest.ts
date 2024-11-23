@@ -79,6 +79,14 @@ async function checkManifest(publicApi: SkyManifestPublicApi): Promise<void> {
           'during a minor version. Undo the following deprecations or wait ' +
           `for a major version release: ${newDeprecations.join(', ')}.`,
       );
+    } else {
+      const removedDeprecations = previousDeprecations.filter(
+        (feature) => !snapshot.includes(feature),
+      );
+
+      if (removedDeprecations.length > 0) {
+        await writeSnapshot(snapshotPath, snapshot);
+      }
     }
   }
 }
