@@ -5,10 +5,10 @@ import type {
   SkyManifestInterfacePropertyDefinition,
 } from '../../types/interface-def';
 
+import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getIndexSignatures } from './get-index-signatures';
-import { getType } from './get-type';
 
 function getInterfaceProperties(
   decl: DeclarationReflection,
@@ -38,7 +38,7 @@ function getInterfaceProperties(
         isPreview,
         kind: 'interface-property',
         name: child.name,
-        type: getType(child.type),
+        type: formatType(child.type),
       });
     }
   }

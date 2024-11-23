@@ -18,9 +18,9 @@ import {
 import { getIndexSignatures } from './get-index-signatures';
 import { getParameters } from './get-parameters';
 
-function getInlineClosure(reflections: SignatureReflection[]): string {
+function formatInlineClosure(reflections: SignatureReflection[]): string {
   const params = getParameters(reflections[0].parameters);
-  const returnType = getType(reflections[0].type);
+  const returnType = formatType(reflections[0].type);
 
   const paramsStr = params
     .map(
@@ -31,12 +31,12 @@ function getInlineClosure(reflections: SignatureReflection[]): string {
   return `(${paramsStr}) => ${returnType}`;
 }
 
-function getInlineInterface(reflections: DeclarationReflection[]): string {
+function formatInlineInterface(reflections: DeclarationReflection[]): string {
   const props = ['{'];
 
   for (const reflection of reflections) {
     props.push(
-      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${getType(reflection.type)};`,
+      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatType(reflection.type)};`,
     );
   }
 
@@ -45,7 +45,7 @@ function getInlineInterface(reflections: DeclarationReflection[]): string {
   return props.join(' ');
 }
 
-function getTypeParameters(params: SomeType[] | undefined): string {
+function formatTypeParameters(params: SomeType[] | undefined): string {
   if (!params || params.length === 0) {
     return '';
   }
@@ -54,7 +54,7 @@ function getTypeParameters(params: SomeType[] | undefined): string {
 
   const typeParams: string[] = [];
   for (const param of params) {
-    typeParams.push(getType(param));
+    typeParams.push(formatType(param));
   }
 
   if (typeParams.length === 0) {
@@ -67,7 +67,7 @@ function getTypeParameters(params: SomeType[] | undefined): string {
 }
 
 function handleArrayType(type: ArrayType): string {
-  const elementType = getType(type.elementType);
+  const elementType = formatType(type.elementType);
 
   if (type.elementType instanceof ReflectionType) {
     return `${wrapWithParentheses(elementType)}[]`;
@@ -84,7 +84,7 @@ function handleReferenceType(type: ReferenceType): string {
   let name = type.name;
 
   if (type.typeArguments) {
-    name += getTypeParameters(type.typeArguments);
+    name += formatTypeParameters(type.typeArguments);
   }
 
   return name;
@@ -94,11 +94,11 @@ function handleReflectionType(type: ReflectionType): string | undefined {
   const typeDecl = type.declaration;
 
   if (typeDecl.signatures) {
-    return getInlineClosure(typeDecl.signatures);
+    return formatInlineClosure(typeDecl.signatures);
   }
 
   if (typeDecl.children) {
-    return getInlineInterface(typeDecl.children);
+    return formatInlineInterface(typeDecl.children);
   }
 
   if (typeDecl.indexSignatures) {
@@ -117,7 +117,7 @@ function handleTypeOperatorType(type: TypeOperatorType): string | undefined {
 
   // Handle "as const" array types.
   if (type.target instanceof TupleType && type.operator === 'readonly') {
-    return `[${type.target.elements.map((t) => getType(t)).join(', ')}] as const`;
+    return `[${type.target.elements.map((t) => formatType(t)).join(', ')}] as const`;
   }
 
   return;
@@ -126,7 +126,7 @@ function handleTypeOperatorType(type: TypeOperatorType): string | undefined {
 function handleUnionType(type: UnionType): string {
   return type.types
     .map((t) => {
-      let formatted = getType(t);
+      let formatted = formatType(t);
 
       if (t instanceof ReflectionType) {
         formatted = wrapWithParentheses(formatted);
@@ -141,7 +141,7 @@ function wrapWithParentheses(type: string): string {
   return `(${type})`;
 }
 
-export function getType(type: SomeType | undefined): string {
+export function formatType(type: SomeType | undefined): string {
   let formatted: string | undefined;
 
   if (typeof type === 'undefined') {
@@ -163,7 +163,7 @@ export function getType(type: SomeType | undefined): string {
   } else if (type instanceof MappedType) {
     formatted = type.parameter;
   } else if (type instanceof PredicateType) {
-    formatted = getType(type.targetType);
+    formatted = formatType(type.targetType);
   }
 
   if (!formatted) {
@@ -171,7 +171,7 @@ export function getType(type: SomeType | undefined): string {
 
     throw new Error(
       'A type was encountered that is not handled by the ' +
-        'getType() function. A handler must be added for this type to ' +
+        'formatType() function. A handler must be added for this type to ' +
         'accommodate all features of the public API.',
     );
   }

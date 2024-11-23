@@ -2,9 +2,9 @@ import { type ParameterReflection } from 'typedoc';
 
 import type { SkyManifestParameterDefinition } from '../../types/function-def';
 
+import { formatType } from './format-type';
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
-import { getType } from './get-type';
 
 export function getParameters(
   params: ParameterReflection[] | undefined,
@@ -20,7 +20,7 @@ export function getParameters(
         description,
         isOptional: param.flags.isOptional ? true : undefined,
         name: param.name,
-        type: getType(param.type),
+        type: formatType(param.type),
       });
     }
   }

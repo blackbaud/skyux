@@ -6,12 +6,12 @@ import type {
   SkyManifestClassPropertyDefinition,
 } from '../../types/class-def';
 
+import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
 import { isInput, isOutput } from './get-directive';
 import { getParameters } from './get-parameters';
-import { getType } from './get-type';
 
 export function getMethods(
   reflection: DeclarationReflection,
@@ -57,7 +57,7 @@ export function getMethod(
     kind: 'class-method',
     name: reflection.name,
     parameters: getParameters(signature?.parameters),
-    type: getType(signature?.type),
+    type: formatType(signature?.type),
   };
 
   return method;
@@ -89,7 +89,7 @@ export function getProperty(
       isPreview,
       kind: 'class-property',
       name: reflection.name,
-      type: getType(reflection.getSignature?.type),
+      type: formatType(reflection.getSignature?.type),
     };
 
     return property;
@@ -116,7 +116,7 @@ export function getProperty(
       isPreview,
       kind: 'class-property',
       name: reflection.name,
-      type: getType(reflection.type),
+      type: formatType(reflection.type),
     };
 
     return property;

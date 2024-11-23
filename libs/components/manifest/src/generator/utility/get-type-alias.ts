@@ -3,9 +3,9 @@ import { type DeclarationReflection } from 'typedoc';
 import type { SkyManifestTypeAliasDefinition } from '../../types/type-alias-def';
 
 import { formatConstAssertionUnionType } from './format-const-assertion-union-type';
+import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
-import { getType } from './get-type';
 
 export function getTypeAlias(
   decl: DeclarationReflection,
@@ -23,7 +23,7 @@ export function getTypeAlias(
   } = getComment(decl.comment);
 
   const formattedType =
-    formatConstAssertionUnionType(decl, parentRefl) ?? getType(decl.type);
+    formatConstAssertionUnionType(decl, parentRefl) ?? formatType(decl.type);
 
   const def: SkyManifestTypeAliasDefinition = {
     anchorId: getAnchorId(decl.name, decl.kind),

@@ -6,9 +6,9 @@ import type {
 } from '../../types/enumeration-def';
 import '../../types/manifest';
 
+import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
-import { getType } from './get-type';
 
 function getEnumMembers(
   decl: DeclarationReflection,
@@ -35,7 +35,7 @@ function getEnumMembers(
         isPreview,
         kind: 'enum-member',
         name: child.name,
-        type: getType(child.type),
+        type: formatType(child.type),
       });
     }
   }

@@ -6,7 +6,7 @@ import {
   TypeOperatorType,
 } from 'typedoc';
 
-import { getType } from './get-type';
+import { formatType } from './format-type';
 
 /**
  * Gets the formatted type for a const assertion union.
@@ -36,7 +36,9 @@ export function formatConstAssertionUnionType(
       reference.type instanceof TypeOperatorType &&
       reference.type.target instanceof TupleType
     ) {
-      return reference.type.target.elements.map((e) => getType(e)).join(' | ');
+      return reference.type.target.elements
+        .map((e) => formatType(e))
+        .join(' | ');
     }
   }
 

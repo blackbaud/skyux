@@ -2,9 +2,9 @@ import { type DeclarationReflection } from 'typedoc';
 
 import type { SkyManifestIndexSignatureDefinition } from '../../types/interface-def';
 
+import { formatType } from './format-type';
 import { getComment } from './get-comment';
 import { getParameters } from './get-parameters';
-import { getType } from './get-type';
 
 export function getIndexSignatures(
   decl: DeclarationReflection,
@@ -33,8 +33,8 @@ export function getIndexSignatures(
           isDeprecated,
           isPreview,
           kind: 'index-signature',
-          name: `[${param.name}: ${getType(param.type)}]`,
-          type: getType(signature.type),
+          name: `[${param.name}: ${formatType(param.type)}]`,
+          type: formatType(signature.type),
           parameters: getParameters(signature.parameters),
         });
       }
