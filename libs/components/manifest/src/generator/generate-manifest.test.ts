@@ -69,14 +69,6 @@ describe('generate-manifest', () => {
               name: 'FooInternalClass',
             },
             {
-              anchorId: 'type-alias-foo-alias',
-              description: 'This is the Foo type alias.',
-              filePath: 'src/lib/foo.alias.ts',
-              kind: 'type-alias',
-              name: 'FooAlias',
-              type: "'foo' | true | 0 | undefined | null",
-            },
-            {
               anchorId: 'class-foo-class',
               children: [
                 {
@@ -143,6 +135,23 @@ describe('generate-manifest', () => {
               kind: 'component',
               name: 'FooComponent',
               selector: 'lib-foo',
+            },
+            {
+              anchorId: 'type-alias-foo-breakpoint',
+              description: 'The name of a viewport or container breakpoint.',
+              filePath: 'src/lib/foo.const-assertion.ts',
+              kind: 'type-alias',
+              name: 'FooBreakpoint',
+              type: "'xs' | 'sm' | 'md' | 'lg'",
+            },
+            {
+              anchorId: 'variable-foobreakpoints',
+              description: 'A list of all breakpoints.',
+              filePath: 'src/lib/foo.const-assertion.ts',
+              isInternal: true,
+              kind: 'variable',
+              name: 'FOO_BREAKPOINTS',
+              type: "['xs', 'sm', 'md', 'lg'] as const",
             },
             {
               anchorId: 'class-foo-directive',
@@ -300,6 +309,22 @@ describe('generate-manifest', () => {
               filePath: 'src/lib/foo.service.ts',
               kind: 'service',
               name: 'FooService',
+            },
+            {
+              anchorId: 'type-alias-foo-alias',
+              description: 'This is the Foo type alias.',
+              filePath: 'src/lib/foo.type-alias.ts',
+              kind: 'type-alias',
+              name: 'FooAlias',
+              type: "'foo' | true | 0 | undefined | null",
+            },
+            {
+              anchorId: 'variable-foovariable',
+              description: 'This is a variable.',
+              filePath: 'src/lib/foo.variable.ts',
+              kind: 'variable',
+              name: 'FOO_VARIABLE',
+              type: 'InjectionToken<unknown>',
             },
           ],
           '@skyux/foo/testing': [
