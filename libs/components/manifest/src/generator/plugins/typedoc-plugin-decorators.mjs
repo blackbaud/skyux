@@ -1,3 +1,9 @@
+/* istanbul ignore file */
+
+/**
+ * This plugin is based on a suggestion from a Typedoc maintainer at
+ * https://github.com/TypeStrong/typedoc/issues/2346#issuecomment-1656806051.
+ */
 import { Converter, TypeScript as ts } from 'typedoc';
 
 function addDecoratorInfo(context, decl) {
@@ -88,10 +94,6 @@ function addDecoratorInfo(context, decl) {
   decl.decorators = decorators;
 }
 
-/**
- * This plugin is based on a suggestion from a Typedoc maintainer at
- * https://github.com/TypeStrong/typedoc/issues/2346#issuecomment-1656806051.
- */
 export function load(app) {
   // Add decorator info to reflections.
   app.converter.on(Converter.EVENT_CREATE_DECLARATION, addDecoratorInfo);

@@ -80,6 +80,7 @@ function getManifestItem(
       return getVariable(reflection, filePath);
     }
 
+    /* istanbul ignore next: safety check */
     default: {
       throw new Error(
         `Unhandled type encountered when processing '${reflection.name}'.`,
@@ -97,6 +98,7 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
       return aValue.localeCompare(bValue);
     }
 
+    /* istanbul ignore next: safety check */
     return 0;
   });
 }
@@ -125,6 +127,7 @@ export async function getPublicApi(
       for (const child of reflection.children) {
         const filePath = child.sources?.[0].fileName;
 
+        /* istanbul ignore next: safety check */
         if (!filePath || filePath.endsWith('/index.ts')) {
           continue;
         }

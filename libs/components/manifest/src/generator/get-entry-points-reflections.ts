@@ -54,6 +54,7 @@ async function getTypeDocProjectReflection(
 
   const projectRefl = await app.convert();
 
+  /* istanbul ignore if: safety check */
   if (!projectRefl || !projectRefl.children) {
     throw new Error(
       `Failed to create TypeDoc project reflection for '${projectRoot}'.`,
