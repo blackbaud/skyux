@@ -18,70 +18,71 @@ import { getVariable } from './utility/get-variable';
 export type PackagesMap = Map<string, SkyManifestParentDefinition[]>;
 
 function handleClassKind(
-  child: DeclarationReflection,
+  reflection: DeclarationReflection,
   filePath: string,
 ): SkyManifestParentDefinition {
-  const decoratorName = getDecorator(child);
+  const decoratorName = getDecorator(reflection);
 
   switch (decoratorName) {
     case 'Injectable': {
-      return getClass(child, 'service', filePath);
+      return getClass(reflection, 'service', filePath);
     }
 
     case 'Component': {
-      return getDirective(child, 'component', filePath);
+      return getDirective(reflection, 'component', filePath);
     }
 
     case 'Directive': {
-      return getDirective(child, 'directive', filePath);
+      return getDirective(reflection, 'directive', filePath);
     }
 
     case 'NgModule': {
-      return getClass(child, 'module', filePath);
+      return getClass(reflection, 'module', filePath);
     }
 
     case 'Pipe': {
-      return getPipe(child, filePath);
+      return getPipe(reflection, filePath);
     }
 
     default: {
-      return getClass(child, 'class', filePath);
+      return getClass(reflection, 'class', filePath);
     }
   }
 }
 
 function getManifestItem(
-  child: DeclarationReflection,
+  reflection: DeclarationReflection,
+  parent: DeclarationReflection,
   filePath: string,
 ): SkyManifestParentDefinition {
-  switch (child.kind) {
+  switch (reflection.kind) {
     case ReflectionKind.Class: {
-      return handleClassKind(child, filePath);
+      return handleClassKind(reflection, filePath);
     }
 
     case ReflectionKind.TypeAlias: {
-      return getTypeAlias(child, filePath);
+      return getTypeAlias(reflection, parent, filePath);
     }
 
     case ReflectionKind.Enum: {
-      return getEnum(child, filePath);
+      return getEnum(reflection, filePath);
     }
 
     case ReflectionKind.Function: {
-      return getFunction(child, filePath);
+      return getFunction(reflection, filePath);
     }
 
     case ReflectionKind.Interface: {
-      return getInterface(child, filePath);
+      return getInterface(reflection, filePath);
     }
 
     case ReflectionKind.Variable: {
-      return getVariable(child, filePath);
+      return getVariable(reflection, filePath);
     }
 
     default: {
       throw new Error(
-        `Unhandled type encountered when processing '${child.name}'.`,
+        `Unhandled type encountered when processing '${reflection.name}'.`,
       );
     }
   }
@@ -117,26 +118,21 @@ export async function getPublicApi(
       projectRoot,
     });
 
-    for (const refl of entryPointReflections) {
-      if (refl.children) {
-        const items: SkyManifestParentDefinition[] =
-          packages.get(refl.entryName) ?? [];
+    for (const { entryName, reflection } of entryPointReflections) {
+      const items: SkyManifestParentDefinition[] =
+        packages.get(entryName) ?? [];
 
-        for (const child of refl.children) {
-          const filePath = child.sources?.[0].fileName;
+      for (const child of reflection.children) {
+        const filePath = child.sources?.[0].fileName;
 
-          if (
-            typeof filePath === 'undefined' ||
-            filePath.endsWith('/index.ts')
-          ) {
-            continue;
-          }
-
-          items.push(getManifestItem(child, filePath));
+        if (!filePath || filePath.endsWith('/index.ts')) {
+          continue;
         }
 
-        packages.set(refl.entryName, sortArrayByKey(items, 'filePath'));
+        items.push(getManifestItem(child, reflection, filePath));
       }
+
+      packages.set(entryName, sortArrayByKey(items, 'filePath'));
     }
 
     process.stderr.write(' done\n');

@@ -1,9 +1,9 @@
 import { type DeclarationReflection } from 'typedoc';
 
-export function remapLambdaName(decl: DeclarationReflection): string {
-  if (decl.name.startsWith('λ')) {
-    return decl.escapedName as string;
+export function remapLambdaName(reflection: DeclarationReflection): string {
+  if (reflection.name.startsWith('λ')) {
+    return reflection.escapedName as string;
   }
 
-  return decl.name;
+  return reflection.name;
 }

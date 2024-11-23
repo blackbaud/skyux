@@ -10,6 +10,7 @@ import {
   ReflectionType,
   type SignatureReflection,
   type SomeType,
+  TupleType,
   TypeOperatorType,
   UnionType,
 } from 'typedoc';
@@ -17,9 +18,9 @@ import {
 import { getIndexSignatures } from './get-index-signatures';
 import { getParameters } from './get-parameters';
 
-function getInlineClosure(refl: SignatureReflection[]): string {
-  const params = getParameters(refl[0].parameters);
-  const returnType = getType(refl[0].type);
+function getInlineClosure(reflections: SignatureReflection[]): string {
+  const params = getParameters(reflections[0].parameters);
+  const returnType = getType(reflections[0].type);
 
   const paramsStr = params
     .map(
@@ -30,12 +31,12 @@ function getInlineClosure(refl: SignatureReflection[]): string {
   return `(${paramsStr}) => ${returnType}`;
 }
 
-function getInlineInterface(children: DeclarationReflection[]): string {
+function getInlineInterface(reflections: DeclarationReflection[]): string {
   const props = ['{'];
 
-  for (const child of children) {
+  for (const reflection of reflections) {
     props.push(
-      `${child.name}${child.flags?.isOptional ? '?' : ''}: ${getType(child.type)};`,
+      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${getType(reflection.type)};`,
     );
   }
 
@@ -110,9 +111,16 @@ function handleReflectionType(type: ReflectionType): string | undefined {
 }
 
 function handleTypeOperatorType(type: TypeOperatorType): string | undefined {
-  return type.target instanceof ReferenceType
-    ? `${type.operator} ${type.target.name}`
-    : undefined;
+  if (type.target instanceof ReferenceType) {
+    return `${type.operator} ${type.target.name}`;
+  }
+
+  // Handle "as const" array types.
+  if (type.target instanceof TupleType && type.operator === 'readonly') {
+    return `[${type.target.elements.map((t) => getType(t)).join(', ')}] as const`;
+  }
+
+  return;
 }
 
 function handleUnionType(type: UnionType): string {

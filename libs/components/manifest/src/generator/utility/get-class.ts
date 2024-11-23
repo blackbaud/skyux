@@ -14,12 +14,12 @@ import { getParameters } from './get-parameters';
 import { getType } from './get-type';
 
 export function getMethods(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestClassMethodDefinition[] | undefined {
   const methods: SkyManifestClassMethodDefinition[] = [];
 
-  if (decl.children) {
-    for (const child of decl.children) {
+  if (reflection.children) {
+    for (const child of reflection.children) {
       if (
         child.kind === ReflectionKind.Method &&
         !child.name.startsWith('ng')
@@ -33,9 +33,9 @@ export function getMethods(
 }
 
 export function getMethod(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestClassMethodDefinition {
-  const signature = decl.signatures?.[0];
+  const signature = reflection.signatures?.[0];
 
   const {
     codeExample,
@@ -53,9 +53,9 @@ export function getMethod(
     description,
     isDeprecated,
     isPreview,
-    isStatic: decl.flags.isStatic ? true : undefined,
+    isStatic: reflection.flags.isStatic ? true : undefined,
     kind: 'class-method',
-    name: decl.name,
+    name: reflection.name,
     parameters: getParameters(signature?.parameters),
     type: getType(signature?.type),
   };
@@ -64,9 +64,9 @@ export function getMethod(
 }
 
 export function getProperty(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestClassPropertyDefinition | undefined {
-  if (decl.kind === ReflectionKind.Accessor) {
+  if (reflection.kind === ReflectionKind.Accessor) {
     const {
       codeExample,
       codeExampleLanguage,
@@ -75,25 +75,27 @@ export function getProperty(
       description,
       isDeprecated,
       isPreview,
-    } = getComment(decl.getSignature?.comment ?? decl.setSignature?.comment);
+    } = getComment(
+      reflection.getSignature?.comment ?? reflection.setSignature?.comment,
+    );
 
     const property: SkyManifestClassPropertyDefinition = {
       codeExample,
       codeExampleLanguage,
       deprecationReason,
       description,
-      defaultValue: getDefaultValue(decl, defaultValue),
+      defaultValue: getDefaultValue(reflection, defaultValue),
       isDeprecated,
       isPreview,
       kind: 'class-property',
-      name: decl.name,
-      type: getType(decl.getSignature?.type),
+      name: reflection.name,
+      type: getType(reflection.getSignature?.type),
     };
 
     return property;
   }
 
-  if (decl.kind === ReflectionKind.Property) {
+  if (reflection.kind === ReflectionKind.Property) {
     const {
       codeExample,
       codeExampleLanguage,
@@ -102,19 +104,19 @@ export function getProperty(
       description,
       isDeprecated,
       isPreview,
-    } = getComment(decl.comment);
+    } = getComment(reflection.comment);
 
     const property: SkyManifestClassPropertyDefinition = {
       codeExample,
       codeExampleLanguage,
       deprecationReason,
       description,
-      defaultValue: getDefaultValue(decl, defaultValue),
+      defaultValue: getDefaultValue(reflection, defaultValue),
       isDeprecated,
       isPreview,
       kind: 'class-property',
-      name: decl.name,
-      type: getType(decl.type),
+      name: reflection.name,
+      type: getType(reflection.type),
     };
 
     return property;
@@ -124,12 +126,12 @@ export function getProperty(
 }
 
 export function getProperties(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestClassPropertyDefinition[] | undefined {
   const properties: SkyManifestClassPropertyDefinition[] = [];
 
-  if (decl.children) {
-    for (const child of decl.children) {
+  if (reflection.children) {
+    for (const child of reflection.children) {
       if (isInput(child) || isOutput(child)) {
         continue;
       }
@@ -146,7 +148,7 @@ export function getProperties(
 }
 
 export function getClass(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
   kind: 'class' | 'module' | 'service',
   filePath: string,
 ): SkyManifestClassDefinition {
@@ -158,14 +160,14 @@ export function getClass(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment);
+  } = getComment(reflection.comment);
 
-  const methods = getMethods(decl) ?? [];
-  const properties = getProperties(decl) ?? [];
+  const methods = getMethods(reflection) ?? [];
+  const properties = getProperties(reflection) ?? [];
   const children = [...methods, ...properties];
 
   const def: SkyManifestClassDefinition = {
-    anchorId: getAnchorId(decl.name, decl.kind),
+    anchorId: getAnchorId(reflection.name, reflection.kind),
     children: children.length > 0 ? children : undefined,
     codeExample,
     codeExampleLanguage,
@@ -176,7 +178,7 @@ export function getClass(
     isInternal,
     isPreview,
     kind,
-    name: decl.name,
+    name: reflection.name,
   };
 
   return def;

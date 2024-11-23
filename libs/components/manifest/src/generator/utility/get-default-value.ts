@@ -1,10 +1,10 @@
 import { Reflection } from 'typedoc';
 
 export function getDefaultValue(
-  refl: Reflection & { defaultValue?: string },
+  reflection: Reflection & { defaultValue?: string },
   defaultValue?: string,
 ): string | undefined {
-  defaultValue = defaultValue || refl.defaultValue;
+  defaultValue = defaultValue || reflection.defaultValue;
 
   // TypeDoc sometimes wraps default values in code blocks.
   if (defaultValue?.includes('```')) {

@@ -1,7 +1,7 @@
 import { type DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
 export function getDecorator(
-  decl: DeclarationReflectionWithDecorators,
+  reflection: DeclarationReflectionWithDecorators,
 ): string | undefined {
-  return decl.decorators?.[0]?.name;
+  return reflection.decorators?.[0]?.name;
 }

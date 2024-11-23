@@ -13,29 +13,36 @@ import { getComment } from './get-comment';
 import { getDecorator } from './get-decorator';
 import { remapLambdaName } from './remap-lambda-name';
 
-export function isInput(decl: DeclarationReflectionWithDecorators): boolean {
+export function isInput(
+  reflection: DeclarationReflectionWithDecorators,
+): boolean {
   return (
-    getDecorator(decl) === 'Input' ||
-    (decl.type instanceof ReferenceType && decl.type?.name === 'InputSignal')
+    getDecorator(reflection) === 'Input' ||
+    (reflection.type instanceof ReferenceType &&
+      reflection.type?.name === 'InputSignal')
   );
 }
 
-export function isOutput(decl: DeclarationReflectionWithDecorators): boolean {
+export function isOutput(
+  reflection: DeclarationReflectionWithDecorators,
+): boolean {
   return (
-    getDecorator(decl) === 'Output' ||
-    (decl.type instanceof ReferenceType &&
-      decl.type?.name === 'OutputEmitterRef')
+    getDecorator(reflection) === 'Output' ||
+    (reflection.type instanceof ReferenceType &&
+      reflection.type?.name === 'OutputEmitterRef')
   );
 }
 
 function getInput(
-  decl: DeclarationReflectionWithDecorators,
+  reflection: DeclarationReflectionWithDecorators,
 ): SkyManifestDirectiveInputDefinition | undefined {
-  const property = getProperty(decl);
+  const property = getProperty(reflection);
 
   if (property) {
     const { isRequired } = getComment(
-      decl.comment ?? decl.getSignature?.comment ?? decl.setSignature?.comment,
+      reflection.comment ??
+        reflection.getSignature?.comment ??
+        reflection.setSignature?.comment,
     );
 
     const input: SkyManifestDirectiveInputDefinition = {
@@ -51,12 +58,12 @@ function getInput(
 }
 
 function getInputs(
-  decl: DeclarationReflectionWithDecorators,
+  reflection: DeclarationReflectionWithDecorators,
 ): SkyManifestDirectiveInputDefinition[] | undefined {
   const inputs: SkyManifestDirectiveInputDefinition[] = [];
 
-  if (decl.children) {
-    for (const child of decl.children) {
+  if (reflection.children) {
+    for (const child of reflection.children) {
       if (isInput(child)) {
         const input = getInput(child);
 
@@ -71,9 +78,9 @@ function getInputs(
 }
 
 function getOutput(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestDirectiveOutputDefinition | undefined {
-  const property = getProperty(decl);
+  const property = getProperty(reflection);
 
   if (property) {
     const output: SkyManifestDirectiveOutputDefinition = {
@@ -88,12 +95,12 @@ function getOutput(
 }
 
 function getOutputs(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestDirectiveOutputDefinition[] | undefined {
   const outputs: SkyManifestDirectiveOutputDefinition[] = [];
 
-  if (decl.children) {
-    for (const child of decl.children) {
+  if (reflection.children) {
+    for (const child of reflection.children) {
       if (isOutput(child)) {
         const output = getOutput(child);
 
@@ -108,13 +115,13 @@ function getOutputs(
 }
 
 function getSelector(
-  decl: DeclarationReflectionWithDecorators,
+  reflection: DeclarationReflectionWithDecorators,
 ): string | undefined {
-  return decl.decorators?.[0]?.arguments?.['selector'];
+  return reflection.decorators?.[0]?.arguments?.['selector'];
 }
 
 export function getDirective(
-  decl: DeclarationReflectionWithDecorators,
+  reflection: DeclarationReflectionWithDecorators,
   kind: 'component' | 'directive',
   filePath: string,
 ): SkyManifestDirectiveDefinition {
@@ -126,16 +133,16 @@ export function getDirective(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment);
+  } = getComment(reflection.comment);
 
-  const directiveName = remapLambdaName(decl);
+  const directiveName = remapLambdaName(reflection);
 
-  const inputs = getInputs(decl) ?? [];
-  const outputs = getOutputs(decl) ?? [];
+  const inputs = getInputs(reflection) ?? [];
+  const outputs = getOutputs(reflection) ?? [];
   const children = [...inputs, ...outputs];
 
   const directive: SkyManifestDirectiveDefinition = {
-    anchorId: getAnchorId(directiveName, decl.kind),
+    anchorId: getAnchorId(directiveName, reflection.kind),
     children: children.length > 0 ? children : undefined,
     codeExample,
     codeExampleLanguage,
@@ -147,7 +154,7 @@ export function getDirective(
     isPreview,
     kind,
     name: directiveName,
-    selector: getSelector(decl) ?? '',
+    selector: getSelector(reflection) ?? '',
   };
 
   return directive;

@@ -7,12 +7,12 @@ import { getDefaultValue } from './get-default-value';
 import { getType } from './get-type';
 
 export function getParameters(
-  refl: ParameterReflection[] | undefined,
+  params: ParameterReflection[] | undefined,
 ): SkyManifestParameterDefinition[] {
   const parameters: SkyManifestParameterDefinition[] = [];
 
-  if (refl) {
-    for (const param of refl) {
+  if (params) {
+    for (const param of params) {
       const { defaultValue, description } = getComment(param.comment);
 
       parameters.push({

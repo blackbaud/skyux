@@ -7,7 +7,7 @@ import { getComment } from './get-comment';
 import { getType } from './get-type';
 
 export function getVariable(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
   filePath: string,
 ): SkyManifestVariableDefinition {
   const {
@@ -18,10 +18,10 @@ export function getVariable(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment);
+  } = getComment(reflection.comment);
 
   const def: SkyManifestVariableDefinition = {
-    anchorId: getAnchorId(decl.name, decl.kind),
+    anchorId: getAnchorId(reflection.name, reflection.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -31,8 +31,8 @@ export function getVariable(
     isInternal,
     isPreview,
     kind: 'variable',
-    name: decl.name,
-    type: getType(decl.type),
+    name: reflection.name,
+    type: getType(reflection.type),
   };
 
   return def;

@@ -1,6 +1,9 @@
-import fs from 'node:fs';
 import path from 'node:path';
-import { Application, type ProjectReflection } from 'typedoc';
+import {
+  Application,
+  type DeclarationReflection,
+  type ProjectReflection,
+} from 'typedoc';
 
 import { type DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
 
@@ -9,11 +12,25 @@ const TYPEDOC_PLUGIN_PATH = path.join(
   './plugins/typedoc-plugin-decorators.mjs',
 );
 
+type ProjectReflectionWithChildren = ProjectReflection & {
+  children: ParentReflectionWithChildren[];
+};
+
+type ParentReflectionWithChildren = DeclarationReflection & {
+  children: DeclarationReflectionWithDecorators[];
+};
+
+interface EntryPointReflection {
+  entryName: string;
+  reflection: ParentReflectionWithChildren;
+}
+
 async function getTypeDocProjectReflection(
   entryPoints: string[],
   projectRoot: string,
-): Promise<ProjectReflection> {
+): Promise<ProjectReflectionWithChildren> {
   const app = await Application.bootstrapWithPlugins({
+    alwaysCreateEntryPointModule: true,
     entryPoints,
     emit: 'docs',
     excludeExternals: true,
@@ -37,25 +54,15 @@ async function getTypeDocProjectReflection(
 
   const projectRefl = await app.convert();
 
-  if (!projectRefl) {
+  if (!projectRefl || !projectRefl.children) {
     throw new Error(
       `Failed to create TypeDoc project reflection for '${projectRoot}'.`,
     );
   }
 
-  return projectRefl;
+  return projectRefl as ProjectReflectionWithChildren;
 }
 
-interface EntryPointReflection {
-  entryName: string;
-  children?: DeclarationReflectionWithDecorators[];
-}
-
-/**
- * If multiple entry points are provided, TypeDoc creates an array of project
- * reflections. If it's just one, TypeDoc skips the array, and exports the
- * children as one object. This function always returns an array.
- */
 export async function getEntryPointsReflections({
   entryPoints,
   packageName,
@@ -70,25 +77,19 @@ export async function getEntryPointsReflections({
     projectRoot,
   );
 
-  const reflections: EntryPointReflection[] = [];
+  const reflections: EntryPointReflection[] = [
+    {
+      entryName: packageName,
+      reflection: projectRefl.children[0],
+    },
+  ];
 
-  const hasTestingEntryPoint = fs.existsSync(path.normalize(entryPoints[1]));
+  const hasTestingEntryPoint = projectRefl.children.length === 2;
 
   if (hasTestingEntryPoint) {
-    reflections.push(
-      {
-        entryName: packageName,
-        children: projectRefl.children?.[0].children,
-      },
-      {
-        entryName: `${packageName}/testing`,
-        children: projectRefl.children?.[1].children,
-      },
-    );
-  } else {
     reflections.push({
-      entryName: packageName,
-      children: projectRefl.children,
+      entryName: `${packageName}/testing`,
+      reflection: projectRefl.children[1],
     });
   }
 
