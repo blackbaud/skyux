@@ -32,5 +32,4 @@ export interface SkyManifestIndexSignatureDefinition
   name: string;
   parameters: SkyManifestParameterDefinition[];
   type: string;
-  kind: 'index-signature';
 }

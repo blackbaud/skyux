@@ -4,6 +4,8 @@ const projectsRootDirectory =
   'libs/components/manifest/src/generator/testing/fixtures/example-packages';
 
 function setup(): { writeFileMock: jest.Mock } {
+  jest.spyOn(process.stderr, 'write').mockReturnValue(true);
+
   const writeFileMock = jest.fn();
 
   jest.mock('node:fs', () => {
@@ -76,58 +78,71 @@ describe('generate-manifest', () => {
             },
             {
               anchorId: 'class-foo-class',
+              children: [
+                {
+                  defaultValue: "'baz'",
+                  kind: 'class-property',
+                  name: 'bar',
+                  type: 'string',
+                },
+                {
+                  description: 'This describes baz.',
+                  defaultValue: "'foo'",
+                  kind: 'class-property',
+                  name: 'baz',
+                  type: 'undefined | string',
+                },
+                {
+                  kind: 'class-property',
+                  name: 'somethingElse',
+                  type: 'undefined | (() => void)',
+                },
+              ],
               description: 'This is the foo class.',
               filePath: 'src/lib/foo.class.ts',
               kind: 'class',
               name: 'FooClass',
-              properties: [
-                { defaultValue: "'baz'", name: 'bar', type: 'string' },
-                {
-                  description: 'This describes baz.',
-                  defaultValue: "'foo'",
-                  name: 'baz',
-                  type: 'undefined | string',
-                },
-                { name: 'somethingElse', type: 'undefined | (() => void)' },
-              ],
             },
             {
               anchorId: 'class-foo-component',
-              filePath: 'src/lib/foo.component.ts',
-              kind: 'component',
-              name: 'FooComponent',
-              selector: 'lib-foo',
-              inputs: [
+              children: [
                 {
                   description: 'This describes the bar input.',
                   defaultValue: "'baz'",
+                  kind: 'directive-input',
                   name: 'bar',
                   type: 'undefined | string',
                   isRequired: true,
                 },
                 {
                   description: 'This describes the foo input.',
+                  kind: 'directive-input',
                   name: 'foo',
                   type: 'InputSignal<undefined | string>',
                 },
                 {
                   description: 'This describes the fooRequired input.',
+                  kind: 'directive-input',
                   name: 'fooRequired',
                   type: 'InputSignal<string>',
                 },
-              ],
-              outputs: [
                 {
                   description: 'This describes the onClick output.',
+                  kind: 'directive-output',
                   name: 'onClick',
                   type: 'OutputEmitterRef<void>',
                 },
                 {
                   description: 'This describes the onTouch output.',
+                  kind: 'directive-output',
                   name: 'onTouch',
                   type: 'EventEmitter<void>',
                 },
               ],
+              filePath: 'src/lib/foo.component.ts',
+              kind: 'component',
+              name: 'FooComponent',
+              selector: 'lib-foo',
             },
             {
               anchorId: 'class-foo-directive',
@@ -142,14 +157,16 @@ describe('generate-manifest', () => {
               description: 'This describes the Foo enum.',
               filePath: 'src/lib/foo.enum.ts',
               kind: 'enumeration',
-              members: [
+              children: [
                 {
                   description: 'This is the Bar value.',
+                  kind: 'enum-member',
                   name: 'Bar',
                   type: '0',
                 },
                 {
                   description: 'This is the Baz value.',
+                  kind: 'enum-member',
                   name: 'Baz',
                   type: '1',
                 },
@@ -181,10 +198,24 @@ describe('generate-manifest', () => {
                   type: 'number',
                 },
               ],
-              returnType: 'FooClass',
+              type: 'FooClass',
             },
             {
               anchorId: 'interface-foo-interface',
+              children: [
+                {
+                  isOptional: true,
+                  kind: 'interface-property',
+                  name: 'bar',
+                  type: 'A',
+                },
+                {
+                  description: 'This describes baz.',
+                  kind: 'interface-property',
+                  name: 'baz',
+                  type: 'B',
+                },
+              ],
               description: 'This is the Foo interface.',
               filePath: 'src/lib/foo.interface.ts',
               indexSignatures: [
@@ -203,51 +234,72 @@ describe('generate-manifest', () => {
               ],
               kind: 'interface',
               name: 'FooInterface',
-              properties: [
-                { isOptional: true, name: 'bar', type: 'A' },
-                { description: 'This describes baz.', name: 'baz', type: 'B' },
-              ],
             },
             {
               anchorId: 'class-foo-module',
-              filePath: 'src/lib/foo.module.ts',
-              kind: 'module',
-              methods: [
+              children: [
                 {
+                  kind: 'class-method',
                   name: 'forRoot',
                   parameters: [],
-                  returnType: 'ModuleWithProviders<FooModule>',
+                  type: 'ModuleWithProviders<FooModule>',
                 },
               ],
+              filePath: 'src/lib/foo.module.ts',
+              kind: 'module',
               name: 'FooModule',
             },
             {
               anchorId: 'class-foo-pipe',
+              children: [
+                {
+                  description: 'This describes the transform method.',
+                  kind: 'class-method',
+                  name: 'transform',
+                  parameters: [
+                    {
+                      name: 'value',
+                      type: 'undefined | string',
+                    },
+                    {
+                      defaultValue: 'false',
+                      name: 'isThing',
+                      type: 'boolean',
+                    },
+                    {
+                      name: 'bar',
+                      type: 'boolean',
+                    },
+                    {
+                      isOptional: true,
+                      name: 'foo',
+                      type: 'string',
+                    },
+                  ],
+                  type: 'string',
+                },
+              ],
               description: 'This describes the Foo pipe.',
               filePath: 'src/lib/foo.pipe.ts',
               kind: 'pipe',
               name: 'FooPipe',
               templateBindingName: 'foo',
-              transformMethod: {
-                description: 'This describes the transform method.',
-                name: 'transform',
-                parameters: [
-                  { name: 'value', type: 'undefined | string' },
-                  { defaultValue: 'false', name: 'isThing', type: 'boolean' },
-                  { name: 'bar', type: 'boolean' },
-                  { isOptional: true, name: 'foo', type: 'string' },
-                ],
-                returnType: 'string',
-              },
             },
             {
               anchorId: 'class-foo-service',
+              children: [
+                {
+                  defaultValue: "''",
+                  kind: 'class-property',
+                  name: 'foo',
+                  type: 'string',
+                },
+              ],
               description:
                 'This describes the foo service and everything it does.',
               filePath: 'src/lib/foo.service.ts',
               kind: 'service',
               name: 'FooService',
-              properties: [{ defaultValue: "''", name: 'foo', type: 'string' }],
             },
           ],
           '@skyux/foo/testing': [

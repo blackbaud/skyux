@@ -32,7 +32,6 @@ export function getIndexSignatures(
           description,
           isDeprecated,
           isPreview,
-          kind: 'index-signature',
           name: `[${param.name}: ${formatType(param.type)}]`,
           type: formatType(signature.type),
           parameters: getParameters(signature.parameters),
