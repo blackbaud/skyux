@@ -1,21 +1,26 @@
-import path from 'path';
+import path from 'node:path';
 
 const projectsRootDirectory =
   'libs/components/manifest/src/generator/testing/fixtures/example-packages';
 
-function setup(): { writeFileMock: jest.Mock } {
+function setup(options: { outDirExists: boolean }): {
+  mkdirMock: jest.Mock;
+  writeFileMock: jest.Mock;
+} {
   jest.spyOn(process.stderr, 'write').mockReturnValue(true);
 
+  const mkdirMock = jest.fn();
   const writeFileMock = jest.fn();
 
   jest.mock('node:fs', () => {
     return {
-      existsSync: jest.fn().mockImplementation(() => true),
+      existsSync: jest.fn().mockReturnValue(options.outDirExists),
     };
   });
 
   jest.mock('node:fs/promises', () => {
     return {
+      mkdir: mkdirMock,
       writeFile: writeFileMock,
     };
   });
@@ -40,12 +45,19 @@ function setup(): { writeFileMock: jest.Mock } {
     };
   });
 
-  return { writeFileMock };
+  return { mkdirMock, writeFileMock };
 }
 
 describe('generate-manifest', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+    jest.resetModules();
+  });
+
   it('should generate manifest', async () => {
-    const { writeFileMock } = setup();
+    const { writeFileMock } = setup({
+      outDirExists: true,
+    });
 
     const { generateManifest } = await import('./generate-manifest');
 
@@ -340,5 +352,21 @@ describe('generate-manifest', () => {
         },
       }),
     );
+  });
+
+  it('should create the out directory if it does not exist', async () => {
+    const { mkdirMock } = setup({
+      outDirExists: false,
+    });
+
+    const { generateManifest } = await import('./generate-manifest');
+
+    await generateManifest({
+      outDir: '/dist',
+      projectNames: ['foo'],
+      projectsRootDirectory,
+    });
+
+    expect(mkdirMock).toHaveBeenCalledWith('/dist');
   });
 });
