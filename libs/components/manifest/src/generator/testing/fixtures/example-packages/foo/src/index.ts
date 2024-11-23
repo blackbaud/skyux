@@ -1,3 +1,12 @@
+export {
+  shouldHaveCodeExampleDefaultLanguageComment,
+  shouldHaveCodeExampleMarkupLanguageComment,
+  shouldHaveCodeExampleUnknownLanguageComment,
+  shouldHaveDeprecatedComment,
+  shouldHaveDeprecatedReasonComment,
+  shouldHaveInternalComment,
+  shouldHavePreviewComment,
+} from './lib/comments';
 export { FooInternalClass } from './lib/foo-internal.class';
 export { FooClass } from './lib/foo.class';
 export { FooComponent as λ1 } from './lib/foo.component';

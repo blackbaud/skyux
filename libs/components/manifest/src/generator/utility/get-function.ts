@@ -19,7 +19,7 @@ export function getFunction(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.signatures?.[0]?.comment);
+  } = getComment(decl.comment ?? decl.signatures?.[0]?.comment);
 
   const signature = decl.signatures?.[0];
 

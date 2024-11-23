@@ -4,7 +4,13 @@ import {
   type CommentTag,
 } from 'typedoc';
 
-export type CodeExampleLanguage = 'markup' | 'typescript';
+import { SkyManifestCodeExampleLanguage } from '../../types/base-def';
+
+const DEFAULT_CODE_EXAMPLE_LANGUAGE: SkyManifestCodeExampleLanguage = 'markup';
+const ALLOWED_LANGUAGES: SkyManifestCodeExampleLanguage[] = [
+  'markup',
+  'typescript',
+];
 
 function getCommentTagText(parts: CommentDisplayPart[]): string | undefined {
   return (
@@ -17,19 +23,26 @@ function getCommentTagText(parts: CommentDisplayPart[]): string | undefined {
 
 function getCodeExample(comment: CommentTag): {
   codeExample: string | undefined;
-  codeExampleLanguage: CodeExampleLanguage | undefined;
+  codeExampleLanguage: SkyManifestCodeExampleLanguage | undefined;
 } {
-  let codeExample = getCommentTagText(comment.content)?.split('```')[1].trim();
-  let codeExampleLanguage: CodeExampleLanguage | undefined;
+  let codeExample = getCommentTagText(comment.content)?.split('```')[1];
+  let codeExampleLanguage: SkyManifestCodeExampleLanguage | undefined;
 
   if (codeExample) {
-    const exampleLanguage = codeExample?.split('\n')[0];
+    codeExampleLanguage = DEFAULT_CODE_EXAMPLE_LANGUAGE;
 
-    if (exampleLanguage === 'markup' || exampleLanguage === 'typescript') {
-      codeExample = codeExample.slice(exampleLanguage.length).trim();
-      codeExampleLanguage = exampleLanguage;
+    // The code example specifies a language.
+    if (!codeExample.startsWith('\n')) {
+      const fragments = codeExample.split('\n').map((c) => c.trim());
+      const language = fragments[0] as SkyManifestCodeExampleLanguage;
+
+      codeExample = fragments[1];
+
+      if (ALLOWED_LANGUAGES.includes(language)) {
+        codeExampleLanguage = language;
+      }
     } else {
-      codeExampleLanguage = 'markup';
+      codeExample = codeExample.trim();
     }
   }
 
@@ -38,7 +51,7 @@ function getCodeExample(comment: CommentTag): {
 
 export function getComment(comment: Comment | undefined): {
   codeExample: string | undefined;
-  codeExampleLanguage: CodeExampleLanguage | undefined;
+  codeExampleLanguage: SkyManifestCodeExampleLanguage | undefined;
   deprecationReason: string | undefined;
   defaultValue: string | undefined;
   description: string | undefined;
@@ -48,7 +61,7 @@ export function getComment(comment: Comment | undefined): {
   isRequired: boolean | undefined;
 } {
   let codeExample: string | undefined;
-  let codeExampleLanguage: CodeExampleLanguage | undefined;
+  let codeExampleLanguage: SkyManifestCodeExampleLanguage | undefined;
   let deprecationReason: string | undefined;
   let defaultValue: string | undefined;
   let description: string | undefined;

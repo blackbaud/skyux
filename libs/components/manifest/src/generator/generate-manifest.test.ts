@@ -73,6 +73,69 @@ describe('generate-manifest', () => {
         packages: {
           '@skyux/foo': [
             {
+              anchorId:
+                'variable-should-have-code-example-default-language-comment',
+              codeExample: '<h1></h1>',
+              codeExampleLanguage: 'markup',
+              filePath: 'src/lib/comments.ts',
+              kind: 'variable',
+              name: 'shouldHaveCodeExampleDefaultLanguageComment',
+              type: 'true',
+            },
+            {
+              anchorId:
+                'variable-should-have-code-example-markup-language-comment',
+              codeExample: '<br />',
+              codeExampleLanguage: 'markup',
+              filePath: 'src/lib/comments.ts',
+              kind: 'variable',
+              name: 'shouldHaveCodeExampleMarkupLanguageComment',
+              type: 'true',
+            },
+            {
+              anchorId:
+                'variable-should-have-code-example-unknown-language-comment',
+              codeExample: 'const app = express();',
+              codeExampleLanguage: 'markup',
+              filePath: 'src/lib/comments.ts',
+              kind: 'variable',
+              name: 'shouldHaveCodeExampleUnknownLanguageComment',
+              type: 'true',
+            },
+            {
+              anchorId: 'variable-should-have-deprecated-comment',
+              filePath: 'src/lib/comments.ts',
+              isDeprecated: true,
+              kind: 'variable',
+              name: 'shouldHaveDeprecatedComment',
+              type: 'true',
+            },
+            {
+              anchorId: 'variable-should-have-deprecated-reason-comment',
+              deprecationReason: 'Do something else instead',
+              filePath: 'src/lib/comments.ts',
+              isDeprecated: true,
+              kind: 'variable',
+              name: 'shouldHaveDeprecatedReasonComment',
+              type: 'true',
+            },
+            {
+              anchorId: 'variable-should-have-internal-comment',
+              filePath: 'src/lib/comments.ts',
+              isInternal: true,
+              kind: 'variable',
+              name: 'shouldHaveInternalComment',
+              type: 'true',
+            },
+            {
+              anchorId: 'variable-should-have-preview-comment',
+              filePath: 'src/lib/comments.ts',
+              isPreview: true,
+              kind: 'variable',
+              name: 'shouldHavePreviewComment',
+              type: 'true',
+            },
+            {
               anchorId: 'class-foo-internal-class',
               description: 'This is the Foo internal class.',
               filePath: 'src/lib/foo-internal.class.ts',
@@ -278,24 +341,10 @@ describe('generate-manifest', () => {
                   kind: 'class-method',
                   name: 'transform',
                   parameters: [
-                    {
-                      name: 'value',
-                      type: 'undefined | string',
-                    },
-                    {
-                      defaultValue: 'false',
-                      name: 'isThing',
-                      type: 'boolean',
-                    },
-                    {
-                      name: 'bar',
-                      type: 'boolean',
-                    },
-                    {
-                      isOptional: true,
-                      name: 'foo',
-                      type: 'string',
-                    },
+                    { name: 'value', type: 'undefined | string' },
+                    { defaultValue: 'false', name: 'isThing', type: 'boolean' },
+                    { name: 'bar', type: 'boolean' },
+                    { isOptional: true, name: 'foo', type: 'string' },
                   ],
                   type: 'string',
                 },
