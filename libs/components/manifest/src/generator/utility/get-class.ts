@@ -10,8 +10,8 @@ import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
-import { isInput, isOutput } from './get-directive';
 import { getParameters } from './get-parameters';
+import { getTypeParameters } from './get-type-parameters';
 
 export function getMethods(
   reflection: DeclarationReflection,
@@ -114,6 +114,7 @@ export function getProperty(
       defaultValue: getDefaultValue(reflection, defaultValue),
       isDeprecated,
       isPreview,
+      isStatic: reflection.flags.isStatic ? true : undefined,
       kind: 'class-property',
       name: reflection.name,
       type: formatType(reflection.type),
@@ -132,10 +133,6 @@ export function getProperties(
 
   if (reflection.children) {
     for (const child of reflection.children) {
-      if (isInput(child) || isOutput(child)) {
-        continue;
-      }
-
       const property = getProperty(child);
 
       if (property) {
@@ -179,6 +176,7 @@ export function getClass(
     isPreview,
     kind,
     name: reflection.name,
+    typeParameters: getTypeParameters(reflection),
   };
 
   return def;

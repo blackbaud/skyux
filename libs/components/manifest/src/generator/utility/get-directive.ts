@@ -38,6 +38,9 @@ function getInput(
 ): SkyManifestDirectiveInputDefinition | undefined {
   const property = getProperty(reflection);
 
+  let input: SkyManifestDirectiveInputDefinition | undefined;
+
+  /* istanbul ignore else: safety check */
   if (property) {
     const { isRequired } = getComment(
       reflection.comment ??
@@ -45,16 +48,14 @@ function getInput(
         reflection.setSignature?.comment,
     );
 
-    const input: SkyManifestDirectiveInputDefinition = {
+    input = {
       ...property,
       kind: 'directive-input',
       isRequired,
     };
-
-    return input;
   }
 
-  return;
+  return input;
 }
 
 function getInputs(
@@ -82,16 +83,17 @@ function getOutput(
 ): SkyManifestDirectiveOutputDefinition | undefined {
   const property = getProperty(reflection);
 
+  let output: SkyManifestDirectiveOutputDefinition | undefined;
+
+  /* istanbul ignore else: safety check */
   if (property) {
-    const output: SkyManifestDirectiveOutputDefinition = {
+    output = {
       ...property,
       kind: 'directive-output',
     };
-
-    return output;
   }
 
-  return;
+  return output;
 }
 
 function getOutputs(
@@ -154,7 +156,7 @@ export function getDirective(
     isPreview,
     kind,
     name: directiveName,
-    selector: getSelector(reflection) ?? '',
+    selector: getSelector(reflection),
   };
 
   return directive;

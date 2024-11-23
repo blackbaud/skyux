@@ -11,6 +11,6 @@ export function createFoo<T extends string>(
   param1: T,
   param2 = false,
   param3?: number,
-): FooClass {
-  return new FooClass();
+): FooClass<T> {
+  return new FooClass<T>();
 }

@@ -128,7 +128,8 @@ function handleUnionType(type: UnionType): string {
     .map((t) => {
       let formatted = formatType(t);
 
-      if (t instanceof ReflectionType) {
+      // Wrap inline closures with parentheses.
+      if (t instanceof ReflectionType && t.declaration.signatures) {
         formatted = wrapWithParentheses(formatted);
       }
 

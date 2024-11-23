@@ -1,3 +1,7 @@
+import {
+  SkyManifestClassMethodDefinition,
+  SkyManifestClassPropertyDefinition,
+} from '../../types/class-def';
 import type { SkyManifestPipeDefinition } from '../../types/pipe-def';
 import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
@@ -11,16 +15,24 @@ export function getPipe(
 ): SkyManifestPipeDefinition {
   const reflection = getClass(decl, 'class', filePath);
 
+  const pipeName = remapLambdaName(decl);
   const templateBindingName = decl.decorators?.[0]?.arguments?.[
     'name'
   ] as string;
 
-  const pipeName = remapLambdaName(decl);
+  let children:
+    | (SkyManifestClassPropertyDefinition | SkyManifestClassMethodDefinition)[]
+    | undefined = reflection.children;
+
+  /* istanbul ignore if: safety check */
+  if (!children) {
+    children = [];
+  }
 
   const pipe: SkyManifestPipeDefinition = {
     ...reflection,
     anchorId: getAnchorId(pipeName, decl.kind),
-    children: reflection.children ?? [],
+    children,
     kind: 'pipe',
     name: pipeName,
     templateBindingName,

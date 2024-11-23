@@ -12,7 +12,7 @@ export interface SkyManifestDirectiveDefinition
     | SkyManifestDirectiveInputDefinition
     | SkyManifestDirectiveOutputDefinition
   )[];
-  selector: string;
+  selector?: string;
   kind: 'directive' | 'component';
 }
 

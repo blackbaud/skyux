@@ -14,6 +14,7 @@ export interface SkyManifestClassDefinition
     | SkyManifestClassPropertyDefinition
   )[];
   kind: 'class' | 'module' | 'service';
+  typeParameters?: string;
 }
 
 /**
@@ -22,8 +23,8 @@ export interface SkyManifestClassDefinition
 export interface SkyManifestClassMethodDefinition
   extends SkyManifestChildDefinition {
   isStatic?: boolean;
-  parameters: SkyManifestParameterDefinition[];
   kind: 'class-method';
+  parameters: SkyManifestParameterDefinition[];
 }
 
 /**
@@ -32,5 +33,6 @@ export interface SkyManifestClassMethodDefinition
 export interface SkyManifestClassPropertyDefinition
   extends SkyManifestChildDefinition {
   defaultValue?: string;
+  isStatic?: boolean;
   kind: 'class-property';
 }
