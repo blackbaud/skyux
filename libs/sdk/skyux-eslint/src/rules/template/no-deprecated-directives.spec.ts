@@ -9,6 +9,13 @@ const ruleTester = createTemplateRuleTester();
 jest.mock('@skyux/manifest/public-api.json', () => {
   return {
     packages: {
+      '@skyux/no-deprecated': [
+        {
+          kind: 'component',
+          selector: 'sky-no-deprecated',
+          isDeprecated: false,
+        },
+      ],
       '@skyux/layout': [
         {
           kind: 'component',
@@ -56,7 +63,6 @@ jest.mock('@skyux/manifest/public-api.json', () => {
               kind: 'directive-input',
               name: 'noReason',
               isDeprecated: true,
-              deprecationReason: '',
             },
           ],
         },
@@ -82,6 +88,7 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     // Deprecated directive, but on the "wrong" element should still pass.
     '<foobar skyDeprecatedThing />',
+    '<sky-no-deprecated></sky-no-deprecated>',
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({

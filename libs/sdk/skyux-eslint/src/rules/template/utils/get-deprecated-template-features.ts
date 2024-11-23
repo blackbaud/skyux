@@ -9,9 +9,15 @@ import { DeprecatedProperty, TemplateFeatureDeprecations } from './types';
 function getDeprecatedProperties(
   definition: SkyManifestParentDefinition,
 ): DeprecatedProperty[] {
-  return (
-    definition.children?.filter((property) => property.isDeprecated) ?? []
-  ).map(({ deprecationReason, name }) => ({
+  const deprecated = definition.children?.filter(
+    (property) => property.isDeprecated,
+  );
+
+  if (!deprecated) {
+    return [];
+  }
+
+  return deprecated.map(({ deprecationReason, name }) => ({
     deprecationReason,
     name,
   }));
