@@ -52,7 +52,6 @@ function handleClassKind(
 
 function getManifestItem(
   reflection: DeclarationReflection,
-  parent: DeclarationReflection,
   filePath: string,
 ): SkyManifestParentDefinition {
   switch (reflection.kind) {
@@ -61,7 +60,7 @@ function getManifestItem(
     }
 
     case ReflectionKind.TypeAlias: {
-      return getTypeAlias(reflection, parent, filePath);
+      return getTypeAlias(reflection, filePath);
     }
 
     case ReflectionKind.Enum: {
@@ -112,8 +111,6 @@ export async function getPublicApi(
   >();
 
   for (const { entryPoints, packageName, projectRoot } of projects) {
-    process.stderr.write(`Creating manifest for ${packageName}...`);
-
     const entryPointReflections = await getEntryPointsReflections({
       entryPoints,
       packageName,
@@ -121,6 +118,8 @@ export async function getPublicApi(
     });
 
     for (const { entryName, reflection } of entryPointReflections) {
+      process.stderr.write(`Creating manifest for ${entryName}...`);
+
       const items: SkyManifestParentDefinition[] =
         packages.get(entryName) ?? [];
 
@@ -132,13 +131,13 @@ export async function getPublicApi(
           continue;
         }
 
-        items.push(getManifestItem(child, reflection, filePath));
+        items.push(getManifestItem(child, filePath));
       }
 
       packages.set(entryName, sortArrayByKey(items, 'filePath'));
-    }
 
-    process.stderr.write(' done\n');
+      process.stderr.write('done\n');
+    }
   }
 
   return {

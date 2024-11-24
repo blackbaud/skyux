@@ -32,7 +32,7 @@ export function getVariable(
     isPreview,
     kind: 'variable',
     name: reflection.name,
-    type: formatType(reflection.type),
+    type: formatType(reflection),
   };
 
   return def;

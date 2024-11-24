@@ -1,208 +1,104 @@
-/* eslint-disable complexity */
-// import {
-//   ArrayType,
-//   type DeclarationReflection,
-//   IntrinsicType,
-//   LiteralType,
-//   MappedType,
-//   PredicateType,
-//   ReferenceType,
-//   ReflectionType,
-//   type SignatureReflection,
-//   type SomeType,
-//   TupleType,
-//   TypeOperatorType,
-//   UnionType,
-// } from 'typedoc';
-import { SomeType } from 'typedoc';
+import {
+  DeclarationReflection,
+  IndexedAccessType,
+  QueryType,
+  ReferenceType,
+  SignatureReflection,
+  SomeType,
+  TupleType,
+  TypeOperatorType,
+  TypeParameterReflection,
+} from 'typedoc';
 
-// import { getIndexSignatures } from './get-index-signatures';
-// import { getParameters } from './get-parameters';
+export function formatType(reflection: {
+  name: string;
+  type?: SomeType;
+}): string {
+  let type: SomeType | undefined;
 
-// function formatInlineClosure(reflections: SignatureReflection[]): string {
-//   const params = getParameters(reflections[0].parameters);
-//   const returnType = formatType(reflections[0].type);
+  if (reflection instanceof DeclarationReflection) {
+    type =
+      reflection.type ??
+      reflection.signatures?.[0].type ??
+      reflection.getSignature?.type ??
+      reflection.setSignature?.type;
+  } else {
+    type = reflection.type;
+  }
 
-//   const paramsStr = params
-//     .map(
-//       (param) => `${param.name}${param.isOptional ? '?' : ''}: ${param.type}`,
-//     )
-//     .join(', ');
+  if (!type) {
+    console.warn(
+      `\n [!] The type for the reflection \`${reflection.name}\` is not defined. Defaulting to \`unknown\`.`,
+    );
+    return 'unknown';
+    // console.error(reflection);
+    // throw new Error('The type cannot be formatted because it is undefined.');
+  }
 
-//   return `(${paramsStr}) => ${returnType}`;
-// }
+  return type.toString();
+}
 
-// function formatInlineInterface(reflections: DeclarationReflection[]): string {
-//   const props = ['{'];
+/**
+ * Gets the formatted type for a const assertion union.
+ * @example
+ * ```
+ * const FOO = ['a', 'b', 'c'] as const;
+ * type Foo = (typeof FOO)[number];
+ *
+ * // Returns: "'a' | 'b' | 'c'"
+ * ```
+ */
+export function formatConstAssertionUnionType(
+  reflection: DeclarationReflection,
+): string | undefined {
+  if (
+    reflection.type instanceof IndexedAccessType &&
+    reflection.type.objectType instanceof QueryType
+  ) {
+    const reference = reflection.parent?.getChildByName(
+      reflection.type.objectType.queryType.name,
+    );
 
-//   for (const reflection of reflections) {
-//     props.push(
-//       `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatType(reflection.type)};`,
-//     );
-//   }
+    if (
+      reference &&
+      reference.isDeclaration() &&
+      reference.type instanceof TypeOperatorType &&
+      reference.type.target instanceof TupleType
+    ) {
+      return formatType(reference);
+    }
+  }
 
-//   props.push('}');
+  return;
+}
 
-//   return props.join(' ');
-// }
+/**
+ * Formats type parameters for a reflection (e.g., `<T, U>`).
+ */
+export function formatTypeParameters(reflection: {
+  signatures?: SignatureReflection[];
+  typeParameters?: TypeParameterReflection[];
+}): string | undefined {
+  const typeParameters =
+    reflection.typeParameters ?? reflection.signatures?.[0].typeParameters;
 
-// function formatTypeParameters(params: SomeType[] | undefined): string {
-//   if (!params || params.length === 0) {
-//     return '';
-//   }
+  if (!typeParameters) {
+    return;
+  }
 
-//   let name = `<`;
+  const params: string[] = [];
 
-//   const typeParams: string[] = [];
+  for (const typeParam of typeParameters) {
+    let formatted = typeParam.name;
 
-//   for (const param of params) {
-//     typeParams.push(formatType(param));
-//   }
+    if (typeParam instanceof ReferenceType) {
+      formatted += ` extends ${formatType(typeParam)}`;
+    } else if (typeParam.default) {
+      formatted += ` = ${typeParam.default.toString()}`;
+    }
 
-//   if (typeParams.length === 0) {
-//     console.error(params);
-//     throw new Error('Type parameters were provided, but none were formatted.');
-//   }
+    params.push(formatted);
+  }
 
-//   name += typeParams.join(', ') + '>';
-
-//   return name;
-// }
-
-// function formatArrayType(type: ArrayType): string {
-//   const elementType = formatType(type.elementType);
-
-//   if (
-//     type.elementType instanceof ReflectionType &&
-//     type.elementType.declaration.signatures
-//   ) {
-//     return `${wrapWithParentheses(elementType)}[]`;
-//   }
-
-//   return `${elementType}[]`;
-// }
-
-// function formatLiteralType(type: LiteralType): string {
-//   return typeof type.value === 'string' ? `'${type.value}'` : `${type.value}`;
-// }
-
-// function formatReferenceType(type: ReferenceType): string {
-//   let name = type.name;
-
-//   if (type.typeArguments) {
-//     name += formatTypeParameters(type.typeArguments);
-//   }
-
-//   return name;
-// }
-
-// function formatReflectionType(type: ReflectionType): string | undefined {
-//   const typeDecl = type.declaration;
-
-//   if (typeDecl.signatures) {
-//     return formatInlineClosure(typeDecl.signatures);
-//   }
-
-//   if (typeDecl.children) {
-//     return formatInlineInterface(typeDecl.children);
-//   }
-
-//   if (typeDecl.indexSignatures) {
-//     const defs = getIndexSignatures(typeDecl);
-
-//     return `{ ${defs[0].name}: ${defs[0].type}; }`;
-//   }
-
-//   return;
-// }
-
-// /**
-//  * Formats type operator types (e.g., `keyof Foo`).
-//  */
-// function formatTypeOperatorType(type: TypeOperatorType): string | undefined {
-//   if (type.target instanceof ReferenceType) {
-//     return `${type.operator} ${type.target.name}`;
-//   }
-
-//   // Handle "as const" array types.
-//   if (type.target instanceof TupleType && type.operator === 'readonly') {
-//     return `[${type.target.elements.map((t) => formatType(t)).join(', ')}] as const`;
-//   }
-
-//   return;
-// }
-
-// function formatUnionType(type: UnionType): string {
-//   return type.types
-//     .map((t) => {
-//       let formatted = formatType(t);
-
-//       // Wrap inline closures with parentheses.
-//       if (t instanceof ReflectionType && t.declaration.signatures) {
-//         formatted = wrapWithParentheses(formatted);
-//       }
-
-//       return formatted;
-//     })
-//     .join(' | ');
-// }
-
-// function wrapWithParentheses(type: string): string {
-//   return `(${type})`;
-// }
-
-// /**
-//  * Formats predicate types (e.g., `type is string`).
-//  */
-// function formatPredicateType(type: PredicateType): string {
-//   return `${type.name} is ${formatType(type.targetType)}`;
-// }
-
-// /**
-//  * Formats a MappedType (e.g. `{ [K in keyof T]: string }`)
-//  */
-// function formatMappedType(type: MappedType): string {
-//   console.log('MAPPED TYPE:', type.toString());
-//   return `{ [${type.parameter} ${formatType(type.parameterType)}]: ${formatType(type.templateType)} }`;
-// }
-
-export function formatType(type: SomeType | undefined): string {
-  return type?.toString() ?? '';
-  // let formatted: string | undefined;
-
-  // if (typeof type === 'undefined') {
-  //   return '__UNDEFINED__';
-  // } else if (type instanceof IntrinsicType) {
-  //   formatted = type.name;
-  // } else if (type instanceof LiteralType) {
-  //   formatted = formatLiteralType(type);
-  // } else if (type instanceof ReferenceType) {
-  //   formatted = formatReferenceType(type);
-  // } else if (type instanceof ReflectionType) {
-  //   formatted = formatReflectionType(type);
-  // } else if (type instanceof ArrayType) {
-  //   formatted = formatArrayType(type);
-  // } else if (type instanceof UnionType) {
-  //   formatted = formatUnionType(type);
-  // } else if (type instanceof TypeOperatorType) {
-  //   formatted = formatTypeOperatorType(type);
-  // } else if (type instanceof MappedType) {
-  //   console.log('mapped type:', type);
-  //   formatted = formatMappedType(type);
-  // } else if (type instanceof PredicateType) {
-  //   formatted = formatPredicateType(type);
-  // }
-
-  // /* istanbul ignore if: safety check */
-  // if (!formatted) {
-  //   console.error(type);
-
-  //   throw new Error(
-  //     'A type was encountered that is not handled by the ' +
-  //       'formatType() function. A formatter must be added for this type to ' +
-  //       'accommodate all features of the public API.',
-  //   );
-  // }
-
-  // return formatted;
+  return `<${params.join(', ')}>`;
 }

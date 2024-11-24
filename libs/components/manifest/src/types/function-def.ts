@@ -8,6 +8,7 @@ export interface SkyManifestFunctionDefinition
   kind: 'function';
   parameters: SkyManifestParameterDefinition[];
   type: string;
+  typeParameters?: string;
 }
 
 /**

@@ -25,6 +25,7 @@ export interface SkyManifestClassMethodDefinition
   isStatic?: boolean;
   kind: 'class-method';
   parameters: SkyManifestParameterDefinition[];
+  typeParameters?: string;
 }
 
 /**

@@ -20,7 +20,7 @@ export function getParameters(
         description,
         isOptional: param.flags.isOptional ? true : undefined,
         name: param.name,
-        type: formatType(param.type),
+        type: formatType(param),
       });
     }
   }

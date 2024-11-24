@@ -2,13 +2,15 @@ import { type DeclarationReflection } from 'typedoc';
 
 import type { SkyManifestFunctionDefinition } from '../../types/function-def';
 
-import { formatType } from './format-type';
+import { formatType, formatTypeParameters } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getParameters } from './get-parameters';
 
+// TODO: Make the getComment function accept a reflection type?
+
 export function getFunction(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
   filePath: string,
 ): SkyManifestFunctionDefinition {
   const {
@@ -19,12 +21,12 @@ export function getFunction(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment ?? decl.signatures?.[0]?.comment);
+  } = getComment(reflection.comment ?? reflection.signatures?.[0]?.comment);
 
-  const signature = decl.signatures?.[0];
+  const signature = reflection.signatures?.[0];
 
   const def: SkyManifestFunctionDefinition = {
-    anchorId: getAnchorId(decl.name, decl.kind),
+    anchorId: getAnchorId(reflection.name, reflection.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -34,9 +36,10 @@ export function getFunction(
     isInternal,
     isPreview,
     kind: 'function',
-    name: decl.name,
+    name: reflection.name,
     parameters: getParameters(signature?.parameters),
-    type: formatType(signature?.type),
+    type: formatType(reflection),
+    typeParameters: formatTypeParameters(reflection),
   };
 
   return def;

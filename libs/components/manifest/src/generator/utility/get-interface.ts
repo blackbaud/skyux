@@ -38,7 +38,7 @@ function getInterfaceProperties(
         isPreview,
         kind: 'interface-property',
         name: child.name,
-        type: formatType(child.type),
+        type: formatType(child),
       });
     }
   }

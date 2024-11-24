@@ -6,12 +6,11 @@ import type {
   SkyManifestClassPropertyDefinition,
 } from '../../types/class-def';
 
-import { formatType } from './format-type';
+import { formatType, formatTypeParameters } from './format-type';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
 import { getParameters } from './get-parameters';
-import { getTypeParameters } from './get-type-parameters';
 
 export function getMethods(
   reflection: DeclarationReflection,
@@ -57,7 +56,8 @@ export function getMethod(
     kind: 'class-method',
     name: reflection.name,
     parameters: getParameters(signature?.parameters),
-    type: formatType(signature?.type),
+    type: formatType(reflection),
+    typeParameters: formatTypeParameters(reflection),
   };
 
   return method;
@@ -66,6 +66,8 @@ export function getMethod(
 export function getProperty(
   reflection: DeclarationReflection,
 ): SkyManifestClassPropertyDefinition | undefined {
+  // TODO: Combine these two checks.
+
   if (reflection.kind === ReflectionKind.Accessor) {
     const {
       codeExample,
@@ -89,7 +91,7 @@ export function getProperty(
       isPreview,
       kind: 'class-property',
       name: reflection.name,
-      type: formatType(reflection.getSignature?.type),
+      type: formatType(reflection),
     };
 
     return property;
@@ -117,7 +119,7 @@ export function getProperty(
       isStatic: reflection.flags.isStatic ? true : undefined,
       kind: 'class-property',
       name: reflection.name,
-      type: formatType(reflection.type),
+      type: formatType(reflection),
     };
 
     return property;
@@ -176,7 +178,7 @@ export function getClass(
     isPreview,
     kind,
     name: reflection.name,
-    typeParameters: getTypeParameters(reflection),
+    typeParameters: formatTypeParameters(reflection),
   };
 
   return def;

@@ -35,7 +35,7 @@ function getEnumMembers(
         isPreview,
         kind: 'enum-member',
         name: child.name,
-        type: formatType(child.type),
+        type: formatType(child),
       });
     }
   }
