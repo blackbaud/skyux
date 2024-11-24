@@ -11,12 +11,12 @@ import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 
 function getEnumMembers(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestEnumerationMemberDefinition[] {
   const members: SkyManifestEnumerationMemberDefinition[] = [];
 
-  if (decl.children) {
-    for (const child of decl.children) {
+  if (reflection.children) {
+    for (const child of reflection.children) {
       const {
         codeExample,
         codeExampleLanguage,
@@ -24,7 +24,7 @@ function getEnumMembers(
         description,
         isDeprecated,
         isPreview,
-      } = getComment(child.comment);
+      } = getComment(child);
 
       members.push({
         codeExample,
@@ -44,7 +44,7 @@ function getEnumMembers(
 }
 
 export function getEnum(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
   filePath: string,
 ): SkyManifestEnumerationDefinition {
   const {
@@ -55,10 +55,10 @@ export function getEnum(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment);
+  } = getComment(reflection);
 
   const def: SkyManifestEnumerationDefinition = {
-    anchorId: getAnchorId(decl.name, decl.kind),
+    anchorId: getAnchorId(reflection.name, reflection.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -68,8 +68,8 @@ export function getEnum(
     isInternal,
     isPreview,
     kind: 'enumeration',
-    children: getEnumMembers(decl),
-    name: decl.name,
+    children: getEnumMembers(reflection),
+    name: reflection.name,
   };
 
   return def;

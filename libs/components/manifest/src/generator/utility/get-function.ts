@@ -21,9 +21,7 @@ export function getFunction(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(reflection.comment ?? reflection.signatures?.[0]?.comment);
-
-  const signature = reflection.signatures?.[0];
+  } = getComment(reflection);
 
   const def: SkyManifestFunctionDefinition = {
     anchorId: getAnchorId(reflection.name, reflection.kind),
@@ -37,7 +35,7 @@ export function getFunction(
     isPreview,
     kind: 'function',
     name: reflection.name,
-    parameters: getParameters(signature?.parameters),
+    parameters: getParameters(reflection),
     type: formatType(reflection),
     typeParameters: formatTypeParameters(reflection),
   };

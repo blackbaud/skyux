@@ -2,9 +2,22 @@ import {
   type Comment,
   type CommentDisplayPart,
   type CommentTag,
+  DeclarationReflection,
 } from 'typedoc';
 
 import { SkyManifestCodeExampleLanguage } from '../../types/base-def';
+
+interface SkyManifestComment {
+  codeExample?: string;
+  codeExampleLanguage?: SkyManifestCodeExampleLanguage;
+  defaultValue?: string;
+  deprecationReason?: string;
+  description?: string;
+  isDeprecated?: boolean;
+  isInternal?: boolean;
+  isPreview?: boolean;
+  isRequired?: boolean;
+}
 
 const DEFAULT_CODE_EXAMPLE_LANGUAGE: SkyManifestCodeExampleLanguage = 'markup';
 const ALLOWED_LANGUAGES: SkyManifestCodeExampleLanguage[] = [
@@ -49,26 +62,27 @@ function getCodeExample(comment: CommentTag): {
   return { codeExample, codeExampleLanguage };
 }
 
-export function getComment(comment: Comment | undefined): {
-  codeExample: string | undefined;
-  codeExampleLanguage: SkyManifestCodeExampleLanguage | undefined;
-  deprecationReason: string | undefined;
-  defaultValue: string | undefined;
-  description: string | undefined;
-  isDeprecated: boolean | undefined;
-  isInternal: boolean | undefined;
-  isPreview: boolean | undefined;
-  isRequired: boolean | undefined;
-} {
+export function getComment(reflection: {
+  name: string;
+  comment?: Comment;
+}): SkyManifestComment {
   let codeExample: string | undefined;
   let codeExampleLanguage: SkyManifestCodeExampleLanguage | undefined;
-  let deprecationReason: string | undefined;
   let defaultValue: string | undefined;
+  let deprecationReason: string | undefined;
   let description: string | undefined;
   let isDeprecated: boolean | undefined;
   let isInternal: boolean | undefined;
   let isPreview: boolean | undefined;
   let isRequired: boolean | undefined;
+
+  let comment = reflection.comment;
+
+  if (!comment && reflection instanceof DeclarationReflection) {
+    comment = reflection
+      .getAllSignatures()
+      .find((signature) => signature.comment)?.comment;
+  }
 
   if (comment) {
     isInternal = comment.modifierTags.has('@internal') ? true : undefined;
@@ -127,5 +141,5 @@ export function getComment(comment: Comment | undefined): {
     isInternal,
     isPreview,
     isRequired,
-  };
+  } satisfies SkyManifestComment;
 }

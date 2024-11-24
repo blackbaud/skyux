@@ -24,7 +24,7 @@ function getInterfaceProperties(
         description,
         isDeprecated,
         isPreview,
-      } = getComment(child.comment);
+      } = getComment(child);
 
       const isOptional = child.flags.isOptional ? true : undefined;
 
@@ -58,7 +58,7 @@ export function getInterface(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment);
+  } = getComment(decl);
 
   const indexSignatures = getIndexSignatures(decl);
   const children = getInterfaceProperties(decl);

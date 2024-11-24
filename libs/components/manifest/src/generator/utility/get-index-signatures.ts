@@ -1,5 +1,6 @@
 import { type DeclarationReflection } from 'typedoc';
 
+import { SkyManifestParameterDefinition } from '../../types/function-def';
 import type { SkyManifestIndexSignatureDefinition } from '../../types/interface-def';
 
 import { formatType } from './format-type';
@@ -7,12 +8,12 @@ import { getComment } from './get-comment';
 import { getParameters } from './get-parameters';
 
 export function getIndexSignatures(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
 ): SkyManifestIndexSignatureDefinition[] {
-  const formatted: SkyManifestIndexSignatureDefinition[] = [];
+  const definitions: SkyManifestIndexSignatureDefinition[] = [];
 
-  if (decl.indexSignatures) {
-    for (const signature of decl.indexSignatures) {
+  if (reflection.indexSignatures) {
+    for (const signature of reflection.indexSignatures) {
       const param = signature.parameters?.[0];
 
       if (param) {
@@ -23,9 +24,9 @@ export function getIndexSignatures(
           description,
           isDeprecated,
           isPreview,
-        } = getComment(signature.comment);
+        } = getComment(signature);
 
-        formatted.push({
+        definitions.push({
           codeExample,
           codeExampleLanguage,
           deprecationReason,
@@ -34,11 +35,13 @@ export function getIndexSignatures(
           isPreview,
           name: `[${param.name}: ${formatType(param)}]`,
           type: formatType(signature),
-          parameters: getParameters(signature.parameters),
+          parameters: getParameters(
+            signature,
+          ) as SkyManifestParameterDefinition[],
         });
       }
     }
   }
 
-  return formatted;
+  return definitions;
 }

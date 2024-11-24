@@ -6,7 +6,7 @@ import type { SkyManifestParentDefinition } from './base-def';
 export interface SkyManifestFunctionDefinition
   extends SkyManifestParentDefinition {
   kind: 'function';
-  parameters: SkyManifestParameterDefinition[];
+  parameters?: SkyManifestParameterDefinition[];
   type: string;
   typeParameters?: string;
 }

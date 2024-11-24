@@ -24,7 +24,7 @@ export interface SkyManifestClassMethodDefinition
   extends SkyManifestChildDefinition {
   isStatic?: boolean;
   kind: 'class-method';
-  parameters: SkyManifestParameterDefinition[];
+  parameters?: SkyManifestParameterDefinition[];
   typeParameters?: string;
 }
 

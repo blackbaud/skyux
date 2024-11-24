@@ -1,4 +1,8 @@
-import { type ParameterReflection } from 'typedoc';
+import {
+  DeclarationReflection,
+  ParameterReflection,
+  SignatureReflection,
+} from 'typedoc';
 
 import type { SkyManifestParameterDefinition } from '../../types/function-def';
 
@@ -7,23 +11,33 @@ import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
 
 export function getParameters(
-  params: ParameterReflection[] | undefined,
-): SkyManifestParameterDefinition[] {
-  const parameters: SkyManifestParameterDefinition[] = [];
+  reflection: DeclarationReflection | SignatureReflection,
+): SkyManifestParameterDefinition[] | undefined {
+  let params: ParameterReflection[] | undefined;
 
-  if (params) {
-    for (const param of params) {
-      const { defaultValue, description } = getComment(param.comment);
-
-      parameters.push({
-        defaultValue: getDefaultValue(param, defaultValue),
-        description,
-        isOptional: param.flags.isOptional ? true : undefined,
-        name: param.name,
-        type: formatType(param),
-      });
-    }
+  if (reflection instanceof SignatureReflection) {
+    params = reflection.parameters;
+  } else {
+    params = reflection.signatures?.[0]?.parameters;
   }
 
-  return parameters;
+  if (!params) {
+    return;
+  }
+
+  const paramDefinitions: SkyManifestParameterDefinition[] = [];
+
+  for (const param of params) {
+    const { defaultValue, description } = getComment(param);
+
+    paramDefinitions.push({
+      defaultValue: getDefaultValue(param, defaultValue),
+      description,
+      isOptional: param.flags.isOptional ? true : undefined,
+      name: param.name,
+      type: formatType(param),
+    });
+  }
+
+  return paramDefinitions;
 }

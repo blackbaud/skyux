@@ -7,7 +7,7 @@ import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 
 export function getTypeAlias(
-  decl: DeclarationReflection,
+  reflection: DeclarationReflection,
   filePath: string,
 ): SkyManifestTypeAliasDefinition {
   const {
@@ -18,12 +18,13 @@ export function getTypeAlias(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(decl.comment);
+  } = getComment(reflection);
 
-  const formattedType = formatConstAssertionUnionType(decl) ?? formatType(decl);
+  const formattedType =
+    formatConstAssertionUnionType(reflection) ?? formatType(reflection);
 
   const def: SkyManifestTypeAliasDefinition = {
-    anchorId: getAnchorId(decl.name, decl.kind),
+    anchorId: getAnchorId(reflection.name, reflection.kind),
     codeExample,
     codeExampleLanguage,
     deprecationReason,
@@ -33,7 +34,7 @@ export function getTypeAlias(
     isInternal,
     isPreview,
     kind: 'type-alias',
-    name: decl.name,
+    name: reflection.name,
     type: formattedType,
   };
 

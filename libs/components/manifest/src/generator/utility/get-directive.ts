@@ -37,23 +37,13 @@ function getInput(
   reflection: DeclarationReflectionWithDecorators,
 ): SkyManifestDirectiveInputDefinition | undefined {
   const property = getProperty(reflection);
+  const { isRequired } = getComment(reflection);
 
-  let input: SkyManifestDirectiveInputDefinition | undefined;
-
-  /* istanbul ignore else: safety check */
-  if (property) {
-    const { isRequired } = getComment(
-      reflection.comment ??
-        reflection.getSignature?.comment ??
-        reflection.setSignature?.comment,
-    );
-
-    input = {
-      ...property,
-      kind: 'directive-input',
-      isRequired,
-    };
-  }
+  const input: SkyManifestDirectiveInputDefinition = {
+    ...property,
+    kind: 'directive-input',
+    isRequired,
+  };
 
   return input;
 }
@@ -82,16 +72,10 @@ function getOutput(
   reflection: DeclarationReflection,
 ): SkyManifestDirectiveOutputDefinition | undefined {
   const property = getProperty(reflection);
-
-  let output: SkyManifestDirectiveOutputDefinition | undefined;
-
-  /* istanbul ignore else: safety check */
-  if (property) {
-    output = {
-      ...property,
-      kind: 'directive-output',
-    };
-  }
+  const output: SkyManifestDirectiveOutputDefinition = {
+    ...property,
+    kind: 'directive-output',
+  };
 
   return output;
 }
@@ -135,7 +119,7 @@ export function getDirective(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(reflection.comment);
+  } = getComment(reflection);
 
   const directiveName = remapLambdaName(reflection);
 

@@ -111,6 +111,8 @@ export async function getPublicApi(
   >();
 
   for (const { entryPoints, packageName, projectRoot } of projects) {
+    console.log(`Creating manifest for "${projectRoot}"...`);
+
     const entryPointReflections = await getEntryPointsReflections({
       entryPoints,
       packageName,
@@ -118,8 +120,6 @@ export async function getPublicApi(
     });
 
     for (const { entryName, reflection } of entryPointReflections) {
-      process.stderr.write(`Creating manifest for ${entryName}...`);
-
       const items: SkyManifestParentDefinition[] =
         packages.get(entryName) ?? [];
 
@@ -135,8 +135,6 @@ export async function getPublicApi(
       }
 
       packages.set(entryName, sortArrayByKey(items, 'filePath'));
-
-      process.stderr.write('done\n');
     }
   }
 

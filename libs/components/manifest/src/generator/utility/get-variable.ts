@@ -18,7 +18,7 @@ export function getVariable(
     isDeprecated,
     isInternal,
     isPreview,
-  } = getComment(reflection.comment);
+  } = getComment(reflection);
 
   const def: SkyManifestVariableDefinition = {
     anchorId: getAnchorId(reflection.name, reflection.kind),

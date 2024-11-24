@@ -3,39 +3,58 @@ import {
   IndexedAccessType,
   QueryType,
   ReferenceType,
-  SignatureReflection,
   SomeType,
   TupleType,
   TypeOperatorType,
-  TypeParameterReflection,
 } from 'typedoc';
+
+import { _formatType } from './format-type-custom';
 
 export function formatType(reflection: {
   name: string;
   type?: SomeType;
 }): string {
-  let type: SomeType | undefined;
+  let type = reflection.type;
 
-  if (reflection instanceof DeclarationReflection) {
+  if (!type && reflection instanceof DeclarationReflection) {
     type =
       reflection.type ??
-      reflection.signatures?.[0].type ??
-      reflection.getSignature?.type ??
-      reflection.setSignature?.type;
-  } else {
-    type = reflection.type;
+      reflection.getAllSignatures().find((signature) => signature.type)?.type;
   }
 
   if (!type) {
     console.warn(
-      `\n [!] The type for the reflection \`${reflection.name}\` is not defined. Defaulting to \`unknown\`.`,
+      `  [!] The type for the reflection \`${reflection.name}\` is not defined. Defaulting to \`unknown\`.`,
     );
+
     return 'unknown';
-    // console.error(reflection);
-    // throw new Error('The type cannot be formatted because it is undefined.');
   }
 
-  return type.toString();
+  let formatted = type.toString();
+
+  if (formatted === 'Function' || formatted === 'Object') {
+    const customFormatted = _formatType(reflection.type);
+
+    console.warn(
+      `  [!] TypeDoc produced \`${formatted}\` but we want a more complete type for \`${reflection.name}\`. ` +
+        `Created:
+      \`\`\`
+      ${customFormatted}
+      \`\`\`
+`,
+    );
+
+    formatted = customFormatted;
+  }
+
+  if (formatted.includes('λ')) {
+    // TODO: use reflection.parent to find the reference's name.
+    console.warn(
+      `  [!] A lambda name was encountered when formatting the type for \`${reflection.name}\`. Found: \`${formatted}\``,
+    );
+  }
+
+  return formatted;
 }
 
 /**
@@ -75,12 +94,13 @@ export function formatConstAssertionUnionType(
 /**
  * Formats type parameters for a reflection (e.g., `<T, U>`).
  */
-export function formatTypeParameters(reflection: {
-  signatures?: SignatureReflection[];
-  typeParameters?: TypeParameterReflection[];
-}): string | undefined {
+export function formatTypeParameters(
+  reflection: DeclarationReflection,
+): string | undefined {
   const typeParameters =
-    reflection.typeParameters ?? reflection.signatures?.[0].typeParameters;
+    reflection.typeParameters ??
+    reflection.getAllSignatures().find((signature) => signature.typeParameters)
+      ?.typeParameters;
 
   if (!typeParameters) {
     return;
