@@ -27,5 +27,5 @@ export { FooEmptyInterface, FooInterface } from './lib/foo.interface';
 export { FooModule } from './lib/foo.module';
 export { FooPipe } from './lib/foo.pipe';
 export { FooService } from './lib/foo.service';
-export { FooAlias } from './lib/foo.type-alias';
+export { FooAlias, FooReferenceTypeAlias } from './lib/foo.type-alias';
 export { FOO_VARIABLE } from './lib/foo.variable';

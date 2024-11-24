@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Observable, of } from 'rxjs';
+
 export class FooBaseClass {}
 
 export class FooBasicTypeParamClass<T> {
@@ -8,11 +11,19 @@ export class FooBasicTypeParamDefaultValueClass<T = boolean> {
   public ref: T | undefined;
 }
 
+type ResourceKey = string;
+type TemplatedResource = [ResourceKey, ...unknown[]];
+type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
+
 /**
  * This is the foo class.
  */
 export class FooClass<TClass extends FooBaseClass> {
-  public arrayOfFunctionTypes: (() => void)[] | undefined;
+  /**
+   * @param a This describes the param 'a'.
+   * @param b This describes the param 'b'.
+   */
+  public arrayOfFunctionTypes: ((a: boolean, b?: string) => void)[] | undefined;
   public arrayOfIntrinsicTypes: string[] | undefined;
   public arrayOfReflectionTypes: { a: boolean; b: string }[] | undefined;
   public literalType: 1 | 0 | undefined;
@@ -25,8 +36,23 @@ export class FooClass<TClass extends FooBaseClass> {
         b?: string;
       }
     | undefined;
+  public reflectionIndexSignatureType:
+    | {
+        [key: string]: boolean;
+      }
+    | undefined;
+
   public closureType: (() => void) | undefined;
   public unionType: 'a' | 'b' | true | null | undefined;
+
+  /**
+   * Describes a method which returns a MappedType (e.g. `{ [K in keyof T]: string }`).
+   */
+  public getStrings<TResource extends ResourceDictionary>(
+    dictionary: TResource,
+  ): Observable<{ [K in keyof TResource]: string }> {
+    return of();
+  }
 }
 
 export class FooWithStaticPropertiesClass {

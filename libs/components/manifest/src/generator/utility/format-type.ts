@@ -1,185 +1,208 @@
 /* eslint-disable complexity */
-import {
-  ArrayType,
-  type DeclarationReflection,
-  IntrinsicType,
-  LiteralType,
-  MappedType,
-  PredicateType,
-  ReferenceType,
-  ReflectionType,
-  type SignatureReflection,
-  type SomeType,
-  TupleType,
-  TypeOperatorType,
-  UnionType,
-} from 'typedoc';
+// import {
+//   ArrayType,
+//   type DeclarationReflection,
+//   IntrinsicType,
+//   LiteralType,
+//   MappedType,
+//   PredicateType,
+//   ReferenceType,
+//   ReflectionType,
+//   type SignatureReflection,
+//   type SomeType,
+//   TupleType,
+//   TypeOperatorType,
+//   UnionType,
+// } from 'typedoc';
+import { SomeType } from 'typedoc';
 
-import { getIndexSignatures } from './get-index-signatures';
-import { getParameters } from './get-parameters';
+// import { getIndexSignatures } from './get-index-signatures';
+// import { getParameters } from './get-parameters';
 
-function formatInlineClosure(reflections: SignatureReflection[]): string {
-  const params = getParameters(reflections[0].parameters);
-  const returnType = formatType(reflections[0].type);
+// function formatInlineClosure(reflections: SignatureReflection[]): string {
+//   const params = getParameters(reflections[0].parameters);
+//   const returnType = formatType(reflections[0].type);
 
-  const paramsStr = params
-    .map(
-      (param) => `${param.name}${param.isOptional ? '?' : ''}: ${param.type}`,
-    )
-    .join(', ');
+//   const paramsStr = params
+//     .map(
+//       (param) => `${param.name}${param.isOptional ? '?' : ''}: ${param.type}`,
+//     )
+//     .join(', ');
 
-  return `(${paramsStr}) => ${returnType}`;
-}
+//   return `(${paramsStr}) => ${returnType}`;
+// }
 
-function formatInlineInterface(reflections: DeclarationReflection[]): string {
-  const props = ['{'];
+// function formatInlineInterface(reflections: DeclarationReflection[]): string {
+//   const props = ['{'];
 
-  for (const reflection of reflections) {
-    props.push(
-      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatType(reflection.type)};`,
-    );
-  }
+//   for (const reflection of reflections) {
+//     props.push(
+//       `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatType(reflection.type)};`,
+//     );
+//   }
 
-  props.push('}');
+//   props.push('}');
 
-  return props.join(' ');
-}
+//   return props.join(' ');
+// }
 
-function formatTypeParameters(params: SomeType[] | undefined): string {
-  if (!params || params.length === 0) {
-    return '';
-  }
+// function formatTypeParameters(params: SomeType[] | undefined): string {
+//   if (!params || params.length === 0) {
+//     return '';
+//   }
 
-  let name = `<`;
+//   let name = `<`;
 
-  const typeParams: string[] = [];
-  for (const param of params) {
-    typeParams.push(formatType(param));
-  }
+//   const typeParams: string[] = [];
 
-  if (typeParams.length === 0) {
-    return '';
-  }
+//   for (const param of params) {
+//     typeParams.push(formatType(param));
+//   }
 
-  name += typeParams.join(', ') + '>';
+//   if (typeParams.length === 0) {
+//     console.error(params);
+//     throw new Error('Type parameters were provided, but none were formatted.');
+//   }
 
-  return name;
-}
+//   name += typeParams.join(', ') + '>';
 
-function handleArrayType(type: ArrayType): string {
-  const elementType = formatType(type.elementType);
+//   return name;
+// }
 
-  if (
-    type.elementType instanceof ReflectionType &&
-    type.elementType.declaration.signatures
-  ) {
-    return `${wrapWithParentheses(elementType)}[]`;
-  }
+// function formatArrayType(type: ArrayType): string {
+//   const elementType = formatType(type.elementType);
 
-  return `${elementType}[]`;
-}
+//   if (
+//     type.elementType instanceof ReflectionType &&
+//     type.elementType.declaration.signatures
+//   ) {
+//     return `${wrapWithParentheses(elementType)}[]`;
+//   }
 
-function handleLiteralType(type: LiteralType): string {
-  return typeof type.value === 'string' ? `'${type.value}'` : `${type.value}`;
-}
+//   return `${elementType}[]`;
+// }
 
-function handleReferenceType(type: ReferenceType): string {
-  let name = type.name;
+// function formatLiteralType(type: LiteralType): string {
+//   return typeof type.value === 'string' ? `'${type.value}'` : `${type.value}`;
+// }
 
-  if (type.typeArguments) {
-    name += formatTypeParameters(type.typeArguments);
-  }
+// function formatReferenceType(type: ReferenceType): string {
+//   let name = type.name;
 
-  return name;
-}
+//   if (type.typeArguments) {
+//     name += formatTypeParameters(type.typeArguments);
+//   }
 
-function handleReflectionType(type: ReflectionType): string | undefined {
-  const typeDecl = type.declaration;
+//   return name;
+// }
 
-  if (typeDecl.signatures) {
-    return formatInlineClosure(typeDecl.signatures);
-  }
+// function formatReflectionType(type: ReflectionType): string | undefined {
+//   const typeDecl = type.declaration;
 
-  if (typeDecl.children) {
-    return formatInlineInterface(typeDecl.children);
-  }
+//   if (typeDecl.signatures) {
+//     return formatInlineClosure(typeDecl.signatures);
+//   }
 
-  if (typeDecl.indexSignatures) {
-    const sigs = getIndexSignatures(typeDecl);
+//   if (typeDecl.children) {
+//     return formatInlineInterface(typeDecl.children);
+//   }
 
-    return `{ ${sigs[0].name}: ${sigs[0].type}; }`;
-  }
+//   if (typeDecl.indexSignatures) {
+//     const defs = getIndexSignatures(typeDecl);
 
-  return;
-}
+//     return `{ ${defs[0].name}: ${defs[0].type}; }`;
+//   }
 
-function handleTypeOperatorType(type: TypeOperatorType): string | undefined {
-  if (type.target instanceof ReferenceType) {
-    return `${type.operator} ${type.target.name}`;
-  }
+//   return;
+// }
 
-  // Handle "as const" array types.
-  if (type.target instanceof TupleType && type.operator === 'readonly') {
-    return `[${type.target.elements.map((t) => formatType(t)).join(', ')}] as const`;
-  }
+// /**
+//  * Formats type operator types (e.g., `keyof Foo`).
+//  */
+// function formatTypeOperatorType(type: TypeOperatorType): string | undefined {
+//   if (type.target instanceof ReferenceType) {
+//     return `${type.operator} ${type.target.name}`;
+//   }
 
-  return;
-}
+//   // Handle "as const" array types.
+//   if (type.target instanceof TupleType && type.operator === 'readonly') {
+//     return `[${type.target.elements.map((t) => formatType(t)).join(', ')}] as const`;
+//   }
 
-function handleUnionType(type: UnionType): string {
-  return type.types
-    .map((t) => {
-      let formatted = formatType(t);
+//   return;
+// }
 
-      // Wrap inline closures with parentheses.
-      if (t instanceof ReflectionType && t.declaration.signatures) {
-        formatted = wrapWithParentheses(formatted);
-      }
+// function formatUnionType(type: UnionType): string {
+//   return type.types
+//     .map((t) => {
+//       let formatted = formatType(t);
 
-      return formatted;
-    })
-    .join(' | ');
-}
+//       // Wrap inline closures with parentheses.
+//       if (t instanceof ReflectionType && t.declaration.signatures) {
+//         formatted = wrapWithParentheses(formatted);
+//       }
 
-function wrapWithParentheses(type: string): string {
-  return `(${type})`;
-}
+//       return formatted;
+//     })
+//     .join(' | ');
+// }
+
+// function wrapWithParentheses(type: string): string {
+//   return `(${type})`;
+// }
+
+// /**
+//  * Formats predicate types (e.g., `type is string`).
+//  */
+// function formatPredicateType(type: PredicateType): string {
+//   return `${type.name} is ${formatType(type.targetType)}`;
+// }
+
+// /**
+//  * Formats a MappedType (e.g. `{ [K in keyof T]: string }`)
+//  */
+// function formatMappedType(type: MappedType): string {
+//   console.log('MAPPED TYPE:', type.toString());
+//   return `{ [${type.parameter} ${formatType(type.parameterType)}]: ${formatType(type.templateType)} }`;
+// }
 
 export function formatType(type: SomeType | undefined): string {
-  let formatted: string | undefined;
+  return type?.toString() ?? '';
+  // let formatted: string | undefined;
 
-  if (typeof type === 'undefined') {
-    return 'unknown';
-  } else if (type instanceof IntrinsicType) {
-    formatted = type.name;
-  } else if (type instanceof LiteralType) {
-    formatted = handleLiteralType(type);
-  } else if (type instanceof ReferenceType) {
-    formatted = handleReferenceType(type);
-  } else if (type instanceof ReflectionType) {
-    formatted = handleReflectionType(type);
-  } else if (type instanceof ArrayType) {
-    formatted = handleArrayType(type);
-  } else if (type instanceof UnionType) {
-    formatted = handleUnionType(type);
-  } else if (type instanceof TypeOperatorType) {
-    formatted = handleTypeOperatorType(type);
-  } else if (type instanceof MappedType) {
-    formatted = type.parameter;
-  } else if (type instanceof PredicateType) {
-    formatted = formatType(type.targetType);
-  }
+  // if (typeof type === 'undefined') {
+  //   return '__UNDEFINED__';
+  // } else if (type instanceof IntrinsicType) {
+  //   formatted = type.name;
+  // } else if (type instanceof LiteralType) {
+  //   formatted = formatLiteralType(type);
+  // } else if (type instanceof ReferenceType) {
+  //   formatted = formatReferenceType(type);
+  // } else if (type instanceof ReflectionType) {
+  //   formatted = formatReflectionType(type);
+  // } else if (type instanceof ArrayType) {
+  //   formatted = formatArrayType(type);
+  // } else if (type instanceof UnionType) {
+  //   formatted = formatUnionType(type);
+  // } else if (type instanceof TypeOperatorType) {
+  //   formatted = formatTypeOperatorType(type);
+  // } else if (type instanceof MappedType) {
+  //   console.log('mapped type:', type);
+  //   formatted = formatMappedType(type);
+  // } else if (type instanceof PredicateType) {
+  //   formatted = formatPredicateType(type);
+  // }
 
-  /* istanbul ignore if: safety check */
-  if (!formatted) {
-    console.error(type);
+  // /* istanbul ignore if: safety check */
+  // if (!formatted) {
+  //   console.error(type);
 
-    throw new Error(
-      'A type was encountered that is not handled by the ' +
-        'formatType() function. A handler must be added for this type to ' +
-        'accommodate all features of the public API.',
-    );
-  }
+  //   throw new Error(
+  //     'A type was encountered that is not handled by the ' +
+  //       'formatType() function. A formatter must be added for this type to ' +
+  //       'accommodate all features of the public API.',
+  //   );
+  // }
 
-  return formatted;
+  // return formatted;
 }
