@@ -12,8 +12,9 @@ function formatInlineClosure(reflections: SignatureReflection[]): string {
   const params = getParameters(reflections[0]);
   const returnType = _formatType(reflections[0].type);
 
+  /* istanbul ignore next: safety check */
   if (!params) {
-    return '___INVALID_CLOSURE___';
+    return '';
   }
 
   const paramsStr = params

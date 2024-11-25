@@ -3,17 +3,21 @@ import {
   IndexedAccessType,
   QueryType,
   ReferenceType,
+  Reflection,
   SomeType,
   TupleType,
   TypeOperatorType,
 } from 'typedoc';
 
 import { _formatType } from './format-type-custom';
+import { getNearestProjectReflection } from './reflections';
+import { remapLambdaNames } from './remap-lambda-name';
 
-export function formatType(reflection: {
-  name: string;
-  type?: SomeType;
-}): string {
+export function formatType(
+  reflection: Reflection & {
+    type?: SomeType;
+  },
+): string {
   let type = reflection.type;
 
   if (!type && reflection instanceof DeclarationReflection) {
@@ -36,7 +40,7 @@ export function formatType(reflection: {
     const customFormatted = _formatType(reflection.type);
 
     console.warn(
-      `  [!] TypeDoc produced \`${formatted}\` but we want a more complete type for \`${reflection.name}\`. ` +
+      `  [!] TypeDoc produced \`${formatted}\` but we want a more expressive type for \`${reflection.name}\`. ` +
         `Created:
       \`\`\`
       ${customFormatted}
@@ -47,12 +51,10 @@ export function formatType(reflection: {
     formatted = customFormatted;
   }
 
-  if (formatted.includes('λ')) {
-    // TODO: use reflection.parent to find the reference's name.
-    console.warn(
-      `  [!] A lambda name was encountered when formatting the type for \`${reflection.name}\`. Found: \`${formatted}\``,
-    );
-  }
+  formatted = remapLambdaNames(
+    formatted,
+    getNearestProjectReflection(reflection),
+  );
 
   return formatted;
 }
