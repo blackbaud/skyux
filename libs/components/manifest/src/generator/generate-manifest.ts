@@ -30,7 +30,10 @@ export async function generateManifest(
 
   const publicApiPath = path.join(outDir, 'public-api.json');
 
-  await fsPromises.writeFile(publicApiPath, JSON.stringify(publicApi));
+  await fsPromises.writeFile(
+    publicApiPath,
+    JSON.stringify(publicApi, undefined, 2),
+  );
 
   process.stderr.write(`\nCreated ${publicApiPath}.\n`);
 

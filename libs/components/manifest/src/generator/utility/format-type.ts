@@ -1,17 +1,33 @@
 import {
+  ArrayType,
   DeclarationReflection,
   IndexedAccessType,
   QueryType,
   ReferenceType,
   Reflection,
+  ReflectionType,
   SomeType,
   TupleType,
   TypeOperatorType,
+  UnionType,
 } from 'typedoc';
 
 import { _formatType } from './format-type-custom';
 import { getNearestProjectReflection } from './reflections';
 import { remapLambdaNames } from './remap-lambda-name';
+
+function needsCustomFormatting(type: SomeType): boolean {
+  return !!(
+    type instanceof ReflectionType ||
+    (type instanceof UnionType &&
+      type.types.find(
+        (t) =>
+          t instanceof ReflectionType ||
+          (t instanceof ArrayType && t.elementType instanceof ReflectionType),
+      )) ||
+    (type instanceof ArrayType && type.elementType instanceof ReflectionType)
+  );
+}
 
 export function formatType(
   reflection: Reflection & {
@@ -36,7 +52,7 @@ export function formatType(
 
   let formatted = type.toString();
 
-  if (formatted === 'Function' || formatted === 'Object') {
+  if (needsCustomFormatting(type)) {
     const customFormatted = _formatType(reflection.type);
 
     console.warn(

@@ -1,8 +1,10 @@
 import {
+  ArrayType,
   type DeclarationReflection,
   ReflectionType,
   type SignatureReflection,
   type SomeType,
+  UnionType,
 } from 'typedoc';
 
 import { getIndexSignatures } from './get-index-signatures';
@@ -63,18 +65,19 @@ function formatInlineInterface(reflections: DeclarationReflection[]): string {
 //   return name;
 // }
 
-// function formatArrayType(type: ArrayType): string {
-//   const elementType = _formatType(type.elementType);
+function formatArrayType(type: ArrayType): string {
+  let formatted = _formatType(type.elementType);
 
-//   if (
-//     type.elementType instanceof ReflectionType &&
-//     type.elementType.declaration.signatures
-//   ) {
-//     return `${wrapWithParentheses(elementType)}[]`;
-//   }
+  // Wrap inline closures with parentheses.
+  if (
+    type.elementType instanceof ReflectionType &&
+    type.elementType.declaration.signatures
+  ) {
+    formatted = wrapWithParentheses(formatted);
+  }
 
-//   return `${elementType}[]`;
-// }
+  return `${formatted}[]`;
+}
 
 // function formatLiteralType(type: LiteralType): string {
 //   return typeof type.value === 'string' ? `'${type.value}'` : `${type.value}`;
@@ -126,24 +129,24 @@ function formatReflectionType(type: ReflectionType): string | undefined {
 //   return;
 // }
 
-// function formatUnionType(type: UnionType): string {
-//   return type.types
-//     .map((t) => {
-//       let formatted = _formatType(t);
+function formatUnionType(type: UnionType): string {
+  return type.types
+    .map((t) => {
+      let formatted = _formatType(t);
 
-//       // Wrap inline closures with parentheses.
-//       if (t instanceof ReflectionType && t.declaration.signatures) {
-//         formatted = wrapWithParentheses(formatted);
-//       }
+      // Wrap inline closures with parentheses.
+      if (t instanceof ReflectionType && t.declaration.signatures) {
+        formatted = wrapWithParentheses(formatted);
+      }
 
-//       return formatted;
-//     })
-//     .join(' | ');
-// }
+      return formatted;
+    })
+    .join(' | ');
+}
 
-// function wrapWithParentheses(type: string): string {
-//   return `(${type})`;
-// }
+function wrapWithParentheses(value: string): string {
+  return `(${value})`;
+}
 
 /**
  * Formats predicate types (e.g., `type is string`).
@@ -165,6 +168,10 @@ export function _formatType(type: SomeType | undefined): string {
 
   if (type instanceof ReflectionType) {
     formatted = formatReflectionType(type);
+  } else if (type instanceof UnionType) {
+    formatted = formatUnionType(type);
+  } else if (type instanceof ArrayType) {
+    formatted = formatArrayType(type);
   } else {
     formatted = type?.toString();
   }

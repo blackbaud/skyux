@@ -98,8 +98,10 @@ export function getProperties(
 
   if (reflection.children) {
     for (const child of reflection.children) {
-      const property = getProperty(child);
-      properties.push(property);
+      if (child.name !== 'constructor') {
+        const property = getProperty(child);
+        properties.push(property);
+      }
     }
   }
 
