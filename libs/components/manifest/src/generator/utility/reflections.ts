@@ -7,24 +7,31 @@ export function getNearestProjectReflection(
     reflection = reflection.parent;
   }
 
-  if (!reflection) {
-    throw new Error('Could not find a ProjectReflection!');
+  if (reflection) {
+    return reflection;
   }
 
-  return reflection;
+  /* istanbul ignore next: safety check */
+  throw new Error('Could not find a ProjectReflection!');
 }
 
 export function findReflectionByName(
   name: string,
   projectReflection: ProjectReflection,
 ): Reflection | undefined {
-  for (const child of projectReflection?.children ?? []) {
-    const found = child.getChildByName(name);
+  const children = projectReflection.children;
 
-    if (found) {
-      return found;
+  if (children) {
+    for (const child of children) {
+      const found = child.getChildByName(name);
+
+      /* istanbul ignore else: safety check */
+      if (found) {
+        return found;
+      }
     }
   }
 
+  /* istanbul ignore next: safety check */
   return;
 }

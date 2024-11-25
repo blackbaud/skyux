@@ -18,6 +18,7 @@ export {
 export { FooComponent as λ1 } from './lib/foo.component';
 export { FOO_BREAKPOINTS, FooBreakpoint } from './lib/foo.const-assertion';
 export {
+  λ2,
   FooDirective,
   FooWithInputsOutputsDirective,
 } from './lib/foo.directive';

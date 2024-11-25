@@ -7,7 +7,7 @@ import type { DeclarationReflectionWithDecorators } from '../types/declaration-r
 
 import { getAnchorId } from './get-anchor-id';
 import { getClass } from './get-class';
-import { remapLambdaName } from './remap-lambda-name';
+import { remapLambdaName } from './remap-lambda-names';
 
 export function getPipe(
   decl: DeclarationReflectionWithDecorators,

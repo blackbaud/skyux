@@ -20,6 +20,7 @@ export function remapLambdaNames(
     for (const lambdaName of lambdaNames) {
       const actual = findReflectionByName(lambdaName, project);
 
+      /* istanbul ignore else: safety check */
       if (actual instanceof DeclarationReflection) {
         const actualName = remapLambdaName(actual);
 

@@ -3,7 +3,6 @@ import {
   DeclarationReflection,
   IndexedAccessType,
   QueryType,
-  ReferenceType,
   Reflection,
   ReflectionType,
   SomeType,
@@ -14,7 +13,7 @@ import {
 
 import { _formatType } from './format-type-custom';
 import { getNearestProjectReflection } from './reflections';
-import { remapLambdaNames } from './remap-lambda-name';
+import { remapLambdaNames } from './remap-lambda-names';
 
 function needsCustomFormatting(type: SomeType): boolean {
   return !!(
@@ -42,6 +41,7 @@ export function formatType(
       reflection.getAllSignatures().find((signature) => signature.type)?.type;
   }
 
+  /* istanbul ignore next: safety check */
   if (!type) {
     console.warn(
       `  [!] The type for the reflection \`${reflection.name}\` is not defined. Defaulting to \`unknown\`.`,
@@ -129,10 +129,10 @@ export function formatTypeParameters(
   for (const typeParam of typeParameters) {
     let formatted = typeParam.name;
 
-    if (typeParam instanceof ReferenceType) {
-      formatted += ` extends ${formatType(typeParam)}`;
-    } else if (typeParam.default) {
+    if (typeParam.default) {
       formatted += ` = ${typeParam.default.toString()}`;
+    } else {
+      formatted += ` extends ${formatType(typeParam)}`;
     }
 
     params.push(formatted);

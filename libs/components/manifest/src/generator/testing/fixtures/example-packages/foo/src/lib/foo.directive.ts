@@ -8,6 +8,15 @@ import {
 } from '@angular/core';
 
 /**
+ * This is a directive with a lambda name.
+ */
+@Directive({
+  selector: '[fooLambda]',
+  standalone: true,
+})
+export class λ2 {}
+
+/**
  * This is a directive without any inputs/outputs.
  */
 @Directive({

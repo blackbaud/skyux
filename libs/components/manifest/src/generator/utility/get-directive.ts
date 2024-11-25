@@ -11,7 +11,7 @@ import { getAnchorId } from './get-anchor-id';
 import { getProperty } from './get-class';
 import { getComment } from './get-comment';
 import { getDecorator } from './get-decorator';
-import { remapLambdaName } from './remap-lambda-name';
+import { remapLambdaName } from './remap-lambda-names';
 
 export function isInput(
   reflection: DeclarationReflectionWithDecorators,

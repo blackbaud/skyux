@@ -21,6 +21,7 @@ export function getParameters(
     params = reflection.signatures?.[0]?.parameters;
   }
 
+  /* istanbul ignore next: safety check */
   if (!params) {
     return;
   }

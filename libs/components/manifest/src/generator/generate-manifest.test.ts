@@ -5,7 +5,8 @@ function setup(options: { outDirExists: boolean }): {
   mkdirMock: jest.Mock;
   writeFileMock: jest.Mock;
 } {
-  jest.spyOn(process.stderr, 'write').mockReturnValue(true);
+  jest.spyOn(console, 'log').mockReturnValue(undefined);
+  jest.spyOn(console, 'warn').mockReturnValue(undefined);
 
   const mkdirMock = jest.fn();
   const writeFileMock = jest.fn();

@@ -35,7 +35,7 @@ export async function generateManifest(
     JSON.stringify(publicApi, undefined, 2),
   );
 
-  process.stderr.write(`\nCreated ${publicApiPath}.\n`);
+  console.log(`\nCreated ${publicApiPath}.\n`);
 
   return { publicApi };
 }

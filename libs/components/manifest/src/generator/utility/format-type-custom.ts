@@ -110,7 +110,10 @@ function formatReflectionType(type: ReflectionType): string | undefined {
     return `{ ${defs[0].name}: ${defs[0].type}; }`;
   }
 
-  return;
+  /* istanbul ignore next: safety check */
+  throw new Error(
+    `Unhandled reflection type: ${typeDecl.name} ${typeDecl.toString()}`,
+  );
 }
 
 /**
