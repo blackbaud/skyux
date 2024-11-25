@@ -35,9 +35,9 @@ function customValidator(
   imports: [FormsModule, ReactiveFormsModule, SkyFileAttachmentModule],
 })
 export class DemoComponent {
-  protected attachment: FormControl<SkyFileItem | null | undefined>;
+  public attachment: FormControl<SkyFileItem | null | undefined>;
 
-  protected formGroup: FormGroup<{
+  public formGroup: FormGroup<{
     attachment: FormControl<SkyFileItem | null | undefined>;
   }>;
 

@@ -26,9 +26,15 @@
     hintText="Sample hint text"
     labelText="Single file attachment"
     required="true"
+    formControlName="attachment"
     [acceptedTypes]="acceptedTypes"
     [maxFileSize]="maxFileSize"
     [validateFn]="validateFile"
     (fileChange)="onFileChange($event)"
   />
 </form>
+
+<button class="sky-btn sky-btn-primary" type="button" (click)="something()">
+  something
+</button>
+{{ attachment.value }}

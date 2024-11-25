@@ -170,9 +170,11 @@
   [touched]="ngControl?.touched"
   [dirty]="ngControl?.dirty"
 >
+  {{ ngControl?.errors | json }}
+  {{ ngControl?.touched }}
   <ng-content select="sky-form-error" />
   @if (ngControl?.touched) {
-    @if (fileErrorName === 'fileType') {
+    @if (fileErrorName === 'fileType' || ngControl?.errors?.['fileType']) {
       <sky-form-error
         errorName="fileType"
         [errorText]="
@@ -181,7 +183,9 @@
             | skyLibResources: fileErrorParam
         "
       />
-    } @else if (fileErrorName === 'maxFileSize') {
+    } @else if (
+      fileErrorName === 'maxFileSize' || ngControl?.errors?.['maxFileSize']
+    ) {
       <sky-form-error
         errorName="maxFileSize"
         [errorText]="
@@ -189,7 +193,9 @@
             | skyLibResources: (fileErrorParam | skyFileSize)
         "
       />
-    } @else if (fileErrorName === 'minFileSize') {
+    } @else if (
+      fileErrorName === 'minFileSize' || ngControl?.errors?.['minFileSize']
+    ) {
       <sky-form-error
         errorName="minFileSize"
         [errorText]="

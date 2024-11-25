@@ -1,6 +1,9 @@
-import { HarnessPredicate } from '@angular/cdk/testing';
+import { EventData, HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyFileItem } from '@skyux/forms';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+
+import { SkyFormErrorsHarness } from '../../form-error/form-errors-harness';
 
 import { SkyFileAttachmentHarnessFilters } from './file-attachment-harness-filters';
 
@@ -16,6 +19,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
 
   #getButton = this.locatorFor('button.sky-file-attachment-btn');
   #getLabel = this.locatorFor('.sky-control-label');
+  #input = this.locatorFor('input[type="file"]');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -98,9 +102,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
    * Gets the accepted file types.
    */
   public async getAcceptedTypes(): Promise<string | null> {
-    return await (
-      await this.locatorFor('input[type="file"]')()
-    ).getAttribute('accept');
+    return await (await this.#input()).getAttribute('accept');
   }
 
   /**
@@ -136,6 +138,41 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
+   * Whether a custom error has fired.
+   */
+  public async hasCustomError(errorName: string): Promise<boolean> {
+    return await (await this.#getFormErrors())?.hasError(errorName);
+  }
+
+  /**
+   * Whether the wrong file type error has fired.
+   */
+  public async hasFileTypeError(): Promise<boolean> {
+    return await (await this.#getFormErrors())?.hasError('fileType');
+  }
+
+  /**
+   * Whether the max file size error has fired.
+   */
+  public async hasMaxFileSizeError(): Promise<boolean> {
+    return await (await this.#getFormErrors())?.hasError('maxFileSize');
+  }
+
+  /**
+   * Whether the min file size error has fired.
+   */
+  public async hasMinFileSizeError(): Promise<boolean> {
+    return await (await this.#getFormErrors())?.hasError('minFileSize');
+  }
+
+  /**
+   * Whether the required error has fired.
+   */
+  public async hasRequiredError(): Promise<boolean> {
+    return await (await this.#getFormErrors())?.hasError('required');
+  }
+
+  /**
    * Whether file attachment is disabled
    */
   public async isDisabled(): Promise<boolean> {
@@ -151,11 +188,45 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
     ).hasClass('sky-control-label-required');
   }
 
+  public async setValue(file: SkyFileItem | null | undefined): Promise<void> {
+    /**
+     * NOTES TO JW
+     * This attempt below is failing and this thread gave me the best insight into why
+     * https://github.com/preactjs/enzyme-adapter-preact-pure/issues/123
+     *
+     * It's frustrating bc for `drop` events the `dataTransfer` object can be set. but
+     * everyone on angular's code where im seeing them call `.dispatchEvent('change`)
+     * it looks like this:
+     *
+     * this.someInput.setInputValue('some string);
+     * this.someInput.dispatchEvent('change');
+     *
+     * Even we do that with datepicker and colorpicker. HOWEEEVVERRR that cannot work
+     * here because file attachment only works with an input of type SkyFileItem ugh.
+     */
+    return await (
+      await this.#input()
+    ).dispatchEvent('change', {
+      target: {
+        files: {
+          length: 1,
+          item: () => {
+            return file;
+          },
+        } as unknown as EventData,
+      },
+    });
+  }
+
   /**
    * Whether file attachment is has stacked enabled.
    */
   public async isStacked(): Promise<boolean> {
     return await (await this.host()).hasClass('sky-margin-stacked-lg');
+  }
+
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    return await this.locatorFor(SkyFormErrorsHarness)();
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {

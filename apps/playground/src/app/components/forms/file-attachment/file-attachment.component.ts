@@ -4,6 +4,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   SkyFileAttachmentChange,
@@ -30,7 +31,7 @@ export class FileAttachmentComponent {
 
   public rejectedFiles: SkyFileItem[];
 
-  protected attachment: FormControl;
+  protected attachment: FormControl<SkyFileItem>;
   protected formGroup: FormGroup;
   protected required = true;
 
@@ -43,6 +44,7 @@ export class FileAttachmentComponent {
     this.rejectedFiles = [];
     this.allItems = [];
     this.linksToUpload = [];
+    this.attachment = new FormControl(undefined, Validators.required);
     this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
@@ -79,6 +81,14 @@ export class FileAttachmentComponent {
     } else {
       this.#reactiveFile?.setValue(file);
     }
+  }
+
+  protected something(): void {
+    const file = new File([], 'woo.jpeg', { type: 'image/jpeg ' });
+    this.attachment.setValue({
+      file,
+      url: 'foo.bar',
+    });
   }
 
   #removeFromArray(items: any[], obj: SkyFileItem | SkyFileLink): void {

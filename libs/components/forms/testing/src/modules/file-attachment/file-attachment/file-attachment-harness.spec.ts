@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SkyFileAttachmentModule } from '@skyux/forms';
+import { SkyFileAttachmentModule, SkyFileItem } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -37,38 +37,43 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
       [labelText]="labelText"
       [required]="required"
       [stacked]="stacked"
-    >
-      @if (showCustomError) {
-        <sky-form-error
-          errorName="customError"
-          errorText="This is a custom error"
-        />
-      }
-    </sky-file-attachment>
+    />
     <form [formGroup]="formGroup">
       <sky-file-attachment
+        acceptedTypes="text/plain"
         data-sky-id="reactive-file-attachment"
         formControlName="attachment"
         labelText="other file attachment"
         (fileClick)="onFileClick()"
-      />
+      >
+        @if (showCustomError) {
+          <sky-form-error
+            errorName="customError"
+            errorText="This is a custom error"
+          />
+        }
+      </sky-file-attachment>
     </form>
   `,
 })
 class TestComponent {
   public acceptedTypes: string | undefined;
-  public attachment: FormControl;
+  public attachment: FormControl<SkyFileItem | null | undefined>;
   public disabled = false;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public hintText: string | undefined;
-  public formGroup: FormGroup;
+  public formGroup: FormGroup<{
+    attachment: FormControl<SkyFileItem | null | undefined>;
+  }>;
   public labelText: string | undefined;
   public required = false;
+  public showCustomError = false;
   public stacked = false;
 
   constructor(formBuilder: FormBuilder) {
-    this.attachment = new FormControl('');
+    this.attachment = new FormControl(undefined);
+
     this.formGroup = formBuilder.group({
       attachment: this.attachment,
     });
@@ -275,7 +280,10 @@ fdescribe('File attachment harness', () => {
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+      file,
+      url: 'foo.bar',
+    });
     fixture.detectChanges();
 
     await expectAsync(
@@ -292,7 +300,10 @@ fdescribe('File attachment harness', () => {
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+      file,
+      url: 'foo.bar',
+    });
     fixture.detectChanges();
 
     await expectAsync(
@@ -311,7 +322,10 @@ fdescribe('File attachment harness', () => {
     spyOn(input, 'click');
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+      file,
+      url: 'foo.bar',
+    });
     fixture.detectChanges();
 
     await fileAttachmentHarness.clickReplaceFileButton();
@@ -325,7 +339,10 @@ fdescribe('File attachment harness', () => {
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+      file,
+      url: 'foo.bar',
+    });
     fixture.detectChanges();
 
     await expectAsync(
@@ -356,7 +373,10 @@ fdescribe('File attachment harness', () => {
     const spy = spyOn(fixture.componentInstance, 'onFileClick');
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+      file,
+      url: 'foo.bar',
+    });
     fixture.detectChanges();
 
     await fileAttachmentHarness.clickUploadedFile();
@@ -376,17 +396,24 @@ fdescribe('File attachment harness', () => {
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.attachment.setValue({ file, url: 'foo.bar' });
+    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+      file,
+      url: 'foo.bar',
+    });
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.attachment.value).toEqual({
+    expect(
+      fixture.componentInstance.formGroup.controls['attachment'].value,
+    ).toEqual({
       file,
       url: 'foo.bar',
     });
 
     await fileAttachmentHarness.clickUploadedFileDeleteButton();
 
-    expect(fixture.componentInstance.attachment.value).toEqual(undefined);
+    expect(
+      fixture.componentInstance.formGroup.controls['attachment'].value,
+    ).toEqual(undefined);
   });
 
   it('should throw an error when attempting to click the delete button when no file is uploaded', async () => {
@@ -398,6 +425,54 @@ fdescribe('File attachment harness', () => {
       fileAttachmentHarness.clickUploadedFileDeleteButton(),
     ).toBeRejectedWithError(
       "Unable to find uploaded file's delete button. Check if a file is uploaded.",
+    );
+  });
+
+  it('should get whether custom error has fired', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    fixture.componentInstance.attachment.markAsTouched();
+    fixture.componentInstance.showCustomError = true;
+    const file = new File([], 'file.txt', { type: 'text/plain ' });
+    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+      file,
+      url: 'foo.bar',
+    });
+    fixture.detectChanges();
+
+    await expectAsync(
+      fileAttachmentHarness.hasCustomError('customError'),
+    ).toBeResolvedTo(true);
+
+    /**
+     * NOTES TO JW
+     * Ran into issues with the above code where having just line 441 and 442 alone would fail because `.markAsTouched`
+     * was not setting the control to touched. My best guess from googling is that for controlValueAccessors
+     * mark as touched calls the blur function and we do not set that up for file attachment. im not sure if that
+     * was deliberate or not. its on my todo list of things to try.
+     *
+     * This test does pass when i call `.setValue`. im guessing bc there is a markForCheck call in the `set value` function
+     * in file attachment on line 626. This is when I thought of just adding a `setValue` function in our harness like
+     * file drop has the drop function.
+     */
+  });
+
+  fit('should get whether max file size error has fired', async () => {
+    const { fileAttachmentHarness } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    const file = new File([], 'file.txt', { type: 'text/plain ' });
+    const fileItem: SkyFileItem = {
+      file: file,
+      url: 'foo.bar',
+    };
+    await fileAttachmentHarness.setValue(fileItem);
+
+    await expectAsync(fileAttachmentHarness.hasFileTypeError()).toBeResolvedTo(
+      true,
     );
   });
 });

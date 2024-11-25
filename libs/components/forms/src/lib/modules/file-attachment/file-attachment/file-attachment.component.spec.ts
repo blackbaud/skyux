@@ -41,7 +41,7 @@ function getDeleteButtonEl(el: HTMLElement): HTMLButtonElement | null {
   return el.querySelector('.sky-file-attachment-delete');
 }
 
-describe('File attachment', () => {
+fdescribe('File attachment', () => {
   let fixture: ComponentFixture<FileAttachmentTestComponent>;
   let el: HTMLElement;
   let fileAttachmentInstance: SkyFileAttachmentComponent;

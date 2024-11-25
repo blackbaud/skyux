@@ -51,5 +51,34 @@ fdescribe('Basic date range picker demo', () => {
     );
   });
 
-  // it('should throw')
+  it('should throw throw an error if file begins with the letter a', async () => {
+    const { harness, fixture } = await setupTest({
+      dataSkyId: 'birth-certificate',
+    });
+
+    const file = new File([], 'afile.txt', { type: 'text/plain ' });
+    fixture.componentInstance.attachment.setValue({
+      file,
+      url: 'foo.bar',
+    });
+    fixture.componentInstance.attachment.markAsTouched();
+
+    await expectAsync(
+      harness.hasCustomError('invalidStartingLetter'),
+    ).toBeResolvedTo(true);
+  });
+
+  it('should set file attachment to required', async () => {
+    const { harness, fixture } = await setupTest({
+      dataSkyId: 'birth-certificate',
+    });
+
+    await expectAsync(harness.isRequired()).toBeResolvedTo(true);
+
+    // NOTES TO JW: this does not work bc something is either busted with file attachment CVA
+    // or it's deliberate and we gotta give consumers another way to set file attachment values.
+    fixture.componentInstance.formGroup.markAllAsTouched();
+
+    await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
+  });
 });
