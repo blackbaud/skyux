@@ -26,35 +26,48 @@ export class FooClass<TClass extends FooBaseClass> {
    * @param b This describes the param 'b'.
    */
   public arrayOfFunctionTypes!: ((a: boolean, b?: string) => void)[];
+
   public arrayOfFunctionTypesOrUndefined:
     | ((a: boolean, b?: string) => void)[]
     | undefined;
+
   public arrayOfIntrinsicTypes: string[] | undefined;
+
   public arrayOfReflectionTypes: { a: boolean; b: string }[] | undefined;
-  public literalType: 1 | 0 | undefined;
+
+  public closureType!: () => void;
+
+  public closureTypeOrUndefined: (() => void) | undefined;
+
   public intrinsicType: string | undefined;
+
+  public lambdaRef!: λ2;
+
+  public literalType: 1 | 0 | undefined;
+
   public mapType: Map<string, number> | undefined;
+
   public referenceType: TClass | undefined;
+
   public reflectionType!: {
     a: boolean;
     b?: string;
   };
+
   public reflectionTypeOrUndefined:
     | {
         a: boolean;
         b?: string;
       }
     | undefined;
+
   public reflectionIndexSignatureType:
     | {
         [key: string]: boolean;
       }
     | undefined;
 
-  public closureType!: () => void;
-  public closureTypeOrUndefined: (() => void) | undefined;
   public unionType: 'a' | 'b' | true | null | undefined;
-  public lambdaRef!: λ2;
 
   /**
    * Describes a method which returns a MappedType (e.g. `{ [K in keyof T]: string }`).
@@ -68,12 +81,15 @@ export class FooClass<TClass extends FooBaseClass> {
   /**
    * Describes a method without any parameters.
    */
-  public sayHello(): void {
+  public methodWithoutParameters(): void {
     return;
   }
 }
 
-export class FooWithStaticPropertiesClass {
+/**
+ * This describes the foo abstract class.
+ */
+export abstract class FooWithStaticPropertiesClass {
   /**
    * This describes the static property.
    */
@@ -85,4 +101,9 @@ export class FooWithStaticPropertiesClass {
   public static someStaticMethod(): boolean {
     return true;
   }
+
+  /**
+   * This describes the abstract method.
+   */
+  public abstract someAbstractMethod(): void;
 }

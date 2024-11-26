@@ -10,25 +10,32 @@ import {
 import { getIndexSignatures } from './get-index-signatures';
 import { getParameters } from './get-parameters';
 
-function formatInlineClosure(reflections: SignatureReflection[]): string {
+/**
+ * Formats an "inline" closure type (e.g., `(foo: string) => boolean`).
+ */
+function formatInlineClosureType(reflections: SignatureReflection[]): string {
   const params = getParameters(reflections[0]);
   const returnType = _formatType(reflections[0].type);
 
-  /* istanbul ignore next: safety check */
-  if (!params) {
-    return '';
+  let paramsString = '';
+
+  if (params) {
+    paramsString = params
+      .map(
+        (param) => `${param.name}${param.isOptional ? '?' : ''}: ${param.type}`,
+      )
+      .join(', ');
   }
 
-  const paramsStr = params
-    .map(
-      (param) => `${param.name}${param.isOptional ? '?' : ''}: ${param.type}`,
-    )
-    .join(', ');
-
-  return `(${paramsStr}) => ${returnType}`;
+  return `(${paramsString}) => ${returnType}`;
 }
 
-function formatInlineInterface(reflections: DeclarationReflection[]): string {
+/**
+ * Formats an "inline" interface type (e.g., `{ foo: string; bar: number }`).
+ */
+function formatInlineInterfaceType(
+  reflections: DeclarationReflection[],
+): string {
   const props = ['{'];
 
   for (const reflection of reflections) {
@@ -41,29 +48,6 @@ function formatInlineInterface(reflections: DeclarationReflection[]): string {
 
   return props.join(' ');
 }
-
-// function formatTypeParameters(params: SomeType[] | undefined): string {
-//   if (!params || params.length === 0) {
-//     return '';
-//   }
-
-//   let name = `<`;
-
-//   const typeParams: string[] = [];
-
-//   for (const param of params) {
-//     typeParams.push(_formatType(param));
-//   }
-
-//   if (typeParams.length === 0) {
-//     console.error(params);
-//     throw new Error('Type parameters were provided, but none were formatted.');
-//   }
-
-//   name += typeParams.join(', ') + '>';
-
-//   return name;
-// }
 
 function formatArrayType(type: ArrayType): string {
   let formatted = _formatType(type.elementType);
@@ -79,29 +63,15 @@ function formatArrayType(type: ArrayType): string {
   return `${formatted}[]`;
 }
 
-// function formatLiteralType(type: LiteralType): string {
-//   return typeof type.value === 'string' ? `'${type.value}'` : `${type.value}`;
-// }
-
-// function formatReferenceType(type: ReferenceType): string {
-//   let name = type.name;
-
-//   if (type.typeArguments) {
-//     name += formatTypeParameters(type.typeArguments);
-//   }
-
-//   return name;
-// }
-
 function formatReflectionType(type: ReflectionType): string | undefined {
   const typeDecl = type.declaration;
 
   if (typeDecl.signatures) {
-    return formatInlineClosure(typeDecl.signatures);
+    return formatInlineClosureType(typeDecl.signatures);
   }
 
   if (typeDecl.children) {
-    return formatInlineInterface(typeDecl.children);
+    return formatInlineInterfaceType(typeDecl.children);
   }
 
   if (typeDecl.indexSignatures) {
@@ -115,22 +85,6 @@ function formatReflectionType(type: ReflectionType): string | undefined {
     `Unhandled reflection type: ${typeDecl.name} ${typeDecl.toString()}`,
   );
 }
-
-/**
- * Formats type operator types (e.g., `keyof Foo`).
- */
-// function formatTypeOperatorType(type: TypeOperatorType): string | undefined {
-//   if (type.target instanceof ReferenceType) {
-//     return `${type.operator} ${type.target.name}`;
-//   }
-
-//   // Handle "as const" array types.
-//   if (type.target instanceof TupleType && type.operator === 'readonly') {
-//     return `[${type.target.elements.map((t) => _formatType(t)).join(', ')}] as const`;
-//   }
-
-//   return;
-// }
 
 function formatUnionType(type: UnionType): string {
   return type.types
@@ -152,20 +106,11 @@ function wrapWithParentheses(value: string): string {
 }
 
 /**
- * Formats predicate types (e.g., `type is string`).
+ * TypeDoc has a built-in `toString()` method for types, but it doesn't handle
+ * function or object types very well. This function serves as a placeholder
+ * for those types until TypeDoc gives us the ability to format them in the ways
+ * we need.
  */
-// function formatPredicateType(type: PredicateType): string {
-//   return `${type.name} is ${_formatType(type.targetType)}`;
-// }
-
-/**
- * Formats a MappedType (e.g. `{ [K in keyof T]: string }`)
- */
-// function formatMappedType(type: MappedType): string {
-//   console.log('MAPPED TYPE:', type.toString());
-//   return `{ [${type.parameter} ${_formatType(type.parameterType)}]: ${_formatType(type.templateType)} }`;
-// }
-
 export function _formatType(type: SomeType | undefined): string {
   let formatted: string | undefined;
 
@@ -178,29 +123,6 @@ export function _formatType(type: SomeType | undefined): string {
   } else {
     formatted = type?.toString();
   }
-
-  // if (typeof type === 'undefined') {
-  //   return '__UNDEFINED__';
-  // } else if (type instanceof IntrinsicType) {
-  //   formatted = type.name;
-  // } else if (type instanceof LiteralType) {
-  //   formatted = formatLiteralType(type);
-  // } else if (type instanceof ReferenceType) {
-  //   formatted = formatReferenceType(type);
-  // } else if (type instanceof ReflectionType) {
-  //   formatted = formatReflectionType(type);
-  // } else if (type instanceof ArrayType) {
-  //   formatted = formatArrayType(type);
-  // } else if (type instanceof UnionType) {
-  //   formatted = formatUnionType(type);
-  // } else if (type instanceof TypeOperatorType) {
-  //   formatted = formatTypeOperatorType(type);
-  // } else if (type instanceof MappedType) {
-  //   console.log('mapped type:', type);
-  //   formatted = formatMappedType(type);
-  // } else if (type instanceof PredicateType) {
-  //   formatted = formatPredicateType(type);
-  // }
 
   /* istanbul ignore if: safety check */
   if (!formatted) {

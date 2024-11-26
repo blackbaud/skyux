@@ -142,8 +142,7 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"description\\": \\"Describes a method without any parameters.\\",
             \\"kind\\": \\"class-method\\",
-            \\"name\\": \\"sayHello\\",
-            \\"parameters\\": [],
+            \\"name\\": \\"methodWithoutParameters\\",
             \\"type\\": \\"void\\"
           },
           {
@@ -230,7 +229,7 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"description\\": \\"Describes a method without any parameters.\\",
             \\"kind\\": \\"class-property\\",
-            \\"name\\": \\"sayHello\\",
+            \\"name\\": \\"methodWithoutParameters\\",
             \\"type\\": \\"void\\"
           }
         ],
@@ -244,11 +243,16 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"anchorId\\": \\"class_foo-with-static-properties-class\\",
         \\"children\\": [
           {
+            \\"description\\": \\"This describes the abstract method.\\",
+            \\"kind\\": \\"class-method\\",
+            \\"name\\": \\"someAbstractMethod\\",
+            \\"type\\": \\"void\\"
+          },
+          {
             \\"description\\": \\"This describes the static method.\\",
             \\"isStatic\\": true,
             \\"kind\\": \\"class-method\\",
             \\"name\\": \\"someStaticMethod\\",
-            \\"parameters\\": [],
             \\"type\\": \\"boolean\\"
           },
           {
@@ -260,6 +264,12 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"boolean\\"
           },
           {
+            \\"description\\": \\"This describes the abstract method.\\",
+            \\"kind\\": \\"class-property\\",
+            \\"name\\": \\"someAbstractMethod\\",
+            \\"type\\": \\"void\\"
+          },
+          {
             \\"description\\": \\"This describes the static method.\\",
             \\"isStatic\\": true,
             \\"kind\\": \\"class-property\\",
@@ -267,6 +277,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"boolean\\"
           }
         ],
+        \\"description\\": \\"This describes the foo abstract class.\\",
         \\"filePath\\": \\"src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithStaticPropertiesClass\\"
@@ -493,7 +504,6 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-method\\",
             \\"name\\": \\"forRoot\\",
-            \\"parameters\\": [],
             \\"type\\": \\"ModuleWithProviders<FooModule>\\"
           },
           {
