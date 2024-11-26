@@ -1,13 +1,9 @@
 import {
   ArrayType,
   DeclarationReflection,
-  IndexedAccessType,
-  QueryType,
   Reflection,
   ReflectionType,
   SomeType,
-  TupleType,
-  TypeOperatorType,
   UnionType,
 } from 'typedoc';
 
@@ -15,6 +11,13 @@ import { _formatType } from './format-type-custom';
 import { getNearestProjectReflection } from './reflections';
 import { remapLambdaNames } from './remap-lambda-names';
 
+/**
+ * Whether a type needs custom formatting. TypeDoc returns an expressive string
+ * representation of all types except for its ReflectionType, which will output
+ * either "Function" or "Object". This function checks if a type is a
+ * ReflectionType or if its a type that might have a ReflectionType nested
+ * within it.
+ */
 function needsCustomFormatting(type: SomeType): boolean {
   return !!(
     type instanceof ReflectionType ||
@@ -28,6 +31,9 @@ function needsCustomFormatting(type: SomeType): boolean {
   );
 }
 
+/**
+ * Returns a string representation of a reflection's type.
+ */
 export function formatType(
   reflection: Reflection & {
     type?: SomeType;
@@ -35,26 +41,27 @@ export function formatType(
 ): string {
   let type = reflection.type;
 
+  // If the type has signatures, it's type information is stored there.
   if (!type && reflection instanceof DeclarationReflection) {
     type =
       reflection.type ??
       reflection.getAllSignatures().find((signature) => signature.type)?.type;
   }
 
-  /* istanbul ignore next: safety check */
   if (!type) {
     console.warn(
-      `  [!] The type for the reflection \`${reflection.name}\` is not defined. Defaulting to \`unknown\`.`,
+      `  [!] The type for the reflection \`${reflection.name}\` is not ` +
+        'defined. Defaulting to `unknown`.',
     );
 
     return 'unknown';
   }
 
+  // First, format the type using TypeDoc's default formatter.
   let formatted = type.toString();
 
   if (needsCustomFormatting(type)) {
     const customFormatted = _formatType(reflection.type);
-
     console.warn(
       `  [!] TypeDoc produced \`${formatted}\` but we want a more expressive type for \`${reflection.name}\`. ` +
         `Created:
@@ -67,76 +74,11 @@ export function formatType(
     formatted = customFormatted;
   }
 
+  // Remap lambda names to their original names.
   formatted = remapLambdaNames(
     formatted,
     getNearestProjectReflection(reflection),
   );
 
   return formatted;
-}
-
-/**
- * Gets the formatted type for a const assertion union.
- * @example
- * ```
- * const FOO = ['a', 'b', 'c'] as const;
- * type Foo = (typeof FOO)[number];
- *
- * // Returns: "'a' | 'b' | 'c'"
- * ```
- */
-export function formatConstAssertionUnionType(
-  reflection: DeclarationReflection,
-): string | undefined {
-  if (
-    reflection.type instanceof IndexedAccessType &&
-    reflection.type.objectType instanceof QueryType
-  ) {
-    const reference = reflection.parent?.getChildByName(
-      reflection.type.objectType.queryType.name,
-    );
-
-    if (
-      reference &&
-      reference.isDeclaration() &&
-      reference.type instanceof TypeOperatorType &&
-      reference.type.target instanceof TupleType
-    ) {
-      return formatType(reference);
-    }
-  }
-
-  return;
-}
-
-/**
- * Formats type parameters for a reflection (e.g., `<T, U>`).
- */
-export function formatTypeParameters(
-  reflection: DeclarationReflection,
-): string | undefined {
-  const typeParameters =
-    reflection.typeParameters ??
-    reflection.getAllSignatures().find((signature) => signature.typeParameters)
-      ?.typeParameters;
-
-  if (!typeParameters) {
-    return;
-  }
-
-  const params: string[] = [];
-
-  for (const typeParam of typeParameters) {
-    let formatted = typeParam.name;
-
-    if (typeParam.default) {
-      formatted += ` = ${typeParam.default.toString()}`;
-    } else {
-      formatted += ` extends ${formatType(typeParam)}`;
-    }
-
-    params.push(formatted);
-  }
-
-  return `<${params.join(', ')}>`;
 }

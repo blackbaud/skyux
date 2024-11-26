@@ -1,5 +1,8 @@
 import { ProjectReflection, Reflection } from 'typedoc';
 
+/**
+ * Gets the nearest project reflection ancestor of the given reflection.
+ */
 export function getNearestProjectReflection(
   reflection: Reflection | undefined,
 ): ProjectReflection {
@@ -15,6 +18,11 @@ export function getNearestProjectReflection(
   throw new Error('Could not find a ProjectReflection!');
 }
 
+/**
+ * Gets a reflection by name from a project reflection.
+ * (This function assumes the TypeDoc setting `alwaysCreateEntryPointModule` is
+ * set to `true`.)
+ */
 export function findReflectionByName(
   name: string,
   projectReflection: ProjectReflection,

@@ -7,6 +7,7 @@ import {
   UnionType,
 } from 'typedoc';
 
+import { formatType } from './format-type';
 import { getIndexSignatures } from './get-index-signatures';
 import { getParameters } from './get-parameters';
 
@@ -77,7 +78,7 @@ function formatReflectionType(type: ReflectionType): string | undefined {
   if (typeDecl.indexSignatures) {
     const defs = getIndexSignatures(typeDecl);
 
-    return `{ ${defs[0].name}: ${defs[0].type}; }`;
+    return `{ ${defs?.[0].name}: ${defs?.[0].type}; }`;
   }
 
   /* istanbul ignore next: safety check */
@@ -109,7 +110,8 @@ function wrapWithParentheses(value: string): string {
  * TypeDoc has a built-in `toString()` method for types, but it doesn't handle
  * function or object types very well. This function serves as a placeholder
  * for those types until TypeDoc gives us the ability to format them in the ways
- * we need.
+ * we need. (The underscore is used to discourage direct use of this function,
+ * if possible.)
  */
 export function _formatType(type: SomeType | undefined): string {
   let formatted: string | undefined;
@@ -136,4 +138,37 @@ export function _formatType(type: SomeType | undefined): string {
   }
 
   return formatted;
+}
+
+/**
+ * Formats type parameters for a reflection (e.g., `<T, U>`). (The underscore is
+ * used to discourage direct use of this function, if possible.)
+ */
+export function _formatTypeParameters(
+  reflection: DeclarationReflection,
+): string | undefined {
+  const typeParameters =
+    reflection.typeParameters ??
+    reflection.getAllSignatures().find((signature) => signature.typeParameters)
+      ?.typeParameters;
+
+  if (!typeParameters) {
+    return;
+  }
+
+  const params: string[] = [];
+
+  for (const typeParam of typeParameters) {
+    let formatted = typeParam.name;
+
+    if (typeParam.default) {
+      formatted += ` = ${typeParam.default.toString()}`;
+    } else {
+      formatted += ` extends ${formatType(typeParam)}`;
+    }
+
+    params.push(formatted);
+  }
+
+  return `<${params.join(', ')}>`;
 }

@@ -9,7 +9,7 @@ function ensureTrailingSlash(path: string): string {
   return path.endsWith('/') ? path : `${path}/`;
 }
 
-export function getProjects(
+export function getProjectDefinitions(
   projectsRootDirectory: string,
   projectNames: string[],
 ): ProjectDefinition[] {

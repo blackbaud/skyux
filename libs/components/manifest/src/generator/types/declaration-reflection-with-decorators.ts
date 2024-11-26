@@ -1,7 +1,7 @@
 import { type DeclarationReflection } from 'typedoc';
 
 /**
- * The normal DeclarationReflection with the addition of decorators.
+ * TypeDoc's `DeclarationReflection` with the addition of decorators.
  * (See 'plugins/typedoc-plugin-decorators.mjs').
  */
 export interface DeclarationReflectionWithDecorators

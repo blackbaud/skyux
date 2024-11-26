@@ -122,7 +122,6 @@ export function getDirective(
   } = getComment(reflection);
 
   const directiveName = remapLambdaName(reflection);
-
   const inputs = getInputs(reflection) ?? [];
   const outputs = getOutputs(reflection) ?? [];
   const children = [...inputs, ...outputs];

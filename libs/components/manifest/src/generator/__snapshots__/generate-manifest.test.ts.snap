@@ -101,6 +101,11 @@ exports[`generate-manifest should generate manifest 1`] = `
           {
             \\"kind\\": \\"class-property\\",
             \\"name\\": \\"ref\\",
+            \\"type\\": \\"T\\"
+          },
+          {
+            \\"kind\\": \\"class-property\\",
+            \\"name\\": \\"refOrUndefined\\",
             \\"type\\": \\"undefined | T\\"
           }
         ],

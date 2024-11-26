@@ -4,7 +4,7 @@ import { SkyManifestParentDefinition } from '../types/base-def';
 import { type SkyManifestPublicApi } from '../types/manifest';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
-import { ProjectDefinition } from './get-projects';
+import { ProjectDefinition } from './get-project-definitions';
 import { getClass } from './utility/get-class';
 import { getDecorator } from './utility/get-decorator';
 import { getDirective } from './utility/get-directive';
@@ -120,13 +120,12 @@ export async function getPublicApi(
     });
 
     for (const { entryName, reflection } of entryPointReflections) {
-      const items: SkyManifestParentDefinition[] =
-        packages.get(entryName) ?? [];
+      const items = packages.get(entryName) ?? [];
 
       for (const child of reflection.children) {
         const filePath = child.sources?.[0].fileName;
 
-        /* istanbul ignore next: safety check */
+        /* istanbul ignore if: safety check */
         if (!filePath || filePath.endsWith('/index.ts')) {
           continue;
         }

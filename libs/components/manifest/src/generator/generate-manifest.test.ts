@@ -24,9 +24,9 @@ function setup(options: { outDirExists: boolean }): {
     };
   });
 
-  jest.mock('./get-projects', () => {
+  jest.mock('./get-project-definitions', () => {
     return {
-      getProjects: jest.fn().mockImplementation(() => {
+      getProjectDefinitions: jest.fn().mockImplementation(() => {
         const projectRoot = `${projectsRootDirectory}/foo`;
 
         return [

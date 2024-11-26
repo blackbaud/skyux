@@ -10,6 +10,9 @@ export function remapLambdaName(reflection: DeclarationReflection): string {
   return reflection.name;
 }
 
+/**
+ * Remaps lambda names (e.g. `λ1`, `λ2`, etc.) to their actual names.
+ */
 export function remapLambdaNames(
   value: string,
   project: ProjectReflection,

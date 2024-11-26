@@ -2,7 +2,8 @@ import { type DeclarationReflection } from 'typedoc';
 
 import type { SkyManifestFunctionDefinition } from '../../types/function-def';
 
-import { formatType, formatTypeParameters } from './format-type';
+import { formatType } from './format-type';
+import { _formatTypeParameters } from './format-type-custom';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getParameters } from './get-parameters';
@@ -37,7 +38,7 @@ export function getFunction(
     name: reflection.name,
     parameters: getParameters(reflection),
     type: formatType(reflection),
-    typeParameters: formatTypeParameters(reflection),
+    typeParameters: _formatTypeParameters(reflection),
   };
 
   return def;

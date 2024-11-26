@@ -6,7 +6,8 @@ import { λ2 } from './foo.directive';
 export class FooBaseClass {}
 
 export class FooBasicTypeParamClass<T> {
-  public ref: T | undefined;
+  public ref!: T;
+  public refOrUndefined: T | undefined;
 }
 
 export class FooBasicTypeParamDefaultValueClass<T = boolean> {

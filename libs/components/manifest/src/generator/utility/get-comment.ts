@@ -62,6 +62,9 @@ function getCodeExample(comment: CommentTag): {
   return { codeExample, codeExampleLanguage };
 }
 
+/**
+ * Gets information about the reflection's JSDoc comment block.
+ */
 export function getComment(reflection: {
   name: string;
   comment?: Comment;

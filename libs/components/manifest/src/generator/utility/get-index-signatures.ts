@@ -1,6 +1,5 @@
 import { type DeclarationReflection } from 'typedoc';
 
-import { SkyManifestParameterDefinition } from '../../types/function-def';
 import type { SkyManifestIndexSignatureDefinition } from '../../types/interface-def';
 
 import { formatType } from './format-type';
@@ -9,37 +8,46 @@ import { getParameters } from './get-parameters';
 
 export function getIndexSignatures(
   reflection: DeclarationReflection,
-): SkyManifestIndexSignatureDefinition[] {
+): SkyManifestIndexSignatureDefinition[] | undefined {
+  if (!reflection.indexSignatures) {
+    return;
+  }
+
   const definitions: SkyManifestIndexSignatureDefinition[] = [];
 
-  if (reflection.indexSignatures) {
-    for (const signature of reflection.indexSignatures) {
-      const param = signature.parameters?.[0];
+  for (const signature of reflection.indexSignatures) {
+    const param = signature.parameters?.[0];
 
-      if (param) {
-        const {
-          codeExample,
-          codeExampleLanguage,
-          deprecationReason,
-          description,
-          isDeprecated,
-          isPreview,
-        } = getComment(signature);
+    if (param) {
+      const {
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isPreview,
+      } = getComment(signature);
 
-        definitions.push({
-          codeExample,
-          codeExampleLanguage,
-          deprecationReason,
-          description,
-          isDeprecated,
-          isPreview,
-          name: `[${param.name}: ${formatType(param)}]`,
-          type: formatType(signature),
-          parameters: getParameters(
-            signature,
-          ) as SkyManifestParameterDefinition[],
-        });
+      const parameters = getParameters(signature);
+
+      /* istanbul ignore if: safety check */
+      if (!parameters) {
+        throw new Error(
+          `Index signature ${reflection.name} is missing parameters.`,
+        );
       }
+
+      definitions.push({
+        codeExample,
+        codeExampleLanguage,
+        deprecationReason,
+        description,
+        isDeprecated,
+        isPreview,
+        name: `[${param.name}: ${formatType(param)}]`,
+        type: formatType(signature),
+        parameters,
+      });
     }
   }
 

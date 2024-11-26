@@ -71,7 +71,7 @@ export function getInterface(
     deprecationReason,
     description,
     filePath,
-    indexSignatures: indexSignatures.length > 0 ? indexSignatures : undefined,
+    indexSignatures,
     isDeprecated,
     isInternal,
     isPreview,

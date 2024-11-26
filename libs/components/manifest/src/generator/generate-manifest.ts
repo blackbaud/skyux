@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import { SkyManifestPublicApi } from '../types/manifest';
 
-import { getProjects } from './get-projects';
+import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';
 
 interface SkyManifestOptions {
@@ -13,10 +13,35 @@ interface SkyManifestOptions {
   projectsRootDirectory: string;
 }
 
+async function ensureDirectory(directoryPath: string): Promise<void> {
+  if (!fs.existsSync(directoryPath)) {
+    await fsPromises.mkdir(directoryPath);
+  }
+}
+
+async function writeManifestFiles(
+  outDir: string,
+  publicApi: SkyManifestPublicApi,
+): Promise<void> {
+  const publicApiPath = path.join(outDir, 'public-api.json');
+
+  await ensureDirectory(outDir);
+  await fsPromises.writeFile(
+    publicApiPath,
+    JSON.stringify(publicApi, undefined, 2),
+  );
+
+  console.log(`\nCreated ${publicApiPath}.\n`);
+}
+
+/**
+ * Generates manifest files for the distribution build.
+ * (This function is executed by the postbuild script.)
+ */
 export async function generateManifest(
   options: SkyManifestOptions,
 ): Promise<{ publicApi: SkyManifestPublicApi }> {
-  const projects = getProjects(
+  const projects = getProjectDefinitions(
     options.projectsRootDirectory,
     options.projectNames,
   );
@@ -24,18 +49,7 @@ export async function generateManifest(
   const publicApi = await getPublicApi(projects);
   const outDir = path.normalize(options.outDir);
 
-  if (!fs.existsSync(outDir)) {
-    await fsPromises.mkdir(outDir);
-  }
-
-  const publicApiPath = path.join(outDir, 'public-api.json');
-
-  await fsPromises.writeFile(
-    publicApiPath,
-    JSON.stringify(publicApi, undefined, 2),
-  );
-
-  console.log(`\nCreated ${publicApiPath}.\n`);
+  await writeManifestFiles(outDir, publicApi);
 
   return { publicApi };
 }
