@@ -4,7 +4,7 @@ import {
   isDirectiveDefinition,
 } from '@skyux/manifest';
 
-import { DeprecatedProperty, TemplateFeatureDeprecations } from './types';
+import type { DeprecatedProperty, TemplateFeatureDeprecations } from './types';
 
 function getDeprecatedProperties(
   definition: SkyManifestParentDefinition,
@@ -40,6 +40,10 @@ export function getDeprecatedTemplateFeatures(
     for (const definition of definitions) {
       if (isDirectiveDefinition(definition)) {
         const { kind, deprecationReason, isDeprecated, selector } = definition;
+
+        if (!selector) {
+          continue;
+        }
 
         const category: keyof TemplateFeatureDeprecations =
           kind === 'component' ? 'components' : 'directives';

@@ -23,6 +23,12 @@ jest.mock('@skyux/manifest/public-api.json', () => {
           isDeprecated: true,
           deprecationReason: 'Do not use the card component.',
         },
+        // A component without a selector.
+        {
+          kind: 'component',
+          selector: undefined,
+          isDeprecated: true,
+        },
       ],
       '@skyux/forms': [
         {

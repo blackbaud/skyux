@@ -8,6 +8,9 @@ import { SkyManifestPublicApi } from '../libs/components/manifest/src/index';
 
 import { runCommand } from './utils/spawn';
 
+/**
+ * Writes the current snapshot of deprecated features to a file.
+ */
 async function writeSnapshot(
   snapshotPath: string,
   snapshot: string[],
@@ -15,6 +18,9 @@ async function writeSnapshot(
   await fsPromises.writeFile(snapshotPath, JSON.stringify(snapshot, null, 2));
 }
 
+/**
+ * Whether the current version is a prerelease.
+ */
 async function isPrerelease(): Promise<boolean> {
   const thisPackageJson = JSON.parse(
     await fsPromises.readFile(
@@ -26,7 +32,10 @@ async function isPrerelease(): Promise<boolean> {
   return thisPackageJson.version.includes('-');
 }
 
-function getDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
+/**
+ * Creates a snapshot of the currently deprecated features of the public API.
+ */
+function createDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
   const deprecations: string[] = [];
 
   for (const [packageName, definitions] of Object.entries(publicApi.packages)) {
@@ -54,13 +63,17 @@ function getDeprecationsSnapshot(publicApi: SkyManifestPublicApi): string[] {
  * Validates that the public API does not include newly deprecated features in
  * a minor version release.
  */
-async function checkManifest(publicApi: SkyManifestPublicApi): Promise<void> {
+async function checkManifest({
+  publicApi,
+}: {
+  publicApi: SkyManifestPublicApi;
+}): Promise<void> {
   const snapshotDirectory = path.join(__dirname, '__snapshots__');
   const snapshotPath = path.join(snapshotDirectory, 'deprecations.json');
 
   await fsExtra.ensureDir(snapshotDirectory);
 
-  const snapshot = getDeprecationsSnapshot(publicApi);
+  const snapshot = createDeprecationsSnapshot(publicApi);
 
   if (!fs.existsSync(snapshotPath) || (await isPrerelease())) {
     await writeSnapshot(snapshotPath, snapshot);
@@ -75,9 +88,9 @@ async function checkManifest(publicApi: SkyManifestPublicApi): Promise<void> {
 
     if (newDeprecations.length > 0) {
       throw new Error(
-        'Template features exported by the public API cannot be deprecated ' +
-          'during a minor version. Undo the following deprecations or wait ' +
-          `for a major version release: ${newDeprecations.join(', ')}.`,
+        'Features from the public API cannot be marked deprecated during a ' +
+          'minor version release. Undo the following deprecations or wait ' +
+          `for a major version pre-release:\n ${newDeprecations.join('\n ')}.`,
       );
     } else {
       const removedDeprecations = previousDeprecations.filter(
@@ -107,7 +120,7 @@ async function checkManifest(publicApi: SkyManifestPublicApi): Promise<void> {
       throw new Error('Project names could not be determined.');
     }
   } catch (err) {
-    console.error(err);
+    console.error((err as Error).message);
     process.exit(1);
   }
 
@@ -117,5 +130,5 @@ async function checkManifest(publicApi: SkyManifestPublicApi): Promise<void> {
     projectsRootDirectory: 'libs/components/',
   });
 
-  await checkManifest(manifest.publicApi);
+  await checkManifest(manifest);
 })();
