@@ -188,7 +188,9 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   public async uploadFile(file: File | null | undefined): Promise<void> {
-    return await this.#dropFile(file);
+    await this.#dropFile(file);
+    // should NOT have to do this
+    return await (await this.#input()).blur();
   }
 
   /**

@@ -88,7 +88,6 @@ class TestComponent {
     this.formGroup = formBuilder.group({
       attachment: this.attachment,
     });
-    this.formGroup.markAllAsTouched();
   }
 
   public onFileClick(): void {
@@ -523,5 +522,23 @@ fdescribe('File attachment harness', () => {
     await expectAsync(fileAttachmentHarness.hasRequiredError()).toBeResolvedTo(
       true,
     );
+  });
+
+  fit('should upload a file', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    const file = new File([], 'file.png', {
+      type: 'image/png',
+    });
+
+    // this does get to write value
+    await fileAttachmentHarness.uploadFile(file);
+
+    expect(fixture.componentInstance.attachment.value).toEqual({
+      file: file,
+      url: 'foo.bar',
+    });
   });
 });

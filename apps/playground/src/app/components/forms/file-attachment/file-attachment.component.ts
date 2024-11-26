@@ -84,11 +84,7 @@ export class FileAttachmentComponent {
   }
 
   protected something(): void {
-    const file = new File([], 'woo.jpeg', { type: 'image/jpeg ' });
-    this.attachment.setValue({
-      file,
-      url: 'foo.bar',
-    });
+    this.attachment.markAsTouched();
   }
 
   #removeFromArray(items: any[], obj: SkyFileItem | SkyFileLink): void {
