@@ -1,6 +1,5 @@
 import { EventData, HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyFileItem } from '@skyux/forms';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyFormErrorsHarness } from '../../form-error/form-errors-harness';
@@ -188,34 +187,8 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
     ).hasClass('sky-control-label-required');
   }
 
-  public async setValue(file: SkyFileItem | null | undefined): Promise<void> {
-    /**
-     * NOTES TO JW
-     * This attempt below is failing and this thread gave me the best insight into why
-     * https://github.com/preactjs/enzyme-adapter-preact-pure/issues/123
-     *
-     * It's frustrating bc for `drop` events the `dataTransfer` object can be set. but
-     * everyone on angular's code where im seeing them call `.dispatchEvent('change`)
-     * it looks like this:
-     *
-     * this.someInput.setInputValue('some string);
-     * this.someInput.dispatchEvent('change');
-     *
-     * Even we do that with datepicker and colorpicker. HOWEEEVVERRR that cannot work
-     * here because file attachment only works with an input of type SkyFileItem ugh.
-     */
-    return await (
-      await this.#input()
-    ).dispatchEvent('change', {
-      target: {
-        files: {
-          length: 1,
-          item: () => {
-            return file;
-          },
-        } as unknown as EventData,
-      },
-    });
+  public async uploadFile(file: File | null | undefined): Promise<void> {
+    return await this.#dropFile(file);
   }
 
   /**
@@ -237,5 +210,22 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
     }
 
     throw Error('No help inline found.');
+  }
+
+  async #dropFile(file: File | null | undefined): Promise<void> {
+    const uploadLocation = await this.locatorFor(
+      '.sky-file-attachment-upload',
+    )();
+    return await uploadLocation.dispatchEvent('drop', {
+      dataTransfer: {
+        files: {
+          length: 1,
+          item: function (): any {
+            return file;
+          },
+        } as unknown as EventData,
+      },
+      items: file as EventData,
+    });
   }
 }

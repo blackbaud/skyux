@@ -1,4 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -7,6 +8,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyFileAttachmentModule, SkyFileItem } from '@skyux/forms';
@@ -25,7 +27,12 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
 //#region Test component
 @Component({
   standalone: true,
-  imports: [SkyFileAttachmentModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    SkyFileAttachmentModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
   template: `
     <sky-file-attachment
       acceptedTypesErrorMessage="Upload a valid file."
@@ -40,10 +47,12 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
     />
     <form [formGroup]="formGroup">
       <sky-file-attachment
-        acceptedTypes="text/plain"
         data-sky-id="reactive-file-attachment"
         formControlName="attachment"
         labelText="other file attachment"
+        [acceptedTypes]="acceptedTypes"
+        [minFileSize]="minFileSize"
+        [maxFileSize]="maxFileSize"
         (fileClick)="onFileClick()"
       >
         @if (showCustomError) {
@@ -67,16 +76,19 @@ class TestComponent {
     attachment: FormControl<SkyFileItem | null | undefined>;
   }>;
   public labelText: string | undefined;
+  public maxFileSize: number | undefined;
+  public minFileSize: number | undefined;
   public required = false;
   public showCustomError = false;
   public stacked = false;
 
   constructor(formBuilder: FormBuilder) {
-    this.attachment = new FormControl(undefined);
+    this.attachment = new FormControl();
 
     this.formGroup = formBuilder.group({
       attachment: this.attachment,
     });
+    this.formGroup.markAllAsTouched();
   }
 
   public onFileClick(): void {
@@ -433,45 +445,82 @@ fdescribe('File attachment harness', () => {
       dataSkyId: 'reactive-file-attachment',
     });
 
-    fixture.componentInstance.attachment.markAsTouched();
+    fixture.detectChanges();
+
     fixture.componentInstance.showCustomError = true;
-    const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.formGroup.controls['attachment'].setValue({
-      file,
-      url: 'foo.bar',
-    });
+    fixture.componentInstance.attachment.setValue(null);
+    fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
 
     await expectAsync(
       fileAttachmentHarness.hasCustomError('customError'),
     ).toBeResolvedTo(true);
-
-    /**
-     * NOTES TO JW
-     * Ran into issues with the above code where having just line 441 and 442 alone would fail because `.markAsTouched`
-     * was not setting the control to touched. My best guess from googling is that for controlValueAccessors
-     * mark as touched calls the blur function and we do not set that up for file attachment. im not sure if that
-     * was deliberate or not. its on my todo list of things to try.
-     *
-     * This test does pass when i call `.setValue`. im guessing bc there is a markForCheck call in the `set value` function
-     * in file attachment on line 626. This is when I thought of just adding a `setValue` function in our harness like
-     * file drop has the drop function.
-     */
   });
 
-  fit('should get whether max file size error has fired', async () => {
-    const { fileAttachmentHarness } = await setupTest({
+  it('should get whether wrong file type error has fired', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
-    const file = new File([], 'file.txt', { type: 'text/plain ' });
-    const fileItem: SkyFileItem = {
-      file: file,
-      url: 'foo.bar',
-    };
-    await fileAttachmentHarness.setValue(fileItem);
+    fixture.componentInstance.acceptedTypes = 'image/png';
+
+    const file: File = new File([], 'file.jpeg', { type: 'image/jpeg' });
+    await fileAttachmentHarness.uploadFile(file);
 
     await expectAsync(fileAttachmentHarness.hasFileTypeError()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should get whether max file size error has fired', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    fixture.componentInstance.maxFileSize = 30;
+    fixture.detectChanges();
+
+    const file = new File(['a'.repeat(3000)], 'file.png', {
+      type: 'image/png',
+    });
+    await fileAttachmentHarness.uploadFile(file);
+
+    await expectAsync(
+      fileAttachmentHarness.hasMaxFileSizeError(),
+    ).toBeResolvedTo(true);
+  });
+
+  it('should get whether min file size error has fired', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    fixture.componentInstance.minFileSize = 30000;
+    fixture.detectChanges();
+
+    const file = new File(['a'.repeat(3000)], 'file.png', {
+      type: 'image/png',
+    });
+    await fileAttachmentHarness.uploadFile(file);
+
+    await expectAsync(
+      fileAttachmentHarness.hasMinFileSizeError(),
+    ).toBeResolvedTo(true);
+  });
+
+  it('should get whether required error has fired', async () => {
+    const { fileAttachmentHarness, fixture } = await setupTest({
+      dataSkyId: 'reactive-file-attachment',
+    });
+
+    fixture.componentInstance.attachment.addValidators(Validators.required);
+    fixture.detectChanges();
+
+    fixture.componentInstance.attachment.setValue(null);
+    fixture.componentInstance.attachment.markAsTouched();
+    fixture.detectChanges();
+
+    await expectAsync(fileAttachmentHarness.hasRequiredError()).toBeResolvedTo(
       true,
     );
   });
