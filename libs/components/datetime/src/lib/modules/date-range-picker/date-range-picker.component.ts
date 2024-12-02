@@ -21,6 +21,7 @@ import {
   ControlValueAccessor,
   FormBuilder,
   FormControl,
+  FormGroup,
   FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -263,16 +264,9 @@ export class SkyDateRangePickerComponent
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
-  #calculatorIdControl = new FormControl<number>(
-    this.#getValue().calculatorId,
-    { nonNullable: true },
-  );
-  #calculatorIdInvalid = this.#createStatusChangeSignal(
-    this.#calculatorIdControl,
-  );
-  #calculatorIdTouched = this.#createTouchedChangeSignal(
-    this.#calculatorIdControl,
-  );
+  #calculatorIdControl: FormControl<number>;
+  #calculatorIdInvalid: Signal<boolean | undefined>;
+  #calculatorIdTouched: Signal<boolean | undefined>;
 
   #endDateControl = new FormControl<DateValue>(this.#getValue().endDate);
   #endDateInvalid = this.#createStatusChangeSignal(this.#endDateControl);
@@ -283,11 +277,32 @@ export class SkyDateRangePickerComponent
   #startDateTouched = this.#createTouchedChangeSignal(this.#startDateControl);
   #hostHasCustomError: Signal<boolean | undefined> | undefined;
 
-  protected formGroup = inject(FormBuilder).group({
-    calculatorId: this.#calculatorIdControl,
-    startDate: this.#startDateControl,
-    endDate: this.#endDateControl,
-  });
+  protected formGroup: FormGroup<{
+    calculatorId: FormControl<number>;
+    startDate: FormControl<DateValue>;
+    endDate: FormControl<DateValue>;
+  }>;
+
+  constructor() {
+    this.#calculatorIdControl = new FormControl<number>(
+      this.#getValue().calculatorId,
+      { nonNullable: true },
+    );
+
+    this.#calculatorIdInvalid = this.#createStatusChangeSignal(
+      this.#calculatorIdControl,
+    );
+
+    this.#calculatorIdTouched = this.#createTouchedChangeSignal(
+      this.#calculatorIdControl,
+    );
+
+    this.formGroup = inject(FormBuilder).group({
+      calculatorId: this.#calculatorIdControl,
+      startDate: this.#startDateControl,
+      endDate: this.#endDateControl,
+    });
+  }
 
   protected readonly calculatorIdHasErrors = computed(() => {
     const touched = this.#calculatorIdTouched();
