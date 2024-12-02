@@ -1,10 +1,10 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyInfiniteScrollHarnessFilters } from './infinite-scroll-harness-filters';
 
 /**
  * Harness for interacting with an infinite scroll component in tests.
- * @internal
  */
 export class SkyInfiniteScrollHarness extends SkyComponentHarness {
   /**
@@ -20,7 +20,9 @@ export class SkyInfiniteScrollHarness extends SkyComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyInfiniteScrollHarness` that meets certain criteria.
    */
-  public static with(filters: SkyInfiniteScrollHarnessFilters) {
+  public static with(
+    filters: SkyInfiniteScrollHarnessFilters,
+  ): HarnessPredicate<SkyInfiniteScrollHarness> {
     return this.getDataSkyIdPredicate(filters);
   }
 
