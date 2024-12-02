@@ -7,7 +7,7 @@ import type {
 } from '../../types/class-def';
 
 import { formatType } from './format-type';
-import { _formatTypeParameters } from './format-type-custom';
+import { formatTypeParameters } from './format-type-custom';
 import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
@@ -56,7 +56,7 @@ export function getMethod(
     name: reflection.name,
     parameters: getParameters(reflection),
     type: formatType(reflection),
-    typeParameters: _formatTypeParameters(reflection),
+    typeParameters: formatTypeParameters(reflection),
   };
 
   return method;
@@ -141,7 +141,7 @@ export function getClass(
     isPreview,
     kind,
     name: reflection.name,
-    typeParameters: _formatTypeParameters(reflection),
+    typeParameters: formatTypeParameters(reflection),
   };
 
   return def;

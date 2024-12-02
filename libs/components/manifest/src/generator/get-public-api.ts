@@ -1,7 +1,7 @@
 import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 
-import { SkyManifestParentDefinition } from '../types/base-def';
-import { type SkyManifestPublicApi } from '../types/manifest';
+import type { SkyManifestParentDefinition } from '../types/base-def';
+import type { SkyManifestPublicApi } from '../types/manifest';
 
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { ProjectDefinition } from './get-project-definitions';

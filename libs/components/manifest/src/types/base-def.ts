@@ -25,7 +25,7 @@ export type SkyManifestChildDefinitionKind =
 export type SkyManifestCodeExampleLanguage = 'markup' | 'typescript';
 
 /**
- * Information captured from common JSDoc comments.
+ * Information captured from JSDoc comments.
  */
 export interface SkyManifestJsDocDefinition {
   codeExample?: string;
@@ -37,7 +37,7 @@ export interface SkyManifestJsDocDefinition {
 }
 
 /**
- * Information shared by all entities exported from the public API.
+ * Information shared by all top-level entities exported from the public API.
  */
 export interface SkyManifestParentDefinition
   extends SkyManifestJsDocDefinition {

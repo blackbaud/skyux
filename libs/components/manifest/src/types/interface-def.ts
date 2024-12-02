@@ -3,16 +3,16 @@ import type {
   SkyManifestJsDocDefinition,
   SkyManifestParentDefinition,
 } from './base-def';
-import { SkyManifestParameterDefinition } from './function-def';
+import type { SkyManifestParameterDefinition } from './function-def';
 
 /**
  * Information about an interface exported from the public API.
  */
 export interface SkyManifestInterfaceDefinition
   extends SkyManifestParentDefinition {
-  kind: 'interface';
-  indexSignatures?: SkyManifestIndexSignatureDefinition[];
   children?: SkyManifestInterfacePropertyDefinition[];
+  indexSignatures?: SkyManifestIndexSignatureDefinition[];
+  kind: 'interface';
 }
 
 /**

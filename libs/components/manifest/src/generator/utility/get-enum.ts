@@ -4,7 +4,6 @@ import type {
   SkyManifestEnumerationDefinition,
   SkyManifestEnumerationMemberDefinition,
 } from '../../types/enumeration-def';
-import '../../types/manifest';
 
 import { formatType } from './format-type';
 import { getAnchorId } from './get-anchor-id';

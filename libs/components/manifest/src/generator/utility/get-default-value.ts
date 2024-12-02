@@ -1,4 +1,4 @@
-import { Reflection } from 'typedoc';
+import { type Reflection } from 'typedoc';
 
 export function getDefaultValue(
   reflection: Reflection & { defaultValue?: string },

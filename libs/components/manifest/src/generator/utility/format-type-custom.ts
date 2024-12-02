@@ -16,7 +16,7 @@ import { getParameters } from './get-parameters';
  */
 function formatInlineClosureType(reflections: SignatureReflection[]): string {
   const params = getParameters(reflections[0]);
-  const returnType = _formatType(reflections[0].type);
+  const returnType = formatTypeCustom(reflections[0].type);
 
   let paramsString = '';
 
@@ -41,7 +41,7 @@ function formatInlineInterfaceType(
 
   for (const reflection of reflections) {
     props.push(
-      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${_formatType(reflection.type)};`,
+      `${reflection.name}${reflection.flags?.isOptional ? '?' : ''}: ${formatTypeCustom(reflection.type)};`,
     );
   }
 
@@ -51,7 +51,7 @@ function formatInlineInterfaceType(
 }
 
 function formatArrayType(type: ArrayType): string {
-  let formatted = _formatType(type.elementType);
+  let formatted = formatTypeCustom(type.elementType);
 
   // Wrap inline closures with parentheses.
   if (
@@ -90,7 +90,7 @@ function formatReflectionType(type: ReflectionType): string | undefined {
 function formatUnionType(type: UnionType): string {
   return type.types
     .map((t) => {
-      let formatted = _formatType(t);
+      let formatted = formatTypeCustom(t);
 
       // Wrap inline closures with parentheses.
       if (t instanceof ReflectionType && t.declaration.signatures) {
@@ -108,12 +108,11 @@ function wrapWithParentheses(value: string): string {
 
 /**
  * TypeDoc has a built-in `toString()` method for types, but it doesn't handle
- * function or object types very well. This function serves as a placeholder
- * for those types until TypeDoc gives us the ability to format them in the ways
- * we need. (The underscore is used to discourage direct use of this function,
- * if possible.)
+ * function or object types very well (returning either "Function" or "Object").
+ * This function serves as a placeholder for those types until TypeDoc gives us
+ * the ability to format them in the ways we need.
  */
-export function _formatType(type: SomeType | undefined): string {
+export function formatTypeCustom(type: SomeType | undefined): string {
   let formatted: string | undefined;
 
   if (type instanceof ReflectionType) {
@@ -132,8 +131,8 @@ export function _formatType(type: SomeType | undefined): string {
 
     throw new Error(
       'A type was encountered that is not handled by the ' +
-        '_formatType() function. A formatter must be added for this type to ' +
-        'accommodate all features of the public API.',
+        'formatTypeCustom() function. A formatter must be added for this type ' +
+        'to accommodate all features of the public API.',
     );
   }
 
@@ -141,10 +140,10 @@ export function _formatType(type: SomeType | undefined): string {
 }
 
 /**
- * Formats type parameters for a reflection (e.g., `<T, U>`). (The underscore is
- * used to discourage direct use of this function, if possible.)
+ * Formats type parameters for a reflection (e.g., `<T, U>`).
+ * Note: TypeDoc does not handle this properly, and returns "Object".
  */
-export function _formatTypeParameters(
+export function formatTypeParameters(
   reflection: DeclarationReflection,
 ): string | undefined {
   const typeParameters =

@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
-import { SkyManifestPublicApi } from '../types/manifest';
+import type { SkyManifestPublicApi } from '../types/manifest';
 
 import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';

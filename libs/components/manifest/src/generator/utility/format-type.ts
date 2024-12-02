@@ -7,7 +7,7 @@ import {
   UnionType,
 } from 'typedoc';
 
-import { _formatType } from './format-type-custom';
+import { formatTypeCustom } from './format-type-custom';
 import { getNearestProjectReflection } from './reflections';
 import { remapLambdaNames } from './remap-lambda-names';
 
@@ -61,7 +61,7 @@ export function formatType(
   let formatted = type.toString();
 
   if (needsCustomFormatting(type)) {
-    const customFormatted = _formatType(reflection.type);
+    const customFormatted = formatTypeCustom(reflection.type);
     console.warn(
       `  [!] TypeDoc produced \`${formatted}\` but we want a more expressive type for \`${reflection.name}\`. ` +
         `Created:

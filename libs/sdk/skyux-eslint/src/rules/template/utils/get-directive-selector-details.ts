@@ -16,17 +16,17 @@ export function getDirectiveSelectorDetails(
   const details: DirectiveSelectorDetail[] = [];
 
   for (const directive of directives) {
-    const pieces = directive.selector
+    const fragments = directive.selector
       .split(',')
       .map((fragment) => fragment.trim());
 
-    for (const piece of pieces) {
-      const elementName = piece.split('[')[0];
+    for (const fragment of fragments) {
+      const elementName = fragment.split('[')[0];
 
       details.push({
         parent: directive,
         elementName,
-        templateBindingName: piece.split('[')[1].split(']')[0],
+        templateBindingName: fragment.split('[')[1].split(']')[0],
       });
     }
   }

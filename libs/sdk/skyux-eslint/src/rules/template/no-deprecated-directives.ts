@@ -44,17 +44,19 @@ export const rule = createESLintTemplateRule({
     ): void => {
       if (directive.properties) {
         for (const property of directive.properties) {
+          const propertyName = property.name;
+
           const attr =
-            el.inputs.find((input) => input.name === property.name) ||
-            el.outputs.find((output) => output.name === property.name) ||
-            el.attributes.find((attr) => attr.name === property.name);
+            el.inputs.find((input) => input.name === propertyName) ||
+            el.outputs.find((output) => output.name === propertyName) ||
+            el.attributes.find((attr) => attr.name === propertyName);
 
           if (attr) {
             context.report({
               loc: parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan),
               messageId: 'noDeprecatedDirectiveProperties',
               data: {
-                property: property.name,
+                property: propertyName,
                 reason: property.deprecationReason ?? '',
                 selector: el.name,
               },
@@ -68,7 +70,9 @@ export const rule = createESLintTemplateRule({
 
     if (DEPRECATIONS.components !== undefined) {
       const components = DEPRECATIONS.components;
-      const selectors = components.map((c) => c.selector).join('|');
+      const selectors = components
+        .map((component) => component.selector)
+        .join('|');
 
       rules[`Element$1[name=/^(${selectors})$/]`] = (
         el: TmplAstElement,
@@ -91,8 +95,10 @@ export const rule = createESLintTemplateRule({
 
       for (const detail of details) {
         const ruleId = detail.elementName
-          ? `Element$1[name=${detail.elementName}] > :matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`
-          : `:matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`;
+          ? // The directive is defined as an attribute of a specific element.
+            `Element$1[name=${detail.elementName}] > :matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`
+          : // The directive is defined as an attribute of any element.
+            `:matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`;
 
         rules[ruleId] = (
           node: (TmplAstBoundAttribute | TmplAstTextAttribute) & {

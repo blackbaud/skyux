@@ -2,8 +2,8 @@
  * Information about a deprecated property.
  */
 export interface DeprecatedProperty {
-  name: string;
   deprecationReason?: string;
+  name: string;
 }
 
 /**

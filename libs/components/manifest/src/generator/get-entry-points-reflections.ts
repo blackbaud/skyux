@@ -5,7 +5,7 @@ import {
   type ProjectReflection,
 } from 'typedoc';
 
-import { type DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
+import type { DeclarationReflectionWithDecorators } from './types/declaration-reflection-with-decorators';
 
 const TYPEDOC_PLUGIN_PATH = path.join(
   __dirname,

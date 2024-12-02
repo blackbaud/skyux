@@ -5,7 +5,7 @@ import type {
   SkyManifestDirectiveInputDefinition,
   SkyManifestDirectiveOutputDefinition,
 } from '../../types/directive-def';
-import { type DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
+import type { DeclarationReflectionWithDecorators } from '../types/declaration-reflection-with-decorators';
 
 import { getAnchorId } from './get-anchor-id';
 import { getProperty } from './get-class';
