@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.24.0](https://github.com/blackbaud/skyux/compare/11.23.0...11.24.0) (2024-11-25)
+
+
+### Features
+
+* **components/ag-grid:** add right aligned column type ([#2917](https://github.com/blackbaud/skyux/issues/2917)) ([1a874d6](https://github.com/blackbaud/skyux/commit/1a874d6e9c432323afc9c76d186a66daa69e6308))
+* **components/phone-field:** tokenize phone field styles ([#2918](https://github.com/blackbaud/skyux/issues/2918)) ([d029b55](https://github.com/blackbaud/skyux/commit/d029b55df738b7c339a4332e82a9c01d8aa93d27))
+
 ## [11.23.0](https://github.com/blackbaud/skyux/compare/11.22.0...11.23.0) (2024-11-20)
 
 
