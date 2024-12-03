@@ -31,6 +31,8 @@ export class SingleFileAttachmentComponent implements OnInit {
 
   public helpKey: string | undefined;
 
+  protected hintText = 'Please upload a file.';
+
   constructor(private formBuilder: UntypedFormBuilder) {}
 
   public fileClick($event: SkyFileAttachmentClick): void {
