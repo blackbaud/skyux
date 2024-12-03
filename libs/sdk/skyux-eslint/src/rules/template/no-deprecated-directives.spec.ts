@@ -1,4 +1,10 @@
 import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
+import {
+  type SkyManifestDirectiveDefinition,
+  type SkyManifestDirectiveInputDefinition,
+  type SkyManifestDirectiveOutputDefinition,
+  type SkyManifestPublicApi,
+} from '@skyux/manifest';
 
 import { createTemplateRuleTester } from '../testing/create-template-rule-tester';
 
@@ -6,52 +12,101 @@ import { RULE_NAME, rule } from './no-deprecated-directives';
 
 const ruleTester = createTemplateRuleTester();
 
-jest.mock('../../__deprecations.json', () => {
+jest.mock('@skyux/manifest', () => {
+  const original = jest.requireActual('@skyux/manifest');
+
   return {
-    components: {
-      'sky-card': {
-        deprecated: true,
-        reason: 'Do not use the card component.',
+    ...original,
+    getPublicApi: (): SkyManifestPublicApi => ({
+      packages: {
+        '@skyux/no-deprecated': [
+          {
+            kind: 'component',
+            selector: 'sky-no-deprecated',
+            isDeprecated: false,
+          } as SkyManifestDirectiveDefinition,
+        ],
+        '@skyux/layout': [
+          {
+            kind: 'component',
+            selector: 'sky-card',
+            isDeprecated: true,
+            deprecationReason: 'Do not use the card component.',
+          } as SkyManifestDirectiveDefinition,
+          // A component without a selector.
+          {
+            kind: 'component',
+            selector: undefined,
+            isDeprecated: true,
+          } as SkyManifestDirectiveDefinition,
+        ],
+        '@skyux/forms': [
+          {
+            kind: 'component',
+            selector: 'sky-file-attachment',
+            isDeprecated: false,
+            deprecationReason: '',
+            children: [
+              {
+                kind: 'directive-input',
+                name: 'validateFn',
+                isDeprecated: true,
+                deprecationReason:
+                  'Add a custom Angular `Validator` function to the `FormControl` instead.',
+              } as SkyManifestDirectiveInputDefinition,
+              {
+                kind: 'directive-output',
+                name: 'fileChange',
+                isDeprecated: true,
+                deprecationReason:
+                  "Subscribe to the form control's `valueChanges` event instead.",
+              } as SkyManifestDirectiveOutputDefinition,
+            ],
+          } as SkyManifestDirectiveDefinition,
+        ],
+        '@skyux/foo': [
+          {
+            isDeprecated: true,
+            kind: 'directive',
+            selector: 'input[skyDeprecatedThing], textarea[skyDeprecatedThing]',
+          } as SkyManifestDirectiveDefinition,
+          {
+            kind: 'directive',
+            selector: '[skyFoo]',
+            isDeprecated: false,
+            children: [
+              {
+                kind: 'directive-input',
+                name: 'noReason',
+                isDeprecated: true,
+              } as SkyManifestDirectiveInputDefinition,
+            ],
+          } as SkyManifestDirectiveDefinition,
+          {
+            kind: 'directive',
+            selector: '[skyAutocomplete]',
+            isDeprecated: false,
+            children: [
+              {
+                kind: 'directive-input',
+                name: 'autocompleteAttribute',
+                isDeprecated: true,
+                deprecationReason: 'Do not use it.',
+              } as SkyManifestDirectiveInputDefinition,
+            ],
+          } as SkyManifestDirectiveDefinition,
+        ],
       },
-      'sky-file-attachment': {
-        deprecated: false,
-        properties: {
-          fileChange: {
-            reason:
-              "Subscribe to the form control's `valueChanges` event instead.",
-          },
-          validateFn: {
-            reason:
-              'Add a custom Angular `Validator` function to the `FormControl` instead.',
-          },
-        },
-      },
-    },
-    directives: {
-      skyDeprecatedThing: {
-        deprecated: true,
-      },
-      skyFoo: {
-        properties: {
-          noReason: {
-            deprecated: true,
-          },
-        },
-      },
-      skyAutocomplete: {
-        deprecated: false,
-        properties: {
-          autocompleteAttribute: {
-            reason: 'Do not use it.',
-          },
-        },
-      },
-    },
+    }),
   };
 });
 
 ruleTester.run(RULE_NAME, rule, {
-  valid: [],
+  valid: [
+    // Deprecated directive, but on the "wrong" element should still pass.
+    '<foobar skyDeprecatedThing />',
+    '<sky-no-deprecated></sky-no-deprecated>',
+  ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description: 'should fail when using deprecated directives',
