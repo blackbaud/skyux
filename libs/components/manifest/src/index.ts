@@ -1,3 +1,4 @@
+export { getPublicApi } from './get-public-api';
 export type {
   SkyManifestChildDefinition,
   SkyManifestChildDefinitionKind,
@@ -13,6 +14,7 @@ export type {
 export type {
   SkyManifestDirectiveDefinition,
   SkyManifestDirectiveInputDefinition,
+  SkyManifestDirectiveOutputDefinition,
 } from './types/directive-def';
 export type {
   SkyManifestEnumerationDefinition,

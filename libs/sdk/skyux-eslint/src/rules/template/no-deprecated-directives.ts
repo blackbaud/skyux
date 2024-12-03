@@ -4,9 +4,7 @@ import {
   type TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { type SkyManifestPublicApi } from '@skyux/manifest';
-import publicApi from '@skyux/manifest/public-api.json';
-import { type RuleListener } from '@typescript-eslint/utils/ts-eslint';
+import { type RuleListener } from '@typescript-eslint/utils/dist/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
@@ -14,9 +12,7 @@ import { getDeprecatedTemplateFeatures } from './utils/get-deprecated-template-f
 import { getDirectiveSelectorDetails } from './utils/get-directive-selector-details';
 import { DeprecatedDirective } from './utils/types';
 
-const DEPRECATIONS = getDeprecatedTemplateFeatures(
-  publicApi as SkyManifestPublicApi,
-);
+const DEPRECATIONS = getDeprecatedTemplateFeatures();
 
 export const RULE_NAME = 'no-deprecated-directives';
 

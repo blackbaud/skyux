@@ -3,7 +3,8 @@
   "compilerOptions": {
     "isolatedModules": true,
     "module": "CommonJS",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   },
   "files": [],
   "include": [],

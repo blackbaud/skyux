@@ -1,6 +1,6 @@
 import {
   type SkyManifestParentDefinition,
-  type SkyManifestPublicApi,
+  getPublicApi,
   isDirectiveDefinition,
 } from '@skyux/manifest';
 
@@ -23,14 +23,13 @@ function getDeprecatedProperties(
   }));
 }
 
-export function getDeprecatedTemplateFeatures(
-  publicApi: SkyManifestPublicApi,
-): TemplateFeatureDeprecations {
+export function getDeprecatedTemplateFeatures(): TemplateFeatureDeprecations {
   const deprecations: TemplateFeatureDeprecations = {
     components: [],
     directives: [],
   };
 
+  const publicApi = getPublicApi();
   const packageEntries = Object.entries(publicApi.packages) as [
     string,
     SkyManifestParentDefinition[],
