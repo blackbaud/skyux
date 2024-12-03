@@ -321,4 +321,20 @@ describe('Date range picker harness', () => {
       'Unable to set end date. End datepicker is not visible.',
     );
   });
+
+  it('should get the selected calculator', async () => {
+    const { dateRangePickerHarness } = await setupTest();
+
+    await expectAsync(
+      dateRangePickerHarness.getSelectedCalculator(),
+    ).toBeResolvedTo(SkyDateRangeCalculatorId.AnyTime);
+
+    await dateRangePickerHarness.selectCalculator(
+      SkyDateRangeCalculatorId.SpecificRange,
+    );
+
+    await expectAsync(
+      dateRangePickerHarness.getSelectedCalculator(),
+    ).toBeResolvedTo(SkyDateRangeCalculatorId.SpecificRange);
+  });
 });

@@ -82,6 +82,21 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the selected calculator ID.
+   */
+  public async getSelectedCalculator(): Promise<SkyDateRangeCalculatorId> {
+    const calculatorIdHarness = await this.#getCalculatorIdInputBoxHarness();
+    const selectEl = await calculatorIdHarness.querySelector('select');
+    const value = await selectEl?.getProperty('value');
+
+    if (value === undefined) {
+      throw new Error('No calculator selected.');
+    }
+
+    return +value as SkyDateRangeCalculatorId;
+  }
+
+  /**
    * Whether date range picker end date before start date error is thrown.
    */
   public async hasEndDateBeforeStartDateError(): Promise<boolean> {
