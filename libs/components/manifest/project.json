@@ -1,0 +1,42 @@
+{
+  "name": "manifest",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/components/manifest/src",
+  "projectType": "library",
+  "tags": ["npm"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/components/manifest",
+        "tsConfig": "libs/components/manifest/tsconfig.lib.json",
+        "packageJson": "libs/components/manifest/package.json",
+        "main": "libs/components/manifest/src/index.ts",
+        "assets": [
+          "libs/components/manifest/*.md",
+          "libs/components/manifest/public-api.json"
+        ]
+      }
+    },
+    "postbuild": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-manifest.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/components/manifest"],
+      "options": {
+        "jestConfig": "libs/components/manifest/jest.config.ts"
+      }
+    }
+  }
+}
