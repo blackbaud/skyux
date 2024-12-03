@@ -20,7 +20,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 
 import { SkyFileAttachmentHarness } from './file-attachment-harness';
 
@@ -535,6 +535,14 @@ fdescribe('File attachment harness', () => {
 
     // this does get to write value
     await fileAttachmentHarness.uploadFile(file);
+
+    // dont want this
+    // await fixture.whenStable();
+    // tick();
+    // fixture.detectChanges();
+    // await fixture.whenStable();
+
+    await firstValueFrom(fixture.componentInstance.attachment.valueChanges);
 
     expect(fixture.componentInstance.attachment.value).toEqual({
       file: file,

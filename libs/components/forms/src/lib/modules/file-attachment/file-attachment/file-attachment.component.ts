@@ -350,6 +350,14 @@ export class SkyFileAttachmentComponent
         });
         this.#changeDetector.markForCheck();
       });
+
+      // There is some disconnect between the host control and the form control.
+      // This handles that by running change detection whenever the host control
+      // has any changes. This is a workaround for this existing bug and will be
+      // addressed in a future story that refactors file attachment.
+      this.ngControl?.statusChanges?.subscribe(() => {
+        this.#changeDetector.markForCheck();
+      });
     }
   }
 

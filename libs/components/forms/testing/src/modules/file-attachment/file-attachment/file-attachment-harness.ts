@@ -187,10 +187,12 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
     ).hasClass('sky-control-label-required');
   }
 
+  /**
+   * Uploads a file.
+   */
   public async uploadFile(file: File | null | undefined): Promise<void> {
-    await this.#dropFile(file);
-    // should NOT have to do this
-    return await (await this.#input()).blur();
+    //
+    return await this.#dropFile(file);
   }
 
   /**
