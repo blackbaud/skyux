@@ -21,6 +21,7 @@
   --sky-override-file-attachment-reject-border-color: #{$sky-highlight-color-danger};
   --sky-override-file-attachment-reject-border-radius: 5px;
   --sky-override-file-attachment-reject-border-width: 1px;
+  --sky-override-file-attachment-upload-display: block;
   --sky-override-file-attachment-upload-padding-right: 8px;
   --sky-override-file-attachment-wrapper-display: inline-block;
 
@@ -59,6 +60,7 @@
     0 0;
   --sky-override-file-attachment-reject-border-radius: 5px;
   --sky-override-file-attachment-reject-border-width: 1px;
+  --sky-override-file-attachment-upload-with-icon-align-items: flex-start;
 
   .sky-file-attachment-delete {
     padding: 0;
@@ -95,11 +97,17 @@
 .sky-file-attachment-upload {
   flex: 1;
   order: 2;
-  display: flex;
+  display: var(--sky-override-file-attachment-upload-display, flex);
   align-items: flex-start;
   padding-right: var(--sky-override-file-attachment-upload-padding-right, 0);
-  display: block;
   border: 1px solid transparent;
+
+  &:has(.sky-file-attachment-icon) {
+    align-items: var(
+      --sky-override-file-attachment-upload-with-icon-align-items,
+      center
+    );
+  }
 }
 
 .sky-file-attachment-accept {
@@ -139,7 +147,7 @@
   transition: $sky-form-border-and-color-transitions;
 }
 
-:host(.ng-invalid.ng-touched) {
+:host(.ng-invalid.ng-dirty) {
   .sky-file-attachment-btn {
     box-shadow: var(--sky-override-file-attachment-invalid-box-shadow, none);
     border: var(
