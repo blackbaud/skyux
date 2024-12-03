@@ -100,7 +100,7 @@ export interface SkyuxConfigHostFrameOptionsNone {
   blackbaud?: false;
   none: true;
   self?: false;
-  urls?: [];
+  urls?: string[];
 }
 
 export interface SkyuxConfigHostFrameOptionsOthers {

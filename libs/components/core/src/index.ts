@@ -60,6 +60,7 @@ export { SkyLogService } from './lib/modules/log/log.service';
 export { SkyLogLevel } from './lib/modules/log/types/log-level';
 export { SKY_LOG_LEVEL } from './lib/modules/log/types/log-level-token';
 
+export { SKY_BREAKPOINTS } from './lib/modules/breakpoint-observer/breakpoint';
 export { SkyBreakpoint } from './lib/modules/breakpoint-observer/breakpoint';
 export { SkyBreakpointObserver } from './lib/modules/breakpoint-observer/breakpoint-observer';
 export { SKY_BREAKPOINT_OBSERVER } from './lib/modules/breakpoint-observer/breakpoint-observer.token';

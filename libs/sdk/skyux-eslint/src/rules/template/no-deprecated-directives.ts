@@ -4,29 +4,15 @@ import {
   type TmplAstTextAttribute,
 } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
-import { RuleListener } from '@typescript-eslint/utils/ts-eslint';
+import { type RuleListener } from '@typescript-eslint/utils/dist/ts-eslint';
 
-import deprecationsJson from '../../__deprecations.json';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
-const DEPRECATIONS = deprecationsJson as Deprecations;
+import { getDeprecatedTemplateFeatures } from './utils/get-deprecated-template-features';
+import { getDirectiveSelectorDetails } from './utils/get-directive-selector-details';
+import { DeprecatedDirective } from './utils/types';
 
-interface DeprecatedProperty {
-  reason?: string;
-}
-
-type DeprecatedProperties = Record<string, DeprecatedProperty>;
-
-interface DeprecatedDirective {
-  deprecated: boolean;
-  reason?: string;
-  properties?: DeprecatedProperties;
-}
-
-interface Deprecations {
-  components?: Record<string, DeprecatedDirective>;
-  directives?: Record<string, DeprecatedDirective>;
-}
+const DEPRECATIONS = getDeprecatedTemplateFeatures();
 
 export const RULE_NAME = 'no-deprecated-directives';
 
@@ -36,13 +22,13 @@ export const rule = createESLintTemplateRule({
 
     const reportDeprecatedDirective = (
       el: TmplAstElement | TmplAstBoundAttribute | TmplAstTextAttribute,
-      docs: DeprecatedDirective,
+      directive: DeprecatedDirective,
     ): void => {
       context.report({
         loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
         messageId: 'noDeprecatedDirectives',
         data: {
-          reason: docs?.reason ?? '',
+          reason: directive.deprecationReason ?? '',
           selector: el.name,
         },
       });
@@ -50,12 +36,12 @@ export const rule = createESLintTemplateRule({
 
     const reportDeprecatedInputsOutputs = (
       el: TmplAstElement,
-      docs: DeprecatedDirective,
+      directive: DeprecatedDirective,
     ): void => {
-      if (docs.properties) {
-        for (const [propertyName, propertyDetails] of Object.entries(
-          docs.properties,
-        )) {
+      if (directive.properties) {
+        for (const property of directive.properties) {
+          const propertyName = property.name;
+
           const attr =
             el.inputs.find((input) => input.name === propertyName) ||
             el.outputs.find((output) => output.name === propertyName) ||
@@ -67,7 +53,7 @@ export const rule = createESLintTemplateRule({
               messageId: 'noDeprecatedDirectiveProperties',
               data: {
                 property: propertyName,
-                reason: propertyDetails.reason ?? '',
+                reason: property.deprecationReason ?? '',
                 selector: el.name,
               },
             });
@@ -80,40 +66,50 @@ export const rule = createESLintTemplateRule({
 
     if (DEPRECATIONS.components !== undefined) {
       const components = DEPRECATIONS.components;
-      const selectors = Object.keys(components).join('|');
+      const selectors = components
+        .map((component) => component.selector)
+        .join('|');
 
       rules[`Element$1[name=/^(${selectors})$/]`] = (
         el: TmplAstElement,
       ): void => {
-        const docs = components[el.name];
+        const docs = components.find((c) => c.selector === el.name);
 
-        if (docs.deprecated) {
-          reportDeprecatedDirective(el, docs);
-        } else {
-          reportDeprecatedInputsOutputs(el, docs);
+        /* istanbul ignore else: safety check */
+        if (docs) {
+          if (docs.isDeprecated) {
+            reportDeprecatedDirective(el, docs);
+          } else {
+            reportDeprecatedInputsOutputs(el, docs);
+          }
         }
       };
     }
 
     if (DEPRECATIONS.directives !== undefined) {
-      const directives = DEPRECATIONS.directives;
-      const selectors = Object.keys(directives).join('|');
+      const details = getDirectiveSelectorDetails(DEPRECATIONS.directives);
 
-      rules[
-        `:matches(BoundAttribute, TextAttribute)[name=/^(${selectors})$/]`
-      ] = (
-        el: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
-          parent: TmplAstElement;
-        },
-      ): void => {
-        const docs = directives[el.name];
+      for (const detail of details) {
+        const ruleId = detail.elementName
+          ? // The directive is defined as an attribute of a specific element.
+            `Element$1[name=${detail.elementName}] > :matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`
+          : // The directive is defined as an attribute of any element.
+            `:matches(BoundAttribute, TextAttribute)[name="${detail.templateBindingName}"]`;
 
-        if (docs.deprecated) {
-          reportDeprecatedDirective(el, docs);
-        } else {
-          reportDeprecatedInputsOutputs(el.parent, docs);
-        }
-      };
+        rules[ruleId] = (
+          node: (TmplAstBoundAttribute | TmplAstTextAttribute) & {
+            parent: TmplAstElement;
+          },
+        ): void => {
+          const directive = detail.parent;
+
+          if (directive.isDeprecated) {
+            reportDeprecatedDirective(node, directive);
+          } else {
+            reportDeprecatedInputsOutputs(node.parent, directive);
+          }
+        };
+      }
     }
 
     return rules;

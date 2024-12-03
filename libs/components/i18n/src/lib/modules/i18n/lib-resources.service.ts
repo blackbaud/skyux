@@ -87,7 +87,7 @@ export class SkyLibResourcesService {
    * @return an `Observable` of a resource string dictionary in the same shape as the passed dictionary.
    *
    * @example
-   * ```
+   * ```typescript
    * service.getStrings({
    *    simpleKey: 'hello',
    *    arraySyntax: ['hi'],
