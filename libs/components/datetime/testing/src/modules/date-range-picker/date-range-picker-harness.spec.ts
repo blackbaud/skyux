@@ -270,12 +270,15 @@ describe('Date range picker harness', () => {
     await dateRangePickerHarness.selectCalculator(
       SkyDateRangeCalculatorId.SpecificRange,
     );
+
     const newDate = new Date('01/12/1997').toLocaleDateString('en-us', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
     });
+
     await dateRangePickerHarness.setStartDateValue(newDate);
+
     expect(
       fixture.componentInstance.myForm.controls['testPicker'].value,
     ).toEqual({
@@ -283,6 +286,10 @@ describe('Date range picker harness', () => {
       startDate: new Date('01/12/1997'),
       endDate: null,
     });
+
+    await expectAsync(
+      dateRangePickerHarness.getStartDateValue(),
+    ).toBeResolvedTo('01/12/1997');
   });
 
   it('should set the end date', async () => {
@@ -291,12 +298,15 @@ describe('Date range picker harness', () => {
     await dateRangePickerHarness.selectCalculator(
       SkyDateRangeCalculatorId.SpecificRange,
     );
+
     const newDate = new Date('01/12/1997').toLocaleDateString('en-us', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
     });
+
     await dateRangePickerHarness.setEndDateValue(newDate);
+
     expect(
       fixture.componentInstance.myForm.controls['testPicker'].value,
     ).toEqual({
@@ -304,15 +314,31 @@ describe('Date range picker harness', () => {
       endDate: new Date('01/12/1997'),
       startDate: null,
     });
+
+    await expectAsync(dateRangePickerHarness.getEndDateValue()).toBeResolvedTo(
+      '01/12/1997',
+    );
   });
 
-  it('should throw an error if trying to set a date for a hidden datepicker', async () => {
+  it('should throw an error if trying to get/set a date for a hidden datepicker', async () => {
     const { dateRangePickerHarness } = await setupTest();
+
+    await expectAsync(
+      dateRangePickerHarness.getStartDateValue(),
+    ).toBeRejectedWithError(
+      'Unable to get start date. Start datepicker is not visible.',
+    );
 
     await expectAsync(
       dateRangePickerHarness.setStartDateValue('10/12/2023'),
     ).toBeRejectedWithError(
       'Unable to set start date. Start datepicker is not visible.',
+    );
+
+    await expectAsync(
+      dateRangePickerHarness.getEndDateValue(),
+    ).toBeRejectedWithError(
+      'Unable to get end date. End datepicker is not visible.',
     );
 
     await expectAsync(

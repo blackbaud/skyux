@@ -50,6 +50,19 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the end date value.
+   */
+  public async getEndDateValue(): Promise<string> {
+    if (!(await this.isEndDateVisible())) {
+      throw new Error('Unable to get end date. End datepicker is not visible.');
+    }
+
+    const input = await (await this.#getEndDatepicker()).getControl();
+
+    return await input.getValue();
+  }
+
+  /**
    * Gets the help popover content.
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
@@ -89,11 +102,27 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
     const selectEl = await calculatorIdHarness.querySelector('select');
     const value = await selectEl?.getProperty('value');
 
+    /* istanbul ignore next: safety check */
     if (value === undefined || value === '') {
       throw new Error('No calculator selected.');
     }
 
     return +value as SkyDateRangeCalculatorId;
+  }
+
+  /**
+   * Gets the start date value.
+   */
+  public async getStartDateValue(): Promise<string> {
+    if (!(await this.isStartDateVisible())) {
+      throw new Error(
+        'Unable to get start date. Start datepicker is not visible.',
+      );
+    }
+
+    const input = await (await this.#getStartDatepicker()).getControl();
+
+    return await input.getValue();
   }
 
   /**
