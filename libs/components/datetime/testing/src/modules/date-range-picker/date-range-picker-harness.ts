@@ -89,7 +89,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
     const selectEl = await calculatorIdHarness.querySelector('select');
     const value = await selectEl?.getProperty('value');
 
-    if (value === undefined) {
+    if (value === undefined || value === '') {
       throw new Error('No calculator selected.');
     }
 

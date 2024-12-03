@@ -325,10 +325,12 @@ describe('Date range picker harness', () => {
   it('should get the selected calculator', async () => {
     const { dateRangePickerHarness } = await setupTest();
 
+    // Check the value on initialization.
     await expectAsync(
       dateRangePickerHarness.getSelectedCalculator(),
     ).toBeResolvedTo(SkyDateRangeCalculatorId.AnyTime);
 
+    // Set the calculator to a specific range.
     await dateRangePickerHarness.selectCalculator(
       SkyDateRangeCalculatorId.SpecificRange,
     );
@@ -336,5 +338,14 @@ describe('Date range picker harness', () => {
     await expectAsync(
       dateRangePickerHarness.getSelectedCalculator(),
     ).toBeResolvedTo(SkyDateRangeCalculatorId.SpecificRange);
+
+    // Set the calculator to an invalid calculator.
+    await dateRangePickerHarness.selectCalculator(
+      -1 as SkyDateRangeCalculatorId,
+    );
+
+    await expectAsync(
+      dateRangePickerHarness.getSelectedCalculator(),
+    ).toBeResolvedTo(SkyDateRangeCalculatorId.AnyTime);
   });
 });
