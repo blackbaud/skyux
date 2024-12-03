@@ -1,7 +1,7 @@
 <span class="sky-color-picker-label-wrapper">
   @if (labelText) {
     <label
-      class="sky-control-label sky-margin-inline-xs"
+      class="sky-control-label"
       [ngClass]="{
         'sky-screen-reader-only': labelHidden,
         'sky-control-label-required': requiredState?.isRequired()
@@ -10,12 +10,14 @@
       >{{ labelText }}</label
     >
     @if ((helpPopoverContent || helpKey) && !labelHidden) {
-      <sky-help-inline
-        [helpKey]="helpKey"
-        [labelText]="labelText"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
+      <span class="sky-control-help-container">
+        <sky-help-inline
+          [helpKey]="helpKey"
+          [labelText]="labelText"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      </span>
     }
   }
 </span>
@@ -58,9 +60,6 @@
       'sky-colorpicker-button-disabled': disabled,
       'sky-colorpicker-error':
         (ngControl?.touched || ngControl?.dirty) && ngControl?.errors
-    }"
-    [skyThemeClass]="{
-      'sky-margin-inline-sm': 'modern'
     }"
     [style.background-color]="backgroundColorForDisplay"
     (click)="onTriggerButtonClick()"
@@ -287,6 +286,7 @@
               let i = $index
             ) {
               <button
+                class="sky-preset-color"
                 type="button"
                 [attr.aria-label]="
                   ('skyux_colorpicker_preset_color' | skyLibResources) +
@@ -294,7 +294,6 @@
                   color
                 "
                 [skyThemeClass]="{
-                  'sky-preset-color': 'default',
                   'sky-btn sky-btn-link': 'modern'
                 }"
                 [style.backgroundColor]="color"
@@ -305,18 +304,12 @@
         }
       </div>
 
-      <div
-        class="sky-colorpicker-footer"
-        [skyThemeClass]="{
-          'sky-padding-even-large': 'default'
-        }"
-      >
+      <div class="sky-colorpicker-footer">
         <section class="sky-colorpicker-column">
           <button
             class="sky-btn sky-btn-primary sky-btn-colorpicker-apply"
             type="button"
             [attr.aria-label]="'skyux_colorpicker_apply' | skyLibResources"
-            [skyThemeClass]="{ 'sky-margin-inline-sm': 'modern' }"
             (click)="onApplyColorClick()"
           >
             {{ 'skyux_colorpicker_apply' | skyLibResources }}
