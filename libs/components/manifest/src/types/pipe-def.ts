@@ -6,6 +6,7 @@ import type {
 
 /**
  * Information about a pipe exported from the public API.
+ * @internal
  */
 export interface SkyManifestPipeDefinition extends SkyManifestParentDefinition {
   children: (

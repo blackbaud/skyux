@@ -6,6 +6,7 @@ import type { SkyManifestParameterDefinition } from './function-def';
 
 /**
  * Information about a class exported from the public API.
+ * @internal
  */
 export interface SkyManifestClassDefinition
   extends SkyManifestParentDefinition {
@@ -19,6 +20,7 @@ export interface SkyManifestClassDefinition
 
 /**
  * Information about a class method.
+ * @internal
  */
 export interface SkyManifestClassMethodDefinition
   extends SkyManifestChildDefinition {
@@ -30,6 +32,7 @@ export interface SkyManifestClassMethodDefinition
 
 /**
  * Information about a class property.
+ * @internal
  */
 export interface SkyManifestClassPropertyDefinition
   extends SkyManifestChildDefinition {

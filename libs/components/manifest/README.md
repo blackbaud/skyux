@@ -1,1 +1,1 @@
-# @skyux/manifest
+# @skyux/manifest (Internal SKY UX use only)

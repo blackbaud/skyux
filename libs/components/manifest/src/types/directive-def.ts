@@ -5,6 +5,7 @@ import type {
 
 /**
  * Information about a directive or component exported from the public API.
+ * @internal
  */
 export interface SkyManifestDirectiveDefinition
   extends SkyManifestParentDefinition {
@@ -18,6 +19,7 @@ export interface SkyManifestDirectiveDefinition
 
 /**
  * Information about a directive input property.
+ * @internal
  */
 export interface SkyManifestDirectiveInputDefinition
   extends SkyManifestChildDefinition {
@@ -28,6 +30,7 @@ export interface SkyManifestDirectiveInputDefinition
 
 /**
  * Information about a directive input property.
+ * @internal
  */
 export interface SkyManifestDirectiveOutputDefinition
   extends SkyManifestChildDefinition {

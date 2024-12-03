@@ -5,6 +5,7 @@ import type {
 
 /**
  * Information about an enumeration exported from the public API.
+ * @internal
  */
 export interface SkyManifestEnumerationDefinition
   extends SkyManifestParentDefinition {
@@ -13,6 +14,7 @@ export interface SkyManifestEnumerationDefinition
 
 /**
  * Information about an enumeration member.
+ * @internal
  */
 export interface SkyManifestEnumerationMemberDefinition
   extends SkyManifestChildDefinition {
