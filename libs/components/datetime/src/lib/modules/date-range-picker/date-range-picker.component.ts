@@ -283,27 +283,6 @@ export class SkyDateRangePickerComponent
     endDate: FormControl<DateValue>;
   }>;
 
-  constructor() {
-    this.#calculatorIdControl = new FormControl<number>(
-      this.#getValue().calculatorId,
-      { nonNullable: true },
-    );
-
-    this.#calculatorIdInvalid = this.#createStatusChangeSignal(
-      this.#calculatorIdControl,
-    );
-
-    this.#calculatorIdTouched = this.#createTouchedChangeSignal(
-      this.#calculatorIdControl,
-    );
-
-    this.formGroup = inject(FormBuilder).group({
-      calculatorId: this.#calculatorIdControl,
-      startDate: this.#startDateControl,
-      endDate: this.#endDateControl,
-    });
-  }
-
   protected readonly calculatorIdHasErrors = computed(() => {
     const touched = this.#calculatorIdTouched();
     const invalid = this.#calculatorIdInvalid() || this.#hostHasCustomError?.();
@@ -329,6 +308,27 @@ export class SkyDateRangePickerComponent
   #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
   #_label: string | undefined;
   #_value = this.selectedCalculator.getValue();
+
+  constructor() {
+    this.#calculatorIdControl = new FormControl<number>(
+      this.#getValue().calculatorId,
+      { nonNullable: true },
+    );
+
+    this.#calculatorIdInvalid = this.#createStatusChangeSignal(
+      this.#calculatorIdControl,
+    );
+
+    this.#calculatorIdTouched = this.#createTouchedChangeSignal(
+      this.#calculatorIdControl,
+    );
+
+    this.formGroup = inject(FormBuilder).group({
+      calculatorId: this.#calculatorIdControl,
+      startDate: this.#startDateControl,
+      endDate: this.#endDateControl,
+    });
+  }
 
   public ngAfterViewInit(): void {
     this.hostControl = this.#injector.get(NgControl, null, {
