@@ -8,6 +8,10 @@
   --sky-override-help-inline-margin-left: var(--sky-margin-inline-xs);
 }
 
+@include compatMixins.sky-default-overrides('.sky-control-label') {
+  --sky-override-control-label-margin-bottom: #{$sky-margin-half};
+}
+
 @include compatMixins.sky-default-overrides('.sky-control-label-required') {
   --sky-override-required-color: var(--sky-highlight-color-danger);
   --sky-override-required-space: var(--sky-padding-half);
@@ -69,7 +73,10 @@ textarea.ng-invalid.ng-touched {
 .sky-control-label {
   display: inline-block;
   font-weight: normal;
-  margin-bottom: $sky-margin-half;
+  margin-bottom: var(
+    --sky-override-control-label-margin-bottom,
+    var(--sky-space-gap-form-xs)
+  );
   max-width: 100%;
 }
 
