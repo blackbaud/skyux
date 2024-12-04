@@ -354,7 +354,13 @@
 
 <div #hintTextEl="skyId" skyId>
   @if (hintText) {
-    <div class="sky-font-deemphasized sky-colorpicker-hint-text">
+    <div
+      class="sky-colorpicker-hint-text"
+      [skyThemeClass]="{
+        'sky-font-deemphasized': 'default',
+        'sky-font-hint-text-s': 'modern'
+      }"
+    >
       {{ hintText }}
     </div>
   }

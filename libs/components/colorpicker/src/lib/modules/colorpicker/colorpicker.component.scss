@@ -5,6 +5,9 @@
 @include compatMixins.sky-default-overrides('.sky-color-picker-label-wrapper') {
   --sky-override-colorpicker-label-color: var(--sky-text-color-default);
   --sky-override-colorpicker-label-space: 5px;
+  --sky-override-colorpicker-label-font-size: 15px;
+  --sky-override-colorpicker-label-font-weight: 400;
+  --sky-override-colorpicker-label-line-height: normal;
 }
 
 @include compatMixins.sky-default-overrides('.sky-colorpicker-hint-text') {
@@ -24,7 +27,6 @@
   --sky-override-colorpicker-button-focus-outline: -webkit-focus-ring-color auto
     5px;
   --sky-override-colorpicker-button-size: 30px;
-  --sky-override-colorpicker-disabled-background: #fff;
   --sky-override-colorpicker-disabled-opacity: 0.65;
   --sky-override-colorpicker-icon-font-size: 12px;
   --sky-override-colorpicker-icon-offset: 2px;
@@ -66,7 +68,14 @@
   --sky-override-colorpicker-swatch-size-hover: 34px;
   --sky-override-colorpicker-swatch-size: 32px;
   --sky-override-colorpicker-width: 270px;
-  --skypoverride-colorpicker-rgba-font-size: 18px;
+  --sky-override-colorpicker-rgba-font-size: 18px;
+}
+
+@include compatMixins.sky-modern-overrides(
+  '.sky-color-picker-label-wrapper',
+  false
+) {
+  --sky-override-colorpicker-label-font-size: 16px;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-input-group', false) {
@@ -108,7 +117,8 @@ sky-colorpicker.sky-form-field-stacked {
 }
 
 .sky-colorpicker-button {
-  // the padding between the inner and outer borders should be 2px. Since the borders are stacked we need to add the size of the previous border to the intended size.
+  // the padding between the inner and outer borders should be 2X the base border width. Since the borders are stacked
+  // we need to add the size of the outer border to the intended padding size, and the outer border and padding size to the inner border
   --sky-colorpicker-border-padding-size: calc(
     var(--sky-border-width-input-base) +
       calc(var(--sky-border-width-input-base) * 2)
@@ -188,10 +198,6 @@ sky-colorpicker.sky-form-field-stacked {
 
   &.sky-colorpicker-button-disabled {
     cursor: default;
-    background-color: var(
-      --sky-override-colorpicker-disabled-background,
-      var(--sky-color-background-input-disabled)
-    ) !important;
     box-shadow: var(
       --sky-override-colorpicker-button-box-shadow,
       inset 0 0 0 var(--sky-border-width-input-disabled)
@@ -207,17 +213,6 @@ sky-colorpicker.sky-form-field-stacked {
           var(--sky-color-border-input-disabled)
         )
     );
-
-    .sky-colorpicker-button-modern-chevron {
-      background-color: var(
-        --sky-override-colorpicker-disabled-background,
-        var(--sky-color-background-input-disabled)
-      );
-    }
-
-    .sky-colorpicker-button-icon {
-      color: var(--sky-color-text-deemphasized) !important;
-    }
   }
 
   .sky-colorpicker-button-icon {
@@ -634,7 +629,7 @@ sky-colorpicker.sky-form-field-stacked {
   }
   .rgba-text {
     width: 100%;
-    font-size: var(--skypoverride-colorpicker-rgba-font-size);
+    font-size: var(--sky-override-colorpicker-rgba-font-size);
     padding: var(
       --sky-override-colorpicker-rgba-padding,
       var(--sky-space-inset-pillarbox-2_3-top-m)
@@ -772,12 +767,38 @@ sky-colorpicker.sky-form-field-stacked {
     );
     margin-bottom: var(
       --sky-override-colorpicker-label-space,
-      var(-sky-space-gap-form-xs)
+      var(--sky-space-gap-form-xs)
+    );
+    font-size: var(
+      --sky-override-colorpicker-label-font-size,
+      var(--sky-font-size-input-label)
+    );
+    font-style: var(--sky-font-style-input-label);
+    font-weight: var(
+      --sky-override-colorpicker-label-font-weight,
+      var(--sky-font-weight-input-label)
+    );
+    letter-spacing: var(--sky-font-letter_spacing-input-label);
+    line-height: var(
+      --sky-override-colorpicker-label-line-height,
+      var(--sky-font-line_height-input-label)
     );
   }
 }
 
 .sky-theme-modern {
+  .sky-colorpicker-button.sky-colorpicker-button-disabled {
+    background-color: var(--sky-color-background-input-disabled) !important;
+
+    .sky-colorpicker-button-modern-chevron {
+      background-color: var(--sky-color-background-input-disabled);
+    }
+
+    .sky-colorpicker-button-icon {
+      color: var(--sky-color-text-deemphasized) !important;
+    }
+  }
+
   .rgba-text {
     flex-wrap: wrap;
 
