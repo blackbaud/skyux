@@ -3,13 +3,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { InfiniteScrollHarnessTestComponent } from './fixtures/infinite-scroll-harness-test.component';
-import { InfiniteScrollHarnessTestModule } from './fixtures/infinite-scroll-harness-test.module';
 import { SkyInfiniteScrollHarness } from './infinite-scroll-harness';
 
 describe('Infinite scroll harness', () => {
-  async function setupTest(options: { dataSkyId?: string } = {}) {
+  async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
+    fixture: ComponentFixture<InfiniteScrollHarnessTestComponent>;
+    infiniteScrollHarness: SkyInfiniteScrollHarness;
+  }> {
     await TestBed.configureTestingModule({
-      imports: [InfiniteScrollHarnessTestModule],
+      imports: [InfiniteScrollHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(InfiniteScrollHarnessTestComponent);
@@ -21,13 +23,13 @@ describe('Infinite scroll harness', () => {
         )
       : await loader.getHarness(SkyInfiniteScrollHarness);
 
-    return { fixture, infiniteScrollHarness, loader };
+    return { fixture, infiniteScrollHarness };
   }
 
   function verifyNumListItems(
     fixture: ComponentFixture<InfiniteScrollHarnessTestComponent>,
     count: number,
-  ) {
+  ): void {
     expect(fixture.debugElement.queryAll(By.css('li')).length).toEqual(count);
   }
 

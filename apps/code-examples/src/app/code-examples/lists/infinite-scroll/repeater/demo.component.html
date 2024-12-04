@@ -1,6 +1,6 @@
-<div style="overflow-y: auto; max-height: 500px; position: relative">
+<div class="overflow-container">
   <sky-repeater>
-    @for (item of items; track item) {
+    @for (item of items(); track item.name) {
       <sky-repeater-item>
         <sky-repeater-item-title>
           {{ item.name }}
@@ -8,5 +8,9 @@
       </sky-repeater-item>
     }
   </sky-repeater>
-  <sky-infinite-scroll [enabled]="itemsHaveMore" (scrollEnd)="onScrollEnd()" />
+  <sky-infinite-scroll
+    data-sky-id="infinite-scroll"
+    [enabled]="hasMoreItems()"
+    (scrollEnd)="onScrollEnd()"
+  />
 </div>

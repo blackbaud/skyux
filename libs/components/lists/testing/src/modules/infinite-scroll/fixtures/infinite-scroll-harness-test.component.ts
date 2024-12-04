@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { SkyInfiniteScrollModule } from '@skyux/lists';
 
 @Component({
+  imports: [SkyInfiniteScrollModule],
   selector: 'test-infinite-scroll-harness',
+  standalone: true,
   templateUrl: './infinite-scroll-harness-test.component.html',
 })
 export class InfiniteScrollHarnessTestComponent {

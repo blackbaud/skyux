@@ -1,56 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
+import { firstValueFrom } from 'rxjs';
+
+import { DemoService } from './demo.service';
 import { InfiniteScrollDemoItem } from './item';
 
-let nextId = 0;
+let pageNumber = 0;
 
 @Component({
   standalone: true,
   selector: 'app-demo',
+  styleUrl: './demo.component.scss',
   templateUrl: './demo.component.html',
   imports: [SkyInfiniteScrollModule, SkyRepeaterModule],
 })
 export class DemoComponent implements OnInit {
-  protected items: InfiniteScrollDemoItem[] = [];
-  protected itemsHaveMore = true;
+  #demoSvc = inject(DemoService);
+
+  protected hasMoreItems = signal<boolean>(false);
+  protected items = signal<InfiniteScrollDemoItem[]>([]);
 
   public ngOnInit(): void {
     void this.#addData();
   }
 
   protected onScrollEnd(): void {
-    if (this.itemsHaveMore) {
+    console.log('onScrollEnd()');
+    if (this.hasMoreItems()) {
       void this.#addData();
     }
   }
 
   async #addData(): Promise<void> {
-    const result = await this.#mockRemote();
-    this.items = this.items.concat(result.data);
-    this.itemsHaveMore = result.hasMore;
-  }
+    const result = await firstValueFrom(this.#demoSvc.getItems(pageNumber++));
+    const data = this.items().concat(result.data);
 
-  #mockRemote(): Promise<{
-    data: InfiniteScrollDemoItem[];
-    hasMore: boolean;
-  }> {
-    const data: InfiniteScrollDemoItem[] = [];
-
-    for (let i = 0; i < 8; i++) {
-      data.push({
-        name: `Item #${++nextId}`,
-      });
-    }
-
-    // Simulate async request.
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          data,
-          hasMore: nextId < 50,
-        });
-      }, 1000);
-    });
+    this.items.set(data);
+    this.hasMoreItems.set(result.hasMore);
   }
 }
