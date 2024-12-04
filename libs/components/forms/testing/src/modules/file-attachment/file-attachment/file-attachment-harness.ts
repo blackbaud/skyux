@@ -188,32 +188,17 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Uploads a file.
-   */
-  public async uploadFile(file: File | null | undefined): Promise<void> {
-    //
-    return await this.#dropFile(file);
-  }
-
-  /**
    * Whether file attachment is has stacked enabled.
    */
   public async isStacked(): Promise<boolean> {
     return await (await this.host()).hasClass('sky-margin-stacked-lg');
   }
 
-  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
-    return await this.locatorFor(SkyFormErrorsHarness)();
-  }
-
-  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
-    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
-
-    if (harness) {
-      return harness;
-    }
-
-    throw Error('No help inline found.');
+  /**
+   * Uploads a file.
+   */
+  public async uploadFile(file: File | null | undefined): Promise<void> {
+    return await this.#dropFile(file);
   }
 
   async #dropFile(file: File | null | undefined): Promise<void> {
@@ -231,5 +216,19 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
       },
       items: file as EventData,
     });
+  }
+
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    return await this.locatorFor(SkyFormErrorsHarness)();
+  }
+
+  async #getHelpInline(): Promise<SkyHelpInlineHarness> {
+    const harness = await this.locatorForOptional(SkyHelpInlineHarness)();
+
+    if (harness) {
+      return harness;
+    }
+
+    throw Error('No help inline found.');
   }
 }

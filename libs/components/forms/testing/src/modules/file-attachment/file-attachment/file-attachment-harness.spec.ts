@@ -96,7 +96,7 @@ class TestComponent {
 }
 //#endregion Test component
 
-fdescribe('File attachment harness', () => {
+describe('File attachment harness', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -463,6 +463,7 @@ fdescribe('File attachment harness', () => {
 
     fixture.componentInstance.acceptedTypes = 'image/png';
 
+    fixture.componentInstance.attachment.markAsTouched();
     const file: File = new File([], 'file.jpeg', { type: 'image/jpeg' });
     await fileAttachmentHarness.uploadFile(file);
 
@@ -482,6 +483,7 @@ fdescribe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
+    fixture.componentInstance.attachment.markAsTouched();
     await fileAttachmentHarness.uploadFile(file);
 
     await expectAsync(
@@ -500,6 +502,7 @@ fdescribe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
+    fixture.componentInstance.attachment.markAsTouched();
     await fileAttachmentHarness.uploadFile(file);
 
     await expectAsync(
@@ -524,7 +527,7 @@ fdescribe('File attachment harness', () => {
     );
   });
 
-  fit('should upload a file', async () => {
+  it('should upload a file', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
@@ -535,18 +538,11 @@ fdescribe('File attachment harness', () => {
 
     // this does get to write value
     await fileAttachmentHarness.uploadFile(file);
-
-    // dont want this
-    // await fixture.whenStable();
-    // tick();
-    // fixture.detectChanges();
-    // await fixture.whenStable();
-
     await firstValueFrom(fixture.componentInstance.attachment.valueChanges);
 
     expect(fixture.componentInstance.attachment.value).toEqual({
       file: file,
-      url: 'foo.bar',
+      url: 'data:image/png;base64,',
     });
   });
 });

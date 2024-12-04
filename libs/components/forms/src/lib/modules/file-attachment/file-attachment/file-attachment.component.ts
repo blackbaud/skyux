@@ -641,7 +641,6 @@ export class SkyFileAttachmentComponent
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   #onChange = (file: SkyFileItem | null | undefined): void => {
-    this.#handleFiles();
     return;
   };
   // istanbul ignore next
