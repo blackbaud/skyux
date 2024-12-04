@@ -1,4 +1,5 @@
 /**
+ * A list of all breakpoints.
  * @internal
  */
 export const SKY_BREAKPOINTS = ['xs', 'sm', 'md', 'lg'] as const;
