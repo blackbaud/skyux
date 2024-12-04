@@ -21,12 +21,12 @@
 
 <form [formGroup]="formGroup">
   <sky-file-attachment
+    formControlName="attachment"
     helpPopoverContent="Sample help content"
     helpPopoverTitle="Inline help"
     hintText="Sample hint text"
     labelText="Single file attachment"
     required="true"
-    formControlName="attachment"
     [acceptedTypes]="acceptedTypes"
     [maxFileSize]="maxFileSize"
     [validateFn]="validateFile"

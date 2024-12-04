@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyFileAttachmentHarness } from '@skyux/forms/testing';
 
+import { firstValueFrom } from 'rxjs';
+
 import { DemoComponent } from './demo.component';
 
 fdescribe('Basic file attachment demo', () => {
@@ -51,13 +53,14 @@ fdescribe('Basic file attachment demo', () => {
     // );
   });
 
-  fit('should throw throw an error if file begins with the letter a', async () => {
-    const { harness } = await setupTest({
+  it('should throw throw an error if file begins with the letter a', async () => {
+    const { harness, fixture } = await setupTest({
       dataSkyId: 'birth-certificate',
     });
 
     const file = new File([], 'afile.png', { type: 'image/png' });
     await harness.uploadFile(file);
+    await firstValueFrom(fixture.componentInstance.attachment.valueChanges);
 
     await expectAsync(
       harness.hasCustomError('invalidStartingLetter'),
@@ -65,15 +68,14 @@ fdescribe('Basic file attachment demo', () => {
   });
 
   it('should set file attachment to required', async () => {
-    const { harness } = await setupTest({
+    const { harness, fixture } = await setupTest({
       dataSkyId: 'birth-certificate',
     });
 
     await expectAsync(harness.isRequired()).toBeResolvedTo(true);
 
-    // NOTES TO JW: this does not work bc something is either busted with file attachment CVA
-    // or it's deliberate and we gotta give consumers another way to set file attachment values.
-    await harness.uploadFile(null);
+    fixture.componentInstance.attachment.markAsTouched();
+    fixture.detectChanges();
 
     await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
   });

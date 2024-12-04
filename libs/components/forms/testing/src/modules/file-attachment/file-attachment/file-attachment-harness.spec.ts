@@ -50,6 +50,7 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
         data-sky-id="reactive-file-attachment"
         formControlName="attachment"
         labelText="other file attachment"
+        [required]="true"
         [acceptedTypes]="acceptedTypes"
         [minFileSize]="minFileSize"
         [maxFileSize]="maxFileSize"
@@ -83,7 +84,7 @@ class TestComponent {
   public stacked = false;
 
   constructor(formBuilder: FormBuilder) {
-    this.attachment = new FormControl();
+    this.attachment = new FormControl(null, Validators.required);
 
     this.formGroup = formBuilder.group({
       attachment: this.attachment,
@@ -510,15 +511,11 @@ describe('File attachment harness', () => {
     ).toBeResolvedTo(true);
   });
 
-  it('should get whether required error has fired', async () => {
+  fit('should get whether required error has fired', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
-    fixture.componentInstance.attachment.addValidators(Validators.required);
-    fixture.detectChanges();
-
-    fixture.componentInstance.attachment.setValue(null);
     fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
 
@@ -536,7 +533,6 @@ describe('File attachment harness', () => {
       type: 'image/png',
     });
 
-    // this does get to write value
     await fileAttachmentHarness.uploadFile(file);
     await firstValueFrom(fixture.componentInstance.attachment.valueChanges);
 
