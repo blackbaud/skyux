@@ -13,10 +13,7 @@
         "tsConfig": "libs/sdk/skyux-eslint/tsconfig.lib.json",
         "packageJson": "libs/sdk/skyux-eslint/package.json",
         "main": "libs/sdk/skyux-eslint/src/index.ts",
-        "assets": [
-          "libs/sdk/skyux-eslint/*.md",
-          "libs/sdk/skyux-eslint/collection.json"
-        ]
+        "assets": ["libs/sdk/skyux-eslint/*.md"]
       }
     },
     "lint": {
