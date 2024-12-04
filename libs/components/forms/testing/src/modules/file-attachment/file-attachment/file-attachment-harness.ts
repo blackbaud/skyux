@@ -213,7 +213,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
           },
         } as unknown as EventData,
       },
-      items: file as EventData,
+      items: file as unknown as EventData,
     });
   }
 
