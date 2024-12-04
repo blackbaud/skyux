@@ -24,7 +24,7 @@ import {
   ModuleRegistry,
   RowDataUpdatedEvent,
 } from 'ag-grid-community';
-import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, EMPTY, Subject, firstValueFrom } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
@@ -867,8 +867,10 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         rowIndex: 0,
         colKey: 'lookupSingle',
       });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
+      await firstValueFrom(
+        gridWrapperFixture.componentInstance.agGrid?.cellEditingStarted ??
+          EMPTY,
+      );
       expect(
         gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
       ).toHaveSize(1);
@@ -922,8 +924,10 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         rowIndex: 0,
         colKey: 'lookupMultiple',
       });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
+      await firstValueFrom(
+        gridWrapperFixture.componentInstance.agGrid?.cellEditingStarted ??
+          EMPTY,
+      );
       expect(
         gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
       ).toHaveSize(1);
