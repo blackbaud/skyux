@@ -4,6 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyDatepickerCalendarHarness } from './datepicker-calendar-harness';
 import { SkyDatepickerFilters } from './datepicker-harness.filters';
 import { SkyDatepickerInputHarness } from './datepicker-input-harness';
+import { SkyFuzzyDatepickerInputHarness } from './fuzzy-datepicker-input-harness';
 
 /**
  * Harness for interacting with datepicker components in tests.
@@ -61,8 +62,14 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
   /**
    * Gets the datepicker input harness.
    */
-  public async getControl(): Promise<SkyDatepickerInputHarness> {
-    return await this.locatorFor(SkyDatepickerInputHarness)();
+  public async getControl(): Promise<
+    SkyDatepickerInputHarness | SkyFuzzyDatepickerInputHarness
+  > {
+    let input = await this.locatorFor(
+      SkyDatepickerInputHarness,
+      SkyFuzzyDatepickerInputHarness,
+    )();
+    return input;
   }
 
   /**

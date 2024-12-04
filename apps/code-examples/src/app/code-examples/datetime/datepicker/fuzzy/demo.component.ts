@@ -23,10 +23,10 @@ import { SkyInputBoxModule } from '@skyux/forms';
 })
 export class DemoComponent {
   protected formGroup: FormGroup;
-  protected helpPopoverContent =
-    'Your date of birth ensures that your benefits include the supplemental at-home services for your age group.';
   protected hintText =
     "Include a partial date if you don't have the exact date.";
+  public helpPopoverContent =
+    'Your date of birth ensures that your benefits include the supplemental at-home services for your age group.';
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
