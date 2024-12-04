@@ -112,7 +112,6 @@ export class SkyAgGridCellEditorLookupComponent
   public isCancelAfterEnd(): boolean {
     // Shut down components to commit values before final value syncs to grid.
     this.isAlive = false;
-    this.#changeDetector.detectChanges();
     return false;
   }
 
@@ -134,22 +133,25 @@ export class SkyAgGridCellEditorLookupComponent
   }
 
   public afterGuiAttached(): void {
-    const lookupInput: HTMLTextAreaElement =
-      this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
-    lookupInput.focus();
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-      lookupInput.select();
-      lookupInput.setRangeText(`${this.#params?.eventKey}`);
-      // Ensure the cursor is at the end of the text.
-      lookupInput.setSelectionRange(
-        lookupInput.value.length,
-        lookupInput.value.length,
-      );
-      lookupInput.dispatchEvent(new Event('input'));
-    }
-    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-      lookupInput.select();
-    }
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      const lookupInput: HTMLTextAreaElement =
+        this.#elementRef.nativeElement.querySelector('.sky-lookup-input');
+      lookupInput.focus();
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+        lookupInput.select();
+        lookupInput.setRangeText(`${this.#params?.eventKey}`);
+        // Ensure the cursor is at the end of the text.
+        lookupInput.setSelectionRange(
+          lookupInput.value.length,
+          lookupInput.value.length,
+        );
+        lookupInput.dispatchEvent(new Event('input'));
+      }
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+        lookupInput.select();
+      }
+    });
   }
 
   public onLookupOpenChange(isOpen: boolean): void {
