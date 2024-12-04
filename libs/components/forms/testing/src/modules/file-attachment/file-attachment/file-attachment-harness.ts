@@ -8,7 +8,6 @@ import { SkyFileAttachmentHarnessFilters } from './file-attachment-harness-filte
 
 /**
  * Harness for interacting with a file attachment component in tests.
- * @internal
  */
 export class SkyFileAttachmentHarness extends SkyComponentHarness {
   /**
