@@ -260,6 +260,11 @@ export class SkyDateRangePickerComponent
   protected showEndDatePicker = signal<boolean>(false);
   protected showStartDatePicker = signal<boolean>(false);
 
+  #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
+  #_label: string | undefined;
+  #_value = this.selectedCalculator.getValue();
+
+  #hostHasCustomError: Signal<boolean | undefined> | undefined;
   #notifyChange: ((_: SkyDateRangeCalculation) => void) | undefined;
   #notifyTouched: (() => void) | undefined;
 
@@ -281,7 +286,6 @@ export class SkyDateRangePickerComponent
   #startDateControl = new FormControl<DateValue>(this.#getValue().startDate);
   #startDateInvalid = this.#createStatusChangeSignal(this.#startDateControl);
   #startDateTouched = this.#createTouchedChangeSignal(this.#startDateControl);
-  #hostHasCustomError: Signal<boolean | undefined> | undefined;
 
   protected formGroup = inject(FormBuilder).group({
     calculatorId: this.#calculatorIdControl,
@@ -310,10 +314,6 @@ export class SkyDateRangePickerComponent
 
     return calculatorIdHasErrors || (touched && invalid);
   });
-
-  #_calculatorIds = SKY_DEFAULT_CALCULATOR_IDS;
-  #_label: string | undefined;
-  #_value = this.selectedCalculator.getValue();
 
   public ngAfterViewInit(): void {
     this.hostControl = this.#injector.get(NgControl, null, {

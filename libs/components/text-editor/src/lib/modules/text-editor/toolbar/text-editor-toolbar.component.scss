@@ -52,7 +52,7 @@
   .sky-text-editor-colorpicker-group {
     .sky-text-editor-colorpicker-container {
       top: -2px;
-      margin: 0;
+      margin-right: var(--sky-space-inline-s);
 
       &:last-child ::ng-deep sky-colorpicker {
         .sky-colorpicker-button {
