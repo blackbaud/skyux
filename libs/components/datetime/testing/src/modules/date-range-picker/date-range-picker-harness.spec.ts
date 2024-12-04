@@ -1,17 +1,20 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
+  SkyDateRangeCalculation,
+  SkyDateRangeCalculator,
   SkyDateRangeCalculatorId,
+  SkyDateRangeCalculatorType,
   SkyDateRangePickerModule,
+  SkyDateRangeService,
 } from '@skyux/datetime';
 
 import { SkyDateRangePickerHarness } from './date-range-picker-harness';
@@ -23,7 +26,8 @@ import { SkyDateRangePickerHarness } from './date-range-picker-harness';
     <form [formGroup]="myForm">
       <sky-date-range-picker
         data-sky-id="test-date-range-picker"
-        formControlName="testPicker"
+        formControlName="pickerControl"
+        [calculatorIds]="calculatorIds()"
         [helpPopoverContent]="helpPopoverContent"
         [helpPopoverTitle]="helpPopoverTitle"
         [hintText]="hintText"
@@ -42,18 +46,54 @@ import { SkyDateRangePickerHarness } from './date-range-picker-harness';
   `,
 })
 class TestComponent {
+  #dateRangeSvc = inject(SkyDateRangeService);
+
+  public pickerControl = new FormControl<SkyDateRangeCalculation | undefined>(
+    undefined,
+  );
+
+  public myForm = inject(FormBuilder).group({
+    pickerControl: this.pickerControl,
+  });
+
   public customErrorFlag = false;
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public hintText: string | undefined;
   public labelText: string | undefined;
-  public myForm: FormGroup;
   public stacked = false;
 
-  constructor(formBuilder: FormBuilder) {
-    this.myForm = formBuilder.group({
-      testPicker: new FormControl(''),
+  protected calculatorIds = signal<SkyDateRangeCalculatorId[]>(
+    this.#getCurrentCalculatorIds(),
+  );
+
+  #customCalculator: SkyDateRangeCalculator | undefined;
+
+  public createCustomCalculator(): SkyDateRangeCalculatorId {
+    if (this.#customCalculator) {
+      throw new Error('Custom calculator already exists.');
+    }
+
+    this.#customCalculator = this.#dateRangeSvc.createCalculator({
+      shortDescription: 'Since 1999',
+      type: SkyDateRangeCalculatorType.Relative,
+      getValue: () => {
+        return {
+          startDate: new Date('1/1/1999'),
+          endDate: new Date(),
+        };
+      },
     });
+
+    this.calculatorIds.set(this.#getCurrentCalculatorIds());
+
+    return this.#customCalculator.calculatorId;
+  }
+
+  #getCurrentCalculatorIds(): SkyDateRangeCalculatorId[] {
+    return this.#dateRangeSvc.calculators.map(
+      (calculator) => calculator.calculatorId,
+    );
   }
 }
 //#endregion Test component
@@ -161,7 +201,7 @@ describe('Date range picker harness', () => {
   it('should get whether date range picker is disabled', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.myForm.controls['testPicker'].disable();
+    fixture.componentInstance.pickerControl.disable();
     fixture.detectChanges();
 
     await expectAsync(dateRangePickerHarness.isDisabled()).toBeResolvedTo(true);
@@ -279,9 +319,7 @@ describe('Date range picker harness', () => {
 
     await dateRangePickerHarness.setStartDateValue(newDate);
 
-    expect(
-      fixture.componentInstance.myForm.controls['testPicker'].value,
-    ).toEqual({
+    expect(fixture.componentInstance.pickerControl.value).toEqual({
       calculatorId: 3,
       startDate: new Date('01/12/1997'),
       endDate: null,
@@ -307,9 +345,7 @@ describe('Date range picker harness', () => {
 
     await dateRangePickerHarness.setEndDateValue(newDate);
 
-    expect(
-      fixture.componentInstance.myForm.controls['testPicker'].value,
-    ).toEqual({
+    expect(fixture.componentInstance.pickerControl.value).toEqual({
       calculatorId: 3,
       endDate: new Date('01/12/1997'),
       startDate: null,
@@ -349,7 +385,7 @@ describe('Date range picker harness', () => {
   });
 
   it('should get the selected calculator', async () => {
-    const { dateRangePickerHarness } = await setupTest();
+    const { dateRangePickerHarness, fixture } = await setupTest();
 
     // Check the value on initialization.
     await expectAsync(
@@ -366,12 +402,18 @@ describe('Date range picker harness', () => {
     ).toBeResolvedTo(SkyDateRangeCalculatorId.SpecificRange);
 
     // Set the calculator to an invalid calculator.
-    await dateRangePickerHarness.selectCalculator(
-      -1 as SkyDateRangeCalculatorId,
-    );
+    await expectAsync(
+      dateRangePickerHarness.selectCalculator(-1 as SkyDateRangeCalculatorId),
+    ).toBeRejectedWithError('Could not find calculator with ID -1.');
+
+    // Set the calculator to a custom calculator.
+    const customCalculatorId =
+      fixture.componentInstance.createCustomCalculator();
+
+    await dateRangePickerHarness.selectCalculator(customCalculatorId);
 
     await expectAsync(
       dateRangePickerHarness.getSelectedCalculator(),
-    ).toBeResolvedTo(SkyDateRangeCalculatorId.AnyTime);
+    ).toBeResolvedTo(customCalculatorId);
   });
 });

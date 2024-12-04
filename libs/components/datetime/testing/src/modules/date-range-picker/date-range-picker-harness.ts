@@ -197,9 +197,28 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
     calculatorId: SkyDateRangeCalculatorId,
   ): Promise<void> {
     const select = await this.locatorFor(
-      'select[FormControlName="calculatorId"',
+      'select[FormControlName="calculatorId"]',
     )();
-    return await select.selectOptions(calculatorId);
+
+    const options = await select.getProperty('options');
+
+    let optionIndex: number | undefined;
+
+    // Find the index of the option with the specified value.
+    for (let i = 0; i < options.length; i++) {
+      const option = options[i];
+
+      if (`${option.value}` === `${calculatorId}`) {
+        optionIndex = i;
+        break;
+      }
+    }
+
+    if (optionIndex === undefined) {
+      throw new Error(`Could not find calculator with ID ${calculatorId}.`);
+    }
+
+    await select.selectOptions(optionIndex);
   }
 
   /**
