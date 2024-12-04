@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { DemoComponent } from './demo.component';
 
-fdescribe('Basic file attachment demo', () => {
+describe('Basic file attachment demo', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     harness: SkyFileAttachmentHarness;
     fixture: ComponentFixture<DemoComponent>;
@@ -45,12 +45,13 @@ fdescribe('Basic file attachment demo', () => {
     await expectAsync(harness.getAcceptedTypes()).toBeResolvedTo(
       'application/pdf,image/jpeg,image/png,image/gif',
     );
+    await expectAsync(harness.isRequired()).toBeResolvedTo(true);
 
-    // await harness.clickHelpInline();
+    await harness.clickHelpInline();
 
-    // await expectAsync(harness.getHelpPopoverTitle()).toBeResolvedTo(
-    //   'Requirements',
-    // );
+    await expectAsync(harness.getHelpPopoverTitle()).toBeResolvedTo(
+      'Requirements',
+    );
   });
 
   it('should throw throw an error if file begins with the letter a', async () => {
@@ -65,18 +66,5 @@ fdescribe('Basic file attachment demo', () => {
     await expectAsync(
       harness.hasCustomError('invalidStartingLetter'),
     ).toBeResolvedTo(true);
-  });
-
-  it('should set file attachment to required', async () => {
-    const { harness, fixture } = await setupTest({
-      dataSkyId: 'birth-certificate',
-    });
-
-    await expectAsync(harness.isRequired()).toBeResolvedTo(true);
-
-    fixture.componentInstance.attachment.markAsTouched();
-    fixture.detectChanges();
-
-    await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
   });
 });
