@@ -504,13 +504,13 @@ describe('Colorpicker Component', () => {
       expect(fixture.nativeElement.querySelector(`#${id}`)).toExist();
     });
 
-    it('should have the lg margin class if stacked is true', () => {
+    it('should have the stacked class if stacked is true', () => {
       component.stacked = true;
       fixture.detectChanges();
 
       const colorpicker = getColorPickerHost(nativeElement);
 
-      expect(colorpicker).toHaveClass('sky-margin-stacked-lg');
+      expect(colorpicker).toHaveClass('sky-form-field-stacked');
     });
 
     it('should not have the lg margin class if stacked is false', () => {

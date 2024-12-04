@@ -164,7 +164,7 @@ export class SkyColorpickerComponent
    * the appropriate vertical spacing is automatically added to the text editor.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-form-field-stacked')
   public stacked = false;
 
   /**
