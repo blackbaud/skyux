@@ -63,7 +63,6 @@
       [disabled]="disabled"
       [required]="isRequired"
       (change)="fileChangeEvent($event)"
-      (blur)="onFileAttachmentBlur()"
     />
     @if (showFileAttachmentButton) {
       <button
@@ -164,7 +163,6 @@
   }
 </div>
 
-file attachment: {{ ngControl?.touched }}
 <sky-form-errors
   [id]="errorId"
   [errors]="ngControl?.errors ?? fileErrorValidation"
@@ -174,7 +172,7 @@ file attachment: {{ ngControl?.touched }}
 >
   <ng-content select="sky-form-error" />
   @if (ngControl?.touched) {
-    @if (fileErrorName === 'fileType' || ngControl?.errors?.['fileType']) {
+    @if (fileErrorName === 'fileType') {
       <sky-form-error
         errorName="fileType"
         [errorText]="
@@ -183,9 +181,7 @@ file attachment: {{ ngControl?.touched }}
             | skyLibResources: fileErrorParam
         "
       />
-    } @else if (
-      fileErrorName === 'maxFileSize' || ngControl?.errors?.['maxFileSize']
-    ) {
+    } @else if (fileErrorName === 'maxFileSize') {
       <sky-form-error
         errorName="maxFileSize"
         [errorText]="
@@ -193,9 +189,7 @@ file attachment: {{ ngControl?.touched }}
             | skyLibResources: (fileErrorParam | skyFileSize)
         "
       />
-    } @else if (
-      fileErrorName === 'minFileSize' || ngControl?.errors?.['minFileSize']
-    ) {
+    } @else if (fileErrorName === 'minFileSize') {
       <sky-form-error
         errorName="minFileSize"
         [errorText]="

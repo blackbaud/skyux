@@ -511,7 +511,7 @@ describe('File attachment harness', () => {
     ).toBeResolvedTo(true);
   });
 
-  fit('should get whether required error has fired', async () => {
+  it('should get whether required error has fired', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });

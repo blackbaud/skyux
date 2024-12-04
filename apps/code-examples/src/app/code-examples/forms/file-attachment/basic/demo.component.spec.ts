@@ -31,7 +31,7 @@ describe('Basic file attachment demo', () => {
     });
   });
 
-  it('should set initial value', async () => {
+  it('should set initial values', async () => {
     const { harness } = await setupTest({
       dataSkyId: 'birth-certificate',
     });
@@ -54,12 +54,12 @@ describe('Basic file attachment demo', () => {
     );
   });
 
-  it('should throw throw an error if file begins with the letter a', async () => {
+  it('should throw an error if file begins with the letter a', async () => {
     const { harness, fixture } = await setupTest({
       dataSkyId: 'birth-certificate',
     });
 
-    const file = new File([], 'afile.png', { type: 'image/png' });
+    const file = new File([], 'art.png', { type: 'image/png' });
     await harness.uploadFile(file);
     await firstValueFrom(fixture.componentInstance.attachment.valueChanges);
 

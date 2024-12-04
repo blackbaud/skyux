@@ -496,10 +496,6 @@ export class SkyFileAttachmentComponent
     this.#onTouched = fn;
   }
 
-  public onFileAttachmentBlur() {
-    this.#onTouched();
-  }
-
   public writeValue(value: any): void {
     this.value = value;
     this.#changeDetector.markForCheck();
@@ -640,7 +636,7 @@ export class SkyFileAttachmentComponent
 
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  #onChange = (file: SkyFileItem | null | undefined): void => {
+  #onChange = (_: any): void => {
     return;
   };
   // istanbul ignore next

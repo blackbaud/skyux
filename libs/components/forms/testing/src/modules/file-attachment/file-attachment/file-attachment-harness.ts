@@ -7,7 +7,7 @@ import { SkyFormErrorsHarness } from '../../form-error/form-errors-harness';
 import { SkyFileAttachmentHarnessFilters } from './file-attachment-harness-filters';
 
 /**
- * Harness for interacting with a file drop component in tests.
+ * Harness for interacting with a file attachment component in tests.
  * @internal
  */
 export class SkyFileAttachmentHarness extends SkyComponentHarness {
@@ -31,14 +31,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the help inline button.
-   */
-  public async clickHelpInline(): Promise<void> {
-    return await (await this.#getHelpInline()).click();
-  }
-
-  /**
-   * Clicks the attach file button if it is visible. Throws an error otherwise.
+   * Clicks the attach file button if it is visible.
    */
   public async clickAttachFileButton(): Promise<void> {
     try {
@@ -55,7 +48,14 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * CLicks the replace file button in default theme. Throws an error otherwise.
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return await (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Clicks the replace file button in default theme.
    */
   public async clickReplaceFileButton(): Promise<void> {
     try {
@@ -70,7 +70,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the uploaded file's name link to download it.
+   * Clicks the uploaded file to download it.
    */
   public async clickUploadedFile(): Promise<void> {
     try {
@@ -172,7 +172,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether file attachment is disabled
+   * Whether file attachment is disabled.
    */
   public async isDisabled(): Promise<boolean> {
     return (await (await this.#getButton()).getAttribute('disabled')) !== null;
@@ -188,7 +188,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether file attachment is has stacked enabled.
+   * Whether file attachment has stacked enabled.
    */
   public async isStacked(): Promise<boolean> {
     return await (await this.host()).hasClass('sky-margin-stacked-lg');
