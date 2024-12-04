@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
+  UntypedFormControl,
   Validators,
 } from '@angular/forms';
 import {
@@ -31,7 +31,7 @@ export class FileAttachmentComponent {
 
   public rejectedFiles: SkyFileItem[];
 
-  protected attachment: FormControl<SkyFileItem>;
+  protected attachment: UntypedFormControl;
   protected formGroup: FormGroup;
   protected required = true;
 
@@ -44,7 +44,7 @@ export class FileAttachmentComponent {
     this.rejectedFiles = [];
     this.allItems = [];
     this.linksToUpload = [];
-    this.attachment = new FormControl(undefined, Validators.required);
+    this.attachment = new UntypedFormControl(undefined, Validators.required);
     this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
