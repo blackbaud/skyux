@@ -9,7 +9,7 @@
     @if (labelText) {
       @if (!labelHidden) {
         <span
-          class="sky-control-label sky-margin-inline-xs"
+          class="sky-control-label"
           [attr.id]="labelId"
           [ngClass]="{
             'sky-control-label-required': isRequired
@@ -26,12 +26,14 @@
       }}</span>
     }
     @if (labelText && (helpPopoverContent || helpKey)) {
-      <sky-help-inline
-        [labelText]="labelText"
-        [helpKey]="helpKey"
-        [popoverTitle]="helpPopoverTitle"
-        [popoverContent]="helpPopoverContent"
-      />
+      <span class="sky-control-help-container">
+        <sky-help-inline
+          [labelText]="labelText"
+          [helpKey]="helpKey"
+          [popoverTitle]="helpPopoverTitle"
+          [popoverContent]="helpPopoverContent"
+        />
+      </span>
     }
   </div>
   <div
@@ -97,11 +99,7 @@
       </button>
     }
     @if (value && !isImage && currentThemeName === 'modern') {
-      <sky-icon
-        class="sky-file-attachment-icon sky-deemphasized"
-        icon="file-o"
-        size="2x"
-      />
+      <sky-icon class="sky-file-attachment-icon" icon="file-o" />
     }
     @if (value || currentThemeName === 'default') {
       <span class="sky-file-attachment-file-link">
@@ -115,7 +113,7 @@
             {{ truncatedFileName }}
           </a>
         } @else {
-          <span class="sky-file-attachment-none sky-deemphasized">
+          <span class="sky-file-attachment-none sky-font-deemphasized">
             {{ 'skyux_file_attachment_label_no_file_chosen' | skyLibResources }}
           </span>
         }
@@ -124,7 +122,7 @@
 
     @if (value) {
       <button
-        class="sky-btn sky-btn-borderless sky-file-attachment-delete"
+        class="sky-btn sky-btn-icon-borderless sky-file-attachment-delete"
         type="button"
         [attr.aria-labelledby]="
           deleteButtonLabelRef.id
@@ -134,9 +132,6 @@
                   : labelComponents?.get(0)?.labelContentId?.id)
         "
         [disabled]="disabled"
-        [skyThemeClass]="{
-          'sky-btn-icon-borderless': 'modern'
-        }"
         (click)="deleteFileAttachment()"
       >
         <sky-icon icon="trash-o" size="md" />
@@ -157,7 +152,13 @@
 </div>
 <div #hintTextEl="skyId" skyId>
   @if (hintText) {
-    <div class="sky-font-deemphasized sky-file-attachment-hint-text">
+    <div
+      class="sky-file-attachment-hint-text"
+      [skyThemeClass]="{
+        'sky-font-deemphasized': 'default',
+        'sky-font-hint-text-s': 'modern'
+      }"
+    >
       {{ hintText }}
     </div>
   }

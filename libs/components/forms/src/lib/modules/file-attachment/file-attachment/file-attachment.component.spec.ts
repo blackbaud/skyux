@@ -1717,7 +1717,7 @@ describe('File attachment', () => {
       'sky-file-attachment',
     );
 
-    expect(fileAttachment).toHaveClass('sky-margin-stacked-lg');
+    expect(fileAttachment).toHaveClass('sky-form-field-stacked');
   });
 
   it('should not have the lg margin class if stacked is false', () => {
@@ -1725,7 +1725,7 @@ describe('File attachment', () => {
       'sky-file-attachment',
     );
 
-    expect(fileAttachment).not.toHaveClass('sky-margin-stacked-lg');
+    expect(fileAttachment).not.toHaveClass('sky-form-field-stacked');
   });
 });
 

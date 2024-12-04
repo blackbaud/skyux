@@ -2,6 +2,7 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
+  flush,
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -464,6 +465,18 @@ describe('Date range picker', function () {
     );
 
     expect(component.numValueChangeNotifications).toEqual(1);
+  }));
+
+  it('should set the calculator ID to the default on initialization', fakeAsync(() => {
+    fixture.detectChanges();
+
+    expect(getCalculatorSelect().value).toEqual(
+      `${SkyDateRangeCalculatorId.AnyTime}`,
+    );
+
+    // Clear all microtasks since we only care about the state of the component
+    // before the first change detection cycle.
+    flush();
   }));
 
   it('should use default calculator value if control set to `null`', fakeAsync(function () {
