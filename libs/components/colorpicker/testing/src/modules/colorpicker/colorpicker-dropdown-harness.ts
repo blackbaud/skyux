@@ -15,8 +15,7 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
   #getApplyButton = this.locatorFor('.sky-btn-colorpicker-apply');
   #getCancelButton = this.locatorFor('.sky-btn-colorpicker-close');
   #getInputs = this.locatorForAll('input.sky-form-control');
-  #getSwatchesDefault = this.locatorForAll('button.sky-preset-color');
-  #getSwatchesModern = this.locatorForAll('button.sky-btn-link');
+  #getSwatches = this.locatorForAll('button.sky-preset-color');
 
   public static with(
     filters: SkyColorpickerDropdownHarnessFilters,
@@ -154,15 +153,10 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
   }
 
   async #getSwatchButtons(): Promise<TestElement[]> {
-    let swatchesModern = await this.#getSwatchesModern();
-    swatchesModern = swatchesModern.slice(0, swatchesModern.length - 1);
+    const swatches = await this.#getSwatches();
 
-    const swatchesDefault = await this.#getSwatchesDefault();
-
-    if (swatchesDefault.length > 0) {
-      return swatchesDefault;
-    } else if (swatchesModern.length > 0) {
-      return swatchesModern;
+    if (swatches.length > 0) {
+      return swatches;
     } else {
       throw new Error('No swatches found.');
     }
