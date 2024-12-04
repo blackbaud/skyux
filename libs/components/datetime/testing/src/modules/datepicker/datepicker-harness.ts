@@ -65,11 +65,10 @@ export class SkyDatepickerHarness extends SkyComponentHarness {
   public async getControl(): Promise<
     SkyDatepickerInputHarness | SkyFuzzyDatepickerInputHarness
   > {
-    let input = await this.locatorFor(
+    return await this.locatorFor(
       SkyDatepickerInputHarness,
       SkyFuzzyDatepickerInputHarness,
     )();
-    return input;
   }
 
   /**
