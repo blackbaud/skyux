@@ -10,10 +10,24 @@ import { SkyFileDropHarness } from './file-drop-harness';
 @Component({
   standalone: true,
   imports: [SkyFileDropModule],
-  template: `<sky-file-drop
-    data-sky-id="test-file-drop"
-    (filesChanged)="onFilesChanged($event)"
-  />`,
+  template: `
+    <sky-file-drop
+      data-sky-id="test-file-drop"
+      [acceptedTypes]="acceptedTypes"
+      [fileUploadAriaLabel]="fileUploadAriaLabel"
+      [helpPopoverContent]="helpPopoverContent"
+      [helpPopoverTitle]="helpPopoverTitle"
+      [hintText]="hintText"
+      [labelText]="labelText"
+      [linkUploadAriaLabel]="linkUploadAriaLabel"
+      [linkUploadHintText]="linkUploadHintText"
+      [maxFileSize]="maxFileSize"
+      [minFileSize]="minFileSize"
+      [required]="required"
+      [stacked]="stacked"
+      (filesChanged)="onFilesChanged($event)"
+    />
+  `,
 })
 class TestComponent {
   public filesChanged = new ReplaySubject<SkyFileDropChange>(1);
