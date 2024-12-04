@@ -355,7 +355,7 @@ export class SkyFileAttachmentComponent
       // This handles that by running change detection whenever the host control
       // has any changes. This is a workaround for this existing bug and will be
       // addressed in a future story that refactors file attachment.
-      this.ngControl?.statusChanges?.subscribe(() => {
+      this.ngControl.statusChanges?.subscribe(() => {
         this.#changeDetector.markForCheck();
       });
     }
