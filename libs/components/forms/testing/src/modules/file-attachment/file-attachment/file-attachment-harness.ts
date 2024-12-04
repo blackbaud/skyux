@@ -190,7 +190,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
    * Whether file attachment has stacked enabled.
    */
   public async isStacked(): Promise<boolean> {
-    return await (await this.host()).hasClass('sky-margin-stacked-lg');
+    return await (await this.host()).hasClass('sky-form-field-stacked');
   }
 
   /**
