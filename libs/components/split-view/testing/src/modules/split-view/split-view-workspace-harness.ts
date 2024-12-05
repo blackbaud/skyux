@@ -26,24 +26,41 @@ export class SkySplitViewWorkspaceHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the workspace content component, if it exists.
+   * Gets the workspace content component.
    */
-  public async getContent(): Promise<SkySplitViewWorkspaceContentHarness | null> {
-    return await this.#getContent();
+  public async getContent(): Promise<SkySplitViewWorkspaceContentHarness> {
+    const content = await this.#getContent();
+    if (content === null) {
+      throw Error('Could not find split view workspace content.');
+    }
+
+    return content;
   }
 
   /**
-   * Gets the workspace footer component, if it exists.
+   * Gets the workspace footer component.
    */
-  public async getFooter(): Promise<SkySplitViewWorkspaceFooterHarness | null> {
-    return await this.#getFooter();
+  public async getFooter(): Promise<SkySplitViewWorkspaceFooterHarness> {
+    const footer = await this.#getFooter();
+
+    if (footer === null) {
+      throw Error('Could not find split view workspace footer.');
+    }
+
+    return footer;
   }
 
   /**
-   * Gets the workspace header component, if it exists.
+   * Gets the workspace header component.
    * @internal
    */
-  public async getHeader(): Promise<SkySplitViewWorkspaceHeaderHarness | null> {
-    return await this.#getHeader();
+  public async getHeader(): Promise<SkySplitViewWorkspaceHeaderHarness> {
+    const header = await this.#getHeader();
+
+    if (header === null) {
+      throw Error('Could not find split view workspace header.');
+    }
+
+    return header;
   }
 }

@@ -42,6 +42,8 @@ interface DemoForm {
 })
 export class SplitViewHarnessTestComponent {
   public showWorkspace = true;
+  public showContent = true;
+  public showFooter = true;
   public showDrawer = true;
   public dockType: SkySplitViewDockType | undefined;
 

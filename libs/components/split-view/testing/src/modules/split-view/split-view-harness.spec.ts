@@ -57,7 +57,7 @@ describe('Split view harness', () => {
 
     await expectAsync(
       splitViewHarness.getBackButtonText(),
-    ).toBeRejectedWithError('The workspace header button could not be found.');
+    ).toBeRejectedWithError('Could not find split view workspace header.');
   });
 
   it('should return the dock type', async () => {
@@ -75,13 +75,29 @@ describe('Split view harness', () => {
     await expectAsync(splitViewHarness.getDockType()).toBeResolvedTo('fill');
   });
 
-  it('should error if the drawer or workspace are missing', async () => {
+  it('should get the drawer, workspace, and workspace child components, or error if they are missing', async () => {
     const { splitViewHarness, fixture } = await setupTest();
     fixture.detectChanges();
     await fixture.whenStable();
 
     await expectAsync(splitViewHarness.getDrawer()).toBeResolved();
-    await expectAsync(splitViewHarness.getWorkspace()).toBeResolved();
+    const workspaceHarness = await splitViewHarness.getWorkspace();
+
+    await expectAsync(workspaceHarness.getContent()).toBeResolved();
+    await expectAsync(workspaceHarness.getFooter()).toBeResolved();
+
+    fixture.componentInstance.showContent = false;
+    fixture.componentInstance.showFooter = false;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(workspaceHarness.getContent()).toBeRejectedWithError(
+      'Could not find split view workspace content.',
+    );
+    await expectAsync(workspaceHarness.getFooter()).toBeRejectedWithError(
+      'Could not find split view workspace footer.',
+    );
 
     fixture.componentInstance.showDrawer = false;
     fixture.componentInstance.showWorkspace = false;
@@ -90,10 +106,10 @@ describe('Split view harness', () => {
     await fixture.whenStable();
 
     await expectAsync(splitViewHarness.getDrawer()).toBeRejectedWithError(
-      'Could not find split view drawer component.',
+      'Could not find split view drawer.',
     );
     await expectAsync(splitViewHarness.getWorkspace()).toBeRejectedWithError(
-      'Could not find split view workspace component.',
+      'Could not find split view workspace.',
     );
   });
 
@@ -124,17 +140,6 @@ describe('Split view harness', () => {
     await expectAsync(splitViewHarness.getWorkspaceIsVisible()).toBeResolvedTo(
       false,
     );
-  });
-
-  it('should get the workspace content and footer harnesses', async () => {
-    const { splitViewHarness, fixture } = await setupTest();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const workspaceHarness = await splitViewHarness.getWorkspace();
-
-    await expectAsync(workspaceHarness.getContent()).toBeResolved();
-    await expectAsync(workspaceHarness.getFooter()).toBeResolved();
   });
 
   it('should return the ARIA labels for the drawer and workspace', async () => {

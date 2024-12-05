@@ -40,7 +40,6 @@ export class SkySplitViewHarness extends SkyComponentHarness {
   /**
    * Gets the text on the button to return to the list
    * that appears on the workspace in responsive mode.
-   * Throws an error if the button is not visible.
    */
   public async getBackButtonText(): Promise<string> {
     return (await (await this.#getBackButton()).text()).trim();
@@ -64,7 +63,7 @@ export class SkySplitViewHarness extends SkyComponentHarness {
     const drawer = await this.#getSplitViewDrawer();
 
     if (!drawer) {
-      throw Error('Could not find split view drawer component.');
+      throw Error('Could not find split view drawer.');
     }
 
     return drawer;
@@ -85,7 +84,7 @@ export class SkySplitViewHarness extends SkyComponentHarness {
     const workspace = await this.#getSplitViewWorkspace();
 
     if (!workspace) {
-      throw Error('Could not find split view workspace component.');
+      throw Error('Could not find split view workspace.');
     }
 
     return workspace;
@@ -100,7 +99,7 @@ export class SkySplitViewHarness extends SkyComponentHarness {
   }
 
   /**
-   * Opens the drawer component when in responsive mode. Throws an error if the back button cannot be found.
+   * Opens the drawer component when in responsive mode.
    */
   public async openDrawer(): Promise<void> {
     const button = await this.#getBackButton();
@@ -110,12 +109,6 @@ export class SkySplitViewHarness extends SkyComponentHarness {
 
   async #getBackButton(): Promise<TestElement> {
     const workspace = await this.getWorkspace();
-    const header = await workspace.getHeader();
-
-    if (!header) {
-      throw Error('The workspace header button could not be found.');
-    }
-
-    return await header.getButton();
+    return await (await workspace.getHeader()).getButton();
   }
 }
