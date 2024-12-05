@@ -35,7 +35,11 @@ import {
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
+import {
+  SkyThemeComponentClassDirective,
+  SkyThemeModule,
+  SkyThemeService,
+} from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -75,11 +79,13 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyIconModule,
     SkyIdModule,
     SkyThemeModule,
+    SkyThemeComponentClassDirective,
   ],
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  hostDirectives: [SkyThemeComponentClassDirective],
   selector: 'sky-file-attachment',
   standalone: true,
   styleUrl: './file-attachment.component.scss',
@@ -188,7 +194,7 @@ export class SkyFileAttachmentComponent
    * the appropriate vertical spacing is automatically added to the single file attachment.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-form-field-stacked')
   public stacked = false;
 
   /**

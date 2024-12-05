@@ -1,5 +1,26 @@
 # Changelog
 
+## [11.26.0](https://github.com/blackbaud/skyux/compare/11.25.0...11.26.0) (2024-12-05)
+
+
+### Features
+
+* **components/colorpicker:** tokenize colorpicker styles ([#2924](https://github.com/blackbaud/skyux/issues/2924)) ([6722996](https://github.com/blackbaud/skyux/commit/6722996168c93bf2fb348f3d74eb327953420cf5))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** handle focus for adjacent lookup cells ([#2929](https://github.com/blackbaud/skyux/issues/2929)) ([fcb0d69](https://github.com/blackbaud/skyux/commit/fcb0d696844424a6f4125b71fb13acaa6e1bc578))
+
+## [11.25.0](https://github.com/blackbaud/skyux/compare/11.24.0...11.25.0) (2024-12-04)
+
+
+### Features
+
+* add `@skyux/manifest` ([#2920](https://github.com/blackbaud/skyux/issues/2920)) ([054ffcd](https://github.com/blackbaud/skyux/commit/054ffcd252d81934c1f4817b71844e6e865f7e51))
+* **components/datetime:** add methods to the date-range-picker harness to get the selected calculator, and the start and end date values ([#2925](https://github.com/blackbaud/skyux/issues/2925)) ([5114b28](https://github.com/blackbaud/skyux/commit/5114b28efb96e69a2837f149d2b26587918f12d5))
+* **components/forms:** tokenize single file attachment styles ([#2927](https://github.com/blackbaud/skyux/issues/2927)) ([98fab62](https://github.com/blackbaud/skyux/commit/98fab62323f42fb91b2849f055fb2d6bb1874099))
+
 ## [11.24.0](https://github.com/blackbaud/skyux/compare/11.23.0...11.24.0) (2024-11-25)
 
 
