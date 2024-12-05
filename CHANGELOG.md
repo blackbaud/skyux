@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.26.0](https://github.com/blackbaud/skyux/compare/11.25.0...11.26.0) (2024-12-05)
+
+
+### Features
+
+* **components/colorpicker:** tokenize colorpicker styles ([#2924](https://github.com/blackbaud/skyux/issues/2924)) ([6722996](https://github.com/blackbaud/skyux/commit/6722996168c93bf2fb348f3d74eb327953420cf5))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** handle focus for adjacent lookup cells ([#2929](https://github.com/blackbaud/skyux/issues/2929)) ([fcb0d69](https://github.com/blackbaud/skyux/commit/fcb0d696844424a6f4125b71fb13acaa6e1bc578))
+
 ## [11.25.0](https://github.com/blackbaud/skyux/compare/11.24.0...11.25.0) (2024-12-04)
 
 
