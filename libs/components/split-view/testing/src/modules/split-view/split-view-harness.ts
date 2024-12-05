@@ -38,8 +38,7 @@ export class SkySplitViewHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the text on the button to return to the list
-   * that appears on the workspace in responsive mode.
+   * Gets the text for the button that appears in the workspace header in responsive mode.
    */
   public async getBackButtonText(): Promise<string> {
     return (await (await this.#getBackButton()).text()).trim();
@@ -109,6 +108,6 @@ export class SkySplitViewHarness extends SkyComponentHarness {
 
   async #getBackButton(): Promise<TestElement> {
     const workspace = await this.getWorkspace();
-    return await (await workspace.getHeader()).getButton();
+    return await (await workspace.getHeader()).getBackButton();
   }
 }

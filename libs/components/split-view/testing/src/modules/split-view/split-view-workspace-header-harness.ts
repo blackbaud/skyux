@@ -16,10 +16,10 @@ export class SkySplitViewWorkspaceHeaderHarness extends SkyInputHarness {
   );
 
   /**
-   * Gets the button element that sends the user from the workspace view to the drawer view.
+   * Gets the button element.
    * @internal
    */
-  public async getButton(): Promise<TestElement> {
+  public async getBackButton(): Promise<TestElement> {
     return await this.#getButton();
   }
 }
