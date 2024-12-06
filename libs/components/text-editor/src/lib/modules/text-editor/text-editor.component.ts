@@ -25,6 +25,7 @@ import {
 } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyToolbarModule } from '@skyux/layout';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -78,6 +79,7 @@ import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
     SkyIdModule,
     SkyTextEditorMenubarComponent,
     SkyTextEditorToolbarComponent,
+    SkyThemeModule,
     SkyToolbarModule,
     SkyFormErrorsModule,
     SkyTextEditorResourcesModule,
@@ -275,7 +277,7 @@ export class SkyTextEditorComponent
    * the appropriate vertical spacing is automatically added to the text editor.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-form-field-stacked')
   public stacked = false;
 
   /**
