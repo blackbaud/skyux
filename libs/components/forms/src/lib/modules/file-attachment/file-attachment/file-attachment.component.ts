@@ -102,7 +102,6 @@ export class SkyFileAttachmentComponent
   /**
    * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
-   * @required
    */
   @Input()
   public acceptedTypes: string | undefined;
@@ -355,6 +354,14 @@ export class SkyFileAttachmentComponent
         this.ngControl?.control?.setValue(this.value, {
           emitEvent: false,
         });
+        this.#changeDetector.markForCheck();
+      });
+
+      // There is some disconnect between the host control and the form control.
+      // This handles that by running change detection whenever the host control
+      // has any changes. This is a workaround for this existing bug and will be
+      // addressed in a future story that refactors file attachment.
+      this.ngControl.control?.events.subscribe(() => {
         this.#changeDetector.markForCheck();
       });
     }
