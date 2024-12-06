@@ -25,7 +25,7 @@ export class SkyTextExpandModalHarness extends ComponentHarness {
   /**
    * Gets the header text of the modal.
    */
-  public async getHeaderText(): Promise<string> {
+  public async getExpandModalTitle(): Promise<string> {
     return await (await this.#getHeader()).text();
   }
 
