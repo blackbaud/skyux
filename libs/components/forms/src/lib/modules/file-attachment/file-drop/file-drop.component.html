@@ -1,13 +1,13 @@
-<fieldset>
+<fieldset class="sky-file-drop-wrapper">
   @if (labelText) {
     <legend
-      class="sky-control-label sky-font-body-default sky-margin-stacked-xs"
+      class="sky-control-label sky-font-body-default"
       [ngClass]="{
         'sky-screen-reader-only': labelHidden
       }"
     >
       <span
-        class="sky-margin-inline-xs"
+        class="sky-file-drop-label-text"
         [ngClass]="{
           'sky-control-label-required': required
         }"
@@ -19,12 +19,14 @@
         }}</span>
       }
       @if (helpPopoverContent || helpKey) {
-        <sky-help-inline
-          [helpKey]="helpKey"
-          [labelText]="labelText"
-          [popoverTitle]="helpPopoverTitle"
-          [popoverContent]="helpPopoverContent"
-        />
+        <span class="sky-control-help-container">
+          <sky-help-inline
+            [helpKey]="helpKey"
+            [labelText]="labelText"
+            [popoverTitle]="helpPopoverTitle"
+            [popoverContent]="helpPopoverContent"
+          />
+        </span>
       }
     </legend>
   }
@@ -70,9 +72,14 @@
       />
 
       @if (customEl.children.length === 0) {
-        <div class="sky-file-drop-contents sky-padding-even-default">
+        <div class="sky-file-drop-contents sky-file-drop-upload-contents">
           <div class="sky-file-drop-contents-not-over">
-            <div class="sky-file-drop-text-header sky-font-display-3">
+            <div
+              class="sky-file-drop-text-header"
+              [skyThemeClass]="{
+                'sky-font-display-3': 'default'
+              }"
+            >
               {{
                 'skyux_file_attachment_file_upload_drag_file_here'
                   | skyLibResources
@@ -89,7 +96,12 @@
 
           <!-- This will appear when file is dragged over and is valid -->
           <div class="sky-file-drop-contents-accept">
-            <div class="sky-file-drop-text-header sky-font-display-3">
+            <div
+              class="sky-file-drop-text-header"
+              [skyThemeClass]="{
+                'sky-font-display-3': 'default'
+              }"
+            >
               {{
                 'skyux_file_attachment_file_upload_drop_files_here'
                   | skyLibResources
@@ -100,7 +112,12 @@
 
           <!-- This will appear when file is dragged over and is invalid -->
           <div class="sky-file-drop-contents-reject">
-            <div class="sky-file-drop-text-header sky-font-display-3">
+            <div
+              class="sky-file-drop-text-header"
+              [skyThemeClass]="{
+                'sky-font-display-3': 'default'
+              }"
+            >
               {{
                 'skyux_file_attachment_file_upload_invalid_file'
                   | skyLibResources
@@ -117,17 +134,22 @@
     </div>
     @if (allowLinks) {
       <div class="sky-file-drop-col">
-        <div class="sky-file-drop-contents sky-padding-even-default">
+        <div class="sky-file-drop-contents">
           <div class="sky-file-drop-link">
             <div class="sky-file-drop-link-header">
-              <div class="sky-file-drop-text-header sky-font-display-3">
+              <div
+                class="sky-file-drop-text-header"
+                [skyThemeClass]="{
+                  'sky-font-display-3': 'default'
+                }"
+              >
                 {{
                   'skyux_file_attachment_file_upload_link_label'
                     | skyLibResources
                 }}
               </div>
             </div>
-            <sky-input-box stacked [hintText]="linkUploadHintText">
+            <sky-input-box [hintText]="linkUploadHintText">
               <input
                 type="text"
                 [attr.aria-label]="
@@ -161,14 +183,19 @@
   </div>
   <div #hintTextEl="skyId" skyId>
     @if (hintText) {
-      <div class="sky-font-deemphasized sky-file-drop-hint-text">
+      <div
+        class="sky-font-deemphasized sky-file-drop-hint-text"
+        [skyThemeClass]="{
+          'sky-font-deemphasized': 'default',
+          'sky-font-hint-text-s': 'modern'
+        }"
+      >
         {{ hintText }}
       </div>
     }
   </div>
 </fieldset>
 <sky-form-errors
-  [class.sky-file-drop-errors]="labelText && rejectedFiles.length"
   [id]="errorId"
   [labelText]="labelText"
   [touched]="rejectedFiles.length > 0"

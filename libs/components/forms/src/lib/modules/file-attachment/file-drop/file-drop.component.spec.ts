@@ -483,15 +483,15 @@ describe('File drop component', () => {
     expect(formError.textContent).toContain('woo.txt: ' + errorMessage);
   });
 
-  it('should have the lg margin class if stacked is true', () => {
+  it('should have the stacked class if stacked is true', () => {
     fixture.componentInstance.stacked = true;
     fixture.detectChanges();
 
-    expect(fixture.nativeElement).toHaveClass('sky-margin-stacked-lg');
+    expect(fixture.nativeElement).toHaveClass('sky-form-field-stacked');
   });
 
-  it('should not have the lg margin class if stacked is false', () => {
-    expect(fixture.nativeElement).not.toHaveClass('sky-margin-stacked-lg');
+  it('should not have the stacked class if stacked is false', () => {
+    expect(fixture.nativeElement).not.toHaveClass('sky-form-field-stacked');
   });
 
   it('should click the file input on file drop click', () => {
@@ -1277,7 +1277,7 @@ describe('File drop component', () => {
     componentInstance.labelText = 'Testing';
     fixture.detectChanges();
     const legendEl = getLabelEl();
-    const labelWrapper = legendEl?.querySelector('span.sky-margin-inline-xs');
+    const labelWrapper = legendEl?.querySelector('.sky-file-drop-label-text');
 
     expect(
       labelWrapper?.classList.contains('sky-control-label-required'),
@@ -1290,7 +1290,7 @@ describe('File drop component', () => {
     fixture.componentInstance.required = true;
     fixture.detectChanges();
     const legendEl = getLabelEl();
-    const labelWrapper = legendEl?.querySelector('span.sky-margin-inline-xs');
+    const labelWrapper = legendEl?.querySelector('.sky-file-drop-label-text');
 
     expect(
       labelWrapper?.classList.contains('sky-control-label-required'),

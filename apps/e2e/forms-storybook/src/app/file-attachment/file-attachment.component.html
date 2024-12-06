@@ -11,10 +11,9 @@
     [stacked]="true"
     (filesChanged)="filesUpdated($event)"
   />
-
-  <div *ngFor="let file of allItems">
+  @for (file of allItems; track file) {
     <sky-file-item [fileItem]="file" />
-  </div>
+  }
 </div>
 
 <div *ngIf="basic" style="width: 60%">
@@ -28,9 +27,9 @@
     (filesChanged)="filesUpdated($event)"
   />
 
-  <div *ngFor="let file of allItems">
+  @for (file of allItems; track file) {
     <sky-file-item [fileItem]="file" />
-  </div>
+  }
 </div>
 
 <div *ngIf="basic" style="width: 60%">
@@ -42,7 +41,7 @@
     (filesChanged)="filesUpdated($event)"
   />
 
-  <div *ngFor="let file of allItems">
+  @for (file of allItems; track file) {
     <sky-file-item [fileItem]="file" />
-  </div>
+  }
 </div>
