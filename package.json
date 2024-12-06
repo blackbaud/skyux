@@ -23,7 +23,7 @@
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
     "dev:create-library-resources": "skyux-dev create-lib-resources",
     "dev:format": "nx format:write",
-    "dev:local-registry": "nx run tools:local-registry",
+    "dev:local-registry": "npx verdaccio --config .verdaccio/config.yml",
     "dev:publish-to-local-registry": "ts-node ./scripts/publish-local.ts",
     "dev:pristine": "skyux-dev pristine-commit"
   },

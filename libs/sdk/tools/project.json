@@ -20,14 +20,6 @@
       "options": {
         "jestConfig": "libs/sdk/tools/jest.config.ts"
       }
-    },
-    "local-registry": {
-      "executor": "@nx/js:verdaccio",
-      "options": {
-        "port": 4873,
-        "config": "{workspaceRoot}/.verdaccio/config.yml",
-        "storage": "{workspaceRoot}/tmp/local-registry/storage"
-      }
     }
   },
   "tags": []
