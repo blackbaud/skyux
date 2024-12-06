@@ -295,7 +295,7 @@ button.sky-file-drop {
     --sky-override-file-drop-icon-font-size,
     var(--sky-size-icon-xl)
   );
-  max-width: var(--sky-override-file-drop-icon-font-size, auto);
+  max-height: var(--sky-override-file-drop-icon-font-size, auto);
   color: var(
     --sky-override-file-upload-icon-color,
     var(--sky-color-icon-deemphasized)
