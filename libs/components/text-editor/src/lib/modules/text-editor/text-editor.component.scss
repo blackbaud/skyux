@@ -40,6 +40,7 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-text-editor', false) {
+  --sky-override-text-editor-background-color: var(--modern-color-white);
   --sky-override-text-editor-border-color: #{$sky-theme-modern-border-color-neutral-medium};
   --sky-override-text-editor-focus-shadow: #{$sky-theme-modern-elevation-1-shadow-size
     $sky-theme-modern-elevation-1-shadow-color};
