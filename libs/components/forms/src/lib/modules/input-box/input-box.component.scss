@@ -34,7 +34,9 @@
 sky-input-box {
   --sky-background-color-input-box-group: transparent;
   --sky-background-color-input-box-group-focused: transparent;
+}
 
+.sky-input-box {
   --sky-input-box-button-width: var(
     --sky-override-button-width,
     var(--sky-input-box-height)
