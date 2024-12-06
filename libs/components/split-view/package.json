@@ -18,6 +18,7 @@
   "peerDependencies": {
     "@angular/animations": "^18.2.13",
     "@angular/common": "^18.2.13",
+    "@angular/cdk": "^18.2.14",
     "@angular/core": "^18.2.13",
     "@angular/platform-browser": "^18.2.13",
     "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
