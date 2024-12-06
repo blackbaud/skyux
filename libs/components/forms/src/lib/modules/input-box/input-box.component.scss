@@ -10,7 +10,6 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-input-box', false) {
-  --sky-override-background-color-input-box: var(--modern-color-white);
   --sky-override-button-width: 55px;
   --sky-override-input-box-character-count-font-size: var(
     --sky-font-size-body-m
@@ -27,8 +26,12 @@
   --sky-override-textarea-margin-top: -26px;
 }
 
+@include compatMixins.sky-modern-overrides('sky-input-box', false) {
+  --sky-override-background-color-input-box: var(--modern-color-white);
+}
+
 // default theme initial input box background colors (also set by ag-grid and search)
-.sky-input-box {
+sky-input-box {
   --sky-background-color-input-box-group: transparent;
   --sky-background-color-input-box-group-focused: transparent;
 
@@ -40,7 +43,7 @@
 
 // modern theme initial input box background colors with overrides (also set by ag-grid and search)
 .sky-theme-modern {
-  .sky-input-box {
+  sky-input-box {
     --sky-background-color-input-box-group: var(
       --sky-override-background-color-input-box,
       var(--sky-color-background-input-base)

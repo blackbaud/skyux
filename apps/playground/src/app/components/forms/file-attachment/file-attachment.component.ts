@@ -17,7 +17,7 @@ import {
   templateUrl: './file-attachment.component.html',
 })
 export class FileAttachmentComponent {
-  public acceptedTypes = 'image/png,image/jpeg';
+  public acceptedTypes = 'image/png,image/jpeg,application/pdf';
 
   public allItems: (SkyFileItem | SkyFileLink)[];
 
