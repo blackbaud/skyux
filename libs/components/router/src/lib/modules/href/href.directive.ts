@@ -188,17 +188,18 @@ export class SkyHrefDirective {
     if (this.#hrefResolver && this.skyHref) {
       this.#applyChanges(this.#getChanges());
       try {
-        await this.#hrefResolver
-          .resolveHref({ url: this.skyHref })
-          .then((route) => {
-            this.#route = { ...route };
-            this.#applyChanges(this.#getChanges());
-            /* istanbul ignore else */
-            if (this.#changeDetectorRef && this.#applicationRef) {
-              this.#changeDetectorRef.markForCheck();
-              this.#applicationRef.tick();
-            }
-          });
+        const route = await this.#hrefResolver.resolveHref({
+          url: this.skyHref,
+        });
+
+        this.#route = { ...route };
+        this.#applyChanges(this.#getChanges());
+
+        /* istanbul ignore else */
+        if (this.#changeDetectorRef && this.#applicationRef) {
+          this.#changeDetectorRef.markForCheck();
+          this.#applicationRef.tick();
+        }
       } catch {
         this.#applyChanges(this.#getChanges());
       }
