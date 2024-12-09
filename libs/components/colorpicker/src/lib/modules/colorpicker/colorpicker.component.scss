@@ -27,6 +27,7 @@
   --sky-override-colorpicker-button-focus-outline: -webkit-focus-ring-color auto
     5px;
   --sky-override-colorpicker-button-size: 30px;
+  --sky-override-colorpicker-disabled-cursor: default;
   --sky-override-colorpicker-disabled-opacity: 0.65;
   --sky-override-colorpicker-icon-font-size: 12px;
   --sky-override-colorpicker-icon-offset: 2px;
@@ -197,21 +198,15 @@ sky-colorpicker.sky-form-field-stacked {
   }
 
   &.sky-colorpicker-button-disabled {
-    cursor: default;
+    cursor: var(--sky-override-colorpicker-disabled-cursor, not-allowed);
     box-shadow: var(
       --sky-override-colorpicker-button-box-shadow,
       inset 0 0 0 var(--sky-border-width-input-disabled)
-        var(
-          --sky-override-colorpicker-button-border-color,
-          var(--sky-color-border-input-disabled)
-        ),
+        var(--sky-color-border-action-secondary-disabled),
       inset 0 0 0 var(--sky-colorpicker-border-padding-size)
         var(--sky-color-background-input-disabled),
       inset 0 0 0 var(--sky-color-picker-inner-border-size)
-        var(
-          --sky-override-colorpicker-button-border-color,
-          var(--sky-color-border-input-disabled)
-        )
+        var(--sky-color-border-action-secondary-disabled)
     );
   }
 
@@ -792,6 +787,8 @@ sky-colorpicker.sky-form-field-stacked {
 
     .sky-colorpicker-button-modern-chevron {
       background-color: var(--sky-color-background-input-disabled);
+      border-left: 1px solid var(--sky-color-border-action-secondary-disabled);
+      border-top: 1px solid var(--sky-color-border-action-secondary-disabled);
     }
 
     .sky-colorpicker-button-icon {

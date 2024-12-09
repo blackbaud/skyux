@@ -13,7 +13,5 @@
   (linkChanged)="onLinkChanged($event)"
 />
 @for (file of allItems; track file) {
-  <div>
-    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
-  </div>
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
 }
