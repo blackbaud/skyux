@@ -41,7 +41,7 @@ export class SkyHrefDirective {
       this.#_skyHref = skyHref ? skyHref.join('/') : '';
     }
 
-    this.#checkRouteAccess();
+    void this.#checkRouteAccess();
   }
 
   public get skyHref(): string {
@@ -150,7 +150,7 @@ export class SkyHrefDirective {
 
     const urlTree = this.#getUrlTree();
     if (urlTree) {
-      this.#router.navigateByUrl(urlTree);
+      void this.#router.navigateByUrl(urlTree);
       return false;
     }
     return true;
@@ -179,7 +179,7 @@ export class SkyHrefDirective {
     this.skyHrefChange.emit({ userHasAccess: !change.hidden });
   }
 
-  #checkRouteAccess(): void {
+  async #checkRouteAccess(): Promise<void> {
     this.#route = {
       url: this.skyHref,
       userHasAccess: false,
@@ -188,16 +188,18 @@ export class SkyHrefDirective {
     if (this.#hrefResolver && this.skyHref) {
       this.#applyChanges(this.#getChanges());
       try {
-        this.#hrefResolver.resolveHref({ url: this.skyHref }).then((route) => {
-          this.#route = { ...route };
-          this.#applyChanges(this.#getChanges());
-          /* istanbul ignore else */
-          if (this.#changeDetectorRef && this.#applicationRef) {
-            this.#changeDetectorRef.markForCheck();
-            this.#applicationRef.tick();
-          }
-        });
-      } catch (error) {
+        await this.#hrefResolver
+          .resolveHref({ url: this.skyHref })
+          .then((route) => {
+            this.#route = { ...route };
+            this.#applyChanges(this.#getChanges());
+            /* istanbul ignore else */
+            if (this.#changeDetectorRef && this.#applicationRef) {
+              this.#changeDetectorRef.markForCheck();
+              this.#applicationRef.tick();
+            }
+          });
+      } catch {
         this.#applyChanges(this.#getChanges());
       }
     } else {

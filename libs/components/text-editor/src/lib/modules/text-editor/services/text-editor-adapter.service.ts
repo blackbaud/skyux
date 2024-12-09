@@ -93,7 +93,7 @@ export class SkyTextEditorAdapterService {
   /**
    * Executes a command on the text editor with the corresponding id.
    */
-  public execCommand(editorCommand: EditorCommand): void {
+  public async execCommand(editorCommand: EditorCommand): Promise<void> {
     /* istanbul ignore else */
     if (this.#textEditorService.editor) {
       const documentEl = this.#getIframeDocumentEl();
@@ -106,7 +106,7 @@ export class SkyTextEditorAdapterService {
             .pipe(take(1))
             .subscribe((errorString) => alert(errorString));
         } else {
-          navigator.clipboard.readText().then((clipText) => {
+          await navigator.clipboard.readText().then((clipText) => {
             /* istanbul ignore else */
             if (this.editorSelected()) {
               documentEl.execCommand('insertHTML', false, clipText);
@@ -322,9 +322,9 @@ export class SkyTextEditorAdapterService {
     documentEl.body.setAttribute('aria-required', required.toString());
   }
 
-  public setFontSize(fontSize: number): void {
+  public async setFontSize(fontSize: number): Promise<void> {
     const doc = this.#getIframeDocumentEl();
-    this.execCommand({ command: 'fontSize', value: '1' });
+    await this.execCommand({ command: 'fontSize', value: '1' });
     const fontElements: HTMLElement[] = Array.from(
       doc.querySelectorAll('font[size="1"]'),
     );
@@ -500,7 +500,10 @@ export class SkyTextEditorAdapterService {
       const text = e.clipboardData?.getData('text/plain');
 
       if (text !== undefined) {
-        this.execCommand({ command: 'insertHTML', value: text.toString() });
+        void this.execCommand({
+          command: 'insertHTML',
+          value: text.toString(),
+        });
       }
     };
   }

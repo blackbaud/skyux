@@ -1993,7 +1993,8 @@ describe('Tabset component', () => {
 
       const goSpy = spyOn(location, 'go');
 
-      await fixture.componentInstance.router.navigate(['other-page']);
+      // Navigate, but destroy the component before the navigation completes.
+      void fixture.componentInstance.router.navigate(['other-page']);
       fixture.destroy();
 
       expect(goSpy).not.toHaveBeenCalled();
