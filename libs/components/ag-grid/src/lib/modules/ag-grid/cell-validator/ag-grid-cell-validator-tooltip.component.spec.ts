@@ -79,7 +79,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     expect(fixture.componentInstance.validatorMessage).toBe('Test message XYZ');
   }));
 
-  it('should show popover on delayed hover', fakeAsync(() => {
+  it('should show popover on delayed hover', fakeAsync(async () => {
     const fixture = TestBed.createComponent(
       SkyAgGridCellValidatorTooltipComponent,
     );
@@ -116,20 +116,20 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     eventHandlers['keyup']({ key: 'ArrowRight' } as KeyboardEvent);
     tick();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
     expect(popover()).toBeTruthy();
     eventHandlers['mouseleave']({} as MouseEvent);
     tick();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
     expect(popover()).toBeFalsy();
     eventHandlers['mouseenter']({} as MouseEvent);
     tick();
     flush();
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
     expect(popover()).toBeTruthy();
   }));
 });

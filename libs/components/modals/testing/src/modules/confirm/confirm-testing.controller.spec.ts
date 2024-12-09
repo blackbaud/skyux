@@ -219,7 +219,7 @@ describe('Confirm demo using testing controller', () => {
     );
   });
 
-  it('should throw if expecting a confirm to be open with differing config', async () => {
+  it('should throw if expecting a confirm to be open with differing config', () => {
     const { confirmController, fixture } = setupTest();
 
     fixture.detectChanges();
@@ -238,7 +238,7 @@ Actual:
 `);
   });
 
-  it('should throw if expecting a confirm to be open with a different button ordering', async () => {
+  it('should throw if expecting a confirm to be open with a different button ordering', () => {
     const { confirmController, fixture } = setupTest();
 
     fixture.detectChanges();
@@ -294,7 +294,7 @@ Actual:
 `);
   });
 
-  it('should throw if expecting a confirm to be open with more buttons than expected', async () => {
+  it('should throw if expecting a confirm to be open with more buttons than expected', () => {
     const { confirmController, fixture } = setupTest();
 
     fixture.detectChanges();

@@ -1954,10 +1954,10 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
     }));
 
-    it('should not affect the current route when a tab is opened for the first time or destroyed', fakeAsync(() => {
+    it('should not affect the current route when a tab is opened for the first time or destroyed', fakeAsync(async () => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-      fixture.componentInstance.router.navigate([
+      await fixture.componentInstance.router.navigate([
         'example-path',
         'example-child-path',
       ]);
@@ -1980,10 +1980,10 @@ describe('Tabset component', () => {
       expect(location.path()).toEqual('/example-path/example-child-path');
     }));
 
-    it('should not remove query params when the tabset component is destroyed due to navigation', fakeAsync(() => {
+    it('should not remove query params when the tabset component is destroyed due to navigation', fakeAsync(async () => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
-      fixture.componentInstance.router.navigate([
+      await fixture.componentInstance.router.navigate([
         'example-path',
         'example-child-path',
       ]);
@@ -1993,7 +1993,7 @@ describe('Tabset component', () => {
 
       const goSpy = spyOn(location, 'go');
 
-      fixture.componentInstance.router.navigate(['other-page']);
+      await fixture.componentInstance.router.navigate(['other-page']);
       fixture.destroy();
 
       expect(goSpy).not.toHaveBeenCalled();

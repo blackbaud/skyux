@@ -67,7 +67,7 @@ export class SkyAlertHarness extends SkyComponentHarness {
       throw new Error('The alert is not closeable.');
     }
 
-    (await this.#getCloseButton()).click();
+    await (await this.#getCloseButton()).click();
   }
 
   /**

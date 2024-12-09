@@ -25,10 +25,10 @@ function normalizeOptions(
   };
 }
 
-export default async function prComment(
+export default function prComment(
   tree: Tree,
   options: PrCommentGeneratorSchema,
-) {
+): void {
   const normalizedOptions = normalizeOptions(tree, options);
   generateFiles(
     tree,

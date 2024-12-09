@@ -44,7 +44,7 @@ export class SkyPagingFixture {
       'sky-paging',
     );
 
-    this.#waitForComponentInitialization();
+    void this.#waitForComponentInitialization();
   }
 
   /**

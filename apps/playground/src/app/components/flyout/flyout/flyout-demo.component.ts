@@ -41,7 +41,7 @@ export class FlyoutDemoComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.addData(false);
+    void this.addData(false);
   }
 
   public openModal(): void {
@@ -54,17 +54,16 @@ export class FlyoutDemoComponent implements OnInit {
     });
   }
 
-  public goToPage(): void {
-    this.#router.navigate(['/']);
+  public async goToPage(): Promise<void> {
+    await this.#router.navigate(['/']);
   }
 
-  public addData(delay = true): void {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.#mockRemote(delay).then((result: any) => {
-      this.infiniteScrollData = this.infiniteScrollData.concat(result.data);
-      this.enableInfiniteScroll = result.hasMore;
-      this.#changeDetector.markForCheck();
-    });
+  public async addData(delay = true): Promise<void> {
+    const result = await this.#mockRemote(delay);
+
+    this.infiniteScrollData = this.infiniteScrollData.concat(result.data);
+    this.enableInfiniteScroll = result.hasMore;
+    this.#changeDetector.markForCheck();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -7554,7 +7554,7 @@ describe('Lookup component', function () {
       expect(lookupComponent.isInputFocused).toEqual(false);
     });
 
-    it('should add or remove the required label class if `required` is set on lookup element', async function () {
+    it('should add or remove the required label class if `required` is set on lookup element', () => {
       component.required = true;
       fixture.detectChanges();
 
