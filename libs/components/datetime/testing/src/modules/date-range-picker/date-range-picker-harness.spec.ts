@@ -297,8 +297,9 @@ describe('Date range picker harness', () => {
     );
 
     await dateRangePickerHarness.selectCalculator(
-      SkyDateRangeCalculatorId.SpecificRange,
+      SkyDateRangeCalculatorId.Before,
     );
+
     await expectAsync(dateRangePickerHarness.isEndDateVisible()).toBeResolvedTo(
       true,
     );
@@ -308,7 +309,7 @@ describe('Date range picker harness', () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
     await dateRangePickerHarness.selectCalculator(
-      SkyDateRangeCalculatorId.SpecificRange,
+      SkyDateRangeCalculatorId.After,
     );
 
     const newDate = new Date('01/12/1997').toLocaleDateString('en-us', {
@@ -320,7 +321,7 @@ describe('Date range picker harness', () => {
     await dateRangePickerHarness.setStartDateValue(newDate);
 
     expect(fixture.componentInstance.pickerControl.value).toEqual({
-      calculatorId: 3,
+      calculatorId: 2,
       startDate: new Date('01/12/1997'),
       endDate: null,
     });
@@ -334,7 +335,7 @@ describe('Date range picker harness', () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
     await dateRangePickerHarness.selectCalculator(
-      SkyDateRangeCalculatorId.SpecificRange,
+      SkyDateRangeCalculatorId.Before,
     );
 
     const newDate = new Date('01/12/1997').toLocaleDateString('en-us', {
@@ -346,7 +347,7 @@ describe('Date range picker harness', () => {
     await dateRangePickerHarness.setEndDateValue(newDate);
 
     expect(fixture.componentInstance.pickerControl.value).toEqual({
-      calculatorId: 3,
+      calculatorId: 1,
       endDate: new Date('01/12/1997'),
       startDate: null,
     });
@@ -358,6 +359,10 @@ describe('Date range picker harness', () => {
 
   it('should throw an error if trying to get/set a date for a hidden datepicker', async () => {
     const { dateRangePickerHarness } = await setupTest();
+
+    await dateRangePickerHarness.selectCalculator(
+      SkyDateRangeCalculatorId.AnyTime,
+    );
 
     await expectAsync(
       dateRangePickerHarness.getStartDateValue(),

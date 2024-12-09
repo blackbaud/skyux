@@ -53,9 +53,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Gets the end date value.
    */
   public async getEndDateValue(): Promise<string> {
-    if (!(await this.isEndDateVisible())) {
-      throw new Error('Unable to get end date. End datepicker is not visible.');
-    }
+    await this.#assertEndDateVisible('Unable to get end date.');
 
     const input = await (await this.#getEndDatepicker()).getControl();
 
@@ -114,11 +112,7 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Gets the start date value.
    */
   public async getStartDateValue(): Promise<string> {
-    if (!(await this.isStartDateVisible())) {
-      throw new Error(
-        'Unable to get start date. Start datepicker is not visible.',
-      );
-    }
+    await this.#assertStartDateVisible('Unable to get start date.');
 
     const input = await (await this.#getStartDatepicker()).getControl();
 
@@ -169,9 +163,11 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Whether end date datepicker is visible.
    */
   public async isEndDateVisible(): Promise<boolean> {
-    return !(await (
+    const hidden = await (
       await this.locatorFor('.sky-date-range-picker-end-date')()
-    ).getProperty('hidden'));
+    ).getProperty<boolean>('hidden');
+
+    return !hidden;
   }
 
   /**
@@ -185,9 +181,11 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * Whether start date datepicker is visible.
    */
   public async isStartDateVisible(): Promise<boolean> {
-    return !(await (
+    const hidden = await (
       await this.locatorFor('.sky-date-range-picker-start-date')()
-    ).getProperty('hidden'));
+    ).getProperty<boolean>('hidden');
+
+    return !hidden;
   }
 
   /**
@@ -226,10 +224,10 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * @param newDate date input as a formatted string.
    */
   public async setEndDateValue(newDate: string): Promise<void> {
-    if (!(await this.isEndDateVisible())) {
-      throw new Error('Unable to set end date. End datepicker is not visible.');
-    }
+    await this.#assertEndDateVisible('Unable to set end date.');
+
     const input = await (await this.#getEndDatepicker()).getControl();
+
     await input.setValue(newDate);
   }
 
@@ -238,13 +236,23 @@ export class SkyDateRangePickerHarness extends SkyComponentHarness {
    * @param newDate date input as a formatted string.
    */
   public async setStartDateValue(newDate: string): Promise<void> {
-    if (!(await this.isEndDateVisible())) {
-      throw new Error(
-        'Unable to set start date. Start datepicker is not visible.',
-      );
-    }
+    await this.#assertStartDateVisible('Unable to set start date.');
+
     const input = await (await this.#getStartDatepicker()).getControl();
+
     await input.setValue(newDate);
+  }
+
+  async #assertEndDateVisible(message: string): Promise<void> {
+    if (!(await this.isEndDateVisible())) {
+      throw new Error(`${message} End datepicker is not visible.`);
+    }
+  }
+
+  async #assertStartDateVisible(message: string): Promise<void> {
+    if (!(await this.isStartDateVisible())) {
+      throw new Error(`${message} Start datepicker is not visible.`);
+    }
   }
 
   async #getEndDatepicker(): Promise<SkyDatepickerHarness> {
