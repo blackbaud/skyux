@@ -1507,6 +1507,7 @@ describe('File attachment', () => {
 
     fixture.componentInstance.required = true;
     fixture.componentInstance.labelText = 'file attachment';
+    fixture.detectChanges();
 
     fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
