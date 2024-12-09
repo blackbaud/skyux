@@ -33,6 +33,15 @@ import { SkyDatepickerInputHarness } from './datepicker-input-harness';
       <sky-datepicker data-sky-id="standalone">
         <input skyDatepickerInput formControlName="standalone" type="text" />
       </sky-datepicker>
+      <sky-input-box data-sky-id="fuzzy-date">
+        <sky-datepicker>
+          <input
+            skyFuzzyDatepickerInput
+            formControlName="fuzzyDate"
+            type="text"
+          />
+        </sky-datepicker>
+      </sky-input-box>
     </form>
   `,
 })
@@ -43,6 +52,7 @@ class TestComponent {
     this.myForm = formBuilder.group({
       inputWrapped: new FormControl('12/1/2000'),
       standalone: new FormControl('1/2/1234'),
+      fuzzyDate: new FormControl('1/2000'),
     });
   }
 }
@@ -66,16 +76,18 @@ describe('Datepicker harness', () => {
 
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const datepickerHarness: SkyDatepickerHarness =
-      options.dataSkyId === 'input-wrapped'
-        ? await (
-            await loader.getHarness(
-              SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),
-            )
-          ).queryHarness(SkyDatepickerHarness)
-        : await loader.getHarness(
-            SkyDatepickerHarness.with({ dataSkyId: options.dataSkyId }),
-          );
+    const datepickerHarness: SkyDatepickerHarness = [
+      'input-wrapped',
+      'fuzzy-date',
+    ].includes(options.dataSkyId)
+      ? await (
+          await loader.getHarness(
+            SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),
+          )
+        ).queryHarness(SkyDatepickerHarness)
+      : await loader.getHarness(
+          SkyDatepickerHarness.with({ dataSkyId: options.dataSkyId }),
+        );
 
     return { datepickerHarness, fixture };
   }
@@ -266,45 +278,88 @@ describe('Datepicker harness', () => {
           SkyDatepickerInputHarness,
       ).toBeTruthy();
     });
+  });
 
-    describe('Datepicker input harness', () => {
-      it('should set the date', async () => {
-        const { datepickerHarness, fixture } = await setupTest({
-          dataSkyId: 'input-wrapped',
-        });
-
-        const control = fixture.componentInstance.myForm.get('inputWrapped');
-
-        const inputHarness = await datepickerHarness.getControl();
-        await inputHarness.setValue('01/03/2021');
-
-        expect(control?.value).toEqual(new Date('01/03/2021'));
-        expect(control?.touched).toEqual(true);
+  describe('Datepicker input harness', () => {
+    it('should set the date', async () => {
+      const { datepickerHarness, fixture } = await setupTest({
+        dataSkyId: 'input-wrapped',
       });
 
-      it('should set the touched status when focus leaves the composite control', async () => {
-        const { datepickerHarness, fixture } = await setupTest({
-          dataSkyId: 'input-wrapped',
-        });
+      const control = fixture.componentInstance.myForm.get('inputWrapped');
 
-        const control = fixture.componentInstance.myForm.get('inputWrapped');
-        const inputHarness = await datepickerHarness.getControl();
+      const inputHarness = await datepickerHarness.getControl();
+      await inputHarness.setValue('01/03/2021');
 
-        fixture.detectChanges();
+      expect(control?.value).toEqual(new Date('01/03/2021'));
+      expect(control?.touched).toEqual(true);
+    });
 
-        expect(control?.touched).toEqual(false);
-        await expectAsync(inputHarness.isFocused()).toBeResolvedTo(false);
-
-        // Interact with calendar.
-        await datepickerHarness.clickCalendarButton();
-        const calendarHarness = await datepickerHarness.getDatepickerCalendar();
-        await calendarHarness.clickDate('Saturday, December 2nd 2000');
-
-        // Blur the input.
-        await inputHarness.blur();
-
-        expect(control?.touched).toEqual(true);
+    it('should set the touched status when focus leaves the composite control', async () => {
+      const { datepickerHarness, fixture } = await setupTest({
+        dataSkyId: 'input-wrapped',
       });
+
+      const control = fixture.componentInstance.myForm.get('inputWrapped');
+      const inputHarness = await datepickerHarness.getControl();
+
+      fixture.detectChanges();
+
+      expect(control?.touched).toEqual(false);
+      await expectAsync(inputHarness.isFocused()).toBeResolvedTo(false);
+
+      // Interact with calendar.
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+      await calendarHarness.clickDate('Saturday, December 2nd 2000');
+
+      // Blur the input.
+      await inputHarness.blur();
+
+      expect(control?.touched).toEqual(true);
+    });
+  });
+
+  describe('Fuzzy datepicker input harness', () => {
+    it('should set the date', async () => {
+      const { datepickerHarness, fixture } = await setupTest({
+        dataSkyId: 'fuzzy-date',
+      });
+
+      const control = fixture.componentInstance.myForm.get('fuzzyDate');
+
+      const inputHarness = await datepickerHarness.getControl();
+      await inputHarness.setValue('2/2000');
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(control?.value).toEqual({ month: 2, day: undefined, year: 2000 });
+      expect(control?.touched).toEqual(true);
+    });
+
+    it('should set the touched status when focus leaves the composite control', async () => {
+      const { datepickerHarness, fixture } = await setupTest({
+        dataSkyId: 'fuzzy-date',
+      });
+
+      const control = fixture.componentInstance.myForm.get('fuzzyDate');
+      const inputHarness = await datepickerHarness.getControl();
+
+      fixture.detectChanges();
+
+      expect(control?.touched).toEqual(false);
+      await expectAsync(inputHarness.isFocused()).toBeResolvedTo(false);
+
+      // Interact with calendar.
+      await datepickerHarness.clickCalendarButton();
+      const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+      await calendarHarness.clickDate('Saturday, January 1st 2000');
+
+      // Blur the input.
+      await inputHarness.blur();
+
+      expect(control?.touched).toEqual(true);
     });
   });
 });

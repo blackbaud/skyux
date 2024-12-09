@@ -1,12 +1,12 @@
 @if (fileItem) {
-  <div class="sky-file-item sky-padding-even-default">
+  <div class="sky-file-item">
     <div class="sky-file-item-title">
       <div class="sky-file-item-name-container">
         <div class="sky-file-item-name">
           @if (isFile) {
-            <strong>{{ fileName }}</strong>
+            {{ fileName }}
           } @else {
-            <strong>{{ url }}</strong>
+            {{ url }}
           }
         </div>
         @if (isFile) {
