@@ -55,7 +55,7 @@ export class SkySplitViewFixture {
     );
 
     // the component takes a while to initialize so we need to wait
-    this.#waitForComponent();
+    void this.#waitForComponent();
   }
 
   /**

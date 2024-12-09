@@ -5,7 +5,6 @@ import {
   fakeAsync,
   flush,
   tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -1358,6 +1357,8 @@ describe('Colorpicker Component', () => {
       });
 
       inputElements.alpha.dispatchEvent(enterEvent);
+      fixture.detectChanges();
+      tick();
 
       await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
 
