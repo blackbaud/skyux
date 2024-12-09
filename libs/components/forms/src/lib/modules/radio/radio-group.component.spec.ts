@@ -628,7 +628,7 @@ describe('Radio group component (reactive)', function () {
     expect(headingEl?.textContent?.trim()).toBe(headingText);
   });
 
-  it('should not display `headingText` if `headingHidden` is true', async () => {
+  it('should not display `headingText` if `headingHidden` is true', () => {
     const headingText = 'Heading Text';
     componentInstance.headingText = headingText;
     componentInstance.headingHidden = true;
@@ -766,7 +766,7 @@ describe('Radio group component (reactive)', function () {
     ).toEqual('This option is incorrect.');
   }));
 
-  it('should render help inline if label text and help popover content is provided', async () => {
+  it('should render help inline if label text and help popover content is provided', () => {
     componentInstance.headingText = 'Label Text';
     fixture.detectChanges();
 
@@ -782,7 +782,7 @@ describe('Radio group component (reactive)', function () {
     ).toBe(1);
   });
 
-  it('should render help inline if heading text and help key is provided ', async () => {
+  it('should render help inline if heading text and help key is provided ', () => {
     componentInstance.helpKey = 'helpKey.html';
     fixture.detectChanges();
 

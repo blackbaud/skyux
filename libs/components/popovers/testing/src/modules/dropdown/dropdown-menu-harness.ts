@@ -31,7 +31,7 @@ export class SkyDropdownMenuHarness extends SkyComponentHarness {
    * Clicks out of the dropdown menu.
    */
   public async clickOut(): Promise<void> {
-    (await (await this.#getOverlay())?.host())?.click();
+    await (await (await this.#getOverlay())?.host())?.click();
   }
 
   /**

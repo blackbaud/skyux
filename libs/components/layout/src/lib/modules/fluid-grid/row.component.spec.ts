@@ -11,7 +11,7 @@ describe('SkyRowComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SkyRowComponent],
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(SkyRowComponent);
     component = fixture.componentInstance;

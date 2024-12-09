@@ -77,7 +77,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   @ViewChild(SkyCheckboxComponent)
   public checkboxComponent: SkyCheckboxComponent | undefined;
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.checkboxComponent?.disabledChange.subscribe((value) => {
       this.onDisabledChange(value);
     });
@@ -85,7 +85,7 @@ class SingleCheckboxComponent implements AfterViewInit {
 
   public onDisabledChange(value: boolean): void {}
 
-  public checkboxChange($event: SkyCheckboxChange) {
+  public checkboxChange($event: SkyCheckboxChange): void {
     this.isChecked = $event.checked;
   }
 }
@@ -271,7 +271,7 @@ class CheckboxWithAriaLabelledbyComponent {}
   template: `<sky-checkbox [name]="name" />`,
 })
 class CheckboxWithNameAttributeComponent {
-  public name = 'test-name';
+  public name: string | undefined = 'test-name';
 }
 
 /** Simple test component with change event */
@@ -296,9 +296,7 @@ class CheckboxWithOnPushChangeDetectionComponent {
 // #endregion
 
 describe('Checkbox component', () => {
-  let fixture: ComponentFixture<any>;
-
-  function createEvent(eventName: string) {
+  function createEvent(eventName: string): CustomEvent {
     const evt = document.createEvent('CustomEvent');
     evt.initEvent(eventName, false, false);
     return evt;
@@ -342,6 +340,7 @@ describe('Checkbox component', () => {
     let checkboxDebugElement: DebugElement;
     let checkboxNativeElement: HTMLElement | null;
     let checkboxInstance: SkyCheckboxComponent;
+    let fixture: ComponentFixture<SingleCheckboxComponent>;
     let testComponent: SingleCheckboxComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let labelElement: HTMLLabelElement | null | undefined;
@@ -615,6 +614,7 @@ describe('Checkbox component', () => {
     let checkboxDebugElement: DebugElement;
     let checkboxNativeElement: HTMLElement | null;
     let checkboxInstance: SkyCheckboxComponent;
+    let fixture: ComponentFixture<CheckboxWithChangeEventComponent>;
     let testComponent: CheckboxWithChangeEventComponent;
     let inputElement: HTMLInputElement | null | undefined;
 
@@ -665,6 +665,7 @@ describe('Checkbox component', () => {
   describe('with provided label attribute ', () => {
     let checkboxDebugElement: DebugElement;
     let checkboxNativeElement: HTMLElement | null;
+    let fixture: ComponentFixture<CheckboxWithAriaLabelComponent>;
     let inputElement: HTMLInputElement | null | undefined;
 
     it('should use the provided label as the input aria-label', async () => {
@@ -686,6 +687,7 @@ describe('Checkbox component', () => {
   describe('with provided labelledBy attribute ', () => {
     let checkboxDebugElement: DebugElement;
     let checkboxNativeElement: HTMLElement | null;
+    let fixture: ComponentFixture<CheckboxWithAriaLabelledbyComponent>;
     let inputElement: HTMLInputElement | null | undefined;
 
     it('should use the provided labeledBy as the input aria-labelledby', async () => {
@@ -723,6 +725,7 @@ describe('Checkbox component', () => {
   describe('with provided tabIndex', () => {
     let checkboxDebugElement: DebugElement;
     let checkboxNativeElement: HTMLElement | null;
+    let fixture: ComponentFixture<CheckboxWithTabIndexComponent>;
     let testComponent: CheckboxWithTabIndexComponent;
     let inputElement: HTMLInputElement | null | undefined;
 
@@ -741,7 +744,7 @@ describe('Checkbox component', () => {
       inputElement = checkboxNativeElement?.querySelector('input');
     });
 
-    it('should preserve any given tabIndex', async () => {
+    it('should preserve any given tabIndex', () => {
       expect(inputElement?.tabIndex).toBe(7);
     });
 
@@ -760,7 +763,9 @@ describe('Checkbox component', () => {
   });
 
   describe('with multiple checkboxes', () => {
-    beforeEach(async () => {
+    let fixture: ComponentFixture<MultipleCheckboxesComponent>;
+
+    beforeEach(() => {
       fixture = TestBed.createComponent(MultipleCheckboxesComponent);
 
       fixture.detectChanges();
@@ -782,6 +787,7 @@ describe('Checkbox component', () => {
 
   describe('with ngModel and an initial value', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithFormDirectivesComponent>;
     let testComponent: CheckboxWithFormDirectivesComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;
@@ -836,6 +842,7 @@ describe('Checkbox component', () => {
 
   describe('with ngModel', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithFormDirectivesComponent>;
     let testComponent: CheckboxWithFormDirectivesComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;
@@ -916,6 +923,7 @@ describe('Checkbox component', () => {
 
   describe('with ngModel and required input', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithRequiredInputComponent>;
     let testComponent: CheckboxWithRequiredInputComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;
@@ -964,7 +972,7 @@ describe('Checkbox component', () => {
       expect(inputElement?.getAttribute('aria-required')).not.toEqual('true');
     });
 
-    it('should mark form as invalid when required input is true and checkbox is not checked', async () => {
+    it('should mark form as invalid when required input is true and checkbox is not checked', () => {
       fixture.detectChanges();
       expect(ngModel.valid).toBe(false);
       labelElement?.click();
@@ -973,7 +981,7 @@ describe('Checkbox component', () => {
       expect(ngModel.valid).toBe(false);
     });
 
-    it('should not mark form as invalid when required input is false and checkbox is not checked', async () => {
+    it('should not mark form as invalid when required input is false and checkbox is not checked', () => {
       testComponent.required = false;
       fixture.detectChanges();
       expect(ngModel.valid).toBe(true);
@@ -986,6 +994,7 @@ describe('Checkbox component', () => {
 
   describe('with ngModel and required attribute', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithRequiredAttributeComponent>;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;
     let ngModel: NgModel;
@@ -1017,7 +1026,7 @@ describe('Checkbox component', () => {
       expect(inputElement?.getAttribute('aria-required')).toEqual('true');
     });
 
-    it('should mark form as invalid when required input is true and checkbox is not checked', async () => {
+    it('should mark form as invalid when required input is true and checkbox is not checked', () => {
       fixture.detectChanges();
       expect(ngModel.valid).toBe(false);
       labelElement?.click();
@@ -1029,6 +1038,7 @@ describe('Checkbox component', () => {
 
   describe('with reactive form', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithReactiveFormComponent>;
     let testComponent: CheckboxWithReactiveFormComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;
@@ -1193,6 +1203,7 @@ describe('Checkbox component', () => {
 
   describe('with reactive form and required validator', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithReactiveFormRequiredValidatorComponent>;
     let testComponent: CheckboxWithReactiveFormRequiredValidatorComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;
@@ -1228,7 +1239,7 @@ describe('Checkbox component', () => {
       expect(inputElement?.getAttribute('aria-required')).toEqual('true');
     });
 
-    it('should mark form as invalid when required checkbox is not checked', async () => {
+    it('should mark form as invalid when required checkbox is not checked', () => {
       fixture.detectChanges();
       expect(formControl.valid).toBe(false);
       labelElement?.click();
@@ -1240,6 +1251,7 @@ describe('Checkbox component', () => {
 
   describe('with reactive form and required input', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithReactiveFormRequiredInputComponent>;
     let testComponent: CheckboxWithReactiveFormRequiredInputComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;
@@ -1275,7 +1287,7 @@ describe('Checkbox component', () => {
       expect(inputElement?.getAttribute('aria-required')).toEqual('true');
     });
 
-    it('should update validator when required input is changed', async () => {
+    it('should update validator when required input is changed', () => {
       fixture.detectChanges();
       expect(formControl.valid).toBe(false);
       testComponent.required = false;
@@ -1286,7 +1298,7 @@ describe('Checkbox component', () => {
       expect(formControl.valid).toBe(false);
     });
 
-    it('should mark form as invalid when required checkbox is not checked', async () => {
+    it('should mark form as invalid when required checkbox is not checked', () => {
       fixture.detectChanges();
       expect(formControl.valid).toBe(false);
       labelElement?.click();
@@ -1297,7 +1309,9 @@ describe('Checkbox component', () => {
   });
 
   describe('with name attribute', () => {
-    beforeEach(async () => {
+    let fixture: ComponentFixture<CheckboxWithNameAttributeComponent>;
+
+    beforeEach(() => {
       fixture = TestBed.createComponent(CheckboxWithNameAttributeComponent);
 
       fixture.detectChanges();
@@ -1327,6 +1341,7 @@ describe('Checkbox component', () => {
 
   describe('Checkbox icon component', () => {
     let debugElement: DebugElement;
+    let fixture: ComponentFixture<SingleCheckboxComponent>;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
@@ -1411,6 +1426,7 @@ describe('Checkbox component', () => {
 
   describe('with a consumer using OnPush change detection', () => {
     let checkboxElement: DebugElement;
+    let fixture: ComponentFixture<CheckboxWithOnPushChangeDetectionComponent>;
     let testComponent: CheckboxWithOnPushChangeDetectionComponent;
     let inputElement: HTMLInputElement | null | undefined;
     let checkboxNativeElement: HTMLElement | null;

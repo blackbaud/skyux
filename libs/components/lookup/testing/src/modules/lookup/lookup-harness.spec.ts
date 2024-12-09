@@ -482,7 +482,7 @@ describe('Lookup harness', () => {
     describe('async', () => testSingleSelect('my-single-select-async-lookup'));
   });
 
-  describe('multiselect', async () => {
+  describe('multiselect', () => {
     describe('standard', () => testMultiselect('my-multiselect-lookup'));
     describe('async', () => testMultiselect('my-async-lookup'));
   });

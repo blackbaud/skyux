@@ -248,7 +248,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         args?: any[],
         callback?: () => void,
       ): jasmine.CustomMatcherResult {
-        getResources(name, args).then((message) => {
+        void getResources(name, args).then((message) => {
           /*istanbul ignore else*/
           if (actual !== message) {
             windowRef.fail(`Expected "${actual}" to equal "${message}"`);
@@ -289,7 +289,7 @@ const matchers: jasmine.CustomMatcherFactories = {
           actual = actual.trim();
         }
 
-        getResources(name, args).then((message) => {
+        void getResources(name, args).then((message) => {
           if (actual !== message) {
             windowRef.fail(
               `Expected element's inner text "${el.textContent}" to be "${message}"`,
@@ -325,7 +325,7 @@ const matchers: jasmine.CustomMatcherFactories = {
       ): jasmine.CustomMatcherResult {
         const actual = el.textContent;
 
-        getResources(name).then((message) => {
+        void getResources(name).then((message) => {
           if (!isTemplateMatch(actual, message)) {
             windowRef.fail(
               `Expected element's text "${actual}" to match "${message}"`,

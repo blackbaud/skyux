@@ -214,14 +214,14 @@ describe('Summary action bar fixture', () => {
   });
 
   describe('summary content', () => {
-    it('should support summary body query selectors', async () => {
+    it('should support summary body query selectors', () => {
       const summaryContent = summaryActionBarFixture.querySummaryBody('div');
       expect(SkyAppTestUtility.getText(summaryContent)).toEqual(
         testComponent.summaryBody,
       );
     });
 
-    it('should support summary body query all selectors', async () => {
+    it('should support summary body query all selectors', () => {
       const results = summaryActionBarFixture.queryAllSummaryBody('div');
       expect(results).toExist();
       expect(results.length).toBe(1);

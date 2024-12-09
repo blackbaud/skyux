@@ -195,7 +195,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   }
 
   public execCommand(command: string, value = ''): void {
-    this.#adapterService.execCommand({
+    void this.#adapterService.execCommand({
       command: command,
       value: value,
     });

@@ -80,13 +80,12 @@ export class NumericOptions implements SkyNumericOptions {
 
   constructor() {
     const logService = new SkyLogService(new SkyAppFormat());
-    logService
-      .deprecated('NumericOptions', {
-        deprecationMajorVersion: 7,
-        moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
-        replacementRecommendation:
-          'Use the `SkyNumericOptions` interface instead.',
-      })
-      .then();
+
+    logService.deprecated('NumericOptions', {
+      deprecationMajorVersion: 7,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/numeric',
+      replacementRecommendation:
+        'Use the `SkyNumericOptions` interface instead.',
+    });
   }
 }

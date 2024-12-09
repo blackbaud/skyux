@@ -172,7 +172,7 @@ describe('Checkbox group component', function () {
       expect(getLegendScreenReaderText(fixture)).toBeUndefined();
     });
 
-    it('should validate that a checkbox is selected when required', async () => {
+    it('should validate that a checkbox is selected when required', () => {
       componentInstance.required = true;
       fixture.detectChanges();
 

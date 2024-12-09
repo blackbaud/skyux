@@ -156,7 +156,7 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(autoHeightGridWrapperComponent.isNormalLayout).toEqual(true);
   });
 
-  it('should apply ag-theme', async () => {
+  it('should apply ag-theme', () => {
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid'),
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
@@ -461,7 +461,7 @@ describe('SkyAgGridWrapperComponent', () => {
       expect(agGrid.api.setFocusedHeader).not.toHaveBeenCalled();
     });
 
-    it('should track focus on header', async () => {
+    it('should track focus on header', () => {
       const column = new AgColumn({}, {}, 'name', true);
 
       agGrid.headerFocused.next({
@@ -494,7 +494,7 @@ describe('SkyAgGridWrapperComponent', () => {
       }
     });
 
-    it('should track focus on cells', async () => {
+    it('should track focus on cells', () => {
       const column = new AgColumn({}, {}, 'name', true);
       const focusGridInnerElement = agGrid.gridOptions?.focusGridInnerElement;
       if (focusGridInnerElement) {

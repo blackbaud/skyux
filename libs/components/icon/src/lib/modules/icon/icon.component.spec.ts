@@ -68,7 +68,7 @@ describe('Icon component', () => {
       element = fixture.nativeElement as HTMLElement;
     });
 
-    it('should display an icon based on the given icon', async () => {
+    it('should display an icon based on the given icon', () => {
       fixture.detectChanges();
       expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-circle');
       expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-3x');

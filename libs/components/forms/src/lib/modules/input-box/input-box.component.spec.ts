@@ -699,7 +699,7 @@ describe('Input box component', () => {
       await validateHelpInline(fixture, 'Help content from template');
     });
 
-    it('should not render help inline button if labelText undefined', async () => {
+    it('should not render help inline button if labelText undefined', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -714,7 +714,7 @@ describe('Input box component', () => {
       ).toBeUndefined();
     });
 
-    it('should render help inline with help key', async () => {
+    it('should render help inline with help key', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -991,7 +991,7 @@ describe('Input box component', () => {
       expect(els.inputEl?.id).toBe('input-box-existing-id-123');
     });
 
-    it('should set autocomplete to off if not specified', async () => {
+    it('should set autocomplete to off if not specified', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -1002,7 +1002,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should set autocomplete to off if specified as undefined', async () => {
+    it('should set autocomplete to off if specified as undefined', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -1013,7 +1013,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not overwrite autocomplete if specified', async () => {
+    it('should not overwrite autocomplete if specified', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.autocomplete = 'fname';
       fixture.detectChanges();
@@ -1025,7 +1025,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not set autocomplete to off if not specified if not wrapped in an input box', async () => {
+    it('should not set autocomplete to off if not specified if not wrapped in an input box', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -1036,7 +1036,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not set autocomplete to off if specified as undefined if not wrapped in an input box', async () => {
+    it('should not set autocomplete to off if specified as undefined if not wrapped in an input box', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
@@ -1047,7 +1047,7 @@ describe('Input box component', () => {
       );
     });
 
-    it('should not overwrite autocomplete if specified if not wrapped in an input box', async () => {
+    it('should not overwrite autocomplete if specified if not wrapped in an input box', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.componentInstance.autocomplete = 'fname';
       fixture.detectChanges();
@@ -1491,7 +1491,7 @@ describe('Input box component', () => {
       expect(errorEl).toHaveText('Error: Easy mode is required.');
     });
 
-    it('should add required attributes to label and input when required', async () => {
+    it('should add required attributes to label and input when required', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 

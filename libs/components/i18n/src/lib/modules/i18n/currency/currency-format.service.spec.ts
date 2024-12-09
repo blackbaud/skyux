@@ -8,11 +8,12 @@ describe('SkyI18nCurrencyFormatService', () => {
 
   describe('getCurrencyFormat', () => {
     describe('currency code source', () => {
-      it('sources the currency code from the parameters if explicitly passed in', async () => {
+      it('sources the currency code from the parameters if explicitly passed in', () => {
         const result: SkyI18nCurrencyFormat = service.getCurrencyFormat('JPY');
         expect(result.symbol).toBe('¥');
       });
-      it('defaults the currency code to "USD" otherwise', async () => {
+
+      it('defaults the currency code to "USD" otherwise', () => {
         const result: SkyI18nCurrencyFormat = service.getCurrencyFormat();
         expect(result.symbol).toBe('$');
       });
@@ -23,6 +24,7 @@ describe('SkyI18nCurrencyFormatService', () => {
         const result = service.getCurrencyFormat('USD', 'en-CA');
         expect(result.locale).toBe('en-CA');
       });
+
       it('defaults the locale to "en-US" otherwise', () => {
         const result = service.getCurrencyFormat();
         expect(result.locale).toBe('en-US');
@@ -34,6 +36,7 @@ describe('SkyI18nCurrencyFormatService', () => {
         const result = service.getCurrencyFormat('USD', 'en-CA');
         expect(result.symbolLocation).toBe('prefix');
       });
+
       it('should have the currency symbol as the suffix for "fr-CA"', () => {
         const result = service.getCurrencyFormat('USD', 'fr-CA');
         expect(result.symbolLocation).toBe('suffix');
@@ -66,7 +69,7 @@ describe('SkyI18nCurrencyFormatService', () => {
       ];
 
       currencyAndPrecision.forEach(([currency, precision]) => {
-        it(`should get the expected currency (${precision}) precision for ${currency}`, async () => {
+        it(`should get the expected currency (${precision}) precision for ${currency}`, () => {
           const result: number = service.getCurrencyFormat(currency).precision;
           expect(result).toBe(precision);
         });

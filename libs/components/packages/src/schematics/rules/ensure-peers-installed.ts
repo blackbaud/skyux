@@ -55,7 +55,7 @@ export function ensurePeersInstalled(
   targetPackageName: string,
   peers: PackageDetails[],
 ): Rule {
-  return async (tree) => {
+  return (tree) => {
     const packageJson: PackageJson = JSON.parse(
       readRequiredFile(tree, '/package.json'),
     );

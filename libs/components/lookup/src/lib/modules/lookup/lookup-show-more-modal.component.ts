@@ -116,7 +116,7 @@ export class SkyLookupShowMoreModalComponent
   public ngAfterViewInit(): void {
     this.repeaterItemTemplate = this.context.userConfig.itemTemplate || null;
     this.searchText = this.context.initialSearch;
-    this.addItems();
+    void this.addItems();
   }
 
   public ngOnDestroy(): void {
@@ -128,7 +128,7 @@ export class SkyLookupShowMoreModalComponent
     this.addClick.next();
   }
 
-  public addItems(): void {
+  public async addItems(): Promise<void> {
     this.itemsLoading = true;
     if (!this.items || this.items.length === 0) {
       const selectedItems: any[] = this.selectedItems.slice();
@@ -166,7 +166,7 @@ export class SkyLookupShowMoreModalComponent
       });
 
       this.selectedItems = selectedItems;
-      this.updateDataState();
+      await this.updateDataState();
       this.#changeDetector.markForCheck();
     }
 
@@ -176,39 +176,40 @@ export class SkyLookupShowMoreModalComponent
       : this.items;
 
     this.#itemIndex = this.#itemIndex + 10;
-    this.searchItems(items).then((searchedItems) => {
-      this.displayedItems = searchedItems.slice(0, this.#itemIndex);
 
-      if (this.#itemIndex > searchedItems.length) {
-        this.itemsHaveMore = false;
-      } else {
-        this.itemsHaveMore = true;
-      }
-      this.itemsLoading = false;
+    const searchedItems = await this.searchItems(items);
 
-      this.#announceSelectionState(
-        this.selectedItems.length,
-        this.displayedItems.length,
-      );
+    this.displayedItems = searchedItems.slice(0, this.#itemIndex);
 
-      this.#changeDetector.markForCheck();
-    });
+    if (this.#itemIndex > searchedItems.length) {
+      this.itemsHaveMore = false;
+    } else {
+      this.itemsHaveMore = true;
+    }
+    this.itemsLoading = false;
+
+    this.#announceSelectionState(
+      this.selectedItems.length,
+      this.displayedItems.length,
+    );
+
+    this.#changeDetector.markForCheck();
   }
 
-  public clearAll(): void {
+  public async clearAll(): Promise<void> {
     this.displayedItems.forEach((item) => {
       if (item.selected) {
         item.selected = false;
       }
     });
     this.selectedItems = [];
-    this.updateDataState();
+    await this.updateDataState();
     this.#changeDetector.markForCheck();
   }
 
   public itemClick(selectedItem: any): void {
     if (this.context.selectMode === 'single') {
-      this.onItemSelect(!selectedItem.selected, selectedItem);
+      void this.onItemSelect(!selectedItem.selected, selectedItem);
     }
   }
 
@@ -258,7 +259,8 @@ export class SkyLookupShowMoreModalComponent
 
       this.selectedItems = selectedItems;
     }
-    this.updateDataState();
+
+    void this.updateDataState();
     this.#changeDetector.markForCheck();
   }
 
@@ -275,7 +277,7 @@ export class SkyLookupShowMoreModalComponent
     // We need to ensure that the scroll event makes it all the way through the infinite scroll workflow before updating the data state.
     // Without this, the infinite scroll can add items improperly because it can see the above scroll after the items finish searching.
     setTimeout(() => {
-      this.updateDataState();
+      void this.updateDataState();
     }, 100);
   }
 
@@ -309,7 +311,7 @@ export class SkyLookupShowMoreModalComponent
     }
   }
 
-  public selectAll(): void {
+  public async selectAll(): Promise<void> {
     const items = this.items;
 
     const selectedItems: { index: number; itemData: any }[] =
@@ -336,15 +338,16 @@ export class SkyLookupShowMoreModalComponent
     });
 
     this.selectedItems = selectedItems;
-    this.updateDataState();
+    await this.updateDataState();
     this.#changeDetector.markForCheck();
   }
 
-  public updateDataState(): void {
+  public async updateDataState(): Promise<void> {
     const items = this.items;
 
     const selectedItems: { index: number; itemData: any }[] =
       this.selectedItems;
+
     items?.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(
@@ -352,29 +355,30 @@ export class SkyLookupShowMoreModalComponent
         ) !== -1;
     });
 
-    this.searchItems(items).then((searchedItems) => {
-      if (this.onlyShowSelected) {
-        searchedItems = searchedItems.filter((item) => item.selected);
-      }
-      this.displayedItems = searchedItems.slice(0, this.#itemIndex);
+    let searchedItems = await this.searchItems(items);
 
-      if (this.#itemIndex > searchedItems.length) {
-        this.itemsHaveMore = false;
-      } else {
-        this.itemsHaveMore = true;
-      }
-      this.itemsLoading = false;
+    if (this.onlyShowSelected) {
+      searchedItems = searchedItems.filter((item) => item.selected);
+    }
 
-      this.#announceSelectionState(
-        selectedItems.length,
-        this.displayedItems.length,
-      );
+    this.displayedItems = searchedItems.slice(0, this.#itemIndex);
 
-      this.#changeDetector.markForCheck();
-    });
+    if (this.#itemIndex > searchedItems.length) {
+      this.itemsHaveMore = false;
+    } else {
+      this.itemsHaveMore = true;
+    }
+    this.itemsLoading = false;
+
+    this.#announceSelectionState(
+      selectedItems.length,
+      this.displayedItems.length,
+    );
+
+    this.#changeDetector.markForCheck();
   }
 
-  public updateItemData(data: any[]): void {
+  public async updateItemData(data: any[]): Promise<void> {
     this.context.items = data;
     this.items = [];
     this.#itemIndex = 10;
@@ -386,7 +390,7 @@ export class SkyLookupShowMoreModalComponent
       });
     });
 
-    this.addItems();
+    await this.addItems();
 
     this.#changeDetector.markForCheck();
   }

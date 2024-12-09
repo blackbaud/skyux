@@ -1256,7 +1256,7 @@ describe('File drop component', () => {
     );
   });
 
-  it('should set hint text for the link input', async () => {
+  it('should set hint text for the link input', () => {
     const linkUploadHintText = 'Hello, world!';
 
     componentInstance.allowLinks = true;

@@ -104,7 +104,7 @@ describe('Text editor', () => {
         },
         ...additionalProviders,
       ],
-    }).compileComponents();
+    });
 
     return TestBed.createComponent<T>(componentType);
   }

@@ -28,7 +28,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     } as unknown as Cypress.PluginConfigOptions;
   });
 
-  it('should set up events for screenshots', async () => {
+  it('should set up events for screenshots', () => {
     const on = jest.fn();
     sendCypressScreenshotsToPercy(on, config);
     expect(readFileSync).toHaveBeenCalledTimes(1);
@@ -39,7 +39,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     expect(on).toHaveBeenCalledWith('after:screenshot', expect.any(Function));
   });
 
-  it('should not set up events without percy server address', async () => {
+  it('should not set up events without percy server address', () => {
     const on = jest.fn();
     process.env['PERCY_SERVER_ADDRESS'] = '';
     config.env['PERCY_SERVER_ADDRESS'] = undefined;
@@ -47,7 +47,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     expect(readFileSync).not.toHaveBeenCalled();
   });
 
-  it('should set up electron', async () => {
+  it('should set up electron', () => {
     const on = jest.fn();
     sendCypressScreenshotsToPercy(on, config);
     expect(on).toHaveBeenCalledWith(
@@ -69,7 +69,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     });
   });
 
-  it('should set up chrome', async () => {
+  it('should set up chrome', () => {
     const on = jest.fn();
     sendCypressScreenshotsToPercy(on, config);
     expect(on).toHaveBeenCalledWith(
@@ -87,7 +87,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     });
   });
 
-  it('should set up firefox', async () => {
+  it('should set up firefox', () => {
     const on = jest.fn();
     sendCypressScreenshotsToPercy(on, config);
     expect(on).toHaveBeenCalledWith(

@@ -27,7 +27,7 @@ describe('Core testing module', () => {
       expect(service instanceof MockSkyMediaQueryService).toBeTrue();
     });
 
-    it('should subscribe to screen resizing', async () => {
+    it('should subscribe to screen resizing', () => {
       expect(service.current).toEqual(SkyMediaBreakpoints.md);
 
       (service as MockSkyMediaQueryService).fire(SkyMediaBreakpoints.xs);
@@ -41,7 +41,7 @@ describe('Core testing module', () => {
       expect(service.current).toEqual(SkyMediaBreakpoints.xs);
     });
 
-    it('should allow setting the breakpoint', async () => {
+    it('should allow setting the breakpoint', () => {
       expect(service.current).toEqual(SkyMediaBreakpoints.md);
 
       (service as MockSkyMediaQueryService).current = SkyMediaBreakpoints.xs;

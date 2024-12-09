@@ -388,7 +388,7 @@ describe('Wait service', () => {
       });
     });
 
-    it('should be accessible when a blocking wait is added with a wrap', waitForAsync(async () => {
+    it('should be accessible when a blocking wait is added with a wrap', waitForAsync(() => {
       const subject = new ReplaySubject();
       waitSvc.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
       subject.next('A');
@@ -409,7 +409,7 @@ describe('Wait service', () => {
       });
     }));
 
-    it('should be accessible when a non-blocking wait is added with a wrap', waitForAsync(async () => {
+    it('should be accessible when a non-blocking wait is added with a wrap', waitForAsync(() => {
       const subject = new ReplaySubject();
       waitSvc.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
       subject.next('A');

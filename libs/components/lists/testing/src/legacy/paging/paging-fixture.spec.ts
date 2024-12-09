@@ -76,7 +76,7 @@ describe('Paging fixture', () => {
 
   //#endregion helpers
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PagingTestComponent],
       imports: [SkyPagingTestingModule],

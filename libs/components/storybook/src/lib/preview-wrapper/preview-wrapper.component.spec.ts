@@ -41,7 +41,7 @@ describe('PreviewWrapperComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the theme', async () => {
+  it('should set the theme', () => {
     const themeService = TestBed.inject(SkyThemeService);
     let expectedTheme = {
       theme: 'default',

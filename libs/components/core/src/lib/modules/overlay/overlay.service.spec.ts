@@ -218,7 +218,7 @@ describe('Overlay service', () => {
 
       // Run navigation through NgZone to avoid warnings in the console.
       ngZone.run(() => {
-        router.navigate(['/']);
+        void router.navigate(['/']);
         fixture.detectChanges();
         tick();
         verifyOverlayCount(0);
@@ -235,7 +235,7 @@ describe('Overlay service', () => {
       verifyOverlayCount(1);
 
       ngZone.run(() => {
-        router.navigate(['/']);
+        void router.navigate(['/']);
         fixture.detectChanges();
         tick();
 

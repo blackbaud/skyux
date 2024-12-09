@@ -120,14 +120,17 @@ export class SkyPhoneFieldFixture {
    */
   public async isDisabled(): Promise<boolean> {
     const disabled = this.#phoneFieldInput.getAttribute('disabled');
-    return coerceBooleanProperty(disabled);
+
+    return await Promise.resolve(coerceBooleanProperty(disabled));
   }
 
   /**
    * Gets a boolean promise indicating if the phone field is valid.
    */
   public async isValid(): Promise<boolean> {
-    return this.#phoneFieldInput.classList.contains('ng-valid');
+    return await Promise.resolve(
+      this.#phoneFieldInput.classList.contains('ng-valid'),
+    );
   }
 
   get #countryElement(): HTMLInputElement {

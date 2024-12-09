@@ -21,7 +21,7 @@ import { Schema } from './schema';
 /**
  * Configure Storybook to use typescript. Set Storybook to run during e2e in development mode.
  */
-export default async function (tree: Tree, schema: Schema) {
+export default async function (tree: Tree, schema: Schema): Promise<void> {
   const projects = getStorybookProjects(tree, schema.name);
 
   projects.forEach((project, projectName) => {
@@ -30,7 +30,7 @@ export default async function (tree: Tree, schema: Schema) {
       project.targets as Record<string, TargetConfiguration>,
     );
     if (!targets.includes('static-storybook')) {
-      addStaticTarget(tree, {
+      void addStaticTarget(tree, {
         project: projectName,
         interactionTests: false,
         uiFramework: '@storybook/angular',

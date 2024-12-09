@@ -190,7 +190,7 @@ describe('Summary Action Bar action components', () => {
       fixture.detectChanges();
       mediaQueryController.setBreakpoint('xs');
       fixture.detectChanges();
-      fixture.whenStable();
+      await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 

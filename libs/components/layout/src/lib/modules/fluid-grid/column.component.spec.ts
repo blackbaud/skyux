@@ -12,7 +12,7 @@ describe('SkyColumnComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SkyColumnComponent, ColumnTestComponent],
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(ColumnTestComponent);
     component = fixture.componentInstance;

@@ -14,40 +14,40 @@ describe('Date range service', () => {
     service = TestBed.inject(SkyDateRangeService);
   });
 
-  it('should return a calculator by ID', () => {
-    service.getCalculatorById(SkyDateRangeCalculatorId.After).then((result) => {
-      expect(result instanceof SkyDateRangeCalculator).toEqual(true);
-      expect(result.calculatorId).toEqual(SkyDateRangeCalculatorId.After);
-      expect(result.type).toEqual(SkyDateRangeCalculatorType.After);
-      expect(result._shortDescriptionResourceKey).toEqual(
-        'skyux_date_range_picker_format_label_after',
-      );
-      expect(typeof result.getValue).toEqual('function');
-      expect(typeof result.validate).toEqual('function');
-    });
+  it('should return a calculator by ID', async () => {
+    const result = await service.getCalculatorById(
+      SkyDateRangeCalculatorId.After,
+    );
+
+    expect(result instanceof SkyDateRangeCalculator).toEqual(true);
+    expect(result.calculatorId).toEqual(SkyDateRangeCalculatorId.After);
+    expect(result.type).toEqual(SkyDateRangeCalculatorType.After);
+    expect(result._shortDescriptionResourceKey).toEqual(
+      'skyux_date_range_picker_format_label_after',
+    );
+    expect(typeof result.getValue).toEqual('function');
+    expect(typeof result.validate).toEqual('function');
   });
 
-  it('should return calculators given an array of IDs', () => {
-    service.getCalculators([SkyDateRangeCalculatorId.After]).then((result) => {
-      expect(result[0] instanceof SkyDateRangeCalculator).toEqual(true);
-      expect(result[0].calculatorId).toEqual(SkyDateRangeCalculatorId.After);
-      expect(result[0].type).toEqual(SkyDateRangeCalculatorType.After);
-      expect(result[0]._shortDescriptionResourceKey).toEqual(
-        'skyux_date_range_picker_format_label_after',
-      );
-      expect(typeof result[0].getValue).toEqual('function');
-      expect(typeof result[0].validate).toEqual('function');
-    });
+  it('should return calculators given an array of IDs', async () => {
+    const result = await service.getCalculators([
+      SkyDateRangeCalculatorId.After,
+    ]);
+
+    expect(result[0] instanceof SkyDateRangeCalculator).toEqual(true);
+    expect(result[0].calculatorId).toEqual(SkyDateRangeCalculatorId.After);
+    expect(result[0].type).toEqual(SkyDateRangeCalculatorType.After);
+    expect(result[0]._shortDescriptionResourceKey).toEqual(
+      'skyux_date_range_picker_format_label_after',
+    );
+    expect(typeof result[0].getValue).toEqual('function');
+    expect(typeof result[0].validate).toEqual('function');
   });
 
-  it('should handle calculator not found', () => {
-    service
-      .getCalculatorById(5000 as SkyDateRangeCalculatorId)
-      .catch((error) => {
-        expect(error.message).toEqual(
-          'A calculator with the ID 5000 was not found.',
-        );
-      });
+  it('should handle calculator not found', async () => {
+    await expectAsync(
+      service.getCalculatorById(5000 as SkyDateRangeCalculatorId),
+    ).toBeRejectedWithError('A calculator with the ID 5000 was not found.');
   });
 
   it('should create custom calculators', () => {

@@ -32,7 +32,7 @@ describe('Icon stack component', () => {
     element = fixture.nativeElement;
   });
 
-  it('should display an icon stack based on the given icons', async () => {
+  it('should display an icon stack based on the given icons', () => {
     setupIcon({ icon: 'circle' }, { icon: 'bell-solid' }, '3x');
 
     const wrapperEl = element.querySelector('span');

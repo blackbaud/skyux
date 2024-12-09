@@ -122,10 +122,11 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   public execCommand(command: string, value = ''): void {
-    this.#adapterService.execCommand({
+    void this.#adapterService.execCommand({
       command: command,
       value: value,
     });
+
     this.styleState = {
       ...this.styleState,
       ...this.#adapterService.getStyleState(),
@@ -204,7 +205,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   public changeFontSize(size: number): void {
-    this.#adapterService.setFontSize(size);
+    void this.#adapterService.setFontSize(size);
     this.styleState = {
       ...this.styleState,
       ...this.#adapterService.getStyleState(),

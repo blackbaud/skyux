@@ -6,6 +6,7 @@ export function skyE2ePreset(
   options: Partial<Cypress.PluginConfigOptions> = {},
 ): Partial<Cypress.PluginConfigOptions> {
   const offset = offsetFromRoot(directory);
+
   return {
     ...nxE2EPreset(directory),
     downloadsFolder: joinPathFragments(
@@ -22,10 +23,11 @@ export function skyE2ePreset(
       openMode: 0,
     },
     ...options,
-    setupNodeEvents: (on, config) => {
+    setupNodeEvents: async (on, config): Promise<void> => {
       if (options.setupNodeEvents) {
-        options.setupNodeEvents(on, config);
+        await options.setupNodeEvents(on, config);
       }
+
       on('before:browser:launch', (browser, launchOptions) => {
         if (browser.name === 'chrome' && browser.isHeadless) {
           launchOptions.args.push('--window-size=1280,1280');

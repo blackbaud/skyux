@@ -119,7 +119,7 @@ describe('Selection box grid component', () => {
     }
   });
 
-  it(`should update CSS responsive classes on window resize`, async () => {
+  it(`should update CSS responsive classes on window resize`, () => {
     spyOn(
       SkySelectionBoxAdapterService.prototype,
       'getParentWidth',

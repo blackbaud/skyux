@@ -645,12 +645,12 @@ describe('Modal component', () => {
     getApplicationRef().tick();
   }));
 
-  it('should close when the user navigates through history', fakeAsync(() => {
+  it('should close when the user navigates through history', fakeAsync(async () => {
     openModal(ModalTestComponent);
 
     expect(getModalElement()).toExist();
 
-    getRouter().navigate(['/']);
+    await getRouter().navigate(['/']);
 
     expect(getModalElement()).not.toExist();
 
@@ -673,7 +673,7 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
-  it('should not close on route change if it is already closed', fakeAsync(() => {
+  it('should not close on route change if it is already closed', fakeAsync(async () => {
     const instance = openModal(ModalTestComponent);
     const closeSpy = spyOn(instance, 'close').and.callThrough();
 
@@ -683,7 +683,7 @@ describe('Modal component', () => {
     expect(closeSpy).toHaveBeenCalled();
     closeSpy.calls.reset();
 
-    getRouter().navigate(['/']);
+    await getRouter().navigate(['/']);
     tick();
 
     expect(getModalElement()).not.toExist();
@@ -1436,7 +1436,7 @@ describe('Modal component', () => {
       expect(getConfirmModalElement()).toBeNull();
     }));
 
-    it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(() => {
+    it('should prompt to discard if dirty and stay open when keep working is selected', fakeAsync(async () => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider,
@@ -1447,13 +1447,13 @@ describe('Modal component', () => {
       expect(confirmModalEl).not.toBeNull();
 
       if (confirmModalEl) {
-        checkConfirmModalIsCorrect(confirmModalEl);
+        await checkConfirmModalIsCorrect(confirmModalEl);
         getKeepWorkingButtonElement(confirmModalEl)?.click();
         expect(getModalElement()).not.toBeNull();
       }
     }));
 
-    it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(() => {
+    it('should prompt to discard if dirty and close when discard changes is selected', fakeAsync(async () => {
       const modalInstance = openModal(
         ModalIsDirtyTestComponent,
         dirtyContextProvider,
@@ -1464,7 +1464,7 @@ describe('Modal component', () => {
       expect(confirmModalEl).not.toBeNull();
 
       if (confirmModalEl) {
-        checkConfirmModalIsCorrect(confirmModalEl);
+        await checkConfirmModalIsCorrect(confirmModalEl);
         getDiscardButtonElement(confirmModalEl)?.click();
         expect(getModalElement()).toBeNull();
       }

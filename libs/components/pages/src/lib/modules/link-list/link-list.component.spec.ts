@@ -17,7 +17,7 @@ describe('Link list component', () => {
     fixture = TestBed.createComponent(SkyLinkListComponent);
   });
 
-  it('should show links', async () => {
+  it('should show links', () => {
     fixture.componentRef.setInput('headingText', 'Full List');
     fixture.componentRef.setInput('links', [
       {
@@ -46,7 +46,7 @@ describe('Link list component', () => {
     expect(links.length).toBe(3);
   });
 
-  it('should disappear when empty', async () => {
+  it('should disappear when empty', () => {
     fixture.componentRef.setInput('headingText', 'Empty List');
     fixture.componentRef.setInput('links', []);
 

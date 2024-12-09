@@ -192,7 +192,7 @@ describe('HeaderComponent', () => {
     expect(fixture.debugElement.query(By.css('.ag-filter-icon'))).toBeTruthy();
   });
 
-  it('should not show sort button when sort is disabled', async () => {
+  it('should not show sort button when sort is disabled', () => {
     params = {
       ...params,
       enableSorting: false,
@@ -202,7 +202,7 @@ describe('HeaderComponent', () => {
     expect(document.querySelector('.ag-sort-indicator-container')).toBeNull();
   });
 
-  it('should not sort when sort is disabled', async () => {
+  it('should not sort when sort is disabled', () => {
     params = {
       ...params,
       enableSorting: false,

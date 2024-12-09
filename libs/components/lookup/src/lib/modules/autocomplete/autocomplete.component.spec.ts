@@ -643,7 +643,7 @@ describe('Autocomplete component', () => {
       }
     }));
 
-    it('should handle missing skyAutocomplete directive on change', async () => {
+    it('should handle missing skyAutocomplete directive on change', () => {
       fixture.detectChanges();
 
       component.hideInput = true;

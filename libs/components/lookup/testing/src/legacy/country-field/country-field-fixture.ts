@@ -93,7 +93,7 @@ export class SkyCountryFieldFixture {
    * Clears the country selection and input field.
    */
   public async clear(): Promise<void> {
-    this.#enterSearch('', this.#fixture);
+    await this.#enterSearch('', this.#fixture);
 
     this.#fixture.detectChanges();
     await this.#fixture.whenStable();
@@ -161,7 +161,7 @@ export class SkyCountryFieldFixture {
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
     SkyAppTestUtility.fireDomEvent(searchResults[index], 'click');
-    this.#blurInput(fixture);
+    await this.#blurInput(fixture);
   }
 
   //#endregion helpers

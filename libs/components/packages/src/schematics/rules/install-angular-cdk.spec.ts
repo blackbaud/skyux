@@ -9,7 +9,7 @@ describe('install-angular-cdk', () => {
     tree.create('package.json', JSON.stringify({}));
     const context = { addTask: jest.fn() } as unknown as SchematicContext;
     const rule = installAngularCdk();
-    rule(tree, context);
+    await rule(tree, context);
     expect(context.addTask).toHaveBeenCalled();
     expect(tree.readJson('package.json')).toEqual({
       dependencies: {

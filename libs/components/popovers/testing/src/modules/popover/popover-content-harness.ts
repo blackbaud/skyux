@@ -84,6 +84,6 @@ export class SkyPopoverContentHarness extends SkyQueryableComponentHarness {
    * Clicks out of the popover.
    */
   public async clickOut(): Promise<void> {
-    (await (await this.#getOverlay())?.host())?.click();
+    await (await (await this.#getOverlay())?.host())?.click();
   }
 }

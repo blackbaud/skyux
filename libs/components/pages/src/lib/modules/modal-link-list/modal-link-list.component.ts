@@ -39,12 +39,13 @@ export class SkyModalLinkListComponent {
         !(this.#modalSvc instanceof SkyModalLegacyService) &&
         !isStandalone(modal.component)
       ) {
-        this.#logger
-          ?.deprecated('SkyPageModalLink.modal.component not standalone', {
+        this.#logger?.deprecated(
+          'SkyPageModalLink.modal.component not standalone',
+          {
             deprecationMajorVersion: 9,
             replacementRecommendation: `The SkyPageModalLink.modal.component must be a standalone component in order to receive the right dependency injector context.`,
-          })
-          .then();
+          },
+        );
       }
       this.#modalSvc.open(modal.component, modal.config);
     }

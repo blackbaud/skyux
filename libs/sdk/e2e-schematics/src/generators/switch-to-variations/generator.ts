@@ -2,10 +2,10 @@ import { Tree, getProjects, logger, visitNotIgnoredFiles } from '@nx/devkit';
 
 import { SwitchToVariationsGeneratorSchema } from './schema';
 
-export default async function (
+export default function (
   tree: Tree,
   options: SwitchToVariationsGeneratorSchema,
-) {
+): void {
   const projectConfiguration = getProjects(tree).get(options.project);
   if (!projectConfiguration) {
     throw new Error(`Project ${options.project} not found`);

@@ -10,7 +10,7 @@ describe('remove-import', () => {
     tree = Tree.empty();
   });
 
-  it('should remove one class', async () => {
+  it('should remove one class', () => {
     const path = 'file.ts';
     const content = `import { A, B, C } from 'module';`;
     tree.create(path, content);
@@ -27,7 +27,7 @@ describe('remove-import', () => {
     expect(tree.readText(path)).toBe(`import { A,  C } from 'module';`);
   });
 
-  it('should remove every class', async () => {
+  it('should remove every class', () => {
     const path = 'file.ts';
     const content = `import { A, B, C } from 'module';`;
     tree.create(path, content);

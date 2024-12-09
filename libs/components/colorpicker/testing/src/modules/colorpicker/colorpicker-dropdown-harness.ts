@@ -163,7 +163,7 @@ export class SkyColorpickerDropdownHarness extends SkyComponentHarness {
   }
 
   async #setInputValue(input: TestElement, value: string): Promise<void> {
-    input.setInputValue(value);
-    input.dispatchEvent('input');
+    await input.setInputValue(value);
+    await input.dispatchEvent('input');
   }
 }

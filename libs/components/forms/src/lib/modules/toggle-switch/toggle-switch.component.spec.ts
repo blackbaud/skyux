@@ -201,7 +201,7 @@ describe('Toggle switch component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should still have `aria-label` if `labelHidden` is true', async () => {
+    it('should still have `aria-label` if `labelHidden` is true', () => {
       testComponent.labelText = 'label text';
       testComponent.labelHidden = true;
 
@@ -209,7 +209,7 @@ describe('Toggle switch component', () => {
       expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
     });
 
-    it('should render the `labelText` and not label element if `labelText` is set', async () => {
+    it('should render the `labelText` and not label element if `labelText` is set', () => {
       testComponent.labelText = 'label text';
       testComponent.buttonLabel = 'label element';
 
@@ -220,7 +220,7 @@ describe('Toggle switch component', () => {
       expect(label?.textContent?.trim()).toBe('label text');
     });
 
-    it('should not render the label or label element if `labelText` is set and `labelHidden` is true', async () => {
+    it('should not render the label or label element if `labelText` is set and `labelHidden` is true', () => {
       testComponent.labelText = 'label text';
       testComponent.buttonLabel = 'label element';
       testComponent.labelHidden = true;
@@ -232,7 +232,7 @@ describe('Toggle switch component', () => {
       expect(label?.textContent).toBe('');
     });
 
-    it('should not render the label if `labelText` is set and `labelHidden` is true', async () => {
+    it('should not render the label if `labelText` is set and `labelHidden` is true', () => {
       testComponent.labelText = 'label text';
       testComponent.labelHidden = true;
 
@@ -243,7 +243,7 @@ describe('Toggle switch component', () => {
       expect(label?.textContent).toBe('');
     });
 
-    it('should render the label if `labelText` is set', async () => {
+    it('should render the label if `labelText` is set', () => {
       testComponent.labelText = 'label text';
 
       fixture.detectChanges();
@@ -253,7 +253,7 @@ describe('Toggle switch component', () => {
       expect(label?.textContent).toBe('label text');
     });
 
-    it('should render the label element regardless of `labelHidden` value if `labelText` is not set', async () => {
+    it('should render the label element regardless of `labelHidden` value if `labelText` is not set', () => {
       testComponent.buttonLabel = 'label element';
 
       fixture.detectChanges();
@@ -357,7 +357,7 @@ describe('Toggle switch component', () => {
       ).toBe(0);
     });
 
-    it('should render help inline button if help key and label text is provided', async () => {
+    it('should render help inline button if help key and label text is provided', () => {
       testComponent.helpKey = 'helpKey.html';
       fixture.detectChanges();
 

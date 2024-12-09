@@ -64,11 +64,12 @@ export class HomeComponent implements AfterViewInit {
     const integrationsRoute = router.config.find(
       (route) => route.path === 'integrations',
     );
+
     if (integrationsRoute?.loadChildren) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (integrationsRoute.loadChildren() as Promise<any>).then(
+      void (integrationsRoute.loadChildren() as Promise<any>).then(
         (integrationsRoutes) => {
-          this.createComponentData(
+          void this.createComponentData(
             integrationsRoutes.routes,
             'integrations',
           ).then(() => {

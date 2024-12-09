@@ -44,7 +44,7 @@ describe('SkyFluidGridComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FluidGridTestModule],
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(FluidGridTestComponent);
     component = fixture.componentInstance;

@@ -566,7 +566,7 @@ describe('Search component', () => {
     });
   });
 
-  describe('a11y', async () => {
+  describe('a11y', () => {
     it('should be accessible using default theme at wide and small breakpoints (ariaLabel: undefined, ariaLabelledBy: undefined)', async () => {
       fixture.detectChanges();
       await fixture.whenStable();

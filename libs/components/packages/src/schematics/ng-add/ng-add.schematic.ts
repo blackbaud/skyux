@@ -19,7 +19,7 @@ import { getRequiredProject } from '../utility/workspace';
 import { Schema } from './schema';
 
 function installEssentialSkyUxPackages(skyuxVersion: string): Rule {
-  return async (tree) => {
+  return (tree) => {
     const packageNames = [
       '@skyux/assets',
       '@skyux/core',
