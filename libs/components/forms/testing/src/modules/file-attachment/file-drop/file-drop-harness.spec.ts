@@ -1,7 +1,11 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyFileDropChange, SkyFileDropModule } from '@skyux/forms';
+import {
+  SkyFileDropChange,
+  SkyFileDropModule,
+  SkyFileValidateFn,
+} from '@skyux/forms';
 
 import { ReplaySubject, firstValueFrom } from 'rxjs';
 
@@ -25,12 +29,26 @@ import { SkyFileDropHarness } from './file-drop-harness';
       [minFileSize]="minFileSize"
       [required]="required"
       [stacked]="stacked"
+      [validateFn]="validateFunction"
       (filesChanged)="onFilesChanged($event)"
     />
   `,
 })
 class TestComponent {
+  public acceptedTypes: string | undefined;
+  public fileUploadAriaLabel: string | undefined;
   public filesChanged = new ReplaySubject<SkyFileDropChange>(1);
+  public helpPopoverContent: string | undefined;
+  public helpPopoverTitle: string | undefined;
+  public hintText: string | undefined;
+  public labelText: string | undefined;
+  public linkUploadAriaLabel: string | undefined;
+  public linkUploadHintText: string | undefined;
+  public maxFileSize: string | undefined;
+  public minFileSize: string | undefined;
+  public required = false;
+  public stacked = false;
+  public validateFunction: SkyFileValidateFn | undefined;
 
   public onFilesChanged(event: SkyFileDropChange): void {
     this.filesChanged.next(event);
