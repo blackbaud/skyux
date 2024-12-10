@@ -4,9 +4,7 @@ import { SkyFileReaderService } from '@skyux/forms';
 /**
  * @internal
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SkyFileReaderTestingService extends SkyFileReaderService {
   public override async readFile(file: File): Promise<string> {
     return await new Promise((resolve) => {
