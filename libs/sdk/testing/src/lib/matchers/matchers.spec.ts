@@ -359,7 +359,7 @@ describe('Jasmine matchers', () => {
         expect(elem).toHaveResourceText(messageKey);
       }));
 
-      it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
+      it("should default to trimming whitespace and check that the element's text matches text provided by resources", () => {
         const messageKey = 'name';
         const messageValue = 'message from resource';
         const elem: any = createElement(`    ${messageValue}     `);
@@ -375,7 +375,7 @@ describe('Jasmine matchers', () => {
         expect(elem).toHaveResourceText(messageKey);
       });
 
-      it("should check that the element's text matches text provided by resources with arguments", async () => {
+      it("should check that the element's text matches text provided by resources with arguments", () => {
         const messageKey = 'nameWithArgs';
         const messageValue = 'message from resources with args = {0}';
         const messageArgs: any[] = [100];
@@ -547,7 +547,7 @@ describe('Jasmine matchers', () => {
         });
       });
 
-      it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
+      it("should default to trimming whitespace and check that the element's text matches text provided by resources", () => {
         const messageKey = 'name';
         const messageValue = 'message from resource';
         const elem: any = createElement(`    ${messageValue}     `);

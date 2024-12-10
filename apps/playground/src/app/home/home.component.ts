@@ -79,12 +79,12 @@ export class HomeComponent implements AfterViewInit {
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService,
   ) {
-    (
+    void (
       router.config
         .find((route) => route.path === 'components')
         .loadChildren() as Promise<any>
     ).then((componentsRoutes) => {
-      this.createComponentData(componentsRoutes.routes, 'components').then(
+      void this.createComponentData(componentsRoutes.routes, 'components').then(
         () => {
           this.defaultDataState.filterData.filters = {
             libraries: [
@@ -117,7 +117,7 @@ export class HomeComponent implements AfterViewInit {
     });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.dataManagerService
       .getDataStateUpdates('playgroundComponents')
       .subscribe((state) => {
@@ -134,9 +134,9 @@ export class HomeComponent implements AfterViewInit {
   private createComponentData(
     routes: ComponentRouteInfo[],
     parentPath: string,
-  ): Promise<any> {
+  ): Promise<unknown> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const promises: Promise<any>[] = [];
+    const promises: Promise<unknown>[] = [];
 
     for (const route of routes) {
       if (route.loadChildren) {

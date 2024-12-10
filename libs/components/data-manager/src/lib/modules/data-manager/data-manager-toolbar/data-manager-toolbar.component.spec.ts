@@ -582,7 +582,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   it('should open the provided filter modal when the filter button is clicked, using legacy modal service', () => {
     const logger = TestBed.inject(SkyLogService);
-    spyOn(logger, 'deprecated').and.returnValue(Promise.resolve());
+    spyOn(logger, 'deprecated').and.returnValue(void Promise.resolve());
     spyOn(dataManagerService, 'getViewById').and.returnValue({
       ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
       filterButtonEnabled: true,
@@ -864,7 +864,7 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   describe('a11y', () => {
-    it('should set accessibility labels correctly when no list descriptor is given', async () => {
+    it('should set accessibility labels correctly when no list descriptor is given', () => {
       const patchInfoSpy = spyOn(
         SkyContentInfoProvider.prototype,
         'patchInfo',
@@ -890,7 +890,7 @@ describe('SkyDataManagerToolbarComponent', () => {
       expect(getSelectAllButton()?.getAttribute('aria-label')).toBeNull();
     });
 
-    it('should set accessibility labels correctly when a list descriptor is given', async () => {
+    it('should set accessibility labels correctly when a list descriptor is given', () => {
       const patchInfoSpy = spyOn(
         SkyContentInfoProvider.prototype,
         'patchInfo',

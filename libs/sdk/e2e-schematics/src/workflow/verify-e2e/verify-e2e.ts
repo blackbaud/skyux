@@ -204,7 +204,7 @@ export async function verifyE2e(
     core.info('No E2E Visual Review to verify.');
   }
 
-  function allWorkflowJobsPassed(jobs: WorkflowJob[]) {
+  function allWorkflowJobsPassed(jobs: WorkflowJob[]): boolean {
     let allJobsPassed = true;
     const stepFailed = (step: WorkflowJobStep): boolean =>
       !['skipped', 'success'].includes(step.conclusion);
@@ -220,35 +220,31 @@ export async function verifyE2e(
     return allJobsPassed;
   }
 
-  async function listE2eJobsForWorkflowRun(
-    jobs: WorkflowJob[],
-  ): Promise<WorkflowJob[]> {
+  function listE2eJobsForWorkflowRun(jobs: WorkflowJob[]): WorkflowJob[] {
     return jobs.filter((job: WorkflowJob) =>
       job.name.startsWith('End to end tests'),
     );
   }
 
-  async function listPercyWorkflowSteps(
-    jobs: WorkflowJob[],
-  ): Promise<WorkflowStepSummary[]> {
-    return await listE2eJobsForWorkflowRun(jobs).then((workflowE2eJobs) =>
-      workflowE2eJobs
-        .filter((job) =>
-          job.steps.some((step: WorkflowJobStep) =>
-            step.name.startsWith('Percy'),
-          ),
-        )
-        .map((job) =>
-          job.steps.find((step: WorkflowJobStep) =>
-            step.name.startsWith('Percy'),
-          ),
-        )
-        .filter((step): step is WorkflowJobStep => !!step)
-        .map((step) => ({
-          project: step.name.replace(/^Percy /, ''),
-          skipped: step.conclusion === 'skipped',
-          succeeded: step.conclusion === 'success',
-        })),
-    );
+  function listPercyWorkflowSteps(jobs: WorkflowJob[]): WorkflowStepSummary[] {
+    const workflowE2eJobs = listE2eJobsForWorkflowRun(jobs);
+
+    return workflowE2eJobs
+      .filter((job) =>
+        job.steps.some((step: WorkflowJobStep) =>
+          step.name.startsWith('Percy'),
+        ),
+      )
+      .map((job) =>
+        job.steps.find((step: WorkflowJobStep) =>
+          step.name.startsWith('Percy'),
+        ),
+      )
+      .filter((step): step is WorkflowJobStep => !!step)
+      .map((step) => ({
+        project: step.name.replace(/^Percy /, ''),
+        skipped: step.conclusion === 'skipped',
+        succeeded: step.conclusion === 'success',
+      }));
   }
 }

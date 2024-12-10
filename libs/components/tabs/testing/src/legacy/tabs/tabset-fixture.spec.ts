@@ -123,22 +123,22 @@ describe('Tabset fixture', () => {
     });
   }
 
-  function validateNewTabClick(): void {
+  async function validateNewTabClick(): Promise<void> {
     const tabset = new SkyTabsetFixture(fixture, 'test-tabset');
 
     const onNewTabSpy = spyOn(fixture.componentInstance, 'onNewTab');
 
-    tabset.clickNewButton();
+    await tabset.clickNewButton();
 
     expect(onNewTabSpy).toHaveBeenCalled();
   }
 
-  function validateOpenTabClick(): void {
+  async function validateOpenTabClick(): Promise<void> {
     const tabset = new SkyTabsetFixture(fixture, 'test-tabset');
 
     const onOpenTabSpy = spyOn(fixture.componentInstance, 'onOpenTab');
 
-    tabset.clickOpenButton();
+    await tabset.clickOpenButton();
 
     expect(onOpenTabSpy).toHaveBeenCalled();
   }
@@ -195,12 +195,12 @@ describe('Tabset fixture', () => {
     await validateTabProperties();
   });
 
-  it('should allow the new tab button to be clicked', () => {
-    validateNewTabClick();
+  it('should allow the new tab button to be clicked', async () => {
+    await validateNewTabClick();
   });
 
-  it('should allow the open tab button to be clicked', () => {
-    validateOpenTabClick();
+  it('should allow the open tab button to be clicked', async () => {
+    await validateOpenTabClick();
   });
 
   it('should allow a tab to be clicked', async () => {
@@ -213,7 +213,7 @@ describe('Tabset fixture', () => {
 
   describe('when collapsed to dropdown tab', () => {
     beforeEach(async () => {
-      function fireResizeEvent() {
+      function fireResizeEvent(): void {
         SkyAppTestUtility.fireDomEvent(window, 'resize');
         fixture.detectChanges();
       }
@@ -236,12 +236,12 @@ describe('Tabset fixture', () => {
       await validateTabProperties();
     });
 
-    it('should allow the new tab button to be clicked', () => {
-      validateNewTabClick();
+    it('should allow the new tab button to be clicked', async () => {
+      await validateNewTabClick();
     });
 
-    it('should allow the open tab button to be clicked', () => {
-      validateOpenTabClick();
+    it('should allow the open tab button to be clicked', async () => {
+      await validateOpenTabClick();
     });
 
     it('should allow a tab to be clicked', async () => {

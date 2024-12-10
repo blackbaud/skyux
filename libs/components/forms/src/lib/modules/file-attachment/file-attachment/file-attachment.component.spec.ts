@@ -764,7 +764,7 @@ describe('File attachment', () => {
     });
   });
 
-  it('should load files and set classes on drag and drop', () => {
+  it('should load files and set classes on drag and drop', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -800,7 +800,7 @@ describe('File attachment', () => {
     triggerDragOver(undefined, files, dropDebugEl);
     validateDropClasses(true, false, dropEl);
 
-    triggerDrop(files, dropDebugEl);
+    await triggerDrop(files, dropDebugEl);
     validateDropClasses(false, false, dropEl);
 
     fileReaderSpy.loadCallbacks[0]({
@@ -853,7 +853,7 @@ describe('File attachment', () => {
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
   });
 
-  it('should allow for replacing the selected file with drag and drop', () => {
+  it('should allow for replacing the selected file with drag and drop', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -899,7 +899,7 @@ describe('File attachment', () => {
     triggerDragOver(undefined, replacementFile, dropDebugEl);
     validateDropClasses(true, false, dropEl);
 
-    triggerDrop(replacementFile, dropDebugEl);
+    await triggerDrop(replacementFile, dropDebugEl);
     validateDropClasses(false, false, dropEl);
 
     // Triggers the change event for watching
@@ -925,7 +925,7 @@ describe('File attachment', () => {
   it(
     'should accept a file of rejected type on drag (but not on drop) ' +
       'if the browser does not support dataTransfer.items',
-    () => {
+    async () => {
       fileAttachmentInstance.acceptedTypes = 'image/png, image/tiff';
 
       fixture.detectChanges();
@@ -946,12 +946,12 @@ describe('File attachment', () => {
       triggerDragOver(invalidFiles, undefined, dropDebugEl);
       validateDropClasses(true, false, dropEl);
 
-      triggerDrop(invalidFiles, dropDebugEl);
+      await triggerDrop(invalidFiles, dropDebugEl);
       validateDropClasses(false, false, dropEl);
     },
   );
 
-  it('should prevent loading multiple files on drag and drop', () => {
+  it('should prevent loading multiple files on drag and drop', async () => {
     const files = [
       {
         name: 'foo.txt',
@@ -971,11 +971,11 @@ describe('File attachment', () => {
 
     triggerDragEnter('sky-file-attachment', dropDebugEl);
     triggerDragOver(undefined, files, dropDebugEl);
-    triggerDrop(files, dropDebugEl);
+    await triggerDrop(files, dropDebugEl);
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
   });
 
-  it('should prevent loading directories on drag and drop', () => {
+  it('should prevent loading directories on drag and drop', async () => {
     const files = [
       {
         name: 'foo.txt',
@@ -996,7 +996,7 @@ describe('File attachment', () => {
 
     triggerDragEnter('sky-file-attachment', dropDebugEl);
     triggerDragOver(undefined, files, dropDebugEl);
-    triggerDrop(files, dropDebugEl);
+    await triggerDrop(files, dropDebugEl);
     expect(fileReaderSpy.loadCallbacks.length).toBe(0);
   });
 

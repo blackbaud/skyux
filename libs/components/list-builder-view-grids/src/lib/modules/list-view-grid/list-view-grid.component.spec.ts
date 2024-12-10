@@ -437,7 +437,7 @@ describe('List View Grid Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        await state.pipe(take(1)).subscribe(async () => {
+        await state.pipe(take(1)).subscribe(() => {
           dispatcher.searchSetText('searchText');
         });
 

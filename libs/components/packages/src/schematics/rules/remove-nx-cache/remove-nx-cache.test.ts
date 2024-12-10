@@ -46,9 +46,11 @@ describe('removeNxCache', () => {
 
   it('should do nothing', async () => {
     const { tree, mocks, removeNxCache } = await setup();
-    removeNxCache({ rootDir: '.' })(tree, {
+
+    await removeNxCache({ rootDir: '.' })(tree, {
       logger: { info: jest.fn() },
     } as any);
+
     expect(tree.exists('.nx/cache')).toBe(false);
     expect(mocks.spawnSync).not.toHaveBeenCalled();
   });
@@ -59,9 +61,11 @@ describe('removeNxCache', () => {
     mocks.spawnSync.mockImplementationOnce(() => {
       throw new Error();
     });
-    removeNxCache({ rootDir: '.' })(tree, {
+
+    await removeNxCache({ rootDir: '.' })(tree, {
       logger: { info: jest.fn() },
     } as any);
+
     expect(tree.exists('.nx/cache')).toBe(false);
     expect(mocks.spawnSync).toHaveBeenCalledTimes(1);
     expect(mocks.spawnSync).toHaveBeenCalledWith(
@@ -81,7 +85,9 @@ describe('removeNxCache', () => {
       version: '1.0.0',
     });
     mocks.isHostTree.mockReturnValueOnce(true);
-    removeNxCache({ rootDir: '.' })(tree, {} as any);
+
+    await removeNxCache({ rootDir: '.' })(tree, {} as any);
+
     expect(tree.exists('.nx/cache')).toBe(false);
     expect(mocks.spawnSync).toHaveBeenCalledTimes(2);
     expect(mocks.spawnSync).toHaveBeenCalledWith(
@@ -103,7 +109,9 @@ describe('removeNxCache', () => {
     });
     mocks.isHostTree.mockReturnValueOnce(true);
     tree.overwrite('.gitignore', `/.nx/cache`);
-    removeNxCache({ rootDir: '.' })(tree, {} as any);
+
+    await removeNxCache({ rootDir: '.' })(tree, {} as any);
+
     expect(tree.exists('.nx/cache')).toBe(false);
     expect(mocks.spawnSync).toHaveBeenCalledTimes(2);
     expect(mocks.spawnSync).toHaveBeenCalledWith(

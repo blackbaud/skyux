@@ -64,7 +64,7 @@ describe('Scrollable host service', () => {
     expect(cmp.getScrollableHost()).toBe(window);
   });
 
-  it('should return an observable with the initial value of the current scrollable parent', async () => {
+  it('should return an observable with the initial value of the current scrollable parent', () => {
     const scrollableHostObservable = cmp.watchScrollableHost();
 
     scrollableHostObservable.pipe(take(1)).subscribe((scrollableHost) => {

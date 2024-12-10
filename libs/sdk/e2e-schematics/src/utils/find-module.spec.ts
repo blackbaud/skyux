@@ -183,7 +183,7 @@ describe('find-module', () => {
     ]);
   });
 
-  it('should findClosestModule', async () => {
+  it('should findClosestModule', () => {
     const moduleList = [
       'apps/test/src/app/best/best-routing.module.ts',
       'apps/test/src/app/test/test-routing.module.ts',
