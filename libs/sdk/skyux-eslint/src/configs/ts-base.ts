@@ -11,6 +11,7 @@ export default {
     'skyux-eslint': tsPlugin,
   },
   rules: {
+    // JavaScript ESLint rules (floating)
     curly: 'error',
     'default-case': 'error',
     'default-case-last': 'error',
@@ -33,7 +34,6 @@ export default {
     'no-alert': 'error',
     'no-caller': 'error',
     'no-console': 'error',
-    'no-constant-binary-expression': 'error',
     'no-constructor-return': 'error',
     'no-duplicate-imports': ['error', { includeExports: true }],
     'no-eval': 'error',
@@ -44,17 +44,17 @@ export default {
     'no-template-curly-in-string': 'error',
     'no-unmodified-loop-condition': 'error',
     'no-unreachable-loop': 'error',
-    'no-unused-private-class-members': 'error',
     'no-useless-return': 'error',
     'prefer-arrow-callback': 'error',
     'prefer-regex-literals': 'error',
     radix: 'error',
     'require-atomic-updates': 'error',
+
+    // Angular ESLint rules (floating)
     '@angular-eslint/no-lifecycle-call': 'error',
     '@angular-eslint/sort-ngmodule-metadata-arrays': 'error',
-    '@typescript-eslint/array-type': 'error',
-    '@typescript-eslint/ban-tslint-comment': 'error',
-    '@typescript-eslint/consistent-generic-constructors': 'error',
+
+    // TypeScript ESLint rules (floating)
     'default-param-last': 'off',
     '@typescript-eslint/default-param-last': 'error',
     '@typescript-eslint/explicit-member-accessibility': [
@@ -62,14 +62,8 @@ export default {
       { overrides: { constructors: 'no-public' } },
     ],
     '@typescript-eslint/explicit-module-boundary-types': 'error',
-    '@typescript-eslint/no-confusing-non-null-assertion': 'error',
-    '@typescript-eslint/no-duplicate-enum-values': 'error',
-    '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
-    '@typescript-eslint/no-unsafe-declaration-merging': 'error',
-    'no-unused-expressions': 'off',
-    '@typescript-eslint/no-unused-expressions': 'error',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': [
       'error',
@@ -80,8 +74,44 @@ export default {
         allowNamedExports: false,
       },
     ],
-    '@typescript-eslint/prefer-for-of': 'error',
-    '@typescript-eslint/prefer-function-type': 'error',
+
+    // TypeScript ESLint rules (strict)
+    '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
     '@typescript-eslint/prefer-literal-enum-member': 'error',
   },
 } satisfies TSESLint.FlatConfig.Config;
+
+/**
+ * ======================
+ * @eslint/js/recommended <--
+ * ======================
+ *
+ * no-constant-binary-expression
+ * no-unused-private-class-members
+ *
+ * ============================
+ * @typescript-eslint/stylistic <--
+ * ============================
+ *
+ * @typescript-eslint/array-type
+ * @typescript-eslint/ban-tslint-comment
+ * @typescript-eslint/consistent-generic-constructors
+ * @typescript-eslint/no-confusing-non-null-assertion
+ * @typescript-eslint/prefer-for-of
+ * @typescript-eslint/prefer-function-type
+ *
+ * ==============================
+ * @typescript-eslint/recommended <--
+ * ==============================
+ *
+ * @typescript-eslint/no-duplicate-enum-values
+ * @typescript-eslint/no-unsafe-declaration-merging
+ * @typescript-eslint/no-unused-expressions
+ *
+ * =========================
+ * @typescript-eslint/strict <-- not considered SemVer safe
+ * =========================
+ *
+ * @typescript-eslint/no-non-null-asserted-nullish-coalescing
+ * @typescript-eslint/prefer-literal-enum-member
+ */
