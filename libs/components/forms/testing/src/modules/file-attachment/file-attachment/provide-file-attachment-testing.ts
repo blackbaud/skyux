@@ -5,6 +5,7 @@ import { SkyFileReaderTestingService } from './file-reader-testing.service';
 
 /**
  * Provides mocks for file attachment testing.
+ * @internal
  * @example
  * ```typescript
  * TestBed.configureTestingModule({
