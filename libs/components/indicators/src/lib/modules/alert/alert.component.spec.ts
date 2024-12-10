@@ -331,7 +331,7 @@ describe('Alert component', () => {
       });
     });
 
-    it('should show the expected icon', async () => {
+    it('should show the expected icon', () => {
       const fixture = TestBed.createComponent(AlertTestComponent);
       const cmp = fixture.componentInstance;
       const el = fixture.nativeElement;

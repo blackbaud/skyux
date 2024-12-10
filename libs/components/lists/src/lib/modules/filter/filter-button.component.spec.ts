@@ -116,7 +116,7 @@ describe('Filter button', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
-  it('should use modern icon when applicable', async () => {
+  it('should use modern icon when applicable', () => {
     const defaultIcon = fixture.nativeElement.querySelector(
       'sky-filter-button sky-icon i',
     );

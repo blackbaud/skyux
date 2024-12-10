@@ -1,5 +1,21 @@
 # Changelog
 
+## [11.27.0](https://github.com/blackbaud/skyux/compare/11.26.0...11.27.0) (2024-12-09)
+
+
+### Features
+
+* **components/datetime:** add fuzzy datepicker input harness ([#2932](https://github.com/blackbaud/skyux/issues/2932)) ([af37c65](https://github.com/blackbaud/skyux/commit/af37c653fb505b87da2616c7b945aa5ae38b419f))
+* **components/forms:** tokenize file drop styles ([#2935](https://github.com/blackbaud/skyux/issues/2935)) ([97c7b5b](https://github.com/blackbaud/skyux/commit/97c7b5b20b64235a46e22ecee1f294cf3c08a9f1))
+* **components/split-view:** add harnesses for split view ([#2926](https://github.com/blackbaud/skyux/issues/2926)) ([08bc69a](https://github.com/blackbaud/skyux/commit/08bc69ab5b83152e1068a5733f0109ed9f1f3a60))
+* **components/text-editor:** tokenize text editor styles ([#2936](https://github.com/blackbaud/skyux/issues/2936)) ([1402c1c](https://github.com/blackbaud/skyux/commit/1402c1ccd5236d463731f3ff78cde359a404f1b9))
+
+
+### Bug Fixes
+
+* bump dependency versions ([#2934](https://github.com/blackbaud/skyux/issues/2934)) ([f01b90e](https://github.com/blackbaud/skyux/commit/f01b90e0ba7d3c486a289f1cb550089437898f56))
+* **components/datetime:** fix date range picker harness to assert start date visible when setting values ([#2938](https://github.com/blackbaud/skyux/issues/2938)) ([6868ca9](https://github.com/blackbaud/skyux/commit/6868ca956bf47148f2c63bb8ad8c455a506f82eb))
+
 ## [11.26.0](https://github.com/blackbaud/skyux/compare/11.25.0...11.26.0) (2024-12-05)
 
 

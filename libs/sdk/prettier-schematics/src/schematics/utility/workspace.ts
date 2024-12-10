@@ -11,20 +11,22 @@ function createHost(tree: Tree): workspaces.WorkspaceHost {
   return {
     /* istanbul ignore next */
     async readFile(path: string): Promise<string> {
-      return readRequiredFile(tree, path);
+      return await Promise.resolve(readRequiredFile(tree, path));
     },
     /* istanbul ignore next */
     async writeFile(path: string, data: string): Promise<void> {
-      return tree.overwrite(path, data);
+      return await Promise.resolve(tree.overwrite(path, data));
     },
     /* istanbul ignore next */
     async isDirectory(path: string): Promise<boolean> {
       // approximate a directory check
-      return !tree.exists(path) && tree.getDir(path).subfiles.length > 0;
+      return await Promise.resolve(
+        !tree.exists(path) && tree.getDir(path).subfiles.length > 0,
+      );
     },
     /* istanbul ignore next */
     async isFile(path: string): Promise<boolean> {
-      return tree.exists(path);
+      return await Promise.resolve(tree.exists(path));
     },
   };
 }

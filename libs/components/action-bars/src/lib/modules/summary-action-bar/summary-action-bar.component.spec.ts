@@ -227,7 +227,7 @@ describe('Summary Action Bar component', () => {
         ).toBe('0px');
       });
 
-      it('should remove the correct modal footer padding if the action bar is in a modal footer and there are two modals', async () => {
+      it('should remove the correct modal footer padding if the action bar is in a modal footer and there are two modals', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
         debugElement
@@ -583,11 +583,11 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
       it('should set a margin on the body if the action bar is displayed on initial load', (done) => {
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
+        void fixture.whenStable().then(() => {
           fixture.detectChanges();
-          setTimeout(async () => {
+          setTimeout(() => {
             fixture.detectChanges();
-            fixture.whenStable().then(() => {
+            void fixture.whenStable().then(() => {
               const actionBarHeight = getActionBarHeight(debugElement);
               expect(document.body.style.marginBottom).toBe(
                 actionBarHeight + 'px',
@@ -611,15 +611,15 @@ describe('Summary Action Bar component', () => {
         cmp.showBar1 = false;
         cmp.showBar2 = true;
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
+        void fixture.whenStable().then(() => {
           fixture.detectChanges();
           cmp.activeTab = 1;
           fixture.detectChanges();
-          fixture.whenStable().then(() => {
+          void fixture.whenStable().then(() => {
             fixture.detectChanges();
             setTimeout(() => {
               fixture.detectChanges();
-              fixture.whenStable().then(() => {
+              void fixture.whenStable().then(() => {
                 const actionBarHeight = getActionBarHeight(debugElement);
                 expect(document.body.style.marginBottom).toBe(
                   actionBarHeight + 'px',
@@ -633,19 +633,19 @@ describe('Summary Action Bar component', () => {
 
       it('should set a margin on the body if the action bar is displayed via multiple tab changes', (done) => {
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
+        void fixture.whenStable().then(() => {
           fixture.detectChanges();
           cmp.activeTab = 1;
           fixture.detectChanges();
-          fixture.whenStable().then(() => {
+          void fixture.whenStable().then(() => {
             fixture.detectChanges();
             cmp.activeTab = 0;
             fixture.detectChanges();
-            fixture.whenStable().then(() => {
+            void fixture.whenStable().then(() => {
               fixture.detectChanges();
               setTimeout(() => {
                 fixture.detectChanges();
-                fixture.whenStable().then(() => {
+                void fixture.whenStable().then(() => {
                   const actionBarHeight = getActionBarHeight(debugElement);
                   expect(document.body.style.marginBottom).toBe(
                     actionBarHeight + 'px',
@@ -703,20 +703,18 @@ describe('Summary Action Bar component', () => {
     });
 
     describe('body stylings', () => {
-      it('should set a margin on the split view workspace content if the action bar is displayed on initial load', (done) => {
+      it('should set a margin on the split view workspace content if the action bar is displayed on initial load', async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         spyOn(window as any, 'setTimeout').and.callFake((fun: () => void) => {
           fun();
         });
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          fixture.detectChanges();
-          const workspacePaddingBottom = debugElement.query(
-            By.css('.sky-split-view-workspace-content'),
-          ).nativeElement.style.paddingBottom;
-          expect(workspacePaddingBottom).toBe('20px');
-          done();
-        });
+        await fixture.whenStable();
+        fixture.detectChanges();
+        const workspacePaddingBottom = debugElement.query(
+          By.css('.sky-split-view-workspace-content'),
+        ).nativeElement.style.paddingBottom;
+        expect(workspacePaddingBottom).toBe('20px');
       });
 
       it('should not set a margin on the body if the action bar is not displayed on initial load', async () => {

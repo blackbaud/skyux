@@ -61,7 +61,7 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run('element').then(() => {
+    void SkyA11yAnalyzer.run('element').then(() => {
       expect(true).toBe(true);
     });
   }));
@@ -95,7 +95,7 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run('element').then(() => {
+    void SkyA11yAnalyzer.run('element').then(() => {
       expect(true).toBe(true);
     });
   }));

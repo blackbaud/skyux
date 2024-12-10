@@ -375,7 +375,7 @@ describe('Radio component', function () {
       ).toBe(1);
     }));
 
-    it('should render help inline if help key and label text is provided', async () => {
+    it('should render help inline if help key and label text is provided', () => {
       componentInstance.labelText1 = 'label';
       fixture.detectChanges();
 
@@ -404,7 +404,8 @@ describe('Radio component', function () {
       const helpInlineButton = fixture.nativeElement.querySelector(
         '.sky-help-inline',
       ) as HTMLElement | undefined;
-      await helpInlineButton?.click();
+
+      helpInlineButton?.click();
 
       fixture.detectChanges();
       await fixture.whenStable();
