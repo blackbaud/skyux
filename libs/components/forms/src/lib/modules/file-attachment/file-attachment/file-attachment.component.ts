@@ -559,6 +559,7 @@ export class SkyFileAttachmentComponent
     if (file.file) {
       try {
         const result = await this.#fileReaderSvc.readFile(file.file);
+
         file.url = result;
 
         this.#emitFileChangeEvent(file);

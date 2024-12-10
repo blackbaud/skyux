@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 /**
+ * Wraps the FileReader API so it can be mocked in tests.
  * @internal
  */
 @Injectable({
@@ -15,8 +16,12 @@ export class SkyFileReaderService {
         resolve(event.target?.result as string);
       });
 
-      reader.addEventListener('error', (event: ProgressEvent<FileReader>) => {
-        reject(event.target?.error);
+      reader.addEventListener('error', () => {
+        reject(file);
+      });
+
+      reader.addEventListener('abort', () => {
+        reject(file);
       });
 
       reader.readAsDataURL(file);
