@@ -14,6 +14,7 @@ import { SkyFileReaderTestingService } from './file-reader-testing.service';
  */
 export function provideSkyFileAttachmentTesting(): Provider[] {
   return [
+    SkyFileReaderTestingService,
     {
       provide: SkyFileReaderService,
       useClass: SkyFileReaderTestingService,

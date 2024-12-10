@@ -11,15 +11,17 @@ describe('provideFileAttachmentTesting', () => {
     });
   });
 
-  it('should mock the service', async () => {
-    const mockSvc = TestBed.inject(SkyFileReaderTestingService);
+  it('should mock the service', () => {
     const actualSvc = TestBed.inject(SkyFileReaderService);
 
-    const mockSpy = spyOn(mockSvc, 'readFile').and.callThrough();
-    const file = new File([''], 'test.txt');
+    expect(actualSvc instanceof SkyFileReaderTestingService).toBe(true);
+  });
 
-    await actualSvc.readFile(file);
+  it('should return file url', async () => {
+    const file = new File([''], 'filename', { type: 'text/plain' });
 
-    expect(mockSpy).toHaveBeenCalledWith(file);
+    await expectAsync(
+      TestBed.inject(SkyFileReaderService).readFile(file),
+    ).toBeResolvedTo('data:text/plain;base64,');
   });
 });
