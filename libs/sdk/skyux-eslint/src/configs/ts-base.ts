@@ -11,7 +11,7 @@ export default {
     'skyux-eslint': tsPlugin,
   },
   rules: {
-    // JavaScript ESLint rules (floating)
+    // JavaScript rules
     curly: 'error',
     'default-case': 'error',
     'default-case-last': 'error',
@@ -50,11 +50,11 @@ export default {
     radix: 'error',
     'require-atomic-updates': 'error',
 
-    // Angular ESLint rules (floating)
+    // Angular rules
     '@angular-eslint/no-lifecycle-call': 'error',
     '@angular-eslint/sort-ngmodule-metadata-arrays': 'error',
 
-    // TypeScript ESLint rules (floating)
+    // TypeScript rules
     'default-param-last': 'off',
     '@typescript-eslint/default-param-last': 'error',
     '@typescript-eslint/explicit-member-accessibility': [
@@ -75,43 +75,9 @@ export default {
       },
     ],
 
-    // TypeScript ESLint rules (strict)
+    // Cherry-picked rules from typescript-eslint's "strict" ruleset.
+    // We can't pull in the entire ruleset because it's not considered SemVer safe.
     '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
     '@typescript-eslint/prefer-literal-enum-member': 'error',
   },
 } satisfies TSESLint.FlatConfig.Config;
-
-/**
- * ======================
- * @eslint/js/recommended <--
- * ======================
- *
- * no-constant-binary-expression
- * no-unused-private-class-members
- *
- * ============================
- * @typescript-eslint/stylistic <--
- * ============================
- *
- * @typescript-eslint/array-type
- * @typescript-eslint/ban-tslint-comment
- * @typescript-eslint/consistent-generic-constructors
- * @typescript-eslint/no-confusing-non-null-assertion
- * @typescript-eslint/prefer-for-of
- * @typescript-eslint/prefer-function-type
- *
- * ==============================
- * @typescript-eslint/recommended <--
- * ==============================
- *
- * @typescript-eslint/no-duplicate-enum-values
- * @typescript-eslint/no-unsafe-declaration-merging
- * @typescript-eslint/no-unused-expressions
- *
- * =========================
- * @typescript-eslint/strict <-- not considered SemVer safe
- * =========================
- *
- * @typescript-eslint/no-non-null-asserted-nullish-coalescing
- * @typescript-eslint/prefer-literal-enum-member
- */
