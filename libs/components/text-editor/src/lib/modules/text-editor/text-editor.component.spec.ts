@@ -104,7 +104,7 @@ describe('Text editor', () => {
         },
         ...additionalProviders,
       ],
-    }).compileComponents();
+    });
 
     return TestBed.createComponent<T>(componentType);
   }
@@ -565,19 +565,19 @@ describe('Text editor', () => {
       expect(hintEl?.textContent.trim()).toBe(hintText);
     });
 
-    it('should have the lg margin class if stacked is true', () => {
+    it('should have the form field stacked class if stacked is true', () => {
       testComponent.stacked = true;
       fixture.detectChanges();
 
       const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
 
-      expect(textEditor).toHaveClass('sky-margin-stacked-lg');
+      expect(textEditor).toHaveClass('sky-form-field-stacked');
     });
 
-    it('should not have the lg margin class if stacked is false', () => {
+    it('should not have the form field stacked class if stacked is false', () => {
       const textEditor = fixture.nativeElement.querySelector('sky-text-editor');
 
-      expect(textEditor).not.toHaveClass('sky-margin-stacked-lg');
+      expect(textEditor).not.toHaveClass('sky-form-field-stacked');
     });
 
     [

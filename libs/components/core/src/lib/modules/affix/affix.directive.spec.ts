@@ -101,7 +101,7 @@ describe('Affix directive', () => {
   }
 
   function runTestsForPosition(position: SkyAffixPosition | undefined): void {
-    async function setupTest() {
+    function setupTest() {
       TestBed.configureTestingModule({
         imports: [AffixFixturesModule],
       });
@@ -115,7 +115,9 @@ describe('Affix directive', () => {
       const affixService = TestBed.inject(SkyAffixService);
       const viewportRulerChange = new Subject<Event>();
       const viewportRuler = TestBed.inject(ViewportRuler);
+
       spyOn(viewportRuler, 'change').and.returnValue(viewportRulerChange);
+
       const viewportRulerResize = (): void =>
         viewportRulerChange.next(new Event('resize'));
 
@@ -125,22 +127,27 @@ describe('Affix directive', () => {
 
       let offset: SkyAffixOffset | undefined;
       let numOverflowScrollEmitted = 0;
+
       const placement: (SkyAffixPlacement | null | undefined)[] = [];
       const createAffixer = spyOn(
         affixService,
         'createAffixer',
       ).and.callThrough();
+
       ngUnsubscribe = new Subject<void>();
+
       directive.affixOverflowScroll
         .pipe(takeUntil(ngUnsubscribe))
         .subscribe(() => {
           numOverflowScrollEmitted++;
         });
+
       directive.affixOffsetChange
         .pipe(takeUntil(ngUnsubscribe))
         .subscribe((x) => {
           offset = x.offset;
         });
+
       directive.affixPlacementChange
         .pipe(takeUntil(ngUnsubscribe))
         .subscribe((x) => {
@@ -176,8 +183,8 @@ describe('Affix directive', () => {
       };
     }
 
-    it('should set default config', async () => {
-      const { fixture, getAffixedOffset, getAffixer } = await setupTest();
+    it('should set default config', () => {
+      const { fixture, getAffixedOffset, getAffixer } = setupTest();
 
       fixture.detectChanges();
 

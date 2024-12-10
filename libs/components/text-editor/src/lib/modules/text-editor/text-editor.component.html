@@ -4,8 +4,7 @@
     'sky-text-editor-disabled': disabled,
     'sky-text-editor-wrapper-focused': editorFocused,
     'sky-text-editor-invalid':
-      ngControl.errors && (ngControl.touched || ngControl.dirty),
-    'sky-margin-stacked-xs': !!hintText
+      ngControl.errors && (ngControl.touched || ngControl.dirty)
   }"
 >
   <div class="sky-text-editor-label-wrapper">
@@ -13,18 +12,19 @@
       <label
         class="sky-control-label"
         [ngClass]="{
-          'sky-control-label-required': requiredState.isRequired(),
-          'sky-margin-inline-xs': helpPopoverContent
+          'sky-control-label-required': requiredState.isRequired()
         }"
         >{{ labelText }}</label
       >
       @if (helpPopoverContent || helpKey) {
-        <sky-help-inline
-          [helpKey]="helpKey"
-          [labelText]="labelText"
-          [popoverContent]="helpPopoverContent"
-          [popoverTitle]="helpPopoverTitle"
-        />
+        <span class="sky-control-help-container">
+          <sky-help-inline
+            [helpKey]="helpKey"
+            [labelText]="labelText"
+            [popoverContent]="helpPopoverContent"
+            [popoverTitle]="helpPopoverTitle"
+          />
+        </span>
       }
     }
   </div>
@@ -84,8 +84,10 @@
 <div
   #hintTextEl="skyId"
   skyId
-  [ngClass]="{
-    'sky-font-deemphasized sky-text-editor-hint-text': !!hintText
+  class="sky-text-editor-hint-text"
+  [skyThemeClass]="{
+    'sky-font-deemphasized': 'default',
+    'sky-font-hint-text-s': 'modern'
   }"
 >
   {{ hintText }}

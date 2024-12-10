@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular-eslint/bundled-angular-compiler": "^18.4.0",
-    "@angular-eslint/eslint-plugin-template": "^18.4.0",
-    "@angular-eslint/template-parser": "^18.4.0",
-    "@angular-eslint/test-utils": "^18.4.0",
-    "@angular-eslint/utils": "^18.4.0",
+    "@angular-eslint/bundled-angular-compiler": "^18.4.3",
+    "@angular-eslint/eslint-plugin-template": "^18.4.3",
+    "@angular-eslint/template-parser": "^18.4.3",
+    "@angular-eslint/test-utils": "^18.4.3",
+    "@angular-eslint/utils": "^18.4.3",
     "@typescript-eslint/utils": "^8.14.0"
   },
   "dependencies": {

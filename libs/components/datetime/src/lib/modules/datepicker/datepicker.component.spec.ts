@@ -475,7 +475,7 @@ describe('datepicker', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should display the expected calendar icon in the calendar button', fakeAsync(() => {
+    it('should display the expected calendar icon in the calendar button', fakeAsync(async () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
@@ -487,7 +487,7 @@ describe('datepicker', () => {
 
       detectChanges(fixture);
       tick();
-      fixture.whenStable();
+      await fixture.whenStable();
 
       const iconDefault = fixture.nativeElement.querySelector(
         '.sky-input-group-datepicker-btn .sky-icon',
@@ -506,7 +506,7 @@ describe('datepicker', () => {
 
       detectChanges(fixture);
       tick();
-      fixture.whenStable();
+      await fixture.whenStable();
 
       const iconModern = fixture.nativeElement.querySelector(
         '.sky-input-group-datepicker-btn .sky-icon',

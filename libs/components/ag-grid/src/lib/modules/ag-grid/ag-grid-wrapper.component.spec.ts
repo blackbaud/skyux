@@ -24,7 +24,7 @@ import {
   ModuleRegistry,
   RowDataUpdatedEvent,
 } from 'ag-grid-community';
-import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, EMPTY, Subject, firstValueFrom } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
@@ -156,7 +156,7 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(autoHeightGridWrapperComponent.isNormalLayout).toEqual(true);
   });
 
-  it('should apply ag-theme', async () => {
+  it('should apply ag-theme', () => {
     expect(
       gridWrapperNativeElement.querySelector('.sky-ag-grid'),
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
@@ -461,7 +461,7 @@ describe('SkyAgGridWrapperComponent', () => {
       expect(agGrid.api.setFocusedHeader).not.toHaveBeenCalled();
     });
 
-    it('should track focus on header', async () => {
+    it('should track focus on header', () => {
       const column = new AgColumn({}, {}, 'name', true);
 
       agGrid.headerFocused.next({
@@ -494,7 +494,7 @@ describe('SkyAgGridWrapperComponent', () => {
       }
     });
 
-    it('should track focus on cells', async () => {
+    it('should track focus on cells', () => {
       const column = new AgColumn({}, {}, 'name', true);
       const focusGridInnerElement = agGrid.gridOptions?.focusGridInnerElement;
       if (focusGridInnerElement) {
@@ -867,8 +867,10 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         rowIndex: 0,
         colKey: 'lookupSingle',
       });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
+      await firstValueFrom(
+        gridWrapperFixture.componentInstance.agGrid?.cellEditingStarted ??
+          EMPTY,
+      );
       expect(
         gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
       ).toHaveSize(1);
@@ -922,8 +924,10 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         rowIndex: 0,
         colKey: 'lookupMultiple',
       });
-      gridWrapperFixture.detectChanges();
-      await gridWrapperFixture.whenStable();
+      await firstValueFrom(
+        gridWrapperFixture.componentInstance.agGrid?.cellEditingStarted ??
+          EMPTY,
+      );
       expect(
         gridWrapperFixture.componentInstance.agGrid?.api.getEditingCells(),
       ).toHaveSize(1);

@@ -99,7 +99,7 @@ describe('PhoneField fixture', () => {
   let phonefieldFixture: SkyPhoneFieldFixture;
   let mockThemeSvc: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(

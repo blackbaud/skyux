@@ -260,14 +260,14 @@ describe('Help inline component', () => {
       });
     });
 
-    it('should use sky-icon in default theme', async () => {
+    it('should use sky-icon in default theme', () => {
       fixture.detectChanges();
 
       expect(fixture.nativeElement.querySelector('sky-icon')).toExist();
       expect(fixture.nativeElement.querySelector('sky-icon-stack')).toBe(null);
     });
 
-    it('should use sky-icon-stack in modern', async () => {
+    it('should use sky-icon-stack in modern', () => {
       mockThemeSvc.settingsChange.next({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.modern,

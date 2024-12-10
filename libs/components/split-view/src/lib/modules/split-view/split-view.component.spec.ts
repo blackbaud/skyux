@@ -726,11 +726,11 @@ describe('Split view component', () => {
     }));
 
     it(`should bind the split view hight when the 'bindHeightToWindow' property is set after
-    initialization and update correctly`, waitForAsync(() => {
+      initialization and update correctly`, waitForAsync(() => {
       component.bindHeightToWindow = true;
       const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
+      void fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
         let splitViewElement = document.querySelector(
@@ -749,7 +749,7 @@ describe('Split view component', () => {
         rendererSpy.calls.reset();
         component.showActionBar = true;
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
+        void fixture.whenStable().then(() => {
           fixture.detectChanges();
           // Without the `setTimeout` the mutation observer isn't hit
           setTimeout(() => {

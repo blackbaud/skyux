@@ -7,11 +7,11 @@ describe('Move class to library', () => {
   let tree: Tree;
   const path = '/projects/my-app/src/app/test.module.ts';
 
-  beforeEach(async () => {
+  beforeEach(() => {
     tree = Tree.empty();
   });
 
-  it('should update single indicator import to SkyIconModule', async () => {
+  it('should update single indicator import to SkyIconModule', () => {
     const content = `import { NgModule } from '@angular/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
@@ -62,7 +62,7 @@ export class AppModule {}`,
     );
   });
 
-  it('should update multiple indicator import to remove SkyIconModule and add new import to new library', async () => {
+  it('should update multiple indicator import to remove SkyIconModule and add new import to new library', () => {
     const content = `import { NgModule } from '@angular/core';
 import { SkyChevronModule, SkyIconType, SkyIconStackItem, SkyKeyInfoModule } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
@@ -89,7 +89,7 @@ import { BrowserModule } from '@angular/platform-browser';
     );
   });
 
-  it('should update multiple indicator import to remove multiple icon types and add new import to new library when no other indicators types exist', async () => {
+  it('should update multiple indicator import to remove multiple icon types and add new import to new library when no other indicators types exist', () => {
     const content = `import { NgModule } from '@angular/core';
 import { SkyIconType, SkyIconStackItem } from '@skyux/indicators';
 import { BrowserModule } from '@angular/platform-browser';
@@ -116,7 +116,7 @@ import { BrowserModule } from '@angular/platform-browser';
     );
   });
 
-  it('should update multiple indicator import statements to remove SkyIconModule and add new import to new library', async () => {
+  it('should update multiple indicator import statements to remove SkyIconModule and add new import to new library', () => {
     const content = `import { NgModule } from '@angular/core';
 import { SkyChevronModule } from '@skyux/indicators';
 import { SkyIconType, SkyIconStackItem, SkyKeyInfoModule } from '@skyux/indicators';
@@ -145,7 +145,7 @@ import { BrowserModule } from '@angular/platform-browser';
     );
   });
 
-  it('should update multiple indicator import statements to remove multiple icon types and add new import to new library when no other indicators types exist', async () => {
+  it('should update multiple indicator import statements to remove multiple icon types and add new import to new library when no other indicators types exist', () => {
     const content = `import { NgModule } from '@angular/core';
 import { SkyChevronModule } from '@skyux/indicators';
 import { SkyIconType, SkyIconStackItem } from '@skyux/indicators';
@@ -176,7 +176,7 @@ import { BrowserModule } from '@angular/platform-browser';
     );
   });
 
-  it('should update when some imports have already switched', async () => {
+  it('should update when some imports have already switched', () => {
     const content = `import { NgModule } from '@angular/core';
 import { SkyChevronModule, SkyIconStackItem } from '@skyux/indicators';
 import { SkyIconType } from '@skyux/icon';

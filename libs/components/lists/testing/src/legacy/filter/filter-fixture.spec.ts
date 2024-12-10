@@ -125,7 +125,7 @@ describe('Filter fixture', () => {
   describe('Button', () => {
     it('should click the button', async () => {
       expect(testComponent.buttonClicked).toBeFalse();
-      filterButtonFixture.clickFilterButton();
+      await filterButtonFixture.clickFilterButton();
       fixture.detectChanges();
       expect(testComponent.buttonClicked).toBeTrue();
     });

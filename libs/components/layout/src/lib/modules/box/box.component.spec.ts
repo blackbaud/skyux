@@ -82,7 +82,7 @@ describe('BoxComponent', () => {
     );
   });
 
-  it('should set an id on the headingText element and provide it via contentInfoProvider', async () => {
+  it('should set an id on the headingText element and provide it via contentInfoProvider', () => {
     const contentInfoSpy = spyOn(
       contentInfoProvider,
       'patchInfo',
@@ -137,7 +137,7 @@ describe('BoxComponent', () => {
     ).toBeNull();
   });
 
-  it('should set an id on the header and provide it via contentInfoProvider', async () => {
+  it('should set an id on the header and provide it via contentInfoProvider', () => {
     component.headingText = undefined;
     const contentInfoSpy = spyOn(
       contentInfoProvider,

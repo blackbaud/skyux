@@ -1,5 +1,42 @@
 # Changelog
 
+## [11.27.0](https://github.com/blackbaud/skyux/compare/11.26.0...11.27.0) (2024-12-09)
+
+
+### Features
+
+* **components/datetime:** add fuzzy datepicker input harness ([#2932](https://github.com/blackbaud/skyux/issues/2932)) ([af37c65](https://github.com/blackbaud/skyux/commit/af37c653fb505b87da2616c7b945aa5ae38b419f))
+* **components/forms:** tokenize file drop styles ([#2935](https://github.com/blackbaud/skyux/issues/2935)) ([97c7b5b](https://github.com/blackbaud/skyux/commit/97c7b5b20b64235a46e22ecee1f294cf3c08a9f1))
+* **components/split-view:** add harnesses for split view ([#2926](https://github.com/blackbaud/skyux/issues/2926)) ([08bc69a](https://github.com/blackbaud/skyux/commit/08bc69ab5b83152e1068a5733f0109ed9f1f3a60))
+* **components/text-editor:** tokenize text editor styles ([#2936](https://github.com/blackbaud/skyux/issues/2936)) ([1402c1c](https://github.com/blackbaud/skyux/commit/1402c1ccd5236d463731f3ff78cde359a404f1b9))
+
+
+### Bug Fixes
+
+* bump dependency versions ([#2934](https://github.com/blackbaud/skyux/issues/2934)) ([f01b90e](https://github.com/blackbaud/skyux/commit/f01b90e0ba7d3c486a289f1cb550089437898f56))
+* **components/datetime:** fix date range picker harness to assert start date visible when setting values ([#2938](https://github.com/blackbaud/skyux/issues/2938)) ([6868ca9](https://github.com/blackbaud/skyux/commit/6868ca956bf47148f2c63bb8ad8c455a506f82eb))
+
+## [11.26.0](https://github.com/blackbaud/skyux/compare/11.25.0...11.26.0) (2024-12-05)
+
+
+### Features
+
+* **components/colorpicker:** tokenize colorpicker styles ([#2924](https://github.com/blackbaud/skyux/issues/2924)) ([6722996](https://github.com/blackbaud/skyux/commit/6722996168c93bf2fb348f3d74eb327953420cf5))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** handle focus for adjacent lookup cells ([#2929](https://github.com/blackbaud/skyux/issues/2929)) ([fcb0d69](https://github.com/blackbaud/skyux/commit/fcb0d696844424a6f4125b71fb13acaa6e1bc578))
+
+## [11.25.0](https://github.com/blackbaud/skyux/compare/11.24.0...11.25.0) (2024-12-04)
+
+
+### Features
+
+* add `@skyux/manifest` ([#2920](https://github.com/blackbaud/skyux/issues/2920)) ([054ffcd](https://github.com/blackbaud/skyux/commit/054ffcd252d81934c1f4817b71844e6e865f7e51))
+* **components/datetime:** add methods to the date-range-picker harness to get the selected calculator, and the start and end date values ([#2925](https://github.com/blackbaud/skyux/issues/2925)) ([5114b28](https://github.com/blackbaud/skyux/commit/5114b28efb96e69a2837f149d2b26587918f12d5))
+* **components/forms:** tokenize single file attachment styles ([#2927](https://github.com/blackbaud/skyux/issues/2927)) ([98fab62](https://github.com/blackbaud/skyux/commit/98fab62323f42fb91b2849f055fb2d6bb1874099))
+
 ## [11.24.0](https://github.com/blackbaud/skyux/compare/11.23.0...11.24.0) (2024-11-25)
 
 

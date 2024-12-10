@@ -5,7 +5,6 @@ import {
   fakeAsync,
   flush,
   tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -223,13 +222,13 @@ describe('Colorpicker Component', () => {
     fixture.detectChanges();
   }
 
-  function verifyColorpicker(
+  async function verifyColorpicker(
     element: HTMLElement,
     spaColor: string,
     test: string,
-  ): void {
+  ): Promise<void> {
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
     const inputElement: HTMLInputElement | null = getInputElement(element);
     expect(inputElement?.value).toBe(spaColor);
     const selectedColor: HTMLDivElement | null = element.querySelector(
@@ -277,13 +276,13 @@ describe('Colorpicker Component', () => {
     return input;
   }
 
-  function setInputElementValue(
+  async function setInputElementValue(
     element: HTMLElement,
     name: keyof ColorpickerInputElements,
     value: string,
-  ): void {
+  ): Promise<void> {
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
     const input = getInputElements();
 
     input[name].value = value;
@@ -298,7 +297,7 @@ describe('Colorpicker Component', () => {
     input[name].dispatchEvent(inputEvent);
     input[name].dispatchEvent(changeEvent);
     fixture.detectChanges();
-    fixture.whenStable();
+    await fixture.whenStable();
   }
 
   function verifyColorpickerHidden(isHidden: boolean): void {
@@ -321,7 +320,7 @@ describe('Colorpicker Component', () => {
   }
   //#endregion
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -340,11 +339,7 @@ describe('Colorpicker Component', () => {
           useValue: mockThemeSvc,
         },
       ],
-    }).compileComponents();
-  }));
-
-  afterEach(() => {
-    fixture.destroy();
+    });
   });
 
   describe('standard setup', () => {
@@ -504,13 +499,13 @@ describe('Colorpicker Component', () => {
       expect(fixture.nativeElement.querySelector(`#${id}`)).toExist();
     });
 
-    it('should have the lg margin class if stacked is true', () => {
+    it('should have the stacked class if stacked is true', () => {
       component.stacked = true;
       fixture.detectChanges();
 
       const colorpicker = getColorPickerHost(nativeElement);
 
-      expect(colorpicker).toHaveClass('sky-margin-stacked-lg');
+      expect(colorpicker).toHaveClass('sky-form-field-stacked');
     });
 
     it('should not have the lg margin class if stacked is false', () => {
@@ -629,14 +624,18 @@ describe('Colorpicker Component', () => {
       expect(iconNew).not.toBeNull();
     }));
 
-    it('should output RGBA', fakeAsync(() => {
+    it('should output RGBA', fakeAsync(async () => {
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement);
       setPresetColor(nativeElement, fixture, 4);
-      verifyColorpicker(nativeElement, 'rgba(189,64,64,1)', '189, 64, 64');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(189,64,64,1)',
+        '189, 64, 64',
+      );
     }));
 
-    it('should handle undefined initial color', fakeAsync(() => {
+    it('should handle undefined initial color', fakeAsync(async () => {
       fixture.detectChanges();
       fixture.destroy();
 
@@ -653,10 +652,10 @@ describe('Colorpicker Component', () => {
 
       openColorpicker(nativeElement);
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#fff', '255, 255, 255');
+      await verifyColorpicker(nativeElement, '#fff', '255, 255, 255');
     }));
 
-    it('should handle RGB initial color', fakeAsync(() => {
+    it('should handle RGB initial color', fakeAsync(async () => {
       fixture.detectChanges();
       fixture.destroy();
 
@@ -669,104 +668,112 @@ describe('Colorpicker Component', () => {
 
       openColorpicker(nativeElement);
       applyColorpicker();
-      verifyColorpicker(nativeElement, 'rgba(0,0,255,1)', '0, 0, 255');
+      await verifyColorpicker(nativeElement, 'rgba(0,0,255,1)', '0, 0, 255');
     }));
 
-    it('should output HEX', fakeAsync(() => {
+    it('should output HEX', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
       setPresetColor(nativeElement, fixture, 4);
-      verifyColorpicker(nativeElement, '#bd4040', '189, 64, 64');
+      await verifyColorpicker(nativeElement, '#bd4040', '189, 64, 64');
     }));
 
-    it('should accept a new HEX3 color.', fakeAsync(() => {
+    it('should accept a new HEX3 color.', fakeAsync(async () => {
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#BC4');
+      await setInputElementValue(nativeElement, 'hex', '#BC4');
       applyColorpicker();
-      verifyColorpicker(nativeElement, 'rgba(187,204,68,1)', '187, 204, 68');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(187,204,68,1)',
+        '187, 204, 68',
+      );
     }));
 
-    it('should accept a new HEX6 color.', fakeAsync(() => {
+    it('should accept a new HEX6 color.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#BFF666');
+      await setInputElementValue(nativeElement, 'hex', '#BFF666');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#bff666', '191, 246, 102');
+      await verifyColorpicker(nativeElement, '#bff666', '191, 246, 102');
     }));
 
-    it('should accept a new RGB color.', fakeAsync(() => {
+    it('should accept a new RGB color.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'red', '77');
-      setInputElementValue(nativeElement, 'green', '58');
-      setInputElementValue(nativeElement, 'blue', '183');
+      await setInputElementValue(nativeElement, 'red', '77');
+      await setInputElementValue(nativeElement, 'green', '58');
+      await setInputElementValue(nativeElement, 'blue', '183');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#4d3ab7', '77, 58, 183');
+      await verifyColorpicker(nativeElement, '#4d3ab7', '77, 58, 183');
     }));
 
-    it('should accept a new RGBA color.', fakeAsync(() => {
+    it('should accept a new RGBA color.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'red', '163');
-      setInputElementValue(nativeElement, 'green', '19');
-      setInputElementValue(nativeElement, 'blue', '84');
-      setInputElementValue(nativeElement, 'alpha', '0.3');
+      await setInputElementValue(nativeElement, 'red', '163');
+      await setInputElementValue(nativeElement, 'green', '19');
+      await setInputElementValue(nativeElement, 'blue', '84');
+      await setInputElementValue(nativeElement, 'alpha', '0.3');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#a31354', '163, 19, 84, 0.3');
+      await verifyColorpicker(nativeElement, '#a31354', '163, 19, 84, 0.3');
     }));
 
-    it('should accept a new HSL color.', fakeAsync(() => {
+    it('should accept a new HSL color.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', 'hsl(113,78%,41%)');
+      await setInputElementValue(nativeElement, 'hex', 'hsl(113,78%,41%)');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#2aba17', '42, 186, 23');
+      await verifyColorpicker(nativeElement, '#2aba17', '42, 186, 23');
     }));
 
-    it('should accept a new HSLA color.', fakeAsync(() => {
+    it('should accept a new HSLA color.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', 'hsla(231,66%,41%,0.62)');
+      await setInputElementValue(
+        nativeElement,
+        'hex',
+        'hsla(231,66%,41%,0.62)',
+      );
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#2438ae', '36, 56, 174');
+      await verifyColorpicker(nativeElement, '#2438ae', '36, 56, 174');
     }));
 
-    it('should accept an HSLA color with zero saturation.', fakeAsync(() => {
+    it('should accept an HSLA color with zero saturation.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hsla';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', 'hsla(0,0%,100%,0)');
+      await setInputElementValue(nativeElement, 'hex', 'hsla(0,0%,100%,0)');
       applyColorpicker();
       expect(component.lastColorApplied?.color.hslaText).toEqual(
         'hsla(0,0%,100%,0)',
       );
     }));
 
-    it('should allow user to click cancel the color change.', fakeAsync(() => {
+    it('should allow user to click cancel the color change.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       component.colorModel = '#2889e5';
       fixture.detectChanges();
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#BFF666');
+      await setInputElementValue(nativeElement, 'hex', '#BFF666');
       closeColorpicker(nativeElement, fixture);
-      verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
+      await verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
     }));
 
-    it('should use the last applied color to revert to on cancel', fakeAsync(() => {
+    it('should use the last applied color to revert to on cancel', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       component.colorModel = '#2889e5';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
+      await verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#BFF666');
+      await setInputElementValue(nativeElement, 'hex', '#BFF666');
       closeColorpicker(nativeElement, fixture);
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
 
     it('should not change button displayed color when user selects a preset color and then clicks cancel', fakeAsync(() => {
@@ -816,7 +823,7 @@ describe('Colorpicker Component', () => {
       );
     }));
 
-    it('should not change button displayed color when user changes input values then clicks cancel', fakeAsync(() => {
+    it('should not change button displayed color when user changes input values then clicks cancel', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       component.colorModel = '#2889e5';
       fixture.detectChanges();
@@ -826,7 +833,7 @@ describe('Colorpicker Component', () => {
         getColorpickerButtonBackgroundColor(nativeElement);
 
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
       closeColorpicker(nativeElement, fixture);
 
       expect(getColorpickerButtonBackgroundColor(nativeElement)).toEqual(
@@ -834,12 +841,12 @@ describe('Colorpicker Component', () => {
       );
     }));
 
-    it('should allow user to click apply the color change.', fakeAsync(() => {
+    it('should allow user to click apply the color change.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
 
     it('should set aria-expanded appropriately when closed with `cancel` button', fakeAsync(() => {
@@ -864,7 +871,7 @@ describe('Colorpicker Component', () => {
       expect(colorpickerButton.getAttribute('aria-expanded')).toBe('false');
     }));
 
-    it('should emit a selectedColorChanged and selectedColorApplied event on submit', fakeAsync(() => {
+    it('should emit a selectedColorChanged and selectedColorApplied event on submit', fakeAsync(async () => {
       spyOn(
         component.colorpickerComponent.selectedColorChanged,
         'emit',
@@ -875,9 +882,9 @@ describe('Colorpicker Component', () => {
       ).and.callThrough();
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
       expect(
         component.colorpickerComponent.selectedColorChanged.emit,
       ).toHaveBeenCalled();
@@ -886,7 +893,7 @@ describe('Colorpicker Component', () => {
       ).toHaveBeenCalled();
     }));
 
-    it('should accept mouse down events on hue bar.', fakeAsync(() => {
+    it('should accept mouse down events on hue bar.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
 
@@ -899,7 +906,7 @@ describe('Colorpicker Component', () => {
 
       fixture.detectChanges();
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#28e5e5', '40, 229, 229');
+      await verifyColorpicker(nativeElement, '#28e5e5', '40, 229, 229');
 
       openColorpicker(nativeElement);
       hueBar = getHueBar();
@@ -910,7 +917,7 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       tick();
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#a3e528', '163, 229, 40');
+      await verifyColorpicker(nativeElement, '#a3e528', '163, 229, 40');
 
       openColorpicker(nativeElement);
       hueBar = getHueBar();
@@ -921,10 +928,10 @@ describe('Colorpicker Component', () => {
       fixture.detectChanges();
       tick();
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#a328e5', '163, 40, 229');
+      await verifyColorpicker(nativeElement, '#a328e5', '163, 40, 229');
     }));
 
-    it('should accept mouse down events on alpha bar.', fakeAsync(() => {
+    it('should accept mouse down events on alpha bar.', fakeAsync(async () => {
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement);
 
@@ -936,7 +943,7 @@ describe('Colorpicker Component', () => {
       });
       fixture.detectChanges();
       applyColorpicker();
-      verifyColorpicker(
+      await verifyColorpicker(
         nativeElement,
         'rgba(40,137,229,0.5)',
         '40, 137, 229, 0.5',
@@ -950,7 +957,7 @@ describe('Colorpicker Component', () => {
       });
       fixture.detectChanges();
       applyColorpicker();
-      verifyColorpicker(
+      await verifyColorpicker(
         nativeElement,
         'rgba(40,137,229,0.23)',
         '40, 137, 229, 0.23',
@@ -964,14 +971,14 @@ describe('Colorpicker Component', () => {
       });
       fixture.detectChanges();
       applyColorpicker();
-      verifyColorpicker(
+      await verifyColorpicker(
         nativeElement,
         'rgba(40,137,229,0.77)',
         '40, 137, 229, 0.77',
       );
     }));
 
-    it('should accept mouse down events on saturation and lightness.', fakeAsync(() => {
+    it('should accept mouse down events on saturation and lightness.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
 
@@ -983,10 +990,10 @@ describe('Colorpicker Component', () => {
       });
       fixture.detectChanges();
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#406080', '64, 96, 128');
+      await verifyColorpicker(nativeElement, '#406080', '64, 96, 128');
     }));
 
-    it('should accept mouse dragging on saturation and lightness.', fakeAsync(() => {
+    it('should accept mouse dragging on saturation and lightness.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement);
       let slBar = getSaturationLightnessBar();
@@ -1001,7 +1008,7 @@ describe('Colorpicker Component', () => {
       mouseHelper(axis.x - 50, axis.y - 50, 'mousemove');
       fixture.detectChanges();
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#8babcb', '139, 171, 203');
+      await verifyColorpicker(nativeElement, '#8babcb', '139, 171, 203');
 
       openColorpicker(nativeElement);
       slBar = getSaturationLightnessBar();
@@ -1014,7 +1021,7 @@ describe('Colorpicker Component', () => {
       });
       mouseHelper(axis.x + 50, axis.y, 'mousemove');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#285480', '40, 84, 128');
+      await verifyColorpicker(nativeElement, '#285480', '40, 84, 128');
 
       openColorpicker(nativeElement);
       slBar = getSaturationLightnessBar();
@@ -1027,46 +1034,58 @@ describe('Colorpicker Component', () => {
       });
       mouseHelper(axis.x + 50, axis.y, 'mouseup');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#285480', '40, 84, 128');
+      await verifyColorpicker(nativeElement, '#285480', '40, 84, 128');
     }));
 
-    it('should output HSLA in css format.', fakeAsync(() => {
+    it('should output HSLA in css format.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hsla';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#123456');
+      await setInputElementValue(nativeElement, 'hex', '#123456');
       applyColorpicker();
-      verifyColorpicker(nativeElement, 'hsla(210,65%,20%,1)', '18, 52, 86');
+      await verifyColorpicker(
+        nativeElement,
+        'hsla(210,65%,20%,1)',
+        '18, 52, 86',
+      );
     }));
 
-    it('should accept HEX8 alpha conversions.', fakeAsync(() => {
+    it('should accept HEX8 alpha conversions.', fakeAsync(async () => {
       component.selectedHexType = 'hex8';
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#12345680');
+      await setInputElementValue(nativeElement, 'hex', '#12345680');
       applyColorpicker();
-      verifyColorpicker(nativeElement, 'rgba(18,52,86,0.5)', '18, 52, 86, 0.5');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(18,52,86,0.5)',
+        '18, 52, 86, 0.5',
+      );
     }));
 
-    it('should output CMYK in css format.', fakeAsync(() => {
+    it('should output CMYK in css format.', fakeAsync(async () => {
       component.selectedOutputFormat = 'cmyk';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#654321');
+      await setInputElementValue(nativeElement, 'hex', '#654321');
       applyColorpicker();
-      verifyColorpicker(nativeElement, 'cmyk(0%,34%,67%,60%)', '101, 67, 33');
+      await verifyColorpicker(
+        nativeElement,
+        'cmyk(0%,34%,67%,60%)',
+        '101, 67, 33',
+      );
     }));
 
-    it('should accept transparency', fakeAsync(() => {
+    it('should accept transparency', fakeAsync(async () => {
       component.selectedOutputFormat = 'hsla';
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'red', '0');
-      setInputElementValue(nativeElement, 'green', '0');
-      setInputElementValue(nativeElement, 'blue', '0');
-      setInputElementValue(nativeElement, 'alpha', '0');
+      await setInputElementValue(nativeElement, 'red', '0');
+      await setInputElementValue(nativeElement, 'green', '0');
+      await setInputElementValue(nativeElement, 'blue', '0');
+      await setInputElementValue(nativeElement, 'alpha', '0');
       applyColorpicker();
-      verifyColorpicker(nativeElement, 'hsla(0,0%,0%,0)', '0, 0, 0, 0');
+      await verifyColorpicker(nativeElement, 'hsla(0,0%,0%,0)', '0, 0, 0, 0');
     }));
 
-    it('should accept color change through directive host listener', fakeAsync(() => {
+    it('should accept color change through directive host listener', fakeAsync(async () => {
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement);
       const inputElement = getInputElement(nativeElement);
@@ -1079,25 +1098,29 @@ describe('Colorpicker Component', () => {
       inputElement?.dispatchEvent(changeEvent);
       fixture.detectChanges();
       applyColorpicker();
-      verifyColorpicker(nativeElement, 'rgba(69,35,252,1)', '69, 35, 252');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(69,35,252,1)',
+        '69, 35, 252',
+      );
     }));
 
-    it('should allow user to esc cancel the color change.', fakeAsync(() => {
+    it('should allow user to esc cancel the color change.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       component.colorModel = '#2889e5';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#086A93');
+      await setInputElementValue(nativeElement, 'hex', '#086A93');
       keyHelper('Escape');
       fixture.detectChanges();
-      verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
+      await verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
     }));
 
-    it('should ignore undefined keyboard events', fakeAsync(() => {
+    it('should ignore undefined keyboard events', fakeAsync(async () => {
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#086A93');
+      await setInputElementValue(nativeElement, 'hex', '#086A93');
       keyHelper(undefined);
       fixture.detectChanges();
       tick();
@@ -1164,7 +1187,7 @@ describe('Colorpicker Component', () => {
       expect(getResetButton()).not.toBeNull();
     }));
 
-    it('should reset colorpicker via reset button.', fakeAsync(() => {
+    it('should reset colorpicker via reset button.', fakeAsync(async () => {
       const spyOnResetColorPicker = spyOn(
         colorpickerComponent,
         'onResetClick',
@@ -1180,7 +1203,11 @@ describe('Colorpicker Component', () => {
       tick();
       fixture.detectChanges();
       expect(spyOnResetColorPicker).toHaveBeenCalled();
-      verifyColorpicker(nativeElement, 'rgba(40,137,229,1)', '40, 137, 229');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(40,137,229,1)',
+        '40, 137, 229',
+      );
     }));
 
     it('should accept open colorpicker via messageStream.', fakeAsync(() => {
@@ -1205,12 +1232,16 @@ describe('Colorpicker Component', () => {
       verifyMenuVisibility(false);
     }));
 
-    it('should accept reset colorpicker via messageStream.', fakeAsync(() => {
+    it('should accept reset colorpicker via messageStream.', fakeAsync(async () => {
       component.colorModel = 'rgba(40,137,229,1)';
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      verifyColorpicker(nativeElement, 'rgba(40,137,229,1)', '40, 137, 229');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(40,137,229,1)',
+        '40, 137, 229',
+      );
       tick();
       openColorpicker(nativeElement);
       setPresetColor(nativeElement, fixture, 4);
@@ -1220,7 +1251,11 @@ describe('Colorpicker Component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      verifyColorpicker(nativeElement, 'rgba(40,137,229,1)', '40, 137, 229');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(40,137,229,1)',
+        '40, 137, 229',
+      );
     }));
 
     it('should toggle reset button via messageStream.', fakeAsync(() => {
@@ -1305,13 +1340,13 @@ describe('Colorpicker Component', () => {
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
     });
 
-    it('should apply the selected color when Enter is pressed', fakeAsync(() => {
+    it('should apply the selected color when Enter is pressed', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       fixture.detectChanges();
 
       openColorpicker(nativeElement);
 
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
 
       const inputElements = getInputElements();
       inputElements.alpha.focus();
@@ -1322,8 +1357,10 @@ describe('Colorpicker Component', () => {
       });
 
       inputElements.alpha.dispatchEvent(enterEvent);
+      fixture.detectChanges();
+      tick();
 
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
 
       flush();
     }));
@@ -1373,53 +1410,53 @@ describe('Colorpicker Component', () => {
       expect(component.colorpickerComponent.lastAppliedColor).toEqual('#00f');
     }));
 
-    it('should allow user to click cancel the color change.', fakeAsync(() => {
+    it('should allow user to click cancel the color change.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       fixture.detectChanges();
       component.colorControl.setValue('#2889e5');
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#BFF666');
+      await setInputElementValue(nativeElement, 'hex', '#BFF666');
       closeColorpicker(nativeElement, fixture);
-      verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
+      await verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
     }));
 
-    it('should use the last applied color to revert to on cancel', fakeAsync(() => {
+    it('should use the last applied color to revert to on cancel', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       fixture.detectChanges();
       tick();
       component.colorControl.setValue('#2889e5');
       fixture.detectChanges();
-      verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
+      await verifyColorpicker(nativeElement, '#2889e5', '40, 137, 229');
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#BFF666');
+      await setInputElementValue(nativeElement, 'hex', '#BFF666');
       closeColorpicker(nativeElement, fixture);
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
 
-    it('should allow user to click apply the color change.', fakeAsync(() => {
+    it('should allow user to click apply the color change.', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       fixture.detectChanges();
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
       applyColorpicker();
-      verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
+      await verifyColorpicker(nativeElement, '#2b7230', '43, 114, 48');
     }));
 
-    it('should update the reactive form value when the user applies a color change', fakeAsync(() => {
+    it('should update the reactive form value when the user applies a color change', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       fixture.detectChanges();
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'hex', '#2B7230');
+      await setInputElementValue(nativeElement, 'hex', '#2B7230');
       applyColorpicker();
-      fixture.whenStable();
+      await fixture.whenStable();
       expect(component.colorForm.get('colorModel')?.value.hex).toBe('#2b7230');
     }));
 
-    it('should reset colorpicker via reset button.', fakeAsync(() => {
+    it('should reset colorpicker via reset button.', fakeAsync(async () => {
       fixture.detectChanges();
       const spyOnResetColorPicker = spyOn(
         colorpickerComponent,
@@ -1436,7 +1473,11 @@ describe('Colorpicker Component', () => {
       tick();
       fixture.detectChanges();
       expect(spyOnResetColorPicker).toHaveBeenCalled();
-      verifyColorpicker(nativeElement, 'rgba(40,137,229,1)', '40, 137, 229');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(40,137,229,1)',
+        '40, 137, 229',
+      );
     }));
 
     it('should accept open colorpicker via messageStream.', fakeAsync(() => {
@@ -1448,12 +1489,16 @@ describe('Colorpicker Component', () => {
       verifyMenuVisibility();
     }));
 
-    it('should accept reset colorpicker via messageStream.', fakeAsync(() => {
+    it('should accept reset colorpicker via messageStream.', fakeAsync(async () => {
       component.colorControl.setValue('rgba(40,137,229,1)');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      verifyColorpicker(nativeElement, 'rgba(40,137,229,1)', '40, 137, 229');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(40,137,229,1)',
+        '40, 137, 229',
+      );
       tick();
       openColorpicker(nativeElement);
       setPresetColor(nativeElement, fixture, 4);
@@ -1463,7 +1508,11 @@ describe('Colorpicker Component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      verifyColorpicker(nativeElement, 'rgba(40,137,229,1)', '40, 137, 229');
+      await verifyColorpicker(
+        nativeElement,
+        'rgba(40,137,229,1)',
+        '40, 137, 229',
+      );
     }));
 
     it('should toggle reset button via messageStream', fakeAsync(() => {
@@ -1576,7 +1625,7 @@ describe('Colorpicker Component', () => {
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
     });
 
-    it('should render an error message if the form control set via name has an error', fakeAsync(() => {
+    it('should render an error message if the form control set via name has an error', fakeAsync(async () => {
       component.labelText = 'Label Text';
 
       fixture.detectChanges();
@@ -1588,10 +1637,10 @@ describe('Colorpicker Component', () => {
       expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
 
       openColorpicker(nativeElement);
-      setInputElementValue(nativeElement, 'red', '163');
-      setInputElementValue(nativeElement, 'green', '19');
-      setInputElementValue(nativeElement, 'blue', '84');
-      setInputElementValue(nativeElement, 'alpha', '0.5');
+      await setInputElementValue(nativeElement, 'red', '163');
+      await setInputElementValue(nativeElement, 'green', '19');
+      await setInputElementValue(nativeElement, 'blue', '84');
+      await setInputElementValue(nativeElement, 'alpha', '0.5');
       applyColorpicker();
 
       fixture.detectChanges();
@@ -1606,7 +1655,7 @@ describe('Colorpicker Component', () => {
       expect(errorMessage).toBeVisible();
     }));
 
-    it('should render an error message if the form control has an error set via form control', fakeAsync(() => {
+    it('should render an error message if the form control has an error set via form control', fakeAsync(async () => {
       fixture.detectChanges();
 
       const colorPickerTest2: HTMLElement | null = nativeElement.querySelector(
@@ -1621,10 +1670,10 @@ describe('Colorpicker Component', () => {
         expect(inputElement?.getAttribute('aria-errormessage')).toBeNull();
 
         openColorpicker(nativeElement, 'colorpicker-form-control');
-        setInputElementValue(nativeElement, 'red', '163');
-        setInputElementValue(nativeElement, 'green', '19');
-        setInputElementValue(nativeElement, 'blue', '84');
-        setInputElementValue(nativeElement, 'alpha', '0.5');
+        await setInputElementValue(nativeElement, 'red', '163');
+        await setInputElementValue(nativeElement, 'green', '19');
+        await setInputElementValue(nativeElement, 'blue', '84');
+        await setInputElementValue(nativeElement, 'alpha', '0.5');
         applyColorpicker();
 
         fixture.detectChanges();
@@ -1689,7 +1738,7 @@ describe('Colorpicker Component', () => {
       expect(icon?.getAttribute('style')).toEqual('color: rgb(255, 255, 255);');
     });
 
-    it('should update icon color from black to white when opacity of dark color is lowered', fakeAsync(() => {
+    it('should update icon color from black to white when opacity of dark color is lowered', fakeAsync(async () => {
       fixture.componentInstance.colorModel = '#ff0000';
       fixture.componentInstance.pickerButtonIcon = 'calendar';
 
@@ -1700,13 +1749,13 @@ describe('Colorpicker Component', () => {
       expect(icon?.getAttribute('style')).toEqual('color: rgb(255, 255, 255);');
 
       openColorpicker(fixture.nativeElement);
-      setInputElementValue(fixture.nativeElement, 'alpha', '0.3');
+      await setInputElementValue(fixture.nativeElement, 'alpha', '0.3');
       applyColorpicker();
 
       expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
     }));
 
-    it('should keep icon color black when a light color opacity is lowered', fakeAsync(() => {
+    it('should keep icon color black when a light color opacity is lowered', fakeAsync(async () => {
       fixture.componentInstance.colorModel = '#ffffff';
       fixture.componentInstance.pickerButtonIcon = 'calendar';
 
@@ -1717,13 +1766,13 @@ describe('Colorpicker Component', () => {
       expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
 
       openColorpicker(fixture.nativeElement);
-      setInputElementValue(fixture.nativeElement, 'alpha', '0.3');
+      await setInputElementValue(fixture.nativeElement, 'alpha', '0.3');
       applyColorpicker();
 
       expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
     }));
 
-    it('should set icon color to white when alpha is 0', fakeAsync(() => {
+    it('should set icon color to white when alpha is 0', fakeAsync(async () => {
       fixture.componentInstance.colorModel = '#ff0000';
       fixture.componentInstance.pickerButtonIcon = 'calendar';
 
@@ -1734,7 +1783,7 @@ describe('Colorpicker Component', () => {
       expect(icon?.getAttribute('style')).toEqual('color: rgb(255, 255, 255);');
 
       openColorpicker(fixture.nativeElement);
-      setInputElementValue(fixture.nativeElement, 'alpha', '0.0');
+      await setInputElementValue(fixture.nativeElement, 'alpha', '0.0');
       applyColorpicker();
 
       expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');

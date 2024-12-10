@@ -52,7 +52,7 @@ describe('SkyModalLinkListComponent', () => {
 
   it('should log when modal is not standalone', () => {
     const logger = TestBed.inject(SkyLogService);
-    spyOn(logger, 'deprecated').and.returnValue(Promise.resolve());
+    spyOn(logger, 'deprecated');
     expect(component).toBeTruthy();
     component.openModal({
       label: 'Link 1',

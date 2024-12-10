@@ -18,6 +18,7 @@ import { SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { take } from 'rxjs/operators';
 
@@ -67,6 +68,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyIconModule,
     SkyIdModule,
     SkyInputBoxModule,
+    SkyThemeModule,
   ],
 })
 export class SkyFileDropComponent implements OnDestroy {
@@ -228,7 +230,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * vertical spacing is automatically added to the file attachment.
    */
   @Input({ transform: booleanAttribute })
-  @HostBinding('class.sky-margin-stacked-lg')
+  @HostBinding('class.sky-form-field-stacked')
   public stacked = false;
 
   /**

@@ -158,5 +158,5 @@ describe('text-editor-storybook', () => {
         });
       });
     });
-  });
+  }, true);
 });

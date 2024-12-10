@@ -182,8 +182,12 @@ sky-search {
 
 .sky-theme-modern {
   sky-search {
-    .sky-input-box {
+    sky-input-box {
       --sky-background-color-input-box-group: var(
+        --sky-override-search-background-color,
+        var(--sky-color-background-action-secondary-base)
+      );
+      --sky-background-color-input-box-group-focused: var(
         --sky-override-search-background-color,
         var(--sky-color-background-action-secondary-base)
       );
