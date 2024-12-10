@@ -24,6 +24,7 @@ export { SkyFieldGroupHarness } from './modules/field-group/field-group-harness'
 export { SkyFieldGroupHarnessFilters } from './modules/field-group/field-group-harness-filters';
 
 export { SkyRadioFixture } from './legacy/radio-fixture';
+export { provideSkyFileAttachmentTesting } from './modules/file-attachment/file-attachment/provide-file-attachment-testing';
 export { SkyRadioGroupHarness } from './modules/radio/radio-group-harness';
 export { SkyRadioGroupHarnessFilters } from './modules/radio/radio-group-harness-filters';
 export { SkyRadioHarness } from './modules/radio/radio-harness';

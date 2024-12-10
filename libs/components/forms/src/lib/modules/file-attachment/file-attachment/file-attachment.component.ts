@@ -51,6 +51,7 @@ import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileItemErrorType } from '../shared/file-item-error-type';
 import { SkyFileItemService } from '../shared/file-item.service';
+import { SkyFileReaderService } from '../shared/file-reader.service';
 import { SkyFileSizePipe } from '../shared/file-size.pipe';
 import { SkyFileValidateFn } from '../shared/file-validate-function';
 
@@ -99,6 +100,8 @@ export class SkyFileAttachmentComponent
     OnInit,
     OnDestroy
 {
+  readonly #fileReaderSvc = inject(SkyFileReaderService);
+
   /**
    * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
@@ -552,14 +555,16 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  #loadFile(file: SkyFileItem): void {
+  async #loadFile(file: SkyFileItem): Promise<void> {
     if (file.file) {
-      const reader = new FileReader();
+      try {
+        const result = await this.#fileReaderSvc.readFile(file.file);
+        file.url = result;
 
-      reader.addEventListener('load', (event: any): void => {
-        const previousFileName = this.value?.file.name;
-        file.url = event.target.result;
         this.#emitFileChangeEvent(file);
+
+        const previousFileName = this.value?.file.name;
+
         if (previousFileName) {
           this.#announceState(
             'skyux_file_attachment_file_upload_file_replaced',
@@ -572,17 +577,9 @@ export class SkyFileAttachmentComponent
             file.file.name,
           );
         }
-      });
-
-      reader.addEventListener('error', (): void => {
+      } catch {
         this.#emitFileChangeEvent(file);
-      });
-
-      reader.addEventListener('abort', (): void => {
-        this.#emitFileChangeEvent(file);
-      });
-
-      reader.readAsDataURL(file.file);
+      }
     }
   }
 
@@ -600,7 +597,7 @@ export class SkyFileAttachmentComponent
         if (file.errorType) {
           this.#emitFileChangeEvent(file);
         } else {
-          this.#loadFile(file);
+          void this.#loadFile(file);
         }
       }
     }
