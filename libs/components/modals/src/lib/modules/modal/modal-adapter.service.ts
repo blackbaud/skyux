@@ -60,24 +60,26 @@ export class SkyModalAdapterService {
    */
   public hideHostSiblingsFromScreenReaders(hostElRef: ElementRef): void {
     const hostElement = hostElRef.nativeElement;
-    const hostSiblings = hostElement.parentElement.children;
+    const hostSiblings = hostElement.parentElement?.children;
 
-    for (const element of hostSiblings) {
-      if (element.contains(document.activeElement)) {
-        document.body.focus();
-      }
-      if (
-        element !== hostElement &&
-        !element.hasAttribute('aria-live') &&
-        element.nodeName.toLowerCase() !== 'script' &&
-        element.nodeName.toLowerCase() !== 'style'
-      ) {
-        // preserve previous aria-hidden status of elements outside of modal host
-        this.#hostSiblingAriaHiddenCache.set(
-          element,
-          element.getAttribute('aria-hidden'),
-        );
-        element.setAttribute('aria-hidden', 'true');
+    if (hostSiblings) {
+      for (const element of hostSiblings) {
+        if (element.contains(document.activeElement)) {
+          document.body.focus();
+        }
+        if (
+          element !== hostElement &&
+          !element.hasAttribute('aria-live') &&
+          element.nodeName.toLowerCase() !== 'script' &&
+          element.nodeName.toLowerCase() !== 'style'
+        ) {
+          // preserve previous aria-hidden status of elements outside of modal host
+          this.#hostSiblingAriaHiddenCache.set(
+            element,
+            element.getAttribute('aria-hidden'),
+          );
+          element.setAttribute('aria-hidden', 'true');
+        }
       }
     }
   }
