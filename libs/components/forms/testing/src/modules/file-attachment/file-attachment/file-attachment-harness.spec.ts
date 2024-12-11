@@ -97,7 +97,7 @@ class TestComponent {
 }
 //#endregion Test component
 
-fdescribe('File attachment harness', () => {
+describe('File attachment harness', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };

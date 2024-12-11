@@ -197,6 +197,13 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
 
   /**
    * Loads a file.
+   * Be sure to include `provideSkyFileReaderTesting` as a provider when calling this function in tests.
+   *  @example
+   * ```typescript
+   * TestBed.configureTestingModule({
+   *   providers: [provideSkyFileReaderTesting()]
+   * });
+   * ```
    */
   public async loadFile(file: File): Promise<void> {
     return await this.#dropFile(file);
