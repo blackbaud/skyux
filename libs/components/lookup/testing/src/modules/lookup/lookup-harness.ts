@@ -50,23 +50,25 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   /**
    * Blurs the lookup input.
+   * @deprecated Call `await (await lookup.getControl()).blur()` instead.
    */
   public override async blur(): Promise<void> {
-    await super.blur();
+    await (await super.getControl()).blur();
   }
 
   /**
    * Clears the lookup input value.
+   * @deprecated Call `await (await lookup.getControl()).clear()` instead.
    */
   public override async clear(): Promise<void> {
-    await super.clear();
+    await (await super.getControl()).clear();
   }
 
   /**
    * Clicks the "Add" button on the search results panel.
    */
   public override async clickAddButton(): Promise<void> {
-    await this.focus();
+    await (await super.getControl()).focus();
     await super.clickAddButton();
   }
 
@@ -74,7 +76,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Clicks the "Show more" button on the search results panel.
    */
   public override async clickShowMoreButton(): Promise<void> {
-    await this.focus();
+    await (await super.getControl()).focus();
     await super.clickShowMoreButton();
   }
 
@@ -87,16 +89,18 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   /**
    * Enters text into the lookup input.
+   * @deprecated Call `await (await lookup.getControl()).setValue()` instead.
    */
   public override async enterText(value: string): Promise<void> {
-    await super.enterText(value);
+    await (await super.getControl()).setValue(value);
   }
 
   /**
    * Focuses the lookup input.
+   * @deprecated Call `await (await lookup.getControl()).focus()` instead.
    */
   public override async focus(): Promise<void> {
-    await super.focus();
+    await (await super.getControl()).focus();
   }
 
   /**
@@ -194,23 +198,26 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   /**
    * Gets the value of the lookup input.
+   * @deprecated Call `await (await lookup.getControl()).getValue()` instead.
    */
   public override async getValue(): Promise<string> {
-    return await super.getValue();
+    return await (await super.getControl()).getValue();
   }
 
   /**
    * Whether the lookup input is disabled.
+   * @deprecated Call `await (await lookup.getControl()).isDisabled()` instead.
    */
   public override async isDisabled(): Promise<boolean> {
-    return await super.isDisabled();
+    return await (await super.getControl()).isDisabled();
   }
 
   /**
    * Whether the lookup input is focused.
+   * @deprecated Call `await (await lookup.getControl()).isFocused()` instead.
    */
   public override async isFocused(): Promise<boolean> {
-    return await super.isFocused();
+    return await (await super.getControl()).isFocused();
   }
 
   /**

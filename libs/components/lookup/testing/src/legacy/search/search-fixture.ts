@@ -25,6 +25,7 @@ export class SkySearchFixture {
 
   #debugEl: DebugElement;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
     this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
@@ -38,7 +39,7 @@ export class SkySearchFixture {
    * @param searchText The search text to apply.  If none is specified, the search's
    * current search text will be applied.
    */
-  public apply(searchText?: string) {
+  public apply(searchText?: string): void {
     if (searchText) {
       SkyAppTestUtility.setInputValue(
         this.#getInputEl().nativeElement,
@@ -55,7 +56,7 @@ export class SkySearchFixture {
    * Clears the current search text. If there is no search text or the search text is
    * not currently applied, an error is thrown.
    */
-  public clear() {
+  public clear(): void {
     const clearEl = this.#debugEl.query(By.css('.sky-input-group-clear'));
 
     if (!SkyAppTestUtility.isVisible(clearEl)) {

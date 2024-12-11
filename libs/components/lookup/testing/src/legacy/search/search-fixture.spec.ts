@@ -24,9 +24,11 @@ class TestComponent {
 
   public searchText = 'Search test text';
 
-  public searchApplied(query: string) {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  public searchApplied(query: string): void {}
 
-  public searchCleared() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public searchCleared(): void {}
 }
 //#endregion Test component
 
