@@ -13,6 +13,7 @@ export { SkyCheckboxLabelHarness } from './modules/checkbox/checkbox-label-harne
 
 export { SkyFileDropHarness } from './modules/file-attachment/file-drop/file-drop-harness';
 export { SkyFileDropHarnessFilters } from './modules/file-attachment/file-drop/file-drop-harness-filters';
+export { provideSkyFileAttachmentTesting } from './modules/file-attachment/shared/provide-file-attachment-testing';
 
 export { SkyFormErrorsHarness } from './modules/form-error/form-errors-harness';
 export { SkyFormErrorsHarnessFilters } from './modules/form-error/form-errors-harness.filters';

@@ -28,6 +28,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  SkyFileReaderService,
   SkyIdModule,
   SkyIdService,
   SkyLiveAnnouncerService,
@@ -99,6 +100,8 @@ export class SkyFileAttachmentComponent
     OnInit,
     OnDestroy
 {
+  readonly #fileReaderSvc = inject(SkyFileReaderService);
+
   /**
    * The comma-delimited string literal of MIME types that users can attach.
    * By default, all file types are allowed.
@@ -552,14 +555,11 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  #loadFile(file: SkyFileItem): void {
+  async #loadFile(file: SkyFileItem): Promise<void> {
     if (file.file) {
-      const reader = new FileReader();
-
-      reader.addEventListener('load', (event: any): void => {
+      try {
         const previousFileName = this.value?.file.name;
-        file.url = event.target.result;
-        this.#emitFileChangeEvent(file);
+
         if (previousFileName) {
           this.#announceState(
             'skyux_file_attachment_file_upload_file_replaced',
@@ -572,17 +572,13 @@ export class SkyFileAttachmentComponent
             file.file.name,
           );
         }
-      });
 
-      reader.addEventListener('error', (): void => {
+        file.url = await this.#fileReaderSvc.readAsDataURL(file.file);
+
         this.#emitFileChangeEvent(file);
-      });
-
-      reader.addEventListener('abort', (): void => {
+      } catch {
         this.#emitFileChangeEvent(file);
-      });
-
-      reader.readAsDataURL(file.file);
+      }
     }
   }
 
@@ -600,7 +596,7 @@ export class SkyFileAttachmentComponent
         if (file.errorType) {
           this.#emitFileChangeEvent(file);
         } else {
-          this.#loadFile(file);
+          void this.#loadFile(file);
         }
       }
     }

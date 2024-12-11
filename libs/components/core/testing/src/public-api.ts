@@ -6,6 +6,7 @@ export {
   mockResizeObserverEntry,
   mockResizeObserverHandle,
 } from './legacy/resize-observer-mock';
+export { provideSkyFileReaderTesting } from './modules/file-reader/provide-file-reader-testing';
 export { SkyHelpTestingController } from './modules/help/help-testing-controller';
 export { SkyHelpTestingModule } from './modules/help/help-testing.module';
 export { SkyMediaQueryTestingController } from './modules/media-query/media-query-testing-controller';
