@@ -26,6 +26,7 @@ import { SkyFileDropHarness } from './file-drop-harness';
       [helpPopoverContent]="helpPopoverContent"
       [helpPopoverTitle]="helpPopoverTitle"
       [hintText]="hintText"
+      [labelHidden]="labelHidden"
       [labelText]="labelText"
       [linkUploadAriaLabel]="linkUploadAriaLabel"
       [linkUploadHintText]="linkUploadHintText"
@@ -51,6 +52,7 @@ class TestComponent {
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public hintText: string | undefined;
+  public labelHidden = false;
   public labelText: string | undefined = 'File upload';
   public linkUploadAriaLabel: string | undefined;
   public linkUploadHintText: string | undefined;
@@ -232,18 +234,50 @@ fdescribe('File drop harness', () => {
     ).toBeRejectedWithError('Done button is disabled and cannot be clicked.');
   });
 
-  it('should click upload link done button', async () => {
+  it('should load a file', async () => {
     const { fixture, harness } = await setupTest();
 
     const changedFiles = firstValueFrom(fixture.componentInstance.filesChanged);
 
-    await harness.enterLink('foo.bar');
-    await harness.clickUploadLinkDoneButton();
+    await harness.uploadLink('foo.bar');
 
     const files = await changedFiles;
 
     expect(files).toEqual({
       url: 'foo.bar',
     });
+  });
+
+  it('should get whether the label is hidden', async () => {
+    const { fixture, harness } = await setupTest();
+
+    await expectAsync(harness.isLabelHidden()).toBeResolvedTo(false);
+
+    fixture.componentInstance.labelHidden = true;
+    fixture.detectChanges();
+
+    await expectAsync(harness.isLabelHidden()).toBeResolvedTo(true);
+  });
+
+  it('should get whether file drop is required', async () => {
+    const { fixture, harness } = await setupTest();
+
+    await expectAsync(harness.isRequired()).toBeResolvedTo(false);
+
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
+
+    await expectAsync(harness.isRequired()).toBeResolvedTo(true);
+  });
+
+  it('should get whether file drop is stacked', async () => {
+    const { fixture, harness } = await setupTest();
+
+    await expectAsync(harness.isStacked()).toBeResolvedTo(false);
+
+    fixture.componentInstance.stacked = true;
+    fixture.detectChanges();
+
+    await expectAsync(harness.isStacked()).toBeResolvedTo(true);
   });
 });
