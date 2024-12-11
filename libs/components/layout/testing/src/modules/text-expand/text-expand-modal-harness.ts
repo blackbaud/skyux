@@ -14,7 +14,7 @@ export class SkyTextExpandModalHarness extends ComponentHarness {
   #getText = this.locatorFor('sky-modal-content.sky-text-expand-modal-content');
 
   /**
-   * Clicks the close button.
+   * Clicks the modal close button.
    */
   public async clickCloseButton(): Promise<void> {
     const button = await this.#getCloseButton();
@@ -23,14 +23,14 @@ export class SkyTextExpandModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the header text of the modal.
+   * Gets the modal title.
    */
   public async getExpandModalTitle(): Promise<string> {
     return await (await this.#getHeader()).text();
   }
 
   /**
-   * Gets the text content of the text expand.
+   * Gets the expanded text in the modal.
    */
   public async getText(): Promise<string> {
     return await (await this.#getText()).text();

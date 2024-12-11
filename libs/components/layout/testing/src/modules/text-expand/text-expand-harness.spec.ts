@@ -55,7 +55,7 @@ describe('Text expand test harness', () => {
 
     await expectAsync(textExpandHarness.getText()).toBeResolvedTo('');
     await expectAsync(
-      textExpandHarness.clickSeeMoreButton(),
+      textExpandHarness.clickExpandCollapseButton(),
     ).toBeRejectedWithError('Could not find button element.');
   });
 
@@ -67,7 +67,7 @@ describe('Text expand test harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await textExpandHarness.clickSeeMoreButton();
+    await textExpandHarness.clickExpandCollapseButton();
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -76,7 +76,7 @@ describe('Text expand test harness', () => {
       'The text expand component truncates long blocks of text with an ellipsis and a link to expand the text. Users select the link to expand the full text inline unless it exceeds limits on text characters or newline characters. If the text exceeds those limits, then it expands in a modal view instead. The component does not truncate text that is shorter than a specified threshold, and by default, it removes newline characters from truncated text.',
     );
 
-    await textExpandHarness.clickSeeMoreButton();
+    await textExpandHarness.clickExpandCollapseButton();
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -94,9 +94,9 @@ describe('Text expand test harness', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    await textExpandHarness.clickSeeMoreButton();
+    await textExpandHarness.clickExpandCollapseButton();
 
-    const modal = await textExpandHarness.getModal();
+    const modal = await textExpandHarness.getExpandedViewModal();
 
     await expectAsync(modal.getText()).toBeResolvedTo(
       'The text expand component truncates long blocks of text with an ellipsis and a link to expand the text. Users select the link to expand the full text inline unless it exceeds limits on text characters or newline characters. If the text exceeds those limits, then it expands in a modal view instead. The component does not truncate text that is shorter than a specified threshold, and by default, it removes newline characters from truncated text.',
@@ -106,8 +106,8 @@ describe('Text expand test harness', () => {
     );
     await modal.clickCloseButton();
 
-    await expectAsync(textExpandHarness.getModal()).toBeRejectedWithError(
-      'Could not find text expand modal.',
-    );
+    await expectAsync(
+      textExpandHarness.getExpandedViewModal(),
+    ).toBeRejectedWithError('Could not find text expand modal.');
   });
 });

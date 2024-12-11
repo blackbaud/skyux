@@ -30,9 +30,9 @@ export class SkyTextExpandHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the button element to expand or collapse text.
+   * Clicks the button element that expands or collapses text.
    */
-  public async clickSeeMoreButton(): Promise<void> {
+  public async clickExpandCollapseButton(): Promise<void> {
     const button = await this.#getExpandCollapseButton();
 
     if (button === null) {
@@ -49,7 +49,10 @@ export class SkyTextExpandHarness extends SkyComponentHarness {
     return await (await this.#getText()).text();
   }
 
-  public async getModal(): Promise<SkyTextExpandModalHarness> {
+  /**
+   * Gets the harness to interact with the modal expanded view.
+   */
+  public async getExpandedViewModal(): Promise<SkyTextExpandModalHarness> {
     const modal = await this.#documentRootLocator.locatorForOptional(
       SkyTextExpandModalHarness,
     )();
