@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideSkyFileReaderTesting } from '@skyux/core/testing';
 import {
   SkyFileDropChange,
   SkyFileDropModule,
@@ -88,6 +89,7 @@ fdescribe('File drop harness', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [TestComponent, NoopAnimationsModule],
+      providers: [provideSkyFileReaderTesting],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -279,5 +281,18 @@ fdescribe('File drop harness', () => {
     fixture.detectChanges();
 
     await expectAsync(harness.isStacked()).toBeResolvedTo(true);
+  });
+
+  fit('should get whether file type error has fired', async () => {
+    const { fixture, harness } = await setupTest();
+
+    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.detectChanges();
+
+    await harness.loadFile([
+      new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
+    ]);
+
+    await expectAsync(harness.hasFileTypeError()).toBeResolvedTo(true);
   });
 });

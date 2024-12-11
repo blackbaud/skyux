@@ -19,7 +19,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   #getDropTarget = this.locatorFor('.sky-file-drop-target');
   #input = this.locatorFor('input[type="file"]');
   #fileUploadButton = this.locatorFor('button.sky-file-drop-target');
-  #label = this.locatorFor('span.sky-file-drop-label');
+  #label = this.locatorFor('.sky-file-drop-label-text');
   #formErrors = this.locatorFor(SkyFormErrorsHarness);
 
   /**
@@ -151,7 +151,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    * Whether file drop has stacked enabled.
    */
   public async isStacked(): Promise<boolean> {
-    return await (await this.host()).hasClass('sky-margin-stacked-lg');
+    return await (await this.host()).hasClass('sky-form-field-stacked');
   }
 
   /**
@@ -165,6 +165,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    * Whether the file type error has fired.
    */
   public async hasFileTypeError(): Promise<boolean> {
+    console.log(await (await this.#formErrors()).getFormErrors());
     return await (await this.#formErrors()).hasError('fileType');
   }
 
@@ -196,19 +197,30 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     await this.#dropFiles([file]);
   }
 
+  /**
+   * Loads a file through the file drop.
+   */
+  public async loadFile(files: File[] | null): Promise<void> {
+    return await this.#dropFiles(files);
+  }
+
   // Consider making this public when we finalize this harness's public API.
-  async #dropFiles(files: File[]): Promise<void> {
+  async #dropFiles(files: File[] | null): Promise<void> {
     const dropTarget = await this.#getDropTarget();
 
-    const fileList = {
-      item: (index: number): File => files[index],
-      length: files.length,
-    };
+    // const fileList = {
+    //   item: (index: number): File => files[index],
+    //   length: files.length,
+    // };
+
+    const dataTransfer = new DataTransfer() as TestDataTransfer;
+
+    files?.forEach((file) => {
+      dataTransfer.items.add(file);
+    });
 
     await dropTarget.dispatchEvent('drop', {
-      dataTransfer: {
-        files: fileList as unknown as EventData,
-      },
+      dataTransfer,
     });
   }
 
@@ -236,3 +248,4 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     );
   }
 }
+type TestDataTransfer = DataTransfer & { [key: string]: EventData };
