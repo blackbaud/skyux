@@ -3,7 +3,6 @@ import { provideSkyFileReaderTesting } from '@skyux/core/testing';
 
 /**
  * Provides mocks for file attachment testing.
- * @internal
  * @example
  * ```typescript
  * TestBed.configureTestingModule({
