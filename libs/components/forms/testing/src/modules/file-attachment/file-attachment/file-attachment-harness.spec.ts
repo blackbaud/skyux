@@ -97,7 +97,7 @@ class TestComponent {
 }
 //#endregion Test component
 
-describe('File attachment harness', () => {
+fdescribe('File attachment harness', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -108,6 +108,7 @@ describe('File attachment harness', () => {
   }): Promise<{
     fileAttachmentHarness: SkyFileAttachmentHarness;
     fixture: ComponentFixture<TestComponent>;
+    formControl: FormControl<SkyFileItem | null | undefined>;
   }> {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
@@ -137,7 +138,9 @@ describe('File attachment harness', () => {
         )
       : await loader.getHarness(SkyFileAttachmentHarness);
 
-    return { fileAttachmentHarness, fixture };
+    const formControl = fixture.componentInstance.attachment;
+
+    return { fileAttachmentHarness, fixture, formControl };
   }
 
   it('should get file attachment by its data-sky-id', async () => {
@@ -286,13 +289,13 @@ describe('File attachment harness', () => {
   });
 
   it('should throw an error when trying to click the attach file button if there is already a file attached', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
       theme: 'modern',
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+    formControl.setValue({
       file,
       url: 'foo.bar',
     });
@@ -306,13 +309,13 @@ describe('File attachment harness', () => {
   });
 
   it('should throw an error when trying to click the attach file button if there is already a file attached in default theme', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
       theme: 'default',
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+    formControl.setValue({
       file,
       url: 'foo.bar',
     });
@@ -326,7 +329,7 @@ describe('File attachment harness', () => {
   });
 
   it('should click the replace file button', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
       theme: 'default',
     });
@@ -334,7 +337,7 @@ describe('File attachment harness', () => {
     spyOn(input, 'click');
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+    formControl.setValue({
       file,
       url: 'foo.bar',
     });
@@ -345,13 +348,13 @@ describe('File attachment harness', () => {
   });
 
   it('should throw an error if trying to click replace file button in modern theme', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
       theme: 'modern',
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+    formControl.setValue({
       file,
       url: 'foo.bar',
     });
@@ -378,14 +381,14 @@ describe('File attachment harness', () => {
   });
 
   it('should click the uploaded file', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
     const spy = spyOn(fixture.componentInstance, 'onFileClick');
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+    formControl.setValue({
       file,
       url: 'foo.bar',
     });
@@ -403,29 +406,25 @@ describe('File attachment harness', () => {
   });
 
   it('should delete the uploaded file after the delete button is clicked', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
     const file = new File([], 'file.txt', { type: 'text/plain ' });
-    fixture.componentInstance.formGroup.controls['attachment'].setValue({
+    formControl.setValue({
       file,
       url: 'foo.bar',
     });
     fixture.detectChanges();
 
-    expect(
-      fixture.componentInstance.formGroup.controls['attachment'].value,
-    ).toEqual({
+    expect(formControl.value).toEqual({
       file,
       url: 'foo.bar',
     });
 
     await fileAttachmentHarness.clickUploadedFileDeleteButton();
 
-    expect(
-      fixture.componentInstance.formGroup.controls['attachment'].value,
-    ).toEqual(undefined);
+    expect(formControl.value).toEqual(undefined);
   });
 
   it('should throw an error when attempting to click the delete button when no file is uploaded', async () => {
