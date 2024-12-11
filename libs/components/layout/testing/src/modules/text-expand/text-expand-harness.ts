@@ -43,13 +43,6 @@ export class SkyTextExpandHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the text content of the text expand.
-   */
-  public async getText(): Promise<string> {
-    return await (await this.#getText()).text();
-  }
-
-  /**
    * Gets the harness to interact with the modal expanded view.
    */
   public async getExpandedViewModal(): Promise<SkyTextExpandModalHarness> {
@@ -62,5 +55,12 @@ export class SkyTextExpandHarness extends SkyComponentHarness {
     }
 
     return modal;
+  }
+
+  /**
+   * Gets the text content of the text expand.
+   */
+  public async getText(): Promise<string> {
+    return await (await this.#getText()).text();
   }
 }
