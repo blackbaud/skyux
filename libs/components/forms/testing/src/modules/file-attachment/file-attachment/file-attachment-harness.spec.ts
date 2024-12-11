@@ -447,7 +447,6 @@ fdescribe('File attachment harness', () => {
     fixture.detectChanges();
 
     fixture.componentInstance.showCustomError = true;
-    formControl.setValue(null);
     formControl.markAsTouched();
     fixture.detectChanges();
 
@@ -465,7 +464,7 @@ fdescribe('File attachment harness', () => {
 
     formControl.markAsTouched();
     const file: File = new File([], 'file.jpeg', { type: 'image/jpeg' });
-    await fileAttachmentHarness.uploadFile(file);
+    await fileAttachmentHarness.loadFile(file);
 
     await expectAsync(fileAttachmentHarness.hasFileTypeError()).toBeResolvedTo(
       true,
@@ -473,7 +472,7 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should get whether max file size error has fired', async () => {
-    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
+    const { fileAttachmentHarness, fixture } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
@@ -483,8 +482,7 @@ fdescribe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
-    formControl.markAsTouched();
-    await fileAttachmentHarness.uploadFile(file);
+    await fileAttachmentHarness.loadFile(file);
 
     await expectAsync(
       fileAttachmentHarness.hasMaxFileSizeError(),
@@ -492,7 +490,7 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should get whether min file size error has fired', async () => {
-    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
+    const { fileAttachmentHarness, fixture } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
@@ -502,8 +500,7 @@ fdescribe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
-    formControl.markAsTouched();
-    await fileAttachmentHarness.uploadFile(file);
+    await fileAttachmentHarness.loadFile(file);
 
     await expectAsync(
       fileAttachmentHarness.hasMinFileSizeError(),
@@ -532,7 +529,7 @@ fdescribe('File attachment harness', () => {
       type: 'image/png',
     });
 
-    await fileAttachmentHarness.uploadFile(file);
+    await fileAttachmentHarness.loadFile(file);
     await firstValueFrom(formControl.valueChanges);
 
     expect(formControl.value).toEqual({

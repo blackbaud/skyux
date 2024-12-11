@@ -444,6 +444,7 @@ export class SkyFileAttachmentComponent
   }
 
   public fileDrop(dropEvent: DragEvent): void {
+    this.#onTouched();
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 

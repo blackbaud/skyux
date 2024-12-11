@@ -2,8 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyFileAttachmentHarness } from '@skyux/forms/testing';
-
-import { firstValueFrom } from 'rxjs';
+import { provideSkyFileAttachmentTesting } from '@skyux/forms/testing';
 
 import { DemoComponent } from './demo.component';
 
@@ -12,6 +11,9 @@ describe('Basic file attachment demo', () => {
     harness: SkyFileAttachmentHarness;
     fixture: ComponentFixture<DemoComponent>;
   }> {
+    TestBed.configureTestingModule({
+      providers: [provideSkyFileAttachmentTesting()],
+    });
     const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -55,13 +57,12 @@ describe('Basic file attachment demo', () => {
   });
 
   it('should throw an error if file begins with the letter a', async () => {
-    const { harness, fixture } = await setupTest({
+    const { harness } = await setupTest({
       dataSkyId: 'birth-certificate',
     });
 
     const file = new File([], 'art.png', { type: 'image/png' });
-    await harness.uploadFile(file);
-    await firstValueFrom(fixture.componentInstance.attachment.valueChanges);
+    await harness.loadFile(file);
 
     await expectAsync(
       harness.hasCustomError('invalidStartingLetter'),

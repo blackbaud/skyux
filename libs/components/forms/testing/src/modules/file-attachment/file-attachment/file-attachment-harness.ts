@@ -6,6 +6,8 @@ import { SkyFormErrorsHarness } from '../../form-error/form-errors-harness';
 
 import { SkyFileAttachmentHarnessFilters } from './file-attachment-harness-filters';
 
+type TestDataTransfer = DataTransfer & { [key: string]: EventData };
+
 /**
  * Harness for interacting with a file attachment component in tests.
  */
@@ -194,26 +196,22 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Uploads a file.
+   * Loads a file.
    */
-  public async uploadFile(file: File | null | undefined): Promise<void> {
+  public async loadFile(file: File): Promise<void> {
     return await this.#dropFile(file);
   }
 
-  async #dropFile(file: File | null | undefined): Promise<void> {
+  async #dropFile(file: File): Promise<void> {
     const uploadLocation = await this.locatorFor(
       '.sky-file-attachment-upload',
     )();
+
+    const dataTransfer = new DataTransfer() as TestDataTransfer;
+    dataTransfer.items.add(file);
+
     return await uploadLocation.dispatchEvent('drop', {
-      dataTransfer: {
-        files: {
-          length: 1,
-          item: function (): any {
-            return file;
-          },
-        } as unknown as EventData,
-      },
-      items: file as unknown as EventData,
+      dataTransfer,
     });
   }
 
