@@ -166,6 +166,18 @@ function testSingleSelect(dataSkyId: string): void {
     ).toBeResolvedTo('Abed');
   });
 
+  it('should select a search result from the autocomplete results - deprecated', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId: dataSkyId,
+    });
+
+    await lookupHarness.enterText('d');
+    const result = ((await lookupHarness.getSearchResults()) ?? [])[0];
+    await result.select();
+
+    await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Abed');
+  });
+
   it('should select one option from the autocomplete results using filters', async () => {
     const { lookupHarness } = await setupTest({
       dataSkyId,

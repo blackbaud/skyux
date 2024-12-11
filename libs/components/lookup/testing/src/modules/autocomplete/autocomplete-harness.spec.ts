@@ -163,6 +163,18 @@ describe('Autocomplete harness', () => {
     ).toBeResolvedTo('Red');
   });
 
+  it('should select a search result - deprecated', async () => {
+    const { autocompleteHarness } = await setupTest({
+      dataSkyId: 'my-autocomplete-1',
+    });
+
+    await autocompleteHarness?.enterText('r');
+    const result = ((await autocompleteHarness?.getSearchResults()) ?? [])[0];
+    await result.select();
+
+    await expectAsync(autocompleteHarness?.getValue()).toBeResolvedTo('Red');
+  });
+
   it('should select a search result using filters', async () => {
     const { autocompleteHarness } = await setupTest({
       dataSkyId: 'my-autocomplete-1',

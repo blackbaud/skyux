@@ -142,6 +142,18 @@ describe('Country field harness', () => {
     ).toBeResolvedTo('Greece');
   });
 
+  it('should select a search result - deprecated', async () => {
+    const { countryFieldHarness } = await setupTest({
+      dataSkyId: 'country-field',
+    });
+
+    await countryFieldHarness.enterText('gr');
+    const result = ((await countryFieldHarness.getSearchResults()) ?? [])[0];
+    await result.select();
+
+    await expectAsync(countryFieldHarness.getValue()).toBeResolvedTo('Greece');
+  });
+
   it('should select a search result using filters', async () => {
     const { countryFieldHarness } = await setupTest({
       dataSkyId: 'country-field',
