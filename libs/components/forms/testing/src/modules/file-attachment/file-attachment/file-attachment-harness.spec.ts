@@ -440,15 +440,15 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should get whether custom error has fired', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
     fixture.detectChanges();
 
     fixture.componentInstance.showCustomError = true;
-    fixture.componentInstance.attachment.setValue(null);
-    fixture.componentInstance.attachment.markAsTouched();
+    formControl.setValue(null);
+    formControl.markAsTouched();
     fixture.detectChanges();
 
     await expectAsync(
@@ -457,13 +457,13 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should get whether wrong file type error has fired', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
     fixture.componentInstance.acceptedTypes = 'image/png';
 
-    fixture.componentInstance.attachment.markAsTouched();
+    formControl.markAsTouched();
     const file: File = new File([], 'file.jpeg', { type: 'image/jpeg' });
     await fileAttachmentHarness.uploadFile(file);
 
@@ -473,7 +473,7 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should get whether max file size error has fired', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
@@ -483,7 +483,7 @@ fdescribe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
-    fixture.componentInstance.attachment.markAsTouched();
+    formControl.markAsTouched();
     await fileAttachmentHarness.uploadFile(file);
 
     await expectAsync(
@@ -492,7 +492,7 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should get whether min file size error has fired', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
@@ -502,7 +502,7 @@ fdescribe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
-    fixture.componentInstance.attachment.markAsTouched();
+    formControl.markAsTouched();
     await fileAttachmentHarness.uploadFile(file);
 
     await expectAsync(
@@ -511,11 +511,11 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should get whether required error has fired', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
-    fixture.componentInstance.attachment.markAsTouched();
+    formControl.markAsTouched();
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.hasRequiredError()).toBeResolvedTo(
@@ -524,7 +524,7 @@ fdescribe('File attachment harness', () => {
   });
 
   it('should upload a file', async () => {
-    const { fileAttachmentHarness, fixture } = await setupTest({
+    const { fileAttachmentHarness, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
@@ -533,9 +533,9 @@ fdescribe('File attachment harness', () => {
     });
 
     await fileAttachmentHarness.uploadFile(file);
-    await firstValueFrom(fixture.componentInstance.attachment.valueChanges);
+    await firstValueFrom(formControl.valueChanges);
 
-    expect(fixture.componentInstance.attachment.value).toEqual({
+    expect(formControl.value).toEqual({
       file: file,
       url: 'data:image/png;base64,',
     });
