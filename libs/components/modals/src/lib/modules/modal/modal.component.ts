@@ -14,7 +14,6 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
@@ -188,7 +187,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   readonly #errorsSvc = inject(SkyModalErrorsService);
   readonly #hostService = inject(SkyModalHostService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
-  readonly #windowRef = inject(SkyAppWindowRef);
 
   /**
    * This provider is optional to account for situations where a modal component
@@ -296,12 +294,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
 
   public ngAfterViewInit(): void {
     this.#componentAdapter.handleWindowChange(this.#elRef);
-
-    // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
-    // https://stackoverflow.com/questions/40562845
-    this.#windowRef.nativeWindow.setTimeout(() => {
-      this.#componentAdapter.modalOpened(this.#elRef);
-    });
 
     this.#dockService.setDockOptions({
       location: SkyDockLocation.ElementBottom,

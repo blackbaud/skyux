@@ -11,7 +11,11 @@ import {
   inject,
 } from '@angular/core';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
-import { SKY_STACKING_CONTEXT, SkyDynamicComponentService } from '@skyux/core';
+import {
+  SKY_STACKING_CONTEXT,
+  SkyAppWindowRef,
+  SkyDynamicComponentService,
+} from '@skyux/core';
 
 import { BehaviorSubject } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
@@ -60,6 +64,7 @@ export class SkyModalHostComponent implements OnDestroy {
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #modalHostContext = inject(SkyModalHostContext);
   readonly #router = inject(Router, { optional: true });
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   public ngOnDestroy(): void {
     // Close all modal instances before disposing of the host container.
@@ -133,15 +138,21 @@ export class SkyModalHostComponent implements OnDestroy {
 
     this.#registerModalInstance(modalInstance);
 
-    // hiding all elements at the modal-host level from screen readers when the a modal is opened
-    this.#adapter.hideHostSiblingsFromScreenReaders(this.#elRef);
-    if (
-      SkyModalHostService.openModalCount > 1 &&
-      SkyModalHostService.topModal === hostService
-    ) {
-      // hiding the lower modals when more than one modal is opened
-      this.#adapter.hidePreviousModalFromScreenReaders(modalElement);
-    }
+    // Adding a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError.
+    // https://stackoverflow.com/questions/40562845
+    this.#windowRef.nativeWindow.setTimeout(() => {
+      this.#adapter.focusFirstElement(modalElement);
+
+      // hiding all elements at the modal-host level from screen readers when the a modal is opened
+      this.#adapter.hideHostSiblingsFromScreenReaders(this.#elRef);
+      if (
+        SkyModalHostService.openModalCount > 1 &&
+        SkyModalHostService.topModal === hostService
+      ) {
+        // hiding the lower modals when more than one modal is opened
+        this.#adapter.hidePreviousModalFromScreenReaders(modalElement);
+      }
+    });
 
     const closeModal = (): void => {
       // unhide siblings if last modal is closing

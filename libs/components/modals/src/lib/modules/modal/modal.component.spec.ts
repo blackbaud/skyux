@@ -3,7 +3,6 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
-  SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
   SkyLiveAnnouncerService,
@@ -561,9 +560,7 @@ describe('Modal component', () => {
   }));
 
   it('should handle empty list for focus first and last element functions', fakeAsync(() => {
-    const adapterService = new SkyModalComponentAdapterService(
-      TestBed.inject(SkyCoreAdapterService),
-    );
+    const adapterService = new SkyModalComponentAdapterService();
     const firstResult = adapterService.focusFirstElement([]);
     expect(firstResult).toBe(false);
 
