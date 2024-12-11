@@ -47,6 +47,20 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
+   * Clicks the file upload button.
+   */
+  public async clickFileUploadButton(): Promise<void> {
+    return await (await this.#fileUploadButton()).click();
+  }
+
+  /**
+   * Clicks the help inline button.
+   */
+  public async clickHelpInline(): Promise<void> {
+    return await (await this.#getHelpInline()).click();
+  }
+
+  /**
    * Gets the help inline popover content.
    */
   public async getHelpPopoverContent(): Promise<string | undefined> {
@@ -103,10 +117,18 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
+   * Enters a link to upload.
+   */
+  public async enterLink(link: string): Promise<void> {
+    return await (await this.#getLinkUpload()).enterLink(link);
+  }
+
+  /**
    * Uploads a link.
    */
   public async uploadLink(link: string): Promise<void> {
-    return await (await this.#getLinkUpload()).enterLink(link);
+    await this.enterLink(link);
+    await this.clickUploadLinkDoneButton();
   }
 
   /**

@@ -10,7 +10,7 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-file-drop-link';
+  public static hostSelector = '.sky-file-drop-link';
 
   #input = this.locatorFor('input.sky-form-control');
   #inputBoxHarness = this.locatorFor(SkyInputBoxHarness);
@@ -50,7 +50,6 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   public async enterLink(link: string): Promise<void> {
     const input = await this.#input();
     await input.clear();
-
-    await input.setInputValue(link);
+    await input.sendKeys(link);
   }
 }
