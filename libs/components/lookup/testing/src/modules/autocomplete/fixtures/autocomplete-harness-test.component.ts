@@ -47,7 +47,7 @@ export class AutocompleteHarnessTestComponent {
     });
   }
 
-  public disableForm() {
+  public disableForm(): void {
     this.myForm.disable();
   }
 

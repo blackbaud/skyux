@@ -41,30 +41,34 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
 
   /**
    * Blurs the country field input.
+   * @deprecated Call `await (await countryField.getControl()).blur()` instead.
    */
   public override async blur(): Promise<void> {
-    return await super.blur();
+    return await (await super.getControl()).blur();
   }
 
   /**
    * Clears the country field input value.
+   * @deprecated Call `await (await countryField.getControl()).clear()` instead.
    */
   public override async clear(): Promise<void> {
-    return await super.clear();
+    return await (await super.getControl()).clear();
   }
 
   /**
    * Enters text into the country field input.
+   * @deprecated Call `await (await countryField.getControl()).setValue()` instead.
    */
   public override async enterText(value: string): Promise<void> {
-    return await super.enterText(value);
+    return await (await super.getControl()).setValue(value);
   }
 
   /**
    * Focuses the country field input.
+   * @deprecated Call `await (await countryField.getControl()).focus()` instead.
    */
   public override async focus(): Promise<void> {
-    return await super.focus();
+    return await (await super.getControl()).focus();
   }
 
   /**
@@ -130,9 +134,10 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
 
   /**
    * Gets the value of the country field input.
+   * @deprecated Call `await (await countryField.getControl()).getValue()` instead.
    */
   public override async getValue(): Promise<string> {
-    return await super.getValue();
+    return await (await super.getControl()).getValue();
   }
 
   /**
@@ -148,16 +153,18 @@ export class SkyCountryFieldHarness extends SkyAutocompleteHarness {
 
   /**
    * Whether the country field input is disabled.
+   * @deprecated Call `await (await countryField.getControl()).isDisabled()` instead.
    */
   public override async isDisabled(): Promise<boolean> {
-    return await super.isDisabled();
+    return await (await super.getControl()).isDisabled();
   }
 
   /**
    * Whether the country field input is focused.
+   * @deprecated Call `await (await countryField.getControl()).isFocused()` instead.
    */
   public override async isFocused(): Promise<boolean> {
-    return await super.isFocused();
+    return await (await super.getControl()).isFocused();
   }
 
   /**

@@ -140,7 +140,7 @@ export class LookupHarnessTestComponent {
     ];
   }
 
-  public onSearchAsync(args: SkyAutocompleteSearchAsyncArgs) {
+  public onSearchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
     const result = new Subject<SkyAutocompleteSearchAsyncResult>();
     args.result = result;
 
@@ -167,10 +167,10 @@ export class LookupHarnessTestComponent {
     });
   }
 
-  public disableForm() {
+  public disableForm(): void {
     this.myForm.disable();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public onAddClick() {}
+  public onAddClick(): void {}
 }
