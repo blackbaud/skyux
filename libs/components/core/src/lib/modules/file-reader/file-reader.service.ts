@@ -8,11 +8,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SkyFileReaderService {
-  public async readFile(file: File): Promise<string> {
+  public async readAsDataURL(file: File): Promise<string> {
     return await new Promise((resolve, reject) => {
       const reader = new FileReader();
 
-      reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
+      reader.addEventListener('load', (event) => {
         resolve(event.target?.result as string);
       });
 

@@ -28,6 +28,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  SkyFileReaderService,
   SkyIdModule,
   SkyIdService,
   SkyLiveAnnouncerService,
@@ -51,7 +52,6 @@ import { SkyFormsResourcesModule } from '../../shared/sky-forms-resources.module
 import { SkyFileItem } from '../shared/file-item';
 import { SkyFileItemErrorType } from '../shared/file-item-error-type';
 import { SkyFileItemService } from '../shared/file-item.service';
-import { SkyFileReaderService } from '../shared/file-reader.service';
 import { SkyFileSizePipe } from '../shared/file-size.pipe';
 import { SkyFileValidateFn } from '../shared/file-validate-function';
 
@@ -573,7 +573,7 @@ export class SkyFileAttachmentComponent
           );
         }
 
-        file.url = await this.#fileReaderSvc.readFile(file.file);
+        file.url = await this.#fileReaderSvc.readAsDataURL(file.file);
 
         this.#emitFileChangeEvent(file);
       } catch {

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyFileReaderService } from '@skyux/forms';
+import { SkyFileReaderService } from '@skyux/core';
 
 import { SkyFileReaderTestingService } from './file-reader-testing.service';
-import { provideSkyFileAttachmentTesting } from './provide-file-attachment-testing';
+import { provideSkyFileReaderTesting } from './provide-file-reader-testing';
 
-describe('provideFileAttachmentTesting', () => {
+describe('provideSkyFileReaderTesting', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideSkyFileAttachmentTesting()],
+      providers: [provideSkyFileReaderTesting()],
     });
   });
 
@@ -21,7 +21,7 @@ describe('provideFileAttachmentTesting', () => {
     const file = new File([''], 'filename', { type: 'text/plain' });
 
     await expectAsync(
-      TestBed.inject(SkyFileReaderService).readFile(file),
-    ).toBeResolvedTo('data:text/plain;base64,');
+      TestBed.inject(SkyFileReaderService).readAsDataURL(file),
+    ).toBeResolvedTo('data:text/plain;base64,MOCK_DATA');
   });
 });

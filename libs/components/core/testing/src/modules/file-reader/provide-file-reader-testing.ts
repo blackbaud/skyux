@@ -1,19 +1,19 @@
 import { Provider } from '@angular/core';
-import { SkyFileReaderService } from '@skyux/forms';
+import { SkyFileReaderService } from '@skyux/core';
 
 import { SkyFileReaderTestingService } from './file-reader-testing.service';
 
 /**
- * Provides mocks for file attachment testing.
+ * Provides mocks for file reader testing.
  * @internal
  * @example
  * ```typescript
  * TestBed.configureTestingModule({
- *   providers: [provideSkyFileAttachmentTesting()]
+ *   providers: [provideSkyFileReaderTesting()]
  * });
  * ```
  */
-export function provideSkyFileAttachmentTesting(): Provider[] {
+export function provideSkyFileReaderTesting(): Provider[] {
   return [
     SkyFileReaderTestingService,
     {
