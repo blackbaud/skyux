@@ -558,12 +558,6 @@ export class SkyFileAttachmentComponent
   async #loadFile(file: SkyFileItem): Promise<void> {
     if (file.file) {
       try {
-        const result = await this.#fileReaderSvc.readFile(file.file);
-
-        file.url = result;
-
-        this.#emitFileChangeEvent(file);
-
         const previousFileName = this.value?.file.name;
 
         if (previousFileName) {
@@ -578,6 +572,10 @@ export class SkyFileAttachmentComponent
             file.file.name,
           );
         }
+
+        file.url = await this.#fileReaderSvc.readFile(file.file);
+
+        this.#emitFileChangeEvent(file);
       } catch {
         this.#emitFileChangeEvent(file);
       }
