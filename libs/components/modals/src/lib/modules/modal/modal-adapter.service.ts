@@ -1,5 +1,5 @@
-import { ElementRef, Injectable } from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
+import { SkyAppWindowRef, SkyCoreAdapterService } from '@skyux/core';
 
 /**
  * @internal
@@ -12,6 +12,7 @@ export class SkyModalAdapterService {
   #docRef: any;
   #bodyEl: HTMLElement;
 
+  #coreAdapter = inject(SkyCoreAdapterService);
   #windowRef: SkyAppWindowRef;
   #hostSiblingAriaHiddenCache = new Map<Element, string | null>();
 
@@ -62,6 +63,9 @@ export class SkyModalAdapterService {
     const hostSiblings = hostElement.parentElement.children;
 
     for (const element of hostSiblings) {
+      if (element.contains(document.activeElement)) {
+        document.body.focus();
+      }
       if (
         element !== hostElement &&
         !element.hasAttribute('aria-live') &&
@@ -75,6 +79,34 @@ export class SkyModalAdapterService {
         );
         element.setAttribute('aria-hidden', 'true');
       }
+    }
+  }
+
+  public focusFirstElement(modalEl: ElementRef): void {
+    /* istanbul ignore else */
+    /* handle the case where somehow there is a focused element already in the modal */
+    if (
+      !(
+        document.activeElement &&
+        modalEl.nativeElement.contains(document.activeElement)
+      )
+    ) {
+      const currentScrollX = window.pageXOffset;
+      const currentScrollY = window.pageYOffset;
+
+      const inputWithAutofocus =
+        modalEl.nativeElement.querySelector('[autofocus]');
+
+      if (inputWithAutofocus) {
+        inputWithAutofocus.focus();
+      } else {
+        this.#coreAdapter.getFocusableChildrenAndApplyFocus(
+          modalEl,
+          '.sky-modal-content',
+          true,
+        );
+      }
+      window.scrollTo(currentScrollX, currentScrollY);
     }
   }
 
