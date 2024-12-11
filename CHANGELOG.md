@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.27.1](https://github.com/blackbaud/skyux/compare/11.27.0...11.27.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* enable `@typescript-eslint/no-floating-promises` rule to address several un-awaited promises ([#2939](https://github.com/blackbaud/skyux/issues/2939)) ([58a248b](https://github.com/blackbaud/skyux/commit/58a248b80f9295bbd10b0f568d8c5113a450dd02))
+
 ## [11.27.0](https://github.com/blackbaud/skyux/compare/11.26.0...11.27.0) (2024-12-09)
 
 
