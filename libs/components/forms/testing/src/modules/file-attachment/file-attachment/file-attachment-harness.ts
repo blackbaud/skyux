@@ -71,21 +71,21 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the uploaded file to download it.
+   * Clicks the attached file to download it.
    */
-  public async clickUploadedFile(): Promise<void> {
+  public async clickAttachedFile(): Promise<void> {
     try {
       const file = await this.locatorFor('a')();
       return await file.click();
     } catch {
-      throw new Error('Unable to find uploaded file.');
+      throw new Error('Unable to find the attached file.');
     }
   }
 
   /**
-   * Clicks the uploaded file's delete button.
+   * Clicks the attached file's delete button.
    */
-  public async clickUploadedFileDeleteButton(): Promise<void> {
+  public async clickAttachedFileDeleteButton(): Promise<void> {
     try {
       const deleteButton = await this.locatorFor(
         'button.sky-file-attachment-delete',
@@ -93,7 +93,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
       return await deleteButton.click();
     } catch {
       throw new Error(
-        "Unable to find uploaded file's delete button. Check if a file is uploaded.",
+        "Unable to find attached file's delete button. Check if a file is attached.",
       );
     }
   }
@@ -196,7 +196,7 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
   }
 
   /**
-   * Loads a file.
+   * Attaches a file.
    * Be sure to include `provideSkyFileReaderTesting` as a provider when calling this function in tests.
    *  @example
    * ```typescript
@@ -205,19 +205,19 @@ export class SkyFileAttachmentHarness extends SkyComponentHarness {
    * });
    * ```
    */
-  public async loadFile(file: File): Promise<void> {
+  public async attachFile(file: File): Promise<void> {
     return await this.#dropFile(file);
   }
 
   async #dropFile(file: File): Promise<void> {
-    const uploadLocation = await this.locatorFor(
+    const attachLocation = await this.locatorFor(
       '.sky-file-attachment-upload',
     )();
 
     const dataTransfer = new DataTransfer() as TestDataTransfer;
     dataTransfer.items.add(file);
 
-    return await uploadLocation.dispatchEvent('drop', {
+    return await attachLocation.dispatchEvent('drop', {
       dataTransfer,
     });
   }

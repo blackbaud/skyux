@@ -64,7 +64,7 @@ describe('Basic file attachment demo', () => {
     });
 
     const file = new File([], 'art.png', { type: 'image/png' });
-    await harness.loadFile(file);
+    await harness.attachFile(file);
 
     await expectAsync(
       harness.hasCustomError('invalidStartingLetter'),

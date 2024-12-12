@@ -35,7 +35,7 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
   ],
   template: `
     <sky-file-attachment
-      acceptedTypesErrorMessage="Upload a valid file."
+      acceptedTypesErrorMessage="Attach a valid file."
       [acceptedTypes]="acceptedTypes"
       [disabled]="disabled"
       [helpPopoverContent]="helpPopoverContent"
@@ -380,7 +380,7 @@ describe('File attachment harness', () => {
     );
   });
 
-  it('should click the uploaded file', async () => {
+  it('should click the attached file', async () => {
     const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
@@ -394,18 +394,18 @@ describe('File attachment harness', () => {
     });
     fixture.detectChanges();
 
-    await fileAttachmentHarness.clickUploadedFile();
+    await fileAttachmentHarness.clickAttachedFile();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should throw an error if attempting to click a file when no file is uploaded', async () => {
+  it('should throw an error if attempting to click a file when no file is attached', async () => {
     const { fileAttachmentHarness } = await setupTest({});
     await expectAsync(
-      fileAttachmentHarness.clickUploadedFile(),
-    ).toBeRejectedWithError('Unable to find uploaded file.');
+      fileAttachmentHarness.clickAttachedFile(),
+    ).toBeRejectedWithError('Unable to find the attached file.');
   });
 
-  it('should delete the uploaded file after the delete button is clicked', async () => {
+  it('should delete the attached file after the delete button is clicked', async () => {
     const { fileAttachmentHarness, fixture, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
@@ -422,20 +422,20 @@ describe('File attachment harness', () => {
       url: 'foo.bar',
     });
 
-    await fileAttachmentHarness.clickUploadedFileDeleteButton();
+    await fileAttachmentHarness.clickAttachedFileDeleteButton();
 
     expect(formControl.value).toEqual(undefined);
   });
 
-  it('should throw an error when attempting to click the delete button when no file is uploaded', async () => {
+  it('should throw an error when attempting to click the delete button when no file is attached', async () => {
     const { fileAttachmentHarness } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
 
     await expectAsync(
-      fileAttachmentHarness.clickUploadedFileDeleteButton(),
+      fileAttachmentHarness.clickAttachedFileDeleteButton(),
     ).toBeRejectedWithError(
-      "Unable to find uploaded file's delete button. Check if a file is uploaded.",
+      "Unable to find attached file's delete button. Check if a file is attached.",
     );
   });
 
@@ -464,7 +464,7 @@ describe('File attachment harness', () => {
 
     formControl.markAsTouched();
     const file: File = new File([], 'file.jpeg', { type: 'image/jpeg' });
-    await fileAttachmentHarness.loadFile(file);
+    await fileAttachmentHarness.attachFile(file);
 
     await expectAsync(fileAttachmentHarness.hasFileTypeError()).toBeResolvedTo(
       true,
@@ -482,7 +482,7 @@ describe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
-    await fileAttachmentHarness.loadFile(file);
+    await fileAttachmentHarness.attachFile(file);
 
     await expectAsync(
       fileAttachmentHarness.hasMaxFileSizeError(),
@@ -500,7 +500,7 @@ describe('File attachment harness', () => {
     const file = new File(['a'.repeat(3000)], 'file.png', {
       type: 'image/png',
     });
-    await fileAttachmentHarness.loadFile(file);
+    await fileAttachmentHarness.attachFile(file);
 
     await expectAsync(
       fileAttachmentHarness.hasMinFileSizeError(),
@@ -520,7 +520,7 @@ describe('File attachment harness', () => {
     );
   });
 
-  it('should upload a file', async () => {
+  it('should attach a file', async () => {
     const { fileAttachmentHarness, formControl } = await setupTest({
       dataSkyId: 'reactive-file-attachment',
     });
@@ -529,7 +529,7 @@ describe('File attachment harness', () => {
       type: 'image/png',
     });
 
-    await fileAttachmentHarness.loadFile(file);
+    await fileAttachmentHarness.attachFile(file);
     await firstValueFrom(formControl.valueChanges);
 
     expect(formControl.value).toEqual({
