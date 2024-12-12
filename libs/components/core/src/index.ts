@@ -37,6 +37,8 @@ export {
   SkyDynamicComponentService,
 } from './lib/modules/dynamic-component/dynamic-component.service';
 
+export { SkyFileReaderService } from './lib/modules/file-reader/file-reader.service';
+
 export { SkyAppFormat } from './lib/modules/format/app-format';
 
 export { SkyHelpGlobalOptions } from './lib/modules/help/help-global-options';
