@@ -1,6 +1,5 @@
-import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyTextExpandHarness } from '@skyux/layout/testing';
 
@@ -13,8 +12,6 @@ describe('Text expand modal demo', () => {
     } = {},
   ): Promise<{
     textExpandHarness: SkyTextExpandHarness;
-    fixture: ComponentFixture<DemoComponent>;
-    loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
@@ -31,17 +28,18 @@ describe('Text expand modal demo', () => {
         )
       : await loader.getHarness(SkyTextExpandHarness);
 
-    return { textExpandHarness, fixture, loader };
+    return { textExpandHarness };
   }
 
   it('should open and close the text expand modal', async () => {
-    const { textExpandHarness, fixture } = await setupTest();
+    const { textExpandHarness } = await setupTest();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
+    await expectAsync(textExpandHarness.hasModalViewEnabled()).toBeResolvedTo(
+      true,
+    );
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(false);
 
     await textExpandHarness.clickExpandCollapseButton();
-
     const modal = await textExpandHarness.getExpandedViewModal();
 
     await expectAsync(modal.getText()).toBeResolvedTo(
@@ -50,10 +48,13 @@ describe('Text expand modal demo', () => {
     await expectAsync(modal.getExpandModalTitle()).toBeResolvedTo(
       'Expanded view',
     );
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(true);
+
     await modal.clickCloseButton();
 
     await expectAsync(
       textExpandHarness.getExpandedViewModal(),
     ).toBeRejectedWithError('Could not find text expand modal.');
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(false);
   });
 });
