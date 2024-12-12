@@ -2,12 +2,15 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SkyAutocompleteInputHarness } from '../autocomplete/autocomplete-input-harness';
+
 import { SkyCountryFieldHarness } from './country-field-harness';
 import { CountryFieldHarnessTestComponent } from './fixtures/country-field-harness-test.component';
 
 describe('Country field harness', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     countryFieldHarness: SkyCountryFieldHarness;
+    countryFieldInputHarness: SkyAutocompleteInputHarness;
     fixture: ComponentFixture<CountryFieldHarnessTestComponent>;
     loader: HarnessLoader;
   }> {
@@ -21,28 +24,29 @@ describe('Country field harness', () => {
     const countryFieldHarness = await loader.getHarness(
       SkyCountryFieldHarness.with({ dataSkyId: options.dataSkyId }),
     );
+    const countryFieldInputHarness = await countryFieldHarness.getControl();
 
-    return { countryFieldHarness, fixture, loader };
+    return { countryFieldHarness, countryFieldInputHarness, fixture, loader };
   }
 
   it('should focus and blur input', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await expectAsync(
-      (await countryFieldHarness.getControl()).isFocused(),
-    ).toBeResolvedTo(false);
+    await expectAsync(countryFieldInputHarness.isFocused()).toBeResolvedTo(
+      false,
+    );
 
-    await (await countryFieldHarness.getControl()).focus();
-    await expectAsync(
-      (await countryFieldHarness.getControl()).isFocused(),
-    ).toBeResolvedTo(true);
+    await countryFieldInputHarness.focus();
+    await expectAsync(countryFieldInputHarness.isFocused()).toBeResolvedTo(
+      true,
+    );
 
-    await (await countryFieldHarness.getControl()).blur();
-    await expectAsync(
-      (await countryFieldHarness.getControl()).isFocused(),
-    ).toBeResolvedTo(false);
+    await countryFieldInputHarness.blur();
+    await expectAsync(countryFieldInputHarness.isFocused()).toBeResolvedTo(
+      false,
+    );
   });
 
   it('should focus and blur input - deprecated', async () => {
@@ -60,19 +64,19 @@ describe('Country field harness', () => {
   });
 
   it('should check if country field is disabled', async () => {
-    const { fixture, countryFieldHarness } = await setupTest({
+    const { fixture, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await expectAsync(
-      (await countryFieldHarness.getControl()).isDisabled(),
-    ).toBeResolvedTo(false);
+    await expectAsync(countryFieldInputHarness.isDisabled()).toBeResolvedTo(
+      false,
+    );
 
     fixture.componentInstance.disableForm();
 
-    await expectAsync(
-      (await countryFieldHarness.getControl()).isDisabled(),
-    ).toBeResolvedTo(true);
+    await expectAsync(countryFieldInputHarness.isDisabled()).toBeResolvedTo(
+      true,
+    );
   });
 
   it('should check if country field is disabled - deprecated', async () => {
@@ -88,21 +92,21 @@ describe('Country field harness', () => {
   });
 
   it('should check if country field is open', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
 
     await expectAsync(countryFieldHarness.isOpen()).toBeResolvedTo(true);
   });
 
   it('should return search result harnesses', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
 
     const results = (await countryFieldHarness.getSearchResults()) ?? [];
 
@@ -111,11 +115,11 @@ describe('Country field harness', () => {
   });
 
   it('should return search results text content', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
 
     await expectAsync(
       countryFieldHarness.getSearchResultsText(),
@@ -129,17 +133,17 @@ describe('Country field harness', () => {
   });
 
   it('should select a search result', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
     const result = ((await countryFieldHarness.getSearchResults()) ?? [])[0];
     await result.select();
 
-    await expectAsync(
-      (await countryFieldHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Greece');
+    await expectAsync(countryFieldInputHarness.getValue()).toBeResolvedTo(
+      'Greece',
+    );
   });
 
   it('should select a search result - deprecated', async () => {
@@ -155,60 +159,56 @@ describe('Country field harness', () => {
   });
 
   it('should select a search result using filters', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
     await countryFieldHarness.selectSearchResult({
       text: 'Grenada',
     });
 
-    await expectAsync(
-      (await countryFieldHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Grenada');
+    await expectAsync(countryFieldInputHarness.getValue()).toBeResolvedTo(
+      'Grenada',
+    );
   });
 
   it('should clear the input value', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
     // First, set a value on the countryField.
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
     await countryFieldHarness.selectSearchResult({
       text: 'Greenland',
     });
-    await expectAsync(
-      (await countryFieldHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Greenland');
+    await expectAsync(countryFieldInputHarness.getValue()).toBeResolvedTo(
+      'Greenland',
+    );
 
     // Now, clear the value.
-    await (await countryFieldHarness.getControl()).clear();
-    await expectAsync(
-      (await countryFieldHarness.getControl()).getValue(),
-    ).toBeResolvedTo('');
+    await countryFieldInputHarness.clear();
+    await expectAsync(countryFieldInputHarness.getValue()).toBeResolvedTo('');
   });
 
   it('should clear the input value - deprecated', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
     // First, set a value on the countryField.
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
     await countryFieldHarness.selectSearchResult({
       text: 'Greenland',
     });
-    await expectAsync(
-      (await countryFieldHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Greenland');
+    await expectAsync(countryFieldInputHarness.getValue()).toBeResolvedTo(
+      'Greenland',
+    );
 
     // Now, clear the value.
     await countryFieldHarness.clear();
-    await expectAsync(
-      (await countryFieldHarness.getControl()).getValue(),
-    ).toBeResolvedTo('');
+    await expectAsync(countryFieldInputHarness.getValue()).toBeResolvedTo('');
   });
 
   it('should throw error if getting search results when country field not open', async () => {
@@ -224,11 +224,11 @@ describe('Country field harness', () => {
   });
 
   it('should throw error if filtered search results are empty', async () => {
-    const { countryFieldHarness } = await setupTest({
+    const { countryFieldHarness, countryFieldInputHarness } = await setupTest({
       dataSkyId: 'country-field',
     });
 
-    await (await countryFieldHarness.getControl()).setValue('gr');
+    await countryFieldInputHarness.setValue('gr');
 
     await expectAsync(
       countryFieldHarness.getSearchResults({

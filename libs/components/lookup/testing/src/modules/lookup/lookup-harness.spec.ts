@@ -2,6 +2,8 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
+import { SkyAutocompleteInputHarness } from '../autocomplete/autocomplete-input-harness';
+
 import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.component';
 import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
 import { SkyLookupHarness } from './lookup-harness';
@@ -13,6 +15,7 @@ async function setupTest(options: {
 }): Promise<{
   fixture: ComponentFixture<LookupHarnessTestComponent>;
   lookupHarness: SkyLookupHarness;
+  lookupInputHarness: SkyAutocompleteInputHarness;
 }> {
   await TestBed.configureTestingModule({
     imports: [LookupHarnessTestModule],
@@ -46,7 +49,9 @@ async function setupTest(options: {
     lookupHarness = await inputBoxHarness.queryHarness(SkyLookupHarness);
   }
 
-  return { fixture, lookupHarness };
+  const lookupInputHarness = await lookupHarness.getControl();
+
+  return { fixture, lookupHarness, lookupInputHarness };
 }
 
 /**
@@ -54,23 +59,17 @@ async function setupTest(options: {
  */
 function testSingleSelect(dataSkyId: string): void {
   it('should focus and blur input', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
-    await expectAsync(
-      (await lookupHarness.getControl()).isFocused(),
-    ).toBeResolvedTo(false);
+    await expectAsync(lookupInputHarness.isFocused()).toBeResolvedTo(false);
 
-    await (await lookupHarness.getControl()).focus();
-    await expectAsync(
-      (await lookupHarness.getControl()).isFocused(),
-    ).toBeResolvedTo(true);
+    await lookupInputHarness.focus();
+    await expectAsync(lookupInputHarness.isFocused()).toBeResolvedTo(true);
 
-    await (await lookupHarness.getControl()).blur();
-    await expectAsync(
-      (await lookupHarness.getControl()).isFocused(),
-    ).toBeResolvedTo(false);
+    await lookupInputHarness.blur();
+    await expectAsync(lookupInputHarness.isFocused()).toBeResolvedTo(false);
   });
 
   it('should focus and blur input - deprecated ', async () => {
@@ -88,19 +87,15 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should check if lookup is disabled', async () => {
-    const { fixture, lookupHarness } = await setupTest({
+    const { fixture, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
-    await expectAsync(
-      (await lookupHarness.getControl()).isDisabled(),
-    ).toBeResolvedTo(false);
+    await expectAsync(lookupInputHarness.isDisabled()).toBeResolvedTo(false);
 
     fixture.componentInstance.disableForm();
 
-    await expectAsync(
-      (await lookupHarness.getControl()).isDisabled(),
-    ).toBeResolvedTo(true);
+    await expectAsync(lookupInputHarness.isDisabled()).toBeResolvedTo(true);
   });
 
   it('should check if lookup is disabled - deprecated', async () => {
@@ -116,21 +111,21 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should check if lookup is open', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
-    await (await lookupHarness.getControl()).setValue('r');
+    await lookupInputHarness.setValue('r');
 
     await expectAsync(lookupHarness.isOpen()).toBeResolvedTo(true);
   });
 
   it('should return search result harnesses', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId,
     });
 
-    await (await lookupHarness.getControl()).setValue('d');
+    await lookupInputHarness.setValue('d');
 
     const results = (await lookupHarness.getSearchResults()) ?? [];
 
@@ -139,11 +134,11 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should return search results text content', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
-    await (await lookupHarness.getControl()).setValue('d');
+    await lookupInputHarness.setValue('d');
 
     await expectAsync(lookupHarness.getSearchResultsText()).toBeResolvedTo([
       'Abed',
@@ -153,17 +148,15 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should select a search result from the autocomplete results', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
-    await (await lookupHarness.getControl()).setValue('d');
+    await lookupInputHarness.setValue('d');
     const result = ((await lookupHarness.getSearchResults()) ?? [])[0];
     await result.select();
 
-    await expectAsync(
-      (await lookupHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Abed');
+    await expectAsync(lookupInputHarness.getValue()).toBeResolvedTo('Abed');
   });
 
   it('should select a search result from the autocomplete results - deprecated', async () => {
@@ -179,62 +172,52 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should select one option from the autocomplete results using filters', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId,
     });
 
     await expectAsync(lookupHarness.isMultiselect()).toBeResolvedTo(false);
 
-    await (await lookupHarness.getControl()).setValue('d');
+    await lookupInputHarness.setValue('d');
     await lookupHarness.selectSearchResult({
       text: 'Leonard',
     });
 
-    await expectAsync(
-      (await lookupHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Leonard');
+    await expectAsync(lookupInputHarness.getValue()).toBeResolvedTo('Leonard');
   });
 
   it('should clear the input value', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
     // First, set a value on the autocomplete.
-    await (await lookupHarness.getControl()).setValue('d');
+    await lookupInputHarness.setValue('d');
     await lookupHarness.selectSearchResult({
       text: 'Leonard',
     });
-    await expectAsync(
-      (await lookupHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Leonard');
+    await expectAsync(lookupInputHarness.getValue()).toBeResolvedTo('Leonard');
 
     // Now, clear the value.
-    await (await lookupHarness.getControl()).clear();
-    await expectAsync(
-      (await lookupHarness.getControl()).getValue(),
-    ).toBeResolvedTo('');
+    await lookupInputHarness.clear();
+    await expectAsync(lookupInputHarness.getValue()).toBeResolvedTo('');
   });
 
   it('should clear the input value - deprecated', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
     // First, set a value on the autocomplete.
-    await (await lookupHarness.getControl()).setValue('d');
+    await lookupInputHarness.setValue('d');
     await lookupHarness.selectSearchResult({
       text: 'Leonard',
     });
-    await expectAsync(
-      (await lookupHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Leonard');
+    await expectAsync(lookupInputHarness.getValue()).toBeResolvedTo('Leonard');
 
     // Now, clear the value.
     await lookupHarness.clear();
-    await expectAsync(
-      (await lookupHarness.getControl()).getValue(),
-    ).toBeResolvedTo('');
+    await expectAsync(lookupInputHarness.getValue()).toBeResolvedTo('');
   });
 
   it('should throw error if getting search results when autocomplete not open', async () => {
@@ -248,11 +231,11 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should throw error if filtered search results are empty', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
-    await (await lookupHarness.getControl()).setValue('r');
+    await lookupInputHarness.setValue('r');
 
     await expectAsync(
       lookupHarness.getSearchResults({
@@ -264,21 +247,21 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should return an empty array if search results are not filtered', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId: dataSkyId,
     });
 
-    await (await lookupHarness.getControl()).setValue('invalidSearchText');
+    await lookupInputHarness.setValue('invalidSearchText');
 
     await expectAsync(lookupHarness.getSearchResults()).toBeResolvedTo([]);
   });
 
   it('should click the add button', async () => {
-    const { fixture, lookupHarness } = await setupTest({
+    const { fixture, lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId,
     });
 
-    await (await lookupHarness.getControl()).setValue('r');
+    await lookupInputHarness.setValue('r');
 
     const spy = spyOn(fixture.componentInstance, 'onAddClick');
 
@@ -288,7 +271,7 @@ function testSingleSelect(dataSkyId: string): void {
   });
 
   it('should search and select results from the show more picker', async () => {
-    const { lookupHarness } = await setupTest({
+    const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId,
     });
 
@@ -299,9 +282,7 @@ function testSingleSelect(dataSkyId: string): void {
     await picker.selectSearchResult({ contentText: 'Rachel' });
     await picker.saveAndClose();
 
-    await expectAsync(
-      (await lookupHarness.getControl()).getValue(),
-    ).toBeResolvedTo('Rachel');
+    await expectAsync(lookupInputHarness.getValue()).toBeResolvedTo('Rachel');
   });
 
   it('should throw an error when clicking on non-existent "Select all" button', async () => {
@@ -576,7 +557,7 @@ describe('Lookup harness', () => {
         enableCustomTemplate: true,
       });
 
-      await (await lookupHarness.getControl()).setValue('d');
+      await lookupInputHarness.setValue('d');
 
       const results = (await lookupHarness.getSearchResults()) ?? [];
 
@@ -619,11 +600,9 @@ describe('Lookup harness', () => {
         dataSkyId: 'my-basic-lookup',
       });
 
-      await (await lookupHarness.getControl()).focus();
+      await lookupInputHarness.focus();
 
-      await expectAsync(
-        (await lookupHarness.getControl()).isFocused(),
-      ).toBeResolvedTo(true);
+      await expectAsync(lookupInputHarness.isFocused()).toBeResolvedTo(true);
     });
   });
 });
