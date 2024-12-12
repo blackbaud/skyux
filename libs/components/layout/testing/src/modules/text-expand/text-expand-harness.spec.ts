@@ -1,6 +1,5 @@
-import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TextExpandHarnessTestComponent } from './fixtures/text-expand-harness-test.component';
@@ -13,8 +12,6 @@ describe('Text expand test harness', () => {
     } = {},
   ): Promise<{
     textExpandHarness: SkyTextExpandHarness;
-    fixture: ComponentFixture<TextExpandHarnessTestComponent>;
-    loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
       imports: [TextExpandHarnessTestComponent, NoopAnimationsModule],
@@ -31,15 +28,13 @@ describe('Text expand test harness', () => {
         )
       : await loader.getHarness(SkyTextExpandHarness);
 
-    return { textExpandHarness, fixture, loader };
+    return { textExpandHarness };
   }
 
   it('should get the text expand from its data-sky-id', async () => {
-    const { textExpandHarness, fixture } = await setupTest({
+    const { textExpandHarness } = await setupTest({
       dataSkyId: 'basic',
     });
-
-    fixture.detectChanges();
 
     await expectAsync(textExpandHarness.getText()).toBeResolvedTo(
       'The text expand component truncates long blocks of text with an ellipsis and a link to expand the text. Users select the link to expand the full text inline unless it exceeds limits on text characters',
@@ -47,11 +42,9 @@ describe('Text expand test harness', () => {
   });
 
   it('should throw an error when there is no text to display', async () => {
-    const { textExpandHarness, fixture } = await setupTest({
+    const { textExpandHarness } = await setupTest({
       dataSkyId: 'empty',
     });
-
-    fixture.detectChanges();
 
     await expectAsync(textExpandHarness.getText()).toBeResolvedTo('');
     await expectAsync(
@@ -60,17 +53,11 @@ describe('Text expand test harness', () => {
   });
 
   it('should open and close the text expand', async () => {
-    const { textExpandHarness, fixture } = await setupTest({
+    const { textExpandHarness } = await setupTest({
       dataSkyId: 'basic',
     });
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-
     await textExpandHarness.clickExpandCollapseButton();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     await expectAsync(textExpandHarness.getText()).toBeResolvedTo(
       'The text expand component truncates long blocks of text with an ellipsis and a link to expand the text. Users select the link to expand the full text inline unless it exceeds limits on text characters or newline characters. If the text exceeds those limits, then it expands in a modal view instead. The component does not truncate text that is shorter than a specified threshold, and by default, it removes newline characters from truncated text.',
@@ -78,21 +65,15 @@ describe('Text expand test harness', () => {
 
     await textExpandHarness.clickExpandCollapseButton();
 
-    fixture.detectChanges();
-    await fixture.whenStable();
-
     await expectAsync(textExpandHarness.getText()).toBeResolvedTo(
       'The text expand component truncates long blocks of text with an ellipsis and a link to expand the text. Users select the link to expand the full text inline unless it exceeds limits on text characters',
     );
   });
 
   it('should open and close the modal when configured to do so', async () => {
-    const { textExpandHarness, fixture } = await setupTest({
+    const { textExpandHarness } = await setupTest({
       dataSkyId: 'modal',
     });
-
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     await textExpandHarness.clickExpandCollapseButton();
 
@@ -109,5 +90,54 @@ describe('Text expand test harness', () => {
     await expectAsync(
       textExpandHarness.getExpandedViewModal(),
     ).toBeRejectedWithError('Could not find text expand modal.');
+  });
+
+  it('should get whether modal view is enabled', async () => {
+    const { textExpandHarness } = await setupTest({
+      dataSkyId: 'modal',
+    });
+
+    await expectAsync(textExpandHarness.hasModalViewEnabled()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should get whether modal view is not enabled', async () => {
+    const { textExpandHarness } = await setupTest({
+      dataSkyId: 'basic',
+    });
+
+    await expectAsync(textExpandHarness.hasModalViewEnabled()).toBeResolvedTo(
+      false,
+    );
+  });
+
+  it('should get whether text is expanded in inline mode', async () => {
+    const { textExpandHarness } = await setupTest({
+      dataSkyId: 'basic',
+    });
+
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(false);
+
+    await textExpandHarness.clickExpandCollapseButton();
+
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(true);
+  });
+
+  it('should get whether text is expanded in modal mode', async () => {
+    const { textExpandHarness } = await setupTest({
+      dataSkyId: 'modal',
+    });
+
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(false);
+
+    await textExpandHarness.clickExpandCollapseButton();
+
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(true);
+
+    const modal = await textExpandHarness.getExpandedViewModal();
+    await modal.clickCloseButton();
+
+    await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(false);
   });
 });

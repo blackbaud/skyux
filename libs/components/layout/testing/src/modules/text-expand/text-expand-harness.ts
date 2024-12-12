@@ -63,4 +63,35 @@ export class SkyTextExpandHarness extends SkyComponentHarness {
   public async getText(): Promise<string> {
     return await (await this.#getText()).text();
   }
+
+  /**
+   * Whether modal expanded view is enabled due to the text exceeding the limit.
+   */
+  public async hasModalViewEnabled(): Promise<boolean> {
+    return (
+      (await (
+        await this.#getExpandCollapseButton()
+      )?.getAttribute('aria-haspopup')) !== null
+    );
+  }
+
+  /**
+   * Whether the text is expanded.
+   */
+  public async isExpanded(): Promise<boolean> {
+    if (await this.hasModalViewEnabled()) {
+      try {
+        await this.getExpandedViewModal();
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    return (
+      (await (
+        await this.#getExpandCollapseButton()
+      )?.getAttribute('aria-expanded')) === 'true'
+    );
+  }
 }
