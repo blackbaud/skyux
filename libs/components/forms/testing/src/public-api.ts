@@ -11,6 +11,9 @@ export { SkyCheckboxHarness } from './modules/checkbox/checkbox-harness';
 export { SkyCheckboxHarnessFilters } from './modules/checkbox/checkbox-harness-filters';
 export { SkyCheckboxLabelHarness } from './modules/checkbox/checkbox-label-harness';
 
+export { SkyFileAttachmentHarness } from './modules/file-attachment/file-attachment/file-attachment-harness';
+export { SkyFileAttachmentHarnessFilters } from './modules/file-attachment/file-attachment/file-attachment-harness-filters';
+
 export { SkyFileDropHarness } from './modules/file-attachment/file-drop/file-drop-harness';
 export { SkyFileDropHarnessFilters } from './modules/file-attachment/file-drop/file-drop-harness-filters';
 export { provideSkyFileAttachmentTesting } from './modules/file-attachment/shared/provide-file-attachment-testing';
