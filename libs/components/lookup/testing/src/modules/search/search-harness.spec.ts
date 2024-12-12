@@ -1,3 +1,4 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -10,7 +11,12 @@ import { SearchHarnessTestModule } from './fixtures/search-harness-test.module';
 import { SkySearchHarness } from './search-harness';
 
 describe('Search harness', () => {
-  async function setupTest(options: { dataSkyId: string }) {
+  async function setupTest(options: { dataSkyId: string }): Promise<{
+    searchHarness: SkySearchHarness;
+    fixture: ComponentFixture<SearchHarnessTestComponent>;
+    loader: HarnessLoader;
+    mediaQuery: SkyMediaQueryTestingController;
+  }> {
     await TestBed.configureTestingModule({
       imports: [SearchHarnessTestModule],
       providers: [provideSkyMediaQueryTesting()],
