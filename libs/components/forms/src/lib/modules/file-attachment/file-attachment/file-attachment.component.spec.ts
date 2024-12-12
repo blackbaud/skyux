@@ -6,7 +6,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import {
   SkyHelpTestingController,
@@ -1743,6 +1743,15 @@ describe('File attachment', () => {
     );
 
     expect(fileAttachment).not.toHaveClass('sky-form-field-stacked');
+  });
+
+  it('should mark file attachment as touched when blurred', () => {
+    expect(fixture.componentInstance.attachment.touched).toBeFalse();
+    const button = getButtonEl(el);
+    SkyAppTestUtility.fireDomEvent(button, 'blur');
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.touched).toBeTrue();
   });
 });
 

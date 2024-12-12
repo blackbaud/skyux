@@ -387,6 +387,10 @@ export class SkyFileAttachmentComponent
     }
   }
 
+  public onButtonBlur(): void {
+    this.#onTouched();
+  }
+
   public onDropClicked(): void {
     this.#onTouched();
     /* istanbul ignore else */
