@@ -1141,7 +1141,7 @@ describe('Date range picker', function () {
       expect(getHelpInlinePopover().length).toBe(1);
     }));
 
-    it('should render help inline if helpKey is provided', async () => {
+    it('should render help inline if helpKey is provided', () => {
       fixture.detectChanges();
 
       expect(
@@ -1168,7 +1168,8 @@ describe('Date range picker', function () {
       const helpInlineButton = fixture.nativeElement.querySelector(
         '.sky-help-inline',
       ) as HTMLElement | undefined;
-      await helpInlineButton?.click();
+
+      helpInlineButton?.click();
 
       fixture.detectChanges();
       await fixture.whenStable();

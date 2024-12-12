@@ -7,7 +7,7 @@ import {
 } from '@schematics/angular/utility/dependencies';
 
 export function installAngularCdk(): Rule {
-  return async (tree, context) => {
+  return (tree, context) => {
     context.addTask(new NodePackageInstallTask());
 
     addPackageJsonDependency(tree, {

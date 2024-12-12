@@ -17,7 +17,7 @@ describe('Needs attention component', () => {
         SkyHrefModule,
         RouterTestingModule.withRoutes([]),
       ],
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(SkyNeedsAttentionComponent);
   });

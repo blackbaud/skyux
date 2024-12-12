@@ -14,9 +14,9 @@
   (linkChanged)="linkAdded($event)"
 />
 @for (file of allItems; track file) {
-  <div>
-    <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
-  </div>
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)"
+    ><input type="text"
+  /></sky-file-item>
 }
 
 <form [formGroup]="formGroup">

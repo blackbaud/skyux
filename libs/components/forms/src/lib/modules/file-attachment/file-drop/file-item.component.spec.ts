@@ -32,7 +32,7 @@ describe('File item component', () => {
 
   function getNameEl(): DebugElement | null {
     return fixture.debugElement.query(
-      By.css('.sky-file-item-title .sky-file-item-name strong'),
+      By.css('.sky-file-item-title .sky-file-item-name'),
     );
   }
 
@@ -132,7 +132,7 @@ describe('File item component', () => {
 
     const nameEl = getNameEl();
 
-    expect(nameEl?.nativeElement.textContent).toBe('myFile.txt');
+    expect(nameEl?.nativeElement.textContent.trim()).toBe('myFile.txt');
 
     const sizeEl = getSizeEl();
     expect(sizeEl?.nativeElement.textContent).toContain('(1 KB)');
@@ -147,7 +147,7 @@ describe('File item component', () => {
 
     const nameEl = getNameEl();
 
-    expect(nameEl?.nativeElement.textContent).toBe('$/myFile.txt');
+    expect(nameEl?.nativeElement.textContent.trim()).toBe('$/myFile.txt');
 
     const sizeEl = getSizeEl();
     expect(sizeEl).toBeFalsy();

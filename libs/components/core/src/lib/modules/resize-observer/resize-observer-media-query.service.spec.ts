@@ -13,7 +13,7 @@ import {
 import { SkyResizeObserverMediaQueryService } from './resize-observer-media-query.service';
 import { SkyResizeObserverService } from './resize-observer.service';
 
-describe('SkyResizeObserverMediaQueryService service', async () => {
+describe('SkyResizeObserverMediaQueryService service', () => {
   beforeAll(() => {
     mockResizeObserver();
   });
@@ -28,13 +28,13 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     });
   });
 
-  it('should return a new instance of a resize observer media query service', async () => {
+  it('should return a new instance of a resize observer media query service', () => {
     const service = TestBed.inject(SkyResizeObserverMediaQueryService);
     expect(service).toBeTruthy();
     service.ngOnDestroy();
   });
 
-  it('should emit breakpoints for an element resize', async () => {
+  it('should emit breakpoints for an element resize', () => {
     const nativeElement = document.createElement('div');
     document.body.appendChild(nativeElement);
     const target = new ElementRef(nativeElement);
@@ -71,7 +71,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     nativeElement.remove();
   });
 
-  it('should emit when the breakpoint changes', async () => {
+  it('should emit when the breakpoint changes', () => {
     const nativeElement = document.createElement('div');
     document.body.appendChild(nativeElement);
     const target = new ElementRef(nativeElement);
@@ -153,7 +153,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     testEl.remove();
   });
 
-  it('should switch observing to a new element', async () => {
+  it('should switch observing to a new element', () => {
     const nativeElement1 = document.createElement('div');
     document.body.appendChild(nativeElement1);
     const nativeElement2 = document.createElement('div');

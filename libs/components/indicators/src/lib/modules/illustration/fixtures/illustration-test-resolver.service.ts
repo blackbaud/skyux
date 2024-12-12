@@ -5,14 +5,22 @@ import { SkyIllustrationResolverService } from '../illustration-resolver.service
 @Injectable()
 export class SkyIllustrationTestResolverService extends SkyIllustrationResolverService {
   public override async resolveUrl(name: string): Promise<string> {
+    let url = '';
+
     switch (name) {
       case 'success':
-        return 'https://example.com/success.svg';
+        url = 'https://example.com/success.svg';
+        break;
+
       case 'success-data':
-        return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUM2XM3lppuAAAACklEQVQI12PACwAAHgAB2nHFigAAAABJRU5ErkJggg==';
+        url =
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAQMAAAC3/F3+AAAAA1BMVEUM2XM3lppuAAAACklEQVQI12PACwAAHgAB2nHFigAAAABJRU5ErkJggg==';
+        break;
+
       case 'fail':
         throw new Error('Image could not be resolved.');
     }
-    return '';
+
+    return await Promise.resolve(url);
   }
 }

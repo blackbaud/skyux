@@ -209,7 +209,7 @@ describe('Affixer', () => {
     expect(component.affixedElement?.nativeElement.style.top).toEqual('1px');
   });
 
-  it('should handle multiple layers of fixed elements', async () => {
+  it('should handle multiple layers of fixed elements', () => {
     component.fixedLayer1 = true;
     fixture.detectChanges();
     const affixer = new SkyAffixer(
@@ -235,7 +235,7 @@ describe('Affixer', () => {
     expect(component.affixedElement?.nativeElement.style.top).toEqual('61px');
   });
 
-  it('should handle multiple layers of overflow elements', async () => {
+  it('should handle multiple layers of overflow elements', () => {
     component.overflowLayer1 = true;
     fixture.detectChanges();
     const affixer = new SkyAffixer(

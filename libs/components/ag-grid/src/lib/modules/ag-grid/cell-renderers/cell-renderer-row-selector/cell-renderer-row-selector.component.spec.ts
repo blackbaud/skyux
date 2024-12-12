@@ -122,7 +122,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
 
   describe('updateRow', () => {
     it(`should set the rowNode selected property and the row data's column-defined field property
-      to the component's checked property value if column field provided`, async () => {
+      to the component's checked property value if column field provided`, () => {
       cellRendererParams.value = false;
 
       rowSelectorCellFixture.detectChanges();
