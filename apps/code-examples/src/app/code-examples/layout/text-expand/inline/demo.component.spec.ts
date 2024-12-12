@@ -34,7 +34,7 @@ fdescribe('Text expand inline demo', () => {
   it('should set up the text expand', async () => {
     const { textExpandHarness } = await setupTest();
 
-    await expectAsync(textExpandHarness.hasModalViewEnabled()).toBeResolvedTo(
+    await expectAsync(textExpandHarness.textExpandsToModal()).toBeResolvedTo(
       false,
     );
 

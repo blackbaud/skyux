@@ -92,22 +92,22 @@ describe('Text expand test harness', () => {
     ).toBeRejectedWithError('Could not find text expand modal.');
   });
 
-  it('should get whether modal view is enabled', async () => {
+  it('should get whether the text will expand to a modal', async () => {
     const { textExpandHarness } = await setupTest({
       dataSkyId: 'modal',
     });
 
-    await expectAsync(textExpandHarness.hasModalViewEnabled()).toBeResolvedTo(
+    await expectAsync(textExpandHarness.textExpandsToModal()).toBeResolvedTo(
       true,
     );
   });
 
-  it('should get whether modal view is not enabled', async () => {
+  it('should get whether the text will not expand to a modal', async () => {
     const { textExpandHarness } = await setupTest({
       dataSkyId: 'basic',
     });
 
-    await expectAsync(textExpandHarness.hasModalViewEnabled()).toBeResolvedTo(
+    await expectAsync(textExpandHarness.textExpandsToModal()).toBeResolvedTo(
       false,
     );
   });

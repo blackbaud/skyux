@@ -65,9 +65,9 @@ export class SkyTextExpandHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether modal expanded view is enabled due to the text exceeding the limit.
+   * Whether the text will expand to a modal.
    */
-  public async hasModalViewEnabled(): Promise<boolean> {
+  public async textExpandsToModal(): Promise<boolean> {
     return (
       (await (
         await this.#getExpandCollapseButton()
@@ -79,7 +79,7 @@ export class SkyTextExpandHarness extends SkyComponentHarness {
    * Whether the text is expanded.
    */
   public async isExpanded(): Promise<boolean> {
-    if (await this.hasModalViewEnabled()) {
+    if (await this.textExpandsToModal()) {
       try {
         await this.getExpandedViewModal();
         return true;

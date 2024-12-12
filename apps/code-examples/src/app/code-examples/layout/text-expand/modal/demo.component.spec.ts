@@ -34,7 +34,7 @@ describe('Text expand modal demo', () => {
   it('should open and close the text expand modal', async () => {
     const { textExpandHarness } = await setupTest();
 
-    await expectAsync(textExpandHarness.hasModalViewEnabled()).toBeResolvedTo(
+    await expectAsync(textExpandHarness.textExpandsToModal()).toBeResolvedTo(
       true,
     );
     await expectAsync(textExpandHarness.isExpanded()).toBeResolvedTo(false);
