@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,22 +6,30 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
+import {
+  SkyPopoverMessage,
+  SkyPopoverMessageType,
+  SkyPopoverModule,
+} from '@skyux/popovers';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SkyDatepickerService } from '../datepicker.service';
+
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerDate } from './datepicker-date';
-import { SkyDatepickerService } from './datepicker.service';
+import { SkyDayPickerButtonComponent } from './daypicker-button.component';
 
 /**
  * @internal
  */
 @Component({
-  selector: 'sky-daypicker-cell',
-  templateUrl: 'daypicker-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyDayPickerButtonComponent, SkyPopoverModule],
+  selector: 'sky-daypicker-cell',
+  standalone: true,
+  templateUrl: 'daypicker-cell.component.html',
 })
 export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   /**

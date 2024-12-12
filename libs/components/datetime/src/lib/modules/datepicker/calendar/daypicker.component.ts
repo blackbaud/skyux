@@ -6,13 +6,16 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { SkyWaitModule } from '@skyux/indicators';
 
 import { Subject } from 'rxjs';
 
+import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
+
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerDate } from './datepicker-date';
+import { SkyDayPickerCellComponent } from './daypicker-cell.component';
 
 /**
  * Helper interface to compare date ranges.
@@ -20,7 +23,6 @@ import { SkyDatepickerDate } from './datepicker-date';
  */
 interface SkyDateRange {
   endDate: Date;
-
   startDate: Date;
 }
 
@@ -28,7 +30,9 @@ interface SkyDateRange {
  * @internal
  */
 @Component({
+  imports: [SkyDayPickerCellComponent, SkyWaitModule],
   selector: 'sky-daypicker',
+  standalone: true,
   templateUrl: 'daypicker.component.html',
 })
 export class SkyDayPickerComponent implements OnDestroy, OnInit {

@@ -8,10 +8,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyPopoverMessageType } from '@skyux/popovers';
 
+import { SkyDatepickerModule } from '../datepicker.module';
+import { SkyDatepickerService } from '../datepicker.service';
+
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerDate } from './datepicker-date';
-import { SkyDatepickerModule } from './datepicker.module';
-import { SkyDatepickerService } from './datepicker.service';
 import { SkyDayPickerCellComponent } from './daypicker-cell.component';
 
 function getDaypickerCell(

@@ -1,13 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
+import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
 import { SkyDatepickerDate } from './datepicker-date';
 
 /**
  * @internal
  */
 @Component({
+  imports: [CommonModule, SkyDatepickerCalendarLabelPipe],
   selector: 'sky-monthpicker',
+  standalone: true,
   templateUrl: 'monthpicker.component.html',
 })
 export class SkyMonthPickerComponent implements OnInit {

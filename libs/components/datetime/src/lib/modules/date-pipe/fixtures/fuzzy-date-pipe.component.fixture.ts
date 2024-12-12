@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SkyFuzzyDate } from '../../datepicker/fuzzy-date';
+import { SkyFuzzyDate } from '../../datepicker/fuzzy/fuzzy-date';
 import { SkyFuzzyDatePipe } from '../fuzzy-date.pipe';
 
 @Component({

@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { SkyDatepickerDate } from './datepicker-date';
+import { SkyDatepickerDate } from './calendar/datepicker-date';
 
 /**
+ * Manages the state of the calendar picker.
+ * TODO: Consider changing the name of this service to better fit its purpose.
  * @internal
  */
 @Injectable()
