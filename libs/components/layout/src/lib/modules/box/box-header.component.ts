@@ -17,7 +17,7 @@ export class SkyBoxHeaderComponent {
   protected readonly boxHeaderId = inject(SKY_BOX_HEADER_ID);
 
   constructor() {
-    inject(SkyLogService).deprecated('SkyToggleSwitchLabelComponent', {
+    inject(SkyLogService).deprecated('SkyBoxHeaderComponent', {
       deprecationMajorVersion: 10,
       replacementRecommendation:
         'To add a header to box, use the `headerText` input on the box component instead.',
