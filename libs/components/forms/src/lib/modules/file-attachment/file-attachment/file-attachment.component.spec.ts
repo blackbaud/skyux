@@ -6,7 +6,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import {
   SkyHelpTestingController,
@@ -558,7 +558,7 @@ describe('File attachment', () => {
   });
 
   // Maybe some other tests here about dragging
-  it('should load and emit file on file change event', () => {
+  it('should load and emit file on file change event', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -576,6 +576,7 @@ describe('File attachment', () => {
     ];
 
     setupStandardFileChangeEvent(file);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file).toBeTruthy();
     expect(fileChangeActual?.file?.url).toBe('$/url');
@@ -585,7 +586,7 @@ describe('File attachment', () => {
     expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
-  it('should load and emit files on file change event when file reader has an error and aborts', () => {
+  it('should load and emit files on file change event when file reader has an error and aborts', async () => {
     let filesChangedActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -606,6 +607,7 @@ describe('File attachment', () => {
 
     fileReaderSpy.abortCallbacks[0]();
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(filesChangedActual?.file?.url).toBeFalsy();
     expect(filesChangedActual?.file?.file.name).toBe('woo.txt');
@@ -621,13 +623,14 @@ describe('File attachment', () => {
 
     fileReaderSpy.errorCallbacks[1]();
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(filesChangedActual?.file?.url).toBeFalsy();
     expect(filesChangedActual?.file?.file.name).toBe('foo.txt');
     expect(filesChangedActual?.file?.file.size).toBe(2000);
   });
 
-  it('should clear file on remove press', () => {
+  it('should clear file on remove press', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -645,6 +648,9 @@ describe('File attachment', () => {
     ];
 
     setupStandardFileChangeEvent(file);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
     liveAnnouncerSpy.calls.reset();
 
     const deleteEl = getDeleteEl();
@@ -810,6 +816,7 @@ describe('File attachment', () => {
     });
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file).toBeTruthy();
     expect(fileChangeActual?.file?.errorType).toBeFalsy();
@@ -873,6 +880,7 @@ describe('File attachment', () => {
     ];
 
     const fileReaderSpy = setupStandardFileChangeEvent(initialFile);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file).toBeTruthy();
     expect(fileChangeActual?.file?.url).toBe('$/url');
@@ -910,6 +918,7 @@ describe('File attachment', () => {
     });
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file).toBeTruthy();
     expect(fileChangeActual?.file?.errorType).toBeFalsy();
@@ -1020,7 +1029,7 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
 
-  it('should respect a default min file size of 0', () => {
+  it('should respect a default min file size of 0', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1028,6 +1037,7 @@ describe('File attachment', () => {
     );
 
     const spy = setupStandardFileChangeEvent();
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1044,6 +1054,7 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     setupStandardFileChangeEvent(undefined, spy);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1058,6 +1069,7 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     setupStandardFileChangeEvent(undefined, spy);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1171,7 +1183,7 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.value).toBeFalsy();
   });
 
-  it('should accept if file passes user provided validation function', () => {
+  it('should accept if file passes user provided validation function', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1201,6 +1213,7 @@ describe('File attachment', () => {
     ];
 
     setupStandardFileChangeEvent(file);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1209,7 +1222,7 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.value).toBeTruthy();
   });
 
-  it('should accept a file when type is accepted', () => {
+  it('should accept a file when type is accepted', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1229,6 +1242,7 @@ describe('File attachment', () => {
     ];
 
     setupStandardFileChangeEvent(file);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1288,7 +1302,7 @@ describe('File attachment', () => {
     expect(fileChangeActual?.file?.errorParam).toBe('PNG, TIFF');
   });
 
-  it('should allow the user to specify accepted type with wildcards', () => {
+  it('should allow the user to specify accepted type with wildcards', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1308,13 +1322,14 @@ describe('File attachment', () => {
     ];
 
     setupStandardFileChangeEvent(file);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('woo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(2000);
     expect(fileChangeActual?.file?.url).toBe('$/url');
   });
 
-  it('should accept multiple types using a wildcard', () => {
+  it('should accept multiple types using a wildcard', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
     fileAttachmentInstance.fileChange.subscribe(
@@ -1334,6 +1349,7 @@ describe('File attachment', () => {
     ];
 
     setupStandardFileChangeEvent(file);
+    await fixture.whenStable();
 
     expect(fileChangeActual?.file?.file.name).toBe('foo.txt');
     expect(fileChangeActual?.file?.file.size).toBe(1000);
@@ -1507,6 +1523,7 @@ describe('File attachment', () => {
 
     fixture.componentInstance.required = true;
     fixture.componentInstance.labelText = 'file attachment';
+    fixture.detectChanges();
 
     fixture.componentInstance.attachment.markAsTouched();
     fixture.detectChanges();
@@ -1726,6 +1743,15 @@ describe('File attachment', () => {
     );
 
     expect(fileAttachment).not.toHaveClass('sky-form-field-stacked');
+  });
+
+  it('should mark file attachment as touched when blurred', () => {
+    expect(fixture.componentInstance.attachment.touched).toBeFalse();
+    const button = getButtonEl(el);
+    SkyAppTestUtility.fireDomEvent(button, 'blur');
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.touched).toBeTrue();
   });
 });
 

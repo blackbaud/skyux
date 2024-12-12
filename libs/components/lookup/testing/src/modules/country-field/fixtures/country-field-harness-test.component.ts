@@ -35,5 +35,6 @@ export class CountryFieldHarnessTestComponent {
     this.myForm.disable();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-function
   public selectedCountryChange(event: any): void {}
 }

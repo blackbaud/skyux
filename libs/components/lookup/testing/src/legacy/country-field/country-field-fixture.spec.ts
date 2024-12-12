@@ -32,6 +32,7 @@ class CountryFieldTestComponent {
   public disabled: boolean | undefined;
   public hideSelectedCountryFlag: boolean | undefined;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public selectedCountryChange(query: string): void {}
 }
 //#endregion Test component
