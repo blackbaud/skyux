@@ -552,7 +552,7 @@ describe('Lookup harness', () => {
 
   describe('custom templates', () => {
     it('should get search result text and value', async () => {
-      const { lookupHarness } = await setupTest({
+      const { lookupHarness, lookupInputHarness } = await setupTest({
         dataSkyId: 'my-custom-template-lookup',
         enableCustomTemplate: true,
       });
@@ -596,7 +596,7 @@ describe('Lookup harness', () => {
 
   describe('without input box', () => {
     it('should create a harness', async () => {
-      const { lookupHarness } = await setupTest({
+      const { lookupInputHarness } = await setupTest({
         dataSkyId: 'my-basic-lookup',
       });
 
