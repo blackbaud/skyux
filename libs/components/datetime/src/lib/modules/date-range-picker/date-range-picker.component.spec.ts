@@ -44,8 +44,24 @@ describe('Date range picker', function () {
     tick();
   }
 
+  function getActiveDatepickerCalendar(): HTMLElement {
+    const calendarEl = document.querySelector('sky-datepicker-calendar');
+
+    if (!calendarEl) {
+      throw new Error('Datepicker calendar not found.');
+    }
+
+    return calendarEl as HTMLElement;
+  }
+
   function getCalculatorSelect(): HTMLSelectElement {
     return fixture.nativeElement.querySelector('select');
+  }
+
+  function openStartDatepickerCalendar(): void {
+    fixture.nativeElement
+      .querySelector('.sky-date-range-picker-start-date button')
+      ?.click();
   }
 
   function getHelpInlinePopover(): HTMLSelectElement {
@@ -375,13 +391,20 @@ describe('Date range picker', function () {
     const startDateInput = getStartDateInput();
     const endDateInput = getEndDateInput();
 
-    // Blur the select and expect untouched.
+    // Move focus to the start date input.
     blurElement(selectElement, startDateInput);
     detectChanges();
     expect(component.reactiveForm?.touched).toEqual(false);
 
-    // Blur the start date input and expect untouched.
-    blurElement(startDateInput, endDateInput);
+    // Move focus to the opened datepicker calendar.
+    openStartDatepickerCalendar();
+    const startDateCalendarEl = getActiveDatepickerCalendar();
+    blurElement(startDateInput, startDateCalendarEl);
+    detectChanges();
+    expect(component.reactiveForm?.touched).toEqual(false);
+
+    // Move focus to the end date input.
+    blurElement(startDateCalendarEl, endDateInput);
     detectChanges();
     expect(component.reactiveForm?.touched).toEqual(false);
 
