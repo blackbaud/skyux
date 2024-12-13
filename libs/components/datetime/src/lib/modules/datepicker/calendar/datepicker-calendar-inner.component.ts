@@ -20,7 +20,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { SkyDateFormatter } from '../date-formatter';
 import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 
-import { SkyDatepickerDate } from './datepicker-date';
+import { SkyDayPickerContext } from './daypicker-context';
 
 type DateComparator = (date1: Date, date2: Date) => number | undefined;
 type KeyboardEventHandler = (key: string, event: KeyboardEvent) => void;
@@ -340,10 +340,10 @@ export class SkyDatepickerCalendarInnerComponent
     format: string,
     isSecondary: boolean,
     id: string,
-  ): SkyDatepickerDate {
+  ): SkyDayPickerContext {
     const customDateMatch = this.#getCustomDate(date);
 
-    const dateObject: SkyDatepickerDate = {
+    const dateObject: SkyDayPickerContext = {
       date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       label: this.dateFilter(date, format),
       selected:
@@ -360,10 +360,10 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public createCalendarRows(
-    dates: SkyDatepickerDate[],
+    dates: SkyDayPickerContext[],
     size: number,
-  ): SkyDatepickerDate[][] {
-    const rows: SkyDatepickerDate[][] = [];
+  ): SkyDayPickerContext[][] {
+    const rows: SkyDayPickerContext[][] = [];
     while (dates.length > 0) {
       rows.push(dates.splice(0, size));
     }

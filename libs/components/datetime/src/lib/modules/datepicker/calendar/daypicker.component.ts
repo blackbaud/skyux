@@ -14,8 +14,8 @@ import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerDate } from './datepicker-date';
 import { SkyDayPickerCellComponent } from './daypicker-cell.component';
+import { SkyDayPickerContext } from './daypicker-context';
 
 /**
  * Helper interface to compare date ranges.
@@ -55,7 +55,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   public activeDateHasChanged = false;
   public labels: any[] = [];
   public title = '';
-  public rows: SkyDatepickerDate[][] = [];
+  public rows: SkyDayPickerContext[][] = [];
   public weekNumbers: number[] = [];
   public datepicker: SkyDatepickerCalendarInnerComponent;
   public CURRENT_THEME_TEMPLATE: any;
@@ -133,7 +133,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
 
     // 42 is the number of days on a six-week calendar
     const days: Date[] = this.getDates(firstDate, 42);
-    const pickerDates: SkyDatepickerDate[] = [];
+    const pickerDates: SkyDayPickerContext[] = [];
     for (let i = 0; i < 42; i++) {
       const _dateObject = this.datepicker.createDateObject(
         days[i],
@@ -231,10 +231,10 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
    */
   #applyCustomDates(
     customDates: SkyDatepickerCustomDate[],
-    dateRows: SkyDatepickerDate[][],
+    dateRows: SkyDayPickerContext[][],
   ): void {
-    let date: SkyDatepickerDate;
-    let newDate: SkyDatepickerDate;
+    let date: SkyDayPickerContext;
+    let newDate: SkyDayPickerContext;
     let dateIndex: number;
 
     /* istanbul ignore else */
@@ -285,7 +285,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  #getDateRange(rows: SkyDatepickerDate[][]): SkyDateRange | undefined {
+  #getDateRange(rows: SkyDayPickerContext[][]): SkyDateRange | undefined {
     /* istanbul ignore else */
     if (rows && rows.length > 0) {
       return {

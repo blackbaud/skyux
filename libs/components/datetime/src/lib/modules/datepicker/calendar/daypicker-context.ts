@@ -1,9 +1,8 @@
 /**
- * Represents the selected date in the calendar picker.
- * TODO: Consider renaming this interface to better fit its purpose.
+ * Information about a specific day in the calendar.
  * @internal
  */
-export interface SkyDatepickerDate {
+export interface SkyDayPickerContext {
   date: Date;
   label: string;
   selected: boolean;

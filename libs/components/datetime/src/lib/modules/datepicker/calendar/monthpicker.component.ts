@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
-import { SkyDatepickerDate } from './datepicker-date';
+import { SkyDayPickerContext } from './daypicker-context';
 
 /**
  * @internal
@@ -17,7 +17,7 @@ import { SkyDatepickerDate } from './datepicker-date';
 export class SkyMonthPickerComponent implements OnInit {
   public datepicker: SkyDatepickerCalendarInnerComponent;
 
-  public rows: SkyDatepickerDate[][] = [];
+  public rows: SkyDayPickerContext[][] = [];
 
   public title = '';
 
@@ -51,7 +51,7 @@ export class SkyMonthPickerComponent implements OnInit {
   }
 
   #refreshMonthView(): string {
-    const months = new Array<SkyDatepickerDate>(12);
+    const months = new Array<SkyDayPickerContext>(12);
     const year: number = this.datepicker.activeDate.getFullYear();
     let date: Date;
 

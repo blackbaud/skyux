@@ -15,11 +15,10 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDatepickerService } from '../datepicker.service';
-
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerDate } from './datepicker-date';
+import { SkyDatepickerCalendarService } from './datepicker-calendar.service';
 import { SkyDayPickerButtonComponent } from './daypicker-button.component';
+import { SkyDayPickerContext } from './daypicker-context';
 
 /**
  * @internal
@@ -42,7 +41,7 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
    * The date this picker cell will represent on the calendar.
    */
   @Input()
-  public date: SkyDatepickerDate | undefined;
+  public date: SkyDayPickerContext | undefined;
 
   public hasTooltip = false;
 
@@ -57,11 +56,11 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
 
   #datepicker: SkyDatepickerCalendarInnerComponent;
-  #datepickerService: SkyDatepickerService;
+  #datepickerService: SkyDatepickerCalendarService;
 
   constructor(
     datepicker: SkyDatepickerCalendarInnerComponent,
-    datepickerService: SkyDatepickerService,
+    datepickerService: SkyDatepickerCalendarService,
   ) {
     this.#datepicker = datepicker;
     this.#datepickerService = datepickerService;
