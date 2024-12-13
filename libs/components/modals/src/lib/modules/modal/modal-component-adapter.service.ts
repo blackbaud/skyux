@@ -1,17 +1,10 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { SkyCoreAdapterService } from '@skyux/core';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyModalComponentAdapterService {
-  #coreAdapter: SkyCoreAdapterService;
-
-  constructor(coreAdapter: SkyCoreAdapterService) {
-    this.#coreAdapter = coreAdapter;
-  }
-
   public handleWindowChange(modalEl: ElementRef): void {
     const boundedHeightEl = modalEl.nativeElement.querySelector('.sky-modal');
     const fullPageModalEl = modalEl.nativeElement.querySelector(
@@ -86,34 +79,6 @@ export class SkyModalComponentAdapterService {
     return !!modalContentEl.nativeElement.querySelector(
       'sky-modal-content > .sky-viewkeeper-fixed',
     );
-  }
-
-  public modalOpened(modalEl: ElementRef): void {
-    /* istanbul ignore else */
-    /* handle the case where somehow there is a focused element already in the modal */
-    if (
-      !(
-        document.activeElement &&
-        modalEl.nativeElement.contains(document.activeElement)
-      )
-    ) {
-      const currentScrollX = window.pageXOffset;
-      const currentScrollY = window.pageYOffset;
-
-      const inputWithAutofocus =
-        modalEl.nativeElement.querySelector('[autofocus]');
-
-      if (inputWithAutofocus) {
-        inputWithAutofocus.focus();
-      } else {
-        this.#coreAdapter.getFocusableChildrenAndApplyFocus(
-          modalEl,
-          '.sky-modal-content',
-          true,
-        );
-      }
-      window.scrollTo(currentScrollX, currentScrollY);
-    }
   }
 
   #setFullPageHeight(fullPageModalEl: HTMLElement): void {
