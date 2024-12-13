@@ -18,11 +18,7 @@
         ('skyux_date_range_picker_default_label' | skyLibResources)
       "
     >
-      <select
-        formControlName="calculatorId"
-        (blur)="onBlur()"
-        (change)="onCalculatorIdChange()"
-      >
+      <select formControlName="calculatorId" (change)="onCalculatorIdChange()">
         @for (calculator of calculators; track calculator.calculatorId) {
           <option [value]="calculator.calculatorId">
             {{

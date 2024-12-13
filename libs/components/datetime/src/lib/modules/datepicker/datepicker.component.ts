@@ -232,6 +232,7 @@ export class SkyDatepickerComponent
   readonly #zIndex: Observable<number> | undefined;
 
   readonly #datepickerHostSvc = inject(SkyDatepickerHostService);
+  readonly #elementRef = inject(ElementRef);
 
   constructor(
     affixService: SkyAffixService,
@@ -350,6 +351,17 @@ export class SkyDatepickerComponent
         }
       }
     }
+  }
+
+  /**
+   * Whether the datepicker component contains the provided focus event target.
+   * @internal
+   */
+  public containsTarget(target: EventTarget): boolean {
+    return (
+      this.#elementRef.nativeElement.contains(target) ||
+      this.getPickerRef()?.nativeElement.contains(target)
+    );
   }
 
   /**
