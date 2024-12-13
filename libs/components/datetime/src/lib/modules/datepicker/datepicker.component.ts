@@ -354,7 +354,7 @@ export class SkyDatepickerComponent
   }
 
   /**
-   * Whether the datepicker component contains the event target.
+   * Whether the datepicker component contains the provided focus event target.
    * @internal
    */
   public containsTarget(target: EventTarget): boolean {

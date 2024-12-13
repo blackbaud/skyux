@@ -58,12 +58,6 @@ describe('Date range picker', function () {
     return fixture.nativeElement.querySelector('select');
   }
 
-  function openStartDatepickerCalendar(): void {
-    fixture.nativeElement
-      .querySelector('.sky-date-range-picker-start-date button')
-      ?.click();
-  }
-
   function getHelpInlinePopover(): HTMLSelectElement {
     return fixture.nativeElement.querySelectorAll('sky-help-inline');
   }
@@ -95,6 +89,12 @@ describe('Date range picker', function () {
       fixture.detectChanges();
       tick();
     }
+  }
+
+  function openStartDatepickerCalendar(): void {
+    fixture.nativeElement
+      .querySelector('.sky-date-range-picker-start-date button')
+      ?.click();
   }
 
   function verifyVisiblePickers(
