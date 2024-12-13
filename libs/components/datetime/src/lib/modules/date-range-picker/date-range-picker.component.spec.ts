@@ -22,12 +22,17 @@ describe('Date range picker', function () {
   let fixture: ComponentFixture<DateRangePickerTestComponent>;
   let component: DateRangePickerTestComponent;
 
-  function blurInput(inputEl: Element): void {
-    inputEl.dispatchEvent(
+  /**
+   * Dispatches a focusout event on the specified element.
+   * @param target The element losing focus.
+   * @param relatedTarget The element receiving focus.
+   */
+  function blurElement(target?: Element, relatedTarget?: EventTarget): void {
+    target?.dispatchEvent(
       new FocusEvent('focusout', {
         bubbles: true,
         cancelable: true,
-        relatedTarget: null,
+        relatedTarget,
       }),
     );
   }
@@ -37,6 +42,16 @@ describe('Date range picker', function () {
     tick();
     fixture.detectChanges();
     tick();
+  }
+
+  function getActiveDatepickerCalendar(): HTMLElement {
+    const calendarEl = document.querySelector('sky-datepicker-calendar');
+
+    if (!calendarEl) {
+      throw new Error('Datepicker calendar not found.');
+    }
+
+    return calendarEl as HTMLElement;
   }
 
   function getCalculatorSelect(): HTMLSelectElement {
@@ -74,6 +89,12 @@ describe('Date range picker', function () {
       fixture.detectChanges();
       tick();
     }
+  }
+
+  function openStartDatepickerCalendar(): void {
+    fixture.nativeElement
+      .querySelector('.sky-date-range-picker-start-date button')
+      ?.click();
   }
 
   function verifyVisiblePickers(
@@ -357,16 +378,39 @@ describe('Date range picker', function () {
     verifyFormFieldsDisabledStatus(false);
   }));
 
-  it('should mark the control as touched when select is blurred', fakeAsync(function () {
+  it('should mark the control as touched when the composite control loses focus', fakeAsync(() => {
     detectChanges();
 
     expect(component.reactiveForm?.touched).toEqual(false);
 
-    const selectElement = fixture.nativeElement.querySelector('select');
-    SkyAppTestUtility.fireDomEvent(selectElement, 'blur');
-
+    // Show both date pickers.
+    selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
     detectChanges();
 
+    const selectElement = fixture.nativeElement.querySelector('select');
+    const startDateInput = getStartDateInput();
+    const endDateInput = getEndDateInput();
+
+    // Move focus to the start date input.
+    blurElement(selectElement, startDateInput);
+    detectChanges();
+    expect(component.reactiveForm?.touched).toEqual(false);
+
+    // Move focus to the opened datepicker calendar.
+    openStartDatepickerCalendar();
+    const startDateCalendarEl = getActiveDatepickerCalendar();
+    blurElement(startDateInput, startDateCalendarEl);
+    detectChanges();
+    expect(component.reactiveForm?.touched).toEqual(false);
+
+    // Move focus to the end date input.
+    blurElement(startDateCalendarEl, endDateInput);
+    detectChanges();
+    expect(component.reactiveForm?.touched).toEqual(false);
+
+    // Blur the end date input and expect touched.
+    blurElement(endDateInput, document.body);
+    detectChanges();
     expect(component.reactiveForm?.touched).toEqual(true);
   }));
 
@@ -401,7 +445,7 @@ describe('Date range picker', function () {
       fixture.nativeElement as HTMLElement
     ).querySelectorAll('.sky-input-group input');
 
-    blurInput(datepickerInputs.item(0));
+    blurElement(datepickerInputs.item(0));
 
     fixture.detectChanges();
 
@@ -416,7 +460,7 @@ describe('Date range picker', function () {
       '.sky-input-group input',
     );
 
-    blurInput(datepickerInputs.item(1));
+    blurElement(datepickerInputs.item(1));
 
     fixture.detectChanges();
 

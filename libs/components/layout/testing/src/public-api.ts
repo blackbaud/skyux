@@ -11,3 +11,7 @@ export { SkyFluidGridHarness } from './modules/fluid-grid/fluid-grid-harness';
 export { SkyFluidGridHarnessFilters } from './modules/fluid-grid/fluid-grid-harness-filters';
 export { SkyRowHarness } from './modules/fluid-grid/row-harness';
 export { SkyRowHarnessFilters } from './modules/fluid-grid/row-harness-filters';
+
+export { SkyTextExpandHarness } from './modules/text-expand/text-expand-harness';
+export { SkyTextExpandHarnessFilters } from './modules/text-expand/text-expand-harness-filters';
+export { SkyTextExpandModalHarness } from './modules/text-expand/text-expand-modal-harness';
