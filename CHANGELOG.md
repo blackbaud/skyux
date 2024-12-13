@@ -1,5 +1,24 @@
 # Changelog
 
+## [11.28.0](https://github.com/blackbaud/skyux/compare/11.27.0...11.28.0) (2024-12-13)
+
+
+### Features
+
+* **components/forms:** add `provideSkyFileAttachmentTesting` to aid in file attachment unit tests (internal) ([#2941](https://github.com/blackbaud/skyux/issues/2941)) ([c9cbe06](https://github.com/blackbaud/skyux/commit/c9cbe06d6480a7cfa941ea0d625db674b89ec671))
+* **components/forms:** file attachment harness ([#2930](https://github.com/blackbaud/skyux/issues/2930)) ([147498a](https://github.com/blackbaud/skyux/commit/147498aa93f47079aebb4ced477231c0807f850e))
+* **components/layout:** add text expand harnesses ([#2937](https://github.com/blackbaud/skyux/issues/2937)) ([a999545](https://github.com/blackbaud/skyux/commit/a999545085ade8d2c609681bec9fa1364f301123))
+
+
+### Bug Fixes
+
+* **components/datetime:** date range picker emits touched status when focus leaves composite control ([#2947](https://github.com/blackbaud/skyux/issues/2947)) ([3b84077](https://github.com/blackbaud/skyux/commit/3b840776952ed7416c9d1eda679faf6bdad24307))
+* **components/layout:** deprecation error for box header component lists correct component ([#2945](https://github.com/blackbaud/skyux/issues/2945)) ([e89f7a6](https://github.com/blackbaud/skyux/commit/e89f7a6656559953ec1276a32ac4f209587eb4eb))
+* **components/lookup:** lookup library test harnesses properly denote deprecated functions and internally do not use deprecated functions ([#2943](https://github.com/blackbaud/skyux/issues/2943)) ([f786095](https://github.com/blackbaud/skyux/commit/f7860954ff9c17bfa5690d9afaf5abb60c0c3547))
+* **components/modals:** modal host sets initial modal focus to avoid race condition ([#2944](https://github.com/blackbaud/skyux/issues/2944)) ([dfdd548](https://github.com/blackbaud/skyux/commit/dfdd548fb0f73b708649bdab926ac6ac93049601))
+* enable `@typescript-eslint/no-floating-promises` rule to address several un-awaited promises ([#2939](https://github.com/blackbaud/skyux/issues/2939)) ([58a248b](https://github.com/blackbaud/skyux/commit/58a248b80f9295bbd10b0f568d8c5113a450dd02))
+* **sdk/skyux-eslint:** remove duplicate rules ([#2942](https://github.com/blackbaud/skyux/issues/2942)) ([b257a25](https://github.com/blackbaud/skyux/commit/b257a2589f345ca05dd418614d5c0200234f268f))
+
 ## [11.27.0](https://github.com/blackbaud/skyux/compare/11.26.0...11.27.0) (2024-12-09)
 
 
