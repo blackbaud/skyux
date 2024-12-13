@@ -2,17 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import { SkyFuzzyDate } from '../datepicker/fuzzy-date';
-import { SkyFuzzyDateService } from '../datepicker/fuzzy-date.service';
+import { SkyFuzzyDate } from '../datepicker/fuzzy/fuzzy-date';
+import { SkyFuzzyDateService } from '../datepicker/fuzzy/fuzzy-date.service';
 
 import { FuzzyDatePipeTestComponent } from './fixtures/fuzzy-date-pipe.component.fixture';
 import { FuzzyDatePipeTestModule } from './fixtures/fuzzy-date-pipe.module.fixture';
 import { SkyFuzzyDatePipe } from './fuzzy-date.pipe';
 
 // #region helpers
-function getFuzzyDateText(fixture: ComponentFixture<any>): string {
+function getFuzzyDateText(
+  fixture: ComponentFixture<FuzzyDatePipeTestComponent>,
+): string {
   return fixture.nativeElement.textContent.trim();
 }
 // #endregion
@@ -30,7 +32,7 @@ describe('Fuzzy date pipe', () => {
 
     mockLocaleProvider = {
       defaultLocale: 'en-US',
-      getLocaleInfo: () => mockLocaleStream,
+      getLocaleInfo: (): Observable<SkyAppLocaleInfo> => mockLocaleStream,
     };
 
     TestBed.configureTestingModule({

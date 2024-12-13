@@ -8,11 +8,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyPopoverMessageType } from '@skyux/popovers';
 
+import { SkyDatepickerModule } from '../datepicker.module';
+
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerDate } from './datepicker-date';
-import { SkyDatepickerModule } from './datepicker.module';
-import { SkyDatepickerService } from './datepicker.service';
+import { SkyDatepickerCalendarService } from './datepicker-calendar.service';
 import { SkyDayPickerCellComponent } from './daypicker-cell.component';
+import { SkyDayPickerContext } from './daypicker-context';
 
 function getDaypickerCell(
   fixture: ComponentFixture<SkyDayPickerCellComponent>,
@@ -22,7 +23,7 @@ function getDaypickerCell(
 
 function setActiveUid(component: any, uid?: string): void {
   if (uid) {
-    const date: SkyDatepickerDate = {
+    const date: SkyDayPickerContext = {
       date: new Date(),
       label: 'foo',
       selected: false,
@@ -31,7 +32,9 @@ function setActiveUid(component: any, uid?: string): void {
       secondary: false,
       uid: uid,
     };
-    TestBed.inject(SkyDatepickerService).keyDatePopoverStream.next(date);
+    TestBed.inject(SkyDatepickerCalendarService).keyDatePopoverStream.next(
+      date,
+    );
   }
 }
 
@@ -48,7 +51,7 @@ class MockSkyCalendarInnerComponent {
 describe('daypicker cell', () => {
   let fixture: ComponentFixture<SkyDayPickerCellComponent>;
   let component: SkyDayPickerCellComponent;
-  let datepickerService: SkyDatepickerService;
+  let datepickerService: SkyDatepickerCalendarService;
   const calendarInnerComponent = new MockSkyCalendarInnerComponent();
 
   beforeEach(() => {
@@ -76,7 +79,7 @@ describe('daypicker cell', () => {
       keyDate: true,
       keyDateText: ['important!'],
     };
-    datepickerService = TestBed.inject(SkyDatepickerService);
+    datepickerService = TestBed.inject(SkyDatepickerCalendarService);
   });
 
   describe('set hasTooltip', () => {
@@ -458,7 +461,10 @@ describe('daypicker cell', () => {
       fixture.detectChanges();
       setActiveUid(component, '2');
       // The mouseenter will reset this - for this test we want to test the state if this wouldn't have happened
-      spyOn(TestBed.inject(SkyDatepickerService).keyDatePopoverStream, 'next');
+      spyOn(
+        TestBed.inject(SkyDatepickerCalendarService).keyDatePopoverStream,
+        'next',
+      );
       fixture.detectChanges();
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');

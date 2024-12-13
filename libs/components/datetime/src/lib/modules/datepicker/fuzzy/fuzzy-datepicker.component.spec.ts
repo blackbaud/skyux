@@ -14,8 +14,9 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 import moment from 'moment';
 import { of } from 'rxjs';
 
-import { SkyDatepickerConfigService } from './datepicker-config.service';
-import { SkyDatepickerComponent } from './datepicker.component';
+import { SkyDatepickerConfigService } from '../datepicker-config.service';
+import { SkyDatepickerComponent } from '../datepicker.component';
+
 import { FuzzyDatepickerNoFormatTestComponent } from './fixtures/fuzzy-datepicker-no-format.component.fixture';
 import { FuzzyDatepickerReactiveTestComponent } from './fixtures/fuzzy-datepicker-reactive.component.fixture';
 import { FuzzyDatepickerTestComponent } from './fixtures/fuzzy-datepicker.component.fixture';

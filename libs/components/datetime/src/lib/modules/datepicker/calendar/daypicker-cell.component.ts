@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,22 +6,29 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
+import {
+  SkyPopoverMessage,
+  SkyPopoverMessageType,
+  SkyPopoverModule,
+} from '@skyux/popovers';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerDate } from './datepicker-date';
-import { SkyDatepickerService } from './datepicker.service';
+import { SkyDatepickerCalendarService } from './datepicker-calendar.service';
+import { SkyDayPickerButtonComponent } from './daypicker-button.component';
+import { SkyDayPickerContext } from './daypicker-context';
 
 /**
  * @internal
  */
 @Component({
-  selector: 'sky-daypicker-cell',
-  templateUrl: 'daypicker-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, SkyDayPickerButtonComponent, SkyPopoverModule],
+  selector: 'sky-daypicker-cell',
+  standalone: true,
+  templateUrl: 'daypicker-cell.component.html',
 })
 export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   /**
@@ -33,7 +41,7 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
    * The date this picker cell will represent on the calendar.
    */
   @Input()
-  public date: SkyDatepickerDate | undefined;
+  public date: SkyDayPickerContext | undefined;
 
   public hasTooltip = false;
 
@@ -48,11 +56,11 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
 
   #datepicker: SkyDatepickerCalendarInnerComponent;
-  #datepickerService: SkyDatepickerService;
+  #datepickerService: SkyDatepickerCalendarService;
 
   constructor(
     datepicker: SkyDatepickerCalendarInnerComponent,
-    datepickerService: SkyDatepickerService,
+    datepickerService: SkyDatepickerCalendarService,
   ) {
     this.#datepicker = datepicker;
     this.#datepickerService = datepickerService;

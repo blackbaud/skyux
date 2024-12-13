@@ -1,22 +1,26 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerDate } from './datepicker-date';
+import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
+import { SkyDayPickerContext } from './daypicker-context';
 
 /**
  * @internal
  */
 @Component({
+  imports: [CommonModule, SkyDatepickerCalendarLabelPipe],
   selector: 'sky-daypicker-button',
+  standalone: true,
+  styleUrl: './daypicker-button.component.scss',
   templateUrl: 'daypicker-button.component.html',
-  styleUrls: ['./daypicker-button.component.scss'],
 })
 export class SkyDayPickerButtonComponent {
   /**
    * The date this picker button will represent on the calendar.
    */
   @Input()
-  public date: SkyDatepickerDate | undefined;
+  public date: SkyDayPickerContext | undefined;
 
   constructor(public datepicker: SkyDatepickerCalendarInnerComponent) {}
 }

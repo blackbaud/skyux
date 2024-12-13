@@ -6,7 +6,7 @@ import { SkyDatepickerComponent } from './datepicker.component';
 describe('datepicker-host.service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyDatepickerComponent],
+      imports: [SkyDatepickerComponent],
       providers: [SkyDatepickerHostService],
     });
   });

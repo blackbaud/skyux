@@ -1,7 +1,8 @@
 /**
+ * Information about a specific day in the calendar.
  * @internal
  */
-export interface SkyDatepickerDate {
+export interface SkyDayPickerContext {
   date: Date;
   label: string;
   selected: boolean;

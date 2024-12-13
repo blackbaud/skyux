@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-import { SkyDatepickerCalendarChange } from '../datepicker-calendar-change';
+import { SkyDatepickerCalendarChange } from '../calendar/datepicker-calendar-change';
 import { SkyDatepickerInputDirective } from '../datepicker-input.directive';
 import { SkyDatepickerComponent } from '../datepicker.component';
 

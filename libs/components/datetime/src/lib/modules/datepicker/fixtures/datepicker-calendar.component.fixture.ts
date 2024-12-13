@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { SkyDatepickerCalendarComponent } from '../datepicker-calendar.component';
+import { SkyDatepickerCalendarComponent } from '../calendar/datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 
 @Component({

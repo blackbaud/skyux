@@ -6,19 +6,30 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { SkyDateFormatter } from './date-formatter';
+import { SkyDateFormatter } from '../date-formatter';
+import { SkyDatepickerConfigService } from '../datepicker-config.service';
+import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
+
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-import { SkyDatepickerConfigService } from './datepicker-config.service';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+import { SkyDayPickerComponent } from './daypicker.component';
+import { SkyMonthPickerComponent } from './monthpicker.component';
+import { SkyYearPickerComponent } from './yearpicker.component';
 
 /**
  * @internal
  */
 @Component({
+  imports: [
+    SkyDatepickerCalendarInnerComponent,
+    SkyDayPickerComponent,
+    SkyMonthPickerComponent,
+    SkyYearPickerComponent,
+  ],
   selector: 'sky-datepicker-calendar',
+  standalone: true,
+  styleUrl: './datepicker-calendar.component.scss',
   templateUrl: './datepicker-calendar.component.html',
-  styleUrls: ['./datepicker-calendar.component.scss'],
 })
 export class SkyDatepickerCalendarComponent {
   @Input()
