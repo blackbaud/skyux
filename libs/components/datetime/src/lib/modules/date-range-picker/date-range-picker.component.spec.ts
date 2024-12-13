@@ -24,11 +24,11 @@ describe('Date range picker', function () {
 
   /**
    * Dispatches a focusout event on the specified element.
-   * @param el The element losing focus.
+   * @param target The element losing focus.
    * @param relatedTarget The element receiving focus.
    */
-  function blurElement(el?: Element, relatedTarget?: EventTarget): void {
-    el?.dispatchEvent(
+  function blurElement(target?: Element, relatedTarget?: EventTarget): void {
+    target?.dispatchEvent(
       new FocusEvent('focusout', {
         bubbles: true,
         cancelable: true,
@@ -378,7 +378,7 @@ describe('Date range picker', function () {
     verifyFormFieldsDisabledStatus(false);
   }));
 
-  it('should mark the control as touched when composite control loses focus', fakeAsync(() => {
+  it('should mark the control as touched when the composite control loses focus', fakeAsync(() => {
     detectChanges();
 
     expect(component.reactiveForm?.touched).toEqual(false);
