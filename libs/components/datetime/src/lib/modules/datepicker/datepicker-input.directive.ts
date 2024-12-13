@@ -46,11 +46,12 @@ const SKY_DATEPICKER_VALIDATOR = {
 };
 
 @Directive({
-  selector: '[skyDatepickerInput]',
-  providers: [SKY_DATEPICKER_VALUE_ACCESSOR, SKY_DATEPICKER_VALIDATOR],
   host: {
     '(focusout)': 'onFocusout($event)',
   },
+  providers: [SKY_DATEPICKER_VALUE_ACCESSOR, SKY_DATEPICKER_VALIDATOR],
+  selector: '[skyDatepickerInput]',
+  standalone: true,
 })
 export class SkyDatepickerInputDirective
   implements

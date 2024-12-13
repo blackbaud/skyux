@@ -9,8 +9,8 @@ import { expect } from '@skyux-sdk/testing';
 
 import moment from 'moment';
 
-import { SkyDatepickerModule } from './datepicker.module';
-import { DatepickerCalendarTestComponent } from './fixtures/datepicker-calendar.component.fixture';
+import { SkyDatepickerModule } from '../datepicker.module';
+import { DatepickerCalendarTestComponent } from '../fixtures/datepicker-calendar.component.fixture';
 
 describe('datepicker calendar', () => {
   let fixture: ComponentFixture<DatepickerCalendarTestComponent>;

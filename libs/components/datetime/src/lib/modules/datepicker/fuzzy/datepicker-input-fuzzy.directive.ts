@@ -27,10 +27,11 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { SkyDateFormatter } from './date-formatter';
-import { SkyDatepickerConfigService } from './datepicker-config.service';
-import { SkyDatepickerHostService } from './datepicker-host.service';
-import { SkyDatepickerComponent } from './datepicker.component';
+import { SkyDateFormatter } from '../date-formatter';
+import { SkyDatepickerConfigService } from '../datepicker-config.service';
+import { SkyDatepickerHostService } from '../datepicker-host.service';
+import { SkyDatepickerComponent } from '../datepicker.component';
+
 import { SkyFuzzyDate } from './fuzzy-date';
 import { SkyFuzzyDateService } from './fuzzy-date.service';
 
@@ -47,14 +48,15 @@ const SKY_FUZZY_DATEPICKER_VALIDATOR = {
 };
 
 @Directive({
-  selector: '[skyFuzzyDatepickerInput]',
+  host: {
+    '(focusout)': 'onFocusout($event)',
+  },
   providers: [
     SKY_FUZZY_DATEPICKER_VALUE_ACCESSOR,
     SKY_FUZZY_DATEPICKER_VALIDATOR,
   ],
-  host: {
-    '(focusout)': 'onFocusout($event)',
-  },
+  selector: '[skyFuzzyDatepickerInput]',
+  standalone: true,
 })
 export class SkyFuzzyDatepickerInputDirective
   implements

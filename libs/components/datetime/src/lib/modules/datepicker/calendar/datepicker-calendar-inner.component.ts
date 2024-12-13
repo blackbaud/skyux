@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -12,12 +13,14 @@ import {
 } from '@angular/core';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { SkyDateFormatter } from './date-formatter';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
-import { SkyDatepickerDate } from './datepicker-date';
+import { SkyDateFormatter } from '../date-formatter';
+import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
+
+import { SkyDayPickerContext } from './daypicker-context';
 
 type DateComparator = (date1: Date, date2: Date) => number | undefined;
 type KeyboardEventHandler = (key: string, event: KeyboardEvent) => void;
@@ -28,10 +31,12 @@ let nextDatepickerId = 0;
  * @internal
  */
 @Component({
-  selector: 'sky-datepicker-inner',
-  templateUrl: './datepicker-calendar-inner.component.html',
-  styleUrls: ['./datepicker-calendar-inner.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  imports: [CommonModule, SkyIconModule],
+  selector: 'sky-datepicker-inner',
+  standalone: true,
+  templateUrl: './datepicker-calendar-inner.component.html',
+  styleUrl: './datepicker-calendar-inner.component.scss',
 })
 export class SkyDatepickerCalendarInnerComponent
   implements OnDestroy, OnInit, OnChanges
@@ -335,10 +340,10 @@ export class SkyDatepickerCalendarInnerComponent
     format: string,
     isSecondary: boolean,
     id: string,
-  ): SkyDatepickerDate {
+  ): SkyDayPickerContext {
     const customDateMatch = this.#getCustomDate(date);
 
-    const dateObject: SkyDatepickerDate = {
+    const dateObject: SkyDayPickerContext = {
       date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       label: this.dateFilter(date, format),
       selected:
@@ -355,10 +360,10 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public createCalendarRows(
-    dates: SkyDatepickerDate[],
+    dates: SkyDayPickerContext[],
     size: number,
-  ): SkyDatepickerDate[][] {
-    const rows: SkyDatepickerDate[][] = [];
+  ): SkyDayPickerContext[][] {
+    const rows: SkyDayPickerContext[][] = [];
     while (dates.length > 0) {
       rows.push(dates.splice(0, size));
     }

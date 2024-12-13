@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -30,13 +31,16 @@ import {
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
-import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
+import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
+
+import { SkyDatepickerCalendarChange } from './calendar/datepicker-calendar-change';
+import { SkyDatepickerCalendarComponent } from './calendar/datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerHostService } from './datepicker-host.service';
 
@@ -47,11 +51,18 @@ let nextId = 0;
  * You must wrap this component around an input with the `skyDatepickerInput` directive.
  */
 @Component({
-  selector: 'sky-datepicker',
-  templateUrl: './datepicker.component.html',
-  styleUrls: ['./datepicker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SkyDatepickerCalendarComponent,
+    SkyDatetimeResourcesModule,
+    SkyIconModule,
+  ],
   providers: [SkyDatepickerHostService],
+  selector: 'sky-datepicker',
+  standalone: true,
+  styleUrl: './datepicker.component.scss',
+  templateUrl: './datepicker.component.html',
 })
 export class SkyDatepickerComponent
   implements AfterViewInit, OnDestroy, OnInit
