@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  ElementRef,
   HostBinding,
   Injector,
   Input,
@@ -14,6 +15,7 @@ import {
   inject,
   runInInjectionContext,
   signal,
+  viewChildren,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -40,6 +42,7 @@ import {
 
 import { distinctUntilChanged, filter, map } from 'rxjs';
 
+import { SkyDatepickerComponent } from '../datepicker/datepicker.component';
 import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
@@ -100,6 +103,9 @@ function isPartialValue(
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(focusout)': 'onFocusout($event)',
+  },
   imports: [
     CommonModule,
     FormsModule,
@@ -134,6 +140,7 @@ export class SkyDateRangePickerComponent
 {
   readonly #dateRangeSvc = inject(SkyDateRangeService);
   readonly #destroyRef = inject(DestroyRef);
+  readonly #elementRef = inject(ElementRef);
   readonly #injector = inject(Injector);
   readonly #logger = inject(SkyLogService);
 
@@ -255,6 +262,7 @@ export class SkyDateRangePickerComponent
   public helpKey: string | undefined;
 
   protected calculators = this.#dateRangeSvc.calculators;
+  protected datepickers = viewChildren(SkyDatepickerComponent);
   protected hostControl: AbstractControl | null | undefined;
   protected selectedCalculator = this.calculators[0];
   protected showEndDatePicker = signal<boolean>(false);
@@ -433,10 +441,6 @@ export class SkyDateRangePickerComponent
     }
   }
 
-  protected onBlur(): void {
-    this.#notifyTouched?.();
-  }
-
   /**
    * Fires when a user changes the selected calculator ID.
    */
@@ -456,6 +460,19 @@ export class SkyDateRangePickerComponent
         this.formGroup.getRawValue() as SkyDateRangeCalculation,
       );
     });
+  }
+
+  /**
+   * Fires when the date range picker loses focus.
+   */
+  protected onFocusout({ relatedTarget }: FocusEvent): void {
+    if (
+      relatedTarget &&
+      !this.#elementRef.nativeElement.contains(relatedTarget) &&
+      !this.datepickers().some((picker) => picker.containsTarget(relatedTarget))
+    ) {
+      this.#notifyTouched?.();
+    }
   }
 
   #getCalculator(calculatorId: number): SkyDateRangeCalculator {
