@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorConfig } from './types/date-range-calculator-config';
@@ -16,15 +17,13 @@ let lastId = 1000;
   providedIn: 'root',
 })
 export class SkyDateRangeService {
+  readonly #libResourcesSvc = inject(SkyLibResourcesService);
+
   public get calculators(): SkyDateRangeCalculator[] {
     return this.#calculators;
   }
 
-  #calculators: SkyDateRangeCalculator[];
-
-  constructor() {
-    this.#calculators = this.#createDefaultCalculators();
-  }
+  #calculators = this.#createDefaultCalculators();
 
   /**
    * Creates a custom date range calculator.
@@ -34,7 +33,11 @@ export class SkyDateRangeService {
     config: SkyDateRangeCalculatorConfig,
   ): SkyDateRangeCalculator {
     const newId = lastId++;
-    const calculator = new SkyDateRangeCalculator(newId, config);
+    const calculator = new SkyDateRangeCalculator(
+      newId,
+      config,
+      this.#libResourcesSvc,
+    );
 
     this.#calculators.push(calculator);
 
@@ -110,14 +113,17 @@ export class SkyDateRangeService {
 
     for (const defaultConfig of SKY_DEFAULT_CALCULATOR_CONFIGS) {
       calculators.push(
-        new SkyDateRangeCalculator(defaultConfig.calculatorId, {
-          getValue: defaultConfig.getValue,
-          validate: defaultConfig.validate,
-          shortDescription: '',
-          _shortDescriptionResourceKey:
-            defaultConfig.shortDescriptionResourceKey,
-          type: defaultConfig.type,
-        }),
+        new SkyDateRangeCalculator(
+          defaultConfig.calculatorId,
+          {
+            getValue: defaultConfig.getValue,
+            validate: defaultConfig.validate,
+            shortDescription: '',
+            type: defaultConfig.type,
+          },
+          this.#libResourcesSvc,
+          defaultConfig.shortDescriptionResourceKey,
+        ),
       );
     }
 
