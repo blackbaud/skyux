@@ -1,13 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
 import {
+  SkyDateRangeCalculation,
+  SkyDateRangeCalculator,
   SkyDateRangeCalculatorId,
   SkyDateRangeCalculatorType,
   SkyDateRangePickerModule,
@@ -18,20 +21,39 @@ import {
   standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyDateRangePickerModule,
+  ],
 })
 export class DemoComponent {
+  readonly #dateRangeSvc = inject(SkyDateRangeService);
+
   protected customCalculators: SkyDateRangeCalculatorId[] | undefined;
-  protected dateFormat: string | undefined;
   protected disabled = false;
-  protected formGroup: FormGroup;
-  protected lastDonation: FormControl;
   protected hintText =
     'Donations received today are updated at the top of each hour.';
   protected labelText = 'Last donation';
-  protected required = true;
 
-  readonly #dateRangeSvc = inject(SkyDateRangeService);
+  protected lastDonation = new FormControl<SkyDateRangeCalculation>(
+    {
+      value: {
+        calculatorId: SkyDateRangeCalculatorId.AnyTime,
+      },
+      disabled: this.disabled,
+    },
+    { nonNullable: true },
+  );
+
+  protected formGroup = inject(FormBuilder).group({
+    lastDonation: this.lastDonation,
+  });
+
+  protected selectedCalculator = signal<SkyDateRangeCalculator | undefined>(
+    this.#getCalculatorById(SkyDateRangeCalculatorId.AnyTime),
+  );
 
   constructor() {
     const since1999Calculator = this.#dateRangeSvc.createCalculator({
@@ -54,6 +76,7 @@ export class DemoComponent {
             dateIsAfterToday: true,
           };
         }
+
         return null;
       },
       getValue: () => {
@@ -71,10 +94,16 @@ export class DemoComponent {
       SkyDateRangeCalculatorId.AnyTime,
     ];
 
-    this.lastDonation = new FormControl({ value: '', disabled: this.disabled });
+    this.lastDonation.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        const selectedCalculator = this.#getCalculatorById(value?.calculatorId);
 
-    this.formGroup = inject(FormBuilder).group({
-      lastDonation: this.lastDonation,
-    });
+        this.selectedCalculator.set(selectedCalculator);
+      });
+  }
+
+  #getCalculatorById(id: SkyDateRangeCalculatorId): SkyDateRangeCalculator {
+    return this.#dateRangeSvc.filterCalculators([id])[0];
   }
 }

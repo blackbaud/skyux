@@ -21,11 +21,7 @@
       <select formControlName="calculatorId" (change)="onCalculatorIdChange()">
         @for (calculator of calculators; track calculator.calculatorId) {
           <option [value]="calculator.calculatorId">
-            {{
-              calculator._shortDescriptionResourceKey
-                ? (calculator._shortDescriptionResourceKey | skyLibResources)
-                : calculator.shortDescription
-            }}
+            {{ calculator.shortDescription$ | async }}
           </option>
         }
       </select>

@@ -7,14 +7,6 @@
       [dateFormat]="dateFormat"
       [hintText]="hintText"
       [labelText]="labelText"
-      [required]="required"
-    >
-      @if (lastDonation.errors?.['dateWeekend']) {
-        <sky-form-error
-          errorName="dateWeekend"
-          errorText="Do not pick a weekend."
-        />
-      }
-    </sky-date-range-picker>
+    />
   </form>
 </div>

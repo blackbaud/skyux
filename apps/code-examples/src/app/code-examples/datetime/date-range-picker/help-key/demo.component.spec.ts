@@ -5,7 +5,6 @@ import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
-import { SkyDateRangeCalculatorId } from '@skyux/datetime';
 import { SkyDateRangePickerHarness } from '@skyux/datetime/testing';
 
 import { DemoComponent } from './demo.component';
@@ -45,17 +44,6 @@ describe('Basic date range picker demo', () => {
     await expectAsync(harness.getHintText()).toBeResolvedTo(
       'Donations received today are updated at the top of each hour.',
     );
-  });
-
-  it('should throw an error if a weekend is selected', async () => {
-    const { harness } = await setupTest({
-      dataSkyId: 'last-donation',
-    });
-
-    await harness.selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
-    await harness.setEndDateValue('05/22/2022');
-
-    await expectAsync(harness.hasError('dateWeekend')).toBeResolvedTo(true);
   });
 
   it('should have the correct help key', async () => {

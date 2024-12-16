@@ -5,7 +5,7 @@ import { SkyTextExpandHarness } from '@skyux/layout/testing';
 
 import { DemoComponent } from './demo.component';
 
-fdescribe('Text expand inline demo', () => {
+describe('Text expand inline demo', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;

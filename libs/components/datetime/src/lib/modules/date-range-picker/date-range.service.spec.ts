@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
+import { firstValueFrom } from 'rxjs';
+
 import { SkyDateRangeService } from './date-range.service';
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
@@ -22,9 +24,11 @@ describe('Date range service', () => {
     expect(result instanceof SkyDateRangeCalculator).toEqual(true);
     expect(result.calculatorId).toEqual(SkyDateRangeCalculatorId.After);
     expect(result.type).toEqual(SkyDateRangeCalculatorType.After);
-    expect(result._shortDescriptionResourceKey).toEqual(
-      'skyux_date_range_picker_format_label_after',
+
+    await expectAsync(firstValueFrom(result.shortDescription$)).toBeResolvedTo(
+      'After',
     );
+
     expect(typeof result.getValue).toEqual('function');
     expect(typeof result.validate).toEqual('function');
   });
@@ -37,9 +41,11 @@ describe('Date range service', () => {
     expect(result[0] instanceof SkyDateRangeCalculator).toEqual(true);
     expect(result[0].calculatorId).toEqual(SkyDateRangeCalculatorId.After);
     expect(result[0].type).toEqual(SkyDateRangeCalculatorType.After);
-    expect(result[0]._shortDescriptionResourceKey).toEqual(
-      'skyux_date_range_picker_format_label_after',
-    );
+
+    await expectAsync(
+      firstValueFrom(result[0].shortDescription$),
+    ).toBeResolvedTo('After');
+
     expect(typeof result[0].getValue).toEqual('function');
     expect(typeof result[0].validate).toEqual('function');
   });
@@ -97,12 +103,12 @@ describe('Date range service', () => {
         SkyDateRangeCalculatorId.Before,
       ]);
 
-      expect(calculators[0]._shortDescriptionResourceKey).toEqual(
-        'skyux_date_range_picker_format_label_after',
+      expect(calculators[0].calculatorId).toEqual(
+        SkyDateRangeCalculatorId.After,
       );
 
-      expect(calculators[1]._shortDescriptionResourceKey).toEqual(
-        'skyux_date_range_picker_format_label_before',
+      expect(calculators[1].calculatorId).toEqual(
+        SkyDateRangeCalculatorId.Before,
       );
 
       expect(service.calculators.length).toEqual(22);
