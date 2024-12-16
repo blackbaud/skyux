@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.29.0](https://github.com/blackbaud/skyux/compare/11.28.0...11.29.0) (2024-12-16)
+
+
+### Features
+
+* **components/datetime:** add `shortDescription$` observable for date range calculators ([#2948](https://github.com/blackbaud/skyux/issues/2948)) ([66e7502](https://github.com/blackbaud/skyux/commit/66e7502d2d893cd3a849ac935637b8396bd0016e))
+
 ## [11.28.0](https://github.com/blackbaud/skyux/compare/11.27.0...11.28.0) (2024-12-13)
 
 
