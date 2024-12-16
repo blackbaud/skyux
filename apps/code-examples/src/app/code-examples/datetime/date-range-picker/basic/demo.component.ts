@@ -3,12 +3,15 @@ import {
   AbstractControl,
   FormBuilder,
   FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import { SkyDateRangePickerModule } from '@skyux/datetime';
+import {
+  SkyDateRangeCalculation,
+  SkyDateRangeCalculatorId,
+  SkyDateRangePickerModule,
+} from '@skyux/datetime';
 
 function dateRangeExcludesWeekend(
   control: AbstractControl,
@@ -36,26 +39,26 @@ function dateRangeExcludesWeekend(
   imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DemoComponent {
-  protected get reactiveRange(): AbstractControl | null {
-    return this.formGroup.get('lastDonation');
-  }
-
   protected dateFormat: string | undefined;
   protected disabled = false;
-  protected formGroup: FormGroup;
   protected hintText =
     'Donations received today are updated at the top of each hour.';
   protected labelText = 'Last donation';
-  protected lastDonation: FormControl<string | null>;
-  protected required = true;
 
-  constructor() {
-    this.lastDonation = new FormControl<string | null>(
-      { value: '', disabled: this.disabled },
-      [dateRangeExcludesWeekend],
-    );
-    this.formGroup = inject(FormBuilder).group({
-      lastDonation: this.lastDonation,
-    });
-  }
+  protected lastDonation = new FormControl<SkyDateRangeCalculation>(
+    {
+      value: {
+        calculatorId: SkyDateRangeCalculatorId.AnyTime,
+      },
+      disabled: this.disabled,
+    },
+    {
+      nonNullable: true,
+      validators: [dateRangeExcludesWeekend],
+    },
+  );
+
+  protected formGroup = inject(FormBuilder).group({
+    lastDonation: this.lastDonation,
+  });
 }

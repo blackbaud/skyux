@@ -3,11 +3,9 @@
     <sky-date-range-picker
       formControlName="lastDonation"
       [calculatorIds]="customCalculators"
-      [dateFormat]="dateFormat"
       [helpPopoverContent]="inlineHelpPopover"
       [hintText]="hintText"
       [labelText]="labelText"
-      [required]="required"
     >
       @if (
         lastDonation.errors?.['skyDateRange']?.errors?.['dateIsAfterToday']
@@ -19,6 +17,9 @@
       }
     </sky-date-range-picker>
   </form>
+  <p>
+    Selected calculator: {{ selectedCalculator()?.shortDescription$ | async }}
+  </p>
 </div>
 
 <ng-template #inlineHelpPopover>
