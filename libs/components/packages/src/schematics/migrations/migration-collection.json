@@ -64,6 +64,11 @@
       "version": "11.11.1",
       "factory": "./update-11/vscode-eslint-setting/vscode-eslint-setting.schematic",
       "description": "Update the VSCode workspace's settings so that the ESLint plugin works with ESLint 9 and a legacy config"
+    },
+    "update-eslint-9": {
+      "version": "11.29.1",
+      "factory": "./update-11/update-eslint-9/update-eslint-9.schematic",
+      "description": "Updates ESLint 9 to the target version to address a vulnerability."
     }
   }
 }
