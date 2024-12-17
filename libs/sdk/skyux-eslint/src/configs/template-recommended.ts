@@ -10,6 +10,7 @@ export default [
       'skyux-eslint-template/no-deprecated-directives': 'error',
       'skyux-eslint-template/no-unbound-id': 'error',
       'skyux-eslint-template/prefer-label-text': 'error',
+      'skyux-eslint-template/radio-group-with-nested-list': 'error',
     },
   },
 ] satisfies TSESLint.FlatConfig.ConfigArray;

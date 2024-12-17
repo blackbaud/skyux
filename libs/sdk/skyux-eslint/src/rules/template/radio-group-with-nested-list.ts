@@ -21,30 +21,6 @@ export const rule = createESLintTemplateRule({
               loc: parserServices.convertNodeSourceSpanToLoc(child.sourceSpan),
               messageId,
               data: {},
-              // fix: (fixer) => {
-              //   const fixers: RuleFix[] = [];
-
-              //   const range = [
-              //     child.startSourceSpan.start.offset,
-              //     child.startSourceSpan.start.offset,
-              //   ] as const;
-
-              //   const radios = getChildrenNodesOf(child, 'sky-radio');
-              //   const radiosString = radios
-              //     .map((radio) => radio.sourceSpan.toString())
-              //     .join('\n');
-
-              //   fixers.push(
-              //     fixer.removeRange([
-              //       child.sourceSpan.start.offset,
-              //       child.sourceSpan.end.offset,
-              //     ] as const),
-              //   );
-
-              //   fixers.push(fixer.insertTextBeforeRange(range, radiosString));
-
-              //   return fixers;
-              // },
             });
           }
         });
