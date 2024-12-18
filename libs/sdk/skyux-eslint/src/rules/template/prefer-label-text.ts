@@ -1,9 +1,8 @@
 import { TmplAstElement } from '@angular-eslint/bundled-angular-compiler';
 import { getTemplateParserServices } from '@angular-eslint/utils';
 
+import { getChildNodeOf, getTextContent } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
-import { getChildNodeOf } from '../utils/get-child-node-of';
-import { getTextContent } from '../utils/get-text-content';
 
 export const RULE_NAME = 'prefer-label-text';
 export const messageId = 'preferLabelText';

@@ -47,14 +47,34 @@ ruleTester.run(RULE_NAME, rule, {
         ~~~~~
       </sky-radio-group>
       `,
+      annotatedOutput: `
+      <sky-radio-group>
+        ~
+        ~
+          ~
+          ~
+            <sky-radio labelText="Foo" />
+            ~
+          ~
+          ~
+          ~
+          ~
+            <sky-radio><sky-radio-label>Foo</sky-radio-label></sky-radio>
+            ~
+          ~
+          ~
+        ~
+        ~
+      </sky-radio-group>
+      `,
       messageId,
       data: {},
     }),
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail if radio-group has nested list in *ngFor',
+      description: 'should fail if radio-group has nested list',
       annotatedSource: `
       <sky-radio-group>
-        <ol>
+        <ul>
         ~~~~
           <li *ngFor="let item of items">
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,8 +82,59 @@ ruleTester.run(RULE_NAME, rule, {
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           </li>
           ~~~~~
-        </ol>
+        </ul>
         ~~~~~
+      </sky-radio-group>
+      `,
+      annotatedOutput: `
+      <sky-radio-group>
+        ~
+        ~
+          <ng-container *ngFor="let item of items">
+          ~
+            <sky-radio labelText="Foo" />
+            ~
+          </ng-container>
+          ~
+        ~
+        ~
+      </sky-radio-group>
+      `,
+      messageId,
+      data: {},
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail if radio-group has nested list',
+      annotatedSource: `
+      <sky-radio-group>
+        <ul>
+        ~~~~
+          @for (item of items; track item.name) {
+            <li>
+            ~~~~
+              <sky-radio labelText="Foo" />
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            </li>
+            ~~~~~
+          }
+        </ul>
+        ~~~~~
+      </sky-radio-group>
+      `,
+      annotatedOutput: `
+      <sky-radio-group>
+        ~
+        ~
+          @for (item of items; track item.name) {
+            ~
+            ~
+              <sky-radio labelText="Foo" />
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            ~
+            ~
+          }
+        ~
+        ~
       </sky-radio-group>
       `,
       messageId,
