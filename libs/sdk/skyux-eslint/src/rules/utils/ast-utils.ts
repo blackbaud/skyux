@@ -50,6 +50,13 @@ export function getChildrenNodesOf(
   return found;
 }
 
+export function getStructuralDirective(el: TmplAstTemplate): string {
+  const structuralDirective = el.startSourceSpan.toString().split('*')[1];
+  const fragments = structuralDirective.split('"');
+
+  return `*${fragments[0]}"${fragments[1]}"`;
+}
+
 export function getTextContent(el: TmplAstElement): string {
   let text = '';
 

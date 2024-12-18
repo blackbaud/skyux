@@ -5,186 +5,100 @@ import {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { RuleFix } from '@typescript-eslint/utils/dist/ts-eslint';
 
-import { getChildrenNodesOf } from '../utils/ast-utils';
+import { getChildrenNodesOf, getStructuralDirective } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
 export const RULE_NAME = 'no-radio-group-with-nested-list';
 export const messageId = 'noRadioGroupWithNestedList';
 
-// type TmplAstNodeWithParent = TmplAstNode & { parent?: TmplAstNode };
-
-// function getNextElementOrTemplateParent(
-//   node: TmplAstNodeWithParent,
-// ): AST | undefined {
-//   const parent = node.parent;
-//   if (parent) {
-//     return getNextElementOrTemplateParent(
-//       parent as unknown as TmplAstNodeWithParent,
-//     );
-//   }
-//   return parent;
-// }
-
-// export const rule = createESLintTemplateRule({
-//   create(context) {
-//     const parserServices = getTemplateParserServices(context);
-
-//     return {
-//       [`Element$1[name="sky-radio"]`](el: TmplAstElement): void {
-//         console.log('el:', el);
-//         // console.log('el:', el.sourceSpan.toString());
-//         // console.log('el2', el.references);
-//         // const parent = getNextElementOrTemplateParent(el);
-//         // console.log('parent', parent);
-//         context.report({
-//           loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
-//           messageId,
-//           data: {},
-//         });
-//       },
-//     };
-//   },
-//   defaultOptions: [],
-//   meta: {
-//     docs: {
-//       description: '',
-//     },
-//     messages: {
-//       [messageId]: 'Do not nest lists within a sky-radio-group.',
-//     },
-//     schema: [],
-//     type: 'problem',
-//     fixable: 'code',
-//   },
-//   name: RULE_NAME,
-// });
-
-function getStructuralDirective(el: TmplAstTemplate): string {
-  const structuralDirective = el.startSourceSpan.toString().split('*')[1];
-  const fragments = structuralDirective.split('"');
-
-  return `*${fragments[0]}"${fragments[1]}"`;
+/**
+ * Removes the start tag of the provided element.
+ */
+function removeStartTag(el: TmplAstElement): RuleFix {
+  return {
+    range: [el.startSourceSpan.start.offset, el.startSourceSpan.end.offset],
+    text: '',
+  };
 }
 
-// function removeStartTag(el: TmplAstElement): RuleFix {
-//   return {range:[
-//     el.startSourceSpan.start.offset,
-//     el.startSourceSpan.end.offset,
-//   ],
-//   text: ''};
+/**
+ * Removes the end tag of the provided element, if it exists.
+ */
+function removeEndTag(el: TmplAstElement): RuleFix {
+  if (!el.endSourceSpan) {
+    return {
+      range: [0, 0],
+      text: '',
+    };
+  }
 
-// }
+  return {
+    range: [el.endSourceSpan.start.offset, el.endSourceSpan.end.offset],
+    text: '',
+  };
+}
+
+/**
+ * Removes the start and end tags of the provided element. If the element
+ * includes structural directives, the tags are replaced with `<ng-container>`
+ * tags.
+ */
+function unwrap(el: TmplAstElement | TmplAstTemplate): RuleFix[] {
+  const fixers: RuleFix[] = [];
+
+  if (el instanceof TmplAstTemplate) {
+    const structuralDirective = getStructuralDirective(el);
+
+    if (structuralDirective) {
+      fixers.push({
+        range: [el.startSourceSpan.start.offset, el.startSourceSpan.end.offset],
+        text: `<ng-container ${structuralDirective}>`,
+      });
+
+      if (el.endSourceSpan) {
+        fixers.push({
+          range: [el.endSourceSpan.start.offset, el.endSourceSpan.end.offset],
+          text: '</ng-container>',
+        });
+      }
+    }
+  } else {
+    fixers.push(removeStartTag(el), removeEndTag(el));
+  }
+
+  return fixers;
+}
 
 export const rule = createESLintTemplateRule({
   create(context) {
     const parserServices = getTemplateParserServices(context);
 
     return {
-      [`Element$1[name=/^(sky-radio-group)$/]`](el: TmplAstElement): void {
-        el.children.forEach((child) => {
-          if (
-            child instanceof TmplAstElement &&
-            (child.name === 'ul' || child.name === 'ol')
-          ) {
-            context.report({
-              loc: parserServices.convertNodeSourceSpanToLoc(child.sourceSpan),
-              messageId,
-              data: {},
-              fix: (fixer) => {
-                const fixers: RuleFix[] = [];
+      [`Element$1[name=sky-radio-group] :matches(Element$1)[name=/^(ol|ul)$/]`](
+        listEl: TmplAstElement,
+      ): void {
+        context.report({
+          loc: parserServices.convertNodeSourceSpanToLoc(listEl.sourceSpan),
+          messageId,
+          data: {},
+          fix: () => {
+            const fixers: RuleFix[] = [];
 
-                fixers.push(
-                  fixer.replaceTextRange(
-                    [
-                      child.startSourceSpan.start.offset,
-                      child.startSourceSpan.end.offset,
-                    ],
-                    '',
-                  ),
-                );
+            fixers.push(removeStartTag(listEl));
 
-                // for (const c of child.children) {
-                //   console.log('CHILD', c);
+            const listItems = getChildrenNodesOf(listEl, 'li') as (
+              | TmplAstElement
+              | TmplAstTemplate
+            )[];
 
-                //   if (c instanceof TmplAstText) {
-                //     console.log('TEXT', c.value);
-                //   }
-                // }
+            for (const listItem of listItems) {
+              fixers.push(...unwrap(listItem));
+            }
 
-                const listItems = getChildrenNodesOf(child, 'li') as (
-                  | TmplAstElement
-                  | TmplAstTemplate
-                )[];
+            fixers.push(removeEndTag(listEl));
 
-                for (const listItem of listItems) {
-                  if (listItem instanceof TmplAstTemplate) {
-                    const structuralDirective =
-                      getStructuralDirective(listItem);
-
-                    if (structuralDirective) {
-                      fixers.push(
-                        fixer.replaceTextRange(
-                          [
-                            listItem.startSourceSpan.start.offset,
-                            listItem.startSourceSpan.end.offset,
-                          ],
-                          `<ng-container ${structuralDirective}>`,
-                        ),
-                      );
-
-                      if (listItem.endSourceSpan) {
-                        fixers.push(
-                          fixer.replaceTextRange(
-                            [
-                              listItem.endSourceSpan.start.offset,
-                              listItem.endSourceSpan.end.offset,
-                            ],
-                            '</ng-container>',
-                          ),
-                        );
-                      }
-                    }
-                  } else {
-                    fixers.push(
-                      fixer.replaceTextRange(
-                        [
-                          listItem.startSourceSpan.start.offset,
-                          listItem.startSourceSpan.end.offset,
-                        ],
-                        '',
-                      ),
-                    );
-
-                    if (listItem.endSourceSpan) {
-                      fixers.push(
-                        fixer.replaceTextRange(
-                          [
-                            listItem.endSourceSpan.start.offset,
-                            listItem.endSourceSpan.end.offset,
-                          ],
-                          '',
-                        ),
-                      );
-                    }
-                  }
-                }
-
-                if (child.endSourceSpan) {
-                  fixers.push(
-                    fixer.replaceTextRange(
-                      [
-                        child.endSourceSpan.start.offset,
-                        child.endSourceSpan.end.offset,
-                      ],
-                      '',
-                    ),
-                  );
-                }
-
-                return fixers;
-              },
-            });
-          }
+            return fixers;
+          },
         });
       },
     };
@@ -192,7 +106,8 @@ export const rule = createESLintTemplateRule({
   defaultOptions: [],
   meta: {
     docs: {
-      description: '',
+      description:
+        'Avoid nesting lists within a `sky-radio-group` component, for accessibility reasons.',
     },
     messages: {
       [messageId]: 'Do not nest lists within a sky-radio-group.',

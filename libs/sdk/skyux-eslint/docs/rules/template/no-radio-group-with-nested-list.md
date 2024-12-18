@@ -1,6 +1,6 @@
 # `skyux-eslint-template/no-radio-group-with-nested-list`
 
-Prevents nesting of ordered and unordered lists within `sky-radio-group` components.
+Prevents nesting of ordered and unordered lists within `sky-radio-group` components, for accessibility reasons.
 
 - Type: problem
 

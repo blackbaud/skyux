@@ -16,7 +16,7 @@ ruleTester.run(RULE_NAME, rule, {
       </sky-radio>
     </sky-radio-group>`,
     `<sky-radio-group>
-      @for (item of items; track: item.id) {
+      @for (item of items; track item.name) {
         <sky-radio labelText="Foo" />
       }
     </sky-radio-group>`,
