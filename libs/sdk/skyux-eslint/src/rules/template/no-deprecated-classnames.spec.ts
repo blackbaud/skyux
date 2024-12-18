@@ -57,31 +57,5 @@ ruleTester.run(RULE_NAME, rule, {
         replacement: 'sky-margin-inline-xs, sky-font-data-label',
       },
     }),
-    // convertAnnotatedSourceToFailureCase({
-    //   description: 'should fail with multiple classnames',
-    //   annotatedSource: `
-    //   <div class="${DEPRECATED_FORMATTED}"></div>
-    //        ~~~~~~~${'~'.repeat(DEPRECATED_FORMATTED.length)}~
-    //   `,
-    //   annotatedOutput: `
-    //   <div class="${REPLACEMENTS_FORMATTED}"></div>
-    //        ~
-    //   `,
-    //   messageId,
-    //   data: {},
-    // }),
-    // convertAnnotatedSourceToFailureCase({
-    //   description: 'should fail',
-    //   annotatedSource: `<div class="sky-margin-inline-compact"></div>`,
-    //   annotatedOutput: `<div class="sky-margin-inline-xs"></div>`,
-    //   messageId,
-    //   data: {},
-    // }),
-    // convertAnnotatedSourceToFailureCase({
-    //   description: 'should fail',
-    //   annotatedSource: `<div [ngClass]="{ 'sky-margin-inline-compact': true }"></div>`,
-    //   messageId,
-    //   data: {},
-    // }),
   ],
 });
