@@ -7,6 +7,7 @@ export default [
   {
     name: 'skyux-eslint-template-all',
     rules: {
+      'skyux-eslint-template/no-deprecated-classnames': 'error',
       'skyux-eslint-template/no-deprecated-directives': 'error',
       'skyux-eslint-template/no-radio-group-with-nested-list': 'error',
       'skyux-eslint-template/no-unbound-id': 'error',

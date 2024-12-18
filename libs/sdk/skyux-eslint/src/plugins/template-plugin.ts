@@ -2,6 +2,10 @@ import { processors } from '@angular-eslint/eslint-plugin-template';
 import type { TSESLint } from '@typescript-eslint/utils';
 
 import {
+  rule as noDeprecatedClassnames,
+  RULE_NAME as noDeprecatedClassnamesRuleName,
+} from '../rules/template/no-deprecated-classnames';
+import {
   rule as noDeprecatedDirectives,
   RULE_NAME as noDeprecatedDirectivesRuleName,
 } from '../rules/template/no-deprecated-directives';
@@ -24,6 +28,7 @@ export default {
   },
   processors,
   rules: {
+    [noDeprecatedClassnamesRuleName]: noDeprecatedClassnames,
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
     [noUnboundIdRuleName]: noUnboundId,
