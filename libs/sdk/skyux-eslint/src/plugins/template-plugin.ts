@@ -6,6 +6,10 @@ import {
   RULE_NAME as noDeprecatedDirectivesRuleName,
 } from '../rules/template/no-deprecated-directives';
 import {
+  rule as noRadioGroupWithNestedList,
+  RULE_NAME as noRadioGroupWithNestedListRuleName,
+} from '../rules/template/no-radio-group-with-nested-list';
+import {
   rule as noUnboundId,
   RULE_NAME as noUnboundIdRuleName,
 } from '../rules/template/no-unbound-id';
@@ -21,6 +25,7 @@ export default {
   processors,
   rules: {
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
+    [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
     [noUnboundIdRuleName]: noUnboundId,
     [preferLabelTextRuleName]: preferLabelText,
   },
