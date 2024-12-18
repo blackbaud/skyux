@@ -107,10 +107,10 @@ export const rule = createESLintTemplateRule({
   meta: {
     docs: {
       description:
-        'Avoid nesting lists within a `sky-radio-group` component, for accessibility reasons.',
+        'Avoid nesting lists within a sky-radio-group component, for accessibility reasons.',
     },
     messages: {
-      [messageId]: 'Do not nest lists within a sky-radio-group.',
+      [messageId]: 'Do not nest lists within sky-radio-group.',
     },
     schema: [],
     type: 'problem',

@@ -6,6 +6,9 @@ import {
   TmplAstText,
 } from '@angular-eslint/bundled-angular-compiler';
 
+/**
+ * Gets a child node of the provided element with the specified name.
+ */
 export function getChildNodeOf(
   el: TmplAstElement,
   childNodeName: string,
@@ -25,6 +28,9 @@ export function getChildNodeOf(
 
 type TmplAstNodeWithChildren = TmplAstNode & { children?: TmplAstNode[] };
 
+/**
+ * Gets all children nodes of the provided element with the specified name.
+ */
 export function getChildrenNodesOf(
   el: TmplAstNodeWithChildren,
   childNodeName: string,
@@ -50,6 +56,9 @@ export function getChildrenNodesOf(
   return found;
 }
 
+/**
+ * Gets the structural directive of the provided template element.
+ */
 export function getStructuralDirective(el: TmplAstTemplate): string {
   const structuralDirective = el.startSourceSpan.toString().split('*')[1];
   const fragments = structuralDirective.split('"');
@@ -57,6 +66,9 @@ export function getStructuralDirective(el: TmplAstTemplate): string {
   return `*${fragments[0]}"${fragments[1]}"`;
 }
 
+/**
+ * Gets the text content of the provided element.
+ */
 export function getTextContent(el: TmplAstElement): string {
   let text = '';
 
