@@ -14,7 +14,7 @@ export const messageId = 'noRadioGroupWithNestedList';
 /**
  * Removes the start tag of the provided element.
  */
-function removeStartTag(el: TmplAstElement): RuleFix {
+function removeStartTag(el: TmplAstElement | TmplAstTemplate): RuleFix {
   return {
     range: [el.startSourceSpan.start.offset, el.startSourceSpan.end.offset],
     text: '',
@@ -24,7 +24,7 @@ function removeStartTag(el: TmplAstElement): RuleFix {
 /**
  * Removes the end tag of the provided element, if it exists.
  */
-function removeEndTag(el: TmplAstElement): RuleFix {
+function removeEndTag(el: TmplAstElement | TmplAstTemplate): RuleFix {
   /* istanbul ignore if: safety check */
   if (!el.endSourceSpan) {
     return {
@@ -62,6 +62,8 @@ function unwrap(el: TmplAstElement | TmplAstTemplate): RuleFix[] {
           text: '</ng-container>',
         });
       }
+    } else {
+      fixers.push(removeStartTag(el), removeEndTag(el));
     }
   } else {
     fixers.push(removeStartTag(el), removeEndTag(el));
