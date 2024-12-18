@@ -5,7 +5,7 @@ import {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { RuleFix } from '@typescript-eslint/utils/dist/ts-eslint';
 
-import { getChildrenNodesOf, getStructuralDirective } from '../utils/ast-utils';
+import { getChildrenNodesOf, getNgFor } from '../utils/ast-utils';
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
 export const RULE_NAME = 'no-radio-group-with-nested-list';
@@ -48,12 +48,12 @@ function unwrap(el: TmplAstElement | TmplAstTemplate): RuleFix[] {
   const fixers: RuleFix[] = [];
 
   if (el instanceof TmplAstTemplate) {
-    const structuralDirective = getStructuralDirective(el);
+    const ngFor = getNgFor(el);
 
-    if (structuralDirective) {
+    if (ngFor) {
       fixers.push({
         range: [el.startSourceSpan.start.offset, el.startSourceSpan.end.offset],
-        text: `<ng-container ${structuralDirective}>`,
+        text: `<ng-container ${ngFor}>`,
       });
 
       if (el.endSourceSpan) {
