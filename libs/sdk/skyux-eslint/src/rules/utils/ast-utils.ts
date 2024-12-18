@@ -58,15 +58,6 @@ export function getChildrenNodesOf(
 }
 
 /**
-<<<<<<< HEAD
- * Gets the structural directive of the provided template element.
- */
-export function getStructuralDirective(el: TmplAstTemplate): string {
-  const structuralDirective = el.startSourceSpan.toString().split('*')[1];
-  const fragments = structuralDirective.split('"');
-
-  return `*${fragments[0]}"${fragments[1]}"`;
-=======
  * Gets the *ngFor structural directive of the provided template element.
  */
 export function getNgFor(el: TmplAstTemplate): string {
@@ -78,7 +69,6 @@ export function getNgFor(el: TmplAstTemplate): string {
   const fragments = ngFor.split('"');
 
   return `*ngFor${fragments[0]}"${fragments[1]}"`;
->>>>>>> origin/main
 }
 
 /**

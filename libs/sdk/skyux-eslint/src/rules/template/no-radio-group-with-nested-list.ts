@@ -5,11 +5,7 @@ import {
 import { getTemplateParserServices } from '@angular-eslint/utils';
 import { RuleFix } from '@typescript-eslint/utils/dist/ts-eslint';
 
-<<<<<<< HEAD
-import { getChildrenNodesOf, getStructuralDirective } from '../utils/ast-utils';
-=======
 import { getChildrenNodesOf, getNgFor } from '../utils/ast-utils';
->>>>>>> origin/main
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
 export const RULE_NAME = 'no-radio-group-with-nested-list';
@@ -18,11 +14,7 @@ export const messageId = 'noRadioGroupWithNestedList';
 /**
  * Removes the start tag of the provided element.
  */
-<<<<<<< HEAD
-function removeStartTag(el: TmplAstElement): RuleFix {
-=======
 function removeStartTag(el: TmplAstElement | TmplAstTemplate): RuleFix {
->>>>>>> origin/main
   return {
     range: [el.startSourceSpan.start.offset, el.startSourceSpan.end.offset],
     text: '',
@@ -32,11 +24,7 @@ function removeStartTag(el: TmplAstElement | TmplAstTemplate): RuleFix {
 /**
  * Removes the end tag of the provided element, if it exists.
  */
-<<<<<<< HEAD
-function removeEndTag(el: TmplAstElement): RuleFix {
-=======
 function removeEndTag(el: TmplAstElement | TmplAstTemplate): RuleFix {
->>>>>>> origin/main
   /* istanbul ignore if: safety check */
   if (!el.endSourceSpan) {
     return {
@@ -60,21 +48,12 @@ function unwrap(el: TmplAstElement | TmplAstTemplate): RuleFix[] {
   const fixers: RuleFix[] = [];
 
   if (el instanceof TmplAstTemplate) {
-<<<<<<< HEAD
-    const structuralDirective = getStructuralDirective(el);
-
-    if (structuralDirective) {
-      fixers.push({
-        range: [el.startSourceSpan.start.offset, el.startSourceSpan.end.offset],
-        text: `<ng-container ${structuralDirective}>`,
-=======
     const ngFor = getNgFor(el);
 
     if (ngFor) {
       fixers.push({
         range: [el.startSourceSpan.start.offset, el.startSourceSpan.end.offset],
         text: `<ng-container ${ngFor}>`,
->>>>>>> origin/main
       });
 
       if (el.endSourceSpan) {
@@ -83,11 +62,8 @@ function unwrap(el: TmplAstElement | TmplAstTemplate): RuleFix[] {
           text: '</ng-container>',
         });
       }
-<<<<<<< HEAD
-=======
     } else {
       fixers.push(removeStartTag(el), removeEndTag(el));
->>>>>>> origin/main
     }
   } else {
     fixers.push(removeStartTag(el), removeEndTag(el));
