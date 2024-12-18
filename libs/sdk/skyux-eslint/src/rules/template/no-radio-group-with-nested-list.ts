@@ -3,8 +3,8 @@ import { getTemplateParserServices } from '@angular-eslint/utils';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
-export const RULE_NAME = 'radio-group-with-nested-list';
-export const messageId = 'radioGroupWithNestedList';
+export const RULE_NAME = 'no-radio-group-with-nested-list';
+export const messageId = 'noRadioGroupWithNestedList';
 
 export const rule = createESLintTemplateRule({
   create(context) {
@@ -33,7 +33,7 @@ export const rule = createESLintTemplateRule({
       description: '',
     },
     messages: {
-      [messageId]: 'Do not nest lists within a sky-radiogroup.',
+      [messageId]: 'Do not nest lists within a sky-radio-group.',
     },
     schema: [],
     type: 'problem',

@@ -2,7 +2,7 @@ import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils'
 
 import { createTemplateRuleTester } from '../testing/create-template-rule-tester';
 
-import { RULE_NAME, messageId, rule } from './radio-group-with-nested-list';
+import { RULE_NAME, messageId, rule } from './no-radio-group-with-nested-list';
 
 const ruleTester = createTemplateRuleTester();
 
@@ -19,6 +19,9 @@ ruleTester.run(RULE_NAME, rule, {
       @for (item of items; track: item.id) {
         <sky-radio labelText="Foo" />
       }
+    </sky-radio-group>`,
+    `<sky-radio-group>
+      <sky-radio *ngFor="let item of items" labelText="Foo" />
     </sky-radio-group>`,
   ],
   invalid: [
@@ -48,10 +51,10 @@ ruleTester.run(RULE_NAME, rule, {
       data: {},
     }),
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail if radio-group has nested list',
+      description: 'should fail if radio-group has nested list in *ngFor',
       annotatedSource: `
       <sky-radio-group>
-        <ul>
+        <ol>
         ~~~~
           <li *ngFor="let item of items">
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,7 +62,7 @@ ruleTester.run(RULE_NAME, rule, {
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           </li>
           ~~~~~
-        </ul>
+        </ol>
         ~~~~~
       </sky-radio-group>
       `,
