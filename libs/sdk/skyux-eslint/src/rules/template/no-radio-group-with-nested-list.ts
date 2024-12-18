@@ -86,11 +86,7 @@ export const rule = createESLintTemplateRule({
 
             fixers.push(removeStartTag(listEl));
 
-            const listItems = getChildrenNodesOf(listEl, 'li') as (
-              | TmplAstElement
-              | TmplAstTemplate
-            )[];
-
+            const listItems = getChildrenNodesOf(listEl, 'li');
             for (const listItem of listItems) {
               fixers.push(...unwrap(listItem));
             }

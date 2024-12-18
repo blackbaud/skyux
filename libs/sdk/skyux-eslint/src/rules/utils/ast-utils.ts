@@ -34,7 +34,7 @@ type TmplAstNodeWithChildren = TmplAstNode & { children?: TmplAstNode[] };
 export function getChildrenNodesOf(
   el: TmplAstNodeWithChildren,
   childNodeName: string,
-): TmplAstNodeWithChildren[] {
+): (TmplAstElement | TmplAstTemplate)[] {
   const found: TmplAstNodeWithChildren[] = [];
 
   if (el.children) {
@@ -53,7 +53,7 @@ export function getChildrenNodesOf(
     }
   }
 
-  return found;
+  return found as (TmplAstElement | TmplAstTemplate)[];
 }
 
 /**

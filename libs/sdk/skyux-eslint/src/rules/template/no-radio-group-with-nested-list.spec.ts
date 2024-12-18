@@ -129,7 +129,7 @@ ruleTester.run(RULE_NAME, rule, {
             ~
             ~
               <sky-radio labelText="Foo" />
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              ~
             ~
             ~
           }
