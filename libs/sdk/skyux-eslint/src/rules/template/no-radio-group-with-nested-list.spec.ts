@@ -71,7 +71,7 @@ ruleTester.run(RULE_NAME, rule, {
       data: {},
     }),
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail if radio-group has nested list',
+      description: 'should handle ngFor structural directives',
       annotatedSource: `
       <sky-radio-group>
         <ul>
@@ -104,7 +104,40 @@ ruleTester.run(RULE_NAME, rule, {
       data: {},
     }),
     convertAnnotatedSourceToFailureCase({
-      description: 'should fail if radio-group has nested list',
+      description: 'should ignore other structural directives',
+      annotatedSource: `
+      <sky-radio-group>
+        <ul>
+        ~~~~
+          <li *ngIf="foobar">
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            <sky-radio labelText="Foo" />
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          </li>
+          ~~~~~
+        </ul>
+        ~~~~~
+      </sky-radio-group>
+      `,
+      annotatedOutput: `
+      <sky-radio-group>
+        ~
+        ~
+          ~
+          ~
+            <sky-radio labelText="Foo" />
+            ~
+          ~
+          ~
+        ~
+        ~
+      </sky-radio-group>
+      `,
+      messageId,
+      data: {},
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should handle built-in control flow',
       annotatedSource: `
       <sky-radio-group>
         <ul>
