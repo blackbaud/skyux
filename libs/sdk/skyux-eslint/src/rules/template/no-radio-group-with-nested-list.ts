@@ -25,6 +25,7 @@ function removeStartTag(el: TmplAstElement): RuleFix {
  * Removes the end tag of the provided element, if it exists.
  */
 function removeEndTag(el: TmplAstElement): RuleFix {
+  /* istanbul ignore if: safety check */
   if (!el.endSourceSpan) {
     return {
       range: [0, 0],
