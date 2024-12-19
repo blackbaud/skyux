@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.30.0](https://github.com/blackbaud/skyux/compare/11.29.0...11.30.0) (2024-12-19)
+
+
+### Features
+
+* **sdk/skyux-eslint:** add `no-deprecated-classnames` rule ([#2953](https://github.com/blackbaud/skyux/issues/2953)) ([5ca8de6](https://github.com/blackbaud/skyux/commit/5ca8de696aa3bc36890ed0ce8500ee8febbb5934))
+* **sdk/skyux-eslint:** add `no-radio-group-with-nested-list` rule ([#2951](https://github.com/blackbaud/skyux/issues/2951)) ([7f34a3f](https://github.com/blackbaud/skyux/commit/7f34a3f18a72ff46438a1cbeb04dfb34b2e5b6ad))
+
+
+### Bug Fixes
+
+* **components/text-editor:** update `dompurify` to address a security vulnerability ([#2954](https://github.com/blackbaud/skyux/issues/2954)) ([3b4e7ad](https://github.com/blackbaud/skyux/commit/3b4e7ad020b75f7eed9efa6c415929503542e0aa))
+
 ## [11.29.0](https://github.com/blackbaud/skyux/compare/11.28.0...11.29.0) (2024-12-16)
 
 
