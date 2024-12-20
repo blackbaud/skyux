@@ -11,6 +11,7 @@ import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
   SkyDateRangePickerModule,
+  SkyDatepickerModule,
 } from '@skyux/datetime';
 
 function dateRangeExcludesWeekend(
