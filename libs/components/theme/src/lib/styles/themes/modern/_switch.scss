@@ -144,9 +144,9 @@
         outline: none;
       }
 
-      &:not(:hover, :active, :focus-visible) {
-        &:checked:not(:disabled) + .sky-switch-control,
-        &[type='checkbox']:indeterminate:not(:disabled) + .sky-switch-control {
+      &:enabled:not(:hover):not(:active):not(:focus-visible) {
+        &:checked + .sky-switch-control,
+        &[type='checkbox']:indeterminate + .sky-switch-control {
           &.sky-switch-control-success {
             border-color: var(
               --sky-override-switch-border-color,
