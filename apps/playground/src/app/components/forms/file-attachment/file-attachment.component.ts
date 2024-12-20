@@ -92,4 +92,17 @@ export class FileAttachmentComponent {
       }
     }
   }
+
+  public markTouched(): void {
+    this.attachment.markAsTouched();
+  }
+
+  public loadFile(): void {
+    const file: SkyFileItem = {
+      file: new File([], 'foo.bar', { type: 'image/png' }),
+      url: 'foo.bar.bar',
+    };
+
+    this.attachment.setValue(file);
+  }
 }

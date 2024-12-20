@@ -12,7 +12,11 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { SkyIdModule, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
@@ -55,6 +59,11 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: SkyFileDropComponent,
+      multi: true,
+    },
   ],
   standalone: true,
   imports: [
@@ -71,7 +80,22 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyThemeModule,
   ],
 })
-export class SkyFileDropComponent implements OnDestroy {
+export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
+  public writeValue(value: any): void {
+    this.#handleFiles(value);
+  }
+
+  public registerOnChange(fn: any): void {
+    this.#notifyChange = fn;
+  }
+
+  #notifyTouched: (() => void) | undefined;
+  #notifyChange: ((_: any) => void) | undefined;
+
+  public registerOnTouched(fn: () => void): void {
+    this.#notifyTouched = fn;
+  }
+
   /**
    * Fires when users add or remove files.
    */
@@ -270,6 +294,7 @@ export class SkyFileDropComponent implements OnDestroy {
 
   public dropClicked(): void {
     if (!this.noClick && this.inputEl) {
+      this.#notifyTouched?.();
       this.inputEl.nativeElement.click();
     }
   }
@@ -329,6 +354,8 @@ export class SkyFileDropComponent implements OnDestroy {
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
+    this.#notifyTouched?.();
+
     this.#enterEventTarget = undefined;
     this.rejectedOver = false;
     this.acceptedOver = false;
@@ -372,6 +399,7 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   public onLinkBlur(): void {
+    this.#notifyTouched?.();
     this.linkInputBlur.emit();
   }
 
@@ -398,6 +426,8 @@ export class SkyFileDropComponent implements OnDestroy {
       if (this.inputEl) {
         this.inputEl.nativeElement.value = '';
       }
+
+      this.#notifyChange?.(undefined);
     }
   }
 
@@ -455,11 +485,11 @@ export class SkyFileDropComponent implements OnDestroy {
     reader.readAsDataURL(file.file);
   }
 
-  #handleFiles(files?: FileList | null): void {
+  #handleFiles(files?: FileList | null | SkyFileItem): void {
     if (files) {
       const validFileArray: SkyFileItem[] = [];
       const rejectedFileArray: SkyFileItem[] = [];
-      const totalFiles = files.length;
+      const totalFiles = files instanceof FileList ? files.length : 1;
 
       const processedFiles = this.#fileAttachmentService.checkFiles(
         files,
