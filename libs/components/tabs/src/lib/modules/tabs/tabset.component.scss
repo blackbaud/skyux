@@ -96,6 +96,7 @@ sky-tabset {
       var(--sky-space-inset-floated-right-m)
     );
   }
+
   .sky-tabset-style-wizard {
     --sky-tabset-margin: var(
       --sky-override-tabset-wizard-modal-margin,
@@ -137,10 +138,11 @@ sky-tabset {
   max-width: 100%;
 }
 
-.sky-tabset-mode-dropdown {
-  /* This line fixes an issue with extra whitespace under collapsed (dropdown) tabs in IE 11. */
-  // line-height: 0;
+.sky-tabset.sky-tabset-mode-dropdown {
+  overflow: hidden;
+}
 
+.sky-tabset-mode-dropdown {
   .sky-tabset-tabs {
     visibility: hidden;
     order: 2;

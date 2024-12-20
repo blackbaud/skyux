@@ -2,9 +2,17 @@ import { processors } from '@angular-eslint/eslint-plugin-template';
 import type { TSESLint } from '@typescript-eslint/utils';
 
 import {
+  rule as noDeprecatedClassnames,
+  RULE_NAME as noDeprecatedClassnamesRuleName,
+} from '../rules/template/no-deprecated-classnames';
+import {
   rule as noDeprecatedDirectives,
   RULE_NAME as noDeprecatedDirectivesRuleName,
 } from '../rules/template/no-deprecated-directives';
+import {
+  rule as noRadioGroupWithNestedList,
+  RULE_NAME as noRadioGroupWithNestedListRuleName,
+} from '../rules/template/no-radio-group-with-nested-list';
 import {
   rule as noUnboundId,
   RULE_NAME as noUnboundIdRuleName,
@@ -20,7 +28,9 @@ export default {
   },
   processors,
   rules: {
+    [noDeprecatedClassnamesRuleName]: noDeprecatedClassnames,
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
+    [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
     [noUnboundIdRuleName]: noUnboundId,
     [preferLabelTextRuleName]: preferLabelText,
   },
