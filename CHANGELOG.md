@@ -1,5 +1,14 @@
 # Changelog
 
+## [11.30.1](https://github.com/blackbaud/skyux/compare/11.30.0...11.30.1) (2024-12-20)
+
+
+### Bug Fixes
+
+* **components/datetime:** date range picker code example imports `SkyDatepickerModule` ([#2958](https://github.com/blackbaud/skyux/issues/2958)) ([0b60c6d](https://github.com/blackbaud/skyux/commit/0b60c6d6cff5709306834cbc746576705c612102))
+* **components/forms:** styles do not output build warnings when utlizing checkboxes or radio buttons ([#2957](https://github.com/blackbaud/skyux/issues/2957)) ([17304d0](https://github.com/blackbaud/skyux/commit/17304d0ce39e696c3233c4a5d2f8a3a9b0a9f6f9))
+* **components/tabs:** remove tabset overflow when collapsed ([#2955](https://github.com/blackbaud/skyux/issues/2955)) ([21fa666](https://github.com/blackbaud/skyux/commit/21fa6663f1e8a4ac19e4169d232fb96cef324b11))
+
 ## [11.30.0](https://github.com/blackbaud/skyux/compare/11.29.0...11.30.0) (2024-12-19)
 
 
