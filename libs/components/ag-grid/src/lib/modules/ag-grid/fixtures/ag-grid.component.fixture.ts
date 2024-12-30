@@ -204,7 +204,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
     domLayout: inject(DomLayout),
-    suppressColumnVirtualisation: true,
+    suppressColumnVirtualisation: false,
     context: {
       enableTopScroll: this.enableTopScroll,
     },
