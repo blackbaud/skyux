@@ -3,13 +3,13 @@ name: Sync issue to Azure DevOps work item
 on:
   issues:
     types:
-      [opened, edited, deleted, closed, reopened, labeled, unlabeled, assigned]
+      [ opened, edited, deleted, closed, reopened, labeled, unlabeled, assigned ]
 
 jobs:
   alert:
     runs-on: ubuntu-latest
     steps:
-      - uses: danhellem/github-actions-issue-to-work-item@3072da42abf94ebe4c7778c57fb4af06db341c72
+      - uses: danhellem/github-actions-issue-to-work-item@45eb3b46e684f2acd2954f02ef70350c835ee4bb
         env:
           ado_token: '${{ secrets.ADO_PERSONAL_ACCESS_TOKEN }}'
           github_token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
