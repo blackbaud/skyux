@@ -15,7 +15,8 @@ import {
 import {
   ControlValueAccessor,
   FormsModule,
-  NG_VALUE_ACCESSOR,
+  NgControl,
+  Validators,
 } from '@angular/forms';
 import { SkyIdModule, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyIdService } from '@skyux/core';
@@ -59,11 +60,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: SkyFileDropComponent,
-      multi: true,
-    },
   ],
   standalone: true,
   imports: [
@@ -81,19 +77,36 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   ],
 })
 export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
-  public writeValue(value: any): void {
-    this.#handleFiles(value);
+  #notifyTouched: (() => void) | undefined;
+  #notifyChange:
+    | ((_: (SkyFileItem | SkyFileLink)[] | undefined | null) => void)
+    | undefined;
+  #_uploadedFiles: (SkyFileItem | SkyFileLink)[] | undefined | null = [];
+
+  protected ngControl = inject(NgControl);
+  protected get isRequired(): boolean {
+    return (
+      this.required ||
+      (this.ngControl.control?.hasValidator(Validators.required) ?? false)
+    );
+  }
+
+  public writeValue(value: SkyFileItem[]): void {
+    value.forEach((file) => {
+      this.#handleFiles(file);
+    });
   }
 
   public registerOnChange(fn: any): void {
     this.#notifyChange = fn;
   }
 
-  #notifyTouched: (() => void) | undefined;
-  #notifyChange: ((_: any) => void) | undefined;
-
   public registerOnTouched(fn: () => void): void {
     this.#notifyTouched = fn;
+  }
+
+  constructor() {
+    this.ngControl.valueAccessor = this;
   }
 
   /**
@@ -391,6 +404,8 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   public addLink(event: Event): void {
     event.preventDefault();
     this.linkChanged.emit({ url: this.linkUrl } as SkyFileLink);
+    this.#_uploadedFiles?.push({ url: this.linkUrl } as SkyFileLink);
+    this.#notifyChange?.(this.#_uploadedFiles);
     this.#announceState(
       'skyux_file_attachment_file_upload_link_added',
       this.linkUrl,
@@ -426,8 +441,6 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
       if (this.inputEl) {
         this.inputEl.nativeElement.value = '';
       }
-
-      this.#notifyChange?.(undefined);
     }
   }
 
@@ -453,6 +466,8 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     reader.addEventListener('load', (event: any) => {
       file.url = event.target.result;
       validFileArray.push(file);
+      this.#_uploadedFiles?.push(file);
+      this.#notifyChange?.(this.#_uploadedFiles);
       fileDrop.#emitFileChangeEvent(
         totalFiles,
         rejectedFileArray,
