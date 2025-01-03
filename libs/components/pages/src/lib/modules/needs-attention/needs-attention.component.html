@@ -5,10 +5,10 @@
     </h2>
   </sky-box-header>
   <sky-box-content>
-    @if (items?.length === 0) {
+    @if (!items?.length) {
       {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
     } @else {
-      <ul>
+      <ul class="sky-needs-attention-list">
         @for (item of items; track item; let isLast = $last) {
           <li
             class="sky-needs-attention-item-wrapper sky-font-emphasized"

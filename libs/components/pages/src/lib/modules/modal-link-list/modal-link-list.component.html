@@ -8,15 +8,16 @@
       @for (link of linksArray; track link) {
         <li>
           @if (link | linkAs: 'skyHref') {
-            <a [skyHref]="link.permalink?.url">
+            <a class="sky-link-list-item" [skyHref]="link.permalink?.url">
               {{ link.label }}
             </a>
           } @else if (link | linkAs: 'href') {
-            <a [href]="link.permalink?.url">
+            <a class="sky-link-list-item" [href]="link.permalink?.url">
               {{ link.label }}
             </a>
           } @else if (link.permalink && link.permalink.route) {
             <a
+              class="sky-link-list-item"
               [skyAppLink]="link.permalink.route.commands"
               [queryParams]="link.permalink.route.extras?.queryParams"
               [queryParamsHandling]="
@@ -34,7 +35,7 @@
             </a>
           } @else if (link.modal) {
             <button
-              class="sky-btn sky-btn-link-inline"
+              class="sky-btn sky-btn-link-inline sky-link-list-item"
               type="button"
               (click)="openModal(link)"
             >
