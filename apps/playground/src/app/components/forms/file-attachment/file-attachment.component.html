@@ -8,28 +8,24 @@
     [acceptedTypes]="acceptedTypes"
     [allowLinks]="true"
     [maxFileSize]="maxFileSize"
-    [minFileSize]="minFileSize"
     [required]="required"
     [validateFn]="validateFile"
     [stacked]="true"
-    (filesChanged)="filesUpdated($event)"
-    (linkChanged)="linkAdded($event)"
   />
 </form>
 
-@for (file of allItems; track file) {
-  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)"
-    ><input type="text"
-  /></sky-file-item>
+@for (file of attachment.value; track file) {
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
 }
 
 Values
 <div>Touched: {{ attachment.touched }}</div>
 <div>Dirty: {{ attachment.dirty }}</div>
+<div>Value: {{ attachment.value | json }}</div>
 
 <button class="sky-btn sky-btn-primary" type="button" (click)="markTouched()">
   mark touched
 </button>
-<button class="sky-btn sky-btn-primary" type="button" (click)="loadFile()">
-  load file
+<button class="sky-btn sky-btn-primary" type="button" (click)="setFiles()">
+  set files
 </button>

@@ -23,7 +23,6 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
   NgControl,
   ValidationErrors,
   Validators,
@@ -86,11 +85,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   providers: [
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: SkyFileAttachmentComponent,
-      multi: true,
-    },
   ],
   hostDirectives: [SkyThemeComponentClassDirective],
   selector: 'sky-file-attachment',
