@@ -52,7 +52,6 @@ export default {
 
     // Angular rules
     '@angular-eslint/no-lifecycle-call': 'error',
-    '@angular-eslint/sort-ngmodule-metadata-arrays': 'error',
 
     // TypeScript rules
     'default-param-last': 'off',
