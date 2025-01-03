@@ -11,16 +11,15 @@ import { SkyLinkListItemHarness } from './link-list-item-harness';
 @Component({
   standalone: true,
   selector: 'sky-link-list-test',
-  template: `
-    <sky-link-list
-      data-sky-id="test-list"
-      [links]="inputLinks()"
-      headingText="Heading Text"
-    >
-      @if (showLinks()) {
-        <sky-link-list-item><a href="#">Link 1</a></sky-link-list-item>
-      }
-    </sky-link-list>`,
+  template: ` <sky-link-list
+    data-sky-id="test-list"
+    [links]="inputLinks()"
+    headingText="Heading Text"
+  >
+    @if (showLinks()) {
+      <sky-link-list-item><a href="#">Link 1</a></sky-link-list-item>
+    }
+  </sky-link-list>`,
   imports: [SkyLinkListModule],
 })
 class TestComponent {
@@ -93,7 +92,7 @@ describe('Link list harness', () => {
 
   it('should retrieve list items', async () => {
     const { fixture, loader } = await setupTest();
-    fixture.componentRef.setInput('inputLinks', <SkyPageLinksInput>[
+    fixture.componentRef.setInput('inputLinks', [
       {
         label: 'Test Link 1',
         permalink: {
