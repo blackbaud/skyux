@@ -2,7 +2,7 @@ name: E2E
 
 on:
   merge_group:
-    types: [checks_requested]
+    types: [ checks_requested ]
   pull_request_target:
   push:
     branches:
@@ -376,7 +376,8 @@ jobs:
               exit 1
             fi
           fi
-          fgrep '[percy] Finalized build' ${{ runner.temp }}/percy-${{ matrix.project }}.log | cut -d/ -f 7 > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
+          # Extract the Percy build number from the log
+          fgrep '[percy] Finalized build' ${{ runner.temp }}/percy-${{ matrix.project }}.log | node -e "const rl=require('readline').createInterface({ input: process.stdin }); rl.on('line', (input) => console.log(input.split('/').pop()))" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
         env:
           PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
           PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
