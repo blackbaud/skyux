@@ -14,6 +14,7 @@ import { TileTestContext } from './tile-context.fixture';
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard-on-push.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TileDashboardOnPushTestComponent {
   @ViewChild(SkyTileDashboardComponent, {

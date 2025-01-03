@@ -7,6 +7,7 @@ import { ModalWaitModalComponent } from './modal-wait-modal.component';
   selector: 'app-modal-wait',
   templateUrl: './modal-wait.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ModalWaitComponent {
   public isWaiting = false;

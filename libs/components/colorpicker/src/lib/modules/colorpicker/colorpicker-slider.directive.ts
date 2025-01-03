@@ -14,6 +14,7 @@ import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
  */
 @Directive({
   selector: '[skyColorpickerSlider]',
+  standalone: false,
 })
 export class SkyColorpickerSliderDirective {
   @Output()

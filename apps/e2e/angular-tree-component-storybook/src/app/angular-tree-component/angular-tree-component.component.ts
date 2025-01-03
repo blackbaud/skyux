@@ -5,6 +5,7 @@ import { ITreeOptions } from '@blackbaud/angular-tree-component';
   selector: 'app-angular-tree-component',
   templateUrl: './angular-tree-component.component.html',
   styleUrls: ['./angular-tree-component.component.scss'],
+  standalone: false,
 })
 export class AngularTreeComponentComponent {
   @Input()

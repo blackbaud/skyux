@@ -17,7 +17,6 @@ import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
  */
 @Component({
   selector: 'sky-form-error',
-  standalone: true,
   imports: [SkyStatusIndicatorModule],
   template: `
     @if (formErrors) {

@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-viewkeeper',
   templateUrl: './viewkeeper.component.html',
   styleUrls: ['./viewkeeper.component.scss'],
+  standalone: false,
 })
 export class ViewkeeperComponent {
   protected el2Visible = false;

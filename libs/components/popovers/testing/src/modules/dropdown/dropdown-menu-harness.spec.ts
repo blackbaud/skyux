@@ -15,6 +15,7 @@ import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
       <sky-dropdown-item>Option 2</sky-dropdown-item>
     </sky-dropdown-menu>
   `,
+  standalone: false,
 })
 class TestDropdownMenuComponent {
   public labelledBy: string | undefined;

@@ -32,7 +32,6 @@ import {
 } from '../shared/baseball-players-data';
 
 @Component({
-  standalone: true,
   imports: [
     AgGridAngular,
     CommonModule,

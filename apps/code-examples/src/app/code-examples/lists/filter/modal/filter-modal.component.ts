@@ -7,7 +7,6 @@ import { Filter } from './filter';
 import { FilterModalContext } from './filter-modal-context';
 
 @Component({
-  standalone: true,
   selector: 'app-filter-modal',
   templateUrl: './filter-modal.component.html',
   imports: [FormsModule, SkyCheckboxModule, SkyInputBoxModule, SkyModalModule],

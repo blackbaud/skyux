@@ -9,4 +9,10 @@ module.exports = [
       '@angular-eslint/template/no-autofocus': 'off',
     },
   },
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@angular-eslint/prefer-standalone': 'off',
+    },
+  },
 ];

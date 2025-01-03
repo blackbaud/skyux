@@ -17,6 +17,7 @@ import { ActionHubPlaygroundRecentlyAccessedService } from './action-hub-recentl
       useClass: ActionHubPlaygroundRecentlyAccessedService,
     },
   ],
+  standalone: false,
 })
 export class ActionHubPlaygroundRecentLinksComponent {
   public recentLinks:

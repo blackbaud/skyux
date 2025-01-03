@@ -5,6 +5,7 @@ import { SkyToken } from '@skyux/indicators';
   selector: 'app-tokens',
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
+  standalone: false,
 })
 export class TokensComponent {
   public data: SkyToken<{ name: string }>[] = [

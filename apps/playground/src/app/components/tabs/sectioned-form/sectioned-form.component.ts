@@ -9,7 +9,6 @@ import { SectionedFormModalComponent } from './sectioned-form-modal.component';
   templateUrl: './sectioned-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyModalModule],
-  standalone: true,
 })
 export default class SectionedFormComponent {
   #modalService: SkyModalService;

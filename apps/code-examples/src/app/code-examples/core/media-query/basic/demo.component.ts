@@ -7,7 +7,6 @@ import { SkyIconModule } from '@skyux/icon';
 @Component({
   imports: [CommonModule, SkyIconModule],
   selector: 'app-demo',
-  standalone: true,
   templateUrl: './demo.component.html',
 })
 export class DemoComponent {

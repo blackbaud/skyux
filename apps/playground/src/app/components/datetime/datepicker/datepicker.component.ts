@@ -18,6 +18,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
+  standalone: false,
 })
 export class DatepickerComponent implements OnInit {
   public futureDisabled = true;

@@ -4,7 +4,6 @@ import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyTextHighlightModule } from '@skyux/indicators';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

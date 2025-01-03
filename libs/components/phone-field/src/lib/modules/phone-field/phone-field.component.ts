@@ -135,6 +135,7 @@ const DEFAULT_COUNTRY_CODE = 'us';
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   /**

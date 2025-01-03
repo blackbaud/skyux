@@ -50,6 +50,7 @@ import { SkyCheckboxChange } from './checkbox-change';
     },
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  standalone: false,
 })
 export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   /**

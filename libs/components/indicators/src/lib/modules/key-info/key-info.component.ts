@@ -6,6 +6,7 @@ import { SkyKeyInfoLayoutType } from './key-info-layout-type';
   selector: 'sky-key-info',
   templateUrl: './key-info.component.html',
   styleUrls: ['./key-info.component.scss'],
+  standalone: false,
 })
 export class SkyKeyInfoComponent {
   /**

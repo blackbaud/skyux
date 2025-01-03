@@ -16,6 +16,7 @@ import {
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyColumnComponent implements OnInit, OnChanges {
   /**

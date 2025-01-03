@@ -43,7 +43,6 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor-toolbar',
   templateUrl: './text-editor-toolbar.component.html',
   styleUrls: ['./text-editor-toolbar.component.scss'],

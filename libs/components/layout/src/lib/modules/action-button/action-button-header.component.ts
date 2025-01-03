@@ -12,5 +12,6 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   ],
   templateUrl: './action-button-header.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyActionButtonHeaderComponent {}

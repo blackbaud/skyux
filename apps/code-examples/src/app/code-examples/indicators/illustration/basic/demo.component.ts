@@ -7,7 +7,6 @@ import {
 import { IllustrationDemoResolverService } from './illustration-demo-resolver.service';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyIllustrationModule],

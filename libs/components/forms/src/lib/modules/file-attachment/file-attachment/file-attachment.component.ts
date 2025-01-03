@@ -88,7 +88,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   ],
   hostDirectives: [SkyThemeComponentClassDirective],
   selector: 'sky-file-attachment',
-  standalone: true,
   styleUrl: './file-attachment.component.scss',
   templateUrl: './file-attachment.component.html',
 })

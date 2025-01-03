@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './responsive.component.html',
   styleUrls: ['./responsive.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ResponsiveComponent {
   public readonly containerBreakpoints = ['xs', 'sm', 'md', 'lg'];

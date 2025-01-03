@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-back-to-top-message-stream',
   templateUrl: './back-to-top-message-stream.component.html',
+  standalone: false,
 })
 export class BackToTopMessageStreamComponent {
   public backToTopController = new Subject<SkyBackToTopMessage>();

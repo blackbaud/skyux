@@ -16,6 +16,7 @@ import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currenc
   selector: 'sky-ag-grid-cell-renderer-currency-validator',
   templateUrl: 'cell-renderer-currency-validator.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellRendererCurrencyValidatorComponent
   implements ICellRendererAngularComp

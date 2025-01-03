@@ -6,6 +6,7 @@ import { SkyTileComponent } from '../../tile/tile.component';
   selector: 'div.sky-test-tile-1',
   templateUrl: './tile1.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class Tile1TestComponent {
   @ViewChild(SkyTileComponent, {

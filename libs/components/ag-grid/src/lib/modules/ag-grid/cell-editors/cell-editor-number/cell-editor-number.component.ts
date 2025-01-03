@@ -21,6 +21,7 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   templateUrl: './cell-editor-number.component.html',
   styleUrls: ['./cell-editor-number.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellEditorNumberComponent
   implements ICellEditorAngularComp

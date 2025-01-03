@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   selector: 'app-modal-lookup',
   templateUrl: './modal-lookup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ModalLookupComponent {
   protected readonly people = [

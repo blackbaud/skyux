@@ -5,6 +5,7 @@ import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 @Component({
   selector: 'app-infinite-scroll-visual',
   templateUrl: './infinite-scroll-visual.component.html',
+  standalone: false,
 })
 export class InfiniteScrollVisualComponent {
   public disableLoader = false;

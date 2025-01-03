@@ -7,7 +7,6 @@ import { TileParameters } from '../tile-parameters.token';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyTilesModule],
   selector: 'app-tile3',
-  standalone: true,
   template: `
     <sky-tile
       [helpPopoverContent]="

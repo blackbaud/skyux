@@ -8,6 +8,7 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './phone-field.component.fixture.html',
+  standalone: false,
 })
 export class PhoneFieldTestComponent {
   public allowExtensions = true;

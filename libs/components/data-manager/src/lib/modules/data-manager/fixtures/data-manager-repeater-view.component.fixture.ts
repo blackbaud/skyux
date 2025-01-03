@@ -16,6 +16,7 @@ import { DataManagerTestItem } from './data-manager-test-item';
   selector: 'sky-data-view-repeater-fixture',
   templateUrl: './data-manager-repeater-view.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DataViewRepeaterFixtureComponent implements OnInit {
   @Input()

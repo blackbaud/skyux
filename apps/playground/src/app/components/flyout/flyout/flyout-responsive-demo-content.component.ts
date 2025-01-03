@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-flyout-responsive-demo-content',
   templateUrl: './flyout-responsive-demo-content.component.html',
   styleUrls: ['./flyout-responsive-demo-content.component.scss'],
+  standalone: false,
 })
 export class FlyoutResponsiveDemoContentComponent implements OnDestroy {
   public currentMediaBreakpoint: string;

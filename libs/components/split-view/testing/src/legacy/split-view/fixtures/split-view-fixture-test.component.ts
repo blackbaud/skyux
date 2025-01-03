@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'sky-split-view-test',
   templateUrl: './split-view-fixture-test.component.html',
+  standalone: false,
 })
 export class SplitViewTestComponent {
   public static dataSkyId = 'test-split-view';

@@ -9,6 +9,7 @@ import { SkyNumberFormatUtility } from '../shared/number-format/number-format-ut
 @Pipe({
   name: 'skyPercent',
   pure: false,
+  standalone: false,
 })
 export class SkyPercentPipe implements OnDestroy, PipeTransform {
   public get defaultLocale(): string {

@@ -11,5 +11,6 @@ import { SkyResponsiveHostDirective } from '@skyux/core';
   template: `<ng-content />`,
   styleUrls: ['./page-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyPageContentComponent {}

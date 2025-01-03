@@ -12,6 +12,7 @@ import { SkyDefinitionListService } from './definition-list.service';
   styleUrls: ['./definition-list.component.scss'],
   providers: [SkyDefinitionListService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyDefinitionListComponent {
   /**

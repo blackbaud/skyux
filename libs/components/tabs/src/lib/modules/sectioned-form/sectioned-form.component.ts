@@ -50,6 +50,7 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkySectionedFormComponent
   implements OnInit, OnDestroy, AfterViewChecked

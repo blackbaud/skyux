@@ -6,6 +6,7 @@ import { SkyInlineFormConfig } from '@skyux/inline-form';
   selector: 'app-inline-form',
   templateUrl: './inline-form.component.html',
   styleUrls: ['./inline-form.component.scss'],
+  standalone: false,
 })
 export class InlineFormComponent {
   public firstName = 'Jane';

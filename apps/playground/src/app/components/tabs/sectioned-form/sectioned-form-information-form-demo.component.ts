@@ -7,7 +7,6 @@ import { SkySectionedFormService } from '@skyux/tabs';
 @Component({
   selector: 'app-sectioned-form-information-form-demo',
   templateUrl: './sectioned-form-information-form-demo.component.html',
-  standalone: true,
   imports: [
     FormsModule,
     SkyCheckboxModule,

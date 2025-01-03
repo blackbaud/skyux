@@ -34,7 +34,6 @@ function dateRangeExcludesWeekend(
 }
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   // NOTE: `SkyDatepickerModule` is imported to address a stackblitz error.

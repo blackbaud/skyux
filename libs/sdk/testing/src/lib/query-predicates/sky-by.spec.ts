@@ -11,6 +11,7 @@ import { SkyBy } from './sky-by';
     <div data-sky-id="my-sky-id"></div>
     <div id="no-sky-id"></div>
   `,
+  standalone: false,
 })
 class TestComponent {}
 

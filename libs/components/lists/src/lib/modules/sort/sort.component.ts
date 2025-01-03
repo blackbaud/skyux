@@ -20,6 +20,7 @@ import { SkySortService } from './sort.service';
   templateUrl: './sort.component.html',
   providers: [SkySortService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkySortComponent {
   /**

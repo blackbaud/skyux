@@ -10,7 +10,6 @@ import {
 import { SkyPageSummaryModule } from '@skyux/layout';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

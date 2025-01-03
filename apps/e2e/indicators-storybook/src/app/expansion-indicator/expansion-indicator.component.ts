@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-expansion-indicator',
   templateUrl: './expansion-indicator.component.html',
   styleUrls: ['./expansion-indicator.component.scss'],
+  standalone: false,
 })
 export class ExpansionIndicatorComponent {}

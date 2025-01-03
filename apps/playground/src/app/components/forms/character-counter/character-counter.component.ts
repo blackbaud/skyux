@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-character-counter',
   templateUrl: './character-counter.component.html',
+  standalone: false,
 })
 export class CharacterCounterComponent {
   protected description: FormControl;

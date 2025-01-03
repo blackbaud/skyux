@@ -19,7 +19,6 @@ import { ModalContext } from './modal-context';
 import { ModalComponent } from './modal.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

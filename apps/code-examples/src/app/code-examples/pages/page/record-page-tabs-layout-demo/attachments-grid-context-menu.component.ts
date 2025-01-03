@@ -7,7 +7,6 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { Attachment } from './attachment';
 
 @Component({
-  standalone: true,
   selector: 'app-attachments-grid-context-menu',
   templateUrl: './attachments-grid-context-menu.component.html',
   imports: [SkyDropdownModule],

@@ -22,7 +22,6 @@ import { FilterModalComponent } from './filter-modal.component';
 import { ViewGridComponent } from './view-grid.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

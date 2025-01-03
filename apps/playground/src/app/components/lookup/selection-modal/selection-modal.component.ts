@@ -14,6 +14,7 @@ import { SelectionModalPlaygroundPerson } from './types/selection-modal-playgrou
 @Component({
   selector: 'app-selection-modal',
   templateUrl: './selection-modal.component.html',
+  standalone: false,
 })
 export class SelectionModalComponent {
   protected selectedPeople: SelectionModalPlaygroundPerson[] | undefined;

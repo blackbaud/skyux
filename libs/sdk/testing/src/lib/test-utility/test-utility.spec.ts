@@ -18,12 +18,14 @@ import { SkyAppTestUtility } from './test-utility';
   template: `
     <test-cmp [attr.data-sky-id]="'my-id'"> My component. </test-cmp>
   `,
+  standalone: false,
 })
 class TestParentComponent {}
 
 @Component({
   selector: 'test-cmp',
   template: `<ng-content />`,
+  standalone: false,
 })
 class TestComponent {}
 

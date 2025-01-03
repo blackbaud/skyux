@@ -15,6 +15,7 @@ let idIndex = 0;
 @Component({
   selector: 'sky-list-toolbar-item',
   template: '<ng-content />',
+  standalone: false,
 })
 export class SkyListToolbarItemComponent {
   /**

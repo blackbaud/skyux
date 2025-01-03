@@ -36,6 +36,7 @@ const SKY_AUTOCOMPLETE_VALIDATOR = {
 @Directive({
   selector: 'input[skyAutocomplete], textarea[skyAutocomplete]',
   providers: [SKY_AUTOCOMPLETE_VALUE_ACCESSOR, SKY_AUTOCOMPLETE_VALIDATOR],
+  standalone: false,
 })
 export class SkyAutocompleteInputDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator

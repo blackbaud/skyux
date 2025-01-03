@@ -13,6 +13,7 @@ import { SkyAutonumericDirective } from '../autonumeric.directive';
 @Component({
   selector: 'sky-autonumeric-directive-test',
   templateUrl: './autonumeric.component.fixture.html',
+  standalone: false,
 })
 export class AutonumericFixtureComponent {
   @ViewChild(SkyAutonumericDirective)

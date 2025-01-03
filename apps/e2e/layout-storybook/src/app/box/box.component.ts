@@ -5,6 +5,7 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   selector: 'app-box',
   templateUrl: './box.component.html',
   styleUrls: ['./box.component.scss'],
+  standalone: false,
 })
 export class BoxComponent {
   public readonly boxTypes = [

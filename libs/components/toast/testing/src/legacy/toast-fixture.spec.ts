@@ -17,6 +17,7 @@ import { SkyToastFixture } from './toast-fixture';
       This is a sample toast.
     </sky-toast>
   `,
+  standalone: false,
 })
 class TestComponent {
   public set toastType(value: string) {

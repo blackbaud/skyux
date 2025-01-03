@@ -7,6 +7,7 @@ import { SkyRecentLink } from '../types/recent-link';
 @Component({
   selector: 'sky-action-hub-sync-fixture',
   templateUrl: 'action-hub-sync-fixture.component.html',
+  standalone: false,
 })
 export class ActionHubSyncFixtureComponent {
   public title = 'Page title';

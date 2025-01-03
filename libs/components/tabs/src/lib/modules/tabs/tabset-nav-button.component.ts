@@ -16,6 +16,7 @@ const buttonTypeFinish = 'finish';
 @Component({
   selector: 'sky-tabset-nav-button',
   templateUrl: './tabset-nav-button.component.html',
+  standalone: false,
 })
 export class SkyTabsetNavButtonComponent implements OnDestroy {
   /**

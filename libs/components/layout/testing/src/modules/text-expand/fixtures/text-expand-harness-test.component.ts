@@ -3,7 +3,6 @@ import { SkyTextExpandModule } from '@skyux/layout';
 import { SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'sky-text-expand-fixture',
   templateUrl: './text-expand-harness-test.component.html',
   imports: [SkyTextExpandModule, SkyModalModule],

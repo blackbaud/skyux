@@ -66,6 +66,7 @@ let nextId = 0;
     ListToolbarStateModel,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListToolbarComponent
   implements OnInit, AfterContentInit, OnDestroy

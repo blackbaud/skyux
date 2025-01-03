@@ -23,6 +23,7 @@ const MAX_FILE_SIZE_DEFAULT = 512000;
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAvatarComponent {
   /**

@@ -11,6 +11,7 @@ import { ModalComponent } from './modal.component';
 @Component({
   selector: 'app-modal-split-view-tile-dashboard',
   templateUrl: './modal-split-view-tile-dashboard.component.html',
+  standalone: false,
 })
 export class ModalSplitViewTileDashboardComponent implements OnDestroy {
   protected demoValue: string | null | undefined;

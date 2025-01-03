@@ -26,6 +26,7 @@ const DATA_SKY_ID = 'test-country-field';
       (selectedCountryChange)="selectedCountryChange($event)"
     />
   `,
+  standalone: false,
 })
 class CountryFieldTestComponent {
   public autocompleteAttribute: string | undefined;

@@ -13,6 +13,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   ],
   templateUrl: './chevron.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyChevronComponent {
   /**

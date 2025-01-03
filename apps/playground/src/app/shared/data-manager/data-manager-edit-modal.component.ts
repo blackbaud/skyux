@@ -28,7 +28,6 @@ import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data-manager-data';
 import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
 
 @Component({
-  standalone: true,
   selector: 'app-data-manager-edit-modal',
   templateUrl: './data-manager-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -65,6 +65,7 @@ const EXPAND_MODE_NONE = 'none';
     ]),
   ],
   providers: [SkySearchAdapterService],
+  standalone: false,
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   /**

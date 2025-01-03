@@ -8,7 +8,6 @@ import {
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyFileDropModule, SkyStatusIndicatorModule],

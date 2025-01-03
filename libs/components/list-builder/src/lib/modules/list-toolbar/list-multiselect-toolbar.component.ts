@@ -26,6 +26,7 @@ let uniqueId = 0;
   selector: 'sky-list-multiselect-toolbar',
   templateUrl: './list-multiselect-toolbar.component.html',
   styleUrls: ['./list-multiselect-toolbar.component.scss'],
+  standalone: false,
 })
 export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   @Input()

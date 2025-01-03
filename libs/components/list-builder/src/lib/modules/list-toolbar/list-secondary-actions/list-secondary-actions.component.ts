@@ -21,6 +21,7 @@ import { SkyListSecondaryActionsService } from './list-secondary-actions.service
   templateUrl: './list-secondary-actions.component.html',
   providers: [SkyListSecondaryActionsService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListSecondaryActionsComponent implements AfterViewInit {
   public actions: any[] = [];

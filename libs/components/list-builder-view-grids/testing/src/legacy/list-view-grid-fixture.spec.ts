@@ -44,6 +44,7 @@ const testItems = [
       </a>
     </ng-template>
   `,
+  standalone: false,
 })
 class TestComponent {
   public items: Observable<Array<any>> = observableOf(testItems);

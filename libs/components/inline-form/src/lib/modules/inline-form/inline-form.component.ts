@@ -33,6 +33,7 @@ import { SkyInlineFormConfig } from './types/inline-form-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyInlineFormAdapterService],
   animations: [skySlideDissolve],
+  standalone: false,
 })
 export class SkyInlineFormComponent implements OnInit, OnDestroy {
   /**

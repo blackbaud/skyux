@@ -6,6 +6,7 @@ import { SkyCountryFieldCountry } from '../types/country';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './country-field-no-form.component.fixture.html',
+  standalone: false,
 })
 export class CountryFieldNoFormTestComponent {
   @ViewChild(SkyCountryFieldComponent, {

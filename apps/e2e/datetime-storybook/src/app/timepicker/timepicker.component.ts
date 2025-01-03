@@ -5,6 +5,7 @@ import { SkyTimepickerTimeOutput } from '@skyux/datetime';
   selector: 'app-timepicker',
   templateUrl: './timepicker.component.html',
   styleUrls: ['./timepicker.component.scss'],
+  standalone: false,
 })
 export class TimepickerComponent {
   @Input()

@@ -5,6 +5,7 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
 @Component({
   selector: 'sky-ag-grid-cell-validator-tooltip-fixture',
   templateUrl: 'ag-grid-cell-validator-tooltip.component.fixture.html',
+  standalone: false,
 })
 export class SkyAgGridCellValidatorTooltipFixtureComponent {
   public parameters: SkyCellRendererValidatorParams | undefined;

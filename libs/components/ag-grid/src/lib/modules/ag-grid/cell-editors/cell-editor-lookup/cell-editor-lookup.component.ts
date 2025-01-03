@@ -26,6 +26,7 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
   templateUrl: './cell-editor-lookup.component.html',
   styleUrls: ['./cell-editor-lookup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellEditorLookupComponent
   implements ICellEditorAngularComp

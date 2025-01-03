@@ -19,7 +19,6 @@ import { DemoService } from './demo.service';
 import { Person } from './person';
 
 @Component({
-  standalone: true,
   selector: 'app-picker-modal',
   templateUrl: './picker-modal.component.html',
   styleUrls: ['./picker-modal.component.scss'],

@@ -49,6 +49,7 @@ let nextContentId = 0;
   animations: [skyAnimationSlide],
   providers: [SkyContentInfoProvider],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyRepeaterItemComponent
   implements OnDestroy, OnInit, AfterViewInit

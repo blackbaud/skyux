@@ -22,7 +22,6 @@ import { DataManagerDemoRow } from './data';
 import { Filters } from './filters';
 
 @Component({
-  standalone: true,
   selector: 'app-view-repeater',
   templateUrl: './view-repeater.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

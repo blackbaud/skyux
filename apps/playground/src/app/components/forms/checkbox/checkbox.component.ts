@@ -11,6 +11,7 @@ import {
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
+  standalone: false,
 })
 export class CheckboxComponent implements OnInit {
   public checkValue = true;

@@ -33,7 +33,6 @@ import { SkyModalConfigurationInterface } from './modal.interface';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-modal-host',
   templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],

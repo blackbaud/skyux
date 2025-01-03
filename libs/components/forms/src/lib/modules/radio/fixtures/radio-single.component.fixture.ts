@@ -4,6 +4,7 @@ import { SkyRadioType } from '../types/radio-type';
 
 @Component({
   templateUrl: './radio-single.component.fixture.html',
+  standalone: false,
 })
 export class SkySingleRadioComponent {
   public icon = 'bold';

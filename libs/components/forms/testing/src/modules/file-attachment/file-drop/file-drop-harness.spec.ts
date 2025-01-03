@@ -8,7 +8,6 @@ import { ReplaySubject, firstValueFrom } from 'rxjs';
 import { SkyFileDropHarness } from './file-drop-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyFileDropModule],
   template: `<sky-file-drop
     data-sky-id="test-file-drop"

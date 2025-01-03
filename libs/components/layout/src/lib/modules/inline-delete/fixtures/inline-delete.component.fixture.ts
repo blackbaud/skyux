@@ -18,6 +18,7 @@ import { SkyInlineDeleteComponent } from '../inline-delete.component';
       }
     `,
   ],
+  standalone: false,
 })
 export class InlineDeleteTestComponent {
   public parentTabIndex: number | undefined;

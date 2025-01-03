@@ -11,6 +11,7 @@ import {
   selector: 'app-radio-button',
   templateUrl: './radio-button.component.html',
   styleUrls: ['./radio-button.component.scss'],
+  standalone: false,
 })
 export class RadioButtonComponent {
   public radioForm: FormGroup;

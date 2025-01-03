@@ -17,6 +17,7 @@ import { SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
   selector: 'sky-ag-grid-data-manager-component-fixture',
   templateUrl: './ag-grid-data-manager.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   @ViewChild(AgGridAngular)

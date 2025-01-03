@@ -23,7 +23,6 @@ const SIZES = new Map([
  */
 @Component({
   selector: 'sky-icon-svg',
-  standalone: true,
   imports: [NgClass, NgStyle],
   templateUrl: './icon-svg.component.html',
   styleUrls: [

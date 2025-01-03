@@ -8,7 +8,6 @@ import { ModalDemoContext } from './context';
 import { ModalDemoDataService } from './data.service';
 
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],

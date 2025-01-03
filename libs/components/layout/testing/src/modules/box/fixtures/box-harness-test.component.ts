@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-box-fixture',
   templateUrl: './box-harness-test.component.html',
+  standalone: false,
 })
 export class BoxHarnessTestComponent {
   public ariaRole: string | undefined;

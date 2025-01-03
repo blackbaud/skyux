@@ -9,5 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './list-toolbar-search-actions.component.html',
   styleUrls: ['./list-toolbar-search-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListToolbarSearchActionsComponent {}

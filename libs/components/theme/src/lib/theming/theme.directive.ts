@@ -24,6 +24,7 @@ const defaultTheme = new SkyThemeSettings(
 @Directive({
   selector: '[skyTheme]',
   providers: [SkyThemeService],
+  standalone: false,
 })
 export class SkyThemeDirective implements OnInit, OnDestroy {
   @Input()

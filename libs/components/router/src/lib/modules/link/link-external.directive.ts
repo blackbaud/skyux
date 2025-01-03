@@ -23,6 +23,7 @@ import { SkyAppLinkQueryParams } from './link-query-params';
  */
 @Directive({
   selector: '[skyAppLinkExternal]',
+  standalone: false,
 })
 export class SkyAppLinkExternalDirective
   extends RouterLink

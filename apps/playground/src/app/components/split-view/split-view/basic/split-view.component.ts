@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-split-view',
   templateUrl: './split-view.component.html',
+  standalone: false,
 })
 export class SplitViewComponent {
   public set activeIndex(value: number) {

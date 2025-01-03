@@ -22,6 +22,7 @@ const SKY_URL_VALIDATION_VALIDATOR = {
 @Directive({
   selector: '[skyUrlValidation]',
   providers: [SKY_URL_VALIDATION_VALIDATOR],
+  standalone: false,
 })
 export class SkyUrlValidationDirective implements Validator {
   /**

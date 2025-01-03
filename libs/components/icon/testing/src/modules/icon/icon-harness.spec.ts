@@ -28,6 +28,7 @@ import { SkyIconHarness } from './icon-harness';
     />
     <sky-icon data-sky-id="test-icon" icon="sort" />
   `,
+  standalone: false,
 })
 class TestComponent {
   public iconName: string | undefined = 'house';

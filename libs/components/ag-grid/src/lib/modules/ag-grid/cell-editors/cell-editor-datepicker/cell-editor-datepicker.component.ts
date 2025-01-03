@@ -30,6 +30,7 @@ import { SkyAgGridDatepickerProperties } from '../../types/datepicker-properties
   styleUrls: ['./cell-editor-datepicker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAgGridCellEditorDatepickerComponent
   extends PopupComponent

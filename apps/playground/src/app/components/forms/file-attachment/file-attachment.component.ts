@@ -16,6 +16,7 @@ import {
 @Component({
   selector: 'app-file-attachment-demo',
   templateUrl: './file-attachment.component.html',
+  standalone: false,
 })
 export class FileAttachmentComponent {
   public acceptedTypes = 'image/png,image/jpeg,application/pdf';

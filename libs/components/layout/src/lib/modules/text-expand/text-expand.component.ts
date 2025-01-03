@@ -54,6 +54,7 @@ let nextId = 0;
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
   providers: [SkyTextExpandAdapterService],
+  standalone: false,
 })
 export class SkyTextExpandComponent implements AfterContentInit {
   /**

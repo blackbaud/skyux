@@ -32,6 +32,7 @@ import { SkyPopoverType } from './types/popover-type';
 @Component({
   selector: 'sky-popover',
   templateUrl: './popover.component.html',
+  standalone: false,
 })
 export class SkyPopoverComponent implements OnDestroy {
   /**

@@ -5,6 +5,7 @@ import { SkyIconStackItem } from '../icon-stack-item';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './icon-stack.component.fixture.html',
+  standalone: false,
 })
 export class IconStackTestComponent {
   public baseIcon: SkyIconStackItem = {

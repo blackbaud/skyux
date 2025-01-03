@@ -12,7 +12,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 let nextId = 21;
 
 @Component({
-  standalone: true,
   selector: 'app-add-item-modal',
   templateUrl: './add-item-modal.component.html',
   imports: [

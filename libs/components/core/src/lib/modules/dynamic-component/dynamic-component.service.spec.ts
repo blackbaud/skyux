@@ -20,6 +20,7 @@ import { DynamicComponentTestComponent } from './fixtures/dynamic-component-test
 @Component({
   selector: 'sky-home-test',
   template: '<router-outlet />',
+  standalone: false,
 })
 export class HomeTestComponent {}
 

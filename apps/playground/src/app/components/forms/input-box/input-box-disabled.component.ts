@@ -9,7 +9,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 
 @Component({
   imports: [FormsModule, ReactiveFormsModule, SkyInputBoxModule],
-  standalone: true,
   template: `
     <form novalidate [formGroup]="formGroup">
       <div style="max-width: 200px;">

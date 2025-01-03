@@ -13,6 +13,7 @@ import { TileTestContext } from './tile-context.fixture';
   selector: 'div.sky-test-tile-2',
   templateUrl: './tile2.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class Tile2TestComponent {
   @ViewChild(SkyTileComponent, {

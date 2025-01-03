@@ -10,6 +10,7 @@ import { SkyTokensMessage } from '../types/tokens-message';
 @Component({
   selector: 'sky-tokens-test',
   templateUrl: './tokens.component.fixture.html',
+  standalone: false,
 })
 export class SkyTokensTestComponent implements OnDestroy {
   @ViewChild(SkyTokensComponent, { read: ElementRef })

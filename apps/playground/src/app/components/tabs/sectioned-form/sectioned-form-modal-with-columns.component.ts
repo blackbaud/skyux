@@ -10,7 +10,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
 @Component({
-  standalone: true,
   selector: 'app-sectioned-form-modal-with-columns',
   templateUrl: './sectioned-form-modal-with-columns.component.html',
   styleUrl: './sectioned-form-modal-with-columns.component.scss',

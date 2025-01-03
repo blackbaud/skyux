@@ -13,7 +13,6 @@ import { SkyPhoneFieldModule } from '@skyux/phone-field';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   imports: [

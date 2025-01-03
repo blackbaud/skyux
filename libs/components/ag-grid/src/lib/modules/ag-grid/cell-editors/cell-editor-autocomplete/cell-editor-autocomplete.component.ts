@@ -23,6 +23,7 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   templateUrl: './cell-editor-autocomplete.component.html',
   styleUrls: ['./cell-editor-autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellEditorAutocompleteComponent
   implements ICellEditorAngularComp

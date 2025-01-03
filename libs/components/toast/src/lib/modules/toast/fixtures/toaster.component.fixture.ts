@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   template: 'noop',
+  standalone: false,
 })
 export class SkyToasterTestComponent {}

@@ -24,7 +24,6 @@ import { SkyFileLink } from './file-link';
 @Component({
   imports: [SkyFileSizePipe, SkyFormsResourcesModule, SkyIconModule],
   selector: 'sky-file-item',
-  standalone: true,
   styleUrl: './file-item.component.scss',
   templateUrl: './file-item.component.html',
 })

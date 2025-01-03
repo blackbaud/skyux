@@ -21,6 +21,7 @@ import {
   selector: 'app-edit-stop-when-loses-focus-visual',
   templateUrl: './edit-stop-when-loses-focus.component.html',
   styleUrls: ['./edit-stop-when-loses-focus.component.scss'],
+  standalone: false,
 })
 export class EditStopWhenLosesFocusComponent implements OnInit {
   public gridData = EDITABLE_GRID_DATA;

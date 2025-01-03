@@ -7,6 +7,7 @@ import { SkyFocusableChildrenOptions } from '../focusable-children-options';
 @Component({
   selector: 'sky-adapter-service-fixture',
   templateUrl: './adapter-service.fixture.html',
+  standalone: false,
 })
 export class AdapterServiceFixtureComponent {
   @ViewChild('getWidthContainer', {

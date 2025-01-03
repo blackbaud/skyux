@@ -5,6 +5,7 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
   selector: 'app-flyout-responsive',
   templateUrl: './flyout-responsive.component.html',
   styleUrls: ['./flyout-responsive.component.scss'],
+  standalone: false,
 })
 export class FlyoutResponsiveComponent {
   public currentMediaBreakpoint: 'xs' | 'sm' | 'md' | 'lg' = 'lg';

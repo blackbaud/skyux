@@ -35,6 +35,7 @@ import { SkyTabsetFixture } from './tabset-fixture';
       </sky-tab>
     </sky-tabset>
   `,
+  standalone: false,
 })
 class TestComponent {
   public permalinkId: string | undefined;

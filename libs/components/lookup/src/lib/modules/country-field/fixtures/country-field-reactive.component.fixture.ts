@@ -11,6 +11,7 @@ import { SkyCountryFieldCountry } from '../types/country';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './country-field-reactive.component.fixture.html',
+  standalone: false,
 })
 export class CountryFieldReactiveTestComponent implements OnInit {
   @ViewChild(SkyCountryFieldComponent, {

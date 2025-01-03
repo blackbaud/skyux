@@ -12,6 +12,7 @@ import { TileParameters } from './tile-parameters.token';
   selector: 'app-tile-dashboard',
   templateUrl: './tile-dashboard.component.html',
   styleUrls: ['./tile-dashboard.component.scss'],
+  standalone: false,
 })
 export class TileDashboardComponent implements AfterViewInit {
   public dashboardConfig: SkyTileDashboardConfig = {

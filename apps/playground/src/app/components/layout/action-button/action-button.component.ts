@@ -10,6 +10,7 @@ import { ActionButtonModalComponent } from './action-button-modal.component';
 @Component({
   selector: 'app-action-button',
   templateUrl: './action-button.component.html',
+  standalone: false,
 })
 export class ActionButtonComponent {
   #modalSvc = inject(SkyModalService);

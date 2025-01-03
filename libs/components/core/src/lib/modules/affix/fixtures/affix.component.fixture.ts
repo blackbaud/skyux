@@ -13,6 +13,7 @@ import { SkyAffixDirective } from '../affix.directive';
   selector: 'sky-affix-test',
   templateUrl: './affix.component.fixture.html',
   styleUrls: ['./affix.component.fixture.scss'],
+  standalone: false,
 })
 export class AffixFixtureComponent {
   // #region directive properties

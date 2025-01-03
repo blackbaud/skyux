@@ -6,6 +6,7 @@ import { WizardModalComponent } from './wizard-modal.component';
 @Component({
   selector: 'app-wizard',
   templateUrl: './wizard.component.html',
+  standalone: false,
 })
 export class WizardComponent implements OnDestroy {
   #modalService: SkyModalService;

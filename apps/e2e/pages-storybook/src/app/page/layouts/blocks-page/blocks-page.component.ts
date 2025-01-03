@@ -10,7 +10,6 @@ import { LinksComponent } from '../../../shared/links/links.component';
 
 @Component({
   selector: 'app-blocks-page',
-  standalone: true,
   imports: [
     CommonModule,
     SkyAlertModule,

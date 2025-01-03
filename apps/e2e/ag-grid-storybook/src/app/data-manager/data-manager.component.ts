@@ -45,6 +45,7 @@ interface GridSettingsType {
   styleUrls: ['./data-manager.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkyDataManagerService],
+  standalone: false,
 })
 export class DataManagerComponent implements AfterViewInit {
   @HostBinding('class.use-normal-dom-layout')

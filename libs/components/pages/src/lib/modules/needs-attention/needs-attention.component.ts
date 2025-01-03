@@ -7,6 +7,7 @@ import { SkyActionHubNeedsAttention } from '../action-hub/types/action-hub-needs
   selector: 'sky-needs-attention',
   templateUrl: './needs-attention.component.html',
   styleUrls: ['./needs-attention.component.scss'],
+  standalone: false,
 })
 export class SkyNeedsAttentionComponent {
   @Input()

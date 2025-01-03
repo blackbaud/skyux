@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-checkbox-label',
   templateUrl: './checkbox-label.component.html',
+  standalone: false,
 })
 export class SkyCheckboxLabelComponent {}

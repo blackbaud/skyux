@@ -5,6 +5,7 @@ import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.dire
 @Component({
   selector: 'sky-fuzzy-datepicker-test',
   templateUrl: './fuzzy-datepicker.component.fixture.html',
+  standalone: false,
 })
 export class FuzzyDatepickerTestComponent {
   public ariaLabel = 'This is a date field.';

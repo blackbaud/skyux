@@ -14,7 +14,6 @@ import { FilterModalComponent } from './filter-modal.component';
 import { Fruit } from './fruit';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

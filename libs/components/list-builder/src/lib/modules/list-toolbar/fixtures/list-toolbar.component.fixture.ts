@@ -5,6 +5,7 @@ import { SkyListToolbarComponent } from '../list-toolbar.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-toolbar.component.fixture.html',
+  standalone: false,
 })
 export class ListToolbarTestComponent {
   public inMemorySearchEnabled: boolean;

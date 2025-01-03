@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   selector: 'sky-page-header-details',
   templateUrl: './page-header-details.component.html',
   styleUrls: ['./page-header-details.component.scss'],
+  standalone: false,
 })
 export class SkyPageHeaderDetailsComponent {}

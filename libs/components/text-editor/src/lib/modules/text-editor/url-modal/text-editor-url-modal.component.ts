@@ -19,7 +19,6 @@ const queryStringParamKey = '?Subject=';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor-url-modal',
   templateUrl: './text-editor-url-modal.component.html',
   styleUrls: ['./text-editor-url-modal.component.scss'],

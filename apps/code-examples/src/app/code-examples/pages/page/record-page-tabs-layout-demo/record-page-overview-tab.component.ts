@@ -12,7 +12,6 @@ import { SkyRepeaterModule } from '@skyux/lists';
 import { Detail } from './detail';
 
 @Component({
-  standalone: true,
   selector: 'app-record-page-overview-tab',
   templateUrl: './record-page-overview-tab.component.html',
   styleUrls: ['./record-page-overview-tab.component.scss'],

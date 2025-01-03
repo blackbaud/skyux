@@ -24,7 +24,6 @@ import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 import { InlineHelpComponent } from './inline-help.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

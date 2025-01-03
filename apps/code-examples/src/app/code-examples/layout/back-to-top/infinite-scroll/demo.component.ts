@@ -5,7 +5,6 @@ import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 import { Person } from './person';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyBackToTopModule, SkyInfiniteScrollModule, SkyRepeaterModule],

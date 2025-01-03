@@ -7,7 +7,6 @@ import { SkySearchModule } from '@skyux/lookup';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
-  standalone: true,
   selector: 'app-record-page-notes-tab',
   templateUrl: './record-page-notes-tab.component.html',
   imports: [

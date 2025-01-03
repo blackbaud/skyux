@@ -47,6 +47,7 @@ import { SkyModalFixture } from './modal-fixture';
       Non-modal content
     </span>
   `,
+  standalone: false,
 })
 class TestModalComponent {
   public fakeModern = false;
@@ -64,6 +65,7 @@ class TestModalComponent {
       Launch modal
     </button>
   `,
+  standalone: false,
 })
 class TestComponent {
   public ariaDescribedBy: string | undefined;

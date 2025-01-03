@@ -7,6 +7,7 @@ import { SKY_FLYOUT_MODAL_CONTEXT } from './flyout-modal-context-token';
 @Component({
   selector: 'sky-demo-modal-form',
   templateUrl: './flyout-modal-form.component.html',
+  standalone: false,
 })
 export class SkyFlyoutModalFixtureFormComponent {
   public title = 'Hello world';

@@ -15,6 +15,7 @@ import { BehaviorSubject } from 'rxjs';
       }
     </sky-repeater>
   `,
+  standalone: false,
 })
 export class RepeaterAsyncItemsTestComponent implements OnInit {
   public activeIndex: number | undefined;

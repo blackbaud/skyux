@@ -48,6 +48,7 @@ const DEFAULT_TRIGGER_TYPE: SkyDropdownTriggerType = 'click';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
   /**

@@ -13,6 +13,7 @@ const tokenRegex = /(\{\d+\})/;
   selector: 'sky-format',
   templateUrl: './format.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyFormatComponent {
   public itemsForDisplay: SkyFormatItem[] = [];

@@ -9,6 +9,7 @@ import { SkyIconVariantType } from './types/icon-variant-type';
  */
 @Pipe({
   name: 'skyIconClassList',
+  standalone: false,
 })
 export class SkyIconClassListPipe implements PipeTransform {
   #resolver = inject(SkyIconResolverService);

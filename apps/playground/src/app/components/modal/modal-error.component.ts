@@ -12,7 +12,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-error',
   templateUrl: './modal-error.component.html',
   imports: [FormsModule, SkyModalModule, SkyToggleSwitchModule],

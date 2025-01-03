@@ -18,6 +18,7 @@ import { SkySearchTestingModule } from './search-testing.module';
     >
     </sky-search>
   `,
+  standalone: false,
 })
 class TestComponent {
   public placeholderText = 'Search placeholder text';

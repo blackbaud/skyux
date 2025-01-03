@@ -21,6 +21,7 @@ import {
   selector: 'app-editable-grid-visual',
   templateUrl: './editable-grid.component.html',
   styleUrls: ['./editable-grid.component.scss'],
+  standalone: false,
 })
 export class EditableGridComponent implements OnInit {
   public gridData = EDITABLE_GRID_DATA;

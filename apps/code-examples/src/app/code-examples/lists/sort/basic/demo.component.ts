@@ -17,7 +17,6 @@ interface SortOption {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [CommonModule, SkyRepeaterModule, SkySortModule, SkyToolbarModule],

@@ -18,7 +18,6 @@ import { ModalContext } from './modal-context';
     SkyInputBoxModule,
     SkyModalModule,
   ],
-  standalone: true,
   template: `
     <form [formGroup]="demoForm" (submit)="saveForm()">
       <sky-modal headingText="Modal title" helpKey="help.html">

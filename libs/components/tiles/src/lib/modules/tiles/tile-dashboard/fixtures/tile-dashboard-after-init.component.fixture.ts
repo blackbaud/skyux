@@ -5,6 +5,7 @@ import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboa
 @Component({
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard-after-init.component.fixture.html',
+  standalone: false,
 })
 export class TileDashboardAfterInitTestComponent {
   public dashboardConfig: SkyTileDashboardConfig | undefined;

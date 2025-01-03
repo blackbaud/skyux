@@ -59,6 +59,7 @@ let uniqueId = 0;
   providers: [SKY_COUNTRY_FIELD_VALIDATOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyCountryFieldComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy, OnInit, Validator

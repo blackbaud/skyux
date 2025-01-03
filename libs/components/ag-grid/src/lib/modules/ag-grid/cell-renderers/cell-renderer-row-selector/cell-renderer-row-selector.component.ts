@@ -29,6 +29,7 @@ import {
   styleUrls: ['./cell-renderer-row-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAgGridCellRendererRowSelectorComponent
   implements ICellRendererAngularComp, OnDestroy

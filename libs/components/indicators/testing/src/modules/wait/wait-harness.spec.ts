@@ -32,6 +32,7 @@ import { SkyWaitHarness } from './wait-harness';
       Show non-blocking page wait
     </button>
   `,
+  standalone: false,
 })
 class TestComponent implements OnDestroy {
   public ariaLabel: string | undefined;

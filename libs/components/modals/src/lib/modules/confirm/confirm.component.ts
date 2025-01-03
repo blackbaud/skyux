@@ -23,7 +23,6 @@ import { SkyConfirmType } from './confirm-type';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],

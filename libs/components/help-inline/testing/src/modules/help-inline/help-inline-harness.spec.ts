@@ -30,6 +30,7 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
     <span id="label1">An explanation</span>
     <span id="label2">that spans multiple elements</span>
   `,
+  standalone: false,
 })
 class TestComponent {
   public ariaControls: string | undefined;

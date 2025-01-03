@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-wizard-form',
   templateUrl: './tabset-wizard.component.fixture.html',
+  standalone: false,
 })
 export class SkyWizardTestFormComponent {
   public requiredValue1: string | undefined;

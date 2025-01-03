@@ -10,6 +10,7 @@ import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-moda
 @Component({
   selector: 'sky-summary-action-bar-test',
   templateUrl: './summary-action-bar.component.fixture.html',
+  standalone: false,
 })
 export class SkySummaryActionBarTestComponent implements OnDestroy {
   public disableButtons = false;

@@ -8,6 +8,7 @@ import { SkyModalLinkListModule } from './modal-link-list.module';
 
 @Component({
   template: '',
+  standalone: false,
 })
 class MockComponent {}
 

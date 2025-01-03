@@ -13,7 +13,6 @@ import { LocalStorageConfigService } from './local-storage-config.service';
 
 @Component({
   selector: 'app-data-manager-visual',
-  standalone: true,
   imports: [
     SkyDataManagerModule,
     DataViewGridComponent,
