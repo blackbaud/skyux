@@ -15,15 +15,6 @@
     <button type="button" class="sky-btn sky-btn-default">Button 1</button>
   </sky-toolbar-item>
   <sky-toolbar-item>
-    <button type="button" class="sky-btn sky-btn-default">Button 2</button>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <button type="button" class="sky-btn sky-btn-default">Button 3</button>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <button type="button" class="sky-btn sky-btn-default">Button 4</button>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
     <button type="button" class="sky-btn sky-btn-primary" disabled>
       Disabled (primary)
     </button>
@@ -33,7 +24,16 @@
       Disabled (default)
     </button>
   </sky-toolbar-item>
+  <sky-toolbar-item>
+    <sky-search [debounceTime]="250" />
+  </sky-toolbar-item>
   <sky-toolbar-view-actions>
+    <sky-radio-group class="sky-switch-icon-group" [(ngModel)]="activeViewId">
+      <sky-radio icon="table" label="Table" value="table" />
+      <sky-radio icon="list" label="List" value="list" />
+      <sky-radio icon="map-marker" label="Map" value="map" />
+    </sky-radio-group>
+
     <button
       class="sky-btn sky-btn-default sky-btn-icon"
       title="Sort descending"
