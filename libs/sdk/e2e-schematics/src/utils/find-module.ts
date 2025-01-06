@@ -2,6 +2,7 @@ import { Tree, normalizePath, visitNotIgnoredFiles } from '@nx/devkit';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { relative } from 'path';
+import { isBooleanObject } from 'util/types';
 
 import {
   DecoratedClass,
@@ -36,15 +37,21 @@ export function findDeclaringModule(
   componentPath: string,
 ): { filepath: string; module: DecoratedClass } | null {
   let result: { filepath: string; module: DecoratedClass } | null = null;
+
   const componentSource = readSourceFile(tree, componentPath);
   const componentClass = findComponentClass(componentSource);
+
   if (componentClass) {
-    if (componentClass.properties['standalone']) {
+    const standalone = componentClass.properties['standalone'];
+
+    // If "standalone" is omitted or true, the component is standalone.
+    if (!standalone || (isBooleanObject(standalone) && standalone)) {
       return {
         filepath: componentPath,
         module: componentClass,
       };
     }
+
     findModulePaths(
       tree,
       path,
@@ -97,6 +104,7 @@ export function findDeclaringModule(
       '.module.ts',
     );
   }
+
   return result;
 }
 
