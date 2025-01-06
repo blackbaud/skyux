@@ -172,7 +172,7 @@ describe('Wait service', () => {
       verifyBlockingPageWaitExists(false);
     }));
 
-    fit('should clear wait even if closed too fast', fakeAsync(() => {
+    it('should clear wait even if closed too fast', fakeAsync(() => {
       // Don't call the convenience methods in this test file since tick()/applicationRef.tick()
       // can't be called to test this feature.
       waitSvc.beginNonBlockingPageWait();
