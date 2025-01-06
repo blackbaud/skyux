@@ -26,6 +26,7 @@ export class FirstInlineHelpComponent {
     >
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SecondInlineHelpComponent {
   public readonly displayName: string | undefined;

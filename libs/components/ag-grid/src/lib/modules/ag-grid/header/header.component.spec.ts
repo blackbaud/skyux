@@ -20,6 +20,7 @@ class TestHelpComponent {}
 
 @Component({
   template: `<span class="other-help-component">Other help text</span>`,
+  standalone: false,
 })
 class OtherTestHelpComponent {}
 

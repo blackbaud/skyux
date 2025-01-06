@@ -20,7 +20,6 @@ import { FirstInlineHelpComponent } from './inline-help.component';
 export const EnableTopScroll = new InjectionToken<boolean>('EnableTopScroll', {
   providedIn: 'root',
   factory: (): boolean => false,
-  standalone: false,
 });
 export const Editable = new InjectionToken<boolean>('Editable', {
   providedIn: 'root',
@@ -39,6 +38,7 @@ export const Loading = new InjectionToken<boolean>('Loading', {
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAgGridFixtureComponent implements OnInit {
   @ViewChild('agGrid', { static: true })
