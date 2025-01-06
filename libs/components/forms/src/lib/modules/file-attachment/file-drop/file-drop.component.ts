@@ -91,10 +91,18 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     );
   }
 
-  public writeValue(value: SkyFileItem[]): void {
-    value.forEach((file) => {
-      this.#handleFiles(file);
-    });
+  public writeValue(value: any): void {
+    if (value instanceof Array) {
+      value.forEach((file) => {
+        if ('url' in file) {
+          if ('file' in file) {
+            this.#handleFiles(file as SkyFileItem);
+          } else {
+            this.uploadLink(file as SkyFileLink);
+          }
+        }
+      });
+    }
   }
 
   public registerOnChange(fn: any): void {
@@ -403,14 +411,18 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
 
   public addLink(event: Event): void {
     event.preventDefault();
-    this.linkChanged.emit({ url: this.linkUrl } as SkyFileLink);
-    this.#_uploadedFiles?.push({ url: this.linkUrl } as SkyFileLink);
+    this.uploadLink({ url: this.linkUrl } as SkyFileLink);
+    this.linkUrl = undefined;
+  }
+
+  protected uploadLink(file: SkyFileLink): void {
+    this.linkChanged.emit(file);
+    this.#_uploadedFiles?.push(file);
     this.#notifyChange?.(this.#_uploadedFiles);
     this.#announceState(
       'skyux_file_attachment_file_upload_link_added',
-      this.linkUrl,
+      file.url,
     );
-    this.linkUrl = undefined;
   }
 
   public onLinkBlur(): void {

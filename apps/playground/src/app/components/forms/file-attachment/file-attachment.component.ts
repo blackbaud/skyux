@@ -57,6 +57,10 @@ export class FileAttachmentComponent {
       url: 'foo.bar.bar',
     };
 
-    this.attachment.setValue([file]);
+    const link: SkyFileLink = {
+      url: 'foo.foo',
+    };
+
+    this.attachment.setValue([file, link]);
   }
 }
