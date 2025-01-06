@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'sky-list-toolbar-item-renderer',
   template: '<ng-template #container />',
+  standalone: false,
 })
 export class SkyListToolbarItemRendererComponent implements OnInit {
   @Input()

@@ -4,6 +4,7 @@ import { SkyUrlValidationOptions } from '@skyux/validation';
 @Component({
   selector: 'app-url-validation-directive',
   templateUrl: './url-validation-directive.component.html',
+  standalone: false,
 })
 export class UrlValidationDirectiveComponent {
   public demoModel: {

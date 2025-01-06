@@ -38,6 +38,7 @@ export const Loading = new InjectionToken<boolean>('Loading', {
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAgGridFixtureComponent implements OnInit {
   @ViewChild('agGrid', { static: true })

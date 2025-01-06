@@ -9,5 +9,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   template: `<ng-content />`,
   styleUrls: ['./page-header-actions.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyPageHeaderActionsComponent {}

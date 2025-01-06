@@ -10,6 +10,7 @@ import { SkyActionButtonAdapterService } from './action-button-adapter-service';
       <div #el>Hello world</div>
     </div>
   `,
+  standalone: false,
 })
 class SkyActionButtonAdapterTestComponent {
   public parentWidth: string | undefined;

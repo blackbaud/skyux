@@ -17,6 +17,7 @@ import { DataManagerTestItem } from './data-manager-test-item';
   selector: 'sky-data-manager-fixture',
   templateUrl: './data-manager.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DataManagerFixtureComponent implements OnInit {
   @ViewChild(SkyDataManagerComponent)

@@ -14,6 +14,7 @@ import {
   styleUrls: ['./filter-summary-item.component.scss'],
   templateUrl: './filter-summary-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyFilterSummaryItemComponent {
   /**

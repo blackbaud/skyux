@@ -19,6 +19,7 @@ import { SkyPagingContentChangeArgs } from './types/paging-content-change-args';
   templateUrl: './paging.component.html',
   styleUrls: ['./paging.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyPagingComponent implements OnChanges {
   /**

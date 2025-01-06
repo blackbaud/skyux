@@ -7,6 +7,7 @@ import { SkyThemeSettings } from '../theme-settings';
 @Component({
   selector: 'app-theme-if-test',
   templateUrl: './theme-if-test.component.html',
+  standalone: false,
 })
 export class SkyThemeIfTestComponent {
   public themeSettings: SkyThemeSettings | undefined;

@@ -10,6 +10,7 @@ import { SkySplitViewMessage } from '../types/split-view-message';
 @Component({
   selector: 'sky-split-view-fixture',
   templateUrl: './split-view.fixture.html',
+  standalone: false,
 })
 export class SplitViewFixtureComponent {
   public additionalItems: string[] = [];

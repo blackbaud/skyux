@@ -6,6 +6,7 @@ import { SkyBoxHeadingStyle } from '../box-heading-style';
 @Component({
   selector: 'sky-box-test',
   templateUrl: 'box.component.fixture.html',
+  standalone: false,
 })
 export class BoxTestComponent {
   public ariaLabel: string | undefined;

@@ -21,6 +21,7 @@ interface Person {
 @Component({
   selector: 'test-lookup-1',
   templateUrl: './lookup-harness-test.component.html',
+  standalone: false,
 })
 export class LookupHarnessTestComponent {
   public myForm: UntypedFormGroup;

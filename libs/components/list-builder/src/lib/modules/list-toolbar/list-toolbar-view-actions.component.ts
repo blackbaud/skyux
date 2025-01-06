@@ -12,6 +12,7 @@ import { SkyLogService } from '@skyux/core';
   selector: 'sky-list-toolbar-view-actions',
   templateUrl: './list-toolbar-view-actions.component.html',
   styleUrls: ['./list-toolbar-view-actions.component.scss'],
+  standalone: false,
 })
 export class SkyListToolbarViewActionsComponent {
   constructor(logger: SkyLogService) {

@@ -30,6 +30,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
   providers: [SkyAngularTreeAdapterService, SkyContentInfoProvider],
+  standalone: false,
 })
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**

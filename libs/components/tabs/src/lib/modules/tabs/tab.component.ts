@@ -30,6 +30,7 @@ let nextId = 0;
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
   /**

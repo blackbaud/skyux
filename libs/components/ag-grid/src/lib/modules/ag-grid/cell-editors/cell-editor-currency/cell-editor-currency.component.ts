@@ -23,6 +23,7 @@ import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
   templateUrl: './cell-editor-currency.component.html',
   styleUrls: ['./cell-editor-currency.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp

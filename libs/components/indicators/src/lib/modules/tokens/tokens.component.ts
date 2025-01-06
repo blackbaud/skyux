@@ -61,6 +61,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkyTokensComponent implements OnDestroy {
   /**

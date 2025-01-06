@@ -67,6 +67,7 @@ let idIndex = 0;
   template: '<ng-content />',
   providers: [ListState, ListStateDispatcher],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListComponent
   implements AfterContentInit, OnChanges, OnDestroy

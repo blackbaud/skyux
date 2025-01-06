@@ -36,6 +36,7 @@ interface DataSet {
   templateUrl: './ag-grid-stories.component.html',
   styleUrls: ['./ag-grid-stories.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class AgGridStoriesComponent
   implements OnInit, AfterViewInit, OnDestroy

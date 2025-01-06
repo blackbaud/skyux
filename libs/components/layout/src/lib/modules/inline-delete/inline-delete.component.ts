@@ -81,6 +81,7 @@ let nextId = 0;
     ]),
   ],
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
+  standalone: false,
 })
 export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   /**

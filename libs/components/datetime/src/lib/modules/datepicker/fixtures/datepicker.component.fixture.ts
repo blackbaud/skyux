@@ -10,6 +10,7 @@ import { SkyDatepickerComponent } from '../datepicker.component';
 @Component({
   selector: 'sky-datepicker-test',
   templateUrl: './datepicker.component.fixture.html',
+  standalone: false,
 })
 export class DatepickerTestComponent {
   public dateFormat: string | undefined;

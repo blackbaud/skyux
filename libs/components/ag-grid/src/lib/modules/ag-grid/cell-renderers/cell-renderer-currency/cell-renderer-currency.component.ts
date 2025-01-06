@@ -14,6 +14,7 @@ import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
   templateUrl: './cell-renderer-currency.component.html',
   styleUrls: ['./cell-renderer-currency.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellRendererCurrencyComponent
   implements ICellRendererAngularComp

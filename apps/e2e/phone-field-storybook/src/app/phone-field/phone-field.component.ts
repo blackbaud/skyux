@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'app-phone-field',
   templateUrl: './phone-field.component.html',
   styleUrls: ['./phone-field.component.scss'],
+  standalone: false,
 })
 export class PhoneFieldComponent implements AfterViewInit {
   public phoneControl: UntypedFormControl;

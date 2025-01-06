@@ -20,6 +20,7 @@ import { ListState } from '../state/list-state.state-node';
       useExisting: forwardRef(() => ListViewTestComponent),
     },
   ],
+  standalone: false,
 })
 export class ListViewTestComponent extends ListViewComponent {
   public currentSearchText: Observable<string>;

@@ -58,6 +58,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       </sky-checkbox-label>
     </sky-checkbox>
   </div>`,
+  standalone: false,
 })
 class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string | undefined;

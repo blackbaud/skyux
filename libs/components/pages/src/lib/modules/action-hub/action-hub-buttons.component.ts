@@ -11,5 +11,6 @@ import { Component } from '@angular/core';
   selector: 'sky-action-hub-buttons',
   templateUrl: 'action-hub-buttons.component.html',
   styleUrls: ['./action-hub-buttons.component.scss'],
+  standalone: false,
 })
 export class SkyActionHubButtonsComponent {}

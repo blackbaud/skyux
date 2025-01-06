@@ -19,6 +19,7 @@ class MockLocaleProvider extends SkyAppLocaleProvider {
   selector: 'sky-numeric-pipe-fixture',
   templateUrl: './numeric.pipe.fixture.html',
   providers: [{ provide: SkyAppLocaleProvider, useClass: MockLocaleProvider }],
+  standalone: false,
 })
 export class NumericPipeFixtureComponent {
   public locale: string | undefined;

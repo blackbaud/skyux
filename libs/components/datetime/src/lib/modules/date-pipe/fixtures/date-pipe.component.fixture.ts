@@ -5,6 +5,7 @@ import { SkyDatePipe } from '../date.pipe';
 @Component({
   selector: 'sky-date-pipe-test',
   templateUrl: './date-pipe.component.fixture.html',
+  standalone: false,
 })
 export class DatePipeTestComponent {
   public dateValue: any = new Date(2000, 0, 1);

@@ -13,6 +13,7 @@ import { SkyErrorFixture } from './error-fixture';
       <sky-error-image> </sky-error-image>
     </sky-error>
   `,
+  standalone: false,
 })
 class TestComponent {
   @Input()

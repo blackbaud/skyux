@@ -18,6 +18,7 @@ import {
   selector: 'sky-ag-grid-row-delete-component-fixture',
   templateUrl: './ag-grid-row-delete.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public allColumnWidth = 0;

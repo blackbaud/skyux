@@ -7,6 +7,7 @@ import { SkyAffixer } from './affixer';
 @Component({
   selector: 'test-cmp',
   template: '<div #target></div>',
+  standalone: false,
 })
 class TestComponent {
   @ViewChild('target', { static: true })

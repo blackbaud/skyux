@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-wait',
   templateUrl: './wait.component.html',
   styleUrls: ['./wait.component.scss'],
+  standalone: false,
 })
 export class WaitComponent {
   @Input()

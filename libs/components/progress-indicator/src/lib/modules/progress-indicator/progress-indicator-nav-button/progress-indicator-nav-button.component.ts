@@ -30,6 +30,7 @@ const BUTTON_TYPE_DEFAULT: SkyProgressIndicatorNavButtonType = 'next';
   selector: 'sky-progress-indicator-nav-button',
   templateUrl: './progress-indicator-nav-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorNavButtonComponent
   implements AfterViewInit, OnDestroy

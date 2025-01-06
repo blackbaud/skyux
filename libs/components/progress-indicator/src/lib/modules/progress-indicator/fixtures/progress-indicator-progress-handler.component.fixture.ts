@@ -9,6 +9,7 @@ import { SkyProgressIndicatorMessage } from '../types/progress-indicator-message
 @Component({
   selector: 'sky-progress-indicator-progress-handler-fixture',
   templateUrl: './progress-indicator-progress-handler.component.fixture.html',
+  standalone: false,
 })
 export class SkyProgressIndicatorProgressHandlerFixtureComponent {
   @ViewChild(SkyProgressIndicatorComponent, {

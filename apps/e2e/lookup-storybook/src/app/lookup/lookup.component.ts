@@ -9,6 +9,7 @@ export interface Names {
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
+  standalone: false,
 })
 export class LookupComponent {
   @Input()

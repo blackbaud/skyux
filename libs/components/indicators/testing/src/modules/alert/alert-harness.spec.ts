@@ -27,6 +27,7 @@ import { SkyAlertHarness } from './alert-harness';
     </sky-alert>
     <sky-alert data-sky-id="alert-2"> This is another alert. </sky-alert>
   `,
+  standalone: false,
 })
 class TestComponent {
   public alertType = 'warning';

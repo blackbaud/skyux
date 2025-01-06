@@ -29,6 +29,7 @@ import { SkyCardFixture } from './card-fixture';
       }
     </sky-card>
   `,
+  standalone: false,
 })
 class TestComponent {
   public selected = false;

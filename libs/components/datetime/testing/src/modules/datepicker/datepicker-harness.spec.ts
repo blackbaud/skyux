@@ -44,6 +44,7 @@ import { SkyDatepickerInputHarness } from './datepicker-input-harness';
       </sky-input-box>
     </form>
   `,
+  standalone: false,
 })
 class TestComponent {
   public myForm: FormGroup;

@@ -49,6 +49,7 @@ let nextId = 0;
   styleUrls: ['./timepicker.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyTimepickerComponent implements OnInit, OnDestroy {
   /**

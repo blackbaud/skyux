@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-ngfor-cmp',
   templateUrl: './vertical-tabset-ngfor.component.fixture.html',
+  standalone: false,
 })
 export class VerticalTabsetWithNgForTestComponent {
   public activeIndex: number | undefined;

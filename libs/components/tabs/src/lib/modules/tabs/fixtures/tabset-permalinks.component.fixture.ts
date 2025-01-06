@@ -6,6 +6,7 @@ import { SkyTabIndex } from '../tab-index';
 @Component({
   selector: 'sky-tabset-permalinks-test',
   templateUrl: './tabset-permalinks.component.fixture.html',
+  standalone: false,
 })
 export class SkyTabsetPermalinksFixtureComponent {
   public activeIndex: SkyTabIndex | undefined = 0;

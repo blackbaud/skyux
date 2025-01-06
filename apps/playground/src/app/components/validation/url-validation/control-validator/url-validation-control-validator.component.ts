@@ -11,6 +11,7 @@ import { SkyUrlValidationOptions, SkyValidators } from '@skyux/validation';
 @Component({
   selector: 'app-url-validation-control-validator',
   templateUrl: './url-validation-control-validator.component.html',
+  standalone: false,
 })
 export class UrlValidationControlValidatorComponent implements OnInit {
   public get urlControl(): AbstractControl {

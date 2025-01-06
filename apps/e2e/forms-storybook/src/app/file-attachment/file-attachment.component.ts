@@ -5,6 +5,7 @@ import { SkyFileDropChange, SkyFileItem, SkyFileLink } from '@skyux/forms';
   selector: 'app-file-attachment',
   templateUrl: './file-attachment.component.html',
   styleUrls: ['./file-attachment.component.scss'],
+  standalone: false,
 })
 export class FileAttachmentComponent {
   @Input()

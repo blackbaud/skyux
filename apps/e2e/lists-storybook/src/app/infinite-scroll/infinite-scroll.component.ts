@@ -7,6 +7,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-infinite-scroll',
   templateUrl: './infinite-scroll.component.html',
   styleUrls: ['./infinite-scroll.component.scss'],
+  standalone: false,
 })
 export class InfiniteScrollComponent implements AfterViewInit, OnDestroy {
   public enabled = true;

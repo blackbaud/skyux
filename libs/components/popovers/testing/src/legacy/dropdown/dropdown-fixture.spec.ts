@@ -52,6 +52,7 @@ const DATA_SKY_ID = 'test-dropdown';
       </sky-dropdown-menu>
     </sky-dropdown>
   `,
+  standalone: false,
 })
 class DropdownTestComponent {
   public activeIndex: number | undefined;

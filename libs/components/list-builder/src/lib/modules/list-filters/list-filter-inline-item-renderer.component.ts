@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'sky-list-filter-inline-item-renderer',
   template: '<ng-template #container />',
+  standalone: false,
 })
 export class SkyListFilterInlineItemRendererComponent implements OnInit {
   @Input()

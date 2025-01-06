@@ -10,6 +10,7 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   selector: 'app-date-range-picker',
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss'],
+  standalone: false,
 })
 export class DateRangePickerComponent {
   public scenarios: {

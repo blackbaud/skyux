@@ -64,6 +64,7 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
       />
     </form>
   `,
+  standalone: false,
 })
 class TestComponent {
   public allowTransparency = true;

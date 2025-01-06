@@ -11,6 +11,7 @@ import { SkyDatepickerComponent } from '../datepicker.component';
 @Component({
   selector: 'sky-datepicker-reactive-test',
   templateUrl: './datepicker-reactive.component.fixture.html',
+  standalone: false,
 })
 export class DatepickerReactiveTestComponent implements OnInit {
   public datepickerForm: UntypedFormGroup | undefined;

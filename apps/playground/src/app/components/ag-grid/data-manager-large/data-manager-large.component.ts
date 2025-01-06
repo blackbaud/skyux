@@ -39,6 +39,7 @@ interface GridSettingsType {
   templateUrl: './data-manager-large.component.html',
   styleUrls: ['./data-manager-large.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class DataManagerLargeComponent implements OnInit {
   @HostBinding('class.use-normal-dom-layout')

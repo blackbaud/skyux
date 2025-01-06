@@ -15,6 +15,7 @@ import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-
 @Component({
   selector: 'sky-autocomplete-fixture',
   templateUrl: './autocomplete.component.fixture.html',
+  standalone: false,
 })
 export class SkyAutocompleteFixtureComponent {
   public autocompleteAttribute: string | undefined;

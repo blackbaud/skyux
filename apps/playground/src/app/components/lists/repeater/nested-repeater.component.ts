@@ -38,6 +38,7 @@ interface ListItem {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class NestedRepeaterComponent {
   public list: ListItem[] = [

@@ -9,6 +9,7 @@ import { Tile3Component } from './tile3.component';
 @Component({
   selector: 'app-tile-dashboard',
   templateUrl: './tile-dashboard.component.html',
+  standalone: false,
 })
 export class TileDashboardComponent {
   constructor(public readonly greeting: GreetingService) {

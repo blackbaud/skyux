@@ -7,6 +7,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  standalone: false,
 })
 export class NavbarComponent implements AfterViewInit, OnDestroy {
   public readonly ready = new BehaviorSubject(false);

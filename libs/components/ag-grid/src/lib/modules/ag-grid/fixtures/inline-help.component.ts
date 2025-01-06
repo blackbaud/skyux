@@ -8,6 +8,7 @@ import { SkyAgGridHeaderInfo } from '../types/header-info';
     <span class="sky-control-help" title="{{ displayName }} help">ℹ︎</span>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FirstInlineHelpComponent {
   public readonly displayName: string | undefined;
@@ -25,6 +26,7 @@ export class FirstInlineHelpComponent {
     >
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SecondInlineHelpComponent {
   public readonly displayName: string | undefined;

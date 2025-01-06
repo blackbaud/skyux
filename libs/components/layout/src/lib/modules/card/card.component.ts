@@ -25,6 +25,7 @@ import { SkyCardTitleComponent } from './card-title.component';
   selector: 'sky-card',
   styleUrls: ['./card.component.scss'],
   templateUrl: './card.component.html',
+  standalone: false,
 })
 export class SkyCardComponent implements AfterContentInit, OnDestroy {
   /**

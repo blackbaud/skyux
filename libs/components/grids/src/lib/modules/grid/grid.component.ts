@@ -80,6 +80,7 @@ let nextId = 0;
   viewProviders: [DragulaService],
   providers: [SkyGridAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyGridComponent
   implements OnInit, AfterContentInit, AfterViewInit, OnChanges, OnDestroy

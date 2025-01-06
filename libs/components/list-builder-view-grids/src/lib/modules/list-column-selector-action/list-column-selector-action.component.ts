@@ -40,6 +40,7 @@ import { GridStateModel } from '../list-view-grid/state/grid-state.model';
 @Component({
   selector: 'sky-list-column-selector-action',
   templateUrl: './list-column-selector-action.component.html',
+  standalone: false,
 })
 export class SkyListColumnSelectorActionComponent implements AfterContentInit {
   /**

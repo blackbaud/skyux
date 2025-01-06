@@ -23,6 +23,7 @@ import { SkyActionButtonPermalink } from './action-button-permalink';
   ],
   templateUrl: './action-button.component.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyActionButtonComponent {
   @HostBinding('hidden')

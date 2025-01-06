@@ -17,6 +17,7 @@ import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-valida
   selector: 'sky-ag-grid-cell-renderer-validator-tooltip',
   templateUrl: 'cell-renderer-validator-tooltip.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellRendererValidatorTooltipComponent
   implements ICellRendererAngularComp

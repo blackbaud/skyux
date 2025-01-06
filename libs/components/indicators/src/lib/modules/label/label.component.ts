@@ -24,6 +24,7 @@ const LABEL_TYPE_DEFAULT: SkyLabelType = 'info';
   selector: 'sky-label',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
+  standalone: false,
 })
 export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
   /**

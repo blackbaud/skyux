@@ -19,6 +19,7 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   styleUrls: ['ag-grid-cell-validator-tooltip.component.scss'],
   templateUrl: 'ag-grid-cell-validator-tooltip.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellValidatorTooltipComponent {
   @Input()

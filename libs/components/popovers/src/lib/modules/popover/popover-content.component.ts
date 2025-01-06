@@ -49,6 +49,7 @@ import { SkyPopoverType } from './types/popover-type';
   templateUrl: './popover-content.component.html',
   styleUrls: ['./popover-content.component.scss'],
   animations: [skyPopoverAnimation],
+  standalone: false,
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   @HostBinding('id')

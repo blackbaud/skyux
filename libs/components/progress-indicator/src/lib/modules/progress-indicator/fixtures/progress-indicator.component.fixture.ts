@@ -25,6 +25,7 @@ import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-n
   selector: 'sky-progress-indicator-fixture',
   templateUrl: './progress-indicator.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorFixtureComponent {
   @ViewChild(SkyProgressIndicatorComponent, {

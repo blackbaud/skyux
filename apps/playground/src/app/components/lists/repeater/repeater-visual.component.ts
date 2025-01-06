@@ -25,6 +25,7 @@ let nextItemId = 0;
   selector: 'app-repeater-visual',
   templateUrl: './repeater-visual.component.html',
   styleUrls: ['./repeater-visual.component.scss'],
+  standalone: false,
 })
 export class RepeaterVisualComponent {
   public activeIndex = 0;

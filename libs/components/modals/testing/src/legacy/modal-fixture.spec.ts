@@ -47,6 +47,7 @@ import { SkyModalFixture } from './modal-fixture';
       Non-modal content
     </span>
   `,
+  standalone: false,
 })
 class TestModalComponent {
   public fakeModern = false;

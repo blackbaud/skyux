@@ -5,6 +5,7 @@ import { SkyErrorType } from '../error-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: 'error.component.fixture.html',
+  standalone: false,
 })
 export class ErrorTestComponent {
   public buttonText = 'Try again';

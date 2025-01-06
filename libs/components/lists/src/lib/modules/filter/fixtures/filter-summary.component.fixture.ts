@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './filter-summary.component.fixture.html',
+  standalone: false,
 })
 export class FilterSummaryTestComponent {
   public appliedFilters = [

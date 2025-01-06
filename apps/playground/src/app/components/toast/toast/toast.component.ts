@@ -7,6 +7,7 @@ import { ToastBodyComponent } from './toast-body.component';
   selector: 'app-toast',
   templateUrl: './toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ToastComponent implements OnDestroy {
   constructor(private toastService: SkyToastService) {}

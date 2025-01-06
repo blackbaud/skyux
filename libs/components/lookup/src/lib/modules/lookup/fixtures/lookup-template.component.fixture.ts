@@ -16,6 +16,7 @@ import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-n
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup-template.component.fixture.html',
+  standalone: false,
 })
 export class SkyLookupTemplateTestComponent implements OnInit {
   @ViewChild('asyncLookup', {

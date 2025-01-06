@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'app-inline-delete',
   templateUrl: './inline-delete.component.html',
   styleUrls: ['./inline-delete.component.scss'],
+  standalone: false,
 })
 export class InlineDeleteComponent implements AfterViewInit, OnDestroy {
   public readonly ready = new BehaviorSubject<boolean>(false);

@@ -6,6 +6,7 @@ import { SkyInlineFormConfig } from '../types/inline-form-config';
 @Component({
   selector: 'sky-inline-form-fixture',
   templateUrl: './inline-form.fixture.html',
+  standalone: false,
 })
 export class SkyInlineFormFixtureComponent {
   public config: SkyInlineFormConfig | undefined;

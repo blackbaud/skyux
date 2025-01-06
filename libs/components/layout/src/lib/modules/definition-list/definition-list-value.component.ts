@@ -9,6 +9,7 @@ import { SkyDefinitionListService } from './definition-list.service';
   selector: 'sky-definition-list-value',
   templateUrl: './definition-list-value.component.html',
   styleUrls: ['./definition-list-value.component.scss'],
+  standalone: false,
 })
 export class SkyDefinitionListValueComponent {
   public defaultValue: string | undefined;

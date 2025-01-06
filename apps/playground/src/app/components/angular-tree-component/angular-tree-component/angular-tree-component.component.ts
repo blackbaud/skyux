@@ -9,6 +9,7 @@ import {
   selector: 'app-angular-tree-component',
   templateUrl: './angular-tree-component.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AngularTreeComponentComponent {
   public activeNodeIds: string[] = [];

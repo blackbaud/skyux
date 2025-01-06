@@ -14,11 +14,13 @@ import { SkyAgGridHeaderComponent } from './header.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
+  standalone: false,
 })
 class TestHelpComponent {}
 
 @Component({
   template: `<span class="other-help-component">Other help text</span>`,
+  standalone: false,
 })
 class OtherTestHelpComponent {}
 

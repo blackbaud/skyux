@@ -6,6 +6,7 @@ import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 @Component({
   selector: 'sky-datepicker-calendar-test',
   templateUrl: './datepicker-calendar.component.fixture.html',
+  standalone: false,
 })
 export class DatepickerCalendarTestComponent {
   public customDates: SkyDatepickerCustomDate[] | undefined;

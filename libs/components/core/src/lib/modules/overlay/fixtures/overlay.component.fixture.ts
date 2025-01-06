@@ -5,6 +5,7 @@ import { SkyOverlayService } from '../overlay.service';
 @Component({
   selector: 'sky-overlay-test',
   templateUrl: './overlay.component.fixture.html',
+  standalone: false,
 })
 export class OverlayFixtureComponent {
   @ViewChild('myTemplate', {

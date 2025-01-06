@@ -11,6 +11,7 @@ import { SkyColorpickerResult } from '../types/colorpicker-result';
 @Component({
   selector: 'sky-colorpicker-fixture',
   templateUrl: './colorpicker-component.fixture.html',
+  standalone: false,
 })
 export class ColorpickerTestComponent {
   public pickerButtonIcon: string | undefined;

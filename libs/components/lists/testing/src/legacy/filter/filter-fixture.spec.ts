@@ -29,6 +29,7 @@ const DATA_SKY_ID_BUTTON = 'test-filter-button';
       }
     </sky-filter-summary>
   `,
+  standalone: false,
 })
 class FilterTestComponent {
   public appliedFilters: string[] = [];

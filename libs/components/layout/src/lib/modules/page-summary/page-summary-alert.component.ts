@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-alert',
   templateUrl: './page-summary-alert.component.html',
   styleUrls: ['./page-summary-alert.component.scss'],
+  standalone: false,
 })
 /* istanbul ignore next */
 /* Code coverage having problems with no statements in classes */

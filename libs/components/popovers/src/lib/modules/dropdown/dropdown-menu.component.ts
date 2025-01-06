@@ -34,6 +34,7 @@ let nextId = 0;
   styleUrls: ['./dropdown-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   /**

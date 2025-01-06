@@ -12,6 +12,7 @@ import { SkyDefaultInputProvider, SkyMediaQueryService } from '@skyux/core';
   templateUrl: './page-header-avatar.component.html',
   styleUrls: ['./page-header-avatar.component.scss'],
   providers: [SkyDefaultInputProvider],
+  standalone: false,
 })
 export class SkyPageHeaderAvatarComponent {
   constructor() {

@@ -33,6 +33,7 @@ type SkyWizardStepState = 'completed' | 'current' | 'unavailable';
   providers: [SkyTabButtonAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   @Input()

@@ -11,6 +11,7 @@ interface Tab {
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TabsComponent {
   @Input()

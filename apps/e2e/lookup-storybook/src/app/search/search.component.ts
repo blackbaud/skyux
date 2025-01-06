@@ -5,6 +5,7 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  standalone: false,
 })
 export class SearchComponent {
   public readonly ready$ = inject(FontLoadingService).ready();

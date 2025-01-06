@@ -39,6 +39,7 @@ const LAYOUT_CLASS_DEFAULT = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
     SkyLayoutHostService,
     provideSkyBreakpointObserver(SkyContainerBreakpointObserver),
   ],
+  standalone: false,
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
   /**

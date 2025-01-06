@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-character-counter',
   templateUrl: './character-counter.component.html',
+  standalone: false,
 })
 export class CharacterCounterComponent implements AfterViewInit, OnDestroy {
   public maxCharacterCount = 10;

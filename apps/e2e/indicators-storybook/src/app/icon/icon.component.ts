@@ -8,6 +8,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
+  standalone: false,
 })
 export class IconComponent implements AfterViewInit, OnDestroy {
   protected readonly icons: SkyIconManifestGlyph[];

@@ -5,6 +5,7 @@ import { SkyModalInstance } from '@skyux/modals';
 @Component({
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
+  standalone: false,
 })
 export class SettingsModalComponent {
   public form: UntypedFormGroup;

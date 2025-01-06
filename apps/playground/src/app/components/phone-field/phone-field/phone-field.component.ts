@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 @Component({
   selector: 'app-phone-field',
   templateUrl: './phone-field.component.html',
+  standalone: false,
 })
 export class PhoneFieldComponent implements OnInit {
   public phoneNumber: string;

@@ -57,6 +57,7 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
   providers: [SkyLookupAdapterService],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyLookupComponent
   extends SkyLookupAutocompleteAdapter

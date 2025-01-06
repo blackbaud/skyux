@@ -23,6 +23,7 @@ import { SkyDescriptionListService } from './description-list.service';
   templateUrl: './description-list-description.component.html',
   styleUrls: ['./description-list-description.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyDescriptionListDescriptionComponent
   implements OnDestroy, OnInit

@@ -23,6 +23,7 @@ import { SkyThemeService } from './theme.service';
       </ng-container>
     </app-theme-if-test>
   `,
+  standalone: false,
 })
 class TestProjectionComponent {}
 

@@ -12,6 +12,7 @@ import { ModalTestContext } from './modals/modal-context';
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
+  standalone: false,
 })
 export class ModalComponent {
   public buttonsHidden = false;

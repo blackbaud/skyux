@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './sort.component.fixture.html',
+  standalone: false,
 })
 export class SortTestComponent implements OnInit {
   public ariaLabel: string | undefined;

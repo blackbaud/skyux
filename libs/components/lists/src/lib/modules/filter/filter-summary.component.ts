@@ -8,5 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./filter-summary.component.scss'],
   templateUrl: './filter-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyFilterSummaryComponent {}

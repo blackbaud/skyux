@@ -5,6 +5,7 @@ import { SkyListViewChecklistComponent } from '../list-view-checklist.component'
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-checklist-toolbar.component.fixture.html',
+  standalone: false,
 })
 export class ListViewChecklistToolbarTestComponent {
   public selectedItems: Map<string, boolean>;

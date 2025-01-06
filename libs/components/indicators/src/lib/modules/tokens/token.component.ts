@@ -18,6 +18,7 @@ import { take } from 'rxjs';
   templateUrl: './token.component.html',
   styleUrls: ['./token.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyTokenComponent {
   /**

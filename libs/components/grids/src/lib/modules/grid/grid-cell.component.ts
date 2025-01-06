@@ -18,6 +18,7 @@ import { ListItemModel, getData } from '@skyux/list-builder-common';
   template: '<ng-template #cell />',
   styleUrls: ['./grid-cell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyGridCellComponent implements OnInit {
   @Input()

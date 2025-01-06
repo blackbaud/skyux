@@ -58,6 +58,7 @@ describe('Text editor', () => {
       [required]="isRequired"
       [(ngModel)]="value"
     ></sky-text-editor>`,
+    standalone: false,
   })
   class TextEditorWithNgModel {
     public value: string | undefined;
@@ -70,6 +71,7 @@ describe('Text editor', () => {
       [formControl]="formControl"
       [labelText]="labelText"
     ></sky-text-editor>`,
+    standalone: false,
   })
   class TextEditorWithFormControl {
     public formControl = new UntypedFormControl(undefined, [

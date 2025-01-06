@@ -5,6 +5,7 @@ import { Observable, of as observableOf } from 'rxjs';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-checklist-pagination.component.fixture.html',
+  standalone: false,
 })
 export class ListViewChecklistPaginationTestComponent {
   public selectedItems: Map<string, boolean>;

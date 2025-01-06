@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   templateUrl: './toggle-switch.component.fixture.html',
+  standalone: false,
 })
 export class SkyToggleSwitchFixtureComponent {
   public isChecked = false;
