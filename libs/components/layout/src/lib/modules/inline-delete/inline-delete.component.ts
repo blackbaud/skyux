@@ -37,7 +37,6 @@ let nextId = 0;
       transition('* => shown', [
         style({
           opacity: 0,
-          standalone: false,
         }),
         query(
           '.sky-inline-delete-content-animation-container',
@@ -82,6 +81,7 @@ let nextId = 0;
     ]),
   ],
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
+  standalone: false,
 })
 export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   /**

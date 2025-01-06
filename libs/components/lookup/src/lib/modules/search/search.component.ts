@@ -52,7 +52,6 @@ const EXPAND_MODE_NONE = 'none';
         style({
           opacity: 0,
           width: 0,
-          standalone: false,
         }),
       ),
       state(
@@ -66,6 +65,7 @@ const EXPAND_MODE_NONE = 'none';
     ]),
   ],
   providers: [SkySearchAdapterService],
+  standalone: false,
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   /**
