@@ -8,9 +8,8 @@ import { SkyFileValidateFn } from '../shared/file-validate-function';
  */
 @Injectable()
 export class SkyFileAttachmentService {
-  // make it an array of SkyFileItem
   public checkFiles(
-    files: FileList | SkyFileItem,
+    files: SkyFileItem[],
     minFileSize: number,
     maxFileSize: number,
     acceptedTypes?: string,
@@ -18,66 +17,32 @@ export class SkyFileAttachmentService {
   ): SkyFileItem[] {
     const fileResults: SkyFileItem[] = [];
 
-    if (files instanceof FileList) {
-      for (let index = 0; index < files.length; index++) {
-        const fileItem = {
-          file: files.item(index),
-        } as SkyFileItem;
+    files.forEach((fileItem) => {
+      if (fileItem.file.size < minFileSize) {
+        fileItem.errorType = 'minFileSize';
+        fileItem.errorParam = minFileSize.toString();
+        fileResults.push(fileItem);
+      } else if (fileItem.file.size > maxFileSize) {
+        fileItem.errorType = 'maxFileSize';
+        fileItem.errorParam = maxFileSize.toString();
+        fileResults.push(fileItem);
+      } else if (this.fileTypeRejected(fileItem.file.type, acceptedTypes)) {
+        fileItem.errorType = 'fileType';
+        fileItem.errorParam = this.#getAcceptedTypesList(acceptedTypes);
+        fileResults.push(fileItem);
+      } else if (validateFn) {
+        const errorParam = validateFn(fileItem);
 
-        fileResults.push(
-          this.checkFile(
-            fileItem,
-            minFileSize,
-            maxFileSize,
-            acceptedTypes,
-            validateFn,
-          ),
-        );
+        if (errorParam) {
+          fileItem.errorType = 'validate';
+          fileItem.errorParam = errorParam;
+        }
+        fileResults.push(fileItem);
+      } else {
+        fileResults.push(fileItem);
       }
-    } else {
-      fileResults.push(
-        this.checkFile(
-          files as SkyFileItem,
-          minFileSize,
-          maxFileSize,
-          acceptedTypes,
-          validateFn,
-        ),
-      );
-    }
+    });
     return fileResults;
-  }
-
-  public checkFile(
-    fileItem: SkyFileItem,
-    minFileSize: number,
-    maxFileSize: number,
-    acceptedTypes?: string,
-    validateFn?: SkyFileValidateFn,
-  ): SkyFileItem {
-    if (fileItem.file.size < minFileSize) {
-      fileItem.errorType = 'minFileSize';
-      fileItem.errorParam = minFileSize.toString();
-      return fileItem;
-    } else if (fileItem.file.size > maxFileSize) {
-      fileItem.errorType = 'maxFileSize';
-      fileItem.errorParam = maxFileSize.toString();
-      return fileItem;
-    } else if (this.fileTypeRejected(fileItem.file.type, acceptedTypes)) {
-      fileItem.errorType = 'fileType';
-      fileItem.errorParam = this.#getAcceptedTypesList(acceptedTypes);
-      return fileItem;
-    } else if (validateFn) {
-      const errorParam = validateFn(fileItem);
-
-      if (errorParam) {
-        fileItem.errorType = 'validate';
-        fileItem.errorParam = errorParam;
-      }
-      return fileItem;
-    } else {
-      return fileItem;
-    }
   }
 
   /**

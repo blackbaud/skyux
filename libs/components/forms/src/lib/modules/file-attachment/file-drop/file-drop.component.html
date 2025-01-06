@@ -198,8 +198,8 @@
 <sky-form-errors
   [id]="errorId"
   [labelText]="labelText"
-  [touched]="ngControl.touched"
-  [dirty]="ngControl.dirty"
+  [touched]="ngControl ? ngControl.touched : rejectedFiles.length > 0"
+  [dirty]="ngControl?.dirty"
   [errors]="ngControl?.errors"
 >
   @for (rejectedFile of rejectedFiles; track rejectedFile) {

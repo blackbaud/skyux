@@ -83,25 +83,25 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     | undefined;
   #_uploadedFiles: (SkyFileItem | SkyFileLink)[] | undefined | null = [];
 
-  protected ngControl = inject(NgControl);
+  protected ngControl = inject(NgControl, { optional: true });
   protected get isRequired(): boolean {
     return (
       this.required ||
-      (this.ngControl.control?.hasValidator(Validators.required) ?? false)
+      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
     );
   }
 
   public writeValue(value: any): void {
     if (value instanceof Array) {
-      value.forEach((file) => {
+      value.forEach((file, index) => {
         if ('url' in file) {
-          if ('file' in file) {
-            this.#handleFiles(file as SkyFileItem);
-          } else {
+          if (!('file' in file)) {
             this.uploadLink(file as SkyFileLink);
+            value.splice(index, 1);
           }
         }
       });
+      this.#handleFiles(value as SkyFileItem[]);
     }
   }
 
@@ -114,7 +114,9 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   }
 
   constructor() {
-    this.ngControl.valueAccessor = this;
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
   }
 
   /**
@@ -512,11 +514,23 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     reader.readAsDataURL(file.file);
   }
 
-  #handleFiles(files?: FileList | null | SkyFileItem): void {
-    if (files) {
+  #handleFiles(fileList?: FileList | null | SkyFileItem[]): void {
+    if (fileList) {
       const validFileArray: SkyFileItem[] = [];
       const rejectedFileArray: SkyFileItem[] = [];
-      const totalFiles = files instanceof FileList ? files.length : 1;
+      const totalFiles = fileList.length;
+
+      let files: SkyFileItem[] = [];
+
+      if ('item' in fileList) {
+        for (let index = 0; index < fileList.length; index++) {
+          files.push({
+            file: fileList.item(index),
+          } as SkyFileItem);
+        }
+      } else {
+        files = fileList;
+      }
 
       const processedFiles = this.#fileAttachmentService.checkFiles(
         files,
