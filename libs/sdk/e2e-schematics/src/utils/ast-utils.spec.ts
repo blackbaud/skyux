@@ -32,7 +32,6 @@ describe('ast-utils', () => {
     const returnedFile = readSourceFile(tree, 'fake/path');
     expect(returnedFile.fileName).toBe('fake/path');
     expect(returnedFile.getFullText()).toBe('');
-    standalone: false;
   });
 
   it('should rename a variable', () => {

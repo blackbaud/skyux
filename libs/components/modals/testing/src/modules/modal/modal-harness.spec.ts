@@ -44,6 +44,7 @@ class ModalWithKeepWorkingPromptTestContext {
     data-sky-id="isDirtyModal"
     [isDirty]="isDirty"
   ></sky-modal>`,
+  standalone: false,
 })
 class TestKeepWaitingPromptComponent {
   public isDirty: boolean;
@@ -56,12 +57,14 @@ class TestKeepWaitingPromptComponent {
 @Component({
   selector: 'sky-modal-sky-id-test',
   template: `<sky-modal data-sky-id="otherModal"></sky-modal>`,
+  standalone: false,
 })
 class TestSkyIdComponent {}
 
 @Component({
   selector: 'sky-modal-test-modal',
   template: `<button type="button" (click)="openModal()"></button>`,
+  standalone: false,
 })
 class TestButtonComponent {
   #modalSvc = inject(SkyModalService);

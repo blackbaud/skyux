@@ -25,6 +25,7 @@ class TestParentComponent {}
 @Component({
   selector: 'test-cmp',
   template: `<ng-content />`,
+  standalone: false,
 })
 class TestComponent {}
 

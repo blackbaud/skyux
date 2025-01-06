@@ -15,6 +15,7 @@ class SkyAppLinkTestComponent {}
 @Component({
   template:
     '<a skyAppLink="test" [queryParams]="{qp1: 1, qp2: false}">Test</a>',
+  standalone: false,
 })
 class SkyAppLinkWithParamsTestComponent {}
 

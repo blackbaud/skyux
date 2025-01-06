@@ -71,6 +71,7 @@ describe('Text editor', () => {
       [formControl]="formControl"
       [labelText]="labelText"
     ></sky-text-editor>`,
+    standalone: false,
   })
   class TextEditorWithFormControl {
     public formControl = new UntypedFormControl(undefined, [
