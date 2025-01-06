@@ -1,6 +1,26 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'scss/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-toolbar-view-actions') {
+  --sky-override-toolbar-btn-background-color-hover: var(
+    --sky-background-color-neutral-light
+  );
+  --sky-override-toolbar-btn-background-color: #{$sky-color-white};
+  --sky-override-toolbar-btn-border: #{1px solid
+    $sky-border-color-neutral-medium};
+  --sky-override-toolbar-btn-box-shadow: none;
+  --sky-override-toolbar-btn-hover-border: #{1px solid
+    darken($sky-border-color-neutral-medium, 10%)};
+  --sky-override-toolbar-btn-padding-horizontal: 12px;
+  --sky-override-toolbar-view-action-bottom-margin: #{$sky-margin-half};
+  --sky-override-toolbar-view-action-right-margin: #{$sky-margin-half};
+}
+
+@include compatMixins.sky-modern-overrides('.sky-toolbar-view-actions') {
+  --sky-override-toolbar-btn-background-color-hover: transparent;
+  --sky-override-toolbar-btn-background-color: transparent;
+}
 
 :host {
   margin-left: auto;
@@ -9,30 +29,43 @@
 .sky-toolbar-view-actions {
   display: flex;
   align-items: center;
-  margin-bottom: $sky-margin-half;
+  margin-bottom: var(--sky-override-toolbar-view-action-bottom-margin, 0);
 
   ::ng-deep > :not(:last-child) {
-    margin-right: $sky-margin-half;
+    margin-right: var(
+      --sky-override-toolbar-view-action-right-margin,
+      var(--sky-space-gap-action_group-m)
+    );
   }
-}
 
-@include mixins.sky-theme-modern {
-  .sky-toolbar-view-actions {
-    margin-bottom: 0;
+  ::ng-deep .sky-btn {
+    background-color: var(
+      --sky-override-toolbar-btn-background-color,
+      var(--sky-color-background-action-secondary-base)
+    );
+    border: var(--sky-override-toolbar-btn-border, none);
+    padding-left: var(
+      --sky-override-toolbar-btn-padding-horizontal,
+      #{$sky-theme-modern-space-sm}
+    );
+    padding-right: var(
+      --sky-override-toolbar-btn-padding-horizontal,
+      #{$sky-theme-modern-space-sm}
+    );
 
-    ::ng-deep > :not(:last-child) {
-      margin-right: $sky-theme-modern-margin-inline-sm;
+    &:hover {
+      background-color: var(
+        --sky-override-toolbar-btn-background-color-hover,
+        var(--sky-color-background-action-secondary-hover)
+      );
+      border: var(--sky-override-toolbar-btn-hover-border, none);
     }
 
-    ::ng-deep .sky-btn {
-      background-color: transparent;
-      border: none;
-      padding-left: $sky-theme-modern-space-sm;
-      padding-right: $sky-theme-modern-space-sm;
-
-      &:not(:hover):not(:active):not(:focus) {
-        box-shadow: inset 0 0 0 1px transparent;
-      }
+    &:not(:hover):not(:active):not(:focus) {
+      box-shadow: var(
+        --sky-override-toolbar-btn-box-shadow,
+        inset 0 0 0 var(--sky-border-width-action-base) transparent
+      );
     }
   }
 }
