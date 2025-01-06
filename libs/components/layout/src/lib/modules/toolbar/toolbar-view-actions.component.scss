@@ -21,8 +21,6 @@
     margin-bottom: 0;
 
     ::ng-deep > :not(:last-child) {
-      margin-top: $sky-theme-modern-margin-inline-xs;
-      margin-bottom: $sky-theme-modern-margin-inline-xs;
       margin-right: $sky-theme-modern-margin-inline-sm;
     }
 
