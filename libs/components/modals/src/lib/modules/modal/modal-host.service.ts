@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 const BASE_Z_INDEX = 1040;
+const modalCount = new BehaviorSubject<number>(0);
+const modalCountObs = modalCount.asObservable();
 const modalHosts: SkyModalHostService[] = [];
+const zIndex = new BehaviorSubject<number>(0);
+const zIndexObs = zIndex.asObservable();
 
 /**
  * @internal
@@ -13,6 +17,14 @@ const modalHosts: SkyModalHostService[] = [];
   providedIn: 'root',
 })
 export class SkyModalHostService {
+  public static get modalCount(): Observable<number> {
+    return modalCountObs;
+  }
+
+  public static get zIndex(): Observable<number> {
+    return zIndexObs;
+  }
+
   public static get openModalCount(): number {
     return modalHosts.length;
   }

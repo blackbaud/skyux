@@ -10,6 +10,7 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import {
   SKY_STACKING_CONTEXT,
@@ -40,13 +41,8 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   imports: [CommonModule, RouterModule, SkyModalsResourcesModule],
 })
 export class SkyModalHostComponent implements OnDestroy {
-  public get modalOpen(): boolean {
-    return SkyModalHostService.openModalCount > 0;
-  }
-
-  public get backdropZIndex(): number {
-    return SkyModalHostService.backdropZIndex;
-  }
+  protected modalCount = toSignal(SkyModalHostService.modalCount);
+  protected backdropZIndex = toSignal(SkyModalHostService.zIndex);
 
   @ViewChild('target', {
     read: ViewContainerRef,
