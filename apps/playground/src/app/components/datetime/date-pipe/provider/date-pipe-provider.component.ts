@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class MyLocaleProvider extends SkyAppLocaleProvider {
   public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
-    const obs = new BehaviorSubject<any>({ standalone: false });
+    const obs = new BehaviorSubject<any>({});
 
     // Simulate HTTP call.
     setTimeout(() => {
@@ -27,6 +27,7 @@ export class MyLocaleProvider extends SkyAppLocaleProvider {
       useClass: MyLocaleProvider,
     },
   ],
+  standalone: false,
 })
 export class DatePipeProviderComponent {
   public dateValue = new Date('01/01/2019');

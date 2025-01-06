@@ -7,13 +7,13 @@ import {
 
 import { SkyFormatItem } from './format-item';
 
-const tokenRegex = /(\{\d+\  standalone: false
-})/;
+const tokenRegex = /(\{\d+\})/;
 
 @Component({
   selector: 'sky-format',
   templateUrl: './format.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyFormatComponent {
   public itemsForDisplay: SkyFormatItem[] = [];

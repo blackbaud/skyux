@@ -39,8 +39,7 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
   animations: [
     trigger('tabEnter', [
       transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(-100%)'   standalone: false
-}),
+        style({ transform: 'translate(-100%)' }),
         animate('150ms ease-in'),
       ]),
     ]),
@@ -51,6 +50,7 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkySectionedFormComponent
   implements OnInit, OnDestroy, AfterViewChecked

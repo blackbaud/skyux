@@ -35,8 +35,7 @@ import {
   animations: [
     trigger('tabGroupEnter', [
       transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(-100%)'   standalone: false
-}),
+        style({ transform: 'translate(-100%)' }),
         animate('150ms ease-in'),
       ]),
     ]),
@@ -47,6 +46,7 @@ import {
       ]),
     ]),
   ],
+  standalone: false,
 })
 export class SkyVerticalTabsetComponent
   implements OnInit, AfterViewChecked, OnDestroy
