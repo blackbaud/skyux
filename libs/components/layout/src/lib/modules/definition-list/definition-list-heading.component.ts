@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies a title for the definition list.
+ * @deprecated
  */
 @Component({
   selector: 'sky-definition-list-heading',
