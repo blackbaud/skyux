@@ -10,6 +10,7 @@ import { SkyIconStackItem } from './icon-stack-item';
   selector: 'sky-icon-stack',
   templateUrl: './icon-stack.component.html',
   styleUrls: ['./icon-stack.component.scss'],
+  standalone: false,
 })
 export class SkyIconStackComponent {
   /**

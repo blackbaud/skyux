@@ -8,5 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './definition-list-heading.component.html',
   styleUrls: ['./definition-list-heading.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyDefinitionListHeadingComponent {}

@@ -50,6 +50,7 @@ function numberAttribute4(value: unknown): number {
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   hostDirectives: [SkyThemeComponentClassDirective],
+  standalone: false,
 })
 export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
   /**

@@ -18,6 +18,7 @@ import { SkyAppTestUtility } from './test-utility';
   template: `
     <test-cmp [attr.data-sky-id]="'my-id'"> My component. </test-cmp>
   `,
+  standalone: false,
 })
 class TestParentComponent {}
 

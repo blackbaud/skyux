@@ -23,6 +23,7 @@ import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
   styleUrls: ['./preview-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()

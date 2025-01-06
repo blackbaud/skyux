@@ -8,6 +8,7 @@ import { SkyListViewGridComponent } from '../../list-view-grid/list-view-grid.co
   selector: 'sky-test-cmp',
   templateUrl:
     './list-column-selector-action-deprecated.component.fixture.html',
+  standalone: false,
 })
 export class ListColumnSelectorActionDeprecatedTestComponent {
   public items: Observable<any[]> = observableOf([

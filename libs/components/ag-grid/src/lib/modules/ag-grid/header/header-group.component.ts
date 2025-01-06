@@ -34,6 +34,7 @@ import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
   templateUrl: './header-group.component.html',
   styleUrls: ['./header-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridHeaderGroupComponent
   implements IHeaderGroupAngularComp, OnDestroy, AfterViewInit

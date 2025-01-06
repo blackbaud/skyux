@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-key-info-label',
   template: '<span skyTrim><ng-content /></span>',
+  standalone: false,
 })
 export class SkyKeyInfoLabelComponent {}

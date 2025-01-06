@@ -58,6 +58,7 @@ import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
     ChecklistStateModel,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListViewChecklistComponent
   extends ListViewComponent

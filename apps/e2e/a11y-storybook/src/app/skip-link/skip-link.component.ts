@@ -15,6 +15,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-skip-link',
   templateUrl: './skip-link.component.html',
   styleUrls: ['./skip-link.component.scss'],
+  standalone: false,
 })
 export class SkipLinkComponent implements AfterViewInit, OnDestroy {
   @ViewChild('skipLink', { read: ElementRef })

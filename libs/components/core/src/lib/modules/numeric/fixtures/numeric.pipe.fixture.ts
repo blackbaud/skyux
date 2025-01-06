@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 let providedLocale = 'es';
 const providedLocaleBehaviorSubject = new BehaviorSubject({
   locale: providedLocale,
+  standalone: false,
 });
 
 @Injectable()

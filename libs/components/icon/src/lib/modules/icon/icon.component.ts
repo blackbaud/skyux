@@ -14,6 +14,7 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyIconComponent {
   /**

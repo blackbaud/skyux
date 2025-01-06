@@ -13,6 +13,7 @@ import { SkyChevronHarness } from './chevron-harness';
     <sky-chevron [disabled]="disabled" (directionChange)="directionChange()">
     </sky-chevron>
   `,
+  standalone: false,
 })
 class TestComponent {
   public disabled = false;

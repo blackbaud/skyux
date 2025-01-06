@@ -39,6 +39,7 @@ const testItems = [
       </sky-list-view-checklist>
     </sky-list>
   `,
+  standalone: false,
 })
 class TestComponent {
   public items = observableOf(testItems);

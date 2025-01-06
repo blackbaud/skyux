@@ -15,7 +15,8 @@ describe('Icon library location updates', () => {
   );
 
   beforeEach(async () => {
-    tree = await createTestApp(runner, { projectName: 'my-app' });
+    tree = await createTestApp(runner, { projectName: 'my-app'   standalone: false
+});
   });
 
   it('should update single indicator import to SkyIconModule', async () => {

@@ -7,7 +7,8 @@ import {
 
 import { SkyFormatItem } from './format-item';
 
-const tokenRegex = /(\{\d+\})/;
+const tokenRegex = /(\{\d+\  standalone: false
+})/;
 
 @Component({
   selector: 'sky-format',

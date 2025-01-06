@@ -18,6 +18,7 @@ import { SkyAlertFixture } from './alert-fixture';
       This is a sample alert.
     </sky-alert>
   `,
+  standalone: false,
 })
 class TestComponent {
   public alertType = 'warning';

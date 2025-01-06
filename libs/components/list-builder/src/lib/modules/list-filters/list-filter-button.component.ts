@@ -20,6 +20,7 @@ import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
 @Component({
   selector: 'sky-list-filter-button',
   templateUrl: './list-filter-button.component.html',
+  standalone: false,
 })
 export class SkyListFilterButtonComponent implements AfterViewInit {
   @ViewChild('filterButton', {

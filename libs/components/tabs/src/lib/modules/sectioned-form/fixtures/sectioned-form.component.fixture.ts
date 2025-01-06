@@ -8,6 +8,7 @@ import { SkySectionedFormMessage } from '../types/sectioned-form-message';
 @Component({
   selector: 'sky-sectioned-form-fixture',
   templateUrl: './sectioned-form.component.fixture.html',
+  standalone: false,
 })
 export class SkySectionedFormFixtureComponent implements AfterContentChecked {
   @ViewChild(SkySectionedFormComponent)

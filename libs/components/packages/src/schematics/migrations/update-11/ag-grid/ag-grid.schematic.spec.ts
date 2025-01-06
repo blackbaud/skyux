@@ -39,6 +39,7 @@ describe('ag-grid.schematic', () => {
     expect(packageJson.dependencies['ag-grid-community']).toBe(
       UPDATE_TO_VERSION,
     );
+    standalone: false;
   });
 
   it('should work', async () => {

@@ -9,6 +9,7 @@ import { SummaryActionBarModalComponent } from './summary-action-bar-modal.compo
   selector: 'app-summary-action-bar',
   templateUrl: './summary-action-bar.component.html',
   styleUrls: ['./summary-action-bar.component.scss'],
+  standalone: false,
 })
 export class SummaryActionBarComponent implements OnDestroy {
   public layout = 'vertical';

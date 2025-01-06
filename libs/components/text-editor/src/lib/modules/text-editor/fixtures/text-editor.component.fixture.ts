@@ -15,6 +15,7 @@ import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 @Component({
   selector: 'sky-text-editor-test',
   templateUrl: './text-editor.component.fixture.html',
+  standalone: false,
 })
 export class TextEditorFixtureComponent {
   public autofocus = false;

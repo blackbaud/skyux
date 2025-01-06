@@ -8,6 +8,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-selection-box',
   templateUrl: './selection-box.component.html',
   styleUrls: ['./selection-box.component.scss'],
+  standalone: false,
 })
 export class SelectionBoxComponent implements AfterViewInit, OnDestroy {
   public myForm: FormGroup;

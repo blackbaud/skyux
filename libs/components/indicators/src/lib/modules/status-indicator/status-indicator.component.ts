@@ -26,6 +26,7 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
   templateUrl: './status-indicator.component.html',
   styleUrls: ['./status-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyStatusIndicatorComponent implements OnInit {
   /**

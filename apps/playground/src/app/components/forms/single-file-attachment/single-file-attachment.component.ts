@@ -15,6 +15,7 @@ import {
 @Component({
   selector: 'app-single-file-attachment',
   templateUrl: './single-file-attachment.component.html',
+  standalone: false,
 })
 export class SingleFileAttachmentComponent implements OnInit {
   public attachment: UntypedFormControl;

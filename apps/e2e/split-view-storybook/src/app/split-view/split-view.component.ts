@@ -7,6 +7,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-split-view',
   templateUrl: './split-view.component.html',
   styleUrls: ['./split-view.component.scss'],
+  standalone: false,
 })
 export class SplitViewDockFillComponent implements AfterViewInit, OnDestroy {
   public readonly ready = new BehaviorSubject(false);

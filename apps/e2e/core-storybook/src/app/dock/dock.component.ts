@@ -8,6 +8,7 @@ import { DockItemVisualComponent } from './dock-item-visual.component';
   selector: 'app-dock',
   templateUrl: './dock.component.html',
   styleUrls: ['./dock.component.scss'],
+  standalone: false,
 })
 export class DockComponent implements AfterViewInit {
   public stackOrder = 0;

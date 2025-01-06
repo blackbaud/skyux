@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'sky-sort-menu-heading',
   templateUrl: './sort-menu-heading.component.html',
   styleUrls: ['./sort-menu-heading.component.scss'],
+  standalone: false,
 })
 export class SkySortMenuHeadingComponent {}

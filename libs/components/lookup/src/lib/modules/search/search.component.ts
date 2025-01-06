@@ -52,6 +52,7 @@ const EXPAND_MODE_NONE = 'none';
         style({
           opacity: 0,
           width: 0,
+          standalone: false,
         }),
       ),
       state(

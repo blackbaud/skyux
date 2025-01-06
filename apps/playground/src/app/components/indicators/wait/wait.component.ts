@@ -4,6 +4,7 @@ import { SkyWaitService } from '@skyux/indicators';
 @Component({
   selector: 'app-wait',
   templateUrl: './wait.component.html',
+  standalone: false,
 })
 export class WaitComponent {
   public isWaiting: boolean;

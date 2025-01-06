@@ -25,6 +25,7 @@ const DATA_SKY_ID = 'test-infinite-scroll';
       />
     </ul>
   `,
+  standalone: false,
 })
 class InfiniteScrollTestComponent {
   public items: string[] = [];

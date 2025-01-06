@@ -7,6 +7,7 @@ import { WizardDropdownDemoModalComponent } from './wizard-dropdown-demo-modal.c
 @Component({
   selector: 'app-wizard-demo',
   templateUrl: './wizard-demo.component.html',
+  standalone: false,
 })
 export class WizardDemoComponent {
   #modal: SkyModalService;

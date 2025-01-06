@@ -12,6 +12,7 @@ import { SkyErrorService } from './error.service';
   styleUrls: ['./error.component.scss'],
   templateUrl: './error.component.html',
   providers: [SkyErrorService],
+  standalone: false,
 })
 export class SkyErrorComponent implements OnInit {
   /**

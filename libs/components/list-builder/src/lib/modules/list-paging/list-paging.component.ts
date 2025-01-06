@@ -36,6 +36,7 @@ const listPagingComponentRef = forwardRef(() => SkyListPagingComponent);
     { provide: ListPagingComponent, useExisting: listPagingComponentRef },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListPagingComponent
   extends ListPagingComponent

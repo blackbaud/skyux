@@ -23,6 +23,7 @@ import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-n
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup.component.fixture.html',
+  standalone: false,
 })
 export class SkyLookupTestComponent {
   @ViewChild('asyncLookup', {

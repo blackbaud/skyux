@@ -5,6 +5,7 @@ import { SkyIconVariantType } from '../types/icon-variant-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './icon.component.fixture.html',
+  standalone: false,
 })
 export class IconTestComponent {
   public icon = 'circle';

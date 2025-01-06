@@ -23,6 +23,7 @@ import { ListFilterModel } from './filter.model';
 @Component({
   selector: 'sky-list-filter-summary',
   templateUrl: './list-filter-summary.component.html',
+  standalone: false,
 })
 export class SkyListFilterSummaryComponent implements AfterContentInit {
   /**

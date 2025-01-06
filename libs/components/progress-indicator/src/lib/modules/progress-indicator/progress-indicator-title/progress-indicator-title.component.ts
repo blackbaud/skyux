@@ -8,5 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './progress-indicator-title.component.html',
   styleUrls: ['./progress-indicator-title.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorTitleComponent {}

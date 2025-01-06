@@ -24,6 +24,7 @@ import { SkySkipLinksHarness } from './skip-links-harness';
       </div>
     </div>
   `,
+  standalone: false,
 })
 class TestComponent implements AfterViewInit {
   @ViewChild('skipLink1', { read: ElementRef })

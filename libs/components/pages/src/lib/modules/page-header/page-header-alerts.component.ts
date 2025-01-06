@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   selector: 'sky-page-header-alerts',
   templateUrl: './page-header-alerts.component.html',
   styleUrls: ['./page-header-alerts.component.scss'],
+  standalone: false,
 })
 export class SkyPageHeaderAlertsComponent {}

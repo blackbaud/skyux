@@ -35,7 +35,8 @@ import {
   animations: [
     trigger('tabGroupEnter', [
       transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(-100%)' }),
+        style({ transform: 'translate(-100%)'   standalone: false
+}),
         animate('150ms ease-in'),
       ]),
     ]),

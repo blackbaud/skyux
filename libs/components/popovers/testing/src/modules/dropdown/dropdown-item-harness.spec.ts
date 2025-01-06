@@ -18,6 +18,7 @@ import { SkyDropdownItemHarness } from './dropdown-item-harness';
       other-item-text
     </sky-dropdown-item>
   `,
+  standalone: false,
 })
 class TestDropdownItemComponent {
   public itemRole: string | undefined;

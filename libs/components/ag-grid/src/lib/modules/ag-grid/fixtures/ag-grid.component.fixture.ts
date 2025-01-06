@@ -20,6 +20,7 @@ import { FirstInlineHelpComponent } from './inline-help.component';
 export const EnableTopScroll = new InjectionToken<boolean>('EnableTopScroll', {
   providedIn: 'root',
   factory: (): boolean => false,
+  standalone: false,
 });
 export const Editable = new InjectionToken<boolean>('Editable', {
   providedIn: 'root',

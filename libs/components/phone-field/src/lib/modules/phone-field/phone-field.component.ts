@@ -75,6 +75,7 @@ const DEFAULT_COUNTRY_CODE = 'us';
         style({
           opacity: 0,
           width: 0,
+          standalone: false,
         }),
         animate(
           '200ms ease-in',

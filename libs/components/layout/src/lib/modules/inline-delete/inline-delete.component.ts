@@ -37,6 +37,7 @@ let nextId = 0;
       transition('* => shown', [
         style({
           opacity: 0,
+          standalone: false,
         }),
         query(
           '.sky-inline-delete-content-animation-container',

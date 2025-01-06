@@ -18,6 +18,7 @@ import { GreetingService } from './greeting/greeting.service';
       @if (greeting) {{{ greeting }}}
     </div>
     <div #content></div>`,
+  standalone: false,
 })
 export class DynamicComponentTestComponent implements OnInit {
   @Input()

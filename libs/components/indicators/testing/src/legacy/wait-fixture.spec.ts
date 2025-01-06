@@ -15,6 +15,7 @@ import { SkyWaitFixture } from './wait-fixture';
       data-sky-id="test-wait"
     ></sky-wait>
   `,
+  standalone: false,
 })
 class TestComponent {
   public isWaiting = true;

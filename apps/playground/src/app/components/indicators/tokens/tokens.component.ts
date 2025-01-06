@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tokens',
   templateUrl: './tokens.component.html',
+  standalone: false,
 })
 export class TokensComponent {
   public colors: SkyToken[] = [

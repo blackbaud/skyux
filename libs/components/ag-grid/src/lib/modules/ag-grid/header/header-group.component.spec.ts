@@ -17,6 +17,7 @@ import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
+  standalone: false,
 })
 class TestHelpComponent {}
 

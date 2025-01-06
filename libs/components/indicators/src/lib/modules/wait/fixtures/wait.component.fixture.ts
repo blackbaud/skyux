@@ -6,6 +6,7 @@ import { SkyWaitService } from '../wait.service';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './wait.component.fixture.html',
+  standalone: false,
 })
 export class SkyWaitTestComponent {
   public ariaLabel: string | undefined;

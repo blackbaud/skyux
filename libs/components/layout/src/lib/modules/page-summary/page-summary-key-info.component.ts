@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-key-info',
   templateUrl: './page-summary-key-info.component.html',
   styleUrls: ['./page-summary-key-info.component.scss'],
+  standalone: false,
 })
 export class SkyPageSummaryKeyInfoComponent {}

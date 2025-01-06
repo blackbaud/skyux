@@ -41,6 +41,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
         style({
           opacity: 0,
           width: 0,
+          standalone: false,
         }),
         animate(
           '150ms ease-in',

@@ -22,6 +22,7 @@ import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item
   templateUrl: './progress-indicator-status-marker.component.html',
   styleUrls: ['./progress-indicator-status-marker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
   @Input()

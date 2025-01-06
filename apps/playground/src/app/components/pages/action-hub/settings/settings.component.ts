@@ -11,6 +11,7 @@ import { SettingsModalComponent } from './modal/settings-modal.component';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
+  standalone: false,
 })
 export class SettingsComponent {
   public relatedLinks: SkyPageLink[] | 'loading';

@@ -44,6 +44,7 @@ import { SkyDateRangePickerHarness } from './date-range-picker-harness';
       />
     </form>
   `,
+  standalone: false,
 })
 class TestComponent {
   #dateRangeSvc = inject(SkyDateRangeService);

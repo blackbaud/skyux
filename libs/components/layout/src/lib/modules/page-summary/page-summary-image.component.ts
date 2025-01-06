@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-image',
   templateUrl: './page-summary-image.component.html',
   styleUrls: ['./page-summary-image.component.scss'],
+  standalone: false,
 })
 /* istanbul ignore next */
 /* Code coverage having problems with no statements in classes */

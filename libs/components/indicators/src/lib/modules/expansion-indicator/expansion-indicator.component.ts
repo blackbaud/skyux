@@ -11,6 +11,7 @@ import { Component, Input } from '@angular/core';
     './expansion-indicator.modern.component.scss',
   ],
   templateUrl: './expansion-indicator.component.html',
+  standalone: false,
 })
 export class SkyExpansionIndicatorComponent {
   /**

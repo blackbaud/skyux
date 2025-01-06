@@ -8,6 +8,7 @@ import { SkyErrorModalHarness } from './error-modal-harness';
 
 @Component({
   template: '',
+  standalone: false,
 })
 class TestComponent {}
 

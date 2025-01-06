@@ -17,6 +17,7 @@ let nextId = 0;
   styleUrls: ['./filter-button.component.scss'],
   templateUrl: './filter-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyFilterButtonComponent {
   /**

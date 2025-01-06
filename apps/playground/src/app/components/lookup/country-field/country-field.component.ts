@@ -6,6 +6,7 @@ import { SkyCountryFieldCountry } from '@skyux/lookup';
   selector: 'app-country-field',
   templateUrl: './country-field.component.html',
   styleUrls: ['./country-field.component.scss'],
+  standalone: false,
 })
 export class CountryFieldComponent implements OnInit {
   public countryData: SkyCountryFieldCountry;

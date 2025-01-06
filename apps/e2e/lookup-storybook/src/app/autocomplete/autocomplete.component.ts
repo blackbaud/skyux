@@ -5,6 +5,7 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
+  standalone: false,
 })
 export class AutocompleteComponent {
   public data = [

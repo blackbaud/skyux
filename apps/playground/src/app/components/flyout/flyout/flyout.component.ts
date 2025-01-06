@@ -13,6 +13,7 @@ import { FlyoutResponsiveDemoComponent } from './flyout-responsive-demo.componen
   selector: 'app-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
+  standalone: false,
 })
 export class FlyoutComponent implements OnDestroy {
   public users: { id: string; name: string }[] = [

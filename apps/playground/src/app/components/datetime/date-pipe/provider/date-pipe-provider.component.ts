@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class MyLocaleProvider extends SkyAppLocaleProvider {
   public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
-    const obs = new BehaviorSubject<any>({});
+    const obs = new BehaviorSubject<any>({ standalone: false });
 
     // Simulate HTTP call.
     setTimeout(() => {

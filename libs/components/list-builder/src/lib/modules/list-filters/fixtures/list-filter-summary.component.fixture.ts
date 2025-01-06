@@ -5,6 +5,7 @@ import { ListFilterModel } from '../filter.model';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-filter-summary.component.fixture.html',
+  standalone: false,
 })
 export class ListFilterSummaryTestComponent {
   public clickedItem: ListFilterModel;

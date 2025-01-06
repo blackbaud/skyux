@@ -6,6 +6,7 @@ import { SkyColumnSelectorContext } from './column-selector-context';
 @Component({
   selector: 'sky-column-selector',
   templateUrl: './column-selector-modal.component.html',
+  standalone: false,
 })
 export class SkyColumnSelectorComponent {
   public newSelectedColumnIds: string[] = [];

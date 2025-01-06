@@ -7,6 +7,7 @@ import { A11yRepeaterItem } from './a11y-repeater-item';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './a11y-repeater.component.fixture.html',
+  standalone: false,
 })
 export class A11yRepeaterTestComponent {
   public set activeIndex(value: number | undefined) {

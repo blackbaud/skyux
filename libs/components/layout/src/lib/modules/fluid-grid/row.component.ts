@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
   selector: 'sky-row',
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.scss'],
+  standalone: false,
 })
 export class SkyRowComponent {
   /**

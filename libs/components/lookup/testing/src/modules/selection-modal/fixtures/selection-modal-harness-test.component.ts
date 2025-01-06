@@ -7,6 +7,7 @@ import {
 @Component({
   selector: 'sky-selection-modal-harness-test',
   templateUrl: './selection-modal-harness-test.component.html',
+  standalone: false,
 })
 export class SelectionModalHarnessTestComponent {
   public selectedItems: { id: string; name: string }[] | undefined;

@@ -12,6 +12,7 @@ import { SkyAgGridHeaderGroupInfo } from '@skyux/ag-grid';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class GroupInlineHelpComponent {
   constructor(public info: SkyAgGridHeaderGroupInfo) {}

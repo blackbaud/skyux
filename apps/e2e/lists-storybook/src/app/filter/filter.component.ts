@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
+  standalone: false,
 })
 export class FilterComponent implements AfterViewInit, OnDestroy {
   public filtersActive = false;

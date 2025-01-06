@@ -41,6 +41,7 @@ import { SkyTabsetService } from './tabset.service';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   /**

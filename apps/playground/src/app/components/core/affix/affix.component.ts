@@ -5,6 +5,7 @@ import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
   selector: 'app-affix',
   templateUrl: './affix.component.html',
   styleUrl: './affix.component.css',
+  standalone: false,
 })
 export class AffixComponent {
   public popoverAlignment: SkyPopoverAlignment | undefined;

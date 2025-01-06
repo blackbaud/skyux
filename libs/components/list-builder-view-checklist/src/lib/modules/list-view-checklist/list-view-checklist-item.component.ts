@@ -10,6 +10,7 @@ import { ListViewChecklistItemModel } from './state/items/item.model';
   templateUrl: './list-view-checklist-item.component.html',
   styleUrls: ['./list-view-checklist-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListViewChecklistItemComponent {
   @Input()

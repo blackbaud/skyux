@@ -13,6 +13,7 @@ import { SkyAppLinkExternalDirective } from './link-external.directive';
 
 @Component({
   template: '<a skyAppLinkExternal="test">Test</a>',
+  standalone: false,
 })
 class SkyAppLinkExternalTestComponent {}
 

@@ -45,6 +45,7 @@ import { SkyRepeaterService } from './repeater.service';
     SkyRepeaterAutoScrollService,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyRepeaterComponent
   implements AfterContentInit, AfterViewChecked, OnChanges, OnDestroy, OnInit

@@ -7,6 +7,7 @@ import { TileParametersType } from '../tile-parameters.type';
   selector: 'app-tile1',
   templateUrl: './tile1.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class Tile1Component {
   public tileParameters: TileParametersType;

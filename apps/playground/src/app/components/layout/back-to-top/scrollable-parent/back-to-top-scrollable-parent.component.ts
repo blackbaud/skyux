@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-back-to-top-scrollable-parent',
   templateUrl: './back-to-top-scrollable-parent.component.html',
+  standalone: false,
 })
 export class BackToTopScrollableParentComponent {
   public moveStuff(): void {

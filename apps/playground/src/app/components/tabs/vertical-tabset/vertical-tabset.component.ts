@@ -10,6 +10,7 @@ let nextTabId = 4;
   selector: 'app-vertical-tabset',
   templateUrl: './vertical-tabset.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VerticalTabsetComponent {
   public active = true;

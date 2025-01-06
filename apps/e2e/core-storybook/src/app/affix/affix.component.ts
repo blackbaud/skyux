@@ -19,6 +19,7 @@ import { FontLoadingService } from '@skyux/storybook/font-loading';
   templateUrl: './affix.component.html',
   styleUrls: ['./affix.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class AffixComponent {
   public readonly wide = input<boolean>(true);

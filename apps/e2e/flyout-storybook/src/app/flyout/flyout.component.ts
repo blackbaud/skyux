@@ -22,6 +22,7 @@ import { FlyoutStandardComponent } from './flyout-standard.component';
   selector: 'app-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
+  standalone: false,
 })
 export class FlyoutComponent implements AfterViewInit, OnDestroy {
   public flyout: SkyFlyoutInstance<any> | undefined;

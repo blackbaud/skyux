@@ -20,6 +20,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './resize-observer-basic.component.html',
   styleUrls: ['./resize-observer-basic.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
   @ViewChild('resize')

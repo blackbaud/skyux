@@ -17,6 +17,7 @@ import { SkyAvatarFixture } from './avatar-fixture';
     >
     </sky-avatar>
   `,
+  standalone: false,
 })
 class TestComponent {
   public name: string | undefined;

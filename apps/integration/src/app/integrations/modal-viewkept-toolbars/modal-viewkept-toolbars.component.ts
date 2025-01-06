@@ -10,6 +10,7 @@ import { ModalViewkeptToolbarsModalComponent } from './modal-viewkept-toolbars-m
   selector: 'app-modal-viewkept-toolbars',
   templateUrl: './modal-viewkept-toolbars.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ModalViewkeptToolbarsComponent {
   protected readonly ready$ = inject(FontLoadingService)

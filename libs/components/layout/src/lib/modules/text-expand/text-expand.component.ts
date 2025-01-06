@@ -35,6 +35,7 @@ let nextId = 0;
         'true',
         style({
           maxHeight: '{{transitionHeight}}px',
+          standalone: false,
         }),
         { params: { transitionHeight: 0 } },
       ),

@@ -14,6 +14,7 @@ import { SkySelectFieldCustomPicker } from '../types/select-field-custom-picker'
 @Component({
   selector: 'sky-select-field-test',
   templateUrl: './select-field.component.fixture.html',
+  standalone: false,
 })
 export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
   public ariaLabel: string;

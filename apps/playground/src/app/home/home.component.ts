@@ -15,6 +15,7 @@ import { HomeFiltersModalDemoComponent } from './home-filter.component';
   selector: 'app-home',
   templateUrl: './home.component.html',
   providers: [SkyDataManagerService],
+  standalone: false,
 })
 export class HomeComponent implements AfterViewInit {
   public componentData: ComponentInfo[] = [];

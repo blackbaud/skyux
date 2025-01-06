@@ -33,6 +33,7 @@ interface DataSet {
   templateUrl: './data-entry-grid.component.html',
   styleUrls: ['./data-entry-grid.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class DataEntryGridComponent
   implements AfterViewInit, OnInit, OnDestroy

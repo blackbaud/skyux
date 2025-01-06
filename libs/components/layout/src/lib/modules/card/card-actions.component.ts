@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   selector: 'sky-card-actions',
   templateUrl: './card-actions.component.html',
   styleUrls: ['./card-actions.component.scss'],
+  standalone: false,
 })
 export class SkyCardActionsComponent {}

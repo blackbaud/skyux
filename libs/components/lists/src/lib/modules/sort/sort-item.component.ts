@@ -28,6 +28,7 @@ let sortItemIdNumber = 0;
   styleUrls: ['./sort-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   /**

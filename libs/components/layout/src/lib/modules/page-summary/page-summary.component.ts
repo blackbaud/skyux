@@ -20,6 +20,7 @@ import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.componen
   templateUrl: './page-summary.component.html',
   styleUrls: ['./page-summary.component.scss'],
   providers: [SkyPageSummaryAdapterService],
+  standalone: false,
 })
 export class SkyPageSummaryComponent {
   protected keyInfoComponents = contentChildren(SkyPageSummaryKeyInfoComponent);

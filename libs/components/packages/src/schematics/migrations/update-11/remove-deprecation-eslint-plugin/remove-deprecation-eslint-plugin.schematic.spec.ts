@@ -16,6 +16,7 @@ describe('remove-deprecation-eslint-plugin.schematic', () => {
       devDependencies?: Record<string, string>;
     };
     eslintConfig?: any;
+    standalone: false;
   }) {
     const tree = await createTestLibrary(runner, {
       projectName: 'my-lib',

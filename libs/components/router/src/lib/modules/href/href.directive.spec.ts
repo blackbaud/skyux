@@ -23,6 +23,7 @@ import { SkyHrefResolverService } from './href-resolver.service';
 
 @Component({
   template: '',
+  standalone: false,
 })
 export class BlankComponent {}
 

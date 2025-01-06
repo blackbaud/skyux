@@ -77,6 +77,7 @@ let uniqueId = 0;
   styleUrls: ['./autocomplete.component.scss'],
   providers: [SkyAutocompleteAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   //#region public_api

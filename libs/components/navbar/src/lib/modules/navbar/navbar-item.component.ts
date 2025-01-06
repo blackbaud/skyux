@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
   selector: 'sky-navbar-item',
   templateUrl: './navbar-item.component.html',
   styleUrls: ['./navbar-item.component.scss'],
+  standalone: false,
 })
 export class SkyNavbarItemComponent {
   /**

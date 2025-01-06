@@ -37,6 +37,7 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
   host: {
     '[class]': 'layoutClassName()',
   },
+  standalone: false,
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   readonly #breakpoint = toSignal(

@@ -5,6 +5,7 @@ import { SkyThemeSettings } from '../theme-settings';
 @Component({
   selector: 'app-theme-test',
   templateUrl: './theme-test.component.html',
+  standalone: false,
 })
 export class SkyThemeTestComponent {
   @Input()

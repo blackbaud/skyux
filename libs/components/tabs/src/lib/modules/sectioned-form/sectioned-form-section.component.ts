@@ -25,6 +25,7 @@ let nextId = 0;
   templateUrl: './sectioned-form-section.component.html',
   providers: [SkySectionedFormService],
   styleUrls: ['./sectioned-form-section.component.scss'],
+  standalone: false,
 })
 export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
   public sectionTabId = `sky-sectioned-form-tab-${++nextId}`;

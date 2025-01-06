@@ -16,6 +16,7 @@ import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-pa
   templateUrl: './cell-renderer-lookup.component.html',
   styleUrls: ['./cell-renderer-lookup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyAgGridCellRendererLookupComponent
   implements ICellRendererAngularComp

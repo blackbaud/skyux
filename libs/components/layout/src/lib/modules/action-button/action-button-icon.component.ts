@@ -15,6 +15,7 @@ const FONTSIZECLASS_LARGE = '3x';
     './action-button-icon.modern.component.scss',
   ],
   templateUrl: './action-button-icon.component.html',
+  standalone: false,
 })
 export class SkyActionButtonIconComponent {
   /**

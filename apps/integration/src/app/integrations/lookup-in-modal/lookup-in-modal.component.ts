@@ -10,6 +10,7 @@ import { ModalLookupComponent } from './modal-lookup.component';
 @Component({
   selector: 'app-lookup-in-modal',
   template: '@if (ready$ | async) {<span id="ready"></span>}',
+  standalone: false,
 })
 export class LookupInModalComponent implements OnInit, OnDestroy {
   protected readonly ready$ = inject(FontLoadingService)

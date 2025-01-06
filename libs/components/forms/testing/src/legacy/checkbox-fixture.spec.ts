@@ -24,6 +24,7 @@ import { SkyCheckboxFixture } from './checkbox-fixture';
       </sky-checkbox-label>
     </sky-checkbox>
   `,
+  standalone: false,
 })
 class TestComponent {
   public checkboxType = 'success';

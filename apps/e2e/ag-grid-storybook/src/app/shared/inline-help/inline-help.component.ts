@@ -12,6 +12,7 @@ import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class InlineHelpComponent {
   readonly #displayName: string | undefined;

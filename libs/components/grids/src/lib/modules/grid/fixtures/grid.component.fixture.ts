@@ -22,6 +22,7 @@ import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-mode
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid.component.fixture.html',
+  standalone: false,
 })
 export class GridTestComponent {
   public activeSortSelector: ListSortFieldSelectorModel;

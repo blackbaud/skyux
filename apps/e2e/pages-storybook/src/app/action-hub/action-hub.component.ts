@@ -12,6 +12,7 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
   const date = new Date();
   date.setHours(date.getHours() - (i + 1));
   return date;
+  standalone: false;
 });
 
 @Component({

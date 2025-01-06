@@ -79,6 +79,7 @@ import { SkyListViewGridRowDeleteConfirmArgs } from './types/list-view-grid-row-
     GridStateModel,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkyListViewGridComponent
   extends ListViewComponent

@@ -28,6 +28,7 @@ export class ModalTestContext {
     [helpPopoverContent]="context?.helpPopoverContent"
     [helpPopoverTitle]="context?.helpPopoverTitle"
   ></sky-modal>`,
+  standalone: false,
 })
 class TestComponent {
   protected context = inject(ModalTestContext, { optional: true });

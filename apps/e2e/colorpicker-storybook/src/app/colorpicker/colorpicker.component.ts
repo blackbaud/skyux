@@ -13,6 +13,7 @@ import { delay } from 'rxjs/operators';
   selector: 'app-colorpicker',
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
+  standalone: false,
 })
 export class ColorpickerComponent {
   public colorForm: FormGroup;

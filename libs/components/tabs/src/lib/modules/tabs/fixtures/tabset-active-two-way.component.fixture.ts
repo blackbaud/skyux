@@ -5,6 +5,7 @@ import { SkyTabIndex } from '../tab-index';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset-active-two-way.component.fixture.html',
+  standalone: false,
 })
 export class TabsetActiveTwoWayBindingTestComponent {
   public activeTab = '1';

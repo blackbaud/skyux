@@ -8,6 +8,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   selector: 'app-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
+  standalone: false,
 })
 export class ErrorComponent implements AfterViewInit, OnDestroy {
   public customAction = false;
