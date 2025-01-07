@@ -8,7 +8,6 @@ import {
 } from '@skyux/router';
 
 @Component({
-  standalone: true,
   selector: 'app-sky-href',
   templateUrl: './skyHref.component.html',
   styleUrls: ['./skyHref.component.scss'],

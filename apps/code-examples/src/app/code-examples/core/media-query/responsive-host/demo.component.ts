@@ -16,7 +16,6 @@ import { DemoContainerComponent } from './container.component';
     SkyIconModule,
   ],
   selector: 'app-demo',
-  standalone: true,
   styleUrl: './demo.component.scss',
   templateUrl: './demo.component.html',
 })

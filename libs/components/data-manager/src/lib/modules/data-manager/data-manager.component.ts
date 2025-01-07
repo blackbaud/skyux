@@ -27,7 +27,6 @@ const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
  * The top-level data manager component. Provide `SkyDataManagerService` at this level.
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-manager',
   templateUrl: './data-manager.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

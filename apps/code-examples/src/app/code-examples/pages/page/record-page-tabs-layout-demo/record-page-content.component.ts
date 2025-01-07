@@ -6,7 +6,6 @@ import { RecordPageNotesTabComponent } from './record-page-notes-tab.component';
 import { RecordPageOverviewTabComponent } from './record-page-overview-tab.component';
 
 @Component({
-  standalone: true,
   selector: 'app-record-page-content',
   templateUrl: './record-page-content.component.html',
   imports: [

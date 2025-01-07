@@ -3,7 +3,6 @@ import { SkyBoxModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyBoxModule, SkyDropdownModule],

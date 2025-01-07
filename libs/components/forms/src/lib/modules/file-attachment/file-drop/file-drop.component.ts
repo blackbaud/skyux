@@ -56,7 +56,6 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,

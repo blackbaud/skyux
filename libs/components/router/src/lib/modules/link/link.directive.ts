@@ -15,6 +15,7 @@ import { SkyAppLinkQueryParams } from './link-query-params';
 
 @Directive({
   selector: '[skyAppLink]',
+  standalone: false,
 })
 export class SkyAppLinkDirective extends RouterLink implements OnChanges {
   @Input()

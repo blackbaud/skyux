@@ -35,7 +35,6 @@ import { SkyTileTitleComponent } from './tile-title.component';
  * Provides a common look-and-feel for tab content.
  */
 @Component({
-  standalone: true,
   selector: 'sky-tile',
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',

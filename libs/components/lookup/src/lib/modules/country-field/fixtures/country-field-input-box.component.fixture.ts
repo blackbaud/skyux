@@ -7,7 +7,6 @@ import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({
   selector: 'sky-test-cmp',
-  standalone: true,
   imports: [FormsModule, SkyCountryFieldModule, SkyInputBoxModule],
   templateUrl: './country-field-input-box.component.fixture.html',
 })

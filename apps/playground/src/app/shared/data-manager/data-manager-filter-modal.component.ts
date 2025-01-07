@@ -12,7 +12,6 @@ import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-data-manager-filter-modal',
   templateUrl: './data-manager-filter-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

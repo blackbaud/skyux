@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyHelpInlineModule],

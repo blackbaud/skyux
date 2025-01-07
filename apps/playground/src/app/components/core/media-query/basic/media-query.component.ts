@@ -36,7 +36,6 @@ export class BreakpointReaderComponent {
     SkyFluidGridModule,
     WithBreakpointDirectiveComponent,
   ],
-  standalone: true,
   template: `
     <p>Root breakpoint: {{ rootBreakpoint() }}</p>
     <sky-fluid-grid>

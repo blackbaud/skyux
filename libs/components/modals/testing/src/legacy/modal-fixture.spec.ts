@@ -65,6 +65,7 @@ class TestModalComponent {
       Launch modal
     </button>
   `,
+  standalone: false,
 })
 class TestComponent {
   public ariaDescribedBy: string | undefined;

@@ -10,7 +10,6 @@ import {
 } from '@skyux/progress-indicator';
 
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   imports: [

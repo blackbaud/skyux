@@ -24,7 +24,6 @@ import { DemoService } from './demo.service';
 import { Person } from './person';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

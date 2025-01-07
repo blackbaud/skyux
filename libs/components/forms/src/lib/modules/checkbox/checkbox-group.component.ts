@@ -36,7 +36,6 @@ function numberAttribute4(value: unknown): number {
   selector: 'sky-checkbox-group',
   templateUrl: './checkbox-group.component.html',
   styleUrl: './checkbox-group.component.scss',
-  standalone: true,
   imports: [
     CommonModule,
     SkyFormErrorsModule,

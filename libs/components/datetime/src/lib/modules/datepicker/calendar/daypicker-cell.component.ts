@@ -27,7 +27,6 @@ import { SkyDayPickerContext } from './daypicker-context';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SkyDayPickerButtonComponent, SkyPopoverModule],
   selector: 'sky-daypicker-cell',
-  standalone: true,
   templateUrl: 'daypicker-cell.component.html',
 })
 export class SkyDayPickerCellComponent implements OnInit, OnDestroy {

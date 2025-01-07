@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
-  standalone: true,
   selector: 'app-tile-updates',
   styles: `
     :host {

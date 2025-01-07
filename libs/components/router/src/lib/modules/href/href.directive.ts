@@ -25,6 +25,7 @@ interface HrefChanges {
 
 @Directive({
   selector: '[skyHref]',
+  standalone: false,
 })
 export class SkyHrefDirective {
   /**

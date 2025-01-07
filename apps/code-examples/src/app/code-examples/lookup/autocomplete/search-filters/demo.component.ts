@@ -13,7 +13,6 @@ import {
 } from '@skyux/lookup';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

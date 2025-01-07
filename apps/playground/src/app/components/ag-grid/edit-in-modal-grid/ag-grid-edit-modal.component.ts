@@ -18,7 +18,6 @@ import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './ag-grid-demo-data';
 import { SkyAgGridEditModalContext } from './ag-grid-edit-modal-context';
 
 @Component({
-  standalone: true,
   selector: 'app-demo-edit-modal-form',
   templateUrl: './ag-grid-edit-modal.component.html',
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],

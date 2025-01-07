@@ -10,7 +10,6 @@ import {
 import { SkyCheckboxModule } from '../checkbox.module';
 
 @Component({
-  standalone: true,
   selector: 'sky-icon-checkbox-group',
   templateUrl: './icon-checkbox-group.component.html',
   imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],

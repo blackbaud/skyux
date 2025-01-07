@@ -38,7 +38,6 @@ import { SkySelectField } from './types/select-field';
 import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 @Component({
-  standalone: true,
   selector: 'sky-select-field-picker',
   templateUrl: './select-field-picker.component.html',
   styleUrls: ['./select-field-picker.component.scss'],

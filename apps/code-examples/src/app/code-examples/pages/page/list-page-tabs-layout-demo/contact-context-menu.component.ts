@@ -7,7 +7,6 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { Contact } from './contact';
 
 @Component({
-  standalone: true,
   selector: 'app-contacts-grid-context-menu',
   templateUrl: './contact-context-menu.component.html',
   imports: [SkyDropdownModule],

@@ -2,6 +2,12 @@ const overrides = require('./eslint-overrides.config');
 
 module.exports = [
   {
+    files: ['**/*.ts'],
+    rules: {
+      '@angular-eslint/prefer-standalone': 'warn',
+    },
+  },
+  {
     files: ['**/*.spec.ts', '**/fixtures/**/*.ts'],
     rules: {
       '@nx/enforce-module-boundaries': 'warn',

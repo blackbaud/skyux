@@ -22,6 +22,7 @@ type SkyThemeClassMap = Record<string, string>;
  */
 @Directive({
   selector: '[skyThemeClass]',
+  standalone: false,
 })
 export class SkyThemeClassDirective implements OnDestroy {
   /**

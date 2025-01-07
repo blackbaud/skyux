@@ -16,7 +16,6 @@ import { SkyIdModule } from '@skyux/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-colorpicker-modal',
   templateUrl: './modal-colorpicker-modal.component.html',
   styleUrls: ['./modal-colorpicker-modal.component.css'],

@@ -36,6 +36,7 @@ import { SkyAgGridRowDeleteContents } from './types/ag-grid-row-delete-contents'
 
 @Directive({
   selector: '[skyAgGridRowDelete]',
+  standalone: false,
 })
 export class SkyAgGridRowDeleteDirective
   implements AfterContentInit, AfterViewInit, OnDestroy

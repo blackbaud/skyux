@@ -4,7 +4,6 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],

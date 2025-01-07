@@ -111,7 +111,6 @@
     ],
     "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }],
 
-    "@angular-eslint/no-lifecycle-call": "error",
-    "@angular-eslint/sort-ngmodule-metadata-arrays": "error"
+    "@angular-eslint/no-lifecycle-call": "error"
   }
 }

@@ -21,7 +21,6 @@ interface Contact {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-list-page-contacts-grid',
   templateUrl: './list-page-contacts-grid.component.html',
   providers: [SkyDataManagerService],

@@ -24,7 +24,6 @@ interface WorkspaceItem {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-split-view-page-content',
   templateUrl: './split-view-page-content.component.html',
   imports: [

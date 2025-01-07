@@ -11,7 +11,6 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
 });
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyActionHubModule],

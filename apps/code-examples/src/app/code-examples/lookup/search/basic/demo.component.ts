@@ -6,7 +6,6 @@ import { SkySearchModule } from '@skyux/lookup';
 import { Item } from './item';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyRepeaterModule, SkySearchModule, SkyToolbarModule],

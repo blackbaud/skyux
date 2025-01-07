@@ -3,7 +3,6 @@ import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 @Component({
-  standalone: true,
   selector: 'app-inline-help',
   templateUrl: './inline-help.component.html',
   styles: [

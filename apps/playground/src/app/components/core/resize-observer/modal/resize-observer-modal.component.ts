@@ -21,7 +21,6 @@ type SizeOptions = 'small' | 'medium' | 'large';
 let identifier = 1;
 
 @Component({
-  standalone: true,
   selector: 'app-resize-observer-modal',
   templateUrl: './resize-observer-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

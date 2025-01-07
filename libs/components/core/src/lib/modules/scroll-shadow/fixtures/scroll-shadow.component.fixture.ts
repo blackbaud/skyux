@@ -9,7 +9,6 @@ import { SkyScrollShadowDirective } from '../scroll-shadow.directive';
   styleUrls: ['./scroll-shadow.component.fixture.scss'],
   templateUrl: './scroll-shadow.component.fixture.html',
   imports: [CommonModule, SkyScrollShadowDirective],
-  standalone: true,
 })
 export class ScrollShadowFixtureComponent {
   public enabled = true;

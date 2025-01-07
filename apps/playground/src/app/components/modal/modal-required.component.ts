@@ -8,7 +8,6 @@ function round(val: number) {
 }
 
 @Component({
-  standalone: true,
   imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
   template: `
     <sky-modal

@@ -6,7 +6,6 @@ import { InfiniteScrollDemoItem } from './item';
 let nextId = 0;
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyInfiniteScrollModule, SkyRepeaterModule],
