@@ -4,6 +4,7 @@ import { SkyDefinitionListService } from './definition-list.service';
 
 /**
  * Specifies the value in a label-value pair.
+ * @deprecated Use `SkyDescriptionListDescriptionComponent` instead.
  */
 @Component({
   selector: 'sky-definition-list-value',
