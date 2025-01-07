@@ -3,15 +3,10 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-toolbar-container') {
-  --sky-override-toolbar-background-color-viewkeeper: #{$sky-toolbar-background-color};
   --sky-override-toolbar-background-color: #{$sky-toolbar-background-color};
   --sky-override-toolbar-border-top-bottom: #{1px solid
     $sky-border-color-neutral-medium};
   --sky-override-toolbar-container-padding: #{$sky-padding-half $sky-padding 0};
-}
-
-@include compatMixins.sky-modern-overrides('.sky-toolbar-container') {
-  --sky-override-toolbar-background-color: transparent;
 }
 
 sky-toolbar + :host {
@@ -22,10 +17,7 @@ sky-toolbar + :host {
 
 .sky-toolbar-container {
   min-height: $sky-toolbar-min-height;
-  background-color: var(
-    --sky-override-toolbar-background-color,
-    var(--sky-color-background-action-secondary-base)
-  );
+  background-color: var(--sky-override-toolbar-background-color);
   padding: var(
     --sky-override-toolbar-container-padding,
     var(--sky-space-inset-vertical-top-s)
@@ -54,7 +46,7 @@ sky-toolbar + :host {
 
   &.sky-viewkeeper-fixed {
     background-color: var(
-      --sky-override-toolbar-background-color-viewkeeper,
+      --sky-override-toolbar-background-color,
       var(--sky-color-background-page)
     );
   }
@@ -74,7 +66,7 @@ sky-toolbar + :host {
 :host-context(.sky-viewkeeper-fixed) {
   .sky-toolbar-container {
     background-color: var(
-      --sky-override-toolbar-background-color-viewkeeper,
+      --sky-override-toolbar-background-color,
       var(--sky-color-background-page)
     );
   }
