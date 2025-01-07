@@ -9,7 +9,6 @@
 
 @include compatMixins.sky-modern-overrides('.sky-toolbar-item') {
   --sky-override-toolbar-item-text-color: var(--sky-color-text-default);
-  --sky-override-toolbar-search-icon-color: var(--sky-color-icon-default);
 }
 
 .sky-toolbar-item {
@@ -18,32 +17,6 @@
     var(--sky-space-gap-action_group-m)
   );
   margin-bottom: var(--sky-override-toolbar-item-spacing-bottom);
-
-  ::ng-deep
-    sky-search
-    .sky-search-container
-    .sky-search-input-container
-    sky-input-box {
-    --sky-background-color-input-box-group: transparent;
-    --sky-background-color-input-box-group-focused: transparent;
-
-    .sky-input-group-icon .sky-icon {
-      color: var(
-        --sky-override-toolbar-search-icon-color,
-        var(--sky-color-icon-action)
-      );
-    }
-
-    .sky-input-box-group
-      .sky-form-group
-      .sky-input-box-form-group-inner
-      input::placeholder {
-      color: var(
-        --sky-override-toolbar-item-text-color,
-        var(--sky-color-text-action)
-      );
-    }
-  }
 }
 
 @include mixins.sky-theme-modern {

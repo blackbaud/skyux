@@ -32,11 +32,6 @@
     padding-left: var(--sky-space-inset-balanced-s);
     padding-right: var(--sky-space-inset-balanced-s);
 
-    &:hover {
-      background-color: var(--sky-color-background-action-tertiary-hover);
-      // border: none;
-    }
-
     &:not(:hover):not(:active):not(:focus) {
       box-shadow: inset 0 0 0 var(--sky-border-width-action-base) transparent;
     }
