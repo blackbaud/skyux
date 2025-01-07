@@ -598,10 +598,12 @@ export class SkyFileAttachmentComponent
     if (fileList) {
       const files: SkyFileItem[] = [];
 
-      for (let index = 0; index < files.length; index++) {
-        files.push({
-          file: fileList.item(index),
-        } as SkyFileItem);
+      if ('item' in fileList) {
+        for (let index = 0; index < fileList.length; index++) {
+          files.push({
+            file: fileList.item(index),
+          } as SkyFileItem);
+        }
       }
 
       const processedFiles = this.#fileAttachmentService.checkFiles(
