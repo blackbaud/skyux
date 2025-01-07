@@ -16,24 +16,22 @@ import { SkyFormErrorHarness } from './form-error-harness';
     },
   ],
   template: `
-    <sky-form-error [errorName]="errorName" [errorText]="errorText" />
+    <sky-form-error errorName="error" [errorText]="errorText" />
     <sky-form-error
       data-sky-id="other-error"
-      [errorName]="errorNameSkyId"
+      errorName="other-error"
       [errorText]="errorTextSkyId"
     />
   `,
   standalone: false,
 })
 class TestComponent {
-  public errorName = 'error';
   public errorText = 'some-error';
-  public errorNameSkyId = 'error-sky-id';
   public errorTextSkyId = 'some-error-sky-id';
 }
 //#endregion Test component
 
-describe('Form error harness', () => {
+fdescribe('Form error harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     formErrorHarness: SkyFormErrorHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -55,23 +53,27 @@ describe('Form error harness', () => {
     return { formErrorHarness, fixture, loader, pageLoader };
   }
 
-  it('should get form error text', async () => {
+  it('should get form error name and text', async () => {
     const { formErrorHarness, fixture } = await setupTest();
 
     fixture.detectChanges();
 
+    await expectAsync(formErrorHarness.getErrorName()).toBeResolvedTo('error');
     await expectAsync(formErrorHarness.getErrorText()).toBeResolvedTo(
       fixture.componentInstance.errorText,
     );
   });
 
-  it('should get form error text by its data-sky-id', async () => {
+  it('should get form error name and text by its data-sky-id', async () => {
     const { formErrorHarness, fixture } = await setupTest({
       dataSkyId: 'other-error',
     });
 
     fixture.detectChanges();
 
+    await expectAsync(formErrorHarness.getErrorName()).toBeResolvedTo(
+      'other-error',
+    );
     await expectAsync(formErrorHarness.getErrorText()).toBeResolvedTo(
       fixture.componentInstance.errorTextSkyId,
     );
