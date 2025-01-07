@@ -3,8 +3,6 @@ import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeSc
 
 import { relative } from 'path';
 
-// import { isBooleanObject } from 'util/types';
-
 import {
   DecoratedClass,
   findComponentClass,
