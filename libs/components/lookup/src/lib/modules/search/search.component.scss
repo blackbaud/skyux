@@ -30,6 +30,8 @@
   --sky-override-search-button-height-width: 40px;
   --sky-override-search-mobile-button-horizontal-padding: 15px;
   --sky-override-search-mobile-button-vertical-padding: 9px;
+  --sky-override-search-toolbar-icon-color: var(--sky-color-icon-default);
+  --sky-override-search-toolbar-item-text-color: var(--sky-color-text-default);
 }
 
 sky-search {
@@ -301,6 +303,32 @@ sky-search {
           }
         }
       }
+    }
+  }
+
+  .sky-toolbar-item
+    sky-search
+    .sky-search-container
+    .sky-search-input-container
+    sky-input-box {
+    --sky-background-color-input-box-group: transparent;
+    --sky-background-color-input-box-group-focused: transparent;
+
+    .sky-input-group-icon .sky-icon {
+      color: var(
+        --sky-override-search-toolbar-icon-color,
+        var(--sky-color-icon-action)
+      );
+    }
+
+    .sky-input-box-group
+      .sky-form-group
+      .sky-input-box-form-group-inner
+      input::placeholder {
+      color: var(
+        --sky-override-search-toolbar-item-text-color,
+        var(--sky-color-text-action)
+      );
     }
   }
 }
