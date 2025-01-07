@@ -1,4 +1,5 @@
 import fsExtra from 'fs-extra';
+import minimist from 'minimist';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
@@ -7,6 +8,8 @@ import { generateManifest } from '../libs/components/manifest/src/generator/gene
 import { SkyManifestPublicApi } from '../libs/components/manifest/src/index';
 
 import { runCommand } from './utils/spawn';
+
+const argv = minimist(process.argv.slice(2));
 
 /**
  * Writes the current snapshot of deprecated features to a file.
@@ -75,7 +78,7 @@ async function checkManifest({
 
   const snapshot = createDeprecationsSnapshot(publicApi);
 
-  if (!fs.existsSync(snapshotPath) || (await isPrerelease())) {
+  if (!fs.existsSync(snapshotPath) || argv['update-deprecations-snapshot']) {
     await writeSnapshot(snapshotPath, snapshot);
   } else {
     const previousDeprecations = JSON.parse(
@@ -87,11 +90,17 @@ async function checkManifest({
     );
 
     if (newDeprecations.length > 0) {
-      throw new Error(
-        'Features from the public API cannot be marked deprecated during a ' +
-          'minor version release. Undo the following deprecations or wait ' +
-          `for a major version pre-release:\n ${newDeprecations.join('\n ')}.`,
-      );
+      if (await isPrerelease()) {
+        throw new Error(
+          'New deprecations detected in a prerelease. Run `npm run dev:update-deprecations-snapshot` and commit the results with your changes.',
+        );
+      } else {
+        throw new Error(
+          'Features from the public API cannot be marked deprecated during a ' +
+            'minor version release. Undo the following deprecations or wait ' +
+            `for a major version pre-release:\n ${newDeprecations.join('\n ')}.`,
+        );
+      }
     } else {
       const removedDeprecations = previousDeprecations.filter(
         (feature) => !snapshot.includes(feature),
