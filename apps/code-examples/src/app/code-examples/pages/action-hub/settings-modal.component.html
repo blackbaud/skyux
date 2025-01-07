@@ -5,7 +5,7 @@
         <ng-container class="row">
           @switch (title) {
             @case ('Color') {
-              <sky-colorpicker #colorPicker [labelText]="field" stacked>
+              <sky-colorpicker #colorPicker stacked [labelText]="field">
                 <input
                   type="text"
                   [formControlName]="field"
@@ -14,7 +14,7 @@
               </sky-colorpicker>
             }
             @default {
-              <sky-input-box [labelText]="field" stacked>
+              <sky-input-box stacked [labelText]="field">
                 <input type="text" [formControlName]="field" />
               </sky-input-box>
             }
