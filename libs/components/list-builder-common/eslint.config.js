@@ -8,10 +8,4 @@ module.exports = [
       '@angular-eslint/template/prefer-control-flow': ['warn'],
     },
   },
-  {
-    files: ['**/*.ts'],
-    rules: {
-      '@angular-eslint/prefer-standalone': 'off',
-    },
-  },
 ];
