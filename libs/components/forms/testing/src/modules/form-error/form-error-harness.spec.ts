@@ -31,7 +31,7 @@ class TestComponent {
 }
 //#endregion Test component
 
-fdescribe('Form error harness', () => {
+describe('Form error harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     formErrorHarness: SkyFormErrorHarness;
     fixture: ComponentFixture<TestComponent>;
