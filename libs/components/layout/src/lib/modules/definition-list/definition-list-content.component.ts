@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Wraps the label-value pairs in the definition list.
+ * @deprecated Use `SkyDescriptionListContentComponent` instead.
  */
 @Component({
   selector: 'sky-definition-list-content',
