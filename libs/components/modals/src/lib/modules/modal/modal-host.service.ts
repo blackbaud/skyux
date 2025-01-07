@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 const BASE_Z_INDEX = 1040;
-const modalCount = new BehaviorSubject<number>(0);
-const modalCountObs = modalCount.asObservable();
 const modalHosts: SkyModalHostService[] = [];
-const zIndex = new BehaviorSubject<number>(0);
-const zIndexObs = zIndex.asObservable();
+
+const backdropZIndex = new BehaviorSubject<number>(0);
+const backdropZIndexObs = backdropZIndex.asObservable();
+
+const openModalCount = new BehaviorSubject<number>(0);
+const openModalCountObs = openModalCount.asObservable();
 
 /**
  * @internal
@@ -17,14 +19,17 @@ const zIndexObs = zIndex.asObservable();
   providedIn: 'root',
 })
 export class SkyModalHostService {
-  public static get modalCount(): Observable<number> {
-    return modalCountObs;
+  public static get openModalCountChange(): Observable<number> {
+    return openModalCountObs;
   }
 
-  public static get zIndex(): Observable<number> {
-    return zIndexObs;
+  public static get backdropZIndexChange(): Observable<number> {
+    return backdropZIndexObs;
   }
 
+  /**
+   * @deprecated Subscribe to `openModalCountChange` instead.
+   */
   public static get openModalCount(): number {
     return modalHosts.length;
   }
@@ -34,6 +39,9 @@ export class SkyModalHostService {
     return fullPageModals.length;
   }
 
+  /**
+   * @deprecated Subscribe to `backdropZIndexChange` instead.
+   */
   public static get backdropZIndex(): number {
     return BASE_Z_INDEX + modalHosts.length * 10;
   }
@@ -53,6 +61,8 @@ export class SkyModalHostService {
   constructor() {
     this.zIndex = this.#calculateZIndex();
     modalHosts.push(this);
+    this.#notifyBackdropZIndex();
+    this.#notifyOpenModalCount();
   }
 
   public getModalZIndex(): number {
@@ -72,6 +82,8 @@ export class SkyModalHostService {
 
   public destroy(): void {
     modalHosts.splice(modalHosts.indexOf(this), 1);
+    this.#notifyBackdropZIndex();
+    this.#notifyOpenModalCount();
   }
 
   #calculateZIndex(): number {
@@ -82,5 +94,13 @@ export class SkyModalHostService {
       const currentMaxZIndex = Math.max(...zIndexArray);
       return currentMaxZIndex + 10;
     }
+  }
+
+  #notifyOpenModalCount(): void {
+    openModalCount.next(modalHosts.length);
+  }
+
+  #notifyBackdropZIndex(): void {
+    backdropZIndex.next(SkyModalHostService.backdropZIndex);
   }
 }

@@ -41,8 +41,8 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   imports: [CommonModule, RouterModule, SkyModalsResourcesModule],
 })
 export class SkyModalHostComponent implements OnDestroy {
-  protected modalCount = toSignal(SkyModalHostService.modalCount);
-  protected backdropZIndex = toSignal(SkyModalHostService.zIndex);
+  protected backdropZIndex = toSignal(SkyModalHostService.backdropZIndexChange);
+  protected modalCount = toSignal(SkyModalHostService.openModalCountChange);
 
   @ViewChild('target', {
     read: ViewContainerRef,
