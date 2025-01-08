@@ -8,6 +8,7 @@ import { SkyThemeService } from '@skyux/theme';
 })
 export class ToolbarComponent {
   public theme = 'default';
+  public activeViewId = 'table';
 
   #themeSvc = inject(SkyThemeService);
 

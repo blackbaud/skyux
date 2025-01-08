@@ -32,7 +32,7 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
       [touched]="true"
       [dirty]="true"
       [errors]="{ required: true }"
-    />"`,
+    />`,
 })
 class TestComponent {
   public errorText: string | undefined = 'Form';
