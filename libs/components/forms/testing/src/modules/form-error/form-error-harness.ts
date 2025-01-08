@@ -1,5 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 
 import { SkyFormErrorHarnessFilters } from './form-error-harness.filters';
 
@@ -8,6 +9,10 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
    * @internal
    */
   public static hostSelector = 'sky-form-error';
+
+  async #getStatusIndicator(): Promise<SkyStatusIndicatorHarness> {
+    return await this.locatorFor(SkyStatusIndicatorHarness)();
+  }
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -24,5 +29,12 @@ export class SkyFormErrorHarness extends SkyComponentHarness {
    */
   public async getErrorName(): Promise<string | null> {
     return await (await this.host()).getAttribute('errorName');
+  }
+
+  /**
+   * Gets the error text.
+   */
+  public async getErrorText(): Promise<string | null> {
+    return await (await this.#getStatusIndicator()).getText();
   }
 }
