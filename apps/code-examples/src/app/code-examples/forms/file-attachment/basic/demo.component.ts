@@ -41,7 +41,7 @@ export class DemoComponent {
     attachment: FormControl<SkyFileItem | null | undefined>;
   }>;
 
-  protected maxFileSize = 40;
+  protected maxFileSize = 4000000;
 
   constructor() {
     this.attachment = new FormControl(undefined, {
@@ -51,15 +51,6 @@ export class DemoComponent {
     this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
-
-    this.attachment.setValue({
-      file: {
-        name: 'aFile.txt',
-        type: '',
-        size: 100000000,
-      },
-      url: './file/path',
-    } as SkyFileItem);
   }
 
   protected onFileClick($event: SkyFileAttachmentClick): void {
