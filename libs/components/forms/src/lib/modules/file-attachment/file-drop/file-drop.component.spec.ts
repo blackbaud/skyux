@@ -1,10 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-/* eslint-disable complexity */
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { Validators } from '@angular/forms';

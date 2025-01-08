@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
