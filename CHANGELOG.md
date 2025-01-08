@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.44.3](https://github.com/blackbaud/skyux/compare/10.44.2...10.44.3) (2025-01-08)
+
+
+### Bug Fixes
+
+* **components/text-editor:** update package dependencies ([#2995](https://github.com/blackbaud/skyux/issues/2995)) ([418412b](https://github.com/blackbaud/skyux/commit/418412b3ca8b06dabd5b82c9443f11c0eafed647))
+* update e2e workflow ([#2996](https://github.com/blackbaud/skyux/issues/2996)) ([e8f47e8](https://github.com/blackbaud/skyux/commit/e8f47e82c4b25c04117e1b4409433f83723e5c45))
+
 ## [10.44.2](https://github.com/blackbaud/skyux/compare/10.44.1...10.44.2) (2024-10-08)
 
 
