@@ -141,39 +141,44 @@ export class SkyAgGridCellEditorDatepickerComponent
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
-    const datepickerInputEl = this.datepickerInput?.nativeElement as
-      | HTMLInputElement
-      | undefined;
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      const datepickerInputEl = this.datepickerInput?.nativeElement as
+        | HTMLInputElement
+        | undefined;
 
-    if (datepickerInputEl) {
-      datepickerInputEl.focus();
+      if (datepickerInputEl) {
+        datepickerInputEl.focus();
 
-      // programmatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
-      // Watch for the first blur and fire a 'change' event as programmatic changes won't queue a change event, but we need to do this so that formatting happens if the user tabs to the calendar button.
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        fromEvent(datepickerInputEl, 'blur')
-          .pipe(first())
-          .subscribe(() => {
-            datepickerInputEl.dispatchEvent(new Event('change'));
-          });
-        datepickerInputEl.select();
+        // programmatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
+        // Watch for the first blur and fire a 'change' event as programmatic changes won't queue a change event, but we need to do this so that formatting happens if the user tabs to the calendar button.
+        if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+          fromEvent(datepickerInputEl, 'blur')
+            .pipe(first())
+            .subscribe(() => {
+              datepickerInputEl.dispatchEvent(new Event('change'));
+            });
+          datepickerInputEl.select();
 
-        const charPress = this.#params?.eventKey as string;
+          const charPress = this.#params?.eventKey as string;
 
-        if (charPress) {
-          datepickerInputEl.setRangeText(charPress);
-          // Ensure the cursor is at the end of the text.
-          datepickerInputEl.setSelectionRange(
-            charPress.length,
-            charPress.length,
-          );
+          if (charPress) {
+            datepickerInputEl.setRangeText(charPress);
+            // Ensure the cursor is at the end of the text.
+            datepickerInputEl.setSelectionRange(
+              charPress.length,
+              charPress.length,
+            );
+          }
+        }
+
+        if (
+          this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
+        ) {
+          datepickerInputEl.select();
         }
       }
-
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        datepickerInputEl.select();
-      }
-    }
+    });
   }
 
   /**
