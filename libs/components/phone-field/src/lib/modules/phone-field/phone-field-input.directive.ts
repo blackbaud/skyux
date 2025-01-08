@@ -50,6 +50,7 @@ import { SkyPhoneFieldComponent } from './phone-field.component';
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class SkyPhoneFieldInputDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator

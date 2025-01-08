@@ -15,7 +15,6 @@ import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 import { Subscription } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'app-resize-observer-content',
   templateUrl: './resize-observer-content.component.html',
   styleUrls: ['./resize-observer-content.component.scss'],

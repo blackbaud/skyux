@@ -23,7 +23,6 @@ const PREVIOUS_SETTINGS_KEY = 'skyux-playground-theme-selector-settings';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
-  standalone: true,
   imports: [FormsModule, SkyIdModule, SkyInputBoxModule],
   templateUrl: './theme-selector.component.html',
 })

@@ -13,7 +13,6 @@ import { GridOptions } from 'ag-grid-community';
 import { AG_GRID_DEMO_DATA } from './data';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [AgGridModule, SkyAgGridModule],

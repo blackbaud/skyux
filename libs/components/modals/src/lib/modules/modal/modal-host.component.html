@@ -1,8 +1,8 @@
 <div
   class="sky-modal-host-backdrop"
-  [hidden]="!modalOpen"
+  [hidden]="modalCount() === 0"
   [ngStyle]="{
-    zIndex: backdropZIndex
+    zIndex: backdropZIndex()
   }"
 ></div>
 <div #target></div>

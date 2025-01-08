@@ -46,7 +46,6 @@ import { SkyDataViewConfig } from '../models/data-view-config';
  * and `SkyDataManagerToolbarSectionComponent` wrappers.
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-manager-toolbar',
   templateUrl: './data-manager-toolbar.component.html',
   styleUrls: ['./data-manager-toolbar.component.scss'],

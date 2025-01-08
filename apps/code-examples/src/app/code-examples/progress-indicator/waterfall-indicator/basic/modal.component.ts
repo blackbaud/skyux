@@ -4,7 +4,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { ModalContext } from './modal-context';
 
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   imports: [SkyModalModule],

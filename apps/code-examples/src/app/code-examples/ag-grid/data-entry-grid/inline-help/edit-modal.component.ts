@@ -28,7 +28,6 @@ import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data';
 import { EditModalContext } from './edit-modal-context';
 
 @Component({
-  standalone: true,
   selector: 'app-edit-modal',
   templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

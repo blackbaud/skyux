@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.31.0](https://github.com/blackbaud/skyux/compare/11.30.1...11.31.0) (2025-01-07)
+
+
+### Features
+
+* **components/layout:** remove extra space from view actions ([#2974](https://github.com/blackbaud/skyux/issues/2974)) ([412a8e4](https://github.com/blackbaud/skyux/commit/412a8e4b9ec9253432af7123dbcc8823fc95df3c))
+
+
+### Bug Fixes
+
+* update `@skyux/dev-infra-private` to `10.0.0-alpha.18` to address issues with documentation generation ([#2971](https://github.com/blackbaud/skyux/issues/2971)) ([efc00ee](https://github.com/blackbaud/skyux/commit/efc00eedd950b7f5201c18c5474f1cc415432e83))
+
 ## [11.30.1](https://github.com/blackbaud/skyux/compare/11.30.0...11.30.1) (2024-12-20)
 
 

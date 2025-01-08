@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'skyProgressIndicatorNavButtonClass',
+  standalone: false,
 })
 export class SkyProgressIndicatorNavButtonClass implements PipeTransform {
   public transform(buttonType: string): string[] {

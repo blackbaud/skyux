@@ -11,7 +11,6 @@ import { SkyPopoverModule } from '@skyux/popovers';
   templateUrl: './popovers.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SkyPopoverModule, SkyPageModule],
 })
 export class PopoversComponent {}

@@ -16,7 +16,6 @@ import { SkyPopoverModule } from '@skyux/popovers';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SkyPopoverModule],
   selector: 'sky-help-inline-popover-button',
-  standalone: true,
   styleUrls: [
     './help-inline.default.component.scss',
     './help-inline.modern.component.scss',

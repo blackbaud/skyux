@@ -4,7 +4,6 @@ import { SkyPagingModule } from '../paging.module';
 import { SkyPagingContentChangeArgs } from '../types/paging-content-change-args';
 
 @Component({
-  standalone: true,
   imports: [SkyPagingModule],
   template: `<sky-paging
     [itemCount]="20"

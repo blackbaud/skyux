@@ -7,6 +7,7 @@ import { SkyAutocompleteSearchAsyncArgs } from './types/autocomplete-search-asyn
  */
 @Pipe({
   name: 'skyAutocompleteSearchAsyncDisabled',
+  standalone: false,
 })
 export class SkyAutocompleteSearchAsyncDisabledPipe implements PipeTransform {
   public transform(

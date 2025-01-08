@@ -14,7 +14,6 @@ import { InformationFormComponent } from './information-form.component';
 import { PhoneFormComponent } from './phone-form.component';
 
 @Component({
-  standalone: true,
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

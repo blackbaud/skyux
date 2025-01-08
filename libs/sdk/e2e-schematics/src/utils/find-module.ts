@@ -36,15 +36,21 @@ export function findDeclaringModule(
   componentPath: string,
 ): { filepath: string; module: DecoratedClass } | null {
   let result: { filepath: string; module: DecoratedClass } | null = null;
+
   const componentSource = readSourceFile(tree, componentPath);
   const componentClass = findComponentClass(componentSource);
+
   if (componentClass) {
-    if (componentClass.properties['standalone']) {
+    const standalone = componentClass.properties['standalone'];
+
+    // If "standalone" is omitted, the component is standalone.
+    if (standalone === undefined) {
       return {
         filepath: componentPath,
         module: componentClass,
       };
     }
+
     findModulePaths(
       tree,
       path,
@@ -97,6 +103,7 @@ export function findDeclaringModule(
       '.module.ts',
     );
   }
+
   return result;
 }
 

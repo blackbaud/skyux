@@ -22,6 +22,7 @@ import { SkyPopoverTrigger } from './types/popover-trigger';
 @Directive({
   providers: [SkyPopoverSRPointerService],
   selector: '[skyPopover]',
+  standalone: false,
 })
 export class SkyPopoverDirective implements OnInit, OnDestroy {
   /**

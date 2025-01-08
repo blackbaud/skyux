@@ -4,6 +4,7 @@ import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item
 
 @Pipe({
   name: 'skyProgressIndicatorMarkerClass',
+  standalone: false,
 })
 export class SkyProgressIndicatorMarkerClassPipe implements PipeTransform {
   public transform(

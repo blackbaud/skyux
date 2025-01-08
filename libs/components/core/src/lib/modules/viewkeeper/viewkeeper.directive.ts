@@ -18,6 +18,7 @@ import { SkyViewkeeperService } from './viewkeeper.service';
 
 @Directive({
   selector: '[skyViewkeeper]',
+  standalone: false,
 })
 export class SkyViewkeeperDirective implements OnInit, OnDestroy {
   @Input()

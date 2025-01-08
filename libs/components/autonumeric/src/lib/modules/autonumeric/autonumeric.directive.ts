@@ -44,6 +44,7 @@ const SKY_AUTONUMERIC_VALIDATOR = {
 @Directive({
   selector: 'input[skyAutonumeric]',
   providers: [SKY_AUTONUMERIC_VALUE_ACCESSOR, SKY_AUTONUMERIC_VALIDATOR],
+  standalone: false,
 })
 export class SkyAutonumericDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator

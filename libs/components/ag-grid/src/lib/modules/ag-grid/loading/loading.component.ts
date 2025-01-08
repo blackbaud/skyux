@@ -6,7 +6,6 @@ import { ILoadingOverlayParams } from 'ag-grid-community';
 
 @Component({
   selector: 'sky-ag-grid-loading',
-  standalone: true,
   imports: [SkyWaitModule],
   templateUrl: './loading.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

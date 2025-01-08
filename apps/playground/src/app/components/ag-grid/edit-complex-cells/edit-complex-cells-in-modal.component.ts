@@ -8,7 +8,6 @@ import {
 import { EditComplexCellsComponent } from './edit-complex-cells.component';
 
 @Component({
-  standalone: true,
   selector: 'app-edit-complex-cells-in-modal-modal',
   templateUrl: './edit-complex-cells-in-modal.component.html',
   imports: [SkyModalModule],
@@ -33,7 +32,6 @@ export class EditComplexCellsInModalModalComponent {
 }
 
 @Component({
-  standalone: true,
   template: `
     <app-edit-complex-cells-in-modal-modal>
       <app-edit-complex-cells-visual />
@@ -44,7 +42,6 @@ export class EditComplexCellsInModalModalComponent {
 export class EditComplexCellsInModalModalGridComponent {}
 
 @Component({
-  standalone: true,
   template: `
     <app-edit-complex-cells-in-modal-modal>
       <p>Not a grid.</p>

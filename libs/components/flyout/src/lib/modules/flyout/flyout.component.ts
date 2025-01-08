@@ -60,7 +60,6 @@ let nextId = 0;
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],

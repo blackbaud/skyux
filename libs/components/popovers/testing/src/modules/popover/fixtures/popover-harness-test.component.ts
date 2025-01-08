@@ -8,7 +8,6 @@ import {
 @Component({
   selector: 'sky-popover-test',
   templateUrl: './popover-harness-test.component.html',
-  standalone: true,
   imports: [SkyPopoverModule],
 })
 export class PopoverHarnessTestComponent {

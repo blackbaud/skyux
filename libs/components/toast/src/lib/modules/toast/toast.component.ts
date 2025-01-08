@@ -32,7 +32,6 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],

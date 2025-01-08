@@ -34,7 +34,6 @@ let nextDatepickerId = 0;
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, SkyIconModule],
   selector: 'sky-datepicker-inner',
-  standalone: true,
   templateUrl: './datepicker-calendar-inner.component.html',
   styleUrl: './datepicker-calendar-inner.component.scss',
 })

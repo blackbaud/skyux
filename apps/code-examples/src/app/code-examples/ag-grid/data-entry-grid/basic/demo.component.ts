@@ -25,7 +25,6 @@ import { EditModalContext } from './edit-modal-context';
 import { EditModalComponent } from './edit-modal.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

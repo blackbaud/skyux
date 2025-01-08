@@ -4,7 +4,6 @@ import { SkyNavbarModule } from '@skyux/navbar';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [RouterModule, SkyDropdownModule, SkyNavbarModule],

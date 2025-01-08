@@ -16,7 +16,6 @@ import { DashboardGridContextMenuComponent } from './dashboards-grid-context-men
 import { Item } from './item';
 
 @Component({
-  standalone: true,
   selector: 'app-list-page-content',
   templateUrl: './list-page-content.component.html',
   providers: [SkyDataManagerService],

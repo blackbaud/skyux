@@ -6,7 +6,6 @@ import { SkyTilesModule } from '@skyux/tiles';
   imports: [SkyTilesModule],
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.page-blocks-tile2',
-  standalone: true,
   template: `
     <sky-tile>
       <sky-tile-title>Tile 3</sky-tile-title>

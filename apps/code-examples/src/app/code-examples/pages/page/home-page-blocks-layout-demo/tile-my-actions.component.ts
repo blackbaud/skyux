@@ -4,7 +4,6 @@ import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
-  standalone: true,
   selector: 'app-tile-my-actions',
   styles: `
     :host {

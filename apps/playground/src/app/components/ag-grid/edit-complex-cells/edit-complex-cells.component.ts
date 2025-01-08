@@ -45,7 +45,6 @@ import {
 import { InlineHelpComponent } from './inline-help/inline-help.component';
 
 @Component({
-  standalone: true,
   selector: 'app-edit-complex-cells-visual',
   templateUrl: './edit-complex-cells.component.html',
   styleUrls: ['./edit-complex-cells.component.scss'],

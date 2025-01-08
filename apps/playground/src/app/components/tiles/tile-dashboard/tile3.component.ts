@@ -6,7 +6,6 @@ import { SkyTilesModule } from '@skyux/tiles';
   imports: [SkyTilesModule],
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.tile2',
-  standalone: true,
   template: `
     <sky-tile [showHelp]="true" (helpClick)="onHelpClick()">
       <sky-tile-title> Tile 3 w/ legacy help click </sky-tile-title>

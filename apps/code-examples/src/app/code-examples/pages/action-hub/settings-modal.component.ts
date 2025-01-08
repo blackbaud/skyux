@@ -14,7 +14,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { MODAL_TITLE } from './modal-title-token';
 
 @Component({
-  standalone: true,
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
   imports: [

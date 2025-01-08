@@ -86,7 +86,7 @@ export function configureESLint(
     context.logger.info('Configuring ESLint Prettier plugin...');
 
     const projects = workspace.projects.values();
-    let project: workspaces.ProjectDefinition;
+    let project: workspaces.ProjectDefinition | undefined;
 
     while ((project = projects.next().value)) {
       processESLintConfig(

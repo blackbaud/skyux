@@ -10,7 +10,6 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
  */
 @Component({
   selector: 'sky-link-list-recently-accessed',
-  standalone: true,
   imports: [
     SkyActionHubRecentLinksResolvePipe,
     SkyLinkListComponent,

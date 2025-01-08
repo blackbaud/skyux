@@ -16,7 +16,6 @@ import { Attachment } from './attachment';
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 
 @Component({
-  standalone: true,
   selector: 'app-record-page-attachments-tab',
   templateUrl: './record-page-attachments-tab.component.html',
   providers: [SkyDataManagerService],

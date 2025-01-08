@@ -33,7 +33,6 @@ const EDIT_MENU_ACTION = 'skyux_text_editor_edit_menu_action_';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-editor-menubar',
   templateUrl: './text-editor-menubar.component.html',
   styleUrls: ['./text-editor-menubar.component.scss'],

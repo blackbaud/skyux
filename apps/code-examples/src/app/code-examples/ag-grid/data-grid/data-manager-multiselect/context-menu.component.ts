@@ -7,7 +7,6 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { AgGridDemoRow } from './data';
 
 @Component({
-  standalone: true,
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

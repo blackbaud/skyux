@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 @Component({
-  standalone: true,
   selector: 'app-inline-help',
   templateUrl: './inline-help.component.html',
   styles: [

@@ -17,7 +17,6 @@ import { SkyThemeModule } from '@skyux/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, SkyDropdownModule, SkyThemeModule],
   selector: 'sky-summary-action-bar-secondary-action',
-  standalone: true,
   styleUrls: ['./summary-action-bar-secondary-action.component.scss'],
   templateUrl: './summary-action-bar-secondary-action.component.html',
 })

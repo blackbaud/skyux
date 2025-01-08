@@ -14,7 +14,6 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-ag-grid-row-delete',
   template: `
     <ng-template

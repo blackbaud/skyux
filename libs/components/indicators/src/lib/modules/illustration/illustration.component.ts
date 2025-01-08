@@ -26,7 +26,6 @@ const pixelSizes: Record<SkyIllustrationSize, number> = {
  */
 @Component({
   selector: 'sky-illustration',
-  standalone: true,
   imports: [CommonModule, NgOptimizedImage],
   templateUrl: './illustration.component.html',
   styleUrls: [

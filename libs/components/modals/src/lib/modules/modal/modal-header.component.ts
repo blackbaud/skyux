@@ -6,7 +6,6 @@ import { SkyThemeModule } from '@skyux/theme';
  * Specifies a header for the modal.
  */
 @Component({
-  standalone: true,
   selector: 'sky-modal-header',
   templateUrl: './modal-header.component.html',
   styleUrls: ['./modal-header.component.scss'],

@@ -7,7 +7,6 @@ import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-home-filter',
   templateUrl: './home-filter.component.html',
   imports: [SkyModalModule, SkyRepeaterModule],

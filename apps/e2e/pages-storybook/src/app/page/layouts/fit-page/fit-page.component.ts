@@ -36,7 +36,6 @@ interface WorkspaceItem {
 
 @Component({
   selector: 'app-fit-page',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

@@ -5,7 +5,6 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  standalone: true,
   selector: 'app-readonly-grid-context-menu',
   templateUrl: './readonly-grid-context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

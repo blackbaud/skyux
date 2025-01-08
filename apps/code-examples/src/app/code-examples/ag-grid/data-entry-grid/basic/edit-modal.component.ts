@@ -33,7 +33,6 @@ import { EditModalContext } from './edit-modal-context';
 import { MarkInactiveComponent } from './mark-inactive.component';
 
 @Component({
-  standalone: true,
   selector: 'app-edit-modal',
   templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

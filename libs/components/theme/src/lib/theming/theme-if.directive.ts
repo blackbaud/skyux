@@ -21,6 +21,7 @@ import { SkyThemeService } from './theme.service';
  */
 @Directive({
   selector: '[skyThemeIf]',
+  standalone: false,
 })
 export class SkyThemeIfDirective implements OnDestroy {
   /**

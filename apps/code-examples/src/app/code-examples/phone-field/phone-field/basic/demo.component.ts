@@ -11,7 +11,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyPhoneFieldModule } from '@skyux/phone-field';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

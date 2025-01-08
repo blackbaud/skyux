@@ -123,6 +123,7 @@ export class SkyWaitService {
               environmentInjector: this.#environmentInjector,
             },
           );
+
           waitComponent = waitComponentRef.instance;
         }
 
@@ -162,14 +163,17 @@ export class SkyWaitService {
   }
 
   #clearPageWait(isBlocking: boolean): void {
-    if (waitComponent) {
-      if (isBlocking) {
-        pageWaitBlockingCount = 0;
-        waitComponent.hasBlockingWait = false;
-      } else {
-        pageWaitNonBlockingCount = 0;
-        waitComponent.hasNonBlockingWait = false;
+    // Wait for the component to be created before clearing it.
+    this.#windowSvc.nativeWindow.setTimeout(() => {
+      if (waitComponent) {
+        if (isBlocking) {
+          pageWaitBlockingCount = 0;
+          waitComponent.hasBlockingWait = false;
+        } else {
+          pageWaitNonBlockingCount = 0;
+          waitComponent.hasNonBlockingWait = false;
+        }
       }
-    }
+    });
   }
 }

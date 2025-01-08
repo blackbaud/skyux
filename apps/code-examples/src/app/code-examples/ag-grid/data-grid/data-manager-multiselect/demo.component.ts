@@ -21,7 +21,6 @@ import { Filters } from './filters';
 import { ViewGridComponent } from './view-grid.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
