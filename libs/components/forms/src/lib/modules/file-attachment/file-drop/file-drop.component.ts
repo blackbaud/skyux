@@ -18,7 +18,11 @@ import {
   NgControl,
   Validators,
 } from '@angular/forms';
-import { SkyIdModule, SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyFileReaderService,
+  SkyIdModule,
+  SkyLiveAnnouncerService,
+} from '@skyux/core';
 import { SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -415,6 +419,7 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     event.preventDefault();
     this.uploadLink({ url: this.linkUrl } as SkyFileLink);
     this.linkUrl = undefined;
+    this.#notifyTouched?.();
   }
 
   protected uploadLink(file: SkyFileLink): void {
@@ -468,20 +473,21 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
   }
 
-  #loadFile(
+  readonly #fileReaderSvc = inject(SkyFileReaderService);
+
+  async #loadFile(
     fileDrop: SkyFileDropComponent,
     file: SkyFileItem,
     validFileArray: SkyFileItem[],
     rejectedFileArray: SkyFileItem[],
     totalFiles: number,
-  ): void {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-      file.url = event.target.result;
+  ): Promise<void> {
+    try {
       validFileArray.push(file);
       this.#_uploadedFiles?.push(file);
       this.#notifyChange?.(this.#_uploadedFiles);
+      file.url = await this.#fileReaderSvc.readAsDataURL(file.file);
+
       fileDrop.#emitFileChangeEvent(
         totalFiles,
         rejectedFileArray,
@@ -491,27 +497,14 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
         'skyux_file_attachment_file_upload_file_added',
         file.file.name,
       );
-    });
-
-    reader.addEventListener('error', () => {
+    } catch {
       fileDrop.#filesRejected(
         file,
         validFileArray,
         rejectedFileArray,
         totalFiles,
       );
-    });
-
-    reader.addEventListener('abort', () => {
-      fileDrop.#filesRejected(
-        file,
-        validFileArray,
-        rejectedFileArray,
-        totalFiles,
-      );
-    });
-
-    reader.readAsDataURL(file.file);
+    }
   }
 
   #handleFiles(fileList?: FileList | null | SkyFileItem[]): void {
@@ -549,7 +542,7 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
             totalFiles,
           );
         } else {
-          this.#loadFile(
+          void this.#loadFile(
             this,
             file,
             validFileArray,
