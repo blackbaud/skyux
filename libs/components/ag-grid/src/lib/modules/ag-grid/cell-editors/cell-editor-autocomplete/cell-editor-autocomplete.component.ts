@@ -25,7 +25,8 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridCellEditorAutocompleteComponent
-  implements ICellEditorAngularComp {
+  implements ICellEditorAngularComp
+{
   public columnHeader: string | undefined;
   public editorForm = new UntypedFormGroup({
     selection: new UntypedFormControl(),
@@ -89,7 +90,9 @@ export class SkyAgGridCellEditorAutocompleteComponent
           );
           this.input.nativeElement.dispatchEvent(new Event('input'));
         }
-        if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+        if (
+          this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
+        ) {
           this.input.nativeElement.select();
         }
       }

@@ -25,7 +25,8 @@ import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridCellEditorCurrencyComponent
-  implements ICellEditorAngularComp {
+  implements ICellEditorAngularComp
+{
   public skyComponentProperties: SkyAgGridCurrencyProperties & {
     isCancellable: boolean;
   } = {
