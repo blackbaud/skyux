@@ -1,5 +1,29 @@
 # Changelog
 
+## [12.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/11.30.1...12.0.0-alpha.0) (2025-01-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support for Angular 19 ([#2969](https://github.com/blackbaud/skyux/issues/2969))
+
+### Features
+
+* add support for Angular 19 ([#2969](https://github.com/blackbaud/skyux/issues/2969)) ([91a91d9](https://github.com/blackbaud/skyux/commit/91a91d97b860cf88ee526a1a0a00adc178b6f53a))
+* **components/layout:** remove extra space from view actions ([#2974](https://github.com/blackbaud/skyux/issues/2974)) ([#2975](https://github.com/blackbaud/skyux/issues/2975)) ([4d03262](https://github.com/blackbaud/skyux/commit/4d03262151cd22eafc055b3a2ff652871204eec2))
+* **components/layout:** tokenize toolbar component ([#2980](https://github.com/blackbaud/skyux/issues/2980)) ([#2987](https://github.com/blackbaud/skyux/issues/2987)) ([12f36ca](https://github.com/blackbaud/skyux/commit/12f36ca5005aeea32884ce758aa572a77bde85aa))
+* **components/packages:** remove old schematics; move some to v12 ([#2990](https://github.com/blackbaud/skyux/issues/2990)) ([3eb0eac](https://github.com/blackbaud/skyux/commit/3eb0eac9e0ac761ea9476b91dafcd2ec9bb36581))
+
+
+### Bug Fixes
+
+* update `@skyux/dev-infra-private` to `10.0.0-alpha.18` to address issues with documentation generation ([#2971](https://github.com/blackbaud/skyux/issues/2971)) ([#2972](https://github.com/blackbaud/skyux/issues/2972)) ([cda1cc6](https://github.com/blackbaud/skyux/commit/cda1cc69808023aa4dea1c7119103a0ce9fdd7bf))
+
+
+### Deprecations
+
+* **components/layout:** mark all definition list components as deprecated; use `SkyDescriptionListModule` instead ([#2970](https://github.com/blackbaud/skyux/issues/2970)) ([3ebe2df](https://github.com/blackbaud/skyux/commit/3ebe2dfcd7a4411a4a44ffc6dd72ba14b665e2b0))
+
 ## [11.31.0](https://github.com/blackbaud/skyux/compare/11.30.1...11.31.0) (2025-01-07)
 
 
