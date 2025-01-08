@@ -5,17 +5,20 @@ import { moveClassToLibrary } from '../../../utility/move-class-to-library';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 
 export default function () {
-  return (tree: Tree) => {
+  return (tree: Tree): void => {
     visitProjectFiles(tree, '', (path, entry) => {
       if (!path.endsWith('.ts')) {
         return;
       }
+
       const content = entry?.content.toString();
+
       if (!content) {
         return;
       }
 
       const sourceFile = parseSourceFile(tree, path);
+
       if (
         !sourceFile ||
         !isImported(sourceFile, 'SkyHelpInlineModule', '@skyux/indicators')
