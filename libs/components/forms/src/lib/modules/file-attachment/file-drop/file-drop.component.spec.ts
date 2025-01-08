@@ -15,6 +15,7 @@ import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
+  provideSkyFileReaderTesting,
 } from '@skyux/core/testing';
 
 import { SkyFileItem } from '../shared/file-item';
@@ -25,7 +26,7 @@ import { SkyFileDropModule } from './file-drop.module';
 import { SkyFileLink } from './file-link';
 import { ReactiveFileDropTestComponent } from './fixtures/reactive-file-drop.component.fixture';
 
-fdescribe('File drop component', () => {
+describe('File drop component', () => {
   /** Simple test component with tabIndex */
   @Component({
     imports: [SkyFileDropModule],
@@ -540,7 +541,7 @@ fdescribe('File drop component', () => {
     expect(liveAnnouncerSpy.calls.count()).toBe(2);
   });
 
-  fit('should load and emit files on file change event when file reader has an error and aborts', async () => {
+  it('should load and emit files on file change event when file reader has an error and aborts', async () => {
     let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
@@ -563,22 +564,13 @@ fdescribe('File drop component', () => {
         size: 3000,
       },
     ]);
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     fileReaderSpy.abortCallbacks[0]();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
     fileReaderSpy.loadCallbacks[1]({
       target: {
         result: 'anotherUrl',
       },
     });
-    fixture.detectChanges();
-    await fixture.whenStable();
-
     fileReaderSpy.errorCallbacks[2]();
 
     fixture.detectChanges();
@@ -1393,89 +1385,115 @@ fdescribe('File drop component', () => {
 
     helpController.expectCurrentHelpKey('helpKey.html');
   });
+});
 
-  describe('File drop reactive component', () => {
-    let fixture: ComponentFixture<ReactiveFileDropTestComponent>;
+describe('File drop reactive component', () => {
+  let fixture: ComponentFixture<ReactiveFileDropTestComponent>;
 
-    beforeEach(() => {
-      fixture = TestBed.createComponent(ReactiveFileDropTestComponent);
-      fixture.detectChanges();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SkyFileDropModule],
+      providers: [provideSkyFileReaderTesting()],
     });
+    fixture = TestBed.createComponent(ReactiveFileDropTestComponent);
+    fixture.detectChanges();
+  });
 
-    it('should mark control as touched on file `drop` event', () => {
-      expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
-      const dropEl = fixture.debugElement.query(By.css('.sky-file-drop'));
+  it('should mark control as touched on file `drop` event', () => {
+    expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
+    const dropEl = fixture.debugElement.query(By.css('.sky-file-drop'));
 
-      triggerDrop(fixture, [], dropEl);
-      expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
-    });
+    const dropEvent = {
+      dataTransfer: {},
+      stopPropagation: function (): void {},
+      preventDefault: function (): void {},
+    };
 
-    it('should mark control as touched on file drop clicked', () => {
-      expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
-      const dropEl = fixture.nativeElement.querySelector('.sky-file-drop');
+    dropEl.triggerEventHandler('drop', dropEvent);
+    expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
+  });
 
-      dropEl.click();
-      fixture.detectChanges();
+  it('should mark control as touched on file drop clicked', () => {
+    expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
+    const dropEl = fixture.nativeElement.querySelector('.sky-file-drop');
 
-      expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
-    });
+    dropEl.click();
+    fixture.detectChanges();
 
-    it('should mark control as touched on link added', () => {
-      expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
-      const linkButton = fixture.debugElement.query(
-        By.css('.sky-file-drop-link button'),
-      );
-      const linkEl = fixture.debugElement.query(
-        By.css('.sky-file-drop-link input'),
-      );
+    expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
+  });
 
-      linkEl.triggerEventHandler('input', { target: { value: 'link.url' } });
-      fixture.detectChanges();
+  it('should mark control as touched on link added', () => {
+    expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
+    const linkButton = fixture.debugElement.query(
+      By.css('.sky-file-drop-link button'),
+    );
+    const linkEl = fixture.debugElement.query(
+      By.css('.sky-file-drop-link input'),
+    );
 
-      linkButton.nativeElement.click();
-      fixture.detectChanges();
+    linkEl.triggerEventHandler('input', { target: { value: 'link.url' } });
+    fixture.detectChanges();
 
-      expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
-    });
+    linkButton.nativeElement.click();
+    fixture.detectChanges();
 
-    it('should mark control as touched on link blur', () => {
-      expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
-      const linkEl = fixture.nativeElement.querySelector(
-        '.sky-file-drop-link input',
-      );
+    expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
+  });
 
-      SkyAppTestUtility.fireDomEvent(linkEl, 'blur');
-      fixture.detectChanges();
+  it('should mark control as touched on link blur', () => {
+    expect(fixture.componentInstance.fileDrop.touched).toBeFalse();
+    const linkEl = fixture.nativeElement.querySelector(
+      '.sky-file-drop-link input',
+    );
 
-      expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
-    });
+    SkyAppTestUtility.fireDomEvent(linkEl, 'blur');
+    fixture.detectChanges();
 
-    it('should set file drop to required using form control', () => {
-      fixture.componentInstance.labelText = 'File Drop';
-      fixture.componentInstance.fileDrop.addValidators(Validators.required);
-      fixture.detectChanges();
+    expect(fixture.componentInstance.fileDrop.touched).toBeTrue();
+  });
 
-      const label = fixture.nativeElement.querySelector(
-        '.sky-file-drop-label-text',
-      );
+  it('should set file drop to required using form control', () => {
+    fixture.componentInstance.labelText = 'File Drop';
+    fixture.componentInstance.fileDrop.addValidators(Validators.required);
+    fixture.detectChanges();
 
-      expect(label.classList.contains('sky-control-label-required')).toBeTrue();
-    });
+    const label = fixture.nativeElement.querySelector(
+      '.sky-file-drop-label-text',
+    );
 
-    it('should set file drop value using form control', () => {
-      const file: SkyFileItem = {
-        file: new File([], 'foo.bar', { type: 'image/png' }),
-        url: 'foo.bar.bar',
-      };
+    expect(label.classList.contains('sky-control-label-required')).toBeTrue();
+  });
 
-      const link: SkyFileLink = {
-        url: 'foo.foo',
-      };
+  it('should set file drop value using form control', async () => {
+    const file: SkyFileItem = {
+      file: new File([], 'foo.bar', { type: 'image/png' }),
+      url: 'foo.bar.bar',
+    };
 
-      fixture.componentInstance.fileDrop.setValue([file, link]);
-      fixture.detectChanges();
+    const link: SkyFileLink = {
+      url: 'foo.foo',
+    };
 
-      expect(fixture.componentInstance.fileDrop.value.length).toBe(2);
-    });
+    fixture.componentInstance.fileDrop.setValue([file, link]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.fileDrop.value.length).toBe(2);
+  });
+
+  it('should show required error', () => {
+    fixture.componentInstance.labelText = 'testing';
+    fixture.detectChanges();
+    const linkInput = fixture.nativeElement.querySelector(
+      '.sky-file-drop-link input',
+    );
+    SkyAppTestUtility.fireDomEvent(linkInput, 'blur');
+    fixture.detectChanges();
+
+    const requiredError = fixture.nativeElement.querySelector(
+      "sky-form-error[errorName='required']",
+    );
+    expect(requiredError).toBeVisible();
   });
 });

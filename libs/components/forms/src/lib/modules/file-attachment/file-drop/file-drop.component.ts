@@ -483,11 +483,9 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     totalFiles: number,
   ): Promise<void> {
     try {
-      validFileArray.push(file);
-      this.#_uploadedFiles?.push(file);
-      this.#notifyChange?.(this.#_uploadedFiles);
       file.url = await this.#fileReaderSvc.readAsDataURL(file.file);
 
+      validFileArray.push(file);
       fileDrop.#emitFileChangeEvent(
         totalFiles,
         rejectedFileArray,
@@ -497,6 +495,8 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
         'skyux_file_attachment_file_upload_file_added',
         file.file.name,
       );
+      this.#_uploadedFiles?.push(file);
+      this.#notifyChange?.(this.#_uploadedFiles);
     } catch {
       fileDrop.#filesRejected(
         file,
