@@ -3,7 +3,6 @@ import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyDescriptionListModule, SkyNumericModule],

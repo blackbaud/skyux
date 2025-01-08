@@ -4,7 +4,6 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-summary-action-bar-modal',
   templateUrl: './modal-summary-action-bar-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

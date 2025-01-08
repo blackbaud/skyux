@@ -5,7 +5,6 @@ import { SkyCardModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [FormsModule, SkyCardModule, SkyCheckboxModule, SkyDropdownModule],

@@ -3,7 +3,6 @@ import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
 
 @Component({
-  standalone: true,
   imports: [SkyBoxModule, SkyFluidGridModule, SkyPageModule],
   templateUrl: './blocks-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

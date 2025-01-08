@@ -35,7 +35,6 @@ const PREVIOUS_SETTINGS_KEY =
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
-  standalone: true,
   imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyInputBoxModule],
   templateUrl: './theme-selector.component.html',
 })

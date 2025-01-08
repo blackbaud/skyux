@@ -53,7 +53,6 @@ let nextId = 0;
   ],
   providers: [SkySummaryActionBarAdapterService],
   selector: 'sky-summary-action-bar',
-  standalone: true,
   styleUrls: ['./summary-action-bar.component.scss'],
   templateUrl: './summary-action-bar.component.html',
 })

@@ -4,7 +4,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyEmailValidationModule } from '@skyux/validation';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

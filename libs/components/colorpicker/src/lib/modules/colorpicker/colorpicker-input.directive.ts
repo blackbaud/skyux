@@ -56,6 +56,7 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
       inputs: ['required'],
     },
   ],
+  standalone: false,
 })
 export class SkyColorpickerInputDirective
   implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy

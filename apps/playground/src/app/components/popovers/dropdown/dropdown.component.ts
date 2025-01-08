@@ -5,7 +5,6 @@ import { SkyCheckboxModule } from '@skyux/forms';
 import { DropdownExampleComponent } from './dropdown-example.component';
 
 @Component({
-  standalone: true,
   selector: 'app-dropdown-demo',
   templateUrl: './dropdown.component.html',
   styles: [

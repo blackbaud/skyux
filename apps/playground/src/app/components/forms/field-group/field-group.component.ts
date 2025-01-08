@@ -28,7 +28,6 @@ interface Item {
 @Component({
   selector: 'app-field-group',
   templateUrl: './field-group.component.html',
-  standalone: true,
   imports: [
     AsyncPipe,
     FormsModule,

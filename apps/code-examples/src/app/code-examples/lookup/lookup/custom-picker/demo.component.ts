@@ -25,7 +25,6 @@ import { Person } from './person';
 import { PickerModalComponent } from './picker-modal.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

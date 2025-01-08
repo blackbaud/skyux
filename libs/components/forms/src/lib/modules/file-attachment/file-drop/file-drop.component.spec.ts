@@ -20,7 +20,6 @@ describe('File drop component', () => {
   /** Simple test component with tabIndex */
   @Component({
     imports: [SkyFileDropModule],
-    standalone: true,
     template: ` <sky-file-drop>
       <div class="sky-custom-drop"></div>
     </sky-file-drop>`,

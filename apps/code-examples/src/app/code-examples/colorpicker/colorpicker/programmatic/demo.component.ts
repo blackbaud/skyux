@@ -25,7 +25,6 @@ function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [FormsModule, ReactiveFormsModule, SkyColorpickerModule],

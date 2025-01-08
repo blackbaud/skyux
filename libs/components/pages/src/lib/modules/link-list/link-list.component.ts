@@ -13,7 +13,6 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
  * A component that displays a list of links, such as within a `<sky-page-links>` component.
  */
 @Component({
-  standalone: true,
   selector: 'sky-link-list',
   templateUrl: './link-list.component.html',
   styleUrls: ['./link-list.component.scss'],

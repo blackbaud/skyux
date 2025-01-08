@@ -25,7 +25,6 @@ function numberAttribute3(value: unknown): number {
   selector: 'sky-field-group',
   templateUrl: './field-group.component.html',
   styleUrl: './field-group.component.scss',
-  standalone: true,
   imports: [CommonModule, SkyHelpInlineModule, SkyIdModule, SkyThemeModule],
 })
 export class SkyFieldGroupComponent {

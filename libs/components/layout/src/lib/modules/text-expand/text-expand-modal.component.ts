@@ -10,7 +10,6 @@ import { SKY_TEXT_EXPAND_MODAL_CONTEXT } from './text-expand-modal-context-token
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-text-expand-modal',
   templateUrl: './text-expand-modal.component.html',
   styleUrls: ['./text-expand.component.scss'],

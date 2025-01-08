@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SkyRichTextDisplayModule } from '@skyux/text-editor';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyRichTextDisplayModule],

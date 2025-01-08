@@ -21,7 +21,6 @@ import { DataManagerPagedItemsPipe } from './data-manager-paged-items.pipe';
 
 @Component({
   selector: 'app-data-view-repeater',
-  standalone: true,
   imports: [
     DataManagerPagedItemsPipe,
     SkyDataManagerModule,

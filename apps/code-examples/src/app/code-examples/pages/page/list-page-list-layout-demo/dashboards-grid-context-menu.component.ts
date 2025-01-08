@@ -7,7 +7,6 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { Item } from './item';
 
 @Component({
-  standalone: true,
   selector: 'app-dashboards-grid-context-menu',
   templateUrl: './dashboards-grid-context-menu.component.html',
   imports: [SkyDropdownModule],

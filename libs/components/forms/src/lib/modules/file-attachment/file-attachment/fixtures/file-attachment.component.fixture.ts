@@ -19,7 +19,6 @@ import { SkyFileAttachmentModule } from '../file-attachment.module';
     SkyHelpInlineModule,
   ],
   selector: 'sky-file-attachment-test',
-  standalone: true,
   templateUrl: './file-attachment.component.fixture.html',
 })
 export class FileAttachmentTestComponent {

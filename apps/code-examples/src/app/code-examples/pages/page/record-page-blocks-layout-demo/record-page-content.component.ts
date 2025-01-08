@@ -10,7 +10,6 @@ import {
 import { SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
-  standalone: true,
   selector: 'app-record-page-content',
   templateUrl: './record-page-content.component.html',
   styleUrls: ['./record-page-content.component.scss'],

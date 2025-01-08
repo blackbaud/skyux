@@ -6,7 +6,6 @@ import { SkyTileComponent } from '../tile.component';
 @Component({
   imports: [SkyTilesModule],
   selector: 'sky-test-cmp',
-  standalone: true,
   templateUrl: './tile.component.fixture.html',
 })
 export class TileTestComponent {

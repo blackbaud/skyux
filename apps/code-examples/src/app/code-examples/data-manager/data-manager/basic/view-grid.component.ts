@@ -29,7 +29,6 @@ import { DataManagerDemoRow } from './data';
 import { Filters } from './filters';
 
 @Component({
-  standalone: true,
   selector: 'app-view-grid',
   templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

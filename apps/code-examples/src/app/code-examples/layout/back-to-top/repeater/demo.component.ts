@@ -3,7 +3,6 @@ import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyBackToTopModule, SkyRepeaterModule],

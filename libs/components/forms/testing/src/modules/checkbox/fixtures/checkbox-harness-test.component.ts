@@ -15,7 +15,6 @@ import {
 } from '@skyux/forms';
 
 @Component({
-  standalone: true,
   selector: 'test-checkbox-harness',
   templateUrl: './checkbox-harness-test.component.html',
   imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],

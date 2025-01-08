@@ -10,7 +10,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyCountryFieldModule } from '@skyux/lookup';
 
 @Component({
-  standalone: true,
   selector: 'sky-country-field-fixture',
   templateUrl: './country-field-harness-test.component.html',
   imports: [

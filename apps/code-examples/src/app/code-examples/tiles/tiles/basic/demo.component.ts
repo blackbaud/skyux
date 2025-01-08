@@ -5,7 +5,6 @@ import { Tile1Component } from './tile1.component';
 import { Tile2Component } from './tile2.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyTilesModule],

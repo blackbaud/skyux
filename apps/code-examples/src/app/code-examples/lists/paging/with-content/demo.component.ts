@@ -12,7 +12,6 @@ import { Subject, shareReplay, switchMap, tap } from 'rxjs';
 import { DemoDataService } from './demo-data.service';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [

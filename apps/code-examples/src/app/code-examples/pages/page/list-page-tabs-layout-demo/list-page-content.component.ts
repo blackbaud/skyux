@@ -5,7 +5,6 @@ import { Contact } from './contact';
 import { ListPageContactsGridComponent } from './list-page-contacts-grid.component';
 
 @Component({
-  standalone: true,
   selector: 'app-list-page-content',
   templateUrl: './list-page-content.component.html',
   imports: [ListPageContactsGridComponent, SkyTabsModule],

@@ -30,7 +30,6 @@ import { EditModalComponent } from './edit-modal.component';
 import { InlineHelpComponent } from './inline-help.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

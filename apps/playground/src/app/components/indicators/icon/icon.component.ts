@@ -3,7 +3,6 @@ import { SkyIconModule } from '@skyux/icon';
 
 @Component({
   selector: 'app-icon',
-  standalone: true,
   imports: [SkyIconModule],
   templateUrl: './icon.component.html',
   styles: [

@@ -5,7 +5,6 @@ import { SkyPageModule, SkyRecentLink } from '@skyux/pages';
 import { HomePageContentComponent } from './home-page-content.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [HomePageContentComponent, SkyIconModule, SkyPageModule],

@@ -36,7 +36,6 @@ import { SkySelectionModalSearchResult } from './types/selection-modal-search-re
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-selection-modal',
   templateUrl: './selection-modal.component.html',
   styleUrls: ['./selection-modal.component.scss'],

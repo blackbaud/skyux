@@ -32,7 +32,6 @@ import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
  * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
  */
 @Component({
-  standalone: true,
   selector: 'sky-select-field',
   templateUrl: './select-field.component.html',
   styleUrls: ['./select-field.component.scss'],

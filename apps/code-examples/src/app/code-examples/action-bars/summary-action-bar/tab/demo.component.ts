@@ -4,7 +4,6 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyTabsModule } from '@skyux/tabs';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule, SkyTabsModule],

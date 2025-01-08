@@ -8,7 +8,6 @@ import { TileUpdatesComponent } from './tile-updates.component';
 @Component({
   selector: 'app-home-page-content',
   templateUrl: './home-page-content.component.html',
-  standalone: true,
   imports: [NgClass, NgFor, SkyTilesModule],
 })
 export class HomePageContentComponent {

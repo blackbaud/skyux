@@ -8,7 +8,6 @@ import { SkyPageModule } from '@skyux/pages';
 import { IllustrationResolverService } from './illustration-resolver.service';
 
 @Component({
-  standalone: true,
   imports: [SkyIllustrationModule, SkyPageModule],
   providers: [
     {

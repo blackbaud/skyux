@@ -34,7 +34,6 @@ import { SkySummaryActionBarSecondaryActionComponent } from './summary-action-ba
     SkyIconModule,
   ],
   selector: 'sky-summary-action-bar-secondary-actions',
-  standalone: true,
   templateUrl: './summary-action-bar-secondary-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

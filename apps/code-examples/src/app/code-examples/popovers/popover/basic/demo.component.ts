@@ -6,7 +6,6 @@ import {
 } from '@skyux/popovers';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyPopoverModule],

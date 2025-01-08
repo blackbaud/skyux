@@ -7,7 +7,6 @@ import { SkyToolbarModule } from '@skyux/layout';
  * toolbar (if present).
  */
 @Component({
-  standalone: true,
   selector: 'sky-data-manager-toolbar-section',
   templateUrl: './data-manager-toolbar-section.component.html',
   imports: [SkyToolbarModule],

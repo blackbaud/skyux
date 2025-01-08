@@ -4,7 +4,6 @@ import { SkyToggleSwitchModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-dirt',
   templateUrl: './modal-dirty.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

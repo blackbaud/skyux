@@ -9,7 +9,6 @@ import {
 import { Subject } from 'rxjs';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyHelpInlineModule, SkyPopoverModule],

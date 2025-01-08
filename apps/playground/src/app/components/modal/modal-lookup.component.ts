@@ -3,7 +3,6 @@ import { SkyLookupModule } from '@skyux/lookup';
 import { SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-lookup',
   templateUrl: './modal-lookup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

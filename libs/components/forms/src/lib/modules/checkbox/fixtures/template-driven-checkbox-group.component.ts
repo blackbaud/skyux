@@ -11,7 +11,6 @@ import { SkyCheckboxModule } from '../checkbox.module';
 @Component({
   imports: [FormsModule, SkyCheckboxModule],
   selector: 'sky-template-driven-checkbox-group',
-  standalone: true,
   template: `
     <form>
       <sky-checkbox-group

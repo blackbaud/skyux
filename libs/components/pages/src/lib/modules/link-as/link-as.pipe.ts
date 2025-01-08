@@ -6,6 +6,7 @@ import { SkyPageModalLink } from '../action-hub/types/page-modal-link';
 
 @Pipe({
   name: 'linkAs',
+  standalone: false,
 })
 export class LinkAsPipe implements PipeTransform {
   public transform(

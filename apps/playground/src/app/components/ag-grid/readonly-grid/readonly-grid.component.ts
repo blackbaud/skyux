@@ -24,7 +24,6 @@ import { READONLY_GRID_DATA, RowStatusNames } from './readonly-grid-data';
 let nextId = 0;
 
 @Component({
-  standalone: true,
   selector: 'app-readonly-grid-visual',
   templateUrl: './readonly-grid.component.html',
   styleUrls: ['./readonly-grid.component.scss'],

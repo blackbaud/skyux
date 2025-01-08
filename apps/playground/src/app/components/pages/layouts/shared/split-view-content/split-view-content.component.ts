@@ -25,7 +25,6 @@ interface WorkspaceItem {
 
 @Component({
   selector: 'app-split-view-content',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     SkyDescriptionListModule,

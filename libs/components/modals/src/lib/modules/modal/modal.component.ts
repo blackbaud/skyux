@@ -46,7 +46,6 @@ const ARIA_ROLE_DEFAULT = 'dialog';
  * and buttons.
  */
 @Component({
-  standalone: true,
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],

@@ -8,7 +8,6 @@ import { SkyWaitModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  standalone: true,
   selector: 'app-modal-wait-modal',
   templateUrl: './modal-wait-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -4,7 +4,6 @@ import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

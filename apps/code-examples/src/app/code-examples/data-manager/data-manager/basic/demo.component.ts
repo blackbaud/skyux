@@ -18,7 +18,6 @@ import { ViewGridComponent } from './view-grid.component';
 import { ViewRepeaterComponent } from './view-repeater.component';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   providers: [SkyDataManagerService, SkyUIConfigService],

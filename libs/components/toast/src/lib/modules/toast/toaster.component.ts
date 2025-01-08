@@ -34,7 +34,6 @@ import { SkyToastDisplayDirection } from './types/toast-display-direction';
  * @internal
  */
 @Component({
-  standalone: true,
   selector: 'sky-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],

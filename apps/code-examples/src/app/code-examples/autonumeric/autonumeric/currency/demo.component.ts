@@ -13,7 +13,6 @@ import {
 import { SkyInputBoxModule } from '@skyux/forms';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [ReactiveFormsModule, SkyAutonumericModule, SkyInputBoxModule],

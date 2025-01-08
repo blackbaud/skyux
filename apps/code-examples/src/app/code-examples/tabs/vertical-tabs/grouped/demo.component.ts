@@ -4,7 +4,6 @@ import { SkyVerticalTabsetModule } from '@skyux/tabs';
 import { TabGroup } from './group';
 
 @Component({
-  standalone: true,
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   imports: [SkyVerticalTabsetModule],
