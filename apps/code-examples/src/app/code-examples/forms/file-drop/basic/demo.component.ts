@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -34,17 +34,12 @@ export class DemoComponent {
   protected rejectedFiles: SkyFileItem[] = [];
   protected stacked = 'true';
 
-  protected formGroup: FormGroup;
-  protected fileDrop: FormControl<
+  protected fileDrop = new FormControl<
     (SkyFileItem | SkyFileLink)[] | null | undefined
-  >;
-
-  constructor(formBuilder: FormBuilder) {
-    this.fileDrop = new FormControl(undefined, Validators.required);
-    this.formGroup = formBuilder.group({
-      fileDrop: this.fileDrop,
-    });
-  }
+  >(undefined, Validators.required);
+  protected formGroup = inject(FormBuilder).group({
+    fileDrop: this.fileDrop,
+  });
 
   protected deleteFile(file: SkyFileItem | SkyFileLink): void {
     const index = this.fileDrop.value?.indexOf(file);
