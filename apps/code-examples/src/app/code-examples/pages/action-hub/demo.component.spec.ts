@@ -37,11 +37,7 @@ describe('Action hub', () => {
   it('should have correct page title', async () => {
     const { actionHubHarness } = await setupTest();
 
-    expect(
-      await actionHubHarness
-        .getHeader()
-        .then(async (headerHarness) => await headerHarness.getPageTitle()),
-    ).toBe('Active accounts');
+    expect(await actionHubHarness.getTitle()).toBe('Active accounts');
   });
 
   it('should show needs-attention items', async () => {

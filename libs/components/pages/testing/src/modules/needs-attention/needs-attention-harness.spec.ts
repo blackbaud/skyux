@@ -68,9 +68,7 @@ describe('Needs attention harness', () => {
     });
     fixture.detectChanges();
 
-    await expectAsync(harness.getHeadingText()).toBeResolvedTo(
-      'Needs attention',
-    );
+    await expectAsync(harness.getTitle()).toBeResolvedTo('Needs attention');
   });
 
   it('should return the empty list text', async () => {

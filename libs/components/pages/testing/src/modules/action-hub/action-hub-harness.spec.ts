@@ -68,14 +68,12 @@ describe('SkyActionHubHarness', () => {
     return { harness, fixture, loader };
   }
 
-  it('should return the heading', async () => {
+  it('should return the title', async () => {
     const { harness } = await setupTest({
       dataSkyId: 'action-hub',
     });
 
-    await expectAsync(
-      harness.getHeader().then((header) => header.getPageTitle()),
-    ).toBeResolvedTo('Title');
+    await expectAsync(harness.getTitle()).toBeResolvedTo('Title');
   });
 
   it('should return the needs attention block', async () => {
@@ -95,7 +93,7 @@ describe('SkyActionHubHarness', () => {
     await expectAsync(
       harness
         .getNeedsAttentionBlock()
-        .then((needsAttention) => needsAttention.getHeadingText()),
+        .then((needsAttention) => needsAttention.getTitle()),
     ).toBeResolvedTo('Needs attention');
     await expectAsync(
       harness
