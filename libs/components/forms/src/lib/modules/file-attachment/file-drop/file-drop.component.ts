@@ -13,7 +13,11 @@ import {
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyIdModule, SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyFileReaderService,
+  SkyIdModule,
+  SkyLiveAnnouncerService,
+} from '@skyux/core';
 import { SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -253,8 +257,10 @@ export class SkyFileDropComponent implements OnDestroy {
   #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
 
   #_minFileSize = MIN_FILE_SIZE_DEFAULT;
+  protected touched = false;
 
   readonly #fileAttachmentService = inject(SkyFileAttachmentService);
+  readonly #fileReaderSvc = inject(SkyFileReaderService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
   readonly #idSvc = inject(SkyIdService);
@@ -326,6 +332,7 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   public fileDrop(dropEvent: DragEvent): void {
+    this.touched = true;
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
@@ -372,6 +379,7 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   public onLinkBlur(): void {
+    this.touched = true;
     this.linkInputBlur.emit();
   }
 
@@ -411,17 +419,16 @@ export class SkyFileDropComponent implements OnDestroy {
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
   }
 
-  #loadFile(
+  async #loadFile(
     fileDrop: SkyFileDropComponent,
     file: SkyFileItem,
     validFileArray: SkyFileItem[],
     rejectedFileArray: SkyFileItem[],
     totalFiles: number,
-  ): void {
-    const reader = new FileReader();
+  ): Promise<void> {
+    try {
+      file.url = await this.#fileReaderSvc.readAsDataURL(file.file);
 
-    reader.addEventListener('load', (event: any) => {
-      file.url = event.target.result;
       validFileArray.push(file);
       fileDrop.#emitFileChangeEvent(
         totalFiles,
@@ -432,27 +439,14 @@ export class SkyFileDropComponent implements OnDestroy {
         'skyux_file_attachment_file_upload_file_added',
         file.file.name,
       );
-    });
-
-    reader.addEventListener('error', () => {
+    } catch {
       fileDrop.#filesRejected(
         file,
         validFileArray,
         rejectedFileArray,
         totalFiles,
       );
-    });
-
-    reader.addEventListener('abort', () => {
-      fileDrop.#filesRejected(
-        file,
-        validFileArray,
-        rejectedFileArray,
-        totalFiles,
-      );
-    });
-
-    reader.readAsDataURL(file.file);
+    }
   }
 
   #handleFiles(files?: FileList | null): void {
@@ -478,7 +472,7 @@ export class SkyFileDropComponent implements OnDestroy {
             totalFiles,
           );
         } else {
-          this.#loadFile(
+          void this.#loadFile(
             this,
             file,
             validFileArray,

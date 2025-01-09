@@ -195,11 +195,7 @@
     }
   </div>
 </fieldset>
-<sky-form-errors
-  [id]="errorId"
-  [labelText]="labelText"
-  [touched]="rejectedFiles.length > 0"
->
+<sky-form-errors [id]="errorId" [labelText]="labelText" [touched]="touched">
   @for (rejectedFile of rejectedFiles; track rejectedFile) {
     <div>
       @if (rejectedFile.errorType === 'fileType') {

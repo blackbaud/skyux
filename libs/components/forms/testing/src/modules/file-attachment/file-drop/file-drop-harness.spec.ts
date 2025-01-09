@@ -89,7 +89,7 @@ fdescribe('File drop harness', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [TestComponent, NoopAnimationsModule],
-      providers: [provideSkyFileReaderTesting],
+      providers: [provideSkyFileReaderTesting, provideSkyFileReaderTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
