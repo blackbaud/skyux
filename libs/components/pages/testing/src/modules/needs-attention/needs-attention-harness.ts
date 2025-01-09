@@ -19,7 +19,7 @@ export class SkyNeedsAttentionHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyLinkListHarness` that meets certain criteria.
+   * `SkyNeedsAttentionHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyNeedsAttentionHarnessFilters,
@@ -30,7 +30,7 @@ export class SkyNeedsAttentionHarness extends SkyComponentHarness {
   /**
    * Gets the component's heading text. If there are no links, this will return `undefined`.
    */
-  public async getHeadingText(): Promise<string | undefined> {
+  public async getTitle(): Promise<string | undefined> {
     return await (await this.#boxHarness()).getHeadingText();
   }
 

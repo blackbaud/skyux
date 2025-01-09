@@ -9,6 +9,9 @@ import { SkyPageHeaderHarness } from '../page-header/page-header-harness';
 
 import { SkyActionHubHarnessFilters } from './action-hub-harness-filters';
 
+/**
+ * Harness for interacting with an action hub component in tests.
+ */
 export class SkyActionHubHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-action-hub';
 
@@ -40,14 +43,23 @@ export class SkyActionHubHarness extends SkyComponentHarness {
     return SkyActionHubHarness.getDataSkyIdPredicate(filters);
   }
 
-  public async getHeader(): Promise<SkyPageHeaderHarness> {
-    return await this.#pageHeader();
+  /**
+   * Gets the title of the action hub.
+   */
+  public async getTitle(): Promise<string | undefined> {
+    return await (await this.#pageHeader()).getPageTitle();
   }
 
+  /**
+   * Get the testing harness for the needs attention block.
+   */
   public async getNeedsAttentionBlock(): Promise<SkyNeedsAttentionHarness> {
     return await this.#needsAttention();
   }
 
+  /**
+   * Get the testing harnesses for items within the needs attention block.
+   */
   public async getNeedsAttentionItems(
     filter: SkyNeedsAttentionItemHarnessFilters = {},
   ): Promise<SkyNeedsAttentionItemHarness[]> {
@@ -56,14 +68,23 @@ export class SkyActionHubHarness extends SkyComponentHarness {
     )();
   }
 
+  /**
+   * Get the testing harness for the related links block.
+   */
   public async getRelatedLinks(): Promise<SkyLinkListHarness> {
     return await this.#relatedLinks();
   }
 
+  /**
+   * Get the testing harness for the recent links block.
+   */
   public async getRecentLinks(): Promise<SkyLinkListHarness> {
     return await this.#recentLinks();
   }
 
+  /**
+   * Get the testing harness for the settings links block.
+   */
   public async getSettingsLinks(): Promise<SkyLinkListHarness> {
     return await this.#settingsLinks();
   }

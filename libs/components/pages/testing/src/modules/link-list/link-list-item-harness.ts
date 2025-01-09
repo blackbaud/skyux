@@ -4,7 +4,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyLinkListItemHarnessFilters } from './link-list-item-harness-filters';
 
 /**
- * Harness for interacting with a needs attention item in tests.
+ * Harness for interacting with a linked list item in tests.
  */
 export class SkyLinkListItemHarness extends SkyComponentHarness {
   /**
@@ -15,7 +15,7 @@ export class SkyLinkListItemHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyNeedsAttentionItemHarness` that meets certain criteria.
+   * `SkyLinkedListItemHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyLinkListItemHarnessFilters,
