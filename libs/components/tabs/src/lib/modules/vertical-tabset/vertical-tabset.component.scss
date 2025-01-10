@@ -98,7 +98,7 @@
   &:has(sky-vertical-tabset-group) {
     margin-left: var(
       --sky-override-vertical-tabset-modal-margin-adjustment-with-group,
-      calc(var(--sky-space-inline-s) * -1)
+      calc(var(--sky-space-inset-balanced-s) * -1)
     );
   }
 }
