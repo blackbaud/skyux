@@ -11,6 +11,10 @@
   --sky-override-expansion-indicator-size-half: 13px;
 }
 
+@include compatMixins.sky-modern-v2(':host') {
+  line-height: 1;
+}
+
 @include mixins.sky-component('modern', '.sky-expansion-indicator') {
   display: inline-block;
   border: none;

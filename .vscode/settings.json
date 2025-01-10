@@ -5,5 +5,6 @@
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
   "cSpell.enabled": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "karmaTestExplorer.enableExtension": false
 }
