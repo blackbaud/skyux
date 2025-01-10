@@ -225,15 +225,22 @@
 }
 
 .sky-vertical-tab-content-pane {
-  // NOTE: The overrides here are housed in the tabset component scss file due to view encapsulation issues and where this class ends up rendered.
-  margin-bottom: var(
-    --sky-override-vertical-tab-content-pane-margin-bottom,
-    var(--sky-space-stacked-s)
-  );
+  margin-bottom: 0;
 
   &:focus-visible {
     outline: none;
     border: none;
+  }
+}
+
+// NOTE: Due to the way that this pane is rendered, we can't use the mixins here.
+.sky-responsive-container-xs {
+  .sky-vertical-tab-content-pane {
+    // NOTE: The overrides here are housed in the tabset component scss file due to view encapsulation issues and where this class ends up rendered.
+    margin-bottom: var(
+      --sky-override-vertical-tab-content-pane-margin-bottom,
+      var(--sky-space-stacked-s)
+    );
   }
 }
 

@@ -9,6 +9,7 @@
   --sky-override-vertical-tabset-group-container-border-right: 1px solid #{$sky-border-color-neutral-medium};
   --sky-override-vertical-tabset-group-container-padding: 0;
   --sky-override-vertical-tabset-modal-margin-adjustment: -15px;
+  --sky-override-vertical-tabset-modal-margin-adjustment-with-group: -15px;
   --sky-override-vertical-tabset-show-tabs-margin-top: #{$sky-margin};
 }
 
@@ -19,6 +20,7 @@
   --sky-override-vertical-tabset-content-margin-xs: #{$sky-theme-modern-space-md};
   --sky-override-vertical-tabset-group-container-padding: 0;
   --sky-override-vertical-tabset-modal-margin-adjustment: -15px;
+  --sky-override-vertical-tabset-modal-margin-adjustment-with-group: -15px;
   --sky-override-vertical-tabset-show-tabs-margin-top: #{$sky-margin};
 }
 
@@ -92,6 +94,13 @@
           ) * -1
       )
   );
+
+  &:has(sky-vertical-tabset-group) {
+    margin-left: var(
+      --sky-override-vertical-tabset-modal-margin-adjustment-with-group,
+      calc(var(--sky-space-inline-s) * -1)
+    );
+  }
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
