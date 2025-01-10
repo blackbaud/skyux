@@ -50,7 +50,8 @@
                 calc(
                     var(--sky-font-size-body-m) *
                       var(--sky-font-line_height-body-m)
-                  ) / 2
+                  ) /
+                  2
               )
           ) - calc(var(--sky-size-icon-xxs) / 2)
       )

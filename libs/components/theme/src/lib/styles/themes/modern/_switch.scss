@@ -198,14 +198,18 @@
       width: var(
         --sky-override-icon-switch-size,
         calc(
-          calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+          calc(
+              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
+            ) +
             calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
       height: var(
         --sky-override-icon-switch-size,
         calc(
-          calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+          calc(
+              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
+            ) +
             calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
@@ -215,7 +219,8 @@
           calc(
             calc(
                 var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
-              ) + calc(var(--sky-space-inset-balanced-s) * 2)
+              ) +
+              calc(var(--sky-space-inset-balanced-s) * 2)
           )
         );
       font-size: var(
@@ -302,14 +307,18 @@
       width: var(
         --sky-override-icon-switch-size-group,
         calc(
-          calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+          calc(
+              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
+            ) +
             calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
       height: var(
         --sky-override-icon-switch-size-group,
         calc(
-          calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) +
+          calc(
+              var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)
+            ) +
             calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
