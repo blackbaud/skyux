@@ -10,9 +10,9 @@
 }
 
 :host-context(
-    .ag-header-cell.ag-right-aligned-header,
-    .ag-header-cell.sky-ag-grid-header-right-aligned
-  ) {
+  .ag-header-cell.ag-right-aligned-header,
+  .ag-header-cell.sky-ag-grid-header-right-aligned
+) {
   flex-direction: row-reverse;
 
   .ag-header-cell-label {
