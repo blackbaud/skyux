@@ -17,7 +17,6 @@ export class SkyToolbarHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-toolbar';
 
-  #getContainer = this.locatorFor('div.sky-toolbar-container');
   #getViewActions = this.locatorForOptional(SkyToolbarViewActionsHarness);
 
   /**
@@ -103,14 +102,5 @@ export class SkyToolbarHarness extends SkyComponentHarness {
     }
 
     return actions;
-  }
-
-  /**
-   * Whether the toolbar has sections or not.
-   */
-  public async hasSections(): Promise<boolean> {
-    const container = await this.#getContainer();
-
-    return await container.hasClass('sky-toolbar-sectioned');
   }
 }

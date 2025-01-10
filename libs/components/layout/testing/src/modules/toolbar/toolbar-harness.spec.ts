@@ -31,15 +31,7 @@ describe('Text expand test harness', () => {
     return { toolbarHarness };
   }
 
-  it('should get the toolbar by its data-sky-id', async () => {
-    const { toolbarHarness } = await setupTest({
-      dataSkyId: 'basic-toolbar',
-    });
-
-    await expectAsync(toolbarHarness.hasSections()).toBeResolvedTo(false);
-  });
-
-  it('should get a toolbar item by data-sky-id', async () => {
+  it('should get the toolbar and a toolbar item by data-sky-id', async () => {
     const { toolbarHarness } = await setupTest({
       dataSkyId: 'basic-toolbar',
     });
