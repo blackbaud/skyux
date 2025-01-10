@@ -15,7 +15,7 @@ export class SkyLinkListItemHarness extends SkyComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyLinkedListItemHarness` that meets certain criteria.
+   * `SkyLinkListItemHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyLinkListItemHarnessFilters,
