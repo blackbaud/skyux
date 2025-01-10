@@ -4,7 +4,8 @@
 
 @include compatMixins.sky-default-overrides('.sky-search-container') {
   --sky-override-search-applied-background-color: #fff;
-  --sky-override-search-applied-border: #{2px solid $sky-highlight-color-success};
+  --sky-override-search-applied-border: #{2px solid
+    $sky-highlight-color-success};
   --sky-override-search-applied-box-shadow: none;
   --sky-override-search-applied-color: #{$sky-highlight-color-success};
   --sky-override-search-applied-mobile-button-horizontal-padding: 11px;
@@ -202,7 +203,8 @@ sky-search {
           calc(
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
-            ) + calc(var(--sky-space-inset-balanced-s) * 2)
+            ) +
+            calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
       width: var(
@@ -211,7 +213,8 @@ sky-search {
           calc(
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
-            ) + calc(var(--sky-space-inset-balanced-s) * 2)
+            ) +
+            calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
 
@@ -229,7 +232,8 @@ sky-search {
           calc(
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
-            ) + calc(var(--sky-space-inset-balanced-s) * 2)
+            ) +
+            calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
       width: var(
@@ -238,7 +242,8 @@ sky-search {
           calc(
               var(--sky-font-line_height-input-val) *
                 var(--sky-font-size-input-val)
-            ) + calc(var(--sky-space-inset-balanced-s) * 2)
+            ) +
+            calc(var(--sky-space-inset-balanced-s) * 2)
         )
       );
       padding: 0;

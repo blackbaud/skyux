@@ -11,7 +11,8 @@
   --sky-override-lookup-input-box-tokens-align-items: baseline;
   --sky-override-lookup-input-box-tokens-content-padding-left: 10px;
   --sky-override-lookup-search-background-color: #{$sky-color-white};
-  --sky-override-lookup-search-border: 1px solid #{$sky-border-color-neutral-medium};
+  --sky-override-lookup-search-border: 1px solid
+    #{$sky-border-color-neutral-medium};
   --sky-override-lookup-search-disabled-background-color: #{$sky-background-color-disabled};
   --sky-override-lookup-search-line-height: #{$sky-line-height-base}em;
   --sky-override-lookup-single-control-padding-left: 7px;
@@ -29,7 +30,8 @@
   --sky-override-lookup-input-box-tokens-align-items: baseline;
   --sky-override-lookup-input-box-tokens-content-padding-left: 10px;
   --sky-override-lookup-search-background-color: #{$sky-color-white};
-  --sky-override-lookup-search-border: 1px solid #{$sky-border-color-neutral-medium};
+  --sky-override-lookup-search-border: 1px solid
+    #{$sky-border-color-neutral-medium};
   --sky-override-lookup-search-disabled-background-color: #{$sky-background-color-disabled};
   --sky-override-lookup-search-line-height: #{$sky-line-height-base}em;
   --sky-override-lookup-single-control-padding-left: 7px;
@@ -161,11 +163,15 @@ sky-input-box .sky-lookup {
   margin-top: var(
     --sky-override-lookup-input-box-margin-top,
     calc(
-      -1 * (calc(
+      -1 *
+        (
+          calc(
               var(--sky-font-line_height-input-label) *
                 var(--sky-font-size-input-label)
-            ) + var(--sky-space-inset-input_label-top-m) +
-            var(--sky-space-inset-input_label-bottom-m))
+            ) +
+            var(--sky-space-inset-input_label-top-m) +
+            var(--sky-space-inset-input_label-bottom-m)
+        )
     )
   );
   padding-top: var(
@@ -174,7 +180,8 @@ sky-input-box .sky-lookup {
       calc(
           var(--sky-font-line_height-input-label) *
             var(--sky-font-size-input-label)
-        ) + var(--sky-space-inset-input_label-top-m) +
+        ) +
+        var(--sky-space-inset-input_label-top-m) +
         var(--sky-space-inset-input_label-bottom-m)
     )
   );
