@@ -90,9 +90,9 @@ jobs:
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
-      - name: Run build, postbuild, lint, test, and posttest for npm packages
+      - name: Run build, lint, test, and posttest for npm packages
         run: |
-          npx nx affected --target build postbuild lint test posttest --configuration ci --parallel 1 --exclude '*,!tag:npm'
+          npx nx affected --target build lint test posttest --configuration ci --parallel 1 --exclude '*,!tag:npm'
         env:
           NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
       - name: Run lint, test, and posttest for non-npm packages
