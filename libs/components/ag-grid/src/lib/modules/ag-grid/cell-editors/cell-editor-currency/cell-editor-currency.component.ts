@@ -83,44 +83,47 @@ export class SkyAgGridCellEditorCurrencyComponent
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
-    this.input?.nativeElement.focus();
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      this.input?.nativeElement.focus();
 
-    // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
-    // Since we don't want that, we set the initial value after autonumeric initializes.
-    this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(
-      this.params,
-    );
-    const control = this.currency;
+      // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
+      // Since we don't want that, we set the initial value after autonumeric initializes.
+      this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(
+        this.params,
+      );
+      const control = this.currency;
 
-    if (control) {
-      switch (this.#triggerType) {
-        case SkyAgGridCellEditorInitialAction.Delete:
-          control.setValue(undefined);
-          break;
-        case SkyAgGridCellEditorInitialAction.Replace:
-          control.setValue(
-            parseFloat(String(this.params?.eventKey)) || undefined,
-          );
-          break;
-        case SkyAgGridCellEditorInitialAction.Highlighted:
-        case SkyAgGridCellEditorInitialAction.Untouched:
-        default:
-          control.setValue(parseFloat(String(this.params?.value)));
-          break;
+      if (control) {
+        switch (this.#triggerType) {
+          case SkyAgGridCellEditorInitialAction.Delete:
+            control.setValue(undefined);
+            break;
+          case SkyAgGridCellEditorInitialAction.Replace:
+            control.setValue(
+              parseFloat(String(this.params?.eventKey)) || undefined,
+            );
+            break;
+          case SkyAgGridCellEditorInitialAction.Highlighted:
+          case SkyAgGridCellEditorInitialAction.Untouched:
+          default:
+            control.setValue(parseFloat(String(this.params?.value)));
+            break;
+        }
       }
-    }
 
-    this.#changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
 
-    if (
-      this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted &&
-      (this.params?.value ?? '') !== ''
-    ) {
-      this.input?.nativeElement.select();
-    }
+      if (
+        this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted &&
+        (this.params?.value ?? '') !== ''
+      ) {
+        this.input?.nativeElement.select();
+      }
 
-    // When the cell is initialized with the Enter key, we need to suppress the first `onPressEnter`.
-    this.#initialized = this.params?.eventKey !== 'Enter';
+      // When the cell is initialized with the Enter key, we need to suppress the first `onPressEnter`.
+      this.#initialized = this.params?.eventKey !== 'Enter';
+    });
   }
 
   /**
