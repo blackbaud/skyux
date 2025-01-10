@@ -12,6 +12,9 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
 import { SkyNeedsAttentionComponent } from './needs-attention.component';
 
+/**
+ * @internal
+ */
 @NgModule({
   declarations: [SkyNeedsAttentionComponent],
   exports: [SkyNeedsAttentionComponent],
