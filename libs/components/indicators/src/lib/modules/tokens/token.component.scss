@@ -58,10 +58,8 @@
       $sky-background-color-info-light,
       10%
     )};
-  --sky-override-token-hover-border: 1px solid #{darken(
-      $sky-highlight-color-info,
-      10%
-    )};
+  --sky-override-token-hover-border: 1px solid
+    #{darken($sky-highlight-color-info, 10%)};
   --sky-override-token-hover-box-shadow: none;
   --sky-override-token-padding: 0;
 }

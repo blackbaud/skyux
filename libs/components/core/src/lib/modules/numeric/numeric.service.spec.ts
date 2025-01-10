@@ -1,5 +1,4 @@
 /*eslint no-loss-of-precision: "warn"*/
-
 /*eslint @typescript-eslint/no-loss-of-precision: "warn"*/
 import { TestBed } from '@angular/core/testing';
 import { SkyIntlNumberFormatStyle } from '@skyux/i18n';
