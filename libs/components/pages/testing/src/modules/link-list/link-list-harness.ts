@@ -3,6 +3,8 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
 
 import { SkyLinkListHarnessFilters } from './link-list-harness-filters';
+import { SkyLinkListItemHarness } from './link-list-item-harness';
+import { SkyLinkListItemHarnessFilters } from './link-list-item-harness-filters';
 
 /**
  * Harness for interacting with a link list component in tests.
@@ -11,7 +13,8 @@ export class SkyLinkListHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-link-list';
+  public static hostSelector =
+    'sky-link-list, sky-link-list-recently-accessed, sky-modal-link-list';
 
   #getHeading = this.locatorFor('h2.sky-font-heading-4');
   #getList = this.locatorFor('ul.sky-link-list');
@@ -50,7 +53,16 @@ export class SkyLinkListHarness extends SkyComponentHarness {
    * Gets the status of the wait indicator.
    */
   public async isWaiting(): Promise<boolean> {
-    const waitHarness = await (await this.locatorFor(SkyWaitHarness))();
+    const waitHarness = await this.locatorFor(SkyWaitHarness)();
     return await waitHarness.isWaiting();
+  }
+
+  /**
+   * Gets the link list items.
+   */
+  public async getListItems(
+    filter: SkyLinkListItemHarnessFilters = {},
+  ): Promise<SkyLinkListItemHarness[]> {
+    return await this.locatorForAll(SkyLinkListItemHarness.with(filter))();
   }
 }
