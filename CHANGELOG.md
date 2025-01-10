@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.33.0](https://github.com/blackbaud/skyux/compare/11.32.0...11.33.0) (2025-01-10)
+
+
+### Features
+
+* **components/pages:** create testing harness for action hub ([#2962](https://github.com/blackbaud/skyux/issues/2962)) ([736e0a3](https://github.com/blackbaud/skyux/commit/736e0a30bf2f511fda4e3467e6186e1984c41997))
+* update `@skyux/icons` to 7.10.0 ([#3008](https://github.com/blackbaud/skyux/issues/3008)) ([fc355a3](https://github.com/blackbaud/skyux/commit/fc355a3aa3be7669b33826a591b5914ddc8eb98c))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** handle focus for adjacent editor cells ([#2993](https://github.com/blackbaud/skyux/issues/2993)) ([c5d3171](https://github.com/blackbaud/skyux/commit/c5d31714fb40a6c55e46f79aa267f172f5d743a6))
+
 ## [11.32.0](https://github.com/blackbaud/skyux/compare/11.31.0...11.32.0) (2025-01-08)
 
 
