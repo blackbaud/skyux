@@ -38,6 +38,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 
+import { cloneCountryData } from './clone-country-data';
 import { SkyCountryFieldCountry } from './types/country';
 import { SkyCountryFieldContext } from './types/country-field-context';
 import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
@@ -459,18 +460,7 @@ export class SkyCountryFieldComponent
   }
 
   #setupCountries(): void {
-    /**
-     * The json functions here ensures that we get a copy of the array and not the global original.
-     * This ensures that multiple instances of the component don't overwrite the original data.
-     */
-    this.countries = JSON.parse(
-      JSON.stringify(intlTelInput.getCountryData()),
-    ).map((country: SkyCountryFieldCountry & { nodeById: unknown }) => {
-      // `intl-tel-input` version 19.2.6 added a `nodeById` property that is used internally to that library to this object.
-      // We need to remove it as it is not useful to our consumers and would muddle the object type.
-      delete country.nodeById;
-      return country;
-    });
+    this.countries = cloneCountryData(intlTelInput.getCountryData());
 
     // Ignoring coverage here as this will be removed in the next release.
     // istanbul ignore next

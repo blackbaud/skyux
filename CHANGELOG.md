@@ -1,5 +1,26 @@
 # Changelog
 
+## [11.33.0](https://github.com/blackbaud/skyux/compare/11.32.0...11.33.0) (2025-01-10)
+
+
+### Features
+
+* **components/pages:** create testing harness for action hub ([#2962](https://github.com/blackbaud/skyux/issues/2962)) ([736e0a3](https://github.com/blackbaud/skyux/commit/736e0a30bf2f511fda4e3467e6186e1984c41997))
+* update `@skyux/icons` to 7.10.0 ([#3008](https://github.com/blackbaud/skyux/issues/3008)) ([fc355a3](https://github.com/blackbaud/skyux/commit/fc355a3aa3be7669b33826a591b5914ddc8eb98c))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** handle focus for adjacent editor cells ([#2993](https://github.com/blackbaud/skyux/issues/2993)) ([c5d3171](https://github.com/blackbaud/skyux/commit/c5d31714fb40a6c55e46f79aa267f172f5d743a6))
+
+## [11.32.0](https://github.com/blackbaud/skyux/compare/11.31.0...11.32.0) (2025-01-08)
+
+
+### Features
+
+* **components/forms:** add method to `SkyFormErrorHarness` to get error text ([#2992](https://github.com/blackbaud/skyux/issues/2992)) ([#2994](https://github.com/blackbaud/skyux/issues/2994)) ([65aa2e8](https://github.com/blackbaud/skyux/commit/65aa2e8eda1d5f58d6156080f5c46dddeb8a19db))
+* **components/layout:** tokenize toolbar component ([#2980](https://github.com/blackbaud/skyux/issues/2980)) ([3c04ba0](https://github.com/blackbaud/skyux/commit/3c04ba0e105c6c50f917b85746efee7fab9e5e21))
+
 ## [10.44.3](https://github.com/blackbaud/skyux/compare/10.44.2...10.44.3) (2025-01-08)
 
 

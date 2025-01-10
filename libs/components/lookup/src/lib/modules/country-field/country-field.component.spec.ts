@@ -557,7 +557,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
           dialCode: '61',
           priority: 0,
-          areaCodes: null,
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
@@ -1197,7 +1196,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
           dialCode: '61',
           priority: 0,
-          areaCodes: null,
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
@@ -1549,7 +1547,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
           dialCode: '61',
           priority: 0,
-          areaCodes: null,
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
