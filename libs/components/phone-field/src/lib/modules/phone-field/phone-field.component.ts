@@ -39,6 +39,7 @@ import {
 import intlTelInput from 'intl-tel-input';
 import { Subject, takeUntil } from 'rxjs';
 
+import { cloneCountryData } from './clone-country-data';
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldCountry } from './types/country';
 import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
@@ -303,11 +304,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#formBuilder = formBuilder;
     this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
-    /**
-     * The json functions here ensures that we get a copy of the array and not the global original.
-     * This ensures that multiple instances of the component don't overwrite the original data.
-     */
-    this.countries = JSON.parse(JSON.stringify(intlTelInput.getCountryData()));
+
+    this.countries = cloneCountryData(intlTelInput.getCountryData());
 
     for (const country of this.countries) {
       country.dialCode = '+' + country.dialCode;
