@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-
 /**
  * The contents of this file were copied from '@schematics/angular'.
  * @see https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/utility/json-file.ts
