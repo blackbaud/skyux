@@ -72,7 +72,11 @@
     }
 
     &:focus + .sky-switch-control {
-      @include mixins.sky-focus-outline;
+      //default
+      outline: thin dotted;
+
+      //webkit
+      outline: -webkit-focus-ring-color auto 5px;
     }
   }
 
