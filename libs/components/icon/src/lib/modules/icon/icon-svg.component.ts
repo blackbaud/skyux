@@ -1,4 +1,4 @@
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
@@ -23,7 +23,7 @@ const SIZES = new Map([
  */
 @Component({
   selector: 'sky-icon-svg',
-  imports: [NgClass, NgStyle],
+  imports: [NgClass],
   templateUrl: './icon-svg.component.html',
   styleUrls: [
     './icon-svg.default.component.scss',

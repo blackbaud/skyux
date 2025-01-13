@@ -1,5 +1,13 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-filter-inline-item') {
+  --sky-override-filter-inline-item-margin-right: #{$sky-margin};
+}
 
 .sky-filter-inline-item {
-  margin-right: $sky-margin;
+  margin-right: var(
+    --sky-override-filter-inline-item-margin-right,
+    var(--sky-space-gap-form-s)
+  );
 }
