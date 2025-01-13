@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +26,7 @@ const pixelSizes: Record<SkyIllustrationSize, number> = {
  */
 @Component({
   selector: 'sky-illustration',
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule],
   templateUrl: './illustration.component.html',
   styleUrls: [
     './illustration.default.component.scss',

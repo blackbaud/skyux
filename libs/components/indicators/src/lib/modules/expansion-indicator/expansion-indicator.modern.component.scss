@@ -7,8 +7,13 @@
   --sky-override-expansion-indicator-container-top: 3.5px;
   --sky-override-expansion-indicator-leg-left-left: 4px;
   --sky-override-expansion-indicator-leg-right-left: 10.5px;
+  --sky-override-expansion-indicator-line-height: normal;
   --sky-override-expansion-indicator-size: 26px;
   --sky-override-expansion-indicator-size-half: 13px;
+}
+
+@include mixins.sky-component-host('modern') {
+  line-height: var(--sky-override-expansion-indicator-line-height, 1);
 }
 
 @include mixins.sky-component('modern', '.sky-expansion-indicator') {
