@@ -6,7 +6,8 @@
   --sky-override-toggle-switch-background-color: #{$sky-background-color-neutral-light};
   --sky-override-toggle-switch-background-color-disabled: #{$sky-background-color-disabled};
   --sky-override-toggle-switch-background-color-selected: #{$sky-background-color-info-light};
-  --sky-override-toggle-switch-border: 1px solid #{$sky-border-color-neutral-medium};
+  --sky-override-toggle-switch-border: 1px solid
+    #{$sky-border-color-neutral-medium};
   --sky-override-toggle-switch-border-color-active: #{$sky-border-color-neutral-medium};
   --sky-override-toggle-switch-border-color-disabled: transparent;
   --sky-override-toggle-switch-border-color-focus: #{$sky-theme-modern-background-color-primary-dark};
@@ -87,7 +88,8 @@
         calc(
             var(--sky-border-radius-thumb) +
               calc(var(--sky-space-inset-thumb) * 2)
-          ) / 100%
+          ) /
+          100%
       );
       flex: none;
       line-height: var(
@@ -292,7 +294,8 @@
                   calc(var(--sky-border-width-input-base) * 2) +
                     calc(var(--sky-space-inset-thumb) * 2)
                 )
-            ) * -1
+            ) *
+            -1
         )
       );
       border-radius: var(

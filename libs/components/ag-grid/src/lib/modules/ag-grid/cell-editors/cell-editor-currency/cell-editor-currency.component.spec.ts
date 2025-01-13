@@ -91,7 +91,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
       };
     });
 
-    it('initializes the SkyAgGridCellEditorCurrencyComponent properties', () => {
+    it('initializes the SkyAgGridCellEditorCurrencyComponent properties', fakeAsync(() => {
       expect(currencyEditorComponent.columnWidth).toBeUndefined();
 
       cellEditorParams.node = new RowNode({} as BeanCollection);
@@ -113,10 +113,11 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       currencyEditorComponent.onPressEnter();
       currencyEditorComponent.afterGuiAttached();
+      tick();
       expect(cellEditorParams.stopEditing).not.toHaveBeenCalled();
       currencyEditorComponent.onPressEnter();
       expect(cellEditorParams.stopEditing).toHaveBeenCalled();
-    });
+    }));
 
     it('should set the correct aria label', () => {
       api.getDisplayNameForColumn.and.returnValue('Testing');
@@ -189,7 +190,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         };
       });
 
-      it('sets the form control value correctly', () => {
+      it('sets the form control value correctly', fakeAsync(() => {
         expect(
           currencyEditorComponent.editorForm.get('currency')?.value,
         ).toBeNull();
@@ -197,11 +198,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
         currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
         currencyEditorFixture.detectChanges();
         currencyEditorComponent.afterGuiAttached();
+        tick();
 
         expect(
           currencyEditorComponent.editorForm.get('currency')?.value,
         ).toEqual(value);
-      });
+      }));
 
       describe('cellStartedEdit is true', () => {
         it('initializes with a cleared value unselected when Backspace triggers the edit', fakeAsync(() => {
@@ -497,7 +499,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         }));
       });
 
-      it('focuses on the input after it attaches to the DOM', () => {
+      it('focuses on the input after it attaches to the DOM', fakeAsync(() => {
         currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
         currencyEditorFixture.detectChanges();
 
@@ -507,10 +509,11 @@ describe('SkyCellEditorCurrencyComponent', () => {
         spyOn(input, 'focus');
 
         currencyEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input).toBeVisible();
         expect(input.focus).toHaveBeenCalled();
-      });
+      }));
     });
 
     it('returns undefined if the value is not set', () => {
