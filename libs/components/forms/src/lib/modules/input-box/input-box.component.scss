@@ -193,7 +193,8 @@ sky-input-box {
       calc(
           var(--sky-font-line_height-input-label) *
             var(--sky-font-size-input-label)
-        ) + var(--sky-space-inset-input_label-top-m) +
+        ) +
+        var(--sky-space-inset-input_label-top-m) +
         var(--sky-space-inset-input_label-bottom-m)
     );
     // calculate the size of the input top margin. -1 * the padding.
@@ -204,7 +205,8 @@ sky-input-box {
       var(--sky-space-inset-input-bottom-m) +
         calc(
           var(--sky-font-size-input-val) * var(--sky-font-line_height-input-val)
-        ) + var(--sky-input-box-space-top)
+        ) +
+        var(--sky-input-box-space-top)
     );
 
     .sky-input-box-group {
