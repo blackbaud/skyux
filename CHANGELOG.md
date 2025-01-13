@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.34.0](https://github.com/blackbaud/skyux/compare/11.33.0...11.34.0) (2025-01-13)
+
+
+### Features
+
+* **components/layout:** add harnesses for toolbar ([#3001](https://github.com/blackbaud/skyux/issues/3001)) ([68aee0d](https://github.com/blackbaud/skyux/commit/68aee0d3c9f60b475edf6e6e632bffe0ed0bdc37))
+
+
+### Bug Fixes
+
+* **components/pages:** hide blocks with hidden `[skyHref]` links ([#3014](https://github.com/blackbaud/skyux/issues/3014)) ([e1bee8b](https://github.com/blackbaud/skyux/commit/e1bee8b4a21f87a323be4c15572ca9011e8a1541))
+
 ## [11.33.0](https://github.com/blackbaud/skyux/compare/11.32.0...11.33.0) (2025-01-10)
 
 
