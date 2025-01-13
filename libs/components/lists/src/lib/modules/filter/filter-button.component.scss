@@ -1,7 +1,5 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
-  as modernMixins;
 
 .sky-filter-btn-active,
 .sky-filter-btn-active:hover,
@@ -20,16 +18,64 @@
   .sky-filter-btn-active,
   .sky-filter-btn-active:hover,
   .sky-filter-btn-active:focus {
-    color: initial;
+    background-color: var(--sky-color-background-selected-soft);
     border: none;
-
-    @include modernMixins.sky-theme-modern-button-variant(
-      var(--sky-text-color-action-primary),
-      var(--sky-background-color-input-selected),
-      var(--sky-background-color-primary-dark),
-      var(--sky-background-color-primary-dark),
-      $sky-theme-modern-padding-button-standard
+    box-shadow: inset 0 0 0 var(--sky-border-width-selected-s)
+      var(--sky-color-border-selected);
+    color: var(--sky-color-text-action);
+    padding: var(
+      --sky-override-button-padding,
+      var(--sky-space-inset-pillarbox-1_2-top-m)
+        var(--sky-space-inset-pillarbox-1_2-right-m)
+        var(--sky-space-inset-pillarbox-1_2-bottom-m)
+        var(--sky-space-inset-pillarbox-1_2-left-m)
     );
+
+    sky-icon {
+      color: var(--sky-color-icon-action);
+    }
+
+    &:hover {
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
+        var(--sky-color-border-selected);
+    }
+
+    &:active,
+    &.sky-btn-active {
+      box-shadow: inset 0 0 0 var(--sky-border-width-action-active)
+        var(--sky-color-border-selected);
+      background-image: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &:not(:active) {
+        box-shadow:
+          inset 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-selected),
+          var(--sky-elevation-focus);
+      }
+    }
+
+    &.sky-btn-disabled,
+    &[disabled] {
+      &,
+      &:hover,
+      &:focus-visible,
+      &.sky-btn-focus,
+      &:active,
+      &.sky-btn-active {
+        background-color: var(--sky-color-background-action-secondary-disabled);
+        box-shadow: inset 0 0 0 var(--sky-border-width-action-disabled)
+          var(--sky-color-border-action-secondary-disabled);
+        color: var(--sky-color-text-deemphasized);
+
+        sky-icon {
+          color: var(--sky-color-icon-deemphasized);
+        }
+      }
+    }
   }
 }
 
