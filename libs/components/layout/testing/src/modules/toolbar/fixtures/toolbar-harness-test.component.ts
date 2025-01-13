@@ -4,12 +4,12 @@ import { SkyToolbarModule } from '@skyux/layout';
 
 @Component({
   standalone: true,
-  selector: 'app-demo',
-  templateUrl: './demo.component.html',
+  selector: 'sky-toolbar-fixture',
+  templateUrl: './toolbar-harness-test.component.html',
   imports: [SkyIconModule, SkyToolbarModule],
 })
-export class DemoComponent {
-  public onButtonClicked(buttonText: string): void {
+export class ToolbarHarnessTestComponent {
+  protected onButtonClicked(buttonText: string): void {
     alert(buttonText + ' clicked!');
   }
 }
