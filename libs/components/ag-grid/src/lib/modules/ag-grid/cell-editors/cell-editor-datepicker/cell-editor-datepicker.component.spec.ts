@@ -475,7 +475,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       };
     });
 
-    it('focuses on the datepicker input after it attaches to the DOM', () => {
+    it('focuses on the datepicker input after it attaches to the DOM', fakeAsync(() => {
       datepickerEditorComponent.editorForm
         .get('date')
         ?.setValue(new Date('7/12/2019'));
@@ -488,13 +488,14 @@ describe('SkyCellEditorDatepickerComponent', () => {
       spyOn(input, 'focus');
 
       datepickerEditorComponent.afterGuiAttached();
+      tick();
 
       expect(input).toBeVisible();
       expect(input.focus).toHaveBeenCalled();
-    });
+    }));
 
     describe('cellStartedEdit is true', () => {
-      it('does not select the input value if Backspace triggers the edit', () => {
+      it('does not select the input value if Backspace triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.BACKSPACE,
@@ -506,12 +507,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe('');
         expect(selectSpy).not.toHaveBeenCalled();
-      });
+      }));
 
-      it('does not select the input value if Delete triggers the edit', () => {
+      it('does not select the input value if Delete triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.DELETE,
@@ -523,12 +525,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe('');
         expect(selectSpy).not.toHaveBeenCalled();
-      });
+      }));
 
-      it('does not select the input value if F2 triggers the edit', () => {
+      it('does not select the input value if F2 triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
@@ -540,12 +543,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(dateString);
         expect(selectSpy).not.toHaveBeenCalled();
-      });
+      }));
 
-      it('selects the input value if Enter triggers the edit', () => {
+      it('selects the input value if Enter triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.ENTER,
@@ -557,10 +561,11 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(dateString);
         expect(selectSpy).toHaveBeenCalledTimes(1);
-      });
+      }));
 
       it('does not select the input value when a standard keyboard event triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
@@ -580,6 +585,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         ).and.callThrough();
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
         datepickerEditorFixture.detectChanges();
 
         expect(input.value).toBe('a');
@@ -598,7 +604,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         cellEditorParams.cellStartedEdit = false;
       });
 
-      it('does not select the input value if Backspace triggers the edit', () => {
+      it('does not select the input value if Backspace triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.BACKSPACE,
@@ -610,12 +616,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(dateString);
         expect(selectSpy).not.toHaveBeenCalled();
-      });
+      }));
 
-      it('does not select the input value if Delete triggers the edit', () => {
+      it('does not select the input value if Delete triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.DELETE,
@@ -627,12 +634,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(dateString);
         expect(selectSpy).not.toHaveBeenCalled();
-      });
+      }));
 
-      it('does not select the input value if F2 triggers the edit', () => {
+      it('does not select the input value if F2 triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.F2,
@@ -644,12 +652,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(dateString);
         expect(selectSpy).not.toHaveBeenCalled();
-      });
+      }));
 
-      it('selects the input value if Enter triggers the edit', () => {
+      it('selects the input value if Enter triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
           ...(cellEditorParams as ICellEditorParams),
           eventKey: KeyCode.ENTER,
@@ -661,10 +670,11 @@ describe('SkyCellEditorDatepickerComponent', () => {
         const selectSpy = spyOn(input, 'select');
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input.value).toBe(dateString);
         expect(selectSpy).not.toHaveBeenCalled();
-      });
+      }));
 
       it('does not select the input value when a standard keyboard event triggers the edit', fakeAsync(() => {
         datepickerEditorComponent.agInit({
@@ -684,6 +694,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         ).and.callThrough();
 
         datepickerEditorComponent.afterGuiAttached();
+        tick();
         datepickerEditorFixture.detectChanges();
 
         expect(input.value).toBe(dateString);

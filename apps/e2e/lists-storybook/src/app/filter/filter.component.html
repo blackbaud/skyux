@@ -13,6 +13,20 @@
       [showButtonText]="false"
       (filterButtonClick)="filtersActive = !filtersActive"
     />
+    {{ ' ' }}
+    <sky-filter-button
+      [active]="filtersActive"
+      [disabled]="true"
+      [showButtonText]="false"
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
+    {{ ' ' }}
+    <sky-filter-button
+      [active]="!filtersActive"
+      [disabled]="true"
+      [showButtonText]="false"
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
   </div>
 
   <h2>Filter button with text</h2>
@@ -26,6 +40,20 @@
     {{ ' ' }}
     <sky-filter-button
       [active]="!filtersActive"
+      [showButtonText]="true"
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
+    {{ ' ' }}
+    <sky-filter-button
+      [active]="filtersActive"
+      [disabled]="true"
+      [showButtonText]="true"
+      (filterButtonClick)="filtersActive = !filtersActive"
+    />
+    {{ ' ' }}
+    <sky-filter-button
+      [active]="!filtersActive"
+      [disabled]="true"
       [showButtonText]="true"
       (filterButtonClick)="filtersActive = !filtersActive"
     />
@@ -61,7 +89,7 @@
   <div class="app-screenshot" id="screenshot-filter-inline">
     <sky-filter-inline>
       <sky-filter-inline-item>
-        <sky-input-box stacked="true" labelText="Fruit type">
+        <sky-input-box labelText="Fruit type">
           <select>
             <option value="any">Any fruit</option>
             <option value="citrus">Citrus</option>
