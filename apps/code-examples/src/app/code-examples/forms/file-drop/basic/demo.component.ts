@@ -37,7 +37,7 @@ export class DemoComponent {
   protected fileDrop = new FormControl<
     (SkyFileItem | SkyFileLink)[] | null | undefined
   >(undefined, Validators.required);
-  protected formGroup = inject(FormBuilder).group({
+  protected formGroup: FormGroup = inject(FormBuilder).group({
     fileDrop: this.fileDrop,
   });
 

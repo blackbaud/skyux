@@ -270,6 +270,7 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   #_uploadedFiles: (SkyFileItem | SkyFileLink)[] = [];
 
   readonly #fileAttachmentService = inject(SkyFileAttachmentService);
+  readonly #fileReaderSvc = inject(SkyFileReaderService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
   readonly #idSvc = inject(SkyIdService);
@@ -500,8 +501,6 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     );
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
   }
-
-  readonly #fileReaderSvc = inject(SkyFileReaderService);
 
   async #loadFile(
     fileDrop: SkyFileDropComponent,

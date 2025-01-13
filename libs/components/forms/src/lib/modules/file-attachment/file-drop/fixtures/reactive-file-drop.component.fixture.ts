@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -20,17 +20,15 @@ import { SkyFileLink } from '../file-link';
   templateUrl: './reactive-file-drop.component.fixture.html',
 })
 export class ReactiveFileDropTestComponent {
-  public formGroup: FormGroup;
-  public fileDrop: FormControl;
+  public fileDrop: FormControl = new FormControl(
+    undefined,
+    Validators.required,
+  );
+  public formGroup: FormGroup = inject(FormBuilder).group({
+    fileDrop: this.fileDrop,
+  });
   public labelText: string | undefined;
   public acceptedTypes: string | undefined;
-
-  constructor(formBuilder: FormBuilder) {
-    this.fileDrop = new FormControl(undefined, Validators.required);
-    this.formGroup = formBuilder.group({
-      fileDrop: this.fileDrop,
-    });
-  }
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
     const index = this.fileDrop.value.indexOf(file);
