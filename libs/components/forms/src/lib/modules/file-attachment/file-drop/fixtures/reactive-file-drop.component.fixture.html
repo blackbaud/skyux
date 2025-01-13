@@ -2,10 +2,11 @@
   <sky-file-drop
     formControlName="fileDrop"
     [allowLinks]="true"
+    [acceptedTypes]="acceptedTypes"
     [labelText]="labelText"
   />
 </form>
 
-@for (file of fileDrop.value; track file) {
+{{fileDrop.value | json}} @for (file of fileDrop.value; track file) {
 <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
 }

@@ -19,7 +19,7 @@ export class FileAttachmentComponent {
   public maxFileSize = 4000000;
   public minFileSize = 300000;
 
-  protected attachment: FormControl<(SkyFileItem | SkyFileLink)[]>;
+  protected attachment: FormControl<any>;
   protected formGroup: FormGroup;
   protected required = true;
 
@@ -52,15 +52,23 @@ export class FileAttachmentComponent {
   }
 
   public setFiles(): void {
-    const file: SkyFileItem = {
-      file: new File([], 'foo.bar', { type: 'image/png' }),
-      url: 'foo.bar.bar',
-    };
+    this.attachment.setValue([
+      {
+        file: new File([], 'foo.bar', { type: 'image/png' }),
+        url: 'foo.bar.bar',
+      },
+      {
+        url: 'foo.bar.bar',
+      },
+      {
+        file: undefined,
+        url: 'foo.foo',
+      },
 
-    const link: SkyFileLink = {
-      url: 'foo.foo',
-    };
-
-    this.attachment.setValue([file, link]);
+      {
+        file: new File([], 'foo.bar', { type: 'image/png' }),
+        url: 'foo.bar.bar',
+      },
+    ]);
   }
 }

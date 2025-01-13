@@ -267,7 +267,7 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   #notifyChange:
     | ((_: (SkyFileItem | SkyFileLink)[] | undefined | null) => void)
     | undefined;
-  #_uploadedFiles: (SkyFileItem | SkyFileLink)[] | undefined | null = [];
+  #_uploadedFiles: (SkyFileItem | SkyFileLink)[] = [];
 
   readonly #fileAttachmentService = inject(SkyFileAttachmentService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
@@ -294,15 +294,38 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
 
   public writeValue(value: any): void {
     if (value instanceof Array) {
-      value.forEach((file, index) => {
-        if ('url' in file) {
+      const linkUploads: SkyFileLink[] = [];
+      const fileUploads: SkyFileItem[] = [];
+
+      value.forEach((file) => {
+        if ('url' in file && file.url !== undefined) {
           if (!('file' in file)) {
-            this.uploadLink(file as SkyFileLink);
-            value.splice(index, 1);
+            linkUploads.push(file);
+          } else if ('file' in file && file.file !== undefined) {
+            fileUploads.push(file);
           }
         }
       });
-      this.#handleFiles(value as SkyFileItem[]);
+
+      if (!(linkUploads.length > 0) && !(fileUploads.length > 0)) {
+        this.#notifyChange?.(null);
+      } else {
+        this.#_uploadedFiles = [];
+
+        if (linkUploads.length > 0) {
+          linkUploads.forEach((file) => {
+            this.uploadLink(file);
+          });
+        }
+        if (fileUploads.length > 0) {
+          // this prevents FormControl from setting an invalid value before the async
+          // processes in #handleFile is complete
+          this.#notifyChange?.(null);
+          this.#handleFiles(fileUploads);
+        }
+      }
+    } else {
+      this.#notifyChange?.(null);
     }
   }
 
@@ -472,6 +495,9 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     totalFiles: number,
   ): void {
     rejectedFileArray.push(file);
+    this.#notifyChange?.(
+      this.#_uploadedFiles.length > 0 ? this.#_uploadedFiles : null,
+    );
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
   }
 

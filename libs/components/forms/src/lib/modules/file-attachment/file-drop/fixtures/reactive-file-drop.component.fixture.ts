@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -13,7 +14,7 @@ import { SkyFileDropModule } from '../file-drop.module';
 import { SkyFileLink } from '../file-link';
 
 @Component({
-  imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule],
+  imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule, CommonModule],
   selector: 'sky-file-drop-reactive-test',
   standalone: true,
   templateUrl: './reactive-file-drop.component.fixture.html',
@@ -22,6 +23,7 @@ export class ReactiveFileDropTestComponent {
   public formGroup: FormGroup;
   public fileDrop: FormControl;
   public labelText: string | undefined;
+  public acceptedTypes: string | undefined;
 
   constructor(formBuilder: FormBuilder) {
     this.fileDrop = new FormControl(undefined, Validators.required);
