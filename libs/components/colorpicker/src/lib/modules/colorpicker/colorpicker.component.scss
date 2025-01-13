@@ -436,7 +436,8 @@ sky-colorpicker.sky-form-field-stacked {
                   var(--sky-space-inset-pillarbox-2_3-left-m) +
                     var(--sky-space-inset-pillarbox-2_3-right-m)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
-            ) / 5
+            ) /
+            5
         )
       );
       height: var(
@@ -451,7 +452,8 @@ sky-colorpicker.sky-form-field-stacked {
                   var(--sky-space-inset-pillarbox-2_3-left-m) +
                     var(--sky-space-inset-pillarbox-2_3-right-m)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
-            ) / 5
+            ) /
+            5
         )
       );
       border-radius: var(
@@ -496,7 +498,8 @@ sky-colorpicker.sky-form-field-stacked {
                   var(--sky-space-inset-pillarbox-2_3-left-m) +
                     var(--sky-space-inset-pillarbox-2_3-right-m)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
-            ) / 5
+            ) /
+            5
         )
       );
       height: var(
@@ -511,7 +514,8 @@ sky-colorpicker.sky-form-field-stacked {
                   var(--sky-space-inset-pillarbox-2_3-left-m) +
                     var(--sky-space-inset-pillarbox-2_3-right-m)
                 ) - calc(var(--sky-space-gap-form-m) * 4)
-            ) / 5
+            ) /
+            5
         )
       );
       // TODO: remove when we drop default; modern will inherit this from the btn class
@@ -691,8 +695,14 @@ sky-colorpicker.sky-form-field-stacked {
       rgba(0, 0, 0, 0.0980392) 75%,
       rgba(0, 0, 0, 0.0980392) 0
     ),
-    -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.0980392) 25%, transparent 25%, transparent
-          75%, rgba(0, 0, 0, 0.0980392) 75%, rgba(0, 0, 0, 0.0980392) 0),
+    -webkit-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.0980392) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.0980392) 75%,
+        rgba(0, 0, 0, 0.0980392) 0
+      ),
     white;
   background:
     -moz-linear-gradient(
@@ -703,8 +713,14 @@ sky-colorpicker.sky-form-field-stacked {
       rgba(0, 0, 0, 0.0980392) 75%,
       rgba(0, 0, 0, 0.0980392) 0
     ),
-    -moz-linear-gradient(45deg, rgba(0, 0, 0, 0.0980392) 25%, transparent 25%, transparent
-          75%, rgba(0, 0, 0, 0.0980392) 75%, rgba(0, 0, 0, 0.0980392) 0),
+    -moz-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.0980392) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.0980392) 75%,
+        rgba(0, 0, 0, 0.0980392) 0
+      ),
     white;
   background: linear-gradient(
       45deg,

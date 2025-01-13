@@ -8,7 +8,8 @@
   --sky-override-autocomplete-actions-add-icon-padding-right: #{$sky-theme-modern-space-xs};
   --sky-override-autocomplete-actions-no-results-line-height: normal;
   --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
-  --sky-override-autocomplete-actions-top-border: 1px solid #{$sky-border-color-neutral-medium};
+  --sky-override-autocomplete-actions-top-border: 1px solid
+    #{$sky-border-color-neutral-medium};
   --sky-override-autocomplete-no-results-font-size: 15px;
   --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
   --sky-override-autocomplete-result-background-color: transparent;
@@ -30,7 +31,8 @@
   ) {
     --sky-override-autocomplete-actions-no-results-line-height: normal;
     --sky-override-autocomplete-actions-no-results-padding: 7px 13px;
-    --sky-override-autocomplete-actions-top-border: 1px solid #{$sky-border-color-neutral-medium};
+    --sky-override-autocomplete-actions-top-border: 1px solid
+      #{$sky-border-color-neutral-medium};
     --sky-override-autocomplete-no-results-font-size: 15px;
     --sky-override-autocomplete-no-results-padding: #{$sky-padding-squish-default};
     --sky-override-autocomplete-result-margin-bottom: 0;
