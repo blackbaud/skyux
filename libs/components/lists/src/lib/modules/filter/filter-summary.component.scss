@@ -2,15 +2,17 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-filter-summary') {
+  --sky-override-filter-summary-background-color: #{$sky-color-white};
+  --sky-override-filter-summary-font-weight: 600;
   --sky-override-filter-summary-header-margin: #{$sky-margin-half $sky-margin 0
     0};
-  --sky-override-filter-summary-font-weight: 600;
-  --sky-override-filter-summary-background-color: #{$sky-color-white};
+  --sky-override-filter-summary-row-gap: 0;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-filter-summary') {
-  --sky-override-filter-summary-font-weight: 600;
   --sky-override-filter-summary-background-color: #{$sky-color-white};
+  --sky-override-filter-summary-font-weight: 600;
+  --sky-override-filter-summary-row-gap: 0;
 }
 
 .sky-filter-summary-header {
@@ -34,4 +36,8 @@
 .sky-filter-summary-items {
   display: flex;
   flex-wrap: wrap;
+  row-gap: var(
+    --sky-override-filter-summary-row-gap,
+    var(--sky-space-gap-action_group-s)
+  );
 }
