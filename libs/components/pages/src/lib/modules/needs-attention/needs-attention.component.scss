@@ -35,6 +35,10 @@ ul {
   }
 }
 
+.sky-needs-attention-item-wrapper:has(a[hidden]) {
+  display: none;
+}
+
 .sky-needs-attention-item {
   grid-area: action;
   text-align: left;
