@@ -9,7 +9,7 @@ import { SkyFileValidateFn } from '../shared/file-validate-function';
 @Injectable()
 export class SkyFileAttachmentService {
   public checkFiles(
-    files: FileList,
+    files: SkyFileItem[],
     minFileSize: number,
     maxFileSize: number,
     acceptedTypes?: string,
@@ -17,11 +17,7 @@ export class SkyFileAttachmentService {
   ): SkyFileItem[] {
     const fileResults: SkyFileItem[] = [];
 
-    for (let index = 0; index < files.length; index++) {
-      const fileItem = {
-        file: files.item(index),
-      } as SkyFileItem;
-
+    files.forEach((fileItem) => {
       if (fileItem.file.size < minFileSize) {
         fileItem.errorType = 'minFileSize';
         fileItem.errorParam = minFileSize.toString();
@@ -45,7 +41,7 @@ export class SkyFileAttachmentService {
       } else {
         fileResults.push(fileItem);
       }
-    }
+    });
     return fileResults;
   }
 

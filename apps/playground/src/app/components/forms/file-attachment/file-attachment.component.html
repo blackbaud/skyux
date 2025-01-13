@@ -1,35 +1,31 @@
-<sky-file-drop
-  hintText="Really long hint text that should wrap and be confined to below the file drop element. We set the text to have a small margin below the drop and link controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
-  labelText="File attachment field"
-  linkUploadHintText="Start with http:// or https://"
-  helpKey="help.html"
-  [acceptedTypes]="acceptedTypes"
-  [allowLinks]="true"
-  [maxFileSize]="maxFileSize"
-  [minFileSize]="minFileSize"
-  [required]="required"
-  [validateFn]="validateFile"
-  [stacked]="true"
-  (filesChanged)="filesUpdated($event)"
-  (linkChanged)="linkAdded($event)"
-/>
-@for (file of allItems; track file) {
-  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)"
-    ><input type="text"
-  /></sky-file-item>
-}
-
 <form [formGroup]="formGroup">
-  <sky-file-attachment
+  <sky-file-drop
+    hintText="Really long hint text that should wrap and be confined to below the file drop element. We set the text to have a small margin below the drop and link controls, and if there are any errors (shown below) there will be a slight spacing between this element and those errors."
+    labelText="File attachment field"
+    linkUploadHintText="Start with http:// or https://"
+    helpKey="help.html"
     formControlName="attachment"
-    helpPopoverContent="Sample help content"
-    helpPopoverTitle="Inline help"
-    hintText="Sample hint text"
-    labelText="Single file attachment"
-    required="true"
     [acceptedTypes]="acceptedTypes"
+    [allowLinks]="true"
     [maxFileSize]="maxFileSize"
+    [required]="required"
     [validateFn]="validateFile"
-    (fileChange)="onFileChange($event)"
+    [stacked]="true"
   />
 </form>
+
+@for (file of attachment.value; track file) {
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+}
+
+Values
+<div>Touched: {{ attachment.touched }}</div>
+<div>Dirty: {{ attachment.dirty }}</div>
+<div>Value: {{ attachment.value | json }}</div>
+
+<button class="sky-btn sky-btn-primary" type="button" (click)="markTouched()">
+  mark touched
+</button>
+<button class="sky-btn sky-btn-primary" type="button" (click)="setFiles()">
+  set files
+</button>
