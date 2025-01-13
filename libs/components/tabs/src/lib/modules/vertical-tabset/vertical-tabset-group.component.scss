@@ -4,15 +4,16 @@
 
 @include compatMixins.sky-default-overrides('.sky-vertical-tabset-group') {
   --sky-override-vertical-tabset-button-disabled-font-color: buttontext;
-  --sky-override-vertical-tabset-group-border: 1px solid #{$sky-border-color-neutral-light};
+  --sky-override-vertical-tabset-group-border: 1px solid
+    #{$sky-border-color-neutral-light};
   --sky-override-vertical-tabset-group-button-font-color: buttontext;
   --sky-override-vertical-tabset-group-button-padding: #{$sky-padding};
   --sky-override-vertical-tabset-group-content-padding-left: 0;
   --sky-override-vertical-tabset-group-gap: #{$sky-margin-half};
   --sky-override-vertical-tabset-group-header-align-items: flex-start;
   --sky-override-vertical-tabset-group-header-background-color: transparent;
-  --sky-override-vertical-tabset-group-margin: #{$sky-margin-half} 0 #{$sky-margin-half}
-    #{$sky-margin-half};
+  --sky-override-vertical-tabset-group-margin: #{$sky-margin-half} 0
+    #{$sky-margin-half} #{$sky-margin-half};
 }
 
 @include compatMixins.sky-modern-overrides('.sky-vertical-tabset-group') {

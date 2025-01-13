@@ -4,9 +4,12 @@
 
 @include compatMixins.sky-default-overrides('.sky-vertical-tabset') {
   --sky-override-vertical-tab-content-pane-margin-bottom: 0;
-  --sky-override-vertical-tabset-content-margin-sm-lg: #{$sky-margin} 0 0 #{$sky-margin};
-  --sky-override-vertical-tabset-content-margin-xs: #{$sky-margin} 0 0 #{$sky-margin};
-  --sky-override-vertical-tabset-group-container-border-right: 1px solid #{$sky-border-color-neutral-medium};
+  --sky-override-vertical-tabset-content-margin-sm-lg: #{$sky-margin} 0 0
+    #{$sky-margin};
+  --sky-override-vertical-tabset-content-margin-xs: #{$sky-margin} 0 0
+    #{$sky-margin};
+  --sky-override-vertical-tabset-group-container-border-right: 1px solid
+    #{$sky-border-color-neutral-medium};
   --sky-override-vertical-tabset-group-container-padding: 0;
   --sky-override-vertical-tabset-modal-margin-adjustment: -15px;
   --sky-override-vertical-tabset-modal-margin-adjustment-with-group: -15px;
@@ -95,7 +98,8 @@
         calc(
             var(--sky-space-inset-pillarbox-2_3-left-m) +
               var(--sky-space-inline-s)
-          ) * -1
+          ) *
+          -1
       )
   );
 
