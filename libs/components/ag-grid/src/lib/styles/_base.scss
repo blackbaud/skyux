@@ -100,8 +100,7 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
     suppress-native-widget-styling: true,
     themes: (
       sky-data-grid-default: map.merge($defaultThemeBase, ()),
-      sky-data-entry-grid-default:
-        map.merge(
+      sky-data-entry-grid-default: map.merge(
           $defaultThemeBase,
           map.merge(
             $defaultsForDataEntryGrid,
@@ -113,27 +112,25 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
           )
         ),
       sky-data-grid-modern-light: map.merge($modernLightThemeBase, ()),
-      sky-data-grid-modern-light-compact:
-        map.merge($modernLightThemeCompact, ()),
-      sky-data-entry-grid-modern-light:
-        map.merge(
+      sky-data-grid-modern-light-compact: map.merge(
+          $modernLightThemeCompact,
+          ()
+        ),
+      sky-data-entry-grid-modern-light: map.merge(
           $modernLightThemeBase,
           map.merge($defaultsForDataEntryGrid, ())
         ),
-      sky-data-entry-grid-modern-light-compact:
-        map.merge(
+      sky-data-entry-grid-modern-light-compact: map.merge(
           $modernLightThemeCompact,
           map.merge($defaultsForDataEntryGrid, ())
         ),
       sky-data-grid-modern-dark: map.merge($modernDarkThemeBase, ()),
       sky-data-grid-modern-dark-compact: map.merge($modernDarkThemeCompact, ()),
-      sky-data-entry-grid-modern-dark:
-        map.merge(
+      sky-data-entry-grid-modern-dark: map.merge(
           $modernDarkThemeBase,
           map.merge($defaultsForDataEntryGrid, ())
         ),
-      sky-data-entry-grid-modern-dark-compact:
-        map.merge(
+      sky-data-entry-grid-modern-dark-compact: map.merge(
           $modernDarkThemeCompact,
           map.merge($defaultsForDataEntryGrid, ())
         ),
