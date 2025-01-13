@@ -3,6 +3,9 @@ import { SkyLogService } from '@skyux/core';
 
 import { SkyActionHubNeedsAttention } from '../action-hub/types/action-hub-needs-attention';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-needs-attention',
   templateUrl: './needs-attention.component.html',
@@ -22,6 +25,7 @@ export class SkyNeedsAttentionComponent {
       });
     }
   }
+
   public get items(): SkyActionHubNeedsAttention[] | undefined {
     return this.#items;
   }

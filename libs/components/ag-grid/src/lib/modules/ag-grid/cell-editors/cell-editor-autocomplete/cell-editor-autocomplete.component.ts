@@ -75,24 +75,29 @@ export class SkyAgGridCellEditorAutocompleteComponent
   }
 
   public afterGuiAttached(): void {
-    if (this.input) {
-      this.input.nativeElement.focus();
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
-        const charPress = this.#params?.eventKey as string;
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      if (this.input) {
+        this.input.nativeElement.focus();
+        if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
+          const charPress = this.#params?.eventKey as string;
 
-        this.input.nativeElement.select();
-        this.input.nativeElement.setRangeText(charPress);
-        // Ensure the cursor is at the end of the text.
-        this.input.nativeElement.setSelectionRange(
-          charPress.length,
-          charPress.length,
-        );
-        this.input.nativeElement.dispatchEvent(new Event('input'));
+          this.input.nativeElement.select();
+          this.input.nativeElement.setRangeText(charPress);
+          // Ensure the cursor is at the end of the text.
+          this.input.nativeElement.setSelectionRange(
+            charPress.length,
+            charPress.length,
+          );
+          this.input.nativeElement.dispatchEvent(new Event('input'));
+        }
+        if (
+          this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
+        ) {
+          this.input.nativeElement.select();
+        }
       }
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        this.input.nativeElement.select();
-      }
-    }
+    });
   }
 
   public getValue(): any | undefined {

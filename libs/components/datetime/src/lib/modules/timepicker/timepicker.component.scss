@@ -33,7 +33,8 @@
 }
 
 @include compatMixins.sky-modern-overrides('.sky-timepicker-container', false) {
-  --sky-override-timepicker-border: #{solid 1px $sky-border-color-neutral-medium};
+  --sky-override-timepicker-border: #{solid 1px
+    $sky-border-color-neutral-medium};
   --sky-override-timepicker-button-background-color: var(--modern-color-white);
   --sky-override-timepicker-button-padding-vertical: var(--modern-size-5);
   --sky-override-timepicker-button-selected-hover-border-color: var(
