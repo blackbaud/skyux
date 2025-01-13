@@ -11,7 +11,6 @@
   --sky-override-vertical-tabset-group-gap: #{$sky-margin-half};
   --sky-override-vertical-tabset-group-header-align-items: flex-start;
   --sky-override-vertical-tabset-group-header-background-color: transparent;
-  --sky-override-vertical-tabset-group-header-open-font-weight: 400;
   --sky-override-vertical-tabset-group-margin: #{$sky-margin-half} 0 #{$sky-margin-half}
     #{$sky-margin-half};
 }
@@ -21,11 +20,8 @@
   --sky-override-tabset-group-header-position: relative;
   --sky-override-vertical-tabset-button-disabled-font-color: buttontext;
   --sky-override-vertical-tabset-group-button-font-color: buttontext;
-  --sky-override-vertical-tabset-group-gap: #{$sky-theme-modern-space-md};
-  --sky-override-vertical-tabset-group-header-open-font-weight: var(
-    --modern-font-style-regular
-  );
-  --sky-override-vertical-tabset-group-margin: #{$sky-theme-modern-space-md} 0;
+  --sky-override-vertical-tabset-group-gap: var(--modern-size-15);
+  --sky-override-vertical-tabset-group-margin: var(--modern-size-15) 0;
 }
 
 .sky-vertical-tabset-group {
@@ -89,15 +85,6 @@
 
   &:has(.sky-vertical-tabset-button-disabled) {
     cursor: not-allowed;
-  }
-
-  &.sky-vertical-tabset-group-header-sub-open {
-    button {
-      font-weight: var(
-        --sky-override-vertical-tabset-group-header-open-font-weight,
-        var(--sky-font-weight-emphasized)
-      );
-    }
   }
 }
 

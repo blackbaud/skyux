@@ -35,15 +35,17 @@
 @include compatMixins.sky-modern-overrides('.sky-vertical-tab') {
   --sky-override-vertical-tab-background-color-disabled: transparent;
   --sky-override-vertical-tab-background-color-selected: transparent;
-  --sky-override-vertical-tab-border-left-active: 4px solid
+  --sky-override-vertical-tab-border-left-active: var(--modern-size-4) solid
     var(--modern-color-blue-50);
-  --sky-override-vertical-tab-border-left-hover: 1px solid
+  --sky-override-vertical-tab-border-left-hover: var(--modern-size-1) solid
     var(--modern-color-blue-50);
-  --sky-override-vertical-tab-gap: #{$sky-theme-modern-margin-inline-md};
-  --sky-override-vertical-tab-heading-error-padding-left: #{$sky-padding-half};
-  --sky-override-vertical-tab-margin: #{$sky-theme-modern-margin-inline-md} 0 #{$sky-theme-modern-margin-inline-md}
-    #{$sky-theme-modern-margin-inline-sm};
   --sky-override-vertical-tab-content-pane-margin-bottom: 0;
+  --sky-override-vertical-tab-gap: var(--modern-size-15);
+  --sky-override-vertical-tab-heading-error-padding-left: var(--modern-size-10);
+  --sky-override-vertical-tab-margin: var(--modern-size-15) 0
+    var(--modern-size-15) var(--modern-size-10);
+  --sky-override-vertical-tab-padding: var(--modern-size-10) 0
+    var(--modern-size-10) var(--modern-size-15);
 }
 
 :host {
