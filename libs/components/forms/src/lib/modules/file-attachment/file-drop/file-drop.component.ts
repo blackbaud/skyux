@@ -293,8 +293,8 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
     this.linkInputBlur.complete();
   }
 
-  public writeValue(value: any): void {
-    if (value instanceof Array) {
+  public writeValue(value: unknown): void {
+    if (Array.isArray(value)) {
       const linkUploads: SkyFileLink[] = [];
       const fileUploads: SkyFileItem[] = [];
 

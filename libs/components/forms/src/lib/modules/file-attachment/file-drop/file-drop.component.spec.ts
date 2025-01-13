@@ -1572,5 +1572,22 @@ describe('File drop reactive component', () => {
 
       expect(fixture.componentInstance.fileDrop.value.length).toBe(1);
     });
+
+    it('should not set the form control value before handle files is complete', async () => {
+      fixture.componentInstance.fileDrop.setValue([
+        {
+          file: new File([], 'foo.bar', { type: 'image/png' }),
+          url: 'foo.bar.bar',
+        },
+        {
+          file: undefined,
+          url: 'foo.bar.bar',
+        },
+      ]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.fileDrop.value.length).toBe(1);
+    });
   });
 });
