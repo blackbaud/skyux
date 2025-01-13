@@ -10,7 +10,8 @@
   --sky-override-file-attachment-control-label-font-size: 15px;
   --sky-override-file-attachment-delete-margin-left: 0;
   --sky-override-file-attachment-file-link-padding: 0 5px;
-  --sky-override-file-attachment-invalid-border: 1px solid #{$sky-highlight-color-danger};
+  --sky-override-file-attachment-invalid-border: 1px solid
+    #{$sky-highlight-color-danger};
   --sky-override-file-attachment-invalid-box-shadow: 0 0 8px
     rgba(239, 64, 68, 0.6);
   --sky-override-file-attachment-invalid-label-color: #{$sky-text-color-default};
@@ -33,8 +34,8 @@
 @include compatMixins.sky-modern-overrides('.sky-file-attachment-wrapper') {
   --sky-override-file-attachment-accept-border-radius: 5px;
   --sky-override-file-attachment-accept-border-width: 1px;
-  --sky-override-file-attachment-btn-non-stacked-margin: 0 #{$sky-theme-modern-space-sm}
-    0 0;
+  --sky-override-file-attachment-btn-non-stacked-margin: 0
+    #{$sky-theme-modern-space-sm} 0 0;
   --sky-override-file-attachment-control-label-color: #{$sky-theme-modern-font-deemphasized-color};
   --sky-override-file-attachment-control-label-font-size: 13px;
   --sky-override-file-attachment-delete-height: 40px;
@@ -47,7 +48,8 @@
   --sky-override-file-attachment-file-link-margin: #{$sky-theme-modern-space-sm}
     0 0 0;
   --sky-override-file-attachment-file-link-padding: 0;
-  --sky-override-file-attachment-invalid-border: 1px solid #{$sky-highlight-color-danger};
+  --sky-override-file-attachment-invalid-border: 1px solid
+    #{$sky-highlight-color-danger};
   --sky-override-file-attachment-invalid-box-shadow: 0 0 8px
     rgba(239, 64, 68, 0.6);
   --sky-override-file-attachment-invalid-label-color: #{$sky-theme-modern-font-deemphasized-color};
@@ -56,8 +58,8 @@
     )
     solid var(--sky-color-border-separator-dark);
   --sky-override-file-attachment-preview-img-box-shadow: none;
-  --sky-override-file-attachment-preview-img-margin: 0 #{$sky-theme-modern-space-sm}
-    0 0;
+  --sky-override-file-attachment-preview-img-margin: 0
+    #{$sky-theme-modern-space-sm} 0 0;
   --sky-override-file-attachment-reject-border-radius: 5px;
   --sky-override-file-attachment-reject-border-width: 1px;
   --sky-override-file-attachment-upload-with-icon-align-items: flex-start;

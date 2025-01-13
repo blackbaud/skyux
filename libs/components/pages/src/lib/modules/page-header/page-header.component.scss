@@ -23,6 +23,10 @@
     block-size: fit-content;
   }
 
+  &-parent-link-wrapper:has(a[hidden]) {
+    display: none;
+  }
+
   &-parent-link {
     color: $sky-text-color-action-primary;
   }

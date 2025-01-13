@@ -8,3 +8,7 @@ h2,
 li {
   margin: 0 0 var(--sky-margin-stacked-sm) 0;
 }
+
+ul.sky-link-list > li:has(> a[hidden]) {
+  display: none;
+}
