@@ -24,7 +24,8 @@
 
 @include compatMixins.sky-modern-overrides('.sky-file-item') {
   --sky-override-file-item-background-color: #{$sky-background-color-neutral-light};
-  --sky-override-file-item-border: var(--modern-size-1) solid #{$sky-border-color-neutral-light};
+  --sky-override-file-item-border: var(--modern-size-1) solid
+    #{$sky-border-color-neutral-light};
   --sky-override-file-item-border-radius: var(--modern-border-radius-0);
   --sky-override-file-item-gap: #{$sky-margin};
   --sky-override-file-item-margin-bottom: #{$sky-margin};
@@ -47,8 +48,8 @@
 }
 
 :host-context(
-    sky-file-drop.sky-form-field-stacked ~ sky-file-item:last-of-type
-  ) {
+  sky-file-drop.sky-form-field-stacked ~ sky-file-item:last-of-type
+) {
   .sky-file-item {
     margin-bottom: var(
       --sky-override-file-item-margin-bottom,

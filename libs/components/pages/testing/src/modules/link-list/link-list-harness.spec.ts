@@ -5,12 +5,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyLinkListModule, SkyPageLinksInput } from '@skyux/pages';
 
 import { SkyLinkListHarness } from './link-list-harness';
+import { SkyLinkListItemHarness } from './link-list-item-harness';
 
 //#region Test component
 @Component({
   standalone: true,
   selector: 'sky-link-list-test',
-  template: `<sky-link-list
+  template: ` <sky-link-list
     data-sky-id="test-list"
     [links]="inputLinks()"
     headingText="Heading Text"
@@ -25,6 +26,7 @@ class TestComponent {
   public readonly showLinks = input<boolean>(true);
   public readonly inputLinks = input<SkyPageLinksInput>();
 }
+
 //#endregion Test component
 
 describe('Link list harness', () => {
@@ -86,5 +88,36 @@ describe('Link list harness', () => {
 
     fixture.componentRef.setInput('showLinks', false);
     await expectAsync(harness.isVisible()).toBeResolvedTo(false);
+  });
+
+  it('should retrieve list items', async () => {
+    const { fixture, loader } = await setupTest();
+    fixture.componentRef.setInput('inputLinks', [
+      {
+        label: 'Test Link 1',
+        permalink: {
+          url: '#',
+        },
+      },
+      {
+        label: 'Test Link 2',
+        permalink: {
+          url: '#',
+        },
+      },
+    ]);
+    fixture.detectChanges();
+
+    const links = await loader.getAllHarnesses(SkyLinkListItemHarness);
+    expect(links).toHaveSize(2);
+    await expectAsync(
+      loader
+        .getHarness(
+          SkyLinkListItemHarness.with({
+            text: 'Test Link 2',
+          }),
+        )
+        .then((harness) => harness.getText()),
+    ).toBeResolvedTo('Test Link 2');
   });
 });
