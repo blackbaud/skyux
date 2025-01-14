@@ -2,6 +2,8 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyInputBoxHarness } from '../../input-box/input-box-harness';
 
+import { SkyFileDropLinkUploadInputHarness } from './file-drop-link-upload-input-harness';
+
 /**
  * Harness for interacting with a file drop upload link component in tests.
  * @internal
@@ -12,15 +14,15 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
    */
   public static hostSelector = '.sky-file-drop-link';
 
-  #input = this.locatorFor('input.sky-form-control');
+  #input = this.locatorFor(SkyFileDropLinkUploadInputHarness);
   #inputBoxHarness = this.locatorFor(SkyInputBoxHarness);
   #button = this.locatorFor('button.sky-btn-primary');
 
   /**
    * Gets the link upload aria-label.
    */
-  public async getAriaLabel(): Promise<string | undefined> {
-    return (await (await this.#input()).getAttribute('aria-label'))?.trim();
+  public async getAriaLabel(): Promise<string | null> {
+    return await (await this.#input()).getAriaLabel();
   }
 
   /**
@@ -28,6 +30,13 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
    */
   public async getHintText(): Promise<string | undefined> {
     return await (await this.#inputBoxHarness()).getHintText();
+  }
+
+  /**
+   * Gets the input harness for upload link.
+   */
+  public async getInput(): Promise<SkyFileDropLinkUploadInputHarness> {
+    return await this.#input();
   }
 
   /**
@@ -40,7 +49,10 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   /**
    * Clicks the `Done` button
    */
-  public async clickButton(): Promise<void> {
+  public async clickDoneButton(): Promise<void> {
+    if (await this.isDisabled()) {
+      throw new Error('Done button is disabled and cannot be clicked.');
+    }
     return await (await this.#button()).click();
   }
 
@@ -48,8 +60,6 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
    * Sets the input value.
    */
   public async enterLink(link: string): Promise<void> {
-    const input = await this.#input();
-    await input.clear();
-    await input.sendKeys(link);
+    return await (await this.#input()).setValue(link);
   }
 }

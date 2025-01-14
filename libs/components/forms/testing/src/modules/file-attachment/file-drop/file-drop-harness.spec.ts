@@ -206,36 +206,6 @@ fdescribe('File drop harness', () => {
     await expectAsync(harness.getLabelText()).toBeResolvedTo('File upload');
   });
 
-  it('should get upload link aria-label', async () => {
-    const { fixture, harness } = await setupTest();
-
-    fixture.componentInstance.linkUploadAriaLabel = 'upload aria-label';
-    fixture.detectChanges();
-
-    await expectAsync(harness.getUploadLinkAriaLabel()).toBeResolvedTo(
-      'upload aria-label',
-    );
-  });
-
-  it('should get the upload link hint text', async () => {
-    const { fixture, harness } = await setupTest();
-
-    fixture.componentInstance.linkUploadHintText = 'link hint text';
-    fixture.detectChanges();
-
-    await expectAsync(harness.getUploadLinkHintText()).toBeResolvedTo(
-      'link hint text',
-    );
-  });
-
-  it('should throw an error clicking a disabled upload link button', async () => {
-    const { harness } = await setupTest();
-
-    await expectAsync(
-      harness.clickUploadLinkDoneButton(),
-    ).toBeRejectedWithError('Done button is disabled and cannot be clicked.');
-  });
-
   it('should load a file', async () => {
     const { fixture, harness } = await setupTest();
 
@@ -283,7 +253,7 @@ fdescribe('File drop harness', () => {
     await expectAsync(harness.isStacked()).toBeResolvedTo(true);
   });
 
-  fit('should get whether file type error has fired', async () => {
+  it('should get whether required error has fired', async () => {
     const { fixture, harness } = await setupTest();
 
     fixture.componentInstance.acceptedTypes = 'image/png';
@@ -294,5 +264,50 @@ fdescribe('File drop harness', () => {
     ]);
 
     await expectAsync(harness.hasFileTypeError()).toBeResolvedTo(true);
+  });
+
+  it('should get whether file type error has fired', async () => {
+    const { fixture, harness } = await setupTest();
+
+    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.detectChanges();
+
+    await harness.loadFile([
+      new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
+    ]);
+
+    await expectAsync(harness.hasFileTypeError()).toBeResolvedTo(true);
+  });
+
+  describe('upload link harness', () => {
+    it('should get upload link aria-label', async () => {
+      const { fixture, harness } = await setupTest();
+
+      fixture.componentInstance.linkUploadAriaLabel = 'upload aria-label';
+      fixture.detectChanges();
+
+      await expectAsync(
+        (await harness.getUploadLink()).getAriaLabel(),
+      ).toBeResolvedTo('upload aria-label');
+    });
+
+    it('should get the upload link hint text', async () => {
+      const { fixture, harness } = await setupTest();
+
+      fixture.componentInstance.linkUploadHintText = 'link hint text';
+      fixture.detectChanges();
+
+      await expectAsync(
+        (await harness.getUploadLink()).getHintText(),
+      ).toBeResolvedTo('link hint text');
+    });
+
+    it('should throw an error clicking a disabled upload link button', async () => {
+      const { harness } = await setupTest();
+
+      await expectAsync(
+        (await harness.getUploadLink()).clickDoneButton(),
+      ).toBeRejectedWithError('Done button is disabled and cannot be clicked.');
+    });
   });
 });

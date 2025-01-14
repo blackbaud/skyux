@@ -20,7 +20,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   #input = this.locatorFor('input[type="file"]');
   #fileUploadButton = this.locatorFor('button.sky-file-drop-target');
   #label = this.locatorFor('.sky-file-drop-label-text');
-  #formErrors = this.locatorFor(SkyFormErrorsHarness);
+  #formErrors = this.locatorForAll(SkyFormErrorsHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -93,45 +93,21 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the upload link aria-label.
+   * Gets the upload link harness.
    */
-  public async getUploadLinkAriaLabel(): Promise<string | undefined> {
-    return await (await this.#getLinkUpload()).getAriaLabel();
-  }
-
-  /**
-   * Gets the upload link hint text.
-   */
-  public async getUploadLinkHintText(): Promise<string | undefined> {
-    return await (await this.#getLinkUpload()).getHintText();
-  }
-
-  /**
-   * Clicks the upload link `done` button.
-   */
-  public async clickUploadLinkDoneButton(): Promise<void> {
-    if (await (await this.#getLinkUpload()).isDisabled()) {
-      throw new Error('Done button is disabled and cannot be clicked.');
-    }
-    return await (await this.#getLinkUpload()).clickButton();
-  }
-
-  /**
-   * Enters a link to upload.
-   */
-  public async enterLink(link: string): Promise<void> {
-    return await (await this.#getLinkUpload()).enterLink(link);
+  public async getUploadLink(): Promise<SkyFileDropLinkUploadHarness> {
+    return await this.#getLinkUpload();
   }
 
   /**
    * Uploads a link.
    */
   public async uploadLink(link: string): Promise<void> {
-    await this.enterLink(link);
-    await this.clickUploadLinkDoneButton();
+    await (await this.getUploadLink()).enterLink(link);
+    await (await this.getUploadLink()).clickDoneButton();
   }
 
-  /**
+  /**ß
    * Whether label text is hidden.
    */
   public async isLabelHidden(): Promise<boolean> {
@@ -158,36 +134,35 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    * Whether the required error has fired.
    */
   public async hasRequiredError(): Promise<boolean> {
-    return await (await this.#formErrors()).hasError('required');
+    return await (await this.#getFormErrors()).hasError('required');
   }
 
   /**
    * Whether the file type error has fired.
    */
   public async hasFileTypeError(): Promise<boolean> {
-    console.log(await (await this.#formErrors()).getFormErrors());
-    return await (await this.#formErrors()).hasError('fileType');
+    return await (await this.#getFormErrors()).hasError('fileType');
   }
 
   /**
    * Whether the max file size error has fired.
    */
   public async hasMaxFileSizeError(): Promise<boolean> {
-    return await (await this.#formErrors()).hasError('maxFileSize');
+    return await (await this.#getFormErrors()).hasError('maxFileSize');
   }
 
   /**
    * Whether the min file size error has fired.
    */
   public async hasMinFileSizeError(): Promise<boolean> {
-    return await (await this.#formErrors()).hasError('minFileSize');
+    return await (await this.#getFormErrors()).hasError('minFileSize');
   }
 
   /**
    * Whether the custom validation error has fired.
    */
   public async hasCustomValidationError(): Promise<boolean> {
-    return await (await this.#formErrors()).hasError('validate');
+    return await (await this.#getFormErrors()).hasError('validate');
   }
 
   /**
@@ -222,6 +197,10 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     await dropTarget.dispatchEvent('drop', {
       dataTransfer,
     });
+  }
+
+  async #getFormErrors(): Promise<SkyFormErrorsHarness> {
+    return (await this.#formErrors())[1];
   }
 
   async #getHelpInline(): Promise<SkyHelpInlineHarness> {
