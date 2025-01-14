@@ -1,15 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { SkyFileDropModule, SkyFileItem, SkyFileLink } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
+
+/**
+ * Demonstrates how to create a custom validator function for your form control.
+ */
+function customValidator(
+  control: AbstractControl<(SkyFileItem | SkyFileLink)[] | null | undefined>,
+): ValidationErrors | null {
+  if (control.value !== undefined && control.value !== null) {
+    if (control.value.length > 3) {
+      return { maxNumberOfFilesReached: true };
+    }
+  }
+  return null;
+}
 
 @Component({
   standalone: true,
@@ -36,7 +52,7 @@ export class DemoComponent {
 
   protected fileDrop = new FormControl<
     (SkyFileItem | SkyFileLink)[] | null | undefined
-  >(undefined, Validators.required);
+  >(undefined, [Validators.required, customValidator]);
   protected formGroup: FormGroup = inject(FormBuilder).group({
     fileDrop: this.fileDrop,
   });

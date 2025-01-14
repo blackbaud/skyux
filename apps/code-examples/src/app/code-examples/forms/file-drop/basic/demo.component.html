@@ -10,7 +10,14 @@
     [maxFileSize]="maxFileSize"
     [stacked]="stacked"
     [validateFn]="validateFile"
-  />
+  >
+    @if (fileDrop.errors?.['maxNumberOfFilesReached']) {
+      <sky-form-error
+        errorName="maxNumberOfFilesReached"
+        errorText="Do not upload more than 3 files."
+      />
+    }
+  </sky-file-drop>
 </form>
 
 @for (file of fileDrop.value; track file) {
