@@ -21,3 +21,7 @@
 @include create_gutters_modern(small);
 @include create_gutters_modern(medium);
 @include create_gutters_modern(large);
+
+:host {
+  display: block;
+}

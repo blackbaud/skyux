@@ -1,103 +1,83 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
   ViewEncapsulation,
+  computed,
+  input,
+  numberAttribute,
 } from '@angular/core';
+
+import { SkyFluidGridColumnSize } from './types/fluid-grid-column-size';
 
 /**
  * Displays a column within a row of the fluid grid.
  */
 @Component({
-  selector: 'sky-column',
-  templateUrl: './column.component.html',
-  styleUrls: ['./column.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  host: {
+    '[class]': 'classnames()',
+  },
+  selector: 'sky-column',
+  template: '<ng-content />',
+  styleUrl: './column.component.scss',
 })
-export class SkyColumnComponent implements OnInit, OnChanges {
+export class SkyColumnComponent {
   /**
-   * The number of columns (1-12) on extra-small screens
-   * (less than 768px). If you do not specify a value, the fluid grid displays
-   * the column at the full width of the screen.
-   * @default 12
+   * The number of columns (1-12) on extra-small screens (less than 768px). If
+   * you do not specify a value, the fluid grid displays the column at the full
+   * width of the screen.
    */
-  @Input()
-  public set screenXSmall(value: number | undefined) {
-    this.#_screenXSmall = value ?? 12;
-  }
-
-  public get screenXSmall(): number {
-    return this.#_screenXSmall;
-  }
+  public screenXSmall = input<SkyFluidGridColumnSize, unknown>(12, {
+    transform: (value) => numberAttribute(value, 12) as SkyFluidGridColumnSize,
+  });
 
   /**
    * The number of columns (1-12) on small screens
    * (768-991px). If you do not specify a value, the column inherits
    * the `screenXSmall` value.
    */
-  @Input()
-  public screenSmall: number | undefined;
+  public screenSmall = input<SkyFluidGridColumnSize | undefined>();
 
   /**
    * The number of columns (1-12) on medium screens
    * (992-1199px). If you do not specify a value, the column inherits
    * the `screenSmall` value.
    */
-  @Input()
-  public screenMedium: number | undefined;
+
+  public screenMedium = input<SkyFluidGridColumnSize | undefined>();
 
   /**
    * The number of columns (1-12) on large screens
    * (more than 1200px). If you do not specify a value, the column
    * inherits the `screenMedium` value.
    */
-  @Input()
-  public screenLarge: number | undefined;
+  public screenLarge = input<SkyFluidGridColumnSize | undefined>();
 
-  @HostBinding('class')
-  public classnames: string | undefined;
-
-  #_screenXSmall = 12;
-
-  public ngOnChanges(changes: SimpleChanges) {
-    /* istanbul ignore else */
-    if (
-      changes['screenXSmall'] ||
-      changes['screenSmall'] ||
-      changes['screenMedium'] ||
-      changes['screenLarge']
-    ) {
-      this.classnames = this.getClassNames();
-    }
-  }
-
-  public getClassNames(): string {
+  protected classnames = computed(() => {
     const classnames = ['sky-column'];
 
-    if (this.screenXSmall) {
-      classnames.push(`sky-column-xs-${this.screenXSmall}`);
+    const screenXSmall = this.screenXSmall();
+    const screenSmall = this.screenSmall();
+    const screenMedium = this.screenMedium();
+    const screenLarge = this.screenLarge();
+
+    if (screenXSmall) {
+      classnames.push(`sky-column-xs-${screenXSmall}`);
     }
 
-    if (this.screenSmall) {
-      classnames.push(`sky-column-sm-${this.screenSmall}`);
+    if (screenSmall) {
+      classnames.push(`sky-column-sm-${screenSmall}`);
     }
 
-    if (this.screenMedium) {
-      classnames.push(`sky-column-md-${this.screenMedium}`);
+    if (screenMedium) {
+      classnames.push(`sky-column-md-${screenMedium}`);
     }
 
-    if (this.screenLarge) {
-      classnames.push(`sky-column-lg-${this.screenLarge}`);
+    if (screenLarge) {
+      classnames.push(`sky-column-lg-${screenLarge}`);
     }
 
     return classnames.join(' ');
-  }
-
-  public ngOnInit(): void {
-    this.classnames = this.getClassNames();
-  }
+  });
 }

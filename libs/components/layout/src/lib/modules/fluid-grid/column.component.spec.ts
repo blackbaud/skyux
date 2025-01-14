@@ -11,7 +11,8 @@ describe('SkyColumnComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyColumnComponent, ColumnTestComponent],
+      imports: [SkyColumnComponent],
+      declarations: [ColumnTestComponent],
     });
 
     fixture = TestBed.createComponent(ColumnTestComponent);

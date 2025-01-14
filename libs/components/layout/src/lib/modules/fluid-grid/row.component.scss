@@ -2,7 +2,7 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'scss/variables' as *;
 
-.sky-row {
+:host {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

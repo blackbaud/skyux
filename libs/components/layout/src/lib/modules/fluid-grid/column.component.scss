@@ -26,6 +26,10 @@
   }
 }
 
+sky-column {
+  display: block;
+}
+
 sky-column.sky-column {
   padding-right: map-get($gutter-sizes, large);
   padding-left: map-get($gutter-sizes, large);
