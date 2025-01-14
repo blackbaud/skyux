@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, contentChildren, input } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 import { SkyPageLink } from '../action-hub/types/page-link';
 import { SkyPageLinksInput } from '../action-hub/types/page-links-input';
@@ -23,6 +24,7 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
     SkyHrefModule,
     SkyWaitModule,
   ],
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyLinkListComponent {
   /**

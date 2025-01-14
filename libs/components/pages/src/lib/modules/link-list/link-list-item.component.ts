@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * A wrapper for each link in a link list.
@@ -7,14 +8,10 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'sky-link-list-item',
   template: `<ng-content />`,
-  styles: `
-    :host {
-      display: block;
-      margin: 0 0 var(--sky-margin-stacked-sm) 0;
-    }
-  `,
+  styleUrl: './link-list-item.component.scss',
   host: {
     '[attr.role]': '"listitem"',
   },
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyLinkListItemComponent {}
