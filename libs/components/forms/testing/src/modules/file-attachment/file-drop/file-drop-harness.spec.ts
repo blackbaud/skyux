@@ -91,7 +91,7 @@ class TestComponent {
   }
 }
 
-fdescribe('File drop harness', () => {
+describe('File drop harness', () => {
   async function setupTest(): Promise<{
     harness: SkyFileDropHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -117,7 +117,7 @@ fdescribe('File drop harness', () => {
 
     const testFile = new File([], 'test.png');
 
-    await harness.dropFile(testFile);
+    await harness.dropFiles([testFile]);
 
     expect(fixture.componentInstance.fileDrop.value).toEqual([
       {
@@ -273,7 +273,7 @@ fdescribe('File drop harness', () => {
     fixture.componentInstance.acceptedTypes = 'image/png';
     fixture.detectChanges();
 
-    await harness.loadFile([
+    await harness.uploadFiles([
       new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
     ]);
 
@@ -286,7 +286,7 @@ fdescribe('File drop harness', () => {
     fixture.componentInstance.maxFileSize = -1;
     fixture.detectChanges();
 
-    await harness.loadFile([
+    await harness.uploadFiles([
       new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
     ]);
 
@@ -299,7 +299,7 @@ fdescribe('File drop harness', () => {
     fixture.componentInstance.minFileSize = 1000;
     fixture.detectChanges();
 
-    await harness.loadFile([
+    await harness.uploadFiles([
       new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
     ]);
 
@@ -318,7 +318,7 @@ fdescribe('File drop harness', () => {
     };
     fixture.detectChanges();
 
-    await harness.loadFile([
+    await harness.uploadFiles([
       new File([], 'aWrongFile.jpg', { type: 'image/jpg' }),
     ]);
 

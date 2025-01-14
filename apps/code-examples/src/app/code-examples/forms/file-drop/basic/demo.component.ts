@@ -41,19 +41,17 @@ function customValidator(
 })
 export class DemoComponent {
   protected acceptedTypes = 'image/png,image/jpeg';
-  protected allItems: (SkyFileItem | SkyFileLink)[] = [];
-  protected hintText = '5 MB maximum';
   protected inlineHelpContent =
     'Your logo appears in places such as authentication pages, student and parent portals, and extracurricular home pages.';
+  protected hintText = 'Upload up to 3 files under 50MB.';
   protected labelText = 'Logo image';
   protected maxFileSize = 5242880;
-  protected rejectedFiles: SkyFileItem[] = [];
   protected stacked = 'true';
 
-  protected fileDrop = new FormControl<
+  public fileDrop = new FormControl<
     (SkyFileItem | SkyFileLink)[] | null | undefined
   >(undefined, [Validators.required, customValidator]);
-  protected formGroup: FormGroup = inject(FormBuilder).group({
+  public formGroup: FormGroup = inject(FormBuilder).group({
     fileDrop: this.fileDrop,
   });
 
@@ -62,7 +60,13 @@ export class DemoComponent {
 
     if (index !== undefined && index !== -1) {
       this.fileDrop.value?.splice(index, 1);
+      /*
+        If you are adding custom validation through the form control,
+        be sure to include this line after deleting a file from the form.
+      */
+      this.fileDrop.updateValueAndValidity();
     }
+    // To ensure that empty arrays throw required errors, include this check.
     if (this.fileDrop.value?.length === 0) {
       this.fileDrop.setValue(null);
     }
