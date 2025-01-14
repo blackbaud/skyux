@@ -159,10 +159,17 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether the custom validation error has fired.
+   * Whether the validate error from the customer validation has fired.
    */
-  public async hasCustomValidationError(): Promise<boolean> {
+  public async hasValidateFnError(): Promise<boolean> {
     return await (await this.#getFormErrors()).hasError('validate');
+  }
+
+  /**
+   * Whether a custom form error has fired.
+   */
+  public async hasCustomError(errorName: string): Promise<boolean> {
+    return await (await this.#getFormErrors()).hasError(errorName);
   }
 
   /**

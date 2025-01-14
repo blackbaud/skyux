@@ -202,6 +202,7 @@
   [dirty]="ngControl?.dirty"
   [errors]="ngControl?.errors"
 >
+  <ng-content select="sky-form-error" />
   @for (rejectedFile of rejectedFiles; track rejectedFile) {
     <div>
       @if (rejectedFile.errorType === 'fileType') {
