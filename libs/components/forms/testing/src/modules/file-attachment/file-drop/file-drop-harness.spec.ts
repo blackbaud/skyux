@@ -1,45 +1,50 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideSkyFileReaderTesting } from '@skyux/core/testing';
 import {
-  SkyFileDropChange,
   SkyFileDropModule,
   SkyFileItem,
   SkyFileLink,
   SkyFileValidateFn,
 } from '@skyux/forms';
 
-import { ReplaySubject, firstValueFrom } from 'rxjs';
-
 import { SkyFileDropHarness } from './file-drop-harness';
 
 @Component({
   standalone: true,
-  imports: [SkyFileDropModule],
+  imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule],
   template: `
-    <sky-file-drop
-      data-sky-id="test-file-drop"
-      [acceptedTypes]="acceptedTypes"
-      [allowLinks]="allowLinks"
-      [fileUploadAriaLabel]="fileUploadAriaLabel"
-      [helpPopoverContent]="helpPopoverContent"
-      [helpPopoverTitle]="helpPopoverTitle"
-      [hintText]="hintText"
-      [labelHidden]="labelHidden"
-      [labelText]="labelText"
-      [linkUploadAriaLabel]="linkUploadAriaLabel"
-      [linkUploadHintText]="linkUploadHintText"
-      [maxFileSize]="maxFileSize"
-      [minFileSize]="minFileSize"
-      [required]="required"
-      [stacked]="stacked"
-      [validateFn]="validateFunction"
-      (filesChanged)="onFilesChanged($event)"
-      (linkChanged)="onLinkChanged($event)"
-    />
-    @for (file of allItems; track file) {
+    <form [formGroup]="formGroup">
+      <sky-file-drop
+        data-sky-id="test-file-drop"
+        formControlName="fileDrop"
+        [acceptedTypes]="acceptedTypes"
+        [allowLinks]="allowLinks"
+        [fileUploadAriaLabel]="fileUploadAriaLabel"
+        [helpPopoverContent]="helpPopoverContent"
+        [helpPopoverTitle]="helpPopoverTitle"
+        [hintText]="hintText"
+        [labelHidden]="labelHidden"
+        [labelText]="labelText"
+        [linkUploadAriaLabel]="linkUploadAriaLabel"
+        [linkUploadHintText]="linkUploadHintText"
+        [maxFileSize]="maxFileSize"
+        [minFileSize]="minFileSize"
+        [required]="required"
+        [stacked]="stacked"
+        [validateFn]="validateFunction"
+      />
+    </form>
+    @for (file of fileDrop.value; track file) {
       <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
     }
   `,
@@ -49,7 +54,6 @@ class TestComponent {
   public allItems: (SkyFileItem | SkyFileLink)[] = [];
   public allowLinks = true;
   public fileUploadAriaLabel: string | undefined;
-  public filesChanged = new ReplaySubject<SkyFileDropChange | SkyFileLink>(1);
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public hintText: string | undefined;
@@ -63,21 +67,18 @@ class TestComponent {
   public stacked = false;
   public validateFunction: SkyFileValidateFn | undefined;
 
-  public onFilesChanged(event: SkyFileDropChange): void {
-    this.allItems = this.allItems.concat(event.files);
-    this.filesChanged.next(event);
-  }
-
-  public onLinkChanged(event: SkyFileDropChange): void {
-    this.onFilesChanged(event);
-  }
+  public fileDrop: FormControl = new FormControl(undefined);
+  public formGroup: FormGroup = inject(FormBuilder).group({
+    fileDrop: this.fileDrop,
+  });
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
-    if (file) {
-      const index = this.allItems.indexOf(file);
-      if (index !== -1) {
-        this.allItems.splice(index, 1);
-      }
+    const index = this.fileDrop.value.indexOf(file);
+    if (index !== -1) {
+      this.fileDrop.value?.splice(index, 1);
+    }
+    if (this.fileDrop.value.length === 0) {
+      this.fileDrop.setValue(null);
     }
   }
 }
@@ -108,21 +109,14 @@ fdescribe('File drop harness', () => {
 
     const testFile = new File([], 'test.png');
 
-    const changedFiles = firstValueFrom(fixture.componentInstance.filesChanged);
-
     await harness.dropFile(testFile);
 
-    const files = await changedFiles;
-
-    expect(files).toEqual({
-      files: [
-        {
-          file: testFile,
-          url: jasmine.any(String),
-        },
-      ],
-      rejectedFiles: [],
-    });
+    expect(fixture.componentInstance.fileDrop.value).toEqual([
+      {
+        file: testFile,
+        url: jasmine.any(String),
+      },
+    ]);
   });
 
   it('should get accepted types', async () => {
@@ -209,15 +203,13 @@ fdescribe('File drop harness', () => {
   it('should load a file', async () => {
     const { fixture, harness } = await setupTest();
 
-    const changedFiles = firstValueFrom(fixture.componentInstance.filesChanged);
-
     await harness.uploadLink('foo.bar');
 
-    const files = await changedFiles;
-
-    expect(files).toEqual({
-      url: 'foo.bar',
-    });
+    expect(fixture.componentInstance.fileDrop.value).toEqual([
+      {
+        url: 'foo.bar',
+      },
+    ]);
   });
 
   it('should get whether the label is hidden', async () => {
@@ -256,14 +248,15 @@ fdescribe('File drop harness', () => {
   it('should get whether required error has fired', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.componentInstance.required = true;
     fixture.detectChanges();
 
-    await harness.loadFile([
-      new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
-    ]);
+    const input = await (await harness.getUploadLink()).getInput();
 
-    await expectAsync(harness.hasFileTypeError()).toBeResolvedTo(true);
+    await input.focus();
+    await input.blur();
+
+    await expectAsync(harness.hasRequiredError()).toBeResolvedTo(true);
   });
 
   it('should get whether file type error has fired', async () => {

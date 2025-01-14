@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -14,7 +13,7 @@ import { SkyFileDropModule } from '../file-drop.module';
 import { SkyFileLink } from '../file-link';
 
 @Component({
-  imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule],
   selector: 'sky-file-drop-reactive-test',
   standalone: true,
   templateUrl: './reactive-file-drop.component.fixture.html',
