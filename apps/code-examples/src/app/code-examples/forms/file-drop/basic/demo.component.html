@@ -1,17 +1,18 @@
-<sky-file-drop
-  linkUploadHintText="Start with http:// or https://"
-  [acceptedTypes]="acceptedTypes"
-  [allowLinks]="true"
-  [hintText]="hintText"
-  [helpPopoverContent]="inlineHelpContent"
-  [labelText]="labelText"
-  [maxFileSize]="maxFileSize"
-  [required]="required"
-  [stacked]="stacked"
-  [validateFn]="validateFile"
-  (filesChanged)="onFilesChanged($event)"
-  (linkChanged)="onLinkChanged($event)"
-/>
-@for (file of allItems; track file) {
+<form [formGroup]="formGroup">
+  <sky-file-drop
+    linkUploadHintText="Start with http:// or https://"
+    formControlName="fileDrop"
+    [acceptedTypes]="acceptedTypes"
+    [allowLinks]="true"
+    [hintText]="hintText"
+    [helpPopoverContent]="inlineHelpContent"
+    [labelText]="labelText"
+    [maxFileSize]="maxFileSize"
+    [stacked]="stacked"
+    [validateFn]="validateFile"
+  />
+</form>
+
+@for (file of fileDrop.value; track file) {
   <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
 }
