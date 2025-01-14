@@ -9,11 +9,11 @@
       <span
         class="sky-file-drop-label-text"
         [ngClass]="{
-          'sky-control-label-required': required
+          'sky-control-label-required': isRequired
         }"
         >{{ labelText }}</span
       >
-      @if (required) {
+      @if (isRequired) {
         <span class="sky-screen-reader-only">{{
           'skyux_file_attachment_required' | skyLibResources
         }}</span>
@@ -195,7 +195,13 @@
     }
   </div>
 </fieldset>
-<sky-form-errors [id]="errorId" [labelText]="labelText" [touched]="touched">
+<sky-form-errors
+  [id]="errorId"
+  [labelText]="labelText"
+  [touched]="ngControl ? ngControl.touched : rejectedFiles.length > 0"
+  [dirty]="ngControl?.dirty"
+  [errors]="ngControl?.errors"
+>
   @for (rejectedFile of rejectedFiles; track rejectedFile) {
     <div>
       @if (rejectedFile.errorType === 'fileType') {

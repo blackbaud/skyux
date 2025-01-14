@@ -1,17 +1,11 @@
 import { Component, inject } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  SkyFileAttachmentChange,
-  SkyFileDropChange,
-  SkyFileItem,
-  SkyFileLink,
-} from '@skyux/forms';
+import { SkyFileItem, SkyFileLink } from '@skyux/forms';
 
 @Component({
   selector: 'app-file-attachment-demo',
@@ -22,28 +16,15 @@ export class FileAttachmentComponent {
 
   public allItems: (SkyFileItem | SkyFileLink)[];
 
-  public filesToUpload: SkyFileItem[];
-
-  public linksToUpload: SkyFileLink[];
-
   public maxFileSize = 4000000;
   public minFileSize = 300000;
 
-  public rejectedFiles: SkyFileItem[];
-
-  protected attachment: FormControl<SkyFileItem>;
+  protected attachment: FormControl<any>;
   protected formGroup: FormGroup;
   protected required = true;
 
-  get #reactiveFile(): AbstractControl | null {
-    return this.formGroup.get('attachment');
-  }
-
   constructor() {
-    this.filesToUpload = [];
-    this.rejectedFiles = [];
     this.allItems = [];
-    this.linksToUpload = [];
     this.attachment = new FormControl(undefined, Validators.required);
     this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
@@ -51,20 +32,13 @@ export class FileAttachmentComponent {
   }
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
-    this.#removeFromArray(this.allItems, file);
-    this.#removeFromArray(this.filesToUpload, file);
-    this.#removeFromArray(this.linksToUpload, file);
-  }
-
-  public filesUpdated(result: SkyFileDropChange): void {
-    this.filesToUpload = this.filesToUpload.concat(result.files);
-    this.rejectedFiles = result.rejectedFiles;
-    this.allItems = this.allItems.concat(result.files);
-  }
-
-  public linkAdded(result: SkyFileLink): void {
-    this.linksToUpload = this.linksToUpload.concat(result);
-    this.allItems = this.allItems.concat(result);
+    const index = this.attachment.value.indexOf(file);
+    if (index !== -1) {
+      this.attachment.value.splice(index, 1);
+    }
+    if (this.attachment.value.length === 0) {
+      this.attachment.setValue(null);
+    }
   }
 
   public validateFile(file: SkyFileItem): string {
@@ -73,23 +47,28 @@ export class FileAttachmentComponent {
     }
   }
 
-  protected onFileChange(result: SkyFileAttachmentChange): void {
-    const file = result.file;
-
-    if (file && file.errorType) {
-      this.#reactiveFile?.setValue(undefined);
-    } else {
-      this.#reactiveFile?.setValue(file);
-    }
+  public markTouched(): void {
+    this.attachment.markAsTouched();
   }
 
-  #removeFromArray(items: any[], obj: SkyFileItem | SkyFileLink): void {
-    if (items) {
-      const index = items.indexOf(obj);
+  public setFiles(): void {
+    this.attachment.setValue([
+      {
+        file: new File([], 'foo.bar', { type: 'image/png' }),
+        url: 'foo.bar.bar',
+      },
+      {
+        url: 'foo.bar.bar',
+      },
+      {
+        file: undefined,
+        url: 'foo.foo',
+      },
 
-      if (index !== -1) {
-        items.splice(index, 1);
-      }
-    }
+      {
+        file: new File([], 'foo.bar', { type: 'image/png' }),
+        url: 'foo.bar.bar',
+      },
+    ]);
   }
 }

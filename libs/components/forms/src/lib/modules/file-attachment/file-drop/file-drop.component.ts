@@ -12,7 +12,12 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NgControl,
+  Validators,
+} from '@angular/forms';
 import {
   SkyFileReaderService,
   SkyIdModule,
@@ -75,7 +80,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyThemeModule,
   ],
 })
-export class SkyFileDropComponent implements OnDestroy {
+export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   /**
    * Fires when users add or remove files.
    */
@@ -259,6 +264,12 @@ export class SkyFileDropComponent implements OnDestroy {
   #_minFileSize = MIN_FILE_SIZE_DEFAULT;
   protected touched = false;
 
+  #notifyTouched: (() => void) | undefined;
+  #notifyChange:
+    | ((_: (SkyFileItem | SkyFileLink)[] | undefined | null) => void)
+    | undefined;
+  #_uploadedFiles: (SkyFileItem | SkyFileLink)[] = [];
+
   readonly #fileAttachmentService = inject(SkyFileAttachmentService);
   readonly #fileReaderSvc = inject(SkyFileReaderService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
@@ -266,7 +277,16 @@ export class SkyFileDropComponent implements OnDestroy {
   readonly #idSvc = inject(SkyIdService);
 
   protected errorId = this.#idSvc.generateId();
+
+  protected ngControl = inject(NgControl, { optional: true });
+
   protected rejectedFiles: SkyFileItem[] = [];
+
+  constructor() {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
 
   public ngOnDestroy(): void {
     this.filesChanged.complete();
@@ -274,8 +294,54 @@ export class SkyFileDropComponent implements OnDestroy {
     this.linkInputBlur.complete();
   }
 
+  public writeValue(value: unknown): void {
+    if (Array.isArray(value)) {
+      const linkUploads: SkyFileLink[] = [];
+      const fileUploads: SkyFileItem[] = [];
+
+      value.forEach((file) => {
+        if ('url' in file && file.url !== undefined) {
+          if (!('file' in file)) {
+            linkUploads.push(file);
+          } else if ('file' in file && file.file !== undefined) {
+            fileUploads.push(file);
+          }
+        }
+      });
+
+      if (!(linkUploads.length > 0) && !(fileUploads.length > 0)) {
+        this.#notifyChange?.(null);
+      } else {
+        this.#_uploadedFiles = [];
+
+        if (linkUploads.length > 0) {
+          linkUploads.forEach((file) => {
+            this.uploadLink(file);
+          });
+        }
+        if (fileUploads.length > 0) {
+          // this prevents FormControl from setting an invalid value before the async
+          // processes in #handleFile is complete
+          this.#notifyChange?.(null);
+          this.#handleFiles(fileUploads);
+        }
+      }
+    } else {
+      this.#notifyChange?.(null);
+    }
+  }
+
+  public registerOnChange(fn: any): void {
+    this.#notifyChange = fn;
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.#notifyTouched = fn;
+  }
+
   public dropClicked(): void {
     if (!this.noClick && this.inputEl) {
+      this.#notifyTouched?.();
       this.inputEl.nativeElement.click();
     }
   }
@@ -336,6 +402,8 @@ export class SkyFileDropComponent implements OnDestroy {
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
+    this.#notifyTouched?.();
+
     this.#enterEventTarget = undefined;
     this.rejectedOver = false;
     this.acceptedOver = false;
@@ -370,17 +438,31 @@ export class SkyFileDropComponent implements OnDestroy {
 
   public addLink(event: Event): void {
     event.preventDefault();
-    this.linkChanged.emit({ url: this.linkUrl } as SkyFileLink);
+    this.uploadLink({ url: this.linkUrl } as SkyFileLink);
+    this.linkUrl = undefined;
+    this.#notifyTouched?.();
+  }
+
+  protected uploadLink(file: SkyFileLink): void {
+    this.linkChanged.emit(file);
+    this.#_uploadedFiles?.push(file);
+    this.#notifyChange?.(this.#_uploadedFiles);
     this.#announceState(
       'skyux_file_attachment_file_upload_link_added',
-      this.linkUrl,
+      file.url,
     );
-    this.linkUrl = undefined;
   }
 
   public onLinkBlur(): void {
-    this.touched = true;
+    this.#notifyTouched?.();
     this.linkInputBlur.emit();
+  }
+
+  protected get isRequired(): boolean {
+    return (
+      this.required ||
+      (this.ngControl?.control?.hasValidator(Validators.required) ?? false)
+    );
   }
 
   #announceState(resourceString: string, ...args: any[]): void {
@@ -416,6 +498,9 @@ export class SkyFileDropComponent implements OnDestroy {
     totalFiles: number,
   ): void {
     rejectedFileArray.push(file);
+    this.#notifyChange?.(
+      this.#_uploadedFiles.length > 0 ? this.#_uploadedFiles : null,
+    );
     this.#emitFileChangeEvent(totalFiles, rejectedFileArray, validFileArray);
   }
 
@@ -439,6 +524,8 @@ export class SkyFileDropComponent implements OnDestroy {
         'skyux_file_attachment_file_upload_file_added',
         file.file.name,
       );
+      this.#_uploadedFiles?.push(file);
+      this.#notifyChange?.(this.#_uploadedFiles);
     } catch {
       fileDrop.#filesRejected(
         file,
@@ -449,11 +536,23 @@ export class SkyFileDropComponent implements OnDestroy {
     }
   }
 
-  #handleFiles(files?: FileList | null): void {
-    if (files) {
+  #handleFiles(fileList?: FileList | null | SkyFileItem[]): void {
+    if (fileList) {
       const validFileArray: SkyFileItem[] = [];
       const rejectedFileArray: SkyFileItem[] = [];
-      const totalFiles = files.length;
+      const totalFiles = fileList.length;
+
+      let files: SkyFileItem[] = [];
+
+      if ('item' in fileList) {
+        for (let index = 0; index < fileList.length; index++) {
+          files.push({
+            file: fileList.item(index),
+          } as SkyFileItem);
+        }
+      } else {
+        files = fileList;
+      }
 
       const processedFiles = this.#fileAttachmentService.checkFiles(
         files,
