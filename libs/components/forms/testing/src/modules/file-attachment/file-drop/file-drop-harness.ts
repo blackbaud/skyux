@@ -33,20 +33,6 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the accepted file types.
-   */
-  public async getAcceptedTypes(): Promise<string | null> {
-    return await (await this.#input()).getAttribute('accept');
-  }
-
-  /**
-   * Gets the aria-label for the file upload button.
-   */
-  public async getFileUploadAriaLabel(): Promise<string | null> {
-    return await (await this.#fileUploadButton()).getAttribute('aria-label');
-  }
-
-  /**
    * Clicks the file upload button.
    */
   public async clickFileUploadButton(): Promise<void> {
@@ -58,6 +44,27 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    */
   public async clickHelpInline(): Promise<void> {
     return await (await this.#getHelpInline()).click();
+  }
+
+  /**
+   * Drops a file onto the component's drop target.
+   */
+  public async dropFile(file: File): Promise<void> {
+    await this.#dropFiles([file]);
+  }
+
+  /**
+   * Gets the accepted file types.
+   */
+  public async getAcceptedTypes(): Promise<string | null> {
+    return await (await this.#input()).getAttribute('accept');
+  }
+
+  /**
+   * Gets the aria-label for the file upload button.
+   */
+  public async getFileUploadAriaLabel(): Promise<string | null> {
+    return await (await this.#fileUploadButton()).getAttribute('aria-label');
   }
 
   /**
@@ -100,41 +107,10 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Uploads a link.
+   * Whether a custom form error has fired.
    */
-  public async uploadLink(link: string): Promise<void> {
-    await (await this.getUploadLink()).enterLink(link);
-    await (await this.getUploadLink()).clickDoneButton();
-  }
-
-  /**ß
-   * Whether label text is hidden.
-   */
-  public async isLabelHidden(): Promise<boolean> {
-    return await (
-      await this.locatorFor('legend.sky-control-label')()
-    ).hasClass('sky-screen-reader-only');
-  }
-
-  /**
-   * Whether file drop is required.
-   */
-  public async isRequired(): Promise<boolean> {
-    return await (await this.#label()).hasClass('sky-control-label-required');
-  }
-
-  /**
-   * Whether file drop has stacked enabled.
-   */
-  public async isStacked(): Promise<boolean> {
-    return await (await this.host()).hasClass('sky-form-field-stacked');
-  }
-
-  /**
-   * Whether the required error has fired.
-   */
-  public async hasRequiredError(): Promise<boolean> {
-    return await (await this.#getFormErrors()).hasError('required');
+  public async hasCustomError(errorName: string): Promise<boolean> {
+    return await (await this.#getFormErrors()).hasError(errorName);
   }
 
   /**
@@ -159,6 +135,13 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
+   * Whether the required error has fired.
+   */
+  public async hasRequiredError(): Promise<boolean> {
+    return await (await this.#getFormErrors()).hasError('required');
+  }
+
+  /**
    * Whether the validate error from the customer validation has fired.
    */
   public async hasValidateFnError(): Promise<boolean> {
@@ -166,17 +149,26 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Whether a custom form error has fired.
+   * Whether label text is hidden.
    */
-  public async hasCustomError(errorName: string): Promise<boolean> {
-    return await (await this.#getFormErrors()).hasError(errorName);
+  public async isLabelHidden(): Promise<boolean> {
+    return await (
+      await this.locatorFor('legend.sky-control-label')()
+    ).hasClass('sky-screen-reader-only');
   }
 
   /**
-   * Drops a file onto the component's drop target.
+   * Whether file drop is required.
    */
-  public async dropFile(file: File): Promise<void> {
-    await this.#dropFiles([file]);
+  public async isRequired(): Promise<boolean> {
+    return await (await this.#label()).hasClass('sky-control-label-required');
+  }
+
+  /**
+   * Whether file drop has stacked enabled.
+   */
+  public async isStacked(): Promise<boolean> {
+    return await (await this.host()).hasClass('sky-form-field-stacked');
   }
 
   /**
@@ -186,8 +178,18 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     return await this.#dropFiles(files);
   }
 
+  /**
+   * Uploads a link.
+   */
+  public async uploadLink(link: string): Promise<void> {
+    await (await this.getUploadLink()).enterLink(link);
+    await (await this.getUploadLink()).clickDoneButton();
+  }
+
   async #dropFiles(files: File[] | null): Promise<void> {
     const dropTarget = await this.#getDropTarget();
+
+    type TestDataTransfer = DataTransfer & { [key: string]: EventData };
 
     const dataTransfer = new DataTransfer() as TestDataTransfer;
 
@@ -228,4 +230,3 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     );
   }
 }
-type TestDataTransfer = DataTransfer & { [key: string]: EventData };

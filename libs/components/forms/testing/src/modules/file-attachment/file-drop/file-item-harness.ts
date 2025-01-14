@@ -13,7 +13,7 @@ export class SkyFileItemHarness extends ComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyFileDropHarness` that meets certain criteria.
+   * `SkyFileItemHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyFileItemHarnessFilters,
@@ -29,6 +29,13 @@ export class SkyFileItemHarness extends ComponentHarness {
   }
 
   /**
+   * Clicks the delete button.
+   */
+  public async clickDeleteButton(): Promise<void> {
+    return await (await this.locatorFor('.sky-file-item-btn-delete')()).click();
+  }
+
+  /**
    * Gets the file name.
    */
   public async getFileName(): Promise<string> {
@@ -41,12 +48,5 @@ export class SkyFileItemHarness extends ComponentHarness {
   public async getFileSize(): Promise<string> {
     const size = await (await this.locatorFor('.sky-file-item-size')()).text();
     return size.substring(1, size.length - 1);
-  }
-
-  /**
-   * Clicks the delete button.
-   */
-  public async clickDeleteButton(): Promise<void> {
-    return await (await this.locatorFor('.sky-file-item-btn-delete')()).click();
   }
 }

@@ -6,5 +6,8 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
 export interface SkyFileItemHarnessFilters extends SkyHarnessFilters {
+  /**
+   * Finds files whose file name matches this value.
+   */
   fileName: string;
 }

@@ -19,6 +19,23 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   #button = this.locatorFor('button.sky-btn-primary');
 
   /**
+   * Clicks the `Done` button
+   */
+  public async clickDoneButton(): Promise<void> {
+    if (await this.isDisabled()) {
+      throw new Error('Done button is disabled and cannot be clicked.');
+    }
+    return await (await this.#button()).click();
+  }
+
+  /**
+   * Sets the input value.
+   */
+  public async enterLink(link: string): Promise<void> {
+    return await (await this.#input()).setValue(link);
+  }
+
+  /**
    * Gets the link upload aria-label.
    */
   public async getAriaLabel(): Promise<string | null> {
@@ -44,22 +61,5 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
    */
   public async isDisabled(): Promise<boolean> {
     return (await (await this.#button()).getAttribute('disabled')) !== null;
-  }
-
-  /**
-   * Clicks the `Done` button
-   */
-  public async clickDoneButton(): Promise<void> {
-    if (await this.isDisabled()) {
-      throw new Error('Done button is disabled and cannot be clicked.');
-    }
-    return await (await this.#button()).click();
-  }
-
-  /**
-   * Sets the input value.
-   */
-  public async enterLink(link: string): Promise<void> {
-    return await (await this.#input()).setValue(link);
   }
 }

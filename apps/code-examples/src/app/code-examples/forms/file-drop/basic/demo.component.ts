@@ -41,9 +41,9 @@ function customValidator(
 })
 export class DemoComponent {
   protected acceptedTypes = 'image/png,image/jpeg';
+  protected hintText = 'Upload up to 3 files under 50MB.';
   protected inlineHelpContent =
     'Your logo appears in places such as authentication pages, student and parent portals, and extracurricular home pages.';
-  protected hintText = 'Upload up to 3 files under 50MB.';
   protected labelText = 'Logo image';
   protected maxFileSize = 5242880;
   protected stacked = 'true';
