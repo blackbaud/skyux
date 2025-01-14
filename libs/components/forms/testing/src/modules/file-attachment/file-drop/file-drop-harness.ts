@@ -175,12 +175,12 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   /**
    * Drops a file onto the component's drop target.
    */
-  public async dropFiles(files: File[]): Promise<void> {
-    await this.#dropFiles(files);
+  public async dropFile(file: File): Promise<void> {
+    await this.#dropFiles([file]);
   }
 
   /**
-   * Loads a file through the file drop.
+   * Loads multiple files through the file drop.
    */
   public async uploadFiles(files: File[] | null): Promise<void> {
     return await this.#dropFiles(files);

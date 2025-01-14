@@ -5,4 +5,6 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
  * @internal
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
-export interface SkyFileItemHarnessFilters extends SkyHarnessFilters {}
+export interface SkyFileItemHarnessFilters extends SkyHarnessFilters {
+  fileName: string;
+}

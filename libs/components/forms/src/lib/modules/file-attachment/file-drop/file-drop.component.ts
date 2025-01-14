@@ -262,7 +262,6 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
 
   #_minFileSize = MIN_FILE_SIZE_DEFAULT;
-  protected touched = false;
 
   #notifyTouched: (() => void) | undefined;
   #notifyChange:
@@ -398,7 +397,6 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   }
 
   public fileDrop(dropEvent: DragEvent): void {
-    this.touched = true;
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 

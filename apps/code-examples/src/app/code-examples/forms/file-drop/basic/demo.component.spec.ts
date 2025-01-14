@@ -1,9 +1,11 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyFileDropHarness,
+  SkyFileItemHarness,
   provideSkyFileAttachmentTesting,
 } from '@skyux/forms/testing';
 
@@ -12,8 +14,8 @@ import { DemoComponent } from './demo.component';
 describe('Basic file drop demo', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     harness: SkyFileDropHarness;
-    fixture: ComponentFixture<DemoComponent>;
     formControl: FormControl;
+    loader: HarnessLoader;
   }> {
     TestBed.configureTestingModule({
       providers: [provideSkyFileAttachmentTesting()],
@@ -30,7 +32,7 @@ describe('Basic file drop demo', () => {
 
     const formControl = fixture.componentInstance.fileDrop;
 
-    return { harness, fixture, formControl };
+    return { harness, formControl, loader };
   }
 
   beforeEach(() => {
@@ -39,7 +41,7 @@ describe('Basic file drop demo', () => {
     });
   });
 
-  it('shoudl set initial values', async () => {
+  it('should set initial values', async () => {
     const { harness } = await setupTest({
       dataSkyId: 'logo-upload',
     });
@@ -66,8 +68,8 @@ describe('Basic file drop demo', () => {
     });
 
     const filesToUpload: File[] = [
-      new File([], 'aWrongFile.png', { type: 'image/png' }),
-      new File([], 'validFile.png', { type: 'image/png' }),
+      new File([], 'aWrongFile', { type: 'image/png' }),
+      new File([], 'validFile', { type: 'image/png' }),
     ];
 
     await harness.uploadFiles(filesToUpload);
@@ -77,14 +79,14 @@ describe('Basic file drop demo', () => {
   });
 
   it('should not allow more than 3 files to be uploaded', async () => {
-    const { fixture, harness, formControl } = await setupTest({
+    const { harness, formControl, loader } = await setupTest({
       dataSkyId: 'logo-upload',
     });
 
     await harness.uploadFiles([
-      new File([], 'validFile.png', { type: 'image/png' }),
-      new File([], 'validFile.png', { type: 'image/png' }),
-      new File([], 'validFile.png', { type: 'image/png' }),
+      new File([], 'validFile1', { type: 'image/png' }),
+      new File([], 'validFile2', { type: 'image/png' }),
+      new File([], 'validFile3', { type: 'image/png' }),
     ]);
 
     expect(formControl.value?.length).toBe(3);
@@ -100,9 +102,10 @@ describe('Basic file drop demo', () => {
     ).toBeResolvedTo(true);
     expect(formControl.valid).toBe(false);
 
-    formControl.value?.splice(2, 1);
-    formControl.updateValueAndValidity();
-    fixture.detectChanges();
+    const validFileItemHarness = await loader.getHarness(
+      SkyFileItemHarness.with({ fileName: 'validFile2' }),
+    );
+    await validFileItemHarness.clickDeleteButton();
 
     expect(formControl.value?.length).toBe(3);
     expect(formControl.valid).toBe(true);

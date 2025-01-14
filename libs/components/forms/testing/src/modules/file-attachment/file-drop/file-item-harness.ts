@@ -1,12 +1,11 @@
-import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness } from '@skyux/core/testing';
+import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
 
 import { SkyFileItemHarnessFilters } from './file-item-harness-filters';
 
 /**
  * Harness for interacting with a file item component in tests.
  */
-export class SkyFileItemHarness extends SkyComponentHarness {
+export class SkyFileItemHarness extends ComponentHarness {
   /**
    * @internal
    */
@@ -19,14 +18,21 @@ export class SkyFileItemHarness extends SkyComponentHarness {
   public static with(
     filters: SkyFileItemHarnessFilters,
   ): HarnessPredicate<SkyFileItemHarness> {
-    return SkyFileItemHarness.getDataSkyIdPredicate(filters);
+    return new HarnessPredicate(SkyFileItemHarness, filters).addOption(
+      'name',
+      filters.fileName,
+      async (harness, fileName) => {
+        const harnessFileName = await harness.getFileName();
+        return await HarnessPredicate.stringMatches(harnessFileName, fileName);
+      },
+    );
   }
 
   /**
    * Gets the file name.
    */
-  public async getFileName(): Promise<string | undefined> {
-    return await (await this.locatorFor('strong')()).text();
+  public async getFileName(): Promise<string> {
+    return await (await this.locatorFor('.sky-file-item-name')()).text();
   }
 
   /**

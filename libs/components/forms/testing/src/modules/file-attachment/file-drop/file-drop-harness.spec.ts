@@ -1,3 +1,4 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -18,6 +19,7 @@ import {
 } from '@skyux/forms';
 
 import { SkyFileDropHarness } from './file-drop-harness';
+import { SkyFileItemHarness } from './file-item-harness';
 
 @Component({
   standalone: true,
@@ -95,6 +97,7 @@ describe('File drop harness', () => {
   async function setupTest(): Promise<{
     harness: SkyFileDropHarness;
     fixture: ComponentFixture<TestComponent>;
+    loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
       imports: [TestComponent, NoopAnimationsModule],
@@ -109,15 +112,15 @@ describe('File drop harness', () => {
       }),
     );
 
-    return { harness, fixture };
+    return { harness, fixture, loader };
   }
 
-  it('should drop files', async () => {
+  it('should drop a single file', async () => {
     const { fixture, harness } = await setupTest();
 
     const testFile = new File([], 'test.png');
 
-    await harness.dropFiles([testFile]);
+    await harness.dropFile(testFile);
 
     expect(fixture.componentInstance.fileDrop.value).toEqual([
       {
@@ -377,6 +380,68 @@ describe('File drop harness', () => {
 
       await expectAsync(harness.getUploadLink()).toBeRejectedWithError(
         'Link upload cannot be found. Set `allowLinks` property to `true`.',
+      );
+    });
+  });
+
+  describe('sky file item harness', () => {
+    async function getFileItemHarness(
+      harness: SkyFileDropHarness,
+      loader: HarnessLoader,
+    ): Promise<SkyFileItemHarness> {
+      await harness.uploadFiles([
+        new File(['a'.repeat(20)], 'FileName', { type: 'image/png' }),
+      ]);
+      return await loader.getHarness(SkyFileItemHarness);
+    }
+    it('should get the file name', async () => {
+      const { harness, loader } = await setupTest();
+
+      const fileItemHarness = await getFileItemHarness(harness, loader);
+
+      await expectAsync(fileItemHarness.getFileName()).toBeResolvedTo(
+        'FileName',
+      );
+    });
+
+    it('should get the file size', async () => {
+      const { harness, loader } = await setupTest();
+
+      const fileItemHarness = await getFileItemHarness(harness, loader);
+
+      await expectAsync(fileItemHarness.getFileSize()).toBeResolvedTo(
+        '20 bytes',
+      );
+    });
+
+    it('should click the delete button', async () => {
+      const { fixture, harness, loader } = await setupTest();
+
+      const fileItemHarness = await getFileItemHarness(harness, loader);
+
+      expect(fixture.componentInstance.fileDrop.value.length).toBe(1);
+
+      await fileItemHarness.clickDeleteButton();
+
+      expect(fixture.componentInstance.fileDrop.value).toBe(null);
+    });
+
+    it('should get sky file item by file name', async () => {
+      const { harness, loader } = await setupTest();
+
+      await harness.uploadFiles([
+        new File(['a'.repeat(20)], 'FileName', { type: 'image/png' }),
+        new File(['a'.repeat(10)], 'OtherFile', { type: 'image/png' }),
+      ]);
+
+      const fileItemHarness = await loader.getHarness(
+        SkyFileItemHarness.with({
+          fileName: 'OtherFile',
+        }),
+      );
+
+      await expectAsync(fileItemHarness.getFileSize()).toBeResolvedTo(
+        '10 bytes',
       );
     });
   });
