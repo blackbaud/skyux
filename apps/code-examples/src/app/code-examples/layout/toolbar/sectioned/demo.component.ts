@@ -8,7 +8,7 @@ import { SkyToolbarModule } from '@skyux/layout';
   imports: [SkyIconModule, SkyToolbarModule],
 })
 export class DemoComponent {
-  protected onButtonClicked(buttonText: string): void {
+  public onButtonClicked(buttonText: string): void {
     alert(buttonText + ' clicked!');
   }
 }

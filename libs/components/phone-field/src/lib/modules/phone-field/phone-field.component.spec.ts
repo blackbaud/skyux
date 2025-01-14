@@ -4,16 +4,10 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import {
-  FormsModule,
-  NgModel,
-  ReactiveFormsModule,
-  UntypedFormControl,
-} from '@angular/forms';
+import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -27,7 +21,6 @@ import { BehaviorSubject } from 'rxjs';
 import { PhoneFieldInputBoxTestComponent } from './fixtures/phone-field-input-box.component.fixture';
 import { PhoneFieldReactiveTestComponent } from './fixtures/phone-field-reactive.component.fixture';
 import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixture';
-import { SkyPhoneFieldModule } from './phone-field.module';
 
 describe('Phone Field Component', () => {
   let mockThemeSvc: Partial<SkyThemeService>;
@@ -287,8 +280,7 @@ describe('Phone Field Component', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [PhoneFieldTestComponent],
-        imports: [SkyPhoneFieldModule, NoopAnimationsModule, FormsModule],
+        imports: [PhoneFieldTestComponent, NoopAnimationsModule],
         providers: [
           {
             provide: SkyThemeService,
@@ -1383,13 +1375,7 @@ describe('Phone Field Component', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [PhoneFieldReactiveTestComponent],
-        imports: [
-          SkyPhoneFieldModule,
-          NoopAnimationsModule,
-          FormsModule,
-          ReactiveFormsModule,
-        ],
+        imports: [PhoneFieldReactiveTestComponent, NoopAnimationsModule],
         providers: [
           {
             provide: SkyThemeService,
@@ -2292,13 +2278,7 @@ describe('Phone Field Component', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [PhoneFieldInputBoxTestComponent],
-        imports: [
-          SkyInputBoxModule,
-          SkyPhoneFieldModule,
-          NoopAnimationsModule,
-          FormsModule,
-        ],
+        imports: [PhoneFieldInputBoxTestComponent, NoopAnimationsModule],
         providers: [
           {
             provide: SkyThemeService,

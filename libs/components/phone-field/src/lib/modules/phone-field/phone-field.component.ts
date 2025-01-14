@@ -5,6 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -21,15 +22,22 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { SkyAppFormat } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 import {
   SKY_COUNTRY_FIELD_CONTEXT,
   SkyCountryFieldCountry,
+  SkyCountryFieldModule,
 } from '@skyux/lookup';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import {
   PhoneNumberFormat,
@@ -38,6 +46,8 @@ import {
 } from 'google-libphonenumber';
 import intlTelInput from 'intl-tel-input';
 import { Subject, takeUntil } from 'rxjs';
+
+import { SkyPhoneFieldResourcesModule } from '../shared/sky-phone-field-resources.module';
 
 import { cloneCountryData } from './clone-country-data';
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
@@ -50,6 +60,14 @@ const DEFAULT_COUNTRY_CODE = 'us';
 // from firing on initial load. For more information on this technique you can see
 // https://www.bennadel.com/blog/3417-using-no-op-transitions-to-prevent-animation-during-the-initial-render-of-ngfor-in-angular-5-2-6.htm
 @Component({
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SkyCountryFieldModule,
+    SkyIconModule,
+    SkyPhoneFieldResourcesModule,
+    SkyThemeModule,
+  ],
   selector: 'sky-phone-field',
   templateUrl: './phone-field.component.html',
   styleUrls: ['./phone-field.component.scss'],
@@ -136,7 +154,6 @@ const DEFAULT_COUNTRY_CODE = 'us';
       ]),
     ]),
   ],
-  standalone: false,
 })
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   /**
@@ -418,71 +435,72 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  public setCountryByDialCode(phoneNumberRaw: string | undefined): boolean {
+  public setCountryByDialCode(phoneNumberRaw: string | undefined): void {
     if (!phoneNumberRaw || !phoneNumberRaw.startsWith('+')) {
-      return false;
+      return;
     }
 
-    let dialCode = '';
     let foundCountry: SkyPhoneFieldCountry | undefined;
-    let newCountry: SkyPhoneFieldCountry | undefined;
 
     try {
       const phoneNumberParsed =
         this.#phoneUtils.parseAndKeepRawInput(phoneNumberRaw);
+
       const regionCode =
         this.#phoneUtils.getRegionCodeForNumber(phoneNumberParsed);
-      foundCountry = this.countries.find(
-        (country) => country.iso2.toUpperCase() === regionCode?.toUpperCase(),
-      );
 
-      if (foundCountry && !this.#validateSupportedCountry(foundCountry)) {
-        foundCountry = undefined;
+      if (regionCode !== undefined) {
+        foundCountry = this.countries.find(
+          (country) =>
+            country.iso2.toLocaleUpperCase() === regionCode.toLocaleUpperCase(),
+        );
       }
-    } catch (_) {
-      if (
-        !this.selectedCountry?.dialCode ||
-        !phoneNumberRaw.startsWith(`${this.selectedCountry?.dialCode}`)
-      ) {
-        for (let i = 1; i < this.#longestDialCodeLength + 1; i++) {
-          dialCode = phoneNumberRaw.substring(0, i);
+    } catch {
+      foundCountry ??= this.#findCountryByDialCode(phoneNumberRaw);
+    }
 
-          if (this.#defaultCountryData?.dialCode === dialCode) {
-            foundCountry = this.#defaultCountryData;
-          } else if (this.selectedCountry?.dialCode !== dialCode) {
-            const dialCodeCountries = this.countries.filter(
-              (country) => country.dialCode === dialCode,
-            );
+    if (foundCountry && !this.#validateSupportedCountry(foundCountry)) {
+      foundCountry = undefined;
+    }
 
-            if (dialCodeCountries.length > 0) {
-              foundCountry =
-                dialCodeCountries.find((country) => country.priority === 0) ??
-                dialCodeCountries[0];
-              // TODO: Refactor the logic in this method for readability.
-              // eslint-disable-next-line max-depth
-              if (
-                foundCountry &&
-                !this.#validateSupportedCountry(foundCountry)
-              ) {
-                foundCountry = undefined;
-              }
-            }
+    if (foundCountry !== this.selectedCountry) {
+      this.selectedCountry = foundCountry;
+      this.#changeDetector.markForCheck();
+    }
+  }
+
+  #findCountryByDialCode(
+    phoneNumberRaw: string,
+  ): SkyPhoneFieldCountry | undefined {
+    const defaultDialCode = this.#defaultCountryData?.dialCode;
+    const selectedCountryDialCode = this.selectedCountry?.dialCode;
+
+    let foundCountry: SkyPhoneFieldCountry | undefined;
+
+    if (
+      !selectedCountryDialCode ||
+      !phoneNumberRaw.startsWith(selectedCountryDialCode)
+    ) {
+      for (let i = 1; i < this.#longestDialCodeLength + 1; i++) {
+        const dialCode = phoneNumberRaw.substring(0, i);
+
+        if (defaultDialCode === dialCode) {
+          foundCountry = this.#defaultCountryData;
+        } else if (selectedCountryDialCode !== dialCode) {
+          const dialCodeCountries = this.countries.filter(
+            (country) => country.dialCode === dialCode,
+          );
+
+          if (dialCodeCountries.length > 0) {
+            foundCountry =
+              dialCodeCountries.find((country) => country.priority === 0) ??
+              dialCodeCountries[0];
           }
         }
       }
     }
 
-    if (foundCountry !== this.selectedCountry) {
-      newCountry = foundCountry;
-    }
-
-    if (newCountry) {
-      this.selectedCountry = newCountry;
-      this.#changeDetector.markForCheck();
-      return true;
-    }
-
-    return false;
+    return foundCountry;
   }
 
   #getDefaultCountryData(): SkyPhoneFieldCountry | undefined {
