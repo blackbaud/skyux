@@ -39,9 +39,11 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
 export class SkyAgGridHeaderComponent
   implements IHeaderAngularComp, OnDestroy, AfterViewInit
 {
+  public readonly filterEnabled$ = new BehaviorSubject<boolean>(false);
+
   // For accessibility, we need to set the title attribute on the header element if there is no visible header text.
   // https://dequeuniversity.com/rules/axe/4.5/empty-table-header?application=axeAPI
-  public accessibleHeaderText = computed(() => {
+  protected readonly accessibleHeaderText = computed(() => {
     const params = this.params();
     if (
       params?.displayName &&
@@ -54,15 +56,16 @@ export class SkyAgGridHeaderComponent
   });
 
   @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
-  public inlineHelpContainer: ElementRef | undefined;
+  protected inlineHelpContainer: ElementRef | undefined;
 
-  public params = signal<SkyAgGridHeaderParams | undefined>(undefined);
-  public sorted = '';
-  public readonly filterEnabled$ = new BehaviorSubject<boolean>(false);
-  public readonly sortOrder$ = new BehaviorSubject<'asc' | 'desc' | undefined>(
+  protected readonly params = signal<SkyAgGridHeaderParams | undefined>(
     undefined,
   );
-  public readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
+  protected sorted = '';
+  protected readonly sortOrder$ = new BehaviorSubject<
+    'asc' | 'desc' | undefined
+  >(undefined);
+  protected readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
 
   protected displayName = computed<string | undefined>(() => {
     const params = this.params();
