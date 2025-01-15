@@ -35,6 +35,8 @@
       --sky-margin-stacked-xl
     )
     var(--sky-margin-inline-sm);
+  --sky-override-page-header-avatar-size-space: var(--sky-margin-inline-xl);
+  --sky-override-page-header-link-rows-space: var(--sky-margin-stacked-xl);
   --sky-override-page-header-spacing-xs: 20px 10px;
 }
 
@@ -202,15 +204,37 @@
           'header-avatar header-content links'
           'content       content        links';
         grid-template-rows:
-          minmax(var(--sky-margin-stacked-xl), min-content)
-          minmax(var(--sky-margin-stacked-xl), min-content)
-          minmax(var(--sky-margin-stacked-xl), min-content)
+          minmax(
+            var(
+              --sky-override-page-header-link-rows-space,
+              var(--sky-space-stacked-xl)
+            ),
+            min-content
+          )
+          minmax(
+            var(
+              --sky-override-page-header-link-rows-space,
+              var(--sky-space-stacked-xl)
+            ),
+            min-content
+          )
+          minmax(
+            var(
+              --sky-override-page-header-link-rows-space,
+              var(--sky-space-stacked-xl)
+            ),
+            min-content
+          )
           auto;
         grid-template-columns: 0 75% 25%;
 
         &:has(sky-page-header-avatar:not(:empty)) {
           --sky-layout-host-header-avatar-size: calc(
-            120px + var(--sky-margin-inline-xl)
+            120px +
+              var(
+                --sky-override-page-header-avatar-size-space,
+                var(--sky-space-inline-xl)
+              )
           );
           grid-template-columns:
             var(--sky-layout-host-header-avatar-size)
