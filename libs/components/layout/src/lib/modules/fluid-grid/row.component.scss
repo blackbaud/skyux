@@ -14,7 +14,7 @@
 
 @mixin create_row_gutters($gutter-size) {
   :host-context(.sky-fluid-grid-gutter-size-#{$gutter-size}) {
-    .sky-row {
+    :host {
       margin-left: -(map-get($gutter-sizes, $gutter-size));
       margin-right: -(map-get($gutter-sizes, $gutter-size));
     }
@@ -22,7 +22,7 @@
   :host-context(
     .sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin
   ) {
-    .sky-row {
+    :host {
       margin-left: -(map-get($gutter-sizes, $gutter-size)) * 2;
       margin-right: -(map-get($gutter-sizes, $gutter-size)) * 2;
     }
@@ -32,7 +32,7 @@
 @mixin create_row_gutters_modern($gutter-size) {
   /* clean-css ignore:start */
   :host-context(.sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size}) {
-    .sky-row {
+    :host {
       margin-left: -(map-get($gutter-sizes-modern, $gutter-size));
       margin-right: -(map-get($gutter-sizes-modern, $gutter-size));
     }
@@ -41,7 +41,7 @@
     .sky-theme-modern
       .sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin
   ) {
-    .sky-row {
+    :host {
       margin-left: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
       margin-right: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
     }
@@ -58,19 +58,19 @@
 @include create_row_gutters_modern(large);
 
 @include mixins.sky-host-responsive-container-xs-min() {
-  .sky-row.sky-row-reverse {
+  :host(.sky-row-reverse) {
     flex-direction: row;
   }
 }
 
 @include mixins.sky-host-responsive-container-sm-min() {
-  .sky-row.sky-row-reverse {
+  :host(.sky-row-reverse) {
     flex-direction: row-reverse;
   }
 }
 
 @include mixins.sky-theme-modern {
-  .sky-row {
+  :host {
     // Default to large gutters for backwards compatibility.
     // (Prior versions of fluid-grid did not require the wrapping `sky-fluid-grid` component.)
     margin-left: -(map-get($gutter-sizes-modern, large));
