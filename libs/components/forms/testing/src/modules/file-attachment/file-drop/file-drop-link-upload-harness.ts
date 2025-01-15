@@ -5,8 +5,7 @@ import { SkyInputBoxHarness } from '../../input-box/input-box-harness';
 import { SkyFileDropLinkUploadInputHarness } from './file-drop-link-upload-input-harness';
 
 /**
- * Harness for interacting with a file drop upload link component in tests.
- * @internal
+ * Harness for interacting with a file drop link upload component in tests.
  */
 export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   /**

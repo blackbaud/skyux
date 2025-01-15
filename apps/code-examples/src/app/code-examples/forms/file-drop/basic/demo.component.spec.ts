@@ -55,7 +55,7 @@ describe('Basic file drop demo', () => {
     );
     await expectAsync(harness.isStacked()).toBeResolvedTo(true);
 
-    const linkUploadHarness = await harness.getUploadLink();
+    const linkUploadHarness = await harness.getLinkUpload();
 
     await expectAsync(linkUploadHarness.getHintText()).toBeResolvedTo(
       'Start with http:// or https://',

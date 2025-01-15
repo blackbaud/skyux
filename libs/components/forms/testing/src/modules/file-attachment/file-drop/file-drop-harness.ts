@@ -100,9 +100,9 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the upload link harness.
+   * Gets the link upload harness.
    */
-  public async getUploadLink(): Promise<SkyFileDropLinkUploadHarness> {
+  public async getLinkUpload(): Promise<SkyFileDropLinkUploadHarness> {
     return await this.#getLinkUpload();
   }
 
@@ -182,8 +182,8 @@ export class SkyFileDropHarness extends SkyComponentHarness {
    * Uploads a link.
    */
   public async uploadLink(link: string): Promise<void> {
-    await (await this.getUploadLink()).enterLink(link);
-    await (await this.getUploadLink()).clickDoneButton();
+    await (await this.getLinkUpload()).enterLink(link);
+    await (await this.getLinkUpload()).clickDoneButton();
   }
 
   async #dropFiles(files: File[] | null): Promise<void> {
