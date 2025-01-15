@@ -14,12 +14,14 @@
     solid #{$sky-highlight-color-info};
   --sky-override-vertical-tab-box-shadow-focus: none;
   --sky-override-vertical-tab-count-margin-left: #{$sky-margin-half};
+  --sky-override-vertical-tab-display-align-items: normal;
   --sky-override-vertical-tab-font-color: #{$sky-text-color-default};
   --sky-override-vertical-tab-font-color-disabled: var(
     --sky-text-color-deemphasized
   );
   --sky-override-vertical-tab-font-selected-color: #{$sky-text-color-default};
   --sky-override-vertical-tab-gap: #{$sky-margin-half};
+  --sky-override-vertical-tab-heading-error-line-height: normal;
   --sky-override-vertical-tab-heading-error-padding-left: #{$sky-padding-half};
   --sky-override-vertical-tab-hover-font-color: #{$sky-text-color-default};
   --sky-override-vertical-tab-margin: #{$sky-margin-half} 0 #{$sky-margin-half}
@@ -30,6 +32,11 @@
   --sky-override-vertical-tab-padding-left-active: #{$sky-padding};
   --sky-override-vertical-tab-padding-left-selected: 6px;
   --sky-override-vertical-tab-padding-left-hover: #{$sky-padding};
+  --sky-override-vertical-tab-right-arrow-color: #{$sky-text-color-icon-borderless};
+  --sky-override-vertical-tab-right-arrow-color-active: #{$sky-text-color-icon-borderless};
+  --sky-override-vertical-tab-right-arrow-color-hover: #979ba2;
+  --sky-override-vertical-tab-right-arrow-color-selected: #{$sky-text-color-icon-borderless};
+  --sky-override-vertical-tab-right-arrow-padding: 3px #{$sky-padding} 0 0;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-vertical-tab') {
@@ -40,12 +47,27 @@
   --sky-override-vertical-tab-border-left-hover: var(--modern-size-1) solid
     var(--modern-color-blue-50);
   --sky-override-vertical-tab-content-pane-margin-bottom: 0;
+  --sky-override-vertical-tab-display-align-items: normal;
   --sky-override-vertical-tab-gap: var(--modern-size-15);
+  --sky-override-vertical-tab-heading-error-margin-right: calc(
+    var(--modern-size-10) * -1
+  );
+  --sky-override-vertical-tab-heading-error-line-height: normal;
   --sky-override-vertical-tab-heading-error-padding-left: var(--modern-size-10);
+  --sky-override-vertical-tab-heading-error-position: relative;
   --sky-override-vertical-tab-margin: var(--modern-size-15) 0
     var(--modern-size-15) var(--modern-size-10);
-  --sky-override-vertical-tab-padding: var(--modern-size-10) 0
-    var(--modern-size-10) var(--modern-size-15);
+  --sky-override-vertical-tab-padding: var(--modern-size-10)
+    var(--modern-size-10) var(--modern-size-10) var(--modern-size-15);
+  --sky-override-vertical-tab-right-arrow-color: var(--modern-color-gray-20);
+  --sky-override-vertical-tab-right-arrow-color-active: var(
+    --modern-color-gray-20
+  );
+  --sky-override-vertical-tab-right-arrow-color-hover: #979ba2;
+  --sky-override-vertical-tab-right-arrow-color-selected: var(
+    --modern-color-gray-20
+  );
+  --sky-override-vertical-tab-right-arrow-padding: var(--modern-size-3) 0 0 0;
 }
 
 :host {
@@ -96,9 +118,11 @@
       var(--sky-color-background-nav-hover)
     );
 
-    // TODO: Tokenize with sectioned form
     .sky-vertical-tab-right-arrow {
-      color: darken($sky-text-color-icon-borderless, 20%);
+      color: var(
+        --sky-override-vertical-tab-right-arrow-color-hover,
+        var(--sky-color-icon-default)
+      );
     }
   }
 
@@ -123,6 +147,13 @@
           )
       )
     );
+
+    .sky-vertical-tab-right-arrow {
+      color: var(
+        --sky-override-vertical-tab-right-arrow-color-active,
+        var(--sky-color-icon-default)
+      );
+    }
   }
 
   &:not(:active):focus-visible {
@@ -142,6 +173,24 @@
       --sky-override-vertical-tab-box-shadow-focus,
       var(--sky-elevation-focus)
     );
+
+    &.sky-vertical-tab-active {
+      background-color: var(
+        --sky-override-vertical-tab-background-color-selected,
+        var(--sky-color-background-selected-soft)
+      );
+      color: var(
+        --sky-override-vertical-tab-selected-font-color,
+        var(--sky-color-text-default)
+      );
+
+      .sky-vertical-tab-right-arrow {
+        color: var(
+          --sky-override-vertical-tab-right-arrow-color-selected,
+          var(--sky-color-icon-default)
+        );
+      }
+    }
   }
 
   &:not(.sky-vertical-tab-active):not(:active):hover {
@@ -181,6 +230,13 @@
     --sky-override-vertical-tab-border-left-selected,
     var(--sky-border-width-selected-l) solid var(--sky-color-border-selected)
   );
+
+  .sky-vertical-tab-right-arrow {
+    color: var(
+      --sky-override-vertical-tab-right-arrow-color-selected,
+      var(--sky-color-icon-default)
+    );
+  }
 }
 
 .sky-vertical-tab-hidden {
@@ -191,6 +247,7 @@
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
+  align-items: var(--sky-override-vertical-tab-display-align-items, center);
 }
 
 .sky-vertical-tab-heading-error {
@@ -198,6 +255,13 @@
     --sky-override-vertical-tab-heading-error-padding-left,
     var(--sky-space-gap-text_action-s)
   );
+  margin-right: var(--sky-override-vertical-tab-heading-error-margin-right);
+
+  // TODO: The position, top, and line height rules are due to a bug in icons where icon stacks display larger than their inner icons current.
+  // Remove these two rules when we move to SVG icons
+  position: var(--sky-override-vertical-tab-heading-error-position);
+  top: -2px;
+  line-height: var(--sky-override-vertical-tab-heading-error-line-height, 1);
 }
 
 .sky-vertical-tab-count {
@@ -218,12 +282,18 @@
     var(--sky-color-text-deemphasized)
   );
   pointer-events: none;
+
+  .sky-vertical-tab-right-arrow {
+    color: var(--sky-color-icon-deemphasized);
+  }
 }
 
-// TODO: Tokenize with sectioned form
 .sky-vertical-tab-right-arrow {
-  padding: 3px $sky-padding 0 0;
-  color: $sky-text-color-icon-borderless;
+  padding: var(--sky-override-vertical-tab-right-arrow-padding, 0);
+  color: var(
+    --sky-override-vertical-tab-right-arrow-color,
+    var(--sky-color-icon-deemphasized)
+  );
 }
 
 .sky-vertical-tab-content-pane {
@@ -243,16 +313,6 @@
       --sky-override-vertical-tab-content-pane-margin-bottom,
       var(--sky-space-stacked-s)
     );
-  }
-}
-
-@include mixins.sky-theme-modern {
-  .sky-vertical-tab {
-    // TODO: This is due to a bug in icons where icon stacks display larger than their inner icons current.
-    .sky-vertical-tab-heading-error {
-      position: relative;
-      top: -2px;
-    }
   }
 }
 

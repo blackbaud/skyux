@@ -24,7 +24,6 @@ let nextId = 0;
   selector: 'sky-sectioned-form-section',
   templateUrl: './sectioned-form-section.component.html',
   providers: [SkySectionedFormService],
-  styleUrls: ['./sectioned-form-section.component.scss'],
   standalone: false,
 })
 export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
