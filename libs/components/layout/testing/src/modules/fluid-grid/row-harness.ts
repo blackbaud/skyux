@@ -13,7 +13,6 @@ export class SkyRowHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-row';
 
-  #getRow = this.locatorFor('.sky-row');
   #getColumns = this.locatorForAll(SkyColumnHarness);
 
   /**
@@ -38,7 +37,7 @@ export class SkyRowHarness extends SkyComponentHarness {
    * @returns `normal` | `reverse`
    */
   public async getColumnOrder(): Promise<string> {
-    const row = await this.#getRow();
+    const row = await this.host();
 
     return (await row.hasClass('sky-row-reverse')) ? 'reverse' : 'normal';
   }

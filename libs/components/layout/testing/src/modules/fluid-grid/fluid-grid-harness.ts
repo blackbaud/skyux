@@ -13,7 +13,6 @@ export class SkyFluidGridHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-fluid-grid';
 
-  #getGrid = this.locatorFor('.sky-fluid-grid');
   #getRows = this.locatorForAll(SkyRowHarness);
 
   /**
@@ -30,8 +29,7 @@ export class SkyFluidGridHarness extends SkyComponentHarness {
    * Gets the gutter size for the grid.
    */
   public async getGutterSize(): Promise<string> {
-    const grid = await this.#getGrid();
-
+    const grid = await this.host();
     const small = await grid.hasClass('sky-fluid-grid-gutter-size-small');
     const medium = await grid.hasClass('sky-fluid-grid-gutter-size-medium');
 
@@ -55,8 +53,6 @@ export class SkyFluidGridHarness extends SkyComponentHarness {
    * Whether the fluid grid has margin enabled.
    */
   public async hasMargin(): Promise<boolean> {
-    return !(await (
-      await this.#getGrid()
-    ).hasClass('sky-fluid-grid-no-margin'));
+    return !(await (await this.host()).hasClass('sky-fluid-grid-no-margin'));
   }
 }
