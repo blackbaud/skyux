@@ -13,7 +13,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'sky-row',
-    'class.sky-row-reverse': 'reverseColumnOrder()',
+    '[class.sky-row-reverse]': 'reverseColumnOrder()',
   },
   selector: 'sky-row',
   template: '<ng-content />',

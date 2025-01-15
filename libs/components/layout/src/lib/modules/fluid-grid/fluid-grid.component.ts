@@ -17,7 +17,7 @@ const DEFAULT_GUTTER_SIZE: SkyFluidGridGutterSizeType = 'large';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'sky-fluid-grid',
-    '[class]': "'sky-fluid-grid-' + gutterSize()",
+    '[class]': "'sky-fluid-grid-gutter-size-' + gutterSize()",
     '[class.sky-fluid-grid-no-margin]': 'disableMargin()',
   },
   selector: 'sky-fluid-grid',

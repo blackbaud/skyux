@@ -4,11 +4,11 @@ import { expect } from '@skyux-sdk/testing';
 import { FluidGridTestComponent } from './fixtures/fluid-grid.component.fixture';
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
-// #region helpers
-function getFluidGrid(fixture: ComponentFixture<any>): HTMLElement {
+function getFluidGrid(
+  fixture: ComponentFixture<FluidGridTestComponent>,
+): HTMLElement {
   return fixture.nativeElement.querySelector('.sky-fluid-grid') as HTMLElement;
 }
-// #endregion
 
 describe('SkyFluidGridComponent', () => {
   let component: FluidGridTestComponent;

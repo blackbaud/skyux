@@ -19,21 +19,21 @@ describe('SkyRowComponent', () => {
 
   it('should create an element with a specific class name', () => {
     fixture.detectChanges();
-    expect(element.querySelector('.sky-row')).toExist();
+    expect(element).toHaveCssClass('sky-row');
   });
 
   it('should add a class name to reverse the column order', () => {
     fixture.componentRef.setInput('reverseColumnOrder', false);
     fixture.detectChanges();
-    expect(element.querySelector('.sky-row-reverse')).not.toExist();
+    expect(element).not.toHaveCssClass('sky-row-reverse');
 
     fixture.componentRef.setInput('reverseColumnOrder', true);
     fixture.detectChanges();
-    expect(element.querySelector('.sky-row-reverse')).toExist();
+    expect(element).toHaveCssClass('sky-row-reverse');
 
     fixture.componentRef.setInput('reverseColumnOrder', undefined);
     fixture.detectChanges();
-    expect(element.querySelector('.sky-row-reverse')).not.toExist();
+    expect(element).not.toHaveCssClass('sky-row-reverse');
   });
 
   it('should be accessible', async () => {
