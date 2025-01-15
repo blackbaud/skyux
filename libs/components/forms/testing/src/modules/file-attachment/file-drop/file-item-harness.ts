@@ -19,7 +19,7 @@ export class SkyFileItemHarness extends ComponentHarness {
     filters: SkyFileItemHarnessFilters,
   ): HarnessPredicate<SkyFileItemHarness> {
     return new HarnessPredicate(SkyFileItemHarness, filters).addOption(
-      'name',
+      'fileName',
       filters.fileName,
       async (harness, fileName) => {
         const harnessFileName = await harness.getFileName();

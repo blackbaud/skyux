@@ -5,7 +5,7 @@ import { SkyInputBoxHarness } from '../../input-box/input-box-harness';
 import { SkyFileDropLinkUploadInputHarness } from './file-drop-link-upload-input-harness';
 
 /**
- * Harness for interacting with a file drop link upload component in tests.
+ * Harness for interacting with file drop component's link upload feature in tests.
  */
 export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   /**
@@ -28,9 +28,9 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   }
 
   /**
-   * Sets the input value.
+   * Enters text into the link upload input.
    */
-  public async enterLink(link: string): Promise<void> {
+  public async enterText(link: string): Promise<void> {
     return await (await this.#input()).setValue(link);
   }
 

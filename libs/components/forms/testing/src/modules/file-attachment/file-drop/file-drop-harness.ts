@@ -33,9 +33,9 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the file upload button.
+   * Clicks the file drop target.
    */
-  public async clickFileUploadButton(): Promise<void> {
+  public async clickFileDropTarget(): Promise<void> {
     return await (await this.#fileUploadButton()).click();
   }
 
@@ -102,8 +102,8 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   /**
    * Gets the link upload harness.
    */
-  public async getLinkUpload(): Promise<SkyFileDropLinkUploadHarness> {
-    return await this.#getLinkUpload();
+  public async getLinkUploadHarness(): Promise<SkyFileDropLinkUploadHarness> {
+    return await this.#getLinkUploadHarness();
   }
 
   /**
@@ -178,14 +178,6 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     return await this.#dropFiles(files);
   }
 
-  /**
-   * Uploads a link.
-   */
-  public async uploadLink(link: string): Promise<void> {
-    await (await this.getLinkUpload()).enterLink(link);
-    await (await this.getLinkUpload()).clickDoneButton();
-  }
-
   async #dropFiles(files: File[] | null): Promise<void> {
     const dropTarget = await this.#getDropTarget();
 
@@ -216,7 +208,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     throw Error('No help inline found.');
   }
 
-  async #getLinkUpload(): Promise<SkyFileDropLinkUploadHarness> {
+  async #getLinkUploadHarness(): Promise<SkyFileDropLinkUploadHarness> {
     const linkUpload = await this.locatorForOptional(
       SkyFileDropLinkUploadHarness,
     )();

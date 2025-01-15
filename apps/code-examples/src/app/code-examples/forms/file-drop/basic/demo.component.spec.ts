@@ -55,7 +55,7 @@ describe('Basic file drop demo', () => {
     );
     await expectAsync(harness.isStacked()).toBeResolvedTo(true);
 
-    const linkUploadHarness = await harness.getLinkUpload();
+    const linkUploadHarness = await harness.getLinkUploadHarness();
 
     await expectAsync(linkUploadHarness.getHintText()).toBeResolvedTo(
       'Start with http:// or https://',
@@ -95,7 +95,10 @@ describe('Basic file drop demo', () => {
     ).toBeResolvedTo(false);
     expect(formControl.valid).toBe(true);
 
-    await harness.uploadLink('link.to.upload');
+    const uploadLinkHarness = await harness.getLinkUploadHarness();
+    await uploadLinkHarness.enterText('foo.bar');
+    await uploadLinkHarness.clickDoneButton();
+
     expect(formControl.value?.length).toBe(4);
     await expectAsync(
       harness.hasCustomError('maxNumberOfFilesReached'),

@@ -159,7 +159,7 @@ describe('File drop harness', () => {
     );
     spyOn(input, 'click');
 
-    await harness.clickFileUploadButton();
+    await harness.clickFileDropTarget();
     expect(input.click).toHaveBeenCalled();
   });
 
@@ -211,18 +211,6 @@ describe('File drop harness', () => {
     await expectAsync(harness.getLabelText()).toBeResolvedTo('File upload');
   });
 
-  it('should load a file', async () => {
-    const { fixture, harness } = await setupTest();
-
-    await harness.uploadLink('foo.bar');
-
-    expect(fixture.componentInstance.fileDrop.value).toEqual([
-      {
-        url: 'foo.bar',
-      },
-    ]);
-  });
-
   it('should get whether the label is hidden', async () => {
     const { fixture, harness } = await setupTest();
 
@@ -262,7 +250,7 @@ describe('File drop harness', () => {
     fixture.componentInstance.required = true;
     fixture.detectChanges();
 
-    const input = await (await harness.getLinkUpload()).getInput();
+    const input = await (await harness.getLinkUploadHarness()).getInput();
 
     await input.focus();
     await input.blur();
@@ -349,7 +337,7 @@ describe('File drop harness', () => {
       fixture.detectChanges();
 
       await expectAsync(
-        (await harness.getLinkUpload()).getAriaLabel(),
+        (await harness.getLinkUploadHarness()).getAriaLabel(),
       ).toBeResolvedTo('upload aria-label');
     });
 
@@ -360,7 +348,7 @@ describe('File drop harness', () => {
       fixture.detectChanges();
 
       await expectAsync(
-        (await harness.getLinkUpload()).getHintText(),
+        (await harness.getLinkUploadHarness()).getHintText(),
       ).toBeResolvedTo('link hint text');
     });
 
@@ -368,7 +356,7 @@ describe('File drop harness', () => {
       const { harness } = await setupTest();
 
       await expectAsync(
-        (await harness.getLinkUpload()).clickDoneButton(),
+        (await harness.getLinkUploadHarness()).clickDoneButton(),
       ).toBeRejectedWithError('Done button is disabled and cannot be clicked.');
     });
 
@@ -378,9 +366,24 @@ describe('File drop harness', () => {
       fixture.componentInstance.allowLinks = false;
       fixture.detectChanges();
 
-      await expectAsync(harness.getLinkUpload()).toBeRejectedWithError(
+      await expectAsync(harness.getLinkUploadHarness()).toBeRejectedWithError(
         'Link upload cannot be found. Set `allowLinks` property to `true`.',
       );
+    });
+
+    it('should upload a link', async () => {
+      const { fixture, harness } = await setupTest();
+
+      const linkUploadHarness = await harness.getLinkUploadHarness();
+
+      await linkUploadHarness.enterText('foo.bar');
+      await linkUploadHarness.clickDoneButton();
+
+      expect(fixture.componentInstance.fileDrop.value).toEqual([
+        {
+          url: 'foo.bar',
+        },
+      ]);
     });
   });
 
