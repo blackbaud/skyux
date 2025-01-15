@@ -58,5 +58,5 @@ describe('sectioned form', () => {
         });
       });
     });
-  });
+  }, true);
 });
