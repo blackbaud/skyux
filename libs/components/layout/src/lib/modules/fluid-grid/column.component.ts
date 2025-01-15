@@ -7,8 +7,6 @@ import {
   numberAttribute,
 } from '@angular/core';
 
-import { SkyFluidGridColumnSize } from './types/fluid-grid-column-size';
-
 /**
  * Displays a column within a row of the fluid grid.
  */
@@ -28,8 +26,8 @@ export class SkyColumnComponent {
    * you do not specify a value, the fluid grid displays the column at the full
    * width of the screen.
    */
-  public screenXSmall = input<SkyFluidGridColumnSize, unknown>(12, {
-    transform: (value) => numberAttribute(value, 12) as SkyFluidGridColumnSize,
+  public screenXSmall = input(12, {
+    transform: (value) => numberAttribute(value, 12),
   });
 
   /**
@@ -37,22 +35,21 @@ export class SkyColumnComponent {
    * (768-991px). If you do not specify a value, the column inherits
    * the `screenXSmall` value.
    */
-  public screenSmall = input<SkyFluidGridColumnSize | undefined>();
+  public screenSmall = input(undefined, { transform: numberAttribute });
 
   /**
    * The number of columns (1-12) on medium screens
    * (992-1199px). If you do not specify a value, the column inherits
    * the `screenSmall` value.
    */
-
-  public screenMedium = input<SkyFluidGridColumnSize | undefined>();
+  public screenMedium = input(undefined, { transform: numberAttribute });
 
   /**
    * The number of columns (1-12) on large screens
    * (more than 1200px). If you do not specify a value, the column
    * inherits the `screenMedium` value.
    */
-  public screenLarge = input<SkyFluidGridColumnSize | undefined>();
+  public screenLarge = input(undefined, { transform: numberAttribute });
 
   protected classnames = computed(() => {
     const classnames = ['sky-column'];

@@ -21,7 +21,6 @@ export { SkyDescriptionListMode } from './lib/modules/description-list/types/des
 export { SkyDescriptionListModeType } from './lib/modules/description-list/types/description-list-mode-type';
 
 export { SkyFluidGridModule } from './lib/modules/fluid-grid/fluid-grid.module';
-export { SkyFluidGridColumnSize } from './lib/modules/fluid-grid/types/fluid-grid-column-size';
 export { SkyFluidGridGutterSizeType } from './lib/modules/fluid-grid/types/fluid-grid-gutter-size-type';
 
 export { SkyFormatItem } from './lib/modules/format/format-item';
