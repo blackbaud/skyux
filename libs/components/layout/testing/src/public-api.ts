@@ -15,3 +15,11 @@ export { SkyRowHarnessFilters } from './modules/fluid-grid/row-harness-filters';
 export { SkyTextExpandHarness } from './modules/text-expand/text-expand-harness';
 export { SkyTextExpandHarnessFilters } from './modules/text-expand/text-expand-harness-filters';
 export { SkyTextExpandModalHarness } from './modules/text-expand/text-expand-modal-harness';
+
+export { SkyToolbarItemHarness } from './modules/toolbar/toolbar-item-harness';
+export { SkyToolbarItemHarnessFilters } from './modules/toolbar/toolbar-item-harness-filters';
+export { SkyToolbarHarness } from './modules/toolbar/toolbar-harness';
+export { SkyToolbarHarnessFilters } from './modules/toolbar/toolbar-harness-filters';
+export { SkyToolbarSectionHarness } from './modules/toolbar/toolbar-section-harness';
+export { SkyToolbarSectionHarnessFilters } from './modules/toolbar/toolbar-section-harness-filters';
+export { SkyToolbarViewActionsHarness } from './modules/toolbar/toolbar-view-actions-harness';

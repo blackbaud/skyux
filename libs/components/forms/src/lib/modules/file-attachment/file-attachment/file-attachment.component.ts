@@ -593,8 +593,18 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  #handleFiles(files?: FileList | null): void {
-    if (files) {
+  #handleFiles(fileList?: FileList | null): void {
+    if (fileList) {
+      const files: SkyFileItem[] = [];
+
+      if ('item' in fileList) {
+        for (let index = 0; index < fileList.length; index++) {
+          files.push({
+            file: fileList.item(index),
+          } as SkyFileItem);
+        }
+      }
+
       const processedFiles = this.#fileAttachmentService.checkFiles(
         files,
         this.minFileSize,
