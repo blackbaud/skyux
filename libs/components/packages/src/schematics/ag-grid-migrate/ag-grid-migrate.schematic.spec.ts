@@ -19,7 +19,7 @@ interface TestSetup {
   schematic: (options: Schema) => Rule;
 }
 
-const UPDATE_TO_VERSION = '32.2.2';
+const UPDATE_TO_VERSION = '32.3.3';
 const UPDATE_TO_MIGRATION = '32.2.1';
 
 describe('ag-grid-migrate.schematic', () => {
