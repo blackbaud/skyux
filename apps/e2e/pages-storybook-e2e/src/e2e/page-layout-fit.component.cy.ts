@@ -23,5 +23,5 @@ describe(`pages-storybook`, () => {
         });
       });
     });
-  });
+  }, true);
 });

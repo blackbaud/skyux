@@ -51,5 +51,5 @@ describe(`pages-storybook`, () => {
         });
       });
     });
-  });
+  }, true);
 });
