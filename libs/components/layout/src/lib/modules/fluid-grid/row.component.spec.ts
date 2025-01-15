@@ -4,17 +4,16 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyRowComponent } from './row.component';
 
 describe('SkyRowComponent', () => {
-  let component: SkyRowComponent;
   let fixture: ComponentFixture<SkyRowComponent>;
   let element: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyRowComponent],
+      imports: [SkyRowComponent],
     });
 
     fixture = TestBed.createComponent(SkyRowComponent);
-    component = fixture.componentInstance;
+
     element = fixture.nativeElement;
   });
 
@@ -24,15 +23,15 @@ describe('SkyRowComponent', () => {
   });
 
   it('should add a class name to reverse the column order', () => {
-    component.reverseColumnOrder = false;
+    fixture.componentRef.setInput('reverseColumnOrder', false);
     fixture.detectChanges();
     expect(element.querySelector('.sky-row-reverse')).not.toExist();
 
-    component.reverseColumnOrder = true;
+    fixture.componentRef.setInput('reverseColumnOrder', true);
     fixture.detectChanges();
     expect(element.querySelector('.sky-row-reverse')).toExist();
 
-    component.reverseColumnOrder = undefined;
+    fixture.componentRef.setInput('reverseColumnOrder', undefined);
     fixture.detectChanges();
     expect(element.querySelector('.sky-row-reverse')).not.toExist();
   });

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { FluidGridTestComponent } from './fixtures/fluid-grid.component.fixture';
-import { FluidGridTestModule } from './fixtures/fluid-grid.module.fixture';
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 // #region helpers
@@ -43,7 +42,7 @@ describe('SkyFluidGridComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FluidGridTestModule],
+      imports: [FluidGridTestComponent],
     });
 
     fixture = TestBed.createComponent(FluidGridTestComponent);
