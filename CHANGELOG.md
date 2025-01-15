@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.35.0](https://github.com/blackbaud/skyux/compare/11.34.0...11.35.0) (2025-01-15)
+
+
+### Features
+
+* **components/forms:** file drop add control value accessor ([#2968](https://github.com/blackbaud/skyux/issues/2968)) ([b5ce498](https://github.com/blackbaud/skyux/commit/b5ce498cd922ef56062ef3854012a1e684a3987b))
+
+
+### Bug Fixes
+
+* **components/action-bars:** account for left nav in summary action bar position ([#3028](https://github.com/blackbaud/skyux/issues/3028)) ([6b88cd2](https://github.com/blackbaud/skyux/commit/6b88cd278aa0d746f3c4e7718b8b4157b4ecfb00))
+* **components/modals:** make modal footer error message focusable ([#3026](https://github.com/blackbaud/skyux/issues/3026)) ([4a98739](https://github.com/blackbaud/skyux/commit/4a98739298b88b81f15616d351ef079d7c28bf4d))
+
 ## [11.34.0](https://github.com/blackbaud/skyux/compare/11.33.0...11.34.0) (2025-01-13)
 
 
