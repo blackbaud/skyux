@@ -1,16 +1,26 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
-  SkyFileDropChange,
-  SkyFileDropModule,
-  SkyFileItem,
-  SkyFileLink,
-} from '@skyux/forms';
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { SkyFileDropModule, SkyFileItem, SkyFileLink } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 @Component({
   selector: 'app-demo',
   templateUrl: './demo.component.html',
-  imports: [SkyFileDropModule, SkyStatusIndicatorModule],
+  imports: [
+    SkyFileDropModule,
+    SkyStatusIndicatorModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class DemoComponent {
   protected acceptedTypes = 'image/png,image/jpeg';
@@ -21,45 +31,29 @@ export class DemoComponent {
   protected labelText = 'Logo image';
   protected maxFileSize = 5242880;
   protected rejectedFiles: SkyFileItem[] = [];
-  protected required = true;
   protected stacked = 'true';
 
-  #filesToUpload: SkyFileItem[] = [];
-  #linksToUpload: SkyFileLink[] = [];
+  protected fileDrop = new FormControl<
+    (SkyFileItem | SkyFileLink)[] | null | undefined
+  >(undefined, Validators.required);
+  protected formGroup: FormGroup = inject(FormBuilder).group({
+    fileDrop: this.fileDrop,
+  });
 
   protected deleteFile(file: SkyFileItem | SkyFileLink): void {
-    this.#removeFromArray(this.allItems, file);
-    this.#removeFromArray(this.#filesToUpload, file);
-    this.#removeFromArray(this.#linksToUpload, file);
-  }
+    const index = this.fileDrop.value?.indexOf(file);
 
-  protected onFilesChanged(change: SkyFileDropChange): void {
-    this.#filesToUpload = this.#filesToUpload.concat(change.files);
-    this.rejectedFiles = change.rejectedFiles;
-    this.allItems = this.allItems.concat(change.files);
-  }
-
-  protected onLinkChanged(change: SkyFileLink): void {
-    this.#linksToUpload = this.#linksToUpload.concat(change);
-    this.allItems = this.allItems.concat(change);
+    if (index !== undefined && index !== -1) {
+      this.fileDrop.value?.splice(index, 1);
+    }
+    if (this.fileDrop.value?.length === 0) {
+      this.fileDrop.setValue(null);
+    }
   }
 
   protected validateFile(file: SkyFileItem): string | undefined {
     return file.file.name.startsWith('a')
       ? 'Upload a file that does not begin with the letter "a"'
       : undefined;
-  }
-
-  #removeFromArray(
-    items: (SkyFileItem | SkyFileLink)[],
-    obj: SkyFileItem | SkyFileLink,
-  ): void {
-    if (items) {
-      const index = items.indexOf(obj);
-
-      if (index !== -1) {
-        items.splice(index, 1);
-      }
-    }
   }
 }
