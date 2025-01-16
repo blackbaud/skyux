@@ -6,21 +6,17 @@
 }
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(
+    --sky-override-page-header-alert-space-between,
+    var(--sky-space-stacked-l)
+  );
 
   &:not(:empty) {
     margin-bottom: var(
       --sky-override-page-header-alert-space-below,
       var(--sky-space-stacked-l)
     );
-
-    ::ng-deep {
-      sky-alert + sky-alert {
-        margin-top: var(
-          --sky-override-page-header-alert-space-between,
-          var(--sky-space-stacked-l)
-        );
-      }
-    }
   }
 }
