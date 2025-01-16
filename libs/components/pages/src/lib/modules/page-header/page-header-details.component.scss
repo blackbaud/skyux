@@ -1,7 +1,16 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-page-header-details-space-above: var(--sky-margin-stacked-sm);
+}
+
 :host {
   display: block;
 
   &:not(:empty) {
-    margin-top: var(--sky-margin-stacked-sm);
+    margin-top: var(
+      --sky-override-page-header-details-space-above,
+      var(--sky-space-stacked-s)
+    );
   }
 }
