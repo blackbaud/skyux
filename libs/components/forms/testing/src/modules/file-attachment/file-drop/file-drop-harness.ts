@@ -47,10 +47,17 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Drops a file onto the component's drop target.
+   * Clicks the link upload `Done` button'.
    */
-  public async dropFile(file: File): Promise<void> {
-    await this.#dropFiles([file]);
+  public async clickLinkUploadDoneButton(): Promise<void> {
+    return await (await this.#getLinkUpload()).clickDoneButton();
+  }
+
+  /**
+   * Enters text into the link upload input.
+   */
+  public async enterLinkUploadText(link: string): Promise<void> {
+    return await (await this.#getLinkUpload()).enterText(link);
   }
 
   /**
@@ -100,10 +107,17 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the link upload harness.
+   * Gets the link upload aria-label.
    */
-  public async getLinkUploadHarness(): Promise<SkyFileDropLinkUploadHarness> {
-    return await this.#getLinkUploadHarness();
+  public async getLinkUploadAriaLabel(): Promise<string | null> {
+    return await (await this.#getLinkUpload()).getAriaLabel();
+  }
+
+  /**
+   * Gets the link upload hint text.
+   */
+  public async getLinkUploadHintText(): Promise<string | undefined> {
+    return await (await this.#getLinkUpload()).getHintText();
   }
 
   /**
@@ -172,9 +186,16 @@ export class SkyFileDropHarness extends SkyComponentHarness {
   }
 
   /**
-   * Loads multiple files through the file drop.
+   * Loads a single file.
    */
-  public async uploadFiles(files: File[] | null): Promise<void> {
+  public async loadFile(file: File): Promise<void> {
+    await this.#dropFiles([file]);
+  }
+
+  /**
+   * Loads multiple files.
+   */
+  public async loadFiles(files: File[] | null): Promise<void> {
     return await this.#dropFiles(files);
   }
 
@@ -208,7 +229,7 @@ export class SkyFileDropHarness extends SkyComponentHarness {
     throw Error('No help inline found.');
   }
 
-  async #getLinkUploadHarness(): Promise<SkyFileDropLinkUploadHarness> {
+  async #getLinkUpload(): Promise<SkyFileDropLinkUploadHarness> {
     const linkUpload = await this.locatorForOptional(
       SkyFileDropLinkUploadHarness,
     )();

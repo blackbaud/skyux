@@ -6,6 +6,7 @@ import { SkyFileDropLinkUploadInputHarness } from './file-drop-link-upload-input
 
 /**
  * Harness for interacting with file drop component's link upload feature in tests.
+ * @internal
  */
 export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
   /**
@@ -21,8 +22,10 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
    * Clicks the `Done` button
    */
   public async clickDoneButton(): Promise<void> {
-    if (await this.isDisabled()) {
-      throw new Error('Done button is disabled and cannot be clicked.');
+    if (await this.#isDoneDisabled()) {
+      throw new Error(
+        'Done button is disabled and cannot be clicked. Enter text to enable link upload.',
+      );
     }
     return await (await this.#button()).click();
   }
@@ -48,17 +51,7 @@ export class SkyFileDropLinkUploadHarness extends SkyComponentHarness {
     return await (await this.#inputBoxHarness()).getHintText();
   }
 
-  /**
-   * Gets the input harness for upload link.
-   */
-  public async getInput(): Promise<SkyFileDropLinkUploadInputHarness> {
-    return await this.#input();
-  }
-
-  /**
-   * Whether the `Done` button is disabled.
-   */
-  public async isDisabled(): Promise<boolean> {
+  async #isDoneDisabled(): Promise<boolean> {
     return (await (await this.#button()).getAttribute('disabled')) !== null;
   }
 }

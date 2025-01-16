@@ -55,9 +55,7 @@ describe('Basic file drop demo', () => {
     );
     await expectAsync(harness.isStacked()).toBeResolvedTo(true);
 
-    const linkUploadHarness = await harness.getLinkUploadHarness();
-
-    await expectAsync(linkUploadHarness.getHintText()).toBeResolvedTo(
+    await expectAsync(harness.getLinkUploadHintText()).toBeResolvedTo(
       'Start with http:// or https://',
     );
   });
@@ -72,7 +70,7 @@ describe('Basic file drop demo', () => {
       new File([], 'validFile', { type: 'image/png' }),
     ];
 
-    await harness.uploadFiles(filesToUpload);
+    await harness.loadFiles(filesToUpload);
 
     expect(formControl.value?.length).toBe(1);
     await expectAsync(harness.hasValidateFnError()).toBeResolvedTo(true);
@@ -83,7 +81,7 @@ describe('Basic file drop demo', () => {
       dataSkyId: 'logo-upload',
     });
 
-    await harness.uploadFiles([
+    await harness.loadFiles([
       new File([], 'validFile1', { type: 'image/png' }),
       new File([], 'validFile2', { type: 'image/png' }),
       new File([], 'validFile3', { type: 'image/png' }),
@@ -95,9 +93,8 @@ describe('Basic file drop demo', () => {
     ).toBeResolvedTo(false);
     expect(formControl.valid).toBe(true);
 
-    const uploadLinkHarness = await harness.getLinkUploadHarness();
-    await uploadLinkHarness.enterText('foo.bar');
-    await uploadLinkHarness.clickDoneButton();
+    await harness.enterLinkUploadText('foo.bar');
+    await harness.clickLinkUploadDoneButton();
 
     expect(formControl.value?.length).toBe(4);
     await expectAsync(
