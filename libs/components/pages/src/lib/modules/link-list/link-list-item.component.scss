@@ -1,0 +1,11 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-link-item-space-below: var(--sky-margin-stacked-sm);
+}
+
+:host {
+  display: block;
+  margin: 0 0
+    var(--sky-override-link-item-space-below, var(--sky-space-stacked-s)) 0;
+}

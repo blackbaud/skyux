@@ -1,13 +1,22 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-page-header-alert-space-below: var(--sky-margin-stacked-lg);
+  --sky-override-page-header-alert-space-between: var(--sky-margin-stacked-lg);
+}
+
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(
+    --sky-override-page-header-alert-space-between,
+    var(--sky-space-stacked-l)
+  );
 
   &:not(:empty) {
-    margin-bottom: var(--sky-margin-stacked-lg);
-
-    ::ng-deep {
-      sky-alert + sky-alert {
-        margin-top: var(--sky-margin-stacked-lg);
-      }
-    }
+    margin-bottom: var(
+      --sky-override-page-header-alert-space-below,
+      var(--sky-space-stacked-l)
+    );
   }
 }
