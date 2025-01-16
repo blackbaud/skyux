@@ -144,5 +144,5 @@ describe('action-bars-storybook - summary action bar', () => {
         },
       );
     });
-  });
+  }, true);
 });
