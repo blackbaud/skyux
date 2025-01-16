@@ -17,7 +17,6 @@ export { SkyFileAttachmentHarnessFilters } from './modules/file-attachment/file-
 export { SkyFileDropHarness } from './modules/file-attachment/file-drop/file-drop-harness';
 export { SkyFileDropHarnessFilters } from './modules/file-attachment/file-drop/file-drop-harness-filters';
 export { provideSkyFileAttachmentTesting } from './modules/file-attachment/shared/provide-file-attachment-testing';
-export { SkyFileDropLinkUploadHarness } from './modules/file-attachment/file-drop/file-drop-link-upload-harness';
 export { SkyFileItemHarness } from './modules/file-attachment/file-drop/file-item-harness';
 export { SkyFileItemHarnessFilters } from './modules/file-attachment/file-drop/file-item-harness-filters';
 
