@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentRef,
@@ -30,6 +31,7 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
   selector: 'sky-ag-grid-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.title]': 'accessibleHeaderText()',
     '[attr.aria-label]': 'displayName() || accessibleHeaderText()',
@@ -166,7 +168,7 @@ export class SkyAgGridHeaderComponent
     );
 
     this.#updateInlineHelp();
-    this.#changeDetector.detectChanges();
+    this.#changeDetector.markForCheck();
   }
 
   public onMenuClick($event: Event): void {
