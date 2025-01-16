@@ -18,7 +18,10 @@
   (keyup.space)="tabButtonActivate($event)"
 >
   <div class="sky-vertical-tab-display">
-    <div class="sky-vertical-tab-heading">
+    <div
+      class="sky-vertical-tab-heading"
+      [ngClass]="{ 'sky-control-label-required': requiredIndicator }"
+    >
       <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
       @if (tabHeaderCount || tabHeaderCount === 0) {
         <span class="sky-vertical-tab-count"> ({{ tabHeaderCount }}) </span>
