@@ -24,5 +24,5 @@ describe(`pages-storybook-blocks-tile-dashboard`, () => {
         });
       });
     });
-  });
+  }, true);
 });
