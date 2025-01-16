@@ -9,11 +9,13 @@
     var(--sky-padding-even-xl);
   --sky-override-sectioned-form-modal-margin-adjustment: -15px;
   --sky-override-sectioned-form-tabs-only-padding: var(--sky-padding-even-md);
+  --sky-override-sectioned-form-tabs-padding: 0;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-sectioned-form') {
   --sky-override-sectioned-form-content-padding: var(--sky-padding-even-md)
     var(--sky-padding-even-xl);
+  --sky-override-sectioned-form-tabs-padding: 0;
 }
 
 @include mixins.sky-host-responsive-container-xs-min() {
@@ -37,6 +39,11 @@
   .sky-sectioned-form-tabs {
     flex-basis: auto;
     overflow-y: visible;
+    padding: var(
+      --sky-override-sectioned-form-tabs-padding,
+      var(--sky-space-inset-vertical-top-m) 0
+        var(--sky-space-inset-vertical-bottom-m)
+    );
   }
 
   .sky-sectioned-form-tabs + .sky-sectioned-form-content {
