@@ -6,9 +6,12 @@ export function workspaceCheck(): Rule {
   return async (tree: Tree, context: SchematicContext): Promise<void> => {
     const { workspace } = await getWorkspace(tree);
     workspace.projects.forEach((project, projectName) => {
-      const build = project.targets.get('build');
+      const build = { ...project.targets.get('build') };
       if (
-        build?.builder === '@angular-devkit/build-angular:application' &&
+        [
+          '@angular/build:application',
+          '@angular-devkit/build-angular:application',
+        ].includes(build.builder ?? '') &&
         (build.options?.['ssr'] ||
           Object.values(build.configurations ?? {}).some(
             (config) => config?.['ssr'],

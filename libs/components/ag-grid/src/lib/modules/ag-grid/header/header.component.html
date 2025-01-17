@@ -1,5 +1,5 @@
 <div class="ag-cell-label-container" role="presentation">
-  @if (params?.enableMenu) {
+  @if (params()?.enableMenu) {
     <span
       class="ag-header-icon ag-header-cell-menu-button"
       aria-hidden="true"
@@ -10,23 +10,23 @@
   }
   <div class="ag-header-cell-label" role="presentation">
     <span class="ag-header-cell-label-and-icons">
-      @if (params?.enableSorting) {
+      @if (params()?.enableSorting) {
         <button
           aria-hidden="true"
           class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
           tabindex="-1"
           type="button"
-          [attr.aria-label]="accessibleHeaderText"
-          [innerText]="displayName ?? ''"
+          [attr.aria-label]="accessibleHeaderText()"
+          [innerText]="displayName() ?? ''"
           [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
           (click)="onSortRequested($event)"
         ></button>
-      } @else if (displayName) {
+      } @else if (displayName()) {
         <span
           aria-hidden="true"
           class="ag-header-cell-text"
           [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
-          >{{ displayName }}</span
+          >{{ displayName() }}</span
         >
       }
       @if (filterEnabled$ | async) {
@@ -36,7 +36,7 @@
           ><sky-icon icon="filter"
         /></span>
       }
-      @if (params?.enableSorting) {
+      @if (params()?.enableSorting) {
         @if (sortOrder$ | async; as sortDirection) {
           <button
             class="ag-sort-indicator-container sky-btn sky-btn-icon-borderless"
@@ -49,7 +49,7 @@
                 <sky-icon *skyThemeIf="'modern'" icon="chevron-down" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
-                    | skyLibResources: displayName ?? accessibleHeaderText
+                    | skyLibResources: displayName() ?? accessibleHeaderText()
                 }}</span></span
               >
             }
@@ -59,7 +59,7 @@
                 <sky-icon *skyThemeIf="'modern'" icon="chevron-up" />
                 <span class="sky-screen-reader-only">{{
                   'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
-                    | skyLibResources: displayName ?? accessibleHeaderText
+                    | skyLibResources: displayName() ?? accessibleHeaderText()
                 }}</span></span
               >
             }
@@ -75,7 +75,7 @@
         } @else {
           <span class="sky-screen-reader-only">{{
             'sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted'
-              | skyLibResources: displayName ?? accessibleHeaderText
+              | skyLibResources: displayName() ?? accessibleHeaderText()
           }}</span>
         }
       }
