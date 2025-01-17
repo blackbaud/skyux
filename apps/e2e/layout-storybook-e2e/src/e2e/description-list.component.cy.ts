@@ -32,5 +32,5 @@ describe('layout-storybook - description-list', () => {
         },
       );
     });
-  });
+  }, true);
 });
