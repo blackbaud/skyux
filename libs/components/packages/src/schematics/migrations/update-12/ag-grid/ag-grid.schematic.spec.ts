@@ -144,9 +144,14 @@ describe('ag-grid.schematic', () => {
         }`,
     );
     tree.create(
+      'src/app/options.component.ts',
+      `import { SkyGetGridOptionsArgs } from '@skyux/ag-grid';`,
+    );
+    tree.create(
       'src/app/other.component.ts',
       `import { ColDef } from '@ag-grid-community/core';`,
     );
+    tree.create('src/app/unrelated.component.ts', `// No grid.`);
     await runner.runSchematic('ag-grid', {}, tree);
     expect(tree.readText('src/app/other.component.ts')).toEqual(
       `import { ColDef } from '@ag-grid-community/core';`,

@@ -108,13 +108,7 @@ async function updateSourceFiles(
 }
 
 /**
- * Upgrade to AG Grid 32 and address three breaking changes:
- *
- * - Switch Event Types to Strings
- * - Switch gridOptions.api and gridOptions.columnApi to gridApi
- * - Switch setQuickFilter to updateGridOptions
- * - Switch Beans references to use BeanCollection
- * - Switch Column references to use AgColumn
+ * Upgrade to AG Grid 32 and address breaking changes:
  *
  * Also advise against mixing modules and packages.
  */
