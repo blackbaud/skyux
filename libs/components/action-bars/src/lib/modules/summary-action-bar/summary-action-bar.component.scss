@@ -23,11 +23,12 @@
   --sky-override-summary-action-bar-summary-collapsible-border-bottom: 1px solid
     #{$sky-border-color-neutral-light};
   --sky-override-summary-action-bar-summary-items-margin-right: #{$sky-margin};
+  --sky-override-summary-action-bar-summary-margin: #{$sky-margin} 0;
 }
 
 @include compatMixins.sky-modern-overrides('.sky-summary-action-bar') {
-  --sky-override-summary-action-bar-box-shadow: 0 -3px 3px 0
-    #{$sky-color-gray-20};
+  --sky-override-summary-action-bar-box-shadow: 0
+    calc(var(--modern-size-3) * -1) var(--modern-size-3) 0 #{$sky-color-gray-20};
   --sky-override-summary-action-bar-details-collapse-margin-left: 0;
   --sky-override-summary-action-bar-details-collapse-margin-right: var(
     --modern-size-10
@@ -35,7 +36,7 @@
   --sky-override-summary-action-bar-details-expand-margin-right: var(
     --modern-size-20
   );
-  --sky-override-summary-action-bar-margin-top: #{$sky-margin-double};
+  --sky-override-summary-action-bar-margin-top: var(--modern-size-20);
   --sky-override-summary-action-bar-summary-actions-collapsible-padding: #{$sky-theme-modern-padding-even-lg};
   --sky-override-summary-action-bar-summary-body-collapsible-padding: #{$sky-theme-modern-padding-even-lg};
   --sky-override-summary-action-bar-summary-body-padding: 0 0 0
@@ -43,7 +44,10 @@
   --sky-override-summary-action-bar-summary-items-margin-bottom: calc(
     var(--sky-space-inline-s) * -1
   );
-  --sky-override-summary-action-bar-summary-items-margin-right: #{$sky-margin};
+  --sky-override-summary-action-bar-summary-items-margin-right: var(
+    --modern-size-10
+  );
+  --sky-override-summary-action-bar-summary-margin: var(--modern-size-10) 0;
 }
 
 .sky-summary-action-bar {
@@ -91,6 +95,7 @@
 }
 
 .sky-summary-action-bar-summary {
+  margin: var(--sky-override-summary-action-bar-summary-margin);
   border-left: var(--sky-override-summary-action-bar-summary-border-left, none);
 }
 
