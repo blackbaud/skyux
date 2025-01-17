@@ -47,6 +47,15 @@
       ],
       "cache": true
     },
+    "postbuild": {
+      "dependsOn": [
+        {
+          "target": "build"
+        }
+      ],
+      "cache": true,
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"]
+    },
     "@nx/jest:jest": {
       "inputs": ["testInputs", "^buildInputs"],
       "cache": true,
