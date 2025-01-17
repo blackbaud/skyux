@@ -46,9 +46,6 @@
     [attr.aria-controls]="summaryId"
     [ariaLabel]="'skyux_summary_action_bar_expand' | skyLibResources"
     [direction]="isSummaryCollapsed() ? 'up' : 'down'"
-    [skyThemeClass]="{
-      'sky-margin-inline-default': 'modern'
-    }"
     (directionChange)="onDirectionChange($event)"
   />
 </ng-template>

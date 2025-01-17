@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
-import { SkyThemeModule } from '@skyux/theme';
+import { SkyThemeComponentClassDirective, SkyThemeModule } from '@skyux/theme';
 
 /**
  * Specifies secondary actions.
@@ -19,6 +19,7 @@ import { SkyThemeModule } from '@skyux/theme';
   selector: 'sky-summary-action-bar-secondary-action',
   styleUrls: ['./summary-action-bar-secondary-action.component.scss'],
   templateUrl: './summary-action-bar-secondary-action.component.html',
+  hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkySummaryActionBarSecondaryActionComponent {
   /**

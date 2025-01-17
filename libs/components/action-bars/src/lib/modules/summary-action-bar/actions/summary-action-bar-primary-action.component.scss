@@ -1,12 +1,13 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-.sky-btn {
-  margin-right: $sky-margin;
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-summary-action-bar-action-button-margin-right: #{$sky-margin};
 }
 
-@include defaultMixins.sky-theme-modern {
-  .sky-btn {
-    margin-right: $sky-theme-modern-margin-inline-sm;
-  }
+.sky-btn {
+  margin-right: var(
+    --sky-override-summary-action-bar-action-button-margin-right,
+    var(--sky-space-gap-action_group-m)
+  );
 }
