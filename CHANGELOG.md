@@ -1,5 +1,17 @@
 # Changelog
 
+## [11.36.0](https://github.com/blackbaud/skyux/compare/11.35.0...11.36.0) (2025-01-16)
+
+
+### Features
+
+* **components/forms:** file drop harness ([#3029](https://github.com/blackbaud/skyux/issues/3029)) ([e0c5c22](https://github.com/blackbaud/skyux/commit/e0c5c22a6199d1980ebba33ae6a9899072b6602e))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header should have readable text ([#3037](https://github.com/blackbaud/skyux/issues/3037)) ([1918e12](https://github.com/blackbaud/skyux/commit/1918e121aa3a497cbd546f7efaa8f30484e0d7aa))
+
 ## [11.35.0](https://github.com/blackbaud/skyux/compare/11.34.0...11.35.0) (2025-01-15)
 
 
