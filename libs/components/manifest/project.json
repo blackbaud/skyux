@@ -23,6 +23,11 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-manifest.ts"
+      },
+      "configurations": {
+        "ci": {
+          "command": "echo '🏃‍➡️ Skipping postbuild script for CI.'"
+        }
       }
     },
     "lint": {
