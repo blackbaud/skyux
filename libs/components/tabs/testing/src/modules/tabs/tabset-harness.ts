@@ -2,6 +2,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyTabsetButtonsDisplayMode } from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
+import { SkyTabHarness } from './tab-harness';
 
 /**
  * Harness for interacting with a tabset component in tests.
@@ -13,7 +14,7 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-tabset';
 
   #getTabset = this.locatorFor('.sky-tabset');
-  #getTabs = this.locatorForAll(SkyTabButtonHarness);
+  #getTabButtons = this.locatorForAll(SkyTabButtonHarness);
 
   public async clickNewTabButton(): Promise<void> {
     const newTabButton = await this.locatorForOptional(
@@ -59,8 +60,14 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     )();
   }
 
+  public async getTabHarness(tabHeading: string): Promise<SkyTabHarness> {
+    return await this.locatorFor(
+      SkyTabHarness.with({ tabHeading: tabHeading }),
+    )();
+  }
+
   public async getTabButtonHarnesses(): Promise<SkyTabButtonHarness[]> {
-    return await this.#getTabs();
+    return await this.#getTabButtons();
   }
 
   public async getActiveTabButton(): Promise<SkyTabButtonHarness | null> {

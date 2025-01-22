@@ -2,9 +2,10 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyTabButtonHarnessFilters } from './tab-button-harness-filters';
+import { SkyTabHarness } from './tab-harness';
 
 /**
- * Harness for interacting with a tab component in tests.
+ * Harness for interacting with a tab button component in tests.
  */
 export class SkyTabButtonHarness extends SkyComponentHarness {
   /**
@@ -34,10 +35,21 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
     );
   }
 
+  public async click(): Promise<void> {
+    return await (await this.#getTabButton()).click();
+  }
+
   public async getTabHeading(): Promise<string> {
     return (
-      await (await this.locatorFor('.sky-tab-heading > span[skyid]')()).text()
-    ).trim();
+      // eslint-disable-next-line @cspell/spellchecker
+      (
+        await (await this.locatorFor('.sky-tab-heading > span[skyid]')()).text()
+      ).trim()
+    );
+  }
+
+  public async getPermalink(): Promise<string | null> {
+    return await (await this.#getTabButton()).getAttribute('href');
   }
 
   public async isActive(): Promise<boolean> {
@@ -48,12 +60,9 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
     return await (await this.#getTabButton()).hasClass('sky-btn-tab-disabled');
   }
 
-  /**ß
-   * @internal
-   */
-  public async getTabId(): Promise<string> {
-    return (
-      (await (await this.#getTabButton()).getAttribute('aria-controls')) || ''
-    );
+  public async getTabHarness(): Promise<SkyTabHarness> {
+    return await this.documentRootLocatorFactory().locatorFor(
+      SkyTabHarness.with({ tabHeading: await this.getTabHeading() }),
+    )();
   }
 }
