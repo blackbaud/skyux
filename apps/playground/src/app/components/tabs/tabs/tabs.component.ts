@@ -6,9 +6,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsComponent {
-  public newTabClick() {}
+  protected showTab3 = true;
 
-  public openTabClick() {}
-
-  public closeTab() {}
+  protected onNewTabClick(): void {
+    alert('Add tab clicked!');
+  }
 }
