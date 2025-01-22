@@ -148,9 +148,9 @@ export class SkyAutonumericDirective
 
     if (typeof value === 'number') {
       if (this.skyAutonumericFormChangesUnformatted) {
-        this.#autonumericInstance.setUnformatted(value);
+        this.#autonumericInstance.setUnformatted(value.toString());
       } else {
-        this.#autonumericInstance.set(value);
+        this.#autonumericInstance.set(value.toString());
       }
     } else {
       this.#autonumericInstance.clear();

@@ -211,6 +211,22 @@ describe('Autonumeric directive', () => {
     expect(formattedValue).toEqual('1,000.00000');
   }));
 
+  it('should support negativeBracketsTypeOnBlur', fakeAsync(() => {
+    setOptions({
+      currencySymbol: '$',
+      decimalPlaces: 2,
+      negativeBracketsTypeOnBlur: '(,)',
+    });
+
+    setValue(1000);
+
+    const modelValue = getModelValue();
+    const formattedValue = getFormattedValue();
+
+    expect(modelValue).toEqual(1000);
+    expect(formattedValue).toEqual('$1,000.00');
+  }));
+
   it('should update numeric value on keyup', fakeAsync(() => {
     detectChangesTick();
 
