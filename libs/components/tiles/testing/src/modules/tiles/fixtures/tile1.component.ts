@@ -9,6 +9,12 @@ import { SkyTilesModule } from '@skyux/tiles';
   imports: [SkyTilesModule],
 })
 export class Tile1Component {
+  public helpKey: string | undefined;
+  public helpContent: string | undefined;
+  public helpTitle: string | undefined;
+  public showSections = true;
+  public showSettings = true;
+
   public tileSettingsClick(): void {
     alert('tile settings clicked');
   }
