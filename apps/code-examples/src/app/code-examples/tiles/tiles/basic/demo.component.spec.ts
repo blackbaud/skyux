@@ -40,9 +40,9 @@ describe('Tile dashboard demo', () => {
       dataSkyId: 'tile-1',
     });
 
-    await expectAsync(tileHarness.isExpanded).toBeResolvedTo(false);
+    await expectAsync(tileHarness.isExpanded()).toBeResolvedTo(false);
     await tileHarness.expand();
-    await expectAsync(tileHarness.isExpanded).toBeResolvedTo(true);
+    await expectAsync(tileHarness.isExpanded()).toBeResolvedTo(true);
 
     const tile1Component = fixture.debugElement.query(By.css('div.tile1'));
     const settingsSpy = spyOn(
