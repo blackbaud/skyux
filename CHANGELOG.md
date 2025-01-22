@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.36.1](https://github.com/blackbaud/skyux/compare/11.36.0...11.36.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** support negativeBracketsTypeOnBlur option ([#3049](https://github.com/blackbaud/skyux/issues/3049)) ([7baecf7](https://github.com/blackbaud/skyux/commit/7baecf7dbb7d67958761627fdd35a7901b523b33))
+* **components/pages:** export `SkyNeedsAttentionItemHarness` for testing ([#3046](https://github.com/blackbaud/skyux/issues/3046)) ([d46eba5](https://github.com/blackbaud/skyux/commit/d46eba500605cff2fcb810d5cb5bd260dca5e9a7))
+
 ## [11.36.0](https://github.com/blackbaud/skyux/compare/11.35.0...11.36.0) (2025-01-16)
 
 
