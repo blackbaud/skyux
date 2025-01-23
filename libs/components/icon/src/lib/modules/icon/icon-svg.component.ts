@@ -1,5 +1,11 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 import { catchError, of, switchMap } from 'rxjs';
@@ -25,10 +31,8 @@ const SIZES = new Map([
   selector: 'sky-icon-svg',
   imports: [NgClass],
   templateUrl: './icon-svg.component.html',
-  styleUrls: [
-    './icon-svg.default.component.scss',
-    './icon-svg.modern.component.scss',
-  ],
+  styleUrls: ['./icon-svg.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);

@@ -52,7 +52,7 @@
 
   .sky-toast-icon-theme-modern {
     color: $modernIconColor;
-    --sky-icon-stack-top-icon-color-override: #{$modernIconTextColor};
+    --sky-icon-svg-path-2-color-input: #{$modernIconTextColor};
   }
 }
 

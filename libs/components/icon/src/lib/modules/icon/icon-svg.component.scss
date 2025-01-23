@@ -1,0 +1,95 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-icon-svg') {
+  --sky-override-icon-svg: 1em;
+  --sky-override-icon-svg-lg: 1.333em;
+  --sky-override-icon-svg-2x: 2em;
+  --sky-override-icon-svg-3x: 3em;
+  --sky-override-icon-svg-4x: 4em;
+  --sky-override-icon-svg-5x: 5em;
+}
+
+@include compatMixins.sky-modern-overrides('sky-icon-svg') {
+  --sky-override-icon-svg: 1em;
+  --sky-override-icon-svg-lg: 1.333em;
+  --sky-override-icon-svg-2x: 2em;
+  --sky-override-icon-svg-3x: 3em;
+  --sky-override-icon-svg-4x: 4em;
+  --sky-override-icon-svg-5x: 5em;
+}
+
+sky-icon-svg {
+  display: inline-block;
+  // vertical-align: bottom;
+  --sky-icon-svg-img-size: 1em;
+  --sky-icon-svg-img-top: 0.15em;
+
+  .oh-no {
+    display: inline-block;
+    font-size: var(--sky-icon-svg-img-size);
+
+    &:has(.sky-icon-svg-img-lg) {
+      --sky-icon-svg-img-size: 1.333em;
+    }
+
+    &:has(.sky-icon-svg-img-2x) {
+      --sky-icon-svg-img-size: 2em;
+    }
+
+    &:has(.sky-icon-svg-img-3x) {
+      --sky-icon-svg-img-size: 3em;
+    }
+
+    &:has(.sky-icon-svg-img-4x) {
+      --sky-icon-svg-img-size: 4em;
+    }
+
+    &:has(.sky-icon-svg-img-5x) {
+      --sky-icon-svg-img-size: 5em;
+    }
+  }
+}
+
+.sky-icon-svg-img {
+  display: inline-block;
+  fill: var(--sky-icon-svg-color-input, currentColor) !important;
+  height: 1em;
+  width: 1em;
+  text-align: center;
+  position: relative;
+  vertical-align: middle;
+  // top: var(--sky-icon-svg-img-top);
+
+  &-lg {
+    --sky-icon-svg-img-size: 1.333em;
+    --sky-icon-svg-img-top: 0.2em;
+  }
+
+  &-2x {
+    --sky-icon-svg-img-size: 2em;
+    --sky-icon-svg-img-top: 0.3em;
+  }
+
+  &-3x {
+    --sky-icon-svg-img-size: 3em;
+    --sky-icon-svg-img-top: 0.45em;
+  }
+
+  &-4x {
+    --sky-icon-svg-img-size: 4em;
+    --sky-icon-svg-img-top: 0.6em;
+  }
+
+  &-5x {
+    --sky-icon-svg-img-size: 5em;
+    --sky-icon-svg-img-top: 0.75em;
+  }
+}
+
+.sky-i-path-1 {
+  fill: var(--sky-icon-svg-color-input, currentColor);
+}
+
+.sky-i-path-2 {
+  fill: var(--sky-icon-svg-path-2-color-input, #fff);
+}

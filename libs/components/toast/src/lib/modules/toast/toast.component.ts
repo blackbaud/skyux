@@ -15,7 +15,6 @@ import {
 import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyIconStackItem } from '@skyux/icon';
 
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -69,11 +68,9 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   public ariaLive = 'polite';
   public ariaRole: string | undefined;
-  public baseIcon: SkyIconStackItem | undefined;
   public classNames = '';
-  public icon: string | undefined;
+  public iconName: string | undefined;
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
-  public topIcon: SkyIconStackItem | undefined;
 
   #autoCloseTimeoutId: unknown;
   #isOpen = false;
@@ -149,39 +146,21 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   #updateForToastType(): void {
     let icon: string;
-    let baseIcon: string;
-    let topIcon: string;
 
     switch (this.toastTypeOrDefault) {
       case SkyToastType.Danger:
       case SkyToastType.Warning:
-        icon = 'warning';
-        baseIcon = 'triangle-solid';
-        topIcon = 'exclamation';
+        icon = 'sky-warning';
         break;
       case SkyToastType.Info:
-        icon = 'exclamation-circle';
-        baseIcon = 'circle-solid';
-        topIcon = 'help-i';
+        icon = 'sky-info';
         break;
       case SkyToastType.Success:
-        icon = 'check';
-        baseIcon = 'circle-solid';
-        topIcon = 'check';
+        icon = 'sky-success';
         break;
     }
 
-    this.baseIcon = {
-      icon: baseIcon,
-      iconType: 'skyux',
-    };
-
-    this.topIcon = {
-      icon: topIcon,
-      iconType: 'skyux',
-    };
-
-    this.icon = icon;
+    this.iconName = icon;
 
     this.ariaLive =
       this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
