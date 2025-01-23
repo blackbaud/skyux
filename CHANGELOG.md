@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.1...12.0.0-alpha.2) (2025-01-23)
+
+
+### Bug Fixes
+
+* **components/packages:** remove v11 `ag-grid` schematic ([#3053](https://github.com/blackbaud/skyux/issues/3053)) ([0a5f852](https://github.com/blackbaud/skyux/commit/0a5f852be0b09e9866c105b9c4369e0c4f05ad0c))
+
 ## [12.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.0...12.0.0-alpha.1) (2025-01-22)
 
 
