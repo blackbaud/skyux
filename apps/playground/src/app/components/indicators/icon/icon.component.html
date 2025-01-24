@@ -32,9 +32,118 @@
     <sky-icon iconName="clipboard-multiple" /> Copy
   </button>
   <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="edit" /> Copy
+  </button>
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="sky-success" /> Copy
+  </button>
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
     <sky-icon icon="copy-to-clipboard" /> Copy
   </button>
-  <button type="button" class="sky-btn sky-btn-primary">
-    <sky-icon iconName="alert" /> Alert
-  </button>
+</div>
+
+<p>
+  Default size icon next to text inside a paragraph
+  <sky-icon iconName="edit" /> some text after
+</p>
+<p>
+  Default size icon next to text inside a paragraph
+  <sky-icon icon="edit" /> some text after
+</p>
+
+<p style="font-size: 24px">
+  Default size icon next to text inside a paragraph size 24px font
+  <sky-icon iconName="edit" /> some text after
+</p>
+<p style="font-size: 24px">
+  Default size icon next to text inside a paragraph size 24px font
+  <sky-icon icon="edit" /> some text after
+</p>
+
+<p>
+  3x size icon next to text inside a paragraph
+  <sky-icon iconName="edit" size="3x" /> some text after
+</p>
+<p>
+  3x size icon next to text inside a paragraph
+  <sky-icon icon="edit" size="3x" /> some text after
+</p>
+<p>
+  3x size icon next to text inside a paragraph
+  <sky-icon-stack
+    size="3x"
+    [baseIcon]="{ icon: 'circle-solid', iconType: 'skyux' }"
+    [topIcon]="{ icon: 'eye', iconType: 'skyux' }"
+  />
+  some text after
+</p>
+
+<p style="font-size: 48px">
+  16px size icon next to text inside a paragraph size 48px font
+  <span style="font-size: 16px"><sky-icon iconName="edit" /></span>
+</p>
+<p style="font-size: 48px">
+  16px size icon next to text inside a paragraph size 48px font
+  <span style="font-size: 16px"><sky-icon icon="edit" /></span>
+</p>
+
+<p>
+  Default size icon next to text inside a really long paragraph Lorem ipsum
+  dolor sit amet, consectetur adipiscing elit. Nulla vitae tortor vitae velit
+  mattis aliquet eget auctor dui. Etiam in erat et lectus luctus ornare sed at
+  nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada
+  fames ac turpis egestas. Nullam volutpat lorem vitae blandit vehicula.
+  Maecenas sodales id neque vitae egestas. Aliquam laoreet malesuada urna nec
+  commodo. Quisque varius fringilla leo, sed ultricies libero maximus et.
+  Praesent vel viverra nibh. In ac rutrum justo. Nullam hendrerit lacinia
+  ligula, vel pretium ante aliquet quis. Aenean auctor finibus dapibus. Nullam
+  volutpat vehicula enim, ac auctor arcu venenatis non. Ut rhoncus arcu id
+  molestie tempor. Nullam et magna euismod, dignissim justo sed, condimentum
+  tortor. Vestibulum scelerisque, ligula et tempus egestas, dolor ex lacinia
+  arcu, ut cursus dolor purus sit amet libero. Nulla a lectus lorem. Sed
+  pulvinar viverra iaculis. Suspendisse accumsan quis diam in congue. Lorem
+  ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar ac sapien
+  id sodales. Morbi molestie mauris ut lectus efficitur, aliquam tempor ante
+  ultrices. Nam a nisi at purus ultricies bibendum sed ut justo. Mauris porta id
+  leo at dictum. Vivamus laoreet, massa in accumsan vulputate, ex turpis
+  efficitur massa, ac tincidunt enim diam ut erat. <sky-icon iconName="edit" />
+</p>
+<p>
+  Default size icon next to text inside a really long paragraph Lorem ipsum
+  dolor sit amet, consectetur adipiscing elit. Nulla vitae tortor vitae velit
+  mattis aliquet eget auctor dui. Etiam in erat et lectus luctus ornare sed at
+  nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada
+  fames ac turpis egestas. Nullam volutpat lorem vitae blandit vehicula.
+  Maecenas sodales id neque vitae egestas. Aliquam laoreet malesuada urna nec
+  commodo. Quisque varius fringilla leo, sed ultricies libero maximus et.
+  Praesent vel viverra nibh. In ac rutrum justo. Nullam hendrerit lacinia
+  ligula, vel pretium ante aliquet quis. Aenean auctor finibus dapibus. Nullam
+  volutpat vehicula enim, ac auctor arcu venenatis non. Ut rhoncus arcu id
+  molestie tempor. Nullam et magna euismod, dignissim justo sed, condimentum
+  tortor. Vestibulum scelerisque, ligula et tempus egestas, dolor ex lacinia
+  arcu, ut cursus dolor purus sit amet libero. Nulla a lectus lorem. Sed
+  pulvinar viverra iaculis. Suspendisse accumsan quis diam in congue. Lorem
+  ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar ac sapien
+  id sodales. Morbi molestie mauris ut lectus efficitur, aliquam tempor ante
+  ultrices. Nam a nisi at purus ultricies bibendum sed ut justo. Mauris porta id
+  leo at dictum. Vivamus laoreet, massa in accumsan vulputate, ex turpis
+  efficitur massa, ac tincidunt enim diam ut erat.<sky-icon icon="edit" />
+</p>
+
+Icon next to text inline <sky-icon iconName="edit" /> Icon next to text inline
+<sky-icon icon="edit" />
+
+regular text inline big icon <sky-icon iconName="edit" size="3x" /> regular text
+inline big icon <sky-icon icon="edit" size="3x" />
+<br />
+
+<div style="font-size: 48px">
+  Really big text next to a small icon in a div<span style="font-size: 16px"
+    ><sky-icon iconName="edit"
+  /></span>
+</div>
+<div style="font-size: 48px">
+  Really big text next to a small icon in a div<span style="font-size: 16px"
+    ><sky-icon icon="edit"
+  /></span>
 </div>

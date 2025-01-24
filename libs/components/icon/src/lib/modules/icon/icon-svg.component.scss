@@ -20,45 +20,19 @@
 
 sky-icon-svg {
   display: inline-block;
-  // vertical-align: bottom;
   --sky-icon-svg-img-size: 1em;
-  --sky-icon-svg-img-top: 0.15em;
-
-  .oh-no {
-    display: inline-block;
-    font-size: var(--sky-icon-svg-img-size);
-
-    &:has(.sky-icon-svg-img-lg) {
-      --sky-icon-svg-img-size: 1.333em;
-    }
-
-    &:has(.sky-icon-svg-img-2x) {
-      --sky-icon-svg-img-size: 2em;
-    }
-
-    &:has(.sky-icon-svg-img-3x) {
-      --sky-icon-svg-img-size: 3em;
-    }
-
-    &:has(.sky-icon-svg-img-4x) {
-      --sky-icon-svg-img-size: 4em;
-    }
-
-    &:has(.sky-icon-svg-img-5x) {
-      --sky-icon-svg-img-size: 5em;
-    }
-  }
+  // --sky-icon-svg-img-top: 0.15em;
 }
 
 .sky-icon-svg-img {
   display: inline-block;
   fill: var(--sky-icon-svg-color-input, currentColor) !important;
-  height: 1em;
-  width: 1em;
+  height: var(--sky-icon-svg-img-size);
+  width: var(--sky-icon-svg-img-size);
   text-align: center;
   position: relative;
-  vertical-align: middle;
   // top: var(--sky-icon-svg-img-top);
+  // vertical-align: baseline;
 
   &-lg {
     --sky-icon-svg-img-size: 1.333em;
