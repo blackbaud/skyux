@@ -17,6 +17,7 @@ interface SkyManifestComment {
   isInternal?: boolean;
   isPreview?: boolean;
   isRequired?: boolean;
+  tags?: string[];
 }
 
 const DEFAULT_CODE_EXAMPLE_LANGUAGE: SkyManifestCodeExampleLanguage = 'markup';
@@ -60,6 +61,13 @@ function getCodeExample(comment: CommentTag): {
   }
 
   return { codeExample, codeExampleLanguage };
+}
+
+function getTags(comment: Comment | undefined): string[] | undefined {
+  return comment
+    ?.getTag('@tags')
+    ?.content[0].text.split(',')
+    .map((tag) => tag.trim());
 }
 
 /**
@@ -134,6 +142,8 @@ export function getComment(reflection: {
         .replace(/(\r\n|\n|\r)/gm, ' ') || undefined;
   }
 
+  const tags = getTags(reflection.comment);
+
   return {
     codeExample,
     codeExampleLanguage,
@@ -144,5 +154,6 @@ export function getComment(reflection: {
     isInternal,
     isPreview,
     isRequired,
+    tags,
   } satisfies SkyManifestComment;
 }

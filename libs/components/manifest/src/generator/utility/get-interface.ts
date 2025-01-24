@@ -58,6 +58,7 @@ export function getInterface(
     isDeprecated,
     isInternal,
     isPreview,
+    tags,
   } = getComment(decl);
 
   const indexSignatures = getIndexSignatures(decl);
@@ -77,6 +78,7 @@ export function getInterface(
     isPreview,
     kind: 'interface',
     name: decl.name,
+    tags,
   };
 
   return def;
