@@ -6,7 +6,7 @@ import { SkyTileHarness } from './tile-harness';
 import { SkyTileHarnessFilters } from './tile-harness-filters';
 
 /**
- * Harness to interact with a tile content component in tests.
+ * Harness to interact with a tile dashboard component in tests.
  */
 export class SkyTileDashboardHarness extends SkyQueryableComponentHarness {
   /**

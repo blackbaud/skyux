@@ -57,7 +57,7 @@ describe('Tile dashboard test harness', () => {
     });
 
     const items = await tileDashboardHarness.getTiles({
-      dataSkyId: 'tile-1',
+      titleText: 'Tile 1',
     });
 
     expect(items.length).toBe(1);

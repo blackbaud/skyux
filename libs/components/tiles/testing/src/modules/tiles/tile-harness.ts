@@ -28,7 +28,14 @@ export class SkyTileHarness extends SkyComponentHarness {
   public static with(
     filters: SkyTileHarnessFilters,
   ): HarnessPredicate<SkyTileHarness> {
-    return SkyTileHarness.getDataSkyIdPredicate(filters);
+    return SkyTileHarness.getDataSkyIdPredicate(filters).addOption(
+      'titleText',
+      filters.titleText,
+      async (harness, text) => {
+        const title = await harness.getTitleText();
+        return await HarnessPredicate.stringMatches(title, text);
+      },
+    );
   }
 
   /**
