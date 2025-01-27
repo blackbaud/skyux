@@ -2,6 +2,8 @@
   "import": "@skyux/dev-infra-private/.cspell-shared.json",
   "words": [
     "cyclomatic",
+    "checkmark",
+    "gantt",
     "fetchpriority",
     "interactable",
     "ngsrc",
