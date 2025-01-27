@@ -20,14 +20,16 @@ export function getPublicApi(options?: {
     packages: {},
   };
 
-  if (options.tags) {
+  const tags = options.tags;
+
+  if (tags) {
     for (const [packageName, packageDefinitions] of Object.entries(
       publicApi.packages,
     )) {
       let filteredPackageDefinitions = packageDefinitions.filter(
         (definition) => {
           if (definition.tags) {
-            return definition.tags.some((tag) => options.tags?.includes(tag));
+            return definition.tags.some((tag) => tags.includes(tag));
           }
 
           return false;
@@ -60,5 +62,5 @@ export function getPublicApi(options?: {
     }
   }
 
-  return publicApi;
+  return filteredApi;
 }
