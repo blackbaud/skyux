@@ -33,6 +33,9 @@ const SIZES = new Map([
   templateUrl: './icon-svg.component.html',
   styleUrls: ['./icon-svg.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class]': '"sky-icon-svg-" + iconSize()',
+  },
 })
 export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);

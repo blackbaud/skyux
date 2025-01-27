@@ -22,19 +22,15 @@ sky-icon-svg {
   display: inline-block;
   --sky-icon-svg-img-size: 1em;
   // --sky-icon-svg-img-top: 0.15em;
+
+  &::after {
+    content: ' ';
+    display: inline;
+    font-size: var(--sky-icon-svg-img-size);
+  }
 }
 
-.sky-icon-svg-img {
-  display: inline-block;
-  fill: var(--sky-icon-svg-color-input, currentColor) !important;
-  height: var(--sky-icon-svg-img-size);
-  width: var(--sky-icon-svg-img-size);
-  text-align: center;
-  position: relative;
-  // top: var(--sky-icon-svg-img-top);
-  // vertical-align: baseline;
-  // vertical-align: middle;
-
+.sky-icon-svg {
   &-lg {
     --sky-icon-svg-img-size: 1.333em;
     --sky-icon-svg-img-top: 0.2em;
@@ -59,6 +55,19 @@ sky-icon-svg {
     --sky-icon-svg-img-size: 5em;
     --sky-icon-svg-img-top: 0.75em;
   }
+}
+
+.sky-icon-svg-img {
+  display: inline-block;
+  fill: var(--sky-icon-svg-color-input, currentColor) !important;
+  height: var(--sky-icon-svg-img-size);
+  width: var(--sky-icon-svg-img-size);
+  text-align: center;
+  position: relative;
+  // transform: translateY(15%);
+  top: var(--sky-icon-svg-img-top);
+  // vertical-align: baseline;
+  // vertical-align: middle;
 }
 
 .sky-i-path-1 {
