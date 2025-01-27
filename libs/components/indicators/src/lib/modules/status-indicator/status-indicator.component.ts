@@ -108,9 +108,9 @@ export class SkyStatusIndicatorComponent implements OnInit {
   }
 
   #updateIcon(): void {
-    this.iconName = SkyIndicatorIconUtility.getIconNameForType(
+    this.iconName = SkyIndicatorIconUtility.getIconsForType(
       this.indicatorTypeOrDefault,
-    );
+    ).iconName;
   }
 
   #updateDescriptionComputed(): void {

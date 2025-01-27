@@ -15,7 +15,11 @@
   }"
 >
   <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-alert-icon">
-    <sky-icon [iconName]="iconName" size="2x" variant="solid" />
+    @if (useOldIcon) {
+      <sky-icon-stack [baseIcon]="alertBaseIcon" [topIcon]="alertTopIcon" />
+    } @else {
+      <sky-icon [iconName]="iconName" size="2x" variant="solid" />
+    }
   </div>
   <div *skyThemeIf="'default'" aria-hidden="true" class="sky-alert-icon">
     <sky-icon [iconName]="iconName" variant="solid" />

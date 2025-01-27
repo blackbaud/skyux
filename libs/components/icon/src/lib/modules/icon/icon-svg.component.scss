@@ -19,13 +19,13 @@
 }
 
 sky-icon-svg {
-  display: inline-block;
+  display: block;
   --sky-icon-svg-img-size: 1em;
-  // --sky-icon-svg-img-top: 0.15em;
+  --sky-icon-svg-img-top: 0.15em;
 }
 
 .sky-icon-svg-img {
-  display: inline-block;
+  display: block;
   fill: var(--sky-icon-svg-color-input, currentColor) !important;
   height: var(--sky-icon-svg-img-size);
   width: var(--sky-icon-svg-img-size);
@@ -68,3 +68,11 @@ sky-icon-svg {
 .sky-i-path-2 {
   fill: var(--sky-icon-svg-path-2-color-input, #fff);
 }
+
+// i::before {
+//   background-color: lavender;
+// }
+
+// svg {
+//   background-color: pink;
+// }

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
+import { SkyAlertModule } from '@skyux/indicators';
 
 @Component({
   selector: 'app-icon',
-  imports: [SkyIconModule],
+  imports: [SkyIconModule, SkyAlertModule],
   templateUrl: './icon.component.html',
   styles: [
     `

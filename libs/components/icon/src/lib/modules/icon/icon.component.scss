@@ -1,5 +1,9 @@
 :host {
   display: inline-block;
+
+  &.sky-svg-icon {
+    vertical-align: text-bottom;
+  }
 }
 
 i {

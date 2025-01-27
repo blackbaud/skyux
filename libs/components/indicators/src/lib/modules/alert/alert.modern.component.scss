@@ -57,6 +57,9 @@
 
   &:not(.sky-alert-danger) {
     --sky-icon-svg-path-2-color-input: #{$sky-text-color-default};
+    --sky-icon-stack-top-icon-color-override: var(
+      --sky-override-alert-inner-icon-color
+    );
   }
 
   &.sky-alert-info {
@@ -125,10 +128,6 @@
 
   &.sky-alert-info .sky-alert-icon {
     color: var(--sky-color-icon-info);
-    --sky-icon-svg-path-2-color-input: var(
-      --sky-override-alert-inner-icon-color,
-      var(--sky-color-inverse)
-    );
   }
 
   &.sky-alert-success .sky-alert-icon {

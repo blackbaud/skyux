@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   inject,
 } from '@angular/core';
@@ -30,6 +31,7 @@ export class SkyIconComponent {
    * The name of the Blackbaud SVG icon to display. For internal use only.
    * @internal
    */
+  @HostBinding('class.sky-svg-icon')
   @Input()
   public iconName: string | undefined;
 

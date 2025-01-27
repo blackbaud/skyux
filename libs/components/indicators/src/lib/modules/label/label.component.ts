@@ -102,9 +102,9 @@ export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
   }
 
   #updateIcon(): void {
-    this.iconName = SkyIndicatorIconUtility.getIconNameForType(
+    this.iconName = SkyIndicatorIconUtility.getIconsForType(
       this.labelTypeOrDefault,
-    );
+    ).iconName;
   }
 
   #updateDescriptionComputed(): void {
