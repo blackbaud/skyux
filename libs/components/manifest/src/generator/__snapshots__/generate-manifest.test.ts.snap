@@ -259,6 +259,18 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"typeParameters\\": \\"<TClass extends FooBaseClass>\\"
       },
       {
+        \\"anchorId\\": \\"class_foo-with-docs-id-override-class\\",
+        \\"docsId\\": \\"docs-id-override\\",
+        \\"docsIncludeIds\\": [
+          \\"foo\\",
+          \\"bar\\",
+          \\"baz\\"
+        ],
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/src/lib/foo.class.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooWithDocsIdOverrideClass\\"
+      },
+      {
         \\"anchorId\\": \\"class_foo-with-static-properties-class\\",
         \\"children\\": [
           {

@@ -108,3 +108,9 @@ export abstract class FooWithStaticPropertiesClass {
    */
   public abstract someAbstractMethod(): void;
 }
+
+/**
+ * @docsId docs-id-override
+ * @docsIncludeIds foo,    bar, baz
+ */
+export class FooWithDocsIdOverrideClass {}

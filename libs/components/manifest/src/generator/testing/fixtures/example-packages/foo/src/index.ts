@@ -13,6 +13,7 @@ export {
   FooBasicTypeParamClass,
   FooBasicTypeParamDefaultValueClass,
   FooClass,
+  FooWithDocsIdOverrideClass,
   FooWithStaticPropertiesClass,
 } from './lib/foo.class';
 export { FooComponent as λ1 } from './lib/foo.component';
