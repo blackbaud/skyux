@@ -32,8 +32,14 @@ export interface SkyDataViewConfig {
   /**
    * The Font Awesome icon name to use for this view in the view switcher.
    * Required if you have more than one view. Do not include the `fa-` prefix.
+   * @deprecated Use `iconName` instead.
    */
   icon?: string;
+  /**
+   * The name of the Blackbaud SVG icon to display for this view in the view switcher.
+   * Required if you have more than one view.
+   */
+  iconName?: string;
   /**
    * The unique ID for this view.
    */

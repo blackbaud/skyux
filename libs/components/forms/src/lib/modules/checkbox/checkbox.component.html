@@ -41,8 +41,12 @@
         'sky-switch-control-danger': checkboxType === 'danger'
       }"
     >
-      @if (icon) {
-        <sky-icon [fixedWidth]="true" [icon]="icon" />
+      @if (icon || iconName) {
+        @if (iconName) {
+          <sky-icon [fixedWidth]="true" [iconName]="iconName" />
+        } @else {
+          <sky-icon [fixedWidth]="true" [icon]="icon" />
+        }
       } @else {
         @if (indeterminate) {
           <sky-icon

@@ -30,7 +30,9 @@
         'sky-switch-control-danger': icon && radioType === 'danger'
       }"
     >
-      @if (icon) {
+      @if (iconName) {
+        <sky-icon [fixedWidth]="true" [iconName]="iconName" />
+      } @else if (icon) {
         <sky-icon [fixedWidth]="true" [icon]="icon" />
       }
     </span>
