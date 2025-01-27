@@ -450,6 +450,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     ]);
     let cellEditorParams: Partial<SkyCellEditorDatepickerParams>;
     let column: AgColumn;
+    let gridCell: HTMLElement;
     const dateString = '01/01/2019';
     const date = new Date(dateString);
     const rowNode = new RowNode({} as BeanCollection);
@@ -464,6 +465,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         'col',
         true,
       );
+      gridCell = document.createElement('div');
 
       cellEditorParams = {
         api,
@@ -472,6 +474,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         node: rowNode,
         colDef: {},
         cellStartedEdit: true,
+        eGridCell: gridCell,
       };
     });
 
@@ -488,6 +491,24 @@ describe('SkyCellEditorDatepickerComponent', () => {
       spyOn(input, 'focus');
 
       datepickerEditorComponent.afterGuiAttached();
+      tick();
+
+      expect(input).toBeVisible();
+      expect(input.focus).toHaveBeenCalled();
+    }));
+
+    it('should respond to reset focus', fakeAsync(() => {
+      datepickerEditorComponent.agInit(
+        cellEditorParams as SkyCellEditorDatepickerParams,
+      );
+      datepickerEditorFixture.detectChanges();
+      const input = datepickerEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+      spyOn(input, 'focus');
+      datepickerEditorComponent.onFocusOut({
+        relatedTarget: gridCell,
+      } as unknown as FocusEvent);
       tick();
 
       expect(input).toBeVisible();
