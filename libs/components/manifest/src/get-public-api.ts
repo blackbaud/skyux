@@ -8,11 +8,11 @@ const publicApi = publicApiJson as unknown as SkyManifestPublicApi;
  * Gets the public API from the manifest.
  * @internal
  */
-export function getPublicApi(options?: {
+export function getPublicApi(filters?: {
   tags?: string[];
   excludeInternal?: boolean;
 }): SkyManifestPublicApi {
-  if (!options) {
+  if (!filters) {
     return publicApi;
   }
 
@@ -20,8 +20,8 @@ export function getPublicApi(options?: {
     packages: {},
   };
 
-  const excludeInternal = options.excludeInternal;
-  const tags = options.tags;
+  const excludeInternal = filters.excludeInternal;
+  const tags = filters.tags;
 
   if (tags && tags.length > 0) {
     for (const [packageName, packageDefinitions] of Object.entries(
