@@ -65,7 +65,14 @@ export class SkyAgGridCellEditorDatepickerComponent
 
   @HostListener('focusout', ['$event'])
   public onFocusOut(event: FocusEvent): void {
-    if (event.target === this.datepickerInput?.nativeElement) {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the datepicker input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    } else if (event.target === this.datepickerInput?.nativeElement) {
       this.#stopEditingOnBlur();
     }
   }
