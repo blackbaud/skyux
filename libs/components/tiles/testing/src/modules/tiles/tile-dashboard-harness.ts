@@ -51,4 +51,13 @@ export class SkyTileDashboardHarness extends SkyQueryableComponentHarness {
     }
     return tiles;
   }
+
+  /**
+   * Whether or not the dashboard is in multi-column mode.
+   */
+  public async isMultiColumn(): Promise<boolean> {
+    const host = await this.host();
+
+    return await host.hasClass('sky-tile-dashboard-multi-column');
+  }
 }

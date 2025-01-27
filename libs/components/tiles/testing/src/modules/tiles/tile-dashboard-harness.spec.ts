@@ -1,6 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 
 import { TileDashboardHarnessTestComponent } from './fixtures/tile-dashboard-harness-test.component';
 import { SkyTileDashboardHarness } from './tile-dashboard-harness';
@@ -12,10 +16,14 @@ describe('Tile dashboard test harness', () => {
     } = {},
   ): Promise<{
     tileDashboardHarness: SkyTileDashboardHarness;
+    mediaQueryController: SkyMediaQueryTestingController;
   }> {
     await TestBed.configureTestingModule({
       imports: [TileDashboardHarnessTestComponent, NoopAnimationsModule],
+      providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
+
+    const mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
 
     const fixture = TestBed.createComponent(TileDashboardHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
@@ -28,10 +36,26 @@ describe('Tile dashboard test harness', () => {
         )
       : await loader.getHarness(SkyTileDashboardHarness);
 
-    return { tileDashboardHarness };
+    return { tileDashboardHarness, mediaQueryController };
   }
 
-  it('should get the tile dashboard and a tile by data-sky-id', async () => {
+  it('should get the tile dashboard by data-sky-id', async () => {
+    const { tileDashboardHarness, mediaQueryController } = await setupTest({
+      dataSkyId: 'basic-dashboard',
+    });
+
+    mediaQueryController.setBreakpoint('xs');
+    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
+      false,
+    );
+
+    mediaQueryController.setBreakpoint('lg');
+    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should get a tile based on criteria', async () => {
     const { tileDashboardHarness } = await setupTest({
       dataSkyId: 'basic-dashboard',
     });

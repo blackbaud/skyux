@@ -2,6 +2,10 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import { SkyTileDashboardHarness } from '@skyux/tiles/testing';
 
 import { DemoComponent } from './demo.component';
@@ -13,11 +17,15 @@ describe('Tile dashboard demo', () => {
     } = {},
   ): Promise<{
     tileDashboardHarness: SkyTileDashboardHarness;
+    mediaQueryController: SkyMediaQueryTestingController;
     fixture: ComponentFixture<DemoComponent>;
   }> {
     await TestBed.configureTestingModule({
       imports: [DemoComponent, NoopAnimationsModule],
+      providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
+
+    const mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
 
     const fixture = TestBed.createComponent(DemoComponent);
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
@@ -30,11 +38,18 @@ describe('Tile dashboard demo', () => {
         )
       : await loader.getHarness(SkyTileDashboardHarness);
 
-    return { tileDashboardHarness, fixture };
+    return { tileDashboardHarness, mediaQueryController, fixture };
   }
 
   it('should set up the tile dashboard', async () => {
-    const { tileDashboardHarness, fixture } = await setupTest();
+    const { tileDashboardHarness, mediaQueryController, fixture } =
+      await setupTest();
+
+    mediaQueryController.setBreakpoint('lg');
+
+    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
+      true,
+    );
 
     const tileHarness = await tileDashboardHarness.getTile({
       dataSkyId: 'tile-1',
