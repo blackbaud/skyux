@@ -13,7 +13,7 @@ interface SkyManifestComment {
   defaultValue?: string;
   deprecationReason?: string;
   description?: string;
-  docsId: string;
+  docsId?: string;
   docsIncludeIds?: string[];
   isDeprecated?: boolean;
   isInternal?: boolean;
@@ -84,7 +84,7 @@ export function getComment(reflection: {
   let defaultValue: string | undefined;
   let deprecationReason: string | undefined;
   let description: string | undefined;
-  let docsId = reflection.name;
+  let docsId: string | undefined;
   let docsIncludeIds: string[] | undefined;
   let isDeprecated: boolean | undefined;
   let isInternal: boolean | undefined;
@@ -119,9 +119,12 @@ export function getComment(reflection: {
 
           case '@docsId': {
             const docsIdFromComment = getCommentTagText(tag.content);
+
+            /* istanbul ignore next: safety check */
             if (!docsIdFromComment) {
               throw new Error(`A @docsId tag must have a value.`);
             }
+
             docsId = docsIdFromComment;
             break;
           }

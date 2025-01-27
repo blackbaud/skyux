@@ -114,3 +114,9 @@ export abstract class FooWithStaticPropertiesClass {
  * @docsIncludeIds foo,    bar, baz
  */
 export class FooWithDocsIdOverrideClass {}
+
+/**
+ * @docsId docs-id-override
+ * @docsIncludeIds
+ */
+export class FooWithEmptyDocsIncludeIdsClass {}

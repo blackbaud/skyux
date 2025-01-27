@@ -135,7 +135,7 @@ export function getDirective(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsId,
+    docsId: docsId ?? directiveName,
     docsIncludeIds,
     filePath,
     isDeprecated,

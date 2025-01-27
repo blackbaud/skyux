@@ -28,7 +28,7 @@ export function getVariable(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsId,
+    docsId: docsId ?? reflection.name,
     docsIncludeIds,
     filePath,
     isDeprecated,

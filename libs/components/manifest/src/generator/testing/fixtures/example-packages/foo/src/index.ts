@@ -14,6 +14,7 @@ export {
   FooBasicTypeParamDefaultValueClass,
   FooClass,
   FooWithDocsIdOverrideClass,
+  FooWithEmptyDocsIncludeIdsClass,
   FooWithStaticPropertiesClass,
 } from './lib/foo.class';
 export { FooComponent as λ1 } from './lib/foo.component';

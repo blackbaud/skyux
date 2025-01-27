@@ -72,7 +72,7 @@ export function getInterface(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsId,
+    docsId: docsId ?? decl.name,
     docsIncludeIds,
     filePath,
     indexSignatures,
