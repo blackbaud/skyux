@@ -22,21 +22,18 @@ export class SkyTabHarness extends SkyQueryableComponentHarness {
     filters: SkyTabHarnessFilters,
   ): HarnessPredicate<SkyTabHarness> {
     return new HarnessPredicate(SkyTabHarness, filters).addOption(
-      'tabHeading',
-      filters.tabHeading,
-      async (harness, tabHeading) => {
-        const harnessTabHeading = await harness.getTabHeading();
-        return await HarnessPredicate.stringMatches(
-          harnessTabHeading,
-          tabHeading,
-        );
+      'tabId',
+      filters.tabId,
+      async (harness, tabId) => {
+        const harnessId = await harness.getTabId();
+        return await HarnessPredicate.stringMatches(harnessId, tabId);
       },
     );
   }
 
-  public async getTabHeading(): Promise<string | null> {
+  public async getTabId(): Promise<string | null> {
     // eslint-disable-next-line @cspell/spellchecker
-    return await (await this.host()).getAttribute('tabheading');
+    return await (await this.#getTab()).getAttribute('id');
   }
 
   public async getLayout(): Promise<string | null> {
@@ -44,11 +41,6 @@ export class SkyTabHarness extends SkyQueryableComponentHarness {
   }
 
   public async isVisible(): Promise<boolean> {
-    return await (await this.#getTab()).getProperty<boolean>('hidden');
-  }
-
-  public async getTabIndexValue(): Promise<string | null> {
-    // eslint-disable-next-line @cspell/spellchecker
-    return await (await this.host()).getAttribute('tabindexvalue');
+    return !(await (await this.#getTab()).getProperty<boolean>('hidden'));
   }
 }

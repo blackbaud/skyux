@@ -1,5 +1,7 @@
 <sky-tabset ariaLabel="Tab demonstration" (newTab)="onNewTabClick()">
-  <sky-tab [tabHeading]="'Tab 1'"> Content for Tab 1 </sky-tab>
+  <sky-tab [tabHeading]="'Tab 1'" [tabIndexValue]="tabIndexValue">
+    Content for Tab 1</sky-tab
+  >
   <sky-tab [tabHeading]="'Tab 2'"> Content for Tab 2 </sky-tab>
   @if (showTab3) {
     <sky-tab [tabHeading]="'Tab 3'" (close)="showTab3 = false">

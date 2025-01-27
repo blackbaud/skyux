@@ -62,7 +62,18 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
 
   public async getTabHarness(): Promise<SkyTabHarness> {
     return await this.documentRootLocatorFactory().locatorFor(
-      SkyTabHarness.with({ tabHeading: await this.getTabHeading() }),
+      SkyTabHarness.with({ tabId: await this.getTabId() }),
     )();
+  }
+
+  /**
+   * @internal
+   */
+  public async getTabId(): Promise<string> {
+    return (
+      (await (await this.#getTabButton()).getAttribute('aria-controls')) ||
+      /* istanbul ignore next */
+      ''
+    );
   }
 }

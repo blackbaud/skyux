@@ -6,7 +6,7 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
 export interface SkyTabHarnessFilters extends SkyHarnessFilters {
   /**
-   * Finds tabs whose tab heading matches this value.
+   * Finds tabs whose id matches given value.
    */
-  tabHeading: string;
+  tabId: string;
 }

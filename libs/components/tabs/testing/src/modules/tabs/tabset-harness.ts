@@ -1,8 +1,10 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyTabsetButtonsDisplayMode } from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
 import { SkyTabHarness } from './tab-harness';
+import { SkyTabsetHarnessFilters } from './tabset-harness-filters';
 
 /**
  * Harness for interacting with a tabset component in tests.
@@ -15,6 +17,16 @@ export class SkyTabsetHarness extends SkyComponentHarness {
 
   #getTabset = this.locatorFor('.sky-tabset');
   #getTabButtons = this.locatorForAll(SkyTabButtonHarness);
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyTabsetHarness` that meets certain criteria.
+   */
+  public static with(
+    filters: SkyTabsetHarnessFilters,
+  ): HarnessPredicate<SkyTabsetHarness> {
+    return SkyTabsetHarness.getDataSkyIdPredicate(filters);
+  }
 
   public async clickNewTabButton(): Promise<void> {
     const newTabButton = await this.locatorForOptional(
@@ -48,10 +60,6 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     return await (await this.#getTabset()).getAttribute('aria-labelledby');
   }
 
-  public async getPermalinkId(): Promise<string | null> {
-    return await (await this.host()).getAttribute('permalinkId');
-  }
-
   public async getTabButtonHarness(
     tabHeading: string,
   ): Promise<SkyTabButtonHarness> {
@@ -59,15 +67,14 @@ export class SkyTabsetHarness extends SkyComponentHarness {
       SkyTabButtonHarness.with({ tabHeading: tabHeading }),
     )();
   }
-
-  public async getTabHarness(tabHeading: string): Promise<SkyTabHarness> {
-    return await this.locatorFor(
-      SkyTabHarness.with({ tabHeading: tabHeading }),
-    )();
-  }
-
   public async getTabButtonHarnesses(): Promise<SkyTabButtonHarness[]> {
     return await this.#getTabButtons();
+  }
+
+  public async getTabHarness(tabHeading: string): Promise<SkyTabHarness> {
+    const tabButton = await this.getTabButtonHarness(tabHeading);
+    const id = await tabButton.getTabId();
+    return await this.locatorFor(SkyTabHarness.with({ tabId: id }))();
   }
 
   public async getActiveTabButton(): Promise<SkyTabButtonHarness | null> {
@@ -79,6 +86,7 @@ export class SkyTabsetHarness extends SkyComponentHarness {
       }
     }
 
+    /* istanbul ignore next */
     return null;
   }
 
