@@ -1,3 +1,6 @@
+/**
+ * @tags data-manager
+ */
 export interface SkyDataManagerSortOption {
   /**
    * Whether to apply the sort in descending order.

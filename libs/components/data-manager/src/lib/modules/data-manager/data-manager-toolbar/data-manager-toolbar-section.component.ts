@@ -5,6 +5,7 @@ import { SkyToolbarModule } from '@skyux/layout';
  * A wrapper for items to be rendered in `SkyDataManagerToolbarComponent`. The contents are
  * rendered in an additional toolbar row beneath the primary toolbar and above the multiselect
  * toolbar (if present).
+ * @tags data-manager
  */
 @Component({
   selector: 'sky-data-manager-toolbar-section',
