@@ -123,16 +123,14 @@ export async function getPublicApi(
       const items = packages.get(entryName) ?? [];
 
       for (const child of reflection.children) {
-        const fileName = child.sources?.[0].fileName;
+        const filePath = child.sources?.[0].fullFileName
+          .replace(process.cwd(), '')
+          .slice(1);
 
         /* istanbul ignore if: safety check */
-        if (!fileName || fileName.endsWith('/index.ts')) {
+        if (!filePath || filePath.endsWith('/index.ts')) {
           continue;
         }
-
-        const filePath = fileName.startsWith(projectRoot)
-          ? fileName
-          : `${projectRoot}/src/${fileName}`;
 
         items.push(getManifestItem(child, filePath));
       }
