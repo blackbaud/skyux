@@ -20,9 +20,10 @@ export function getPublicApi(options?: {
     packages: {},
   };
 
+  const excludeInternal = options.excludeInternal;
   const tags = options.tags;
 
-  if (tags) {
+  if (tags && tags.length > 0) {
     for (const [packageName, packageDefinitions] of Object.entries(
       publicApi.packages,
     )) {
@@ -36,7 +37,7 @@ export function getPublicApi(options?: {
         },
       );
 
-      if (options.excludeInternal) {
+      if (excludeInternal) {
         filteredPackageDefinitions = filteredPackageDefinitions.filter(
           (definition) => !definition.isInternal,
         );
@@ -48,7 +49,7 @@ export function getPublicApi(options?: {
     }
   }
 
-  if (options.excludeInternal) {
+  if (excludeInternal) {
     for (const [packageName, packageDefinitions] of Object.entries(
       publicApi.packages,
     )) {
