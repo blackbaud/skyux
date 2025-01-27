@@ -1,6 +1,7 @@
 import { Component, Input, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
 
 const FONTSIZECLASS_SMALL = '2x';
 const FONTSIZECLASS_LARGE = '3x';
@@ -15,7 +16,7 @@ const FONTSIZECLASS_LARGE = '3x';
     './action-button-icon.modern.component.scss',
   ],
   templateUrl: './action-button-icon.component.html',
-  standalone: false,
+  imports: [SkyIconModule],
 })
 export class SkyActionButtonIconComponent {
   /**
@@ -25,9 +26,16 @@ export class SkyActionButtonIconComponent {
    * set `iconType` to `filter`. SKY UX supports version 4.7.0 of Font Awesome.
    * For more information about icons in SKY UX, see the
    * [icon component](https://developer.blackbaud.com/skyux/components/icon).
+   * @deprecated use `iconName` instead
    */
   @Input()
   public iconType: string | undefined;
+
+  /**
+   * The name of the Blackbaud SVG icon to display.
+   */
+  @Input()
+  public iconName: string | undefined;
 
   readonly #breakpoint = toSignal(
     inject(SkyMediaQueryService).breakpointChange,
