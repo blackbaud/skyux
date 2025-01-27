@@ -18,6 +18,7 @@ export function getVariable(
     isDeprecated,
     isInternal,
     isPreview,
+    tags,
   } = getComment(reflection);
 
   const def: SkyManifestVariableDefinition = {
@@ -32,6 +33,7 @@ export function getVariable(
     isPreview,
     kind: 'variable',
     name: reflection.name,
+    tags,
     type: formatType(reflection),
   };
 

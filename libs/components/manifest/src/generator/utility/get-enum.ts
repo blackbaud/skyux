@@ -54,6 +54,7 @@ export function getEnum(
     isDeprecated,
     isInternal,
     isPreview,
+    tags,
   } = getComment(reflection);
 
   const def: SkyManifestEnumerationDefinition = {
@@ -69,6 +70,7 @@ export function getEnum(
     kind: 'enumeration',
     children: getEnumMembers(reflection),
     name: reflection.name,
+    tags,
   };
 
   return def;

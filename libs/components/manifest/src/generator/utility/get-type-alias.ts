@@ -58,6 +58,7 @@ export function getTypeAlias(
     isDeprecated,
     isInternal,
     isPreview,
+    tags,
   } = getComment(reflection);
 
   const formattedType =
@@ -75,6 +76,7 @@ export function getTypeAlias(
     isPreview,
     kind: 'type-alias',
     name: reflection.name,
+    tags,
     type: formattedType,
   };
 

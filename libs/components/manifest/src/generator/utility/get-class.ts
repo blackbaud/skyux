@@ -122,6 +122,7 @@ export function getClass(
     isDeprecated,
     isInternal,
     isPreview,
+    tags,
   } = getComment(reflection);
 
   const methods = getMethods(reflection) ?? [];
@@ -141,6 +142,7 @@ export function getClass(
     isPreview,
     kind,
     name: reflection.name,
+    tags,
     typeParameters: formatTypeParameters(reflection),
   };
 

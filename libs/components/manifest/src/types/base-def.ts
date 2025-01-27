@@ -54,7 +54,7 @@ export interface SkyManifestParentDefinition
   isInternal?: boolean;
   kind: SkyManifestParentDefinitionKind;
   name: string;
-  tags?: string[];
+  tags: string[];
 }
 
 /**

@@ -119,6 +119,7 @@ export function getDirective(
     isDeprecated,
     isInternal,
     isPreview,
+    tags,
   } = getComment(reflection);
 
   const directiveName = remapLambdaName(reflection);
@@ -140,6 +141,7 @@ export function getDirective(
     kind,
     name: directiveName,
     selector: getSelector(reflection),
+    tags,
   };
 
   return directive;
