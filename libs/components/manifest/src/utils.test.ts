@@ -10,6 +10,7 @@ describe('utils', () => {
       kind: 'directive',
       isDeprecated: false,
       name: '',
+      tags: [],
     };
 
     expect(isDirectiveDefinition(definition)).toEqual(true);
@@ -22,6 +23,7 @@ describe('utils', () => {
       filePath: '',
       kind: 'service',
       name: '',
+      tags: [],
     };
 
     expect(isDirectiveDefinition(definition)).toEqual(false);

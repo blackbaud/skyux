@@ -13,21 +13,24 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"description\\": \\"This describes a class with a name not including letters or numbers.\\",
         \\"filePath\\": \\"src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"____\\"
+        \\"name\\": \\"____\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"class_foo1\\",
         \\"description\\": \\"This describes a class with a name comprising of letters and numbers.\\",
         \\"filePath\\": \\"src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"Foo1\\"
+        \\"name\\": \\"Foo1\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"class_foo-with-only-letters\\",
         \\"description\\": \\"This describes a class with a name comprising only of letters.\\",
         \\"filePath\\": \\"src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooWithOnlyLetters\\"
+        \\"name\\": \\"FooWithOnlyLetters\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"variable_should-have-code-example-default-language-comment\\",
@@ -36,6 +39,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleDefaultLanguageComment\\",
+        \\"tags\\": [],
         \\"type\\": \\"true\\"
       },
       {
@@ -45,6 +49,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleMarkupLanguageComment\\",
+        \\"tags\\": [],
         \\"type\\": \\"true\\"
       },
       {
@@ -54,6 +59,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleUnknownLanguageComment\\",
+        \\"tags\\": [],
         \\"type\\": \\"true\\"
       },
       {
@@ -62,6 +68,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isDeprecated\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveDeprecatedComment\\",
+        \\"tags\\": [],
         \\"type\\": \\"true\\"
       },
       {
@@ -71,6 +78,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isDeprecated\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveDeprecatedReasonComment\\",
+        \\"tags\\": [],
         \\"type\\": \\"true\\"
       },
       {
@@ -79,6 +87,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isInternal\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveInternalComment\\",
+        \\"tags\\": [],
         \\"type\\": \\"true\\"
       },
       {
@@ -87,13 +96,15 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isPreview\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHavePreviewComment\\",
+        \\"tags\\": [],
         \\"type\\": \\"true\\"
       },
       {
         \\"anchorId\\": \\"class_foo-base-class\\",
         \\"filePath\\": \\"src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooBaseClass\\"
+        \\"name\\": \\"FooBaseClass\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"class_foo-basic-type-param-class\\",
@@ -112,6 +123,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooBasicTypeParamClass\\",
+        \\"tags\\": [],
         \\"typeParameters\\": \\"<T extends unknown>\\"
       },
       {
@@ -126,6 +138,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooBasicTypeParamDefaultValueClass\\",
+        \\"tags\\": [],
         \\"typeParameters\\": \\"<T = boolean>\\"
       },
       {
@@ -242,6 +255,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooClass\\",
+        \\"tags\\": [],
         \\"typeParameters\\": \\"<TClass extends FooBaseClass>\\"
       },
       {
@@ -285,7 +299,20 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"description\\": \\"This describes the foo abstract class.\\",
         \\"filePath\\": \\"src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"FooWithStaticPropertiesClass\\"
+        \\"name\\": \\"FooWithStaticPropertiesClass\\",
+        \\"tags\\": []
+      },
+      {
+        \\"anchorId\\": \\"class_foo-with-tags-class\\",
+        \\"description\\": \\"This describes a class with tags.\\",
+        \\"filePath\\": \\"src/lib/foo.class.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooWithTagsClass\\",
+        \\"tags\\": [
+          \\"foo\\",
+          \\"bar\\",
+          \\"baz\\"
+        ]
       },
       {
         \\"anchorId\\": \\"class_foo-component\\",
@@ -326,7 +353,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"FooComponent\\",
-        \\"selector\\": \\"lib-foo\\"
+        \\"selector\\": \\"lib-foo\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"type-alias_foo-breakpoint\\",
@@ -334,6 +362,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.const-assertion.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooBreakpoint\\",
+        \\"tags\\": [],
         \\"type\\": \\"readonly [\\\\\\"xs\\\\\\", \\\\\\"sm\\\\\\", \\\\\\"md\\\\\\", \\\\\\"lg\\\\\\"]\\"
       },
       {
@@ -343,6 +372,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"isInternal\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"FOO_BREAKPOINTS\\",
+        \\"tags\\": [],
         \\"type\\": \\"readonly [\\\\\\"xs\\\\\\", \\\\\\"sm\\\\\\", \\\\\\"md\\\\\\", \\\\\\"lg\\\\\\"]\\"
       },
       {
@@ -351,7 +381,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"FooDirective\\",
-        \\"selector\\": \\"[foo]\\"
+        \\"selector\\": \\"[foo]\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"class_foo-with-inputs-outputs-directive\\",
@@ -403,7 +434,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"FooWithInputsOutputsDirective\\",
-        \\"selector\\": \\"[foo]\\"
+        \\"selector\\": \\"[foo]\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"class_λ2\\",
@@ -411,7 +443,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"λ2\\",
-        \\"selector\\": \\"[fooLambda]\\"
+        \\"selector\\": \\"[fooLambda]\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"enum_foo-enum\\",
@@ -432,7 +465,8 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"1\\"
           }
         ],
-        \\"name\\": \\"FooEnum\\"
+        \\"name\\": \\"FooEnum\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"function_create-foo\\",
@@ -459,6 +493,7 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"number\\"
           }
         ],
+        \\"tags\\": [],
         \\"type\\": \\"FooClass<T>\\",
         \\"typeParameters\\": \\"<T extends string>\\"
       },
@@ -466,7 +501,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"anchorId\\": \\"interface_foo-empty-interface\\",
         \\"filePath\\": \\"src/lib/foo.interface.ts\\",
         \\"kind\\": \\"interface\\",
-        \\"name\\": \\"FooEmptyInterface\\"
+        \\"name\\": \\"FooEmptyInterface\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"interface_foo-interface\\",
@@ -501,7 +537,8 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"kind\\": \\"interface\\",
-        \\"name\\": \\"FooInterface\\"
+        \\"name\\": \\"FooInterface\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"class_foo-module\\",
@@ -519,7 +556,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         ],
         \\"filePath\\": \\"src/lib/foo.module.ts\\",
         \\"kind\\": \\"module\\",
-        \\"name\\": \\"FooModule\\"
+        \\"name\\": \\"FooModule\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"class_foo-pipe\\",
@@ -561,6 +599,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.pipe.ts\\",
         \\"kind\\": \\"pipe\\",
         \\"name\\": \\"FooPipe\\",
+        \\"tags\\": [],
         \\"templateBindingName\\": \\"foo\\"
       },
       {
@@ -576,7 +615,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"description\\": \\"This describes the foo service and everything it does.\\",
         \\"filePath\\": \\"src/lib/foo.service.ts\\",
         \\"kind\\": \\"service\\",
-        \\"name\\": \\"FooService\\"
+        \\"name\\": \\"FooService\\",
+        \\"tags\\": []
       },
       {
         \\"anchorId\\": \\"type-alias_foo-alias\\",
@@ -584,6 +624,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.type-alias.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooAlias\\",
+        \\"tags\\": [],
         \\"type\\": \\"\\\\\\"foo\\\\\\" | true | 0 | undefined | null\\"
       },
       {
@@ -592,6 +633,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.type-alias.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooReferenceTypeAlias\\",
+        \\"tags\\": [],
         \\"type\\": \\"string | keyof Component\\"
       },
       {
@@ -600,6 +642,7 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"src/lib/foo.variable.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"FOO_VARIABLE\\",
+        \\"tags\\": [],
         \\"type\\": \\"InjectionToken<unknown>\\"
       }
     ],
@@ -609,7 +652,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"description\\": \\"Harness for interacting with a foo component in tests.\\",
         \\"filePath\\": \\"testing/src/foo-harness.ts\\",
         \\"kind\\": \\"class\\",
-        \\"name\\": \\"SkyFooHarness\\"
+        \\"name\\": \\"SkyFooHarness\\",
+        \\"tags\\": []
       }
     ]
   }

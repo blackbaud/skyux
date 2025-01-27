@@ -1,4 +1,4 @@
-export { Foo1, FooWithOnlyLetters, ____ } from './lib/anchor-id';
+export { ____, Foo1, FooWithOnlyLetters } from './lib/anchor-id';
 export {
   shouldHaveCodeExampleDefaultLanguageComment,
   shouldHaveCodeExampleMarkupLanguageComment,
@@ -14,6 +14,7 @@ export {
   FooBasicTypeParamDefaultValueClass,
   FooClass,
   FooWithStaticPropertiesClass,
+  FooWithTagsClass,
 } from './lib/foo.class';
 export { FooComponent as λ1 } from './lib/foo.component';
 export { FOO_BREAKPOINTS, FooBreakpoint } from './lib/foo.const-assertion';
