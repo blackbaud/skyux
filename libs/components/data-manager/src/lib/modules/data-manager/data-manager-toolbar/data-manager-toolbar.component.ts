@@ -44,7 +44,6 @@ import { SkyDataViewConfig } from '../models/data-view-config';
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
  * and the `SkyDataManagerToolbarLeftItemsComponent`, `SkyDataManagerToolbarRightItemsComponent`,
  * and `SkyDataManagerToolbarSectionComponent` wrappers.
- * @tags data-manager
  */
 @Component({
   selector: 'sky-data-manager-toolbar',

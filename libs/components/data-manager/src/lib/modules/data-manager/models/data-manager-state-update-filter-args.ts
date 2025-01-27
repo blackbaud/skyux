@@ -3,7 +3,6 @@ import { SkyDataManagerState } from './data-manager-state';
 /**
  * Optional arguments to pass to `getDataStateUpdates`.
  * Provide either a list of properties to filter on OR a custom comparator.
- * @tags data-manager
  */
 export interface SkyDataManagerStateUpdateFilterArgs {
   /**

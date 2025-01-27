@@ -9,9 +9,6 @@ import { SkyDataManagerToolbarComponent } from './data-manager-toolbar/data-mana
 import { SkyDataManagerComponent } from './data-manager.component';
 import { SkyDataViewComponent } from './data-view.component';
 
-/**
- * @tags data-manager
- */
 @NgModule({
   imports: [
     SkyDataManagerComponent,

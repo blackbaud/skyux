@@ -13,11 +13,12 @@ interface SkyManifestComment {
   defaultValue?: string;
   deprecationReason?: string;
   description?: string;
+  docsId: string;
+  docsIncludeIds?: string[];
   isDeprecated?: boolean;
   isInternal?: boolean;
   isPreview?: boolean;
   isRequired?: boolean;
-  tags: string[];
 }
 
 const DEFAULT_CODE_EXAMPLE_LANGUAGE: SkyManifestCodeExampleLanguage = 'markup';
@@ -63,12 +64,11 @@ function getCodeExample(comment: CommentTag): {
   return { codeExample, codeExampleLanguage };
 }
 
-function getTags(comment: Comment | undefined): string[] {
+function getDocsIncludeIds(tag: CommentTag): string[] {
   return (
-    comment
-      ?.getTag('@tags')
-      ?.content[0].text.split(',')
-      .map((tag) => tag.trim()) ?? []
+    getCommentTagText(tag.content)
+      ?.split(',')
+      .map((id) => id.trim()) || []
   );
 }
 
@@ -84,6 +84,8 @@ export function getComment(reflection: {
   let defaultValue: string | undefined;
   let deprecationReason: string | undefined;
   let description: string | undefined;
+  let docsId = reflection.name;
+  let docsIncludeIds: string[] | undefined;
   let isDeprecated: boolean | undefined;
   let isInternal: boolean | undefined;
   let isPreview: boolean | undefined;
@@ -112,6 +114,20 @@ export function getComment(reflection: {
           case '@deprecated': {
             isDeprecated = true;
             deprecationReason = getCommentTagText(tag.content);
+            break;
+          }
+
+          case '@docsId': {
+            const docsIdFromComment = getCommentTagText(tag.content);
+            if (!docsIdFromComment) {
+              throw new Error(`A @docsId tag must have a value.`);
+            }
+            docsId = docsIdFromComment;
+            break;
+          }
+
+          case '@docsIncludeIds': {
+            docsIncludeIds = getDocsIncludeIds(tag);
             break;
           }
 
@@ -144,18 +160,17 @@ export function getComment(reflection: {
         .replace(/(\r\n|\n|\r)/gm, ' ') || undefined;
   }
 
-  const tags = getTags(reflection.comment);
-
   return {
     codeExample,
     codeExampleLanguage,
     defaultValue,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
     isRequired,
-    tags,
   } satisfies SkyManifestComment;
 }

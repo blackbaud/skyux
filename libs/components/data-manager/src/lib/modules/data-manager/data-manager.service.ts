@@ -28,7 +28,6 @@ import { SkyDataViewState } from './models/data-view-state';
  * Provide this service at the component level for each instance of a data manager. Do not
  * provide it at the module level or in `app-extras`. This allows multiple data
  * managers to be used and self-contained.
- * @tags data-manager
  */
 @Injectable()
 export class SkyDataManagerService implements OnDestroy {

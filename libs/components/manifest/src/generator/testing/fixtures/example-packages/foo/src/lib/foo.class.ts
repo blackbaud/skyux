@@ -108,9 +108,3 @@ export abstract class FooWithStaticPropertiesClass {
    */
   public abstract someAbstractMethod(): void;
 }
-
-/**
- * This describes a class with tags.
- * @tags foo,       bar, baz
- */
-export class FooWithTagsClass {}

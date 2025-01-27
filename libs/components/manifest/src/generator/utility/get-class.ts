@@ -119,10 +119,11 @@ export function getClass(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
-    tags,
   } = getComment(reflection);
 
   const methods = getMethods(reflection) ?? [];
@@ -136,13 +137,14 @@ export function getClass(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     filePath,
     isDeprecated,
     isInternal,
     isPreview,
     kind,
     name: reflection.name,
-    tags,
     typeParameters: formatTypeParameters(reflection),
   };
 

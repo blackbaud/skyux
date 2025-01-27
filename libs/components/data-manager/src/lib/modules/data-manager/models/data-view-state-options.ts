@@ -1,8 +1,5 @@
 import { SkyDataViewColumnWidths } from './data-view-column-widths';
 
-/**
- * @tags data-manager
- */
 export interface SkyDataViewStateOptions {
   /**
    * The ID of this view.

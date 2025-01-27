@@ -15,10 +15,11 @@ export function getVariable(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
-    tags,
   } = getComment(reflection);
 
   const def: SkyManifestVariableDefinition = {
@@ -27,13 +28,14 @@ export function getVariable(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     filePath,
     isDeprecated,
     isInternal,
     isPreview,
     kind: 'variable',
     name: reflection.name,
-    tags,
     type: formatType(reflection),
   };
 

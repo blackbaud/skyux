@@ -1,9 +1,6 @@
 import { SkyDataManagerConfig } from './data-manager-config';
 import { SkyDataManagerState } from './data-manager-state';
 
-/**
- * @tags data-manager
- */
 export interface SkyDataManagerInitArgs {
   /**
    * The initial active view's ID.

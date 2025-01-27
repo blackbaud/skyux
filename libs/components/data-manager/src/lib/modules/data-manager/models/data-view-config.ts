@@ -4,7 +4,6 @@ import { SkyDataManagerColumnPickerSortStrategy } from './data-manager-column-pi
 /**
  * The data view config contains settings that apply to the specific view, such as
  * column picker options and the buttons to display in the toolbar.
- * @tags data-manager
  */
 export interface SkyDataViewConfig {
   /**

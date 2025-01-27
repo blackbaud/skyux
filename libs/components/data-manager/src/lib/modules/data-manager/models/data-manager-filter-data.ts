@@ -1,6 +1,3 @@
-/**
- * @tags data-manager
- */
 export interface SkyDataManagerFilterData {
   /**
    * Whether any filters are applied.

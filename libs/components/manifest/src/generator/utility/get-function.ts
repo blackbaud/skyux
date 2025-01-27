@@ -17,10 +17,11 @@ export function getFunction(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
-    tags,
   } = getComment(reflection);
 
   const def: SkyManifestFunctionDefinition = {
@@ -29,6 +30,8 @@ export function getFunction(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     filePath,
     isDeprecated,
     isInternal,
@@ -36,7 +39,6 @@ export function getFunction(
     kind: 'function',
     name: reflection.name,
     parameters: getParameters(reflection),
-    tags,
     type: formatType(reflection),
     typeParameters: formatTypeParameters(reflection),
   };

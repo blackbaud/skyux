@@ -6,11 +6,12 @@ describe('utils', () => {
     const definition: SkyManifestParentDefinition = {
       anchorId: '',
       deprecationReason: '',
+      docsId: 'SkyManifestParentDefinition',
+      docsIncludeIds: undefined,
       filePath: '',
       kind: 'directive',
       isDeprecated: false,
       name: '',
-      tags: [],
     };
 
     expect(isDirectiveDefinition(definition)).toEqual(true);
@@ -20,10 +21,11 @@ describe('utils', () => {
     const definition: SkyManifestParentDefinition = {
       anchorId: '',
       deprecationReason: '',
+      docsId: 'SkyManifestParentDefinition',
+      docsIncludeIds: undefined,
       filePath: '',
       kind: 'service',
       name: '',
-      tags: [],
     };
 
     expect(isDirectiveDefinition(definition)).toEqual(false);

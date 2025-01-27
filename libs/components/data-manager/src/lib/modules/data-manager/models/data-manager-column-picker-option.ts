@@ -1,6 +1,5 @@
 /**
  * The options to display in a view's column picker.
- * @tags data-manager
  */
 export interface SkyDataManagerColumnPickerOption {
   /**

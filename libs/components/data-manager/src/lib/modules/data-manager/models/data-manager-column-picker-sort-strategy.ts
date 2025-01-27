@@ -1,6 +1,5 @@
 /**
  * These options specify the sorting strategy applied to columns when `columnPickerEnabled` is enabled.
- * @tags data-manager
  */
 export enum SkyDataManagerColumnPickerSortStrategy {
   /**

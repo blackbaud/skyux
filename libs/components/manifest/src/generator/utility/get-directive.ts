@@ -116,10 +116,11 @@ export function getDirective(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
-    tags,
   } = getComment(reflection);
 
   const directiveName = remapLambdaName(reflection);
@@ -134,6 +135,8 @@ export function getDirective(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     filePath,
     isDeprecated,
     isInternal,
@@ -141,7 +144,6 @@ export function getDirective(
     kind,
     name: directiveName,
     selector: getSelector(reflection),
-    tags,
   };
 
   return directive;

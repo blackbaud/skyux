@@ -55,10 +55,11 @@ export function getInterface(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
-    tags,
   } = getComment(decl);
 
   const indexSignatures = getIndexSignatures(decl);
@@ -71,6 +72,8 @@ export function getInterface(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     filePath,
     indexSignatures,
     isDeprecated,
@@ -78,7 +81,6 @@ export function getInterface(
     isPreview,
     kind: 'interface',
     name: decl.name,
-    tags,
   };
 
   return def;

@@ -3,7 +3,6 @@ import { SkyDataViewStateOptions } from './data-view-state-options';
 
 /**
  * Provides options for defining how data is displayed, such as which columns appear.
- * @tags data-manager
  */
 export class SkyDataViewState {
   /**

@@ -1,6 +1,3 @@
-/**
- * @tags data-manager
- */
 export interface SkyDataViewColumnWidths {
   /**
    * A map of columnIds to column widths at the xs breakpoint size.

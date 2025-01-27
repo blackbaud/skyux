@@ -55,10 +55,11 @@ export function getTypeAlias(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
-    tags,
   } = getComment(reflection);
 
   const formattedType =
@@ -70,13 +71,14 @@ export function getTypeAlias(
     codeExampleLanguage,
     deprecationReason,
     description,
+    docsId,
+    docsIncludeIds,
     filePath,
     isDeprecated,
     isInternal,
     isPreview,
     kind: 'type-alias',
     name: reflection.name,
-    tags,
     type: formattedType,
   };
 

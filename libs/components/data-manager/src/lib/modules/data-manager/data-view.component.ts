@@ -20,7 +20,6 @@ import { SkyDataManagerState } from './models/data-manager-state';
  * A data view is rendered within a data manager component.
  * It can subscribe to data state changes from `SkyDataManagerService` and apply the filters,
  * search text, and more to the data it displays.
- * @tags data-manager
  */
 @Component({
   standalone: true,
