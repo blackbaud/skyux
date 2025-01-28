@@ -140,7 +140,6 @@ export class SkyTextEditorAdapterService {
     if (documentEl) {
       return this.#selectionService.getCurrentSelection(documentEl);
     }
-    /* istanbul ignore next */
     return null;
   }
 
@@ -282,7 +281,6 @@ export class SkyTextEditorAdapterService {
       return this.#getParent(selectedEl, 'a') as HTMLAnchorElement;
     }
 
-    /* istanbul ignore next */
     return undefined;
   }
 
@@ -531,7 +529,6 @@ export class SkyTextEditorAdapterService {
         documentEl,
       );
     }
-    /* istanbul ignore next */
     return undefined;
   }
 

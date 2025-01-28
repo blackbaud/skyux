@@ -99,5 +99,9 @@ describe('SkyTextEditorAdapterService', () => {
     );
     service.initEditor('test', iframe, styleState);
     expect(doc.body.setAttribute).not.toHaveBeenCalled();
+    expect(service.editorSelected()).toBeFalse();
+    expect(service.saveSelection()).toBeUndefined();
+    expect(service.getCurrentSelection()).toBeFalsy();
+    expect(service.getSelectedAnchorTag()).toBeFalsy();
   });
 });
