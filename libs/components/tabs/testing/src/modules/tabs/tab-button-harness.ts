@@ -39,6 +39,14 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
     return await (await this.#getTabButton()).click();
   }
 
+  public async clickRemoveButton(): Promise<void> {
+    const button = await this.locatorForOptional('.sky-btn-tab-close')();
+    if (!button) {
+      throw new Error('Unable to find remove tab button.');
+    }
+    return await button.click();
+  }
+
   public async getTabHeading(): Promise<string> {
     return (
       // eslint-disable-next-line @cspell/spellchecker

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyPageModule } from '@skyux/pages';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
@@ -10,19 +11,20 @@ import { SkyTabsetHarness } from './tabset-harness';
 
 @Component({
   standalone: true,
-  imports: [SkyTabsModule],
+  imports: [SkyTabsModule, SkyPageModule],
   template: `
     <sky-tabset
       [ariaLabel]="ariaLabel"
       [ariaLabelledBy]="ariaLabelledBy"
       [permalinkId]="permalinkId"
-      (newTab)="newTabAction()"
-      (openTab)="openTabAction()"
+      (newTab)="tabAction()"
+      (openTab)="tabAction()"
     >
       <sky-tab
         [tabHeading]="tabHeading"
         [permalinkValue]="permalinkValue"
         [tabIndexValue]="tabIndexValue"
+        (close)="tabAction()"
       >
         Tab 1 Content
       </sky-tab>
@@ -30,9 +32,13 @@ import { SkyTabsetHarness } from './tabset-harness';
       <sky-tab [tabHeading]="'Tab 3'"> Tab 3 Content </sky-tab>
       <sky-tab [tabHeading]="'Disabled tab'" [disabled]="true" />
     </sky-tabset>
-    <sky-tabset data-sky-id="other-tabset">
-      <sky-tab [tabHeading]="'Tab 1'" />
-    </sky-tabset>
+    <sky-page layout="tabs">
+      <sky-page-content>
+        <sky-tabset data-sky-id="other-tabset">
+          <sky-tab [tabHeading]="'Tab 1'" layout="blocks" />
+        </sky-tabset>
+      </sky-page-content>
+    </sky-page>
   `,
 })
 class TestComponent {
@@ -44,16 +50,12 @@ class TestComponent {
   public tabHeading: string | undefined = 'Tab 1';
   public tabIndexValue: SkyTabIndex | undefined;
 
-  public newTabAction(): void {
-    // This function is for the spy.
-  }
-
-  public openTabAction(): void {
+  public tabAction(): void {
     // This function is for the spy.
   }
 }
 
-fdescribe('Tab harness', () => {
+describe('Tab harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
     tabsetHarness: SkyTabsetHarness;
     fixture: ComponentFixture<TestComponent>;
@@ -74,7 +76,7 @@ fdescribe('Tab harness', () => {
 
   it('should click the new tab button', async () => {
     const { tabsetHarness, fixture } = await setupTest();
-    const newTabClickSpy = spyOn(fixture.componentInstance, 'newTabAction');
+    const newTabClickSpy = spyOn(fixture.componentInstance, 'tabAction');
 
     await tabsetHarness.clickNewTabButton();
 
@@ -93,7 +95,7 @@ fdescribe('Tab harness', () => {
 
   it('should click the open tab button', async () => {
     const { tabsetHarness, fixture } = await setupTest();
-    const openTabClickSpy = spyOn(fixture.componentInstance, 'openTabAction');
+    const openTabClickSpy = spyOn(fixture.componentInstance, 'tabAction');
 
     await tabsetHarness.clickOpenTabButton();
 
@@ -175,6 +177,18 @@ fdescribe('Tab harness', () => {
     await expectAsync(tabHarness.isVisible()).toBeResolvedTo(false);
   });
 
+  it('should get the tab layout in pages', async () => {
+    const { tabsetHarness } = await setupTest({ dataSkyId: 'other-tabset' });
+    const tabHarness = await tabsetHarness.getTabHarness('Tab 1');
+    await expectAsync(tabHarness.getLayout()).toBeResolvedTo('blocks');
+  });
+
+  it('should get the default tab layout', async () => {
+    const { tabsetHarness } = await setupTest();
+    const tabHarness = await tabsetHarness.getTabHarness('Tab 1');
+    await expectAsync(tabHarness.getLayout()).toBeResolvedTo('none');
+  });
+
   describe('tab button harness', () => {
     async function setupTabButtonTest(tabHeading: string): Promise<{
       tabButtonHarness: SkyTabButtonHarness;
@@ -219,6 +233,70 @@ fdescribe('Tab harness', () => {
       const { tabButtonHarness } = await setupTabButtonTest('Tab 1');
       const tabHarness = await tabButtonHarness.getTabHarness();
       await expectAsync(tabHarness.isVisible()).toBeResolvedTo(true);
+    });
+
+    it('should throw an error if trying to click dropdown when not in dropdown mode', async () => {
+      const { tabsetHarness } = await setupTest();
+      await expectAsync(tabsetHarness.clickDropdownTab()).toBeRejectedWithError(
+        'Cannot click dropdown tab button, tab is not in dropdown mode.',
+      );
+    });
+
+    it('should throw an error if trying to close a tab with no close button', async () => {
+      const { tabButtonHarness } = await setupTabButtonTest('Tab 2');
+      await expectAsync(
+        tabButtonHarness.clickRemoveButton(),
+      ).toBeRejectedWithError('Unable to find remove tab button.');
+    });
+
+    it('should click close button', async () => {
+      const { tabButtonHarness, fixture } = await setupTabButtonTest('Tab 1');
+      const closeClickSpy = spyOn(fixture.componentInstance, 'tabAction');
+      await tabButtonHarness.clickRemoveButton();
+      expect(closeClickSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('in dropdown mode', () => {
+    async function shrinkScreen(
+      fixture: ComponentFixture<TestComponent>,
+    ): Promise<void> {
+      fixture.nativeElement.style.width = '50px';
+      SkyAppTestUtility.fireDomEvent(window, 'resize');
+      fixture.detectChanges();
+      await fixture.whenStable();
+    }
+    it('should click dropdown tab', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await expectAsync(tabsetHarness.clickDropdownTab()).toBeResolved();
+    });
+
+    it('should get a tab button harness from tab heading', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await tabsetHarness.clickDropdownTab();
+      const tabButtonHarness = await tabsetHarness.getTabButtonHarness('Tab 1');
+
+      await expectAsync(tabButtonHarness.isActive()).toBeResolvedTo(true);
+    });
+
+    it('should get all tab button harnesses', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await tabsetHarness.clickDropdownTab();
+      const tabButtonHarnesses = await tabsetHarness.getTabButtonHarnesses();
+      expect(tabButtonHarnesses.length).toBe(4);
+    });
+
+    it('should throw an error when trying to get tab buttons when dropdown is closed', async () => {
+      const { tabsetHarness, fixture } = await setupTest();
+      await shrinkScreen(fixture);
+      await expectAsync(
+        tabsetHarness.getTabButtonHarnesses(),
+      ).toBeRejectedWithError(
+        'Cannot get tab button when tabs is in dropdown mode and is closed.',
+      );
     });
   });
 });

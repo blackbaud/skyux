@@ -36,8 +36,8 @@ export class SkyTabHarness extends SkyQueryableComponentHarness {
     return await (await this.#getTab()).getAttribute('id');
   }
 
-  public async getLayout(): Promise<string | null> {
-    return await (await this.host()).getAttribute('layout');
+  public async getLayout(): Promise<string> {
+    return (await (await this.host()).getAttribute('layout')) || 'none';
   }
 
   public async isVisible(): Promise<boolean> {

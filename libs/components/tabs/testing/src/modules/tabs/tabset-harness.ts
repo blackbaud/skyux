@@ -1,5 +1,9 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import {
+  SkyDropdownHarness,
+  SkyDropdownMenuHarness,
+} from '@skyux/popovers/testing';
 import { SkyTabsetButtonsDisplayMode } from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
@@ -17,6 +21,7 @@ export class SkyTabsetHarness extends SkyComponentHarness {
 
   #getTabset = this.locatorFor('.sky-tabset');
   #getTabButtons = this.locatorForAll(SkyTabButtonHarness);
+  #getTabDropdown = this.locatorFor(SkyDropdownHarness);
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -38,6 +43,16 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     }
 
     return await newTabButton.click();
+  }
+
+  public async clickDropdownTab(): Promise<void> {
+    if (!((await this.getMode()) === 'dropdown')) {
+      throw new Error(
+        'Cannot click dropdown tab button, tab is not in dropdown mode.',
+      );
+    }
+    const button = await this.locatorFor(SkyDropdownHarness)();
+    return await button.clickDropdownButton();
   }
 
   public async clickOpenTabButton(): Promise<void> {
@@ -63,11 +78,22 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   public async getTabButtonHarness(
     tabHeading: string,
   ): Promise<SkyTabButtonHarness> {
+    if ((await this.getMode()) === 'dropdown') {
+      const menu = await this.#getDropdownMenu();
+      return await menu.queryHarness(
+        SkyTabButtonHarness.with({ tabHeading: tabHeading }),
+      );
+    }
     return await this.locatorFor(
       SkyTabButtonHarness.with({ tabHeading: tabHeading }),
     )();
   }
+
   public async getTabButtonHarnesses(): Promise<SkyTabButtonHarness[]> {
+    if ((await this.getMode()) === 'dropdown') {
+      const menu = await this.#getDropdownMenu();
+      return await menu.queryHarnesses(SkyTabButtonHarness);
+    }
     return await this.#getTabButtons();
   }
 
@@ -95,5 +121,15 @@ export class SkyTabsetHarness extends SkyComponentHarness {
       return 'tabs';
     }
     return 'dropdown';
+  }
+
+  async #getDropdownMenu(): Promise<SkyDropdownMenuHarness> {
+    const dropdown = await this.#getTabDropdown();
+    if (!(await dropdown?.isOpen())) {
+      throw new Error(
+        'Cannot get tab button when tabs is in dropdown mode and is closed.',
+      );
+    }
+    return await dropdown.getDropdownMenu();
   }
 }
