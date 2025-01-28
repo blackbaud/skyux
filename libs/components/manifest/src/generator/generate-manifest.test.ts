@@ -18,7 +18,10 @@ function setup(options: { outDirExists: boolean }): {
   });
 
   jest.mock('node:fs/promises', () => {
+    const originalModule = jest.requireActual('node:fs/promises');
+
     return {
+      ...originalModule,
       mkdir: mkdirMock,
       writeFile: writeFileMock,
     };

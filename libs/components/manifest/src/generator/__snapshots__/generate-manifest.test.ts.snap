@@ -323,6 +323,24 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"name\\": \\"FooWithStaticPropertiesClass\\"
       },
       {
+        \\"anchorId\\": \\"class_sky-foo-non-standalone-component\\",
+        \\"description\\": \\"This is a non-standalone component with a Sky prefix. We need to include the prefix so that it's included in the owning module's docsIncludeIds array.\\",
+        \\"docsId\\": \\"SkyFooNonStandaloneComponent\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"SkyFooNonStandaloneComponent\\",
+        \\"selector\\": \\"sky-foo-non-standalone\\"
+      },
+      {
+        \\"anchorId\\": \\"class_sky-foo-standalone-component\\",
+        \\"description\\": \\"This is a standalone component with a Sky prefix and an overridden docsId. We need to include the prefix so that it's included in the owning module's docsIncludeIds array.\\",
+        \\"docsId\\": \\"sky-foo-standalone-override\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"SkyFooStandaloneComponent\\",
+        \\"selector\\": \\"sky-foo-standalone\\"
+      },
+      {
         \\"anchorId\\": \\"class_foo-component\\",
         \\"children\\": [
           {
@@ -563,9 +581,22 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"docsId\\": \\"FooModule\\",
+        \\"docsIncludeIds\\": [],
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.module.ts\\",
         \\"kind\\": \\"module\\",
         \\"name\\": \\"FooModule\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-with-exports-module\\",
+        \\"description\\": \\"This module should automatically generate values for docsIncludeIds based on its exports.\\",
+        \\"docsId\\": \\"FooWithExportsModule\\",
+        \\"docsIncludeIds\\": [
+          \\"sky-foo-standalone-override\\",
+          \\"SkyFooNonStandaloneComponent\\"
+        ],
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.module.ts\\",
+        \\"kind\\": \\"module\\",
+        \\"name\\": \\"FooWithExportsModule\\"
       },
       {
         \\"anchorId\\": \\"class_foo-pipe\\",

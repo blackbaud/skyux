@@ -1,9 +1,9 @@
-import fsPromises from 'node:fs/promises';
 import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 
 import type { SkyManifestParentDefinition } from '../types/base-def';
 import type { SkyManifestPublicApi } from '../types/manifest';
 
+import { assignDocsIncludeIds } from './assign-docs-include-ids';
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { ProjectDefinition } from './get-project-definitions';
 import { getClass } from './utility/get-class';
@@ -101,55 +101,6 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
     /* istanbul ignore next: safety check */
     return 0;
   });
-}
-
-/**
- * Assign `docsIncludeIds` for each entry-point module, based on the types
- * included in its `exports` array.
- */
-async function assignDocsIncludeIds(packages: PackagesMap): Promise<void> {
-  for (const [, definitions] of packages) {
-    for (const definition of definitions) {
-      if (
-        definition.kind !== 'module' ||
-        definition.docsIncludeIds ||
-        definition.isInternal
-      ) {
-        continue;
-      }
-
-      const contents = await fsPromises.readFile(definition.filePath, 'utf-8');
-
-      const moduleExports = contents
-        .split(/\sexports:\s+\[/)[1]
-        ?.split(']')[0]
-        .split(',')
-        .map((exportName) => exportName.trim())
-        .filter((exportName) => exportName.startsWith('Sky'))
-        .filter((exportName) =>
-          // Ensure the type is part of the public API.
-          definitions.some((definition) => definition.name === exportName),
-        )
-        .map((exportName) => {
-          // Map the export name to its corresponding docsId.
-          const definition = definitions.find(
-            (definition) => definition.name === exportName,
-          );
-
-          /* istanbul ignore next: safety check */
-          if (!definition?.docsId) {
-            throw new Error(`Missing @docsId for ${exportName}.`);
-          }
-
-          return definition.docsId;
-        });
-
-      console.log(definition.name, moduleExports);
-      console.log(definition.filePath);
-
-      definition.docsIncludeIds = moduleExports;
-    }
-  }
 }
 
 export async function getPublicApi(
