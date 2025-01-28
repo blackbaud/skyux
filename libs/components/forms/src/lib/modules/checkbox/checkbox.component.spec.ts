@@ -491,6 +491,23 @@ describe('Checkbox component', () => {
       expect(inputElement?.indeterminate).toBeTrue();
     });
 
+    it('should handle the indeterminate state being set on initialization', async () => {
+      fixture = TestBed.createComponent(SingleCheckboxComponent);
+      testComponent = fixture.componentInstance;
+      testComponent.indeterminate = true;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      checkboxDebugElement = fixture.debugElement.query(
+        By.directive(SkyCheckboxComponent),
+      );
+      checkboxNativeElement = checkboxDebugElement.nativeElement;
+      fixture.detectChanges();
+      inputElement = checkboxNativeElement?.querySelector('input');
+
+      expect(inputElement?.indeterminate).toBeTrue();
+    });
+
     it('should turn off the indeterminate state if the checkbox is clicked after it is set', () => {
       testComponent.indeterminate = true;
       fixture.detectChanges();
