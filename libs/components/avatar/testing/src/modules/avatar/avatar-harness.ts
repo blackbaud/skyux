@@ -88,7 +88,7 @@ export class SkyAvatarHarness extends SkyComponentHarness {
     if (waitForChange) {
       await this.#dropAndWait(fileDrop, file);
     } else {
-      await fileDrop.dropFile(file);
+      await fileDrop.loadFile(file);
     }
   }
 
@@ -136,7 +136,7 @@ export class SkyAvatarHarness extends SkyComponentHarness {
   async #dropAndWait(fileDrop: SkyFileDropHarness, file: File): Promise<void> {
     const currentUrl = await this.#getImageUrl();
 
-    await fileDrop.dropFile(file);
+    await fileDrop.loadFile(file);
 
     return await new Promise<void>((resolve, reject) => {
       const checkForFileChange = async (attempts: number): Promise<void> => {

@@ -1,5 +1,45 @@
 # Changelog
 
+## [11.36.2](https://github.com/blackbaud/skyux/compare/11.36.1...11.36.2) (2025-01-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** datepicker cell editor should handle refresh refocus ([#3056](https://github.com/blackbaud/skyux/issues/3056)) ([a97c246](https://github.com/blackbaud/skyux/commit/a97c246abd14e3af69e8db3e3dba8de8fdbe092c))
+
+## [11.36.1](https://github.com/blackbaud/skyux/compare/11.36.0...11.36.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** support negativeBracketsTypeOnBlur option ([#3049](https://github.com/blackbaud/skyux/issues/3049)) ([7baecf7](https://github.com/blackbaud/skyux/commit/7baecf7dbb7d67958761627fdd35a7901b523b33))
+* **components/pages:** export `SkyNeedsAttentionItemHarness` for testing ([#3046](https://github.com/blackbaud/skyux/issues/3046)) ([d46eba5](https://github.com/blackbaud/skyux/commit/d46eba500605cff2fcb810d5cb5bd260dca5e9a7))
+
+## [11.36.0](https://github.com/blackbaud/skyux/compare/11.35.0...11.36.0) (2025-01-16)
+
+
+### Features
+
+* **components/forms:** file drop harness ([#3029](https://github.com/blackbaud/skyux/issues/3029)) ([e0c5c22](https://github.com/blackbaud/skyux/commit/e0c5c22a6199d1980ebba33ae6a9899072b6602e))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header should have readable text ([#3037](https://github.com/blackbaud/skyux/issues/3037)) ([1918e12](https://github.com/blackbaud/skyux/commit/1918e121aa3a497cbd546f7efaa8f30484e0d7aa))
+
+## [11.35.0](https://github.com/blackbaud/skyux/compare/11.34.0...11.35.0) (2025-01-15)
+
+
+### Features
+
+* **components/forms:** file drop add control value accessor ([#2968](https://github.com/blackbaud/skyux/issues/2968)) ([b5ce498](https://github.com/blackbaud/skyux/commit/b5ce498cd922ef56062ef3854012a1e684a3987b))
+
+
+### Bug Fixes
+
+* **components/action-bars:** account for left nav in summary action bar position ([#3028](https://github.com/blackbaud/skyux/issues/3028)) ([6b88cd2](https://github.com/blackbaud/skyux/commit/6b88cd278aa0d746f3c4e7718b8b4157b4ecfb00))
+* **components/modals:** make modal footer error message focusable ([#3026](https://github.com/blackbaud/skyux/issues/3026)) ([4a98739](https://github.com/blackbaud/skyux/commit/4a98739298b88b81f15616d351ef079d7c28bf4d))
+
 ## [11.34.0](https://github.com/blackbaud/skyux/compare/11.33.0...11.34.0) (2025-01-13)
 
 

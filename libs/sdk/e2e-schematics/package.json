@@ -11,7 +11,7 @@
     "@nx/eslint": "^20.1.4",
     "@nx/storybook": "^20.1.4",
     "@nx/workspace": "^20.1.4",
-    "@percy/sdk-utils": "^1.30.4",
+    "@percy/sdk-utils": "^1.30.6",
     "@schematics/angular": "^18.2.12",
     "nx": "^20.1.4"
   },

@@ -7,6 +7,6 @@
   />
 </form>
 
-{{fileDrop.value | json}} @for (file of fileDrop.value; track file) {
+@for (file of fileDrop.value; track file) {
 <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
 }

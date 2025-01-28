@@ -233,14 +233,14 @@ export class SkyTileComponent implements OnChanges, OnDestroy {
   }
 
   public get hasSettings(): boolean {
-    return this.settingsClick.observers.length > 0 && this.showSettings;
+    return this.settingsClick.observed && this.showSettings;
   }
 
   /**
    * @deprecated
    */
   public get hasHelp(): boolean {
-    return this.helpClick.observers.length > 0 && this.showHelp;
+    return this.helpClick.observed && this.showHelp;
   }
 
   public titleClick(evt: MouseEvent): void {
