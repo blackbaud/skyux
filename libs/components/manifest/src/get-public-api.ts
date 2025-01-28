@@ -42,9 +42,9 @@ export function getPublicApiByDocsId(
 
       if (entryPoint.docsIncludeIds) {
         for (const docsIncludeId of entryPoint.docsIncludeIds) {
-          const foo = getPublicApiByDocsId(docsIncludeId);
-          if (foo) {
-            applyPublicApi(filteredApi, foo);
+          const otherDefinition = getPublicApiByDocsId(docsIncludeId);
+          if (otherDefinition) {
+            applyPublicApi(filteredApi, otherDefinition);
           }
         }
       }
