@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SkyPageModule } from '@skyux/layout';
+import { SkyPageModule } from '@skyux/pages';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import { VerticalTabsComponent } from './vertical-tabs.component';

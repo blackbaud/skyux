@@ -8,13 +8,10 @@ import {
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAlertModule } from '@skyux/indicators';
-import {
-  SkyDescriptionListModule,
-  SkyPageModule,
-  SkyPageSummaryModule,
-} from '@skyux/layout';
+import { SkyDescriptionListModule, SkyPageSummaryModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
+import { SkyPageModule } from '@skyux/pages';
 import {
   SkySplitViewMessage,
   SkySplitViewMessageType,

@@ -11,10 +11,6 @@ const routes: Route[] = [
     loadChildren: () => import('./box/box.module').then((m) => m.BoxModule),
   },
   {
-    path: 'page',
-    loadChildren: () => import('./page/page.module').then((m) => m.PageModule),
-  },
-  {
     path: 'fluid-grid',
     loadChildren: () =>
       import('./fluid-grid/fluid-grid.module').then((m) => m.FluidGridModule),

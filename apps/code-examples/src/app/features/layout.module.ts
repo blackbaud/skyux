@@ -122,13 +122,6 @@ const routes: Routes = [
       ).then((c) => c.DemoComponent),
   },
   {
-    path: 'page',
-    loadComponent: () =>
-      import('../code-examples/layout/page/layout-fit/demo.component').then(
-        (c) => c.DemoComponent,
-      ),
-  },
-  {
     path: 'page-summary/basic',
     loadComponent: () =>
       import('../code-examples/layout/page-summary/basic/demo.component').then(

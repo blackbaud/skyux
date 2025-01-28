@@ -29,9 +29,6 @@ export { SkyFormatModule } from './lib/modules/format/format.module';
 export { SkyInlineDeleteType } from './lib/modules/inline-delete/inline-delete-type';
 export { SkyInlineDeleteModule } from './lib/modules/inline-delete/inline-delete.module';
 
-export { SkyPageLayoutType } from './lib/modules/page/page-layout-type';
-export { SkyPageModule } from './lib/modules/page/page.module';
-
 export { SkyPageSummaryModule } from './lib/modules/page-summary/page-summary.module';
 
 export { SkyTextExpandModule } from './lib/modules/text-expand/text-expand.module';
@@ -80,7 +77,6 @@ export { SkyPageSummaryStatusComponent as λ32 } from './lib/modules/page-summar
 export { SkyPageSummarySubtitleComponent as λ33 } from './lib/modules/page-summary/page-summary-subtitle.component';
 export { SkyPageSummaryTitleComponent as λ34 } from './lib/modules/page-summary/page-summary-title.component';
 export { SkyPageSummaryComponent as λ27 } from './lib/modules/page-summary/page-summary.component';
-export { SkyPageComponent as λ26 } from './lib/modules/page/page.component';
 export { SkyTextExpandRepeaterComponent as λ36 } from './lib/modules/text-expand-repeater/text-expand-repeater.component';
 export { SkyTextExpandComponent as λ35 } from './lib/modules/text-expand/text-expand.component';
 export { SkyToolbarItemComponent as λ39 } from './lib/modules/toolbar/toolbar-item.component';
