@@ -22,7 +22,7 @@ describe('utils', () => {
       anchorId: '',
       deprecationReason: '',
       docsId: 'SkyManifestParentDefinition',
-      docsIncludeIds: undefined,
+      docsIncludeIds: ['Foo'],
       filePath: '',
       kind: 'service',
       name: '',
