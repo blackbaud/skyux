@@ -39,23 +39,7 @@ describe('Tile dashboard test harness', () => {
     return { tileDashboardHarness, mediaQueryController };
   }
 
-  it('should get the tile dashboard by data-sky-id', async () => {
-    const { tileDashboardHarness, mediaQueryController } = await setupTest({
-      dataSkyId: 'basic-dashboard',
-    });
-
-    mediaQueryController.setBreakpoint('xs');
-    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
-      false,
-    );
-
-    mediaQueryController.setBreakpoint('lg');
-    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
-      true,
-    );
-  });
-
-  it('should get a tile based on criteria', async () => {
+  it('should get the tile dashboard and tile by data-sky-id', async () => {
     const { tileDashboardHarness } = await setupTest({
       dataSkyId: 'basic-dashboard',
     });
@@ -106,6 +90,22 @@ describe('Tile dashboard test harness', () => {
       tileDashboardHarness.getTiles({ dataSkyId: 'tile-3' }),
     ).toBeRejectedWithError(
       'Unable to find any tiles with filter(s): {"dataSkyId":"tile-3"}',
+    );
+  });
+
+  it('should indicate if the dashboard is multi-column or not', async () => {
+    const { tileDashboardHarness, mediaQueryController } = await setupTest({
+      dataSkyId: 'basic-dashboard',
+    });
+
+    mediaQueryController.setBreakpoint('xs');
+    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
+      false,
+    );
+
+    mediaQueryController.setBreakpoint('lg');
+    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
+      true,
     );
   });
 });
