@@ -5,7 +5,7 @@ import { SkyTabsetHarness } from '@skyux/tabs/testing';
 
 import { DemoComponent } from './demo.component';
 
-fdescribe('Static tabs demo with add and close', () => {
+describe('Static tabs demo with add and close', () => {
   async function setupTest(options: { dataSkyId?: string }): Promise<{
     harness: SkyTabsetHarness;
     fixture: ComponentFixture<DemoComponent>;
