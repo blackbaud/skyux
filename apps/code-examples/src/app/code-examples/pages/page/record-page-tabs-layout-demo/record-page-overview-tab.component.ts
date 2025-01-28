@@ -105,6 +105,6 @@ export class RecordPageOverviewTabHarness extends ComponentHarness {
   public static hostSelector = 'app-record-page-overview-tab';
 
   public async isHarness(): Promise<boolean> {
-    return true;
+    return await Promise.resolve(true);
   }
 }
