@@ -1,5 +1,12 @@
 # Changelog
 
+## [11.36.2](https://github.com/blackbaud/skyux/compare/11.36.1...11.36.2) (2025-01-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** datepicker cell editor should handle refresh refocus ([#3056](https://github.com/blackbaud/skyux/issues/3056)) ([a97c246](https://github.com/blackbaud/skyux/commit/a97c246abd14e3af69e8db3e3dba8de8fdbe092c))
+
 ## [11.36.1](https://github.com/blackbaud/skyux/compare/11.36.0...11.36.1) (2025-01-22)
 
 
