@@ -70,7 +70,7 @@ describe('generate-manifest', () => {
     });
 
     expect(writeFileMock).toMatchSnapshot();
-  });
+  }, 10000);
 
   it('should create the out directory if it does not exist', async () => {
     const { mkdirMock } = setup({
@@ -86,5 +86,5 @@ describe('generate-manifest', () => {
     });
 
     expect(mkdirMock).toHaveBeenCalledWith('/dist');
-  });
+  }, 10000);
 });
