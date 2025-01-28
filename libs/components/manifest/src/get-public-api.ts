@@ -4,7 +4,7 @@ import type { SkyManifestPublicApi } from './types/manifest';
 
 const publicApi = publicApiJson as unknown as SkyManifestPublicApi;
 
-function applyApi(
+function applyPublicApi(
   target: SkyManifestPublicApi,
   overrides: SkyManifestPublicApi,
 ): void {
@@ -20,14 +20,12 @@ function applyApi(
 }
 
 /**
- * Gets the public API from the manifest.
+ * Gets the public API associated with a specific docs ID.
  * @internal
  */
-export function getPublicApi(): SkyManifestPublicApi {
-  return publicApi as SkyManifestPublicApi;
-}
-
-export function getDocsById(docsId: string): SkyManifestPublicApi | undefined {
+export function getPublicApiByDocsId(
+  docsId: string,
+): SkyManifestPublicApi | undefined {
   const filteredApi: SkyManifestPublicApi = {
     packages: {},
   };
@@ -44,9 +42,9 @@ export function getDocsById(docsId: string): SkyManifestPublicApi | undefined {
 
       if (entryPoint.docsIncludeIds) {
         for (const docsIncludeId of entryPoint.docsIncludeIds) {
-          const foo = getDocsById(docsIncludeId);
+          const foo = getPublicApiByDocsId(docsIncludeId);
           if (foo) {
-            applyApi(filteredApi, foo);
+            applyPublicApi(filteredApi, foo);
           }
         }
       }
@@ -58,4 +56,12 @@ export function getDocsById(docsId: string): SkyManifestPublicApi | undefined {
   }
 
   return filteredApi;
+}
+
+/**
+ * Gets the public API from the manifest.
+ * @internal
+ */
+export function getPublicApi(): SkyManifestPublicApi {
+  return publicApi;
 }

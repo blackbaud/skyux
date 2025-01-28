@@ -1,8 +1,8 @@
-function setup(options: { publicApi: Record<string, unknown> }): void {
-  jest.mock('../public-api.json', () => options.publicApi);
-}
-
 describe('get-public-api', () => {
+  function setup(options: { publicApi: Record<string, unknown> }): void {
+    jest.mock('../public-api.json', () => options.publicApi);
+  }
+
   afterEach(() => {
     jest.resetAllMocks();
     jest.resetModules();
@@ -57,9 +57,9 @@ describe('get-public-api', () => {
 
     setup({ publicApi });
 
-    const { getDocsById } = await import('./get-public-api');
+    const { getPublicApiByDocsId } = await import('./get-public-api');
 
-    const result = getDocsById('bar');
+    const result = getPublicApiByDocsId('bar');
 
     expect(result).toMatchSnapshot();
   });
