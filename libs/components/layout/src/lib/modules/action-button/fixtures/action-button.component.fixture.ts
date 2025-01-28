@@ -41,6 +41,8 @@ export class ActionButtonTestComponent {
 
   public alignItems: SkyActionButtonContainerAlignItemsType | undefined;
 
+  public useIconName = false;
+
   @ViewChild(SkyActionButtonContainerComponent, {
     read: SkyActionButtonContainerComponent,
     static: true,
