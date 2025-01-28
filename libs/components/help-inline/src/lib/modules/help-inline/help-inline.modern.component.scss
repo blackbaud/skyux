@@ -19,6 +19,7 @@
 }
 
 @include mixins.sky-component('modern', '.sky-help-inline') {
+  // line-height: 1.428571429;
   border: none;
   outline: none;
   padding: var(--sky-space-inset-pillarbox-1_4-top-xs)
@@ -39,7 +40,8 @@
   background-color: var(--sky-color-background-action-tertiary-base);
   // The font size here is to size the icon stack to the correct size.
   // This implementation is likely to change in tokenization pass 2.
-  font-size: var(--sky-override-help-inline-font-size);
+  // font-size: var(--sky-override-help-inline-font-size, 12.8px);
+  font-size: var(--sky-font-size-body-m);
   display: inline-block;
   box-shadow: inset 0 0 0 var(--sky-border-width-action-base)
     var(--sky-color-border-action-tertiary-base);
@@ -109,7 +111,7 @@
   display: none;
 }
 
-@include mixins.sky-component('modern', 'sky-icon-stack') {
+@include mixins.sky-component('modern', 'sky-icon') {
   display: inline-flex;
 }
 

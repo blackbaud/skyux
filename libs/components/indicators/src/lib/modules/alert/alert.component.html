@@ -15,10 +15,15 @@
   }"
 >
   <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-alert-icon">
-    <sky-icon [iconName]="iconName" size="2x" variant="solid" />
+    <sky-icon
+      [iconName]="iconName"
+      size="2x"
+      variant="solid"
+      position="center"
+    />
   </div>
   <div *skyThemeIf="'default'" aria-hidden="true" class="sky-alert-icon">
-    <sky-icon [iconName]="iconName" variant="solid" />
+    <sky-icon [iconName]="iconName" variant="solid" position="center" />
   </div>
   @if (descriptionComputed) {
     <span class="sky-screen-reader-only">

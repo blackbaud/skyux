@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
+import { SkyIconPosition } from './types/icon-position';
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -15,20 +16,22 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: {
+    '[class]': '"sky-icon-position-" + position',
+  },
 })
 export class SkyIconComponent {
   /**
    * The name of
    * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) or the SKY UX icon to
    * display. When specifying a Font Awesome icon, do not prefix the name with `fa-`.
-   * @required
+   * @deprecated
    */
   @Input()
   public icon: string | undefined;
 
   /**
-   * The name of the Blackbaud SVG icon to display. For internal use only.
-   * @internal
+   * The name of the Blackbaud SVG icon to display.
    */
   @Input()
   public iconName: string | undefined;
@@ -65,6 +68,13 @@ export class SkyIconComponent {
    */
   @Input()
   public variant: SkyIconVariantType | undefined;
+
+  /**
+   * The position of the icon in relation to the content around it. Position only applies to icons using `iconName`.
+   * @default 'baseline'
+   */
+  @Input()
+  public position: SkyIconPosition = 'baseline';
 
   protected themeSvc = inject(SkyThemeService, { optional: true });
 }

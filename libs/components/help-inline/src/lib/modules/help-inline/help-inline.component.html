@@ -29,7 +29,7 @@
   </sky-help-inline-popover-button>
 } @else {
   <button
-    class="sky-help-inline"
+    class="sky-help-inline sky-btn sky-btn-default"
     type="button"
     [attr.aria-controls]="ariaControls"
     [attr.aria-expanded]="ariaControls && (ariaExpanded ?? false)"
@@ -42,7 +42,20 @@
 }
 
 <ng-template #icon>
-  <sky-icon iconName="sky-info" />
+  <!-- <sky-icon *skyThemeIf="'default'" icon="info-circle" />
+  <sky-icon-stack
+    *skyThemeIf="'modern'"
+    size="xs"
+    [baseIcon]="{
+      icon: 'circle-solid',
+      iconType: 'skyux'
+    }"
+    [topIcon]="{
+      icon: 'help-i',
+      iconType: 'skyux'
+    }"
+  /> -->
+  <sky-icon iconName="sky-success" />
 </ng-template>
 
 <span #labelledByPrefixRef="skyId" hidden skyId>{{

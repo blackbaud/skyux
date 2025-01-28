@@ -19,9 +19,9 @@
 }
 
 sky-icon-svg {
-  display: inline-block;
+  display: block;
   --sky-icon-svg-img-size: 1em;
-  // --sky-icon-svg-img-top: 0.15em;
+  --sky-icon-svg-img-top: 0.15em;
 
   &::after {
     content: ' ';
@@ -30,10 +30,30 @@ sky-icon-svg {
   }
 }
 
+sky-icon:has(.sky-icon-svg-lg) {
+  vertical-align: -0.35em;
+}
+
+sky-icon.sky-icon-position-center {
+  sky-icon-svg::after {
+    content: none;
+  }
+
+  .sky-icon-svg-img {
+    top: 0;
+    vertical-align: middle;
+  }
+}
+
 .sky-icon-svg {
   &-lg {
     --sky-icon-svg-img-size: 1.333em;
     --sky-icon-svg-img-top: 0.2em;
+
+    .sky-icon-svg-img {
+      display: block;
+      top: 0;
+    }
   }
 
   &-2x {
@@ -64,10 +84,7 @@ sky-icon-svg {
   width: var(--sky-icon-svg-img-size);
   text-align: center;
   position: relative;
-  // transform: translateY(15%);
   top: var(--sky-icon-svg-img-top);
-  // vertical-align: baseline;
-  // vertical-align: middle;
 }
 
 .sky-i-path-1 {
