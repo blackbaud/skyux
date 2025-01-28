@@ -136,7 +136,6 @@ export class HomeComponent implements AfterViewInit {
     routes: ComponentRouteInfo[],
     parentPath: string,
   ): Promise<unknown> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Promise<unknown>[] = [];
 
     for (const route of routes) {
