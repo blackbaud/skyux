@@ -33,6 +33,16 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     return SkyTabsetHarness.getDataSkyIdPredicate(filters);
   }
 
+  public async clickDropdownTab(): Promise<void> {
+    if (!((await this.getMode()) === 'dropdown')) {
+      throw new Error(
+        'Cannot click dropdown tab button, tab is not in dropdown mode.',
+      );
+    }
+    const button = await this.locatorFor(SkyDropdownHarness)();
+    return await button.clickDropdownButton();
+  }
+
   public async clickNewTabButton(): Promise<void> {
     const newTabButton = await this.locatorForOptional(
       'button.sky-tabset-btn-new',
@@ -43,16 +53,6 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     }
 
     return await newTabButton.click();
-  }
-
-  public async clickDropdownTab(): Promise<void> {
-    if (!((await this.getMode()) === 'dropdown')) {
-      throw new Error(
-        'Cannot click dropdown tab button, tab is not in dropdown mode.',
-      );
-    }
-    const button = await this.locatorFor(SkyDropdownHarness)();
-    return await button.clickDropdownButton();
   }
 
   public async clickOpenTabButton(): Promise<void> {
@@ -67,12 +67,32 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     return await openTabButton.click();
   }
 
+  public async getActiveTabButton(): Promise<SkyTabButtonHarness | null> {
+    const tabButtonHarnesses = await this.getTabButtonHarnesses();
+
+    for (const harness of tabButtonHarnesses) {
+      if (await harness.isActive()) {
+        return harness;
+      }
+    }
+
+    /* istanbul ignore next */
+    return null;
+  }
+
   public async getAriaLabel(): Promise<string | null> {
     return await (await this.#getTabset()).getAttribute('aria-label');
   }
 
   public async getAriaLabelledBy(): Promise<string | null> {
     return await (await this.#getTabset()).getAttribute('aria-labelledby');
+  }
+
+  public async getMode(): Promise<SkyTabsetButtonsDisplayMode> {
+    if (await (await this.#getTabset()).hasClass('sky-tabset-mode-tabs')) {
+      return 'tabs';
+    }
+    return 'dropdown';
   }
 
   public async getTabButtonHarness(
@@ -101,26 +121,6 @@ export class SkyTabsetHarness extends SkyComponentHarness {
     const tabButton = await this.getTabButtonHarness(tabHeading);
     const id = await tabButton.getTabId();
     return await this.locatorFor(SkyTabHarness.with({ tabId: id }))();
-  }
-
-  public async getActiveTabButton(): Promise<SkyTabButtonHarness | null> {
-    const tabButtonHarnesses = await this.getTabButtonHarnesses();
-
-    for (const harness of tabButtonHarnesses) {
-      if (await harness.isActive()) {
-        return harness;
-      }
-    }
-
-    /* istanbul ignore next */
-    return null;
-  }
-
-  public async getMode(): Promise<SkyTabsetButtonsDisplayMode> {
-    if (await (await this.#getTabset()).hasClass('sky-tabset-mode-tabs')) {
-      return 'tabs';
-    }
-    return 'dropdown';
   }
 
   async #getDropdownMenu(): Promise<SkyDropdownMenuHarness> {

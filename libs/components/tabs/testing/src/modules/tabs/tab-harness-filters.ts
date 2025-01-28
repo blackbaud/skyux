@@ -7,6 +7,7 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
 export interface SkyTabHarnessFilters extends SkyHarnessFilters {
   /**
    * Finds tabs whose id matches given value.
+   * @internal
    */
   tabId: string;
 }

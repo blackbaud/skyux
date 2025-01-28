@@ -17,6 +17,7 @@ export class SkyTabHarness extends SkyQueryableComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyTabHarness` that meets certain criteria.
+   * @internal
    */
   public static with(
     filters: SkyTabHarnessFilters,
@@ -31,13 +32,15 @@ export class SkyTabHarness extends SkyQueryableComponentHarness {
     );
   }
 
-  public async getTabId(): Promise<string | null> {
-    // eslint-disable-next-line @cspell/spellchecker
-    return await (await this.#getTab()).getAttribute('id');
-  }
-
   public async getLayout(): Promise<string> {
     return (await (await this.host()).getAttribute('layout')) || 'none';
+  }
+
+  /**
+   * @internal
+   */
+  public async getTabId(): Promise<string | null> {
+    return await (await this.#getTab()).getAttribute('id');
   }
 
   public async isVisible(): Promise<boolean> {

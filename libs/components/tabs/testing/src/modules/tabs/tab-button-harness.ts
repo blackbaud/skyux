@@ -47,17 +47,21 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
     return await button.click();
   }
 
+  public async getPermalink(): Promise<string | null> {
+    return await (await this.#getTabButton()).getAttribute('href');
+  }
+
+  public async getTabHarness(): Promise<SkyTabHarness> {
+    return await this.documentRootLocatorFactory().locatorFor(
+      SkyTabHarness.with({ tabId: await this.getTabId() }),
+    )();
+  }
+
   public async getTabHeading(): Promise<string> {
     return (
       // eslint-disable-next-line @cspell/spellchecker
-      (
-        await (await this.locatorFor('.sky-tab-heading > span[skyid]')()).text()
-      ).trim()
+      await (await this.locatorFor('.sky-tab-heading > span[skyid]')()).text()
     );
-  }
-
-  public async getPermalink(): Promise<string | null> {
-    return await (await this.#getTabButton()).getAttribute('href');
   }
 
   public async isActive(): Promise<boolean> {
@@ -66,12 +70,6 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
 
   public async isDisabled(): Promise<boolean> {
     return await (await this.#getTabButton()).hasClass('sky-btn-tab-disabled');
-  }
-
-  public async getTabHarness(): Promise<SkyTabHarness> {
-    return await this.documentRootLocatorFactory().locatorFor(
-      SkyTabHarness.with({ tabId: await this.getTabId() }),
-    )();
   }
 
   /**
