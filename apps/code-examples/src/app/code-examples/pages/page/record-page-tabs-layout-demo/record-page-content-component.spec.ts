@@ -7,7 +7,7 @@ import { SkyTabsetHarness } from '@skyux/tabs/testing';
 import { RecordPageContentComponent } from './record-page-content.component';
 import { RecordPageOverviewTabHarness } from './record-page-overview-tab.component';
 
-fdescribe('Record page content', () => {
+describe('Record page content', () => {
   async function setupTest(): Promise<{
     recordPageHarness: SkyTabsetHarness;
     fixture: ComponentFixture<RecordPageContentComponent>;
