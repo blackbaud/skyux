@@ -35,10 +35,16 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
     );
   }
 
+  /**
+   * Clicks the tab button.
+   */
   public async click(): Promise<void> {
     return await (await this.#getTabButton()).click();
   }
 
+  /**
+   * Clicks the remove tab button if it is visible.
+   */
   public async clickRemoveButton(): Promise<void> {
     const button = await this.locatorForOptional('.sky-btn-tab-close')();
     if (!button) {
@@ -47,16 +53,25 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
     return await button.click();
   }
 
+  /**
+   * Gets the permalink that the page routes to when the tab is clicked.
+   */
   public async getPermalink(): Promise<string | null> {
     return await (await this.#getTabButton()).getAttribute('href');
   }
 
+  /**
+   * Gets the `SkyTabHarness` controlled by this tab button.
+   */
   public async getTabHarness(): Promise<SkyTabHarness> {
     return await this.documentRootLocatorFactory().locatorFor(
       SkyTabHarness.with({ tabId: await this.getTabId() }),
     )();
   }
 
+  /**
+   * Gets the tab heading.
+   */
   public async getTabHeading(): Promise<string> {
     return (
       // eslint-disable-next-line @cspell/spellchecker
@@ -64,10 +79,16 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
     );
   }
 
+  /**
+   * Gets whether the tab button is active.
+   */
   public async isActive(): Promise<boolean> {
     return await (await this.#getTabButton()).hasClass('sky-btn-tab-selected');
   }
 
+  /**
+   * Gets whether the tab button is disabled.
+   */
   public async isDisabled(): Promise<boolean> {
     return await (await this.#getTabButton()).hasClass('sky-btn-tab-disabled');
   }
