@@ -50,6 +50,8 @@ export interface SkyManifestParentDefinition
   extends SkyManifestJsDocDefinition {
   anchorId: string;
   children?: SkyManifestChildDefinition[];
+  docsId: string;
+  docsIncludeIds?: string[];
   filePath: string;
   isInternal?: boolean;
   kind: SkyManifestParentDefinitionKind;

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get-public-api should return the public API for a specific docs ID 1`] = `
+Object {
+  "packages": Object {
+    "@company/components": Array [
+      Object {
+        "docsId": "bar",
+        "docsIncludeIds": Array [
+          "foo",
+          "FooTesting",
+          "FooTestingInternal",
+        ],
+        "isInternal": false,
+      },
+      Object {
+        "docsId": "foo",
+        "isInternal": false,
+      },
+    ],
+    "@company/components/testing": Array [
+      Object {
+        "docsId": "FooTesting",
+        "isInternal": false,
+      },
+    ],
+  },
+}
+`;

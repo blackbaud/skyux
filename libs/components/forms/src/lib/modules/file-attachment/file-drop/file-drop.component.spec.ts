@@ -60,6 +60,11 @@ describe('File drop component', () => {
       TestBed.inject(SkyLiveAnnouncerService),
       'announce',
     );
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   //#region helper functions
@@ -183,10 +188,10 @@ describe('File drop component', () => {
     };
   }
 
-  function setupStandardFileChangeEvent(
+  async function setupStandardFileChangeEvent(
     files?: any[],
     existingSpy?: jasmine.Spy,
-  ): jasmine.Spy {
+  ): Promise<jasmine.Spy> {
     const fileReaderSpyData = setupFileReaderSpy(existingSpy);
 
     if (!files) {
@@ -206,6 +211,12 @@ describe('File drop component', () => {
     triggerChangeEvent(files);
 
     fixture.detectChanges();
+    await fixture.whenStable();
+
+    jasmine.clock().tick(501);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     if (fileReaderSpyData.loadCallbacks[0]) {
       fileReaderSpyData.loadCallbacks[0]({
@@ -227,10 +238,10 @@ describe('File drop component', () => {
     return fileReaderSpyData.fileReaderSpy;
   }
 
-  function setupErrorFileChangeEvent(
+  async function setupErrorFileChangeEvent(
     files?: any[],
     existingSpy?: jasmine.Spy,
-  ): jasmine.Spy {
+  ): Promise<jasmine.Spy> {
     const fileReaderSpyData = setupFileReaderSpy(existingSpy);
 
     if (!files) {
@@ -260,6 +271,12 @@ describe('File drop component', () => {
     triggerChangeEvent(files);
 
     fixture.detectChanges();
+    await fixture.whenStable();
+
+    jasmine.clock().tick(501);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     if (fileReaderSpyData.loadCallbacks[0]) {
       fileReaderSpyData.loadCallbacks[0]({
@@ -430,7 +447,7 @@ describe('File drop component', () => {
     ).toBe('MOCK_ID_3');
   });
 
-  it('should display built in validation errors automatically when labelText is set', () => {
+  it('should display built in validation errors automatically when labelText is set', async () => {
     componentInstance.labelText = 'Label';
 
     componentInstance.minFileSize = 1500;
@@ -438,7 +455,7 @@ describe('File drop component', () => {
     componentInstance.acceptedTypes = 'image/png, image/jpeg';
     fixture.detectChanges();
 
-    setupErrorFileChangeEvent();
+    await setupErrorFileChangeEvent();
 
     const minSizeError = fixture.nativeElement.querySelector(
       "sky-form-error[errorName='minFileSize']",
@@ -465,7 +482,7 @@ describe('File drop component', () => {
     );
   });
 
-  it('should display custom validation errors automatically when labelText is set', () => {
+  it('should display custom validation errors automatically when labelText is set', async () => {
     componentInstance.labelText = 'Label';
     const errorMessage =
       'You may not upload a file that begins with the letter "w."';
@@ -481,7 +498,7 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    setupErrorFileChangeEvent();
+    await setupErrorFileChangeEvent();
 
     const formError = fixture.nativeElement.querySelector('sky-form-error');
 
@@ -517,7 +534,7 @@ describe('File drop component', () => {
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged),
     );
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(filesChangedActual?.files.length).toBe(2);
@@ -556,6 +573,13 @@ describe('File drop component', () => {
         size: 3000,
       },
     ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    jasmine.clock().tick(501);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     fileReaderSpy.abortCallbacks[0]();
     fileReaderSpy.loadCallbacks[1]({
@@ -615,7 +639,7 @@ describe('File drop component', () => {
     componentInstance.minFileSize = 1500;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(1);
@@ -640,7 +664,7 @@ describe('File drop component', () => {
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged),
     );
 
-    const spy = setupStandardFileChangeEvent();
+    const spy = await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(0);
@@ -664,7 +688,7 @@ describe('File drop component', () => {
     componentInstance.minFileSize = 1500;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(undefined, spy);
+    await setupStandardFileChangeEvent(undefined, spy);
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(1);
@@ -688,7 +712,7 @@ describe('File drop component', () => {
     componentInstance.minFileSize = undefined;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(undefined, spy);
+    await setupStandardFileChangeEvent(undefined, spy);
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(0);
@@ -716,7 +740,7 @@ describe('File drop component', () => {
     componentInstance.maxFileSize = 1500;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(1);
@@ -741,7 +765,7 @@ describe('File drop component', () => {
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged),
     );
 
-    const spy = setupStandardFileChangeEvent();
+    const spy = await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(0);
@@ -765,7 +789,7 @@ describe('File drop component', () => {
     componentInstance.maxFileSize = 1500;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(undefined, spy);
+    await setupStandardFileChangeEvent(undefined, spy);
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(1);
@@ -789,7 +813,7 @@ describe('File drop component', () => {
     componentInstance.maxFileSize = undefined;
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent(undefined, spy);
+    await setupStandardFileChangeEvent(undefined, spy);
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(0);
@@ -828,7 +852,7 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(1);
@@ -857,7 +881,7 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(1);
@@ -898,7 +922,7 @@ describe('File drop component', () => {
       },
     ];
 
-    setupStandardFileChangeEvent(files);
+    await setupStandardFileChangeEvent(files);
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(2);
@@ -926,7 +950,8 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    setupStandardFileChangeEvent();
+    await setupStandardFileChangeEvent();
+    fixture.detectChanges();
     await fixture.whenStable();
 
     expect(filesChangedActual?.rejectedFiles.length).toBe(0);
@@ -1318,8 +1343,10 @@ describe('File drop component', () => {
   }));
 
   it('should pass accessibility', async () => {
+    jasmine.clock().uninstall();
     fixture.detectChanges();
     await fixture.whenStable();
+
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
@@ -1472,121 +1499,119 @@ describe('File drop reactive component', () => {
     expect(requiredError).toBeVisible();
   });
 
-  describe('form control value', () => {
-    it('should set value', async () => {
-      const file: SkyFileItem = {
+  it('should set value', async () => {
+    const file: SkyFileItem = {
+      file: new File([], 'foo.bar', { type: 'image/png' }),
+      url: 'foo.bar.bar',
+    };
+
+    const link: SkyFileLink = {
+      url: 'foo.foo',
+    };
+
+    fixture.componentInstance.fileDrop.setValue([file, link]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.fileDrop.value.length).toBe(2);
+  });
+
+  it('should not add invalid files', async () => {
+    fixture.componentInstance.fileDrop.setValue([
+      {
         file: new File([], 'foo.bar', { type: 'image/png' }),
         url: 'foo.bar.bar',
-      };
+      },
+      {
+        file: undefined,
+        url: 'foo.bar.bar',
+      },
+      {
+        url: 'foo.bar.bar',
+      },
 
-      const link: SkyFileLink = {
-        url: 'foo.foo',
-      };
+      {
+        url: undefined,
+      },
+    ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      fixture.componentInstance.fileDrop.setValue([file, link]);
-      fixture.detectChanges();
-      await fixture.whenStable();
+    expect(fixture.componentInstance.fileDrop.value.length).toBe(2);
+  });
 
-      expect(fixture.componentInstance.fileDrop.value.length).toBe(2);
-    });
+  it('should handle no valid files uploaded', async () => {
+    fixture.componentInstance.fileDrop.setValue('anything');
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-    it('should not add invalid files', async () => {
-      fixture.componentInstance.fileDrop.setValue([
-        {
-          file: new File([], 'foo.bar', { type: 'image/png' }),
-          url: 'foo.bar.bar',
-        },
-        {
-          file: undefined,
-          url: 'foo.bar.bar',
-        },
-        {
-          url: 'foo.bar.bar',
-        },
+    expect(fixture.componentInstance.fileDrop.value).toBe(null);
 
-        {
-          url: undefined,
-        },
-      ]);
-      fixture.detectChanges();
-      await fixture.whenStable();
+    fixture.componentInstance.fileDrop.setValue([
+      {
+        file: undefined,
+        url: 'foo.bar.bar',
+      },
+      {
+        url: undefined,
+      },
+    ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      expect(fixture.componentInstance.fileDrop.value.length).toBe(2);
-    });
+    expect(fixture.componentInstance.fileDrop.value).toBe(null);
+  });
 
-    it('should handle no valid files uploaded', async () => {
-      fixture.componentInstance.fileDrop.setValue('anything');
-      fixture.detectChanges();
-      await fixture.whenStable();
+  it('should handle rejecting all files', async () => {
+    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.detectChanges();
 
-      expect(fixture.componentInstance.fileDrop.value).toBe(null);
+    fixture.componentInstance.fileDrop.setValue([
+      {
+        file: new File([], 'foo.foo', { type: 'abcd/png' }),
+        url: 'foo.bar.bar',
+      },
+    ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      fixture.componentInstance.fileDrop.setValue([
-        {
-          file: undefined,
-          url: 'foo.bar.bar',
-        },
-        {
-          url: undefined,
-        },
-      ]);
-      fixture.detectChanges();
-      await fixture.whenStable();
+    expect(fixture.componentInstance.fileDrop.value).toBe(null);
+  });
 
-      expect(fixture.componentInstance.fileDrop.value).toBe(null);
-    });
+  it('should handle accepting some files', async () => {
+    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.detectChanges();
 
-    it('should handle rejecting all files', async () => {
-      fixture.componentInstance.acceptedTypes = 'image/png';
-      fixture.detectChanges();
+    fixture.componentInstance.fileDrop.setValue([
+      {
+        url: 'foo.bar.bar',
+      },
+      {
+        file: new File([], 'foo.foo', { type: 'abcd/png' }),
+        url: 'foo.bar.bar',
+      },
+    ]);
 
-      fixture.componentInstance.fileDrop.setValue([
-        {
-          file: new File([], 'foo.foo', { type: 'abcd/png' }),
-          url: 'foo.bar.bar',
-        },
-      ]);
-      fixture.detectChanges();
-      await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      expect(fixture.componentInstance.fileDrop.value).toBe(null);
-    });
+    expect(fixture.componentInstance.fileDrop.value.length).toBe(1);
+  });
 
-    it('should handle accepting some files', async () => {
-      fixture.componentInstance.acceptedTypes = 'image/png';
-      fixture.detectChanges();
+  it('should not set the form control value before handle files is complete', async () => {
+    fixture.componentInstance.fileDrop.setValue([
+      {
+        file: new File([], 'foo.bar', { type: 'image/png' }),
+        url: 'foo.bar.bar',
+      },
+      {
+        file: undefined,
+        url: 'foo.bar.bar',
+      },
+    ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      fixture.componentInstance.fileDrop.setValue([
-        {
-          url: 'foo.bar.bar',
-        },
-        {
-          file: new File([], 'foo.foo', { type: 'abcd/png' }),
-          url: 'foo.bar.bar',
-        },
-      ]);
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(fixture.componentInstance.fileDrop.value.length).toBe(1);
-    });
-
-    it('should not set the form control value before handle files is complete', async () => {
-      fixture.componentInstance.fileDrop.setValue([
-        {
-          file: new File([], 'foo.bar', { type: 'image/png' }),
-          url: 'foo.bar.bar',
-        },
-        {
-          file: undefined,
-          url: 'foo.bar.bar',
-        },
-      ]);
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(fixture.componentInstance.fileDrop.value.length).toBe(1);
-    });
+    expect(fixture.componentInstance.fileDrop.value.length).toBe(1);
   });
 });

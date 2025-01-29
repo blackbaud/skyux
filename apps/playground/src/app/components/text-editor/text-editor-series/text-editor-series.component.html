@@ -1,0 +1,25 @@
+<div class="sky-padding-even-large">
+  <h1>Text editor looped</h1>
+  <form [formGroup]="myForm">
+    <sky-vertical-tabset [maintainTabContent]="true">
+      @for (editor of editors; track editor) {
+        <sky-vertical-tab
+          [active]="editor === 'textEditor1'"
+          [tabHeading]="editor"
+        >
+          <sky-text-editor
+            helpKey="helpKey.html"
+            helpPopoverContent="This is some helpful content."
+            helpPopoverTitle="Did you know?"
+            hintText="Hint text"
+            stacked
+            [formControlName]="editor"
+            [labelText]="editor"
+          />
+          <h2>Preview HTML</h2>
+          <div class="content-display" [innerHTML]="displayValue[editor]"></div>
+        </sky-vertical-tab>
+      }
+    </sky-vertical-tabset>
+  </form>
+</div>

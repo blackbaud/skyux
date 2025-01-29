@@ -8,7 +8,7 @@ import { SkyTilesModule } from '@skyux/tiles';
   imports: [SkyTilesModule],
 })
 export class Tile1Component {
-  protected tileSettingsClick(): void {
+  public tileSettingsClick(): void {
     alert('tile settings clicked');
   }
 }
