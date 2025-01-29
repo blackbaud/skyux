@@ -5,5 +5,9 @@ import { NgModule } from '@angular/core';
  * @deprecated The `SkyDynamicComponentService` no longer needs the `SkyDynamicComponentModule`.
  * The `SkyDynamicComponentModule` can be removed from your project.
  */
+
+/**
+ * @docsIncludeIds SkyDynamicComponentOptions, SkyDynamicComponentLocation
+ */
 @NgModule({})
 export class SkyDynamicComponentModule {}
