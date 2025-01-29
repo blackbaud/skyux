@@ -11,21 +11,24 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"class_----\\",
         \\"description\\": \\"This describes a class with a name not including letters or numbers.\\",
-        \\"filePath\\": \\"src/lib/anchor-id.ts\\",
+        \\"docsId\\": \\"____\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"____\\"
       },
       {
         \\"anchorId\\": \\"class_foo1\\",
         \\"description\\": \\"This describes a class with a name comprising of letters and numbers.\\",
-        \\"filePath\\": \\"src/lib/anchor-id.ts\\",
+        \\"docsId\\": \\"Foo1\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"Foo1\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-only-letters\\",
         \\"description\\": \\"This describes a class with a name comprising only of letters.\\",
-        \\"filePath\\": \\"src/lib/anchor-id.ts\\",
+        \\"docsId\\": \\"FooWithOnlyLetters\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/anchor-id.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithOnlyLetters\\"
       },
@@ -33,7 +36,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"anchorId\\": \\"variable_should-have-code-example-default-language-comment\\",
         \\"codeExample\\": \\"<h1></h1>\\",
         \\"codeExampleLanguage\\": \\"markup\\",
-        \\"filePath\\": \\"src/lib/comments.ts\\",
+        \\"docsId\\": \\"shouldHaveCodeExampleDefaultLanguageComment\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleDefaultLanguageComment\\",
         \\"type\\": \\"true\\"
@@ -42,7 +46,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"anchorId\\": \\"variable_should-have-code-example-markup-language-comment\\",
         \\"codeExample\\": \\"<br />\\",
         \\"codeExampleLanguage\\": \\"markup\\",
-        \\"filePath\\": \\"src/lib/comments.ts\\",
+        \\"docsId\\": \\"shouldHaveCodeExampleMarkupLanguageComment\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleMarkupLanguageComment\\",
         \\"type\\": \\"true\\"
@@ -51,14 +56,16 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"anchorId\\": \\"variable_should-have-code-example-unknown-language-comment\\",
         \\"codeExample\\": \\"const app = express();\\",
         \\"codeExampleLanguage\\": \\"markup\\",
-        \\"filePath\\": \\"src/lib/comments.ts\\",
+        \\"docsId\\": \\"shouldHaveCodeExampleUnknownLanguageComment\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveCodeExampleUnknownLanguageComment\\",
         \\"type\\": \\"true\\"
       },
       {
         \\"anchorId\\": \\"variable_should-have-deprecated-comment\\",
-        \\"filePath\\": \\"src/lib/comments.ts\\",
+        \\"docsId\\": \\"shouldHaveDeprecatedComment\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"isDeprecated\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveDeprecatedComment\\",
@@ -67,7 +74,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"variable_should-have-deprecated-reason-comment\\",
         \\"deprecationReason\\": \\"Do something else instead\\",
-        \\"filePath\\": \\"src/lib/comments.ts\\",
+        \\"docsId\\": \\"shouldHaveDeprecatedReasonComment\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"isDeprecated\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveDeprecatedReasonComment\\",
@@ -75,7 +83,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       },
       {
         \\"anchorId\\": \\"variable_should-have-internal-comment\\",
-        \\"filePath\\": \\"src/lib/comments.ts\\",
+        \\"docsId\\": \\"shouldHaveInternalComment\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"isInternal\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHaveInternalComment\\",
@@ -83,7 +92,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       },
       {
         \\"anchorId\\": \\"variable_should-have-preview-comment\\",
-        \\"filePath\\": \\"src/lib/comments.ts\\",
+        \\"docsId\\": \\"shouldHavePreviewComment\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/comments.ts\\",
         \\"isPreview\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"shouldHavePreviewComment\\",
@@ -91,7 +101,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       },
       {
         \\"anchorId\\": \\"class_foo-base-class\\",
-        \\"filePath\\": \\"src/lib/foo.class.ts\\",
+        \\"docsId\\": \\"FooBaseClass\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooBaseClass\\"
       },
@@ -109,7 +120,8 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"undefined | T\\"
           }
         ],
-        \\"filePath\\": \\"src/lib/foo.class.ts\\",
+        \\"docsId\\": \\"FooBasicTypeParamClass\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooBasicTypeParamClass\\",
         \\"typeParameters\\": \\"<T extends unknown>\\"
@@ -123,7 +135,8 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"undefined | T\\"
           }
         ],
-        \\"filePath\\": \\"src/lib/foo.class.ts\\",
+        \\"docsId\\": \\"FooBasicTypeParamDefaultValueClass\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooBasicTypeParamDefaultValueClass\\",
         \\"typeParameters\\": \\"<T = boolean>\\"
@@ -239,10 +252,31 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"description\\": \\"This is the foo class.\\",
-        \\"filePath\\": \\"src/lib/foo.class.ts\\",
+        \\"docsId\\": \\"FooClass\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooClass\\",
         \\"typeParameters\\": \\"<TClass extends FooBaseClass>\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-with-docs-id-override-class\\",
+        \\"docsId\\": \\"docs-id-override\\",
+        \\"docsIncludeIds\\": [
+          \\"foo\\",
+          \\"bar\\",
+          \\"baz\\"
+        ],
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooWithDocsIdOverrideClass\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-with-empty-docs-include-ids-class\\",
+        \\"docsId\\": \\"FooWithEmptyDocsIncludeIdsClass\\",
+        \\"docsIncludeIds\\": [],
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooWithEmptyDocsIncludeIdsClass\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-static-properties-class\\",
@@ -283,9 +317,28 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"description\\": \\"This describes the foo abstract class.\\",
-        \\"filePath\\": \\"src/lib/foo.class.ts\\",
+        \\"docsId\\": \\"FooWithStaticPropertiesClass\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithStaticPropertiesClass\\"
+      },
+      {
+        \\"anchorId\\": \\"class_sky-foo-non-standalone-component\\",
+        \\"description\\": \\"This is a non-standalone component with a Sky prefix. We need to include the prefix so that it's included in the owning module's docsIncludeIds array.\\",
+        \\"docsId\\": \\"SkyFooNonStandaloneComponent\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"SkyFooNonStandaloneComponent\\",
+        \\"selector\\": \\"sky-foo-non-standalone\\"
+      },
+      {
+        \\"anchorId\\": \\"class_sky-foo-standalone-component\\",
+        \\"description\\": \\"This is a standalone component with a Sky prefix and an overridden docsId. We need to include the prefix so that it's included in the owning module's docsIncludeIds array.\\",
+        \\"docsId\\": \\"sky-foo-standalone-override\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
+        \\"kind\\": \\"component\\",
+        \\"name\\": \\"SkyFooStandaloneComponent\\",
+        \\"selector\\": \\"sky-foo-standalone\\"
       },
       {
         \\"anchorId\\": \\"class_foo-component\\",
@@ -323,7 +376,8 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"EventEmitter<void>\\"
           }
         ],
-        \\"filePath\\": \\"src/lib/foo.component.ts\\",
+        \\"docsId\\": \\"FooComponent\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.component.ts\\",
         \\"kind\\": \\"component\\",
         \\"name\\": \\"FooComponent\\",
         \\"selector\\": \\"lib-foo\\"
@@ -331,7 +385,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"type-alias_foo-breakpoint\\",
         \\"description\\": \\"The name of a viewport or container breakpoint.\\",
-        \\"filePath\\": \\"src/lib/foo.const-assertion.ts\\",
+        \\"docsId\\": \\"FooBreakpoint\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooBreakpoint\\",
         \\"type\\": \\"readonly [\\\\\\"xs\\\\\\", \\\\\\"sm\\\\\\", \\\\\\"md\\\\\\", \\\\\\"lg\\\\\\"]\\"
@@ -339,7 +394,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"variable_foo-breakpoints\\",
         \\"description\\": \\"A list of all breakpoints.\\",
-        \\"filePath\\": \\"src/lib/foo.const-assertion.ts\\",
+        \\"docsId\\": \\"FOO_BREAKPOINTS\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts\\",
         \\"isInternal\\": true,
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"FOO_BREAKPOINTS\\",
@@ -348,7 +404,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"class_foo-directive\\",
         \\"description\\": \\"This is a directive without any inputs/outputs.\\",
-        \\"filePath\\": \\"src/lib/foo.directive.ts\\",
+        \\"docsId\\": \\"FooDirective\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"FooDirective\\",
         \\"selector\\": \\"[foo]\\"
@@ -400,7 +457,8 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"OutputEmitterRef<void>\\"
           }
         ],
-        \\"filePath\\": \\"src/lib/foo.directive.ts\\",
+        \\"docsId\\": \\"FooWithInputsOutputsDirective\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"FooWithInputsOutputsDirective\\",
         \\"selector\\": \\"[foo]\\"
@@ -408,7 +466,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"class_λ2\\",
         \\"description\\": \\"This is a directive with a lambda name.\\",
-        \\"filePath\\": \\"src/lib/foo.directive.ts\\",
+        \\"docsId\\": \\"λ2\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts\\",
         \\"kind\\": \\"directive\\",
         \\"name\\": \\"λ2\\",
         \\"selector\\": \\"[fooLambda]\\"
@@ -416,7 +475,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"enum_foo-enum\\",
         \\"description\\": \\"This describes the Foo enum.\\",
-        \\"filePath\\": \\"src/lib/foo.enum.ts\\",
+        \\"docsId\\": \\"FooEnum\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.enum.ts\\",
         \\"kind\\": \\"enumeration\\",
         \\"children\\": [
           {
@@ -437,7 +497,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"function_create-foo\\",
         \\"description\\": \\"This describes the createFoo function.\\",
-        \\"filePath\\": \\"src/lib/foo.function.ts\\",
+        \\"docsId\\": \\"createFoo\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.function.ts\\",
         \\"kind\\": \\"function\\",
         \\"name\\": \\"createFoo\\",
         \\"parameters\\": [
@@ -464,7 +525,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       },
       {
         \\"anchorId\\": \\"interface_foo-empty-interface\\",
-        \\"filePath\\": \\"src/lib/foo.interface.ts\\",
+        \\"docsId\\": \\"FooEmptyInterface\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
         \\"kind\\": \\"interface\\",
         \\"name\\": \\"FooEmptyInterface\\"
       },
@@ -485,7 +547,8 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"description\\": \\"This is the Foo interface.\\",
-        \\"filePath\\": \\"src/lib/foo.interface.ts\\",
+        \\"docsId\\": \\"FooInterface\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.interface.ts\\",
         \\"indexSignatures\\": [
           {
             \\"description\\": \\"This describes the index signature.\\",
@@ -517,9 +580,23 @@ exports[`generate-manifest should generate manifest 1`] = `
             \\"type\\": \\"ModuleWithProviders<FooModule>\\"
           }
         ],
-        \\"filePath\\": \\"src/lib/foo.module.ts\\",
+        \\"docsId\\": \\"FooModule\\",
+        \\"docsIncludeIds\\": [],
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.module.ts\\",
         \\"kind\\": \\"module\\",
         \\"name\\": \\"FooModule\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-with-exports-module\\",
+        \\"description\\": \\"This module should automatically generate values for docsIncludeIds based on its exports.\\",
+        \\"docsId\\": \\"FooWithExportsModule\\",
+        \\"docsIncludeIds\\": [
+          \\"sky-foo-standalone-override\\",
+          \\"SkyFooNonStandaloneComponent\\"
+        ],
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.module.ts\\",
+        \\"kind\\": \\"module\\",
+        \\"name\\": \\"FooWithExportsModule\\"
       },
       {
         \\"anchorId\\": \\"class_foo-pipe\\",
@@ -558,7 +635,8 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"description\\": \\"This describes the Foo pipe.\\",
-        \\"filePath\\": \\"src/lib/foo.pipe.ts\\",
+        \\"docsId\\": \\"FooPipe\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.pipe.ts\\",
         \\"kind\\": \\"pipe\\",
         \\"name\\": \\"FooPipe\\",
         \\"templateBindingName\\": \\"foo\\"
@@ -574,14 +652,16 @@ exports[`generate-manifest should generate manifest 1`] = `
           }
         ],
         \\"description\\": \\"This describes the foo service and everything it does.\\",
-        \\"filePath\\": \\"src/lib/foo.service.ts\\",
+        \\"docsId\\": \\"FooService\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.service.ts\\",
         \\"kind\\": \\"service\\",
         \\"name\\": \\"FooService\\"
       },
       {
         \\"anchorId\\": \\"type-alias_foo-alias\\",
         \\"description\\": \\"This is the Foo type alias.\\",
-        \\"filePath\\": \\"src/lib/foo.type-alias.ts\\",
+        \\"docsId\\": \\"FooAlias\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.type-alias.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooAlias\\",
         \\"type\\": \\"\\\\\\"foo\\\\\\" | true | 0 | undefined | null\\"
@@ -589,7 +669,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"type-alias_foo-reference-type-alias\\",
         \\"description\\": \\"This type references a type from another package (i.e., ReferenceType).\\",
-        \\"filePath\\": \\"src/lib/foo.type-alias.ts\\",
+        \\"docsId\\": \\"FooReferenceTypeAlias\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.type-alias.ts\\",
         \\"kind\\": \\"type-alias\\",
         \\"name\\": \\"FooReferenceTypeAlias\\",
         \\"type\\": \\"string | keyof Component\\"
@@ -597,7 +678,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"variable_foo-variable\\",
         \\"description\\": \\"This is a variable.\\",
-        \\"filePath\\": \\"src/lib/foo.variable.ts\\",
+        \\"docsId\\": \\"FOO_VARIABLE\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.variable.ts\\",
         \\"kind\\": \\"variable\\",
         \\"name\\": \\"FOO_VARIABLE\\",
         \\"type\\": \\"InjectionToken<unknown>\\"
@@ -607,7 +689,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"class_sky-foo-harness\\",
         \\"description\\": \\"Harness for interacting with a foo component in tests.\\",
-        \\"filePath\\": \\"testing/src/foo-harness.ts\\",
+        \\"docsId\\": \\"SkyFooHarness\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/testing/src/foo-harness.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"SkyFooHarness\\"
       }

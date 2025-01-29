@@ -12,6 +12,9 @@ import { SkyInputBoxControlDirective } from './input-box-control.directive';
 import { SkyInputBoxHintTextPipe } from './input-box-hint-text.pipe';
 import { SkyInputBoxComponent } from './input-box.component';
 
+/**
+ * @docsIncludeIds SkyInputBoxComponent, SkyInputBoxHarness
+ */
 @NgModule({
   declarations: [SkyInputBoxComponent],
   imports: [
