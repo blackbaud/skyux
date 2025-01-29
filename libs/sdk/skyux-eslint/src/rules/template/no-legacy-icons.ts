@@ -27,6 +27,16 @@ const COMPONENTS_WITH_ICON: {
     inputName: 'iconType',
     honorReplacementVariant: false,
   },
+  {
+    selector: 'sky-radio',
+    inputName: 'icon',
+    honorReplacementVariant: false,
+  },
+  {
+    selector: 'sky-checkbox',
+    inputName: 'icon',
+    honorReplacementVariant: false,
+  },
 ];
 
 const SELECTORS_WITH_ICON_COMPONENTS = COMPONENTS_WITH_ICON.map(
