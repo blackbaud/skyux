@@ -63,6 +63,7 @@ function swapIcons(
           : ''),
     };
   }
+  /* istanbul ignore next */
   return;
 }
 
