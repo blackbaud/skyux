@@ -14,6 +14,9 @@ import { SkyAngularTreeNodeComponent } from './angular-tree-node.component';
 import { SkyTreeViewToolbarComponent } from './angular-tree-toolbar.component';
 import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component';
 
+/**
+ * @docsIncludeIds SkyAngularTreeWrapperComponent, SkyAngularTreeNodeComponent
+ */
 @NgModule({
   declarations: [
     SkyAngularTreeContextMenuComponent,

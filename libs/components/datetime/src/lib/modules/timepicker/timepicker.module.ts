@@ -9,6 +9,9 @@ import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.mod
 import { SkyTimepickerComponent } from './timepicker.component';
 import { SkyTimepickerInputDirective } from './timepicker.directive';
 
+/**
+ * @docsIncludeIds SkyTimepickerComponent, SkyTimepickerInputDirective, SkyTimepickerTimeFormatType, SkyTimepickerTimeOutput
+ */
 @NgModule({
   declarations: [SkyTimepickerInputDirective, SkyTimepickerComponent],
   imports: [
