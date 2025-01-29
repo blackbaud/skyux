@@ -56,9 +56,6 @@ let idIndex = 0;
   selector: 'sky-ag-grid-wrapper',
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[attr.style]': 'minHeightStyle()',
-  },
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit, OnDestroy, OnInit
