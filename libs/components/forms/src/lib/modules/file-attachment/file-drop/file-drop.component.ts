@@ -345,9 +345,12 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
   }
 
   public fileChangeEvent(fileChangeEvent: Event): void {
-    this.#handleFiles(
-      (fileChangeEvent.target as HTMLInputElement | undefined)?.files,
-    );
+    /** Set a timeout here to allow the browser to regain context from the system dialog. Without this, error messages do not read out correctly to screen readers. */
+    setTimeout(() => {
+      this.#handleFiles(
+        (fileChangeEvent.target as HTMLInputElement | undefined)?.files,
+      );
+    }, 500);
   }
 
   public fileDragEnter(dragEnterEvent: DragEvent): void {

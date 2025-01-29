@@ -6,6 +6,7 @@ import { SkyHelpTestingService } from './help-testing.service';
 
 /**
  * Mocks SkyHelpService to enable testing of global help.
+ * @docsIncludeIds SkyHelpTestingController
  */
 @NgModule({
   providers: [

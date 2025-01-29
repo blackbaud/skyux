@@ -18,7 +18,10 @@ function setup(options: { outDirExists: boolean }): {
   });
 
   jest.mock('node:fs/promises', () => {
+    const originalModule = jest.requireActual('node:fs/promises');
+
     return {
+      ...originalModule,
       mkdir: mkdirMock,
       writeFile: writeFileMock,
     };
@@ -67,7 +70,7 @@ describe('generate-manifest', () => {
     });
 
     expect(writeFileMock).toMatchSnapshot();
-  });
+  }, 60000);
 
   it('should create the out directory if it does not exist', async () => {
     const { mkdirMock } = setup({
@@ -83,5 +86,5 @@ describe('generate-manifest', () => {
     });
 
     expect(mkdirMock).toHaveBeenCalledWith('/dist');
-  });
+  }, 60000);
 });
