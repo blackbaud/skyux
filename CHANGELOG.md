@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.37.0](https://github.com/blackbaud/skyux/compare/11.36.2...11.37.0) (2025-01-28)
+
+
+### Features
+
+* **components/tiles:** add test harnesses for tile and tile dashboard ([#3052](https://github.com/blackbaud/skyux/issues/3052)) ([dd47e23](https://github.com/blackbaud/skyux/commit/dd47e232ad053eec1dd7a3375e9213aef40de9ca))
+
+
+### Bug Fixes
+
+* **components/forms:** ensure form error always has `errorName` attribute for test harnesses ([#3071](https://github.com/blackbaud/skyux/issues/3071)) ([46c1e63](https://github.com/blackbaud/skyux/commit/46c1e63b811c1906017ea61249fd02bd93b811cc))
+* **components/text-editor:** value initializing for multiple text-editors ([#3067](https://github.com/blackbaud/skyux/issues/3067)) ([252b0b7](https://github.com/blackbaud/skyux/commit/252b0b7f0155367df2549e6d82e076dadf1cd95f))
+
 ## [11.36.2](https://github.com/blackbaud/skyux/compare/11.36.1...11.36.2) (2025-01-27)
 
 
