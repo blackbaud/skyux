@@ -6,6 +6,8 @@ describe('utils', () => {
     const definition: SkyManifestParentDefinition = {
       anchorId: '',
       deprecationReason: '',
+      docsId: 'SkyManifestParentDefinition',
+      docsIncludeIds: undefined,
       filePath: '',
       kind: 'directive',
       isDeprecated: false,
@@ -19,6 +21,8 @@ describe('utils', () => {
     const definition: SkyManifestParentDefinition = {
       anchorId: '',
       deprecationReason: '',
+      docsId: 'SkyManifestParentDefinition',
+      docsIncludeIds: ['Foo'],
       filePath: '',
       kind: 'service',
       name: '',
