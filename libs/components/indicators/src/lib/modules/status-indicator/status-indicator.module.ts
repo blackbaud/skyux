@@ -8,6 +8,9 @@ import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources
 
 import { SkyStatusIndicatorComponent } from './status-indicator.component';
 
+/**
+ * @docsIncludeIds SkyStatusIndicatorComponent, SkyStatusIndicatorHarness, SkyStatusIndicatorHarnessFilters
+ */
 @NgModule({
   declarations: [SkyStatusIndicatorComponent],
   imports: [

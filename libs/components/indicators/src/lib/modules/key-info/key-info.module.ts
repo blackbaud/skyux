@@ -7,6 +7,9 @@ import { SkyKeyInfoLabelComponent } from './key-info-label.component';
 import { SkyKeyInfoValueComponent } from './key-info-value.component';
 import { SkyKeyInfoComponent } from './key-info.component';
 
+/**
+ * @docsIncludeIds SkyKeyInfoComponent, SkyKeyInfoLabelComponent, SkyKeyInfoValueComponent, SkyKeyInfoLayoutType, SkyKeyInfoHarness, SkyKeyInfoHarnessFilters
+ */
 @NgModule({
   declarations: [
     SkyKeyInfoComponent,
