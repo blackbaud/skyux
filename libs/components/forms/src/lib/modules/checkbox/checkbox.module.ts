@@ -16,7 +16,7 @@ import { SkyCheckboxLabelComponent } from './checkbox-label.component';
 import { SkyCheckboxComponent } from './checkbox.component';
 
 /**
- * @docsIncludeIds SkyCheckboxGroupComponent, SkyCheckboxComponent, SkyCheckboxLabelComponent, SkyCheckboxChange, SkyCheckboxGroupHeadingLevel, SkyCheckboxGroupHeadingStyle, SkyCheckboxGroupHarness, SkyCheckboxHarness
+ * @docsIncludeIds SkyCheckboxComponent, SkyCheckboxGroupComponent, SkyCheckboxLabelComponent, SkyCheckboxChange, SkyCheckboxGroupHeadingLevel, SkyCheckboxGroupHeadingStyle, SkyCheckboxHarness, SkyCheckboxGroupHarness
  */
 @NgModule({
   declarations: [
