@@ -12,6 +12,10 @@ import { SkyDefinitionListComponent } from './definition-list.component';
 /**
  * @deprecated Use `SkyDescriptionListModule` instead.
  */
+
+/**
+ * @docsIncludeIds SkyDefinitionListComponent, SkyDefinitionListHeadingComponent, SkyDefinitionListContentComponent, SkyDefinitionListLabelComponent, SkyDefinitionListValueComponent
+ */
 @NgModule({
   declarations: [
     SkyDefinitionListComponent,
