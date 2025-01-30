@@ -26,7 +26,7 @@ export class SkyActionButtonIconComponent {
    * set `iconType` to `filter`. SKY UX supports version 4.7.0 of Font Awesome.
    * For more information about icons in SKY UX, see the
    * [icon component](https://developer.blackbaud.com/skyux/components/icon).
-   * @deprecated use `iconName` instead
+   * @deprecated Use `iconName` instead.
    */
   @Input()
   public iconType: string | undefined;
