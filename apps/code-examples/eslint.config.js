@@ -19,6 +19,7 @@ module.exports = tsEslint.config(
     extends: [...skyux.configs.templateAll],
     rules: {
       'skyux-eslint-template/no-deprecated-directives': 'warn',
+      'skyux-eslint-template/no-legacy-icons': 'warn',
     },
   },
 );
