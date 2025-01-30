@@ -30,8 +30,7 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the specified date, month or year.
-   * @params the specified value to click, in the following format
+   * Clicks the specified date, month or year in the following format
    * day format: dddd, MMMM Do YYYY
    * month format: MMMM YYYY
    * year format: YYYY
@@ -94,7 +93,7 @@ export class SkyDatepickerCalendarHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the value of the currently selected calendar item.
+   * Gets the long date value of the currently selected calendar item.
    */
   public async getSelectedValue(): Promise<string | null> {
     return await (await this.#getSelected()).getAttribute('aria-label');
