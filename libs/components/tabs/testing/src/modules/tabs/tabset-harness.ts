@@ -7,7 +7,7 @@ import {
 import { SkyTabsetButtonsDisplayMode } from '@skyux/tabs';
 
 import { SkyTabButtonHarness } from './tab-button-harness';
-import { SkyTabHarness } from './tab-harness';
+import { SkyTabContentHarness } from './tab-content-harness';
 import { SkyTabsetHarnessFilters } from './tabset-harness-filters';
 
 /**
@@ -147,10 +147,12 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   /**
    * Gets a tab harness for the tab with the given `tabHeading`.
    */
-  public async getTabHarness(tabHeading: string): Promise<SkyTabHarness> {
+  public async getTabHarness(
+    tabHeading: string,
+  ): Promise<SkyTabContentHarness> {
     const tabButton = await this.getTabButtonHarness(tabHeading);
     const id = await tabButton.getTabId();
-    return await this.locatorFor(SkyTabHarness.with({ tabId: id }))();
+    return await this.locatorFor(SkyTabContentHarness.with({ tabId: id }))();
   }
 
   async #getDropdownMenu(): Promise<SkyDropdownMenuHarness> {

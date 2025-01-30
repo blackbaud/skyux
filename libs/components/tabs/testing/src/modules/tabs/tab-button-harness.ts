@@ -2,7 +2,7 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyTabButtonHarnessFilters } from './tab-button-harness-filters';
-import { SkyTabHarness } from './tab-harness';
+import { SkyTabContentHarness } from './tab-content-harness';
 
 /**
  * Harness for interacting with a tab button component in tests.
@@ -61,11 +61,11 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the `SkyTabHarness` controlled by this tab button.
+   * Gets the `SkyTabContentHarness` controlled by this tab button.
    */
-  public async getTabHarness(): Promise<SkyTabHarness> {
+  public async getTabHarness(): Promise<SkyTabContentHarness> {
     return await this.documentRootLocatorFactory().locatorFor(
-      SkyTabHarness.with({ tabId: await this.getTabId() }),
+      SkyTabContentHarness.with({ tabId: await this.getTabId() }),
     )();
   }
 
