@@ -20,27 +20,27 @@ function getDefinitionByDocsId(
   return;
 }
 
-function validateDocsIds(packages: PackagesMap): void {
+function validateDocsIds(packages: PackagesMap): string[] {
+  const errors: string[] = [];
   const ids: string[] = [];
 
   for (const [, definitions] of packages) {
     for (const definition of definitions) {
-      if (!definition.docsId) {
-        throw new Error(
-          `The export "${definition.name}" does not specify a @docsId.`,
-        );
-      }
-
       if (ids.includes(definition.docsId)) {
-        throw new Error(`Duplicate @docsId encountered: ${definition.docsId}`);
+        errors.push(`Duplicate @docsId encountered: ${definition.docsId}`);
+        continue;
       }
 
       ids.push(definition.docsId);
     }
   }
+
+  return errors;
 }
 
-function validateDocsIncludeIds(packages: PackagesMap): void {
+function validateDocsIncludeIds(packages: PackagesMap): string[] {
+  const errors: string[] = [];
+
   for (const [, definitions] of packages) {
     for (const definition of definitions) {
       const docsIncludeIds = definition.docsIncludeIds;
@@ -50,20 +50,24 @@ function validateDocsIncludeIds(packages: PackagesMap): void {
           const referencedDefinition = getDefinitionByDocsId(docsId, packages);
 
           if (!referencedDefinition) {
-            throw new Error(
+            errors.push(
               `The @docsId "${docsId}" referenced by "${definition.name}" is not recognized.`,
             );
+            continue;
           }
 
           if (referencedDefinition.isInternal) {
-            throw new Error(
+            errors.push(
               `The @docsId "${docsId}" referenced by "${definition.name}" is not included in the public API.`,
             );
+            continue;
           }
         }
       }
     }
   }
+
+  return errors;
 }
 
 /**
@@ -73,6 +77,8 @@ function validateDocsIncludeIds(packages: PackagesMap): void {
 export async function assignDocsIncludeIds(
   packages: PackagesMap,
 ): Promise<void> {
+  const errors: string[] = [];
+
   for (const [, definitions] of packages) {
     for (const definition of definitions) {
       if (
@@ -149,6 +155,10 @@ export async function assignDocsIncludeIds(
     }
   }
 
-  validateDocsIds(packages);
-  validateDocsIncludeIds(packages);
+  errors.push(...validateDocsIds(packages));
+  errors.push(...validateDocsIncludeIds(packages));
+
+  if (errors.length > 0) {
+    throw new Error(errors.join('\n'));
+  }
 }
