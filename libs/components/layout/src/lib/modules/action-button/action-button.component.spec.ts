@@ -163,6 +163,14 @@ describe('Action button component', () => {
     expect(debugElement.query(By.css(iconSelector))).not.toBeNull();
   });
 
+  it('should display an icon based on iconName', () => {
+    fixture.componentInstance.useIconName = true;
+    fixture.detectChanges();
+    const iconSelector =
+      '.sky-action-button-icon-header-container .sky-action-button-icon-container svg[data-sky-icon="filter"]';
+    expect(debugElement.query(By.css(iconSelector))).not.toBeNull();
+  });
+
   it('should change icon size based on media breakpoints query', () => {
     const smallIconSelector =
       '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-2x';

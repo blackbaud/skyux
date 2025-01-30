@@ -3,6 +3,7 @@ import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 import type { SkyManifestParentDefinition } from '../types/base-def';
 import type { SkyManifestPublicApi } from '../types/manifest';
 
+import { assignDocsIncludeIds } from './assign-docs-include-ids';
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { ProjectDefinition } from './get-project-definitions';
 import { getClass } from './utility/get-class';
@@ -123,7 +124,9 @@ export async function getPublicApi(
       const items = packages.get(entryName) ?? [];
 
       for (const child of reflection.children) {
-        const filePath = child.sources?.[0].fileName;
+        const filePath = child.sources?.[0].fullFileName
+          .replace(process.cwd(), '')
+          .slice(1);
 
         /* istanbul ignore if: safety check */
         if (!filePath || filePath.endsWith('/index.ts')) {
@@ -136,6 +139,8 @@ export async function getPublicApi(
       packages.set(entryName, sortArrayByKey(items, 'filePath'));
     }
   }
+
+  await assignDocsIncludeIds(packages);
 
   return {
     packages: Object.fromEntries(packages),

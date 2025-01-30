@@ -1,5 +1,70 @@
 # Changelog
 
+## [11.37.0](https://github.com/blackbaud/skyux/compare/11.36.2...11.37.0) (2025-01-28)
+
+
+### Features
+
+* **components/tiles:** add test harnesses for tile and tile dashboard ([#3052](https://github.com/blackbaud/skyux/issues/3052)) ([dd47e23](https://github.com/blackbaud/skyux/commit/dd47e232ad053eec1dd7a3375e9213aef40de9ca))
+
+
+### Bug Fixes
+
+* **components/forms:** ensure form error always has `errorName` attribute for test harnesses ([#3071](https://github.com/blackbaud/skyux/issues/3071)) ([46c1e63](https://github.com/blackbaud/skyux/commit/46c1e63b811c1906017ea61249fd02bd93b811cc))
+* **components/text-editor:** value initializing for multiple text-editors ([#3067](https://github.com/blackbaud/skyux/issues/3067)) ([252b0b7](https://github.com/blackbaud/skyux/commit/252b0b7f0155367df2549e6d82e076dadf1cd95f))
+
+## [11.36.2](https://github.com/blackbaud/skyux/compare/11.36.1...11.36.2) (2025-01-27)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** datepicker cell editor should handle refresh refocus ([#3056](https://github.com/blackbaud/skyux/issues/3056)) ([a97c246](https://github.com/blackbaud/skyux/commit/a97c246abd14e3af69e8db3e3dba8de8fdbe092c))
+
+## [12.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.1...12.0.0-alpha.2) (2025-01-23)
+
+
+### Bug Fixes
+
+* **components/packages:** remove v11 `ag-grid` schematic ([#3053](https://github.com/blackbaud/skyux/issues/3053)) ([0a5f852](https://github.com/blackbaud/skyux/commit/0a5f852be0b09e9866c105b9c4369e0c4f05ad0c))
+
+## [12.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.0...12.0.0-alpha.1) (2025-01-22)
+
+
+### Features
+
+* add support for `google-libphonenumber@3.2.40` and `intl-tel-input@25.2.1` ([#3002](https://github.com/blackbaud/skyux/issues/3002)) ([7e5a67e](https://github.com/blackbaud/skyux/commit/7e5a67e2afb7f41b54c292cf84895e16a2547e7d))
+* **components/action-bars:** tokenize summary action bar styles ([#3040](https://github.com/blackbaud/skyux/issues/3040)) ([db667a9](https://github.com/blackbaud/skyux/commit/db667a9dd2d1f0532e9385530f0af920832d4522))
+* **components/forms:** file drop add control value accessor ([#2968](https://github.com/blackbaud/skyux/issues/2968)) ([#3024](https://github.com/blackbaud/skyux/issues/3024)) ([27cffa8](https://github.com/blackbaud/skyux/commit/27cffa8a1b821a120d461e6734a1f8a76f978e56))
+* **components/forms:** file drop harness ([#3029](https://github.com/blackbaud/skyux/issues/3029)) ([#3039](https://github.com/blackbaud/skyux/issues/3039)) ([b5c37ad](https://github.com/blackbaud/skyux/commit/b5c37adfec07952b3a7ca2de56afb14b74961bd1))
+* **components/layout:** add harnesses for toolbar ([#3001](https://github.com/blackbaud/skyux/issues/3001)) ([#3020](https://github.com/blackbaud/skyux/issues/3020)) ([fd7a5ae](https://github.com/blackbaud/skyux/commit/fd7a5ae5916e2269f1c14277ae77f772063e529f))
+* **components/layout:** tokenize description list styles ([#3043](https://github.com/blackbaud/skyux/issues/3043)) ([4213dac](https://github.com/blackbaud/skyux/commit/4213dac7a1739878a30e7ae3b4d91732fdbfe452))
+* **components/lists:** tokenize filter styles ([#3019](https://github.com/blackbaud/skyux/issues/3019)) ([25f180e](https://github.com/blackbaud/skyux/commit/25f180ebfd78599d7a5dcc5600069dd39591dc41))
+* **components/pages:** create testing harness for action hub ([#2962](https://github.com/blackbaud/skyux/issues/2962)) ([#3007](https://github.com/blackbaud/skyux/issues/3007)) ([08fe7e9](https://github.com/blackbaud/skyux/commit/08fe7e904e247640b0717be66c41e05d68d38b59))
+* **components/pages:** tokenize page, page header, link lists ([#3030](https://github.com/blackbaud/skyux/issues/3030)) ([9de9521](https://github.com/blackbaud/skyux/commit/9de95213ce499091aff37dc1c4916d938ed24fa3))
+* **components/tabs:** tokenize sectioned form styles ([#3033](https://github.com/blackbaud/skyux/issues/3033)) ([650282b](https://github.com/blackbaud/skyux/commit/650282b436e5962c6e82fa30dd5d330d0c82633a))
+* **components/tabs:** tokenize vertical tabset styles ([#3015](https://github.com/blackbaud/skyux/issues/3015)) ([b06bdcb](https://github.com/blackbaud/skyux/commit/b06bdcbe8c6a4afad0202f2bb1ca3a5215466ba4))
+* update `@skyux/icons` to 7.10.0 ([#3008](https://github.com/blackbaud/skyux/issues/3008)) ([#3012](https://github.com/blackbaud/skyux/issues/3012)) ([c29346f](https://github.com/blackbaud/skyux/commit/c29346f3b201f688ae2469e9eee7621c762da8f5))
+
+
+### Bug Fixes
+
+* **components/action-bars:** account for left nav in summary action bar position ([#3028](https://github.com/blackbaud/skyux/issues/3028)) ([#3032](https://github.com/blackbaud/skyux/issues/3032)) ([2f8a240](https://github.com/blackbaud/skyux/commit/2f8a240aed6aad8ab66bd1573d8e9b03d696d787))
+* **components/ag-grid:** handle focus for adjacent editor cells ([#2993](https://github.com/blackbaud/skyux/issues/2993)) ([#3005](https://github.com/blackbaud/skyux/issues/3005)) ([84e9603](https://github.com/blackbaud/skyux/commit/84e9603c4bf39897333452852c35a0140bd10b37))
+* **components/ag-grid:** header should have readable text ([#3037](https://github.com/blackbaud/skyux/issues/3037)) ([#3041](https://github.com/blackbaud/skyux/issues/3041)) ([e933fce](https://github.com/blackbaud/skyux/commit/e933fce3723e393046add8dad413f1870d028bd6))
+* **components/autonumeric:** support negativeBracketsTypeOnBlur option ([#3049](https://github.com/blackbaud/skyux/issues/3049)) ([#3050](https://github.com/blackbaud/skyux/issues/3050)) ([6116a0f](https://github.com/blackbaud/skyux/commit/6116a0f84b734ba5d5c3c8583f56909a95aae5c5))
+* **components/lists:** update filter visual tests ([#3010](https://github.com/blackbaud/skyux/issues/3010)) ([ef503a3](https://github.com/blackbaud/skyux/commit/ef503a3ba166733026c627040001bf0caebf57e3))
+* **components/modals:** make modal footer error message focusable ([#3026](https://github.com/blackbaud/skyux/issues/3026)) ([#3027](https://github.com/blackbaud/skyux/issues/3027)) ([1ec60d1](https://github.com/blackbaud/skyux/commit/1ec60d1e78f7396cb492dfb3d08c07a207596c40))
+* **components/pages:** export `SkyNeedsAttentionItemHarness` for testing ([#3046](https://github.com/blackbaud/skyux/issues/3046)) ([#3047](https://github.com/blackbaud/skyux/issues/3047)) ([22f24a4](https://github.com/blackbaud/skyux/commit/22f24a4e2b77c416c26c7f5fb16985e9da0d7046))
+* **components/pages:** hide blocks with hidden `[skyHref]` links ([#3014](https://github.com/blackbaud/skyux/issues/3014)) ([#3017](https://github.com/blackbaud/skyux/issues/3017)) ([8c11c78](https://github.com/blackbaud/skyux/commit/8c11c7867eb9b414e1f040b43726787e75758a38))
+
+## [11.36.1](https://github.com/blackbaud/skyux/compare/11.36.0...11.36.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** support negativeBracketsTypeOnBlur option ([#3049](https://github.com/blackbaud/skyux/issues/3049)) ([7baecf7](https://github.com/blackbaud/skyux/commit/7baecf7dbb7d67958761627fdd35a7901b523b33))
+* **components/pages:** export `SkyNeedsAttentionItemHarness` for testing ([#3046](https://github.com/blackbaud/skyux/issues/3046)) ([d46eba5](https://github.com/blackbaud/skyux/commit/d46eba500605cff2fcb810d5cb5bd260dca5e9a7))
+
 ## [11.36.0](https://github.com/blackbaud/skyux/compare/11.35.0...11.36.0) (2025-01-16)
 
 

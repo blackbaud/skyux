@@ -14,6 +14,9 @@ import { SkyRadioGroupComponent } from './radio-group.component';
 import { SkyRadioLabelComponent } from './radio-label.component';
 import { SkyRadioComponent } from './radio.component';
 
+/**
+ * @docsIncludeIds SkyRadioGroupComponent, SkyRadioComponent, SkyRadioLabelComponent, SkyRadioGroupHeadingLevel, SkyRadioGroupHeadingStyle, SkyRadioChange, SkyRadioType, SkyRadioGroupHarness, SkyRadioHarness
+ */
 @NgModule({
   declarations: [
     SkyRadioComponent,
