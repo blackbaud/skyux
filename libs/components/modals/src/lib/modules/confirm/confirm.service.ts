@@ -10,7 +10,7 @@ import { SkyConfirmComponent } from './confirm.component';
 
 /**
  * Launches a dialog.
- * @docsIncludeIds SkyConfirmService, SkyConfirmConfig, SkyConfirmInstance, SkyConfirmType, SkyConfirmButtonConfig, SkyConfirmButtonStyleType, SkyConfirmCloseEventArgs, SkyConfirmHarness, SkyConfirmButtonHarnessFilters, SkyConfirmTestingController, SkyConfirmTestingModule
+ * @docsIncludeIds SkyConfirmConfig, SkyConfirmInstance, SkyConfirmType, SkyConfirmButtonConfig, SkyConfirmButtonStyleType, SkyConfirmCloseEventArgs, SkyConfirmHarness, SkyConfirmButtonHarnessFilters, SkyConfirmTestingController, SkyConfirmTestingModule
  */
 @Injectable({
   providedIn: 'root',
