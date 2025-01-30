@@ -1,4 +1,4 @@
-export { getPublicApi } from './get-public-api';
+export { getPublicApi, getPublicApiByDocsId } from './get-public-api';
 export type {
   SkyManifestChildDefinition,
   SkyManifestChildDefinitionKind,

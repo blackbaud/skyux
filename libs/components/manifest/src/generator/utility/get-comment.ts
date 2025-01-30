@@ -68,7 +68,8 @@ function getDocsIncludeIds(tag: CommentTag): string[] {
   return (
     getCommentTagText(tag.content)
       ?.split(',')
-      .map((id) => id.trim()) || []
+      .map((id) => id.trim())
+      .filter((id) => id) || []
   );
 }
 

@@ -48,12 +48,14 @@ export async function assignDocsIncludeIds(
                   property.initializer.elements.forEach((element) => {
                     if (ts.isIdentifier(element)) {
                       const exportName = element.escapedText.toString();
+                      const definition = definitions.find(
+                        (definition) => definition.name === exportName,
+                      );
 
                       if (
                         exportName.startsWith('Sky') &&
-                        definitions.some(
-                          (definition) => definition.name === exportName,
-                        )
+                        definition &&
+                        !definition.isInternal
                       ) {
                         moduleExports.push(element.escapedText.toString());
                       }
