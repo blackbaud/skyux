@@ -1,7 +1,70 @@
 import fsPromises from 'node:fs/promises';
 import * as ts from 'typescript';
 
+import type { SkyManifestParentDefinition } from '../types/base-def';
+
 import { type PackagesMap } from './get-public-api';
+
+function getDefinitionByDocsId(
+  docsId: string,
+  packages: PackagesMap,
+): SkyManifestParentDefinition | undefined {
+  for (const [, definitions] of packages) {
+    for (const definition of definitions) {
+      if (definition.docsId === docsId) {
+        return definition;
+      }
+    }
+  }
+
+  return;
+}
+
+function validateDocsIds(packages: PackagesMap): void {
+  const ids: string[] = [];
+
+  for (const [, definitions] of packages) {
+    for (const definition of definitions) {
+      if (!definition.docsId) {
+        throw new Error(
+          `The export "${definition.name}" does not specify a @docsId.`,
+        );
+      }
+
+      if (ids.includes(definition.docsId)) {
+        throw new Error(`Duplicate @docsId encountered: ${definition.docsId}`);
+      }
+
+      ids.push(definition.docsId);
+    }
+  }
+}
+
+function validateDocsIncludeIds(packages: PackagesMap): void {
+  for (const [, definitions] of packages) {
+    for (const definition of definitions) {
+      const docsIncludeIds = definition.docsIncludeIds;
+
+      if (docsIncludeIds) {
+        for (const docsId of docsIncludeIds) {
+          const referencedDefinition = getDefinitionByDocsId(docsId, packages);
+
+          if (!referencedDefinition) {
+            throw new Error(
+              `The @docsId "${docsId}" referenced by "${definition.name}" is not recognized.`,
+            );
+          }
+
+          if (referencedDefinition.isInternal) {
+            throw new Error(
+              `The @docsId "${docsId}" referenced by "${definition.name}" is not included in the public API.`,
+            );
+          }
+        }
+      }
+    }
+  }
+}
 
 /**
  * Assign `docsIncludeIds` for each entry-point module, based on the types
@@ -85,4 +148,7 @@ export async function assignDocsIncludeIds(
       definition.docsIncludeIds = moduleExports;
     }
   }
+
+  validateDocsIds(packages);
+  validateDocsIncludeIds(packages);
 }
