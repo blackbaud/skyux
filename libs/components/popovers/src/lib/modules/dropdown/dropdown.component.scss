@@ -7,7 +7,8 @@
   --sky-override-context-menu-border-radius: 50%;
   --sky-override-context-menu-font-size: 15px;
   --sky-override-context-menu-line-height: 1.428571429;
-  --sky-override-context-menu-padding: 3px 8px;
+  --sky-override-context-menu-padding: 3px;
+  --sky-override-context-menu-height-width: 30px;
 }
 
 @include compatMixins.sky-default-overrides('.sky-dropdown-button-type-tab') {
@@ -103,6 +104,8 @@
     var(--sky-font-size-body-l)
   );
   line-height: var(--sky-override-context-menu-line-height, 1);
+  height: var(--sky-override-context-menu-height-width);
+  width: var(--sky-override-context-menu-height-width);
 }
 
 :host-context(.sky-toolbar-container) {

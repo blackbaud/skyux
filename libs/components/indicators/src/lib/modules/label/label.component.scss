@@ -84,7 +84,7 @@
 
 .sky-label {
   color: var(--sky-text-color-default);
-  display: var(--sky-override-label-display, inline-flex);
+  display: var(--sky-override-label-display, inline-block);
   align-items: var(--sky-override-label-align-items, center);
   border-radius: var(
     --sky-override-label-border-radius-pill,

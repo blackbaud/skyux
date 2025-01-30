@@ -35,7 +35,7 @@
   >
     @switch (buttonType) {
       @case ('context-menu') {
-        <sky-icon icon="ellipsis" />
+        <sky-icon iconName="more-horizontal" />
       }
       @default {
         <div class="sky-dropdown-button-container">
@@ -43,16 +43,7 @@
             <ng-content select="sky-dropdown-button" />
           </div>
           <div class="sky-dropdown-button-icon-container">
-            <sky-icon
-              *skyThemeIf="'default'"
-              class="sky-dropdown-caret"
-              icon="caret-down"
-            />
-            <sky-icon
-              *skyThemeIf="'modern'"
-              class="sky-dropdown-caret"
-              icon="chevron-down"
-            />
+            <sky-icon class="sky-dropdown-caret" iconName="chevron-down" />
           </div>
         </div>
       }

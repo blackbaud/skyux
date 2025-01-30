@@ -96,31 +96,25 @@
     }
   }
 
-  &.sky-alert-info .sky-alert-icon {
+  .sky-alert-icon {
     color: white;
+    margin-left: -32px;
+    margin-right: 19px;
+  }
+
+  &.sky-alert-info .sky-alert-icon {
     --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-info);
-    margin-left: -33px;
-    margin-right: 20px;
   }
 
   &.sky-alert-success .sky-alert-icon {
-    color: white;
     --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-success);
-    margin-left: -32px;
-    margin-right: 19px;
   }
 
   &.sky-alert-warning .sky-alert-icon {
-    color: white;
     --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-warning);
-    margin-left: -32px;
-    margin-right: 19px;
   }
 
   &.sky-alert-danger .sky-alert-icon {
-    color: white;
     --sky-icon-svg-path-2-color-input: var(--sky-highlight-color-danger);
-    margin-left: -32px;
-    margin-right: 19px;
   }
 }

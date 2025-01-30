@@ -15,6 +15,7 @@ import {
 import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -37,7 +38,13 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, SkyIconModule, SkyIdModule, SkyToastResourcesModule],
+  imports: [
+    CommonModule,
+    SkyIconModule,
+    SkyIdModule,
+    SkyThemeModule,
+    SkyToastResourcesModule,
+  ],
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
   /**

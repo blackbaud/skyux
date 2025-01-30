@@ -35,13 +35,14 @@ sky-icon:has(.sky-icon-svg-lg) {
 }
 
 sky-icon.sky-icon-position-center {
+  display: block;
   sky-icon-svg::after {
     content: none;
   }
 
   .sky-icon-svg-img {
     top: 0;
-    vertical-align: middle;
+    display: block;
   }
 }
 

@@ -8,7 +8,17 @@
     [attr.aria-live]="ariaLive"
     [attr.role]="ariaRole"
   >
-    <sky-icon [iconName]="iconName" variant="solid" />
+    <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-toast-icon">
+      <sky-icon
+        [iconName]="iconName"
+        variant="solid"
+        size="2x"
+        position="center"
+      />
+    </div>
+    <div *skyThemeIf="'default'" aria-hidden="true" class="sky-toast-icon">
+      <sky-icon [iconName]="iconName" variant="solid" position="center" />
+    </div>
     <div #toastContent class="sky-toast-content" skyId="toastContent">
       <ng-content />
     </div>
