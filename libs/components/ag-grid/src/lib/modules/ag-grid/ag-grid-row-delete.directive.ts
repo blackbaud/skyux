@@ -10,11 +10,9 @@ import {
   OnDestroy,
   Output,
   ViewContainerRef,
-  afterNextRender,
   contentChild,
   effect,
   inject,
-  runInInjectionContext,
 } from '@angular/core';
 import {
   SKY_STACKING_CONTEXT,
@@ -119,22 +117,20 @@ export class SkyAgGridRowDeleteDirective
             overlay.componentRef.instance.updateClipPath(clipPath);
           });
 
-        runInInjectionContext(this.#environmentInjector, () => {
-          afterNextRender(() => {
-            const inlineDeleteRef = this.#rowDeleteComponent?.inlineDeleteRefs
-              ?.toArray()
-              .find(
-                (elRef) => elRef.nativeElement.id === 'row-delete-ref-' + id,
-              ) as ElementRef;
-            const affixer = this.#affixService.createAffixer(inlineDeleteRef);
+        setTimeout(() => {
+          const inlineDeleteRef = this.#rowDeleteComponent?.inlineDeleteRefs
+            ?.toArray()
+            .find(
+              (elRef) => elRef.nativeElement.id === 'row-delete-ref-' + id,
+            ) as ElementRef;
+          const affixer = this.#affixService.createAffixer(inlineDeleteRef);
 
-            this.#affixToRow(affixer, id);
+          this.#affixToRow(affixer, id);
 
-            this.#rowDeleteContents[id] = {
-              affixer: affixer,
-              overlay: overlay,
-            };
-          });
+          this.#rowDeleteContents[id] = {
+            affixer: affixer,
+            overlay: overlay,
+          };
         });
       }
     }
