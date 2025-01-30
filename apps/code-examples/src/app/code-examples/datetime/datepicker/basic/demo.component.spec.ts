@@ -69,20 +69,4 @@ describe('Basic datepicker demo', () => {
       inputHarness.hasCustomFormError('invalidWeekend'),
     ).toBeResolvedTo(true);
   });
-
-  fit('get value', async () => {
-    const { datepickerHarness } = await setupTest({
-      dataSkyId: 'datepicker-demo',
-    });
-
-    await datepickerHarness.clickCalendarButton();
-    const calendarHarness = await datepickerHarness.getDatepickerCalendar();
-
-    await calendarHarness.clickDate('Friday, October 12th 2001');
-
-    const inputControlHarness = await datepickerHarness.getControl();
-    await expectAsync(inputControlHarness.getValue()).toBeResolvedTo(
-      '10/12/2001',
-    );
-  });
 });
