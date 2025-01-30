@@ -120,6 +120,6 @@
       }
     }
   },
-  "implicitDependencies": ["eslint-config, skyux-eslint"],
+  "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "tags": []
 }
