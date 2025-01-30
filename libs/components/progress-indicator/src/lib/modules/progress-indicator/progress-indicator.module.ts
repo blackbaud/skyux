@@ -17,6 +17,9 @@ import { SkyProgressIndicatorStatusMarkerComponent } from './progress-indicator-
 import { SkyProgressIndicatorTitleComponent } from './progress-indicator-title/progress-indicator-title.component';
 import { SkyProgressIndicatorComponent } from './progress-indicator.component';
 
+/**
+ * @docsIncludeIds SkyProgressIndicatorComponent, SkyProgressIndicatorTitleComponent, SkyProgressIndicatorItemComponent, SkyProgressIndicatorNavButtonComponent, SkyProgressIndicatorResetButtonComponent, SkyProgressIndicatorActionClickArgs, SkyProgressIndicatorActionClickProgressHandler, SkyProgressIndicatorChange, SkyProgressIndicatorDisplayModeType, SkyProgressIndicatorItemStatus, SkyProgressIndicatorNavButtonType, SkyProgressIndicatorMessage, SkyProgressIndicatorMessageType, SkyProgressIndicatorHarness, SkyProgressIndicatorFilters, SkyProgressIndicatorItemHarness, SkyProgressIndicatorItemFilters
+ */
 @NgModule({
   declarations: [
     SkyProgressIndicatorComponent,

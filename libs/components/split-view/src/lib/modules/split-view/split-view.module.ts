@@ -7,6 +7,9 @@ import { SkySplitViewWorkspaceHeaderComponent } from './split-view-workspace-hea
 import { SkySplitViewWorkspaceComponent } from './split-view-workspace.component';
 import { SkySplitViewComponent } from './split-view.component';
 
+/**
+ * @docsIncludeIds SkySplitViewComponent, SkySplitViewDrawerComponent, SkySplitViewWorkspaceComponent, SkySplitViewWorkspaceContentComponent, SkySplitViewWorkspaceFooterComponent, SkySplitViewDockType, SkySplitViewMessage, SkySplitViewMessageType, SkySplitViewHarness, SkySplitViewHarnessFilters, SkySplitViewDrawerHarness, SkySplitViewWorkspaceHarness, SkySplitViewWorkspaceContentHarness, SkySplitViewWorkspaceFooterHarness
+ */
 @NgModule({
   imports: [
     SkySplitViewComponent,

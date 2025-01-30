@@ -13,6 +13,9 @@ import { SkyTabsetNavButtonDisabledPipe } from './tabset-nav-button-disabled.pip
 import { SkyTabsetNavButtonComponent } from './tabset-nav-button.component';
 import { SkyTabsetComponent } from './tabset.component';
 
+/**
+ * @docsIncludeIds SkyTabsetComponent, SkyTabComponent, SkyTabsetNavButtonComponent, SkyTabIndex, SkyTabLayoutType, SkyTabsetButtonsDisplayMode, SkyTabsetStyle, SkyTabsetTabIndexesChange
+ */
 @NgModule({
   declarations: [
     SkyTabButtonComponent,
