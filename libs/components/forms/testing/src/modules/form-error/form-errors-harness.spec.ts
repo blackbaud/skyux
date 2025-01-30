@@ -25,7 +25,14 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
       [dirty]="true"
       [labelText]="errorText"
       [errors]="errors"
-    />
+    >
+      @if (customErrorName) {
+        <sky-form-error
+          [errorName]="customErrorName"
+          errorText="Custom error"
+        />
+      }
+    </sky-form-errors>
     <sky-form-errors
       data-sky-id="other-error"
       labelText="other error"
@@ -37,6 +44,7 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
 class TestComponent {
   public errorText: string | undefined = 'Form';
   public errors: ValidationErrors | undefined;
+  public customErrorName: string | undefined;
 }
 //#endregion Test component
 
@@ -110,6 +118,21 @@ describe('Form errors harness', () => {
       { errorName: 'time' },
       { errorName: 'url' },
       { errorName: 'maxlength' },
+    ]);
+  });
+
+  it('should return custom errors', async () => {
+    const { formErrorsHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.customErrorName = 'custom';
+    fixture.detectChanges();
+
+    await expectAsync(formErrorsHarness.hasError('custom')).toBeResolvedTo(
+      true,
+    );
+
+    await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([
+      { errorName: 'custom' },
     ]);
   });
 });
