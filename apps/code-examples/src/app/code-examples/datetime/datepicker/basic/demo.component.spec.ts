@@ -56,7 +56,7 @@ describe('Basic datepicker demo', () => {
     );
   });
 
-  fit('should throw an error if selecting a weekend', async () => {
+  it('should throw an error if selecting a weekend', async () => {
     const { inputHarness, datepickerHarness } = await setupTest({
       dataSkyId: 'datepicker-demo',
     });
