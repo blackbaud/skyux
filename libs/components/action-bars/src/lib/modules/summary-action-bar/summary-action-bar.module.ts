@@ -8,6 +8,9 @@ import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-
 import { SkySummaryActionBarComponent } from './summary-action-bar.component';
 import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
 
+/**
+ * @docsIncludeIds SkySummaryActionBarComponent, SkySummaryActionBarActionsComponent, SkySummaryActionBarPrimaryActionComponent, SkySummaryActionBarSecondaryActionsComponent, SkySummaryActionBarSecondaryActionComponent, SkySummaryActionBarCancelComponent, SkySummaryActionBarSummaryComponent
+ */
 @NgModule({
   imports: [
     SkySummaryActionBarActionsComponent,

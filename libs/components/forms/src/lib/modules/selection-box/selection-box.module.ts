@@ -8,6 +8,9 @@ import { SkySelectionBoxGridComponent } from './selection-box-grid.component';
 import { SkySelectionBoxHeaderComponent } from './selection-box-header.component';
 import { SkySelectionBoxComponent } from './selection-box.component';
 
+/**
+ * @docsIncludeIds SkySelectionBoxComponent, SkySelectionBoxHeaderComponent, SkySelectionBoxDescriptionComponent, SkySelectionBoxGridComponent
+ */
 @NgModule({
   declarations: [
     SkySelectionBoxGridComponent,
