@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyPageModule } from '@skyux/layout';
+import { SkyPageModule } from '@skyux/pages';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { TabsRoutingModule } from './tabs-routing.module';
