@@ -4,7 +4,7 @@ import { provideModalTesting } from './provide-modal-testing';
 
 /**
  * Configures the `SkyModalTestingController` as the implementation for the `SkyModalService`.
- * @docsIncludeIds SkyModalTestingController, SkyModalHarness, SkyModalHarnessFilters
+ * @docsIncludeIds SkyModalTestingController
  */
 @NgModule({
   providers: [provideModalTesting()],
