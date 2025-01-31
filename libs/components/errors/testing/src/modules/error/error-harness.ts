@@ -49,6 +49,9 @@ export class SkyErrorHarness extends SkyComponentHarness {
     return await (await this.#description()).text();
   }
 
+  /**
+   * Gets the error type.
+   */
   public async getErrorType(): Promise<SkyErrorType | undefined> {
     return ((await (await this.host()).getAttribute('errorType')) ??
       undefined) as SkyErrorType | undefined;

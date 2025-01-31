@@ -4,7 +4,7 @@ import { SkyErrorHarness } from '@skyux/errors/testing';
 
 import { DemoComponent } from './demo.component';
 
-fdescribe('Embedded error demo', () => {
+describe('Embedded error demo', () => {
   async function setupTest(
     options: {
       dataSkyId?: string;
