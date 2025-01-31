@@ -2,7 +2,7 @@ const tsEslint = require('typescript-eslint');
 const config = require('../../../eslint-libs.config');
 
 module.exports = tsEslint.config(...config, {
-  files: ['*.ts'],
+  files: ['**/*.ts'],
   rules: {
     '@angular-eslint/directive-selector': [
       'error',

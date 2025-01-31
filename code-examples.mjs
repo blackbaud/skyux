@@ -144,7 +144,20 @@ for (const d of data) {
 
 await fsExtra.writeFile(DEST_ENTRY_POINT, entryPointContents);
 
-const oldFiles = await glob(DEST + '**/demo.*.ts');
+const oldFiles = await glob(DEST + '**/demo.*');
 for (const oldFile of oldFiles) {
   await fsExtra.rename(oldFile, oldFile.replace('/demo.', '/example.'));
+}
+
+for (const f of await glob(DEST + '**/*')) {
+  await fsExtra.writeFile(
+    f,
+    (await fsExtra.readFile(f, { encoding: 'utf-8' })).replace(
+      /demo/g,
+      'example',
+    ),
+    {
+      encoding: 'utf-8',
+    },
+  );
 }
