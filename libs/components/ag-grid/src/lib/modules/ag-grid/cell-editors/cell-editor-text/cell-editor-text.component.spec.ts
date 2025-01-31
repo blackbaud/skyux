@@ -69,6 +69,7 @@ describe('SkyCellEditorTextComponent', () => {
     ]);
     let cellEditorParams: Partial<SkyCellEditorTextParams>;
     let column: AgColumn;
+    let gridCell: HTMLDivElement;
     const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
     const value = 'testing';
@@ -83,10 +84,13 @@ describe('SkyCellEditorTextComponent', () => {
         true,
       );
 
+      gridCell = document.createElement('div');
+
       cellEditorParams = {
         api,
         value: value,
         column,
+        eGridCell: gridCell,
         node: rowNode,
         colDef: {},
         cellStartedEdit: true,
@@ -122,6 +126,26 @@ describe('SkyCellEditorTextComponent', () => {
         'Editable text Testing for row 1',
       );
     });
+
+    it('should respond to refocus', fakeAsync(() => {
+      textEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+      textEditorFixture.detectChanges();
+
+      const input = textEditorNativeElement.querySelector(
+        'input',
+      ) as HTMLInputElement;
+      spyOn(input, 'focus');
+
+      textEditorComponent.afterGuiAttached();
+      tick();
+
+      textEditorComponent.onFocusOut({
+        relatedTarget: gridCell,
+      } as unknown as FocusEvent);
+      tick();
+      expect(input).toBeVisible();
+      expect(input.focus).toHaveBeenCalled();
+    }));
 
     describe('cellStartedEdit is true', () => {
       it('initializes with a cleared value when Backspace triggers the edit', () => {
