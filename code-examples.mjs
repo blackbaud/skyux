@@ -1,7 +1,8 @@
-import { classify } from '@angular-devkit/core/src/utils/strings';
+import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
 
 import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
+// import prettier from 'prettier';
 import * as ts from 'typescript';
 
 const DEST = 'libs/components/code-examples/src/lib/modules/';
@@ -13,26 +14,38 @@ const files = await glob(DEST + '**/demo.component.ts');
 
 console.log('Num demo files:', files.length);
 
-function generateClassNameFromPath(file) {
+function generateNamesFromPath(file) {
   const fragments = Array.from(
     new Set(file.replace(DEST, '').replace('.component.ts', '').split('/')),
   );
 
   const trimmedPath = fragments.join('_');
+  const baseClass = classify(trimmedPath).replace('DemoDemo', 'Demo');
 
-  return `Sky${classify(trimmedPath).replace('DemoDemo', 'Demo')}Component`;
+  return {
+    className: `Sky${baseClass}Component`,
+    selector: `sky-${dasherize(baseClass)}`,
+  };
 }
 
-const names = [];
+const classNames = [];
+const selectors = [];
 
 for (const file of files) {
-  const newName = generateClassNameFromPath(file);
+  const { className, selector } = generateNamesFromPath(file);
+  console.log(selector);
 
-  if (names.includes(newName)) {
-    throw new Error(`Duplicate name discovered ${newName}`);
+  if (classNames.includes(className)) {
+    throw new Error(`Duplicate name discovered ${className}`);
   }
 
-  names.push(newName);
+  classNames.push(className);
+
+  if (selectors.includes(selector)) {
+    throw new Error(`Duplicate selector detected ${selector}`);
+  }
+
+  selectors.push(selector);
 
   const sourceFile = ts.createSourceFile(
     file,
@@ -47,7 +60,7 @@ for (const file of files) {
           return ts.factory.updateClassDeclaration(
             node,
             node.modifiers,
-            ts.factory.createIdentifier(newName),
+            ts.factory.createIdentifier(className),
             node.typeParameters,
             node.heritageClauses,
             node.members,
@@ -64,5 +77,20 @@ for (const file of files) {
   const result = ts.transform(sourceFile, [changeName]);
   const printer = ts.createPrinter();
 
-  await fsExtra.writeFile(file, printer.printFile(result.transformed[0]));
+  // const prettierOptions = await prettier.resolveConfig('.prettierrc');
+
+  // console.log(
+  //   await prettier.format(printer.printFile(result.transformed[0]), {
+  //     ...prettierOptions,
+  //     filepath: '.prettierrc',
+  //   }),
+  // );
+
+  const newContents = printer
+    .printFile(result.transformed[0])
+    .replace(`selector: "app-demo",`, `selector: '${selector}',`);
+
+  await fsExtra.writeFile(file, newContents, {
+    encoding: 'utf-8',
+  });
 }
