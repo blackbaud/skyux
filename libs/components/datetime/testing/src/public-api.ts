@@ -8,3 +8,5 @@ export { SkyDatepickerCalendarHarness } from './modules/datepicker/datepicker-ca
 export { SkyDatepickerCalendarHarnessFilters } from './modules/datepicker/datepicker-calendar-harness.filters';
 export { SkyDatepickerHarness } from './modules/datepicker/datepicker-harness';
 export { SkyDatepickerFilters } from './modules/datepicker/datepicker-harness.filters';
+export { SkyDatepickerInputHarness } from './modules/datepicker/datepicker-input-harness';
+export { SkyFuzzyDatepickerInputHarness } from './modules/datepicker/fuzzy-datepicker-input-harness';
