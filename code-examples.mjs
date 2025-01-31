@@ -2,12 +2,15 @@ import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
 
 import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
+
 // import prettier from 'prettier';
-import * as ts from 'typescript';
+// import * as ts from 'typescript';
 
 const DEST = 'libs/components/code-examples/src/lib/modules/';
+const DEST_ENTRY_POINT = 'libs/components/code-examples/src/index.ts';
 
 await fsExtra.remove(DEST);
+await fsExtra.remove(DEST_ENTRY_POINT);
 await fsExtra.copy('apps/code-examples/src/app/code-examples', DEST);
 
 const files = await glob(DEST + '**/demo.component.ts');
@@ -28,12 +31,13 @@ function generateNamesFromPath(file) {
   };
 }
 
+const data = [];
+
 const classNames = [];
 const selectors = [];
 
 for (const file of files) {
   const { className, selector } = generateNamesFromPath(file);
-  console.log(selector);
 
   if (classNames.includes(className)) {
     throw new Error(`Duplicate name discovered ${className}`);
@@ -47,50 +51,75 @@ for (const file of files) {
 
   selectors.push(selector);
 
-  const sourceFile = ts.createSourceFile(
-    file,
-    await fsExtra.readFile(file, { encoding: 'utf-8' }),
-    ts.ScriptTarget.Latest,
-  );
+  const contents = await fsExtra.readFile(file, { encoding: 'utf-8' });
 
-  function changeName(context) {
-    return (sourceFile) => {
-      const visitor = (node) => {
-        if (ts.isClassDeclaration(node)) {
-          return ts.factory.updateClassDeclaration(
-            node,
-            node.modifiers,
-            ts.factory.createIdentifier(className),
-            node.typeParameters,
-            node.heritageClauses,
-            node.members,
-          );
-        }
+  // const sourceFile = ts.createSourceFile(
+  //   file,
+  //   await fsExtra.readFile(file, { encoding: 'utf-8' }),
+  //   ts.ScriptTarget.Latest,
+  // );
 
-        return ts.visitEachChild(node, visitor, context);
-      };
+  // function changeName(context) {
+  //   return (sourceFile) => {
+  //     const visitor = (node) => {
+  //       if (ts.isClassDeclaration(node)) {
+  //         return ts.factory.updateClassDeclaration(
+  //           node,
+  //           node.modifiers,
+  //           ts.factory.createIdentifier(className),
+  //           node.typeParameters,
+  //           node.heritageClauses,
+  //           node.members,
+  //         );
+  //       }
 
-      return ts.visitNode(sourceFile, visitor, ts.isSourceFile);
-    };
-  }
+  //       return ts.visitEachChild(node, visitor, context);
+  //     };
 
-  const result = ts.transform(sourceFile, [changeName]);
-  const printer = ts.createPrinter();
+  //     return ts.visitNode(sourceFile, visitor, ts.isSourceFile);
+  //   };
+  // }
+
+  // const result = ts.transform(sourceFile, [changeName]);
+  // const printer = ts.createPrinter();
 
   // const prettierOptions = await prettier.resolveConfig('.prettierrc');
 
-  // console.log(
-  //   await prettier.format(printer.printFile(result.transformed[0]), {
-  //     ...prettierOptions,
-  //     filepath: '.prettierrc',
-  //   }),
-  // );
+  // const newContents = printer
+  //   .printFile(result.transformed[0])
+  //   .replace(`selector: "app-demo",`, `selector: '${selector}',`);
 
-  const newContents = printer
-    .printFile(result.transformed[0])
-    .replace(`selector: "app-demo",`, `selector: '${selector}',`);
+  const newContents = contents
+    .replace(`selector: 'app-demo',`, `selector: '${selector}',`)
+    .replace(`class DemoComponent `, `class ${className} `);
 
   await fsExtra.writeFile(file, newContents, {
     encoding: 'utf-8',
   });
+
+  // await fsExtra.writeFile(
+  //   file,
+  //   await prettier.format(await fsExtra.readFile(file, { encoding: 'utf-8' }), {
+  //     ...prettierOptions,
+  //     filepath: '.prettierrc',
+  //   }),
+  //   {
+  //     encoding: 'utf-8',
+  //   },
+  // );
+
+  data.push({
+    className,
+    importPath: `.${file
+      .replace(/\.ts$/, '')
+      .replace(DEST_ENTRY_POINT.replace('/index.ts', ''), '')}`,
+  });
 }
+
+let entryPointContents = '';
+
+for (const d of data) {
+  entryPointContents += `export {${d.className}} from '${d.importPath}';\n`;
+}
+
+await fsExtra.writeFile(DEST_ENTRY_POINT, entryPointContents);
