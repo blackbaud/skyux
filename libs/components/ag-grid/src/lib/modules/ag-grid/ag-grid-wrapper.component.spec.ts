@@ -124,6 +124,16 @@ describe('SkyAgGridWrapperComponent', () => {
     await expectAsync(gridWrapperNativeElement).toBeAccessible();
   });
 
+  it('should set the min height', () => {
+    gridWrapperFixture.componentRef.setInput('minHeight', 150);
+    gridWrapperFixture.detectChanges();
+    expect(
+      gridWrapperNativeElement
+        .querySelector('div.sky-ag-grid')
+        ?.getAttribute('style'),
+    ).toEqual('--sky-ag-grid-min-height: 150px;');
+  });
+
   it('should add .ag-header to the viewkeeper classes when the domLayout is set to autoHeight', () => {
     agGrid.gridOptions = { domLayout: 'autoHeight' };
 
