@@ -62,9 +62,21 @@ describe('Basic datepicker demo', () => {
     });
 
     await datepickerHarness.clickCalendarButton();
-    const calendarHarness = await datepickerHarness.getDatepickerCalendar();
+    let calendarHarness = await datepickerHarness.getDatepickerCalendar();
 
+    await calendarHarness.clickDate('Friday, October 5th 2001');
+
+    const datepickerInputHarness = await datepickerHarness.getControl();
+
+    await expectAsync(datepickerInputHarness.getValue()).toBeResolvedTo(
+      '10/05/2001',
+    );
+
+    await datepickerHarness.clickCalendarButton();
+
+    calendarHarness = await datepickerHarness.getDatepickerCalendar();
     await calendarHarness.clickDate('Saturday, October 13th 2001');
+
     await expectAsync(
       inputHarness.hasCustomFormError('invalidWeekend'),
     ).toBeResolvedTo(true);

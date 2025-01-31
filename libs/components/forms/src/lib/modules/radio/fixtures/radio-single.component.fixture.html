@@ -1,8 +1,17 @@
 <div>
+  @if (iconName) {
+  <sky-radio
+    id="simple-check"
+    [iconName]="iconName"
+    [label]="'default label'"
+    [radioType]="radioType"
+  />
+  } @else {
   <sky-radio
     id="simple-check"
     [icon]="icon"
     [label]="'default label'"
     [radioType]="radioType"
   />
+  }
 </div>

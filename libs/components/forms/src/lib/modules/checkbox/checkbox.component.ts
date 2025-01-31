@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -23,7 +24,7 @@ import {
 import { SkyIdService, SkyLogService } from '@skyux/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
 
@@ -52,7 +53,9 @@ import { SkyCheckboxChange } from './checkbox-change';
   ],
   standalone: false,
 })
-export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
+export class SkyCheckboxComponent
+  implements AfterViewInit, ControlValueAccessor, Validator
+{
   /**
    * The ARIA label for the checkbox. This sets the checkbox's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
@@ -179,9 +182,17 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   /**
    * The icon to display in place of the checkbox. To group icon checkboxes
    * like in the demo, place the checkboxes within a `sky-checkbox-group`.
+   * @deprecated Use `iconName` instead.
    */
   @Input()
   public icon: string | undefined;
+
+  /**
+   * The SVG icon to display in place of the checkbox. To group icon checkboxes
+   * like in the demo, place the checkboxes within a `sky-checkbox-group`.
+   */
+  @Input()
+  public iconName: string | undefined;
 
   /**
    * The background color type after users select a checkbox where the
@@ -233,11 +244,13 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
    */
   @Input()
   public set indeterminate(value: boolean | undefined) {
-    this.#_indeterminate = !!value;
-    this.#indeterminateChange.next(this.#_indeterminate);
-    if (this.inputEl) {
-      this.inputEl.nativeElement.indeterminate = this.#_indeterminate;
-      this.#changeDetector.markForCheck();
+    if (value !== this.#_indeterminate) {
+      this.#_indeterminate = !!value;
+      this.#indeterminateChange.next(this.#_indeterminate);
+      if (this.inputEl) {
+        this.inputEl.nativeElement.indeterminate = this.#_indeterminate;
+        this.#changeDetector.markForCheck();
+      }
     }
   }
 
@@ -340,11 +353,11 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   protected control: AbstractControl | undefined;
   protected inputId = '';
 
-  #checkedChange: BehaviorSubject<boolean>;
+  #checkedChange: Subject<boolean>;
   #checkedChangeObs: Observable<boolean>;
-  #disabledChange: BehaviorSubject<boolean>;
+  #disabledChange: Subject<boolean>;
   #disabledChangeObs: Observable<boolean>;
-  #indeterminateChange: BehaviorSubject<boolean>;
+  #indeterminateChange: Subject<boolean>;
   #indeterminateChangeObs: Observable<boolean>;
 
   #_checked = false;
@@ -364,16 +377,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, Validator {
   protected readonly errorId = this.#idSvc.generateId();
 
   constructor() {
-    this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
-    this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
-    this.#indeterminateChange = new BehaviorSubject<boolean>(this.disabled);
+    this.#checkedChange = new Subject<boolean>();
+    this.#disabledChange = new Subject<boolean>();
+    this.#indeterminateChange = new Subject<boolean>();
 
     this.#checkedChangeObs = this.#checkedChange.asObservable();
     this.#disabledChangeObs = this.#disabledChange.asObservable();
     this.#indeterminateChangeObs = this.#indeterminateChange.asObservable();
-
     this.id = this.#defaultId;
     this.name = this.#defaultId;
+  }
+
+  public ngAfterViewInit(): void {
+    this.#checkedChange.next(this.checked);
+    this.#disabledChange.next(this.disabled);
+    this.#indeterminateChange.next(this.indeterminate);
   }
 
   public validate(control: AbstractControl<boolean>): ValidationErrors | null {
