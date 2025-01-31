@@ -15,7 +15,7 @@ import {
   standalone: false,
 })
 export class AppComponent {
-  public height = 60;
+  public height = 80;
 
   constructor(
     renderer: Renderer2,
