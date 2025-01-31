@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { SKY_STACKING_CONTEXT, SkyScrollableHostService } from '@skyux/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -158,18 +163,18 @@ describe('SkyAgGridRowDeleteDirective', () => {
       ).toBe(2);
     });
 
-    it('should respond dataset changes', async () => {
+    it('should respond dataset changes', fakeAsync(() => {
       setupTest();
-      await fixture.whenStable();
+      tick(16);
 
       fixture.componentInstance.rowDeleteIds = ['0', '2'];
       fixture.detectChanges();
-      await fixture.whenStable();
+      tick(16);
 
       fixture.componentInstance.removeFirstItem();
 
       fixture.detectChanges();
-      await fixture.whenStable();
+      tick(16);
 
       expect(fixture.componentInstance.rowDeleteIds).toEqual(['2']);
       expect(document.querySelector('#row-delete-ref-0')).toBeNull();
@@ -177,7 +182,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       expect(
         document.querySelectorAll('.sky-inline-delete-standard').length,
       ).toBe(1);
-    });
+    }));
   });
 
   it('should cancel row delete elements correctly via them being removed from the id array', async () => {
