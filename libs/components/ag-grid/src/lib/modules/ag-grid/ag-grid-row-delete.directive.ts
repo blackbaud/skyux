@@ -2,7 +2,6 @@ import {
   AfterContentInit,
   AfterViewInit,
   ChangeDetectorRef,
-  ContentChild,
   Directive,
   ElementRef,
   EnvironmentInjector,
@@ -11,6 +10,8 @@ import {
   OnDestroy,
   Output,
   ViewContainerRef,
+  contentChild,
+  effect,
   inject,
 } from '@angular/core';
 import {
@@ -25,7 +26,13 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { IRowNode } from 'ag-grid-community';
-import { BehaviorSubject, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+  animationFrames,
+  debounce,
+  merge,
+} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
@@ -83,7 +90,7 @@ export class SkyAgGridRowDeleteDirective
           overlay.attachTemplate(
             this.#rowDeleteComponent.inlineDeleteTemplateRef,
             {
-              $implicit: this.agGrid.api.getRowNode(id),
+              $implicit: this.agGrid()?.api.getRowNode(id),
               tableWidth: () =>
                 this.#elementRef.nativeElement.querySelector('.sky-ag-grid')
                   .offsetWidth,
@@ -162,8 +169,7 @@ export class SkyAgGridRowDeleteDirective
 
   #rowDeleteConfigs: SkyAgGridRowDeleteConfig[] = [];
 
-  @ContentChild(AgGridAngular)
-  public agGrid: AgGridAngular | undefined;
+  public agGrid = contentChild(AgGridAngular);
 
   #ngUnsubscribe = new Subject<void>();
   #rowDeleteComponent: SkyAgGridRowDeleteComponent | undefined;
@@ -183,6 +189,7 @@ export class SkyAgGridRowDeleteDirective
   readonly #scrollableHostService = inject(SkyScrollableHostService);
   readonly #stackingContext = inject(SKY_STACKING_CONTEXT, { optional: true });
   readonly #viewContainerRef = inject(ViewContainerRef);
+  readonly #viewInit = new Subject<void>();
 
   constructor() {
     this.#hasStackingContext = !!this.#stackingContext;
@@ -194,6 +201,26 @@ export class SkyAgGridRowDeleteDirective
           this.#zIndex.next(zIndex);
         });
     }
+    effect(() => {
+      const agGrid = this.agGrid();
+      if (agGrid) {
+        merge(
+          agGrid.filterChanged,
+          agGrid.firstDataRendered,
+          agGrid.gridReady,
+          agGrid.rowDataUpdated,
+          agGrid.sortChanged,
+          this.#viewInit,
+        )
+          .pipe(
+            takeUntil(this.#ngUnsubscribe),
+            debounce(() => animationFrames()),
+          )
+          .subscribe(() => {
+            this.#updateRowDeleteStates();
+          });
+      }
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -204,26 +231,6 @@ export class SkyAgGridRowDeleteDirective
         viewContainerRef: this.#viewContainerRef,
       },
     ).instance;
-
-    if (this.agGrid) {
-      this.agGrid.rowDataUpdated
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateRowDeleteStates();
-        });
-
-      this.agGrid.sortChanged
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateRowDeleteStates();
-        });
-
-      this.agGrid.filterChanged
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(() => {
-          this.#updateRowDeleteStates();
-        });
-    }
   }
 
   public ngAfterViewInit(): void {
@@ -235,6 +242,7 @@ export class SkyAgGridRowDeleteDirective
           this.#clipPath.next(clipPath);
         });
     }
+    this.#viewInit.next();
   }
 
   public ngOnDestroy(): void {
@@ -292,26 +300,21 @@ export class SkyAgGridRowDeleteDirective
 
   #destroyRowDelete(id: string): void {
     const rowDeleteContents = this.#rowDeleteContents[id];
-
-    /* sanity check */
-    /* istanbul ignore else */
-    if (rowDeleteContents) {
-      rowDeleteContents.affixer.destroy();
-      this.#overlayService.close(rowDeleteContents.overlay);
-      delete this.#rowDeleteContents[id];
-      this.#rowDeleteConfigs = this.#rowDeleteConfigs.filter(
-        (config) => config.id !== id,
-      );
-      this.#rowDeleteIdsInternal = this.rowDeleteIds?.filter(
-        (arrayId) => arrayId !== id,
-      );
-      this.rowDeleteIdsChange.emit(this.#rowDeleteIdsInternal);
-    }
+    rowDeleteContents?.affixer.destroy();
+    this.#overlayService.close(rowDeleteContents?.overlay);
+    delete this.#rowDeleteContents[id];
+    this.#rowDeleteConfigs = this.#rowDeleteConfigs.filter(
+      (config) => config.id !== id,
+    );
+    this.#rowDeleteIdsInternal = this.rowDeleteIds?.filter(
+      (arrayId) => arrayId !== id,
+    );
+    this.rowDeleteIdsChange.emit(this.#rowDeleteIdsInternal);
   }
 
   #updateRowDeleteStates(): void {
     this.#rowDeleteConfigs.forEach((config: SkyAgGridRowDeleteConfig) => {
-      if (!this.agGrid?.api.getRowNode(config.id)) {
+      if (!this.agGrid()?.api.getRowNode(config.id)) {
         this.#destroyRowDelete(config.id);
       } else {
         // We must reaffix things when the data changes because the rows rerender and the previous element that the delete was affixed
