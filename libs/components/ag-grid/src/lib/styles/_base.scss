@@ -169,6 +169,10 @@ $modernDarkThemeCompact: map.merge($modernDarkThemeBase, $modernThemeCompact);
     cursor: initial;
   }
 
+  .ag-layout-auto-height .ag-body .ag-center-cols-viewport {
+    min-height: var(--sky-ag-grid-min-height, 50px);
+  }
+
   .ag-scrollbar-invisible.sky-viewkeeper-fixed {
     box-shadow: none;
   }
