@@ -169,24 +169,36 @@ describe('Tab harness', () => {
     await expectAsync(tabsetHarness.getMode()).toBeResolvedTo('dropdown');
   });
 
-  it('should get the tab harness from tab heading', async () => {
+  it('should get the tab content harness from tab heading', async () => {
     const { tabsetHarness } = await setupTest();
-    let tabHarness = await tabsetHarness.getTabHarness('Tab 1');
-    await expectAsync(tabHarness.isVisible()).toBeResolvedTo(true);
-    tabHarness = await tabsetHarness.getTabHarness('Tab 2');
-    await expectAsync(tabHarness.isVisible()).toBeResolvedTo(false);
+    let tabContentHarness = await tabsetHarness.getTabContentHarness('Tab 1');
+    await expectAsync(tabContentHarness.isVisible()).toBeResolvedTo(true);
+    tabContentHarness = await tabsetHarness.getTabContentHarness('Tab 2');
+    await expectAsync(tabContentHarness.isVisible()).toBeResolvedTo(false);
   });
 
   it('should get the tab layout in pages', async () => {
     const { tabsetHarness } = await setupTest({ dataSkyId: 'other-tabset' });
-    const tabHarness = await tabsetHarness.getTabHarness('Tab 1');
-    await expectAsync(tabHarness.getLayout()).toBeResolvedTo('blocks');
+    const tabContentHarness = await tabsetHarness.getTabContentHarness('Tab 1');
+    await expectAsync(tabContentHarness.getLayout()).toBeResolvedTo('blocks');
   });
 
   it('should get the default tab layout', async () => {
     const { tabsetHarness } = await setupTest();
-    const tabHarness = await tabsetHarness.getTabHarness('Tab 1');
-    await expectAsync(tabHarness.getLayout()).toBeResolvedTo('none');
+    const tabContentHarness = await tabsetHarness.getTabContentHarness('Tab 1');
+    await expectAsync(tabContentHarness.getLayout()).toBeResolvedTo('none');
+  });
+
+  it('should click a tab', async () => {
+    const { tabsetHarness } = await setupTest();
+    await expectAsync(
+      (await tabsetHarness.getActiveTabButton())?.getTabHeading(),
+    ).toBeResolvedTo('Tab 1');
+
+    await tabsetHarness.clickTabButton('Tab 2');
+    await expectAsync(
+      (await tabsetHarness.getActiveTabButton())?.getTabHeading(),
+    ).toBeResolvedTo('Tab 2');
   });
 
   describe('tab button harness', () => {
@@ -229,10 +241,10 @@ describe('Tab harness', () => {
       await expectAsync(tabButtonHarness.isDisabled()).toBeResolvedTo(false);
     });
 
-    it('should get a tab harness', async () => {
+    it('should get a tab content harness', async () => {
       const { tabButtonHarness } = await setupTabButtonTest('Tab 1');
-      const tabHarness = await tabButtonHarness.getTabHarness();
-      await expectAsync(tabHarness.isVisible()).toBeResolvedTo(true);
+      const tabContentHarness = await tabButtonHarness.getTabContentHarness();
+      await expectAsync(tabContentHarness.isVisible()).toBeResolvedTo(true);
     });
 
     it('should throw an error if trying to click dropdown when not in dropdown mode', async () => {

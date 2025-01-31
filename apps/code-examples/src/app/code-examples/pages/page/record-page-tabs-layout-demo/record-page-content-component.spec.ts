@@ -29,11 +29,11 @@ describe('Record page content', () => {
     });
   });
 
-  it('should get the overview tab harness', async () => {
+  it("should get the overview tab's content harness", async () => {
     const { recordPageHarness } = await setupTest();
 
     const overviewTabHarness = await (
-      await recordPageHarness.getTabHarness('Overview')
+      await recordPageHarness.getTabContentHarness('Overview')
     ).queryHarness(RecordPageOverviewTabHarness);
 
     await expectAsync(overviewTabHarness.isHarness()).toBeResolvedTo(true);

@@ -63,7 +63,7 @@ export class SkyTabButtonHarness extends SkyComponentHarness {
   /**
    * Gets the `SkyTabContentHarness` controlled by this tab button.
    */
-  public async getTabHarness(): Promise<SkyTabContentHarness> {
+  public async getTabContentHarness(): Promise<SkyTabContentHarness> {
     return await this.documentRootLocatorFactory().locatorFor(
       SkyTabContentHarness.with({ tabId: await this.getTabId() }),
     )();

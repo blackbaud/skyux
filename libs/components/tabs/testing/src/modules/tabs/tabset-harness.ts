@@ -77,6 +77,14 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   }
 
   /**
+   * Clicks a tab button with a `tabHeading` matching the input.
+   */
+  public async clickTabButton(tabHeading: string): Promise<void> {
+    const tabButton = await this.getTabButtonHarness(tabHeading);
+    return await tabButton.click();
+  }
+
+  /**
    * Gets the active tab button harness.
    */
   public async getActiveTabButton(): Promise<SkyTabButtonHarness | null> {
@@ -145,9 +153,9 @@ export class SkyTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets a tab harness for the tab with the given `tabHeading`.
+   * Gets a tab content harness for the tab with the given `tabHeading`.
    */
-  public async getTabHarness(
+  public async getTabContentHarness(
     tabHeading: string,
   ): Promise<SkyTabContentHarness> {
     const tabButton = await this.getTabButtonHarness(tabHeading);
