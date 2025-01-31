@@ -5,17 +5,17 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyModalHarness } from '@skyux/modals/testing';
 import { SkyActionHubHarness } from '@skyux/pages/testing';
 
-import { DemoComponent } from './example.component';
+import { PagesActionHubExampleComponent } from './example.component';
 import { MODAL_TITLE } from './modal-title-token';
 
 describe('SettingsModalComponent', () => {
   async function setupTest(): Promise<{
     actionHubHarness: SkyActionHubHarness;
-    fixture: ComponentFixture<DemoComponent>;
+    fixture: ComponentFixture<PagesActionHubExampleComponent>;
     loader: HarnessLoader;
     rootLoader: HarnessLoader;
   }> {
-    const fixture = TestBed.createComponent(DemoComponent);
+    const fixture = TestBed.createComponent(PagesActionHubExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const actionHubHarness = await loader.getHarness(
@@ -29,7 +29,7 @@ describe('SettingsModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DemoComponent, NoopAnimationsModule],
+      imports: [PagesActionHubExampleComponent, NoopAnimationsModule],
       providers: [
         {
           provide: MODAL_TITLE,
