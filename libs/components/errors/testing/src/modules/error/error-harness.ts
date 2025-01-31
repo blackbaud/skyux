@@ -2,7 +2,9 @@ import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyErrorType } from '@skyux/errors';
 
+import { SkyErrorActionHarness } from './error-action-harness';
 import { SkyErrorHarnessFilters } from './error-harness-filters';
+import { SkyErrorImageHarness } from './error-image-harness';
 
 /**
  * Harness for interacting with an error component in tests.
@@ -47,6 +49,32 @@ export class SkyErrorHarness extends SkyComponentHarness {
    */
   public async getDescription(): Promise<string> {
     return await (await this.#description()).text();
+  }
+
+  /**
+   * Gets an error action harness.
+   */
+  public async getErrorAction(): Promise<SkyErrorActionHarness> {
+    const harness = await this.locatorForOptional(SkyErrorActionHarness)();
+
+    if (harness === null) {
+      throw new Error('Unable to find error action.');
+    }
+
+    return harness;
+  }
+
+  /**
+   * Gets an error image harness.
+   */
+  public async getErrorImage(): Promise<SkyErrorImageHarness> {
+    const harness = await this.locatorForOptional(SkyErrorImageHarness)();
+
+    if (harness === null) {
+      throw new Error('Unable to find error image.');
+    }
+
+    return harness;
   }
 
   /**

@@ -96,6 +96,46 @@ describe('Error test harness', () => {
     await expectAsync(errorHarness.hasImage()).toBeResolvedTo(false);
   });
 
+  it('should return an error image harness', async () => {
+    const { errorHarness } = await setupTest({
+      dataSkyId: 'custom-error',
+    });
+
+    await expectAsync(errorHarness.getErrorImage()).toBeResolved();
+  });
+
+  it('should throw an error if no error image is found', async () => {
+    const { errorHarness, fixture } = await setupTest({
+      dataSkyId: 'dynamic-error',
+    });
+
+    fixture.componentInstance.errorType = undefined;
+
+    await expectAsync(errorHarness.getErrorImage()).toBeRejectedWithError(
+      'Unable to find error image.',
+    );
+  });
+
+  it('should return an error action harness', async () => {
+    const { errorHarness } = await setupTest({
+      dataSkyId: 'dynamic-error',
+    });
+
+    await expectAsync(errorHarness.getErrorAction()).toBeResolved();
+  });
+
+  it('should throw an error if no error action is found', async () => {
+    const { errorHarness, fixture } = await setupTest({
+      dataSkyId: 'dynamic-error',
+    });
+
+    fixture.componentInstance.errorType = undefined;
+
+    await expectAsync(errorHarness.getErrorAction()).toBeRejectedWithError(
+      'Unable to find error action.',
+    );
+  });
+
   it('should interact with an action button', async () => {
     const { errorHarness, fixture } = await setupTest({
       dataSkyId: 'broken-error',
