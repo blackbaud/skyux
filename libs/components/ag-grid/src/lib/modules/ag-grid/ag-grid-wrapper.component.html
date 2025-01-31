@@ -15,6 +15,7 @@
   [ngClass]="wrapperClasses$ | async"
   [id]="gridId"
   [skyViewkeeper]="viewkeeperClasses"
+  [style]="minHeightStyle()"
   (keydown)="onGridKeydown($event)"
   (keyup.escape)="onKeyUpEscape($event)"
 >

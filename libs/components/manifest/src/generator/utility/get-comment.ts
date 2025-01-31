@@ -65,10 +65,13 @@ function getCodeExample(comment: CommentTag): {
 }
 
 function getDocsIncludeIds(tag: CommentTag): string[] {
-  return (
-    getCommentTagText(tag.content)
-      ?.split(',')
-      .map((id) => id.trim()) || []
+  return Array.from(
+    new Set(
+      getCommentTagText(tag.content)
+        ?.split(',')
+        .map((id) => id.trim())
+        .filter((id) => id) || [],
+    ),
   );
 }
 

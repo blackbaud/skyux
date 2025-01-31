@@ -11,6 +11,9 @@ import { SkySortItemComponent } from './sort-item.component';
 import { SkySortMenuHeadingComponent } from './sort-menu-heading.component';
 import { SkySortComponent } from './sort.component';
 
+/**
+ * @docsIncludeIds SkySortComponent, SkySortItemComponent
+ */
 @NgModule({
   declarations: [
     SkySortComponent,

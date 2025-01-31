@@ -2,6 +2,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 /**
  * Harness for interacting with a chevron component in tests.
+ * @internal
  */
 export class SkyChevronHarness extends SkyComponentHarness {
   /**

@@ -10,6 +10,7 @@ import { SkyDefinitionListValueComponent } from './definition-list-value.compone
 import { SkyDefinitionListComponent } from './definition-list.component';
 
 /**
+ * @docsIncludeIds SkyDefinitionListComponent, SkyDefinitionListHeadingComponent, SkyDefinitionListContentComponent, SkyDefinitionListLabelComponent, SkyDefinitionListValueComponent
  * @deprecated Use `SkyDescriptionListModule` instead.
  */
 @NgModule({
