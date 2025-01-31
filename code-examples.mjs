@@ -15,8 +15,6 @@ await fsExtra.copy('apps/code-examples/src/app/code-examples', DEST);
 
 const files = await glob(DEST + '**/demo.component.ts');
 
-console.log('Num demo files:', files.length);
-
 function generateNamesFromPath(file) {
   const fragments = Array.from(
     new Set(file.replace(DEST, '').replace('.component.ts', '').split('/')),
@@ -32,7 +30,6 @@ function generateNamesFromPath(file) {
 }
 
 const data = [];
-
 const classNames = [];
 const selectors = [];
 
@@ -96,6 +93,24 @@ for (const file of files) {
   await fsExtra.writeFile(file, newContents, {
     encoding: 'utf-8',
   });
+
+  const specFile = file.replace(
+    '/demo.component.ts',
+    '/demo.component.spec.ts',
+  );
+
+  if (fsExtra.existsSync(specFile)) {
+    await fsExtra.writeFile(
+      specFile,
+      (await fsExtra.readFile(specFile, { encoding: 'utf-8' })).replaceAll(
+        'DemoComponent',
+        className,
+      ),
+      {
+        encoding: 'utf-8',
+      },
+    );
+  }
 
   // await fsExtra.writeFile(
   //   file,
