@@ -6,6 +6,7 @@ import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 /**
  * Displays page contents using the specified layout.
+ * @docsId SkyPageComponentLegacy
  * @deprecated Use the `sky-page` component in `@skyux/pages` instead.
  */
 @Component({

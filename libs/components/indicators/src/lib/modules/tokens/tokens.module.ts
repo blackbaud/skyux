@@ -8,6 +8,9 @@ import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources
 import { SkyTokenComponent } from './token.component';
 import { SkyTokensComponent } from './tokens.component';
 
+/**
+ * @docsIncludeIds SkyTokensComponent, SkyTokenComponent, SkyToken, SkyTokenSelectedEventArgs, SkyTokensMessage, SkyTokensMessageType, SkyTokensHarness, SkyTokenHarness
+ */
 @NgModule({
   declarations: [SkyTokenComponent, SkyTokensComponent],
   imports: [

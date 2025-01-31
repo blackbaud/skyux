@@ -5,6 +5,9 @@ import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module'
 
 import { SkyTextExpandRepeaterComponent } from './text-expand-repeater.component';
 
+/**
+ * @docsIncludeIds SkyTextExpandRepeaterComponent, SkyTextExpandRepeaterListStyleType
+ */
 @NgModule({
   declarations: [SkyTextExpandRepeaterComponent],
   imports: [SkyLayoutResourcesModule, CommonModule],

@@ -12,6 +12,9 @@ import { SkyFilterInlineComponent } from './filter-inline.component';
 import { SkyFilterSummaryItemComponent } from './filter-summary-item.component';
 import { SkyFilterSummaryComponent } from './filter-summary.component';
 
+/**
+ * @docsIncludeIds SkyFilterInlineComponent, SkyFilterInlineItemComponent, SkyFilterSummaryComponent, SkyFilterSummaryItemComponent, SkyFilterButtonComponent
+ */
 @NgModule({
   declarations: [
     SkyFilterButtonComponent,

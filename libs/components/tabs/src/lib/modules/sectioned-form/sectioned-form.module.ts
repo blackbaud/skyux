@@ -8,6 +8,9 @@ import { SkyVerticalTabsetModule } from '../vertical-tabset/vertical-tabset.modu
 import { SkySectionedFormSectionComponent } from './sectioned-form-section.component';
 import { SkySectionedFormComponent } from './sectioned-form.component';
 
+/**
+ * @docsIncludeIds SkySectionedFormComponent, SkySectionedFormSectionComponent, SkySectionedFormService, SkySectionedFormMessage, SkySectionedFormMessageType
+ */
 @NgModule({
   declarations: [SkySectionedFormComponent, SkySectionedFormSectionComponent],
   imports: [

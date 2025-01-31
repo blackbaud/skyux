@@ -9,6 +9,9 @@ import { SkyPageContentComponent } from './page-content.component';
 import { SkyPageLinksComponent } from './page-links.component';
 import { SkyPageComponent } from './page.component';
 
+/**
+ * @docsIncludeIds SkyPageComponent, SkyPageHeaderModule, SkyPageContentComponent, SkyPageLinksComponent, SkyPageLayoutType, SkyPageHarness, SkyPageHarnessFilters
+ */
 @NgModule({
   declarations: [SkyPageComponent, SkyPageContentComponent],
   imports: [

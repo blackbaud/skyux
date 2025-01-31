@@ -102,6 +102,8 @@
   "@skyux/icon:SkyIconStackItem:iconType",
   "@skyux/icon:SkyIconType",
   "@skyux/indicators/testing:SkyAlertFixture",
+  "@skyux/indicators/testing:SkyHelpInlineHarness",
+  "@skyux/indicators/testing:SkyHelpInlineHarnessFilters",
   "@skyux/layout:SkyActionButtonContainerAlignItems",
   "@skyux/layout:SkyActionButtonIconComponent:iconType",
   "@skyux/layout:SkyBoxComponent:ariaLabel",

@@ -262,9 +262,8 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"anchorId\\": \\"class_foo-with-docs-id-override-class\\",
         \\"docsId\\": \\"docs-id-override\\",
         \\"docsIncludeIds\\": [
-          \\"foo\\",
-          \\"bar\\",
-          \\"baz\\"
+          \\"FooWithStaticPropertiesClass\\",
+          \\"FooClass\\"
         ],
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",

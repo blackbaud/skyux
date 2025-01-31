@@ -6,6 +6,9 @@ import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module'
 import { SkyBackToTopComponent } from './back-to-top.component';
 import { SkyBackToTopDirective } from './back-to-top.directive';
 
+/**
+ * @docsIncludeIds SkyBackToTopDirective, SkyBackToTopOptions, SkyBackToTopMessage, SkyBackToTopMessageType
+ */
 @NgModule({
   declarations: [SkyBackToTopComponent, SkyBackToTopDirective],
   imports: [SkyLayoutResourcesModule, SkyThemeModule],

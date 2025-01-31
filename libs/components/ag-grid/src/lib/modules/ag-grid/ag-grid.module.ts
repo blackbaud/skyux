@@ -29,6 +29,9 @@ import { SkyAgGridCellValidatorModule } from './cell-validator/ag-grid-cell-vali
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
 
+/**
+ * @docsIncludeIds SkyAgGridWrapperComponent, SkyAgGridService, SkyGetGridOptionsArgs, SkyAgGridRowDeleteDirective, SkyAgGridRowDeleteConfirmArgs, SkyAgGridRowDeleteCancelArgs, SkyAgGridCellEditorInitialAction, SkyAgGridCellEditorUtils, SkyCellType, SkyAgGridHeaderInfo, SkyAgGridHeaderParams, SkyAgGridHeaderGroupInfo, SkyAgGridHeaderGroupParams,SkyAgGridAutocompleteProperties, SkyAutocompleteProperties, SkyAgGridCurrencyProperties, SkyAgGridDatepickerProperties, SkyDatepickerProperties, SkyAgGridLookupProperties, SkyAgGridNumberProperties, SkyAgGridTextProperties, SkyAgGridValidatorProperties
+ */
 @NgModule({
   declarations: [
     SkyAgGridDataManagerAdapterDirective,
