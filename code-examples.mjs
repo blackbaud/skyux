@@ -21,11 +21,13 @@ function generateNamesFromPath(file) {
   );
 
   const trimmedPath = fragments.join('_');
-  const baseClass = classify(trimmedPath).replace('DemoDemo', 'Demo');
+  const baseClass = classify(trimmedPath)
+    .replace('DemoDemo', 'Demo')
+    .replace('Demo', 'Example');
 
   return {
-    className: `Sky${baseClass}Component`,
-    selector: `sky-${dasherize(baseClass)}`,
+    className: `${baseClass}Component`,
+    selector: `app-${dasherize(baseClass)}`,
   };
 }
 
@@ -127,7 +129,10 @@ for (const file of files) {
     className,
     importPath: `.${file
       .replace(/\.ts$/, '')
-      .replace(DEST_ENTRY_POINT.replace('/index.ts', ''), '')}`,
+      .replace(DEST_ENTRY_POINT.replace('/index.ts', ''), '')}`.replace(
+      '/demo.component',
+      '/example.component',
+    ),
   });
 }
 
@@ -138,3 +143,8 @@ for (const d of data) {
 }
 
 await fsExtra.writeFile(DEST_ENTRY_POINT, entryPointContents);
+
+const oldFiles = await glob(DEST + '**/demo.*.ts');
+for (const oldFile of oldFiles) {
+  await fsExtra.rename(oldFile, oldFile.replace('/demo.', '/example.'));
+}
