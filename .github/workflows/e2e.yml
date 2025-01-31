@@ -3,7 +3,7 @@ name: E2E
 on:
   merge_group:
     types: [checks_requested]
-  pull_request_target:
+  pull_request:
   push:
     branches:
       - main
