@@ -1,5 +1,5 @@
 {
-  "name": "code-examples",
+  "name": "code-examples-lib",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/components/code-examples/src",
