@@ -1,0 +1,23 @@
+<div class="sky-padding-even-lg">
+  <form class="phone-field-example" [formGroup]="phoneForm">
+    <sky-input-box
+      data-sky-id="my-phone-field"
+      helpPopoverTitle="How we use your phone number"
+      hintText="Enter the phone number where you can be reached before 5 p.m., Monday through Friday."
+      labelText="Phone number"
+      [helpPopoverContent]="inlineHelpPopover"
+    >
+      <sky-phone-field [defaultCountry]="'us'">
+        <input formControlName="phoneControl" skyPhoneFieldInput />
+      </sky-phone-field>
+    </sky-input-box>
+  </form>
+</div>
+
+<ng-template #inlineHelpPopover>
+  We use this number for calls and text about your student. We won't use it for
+  other purposes.
+  <br />
+  <br />
+  For more information, see our <a>privacy policy</a>.
+</ng-template>

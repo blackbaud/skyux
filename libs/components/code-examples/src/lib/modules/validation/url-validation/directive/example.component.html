@@ -1,0 +1,11 @@
+<form novalidate>
+  <div>
+    <sky-input-box stacked="true" labelText="URL">
+      <input
+        name="url"
+        [skyUrlValidation]="skyUrlValidationOptions"
+        [(ngModel)]="exampleModel.url"
+      />
+    </sky-input-box>
+  </div>
+</form>

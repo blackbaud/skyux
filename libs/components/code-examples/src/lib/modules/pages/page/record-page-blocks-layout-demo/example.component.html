@@ -1,0 +1,30 @@
+<sky-page layout="blocks" helpKey="example-help">
+  <sky-page-header
+    pageTitle="$500 pledge"
+    [parentLink]="{
+      label: 'Pledges',
+      permalink: {
+        route: {
+          commands: ['/']
+        }
+      }
+    }"
+  />
+  <sky-page-content>
+    <app-record-page-content />
+  </sky-page-content>
+  <sky-page-links>
+    <sky-link-list-recently-accessed [recentLinks]="recentLinks" />
+    <sky-link-list headingText="Related links">
+      <sky-link-list-item>
+        <a href="#">Analysis</a>
+      </sky-link-list-item>
+      <sky-link-list-item>
+        <a href="#">Tools</a>
+      </sky-link-list-item>
+      <sky-link-list-item>
+        <button type="button" class="sky-btn-link-inline">Settings</button>
+      </sky-link-list-item>
+    </sky-link-list>
+  </sky-page-links>
+</sky-page>
