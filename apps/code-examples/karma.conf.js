@@ -10,7 +10,7 @@ module.exports = function (config) {
     ...baseConfig,
     coverageReporter: {
       ...baseConfig.coverageReporter,
-      dir: join(__dirname, '../../coverage/apps/code-examples-playground'),
+      dir: join(__dirname, '../../coverage/apps/code-examples'),
       // TODO: remove these threshold overrides to meet 100% coverage!
       check: {
         global: {
