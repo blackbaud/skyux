@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyTabIndex } from '@skyux/tabs';
 
 @Component({
   selector: 'app-tabs',
@@ -7,9 +8,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: false,
 })
 export class TabsComponent {
-  public newTabClick() {}
+  protected showTab3 = true;
+  protected tabIndexValue: SkyTabIndex = '2';
 
-  public openTabClick() {}
-
-  public closeTab() {}
+  protected onNewTabClick(): void {
+    alert('Add tab clicked!');
+  }
 }

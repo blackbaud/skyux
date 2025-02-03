@@ -24,7 +24,7 @@ export class DemoComponent {
 
   #tabCounter = 3;
 
-  protected onNewTabClick(): void {
+  public onNewTabClick(): void {
     this.#tabCounter++;
 
     this.tabArray.push({
@@ -33,7 +33,7 @@ export class DemoComponent {
     });
   }
 
-  protected onCloseClick(arrayIndex: number): void {
+  public onCloseClick(arrayIndex: number): void {
     this.tabArray.splice(arrayIndex, 1);
   }
 }
