@@ -1,0 +1,36 @@
+<sky-toolbar>
+  <sky-toolbar-item>
+    <button
+      class="sky-btn sky-btn-default sky-example-search-bar-item"
+      type="button"
+      (click)="searchApplied('Robert')"
+    >
+      Predefined search text
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <sky-search
+      data-sky-id="example-search"
+      [ariaLabel]="searchAriaLabel"
+      [searchText]="searchText"
+      [debounceTime]="250"
+      [placeholderText]="placeholderText"
+      (searchApply)="searchApplied($event)"
+      (searchChange)="searchApplied($event)"
+    />
+  </sky-toolbar-item>
+</sky-toolbar>
+<sky-repeater expandMode="none">
+  @for (item of displayedItems; track item) {
+    <sky-repeater-item>
+      <sky-repeater-item-title>
+        {{ item.title }}
+      </sky-repeater-item-title>
+      <sky-repeater-item-content>
+        <div>
+          {{ item.note }}
+        </div>
+      </sky-repeater-item-content>
+    </sky-repeater-item>
+  }
+</sky-repeater>

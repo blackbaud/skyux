@@ -1,0 +1,8 @@
+<sky-avatar
+  data-sky-id="user-profile-avatar"
+  [canChange]="true"
+  [maxFileSize]="1000"
+  [name]="name()"
+  [src]="avatar()"
+  (avatarChanged)="onAvatarChanged($event)"
+/>
