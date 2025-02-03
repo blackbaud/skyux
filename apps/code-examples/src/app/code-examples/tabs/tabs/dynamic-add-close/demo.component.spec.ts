@@ -27,7 +27,7 @@ describe('Static tabs demo with add and close', () => {
     TestBed.configureTestingModule({ imports: [DemoComponent] });
   });
 
-  fit('should set up tabs', async () => {
+  it('should set up tabs', async () => {
     const { harness } = await setupTest({ dataSkyId: 'tab-demo' });
 
     await harness.clickNewTabButton();
