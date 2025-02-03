@@ -1,0 +1,23 @@
+<form novalidate [formGroup]="formGroup" (ngSubmit)="save()">
+  <sky-modal headingText="Add Item">
+    <sky-modal-content>
+      <sky-input-box
+        labelText="Name"
+        hintText="Find an individual by first name"
+      >
+        <input
+          type="text"
+          autocapitalize="words"
+          autocomplete="off"
+          formControlName="name"
+        />
+      </sky-input-box>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <button class="sky-btn sky-btn-default" type="button" (click)="close()">
+        Cancel
+      </button>
+      <button class="sky-btn sky-btn-primary" type="submit">Add</button>
+    </sky-modal-footer>
+  </sky-modal>
+</form>

@@ -38,7 +38,7 @@ jobs:
             migrations
             packaging
             release
-            code-examples
+            apps/code-examples-playground
             apps/integration
             apps/playground
             components/a11y
@@ -49,6 +49,7 @@ jobs:
             components/assets
             components/autonumeric
             components/avatar
+            components/code-examples
             components/colorpicker
             components/config
             components/core

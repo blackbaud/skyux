@@ -1,0 +1,20 @@
+<form [formGroup]="exampleForm" (submit)="saveForm()">
+  <sky-modal
+    data-sky-id="modal-example"
+    headingText="Modal title"
+    helpKey="modal-help"
+    [isDirty]="exampleForm.dirty"
+  >
+    <sky-modal-content>
+      <sky-input-box labelText="An input inside a modal">
+        <input formControlName="value1" type="text" />
+      </sky-input-box>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <button class="sky-btn sky-btn-primary" type="submit">Save</button>
+      <button class="sky-btn sky-btn-link" type="button" (click)="cancelForm()">
+        Cancel
+      </button>
+    </sky-modal-footer>
+  </sky-modal>
+</form>

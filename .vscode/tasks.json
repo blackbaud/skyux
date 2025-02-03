@@ -27,7 +27,7 @@
     {
       "label": "Start code examples",
       "type": "shell",
-      "command": "npx nx serve code-examples",
+      "command": "npx nx serve code-examples-playground",
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
@@ -42,7 +42,7 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "> nx run code-examples:serve:development",
+          "beginsPattern": "> nx run code-examples-playground:serve:development",
           "endsPattern": "√ Compiled successfully."
         }
       }

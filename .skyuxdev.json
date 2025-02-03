@@ -3,6 +3,7 @@
   "documentationExcludeProjects": [
     "animations",
     "assets",
+    "code-examples",
     "config",
     "e2e-schematics",
     "eslint-config",

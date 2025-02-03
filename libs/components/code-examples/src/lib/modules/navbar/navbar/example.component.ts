@@ -1,0 +1,15 @@
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SkyNavbarModule } from '@skyux/navbar';
+import { SkyDropdownModule } from '@skyux/popovers';
+
+@Component({
+  selector: 'app-navbar-example',
+  templateUrl: './example.component.html',
+  imports: [RouterModule, SkyDropdownModule, SkyNavbarModule],
+})
+export class NavbarExampleComponent {
+  protected onDropdownItemClick(buttonText: string): void {
+    alert(buttonText + ' button clicked!');
+  }
+}
