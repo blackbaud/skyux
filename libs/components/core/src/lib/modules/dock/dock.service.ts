@@ -1,12 +1,10 @@
-import { DOCUMENT } from '@angular/common';
 import { ComponentRef, Injectable, Type, inject } from '@angular/core';
 
-import { Subscription, finalize } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { SkyDynamicComponentLocation } from '../dynamic-component/dynamic-component-location';
 import { SkyDynamicComponentOptions } from '../dynamic-component/dynamic-component-options';
 import { SkyDynamicComponentService } from '../dynamic-component/dynamic-component.service';
-import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
 
 import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
 import { SkyDockItem } from './dock-item';
@@ -32,9 +30,7 @@ export class SkyDockService {
     return SkyDockService._items;
   }
 
-  readonly #doc = inject(DOCUMENT);
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
-  readonly #resizeObserverService = inject(SkyResizeObserverService);
   #subscription: Subscription | undefined;
 
   #options: SkyDockOptions | undefined;
@@ -114,28 +110,6 @@ export class SkyDockService {
     );
 
     dockRef.instance.setOptions(this.#options);
-
-    setTimeout(() => {
-      this.#subscription?.add(
-        this.#resizeObserverService
-          .observe(dockRef.instance.element)
-          .pipe(
-            finalize(() => {
-              (
-                dockOptions?.referenceEl ?? this.#doc.documentElement
-              ).style.setProperty('--sky-dock-height', `0`);
-            }),
-          )
-          .subscribe((resize) => {
-            (
-              dockOptions?.referenceEl ?? this.#doc.documentElement
-            ).style.setProperty(
-              '--sky-dock-height',
-              `${resize.borderBoxSize[0].blockSize}px`,
-            );
-          }),
-      );
-    });
 
     return dockRef;
   }

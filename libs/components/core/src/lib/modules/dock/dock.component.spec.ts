@@ -238,7 +238,7 @@ describe('Dock component', () => {
       const styleElement = getStyleElement();
 
       expect(styleElement.textContent).toContain(
-        `body { margin-bottom: 60px; }`,
+        `body { margin-bottom: 60px; --sky-dock-height: 60px; }`,
       );
     }));
 
@@ -260,7 +260,7 @@ describe('Dock component', () => {
       const styleElement = getStyleElement();
 
       expect(styleElement.textContent).toContain(
-        `body { margin-bottom: 60px; }`,
+        `body { margin-bottom: 60px; --sky-dock-height: 60px; }`,
       );
     }));
 

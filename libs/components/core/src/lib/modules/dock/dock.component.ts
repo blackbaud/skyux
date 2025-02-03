@@ -37,10 +37,6 @@ export class SkyDockComponent {
   })
   public target: ViewContainerRef | undefined;
 
-  public get element(): ElementRef<HTMLElement> {
-    return this.#elementRef;
-  }
-
   #itemRefs: SkyDockItemReference<unknown>[] = [];
 
   #options: SkyDockOptions | undefined;
