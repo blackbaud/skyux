@@ -7,5 +7,5 @@ export class SkyErrorImageHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-error-action';
+  public static hostSelector = 'sky-error-image';
 }
