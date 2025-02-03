@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { SkyTabsetHarness } from '@skyux/tabs/testing';
 
 import { RecordPageContentComponent } from './record-page-content.component';
-import { RecordPageOverviewTabHarness } from './record-page-overview-tab.component';
+import { RecordPageOverviewTabHarness } from './record-page-overview-tab-harness';
 
 describe('Record page content', () => {
   async function setupTest(): Promise<{
@@ -36,6 +36,8 @@ describe('Record page content', () => {
       await recordPageHarness.getTabContentHarness('Overview')
     ).queryHarness(RecordPageOverviewTabHarness);
 
-    await expectAsync(overviewTabHarness.isHarness()).toBeResolvedTo(true);
+    const overviewBoxes = await overviewTabHarness.getBoxes();
+
+    expect(overviewBoxes.length).toBe(3);
   });
 });

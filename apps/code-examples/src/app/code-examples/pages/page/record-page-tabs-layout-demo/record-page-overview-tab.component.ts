@@ -1,4 +1,3 @@
-import { ComponentHarness } from '@angular/cdk/testing';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
@@ -99,12 +98,4 @@ export class RecordPageOverviewTabComponent {
       date: '04/01/2023 12:02 am',
     },
   ];
-}
-
-export class RecordPageOverviewTabHarness extends ComponentHarness {
-  public static hostSelector = 'app-record-page-overview-tab';
-
-  public async isHarness(): Promise<boolean> {
-    return await Promise.resolve(true);
-  }
 }
