@@ -10,7 +10,7 @@ import { SkyTabsModule } from '@skyux/tabs';
 export class DemoComponent {
   protected showTab3 = true;
 
-  protected onNewTabClick(): void {
+  public onNewTabClick(): void {
     alert('Add tab clicked!');
   }
 }
