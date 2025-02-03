@@ -10,7 +10,7 @@ import { SkyDataManagerComponent } from './data-manager.component';
 import { SkyDataViewComponent } from './data-view.component';
 
 /**
- * @docsIncludeIds SkyDataManagerComponent, SkyDataManagerService, SkyDataManagerToolbarComponent, SkyDataManagerToolbarSectionComponent, SkyDataManagerToolbarPrimaryItemComponent, SkyDataManagerToolbarLeftItemComponent, SkyDataManagerToolbarRightItemComponent, SkyDataViewComponent, SkyDataViewConfig, SkyDataViewColumnWidths, SkyDataViewState, SkyDataViewStateOptions, SkyDataManagerConfig, SkyDataManagerFilterData, SkyDataManagerInitArgs, SkyDataManagerSortOption, SkyDataManagerState, SkyDataManagerStateOptions, SkyDataManagerStateUpdateFilterArgs, SkyDataManagerColumnPickerOption, SkyDataManagerColumnPickerSortStrategy, SkyDataManagerFilterModalContext,
+ * @docsIncludeIds SkyDataManagerComponent, SkyDataManagerService, SkyDataManagerToolbarComponent, SkyDataManagerToolbarSectionComponent, SkyDataManagerToolbarPrimaryItemComponent, SkyDataManagerToolbarLeftItemComponent, SkyDataManagerToolbarRightItemComponent, SkyDataViewComponent, SkyDataViewConfig, SkyDataViewColumnWidths, SkyDataViewState, SkyDataViewStateOptions, SkyDataManagerConfig, SkyDataManagerFilterData, SkyDataManagerInitArgs, SkyDataManagerSortOption, SkyDataManagerState, SkyDataManagerStateOptions, SkyDataManagerStateUpdateFilterArgs, SkyDataManagerColumnPickerOption, SkyDataManagerColumnPickerSortStrategy, SkyDataManagerFilterModalContext, DataManagerBasicExampleComponent
  */
 @NgModule({
   imports: [

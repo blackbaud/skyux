@@ -10,7 +10,7 @@ import { SkyTimepickerComponent } from './timepicker.component';
 import { SkyTimepickerInputDirective } from './timepicker.directive';
 
 /**
- * @docsIncludeIds SkyTimepickerComponent, SkyTimepickerInputDirective, SkyTimepickerTimeFormatType, SkyTimepickerTimeOutput
+ * @docsIncludeIds SkyTimepickerComponent, SkyTimepickerInputDirective, SkyTimepickerTimeFormatType, SkyTimepickerTimeOutput, DatetimeTimepickerBasicExampleComponent
  */
 @NgModule({
   declarations: [SkyTimepickerInputDirective, SkyTimepickerComponent],

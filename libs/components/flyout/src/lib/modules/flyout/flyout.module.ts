@@ -1,12 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { SkyFlyoutComponent } from './flyout.component';
-
 /**
- * @docsIncludeIds SkyFlyoutService, SkyFlyoutConfig, SkyFlyoutInstance, SkyFlyoutAction, SkyFlyoutBeforeCloseHandler, SkyFlyoutCloseArgs, SkyFlyoutPermalink
+ * @deprecated The `SkyFlyoutModule` is no longer needed and can be removed from your application.
+ * @internal
  */
-@NgModule({
-  imports: [SkyFlyoutComponent],
-  exports: [SkyFlyoutComponent],
-})
+@NgModule({})
 export class SkyFlyoutModule {}

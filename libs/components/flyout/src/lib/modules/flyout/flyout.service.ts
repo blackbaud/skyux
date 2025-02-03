@@ -29,6 +29,7 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
  * Launches flyouts and provides a common look and feel.
  * This service dynamically generates the flyout component and appends it directly to the
  * document's `body` element. The `SkyFlyoutInstance` class watches for and triggers flyout events.
+ * @docsIncludeIds SkyFlyoutConfig, SkyFlyoutInstance, SkyFlyoutAction, SkyFlyoutBeforeCloseHandler, SkyFlyoutCloseArgs, SkyFlyoutPermalink, FlyoutBasicExampleComponent, FlyoutCustomHeadersExampleComponent
  */
 @Injectable({
   providedIn: 'root',

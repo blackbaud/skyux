@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyIdDirective } from './id.directive';
 
 /**
- * @docsIncludeIds SkyIdDirective, SkyIdService
+ * @docsIncludeIds SkyIdDirective, SkyIdService, CoreIdExampleComponent
  */
 @NgModule({
   declarations: [SkyIdDirective],

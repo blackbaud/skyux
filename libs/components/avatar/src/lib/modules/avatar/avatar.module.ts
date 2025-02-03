@@ -10,7 +10,7 @@ import { SkyAvatarComponent } from './avatar.component';
 import { SkyAvatarInnerComponent } from './avatar.inner.component';
 
 /**
- * @docsIncludeIds SkyAvatarComponent, SkyAvatarSize, SkyAvatarSrc, SkyAvatarHarness
+ * @docsIncludeIds SkyAvatarComponent, SkyAvatarSize, SkyAvatarSrc, SkyAvatarHarness, AvatarExampleComponent
  */
 @NgModule({
   declarations: [SkyAvatarInnerComponent, SkyAvatarComponent],
