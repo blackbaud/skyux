@@ -160,6 +160,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
     describe('afterGuiAttached', () => {
       let cellEditorParams: Partial<SkyCellEditorCurrencyParams>;
       let column: AgColumn;
+      let gridCell: HTMLDivElement;
       const rowNode = new RowNode({} as BeanCollection);
       rowNode.rowHeight = 37;
       const value = 15;
@@ -174,16 +175,19 @@ describe('SkyCellEditorCurrencyComponent', () => {
           true,
         );
 
-        const api = {} as GridApi;
+        const api = jasmine.createSpyObj<GridApi>([
+          'getDisplayNameForColumn',
+          'stopEditing',
+        ]);
 
-        api.getDisplayNameForColumn = (): string => {
-          return '';
-        };
+        api.getDisplayNameForColumn.and.returnValue('');
+        gridCell = document.createElement('div');
 
         cellEditorParams = {
           api,
           value: value,
           column,
+          eGridCell: gridCell,
           node: rowNode,
           colDef: {},
           cellStartedEdit: true,
@@ -513,6 +517,24 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
         expect(input).toBeVisible();
         expect(input.focus).toHaveBeenCalled();
+      }));
+
+      it('should respond to refocus', fakeAsync(() => {
+        currencyEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+        currencyEditorFixture.detectChanges();
+
+        const input = currencyEditorFixture.nativeElement.querySelector(
+          'input',
+        ) as HTMLInputElement;
+        spyOn(input, 'focus');
+
+        currencyEditorComponent.onFocusOut({
+          relatedTarget: gridCell,
+        } as unknown as FocusEvent);
+        tick();
+        expect(input).toBeVisible();
+        expect(input.focus).toHaveBeenCalled();
+        expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
       }));
     });
 

@@ -24,6 +24,7 @@ import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.compone
 import { SkyAgGridCellEditorLookupModule } from './cell-editor-lookup.module';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
+  let api: jasmine.SpyObj<GridApi>;
   let component: SkyAgGridCellEditorLookupComponent;
   const data = [
     { id: '1', name: 'John Doe', town: 'Daniel Island' },
@@ -32,6 +33,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     { id: '4', name: 'Jane Smith', town: 'Mt Pleasant' },
   ];
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
+  let gridCell: HTMLDivElement;
   let nativeElement: HTMLElement;
   let callback: ((args: Record<string, unknown>) => void) | undefined;
   const selection = [data[0]];
@@ -52,18 +54,21 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       ],
     });
 
+    api = jasmine.createSpyObj('GridApi', [
+      'addEventListener',
+      'getGridOption',
+      'stopEditing',
+    ]);
+    api.addEventListener.and.callFake(
+      (_event: string, listener: (params: any) => void) => {
+        callback = listener;
+      },
+    );
+    api.getGridOption.and.returnValue(true);
+    gridCell = document.createElement('div');
+
     cellEditorParams = {
-      api: {
-        addEventListener: (
-          event: string,
-          listener: (args: Record<string, unknown>) => void,
-        ) => {
-          callback = listener;
-          [event].pop();
-        },
-        getGridOption: jasmine.createSpy('getGridOption').and.returnValue(true),
-        stopEditing: jasmine.createSpy('stopEditing'),
-      } as unknown as GridApi,
+      api,
       cellStartedEdit: true,
       colDef: {
         headerName: 'header',
@@ -76,6 +81,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         gridOptions: {} as Partial<GridOptions>,
       },
       data: undefined,
+      eGridCell: gridCell,
       formatValue: jasmine.createSpy('formatValue'),
       onKeyDown: jasmine.createSpy('onKeyDown'),
       parseValue: jasmine.createSpy('parseValue'),
@@ -304,7 +310,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
 
         (cellEditorParams.api?.stopEditing as jasmine.Spy).calls.reset();
-        component.onBlur();
+        component.onBlur({} as FocusEvent);
         tick();
         expect(cellEditorParams.api?.getGridOption).toHaveBeenCalledTimes(2);
         expect(
@@ -316,6 +322,27 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
           'stopEditingWhenCellsLoseFocus',
         ]);
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
+      }));
+
+      it('should respond to refocus', fakeAsync(() => {
+        component.agInit(cellEditorParams as ICellEditorParams);
+        fixture.detectChanges();
+
+        const input = nativeElement.querySelector(
+          'textarea',
+        ) as HTMLTextAreaElement;
+        spyOn(input, 'focus');
+
+        component.afterGuiAttached();
+        tick();
+
+        component.onBlur({
+          relatedTarget: gridCell,
+        } as unknown as FocusEvent);
+        tick();
+        expect(input).toBeVisible();
+        expect(input.focus).toHaveBeenCalled();
+        expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
       }));
     });
 
