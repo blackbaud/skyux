@@ -7,7 +7,7 @@ import { SkyIconSvgComponent } from './icon-svg.component';
 import { SkyIconComponent } from './icon.component';
 
 /**
- * @docsIncludeIds SkyIconComponent, SkyIconType, SkyIconVariantType, SkyIconHarness, SkyIconHarnessFilters
+ * @docsIncludeIds SkyIconComponent, SkyIconType, SkyIconVariantType, SkyIconHarness, SkyIconHarnessFilters, IconBasicExampleComponent, IconIconButtonExampleComponent
  */
 @NgModule({
   declarations: [SkyIconClassListPipe, SkyIconComponent, SkyIconStackComponent],
