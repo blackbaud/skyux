@@ -1,5 +1,8 @@
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyIconHarness } from '@skyux/icon/testing';
+
+import { SkyActionButtonHarnessFilters } from './action-button-harness.filters';
 
 export class SkyActionButtonHarness extends SkyComponentHarness {
   /**
@@ -8,6 +11,23 @@ export class SkyActionButtonHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-action-button';
 
   #actionButton = this.locatorFor('.sky-action-button');
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyActionButtonHarness` that meets certain criteria.
+   */
+  public static with(
+    filters: SkyActionButtonHarnessFilters,
+  ): HarnessPredicate<SkyActionButtonHarness> {
+    return SkyActionButtonHarness.getDataSkyIdPredicate(filters).addOption(
+      'header',
+      filters.header,
+      async (harness, header) => {
+        const harnessHeaderText = await harness.getHeaderText();
+        return await HarnessPredicate.stringMatches(harnessHeaderText, header);
+      },
+    );
+  }
 
   /**
    * Clicks the action button.

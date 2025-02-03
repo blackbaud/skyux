@@ -8,5 +8,5 @@ export interface SkyActionButtonHarnessFilters extends SkyHarnessFilters {
   /**
    * Finds action buttons whose header matches given value.
    */
-  header: string;
+  header?: string;
 }
