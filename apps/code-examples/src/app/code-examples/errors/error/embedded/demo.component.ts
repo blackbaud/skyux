@@ -7,7 +7,7 @@ import { SkyErrorModule } from '@skyux/errors';
   imports: [SkyErrorModule],
 })
 export class DemoComponent {
-  protected customAction(): void {
+  public customAction(): void {
     alert('action clicked!');
   }
 }

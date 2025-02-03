@@ -46,16 +46,26 @@
   </sky-error-action>
 </sky-error>
 
-<sky-error data-sky-id="custom-broken-error" errorType="broken">
+<sky-error
+  data-sky-id="dynamic-error"
+  [errorType]="errorType"
+  [showImage]="!!errorType"
+>
   <sky-error-title [replaceDefaultTitle]="true">
     Custom error with a default image.
   </sky-error-title>
   <sky-error-description [replaceDefaultDescription]="true">
     Custom description.
   </sky-error-description>
-  <sky-error-action>
-    <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
-      Custom action
-    </button>
-  </sky-error-action>
+  @if (errorType) {
+    <sky-error-action>
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+        (click)="customAction()"
+      >
+        Custom action
+      </button>
+    </sky-error-action>
+  }
 </sky-error>

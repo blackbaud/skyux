@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyErrorType } from './error-type';
@@ -35,6 +35,12 @@ export class SkyErrorComponent implements OnInit {
    */
   @Input()
   public showImage: boolean | undefined = true;
+
+  @HostBinding('attr.errorType') public get hostErrorType():
+    | SkyErrorType
+    | undefined {
+    return this.errorType;
+  }
 
   public defaultTitle: string | undefined;
   public defaultDescription: string | undefined;
