@@ -83,7 +83,7 @@ export class SkyThemeSelectorComponent implements OnInit {
         this.themeName.set(previousSettings.themeName);
         this.themeMode.set(previousSettings.themeMode);
         this.themeSpacing.set(previousSettings.themeSpacing);
-        this.modernV2Enabled.set(previousSettings.modernV2Enabled);
+        this.modernV2Enabled.set(!!previousSettings.modernV2Enabled);
       } catch {
         // Bad settings.
       }
@@ -128,7 +128,7 @@ export class SkyThemeSelectorComponent implements OnInit {
 
   #getLastSettings(): LocalStorageSettings | undefined {
     try {
-      return JSON.parse(localStorage.getItem(PREVIOUS_SETTINGS_KEY));
+      return JSON.parse(localStorage.getItem(PREVIOUS_SETTINGS_KEY) ?? '');
     } catch {
       // Local storage is disabled or settings are invalid.
       return undefined;
