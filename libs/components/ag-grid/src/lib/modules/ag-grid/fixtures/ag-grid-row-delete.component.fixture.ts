@@ -111,6 +111,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
 
   public changeToLongData(): void {
     this.gridData = SKY_AG_GRID_LONG_DATA;
+    this.gridApi?.setGridOption('rowData', this.gridData);
   }
 
   public filterName(): Promise<void> {
@@ -160,6 +161,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
 
   public removeFirstItem(): void {
     this.gridData = this.gridData.slice(1);
+    this.gridApi?.setGridOption('rowData', this.gridData);
   }
 
   public sortName(): Promise<void> {

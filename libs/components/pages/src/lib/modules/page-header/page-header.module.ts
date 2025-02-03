@@ -10,6 +10,9 @@ import { SkyPageHeaderAvatarComponent } from './page-header-avatar.component';
 import { SkyPageHeaderDetailsComponent } from './page-header-details.component';
 import { SkyPageHeaderComponent } from './page-header.component';
 
+/**
+ * @docsIncludeIds SkyPageHeaderComponent, SkyPageHeaderDetailsComponent, SkyPageHeaderActionsComponent, SkyPageHeaderAlertsComponent, SkyPageHeaderAvatarComponent, SkyPageHeaderHarness, SkyPageHeaderHarnessFilters
+ */
 @NgModule({
   imports: [
     RouterModule,

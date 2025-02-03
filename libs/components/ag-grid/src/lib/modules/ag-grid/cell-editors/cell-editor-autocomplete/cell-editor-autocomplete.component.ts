@@ -43,9 +43,18 @@ export class SkyAgGridCellEditorAutocompleteComponent
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef | undefined;
 
-  @HostListener('blur')
-  public onBlur(): void {
-    this.#stopEditingOnBlur();
+  @HostListener('focusout', ['$event'])
+  public onBlur(event: FocusEvent): void {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    } else {
+      this.#stopEditingOnBlur();
+    }
   }
 
   public agInit(params: SkyCellEditorAutocompleteParams): void {

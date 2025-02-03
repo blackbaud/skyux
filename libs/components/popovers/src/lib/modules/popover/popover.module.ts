@@ -10,6 +10,9 @@ import { SkyPopoverContentComponent } from './popover-content.component';
 import { SkyPopoverComponent } from './popover.component';
 import { SkyPopoverDirective } from './popover.directive';
 
+/**
+ * @docsIncludeIds SkyPopoverComponent, SkyPopoverDirective, SkyPopoverAlignment, SkyPopoverPlacement, SkyPopoverTrigger, SkyPopoverType, SkyPopoverMessage, SkyPopoverMessageType, SkyPopoverHarness, SkyPopoverHarnessFilters, SkyPopoverContentHarness,
+ */
 @NgModule({
   declarations: [
     SkyPopoverComponent,

@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   inject,
 } from '@angular/core';
@@ -47,6 +48,10 @@ export class SkyFormErrorComponent {
    */
   @Input({ required: true })
   public errorText!: string;
+
+  @HostBinding('attr.errorName') public get hostErrorName(): string {
+    return this.errorName;
+  }
 
   protected readonly formErrors = inject(SKY_FORM_ERRORS_ENABLED, {
     optional: true,

@@ -1,5 +1,34 @@
 # Changelog
 
+## [11.38.0](https://github.com/blackbaud/skyux/compare/11.37.0...11.38.0) (2025-02-03)
+
+
+### Features
+
+* **components/errors:** add error test harness ([#3082](https://github.com/blackbaud/skyux/issues/3082)) ([d5e961d](https://github.com/blackbaud/skyux/commit/d5e961d3c68b1eeabd91c0e384f44a616633f4f2))
+* **components/tabs:** add harnesses for tab component ([#3064](https://github.com/blackbaud/skyux/issues/3064)) ([2f84106](https://github.com/blackbaud/skyux/commit/2f84106961e2af8eddf632ac7f798fcf8aadc220))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** allow overriding grid min-height ([#3077](https://github.com/blackbaud/skyux/issues/3077)) ([b9b6c7d](https://github.com/blackbaud/skyux/commit/b9b6c7d1f42fd73b4ae4d58f8f6f4632d96e58d3))
+* **components/ag-grid:** refocus cell editors on api refresh ([#3087](https://github.com/blackbaud/skyux/issues/3087)) ([f98c2f7](https://github.com/blackbaud/skyux/commit/f98c2f7c6ce1c175a7a9f3a21d5089abb95611d7))
+* **components/ag-grid:** row delete confirmation event handling ([#3078](https://github.com/blackbaud/skyux/issues/3078)) ([9761f52](https://github.com/blackbaud/skyux/commit/9761f52f54934ed442dc16b94a936684752a865a))
+* **components/datetime:** add missing harness exports  ([#3079](https://github.com/blackbaud/skyux/issues/3079)) ([3379fc8](https://github.com/blackbaud/skyux/commit/3379fc833b6fcf2b2d1ebe948fd279c8271f4870))
+
+## [11.37.0](https://github.com/blackbaud/skyux/compare/11.36.2...11.37.0) (2025-01-28)
+
+
+### Features
+
+* **components/tiles:** add test harnesses for tile and tile dashboard ([#3052](https://github.com/blackbaud/skyux/issues/3052)) ([dd47e23](https://github.com/blackbaud/skyux/commit/dd47e232ad053eec1dd7a3375e9213aef40de9ca))
+
+
+### Bug Fixes
+
+* **components/forms:** ensure form error always has `errorName` attribute for test harnesses ([#3071](https://github.com/blackbaud/skyux/issues/3071)) ([46c1e63](https://github.com/blackbaud/skyux/commit/46c1e63b811c1906017ea61249fd02bd93b811cc))
+* **components/text-editor:** value initializing for multiple text-editors ([#3067](https://github.com/blackbaud/skyux/issues/3067)) ([252b0b7](https://github.com/blackbaud/skyux/commit/252b0b7f0155367df2549e6d82e076dadf1cd95f))
+
 ## [11.36.2](https://github.com/blackbaud/skyux/compare/11.36.1...11.36.2) (2025-01-27)
 
 

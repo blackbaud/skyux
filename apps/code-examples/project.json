@@ -1,5 +1,5 @@
 {
-  "name": "code-examples",
+  "name": "code-examples-playground",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/code-examples/src",
@@ -10,7 +10,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
-        "outputPath": "dist/apps/code-examples",
+        "outputPath": "dist/apps/code-examples-playground",
         "index": "apps/code-examples/src/index.html",
         "main": "apps/code-examples/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
@@ -64,10 +64,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "code-examples:build:production"
+          "buildTarget": "code-examples-playground:build:production"
         },
         "development": {
-          "buildTarget": "code-examples:build:development"
+          "buildTarget": "code-examples-playground:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "code-examples:build"
+        "buildTarget": "code-examples-playground:build"
       }
     },
     "lint": {
@@ -120,6 +120,6 @@
       }
     }
   },
-  "implicitDependencies": ["eslint-config"],
+  "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "tags": []
 }

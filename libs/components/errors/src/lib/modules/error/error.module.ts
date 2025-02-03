@@ -9,6 +9,9 @@ import { SkyErrorImageComponent } from './error-image.component';
 import { SkyErrorTitleComponent } from './error-title.component';
 import { SkyErrorComponent } from './error.component';
 
+/**
+ * @docsIncludeIds SkyErrorComponent, SkyErrorImageComponent, SkyErrorTitleComponent, SkyErrorDescriptionComponent, SkyErrorActionComponent, SkyErrorType, SkyErrorModalService, ErrorModalConfig
+ */
 @NgModule({
   declarations: [
     SkyErrorComponent,

@@ -23,3 +23,11 @@ export interface TemplateFeatureDeprecations {
   components: DeprecatedDirective[];
   directives: DeprecatedDirective[];
 }
+
+/**
+ * Information about a legacy icon replacement
+ */
+export interface LegacyIconReplacement {
+  newName: string;
+  variant?: 'solid' | 'line';
+}

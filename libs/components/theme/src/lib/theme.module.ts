@@ -4,6 +4,9 @@ import { SkyThemeClassDirective } from './theming/theme-class.directive';
 import { SkyThemeIfDirective } from './theming/theme-if.directive';
 import { SkyThemeDirective } from './theming/theme.directive';
 
+/**
+ * @docsIncludeIds SkyThemeDirective, SkyThemeClassDirective, SkyThemeIfDirective
+ */
 @NgModule({
   declarations: [
     SkyThemeClassDirective,

@@ -1,0 +1,33 @@
+<form [formGroup]="formGroup">
+  <sky-input-box stacked="true" labelText="Transaction description">
+    <sky-character-counter-indicator
+      #descriptionIndicator
+      data-sky-id="description-indicator"
+    />
+
+    <input
+      #descriptionInput="skyId"
+      class="sky-form-control description-input"
+      formControlName="description"
+      skyCharacterCounter
+      skyId
+      type="text"
+      [attr.aria-describedby]="characterCountError.id"
+      [skyCharacterCounterIndicator]="descriptionIndicator"
+      [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
+    />
+
+    <span #characterCountError="skyId" class="sky-error-indicator" skyId>
+      @if (description.errors?.['skyCharacterCounter']) {
+        <sky-status-indicator
+          data-sky-id="description-status-indicator-over-limit"
+          descriptionType="error"
+          indicatorType="danger"
+        >
+          Limit Transaction description to
+          {{ maxDescriptionCharacterCount }} characters.
+        </sky-status-indicator>
+      }
+    </span>
+  </sky-input-box>
+</form>

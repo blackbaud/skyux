@@ -5,6 +5,9 @@ import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module'
 
 import { SkyInlineDeleteComponent } from './inline-delete.component';
 
+/**
+ * @docsIncludeIds SkyInlineDeleteComponent
+ */
 @NgModule({
   declarations: [SkyInlineDeleteComponent],
   imports: [SkyLayoutResourcesModule, SkyWaitModule],

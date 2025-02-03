@@ -171,7 +171,7 @@ jobs:
       fail-fast: false
       matrix:
         app:
-          - code-examples
+          - code-examples-playground
           - integration
           - playground
         # - dep-graph
@@ -265,7 +265,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p ./dist/apps
-          for app in code-examples dep-graph integration playground
+          for app in code-examples-playground dep-graph integration playground
           do
             if [ -d "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}${app}" ]
             then

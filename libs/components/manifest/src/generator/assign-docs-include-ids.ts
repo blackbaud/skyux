@@ -1,7 +1,74 @@
 import fsPromises from 'node:fs/promises';
 import * as ts from 'typescript';
 
+import type { SkyManifestParentDefinition } from '../types/base-def';
+
 import { type PackagesMap } from './get-public-api';
+
+function getDefinitionByDocsId(
+  docsId: string,
+  packages: PackagesMap,
+): SkyManifestParentDefinition | undefined {
+  for (const [, definitions] of packages) {
+    for (const definition of definitions) {
+      if (definition.docsId === docsId) {
+        return definition;
+      }
+    }
+  }
+
+  return;
+}
+
+function validateDocsIds(packages: PackagesMap): string[] {
+  const errors: string[] = [];
+  const ids: string[] = [];
+
+  for (const [, definitions] of packages) {
+    for (const definition of definitions) {
+      if (ids.includes(definition.docsId)) {
+        errors.push(`Duplicate @docsId encountered: ${definition.docsId}`);
+        continue;
+      }
+
+      ids.push(definition.docsId);
+    }
+  }
+
+  return errors;
+}
+
+function validateDocsIncludeIds(packages: PackagesMap): string[] {
+  const errors: string[] = [];
+
+  for (const [, definitions] of packages) {
+    for (const definition of definitions) {
+      const docsIncludeIds = definition.docsIncludeIds;
+
+      if (docsIncludeIds) {
+        for (const docsId of docsIncludeIds) {
+          const referencedDefinition = getDefinitionByDocsId(docsId, packages);
+
+          if (!referencedDefinition) {
+            errors.push(
+              `The @docsId "${docsId}" referenced by "${definition.name}" is not recognized.`,
+            );
+            continue;
+          }
+
+          if (referencedDefinition.isInternal) {
+            errors.push(
+              `The @docsId "${docsId}" referenced by "${definition.name}" is not included in the public API.`,
+            );
+            continue;
+          }
+        }
+      }
+    }
+  }
+
+  return errors;
+}
 
 /**
  * Assign `docsIncludeIds` for each entry-point module, based on the types
@@ -10,6 +77,8 @@ import { type PackagesMap } from './get-public-api';
 export async function assignDocsIncludeIds(
   packages: PackagesMap,
 ): Promise<void> {
+  const errors: string[] = [];
+
   for (const [, definitions] of packages) {
     for (const definition of definitions) {
       if (
@@ -48,12 +117,14 @@ export async function assignDocsIncludeIds(
                   property.initializer.elements.forEach((element) => {
                     if (ts.isIdentifier(element)) {
                       const exportName = element.escapedText.toString();
+                      const definition = definitions.find(
+                        (definition) => definition.name === exportName,
+                      );
 
                       if (
                         exportName.startsWith('Sky') &&
-                        definitions.some(
-                          (definition) => definition.name === exportName,
-                        )
+                        definition &&
+                        !definition.isInternal
                       ) {
                         moduleExports.push(element.escapedText.toString());
                       }
@@ -82,5 +153,12 @@ export async function assignDocsIncludeIds(
 
       definition.docsIncludeIds = moduleExports;
     }
+  }
+
+  errors.push(...validateDocsIds(packages));
+  errors.push(...validateDocsIncludeIds(packages));
+
+  if (errors.length > 0) {
+    throw new Error(errors.join('\n'));
   }
 }

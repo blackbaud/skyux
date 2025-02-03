@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -45,6 +46,15 @@ export class SkyAgGridCellEditorCurrencyComponent
 
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
   public input: ElementRef | undefined;
+
+  @HostListener('focusout', ['$event'])
+  public onFocusOut(event: FocusEvent): void {
+    if (event.relatedTarget && event.relatedTarget === this.params?.eGridCell) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    }
+  }
 
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
   readonly #changeDetector = inject(ChangeDetectorRef);
