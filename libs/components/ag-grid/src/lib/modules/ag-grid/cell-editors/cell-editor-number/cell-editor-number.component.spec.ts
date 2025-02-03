@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
@@ -331,6 +336,7 @@ describe('SkyCellEditorNumberComponent', () => {
     describe('afterGuiAttached', () => {
       let cellEditorParams: Partial<SkyCellEditorNumberParams>;
       let column: AgColumn;
+      let gridCell: HTMLDivElement;
       const rowNode = new RowNode({} as BeanCollection);
       rowNode.rowHeight = 37;
       const value = 15;
@@ -351,10 +357,13 @@ describe('SkyCellEditorNumberComponent', () => {
           return '';
         };
 
+        gridCell = document.createElement('div');
+
         cellEditorParams = {
           api: gridApi,
           value: value,
           column,
+          eGridCell: gridCell,
           node: rowNode,
           colDef: {},
           cellStartedEdit: true,
@@ -365,7 +374,7 @@ describe('SkyCellEditorNumberComponent', () => {
         };
       });
 
-      it('focuses on the input after it attaches to the DOM', () => {
+      it('focuses on the input after it attaches to the DOM', fakeAsync(() => {
         numberEditorFixture.detectChanges();
 
         const input = numberEditorNativeElement.querySelector(
@@ -374,10 +383,31 @@ describe('SkyCellEditorNumberComponent', () => {
         spyOn(input, 'focus');
 
         numberEditorComponent.afterGuiAttached();
+        tick();
 
         expect(input).toBeVisible();
         expect(input.focus).toHaveBeenCalled();
-      });
+      }));
+
+      it('should respond to refocus', fakeAsync(() => {
+        numberEditorComponent.agInit(cellEditorParams as ICellEditorParams);
+        numberEditorFixture.detectChanges();
+
+        const input = numberEditorNativeElement.querySelector(
+          'input',
+        ) as HTMLInputElement;
+        spyOn(input, 'focus');
+
+        numberEditorComponent.afterGuiAttached();
+        tick();
+
+        numberEditorComponent.onFocusOut({
+          relatedTarget: gridCell,
+        } as unknown as FocusEvent);
+        tick();
+        expect(input).toBeVisible();
+        expect(input.focus).toHaveBeenCalled();
+      }));
 
       describe('cellStartedEdit is true', () => {
         it('does not select the input value if Backspace triggers the edit', () => {
@@ -431,7 +461,7 @@ describe('SkyCellEditorNumberComponent', () => {
           expect(selectSpy).not.toHaveBeenCalled();
         });
 
-        it('selects the input value if Enter triggers the edit', () => {
+        it('selects the input value if Enter triggers the edit', fakeAsync(() => {
           numberEditorComponent.agInit({
             ...(cellEditorParams as ICellEditorParams),
             eventKey: KeyCode.ENTER,
@@ -443,10 +473,11 @@ describe('SkyCellEditorNumberComponent', () => {
           const selectSpy = spyOn(input, 'select');
 
           numberEditorComponent.afterGuiAttached();
+          tick();
 
           expect(input.value).toBe('15');
           expect(selectSpy).toHaveBeenCalled();
-        });
+        }));
 
         it('does not select the input value when a standard keyboard event triggers the edit', () => {
           numberEditorComponent.agInit({
