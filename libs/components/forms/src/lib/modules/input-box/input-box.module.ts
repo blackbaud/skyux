@@ -13,7 +13,7 @@ import { SkyInputBoxHintTextPipe } from './input-box-hint-text.pipe';
 import { SkyInputBoxComponent } from './input-box.component';
 
 /**
- * @docsIncludeIds SkyInputBoxComponent, SkyInputBoxHarness
+ * @docsIncludeIds SkyInputBoxComponent, SkyInputBoxHarness, FormsInputBoxBasicExampleComponent
  */
 @NgModule({
   declarations: [SkyInputBoxComponent],

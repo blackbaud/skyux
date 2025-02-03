@@ -9,7 +9,7 @@ import { SkySelectionBoxHeaderComponent } from './selection-box-header.component
 import { SkySelectionBoxComponent } from './selection-box.component';
 
 /**
- * @docsIncludeIds SkySelectionBoxComponent, SkySelectionBoxHeaderComponent, SkySelectionBoxDescriptionComponent, SkySelectionBoxGridComponent
+ * @docsIncludeIds SkySelectionBoxComponent, SkySelectionBoxHeaderComponent, SkySelectionBoxDescriptionComponent, SkySelectionBoxGridComponent, FormsSelectionBoxCheckboxExampleComponent, FormsSelectionBoxRadioExampleComponent
  */
 @NgModule({
   declarations: [

@@ -6,7 +6,7 @@ import { SkyFileDropComponent } from './file-drop.component';
 import { SkyFileItemComponent } from './file-item.component';
 
 /**
- * @docsIncludeIds SkyFileDropComponent, SkyFileItemComponent, SkyFileDropChange, SkyFileLink, SkyFileItem, SkyFileValidateFn, SkyFileDropHarness, SkyFileItemHarness, SkyFileItemHarnessFilters, provideSkyFileAttachmentTesting
+ * @docsIncludeIds SkyFileDropComponent, SkyFileItemComponent, SkyFileDropChange, SkyFileLink, SkyFileItem, SkyFileValidateFn, SkyFileDropHarness, SkyFileItemHarness, SkyFileItemHarnessFilters, provideSkyFileAttachmentTesting, FormsFileDropBasicExampleComponent, FormsFileDropHelpKeyExampleComponent
  */
 @NgModule({
   exports: [SkyFileDropComponent, SkyFileItemComponent, SkyFormErrorModule],

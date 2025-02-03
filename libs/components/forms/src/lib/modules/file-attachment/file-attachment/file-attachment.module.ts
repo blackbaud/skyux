@@ -6,7 +6,7 @@ import { SkyFileAttachmentLabelComponent } from './file-attachment-label.compone
 import { SkyFileAttachmentComponent } from './file-attachment.component';
 
 /**
- * @docsIncludeIds SkyFileAttachmentComponent, SkyFileAttachmentLabelComponent, SkyFileAttachmentChange, SkyFileAttachmentClick, SkyFileLink, SkyFileItemErrorType, SkyFileItem, SkyFileValidateFn, SkyFileAttachmentHarness, provideSkyFileAttachmentTesting
+ * @docsIncludeIds SkyFileAttachmentComponent, SkyFileAttachmentLabelComponent, SkyFileAttachmentChange, SkyFileAttachmentClick, SkyFileLink, SkyFileItemErrorType, SkyFileItem, SkyFileValidateFn, SkyFileAttachmentHarness, provideSkyFileAttachmentTesting, FormsFileAttachmentBasicExampleComponent, FormsFileAttachmentHelpKeyExampleComponent
  */
 @NgModule({
   exports: [
