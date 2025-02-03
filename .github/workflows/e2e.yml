@@ -171,7 +171,7 @@ jobs:
       fail-fast: false
       matrix:
         app:
-          - code-examples
+          - code-examples-playground
           - integration
           - playground
         # - dep-graph

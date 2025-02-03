@@ -10,7 +10,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
-        "outputPath": "dist/apps/code-examples",
+        "outputPath": "dist/apps/code-examples-playground",
         "index": "apps/code-examples/src/index.html",
         "main": "apps/code-examples/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
