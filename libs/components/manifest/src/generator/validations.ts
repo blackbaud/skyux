@@ -70,7 +70,6 @@ export async function validateDocumentationConfigs(
 
     if (!validateJson(config)) {
       errors.push(`Schema validation failed for ${documentationJsonPath}`);
-      continue;
     }
 
     const groups = config['groups'] as Record<
