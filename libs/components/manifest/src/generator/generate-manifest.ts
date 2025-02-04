@@ -4,6 +4,7 @@ import path from 'node:path';
 
 import type { SkyManifestPublicApi } from '../types/manifest';
 
+import { getDocumentation } from './get-documentation';
 import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';
 
@@ -47,6 +48,8 @@ export async function generateManifest(
   );
 
   const publicApi = await getPublicApi(projects);
+  await getDocumentation(publicApi);
+
   const outDir = path.normalize(options.outDir);
 
   await writeManifestFiles(outDir, publicApi);

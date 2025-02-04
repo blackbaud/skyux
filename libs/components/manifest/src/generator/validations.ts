@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import documentationSchema from '../../documentation-schema.json';
 import type { SkyManifestParentDefinition } from '../types/base-def';
+import { SkyManifestPublicApi } from '../types/manifest';
 
 import { type PackagesMap } from './get-public-api';
 
@@ -13,9 +14,9 @@ const validateJson = ajv.compile(documentationSchema);
 
 function getDefinitionByDocsId(
   docsId: string,
-  packages: PackagesMap,
+  publicApi: SkyManifestPublicApi,
 ): SkyManifestParentDefinition | undefined {
-  for (const [, definitions] of packages) {
+  for (const definitions of Object.values(publicApi.packages)) {
     for (const definition of definitions) {
       if (definition.docsId === docsId) {
         return definition;
@@ -45,7 +46,7 @@ export function validateDocsIds(packages: PackagesMap): string[] {
 }
 
 export async function validateDocumentationConfigs(
-  packages: PackagesMap,
+  publicApi: SkyManifestPublicApi,
 ): Promise<string[]> {
   const errors: string[] = [];
   const documentationConfigs = await glob(
@@ -71,7 +72,7 @@ export async function validateDocumentationConfigs(
 
     for (const [groupName, config] of Object.entries(groups)) {
       for (const docsId of config.docsIds) {
-        const definition = getDefinitionByDocsId(docsId, packages);
+        const definition = getDefinitionByDocsId(docsId, publicApi);
 
         if (!definition) {
           errors.push(
