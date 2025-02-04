@@ -42,6 +42,16 @@
 
 * deprecated action button icon `iconType` input and checkbox and radio button `icon` inputs in favor of new `iconName` input which utilizes SVG icons ([#3062](https://github.com/blackbaud/skyux/issues/3062)) ([567f922](https://github.com/blackbaud/skyux/commit/567f922f75a6f7943bc7a0100060f47de0b73ef8))
 
+## [11.38.1](https://github.com/blackbaud/skyux/compare/11.38.0...11.38.1) (2025-02-04)
+
+
+### Bug Fixes
+
+* **components/action-bars:** summary action bar should stack with back to top ([#3096](https://github.com/blackbaud/skyux/issues/3096)) ([b548d97](https://github.com/blackbaud/skyux/commit/b548d97cbc0c0225b1dd35aa21e774cfbc642c1b))
+* **components/lists:** mark repeater item `reorderable` property as internal as a consumer setting this property has no affect ([#3106](https://github.com/blackbaud/skyux/issues/3106)) ([2025b63](https://github.com/blackbaud/skyux/commit/2025b638b247d9b9ef8cd71ae2e20f0df2d07053))
+* **components/text-editor:** allow initializing as disabled ([#3099](https://github.com/blackbaud/skyux/issues/3099)) ([794a6fc](https://github.com/blackbaud/skyux/commit/794a6fcf36c3d9b6137b9477301f7f815144d13d))
+* **components/toast:** toasts read to assistive technology on initial rendering ([#3104](https://github.com/blackbaud/skyux/issues/3104)) ([39fe390](https://github.com/blackbaud/skyux/commit/39fe390effd32a2b8974493c4969849d72ddd96f))
+
 ## [11.38.0](https://github.com/blackbaud/skyux/compare/11.37.0...11.38.0) (2025-02-03)
 
 
