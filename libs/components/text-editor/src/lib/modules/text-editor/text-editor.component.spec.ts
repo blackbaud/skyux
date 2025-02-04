@@ -29,6 +29,7 @@ import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
 import { MENU_DEFAULTS } from './defaults/menu-defaults';
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
+import { TextEditorReactiveFixtureComponent } from './fixtures/text-editor-reactive.component.fixture';
 import { TextEditorFixtureComponent } from './fixtures/text-editor.component.fixture';
 import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
 import { SkyTextEditorComponent } from './text-editor.component';
@@ -1603,6 +1604,24 @@ describe('Text editor', () => {
       expect((iframeNew.contentDocument as Document).body.innerHTML).toEqual(
         '<p>FOO BAR</p>',
       );
+    }));
+
+    it('should disable text editor once iframe is loaded', fakeAsync(() => {
+      const fixture = TestBed.createComponent(
+        TextEditorReactiveFixtureComponent,
+      );
+      fixture.componentInstance.formControl.disable();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      const fixtureIframe: HTMLIFrameElement =
+        fixture.nativeElement.querySelector('iframe');
+      expect(fixtureIframe).toBeTruthy();
+      expect(fixtureIframe.getAttribute('aria-disabled')).toEqual('true');
+      expect(
+        fixtureIframe.contentDocument?.body.getAttribute('contenteditable'),
+      ).toEqual('false');
     }));
 
     it('should render help inline popover if helpPopoverContent is provided', () => {
