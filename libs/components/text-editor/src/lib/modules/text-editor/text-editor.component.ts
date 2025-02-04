@@ -101,34 +101,9 @@ export class SkyTextEditorComponent
    */
   @Input({ transform: booleanAttribute })
   public set disabled(value: boolean) {
-    if (value !== this.disabled || !this.#initialized) {
+    if (value !== this.disabled) {
       this.#_disabled = value;
-
-      // Update focusableChildren inside the iframe.
-      let focusableChildren: HTMLElement[];
-      /* istanbul ignore else */
-      if (this.iframeRef) {
-        focusableChildren = this.#coreAdapterService.getFocusableChildren(
-          this.iframeRef.nativeElement.contentDocument.body,
-          {
-            ignoreVisibility: true,
-            ignoreTabIndex: true,
-          },
-        );
-
-        if (this.#_disabled) {
-          this.#adapterService.disableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement,
-          );
-        } else {
-          this.#adapterService.enableEditor(
-            focusableChildren,
-            this.iframeRef.nativeElement,
-          );
-        }
-        this.#changeDetector.markForCheck();
-      }
+      this.#applyDisabledState();
     }
   }
 
@@ -573,9 +548,7 @@ export class SkyTextEditorComponent
       this.#adapterService.focusEditor();
     }
 
-    if (this.disabled) {
-      this.disabled = true;
-    }
+    this.#applyDisabledState();
 
     this.#initialized = true;
     this.#focusInitialized = false;
@@ -601,6 +574,34 @@ export class SkyTextEditorComponent
     /* istanbul ignore else */
     if (emitChange) {
       this.#_onChange(this.#_value);
+    }
+  }
+
+  #applyDisabledState(): void {
+    // Update focusableChildren inside the iframe.
+    let focusableChildren: HTMLElement[];
+    /* istanbul ignore else */
+    if (this.iframeRef?.nativeElement.contentDocument?.body) {
+      focusableChildren = this.#coreAdapterService.getFocusableChildren(
+        this.iframeRef.nativeElement.contentDocument.body,
+        {
+          ignoreVisibility: true,
+          ignoreTabIndex: true,
+        },
+      );
+
+      if (this.#_disabled) {
+        this.#adapterService.disableEditor(
+          focusableChildren,
+          this.iframeRef.nativeElement,
+        );
+      } else {
+        this.#adapterService.enableEditor(
+          focusableChildren,
+          this.iframeRef.nativeElement,
+        );
+      }
+      this.#changeDetector.markForCheck();
     }
   }
 
