@@ -165,13 +165,15 @@ jobs:
         run: npx skyux-dev check-lib-resources
       - name: Check library project dependencies are up to date
         run: |
-          if [ ! $(npm run dev:update-library-dependencies -- --dry-run | tee -a /dev/fd/2 | fgrep -q UPDATE) ]
+          npm run dev:update-library-dependencies -- --dry-run 2>&1 > ${{ runner.temp }}/update-library-dependencies.log
+          cat ${{ runner.temp }}/update-library-dependencies.log
+          if fgrep -q "UPDATE" "${{ runner.temp }}/update-library-dependencies.log"
           then
-            echo "All library project dependencies are up to date."
-          else
             echo "Some library project dependencies are out of date."
             echo "Run 'npm run dev:update-library-dependencies' to update them."
             exit 1
+          else
+            echo "All library project dependencies are up to date."
           fi
 
   format:
