@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 import { SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -11,7 +12,7 @@ import { SummaryActionBarModalComponent } from './summary-action-bar-modal.compo
   styleUrls: ['./summary-action-bar.component.scss'],
 })
 export class SummaryActionBarComponent implements OnDestroy {
-  public layout = 'vertical';
+  public layout: SkyKeyInfoLayoutType = 'vertical';
 
   public showSummary = true;
 

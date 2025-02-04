@@ -141,6 +141,7 @@
 .sky-modal-content > ::ng-deep sky-dock {
   bottom: -$sky-padding-plus-half;
   margin-left: -$sky-margin-plus-half;
+  margin-right: -$sky-margin-plus-half;
   margin-bottom: -$sky-margin-plus-half;
   padding-top: $sky-padding-plus-half;
   width: calc(100% + 30px);
@@ -169,6 +170,7 @@
   .sky-modal-content > ::ng-deep sky-dock {
     bottom: 0;
     margin-left: initial;
+    margin-right: initial;
     margin-bottom: initial;
     padding-top: initial;
     width: 100%;
