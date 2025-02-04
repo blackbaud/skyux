@@ -14,7 +14,7 @@ import { getInterface } from './utility/get-interface';
 import { getPipe } from './utility/get-pipe';
 import { getTypeAlias } from './utility/get-type-alias';
 import { getVariable } from './utility/get-variable';
-import { validateDocsIds } from './validation';
+import { validateDocsIds, validateDocumentationConfigs } from './validations';
 
 export type PackagesMap = Map<string, SkyManifestParentDefinition[]>;
 
@@ -141,9 +141,15 @@ export async function getPublicApi(
   }
 
   const errors = validateDocsIds(packages);
+  errors.push(...(await validateDocumentationConfigs(packages)));
+
+  console.log('made it here!');
 
   if (errors.length > 0) {
-    throw new Error(errors.join('\n'));
+    throw new Error(
+      'Encountered the following errors when generating the manifest:\n - ' +
+        errors.join('\n - '),
+    );
   }
 
   return {
