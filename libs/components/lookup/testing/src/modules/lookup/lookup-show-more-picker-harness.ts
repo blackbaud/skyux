@@ -8,7 +8,6 @@ import { SkyLookupShowMorePickerSearchResultHarnessFilters } from './lookup-show
 
 /**
  * Harness for interacting with a lookup's "Show more" picker in tests.
- * @internal
  */
 export class SkyLookupShowMorePickerHarness extends SkySelectionModalHarness {
   /**

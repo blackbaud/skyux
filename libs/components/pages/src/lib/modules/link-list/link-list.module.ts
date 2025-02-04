@@ -5,9 +5,6 @@ import { SkyLinkListRecentlyAccessedComponent } from '../link-list-recently-acce
 import { SkyLinkListItemComponent } from './link-list-item.component';
 import { SkyLinkListComponent } from './link-list.component';
 
-/**
- * @docsIncludeIds SkyLinkListComponent, SkyLinkListItemComponent, SkyLinkListHarness, SkyLinkListHarnessFilters, SkyLinkListItemHarness, SkyLinkListItemHarnessFilters
- */
 @NgModule({
   exports: [
     SkyLinkListComponent,

@@ -1,0 +1,77 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "progress-indicator-passive": {
+      "docsIds": [
+        "SkyProgressIndicatorModule",
+        "SkyProgressIndicatorComponent",
+        "SkyProgressIndicatorTitleComponent",
+        "SkyProgressIndicatorItemComponent",
+        "SkyProgressIndicatorNavButtonComponent",
+        "SkyProgressIndicatorResetButtonComponent",
+        "SkyProgressIndicatorActionClickArgs",
+        "SkyProgressIndicatorActionClickProgressHandler",
+        "SkyProgressIndicatorChange",
+        "SkyProgressIndicatorDisplayModeType",
+        "SkyProgressIndicatorItemStatus",
+        "SkyProgressIndicatorNavButtonType",
+        "SkyProgressIndicatorMessage",
+        "SkyProgressIndicatorMessageType",
+        "SkyProgressIndicatorHarness",
+        "SkyProgressIndicatorFilters",
+        "SkyProgressIndicatorItemHarness",
+        "SkyProgressIndicatorItemFilters",
+        "ProgressIndicatorPassiveIndicatorBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyProgressIndicatorModule"
+    },
+    "progress-indicator-waterfall": {
+      "docsIds": [
+        "SkyProgressIndicatorModule",
+        "SkyProgressIndicatorComponent",
+        "SkyProgressIndicatorTitleComponent",
+        "SkyProgressIndicatorItemComponent",
+        "SkyProgressIndicatorNavButtonComponent",
+        "SkyProgressIndicatorResetButtonComponent",
+        "SkyProgressIndicatorActionClickArgs",
+        "SkyProgressIndicatorActionClickProgressHandler",
+        "SkyProgressIndicatorChange",
+        "SkyProgressIndicatorDisplayModeType",
+        "SkyProgressIndicatorItemStatus",
+        "SkyProgressIndicatorNavButtonType",
+        "SkyProgressIndicatorMessage",
+        "SkyProgressIndicatorMessageType",
+        "SkyProgressIndicatorHarness",
+        "SkyProgressIndicatorFilters",
+        "SkyProgressIndicatorItemHarness",
+        "SkyProgressIndicatorItemFilters",
+        "ProgressIndicatorWaterfallIndicatorBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyProgressIndicatorModule"
+    },
+    "progress-indicator-wizard": {
+      "docsIds": [
+        "SkyProgressIndicatorModule",
+        "SkyProgressIndicatorComponent",
+        "SkyProgressIndicatorTitleComponent",
+        "SkyProgressIndicatorItemComponent",
+        "SkyProgressIndicatorNavButtonComponent",
+        "SkyProgressIndicatorResetButtonComponent",
+        "SkyProgressIndicatorActionClickArgs",
+        "SkyProgressIndicatorActionClickProgressHandler",
+        "SkyProgressIndicatorChange",
+        "SkyProgressIndicatorDisplayModeType",
+        "SkyProgressIndicatorItemStatus",
+        "SkyProgressIndicatorNavButtonType",
+        "SkyProgressIndicatorMessage",
+        "SkyProgressIndicatorMessageType",
+        "SkyProgressIndicatorHarness",
+        "SkyProgressIndicatorFilters",
+        "SkyProgressIndicatorItemHarness",
+        "SkyProgressIndicatorItemFilters",
+        "ProgressIndicatorWizardBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyProgressIndicatorModule"
+    }
+  }
+}

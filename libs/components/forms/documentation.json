@@ -1,0 +1,148 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "character-counter": {
+      "docsIds": [
+        "SkyCharacterCounterModule",
+        "SkyCharacterCounterIndicatorComponent",
+        "SkyCharacterCounterInputDirective",
+        "SkyCharacterCounterScreenReaderPipe",
+        "SkyCharacterCounterIndicatorHarness",
+        "SkyCharacterCounterIndicatorHarnessFilters",
+        "FormsCharacterCountExampleComponent"
+      ],
+      "primaryDocsId": "SkyCharacterCounterModule"
+    },
+    "checkbox": {
+      "docsIds": [
+        "SkyCheckboxModule",
+        "SkyCheckboxComponent",
+        "SkyCheckboxGroupComponent",
+        "SkyCheckboxLabelComponent",
+        "SkyCheckboxChange",
+        "SkyCheckboxGroupHeadingLevel",
+        "SkyCheckboxGroupHeadingStyle",
+        "SkyCheckboxHarness",
+        "SkyCheckboxHarnessFilters",
+        "SkyCheckboxGroupHarness",
+        "SkyCheckboxGroupHarnessFilters",
+        "FormsCheckboxBasicExampleComponent",
+        "FormsCheckboxHelpKeyExampleComponent",
+        "FormsCheckboxIconGroupExampleComponent"
+      ],
+      "primaryDocsId": "SkyCheckboxModule"
+    },
+    "field-group": {
+      "docsIds": [
+        "SkyFieldGroupModule",
+        "SkyFieldGroupComponent",
+        "SkyFieldGroupHeadingLevel",
+        "SkyFieldGroupHeadingStyle",
+        "SkyFieldGroupHarness",
+        "SkyFieldGroupHarnessFilters",
+        "FormsFieldGroupBasicExampleComponent",
+        "FormsFieldGroupHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyFieldGroupModule"
+    },
+    "file-attachment": {
+      "docsIds": [
+        "SkyFileAttachmentModule",
+        "SkyFileAttachmentComponent",
+        "SkyFileAttachmentLabelComponent",
+        "SkyFormErrorComponent",
+        "SkyFileAttachmentChange",
+        "SkyFileAttachmentClick",
+        "SkyFileItemErrorType",
+        "SkyFileItem",
+        "SkyFileValidateFn",
+        "SkyFileAttachmentHarness",
+        "SkyFileAttachmentHarnessFilters",
+        "provideSkyFileAttachmentTesting",
+        "FormsFileAttachmentBasicExampleComponent",
+        "FormsFileAttachmentHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyFileAttachmentModule"
+    },
+    "file-drop": {
+      "docsIds": [
+        "SkyFileDropModule",
+        "SkyFileDropComponent",
+        "SkyFileItemComponent",
+        "SkyFormErrorComponent",
+        "SkyFileDropChange",
+        "SkyFileLink",
+        "SkyFileItem",
+        "SkyFileValidateFn",
+        "SkyFileDropHarness",
+        "SkyFileDropHarnessFilters",
+        "SkyFileItemHarness",
+        "SkyFileItemHarnessFilters",
+        "provideSkyFileAttachmentTesting",
+        "FormsFileDropBasicExampleComponent",
+        "FormsFileDropHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyFileDropModule"
+    },
+    "input-box": {
+      "docsIds": [
+        "SkyInputBoxModule",
+        "SkyInputBoxComponent",
+        "SkyFormErrorComponent",
+        "SkyInputBoxHarness",
+        "SkyInputBoxHarnessFilters",
+        "FormsInputBoxBasicExampleComponent",
+        "LookupCountryFieldBasicExampleComponent",
+        "DatetimeDatepickerBasicExampleComponent",
+        "LookupSingleSelectExampleComponent",
+        "PhoneFieldBasicExampleComponent",
+        "DatetimeTimepickerBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyInputBoxModule"
+    },
+    "radio": {
+      "docsIds": [
+        "SkyRadioModule",
+        "SkyRadioGroupComponent",
+        "SkyRadioComponent",
+        "SkyRadioLabelComponent",
+        "SkyFormErrorComponent",
+        "SkyRadioGroupHeadingLevel",
+        "SkyRadioGroupHeadingStyle",
+        "SkyRadioType",
+        "SkyRadioChange",
+        "SkyRadioGroupHarness",
+        "SkyRadioGroupHarnessFilters",
+        "SkyRadioHarness",
+        "SkyRadioHarnessFilters",
+        "FormsRadioStandardExampleComponent",
+        "FormsRadioHelpKeyExampleComponent",
+        "FormsRadioIconExampleComponent"
+      ],
+      "primaryDocsId": "SkyRadioModule"
+    },
+    "selection-box": {
+      "docsIds": [
+        "SkySelectionBoxModule",
+        "SkySelectionBoxComponent",
+        "SkySelectionBoxHeaderComponent",
+        "SkySelectionBoxDescriptionComponent",
+        "SkySelectionBoxGridComponent",
+        "FormsSelectionBoxCheckboxExampleComponent",
+        "FormsSelectionBoxRadioExampleComponent"
+      ],
+      "primaryDocsId": "SkySelectionBoxModule"
+    },
+    "toggle-switch": {
+      "docsIds": [
+        "SkyToggleSwitchModule",
+        "SkyToggleSwitchComponent",
+        "SkyToggleSwitchLabelComponent",
+        "SkyToggleSwitchChange",
+        "FormsToggleSwitchBasicExampleComponent",
+        "FormsToggleSwitchHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyToggleSwitchModule"
+    }
+  }
+}

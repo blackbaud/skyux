@@ -1,0 +1,35 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "data-manager": {
+      "docsIds": [
+        "SkyDataManagerModule",
+        "SkyDataManagerComponent",
+        "SkyDataManagerService",
+        "SkyDataManagerToolbarComponent",
+        "SkyDataManagerToolbarSectionComponent",
+        "SkyDataManagerToolbarPrimaryItemComponent",
+        "SkyDataManagerToolbarLeftItemComponent",
+        "SkyDataManagerToolbarRightItemComponent",
+        "SkyDataViewComponent",
+        "SkyDataViewConfig",
+        "SkyDataViewColumnWidths",
+        "SkyDataViewState",
+        "SkyDataViewStateOptions",
+        "SkyDataManagerConfig",
+        "SkyDataManagerFilterData",
+        "SkyDataManagerInitArgs",
+        "SkyDataManagerSortOption",
+        "SkyDataManagerState",
+        "SkyDataManagerStateOptions",
+        "SkyDataManagerStateUpdateFilterArgs",
+        "SkyDataManagerColumnPickerOption",
+        "SkyDataManagerColumnPickerSortStrategy",
+        "SkyDataManagerFilterModalContext",
+        "DataManagerBasicExampleComponent",
+        "PagesPageListPageListLayoutExampleComponent"
+      ],
+      "primaryDocsId": "SkyDataManagerModule"
+    }
+  }
+}

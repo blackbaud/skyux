@@ -1,0 +1,19 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "inline-form": {
+      "docsIds": [
+        "SkyInlineFormModule",
+        "SkyInlineFormComponent",
+        "SkyInlineFormConfig",
+        "SkyInlineFormButtonConfig",
+        "SkyInlineFormButtonLayout",
+        "SkyInlineFormCloseArgs",
+        "InlineFormBasicExampleComponent",
+        "InlineFormCustomButtonsExampleComponent",
+        "InlineFormRepeatersExampleComponent"
+      ],
+      "primaryDocsId": "SkyInlineFormModule"
+    }
+  }
+}

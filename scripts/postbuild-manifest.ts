@@ -113,7 +113,7 @@ async function checkManifest({
   }
 }
 
-(async (): Promise<void> => {
+void (async (): Promise<void> => {
   let projectNames: string[] = [];
 
   try {

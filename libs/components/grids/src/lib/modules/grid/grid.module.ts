@@ -18,7 +18,6 @@ import { SkyGridColumnComponent } from './grid-column.component';
 import { SkyGridComponent } from './grid.component';
 
 /**
- * @docsIncludeIds SkyGridComponent, SkyGridColumnComponent, SkyGridColumnAlignment, SkyGridColumnWidthModelChange, SkyGridSelectedRowsModelChange, SkyGridMessage, SkyGridMessageType
  * @deprecated `SkyGridComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
  */
 @NgModule({

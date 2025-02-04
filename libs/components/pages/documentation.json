@@ -1,0 +1,60 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "action-hub": {
+      "docsIds": [
+        "SkyActionHubModule",
+        "SkyActionHubComponent",
+        "SkyActionHubContentComponent",
+        "SkyActionHubButtonsComponent",
+        "SkyActionHubNeedsAttentionClickHandlerArgs",
+        "SkyActionHubNeedsAttentionClickHandler",
+        "SkyActionHubNeedsAttentionInput",
+        "SkyActionHubNeedsAttention",
+        "SkyPageLink",
+        "SkyPageLinksInput",
+        "SkyPageModalLink",
+        "SkyPageModalLinksInput",
+        "SkyRecentLink",
+        "SkyRecentLinksInput",
+        "SkyActionHubHarness",
+        "SkyActionHubHarnessFilters",
+        "PagesActionHubExampleComponent"
+      ],
+      "primaryDocsId": "SkyActionHubModule"
+    },
+    "page": {
+      "docsIds": [
+        "SkyPageModule",
+        "SkyPageComponent",
+        "SkyPageContentComponent",
+        "SkyPageLinksComponent",
+        "SkyPageLayoutType",
+        "SkyPageHeaderModule",
+        "SkyPageHeaderComponent",
+        "SkyPageHeaderDetailsComponent",
+        "SkyPageHeaderActionsComponent",
+        "SkyPageHeaderAlertsComponent",
+        "SkyPageHeaderAvatarComponent",
+        "SkyLinkListModule",
+        "SkyLinkListComponent",
+        "SkyLinkListItemComponent",
+        "SkyPageHarness",
+        "SkyPageHarnessFilters",
+        "SkyPageHeaderHarness",
+        "SkyPageHeaderHarnessFilters",
+        "SkyLinkListHarness",
+        "SkyLinkListHarnessFilters",
+        "SkyLinkListItemHarness",
+        "SkyLinkListItemHarnessFilters",
+        "PagesPageHomePageBlocksLayoutExampleComponent",
+        "PagesPageListPageListLayoutExampleComponent",
+        "PagesPageListPageTabsLayoutExampleComponent",
+        "PagesPageRecordPageBlocksLayoutExampleComponent",
+        "PagesPageRecordPageTabsLayoutExampleComponent",
+        "PagesPageSplitViewPageFitLayoutExampleComponent"
+      ],
+      "primaryDocsId": "SkyPageModule"
+    }
+  }
+}

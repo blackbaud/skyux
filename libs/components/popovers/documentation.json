@@ -1,0 +1,45 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "dropdown": {
+      "docsIds": [
+        "SkyDropdownModule",
+        "SkyDropdownComponent",
+        "SkyDropdownButtonComponent",
+        "SkyDropdownMenuComponent",
+        "SkyDropdownItemComponent",
+        "SkyDropdownButtonType",
+        "SkyDropdownHorizontalAlignment",
+        "SkyDropdownTriggerType",
+        "SkyDropdownHarness",
+        "SkyDropdownHarnessFilters",
+        "SkyDropdownItemHarness",
+        "SkyDropdownItemHarnessFilters",
+        "SkyDropdownMenuHarness",
+        "SkyDropdownMenuHarnessFilters",
+        "PopoversDropdownBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyDropdownModule"
+    },
+    "popover": {
+      "docsIds": [
+        "SkyPopoverModule",
+        "SkyPopoverComponent",
+        "SkyPopoverDirective",
+        "SkyPopoverAlignment",
+        "SkyPopoverPlacement",
+        "SkyPopoverTrigger",
+        "SkyPopoverType",
+        "SkyPopoverMessage",
+        "SkyPopoverMessageType",
+        "SkyPopoverHarness",
+        "SkyPopoverHarnessFilters",
+        "SkyPopoverContentHarness",
+        "SkyPopoverContentHarnessFilters",
+        "PopoversPopoverBasicExampleComponent",
+        "PopoversPopoverProgrammaticExampleComponent"
+      ],
+      "primaryDocsId": "SkyPopoverModule"
+    }
+  }
+}

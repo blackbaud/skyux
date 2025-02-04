@@ -45,8 +45,7 @@ export class FooComponent {
 }
 
 /**
- * This is a non-standalone component with a Sky prefix. We need to include the
- * prefix so that it's included in the owning module's docsIncludeIds array.
+ * This is a non-standalone component with a Sky prefix.
  */
 @Component({
   selector: 'sky-foo-non-standalone',
@@ -57,8 +56,6 @@ export class SkyFooNonStandaloneComponent {}
 
 /**
  * This is a standalone component with a Sky prefix and an overridden docsId.
- * We need to include the prefix so that it's included in the owning module's
- * docsIncludeIds array.
  * @docsId sky-foo-standalone-override
  */
 @Component({

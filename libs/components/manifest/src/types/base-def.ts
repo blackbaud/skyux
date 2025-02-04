@@ -51,7 +51,6 @@ export interface SkyManifestParentDefinition
   anchorId: string;
   children?: SkyManifestChildDefinition[];
   docsId: string;
-  docsIncludeIds?: string[];
   filePath: string;
   isInternal?: boolean;
   kind: SkyManifestParentDefinitionKind;

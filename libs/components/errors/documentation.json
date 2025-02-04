@@ -1,0 +1,21 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "error": {
+      "docsIds": [
+        "SkyErrorModule",
+        "SkyErrorComponent",
+        "SkyErrorImageComponent",
+        "SkyErrorTitleComponent",
+        "SkyErrorDescriptionComponent",
+        "SkyErrorActionComponent",
+        "SkyErrorType",
+        "SkyErrorModalService",
+        "ErrorModalConfig",
+        "ErrorsErrorEmbeddedExampleComponent",
+        "ErrorsErrorModalExampleComponent"
+      ],
+      "primaryDocsId": "SkyErrorModule"
+    }
+  }
+}

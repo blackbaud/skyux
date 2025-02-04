@@ -9,9 +9,6 @@ import { SkyAvatarResourcesModule } from '../shared/sky-avatar-resources.module'
 import { SkyAvatarComponent } from './avatar.component';
 import { SkyAvatarInnerComponent } from './avatar.inner.component';
 
-/**
- * @docsIncludeIds SkyAvatarComponent, SkyAvatarSize, SkyAvatarSrc, SkyAvatarHarness
- */
 @NgModule({
   declarations: [SkyAvatarInnerComponent, SkyAvatarComponent],
   imports: [

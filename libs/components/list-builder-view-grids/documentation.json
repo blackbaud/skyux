@@ -1,0 +1,21 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "list-view-grid": {
+      "docsIds": [
+        "SkyListViewGridModule",
+        "SkyListViewGridComponent",
+        "SkyListViewGridMessageType",
+        "SkyListViewGridMessage",
+        "SkyListViewGridRowDeleteCancelArgs",
+        "SkyListViewGridRowDeleteConfirmArgs",
+        "SkyListColumnSelectorActionModule",
+        "SkyListColumnSelectorActionComponent",
+        "SkyColumnSelectorModule",
+        "SkyColumnSelectorContext",
+        "SkyColumnSelectorModel"
+      ],
+      "primaryDocsId": "SkyListViewGridModule"
+    }
+  }
+}

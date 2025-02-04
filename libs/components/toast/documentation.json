@@ -1,0 +1,18 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "toast": {
+      "docsIds": [
+        "SkyToastService",
+        "SkyToastConfig",
+        "SkyToastType",
+        "SkyToastInstance",
+        "SkyToastContainerOptions",
+        "SkyToastDisplayDirection",
+        "ToastBasicExampleComponent",
+        "ToastCustomComponentExampleComponent"
+      ],
+      "primaryDocsId": "SkyToastService"
+    }
+  }
+}

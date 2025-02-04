@@ -6,9 +6,6 @@ import { SkyModalHeaderComponent } from './modal-header.component';
 import { SkyModalIsDirtyDirective } from './modal-is-dirty.directive';
 import { SkyModalComponent } from './modal.component';
 
-/**
- * @docsIncludeIds SkyModalComponent, SkyModalHeaderComponent, SkyModalContentComponent, SkyModalFooterComponent, SkyModalService, SkyModalConfigurationInterface, SkyModalInstance, SkyModalCloseArgs, SkyModalBeforeCloseHandler, SkyModalError, SkyModalIsDirtyDirective, SkyModalHarness, SkyModalHarnessFilters, SkyModalTestingModule, SkyModalTestingController
- */
 @NgModule({
   imports: [
     SkyModalComponent,

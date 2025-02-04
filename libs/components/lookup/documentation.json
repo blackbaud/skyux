@@ -1,0 +1,101 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "autocomplete": {
+      "docsIds": [
+        "SkyAutocompleteModule",
+        "SkyAutocompleteComponent",
+        "SkyAutocompleteInputDirective",
+        "SkyAutocompleteSearchArgs",
+        "SkyAutocompleteSearchAsyncArgs",
+        "AutocompleteSearchAsyncResultDisplayType",
+        "SkyAutocompleteSearchAsyncResult",
+        "SkyAutocompleteSearchContext",
+        "SkyAutocompleteSearchFunctionFilter",
+        "SkyAutocompleteSearchFunctionResponse",
+        "SkyAutocompleteSearchFunction",
+        "SkyAutocompleteSelectionChange",
+        "SkyAutocompleteHarness",
+        "SkyAutocompleteHarnessFilters",
+        "SkyAutocompleteSearchResultHarness",
+        "SkyAutocompleteSearchResultHarnessFilters",
+        "LookupAutocompleteBasicExampleComponent",
+        "LookupAutocompleteAdvancedExampleComponent",
+        "LookupAutocompleteCustomSearchExampleComponent",
+        "LookupAutocompleteSearchFiltersExampleComponent"
+      ],
+      "primaryDocsId": "SkyAutocompleteModule"
+    },
+    "country-field": {
+      "docsIds": [
+        "SkyCountryFieldModule",
+        "SkyCountryFieldComponent",
+        "SkyCountryFieldCountry",
+        "SkyCountryFieldHarness",
+        "SkyCountryFieldHarnessFilters",
+        "SkyCountryFieldSearchResultHarness",
+        "SkyCountryFieldSearchResultHarnessFilters",
+        "LookupCountryFieldBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyCountryFieldModule"
+    },
+    "lookup": {
+      "docsIds": [
+        "SkyLookupModule",
+        "SkyLookupComponent",
+        "SkyLookupAddCallbackArgs",
+        "SkyLookupAddClickEventArgs",
+        "SkyLookupSelectModeType",
+        "SkyAutocompleteSearchFunction",
+        "SkyAutocompleteSearchFunctionFilter",
+        "SkyAutocompleteSearchFunctionResponse",
+        "AutocompleteSearchAsyncResultDisplayType",
+        "SkyLookupShowMoreConfig",
+        "SkyLookupShowMoreCustomPickerContext",
+        "SkyLookupShowMoreCustomPicker",
+        "SkyLookupShowMoreNativePickerConfig",
+        "SkyLookupHarness",
+        "SkyLookupHarnessFilters",
+        "SkyLookupSearchResultHarness",
+        "SkyLookupSearchResultHarnessFilters",
+        "SkyLookupSelectionHarness",
+        "SkyLookupShowMorePickerHarness",
+        "SkyLookupShowMorePickerHarnessFilters",
+        "LookupSingleSelectExampleComponent",
+        "LookupMultiSelectExampleComponent",
+        "LookupResultTemplatesExampleComponent",
+        "LookupCustomPickerExampleComponent",
+        "LookupAddItemExampleComponent"
+      ],
+      "primaryDocsId": "SkyLookupModule"
+    },
+    "search": {
+      "docsIds": [
+        "SkySearchModule",
+        "SkySearchComponent",
+        "SkySearchHarness",
+        "SkySearchHarnessFilters",
+        "LookupSearchBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkySearchModule"
+    },
+    "selection-modal": {
+      "docsIds": [
+        "SkySelectionModalService",
+        "SkySelectionModalAddCallbackArgs",
+        "SkySelectionModalAddClickEventArgs",
+        "SkySelectionModalCloseArgs",
+        "SkySelectionModalOpenArgs",
+        "SkySelectionModalResult",
+        "SkySelectionModalSearchArgs",
+        "SkySelectionModalSearchResult",
+        "SkySelectionModalHarness",
+        "SkySelectionModalSearchResultHarness",
+        "SkySelectionModalSearchResultHarnessFilters",
+        "LookupSelectionModalBasicExampleComponent",
+        "LookupSelectionModalAddItemExampleComponent"
+      ],
+      "primaryDocsId": "SkySelectionModalService"
+    }
+  }
+}

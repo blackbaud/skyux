@@ -11,9 +11,6 @@ import { SkyActionButtonHeaderComponent } from './action-button-header.component
 import { SkyActionButtonIconComponent } from './action-button-icon.component';
 import { SkyActionButtonComponent } from './action-button.component';
 
-/**
- * @docsIncludeIds SkyActionButtonContainerComponent, SkyActionButtonComponent, SkyActionButtonIconComponent, SkyActionButtonHeaderComponent, SkyActionButtonDetailsComponent, SkyActionButtonPermalink, SkyActionButtonContainerAlignItemsType
- */
 @NgModule({
   declarations: [
     SkyActionButtonComponent,

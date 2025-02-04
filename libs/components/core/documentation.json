@@ -1,0 +1,37 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "id": {
+      "docsIds": [
+        "SkyIdModule",
+        "SkyIdDirective",
+        "SkyIdService",
+        "CoreIdExampleComponent"
+      ],
+      "primaryDocsId": "SkyIdModule"
+    },
+    "media-query": {
+      "docsIds": [
+        "SkyMediaQueryService",
+        "SkyMediaBreakpoints",
+        "SkyMediaQueryListener",
+        "SkyBreakpoint",
+        "provideSkyMediaQueryTesting",
+        "SkyMediaQueryTestingController",
+        "CoreMediaQueryBasicExampleComponent",
+        "CoreMediaQueryResponsiveHostExampleComponent"
+      ],
+      "primaryDocsId": "SkyMediaQueryService"
+    },
+    "numeric": {
+      "docsIds": [
+        "SkyNumericModule",
+        "SkyNumericPipe",
+        "SkyNumericService",
+        "SkyNumericOptions",
+        "CoreNumericBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyNumericModule"
+    }
+  }
+}
