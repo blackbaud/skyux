@@ -13,7 +13,7 @@ import { SkyFilterSummaryItemComponent } from './filter-summary-item.component';
 import { SkyFilterSummaryComponent } from './filter-summary.component';
 
 /**
- * @docsIncludeIds SkyFilterInlineComponent, SkyFilterInlineItemComponent, SkyFilterSummaryComponent, SkyFilterSummaryItemComponent, SkyFilterButtonComponent
+ * @docsIncludeIds SkyFilterInlineComponent, SkyFilterInlineItemComponent, SkyFilterSummaryComponent, SkyFilterSummaryItemComponent, SkyFilterButtonComponent, ListsFilterInlineExampleComponent, ListsFilterModalExampleComponent
  */
 @NgModule({
   declarations: [

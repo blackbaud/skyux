@@ -12,7 +12,7 @@ import { SkyDescriptionListTermComponent } from './description-list-term.compone
 import { SkyDescriptionListComponent } from './description-list.component';
 
 /**
- * @docsIncludeIds SkyDescriptionListComponent, SkyDescriptionListContentComponent, SkyDescriptionListDescriptionComponent, SkyDescriptionListTermComponent, SkyDescriptionListModeType
+ * @docsIncludeIds SkyDescriptionListComponent, SkyDescriptionListContentComponent, SkyDescriptionListDescriptionComponent, SkyDescriptionListTermComponent, SkyDescriptionListModeType, LayoutDescriptionListHorizontalExampleComponent, LayoutDescriptionListVerticalExampleComponent, LayoutDescriptionListLongDescriptionExampleComponent, LayoutDescriptionListInlineHelpExampleComponent, LayoutDescriptionListHelpKeyExampleComponent
  */
 @NgModule({
   declarations: [

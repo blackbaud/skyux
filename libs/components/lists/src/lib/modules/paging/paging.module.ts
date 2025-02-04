@@ -10,7 +10,7 @@ import { SkyPagingContentComponent } from './paging-content.component';
 import { SkyPagingComponent } from './paging.component';
 
 /**
- * @docsIncludeIds SkyPagingComponent, SkyPagingContentComponent, SkyPagingContentChangeArgs
+ * @docsIncludeIds SkyPagingComponent, SkyPagingContentComponent, SkyPagingContentChangeArgs, ListsPagingBasicExampleComponent, ListsPagingWithContentExampleComponent
  */
 @NgModule({
   declarations: [SkyPagingComponent],

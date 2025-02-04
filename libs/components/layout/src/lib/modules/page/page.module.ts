@@ -5,7 +5,7 @@ import { SkyPageComponent } from './page.component';
 
 /**
  * @docsId SkyPageModuleLegacy
- * @docsIncludeIds SkyPageComponentLegacy, SkyPageLayoutLegacy
+ * @docsIncludeIds SkyPageComponentLegacy, SkyPageLayoutLegacy, LayoutPageLayoutFitExampleComponent
  * @deprecated Use the SkyPageModule in `@skyux/pages` instead.
  */
 @NgModule({

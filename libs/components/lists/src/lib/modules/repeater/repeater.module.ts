@@ -18,7 +18,7 @@ import { SkyRepeaterItemComponent } from './repeater-item.component';
 import { SkyRepeaterComponent } from './repeater.component';
 
 /**
- * @docsIncludeIds SkyRepeaterComponent, SkyRepeaterItemComponent, SkyRepeaterItemTitleComponent, SkyRepeaterItemContentComponent, SkyRepeaterItemContextMenuComponent, SkyRepeaterExpandModeType, SkyRepeaterHarness, SkyRepeaterItemHarness
+ * @docsIncludeIds SkyRepeaterComponent, SkyRepeaterItemComponent, SkyRepeaterItemTitleComponent, SkyRepeaterItemContentComponent, SkyRepeaterItemContextMenuComponent, SkyRepeaterExpandModeType, SkyRepeaterHarness, SkyRepeaterItemHarness, ListsRepeaterBasicExampleComponent, ListsRepeaterAddRemoveExampleComponent, ListsRepeaterInlineFormExampleComponent
  */
 @NgModule({
   declarations: [

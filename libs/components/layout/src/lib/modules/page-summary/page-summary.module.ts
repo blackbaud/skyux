@@ -11,7 +11,7 @@ import { SkyPageSummaryTitleComponent } from './page-summary-title.component';
 import { SkyPageSummaryComponent } from './page-summary.component';
 
 /**
- * @docsIncludeIds SkyPageSummaryComponent, SkyPageSummaryTitleComponent, SkyPageSummarySubtitleComponent, SkyPageSummaryAlertComponent, SkyPageSummaryContentComponent, SkyPageSummaryImageComponent, SkyPageSummaryKeyInfoComponent, SkyPageSummaryStatusComponent
+ * @docsIncludeIds SkyPageSummaryComponent, SkyPageSummaryTitleComponent, SkyPageSummarySubtitleComponent, SkyPageSummaryAlertComponent, SkyPageSummaryContentComponent, SkyPageSummaryImageComponent, SkyPageSummaryKeyInfoComponent, SkyPageSummaryStatusComponent, LayoutPageSummaryBasicExampleComponent
  * @deprecated `SkyPageSummaryModule` is deprecated. For page templates and techniques to summarize page content, see the page design guidelines. For more information, see https://developer.blackbaud.com/skyux/design/guidelines/page-layouts.
  */
 @NgModule({

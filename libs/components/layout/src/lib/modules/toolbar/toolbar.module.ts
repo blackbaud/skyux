@@ -7,7 +7,7 @@ import { SkyToolbarViewActionsComponent } from './toolbar-view-actions.component
 import { SkyToolbarComponent } from './toolbar.component';
 
 /**
- * @docsIncludeIds SkyToolbarComponent, SkyToolbarSectionComponent, SkyToolbarItemComponent, SkyToolbarViewActionsComponent, SkyToolbarHarness, SkyToolbarHarnessFilters, SkyToolbarSectionHarness, SkyToolbarSectionHarnessFilters, SkyToolbarItemHarness, SkyToolbarItemHarnessFilters, SkyToolbarViewActionsHarness
+ * @docsIncludeIds SkyToolbarComponent, SkyToolbarSectionComponent, SkyToolbarItemComponent, SkyToolbarViewActionsComponent, SkyToolbarHarness, SkyToolbarHarnessFilters, SkyToolbarSectionHarness, SkyToolbarSectionHarnessFilters, SkyToolbarItemHarness, SkyToolbarItemHarnessFilters, SkyToolbarViewActionsHarness, LayoutToolbarBasicExampleComponent, LayoutToolbarSectionedExampleComponent
  */
 @NgModule({
   declarations: [

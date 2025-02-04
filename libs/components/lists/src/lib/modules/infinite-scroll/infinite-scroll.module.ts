@@ -6,7 +6,7 @@ import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 import { SkyInfiniteScrollComponent } from './infinite-scroll.component';
 
 /**
- * @docsIncludeIds SkyInfiniteScrollComponent
+ * @docsIncludeIds SkyInfiniteScrollComponent, ListsInfiniteScrollRepeaterExampleComponent
  */
 @NgModule({
   declarations: [SkyInfiniteScrollComponent],
