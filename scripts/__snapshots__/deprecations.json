@@ -291,6 +291,7 @@
   "@skyux/lookup/testing:SkyLookupHarness:isDisabled",
   "@skyux/lookup/testing:SkyLookupHarness:isFocused",
   "@skyux/lookup/testing:SkyLookupHarness:isFocused",
+  "@skyux/lookup/testing:SkyLookupSelectionHarnessFilters",
   "@skyux/lookup/testing:SkySearchFixture",
   "@skyux/lookup:SkyAutocompleteComponent:propertiesToSearch",
   "@skyux/lookup:SkyAutocompleteComponent:search",
@@ -356,5 +357,6 @@
   "@skyux/tabs:SkyVerticalTabsetComponent:ariaRole",
   "@skyux/tiles:SkyTileComponent:helpClick",
   "@skyux/tiles:SkyTileComponent:showHelp",
-  "@skyux/toast:SkyToastLegacyService"
+  "@skyux/toast:SkyToastLegacyService",
+  "@skyux/toast:SkyToastModule"
 ]

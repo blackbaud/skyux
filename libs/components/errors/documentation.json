@@ -12,8 +12,6 @@
         "SkyErrorType",
         "SkyErrorModalService",
         "ErrorModalConfig",
-        "SkyErrorHarness",
-        "SkyErrorHarnessFilters",
         "ErrorsErrorEmbeddedExampleComponent",
         "ErrorsErrorModalExampleComponent"
       ],

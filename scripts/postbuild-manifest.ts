@@ -1,15 +1,23 @@
+import Ajv from 'ajv';
+import glob from 'fast-glob';
 import fsExtra from 'fs-extra';
 import minimist from 'minimist';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
+import documentationSchema from '../libs/components/manifest/documentation-schema.json';
 import { generateManifest } from '../libs/components/manifest/src/generator/generate-manifest';
-import { SkyManifestPublicApi } from '../libs/components/manifest/src/index';
+import {
+  SkyManifestParentDefinition,
+  SkyManifestPublicApi,
+} from '../libs/components/manifest/src/index';
 
 import { runCommand } from './utils/spawn';
 
 const argv = minimist(process.argv.slice(2));
+const ajv = new Ajv();
+const validateSchema = ajv.compile(documentationSchema);
 
 /**
  * Writes the current snapshot of deprecated features to a file.
@@ -113,7 +121,71 @@ async function checkManifest({
   }
 }
 
-(async (): Promise<void> => {
+function getDefinitionByDocsId(
+  docsId: string,
+  packages: Record<string, SkyManifestParentDefinition[]>,
+): SkyManifestParentDefinition | undefined {
+  for (const definitions of Object.values(packages)) {
+    for (const definition of definitions) {
+      if (definition.docsId === docsId) {
+        return definition;
+      }
+    }
+  }
+
+  return;
+}
+
+// TODO: PUT THIS IN THE MANIFEST SO IT CAN BE UNIT TESTED!
+async function validateDocumentation({
+  publicApi,
+}: {
+  publicApi: SkyManifestPublicApi;
+}): Promise<void> {
+  const documentationConfigs = await glob(
+    'libs/components/**/documentation.json',
+  );
+
+  // Is every docsId pointing to a valid, non-internal type?
+  for (const configFile of documentationConfigs) {
+    const contents = await fsExtra.readJson(path.normalize(configFile));
+
+    if (!validateSchema(contents)) {
+      throw new Error(`Schema validation failed for ${configFile}`);
+    }
+
+    const groups = contents['groups'] as Record<
+      string,
+      { docsIds: string[]; primaryDocsId: string }
+    >;
+
+    for (const [groupName, config] of Object.entries(groups)) {
+      for (const docsId of config.docsIds) {
+        const definition = getDefinitionByDocsId(docsId, publicApi.packages);
+
+        if (!definition) {
+          throw new Error(
+            `The @docsId "${docsId}" referenced by "${groupName}" is not recognized.`,
+          );
+        }
+
+        if (definition.isInternal) {
+          throw new Error(
+            `The @docsId "${docsId}" referenced by "${groupName}" is not included in the public API.`,
+          );
+        }
+      }
+
+      if (!config.docsIds.includes(config.primaryDocsId)) {
+        throw new Error(
+          `The value for primaryDocsId ("${config.primaryDocsId}") must be included in the docsIds array for group "${groupName}" (current: ${config.docsIds.join(', ')}).`,
+        );
+      }
+    }
+  }
+}
+
+void (async (): Promise<void> => {
   let projectNames: string[] = [];
 
   try {
@@ -140,4 +212,5 @@ async function checkManifest({
   });
 
   await checkManifest(manifest);
+  await validateDocumentation(manifest);
 })();
