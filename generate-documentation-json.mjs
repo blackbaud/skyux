@@ -41,16 +41,9 @@ for (const [packageName, definitions] of Object.entries(manifest.packages)) {
       docs[packageName].documentation.groups[groupName].docsIds ??= [];
 
       docs[packageName].documentation.groups[groupName].docsIds.push(
+        definition.docsId,
         ...definition.docsIncludeIds,
       );
-
-      // console.log(groupName, definition.filePath);
-
-      // if (docs.has(packageName)) {
-      //   const groups = docs.get(packageName);
-
-      //   docs.set(packageName, )
-      // }
     }
   }
 }
@@ -66,4 +59,4 @@ for (const [, doc] of Object.entries(docs)) {
   );
 }
 
-console.log('DOCUMENTATION:', JSON.stringify(docs, undefined, 2));
+console.log('DOCUMENTATION:\n', JSON.stringify(docs, undefined, 2));

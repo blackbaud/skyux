@@ -52,6 +52,7 @@
   "@skyux/errors:SkyErrorModalService:open",
   "@skyux/flyout:SkyFlyoutConfig:ariaRole",
   "@skyux/flyout:SkyFlyoutLegacyService",
+  "@skyux/flyout:SkyFlyoutModule",
   "@skyux/forms/testing:SkyCheckboxFixture",
   "@skyux/forms/testing:SkyRadioFixture",
   "@skyux/forms:SkyCheckboxComponent:checkboxType",
