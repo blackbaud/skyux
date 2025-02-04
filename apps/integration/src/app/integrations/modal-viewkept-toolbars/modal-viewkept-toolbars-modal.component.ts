@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyToolbarModule } from '@skyux/layout';
+import { SkyBackToTopModule, SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyThemeModule } from '@skyux/theme';
@@ -14,6 +15,8 @@ import { SkyThemeModule } from '@skyux/theme';
   styleUrls: ['./modal-viewkept-toolbars-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    SkySummaryActionBarModule,
+    SkyBackToTopModule,
     SkyCheckboxModule,
     SkyIconModule,
     SkyI18nModule,

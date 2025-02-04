@@ -395,7 +395,7 @@ describe('Split view component', () => {
         expect(rendererSpy).toHaveBeenCalledWith(
           splitViewElement,
           'max-height',
-          'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)',
+          `calc(100vh - 100px - calc(${actionBar.offsetHeight}px + var(--sky-dock-height, 0)))`,
         );
       }, 10);
     }));
@@ -772,7 +772,7 @@ describe('Split view component', () => {
             expect(rendererSpy).toHaveBeenCalledWith(
               splitViewElement,
               'max-height',
-              'calc(100vh - 0px - ' + actionBar.offsetHeight + 'px)',
+              `calc(100vh - 0px - calc(${actionBar.offsetHeight}px + var(--sky-dock-height, 0)))`,
             );
             rendererSpy.calls.reset();
 
@@ -799,7 +799,7 @@ describe('Split view component', () => {
             expect(rendererSpy).toHaveBeenCalledWith(
               splitViewElement,
               'max-height',
-              'calc(100vh - 100px - ' + actionBar.offsetHeight + 'px)',
+              `calc(100vh - 100px - calc(${actionBar.offsetHeight}px + var(--sky-dock-height, 0)))`,
             );
           }, 10);
         });

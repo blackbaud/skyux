@@ -3,6 +3,7 @@
     'viewkeeper inside a modal' | skyAppResources
   }}</sky-modal-header>
   <sky-modal-content
+    skyBackToTop
     [skyViewkeeper]="['.sky-lookup-show-more-toolbar-wrapper']"
   >
     <div class="sky-lookup-show-more-toolbar-wrapper">
@@ -75,13 +76,14 @@
     }
   </sky-modal-content>
   <sky-modal-footer>
-    <button
-      id="modal-viewkept-toolbars-modal-close"
-      class="sky-btn sky-btn-primary"
-      type="button"
-      (click)="modalInstance.close()"
-    >
-      Close
-    </button>
+    <sky-summary-action-bar>
+      <sky-summary-action-bar-actions>
+        <sky-summary-action-bar-primary-action
+          (actionClick)="modalInstance.close()"
+        >
+          Close
+        </sky-summary-action-bar-primary-action>
+      </sky-summary-action-bar-actions>
+    </sky-summary-action-bar>
   </sky-modal-footer>
 </sky-modal>
