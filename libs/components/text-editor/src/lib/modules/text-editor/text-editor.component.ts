@@ -101,7 +101,7 @@ export class SkyTextEditorComponent
    */
   @Input({ transform: booleanAttribute })
   public set disabled(value: boolean) {
-    if (value !== this.disabled) {
+    if (value !== this.disabled || !this.#initialized) {
       this.#_disabled = value;
 
       // Update focusableChildren inside the iframe.
@@ -571,6 +571,10 @@ export class SkyTextEditorComponent
     /* istanbul ignore next */
     if (this.autofocus) {
       this.#adapterService.focusEditor();
+    }
+
+    if (this.disabled) {
+      this.disabled = true;
     }
 
     this.#initialized = true;
