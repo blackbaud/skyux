@@ -44,6 +44,9 @@ for (const [packageName, definitions] of Object.entries(manifest.packages)) {
         definition.docsId,
         ...definition.docsIncludeIds,
       );
+
+      docs[packageName].documentation.groups[groupName].primaryDocsId ??=
+        definition.docsId;
     }
   }
 }

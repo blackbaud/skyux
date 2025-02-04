@@ -18,14 +18,17 @@
               "minItems": 1,
               "uniqueItems": true
             },
-            "additionalProperties": false,
-            "nullable": false
+            "primaryDocsId": {
+              "type": "string"
+            }
           },
-          "required": ["docsIds"]
+          "additionalProperties": false,
+          "nullable": false,
+          "required": ["docsIds", "primaryDocsId"]
         }
       }
-    },
-    "additionalProperties": false
+    }
   },
+  "additionalProperties": false,
   "required": ["groups"]
 }
