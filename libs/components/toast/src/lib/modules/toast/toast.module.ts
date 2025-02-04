@@ -1,12 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { SkyToastComponent } from './toast.component';
-
 /**
- * @docsIncludeIds SkyToastService, SkyToastConfig, SkyToastType, SkyToastInstance, SkyToastContainerOptions, SkyToastDisplayDirection, ToastBasicExampleComponent, ToastCustomComponentExampleComponent
+ * @deprecated The `SkyToastModule` is no longer needed and can be removed from your application.
+ * @internal
  */
-@NgModule({
-  imports: [SkyToastComponent],
-  exports: [SkyToastComponent],
-})
+@NgModule({})
 export class SkyToastModule {}
