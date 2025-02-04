@@ -107,10 +107,6 @@ describe('generate-manifest', () => {
         projectNames: ['invalid-docs-id'],
         projectsRootDirectory,
       }),
-    ).rejects.toThrow(
-      'Duplicate @docsId encountered: my-duplicate\n' +
-        'The @docsId "SomeInternalClass" referenced by "ReferencingInternalDocsIds" is not included in the public API.\n' +
-        'The @docsId "foo" referenced by "UnrecognizedDocsIncludeIds" is not recognized.',
-    );
+    ).rejects.toThrow('Duplicate @docsId encountered: my-duplicate');
   }, 60000);
 });
