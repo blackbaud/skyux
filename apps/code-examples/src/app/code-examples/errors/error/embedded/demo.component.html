@@ -1,4 +1,4 @@
-<sky-error errorType="broken">
+<sky-error data-sky-id="broken-error" errorType="broken">
   <sky-error-action>
     <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
       Try again
@@ -6,7 +6,7 @@
   </sky-error-action>
 </sky-error>
 
-<sky-error errorType="notfound">
+<sky-error data-sky-id="not-found-error" errorType="notfound">
   <sky-error-action>
     <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
       Go back
@@ -14,7 +14,7 @@
   </sky-error-action>
 </sky-error>
 
-<sky-error errorType="construction">
+<sky-error data-sky-id="construction-error" errorType="construction">
   <sky-error-action>
     <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
       Go back
@@ -22,7 +22,7 @@
   </sky-error-action>
 </sky-error>
 
-<sky-error errorType="security">
+<sky-error data-sky-id="security-error" errorType="security">
   <sky-error-action>
     <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
       Go back
@@ -30,7 +30,7 @@
   </sky-error-action>
 </sky-error>
 
-<sky-error>
+<sky-error data-sky-id="custom-error">
   <sky-error-image>
     <img
       role="presentation"
@@ -46,7 +46,7 @@
   </sky-error-action>
 </sky-error>
 
-<sky-error errorType="broken">
+<sky-error data-sky-id="custom-broken-error" errorType="broken">
   <sky-error-title [replaceDefaultTitle]="true">
     Custom error with a default image.
   </sky-error-title>

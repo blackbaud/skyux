@@ -12,7 +12,10 @@ import {
   OnDestroy,
   OnInit,
   booleanAttribute,
+  computed,
   inject,
+  input,
+  numberAttribute,
 } from '@angular/core';
 import { SkyMutationObserverService } from '@skyux/core';
 import {
@@ -74,6 +77,13 @@ export class SkyAgGridWrapperComponent
     this.#isCompact.next(value);
   }
 
+  /**
+   * The minimum height of the grid in pixels. The default value is `50`.
+   */
+  public readonly minHeight = input<number, unknown>(50, {
+    transform: numberAttribute,
+  });
+
   public afterAnchorId: string;
   public beforeAnchorId: string;
   public gridId: string;
@@ -112,6 +122,10 @@ export class SkyAgGridWrapperComponent
     }
     return false;
   }
+
+  protected readonly minHeightStyle = computed(() => {
+    return `--sky-ag-grid-min-height: ${this.minHeight()}px;`;
+  });
 
   #_viewkeeperClasses: string[] = [];
   readonly #ngUnsubscribe = new Subject<void>();
