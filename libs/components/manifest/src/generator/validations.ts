@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import glob from 'fast-glob';
+import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
@@ -7,6 +7,7 @@ import documentationSchema from '../../documentation-schema.json';
 import type { SkyManifestParentDefinition } from '../types/base-def';
 import { SkyManifestPublicApi } from '../types/manifest';
 
+import { ProjectDefinition } from './get-project-definitions';
 import { type PackagesMap } from './get-public-api';
 
 const ajv = new Ajv();
@@ -47,25 +48,32 @@ export function validateDocsIds(packages: PackagesMap): string[] {
 
 export async function validateDocumentationConfigs(
   publicApi: SkyManifestPublicApi,
+  projects: ProjectDefinition[],
 ): Promise<string[]> {
   const errors: string[] = [];
-  const documentationConfigs = await glob(
-    'libs/components/**/documentation.json',
-  );
 
-  for (const configFile of documentationConfigs) {
-    const contents = JSON.parse(
-      await fsPromises.readFile(path.normalize(configFile), {
+  for (const project of projects) {
+    const documentationJsonPath = path.join(
+      project.projectRoot,
+      'documentation.json',
+    );
+
+    if (!fs.existsSync(documentationJsonPath)) {
+      continue;
+    }
+
+    const config = JSON.parse(
+      await fsPromises.readFile(path.normalize(documentationJsonPath), {
         encoding: 'utf-8',
       }),
     );
 
-    if (!validateJson(contents)) {
-      errors.push(`Schema validation failed for ${configFile}`);
+    if (!validateJson(config)) {
+      errors.push(`Schema validation failed for ${documentationJsonPath}`);
       continue;
     }
 
-    const groups = contents['groups'] as Record<
+    const groups = config['groups'] as Record<
       string,
       { docsIds: string[]; primaryDocsId: string }
     >;

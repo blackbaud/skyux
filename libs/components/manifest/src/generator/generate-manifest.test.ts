@@ -2,6 +2,7 @@ const projectsRootDirectory =
   'libs/components/manifest/src/generator/testing/fixtures/example-packages';
 
 function setup(options: {
+  documentationJsonExists: boolean;
   outDirExists: boolean;
   projectName: 'foo' | 'invalid-docs-id';
 }): {
@@ -16,7 +17,18 @@ function setup(options: {
 
   jest.mock('node:fs', () => {
     return {
-      existsSync: jest.fn().mockReturnValue(options.outDirExists),
+      existsSync: jest.fn().mockImplementation((filePath): boolean => {
+        if (filePath.startsWith('dist/')) {
+          return options.outDirExists;
+        }
+
+        if (filePath.endsWith('documentation.json')) {
+          return options.documentationJsonExists;
+        }
+
+        return false;
+      }),
+      // existsSync: jest.fn().mockReturnValue(options.outDirExists),
     };
   });
 
@@ -61,6 +73,7 @@ describe('generate-manifest', () => {
 
   it('should generate manifest', async () => {
     const { writeFileMock } = setup({
+      documentationJsonExists: false,
       outDirExists: true,
       projectName: 'foo',
     });
@@ -78,6 +91,7 @@ describe('generate-manifest', () => {
 
   it('should create the out directory if it does not exist', async () => {
     const { mkdirMock } = setup({
+      documentationJsonExists: false,
       outDirExists: false,
       projectName: 'foo',
     });
@@ -95,6 +109,7 @@ describe('generate-manifest', () => {
 
   it('should throw for invalid docs IDs', async () => {
     setup({
+      documentationJsonExists: false,
       outDirExists: true,
       projectName: 'invalid-docs-id',
     });
