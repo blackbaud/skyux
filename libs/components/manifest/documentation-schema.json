@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "JSON schema for @skyux/manifest documentation.json files",
+  "type": "object",
+  "properties": {
+    "groups": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "object",
+          "properties": {
+            "docsIds": {
+              "description": "",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "additionalProperties": false,
+            "nullable": false
+          },
+          "required": ["docsIds"]
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": ["groups"]
+}
