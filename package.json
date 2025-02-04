@@ -99,7 +99,7 @@
     "@angular/platform-browser-dynamic": "19.0.5",
     "@angular/router": "19.0.5",
     "@blackbaud/angular-tree-component": "1.0.0",
-    "@blackbaud/skyux-design-tokens": "0.0.43",
+    "@blackbaud/skyux-design-tokens": "0.0.44",
     "@nx/angular": "20.3.0",
     "@skyux/icons": "7.10.0",
     "@storybook/addon-interactions": "8.4.7",
