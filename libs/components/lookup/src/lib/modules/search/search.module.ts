@@ -11,7 +11,7 @@ import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module'
 import { SkySearchComponent } from './search.component';
 
 /**
- * @docsIncludeIds SkySearchComponent, SkySearchHarness
+ * @docsIncludeIds SkySearchComponent, SkySearchHarness, LookupSearchBasicExampleComponent
  */
 @NgModule({
   declarations: [SkySearchComponent],

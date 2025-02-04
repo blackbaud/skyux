@@ -16,7 +16,7 @@ import { SkyDropdownMenuComponent } from './dropdown-menu.component';
 import { SkyDropdownComponent } from './dropdown.component';
 
 /**
- * @docsIncludeIds SkyDropdownComponent, SkyDropdownButtonComponent, SkyDropdownMenuComponent, SkyDropdownItemComponent, SkyDropdownButtonType, SkyDropdownHorizontalAlignment, SkyDropdownTriggerType, SkyDropdownHarness, SkyDropdownHarnessFilters, SkyDropdownItemHarness, SkyDropdownItemHarnessFilters, SkyDropdownMenuHarness, SkyDropdownMenuHarnessFilters
+ * @docsIncludeIds SkyDropdownComponent, SkyDropdownButtonComponent, SkyDropdownMenuComponent, SkyDropdownItemComponent, SkyDropdownButtonType, SkyDropdownHorizontalAlignment, SkyDropdownTriggerType, SkyDropdownHarness, SkyDropdownHarnessFilters, SkyDropdownItemHarness, SkyDropdownItemHarnessFilters, SkyDropdownMenuHarness, SkyDropdownMenuHarnessFilters, PopoversDropdownBasicExampleComponent
  */
 @NgModule({
   declarations: [

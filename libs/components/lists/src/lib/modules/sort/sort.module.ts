@@ -12,7 +12,7 @@ import { SkySortMenuHeadingComponent } from './sort-menu-heading.component';
 import { SkySortComponent } from './sort.component';
 
 /**
- * @docsIncludeIds SkySortComponent, SkySortItemComponent
+ * @docsIncludeIds SkySortComponent, SkySortItemComponent, ListsSortBasicExampleComponent
  */
 @NgModule({
   declarations: [

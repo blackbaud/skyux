@@ -13,7 +13,7 @@ import { SkyAutocompleteSearchAsyncDisabledPipe } from './autocomplete-search-as
 import { SkyAutocompleteComponent } from './autocomplete.component';
 
 /**
- * @docsIncludeIds SkyAutocompleteComponent, SkyAutocompleteInputDirective,  SkyAutocompleteSearchArgs, SkyAutocompleteSearchAsyncArgs, AutocompleteSearchAsyncResultDisplayType, SkyAutocompleteSearchAsyncResult, SkyAutocompleteSearchContext, SkyAutocompleteSearchFunctionFilter, SkyAutocompleteSearchFunctionResponse, SkyAutocompleteSearchFunction, SkyAutocompleteSelectionChange, SkyAutocompleteHarness, SkyAutocompleteHarnessFilters, SkyAutocompleteSearchResultHarness
+ * @docsIncludeIds SkyAutocompleteComponent, SkyAutocompleteInputDirective,  SkyAutocompleteSearchArgs, SkyAutocompleteSearchAsyncArgs, AutocompleteSearchAsyncResultDisplayType, SkyAutocompleteSearchAsyncResult, SkyAutocompleteSearchContext, SkyAutocompleteSearchFunctionFilter, SkyAutocompleteSearchFunctionResponse, SkyAutocompleteSearchFunction, SkyAutocompleteSelectionChange, SkyAutocompleteHarness, SkyAutocompleteHarnessFilters, SkyAutocompleteSearchResultHarness, LookupAutocompleteBasicExampleComponent, LookupAutocompleteAdvancedExampleComponent, LookupAutocompleteCustomSearchExampleComponent, LookupAutocompleteSearchFiltersExampleComponent
  */
 @NgModule({
   declarations: [

@@ -17,7 +17,7 @@ import { SkyActionHubRelatedLinksSortPipe } from './action-hub-related-links-sor
 import { SkyActionHubComponent } from './action-hub.component';
 
 /**
- * @docsIncludeIds SkyActionHubComponent, SkyActionHubContentComponent, SkyActionHubButtonsComponent, SkyActionHubNeedsAttentionClickHandlerArgs, SkyActionHubNeedsAttentionClickHandler, SkyActionHubNeedsAttentionInput, SkyActionHubNeedsAttention, SkyPageLink, SkyPageLinksInput, SkyPageModalLink, SkyPageModalLinksInput, SkyRecentLink, SkyRecentLinksInput, SkyActionHubHarness, SkyActionHubHarnessFilters
+ * @docsIncludeIds SkyActionHubComponent, SkyActionHubContentComponent, SkyActionHubButtonsComponent, SkyActionHubNeedsAttentionClickHandlerArgs, SkyActionHubNeedsAttentionClickHandler, SkyActionHubNeedsAttentionInput, SkyActionHubNeedsAttention, SkyPageLink, SkyPageLinksInput, SkyPageModalLink, SkyPageModalLinksInput, SkyRecentLink, SkyRecentLinksInput, SkyActionHubHarness, SkyActionHubHarnessFilters, PagesActionHubExampleComponent
  */
 @NgModule({
   imports: [

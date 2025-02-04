@@ -10,7 +10,7 @@ import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module'
 import { SkyLookupComponent } from './lookup.component';
 
 /**
- * @docsIncludeIds SkyLookupComponent, SkyLookupAddCallbackArgs, SkyLookupAddClickEventArgs, SkyLookupSelectModeType, SkyLookupShowMoreConfig, SkyLookupShowMoreCustomPickerContext, SkyLookupShowMoreCustomPicker, SkyLookupShowMoreNativePickerConfig, SkyLookupHarness
+ * @docsIncludeIds SkyLookupComponent, SkyLookupAddCallbackArgs, SkyLookupAddClickEventArgs, SkyLookupSelectModeType, SkyLookupShowMoreConfig, SkyLookupShowMoreCustomPickerContext, SkyLookupShowMoreCustomPicker, SkyLookupShowMoreNativePickerConfig, SkyLookupHarness, LookupSingleSelectExampleComponent, LookupMultiSelectExampleComponent, LookupResultTemplatesExampleComponent, LookupCustomPickerExampleComponent, LookupAddItemExampleComponent
  */
 @NgModule({
   declarations: [SkyLookupComponent],

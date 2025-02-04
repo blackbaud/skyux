@@ -10,7 +10,7 @@ import { SkyPageLinksComponent } from './page-links.component';
 import { SkyPageComponent } from './page.component';
 
 /**
- * @docsIncludeIds SkyPageComponent, SkyPageHeaderModule, SkyPageContentComponent, SkyPageLinksComponent, SkyPageLayoutType, SkyPageHarness, SkyPageHarnessFilters
+ * @docsIncludeIds SkyPageComponent, SkyPageHeaderModule, SkyPageContentComponent, SkyPageLinksComponent, SkyPageLayoutType, SkyPageHarness, SkyPageHarnessFilters, PagesPageHomePageBlocksLayoutExampleComponent, PagesPageListPageListLayoutExampleComponent, PagesPageListPageTabsLayoutExampleComponent, PagesPageRecordPageBlocksLayoutExampleComponent, PagesPageRecordPageTabsLayoutExampleComponent, PagesPageSplitViewPageFitLayoutExampleComponent
  */
 @NgModule({
   declarations: [SkyPageComponent, SkyPageContentComponent],

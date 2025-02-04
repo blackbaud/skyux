@@ -7,7 +7,7 @@ import { SkyModalIsDirtyDirective } from './modal-is-dirty.directive';
 import { SkyModalComponent } from './modal.component';
 
 /**
- * @docsIncludeIds SkyModalComponent, SkyModalHeaderComponent, SkyModalContentComponent, SkyModalFooterComponent, SkyModalService, SkyModalConfigurationInterface, SkyModalInstance, SkyModalCloseArgs, SkyModalBeforeCloseHandler, SkyModalError, SkyModalIsDirtyDirective, SkyModalHarness, SkyModalHarnessFilters, SkyModalTestingModule, SkyModalTestingController
+ * @docsIncludeIds SkyModalComponent, SkyModalHeaderComponent, SkyModalContentComponent, SkyModalFooterComponent, SkyModalService, SkyModalConfigurationInterface, SkyModalInstance, SkyModalCloseArgs, SkyModalBeforeCloseHandler, SkyModalError, SkyModalIsDirtyDirective, SkyModalHarness, SkyModalHarnessFilters, SkyModalTestingModule, SkyModalTestingController, ModalsModalBasicWithControllerExampleComponent, ModalsModalBasicWithHarnessExampleComponent, ModalsModalBasicWithHarnessHelpKeyExampleComponent, ModalsModalWithErrorExampleComponent
  */
 @NgModule({
   imports: [

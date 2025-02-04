@@ -5,7 +5,7 @@ import { SkyNavbarItemComponent } from './navbar-item.component';
 import { SkyNavbarComponent } from './navbar.component';
 
 /**
- * @docsIncludeIds SkyNavbarComponent, SkyNavbarItemComponent
+ * @docsIncludeIds SkyNavbarComponent, SkyNavbarItemComponent, NavbarExampleComponent
  */
 @NgModule({
   declarations: [SkyNavbarComponent, SkyNavbarItemComponent],
