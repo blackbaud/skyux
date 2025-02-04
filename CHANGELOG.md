@@ -1,5 +1,47 @@
 # Changelog
 
+## [12.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/12.0.0-alpha.2...12.0.0-alpha.3) (2025-02-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/indicators:** remove forwarded exports from `@skyux/help-inline` and `@skyux/icon` ([#3069](https://github.com/blackbaud/skyux/issues/3069))
+* **components/forms:** file attachment components now wait for system dialogs to close before handling files so that errors are read to screen readers appropriately ([#3073](https://github.com/blackbaud/skyux/issues/3073))
+
+### Features
+
+* add `[@docs](https://github.com/docs)IncludeIds` to action bars, tree, autonumeric, avatar, colorpicker, core, datetime, errors, flyout, and forms packages ([#3074](https://github.com/blackbaud/skyux/issues/3074)) ([b5747b2](https://github.com/blackbaud/skyux/commit/b5747b22ff615d0b172a5fab0f653390d46e7890))
+* add remaining `[@docs](https://github.com/docs)IncludeIds` and validation steps ([#3076](https://github.com/blackbaud/skyux/issues/3076)) ([cb59851](https://github.com/blackbaud/skyux/commit/cb5985149dd13e40bb6bb6c4874a4551c36fb30d))
+* **components/errors:** add error test harness ([#3082](https://github.com/blackbaud/skyux/issues/3082)) ([#3094](https://github.com/blackbaud/skyux/issues/3094)) ([4343e0a](https://github.com/blackbaud/skyux/commit/4343e0ab40e4cf9ddc694bceac49ba8af7dea1ef))
+* **components/forms:** file attachment components now wait for system dialogs to close before handling files so that errors are read to screen readers appropriately ([#3073](https://github.com/blackbaud/skyux/issues/3073)) ([847c970](https://github.com/blackbaud/skyux/commit/847c970f1a4b796a66f346af478550f8db403991))
+* **components/indicators:** remove forwarded exports from `@skyux/help-inline` and `@skyux/icon` ([#3069](https://github.com/blackbaud/skyux/issues/3069)) ([e2e3883](https://github.com/blackbaud/skyux/commit/e2e3883a07281a689beef3089f482c9693f2014d))
+* **components/layout:** tokenize fluid grid styles ([#3090](https://github.com/blackbaud/skyux/issues/3090)) ([f7cf004](https://github.com/blackbaud/skyux/commit/f7cf004a56b72dbbc8173e8a0bad52e04cff0943))
+* **components/tabs:** add harnesses for tab component ([#3064](https://github.com/blackbaud/skyux/issues/3064)) ([#3095](https://github.com/blackbaud/skyux/issues/3095)) ([37d2e90](https://github.com/blackbaud/skyux/commit/37d2e908a7cc24ca7d926f01dfeb88077c24f9b0))
+* **components/tiles:** add test harnesses for tile and tile dashboard ([#3052](https://github.com/blackbaud/skyux/issues/3052)) ([#3066](https://github.com/blackbaud/skyux/issues/3066)) ([2019f56](https://github.com/blackbaud/skyux/commit/2019f56a157f71755e62b19cb1129a404e2d6bf1))
+* create @skyux/code-examples NPM package (internal use only) ([#3091](https://github.com/blackbaud/skyux/issues/3091)) ([c0c9c48](https://github.com/blackbaud/skyux/commit/c0c9c48cd7c5383bba7fbb85dd2d1a48c77bfd9a))
+* implement `[@docs](https://github.com/docs)Id` and `[@docs](https://github.com/docs)IncludeIds` JSDoc tags to capture documentation relationships in the manifest ([#3063](https://github.com/blackbaud/skyux/issues/3063)) ([ba33999](https://github.com/blackbaud/skyux/commit/ba33999f1ed289192bcc9f7b29db94397240c001))
+* **sdk/skyux-eslint:** add linting rule to detect the use of legacy icons ([#3061](https://github.com/blackbaud/skyux/issues/3061)) ([1abcf12](https://github.com/blackbaud/skyux/commit/1abcf121d473eaa9ff335f41dd84507a72ee4aab))
+
+
+### Bug Fixes
+
+* **components/action-bars:** summary action bar should stack with back to top ([#3096](https://github.com/blackbaud/skyux/issues/3096)) ([#3107](https://github.com/blackbaud/skyux/issues/3107)) ([cc9b793](https://github.com/blackbaud/skyux/commit/cc9b7932bdf385c59c8fadad1ff349e36cec4a6d))
+* **components/ag-grid:** allow overriding grid min-height ([#3077](https://github.com/blackbaud/skyux/issues/3077)) ([#3088](https://github.com/blackbaud/skyux/issues/3088)) ([20670ca](https://github.com/blackbaud/skyux/commit/20670caea16dce312793523c78520a38ba605c5b))
+* **components/ag-grid:** datepicker cell editor should handle refresh refocus ([#3056](https://github.com/blackbaud/skyux/issues/3056)) ([#3057](https://github.com/blackbaud/skyux/issues/3057)) ([fa878fe](https://github.com/blackbaud/skyux/commit/fa878fe7f9f663a1dcf061c3031d4ea5168b9704))
+* **components/ag-grid:** refocus cell editors on api refresh ([#3087](https://github.com/blackbaud/skyux/issues/3087)) ([#3092](https://github.com/blackbaud/skyux/issues/3092)) ([c387ac2](https://github.com/blackbaud/skyux/commit/c387ac21cc0f6e0bd1a1603ab083dc8de1b105c2))
+* **components/ag-grid:** row delete confirmation event handling ([#3078](https://github.com/blackbaud/skyux/issues/3078)) ([#3089](https://github.com/blackbaud/skyux/issues/3089)) ([b9372f1](https://github.com/blackbaud/skyux/commit/b9372f1f1da15cce920058c3c3f7809e170ef04c))
+* **components/datetime:** add missing harness exports  ([#3079](https://github.com/blackbaud/skyux/issues/3079)) ([#3080](https://github.com/blackbaud/skyux/issues/3080)) ([6d30585](https://github.com/blackbaud/skyux/commit/6d30585f12256feac2eb8a67b1bcada0fa927bd6))
+* **components/forms:** ensure form error always has `errorName` attribute for test harnesses ([#3071](https://github.com/blackbaud/skyux/issues/3071)) ([#3072](https://github.com/blackbaud/skyux/issues/3072)) ([da19379](https://github.com/blackbaud/skyux/commit/da19379c9cbd6e4b2064fe276973b3fbc1b2503b))
+* **components/lists:** mark repeater item `reorderable` property as internal as a consumer setting this property has no affect ([#3106](https://github.com/blackbaud/skyux/issues/3106)) ([#3108](https://github.com/blackbaud/skyux/issues/3108)) ([ec89181](https://github.com/blackbaud/skyux/commit/ec8918121c90d4d5d808705398cfe4a433f04322))
+* **components/text-editor:** allow initializing as disabled ([#3099](https://github.com/blackbaud/skyux/issues/3099)) ([#3102](https://github.com/blackbaud/skyux/issues/3102)) ([b4b55db](https://github.com/blackbaud/skyux/commit/b4b55db95338f8367867bed9ca8484806f377ec4))
+* **components/text-editor:** value initializing for multiple text-editors ([#3067](https://github.com/blackbaud/skyux/issues/3067)) ([#3070](https://github.com/blackbaud/skyux/issues/3070)) ([b0b3533](https://github.com/blackbaud/skyux/commit/b0b35339b0e3c0145c74c42c2e5a2644cdfe0f3c))
+* **components/toast:** toasts read to assistive technology on initial rendering ([#3104](https://github.com/blackbaud/skyux/issues/3104)) ([#3105](https://github.com/blackbaud/skyux/issues/3105)) ([a115bd8](https://github.com/blackbaud/skyux/commit/a115bd8ae32c3193b2fae9a4a5e922b4fcbb01dc))
+
+
+### Deprecations
+
+* deprecated action button icon `iconType` input and checkbox and radio button `icon` inputs in favor of new `iconName` input which utilizes SVG icons ([#3062](https://github.com/blackbaud/skyux/issues/3062)) ([567f922](https://github.com/blackbaud/skyux/commit/567f922f75a6f7943bc7a0100060f47de0b73ef8))
+
 ## [11.38.1](https://github.com/blackbaud/skyux/compare/11.38.0...11.38.1) (2025-02-04)
 
 
