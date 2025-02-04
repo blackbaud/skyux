@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyActionButtonContainerAlignItemsType,
   SkyActionButtonModule,
-  SkyActionButtonPermalink,
 } from '@skyux/layout';
 
 import { SkyActionButtonContainerHarness } from './action-button-container-harness';
@@ -14,7 +13,7 @@ import { SkyActionButtonContainerHarness } from './action-button-container-harne
   imports: [SkyActionButtonModule],
   template: `
     <sky-action-button-container [alignItems]="alignItems">
-      <sky-action-button [permalink]="url">
+      <sky-action-button>
         <sky-action-button-icon iconType="filter" />
         <sky-action-button-header> Build a new list </sky-action-button-header>
         <sky-action-button-details>
@@ -40,10 +39,6 @@ import { SkyActionButtonContainerHarness } from './action-button-container-harne
 })
 class TestComponent {
   public alignItems: SkyActionButtonContainerAlignItemsType = 'center';
-
-  public url: SkyActionButtonPermalink = {
-    url: 'google.com',
-  };
 }
 
 describe('Action button container harness', () => {
@@ -105,21 +100,5 @@ describe('Action button container harness', () => {
     });
 
     await expectAsync(actionButton.getIconType()).toBeResolvedTo('filter');
-  });
-
-  describe('Action button', () => {
-    it('should get action button link', async () => {
-      const { harness } = await setupTest();
-
-      const actionButtonLink = await (
-        await harness.getActionButton({
-          header: 'Build a new list',
-        })
-      ).getLink();
-
-      const check = actionButtonLink?.endsWith('google.com');
-
-      expect(check).toBeTrue();
-    });
   });
 });

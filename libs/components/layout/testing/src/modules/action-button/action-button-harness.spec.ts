@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyActionButtonModule } from '@skyux/layout';
+import { SkyActionButtonModule, SkyActionButtonPermalink } from '@skyux/layout';
 
 import { SkyActionButtonHarness } from './action-button-harness';
 
@@ -19,7 +19,7 @@ import { SkyActionButtonHarness } from './action-button-harness';
         Start from scratch and fine-tune with filters.
       </sky-action-button-details>
     </sky-action-button>
-    <sky-action-button data-sky-id="other-button">
+    <sky-action-button data-sky-id="other-button" [permalink]="url">
       <sky-action-button-icon iconType="folder-open-o" />
       <sky-action-button-header> Open a list </sky-action-button-header>
       <sky-action-button-details>
@@ -29,6 +29,10 @@ import { SkyActionButtonHarness } from './action-button-harness';
   `,
 })
 class TestComponent {
+  public url: SkyActionButtonPermalink = {
+    url: 'google.com',
+  };
+
   public filterActionClick() {
     // just for the spy
   }
@@ -94,5 +98,15 @@ describe('Action button harness', () => {
     const { harness } = await setupTest();
 
     await expectAsync(harness.getIconType()).toBeResolvedTo('filter');
+  });
+
+  it('should get the link', async () => {
+    const { harness } = await setupTest({
+      dataSkyId: 'other-button',
+    });
+
+    const check = (await harness.getLink())?.endsWith('google.com');
+
+    expect(check).toBeTrue();
   });
 });
