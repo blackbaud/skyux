@@ -8,9 +8,6 @@ import { SkyCharacterCounterIndicatorComponent } from './character-counter-indic
 import { SkyCharacterCounterScreenReaderPipe } from './character-counter-screen-reader.pipe';
 import { SkyCharacterCounterInputDirective } from './character-counter.directive';
 
-/**
- * @docsIncludeIds SkyCharacterCounterIndicatorComponent, SkyCharacterCounterInputDirective, SkyCharacterCounterScreenReaderPipe, SkyCharacterCounterIndicatorHarness, FormsCharacterCountExampleComponent
- */
 @NgModule({
   declarations: [
     SkyCharacterCounterInputDirective,

@@ -18,9 +18,6 @@ import { SkyColorpickerSliderDirective } from './colorpicker-slider.directive';
 import { SkyColorpickerTextDirective } from './colorpicker-text.directive';
 import { SkyColorpickerComponent } from './colorpicker.component';
 
-/**
- * @docsIncludeIds SkyColorpickerComponent, SkyColorpickerInputDirective, SkyColorpickerCmyk, SkyColorpickerHsla, SkyColorpickerHsva, SkyColorpickerMessage, SkyColorpickerMessageType, SkyColorpickerOutput, SkyColorpickerResult, SkyColorpickerRgba, SkyColorpickerHarness, SkyColorpickerHarnessFilters, SkyColorpickerDropdownHarness, SkyColorpickerDropdownHarnessFilters, ColorpickerBasicExampleComponent, ColorpickerHelpKeyExampleComponent, ColorpickerProgrammaticExampleComponent
- */
 @NgModule({
   declarations: [
     SkyColorpickerComponent,

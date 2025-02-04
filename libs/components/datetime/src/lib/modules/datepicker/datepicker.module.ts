@@ -12,9 +12,6 @@ import { SkyDatepickerInputDirective } from './datepicker-input.directive';
 import { SkyDatepickerComponent } from './datepicker.component';
 import { SkyFuzzyDatepickerInputDirective } from './fuzzy/datepicker-input-fuzzy.directive';
 
-/**
- * @docsIncludeIds SkyDatepickerComponent, SkyDatepickerInputDirective, SkyDatepickerCalendarChange, SkyDatepickerConfigService, SkyDatepickerCustomDate, SkyFuzzyDatepickerInputDirective, SkyFuzzyDate, SkyDatepickerHarness, SkyDatepickerFilters, SkyDatepickerCalendarHarness, SkyDatepickerCalendarHarnessFilters, DatetimeDatepickerBasicExampleComponent, DatetimeDatepickerCustomDatesExampleComponent, DatetimeDatepickerFuzzyExampleComponent
- */
 @NgModule({
   imports: [
     SkyDatepickerCalendarComponent,

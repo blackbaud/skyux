@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { SkyFormatComponent } from './format.component';
 
-/**
- * @docsIncludeIds SkyFormatComponent, SkyAppFormat, LayoutFormatExampleComponent
- */
 @NgModule({
   declarations: [SkyFormatComponent],
   imports: [CommonModule],

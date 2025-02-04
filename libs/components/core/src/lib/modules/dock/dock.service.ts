@@ -13,7 +13,6 @@ import { sortByStackOrder } from './sort-by-stack-order';
 
 /**
  * This service docks components to specific areas on the page.
- * @docsIncludeIds SkyDockOptions, SkyDockInsertComponentConfig, SkyDockLocation, SkyDockItem, SkyDockItemConfig
  */
 @Injectable({
   providedIn: 'root',

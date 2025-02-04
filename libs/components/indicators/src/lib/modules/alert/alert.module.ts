@@ -7,9 +7,6 @@ import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources
 
 import { SkyAlertComponent } from './alert.component';
 
-/**
- * @docsIncludeIds SkyAlertComponent, SkyAlertHarness, SkyAlertHarnessFilters, IndicatorsAlertBasicExampleComponent
- */
 @NgModule({
   declarations: [SkyAlertComponent],
   imports: [

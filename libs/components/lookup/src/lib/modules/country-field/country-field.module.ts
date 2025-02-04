@@ -9,9 +9,6 @@ import { SkyLookupResourcesModule } from '../shared/sky-lookup-resources.module'
 
 import { SkyCountryFieldComponent } from './country-field.component';
 
-/**
- * @docsIncludeIds SkyCountryFieldComponent, SkyCountryFieldCountry, SkyCountryFieldHarness, SkyCountryFieldHarnessFilters, SkyCountryFieldSearchResultHarness, LookupCountryFieldBasicExampleComponent
- */
 @NgModule({
   declarations: [SkyCountryFieldComponent],
   imports: [

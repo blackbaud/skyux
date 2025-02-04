@@ -9,7 +9,6 @@ import { SkyListFilterInlineComponent } from './list-filter-inline.component';
 import { SkyListFilterSummaryComponent } from './list-filter-summary.component';
 
 /**
- * @docsIncludeIds SkyListFilterInlineComponent, SkyListFilterInlineItemComponent, SkyListFilterSummaryComponent, SkyListFilterButtonComponent, ListFilterModel
  * @deprecated List builder and its features are deprecated. Use data manager instead. For more information, see https://developer.blackbaud.com/skyux/components/data-manager.
  */
 @NgModule({

@@ -7,9 +7,6 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
-/**
- * @docsIncludeIds SkyToggleSwitchComponent, SkyToggleSwitchLabelComponent, SkyToggleSwitchChange, FormsToggleSwitchBasicExampleComponent, FormsToggleSwitchHelpKeyExampleComponent
- */
 @NgModule({
   declarations: [SkyToggleSwitchLabelComponent, SkyToggleSwitchComponent],
   imports: [

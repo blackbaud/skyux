@@ -15,7 +15,6 @@ import { SkySelectionModalOpenArgs } from './types/selection-modal-open-args';
 
 /**
  * Displays a modal for selecting one or more values.
- * @docsIncludeIds SkySelectionModalAddCallbackArgs, SkySelectionModalAddClickEventArgs, SkySelectionModalCloseArgs, SkySelectionModalOpenArgs, SkySelectionModalResult, SkySelectionModalSearchArgs, SkySelectionModalSearchResult, SkySelectionModalHarness, SkySelectionModalSearchResultHarnessFilters, SkySelectionModalSearchResultHarness, LookupSelectionModalBasicExampleComponent, LookupSelectionModalAddItemExampleComponent
  */
 @Injectable({
   providedIn: 'root',

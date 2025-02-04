@@ -14,7 +14,6 @@ const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
 
 /**
  * Utility used to subscribe to viewport and container breakpoint changes.
- * @docsIncludeIds SkyMediaBreakpoints, SkyMediaQueryListener, provideSkyMediaQueryTesting, SkyMediaQueryTestingController, CoreMediaQueryBasicExampleComponent, CoreMediaQueryResponsiveHostExampleComponent
  */
 @Injectable({
   providedIn: 'root',
