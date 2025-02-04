@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyWaitComponent } from './wait.component';
 
 /**
- * @docsIncludeIds SkyWaitComponent, SkyWaitService, SkyWaitHarness, SkyWaitHarnessFilters
+ * @docsIncludeIds SkyWaitComponent, SkyWaitService, SkyWaitHarness, SkyWaitHarnessFilters, IndicatorsWaitElementExampleComponent, IndicatorsWaitPageExampleComponent
  */
 @NgModule({
   imports: [SkyWaitComponent],

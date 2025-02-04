@@ -9,7 +9,7 @@ import { SkyTokenComponent } from './token.component';
 import { SkyTokensComponent } from './tokens.component';
 
 /**
- * @docsIncludeIds SkyTokensComponent, SkyTokenComponent, SkyToken, SkyTokenSelectedEventArgs, SkyTokensMessage, SkyTokensMessageType, SkyTokensHarness, SkyTokenHarness
+ * @docsIncludeIds SkyTokensComponent, SkyTokenComponent, SkyToken, SkyTokenSelectedEventArgs, SkyTokensMessage, SkyTokensMessageType, SkyTokensHarness, SkyTokenHarness, IndicatorsTokensBasicExampleComponent, IndicatorsTokensCustomExampleComponent
  */
 @NgModule({
   declarations: [SkyTokenComponent, SkyTokensComponent],

@@ -7,7 +7,7 @@ import { SkyBackToTopComponent } from './back-to-top.component';
 import { SkyBackToTopDirective } from './back-to-top.directive';
 
 /**
- * @docsIncludeIds SkyBackToTopDirective, SkyBackToTopOptions, SkyBackToTopMessage, SkyBackToTopMessageType
+ * @docsIncludeIds SkyBackToTopDirective, SkyBackToTopOptions, SkyBackToTopMessage, SkyBackToTopMessageType, LayoutBackToTopInfiniteScrollExampleComponent, LayoutBackToTopRepeaterExampleComponent
  */
 @NgModule({
   declarations: [SkyBackToTopComponent, SkyBackToTopDirective],

@@ -6,7 +6,7 @@ import { SkyInlineFormResourcesModule } from '../shared/sky-inline-form-resource
 import { SkyInlineFormComponent } from './inline-form.component';
 
 /**
- * @docsIncludeIds SkyInlineFormComponent, SkyInlineFormConfig, SkyInlineFormButtonConfig, SkyInlineFormButtonLayout, SkyInlineFormCloseArgs
+ * @docsIncludeIds SkyInlineFormComponent, SkyInlineFormConfig, SkyInlineFormButtonConfig, SkyInlineFormButtonLayout, SkyInlineFormCloseArgs, InlineFormBasicExampleComponent, InlineFormCustomButtonsExampleComponent, InlineFormRepeatersExampleComponent
  */
 @NgModule({
   declarations: [SkyInlineFormComponent],

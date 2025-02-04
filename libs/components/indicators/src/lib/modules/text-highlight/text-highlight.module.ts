@@ -4,7 +4,7 @@ import { SkyMutationObserverService } from '@skyux/core';
 import { SkyTextHighlightDirective } from './text-highlight.directive';
 
 /**
- * @docsIncludeIds SkyTextHighlightDirective
+ * @docsIncludeIds SkyTextHighlightDirective, IndicatorsTextHighlightBasicExampleComponent
  */
 @NgModule({
   imports: [SkyTextHighlightDirective],

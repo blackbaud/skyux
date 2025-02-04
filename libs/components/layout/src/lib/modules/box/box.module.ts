@@ -9,7 +9,7 @@ import { SkyBoxHeaderComponent } from './box-header.component';
 import { SkyBoxComponent } from './box.component';
 
 /**
- * @docsIncludeIds SkyBoxComponent, SkyBoxHeaderComponent, SkyBoxContentComponent, SkyBoxControlsComponent, SkyBoxHeadingLevel, SkyBoxHeadingStyle, SkyBoxHarness, SkyBoxHarnessFilters
+ * @docsIncludeIds SkyBoxComponent, SkyBoxHeaderComponent, SkyBoxContentComponent, SkyBoxControlsComponent, SkyBoxHeadingLevel, SkyBoxHeadingStyle, SkyBoxHarness, SkyBoxHarnessFilters, LayoutBoxBasicExampleComponent, LayoutBoxHelpKeyExampleComponent
  */
 @NgModule({
   declarations: [

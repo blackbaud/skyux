@@ -7,7 +7,7 @@ import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources
 import { SkyLabelComponent } from './label.component';
 
 /**
- * @docsIncludeIds SkyLabelComponent, SkyLabelType, SkyLabelHarness, SkyLabelHarnessFilters
+ * @docsIncludeIds SkyLabelComponent, SkyLabelType, SkyLabelHarness, SkyLabelHarnessFilters, IndicatorsLabelBasicExampleComponent
  */
 @NgModule({
   declarations: [SkyLabelComponent],

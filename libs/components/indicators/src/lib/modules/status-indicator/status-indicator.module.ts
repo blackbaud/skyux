@@ -9,7 +9,7 @@ import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources
 import { SkyStatusIndicatorComponent } from './status-indicator.component';
 
 /**
- * @docsIncludeIds SkyStatusIndicatorComponent, SkyStatusIndicatorHarness, SkyStatusIndicatorHarnessFilters
+ * @docsIncludeIds SkyStatusIndicatorComponent, SkyStatusIndicatorHarness, SkyStatusIndicatorHarnessFilters, IndicatorsStatusIndicatorBasicExampleComponent, IndicatorsStatusIndicatorHelpKeyExampleComponent
  */
 @NgModule({
   declarations: [SkyStatusIndicatorComponent],
