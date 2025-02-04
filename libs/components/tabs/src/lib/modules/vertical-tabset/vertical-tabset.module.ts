@@ -16,7 +16,7 @@ import { SkyVerticalTabsetGroupComponent } from './vertical-tabset-group.compone
 import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
 
 /**
- * @docsIncludeIds SkyVerticalTabsetComponent, SkyVerticalTabComponent, SkyVerticalTabsetGroupComponent
+ * @docsIncludeIds SkyVerticalTabsetComponent, SkyVerticalTabComponent, SkyVerticalTabsetGroupComponent, TabsVerticalTabsBasicExampleComponent, TabsVerticalTabsGroupedExampleComponent
  */
 @NgModule({
   declarations: [

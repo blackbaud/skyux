@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SkyEmailValidationDirective } from './email-validation.directive';
 
 /**
- * @docsIncludeIds SkyEmailValidationDirective
+ * @docsIncludeIds SkyEmailValidationDirective, SkyValidators, ValidationEmailValidationDirectiveExampleComponent, ValidationEmailValidationControlValidatorExampleComponent
  */
 @NgModule({
   declarations: [SkyEmailValidationDirective],

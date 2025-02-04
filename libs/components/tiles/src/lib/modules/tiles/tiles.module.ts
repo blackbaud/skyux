@@ -6,7 +6,7 @@ import { SkyTileDashboardModule } from './tile-dashboard/tile-dashboard.module';
 import { SkyTileModule } from './tile/tile.module';
 
 /**
- * @docsIncludeIds SkyTileComponent, SkyTileTitleComponent, SkyTileSummaryComponent, SkyTileContentComponent, SkyTileContentSectionComponent, SkyTileDashboardComponent, SkyTileDashboardService, SkyTileDashboardConfig, SkyTileDashboardConfigLayout, SkyTileDashboardConfigLayoutColumn, SkyTileDashboardConfigLayoutTile, SkyTileDashboardConfigTile, SkyTileDashboardConfigReorderData, SkyTileDashboardMessage, SkyTileDashboardMessageType, SkyTileHarness, SkyTileHarnessFilters, SkyTileContentHarness, SkyTileContentSectionHarness, SkyTileContentSectionHarnessFilters, SkyTileDashboardHarness, SkyTileDashboardHarnessFilters
+ * @docsIncludeIds SkyTileComponent, SkyTileTitleComponent, SkyTileSummaryComponent, SkyTileContentComponent, SkyTileContentSectionComponent, SkyTileDashboardComponent, SkyTileDashboardService, SkyTileDashboardConfig, SkyTileDashboardConfigLayout, SkyTileDashboardConfigLayoutColumn, SkyTileDashboardConfigLayoutTile, SkyTileDashboardConfigTile, SkyTileDashboardConfigReorderData, SkyTileDashboardMessage, SkyTileDashboardMessageType, SkyTileHarness, SkyTileHarnessFilters, SkyTileContentHarness, SkyTileContentSectionHarness, SkyTileContentSectionHarnessFilters, SkyTileDashboardHarness, SkyTileDashboardHarnessFilters, TilesBasicExampleComponent
  */
 @NgModule({
   exports: [

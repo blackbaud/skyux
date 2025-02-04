@@ -8,7 +8,7 @@ import { SkySplitViewWorkspaceComponent } from './split-view-workspace.component
 import { SkySplitViewComponent } from './split-view.component';
 
 /**
- * @docsIncludeIds SkySplitViewComponent, SkySplitViewDrawerComponent, SkySplitViewWorkspaceComponent, SkySplitViewWorkspaceContentComponent, SkySplitViewWorkspaceFooterComponent, SkySplitViewDockType, SkySplitViewMessage, SkySplitViewMessageType, SkySplitViewHarness, SkySplitViewHarnessFilters, SkySplitViewDrawerHarness, SkySplitViewWorkspaceHarness, SkySplitViewWorkspaceContentHarness, SkySplitViewWorkspaceFooterHarness
+ * @docsIncludeIds SkySplitViewComponent, SkySplitViewDrawerComponent, SkySplitViewWorkspaceComponent, SkySplitViewWorkspaceContentComponent, SkySplitViewWorkspaceFooterComponent, SkySplitViewDockType, SkySplitViewMessage, SkySplitViewMessageType, SkySplitViewHarness, SkySplitViewHarnessFilters, SkySplitViewDrawerHarness, SkySplitViewWorkspaceHarness, SkySplitViewWorkspaceContentHarness, SkySplitViewWorkspaceFooterHarness, SplitViewBasicExampleComponent, SplitViewPageBoundExampleComponent
  */
 @NgModule({
   imports: [

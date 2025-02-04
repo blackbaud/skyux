@@ -9,7 +9,7 @@ import { SkySectionedFormSectionComponent } from './sectioned-form-section.compo
 import { SkySectionedFormComponent } from './sectioned-form.component';
 
 /**
- * @docsIncludeIds SkySectionedFormComponent, SkySectionedFormSectionComponent, SkySectionedFormService, SkySectionedFormMessage, SkySectionedFormMessageType
+ * @docsIncludeIds SkySectionedFormComponent, SkySectionedFormSectionComponent, SkySectionedFormService, SkySectionedFormMessage, SkySectionedFormMessageType, TabsSectionedFormModalExampleComponent
  */
 @NgModule({
   declarations: [SkySectionedFormComponent, SkySectionedFormSectionComponent],
