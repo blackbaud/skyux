@@ -8,11 +8,11 @@ import { SkyActionButtonModule } from '@skyux/layout';
   imports: [SkyActionButtonModule],
 })
 export class DemoComponent {
-  protected filterActionClick(): void {
+  public filterActionClick(): void {
     alert('Filter action clicked');
   }
 
-  protected openActionClick(): void {
+  public openActionClick(): void {
     alert('Open action clicked');
   }
 }
