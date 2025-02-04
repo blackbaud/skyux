@@ -59,4 +59,11 @@ export class SkyActionButtonHarness extends SkyComponentHarness {
     const icon = await this.locatorFor(SkyIconHarness)();
     return await icon.getIconName();
   }
+
+  /**
+   * Gets the action button link.
+   */
+  public async getLink(): Promise<string | undefined> {
+    return (await (await this.#actionButton()).getProperty('href')).trim();
+  }
 }

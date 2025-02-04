@@ -10,8 +10,8 @@ import { SkyActionButtonHarness } from './action-button-harness';
   imports: [SkyActionButtonModule],
   template: `
     <sky-action-button
-      (actionClick)="filterActionClick()"
       data-sky-id="action-button"
+      (actionClick)="filterActionClick()"
     >
       <sky-action-button-icon iconType="filter" />
       <sky-action-button-header> Build a new list </sky-action-button-header>
