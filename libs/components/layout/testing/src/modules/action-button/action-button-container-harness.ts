@@ -6,6 +6,9 @@ import { SkyActionButtonContainerHarnessFilters } from './action-button-containe
 import { SkyActionButtonHarness } from './action-button-harness';
 import { SkyActionButtonHarnessFilters } from './action-button-harness.filters';
 
+/**
+ * Harness for interacting with a action button container component in tests.
+ */
 export class SkyActionButtonContainerHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -23,14 +26,12 @@ export class SkyActionButtonContainerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the alignment of the buttons inside the container.
+   * Gets an action button that matches the given filter.
    */
-  public async getAlignment(): Promise<SkyActionButtonContainerAlignItemsType> {
-    return (await (
-      await this.locatorFor('.sky-action-button-flex')()
-    ).hasClass('sky-action-button-flex-align-left'))
-      ? 'left'
-      : 'center';
+  public async getActionButton(
+    filter: SkyActionButtonHarnessFilters,
+  ): Promise<SkyActionButtonHarness> {
+    return await this.locatorFor(SkyActionButtonHarness.with(filter))();
   }
 
   /**
@@ -41,11 +42,13 @@ export class SkyActionButtonContainerHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets an action button that matches the given filter.
+   * Gets the alignment of the buttons inside the container.
    */
-  public async getActionButton(
-    filter: SkyActionButtonHarnessFilters,
-  ): Promise<SkyActionButtonHarness> {
-    return await this.locatorFor(SkyActionButtonHarness.with(filter))();
+  public async getAlignment(): Promise<SkyActionButtonContainerAlignItemsType> {
+    return (await (
+      await this.locatorFor('.sky-action-button-flex')()
+    ).hasClass('sky-action-button-flex-align-left'))
+      ? 'left'
+      : 'center';
   }
 }

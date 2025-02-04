@@ -4,6 +4,9 @@ import { SkyIconHarness } from '@skyux/icon/testing';
 
 import { SkyActionButtonHarnessFilters } from './action-button-harness.filters';
 
+/**
+ * Harness for interacting with a action button component in tests.
+ */
 export class SkyActionButtonHarness extends SkyComponentHarness {
   /**
    * @internal
@@ -37,19 +40,19 @@ export class SkyActionButtonHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the action button header text.
-   */
-  public async getHeaderText(): Promise<string | null> {
-    const header = await this.locatorFor('.sky-action-button-header')();
-    return (await header.text()).trim();
-  }
-
-  /**
    * Gets the action button details text.
    */
   public async getDetailsText(): Promise<string | null> {
     const details = await this.locatorFor('sky-action-button-details')();
     return (await details.text()).trim();
+  }
+
+  /**
+   * Gets the action button header text.
+   */
+  public async getHeaderText(): Promise<string | null> {
+    const header = await this.locatorFor('.sky-action-button-header')();
+    return (await header.text()).trim();
   }
 
   /**
