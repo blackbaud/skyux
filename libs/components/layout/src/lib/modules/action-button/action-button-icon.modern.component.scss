@@ -16,6 +16,10 @@
     font-size: 24px !important;
   }
 
+  ::ng-deep sky-icon {
+    font-size: 24px !important;
+  }
+
   .sky-action-button-icon {
     color: $sky-text-color-action-primary;
   }

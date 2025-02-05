@@ -13,11 +13,15 @@
         [iconName]="iconName"
         variant="solid"
         size="2x"
-        position="center"
+        displayStrategy="standalone"
       />
     </div>
     <div *skyThemeIf="'default'" aria-hidden="true" class="sky-toast-icon">
-      <sky-icon [iconName]="iconName" variant="solid" position="center" />
+      <sky-icon
+        [iconName]="iconName"
+        variant="solid"
+        displayStrategy="standalone"
+      />
     </div>
     <div #toastContent class="sky-toast-content" skyId="toastContent">
       <ng-content />
@@ -29,7 +33,7 @@
       [attr.aria-labelledby]="toastCloseMessage.id + ' ' + toastContent.id"
       (click)="close()"
     >
-      <sky-icon icon="close" />
+      <sky-icon iconName="dismiss" />
     </button>
   </div>
   <span

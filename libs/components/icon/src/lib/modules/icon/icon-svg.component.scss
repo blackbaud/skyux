@@ -30,12 +30,7 @@ sky-icon-svg {
   }
 }
 
-sky-icon:has(.sky-icon-svg-lg) {
-  vertical-align: -0.35em;
-}
-
-sky-icon.sky-icon-position-center {
-  display: block;
+.sky-icon-display-standalone {
   sky-icon-svg::after {
     content: none;
   }
@@ -48,12 +43,9 @@ sky-icon.sky-icon-position-center {
 
 .sky-icon-svg {
   &-lg {
-    --sky-icon-svg-img-size: 1.333em;
-    --sky-icon-svg-img-top: 0.2em;
-
     .sky-icon-svg-img {
-      display: block;
-      top: 0;
+      margin: 0 0.166em;
+      transform: scale(1.33);
     }
   }
 

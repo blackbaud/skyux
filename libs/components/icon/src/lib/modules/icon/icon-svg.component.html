@@ -1,10 +1,8 @@
 <svg
   aria-hidden="true"
   class="sky-icon-svg-img"
-  viewBox="1 1 14 14"
-  [ngClass]="iconSize() && 'sky-icon-svg-img-' + iconSize()"
   [attr.data-sky-icon]="iconName()"
   [attr.data-sky-icon-variant]="iconVariant()"
 >
-  <use width="16" height="16" [attr.xlink:href]="iconHref()" />
+  <use [attr.xlink:href]="iconHref()" />
 </svg>

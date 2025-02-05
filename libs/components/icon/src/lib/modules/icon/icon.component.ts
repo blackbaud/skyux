@@ -3,10 +3,11 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { SkyIconPosition } from './types/icon-position';
+import { SkyIconDisplayStrategy } from './types/icon-display-strategy';
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -17,7 +18,7 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   host: {
-    '[class]': '"sky-icon-position-" + position',
+    '[class]': '"sky-icon-display-" + displayStrategy()',
   },
 })
 export class SkyIconComponent {
@@ -70,11 +71,11 @@ export class SkyIconComponent {
   public variant: SkyIconVariantType | undefined;
 
   /**
-   * The position of the icon in relation to the content around it. Position only applies to icons using `iconName`.
-   * @default 'baseline'
+   * The display strategy used to position the icon. `withText` aligns the icon with the baseline to be displayed inline with text.
+   * `standalone` does not apply any positioning and treats the icon as a block element.
+   * @default 'withText'
    */
-  @Input()
-  public position: SkyIconPosition = 'baseline';
+  public readonly displayStrategy = input<SkyIconDisplayStrategy>('withText');
 
   protected themeSvc = inject(SkyThemeService, { optional: true });
 }

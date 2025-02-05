@@ -19,11 +19,15 @@
       [iconName]="iconName"
       size="2x"
       variant="solid"
-      position="center"
+      displayStrategy="standalone"
     />
   </div>
   <div *skyThemeIf="'default'" aria-hidden="true" class="sky-alert-icon">
-    <sky-icon [iconName]="iconName" variant="solid" position="center" />
+    <sky-icon
+      [iconName]="iconName"
+      variant="solid"
+      displayStrategy="standalone"
+    />
   </div>
   @if (descriptionComputed) {
     <span class="sky-screen-reader-only">

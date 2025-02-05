@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ViewEncapsulation,
@@ -29,7 +28,6 @@ const SIZES = new Map([
  */
 @Component({
   selector: 'sky-icon-svg',
-  imports: [NgClass],
   templateUrl: './icon-svg.component.html',
   styleUrls: ['./icon-svg.component.scss'],
   encapsulation: ViewEncapsulation.None,

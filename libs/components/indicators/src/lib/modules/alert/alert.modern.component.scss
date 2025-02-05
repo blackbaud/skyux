@@ -56,12 +56,16 @@
   }
 
   &:not(.sky-alert-danger) {
-    --sky-icon-svg-path-2-color-input: #{$sky-text-color-default};
+    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-default);
   }
 
   &.sky-alert-info {
     background-color: var(--sky-color-background-container-info);
     border-color: var(--sky-color-border-info);
+    --sky-icon-svg-path-2-color-input: var(
+      --sky-override-alert-inner-icon-color,
+      var(--sky-color-icon-inverse)
+    );
   }
 
   &.sky-alert-success {

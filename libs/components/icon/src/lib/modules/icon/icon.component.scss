@@ -2,6 +2,10 @@
   display: inline-block;
 }
 
+:host.sky-icon-display-standalone {
+  display: block;
+}
+
 i {
   display: inherit;
 }
