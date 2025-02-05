@@ -291,7 +291,6 @@
   "@skyux/lookup/testing:SkyLookupHarness:isDisabled",
   "@skyux/lookup/testing:SkyLookupHarness:isFocused",
   "@skyux/lookup/testing:SkyLookupHarness:isFocused",
-  "@skyux/lookup/testing:SkyLookupSelectionHarnessFilters",
   "@skyux/lookup/testing:SkySearchFixture",
   "@skyux/lookup:SkyAutocompleteComponent:propertiesToSearch",
   "@skyux/lookup:SkyAutocompleteComponent:search",
