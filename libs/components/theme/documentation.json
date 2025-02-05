@@ -1,0 +1,12 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "classes": {
+      "docsIds": [
+        "ThemeBoxBasicExampleComponent",
+        "ThemeStatusIndicatorBasicExampleComponent"
+      ],
+      "primaryDocsId": "ThemeStatusIndicatorBasicExampleComponent"
+    }
+  }
+}

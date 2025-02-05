@@ -76,7 +76,7 @@ export async function generateManifest(
 
   const publicApi = await getPublicApi(projects);
   const documentationConfig = await getDocumentationConfig(publicApi, projects);
-  const codeExamples = await getCodeExamples(publicApi);
+  const codeExamples = await getCodeExamples(publicApi, documentationConfig);
 
   const outDir = path.normalize(options.outDir);
 

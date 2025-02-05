@@ -39,6 +39,18 @@
       ],
       "primaryDocsId": "SkyLabelModule"
     },
+    "illustration": {
+      "docsIds": [
+        "SkyIllustrationModule",
+        "SkyIllustrationComponent",
+        "SkyIllustrationSize",
+        "SkyIllustrationResolverService",
+        "SkyIllustrationHarness",
+        "SkyIllustrationHarnessFilters",
+        "IndicatorsIllustrationBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyIllustrationModule"
+    },
     "status-indicator": {
       "docsIds": [
         "SkyStatusIndicatorModule",
