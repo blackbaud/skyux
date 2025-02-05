@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -37,6 +38,18 @@ export class SkyAgGridCellEditorTextComponent
 
   @ViewChild('skyCellEditorText', { read: ElementRef })
   public input: ElementRef | undefined;
+
+  @HostListener('focusout', ['$event'])
+  public onFocusOut(event: FocusEvent): void {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    }
+  }
 
   #params: ICellEditorParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;

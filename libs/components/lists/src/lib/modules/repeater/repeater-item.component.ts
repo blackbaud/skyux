@@ -156,6 +156,7 @@ export class SkyRepeaterItemComponent
   /**
    * Whether users can change the order of the repeater item.
    * The repeater component's `reorderable` property must also be set to `true`.
+   * @internal
    */
   @Input()
   public reorderable: boolean | undefined = false;

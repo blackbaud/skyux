@@ -88,7 +88,7 @@ export class SkyDockDomAdapterService implements OnDestroy {
     // Create a style element to avoid overwriting any existing inline body styles.
     const styleElement = this.#renderer.createElement('style');
     const textNode = this.#renderer.createText(
-      `body { margin-bottom: ${dockHeight}px; }`,
+      `body { margin-bottom: ${dockHeight}px; --sky-dock-height: ${dockHeight}px; }`,
     );
 
     // Apply a `data-` attribute to make unit testing easier.

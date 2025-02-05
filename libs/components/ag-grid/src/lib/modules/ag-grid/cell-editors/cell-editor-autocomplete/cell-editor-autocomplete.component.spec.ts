@@ -51,19 +51,21 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   });
 
   describe('agInit', () => {
-    const api = jasmine.createSpyObj<GridApi>('api', [
-      'getDisplayNameForColumn',
-      'getGridOption',
-      'stopEditing',
-    ]);
-    api.getGridOption.and.returnValue(true);
+    let api: jasmine.SpyObj<GridApi>;
     let cellEditorParams: Partial<SkyCellEditorAutocompleteParams>;
     let column: AgColumn;
+    let gridCell: HTMLDivElement;
     const selection = data[0];
     const rowNode = new RowNode({} as BeanCollection);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
+      api = jasmine.createSpyObj<GridApi>('api', [
+        'getDisplayNameForColumn',
+        'getGridOption',
+        'stopEditing',
+      ]);
+      api.getGridOption.and.returnValue(true);
       column = new AgColumn(
         {
           colId: 'col',
@@ -72,11 +74,13 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         'col',
         true,
       );
+      gridCell = document.createElement('div');
 
       cellEditorParams = {
         api,
         value: selection,
         column,
+        eGridCell: gridCell,
         node: rowNode,
         colDef: {},
         cellStartedEdit: true,
@@ -95,12 +99,28 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       tick();
 
       component.onAutocompleteOpenChange(true);
-      component.onBlur();
+      component.onBlur({} as FocusEvent);
       expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
 
       component.onAutocompleteOpenChange(false);
-      component.onBlur();
+      component.onBlur({} as FocusEvent);
       expect(cellEditorParams.api?.stopEditing).toHaveBeenCalled();
+    }));
+
+    it('should respond to refocus', fakeAsync(() => {
+      fixture.detectChanges();
+
+      const input = nativeElement.querySelector('input') as HTMLInputElement;
+      spyOn(input, 'focus');
+
+      component.agInit(cellEditorParams as SkyCellEditorAutocompleteParams);
+      component.onBlur({
+        relatedTarget: gridCell,
+      } as unknown as FocusEvent);
+      tick();
+      expect(input).toBeVisible();
+      expect(input.focus).toHaveBeenCalled();
+      expect(cellEditorParams.api?.stopEditing).not.toHaveBeenCalled();
     }));
 
     it('should set the correct aria label', () => {

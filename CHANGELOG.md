@@ -1,5 +1,31 @@
 # Changelog
 
+## [11.38.1](https://github.com/blackbaud/skyux/compare/11.38.0...11.38.1) (2025-02-04)
+
+
+### Bug Fixes
+
+* **components/action-bars:** summary action bar should stack with back to top ([#3096](https://github.com/blackbaud/skyux/issues/3096)) ([b548d97](https://github.com/blackbaud/skyux/commit/b548d97cbc0c0225b1dd35aa21e774cfbc642c1b))
+* **components/lists:** mark repeater item `reorderable` property as internal as a consumer setting this property has no affect ([#3106](https://github.com/blackbaud/skyux/issues/3106)) ([2025b63](https://github.com/blackbaud/skyux/commit/2025b638b247d9b9ef8cd71ae2e20f0df2d07053))
+* **components/text-editor:** allow initializing as disabled ([#3099](https://github.com/blackbaud/skyux/issues/3099)) ([794a6fc](https://github.com/blackbaud/skyux/commit/794a6fcf36c3d9b6137b9477301f7f815144d13d))
+* **components/toast:** toasts read to assistive technology on initial rendering ([#3104](https://github.com/blackbaud/skyux/issues/3104)) ([39fe390](https://github.com/blackbaud/skyux/commit/39fe390effd32a2b8974493c4969849d72ddd96f))
+
+## [11.38.0](https://github.com/blackbaud/skyux/compare/11.37.0...11.38.0) (2025-02-03)
+
+
+### Features
+
+* **components/errors:** add error test harness ([#3082](https://github.com/blackbaud/skyux/issues/3082)) ([d5e961d](https://github.com/blackbaud/skyux/commit/d5e961d3c68b1eeabd91c0e384f44a616633f4f2))
+* **components/tabs:** add harnesses for tab component ([#3064](https://github.com/blackbaud/skyux/issues/3064)) ([2f84106](https://github.com/blackbaud/skyux/commit/2f84106961e2af8eddf632ac7f798fcf8aadc220))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** allow overriding grid min-height ([#3077](https://github.com/blackbaud/skyux/issues/3077)) ([b9b6c7d](https://github.com/blackbaud/skyux/commit/b9b6c7d1f42fd73b4ae4d58f8f6f4632d96e58d3))
+* **components/ag-grid:** refocus cell editors on api refresh ([#3087](https://github.com/blackbaud/skyux/issues/3087)) ([f98c2f7](https://github.com/blackbaud/skyux/commit/f98c2f7c6ce1c175a7a9f3a21d5089abb95611d7))
+* **components/ag-grid:** row delete confirmation event handling ([#3078](https://github.com/blackbaud/skyux/issues/3078)) ([9761f52](https://github.com/blackbaud/skyux/commit/9761f52f54934ed442dc16b94a936684752a865a))
+* **components/datetime:** add missing harness exports  ([#3079](https://github.com/blackbaud/skyux/issues/3079)) ([3379fc8](https://github.com/blackbaud/skyux/commit/3379fc833b6fcf2b2d1ebe948fd279c8271f4870))
+
 ## [11.37.0](https://github.com/blackbaud/skyux/compare/11.36.2...11.37.0) (2025-01-28)
 
 

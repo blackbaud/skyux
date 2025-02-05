@@ -104,16 +104,6 @@ describe('Toast component', () => {
     expect(component.toastComponent?.isOpen).toEqual(false);
   });
 
-  it('should set aria attributes', () => {
-    setupTest();
-    expect(component.toastComponent?.ariaLive).toEqual('polite');
-    expect(component.toastComponent?.ariaRole).toEqual(undefined);
-    fixture.componentInstance.toastType = SkyToastType.Danger;
-    fixture.detectChanges();
-    expect(component.toastComponent?.ariaLive).toEqual('assertive');
-    expect(component.toastComponent?.ariaRole).toEqual('alert');
-  });
-
   it('should pass accessibility', async () => {
     setupTest();
     fixture.detectChanges();
