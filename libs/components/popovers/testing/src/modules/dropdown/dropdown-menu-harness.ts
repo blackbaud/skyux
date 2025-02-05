@@ -1,5 +1,8 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
+import {
+  SkyOverlayHarness,
+  SkyQueryableComponentHarness,
+} from '@skyux/core/testing';
 
 import { SkyDropdownItemHarness } from './dropdown-item-harness';
 import { SkyDropdownItemHarnessFilters } from './dropdown-item-harness.filters';
@@ -8,7 +11,7 @@ import { SkyDropdownMenuHarnessFilters } from './dropdown-menu-harness.filters';
 /**
  * Harness for interacting with dropdown menu in tests.
  */
-export class SkyDropdownMenuHarness extends SkyComponentHarness {
+export class SkyDropdownMenuHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
