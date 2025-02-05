@@ -52,7 +52,6 @@
   "@skyux/errors:SkyErrorModalService:open",
   "@skyux/flyout:SkyFlyoutConfig:ariaRole",
   "@skyux/flyout:SkyFlyoutLegacyService",
-  "@skyux/flyout:SkyFlyoutModule",
   "@skyux/forms/testing:SkyCheckboxFixture",
   "@skyux/forms/testing:SkyRadioFixture",
   "@skyux/forms:SkyCheckboxComponent:checkboxType",
@@ -356,6 +355,5 @@
   "@skyux/tabs:SkyVerticalTabsetComponent:ariaRole",
   "@skyux/tiles:SkyTileComponent:helpClick",
   "@skyux/tiles:SkyTileComponent:showHelp",
-  "@skyux/toast:SkyToastLegacyService",
-  "@skyux/toast:SkyToastModule"
+  "@skyux/toast:SkyToastLegacyService"
 ]
