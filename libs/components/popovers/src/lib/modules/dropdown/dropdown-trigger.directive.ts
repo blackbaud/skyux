@@ -103,10 +103,6 @@ export class SkyDropdownTriggerDirective implements OnDestroy {
       : undefined;
   });
 
-  constructor() {
-    console.log('Constructed');
-  }
-
   public ngOnDestroy(): void {
     this.triggerClick.complete();
     this.triggerKeyDown.complete();
