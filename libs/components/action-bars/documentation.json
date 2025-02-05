@@ -1,0 +1,21 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "summary-action-bar": {
+      "docsIds": [
+        "SkySummaryActionBarModule",
+        "SkySummaryActionBarComponent",
+        "SkySummaryActionBarActionsComponent",
+        "SkySummaryActionBarPrimaryActionComponent",
+        "SkySummaryActionBarSecondaryActionsComponent",
+        "SkySummaryActionBarSecondaryActionComponent",
+        "SkySummaryActionBarCancelComponent",
+        "SkySummaryActionBarSummaryComponent",
+        "ActionBarsSummaryActionBarBasicExampleComponent",
+        "ActionBarsSummaryActionBarModalExampleComponent",
+        "ActionBarsSummaryActionBarTabExampleComponent"
+      ],
+      "primaryDocsId": "SkySummaryActionBarModule"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "list-overview": {
+      "docsIds": [
+        "SkyListModule",
+        "SkyListComponent",
+        "ListDataRequestModel",
+        "ListDataResponseModel",
+        "ListSearchModel",
+        "ListSelectedModel",
+        "ListSortLabelModel",
+        "ListSortModel"
+      ],
+      "primaryDocsId": "SkyListModule"
+    },
+    "list-filters": {
+      "docsIds": [
+        "SkyListFiltersModule",
+        "SkyListFilterInlineComponent",
+        "SkyListFilterInlineItemComponent",
+        "SkyListFilterSummaryComponent",
+        "SkyListFilterButtonComponent",
+        "ListFilterModel"
+      ],
+      "primaryDocsId": "SkyListFiltersModule"
+    },
+    "list-paging": {
+      "docsIds": ["SkyListPagingModule", "SkyListPagingComponent"],
+      "primaryDocsId": "SkyListPagingModule"
+    },
+    "list-toolbar": {
+      "docsIds": [
+        "SkyListSecondaryActionsModule",
+        "SkyListToolbarComponent",
+        "SkyListSecondaryActionsComponent",
+        "SkyListSecondaryActionComponent",
+        "SkyListToolbarItemComponent",
+        "SkyListToolbarSearchActionsComponent",
+        "SkyListToolbarSortComponent",
+        "SkyListToolbarViewActionsComponent"
+      ],
+      "primaryDocsId": "SkyListSecondaryActionsModule"
+    }
+  }
+}

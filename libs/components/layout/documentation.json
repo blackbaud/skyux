@@ -1,0 +1,186 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "action-button": {
+      "docsIds": [
+        "SkyActionButtonModule",
+        "SkyActionButtonContainerComponent",
+        "SkyActionButtonComponent",
+        "SkyActionButtonIconComponent",
+        "SkyActionButtonHeaderComponent",
+        "SkyActionButtonDetailsComponent",
+        "SkyActionButtonPermalink",
+        "SkyActionButtonContainerAlignItemsType",
+        "LayoutActionButtonBasicExampleComponent",
+        "LayoutActionButtonPermalinkExampleComponent"
+      ],
+      "primaryDocsId": "SkyActionButtonModule"
+    },
+    "back-to-top": {
+      "docsIds": [
+        "SkyBackToTopModule",
+        "SkyBackToTopDirective",
+        "SkyBackToTopOptions",
+        "SkyBackToTopMessage",
+        "SkyBackToTopMessageType",
+        "LayoutBackToTopInfiniteScrollExampleComponent",
+        "LayoutBackToTopRepeaterExampleComponent"
+      ],
+      "primaryDocsId": "SkyBackToTopModule"
+    },
+    "box": {
+      "docsIds": [
+        "SkyBoxModule",
+        "SkyBoxComponent",
+        "SkyBoxHeaderComponent",
+        "SkyBoxContentComponent",
+        "SkyBoxControlsComponent",
+        "SkyBoxHeadingLevel",
+        "SkyBoxHeadingStyle",
+        "SkyBoxHarness",
+        "SkyBoxHarnessFilters",
+        "LayoutBoxBasicExampleComponent",
+        "LayoutBoxHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyBoxModule"
+    },
+    "card": {
+      "docsIds": [
+        "SkyCardModule",
+        "SkyCardComponent",
+        "SkyCardTitleComponent",
+        "SkyCardContentComponent",
+        "SkyCardActionsComponent",
+        "LayoutCardBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyCardModule"
+    },
+    "definition-list": {
+      "docsIds": [
+        "SkyDefinitionListModule",
+        "SkyDefinitionListComponent",
+        "SkyDefinitionListHeadingComponent",
+        "SkyDefinitionListContentComponent",
+        "SkyDefinitionListLabelComponent",
+        "SkyDefinitionListValueComponent",
+        "LayoutDefinitionListBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyDefinitionListModule"
+    },
+    "description-list": {
+      "docsIds": [
+        "SkyDescriptionListModule",
+        "SkyDescriptionListComponent",
+        "SkyDescriptionListContentComponent",
+        "SkyDescriptionListDescriptionComponent",
+        "SkyDescriptionListTermComponent",
+        "SkyDescriptionListModeType",
+        "LayoutDescriptionListHorizontalExampleComponent",
+        "LayoutDescriptionListVerticalExampleComponent",
+        "LayoutDescriptionListLongDescriptionExampleComponent",
+        "LayoutDescriptionListInlineHelpExampleComponent",
+        "LayoutDescriptionListHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyDescriptionListModule"
+    },
+    "fluid-grid": {
+      "docsIds": [
+        "SkyFluidGridModule",
+        "SkyFluidGridComponent",
+        "SkyRowComponent",
+        "SkyColumnComponent",
+        "SkyFluidGridGutterSizeType",
+        "SkyColumnHarness",
+        "SkyColumnHarnessFilters",
+        "SkyFluidGridHarness",
+        "SkyFluidGridHarnessFilters",
+        "SkyRowHarness",
+        "SkyRowHarnessFilters",
+        "LayoutFluidGridExampleComponent"
+      ],
+      "primaryDocsId": "SkyFluidGridModule"
+    },
+    "format": {
+      "docsIds": [
+        "SkyFormatModule",
+        "SkyFormatComponent",
+        "SkyAppFormat",
+        "LayoutFormatExampleComponent"
+      ],
+      "primaryDocsId": "SkyFormatModule"
+    },
+    "inline-delete": {
+      "docsIds": [
+        "SkyInlineDeleteModule",
+        "SkyInlineDeleteComponent",
+        "LayoutInlineDeleteRepeaterExampleComponent",
+        "LayoutInlineDeleteCustomExampleComponent"
+      ],
+      "primaryDocsId": "SkyInlineDeleteModule"
+    },
+    "page-summary": {
+      "docsIds": [
+        "SkyPageSummaryModule",
+        "SkyPageSummaryComponent",
+        "SkyPageSummaryTitleComponent",
+        "SkyPageSummarySubtitleComponent",
+        "SkyPageSummaryAlertComponent",
+        "SkyPageSummaryContentComponent",
+        "SkyPageSummaryImageComponent",
+        "SkyPageSummaryKeyInfoComponent",
+        "SkyPageSummaryStatusComponent",
+        "LayoutPageSummaryBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyPageSummaryModule"
+    },
+    "page": {
+      "docsIds": [
+        "SkyPageModuleLegacy",
+        "SkyPageComponentLegacy",
+        "SkyPageLayoutLegacy",
+        "LayoutPageLayoutFitExampleComponent"
+      ],
+      "primaryDocsId": "SkyPageModuleLegacy"
+    },
+    "text-expand-repeater": {
+      "docsIds": [
+        "SkyTextExpandRepeaterModule",
+        "SkyTextExpandRepeaterComponent",
+        "SkyTextExpandRepeaterListStyleType",
+        "LayoutTextExpandRepeaterExampleComponent"
+      ],
+      "primaryDocsId": "SkyTextExpandRepeaterModule"
+    },
+    "text-expand": {
+      "docsIds": [
+        "SkyTextExpandModule",
+        "SkyTextExpandComponent",
+        "SkyTextExpandHarness",
+        "SkyTextExpandModalHarness",
+        "LayoutTextExpandInlineExampleComponent",
+        "LayoutTextExpandModalExampleComponent",
+        "LayoutTextExpandNewlineExampleComponent"
+      ],
+      "primaryDocsId": "SkyTextExpandModule"
+    },
+    "toolbar": {
+      "docsIds": [
+        "SkyToolbarModule",
+        "SkyToolbarComponent",
+        "SkyToolbarSectionComponent",
+        "SkyToolbarItemComponent",
+        "SkyToolbarViewActionsComponent",
+        "SkyToolbarHarness",
+        "SkyToolbarHarnessFilters",
+        "SkyToolbarSectionHarness",
+        "SkyToolbarSectionHarnessFilters",
+        "SkyToolbarItemHarness",
+        "SkyToolbarItemHarnessFilters",
+        "SkyToolbarViewActionsHarness",
+        "LayoutToolbarBasicExampleComponent",
+        "LayoutToolbarSectionedExampleComponent"
+      ],
+      "primaryDocsId": "SkyToolbarModule"
+    }
+  }
+}
