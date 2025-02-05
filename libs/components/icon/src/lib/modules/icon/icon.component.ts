@@ -52,7 +52,7 @@ export class SkyIconComponent {
    * [Font Awesome sizes](https://fontawesome.com/v4/examples/). Do not prefix the size with `fa-`.
    */
   @Input()
-  public size: string | undefined;
+  public size = 'md';
 
   /**
    * Whether to enforce a fixed width based on icon size. By default, icons of a specified size share a
