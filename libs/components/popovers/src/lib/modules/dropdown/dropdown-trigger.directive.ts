@@ -67,14 +67,20 @@ export class SkyDropdownTriggerDirective implements OnDestroy {
   readonly #contextMenuLabel = toSignal(
     toObservable(this.contentInfo).pipe(
       switchMap((contentInfo) => {
-        return contentInfo?.descriptor?.type === 'text'
-          ? this.#resourcesSvc.getString(
+        if (contentInfo?.descriptor) {
+          if (contentInfo?.descriptor?.type === 'text') {
+            return this.#resourcesSvc.getString(
               'skyux_dropdown_context_menu_with_content_descriptor_default_label',
               contentInfo.descriptor.value,
-            )
-          : this.#resourcesSvc.getString(
-              'skyux_dropdown_context_menu_default_label',
             );
+          }
+
+          return of(undefined);
+        }
+
+        return this.#resourcesSvc.getString(
+          'skyux_dropdown_context_menu_default_label',
+        );
       }),
     ),
   );
