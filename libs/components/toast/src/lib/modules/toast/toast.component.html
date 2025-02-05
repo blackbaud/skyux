@@ -6,11 +6,20 @@
     class="sky-toast sky-shadow sky-rounded-corners sky-box sky-elevation-24"
     [ngClass]="classNames"
   >
-    <div aria-hidden="true" class="sky-toast-icon-theme-default">
-      <sky-icon [icon]="icon" />
+    <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-toast-icon">
+      <sky-icon
+        [iconName]="iconName"
+        variant="solid"
+        size="2x"
+        displayStrategy="standalone"
+      />
     </div>
-    <div aria-hidden="true" class="sky-toast-icon-theme-modern">
-      <sky-icon-stack [baseIcon]="baseIcon" [topIcon]="topIcon" />
+    <div *skyThemeIf="'default'" aria-hidden="true" class="sky-toast-icon">
+      <sky-icon
+        [iconName]="iconName"
+        variant="solid"
+        displayStrategy="standalone"
+      />
     </div>
     <div
       #toastContent
@@ -27,7 +36,7 @@
       [attr.aria-labelledby]="toastCloseMessage.id + ' ' + toastContent.id"
       (click)="close()"
     >
-      <sky-icon icon="close" />
+      <sky-icon iconName="dismiss" />
     </button>
   </div>
   <span

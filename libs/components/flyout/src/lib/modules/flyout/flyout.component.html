@@ -44,7 +44,7 @@
         (keydown)="onHeaderGrabHandleKeyDown($event)"
         (mousedown)="onHeaderGrabHandleMouseDown($event)"
       >
-        <sky-icon icon="tile-drag" size="lg" />
+        <sky-icon iconName="grid-dots" size="lg" />
       </button>
 
       @if (config.showIterator) {
@@ -69,8 +69,8 @@
         }"
         (click)="close()"
       >
-        <sky-icon *skyThemeIf="'default'" icon="close" />
-        <sky-icon *skyThemeIf="'modern'" icon="close" size="lg" />
+        <sky-icon *skyThemeIf="'default'" iconName="dismiss" />
+        <sky-icon *skyThemeIf="'modern'" iconName="dismiss" size="lg" />
       </button>
     </div>
   </div>

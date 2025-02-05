@@ -1,0 +1,89 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-icon-svg') {
+  --sky-override-icon-svg: 1em;
+  --sky-override-icon-svg-lg: 1.333em;
+  --sky-override-icon-svg-2x: 2em;
+  --sky-override-icon-svg-3x: 3em;
+  --sky-override-icon-svg-4x: 4em;
+  --sky-override-icon-svg-5x: 5em;
+}
+
+@include compatMixins.sky-modern-overrides('sky-icon-svg') {
+  --sky-override-icon-svg: 1em;
+  --sky-override-icon-svg-lg: 1.333em;
+  --sky-override-icon-svg-2x: 2em;
+  --sky-override-icon-svg-3x: 3em;
+  --sky-override-icon-svg-4x: 4em;
+  --sky-override-icon-svg-5x: 5em;
+}
+
+sky-icon-svg {
+  display: block;
+  --sky-icon-svg-img-size: 1em;
+  --sky-icon-svg-img-top: 0.15em;
+
+  &::after {
+    content: ' ';
+    display: inline;
+    font-size: var(--sky-icon-svg-img-size);
+  }
+}
+
+.sky-icon-display-standalone {
+  sky-icon-svg::after {
+    content: none;
+  }
+
+  .sky-icon-svg-img {
+    top: 0;
+    display: block;
+  }
+}
+
+.sky-icon-svg {
+  &-lg {
+    .sky-icon-svg-img {
+      margin: 0 0.166em;
+      transform: scale(1.33);
+    }
+  }
+
+  &-2x {
+    --sky-icon-svg-img-size: 2em;
+    --sky-icon-svg-img-top: 0.3em;
+  }
+
+  &-3x {
+    --sky-icon-svg-img-size: 3em;
+    --sky-icon-svg-img-top: 0.45em;
+  }
+
+  &-4x {
+    --sky-icon-svg-img-size: 4em;
+    --sky-icon-svg-img-top: 0.6em;
+  }
+
+  &-5x {
+    --sky-icon-svg-img-size: 5em;
+    --sky-icon-svg-img-top: 0.75em;
+  }
+}
+
+.sky-icon-svg-img {
+  display: inline-block;
+  fill: var(--sky-icon-svg-color-input, currentColor) !important;
+  height: var(--sky-icon-svg-img-size);
+  width: var(--sky-icon-svg-img-size);
+  text-align: center;
+  position: relative;
+  top: var(--sky-icon-svg-img-top);
+}
+
+.sky-i-path-1 {
+  fill: var(--sky-icon-svg-color-input, currentColor);
+}
+
+.sky-i-path-2 {
+  fill: var(--sky-icon-svg-path-2-color-input, #fff);
+}

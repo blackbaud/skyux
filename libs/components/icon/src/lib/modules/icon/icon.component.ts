@@ -3,9 +3,11 @@ import {
   Component,
   Input,
   inject,
+  input,
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
+import { SkyIconDisplayStrategy } from './types/icon-display-strategy';
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -15,20 +17,22 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: {
+    '[class]': '"sky-icon-display-" + displayStrategy()',
+  },
 })
 export class SkyIconComponent {
   /**
    * The name of
    * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) or the SKY UX icon to
    * display. When specifying a Font Awesome icon, do not prefix the name with `fa-`.
-   * @required
+   * @deprecated
    */
   @Input()
   public icon: string | undefined;
 
   /**
-   * The name of the Blackbaud SVG icon to display. For internal use only.
-   * @internal
+   * The name of the Blackbaud SVG icon to display.
    */
   @Input()
   public iconName: string | undefined;
@@ -48,7 +52,7 @@ export class SkyIconComponent {
    * [Font Awesome sizes](https://fontawesome.com/v4/examples/). Do not prefix the size with `fa-`.
    */
   @Input()
-  public size: string | undefined;
+  public size = 'md';
 
   /**
    * Whether to enforce a fixed width based on icon size. By default, icons of a specified size share a
@@ -65,6 +69,13 @@ export class SkyIconComponent {
    */
   @Input()
   public variant: SkyIconVariantType | undefined;
+
+  /**
+   * The display strategy used to position the icon. `withText` aligns the icon with the baseline to be displayed inline with text.
+   * `standalone` does not apply any positioning and treats the icon as a block element.
+   * @default 'withText'
+   */
+  public readonly displayStrategy = input<SkyIconDisplayStrategy>('withText');
 
   protected themeSvc = inject(SkyThemeService, { optional: true });
 }
