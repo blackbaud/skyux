@@ -112,6 +112,7 @@
     "dom-autoscroller": "2.3.4",
     "dompurify": "3.2.3",
     "dragula": "3.7.3",
+    "fast-glob": "3.3.2",
     "fontfaceobserver": "2.3.0",
     "google-libphonenumber": "3.2.40",
     "he": "1.2.0",
