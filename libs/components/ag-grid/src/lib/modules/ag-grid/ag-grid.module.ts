@@ -8,6 +8,11 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
+import {
+  AllCommunityModule,
+  ModuleRegistry,
+  provideGlobalGridOptions,
+} from 'ag-grid-community';
 
 import { SkyAgGridResourcesModule } from '../shared/sky-ag-grid-resources.module';
 
@@ -28,6 +33,12 @@ import { SkyAgGridCellRendererValidatorTooltipModule } from './cell-renderers/ce
 import { SkyAgGridCellValidatorModule } from './cell-validator/ag-grid-cell-validator.module';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
+
+provideGlobalGridOptions({
+  rowModelType: 'clientSide',
+  theme: 'legacy',
+});
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @NgModule({
   declarations: [
