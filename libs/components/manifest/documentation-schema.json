@@ -4,13 +4,14 @@
   "type": "object",
   "properties": {
     "groups": {
+      "description": "A collection of documentation groups for this project.",
       "type": "object",
       "patternProperties": {
         "^.*$": {
           "type": "object",
           "properties": {
             "docsIds": {
-              "description": "",
+              "description": "A list of unique IDs for types associated with this documentation group. The docs ID defaults to the type's name, but it can be overwritten with the @docsId JSDoc tag.",
               "type": "array",
               "items": {
                 "type": "string"
@@ -19,6 +20,7 @@
               "uniqueItems": true
             },
             "primaryDocsId": {
+              "description": "The primary type for this documentation group. This is usually a component module, but it can also be a service when a module isn't required to implement it (e.g. SkyFlyoutService).",
               "type": "string"
             }
           },

@@ -5,9 +5,9 @@ import path from 'node:path';
 
 import documentationSchema from '../../documentation-schema.json';
 import type { SkyManifestParentDefinition } from '../types/base-def';
-import { SkyManifestPublicApi } from '../types/manifest';
+import type { SkyManifestPublicApi } from '../types/manifest';
 
-import { ProjectDefinition } from './get-project-definitions';
+import { type ProjectDefinition } from './get-project-definitions';
 import { type PackagesMap } from './get-public-api';
 
 const ajv = new Ajv();
