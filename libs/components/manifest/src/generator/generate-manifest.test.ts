@@ -6,7 +6,12 @@ const projectsRootDirectory =
 function setup(options: {
   documentationJsonExists: boolean;
   outDirExists: boolean;
-  projectName: 'foo' | 'invalid-docs-id' | 'invalid-documentation-json';
+  projectNames: (
+    | 'code-examples'
+    | 'foo'
+    | 'invalid-docs-id'
+    | 'invalid-documentation-json'
+  )[];
 }): {
   mkdirMock: jest.Mock;
   writeFileMock: jest.Mock;
@@ -46,19 +51,23 @@ function setup(options: {
   jest.mock('./get-project-definitions', () => {
     return {
       getProjectDefinitions: jest.fn().mockImplementation(() => {
-        const projectRoot = `${projectsRootDirectory}/${options.projectName}`;
+        const definitions = [];
 
-        return [
-          {
+        for (const projectName of options.projectNames) {
+          const projectRoot = `${projectsRootDirectory}/${projectName}`;
+
+          definitions.push({
             entryPoints: [
               `${projectRoot}/src/index.ts`,
               `${projectRoot}/testing/src/public-api.ts`,
             ],
-            packageName: `@skyux/${options.projectName}`,
-            projectName: options.projectName,
+            packageName: `@skyux/${projectName}`,
+            projectName: projectName,
             projectRoot,
-          },
-        ];
+          });
+        }
+
+        return definitions;
       }),
     };
   });
@@ -76,14 +85,14 @@ describe('generate-manifest', () => {
     const { writeFileMock } = setup({
       documentationJsonExists: true,
       outDirExists: true,
-      projectName: 'foo',
+      projectNames: ['code-examples', 'foo'],
     });
 
     const { generateManifest } = await import('./generate-manifest');
 
     await generateManifest({
       outDir: '/dist',
-      projectNames: ['foo'],
+      projectNames: ['foo', 'code-examples'],
       projectsRootDirectory,
     });
 
@@ -94,7 +103,7 @@ describe('generate-manifest', () => {
     const { mkdirMock } = setup({
       documentationJsonExists: false,
       outDirExists: false,
-      projectName: 'foo',
+      projectNames: ['foo'],
     });
 
     const { generateManifest } = await import('./generate-manifest');
@@ -112,7 +121,7 @@ describe('generate-manifest', () => {
     setup({
       documentationJsonExists: false,
       outDirExists: true,
-      projectName: 'invalid-docs-id',
+      projectNames: ['invalid-docs-id'],
     });
 
     const { generateManifest } = await import('./generate-manifest');
@@ -130,7 +139,7 @@ describe('generate-manifest', () => {
     setup({
       documentationJsonExists: true,
       outDirExists: true,
-      projectName: 'invalid-documentation-json',
+      projectNames: ['invalid-documentation-json'],
     });
 
     const { generateManifest } = await import('./generate-manifest');

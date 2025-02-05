@@ -7,6 +7,15 @@ exports[`generate-manifest should generate manifest 1`] = `
       "/dist/public-api.json",
       "{
   \\"packages\\": {
+    \\"@skyux/code-examples\\": [
+      {
+        \\"anchorId\\": \\"class_foo-code-example1\\",
+        \\"docsId\\": \\"FooCodeExample1\\",
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooCodeExample1\\"
+      }
+    ],
     \\"@skyux/foo\\": [
       {
         \\"anchorId\\": \\"class_----\\",
@@ -676,6 +685,10 @@ exports[`generate-manifest should generate manifest 1`] = `
       "/dist/documentation-config.json",
       "{
   \\"packages\\": {
+    \\"@skyux/code-examples\\": {
+      \\"$schema\\": \\"../../../../../../documentation-schema.json\\",
+      \\"groups\\": {}
+    },
     \\"@skyux/foo\\": {
       \\"$schema\\": \\"../../../../../../documentation-schema.json\\",
       \\"groups\\": {
@@ -683,7 +696,8 @@ exports[`generate-manifest should generate manifest 1`] = `
           \\"docsIds\\": [
             \\"docs-id-override\\",
             \\"FooWithStaticPropertiesClass\\",
-            \\"FooClass\\"
+            \\"FooClass\\",
+            \\"FooCodeExample1\\"
           ],
           \\"primaryDocsId\\": \\"FooClass\\"
         }
@@ -692,8 +706,25 @@ exports[`generate-manifest should generate manifest 1`] = `
   }
 }",
     ],
+    Array [
+      "/dist/code-examples.json",
+      "{
+  \\"examples\\": {
+    \\"FooCodeExample1\\": {
+      \\"files\\": {
+        \\"types.ts\\": \\"/**\\\\n * @title This is a title\\\\n */\\\\nexport class FooCodeExample1 {}\\\\n\\"
+      },
+      \\"primaryFile\\": \\"types.ts\\"
+    }
+  }
+}",
+    ],
   ],
   "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
     Object {
       "type": "return",
       "value": undefined,

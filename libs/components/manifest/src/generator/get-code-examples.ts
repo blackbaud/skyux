@@ -17,6 +17,10 @@ export async function getCodeExamples(
     examples: {},
   };
 
+  if (!definitions) {
+    return codeExamples;
+  }
+
   for (const definition of definitions) {
     const rootPath = path.dirname(definition.filePath);
     const rootPathResolved = `${glob.convertPathToPattern(rootPath)}/`;
