@@ -213,6 +213,31 @@ describe('Viewkeeper', () => {
       );
     });
 
+    it('should support viewportMarginProperty', () => {
+      boundaryEl.style.setProperty('--test-viewport-top', '14px');
+
+      vks.push(
+        new SkyViewkeeper({
+          el,
+          boundaryEl,
+          viewportMarginProperty: '--test-viewport-top',
+          setWidth: true,
+        }),
+      );
+
+      scrollWindowTo(0, 20);
+      validatePinned(el, true, 0, 14);
+      expect(el.style.marginTop).toBe(
+        'calc(0px + var(--test-viewport-top, 0))',
+      );
+
+      scrollWindowTo(50, 890);
+      validatePinned(el, true, 0, 14);
+      expect(el.style.marginTop).toBe(
+        'calc(0px + var(--test-viewport-top, 0))',
+      );
+    });
+
     describe('ResizeObserver', () => {
       const NativeResizeObserver = ResizeObserver;
 
