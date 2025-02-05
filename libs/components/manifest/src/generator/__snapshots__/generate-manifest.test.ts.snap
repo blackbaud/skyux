@@ -672,8 +672,18 @@ exports[`generate-manifest should generate manifest 1`] = `
   }
 }",
     ],
+    Array [
+      "/dist/documentation-config.json",
+      "{
+  \\"packages\\": {}
+}",
+    ],
   ],
   "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
     Object {
       "type": "return",
       "value": undefined,
