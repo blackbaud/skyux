@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
@@ -38,6 +39,18 @@ export class SkyAgGridCellEditorNumberComponent
 
   @ViewChild('skyCellEditorNumber', { read: ElementRef })
   public input: ElementRef | undefined;
+
+  @HostListener('focusout', ['$event'])
+  public onFocusOut(event: FocusEvent): void {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    }
+  }
 
   #params: ICellEditorParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
@@ -84,12 +97,17 @@ export class SkyAgGridCellEditorNumberComponent
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
-    if (this.input) {
-      this.input.nativeElement.focus();
-      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
-        this.input.nativeElement.select();
+    // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
+    setTimeout(() => {
+      if (this.input) {
+        this.input.nativeElement.focus();
+        if (
+          this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
+        ) {
+          this.input.nativeElement.select();
+        }
       }
-    }
+    });
   }
 
   /**

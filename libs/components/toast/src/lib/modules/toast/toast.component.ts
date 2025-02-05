@@ -169,11 +169,6 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
     this.iconName = icon;
 
-    this.ariaLive =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
-    this.ariaRole =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'alert' : undefined;
-
     let typeLabel: string;
     switch (this.toastTypeOrDefault) {
       case SkyToastType.Danger:

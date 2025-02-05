@@ -14,7 +14,6 @@ interface SkyManifestComment {
   deprecationReason?: string;
   description?: string;
   docsId?: string;
-  docsIncludeIds?: string[];
   isDeprecated?: boolean;
   isInternal?: boolean;
   isPreview?: boolean;
@@ -64,14 +63,6 @@ function getCodeExample(comment: CommentTag): {
   return { codeExample, codeExampleLanguage };
 }
 
-function getDocsIncludeIds(tag: CommentTag): string[] {
-  return (
-    getCommentTagText(tag.content)
-      ?.split(',')
-      .map((id) => id.trim()) || []
-  );
-}
-
 /**
  * Gets information about the reflection's JSDoc comment block.
  */
@@ -85,7 +76,6 @@ export function getComment(reflection: {
   let deprecationReason: string | undefined;
   let description: string | undefined;
   let docsId: string | undefined;
-  let docsIncludeIds: string[] | undefined;
   let isDeprecated: boolean | undefined;
   let isInternal: boolean | undefined;
   let isPreview: boolean | undefined;
@@ -129,11 +119,6 @@ export function getComment(reflection: {
             break;
           }
 
-          case '@docsIncludeIds': {
-            docsIncludeIds = getDocsIncludeIds(tag);
-            break;
-          }
-
           case '@example': {
             const example = getCodeExample(tag);
             codeExample = example.codeExample;
@@ -170,7 +155,6 @@ export function getComment(reflection: {
     deprecationReason,
     description,
     docsId,
-    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,

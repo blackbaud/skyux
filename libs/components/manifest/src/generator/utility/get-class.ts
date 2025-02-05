@@ -12,6 +12,7 @@ import { getAnchorId } from './get-anchor-id';
 import { getComment } from './get-comment';
 import { getDefaultValue } from './get-default-value';
 import { getParameters } from './get-parameters';
+import { remapLambdaName } from './remap-lambda-names';
 
 export function getMethods(
   reflection: DeclarationReflection,
@@ -120,12 +121,12 @@ export function getClass(
     deprecationReason,
     description,
     docsId,
-    docsIncludeIds,
     isDeprecated,
     isInternal,
     isPreview,
   } = getComment(reflection);
 
+  const className = remapLambdaName(reflection);
   const methods = getMethods(reflection) ?? [];
   const properties = getProperties(reflection) ?? [];
   const children = [...methods, ...properties];
@@ -137,14 +138,13 @@ export function getClass(
     codeExampleLanguage,
     deprecationReason,
     description,
-    docsId: docsId ?? reflection.name,
-    docsIncludeIds,
+    docsId: docsId ?? className,
     filePath,
     isDeprecated,
     isInternal,
     isPreview,
     kind,
-    name: reflection.name,
+    name: className,
     typeParameters: formatTypeParameters(reflection),
   };
 

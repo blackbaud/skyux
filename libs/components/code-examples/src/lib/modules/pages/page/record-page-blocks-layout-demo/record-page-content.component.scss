@@ -1,0 +1,13 @@
+.box-2-content {
+  display: flex;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .box-2-actuals {
+    margin-right: 60px;
+  }
+}

@@ -1,0 +1,99 @@
+<div class="sky-padding-even-lg">
+  <form [formGroup]="formGroup">
+    <sky-fluid-grid gutterSize="small" [disableMargin]="false">
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <h2>New member form</h2>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box
+            data-sky-id="input-box-first-name"
+            helpKey="first-name-help"
+            labelText="First name"
+            stacked="true"
+          >
+            <input formControlName="firstName" spellcheck="false" type="text" />
+          </sky-input-box>
+        </sky-column>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box
+            data-sky-id="input-box-last-name"
+            labelText="Last name"
+            stacked="true"
+          >
+            <input
+              class="last-name-input-box"
+              formControlName="lastName"
+              spellcheck="false"
+              type="text"
+            />
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-input-box
+            characterLimit="250"
+            data-sky-id="input-box-bio"
+            hintText="A brief description of the member's background, such as hometown, school, hobbies, etc."
+            labelText="Bio"
+            stacked="true"
+          >
+            <textarea formControlName="bio"></textarea>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box
+            data-sky-id="input-box-email"
+            labelText="Email address"
+            stacked="true"
+            helpPopoverContent="We do not share this information with any third parties."
+            helpPopoverTitle="Privacy notice"
+          >
+            <input formControlName="email" type="text" />
+          </sky-input-box>
+        </sky-column>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box labelText="Date of birth" stacked="true">
+            <sky-datepicker>
+              <input formControlName="dob" skyDatepickerInput />
+            </sky-datepicker>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-input-box
+            data-sky-id="input-box-favorite-color"
+            labelText="Favorite color"
+          >
+            <select
+              class="input-box-favorite-color-select"
+              formControlName="favoriteColor"
+            >
+              <option value="none">None</option>
+              <option value="red">Red</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="invalid">Invalid Color</option>
+            </select>
+            <!-- Custom form error not handled by input box. -->
+            @if (favoriteColor.errors?.['invalid']) {
+              <sky-form-error
+                errorName="invalid"
+                errorText="Invalid Color is not a color"
+              />
+            }
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </form>
+</div>

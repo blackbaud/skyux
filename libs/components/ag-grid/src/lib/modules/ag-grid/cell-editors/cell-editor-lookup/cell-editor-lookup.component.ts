@@ -52,9 +52,18 @@ export class SkyAgGridCellEditorLookupComponent
   #changeDetector = inject(ChangeDetectorRef);
   #elementRef = inject(ElementRef<HTMLElement>);
 
-  @HostListener('blur')
-  public onBlur(): void {
-    this.#stopEditingOnBlur();
+  @HostListener('focusout', ['$event'])
+  public onBlur(event: FocusEvent): void {
+    if (
+      event.relatedTarget &&
+      event.relatedTarget === this.#params?.eGridCell
+    ) {
+      // If focus is being set to the grid cell, schedule focus on the input.
+      // This happens when the refreshCells API is called.
+      this.afterGuiAttached();
+    } else {
+      this.#stopEditingOnBlur();
+    }
   }
 
   public agInit(params: SkyCellEditorLookupParams): void {

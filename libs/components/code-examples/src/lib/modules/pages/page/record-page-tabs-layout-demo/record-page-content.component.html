@@ -1,0 +1,13 @@
+<sky-tabset [(active)]="activeTabIndex">
+  <sky-tab tabHeading="Overview" layout="blocks">
+    <app-record-page-overview-tab />
+  </sky-tab>
+  <sky-tab tabHeading="Notes" layout="list">
+    <app-record-page-notes-tab />
+  </sky-tab>
+  <sky-tab tabHeading="Attachments" layout="list">
+    @if (activeTabIndex === 2) {
+      <app-record-page-attachments-tab />
+    }
+  </sky-tab>
+</sky-tabset>
