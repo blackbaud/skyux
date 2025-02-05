@@ -675,7 +675,21 @@ exports[`generate-manifest should generate manifest 1`] = `
     Array [
       "/dist/documentation-config.json",
       "{
-  \\"packages\\": {}
+  \\"packages\\": {
+    \\"@skyux/foo\\": {
+      \\"$schema\\": \\"../../../../../../documentation-schema.json\\",
+      \\"groups\\": {
+        \\"foo\\": {
+          \\"docsIds\\": [
+            \\"docs-id-override\\",
+            \\"FooWithStaticPropertiesClass\\",
+            \\"FooClass\\"
+          ],
+          \\"primaryDocsId\\": \\"FooClass\\"
+        }
+      }
+    }
+  }
 }",
     ],
   ],

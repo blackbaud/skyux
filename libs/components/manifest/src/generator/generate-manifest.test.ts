@@ -74,7 +74,7 @@ describe('generate-manifest', () => {
 
   it('should generate manifest', async () => {
     const { writeFileMock } = setup({
-      documentationJsonExists: false,
+      documentationJsonExists: true,
       outDirExists: true,
       projectName: 'foo',
     });
