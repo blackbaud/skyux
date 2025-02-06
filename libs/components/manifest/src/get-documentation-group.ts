@@ -21,19 +21,21 @@ function getPublicApiByDocsIds(
     testing: [],
   };
 
-  for (const [packageName, definitions] of Object.entries(
-    PUBLIC_API.packages,
-  )) {
-    for (const definition of definitions) {
-      if (docsIds.includes(definition.docsId)) {
-        if (packageName === '@skyux/code-examples') {
-          documentation.codeExamples.push(
-            CODE_EXAMPLES.examples[definition.docsId],
-          );
-        } else if (packageName.endsWith('/testing')) {
-          documentation.testing.push({ ...definition, packageName });
-        } else {
-          documentation.publicApi.push({ ...definition, packageName });
+  for (const docsId of docsIds) {
+    for (const [packageName, definitions] of Object.entries(
+      PUBLIC_API.packages,
+    )) {
+      for (const definition of definitions) {
+        if (definition.docsId === docsId) {
+          if (packageName === '@skyux/code-examples') {
+            documentation.codeExamples.push(
+              CODE_EXAMPLES.examples[definition.docsId],
+            );
+          } else if (packageName.endsWith('/testing')) {
+            documentation.testing.push({ ...definition, packageName });
+          } else {
+            documentation.publicApi.push({ ...definition, packageName });
+          }
         }
       }
     }
@@ -46,7 +48,7 @@ function getPublicApiByDocsIds(
  * Returns information about the documentation for a group of types within an NPM package.
  * @param packageName The NPM package name.
  * @param groupName The documentation group name.
- * @returns
+ * @internal
  */
 export function getDocumentationGroup(
   packageName: string,

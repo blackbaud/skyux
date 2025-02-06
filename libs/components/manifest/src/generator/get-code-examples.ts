@@ -25,6 +25,7 @@ export async function getCodeExamples(
     return [codeExamples, []];
   }
 
+  // Scrape the contents of each file in the code example's directory.
   for (const definition of definitions) {
     const rootPath = path.dirname(definition.filePath);
     const rootPathResolved = `${glob.convertPathToPattern(rootPath)}/`;
