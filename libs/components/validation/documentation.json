@@ -1,0 +1,26 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "email-validation": {
+      "docsIds": [
+        "SkyEmailValidationModule",
+        "SkyEmailValidationDirective",
+        "SkyValidators",
+        "ValidationEmailValidationDirectiveExampleComponent",
+        "ValidationEmailValidationControlValidatorExampleComponent"
+      ],
+      "primaryDocsId": "SkyEmailValidationModule"
+    },
+    "url-validation": {
+      "docsIds": [
+        "SkyUrlValidationModule",
+        "SkyUrlValidationDirective",
+        "SkyUrlValidationOptions",
+        "SkyValidators",
+        "ValidationUrlValidationDirectiveExampleComponent",
+        "ValidationUrlValidationControlValidatorExampleComponent"
+      ],
+      "primaryDocsId": "SkyUrlValidationModule"
+    }
+  }
+}

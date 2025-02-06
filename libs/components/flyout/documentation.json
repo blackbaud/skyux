@@ -1,0 +1,19 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "flyout": {
+      "docsIds": [
+        "SkyFlyoutService",
+        "SkyFlyoutConfig",
+        "SkyFlyoutInstance",
+        "SkyFlyoutAction",
+        "SkyFlyoutBeforeCloseHandler",
+        "SkyFlyoutCloseArgs",
+        "SkyFlyoutPermalink",
+        "FlyoutBasicExampleComponent",
+        "FlyoutCustomHeadersExampleComponent"
+      ],
+      "primaryDocsId": "SkyFlyoutService"
+    }
+  }
+}

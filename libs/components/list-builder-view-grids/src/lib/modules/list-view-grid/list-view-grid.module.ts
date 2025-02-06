@@ -9,7 +9,6 @@ import { SkyListBuilderViewGridsResourcesModule } from '../shared/sky-list-build
 import { SkyListViewGridComponent } from './list-view-grid.component';
 
 /**
- * @docsIncludeIds SkyListViewGridComponent, SkyListViewGridMessageType, SkyListViewGridMessage, SkyListViewGridRowDeleteCancelArgs, SkyListViewGridRowDeleteConfirmArgs
  * @deprecated List builder view grid and its features are deprecated. Use data entry grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-entry-grid.
  */
 @NgModule({

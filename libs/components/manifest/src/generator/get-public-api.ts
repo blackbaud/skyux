@@ -3,7 +3,6 @@ import { type DeclarationReflection, ReflectionKind } from 'typedoc';
 import type { SkyManifestParentDefinition } from '../types/base-def';
 import type { SkyManifestPublicApi } from '../types/manifest';
 
-import { assignDocsIncludeIds } from './assign-docs-include-ids';
 import { getEntryPointsReflections } from './get-entry-points-reflections';
 import { ProjectDefinition } from './get-project-definitions';
 import { getClass } from './utility/get-class';
@@ -15,6 +14,7 @@ import { getInterface } from './utility/get-interface';
 import { getPipe } from './utility/get-pipe';
 import { getTypeAlias } from './utility/get-type-alias';
 import { getVariable } from './utility/get-variable';
+import { validateDocsIds } from './validations';
 
 export type PackagesMap = Map<string, SkyManifestParentDefinition[]>;
 
@@ -140,7 +140,14 @@ export async function getPublicApi(
     }
   }
 
-  await assignDocsIncludeIds(packages);
+  const errors = validateDocsIds(packages);
+
+  if (errors.length > 0) {
+    throw new Error(
+      'Encountered the following errors when generating the manifest:\n - ' +
+        errors.join('\n - '),
+    );
+  }
 
   return {
     packages: Object.fromEntries(packages),

@@ -1,0 +1,73 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "data-grid": {
+      "docsIds": [
+        "SkyAgGridModule",
+        "SkyAgGridWrapperComponent",
+        "SkyAgGridService",
+        "SkyGetGridOptionsArgs",
+        "SkyAgGridRowDeleteDirective",
+        "SkyAgGridRowDeleteConfirmArgs",
+        "SkyAgGridRowDeleteCancelArgs",
+        "SkyAgGridCellEditorInitialAction",
+        "SkyAgGridCellEditorUtils",
+        "SkyCellType",
+        "SkyAgGridHeaderInfo",
+        "SkyAgGridHeaderParams",
+        "SkyAgGridHeaderGroupInfo",
+        "SkyAgGridHeaderGroupParams",
+        "SkyAgGridAutocompleteProperties",
+        "SkyAutocompleteProperties",
+        "SkyAgGridCurrencyProperties",
+        "SkyAgGridDatepickerProperties",
+        "SkyDatepickerProperties",
+        "SkyAgGridLookupProperties",
+        "SkyAgGridNumberProperties",
+        "SkyAgGridTextProperties",
+        "SkyAgGridValidatorProperties",
+        "AgGridDataGridBasicExampleComponent",
+        "AgGridDataGridBasicMultiselectExampleComponent",
+        "AgGridDataGridDataManagerExampleComponent",
+        "AgGridDataGridDataManagerMultiselectExampleComponent",
+        "AgGridDataGridInlineHelpExampleComponent",
+        "AgGridDataGridPagingExampleComponent",
+        "AgGridDataGridTemplateRefColumnExampleComponent",
+        "AgGridDataGridTopScrollExampleComponent"
+      ],
+      "primaryDocsId": "SkyAgGridModule"
+    },
+    "data-entry-grid": {
+      "docsIds": [
+        "SkyAgGridModule",
+        "SkyAgGridWrapperComponent",
+        "SkyAgGridService",
+        "SkyGetGridOptionsArgs",
+        "SkyAgGridRowDeleteDirective",
+        "SkyAgGridRowDeleteConfirmArgs",
+        "SkyAgGridRowDeleteCancelArgs",
+        "SkyAgGridCellEditorInitialAction",
+        "SkyAgGridCellEditorUtils",
+        "SkyCellType",
+        "SkyAgGridHeaderInfo",
+        "SkyAgGridHeaderParams",
+        "SkyAgGridHeaderGroupInfo",
+        "SkyAgGridHeaderGroupParams",
+        "SkyAgGridAutocompleteProperties",
+        "SkyAutocompleteProperties",
+        "SkyAgGridCurrencyProperties",
+        "SkyAgGridDatepickerProperties",
+        "SkyDatepickerProperties",
+        "SkyAgGridLookupProperties",
+        "SkyAgGridNumberProperties",
+        "SkyAgGridTextProperties",
+        "SkyAgGridValidatorProperties",
+        "AgGridDataEntryGridBasicExampleComponent",
+        "AgGridDataEntryGridDataManagerAddedExampleComponent",
+        "AgGridDataEntryGridFocusExampleComponent",
+        "AgGridDataEntryGridInlineHelpExampleComponent"
+      ],
+      "primaryDocsId": "SkyAgGridModule"
+    }
+  }
+}
