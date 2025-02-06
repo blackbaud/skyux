@@ -4,7 +4,6 @@
 
 @include compatMixins.sky-default-overrides('.sky-needs-attention-list') {
   --sky-override-needs-attention-item-icon-color: #{$sky-theme-modern-font-deemphasized-color};
-  --sky-override-needs-attention-margin-bottom: var(--sky-margin-stacked-xl);
   --sky-override-needs-attention-item-wrapper-padding: var(
     --sky-margin-stacked-lg
   );
@@ -12,10 +11,6 @@
 
 :host {
   display: block;
-  margin-bottom: var(
-    --sky-override-needs-attention-margin-bottom,
-    var(--sky-space-gap-form-l)
-  );
 }
 
 h2 {
