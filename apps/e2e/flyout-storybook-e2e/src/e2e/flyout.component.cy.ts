@@ -50,5 +50,5 @@ describe('flyout-storybook', () => {
         });
       });
     });
-  });
+  }, true);
 });
