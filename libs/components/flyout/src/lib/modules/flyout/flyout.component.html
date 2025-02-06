@@ -30,15 +30,12 @@
   <div
     #flyoutHeader
     class="sky-flyout-header"
-    [skyThemeClass]="{
-      'sky-padding-squish-large': 'default'
-    }"
     [style.z-index]="zIndex$ | async"
   >
     <div class="sky-flyout-header-content">
       <button
         *skyThemeIf="'modern'"
-        class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
+        class="sky-btn sky-btn-icon-borderless sky-flyout-header-grab-handle"
         type="button"
         [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
         (keydown)="onHeaderGrabHandleKeyDown($event)"
@@ -96,11 +93,11 @@
   @if (permalink) {
     @if (permalink.url) {
       <a
-        class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
+        class="sky-btn sky-flyout-btn-permalink"
         [skyHref]="permalink.url"
         [skyThemeClass]="{
           'sky-btn-default': 'default',
-          'sky-btn-borderless': 'modern'
+          'sky-btn-link-inline': 'modern'
         }"
         (click)="close()"
       >
@@ -108,12 +105,12 @@
       </a>
     } @else if (permalink.route) {
       <a
-        class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
+        class="sky-btn sky-flyout-btn-permalink"
         [routerLink]="permalink.route.commands"
         [fragment]="permalink.route.extras?.fragment"
         [skyThemeClass]="{
           'sky-btn-default': 'default',
-          'sky-btn-borderless': 'modern'
+          'sky-btn-link-inline': 'modern'
         }"
         [queryParams]="permalink.route.extras?.queryParams"
         [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
@@ -130,7 +127,11 @@
   @if (primaryAction && primaryAction.callback) {
     <button
       type="button"
-      class="sky-btn sky-btn-default sky-flyout-btn-primary-action sky-margin-inline-default"
+      class="sky-btn sky-flyout-btn-primary-action"
+      [skyThemeClass]="{
+        'sky-btn-default': 'default',
+        'sky-btn-link-inline': 'modern'
+      }"
       (click)="invokePrimaryAction()"
     >
       {{ primaryActionLabel }}

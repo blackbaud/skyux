@@ -1,0 +1,29 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "rich-text-display": {
+      "docsIds": [
+        "SkyRichTextDisplayModule",
+        "SkyRichTextDisplayComponent",
+        "TextEditorRichTextDisplayExampleComponent"
+      ],
+      "primaryDocsId": "SkyRichTextDisplayModule"
+    },
+    "text-editor": {
+      "docsIds": [
+        "SkyTextEditorModule",
+        "SkyTextEditorComponent",
+        "SkyFormErrorComponent",
+        "SkyTextEditorFont",
+        "SkyTextEditorLinkWindowOptionsType",
+        "SkyTextEditorMenuType",
+        "SkyTextEditorStyleState",
+        "SkyTextEditorMergeField",
+        "SkyTextEditorToolbarActionType",
+        "TextEditorExampleComponent",
+        "TextEditorHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyTextEditorModule"
+    }
+  }
+}

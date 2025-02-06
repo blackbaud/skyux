@@ -1,0 +1,14 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "navbar": {
+      "docsIds": [
+        "SkyNavbarModule",
+        "SkyNavbarComponent",
+        "SkyNavbarItemComponent",
+        "NavbarExampleComponent"
+      ],
+      "primaryDocsId": "SkyNavbarModule"
+    }
+  }
+}
