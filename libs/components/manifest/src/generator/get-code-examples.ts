@@ -17,11 +17,11 @@ function validateCodeExamples(
   documentationConfig: SkyManifestDocumentationConfig,
 ): string[] {
   const errors: string[] = [];
+  const unreferencedIds: string[] = [];
 
   const codeExampleDocsIds = publicApi.packages['@skyux/code-examples'].map(
     (d) => d.docsId,
   );
-  const unreferencedIds: string[] = [];
 
   for (const docsId of codeExampleDocsIds) {
     let found = false;
@@ -79,6 +79,7 @@ export async function getCodeExamples(
     codeExamples.examples[definition.docsId] = {
       files,
       primaryFile: path.basename(definition.filePath),
+      title: definition.extraTags?.['title'],
     };
   }
 
@@ -90,10 +91,6 @@ export async function getCodeExamples(
         errors.join('\n - '),
     );
   }
-
-  // todo: throw error if unused example found.
-  // todo: add support for @title
-  // todo: try getting it to work locally
 
   return codeExamples;
 }

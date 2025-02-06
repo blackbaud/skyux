@@ -728,7 +728,8 @@ exports[`generate-manifest should generate manifest 1`] = `
       \\"files\\": {
         \\"types.ts\\": \\"/**\\\\n * @title This is a title\\\\n */\\\\nexport class FooCodeExample1 {}\\\\n\\"
       },
-      \\"primaryFile\\": \\"types.ts\\"
+      \\"primaryFile\\": \\"types.ts\\",
+      \\"title\\": \\"This is a title\\"
     }
   }
 }",

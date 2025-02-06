@@ -5,17 +5,17 @@ import { getPublicApi } from './get-public-api';
 import { SkyManifestDocumentationConfig } from './types/documentation-config';
 import type {
   SkyManifestCodeExamples,
-  SkyManifestDocumentation,
+  SkyManifestDocumentationGroup,
 } from './types/manifest';
 
 const PUBLIC_API = getPublicApi();
 const DOCS_CONFIG = documentationConfigJson as SkyManifestDocumentationConfig;
 const CODE_EXAMPLES = codeExamplesJson as SkyManifestCodeExamples;
 
-function filterPublicApiForDocumentation(
+function getPublicApiByDocsIds(
   docsIds: string[],
-): SkyManifestDocumentation {
-  const documentation: SkyManifestDocumentation = {
+): SkyManifestDocumentationGroup {
+  const documentation: SkyManifestDocumentationGroup = {
     codeExamples: [],
     publicApi: [],
     testing: [],
@@ -48,10 +48,10 @@ function filterPublicApiForDocumentation(
  * @param groupName The documentation group name.
  * @returns
  */
-export function getDocumentation(
+export function getDocumentationGroup(
   packageName: string,
   groupName: string,
-): SkyManifestDocumentation {
+): SkyManifestDocumentationGroup {
   const config = DOCS_CONFIG.packages[packageName];
 
   if (!config) {
@@ -68,5 +68,5 @@ export function getDocumentation(
     );
   }
 
-  return filterPublicApiForDocumentation(group.docsIds);
+  return getPublicApiByDocsIds(group.docsIds);
 }
