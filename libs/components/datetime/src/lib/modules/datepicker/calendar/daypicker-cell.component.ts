@@ -68,14 +68,24 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
       this.date.keyDateText[0].length > 0
     );
 
+    console.log(
+      'init',
+      this.date?.date,
+      this.date?.current,
+      this.#datepicker.isActive(this.date),
+      this.activeDateHasChanged,
+      this.hasTooltip,
+    );
+
     // show the tooltip if this is the active date and is not the
     // initial active date (activeDateHasChanged)
     if (
-      !!this.date &&
+      this.date &&
       this.#datepicker.isActive(this.date) &&
       this.activeDateHasChanged &&
       this.hasTooltip
     ) {
+      console.log('SHOW');
       this.#activeUid = this.date.uid;
       this.#showTooltip();
     }

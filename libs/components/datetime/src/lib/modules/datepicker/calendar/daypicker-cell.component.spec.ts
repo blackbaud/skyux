@@ -48,7 +48,7 @@ class MockSkyCalendarInnerComponent {
   }
 }
 
-describe('daypicker cell', () => {
+fdescribe('daypicker cell', () => {
   let fixture: ComponentFixture<SkyDayPickerCellComponent>;
   let component: SkyDayPickerCellComponent;
   let datepickerService: SkyDatepickerCalendarService;
