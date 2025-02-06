@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../../../../documentation-schema.json",
+  "groups": {
+    "foo": {
+      "docsIds": [
+        "docs-id-override",
+        "FooWithStaticPropertiesClass",
+        "FooClass"
+      ],
+      "primaryDocsId": "FooClass"
+    }
+  }
+}

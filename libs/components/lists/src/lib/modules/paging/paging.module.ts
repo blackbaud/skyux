@@ -9,9 +9,6 @@ import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 import { SkyPagingContentComponent } from './paging-content.component';
 import { SkyPagingComponent } from './paging.component';
 
-/**
- * @docsIncludeIds SkyPagingComponent, SkyPagingContentComponent, SkyPagingContentChangeArgs
- */
 @NgModule({
   declarations: [SkyPagingComponent],
   imports: [

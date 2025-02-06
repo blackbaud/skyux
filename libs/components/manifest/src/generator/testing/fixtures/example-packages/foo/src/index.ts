@@ -14,7 +14,6 @@ export {
   FooBasicTypeParamDefaultValueClass,
   FooClass,
   FooWithDocsIdOverrideClass,
-  FooWithEmptyDocsIncludeIdsClass,
   FooWithStaticPropertiesClass,
 } from './lib/foo.class';
 export {
@@ -31,7 +30,7 @@ export {
 export { FooEnum } from './lib/foo.enum';
 export { createFoo } from './lib/foo.function';
 export { FooEmptyInterface, FooInterface } from './lib/foo.interface';
-export { FooModule, FooWithExportsModule } from './lib/foo.module';
+export { FooModule } from './lib/foo.module';
 export { FooPipe } from './lib/foo.pipe';
 export { FooService } from './lib/foo.service';
 export { FooAlias, FooReferenceTypeAlias } from './lib/foo.type-alias';

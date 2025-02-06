@@ -1,0 +1,65 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "filter": {
+      "docsIds": [
+        "SkyFilterModule",
+        "SkyFilterInlineComponent",
+        "SkyFilterInlineItemComponent",
+        "SkyFilterSummaryComponent",
+        "SkyFilterSummaryItemComponent",
+        "SkyFilterButtonComponent",
+        "ListsFilterInlineExampleComponent",
+        "ListsFilterModalExampleComponent"
+      ],
+      "primaryDocsId": "SkyFilterModule"
+    },
+    "infinite-scroll": {
+      "docsIds": [
+        "SkyInfiniteScrollModule",
+        "SkyInfiniteScrollComponent",
+        "ListsInfiniteScrollRepeaterExampleComponent"
+      ],
+      "primaryDocsId": "SkyInfiniteScrollModule"
+    },
+    "paging": {
+      "docsIds": [
+        "SkyPagingModule",
+        "SkyPagingComponent",
+        "SkyPagingContentComponent",
+        "SkyPagingContentChangeArgs",
+        "ListsPagingBasicExampleComponent",
+        "ListsPagingWithContentExampleComponent"
+      ],
+      "primaryDocsId": "SkyPagingModule"
+    },
+    "repeater": {
+      "docsIds": [
+        "SkyRepeaterModule",
+        "SkyRepeaterComponent",
+        "SkyRepeaterItemComponent",
+        "SkyRepeaterItemTitleComponent",
+        "SkyRepeaterItemContentComponent",
+        "SkyRepeaterItemContextMenuComponent",
+        "SkyRepeaterExpandModeType",
+        "SkyRepeaterHarness",
+        "SkyRepeaterHarnessFilters",
+        "SkyRepeaterItemHarness",
+        "SkyRepeaterItemHarnessFilters",
+        "ListsRepeaterBasicExampleComponent",
+        "ListsRepeaterAddRemoveExampleComponent",
+        "ListsRepeaterInlineFormExampleComponent"
+      ],
+      "primaryDocsId": "SkyRepeaterModule"
+    },
+    "sort": {
+      "docsIds": [
+        "SkySortModule",
+        "SkySortComponent",
+        "SkySortItemComponent",
+        "ListsSortBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkySortModule"
+    }
+  }
+}
