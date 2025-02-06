@@ -131,4 +131,48 @@ describe('get-documentation-group', () => {
 
     expect(result).toMatchSnapshot();
   });
+
+  it('should throw if package name unrecognized', async () => {
+    setup({
+      codeExamples: {
+        examples: {},
+      },
+      documentationConfig: {
+        packages: {},
+      },
+      publicApi: {
+        packages: {},
+      },
+    });
+
+    const { getDocumentationGroup } = await import('./get-documentation-group');
+
+    expect(() =>
+      getDocumentationGroup('@skyux/invalid', 'foo'),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should throw if group name unrecognized', async () => {
+    setup({
+      codeExamples: {
+        examples: {},
+      },
+      documentationConfig: {
+        packages: {
+          '@skyux/core': {
+            groups: {},
+          },
+        },
+      },
+      publicApi: {
+        packages: {},
+      },
+    });
+
+    const { getDocumentationGroup } = await import('./get-documentation-group');
+
+    expect(() =>
+      getDocumentationGroup('@skyux/core', 'invalid'),
+    ).toThrowErrorMatchingSnapshot();
+  });
 });
