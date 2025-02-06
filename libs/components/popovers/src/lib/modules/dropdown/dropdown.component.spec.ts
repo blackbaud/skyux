@@ -1274,6 +1274,58 @@ describe('Dropdown component', () => {
   });
 });
 
+describe('Dropdown component without content info', function () {
+  function runTests(useCustomTrigger: boolean): void {
+    let fixture: ComponentFixture<DropdownFixtureComponent>;
+
+    //#region helpers
+
+    function getButtonElement(): HTMLButtonElement | null {
+      return fixture.nativeElement.querySelector(
+        useCustomTrigger ? '.custom-trigger' : '.sky-dropdown-button',
+      );
+    }
+
+    /**
+     * Multiple ticks are needed to accommodate setTimeout and observable streams.
+     */
+    function detectChangesFakeAsync(): void {
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+    }
+
+    //#endregion
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [SkyDropdownFixturesModule, SkyThemeModule],
+      });
+
+      fixture = TestBed.createComponent(DropdownFixtureComponent);
+      fixture.componentInstance.useCustomTrigger = useCustomTrigger;
+    });
+
+    it('should set the correct aria label when SkyContentProvider is not available', fakeAsync(() => {
+      fixture.componentInstance.buttonType = 'context-menu';
+
+      detectChangesFakeAsync();
+      const button = getButtonElement();
+
+      expect(button?.getAttribute('aria-label')).toEqual('Context menu');
+    }));
+  }
+
+  describe('with default trigger', () => {
+    runTests(false);
+  });
+
+  describe('with custom trigger', () => {
+    runTests(true);
+  });
+});
+
 describe('Dropdown component without theme service', function () {
   let fixture: ComponentFixture<DropdownFixtureComponent>;
 

@@ -13,6 +13,7 @@ import { SkyPopoversResourcesModule } from '../shared/sky-popovers-resources.mod
 import { SkyDropdownButtonComponent } from './dropdown-button.component';
 import { SkyDropdownItemComponent } from './dropdown-item.component';
 import { SkyDropdownMenuComponent } from './dropdown-menu.component';
+import { SkyDropdownTriggerBaseDirective } from './dropdown-trigger-base.directive';
 import { SkyDropdownTriggerDirective } from './dropdown-trigger.directive';
 import { SkyDropdownComponent } from './dropdown.component';
 
@@ -27,6 +28,7 @@ import { SkyDropdownComponent } from './dropdown.component';
     CommonModule,
     SkyAffixModule,
     SkyDropdownTriggerDirective,
+    SkyDropdownTriggerBaseDirective,
     SkyIconModule,
     SkyIdModule,
     SkyPopoversResourcesModule,
