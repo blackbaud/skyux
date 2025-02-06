@@ -1,10 +1,14 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 
 import { SkyAppViewportReserveArgs } from './viewport-reserve-args';
 import { SkyAppViewportReservedPositionType } from './viewport-reserve-position-type';
+
+type ReserveItemType = SkyAppViewportReserveArgs & {
+  active: boolean;
+};
 
 /**
  * Provides information about the state of the application's viewport.
@@ -21,11 +25,27 @@ export class SkyAppViewportService {
    */
   public visible = new ReplaySubject<boolean>(1);
 
-  #reserveItems = new Map<string, SkyAppViewportReserveArgs>();
-  #document: Document;
+  readonly #reserveItems = new Map<string, ReserveItemType>();
+  readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();
+  readonly #document = inject(DOCUMENT);
+  readonly #intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const item = this.#conditionallyReserveItems.get(entry.target);
+        if (item) {
+          item.active = entry.isIntersecting;
+        }
+      });
+      this.#updateViewportArea();
+    },
+    {
+      root: this.#document,
+      threshold: Array.from({ length: 11 }, (_, i) => i / 10),
+    },
+  );
 
-  constructor(@Inject(DOCUMENT) document: Document) {
-    this.#document = document;
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.#intersectionObserver.disconnect());
   }
 
   /**
@@ -33,7 +53,12 @@ export class SkyAppViewportService {
    * @param args
    */
   public reserveSpace(args: SkyAppViewportReserveArgs): void {
-    this.#reserveItems.set(args.id, args);
+    const item = {
+      ...args,
+      active: !args.reserveForElement,
+    };
+    this.#reserveItems.set(args.id, item);
+    this.#watchVisibility(item);
     this.#updateViewportArea();
   }
 
@@ -42,6 +67,11 @@ export class SkyAppViewportService {
    * @param id
    */
   public unreserveSpace(id: string): void {
+    const args = this.#reserveItems.get(id);
+    if (args?.reserveForElement) {
+      this.#intersectionObserver.unobserve(args.reserveForElement);
+      this.#conditionallyReserveItems.delete(args.reserveForElement);
+    }
     this.#reserveItems.delete(id);
     this.#updateViewportArea();
   }
@@ -56,8 +86,10 @@ export class SkyAppViewportService {
       top: 0,
     };
 
-    for (const { position, size } of this.#reserveItems.values()) {
-      reservedSpaces[position] += size;
+    for (const { position, size, active } of this.#reserveItems.values()) {
+      if (active) {
+        reservedSpaces[position] += size;
+      }
     }
 
     const documentElementStyle = this.#document.documentElement.style;
@@ -67,6 +99,13 @@ export class SkyAppViewportService {
         `--sky-viewport-${position}`,
         size + 'px',
       );
+    }
+  }
+
+  #watchVisibility(item: ReserveItemType): void {
+    if (item.reserveForElement) {
+      this.#conditionallyReserveItems.set(item.reserveForElement, item);
+      this.#intersectionObserver.observe(item.reserveForElement);
     }
   }
 }

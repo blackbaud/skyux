@@ -310,9 +310,19 @@ export class SkyViewkeeper {
       anchorTop = getOffset(el, this.#scrollableHost).top;
     }
 
+    let viewportMarginTop = this.#viewportMarginTop;
+    if (this.#viewportMarginProperty) {
+      viewportMarginTop += parseInt(
+        document.documentElement.style.getPropertyValue(
+          this.#viewportMarginProperty,
+        ) ??
+          document.body.style.getPropertyValue(this.#viewportMarginProperty) ??
+          '0',
+      );
+    }
+
     const doFixEl =
-      boundaryInfo.scrollTop + verticalOffset + this.#viewportMarginTop >
-      anchorTop;
+      boundaryInfo.scrollTop + verticalOffset + viewportMarginTop > anchorTop;
 
     return doFixEl;
   }
