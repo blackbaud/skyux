@@ -74,9 +74,28 @@ export async function generateManifest(
     options.projectNames,
   );
 
-  const publicApi = await getPublicApi(projects);
-  const documentationConfig = await getDocumentationConfig(publicApi, projects);
-  const codeExamples = await getCodeExamples(publicApi, documentationConfig);
+  const [publicApi, publicApiErrors] = await getPublicApi(projects);
+
+  const [documentationConfig, documentationConfigErrors] =
+    await getDocumentationConfig(publicApi, projects);
+
+  const [codeExamples, codeExamplesErrors] = await getCodeExamples(
+    publicApi,
+    documentationConfig,
+  );
+
+  const errors = [
+    ...publicApiErrors,
+    ...documentationConfigErrors,
+    ...codeExamplesErrors,
+  ];
+
+  if (errors.length > 0) {
+    throw new Error(
+      'The following errors were encountered when creating the manifest:\n - ' +
+        errors.join('\n - '),
+    );
+  }
 
   const outDir = path.normalize(options.outDir);
 

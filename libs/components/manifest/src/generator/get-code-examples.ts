@@ -9,49 +9,12 @@ import type {
   SkyManifestPublicApi,
 } from '../types/manifest';
 
-/**
- * Ensures all code examples are assigned to a documentation.json file.
- */
-function validateCodeExamples(
-  publicApi: SkyManifestPublicApi,
-  documentationConfig: SkyManifestDocumentationConfig,
-): string[] {
-  const errors: string[] = [];
-  const unreferencedIds: string[] = [];
-
-  const codeExampleDocsIds = publicApi.packages['@skyux/code-examples'].map(
-    (d) => d.docsId,
-  );
-
-  for (const docsId of codeExampleDocsIds) {
-    let found = false;
-
-    for (const configs of Object.values(documentationConfig.packages)) {
-      for (const group of Object.values(configs.groups)) {
-        if (group.docsIds.includes(docsId)) {
-          found = true;
-        }
-      }
-    }
-
-    if (!found) {
-      unreferencedIds.push(docsId);
-    }
-  }
-
-  if (unreferencedIds.length > 0) {
-    errors.push(
-      `The following code examples are not being referenced within a documentation.json file. Either delete the code example, or add it to a documentation.json file.\n - ${unreferencedIds.join('\n - ')}`,
-    );
-  }
-
-  return errors;
-}
+import { validateCodeExamples } from './validations';
 
 export async function getCodeExamples(
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
-): Promise<SkyManifestCodeExamples> {
+): Promise<[SkyManifestCodeExamples, string[]]> {
   const definitions = publicApi.packages['@skyux/code-examples'];
 
   const codeExamples: SkyManifestCodeExamples = {
@@ -59,7 +22,7 @@ export async function getCodeExamples(
   };
 
   if (!definitions) {
-    return codeExamples;
+    return [codeExamples, []];
   }
 
   for (const definition of definitions) {
@@ -85,12 +48,5 @@ export async function getCodeExamples(
 
   const errors = validateCodeExamples(publicApi, documentationConfig);
 
-  if (errors.length > 0) {
-    throw new Error(
-      'Encountered the following errors when generating code examples:\n - ' +
-        errors.join('\n - '),
-    );
-  }
-
-  return codeExamples;
+  return [codeExamples, errors];
 }

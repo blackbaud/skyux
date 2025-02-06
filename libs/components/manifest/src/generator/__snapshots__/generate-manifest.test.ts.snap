@@ -751,3 +751,14 @@ exports[`generate-manifest should generate manifest 1`] = `
   ],
 }
 `;
+
+exports[`generate-manifest should throw for invalid documentation.json 1`] = `
+"The following errors were encountered when creating the manifest:
+ - Schema validation failed for the documentation.json file found in the \\"invalid-documentation-json\\" project.
+ - The @docsId \\"FooInternalClass\\" referenced by \\"invalid\\" is not included in the public API.
+ - The @docsId \\"Duplicate1\\" referenced by \\"invalid\\" is not recognized.
+ - The @docsId \\"Duplicate1\\" referenced by \\"invalid\\" is not recognized.
+ - The @docsId \\"Invalid2\\" referenced by \\"invalid\\" is not recognized.
+ - The value for primaryDocsId (\\"ModuleNotListed\\") must be included in the docsIds array for group \\"invalid\\" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).
+ - The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: \\"FooCodeExample1\\""
+`;
