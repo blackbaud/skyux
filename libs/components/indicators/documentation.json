@@ -1,0 +1,94 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "alert": {
+      "docsIds": [
+        "SkyAlertModule",
+        "SkyAlertComponent",
+        "SkyIndicatorIconType",
+        "SkyIndicatorDescriptionType",
+        "SkyAlertHarness",
+        "SkyAlertHarnessFilters",
+        "IndicatorsAlertBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyAlertModule"
+    },
+    "key-info": {
+      "docsIds": [
+        "SkyKeyInfoModule",
+        "SkyKeyInfoComponent",
+        "SkyKeyInfoLabelComponent",
+        "SkyKeyInfoValueComponent",
+        "SkyKeyInfoLayoutType",
+        "SkyKeyInfoHarness",
+        "SkyKeyInfoHarnessFilters",
+        "IndicatorsKeyInfoBasicExampleComponent",
+        "IndicatorsKeyInfoHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyKeyInfoModule"
+    },
+    "label": {
+      "docsIds": [
+        "SkyLabelModule",
+        "SkyLabelComponent",
+        "SkyLabelType",
+        "SkyIndicatorDescriptionType",
+        "SkyLabelHarness",
+        "SkyLabelHarnessFilters",
+        "IndicatorsLabelBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyLabelModule"
+    },
+    "status-indicator": {
+      "docsIds": [
+        "SkyStatusIndicatorModule",
+        "SkyStatusIndicatorComponent",
+        "SkyIndicatorDescriptionType",
+        "SkyIndicatorIconType",
+        "SkyStatusIndicatorHarness",
+        "SkyStatusIndicatorHarnessFilters",
+        "IndicatorsStatusIndicatorBasicExampleComponent",
+        "IndicatorsStatusIndicatorHelpKeyExampleComponent"
+      ],
+      "primaryDocsId": "SkyStatusIndicatorModule"
+    },
+    "text-highlight": {
+      "docsIds": [
+        "SkyTextHighlightModule",
+        "SkyTextHighlightDirective",
+        "IndicatorsTextHighlightBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyTextHighlightModule"
+    },
+    "tokens": {
+      "docsIds": [
+        "SkyTokensModule",
+        "SkyTokensComponent",
+        "SkyTokenComponent",
+        "SkyToken",
+        "SkyTokenSelectedEventArgs",
+        "SkyTokensMessage",
+        "SkyTokensMessageType",
+        "SkyTokensHarness",
+        "SkyTokensHarnessFilters",
+        "SkyTokenHarness",
+        "SkyTokenHarnessFilters",
+        "IndicatorsTokensBasicExampleComponent",
+        "IndicatorsTokensCustomExampleComponent"
+      ],
+      "primaryDocsId": "SkyTokensModule"
+    },
+    "wait": {
+      "docsIds": [
+        "SkyWaitModule",
+        "SkyWaitComponent",
+        "SkyWaitService",
+        "SkyWaitHarness",
+        "SkyWaitHarnessFilters",
+        "IndicatorsWaitElementExampleComponent",
+        "IndicatorsWaitPageExampleComponent"
+      ],
+      "primaryDocsId": "SkyWaitModule"
+    }
+  }
+}

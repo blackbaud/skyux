@@ -58,7 +58,10 @@
   width: 100%;
   margin-top: var(--sky-override-summary-action-bar-margin-top, 0);
   position: fixed;
-  bottom: 0;
+  bottom: var(--sky-dock-height, 0);
+  transition-property: bottom;
+  transition-duration: 60ms;
+  transition-timing-function: ease-out;
   left: var(--sky-summary-action-bar-left, 0);
   z-index: 999;
   background-color: var(

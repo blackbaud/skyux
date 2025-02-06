@@ -1,0 +1,21 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "list-view-checklist": {
+      "docsIds": [
+        "SkyListViewChecklistModule",
+        "SkyListViewChecklistComponent",
+        "SkyListViewChecklistItemComponent",
+        "ChecklistStateAction",
+        "ChecklistStateModel",
+        "ChecklistStateDispatcher",
+        "ChecklistStateOrchestrator",
+        "ChecklistState",
+        "ListViewChecklistItemModel",
+        "ListViewChecklistItemsOrchestrator",
+        "ListViewChecklistItemsLoadAction"
+      ],
+      "primaryDocsId": "SkyListViewChecklistModule"
+    }
+  }
+}

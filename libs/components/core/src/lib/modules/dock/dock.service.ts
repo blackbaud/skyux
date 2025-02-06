@@ -1,4 +1,6 @@
-import { ComponentRef, Injectable, Type } from '@angular/core';
+import { ComponentRef, Injectable, Type, inject } from '@angular/core';
+
+import { Subscription } from 'rxjs';
 
 import { SkyDynamicComponentLocation } from '../dynamic-component/dynamic-component-location';
 import { SkyDynamicComponentOptions } from '../dynamic-component/dynamic-component-options';
@@ -13,7 +15,6 @@ import { sortByStackOrder } from './sort-by-stack-order';
 
 /**
  * This service docks components to specific areas on the page.
- * @docsIncludeIds SkyDockOptions, SkyDockInsertComponentConfig, SkyDockLocation, SkyDockItem, SkyDockItemConfig
  */
 @Injectable({
   providedIn: 'root',
@@ -29,13 +30,10 @@ export class SkyDockService {
     return SkyDockService._items;
   }
 
-  #dynamicComponentSvc: SkyDynamicComponentService;
+  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
+  #subscription: Subscription | undefined;
 
   #options: SkyDockOptions | undefined;
-
-  constructor(dynamicComponentSvc: SkyDynamicComponentService) {
-    this.#dynamicComponentSvc = dynamicComponentSvc;
-  }
 
   /**
    * Docks a component to the bottom of the page.
@@ -46,6 +44,7 @@ export class SkyDockService {
     component: Type<T>,
     config?: SkyDockInsertComponentConfig,
   ): SkyDockItem<T> {
+    this.#subscription ??= new Subscription();
     const dockRef = (SkyDockService.dockRef =
       SkyDockService.dockRef || this.#createDock());
 
@@ -55,13 +54,15 @@ export class SkyDockService {
       itemRef.stackOrder,
     );
 
-    item.destroyed.subscribe(() => {
-      dockRef.instance.removeItem(itemRef);
-      SkyDockService._items.splice(SkyDockService._items.indexOf(item), 1);
-      if (SkyDockService._items.length === 0) {
-        this.#destroyDock();
-      }
-    });
+    this.#subscription?.add(
+      item.destroyed.subscribe(() => {
+        dockRef.instance.removeItem(itemRef);
+        SkyDockService._items.splice(SkyDockService._items.indexOf(item), 1);
+        if (SkyDockService._items.length === 0) {
+          this.#destroyDock();
+        }
+      }),
+    );
 
     SkyDockService._items.push(item);
     SkyDockService._items.sort(sortByStackOrder);
@@ -114,6 +115,8 @@ export class SkyDockService {
   }
 
   #destroyDock(): void {
+    this.#subscription?.unsubscribe();
+    this.#subscription = undefined;
     this.#dynamicComponentSvc.removeComponent(SkyDockService.dockRef);
     SkyDockService.dockRef = undefined;
   }

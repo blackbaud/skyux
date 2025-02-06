@@ -67,8 +67,6 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     return this.#isOpen;
   }
 
-  public ariaLive = 'polite';
-  public ariaRole: string | undefined;
   public baseIcon: SkyIconStackItem | undefined;
   public classNames = '';
   public icon: string | undefined;
@@ -182,11 +180,6 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     };
 
     this.icon = icon;
-
-    this.ariaLive =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
-    this.ariaRole =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'alert' : undefined;
 
     let typeLabel: string;
     switch (this.toastTypeOrDefault) {

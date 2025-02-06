@@ -1,0 +1,46 @@
+{
+  "$schema": "../manifest/documentation-schema.json",
+  "groups": {
+    "sectioned-form": {
+      "docsIds": [
+        "SkySectionedFormModule",
+        "SkySectionedFormComponent",
+        "SkySectionedFormSectionComponent",
+        "SkySectionedFormService",
+        "SkySectionedFormMessage",
+        "SkySectionedFormMessageType",
+        "TabsSectionedFormModalExampleComponent"
+      ],
+      "primaryDocsId": "SkySectionedFormModule"
+    },
+    "tabs": {
+      "docsIds": [
+        "SkyTabsModule",
+        "SkyTabsetComponent",
+        "SkyTabComponent",
+        "SkyTabsetNavButtonComponent",
+        "SkyTabIndex",
+        "SkyTabLayoutType",
+        "SkyTabsetButtonsDisplayMode",
+        "SkyTabsetStyle",
+        "SkyTabsetTabIndexesChange",
+        "TabsStaticExampleComponent",
+        "TabsStaticAddCloseExampleComponent",
+        "TabsDynamicExampleComponent",
+        "TabsDynamicAddCloseExampleComponent"
+      ],
+      "primaryDocsId": "SkyTabsModule"
+    },
+    "vertical-tabset": {
+      "docsIds": [
+        "SkyVerticalTabsetModule",
+        "SkyVerticalTabsetComponent",
+        "SkyVerticalTabComponent",
+        "SkyVerticalTabsetGroupComponent",
+        "TabsVerticalTabsBasicExampleComponent",
+        "TabsVerticalTabsGroupedExampleComponent"
+      ],
+      "primaryDocsId": "SkyVerticalTabsetModule"
+    }
+  }
+}
