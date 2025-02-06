@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   SkyPopoverMessage,
@@ -55,16 +56,8 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #datepicker: SkyDatepickerCalendarInnerComponent;
-  #datepickerService: SkyDatepickerCalendarService;
-
-  constructor(
-    datepicker: SkyDatepickerCalendarInnerComponent,
-    datepickerService: SkyDatepickerCalendarService,
-  ) {
-    this.#datepicker = datepicker;
-    this.#datepickerService = datepickerService;
-  }
+  readonly #datepicker = inject(SkyDatepickerCalendarInnerComponent);
+  readonly #datepickerService = inject(SkyDatepickerCalendarService);
 
   public ngOnInit(): void {
     this.hasTooltip = !!(
