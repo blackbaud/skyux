@@ -11,6 +11,9 @@ exports[`generate-manifest should generate manifest 1`] = `
       {
         \\"anchorId\\": \\"class_foo-code-example1\\",
         \\"docsId\\": \\"FooCodeExample1\\",
+        \\"extraTags\\": {
+          \\"title\\": \\"This is a title\\"
+        },
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooCodeExample1\\"
@@ -273,6 +276,17 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithDocsIdOverrideClass\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-with-extra-tags-class\\",
+        \\"docsId\\": \\"FooWithExtraTagsClass\\",
+        \\"extraTags\\": {
+          \\"title\\": \\"This is a sample title\\",
+          \\"foobar\\": \\"This is an unrecognized tag\\"
+        },
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooWithExtraTagsClass\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-static-properties-class\\",

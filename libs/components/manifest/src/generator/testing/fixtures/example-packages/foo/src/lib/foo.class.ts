@@ -113,3 +113,9 @@ export abstract class FooWithStaticPropertiesClass {
  * @docsId docs-id-override
  */
 export class FooWithDocsIdOverrideClass {}
+
+/**
+ * @title This is a sample title
+ * @foobar This is an unrecognized tag
+ */
+export class FooWithExtraTagsClass {}
