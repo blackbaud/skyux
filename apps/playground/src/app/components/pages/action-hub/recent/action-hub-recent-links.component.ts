@@ -33,6 +33,14 @@ export class ActionHubPlaygroundRecentLinksComponent {
         },
       },
     },
+    {
+      title: 'Documentation',
+      permalink: {
+        route: {
+          commands: ['../documentation'],
+        },
+      },
+    },
   ];
 
   public switchRecentLinks(appName?: string, links?: SkyRecentLink[]) {
