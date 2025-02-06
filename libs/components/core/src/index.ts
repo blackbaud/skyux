@@ -28,7 +28,7 @@ export { SkyDockLocation } from './lib/modules/dock/dock-location';
 export { SkyDockOptions } from './lib/modules/dock/dock-options';
 export { SkyDockModule } from './lib/modules/dock/dock.module';
 export { SkyDockService } from './lib/modules/dock/dock.service';
-
+export { SkyIdFooModule } from './lib/modules/id/id.module';
 export { SkyDynamicComponentLocation } from './lib/modules/dynamic-component/dynamic-component-location';
 export { SkyDynamicComponentOptions } from './lib/modules/dynamic-component/dynamic-component-options';
 export { SkyDynamicComponentModule } from './lib/modules/dynamic-component/dynamic-component.module';

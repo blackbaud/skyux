@@ -7,3 +7,5 @@ import { SkyIdDirective } from './id.directive';
   exports: [SkyIdDirective],
 })
 export class SkyIdModule {}
+
+export class SkyIdFooModule {}
