@@ -75,7 +75,7 @@ describe('Viewport service', () => {
 
     expect(viewportHeight).toBeGreaterThan(50);
 
-    function isInViewport(element: Element) {
+    function isInViewport(element: Element): boolean {
       const rect = element.getBoundingClientRect();
       return (
         rect.top >= 0 &&
@@ -105,6 +105,7 @@ describe('Viewport service', () => {
     container.appendChild(item1);
 
     const item2 = document.createElement('div');
+    // eslint-disable-next-line @cspell/spellchecker
     item2.style.backgroundColor = 'lightgreen';
     item2.style.height = '54px';
     item2.style.width = '100px';

@@ -25,7 +25,9 @@ export class SkyAppViewportService {
    */
   public visible = new ReplaySubject<boolean>(1);
 
-  #updateRequest: number | undefined;
+  // ESLint doesn't recognize how this is used.
+  // eslint-disable-next-line no-unused-private-class-members
+  #updateRequest: number | undefined = undefined;
   readonly #reserveItems = new Map<string, ReserveItemType>();
   readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();
   readonly #document = inject(DOCUMENT);
@@ -46,7 +48,7 @@ export class SkyAppViewportService {
   );
 
   constructor() {
-    const onScroll = () => {
+    const onScroll = (): void => {
       if (this.#conditionallyReserveItems.size > 0) {
         this.#updateViewportArea();
       }

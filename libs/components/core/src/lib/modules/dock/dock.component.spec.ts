@@ -38,7 +38,7 @@ describe('Dock component', () => {
     fixture.detectChanges();
     fixture.componentInstance.itemConfigs = itemConfigs;
     fixture.detectChanges();
-    tick();
+    tick(16);
   }
 
   /**
@@ -70,7 +70,7 @@ describe('Dock component', () => {
     fixture.detectChanges();
     tick(250); // Respect the RxJS debounceTime.
     fixture.detectChanges();
-    tick();
+    tick(16);
   }
 
   function getStyleElement(): HTMLStyleElement {
@@ -343,6 +343,7 @@ describe('Dock component', () => {
       reserveSpace('left', 20);
 
       fixture.detectChanges();
+      tick(16);
 
       const dockEl = getDockEl();
       const actionBarBounds = dockEl.getBoundingClientRect();
@@ -370,7 +371,7 @@ describe('Dock component', () => {
         ]);
 
         fixture.detectChanges();
-        tick();
+        tick(16);
 
         const dockStyle = getDockStyle();
 
@@ -398,7 +399,7 @@ describe('Dock component', () => {
       ]);
 
       fixture.detectChanges();
-      tick();
+      tick(16);
 
       const dockStyle = getDockStyle();
 
