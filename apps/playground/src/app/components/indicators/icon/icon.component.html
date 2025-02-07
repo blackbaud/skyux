@@ -29,13 +29,19 @@
 
   Some text.
 </div>
-<div>
-  <sky-icon iconName="add" />
-  <sky-icon iconName="add" variant="solid" />
+<div class="sky-margin-stacked-lg">
+  <sky-icon iconName="sparkles" iconSize="s" />
+  <sky-icon iconName="sparkles" iconSize="m" />
+  <sky-icon iconName="sparkles" iconSize="l" />
+  <sky-icon iconName="sparkles" iconSize="xl" />
 </div>
 <div>
   <sky-icon icon="copy-to-clipboard" />
   <sky-icon icon="copy-to-clipboard" size="lg" />
+</div>
+<div>
+  <sky-icon icon="copy-to-clipboard" iconSize="s" />
+  <sky-icon icon="copy-to-clipboard" iconSize="m" />
 </div>
 
 <div>
@@ -66,11 +72,11 @@
 <p style="line-height: 1">
   text next to a line height 1 button
   <button
-    style="line-height: 1; padding: 0px; min-height: 19px; min-width: 20px"
+    style="line-height: 1; padding: 0px"
     type="button"
     class="sky-btn sky-btn-default sky-margin-inline-sm"
   >
-    <sky-icon iconName="clipboard-multiple" />
+    <sky-icon iconName="clipboard-multiple" iconSize="s" />
   </button>
 </p>
 
@@ -104,15 +110,42 @@
   </button>
   ok that is the rest of the text
 </p>
+<p>
+  text next to the button
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="clipboard-multiple" iconSize="s" /> Copy
+  </button>
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="edit" iconSize="s" /> Copy
+  </button>
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon iconName="sky-success" iconSize="s" /> Copy
+  </button>
+  more text
+  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
+    <sky-icon icon="copy-to-clipboard" /> Copy
+  </button>
+  ok that is the rest of the text
+</p>
 
 <h2>
   a button with only an icon in an h2
-  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
-    <sky-icon iconName="sky-success" />
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-margin-inline-sm"
+    style="line-height: 10"
+  >
+    <sky-icon iconName="sky-success" size="3x" />
   </button>
   then a font version
-  <button type="button" class="sky-btn sky-btn-primary sky-margin-inline-sm">
-    <sky-icon icon="edit" />
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-margin-inline-sm"
+    style="line-height: 10"
+  >
+    <sky-icon icon="edit" size="3x" />
   </button>
   a few more words
 </h2>
@@ -192,3 +225,17 @@ inline 3x icon <sky-icon icon="edit" size="3x" />
     ><sky-icon icon="edit"
   /></span>
 </div>
+
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis
+  facilisis lacus. Praesent non auctor leo. Pellentesque cursus malesuada
+  aliquet. Vestibulum eget tincidunt magna. Ut et aliquam ante. Ut tortor nisl,
+  tristique quis dolor id, sollicitudin tincidunt nisl. Integer ut consectetur
+  nunc. Donec non ante justo. Quisque ante nisi, interdum ut luctus venenatis,
+  mollis sed ligula. <sky-icon iconName="edit" /> Integer eu orci nec magna
+  consectetur imperdiet ut id mauris. Nunc fermentum urna sit amet eros accumsan
+  fermentum sit amet non sapien. Donec interdum egestas libero, lobortis viverra
+  dolor pharetra et. Maecenas pretium ligula sapien. Suspendisse in mi ipsum.
+  Phasellus id libero at sapien bibendum consectetur. Aliquam porta tincidunt
+  egestas.
+</p>

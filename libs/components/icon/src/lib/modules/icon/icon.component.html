@@ -1,7 +1,8 @@
 @if (iconName) {
   <sky-icon-svg
     [iconName]="iconName"
-    [iconSize]="size"
+    [responsiveSize]="size"
+    [iconSize]="iconSize()"
     [iconVariant]="variant"
   />
 } @else if (icon) {

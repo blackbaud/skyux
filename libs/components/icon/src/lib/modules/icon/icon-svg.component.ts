@@ -32,14 +32,16 @@ const SIZES = new Map([
   styleUrls: ['./icon-svg.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class]': '"sky-icon-svg-" + iconSize()',
+    '[class]':
+      'iconSize() ? "sky-icon-svg sky-icon-svg-" + iconSize() : "sky-icon-svg sky-icon-svg-responsive-" + responsiveSize()',
   },
 })
 export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
   public readonly iconName = input.required<string>();
-  public readonly iconSize = input<string>('md');
+  public readonly iconSize = input<'s' | 'm' | 'l' | 'xl'>();
+  public readonly responsiveSize = input<string>('md');
   public readonly iconVariant = input<SkyIconVariantType>();
 
   readonly #iconInfo = computed(() => {

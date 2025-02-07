@@ -2,8 +2,8 @@
   display: inline-block;
 }
 
-:host.sky-icon-display-standalone {
-  display: block;
+:host.sky-icon-svg-flex {
+  display: inline-flex;
 }
 
 i {

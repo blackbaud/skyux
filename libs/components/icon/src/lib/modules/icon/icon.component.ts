@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { SkyIconDisplayStrategy } from './types/icon-display-strategy';
 import { SkyIconType } from './types/icon-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -18,7 +17,7 @@ import { SkyIconVariantType } from './types/icon-variant-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   host: {
-    '[class]': '"sky-icon-display-" + displayStrategy()',
+    '[class]': 'iconSize() ? "sky-icon-svg-flex" : ""',
   },
 })
 export class SkyIconComponent {
@@ -71,11 +70,10 @@ export class SkyIconComponent {
   public variant: SkyIconVariantType | undefined;
 
   /**
-   * The display strategy used to position the icon. `withText` aligns the icon with the baseline to be displayed inline with text.
-   * `standalone` does not apply any positioning and treats the icon as a block element.
-   * @default 'withText'
+   * The explicit icon size
+   * @default 'sm'
    */
-  public readonly displayStrategy = input<SkyIconDisplayStrategy>('withText');
+  public readonly iconSize = input<'s' | 'm' | 'l' | 'xl'>();
 
   protected themeSvc = inject(SkyThemeService, { optional: true });
 }
