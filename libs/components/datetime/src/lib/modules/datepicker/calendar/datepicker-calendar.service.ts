@@ -14,5 +14,6 @@ export class SkyDatepickerCalendarService {
    * Whether a key date popover is currently displayed.
    * Useful for communicating across all daypicker siblings when a popover is displayed.
    */
-  public keyDatePopoverStream = new Subject<SkyDayPickerContext | undefined>();
+  public keyDatePopoverStream: Subject<SkyDayPickerContext | undefined> =
+    new Subject<SkyDayPickerContext | undefined>();
 }

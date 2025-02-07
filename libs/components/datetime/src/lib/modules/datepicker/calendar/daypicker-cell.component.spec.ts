@@ -1,3 +1,4 @@
+import { ComponentRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -6,7 +7,6 @@ import {
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyPopoverMessageType } from '@skyux/popovers';
 
 import { SkyDatepickerModule } from '../datepicker.module';
 
@@ -15,43 +15,67 @@ import { SkyDatepickerCalendarService } from './datepicker-calendar.service';
 import { SkyDayPickerCellComponent } from './daypicker-cell.component';
 import { SkyDayPickerContext } from './daypicker-context';
 
+class MockSkyCalendarInnerComponent {
+  public isActive(): boolean {
+    return false;
+  }
+
+  public dateFilter(): string {
+    return 'Formatted date';
+  }
+}
+
+const CELL_CONTEXT_WITH_KEY_DATE: SkyDayPickerContext = {
+  current: false,
+  date: new Date(2021, 9, 1),
+  disabled: false,
+  label: '1',
+  secondary: false,
+  selected: false,
+  uid: '1',
+  keyDate: true,
+  keyDateText: ['important!'],
+};
+
+function expectAriaLabel(
+  fixture: ComponentFixture<SkyDayPickerCellComponent>,
+  label: string | null,
+): void {
+  const cell = getDaypickerCell(fixture);
+
+  expect(cell?.getAttribute('aria-label')).toEqual(label);
+}
+
+function expectHasPopoverTrigger(
+  fixture: ComponentFixture<SkyDayPickerCellComponent>,
+  exists: boolean,
+): void {
+  const cell = getDaypickerCell(fixture);
+
+  if (exists) {
+    expect(cell).toHaveClass('sky-popover-trigger');
+  } else {
+    expect(cell).not.toHaveClass('sky-popover-trigger');
+  }
+}
+
+function expectPopoverOpened(opened: boolean): void {
+  const popover = document.querySelector<HTMLElement>('sky-popover-content');
+
+  expect(!!popover).toEqual(opened);
+}
+
 function getDaypickerCell(
   fixture: ComponentFixture<SkyDayPickerCellComponent>,
 ): HTMLElement | null {
   return fixture.nativeElement.querySelector('.sky-daypicker-cell');
 }
 
-function setActiveUid(component: any, uid?: string): void {
-  if (uid) {
-    const date: SkyDayPickerContext = {
-      date: new Date(),
-      label: 'foo',
-      selected: false,
-      disabled: false,
-      current: false,
-      secondary: false,
-      uid: uid,
-    };
-    TestBed.inject(SkyDatepickerCalendarService).keyDatePopoverStream.next(
-      date,
-    );
-  }
-}
-
-class MockSkyCalendarInnerComponent {
-  public isActive(value: any): boolean {
-    return false;
-  }
-
-  public dateFilter(value: Date, format: string): string {
-    return 'Formatted date';
-  }
-}
-
 fdescribe('daypicker cell', () => {
   let fixture: ComponentFixture<SkyDayPickerCellComponent>;
-  let component: SkyDayPickerCellComponent;
-  let datepickerService: SkyDatepickerCalendarService;
+  let componentRef: ComponentRef<SkyDayPickerCellComponent>;
+  let calendarSvc: SkyDatepickerCalendarService;
+
   const calendarInnerComponent = new MockSkyCalendarInnerComponent();
 
   beforeEach(() => {
@@ -67,174 +91,146 @@ fdescribe('daypicker cell', () => {
     });
 
     fixture = TestBed.createComponent(SkyDayPickerCellComponent);
-    component = fixture.componentInstance;
-    component.date = {
-      current: false,
-      date: new Date(2021, 9, 1),
-      disabled: false,
-      label: '1',
-      secondary: false,
-      selected: false,
-      uid: '1',
-      keyDate: true,
-      keyDateText: ['important!'],
-    };
-    datepickerService = TestBed.inject(SkyDatepickerCalendarService);
+    componentRef = fixture.componentRef;
+    calendarSvc = TestBed.inject(SkyDatepickerCalendarService);
   });
 
   describe('set hasTooltip', () => {
     it('should set hasTooltip to false if not a key date', () => {
-      if (component.date) {
-        component.date.keyDate = false;
-      }
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDate: false,
+      } satisfies SkyDayPickerContext);
+
       fixture.detectChanges();
 
-      expect(component.hasTooltip).toBeFalsy();
+      expectHasPopoverTrigger(fixture, false);
     });
 
     it('should set hasTooltip to false if a key date and keyDateText undefined', () => {
-      if (component.date) {
-        component.date.keyDateText = undefined;
-      }
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDateText: undefined,
+      } satisfies SkyDayPickerContext);
 
       fixture.detectChanges();
 
-      expect(component.hasTooltip).toBeFalsy();
+      expectHasPopoverTrigger(fixture, false);
     });
 
     it('should set hasTooltip to false if a key date and no keyDateText items', () => {
-      if (component.date) {
-        component.date.keyDateText = [];
-      }
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDateText: [],
+      } satisfies SkyDayPickerContext);
 
       fixture.detectChanges();
 
-      expect(component.hasTooltip).toBeFalsy();
+      expectHasPopoverTrigger(fixture, false);
     });
 
     it('should set hasTooltip to false if a key date and keyDateText item empty', () => {
-      if (component.date) {
-        component.date.keyDateText = [''];
-      }
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDateText: [''],
+      } satisfies SkyDayPickerContext);
 
       fixture.detectChanges();
 
-      expect(component.hasTooltip).toBeFalsy();
+      expectHasPopoverTrigger(fixture, false);
     });
 
     it('should set hasTooltip to true if key date and keyDateText item not empty', () => {
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+
       fixture.detectChanges();
 
-      expect(component.hasTooltip).toBeTruthy();
+      expectHasPopoverTrigger(fixture, true);
+    });
+
+    it('should enable previously disabled tooltips when date value changes after init', () => {
+      fixture.componentRef.setInput('date', {});
+      fixture.detectChanges();
+
+      expectHasPopoverTrigger(fixture, false);
+
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      fixture.detectChanges();
+
+      expectHasPopoverTrigger(fixture, true);
     });
   });
 
   describe('showTooltip on Init', () => {
-    let controllerSpy: jasmine.Spy;
     let activeDateSpy: jasmine.Spy;
 
     beforeEach(() => {
-      controllerSpy = spyOn(
-        component.popoverController,
-        'next',
-      ).and.callThrough();
-
       activeDateSpy = spyOn(calendarInnerComponent, 'isActive').and.returnValue(
         true,
       );
-      component.activeDateHasChanged = true;
     });
 
-    it('should not show tooltip when not active date', fakeAsync(() => {
+    it('should not show tooltip when not active date', () => {
       activeDateSpy.and.returnValue(false);
-      fixture.detectChanges();
-      tick(500);
 
-      expect(controllerSpy).not.toHaveBeenCalled();
-    }));
+      componentRef.setInput('activeDateHasChanged', true);
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
 
-    it('should not show tooltip when no tooltip', fakeAsync(() => {
-      if (component.date) {
-        component.date.keyDate = false;
-      }
-      fixture.detectChanges();
-      tick(500);
-
-      expect(controllerSpy).not.toHaveBeenCalled();
-    }));
-
-    it('should not show tooltip when active date has not changed', fakeAsync(() => {
-      component.activeDateHasChanged = false;
-      fixture.detectChanges();
-      tick(500);
-
-      expect(controllerSpy).not.toHaveBeenCalled();
-    }));
-
-    fit('should show tooltip', fakeAsync(() => {
-      fixture.detectChanges();
-      tick(500);
-
-      expect(controllerSpy).toHaveBeenCalled();
-
-      const cell = getDaypickerCell(fixture);
-
-      expect(cell).toHaveClass('sky-popover-trigger');
-    }));
-
-    fit('should show a previously hidden tooltip when date value changes', () => {
-      fixture.componentRef.setInput('date', {});
       fixture.detectChanges();
 
-      const cell = getDaypickerCell(fixture);
+      expectPopoverOpened(false);
+    });
 
-      expect(cell).not.toHaveClass('sky-popover-trigger');
+    it('should not show tooltip when active date has not changed', () => {
+      componentRef.setInput('activeDateHasChanged', false);
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
 
-      fixture.componentRef.setInput('date', {
-        date: new Date(),
-        secondary: false,
-        uid: '1',
-        disabled: false,
-        current: true,
-        label: '00',
-        selected: false,
-        keyDate: true,
-        keyDateText: ['Important message'],
-      } satisfies SkyDayPickerContext);
       fixture.detectChanges();
 
-      expect(cell).toHaveClass('sky-popover-trigger');
+      expectPopoverOpened(false);
+    });
+
+    it('should show tooltip on init', () => {
+      componentRef.setInput('activeDateHasChanged', true);
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+
+      fixture.detectChanges();
+
+      expectPopoverOpened(true);
     });
   });
 
   describe('datepickerService keyDatePopoverStream', () => {
-    let controllerSpy: jasmine.Spy;
-
     beforeEach(() => {
-      controllerSpy = spyOn(
-        component.popoverController,
-        'next',
-      ).and.callThrough();
-
-      fixture.detectChanges();
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
     });
 
     it('should hide the tooltip if no mouseover date', fakeAsync(() => {
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-      tick(500);
       fixture.detectChanges();
-      datepickerService.keyDatePopoverStream.next(undefined);
 
-      expect(controllerSpy).toHaveBeenCalledWith({
-        type: SkyPopoverMessageType.Close,
-      });
+      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
+      fixture.detectChanges();
+      tick();
+
+      expectPopoverOpened(true);
+
+      calendarSvc.keyDatePopoverStream.next(undefined);
+      fixture.detectChanges();
+      tick();
+
+      expectPopoverOpened(false);
     }));
 
     it('should hide the tooltip if new mouseover date', fakeAsync(() => {
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-      tick(500);
       fixture.detectChanges();
-      datepickerService.keyDatePopoverStream.next({
+
+      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
+      fixture.detectChanges();
+      tick();
+
+      expectPopoverOpened(true);
+
+      calendarSvc.keyDatePopoverStream.next({
         current: false,
         date: new Date(),
         disabled: false,
@@ -244,277 +240,108 @@ fdescribe('daypicker cell', () => {
         uid: '2',
       });
 
-      expect(controllerSpy).toHaveBeenCalledWith({
-        type: SkyPopoverMessageType.Close,
-      });
+      fixture.detectChanges();
+      tick();
+
+      expectPopoverOpened(false);
     }));
 
     it('should not hide the tooltip if mouseover this date', fakeAsync(() => {
+      fixture.detectChanges();
+
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-      tick(500);
       fixture.detectChanges();
-      controllerSpy.calls.reset();
-      datepickerService.keyDatePopoverStream.next(component.date);
+      tick();
 
-      expect(controllerSpy).not.toHaveBeenCalled();
+      expectPopoverOpened(true);
+
+      calendarSvc.keyDatePopoverStream.next(CELL_CONTEXT_WITH_KEY_DATE);
+      fixture.detectChanges();
+      tick();
+
+      expectPopoverOpened(true);
     }));
   });
 
-  describe('onDayMouseenter', () => {
-    let controllerSpy: jasmine.Spy;
-    let nextDateSpy: jasmine.Spy;
+  describe('accessibility', () => {
+    it('should not assign aria-label if no tooltip', () => {
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDate: false,
+      } satisfies SkyDayPickerContext);
 
-    beforeEach(() => {
-      controllerSpy = spyOn(
-        component.popoverController,
-        'next',
-      ).and.callThrough();
-
-      nextDateSpy = spyOn(
-        datepickerService.keyDatePopoverStream,
-        'next',
-      ).and.callThrough();
-    });
-
-    it('should not call showTooltip if no tooltip', fakeAsync(() => {
-      if (component.date) {
-        component.date.keyDate = false;
-      }
       fixture.detectChanges();
 
-      component.onDayMouseenter();
-      fixture.detectChanges();
-      tick(500);
-
-      expect(component.hasTooltip).toBeFalsy();
-      expect(controllerSpy).not.toHaveBeenCalled();
-      expect(nextDateSpy).not.toHaveBeenCalled();
-    }));
-
-    it('should call showTooltip if have tooltip', fakeAsync(() => {
-      fixture.detectChanges();
-
-      component.onDayMouseenter();
-      fixture.detectChanges();
-      tick(500);
-
-      expect(component.hasTooltip).toBeTruthy();
-      expect(controllerSpy).toHaveBeenCalledWith({
-        type: SkyPopoverMessageType.Open,
-      });
-      expect(nextDateSpy).toHaveBeenCalledWith(component.date);
-    }));
-  });
-
-  describe('onDayMouseleave', () => {
-    let controllerSpy: jasmine.Spy;
-    let nextDateSpy: jasmine.Spy;
-
-    beforeEach(() => {
-      controllerSpy = spyOn(
-        component.popoverController,
-        'next',
-      ).and.callThrough();
-
-      nextDateSpy = spyOn(
-        datepickerService.keyDatePopoverStream,
-        'next',
-      ).and.callThrough();
-    });
-
-    it('should not call controller if no tooltip', fakeAsync(() => {
-      if (component.date) {
-        component.date.keyDate = false;
-      }
-      fixture.detectChanges();
-
-      component.onDayMouseleave();
-      fixture.detectChanges();
-      tick(500);
-
-      expect(component.hasTooltip).toBeFalsy();
-      expect(controllerSpy).not.toHaveBeenCalled();
-      expect(nextDateSpy).toHaveBeenCalledWith(undefined);
-    }));
-
-    it('should call controller to close tooltip if have tooltip', fakeAsync(() => {
-      fixture.detectChanges();
-
-      component.onDayMouseenter();
-      fixture.detectChanges();
-      tick(500);
-      component.onDayMouseleave();
-
-      expect(component.hasTooltip).toBeTruthy();
-      expect(controllerSpy).toHaveBeenCalledWith({
-        type: SkyPopoverMessageType.Close,
-      });
-      expect(nextDateSpy).toHaveBeenCalledWith(undefined);
-    }));
-  });
-
-  describe('onPopoverOpen', () => {
-    let controllerSpy: jasmine.Spy;
-
-    beforeEach(() => {
-      controllerSpy = spyOn(
-        component.popoverController,
-        'next',
-      ).and.callThrough();
-    });
-
-    it('should hide popover if cancelled', () => {
-      fixture.detectChanges();
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseleave');
-
-      component.onPopoverOpened();
-
-      expect(controllerSpy).toHaveBeenCalledWith({
-        type: SkyPopoverMessageType.Close,
-      });
-    });
-  });
-
-  describe('getKeyDateLabel', () => {
-    it('should return empty string if no tooltip', () => {
-      if (component.date) {
-        component.date.keyDate = false;
-      }
-      fixture.detectChanges();
-
-      expect(component.getKeyDateLabel()).toBe('');
+      expectAriaLabel(fixture, null);
     });
 
     it('should return a single string if a single keyDateText', () => {
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDateText: ['foo'],
+      } satisfies SkyDayPickerContext);
+
       fixture.detectChanges();
 
-      expect(component.getKeyDateLabel()).toBe('important!');
+      expectAriaLabel(fixture, 'foo');
     });
 
     it('should return a comma delimited string if multiple keyDateTexts', () => {
-      if (component.date) {
-        component.date.keyDateText = ['important!', 'this too'];
-      }
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDateText: ['important!', 'this too'],
+      } satisfies SkyDayPickerContext);
 
       fixture.detectChanges();
 
-      expect(component.getKeyDateLabel()).toBe('important!, this too');
+      expectAriaLabel(fixture, 'important!, this too');
     });
   });
 
   describe('hideTooltip', () => {
-    let controllerSpy: jasmine.Spy;
-
-    beforeEach(() => {
-      controllerSpy = spyOn(
-        component.popoverController,
-        'next',
-      ).and.callThrough();
-    });
-
-    it('should close the popover if open', fakeAsync(() => {
+    it('should close the popover on mouseleave if open', fakeAsync(() => {
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
       fixture.detectChanges();
+
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-      tick(500);
       fixture.detectChanges();
+      tick();
+
+      expectPopoverOpened(true);
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseleave');
+      fixture.detectChanges();
+      tick();
 
-      expect(controllerSpy).toHaveBeenCalledWith({
-        type: SkyPopoverMessageType.Close,
-      });
+      expectPopoverOpened(false);
     }));
-
-    it('should not close the popover if not open', () => {
-      fixture.detectChanges();
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseleave');
-
-      expect(controllerSpy).not.toHaveBeenCalled();
-    });
   });
 
   describe('showTooltip', () => {
-    let controllerSpy: jasmine.Spy;
+    it('should not open the tooltip on mouseenter if not a key date', fakeAsync(() => {
+      componentRef.setInput('date', {
+        ...CELL_CONTEXT_WITH_KEY_DATE,
+        keyDate: false,
+      } satisfies SkyDayPickerContext);
 
-    beforeEach(() => {
-      controllerSpy = spyOn(
-        component.popoverController,
-        'next',
-      ).and.callThrough();
-    });
-
-    it('should not open the tool tip if hasTooltip is false', fakeAsync(() => {
-      if (component.date) {
-        component.date.keyDate = false;
-      }
       fixture.detectChanges();
+
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-
-      tick(500);
       fixture.detectChanges();
+      tick();
 
-      expect(controllerSpy).not.toHaveBeenCalled();
+      expectPopoverOpened(false);
     }));
 
-    it('should not open the tool tip if already open', fakeAsync(() => {
-      fixture.detectChanges();
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-
-      tick(500);
+    it('should open the tooltip on mouseenter', fakeAsync(() => {
+      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
       fixture.detectChanges();
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-
-      tick(500);
       fixture.detectChanges();
+      tick();
 
-      expect(controllerSpy).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should not open the tool tip if cancelled', async () => {
-      fixture.detectChanges();
-      setActiveUid(component, component.date?.uid);
-
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseleave');
-
-      await fixture.whenStable();
-      fixture.detectChanges();
-
-      await fixture.whenStable();
-      expect(controllerSpy).not.toHaveBeenCalled();
-    });
-
-    it('should not open the tool tip if activeUid differs', fakeAsync(() => {
-      fixture.detectChanges();
-      setActiveUid(component, '2');
-      // The mouseenter will reset this - for this test we want to test the state if this wouldn't have happened
-      spyOn(
-        TestBed.inject(SkyDatepickerCalendarService).keyDatePopoverStream,
-        'next',
-      );
-      fixture.detectChanges();
-
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-
-      tick(500);
-      fixture.detectChanges();
-
-      expect(controllerSpy).not.toHaveBeenCalled();
-    }));
-
-    it('should open the tool tip', fakeAsync(() => {
-      fixture.detectChanges();
-      setActiveUid(component, component.date?.uid);
-
-      SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
-
-      tick(500);
-      fixture.detectChanges();
-
-      expect(controllerSpy).toHaveBeenCalledWith({
-        type: SkyPopoverMessageType.Open,
-      });
+      expectPopoverOpened(true);
     }));
   });
 });

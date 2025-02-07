@@ -45,11 +45,8 @@ export class SkyDayPickerCellComponent {
    */
   public date = input<SkyDayPickerContext | undefined>();
 
-  protected popoverController = new Subject<SkyPopoverMessage>();
-
   protected ariaLabel = computed(() => {
-    const date = this.date();
-    return date?.keyDateText?.join(', ') ?? '';
+    return this.date()?.keyDateText?.join(', ') ?? '';
   });
 
   protected hasTooltip = computed(() => {
@@ -64,12 +61,14 @@ export class SkyDayPickerCellComponent {
     );
   });
 
+  protected popoverController = new Subject<SkyPopoverMessage>();
+
   constructor() {
     this.#calendarSvc.keyDatePopoverStream
       .pipe(takeUntilDestroyed())
       .subscribe((popoverDate) => {
-        if (popoverDate?.uid !== this.date()?.uid) {
-          this.#closePopover();
+        if (!popoverDate || popoverDate?.uid !== this.date()?.uid) {
+          this.#hideTooltip();
         }
       });
 
@@ -79,30 +78,35 @@ export class SkyDayPickerCellComponent {
       const date = this.date();
 
       if (
+        date &&
         activeDateHasChanged &&
         hasTooltip &&
         this.#datepicker.isActive(date)
       ) {
-        this.#openPopover();
+        this.#showTooltip();
       }
     });
   }
 
-  protected onMouseenter(): void {
-    this.#openPopover();
-    this.#calendarSvc.keyDatePopoverStream.next(this.date());
+  protected onDayMouseenter(): void {
+    if (this.hasTooltip()) {
+      this.#showTooltip();
+      this.#calendarSvc.keyDatePopoverStream.next(this.date());
+    }
   }
 
-  protected onMouseleave(): void {
-    this.#closePopover();
-    this.#calendarSvc.keyDatePopoverStream.next(undefined);
+  protected onDayMouseleave(): void {
+    if (this.hasTooltip()) {
+      this.#hideTooltip();
+      this.#calendarSvc.keyDatePopoverStream.next(undefined);
+    }
   }
 
-  #openPopover(): void {
-    this.popoverController.next({ type: SkyPopoverMessageType.Open });
-  }
-
-  #closePopover(): void {
+  #hideTooltip(): void {
     this.popoverController.next({ type: SkyPopoverMessageType.Close });
+  }
+
+  #showTooltip(): void {
+    this.popoverController.next({ type: SkyPopoverMessageType.Open });
   }
 }
