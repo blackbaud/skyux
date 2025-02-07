@@ -23,5 +23,5 @@ describe('inline delete', () => {
         });
       });
     });
-  });
+  }, true);
 });
