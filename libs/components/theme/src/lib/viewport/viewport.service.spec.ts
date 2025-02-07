@@ -27,7 +27,7 @@ describe('Viewport service', () => {
     expect(svc.visible instanceof ReplaySubject).toEqual(true);
   });
 
-  it('should reserve and unreserve space', () => {
+  it('should reserve and unreserve space', async () => {
     svc.reserveSpace({
       id: 'left-test',
       position: 'left',
@@ -52,6 +52,7 @@ describe('Viewport service', () => {
       size: 50,
     });
 
+    await new Promise((resolve) => requestAnimationFrame(resolve));
     validateViewportSpace('left', 20);
     validateViewportSpace('top', 30);
     validateViewportSpace('right', 40);
@@ -62,6 +63,7 @@ describe('Viewport service', () => {
     svc.unreserveSpace('right-test');
     svc.unreserveSpace('bottom-test');
 
+    await new Promise((resolve) => requestAnimationFrame(resolve));
     validateViewportSpace('left', 0);
     validateViewportSpace('top', 0);
     validateViewportSpace('right', 0);
@@ -129,7 +131,7 @@ describe('Viewport service', () => {
       reserveForElement: item2,
     });
 
-    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await new Promise((resolve) => setTimeout(resolve, 32));
     await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(isInViewport(item1)).toBeTrue();
     validateViewportSpace('top', 50);
@@ -137,6 +139,7 @@ describe('Viewport service', () => {
       top: viewportHeight + 50,
       behavior: 'instant',
     });
+    await new Promise((resolve) => requestAnimationFrame(resolve));
     await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(isInViewport(item1)).toBeFalse();
     expect(isInViewport(item2)).toBeTrue();
@@ -149,6 +152,7 @@ describe('Viewport service', () => {
       top: 0,
       behavior: 'instant',
     });
+    await new Promise((resolve) => setTimeout(resolve, 32));
     await new Promise((resolve) => requestAnimationFrame(resolve));
     expect(isInViewport(item1)).toBeTrue();
     validateViewportSpace('top', 50);

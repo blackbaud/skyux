@@ -25,6 +25,7 @@ export class SkyAppViewportService {
    */
   public visible = new ReplaySubject<boolean>(1);
 
+  #updateRequest: number | undefined;
   readonly #reserveItems = new Map<string, ReserveItemType>();
   readonly #conditionallyReserveItems = new Map<Element, ReserveItemType>();
   readonly #document = inject(DOCUMENT);
@@ -45,7 +46,16 @@ export class SkyAppViewportService {
   );
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.#intersectionObserver.disconnect());
+    const onScroll = () => {
+      if (this.#conditionallyReserveItems.size > 0) {
+        this.#updateViewportArea();
+      }
+    };
+    this.#document.addEventListener('scroll', onScroll);
+    inject(DestroyRef).onDestroy(() => {
+      this.#intersectionObserver.disconnect();
+      this.#document.removeEventListener('scroll', onScroll);
+    });
   }
 
   /**
@@ -77,29 +87,41 @@ export class SkyAppViewportService {
   }
 
   #updateViewportArea(): void {
-    const reservedSpaces: {
-      [key in SkyAppViewportReservedPositionType]: number;
-    } = {
-      bottom: 0,
-      left: 0,
-      right: 0,
-      top: 0,
-    };
+    this.#updateRequest ??= requestAnimationFrame(() => {
+      const reservedSpaces: {
+        [key in SkyAppViewportReservedPositionType]: number;
+      } = {
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+      };
 
-    for (const { position, size, active } of this.#reserveItems.values()) {
-      if (active) {
-        reservedSpaces[position] += size;
+      for (const {
+        position,
+        size,
+        active,
+        reserveForElement,
+      } of this.#reserveItems.values()) {
+        if (
+          active &&
+          (!reserveForElement || this.#isElementVisible(reserveForElement))
+        ) {
+          reservedSpaces[position] += size;
+        }
       }
-    }
 
-    const documentElementStyle = this.#document.documentElement.style;
+      const documentElementStyle = this.#document.documentElement.style;
 
-    for (const [position, size] of Object.entries(reservedSpaces)) {
-      documentElementStyle.setProperty(
-        `--sky-viewport-${position}`,
-        size + 'px',
-      );
-    }
+      for (const [position, size] of Object.entries(reservedSpaces)) {
+        documentElementStyle.setProperty(
+          `--sky-viewport-${position}`,
+          size + 'px',
+        );
+      }
+
+      this.#updateRequest = undefined;
+    });
   }
 
   #watchVisibility(item: ReserveItemType): void {
@@ -107,5 +129,19 @@ export class SkyAppViewportService {
       this.#conditionallyReserveItems.set(item.reserveForElement, item);
       this.#intersectionObserver.observe(item.reserveForElement);
     }
+  }
+
+  #isElementVisible(element: HTMLElement): boolean {
+    const rect = element.getBoundingClientRect();
+    return (
+      // Vertically in view
+      rect.y <= window.innerHeight &&
+      rect.y >= 0 &&
+      // Horizontally in view
+      rect.x <= window.innerWidth &&
+      rect.x >= 0 &&
+      // Element is not hidden by another element
+      this.#document.elementFromPoint(rect.x + 1, rect.y + 1) === element
+    );
   }
 }
