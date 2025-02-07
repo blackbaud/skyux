@@ -267,7 +267,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
   #_customTriggerButton: SkyDropdownTriggerDirective | undefined;
-  #_disabled: boolean | undefined;
+  #_disabled: boolean | undefined = false;
   #_horizontalAlignment = DEFAULT_HORIZONTAL_ALIGNMENT;
   #_isOpen = false;
   #_label: string | undefined;

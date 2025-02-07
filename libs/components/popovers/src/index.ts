@@ -25,4 +25,3 @@ export { SkyPopoverContentComponent as λ5 } from './lib/modules/popover/popover
 export { SkyPopoverComponent as λ6 } from './lib/modules/popover/popover.component';
 export { SkyPopoverDirective as λ7 } from './lib/modules/popover/popover.directive';
 export { SkyDropdownTriggerDirective as λ8 } from './lib/modules/dropdown/dropdown-trigger.directive';
-export { SkyDropdownTriggerBaseDirective as λ9 } from './lib/modules/dropdown/dropdown-trigger-base.directive';
