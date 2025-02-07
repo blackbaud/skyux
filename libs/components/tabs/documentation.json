@@ -41,6 +41,21 @@
         "TabsVerticalTabsGroupedExampleComponent"
       ],
       "primaryDocsId": "SkyVerticalTabsetModule"
+    },
+    "wizard": {
+      "docsIds": [
+        "SkyTabsModule",
+        "SkyTabsetComponent",
+        "SkyTabComponent",
+        "SkyTabsetNavButtonComponent",
+        "SkyTabIndex",
+        "SkyTabLayoutType",
+        "SkyTabsetButtonsDisplayMode",
+        "SkyTabsetStyle",
+        "SkyTabsetTabIndexesChange",
+        "TabsWizardBasicExampleComponent"
+      ],
+      "primaryDocsId": "SkyTabsModule"
     }
   }
 }

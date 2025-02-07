@@ -14,6 +14,7 @@ interface SkyManifestComment {
   deprecationReason?: string;
   description?: string;
   docsId?: string;
+  extraTags?: Record<string, string>;
   isDeprecated?: boolean;
   isInternal?: boolean;
   isPreview?: boolean;
@@ -63,6 +64,13 @@ function getCodeExample(comment: CommentTag): {
   return { codeExample, codeExampleLanguage };
 }
 
+function applyExtraTag(
+  extraTags: Record<string, string>,
+  tag: CommentTag,
+): void {
+  extraTags[tag.tag.replace('@', '')] = getCommentTagText(tag.content) ?? '';
+}
+
 /**
  * Gets information about the reflection's JSDoc comment block.
  */
@@ -76,6 +84,7 @@ export function getComment(reflection: {
   let deprecationReason: string | undefined;
   let description: string | undefined;
   let docsId: string | undefined;
+  let extraTags: Record<string, string> | undefined;
   let isDeprecated: boolean | undefined;
   let isInternal: boolean | undefined;
   let isPreview: boolean | undefined;
@@ -135,6 +144,8 @@ export function getComment(reflection: {
             break;
 
           default:
+            extraTags ??= {};
+            applyExtraTag(extraTags, tag);
             break;
         }
       });
@@ -155,6 +166,7 @@ export function getComment(reflection: {
     deprecationReason,
     description,
     docsId,
+    extraTags,
     isDeprecated,
     isInternal,
     isPreview,

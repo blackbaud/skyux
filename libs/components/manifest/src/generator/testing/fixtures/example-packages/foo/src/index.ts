@@ -14,6 +14,7 @@ export {
   FooBasicTypeParamDefaultValueClass,
   FooClass,
   FooWithDocsIdOverrideClass,
+  FooWithExtraTagsClass,
   FooWithStaticPropertiesClass,
 } from './lib/foo.class';
 export {
