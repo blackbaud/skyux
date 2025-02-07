@@ -71,7 +71,7 @@ function getDaypickerCell(
   return fixture.nativeElement.querySelector('.sky-daypicker-cell');
 }
 
-fdescribe('daypicker cell', () => {
+describe('daypicker cell', () => {
   let fixture: ComponentFixture<SkyDayPickerCellComponent>;
   let componentRef: ComponentRef<SkyDayPickerCellComponent>;
   let calendarSvc: SkyDatepickerCalendarService;

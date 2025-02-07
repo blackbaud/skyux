@@ -46,7 +46,14 @@ export class SkyDayPickerCellComponent {
   public date = input<SkyDayPickerContext | undefined>();
 
   protected ariaLabel = computed(() => {
-    return this.date()?.keyDateText?.join(', ') ?? '';
+    const date = this.date();
+
+    if (date?.keyDateText) {
+      return date.keyDateText.join(', ');
+    }
+
+    /* istanbul ignore next: safety check */
+    return '';
   });
 
   protected hasTooltip = computed(() => {
