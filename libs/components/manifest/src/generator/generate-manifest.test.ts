@@ -1,12 +1,10 @@
-import path from 'node:path';
-
 const projectsRootDirectory =
   'libs/components/manifest/src/generator/testing/fixtures/example-packages';
 
 function setup(options: {
   documentationJsonExists: boolean;
   outDirExists: boolean;
-  projectName: 'foo' | 'invalid-docs-id' | 'invalid-documentation-json';
+  projectNames: string[];
 }): {
   mkdirMock: jest.Mock;
   writeFileMock: jest.Mock;
@@ -46,19 +44,23 @@ function setup(options: {
   jest.mock('./get-project-definitions', () => {
     return {
       getProjectDefinitions: jest.fn().mockImplementation(() => {
-        const projectRoot = `${projectsRootDirectory}/${options.projectName}`;
+        const definitions = [];
 
-        return [
-          {
+        for (const projectName of options.projectNames) {
+          const projectRoot = `${projectsRootDirectory}/${projectName}`;
+
+          definitions.push({
             entryPoints: [
               `${projectRoot}/src/index.ts`,
               `${projectRoot}/testing/src/public-api.ts`,
             ],
-            packageName: `@skyux/${options.projectName}`,
-            projectName: options.projectName,
+            packageName: `@skyux/${projectName}`,
+            projectName: projectName,
             projectRoot,
-          },
-        ];
+          });
+        }
+
+        return definitions;
       }),
     };
   });
@@ -73,17 +75,19 @@ describe('generate-manifest', () => {
   });
 
   it('should generate manifest', async () => {
+    const projectNames = ['code-examples', 'foo'];
+
     const { writeFileMock } = setup({
       documentationJsonExists: true,
       outDirExists: true,
-      projectName: 'foo',
+      projectNames,
     });
 
     const { generateManifest } = await import('./generate-manifest');
 
     await generateManifest({
       outDir: '/dist',
-      projectNames: ['foo'],
+      projectNames,
       projectsRootDirectory,
     });
 
@@ -91,17 +95,19 @@ describe('generate-manifest', () => {
   }, 60000);
 
   it('should create the out directory if it does not exist', async () => {
+    const projectNames = ['foo'];
+
     const { mkdirMock } = setup({
       documentationJsonExists: false,
       outDirExists: false,
-      projectName: 'foo',
+      projectNames,
     });
 
     const { generateManifest } = await import('./generate-manifest');
 
     await generateManifest({
       outDir: '/dist',
-      projectNames: ['foo'],
+      projectNames,
       projectsRootDirectory,
     });
 
@@ -109,10 +115,12 @@ describe('generate-manifest', () => {
   }, 60000);
 
   it('should throw for invalid docs IDs', async () => {
+    const projectNames = ['invalid-docs-id'];
+
     setup({
       documentationJsonExists: false,
       outDirExists: true,
-      projectName: 'invalid-docs-id',
+      projectNames,
     });
 
     const { generateManifest } = await import('./generate-manifest');
@@ -120,17 +128,22 @@ describe('generate-manifest', () => {
     await expect(
       generateManifest({
         outDir: '/dist',
-        projectNames: ['invalid-docs-id'],
+        projectNames,
         projectsRootDirectory,
       }),
-    ).rejects.toThrow('Duplicate @docsId encountered: my-duplicate');
+    ).rejects.toThrow(
+      'The following errors were encountered when creating the manifest:\n' +
+        ' - Duplicate @docsId encountered: my-duplicate',
+    );
   }, 60000);
 
   it('should throw for invalid documentation.json', async () => {
+    const projectNames = ['code-examples', 'invalid-documentation-json'];
+
     setup({
       documentationJsonExists: true,
       outDirExists: true,
-      projectName: 'invalid-documentation-json',
+      projectNames,
     });
 
     const { generateManifest } = await import('./generate-manifest');
@@ -138,16 +151,9 @@ describe('generate-manifest', () => {
     await expect(
       generateManifest({
         outDir: '/dist',
-        projectNames: ['invalid-docs-id'],
+        projectNames,
         projectsRootDirectory,
       }),
-    ).rejects
-      .toThrow(`Encountered the following errors when generating documentation:
- - Schema validation failed for ${path.normalize('libs/components/manifest/src/generator/testing/fixtures/example-packages/invalid-documentation-json/documentation.json')}
- - The @docsId "FooInternalClass" referenced by "invalid" is not included in the public API.
- - The @docsId "Duplicate1" referenced by "invalid" is not recognized.
- - The @docsId "Duplicate1" referenced by "invalid" is not recognized.
- - The @docsId "Invalid2" referenced by "invalid" is not recognized.
- - The value for primaryDocsId ("ModuleNotListed") must be included in the docsIds array for group "invalid" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).`);
+    ).rejects.toThrowErrorMatchingSnapshot();
   }, 60000);
 });

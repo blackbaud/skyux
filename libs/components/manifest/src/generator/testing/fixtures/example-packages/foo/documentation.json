@@ -5,7 +5,8 @@
       "docsIds": [
         "docs-id-override",
         "FooWithStaticPropertiesClass",
-        "FooClass"
+        "FooClass",
+        "FooCodeExample1"
       ],
       "primaryDocsId": "FooClass"
     }

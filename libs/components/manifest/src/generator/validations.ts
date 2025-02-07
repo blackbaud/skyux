@@ -74,3 +74,42 @@ export function validateDocumentationConfig(
 
   return errors;
 }
+
+/**
+ * Ensures all code examples are assigned to a documentation.json file.
+ */
+export function validateCodeExamples(
+  publicApi: SkyManifestPublicApi,
+  documentationConfig: SkyManifestDocumentationConfig,
+): string[] {
+  const errors: string[] = [];
+  const unreferencedIds: string[] = [];
+
+  const codeExampleDocsIds = publicApi.packages['@skyux/code-examples'].map(
+    (d) => d.docsId,
+  );
+
+  for (const docsId of codeExampleDocsIds) {
+    let found = false;
+
+    for (const configs of Object.values(documentationConfig.packages)) {
+      for (const group of Object.values(configs.groups)) {
+        if (group.docsIds.includes(docsId)) {
+          found = true;
+        }
+      }
+    }
+
+    if (!found) {
+      unreferencedIds.push(docsId);
+    }
+  }
+
+  if (unreferencedIds.length > 0) {
+    errors.push(
+      `The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: "${unreferencedIds.join('", "')}"`,
+    );
+  }
+
+  return errors;
+}
