@@ -13,7 +13,7 @@ import {
 } from '@skyux/datetime';
 
 import { of } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { delay, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-datepicker',
@@ -177,8 +177,7 @@ export class DatepickerComponent implements OnInit {
       });
 
       // Bind observable to event argument and simulate async call.
-      event.customDates = of(customDates);
-      // .pipe(delay(2000));
+      event.customDates = of(customDates).pipe(delay(2000));
     }
   }
 

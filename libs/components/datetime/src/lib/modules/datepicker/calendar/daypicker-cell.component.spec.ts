@@ -25,7 +25,7 @@ class MockSkyCalendarInnerComponent {
   }
 }
 
-const CELL_CONTEXT_WITH_KEY_DATE: SkyDayPickerContext = {
+const CONTEXT_WITH_KEY_DATE: SkyDayPickerContext = {
   current: false,
   date: new Date(2021, 9, 1),
   disabled: false,
@@ -98,7 +98,7 @@ describe('daypicker cell', () => {
   describe('set hasTooltip', () => {
     it('should set hasTooltip to false if not a key date', () => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDate: false,
       } satisfies SkyDayPickerContext);
 
@@ -109,7 +109,7 @@ describe('daypicker cell', () => {
 
     it('should set hasTooltip to false if a key date and keyDateText undefined', () => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDateText: undefined,
       } satisfies SkyDayPickerContext);
 
@@ -120,7 +120,7 @@ describe('daypicker cell', () => {
 
     it('should set hasTooltip to false if a key date and no keyDateText items', () => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDateText: [],
       } satisfies SkyDayPickerContext);
 
@@ -131,7 +131,7 @@ describe('daypicker cell', () => {
 
     it('should set hasTooltip to false if a key date and keyDateText item empty', () => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDateText: [''],
       } satisfies SkyDayPickerContext);
 
@@ -141,7 +141,7 @@ describe('daypicker cell', () => {
     });
 
     it('should set hasTooltip to true if key date and keyDateText item not empty', () => {
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
 
       fixture.detectChanges();
 
@@ -154,7 +154,7 @@ describe('daypicker cell', () => {
 
       expectHasPopoverTrigger(fixture, false);
 
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
       fixture.detectChanges();
 
       expectHasPopoverTrigger(fixture, true);
@@ -174,7 +174,7 @@ describe('daypicker cell', () => {
       activeDateSpy.and.returnValue(false);
 
       componentRef.setInput('activeDateHasChanged', true);
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
 
       fixture.detectChanges();
 
@@ -183,7 +183,7 @@ describe('daypicker cell', () => {
 
     it('should not show tooltip when active date has not changed', () => {
       componentRef.setInput('activeDateHasChanged', false);
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
 
       fixture.detectChanges();
 
@@ -192,7 +192,7 @@ describe('daypicker cell', () => {
 
     it('should show tooltip on init', () => {
       componentRef.setInput('activeDateHasChanged', true);
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
 
       fixture.detectChanges();
 
@@ -202,7 +202,7 @@ describe('daypicker cell', () => {
 
   describe('datepickerService keyDatePopoverStream', () => {
     beforeEach(() => {
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
     });
 
     it('should hide the tooltip if no mouseover date', fakeAsync(() => {
@@ -255,7 +255,7 @@ describe('daypicker cell', () => {
 
       expectPopoverOpened(true);
 
-      calendarSvc.keyDatePopoverStream.next(CELL_CONTEXT_WITH_KEY_DATE);
+      calendarSvc.keyDatePopoverStream.next(CONTEXT_WITH_KEY_DATE);
       fixture.detectChanges();
       tick();
 
@@ -266,7 +266,7 @@ describe('daypicker cell', () => {
   describe('accessibility', () => {
     it('should not assign aria-label if no tooltip', () => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDate: false,
       } satisfies SkyDayPickerContext);
 
@@ -277,7 +277,7 @@ describe('daypicker cell', () => {
 
     it('should return a single string if a single keyDateText', () => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDateText: ['foo'],
       } satisfies SkyDayPickerContext);
 
@@ -288,7 +288,7 @@ describe('daypicker cell', () => {
 
     it('should return a comma delimited string if multiple keyDateTexts', () => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDateText: ['important!', 'this too'],
       } satisfies SkyDayPickerContext);
 
@@ -300,7 +300,7 @@ describe('daypicker cell', () => {
 
   describe('hideTooltip', () => {
     it('should close the popover on mouseleave if open', fakeAsync(() => {
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
       fixture.detectChanges();
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');
@@ -320,7 +320,7 @@ describe('daypicker cell', () => {
   describe('showTooltip', () => {
     it('should not open the tooltip on mouseenter if not a key date', fakeAsync(() => {
       componentRef.setInput('date', {
-        ...CELL_CONTEXT_WITH_KEY_DATE,
+        ...CONTEXT_WITH_KEY_DATE,
         keyDate: false,
       } satisfies SkyDayPickerContext);
 
@@ -334,7 +334,7 @@ describe('daypicker cell', () => {
     }));
 
     it('should open the tooltip on mouseenter', fakeAsync(() => {
-      componentRef.setInput('date', CELL_CONTEXT_WITH_KEY_DATE);
+      componentRef.setInput('date', CONTEXT_WITH_KEY_DATE);
       fixture.detectChanges();
 
       SkyAppTestUtility.fireDomEvent(getDaypickerCell(fixture), 'mouseenter');

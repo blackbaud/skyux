@@ -32,8 +32,8 @@ import { SkyDayPickerContext } from './daypicker-context';
   templateUrl: './daypicker-cell.component.html',
 })
 export class SkyDayPickerCellComponent {
-  readonly #datepicker = inject(SkyDatepickerCalendarInnerComponent);
   readonly #calendarSvc = inject(SkyDatepickerCalendarService);
+  readonly #datepicker = inject(SkyDatepickerCalendarInnerComponent);
 
   /**
    * Whether the active date has been changed.
@@ -71,14 +71,8 @@ export class SkyDayPickerCellComponent {
   protected popoverController = new Subject<SkyPopoverMessage>();
 
   constructor() {
-    this.#calendarSvc.keyDatePopoverStream
-      .pipe(takeUntilDestroyed())
-      .subscribe((popoverDate) => {
-        if (!popoverDate || popoverDate?.uid !== this.date()?.uid) {
-          this.#hideTooltip();
-        }
-      });
-
+    // show the tooltip if this is the active date and is not the
+    // initial active date (activeDateHasChanged)
     effect(() => {
       const activeDateHasChanged = this.activeDateHasChanged();
       const hasTooltip = this.hasTooltip();
@@ -93,6 +87,15 @@ export class SkyDayPickerCellComponent {
         this.#showTooltip();
       }
     });
+
+    // Hide this cell's tooltip if another cell opens a tooltip.
+    this.#calendarSvc.keyDatePopoverStream
+      .pipe(takeUntilDestroyed())
+      .subscribe((popoverDate) => {
+        if (!popoverDate || popoverDate?.uid !== this.date()?.uid) {
+          this.#hideTooltip();
+        }
+      });
   }
 
   protected onDayMouseenter(): void {
