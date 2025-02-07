@@ -31,10 +31,14 @@ describe('popovers-storybook', () => {
             );
           });
 
-          ['select', 'context-menu', 'tab'].forEach((buttonType) => {
+          ['select', 'context-menu', 'tab', 'custom'].forEach((buttonType) => {
             it(`should open the ${buttonType} style dropdown's menu`, () => {
               cy.get('app-dropdown').should('exist').should('be.visible');
-              cy.get(`.sky-dropdown-button-type-${buttonType}`)
+              cy.get(
+                buttonType === 'custom'
+                  ? '.custom-trigger'
+                  : `.sky-dropdown-button-type-${buttonType}`,
+              )
                 .last()
                 .should('exist')
                 .should('be.visible')
