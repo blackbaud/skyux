@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnDestroy,
-  OnInit,
+  computed,
+  effect,
   inject,
+  input,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   SkyPopoverMessage,
   SkyPopoverMessageType,
@@ -14,7 +15,6 @@ import {
 } from '@skyux/popovers';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerCalendarService } from './datepicker-calendar.service';
@@ -29,143 +29,80 @@ import { SkyDayPickerContext } from './daypicker-context';
   imports: [CommonModule, SkyDayPickerButtonComponent, SkyPopoverModule],
   selector: 'sky-daypicker-cell',
   standalone: true,
-  templateUrl: 'daypicker-cell.component.html',
+  templateUrl: './daypicker-cell.component.html',
 })
-export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
+export class SkyDayPickerCellComponent {
+  readonly #datepicker = inject(SkyDatepickerCalendarInnerComponent);
+  readonly #calendarSvc = inject(SkyDatepickerCalendarService);
+
   /**
    * Whether the active date has been changed.
    */
-  @Input()
-  public activeDateHasChanged: boolean | undefined;
+  public activeDateHasChanged = input(false);
 
   /**
    * The date this picker cell will represent on the calendar.
    */
-  @Input()
-  public date: SkyDayPickerContext | undefined;
+  public date = input<SkyDayPickerContext | undefined>();
 
-  public hasTooltip = false;
+  protected popoverController = new Subject<SkyPopoverMessage>();
 
-  public popoverController = new Subject<SkyPopoverMessage>();
+  protected ariaLabel = computed(() => {
+    const date = this.date();
+    return date?.keyDateText?.join(', ') ?? '';
+  });
 
-  #activeUid = '';
+  protected hasTooltip = computed(() => {
+    const date = this.date();
 
-  #cancelPopover = false;
-
-  #popoverOpen = false;
-
-  #ngUnsubscribe = new Subject<void>();
-
-  readonly #datepicker = inject(SkyDatepickerCalendarInnerComponent);
-  readonly #datepickerService = inject(SkyDatepickerCalendarService);
-
-  public ngOnInit(): void {
-    this.hasTooltip = !!(
-      this.date &&
-      this.date.keyDate &&
-      this.date.keyDateText &&
-      this.date.keyDateText.length > 0 &&
-      this.date.keyDateText[0].length > 0
+    return (
+      date &&
+      date.keyDate &&
+      date.keyDateText &&
+      date.keyDateText.length > 0 &&
+      date.keyDateText[0].length > 0
     );
+  });
 
-    console.log(
-      'init',
-      this.date?.date,
-      this.date?.current,
-      this.#datepicker.isActive(this.date),
-      this.activeDateHasChanged,
-      this.hasTooltip,
-    );
-
-    // show the tooltip if this is the active date and is not the
-    // initial active date (activeDateHasChanged)
-    if (
-      this.date &&
-      this.#datepicker.isActive(this.date) &&
-      this.activeDateHasChanged &&
-      this.hasTooltip
-    ) {
-      console.log('SHOW');
-      this.#activeUid = this.date.uid;
-      this.#showTooltip();
-    }
-
-    if (this.hasTooltip) {
-      this.#datepickerService.keyDatePopoverStream
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((date) => {
-          if (date) {
-            this.#activeUid = date.uid;
-          } else {
-            this.#activeUid = '';
-          }
-          // If this day has an open popover and they have moved off of the day close the popover.
-          if (this.date?.uid !== this.#activeUid) {
-            this.#hideTooltip();
-          }
-        });
-    }
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
-
-  public onDayMouseenter(): void {
-    this.#cancelPopover = false;
-    if (this.hasTooltip) {
-      this.#showTooltip();
-      this.#datepickerService.keyDatePopoverStream.next(this.date);
-    }
-  }
-
-  public onDayMouseleave(): void {
-    this.#cancelPopover = true;
-    if (this.hasTooltip) {
-      this.#hideTooltip();
-    }
-    this.#datepickerService.keyDatePopoverStream.next(undefined);
-  }
-
-  public onPopoverClosed(): void {
-    this.#popoverOpen = false;
-  }
-
-  public onPopoverOpened(): void {
-    this.#popoverOpen = true;
-    /* istanbul ignore else */
-    if (this.#cancelPopover) {
-      // If the popover gets opened just as a mouseout event happens, close it.
-      this.#hideTooltip();
-      this.#cancelPopover = false;
-    }
-  }
-
-  public getKeyDateLabel(): string {
-    return this.hasTooltip && this.date?.keyDateText
-      ? this.date.keyDateText.join(', ')
-      : '';
-  }
-
-  #hideTooltip(): void {
-    /* istanbul ignore else */
-    if (this.#popoverOpen) {
-      this.popoverController.next({ type: SkyPopoverMessageType.Close });
-    }
-  }
-
-  #showTooltip(): void {
-    /* istanbul ignore else */
-    if (this.hasTooltip && !this.#popoverOpen) {
-      /**
-       * Delay 1/2 second before opening the popover as long as mouse hasn't moved off the date.
-       */
-      setTimeout(() => {
-        if (!this.#cancelPopover && this.#activeUid === this.date?.uid) {
-          this.popoverController.next({ type: SkyPopoverMessageType.Open });
+  constructor() {
+    this.#calendarSvc.keyDatePopoverStream
+      .pipe(takeUntilDestroyed())
+      .subscribe((popoverDate) => {
+        if (popoverDate?.uid !== this.date()?.uid) {
+          this.#closePopover();
         }
-      }, 500);
-    }
+      });
+
+    effect(() => {
+      const activeDateHasChanged = this.activeDateHasChanged();
+      const hasTooltip = this.hasTooltip();
+      const date = this.date();
+
+      if (
+        activeDateHasChanged &&
+        hasTooltip &&
+        this.#datepicker.isActive(date)
+      ) {
+        this.#openPopover();
+      }
+    });
+  }
+
+  protected onMouseenter(): void {
+    this.#openPopover();
+    this.#calendarSvc.keyDatePopoverStream.next(this.date());
+  }
+
+  protected onMouseleave(): void {
+    this.#closePopover();
+    this.#calendarSvc.keyDatePopoverStream.next(undefined);
+  }
+
+  #openPopover(): void {
+    this.popoverController.next({ type: SkyPopoverMessageType.Open });
+  }
+
+  #closePopover(): void {
+    this.popoverController.next({ type: SkyPopoverMessageType.Close });
   }
 }

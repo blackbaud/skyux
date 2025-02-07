@@ -171,12 +171,40 @@ fdescribe('daypicker cell', () => {
       expect(controllerSpy).not.toHaveBeenCalled();
     }));
 
-    it('should show tooltip', fakeAsync(() => {
+    fit('should show tooltip', fakeAsync(() => {
       fixture.detectChanges();
       tick(500);
 
       expect(controllerSpy).toHaveBeenCalled();
+
+      const cell = getDaypickerCell(fixture);
+
+      expect(cell).toHaveClass('sky-popover-trigger');
     }));
+
+    fit('should show a previously hidden tooltip when date value changes', () => {
+      fixture.componentRef.setInput('date', {});
+      fixture.detectChanges();
+
+      const cell = getDaypickerCell(fixture);
+
+      expect(cell).not.toHaveClass('sky-popover-trigger');
+
+      fixture.componentRef.setInput('date', {
+        date: new Date(),
+        secondary: false,
+        uid: '1',
+        disabled: false,
+        current: true,
+        label: '00',
+        selected: false,
+        keyDate: true,
+        keyDateText: ['Important message'],
+      } satisfies SkyDayPickerContext);
+      fixture.detectChanges();
+
+      expect(cell).toHaveClass('sky-popover-trigger');
+    });
   });
 
   describe('datepickerService keyDatePopoverStream', () => {

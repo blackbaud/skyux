@@ -303,8 +303,8 @@ export class SkyDatepickerCalendarInnerComponent
     return this.dateFormatter.format(date, format);
   }
 
-  public isActive(dateObject: any): boolean {
-    if (this.compare(dateObject.date, this.activeDate) === 0) {
+  public isActive(dateObject: SkyDayPickerContext | undefined): boolean {
+    if (dateObject && this.compare(dateObject.date, this.activeDate) === 0) {
       this.activeDateId = dateObject.uid;
       return true;
     }
@@ -395,7 +395,7 @@ export class SkyDatepickerCalendarInnerComponent
       date.getDate(),
     );
 
-    console.log('select new:', date, this.activeDate);
+    // console.log('select new:', date, this.activeDate);
 
     /*
         Only actually select date if in minMode (day picker mode).
