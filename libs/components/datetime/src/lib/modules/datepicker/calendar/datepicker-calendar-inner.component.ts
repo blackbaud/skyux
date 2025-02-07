@@ -395,6 +395,8 @@ export class SkyDatepickerCalendarInnerComponent
       date.getDate(),
     );
 
+    console.log('select new:', date, this.activeDate);
+
     /*
         Only actually select date if in minMode (day picker mode).
         Otherwise, just change the active view for the datepicker.
