@@ -50,3 +50,30 @@
     }
   </sky-dropdown-menu>
 </sky-dropdown>
+
+<sky-dropdown>
+  <button
+    class="sky-btn sky-btn-default custom-trigger"
+    type="button"
+    skyDropdownTrigger
+  >
+    <div class="custom-trigger-inner">
+      <sky-icon iconName="add" />
+      New
+      <sky-icon iconName="chevron-down" />
+    </div>
+  </button>
+  <sky-dropdown-menu>
+    @for (item of items; track item.name) {
+      <sky-dropdown-item class="custom-trigger-item">
+        <button
+          type="button"
+          [attr.disabled]="item.disabled() ? '' : null"
+          (click)="actionClicked(item.name)"
+        >
+          {{ item.name }}
+        </button>
+      </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>
