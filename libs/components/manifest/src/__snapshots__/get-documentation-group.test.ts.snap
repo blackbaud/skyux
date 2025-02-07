@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get-documentation-group should return information about a documentation group 1`] = `
+Object {
+  "codeExamples": Array [
+    Object {
+      "files": Object {
+        "foo.component.html": "HTML_CONTENTS",
+        "foo.component.ts": "TS_CONTENTS",
+      },
+      "primaryFile": "foo.component.ts",
+    },
+  ],
+  "publicApi": Array [
+    Object {
+      "docsId": "FooComponent",
+      "name": "FooComponent",
+      "packageName": "@skyux/core",
+    },
+    Object {
+      "docsId": "IndicatorComponent",
+      "name": "IndicatorComponent",
+      "packageName": "@skyux/indicators",
+    },
+    Object {
+      "docsId": "FooCodeExample",
+      "extraTags": Object {
+        "title": "This is my title",
+      },
+      "name": "FooCodeExample",
+      "packageName": "@skyux/core",
+    },
+  ],
+  "testing": Array [
+    Object {
+      "docsId": "FooHarness",
+      "name": "FooHarness",
+      "packageName": "@skyux/core/testing",
+    },
+  ],
+}
+`;
+
+exports[`get-documentation-group should throw if group name unrecognized 1`] = `"Documentation exists for a package named \\"@skyux/core\\", but it does not include a group with the name \\"invalid\\"."`;
+
+exports[`get-documentation-group should throw if package name unrecognized 1`] = `"Documentation could not be found for the package \\"@skyux/invalid\\"."`;

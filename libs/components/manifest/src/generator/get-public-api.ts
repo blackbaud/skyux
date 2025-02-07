@@ -105,7 +105,7 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
 
 export async function getPublicApi(
   projects: ProjectDefinition[],
-): Promise<SkyManifestPublicApi> {
+): Promise<[SkyManifestPublicApi, string[]]> {
   const packages: PackagesMap = new Map<
     string,
     SkyManifestParentDefinition[]
@@ -142,14 +142,10 @@ export async function getPublicApi(
 
   const errors = validateDocsIds(packages);
 
-  if (errors.length > 0) {
-    throw new Error(
-      'Encountered the following errors when generating the manifest:\n - ' +
-        errors.join('\n - '),
-    );
-  }
-
-  return {
-    packages: Object.fromEntries(packages),
-  };
+  return [
+    {
+      packages: Object.fromEntries(packages),
+    },
+    errors,
+  ];
 }

@@ -1,3 +1,4 @@
+export { getDocumentationGroup } from './get-documentation-group';
 export { getPublicApi } from './get-public-api';
 export type {
   SkyManifestChildDefinition,
@@ -29,7 +30,14 @@ export type {
   SkyManifestInterfaceDefinition,
   SkyManifestInterfacePropertyDefinition,
 } from './types/interface-def';
-export type { SkyManifestPublicApi } from './types/manifest.js';
+export type {
+  SkyManifestCodeExample,
+  SkyManifestCodeExampleFiles,
+  SkyManifestCodeExamples,
+  SkyManifestDocumentationGroup,
+  SkyManifestDocumentationTypeDefinition,
+  SkyManifestPublicApi,
+} from './types/manifest.js';
 export type { SkyManifestPipeDefinition } from './types/pipe-def';
 export type { SkyManifestTypeAliasDefinition } from './types/type-alias-def';
 export type { SkyManifestVariableDefinition } from './types/variable-def';

@@ -3,8 +3,12 @@ import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
 import type { SkyManifestDocumentationConfig } from '../types/documentation-config';
-import type { SkyManifestPublicApi } from '../types/manifest';
+import type {
+  SkyManifestCodeExamples,
+  SkyManifestPublicApi,
+} from '../types/manifest';
 
+import { getCodeExamples } from './get-code-examples';
 import { getDocumentationConfig } from './get-documentation-config';
 import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';
@@ -25,12 +29,14 @@ async function writeManifestFiles(
   outDir: string,
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
+  codeExamples: SkyManifestCodeExamples,
 ): Promise<void> {
   const publicApiPath = path.join(outDir, 'public-api.json');
   const documentationConfigPath = path.join(
     outDir,
     'documentation-config.json',
   );
+  const codeExamplesPath = path.join(outDir, 'code-examples.json');
 
   await ensureDirectory(outDir);
 
@@ -46,7 +52,14 @@ async function writeManifestFiles(
     JSON.stringify(documentationConfig, undefined, 2),
   );
 
-  console.log(`Created ${documentationConfigPath}\n`);
+  console.log(`Created ${documentationConfigPath}`);
+
+  await fsPromises.writeFile(
+    codeExamplesPath,
+    JSON.stringify(codeExamples, undefined, 2),
+  );
+
+  console.log(`Created ${codeExamplesPath}\n`);
 }
 
 /**
@@ -61,12 +74,37 @@ export async function generateManifest(
     options.projectNames,
   );
 
-  const publicApi = await getPublicApi(projects);
-  const documentationConfig = await getDocumentationConfig(publicApi, projects);
+  const [publicApi, publicApiErrors] = await getPublicApi(projects);
+
+  const [documentationConfig, documentationConfigErrors] =
+    await getDocumentationConfig(publicApi, projects);
+
+  const [codeExamples, codeExamplesErrors] = await getCodeExamples(
+    publicApi,
+    documentationConfig,
+  );
+
+  const errors = [
+    ...publicApiErrors,
+    ...documentationConfigErrors,
+    ...codeExamplesErrors,
+  ];
+
+  if (errors.length > 0) {
+    throw new Error(
+      'The following errors were encountered when creating the manifest:\n - ' +
+        errors.join('\n - '),
+    );
+  }
 
   const outDir = path.normalize(options.outDir);
 
-  await writeManifestFiles(outDir, publicApi, documentationConfig);
+  await writeManifestFiles(
+    outDir,
+    publicApi,
+    documentationConfig,
+    codeExamples,
+  );
 
   return { publicApi };
 }

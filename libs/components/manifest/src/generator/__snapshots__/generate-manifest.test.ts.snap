@@ -7,6 +7,18 @@ exports[`generate-manifest should generate manifest 1`] = `
       "/dist/public-api.json",
       "{
   \\"packages\\": {
+    \\"@skyux/code-examples\\": [
+      {
+        \\"anchorId\\": \\"class_foo-code-example1\\",
+        \\"docsId\\": \\"FooCodeExample1\\",
+        \\"extraTags\\": {
+          \\"title\\": \\"This is a title\\"
+        },
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/code-examples/src/lib/types.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooCodeExample1\\"
+      }
+    ],
     \\"@skyux/foo\\": [
       {
         \\"anchorId\\": \\"class_----\\",
@@ -264,6 +276,17 @@ exports[`generate-manifest should generate manifest 1`] = `
         \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
         \\"kind\\": \\"class\\",
         \\"name\\": \\"FooWithDocsIdOverrideClass\\"
+      },
+      {
+        \\"anchorId\\": \\"class_foo-with-extra-tags-class\\",
+        \\"docsId\\": \\"FooWithExtraTagsClass\\",
+        \\"extraTags\\": {
+          \\"title\\": \\"This is a sample title\\",
+          \\"foobar\\": \\"This is an unrecognized tag\\"
+        },
+        \\"filePath\\": \\"libs/components/manifest/src/generator/testing/fixtures/example-packages/foo/src/lib/foo.class.ts\\",
+        \\"kind\\": \\"class\\",
+        \\"name\\": \\"FooWithExtraTagsClass\\"
       },
       {
         \\"anchorId\\": \\"class_foo-with-static-properties-class\\",
@@ -676,6 +699,10 @@ exports[`generate-manifest should generate manifest 1`] = `
       "/dist/documentation-config.json",
       "{
   \\"packages\\": {
+    \\"@skyux/code-examples\\": {
+      \\"$schema\\": \\"../../../../../../documentation-schema.json\\",
+      \\"groups\\": {}
+    },
     \\"@skyux/foo\\": {
       \\"$schema\\": \\"../../../../../../documentation-schema.json\\",
       \\"groups\\": {
@@ -683,11 +710,26 @@ exports[`generate-manifest should generate manifest 1`] = `
           \\"docsIds\\": [
             \\"docs-id-override\\",
             \\"FooWithStaticPropertiesClass\\",
-            \\"FooClass\\"
+            \\"FooClass\\",
+            \\"FooCodeExample1\\"
           ],
           \\"primaryDocsId\\": \\"FooClass\\"
         }
       }
+    }
+  }
+}",
+    ],
+    Array [
+      "/dist/code-examples.json",
+      "{
+  \\"examples\\": {
+    \\"FooCodeExample1\\": {
+      \\"files\\": {
+        \\"types.ts\\": \\"/**\\\\n * @title This is a title\\\\n */\\\\nexport class FooCodeExample1 {}\\\\n\\"
+      },
+      \\"primaryFile\\": \\"types.ts\\",
+      \\"title\\": \\"This is a title\\"
     }
   }
 }",
@@ -702,6 +744,21 @@ exports[`generate-manifest should generate manifest 1`] = `
       "type": "return",
       "value": undefined,
     },
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
   ],
 }
+`;
+
+exports[`generate-manifest should throw for invalid documentation.json 1`] = `
+"The following errors were encountered when creating the manifest:
+ - Schema validation failed for the documentation.json file found in the \\"invalid-documentation-json\\" project.
+ - The @docsId \\"FooInternalClass\\" referenced by \\"invalid\\" is not included in the public API.
+ - The @docsId \\"Duplicate1\\" referenced by \\"invalid\\" is not recognized.
+ - The @docsId \\"Duplicate1\\" referenced by \\"invalid\\" is not recognized.
+ - The @docsId \\"Invalid2\\" referenced by \\"invalid\\" is not recognized.
+ - The value for primaryDocsId (\\"ModuleNotListed\\") must be included in the docsIds array for group \\"invalid\\" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).
+ - The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: \\"FooCodeExample1\\""
 `;
