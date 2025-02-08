@@ -1,0 +1,9 @@
+{
+  "PopoversDropdownBasicExampleComponent": {
+    "files": {
+      "example.component.ts": ""
+    },
+    "importPath": "@skyux/code-examples",
+    "primaryFile": "example.component.ts"
+  }
+}

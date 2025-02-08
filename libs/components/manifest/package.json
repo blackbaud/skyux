@@ -20,6 +20,9 @@
       "types": "./src/index.d.ts",
       "default": "./src/index.js"
     },
+    "./documentation-config.json": {
+      "default": "./documentation-config.json"
+    },
     "./package.json": {
       "default": "./package.json"
     },
