@@ -23,10 +23,9 @@ export async function getCodeExampleData(
 ): Promise<SkyCodeExampleData> {
   const example = CODE_EXAMPLES[componentName];
 
-  const moduleExports = (await import(example.importPath)) as unknown as Record<
-    string,
-    Type<unknown>
-  >;
+  const moduleExports = (await import(
+    '@skyux/code-examples'
+  )) as unknown as Record<string, Type<unknown>>;
 
   const componentType = moduleExports[componentName];
 

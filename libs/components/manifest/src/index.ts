@@ -31,9 +31,6 @@ export type {
   SkyManifestInterfacePropertyDefinition,
 } from './types/interface-def';
 export type {
-  SkyManifestCodeExample,
-  SkyManifestCodeExampleFiles,
-  SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
   SkyManifestDocumentationTypeDefinition,
   SkyManifestPublicApi,
