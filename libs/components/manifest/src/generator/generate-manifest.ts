@@ -6,6 +6,7 @@ import type { SkyManifestDocumentationConfig } from '../types/documentation-conf
 import type { SkyManifestPublicApi } from '../types/manifest';
 
 import { generateCodeExamplesData } from './generate-code-examples-data';
+import { generateEslintManifest } from './generate-eslint-manifest';
 import { getDocumentationConfig } from './get-documentation-config';
 import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';
@@ -85,6 +86,7 @@ export async function generateManifest(
 
   await writeManifestFiles(outDir, publicApi, documentationConfig);
   await generateCodeExamplesData(publicApi);
+  await generateEslintManifest(publicApi);
 
   return { publicApi };
 }

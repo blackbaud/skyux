@@ -8,11 +8,19 @@ import { type RuleListener } from '@typescript-eslint/utils/dist/ts-eslint';
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
-import { getDeprecatedTemplateFeatures } from './utils/get-deprecated-template-features';
+import deprecatedTemplateFeaturesJson from './data/deprecated-template-features.json';
 import { getDirectiveSelectorDetails } from './utils/get-directive-selector-details';
-import { DeprecatedDirective } from './utils/types';
+import {
+  DeprecatedDirective,
+  TemplateFeatureDeprecations,
+} from './utils/types';
 
-const DEPRECATIONS = getDeprecatedTemplateFeatures();
+// TODO: This is bad because it requires consumers to set resolveJsonModule in their TSCONFIG!
+// Make this an object.
+// However, how do we get passed the tsc stuff? Source maps could get messed up, etc.
+
+const DEPRECATIONS =
+  deprecatedTemplateFeaturesJson as TemplateFeatureDeprecations;
 
 export const RULE_NAME = 'no-deprecated-directives';
 

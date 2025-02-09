@@ -19,58 +19,7 @@
           "tsConfig": "libs/components/code-examples/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production",
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": [
-            "a11y",
-            "action-bars",
-            "ag-grid",
-            "angular-tree-component",
-            "animations",
-            "assets",
-            "autonumeric",
-            "avatar",
-            "colorpicker",
-            "config",
-            "core",
-            "data-manager",
-            "datetime",
-            "errors",
-            "flyout",
-            "forms",
-            "grids",
-            "help-inline",
-            "i18n",
-            "icon",
-            "indicators",
-            "inline-form",
-            "layout",
-            "list-builder",
-            "list-builder-common",
-            "list-builder-view-checklist",
-            "list-builder-view-grids",
-            "lists",
-            "lookup",
-            "modals",
-            "navbar",
-            "pages",
-            "phone-field",
-            "popovers",
-            "progress-indicator",
-            "router",
-            "select-field",
-            "split-view",
-            "tabs",
-            "text-editor",
-            "theme",
-            "tiles",
-            "toast",
-            "validation"
-          ]
-        }
-      ]
+      "defaultConfiguration": "production"
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

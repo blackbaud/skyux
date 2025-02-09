@@ -1,5 +1,7 @@
 import { Type } from '@angular/core';
 
+import * as moduleExports from '../../index';
+
 import codeExamplesJson from './code-examples.json';
 
 interface CodeExample {
@@ -23,11 +25,15 @@ export async function getCodeExampleData(
 ): Promise<SkyCodeExampleData> {
   const example = CODE_EXAMPLES[componentName];
 
-  const moduleExports = (await import(
-    '@skyux/code-examples'
-  )) as unknown as Record<string, Type<unknown>>;
+  // const moduleExports = (await import(
+  //   // Avoid nx flagging a dependency "on itself".
+  //   // ['@skyux', 'code-examples'].join('/')
+  //   '../../index'
+  // )) as unknown as Record<string, Type<unknown>>;
 
-  const componentType = moduleExports[componentName];
+  const componentType = (
+    moduleExports as unknown as Record<string, Type<unknown>>
+  )[componentName];
 
   return { ...example, componentName, componentType };
 }
