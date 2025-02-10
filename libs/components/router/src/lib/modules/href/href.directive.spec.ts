@@ -290,6 +290,18 @@ describe('SkyHref Directive', () => {
     tick();
 
     expect(element?.getAttribute('hidden')).toBeNull();
+
+    fixture.componentInstance.dynamicLink = 'reject://simple-app/example/page';
+    fixture.detectChanges();
+    tick();
+
+    expect(element?.getAttribute('hidden')).toBe('hidden');
+
+    fixture.componentInstance.dynamicLink = '1bb-nav://simple-app/fixed';
+    fixture.detectChanges();
+    tick();
+
+    expect(element?.getAttribute('hidden')).toBeNull();
   }));
 
   it('should handle the else parameter', fakeAsync(() => {
