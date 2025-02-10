@@ -85,9 +85,9 @@ export function validateCodeExamples(
   const errors: string[] = [];
   const unreferencedIds: string[] = [];
 
-  const codeExampleDocsIds = publicApi.packages['@skyux/code-examples']
-    .filter((d) => !d.filePath.includes('/private/'))
-    .map((d) => d.docsId);
+  const codeExampleDocsIds = publicApi.packages['@skyux/code-examples'].map(
+    (d) => d.docsId,
+  );
 
   for (const docsId of codeExampleDocsIds) {
     let found = false;

@@ -5,6 +5,5 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "assets": ["src/lib/private/code-examples.json"],
   "inlineStyleLanguage": "scss"
 }

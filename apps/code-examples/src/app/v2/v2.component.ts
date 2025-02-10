@@ -1,65 +1,93 @@
 import { JsonPipe, NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
-import { getCodeExampleData } from '@skyux/code-examples';
-import { getDocumentationGroup } from '@skyux/manifest';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Type,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import * as EXAMPLES from '@skyux/code-examples';
+import { SkyInputBoxModule } from '@skyux/forms';
+import {
+  SkyManifestDocumentationGroup,
+  getDocumentationConfig,
+  getDocumentationGroup,
+} from '@skyux/manifest';
 
-// import documentationConfigJson from '@skyux/manifest/documentation-config.json';
+const DOCS = getDocumentationConfig();
+const SEPARATOR = ':';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JsonPipe, NgComponentOutlet],
+  imports: [
+    FormsModule,
+    JsonPipe,
+    NgComponentOutlet,
+    ReactiveFormsModule,
+    SkyInputBoxModule,
+  ],
   selector: 'app-code-examples-v2',
-  template: `<div>
-      @if (componentType) {
-        <ng-template [ngComponentOutlet]="componentType" />
-      }
-    </div>
-    <pre>{{ data | json }}</pre>`,
+  template: `
+    <form [formGroup]="formGroup">
+      <sky-input-box labelText="Documentation group">
+        <select formControlName="documentationGroup">
+          <option value="" selected>Select a documentation group...</option>
+          @for (group of documentationGroups; track group) {
+            <option [value]="group">
+              {{ group }}
+            </option>
+          }
+        </select>
+      </sky-input-box>
+    </form>
+    @if (componentType()) {
+      <div>
+        <ng-template [ngComponentOutlet]="componentType()" />
+      </div>
+    }
+    @if (data()) {
+      <pre>{{ data() | json }}</pre>
+    }
+  `,
 })
 export default class CodeExamplesLandingComponent {
-  protected componentType: Type<unknown> | undefined;
+  #documentationGroupControl = new FormControl<string>('', {
+    nonNullable: true,
+  });
 
-  protected data = getDocumentationGroup('@skyux/indicators', 'alert');
+  protected componentType = signal<Type<unknown> | null>(null);
+  protected data = signal<SkyManifestDocumentationGroup | undefined>(undefined);
+  protected documentationGroups: string[] = [];
+  protected formGroup = inject(FormBuilder).group({
+    documentationGroup: this.#documentationGroupControl,
+  });
 
   constructor() {
-    void this.#loadExamples();
+    for (const [packageName, config] of Object.entries(DOCS.packages)) {
+      for (const group of Object.keys(config.groups)) {
+        this.documentationGroups.push(`${packageName}${SEPARATOR}${group}`);
+      }
+    }
 
-    // TODO: loop through documentation-config.json and then call getCodeExampleData(docsId);
-  }
+    this.documentationGroups.sort();
 
-  /**
-   * Manifest is responsible for TypeDoc, docsIds.
-   * Manifest generates the code examples data in the code-examples library... OR... the code-examples library uses the manifest to create the data?
-   *
-   * Using the manifest, get docsIds for all code examples for this documentation group.
-   * For each docsId, load the code example data (type, files, etc.) from the code-examples package.
-   */
+    this.componentType.set(EXAMPLES['PopoversDropdownBasicExampleComponent']);
 
-  async #loadExamples(): Promise<void> {
-    const data = await getCodeExampleData(
-      'PopoversDropdownBasicExampleComponent',
-    );
+    this.#documentationGroupControl.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        const parts = value.split(SEPARATOR);
+        const packageName = parts[0];
+        const groupName = parts[1];
 
-    this.componentType = data.componentType;
+        this.data.set(getDocumentationGroup(packageName, groupName));
+      });
   }
 }
-
-/**
- * import { getCodeExampleData } from '@skyux/code-examples';
- * import docsConfig from '@skyux/manifest/documentation-config.json';
- *
- * for (const [packageName, config] of Object.entries(docsConfig)) {
- *   for (const group of config.groups) {
- *     const data = getDocumentationGroup(packageName, group);
- *
- *     for (const docsId of data.docsIds) {
- *        const { componentType,files,primaryFile } = await getCodeExampleData('some-docs-id');
- *     }
- *   }
- * }
- *
- *
- *
- *
- *
- */

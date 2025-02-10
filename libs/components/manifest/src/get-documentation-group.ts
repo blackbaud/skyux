@@ -1,13 +1,16 @@
-// import codeExamplesJson from '../code-examples.json';
+import codeExamplesJson from '../code-examples.json';
 import documentationConfigJson from '../documentation-config.json';
 
 import { getPublicApi } from './get-public-api';
 import { SkyManifestDocumentationConfig } from './types/documentation-config';
-import type { SkyManifestDocumentationGroup } from './types/manifest';
+import type {
+  SkyManifestCodeExamples,
+  SkyManifestDocumentationGroup,
+} from './types/manifest';
 
 const PUBLIC_API = getPublicApi();
 const DOCS_CONFIG = documentationConfigJson as SkyManifestDocumentationConfig;
-// const CODE_EXAMPLES = codeExamplesJson as SkyManifestCodeExamples;
+const CODE_EXAMPLES = codeExamplesJson as SkyManifestCodeExamples;
 
 function getPublicApiByDocsIds(
   docsIds: string[],
@@ -25,7 +28,9 @@ function getPublicApiByDocsIds(
       for (const definition of definitions) {
         if (definition.docsId === docsId) {
           if (packageName === '@skyux/code-examples') {
-            documentation.codeExamples.push({ ...definition, packageName });
+            documentation.codeExamples.push(
+              CODE_EXAMPLES.examples[definition.docsId],
+            );
           } else if (packageName.endsWith('/testing')) {
             documentation.testing.push({ ...definition, packageName });
           } else {

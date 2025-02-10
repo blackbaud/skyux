@@ -1,3 +1,4 @@
+export { getDocumentationConfig } from './get-documentation-config';
 export { getDocumentationGroup } from './get-documentation-group';
 export { getPublicApi } from './get-public-api';
 export type {
@@ -17,6 +18,7 @@ export type {
   SkyManifestDirectiveInputDefinition,
   SkyManifestDirectiveOutputDefinition,
 } from './types/directive-def';
+export type { SkyManifestDocumentationConfig } from './types/documentation-config';
 export type {
   SkyManifestEnumerationDefinition,
   SkyManifestEnumerationMemberDefinition,
@@ -31,6 +33,9 @@ export type {
   SkyManifestInterfacePropertyDefinition,
 } from './types/interface-def';
 export type {
+  SkyManifestCodeExample,
+  SkyManifestCodeExampleFiles,
+  SkyManifestCodeExamples,
   SkyManifestDocumentationGroup,
   SkyManifestDocumentationTypeDefinition,
   SkyManifestPublicApi,

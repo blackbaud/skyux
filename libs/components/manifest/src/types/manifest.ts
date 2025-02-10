@@ -12,29 +12,30 @@ export interface SkyManifestPublicApi {
  * A collection of file contents, keyed by the relative file path.
  * @internal
  */
-// export type SkyManifestCodeExampleFiles = Record<string, string>;
+export type SkyManifestCodeExampleFiles = Record<string, string>;
 
 /**
  * Information about a single code example.
  * @internal
  */
-// export interface SkyManifestCodeExample {
-//   componentType: unknown;
-//   files: SkyManifestCodeExampleFiles;
-//   primaryFile: string;
-//   title?: string;
-// }
+export interface SkyManifestCodeExample {
+  componentName: string;
+  files: SkyManifestCodeExampleFiles;
+  importPath: string;
+  primaryFile: string;
+  title?: string;
+}
 
 /**
  * Information about a collection of code examples.
  * @internal
  */
-// export interface SkyManifestCodeExamples {
-//   /**
-//    * A collection of code examples, keyed by the primary file's docsId.
-//    */
-//   examples: Record<string, SkyManifestCodeExample>;
-// }
+export interface SkyManifestCodeExamples {
+  /**
+   * A collection of code examples, keyed by the primary file's docsId.
+   */
+  examples: Record<string, SkyManifestCodeExample>;
+}
 
 /**
  * Information about a parent type definition used for documentation purposes.
@@ -42,7 +43,7 @@ export interface SkyManifestPublicApi {
  */
 export interface SkyManifestDocumentationTypeDefinition
   extends SkyManifestParentDefinition {
-  packageName: string; // DO WE NEED THIS?
+  packageName: string;
 }
 
 /**
@@ -50,7 +51,7 @@ export interface SkyManifestDocumentationTypeDefinition
  * @internal
  */
 export interface SkyManifestDocumentationGroup {
-  codeExamples: SkyManifestDocumentationTypeDefinition[];
+  codeExamples: SkyManifestCodeExample[];
   publicApi: SkyManifestDocumentationTypeDefinition[];
   testing: SkyManifestDocumentationTypeDefinition[];
 }

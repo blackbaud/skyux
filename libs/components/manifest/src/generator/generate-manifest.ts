@@ -3,14 +3,15 @@ import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
 import type { SkyManifestDocumentationConfig } from '../types/documentation-config';
-import type { SkyManifestPublicApi } from '../types/manifest';
+import type {
+  SkyManifestCodeExamples,
+  SkyManifestPublicApi,
+} from '../types/manifest';
 
-import { generateCodeExamplesData } from './generate-code-examples-data';
-import { generateEslintManifest } from './generate-eslint-manifest';
+import { getCodeExamples } from './get-code-examples';
 import { getDocumentationConfig } from './get-documentation-config';
 import { getProjectDefinitions } from './get-project-definitions';
 import { getPublicApi } from './get-public-api';
-import { validateCodeExamples } from './validations';
 
 interface SkyManifestOptions {
   outDir: string;
@@ -28,12 +29,14 @@ async function writeManifestFiles(
   outDir: string,
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
+  codeExamples: SkyManifestCodeExamples,
 ): Promise<void> {
   const publicApiPath = path.join(outDir, 'public-api.json');
   const documentationConfigPath = path.join(
     outDir,
     'documentation-config.json',
   );
+  const codeExamplesPath = path.join(outDir, 'code-examples.json');
 
   await ensureDirectory(outDir);
 
@@ -50,6 +53,13 @@ async function writeManifestFiles(
   );
 
   console.log(`Created ${documentationConfigPath}`);
+
+  await fsPromises.writeFile(
+    codeExamplesPath,
+    JSON.stringify(codeExamples, undefined, 2),
+  );
+
+  console.log(`Created ${codeExamplesPath}\n`);
 }
 
 /**
@@ -69,10 +79,15 @@ export async function generateManifest(
   const [documentationConfig, documentationConfigErrors] =
     await getDocumentationConfig(publicApi, projects);
 
+  const [codeExamples, codeExamplesErrors] = await getCodeExamples(
+    publicApi,
+    documentationConfig,
+  );
+
   const errors = [
     ...publicApiErrors,
     ...documentationConfigErrors,
-    ...validateCodeExamples(publicApi, documentationConfig),
+    ...codeExamplesErrors,
   ];
 
   if (errors.length > 0) {
@@ -84,9 +99,12 @@ export async function generateManifest(
 
   const outDir = path.normalize(options.outDir);
 
-  await writeManifestFiles(outDir, publicApi, documentationConfig);
-  await generateCodeExamplesData(publicApi);
-  await generateEslintManifest(publicApi);
+  await writeManifestFiles(
+    outDir,
+    publicApi,
+    documentationConfig,
+    codeExamples,
+  );
 
   return { publicApi };
 }
