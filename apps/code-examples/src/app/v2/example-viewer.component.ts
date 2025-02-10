@@ -65,12 +65,12 @@ export class ExampleViewerComponent {
   readonly #stackBlitzLauncher = inject(StackBlitzLauncherService);
   readonly #sanitizer = inject(DomSanitizer);
 
-  public files = input.required<Record<string, string>>();
-  public title = input.required<string>();
-  public primaryFile = input.required<string>();
   public componentName = input.required<string>();
   public componentSelector = input.required<string>();
   public componentType = input.required<Type<unknown>>();
+  public files = input.required<Record<string, string>>();
+  public primaryFile = input.required<string>();
+  public title = input.required<string>();
 
   protected formatFileContents(fileName: string, raw: string): SafeHtml {
     const formatted = highlight.highlight(raw, {
