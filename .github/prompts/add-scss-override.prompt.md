@@ -1,0 +1,14 @@
+Add given css variable to either the `sky-default-overrides` mixin or the `sky-modern-overrides` mixin based on the input.
+
+If asked to add it to both, add it to both the `sky-default-overrides` mixin or the `sky-modern-overrides` mixin
+
+If the mixin that the variable is to be added to doesn't exist - add it to the top of the file after the imports.
+
+If neither mixin exists - add the per #file:scss-override-mixins.prompt.md but only add the mixin that is required
+
+If asked to use it with the current value, find the place in the scss that matches the new variable name.
+Use the value in this current location and assign the new variable that value.
+Use the new variable in the current location with the given fallback.
+
+Do not add any comments in the code.
+Remove any `TODO:` comments added by #file:scss-override-mixins.prompt.md
