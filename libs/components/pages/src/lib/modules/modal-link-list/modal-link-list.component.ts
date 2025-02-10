@@ -1,4 +1,10 @@
-import { Component, inject, isStandalone, input, computed } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  isStandalone,
+} from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyModalLegacyService, SkyModalService } from '@skyux/modals';
 

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { SkyModalLinkListComponent } from './modal-link-list.component';
 import { SkyModalLinkListModule } from './modal-link-list.module';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 @Component({
   template: '',
@@ -51,7 +51,9 @@ describe('SkyModalLinkListComponent', () => {
       },
     ]);
     fixture.detectChanges();
-    const link = Array.from<HTMLButtonElement>(fixture.nativeElement.querySelectorAll('button.sky-link-list-item'));
+    const link = Array.from<HTMLButtonElement>(
+      fixture.nativeElement.querySelectorAll('button.sky-link-list-item'),
+    );
     expect(link.length).toBe(1);
     SkyAppTestUtility.fireDomEvent(link[0], 'click');
     expect(openModalSpy).toHaveBeenCalledWith(MockStandaloneComponent, {});
@@ -68,7 +70,9 @@ describe('SkyModalLinkListComponent', () => {
       },
     ]);
     fixture.detectChanges();
-    const link = Array.from<HTMLButtonElement>(fixture.nativeElement.querySelectorAll('button.sky-link-list-item'));
+    const link = Array.from<HTMLButtonElement>(
+      fixture.nativeElement.querySelectorAll('button.sky-link-list-item'),
+    );
     expect(link.length).toBe(1);
     SkyAppTestUtility.fireDomEvent(link[0], 'click');
     expect(logger.deprecated).toHaveBeenCalled();
