@@ -54,6 +54,8 @@ const SEPARATOR = ':';
 
     @for (example of this.data()?.codeExamples; track example.componentName) {
       <app-example-viewer
+        [componentName]="example.componentName"
+        [componentSelector]="example.selector"
         [componentType]="getComponentType(example.componentName)"
         [files]="example.files"
         [primaryFile]="example.primaryFile"

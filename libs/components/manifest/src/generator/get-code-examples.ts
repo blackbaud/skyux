@@ -2,6 +2,7 @@ import glob from 'fast-glob';
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
+import { SkyManifestDirectiveDefinition } from '../types/directive-def';
 import { SkyManifestDocumentationConfig } from '../types/documentation-config';
 import type {
   SkyManifestCodeExampleFiles,
@@ -15,7 +16,10 @@ export async function getCodeExamples(
   publicApi: SkyManifestPublicApi,
   documentationConfig: SkyManifestDocumentationConfig,
 ): Promise<[SkyManifestCodeExamples, string[]]> {
-  const definitions = publicApi.packages['@skyux/code-examples'];
+  const definitions = publicApi.packages[
+    '@skyux/code-examples'
+  ] as SkyManifestDirectiveDefinition[];
+  const errors: string[] = [];
 
   const codeExamples: SkyManifestCodeExamples = {
     examples: {},
@@ -40,16 +44,25 @@ export async function getCodeExamples(
       });
     }
 
-    codeExamples.examples[definition.docsId] = {
-      componentName: definition.name,
-      files,
-      importPath: '@skyux/code-examples',
-      primaryFile: path.basename(definition.filePath),
-      title: definition.extraTags?.['title'],
-    };
+    const selector = definition.selector;
+
+    if (selector) {
+      codeExamples.examples[definition.docsId] = {
+        componentName: definition.name,
+        files,
+        importPath: '@skyux/code-examples',
+        primaryFile: path.basename(definition.filePath),
+        selector,
+        title: definition.extraTags?.['title'],
+      };
+    } else {
+      errors.push(
+        `The code example '${definition.docsId}' must specify a selector.`,
+      );
+    }
   }
 
-  const errors = validateCodeExamples(publicApi, documentationConfig);
+  errors.push(...validateCodeExamples(publicApi, documentationConfig));
 
   return [codeExamples, errors];
 }

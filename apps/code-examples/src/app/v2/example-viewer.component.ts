@@ -14,6 +14,8 @@ import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypescript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
+import { StackBlitzLauncherService } from './stackblitz-launcher.service';
+
 highlight.registerLanguage('html', hlXml);
 highlight.registerLanguage('js', hlJavascript);
 highlight.registerLanguage('scss', hlScss);
@@ -52,14 +54,22 @@ highlight.registerLanguage('ts', hlTypescript);
         <pre><code [innerHTML]="formatFileContents(obj.key, obj.value)"></code></pre>
       </div>
     }
+    <p>
+      <button type="button" (click)="openInStackBlitz()">
+        Open in StackBlitz
+      </button>
+    </p>
   `,
 })
 export class ExampleViewerComponent {
+  readonly #stackBlitzLauncher = inject(StackBlitzLauncherService);
   readonly #sanitizer = inject(DomSanitizer);
 
   public files = input.required<Record<string, string>>();
   public title = input.required<string>();
   public primaryFile = input.required<string>();
+  public componentName = input.required<string>();
+  public componentSelector = input.required<string>();
   public componentType = input.required<Type<unknown>>();
 
   protected formatFileContents(fileName: string, raw: string): SafeHtml {
@@ -68,5 +78,16 @@ export class ExampleViewerComponent {
     });
 
     return this.#sanitizer.bypassSecurityTrustHtml(formatted.value);
+  }
+
+  protected openInStackBlitz(): void {
+    void this.#stackBlitzLauncher.launch({
+      componentImportPath: this.primaryFile(),
+      componentName: this.componentName(),
+      componentSelector: this.componentSelector(),
+      files: this.files(),
+      primaryFile: this.primaryFile(),
+      title: this.title(),
+    });
   }
 }

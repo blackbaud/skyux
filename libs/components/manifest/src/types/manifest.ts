@@ -23,6 +23,7 @@ export interface SkyManifestCodeExample {
   files: SkyManifestCodeExampleFiles;
   importPath: string;
   primaryFile: string;
+  selector: string;
   title?: string;
 }
 
