@@ -6,18 +6,18 @@ import stackblitz from '@stackblitz/sdk';
 import { firstValueFrom } from 'rxjs';
 
 export const TEMPLATE_FILES = [
-  '.gitignore',
-  '.stackblitzrc',
-  'angular.json',
+  // '.gitignore',
+  // '.stackblitzrc',
+  // 'angular.json',
   // 'karma.conf.js',
   'package.json',
   'package-lock.json',
-  'tsconfig.app.json',
-  'tsconfig.json',
-  'tsconfig.spec.json',
+  // 'tsconfig.app.json',
+  // 'tsconfig.json',
+  // 'tsconfig.spec.json',
   // 'src/index.html',
   // 'src/main.ts',
-  'src/styles.scss',
+  // 'src/styles.scss',
   // 'src/test.ts',
 ];
 
@@ -55,6 +55,168 @@ export class StackBlitzLauncherService {
 
     const bootstrapImportPath = `./example/${data.primaryFile.replace(/\.ts$/, '')}`;
 
+    files['.stackblitzrc'] = `{
+  "installDependencies": true,
+  "startCommand": "ng serve"
+}
+`;
+
+    files['angular.json'] = `{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "analytics": false
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "example-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/example-app",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": ["zone.js", "@skyux/packages/polyfills"],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["src/assets"],
+            "styles": ["src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/"]
+            },
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "example-app:build:production"
+            },
+            "development": {
+              "buildTarget": "example-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing",
+              "@skyux/packages/polyfills"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["src/assets"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/"]
+            },
+            "styles": ["src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+    files['tsconfig.app.json'] = `{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"]
+}
+`;
+
+    files['tsconfig.json'] = `{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
+`;
+
+    files['tsconfig.spec.json'] = `{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["jasmine"]
+  },
+  "files": ["src/test.ts"],
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
+}
+`;
+
     files['src/index.html'] = `<!doctype html>
 <html lang="en">
   <head>
@@ -90,6 +252,15 @@ bootstrapApplication(${data.componentName}, {
     provideHttpClient()
   ],
 }).catch((err) => console.error(err));
+`;
+
+    files['src/styles.scss'] = `@import url('@skyux/theme/css/sky');
+@import url('@skyux/theme/css/themes/modern/styles');
+
+body {
+  background-color: #fff;
+  margin: 15px;
+}
 `;
 
     stackblitz.openProject(
