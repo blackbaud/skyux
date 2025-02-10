@@ -82,7 +82,6 @@ export class ExampleViewerComponent {
 
   protected openInStackBlitz(): void {
     void this.#stackBlitzLauncher.launch({
-      componentImportPath: this.primaryFile(),
       componentName: this.componentName(),
       componentSelector: this.componentSelector(),
       files: this.files(),

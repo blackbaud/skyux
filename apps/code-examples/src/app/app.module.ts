@@ -12,7 +12,9 @@ import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selecto
 @Injectable()
 class CodeExamplesPlaygroundAssetsService extends SkyAppAssetsService {
   public getUrl(path: string): string {
-    return path;
+    const urls: Record<string, string> = {};
+
+    return urls[path];
   }
 
   public override getAllUrls(): Record<string, unknown> {

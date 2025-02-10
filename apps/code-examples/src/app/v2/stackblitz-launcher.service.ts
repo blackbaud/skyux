@@ -6,19 +6,19 @@ import stackblitz from '@stackblitz/sdk';
 import { firstValueFrom } from 'rxjs';
 
 export const TEMPLATE_FILES = [
-  '.gitignore.template',
-  '.stackblitzrc.template',
-  'angular.json.template',
-  'karma.conf.js.template',
+  '.gitignore',
+  '.stackblitzrc',
+  'angular.json',
+  // 'karma.conf.js',
   'package.json',
   'package-lock.json',
-  'tsconfig.app.json.template',
-  'tsconfig.json.template',
-  'tsconfig.spec.json.template',
-  // 'src/index.html.template',
-  // 'src/main.ts.template',
-  'src/styles.scss.template',
-  // 'src/test.ts.template',
+  'tsconfig.app.json',
+  'tsconfig.json',
+  'tsconfig.spec.json',
+  // 'src/index.html',
+  // 'src/main.ts',
+  'src/styles.scss',
+  // 'src/test.ts',
 ];
 
 @Injectable({ providedIn: 'root' })
@@ -27,38 +27,33 @@ export class StackBlitzLauncherService {
   readonly #assetsSvc = inject(SkyAppAssetsService);
 
   public async launch(data: {
-    componentImportPath: string;
     componentName: string;
     componentSelector: string;
     files: Record<string, string>;
     primaryFile: string;
     title: string;
   }): Promise<void> {
-    // load files from the assets service.
-
     const files: Record<string, string> = {};
 
     for (const [file, contents] of Object.entries(data.files)) {
-      if (file === data.primaryFile) {
-        data.primaryFile = `src/example/${file}`;
-      }
-
       files[`src/example/${file}`] = contents;
     }
 
     for (const file of TEMPLATE_FILES) {
-      const contents = await firstValueFrom(
-        this.#http.get(`assets/stack-blitz/${file}`, { responseType: 'text' }),
-      ).catch(() => {
-        console.error(`Failed to retrieve file: ${file}`);
-      });
+      let contents = await this.#fetchTemplateFileContents(file);
 
-      if (contents !== undefined) {
-        files[file.replace(/\.template$/, '')] = contents;
+      if (contents === undefined && !file.endsWith('.template')) {
+        contents = await this.#fetchTemplateFileContents(`${file}.template`);
       }
+
+      if (contents === undefined) {
+        throw new Error(`Failed to retrieve StackBlitz template file: ${file}`);
+      }
+
+      files[file.replace(/\.template$/, '')] = contents;
     }
 
-    const bootstrapImportPath = `./${data.primaryFile.replace(/\.ts$/, '').replace(/^src\//, '')}`;
+    const bootstrapImportPath = `./example/${data.primaryFile.replace(/\.ts$/, '')}`;
 
     files['src/index.html'] = `<!doctype html>
 <html lang="en">
@@ -97,18 +92,24 @@ bootstrapApplication(${data.componentName}, {
 }).catch((err) => console.error(err));
 `;
 
-    const assets = this.#assetsSvc.getAllUrls();
-
-    console.log('assets:', assets, files);
-
     stackblitz.openProject(
       {
-        title: 'SKY UX',
-        description: 'Code example',
+        title: data.title,
         files,
         template: 'node',
       },
       { openFile: data.primaryFile },
     );
+  }
+
+  async #fetchTemplateFileContents(file: string): Promise<string | undefined> {
+    const filePath = `assets/stack-blitz/${file}`;
+    const url = this.#assetsSvc.getUrl(filePath) ?? filePath;
+
+    return await firstValueFrom(
+      this.#http.get(url, { responseType: 'text' }),
+    ).catch(() => {
+      return undefined;
+    });
   }
 }
