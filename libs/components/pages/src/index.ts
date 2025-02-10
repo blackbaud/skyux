@@ -5,6 +5,7 @@ export {
   SkyActionHubNeedsAttentionClickHandlerArgs,
 } from './lib/modules/action-hub/types/action-hub-needs-attention-click-handler';
 export { SkyLinkListModule } from './lib/modules/link-list/link-list.module';
+export { SkyModalLinkListModule } from './lib/modules/modal-link-list/modal-link-list.module';
 export { SkyNeedsAttentionModule } from './lib/modules/needs-attention/needs-attention.module';
 export { SkyActionHubNeedsAttentionInput } from './lib/modules/action-hub/types/action-hub-needs-attention-input';
 export { SkyPageLink } from './lib/modules/action-hub/types/page-link';
