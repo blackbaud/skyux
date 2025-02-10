@@ -13,7 +13,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import * as EXAMPLES from '@skyux/code-examples';
+import * as codeExampleExports from '@skyux/code-examples';
 import { SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyManifestDocumentationGroup,
@@ -21,12 +21,16 @@ import {
   getDocumentationGroup,
 } from '@skyux/manifest';
 
+import { ExampleViewerComponent } from './example-viewer.component';
+
 const DOCS = getDocumentationConfig();
+const EXAMPLES = codeExampleExports as Record<string, Type<unknown>>;
 const SEPARATOR = ':';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    ExampleViewerComponent,
     FormsModule,
     JsonPipe,
     NgComponentOutlet,
@@ -47,12 +51,18 @@ const SEPARATOR = ':';
         </select>
       </sky-input-box>
     </form>
-    @if (componentType()) {
-      <div>
-        <ng-template [ngComponentOutlet]="componentType()" />
-      </div>
+
+    @for (example of this.data()?.codeExamples; track example.componentName) {
+      <app-example-viewer
+        [componentType]="getComponentType(example.componentName)"
+        [files]="example.files"
+        [primaryFile]="example.primaryFile"
+        [title]="example.title || 'Example'"
+      />
     }
+
     @if (data()) {
+      <h2>Manifest data</h2>
       <pre>{{ data() | json }}</pre>
     }
   `,
@@ -62,7 +72,6 @@ export default class CodeExamplesLandingComponent {
     nonNullable: true,
   });
 
-  protected componentType = signal<Type<unknown> | null>(null);
   protected data = signal<SkyManifestDocumentationGroup | undefined>(undefined);
   protected documentationGroups: string[] = [];
   protected formGroup = inject(FormBuilder).group({
@@ -78,8 +87,6 @@ export default class CodeExamplesLandingComponent {
 
     this.documentationGroups.sort();
 
-    this.componentType.set(EXAMPLES['PopoversDropdownBasicExampleComponent']);
-
     this.#documentationGroupControl.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {
@@ -89,5 +96,9 @@ export default class CodeExamplesLandingComponent {
 
         this.data.set(getDocumentationGroup(packageName, groupName));
       });
+  }
+
+  protected getComponentType(componentName: string): Type<unknown> {
+    return EXAMPLES[componentName];
   }
 }
