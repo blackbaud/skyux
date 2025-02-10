@@ -5,6 +5,7 @@ import { SkyModalService } from '@skyux/modals';
 
 import { SkyModalLinkListComponent } from './modal-link-list.component';
 import { SkyModalLinkListModule } from './modal-link-list.module';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 @Component({
   template: '',
@@ -43,10 +44,16 @@ describe('SkyModalLinkListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    component.openModal({
-      label: 'Link 1',
-      modal: { component: MockStandaloneComponent, config: {} },
-    });
+    fixture.componentRef.setInput('links', [
+      {
+        label: 'Link 1',
+        modal: { component: MockStandaloneComponent, config: {} },
+      },
+    ]);
+    fixture.detectChanges();
+    const link = Array.from<HTMLButtonElement>(fixture.nativeElement.querySelectorAll('button.sky-link-list-item'));
+    expect(link.length).toBe(1);
+    SkyAppTestUtility.fireDomEvent(link[0], 'click');
     expect(openModalSpy).toHaveBeenCalledWith(MockStandaloneComponent, {});
   });
 
@@ -54,17 +61,25 @@ describe('SkyModalLinkListComponent', () => {
     const logger = TestBed.inject(SkyLogService);
     spyOn(logger, 'deprecated');
     expect(component).toBeTruthy();
-    component.openModal({
-      label: 'Link 1',
-      modal: { component: MockComponent, config: {} },
-    });
+    fixture.componentRef.setInput('links', [
+      {
+        label: 'Link 1',
+        modal: { component: MockComponent, config: {} },
+      },
+    ]);
+    fixture.detectChanges();
+    const link = Array.from<HTMLButtonElement>(fixture.nativeElement.querySelectorAll('button.sky-link-list-item'));
+    expect(link.length).toBe(1);
+    SkyAppTestUtility.fireDomEvent(link[0], 'click');
     expect(logger.deprecated).toHaveBeenCalled();
     expect(openModalSpy).toHaveBeenCalledWith(MockComponent, {});
   });
 
   it('should handle empty input', () => {
     expect(component).toBeTruthy();
-    component.links = undefined;
-    expect(component.links).toBeUndefined();
+    fixture.componentRef.setInput('links', undefined);
+    fixture.detectChanges();
+    expect(component.links()).toBeUndefined();
+    expect(fixture.nativeElement.querySelector('ul.sky-link-list')).toBeFalsy();
   });
 });
