@@ -1,5 +1,18 @@
 # Changelog
 
+## [11.40.0](https://github.com/blackbaud/skyux/compare/11.39.0...11.40.0) (2025-02-10)
+
+
+### Features
+
+* **components/pages:** add `sky-modal-link-list` component ([#3131](https://github.com/blackbaud/skyux/issues/3131)) ([d54bb9c](https://github.com/blackbaud/skyux/commit/d54bb9cc556f53f92b1555b0526b3f8b10668154))
+* **components/popovers:** add support for custom trigger buttons to dropdown harness ([#3129](https://github.com/blackbaud/skyux/issues/3129)) ([8ea599f](https://github.com/blackbaud/skyux/commit/8ea599ffcb804a88e336e5ed941678b24e6e6bf7))
+
+
+### Bug Fixes
+
+* **components/router:** skyHref should shut down when the application is destroyed ([#3134](https://github.com/blackbaud/skyux/issues/3134)) ([1dde88d](https://github.com/blackbaud/skyux/commit/1dde88dcfc9f932831ad0dbde797e51248ddadd2))
+
 ## [11.39.0](https://github.com/blackbaud/skyux/compare/11.38.1...11.39.0) (2025-02-07)
 
 
