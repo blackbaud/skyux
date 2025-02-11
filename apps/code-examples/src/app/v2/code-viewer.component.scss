@@ -1,5 +1,3 @@
-// @import url('https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css');
-
 sky-code-viewer {
   display: block;
 
@@ -11,8 +9,7 @@ sky-code-viewer {
 
   .hljs-tag,
   .hljs-selector-tag,
-  .hljs-regexp,
-  .hljs-meta {
+  .hljs-regexp {
     color: var(--sky-text-color-action-primary);
   }
 
@@ -20,7 +17,6 @@ sky-code-viewer {
   .hljs-keyword,
   .hljs-type,
   .hljs-attribute {
-    // color: var(--sky-highlight-color-info);
     color: var(--sky-highlight-color-danger);
   }
 
