@@ -12,8 +12,8 @@ import { SkyBoxModule } from '@skyux/layout';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import {
-  CodeViewerComponent,
-  CodeViewerLanguage,
+  SkyCodeViewerComponent,
+  SkyCodeViewerLanguage,
   assertCodeViewerLanguage,
 } from './code-viewer.component';
 import { StackBlitzLauncherService } from './stackblitz-launcher.service';
@@ -21,89 +21,31 @@ import { StackBlitzLauncherService } from './stackblitz-launcher.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CodeViewerComponent,
     KeyValuePipe,
     JsonPipe,
     NgComponentOutlet,
     SkyBoxModule,
+    SkyCodeViewerComponent,
     SkyIconModule,
     SkyVerticalTabsetModule,
   ],
-  selector: 'example-viewer',
-  styles: `
-    :host {
-      display: block;
-    }
-
-    .example-viewer-demo-container {
-      border-bottom: 1px solid var(--sky-border-color-neutral-medium);
-    }
-  `,
-  template: `
-    <sky-box
-      class="sky-margin-stacked-xl"
-      headingLevel="3"
-      headingStyle="3"
-      [headingText]="title()"
-    >
-      <sky-box-controls>
-        @let ariaLabel = isCodeVisible() ? 'Hide code' : 'Show code';
-        <button
-          [attr.aria-label]="ariaLabel"
-          [attr.title]="ariaLabel"
-          class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm"
-          type="button"
-          (click)="toggleCodeVisibility()"
-        >
-          <sky-icon icon="code" />
-        </button>
-        <button
-          aria-label="Open code in StackBlitz"
-          class="sky-btn sky-btn-icon-borderless"
-          type="button"
-          (click)="openInStackBlitz()"
-        >
-          <sky-icon icon="external-link" />
-        </button>
-      </sky-box-controls>
-
-      <div class="example-viewer-demo-container sky-padding-even-xl">
-        <ng-template [ngComponentOutlet]="componentType()" />
-      </div>
-
-      @if (isCodeVisible()) {
-        <sky-box-content>
-          <sky-vertical-tabset>
-            @for (obj of files() | keyvalue; track obj.key) {
-              <sky-vertical-tab
-                [tabHeading]="obj.key"
-                [active]="obj.key === primaryFile()"
-              >
-                <sky-code-viewer
-                  [code]="obj.value"
-                  [language]="getCodeLanguage(obj.key)"
-                />
-              </sky-vertical-tab>
-            }
-          </sky-vertical-tabset>
-        </sky-box-content>
-      }
-    </sky-box>
-  `,
+  selector: 'sky-example-viewer',
+  styleUrl: './example-viewer.component.scss',
+  templateUrl: './example-viewer.component.html',
 })
-export class ExampleViewerComponent {
+export class SkyExampleViewerComponent {
   readonly #stackBlitzLauncher = inject(StackBlitzLauncherService);
 
-  public componentName = input.required<string>();
-  public componentSelector = input.required<string>();
-  public componentType = input.required<Type<unknown>>();
-  public files = input.required<Record<string, string>>();
-  public primaryFile = input.required<string>();
-  public title = input.required<string>();
+  public readonly componentName = input.required<string>();
+  public readonly componentSelector = input.required<string>();
+  public readonly componentType = input.required<Type<unknown>>();
+  public readonly files = input.required<Record<string, string>>();
+  public readonly primaryFile = input.required<string>();
+  public readonly title = input.required<string>();
 
-  protected isCodeVisible = signal(false);
+  protected readonly isCodeVisible = signal(false);
 
-  protected getCodeLanguage(fileName: string): CodeViewerLanguage {
+  protected getCodeLanguage(fileName: string): SkyCodeViewerLanguage {
     const extension = fileName.split('.').pop();
     assertCodeViewerLanguage(extension);
     return extension;
@@ -121,7 +63,6 @@ export class ExampleViewerComponent {
 
   protected toggleCodeVisibility(): void {
     const isCodeVisible = this.isCodeVisible();
-
     this.isCodeVisible.set(!isCodeVisible);
   }
 }

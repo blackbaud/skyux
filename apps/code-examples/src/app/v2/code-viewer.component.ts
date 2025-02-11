@@ -14,14 +14,14 @@ import hlScss from 'highlight.js/lib/languages/scss';
 import hlTypescript from 'highlight.js/lib/languages/typescript';
 import hlXml from 'highlight.js/lib/languages/xml';
 
-export const CODE_VIEWER_LANGUAGES = ['html', 'js', 'scss', 'ts'] as const;
+export const SKY_CODE_VIEWER_LANGUAGES = ['html', 'js', 'scss', 'ts'] as const;
 
-export type CodeViewerLanguage = (typeof CODE_VIEWER_LANGUAGES)[number];
+export type SkyCodeViewerLanguage = (typeof SKY_CODE_VIEWER_LANGUAGES)[number];
 
 export function assertCodeViewerLanguage(
   value: string | undefined,
-): asserts value is CodeViewerLanguage {
-  if (!CODE_VIEWER_LANGUAGES.includes(value as CodeViewerLanguage)) {
+): asserts value is SkyCodeViewerLanguage {
+  if (!SKY_CODE_VIEWER_LANGUAGES.includes(value as SkyCodeViewerLanguage)) {
     throw new Error(`Value "${value}" is not a supported language type.`);
   }
 }
@@ -37,15 +37,13 @@ highlight.registerLanguage('ts', hlTypescript);
   imports: [],
   selector: 'sky-code-viewer',
   styleUrl: './code-viewer.component.scss',
-  template: `<pre
-    class="sky-code-viewer-pre"
-  ><code [innerHTML]="formatted()"></code></pre>`,
+  templateUrl: './code-viewer.component.html',
 })
-export class CodeViewerComponent {
+export class SkyCodeViewerComponent {
   readonly #sanitizer = inject(DomSanitizer);
 
-  public code = input.required<string>();
-  public language = input.required<CodeViewerLanguage>();
+  public readonly code = input.required<string>();
+  public readonly language = input.required<SkyCodeViewerLanguage>();
 
   protected formatted = computed(() => {
     const code = this.code();

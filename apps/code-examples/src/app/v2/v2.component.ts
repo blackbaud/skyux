@@ -21,7 +21,7 @@ import {
   getDocumentationGroup,
 } from '@skyux/manifest';
 
-import { ExampleViewerComponent } from './example-viewer.component';
+import { SkyExampleViewerComponent } from './example-viewer.component';
 
 const DOCS = getDocumentationConfig();
 const EXAMPLES = codeExampleExports as Record<string, Type<unknown>>;
@@ -30,11 +30,11 @@ const SEPARATOR = ' - ';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ExampleViewerComponent,
     FormsModule,
     JsonPipe,
     NgComponentOutlet,
     ReactiveFormsModule,
+    SkyExampleViewerComponent,
     SkyInputBoxModule,
   ],
   selector: 'app-code-examples-v2',
@@ -59,7 +59,7 @@ const SEPARATOR = ' - ';
     </form>
 
     @for (example of this.data()?.codeExamples; track example.componentName) {
-      <example-viewer
+      <sky-example-viewer
         [componentName]="example.componentName"
         [componentSelector]="example.selector"
         [componentType]="getComponentType(example.componentName)"
