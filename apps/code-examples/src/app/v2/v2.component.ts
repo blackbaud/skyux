@@ -25,7 +25,7 @@ import { ExampleViewerComponent } from './example-viewer.component';
 
 const DOCS = getDocumentationConfig();
 const EXAMPLES = codeExampleExports as Record<string, Type<unknown>>;
-const SEPARATOR = ':';
+const SEPARATOR = ' - ';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,9 +38,15 @@ const SEPARATOR = ':';
     SkyInputBoxModule,
   ],
   selector: 'app-code-examples-v2',
+  styles: `
+    :host {
+      display: block;
+      padding: 30px;
+    }
+  `,
   template: `
     <form [formGroup]="formGroup">
-      <sky-input-box labelText="Documentation group">
+      <sky-input-box labelText="Documentation group" stacked>
         <select formControlName="documentationGroup">
           <option value="" selected>Select a documentation group...</option>
           @for (group of documentationGroups; track group) {
@@ -53,7 +59,7 @@ const SEPARATOR = ':';
     </form>
 
     @for (example of this.data()?.codeExamples; track example.componentName) {
-      <app-example-viewer
+      <example-viewer
         [componentName]="example.componentName"
         [componentSelector]="example.selector"
         [componentType]="getComponentType(example.componentName)"

@@ -1,0 +1,32 @@
+// @import url('https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/default.min.css');
+
+sky-code-viewer {
+  display: block;
+
+  .sky-code-viewer-pre {
+    margin: 0;
+    font-size: 90%;
+    line-height: var(--modern-line_height-150);
+  }
+
+  .hljs-tag,
+  .hljs-selector-tag,
+  .hljs-regexp,
+  .hljs-meta {
+    color: var(--sky-text-color-action-primary);
+  }
+
+  .hljs-name,
+  .hljs-keyword,
+  .hljs-type,
+  .hljs-attribute {
+    // color: var(--sky-highlight-color-info);
+    color: var(--sky-highlight-color-danger);
+  }
+
+  .hljs-string,
+  .hljs-subst {
+    color: var(--sky-color-border-success);
+    filter: brightness(65%);
+  }
+}
