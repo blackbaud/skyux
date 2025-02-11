@@ -6,10 +6,8 @@ import stackblitz from '@stackblitz/sdk';
 import { firstValueFrom } from 'rxjs';
 
 export const TEMPLATE_FILES = [
-  // '.gitignore',
   // '.stackblitzrc',
   // 'angular.json',
-  // 'karma.conf.js',
   'package.json',
   'package-lock.json',
   // 'tsconfig.app.json',
@@ -18,7 +16,6 @@ export const TEMPLATE_FILES = [
   // 'src/index.html',
   // 'src/main.ts',
   // 'src/styles.scss',
-  // 'src/test.ts',
 ];
 
 @Injectable({ providedIn: 'root' })
