@@ -23,11 +23,11 @@ export class SkyToastHarness extends SkyQueryableComponentHarness {
     filters: SkyToastHarnessFilters,
   ): HarnessPredicate<SkyToastHarness> {
     return new HarnessPredicate(SkyToastHarness, filters).addOption(
-      'toastId',
-      filters.dataToastIdNumber,
-      async (harness, toastId) => {
-        const id = await harness.#getToastId();
-        return await HarnessPredicate.stringMatches(id, toastId.toString());
+      'message',
+      filters.message,
+      async (harness, message) => {
+        const harnessMessage = await harness.getMessage();
+        return await HarnessPredicate.stringMatches(message, harnessMessage);
       },
     );
   }
@@ -43,14 +43,16 @@ export class SkyToastHarness extends SkyQueryableComponentHarness {
   /**
    * Gets the toast message.
    */
-  public async getMessage(): Promise<string | undefined> {
+  public async getMessage(): Promise<string> {
     const toastBody = await this.locatorForOptional('.sky-toast-body')();
 
     if (toastBody) {
       return (await toastBody.text()).trim();
+    } else {
+      throw new Error(
+        'No toast message found. This method cannot be used to query toasts with custom component.',
+      );
     }
-
-    return undefined;
   }
 
   /**
@@ -58,18 +60,13 @@ export class SkyToastHarness extends SkyQueryableComponentHarness {
    */
   public async getType(): Promise<SkyToastType> {
     const toast = await this.#getToast();
-    if (await toast.hasClass('.sky-toast-danger')) {
+    if (await toast.hasClass('sky-toast-danger')) {
       return SkyToastType.Danger;
-    } else if (await toast.hasClass('.sky-toast-warning')) {
+    } else if (await toast.hasClass('sky-toast-warning')) {
       return SkyToastType.Warning;
-    } else if (await toast.hasClass('.sky-toast-success')) {
+    } else if (await toast.hasClass('sky-toast-success')) {
       return SkyToastType.Success;
     }
     return SkyToastType.Info;
-  }
-
-  async #getToastId(): Promise<string> {
-    const wrapper = await this.locatorFor('div[data-toast-id]')();
-    return await wrapper.getProperty('data-toast-id');
   }
 }

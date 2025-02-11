@@ -5,10 +5,10 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
 export interface SkyToastHarnessFilters extends BaseHarnessFilters {
-  /**
-   * Finds toasts with the matching toast id.
-   */
-  dataToastIdNumber?: number;
+  // /**
+  //  * Finds toasts with the matching toast id.
+  //  */
+  // dataToastIdNumber?: number;
 
   /**
    * Finds toasts with the matching text.

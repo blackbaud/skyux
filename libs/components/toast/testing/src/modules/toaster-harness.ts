@@ -11,6 +11,11 @@ export class SkyToasterHarness extends ComponentHarness {
    */
   public static hostSelector = 'sky-toaster';
 
+  public async getNumberOfToasts(): Promise<number> {
+    const toasts = await this.getToasts();
+    return toasts.length;
+  }
+
   /**
    * Gets toast harnesses.
    */
@@ -18,14 +23,14 @@ export class SkyToasterHarness extends ComponentHarness {
     return await this.locatorForAll(SkyToastHarness)();
   }
 
-  /**
-   * Gets a toast harness that matches the given id number.
-   */
-  public async getToastById(id: number): Promise<SkyToastHarness> {
-    return await this.locatorFor(
-      SkyToastHarness.with({ dataToastIdNumber: id }),
-    )();
-  }
+  // /**
+  //  * Gets a toast harness that matches the given id number.
+  //  */
+  // public async getToastById(id: number): Promise<SkyToastHarness> {
+  //   return await this.locatorFor(
+  //     SkyToastHarness.with({ dataToastIdNumber: id }),
+  //   )();
+  // }
 
   /**
    * Gets a toast harness that matches the given id number.
