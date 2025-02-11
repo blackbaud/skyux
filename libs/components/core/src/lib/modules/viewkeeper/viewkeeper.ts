@@ -68,12 +68,15 @@ function setElPosition(
   top: number | string,
   width: number | string,
   marginTop: number | string,
+  marginTopProperty: string | undefined,
   clipTop: number | string,
   clipLeft: number | string,
 ): void {
   el.style.top = px(top);
   el.style.left = px(left);
-  el.style.marginTop = px(marginTop);
+  el.style.marginTop = marginTopProperty
+    ? `calc(${px(marginTop)} + var(${marginTopProperty}, 0))`
+    : px(marginTop);
   el.style.clipPath =
     clipTop || clipLeft ? `inset(${px(clipTop)} 0 0 ${px(clipLeft)})` : 'none';
 
@@ -116,6 +119,8 @@ export class SkyViewkeeper {
   #verticalOffsetEl: HTMLElement | undefined;
 
   #viewportMarginTop = 0;
+
+  #viewportMarginProperty: `--${string}` | undefined;
 
   #currentElFixedLeft: number | undefined;
 
@@ -163,6 +168,7 @@ export class SkyViewkeeper {
     // Only set viewport margin if the scrollable host is undefined.
     if (!this.#scrollableHost) {
       this.#viewportMarginTop = options.viewportMarginTop ?? 0;
+      this.#viewportMarginProperty = options.viewportMarginProperty;
     }
 
     this.#syncElPositionHandler = (): void =>
@@ -272,7 +278,7 @@ export class SkyViewkeeper {
       width = 'auto';
     }
 
-    setElPosition(el, '', '', width, '', 0, 0);
+    setElPosition(el, '', '', width, '', '', 0, 0);
   }
 
   #calculateVerticalOffset(): number {
@@ -303,9 +309,18 @@ export class SkyViewkeeper {
       anchorTop = getOffset(el, this.#scrollableHost).top;
     }
 
+    let viewportMarginTop = this.#viewportMarginTop;
+    const viewportMarginProperty =
+      this.#viewportMarginProperty &&
+      getComputedStyle(document.body).getPropertyValue(
+        this.#viewportMarginProperty,
+      );
+    if (viewportMarginProperty) {
+      viewportMarginTop += parseInt(viewportMarginProperty, 10);
+    }
+
     const doFixEl =
-      boundaryInfo.scrollTop + verticalOffset + this.#viewportMarginTop >
-      anchorTop;
+      boundaryInfo.scrollTop + verticalOffset + viewportMarginTop > anchorTop;
 
     return doFixEl;
   }
@@ -413,6 +428,7 @@ export class SkyViewkeeper {
       fixedStyles.elFixedTop,
       width,
       this.#viewportMarginTop,
+      this.#viewportMarginProperty,
       fixedStyles.elClipTop,
       fixedStyles.elClipLeft,
     );
