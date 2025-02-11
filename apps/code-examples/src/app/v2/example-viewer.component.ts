@@ -47,8 +47,10 @@ import { StackBlitzLauncherService } from './stackblitz-launcher.service';
       [headingText]="title()"
     >
       <sky-box-controls>
+        @let ariaLabel = isCodeVisible() ? 'Hide code' : 'Show code';
         <button
-          aria-label="Show code"
+          [attr.aria-label]="ariaLabel"
+          [attr.title]="ariaLabel"
           class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm"
           type="button"
           (click)="toggleCodeVisibility()"

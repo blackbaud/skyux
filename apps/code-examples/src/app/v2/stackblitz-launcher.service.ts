@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 export const TEMPLATE_FILES = [
   // '.stackblitzrc',
   // 'angular.json',
+  'karma.conf.js',
   'package.json',
   'package-lock.json',
   // 'tsconfig.app.json',
@@ -16,6 +17,7 @@ export const TEMPLATE_FILES = [
   // 'src/index.html',
   // 'src/main.ts',
   // 'src/styles.scss',
+  'src/test.ts',
 ];
 
 @Injectable({ providedIn: 'root' })
@@ -86,7 +88,7 @@ export class StackBlitzLauncherService {
             "outputPath": "dist/example-app",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js", "@skyux/packages/polyfills"],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
@@ -141,15 +143,19 @@ export class StackBlitzLauncherService {
           },
           "defaultConfiguration": "development"
         },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "example-app:build"
+          }
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing",
-              "@skyux/packages/polyfills"
-            ],
+            "main": "src/test.ts",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
             "stylePreprocessorOptions": {
