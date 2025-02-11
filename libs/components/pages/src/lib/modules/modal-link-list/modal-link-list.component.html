@@ -1,11 +1,11 @@
-<sky-wait [isWaiting]="links === 'loading'" />
-@if (links === 'loading') {
+<sky-wait [isWaiting]="links() === 'loading'" />
+@if (links() === 'loading') {
   <ng-container [ngTemplateOutlet]="headingTemplateRef" />
 } @else {
-  @if (linksArray.length > 0) {
+  @if (linksArray().length > 0) {
     <ng-container [ngTemplateOutlet]="headingTemplateRef" />
     <ul class="sky-link-list">
-      @for (link of linksArray; track link) {
+      @for (link of linksArray(); track link) {
         <li>
           @if (link | linkAs: 'skyHref') {
             <a class="sky-link-list-item" [skyHref]="link.permalink?.url">
@@ -50,6 +50,6 @@
 
 <ng-template #headingTemplateRef>
   <h2 class="sky-font-heading-4">
-    {{ title }}
+    {{ headingText() }}
   </h2>
 </ng-template>
