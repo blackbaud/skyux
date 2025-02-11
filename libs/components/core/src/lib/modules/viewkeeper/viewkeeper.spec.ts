@@ -9,12 +9,20 @@ describe('Viewkeeper', () => {
   let vks: SkyViewkeeper[];
 
   function scrollWindowTo(x: number, y: number): void {
-    window.scrollTo(x, y);
+    window.scrollTo({
+      top: y,
+      left: x,
+      behavior: 'instant',
+    });
     SkyAppTestUtility.fireDomEvent(window, 'scroll');
   }
 
   function scrollScrollableHost(x: number, y: number): void {
-    scrollableHostEl.scrollTo(x, y);
+    scrollableHostEl.scrollTo({
+      top: y,
+      left: x,
+      behavior: 'instant',
+    });
     SkyAppTestUtility.fireDomEvent(scrollableHostEl, 'scroll');
   }
 
@@ -211,6 +219,32 @@ describe('Viewkeeper', () => {
       expect(() => new SkyViewkeeper({ el })).toThrowError(
         '[SkyViewkeeper] The option `boundaryEl` is required.',
       );
+    });
+
+    it('should support viewportMarginProperty', () => {
+      vks.push(
+        new SkyViewkeeper({
+          el,
+          boundaryEl,
+          viewportMarginProperty: '--test-viewport-top',
+          setWidth: true,
+        }),
+      );
+
+      scrollWindowTo(0, 10);
+      validatePinned(el, false);
+      document.documentElement.style.setProperty('--test-viewport-top', '2px');
+      scrollWindowTo(40, 100);
+      validatePinned(el, true, 0, 2);
+      expect(el.style.marginTop).toBe(
+        'calc(0px + var(--test-viewport-top, 0))',
+      );
+
+      document.documentElement.style.setProperty('--test-viewport-top', '12px');
+      validatePinned(el, true, 0, 12);
+
+      document.documentElement.style.removeProperty('--test-viewport-top');
+      document.body.style.removeProperty('--test-viewport-top');
     });
 
     describe('ResizeObserver', () => {
