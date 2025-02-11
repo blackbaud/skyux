@@ -24,6 +24,12 @@ const STYLE_ELEMENT_SELECTOR =
 
 const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 
+// 16ms is the fakeAsync time for requestAnimationFrame, simulating ~60fps.
+// https://github.com/angular/angular/blob/19.1.x/packages/zone.js/lib/zone-spec/fake-async-test.ts#L682-L693
+function tickForAnimationFrame(): void {
+  tick(16);
+}
+
 describe('Dock component', () => {
   let fixture: ComponentFixture<DockFixtureComponent>;
   let mutationCallbacks: (() => void)[];
@@ -38,7 +44,7 @@ describe('Dock component', () => {
     fixture.detectChanges();
     fixture.componentInstance.itemConfigs = itemConfigs;
     fixture.detectChanges();
-    tick(16);
+    tickForAnimationFrame();
   }
 
   /**
@@ -70,7 +76,7 @@ describe('Dock component', () => {
     fixture.detectChanges();
     tick(250); // Respect the RxJS debounceTime.
     fixture.detectChanges();
-    tick(16);
+    tickForAnimationFrame();
   }
 
   function getStyleElement(): HTMLStyleElement {
@@ -343,7 +349,7 @@ describe('Dock component', () => {
       reserveSpace('left', 20);
 
       fixture.detectChanges();
-      tick(16);
+      tickForAnimationFrame();
 
       const dockEl = getDockEl();
       const actionBarBounds = dockEl.getBoundingClientRect();
@@ -371,7 +377,7 @@ describe('Dock component', () => {
         ]);
 
         fixture.detectChanges();
-        tick(16);
+        tickForAnimationFrame();
 
         const dockStyle = getDockStyle();
 
@@ -399,7 +405,7 @@ describe('Dock component', () => {
       ]);
 
       fixture.detectChanges();
-      tick(16);
+      tickForAnimationFrame();
 
       const dockStyle = getDockStyle();
 
