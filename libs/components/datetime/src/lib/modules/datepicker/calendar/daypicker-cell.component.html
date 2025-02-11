@@ -1,20 +1,16 @@
-@if (hasTooltip) {
+@if (hasTooltip()) {
   <div
     class="sky-daypicker-cell"
     skyPopoverPlacement="left"
-    [attr.aria-label]="getKeyDateLabel()"
+    [attr.aria-label]="ariaLabel()"
     [skyPopover]="dayInfoPopover"
     [skyPopoverMessageStream]="popoverController"
     (mouseenter)="onDayMouseenter()"
     (mouseleave)="onDayMouseleave()"
   >
     <ng-container *ngTemplateOutlet="daypickerButtonTemplateRef" />
-    <sky-popover
-      #dayInfoPopover
-      (popoverClosed)="onPopoverClosed()"
-      (popoverOpened)="onPopoverOpened()"
-    >
-      @for (text of date?.keyDateText; track text) {
+    <sky-popover #dayInfoPopover>
+      @for (text of date()?.keyDateText; track text) {
         <div>
           {{ text }}
         </div>
@@ -32,5 +28,5 @@
 }
 
 <ng-template #daypickerButtonTemplateRef>
-  <sky-daypicker-button [date]="date" />
+  <sky-daypicker-button [date]="date()" />
 </ng-template>

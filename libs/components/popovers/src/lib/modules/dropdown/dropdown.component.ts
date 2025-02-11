@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
+  ContentChild,
   ElementRef,
   EnvironmentInjector,
   Input,
@@ -18,17 +18,19 @@ import {
   SkyAffixHorizontalAlignment,
   SkyAffixService,
   SkyAffixer,
-  SkyContentInfo,
   SkyContentInfoProvider,
+  SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
+import { SkyDropdownTriggerBaseDirective } from './dropdown-trigger-base.directive';
+import { SkyDropdownTriggerDirective } from './dropdown-trigger.directive';
 import { SkyDropdownButtonType } from './types/dropdown-button-type';
 import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
 import { SkyDropdownMessage } from './types/dropdown-message';
@@ -50,6 +52,17 @@ const DEFAULT_TRIGGER_TYPE: SkyDropdownTriggerType = 'click';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDropdownComponent implements OnInit, OnDestroy {
+  readonly #affixService = inject(SkyAffixService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #idSvc = inject(SkyIdService);
+  readonly #overlayService = inject(SkyOverlayService);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
+  readonly #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
+  readonly #contentInfoProvider = inject(SkyContentInfoProvider, {
+    optional: true,
+  });
+
   /**
    * The background color for the dropdown button. Available values are `default`,
    * `primary`, and `link`. These values set the background color and hover behavior from the
@@ -86,7 +99,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public disabled: boolean | undefined = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value;
+    this.#updateTrigger();
+  }
+
+  public get disabled(): boolean | undefined {
+    return this.#_disabled;
+  }
 
   /**
    * The ARIA label for the dropdown. This sets the dropdown's `aria-label` attribute to provide a text equivalent for screen readers
@@ -95,9 +115,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
   @Input()
-  public label: string | undefined;
+  public set label(value: string | undefined) {
+    this.#_label = value;
+    this.#updateTrigger();
+  }
 
-  protected contentInfoObs: Observable<SkyContentInfo> | undefined;
+  public get label(): string | undefined {
+    return this.#_label;
+  }
+
+  protected readonly contentInfoObs = this.#contentInfoProvider?.getInfo();
 
   /**
    * The horizontal alignment of the dropdown menu in relation to the dropdown button.
@@ -127,7 +154,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * The title to display in a tooltip when users hover the mouse over the dropdown button.
    */
   @Input()
-  public title: string | undefined;
+  public set title(value: string | undefined) {
+    this.#_title = value;
+    this.#updateTrigger();
+  }
+
+  public get title(): string | undefined {
+    return this.#_title;
+  }
 
   /**
    * How users interact with the dropdown button to expose the dropdown menu.
@@ -150,6 +184,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   public set isOpen(value: boolean) {
     this.#_isOpen = value;
+    this.#updateTrigger();
     this.#changeDetector.markForCheck();
   }
 
@@ -168,13 +203,27 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
+  public set menuId(value: string | undefined) {
+    this.#_menuId = value;
+    this.#updateTrigger();
+  }
+
+  public get menuId(): string | undefined {
+    return this.#_menuId;
+  }
+
+  public set menuAriaRole(value: string | undefined) {
+    this.#_menuAriaRole = value;
+    this.#updateTrigger();
+  }
+
+  public get menuAriaRole(): string | undefined {
+    return this.#_menuAriaRole;
+  }
+
   public isMouseEnter = false;
 
   public isVisible = false;
-
-  public menuId: string | undefined;
-
-  public menuAriaRole: string | undefined;
 
   @ViewChild('menuContainerTemplateRef', {
     read: TemplateRef,
@@ -183,45 +232,50 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public menuContainerTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('triggerButton', {
-    read: ElementRef,
-    static: true,
+    read: SkyDropdownTriggerBaseDirective,
   })
-  public set triggerButton(value: ElementRef | undefined) {
+  public set triggerButton(value: SkyDropdownTriggerBaseDirective | undefined) {
     this.#_triggerButton = value;
     this.#addEventListeners();
+    this.#updateTrigger();
   }
 
-  public get triggerButton(): ElementRef | undefined {
-    return this.#_triggerButton;
+  public get triggerButton():
+    | SkyDropdownTriggerBaseDirective
+    | SkyDropdownTriggerDirective
+    | undefined {
+    return this.#_customTriggerButton ?? this.#_triggerButton;
   }
 
-  protected destroyRef = inject(DestroyRef);
+  @ContentChild(SkyDropdownTriggerDirective)
+  public set customTriggerButton(
+    value: SkyDropdownTriggerDirective | undefined,
+  ) {
+    this.#_customTriggerButton = value;
+    this.#addEventListeners();
+    this.#updateTrigger();
+  }
+
+  protected screenReaderLabelContextMenuId = this.#idSvc.generateId();
 
   #affixer: SkyAffixer | undefined;
-  #overlay: SkyOverlayInstance | undefined;
   #ngUnsubscribe = new Subject<void>();
+  #triggerUnsubscribe = new Subject<void>();
+  #overlay: SkyOverlayInstance | undefined;
   #positionTimeout: number | undefined;
-
-  readonly #affixService = inject(SkyAffixService);
-  readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #environmentInjector = inject(EnvironmentInjector);
-  readonly #overlayService = inject(SkyOverlayService);
-  readonly #themeSvc = inject(SkyThemeService, { optional: true });
-  readonly #zIndex = inject(SKY_STACKING_CONTEXT, { optional: true })?.zIndex;
-  readonly #contentInfoProvider = inject(SkyContentInfoProvider, {
-    optional: true,
-  });
 
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
+  #_customTriggerButton: SkyDropdownTriggerDirective | undefined;
+  #_disabled: boolean | undefined = false;
   #_horizontalAlignment = DEFAULT_HORIZONTAL_ALIGNMENT;
   #_isOpen = false;
+  #_label: string | undefined;
+  #_menuAriaRole: string | undefined;
+  #_menuId: string | undefined;
+  #_title: string | undefined;
   #_trigger = DEFAULT_TRIGGER_TYPE;
-  #_triggerButton: ElementRef | undefined;
-
-  constructor() {
-    this.contentInfoObs = this.#contentInfoProvider?.getInfo();
-  }
+  #_triggerButton: SkyDropdownTriggerBaseDirective | undefined;
 
   public ngOnInit(): void {
     this.messageStream
@@ -245,16 +299,39 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+
+    this.#triggerUnsubscribe.next();
+    this.#triggerUnsubscribe.complete();
+  }
+
+  #updateTrigger(): void {
+    const triggerButton = this.triggerButton;
+
+    if (triggerButton) {
+      triggerButton.buttonType.set(this.buttonType);
+      triggerButton.disabled.set(this.disabled);
+      triggerButton.isOpen.set(this.isOpen);
+      triggerButton.label.set(this.label);
+      triggerButton.menuAriaRole.set(this.menuAriaRole);
+      triggerButton.menuId.set(this.menuId);
+      triggerButton.title.set(this.title);
+      triggerButton.disabled.set(this.disabled);
+      triggerButton.screenReaderLabelContextMenuId.set(
+        this.screenReaderLabelContextMenuId,
+      );
+    }
   }
 
   #addEventListeners(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-    this.#ngUnsubscribe = new Subject<void>();
-    const buttonElement = this.triggerButton?.nativeElement;
-    if (buttonElement) {
-      observableFromEvent(buttonElement, 'click')
-        .pipe(takeUntil(this.#ngUnsubscribe))
+    this.#triggerUnsubscribe.next();
+    this.#triggerUnsubscribe.complete();
+
+    this.#triggerUnsubscribe = new Subject<void>();
+    const triggerButton = this.triggerButton;
+
+    if (triggerButton) {
+      triggerButton.triggerClick
+        .pipe(takeUntil(this.#triggerUnsubscribe))
         .subscribe(() => {
           if (this.isOpen) {
             this.#sendMessage(SkyDropdownMessageType.Close);
@@ -267,54 +344,37 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
           }
         });
 
-      observableFromEvent<KeyboardEvent>(buttonElement, 'keydown')
-        .pipe(takeUntil(this.#ngUnsubscribe))
+      triggerButton.triggerKeyDown
+        .pipe(takeUntil(this.#triggerUnsubscribe))
         .subscribe((event) => {
           const key = event.key.toLowerCase();
 
           switch (key) {
             case 'escape':
               /*istanbul ignore else*/
-              if (this.isOpen) {
-                this.#sendMessage(SkyDropdownMessageType.Close);
-                this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
-                event.stopPropagation();
-              }
+              this.#handleTriggerEscape(event);
               break;
 
             case 'tab':
-              if (this.isOpen) {
-                this.#sendMessage(SkyDropdownMessageType.Close);
-              }
+              this.#handleTriggerTab();
               break;
 
             case 'arrowup':
             case 'up':
-              if (!this.isOpen) {
-                this.#sendMessage(SkyDropdownMessageType.Open);
-                this.#sendMessage(SkyDropdownMessageType.FocusLastItem);
-                event.preventDefault();
-                event.stopPropagation();
-              }
+              this.#handleTriggerUp(event);
               break;
 
             case 'enter':
             case 'arrowdown':
             case 'down':
             case ' ': // Spacebar.
-              /*istanbul ignore else*/
-              if (!this.isOpen) {
-                this.#sendMessage(SkyDropdownMessageType.Open);
-                this.#sendMessage(SkyDropdownMessageType.FocusFirstItem);
-                event.preventDefault();
-                event.stopPropagation();
-              }
+              this.#handleTriggerDown(event);
               break;
           }
         });
 
-      observableFromEvent(buttonElement, 'mouseenter')
-        .pipe(takeUntil(this.#ngUnsubscribe))
+      triggerButton.triggerMouseEnter
+        .pipe(takeUntil(this.#triggerUnsubscribe))
         .subscribe(() => {
           this.isMouseEnter = true;
           if (this.trigger === 'hover') {
@@ -322,8 +382,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
           }
         });
 
-      observableFromEvent(buttonElement, 'mouseleave')
-        .pipe(takeUntil(this.#ngUnsubscribe))
+      triggerButton.triggerMouseLeave
+        .pipe(takeUntil(this.#triggerUnsubscribe))
         .subscribe(() => {
           this.isMouseEnter = false;
           if (this.trigger === 'hover') {
@@ -336,6 +396,39 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
             });
           }
         });
+    }
+  }
+
+  #handleTriggerEscape(event: KeyboardEvent): void {
+    if (this.isOpen) {
+      this.#sendMessage(SkyDropdownMessageType.Close);
+      this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+      event.stopPropagation();
+    }
+  }
+
+  #handleTriggerTab(): void {
+    if (this.isOpen) {
+      this.#sendMessage(SkyDropdownMessageType.Close);
+    }
+  }
+
+  #handleTriggerUp(event: KeyboardEvent): void {
+    if (!this.isOpen) {
+      this.#sendMessage(SkyDropdownMessageType.Open);
+      this.#sendMessage(SkyDropdownMessageType.FocusLastItem);
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  #handleTriggerDown(event: KeyboardEvent): void {
+    /*istanbul ignore else*/
+    if (!this.isOpen) {
+      this.#sendMessage(SkyDropdownMessageType.Open);
+      this.#sendMessage(SkyDropdownMessageType.FocusFirstItem);
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
 

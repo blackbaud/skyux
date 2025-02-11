@@ -5,6 +5,10 @@ export { SkyPageSummaryFixture } from './legacy/page-summary-fixture';
 export { SkyBoxHarness } from './modules/box/box-harness';
 export { SkyBoxHarnessFilters } from './modules/box/box-harness.filters';
 
+export { SkyDescriptionListContentHarness } from './modules/description-list/description-list-content-harness';
+export { SkyDescriptionListHarness } from './modules/description-list/description-list-harness';
+export { SkyDescriptionListHarnessFilters } from './modules/description-list/description-list-harness-filters';
+
 export { SkyColumnHarness } from './modules/fluid-grid/column-harness';
 export { SkyColumnHarnessFilters } from './modules/fluid-grid/column-harness-filters';
 export { SkyFluidGridHarness } from './modules/fluid-grid/fluid-grid-harness';

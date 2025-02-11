@@ -303,7 +303,7 @@ export class SkyDatepickerCalendarInnerComponent
     return this.dateFormatter.format(date, format);
   }
 
-  public isActive(dateObject: any): boolean {
+  public isActive(dateObject: SkyDayPickerContext): boolean {
     if (this.compare(dateObject.date, this.activeDate) === 0) {
       this.activeDateId = dateObject.uid;
       return true;
