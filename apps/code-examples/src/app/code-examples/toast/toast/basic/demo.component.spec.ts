@@ -7,7 +7,7 @@ import { SkyToasterHarness } from '@skyux/toast/testing';
 
 import { DemoComponent } from './demo.component';
 
-describe('Custom component toast demo', () => {
+describe('Basic toast demo', () => {
   let fixture: ComponentFixture<DemoComponent>;
   let loader: HarnessLoader;
 

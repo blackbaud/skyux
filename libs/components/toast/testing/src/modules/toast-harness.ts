@@ -50,7 +50,7 @@ export class SkyToastHarness extends SkyQueryableComponentHarness {
       return (await toastBody.text()).trim();
     } else {
       throw new Error(
-        'No toast message found. This method cannot be used to query toasts with custom component.',
+        'No toast message found. This method cannot be used to query toasts with custom components.',
       );
     }
   }

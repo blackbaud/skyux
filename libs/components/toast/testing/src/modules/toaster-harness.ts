@@ -17,14 +17,14 @@ export class SkyToasterHarness extends ComponentHarness {
   }
 
   /**
-   * Gets toast harnesses.
+   * Gets all open toast harnesses.
    */
   public async getToasts(): Promise<SkyToastHarness[]> {
     return await this.locatorForAll(SkyToastHarness)();
   }
 
   /**
-   * Gets a toast harness that matches the given id number.
+   * Gets a toast harness that matches the `message`.
    */
   public async getToastByMessage(message: string): Promise<SkyToastHarness> {
     return await this.locatorFor(SkyToastHarness.with({ message: message }))();

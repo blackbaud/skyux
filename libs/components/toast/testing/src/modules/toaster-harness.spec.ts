@@ -68,7 +68,7 @@ describe('Toast harness', () => {
     const { harness, fixture } = await setupTest();
 
     fixture.componentInstance.openToast('other message', SkyToastType.Danger);
-    await fixture.whenStable();
+    fixture.detectChanges();
 
     const toast = await harness.getToastByMessage('other message');
 
@@ -80,7 +80,7 @@ describe('Toast harness', () => {
       const { harness, fixture } = await setupTest();
 
       fixture.componentInstance.openToast('other message', SkyToastType.Danger);
-      await fixture.whenStable();
+      fixture.detectChanges();
 
       await expectAsync(harness.getNumberOfToasts()).toBeResolvedTo(2);
 
@@ -102,17 +102,17 @@ describe('Toast harness', () => {
       const { harness, fixture } = await setupTest();
 
       fixture.componentInstance.openToast('danger toast', SkyToastType.Danger);
-      await fixture.whenStable();
+      fixture.detectChanges();
       fixture.componentInstance.openToast(
         'warning toast',
         SkyToastType.Warning,
       );
-      await fixture.whenStable();
+      fixture.detectChanges();
       fixture.componentInstance.openToast(
         'success toast',
         SkyToastType.Success,
       );
-      await fixture.whenStable();
+      fixture.detectChanges();
 
       const toasts = await harness.getToasts();
 
@@ -132,12 +132,12 @@ describe('Toast harness', () => {
       it('should not get message for a custom component', async () => {
         const { harness, fixture } = await setupTest();
         fixture.componentInstance.toastSvc.openComponent(CustomComponent);
-        await fixture.whenStable();
+        fixture.detectChanges();
 
         await expectAsync(
           harness.getToastByMessage('This is a custom component'),
         ).toBeRejectedWithError(
-          'No toast message found. This method cannot be used to query toasts with custom component.',
+          'No toast message found. This method cannot be used to query toasts with custom components.',
         );
       });
     });
