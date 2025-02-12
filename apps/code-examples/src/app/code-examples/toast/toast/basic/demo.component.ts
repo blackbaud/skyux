@@ -9,13 +9,13 @@ import { SkyToastService, SkyToastType } from '@skyux/toast';
 export class DemoComponent {
   readonly #toastSvc = inject(SkyToastService);
 
-  protected openToast(): void {
+  public openToast(): void {
     this.#toastSvc.openMessage('This is a sample toast message.', {
       type: SkyToastType.Success,
     });
   }
 
-  protected closeAll(): void {
+  public closeAll(): void {
     this.#toastSvc.closeAll();
   }
 }
