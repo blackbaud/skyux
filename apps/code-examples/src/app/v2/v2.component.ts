@@ -1,8 +1,7 @@
-import { JsonPipe, NgComponentOutlet } from '@angular/common';
+import { NgComponentOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Type,
   inject,
   signal,
 } from '@angular/core';
@@ -13,29 +12,28 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import * as codeExampleExports from '@skyux/code-examples';
 import { SkyInputBoxModule } from '@skyux/forms';
 import {
-  SkyManifestDocumentationGroup,
+  type SkyManifestDocumentationGroup,
   getDocumentationConfig,
   getDocumentationGroup,
 } from '@skyux/manifest';
 
 import { SkyExampleViewerComponent } from './example-viewer/example-viewer.component';
+import { SkyShowcaseModule } from './showcase/showcase.module';
 
 const DOCS = getDocumentationConfig();
-const EXAMPLES = codeExampleExports as Record<string, Type<unknown>>;
 const SEPARATOR = ' - ';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    JsonPipe,
     NgComponentOutlet,
     ReactiveFormsModule,
     SkyExampleViewerComponent,
     SkyInputBoxModule,
+    SkyShowcaseModule,
   ],
   selector: 'app-code-examples-v2',
   styles: `
@@ -58,21 +56,12 @@ const SEPARATOR = ' - ';
       </sky-input-box>
     </form>
 
-    @for (example of this.data()?.codeExamples; track example.componentName) {
-      <sky-example-viewer
-        [componentName]="example.componentName"
-        [componentSelector]="example.selector"
-        [componentType]="getComponentType(example.componentName)"
-        [demoHidden]="!!example.demoHidden"
-        [files]="example.files"
-        [primaryFile]="example.primaryFile"
-        [title]="example.title || 'Example'"
-      />
-    }
-
-    @if (data()) {
-      <h2>Manifest data</h2>
-      <pre>{{ data() | json }}</pre>
+    @if (data(); as manifest) {
+      <sky-showcase [manifest]="manifest">
+        <sky-showcase-content category="development">
+          This content describes the development tab.
+        </sky-showcase-content>
+      </sky-showcase>
     }
   `,
 })
@@ -103,11 +92,9 @@ export default class CodeExamplesLandingComponent {
         const packageName = parts[0];
         const groupName = parts[1];
 
+        console.log('eh?', value);
+
         this.data.set(getDocumentationGroup(packageName, groupName));
       });
-  }
-
-  protected getComponentType(componentName: string): Type<unknown> {
-    return EXAMPLES[componentName];
   }
 }
